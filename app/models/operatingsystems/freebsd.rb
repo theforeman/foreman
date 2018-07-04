@@ -7,8 +7,10 @@ class Freebsd < Operatingsystem
   PXEFILES = {}
 
   # Simple output of the media url
-  def mediumpath(host)
-    medium_uri(host).to_s.gsub("x86_64", "amd64")
+  def mediumpath(medium_provider)
+    medium_provider.to_s do |vars|
+      transform_vars(vars)
+    end
   end
 
   def pxe_type
@@ -19,19 +21,23 @@ class Freebsd < Operatingsystem
     "boot/$arch/images"
   end
 
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
-  end
-
-  def kernel(arch, _host)
+  def kernel(_medium_provider)
     "memdisk"
   end
 
-  def initrd(arch, _host)
-    "boot/FreeBSD-#{arch}-#{release}-mfs.img"
+  def initrd(medium_provider)
+    medium_provider.interpolate_vars("boot/FreeBSD-$arch-$release-mfs.img") do |vars|
+      transform_vars(vars)
+    end
   end
 
   def display_family
     "FreeBSD"
+  end
+
+  private
+
+  def transform_vars(vars)
+    vars[:arch] = vars[:arch].gsub('x86_64', 'amd64')
   end
 end

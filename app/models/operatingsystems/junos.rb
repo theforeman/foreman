@@ -3,8 +3,8 @@ class Junos < Operatingsystem
   PXEFILES = {}
 
   # Simple output of the media url
-  def mediumpath(host)
-    medium_uri(host).to_s
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri.to_s
   end
 
   # The PXE type to use when generating actions and evaluating attributes. jumpstart, kickstart and preseed are currently supported.
@@ -24,19 +24,15 @@ class Junos < Operatingsystem
     "boot/$arch/images"
   end
 
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
-  end
-
   def boot_filename(host = nil)
     "ztp.cfg/" + host.mac.delete(':').upcase
   end
 
-  def kernel(arch, _host)
+  def kernel(_medium_provider)
     "memdisk"
   end
 
-  def initrd(arch, _host)
+  def initrd(_medium_provider)
     "none"
   end
 

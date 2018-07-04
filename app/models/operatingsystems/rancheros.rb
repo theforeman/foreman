@@ -5,7 +5,7 @@ class Rancheros < Operatingsystem
     'rancheros'
   end
 
-  def mediumpath(host)
+  def mediumpath(medium_provider)
     ''
   end
 

@@ -4,6 +4,8 @@ module HostTemplateHelpers
   extend ActiveSupport::Concern
   include ::Foreman::ForemanUrlRenderer
 
+  delegate :medium_uri, to: :medium_provider
+
   # Calculates the media's path in relation to the domain and convert host to an IP
   def install_path
     operatingsystem.interpolate_medium_vars(operatingsystem.media_path(medium, domain), architecture.name, operatingsystem)
@@ -15,11 +17,11 @@ module HostTemplateHelpers
   end
 
   def multiboot
-    operatingsystem.pxe_prefix(architecture, @host) + "-multiboot"
+    operatingsystem.pxe_prefix(medium_provider) + "-multiboot"
   end
 
   def miniroot
-    operatingsystem.initrd(architecture, @host)
+    operatingsystem.initrd(medium_provider)
   end
 
   attr_writer(:url_options)
@@ -30,5 +32,9 @@ module HostTemplateHelpers
     url_options[:protocol] = "http://"
     url_options[:host] = Setting[:foreman_url] if Setting[:foreman_url]
     url_options
+  end
+
+  def medium_provider
+    @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(@host)
   end
 end

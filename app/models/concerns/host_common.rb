@@ -74,9 +74,13 @@ module HostCommon
     end
   end
 
+  def host_medium_provider
+    @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(self)
+  end
+
   # Returns a url pointing to boot file
   def url_for_boot(file)
-    "#{os.medium_uri(self)}/#{os.url_for_boot(file)}"
+    os.url_for_boot(medium_provider, file)
   end
 
   def puppetca?
@@ -112,7 +116,7 @@ module HostCommon
       # We encode the hw_model into the image file name as not all Sparc flashes can contain all possible hw_models. The user can always
       # edit it if required or use symlinks if they prefer.
       hw_model = model.try :hardware_model if defined?(model_id)
-      operatingsystem.interpolate_medium_vars(nfs_path, architecture.name, operatingsystem) + \
+      host_medium_provider.interpolate_vars(nfs_path) + \
         "#{operatingsystem.file_prefix}.#{architecture}#{hw_model.empty? ? '' : '.' + hw_model.downcase}.#{operatingsystem.image_extension}"
     else
       ""

@@ -93,9 +93,14 @@ module Api
       param :architecture, String
 
       def bootfiles
+        Foreman::Deprecation.deprecation_warning("1.20", "Bootfiles should be calculated per host")
+
         medium = Medium.authorized(:view_media).find(params[:medium])
         arch   = Architecture.authorized(:view_architectures).find(params[:architecture])
-        render :json => @operatingsystem.pxe_files(medium, arch)
+        host_mock = Openstruct.new(operatingsystem: @operatingsystem, medium: medium, architecture: arch)
+        medium_provider = MediumProviders::Default.new(host_mock)
+
+        render :json => @operatingsystem.pxe_files(medium_provider)
       rescue => e
         render_message(e.to_s, :status => :unprocessable_entity)
       end

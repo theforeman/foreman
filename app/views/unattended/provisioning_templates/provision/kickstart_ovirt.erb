@@ -42,7 +42,7 @@ liveimg_name = host_param('liveimg_name') || 'squashfs.img'
 if host_param('kt_activation_keys')
   liveimg_url = repository_url(liveimg_name, 'isos')
 else
-  liveimg_url = "#{@host.operatingsystem.medium_uri(@host)}/#{liveimg_name}"
+  liveimg_url = "#{medium_uri}/#{liveimg_name}"
 end
 %>
 

@@ -24,7 +24,9 @@ module Foreman
       :pxe_kernel_options,
       :save_to_file,
       :subnet_param, :subnet_has_param?,
-      :global_setting
+      :global_setting,
+      :medium_provider,
+      :medium_uri
     ]
     ALLOWED_HOST_HELPERS ||= [
       :grub_pass,
@@ -265,6 +267,10 @@ module Foreman
       file
     end
 
+    def medium_provider
+      @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(@host)
+    end
+
     # can be used to load additional variable relevant for give pxe type, requires @host to be present
     def load_template_vars
       # load the os family default variables
@@ -310,7 +316,7 @@ module Foreman
     end
 
     def alterator_attributes
-      @mediapath   = @host.operatingsystem.mediumpath @host
+      @mediapath   = @host.operatingsystem.mediumpath medium_provider
       @mediaserver = URI(@mediapath).host
       @metadata    = params[:metadata].to_s
     end
@@ -334,24 +340,24 @@ module Foreman
       @dynamic   = @host.diskLayout =~ /^#Dynamic/ if (@host.respond_to?(:disk) && @host.disk.present?) || @host.ptable.present?
       @arch      = @host.architecture.name
       @osver     = @host.operatingsystem.major.to_i
-      @mediapath = @host.operatingsystem.mediumpath @host if @host.medium
+      @mediapath = @host.operatingsystem.mediumpath medium_provider if @host.medium
       @repos     = @host.operatingsystem.repos @host
     end
 
     def preseed_attributes
       if @host.operatingsystem && @host.medium && @host.architecture
-        @preseed_path   = @host.operatingsystem.preseed_path   @host
-        @preseed_server = @host.operatingsystem.preseed_server @host
+        @preseed_path   = @host.operatingsystem.preseed_path   medium_provider
+        @preseed_server = @host.operatingsystem.preseed_server medium_provider
       end
     end
 
     def yast_attributes
       @dynamic   = @host.diskLayout =~ /^#Dynamic/ if (@host.respond_to?(:disk) && @host.disk.present?) || @host.ptable.present?
-      @mediapath = @host.operatingsystem.mediumpath @host if @host.medium
+      @mediapath = @host.operatingsystem.mediumpath medium_provider if @host.medium
     end
 
     def coreos_attributes
-      @mediapath = @host.operatingsystem.mediumpath @host
+      @mediapath = @host.operatingsystem.mediumpath medium_provider
     end
 
     def rancheros_attributes
@@ -359,28 +365,28 @@ module Foreman
     end
 
     def aif_attributes
-      @mediapath = @host.operatingsystem.mediumpath @host
+      @mediapath = @host.operatingsystem.mediumpath medium_provider
     end
 
     def memdisk_attributes
-      @mediapath = @host.operatingsystem.mediumpath @host
+      @mediapath = @host.operatingsystem.mediumpath medium_provider
     end
 
     def ZTP_attributes
-      @mediapath = @host.operatingsystem.mediumpath @host
+      @mediapath = @host.operatingsystem.mediumpath medium_provider
     end
 
     def waik_attributes
     end
 
     def xenserver_attributes
-      @mediapath = @host.operatingsystem.mediumpath @host
-      @xen = @host.operatingsystem.xen(@host.arch, @host)
+      @mediapath = @host.operatingsystem.mediumpath medium_provider
+      @xen = @host.operatingsystem.xen(medium_provider)
     end
 
     def pxe_config
-      @kernel = @host.operatingsystem.kernel(@host.arch, @host)
-      @initrd = @host.operatingsystem.initrd(@host.arch, @host)
+      @kernel = @host.operatingsystem.kernel(medium_provider)
+      @initrd = @host.operatingsystem.initrd(medium_provider)
     end
 
     def validate_subnet(subnet)

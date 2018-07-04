@@ -5,16 +5,20 @@ class Debian < Operatingsystem
     'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'
   end
 
-  def preseed_server(host)
-    medium_uri(host).select(:host, :port).compact.join(':')
+  def preseed_server(medium_provider)
+    medium_provider.medium_uri.select(:host, :port).compact.join(':')
   end
 
-  def preseed_path(host)
-    medium_uri(host).select(:path, :query).compact.join('?')
+  def preseed_path(medium_provider)
+    medium_provider.medium_uri.select(:path, :query).compact.join('?')
   end
 
-  def boot_files_uri(medium, architecture, host = nil)
-    super(medium, architecture, host).each{ |img_uri| img_uri.path = img_uri.path.gsub('x86_64', 'amd64') }
+  def boot_file_sources(medium_provider, &block)
+    super do |vars|
+      vars = yield(vars) if block_given?
+
+      transform_vars(vars)
+    end
   end
 
   def available_loaders
@@ -49,5 +53,9 @@ class Debian < Operatingsystem
   # tries to guess if this an ubuntu or a debian os
   def guess_os
     (name =~ /ubuntu/i) ? "ubuntu" : "debian"
+  end
+
+  def transform_vars(vars)
+    vars[:arch] = vars[:arch].gsub('x86_64', 'amd64')
   end
 end

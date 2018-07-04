@@ -6,7 +6,7 @@ class Solaris < Operatingsystem
   end
 
   # sets the prefix for the tftp files based on the OS
-  def pxe_prefix(_architecture, _host)
+  def pxe_prefix(_medium_provider)
     "boot/#{file_prefix}"
   end
 
@@ -28,11 +28,7 @@ class Solaris < Operatingsystem
   end
 
   def pxedir
-    "Solaris_#{minor}/Tools/Boot"
-  end
-
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
+    "Solaris_$minor/Tools/Boot"
   end
 
   def boot_filename(host)
@@ -77,11 +73,12 @@ class Solaris < Operatingsystem
   end
 
   def jumpstart_params(host, vendor)
+    medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
     # root server and install server are always the same under Foreman
     server_name = host.medium.media_host
     server_ip   = host.domain.resolver.getaddress(server_name).to_s
     jpath       = jumpstart_path host.medium, host.domain
-    ipath       = interpolate_medium_vars(host.medium.media_dir, host.architecture.name, self)
+    ipath       = medium_provider.interpolate_vars(host.medium.media_dir).to_s
 
     {
       :vendor => "<#{vendor}>",

@@ -128,26 +128,6 @@ class Operatingsystem < ApplicationRecord
     []
   end
 
-  def medium_uri(host, url = nil)
-    url ||= host.medium.path unless host.medium.nil?
-    url ||= ''
-    medium_vars_to_uri(url, host.architecture.name, host.operatingsystem)
-  end
-
-  def medium_vars_to_uri(url, arch, os)
-    URI.parse(interpolate_medium_vars(url, arch, os)).normalize
-  end
-
-  def interpolate_medium_vars(path, arch, os)
-    return "" if path.empty?
-
-    path.gsub('$arch', arch).
-         gsub('$major',  os.major).
-         gsub('$minor',  os.minor).
-         gsub('$version', os.minor.blank? ? os.major : [os.major, os.minor].compact.join('.')).
-         gsub('$release', os.release_name.presence || '')
-  end
-
   # The OS is usually represented as the concatenation of the OS and the revision
   def to_label
     return description if description.present?
@@ -191,31 +171,49 @@ class Operatingsystem < ApplicationRecord
     ["None", "PXELinux BIOS"]
   end
 
-  # sets the prefix for the tfp files based on the os / arch combination
-  def pxe_prefix(arch, host)
-    "boot/#{self}-#{arch}-#{medium_digest(host)}".tr(" ","-")
+  # Compatibility method, don't want to break all templates that use it.
+  def medium_uri(host)
+    Foreman::Deprecation.deprecation_warning("1.20", "medium_uri is now accessible through @medium_provider.medium_uri in templates")
+    @medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+    @medium_provider.medium_uri
   end
 
-  def medium_digest(host)
-    host.nil? ? '' : Digest::SHA1.hexdigest(medium_uri(host).to_s)
+  # sets the prefix for the tfp files based on medium unique identifier
+  def pxe_prefix(medium_provider)
+    unless medium_provider.is_a? MediumProviders::Provider
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
+    end
+    "boot/#{medium_provider.unique_id}"
   end
 
-  def pxe_files(medium, arch, host = nil)
-    boot_files_uri(medium, arch, host).collect do |img|
-      { pxe_prefix(arch).to_sym => img.to_s}
+  def pxe_files(medium_provider, _arch = nil, host = nil)
+    # Try to maintain backwards compatibility, if medium_provider could be constructed - do it with a warning.
+    if host
+      Foreman::Deprecation.deprecation_warning("1.20", "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)")
+      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+    end
+
+    unless medium_provider.is_a? MediumProviders::Provider
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
+    end
+    boot_files_uri(medium_provider).collect do |img|
+      { pxe_prefix(medium_provider).to_sym => img.to_s}
     end
   end
 
-  def kernel(arch, host)
-    bootfile(arch,:kernel, host)
+  def kernel(medium_provider)
+    bootfile(medium_provider, :kernel)
   end
 
-  def initrd(arch, host)
-    bootfile(arch,:initrd, host)
+  def initrd(medium_provider)
+    bootfile(medium_provider, :initrd)
   end
 
-  def bootfile(arch, type, host)
-    pxe_prefix(arch, host) + "-" + self.family.constantize::PXEFILES[type.to_sym]
+  def bootfile(medium_provider, type)
+    unless medium_provider.is_a? MediumProviders::Provider
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
+    end
+    pxe_prefix(medium_provider) + "-" + self.family.constantize::PXEFILES[type.to_sym]
   end
 
   # Does this OS family support a build variant that is constructed from a prebuilt archive
@@ -265,12 +263,17 @@ class Operatingsystem < ApplicationRecord
     end
   end
 
-  def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("%{os} medium was not set for host '%{host}'"), :host => host, :os => self) if medium.nil?
-    raise ::Foreman::Exception.new(N_("Invalid medium '%{medium}' for '%{os}'"), :medium => medium, :os => self) unless media.include?(medium)
-    raise ::Foreman::Exception.new(N_("Invalid architecture '%{arch}' for '%{os}'"), :arch => architecture, :os => self) unless architectures.include?(architecture)
-    self.family.constantize::PXEFILES.values.map do |img|
-      medium_vars_to_uri("#{medium.path}/#{pxedir}/#{img}", architecture.name, self)
+  def boot_files_uri(medium_provider, &block)
+    boot_file_sources(medium_provider, &block).values
+  end
+
+  def url_for_boot(medium_provider, file, &block)
+    boot_file_sources(medium_provider, &block)[file]
+  end
+
+  def boot_file_sources(medium_provider, &block)
+    @boot_file_sources ||= self.family.constantize::PXEFILES.transform_values do |img|
+      "#{medium_provider.medium_uri(pxedir, &block)}/#{img}"
     end
   end
 

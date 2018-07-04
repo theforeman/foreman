@@ -20,6 +20,7 @@ require_dependency 'foreman/plugin/rbac_registry'
 require_dependency 'foreman/plugin/rbac_support'
 require_dependency 'foreman/plugin/report_scanner_registry'
 require_dependency 'foreman/plugin/report_origin_registry'
+require_dependency 'foreman/plugin/medium_providers_registry'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
@@ -40,11 +41,12 @@ module Foreman #:nodoc:
     @tests_to_skip = {}
     @report_scanner_registry = Plugin::ReportScannerRegistry.new
     @report_origin_registry = Plugin::ReportOriginRegistry.new
+    @medium_providers = Plugin::MediumProvidersRegistry.new
 
     class << self
       attr_reader   :registered_plugins
       attr_accessor :tests_to_skip, :report_scanner_registry,
-                    :report_origin_registry
+                    :report_origin_registry, :medium_providers
       private :new
 
       def def_field(*names)
@@ -486,6 +488,10 @@ module Foreman #:nodoc:
 
     def add_histogram_telemetry(name, description, instance_labels = [], buckets = DEFAULT_BUCKETS)
       Foreman::Telemetry.instance.add_histogram(name, description, instance_labels, buckets)
+    end
+
+    def medium_providers
+      self.class.medium_providers
     end
 
     def smart_proxy_reference(hash)

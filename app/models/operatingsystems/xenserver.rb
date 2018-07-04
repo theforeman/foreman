@@ -2,8 +2,8 @@ class Xenserver < Operatingsystem
   PXEFILES = {:kernel => "boot/vmlinuz", :initrd => "install.img", :xen => "boot/xen.gz"}
   MBOOT = "boot/pxelinux/mboot.c32"
 
-  def mediumpath(host)
-    medium_uri(host).to_s
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri.to_s
   end
 
   def pxe_type
@@ -14,27 +14,21 @@ class Xenserver < Operatingsystem
     ""
   end
 
-  def xen(arch, host)
-    bootfile(arch,:xen, host)
-  end
-
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
+  def xen(medium_provider)
+    bootfile(medium_provider, :xen)
   end
 
   def display_family
     "XenServer"
   end
 
-  def bootfile(arch, type, host)
-    pxe_prefix(arch, host) + "-" + PXEFILES[type.to_sym].split("/")[-1]
+  def bootfile(medium_provider, type)
+    pxe_prefix(medium_provider) + "-" + PXEFILES[type.to_sym].split("/")[-1]
   end
 
-  def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("Invalid medium for %s"), self) unless media.include?(medium)
-    raise ::Foreman::Exception.new(N_("Invalid architecture for %s"), self) unless architectures.include?(architecture)
+  def boot_files_uri(medium_provider)
     PXEFILES.values.push(MBOOT).map do |img|
-      medium_vars_to_uri("#{medium.path}/#{img}", architecture.name, self)
+      medium_provider.medium_uri(img)
     end
   end
 end
