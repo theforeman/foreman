@@ -1,7 +1,7 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
-require 'mocha/mini_test'
+require 'mocha/minitest'
 require 'capybara/rails'
 require 'capybara/minitest'
 require 'factory_bot_rails'
@@ -19,33 +19,17 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
   Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")
 end
 
-if ENV["JS_TEST_DRIVER"] == 'selenium_chrome'
-  Selenium::WebDriver::Chrome.driver_path = ENV['TESTDRIVER_PATH'] || File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
-  Capybara.register_driver :selenium_chrome do |app|
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.args << '--disable-gpu'
-    options.args << '--no-sandbox'
-    options.args << '--window-size=1024,768'
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
-  end
-  Capybara.javascript_driver = :selenium_chrome
-else
-  Capybara.register_driver :poltergeist do |app|
-    opts = {
-      # To enable debugging uncomment `:inspector => true` and
-      # add `page.driver.debug` in code to open webkit inspector
-      # :inspector => true
-      :js_errors => true,
-      :timeout => 30,
-      :extensions => ["#{Rails.root}/test/integration/support/poltergeist_onload_extensions.js"],
-      :phantomjs => File.join(Rails.root, 'node_modules', '.bin', 'phantomjs')
-    }
-    Capybara::Poltergeist::Driver.new(app, opts)
-  end
-  Capybara.javascript_driver = :poltergeist
+Selenium::WebDriver::Chrome.driver_path = ENV['TESTDRIVER_PATH'] || File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
+Capybara.register_driver :selenium_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.args << '--disable-gpu'
+  options.args << '--no-sandbox'
+  options.args << '--window-size=1024,768'
+  options.args << '--headless' unless ENV['DEBUG_TEST'] == '1'
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
-
-Capybara.default_max_wait_time = 30
+Capybara.javascript_driver = ENV["JS_TEST_DRIVER"]&.to_sym || :selenium_chrome
+Capybara.default_max_wait_time = 20
 
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
@@ -69,7 +53,7 @@ class ActionDispatch::IntegrationTest
 
   def assert_new_button(index_path, new_link_text, new_path)
     visit index_path
-    first(:link, new_link_text).click
+    click_on new_link_text, class: 'btn'
     assert_current_path new_path
   end
 
@@ -109,23 +93,48 @@ class ActionDispatch::IntegrationTest
 
   def select2(value, attrs)
     find("#s2id_#{attrs[:from]}").click
-    find(".select2-input").set(value)
+    wait_for { find('.select2-input').visible? rescue false }
+    wait_for { find(".select2-input").set(value) }
+    wait_for { find('.select2-results').visible? rescue false }
     within ".select2-results" do
+      wait_for { find(".select2-results span", text: value).visible? rescue false }
       find("span", text: value).click
+    end
+    wait_for do
+      page.find("#s2id_#{attrs[:from]} .select2-chosen").has_text? value
+    end
+  end
+
+  def wait_for
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.15 until (result = yield)
+      result
     end
   end
 
   def wait_for_ajax
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 0.15 until ([page.evaluate_script('jQuery.active'), page.evaluate_script('window.axiosActive')] - [0, nil]).empty?
+    wait_for do
+      ([page.evaluate_script('jQuery.active'), page.evaluate_script('window.axiosActive')] - [0, nil]).empty?
+    end
+  end
+
+  def wait_for_modal
+    wait_for do
+      find(:css, '#interfaceModal').visible?
+    end
+  end
+
+  def wait_for_element(*args)
+    wait_for do
+      find(*args).visible? rescue false
     end
   end
 
   def close_interfaces_modal
     click_button 'Ok' # close interfaces
     # wait for the dialog to close
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop while find(:css, '#interfaceModal', :visible => false).visible?
+    wait_for do
+      find(:css, '#interfaceModal', visible: false)
     end
   end
 
@@ -239,6 +248,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def login_admin
+    visit('/users/login') if Capybara.current_driver == :selenium_chrome
     SSO.register_method(TestSSO)
     visit('/users/login') if Capybara.current_driver == :selenium_chrome
     set_request_user(:admin)
@@ -266,7 +276,7 @@ class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest
     :truncation
   end
 
-  def login_admin
+  def before_setup
     Capybara.current_driver = Capybara.javascript_driver
     super
   end
