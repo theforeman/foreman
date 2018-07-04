@@ -215,10 +215,7 @@ class ActionDispatch::IntegrationTest
     JSON.parse(page.find(:css, "div#toast-notifications-container")['data-notifications']).map { |n| Hash[n]}
   end
 
-  def setup
-    start_database_cleaner
-    login_admin
-  end
+  setup :start_database_cleaner, :login_admin
 
   teardown do
     Capybara.reset_sessions!    # Forget the (simulated) browser state
@@ -265,7 +262,7 @@ class IntegrationTestWithJavascript < ActionDispatch::IntegrationTest
     :truncation
   end
 
-  def setup
+  def before_setup
     Capybara.current_driver = Capybara.javascript_driver
     super
   end
