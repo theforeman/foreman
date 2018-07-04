@@ -181,7 +181,23 @@ class HostsControllerTest < ActionController::TestCase
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, params: { :name => @host.name, :format => "yml" }, session: set_session_user
     assert_response :success
-    as_admin { @enc = @host.info.to_yaml }
+    as_admin { @enc = @host.info.deep_stringify_keys.to_yaml(:line_width => -1) }
+    assert_equal @enc, response.body
+  end
+
+  test "externalNodes should render YAML hashes correctly" do
+    HostInfoProviders::PuppetInfo.any_instance.expects(:classes_info_hash).returns(
+      'dhcp' => {
+        'bootfiles' => [
+          {'name' => 'foo', 'mount_point' => '/bar'}.with_indifferent_access,
+          {'name' => 'john', 'mount_point' => '/doe'}.with_indifferent_access
+        ]
+      }
+    ).at_least_once
+
+    get :externalNodes, params: { :name => @host.name, :format => "yml" }, session: set_session_user
+    assert_response :success
+    as_admin { @enc = @host.info.deep_stringify_keys.to_yaml }
     assert_equal @enc, response.body
   end
 
