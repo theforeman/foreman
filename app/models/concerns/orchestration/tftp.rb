@@ -56,15 +56,15 @@ module Orchestration::TFTP
   def generate_pxe_template(kind)
     # this is the only place we generate a template not via a web request
     # therefore some workaround is required to "render" the template.
-    @kernel = host.operatingsystem.kernel(host.arch, host)
-    @initrd = host.operatingsystem.initrd(host.arch, host)
+    @kernel = host.operatingsystem.kernel(host_medium_provider)
+    @initrd = host.operatingsystem.initrd(host_medium_provider)
     if host.operatingsystem.respond_to?(:mediumpath)
-      @mediapath = host.operatingsystem.mediumpath(host)
+      @mediapath = host.operatingsystem.mediumpath(host_medium_provider)
     end
 
     # Xen requires additional boot files.
     if host.operatingsystem.respond_to?(:xen)
-      @xen = host.operatingsystem.xen(host.arch, host)
+      @xen = host.operatingsystem.xen(host_medium_provider)
     end
 
     # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
@@ -123,7 +123,8 @@ module Orchestration::TFTP
   def setTFTPBootFiles
     logger.info "Fetching required TFTP boot files for #{host.name}"
     valid = []
-    host.operatingsystem.pxe_files(host.medium, host.architecture, host).each do |bootfile_info|
+
+    host.operatingsystem.pxe_files(host_medium_provider).each do |bootfile_info|
       for prefix, path in bootfile_info do
         valid << each_unique_feasible_tftp_proxy do |proxy|
           proxy.fetch_boot_file(:prefix => prefix.to_s, :path => path)
@@ -213,5 +214,9 @@ module Orchestration::TFTP
   def local_boot_template_name(kind)
     key = "local_boot_#{kind}"
     host.host_params[key] || Setting[key]
+  end
+
+  def host_medium_provider
+    @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(self.host)
   end
 end

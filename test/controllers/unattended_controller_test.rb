@@ -14,6 +14,10 @@ class UnattendedControllerTest < ActionController::TestCase
     setup do
       ptable = FactoryBot.create(:ptable, :name => 'default',
                                   :operatingsystem_ids => [operatingsystems(:redhat).id])
+      media(:one).organizations << @org
+      media(:one).locations << @loc
+      media(:ubuntu).organizations << @org
+      media(:ubuntu).locations << @loc
       @rh_host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
                                     :operatingsystem => operatingsystems(:redhat),
                                     :ptable => ptable,

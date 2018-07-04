@@ -50,9 +50,9 @@ oses:
 
   # optional repository for Atomic
   if @host.operatingsystem.name.match(/Atomic/i)
-    options.push("inst.repo=#{@host.operatingsystem.medium_uri(@host)}")
+    options.push("inst.repo=#{medium_uri}")
   end
-  
+
   if host_param('blacklist')
     options.push("modprobe.blacklist=" + host_param('blacklist').gsub(' ', ''))
   end

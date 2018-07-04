@@ -187,7 +187,8 @@ class ProvisioningTemplate < Template
 
   def self.fetch_boot_files_combo(tftp)
     @profiles.each do |combo|
-      combo[:hostgroup].operatingsystem.pxe_files(combo[:hostgroup].medium, combo[:hostgroup].architecture).each do |bootfile_info|
+      medium_provider = Foreman::Plugin.medium_providers.find_provider(combo[:hostgroup])
+      combo[:hostgroup].operatingsystem.pxe_files(medium_provider).each do |bootfile_info|
         for prefix, path in bootfile_info do
           tftp.fetch_boot_file(:prefix => prefix.to_s, :path => path)
         end
@@ -207,11 +208,12 @@ class ProvisioningTemplate < Template
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
         if hostgroup&.operatingsystem && hostgroup.architecture && hostgroup.medium
+          medium_provider = Foreman::Plugin.medium_providers.find_provider(hostgroup)
           combos << {
             :hostgroup => hostgroup,
             :template => template,
-            :kernel => hostgroup.operatingsystem.kernel(hostgroup.architecture, nil),
-            :initrd => hostgroup.operatingsystem.initrd(hostgroup.architecture, nil),
+            :kernel => hostgroup.operatingsystem.kernel(medium_provider),
+            :initrd => hostgroup.operatingsystem.initrd(medium_provider),
             :pxe_type => hostgroup.operatingsystem.pxe_type
           }
         end

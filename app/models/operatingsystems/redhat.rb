@@ -3,8 +3,8 @@ class Redhat < Operatingsystem
 
   # outputs kickstart installation medium based on the medium type (NFS or URL)
   # it also convert the $arch string to the current host architecture
-  def mediumpath(host)
-    uri = medium_uri(host)
+  def mediumpath(medium_provider)
+    uri = medium_provider.medium_uri
 
     case uri.scheme
       when 'http', 'https', 'ftp'
@@ -27,10 +27,6 @@ class Redhat < Operatingsystem
 
   def pxedir
     "images/pxeboot"
-  end
-
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
   end
 
   def display_family

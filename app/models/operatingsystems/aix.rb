@@ -9,10 +9,6 @@ class AIX < Operatingsystem
     "boot/$arch/loader"
   end
 
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
-  end
-
   def display_family
     "AIX"
   end

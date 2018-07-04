@@ -3,8 +3,8 @@ class NXOS < Operatingsystem
   PXEFILES = {}
 
   # Simple output of the media url
-  def mediumpath(host)
-    medium_uri(host).to_s
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri.to_s
   end
 
   def template_kinds
@@ -27,11 +27,11 @@ class NXOS < Operatingsystem
     "poap.cfg/" + host.mac.delete(':').upcase
   end
 
-  def kernel(arch, _host)
+  def kernel(_medium_provider)
     "none"
   end
 
-  def initrd(arch, _host)
+  def initrd(_medium_provider)
     "none"
   end
 

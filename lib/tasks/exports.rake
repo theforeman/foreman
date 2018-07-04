@@ -45,7 +45,7 @@ end
 exporter_template(:enabled, :managed_hosts_bootfiles) do |header, data|
   header << ["Host", "Boot files"]
   Host::Managed.all.find_each do |host|
-    bootfiles = host.operatingsystem.send(:boot_files_uri, host.medium, host.architecture, host) rescue []
+    bootfiles = host.operatingsystem.send(:boot_files_uri, host.host_medium_provider) rescue []
     data << [
       host.name,
       bootfiles.join(' + ')

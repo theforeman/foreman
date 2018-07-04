@@ -40,7 +40,7 @@ class RendererTest < ActiveSupport::TestCase
       host = FactoryBot.build_stubbed(:host, :managed)
       architecture = FactoryBot.build_stubbed(:architecture)
       medium = FactoryBot.build_stubbed(:medium, :path => 'http://my-example.com/my_path')
-      os = FactoryBot.build_stubbed(:debian7_0, :media => [ medium ])
+      os = FactoryBot.build_stubbed(:debian7_0, :media => [ medium ], :architectures => [architecture])
       host.architecture = architecture
       host.operatingsystem = os
       host.medium = medium
