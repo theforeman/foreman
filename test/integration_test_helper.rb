@@ -6,6 +6,7 @@ require 'capybara/rails'
 require 'capybara/minitest'
 require 'factory_bot_rails'
 require 'capybara/poltergeist'
+require 'selenium/webdriver'
 require 'show_me_the_cookies'
 require 'database_cleaner'
 require 'active_support_test_case_helper'
@@ -29,8 +30,19 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, opts)
 end
 
-Capybara.default_max_wait_time = 30
-Capybara.javascript_driver = :poltergeist
+Selenium::WebDriver::Chrome.driver_path = File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
+Capybara.register_driver :selenium_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu) }
+  )
+
+  Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+end
+
+Capybara.default_max_wait_time = 5
+Capybara.javascript_driver = ENV['TESTDRIVER'].try(:to_sym) || :poltergeist
 
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests

@@ -13,6 +13,7 @@ group :test do
   gem 'factory_bot_rails', '~> 4.5', :require => false
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem 'poltergeist', '>= 1.18.0', :require => false
+  gem 'selenium-webdriver', :require => false
   gem 'shoulda-matchers', '~> 3.0'
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.4'
