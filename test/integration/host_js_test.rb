@@ -347,7 +347,7 @@ class HostJSTest < IntegrationTestWithJavascript
   describe "hosts index multiple actions" do
     test 'show action buttons' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      page.find('#check_all').click
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
@@ -376,7 +376,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test 'redirect js' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      page.find('#check_all').click
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')

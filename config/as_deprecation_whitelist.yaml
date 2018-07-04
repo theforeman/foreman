@@ -12,6 +12,11 @@
     in the next version of Rails. The new return value will reflect the behavior of
     calling the method after `save` returned (e.g. the opposite of what it returns
     now). To maintain the current behavior, use `saved_change_to_attribute` instead.
+  callstack: app/models/concerns/strip_leading_and_trailing_dot.rb:23:in `strip_dots'
+- message: The behavior of `attribute_change` inside of after callbacks will be changing
+    in the next version of Rails. The new return value will reflect the behavior of
+    calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute` instead.
   callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
 - message: The behavior of `attribute_changed?` inside of after callbacks will be
     changing in the next version of Rails. The new return value will reflect the behavior
@@ -22,18 +27,75 @@
     changing in the next version of Rails. The new return value will reflect the behavior
     of calling the method after `save` returned (e.g. the opposite of what it returns
     now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/foreman/sti.rb:24:in `save'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/nested_ancestry_common.rb:83:in `set_title'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/concerns/strip_leading_and_trailing_dot.rb:23:in `strip_dots'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
   callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/template.rb:10:in `block in <class:Template>'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/user.rb:677:in `hidden_authsource_restricted'
+- message: The behavior of `attribute_changed?` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_change_to_attribute?` instead.
+  callstack: app/models/user.rb:683:in `check_permissions_for_changing_login'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/concerns/strip_leading_and_trailing_dot.rb:23:in `strip_dots'
 - message: The behavior of `changed_attributes` inside of after callbacks will be
     changing in the next version of Rails. The new return value will reflect the behavior
     of calling the method after `save` returned (e.g. the opposite of what it returns
     now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
     instead.
   callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changed_attributes` inside of after callbacks will be
+    changing in the next version of Rails. The new return value will reflect the behavior
+    of calling the method after `save` returned (e.g. the opposite of what it returns
+    now). To maintain the current behavior, use `saved_changes.transform_values(&:first)`
+    instead.
+  callstack: app/models/taxonomy.rb:33:in `block in <class:Taxonomy>'
+- message: The behavior of `changed` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes.keys` instead.
+  callstack: app/models/concerns/strip_leading_and_trailing_dot.rb:23:in `strip_dots'
 - message: The behavior of `changed` inside of after callbacks will be changing in
     the next version of Rails. The new return value will reflect the behavior of calling
     the method after `save` returned (e.g. the opposite of what it returns now). To
     maintain the current behavior, use `saved_changes.keys` instead.
   callstack: app/models/concerns/strip_whitespace.rb:9:in `strip_spaces'
+- message: The behavior of `changed` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes.keys` instead.
+  callstack: app/models/taxonomy.rb:33:in `block in <class:Taxonomy>'
+- message: The behavior of `changes` inside of after callbacks will be changing in
+    the next version of Rails. The new return value will reflect the behavior of calling
+    the method after `save` returned (e.g. the opposite of what it returns now). To
+    maintain the current behavior, use `saved_changes` instead.
+  callstack: app/models/concerns/strip_leading_and_trailing_dot.rb:23:in `strip_dots'
 - message: The behavior of `changes` inside of after callbacks will be changing in
     the next version of Rails. The new return value will reflect the behavior of calling
     the method after `save` returned (e.g. the opposite of what it returns now). To
