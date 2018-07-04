@@ -428,6 +428,15 @@ module Foreman::Model
       normalized
     end
 
+    def nictypes
+      [
+        OpenStruct.new({:id => 'virtio', :name => 'VirtIO'}),
+        OpenStruct.new({:id => 'rtl8139', :name => 'rtl8139'}),
+        OpenStruct.new({:id => 'e1000', :name => 'e1000'}),
+        OpenStruct.new({:id => 'pci_passthrough', :name => 'PCI Passthrough'})
+      ]
+    end
+
     protected
 
     def bootstrap(args)
