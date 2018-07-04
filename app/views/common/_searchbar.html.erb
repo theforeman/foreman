@@ -1,21 +1,2 @@
-<%= form_tag send("#{auto_complete_controller_name}_path"),
-            method: 'get',
-            id: 'search-form',
-            onsubmit: 'return tfm.tools.updateTable(this);' do %>
-  <div class="input-group">
-    <%= auto_complete_search(:search, params[:search].try(:squeeze," "), :placeholder => _("Filter") + ' ...').html_safe %>
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="submit">
-        <%= icon_text("search", content_tag(:span,_("Search"), :class=>"hidden-xs")) %>
-      </button>
-      <span class="dropdown" id="bookmark-form"></span>
-    </span>
-  </div>
-<% end %>
-
-<%= mount_react_component('BookmarkContainer', '#bookmark-form', {
-  controller: auto_complete_controller_name,
-  url: api_bookmarks_path,
-  canCreate: authorizer.can?(:create_bookmarks),
-  documentationUrl: documentation_url("4.1.5Searching")
-}.to_json) %>
+<div id="search-bar"></div>
+<%= mount_search_bar("search-bar") %>

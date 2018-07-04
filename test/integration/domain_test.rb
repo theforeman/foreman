@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class DomainIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(domains_path, "Domains", "Create Domain")
-  end
-
   test "create new page" do
     assert_new_button(domains_path, "Create Domain", new_domain_path)
     fill_in "domain_name", :with => "ynet.tlv.com"

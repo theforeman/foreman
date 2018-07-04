@@ -5,10 +5,6 @@ class LocationIntegrationTest < ActionDispatch::IntegrationTest
     FactoryBot.create(:host, :location => nil)
   end
 
-  test "index page" do
-    assert_index_page(locations_path, "Locations", "New Location")
-  end
-
   # context - has nil hosts
   test "index page has notice if nil hosts" do
     Host.update_all(:location_id => nil)

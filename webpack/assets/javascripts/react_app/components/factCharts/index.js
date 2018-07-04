@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, OverlayTrigger, Tooltip } from 'patternfly-react';
 import PropTypes from 'prop-types';
-import helpers from '../../common/helpers';
+import { bindMethods } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
@@ -14,11 +14,15 @@ import { navigateToSearch } from '../../../services/ChartService';
 class FactChart extends React.Component {
   constructor(props) {
     super(props);
-    helpers.bindMethods(this, ['openModal', 'closeModal']);
+    bindMethods(this, ['openModal', 'closeModal']);
   }
 
   openModal() {
-    const { showModal, getChartData, data: { id, path, title } } = this.props;
+    const {
+      showModal,
+      getChartData,
+      data: { id, path, title },
+    } = this.props;
 
     getChartData(path, id);
     showModal(id, title);
@@ -47,24 +51,16 @@ class FactChart extends React.Component {
     const chart = <DonutChart {...chartProps} config="large" />;
 
     const requestErrorMsg =
-      factChart.loaderStatus === STATUS.ERROR
-        ? __('Request Failed')
-        : __('No data available');
+      factChart.loaderStatus === STATUS.ERROR ? __('Request Failed') : __('No data available');
 
     const error = modalToDisplay ? (
-      <MessageBox
-        msg={requestErrorMsg}
-        icontype="error-circle-o"
-        key={`message-${id}`}
-      />
+      <MessageBox msg={requestErrorMsg} icontype="error-circle-o" key={`message-${id}`} />
     ) : (
       false
     );
 
     const tooltip = (
-      <Tooltip id={`viewChartTooltip-${id}`}>
-        {__('Show distribution chart')}
-      </Tooltip>
+      <Tooltip id={`viewChartTooltip-${id}`}>{__('Show distribution chart')}</Tooltip>
     );
 
     return (
@@ -91,9 +87,7 @@ class FactChart extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <div id="factChartModalBody">
-                <Loader status={factChart.loaderStatus}>
-                  {[chart, error]}
-                </Loader>
+                <Loader status={factChart.loaderStatus}>{[chart, error]}</Loader>
               </div>
             </Modal.Body>
           </Modal>
@@ -114,4 +108,7 @@ const mapStateToProps = (state, ownProps) => ({
   modalToDisplay: state.factChart.modalToDisplay[ownProps.data.id] || false,
 });
 
-export default connect(mapStateToProps, FactChartActions)(FactChart);
+export default connect(
+  mapStateToProps,
+  FactChartActions,
+)(FactChart);

@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete actions should load results and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "searchQuery": "x = y",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+      },
+      "type": "AUTO_COMPLETE_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "error": "oops",
+        "results": Array [],
+        "status": "ERROR",
+      },
+      "type": "AUTO_COMPLETE_FAILURE",
+    },
+  ],
+]
+`;
+
+exports[`AutoComplete actions should load results and success 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+      },
+      "type": "AUTO_COMPLETE_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "results": Array [
+          Object {
+            "category": "category",
+            "label": "some results",
+          },
+        ],
+        "searchQuery": "",
+        "status": "RESOLVED",
+        "trigger": "INPUT_CHANGE",
+      },
+      "type": "AUTO_COMPLETE_SUCCESS",
+    },
+  ],
+]
+`;
+
+exports[`AutoComplete actions should reset-data 1`] = `
+Array [
+  Array [
+    Object {
+      "error": null,
+      "payload": Object {
+        "controller": "models",
+      },
+      "type": "AUTO_COMPLETE_RESET",
+    },
+  ],
+]
+`;
+
+exports[`AutoComplete actions should update store with initial data 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "results": Array [],
+        "searchQuery": "searchQuery",
+        "status": "RESOLVED",
+        "trigger": "COMPONENT_DID_MOUNT",
+      },
+      "type": "AUTO_COMPLETE_SUCCESS",
+    },
+  ],
+]
+`;

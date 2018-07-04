@@ -7,12 +7,12 @@ import Bookmark from './Bookmark';
 import * as BookmarkActions from '../../redux/actions/bookmarks';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
-import helpers from '../../common/helpers';
+import { bindMethods } from '../../common/helpers';
 
 class BookmarkContainer extends React.Component {
   constructor(props) {
     super(props);
-    helpers.bindMethods(this, ['handleNewBookmarkClick', 'loadBookmarks']);
+    bindMethods(this, ['handleNewBookmarkClick', 'loadBookmarks']);
   }
 
   loadBookmarks() {
@@ -27,7 +27,7 @@ class BookmarkContainer extends React.Component {
     if (this.props.showModal) {
       this.props.modalClosed();
     } else {
-      this.props.modalOpened();
+      this.props.modalOpened(this.props.searchQuery);
     }
   }
 
@@ -49,11 +49,11 @@ class BookmarkContainer extends React.Component {
     ) : (
       <Dropdown pullRight id={controller} onClick={this.loadBookmarks}>
         <Dropdown.Toggle title={__('Bookmarks')}>
-          <Icon type='fa' name='bookmark' />
+          <Icon type="fa" name="bookmark" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="scrollable-dropdown">
           {canCreate && (
-           <MenuItem key="newBookmark" id="newBookmark" onClick={this.handleNewBookmarkClick}>
+            <MenuItem key="newBookmark" id="newBookmark" onClick={this.handleNewBookmarkClick}>
               {__('Bookmark this search')}
             </MenuItem>
           )}
@@ -61,8 +61,8 @@ class BookmarkContainer extends React.Component {
           <MenuItem divider={true} />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
-            <li className='loader-root'>
-              <Spinner size="xs" loading/>
+            <li className="loader-root">
+              <Spinner size="xs" loading />
             </li>
           )}
           {status === STATUS.RESOLVED &&
@@ -70,23 +70,25 @@ class BookmarkContainer extends React.Component {
               bookmarks.map(({ name, query }) => (
                 <Bookmark key={name} text={name} query={query} />
               ))) || <MenuItem disabled> {__('None found')}</MenuItem>)}
-          {status === STATUS.ERROR &&
+          {status === STATUS.ERROR && (
             <MenuItem key="bookmarks-errors">
               <EllipisWithTooltip>
                 {window.Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
               </EllipisWithTooltip>
-            </MenuItem>}
+            </MenuItem>
+          )}
         </Dropdown.Menu>
       </Dropdown>
     );
   }
 }
 
-const mapStateToProps = ({ bookmarks }, { data: { controller } }) => ({
+const mapStateToProps = ({ bookmarks }, { data: { controller, searchQuery } }) => ({
   errors: bookmarks[controller] && bookmarks[controller].errors,
   bookmarks: (bookmarks[controller] && bookmarks[controller].results) || [],
   status: bookmarks[controller] && bookmarks[controller].status,
   showModal: bookmarks.showModal,
+  searchQuery,
 });
 
 // I'm flatting the props that come from data attribute, this is done to avoid
@@ -94,4 +96,8 @@ const mapStateToProps = ({ bookmarks }, { data: { controller } }) => ({
 const mergeProps = (stateProps, dispatchProps, { data }) =>
   Object.assign(stateProps, data, dispatchProps);
 
-export default connect(mapStateToProps, BookmarkActions, mergeProps)(BookmarkContainer);
+export default connect(
+  mapStateToProps,
+  BookmarkActions,
+  mergeProps,
+)(BookmarkContainer);

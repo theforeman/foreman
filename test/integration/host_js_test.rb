@@ -39,6 +39,10 @@ class HostJSTest < IntegrationTestWithJavascript
       Setting[:entries_per_page] = @entries
     end
 
+    test "index page" do
+      assert_index_page(hosts_path, "Hosts", "Create Host")
+    end
+
     test 'hosts counter should refer to per_page value first (max prespective)' do
       Setting[:entries_per_page] = 2
       visit hosts_path(per_page: 3)

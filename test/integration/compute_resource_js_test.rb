@@ -22,4 +22,8 @@ class ComputeResourceJSIntegrationTest < IntegrationTestWithJavascript
     assert_equal "123456", find_field("compute_resource_password").value
     wait_for_ajax
   end
+
+  test "index page" do
+    assert_index_page(compute_resources_path, "Compute Resources", "Create Compute Resource")
+  end
 end

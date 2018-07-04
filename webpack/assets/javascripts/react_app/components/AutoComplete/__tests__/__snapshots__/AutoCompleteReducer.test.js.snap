@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_FAILURE 1`] = `
+Object {
+  "controller": null,
+  "error": "oops",
+  "results": Array [],
+  "searchQuery": "",
+  "status": "ERROR",
+  "trigger": null,
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_REQUEST 1`] = `
+Object {
+  "controller": "models",
+  "error": null,
+  "results": Array [],
+  "searchQuery": "",
+  "status": "PENDING",
+  "trigger": "INPUT_CHANGE",
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_RESET 1`] = `
+Object {
+  "controller": null,
+  "error": null,
+  "results": Array [],
+  "searchQuery": "",
+  "status": null,
+  "trigger": null,
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_SUCCESS 1`] = `
+Object {
+  "controller": "models",
+  "error": null,
+  "results": Array [
+    Object {
+      "category": "category",
+      "label": "some results",
+    },
+  ],
+  "searchQuery": "",
+  "status": "RESOLVED",
+  "trigger": "INPUT_CHANGE",
+}
+`;
+
+exports[`AutoComplete reducer should return the initial state 1`] = `
+Object {
+  "controller": null,
+  "error": null,
+  "results": Array [],
+  "searchQuery": "",
+  "status": null,
+  "trigger": null,
+}
+`;
+
+exports[`AutoComplete reducer should update state with initial data 1`] = `
+Object {
+  "controller": "models",
+  "error": null,
+  "results": Array [
+    Object {
+      "category": "category",
+      "label": "some results",
+    },
+  ],
+  "searchQuery": "",
+  "status": "RESOLVED",
+  "trigger": "COMPONENT_DID_MOUNT",
+}
+`;

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete rendering renders AutoComplete 1`] = `
+<div
+  className="search-bar input-group "
+>
+  <AutoComplete
+    controller="models"
+    emptyLabel={null}
+    getResults={[Function]}
+    handleSearch={[Function]}
+    initialQuery=""
+    initialUpdate={[Function]}
+    inputProps={Object {}}
+    placeholder="Filter ..."
+    resetData={[Function]}
+    results={Array []}
+    searchQuery=""
+    status={null}
+    url="model/auto_complete_search"
+    useKeyShortcuts={true}
+  />
+  <div
+    className="input-group-btn"
+  >
+    <SearchButton
+      className=""
+      onClick={[Function]}
+    />
+    <Connect(BookmarkContainer)
+      data={
+        Object {
+          "canCreate": true,
+          "controller": "models",
+          "documentationUrl": "http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching",
+          "searchQuery": "",
+          "url": "/api/bookmarks",
+        }
+      }
+    />
+  </div>
+</div>
+`;

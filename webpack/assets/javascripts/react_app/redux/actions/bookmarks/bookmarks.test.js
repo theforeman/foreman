@@ -52,14 +52,12 @@ describe('bookmark actions', () => {
     expect(spy).toBeCalledWith(expectedURL);
   });
   it('should open modal with current search query in action payload', () => {
-    document.body.innerHTML =
-      '<input type="text" name="search" id="search" value="some search query" />';
-
+    const query = 'some search query';
     const expectedAction = {
       type: types.BOOKMARKS_MODAL_OPENED,
-      payload: { query: 'some search query' },
+      payload: { query },
     };
 
-    expect(actions.modalOpened()).toEqual(expectedAction);
+    expect(actions.modalOpened(query)).toEqual(expectedAction);
   });
 });

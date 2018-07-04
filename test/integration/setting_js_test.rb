@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class SettingIntegrationTest < ActionDispatch::IntegrationTest
+class SettingJSTest < IntegrationTestWithJavascript
   test "index page" do
     assert_index_page(settings_path, "Settings", false, true, false)
     assert page.has_link?("General", :href => "#General")

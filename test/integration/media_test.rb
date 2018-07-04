@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class MediaIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(media_path, "Media", "Create Medium")
-  end
-
   test "create new page" do
     assert_new_button(media_path, "Create Medium", new_medium_path)
     fill_in "medium_name", :with => "Fedora Mirror 123"

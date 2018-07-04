@@ -1,5 +1,4 @@
 import URI from 'urijs';
-import $ from 'jquery';
 import {
   BOOKMARKS_REQUEST,
   BOOKMARKS_SUCCESS,
@@ -28,10 +27,10 @@ export const getBookmarks = (url, controller) => {
   return _getBookmarks(uri.toString(), controller);
 };
 
-export const modalOpened = () => ({
+export const modalOpened = query => ({
   type: BOOKMARKS_MODAL_OPENED,
   payload: {
-    query: ($('#search').val() || '').trim(),
+    query,
   },
 });
 

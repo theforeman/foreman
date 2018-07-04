@@ -1,6 +1,9 @@
 require 'integration_test_helper'
 
 class OrganizationJSTest < IntegrationTestWithJavascript
+  test "index page" do
+    assert_index_page(organizations_path, "Organizations", "New Organization")
+  end
   test "multiselect does not add items that are filtered out" do
     visit edit_organization_path(taxonomies(:organization1))
 

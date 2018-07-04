@@ -5,10 +5,6 @@ class PtableIntegrationTest < ActionDispatch::IntegrationTest
     @ptable = FactoryBot.create(:ptable, :ubuntu, :name => 'ubuntu default')
   end
 
-  test "index page" do
-    assert_index_page(ptables_path, "Partition Tables", "Create Partition Table")
-  end
-
   test "edit page" do
     visit ptables_path
     click_link "ubuntu default"

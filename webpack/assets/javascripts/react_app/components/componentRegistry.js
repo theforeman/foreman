@@ -6,12 +6,12 @@ import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
-import BookmarkContainer from './bookmarks';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
 import AuditsList from './AuditsList';
+import SearchBar from './SearchBar';
 
 const componentRegistry = {
   registry: {},
@@ -60,7 +60,7 @@ const componentRegistry = {
 };
 
 const coreComponets = [
-  { name: 'BookmarkContainer', type: BookmarkContainer },
+  { name: 'SearchBar', type: SearchBar },
   { name: 'DonutChart', type: DonutChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },

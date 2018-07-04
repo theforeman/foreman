@@ -1,10 +1,6 @@
 require 'integration_test_helper'
 
 class ComputeResourceIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(compute_resources_path, "Compute Resources", "Create Compute Resource")
-  end
-
   test "edit compute resource" do
     visit compute_resources_path
     click_link "mycompute"

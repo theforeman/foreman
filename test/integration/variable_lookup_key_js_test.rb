@@ -3,7 +3,9 @@ require 'integration_test_helper'
 class VariableLookupKeyJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   VariableLookupKeyJSTest.test_0001_does not turn empty boolean value to false
-
+  test "index page" do
+    assert_index_page(variable_lookup_keys_path, "Smart Variables", false)
+  end
   test "does not turn empty boolean value to false" do
     visit variable_lookup_keys_path
     within(:xpath, "//table") do
