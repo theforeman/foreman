@@ -202,13 +202,9 @@ class HostJSTest < IntegrationTestWithJavascript
       visit new_host_path
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
-
       click_on_inherit('environment')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
-
-      environment = find("#s2id_host_environment_id .select2-chosen").text
-      assert_equal overridden_hostgroup.environment.name, environment
+      assert page.find('#s2id_host_environment_id .select2-chosen').has_text? overridden_hostgroup.environment.name
     end
 
     test 'choosing a hostgroup with compute resource works' do
@@ -238,7 +234,6 @@ class HostJSTest < IntegrationTestWithJavascript
       find(:css, '#host_tab').click
       click_on_inherit('compute_profile')
       select2(compute_profile.name, :from => 'host_compute_profile_id')
-      wait_for_ajax
 
       click_link('Virtual Machine')
       cpus_field = page.find_field('host_compute_attributes_cpus')
@@ -262,23 +257,20 @@ class HostJSTest < IntegrationTestWithJavascript
       select2 'Location 1', :from => 'host_location_id'
       wait_for_ajax
       select2 env.name, :from => 'host_environment_id'
+
       click_link 'Operating System'
       wait_for_ajax
       select2 os.architectures.first.name, :from => 'host_architecture_id'
-      wait_for_ajax
       select2 os.title, :from => 'host_operatingsystem_id'
       uncheck('host_build')
-      wait_for_ajax
       select2 os.media.first.name, :from => 'host_medium_id'
-      wait_for_ajax
       select2 os.ptables.first.name, :from => 'host_ptable_id'
       fill_in 'host_root_pass', :with => '12345678'
+
       click_link 'Interfaces'
       click_button 'Edit'
       select2 domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       close_interfaces_modal
       click_on_submit
@@ -302,31 +294,25 @@ class HostJSTest < IntegrationTestWithJavascript
       select2 'Location 1', :from => 'host_location_id'
       wait_for_ajax
       select2 env1.name, :from => 'host_environment_id'
-      wait_for_ajax
       select2 hg.name, :from => 'host_hostgroup_id'
-      wait_for_ajax
+
       click_link 'Operating System'
-      wait_for_ajax
       select2 os.architectures.first.name, :from => 'host_architecture_id'
-      wait_for_ajax
       select2 os.title, :from => 'host_operatingsystem_id'
       uncheck('host_build')
-      wait_for_ajax
+
       select2 os.media.first.name, :from => 'host_medium_id'
-      wait_for_ajax
       select2 os.ptables.first.name, :from => 'host_ptable_id'
       fill_in 'host_root_pass', :with => '12345678'
+
       click_link 'Interfaces'
       click_button 'Edit'
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
-      wait_for_ajax
+
       close_interfaces_modal
 
-      wait_for_ajax
       click_on_submit
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
@@ -337,11 +323,11 @@ class HostJSTest < IntegrationTestWithJavascript
       hostgroup = FactoryBot.create(:hostgroup, :with_parameter)
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}")
+
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}", visible: false)
     end
 
     test 'new parameters can be edited and removed' do
@@ -385,7 +371,7 @@ class HostJSTest < IntegrationTestWithJavascript
   describe "hosts index multiple actions" do
     test 'show action buttons' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      check 'check_all'
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
@@ -414,7 +400,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test 'redirect js' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      check 'check_all'
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
@@ -437,7 +423,6 @@ class HostJSTest < IntegrationTestWithJavascript
       visit edit_host_path(host)
 
       select2 env1.name, :from => 'host_environment_id'
-      wait_for_ajax
       click_on_submit
 
       host.reload
@@ -496,19 +481,16 @@ class HostJSTest < IntegrationTestWithJavascript
 
       visit edit_host_path(@host)
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       assert_equal original_hostgroup.puppet_proxy.name, find("#s2id_host_puppet_proxy_id .select2-chosen").text
 
       click_on_inherit('puppet_proxy')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
-      environment = find("#s2id_host_environment_id .select2-chosen").text
-      assert_equal original_hostgroup.environment.name, environment
+      assert find("#s2id_host_environment_id .select2-chosen", visible: false).has_text? original_hostgroup.environment.name
 
       # On host group change, the disabled select will be reset to an empty value
-      assert_equal '', find("#s2id_host_puppet_proxy_id .select2-chosen").text
+      assert find("#s2id_host_puppet_proxy_id .select2-chosen", visible: false).has_text? ''
     end
 
     test 'class parameters and overrides are displayed correctly for booleans' do
@@ -542,7 +524,6 @@ class HostJSTest < IntegrationTestWithJavascript
 
       click_link 'Host'
       select2(hostgroup2.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       click_link 'Parameters'
       assert page.has_no_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
@@ -630,7 +611,6 @@ class HostJSTest < IntegrationTestWithJavascript
 
         subnet_and_domain_are_selected(modal, domain)
 
-        wait_for_ajax
         modal.find(:button, "Ok").click
 
         assert table.find('td.fqdn').has_content?('name.' + domain.name)
@@ -640,21 +620,15 @@ class HostJSTest < IntegrationTestWithJavascript
       end
 
       test "selecting domain updates subnet list" do
+        domain = domains(:mydomain)
         disable_orchestration
         go_to_interfaces_tab
 
         table.first(:button, 'Edit').click
-
-        domain = domains(:mydomain)
+        wait_for_modal
         select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
         subnet_and_domain_are_selected(modal, domain)
-
-        subnet_id = modal.find('#host_interfaces_attributes_0_subnet_id',
-                   :visible => false).value
-        subnet_label = modal.find('#s2id_host_interfaces_attributes_0_subnet_id span.select2-chosen').text
-
-        assert_equal '', subnet_id
-        assert_equal '', subnet_label
+        assert page.find('#host_interfaces_attributes_0_subnet_id option[selected="selected"]', visible: false).has_text? ""
       end
 
       test "selecting domain updates puppetclass parameters" do
@@ -676,7 +650,6 @@ class HostJSTest < IntegrationTestWithJavascript
         table.first(:button, 'Edit').click
 
         select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
-        wait_for_ajax
         modal.find(:button, "Ok").click
 
         assert page.has_link?('Parameters', :href => '#params')
@@ -714,7 +687,9 @@ class HostJSTest < IntegrationTestWithJavascript
         add_interface
 
         flag_cols = table.all('td.flags')
-        flag_cols[1].find('.provision-flag').click
+        wait_for do
+          flag_cols[1].find('.provision-flag').click
+        end
 
         # only one flag switcher is active
         table.has_css?('.provision-flag.active', :count => 1)
@@ -730,7 +705,7 @@ class HostJSTest < IntegrationTestWithJavascript
         add_interface
 
         assert_interface_change(-1) do
-          table.all(:button, "Delete").last.click
+          table.first('tr:nth-child(2) td:last-child').find('button', :text => 'Delete').click
         end
       end
     end
