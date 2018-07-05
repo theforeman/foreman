@@ -65,7 +65,6 @@ module Foreman
       :modulepath,
       :puppetrun,
       :puppet_server,
-      :legacy_puppet_hostname,
       :update_ip_from_built_request
     ]
 

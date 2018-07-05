@@ -44,8 +44,7 @@ class SmartProxy < ApplicationRecord
   end
 
   def to_s
-    return hostname unless Setting[:legacy_puppet_hostname]
-    (hostname =~ /^puppet\./) ? 'puppet' : hostname
+    hostname
   end
 
   def hosts_count
