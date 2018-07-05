@@ -145,6 +145,18 @@ class RoleTest < ActiveSupport::TestCase
       assert_include Role.cloned, cloned_role
       assert_not_include Role.cloned, role
     end
+
+    context 'role has some empty filters' do
+      before do
+        role.permissions = [ Permission.first ]
+        role.filters.first.filterings = []
+      end
+
+      it 'clones the role ignoring the empty filters' do
+        assert cloned_role.valid?
+        assert_equal cloned_role.filters.size + 1, role.filters.size
+      end
+    end
   end
 
   context "System roles" do
