@@ -96,16 +96,20 @@ class SmartProxy < ApplicationRecord
 
   def associate_features
     begin
-      reply = ProxyAPI::Features.new(:url => url).features
-      unless reply.is_a?(Array)
-        logger.debug("Invalid response from proxy #{name}: Expected Array of features, got #{reply}.")
+      reply = get_features
+
+      unless reply.is_a?(Hash)
+        logger.debug("Invalid response from proxy #{name}: Expected Hash or Array of features, got #{reply}.")
         errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
         throw :abort
       end
+
       feature_name_map = Feature.name_map
-      valid_features = reply.map{|f| feature_name_map[f]}.compact
+
+      valid_features = reply.select { |feature, options| feature_name_map.key?(feature) }
+
       if valid_features.any?
-        self.features = valid_features
+        self.features = valid_features.keys.map { |feature| feature_name_map[feature] }
       else
         self.features.clear
         if reply.any?
@@ -120,5 +124,19 @@ class SmartProxy < ApplicationRecord
       errors.add(:base, _('Please check the proxy is configured and running on the host.'))
     end
     throw :abort if features.empty?
+  end
+
+  def get_features
+    begin
+      reply = ProxyAPI::V2::Features.new(:url => url).features
+    rescue NotImplementedError
+      reply = ProxyAPI::Features.new(:url => url).features
+    end
+
+    if reply.is_a?(Array)
+      Hash[reply.collect { |f| [f, {}] }]
+    else
+      reply
+    end
   end
 end
