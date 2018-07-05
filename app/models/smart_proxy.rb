@@ -117,7 +117,7 @@ class SmartProxy < ApplicationRecord
       feature_name_map = Feature.name_map
       valid_features = reply.map{|f| feature_name_map[f]}.compact
       if valid_features.any?
-        self.features = Feature.where(:name => valid_features)
+        self.features = valid_features
       else
         self.features.clear
         if reply.any?
