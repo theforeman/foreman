@@ -347,9 +347,9 @@ module Host
       self.class.included_modules.include?(Orchestration)
     end
 
-    def render_template(template: nil, params: {}, variables: {})
+    def render_template(template: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
       source = Foreman::Renderer.get_source(template: template, host: self)
-      scope = Foreman::Renderer.get_scope(host: self, params: params, variables: variables)
+      scope = Foreman::Renderer.get_scope(host: self, params: params, variables: variables, mode: mode)
       Foreman::Renderer.render(source, scope)
     end
 

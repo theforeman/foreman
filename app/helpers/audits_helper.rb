@@ -1,6 +1,6 @@
 module AuditsHelper
   MAIN_OBJECTS = %w(Host::Base Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ProvisioningTemplate ComputeProfile ComputeAttribute
-                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup Ptable)
+                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup Ptable ReportTemplate)
 
   # lookup the Model representing the numerical id and return its label
   def id_to_label(name, change, truncate = true)

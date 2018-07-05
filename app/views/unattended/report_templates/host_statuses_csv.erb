@@ -1,0 +1,9 @@
+<%#
+name: Host statuses CSV
+snippet: false
+model: ReportTemplate
+-%>
+Name,Global,<%= all_host_statuses.map { |s| s.status_name }.join(',') %>
+<%- load_hosts(includes: :host_statuses).each_record do |host| -%>
+<%=   host.name -%>,<%= host.global_status -%>,<%= all_host_statuses.map { |s| host_status(host, s.status_name).status }.join(',') %>
+<%- end -%>

@@ -12,6 +12,11 @@ module HostStatus
 
     before_validation :update_timestamp, :if => ->(status) { status.reported_at.blank? }
 
+    class Jail < ::Safemode::Jail
+      allow :host, :to_global, :to_label, :status, :name, :relevant?
+      allow_class_method :status_name, :humanized_name
+    end
+
     def to_global(options = {})
       HostStatus::Global::OK
     end
