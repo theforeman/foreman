@@ -10,6 +10,7 @@ import { STATUS } from '../../constants';
 import * as FactChartActions from '../../redux/actions/factCharts/';
 import { sprintf, ngettext as n__, translate as __ } from '../../../react_app/common/I18n';
 import { navigateToSearch } from '../../../services/charts/DonutChartService';
+import { selectHostCount, selectFactChart, selectDisplayModal } from './FactChartSelectors';
 
 class FactChart extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class FactChart extends React.Component {
   render() {
     const {
       factChart,
+      hostsCount,
       data: { id, title, search },
       modalToDisplay,
     } = this.props;
@@ -75,8 +77,8 @@ class FactChart extends React.Component {
                 <b>
                   {sprintf(__('Fact distribution chart - %s '), title)}
                 </b>
-                {factChart.hostsCount && (<small>
-                  {sprintf(n__('(%s host)', '(%s hosts)', factChart.hostsCount), factChart.hostsCount)}
+                {hostsCount && (<small>
+                  {sprintf(n__('(%s host)', '(%s hosts)', hostsCount), hostsCount)}
                 </small>)}
               </Modal.Title>
             </Modal.Header>
@@ -99,8 +101,9 @@ FactChart.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  factChart: state.factChart,
-  modalToDisplay: state.factChart.modalToDisplay[ownProps.data.id] || false,
+  factChart: selectFactChart(state),
+  hostsCount: selectHostCount(state),
+  modalToDisplay: selectDisplayModal(state, ownProps.data.id),
 });
 
 export default connect(
