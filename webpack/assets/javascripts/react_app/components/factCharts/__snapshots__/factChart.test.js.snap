@@ -12,12 +12,12 @@ exports[`factCharts should render closed 1`] = `
   factChart={
     Object {
       "chartData": Array [],
-      "hostsCount": null,
       "loaderStatus": "",
       "modalToDisplay": Object {},
     }
   }
   getChartData={[Function]}
+  hostsCount={0}
   modalToDisplay={false}
   showModal={[Function]}
   store={
@@ -64,12 +64,12 @@ exports[`factCharts should render open 1`] = `
   factChart={
     Object {
       "chartData": Array [],
-      "hostsCount": null,
       "loaderStatus": "",
       "modalToDisplay": Object {},
     }
   }
   getChartData={[Function]}
+  hostsCount={0}
   modalToDisplay={false}
   showModal={[Function]}
   store={

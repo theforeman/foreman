@@ -8,7 +8,6 @@ const state = {
   modalToDisplay: {},
   chartData: [],
   loaderStatus: '',
-  hostsCount: null,
 };
 
 export const initialState = Immutable(state);
@@ -22,7 +21,6 @@ export const modalSuccessState = Immutable(Object.assign(
     modalToDisplay: { 1: true },
     chartData: chartDataValues,
     loaderStatus: STATUS.RESOLVED,
-    hostsCount: 13,
   },
 ));
 
