@@ -18,7 +18,6 @@ class Setting::Puppet < Setting
       self.set('host_group_matchers_inheritance', N_("Foreman host group matchers will be inherited by children when evaluating smart class parameters"), true, N_('Host group matchers inheritance')),
       self.set('create_new_host_when_facts_are_uploaded', N_("Foreman will create the host when new facts are received"), true, N_('Create new host when facts are uploaded')),
       self.set('create_new_host_when_report_is_uploaded', N_("Foreman will create the host when a report is received"), true, N_('Create new host when report is uploaded')),
-      self.set('legacy_puppet_hostname', N_("Foreman will truncate hostname to 'puppet' if it starts with puppet"), false, N_('Legacy Puppet hostname')),
       self.set('location_fact', N_("Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."), 'foreman_location', N_('Location fact')),
       self.set('organization_fact', N_("Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."), 'foreman_organization', N_('Organization fact')),
       self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), '', N_('Default location'), nil, { :collection => Proc.new {Hash[Location.all.map{|loc| [loc[:title], loc[:title]]}]} }),

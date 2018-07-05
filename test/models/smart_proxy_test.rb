@@ -35,23 +35,6 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal @proxy.url, "http://some.proxy:4568"
   end
 
-  context 'legacy puppet hostname' do
-    setup do
-      @proxy = FactoryBot.build_stubbed(:smart_proxy)
-      @proxy.url = "http://puppet.example.com:4568"
-    end
-
-    test "when true returns puppet part of hostname" do
-      Setting.expects(:[]).with(:legacy_puppet_hostname).returns(true)
-      assert_equal "puppet", @proxy.to_s
-    end
-
-    test "when false returns whole hostname" do
-      Setting.expects(:[]).with(:legacy_puppet_hostname).returns(false)
-      assert_equal "puppet.example.com", @proxy.to_s
-    end
-  end
-
   test "proxy should respond correctly to has_feature? method" do
     proxy = FactoryBot.build_stubbed(:template_smart_proxy)
     assert proxy.has_feature?('Templates')
