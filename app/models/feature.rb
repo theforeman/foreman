@@ -7,7 +7,7 @@ class Feature < ApplicationRecord
 
   def self.name_map
     Feature.all.each_with_object({}) do |feature, ret_val|
-      ret_val[feature.name.downcase.gsub(/\s+/, "")] = feature.name
+      ret_val[feature.name.downcase.gsub(/\s+/, "")] = feature
     end
   end
 end
