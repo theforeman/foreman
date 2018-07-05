@@ -34,6 +34,7 @@ class Ptable < Template
   # these can't be shared in parent class, scoped search can't handle STI properly
   # tested with scoped_search 3.2.0
   include Taxonomix
+  include TemplateTax
   scoped_search :on => :name,    :complete_value => true, :default_order => true
   scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
@@ -46,7 +47,7 @@ class Ptable < Template
 
   alias_attribute :layout, :template
 
-  attr_exportable :os_family
+  attr_exportable :os_family, taxonomy_exportable
 
   dirty_has_many_associations :operatingsystems
 

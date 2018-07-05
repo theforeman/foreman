@@ -436,5 +436,18 @@ EOS
         assert_equal "cannot be used, please choose another", template.errors.messages[:name].first
       end
     end
+
+    describe 'taxonomies in metadata' do
+      test 'should add taxonomies to metadata' do
+        org = FactoryBot.create(:organization, :name => 'TemplateOrg')
+        loc = FactoryBot.create(:location, :name => 'TemplateLoc')
+        provisioning_template = FactoryBot.create(:provisioning_template,
+                                                  :name => 'exported_template',
+                                                  :organizations => [org],
+                                                  :locations => [loc])
+        assert_equal org.title, provisioning_template.to_export["organizations"].first
+        assert_equal loc.title, provisioning_template.to_export["locations"].first
+      end
+    end
   end
 end

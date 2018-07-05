@@ -35,6 +35,7 @@ class ProvisioningTemplate < Template
   # these can't be shared in parent class, scoped search can't handle STI properly
   # tested with scoped_search 3.2.0
   include Taxonomix
+  include TemplateTax
   scoped_search :on => :name,    :complete_value => true, :default_order => true
   scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
   scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
@@ -47,8 +48,10 @@ class ProvisioningTemplate < Template
   scoped_search :relation => :hostgroups,       :on => :name, :rename => :hostgroup,       :complete_value => true
   scoped_search :relation => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
-  attr_exportable :kind => Proc.new { |template| template.template_kind.try(:name) },
-                  :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq }
+  attr_exportable({
+    :kind => Proc.new { |template| template.template_kind.try(:name) },
+    :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq }
+  }.merge(taxonomy_exportable))
 
   dirty_has_many_associations :template_combinations, :os_default_templates, :operatingsystems
 
