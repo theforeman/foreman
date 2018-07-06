@@ -436,6 +436,7 @@ module Foreman::Model
     end
 
     def create_vm(args = { })
+      vm = nil
       test_connection
       return unless errors.empty?
 
@@ -448,9 +449,17 @@ module Foreman::Model
         vm.firmware = 'bios' if vm.firmware == 'automatic'
         vm.save
       end
+    rescue Fog::Compute::Vsphere::NotFound => e
+      Foreman::Logging.exception('Caught VMware error', e)
+      raise ::Foreman::WrappedException.new(
+        e,
+        N_(
+          'Foreman could not find a required vSphere resource. Check if Foreman has the required permissions and the resource exists. Reason: %s'
+        )
+      )
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled VMware error", e)
-      destroy_vm vm.id if vm&.id
+      destroy_vm(vm.id) if vm&.id
       raise e
     end
 
