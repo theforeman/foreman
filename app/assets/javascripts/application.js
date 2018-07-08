@@ -241,16 +241,6 @@ function filter_by_level(item){
     $('#ntsh').hide();
   }
 }
-
-function auth_source_selected(){
-  var auth_source_id = $('#user_auth_source_id option:selected').text();
-  if (auth_source_id == 'INTERNAL') {
-     $("#password").show();
-  } else {
-     $("#password").hide();
-  }
-}
-
 function show_release(element){
   var os_family = $(element).val();
   if ($.inArray(os_family, ['Debian', 'Solaris', 'Coreos']) != -1) {
