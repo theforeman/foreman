@@ -70,3 +70,32 @@ describe('taxonomyAdded', () => {
     expect($('#user_default_organization_id option').length).toEqual(1);
   });
 });
+
+describe('users Password', () => {
+  // the following test is disabled as I wasn't able to simulate a change event on a select2 dropdown.
+  xit('should toggle password field', () => {
+    document.body.innerHTML = `
+    <div>
+      <select onchange="users.authSourceSelected(this)" name="user[auth_source_id]"
+        id="user_auth_source_id">
+        <option value=""></option>
+        <option value="8">LDAP-QA</option>
+        <option value="9">INTERNAL</option>
+        <option value="10">LDAP-CORP</option>
+      </select>
+      <div id="password" style="display:none;">
+        <input type="password" name="user[password]" id="user_password" class="ReactPasswordStrength-input form-control" value="">
+        <input id="password_confirmation" name="user[password_confirmation]" type="password" class="form-control">
+      </div>
+    </div>`;
+
+    $('#user_auth_source_id')
+      .val('9')
+      .change();
+    expect($('#password input').filter(':visible').length).toEqual(2);
+    $('#user_auth_source_id')
+      .val('')
+      .change();
+    expect($('#password input').filter(':visible').length).toEqual(0);
+  });
+});

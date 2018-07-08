@@ -35,7 +35,7 @@
 
       <%= select_f(f, :auth_source_id, AuthSource.except_hidden.to_a.delete_if { |a| a.to_label.nil? } , :id,
                       :to_label, { :include_blank => true } ,
-                      { :onchange => 'auth_source_selected()',
+                      { :onchange => 'tfm.users.authSourceSelected(this)',
                         :label => _('Authorized by') } ) unless @editing_self %>
 
       <div id='password' <%= display? !@user.manage_password? %>>

@@ -55,3 +55,8 @@ export function testMail(item, url, param = {}) {
     },
   });
 }
+
+export function authSourceSelected(param) {
+  const id = param.selectedOptions[0].textContent;
+  $('#password').toggle(id === 'INTERNAL');
+}
