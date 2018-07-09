@@ -34,6 +34,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test_attributes :pid => 'de7e4132-5ca7-4b41-9af3-df075d31f8f4'
   test "should create new environment with organization" do
     organization = Organization.first
     assert_difference 'Environment.unscoped.count' do
@@ -45,6 +46,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
     assert_response :created, "Can't create environment with organization #{organization.name}"
   end
 
+  test_attributes :pid => '34d4bf4a-f36e-4433-999c-beda6916e781'
   test "should create new environment with location" do
     location = Location.first
     assert_difference 'Environment.unscoped.count' do
@@ -69,6 +71,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['name'], new_environment_name, "Can't update environment with valid name #{name}"
   end
 
+  test_attributes :pid => '9cd024ab-db3d-4b15-b6da-dd2089321df3'
   test "should not update with invalid name" do
     name = ""
     put :update, params: { :id => environments(:production).to_param, :environment => { :name => name } }
@@ -100,6 +103,7 @@ class Api::V2::EnvironmentsControllerTest < ActionController::TestCase
     assert_response :success, "Can't update environment with location #{location.name}"
   end
 
+  test_attributes :pid => '500539c0-f839-4c6b-838f-a3a256962d65'
   test "should destroy environments" do
     assert_difference('Environment.unscoped.count', -1) do
       delete :destroy, params: { :id => environments(:testing).to_param }
