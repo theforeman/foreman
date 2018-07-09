@@ -92,6 +92,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '6f67a3f0-0c1d-498c-9a35-28207b0faec2'
   test "should not create with content type text plain" do
     assert_raises_with_message(RuntimeError, 'Unknown Content-Type') do
       post :create, params: { :organization => {:name => "foo organization"} }, as: 'text/plain'
@@ -107,6 +108,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal response['name'], name
   end
 
+  test_attributes :pid => 'afeea84b-61ca-40bf-bb16-476432919115'
   test "create with name and description" do
     name = RFauxFactory.gen_alpha
     if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
@@ -122,6 +124,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal result["description"], description
   end
 
+  test_attributes :pid => 'a0f5333c-cc83-403c-9bf7-08fb372909dc'
   test "should not create with same name" do
     name = Organization.first.name
     post :create, params: { :organization => { :name => name} }
@@ -129,6 +132,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_include @response.body, "Name has already been taken"
   end
 
+  test_attributes :pid => 'f6f1d839-21f2-4676-8683-9f899cbdec4c'
   test "search organization" do
     organization = Organization.first
     get :index, params: { :search => "name = \"#{organization.name}\"", :format => 'json' }
@@ -139,6 +143,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal response['results'][0]['id'], organization.id
   end
 
+  test_attributes :pid => '68f2ba13-2538-407c-9f33-2447fca28cd5'
   test "update name" do
     new_name = RFauxFactory.gen_alpha 20
     organization = FactoryBot.create(:organization)
@@ -148,6 +153,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal organization.name, new_name
   end
 
+  test_attributes :pid => 'bd223197-1021-467e-8714-c1a767ae89af'
   test "update description" do
     organization = Organization.first
     if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
@@ -162,6 +168,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal organization.description, new_description
   end
 
+  test_attributes :pid => '30036e70-b8fc-4c24-9494-b201bbd1c28d'
   test "update name and description" do
     organization = FactoryBot.create(:organization)
     new_name = RFauxFactory.gen_alpha

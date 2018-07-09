@@ -35,6 +35,7 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
+  test_attributes :pid => '9c6a4b45-a98a-4d76-9865-92d992fa1a22'
   test "should not create with invalid names" do
     invalid_org_name_list.each do |name|
       organization = FactoryBot.build(:organization, :name => name)
@@ -52,6 +53,7 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
+  test_attributes :pid => 'b7152d0b-5ab0-4d68-bfdf-f3eabcb5fbc6'
   test "should not update with invalid name" do
     organization = Organization.first
     invalid_org_name_list.each do |name|
