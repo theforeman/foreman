@@ -12,6 +12,20 @@ def set_nic_attributes(host, attributes, evaluator)
   host
 end
 
+def set_environment_taxonomies(host_or_hostgroup, environment = host_or_hostgroup.environment)
+  if host_or_hostgroup.is_a? Hostgroup
+    organizations = host_or_hostgroup.organizations
+    locations = host_or_hostgroup.locations
+  else
+    organizations = [host_or_hostgroup.organization].compact
+    locations = [host_or_hostgroup.location].compact
+  end
+  return if environment.nil? || (organizations.empty? && locations.empty?)
+  environment.organizations = (environment.organizations + organizations).uniq
+  environment.locations = (environment.locations + locations).uniq
+  environment.save unless environment.new_record?
+end
+
 FactoryBot.define do
   factory :ptable do
     sequence(:name) { |n| "ptable#{n}" }
@@ -127,6 +141,7 @@ FactoryBot.define do
       end
 
       set_nic_attributes(host, deferred_nic_attrs, evaluator)
+      set_environment_taxonomies(host)
     end
 
     trait :with_environment do
