@@ -628,16 +628,14 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :users do |map|
-    ajax_actions = [:auth_source_selected]
-
     map.permission :view_users,
                    :users => [:index, :show, :auto_complete_search, :test_mail],
                    :"api/v2/users" => [:index, :show]
     map.permission :create_users,
-                   :users => [:new, :create].push(*ajax_actions),
+                   :users => [:new, :create],
                    :"api/v2/users" => [:create]
     map.permission :edit_users,
-                   :users => [:edit, :update].push(*ajax_actions),
+                   :users => [:edit, :update],
                    :"api/v2/users" => [:update]
     map.permission :destroy_users,
                    :users => [:destroy],

@@ -284,7 +284,6 @@ Foreman::Application.routes.draw do
         post 'logout'
         get 'extlogin'
         get 'extlogout'
-        get 'auth_source_selected'
         get 'auto_complete_search'
       end
       resources :ssh_keys, :only => [:new, :create, :destroy]
