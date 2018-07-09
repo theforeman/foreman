@@ -36,6 +36,10 @@ module Foreman
     def to_s
       message
     end
+
+    def as_json
+      { message: message }.to_json
+    end
   end
 
   class WrappedException < ::Foreman::Exception
@@ -52,6 +56,26 @@ module Foreman
       cls = @wrapped_exception.class.name
       msg = @wrapped_exception.message
       super + " ([#{cls}]: #{msg})"
+    end
+  end
+
+  class MultiException < ::Foreman::Exception
+    attr_reader :exceptions
+
+    def initialize(exceptions, message, *params)
+      super(message, *params)
+      raise "Can't create multi exception - not an array: #{exceptions}" unless exceptions.respond_to?(:to_a)
+      @exceptions = exceptions.to_a.dup.freeze
+    end
+
+    def to_s
+      return super if @exceptions.empty?
+      super + @exceptions.map(&:message)
+    end
+
+    def as_json
+      return super if @exceptions.empty?
+      (JSON[super].merge errors: @exceptions.map(&:message)).to_json
     end
   end
 
