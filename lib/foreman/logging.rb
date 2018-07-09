@@ -109,7 +109,7 @@ module Foreman
     def load_config(environment, overrides = {})
       fail "Logging configuration 'config/logging.yaml' not present" unless File.exist?('config/logging.yaml')
       overrides ||= {}
-      overrides = overrides[environment.to_sym] if overrides.has_key?(environment.to_sym)
+      overrides.deep_merge!(overrides[environment.to_sym]) if overrides.has_key?(environment.to_sym)
       @config = YAML.load_file('config/logging.yaml')
       @config = @config[:default].deep_merge(@config[environment.to_sym]).deep_merge(overrides)
     end
