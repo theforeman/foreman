@@ -12,11 +12,20 @@ module AuditsHelper
         label = change.to_s(:short)
       when /.*_id$/
         begin
-          label = name.classify.gsub('Id', '').constantize.find(change).to_label
+          label = key_to_class(name)&.find(change)&.to_label
         rescue NameError
           # fallback to the value only instead of N/A that is in generic rescue below
-          return change.to_s
+          return _("Missing(ID: %s)") % change
         end
+      when /.*_ids$/
+        existing = key_to_class(name)&.where(id: change)&.index_by(&:id)
+        label = change.map do |id|
+          if existing&.has_key?(id)
+            existing[id].to_label
+          else
+            _("Missing(ID: %s)") % id
+          end
+        end.join(', ')
       else
         label = (change.to_s == AuditExtensions::REDACTED) ? _(change.to_s) : change.to_s
     end
@@ -224,5 +233,9 @@ module AuditsHelper
     return true if MAIN_OBJECTS.include?(audit.auditable_type)
     type = audit.auditable_type.split("::").last rescue ''
     MAIN_OBJECTS.include?(type)
+  end
+
+  def key_to_class(key)
+    @audit.auditable_type.constantize.reflect_on_association(key.sub(/_id(s?)$/, '\1'))&.klass
   end
 end
