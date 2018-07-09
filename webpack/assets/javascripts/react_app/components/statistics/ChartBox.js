@@ -104,7 +104,7 @@ ChartBox.propTypes = {
   id: PropTypes.string.isRequired,
   noDataMsg: PropTypes.string,
   errorText: PropTypes.string,
-  type: PropTypes.oneOf(['donut']),
+  type: PropTypes.oneOf(['donut']).isRequired,
   chart: PropTypes.object,
   tip: PropTypes.string,
 };

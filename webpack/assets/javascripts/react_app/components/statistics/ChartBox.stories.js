@@ -8,7 +8,7 @@ storiesOf('Charts', module)
     <ChartBox chart={{ data: [] }} noDataMsg={'No data here'} title="Title" status="PENDING" />
   ))
   .add('Without Data', () => (
-    <ChartBox chart={{ data: [] }} noDataMsg={'No data here'} title="Title" status="RESOLVED" />
+    <ChartBox type="donut" chart={{ data: [] }} noDataMsg={'No data here'} title="Title" status="RESOLVED" />
   ))
   .add('With Error', () => (
     <ChartBox
@@ -21,6 +21,7 @@ storiesOf('Charts', module)
   ))
   .add('With Data + Modal', () => (
     <ChartBox
+      type="donut"
       chart={{ data: mockStoryData.config.data.columns }}
       noDataMsg={mockStoryData.noDataMsg}
       tip={mockStoryData.tip}
