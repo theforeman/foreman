@@ -21,7 +21,8 @@ module DirtyAssociations
     def dirty_has_many_associations(*args)
       extension = Module.new do
         args.each do |association|
-          association_ids = association.to_s.singularize + '_ids'
+          association_ids = association.to_s
+          association_ids = association_ids.singularize + '_ids' unless association.to_s.end_with?('_ids')
 
           # result for :organizations
           #   def organization_ids_with_change_detection=(organizations)

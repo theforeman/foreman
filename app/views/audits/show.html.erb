@@ -82,7 +82,7 @@
           <% next if name == "template" %>
           <tr>
             <td><%= name.humanize %></td>
-            <% if change.is_a?(Array) %>
+            <% if @audit.action == 'update' %>
               <% change.each do |v| %>
                 <td><%= id_to_label(name,v,false) %></td>
               <% end %>
