@@ -220,7 +220,7 @@ module Foreman::Model
 
     def start_vm(uuid)
       vm = find_vm_by_uuid(uuid)
-      if vm.comment.include? "cloud-config"
+      if vm.comment.to_s =~ %r{cloud-config|^#!/}
         vm.start_with_cloudinit(:blocking => true, :user_data => vm.comment, :use_custom_script => true)
         vm.comment = ''
         vm.save
