@@ -3,7 +3,7 @@
       <a href="#" class ="dropdown-toggle nav-item-iconic" data-toggle="dropdown" >
        <%= tax_title("organization") %><span class="caret"></span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" id='org-dropdown-menu'>
         <%= render 'home/organization_dropdown' if SETTINGS[:organizations_enabled] %>
       </ul>
     </li>
@@ -13,7 +13,7 @@
       <a href="#" class="dropdown-toggle nav-item-iconic" data-toggle="dropdown" >
         <%= tax_title("location") %><span class="caret"></span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" id='loc-dropdown-menu'>
         <%= render 'home/location_dropdown' if SETTINGS[:locations_enabled] %>
       </ul>
     </li>
