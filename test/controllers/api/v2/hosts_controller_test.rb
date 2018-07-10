@@ -581,6 +581,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal hostgroup.root_pass, Host.find_by(:name => hostname).root_pass
   end
 
+  test 'host update shouldnt diassociate from VM' do
+    hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os, :with_compute_resource)
+    host = FactoryBot.create(:host, :hostgroup => hostgroup)
+    put :update, params: { :commit => "Update", :id => host.id, :params => {:compute_resource_id => ""}}, session: set_session_user
+    assert_response :success
+    host.reload
+    assert_not_nil host.compute_resource_id
+  end
+
   test 'when ":restrict_registered_smart_proxies" is false, HTTP requests should be able to import facts' do
     User.current = users(:one) #use an unprivileged user, not apiadmin
     Setting[:restrict_registered_smart_proxies] = false
