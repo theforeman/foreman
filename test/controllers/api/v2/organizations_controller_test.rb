@@ -182,4 +182,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     response = JSON.parse(@response.body)
     assert_equal "Missing one of the required permissions: create_organizations", response['error']['details']
   end
+
+  test "should add location to organization" do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+    put :update, params: { :id => organization.id, :organization => { :location_ids => [location.id] } }
+    assert_response :success
+    assert_contains organization.locations, location
+  end
 end
