@@ -15,7 +15,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
   should validate_numericality_of(:minor).is_greater_than_or_equal_to(0)
 
   should allow_value(*valid_name_list).for(:name)
-  should_not allow_value(invalid_name_list).for(:name)
+  should_not allow_value(*invalid_name_list).for(:name)
 
   should allow_value('1' * 5).for(:major)
   should_not allow_values('1' * 6, '', -33).for(:major)
