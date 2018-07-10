@@ -130,6 +130,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test_attributes :pid => 'c1dae6f4-45b1-45db-8529-d7918e41a99b'
   test "should create subnet parameter" do
     subnet = subnets(:five)
     assert_difference('subnet.parameters.count') do
@@ -140,6 +141,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['value'], valid_attrs[:value], "Can't create subnet parameter with valid value #{valid_attrs[:value]}"
   end
 
+  test_attributes :pid => 'b3de6f96-7c39-4c44-b91c-a6d141f5dd6a'
   test "should create subnet parameter with valid separator in value" do
     subnet = subnets(:five)
     name = 'key'
@@ -156,16 +158,18 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['value'], value, "Can't create subnet parameter with valid value #{value}"
   end
 
+  test_attributes :pid => 'aa69bdcc-e833-41e4-8f72-7139bdd64daa'
   test "should not create duplicate subnet parameter" do
     subnet = subnets(:five)
-    post :create, params: { :subnet_id => subnet.id, :parameter => valid_attrs }
-    assert_response :created
+    subnet.subnet_parameters << SubnetParameter.create(valid_attrs)
     assert_difference('subnet.parameters.count', 0) do
       post :create, params: { :subnet_id => subnet.id, :parameter => valid_attrs }
     end
     assert_response :unprocessable_entity
+    assert_match 'Name has already been taken', @response.body
   end
 
+  test_attributes :pid => '08d10b75-a0db-4a11-a915-965a2a207d16'
   test "should not create with invalid separator in name" do
     subnet = subnets(:five)
     assert_difference('subnet.parameters.count', 0) do
@@ -174,6 +178,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => 'fcdbad13-ad96-4152-8e20-e023d61a2853'
   test "should not update with invalid separator in name" do
     subnet = subnets(:five)
     param_name = subnet.parameters.first.name
@@ -248,6 +253,7 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test_attributes :pid => '972b66ec-d506-4fcb-9786-c62f2f79ac1a'
   test "should destroy nested subnet parameter" do
     assert_difference('SubnetParameter.count', -1) do
       delete :destroy, params: { :subnet_id => subnets(:five).to_param, :id => parameters(:subnet).to_param }
