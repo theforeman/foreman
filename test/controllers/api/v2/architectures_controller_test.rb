@@ -23,9 +23,10 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     get :show, params: { :id => architectures(:x86_64).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
+    refute show_response.empty?
   end
 
+  test_attributes :pid => 'acbadcda-3410-45cb-a3aa-932a0facadc1'
   test "should create architecture" do
     assert_difference('Architecture.count') do
       post :create, params: { :architecture => arch_i386 }
@@ -33,6 +34,7 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test_attributes :pid => 'c740b8c4-8ee3-4481-b041-4eff2faf9055'
   test "should not create architecture with invalid name" do
     assert_difference('Architecture.count', 0) do
       post :create, params: { :architecture => {:name => ''}}
@@ -40,11 +42,13 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '8dbbf4f8-188e-406a-9099-a707f553d6bb'
   test "should update architecture" do
     put :update, params: { :id => architectures(:x86_64).to_param, :architecture => {:name => 'newx86_64'} }
     assert_response :success
   end
 
+  test_attributes :pid => '301b335e-9bc1-47d9-8bef-a8ca2e9ea18e'
   test "should not update architecture with invalid name" do
     arch = Architecture.first
     arch_name = arch.name
@@ -54,6 +58,7 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     assert_equal arch.name, arch_name
   end
 
+  test_attributes :pid => '114a2973-a889-4a5e-bfac-de4406826258'
   test "should destroy architecture" do
     assert_difference('Architecture.count', -1) do
       delete :destroy, params: { :id => architectures(:s390).to_param }
