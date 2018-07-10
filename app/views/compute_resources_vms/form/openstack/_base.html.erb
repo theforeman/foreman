@@ -4,7 +4,9 @@
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
 %>
-<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")}, :label => _('Availability zone'), :label_size => "col-md-2" %>
+<%= selectable_f f, :availability_zone, compute_resource.zones,
+                {:inculde_blank => (compute_resource.zones.empty? || compute_resource.zones.size == 1) ? false : _("No preference") },
+                :label => _('Availability zone'), :label_size => "col-md-2" %>
 <div id='image_selection'>
   <%= select_f f, :image_ref, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
@@ -12,7 +14,7 @@
 </div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name, {}, :label => _('Tenant'), :label_size => "col-md-2" %>
 
-<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security group"), :label_size => "col-md-2"  %>
+<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, { :label => _("Security groups"), :label_size => "col-md-2", :multiple => true}  %>
 <%= select_f f, :nics, compute_resource.internal_networks, :id, :name,
              {}, { :label => _('Internal network'), :label_size => "col-md-2", :multiple => true } %>
 <%= selectable_f f, :network, compute_resource.address_pools, { include_blank: 'None' }, { :label => _("Floating IP network"), :label_size => "col-md-2" } %>
