@@ -63,8 +63,6 @@ module Foreman
       if url.nil?
         template_logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
         url = proxy.url
-
-        puts "WRONG: #{url}"
       end
       url
     end
