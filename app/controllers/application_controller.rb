@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include ApplicationShared
 
   include Foreman::Controller::Flash
+  include Foreman::Controller::Authorize
 
   force_ssl :if => :require_ssl?
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -13,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   # standard layout to all controllers
   helper 'layout'
-  helper_method :authorizer, :resource_path
+  helper_method :resource_path
 
   before_action :require_login
   before_action :set_gettext_locale_db, :set_gettext_locale
@@ -68,10 +69,6 @@ class ApplicationController < ActionController::Base
       return
     end
     authorized ? true : deny_access
-  end
-
-  def authorizer
-    @authorizer ||= Authorizer.new(User.current, :collection => instance_variable_get("@#{controller_name}"))
   end
 
   def deny_access

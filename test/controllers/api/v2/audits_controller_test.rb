@@ -29,4 +29,11 @@ class Api::V2::AuditsControllerTest < ActionController::TestCase
     audits = ActiveSupport::JSON.decode(@response.body)
     assert_equal expected_audits.count, audits['results'].count
   end
+
+  test "should return permissions passing include_permissions in index" do
+    get :index, params: { :include_permissions => true }
+    assert_response :success
+    resp = ActiveSupport::JSON.decode(@response.body)
+    assert resp["can_create"]
+  end
 end
