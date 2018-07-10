@@ -118,7 +118,7 @@ class HostsController < ApplicationController
     forward_url_options
     Taxonomy.no_taxonomy_scope do
       attributes = @host.apply_inherited_attributes(host_params)
-
+      attributes.delete(:compute_resource_id)
       if @host.update(attributes)
         process_success :success_redirect => host_path(@host)
       else
