@@ -4,6 +4,9 @@
   "page": <%= metadata_page.to_json %>,
   "per_page": <%= metadata_per_page.to_json %>,
   "search": <%= metadata_search.to_json.html_safe %>,
+<% if params.has_key?(:include_permissions) %>
+  "can_create": <%= can_create?.to_json %>,
+<% end %>
   "sort": {
     "by": <%= metadata_by.to_json.html_safe %>,
     "order": <%= metadata_order.to_json.html_safe %>

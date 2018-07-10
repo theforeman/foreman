@@ -59,4 +59,38 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
       assert_equal 0, m["hosts_count"]
     end
   end
+
+  test "should return permissions passing include_permissions in index" do
+    get :index, params: { :include_permissions => true }
+    assert_response :success
+    resp = ActiveSupport::JSON.decode(@response.body)
+    assert resp["can_create"]
+    resp["results"].map do |m|
+      assert m["can_edit"]
+      assert m["can_delete"]
+    end
+  end
+
+  test "should return can_edit and can_delete on passing include_permissions in show" do
+    get :show, params: { :id => models(:one), :include_permissions => true }
+    assert_response :success
+    resp = ActiveSupport::JSON.decode(@response.body)
+    assert resp["can_edit"]
+    assert resp["can_delete"]
+    assert_nil resp["can_create"]
+  end
+
+  test "should show false in can_delete if user is unauthorized" do
+    role = Role.create!(:name => "delete_KVM_models")
+    role.users = [User.find_by_login("one")]
+    assert role.save
+    Filter.create!(:search => "name = KVM", :role => role, :permissions => [Permission.find_by_name("destroy_models")])
+    Filter.create!(:role => role, :permissions => [Permission.find_by_name("view_models")])
+    as_user("one") do
+      get :index, params: { :include_permissions => true }
+      resp = ActiveSupport::JSON.decode(@response.body)
+      assert resp["results"].detect { |m| m['name'] == "KVM" } ['can_delete']
+      assert !resp["results"].detect { |m| m['name'] == "SUN V210" } ['can_delete']
+    end
+  end
 end

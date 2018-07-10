@@ -50,6 +50,8 @@ module Api
       instance_variable_get(:"@#{resource_name}") || raise(message)
     end
 
+    helper_method :controller_permission
+
     def controller_permission
       controller_name
     end
