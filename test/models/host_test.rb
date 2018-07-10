@@ -3324,6 +3324,8 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'set_hostgroup_defaults doesnt touch compute attributes' do
+      Host::Managed.any_instance.stubs(:vm_exists?).returns(true)
+      Host::Managed.any_instance.stubs(:compute_update_required?).returns(false)
       host = FactoryBot.create(:host, :managed, :compute_resource => compute_resources(:one), :hostgroup => @group1)
       assert_not_equal 4, host.compute_attributes['cpus']
 
@@ -3333,6 +3335,8 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'set_compute_attributes changes the compute attributes' do
+      Host::Managed.any_instance.stubs(:vm_exists?).returns(true)
+      Host::Managed.any_instance.stubs(:compute_update_required?).returns(false)
       host = FactoryBot.create(:host, :managed, :compute_resource => compute_resources(:one), :hostgroup => @group1)
       assert_not_equal 4, host.compute_attributes['cpus']
       host.attributes = host.apply_inherited_attributes('hostgroup_id' => @group2.id)

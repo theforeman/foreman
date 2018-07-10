@@ -184,6 +184,8 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       test "it checks the image belongs to the compute resource" do
         @host.provision_method = 'image'
         @host.compute_attributes = { :image_id => @image.uuid }
+        @host.stubs(:vm_exists?).returns(true)
+        @host.stubs(:compute_update_required?).returns(false)
         assert @host.valid?
 
         @host.compute_attributes = { :image_id => 'not-existing-image' }
