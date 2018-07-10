@@ -269,8 +269,11 @@ class HostsControllerTest < ActionController::TestCase
       ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
       host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource)
       get :vm, params: { :id => host.id }, session: set_session_user
-      expected_body = "<div class=\"alert alert-danger \"><span class=\"pficon pficon-error-circle-o \"></span> <span class=\"text\"><span>Failure: ActiveRecord::RecordNotFound</span></span></div>\n"
-      assert_equal response.body, expected_body
+      expected_body = "<div class=\"alert alert-danger \">"\
+                      "<span class=\"pficon pficon-error-circle-o \"></span>"\
+                      " <span class=\"text\"><span data-original-title=\"Failure: ActiveRecord::RecordNotFound\" rel=\"twipsy\">"\
+                      "Failure: ActiveRecord::RecordNotFound</span></span></div>\n"
+      assert_equal expected_body, response.body
       assert_response :internal_server_error
     end
 

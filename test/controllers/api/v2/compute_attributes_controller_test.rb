@@ -3,6 +3,7 @@ require 'test_helper'
 class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
   test "should create compute attribute" do
     assert_difference('ComputeAttribute.count') do
+      ComputeAttribute.any_instance.stubs(:new_vm).returns(nil)
       valid_attrs = {:vm_attrs => {"cpus" => "2", "memory" => "2147483648"}}
       post :create, params: { :compute_attribute => valid_attrs,
                               :compute_profile_id => compute_profiles(:three).id,
@@ -13,6 +14,7 @@ class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
 
   test "should update compute attribute" do
     valid_attrs = {:vm_attrs => {"cpus" => "4"}}
+    ComputeAttribute.any_instance.stubs(:new_vm).returns(nil)
     put :update, params: { :id => compute_attributes(:two).id,
                            :compute_profile_id => compute_profiles(:one).id,
                            :compute_resource_id => compute_resources(:one).id,
