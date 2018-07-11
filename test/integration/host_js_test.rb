@@ -181,6 +181,8 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup with compute resource works' do
+      require 'fog/libvirt/models/compute/node'
+      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Compute::Libvirt::Node.new(:cpus => 4))
       hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_compute_resource)
       hostgroup.subnet.update!(ipam: IPAM::MODES[:db])
       compute_profile = FactoryBot.create(:compute_profile, :with_compute_attribute, :compute_resource => hostgroup.compute_resource)
@@ -189,8 +191,6 @@ class HostJSTest < IntegrationTestWithJavascript
       compute_attributes.vm_attrs['cpus'] = '2'
       compute_attributes.save
 
-      require 'fog/libvirt/models/compute/node'
-      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Compute::Libvirt::Node.new(:cpus => 4))
 
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
