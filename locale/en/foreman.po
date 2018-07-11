@@ -5192,6 +5192,9 @@ msgstr ""
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
+msgid "Missing(ID: %s)"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr ""
@@ -5356,9 +5359,6 @@ msgid "New filter"
 msgstr ""
 
 msgid "New window"
-msgstr ""
-
-msgid "Next"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -6403,9 +6403,6 @@ msgstr ""
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
-msgid "Previous"
-msgstr ""
-
 msgid "Primary"
 msgstr ""
 
@@ -7073,9 +7070,6 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
-msgid "Security group"
-msgstr ""
-
 msgid "Security groups"
 msgstr ""
 
@@ -7236,7 +7230,7 @@ msgstr ""
 msgid "Set a randomly generated password on the display connection"
 msgstr ""
 
-msgid "Set hostnames to which requests are not to be proxied"
+msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
 msgstr ""
 
 msgid "Set parameters to defaults"
@@ -7589,6 +7583,9 @@ msgid "SmartProxy|Url"
 msgstr "URL"
 
 msgid "Snippet"
+msgstr ""
+
+msgid "Sockets"
 msgstr ""
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
@@ -9419,7 +9416,7 @@ msgstr ""
 msgid "Whether the smart class parameter value is managed by Foreman"
 msgstr ""
 
-msgid "Whether to get RSS notifications or not"
+msgid "Whether to pull RSS notifications or not"
 msgstr ""
 
 msgid "Which is an offset of <b>%s</b>"
@@ -9700,6 +9697,9 @@ msgstr ""
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
+msgid "cannot be used, please choose another"
+msgstr ""
+
 msgid "clone"
 msgstr ""
 
@@ -9815,6 +9815,9 @@ msgid "filter for %s role"
 msgstr ""
 
 msgid "filter results"
+msgstr ""
+
+msgid "filter..."
 msgstr ""
 
 msgid "for EC2 only"
