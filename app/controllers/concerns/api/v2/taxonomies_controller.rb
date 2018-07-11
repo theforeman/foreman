@@ -88,7 +88,7 @@ module Api::V2::TaxonomiesController
 
   # overriding public FindCommon#resource_scope to scope only to user's taxonomies
   def resource_scope(*args)
-    super.send("my_#{taxonomies_plural}")
+    @resource_scope ||= scope_for(resource_class, args).send("my_#{taxonomies_plural}")
   end
 
   private

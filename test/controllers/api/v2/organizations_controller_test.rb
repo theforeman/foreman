@@ -172,4 +172,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal organization.name, new_name
     assert_equal organization.description, new_description
   end
+
+  test "should add location to organization" do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+    put :update, params: { :id => organization.id, :organization => { :location_ids => [location.id] } }
+    assert_response :success
+    assert_contains organization.locations, location
+  end
 end
