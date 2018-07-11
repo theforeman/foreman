@@ -954,7 +954,7 @@ class Host::Managed < Host::Base
     raise ArgumentError, "Association #{association_name} not found" unless association
     associated_object_id = public_send(association.foreign_key)
     if Taxonomy.enabled_taxonomies.present? && associated_object_id.present? &&
-      Environment.with_taxonomy_scope(organization, location).find_by(id: associated_object_id).blank?
+      association.klass.with_taxonomy_scope(organization, location).find_by(id: associated_object_id).blank?
       errors.add(association.foreign_key, _("with id %{object_id} doesn't exist or is not assigned to proper organization and/or location") % { :object_id => associated_object_id })
       false
     else
