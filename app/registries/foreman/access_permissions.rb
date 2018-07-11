@@ -747,4 +747,11 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :revoke_personal_access_tokens,
                    :"api/v2/personal_access_tokens" => [:destroy]
   end
+
+  permission_set.security_block :settings do |map|
+    map.permission :view_settings, { :settings => [:index, :show, :auto_complete_search],
+                                     :'api/v2/settings' => [:index, :show] }
+    map.permission :edit_settings, { :settings => [:update],
+                                     :'api/v2/settings' => [:update] }
+  end
 end

@@ -1,7 +1,6 @@
 module Api
   module V2
     class SettingsController < V2::BaseController
-      before_action :require_admin
       before_action :find_resource, :only => %w{show update}
 
       api :GET, "/settings/", N_("List all settings")

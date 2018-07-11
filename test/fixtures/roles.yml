@@ -71,6 +71,12 @@ organization_admin:
   builtin: "0"
   origin: foreman
 
+system_admin:
+  name: System admin
+  id: "14"
+  builtin: "0"
+  origin: foreman
+
 <% Foreman::Plugin.all.map do |plugin| %>
 <% plugin.default_roles.each do |role_name, permissions| %>
 <%= role_name.tr(' ', '_').scan(/[a-z_]/i).join %>:

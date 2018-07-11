@@ -379,8 +379,13 @@ class User < ApplicationRecord
   end
 
   # user must be assigned all given roles in order to delegate them
-  def can_assign?(roles)
-    can_change_admin_flag? || roles.all? { |r| self.role_ids_was.include?(r) }
+  # or have :escalate_roles permission
+  def can_assign?(role_ids)
+    can_escalate? || role_ids.all? { |r| self.role_ids_was.include?(r) }
+  end
+
+  def can_escalate?
+    self.admin? || self.can?(:escalate_roles)
   end
 
   # only admin can change admin flag

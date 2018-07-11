@@ -67,4 +67,30 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     response = ActiveSupport::JSON.decode(@response.body)
     assert response["results"][0].key?("full_name")
   end
+
+  test "should update setting as system admin" do
+    user = user_one_as_system_admin
+    setting_id = Setting.where(:settings_type => 'integer').first.id
+    as_user user do
+      put :update, params: { :id => setting_id, :setting => { :value => "100" } }
+    end
+    assert_response :success
+  end
+
+  test "should view setting as system admin" do
+    user = user_one_as_system_admin
+    setting_id = Setting.first.id
+    as_user user do
+      get :show, params: { :id => setting_id }
+    end
+    assert_response :success
+  end
+
+  private
+
+  def user_one_as_system_admin
+    user = users(:one)
+    user.roles = [Role.default, Role.find_by_name('System admin')]
+    user
+  end
 end

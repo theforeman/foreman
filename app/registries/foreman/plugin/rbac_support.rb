@@ -2,7 +2,7 @@ module Foreman
   class Plugin
     class RbacSupport
       # These plugins can be extended by plugins through plugin API
-      AUTO_EXTENDED_ROLES = [ Role::VIEWER, Role::MANAGER, Role::ORG_ADMIN ]
+      AUTO_EXTENDED_ROLES = [ Role::VIEWER, Role::MANAGER, Role::ORG_ADMIN, Role::SYSTEM_ADMIN ]
 
       def add_all_permissions_to_default_roles(all_permissions)
         view_permissions = all_permissions.where("name LIKE :name", :name => "view_%")
@@ -98,7 +98,9 @@ module Foreman
           Role.without_auditing do
             existing_permissions = this_role.permissions.where(:name => permission_names).pluck(:name)
             to_add = permission_names.select { |name| !existing_permissions.include?(name) }
-            this_role.add_permissions! to_add if to_add.any?
+            Role.skip_permission_check do
+              this_role.add_permissions! to_add if to_add.any?
+            end
           end
         end
       end
