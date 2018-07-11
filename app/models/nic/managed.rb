@@ -8,7 +8,6 @@ module Nic
     include InterfaceCloning
 
     include Exportable
-    include Foreman::Renderer
 
     before_validation :set_provisioning_flag
     after_save :update_lookup_value_fqdn_matchers, :drop_host_cache

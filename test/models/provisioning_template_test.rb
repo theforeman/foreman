@@ -235,8 +235,8 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     test "should call build_pxe_default with allowed_helpers containing the default helpers" do
       ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
       ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
-      TemplatesController.any_instance.expects(:render_safe).times(3).with(anything, includes(*Foreman::Renderer::ALLOWED_GENERIC_HELPERS), anything).returns(true)
-      ProvisioningTemplate.build_pxe_default(TemplatesController.new)
+      ProvisioningTemplate.any_instance.expects(:render_template).times(3).returns(true)
+      ProvisioningTemplate.build_pxe_default
     end
 
     test "#metadata should include OSes and kind" do

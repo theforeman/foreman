@@ -347,6 +347,13 @@ module Host
       self.class.included_modules.include?(Orchestration)
     end
 
+    def render_template(template: nil, subjects: {}, params: {}, variables: {})
+      Foreman::Renderer.render_template(template: template,
+                                        subjects: subjects.merge(host: self),
+                                        params: params,
+                                        variables: variables)
+    end
+
     private
 
     def build_values_for_primary_interface!(values_for_primary_interface, args)

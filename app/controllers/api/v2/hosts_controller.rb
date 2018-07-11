@@ -313,7 +313,7 @@ Return the host's compute attributes that can be used to create a clone of this 
         if template.nil?
           not_found(_("No template with kind %{kind} for %{host}") % {:kind => params[:kind], :host => @host.to_label})
         else
-          render :json => { :template => @host.render_template(template) }, :status => :ok
+          render :json => { :template => @host.render_template(template: template) }, :status => :ok
         end
       end
 

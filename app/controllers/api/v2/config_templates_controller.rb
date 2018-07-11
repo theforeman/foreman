@@ -2,7 +2,6 @@ module Api
   module V2
     class ConfigTemplatesController < V2::BaseController
       include Api::Version2
-      include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
       include Foreman::Controller::Parameters::ProvisioningTemplate
 
@@ -84,7 +83,7 @@ module Api
 
       def build_pxe_default
         Foreman::Deprecation.api_deprecation_warning("GET method for build pxe default is deprecated. Please use POST instead") if request.method == "GET"
-        status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
+        status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default
         render_message(msg, :status => status)
       end
 

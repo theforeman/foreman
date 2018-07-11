@@ -8,7 +8,6 @@ require_dependency 'menu/loader'
 require_dependency 'foreman/plugin'
 
 # Other internal dependencies, may be autoloaded
-require_dependency 'foreman/renderer'
 require_dependency 'foreman/foreman_url_renderer'
 require_dependency 'foreman/controller'
 require_dependency 'net'

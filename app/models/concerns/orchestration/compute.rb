@@ -103,7 +103,8 @@ module Orchestration::Compute
       return false
     end
 
-    self.compute_attributes[:user_data] = unattended_render(template.template)
+    self.compute_attributes[:user_data] = render_template(template: template,
+                                                          subjects: { host: self })
 
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign for UserData"

@@ -1,0 +1,90 @@
+module Foreman
+  module Renderer
+    module Scope
+      module Macros
+        module Base
+          include Foreman::Renderer::Errors
+          include ::Foreman::ForemanUrlRenderer
+          include UnattendedHelper
+
+          attr_reader :template_name, :medium_provider
+
+          def subnet_has_param?(subnet, param_name)
+            validate_subnet(subnet)
+            subnet.parameters.exists?(name: param_name)
+          end
+
+          def global_setting(name, blank_default = nil)
+            raise FilteredGlobalSettingAccessed.new(name: name) if Setting[:safemode_render] && !Foreman::Renderer.config.allowed_global_settings.include?(name.to_sym)
+            setting = Setting.find_by_name(name.to_sym)
+            (setting.settings_type != "boolean" && setting.value.blank?) ? blank_default : setting.value
+          end
+
+          def subnet_param(subnet, param_name)
+            validate_subnet(subnet)
+            param = subnet.parameters.where(name: param_name).first
+            param.nil? ? nil : param.value
+          end
+
+          def foreman_server_fqdn
+            config = URI.parse(Setting[:foreman_url])
+            config.host
+          end
+
+          def foreman_server_url
+            Setting[:foreman_url]
+          end
+
+          def pxe_kernel_options
+            return '' unless host || host.operatingsystem
+            host.operatingsystem.pxe_kernel_options(host.params).join(' ')
+          rescue => e
+            template_logger.warn "Unable to build PXE kernel options: #{e}"
+            ''
+          end
+
+          def save_to_file(filename, content)
+            "cat << EOF > #{filename}\n#{content}EOF"
+          end
+
+          def indent(count)
+            return unless block_given? && (text = yield.to_s)
+            prefix = " " * count
+            prefix + text.gsub(/\n/, "\n#{prefix}")
+          end
+
+          def dns_lookup(name_or_ip)
+            resolver = Resolv::DNS.new
+            Timeout.timeout(Setting[:dns_conflict_timeout]) do
+              begin
+                resolver.getname(name_or_ip)
+              rescue Resolv::ResolvError
+                resolver.getaddress(name_or_ip)
+              end
+            end
+          rescue StandardError => e
+            log_warn "Template helper dns_lookup failed: #{e}"
+            raise e
+          end
+
+          def default_template_url(template, hostgroup)
+            uri      = URI.parse(Setting[:unattended_url])
+            host     = uri.host
+            port     = uri.port
+            protocol = uri.scheme
+
+            url_for(:only_path => false, :action => :hostgroup_template, :controller => '/unattended',
+                    :id => template.name, :hostgroup => hostgroup.title, :protocol => protocol,
+                    :host => host, :port => port)
+          end
+
+          private
+
+          def validate_subnet(subnet)
+            raise WrongSubnetError.new(object_name: subnet.to_s, object_class: subnet.class.to_s) unless subnet.is_a?(Subnet)
+          end
+        end
+      end
+    end
+  end
+end

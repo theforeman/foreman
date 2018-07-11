@@ -11,7 +11,7 @@ class InterfaceCleanerTest < ActiveSupport::TestCase
     Setting[:ignored_interface_identifiers] = ['ignored*']
 
     host = FactoryBot.create(:host, :managed)
-    additional_interface = FactoryBot.build(:nic_managed, ip: '0.0.0.2')
+    additional_interface = FactoryBot.build(:nic_managed, :without_ipv4)
     additional_interface.identifier = 'ignored01'
     host.interfaces << additional_interface
     host.save!
@@ -47,10 +47,10 @@ class InterfaceCleanerTest < ActiveSupport::TestCase
     Setting[:ignored_interface_identifiers] = ['test_underscore*']
 
     host = FactoryBot.create(:host, :managed)
-    additional_interface = FactoryBot.build(:nic_managed, ip: '0.0.0.3')
+    additional_interface = FactoryBot.build(:nic_managed, :without_ipv4)
     additional_interface.identifier = 'test_underscore_ignored'
     host.interfaces << additional_interface
-    additional_interface = FactoryBot.build(:nic_managed, ip: '0.0.0.4')
+    additional_interface = FactoryBot.build(:nic_managed, :without_ipv4)
     additional_interface.identifier = 'testXunderscore_ignored'
     host.interfaces << additional_interface
     host.save!

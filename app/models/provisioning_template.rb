@@ -71,6 +71,13 @@ class ProvisioningTemplate < Template
 
   scope :of_kind, ->(kind) { joins(:template_kind).where("template_kinds.name" => kind) }
 
+  def render_template(subjects: {}, params: {}, variables: {})
+    Foreman::Renderer.render_template(template: self,
+                                      subjects: subjects,
+                                      params: params,
+                                      variables: variables)
+  end
+
   def self.template_ids_for(hosts)
     hosts = hosts.with_os.distinct
     oses = hosts.pluck(:operatingsystem_id)
@@ -138,27 +145,26 @@ class ProvisioningTemplate < Template
     "#{kind} global default"
   end
 
-  def self.global_template_name_for(kind, renderer)
+  def self.global_template_name_for(kind)
     global_setting = Setting.find_by(:name => "global_#{kind}")
     return global_setting.value if global_setting && global_setting.value.present?
     global_template_name = global_default_name(kind)
-    renderer.logger.info "Could not find user defined global template from Settings for #{kind}, falling back to #{global_template_name}"
+    Rails.logger.info "Could not find user defined global template from Settings for #{kind}, falling back to #{global_template_name}"
     global_template_name
   end
 
-  def self.build_pxe_default(renderer)
+  def self.build_pxe_default
     return [:unprocessable_entity, _("No TFTP proxies defined, can't continue")] if (proxies = SmartProxy.with_features("TFTP")).empty?
     error_msgs = []
     used_templates = []
     TemplateKind::PXE.each do |kind|
-      global_template_name = global_template_name_for(kind, renderer)
+      global_template_name = global_template_name_for(kind)
       if (default_template = find_global_default_template global_template_name, kind).nil?
         error_msgs << _("Could not find a Configuration Template with the name \"%s\", please create one.") % global_template_name
       else
         begin
           @profiles = pxe_default_combos
-          allowed_helpers = Foreman::Renderer::ALLOWED_GENERIC_HELPERS + [ :default_template_url ]
-          menu = renderer.render_safe(default_template.template, allowed_helpers, :profiles => @profiles)
+          menu = default_template.render_template(variables: { profiles: @profiles })
         rescue => exception
           Foreman::Logging.exception("Cannot render '#{global_template_name}'", exception)
           error_msgs << "#{exception.message} (#{kind})"
