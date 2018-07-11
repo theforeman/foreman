@@ -8,7 +8,7 @@ class TaxHost
                :environment_ids, :domain_ids, :medium_ids,
                :subnet_ids, :compute_resource_ids,
                :smart_proxy_ids, :user_ids, :provisioning_template_ids,
-               :realm_ids, :ptable_ids]
+               :smart_proxy_pool_ids, :realm_ids, :ptable_ids]
 
   def initialize(taxonomy, hosts = nil)
     @taxonomy = taxonomy
@@ -165,6 +165,10 @@ class TaxHost
 
   def smart_proxy_ids
     @smart_proxy_ids ||= Host.smart_proxy_ids(hosts)
+  end
+
+  def smart_proxy_pool_ids
+    @smart_proxy_pool_ids ||= SmartProxyPool.smart_proxy_pool_ids_for(hosts)
   end
 
   # helpers

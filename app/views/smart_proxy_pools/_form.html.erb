@@ -1,0 +1,29 @@
+<%= form_for @smart_proxy_pool, :url => (@smart_proxy_pool.new_record? ? smart_proxy_pools_path : smart_proxy_pool_path(:id => @smart_proxy_pool)) do |f| %>
+  <%= base_errors_for @smart_proxy_pool %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Smart Proxy Pool") %></a></li>
+    <% if authorizer.can?(:view_smart_proxies) %>
+      <li><a href="#proxies" data-toggle="tab"><%= _("Smart Proxies") %></a></li>
+    <% end %>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="primary">
+      <%= text_f   f, :name, :help_inline => _("The Smart Proxy Pool name") %>
+      <%= text_f   f, :hostname, :help_inline => _("The fully qualified hostname") %>
+    </div>
+    <div class="tab-pane" id="proxies">
+      <%= multiple_checkboxes f, :smart_proxies, f.object, SmartProxy, {:help_inline => _("Smart Proxies that use this Pool"), :size => 'col-md-6', :prefix => f.object_name}, { :label => _("Smart Proxies")} %>
+    </div>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @smart_proxy_pool %>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

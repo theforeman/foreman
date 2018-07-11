@@ -13,10 +13,11 @@ class SmartProxy < ApplicationRecord
   has_and_belongs_to_many :features
   has_many :subnets,                                          :foreign_key => 'dhcp_id'
   has_many :domains,                                          :foreign_key => 'dns_id'
-  has_many_hosts                                              :foreign_key => 'puppet_proxy_id'
-  has_many :hostgroups,                                       :foreign_key => 'puppet_proxy_id'
-  has_many :puppet_ca_hosts, :class_name => 'Host::Managed',  :foreign_key => 'puppet_ca_proxy_id'
-  has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :foreign_key => 'puppet_ca_proxy_id'
+  has_and_belongs_to_many :pools, :join_table => :pools_smart_proxies, :class_name => 'SmartProxyPool'
+  has_many_hosts :through => 'pools'
+  has_many :hostgroups, :through => 'pools'
+  has_many :puppet_ca_hosts, :class_name => 'Host::Managed', :through => 'pools'
+  has_many :puppet_ca_hostgroups, :class_name => 'Hostgroup', :through => 'pools'
   has_many :realms,                                           :foreign_key => 'realm_proxy_id'
   validates :name, :uniqueness => true, :presence => true
   validates :url, :presence => true, :url_schema => ['http', 'https'],
@@ -24,9 +25,11 @@ class SmartProxy < ApplicationRecord
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
   before_save :sanitize_url, :associate_features
+  before_create :create_pool
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :url, :complete_value => :true
+  scoped_search :relation => :pools, :on => :name, :rename => :pool, :complete_value => :true
   scoped_search :relation => :features, :on => :name, :rename => :feature, :complete_value => :true
 
   # with proc support, default_scope can no longer be chained
@@ -41,6 +44,10 @@ class SmartProxy < ApplicationRecord
 
   def hostname
     URI(url).host
+  end
+
+  def port
+    URI(url).port
   end
 
   def to_s
@@ -60,11 +67,11 @@ class SmartProxy < ApplicationRecord
   def taxonomy_foreign_conditions
     conditions = {}
     if has_feature?('Puppet') && has_feature?('Puppet CA')
-      conditions = "puppet_proxy_id = #{id} OR puppet_ca_proxy_id = #{id}"
+      conditions = "puppet_proxy_pool_id = #{id} OR puppet_ca_proxy_pool_id = #{id}"
     elsif has_feature?('Puppet')
-      conditions[:puppet_proxy_id] = id
+      conditions[:puppet_proxy_pool_id] = id
     elsif has_feature?('Puppet CA')
-      conditions[:puppet_ca_proxy_id] = id
+      conditions[:puppet_ca_proxy_pool_id] = id
     end
     conditions
   end
@@ -90,7 +97,14 @@ class SmartProxy < ApplicationRecord
   private
 
   def sanitize_url
-    self.url = url.chomp('/') unless url.empty?
+    self.url = url.downcase.chomp('/') unless url.empty?
+  end
+
+  def create_pool
+    spp = SmartProxyPool.create_with(name: self.name).find_or_initialize_by(hostname: self.hostname)
+    self.pools << spp
+    spp.locations = self.locations if SETTINGS[:locations_enabled]
+    spp.organizations = self.organizations if SETTINGS[:organizations_enabled]
   end
 
   def associate_features

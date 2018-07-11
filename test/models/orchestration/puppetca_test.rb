@@ -2,6 +2,7 @@ require 'test_helper'
 
 class PuppetCaOrchestrationTest < ActiveSupport::TestCase
   def setup
+    SmartProxyPool.any_instance.stubs(:vaild_certs => true)
     users(:one).roles << Role.find_by_name('Manager')
     User.current = users(:one)
     disable_orchestration
@@ -19,7 +20,7 @@ class PuppetCaOrchestrationTest < ActiveSupport::TestCase
 
   context 'a host with puppetca orchestration' do
     context 'when entering build mode on creation' do
-      let(:host) { FactoryBot.create(:host, :managed, :with_puppet_ca, :build => true) }
+      let(:host) { FactoryBot.create(:host, :managed, :puppet_ca_proxy_pool => FactoryBot.create(:smart_proxy_pool, :with_puppet), :build => true) }
 
       test 'should queue puppetca autosigning' do
         assert_valid host
@@ -49,7 +50,7 @@ class PuppetCaOrchestrationTest < ActiveSupport::TestCase
     end
 
     context 'when reentering build mode' do
-      let(:host) { FactoryBot.create(:host, :managed, :with_puppet_ca, :build => false) }
+      let(:host) { FactoryBot.create(:host, :managed, :puppet_ca_proxy_pool => FactoryBot.create(:smart_proxy_pool, :with_puppet), :build => false) }
 
       setup do
         @host = host

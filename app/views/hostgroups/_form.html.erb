@@ -39,7 +39,7 @@
                        { :label => _("Compute profile") }
                   ) if visible_compute_profiles(@hostgroup).any? %>
       <%= render_pagelets_for(:main_tab_fields, :hostgroup => @hostgroup, :form => f) %>
-      <%= smart_proxy_fields f %>
+      <%= smart_proxy_fields f, true %>
     </div>
 
     <%= puppetclasses_tab(@hostgroup) %>
