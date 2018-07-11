@@ -25,7 +25,7 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     assert_equal "amazon123 (eu-west-1-EC2)", selected_compute
 
     click_button('Submit')
-    assert has_link?("amazon123 (eu-west-1-EC2)")
+    assert_current_path compute_profile_path(compute_profiles(:one))
   end
 
   test "create compute profile" do
