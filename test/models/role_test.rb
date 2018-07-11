@@ -207,13 +207,25 @@ class RoleTest < ActiveSupport::TestCase
       it { subject.wont_include(second) }
     end
 
-    context "when current user is admin for_current_user should return all roles" do
-      setup do
-        User.current = users(:admin)
+    context "when current user is admin for_current_user should return all givable roles" do
+      test "Admin user should query Role model with no restrictions" do
+        assert_include Role.for_current_user.to_sql, 'WHERE "roles"."builtin" = 0'
+      end
+    end
+
+    context "when current user is not admin" do
+      test "should not allow to escalate when missing escalation permission" do
+        role = Role.create(:name => 'Not owned')
+        User.current = users(:view_hosts)
+
+        refute_includes Role.for_current_user, role
       end
 
-      test "Admin user should query Role model with no restrictions" do
-        assert_include Role.for_current_user.to_sql, 'WHERE (0 = 0)'
+      test "should allow to escalate for canned admin" do
+        role = Role.create(:name => 'Not owned by canned admin')
+        User.current = users(:system_admin)
+
+        refute_includes Role.for_current_user, role
       end
     end
   end
@@ -455,6 +467,23 @@ class RoleTest < ActiveSupport::TestCase
       it 'allows filtering roles using not in operator on permission' do
         results = Role.search_for('permission !^ view_test_arch')
         refute_includes results, @role
+      end
+    end
+  end
+
+  describe "#for_current_user" do
+    setup do
+      @roles = [Role.find_by_name('Manager')]
+      @user = FactoryBot.create(:user, :admin => false)
+      @role = FactoryBot.create(:role)
+
+      FactoryBot.create(:user_role, :owner => @user, :role => @role)
+      FactoryBot.create(:filter, :role => @role, :permissions => [permissions(:escalate_roles)])
+    end
+
+    it "should display roles" do
+      as_user @user do
+        refute_empty Role.for_current_user
       end
     end
   end

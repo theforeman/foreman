@@ -216,21 +216,6 @@ class FilterTest < ActiveSupport::TestCase
     assert_valid f
   end
 
-  test 'filter for taxable resource does not skip escalation check' do
-    f = FactoryBot.build_stubbed(:filter, :resource_type => 'Domain')
-    refute f.skip_taxonomy_escalation_check?
-  end
-
-  test 'filter for nontaxable resource skips escalation check' do
-    f = FactoryBot.build_stubbed(:filter, :resource_type => 'Architecture')
-    assert f.skip_taxonomy_escalation_check?
-  end
-
-  test 'filter without resource always skips escalation check' do
-    f = FactoryBot.build_stubbed(:filter, :resource_type => nil)
-    assert f.skip_taxonomy_escalation_check?
-  end
-
   test 'disable overriding recalculates taxonomies' do
     f = FactoryBot.build(:filter, :resource_type => 'Domain')
     f.role = FactoryBot.build(:role, :organizations => [ FactoryBot.build(:organization) ])

@@ -89,8 +89,8 @@
 
     <div class='tab-pane' id='roles'>
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
-      <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
-                              { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
+      <%= multiple_checkboxes f, :roles, @user, Role.for_current_user,
+                              { :label => _('Roles')}, {:disabled => @editing_self ? Role.for_current_user.pluck(:id) : false } %>
       <% usergroups = @user.cached_usergroups.includes(:roles).distinct %>
       <% if usergroups.any? %>
         <div class="form-group" id="inherited-roles">

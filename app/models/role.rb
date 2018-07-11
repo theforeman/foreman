@@ -28,10 +28,11 @@ class Role < ApplicationRecord
   MANAGER = 'Manager'
   ORG_ADMIN = 'Organization admin'
   VIEWER = 'Viewer'
+  SYSTEM_ADMIN = 'System admin'
 
   has_associated_audits
   scope :givable, -> { where(:builtin => 0).order(:name) }
-  scope :for_current_user, -> { User.current.admin? ? where('0 = 0') : where(:id => User.current.role_ids) }
+  scope :for_current_user, -> { User.current.can_escalate? ? givable : givable.where(:id => User.current.cached_role_ids) }
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first
     where("#{compare} builtin = 0")
@@ -202,8 +203,8 @@ class Role < ApplicationRecord
     permission_names - current_names
   end
 
-  def add_permissions!(*args)
-    add_permissions(*args)
+  def add_permissions!(permissions, opts = {})
+    add_permissions(permissions, opts.merge(:save! => true))
     save!
   end
 
@@ -330,7 +331,14 @@ class Role < ApplicationRecord
   def permission_records(permissions)
     perms = permissions.flatten
     collection = Permission.where(:name => perms).all
-    raise ::Foreman::PermissionMissingException.new(N_('some permissions were not found')) if collection.size != perms.size
+    if collection.size != perms.size
+      raise ::Foreman::PermissionMissingException.new(N_("some permissions were not found: %s"),
+                                                      not_found_permissions(collection.pluck(:name), perms))
+    end
     collection
+  end
+
+  def not_found_permissions(first, second)
+    (first - second) | (second - first)
   end
 end

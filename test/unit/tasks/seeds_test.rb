@@ -196,12 +196,13 @@ class SeedsTest < ActiveSupport::TestCase
     # Check all access control have a matching seeded permission
     assert_equal [], access_permissions - seeded_permissions
     # Check all seeded permissions have a matching access control
-    assert_equal [], seeded_permissions - access_permissions
+    # except for 'escalate_roles' as it is not tied to a controller action
+    assert_equal [], seeded_permissions - access_permissions - ['escalate_roles']
   end
 
-  test "viewer role contains all view permissions" do
+  test "viewer role contains all view permissions except for settings" do
     seed('020-permissions_list.rb', '030-permissions.rb', '020-roles_list.rb', '040-roles.rb')
-    view_permissions = Permission.all.select { |permission| permission.name.match(/view/) }
+    view_permissions = Permission.all.select { |permission| permission.name.match(/view/) && permission.name != 'view_settings' }
     assert_equal [], view_permissions - Role.unscoped.find_by_name('Viewer').permissions
   end
 end

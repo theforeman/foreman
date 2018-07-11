@@ -26,16 +26,8 @@ class Filter < ApplicationRecord
     false
   end
 
+  # allow creating filters for non-taxable resources when user is not admin
   def ensure_taxonomies_not_escalated
-    super if skip_taxonomy_escalation_check?
-  end
-
-  def skip_taxonomy_escalation_check?
-    if self.resource_class.present?
-      !self.resource_class.included_modules.include?(Taxonomix)
-    else
-      true
-    end
   end
 
   belongs_to :role

@@ -532,10 +532,10 @@ class UserTest < ActiveSupport::TestCase
     assert user.save
   end
 
-  test "use that can change admin flag #can_assign? any role" do
-    user       = users(:one)
+  test "user that is admin #can_assign? any role" do
+    user = users(:one)
     extra_role = Role.where(:name => "foobar").first_or_create
-    user.stub :can_change_admin_flag?, true do
+    user.stub :admin?, true do
       assert user.can_assign?([extra_role.id])
     end
   end
@@ -547,7 +547,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "non admin user #can_assign? only his assigned roles" do
-    user   = users(:one)
+    user = users(:one)
     foobar = Role.where(:name => "foobar").first_or_create
     barfoo = Role.where(:name => "barfoo").first_or_create
     user.roles << foobar

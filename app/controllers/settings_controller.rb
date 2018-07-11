@@ -1,7 +1,6 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_action :require_admin
   helper_method :xeditable?
 
   # This can happen in development when removing a plugin
@@ -26,7 +25,6 @@ class SettingsController < ApplicationController
   end
 
   def xeditable?(object = nil, permission = nil)
-    # The current user is required to be admin
-    current_user.admin?
+    current_user.can? :edit_settings
   end
 end
