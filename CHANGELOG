@@ -1,3 +1,55 @@
+2018-07-11	Ondrej Prazak <oprazak@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2018-07-11	Ben Plessinger <plessbd@users.noreply.github.com>
+	* Fixes #23479 - Enhance OpenStack VM Creation
+
+2018-07-11	Daniel Lobato García <me@daniellobato.me>
+	* Fixes #23918 - Find correct scope when updating taxonomy (#5812)
+
+2018-07-11	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23977 - add onClick callback to breadcrumbs
+
+2018-07-10	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #24017 - Add scrollbar in org/log dropdown (#5722) (#5808)
+	* Fixes #23991 - rephrase RSS setting description
+
+2018-07-10	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #23896 - Update taxonomies when refreshing metadata
+
+2018-07-10	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #23994 - Do not update templates out of scope
+
+2018-07-10	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #23965 - Only save ids for association audits (#5753)
+
+2018-07-09	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #23290 - Unmount components before dom-update
+
+2018-07-09	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #23382 - Hashes in arrays are shown properly on ENC
+
+2018-07-09	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #24158 - fix cloning of roles
+
+2018-07-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23782 - restore login disabling
+
+2018-07-09	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #23933 - consider associated object in set_taxonomies
+
+2018-07-04	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23920 - add missing header in welcome pages
+
+2018-07-03	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	*  Fixes #24072 - Fix free IP auto suggest for hostgroup with compute resource
+
+2018-07-02	Timo Goebel <mail@timogoebel.name>
+	* fixes #23621 - passwords can be md5 hashed
+
+2018-06-28	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.18.0-RC3
+
 2018-06-28	Shira Maximov <shiramaximov@gmail.com>
 	* Fixes #22117 - Add support for number of sockets for ovirt
 
