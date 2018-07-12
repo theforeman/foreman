@@ -156,6 +156,7 @@ class HostTest < ActiveSupport::TestCase
     assert_includes Host.authorized('view_hosts'), h
   end
 
+  test_attributes :pid => '1c46b44c-a2ea-43a6-b4d9-244101b081e8'
   test 'should not update with multiple invalid names' do
     host = FactoryBot.create(:host)
     invalid_name_list.each do |name|
@@ -181,6 +182,7 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test_attributes :pid => 'a7c0e8ec-3816-4092-88b1-0324cb271752'
   test 'should create with multiple valid names' do
     domain = domains(:mydomain)
     valid_hosts_list(domain_length: domain.name.length).each do |name|
@@ -196,6 +198,17 @@ class HostTest < ActiveSupport::TestCase
       host.comment =  new_comment
       assert host.valid?, "Can't update host with valid comment #{new_comment}"
       assert_equal host.comment, new_comment
+    end
+  end
+
+  test_attributes :pid => 'a82b606c-d683-44ba-9086-684396ef1c10'
+  test 'should update with multiple valid names' do
+    domain = domains(:mydomain)
+    host = FactoryBot.create(:host, :name => RFauxFactory.gen_alpha, :domain => domain)
+    valid_hosts_list(domain_length: domain.name.length).each do |name|
+      host.name =  name
+      assert host.valid?, "Can't update host with valid name #{name}"
+      assert_equal "#{name}.#{domain}", host.name, "Host updated with name #{name} and domain #{domain.name} does not contains expected name #{name}.#{domain.name}"
     end
   end
 
