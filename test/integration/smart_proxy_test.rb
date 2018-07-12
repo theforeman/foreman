@@ -2,6 +2,11 @@ require 'integration_test_helper'
 require 'pagelets_test_helper'
 
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
+  setup do
+    ProxyStatus::Version.any_instance.stubs(:version).returns({'version' => '1.11', 'modules' => {'dhcp' => '1.11'}})
+    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+  end
+
   test "index page" do
     assert_index_page(smart_proxies_path, "Smart Proxies", "Create Smart Proxy", false)
     visit smart_proxies_path
@@ -13,7 +18,6 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "create new page" do
-    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
     assert_new_button(smart_proxies_path, "Create Smart Proxy", new_smart_proxy_path)
     fill_in "smart_proxy_name", :with => "DNS Worldwide"
     fill_in "smart_proxy_url", :with => "http://dns.example.com"
