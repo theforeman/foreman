@@ -68,18 +68,39 @@ class Report < ApplicationRecord
 
   # Expire reports based on time and status
   # Defaults to expire reports older than a week regardless of the status
-  def self.expire(conditions = {})
+  # This method will IS very slow, use only from rake task.
+  def self.expire(conditions = {}, batch_size = 1000, sleep_time = 0.2)
     timerange = conditions[:timerange] || 1.week
     status = conditions[:status]
-    cond = "reports.created_at < \'#{(Time.now.utc - timerange).to_formatted_s(:db)}\'"
-    cond += " and reports.status = #{status}" unless status.nil?
-
-    Log.where(:report_id => where(cond)).reorder('').delete_all
-    Message.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
-    Source.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
-    count = where(cond).reorder('').delete_all
-    logger.info Time.now.utc.to_s + ": Expired #{count} #{to_s.underscore.humanize.pluralize}"
-    count
+    created = (Time.now.utc - timerange).to_formatted_s(:db)
+    logger.info "Starting #{to_s.underscore.humanize.pluralize} expiration before #{created} status #{status || 'not set'} batch size #{batch_size} sleep #{sleep_time}"
+    cond = "created_at < \'#{created}\'"
+    cond += " and status = #{status}" unless status.nil?
+    total_count = 0
+    report_ids = []
+    start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    loop do
+      Report.transaction do
+        batch_start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        report_ids = where(cond).reorder('').limit(batch_size).pluck(:id)
+        if report_ids.count > 0
+          message_count = Message.unscoped.joins(:logs).where("logs.report_id" => report_ids).delete_all
+          source_count = Source.unscoped.joins(:logs).where("logs.report_id" => report_ids).delete_all
+          log_count = Log.unscoped.where(:report_id => report_ids).reorder('').delete_all
+          count = where(:id => report_ids).reorder('').delete_all
+          total_count += count
+          rate = (count / (Process.clock_gettime(Process::CLOCK_MONOTONIC) - batch_start_time)).to_i
+          Foreman::Logging.with_fields(deleted_messages: message_count, expired_sources: source_count, expired_logs: log_count, expired_total: count, expire_rate: rate) do
+            logger.info "Expired #{count} #{to_s.underscore.humanize.pluralize} at rate #{rate} rec/sec"
+          end
+        end
+      end
+      break if report_ids.blank?
+      sleep sleep_time
+    end
+    duration = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) / 60).to_i
+    logger.info "Total #{to_s.underscore.humanize.pluralize} expired: #{total_count}, duration: #{duration} min(s)"
+    total_count
   end
 
   # represent if we have a report --> used to ensure consistency across host report state the report itself
