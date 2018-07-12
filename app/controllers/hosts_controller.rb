@@ -199,9 +199,24 @@ class HostsController < ApplicationController
     begin
       respond_to do |format|
         # don't break lines in yaml to support Ruby < 1.9.3
-        # Remove the HashesWithIndifferentAccess using 'deep_stringify_keys',
-        # then we turn it into YAML
-        host_info_yaml = @host.info.deep_stringify_keys.to_yaml(:line_width => -1)
+        host_info_yaml = @host.info.to_yaml(:line_width => -1)
+
+        # Convert to hash and itterate
+        host_yaml = YAML.load(host_info_yaml)
+        host_yaml['parameters'].each do |key, value|
+           if value.respond_to?(:to_str)
+             begin
+                # 'array-string' to real array
+                ar = JSON.parse value
+                host_yaml['parameters'][key] = ar
+             rescue
+             end
+           end
+        end
+
+        #back to YAML
+        host_info_yaml = host_yaml.to_yaml
+
         format.html { render :html => "<pre>#{ERB::Util.html_escape(host_info_yaml)}</pre>".html_safe }
         format.yml { render :plain => host_info_yaml }
       end
