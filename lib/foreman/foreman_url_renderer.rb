@@ -58,7 +58,7 @@ module Foreman
     end
 
     def foreman_url_from_templates_proxy(proxy)
-      url = ProxyAPI::Template.new(:url => proxy.url).template_url
+      url = proxy.template_url
       if url.nil?
         template_logger.warn("unable to obtain template url set by proxy #{proxy.url}. falling back on proxy url.")
         url = proxy.url
