@@ -5,6 +5,7 @@ class HttpProxy < ApplicationRecord
   include Encryptable
 
   extend FriendlyId
+  include Parameterizable::ByIdName
 
   encrypts :password
   friendly_id :name
