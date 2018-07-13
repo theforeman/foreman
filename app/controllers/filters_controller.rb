@@ -6,7 +6,7 @@ class FiltersController < ApplicationController
   before_action :setup_search_options, :only => :index
 
   def index
-    @filters = resource_base.includes(:role, :permissions).search_for(params[:search], :order => params[:order])
+    @filters = resource_base.unscoped.includes(:role, :permissions).search_for(params[:search], :order => params[:order])
     @filters = @filters.paginate(:page => params[:page], :per_page => params[:per_page]) unless params[:paginate] == 'client'
     @roles_authorizer = Authorizer.new(User.current, :collection => @filters.map(&:role_id))
   end
