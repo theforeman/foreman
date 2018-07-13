@@ -27,6 +27,17 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     assert_equal show_response["permissions"].first["name"], "view_architectures"
   end
 
+  test "should create non-overridable filter" do
+    role = FactoryBot.create(:role, :name => 'New Role')
+    assert_difference('Filter.count') do
+      post :create, params: { :filter => { :role_id => role.id, :permission_ids => [permissions(:view_architectures).id] } }
+    end
+    assert_response :created
+    result = JSON.parse(@response.body)
+    assert_equal false, result['override?']
+    assert_equal role.id, result['role']['id']
+  end
+
   test "should update filter" do
     valid_attrs = { :role_id => roles(:destroy_hosts).id, :permission_ids => [permissions(:create_hosts).id] }
     put :update, params: { :id => filters(:destroy_hosts_1).to_param, :filter => valid_attrs }
@@ -39,6 +50,81 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
       delete :destroy, params: { :id => filters(:destroy_hosts_1).to_param }
     end
     assert_response :success
+  end
+
+  context "with organizations and locations" do
+    before do
+      @org = taxonomies(:organization1)
+      @loc = taxonomies(:location1)
+    end
+
+    test "should create overridable filter" do
+      filter_loc = taxonomies(:location2)
+      filter_org = taxonomies(:organization2)
+      role = FactoryBot.create(:role, :name => 'New Role', :locations => [@loc], :organizations => [@org])
+      assert_difference('Filter.count') do
+        filter_attr = {
+          :role_id => role.id,
+          :permission_ids => [permissions(:view_domains).id],
+          :override => true,
+          :location_ids => [filter_loc.id],
+          :organization_ids => [filter_org.id]
+        }
+        post :create, params: { :filter => filter_attr }
+      end
+      assert_response :created
+      result = JSON.parse(@response.body)
+      assert_equal true, result['override?']
+      assert_equal role.id, result['role']['id']
+      assert_equal filter_org.id, result['organizations'][0]['id']
+      assert_equal filter_loc.id, result['locations'][0]['id']
+    end
+
+    test "should disable filter override" do
+      role = FactoryBot.create(:role, :name => 'New Role', :locations => [@loc], :organizations => [@org])
+      filter = FactoryBot.create(:filter,
+                                 :role_id => role.id,
+                                 :permission_ids => [permissions(:view_domains).id],
+                                 :override => true,
+                                 :locations => [taxonomies(:location2)],
+                                 :organizations => [taxonomies(:organization2)]
+                                 )
+      put :update, params: { :id => filter.to_param, :filter => { :override => false } }
+      assert_response :success
+      filter.reload
+      assert_equal false, filter.override
+      assert_equal @org, filter.organizations.first
+      assert_equal @loc, filter.locations.first
+    end
+
+    test "should create filter without override" do
+      role = FactoryBot.create(:role, :name => 'New Role', :location_ids => [@loc.id], :organization_ids => [@org.id])
+      assert_difference('Filter.count') do
+        post :create, params: { :filter => { :role_id => role.id, :permission_ids => [permissions(:view_domains).id] } }
+      end
+      assert_response :created
+      result = JSON.parse(@response.body)
+      refute result['override?']
+      assert_equal @org.id, result['organizations'][0]['id']
+      assert_equal @loc.id, result['locations'][0]['id']
+    end
+
+    test "should not create overridable filter" do
+      role = FactoryBot.create(:role, :name => 'New Role')
+      assert_difference('Filter.count', 0) do
+        filter_attr = {
+          :role_id => role.id,
+          :permission_ids => [permissions(:view_architectures).id],
+          :override => true,
+          :location_ids => [@loc.id],
+          :organization_ids => [@org.id]
+        }
+        post :create, params: { :filter => filter_attr }
+      end
+      assert_response :unprocessable_entity
+      assert_match "You can't assign organizations to this resource", @response.body
+      assert_match "You can't assign locations to this resource", @response.body
+    end
   end
 
   context "with organizations" do
