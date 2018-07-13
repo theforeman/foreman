@@ -55,6 +55,10 @@ module Api
         process_response @filter.destroy
       end
 
+      def resource_scope(*args)
+        resource_class.unscoped
+      end
+
       private
 
       def allowed_nested_id
