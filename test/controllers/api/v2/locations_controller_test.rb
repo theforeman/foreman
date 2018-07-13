@@ -397,13 +397,29 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal location.name, updated_location.name
   end
 
-  test "org admin should not create locations by default" do
-    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by_name('Organization admin')]
-    as_user user do
-      post :create, params: { :location => { :name => 'loc1'} }
+  test_attributes :pid => '0ef0e056-8394-4ca1-8055-c55d9215502f'
+  test "org admin should create locations by default" do
+    org = taxonomies(:organization1)
+    # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
+    load File.join(Rails.root, '/db/seeds.d/030-permissions.rb')
+    load File.join(Rails.root, '/db/seeds.d/040-roles.rb')
+    default_org_admin_role = Role.find_by_name('Organization admin')
+    refute_empty default_org_admin_role.permissions
+    org_admin_role = default_org_admin_role.clone(:name => 'new_org_admin', :organizations => [org])
+    org_admin_role.save!
+    refute_empty org_admin_role.permissions
+    org_admin_user = User.create(
+      :login => "foo",
+      :mail => "foo@bar.com",
+      :auth_source => auth_sources(:one),
+      :roles => [org_admin_role],
+      :organizations => [org]
+    )
+    loc_name = 'new_loc'
+    as_user org_admin_user do
+      post :create, params: { :location => { :name => loc_name} }
     end
-    assert_response :forbidden
-    response = JSON.parse(@response.body)
-    assert_equal "Missing one of the required permissions: create_locations", response['error']['details']
+    assert_response :created
+    assert_equal loc_name, JSON.parse(@response.body)['name']
   end
 end

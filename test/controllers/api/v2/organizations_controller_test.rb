@@ -173,14 +173,28 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal organization.description, new_description
   end
 
-  test "org admin should not create taxomonies" do
-    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by_name('Organization admin')]
-    as_user user do
+  test_attributes :pid => '8800d112-c5c1-45ef-8028-29fb5dc06327'
+  test "org admin should not create organizations by default" do
+    org = taxonomies(:organization1)
+    # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
+    load File.join(Rails.root, '/db/seeds.d/030-permissions.rb')
+    load File.join(Rails.root, '/db/seeds.d/040-roles.rb')
+    default_org_admin_role = Role.find_by_name('Organization admin')
+    refute_empty default_org_admin_role.permissions
+    org_admin_role = default_org_admin_role.clone(:name => 'new_org_admin', :organizations => [org])
+    org_admin_role.save!
+    org_admin_user = User.create(
+      :login => "foo",
+      :mail => "foo@bar.com",
+      :auth_source => auth_sources(:one),
+      :roles => [org_admin_role],
+      :organizations => [org]
+    )
+    as_user org_admin_user do
       post :create, params: { :organization => { :name => 'org1'} }
     end
     assert_response :forbidden
-    response = JSON.parse(@response.body)
-    assert_equal "Missing one of the required permissions: create_organizations", response['error']['details']
+    assert_match 'Missing one of the required permissions: create_organizations', @response.body
   end
 
   test "should add location to organization" do
