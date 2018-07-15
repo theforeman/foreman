@@ -316,8 +316,13 @@ module Foreman #:nodoc:
     end
 
     def pending_migrations
-      migration_paths = ActiveRecord::Migrator.migrations(
-        ActiveRecord::Migrator.migrations_paths)
+      migration_paths = if SETTINGS[:rails] == '5.2'
+                          ActiveRecord::Migrator.migrations
+                        else
+                          ActiveRecord::Migrator.migrations(
+                            ActiveRecord::Migrator.migrations_paths
+                          )
+                        end
       pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
         pending_migrations
 
