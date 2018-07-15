@@ -180,3 +180,10 @@
     opacity: (0.3);
   }
 }
+
+#factChartModalBody {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
