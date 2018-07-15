@@ -44,7 +44,7 @@ class FactChart extends React.Component {
       onclick: handleChartClick,
     };
 
-    const chart = <DonutChart {...chartProps} config='large' />;
+    const chart = <DonutChart {...chartProps} config="large" />;
 
     const requestErrorMsg =
       factChart.loaderStatus === STATUS.ERROR
@@ -54,7 +54,7 @@ class FactChart extends React.Component {
     const error = modalToDisplay ? (
       <MessageBox
         msg={requestErrorMsg}
-        icontype='error-circle-o'
+        icontype="error-circle-o"
         key={`message-${id}`}
       />
     ) : (
@@ -62,12 +62,14 @@ class FactChart extends React.Component {
     );
 
     const tooltip = (
-      <Tooltip id={`viewChartTooltip-${id}`}>{__('Show distribution chart')}</Tooltip>
+      <Tooltip id={`viewChartTooltip-${id}`}>
+        {__('Show distribution chart')}
+      </Tooltip>
     );
 
     return (
       <div>
-        <OverlayTrigger placement='top' overlay={tooltip}>
+        <OverlayTrigger placement="top" overlay={tooltip}>
           <Button onClick={this.openModal}>{__('View Chart')}</Button>
         </OverlayTrigger>
         {modalToDisplay && (
@@ -88,7 +90,11 @@ class FactChart extends React.Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Loader status={factChart.loaderStatus}>{[chart, error]}</Loader>
+              <div id="factChartModalBody">
+                <Loader status={factChart.loaderStatus}>
+                  {[chart, error]}
+                </Loader>
+              </div>
             </Modal.Body>
           </Modal>
         )}
