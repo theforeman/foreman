@@ -31,7 +31,9 @@ namespace :reports do
     conditions[:timerange] = ENV['days'].to_i.days if ENV['days']
     conditions[:status] = ENV['status'].to_i if ENV['status']
 
-    report_type.expire(conditions)
+    User.as_anonymous_admin do
+      report_type.expire(conditions)
+    end
   end
 end
 # TRANSLATORS: do not translate
