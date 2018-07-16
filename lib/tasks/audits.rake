@@ -29,7 +29,9 @@ namespace :audits do
   end
 
   def get_audits
-    Audited::Audit.up_until(before_date)
+    User.as_anonymous_admin do
+      Audited::Audit.up_until(before_date)
+    end
   end
 
   def before_date
