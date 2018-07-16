@@ -35,7 +35,9 @@ namespace :reports do
     batch_size = ENV['batch_size'].to_i if ENV['batch_size']
     sleep_time = ENV['sleep_time'].to_f if ENV['sleep_time']
 
-    report_type.expire(conditions, batch_size, sleep_time)
+    User.as_anonymous_admin do
+      report_type.expire(conditions, batch_size, sleep_time)
+    end
   end
 end
 # TRANSLATORS: do not translate
