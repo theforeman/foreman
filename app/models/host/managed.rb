@@ -922,9 +922,9 @@ class Host::Managed < Host::Base
   # For performance reasons logs and reports are deleted in batch
   # see http://projects.theforeman.org/issues/8316 for details
   def remove_reports
-    return if reports.empty?
-    Log.where("report_id IN (#{reports.pluck(:id).join(',')})").delete_all
-    Report.where("host_id = #{id}").delete_all
+    host_reports = Report.where(host_id: id)
+    Log.where(report_id: host_reports.pluck(:id)).delete_all
+    host_reports.delete_all
   end
 
   def clear_puppetinfo
