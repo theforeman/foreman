@@ -1,3 +1,5 @@
+<%= javascript_tag("$(document).on('ContentLoad', tfm.templateInputs.initTypeChanges)"); %>
+
 <% url = if @template.persisted?
            public_send("#{@type_name_singular}_path", :id => @template)
          else
@@ -8,6 +10,7 @@
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
+    <li><a href="#template_inputs" data-toggle="tab"><%= _("Inputs") %></a></li>
     <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable'%>
     <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     <% if show_location_tab? %>
@@ -56,6 +59,27 @@
                      :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
     </div>
 
+    <div class="tab-pane" id="template_inputs">
+      <%= alert(:class => 'alert-info', :header => _('Template inputs'),
+                :text => ('<p>' + _("Inputs can be used to parametrize templates during rendering \
+  based on template type, it allows to fetch the value from host facts, \
+  host parameterization or ask user interactively. To use value loaded loaded \
+  via input, use <code>input('name')</code> global macro. The template needs to be \
+  saved before input macro can load the value. If the value is not available during
+  template preview, it's value is expanded to <code>$TYPE_INPUT[name]</code> string." + '</p>')
+                ).html_safe) %>
+
+      <div class="children_fields">
+        <%= new_child_fields_template(f, :template_inputs, { :partial => "template_inputs/form" }) %>
+        <%= f.fields_for :template_inputs do |ff| %>
+          <div class="template_input_form fields">
+            <%= render 'template_inputs/form', :f => ff %>
+          </div>
+        <% end %>
+        <%= add_child_link '+ ' + _("Add Input"), :template_inputs, { :title => _('add a input for this template')} unless @template.locked? %>
+      </div>
+    </div>
+
     <div class="tab-pane" id="history">
       <%= render :partial => 'history', :locals => { history: @history } %>
     </div>
@@ -99,6 +123,26 @@
             <%% @host.interfaces.each do |interface| -%><br/>
             &nbsp;&nbsp;NIC name: <%%= interface.name %><br/>
             <%% end -%><br/>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Inputs'), :wrap_in_code => false, :contents => (capture { %>
+              <p>
+                <%= (_('Once you define a template input in Inputs tab and save the template, it can be used in the ERB.
+                To load value specified through this input, use global macro %{example1} and pass the input
+                name as an argument. E.g. %{example2} will load the value through input called cpus.') % {
+                    :example1 => "<code>input</code>",
+                    :example2 => "<code><&#37;= input('cpus') &#37;></code>"
+                }).html_safe %>
+              <p>
+                <%= (_("While rendering the template in preview mode, the input either loads the value or uses a placeholder
+                if the input is not ready for the rendering. If the template is rendered for real and the input is
+                not ready, an error is raised. The readyness criteria differs per input type, e.g. for Fact Inputs
+                linked to host's fact with name \"cpu_count\" is ready when %{example1} facts contains value
+                for such fact. To load this value into the template, following code can be used %{example2}
+                Note that the fact name can differ from input name.") % {
+                    :example1 => "<code>@host</code>",
+                    :example2 => "<code><&#37;= input('cpus') &#37;></code>"
+                }).html_safe %>
+              </p>
           <% }) %>
         </div>
       </div>

@@ -233,9 +233,14 @@ class ProvisioningTemplate < Template
     setting.value == name
   end
 
+  def self.acceptable_template_input_types
+    [ :fact, :variable, :puppet_parameter ]
+  end
+
   private
 
   def import_custom_data(options)
+    super
     self.template_kind = nil if self.snippet
 
     if @importing_metadata.key?('kind') && !self.snippet && associate_metadata_on_import?(options)

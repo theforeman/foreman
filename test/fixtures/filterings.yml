@@ -257,6 +257,18 @@ manager_24_2:
 manager_24_3:
   filter: manager_24
   permission: destroy_subnets
+manager_25_1:
+  filter: manager_25
+  permission: view_report_templates
+manager_25_2:
+  filter: manager_25
+  permission: edit_report_templates
+manager_25_3:
+  filter: manager_25
+  permission: create_report_templates
+manager_25_4:
+  filter: manager_25
+  permission: destroy_report_templates
 edit_partition_tables_1_0:
   filter: edit_partition_tables_1
   permission: view_ptables

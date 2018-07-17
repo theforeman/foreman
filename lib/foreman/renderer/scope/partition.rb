@@ -1,7 +1,7 @@
 module Foreman
   module Renderer
     module Scope
-      class Partition < Foreman::Renderer::Scope::Base
+      class Partition < Foreman::Renderer::Scope::Template
         include Foreman::Renderer::Scope::Macros::HostTemplate
       end
     end

@@ -34,6 +34,10 @@ module Foreman
       class UnknownHostStatusError < RenderingError
         MESSAGE = N_('Unknown host status "%{status}" was specified in host_status macro, use one of %{statuses}').freeze
       end
+
+      class UndefinedInput < RenderingError
+        MESSAGE = N_('Rendering failed, no input with name "%{s}" for input macro found').freeze
+      end
     end
   end
 end

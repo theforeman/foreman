@@ -7,7 +7,11 @@ module Foreman
         include Foreman::Renderer::Scope::Macros::TemplateLogging
         include Foreman::Renderer::Scope::Macros::SnippetRendering
 
+        delegate :template, :to => :source, :allow_nil => true
+
         def initialize(source:, host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
+          raise "unsuported rendering mode '#{mode}'" unless AVAILABLE_RENDERING_MODES.include?(mode)
+
           @source = source
           @host = host
           @params = params

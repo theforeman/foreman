@@ -109,8 +109,8 @@ class TemplatesController < ApplicationController
 
   private
 
-  def safe_render(template, mode = Foreman::Renderer::REAL_MODE)
-    render :plain => template.render(host: @host, params: params, mode: mode)
+  def safe_render(template, mode = Foreman::Renderer::REAL_MODE, render_on_error: :plain, **params)
+    render :plain => template.render(host: @host, params: params, mode: mode, **params)
   rescue => error
     Foreman::Logging.exception("Error rendering the #{template.name} template", error)
     if error.is_a?(Foreman::Renderer::Errors::RenderingError)
@@ -119,7 +119,12 @@ class TemplatesController < ApplicationController
       text = _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message}
     end
 
-    render :plain => text, :status => :internal_server_error
+    if render_on_error == :plain
+      render :plain => text, :status => :internal_server_error
+    else
+      error error.message, :now => true
+      render render_on_error, :status => :internal_server_error
+    end
   end
 
   def set_locked(locked)

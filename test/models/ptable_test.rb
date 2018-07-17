@@ -98,6 +98,7 @@ class PtableTest < ActiveSupport::TestCase
         os2 = FactoryBot.create(:suse)
         template.operatingsystem_ids = [os1.id, os2.id]
         template.stubs :import_oses => true
+        template.instance_variable_set '@importing_metadata', {}
         template.send(:import_custom_data, {})
         assert_equal 'Debian', template.os_family
       end

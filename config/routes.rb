@@ -332,6 +332,7 @@ Foreman::Application.routes.draw do
         get 'unlock'
         get 'export'
         get 'generate'
+        post 'schedule_report'
         post 'preview'
       end
       collection do

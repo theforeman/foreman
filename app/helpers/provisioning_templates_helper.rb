@@ -19,7 +19,7 @@ module ProvisioningTemplatesHelper
     ]
 
     if template.is_a?(ReportTemplate) && !template.snippet
-      actions.unshift(display_link_if_authorized(_('Render'), template_hash_for_member(template, 'generate').merge(:authorizer => authorizer, :auth_object => template), { :data => { :no_turbolink => true } }))
+      actions.unshift(display_link_if_authorized(_('Generate'), template_hash_for_member(template, 'generate').merge(:authorizer => authorizer, :auth_object => template), { :data => { :no_turbolink => true } }))
     end
 
     if template.locked?

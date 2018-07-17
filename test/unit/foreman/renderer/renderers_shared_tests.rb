@@ -158,5 +158,94 @@ module RenderersSharedTests
       assert_includes statuses, 'Configuration'
       assert(statuses.index('Build') < statuses.index('Configuration'))
     end
+
+    test "should respect preview setting" do
+      source = OpenStruct.new(content: 'id <%= preview? %>')
+
+      assert_equal("id false", renderer.render(source, @scope))
+      @scope.instance_variable_set '@mode', Foreman::Renderer::PREVIEW_MODE
+      assert_equal("id true", renderer.render(source, @scope))
+    end
+
+    context 'renderer for template with user input used' do
+      let(:template) { FactoryBot.build(:provisioning_template, :template => 'service restart <%= input("service_name") -%>') }
+      let(:source) { Foreman::Renderer::Source::Database.new(template) }
+      let(:real_scope) { Foreman::Renderer::Scope::Provisioning.new(host: @host, source: source) }
+      let(:preview_scope) { Foreman::Renderer::Scope::Provisioning.new(host: @host, source: source, mode: Foreman::Renderer::PREVIEW_MODE) }
+
+      context 'but without input defined' do
+        describe 'rendering' do
+          let(:result) { renderer.render(source, real_scope) }
+          test "rendering fails and raises an error" do
+            e = assert_raises Foreman::Renderer::Errors::UndefinedInput do
+              result
+            end
+            assert_includes e.message, 'service_name'
+          end
+        end
+
+        describe 'preview' do
+          let(:result) { renderer.render(source, preview_scope) }
+          test "rendering fails and raises an error" do
+            e = assert_raises Foreman::Renderer::Errors::UndefinedInput do
+              result
+            end
+            assert_includes e.message, 'service_name'
+          end
+        end
+      end
+
+      context 'with input defined but not ready' do
+        describe 'render' do
+          let(:result) { renderer.render(source, real_scope) }
+          test "rendering fails and registers an error" do
+            template.template_inputs = [FactoryBot.build(:template_input, :name => 'service_name')]
+            template.save
+            e = assert_raises TemplateInput::ValueNotReady do
+              result
+            end
+            assert_includes e.message, 'service_name'
+          end
+        end
+
+        describe 'preview' do
+          let(:result) { renderer.render(source, preview_scope) }
+          test "rendering works using placeholder" do
+            template.template_inputs = [FactoryBot.build(:template_input, :name => 'service_name')]
+            template.save
+            assert_nothing_raised do
+              assert_equal "service restart $USER_INPUT[service_name]", result
+            end
+          end
+        end
+      end
+
+      context 'with input defined and value provided' do
+        let(:real_scope) { Foreman::Renderer::Scope::Provisioning.new(host: @host, source: source, template_input_values: { 'service_name' => 'httpd' }) }
+        let(:preview_scope) { Foreman::Renderer::Scope::Provisioning.new(host: @host, source: source, mode: Foreman::Renderer::PREVIEW_MODE, template_input_values: { 'service_name' => 'httpd' }) }
+
+        describe 'render' do
+          let(:result) { renderer.render(source, real_scope) }
+          test "rendering fails and registers an error" do
+            template.template_inputs = [FactoryBot.build(:template_input, :name => 'service_name')]
+            template.save
+            assert_nothing_raised do
+              assert_equal "service restart httpd", result
+            end
+          end
+        end
+
+        describe 'preview' do
+          let(:result) { renderer.render(source, preview_scope) }
+          test "rendering works using placeholder" do
+            template.template_inputs = [FactoryBot.build(:template_input, :name => 'service_name')]
+            template.save
+            assert_nothing_raised do
+              assert_equal "service restart httpd", result
+            end
+          end
+        end
+      end
+    end
   end
 end
