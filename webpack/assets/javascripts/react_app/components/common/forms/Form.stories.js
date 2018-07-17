@@ -33,6 +33,6 @@ const StoryForm = () => {
 const storyForm = reduxForm({ form: formName })(StoryForm);
 const ConnectedForm = connect(null, () => {})(storyForm);
 
-storiesOf('Form', module)
+storiesOf('Components/Form', module)
   .addDecorator(storeDecorator)
   .add('Radio Button Group', () => <ConnectedForm />);

@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import PowerStatusInner from './index';
 
-storiesOf('Power Status', module)
+storiesOf('Components/Power Status', module)
   .add('Loading', () => <PowerStatusInner />)
   .add('ON', () => <PowerStatusInner state="on" title="on" statusText="On" />)
   .add('OFF', () => <PowerStatusInner state="off" title="off" statusText="Off" />)

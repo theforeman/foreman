@@ -9,7 +9,7 @@ const mockStore = configureMockStore([thunk]);
 
 const dataProp = { id: 1, title: 'test title' };
 
-storiesOf('FactChartModal', module)
+storiesOf('Components/FactChartModal', module)
   .add('ModalClosed', () => (
       <FactChart
         store={ mockStore({ factChart: initialState }) }
