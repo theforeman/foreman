@@ -31,7 +31,7 @@ class ParameterSafeRender
 
   def render_string(string)
     source = Foreman::Renderer::Source::String.new(content: string)
-    Foreman::Renderer.render_template(subjects: { source: source, host: @host },
-                                      params: { scope_class: Foreman::Renderer::Scope::Partition })
+    scope = Foreman::Renderer::Scope::Partition.new(host: @host)
+    Foreman::Renderer.render_template(subjects: { source: source, scope: scope })
   end
 end

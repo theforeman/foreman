@@ -8,7 +8,7 @@ module RenderersSharedTests
       @scope = Class.new(Foreman::Renderer::Scope::Base) do
         include Foreman::Renderer::Scope::Macros::Base
         include Foreman::Renderer::Scope::Macros::SnippetRendering
-      end.send(:new, @host)
+      end.send(:new, host: @host)
     end
 
     test "should evaluate template variables" do

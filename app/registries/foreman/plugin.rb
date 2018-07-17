@@ -335,30 +335,38 @@ module Foreman #:nodoc:
 
     # List of helper methods allowed for templates in safe mode
     def allowed_template_helpers(*helpers)
-      Foreman::Renderer.configure do |config|
-        config.allowed_generic_helpers.concat(helpers).uniq!
+      in_to_prepare do
+        Foreman::Renderer.configure do |config|
+          config.allowed_generic_helpers.concat(helpers).uniq!
+        end
       end
     end
 
     # List of variables allowed for templates in safe mode
     def allowed_template_variables(*variables)
-      Foreman::Renderer.configure do |config|
-        config.allowed_variables.concat(variables).uniq!
+      in_to_prepare do
+        Foreman::Renderer.configure do |config|
+          config.allowed_variables.concat(variables).uniq!
+        end
       end
     end
 
     # List of global settings allowed for templates
     def allowed_template_global_settings(*settings)
-      Foreman::Renderer.configure do |config|
-        config.allowed_global_settings.concat(settings).uniq!
+      in_to_prepare do
+        Foreman::Renderer.configure do |config|
+          config.allowed_global_settings.concat(settings).uniq!
+        end
       end
     end
 
     # List of modules which public methods will be available during template rendering
     # including safe mode
     def extend_template_helpers(*mods)
-      mods.each do |mod|
-        extend_template_helpers_by_module(mod)
+      in_to_prepare do
+        mods.each do |mod|
+          extend_template_helpers_by_module(mod)
+        end
       end
     end
 

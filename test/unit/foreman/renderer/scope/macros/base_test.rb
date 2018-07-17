@@ -5,7 +5,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
     host = FactoryBot.build_stubbed(:host)
     @subject = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Macros::Base
-    end.send(:new, host)
+    end.send(:new, host: host)
   end
 
   describe '#template_name' do

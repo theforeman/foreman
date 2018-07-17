@@ -215,6 +215,8 @@ class PluginTest < ActiveSupport::TestCase
       allowed_template_helpers :my_helper
     end
 
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer.config.allowed_helpers, :my_helper
   end
 
@@ -225,6 +227,8 @@ class PluginTest < ActiveSupport::TestCase
       allowed_template_variables :my_variable
     end
 
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer.config.allowed_variables, :my_variable
   end
 
@@ -235,6 +239,8 @@ class PluginTest < ActiveSupport::TestCase
       allowed_template_global_settings :my_global_setting
     end
 
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer.config.allowed_global_settings, :my_global_setting
   end
 
@@ -246,6 +252,8 @@ class PluginTest < ActiveSupport::TestCase
       extend_template_helpers(MyMod)
     end
 
+    # simulate application start
+    @klass.find(:foo).to_prepare_callbacks.each(&:call)
     assert_includes Foreman::Renderer::Scope::Base.public_instance_methods, :my_helper
     refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :private_helper
   end

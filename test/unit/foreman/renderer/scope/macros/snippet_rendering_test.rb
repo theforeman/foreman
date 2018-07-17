@@ -5,7 +5,7 @@ class SnippetRenderingTest < ActiveSupport::TestCase
     host = FactoryBot.build_stubbed(:host)
     @subject = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Macros::SnippetRendering
-    end.send(:new, host)
+    end.send(:new, host: host)
   end
 
   test "should render a snippet" do

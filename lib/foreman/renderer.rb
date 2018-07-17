@@ -12,27 +12,18 @@ module Foreman
       end
 
       def render_template(template: nil, subjects: {}, params: {}, variables: {})
-        source = if subjects[:source]
-                   subjects[:source]
-                 else
-                   klass = params.fetch(:source_class, Foreman::Renderer::Source::Database)
-                   klass.new(template)
-                 end
+        source = subjects[:source] || Foreman::Renderer::Source::Database.new(template)
 
-        scope = if subjects[:scope]
-                  subjects[:scope]
-                else
-                  klass = params.fetch(:scope_class, Foreman::Renderer::Scope::Provisioning)
-                  klass.new(subjects[:host], params: params.merge(allowed_variables: variables.keys), variables: variables)
-                end
-
+        scope = subjects[:scope] || Foreman::Renderer::Scope::Provisioning.new(host: subjects[:host],
+                                                                               params: params,
+                                                                               variables: variables)
         renderer.render(source, scope)
       end
 
-      def render_template_to_tempfile(template, prefix, options = {})
+      def render_template_to_tempfile(template, prefix, options = {}, subjects: {}, params: {}, variables: {})
         file = ""
         Tempfile.open(prefix, Rails.root.join('tmp')) do |f|
-          f.print(render_template(template: template))
+          f.print(render_template(template: template, subjects: subjects, params: params, variables: variables))
           f.flush
           f.chmod options[:mode] if options[:mode]
           file = f

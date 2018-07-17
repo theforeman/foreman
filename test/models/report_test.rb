@@ -25,9 +25,9 @@ class ReportTest < ActiveSupport::TestCase
     Source.delete_all
     FactoryBot.create_list(:report, report_count, :with_logs)
     FactoryBot.create_list(:report, report_count, :with_logs, :old_report)
-    assert_equal report_count*2, Report.count
-    assert_difference('Report.count', -1*report_count) do
-      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1*report_count*5) do
+    assert_equal report_count * 2, Report.count
+    assert_difference('Report.count', -1 * report_count) do
+      assert_difference(['Log.count', 'Message.count', 'Source.count'], -1 * report_count * 5) do
         Report.expire({}, 2, 0.0001)
       end
     end

@@ -40,11 +40,11 @@ class UnattendedController < ApplicationController
   def hostgroup_template
     return head(:not_found) unless (params.has_key?("id") && params.has_key?(:hostgroup))
 
-    @template = ProvisioningTemplate.find_by_name(params['id'].to_s)
+    template = ProvisioningTemplate.find_by_name(params['id'].to_s)
     @host = Hostgroup.find_by_title(params['hostgroup'].to_s)
-    return head(:not_found) unless @template && @host
+    return head(:not_found) unless template && @host
 
-    safe_render_template
+    safe_render(template)
   end
 
   # Generate an action for each template kind
@@ -77,8 +77,9 @@ class UnattendedController < ApplicationController
     # Compatibility with older URLs
     type = 'iPXE' if type == 'gPXE'
 
-    if (@template = @host.provisioning_template({ :kind => type }))
-      safe_render_template
+    template = @host.provisioning_template({ :kind => type })
+    if template
+      safe_render(template)
     else
       error_message = N_("unable to find %{type} template for %{host} running %{os}")
       render_custom_error(:not_found, error_message, {:type => type, :host => @host.name, :os => @host.operatingsystem})
@@ -240,15 +241,11 @@ class UnattendedController < ApplicationController
     ip
   end
 
-  def safe_render_template
-    raise "unknown template" unless @template.is_a?(Template)
-
-    begin
-      render :plain => @host.render_template(template: @template, params: params).html_safe
-    rescue => error
-      msg = _("There was an error rendering the %s template: ") % @template.name
-      Foreman::Logging.exception(msg, error)
-      render :plain => msg + error.message, :status => :internal_server_error
-    end
+  def safe_render(template)
+    render :plain => @host.render_template(template: template, params: params).html_safe
+  rescue StandardError => error
+    msg = _("There was an error rendering the %s template: ") % @template.name
+    Foreman::Logging.exception(msg, error)
+    render :plain => msg + error.message, :status => :internal_server_error
   end
 end
