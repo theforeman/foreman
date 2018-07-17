@@ -36,4 +36,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   editor: require('./foreman_editor'),
   nav: require('./foreman_navigation'),
   medium: require('./foreman_medium'),
+  templateInputs: require('./foreman_template_inputs'),
+  advancedFields: require('./foreman_advanced_fields'),
 });

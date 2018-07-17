@@ -46,4 +46,18 @@ module TemplatesHelper
 
     alert(:class => 'alert-warning', :text => warning_text.html_safe)
   end
+
+  def template_input_header(f, template)
+    header = _('Template input')
+    unless template.locked?
+      header += ' ' + remove_child_link('x', f, {:rel => 'twipsy', :'data-title' => _('remove template input'), :'data-placement' => 'left',
+                                                 :class => 'fr badge badge-danger'})
+    end
+    header.html_safe
+  end
+
+  def template_input_types_options(keys = TemplateInput::TYPES.keys)
+    keys.map!(&:to_s)
+    TemplateInput::TYPES.select { |k, _| keys.include?(k.to_s) }.map { |key, name| [ _(name), key ] }
+  end
 end

@@ -1,5 +1,6 @@
 module Foreman::Controller::Parameters::Template
   extend ActiveSupport::Concern
+  include Foreman::Controller::Parameters::TemplateInput
 
   class_methods do
     def add_template_params_filter(filter)
@@ -10,7 +11,8 @@ module Foreman::Controller::Parameters::Template
         :snippet,
         :template,
         :template_kind, :template_kind_id, :template_kind_name,
-        :vendor
+        :vendor,
+        :template_inputs_attributes => [template_input_params_filter]
     end
   end
 end

@@ -192,4 +192,37 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal 'b', ReportTemplate.unscoped.find_by_name(report_template.name).template
   end
+
+  test "should generate report" do
+    report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %>')
+    post :generate, params: { :id => report_template.id }
+    assert_response :success
+    assert_equal '2', response.body
+  end
+
+  test "should generate report with optional params without value" do
+    report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
+    input = FactoryBot.create(:template_input, :name => 'hello')
+    report_template.template_inputs = [ input ]
+    post :generate, params: { :id => report_template.id }
+    assert_response :success
+    assert_equal '2 ', response.body
+  end
+
+  test "should fail with required params without value" do
+    report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
+    input = FactoryBot.create(:template_input, :name => 'hello', :required => true)
+    report_template.template_inputs = [ input ]
+    post :generate, params: { :id => report_template.id }
+    assert_response :unprocessable_entity
+  end
+
+  test "should generate report with optional params with value" do
+    report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
+    input = FactoryBot.create(:template_input, :name => 'hello', :required => true)
+    report_template.template_inputs = [ input ]
+    post :generate, params: { :id => report_template.id, :input_values => { :hello => 'ohai' } }
+    assert_response :success
+    assert_equal '2 ohai', response.body
+  end
 end

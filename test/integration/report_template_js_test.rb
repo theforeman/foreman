@@ -1,0 +1,48 @@
+require 'integration_test_helper'
+
+class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
+  test "creating report templates with inputs, displaying them when generating the template" do
+    visit report_templates_path
+    assert page.has_link?('Create Report Template')
+
+    click_link 'Create Report Template'
+    fill_in :id => 'report_template_name', :with => 'A testing report'
+    # can't use fill_in because text area is hidden thanks to ace editor
+    first('textarea#report_template_template', visible: false).set('CPUs,RAM,HDD\n<%= input("cpus") -%>,<%= 1024 -%> MB,N/A')
+
+    click_link('Inputs')
+    within "#template_inputs" do
+      refute page.has_content?('Input Type')
+
+      click_link '+ Add Input'
+      assert page.has_content?('Input Type')
+
+      # set the input name, there's no good identifier for nested fields
+      first('input.form-control').set('cpus')
+    end
+
+    find('input[name="commit"]').click
+
+    template = ReportTemplate.find_by_name('A testing report')
+    visit generate_report_template_path(template)
+
+    assert page.has_content?('cpus')
+  end
+
+  test "advanced link show/hides advanced inputs" do
+    template = FactoryBot.create(:report_template, :with_input)
+    input = template.template_inputs.first
+    input.update :advanced => true
+
+    visit generate_report_template_path(template)
+    within '#content' do
+      refute page.has_content? input.name
+
+      click_link 'Display advanced fields'
+      assert page.has_content? input.name
+
+      click_link 'Hide advanced fields'
+      refute page.has_content? input.name
+    end
+  end
+end

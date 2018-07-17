@@ -164,6 +164,10 @@ Foreman::Application.routes.draw do
         resources :environments, :only => [:index, :show]
       end
 
+      resources :templates, :only => :none do
+        resources :template_inputs, :only => [:index, :show, :create, :destroy, :update]
+      end
+
       resources :ptables, :except => [:new, :edit] do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
@@ -187,8 +191,8 @@ Foreman::Application.routes.draw do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         member do
-          post :clone
-          get :export, :generate
+          post :clone, :generate
+          get :export
         end
         collection do
           get 'revision'

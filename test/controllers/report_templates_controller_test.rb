@@ -62,11 +62,33 @@ class ReportTemplatesControllerTest < ActionController::TestCase
   end
 
   test "generate" do
+    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
+    assert_response :success
+  end
+
+  test "schedule_report" do
     @report_template.update_attribute :template, '<%= 1 + 1 %>'
-    get :generate, params: { :id => @report_template.to_param }, session: set_session_user
+    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
     assert_response :success
     assert_equal 'text/plain', response.content_type
     assert_equal "2", response.body
+  end
+
+  test "schedule report with parameters" do
+    @report_template.update_attribute :template, '<%= 1 + 1 %> <%= input("hello") %>'
+    input = FactoryBot.create(:template_input, :name => 'hello')
+    @report_template.template_inputs = [ input ]
+    get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { input.id.to_s => { :value => 'ohai' } } } }, session: set_session_user
+    assert_response :success
+    assert_equal 'text/plain', response.content_type
+    assert_equal "2 ohai", response.body
+  end
+
+  test "returns error when required inputs are missing" do
+    @report_template.update_attribute :template, '<%= 1 + 1 %> <%= input("hello") %>'
+    @report_template.template_inputs = [ FactoryBot.create(:template_input, :name => 'hello') ]
+    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
+    assert_response :internal_server_error
   end
 
   def setup_view_user

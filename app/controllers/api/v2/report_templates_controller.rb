@@ -103,12 +103,19 @@ module Api
         send_data @report_template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @report_template.filename
       end
 
-      api :GET, "/report_templates/:id/generate/", N_("Generate a report template")
+      api :POST, "/report_templates/:id/generate/", N_("Generate a report template")
       param :id, :identifier, :required => true
+      param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
 
       def generate
-        response = @report_template.render(params: params)
-        send_data response, :filename => @report_template.suggested_report_name.to_s
+        @composer = ReportComposer.from_api_params(params)
+        if @composer.valid?
+          response = @report_template.render(params: params, template_input_values: @composer.template_input_values)
+          send_data response, :filename => @report_template.suggested_report_name.to_s
+        else
+          @report_template = @composer
+          process_resource_error
+        end
       rescue => e
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
       end

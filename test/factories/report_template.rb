@@ -3,6 +3,12 @@ FactoryBot.define do
     sequence(:name) { |n| "report_template#{n}" }
     sequence(:template) { |n| "template content #{n}" }
 
+    trait :with_input do
+      after(:build) do |template, evaluator|
+        template.template_inputs << FactoryBot.build(:template_input)
+      end
+    end
+
     trait :snippet do
       snippet { true }
     end

@@ -43,4 +43,8 @@ class ReportTemplate < Template
   def suggested_report_name
     "#{name}-#{Date.today}.txt"
   end
+
+  def self.acceptable_template_input_types
+    [ :user ]
+  end
 end

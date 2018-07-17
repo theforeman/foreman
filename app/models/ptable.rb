@@ -76,9 +76,14 @@ class Ptable < Template
     { :ptable_id => id }
   end
 
+  def self.acceptable_template_input_types
+    [ :fact, :variable, :puppet_parameter ]
+  end
+
   private
 
   def import_custom_data(options)
+    super
     import_oses(options)
 
     self.os_family = self.operatingsystems.first.family if self.operatingsystem_ids.present?

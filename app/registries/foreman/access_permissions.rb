@@ -106,7 +106,8 @@ Foreman::AccessControl.map do |permission_set|
                                         :"api/v2/config_templates" => [:index, :show, :revision],
                                         :"api/v2/provisioning_templates" => [:index, :show, :revision, :export],
                                         :"api/v2/template_combinations" => [:index, :show],
-                                        :"api/v2/template_kinds" => [:index]
+                                        :"api/v2/template_kinds" => [:index],
+                                        :'api/v2/template_inputs' => [:index, :show]
                                       }
     map.permission :create_provisioning_templates,  {:provisioning_templates => [:new, :create, :clone_template],
                                         :"api/v2/config_templates" => [:create, :clone],
@@ -116,7 +117,8 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_provisioning_templates,    {:provisioning_templates => [:edit, :update],
                                         :"api/v2/config_templates" => [:update],
                                         :"api/v2/provisioning_templates" => [:update, :import],
-                                        :"api/v2/template_combinations" => [:update]
+                                        :"api/v2/template_combinations" => [:update],
+                                        :'api/v2/template_inputs' => [:create, :update, :destroy]
                                       }
     map.permission :destroy_provisioning_templates, {:provisioning_templates => [:destroy],
                                         :"api/v2/config_templates" => [:destroy],
@@ -539,7 +541,7 @@ Foreman::AccessControl.map do |permission_set|
                                    :"api/v2/report_templates" => [:lock, :unlock]
     }
 
-    map.permission :generate_report_templates, {:report_templates => [:generate],
+    map.permission :generate_report_templates, {:report_templates => [:generate, :schedule_report],
                                    :"api/v2/report_templates" => [:generate]
     }
   end

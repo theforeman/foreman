@@ -476,5 +476,37 @@ EOS
         assert_equal loc.title, provisioning_template.to_export["locations"].first
       end
     end
+
+    describe 'inputs in metadata' do
+      let(:exportable_template) do
+        FactoryBot.create(:provisioning_template, :with_input)
+      end
+
+      let(:erb) do
+        exportable_template.to_erb
+      end
+
+      it 'exports name' do
+        erb.must_match(/^name: #{exportable_template.name}$/)
+      end
+
+      it 'includes template inputs' do
+        erb.must_match(/^template_inputs:$/)
+      end
+
+      it 'includes template contents' do
+        erb.must_include exportable_template.template
+      end
+
+      it 'is importable' do
+        erb
+        old_name = exportable_template.name
+        exportable_template.update(:name => "#{old_name}_renamed")
+
+        imported = ProvisioningTemplate.import!(old_name, erb)
+        assert_equal old_name, imported.name
+        assert_equal exportable_template.template_inputs.first.to_export, imported.template_inputs.first.to_export
+      end
+    end
   end
 end

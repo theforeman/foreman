@@ -1,0 +1,25 @@
+<div class="fields">
+  <div class="form-group">
+    <%= field_set_tag template_input_header(f, @template) do  %>
+      <%= text_f f, :name, :disabled => @template.locked? %>
+      <%= checkbox_f f, :required, :disabled => @template.locked? %>
+      <%= selectable_f f, :input_type, template_input_types_options(@template.acceptable_template_input_types), {}, :class => 'input_type_selector without_select2', :disabled => @template.locked? %>
+      <div class="fact_input_type custom_input_type_fields" style="<%= f.object.fact_template_input? ? '' : 'display:none' %>">
+        <%= text_f f, :fact_name, :class => 'fact_input_type', :required => true, :disabled => @template.locked? %>
+      </div>
+      <div class="variable_input_type custom_input_type_fields" style="<%= f.object.variable_template_input? ? '' : 'display:none' %>">
+        <%= text_f f, :variable_name, :class => 'variable_input_type', :required => true, :disabled => @template.locked? %>
+      </div>
+      <div class="puppet_parameter_input_type custom_input_type_fields" style="<%= f.object.puppet_parameter_template_input? ? '' : 'display:none' %>">
+        <%= text_f f, :puppet_class_name, :class => 'puppet_parameter_input_type', :required => true, :disabled => @template.locked? %>
+        <%= text_f f, :puppet_parameter_name, :class => 'puppet_parameter_input_type', :required => true, :disabled => @template.locked? %>
+      </div>
+      <div class="user_input_type custom_input_type_fields" style="<%= (f.object.user_template_input? || f.object.new_record?) ? '' : 'display:none' %>">
+        <%= checkbox_f f, :advanced, :disabled => @template.locked? %>
+        <%= textarea_f f, :options, :rows => 3, :class => 'user_input_type', :help_inline => _("A list of options the user can select from. If not provided, the user will be given a free-form field"),
+                                    :disabled => @template.locked? %>
+      </div>
+      <%= textarea_f f, :description, :rows => 3, :disabled => @template.locked? %>
+    <% end %>
+  </div>
+</div>

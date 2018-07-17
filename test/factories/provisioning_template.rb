@@ -9,6 +9,12 @@ FactoryBot.define do
       snippet { true }
       template_kind { nil }
     end
+
+    trait :with_input do
+      after(:build) do |template, evaluator|
+        template.template_inputs << FactoryBot.build(:template_input)
+      end
+    end
   end
 
   factory :template_combination do
