@@ -4,7 +4,7 @@ import { boolean, number, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import BreadcrumbBar from './BreadcrumbBar';
 
-storiesOf('BreadcrumBar', module)
+storiesOf('Components/BreadcrumbBar', module)
   .addDecorator(withKnobs)
   .add('With open switcher', () => (
     <BreadcrumbBar

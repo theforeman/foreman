@@ -4,7 +4,7 @@ import Store from '../../../../redux';
 import StorageContainer from './index';
 import * as VMWareData from './StorageContainer.fixtures';
 
-storiesOf('Host VMWare Storage', module)
+storiesOf('Components/Host VMWare Storage', module)
   .add('default state for new host', () => (
     <StorageContainer store={Store} data={VMWareData.state1} />
   ))

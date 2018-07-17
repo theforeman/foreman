@@ -17,7 +17,7 @@ import store from '../../redux';
 import { addToast } from '../../redux/actions/toasts';
 import ToastsList from './index';
 
-storiesOf('Toast Notifications', module).add('Toaster', () => {
+storiesOf('Components/Toast Notifications', module).add('Toaster', () => {
   const inputRefs = {};
 
   const dispatchAddToast = () => {

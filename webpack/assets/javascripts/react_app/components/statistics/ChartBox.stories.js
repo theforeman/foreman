@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import ChartBox from './ChartBox';
 import mockStoryData from './ChartBox.fixtures';
 
-storiesOf('Charts', module)
+storiesOf('Components/Charts', module)
   .add('Loading', () => (
     <ChartBox chart={{ data: [] }} noDataMsg={'No data here'} title="Title" status="PENDING" />
   ))
