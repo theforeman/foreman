@@ -1,5 +1,5 @@
 import toJson from 'enzyme-to-json';
-import { mount } from 'enzyme';
+import { render, mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -28,16 +28,17 @@ function setup(state = initialState) {
       controller: 'hosts',
       url: '/api/bookmarks',
       canCreate: true,
+      documentationUrl: '',
     },
   };
 
-  const wrapper = mount(<Provider store={mockStore(state)}>
+  const component = (<Provider store={mockStore(state)}>
       <BookmarksContainer {...props} />
     </Provider>);
 
   return {
     props,
-    wrapper,
+    component,
   };
 }
 
@@ -45,8 +46,7 @@ describe('bookmarks loading', () => {
   const loadBookmarksScenario = ({ state, getBookmarksCalls }) => {
     jest.mock('../../redux/actions/bookmarks');
     BookmarkActions.getBookmarks = jest.fn().mockReturnValue(onSuccessActions[1]);
-    const { wrapper } = setup(state);
-    wrapper.find(Dropdown).simulate('click');
+    mount(setup(state).component).find(Dropdown).simulate('click');
     expect(BookmarkActions.getBookmarks.mock.calls.length).toBe(getBookmarksCalls);
     jest.unmock('../../redux/actions/bookmarks');
   };
@@ -80,40 +80,23 @@ describe('bookmarks loading', () => {
 
 describe('bookmarks', () => {
   it('empty state', () => {
-    const { wrapper } = setup();
-
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(toJson(render(setup().component))).toMatchSnapshot();
   });
 
   it('should show loading spinner when loading bookmarks', () => {
-    const wrapper = mount(<Provider store={mockStore(afterRequest)}>
-        <BookmarksContainer {...setup().props} />
-      </Provider>);
-
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const spinner = mount(setup(afterRequest).component).find('Spinner');
+    expect(spinner.length).toBe(1);
   });
 
   it('should show an error message if loading failed', () => {
-    const wrapper = mount(<Provider store={mockStore(afterError)}>
-        <BookmarksContainer {...setup().props} />
-      </Provider>);
-
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(toJson(render(setup(afterError).component))).toMatchSnapshot();
   });
 
   it('should show no bookmarks if server did not respond with any', () => {
-    const wrapper = mount(<Provider store={mockStore(afterSuccessNoResults)}>
-        <BookmarksContainer {...setup().props} />
-      </Provider>);
-
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(toJson(render(setup(afterSuccessNoResults).component))).toMatchSnapshot();
   });
   it('should include existing bookmarks for the current controller', () => {
-    const wrapper = mount(<Provider store={mockStore(afterSuccess)}>
-        <BookmarksContainer {...setup().props} />
-      </Provider>);
-
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(mount(setup(afterSuccess).component).find('Bookmark').length).toBe(2);
   });
   it('should not allow creating a new bookmark for users who dont have permission', () => {
     const { props } = setup();
@@ -124,23 +107,21 @@ describe('bookmarks', () => {
         <BookmarksContainer {...props} />
       </Provider>);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper.find('MenuItem#newBookmarks').length).toBe(0);
   });
   it('should hide the modal form intiailly', () => {
-    const { wrapper } = setup();
-
-    expect(wrapper.find('BookmarkContainer').props().showModal).toBe(false);
+    expect(mount(setup().component).find('BookmarkContainer').props().showModal).toBe(false);
   });
-  xit('should open the modal form for new bookmark', () => {
-    const { wrapper } = setup();
 
+  xit('should open the modal form for new bookmark', () => {
+    const wrapper = mount(setup().component);
     expect(wrapper.find('BookmarkContainer').props().showModal).toBe(false);
     wrapper.find('a #newBookmark').simulate('click');
     expect(wrapper.find('BookmarkContainer').props().showModal).toBe(true);
     // TODO: look at alternative solution at https://github.com/airbnb/enzyme/issues/252#issuecomment-266125422
   });
   xit('full flow', () => {
-    const { wrapper } = setup();
+    const wrapper = mount(setup().component);
 
     expect(wrapper.find('Bookmark').length).toEqual(0);
     wrapper.find('a #newBookmark').simulate('click');
