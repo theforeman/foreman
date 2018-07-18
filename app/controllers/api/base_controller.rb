@@ -169,7 +169,7 @@ module Api
     def authorize
       if bruteforce_attempt?
         log_bruteforce
-        render_error('unauthorized', :status => :unauthorized)
+        render_error('bruteforce_attempt', :status => :unauthorized)
         return false
       end
 
