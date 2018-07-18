@@ -26,4 +26,9 @@ class AuditSearchTest < ActiveSupport::TestCase
     FactoryBot.create(:ec2_cr, :with_auditing)
     refute_empty Audit.search_for("type = compute_resource")
   end
+
+  test "search for type=subnet in audit" do
+    FactoryBot.create(:subnet_ipv4, :with_auditing)
+    refute_empty Audit.search_for("type = subnet")
+  end
 end
