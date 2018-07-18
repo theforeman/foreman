@@ -57,7 +57,7 @@ class BookmarkContainer extends React.Component {
               {__('Bookmark this search')}
             </MenuItem>
           )}
-          <DocumentationUrl id="bookmarkDocumentation" href={documentationUrl} />
+          <DocumentationUrl href={documentationUrl} />
           <MenuItem divider={true} />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
