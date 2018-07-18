@@ -111,9 +111,9 @@ Foreman::Application.configure do |app|
         webpack_manifest = JSON.parse(File.read(webpack_manifest_file))
 
         Foreman::Plugin.all.each do |plugin|
-          manifest_path = File.join(plugin.path, 'public', 'webpack', plugin.id.to_s, 'manifest.json')
+          manifest_path = plugin.webpack_manifest_path
 
-          if File.file?(manifest_path)
+          if manifest_path
             Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
             assets = JSON.parse(File.read(manifest_path))
 
