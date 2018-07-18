@@ -198,28 +198,27 @@ class Setting < ApplicationRecord
     true
   end
 
-  def self.create(opts)
+  # in order to avoid code duplication, this method was introduced
+  def self.create_find_by_name(opts)
     # self.name can be set by default scope, e.g. from first_or_create use
-    opts = { :name => new.name } if opts.nil?
+    opts ||= { name: new.name }
+    opts.symbolize_keys!
 
-    if (s = Setting.find_by_name(opts[:name].to_s)).nil?
-      column_check(opts)
-      super opts.merge(:value => readonly_value(opts[:name].to_sym) || opts[:value])
-    else
-      create_existing(s, opts)
+    s = Setting.find_by_name(opts[:name].to_s)
+    return create_existing(s, opts) if s
+
+    column_check(opts)
+    if block_given?
+      yield opts.merge!(value: readonly_value(opts[:name].to_sym) || opts[:value])
     end
   end
 
-  def self.create!(opts)
-    # self.name can be set by default scope, e.g. from first_or_create use
-    opts = { :name => new.name } if opts.nil?
+  def self.create(opts)
+    create_find_by_name(opts) { super }
+  end
 
-    if (s = Setting.find_by_name(opts[:name].to_s)).nil?
-      column_check(opts)
-      super opts.merge(:value => readonly_value(opts[:name].to_sym) || opts[:value])
-    else
-      create_existing(s, opts)
-    end
+  def self.create!(opts)
+    create_find_by_name(opts) { super }
   end
 
   def self.regexp_expand_wildcard_string(string, options = {})
