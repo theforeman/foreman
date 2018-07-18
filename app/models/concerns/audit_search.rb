@@ -51,14 +51,15 @@ module AuditSearch
         :host => 'Host::Base',
         :interface => 'Nic::Base',
         :location => 'Location',
-        :os => 'Operatingsystem',
         :organization => 'Organization',
+        :os => 'Operatingsystem',
         :override_value => 'LookupValue',
+        :parameter => 'Parameter',
         :partition_table => 'Ptable',
+        :setting => 'Setting',
         :smart_class_parameter => 'PuppetclassLookupKey',
         :smart_variable => 'VariableLookupKey',
-        :parameter => 'Parameter',
-        :setting => 'Setting'
+        :subnet => 'Subnet'
       )
     end
 
