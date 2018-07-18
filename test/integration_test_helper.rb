@@ -66,7 +66,7 @@ class ActionDispatch::IntegrationTest
 
   def assert_new_button(index_path, new_link_text, new_path)
     visit index_path
-    first(:link, new_link_text).click
+    click_on new_link_text, class: 'btn'
     assert_current_path new_path
   end
 
