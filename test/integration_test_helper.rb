@@ -30,7 +30,7 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, opts)
 end
 
-Selenium::WebDriver::Chrome.driver_path = File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
+Selenium::WebDriver::Chrome.driver_path = ENV['TESTDRIVER_PATH'] || File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
 Capybara.register_driver :selenium_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.args << '--headless'
