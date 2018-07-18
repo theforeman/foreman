@@ -32,13 +32,13 @@ end
 
 Selenium::WebDriver::Chrome.driver_path = File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
 Capybara.register_driver :selenium_chrome do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(headless disable-gpu) }
-  )
-
-  Capybara::Selenium::Driver.new app,
-    browser: :chrome,
-    desired_capabilities: capabilities
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.args << '--headless'
+  options.args << '--disable-gpu'
+  options.args << '--no-sandbox'
+  options.args << '--auto-open-devtools-for-tabs'
+  options.args << '--start-maximized'
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
 Capybara.default_max_wait_time = 5
@@ -236,6 +236,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def login_admin
+    visit('/users/login') if Capybara.current_driver == :selenium_chrome
     SSO.register_method(TestSSO)
     set_request_user(:admin)
   end
