@@ -170,11 +170,9 @@ class HostJSTest < IntegrationTestWithJavascript
 
       visit new_host_path
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       click_on_inherit('environment')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       environment = find("#s2id_host_environment_id .select2-chosen").text
       assert_equal overridden_hostgroup.environment.name, environment
@@ -207,7 +205,6 @@ class HostJSTest < IntegrationTestWithJavascript
       find(:css, '#host_tab').click
       click_on_inherit('compute_profile')
       select2(compute_profile.name, :from => 'host_compute_profile_id')
-      wait_for_ajax
 
       click_link('Virtual Machine')
       cpus_field = page.find_field('host_compute_attributes_cpus')
@@ -227,23 +224,19 @@ class HostJSTest < IntegrationTestWithJavascript
 
       fill_in 'host_name', :with => 'myhost1'
       select2 env.name, :from => 'host_environment_id'
+
       click_link 'Operating System'
-      wait_for_ajax
       select2 os.architectures.first.name, :from => 'host_architecture_id'
-      wait_for_ajax
       select2 os.title, :from => 'host_operatingsystem_id'
       uncheck('host_build')
-      wait_for_ajax
       select2 os.media.first.name, :from => 'host_medium_id'
-      wait_for_ajax
       select2 os.ptables.first.name, :from => 'host_ptable_id'
       fill_in 'host_root_pass', :with => '12345678'
+
       click_link 'Interfaces'
       click_button 'Edit'
       select2 domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       close_interfaces_modal
       click_on_submit
@@ -263,31 +256,25 @@ class HostJSTest < IntegrationTestWithJavascript
 
       fill_in 'host_name', :with => 'myhost1'
       select2 env1.name, :from => 'host_environment_id'
-      wait_for_ajax
       select2 hg.name, :from => 'host_hostgroup_id'
-      wait_for_ajax
+
       click_link 'Operating System'
-      wait_for_ajax
       select2 os.architectures.first.name, :from => 'host_architecture_id'
-      wait_for_ajax
       select2 os.title, :from => 'host_operatingsystem_id'
       uncheck('host_build')
-      wait_for_ajax
+
       select2 os.media.first.name, :from => 'host_medium_id'
-      wait_for_ajax
       select2 os.ptables.first.name, :from => 'host_ptable_id'
       fill_in 'host_root_pass', :with => '12345678'
+
       click_link 'Interfaces'
       click_button 'Edit'
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
-      wait_for_ajax
       fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
-      wait_for_ajax
+
       close_interfaces_modal
 
-      wait_for_ajax
       click_on_submit
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
@@ -298,11 +285,11 @@ class HostJSTest < IntegrationTestWithJavascript
       hostgroup = FactoryBot.create(:hostgroup, :with_parameter)
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}")
+
+      assert_selector "#inherited_parameters #name_#{hostgroup.group_parameters.first.name}"
     end
 
     test 'new parameters can be edited and removed' do
@@ -398,7 +385,6 @@ class HostJSTest < IntegrationTestWithJavascript
       visit edit_host_path(host)
 
       select2 env1.name, :from => 'host_environment_id'
-      wait_for_ajax
       click_on_submit
 
       host.reload
@@ -457,13 +443,11 @@ class HostJSTest < IntegrationTestWithJavascript
 
       visit edit_host_path(@host)
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       assert_equal original_hostgroup.puppet_proxy.name, find("#s2id_host_puppet_proxy_id .select2-chosen").text
 
       click_on_inherit('puppet_proxy')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       environment = find("#s2id_host_environment_id .select2-chosen").text
       assert_equal original_hostgroup.environment.name, environment
@@ -503,7 +487,6 @@ class HostJSTest < IntegrationTestWithJavascript
 
       click_link 'Host'
       select2(hostgroup2.name, :from => 'host_hostgroup_id')
-      wait_for_ajax
 
       click_link 'Parameters'
       assert page.has_no_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
@@ -591,7 +574,6 @@ class HostJSTest < IntegrationTestWithJavascript
 
         subnet_and_domain_are_selected(modal, domain)
 
-        wait_for_ajax
         modal.find(:button, "Ok").click
 
         assert table.find('td.fqdn').has_content?('name.' + domain.name)
@@ -638,7 +620,6 @@ class HostJSTest < IntegrationTestWithJavascript
         table.first(:button, 'Edit').click
 
         select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
-        wait_for_ajax
         modal.find(:button, "Ok").click
 
         assert page.has_link?('Parameters', :href => '#params')
