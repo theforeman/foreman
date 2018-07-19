@@ -173,7 +173,6 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     assert_equal organization.description, new_description
   end
 
-  test_attributes :pid => '8800d112-c5c1-45ef-8028-29fb5dc06327'
   test "org admin should not create organizations by default" do
     org = taxonomies(:organization1)
     # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.

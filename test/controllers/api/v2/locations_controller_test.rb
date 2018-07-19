@@ -397,7 +397,6 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal location.name, updated_location.name
   end
 
-  test_attributes :pid => '0ef0e056-8394-4ca1-8055-c55d9215502f'
   test "org admin should create locations by default" do
     org = taxonomies(:organization1)
     # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.

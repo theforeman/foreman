@@ -27,7 +27,6 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     assert_equal show_response["permissions"].first["name"], "view_architectures"
   end
 
-  test_attributes :pid => 'f891e2e1-76f8-4edf-8c96-b41d05483298'
   test "should create non-overridable filter" do
     role = FactoryBot.create(:role, :name => 'New Role')
     assert_difference('Filter.count') do
@@ -59,7 +58,6 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
       @loc = taxonomies(:location1)
     end
 
-    test_attributes :pid => 'c7ea9377-9b9e-495e-accd-3576166d504e'
     test "should create overridable filter" do
       filter_loc = taxonomies(:location2)
       filter_org = taxonomies(:organization2)
@@ -82,7 +80,6 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
       assert_equal filter_loc.id, result['locations'][0]['id']
     end
 
-    test_attributes :pid => 'eaa7b921-7c12-45c5-989b-d82aa2b6e3a6'
     test "should disable filter override" do
       role = FactoryBot.create(:role, :name => 'New Role', :locations => [@loc], :organizations => [@org])
       filter = FactoryBot.create(:filter,
@@ -100,7 +97,6 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
       assert_equal @loc, filter.locations.first
     end
 
-    test_attributes :pid => '1aadb7ea-ff76-4171-850f-188ba6f87021'
     test "should create filter without override" do
       role = FactoryBot.create(:role, :name => 'New Role', :location_ids => [@loc.id], :organization_ids => [@org.id])
       assert_difference('Filter.count') do
@@ -113,7 +109,6 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
       assert_equal @loc.id, result['locations'][0]['id']
     end
 
-    test_attributes :pid => '7793be96-e8eb-451b-a986-51a46a1ab4f9'
     test "should not create overridable filter" do
       role = FactoryBot.create(:role, :name => 'New Role')
       assert_difference('Filter.count', 0) do

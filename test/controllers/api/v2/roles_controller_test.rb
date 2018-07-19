@@ -19,7 +19,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     refute show_response.empty?
   end
 
-  test_attributes :pid => '488a0970-f844-4286-b1eb-dd93005b4580'
   test "should create role" do
     assert_difference('Role.count') do
       post :create, params: { :role => valid_attrs }
@@ -27,7 +26,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_response :created
   end
 
-  test_attributes :pid => 'fe65a691-1b04-4bfe-a24b-adb48feb31d1'
   test "should create role with empty taxonomies" do
     assert_difference('Role.count') do
       post :create, params: { :role => valid_attrs.merge(:organizations => [], :locations => []) }
@@ -38,13 +36,11 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal 0, response['locations'].count
   end
 
-  test_attributes :pid => '30cb4b42-24cd-48a0-a3c5-7ca44c060e2e'
   test "should update role" do
     put :update, params: { :id => roles(:destroy_hosts).to_param, :role => valid_attrs }
     assert_response :success
   end
 
-  test_attributes :pid => '6e1d9f9c-3cbb-460b-8ef8-4a156e6552a0'
   test "should destroy roles" do
     assert_difference('Role.count', -1) do
       delete :destroy, params: { :id => roles(:destroy_hosts).to_param }
@@ -74,7 +70,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test_attributes :pid => '31079015-5ede-439a-a062-e20d1ffd66df'
   test "should clone role and its taxonomies" do
     new_name = "New Role"
     loc = Location.first
@@ -153,7 +148,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       @loc = taxonomies(:location1)
     end
 
-    test_attributes :pid => 'fa449217-889c-429b-89b5-0b6c018ffd9e'
     test "should create role with taxonomies" do
       name = 'Test Role'
       valid_attrs = { :name => name, :location_ids => [@loc.id], :organization_ids => [@org.id] }
@@ -164,7 +158,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       assert_equal @loc, role.locations.first
     end
 
-    test_attributes :pid => 'bf33b70a-25a9-4eb1-982f-03448d008ec8'
     test "should create org admin role and its permissions" do
       new_name = "Org Admin"
       # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
@@ -182,7 +175,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       assert_equal default_org_admin_role.permission_names.sort, cloned_org_admin_role.permission_names.sort
     end
 
-    test_attributes :pid => '03fac76c-22ac-43cf-9068-b96e255b3c3c'
     test "should remove org admin role" do
       default_org_admin = roles(:organization_admin)
       role_name = 'new_org_admin'
@@ -205,7 +197,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       refute_includes org_admin_user.roles.map { |role| role.id }, cloned_org_admin.id
     end
 
-    test_attributes :pid => '902dcb32-2126-4ff4-b733-3e86749ccd1e'
     test "should update non-overridable filter taxonomies on role taxonomies update" do
       role_name = 'New Role'
       role = FactoryBot.create(:role, :name => role_name)
@@ -221,7 +212,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
       assert_equal @loc, updated_filter.locations.first
     end
 
-    test_attributes :pid => '9f3bf95a-f71a-4063-b51c-12610bc655f2'
     test "should not update overridable filter taxonomies on role taxonomies update" do
       role_name = 'New Role'
       role = FactoryBot.create(:role, :name => role_name)
@@ -238,7 +228,6 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     end
   end
 
-  test_attributes :pid => '806ecc16-0dc7-405b-90d3-0584eced27a3'
   test "org admin should not create roles by default" do
     org = taxonomies(:organization1)
     # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
