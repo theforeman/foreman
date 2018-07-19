@@ -27,6 +27,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     host = Hostgroup.where(:name => "myhostgroup1").first
     assert host
     assert_equal env.name, host.environment.name
+    assert page.has_current_path? hostgroups_path
   end
 
   describe 'edit form' do
