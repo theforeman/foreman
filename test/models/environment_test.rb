@@ -45,6 +45,7 @@ class EnvironmentTest < ActiveSupport::TestCase
     assert FactoryBot.build_stubbed(:environment, :name => 'new').valid?
   end
 
+  test_attributes :pid => '8869ccf8-a511-4fa7-ac36-11494e85f532'
   test 'should create with multiple valid names' do
     valid_env_name_list.each do |name|
       env = FactoryBot.build(:environment, :name => name)
@@ -52,6 +53,7 @@ class EnvironmentTest < ActiveSupport::TestCase
     end
   end
 
+  test_attributes :pid => 'e2654954-b3a1-4594-a487-bcd0cc8195ad'
   test 'should not create with multiple invalid names' do
     invalid_env_name_list.each do |name|
       env = FactoryBot.build(:environment, :name => name)
@@ -60,6 +62,7 @@ class EnvironmentTest < ActiveSupport::TestCase
     end
   end
 
+  test_attributes :pid => 'ef48e79a-6b6a-4811-b49b-09f2effdd18f'
   test 'should update with multiple valid names' do
     env = FactoryBot.create(:environment)
     valid_env_name_list.each do |name|
