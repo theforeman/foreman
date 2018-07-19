@@ -4,11 +4,6 @@ module Foreman::Controller::Flash
   included do
     add_flash_types :inline, :success, :info, :warning, :error
 
-    def notice(message, options = default_flash_options)
-      Foreman::Deprecation.deprecation_warning("1.20", "please migrate notice() to success() or info()")
-      success(message, options)
-    end
-
     def success(message, options = default_flash_options)
       flash_message(:success, message, options)
     end

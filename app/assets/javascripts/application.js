@@ -6,7 +6,6 @@
 //= require scoped_search
 //= require bootstrap
 //= require patternfly
-//= require two-pane
 //= require vendor
 //= require jquery.extentions
 //= require jquery.multi-select

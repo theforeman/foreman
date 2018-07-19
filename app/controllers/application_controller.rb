@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
   before_action :welcome, :only => :index, :unless => :api_request?
   prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
-  layout :display_layout?
 
   attr_reader :original_search_parameter
 
@@ -218,11 +217,6 @@ class ApplicationController < ActionController::Base
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
-  def display_layout?
-    return false if two_pane?
-    "application"
-  end
-
   def resource_base_with_search
     resource_base.search_for(params[:search], :order => params[:order])
   end
@@ -377,10 +371,6 @@ class ApplicationController < ActionController::Base
 
     @organization ||= Organization.current if SETTINGS[:organizations_enabled]
     @location     ||= Location.current if SETTINGS[:locations_enabled]
-  end
-
-  def two_pane?
-    request.headers["X-Foreman-Layout"] == 'two-pane' && params[:action] != 'index'
   end
 
   # Called from ActionController::RequestForgeryProtection, overrides
