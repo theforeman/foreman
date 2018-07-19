@@ -99,6 +99,8 @@ _('ComputeResource|Description')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('ComputeResource|Domain')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('ComputeResource|Filtered api')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('ComputeResource|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('ComputeResource|Password')
@@ -155,6 +157,8 @@ _('Filter|Taxonomy search')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Build')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Host::Base|Build errors')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Certname')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Comment')
@@ -168,6 +172,8 @@ _('Host::Base|Global status')
 _('Host::Base|Grub pass')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Image file')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Host::Base|Initiated at')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Installed at')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -357,6 +363,8 @@ _('Nic::Base|Bond options')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Nic::Base|Compute attributes')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Nic::Base|Execution')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Nic::Base|Identifier')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Nic::Base|Ip')
@@ -517,6 +525,8 @@ _('SmartProxy|Expired logs')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('SmartProxy|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('SmartProxy|Pubkey')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('SmartProxy|Url')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Source')
@@ -553,6 +563,8 @@ _('Subnet|Ipam')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Mask')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Subnet|Mtu')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Network')
@@ -562,6 +574,12 @@ _('Subnet|Priority')
 _('Subnet|To')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Vlanid')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Table preference')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TablePreference|Columns')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TablePreference|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Taxable taxonomy')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -583,11 +601,19 @@ _('Template')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Default')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Template|Description format')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Template|Execution timeout interval')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Template|Job category')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Locked')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Os family')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Template|Provider type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Snippet')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
