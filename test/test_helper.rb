@@ -89,6 +89,10 @@ end
 class ActiveSupport::TestCase
   extend Robottelo::Reporter::TestAttributes
   prepend TestCaseRailsLoggerExtensions
+
+  class << self
+    alias_method :test, :it
+  end
 end
 
 class ActionView::TestCase
@@ -105,6 +109,10 @@ class ActionController::TestCase
   include ::BasicRestResponseTest
   setup :setup_set_script_name, :set_api_user, :turn_off_login,
     :disable_webpack, :set_admin
+
+  class << self
+    alias_method :test, :it
+  end
 
   def set_admin
     User.current = users(:admin)
