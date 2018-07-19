@@ -30,8 +30,8 @@ class BreadcrumbsOptions
     end
 
     {
-      caption: _(resource_name.pluralize.humanize),
-      url: resource_path(class_name)
+      caption: _(Menu::Manager.get_resource_caption(controller.controller_name.to_s.downcase.pluralize.to_sym)),
+      url: resource_path(class_name) || resource_path(resource_name)
     }
   end
 

@@ -10,6 +10,10 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
       'string'
     end
 
+    def controller_name
+      'string'
+    end
+
     def controller_path
       'strings'
     end

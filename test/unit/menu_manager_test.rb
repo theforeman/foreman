@@ -38,6 +38,11 @@ class MenuManagerTest < ActiveSupport::TestCase
     assert_equal menu_hash, items
   end
 
+  def test_should_return_caption
+    caption = Menu::Manager.get_resource_caption(:test_item)
+    assert_equal caption, 'Test Items'
+  end
+
   private
 
   def menu_hash
@@ -47,7 +52,8 @@ class MenuManagerTest < ActiveSupport::TestCase
       :children =>
         [{:type => :item, :name => "Item", :url => "some url"},
          {:type => :divider, :name => nil},
-         {:type => :item, :name => "Item 2", :url => "some url"}]},
+         {:type => :item, :name => "Item 2", :url => "some url"},
+         {:type => :item, :name => "Test Items", :url => "some url"}]},
      {:type => :sub_menu,
       :name => "User",
       :icon => "fa-icon",
@@ -63,6 +69,9 @@ class MenuManagerTest < ActiveSupport::TestCase
         menu.divider
         menu.item :item_two,
                   caption: 'Item 2',
+                  url: 'some url'
+        menu.item :test_item,
+                  caption: 'Test Items',
                   url: 'some url'
       end
       menu.sub_menu :sub_menu_two, :caption => 'User', :icon => 'fa-icon' do
