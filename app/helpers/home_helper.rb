@@ -65,7 +65,7 @@ module HomeHelper
 
   def tax_title(tax)
     current_tax = tax.humanize.constantize.current
-    return _("Any #{tax.humanize}") unless current_tax
+    return (_("Any %s") % tax.humanize) unless current_tax
     truncate(current_tax.to_label)
   end
 

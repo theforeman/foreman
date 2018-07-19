@@ -107,7 +107,7 @@ class AuthSourceLdap < AuthSource
       @ldap_con ||= LdapFluff.new(self.to_config)
     end
   rescue Net::LDAP::Error => e
-    message = _("Error during LDAP connection #{name} using login #{login}: #{e}")
+    message = _("Error during LDAP connection %{name} using login %{login}: %{error}") % {name: name, login: login, error: e}
     Foreman::Logging.exception(message, e, :level => :warn)
     errors.add(:base, message)
   end

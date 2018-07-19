@@ -83,7 +83,7 @@ class FactChart extends React.Component {
                 <small>
                   {// eslint-disable-next-line no-undef
                   Jed.sprintf(
-                    __('(%s host)', '(%s hosts)', factChart.hostsCount),
+                    n__('(%s host)', '(%s hosts)', factChart.hostsCount),
                     factChart.hostsCount,
                   )}
                 </small>

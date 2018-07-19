@@ -175,7 +175,7 @@ class SmartProxiesController < ApplicationController
     foreman_version = Foreman::Version.new.notag
 
     {
-      :message => _('Core and proxy versions do not match. foreman: %s, foreman-proxy: %s') % [foreman_version, proxy_versions_hash['version']]
+      :message => _('Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}') % {foreman_version: foreman_version, proxy_version: proxy_versions_hash['version']}
     }
   end
 end

@@ -61,7 +61,7 @@ module HostsHelper
                   :'data-url' => process_taxonomy_hosts_path,
                   :help_inline => :indicator,
                   :required => true }
-    html_opts[:label_help] = _("#{taxonomy} can be changed using bulk action on the All Hosts page") unless @host.new_record?
+    html_opts[:label_help] = (_("%s can be changed using bulk action on the All Hosts page") % taxonomy) unless @host.new_record?
 
     select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
             select_opts, html_opts
