@@ -23,6 +23,7 @@ class LocationTest < ActiveSupport::TestCase
     ]
   end
 
+  test_attributes :pid => '90bb90a3-120f-4ea6-89a9-62757be42486'
   test 'should create with multiple valid names' do
     valid_loc_name_list.each do |name|
       location = FactoryBot.build(:location, :name => name)
@@ -30,6 +31,7 @@ class LocationTest < ActiveSupport::TestCase
     end
   end
 
+  test_attributes :pid => '320e6bca-5645-423b-b86a-2b6f35c8dae3'
   test 'should not create with multiple invalid names' do
     invalid_loc_name_list.each do |name|
       location = FactoryBot.build(:location, :name => name)

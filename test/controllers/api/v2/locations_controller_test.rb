@@ -64,6 +64,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test_attributes :pid => '63691139-45de-4e15-9abb-66c90808cbbb'
   test "should destroy location if hosts do not use it" do
     assert_difference('Location.unscoped.count', -1) do
       delete :destroy, params: { :id => taxonomies(:location2).to_param }
@@ -336,6 +337,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal 1, location.reload.location_parameters.count
   end
 
+  test_attributes :pid => '3131e99d-b278-462e-a650-a5a4f4e0a2f1'
   test "should create with comma separated name" do
     name = "#{RFauxFactory.gen_alpha}, #{RFauxFactory.gen_alpha}"
     post :create, params: { :location => { :name => name } }
@@ -343,6 +345,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['name'], name, "Can't create location with valid name #{name}"
   end
 
+  test_attributes :pid => '8d82fe06-895d-4c99-87c0-354124e013fd'
   test "should create with description" do
     name = RFauxFactory.gen_alpha
     description = RFauxFactory.gen_alpha
@@ -351,6 +354,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['description'], description, "Can't create location with valid description #{description}"
   end
 
+  test_attributes :pid => 'bc09acb3-9ecf-4d23-b3ef-94f24e16e6db'
   test "should not create with same name" do
     name = RFauxFactory.gen_alphanumeric
     FactoryBot.create(:location, :name => name)
@@ -359,6 +363,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_includes(JSON.parse(response.body)["error"]["full_messages"], "Name has already been taken")
   end
 
+  test_attributes :pid => '5449532d-7959-4547-ba05-9e194eea495d'
   test "should not create with non existing domain" do
     domain = FactoryBot.create(:domain)
     deleted_id = domain.id
@@ -367,6 +372,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_response 404
   end
 
+  test_attributes :pid => '73ff6dab-e12a-4f7d-9c1f-6984fc076329'
   test "should update with valid name" do
     location = FactoryBot.create(:location)
     new_location_name = RFauxFactory.gen_alphanumeric
@@ -375,6 +381,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal new_location_name, updated_location.name
   end
 
+  test_attributes :pid => '1340811a-43db-4aab-93b4-c36e438281a6'
   test "should update with valid description" do
     location = FactoryBot.create(:location)
     if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
@@ -388,6 +395,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert_equal description, updated_location.description
   end
 
+  test_attributes :pid => 'dd1e2bf5-44a8-4d15-ac4d-ae1dcc84b7fc'
   test "should not update with invalid name" do
     location = FactoryBot.create(:location)
     post :update, params: {:id => location.id, :location => {:name => ''} }, session: set_session_user
