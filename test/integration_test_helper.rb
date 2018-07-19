@@ -36,6 +36,10 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include ShowMeTheCookies
 
+  class << self
+    alias_method :test, :it
+  end
+
   # Stop ActiveRecord from wrapping tests in transactions
   self.use_transactional_tests = false
 
