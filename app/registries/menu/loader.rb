@@ -68,7 +68,7 @@ module Menu
             menu.item :media,           :caption => N_('Installation Media')
             menu.item :operatingsystems, :caption => N_('Operating Systems')
             menu.divider :caption => N_('Templates')
-            menu.item :partition_tables, :caption => N_('Partition Tables'),
+            menu.item :ptables, :caption => N_('Partition Tables'),
                       :url_hash => { :controller => 'ptables', :action => 'index' }
             menu.item :provisioning_templates, :caption => N_('Provisioning Templates'),
                       :url_hash => { :controller => 'provisioning_templates', :action => 'index' }
