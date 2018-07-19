@@ -210,11 +210,11 @@ class Filter < ApplicationRecord
     if types.size > 1
       errors.add(
         :permissions,
-        _('must be of same resource type (%s) - Role (%s)') %
-        [
-          types.join(','),
-          self.role.name
-        ]
+        _('must be of same resource type (%{types}) - Role (%{role})') %
+        {
+          types: types.join(','),
+          role: self.role.name
+        }
       )
     end
   end

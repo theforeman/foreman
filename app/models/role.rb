@@ -276,7 +276,7 @@ class Role < ApplicationRecord
     self.filters.where(:override => false).find_each do |f|
       unless f.save
         errors.add :base, N_('One or more of the associated filters are invalid which prevented the role to be saved')
-        raise ActiveRecord::Rollback, N_("Unable to submit role: Problem with associated filter #{f.errors}")
+        raise ActiveRecord::Rollback, N_("Unable to submit role: Problem with associated filter %s") % f.errors
       end
     end
   end
