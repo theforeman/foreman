@@ -19,14 +19,14 @@ snippet: true
 #                                         effective user
 #
 # This template sets up SSH keys in any host so that as long as your public
-# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This only
-# works in combination with Remote Execution plugin.
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+# works in combination with Remote Execution plugin by querying smart proxies
+# to build an array.
+#
+# To use this snippet without the plugin provide the SSH keys as host parameter
+# remote_execution_ssh_keys. It expects the same format like the authorized_keys
+# file.
 
-# The Remote Execution plugin queries smart proxies to build the
-# remote_execution_ssh_keys array which is then made available to this template
-# via the host's parameters. There is currently no way of supplying this
-# parameter manually.
-# See http://projects.theforeman.org/issues/16107 for details.
 
 <% if !host_param('remote_execution_ssh_keys').blank? %>
 <% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
@@ -46,7 +46,7 @@ if $user_exists; then
   mkdir -p <%= ssh_path %>
 
   cat << EOF >> <%= ssh_path %>/authorized_keys
-<%= host_param('remote_execution_ssh_keys').join("\n") %>
+<%= host_param('remote_execution_ssh_keys').is_a?(String) ? host_param('remote_execution_ssh_keys') : host_param('remote_execution_ssh_keys').join("\n") %>
 EOF
 
   chmod 0700 <%= ssh_path %>

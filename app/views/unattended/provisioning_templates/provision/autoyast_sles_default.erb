@@ -186,6 +186,8 @@ cp /etc/resolv.conf /mnt/etc
 
 <%= snippet('remote_execution_ssh_keys') %>
 
+<%= snippet "blacklist_kernel_modules" %>
+
 <% if puppet_enabled -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>

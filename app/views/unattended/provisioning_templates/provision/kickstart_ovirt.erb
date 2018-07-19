@@ -75,7 +75,7 @@ reboot
 nodectl init
 <%= snippet 'redhat_register' %>
 <%= snippet 'kickstart_networking_setup' %>
-/usr/sbin/ntpdate -sub <%= @host.params['ntp-server'] || '0.fedora.pool.ntp.org' %>
+/usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 
 /usr/bin/curl <%= foreman_url('built') %>

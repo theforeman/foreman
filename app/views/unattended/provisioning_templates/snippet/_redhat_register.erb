@@ -10,6 +10,10 @@ snippet: true
 #   redhat_install_agent = [true|false]         Install the management agent.  For Spacewalk,
 #                                               this is OSAD.  For Katello, this is katello-agent.
 #
+#   redhat_install_host_tools = [true|false]    Install the katello-host-tools yum/dnf plugins.
+#
+#   redhat_install_host_tracer_tools = [true|false]  Install the katello-host-tools Tracer yum/dnf plugin.
+#
 #   activation_key = <key>                      Activation key string, not needed if using
 #                                               subscription-manager with username/password
 #
@@ -69,12 +73,16 @@ snippet: true
       subscription_manager_org = @host.rhsm_organization_label
       activation_key = host_param('kt_activation_keys')
       redhat_install_agent = true
+      redhat_install_host_tools = true
+      redhat_install_host_tracer_tools = false
     else
       subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
       subscription_manager_atomic_url = host_param('subscription_manager_atomic_url')
       subscription_manager_org = host_param('subscription_manager_org')
       activation_key = host_param('activation_key')
       redhat_install_agent = host_param_true?('redhat_install_agent')
+      redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
+      redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
     end
   %>
 
@@ -116,7 +124,7 @@ snippet: true
       subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
       subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>'
     <% else %>
-      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= @host.params("subscription_manager_password") %>' --auto-attach
+      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach
     <% end %>
 
   <% elsif activation_key %>
@@ -131,14 +139,24 @@ snippet: true
     <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(',', ' --enable')}" %>
   <% end %>
 
-  <% if redhat_install_agent && !atomic %>
-    if [ -f /usr/bin/dnf ]; then
-      dnf -y install katello-agent
-    else
-      yum -t -y install katello-agent
-    fi
+  <% if !atomic %>
+    <% if redhat_install_agent || redhat_install_host_tools || redhat_install_host_tracer_tools %>
+       if [ -f /usr/bin/dnf ]; then
+         PACKAGE_MAN="dnf -y"
+       else
+         PACKAGE_MAN="yum -t -y"
+       fi
+    <% end %>
 
-    chkconfig goferd on
+    <% if redhat_install_agent %>
+      $PACKAGE_MAN install katello-agent
+    <% elsif redhat_install_host_tools %>
+      $PACKAGE_MAN install katello-host-tools
+    <% end %>
+
+    <% if redhat_install_host_tracer_tools %>
+      $PACKAGE_MAN install katello-host-tools-tracer
+    <% end %>
   <% end %>
 <% end %>
 

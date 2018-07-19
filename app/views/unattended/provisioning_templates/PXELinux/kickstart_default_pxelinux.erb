@@ -58,12 +58,17 @@ oses:
   end
 
   ksoptions = options.join(' ')
+  timeout = host_param('loader_timeout').to_i * 10
+  timeout = 100 if timeout.nil? || timeout <= 0
 -%>
 
-TIMEOUT <%= host_param('loader_timeout') || 10 %>
-DEFAULT <%= template_name %>
+DEFAULT menu
+MENU TITLE Booting into OS installer (ESC to stop)
+TIMEOUT <%= timeout %>
+ONTIMEOUT installer
 
-LABEL <%= template_name %>
+LABEL installer
+  MENU LABEL <%= template_name %>
   KERNEL <%= @kernel %>
   APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
   IPAPPEND 2

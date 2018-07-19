@@ -40,7 +40,9 @@ This template accepts the following parameters:
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
 %>
+<% if @host.operatingsystem.name != 'Fedora' || os_major < 29 -%>
 install
+<% end -%>
 <% if host_param('kickstart_liveimg') %>
 liveimg --url=<%= host_param('kickstart_liveimg') %> <%= proxy_string %>
 <% else %>
@@ -66,7 +68,11 @@ firewall --disable
 <% else -%>
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 <% end -%>
-authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash || 'sha256' %> --kickstart
+<% if @host.operatingsystem.name == 'Fedora' && os_major >= 28 -%>
+authselect --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
+<% else -%>
+authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
+<% end -%>
 timezone --utc <%= host_param('time-zone') || 'UTC' %>
 <% if rhel_compatible -%>
 services --disabled gpm,sendmail,cups,pcmcia,isdn,rawdevices,hpoj,bluetooth,openibd,avahi-daemon,avahi-dnsconfd,hidd,hplip,pcscd
@@ -85,12 +91,12 @@ repo --name=fedora-everything --mirrorlist=https://mirrors.fedoraproject.org/met
 repo --name="Server-Mysql"
 <% end -%>
 
-<% if @host.operatingsystem.name == 'Fedora' and os_major <= 16 -%>
+<% if @host.operatingsystem.name == 'Fedora' && os_major <= 16 -%>
 # Bootloader exception for Fedora 16:
-bootloader --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %> <%=ks_console%>" <%= grub_pass %>
+bootloader --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %> <%= ks_console %>" <%= @grub_pass %>
 part biosboot --fstype=biosboot --size=1
 <% else -%>
-bootloader --location=mbr --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %>" <%= grub_pass %>
+bootloader --location=mbr --append="<%= host_param('bootloader-append') || 'nofb quiet splash=quiet' %>" <%= @grub_pass %>
 <% if os_major == 5 -%>
 key --skip
 <% end -%>
@@ -180,6 +186,8 @@ fi
 <% end -%>
 
 <%= snippet('remote_execution_ssh_keys') %>
+
+<%= snippet "blacklist_kernel_modules" %>
 
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>

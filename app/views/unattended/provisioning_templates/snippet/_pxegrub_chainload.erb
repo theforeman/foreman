@@ -5,7 +5,7 @@ model: ProvisioningTemplate
 snippet: true
 %>
 <%
-  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "Microsoft", "EFI"]
+  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "sles", "opensuse", "Microsoft", "EFI"]
 -%>
 fallback=<%= (1..paths.size).to_a.join(' ') %>
 <% paths.each do |path| %>
