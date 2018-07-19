@@ -14,24 +14,24 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
   test "about page" do
     assert_index_page(about_index_path, "About", nil, false, false)
     wait_for_ajax
-    assert page.has_selector?('h4', :text => "System Status"), "System Status was expected in the <h4> tag, but was not found"
-    assert page.has_selector?('h4', :text => "Support"), "Support was expected in the <h4> tag, but was not found"
-    assert page.has_selector?('h4', :text => "System Information"), "System Information was expected in the <h4> tag, but was not found"
-    assert page.has_link?("Smart Proxies", :href => "#smart_proxies")
-    assert page.has_link?("Compute Resources", :href => "#compute_resources")
-    assert page.has_link?("Foreman Users", :href => "http://groups.google.com/group/foreman-users")
-    assert page.has_link?("Foreman Developers", :href => "http://groups.google.com/group/foreman-dev")
-    assert page.has_link?("issue tracker", :href => "http://projects.theforeman.org/projects/foreman/issues")
-    assert page.has_link?("Wiki", :href => "http://projects.theforeman.org")
-    assert page.has_link?("Ohad Levy", :href => "mailto:ohadlevy@gmail.com")
-    assert page.has_content?("Version")
+    assert_selector 'h4', text: 'System Status'
+    assert_selector 'h4', text: 'Support'
+    assert_selector 'h4', text: 'System Information'
+    assert_link 'Smart Proxies', href: '#smart_proxies'
+    assert_link 'Compute Resources', href: '#compute_resources'
+    assert_link 'Foreman Users', href: 'http://groups.google.com/group/foreman-users'
+    assert_link 'Foreman Developers', href: 'http://groups.google.com/group/foreman-dev'
+    assert_link 'issue tracker', href: 'http://projects.theforeman.org/projects/foreman/issues'
+    assert_link 'Wiki', href: 'http://projects.theforeman.org'
+    assert_link 'Ohad Levy', href: 'mailto:ohadlevy@gmail.com'
+    assert_content 'Version'
   end
 
   test "about page proxies should have version" do
     visit about_index_path
     wait_for_ajax
-    assert page.has_selector?('th', :text => "Version")
-    assert page.has_selector?('div.proxy-version', :text => '1.13.0')
+    assert_selector 'th', text: 'Version'
+    assert_selector 'div.proxy-version', text: '1.13.0'
   end
 
   private
