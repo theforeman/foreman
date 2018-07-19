@@ -155,7 +155,6 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     end
   end
 
-  test_attributes :pid => 'ec581cb5-8c48-4b9c-b536-302c0b7ec30f'
   test "should create with parameter" do
     param_params = { :name => "foo", :value => "bar" }
     post :create, params: { :subnet => valid_v4_attrs.clone.update(:subnet_parameters_attributes => [param_params]) }
@@ -164,7 +163,6 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_include param_params[:value], JSON.parse(@response.body)["parameters"][0]["value"], "Can't create subnet with valid parameters value #{param_params[:value]}"
   end
 
-  test_attributes :pid => 'd1e2d75a-a1e8-4767-93f1-0bb1b75e10a0'
   test "should create with parameters and valid separator" do
     if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
       param_params = { :name => RFauxFactory.gen_strings(:exclude => [:utf8]).values.join(","), :value => "bar" }
@@ -186,7 +184,6 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert param_params[:name], subnet.parameters.first.name
   end
 
-  test_attributes :pid => '8c389c3f-60ef-4856-b8fc-c5b066c67a2f'
   test "should update existing subnet parameters with key and value" do
     subnet = FactoryBot.create(:subnet_ipv4)
     param_params = { :name => "foo", :value => "bar" }
