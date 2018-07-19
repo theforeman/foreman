@@ -113,7 +113,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal Host.all.pluck(:id, :name), hosts['results'].map(&:values)
   end
 
-  test_attributes :pid => 'd63f87e5-66e6-4886-8b44-4129259493a6'
   test "subtotal should be the same as the search count with thin" do
     FactoryBot.create_list(:host, 2)
     Host.last.update_attribute(:name, 'test')
@@ -211,7 +210,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal owner.name, response["owner_name"]
   end
 
-  test_attributes :pid => '8941395f-8040-4705-a981-5da21c47efd1'
   test "should show host puppet_ca_proxy_name" do
     # cover issue #16525
     puppet_ca_proxy = smart_proxies(:puppetmaster)
@@ -223,7 +221,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_ca_proxy.name, response['puppet_ca_proxy_name']
   end
 
-  test_attributes :pid => '8825462e-f1dc-4054-b7fb-69c2b10722a2'
   test "should show host puppet_proxy_name" do
     # cover issue #16525
     puppet_proxy = smart_proxies(:puppetmaster)
@@ -235,7 +232,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_proxy.name, response['puppet_proxy_name']
   end
 
-  test_attributes :pid => '3f266906-c509-42ce-9b20-def448bf8d86'
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do
@@ -244,7 +240,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
-  test_attributes :pid => 'de30cf62-5036-4247-a5f0-37dd2b4aae23'
   test "should create host with build true" do
     disable_orchestration
     assert_difference('Host.count') do
@@ -254,7 +249,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal true, JSON.parse(@response.body)['build']
   end
 
-  test_attributes :pid => 'e3af6718-4016-4756-bbb0-e3c24ac1e340'
   test "should create host with host_parameters_attributes" do
     disable_orchestration
     Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
@@ -426,7 +420,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test_attributes :pid => 'ec725359-a75e-498c-9da8-f5abd2343dd3'
   test "should destroy hosts" do
     assert_difference('Host.count', -1) do
       delete :destroy, params: { :id => @host.to_param }
@@ -1030,7 +1023,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal '192.168.3.10', last_record.interfaces.find_by_mac('00:11:22:33:44:01').ip
   end
 
-  test_attributes :pid => '178be8a6-26f1-496f-b866-a7b9e253eb61'
   test "should not create host only with user owner type" do
     assert_difference('Host.count', 0) do
       post :create, params: { :host => valid_attrs.merge(:owner_type => 'User') }
@@ -1039,7 +1031,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_match 'owner must be specified', @response.body
   end
 
-  test_attributes :pid => '34343a01-5899-4d0b-8390-fccb26ffbba2'
   test "should not create host only with usergroup owner type" do
     assert_difference('Host.count', 0) do
       post :create, params: { :host => valid_attrs.merge(:owner_type => 'Usergroup') }
@@ -1054,7 +1045,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_not_equal '', @host.name
   end
 
-  test_attributes :pid => '9b78663f-139c-4d0b-9115-180624b0d41b'
   test "should create with valid comment" do
     comment = RFauxFactory.gen_alpha
     post :create, params: { :host => valid_attrs.merge(:comment => comment) }
@@ -1062,35 +1052,30 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal comment, JSON.parse(@response.body)['comment'], "Can't create host with valid comment #{comment}"
   end
 
-  test_attributes :pid => 'bd8d33f9-37de-4b8d-863e-9f73cd8dcec1'
   test "should create with enabled parameter" do
     post :create, params: { :host => valid_attrs.merge(:enabled => false) }
     assert_response :created
     assert_equal false, JSON.parse(@response.body)['enabled'], "Can't create host with enabled parameter false"
   end
 
-  test_attributes :pid => '00dcfaed-6f54-4b6a-a022-9c97fb992324'
   test "should create with managed parameter" do
     post :create, params: { :host => valid_attrs.merge(:managed => true) }
     assert_response :created
     assert_equal true, JSON.parse(@response.body)['managed'], "Can't create host with managed parameter true"
   end
 
-  test_attributes :pid => 'a7a135b8-8f7c-429f-8240-1d8b9059bc35'
   test "should create with build provision method" do
     post :create, params: { :host => valid_attrs.merge(:provision_method => 'build') }
     assert_response :created
     assert_equal JSON.parse(@response.body)['provision_method'], 'build', "Can't create host with build provision method"
   end
 
-  test_attributes :pid => '68f5ebfa-0bf5-4dd0-bb29-e2ca20acc2c5'
   test "should create with image provision method" do
     post :create, params: { :host => valid_attrs.merge(:provision_method => 'image') }
     assert_response :created
     assert_equal JSON.parse(@response.body)['provision_method'], 'image', "Can't create host with image provision method"
   end
 
-  test_attributes :pid => '1b73dd35-c2e8-44bd-b8f8-9e51428a6239'
   test "should create with puppet ca proxy" do
     smart_proxy = smart_proxies(:puppetmaster)
     post :create, params: { :host => valid_attrs.merge(:puppet_ca_proxy_id => smart_proxy.id) }
@@ -1098,14 +1083,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal smart_proxy.name, JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't create host with smart proxy #{smart_proxy}"
   end
 
-  test_attributes :pid => '9269d87b-abb9-48e0-b0d1-9b8e258e1ae3'
   test "should create with puppet proxy" do
     post :create, params: { :host => valid_attrs }
     assert_response :created
     assert_equal smart_proxies(:puppetmaster).name, JSON.parse(@response.body)['puppet_proxy']['name'], "Can't create host with puppet proxy #{smart_proxies(:puppetmaster)}"
   end
 
-  test_attributes :pid => '9086f41c-b3b9-4af2-b6c4-46b80b4d1cfd'
   test "should get per page" do
     per_page = rand(1..1000)
     get :index, params: { :per_page => per_page }
@@ -1119,7 +1102,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_match "'#{mac}' is not a valid MAC address", @response.body
   end
 
-  test_attributes :pid => 'f6d5c939-5ec8-4ad3-9cb4-608648705765'
   test "should update build parameter with false value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => true, :build => true))
     put :update, params: { :id => host.id, :host => { :build => false} }
@@ -1127,7 +1109,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal false, JSON.parse(@response.body)['build'], "Can't update host with false build parameter"
   end
 
-  test_attributes :pid => 'ea9d09e1-2db4-4704-aea5-74e58955074e'
   test "should update build parameter with true value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => true, :build => false))
     put :update, params: { :id => host.id, :host => { :build => true} }
@@ -1135,7 +1116,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal true, JSON.parse(@response.body)['build'], "Can't update host with true build parameter"
   end
 
-  test_attributes :pid => 'ceca20ce-5ecc-4f7f-b920-28b7bd74d351'
   test "should update host with valid comment" do
     new_comment = 'another valid comment'
     host = FactoryBot.create(:host, valid_attrs.merge(:comment => 'this is a valid comment'))
@@ -1144,7 +1124,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal new_comment, JSON.parse(@response.body)['comment'], "Can't update host with valid comment #{new_comment}"
   end
 
-  test_attributes :pid => '3eb6cc93-634d-4ed8-8186-6b75924b3a09'
   test "should update enabled parameter with false value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:enabled => true))
     put :update, params: { :id => host.id, :host => { :enabled => false} }
@@ -1152,7 +1131,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal false, JSON.parse(@response.body)['enabled'], "Can't update host with false enabled parameter"
   end
 
-  test_attributes :pid => '02b50ec3-67ae-48ed-b0c5-4f99f57748e1'
   test "should update enabled parameter with true value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:enabled => false))
     put :update, params: { :id => host.id, :host => { :enabled => true} }
@@ -1160,7 +1138,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal true, JSON.parse(@response.body)['enabled'], "Can't update host with true enabled parameter"
   end
 
-  test_attributes :pid => 'db0f5731-b0cc-4429-85fb-4032cb43ce4a'
   test "should update host with parameters attributes" do
     attrs = [{:name => "attr_name", :value => "attr_value"}]
     post :create, params: { :id => @host.id, :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
@@ -1170,7 +1147,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal attrs[0][:value], response['parameters'][0]['value'], "Can't update host with valid parameters #{attrs}"
   end
 
-  test_attributes :pid => '4c009db9-d720-429e-8150-bebf246d3a43'
   test "should update with valid ip" do
     ip = RFauxFactory.gen_ipaddr
     put :update, params: { :id => @host.id, :host => { :ip => ip} }
@@ -1178,7 +1154,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal ip, JSON.parse(@response.body)['ip'], "Can't update host with valid ip #{ip}"
   end
 
-  test_attributes :pid => '72e3b020-7347-4500-8669-c6ddf6dfd0b6'
   test "should update with valid mac" do
     mac = RFauxFactory.gen_mac(multicast: false)
     put :update, params: { :id => @host.id, :host => { :mac => mac} }
@@ -1186,7 +1161,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal mac, JSON.parse(@response.body)['mac'], "Can't update host with valid mac #{mac}"
   end
 
-  test_attributes :pid => '05e50ff9-eaf8-4db5-b0fb-8c1e22490da9'
   test "should update with managed parameter true" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => false))
     put :update, params: { :id => host.id, :host => { :managed => true} }
@@ -1194,7 +1168,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal true, JSON.parse(@response.body)['managed'], "Can't update host with managed parameter true"
   end
 
-  test_attributes :pid => 'a5ccbfcf-bc36-4eea-8c4b-31d9f7fc151a'
   test "should update with managed parameter false" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => true))
     put :update, params: { :id => host.id, :host => { :managed => false} }
@@ -1209,7 +1182,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal name, JSON.parse(@response.body)['name'], "Can't update host with valid name #{name}"
   end
 
-  test_attributes :pid => 'cca20f40-522a-43d9-92f3-58c8686e0da9'
   test "should update with user owner" do
     owner_type = 'User'
     user = FactoryBot.create(:user, :locations => [taxonomies(:location1)], :organizations => [taxonomies(:organization1)])
@@ -1220,7 +1192,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal user.id, response['owner_id'], "Can't update host with user #{user}"
   end
 
-  test_attributes :pid => 'd11d9776-f9ca-48e5-b8c5-7cc03a943a3d'
   test "should update with usergroup owner" do
     owner_type = 'Usergroup'
     usergroup = FactoryBot.create(:usergroup)
@@ -1231,7 +1202,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal usergroup.id, response['owner_id'], "Can't update host with usergroup #{usergroup}"
   end
 
-  test_attributes :pid => '82eacf60-cf89-4035-ad9a-3f78ceb41d39'
   test "should update with puppet ca proxy" do
     puppet_ca_proxy = FactoryBot.create(:smart_proxy)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_ca_proxy_id => puppet_ca_proxy.id) }
@@ -1239,7 +1209,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_ca_proxy['name'], JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't update host with puppet ca proxy #{puppet_ca_proxy}"
   end
 
-  test_attributes :pid => '73f9efce-3807-4196-b4e3-a6bfbfe95c99'
   test "should update with puppet class" do
     environment = environments(:testing)
     puppetclass = Puppetclass.find_by_name('git')
@@ -1250,7 +1219,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppetclass.id, response['puppetclasses'][0]['id'], "Can't update host with puppetclass #{puppetclass}"
   end
 
-  test_attributes :pid => '98c11e9b-54b0-4f1f-819c-4ff1863457ff'
   test "should update with puppet proxy" do
     puppet_proxy = FactoryBot.create(:smart_proxy)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_proxy_id => puppet_proxy.id) }
