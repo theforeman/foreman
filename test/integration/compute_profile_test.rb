@@ -21,7 +21,6 @@ class ComputeProfileIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test "edit page" do
-    # 'Edit' link is js two-pane, so visit edit path directly
     visit edit_compute_profile_path(compute_profiles(:one))
     fill_in "compute_profile_name", :with => "1-Tiny"
     assert_submit_button(compute_profiles_path)
