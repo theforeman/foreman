@@ -3,6 +3,7 @@ require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'
 require 'mocha/mini_test'
 require 'capybara/rails'
+require 'capybara/minitest'
 require 'factory_bot_rails'
 require 'capybara/poltergeist'
 require 'show_me_the_cookies'
@@ -34,6 +35,7 @@ Capybara.javascript_driver = :poltergeist
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
+  include Capybara::Minitest::Assertions
   include ShowMeTheCookies
 
   # Stop ActiveRecord from wrapping tests in transactions
