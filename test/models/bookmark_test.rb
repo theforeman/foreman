@@ -16,7 +16,6 @@ class BookmarkTest < ActiveSupport::TestCase
     end
   end
 
-  test_attributes :pid => 'aeef0944-379a-4a27-902d-aa5969dbd441'
   test "should create with multiple valid controllers" do
     valid_controller_values = (["dashboard", "common_parameters"] +
       ActiveRecord::Base.connection.tables.map(&:to_s) +
@@ -28,7 +27,6 @@ class BookmarkTest < ActiveSupport::TestCase
     end
   end
 
-  test_attributes :pid => '1cde270a-26fb-4cff-bdff-89fef17a7624'
   test "should update with multiple valid names" do
     bookmark = FactoryBot.create(:bookmark, :controller => "hosts", :public => false)
     valid_name_list.each do |name|
@@ -37,7 +35,6 @@ class BookmarkTest < ActiveSupport::TestCase
     end
   end
 
-  test_attributes :pid => '92a31de2-bebf-4396-94f5-adf59f8d66a5'
   test "should update with multiple valid queries" do
     bookmark = FactoryBot.create(:bookmark, :controller => "hosts", :public => false)
     valid_name_list.each do |query|
