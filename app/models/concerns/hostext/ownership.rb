@@ -62,6 +62,7 @@ module Hostext
     end
 
     def set_default_user
+      self.owner_type = 'User' if owner_id.present? && owner_type.blank?
       return if self.owner_type.present? && (!OWNER_TYPES.include?(self.owner_type) || self.owner.nil?)
       self.owner = owner_suggestion
     end
