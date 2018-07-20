@@ -65,6 +65,12 @@ class HostextOwnershipTest < ActiveSupport::TestCase
       h.validate
       assert_equal users(:two), h.owner
     end
+
+    test "should use assume the type is User if not set explicitly" do
+      h = FactoryBot.build_stubbed(:host, :managed, :owner_id => users(:two).id)
+      h.validate
+      assert_equal users(:two), h.owner
+    end
   end
 
   test "search by user returns only the relevant hosts" do
