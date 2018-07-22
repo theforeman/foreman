@@ -17,8 +17,13 @@ NavDropdown.propTypes = {
   children: PropTypes.node.isRequired,
   /** Additional element css classes */
   className: PropTypes.string,
+  /** activeKey, activeHref props for bootstrap navItems */
+  activeHref: PropTypes.string,
+  activeKey: PropTypes.string,
 };
 NavDropdown.defaultProps = {
   className: '',
+  activeHref: '',
+  activeKey: '',
 };
 export default NavDropdown;

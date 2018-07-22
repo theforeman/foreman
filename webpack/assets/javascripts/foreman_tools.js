@@ -1,15 +1,14 @@
 import $ from 'jquery';
 import URI from 'urijs';
 
-import store from './react_app/redux';
-import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+import { showLoading, hideLoading } from './foreman_navigation';
 
 export function showSpinner() {
-  store.dispatch(LayoutActions.showLoading());
+  showLoading();
 }
 
 export function hideSpinner() {
-  store.dispatch(LayoutActions.hideLoading());
+  hideLoading();
 }
 
 export function iconText(name, innerText, iconClass) {

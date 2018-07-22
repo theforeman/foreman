@@ -47,7 +47,6 @@
     <![endif]-->
     <% if User.current %>
       <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
-        <%= render "home/topbar" %>
         <%= render "home/navbar" %>
       <% end %>
       <div class="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary">

@@ -20,7 +20,7 @@ organizations << {id: organization.id, title: organization.title, href: main_app
 end
 
 hash = { menu: menus, logo: image_path("header_logo.svg", :class => "header-logo"),
-         notification_url: notification_recipients_path, user_dropdown: Menu::Manager.to_hash(:side_menu),
+         notification_url: notification_recipients_path, user: User.current ,user_dropdown: Menu::Manager.to_hash(:side_menu),
          taxonomies: taxonomies, locations: locations, organizations: organizations, root: main_app.root_path }
 %>
 

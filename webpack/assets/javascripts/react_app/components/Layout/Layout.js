@@ -1,13 +1,13 @@
 import React from 'react';
 import { VerticalNav } from 'patternfly-react';
-import Taxonomies from './components/Taxonomies';
+import TaxonomySwitcher from './components/TaxonomySwitcher';
 import './layout.scss';
 import UserDropdowns from './components/UserDropdowns';
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { data, fetchMenuItems } = this.props;
-    fetchMenuItems(data);
+    const { items, data, fetchMenuItems } = this.props;
+    if (items.length === 0) fetchMenuItems(data);
   }
 
   render() {
@@ -17,10 +17,10 @@ class Layout extends React.Component {
       isLoading,
       children,
       changeActiveMenu,
-      currentOrg,
-      currentLoc,
-      changeOrg,
-      changeLoc,
+      currentOrganization,
+      currentLocation,
+      changeOrganization,
+      changeLocation,
     } = this.props;
     return (
       <VerticalNav
@@ -35,19 +35,21 @@ class Layout extends React.Component {
             iconImg={data.logo}
             href={data.root}
           />
-          <Taxonomies
+          <TaxonomySwitcher
+            taxonomiesBool={data.taxonomies}
             locations={data.locations}
             organizations={data.organizations}
-            taxonomiesBool={data.taxonomies}
+            currentLocation={currentLocation}
+            currentOrganization={currentOrganization}
+            onOrgClick={changeOrganization}
+            onLocationClick={changeLocation}
             isLoading={isLoading}
-            currentLoc={currentLoc}
-            currentOrg={currentOrg}
-            onOrgClick={changeOrg}
-            onLocationClick={changeLoc}
           />
           <UserDropdowns
             notificationUrl={data.notification_url}
-            user={data.user_dropdown}
+            userDropdown={data.user_dropdown}
+            user={data.user}
+            changeActiveMenu={changeActiveMenu}
           />
         </VerticalNav.Masthead>
         {children}
