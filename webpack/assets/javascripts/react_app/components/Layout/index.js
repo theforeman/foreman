@@ -11,8 +11,8 @@ const mapStateToProps = ({ layout }) => ({
   items: layout.items,
   isLoading: layout.isLoading,
   activeMenu: layout.activeMenu,
-  currentOrg: layout.currentOrg,
-  currentLoc: layout.currentLoc,
+  currentOrganization: layout.currentOrganization,
+  currentLocation: layout.currentLocation,
 });
 
 // map action dispatchers to props

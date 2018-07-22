@@ -13,8 +13,8 @@ const initialState = Immutable({
   items: [],
   isLoading: false,
   activeMenu: '',
-  currentOrg: 'Any Organization',
-  currentLoc: 'Any Location',
+  currentOrganization: 'Any Organization',
+  currentLocation: 'Any Location',
 });
 
 export default (state = initialState, action) => {
@@ -29,29 +29,28 @@ export default (state = initialState, action) => {
 
     case LAYOUT_CHANGE_ACTIVE:
       if (state.items.length > 0) {
-        return state.set(
-          'items',
-          state.items.map((item) => {
-            if (item.title === payload.primary.title) {
-              return item.set('initialActive', true);
-            }
-            return item.set('initialActive', false);
-          }),
-        );
+        return state.set('activeMenu', payload.primary.title)
+          .set(
+            'items',
+            state.items.map((item) => {
+              if (item.title === payload.primary.title) {
+                return item.set('initialActive', true);
+              }
+              if (item.initialActive === true) return item.set('initialActive', false);
+              return item;
+            }),
+          );
       }
       return state;
 
     case LAYOUT_RESOURCES_REQUEST:
-      if (state.items.length === 0) {
-        return state.set('items', payload.items);
-      }
-      return state;
+      return state.set('items', payload.items);
 
     case LAYOUT_CHANGE_ORG:
-      return state.set('currentOrg', payload.org);
+      return state.set('currentOrganization', payload.org);
 
     case LAYOUT_CHANGE_LOCATION:
-      return state.set('currentLoc', payload.location);
+      return state.set('currentLocation', payload.location);
 
     default:
       return state;

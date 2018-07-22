@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Nav, Spinner } from 'patternfly-react';
 import NavItem from './NavItem';
 
-const Taxonomies = ({
-  currentOrg,
-  currentLoc,
+const TaxonomySwitcher = ({
+  currentOrganization,
+  currentLocation,
   organizations,
   locations,
   taxonomiesBool,
@@ -22,7 +22,7 @@ const Taxonomies = ({
         className="dropdown-toggle nav-item-iconic"
         data-toggle="dropdown"
       >
-        {__(currentOrg)}
+        {currentOrganization}
         <span className="caret" />
       </a>
       <ul className="dropdown-menu">
@@ -65,7 +65,7 @@ const Taxonomies = ({
         className="dropdown-toggle nav-item-iconic"
         data-toggle="dropdown"
       >
-        {__(currentLoc)}
+        {currentLocation}
         <span className="caret" />
       </a>
       <ul className="dropdown-menu">
@@ -105,26 +105,34 @@ const Taxonomies = ({
     )}
   </Nav>
 );
-Taxonomies.propTypes = {
+TaxonomySwitcher.propTypes = {
   /** Additional element css classes */
   className: PropTypes.string,
   /** Locations array */
-  locations: PropTypes.array,
+  locations: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    href: PropTypes.string,
+  })),
   /** Organizations array */
-  organizations: PropTypes.array,
+  organizations: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    href: PropTypes.string,
+  })),
   /** isLoading Prop */
   isLoading: PropTypes.bool,
   /** current Organization */
-  currentOrg: PropTypes.string,
+  currentOrganization: PropTypes.string,
   /** current Location */
-  currentLoc: PropTypes.string,
+  currentLocation: PropTypes.string,
 };
-Taxonomies.defaultProps = {
+TaxonomySwitcher.defaultProps = {
   className: '',
   locations: [],
   organizations: [],
   isLoading: false,
-  currentLoc: '',
-  currentOrg: '',
+  currentLocation: '',
+  currentOrganization: '',
 };
-export default Taxonomies;
+export default TaxonomySwitcher;
