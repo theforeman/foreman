@@ -199,6 +199,16 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test 'should update with multiple valid names' do
+    domain = domains(:mydomain)
+    host = FactoryBot.create(:host, :name => RFauxFactory.gen_alpha, :domain => domain)
+    valid_hosts_list(domain_length: domain.name.length).each do |name|
+      host.name =  name
+      assert host.valid?, "Can't update host with valid name #{name}"
+      assert_equal "#{name}.#{domain}", host.name, "Host updated with name #{name} and domain #{domain.name} does not contains expected name #{name}.#{domain.name}"
+    end
+  end
+
   context "when unattended is false" do
     def setup
       SETTINGS[:unattended] = false

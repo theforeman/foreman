@@ -210,12 +210,43 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal owner.name, response["owner_name"]
   end
 
+  test "should show host puppet_ca_proxy_name" do
+    # cover issue #16525
+    puppet_ca_proxy = smart_proxies(:puppetmaster)
+    @host.update_attribute(:puppet_ca_proxy, puppet_ca_proxy)
+    get :show, params: { :id => @host.to_param }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response.key?('puppet_ca_proxy_name')
+    assert_equal puppet_ca_proxy.name, response['puppet_ca_proxy_name']
+  end
+
+  test "should show host puppet_proxy_name" do
+    # cover issue #16525
+    puppet_proxy = smart_proxies(:puppetmaster)
+    @host.update_attribute(:puppet_proxy, puppet_proxy)
+    get :show, params: { :id => @host.to_param }
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response.key?('puppet_proxy_name')
+    assert_equal puppet_proxy.name, response['puppet_proxy_name']
+  end
+
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do
       post :create, params: { :host => valid_attrs }
     end
     assert_response :created
+  end
+
+  test "should create host with build true" do
+    disable_orchestration
+    assert_difference('Host.count') do
+      post :create, params: { :host => valid_attrs.merge(:build => true) }
+    end
+    assert_response :created
+    assert_equal true, JSON.parse(@response.body)['build']
   end
 
   test "should create host with host_parameters_attributes" do
@@ -226,8 +257,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       post :create, params: { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
     end
     assert_response :created
-    assert_equal JSON.parse(@response.body)['parameters'][0]['name'], attrs[0]['name'], "Can't create host with valid parameters #{attrs}"
-    assert_equal JSON.parse(@response.body)['parameters'][0]['value'], attrs[0]['value'], "Can't create host with valid parameters #{attrs}"
+    response = JSON.parse(@response.body)
+    assert_equal attrs[0]['name'], response['parameters'][0]['name'], "Can't create host with valid parameters #{attrs}"
+    assert_equal attrs[0]['value'], response['parameters'][0]['value'], "Can't create host with valid parameters #{attrs}"
   end
 
   test "should create host with host_parameters_attributes sent in a hash" do
@@ -980,7 +1012,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
   end
 
-
   test "host with two interfaces should get ips assigned on both interfaces" do
     disable_orchestration
     subnet1 = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
@@ -1006,6 +1037,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       post :create, params: { :host => valid_attrs.merge(:owner_type => 'User') }
     end
     assert_response :unprocessable_entity, "Can create host only with user owner type and without specifying owner"
+    assert_match 'owner must be specified', @response.body
   end
 
   test "should not create host only with usergroup owner type" do
@@ -1013,6 +1045,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       post :create, params: { :host => valid_attrs.merge(:owner_type => 'Usergroup') }
     end
     assert_response :unprocessable_entity, "Can create host only with usergroup owner type and without specifying owner"
+    assert_match 'owner must be specified', @response.body
   end
 
   test "should not update with invalid name" do
@@ -1025,19 +1058,19 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     comment = RFauxFactory.gen_alpha
     post :create, params: { :host => valid_attrs.merge(:comment => comment) }
     assert_response :created
-    assert_equal JSON.parse(@response.body)['comment'], comment, "Can't create host with valid comment #{comment}"
+    assert_equal comment, JSON.parse(@response.body)['comment'], "Can't create host with valid comment #{comment}"
   end
 
   test "should create with enabled parameter" do
     post :create, params: { :host => valid_attrs.merge(:enabled => false) }
     assert_response :created
-    assert_equal JSON.parse(@response.body)['enabled'], false, "Can't create host with enabled parameter false"
+    assert_equal false, JSON.parse(@response.body)['enabled'], "Can't create host with enabled parameter false"
   end
 
   test "should create with managed parameter" do
     post :create, params: { :host => valid_attrs.merge(:managed => true) }
     assert_response :created
-    assert_equal JSON.parse(@response.body)['managed'], true, "Can't create host with managed parameter true"
+    assert_equal true, JSON.parse(@response.body)['managed'], "Can't create host with managed parameter true"
   end
 
   test "should create with build provision method" do
@@ -1053,42 +1086,43 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should create with puppet ca proxy" do
-    smart_proxy = FactoryBot.create(:smart_proxy)
+    smart_proxy = smart_proxies(:puppetmaster)
     post :create, params: { :host => valid_attrs.merge(:puppet_ca_proxy_id => smart_proxy.id) }
     assert_response :created
-    assert_equal JSON.parse(@response.body)['puppet_ca_proxy']['name'], smart_proxy['name'], "Can't create host with smart proxy #{smart_proxy}"
+    assert_equal smart_proxy.name, JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't create host with smart proxy #{smart_proxy}"
   end
 
   test "should create with puppet proxy" do
     post :create, params: { :host => valid_attrs }
     assert_response :created
-    assert_equal JSON.parse(@response.body)['puppet_proxy']['name'], smart_proxies(:puppetmaster).name, "Can't create host with puppet proxy #{smart_proxies(:puppetmaster)}"
+    assert_equal smart_proxies(:puppetmaster).name, JSON.parse(@response.body)['puppet_proxy']['name'], "Can't create host with puppet proxy #{smart_proxies(:puppetmaster)}"
   end
 
   test "should get per page" do
     per_page = rand(1..1000)
     get :index, params: { :per_page => per_page }
-    assert_equal JSON.parse(@response.body)['per_page'], per_page
+    assert_equal per_page, JSON.parse(@response.body)['per_page']
   end
 
   test "should not update with invalid mac" do
     mac = RFauxFactory.gen_alpha
     put :update, params: { :id => @host.id, :host => {:mac => mac} }
     assert_response :unprocessable_entity, "Can update host with invalid mac #{mac}"
+    assert_match "'#{mac}' is not a valid MAC address", @response.body
   end
 
   test "should update build parameter with false value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => true, :build => true))
     put :update, params: { :id => host.id, :host => { :build => false} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['build'], false, "Can't update host with false build parameter"
+    assert_equal false, JSON.parse(@response.body)['build'], "Can't update host with false build parameter"
   end
 
   test "should update build parameter with true value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => true, :build => false))
     put :update, params: { :id => host.id, :host => { :build => true} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['build'], true, "Can't update host with true build parameter"
+    assert_equal true, JSON.parse(@response.body)['build'], "Can't update host with true build parameter"
   end
 
   test "should update host with valid comment" do
@@ -1096,87 +1130,92 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host, valid_attrs.merge(:comment => 'this is a valid comment'))
     put :update, params: { :id => host.id, :host => { :comment => new_comment} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['comment'], new_comment, "Can't update host with valid comment #{new_comment}"
+    assert_equal new_comment, JSON.parse(@response.body)['comment'], "Can't update host with valid comment #{new_comment}"
   end
 
   test "should update enabled parameter with false value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:enabled => true))
     put :update, params: { :id => host.id, :host => { :enabled => false} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['enabled'], false, "Can't update host with false enabled parameter"
+    assert_equal false, JSON.parse(@response.body)['enabled'], "Can't update host with false enabled parameter"
   end
 
   test "should update enabled parameter with true value" do
     host = FactoryBot.create(:host, valid_attrs.merge(:enabled => false))
     put :update, params: { :id => host.id, :host => { :enabled => true} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['enabled'], true, "Can't update host with true enabled parameter"
+    assert_equal true, JSON.parse(@response.body)['enabled'], "Can't update host with true enabled parameter"
   end
 
   test "should update host with parameters attributes" do
     attrs = [{:name => "attr_name", :value => "attr_value"}]
     post :create, params: { :id => @host.id, :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['parameters'][0]['name'], attrs[0][:name], "Can't update host with valid parameters #{attrs}"
-    assert_equal JSON.parse(@response.body)['parameters'][0]['value'], attrs[0][:value], "Can't update host with valid parameters #{attrs}"
+    response = JSON.parse(@response.body)
+    assert_equal attrs[0][:name], response['parameters'][0]['name'], "Can't update host with valid parameters #{attrs}"
+    assert_equal attrs[0][:value], response['parameters'][0]['value'], "Can't update host with valid parameters #{attrs}"
   end
 
   test "should update with valid ip" do
     ip = RFauxFactory.gen_ipaddr
     put :update, params: { :id => @host.id, :host => { :ip => ip} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['ip'], ip, "Can't update host with valid ip #{ip}"
+    assert_equal ip, JSON.parse(@response.body)['ip'], "Can't update host with valid ip #{ip}"
   end
 
   test "should update with valid mac" do
     mac = RFauxFactory.gen_mac(multicast: false)
     put :update, params: { :id => @host.id, :host => { :mac => mac} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['mac'], mac, "Can't update host with valid mac #{mac}"
+    assert_equal mac, JSON.parse(@response.body)['mac'], "Can't update host with valid mac #{mac}"
   end
 
   test "should update with managed parameter true" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => false))
     put :update, params: { :id => host.id, :host => { :managed => true} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['managed'], true, "Can't update host with managed parameter true"
+    assert_equal true, JSON.parse(@response.body)['managed'], "Can't update host with managed parameter true"
   end
 
-  test "should update with managed parameter true" do
+  test "should update with managed parameter false" do
     host = FactoryBot.create(:host, valid_attrs.merge(:managed => true))
     put :update, params: { :id => host.id, :host => { :managed => false} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['managed'], false, "Can't update host with managed parameter false"
+    assert_equal false, JSON.parse(@response.body)['managed'], "Can't update host with managed parameter false"
   end
 
   test "should update with valid name" do
     name = RFauxFactory.gen_alpha.downcase
     put :update, params: { :id => @host.id, :host => { :name => name} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['name'], name, "Can't update host with valid name #{name}"
+    assert_equal name, JSON.parse(@response.body)['name'], "Can't update host with valid name #{name}"
   end
 
   test "should update with user owner" do
+    owner_type = 'User'
     user = FactoryBot.create(:user, :locations => [taxonomies(:location1)], :organizations => [taxonomies(:organization1)])
-    put :update, params: { :id => @host.id, :host => { :owner_type => 'User', :owner_id => user.id} }
+    put :update, params: { :id => @host.id, :host => { :owner_type => owner_type, :owner_id => user.id} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['owner_type'], 'User', "Can't update host with user owner"
-    assert_equal JSON.parse(@response.body)['owner_id'], user.id, "Can't update host with user #{user}"
+    response = JSON.parse(@response.body)
+    assert_equal owner_type, response['owner_type'], "Can't update host with user owner"
+    assert_equal user.id, response['owner_id'], "Can't update host with user #{user}"
   end
 
   test "should update with usergroup owner" do
+    owner_type = 'Usergroup'
     usergroup = FactoryBot.create(:usergroup)
-    put :update, params: { :id => @host.id, :host => { :owner_type => 'Usergroup', :owner_id => usergroup.id} }
+    put :update, params: { :id => @host.id, :host => { :owner_type => owner_type, :owner_id => usergroup.id} }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['owner_type'], 'Usergroup', "Can't update host with usergroup owner"
-    assert_equal JSON.parse(@response.body)['owner_id'], usergroup.id, "Can't update host with usergroup #{usergroup}"
+    response = JSON.parse(@response.body)
+    assert_equal owner_type, response['owner_type'], "Can't update host with usergroup owner"
+    assert_equal usergroup.id, response['owner_id'], "Can't update host with usergroup #{usergroup}"
   end
 
   test "should update with puppet ca proxy" do
     puppet_ca_proxy = FactoryBot.create(:smart_proxy)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_ca_proxy_id => puppet_ca_proxy.id) }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['puppet_ca_proxy']['name'], puppet_ca_proxy['name'], "Can't update host with puppet ca proxy #{puppet_ca_proxy}"
+    assert_equal puppet_ca_proxy['name'], JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't update host with puppet ca proxy #{puppet_ca_proxy}"
   end
 
   test "should update with puppet class" do
@@ -1184,14 +1223,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     puppetclass = Puppetclass.find_by_name('git')
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:environment_id => environment.id, :puppetclass_ids => [puppetclass.id]) }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['environment_id'], environment.id, "Can't update host with environment #{environment}"
-    assert_equal JSON.parse(@response.body)['puppetclasses'][0]['id'], puppetclass.id, "Can't update host with puppetclass #{puppetclass}"
+    response = JSON.parse(@response.body)
+    assert_equal environment.id, response['environment_id'], "Can't update host with environment #{environment}"
+    assert_equal puppetclass.id, response['puppetclasses'][0]['id'], "Can't update host with puppetclass #{puppetclass}"
   end
 
   test "should update with puppet proxy" do
     puppet_proxy = FactoryBot.create(:smart_proxy)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_proxy_id => puppet_proxy.id) }
     assert_response :success
-    assert_equal JSON.parse(@response.body)['puppet_proxy']['name'], puppet_proxy['name'], "Can't update host with puppet proxy #{puppet_proxy}"
+    assert_equal puppet_proxy['name'], JSON.parse(@response.body)['puppet_proxy']['name'], "Can't update host with puppet proxy #{puppet_proxy}"
   end
 end
