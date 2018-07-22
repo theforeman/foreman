@@ -26,12 +26,26 @@ class Api::V2::ComputeProfilesControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['name'], name, "Can't create compute profile with valid name #{name}"
   end
 
+  test "should not create compute profile" do
+    assert_difference('ComputeProfile.count', 0) do
+      post :create, params: { :compute_profile => {:name => ''} }
+    end
+    assert_response :unprocessable_entity
+    assert_match "Name can't be blank", @response.body
+  end
+
   test "should update compute_profile" do
     Foreman::Model::EC2.any_instance.expects(:normalize_vm_attrs).returns({})
     name = 'new name'
     put :update, params: { :id => compute_profiles(:one).to_param, :compute_profile => {:name => name } }
     assert_response :success
     assert_equal JSON.parse(@response.body)['name'], name, "Can't update compute profile with valid name #{name}"
+  end
+
+  test "should not update compute_profile" do
+    put :update, params: { :id => compute_profiles(:one).to_param, :compute_profile => {:name => '' } }
+    assert_response :unprocessable_entity
+    assert_match "Name can't be blank", @response.body
   end
 
   test "should destroy compute profile" do
