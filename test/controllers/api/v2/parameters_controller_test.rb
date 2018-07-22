@@ -158,12 +158,12 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
 
   test "should not create duplicate subnet parameter" do
     subnet = subnets(:five)
-    post :create, params: { :subnet_id => subnet.id, :parameter => valid_attrs }
-    assert_response :created
+    subnet.subnet_parameters << SubnetParameter.create(valid_attrs)
     assert_difference('subnet.parameters.count', 0) do
       post :create, params: { :subnet_id => subnet.id, :parameter => valid_attrs }
     end
     assert_response :unprocessable_entity
+    assert_match 'Name has already been taken', @response.body
   end
 
   test "should not create with invalid separator in name" do

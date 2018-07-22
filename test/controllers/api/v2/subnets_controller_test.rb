@@ -191,8 +191,8 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     subnet.subnet_parameters.create!(param_params)
     put :update, params: { :id => subnet.id, :subnet => { :subnet_parameters_attributes => [new_param_params] } }
     assert_response :success
-    assert new_param_params[:name], subnet.parameters.first.name
-    assert new_param_params[:value], subnet.parameters.first.value
+    assert_equal new_param_params[:name], subnet.parameters.first.name
+    assert_equal new_param_params[:value], subnet.parameters.first.value
     assert_equal 1, subnet.parameters.count
   end
 
