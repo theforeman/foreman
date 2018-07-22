@@ -222,8 +222,11 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should update os" do
-    put :update, params: { :id => operatingsystems(:redhat).to_param, :operatingsystem => { :name => "new_name" } }
+    name = 'new_name'
+    put :update, params: { :id => operatingsystems(:redhat).to_param, :operatingsystem => { :name => name } }
     assert_response :success
+    response = JSON.parse(@response.body)
+    assert_equal name, response['name']
   end
 
   test "should destroy os" do
