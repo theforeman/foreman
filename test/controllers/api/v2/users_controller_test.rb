@@ -367,7 +367,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['firstname'], firstname, "Can't update user with valid firstname #{firstname}"
   end
 
-  test "should update with valid firstname" do
+  test "should update with valid lastname" do
     lastname = RFauxFactory.gen_alpha
     put :update, params: { :id => users(:one).id, :user => {:lastname => lastname } }
     assert_response :success
