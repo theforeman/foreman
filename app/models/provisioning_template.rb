@@ -71,11 +71,10 @@ class ProvisioningTemplate < Template
 
   scope :of_kind, ->(kind) { joins(:template_kind).where("template_kinds.name" => kind) }
 
-  def render_template(subjects: {}, params: {}, variables: {})
-    Foreman::Renderer.render_template(template: self,
-                                      subjects: subjects,
-                                      params: params,
-                                      variables: variables)
+  def render_template(host: nil, params: {}, variables: {})
+    source = Foreman::Renderer.get_source(template: self, host: host)
+    scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables)
+    Foreman::Renderer.render(source, scope)
   end
 
   def self.template_ids_for(hosts)

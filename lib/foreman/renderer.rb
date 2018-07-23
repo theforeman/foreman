@@ -11,19 +11,12 @@ module Foreman
         yield config
       end
 
-      def render_template(template: nil, subjects: {}, params: {}, variables: {})
-        source = subjects[:source] || Foreman::Renderer::Source::Database.new(template)
-
-        scope = subjects[:scope] || Foreman::Renderer::Scope::Provisioning.new(host: subjects[:host],
-                                                                               params: params,
-                                                                               variables: variables)
-        renderer.render(source, scope)
-      end
-
-      def render_template_to_tempfile(template, prefix, options = {}, subjects: {}, params: {}, variables: {})
+      def render_template_to_tempfile(template:, prefix:, host: nil, params: {}, variables: {}, options: {})
         file = ""
+        source = get_source(template: template, host: host)
+        scope = get_scope(host: host, params: params, variables: variables)
         Tempfile.open(prefix, Rails.root.join('tmp')) do |f|
-          f.print(render_template(template: template, subjects: subjects, params: params, variables: variables))
+          f.print render(source, scope)
           f.flush
           f.chmod options[:mode] if options[:mode]
           file = f
@@ -31,9 +24,19 @@ module Foreman
         file
       end
 
+      def get_source(klass: Foreman::Renderer::Source::Database, template:, **args)
+        klass.new(template)
+      end
+
+      def get_scope(klass: Foreman::Renderer::Scope::Provisioning, host: nil, params: {}, variables: {})
+        klass.new(host: host, params: params, variables: variables)
+      end
+
       def renderer
         Setting[:safemode_render] ? Foreman::Renderer::SafeModeRenderer : Foreman::Renderer::UnsafeModeRenderer
       end
+
+      delegate :render, to: :renderer
     end
   end
 end

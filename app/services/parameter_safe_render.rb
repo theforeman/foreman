@@ -12,6 +12,8 @@ class ParameterSafeRender
 
   private
 
+  attr_reader :host
+
   def render_object(object)
     return object unless (Setting[:interpolate_erb_in_parameters])
 
@@ -31,7 +33,7 @@ class ParameterSafeRender
 
   def render_string(string)
     source = Foreman::Renderer::Source::String.new(content: string)
-    scope = Foreman::Renderer::Scope::Partition.new(host: @host)
-    Foreman::Renderer.render_template(subjects: { source: source, scope: scope })
+    scope = Foreman::Renderer.get_scope(klass: Foreman::Renderer::Scope::Partition, host: host)
+    Foreman::Renderer.render(source, scope)
   end
 end

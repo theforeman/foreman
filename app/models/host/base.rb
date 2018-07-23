@@ -347,11 +347,10 @@ module Host
       self.class.included_modules.include?(Orchestration)
     end
 
-    def render_template(template: nil, subjects: {}, params: {}, variables: {})
-      Foreman::Renderer.render_template(template: template,
-                                        subjects: subjects.merge(host: self),
-                                        params: params,
-                                        variables: variables)
+    def render_template(template: nil, params: {}, variables: {})
+      source = Foreman::Renderer.get_source(template: template, host: self)
+      scope = Foreman::Renderer.get_scope(host: self, params: params, variables: variables)
+      Foreman::Renderer.render(source, scope)
     end
 
     private

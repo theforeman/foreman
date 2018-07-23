@@ -20,9 +20,9 @@ module Foreman
             if (template = ::Template.where(:name => name, :snippet => true).first)
               begin
                 snippet_variables = variables.merge(options[:variables] || {})
-                return Foreman::Renderer.render_template(template: template,
-                                                         subjects: { host: @host },
-                                                         variables: snippet_variables)
+                source = Foreman::Renderer.get_source(template: template, host: @host)
+                scope = Foreman::Renderer.get_scope(host: @host, variables: snippet_variables)
+                return Foreman::Renderer.render(source, scope)
               rescue ::Foreman::Exception
                 raise
               rescue StandardError => exc
