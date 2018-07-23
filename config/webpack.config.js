@@ -164,9 +164,7 @@ module.exports = env => {
     config.optimization.minimize = true;
 
     config.plugins.push(
-      new webpack.NoEmitOnErrorsPlugin(),
       new SimpleNamedModulesPlugin(),
-      new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new CompressionPlugin()
     );
