@@ -50,7 +50,7 @@ module FormHelper
   def multiple_checkboxes(f, attr, klass, associations, options = {}, html_options = {})
     association_name = attr || ActiveModel::Naming.plural(associations)
     associated_obj = klass.send(association_name)
-    selected_ids = associated_obj.select("#{associations.table_name}.id").map(&:id)
+    selected_ids = options.delete(:selected_ids) || associated_obj.map(&:id)
     multiple_selects(f, attr, associations, selected_ids, options, html_options)
   end
 
