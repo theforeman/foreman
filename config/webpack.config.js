@@ -5,7 +5,7 @@ var path = require('path');
 var webpack = require('webpack');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('mini-css-extract-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
@@ -98,10 +98,10 @@ module.exports = env => {
         },
         {
           test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader'
-          })
+          use: [
+            ExtractTextPlugin.loader,
+            production ? 'css-loader' : 'css-loader?sourceMap',
+          ],
         },
         {
           test: /(\.png|\.gif)$/,
@@ -109,10 +109,11 @@ module.exports = env => {
         },
         {
           test: /\.scss$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader', // The backup style loader
-            use: production ? 'css-loader!sass-loader' : 'css-loader?sourceMap!sass-loader?sourceMap'
-          })
+          use: [
+            ExtractTextPlugin.loader,
+            production ? 'css-loader' : 'css-loader?sourceMap',
+            production ? 'sass-loader' : 'sass-loader?sourceMap',
+          ]
         }
       ]
     },
