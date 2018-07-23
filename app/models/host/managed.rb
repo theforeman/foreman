@@ -878,6 +878,8 @@ class Host::Managed < Host::Base
       end
     end
 
+    status = validate_association_taxonomy(:environment)
+
     if environment
       puppetclasses.select("puppetclasses.id,puppetclasses.name").distinct.each do |e|
         unless environment.puppetclasses.map(&:id).include?(e.id)
@@ -951,5 +953,20 @@ class Host::Managed < Host::Base
     MailNotification[:host_built].deliver(self, :users => recipients) if recipients.present?
   rescue SocketError, Net::SMTPError => e
     Foreman::Logging.exception("Host has been created. Failed to send email", e)
+  end
+
+  # Ensures that object assigned in the association belongs to the taxonomies of the host.
+  # Returns true if it does, otherwise it adds a validation error and returns false.
+  def validate_association_taxonomy(association_name)
+    association = self.class.reflect_on_association(association_name)
+    raise ArgumentError, "Association #{association_name} not found" unless association
+    associated_object_id = public_send(association.foreign_key)
+    if Taxonomy.enabled_taxonomies.present? && associated_object_id.present? &&
+      association.klass.with_taxonomy_scope(organization, location).find_by(id: associated_object_id).blank?
+      errors.add(association.foreign_key, _("with id %{object_id} doesn't exist or is not assigned to proper organization and/or location") % { :object_id => associated_object_id })
+      false
+    else
+      true
+    end
   end
 end

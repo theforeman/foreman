@@ -365,6 +365,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should update hostgroup_id of host" do
     host = FactoryBot.create(:host, basic_attrs_with_hg)
     hg = FactoryBot.create(:hostgroup, :with_environment)
+    set_environment_taxonomies(hg)
     put :update, params: { :id => host.to_param, :host => { :hostgroup_id => hg.id }}
     assert_response :success
     host.reload
@@ -1220,6 +1221,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should update with puppet class" do
     environment = environments(:testing)
+    set_environment_taxonomies(@host, environment)
     puppetclass = Puppetclass.find_by_name('git')
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:environment_id => environment.id, :puppetclass_ids => [puppetclass.id]) }
     assert_response :success

@@ -793,6 +793,20 @@ class HostTest < ActiveSupport::TestCase
       assert @host.organization.valid?
       assert @host.location.valid?
     end
+
+    test "assign a host to environment with incorrect taxonomies" do
+      @host = FactoryBot.build(:host, :managed => false)
+      env_with_tax = FactoryBot.create(:environment,
+                                       :organizations => [@host.organization],
+                                       :locations => [@host.location])
+      env_without_tax = FactoryBot.create(:environment)
+      @host.environment = env_with_tax
+      assert @host.valid?
+
+      @host.environment = env_without_tax
+      refute @host.valid?
+      assert_match /is not assigned/, @host.errors[:environment_id].first
+    end
   end
 
   test 'host can be searched in multiple taxonomies' do
