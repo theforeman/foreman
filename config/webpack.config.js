@@ -161,14 +161,10 @@ module.exports = env => {
   };
 
   if (production) {
+    config.optimization.minimize = true;
+
     config.plugins.push(
       new webpack.NoEmitOnErrorsPlugin(),
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          compress: { warnings: false },
-        },
-        sourceMap: false
-      }),
       new SimpleNamedModulesPlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
