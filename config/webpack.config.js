@@ -146,13 +146,19 @@ module.exports = env => {
           NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING
         }
       }),
-    ]
-  };
+    ],
 
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: Infinity,
-  }))
+    optimization: {
+      splitChunks: {
+        minChunks: Infinity,
+        cacheGroups: {
+          vendor: {
+            name: 'vendor',
+          },
+        },
+      },
+    },
+  };
 
   if (production) {
     config.plugins.push(
