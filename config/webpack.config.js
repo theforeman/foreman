@@ -54,6 +54,7 @@ module.exports = env => {
   );
 
   var config = {
+    mode: production ? 'production' : 'development',
     entry: entry,
     output: {
       // Build assets directly in to public/webpack/, let webpack know
