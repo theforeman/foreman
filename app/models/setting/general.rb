@@ -22,7 +22,7 @@ class Setting::General < Setting
       self.set('http_proxy_except_list', N_('Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.'), [], N_('HTTP(S) proxy except hosts')),
       self.set('lab_features', N_("Whether or not to show a menu to access experimental lab features (requires reload of page)"), false, N_('Show Experimental Labs')),
       self.set("append_domain_name_for_hosts", N_("Foreman will append domain names when new hosts are provisioned"), true, N_("Append domain names to the host")),
-      self.set('outofsync_interval', N_("Duration in minutes after servers are classed as out of sync."), 5, N_('Out of sync interval'))
+      self.set('outofsync_interval', N_("Duration in minutes after servers are classed as out of sync."), 30, N_('Out of sync interval'))
     ]
   end
 
