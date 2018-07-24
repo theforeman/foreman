@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionLinks rendering render action links 1`] = `
+<Col
+  bsClass="col"
+  className="actions-btns"
+  componentClass="div"
+  sm={2}
+>
+  <a
+    className="btn btn-default"
+    href="/hosts/foo.example.com"
+    key="0"
+  >
+    Host details
+  </a>
+</Col>
+`;

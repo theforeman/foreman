@@ -11,6 +11,7 @@ import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
+import AuditsList from './AuditsList';
 
 const componentRegistry = {
   registry: {},
@@ -70,6 +71,7 @@ const coreComponets = [
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
   { name: 'FactChart', type: FactChart },
   { name: 'Pagination', type: Pagination },
+  { name: 'AuditsList', type: AuditsList },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

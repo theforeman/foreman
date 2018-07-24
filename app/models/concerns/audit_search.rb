@@ -15,11 +15,13 @@ module AuditSearch
     belongs_to :search_nics, -> { where('audits.auditable_type LIKE ?', "Nic::%") }, :class_name => 'Nic::Base', :foreign_key => :auditable_id
     belongs_to :search_settings, :class_name => 'Setting', :foreign_key => :auditable_id
 
+    scoped_search :on => :id, :complete_value => false
     scoped_search :on => [:username, :remote_address, :comment], :complete_value => true
     scoped_search :on => :audited_changes, :rename => 'changes'
     scoped_search :on => :created_at, :complete_value => true, :rename => :time, :default_order => :desc
     scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
     scoped_search :on => :auditable_type, :complete_value => auditable_type_complete_values, :rename => :type
+    scoped_search :on => :auditable_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
     scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
     scoped_search :relation => :search_templates, :on => :name, :complete_value => true, :rename => :provisioning_template, :only_explicit => true
@@ -35,6 +37,10 @@ module AuditSearch
     scoped_search :relation => :search_nics, :on => :ip, :complete_value => true, :rename => :interface_ip, :only_explicit => true
     scoped_search :relation => :search_nics, :on => :mac, :complete_value => true, :rename => :interface_mac, :only_explicit => true
     scoped_search :relation => :search_settings, :on => :name, :complete_value => true, :rename => :setting, :only_explicit => true
+
+    def user_login
+      user.login rescue nil
+    end
   end
 
   module ClassMethods
@@ -61,6 +67,10 @@ module AuditSearch
         :smart_variable => 'VariableLookupKey',
         :subnet => 'Subnet'
       )
+    end
+
+    def find_complete_keytype_array(auditable_type)
+      auditable_type_complete_values.find {|key, type_name| type_name == auditable_type}
     end
 
     private
