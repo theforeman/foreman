@@ -45,17 +45,16 @@ $(document).on('change', '#mode', () => {
 
 function onEditorLoad() {
   const editorSource = $('.editor_source');
-
   if (editorSource.exists()) {
     createEditor();
     if ($('.diffMode').exists()) {
-      setDiffMode(editorSource);
+      setDiffMode(editorSource, $('#old').val(), $('#new').val());
     } else {
       setEditMode(editorSource);
     }
-  }
 
-  initTypeAheadSelect($('#preview_host_id'));
+    initTypeAheadSelect($('#preview_host_id'));
+  }
 }
 
 function setKeybinding() {
@@ -68,8 +67,7 @@ function setKeybinding() {
   Editor.setKeyboardHandler(keybindings[$('#keybinding')[0].selectedIndex]);
 }
 
-function setMode(mode) {
-  const session = Editor.getSession();
+function setMode(mode, editor) {
   const modes = [
     'ace/mode/text',
     'ace/mode/json',
@@ -79,6 +77,8 @@ function setMode(mode) {
     'ace/mode/xml',
     'ace/mode/yaml',
   ];
+
+  const session = (editor || Editor).getSession();
 
   if (mode) {
     if (modes.indexOf(mode) >= 0) {
@@ -181,7 +181,7 @@ export function setPreview() {
     $('#new').val(Editor.getSession().getValue());
   }
   $('.editor_source').addClass('diffMode');
-  setDiffMode($('.editor_source'));
+  setDiffMode($('.editor_source'), $('#old').val(), $('#new').val());
 }
 
 export function setCode() {
@@ -224,14 +224,15 @@ function setEditMode(item) {
   });
 }
 
-function setDiffMode(item) {
-  Editor.setTheme('ace/theme/clouds');
-  Editor.setReadOnly(true);
-  const session = Editor.getSession();
+function setDiffMode(item, oldVal, newVal, editor = Editor) {
+  editor.setTheme('ace/theme/clouds');
+  editor.setReadOnly(true);
+  const session = editor.getSession();
 
   session.setMode('ace/mode/diff');
   const JsDiff = require('diff'); // eslint-disable-line global-require
-  let patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
+
+  let patch = JsDiff.createPatch(item.attr('data-file-name'), oldVal, newVal);
 
   patch = patch.replace(/^(.*\n){0,4}/, '');
   if (patch.length === 0) {
@@ -355,4 +356,31 @@ export function exitFullscreen() {
   $('.btn-fullscreen').removeClass('hidden');
   $(window).scrollTop(element.data('position'));
   Editor.resize(true);
+}
+
+export function renderTemplatesDiff(containerDiv) {
+  const containerEle = $(containerDiv);
+  const editorSource = $(containerEle.find('.editor_source'));
+  if (editorSource.length) {
+    const editorId = `editor-${Math.random()}`;
+    const editorContainer = editorSource.parent('.editor-container');
+    editorContainer.append(`<div id="${editorId}" class="editor"></div>`);
+    editorSource.hide();
+
+    const editor = ace.edit(editorId);
+    editor.$blockScrolling = Infinity;
+    editor.setShowPrintMargin(false);
+    editor.renderer.setShowGutter(false);
+    setMode('ace/mode/ruby', editor);
+    $(document).on('resize', editorId, () => {
+      editor.resize();
+    });
+    setDiffMode(
+      editorSource,
+      editorContainer.siblings('#old').val(),
+      editorContainer.siblings('#new').val(),
+      editor,
+    );
+    editor.setOptions({ autoScrollEditorIntoView: true, maxLines: 10 });
+  }
 }

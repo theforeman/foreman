@@ -14,7 +14,7 @@
       <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
       <div class='col-md-8 audit-content ra'>
         <%= link_to_function icon_text("restart", _("Revert"), :kind => 'pficon'), "tfm.editor.revertTemplate(this)", :class => 'btn btn-default', :data => {:url => revision_provisioning_templates_url, :version => audit.id } %>
-        <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external', :class => 'btn btn-default' %>
+        <%= link_to icon_text("eye-open", _("Show Diff")), audits_path(:search => "id=#{audit.id}"), :rel => 'external', :class => 'btn btn-default' %>
       </div>
     </div>
   <% end %>

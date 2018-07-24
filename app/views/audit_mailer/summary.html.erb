@@ -5,7 +5,7 @@
            'Displaying %{num_audits} of %{total_audits} audits', @count) % {:num_audits => @limit, :total_audits => @count} %>
     <% @audits.each do |audit| %>
       <li class="item">
-        <% login = audit.user.login rescue nil
+        <% login = audit.user_login
            user_search_param = login ? "user = #{login}" : %Q{username = "#{audit.username}"} %>
         <b>
           <%= link_to(audit.username, audits_url(:search => user_search_param)) %>
