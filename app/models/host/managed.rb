@@ -232,7 +232,11 @@ class Host::Managed < Host::Base
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
                           :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && host.pxe_build? && host.build? }
     validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
-    validates :medium_id, :presence => true, :if => Proc.new { |host| host.validate_media? }
+    validates :medium_id, :presence => true,
+                          :if => Proc.new { |host| host.validate_media? }
+    validates :medium_id, :inclusion => {:in => Proc.new { |host| host.operatingsystem.medium_ids },
+                                         :message => N_('must belong to host\'s operating system')},
+                          :if => Proc.new { |host| host.operatingsystem && host.medium }
     validate :provision_method_in_capabilities
     validate :short_name_periods
     before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes_empty? }
@@ -401,8 +405,7 @@ class Host::Managed < Host::Base
 
   def populate_fields_from_facts(parser, type, source_proxy)
     super
-    operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
-
+    update_os_from_facts if operatingsystem_id_changed?
     populate_facet_fields(parser, type, source_proxy)
   end
 
@@ -825,6 +828,11 @@ class Host::Managed < Host::Base
   end
 
   private
+
+  def update_os_from_facts
+    operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
+    self.medium = nil if medium&.operatingsystems&.exclude?(operatingsystem)
+  end
 
   # Permissions introduced by plugins for this class can cause resource <-> permission
   # names mapping to fail randomly so as a safety precaution, we specify the name more explicitly.
