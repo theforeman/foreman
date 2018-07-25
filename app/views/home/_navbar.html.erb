@@ -2,18 +2,19 @@
 menus = [Menu::Manager.to_hash(:top_menu), Menu::Manager.to_hash(:admin_menu)] 
 menus << Menu::Manager.to_hash(:labs_menu) if Setting[:lab_features]
 
-taxonomies = {locations: SETTINGS[:locations_enabled], organizations: SETTINGS[:organizations_enabled]}
+taxonomies = { locations: show_location_tab?(), organizations: show_organization_tab?() }
+
 locations = []
 organizations = []
 
 
-if SETTINGS[:locations_enabled]
+if show_location_tab?()
 Location.my_locations.each do |location|
 locations << {id: location.id, title: location.title, href: main_app.select_location_path(location)}
     end
 end
 
-if SETTINGS[:organizations_enabled]
+if show_organization_tab?()
 Organization.my_organizations.each do |organization|
 organizations << {id: organization.id, title: organization.title, href: main_app.select_organization_path(organization)}
     end
@@ -21,7 +22,8 @@ end
 
 hash = { menu: menus, logo: image_path("header_logo.svg", :class => "header-logo"),
          notification_url: notification_recipients_path, user: User.current ,user_dropdown: Menu::Manager.to_hash(:side_menu),
-         taxonomies: taxonomies, locations: locations, organizations: organizations, root: main_app.root_path }
+         taxonomies: taxonomies, current_location: Location.current, locations: locations,
+         current_org: Organization.current, organizations: organizations, root: main_app.root_path }
 %>
 
 <div id="layout"></div>

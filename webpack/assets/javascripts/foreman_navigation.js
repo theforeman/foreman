@@ -8,3 +8,7 @@ export const showLoading = () => {
 export const hideLoading = () => {
   store.dispatch(LayoutActions.hideLoading());
 };
+
+export const navigateTo = (url) => {
+  window.Turbolinks.visit(url);
+};

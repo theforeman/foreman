@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import { navigateTo } from '../../../foreman_navigation';
 
 import {
   LAYOUT_SHOW_LOADING,
@@ -38,8 +39,7 @@ export const fetchMenuItems = menuItems => (dispatch) => {
   });
 };
 
-export const changeOrganization = (id, org) => (dispatch) => {
-  // use ID for api
+export const changeOrganization = org => (dispatch) => {
   dispatch({
     type: LAYOUT_CHANGE_ORG,
     payload: {
@@ -48,7 +48,7 @@ export const changeOrganization = (id, org) => (dispatch) => {
   });
 };
 
-export const changeLocation = (id, location) => (dispatch) => {
+export const changeLocation = location => (dispatch) => {
   // use ID for api
   dispatch({
     type: LAYOUT_CHANGE_LOCATION,
@@ -73,7 +73,7 @@ const customItems = (data, activePath) => {
         const childObject = {
           title: isEmpty(child.name) === true ? child.name : __(child.name),
           isDivider: child.type === 'divider' && !isEmpty(child.name),
-          onClick: () => window.Turbolinks.visit(child.url),
+          onClick: () => navigateTo(child.url),
         };
         childrenArray.push(childObject);
       });
@@ -103,8 +103,11 @@ const customItems = (data, activePath) => {
 const fetchOrganizations = (orgs, activePath) => {
   let activeFlag = false;
   const anyOrg = {
-    title: 'Any Organization',
-    onClick: () => window.Turbolinks.visit('/organizations/clear'),
+    title: __('Any Organization'),
+    onClick: () => {
+      navigateTo('/organizations/clear');
+      changeOrganization('Any Organization');
+    },
   };
 
   const childrenArray = [];
@@ -115,8 +118,8 @@ const fetchOrganizations = (orgs, activePath) => {
     const childObject = {
       title: isEmpty(child.title) === true ? child.title : __(child.title),
       onClick: () => {
-        changeOrganization(child.id, child.title);
-        window.Turbolinks.visit(child.href);
+        changeOrganization(child.title);
+        navigateTo(child.href);
       },
     };
     childrenArray.push(childObject);
@@ -135,8 +138,11 @@ const fetchOrganizations = (orgs, activePath) => {
 const fetchLocations = (locations, activePath) => {
   let activeFlag = false;
   const anyLoc = {
-    title: 'Any Location',
-    onClick: () => window.Turbolinks.visit('/locations/clear'),
+    title: __('Any Location'),
+    onClick: () => {
+      changeLocation('Any Location');
+      navigateTo('/locations/clear');
+    },
   };
 
   const childrenArray = [];
@@ -147,8 +153,8 @@ const fetchLocations = (locations, activePath) => {
     const childObject = {
       title: isEmpty(child.title) === true ? child.title : __(child.title),
       onClick: () => {
-        changeLocation(child.id, child.title);
-        window.Turbolinks.visit(child.href);
+        changeLocation(child.title);
+        navigateTo(child.href);
       },
     };
     childrenArray.push(childObject);
@@ -171,7 +177,7 @@ const fetchUser = (user, activePath) => {
     if (child.url === activePath) activeFlag = true;
     const childObject = {
       title: child.name,
-      onClick: () => window.Turbolinks.visit(child.url),
+      onClick: () => navigateTo(child.url),
     };
     userSubItems.push(childObject);
   });

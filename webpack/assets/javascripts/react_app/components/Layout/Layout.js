@@ -1,13 +1,33 @@
 import React from 'react';
 import { VerticalNav } from 'patternfly-react';
+import { isEmpty } from 'lodash';
 import TaxonomySwitcher from './components/TaxonomySwitcher';
 import './layout.scss';
 import UserDropdowns from './components/UserDropdowns';
 
 class Layout extends React.Component {
   componentDidMount() {
-    const { items, data, fetchMenuItems } = this.props;
+    const {
+      items,
+      data,
+      fetchMenuItems,
+      changeLocation,
+      currentLocation,
+      changeOrganization,
+      currentOrganization,
+    } = this.props;
+
     if (items.length === 0) fetchMenuItems(data);
+
+    if (!isEmpty(data.current_location)
+     && currentLocation !== data.current_location.location.name) {
+      changeLocation(data.current_location.location.name);
+    }
+
+    if (!isEmpty(data.current_org)
+     && currentOrganization !== data.current_org.organization.name) {
+      changeOrganization(data.current_org.organization.name);
+    }
   }
 
   render() {
@@ -49,6 +69,7 @@ class Layout extends React.Component {
             notificationUrl={data.notification_url}
             userDropdown={data.user_dropdown}
             user={data.user}
+            changeActiveMenu={changeActiveMenu}
           />
         </VerticalNav.Masthead>
         {children}
