@@ -34,12 +34,14 @@ exports[`bookmarks empty state 1`] = `
     >
       <Uncontrolled(Dropdown)
         id="hosts"
+        onClick={[Function]}
         pullRight={true}
       >
         <Dropdown
           bsClass="dropdown"
           componentClass={[Function]}
           id="hosts"
+          onClick={[Function]}
           onToggle={[Function]}
           pullRight={true}
         >
@@ -48,10 +50,12 @@ exports[`bookmarks empty state 1`] = `
             bsClass="btn-group"
             className="dropdown"
             justified={false}
+            onClick={[Function]}
             vertical={false}
           >
             <div
               className="dropdown btn-group"
+              onClick={[Function]}
             >
               <DropdownToggle
                 bsClass="dropdown-toggle"
@@ -315,12 +319,14 @@ exports[`bookmarks should include existing bookmarks for the current controller 
     >
       <Uncontrolled(Dropdown)
         id="hosts"
+        onClick={[Function]}
         pullRight={true}
       >
         <Dropdown
           bsClass="dropdown"
           componentClass={[Function]}
           id="hosts"
+          onClick={[Function]}
           onToggle={[Function]}
           pullRight={true}
         >
@@ -329,10 +335,12 @@ exports[`bookmarks should include existing bookmarks for the current controller 
             bsClass="btn-group"
             className="dropdown"
             justified={false}
+            onClick={[Function]}
             vertical={false}
           >
             <div
               className="dropdown btn-group"
+              onClick={[Function]}
             >
               <DropdownToggle
                 bsClass="dropdown-toggle"
@@ -701,12 +709,14 @@ exports[`bookmarks should not allow creating a new bookmark for users who dont h
     >
       <Uncontrolled(Dropdown)
         id="hosts"
+        onClick={[Function]}
         pullRight={true}
       >
         <Dropdown
           bsClass="dropdown"
           componentClass={[Function]}
           id="hosts"
+          onClick={[Function]}
           onToggle={[Function]}
           pullRight={true}
         >
@@ -715,10 +725,12 @@ exports[`bookmarks should not allow creating a new bookmark for users who dont h
             bsClass="btn-group"
             className="dropdown"
             justified={false}
+            onClick={[Function]}
             vertical={false}
           >
             <div
               className="dropdown btn-group"
+              onClick={[Function]}
             >
               <DropdownToggle
                 bsClass="dropdown-toggle"
@@ -1065,12 +1077,14 @@ exports[`bookmarks should show an error message if loading failed 1`] = `
     >
       <Uncontrolled(Dropdown)
         id="hosts"
+        onClick={[Function]}
         pullRight={true}
       >
         <Dropdown
           bsClass="dropdown"
           componentClass={[Function]}
           id="hosts"
+          onClick={[Function]}
           onToggle={[Function]}
           pullRight={true}
         >
@@ -1079,10 +1093,12 @@ exports[`bookmarks should show an error message if loading failed 1`] = `
             bsClass="btn-group"
             className="dropdown"
             justified={false}
+            onClick={[Function]}
             vertical={false}
           >
             <div
               className="dropdown btn-group"
+              onClick={[Function]}
             >
               <DropdownToggle
                 bsClass="dropdown-toggle"
@@ -1372,12 +1388,14 @@ exports[`bookmarks should show loading spinner when loading bookmarks 1`] = `
     >
       <Uncontrolled(Dropdown)
         id="hosts"
+        onClick={[Function]}
         pullRight={true}
       >
         <Dropdown
           bsClass="dropdown"
           componentClass={[Function]}
           id="hosts"
+          onClick={[Function]}
           onToggle={[Function]}
           pullRight={true}
         >
@@ -1386,10 +1404,12 @@ exports[`bookmarks should show loading spinner when loading bookmarks 1`] = `
             bsClass="btn-group"
             className="dropdown"
             justified={false}
+            onClick={[Function]}
             vertical={false}
           >
             <div
               className="dropdown btn-group"
+              onClick={[Function]}
             >
               <DropdownToggle
                 bsClass="dropdown-toggle"
@@ -1650,12 +1670,14 @@ exports[`bookmarks should show no bookmarks if server did not respond with any 1
     >
       <Uncontrolled(Dropdown)
         id="hosts"
+        onClick={[Function]}
         pullRight={true}
       >
         <Dropdown
           bsClass="dropdown"
           componentClass={[Function]}
           id="hosts"
+          onClick={[Function]}
           onToggle={[Function]}
           pullRight={true}
         >
@@ -1664,10 +1686,12 @@ exports[`bookmarks should show no bookmarks if server did not respond with any 1
             bsClass="btn-group"
             className="dropdown"
             justified={false}
+            onClick={[Function]}
             vertical={false}
           >
             <div
               className="dropdown btn-group"
+              onClick={[Function]}
             >
               <DropdownToggle
                 bsClass="dropdown-toggle"
