@@ -12,13 +12,15 @@ import helpers from '../../common/helpers';
 class BookmarkContainer extends React.Component {
   constructor(props) {
     super(props);
-    helpers.bindMethods(this, ['handleNewBookmarkClick']);
+    helpers.bindMethods(this, ['handleNewBookmarkClick', 'loadBookmarks']);
   }
 
-  componentDidMount() {
-    const { url, controller, getBookmarks } = this.props;
+  loadBookmarks() {
+    if (this.props.bookmarks.length === 0 && this.props.status !== STATUS.PENDING) {
+      const { url, controller, getBookmarks } = this.props;
 
-    getBookmarks(url, controller);
+      getBookmarks(url, controller);
+    }
   }
 
   handleNewBookmarkClick() {
@@ -45,7 +47,7 @@ class BookmarkContainer extends React.Component {
     return showModal ? (
       <SearchModal show={showModal} controller={controller} url={url} onHide={modalClosed} />
     ) : (
-      <Dropdown pullRight id={controller}>
+      <Dropdown pullRight id={controller} onClick={this.loadBookmarks}>
         <Dropdown.Toggle title={__('Bookmarks')}>
           <Icon type='fa' name='bookmark' />
         </Dropdown.Toggle>
