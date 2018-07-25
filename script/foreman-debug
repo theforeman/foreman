@@ -352,6 +352,7 @@ add_files /var/log/foreman/db_seed*.log*
 add_files /var/log/foreman/production-*.log*
 add_files /var/log/foreman/production.log
 add_files /var/log/foreman/dynflow_executor.output*
+add_files /var/log/foreman-proxy-certs-generate.*log
 
 # exclude *key.pem files and encryption_key.rb
 add_files /etc/foreman/*.{yml,yaml,conf} /etc/foreman/plugins/*.yaml
