@@ -130,12 +130,8 @@
       </ul>
       <h6><%= _("IRC") %></h6>
       <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", "http://www.freenode.net", :rel => "external")}).html_safe  %></p>
-      <h6><%= _("Mailing lists") %></h6>
-      <p><%= _("Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:") %></p>
-      <ul>
-        <li><%= link_to _("Foreman Users"), "http://groups.google.com/group/foreman-users", :rel => "external" %></li>
-        <li><%= link_to _("Foreman Developers"), "http://groups.google.com/group/foreman-dev", :rel => "external" %></li>
-      </ul>
+      <h6><%= _("Forums") %></h6>
+      <p><%= (_("You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman.") % {:community_forums => link_to( _('community forums'), "https://community.theforeman.org", :rel => "external")}).html_safe %></p>
       <h6><%= _("Issue tracker") %></h6>
       <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %></p>
     </div>
