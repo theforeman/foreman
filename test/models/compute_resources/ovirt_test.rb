@@ -19,6 +19,32 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     assert_equal host, as_admin { cr.associated_host(vm) }
   end
 
+  describe 'Working with oVirt public key' do
+    let :public_key do
+      File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+    end
+
+    it 'ignores empty PKI' do
+      mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers).tap do |m|
+        m.public_key = ''
+      end
+    end
+
+    it 'raises an exception on invalid public key' do
+      assert_raises RuntimeError do
+        mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers).tap do |m|
+          m.public_key = "-----BEGIN CERTIFICATE-----\r\nnothing\r\n-----END CERTIFICATE-----"
+        end
+      end
+    end
+
+    it 'stores the PKI without error or exceptions' do
+      mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers).tap do |m|
+        m.public_key = public_key
+      end
+    end
+  end
+
   describe "destroy_vm" do
     it "handles situation when vm is not present" do
       cr = mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers)

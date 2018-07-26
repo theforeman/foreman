@@ -532,4 +532,35 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity, "Can create libvirt compute resource with invalid name"
     end
   end
+
+  context 'ovirt' do
+    let(:simple_json) do
+      {
+        name: "oVirtTest-#{Foreman.uuid}",
+        provider: "Ovirt",
+        datacenter: "a221bee8-d53b-438e-8c43-fc9dc2b770b3",
+        url: "https://localhost/ovirt-engine/api",
+        user: "admin@internal",
+        password: "changeme"
+      }
+    end
+
+    let (:cert_raw) do
+      File.read(Rails.root.join('test/static_fixtures/certificates/example.com.crt'))
+    end
+
+    test 'Should create oVirt resource' do
+      jsn = simple_json.clone
+      jsn[:public_key] = cert_raw
+      post :create, params: { compute_resource: jsn }
+      assert_response :success, 'Created'
+
+      json_answer = JSON.parse(@response.body, symbolize_names: true)
+      assert_equal json_answer[:name], jsn[:name]
+      assert_equal json_answer[:datacenter], jsn[:datacenter]
+      assert_equal json_answer[:url], jsn[:url]
+      assert_equal json_answer[:user], jsn[:user]
+      assert_equal json_answer[:public_key], cert_raw
+    end
+  end
 end

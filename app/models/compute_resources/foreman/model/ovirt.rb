@@ -400,7 +400,12 @@ module Foreman::Model
     end
 
     def public_key=(key)
+      # validate:
+      OpenSSL::X509::Certificate.new key
+
       attrs[:public_key] = key
+    rescue OpenSSL::X509::CertificateError => e
+      raise _("Invalid certificate was provided, error: %s" % e.message)
     end
 
     def normalize_vm_attrs(vm_attrs)
@@ -472,7 +477,7 @@ module Foreman::Model
           e.message =~ /Peer certificate cannot be authenticated with given CA certificates/
         raise Foreman::FingerprintException.new(
           N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
-          ca_cert
+          get_server_ca_cert
         )
       else
         raise e
@@ -518,7 +523,7 @@ module Foreman::Model
       nil
     end
 
-    def ca_cert
+    def get_server_ca_cert
       fetch_unverified("/ovirt-engine/services/pki-resource", "resource=ca-certificate&format=X509-PEM-CA") || fetch_unverified("/ca.crt")
     end
 

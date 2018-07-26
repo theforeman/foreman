@@ -46,6 +46,7 @@ module Api
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
           param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt only')
           param :caching_enabled, :bool, :desc => N_('enable caching, for VMware only')
+          param :public_key, String, desc: N_('for oVirt only')
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
