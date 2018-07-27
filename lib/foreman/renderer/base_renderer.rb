@@ -14,7 +14,14 @@ module Foreman
       end
 
       def self.render(source, scope)
-        new(source, scope).render
+        result = new(source, scope).render
+        digest = Digest::SHA256.hexdigest(result)
+        Foreman::Logging.blob("Unattended render of '#{source.name}' = '#{digest}'", result,
+          template_digest: digest,
+          template_name: source.name,
+          template_host_name: scope.host.try(:name),
+          template_host_id: scope.host.try(:id))
+        result
       end
 
       private
