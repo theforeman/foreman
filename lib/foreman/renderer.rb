@@ -32,7 +32,8 @@ module Foreman
         klass.new(template)
       end
 
-      def get_scope(klass: Foreman::Renderer::Scope::Provisioning, host: nil, params: {}, variables: {}, mode: REAL_MODE)
+      def get_scope(klass: nil, host: nil, params: {}, variables: {}, mode: REAL_MODE, template: nil)
+        klass ||= template&.default_render_scope_class || Foreman::Renderer::Scope::Provisioning
         klass.new(host: host, params: params, variables: variables, mode: mode)
       end
 

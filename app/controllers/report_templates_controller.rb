@@ -15,10 +15,6 @@ class ReportTemplatesController < TemplatesController
 
   private
 
-  # not loading any vars, such as @host
-  def load_template_vars
-  end
-
   def action_permission
     case params[:action]
       when 'generate'

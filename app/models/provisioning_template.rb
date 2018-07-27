@@ -92,6 +92,10 @@ class ProvisioningTemplate < Template
     super + [:template_kind, :template_combinations => [:hostgroup, :environment]]
   end
 
+  def self.default_render_scope_class
+    Foreman::Renderer::Scope::Provisioning
+  end
+
   def clone
     self.deep_clone(:include => [:operatingsystems, :organizations, :locations],
                     :except  => [:name, :locked, :default, :vendor])

@@ -32,6 +32,10 @@ class ReportTemplate < Template
     end
   }
 
+  def self.default_render_scope_class
+    Foreman::Renderer::Scope::Report
+  end
+
   def taxonomy_foreign_conditions
     { :report_template_id => id }
   end

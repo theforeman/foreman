@@ -64,6 +64,10 @@ class Ptable < Template
     super + [:operatingsystems]
   end
 
+  def self.default_render_scope_class
+    Foreman::Renderer::Scope::Partition
+  end
+
   def self.preview_host_collection
     super.where(:managed => true)
   end

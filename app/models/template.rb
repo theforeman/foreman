@@ -131,6 +131,14 @@ class Template < ApplicationRecord
     self.find_or_initialize_by :name => name
   end
 
+  def self.default_render_scope_class
+    nil
+  end
+
+  def default_render_scope_class
+    self.class.default_render_scope_class
+  end
+
   private
 
   # This method can be overridden in Template children classes to import additional attributes
