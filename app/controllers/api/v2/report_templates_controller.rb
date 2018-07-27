@@ -109,7 +109,9 @@ module Api
       param :id, :identifier, :required => true
 
       def generate
-        response = unattended_render(@report_template)
+        source = Foreman::Renderer.get_source(template: @report_template)
+        scope = Foreman::Renderer.get_scope(params: params, template: @report_template)
+        response = Foreman::Renderer.render(source, scope)
         send_data response, :filename => @report_template.suggested_report_name.to_s
       rescue => e
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
