@@ -7,7 +7,7 @@ module Hostext
         @host = Host.create(:name => "host.mydomain.net", :mac => "aabbccddeaff",
                             :ip => "2.3.04.03",           :medium => media(:one),
                             :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("Common"),
-                            :architecture => Architecture.first, :disk => "aaa",
+                            :architecture => Architecture.find_by(name: 'x86_64'), :disk => "aaa",
                             :environment => Environment.find_by_name("production"))
       end
 
@@ -50,8 +50,7 @@ module Hostext
 
       test "#render_template" do
         provision_template = @host.provisioning_template({:kind => "provision"})
-        @host.expects(:load_template_vars)
-        rendered_template = @host.render_template(provision_template)
+        rendered_template = @host.render_template(template: provision_template)
         assert(rendered_template.include?("http://foreman.some.host.fqdn/unattended/finish"), "rendred template should parse foreman_url")
       end
     end

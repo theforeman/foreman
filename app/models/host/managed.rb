@@ -207,7 +207,6 @@ class Host::Managed < Host::Base
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
-    include UnattendedHelper # which also includes Foreman::Renderer
     include Orchestration
     # DHCP orchestration delegation
     delegate :dhcp?, :dhcp_records, :to => :primary_interface
@@ -333,20 +332,21 @@ class Host::Managed < Host::Base
     end
   end
 
-  def disk_layout_template
-    if disk.present?
-      { name: 'Custom disk layout', template: disk }
-    elsif ptable.present?
-      { name: ptable.name, template: ptable.layout }
-    end
+  def disk_layout_source
+    @disk_layout_source ||= if disk.present?
+                              Foreman::Renderer::Source::String.new(name: 'Custom disk layout',
+                                                                    content: disk.tr("\r", ''))
+                            elsif ptable.present?
+                              Foreman::Renderer::Source::String.new(name: ptable.name,
+                                                                    content: ptable.layout.tr("\r", ''))
+                            end
   end
 
   # returns the host correct disk layout, custom or common
   def diskLayout
-    raise Foreman::Renderer::RenderingError, 'Neither disk nor partition table defined for host' unless disk_layout_template
-    @host = self
-    load_template_vars
-    unattended_render(disk_layout_template[:template].tr("\r", ''), disk_layout_template[:name])
+    raise Foreman::Renderer::Errors::RenderingError, 'Neither disk nor partition table defined for host' unless disk_layout_source
+    scope = Foreman::Renderer.get_scope(host: self)
+    Foreman::Renderer.render(disk_layout_source, scope)
   end
 
   # reports methods
@@ -723,12 +723,6 @@ class Host::Managed < Host::Base
 
   def validate_media?
     managed && pxe_build? && build?
-  end
-
-  def render_template(template)
-    @host = self
-    load_template_vars
-    unattended_render(template)
   end
 
   def build_status_checker

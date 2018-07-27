@@ -54,22 +54,6 @@ module Orchestration::TFTP
   end
 
   def generate_pxe_template(kind)
-    # this is the only place we generate a template not via a web request
-    # therefore some workaround is required to "render" the template.
-    @kernel = host.operatingsystem.kernel(host_medium_provider)
-    @initrd = host.operatingsystem.initrd(host_medium_provider)
-    if host.operatingsystem.respond_to?(:mediumpath)
-      @mediapath = host.operatingsystem.mediumpath(host_medium_provider)
-    end
-
-    # Xen requires additional boot files.
-    if host.operatingsystem.respond_to?(:xen)
-      @xen = host.operatingsystem.xen(host_medium_provider)
-    end
-
-    # work around for ensuring that people can use @host as well, as tftp templates were usually confusing.
-    @host = self.host
-
     return build_pxe_render(kind) if build?
     default_pxe_render(kind)
   end
@@ -79,17 +63,17 @@ module Orchestration::TFTP
   def build_pxe_render(kind)
     template = host.provisioning_template({:kind => kind})
     return unless template.present?
-    unattended_render template
+    host.render_template(template: template)
   rescue => e
     failure _("Unable to render %{kind} template '%{name}': %{e}") % { :kind => kind, :name => template.try(:name), :e => e }, e
   end
 
   def default_pxe_render(kind)
     template = ProvisioningTemplate.find_by_name(local_boot_template_name(kind))
-    raise Foreman::Exception.new(N_("Template '%s' was not found"), template_name) unless template
-    unattended_render template, template_name
+    raise Foreman::Exception.new(N_("Template '%s' was not found"), template.name) unless template
+    host.render_template(template: template)
   rescue => e
-    failure _("Unable to render '%{name}' template: %{e}") % { :name => template_name, :e => e }, e
+    failure _("Unable to render '%{name}' template: %{e}") % { :name => template.name, :e => e }, e
   end
 
   # Adds the host to the forward and reverse TFTP zones

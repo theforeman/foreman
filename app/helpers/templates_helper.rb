@@ -31,11 +31,11 @@ module TemplatesHelper
   end
 
   def safemode_helpers
-    @@safemode_helpers ||= Foreman::Renderer::ALLOWED_HELPERS.sort.join(' ')
+    @@safemode_helpers ||= Foreman::Renderer.config.allowed_helpers.sort.join(' ')
   end
 
   def safemode_variables
-    @@safemode_variables ||= Foreman::Renderer::ALLOWED_VARIABLES.sort.map{|x| "@#{x}"}.join(' ')
+    @@safemode_variables ||= Foreman::Renderer.config.allowed_variables.sort.map{|x| "@#{x}"}.join(' ')
   end
 
   def locked_warning(template)

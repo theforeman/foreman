@@ -92,7 +92,7 @@
           <%= render "help_accordion", :title => _('Safe mode methods'), :contents => (capture { %>
             <%%# @host.operatingsystem.set_title("this method is not listed for Operatingsystem") %>
           <% }) %>
-          <%= render "help_accordion", :title => _('Global functions'), :contents => (capture { %>
+          <%= render "help_accordion", :title => _('Global macros'), :contents => (capture { %>
             <%%= rand(9999) + 1 %>
           <% }) %>
           <%= render "help_accordion", :title => _('Iterating'), :contents => (capture { %>
@@ -112,7 +112,7 @@
         </thead>
         <tbody>
           <tr>
-            <td class="ellipsis"><em><%= _("Global methods (functions)") %></em></td>
+            <td class="ellipsis"><em><%= _("Global methods (macros)") %></em></td>
             <td><code class="transparent"><%= safemode_helpers %></code></td>
           </tr>
           <tr>

@@ -2,7 +2,6 @@ module Api
   module V2
     class ProvisioningTemplatesController < V2::BaseController
       include Api::Version2
-      include Foreman::Renderer
       include Foreman::Controller::ProvisioningTemplates
       include Foreman::Controller::Parameters::ProvisioningTemplate
       include Foreman::Controller::TemplateImport
@@ -95,7 +94,7 @@ module Api
       api :POST, "/provisioning_templates/build_pxe_default", N_("Update the default PXE menu on all configured TFTP servers")
 
       def build_pxe_default
-        status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default(self)
+        status, msg = ProvisioningTemplate.authorized(:deploy_provisioning_templates).build_pxe_default
         render_message(msg, :status => status)
       end
 

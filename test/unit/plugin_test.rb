@@ -208,64 +208,54 @@ class PluginTest < ActiveSupport::TestCase
   end
 
   def test_register_allowed_template_helpers
-    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
+    Foreman::Renderer.configure { |config| config.allowed_generic_helpers -= [:my_helper] }
+    refute_includes Foreman::Renderer.config.allowed_helpers, :my_helper
+
     @klass.register :foo do
       allowed_template_helpers :my_helper
     end
+
     # simulate application start
     @klass.find(:foo).to_prepare_callbacks.each(&:call)
-    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-  ensure
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
+    assert_includes Foreman::Renderer.config.allowed_helpers, :my_helper
   end
 
   def test_register_allowed_template_variables
-    refute_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
+    refute_includes Foreman::Renderer.config.allowed_variables, :my_variable
+
     @klass.register :foo do
       allowed_template_variables :my_variable
     end
+
     # simulate application start
     @klass.find(:foo).to_prepare_callbacks.each(&:call)
-    assert_includes Foreman::Renderer::ALLOWED_VARIABLES, :my_variable
-  ensure
-    Foreman::Renderer::ALLOWED_VARIABLES.delete(:my_variable)
+    assert_includes Foreman::Renderer.config.allowed_variables, :my_variable
   end
 
   def test_register_allowed_global_settings
-    refute_includes Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS, :my_global_setting
+    refute_includes Foreman::Renderer.config.allowed_global_settings, :my_global_setting
+
     @klass.register :foo do
       allowed_template_global_settings :my_global_setting
     end
+
     # simulate application start
     @klass.find(:foo).to_prepare_callbacks.each(&:call)
-    assert_includes Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS, :my_global_setting
-  ensure
-    Foreman::Renderer::ALLOWED_GLOBAL_SETTINGS.delete(:my_global_setting)
+    assert_includes Foreman::Renderer.config.allowed_global_settings, :my_global_setting
   end
 
   def test_extend_rendering_helpers
-    refute Foreman::Renderer.public_instance_methods.include?(:my_helper)
-    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-    refute ::TemplatesController.public_instance_methods.include?(:my_helper)
-    refute ::UnattendedController.public_instance_methods.include?(:my_helper)
+    refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :my_helper
+    refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :private_helper
 
     @klass.register(:foo) do
       extend_template_helpers(MyMod)
     end
+
     # simulate application start
     @klass.find(:foo).to_prepare_callbacks.each(&:call)
-
-    assert UnattendedHelper.public_instance_methods.include?(:my_helper)
-    refute UnattendedHelper.public_instance_methods.include?(:private_helper)
-    assert_includes Foreman::Renderer::ALLOWED_HELPERS, :my_helper
-    refute_includes Foreman::Renderer::ALLOWED_HELPERS, :private_helper
-    assert ::TemplatesController.public_instance_methods.include?(:my_helper)
-    refute ::TemplatesController.public_instance_methods.include?(:private_helper)
-    assert ::UnattendedController.public_instance_methods.include?(:my_helper)
-    refute ::UnattendedController.public_instance_methods.include?(:private_helper)
-  ensure
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_helper)
-    Foreman::Renderer::ALLOWED_HELPERS.delete(:my_variable)
+    assert_includes Foreman::Renderer::Scope::Base.public_instance_methods, :my_helper
+    refute_includes Foreman::Renderer::Scope::Base.public_instance_methods, :private_helper
   end
 
   def test_add_compute_resource

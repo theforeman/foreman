@@ -113,15 +113,16 @@ class Hostgroup < ApplicationRecord
     "title".freeze
   end
 
-  def disk_layout_template
-    if ptable.present?
-      { name: ptable.name, template: ptable.layout }
-    end
+  def disk_layout_source
+    @disk_layout_source ||= if ptable.present?
+                              Foreman::Renderer::Source::String.new(name: ptable.name,
+                                                                    content: ptable.layout.tr("\r", ''))
+                            end
   end
 
   def diskLayout
-    raise Foreman::Renderer::RenderingError, 'Partition table not defined for hostgroup' unless disk_layout_template
-    disk_layout_template[:template].tr("\r", '')
+    raise Foreman::Renderer::Errors::RenderingError, 'Partition table not defined for hostgroup' unless disk_layout_source
+    disk_layout_source.content
   end
 
   def all_config_groups
@@ -242,6 +243,12 @@ class Hostgroup < ApplicationRecord
       result[host.name] = host.recreate_config(only)
     end
     result
+  end
+
+  def render_template(template: nil, params: {}, variables: {})
+    source = Foreman::Renderer.get_source(template: template, host: self)
+    scope = Foreman::Renderer.get_scope(host: self, params: params, variables: variables)
+    Foreman::Renderer.render(source, scope)
   end
 
   protected

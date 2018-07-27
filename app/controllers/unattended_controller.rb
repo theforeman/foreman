@@ -1,6 +1,4 @@
 class UnattendedController < ApplicationController
-  include Foreman::Renderer
-
   layout false
 
   # We dont require any of these methods for provisioning
@@ -15,8 +13,6 @@ class UnattendedController < ApplicationController
   before_action :get_built_host_details, :only => [:built, :failed]
   before_action :allowed_to_install?, :except => :hostgroup_template
   before_action :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
-  # load "helper" variables to be available in the templates
-  before_action :load_template_vars, :only => :host_template
   # all of our requests should be returned in text/plain
   after_action :set_content_type
 
@@ -48,8 +44,7 @@ class UnattendedController < ApplicationController
     @host = Hostgroup.find_by_title(params['hostgroup'].to_s)
     return head(:not_found) unless template && @host
 
-    load_template_vars if template.template_kind.name == 'provision'
-    safe_render template.template
+    safe_render(template)
   end
 
   # Generate an action for each template kind
@@ -82,8 +77,9 @@ class UnattendedController < ApplicationController
     # Compatibility with older URLs
     type = 'iPXE' if type == 'gPXE'
 
-    if (config = @host.provisioning_template({ :kind => type }))
-      safe_render config
+    template = @host.provisioning_template({ :kind => type })
+    if template
+      safe_render(template)
     else
       error_message = N_("unable to find %{type} template for %{host} running %{os}")
       render_custom_error(:not_found, error_message, {:type => type, :host => @host.name, :os => @host.operatingsystem})
@@ -246,22 +242,10 @@ class UnattendedController < ApplicationController
   end
 
   def safe_render(template)
-    if template.is_a?(String)
-      @unsafe_template_content = template
-      @template_name = 'Unnamed'
-    elsif template.is_a?(ProvisioningTemplate)
-      @unsafe_template_content = template.template
-      @template_name = template.name
-    else
-      raise "unknown template"
-    end
-
-    begin
-      render :inline => "<%= unattended_render(@unsafe_template_content, @template_name).html_safe %>"
-    rescue => error
-      msg = _("There was an error rendering the %s template: ") % @template_name
-      Foreman::Logging.exception(msg, error)
-      render :plain => msg + error.message, :status => :internal_server_error
-    end
+    render :plain => @host.render_template(template: template, params: params).html_safe
+  rescue StandardError => error
+    msg = _("There was an error rendering the %s template: ") % template.name
+    Foreman::Logging.exception(msg, error)
+    render :plain => msg + error.message, :status => :internal_server_error
   end
 end

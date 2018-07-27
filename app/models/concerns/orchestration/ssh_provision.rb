@@ -32,10 +32,9 @@ module Orchestration::SSHProvision
 
   def setSSHProvisionScript
     logger.info "About to start post launch script on #{name}"
-    template   = provisioning_template(:kind => "finish")
-    @host      = self
+    template = provisioning_template(:kind => "finish")
     logger.info "generating template to upload to #{name}"
-    self.template_file = unattended_render_to_temp_file(template)
+    self.template_file = Foreman::Renderer.render_template_to_tempfile(template: template, prefix: id.to_s, host: self)
   end
 
   def delSSHProvisionScript

@@ -34,8 +34,8 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   test "edit page contains help information" do
     Setting[:safemode_render] = true
     get :edit, params: { :id => templates(:pxekickstart).to_param }, session: set_session_user
-    assert_includes @response.body, Foreman::Renderer::ALLOWED_HELPERS.first.to_s
-    assert_includes @response.body, Foreman::Renderer::ALLOWED_VARIABLES.first.to_s
+    assert_includes @response.body, Foreman::Renderer.config.allowed_helpers.first.to_s
+    assert_includes @response.body, Foreman::Renderer.config.allowed_variables.first.to_s
     assert_includes @response.body, 'foreman_server_fqdn'
   end
 

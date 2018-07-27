@@ -2,7 +2,6 @@
 # renders it using ERB. It respects the safe-mode settings.
 #
 class ParameterSafeRender
-  include UnattendedHelper
   def initialize(host)
     @host = host
   end
@@ -12,6 +11,8 @@ class ParameterSafeRender
   end
 
   private
+
+  attr_reader :host
 
   def render_object(object)
     return object unless (Setting[:interpolate_erb_in_parameters])
@@ -31,6 +32,8 @@ class ParameterSafeRender
   end
 
   def render_string(string)
-    render_safe(string, ALLOWED_HELPERS, :host => @host)
+    source = Foreman::Renderer::Source::String.new(content: string)
+    scope = Foreman::Renderer.get_scope(klass: Foreman::Renderer::Scope::Partition, host: host)
+    Foreman::Renderer.render(source, scope)
   end
 end
