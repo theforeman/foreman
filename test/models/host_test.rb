@@ -1054,10 +1054,15 @@ class HostTest < ActiveSupport::TestCase
 
     test "custom_disk_partition_with_erb" do
       operatingsystem = operatingsystems(:redhat)
+      arch = FactoryBot.build(:architecture)
+      medium = FactoryBot.build(:medium)
+      operatingsystem.architectures << arch
+      operatingsystem.media << medium
       host = FactoryBot.build(
         :host,
         :operatingsystem => operatingsystem,
-        :architecture => FactoryBot.build(:architecture)
+        :architecture => arch,
+        :medium => medium
       )
       host.disk = "<%= template_name %> - <%= @osver %>"
       assert host.save
