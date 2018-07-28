@@ -344,8 +344,7 @@ class PuppetClassImporter
 
   def find_or_create_puppet_class_param(klass, param_name, value)
     klass.class_params.where(:key => param_name).first ||
-      PuppetclassLookupKey.create!(:key => param_name, :required => value.nil?,
-                                   :override => value.nil?, :default_value => value,
+      PuppetclassLookupKey.create!(:key => param_name, :default_value => value,
                                    :key_type => Foreman::ImporterPuppetclass.suggest_key_type(value))
   end
 end
