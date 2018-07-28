@@ -7,14 +7,14 @@ module Foreman
 
           def host_enc(*path)
             check_host
-            @enc ||= host.info.deep_dup
-            return @enc if path.compact.empty?
-            enc = @enc
-            step = nil
-            path.each { |step| enc = enc.fetch step }
-            enc
-          rescue KeyError
-            raise HostENCParamUndefined.new(name: path, step: step, host: host)
+            return enc if path.compact.empty?
+            path.reduce(enc) do |e, step|
+              begin
+                e.fetch(step)
+              rescue KeyError
+                raise HostENCParamUndefined.new(name: path, step: step, host: host)
+              end
+            end
           end
 
           def host_param(param_name, default = nil)
@@ -43,6 +43,10 @@ module Foreman
           end
 
           private
+
+          def enc
+            @enc ||= host.info.deep_dup
+          end
 
           def check_host
             raise HostUnknown if host.nil?
