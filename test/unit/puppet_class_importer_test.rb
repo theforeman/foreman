@@ -189,6 +189,17 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     assert_not_nil updated
   end
 
+  test "should not override parameter when default_value is empty" do
+    env = FactoryBot.create(:environment)
+    pc = FactoryBot.create(:puppetclass, :environments => [env])
+
+    get_an_instance.send(:update_classes_in_foreman, env.name,
+                        {pc.name => {'new' => {'test_nil_param' => nil}}})
+    lk = PuppetclassLookupKey.where(:key => 'test_nil_param').first
+    refute lk.override
+    refute lk.required
+  end
+
   test "should change default_value when importing from 2 environments" do
     envs = FactoryBot.create_list(:environment, 2)
     pc = FactoryBot.create(:puppetclass, :environments => envs)
