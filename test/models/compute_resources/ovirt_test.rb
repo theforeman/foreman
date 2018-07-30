@@ -67,6 +67,9 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
       @host.operatingsystem = operatingsystems(:ubuntu1210)
       @compute_resource.determine_os_type(@host).must_equal "ubuntu_12_10"
+
+      @host.operatingsystem = FactoryBot.create(:operatingsystem)
+      @compute_resource.determine_os_type(@host).must_equal "other"
     end
 
     it 'respects host param ovirt_ostype' do
