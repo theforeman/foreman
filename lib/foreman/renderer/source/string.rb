@@ -1,7 +1,7 @@
 module Foreman
   module Renderer
     module Source
-      class String
+      class String < Foreman::Renderer::Source::Base
         def initialize(name: 'Unnamed', content:)
           @name = name
           @content = content

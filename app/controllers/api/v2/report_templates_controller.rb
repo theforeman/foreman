@@ -3,8 +3,6 @@ module Api
     class ReportTemplatesController < V2::BaseController
       include Foreman::Controller::Parameters::ReportTemplate
       include Foreman::Controller::TemplateImport
-      include UnattendedHelper
-      include Foreman::Controller::ProvisioningTemplates
 
       wrap_parameters :report_template, :include => report_template_params_filter.accessible_attributes(parameter_filter_context)
 
@@ -109,9 +107,7 @@ module Api
       param :id, :identifier, :required => true
 
       def generate
-        source = Foreman::Renderer.get_source(template: @report_template)
-        scope = Foreman::Renderer.get_scope(params: params, template: @report_template)
-        response = Foreman::Renderer.render(source, scope)
+        response = template.render(params: params, template: @report_template)
         send_data response, :filename => @report_template.suggested_report_name.to_s
       rescue => e
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
