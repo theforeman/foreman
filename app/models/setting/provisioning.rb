@@ -16,6 +16,7 @@ class Setting::Provisioning < Setting
 
   IGNORED_INTERFACES = [
     'lo',
+    'en*v*',
     'usb*',
     'vnet*',
     'macvtap*',
