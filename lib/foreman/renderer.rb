@@ -16,7 +16,7 @@ module Foreman
       end
 
       def render_template_to_tempfile(template:, prefix:, host: nil, params: {}, variables: {}, options: {})
-        file = ""
+        file = ''
         source = get_source(template: template, host: host)
         scope = get_scope(host: host, params: params, variables: variables)
         Tempfile.open(prefix, Rails.root.join('tmp')) do |f|
@@ -32,9 +32,10 @@ module Foreman
         klass.new(template)
       end
 
-      def get_scope(klass: nil, host: nil, params: {}, variables: {}, mode: REAL_MODE, template: nil)
+      def get_scope(source: nil, klass: nil, host: nil, params: {}, variables: {}, mode: REAL_MODE, template: nil)
+        source ||= get_source(template: template)
         klass ||= template&.default_render_scope_class || Foreman::Renderer::Scope::Provisioning
-        klass.new(host: host, params: params, variables: variables, mode: mode)
+        klass.new(source: source, host: host, params: params, variables: variables, mode: mode)
       end
 
       def renderer

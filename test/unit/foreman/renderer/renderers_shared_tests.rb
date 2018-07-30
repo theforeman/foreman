@@ -3,12 +3,19 @@ module RenderersSharedTests
 
   included do
     setup do
+      @template = OpenStruct.new(
+        name: 'abc',
+        template: 'Test'
+      )
+      source = Foreman::Renderer::Source::Database.new(
+        @template
+      )
       @host = FactoryBot.create(:host, architecture: FactoryBot.create(:architecture, :name => 'SPARC-T2'),
                                        operatingsystem: operatingsystems(:redhat))
       @scope = Class.new(Foreman::Renderer::Scope::Base) do
         include Foreman::Renderer::Scope::Macros::Base
         include Foreman::Renderer::Scope::Macros::SnippetRendering
-      end.send(:new, host: @host)
+      end.send(:new, host: @host, source: source)
     end
 
     test "should evaluate template variables" do
@@ -110,7 +117,7 @@ module RenderersSharedTests
     end
 
     test "should render template name" do
-      source = OpenStruct.new(name: 'abc', content: 'x <%= @template_name %> <%= template_name %>')
+      source = OpenStruct.new(name: @template.name, content: 'x <%= @template_name %> <%= template_name %>')
       assert_equal 'x abc abc', renderer.render(source, @scope)
     end
 

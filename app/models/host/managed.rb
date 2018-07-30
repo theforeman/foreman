@@ -349,7 +349,7 @@ class Host::Managed < Host::Base
   # returns the host correct disk layout, custom or common
   def diskLayout
     raise Foreman::Renderer::Errors::RenderingError, 'Neither disk nor partition table defined for host' unless disk_layout_source
-    scope = Foreman::Renderer.get_scope(host: self)
+    scope = Foreman::Renderer.get_scope(host: self, source: disk_layout_source)
     Foreman::Renderer.render(disk_layout_source, scope)
   end
 

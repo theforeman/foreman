@@ -3,9 +3,16 @@ require 'test_helper'
 class HostTemplateTest < ActiveSupport::TestCase
   setup do
     host = FactoryBot.build_stubbed(:host)
+    template = OpenStruct.new(
+      name: 'Test',
+      template: 'Test'
+    )
+    source = Foreman::Renderer::Source::Database.new(
+      template
+    )
     @subject = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Macros::HostTemplate
-    end.send(:new, host: host)
+    end.send(:new, host: host, source: source)
   end
 
   describe '#host_enc' do

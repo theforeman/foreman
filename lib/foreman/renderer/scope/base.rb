@@ -7,16 +7,18 @@ module Foreman
         include Foreman::Renderer::Scope::Macros::TemplateLogging
         include Foreman::Renderer::Scope::Macros::SnippetRendering
 
-        def initialize(host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
+        def initialize(source:, host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
+          @source = source
           @host = host
           @params = params
           @variables_keys = variables.keys
           @mode = mode
+          @template_name = source.name
           variables.each { |k, v| instance_variable_set("@#{k}", v) }
           load_variables
         end
 
-        attr_reader :host, :params, :variables_keys, :mode
+        attr_reader :host, :params, :variables_keys, :mode, :source
 
         def get_binding
           binding

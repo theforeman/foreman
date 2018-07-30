@@ -3,9 +3,16 @@ require 'test_helper'
 class BaseMacrosTest < ActiveSupport::TestCase
   setup do
     host = FactoryBot.build_stubbed(:host)
+    template = OpenStruct.new(
+      name: 'Test',
+      template: 'Test'
+    )
+    source = Foreman::Renderer::Source::Database.new(
+      template
+    )
     @subject = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Macros::Base
-    end.send(:new, host: host)
+    end.send(:new, host: host, source: source)
   end
 
   describe '#template_name' do

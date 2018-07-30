@@ -6,7 +6,6 @@ module Foreman
       def initialize(source, scope)
         @source = source
         @scope = scope
-        @scope.instance_variable_set('@template_name', source_name)
       end
 
       def render
