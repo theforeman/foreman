@@ -12,6 +12,7 @@ module AuditExtensions
 
     include Authorizable
     include Taxonomix
+    include Foreman::TelemetryHelper
 
     # audits can be created regardless of permissions
     def check_permissions_after_save
@@ -33,9 +34,29 @@ module AuditExtensions
   private
 
   def log_audit
-    Foreman::Logging.with_fields(self.audited_changes) do
-      Foreman::Logging.logger('audit').info { "#{self.action} event for #{self.auditable_type} with id #{self.auditable_id}" }
+    telemetry_increment_counter(:audit_records_created, 1, type: self.auditable_type)
+    audit_logger = Foreman::Logging.logger('audit')
+    return unless (self.audited_changes && audit_logger.info?)
+    self.audited_changes.each_pair do |attribute, change|
+      audited_fields = {
+        audit_action: self.action,
+        audit_type: self.auditable_type,
+        audit_id: self.auditable_id,
+        audit_attribute: attribute
+      }
+      if self.action == 'update'
+        audited_fields[:audit_field_old] = change[0]
+        audited_fields[:audit_field_new] = change[1]
+        log_line = change.join(', ')
+      else
+        audited_fields[:audit_field] = change
+        log_line = change
+      end
+      Foreman::Logging.with_fields(audited_fields) do
+        audit_logger.info "#{self.auditable_type} (#{self.auditable_id}) #{self.action} event on #{attribute} #{log_line}"
+      end
     end
+    telemetry_increment_counter(:audit_records_logged, self.audited_changes.count, type: self.auditable_type)
   end
 
   def filter_encrypted
