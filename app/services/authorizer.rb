@@ -26,6 +26,8 @@ class Authorizer
 
   def find_collection(resource_class, options = {})
     permission = options.delete :permission
+    resource_class = Host if resource_class.to_s =~ /\AHost::.*\Z/
+
     Foreman::Logging.logger('permissions').debug "checking permission #{permission} for class #{resource_class}"
 
     # retrieve all filters relevant to this permission for the user
