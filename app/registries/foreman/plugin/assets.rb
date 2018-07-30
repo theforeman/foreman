@@ -52,7 +52,7 @@ module Foreman
         end
 
         if outside_prefix.present?
-          Rails.logger.warn "Plugin #{id} has assets outside of its namespace, these will be ignored: #{outside_prefix.join(', ')}"
+          Rails.logger.debug "Plugin #{id} has assets outside of its namespace, these will be ignored: #{outside_prefix.join(', ')}"
         end
 
         new_assets
