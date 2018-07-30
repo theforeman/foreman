@@ -110,7 +110,7 @@ class TemplatesController < ApplicationController
   private
 
   def safe_render(template, mode = Foreman::Renderer::REAL_MODE)
-    render :plain => template.render(host: @host, params: params, mode: mode, template: template)
+    render :plain => template.render(host: @host, params: params, mode: mode)
   rescue => error
     Foreman::Logging.exception("Error rendering the #{template.name} template", error)
     if error.is_a?(Foreman::Renderer::Errors::RenderingError)
