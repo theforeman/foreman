@@ -344,4 +344,14 @@ class AuthorizerTest < ActiveSupport::TestCase
     assert_includes collection, report1
     refute_includes collection, report2
   end
+
+  test "#find_collection(Host::Base) works with taxonomies thanks to class name sanitization" do
+    permission = Permission.find_by_name('view_hosts')
+    FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true, :organization_ids => [taxonomies(:organization1).id])
+    auth = Authorizer.new(@user)
+
+    assert_nothing_raised do
+      auth.find_collection(Host::Base)
+    end
+  end
 end
