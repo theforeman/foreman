@@ -563,7 +563,8 @@ class PluginTest < ActiveSupport::TestCase
         FileUtils.touch File.join(root, 'app', 'assets', 'javascripts', 'test_outside.js')
         FileUtils.touch File.join(root, 'app', 'assets', 'javascripts', 'test_assets_from_root', 'test_assets_example.js')
 
-        Rails.logger.expects(:warn).with(regexp_matches(/test_outside\.js/))
+        Rails.logger.stubs(:debug)
+        Rails.logger.expects(:debug).with(regexp_matches(/test_outside\.js/))
         plugin = Foreman::Plugin.register(:test_assets_from_root) do
           path root
         end
