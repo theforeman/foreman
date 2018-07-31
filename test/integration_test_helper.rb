@@ -36,8 +36,7 @@ Capybara.register_driver :selenium_chrome do |app|
   options.args << '--headless'
   options.args << '--disable-gpu'
   options.args << '--no-sandbox'
-  options.args << '--auto-open-devtools-for-tabs'
-  options.args << '--start-maximized'
+  options.args << '--window-size=1024,768'
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
