@@ -118,6 +118,7 @@ a {
   }
 }
 
+.navbar-brand,
 .header-logo {
   width: 44px;
   height: 34px;
@@ -281,7 +282,7 @@ form .fa-info-circle {
 .select2-search input,
 .select2-drop.select2-drop-above,
 .select2-container .select2-choice .select2-arrow,
-.select2-dropdown-open.select2-drop-above [class^="select2-choice"],
+.select2-dropdown-open.select2-drop-above [class^='select2-choice'],
 .select2-drop,
 .select2-container .select2-choices {
   border-radius: 0;
@@ -382,11 +383,15 @@ span.btn-action.btn-primary a {
   color: #fff;
 }
 
-.vertical-sub-header {
+.vertical-sub-header-pf {
   line-height: 25px;
   font-size: 12px;
   margin-left: 20px;
-  padding: 4px 0 2px;
   font-weight: bold;
   color: #fff;
+  padding: 20px 0 2px 5px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
