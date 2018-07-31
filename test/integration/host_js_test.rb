@@ -174,8 +174,7 @@ class HostJSTest < IntegrationTestWithJavascript
       click_on_inherit('environment')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
 
-      environment = find("#s2id_host_environment_id .select2-chosen").text
-      assert_equal overridden_hostgroup.environment.name, environment
+      assert page.has_select?("#host_environment_id", visible: false, selected: overridden_hostgroup.environment.name)
     end
 
     test 'choosing a hostgroup with compute resource works' do
@@ -289,7 +288,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
 
-      assert_selector "#inherited_parameters #name_#{hostgroup.group_parameters.first.name}"
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}", visible: false)
     end
 
     test 'new parameters can be edited and removed' do
@@ -333,7 +332,7 @@ class HostJSTest < IntegrationTestWithJavascript
   describe "hosts index multiple actions" do
     test 'show action buttons' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      check 'check_all'
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
@@ -362,7 +361,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
     test 'redirect js' do
       visit hosts_path
-      page.find('#check_all').trigger('click')
+      check 'check_all'
 
       # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
@@ -449,11 +448,10 @@ class HostJSTest < IntegrationTestWithJavascript
       click_on_inherit('puppet_proxy')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
 
-      environment = find("#s2id_host_environment_id .select2-chosen").text
-      assert_equal original_hostgroup.environment.name, environment
+      assert find("#s2id_host_environment_id .select2-chosen", visible: false).has_text? original_hostgroup.environment.name
 
       # On host group change, the disabled select will be reset to an empty value
-      assert_equal '', find("#s2id_host_puppet_proxy_id .select2-chosen").text
+      assert find("#s2id_host_puppet_proxy_id .select2-chosen", visible: false).has_text? ''
     end
 
     test 'class parameters and overrides are displayed correctly for booleans' do
@@ -584,21 +582,15 @@ class HostJSTest < IntegrationTestWithJavascript
       end
 
       test "selecting domain updates subnet list" do
+        domain = domains(:mydomain)
         disable_orchestration
         go_to_interfaces_tab
 
         table.first(:button, 'Edit').click
-
-        domain = domains(:mydomain)
+        wait_for_modal
         select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
         subnet_and_domain_are_selected(modal, domain)
-
-        subnet_id = modal.find('#host_interfaces_attributes_0_subnet_id',
-                   :visible => false).value
-        subnet_label = modal.find('#s2id_host_interfaces_attributes_0_subnet_id span.select2-chosen').text
-
-        assert_equal '', subnet_id
-        assert_equal '', subnet_label
+        assert page.has_select?('#host_interfaces_attributes_0_subnet_id', visible: false, selected: nil)
       end
 
       test "selecting domain updates puppetclass parameters" do
@@ -657,7 +649,9 @@ class HostJSTest < IntegrationTestWithJavascript
         add_interface
 
         flag_cols = table.all('td.flags')
-        flag_cols[1].find('.provision-flag').click
+        wait_for do
+          flag_cols[1].find('.provision-flag').click
+        end
 
         # only one flag switcher is active
         table.has_css?('.provision-flag.active', :count => 1)
@@ -673,7 +667,7 @@ class HostJSTest < IntegrationTestWithJavascript
         add_interface
 
         assert_interface_change(-1) do
-          table.all(:button, "Delete").last.click
+          table.first('tr:nth-child(2) td:last-child').find('button', :text => 'Delete').click
         end
       end
     end
