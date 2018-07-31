@@ -10,9 +10,8 @@ module HostFinders
 
   def add_interface
     page.find(:button, '+ Add Interface').click
-
-    modal = page.find('#interfaceModal')
-    modal.find(:button, "Ok").click
+    page.find('#interfaceModal')
+    close_interfaces_modal
   end
 
   def modal
@@ -24,7 +23,6 @@ module HostFinders
   end
 
   def assert_interface_change(change, &block)
-    table = page.find("table#interfaceList")
     original_interface_count = table.all('tr', :visible => true).count
     yield
     assert_equal original_interface_count + change, table.all('tr', :visible => true).count

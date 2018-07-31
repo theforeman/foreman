@@ -105,23 +105,37 @@ class ActionDispatch::IntegrationTest
 
   def select2(value, attrs)
     find("#s2id_#{attrs[:from]}").click
-    find(".select2-input").set(value)
+    wait_for { find(".select2-input").set(value) }
+    wait_for { find('.select2-results').visible? }
     within ".select2-results" do
       find("span", text: value).click
     end
   end
 
-  def wait_for_ajax
+  def wait_for
     Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 0.15 until ([page.evaluate_script('jQuery.active'), page.evaluate_script('window.axiosActive')] - [0, nil]).empty?
+      sleep 0.15 until result = yield
+      result
+    end
+  end
+
+  def wait_for_ajax
+    wait_for do
+      ([page.evaluate_script('jQuery.active'), page.evaluate_script('window.axiosActive')] - [0, nil]).empty?
+    end
+  end
+
+  def wait_for_modal
+    wait_for do
+      find(:css, '#interfaceModal').visible?
     end
   end
 
   def close_interfaces_modal
     click_button 'Ok' # close interfaces
     # wait for the dialog to close
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop while find(:css, '#interfaceModal', :visible => false).visible?
+    wait_for do
+      find(:css, '#interfaceModal', visible: false)
     end
   end
 
