@@ -107,7 +107,7 @@ module Api
       param :id, :identifier, :required => true
 
       def generate
-        response = template.render(params: params, template: @report_template)
+        response = @report_template.render(params: params)
         send_data response, :filename => @report_template.suggested_report_name.to_s
       rescue => e
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
