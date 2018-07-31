@@ -1261,12 +1261,15 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "#host update shouldn't diassociate from VM" do
-    hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os, :with_compute_resource)
-    host = FactoryBot.create(:host, :hostgroup => hostgroup)
-    put :update, params: { :commit => "Update", :id => host.id, :params => {:compute_resource_id => ""}}, session: set_session_user
+    hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os)
+    compute_resource = compute_resources(:ovirt)
+    host = FactoryBot.create(:host, :hostgroup => hostgroup, :compute_resource => compute_resource)
+    host_attributes = host.attributes
+    host_attributes.delete("compute_resource_id")
+    put :update, params: { :commit => "Update", :id => host.id, :host => host_attributes}, session: set_session_user
     assert_response :redirect
     host.reload
-    assert_not_nil host.compute_resource_id
+    assert host.compute_resource_id
   end
 
   test '#update_multiple_disassociate' do
