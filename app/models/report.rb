@@ -7,9 +7,9 @@ class Report < ApplicationRecord
 
   validates_lengths_from_database
   belongs_to_host
+  has_many :logs, :dependent => :destroy
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
-  has_many :logs, :dependent => :destroy
   has_one :environment, :through => :host
   has_one :hostgroup, :through => :host
 
