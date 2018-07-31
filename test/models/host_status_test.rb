@@ -8,7 +8,7 @@ class HostStatusTest < ActiveSupport::TestCase
   end
 
   test '.status_registry allows adding new status and recalling it later' do
-    status = OpenStruct.new
+    status = OpenStruct
     HostStatus.status_registry.add(status)
     assert_includes HostStatus.status_registry, status
     HostStatus.status_registry.delete(status)

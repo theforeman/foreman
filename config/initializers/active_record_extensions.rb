@@ -8,9 +8,17 @@ end
 # Permit safemode template rendering to have basic read-only access over
 # model relations
 class ActiveRecord::AssociationRelation::Jail < Safemode::Jail
-  allow :[], :each, :first, :to_a, :map
+  allow :[], :each, :first, :to_a, :map, :find_in_batches, :size
+end
+
+class ActiveRecord::Relation::Jail < Safemode::Jail
+  allow :[], :each, :first, :to_a, :map, :find_in_batches, :size
 end
 
 class ActiveRecord::Associations::CollectionProxy::Jail < Safemode::Jail
-  allow :[], :each, :first, :to_a, :map
+  allow :[], :each, :first, :to_a, :map, :find_in_batches, :size
+end
+
+class ActiveRecord::Batches::BatchEnumerator::Jail < Safemode::Jail
+  allow :each, :each_record, :map, :to_a, :first, :[], :size
 end

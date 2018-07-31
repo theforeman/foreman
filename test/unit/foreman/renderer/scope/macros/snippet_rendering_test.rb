@@ -12,6 +12,7 @@ class SnippetRenderingTest < ActiveSupport::TestCase
     snippet = mock("snippet")
     snippet.stubs(:name).returns("test")
     snippet.stubs(:template).returns("content")
+    snippet.stubs(:log_render_results?).returns(false)
     Template.expects(:where).with(:name => "test", :snippet => true).returns([snippet])
     assert_equal 'content', @subject.snippet('test')
   end

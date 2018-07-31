@@ -1,0 +1,6 @@
+<div class="editor-container">
+  <%= text_area_tag "diffLines", "" ,:size => "12x30", :class => "col-md-12 editor_source diffMode", :label=>_("Template diff"), :'data-file-name' => file_name%>
+</div>
+
+<input type="hidden" id="old" value="<%= templates[0] %>" />
+<input type="hidden" id="new" value="<%= templates[1] %>" />

@@ -242,7 +242,7 @@ class UnattendedController < ApplicationController
   end
 
   def safe_render(template)
-    render :plain => @host.render_template(template: template, params: params).html_safe
+    render :plain => template.render(host: @host, params: params).html_safe
   rescue StandardError => error
     msg = _("There was an error rendering the %s template: ") % template.name
     Foreman::Logging.exception(msg, error)

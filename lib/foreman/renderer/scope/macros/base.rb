@@ -78,10 +78,40 @@ module Foreman
                     :host => host, :port => port)
           end
 
+          def load_hosts(search: '', includes: nil)
+            load_resource(klass: Host, search: search, permission: 'view_hosts', includes: includes)
+          end
+
+          def all_host_statuses
+            @all_host_statuses ||= HostStatus.status_registry.to_a.sort_by(&:status_name)
+          end
+
+          def host_status(host, name)
+            klass = all_host_statuses.find { |status| status.status_name == name }
+            raise UnknownHostStatusError.new(status: name, statuses: all_host_statuses.map(&:status_name).join(',')) if klass.nil?
+            host.get_status(klass)
+          end
+
+          def preview?
+            mode == Renderer::PREVIEW_MODE
+          end
+
           private
 
           def validate_subnet(subnet)
             raise WrongSubnetError.new(object_name: subnet.to_s, object_class: subnet.class.to_s) unless subnet.is_a?(Subnet)
+          end
+
+          # returns a batched relation, use either
+          #   .each { |batch| batch.each { |record| record.name }}
+          # or
+          #   .each_record { |record| record.name }
+          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil)
+            base = klass
+            base = base.search_for(search)
+            base = base.includes(includes) unless includes.nil?
+            base = base.authorized(permission) unless permission.nil?
+            base.in_batches(of: batch)
           end
         end
       end

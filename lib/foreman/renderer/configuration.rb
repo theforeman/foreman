@@ -16,7 +16,11 @@ module Foreman
         :global_setting,
         :default_template_url,
         :medium_provider,
-        :medium_uri
+        :medium_uri,
+        :load_hosts,
+        :all_host_statuses,
+        :host_status,
+        :preview?
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [

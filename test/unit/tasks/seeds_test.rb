@@ -43,6 +43,8 @@ class SeedsTest < ActiveSupport::TestCase
     Dir["#{Rails.root}/app/views/unattended/**/*.erb"].each do |tmpl|
       if tmpl =~ /partition_tables_templates/
         assert Ptable.unscoped.where(:template => File.read(tmpl)).any?, "No partition table containing #{tmpl}"
+      elsif tmpl =~ /report_templates/
+        assert ReportTemplate.unscoped.where(:template => File.read(tmpl)).any?, "No report template containing #{tmpl}"
       else
         assert ProvisioningTemplate.unscoped.where(:template => File.read(tmpl)).any?, "No template containing #{tmpl}"
       end

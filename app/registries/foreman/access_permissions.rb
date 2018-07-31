@@ -522,6 +522,28 @@ Foreman::AccessControl.map do |permission_set|
                                             }
   end
 
+  permission_set.security_block :report_templates do |map|
+    map.permission :view_report_templates, {:report_templates => [:index, :show, :auto_complete_search, :revision, :preview, :welcome, :export],
+                                   :"api/v2/report_templates" => [:index, :show, :revision, :export]
+    }
+    map.permission :create_report_templates, {:report_templates => [:new, :create, :clone_template],
+                                     :"api/v2/report_templates" => [:create, :clone, :import]
+    }
+    map.permission :edit_report_templates, {:report_templates => [:edit, :update],
+                                   :"api/v2/report_templates" => [:update, :import]
+    }
+    map.permission :destroy_report_templates, {:report_templates => [:destroy],
+                                      :"api/v2/report_templates" => [:destroy]
+    }
+    map.permission :lock_report_templates, {:report_templates => [:lock, :unlock],
+                                   :"api/v2/report_templates" => [:lock, :unlock]
+    }
+
+    map.permission :generate_report_templates, {:report_templates => [:generate],
+                                   :"api/v2/report_templates" => [:generate]
+    }
+  end
+
   permission_set.security_block :roles do |map|
     map.permission :view_roles,    {:roles => [:index, :auto_complete_search],
                                     :'api/v2/roles' => [:index, :show]}

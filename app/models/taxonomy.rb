@@ -20,6 +20,7 @@ class Taxonomy < ApplicationRecord
   has_many :media, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Medium'
   has_many :provisioning_templates, -> { where(:type => 'ProvisioningTemplate') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ProvisioningTemplate'
   has_many :ptables, -> { where(:type => 'Ptable') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Ptable'
+  has_many :report_templates, -> { where(:type => 'ReportTemplate') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ReportTemplate'
   has_many :domains, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Domain'
   has_many :realms, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Realm'
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
@@ -147,6 +148,8 @@ class Taxonomy < ApplicationRecord
     new.subnets           = subnets
     new.compute_resources = compute_resources
     new.provisioning_templates = provisioning_templates
+    new.ptables = ptables
+    new.report_templates = report_templates
     new.media             = media
     new.domains           = domains
     new.realms            = realms

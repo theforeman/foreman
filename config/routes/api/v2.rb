@@ -183,6 +183,19 @@ Foreman::Application.routes.draw do
         get :last, :on => :collection
       end
 
+      resources :report_templates, :except => [:new, :edit] do
+        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
+        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        member do
+          post :clone
+          get :export, :generate
+        end
+        collection do
+          get 'revision'
+          post :import
+        end
+      end
+
       resources :config_reports, :only => [:index, :show, :destroy] do
         get :last, :on => :collection
       end

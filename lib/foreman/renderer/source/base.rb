@@ -14,8 +14,6 @@ module Foreman
           raise NotImplementedError
         end
 
-        private
-
         attr_reader :template
       end
     end

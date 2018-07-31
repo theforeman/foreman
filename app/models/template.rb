@@ -131,6 +131,28 @@ class Template < ApplicationRecord
     self.find_or_initialize_by :name => name
   end
 
+  def self.default_render_scope_class
+    nil
+  end
+
+  def default_render_scope_class
+    self.class.default_render_scope_class
+  end
+
+  def self.log_render_results?
+    true
+  end
+
+  def log_render_results?
+    self.class.log_render_results?
+  end
+
+  def render(host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
+    source = Foreman::Renderer.get_source(template: self, host: host)
+    scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables, mode: mode, template: self)
+    Foreman::Renderer.render(source, scope)
+  end
+
   private
 
   # This method can be overridden in Template children classes to import additional attributes

@@ -69,14 +69,14 @@ class BaseMacrosTest < ActiveSupport::TestCase
   end
 
   test 'ActiveRecord::AssociationRelation jail test' do
-    allowed = [:[], :each, :first, :to_a]
+    allowed = [:[], :each, :first, :to_a, :find_in_batches]
     allowed.each do |m|
       assert ActiveRecord::AssociationRelation::Jail.allowed?(m), "Method #{m} is not available in ActiveRecord::AssociationRelation::Jail while should be allowed."
     end
   end
 
   test 'ActiveRecord::Associations::CollectionProxy jail test' do
-    allowed = [:[], :each, :first, :to_a]
+    allowed = [:[], :each, :first, :to_a, :find_in_batches]
     allowed.each do |m|
       assert ActiveRecord::AssociationRelation::Jail.allowed?(m), "Method #{m} is not available in ActiveRecord::Associations::CollectionProxy::Jail while should be allowed."
     end

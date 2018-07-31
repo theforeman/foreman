@@ -52,6 +52,8 @@ module Menu
           menu.divider                  :caption => N_('Reports')
           menu.item :reports,           :caption => N_('Config Management'),
                     :url_hash => {:controller => '/config_reports', :action => 'index', :search => 'eventful = true'}
+          menu.item :report_templates,  :caption => N_('Report Templates'),
+                    :url_hash => { :controller => 'report_templates', :action => 'index' }
           menu.divider
         end
 

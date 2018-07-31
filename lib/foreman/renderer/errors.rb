@@ -30,6 +30,10 @@ module Foreman
       class FilteredGlobalSettingAccessed < RenderingError
         MESSAGE = N_('Global setting %{name} is not accessible in safe-mode').freeze
       end
+
+      class UnknownHostStatusError < RenderingError
+        MESSAGE = N_('Unknown host status "%{status}" was specified in host_status macro, use one of %{statuses}').freeze
+      end
     end
   end
 end

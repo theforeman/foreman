@@ -71,12 +71,6 @@ class ProvisioningTemplate < Template
 
   scope :of_kind, ->(kind) { joins(:template_kind).where("template_kinds.name" => kind) }
 
-  def render_template(host: nil, params: {}, variables: {})
-    source = Foreman::Renderer.get_source(template: self, host: host)
-    scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables)
-    Foreman::Renderer.render(source, scope)
-  end
-
   def self.template_ids_for(hosts)
     hosts = hosts.with_os.distinct
     oses = hosts.pluck(:operatingsystem_id)
@@ -90,6 +84,10 @@ class ProvisioningTemplate < Template
 
   def self.template_includes
     super + [:template_kind, :template_combinations => [:hostgroup, :environment]]
+  end
+
+  def self.default_render_scope_class
+    Foreman::Renderer::Scope::Provisioning
   end
 
   def clone
@@ -163,7 +161,7 @@ class ProvisioningTemplate < Template
       else
         begin
           @profiles = pxe_default_combos
-          menu = default_template.render_template(variables: { profiles: @profiles })
+          menu = default_template.render(variables: { profiles: @profiles })
         rescue => exception
           Foreman::Logging.exception("Cannot render '#{global_template_name}'", exception)
           error_msgs << "#{exception.message} (#{kind})"

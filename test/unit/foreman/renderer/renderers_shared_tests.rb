@@ -137,5 +137,15 @@ module RenderersSharedTests
         renderer.render(source, @scope)
       end
     end
+
+    test "should load hosts" do
+      source = OpenStruct.new(content: '<%= load_hosts.map { |b| b.size }.inject(0) { |m,c| m += c } %>')
+      assert_equal(renderer.render(source, @scope), Host.count.to_s)
+    end
+
+    test "should find all registered host statuses" do
+      source = OpenStruct.new(content: '<%= all_host_statuses.map { |s| s.status_name }.join(",") %>')
+      assert_equal(renderer.render(source, @scope), "Build,Configuration")
+    end
   end
 end

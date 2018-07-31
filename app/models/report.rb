@@ -112,6 +112,11 @@ class Report < ApplicationRecord
     Foreman::Plugin.report_origin_registry.all_origins
   end
 
+  # we don't want to log reports, it can be a lot of data
+  def self.log_render_results?
+    false
+  end
+
   private
 
   def read_metrics

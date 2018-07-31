@@ -324,6 +324,24 @@ Foreman::Application.routes.draw do
     end
   end
 
+  scope 'templates' do
+    resources :report_templates, :except => [:show] do
+      member do
+        get 'clone_template'
+        get 'lock'
+        get 'unlock'
+        get 'export'
+        get 'generate'
+        post 'preview'
+      end
+      collection do
+        post 'preview'
+        get 'revision'
+        get 'auto_complete_search'
+      end
+    end
+  end
+
   if SETTINGS[:unattended]
     resources :provisioning_templates, :only => [] do
       collection do

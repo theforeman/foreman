@@ -7,7 +7,7 @@ module Foreman::Controller::ProvisioningTemplates
     @locations        = @template.locations
     @organizations    = @template.organizations
     @template_kind_id = @template.template_kind_id
-    @operatingsystems = @template.operatingsystems
+    @operatingsystems = @template.operatingsystems if @template.respond_to?(:operatingsystems)
   end
 
   private

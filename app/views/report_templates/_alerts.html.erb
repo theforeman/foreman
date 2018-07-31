@@ -1,0 +1,3 @@
+<% if @template.locked? -%>
+  <%= locked_warning(::Template.find(params[:id])) %>
+<% end -%>

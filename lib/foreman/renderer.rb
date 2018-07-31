@@ -1,5 +1,9 @@
 module Foreman
   module Renderer
+    PREVIEW_MODE = 'preview'
+    REAL_MODE = 'real'
+    AVAILABLE_RENDERING_MODES = [ PREVIEW_MODE, REAL_MODE ]
+
     class << self
       attr_writer :config
 
@@ -28,8 +32,9 @@ module Foreman
         klass.new(template)
       end
 
-      def get_scope(klass: Foreman::Renderer::Scope::Provisioning, host: nil, params: {}, variables: {})
-        klass.new(host: host, params: params, variables: variables)
+      def get_scope(klass: nil, host: nil, params: {}, variables: {}, mode: REAL_MODE, template: nil)
+        klass ||= template&.default_render_scope_class || Foreman::Renderer::Scope::Provisioning
+        klass.new(host: host, params: params, variables: variables, mode: mode)
       end
 
       def renderer
