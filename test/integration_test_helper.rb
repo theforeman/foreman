@@ -114,7 +114,7 @@ class ActionDispatch::IntegrationTest
 
   def wait_for
     Timeout.timeout(Capybara.default_max_wait_time) do
-      sleep 0.15 until result = yield
+      sleep 0.15 until (result = yield)
       result
     end
   end
