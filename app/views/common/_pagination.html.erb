@@ -1,7 +1,7 @@
-<form
+<div
   class='col-md-12 <%= options[:pagination_classes] %> content-view-pf-pagination table-view-pf-pagination paginate' id='pagination'
   data-count=<%= collection.total_entries %> data-per-page=<%= per_page(collection) %>
-  onsubmit='return tfm.tools.updateTable(this);'>
+  >
   <div class='form-group'>
     <%= select_tag('per_page',
                    options_for_select(per_page_options,
@@ -12,7 +12,7 @@
     <span><%= _('per page') %></span>
   </div>
 
-  <div class='form-group'>
+  <div onkeypress='tfm.tools.onEnter(tfm.tools.updateTable, this)(event);' class='form-group'>
     <span>
       <span class='pagination-pf-items-current'>
         <%= collection.offset + 1 %>-<%= collection.offset + collection.length %>
@@ -24,4 +24,4 @@
     </span>
     <%= will_paginate(collection, options) %>
   </div>
-</form>
+</div>

@@ -100,6 +100,14 @@ export function initTypeAheadSelect(input) {
   });
 }
 
+export function onEnter(callback, element) {
+  return (event) => {
+    if (event.keyCode === 13) {
+      callback(element);
+    }
+  };
+}
+
 // handle table updates via turoblinks
 export function updateTable(element) {
   const uri = new URI(window.location.href);

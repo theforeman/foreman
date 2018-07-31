@@ -102,7 +102,7 @@ module BasicRestResponseTest
           FactoryBot.create(get_factory_name, *@factory_options)
           get :index, session: set_session_user
           assert_response :success
-          assert_select "form[id='pagination']"
+          assert_select "div[id='pagination']"
         end
 
         test 'should not render pagination when no search results' do
