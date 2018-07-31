@@ -7,6 +7,10 @@ module Foreman
           @content = content
         end
 
+        def find_snippet(name)
+          nil
+        end
+
         attr_reader :name, :content
       end
     end

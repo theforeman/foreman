@@ -14,6 +14,10 @@ module Foreman
           raise NotImplementedError
         end
 
+        def find_snippet(name)
+          raise NotImplementedError
+        end
+
         attr_reader :template
       end
     end

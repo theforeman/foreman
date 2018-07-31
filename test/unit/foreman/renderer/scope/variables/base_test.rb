@@ -2,6 +2,13 @@ require 'test_helper'
 
 class BaseVariablesTest < ActiveSupport::TestCase
   setup do
+    template = OpenStruct.new(
+      name: 'Test',
+      template: 'Test'
+    )
+    @source = Foreman::Renderer::Source::Database.new(
+      template
+    )
     @subject = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Variables::Base
     end
@@ -11,7 +18,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
     test "do not set @preseed_server and @preseed_path if @host does not have medium and os" do
       host = FactoryBot.build_stubbed(:host)
 
-      scope = @subject.new(host: host)
+      scope = @subject.new(host: host, source: @source)
 
       assert_nil scope.instance_variable_get('@preseed_path')
       assert_nil scope.instance_variable_get('@preseed_server')
@@ -26,7 +33,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
       host.operatingsystem = os
       host.medium = medium
 
-      scope = @subject.new(host: host)
+      scope = @subject.new(host: host, source: @source)
 
       assert_equal scope.instance_variable_get('@preseed_path'), '/my_path'
       assert_equal scope.instance_variable_get('@preseed_server'), 'my-example.com:80'
@@ -37,7 +44,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
     test "does not fail if @host does not have medium" do
       host = FactoryBot.build_stubbed(:host)
 
-      scope = @subject.new(host: host)
+      scope = @subject.new(host: host, source: @source)
 
       assert_nil scope.instance_variable_get('@mediapath')
     end
@@ -52,7 +59,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
     host.operatingsystem = os
     host.medium = medium
 
-    scope = @subject.new(host: host)
+    scope = @subject.new(host: host, source: @source)
 
     assert scope.instance_variable_get('@initrd').present?
     assert scope.instance_variable_get('@kernel').present?

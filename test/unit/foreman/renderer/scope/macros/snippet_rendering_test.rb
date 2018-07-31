@@ -3,18 +3,21 @@ require 'test_helper'
 class SnippetRenderingTest < ActiveSupport::TestCase
   setup do
     host = FactoryBot.build_stubbed(:host)
+    template = OpenStruct.new(
+      name: 'Test',
+      template: 'Test'
+    )
+    source = Foreman::Renderer::Source::Database.new(
+      template
+    )
     @subject = Class.new(Foreman::Renderer::Scope::Base) do
       include Foreman::Renderer::Scope::Macros::SnippetRendering
-    end.send(:new, host: host)
+    end.send(:new, host: host, source: source)
   end
 
   test "should render a snippet" do
-    snippet = mock("snippet")
-    snippet.stubs(:name).returns("test")
-    snippet.stubs(:template).returns("content")
-    snippet.stubs(:log_render_results?).returns(false)
-    Template.expects(:where).with(:name => "test", :snippet => true).returns([snippet])
-    assert_equal 'content', @subject.snippet('test')
+    snippet = FactoryBot.create(:provisioning_template, :snippet, template: 'content')
+    assert_equal 'content', @subject.snippet(snippet.name)
   end
 
   test "should render a snippet with variables" do

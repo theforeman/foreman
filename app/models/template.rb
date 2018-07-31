@@ -149,7 +149,7 @@ class Template < ApplicationRecord
 
   def render(host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
     source = Foreman::Renderer.get_source(template: self, host: host)
-    scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables, mode: mode, template: self)
+    scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables, mode: mode, template: self, source: source)
     Foreman::Renderer.render(source, scope)
   end
 
