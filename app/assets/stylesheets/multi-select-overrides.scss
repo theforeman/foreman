@@ -22,8 +22,12 @@
 
     .ms-filter {
       width: 140px;
-      height: 20px;
-      display: inline;
+    }
+
+    .form-control + .glyphicon {
+      padding: 0;
+      line-height: 20px;
+      position: relative;
     }
   }
 
