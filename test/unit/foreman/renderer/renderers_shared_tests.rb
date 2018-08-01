@@ -154,8 +154,8 @@ module RenderersSharedTests
       source = OpenStruct.new(content: '<%= all_host_statuses.map { |s| s.status_name }.join(",") %>')
       statuses = renderer.render(source, @scope).split(',')
 
-      refute_nil statuses.index('Build')
-      refute_nil statuses.index('Configuration')
+      assert_includes statuses, 'Build'
+      assert_includes statuses, 'Configuration'
       assert(statuses.index('Build') < statuses.index('Configuration'))
     end
   end
