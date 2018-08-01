@@ -31,6 +31,7 @@ class SnippetRenderingTest < ActiveSupport::TestCase
   end
 
   test "should render a snippets with variables" do
+    Foreman::Deprecation.expects(:deprecation_warning).once
     snippet = FactoryBot.create(:provisioning_template, :snippet, :template => "A <%= @b + ' ' + @c -%> D")
     assert_equal 'A B C D', @subject.snippets(snippet.name, :variables => { :b => 'B', :c => 'C' })
   end
