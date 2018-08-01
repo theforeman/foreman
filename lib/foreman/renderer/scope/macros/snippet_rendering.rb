@@ -7,13 +7,9 @@ module Foreman
             snippet(name, { silent: true }, variables: options[:variables])
           end
 
-          # provide embedded snippets support as simple erb templates
           def snippets(file, options = {})
-            if source.find_snippet(file)
-              snippet(file.gsub(/^_/, ""), options)
-            else
-              render :partial => "unattended/snippets/#{file}"
-            end
+            Foreman::Deprecation.deprecation_warning('1.22', 'The snippets template macro is deprecated. Please use snippet instead.')
+            snippet(file.gsub(/^_/, ''), options)
           end
 
           def snippet(name, options = {}, variables: {})
