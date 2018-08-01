@@ -9,6 +9,7 @@ exports[`Search Input should render 1`] = `
     type="fa"
   />
   <DebounceInput
+    className="form-control"
     debounceTimeout={300}
     element="input"
     forceNotifyByEnter={true}
