@@ -1,2 +1,2 @@
-<%= selectable_f f,:provisioning_template_id, @operatingsystem.provisioning_templates.where(:template_kind_id => f.object.template_kind_id).collect { |c| [c.name, c.id]}, { :include_blank => true }, { :label => _(f.object.template_kind.to_s) } %>
+<%= selectable_f f,:provisioning_template_id, @operatingsystem.provisioning_templates.where(:template_kind_id => f.object.template_kind_id).collect { |c| [c.name, c.id]}, { :include_blank => true }, { :label => _(f.object.template_kind.to_s), :label_help => _(f.object.template_kind.try(:description)), :required => false } %>
 <%= f.hidden_field :template_kind_id %>
