@@ -205,4 +205,10 @@ class SeedsTest < ActiveSupport::TestCase
     view_permissions = Permission.all.select { |permission| permission.name.match(/view/) && permission.name != 'view_settings' }
     assert_equal [], view_permissions - Role.unscoped.find_by_name('Viewer').permissions
   end
+
+  test "adds description to template kind" do
+    seed('070-provisioning_templates.rb')
+    tmpl_kind = TemplateKind.unscoped.find_by_name('iPXE')
+    assert_equal "Used in iPXE environments.", tmpl_kind.description
+  end
 end

@@ -17,4 +17,11 @@ class TemplateKindTest < ActiveSupport::TestCase
     kind = FactoryBot.build_stubbed(:template_kind)
     assert_equal kind.name, kind.to_s
   end
+
+  test '#default_template_descriptions returns description of every template kind' do
+    tmpl = TemplateKind.default_template_descriptions
+    tmpl.keys.each do |type|
+      assert_not_empty tmpl[type]
+    end
+  end
 end
