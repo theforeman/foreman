@@ -42,6 +42,20 @@ module Foreman
             host.params.has_key?(name) && Foreman::Cast.to_bool(host.params[name]) == false
           end
 
+          def root_pass
+            check_host
+            host.root_pass
+          end
+
+          def grub_pass
+            return '' unless @grub
+            host.grub_pass.start_with?('$1$') ? "--md5pass=#{host.grub_pass}" : "--iscrypted --password=#{host.grub_pass}"
+          end
+
+          def ks_console
+            (@port && @baud) ? "console=ttyS#{@port},#{@baud}" : ''
+          end
+
           private
 
           def enc
