@@ -153,8 +153,10 @@ module RenderersSharedTests
     test "should find all registered host statuses" do
       source = OpenStruct.new(content: '<%= all_host_statuses.map { |s| s.status_name }.join(",") %>')
       statuses = renderer.render(source, @scope).split(',')
-      assert_includes statuses, 'Build'
-      assert_includes statuses, 'Configuration'
+
+      refute_nil statuses.index('Build')
+      refute_nil statuses.index('Configuration')
+      assert(statuses.index('Build') < statuses.index('Configuration'))
     end
   end
 end
