@@ -44,11 +44,14 @@ export const loadSwitcherResourcesByResource = (resource, { page = 1, searchQuer
     dispatch({ type: BREADCRUMB_BAR_RESOURCES_FAILURE, payload: { error, resourceUrl } });
 
   const formatResults = ({ data }) => {
-    const switcherItems = flatten(Object.values(data.results)).map(result => ({
-      name: get(result, nameField),
-      id: result.id,
-      url: switcherItemUrl.replace(':id', result.id),
-    }));
+    const switcherItems = flatten(Object.values(data.results)).map((result) => {
+      const itemName = get(result, nameField);
+      return ({
+        name: itemName,
+        id: result.id,
+        url: switcherItemUrl.replace(':id', result.id).replace(':name', itemName),
+      });
+    });
 
     return {
       items: switcherItems,
