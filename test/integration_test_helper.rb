@@ -40,7 +40,7 @@ Capybara.register_driver :selenium_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
-Capybara.default_max_wait_time = 5
+Capybara.default_max_wait_time = 15
 Capybara.javascript_driver = ENV['TESTDRIVER'].try(:to_sym) || :poltergeist
 
 class ActionDispatch::IntegrationTest
@@ -105,8 +105,9 @@ class ActionDispatch::IntegrationTest
 
   def select2(value, attrs)
     find("#s2id_#{attrs[:from]}").click
+    wait_for { find('.select2-input').visible? rescue false }
     wait_for { find(".select2-input").set(value) }
-    wait_for { find('.select2-results').visible? }
+    wait_for { find('.select2-results').visible? rescue false }
     within ".select2-results" do
       find("span", text: value).click
     end
