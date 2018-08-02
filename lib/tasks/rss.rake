@@ -31,9 +31,11 @@ Examples:
 END_DESC
 
   task :create_notifications => :environment do
+    posts = ENV.key?('FOREMAN_RSS_LATEST_POSTS') ? ENV['FOREMAN_RSS_LATEST_POSTS'].to_i : 3
+
     rss_checker = UINotifications::RssNotificationsChecker.new(
       :url => ENV['FOREMAN_RSS_URL'],
-      :latest_posts => ENV['FOREMAN_RSS_LATEST_POSTS'].to_i,
+      :latest_posts => posts,
       :audience => ENV['FOREMAN_RSS_AUDIENCE'],
       :force_repost => ENV['FOREMAN_RSS_FORCE_REPOST'] == 'true'
     )
