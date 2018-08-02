@@ -173,8 +173,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
       click_on_inherit('environment')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-
-      assert page.has_select?("#host_environment_id", visible: false, selected: overridden_hostgroup.environment.name)
+      assert page.has_select?('host_environment_id', visible: false, selected: overridden_hostgroup.environment.name)
     end
 
     test 'choosing a hostgroup with compute resource works' do
@@ -590,7 +589,7 @@ class HostJSTest < IntegrationTestWithJavascript
         wait_for_modal
         select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
         subnet_and_domain_are_selected(modal, domain)
-        assert page.has_select?('#host_interfaces_attributes_0_subnet_id', visible: false, selected: nil)
+        assert page.find('#host_interfaces_attributes_0_subnet_id option[selected="selected"]', visible: false).has_text? ""
       end
 
       test "selecting domain updates puppetclass parameters" do
