@@ -157,10 +157,17 @@ module.exports = env => {
             chunks: 'all',
             reuseExistingChunk: true,
             test: function(module) {
-              let match = false;
-
-              if (! module.resource && module.name === 'vendor')
+              // vendor entry bundle
+              if (! module.resource && module.name === 'vendor') {
                 return true;
+              }
+
+              // any css
+              if (! module.resource) {
+                return false;
+              }
+
+              let match = false;
 
               vendorEntry.forEach(function(entry) {
                 match = match || module.resource.match(entry);
