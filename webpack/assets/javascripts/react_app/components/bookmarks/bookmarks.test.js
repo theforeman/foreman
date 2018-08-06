@@ -4,6 +4,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { Dropdown } from 'patternfly-react';
 import BookmarksContainer from './';
 import API from '../../API';
 import {
@@ -14,12 +15,14 @@ import {
   afterError,
   bookmarks,
 } from './bookmarks.fixtures';
+import { onSuccessActions } from '../../redux/actions/bookmarks/bookmarks.fixtures';
+import * as BookmarkActions from '../../redux/actions/bookmarks';
 
 jest.mock('../../API');
 API.get = jest.fn(() => Promise.resolve({ results: bookmarks }));
 const mockStore = configureMockStore([thunk]);
 
-function setup() {
+function setup(state = initialState) {
   const props = {
     data: {
       controller: 'hosts',
@@ -28,7 +31,7 @@ function setup() {
     },
   };
 
-  const wrapper = mount(<Provider store={mockStore(initialState)}>
+  const wrapper = mount(<Provider store={mockStore(state)}>
       <BookmarksContainer {...props} />
     </Provider>);
 
@@ -37,6 +40,43 @@ function setup() {
     wrapper,
   };
 }
+
+describe('bookmarks loading', () => {
+  const loadBookmarksScenario = ({ state, getBookmarksCalls }) => {
+    jest.mock('../../redux/actions/bookmarks');
+    BookmarkActions.getBookmarks = jest.fn().mockReturnValue(onSuccessActions[1]);
+    const { wrapper } = setup(state);
+    wrapper.find(Dropdown).simulate('click');
+    expect(BookmarkActions.getBookmarks.mock.calls.length).toBe(getBookmarksCalls);
+    jest.unmock('../../redux/actions/bookmarks');
+  };
+
+  const fixtures = {
+    'initial state should call getBookmarks': {
+      state: initialState,
+      getBookmarksCalls: 1,
+    },
+    'after success state with 0 bookmarks should call getBookmarks': {
+      state: afterSuccessNoResults,
+      getBookmarksCalls: 1,
+    },
+    'after error state should call getBookmarks': {
+      state: afterError,
+      getBookmarksCalls: 1,
+    },
+    'after request state should not call getBookmarks': {
+      state: afterRequest,
+      getBookmarksCalls: 0,
+    },
+    'after success state with bookmarks should not call getBookmarks': {
+      state: afterSuccess,
+      getBookmarksCalls: 0,
+    },
+  };
+
+  Object.keys(fixtures).forEach(testCase =>
+    it(testCase, () => loadBookmarksScenario(fixtures[testCase])));
+});
 
 describe('bookmarks', () => {
   it('empty state', () => {
