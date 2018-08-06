@@ -19,13 +19,13 @@ ReportTemplate.without_auditing do
     else
       next if SeedHelper.audit_modified? ReportTemplate, input[:name]
       t = ReportTemplate.create({
-                                   :template => contents,
-                                   :locked => true,
-                                   :default => true,
-                                   :name => input[:name],
-                                   :snippet => input[:snippet] || false,
-                                   :vendor => 'Foreman'
-                                 })
+                                  :template => contents,
+                                  :locked => true,
+                                  :default => true,
+                                  :name => input[:name],
+                                  :snippet => input[:snippet] || false,
+                                  :vendor => 'Foreman'
+                                })
 
       t.organizations = organizations if SETTINGS[:organizations_enabled]
       t.locations = locations if SETTINGS[:locations_enabled]
