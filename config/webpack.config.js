@@ -156,6 +156,18 @@ module.exports = env => {
             name: 'vendor',
             chunks: 'all',
             reuseExistingChunk: true,
+            test: function(module) {
+              let match = false;
+
+              if (! module.resource && module.name === 'vendor')
+                return true;
+
+              vendorEntry.forEach(function(entry) {
+                match = match || module.resource.match(entry);
+              });
+
+              return match;
+            },
           },
         },
       },
