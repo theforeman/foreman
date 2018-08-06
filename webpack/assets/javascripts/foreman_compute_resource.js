@@ -72,6 +72,7 @@ export function testConnection(item) {
   }
 
   const password = $('input#compute_resource_password').val();
+  const passwordDisabled = $('#compute_resource_password').prop('disabled');
 
   $('.tab-error').removeClass('tab-error');
   $('#test_connection_indicator').show();
@@ -100,7 +101,7 @@ export function testConnection(item) {
     complete(result) {
       // we need to restore the password field as it is not sent back from the server.
       $('input#compute_resource_password').val(password);
-      $('#compute_resource_password').prop('disabled', false);
+      $('#compute_resource_password').prop('disabled', passwordDisabled);
       $('#test_connection_indicator').hide();
       // eslint-disable-next-line no-undef
       reloadOnAjaxComplete('#test_connection_indicator');

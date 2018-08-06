@@ -82,7 +82,7 @@ module ComputeResourcesHelper
   end
 
   def unset_password?
-    action_name == "edit" || action_name == "test_connection"
+    action_name == "edit" || (action_name == "test_connection" && params[:cr_id].present?)
   end
 
   def test_connection_button_f(f, success, caption = nil)
