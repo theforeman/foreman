@@ -50,10 +50,10 @@
             <td><%= name.humanize %></td>
             <% if change.is_a?(Array) %>
               <% change.each do |v| %>
-                <td><%= id_to_label(name,v,false) %></td>
+                <td><%= id_to_label(name, v, truncate: false) %></td>
               <% end %>
             <% else %>
-              <td><%= id_to_label(name,change,false) %></td>
+              <td><%= id_to_label(name, change, truncate: false) %></td>
             <% end %>
           </tr>
         <% end %>

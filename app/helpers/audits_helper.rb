@@ -3,7 +3,7 @@ module AuditsHelper
                     Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup Ptable)
 
   # lookup the Model representing the numerical id and return its label
-  def id_to_label(name, change, truncate = true)
+  def id_to_label(name, change, audit: @audit, truncate: true)
     return _("N/A") if change.nil?
     case name
       when "ancestry"
@@ -11,7 +11,21 @@ module AuditsHelper
       when 'last_login_on'
         label = change.to_s(:short)
       when /.*_id$/
-        label = name.classify.gsub('Id','').constantize.find(change).to_label
+        begin
+          label = key_to_class(name, audit)&.find(change)&.to_label
+        rescue NameError
+          # fallback to the value only instead of N/A that is in generic rescue below
+          return _("Missing(ID: %s)") % change
+        end
+      when /.*_ids$/
+        existing = key_to_class(name, audit)&.where(id: change)&.index_by(&:id)
+        label = change.map do |id|
+          if existing&.has_key?(id)
+            existing[id].to_label
+          else
+            _("Missing(ID: %s)") % id
+          end
+        end.join(', ')
       else
         label = change.to_s == "[encrypted]" ? _(change.to_s) : change.to_s
     end
@@ -63,7 +77,10 @@ module AuditsHelper
           to = HostStatus::Global.new(base[1]).to_label
           _("Global status changed from %{from} to %{to}") % { :from => from, :to => to }
         else
-          _("%{name} changed from %{label1} to %{label2}") % { :name => name.humanize, :label1 => id_to_label(name, change[0]), :label2 => id_to_label(name, change[1]) }
+          _("%{name} changed from %{label1} to %{label2}") % {
+            :name => name.humanize,
+            :label1 => id_to_label(name, change[0], audit: audit),
+            :label2 => id_to_label(name, change[1], audit: audit) }
         end
       end
     elsif !main_object? audit
@@ -177,5 +194,10 @@ module AuditsHelper
     return true if MAIN_OBJECTS.include?(audit.auditable_type)
     type = audit.auditable_type.split("::").last rescue ''
     MAIN_OBJECTS.include?(type)
+  end
+
+  def key_to_class(key, audit)
+    auditable_type = (audit.auditable_type == 'Host::Base') ? 'Host::Managed' : audit.auditable_type
+    auditable_type.constantize.reflect_on_association(key.sub(/_id(s?)$/, '\1'))&.klass
   end
 end
