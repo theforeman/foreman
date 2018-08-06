@@ -151,10 +151,11 @@ module.exports = env => {
 
     optimization: {
       splitChunks: {
-        minChunks: Infinity,
         cacheGroups: {
           vendor: {
             name: 'vendor',
+            chunks: 'all',
+            reuseExistingChunk: true,
           },
         },
       },
