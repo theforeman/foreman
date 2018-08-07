@@ -1,5 +1,33 @@
+2018-08-07	Tomer Brisker <tbrisker@gmail.com>
+	* i18n - extracting new, pulling from tx
+	* Fixes #24302 - Correct string extractions
+
+2018-08-06	Sebastian Gräßl <mail@bastilian.me>
+	* Refs #24350 - Adjust puppet_interval to include grace time
+	* Fixes #24350 - Change general out of sync interval to 30 minutes
+
+2018-08-06	Shira Maximov <shiramaximov@gmail.com>
+	* Refs #23373 - Remove the api fix and fix tests
+	* Fixes #23373 - Fix host dissociation when updating host
+
+2018-08-06	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #24298 - Some audits show 'Missing ID' instead of name
+
+2018-08-01	Marek Hulan <mhulan@redhat.com>
+	* Fixes #24320 - stop dropping vmware fields
+
+2018-08-01	Ori Rabin <orrabin@gmail.com>
+	* Fixes #24355 - Never override a smart class parameter on import
+
 2018-07-19	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 1.19.0-RC1
 	* templates - sync from community-templates
+
+2018-07-19	UXabre <arend.lapere@gmail.com>
+	* fixes #23291 - fixes double appending of /unattended to proxy url
+
+2018-07-19	Timo Goebel <mail@timogoebel.name>
+	* Fixes #24279 - removed setSSHCert - handle_ca no longer around
 
 2018-07-16	Tomer Brisker <tbrisker@gmail.com>
 	* i18n - extracting new, pulling from tx
