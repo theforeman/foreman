@@ -110,15 +110,14 @@ Foreman::Application.configure do |app|
       if (webpack_manifest_file = Dir.glob("#{Rails.root}/public/webpack/manifest.json").first)
         webpack_manifest = JSON.parse(File.read(webpack_manifest_file))
 
-        Foreman::Plugin.all.each do |plugin|
-          manifest_path = File.join(plugin.path, 'public', 'webpack', plugin.id.to_s, 'manifest.json')
+        Foreman::Plugin.with_webpack.each do |plugin|
+          manifest_path = plugin.webpack_manifest_path
+          next unless manifest_path
 
-          if File.file?(manifest_path)
-            Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
-            assets = JSON.parse(File.read(manifest_path))
+          Rails.logger.debug { "Loading #{plugin.id} webpack asset manifest from #{manifest_path}" }
+          assets = JSON.parse(File.read(manifest_path))
 
-            webpack_manifest['assetsByChunkName'][plugin.id.to_s] = assets['assetsByChunkName'][plugin.id.to_s] if assets['assetsByChunkName'].key?(plugin.id.to_s)
-          end
+          webpack_manifest['assetsByChunkName'][plugin.id.to_s] = assets['assetsByChunkName'][plugin.id.to_s] if assets['assetsByChunkName'].key?(plugin.id.to_s)
         end
 
         Webpack::Rails::Manifest.manifest = webpack_manifest
