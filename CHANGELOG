@@ -1,4 +1,38 @@
+2018-08-07	Chris Roberts <chrobert@redhat.com>
+	* Fixes #23961 - Update Foreman Fog-Vsphere select_nic method.
+
+2018-08-07	Zachary Bedell <zac@thebedells.org>
+	* fixes #23909 - vsphere: prefer network search by key
+
+2018-08-01	Ori Rabin <orrabin@gmail.com>
+	* Fixes #24355 - Never override a smart class parameter on import
+
+2018-07-09	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #23382 - Hashes in arrays are shown properly on ENC
+
+2018-07-09	Marek Hulan <mhulan@redhat.com>
+	* Fixes #23782 - restore login disabling
+
+2018-07-02	Timo Goebel <mail@timogoebel.name>
+	* fixes #23621 - passwords can be md5 hashed
+
+2018-06-13	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #23818 - Update fog-openstack to save OpenStack OSP 12
+
+2018-05-31	Steve Miller <me@r15cookie.com>
+	* Fixes #19990 - VMWare allow save vm w/o size_gb attr
+
+2018-05-25	Marek Hulan <mhulan@redhat.com>
+	* Fixes #22983, #22010 - ignore persistence authz for relations
+
+2018-05-25	Lukáš Zapletal <lzap@redhat.com>
+	* Fixes #23679 - Nil error in migrate_template_to_parameters_macros (#5606)
+
+2018-05-22	Bastian Blank <bastian.blank@credativ.de>
+	* Fixes #23608 - Only calculate lookup values once
+
 2018-05-18	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.17.1
 	* i18n - extracting new, pulling from tx
 
 2018-05-17	Timo Goebel <mail@timogoebel.name>
