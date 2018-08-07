@@ -67,7 +67,7 @@ module ComputeResourcesHelper
     return [] unless compute.uuid || controller.action_name == 'test_connection'
     compute.datacenters
   rescue Foreman::FingerprintException => e
-    compute.errors[:pubkey_hash] = e
+    compute.errors.add(:pubkey_hash, e.message)
     []
   rescue => e
     Foreman::Logging.exception("Failed listing datacenters", e)
