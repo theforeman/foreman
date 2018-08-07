@@ -107,6 +107,10 @@ module Foreman #:nodoc:
       def registered_report_scanners
         report_scanner_registry.report_scanners
       end
+
+      def with_webpack
+        all.select(&:uses_webpack?)
+      end
     end
 
     prepend Foreman::Plugin::Assets

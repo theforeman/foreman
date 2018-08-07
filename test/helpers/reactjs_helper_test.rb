@@ -10,13 +10,17 @@ class ReactjsHelperTest < ActionView::TestCase
   setup do
     Foreman::Plugin.register(:foreman_react) {}
     Foreman::Plugin.register(:foreman_angular) {}
-    @plugins = [Foreman::Plugin.find(:foreman_react), Foreman::Plugin.find(:foreman_angular)]
-    self.stubs(:all_webpacked_plugins).returns(@plugins)
+    Foreman::Plugin.any_instance.stubs(:uses_webpack?).returns(true)
+  end
+
+  teardown do
+    Foreman::Plugin.unregister(:foreman_react)
+    Foreman::Plugin.unregister(:foreman_angular)
   end
 
   test "should select requested plugins" do
     plugin_names = [:foreman_react, :foreman_backbone]
-    selected_plugins = select_requested_plugins(all_webpacked_plugins.map(&:id), plugin_names)
+    selected_plugins = select_requested_plugins(plugin_names)
     assert selected_plugins.include?(:foreman_react)
     assert_equal 1, selected_plugins.size
   end
@@ -27,7 +31,7 @@ class ReactjsHelperTest < ActionView::TestCase
   end
 
   test "should not create js for plugins without webpacked js" do
-    refute webpacked_plugins_js_for(:foreman_meteor)
+    assert_empty webpacked_plugins_js_for(:foreman_meteor)
   end
 
   test "should create js for plugins with webpacked js" do

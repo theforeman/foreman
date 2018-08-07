@@ -25,6 +25,15 @@ module Foreman
         @automatic_assets = !!enabled
       end
 
+      def webpack_manifest_path
+        manifest_path = File.join(path, 'public', 'webpack', id.to_s, 'manifest.json')
+        File.file?(manifest_path) ? manifest_path : nil
+      end
+
+      def uses_webpack?
+        File.file?(File.join(path, 'webpack', 'index.js')) || webpack_manifest_path.present?
+      end
+
       private
 
       def find_assets(root)
