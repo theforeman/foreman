@@ -20,8 +20,8 @@ module ReactjsHelper
   end
 
   def all_webpacked_plugins
-    Foreman::Plugin.registered_plugins.values.select do |plugin|
-      File.exist? File.join(plugin.path, 'webpack/index.js')
+    Foreman::Plugin.all.select do |plugin|
+      File.exist?(File.join(plugin.path, 'webpack/index.js')) || plugin.webpack_manifest_path
     end
   end
 

@@ -168,6 +168,11 @@ module Foreman #:nodoc:
       "Foreman plugin: #{id}, #{version}, #{author}, #{description}"
     end
 
+    def webpack_manifest_path
+      manifest_path = File.join(self.path, 'public', 'webpack', self.id.to_s, 'manifest.json')
+      File.file?(manifest_path) ? manifest_path : nil
+    end
+
     # Sets a requirement on Foreman version
     # Raises a PluginRequirementError exception if the requirement is not met
     # matcher format is gem dependency format
