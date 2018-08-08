@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactPasswordStrength from 'react-password-strength';
-
+import Loadable from 'react-loadable';
 import CommonForm from '../common/forms/CommonForm';
 
 import './PasswordStrength.scss';
 
+const LoadingComponent = () => <div> Loading... </div>;
+
+const ReactPasswordStrength = Loadable({
+  loader: () => import(/* webpackChunkName: 'react-password-strength' */ 'react-password-strength'),
+  loading: LoadingComponent,
+});
 export default class PasswordStrength extends React.Component {
   render() {
     const {

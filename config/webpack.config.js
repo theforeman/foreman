@@ -11,10 +11,21 @@ var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
+var { execSync } = require('child_process');
+
+ const getHostname = () => {
+  const hostnameOutput = execSync('hostname', {
+    stdio: ['pipe', 'pipe', 'ignore'],
+  });
+  return hostnameOutput
+    .toString()
+    .split('\n')[0];
+}
 
 module.exports = env => {
   // must match config.webpack.dev_server.port
-  var devServerPort = 3808;
+  const devServerPort = 3808;
+  const devServerHostname = process.env.HOSTNAME || getHostname();
 
   // set TARGETNODE_ENV=production on the environment to add asset fingerprints
   var production =
@@ -36,12 +47,14 @@ module.exports = env => {
     var outputPath = path.join(plugins['plugins'][env.pluginName]['root'], 'public', 'webpack');
     var jsFilename = production ? env.pluginName + '/[name]-[chunkhash].js' : env.pluginName + '/[name].js';
     var cssFilename = production ? env.pluginName + '/[name]-[chunkhash].css' : env.pluginName + '/[name].css';
+    var chunkFilename = production ? env.pluginName + '[name]-[chunkhash].js' : env.pluginName + '[name].js';
     var manifestFilename = env.pluginName + '/manifest.json';
   } else {
     var pluginEntries = plugins['entries'];
     var outputPath = path.join(__dirname, '..', 'public', 'webpack');
     var jsFilename = production ? '[name]-[chunkhash].js' : '[name].js';
     var cssFilename = production ? '[name]-[chunkhash].css' : '[name].css';
+    var chunkFilename = production ? '[name]-[chunkhash].js' : '[name].js';
     var manifestFilename = 'manifest.json';
   }
 
@@ -53,6 +66,13 @@ module.exports = env => {
     pluginEntries
   );
 
+  var publicPath;
+  if (production) {
+    publicPath = process.env.ASSET_PATH || '/webpack/';
+  } else {
+    publicPath = process.env.ASSET_PATH || `http://${devServerHostname}:${devServerPort}/webpack/`;
+  }
+
   var config = {
     entry: entry,
     output: {
@@ -61,8 +81,9 @@ module.exports = env => {
 
       // must match config.webpack.output_dir
       path: outputPath,
-      publicPath: '/webpack/',
-      filename: jsFilename
+      publicPath,
+      filename: jsFilename,
+      chunkFilename
     },
 
     resolve: {
@@ -91,7 +112,8 @@ module.exports = env => {
               path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
               path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
               path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign'),
-              path.join(__dirname, '..', 'node_modules/babel-plugin-lodash')
+              path.join(__dirname, '..', 'node_modules/babel-plugin-lodash'),
+              path.join(__dirname, '..', 'node_modules/babel-plugin-syntax-dynamic-import')
             ]
           }
         },

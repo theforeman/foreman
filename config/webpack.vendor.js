@@ -9,7 +9,6 @@ module.exports = [
   'react-ellipsis-with-tooltip',
   'react-numeric-input',
   'react-onclickoutside',
-  'react-password-strength',
   'patternfly-react',
   'react-redux',
   'redux',
