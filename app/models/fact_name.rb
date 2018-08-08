@@ -15,7 +15,7 @@ class FactName < ApplicationRecord
   scope :with_parent_id, lambda { |find_ids|
     conds, binds = [], []
     [find_ids].flatten.each do |find_id|
-      conds.push "(fact_names.ancestry LIKE '%/?' OR ancestry = '?')"
+      conds.push "(fact_names.ancestry LIKE '%/?' OR fact_names.ancestry = '?')"
       binds.push find_id, find_id
     end
     where(conds.join(' OR '), *binds)
