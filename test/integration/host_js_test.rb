@@ -170,10 +170,10 @@ class HostJSTest < IntegrationTestWithJavascript
 
       visit new_host_path
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
-
+      wait_for_ajax
       click_on_inherit('environment')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      assert page.has_select?('host_environment_id', visible: false, selected: overridden_hostgroup.environment.name)
+      assert page.find('#s2id_host_environment_id .select2-chosen').has_text? overridden_hostgroup.environment.name
     end
 
     test 'choosing a hostgroup with compute resource works' do
@@ -224,6 +224,7 @@ class HostJSTest < IntegrationTestWithJavascript
       select2 env.name, :from => 'host_environment_id'
 
       click_link 'Operating System'
+      wait_for_ajax
       select2 os.architectures.first.name, :from => 'host_architecture_id'
       select2 os.title, :from => 'host_operatingsystem_id'
       uncheck('host_build')
