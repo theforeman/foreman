@@ -25,4 +25,9 @@ class DirtyAssociationsTest < ActiveSupport::TestCase
     @tester.organization_ids = [3]
     assert_equal @tester.organization_ids_was, [1, 2]
   end
+
+  test "association setter accepts single ids too" do
+    @tester.organization_ids = 3
+    assert_equal @tester.organization_ids, [3]
+  end
 end
