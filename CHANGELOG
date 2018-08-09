@@ -1,3 +1,10 @@
+2018-08-09	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.17.3
+	* Revert "Fixes #23961 - Update Foreman Fog-Vsphere select_nic method."
+
+2018-08-07	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.17.2
+
 2018-08-07	Chris Roberts <chrobert@redhat.com>
 	* Fixes #23961 - Update Foreman Fog-Vsphere select_nic method.
 
