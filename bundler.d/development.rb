@@ -8,6 +8,9 @@ group :development do
   # for generating foreign key migrations
   gem 'immigrant', '~> 0.1'
 
+  # for checking database indicies
+  gem "active_record_doctor"
+
   gem 'pry'
 
   gem 'bullet', '>= 5.7.3'
