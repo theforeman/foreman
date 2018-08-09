@@ -32,7 +32,9 @@ module DirtyAssociations
           #     self.organization_ids_without_change_detection = organizations
           #   end
           define_method "#{association_ids}=" do |collection|
-            collection ||= [] # in API, #{association}_ids is converted to nil if user sent empty array
+            # in API, #{association}_ids is converted to nil if user sent empty array
+            # in case we got single id, we ensure it's an array
+            collection = Array(collection)
             instance_variable_set("@#{association_ids}_changed", collection.uniq.select(&:present?).map(&:to_i).sort != self.send(association_ids).sort)
             instance_variable_set("@#{association_ids}_was", self.send(association_ids).clone)
             super(collection)
