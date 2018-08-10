@@ -76,7 +76,7 @@ class ProvisioningTemplatesList
         { :name => 'kickstart_ifcfg_get_identifier_names', :source => 'snippet/_kickstart_ifcfg_get_identifier_names.erb', :snippet => true },
         { :name => 'kickstart_networking_setup', :source => 'snippet/_kickstart_networking_setup.erb', :snippet => true },
         { :name => 'preseed_networking_setup', :source => 'snippet/_preseed_networking_setup.erb', :snippet => true },
-        { :name => '_blacklist_kernel_modules.erb', :source => 'snippet/_blacklist_kernel_modules.erb', :snippet => true },
+        { :name => 'blacklist_kernel_modules', :source => 'snippet/_blacklist_kernel_modules.erb', :snippet => true },
         { :name => 'puppet.conf', :source => 'snippet/_puppet.conf.erb', :snippet => true },
         { :name => 'puppet_setup', :source => 'snippet/_puppet_setup.erb', :snippet => true },
         { :name => 'puppetlabs_repo', :source => 'snippet/_puppetlabs_repo.erb', :snippet => true },
