@@ -6,6 +6,7 @@ module.exports = [
   'react',
   'react-dom',
   'react-bootstrap',
+  'react-debounce-input',
   'react-ellipsis-with-tooltip',
   'react-numeric-input',
   'react-onclickoutside',
@@ -59,6 +60,7 @@ module.exports = [
   /**
    * Other packages
    */
+  'axios',
   'diff',
   'ipaddr.js',
   'jstz',
