@@ -1231,6 +1231,32 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_proxy['name'], JSON.parse(@response.body)['puppet_proxy']['name'], "Can't update host with puppet proxy #{puppet_proxy}"
   end
 
+  test "should clone host with one interface" do
+    new_name = "cloned-host"
+    post :clone, params: { :id => @host.id, :mac => '52:54:00:8c:4c:f1', :ip => '172.17.0.25', :name => new_name }
+    assert_response :success
+    h = Host.find_by :name => new_name
+    assert_equal new_name, h.name
+    assert_equal '172.17.0.25', h.ip
+    assert_equal '52:54:00:8c:4c:f1', h.mac
+  end
+
+  test "should clone host with multiple interfaces but only primary interface will be cloned" do
+    primary = FactoryBot.build(:nic_bond, :primary => true, :identifier => "to-be-cloned")
+    provision = FactoryBot.build(:nic_bond, :provision => true)
+    @host = FactoryBot.create(:host, :interfaces => [primary, provision])
+    new_name = "cloned-host"
+    post :clone, params: { :id => @host.id, :mac => '52:54:00:8c:4c:f1', :ip => '172.17.0.25', :name => new_name }
+    assert_response :success
+    h = Host.find_by :name => new_name
+    assert_equal new_name, h.name
+    assert_equal '172.17.0.25', h.ip
+    assert_equal '52:54:00:8c:4c:f1', h.mac
+    assert_equal 1, h.interfaces.length
+    assert_equal true, h.interfaces.first.primary
+    assert_equal "to-be-cloned", h.interfaces.first.identifier
+  end
+
   # This is a test of the base_controller functionality, but we need to use a real endpoint
   # to test the API response metadata is returned correctly
   describe 'should create correct subtotals' do

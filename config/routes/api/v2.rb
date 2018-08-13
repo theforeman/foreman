@@ -373,6 +373,7 @@ Foreman::Application.routes.draw do
           put :power, :on => :member
           put :rebuild_config, :on => :member
           post :facts, :on => :collection
+          post :clone, :on => :member
           resources :audits, :only => :index
           resources :facts,  :only => :index, :controller => :fact_values
           resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]

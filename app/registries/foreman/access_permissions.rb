@@ -321,7 +321,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :interfaces => [:new, :random_name],
-                                     :"api/v2/hosts" => [:create],
+                                     :"api/v2/hosts" => [:create, :clone],
                                      :"api/v2/interfaces" => [:create],
                                      :"api/v2/tasks" => [:index]
                                   }

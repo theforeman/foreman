@@ -657,6 +657,23 @@ class Host::Managed < Host::Base
     host
   end
 
+  def api_clone
+    host = self.selective_clone
+    if self.interfaces.length == 1
+      host.interfaces = self.interfaces.map(&:clone)
+    else
+      primary_interface = self.interfaces.select(&:primary)
+      host.interfaces = primary_interface.map(&:clone)
+    end
+
+    if self.compute_resource
+      host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
+    end
+
+    host.refresh_global_status
+    host
+  end
+
   def bmc_nic
     interfaces.bmc.first
   end

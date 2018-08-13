@@ -11,7 +11,7 @@ module Api
       wrap_parameters :host, :include => host_params_filter.accessible_attributes(parameter_filter_context) + ['compute_attributes']
       include HostsControllerExtension
 
-      before_action :check_create_host_nested, :only => [:create, :update]
+      before_action :check_create_host_nested, :only => [:create, :update, :clone]
 
       before_action :find_optional_nested_object, :except => [:facts]
       before_action :find_resource, :except => [:index, :create, :facts]
@@ -157,6 +157,25 @@ module Api
 
         @host.attributes = host_attributes(host_params, @host)
         apply_compute_profile(@host) if (params[:host] && params[:host][:compute_attributes].present?) || @host.compute_profile_id_changed?
+
+        process_response @host.save
+      rescue InterfaceTypeMapper::UnknownTypeExeption => e
+        render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
+      end
+
+      api :POST, "/hosts/:id/clone", N_("Clone a host")
+      param :id, :identifier_dottable, :required => true, :desc => N_("ID of host to be cloned")
+      param :name, String, :required => true, :desc => N_("New name of cloned host")
+      param :mac, String, :required => false, :desc => N_("MAC address of cloned host")
+      param :ip, String, :required => true, :desc => N_("IP address of cloned host")
+      param_group :host, :as => clone
+
+      def clone
+        @clone_host = @host
+        @host = @clone_host.api_clone
+        @host.build = true if @host.managed?
+        @host.attributes = host_attributes(host_params, @host)
+        @host = set_lookup_values(@host)
 
         process_response @host.save
       rescue InterfaceTypeMapper::UnknownTypeExeption => e
@@ -352,6 +371,8 @@ Return the host's compute attributes that can be used to create a clone of this 
             :power
           when 'boot'
             :ipmi_boot
+          when 'clone'
+            :clone
           when 'console'
             :console
           when 'disassociate'
@@ -410,6 +431,18 @@ Return the host's compute attributes that can be used to create a clone of this 
           :compute_resource => compute_resource,
           :uuid => params[:host][:uuid]
         ).host
+      end
+
+      def set_lookup_values(host)
+        old_lookups = host.lookup_values.deep_clone
+        old_lookups.each do |look_up_val|
+          match_build = {look_up_val.lookup_key_id.to_s => {"lookup_key_id" => look_up_val.lookup_key_id.to_s,
+                                                           "omit" => "0", "value" => look_up_val.value.to_s, "id" => ""}}
+          host.lookup_values_attributes = match_build
+        end
+        host.lookup_values = host.lookup_values.select(&:match)
+
+        host
       end
     end
   end
