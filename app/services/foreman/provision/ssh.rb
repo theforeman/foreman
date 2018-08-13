@@ -72,7 +72,7 @@ class Foreman::Provision::SSH
   end
 
   def initiate_connection!
-    Timeout.timeout(360) do
+    Timeout.timeout(Setting[:ssh_timeout].to_i) do
       begin
         Timeout.timeout(8) do
           ssh.run('pwd')

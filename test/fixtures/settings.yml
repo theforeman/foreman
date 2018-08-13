@@ -384,3 +384,8 @@ attribute81:
   category: Setting::General
   default: "--- \n"
   description: 'Text to be shown in the login-page footer'
+attribute82:
+  name: ssh_timeout
+  category: Setting::Provisioning
+  default: 120
+  description: 'Time in seconds before SSH provisioning times out'
