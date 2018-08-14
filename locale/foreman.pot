@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-11 11:27+0000\n"
-"PO-Revision-Date: 2018-07-11 11:27+0000\n"
+"POT-Creation-Date: 2018-08-14 08:29+0000\n"
+"PO-Revision-Date: 2018-08-14 08:29+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -150,23 +150,23 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:222
-#: ../app/assets/javascripts/host_edit.js:488
+#: ../app/assets/javascripts/host_edit.js:219
+#: ../app/assets/javascripts/host_edit.js:485
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:612
+#: ../app/assets/javascripts/host_edit.js:609
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:53
 #: ../app/views/hostgroups/_form.html.erb:60
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:746
+#: ../app/assets/javascripts/host_edit.js:743
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:838
+#: ../app/assets/javascripts/host_edit.js:835
 msgid "Warning: This combination of loader and OS might not be able to boot."
 msgstr ""
 
@@ -3630,7 +3630,7 @@ msgstr ""
 #: ../app/helpers/application_helper.rb:56
 #: ../app/helpers/application_helper.rb:66 ../app/helpers/audits_helper.rb:7
 #: ../app/helpers/audits_helper.rb:40 ../app/helpers/audits_helper.rb:73
-#: ../app/helpers/audits_helper.rb:125 ../app/helpers/audits_helper.rb:135
+#: ../app/helpers/audits_helper.rb:128 ../app/helpers/audits_helper.rb:138
 #: ../app/helpers/compute_resources_vms_helper.rb:37
 #: ../app/helpers/fact_values_helper.rb:5 ../app/helpers/hosts_helper.rb:194
 #: ../app/helpers/hosts_helper.rb:201 ../app/helpers/reports_helper.rb:22
@@ -4128,13 +4128,13 @@ msgid "%{name} changed from %{label1} to %{label2}"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/helpers/audits_helper.rb:116 ../app/helpers/hosts_helper.rb:277
+#: ../app/helpers/audits_helper.rb:119 ../app/helpers/hosts_helper.rb:277
 #: ../app/registries/menu/loader.rb:14 ../app/views/users/_form.html.erb:6
 #: model_attributes.rb:626
 msgid "User"
 msgstr ""
 
-#: ../app/helpers/audits_helper.rb:215 ../app/registries/menu/loader.rb:58
+#: ../app/helpers/audits_helper.rb:218 ../app/registries/menu/loader.rb:58
 #: ../app/views/architectures/index.html.erb:9
 #: ../app/views/config_groups/index.html.erb:12
 #: ../app/views/config_reports/index.html.erb:4
@@ -4151,7 +4151,7 @@ msgstr ""
 msgid "Hosts"
 msgstr ""
 
-#: ../app/helpers/audits_helper.rb:223 ../app/helpers/hosts_helper.rb:392
+#: ../app/helpers/audits_helper.rb:226 ../app/helpers/hosts_helper.rb:392
 #: ../app/registries/menu/loader.rb:51 ../app/views/audits/index.html.erb:2
 #: ../app/views/audits/show.html.erb:5
 msgid "Audits"
@@ -5699,11 +5699,17 @@ msgid ""
 "hed to localhost only"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:233
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:203
+msgid ""
+"Unable to connect to libvirt due to: %s. Please make sure your libvirt compute"
+" resource is reachable and that you have appropriate access permissions."
+msgstr ""
+
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:238
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/libvirt.rb:256
+#: ../app/models/compute_resources/foreman/model/libvirt.rb:261
 msgid ""
 "Please specify volume size. You may optionally use suffix 'G' to specify volum"
 "e size in gigabytes."
@@ -5721,15 +5727,15 @@ msgstr ""
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:174
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:188
 msgid "HTTPS URL is required for API access"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:209
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:223
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:407
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:421
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -5737,7 +5743,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:434
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:448
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -7553,7 +7559,9 @@ msgid "Local boot %s template"
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:4
-msgid "Puppet interval in minutes"
+msgid ""
+"Duration in minutes after servers reporting via Puppet are classed as out of s"
+"ync."
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:4
@@ -8045,31 +8053,31 @@ msgstr ""
 msgid "Can't delete the last admin user group"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:173
+#: ../app/registries/foreman/plugin.rb:177
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:183
+#: ../app/registries/foreman/plugin.rb:187
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:185
+#: ../app/registries/foreman/plugin.rb:189
 msgid ""
 "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{pl"
 "ugin_version}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:279
+#: ../app/registries/foreman/plugin.rb:283
 msgid "Could not create role '%{name}': %{message}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:281
+#: ../app/registries/foreman/plugin.rb:285
 msgid ""
 "Cannot continue because some permissions were not found, please run rake db:se"
 "ed and retry"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:367
+#: ../app/registries/foreman/plugin.rb:371
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -13463,7 +13471,9 @@ msgid "locale_name"
 msgstr ""
 
 #: ../lib/foreman/http_proxy.rb:24
-msgid "Proxied request failed with: %s"
+msgid ""
+"Proxied request failed with: %s\n"
+"%s"
 msgstr ""
 
 #: ../lib/foreman/renderer.rb:85
@@ -13733,7 +13743,7 @@ msgid "Filter..."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/BreadcrumbBar/components/BreadcrumbSwitcherPopover.js:37
+#: ../webpack/assets/javascripts/react_app/components/BreadcrumbBar/components/BreadcrumbSwitcherPopover.js:36
 msgid "Error: Unable to load resources."
 msgstr ""
 

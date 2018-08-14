@@ -2409,6 +2409,9 @@ msgstr ""
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
 
+msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
+msgstr ""
+
 msgid "EC2"
 msgstr ""
 
@@ -6484,7 +6487,9 @@ msgstr ""
 msgid "ProvisioningTemplate|Snippet"
 msgstr ""
 
-msgid "Proxied request failed with: %s"
+msgid ""
+"Proxied request failed with: %s\n"
+"%s"
 msgstr ""
 
 msgid "Proxies"
@@ -6560,9 +6565,6 @@ msgid "Puppet external nodes YAML dump"
 msgstr ""
 
 msgid "Puppet interval"
-msgstr ""
-
-msgid "Puppet interval in minutes"
 msgstr ""
 
 msgid "Puppet proxy ID"
@@ -8601,6 +8603,9 @@ msgid "Unable to connect"
 msgstr ""
 
 msgid "Unable to connect to LDAP server"
+msgstr ""
+
+msgid "Unable to connect to libvirt due to: %s. Please make sure your libvirt compute resource is reachable and that you have appropriate access permissions."
 msgstr ""
 
 msgid "Unable to create default TFTP boot menu"
