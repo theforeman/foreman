@@ -15,7 +15,7 @@ import IsoDate from './common/dates/IsoDate';
 import FormField from './common/forms/FormField';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
-import BreadcrumbBar from './BreadcrumbBar';
+import BreadcrumbBar from './BreadcrumbBar/BreadcrumbsTour';
 import FactChart from './FactCharts';
 import Pagination from './Pagination/Pagination';
 import AutoComplete from './AutoComplete';
@@ -37,6 +37,7 @@ import Slot from './common/Slot';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
+import { BasicTour } from '../common/Tour';
 
 const componentRegistry = {
   registry: {},
@@ -164,6 +165,7 @@ const coreComponets = [
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
   { name: 'LoginPage', type: LoginPage },
+  { name: 'Tour', type: BasicTour },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

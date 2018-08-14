@@ -6,6 +6,7 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
 >
   <BreadcrumbItem
     active={false}
+    data-tut="switcher"
     href="/some-url"
     key="0"
     title="root"
@@ -15,6 +16,7 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
   </BreadcrumbItem>
   <BreadcrumbItem
     active={false}
+    data-tut={false}
     key="1"
     onClick={[MockFunction]}
     title="child with onClick"
@@ -24,6 +26,7 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
   </BreadcrumbItem>
   <BreadcrumbItem
     active={true}
+    data-tut={false}
     key="2"
     title="active child"
   >
@@ -43,6 +46,7 @@ exports[`Breadcrumbs renders h1 title 1`] = `
 >
   <BreadcrumbItem
     active={true}
+    data-tut="switcher"
     key="0"
     title="title"
   >
@@ -62,6 +66,7 @@ exports[`Breadcrumbs renders title override 1`] = `
 >
   <BreadcrumbItem
     active={false}
+    data-tut="switcher"
     href="/some-url"
     key="0"
     title="root"
@@ -71,6 +76,7 @@ exports[`Breadcrumbs renders title override 1`] = `
   </BreadcrumbItem>
   <BreadcrumbItem
     active={true}
+    data-tut={false}
     key="1"
     title="override title"
   >

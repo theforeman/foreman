@@ -12,6 +12,7 @@ import internationalization from './docs/internationalization.md';
 import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
 import LegacyJs from './docs/LegacyJs.md';
+import tours from './docs/tours.md';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
@@ -63,6 +64,11 @@ storiesOf('Introduction', module)
   .add('Legacy Javascript', () => (
     <Story>
       <Markdown source={LegacyJs} />
+    </Story>
+  ))
+  .add('Tours', () => (
+    <Story>
+      <Markdown source={tours} />
     </Story>
   ));
 
