@@ -9,7 +9,7 @@
                :label      => _('Cluster'), :label_size => "col-md-2" } %>
 <%= f.hidden_field :cluster if !new_vm %>
 
-<%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Select template")},
+<%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Blank template")},
              { :disabled    => !new_vm, :'data-url' => template_selected_compute_resource_path(compute_resource),
                :onchange    => 'tfm.computeResource.ovirt.templateSelected(this);',
                :help_inline => :indicator,
@@ -17,7 +17,7 @@
                :label       => _('Template'), :label_size => "col-md-2" } %>
 <%= f.hidden_field :template if !new_vm %>
 
-<%= select_f f, :instance_type, compute_resource.instance_types, :id, :name, {:include_blank => _("Select instance type")},
+<%= select_f f, :instance_type, compute_resource.instance_types, :id, :name, {:include_blank => _("Custom instance type")},
              { :disabled    => !new_vm, :'data-url' => instance_type_selected_compute_resource_path(compute_resource),
                :onchange    => 'tfm.computeResource.ovirt.instanceTypeSelected(this);',
                :help_inline => :indicator,
@@ -34,8 +34,8 @@
 <%= byte_size_f f, :memory, :disabled => !new_vm, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 <%= checkbox_f f, :ha, { :checked => f.object.ha.present? , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
 <% unless local_assigns[:hide_image] %>
   <%

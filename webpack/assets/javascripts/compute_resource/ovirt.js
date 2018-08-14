@@ -62,10 +62,13 @@ export function instanceTypeSelected(item) {
       url,
       data: `instance_type_id=${instanceType}`,
       success(result) {
-        $('[id$=_memory]').val(result.memory).trigger('change');
-        $('[id$=_cores]').val(result.cores);
-        $('[id$=_sockets]').val(result.sockets);
-        $('[id$=_ha]').prop('checked', result.ha);
+        if (result.name != null) {
+          $('[id$=_memory]').val(result.memory).trigger('change');
+          $('[id$=_cores]').val(result.cores);
+          $('[id$=_sockets]').val(result.sockets);
+          $('[id$=_ha]').prop('checked', result.ha);
+        }
+        ['_memory', '_cores', '_sockets', '_ha'].forEach(name => $(`[id$=${name}]`).prop('readOnly', (result.name != null)));
         const instanceTypeSelector = $('#host_compute_attributes_instance_type');
 
         if (instanceTypeSelector.is(':disabled')) {
