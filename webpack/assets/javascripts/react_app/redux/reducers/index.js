@@ -21,6 +21,7 @@ import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware'
 import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
+import tours from '../../common/Tour/TourReducer';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -51,6 +52,7 @@ export function combineReducersAsync(asyncReducers) {
     // Middlewares
     ...intervalReducers,
     ...apiReducer,
+    tours,
   });
 }
 

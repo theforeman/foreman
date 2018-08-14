@@ -23,7 +23,9 @@
     "@theforeman/vendor": "^4.0.7",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
-    "react-intl": "^2.8.0"
+    "react-intl": "^2.8.0",
+    "reactour": "^1.9.1",
+    "styled-components": "^4.1.1"
   },
   "optionalDependencies": {
     "chromedriver": "79.0.0"

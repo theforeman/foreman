@@ -17,7 +17,7 @@ import FormField from './common/forms/FormField';
 import InputFactory from './common/forms/InputFactory';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
-import BreadcrumbBar from './BreadcrumbBar';
+import BreadcrumbBar from './BreadcrumbBar/BreadcrumbsTour';
 import FactChart from './FactCharts';
 import Pagination from './Pagination/Pagination';
 import AutoComplete from './AutoComplete';
@@ -37,6 +37,7 @@ import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
 import TypeAheadSelect from './common/TypeAheadSelect';
+import { BasicTour } from '../common/Tour';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -165,6 +166,7 @@ const coreComponets = [
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
   { name: 'LoginPage', type: LoginPage },
+  { name: 'Tour', type: BasicTour },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

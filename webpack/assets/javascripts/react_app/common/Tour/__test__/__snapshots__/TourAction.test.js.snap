@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout actions should getTours 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "TOURS_REQUESTS",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "breadcrumbs": Object {
+          "alreadySeen": false,
+        },
+      },
+      "type": "TOUR_GET_STATUSES",
+    },
+  ],
+]
+`;
+
+exports[`Layout actions should registerTour 1`] = `
+Object {
+  "payload": Object {
+    "id": "breadcrumbsTour",
+  },
+  "type": "TOUR_REGISTER",
+}
+`;
+
+exports[`Layout actions should startRunning 1`] = `
+Object {
+  "payload": Object {
+    "id": "breadcrumbsTour",
+  },
+  "type": "TOUR_START_RUNNIG",
+}
+`;
+
+exports[`Layout actions should stopRunning 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "id": "breadcrumbsTour",
+      },
+      "type": "TOUR_STOP_RUNNING",
+    },
+  ],
+]
+`;
+
+exports[`Layout actions should updateAsSeen 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "id": "breadcrumbsTour",
+      },
+      "type": "TOUR_UPDATE_STATUS",
+    },
+  ],
+]
+`;

@@ -80,6 +80,12 @@ module LayoutHelper
     mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json) if !@welcome && response.ok?
   end
 
+  def run_tour(id, steps)
+    content_tag(:div, id: id) do
+      mount_react_component('Tour', "##{id}", { id: id, steps: steps }.to_json)
+    end
+  end
+
   def breadcrumbs(options = {}, &block)
     content_for(:breadcrumbs) do
       mount_breadcrumbs(options, &block)

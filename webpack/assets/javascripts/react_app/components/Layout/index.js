@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import * as actions from './LayoutActions';
+import * as tourActions from '../../common/Tour/TourActions';
 import reducer from './LayoutReducer';
 import {
   patternflyMenuItemsSelector,
@@ -26,7 +27,8 @@ const mapStateToProps = state => ({
 });
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ ...actions, ...tourActions }, dispatch);
 
 // export prop-types
 export const { propTypes } = Layout;

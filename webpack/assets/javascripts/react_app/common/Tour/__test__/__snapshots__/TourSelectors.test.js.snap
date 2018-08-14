@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout selectors should return all tours 1`] = `
+Object {
+  "tour_1": Object {
+    "alreadySeen": false,
+    "running": true,
+  },
+  "tour_2": Object {
+    "alreadySeen": true,
+    "running": false,
+  },
+  "tour_3": Object {
+    "alreadySeen": false,
+    "running": true,
+  },
+}
+`;
+
+exports[`Layout selectors should return the active tour 1`] = `
+Array [
+  "tour_1",
+  Object {
+    "alreadySeen": false,
+    "running": true,
+  },
+]
+`;
+
+exports[`Layout selectors should return tour's running state 1`] = `true`;
+
+exports[`Layout selectors should return tour's seen state 1`] = `true`;

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tour reducer should handle TOUR_GET_STATUSES 1`] = `
+Object {
+  "Tour_1": Object {
+    "alreadySeen": true,
+  },
+  "Tour_2": Object {
+    "alreadySeen": true,
+  },
+  "loadingTour": false,
+}
+`;
+
+exports[`Tour reducer should handle TOUR_START_RUNNIG 1`] = `
+Object {
+  "Tour_1": Object {
+    "running": true,
+  },
+}
+`;
+
+exports[`Tour reducer should handle TOUR_STOP_RUNNING 1`] = `
+Object {
+  "Tour_1": Object {
+    "running": false,
+  },
+}
+`;
+
+exports[`Tour reducer should handle TOUR_UPDATE_STATUS 1`] = `
+Object {
+  "Tour_1": Object {
+    "alreadySeen": true,
+    "running": false,
+  },
+}
+`;
+
+exports[`Tour reducer should return the initial state 1`] = `Object {}`;
+
+exports[`Tour reducer should update state with initial data 1`] = `
+Object {
+  "Tour_1": Object {
+    "alreadySeen": false,
+    "running": false,
+  },
+}
+`;

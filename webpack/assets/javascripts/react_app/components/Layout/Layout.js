@@ -25,7 +25,10 @@ class Layout extends React.Component {
       activeMenu,
       isCollapsed,
       onCollapse,
+      getTours,
     } = this.props;
+    // TODO: move to ReactApp
+    getTours();
     if (items.length === 0) fetchMenuItems(data);
     if (isCollapsed) onCollapse();
 
@@ -161,6 +164,7 @@ Layout.propTypes = {
       ),
     })
   ),
+  getTours: PropTypes.func,
   data: PropTypes.shape({
     brand: PropTypes.string,
     stop_impersonation_url: PropTypes.string.isRequired,
@@ -228,6 +232,7 @@ Layout.defaultProps = {
   changeLocation: noop,
   onExpand: noop,
   onCollapse: noop,
+  getTours: noop,
 };
 
 export default Layout;

@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WithTour rendering renders breadcrumb-bar 1`] = `
+<Fragment>
+  <Tour
+    accentColor="#00759A"
+    closeWithMask={true}
+    disableInteraction={false}
+    isOpen={false}
+    maskSpace={10}
+    onRequestClose={[Function]}
+    rounded={5}
+    scrollDuration={1}
+    showButtons={true}
+    showCloseButton={true}
+    showNavigation={true}
+    showNavigationNumber={true}
+    showNumber={true}
+    steps={
+      Array [
+        Object {
+          "content": "Step 1",
+          "selector": "[data-tut=\\"key_1\\"]",
+        },
+        Object {
+          "content": "Step 2",
+          "selector": "[data-tut=\\"key_2\\"]",
+        },
+        Object {
+          "content": [Function],
+          "selector": "[data-tut=\\"key_3\\"]",
+        },
+      ]
+    }
+    updateDelay={1}
+  />
+  <BasicWrappedComponent
+    activeTour={
+      Array [
+        "some-id",
+        true,
+      ]
+    }
+    alreadySeen={false}
+    isEnabled={true}
+    isLoading={false}
+    registerTour={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "id-1",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
+    runTour={[Function]}
+    running={false}
+    startRunning={[MockFunction]}
+    stopRunning={[MockFunction]}
+  />
+</Fragment>
+`;
