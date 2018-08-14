@@ -37,7 +37,11 @@ class BreadcrumbSwitcher extends React.Component {
     } = this.props;
 
     return (
-      <div className="breadcrumb-switcher" style={{ position: 'relative' }}>
+      <div
+        data-tut="resource-switcher"
+        className="breadcrumb-switcher"
+        style={{ position: 'relative' }}
+      >
         <BreadcrumbSwitcherToggler
           id="switcher"
           onClick={() => onTogglerClick()}

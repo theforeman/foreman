@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { noop } from '../../common/helpers';
 import Breadcrumb from './components/Breadcrumb';
 import BreadcrumbSwitcher from './components/BreadcrumbSwitcher';
 
 class BreadcrumbBar extends React.Component {
+  componentDidMount() {
+    const { data, runTour } = this.props;
+    if (data.breadcrumbItems.length > 1) {
+      runTour();
+    }
+  }
+
   handleOpen() {
     const {
       data: { resource },
@@ -56,6 +62,7 @@ class BreadcrumbBar extends React.Component {
           items={breadcrumbItems}
           isTitle={isTitle}
           titleReplacement={titleReplacement}
+          data-tut="breadcrumbs_bar"
         >
           {isSwitchable && (
             <BreadcrumbSwitcher
@@ -124,6 +131,7 @@ BreadcrumbBar.propTypes = {
   loadSwitcherResourcesByResource: PropTypes.func,
   onSwitcherItemClick: PropTypes.func,
   removeSearchQuery: PropTypes.func,
+  runTour: PropTypes.func,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -146,6 +154,7 @@ BreadcrumbBar.defaultProps = {
   loadSwitcherResourcesByResource: noop,
   onSwitcherItemClick: noop,
   removeSearchQuery: noop,
+  runTour: noop,
 };
 
 export default BreadcrumbBar;

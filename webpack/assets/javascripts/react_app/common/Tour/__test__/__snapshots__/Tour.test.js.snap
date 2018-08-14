@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WithTour rendering renders breadcrumb-bar 1`] = `
+<div>
+  <Tour
+    accentColor="#00759A"
+    closeWithMask={true}
+    isOpen={false}
+    onRequestClose={[Function]}
+    parentSelector={[Function]}
+    portalClassName="reactour-portal"
+    rounded={5}
+    steps={
+      Array [
+        Object {
+          "content": "Step 1",
+          "selector": "[data-tut=\\"key_1\\"]",
+        },
+        Object {
+          "content": "Step 2",
+          "selector": "[data-tut=\\"key_2\\"]",
+        },
+        Object {
+          "content": [Function],
+          "selector": "[data-tut=\\"key_3\\"]",
+        },
+      ]
+    }
+  />
+  <BasicWrappedComponent
+    activeTour={
+      Array [
+        "some-id",
+        true,
+      ]
+    }
+    alreadySeen={false}
+    isEnabled={true}
+    registerTour={[MockFunction]}
+    runTour={[Function]}
+    running={false}
+    startRunnig={[MockFunction]}
+    startRunning={[Function]}
+    stopRunning={[MockFunction]}
+  />
+</div>
+`;

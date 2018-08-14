@@ -96,6 +96,7 @@ const BreadcrumbSwitcherPopover = ({
   return (
     <Popover className="breadcrumb-switcher-popover" {...props}>
       <SearchInput
+        data-tut="switchers-search"
         onClear={onSearchClear}
         timeout={searchDebounceTimeout}
         focus

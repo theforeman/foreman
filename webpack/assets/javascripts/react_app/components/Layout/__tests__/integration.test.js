@@ -4,13 +4,18 @@ import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
 import { hasTaxonomiesMock } from '../Layout.fixtures';
 import Layout, { reducers } from '../index';
+import API from '../../../API';
 
 jest.mock('../../notifications/index', () => 'notification');
+jest.mock('../../../API');
 
 describe('Layout integration test', () => {
   it('should flow', async () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);
 
+    API.get.mockImplementation(async () => ({
+      data: { breadcrumbs: { alreadySeen: false } },
+    }));
     const component = integrationTestHelper.mount(
       <Layout {...hasTaxonomiesMock} />
     );

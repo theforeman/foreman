@@ -163,6 +163,7 @@ exports[`Layout rendering renders layout 1`] = `
   dynamicBodyClasses={true}
   fetchMenuItems={[Function]}
   forceHidden={false}
+  getTours={[Function]}
   hiddenIcons={false}
   hideMasthead={false}
   hoverDelay={0}

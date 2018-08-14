@@ -8,6 +8,7 @@ exports[`BreadcrumbSwitcherPopover render loading state 1`] = `
   placement="right"
 >
   <SearchInput
+    data-tut="switchers-search"
     focus={true}
     onClear={[Function]}
     onSearchChange={[Function]}
@@ -35,6 +36,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
   placement="right"
 >
   <SearchInput
+    data-tut="switchers-search"
     focus={true}
     onClear={[Function]}
     onSearchChange={[Function]}
@@ -140,6 +142,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
   placement="right"
 >
   <SearchInput
+    data-tut="switchers-search"
     focus={true}
     onClear={[Function]}
     onSearchChange={[Function]}
@@ -270,6 +273,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
   placement="right"
 >
   <SearchInput
+    data-tut="switchers-search"
     focus={true}
     onClear={[Function]}
     onSearchChange={[Function]}

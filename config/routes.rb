@@ -550,4 +550,6 @@ Foreman::Application.routes.draw do
       delete 'group/:group' => 'notification_recipients#destroy_group'
     end
   end
+
+  resources :user_preferences
 end

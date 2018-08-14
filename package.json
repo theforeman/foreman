@@ -95,6 +95,7 @@
     "react-onclickoutside": "^6.6.2",
     "react-password-strength": "^2.1.0",
     "react-redux": "^5.0.6",
+    "reactour": "^1.9.1",
     "redux": "^3.6.0",
     "redux-form": "7.2.0",
     "redux-form-validators": "^2.1.2",
@@ -103,6 +104,7 @@
     "reselect": "^3.0.1",
     "seamless-immutable": "^7.1.2",
     "select2": "~3.5.2-browserify",
+    "styled-components": "^4.1.1",
     "unidiff": "0.0.4",
     "urijs": "^1.18.10",
     "uuid": "^3.0.1"

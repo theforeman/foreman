@@ -11,6 +11,7 @@ const didMountStubs = () => ({
   fetchMenuItems: jest.fn(),
   changeLocation: jest.fn(),
   changeOrganization: jest.fn(),
+  getTours: jest.fn(),
 });
 
 const fixtures = {

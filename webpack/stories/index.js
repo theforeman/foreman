@@ -8,6 +8,7 @@ import addingNewComponent from './docs/addingNewComponent.md';
 import addingDependencies from './docs/addingDependencies.md';
 import internationalization from './docs/internationalization.md';
 import plugins from './docs/plugins.md';
+import tours from './docs/tours.md';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
@@ -49,6 +50,11 @@ storiesOf('Introduction', module)
   .add('Plugins', () => (
     <Story>
       <Markdown source={plugins} />
+    </Story>
+  ))
+  .add('Tours', () => (
+    <Story>
+      <Markdown source={tours} />
     </Story>
   ));
 

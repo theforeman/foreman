@@ -42,10 +42,12 @@ const Breadcrumb = ({
         return (
           <PfBreadcrumb.Item
             key={index}
+            data-tut={index === 0 && 'switcher'}
             active={active}
             onClick={item.onClick}
             href={item.url}
             title={itemTitle}
+            className={icon && active && 'breacrumb-item-with-icon'}
           >
             {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />}{' '}
             {inner}

@@ -8,7 +8,7 @@ import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
-import BreadcrumbBar from './BreadcrumbBar';
+import BreadcrumbBar from './BreadcrumbBar/BreadcrumbsTour';
 import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
 import AuditsList from './AuditsList';
@@ -19,6 +19,7 @@ import ComponentWrapper from './common/ComponentWrapper/ComponentWrapper';
 import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
+import { BasicTour } from '../common/Tour';
 
 const componentRegistry = {
   registry: {},
@@ -94,6 +95,7 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
+  { name: 'Tour', type: BasicTour },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

@@ -21,6 +21,7 @@ class Layout extends React.Component {
       currentOrganization,
       changeActiveMenu,
       activeMenu,
+      getTours,
     } = this.props;
     if (items.length === 0) fetchMenuItems(data);
 
@@ -52,6 +53,7 @@ class Layout extends React.Component {
       ).id;
       changeOrganization({ title: initialOrgTitle, id: initialOrgId });
     }
+    getTours();
   }
 
   render() {
@@ -136,6 +138,7 @@ Layout.propTypes = {
       ),
     })
   ),
+  getTours: PropTypes.func,
   data: PropTypes.shape({
     menu: PropTypes.arrayOf(
       PropTypes.shape({
@@ -196,6 +199,7 @@ Layout.defaultProps = {
   changeActiveMenu: noop,
   changeOrganization: noop,
   changeLocation: noop,
+  getTours: noop,
 };
 
 export default Layout;

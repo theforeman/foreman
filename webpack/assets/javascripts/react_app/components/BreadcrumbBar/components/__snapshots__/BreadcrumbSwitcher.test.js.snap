@@ -3,6 +3,7 @@
 exports[`BreadcrumbSwitcher rendering render closed 1`] = `
 <div
   className="breadcrumb-switcher"
+  data-tut="resource-switcher"
   style={
     Object {
       "position": "relative",
@@ -43,6 +44,7 @@ exports[`BreadcrumbSwitcher rendering render closed 1`] = `
 exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
 <div
   className="breadcrumb-switcher"
+  data-tut="resource-switcher"
   style={
     Object {
       "position": "relative",
@@ -83,6 +85,7 @@ exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
 exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
 <div
   className="breadcrumb-switcher"
+  data-tut="resource-switcher"
   style={
     Object {
       "position": "relative",
@@ -153,6 +156,7 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
 exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] = `
 <div
   className="breadcrumb-switcher"
+  data-tut="resource-switcher"
   style={
     Object {
       "position": "relative",

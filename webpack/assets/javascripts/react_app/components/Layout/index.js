@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as actions from './LayoutActions';
+import * as tourActions from '../../common/Tour/TourActions';
 import reducer from './LayoutReducer';
 import {
   patternflyMenuItemsSelector,
@@ -23,7 +24,8 @@ const mapStateToProps = state => ({
 });
 
 // map action dispatchers to props
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ ...actions, ...tourActions }, dispatch);
 
 // export reducers
 export const reducers = { layout: reducer };
