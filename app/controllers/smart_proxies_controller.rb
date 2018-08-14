@@ -165,10 +165,23 @@ class SmartProxiesController < ApplicationController
   def versions_mismatched?(proxy_versions_hash)
     # we expect here the result of /versions proxy API call.
     # It's structure is similar to: {:version => Proxy::VERSION, :modules => modules}.to_json
-    foreman_version = Foreman::Version.new.notag
-    proxy_version = Foreman::Version.new(proxy_versions_hash['version']).notag
+    foreman_version = Foreman::Version.new
+    proxy_version = Foreman::Version.new(proxy_versions_hash['version'])
 
-    foreman_version != proxy_version
+    foreman_major = foreman_version.major.to_i
+    foreman_minor = foreman_version.minor.to_i
+
+    proxy_major = proxy_version.major.to_i
+    proxy_minor = proxy_version.minor.to_i
+
+    # foreman <-> proxy:
+    # 1.18.1 <-> 1.18.0 : OK
+    # 1.18.0 <-> 1.19.0 : OK
+    # 1.19.0 <-> 1.18.0 : Warn
+    # 1.18.0 <-> 1.20.0 : Warn
+    foreman_major != proxy_major ||
+      foreman_minor > proxy_minor ||
+      foreman_minor + 1 < proxy_minor
   end
 
   def version_mismatch_warning(proxy_versions_hash)
