@@ -1,3 +1,62 @@
+2018-08-14	Ondrej Prazak <oprazak@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2018-08-14	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #24371 - Improve plugin webpack detection
+
+2018-08-09	Tomer Brisker <tbrisker@gmail.com>
+	* Revert "Fixes #23961 - Update Foreman Fog-Vsphere select_nic method."
+
+2018-08-09	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #23486 - remove js warnings when a modal opens
+
+2018-08-07	Ori Rabin <orrabin@gmail.com>
+	* Fixes #24473 - Return other OS when oVirt os is not found
+
+2018-08-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23117 - ovirt_ostype host param selects type
+
+2018-08-07	Chris Roberts <chrobert@redhat.com>
+	* Fixes #23961 - Update Foreman Fog-Vsphere select_nic method.
+
+2018-08-07	Zachary Bedell <zac@thebedells.org>
+	* fixes #23909 - vsphere: prefer network search by key
+
+2018-08-06	Ivan Nečas <inecas@redhat.com>
+	* Refs #24125 - mock libvirt sooner
+
+2018-08-06	Ondřej Pražák <xprazak2@users.noreply.github.com>
+	* Fixes #24125 - Show error when libvirt not reachable
+
+2018-08-06	Sebastian Gräßl <mail@bastilian.me>
+	* Refs #24350 - Adjust puppet_interval to include grace time
+	* Fixes #24350 - Change general out of sync interval to 30 minutes
+
+2018-08-06	Daniel Lobato Garcia <me@daniellobato.me>
+	* Fixes #24298 - Some audits show 'Missing ID' instead of name
+
+2018-08-06	Shira Maximov <shiramaximov@gmail.com>
+	* Refs #23373 - Remove the api fix and fix tests
+	* Fixes #23373 - Fix host dissociation when updating host
+
+2018-08-01	Marek Hulan <mhulan@redhat.com>
+	* Fixes #24320 - stop dropping vmware fields
+
+2018-08-01	Ori Rabin <orrabin@gmail.com>
+	* Fixes #24355 - Never override a smart class parameter on import
+
+2018-07-22	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #24257 - load all reports and audits in tasks
+
+2018-07-20	UXabre <arend.lapere@gmail.com>
+	* fixes #23291 - fixes double appending of /unattended to proxy url
+
+2018-07-20	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23254 - Utilize webmock to prevent network connection
+
+2018-07-12	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.18.0
+
 2018-07-11	Ondrej Prazak <oprazak@redhat.com>
 	* i18n - extracting new, pulling from tx
 
