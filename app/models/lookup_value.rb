@@ -68,7 +68,13 @@ class LookupValue < ApplicationRecord
 
   # TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
   def sanitize_match
-    self.match = match.split(LookupKey::KEY_DELM).map {|s| s.split(LookupKey::EQ_DELM).map(&:strip).join(LookupKey::EQ_DELM)}.join(LookupKey::KEY_DELM) if match.present?
+    return true unless match.present?
+    self.match = match.split(LookupKey::KEY_DELM).map do |m|
+      split_match = m.split(LookupKey::EQ_DELM)
+      matcher_attribute = split_match.first.downcase.strip
+      matcher_value = (split_match.count > 1) ? split_match.last.strip : ""
+      [matcher_attribute, matcher_value].join(LookupKey::EQ_DELM)
+    end.join(LookupKey::KEY_DELM)
   end
 
   def validate_and_cast_value

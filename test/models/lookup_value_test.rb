@@ -320,4 +320,15 @@ EOF
       end
     end
   end
+
+  test "should save matcher types as lowercase" do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+                            :override => true, :key_type => 'string', :path => "HOSTGROUP\nFQDN",
+                            :default_value => "test123", :puppetclass => puppetclasses(:one))
+
+    lv = LookupValue.new(:value => "lookup_value_lower_test", :match => "HOSTGROUP=Common", :lookup_key => key)
+    assert lv.save!
+    assert_equal "hostgroup\nfqdn", key.path
+    assert_equal "hostgroup=Common", lv.match
+  end
 end

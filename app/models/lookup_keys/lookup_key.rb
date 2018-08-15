@@ -27,7 +27,7 @@ class LookupKey < ApplicationRecord
   validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
   validates_associated :lookup_values
 
-  before_save :sanitize_path
+  before_validation :sanitize_path
   attr_name :key
 
   def self.inherited(child)
@@ -150,7 +150,7 @@ class LookupKey < ApplicationRecord
   end
 
   def sorted_values
-    prio = path.split
+    prio = path.downcase.split
     lookup_values.sort_by {|val| [prio.index(val.path), val.match]}
   end
 
