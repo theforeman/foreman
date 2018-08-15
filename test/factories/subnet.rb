@@ -13,6 +13,10 @@ FactoryBot.define do
       association :tftp, :factory => :template_smart_proxy
     end
 
+    trait :httpboot do
+      association :httpboot, :factory => :template_smart_proxy
+    end
+
     trait :dhcp do
       association :dhcp, :factory => :dhcp_smart_proxy
     end

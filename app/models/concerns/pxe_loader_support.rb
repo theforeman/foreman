@@ -1,10 +1,12 @@
 module PxeLoaderSupport
   extend ActiveSupport::Concern
 
+  # mapping from filename or loader name to template kind
   PXE_KINDS = {
-    :PXELinux => /^(pxelinux|PXELinux).*/,
-    :PXEGrub => /^(grub\/|Grub ).*/,
-    :PXEGrub2 => /^(grub2|Grub2).*/
+    :PXELinux => /^(pxelinux.*|PXELinux (BIOS|UEFI))$/,
+    :PXEGrub => /^(grub\/|Grub UEFI).*/,
+    :PXEGrub2 => /^(grub2\/|Grub2 UEFI|http.*grub2\/).*/,
+    :iPXE => /^(iPXE|http.*\/ipxe-).*/
   }.with_indifferent_access.freeze
 
   # preference order is defined in Operatingsystem#template_kinds
@@ -15,14 +17,18 @@ module PxeLoaderSupport
   }.with_indifferent_access.freeze
 
   class_methods do
-    def all_loaders_map(precision = 'x64')
+    def all_loaders_map(precision = 'x64', httpboot_host = "httpboot_host")
       {
         "None" => "",
         "PXELinux BIOS" => "pxelinux.0",
         "PXELinux UEFI" => "pxelinux.efi",
         "Grub UEFI" => "grub/grub#{precision}.efi",
         "Grub2 UEFI" => "grub2/grub#{precision}.efi",
-        "Grub2 UEFI SecureBoot" => "grub2/shim#{precision}.efi"
+        "Grub2 UEFI SecureBoot" => "grub2/shim#{precision}.efi",
+        "Grub2 UEFI HTTP" => "http://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
+        "Grub2 UEFI HTTPS" => "https://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
+        "Grub2 UEFI HTTPS SecureBoot" => "https://#{httpboot_host}/httpboot/grub2/shim#{precision}.efi",
+        "iPXE UEFI HTTP" => "http://#{httpboot_host}/httpboot/ipxe-#{precision}.efi"
       }.freeze
     end
 

@@ -83,7 +83,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
   end
 
-  test "provision interface DHCP records should contain explicit filename/next-server attributes for IPv4 tftp proxy" do
+  test "provision interface DHCP records should contain PXELinux BIOS filename/next-server attributes for IPv4 tftp proxy" do
     ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = as_admin do
@@ -92,6 +92,69 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal 1, h.provision_interface.dhcp_records.size
     assert_equal 'pxelinux.0', h.provision_interface.dhcp_records.first.filename
     assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
+  end
+
+  context "provision interface DHCP filename option" do
+    context "for IPv4" do
+      setup do
+        ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('192.168.1.1')
+      end
+
+      def host_with_loader(loader)
+        subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp, :httpboot)
+        as_admin do
+          FactoryBot.create(:host, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => loader)
+        end
+      end
+
+      test "with PXELinux BIOS" do
+        assert_equal 'pxelinux.0', host_with_loader('PXELinux BIOS').provision_interface.dhcp_records.first.filename
+      end
+
+      test "with PXELinux UEFI" do
+        assert_equal 'pxelinux.efi', host_with_loader('PXELinux UEFI').provision_interface.dhcp_records.first.filename
+      end
+
+      test "with Grub UEFI" do
+        assert_equal 'grub/grubx64.efi', host_with_loader('Grub UEFI').provision_interface.dhcp_records.first.filename
+      end
+
+      test "with Grub2 UEFI" do
+        assert_equal 'grub2/grubx64.efi', host_with_loader('Grub2 UEFI').provision_interface.dhcp_records.first.filename
+      end
+
+      test "with Grub2 UEFI SecureBoot" do
+        assert_equal 'grub2/shimx64.efi', host_with_loader('Grub2 UEFI SecureBoot').provision_interface.dhcp_records.first.filename
+      end
+
+      test "with Grub2 UEFI HTTP without httpboot feature" do
+        subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
+        host = as_admin do
+          FactoryBot.create(:host, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => 'Grub2 UEFI HTTP')
+        end
+        assert_equal 'http://foreman.some.host.fqdn:80/httpboot/grub2/grubx64.efi', host.provision_interface.dhcp_records.first.filename
+      end
+
+      test "host has httpboot proxy" do
+        assert host_with_loader('Grub2 UEFI HTTP').subnet.httpboot?
+      end
+
+      test "with Grub2 UEFI HTTP" do
+        assert_match(%r"http://somewhere\d+.net:8443/httpboot/grub2/grubx64.efi", host_with_loader('Grub2 UEFI HTTP').provision_interface.dhcp_records.first.filename)
+      end
+
+      test "with Grub2 UEFI HTTPS" do
+        assert_match(%r"https://somewhere\d+.net:8443/httpboot/grub2/grubx64.efi", host_with_loader('Grub2 UEFI HTTPS').provision_interface.dhcp_records.first.filename)
+      end
+
+      test "with Grub2 UEFI HTTPS SecureBoot" do
+        assert_match(%r"https://somewhere\d+.net:8443/httpboot/grub2/shimx64.efi", host_with_loader('Grub2 UEFI HTTPS SecureBoot').provision_interface.dhcp_records.first.filename)
+      end
+
+      test "with iPXE UEFI HTTP" do
+        assert_match(%r"http://somewhere\d+.net:8443/httpboot/ipxe-x64.efi", host_with_loader('iPXE UEFI HTTP').provision_interface.dhcp_records.first.filename)
+      end
+    end
   end
 
   test "provision interface DHCP records should not contain explicit filename attribute when PXE loader is set to None" do
