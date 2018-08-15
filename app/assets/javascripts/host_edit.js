@@ -832,7 +832,9 @@ function pxeLoaderCompatibilityCheck() {
   var compatible = tfm.hosts.checkPXELoaderCompatibility(osTitle, pxeLoader);
   if (compatible === false) {
     $('#host_pxe_loader').closest('.form-group').addClass('has-warning');
-    $('#host_pxe_loader').closest('.form-group').find('.help-inline').html('<span class="error-message">' + __("Warning: This combination of loader and OS might not be able to boot.") + '</span>');
+    $('#host_pxe_loader').closest('.form-group').find('.help-inline').html('<span class="error-message">' +
+      __("Warning: This combination of loader and OS might not be able to boot.") + ' ' +
+      __("Manual configuration is needed.") + '</span>');
   } else {
     $('#host_pxe_loader').closest('.form-group').removeClass('has-warning');
     $('#host_pxe_loader').closest('.form-group').find('.help-inline').html('');

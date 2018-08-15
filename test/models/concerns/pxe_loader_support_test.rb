@@ -7,7 +7,7 @@ end
 class PxeLoaderSupportTest < ActiveSupport::TestCase
   def setup
     @subject = DummyPxeLoader.new
-    @host = FactoryBot.create(:host)
+    @host = FactoryBot.create(:host, :with_tftp_orchestration)
     @subject.stubs(:template_kinds).returns(Operatingsystem.new.template_kinds)
   end
 
@@ -60,6 +60,51 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     test "PXEGrub2 is found for given loader name" do
       @host.pxe_loader = "Grub2 UEFI"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for UEFI HTTP loader name" do
+      @host.pxe_loader = "Grub2 UEFI HTTP"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for UEFI HTTPS loader name" do
+      @host.pxe_loader = "Grub2 UEFI HTTPS"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for UEFI HTTPS SecureBoot loader name" do
+      @host.pxe_loader = "Grub2 UEFI HTTPS SecureBoot"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for http://smart_proxy/tftp/grub2/grubx64.efi filename" do
+      @host.pxe_loader = "http://smart_proxy/tftp/grub2/grubx64.efi"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for https://smart_proxy/tftp/grub2/grubx64.efi filename" do
+      @host.pxe_loader = "https://smart_proxy/tftp/grub2/grubx64.efi"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for https://smart_proxy/tftp/grub2/shimx64.efi filename" do
+      @host.pxe_loader = "https://smart_proxy/tftp/grub2/shimx64.efi"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for https://smart_proxy/tftp/grub2/shimx64.efi filename" do
+      @host.pxe_loader = "https://smart_proxy/tftp/grub2/shimx64.efi"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "iPXE is found for iPXE UEFI HTTP loader name" do
+      @host.pxe_loader = "iPXE UEFI HTTP"
+      assert_equal :iPXE, @subject.pxe_loader_kind(@host)
+    end
+
+    test "iPXE is found for http://smart_proxy/tftp/ipxe-x64.efi filename" do
+      @host.pxe_loader = "http://smart_proxy/tftp/ipxe-x64.efi"
+      assert_equal :iPXE, @subject.pxe_loader_kind(@host)
     end
   end
 

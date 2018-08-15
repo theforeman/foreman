@@ -50,6 +50,12 @@ class Subnet < ApplicationRecord
     :api_description => N_('TFTP Proxy ID to use within this subnet'),
     :description => N_('TFTP Proxy to use within this subnet')
 
+  belongs_to_proxy :httpboot,
+    :feature => N_('HTTPBoot'),
+    :label => N_('HTTPBoot Proxy'),
+    :api_description => N_('HTTPBoot Proxy ID to use within this subnet'),
+    :description => N_('HTTPBoot Proxy to use within this subnet')
+
   belongs_to_proxy :dns,
     :feature => N_('DNS'),
     :label => N_('Reverse DNS Proxy'),
@@ -164,6 +170,14 @@ class Subnet < ApplicationRecord
     @tftp_proxy ||= ProxyAPI::TFTP.new({:url => tftp.url}.merge(attrs)) if tftp?
   end
 
+  def httpboot?
+    !!(httpboot && httpboot.url && httpboot.url.present?)
+  end
+
+  def httpboot_proxy(attrs = {})
+    @httpboot_proxy ||= ProxyAPI::TFTP.new({:url => httpboot.url}.merge(attrs)) if httpboot?
+  end
+
   # do we support DNS PTR records for this subnet
   def dns?
     !!(dns && dns.url && dns.url.present?)
@@ -210,7 +224,7 @@ class Subnet < ApplicationRecord
   end
 
   def proxies
-    [dhcp, tftp, dns].compact
+    [dhcp, tftp, dns, httpboot].compact
   end
 
   def has_vlanid?
