@@ -56,7 +56,7 @@ class PuppetReportScannerTest < ActiveSupport::TestCase
     end
 
     it 'returns false if "Puppet" is not found in the source' do
-      example_puppet_logs.first['log']['sources']['source'] = 'AnotherReporting'
+      example_puppet_logs.last['log']['sources']['source'] = 'AnotherReporting'
       refute subject.puppet_report?(example_puppet_logs)
     end
   end
