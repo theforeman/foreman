@@ -1,6 +1,2 @@
-<label class="radio-inline">
-  <%= f.radio_button :optimistic_import, "yes" %> <%= _("Fix %s on Mismatch") % taxonomy_type %>
-</label>
-<label class="radio-inline">
-  <%= f.radio_button :optimistic_import, "no", :checked => true %> <%= _("Fail on Mismatch") %>
-</label>
+<%= radio_button_f f, :optimistic_import, { :value=>'yes', :text => _("Fix %s on Mismatch") % taxonomy_type } %>
+<%= radio_button_f f, :optimistic_import, { :value=>'no', :checked => true, :text => _("Fail on Mismatch") } %>
