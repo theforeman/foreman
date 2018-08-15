@@ -95,6 +95,7 @@
 #    :enabled: true
 #  :dynflow:
 #    :enabled: true
+#    :level: info
 #  :telemetry:
 #    :enabled: true
 #  :blob:
