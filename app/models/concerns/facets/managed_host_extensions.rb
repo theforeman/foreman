@@ -37,7 +37,7 @@ module Facets
         klass.class_eval do
           has_one facet_config.name, :class_name => facet_config.model.name, :foreign_key => :host_id, :inverse_of => :host, :dependent => facet_config.dependent
           accepts_nested_attributes_for facet_config.name, :update_only => true, :reject_if => :all_blank
-          if Foreman.in_rake?("db:migrate")
+          if Foreman.in_setup_db_rake?
             # To prevent running into issues in old migrations when new facet is defined but not migrated yet.
             # We define it only when in migration to avoid this unnecessary checks outside for the migration
             @facet_relation_db_migrate_extensions ||= {} # prevent duplicates
