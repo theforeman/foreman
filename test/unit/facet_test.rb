@@ -168,7 +168,7 @@ class FacetTest < ActiveSupport::TestCase
 
   context 'inside db:migrate task' do
     setup do
-      Foreman.stubs(:in_rake?).with("db:migrate").returns(true)
+      Foreman.stubs(:in_setup_db_rake?).returns(true)
     end
 
     test 'facet can be registered more than once' do

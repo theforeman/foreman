@@ -315,7 +315,7 @@ module Foreman #:nodoc:
     # Add plugin permissions to Manager and Viewer roles. Use this method if there are no special cases that need to be taken care of.
     # Otherwise add_permissions_to_default_roles or add_resource_permissions_to_default_roles might be the methods you are looking for.
     def add_all_permissions_to_default_roles
-      return if Foreman.in_rake?('db:migrate') || !permission_table_exists?
+      return if Foreman.in_setup_db_rake? || !permission_table_exists?
       Role.without_auditing do
         Filter.without_auditing do
           Plugin::RbacSupport.new.add_all_permissions_to_default_roles(Permission.where(:name => @rbac_registry.permission_names))
@@ -324,6 +324,7 @@ module Foreman #:nodoc:
     end
 
     def pending_migrations
+      return true if Foreman.in_setup_db_rake?
       migration_paths = ActiveRecord::Migrator.migrations(
         ActiveRecord::Migrator.migrations_paths)
       pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).

@@ -121,7 +121,7 @@ class ActiveRecord::Base
   def self.audited(*args)
     # do not audit data changes during db migrations
     super
-    self.auditing_enabled = false if Foreman.in_rake?('db:migrate')
+    self.auditing_enabled = false if Foreman.in_setup_db_rake?
   end
 end
 

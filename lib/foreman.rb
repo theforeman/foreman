@@ -12,10 +12,14 @@ module Foreman
     !!(str =~ UUID_REGEXP)
   end
 
-  def self.in_rake?(rake_task = nil)
+  def self.in_rake?(*rake_tasks)
     return false unless defined?(Rake) && Rake.respond_to?(:application)
     Rake.application.top_level_tasks.any? do |running_rake_task|
-      rake_task.nil? || running_rake_task.start_with?(rake_task)
+      rake_tasks.empty? || rake_tasks.any? { |rake_task| running_rake_task.start_with?(rake_task) }
     end
+  end
+
+  def self.in_setup_db_rake?
+    in_rake?('db:create', 'db:migrate', 'db:drop')
   end
 end
