@@ -4,6 +4,7 @@ import {
   toggleSwitcher,
   closeSwitcher,
   loadSwitcherResourcesByResource,
+  createSearch,
 } from '../BreadcrumbBarActions';
 import {
   resource,
@@ -41,3 +42,25 @@ const fixtures = {
 };
 
 describe('BreadcrumbBar actions', () => testActionSnapshotWithFixtures(fixtures));
+
+describe('createSearch', () => {
+  it('should add filter to query', () => {
+    const res = createSearch('name', 'aaa', 'god_object = true');
+    expect(res).toEqual('god_object = true AND name~aaa');
+  });
+
+  it('should not add AND when filter not present', () => {
+    const res = createSearch('name', 'bbb', '');
+    expect(res).toEqual('name~bbb');
+  });
+
+  it('should not add AND when searchQuery not present', () => {
+    const res = createSearch('name', '', 'time_for_tea = true');
+    expect(res).toEqual('time_for_tea = true');
+  });
+
+  it('should return empty string when filter and searchQuery absent', () => {
+    const res = createSearch('name', '', '');
+    expect(res).toEqual('');
+  });
+});

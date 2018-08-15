@@ -78,7 +78,8 @@ class BreadcrumbsOptions
     {
       switcherItemUrl: options[:switcher_item_url] || switcher_url_template,
       resourceUrl: options[:resource_url] || "/api/v2/#{controller_path}",
-      nameField: options[:name_field] || model_name_field || 'name'
+      nameField: options[:name_field] || model_name_field || 'name',
+      resourceFilter: options[:resource_filter] || ''
     }
   end
 end
