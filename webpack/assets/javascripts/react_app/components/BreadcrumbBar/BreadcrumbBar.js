@@ -91,6 +91,7 @@ BreadcrumbBar.propTypes = {
       nameField: PropTypes.string,
       resourceUrl: PropTypes.string,
       switcherItemUrl: PropTypes.string,
+      resourceFilter: PropTypes.string,
     }),
     breadcrumbItems: Breadcrumb.propTypes.items,
   }),

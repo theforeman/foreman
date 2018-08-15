@@ -47,7 +47,8 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
       {
         switcherItemUrl: "/strings/:id/",
         resourceUrl: "/api/v2/strings",
-        nameField: "name"
+        nameField: "name",
+        resourceFilter: ""
       }
     }
   end
@@ -76,7 +77,8 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
       {
         switcherItemUrl: custom_switcher_item_url,
         resourceUrl: custom_resource_url,
-        nameField: "name"
+        nameField: "name",
+        resourceFilter: ""
       }
     }
   end

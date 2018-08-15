@@ -61,5 +61,30 @@ export const loadSwitcherResourcesByResource = (resource, { page = 1, searchQuer
   };
   beforeRequest();
 
-  return API.get(resourceUrl, {}, { page, per_page: 10, search: searchQuery && `${[nameField]}~${searchQuery}` }).then(onRequestSuccess, onRequestFail);
+  return API.get(
+    resourceUrl,
+    {},
+    {
+      page,
+      per_page: 10,
+      search: createSearch(nameField, searchQuery, resource.resourceFilter),
+    },
+  ).then(onRequestSuccess, onRequestFail);
 };
+
+export const createSearch = (nameField, searchQuery, resourceFilter) => {
+  let query = '';
+  if (resourceFilter) {
+    query += resourceFilter;
+  }
+
+  if (query && searchQuery) {
+    query += ` AND ${simpleNameQuery(nameField, searchQuery)}`;
+  } else {
+    query += simpleNameQuery(nameField, searchQuery);
+  }
+
+  return query;
+};
+
+const simpleNameQuery = (nameField, searchQuery) => (searchQuery ? `${[nameField]}~${searchQuery}` : '');
