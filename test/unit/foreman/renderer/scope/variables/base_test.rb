@@ -64,4 +64,11 @@ class BaseVariablesTest < ActiveSupport::TestCase
     assert scope.instance_variable_get('@initrd').present?
     assert scope.instance_variable_get('@kernel').present?
   end
+
+  test "set @provisioning_type for bare host" do
+    class Host::BareHost < ::Host::Base; end
+    host = Host::BareHost.new
+    scope = @scope.new(host: host, source: @source)
+    assert_equal "host", scope.instance_variable_get('@provisioning_type')
+  end
 end
