@@ -3,21 +3,19 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable import/first */
 import $ from 'jquery';
-import ace from 'brace';
+import * as ace from 'brace';
 
-require('brace/mode/javascript');
-require('brace/mode/ruby');
-require('brace/mode/html_ruby');
-require('brace/mode/json');
-require('brace/mode/sh');
-require('brace/mode/xml');
-require('brace/mode/yaml');
-require('brace/mode/diff');
-require('brace/theme/twilight');
-require('brace/theme/clouds');
-require('brace/keybinding/vim');
-require('brace/keybinding/emacs');
-require('brace/ext/searchbox');
+import 'brace/mode/ruby';
+import 'brace/mode/json';
+import 'brace/mode/sh';
+import 'brace/mode/xml';
+import 'brace/mode/yaml';
+import 'brace/mode/diff';
+import 'brace/theme/twilight';
+import 'brace/theme/clouds';
+import 'brace/keybinding/vim';
+import 'brace/keybinding/emacs';
+import 'brace/ext/searchbox';
 
 import { initTypeAheadSelect } from './foreman_tools';
 
@@ -77,7 +75,6 @@ function setMode(mode) {
     'ace/mode/json',
     'ace/mode/ruby',
     'ace/mode/html_ruby',
-    'ace/mode/javascript',
     'ace/mode/sh',
     'ace/mode/xml',
     'ace/mode/yaml',
