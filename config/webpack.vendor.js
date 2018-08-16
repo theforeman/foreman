@@ -43,7 +43,6 @@ module.exports = [
    * Brace related
    */
   'brace',
-  'brace/mode/javascript',
   'brace/mode/ruby',
   'brace/mode/html_ruby',
   'brace/mode/json',
