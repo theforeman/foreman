@@ -23,6 +23,7 @@ const documentationBlock = ({
 const DefaultEmptyState = (props) => {
   const {
     icon,
+    iconType,
     header,
     description,
     documentation,
@@ -33,6 +34,7 @@ const DefaultEmptyState = (props) => {
   return (
     <EmptyStatePattern
       icon={icon}
+      iconType={iconType}
       header={header}
       description={description}
       documentation={documentation ? documentationBlock(documentation) : null}
@@ -47,6 +49,7 @@ DefaultEmptyState.propTypes = defaultEmptyStatePropTypes;
 DefaultEmptyState.defaultProps = {
   icon: 'add-circle-o',
   secondaryActions: [],
+  iconType: 'pf',
 };
 
 export default DefaultEmptyState;

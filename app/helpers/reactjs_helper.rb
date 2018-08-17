@@ -1,7 +1,7 @@
 module ReactjsHelper
-  def mount_react_component(name, selector, data = [])
+  def mount_react_component(name, selector, data = [], opts = {})
     javascript_tag defer: 'defer' do
-      "$(tfm.reactMounter.mount('#{name}', '#{selector}', #{data}));".html_safe
+      "$(tfm.reactMounter.mount('#{name}', '#{selector}', #{data}, #{opts[:flatten_data] || false}));".html_safe
     end
   end
 
