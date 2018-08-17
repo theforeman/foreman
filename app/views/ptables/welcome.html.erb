@@ -1,12 +1,15 @@
 <% content_for(:title, _("Partition Tables")) %>
-<div class="blank-slate-pf">
-  <div class="blank-slate-pf-icon">
-    <%= icon_text("table", "", :kind => "fa") %>
-  </div>
-  <h1><%= _('Partition Tables') %></h1>
-  <p><%= _("Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities.") %></p>
-  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4.4PartitionTables")%></p>
-  <div class="blank-slate-pf-main-action">
-    <%= new_link(_("Create Partition Table"), :class => 'btn-lg') %>
-  </div>
-</div>
+
+<div id="ptable-empty-state"></div>
+<% description = _("Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities.")%>
+<%= mount_react_component('EmptyState',
+                          '#ptable-empty-state',
+                          { :icon => 'table',
+                            :iconType => 'fa',
+                            :header => _('Partition Tables'),
+                            :description => description,
+                            :documentation => { :url => documentation_url("4.4.4PartitionTables") },
+                            :action => { :title => _("Create Partition Table"), :url => new_ptable_path }
+                          }.to_json,
+                          { :flatten_data => true }
+)%>

@@ -3,12 +3,21 @@ import { EmptyState as PfEmptyState } from 'patternfly-react';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 
 const EmptyStatePattern = (props) => {
-  const { documentation, action, secondaryActions } = props;
+  const {
+    documentation,
+    action,
+    secondaryActions,
+    icon,
+    iconType,
+    header,
+    description,
+  } = props;
+
   return (
     <PfEmptyState>
-      <PfEmptyState.Icon type="pf" name={props.icon} />
-      <PfEmptyState.Title>{props.header}</PfEmptyState.Title>
-      <PfEmptyState.Info>{props.description}</PfEmptyState.Info>
+      <PfEmptyState.Icon type={iconType} name={icon} />
+      <PfEmptyState.Title>{header}</PfEmptyState.Title>
+      <PfEmptyState.Info>{description}</PfEmptyState.Info>
       {documentation && <PfEmptyState.Help>{documentation}</PfEmptyState.Help>}
       {action && <PfEmptyState.Action>{action}</PfEmptyState.Action>}
       {secondaryActions && (

@@ -13,6 +13,7 @@ import Pagination from './Pagination/Pagination';
 import AuditsList from './AuditsList';
 import SearchBar from './SearchBar';
 import Layout from './Layout';
+import EmptyState from './common/EmptyState';
 
 const componentRegistry = {
   registry: {},
@@ -43,7 +44,7 @@ const componentRegistry = {
     return Object.keys(this.registry).join(', ');
   },
 
-  markup(name, data, store) {
+  markup(name, data, store, flattenData) {
     const currentComponent = this.getComponent(name);
 
     if (!currentComponent) {
@@ -51,6 +52,14 @@ const componentRegistry = {
     }
     const ComponentName = currentComponent.type;
 
+    if (flattenData) {
+      return (
+        <ComponentName
+          store={currentComponent.store ? store : undefined}
+          { ...data }
+        />
+      );
+    }
     return (
       <ComponentName
         data={currentComponent.data ? data : undefined}
@@ -74,6 +83,7 @@ const coreComponets = [
   { name: 'Pagination', type: Pagination },
   { name: 'AuditsList', type: AuditsList },
   { name: 'Layout', type: Layout },
+  { name: 'EmptyState', type: EmptyState },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

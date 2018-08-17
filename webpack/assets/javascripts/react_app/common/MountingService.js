@@ -21,13 +21,20 @@ document.addEventListener('page:before-unload', () => {
   }
 });
 
-export function mount(component, selector, data) {
+export function mount(component, selector, data, flattenData = false) {
   const reactNode = document.querySelector(selector);
 
   if (reactNode) {
     ReactDOM.unmountComponentAtNode(reactNode);
     ReactDOM.render(
-      <Provider store={store}>{componentRegistry.markup(component, data, store)}</Provider>,
+      <Provider store={store}>
+        {componentRegistry.markup(
+          component,
+          data,
+          store,
+          flattenData,
+        )}
+      </Provider>,
       reactNode,
     );
 

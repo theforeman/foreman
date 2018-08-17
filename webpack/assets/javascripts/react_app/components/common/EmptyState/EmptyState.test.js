@@ -1,6 +1,8 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
+import PrimaryActionButton from './EmptyStatePrimaryActionButton';
+import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const defaultEmptyStateFixtures = {
@@ -62,20 +64,26 @@ const emptyStatePatternFixtures = {
       </div>
     ),
   },
-  'should render main action when given one': {
+  'should render main action when given title and url': {
     icon: 'printer',
     header: 'printers',
     description: 'printers print a file from the computer',
-    action: <button>action-title</button>,
+    action: <PrimaryActionButton action={{ title: 'my title', url: 'https://somewhere.com' }} />,
+  },
+  'should render main action when given title and onClick': {
+    icon: 'printers',
+    header: 'printers',
+    description: 'printers print a file from the computer',
+    action: <PrimaryActionButton action={{ title: 'my title again', onClick: () => '' }} />,
   },
   'should render secondary action when given one': {
     icon: 'printer',
     header: 'printers',
     description: 'printers print a file from the computer',
-    secondaryActions: [
-      <button key="y">action-y</button>,
-      <button key="x">action-x</button>,
-    ],
+    secondaryActions: <SecondaryActionButtons actions={[
+      { title: 'x', url: 'some-url' },
+      { title: 'y', url: 'random-url' },
+    ]} />,
   },
 };
 
