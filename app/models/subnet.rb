@@ -287,13 +287,13 @@ class Subnet < ApplicationRecord
       supported_ipam_modes.map {|mode| [_(IPAM::MODES[mode]), IPAM::MODES[mode]]}
     end
 
-    # Given an IP returns the subnet that contains that IP
+    # Given an IP returns the subnet that contains that IP preferring highest CIDR prefix
     # [+ip+] : IPv4 or IPv6 address
     # Returns : Subnet object or nil if not found
     def subnet_for(ip)
       return unless ip.present?
       ip = IPAddr.new(ip)
-      Subnet.all.detect {|s| s.family == ip.family && s.contains?(ip)}
+      Subnet.unscoped.all.select {|s| s.family == ip.family && s.contains?(ip)}.max_by(&:cidr)
     end
 
     # This casts Subnet to Subnet::Ipv4 if no type is set
