@@ -369,6 +369,9 @@ class TaxonomixTest < ActiveSupport::TestCase
     context 'via resource association' do
       setup do
         @hg = FactoryBot.create(:hostgroup, environment: @unreachable_env, locations: [taxonomies(:location2)], organizations: [taxonomies(:organization1)])
+        # factory corrected environment taxonomy - put it outside of user one
+        @unreachable_env.organizations = [taxonomies(:organization1)]
+        @unreachable_env.locations = [taxonomies(:location1)]
       end
 
       test 'via resource association with no reachable environments' do
