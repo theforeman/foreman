@@ -45,6 +45,18 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
     assert_equal @subnet, Subnet::Ipv4.subnet_for("123.123.123.1")
   end
 
+  test "should find the subnet with highest CIDR prefix (24) by IP" do
+    Subnet::Ipv4.create!(:network => "128.150.0.0", :mask => "255.255.0.0", :name => "net_16")
+    to_find = Subnet::Ipv4.create!(:network => "128.150.143.0", :mask => "255.255.255.0", :name => "net_24")
+    assert_equal to_find, Subnet::Ipv4.subnet_for("128.150.143.31")
+  end
+
+  test "should find the subnet with highest CIDR prefix (30) by IP" do
+    to_find = Subnet::Ipv4.create!(:network => "128.150.143.128", :mask => "255.255.255.252", :name => "net_30")
+    Subnet::Ipv4.create!(:network => "128.150.0.0", :mask => "255.255.0.0", :name => "net_16")
+    assert_equal to_find, Subnet::Ipv4.subnet_for("128.150.143.129")
+  end
+
   test "from cant be bigger than to range" do
     s      = subnets(:one)
     s.to   = "2.3.4.15"

@@ -63,6 +63,22 @@ class Subnet::Ipv6Test < ActiveSupport::TestCase
     refute s.valid?
   end
 
+  test "should find the subnet with highest CIDR prefix by IP order A" do
+    Subnet::Ipv6.create!(:network => "2001:db8::/32", :mask => "ffff:ffff::", :name => "net_32")
+    to_find = Subnet::Ipv6.create!(:network => "2001:db8::/33", :mask => "  ffff:ffff:8000::", :name => "net_33")
+    assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::1")
+    assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::13")
+    assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::cafe")
+  end
+
+  test "should find the subnet with highest CIDR prefix by IP order B" do
+    to_find = Subnet::Ipv6.create!(:network => "2001:db8::/33", :mask => "  ffff:ffff:8000::", :name => "net_33")
+    Subnet::Ipv6.create!(:network => "2001:db8::/32", :mask => "ffff:ffff::", :name => "net_32")
+    assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::1")
+    assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::13")
+    assert_equal to_find, Subnet::Ipv6.subnet_for("2001:db8::cafe")
+  end
+
   test "#known_ips includes all host and interfaces IPs assigned to this subnet" do
     subnet = FactoryBot.create(:subnet_ipv6, :name => 'my_subnet', :network => '2001:db8::', :dns_primary => '2001:db8::1', :gateway => '2001:db8::2', :ipam => IPAM::MODES[:db])
     host = FactoryBot.create(:host, :subnet6 => subnet, :ip6 => '2001:db8::3')
