@@ -469,6 +469,10 @@ FactoryBot.define do
     organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
     locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
 
+    after(:build) do |host, evaluator|
+      set_environment_taxonomies(host)
+    end
+
     trait :with_parent do
       association :parent, :factory => :hostgroup
     end
