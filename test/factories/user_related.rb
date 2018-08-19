@@ -11,7 +11,7 @@ FactoryBot.define do
 
   factory :user do
     auth_source { AuthSourceInternal.first }
-    password 'password'
+    password { 'password' }
     sequence(:login) {|n| "user#{n}" }
     organizations { [ Organization.find_by_name('Organization 1') ] }
     locations { [ Location.find_by_name('Location 1') ] }
@@ -44,30 +44,30 @@ FactoryBot.define do
 
   factory :permission do
     sequence(:name) {|n| "view_#{n}" }
-    resource_type nil
+    resource_type { nil }
 
     trait :host do
-      resource_type 'Host'
+      resource_type { 'Host' }
     end
 
     trait :domain do
-      resource_type 'Domain'
+      resource_type { 'Domain' }
     end
 
     trait :architecture do
-      resource_type 'Architecture'
+      resource_type { 'Architecture' }
     end
 
     trait :report do
-      resource_type 'ConfigReport'
+      resource_type { 'ConfigReport' }
     end
   end
 
   factory :role do
     sequence(:name) {|n| "role #{n}" }
-    locations []
-    organizations []
-    builtin 0
+    locations { [] }
+    organizations { [] }
+    builtin { 0 }
   end
 
   factory :user_role do
@@ -95,25 +95,25 @@ FactoryBot.define do
   end
 
   factory :filter do
-    search nil
+    search { nil }
     role { FactoryBot.create :role }
     permissions { [ FactoryBot.create(:permission, :host) ] }
 
     trait :on_name_all do
-      search 'name ~ *'
+      search { 'name ~ *' }
     end
 
     trait :on_name_starting_with_a do
-      search 'name ~ a*'
+      search { 'name ~ a*' }
     end
 
     trait :on_name_starting_with_b do
-      search 'name ~ b*'
+      search { 'name ~ b*' }
     end
   end
 
   factory :widget do
     sequence(:name) {|n| "Status Table #{n}" }
-    template 'status_widget'
+    template { 'status_widget' }
   end
 end

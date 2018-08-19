@@ -29,40 +29,40 @@ end
 FactoryBot.define do
   factory :ptable do
     sequence(:name) { |n| "ptable#{n}" }
-    layout 'zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended'
-    os_family 'Redhat'
+    layout { 'zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended' }
+    os_family { 'Redhat' }
     organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
     locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
 
     trait :ubuntu do
       sequence(:name) { |n| "ubuntu default#{n}" }
-      layout "d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular..."
-      os_family 'Debian'
+      layout { "d-i partman-auto/disk string /dev/sda\nd-i partman-auto/method string regular..." }
+      os_family { 'Debian' }
     end
 
     trait :suse do
       sequence(:name) { |n| "suse default#{n}" }
-      layout "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>"
-      os_family 'Suse'
+      layout { "<partitioning  config:type=\"list\">\n  <drive>\n    <device>/dev/hda</device>\n    <use>all</use>\n  </drive>\n</partitioning>" }
+      os_family { 'Suse' }
     end
   end
 
   factory :parameter do
     sequence(:name) { |n| "parameter#{n}" }
     sequence(:value) { |n| "parameter value #{n}" }
-    type 'CommonParameter'
+    type { 'CommonParameter' }
   end
 
   factory :host_parameter, :parent => :parameter, :class => HostParameter do
-    type 'HostParameter'
+    type { 'HostParameter' }
   end
 
   factory :hostgroup_parameter, :parent => :parameter, :class => GroupParameter do
-    type 'GroupParameter'
+    type { 'GroupParameter' }
   end
 
   factory :nic_base, :class => Nic::Base do
-    type 'Nic::Base'
+    type { 'Nic::Base' }
     sequence(:identifier) { |n| "eth#{n}" }
     sequence(:mac) { |n| "00:23:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
 
@@ -76,16 +76,16 @@ FactoryBot.define do
   end
 
   factory :nic_interface, :class => Nic::Interface, :parent => :nic_base do
-    type 'Nic::Interface'
+    type { 'Nic::Interface' }
   end
 
   factory :nic_managed, :class => Nic::Managed, :parent => :nic_interface do
-    type 'Nic::Managed'
+    type { 'Nic::Managed' }
     sequence(:mac) { |n| "00:33:45:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 0) + n, Socket::AF_INET).to_s }
 
     trait :without_ipv4 do
-      ip nil
+      ip { nil }
     end
 
     trait :with_ipv6 do
@@ -94,26 +94,26 @@ FactoryBot.define do
   end
 
   factory :nic_bmc, :class => Nic::BMC, :parent => :nic_managed do
-    type 'Nic::BMC'
+    type { 'Nic::BMC' }
     sequence(:mac) { |n| "00:43:56:cd:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new((subnet.present? ? subnet.ipaddr.to_i : 256 * 256 * 256) + n, Socket::AF_INET).to_s }
-    provider 'IPMI'
-    username 'admin'
-    password 'admin'
+    provider { 'IPMI' }
+    username { 'admin' }
+    password { 'admin' }
   end
 
   factory :nic_bond, :class => Nic::Bond, :parent => :nic_managed do
-    type 'Nic::Bond'
-    mode 'balance-rr'
+    type { 'Nic::Bond' }
+    mode { 'balance-rr' }
   end
 
   factory :nic_bridge, :class => Nic::Bridge, :parent => :nic_managed do
-    type 'Nic::Bridge'
+    type { 'Nic::Bridge' }
   end
 
   factory :nic_primary_and_provision, :parent => :nic_managed, :class => Nic::Managed do
-    primary true
-    provision true
+    primary { true }
+    provision { true }
     sequence(:mac) { |n| "00:53:67:ab:" + n.to_s(16).rjust(4, '0').insert(2, ':') }
     sequence(:ip) { |n| IPAddr.new(n, Socket::AF_INET).to_s }
   end
@@ -125,7 +125,7 @@ FactoryBot.define do
   factory :host do
     sequence(:name) { |n| "host#{n}" }
     sequence(:hostname) { |n| "host#{n}" }
-    root_pass 'xybxa6JUkz63w'
+    root_pass { 'xybxa6JUkz63w' }
     organization { Organization.find_by_name('Organization 1') } if SETTINGS[:organizations_enabled]
     location { Location.find_by_name('Location 1') } if SETTINGS[:locations_enabled]
 
@@ -173,7 +173,7 @@ FactoryBot.define do
 
     trait :with_facts do
       transient do
-        fact_count 20
+        fact_count { 20 }
       end
       after(:create) do |host, evaluator|
         evaluator.fact_count.times do
@@ -184,7 +184,7 @@ FactoryBot.define do
 
     trait :with_reports do
       transient do
-        report_count 5
+        report_count { 5 }
       end
       after(:create) do |host, evaluator|
         evaluator.report_count.times do |i|
@@ -246,8 +246,8 @@ FactoryBot.define do
     end
 
     trait :managed do
-      managed true
-      pxe_loader "Grub2 UEFI"
+      managed { true }
+      pxe_loader { "Grub2 UEFI" }
       architecture { operatingsystem.try(:architectures).try(:first) }
       medium { operatingsystem.try(:media).try(:first) }
       ptable { operatingsystem.try(:ptables).try(:first) }
@@ -460,7 +460,7 @@ FactoryBot.define do
     end
 
     trait :without_owner do
-      owner nil
+      owner { nil }
     end
   end
 

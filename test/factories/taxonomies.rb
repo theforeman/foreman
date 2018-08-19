@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :organization_parameter, :parent => :parameter, :class => OrganizationParameter do
-    type 'OrganizationParameter'
+    type { 'OrganizationParameter' }
   end
 
   factory :organization do
@@ -14,7 +14,7 @@ FactoryBot.define do
   end
 
   factory :location_parameter, :parent => :parameter, :class => LocationParameter do
-    type 'LocationParameter'
+    type { 'LocationParameter' }
   end
 
   factory :location do

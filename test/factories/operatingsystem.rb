@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :os_parameter, :parent => :parameter, :class => OsParameter do
-    type 'OsParameter'
+    type { 'OsParameter' }
   end
 
   factory :operatingsystem, class: Operatingsystem do
@@ -65,45 +65,45 @@ FactoryBot.define do
 
     factory :coreos, class: Coreos do
       sequence(:name) { 'CoreOS' }
-      major '494'
-      minor '5.0'
-      type 'Coreos'
-      release_name 'stable'
-      title 'CoreOS 494.5.0'
+      major { '494' }
+      minor { '5.0' }
+      type { 'Coreos' }
+      release_name { 'stable' }
+      title { 'CoreOS 494.5.0' }
     end
 
     factory :ubuntu14_10, class: Debian do
       sequence(:name) { 'Ubuntu' }
-      major '14'
-      minor '10'
-      type 'Debian'
-      release_name 'utopic'
-      title 'Ubuntu Utopic'
+      major { '14' }
+      minor { '10' }
+      type { 'Debian' }
+      release_name { 'utopic' }
+      title { 'Ubuntu Utopic' }
     end
 
     factory :debian7_0, class: Debian do
       sequence(:name) { 'Debian' }
-      major '7'
-      minor '0'
-      type 'Debian'
-      release_name 'wheezy'
-      title 'Debian Wheezy'
+      major { '7' }
+      minor { '0' }
+      type { 'Debian' }
+      release_name { 'wheezy' }
+      title { 'Debian Wheezy' }
     end
 
     factory :suse, class: Suse do
       sequence(:name) { 'OpenSuse' }
-      major '11'
-      minor '4'
-      type 'Suse'
-      title 'OpenSuse 11.4'
+      major { '11' }
+      minor { '4' }
+      type { 'Suse' }
+      title { 'OpenSuse 11.4' }
     end
 
     factory :solaris, class: Solaris do
       sequence(:name) { 'Solaris' }
-      major '10'
-      minor '8'
-      type 'Solaris'
-      title 'Solaris 10.8'
+      major { '10' }
+      minor { '8' }
+      type { 'Solaris' }
+      title { 'Solaris 10.8' }
     end
   end
 end

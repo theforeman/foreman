@@ -10,7 +10,7 @@ FactoryBot.define do
   end
 
   factory :fact_name_other, :class => FactName do
-    type 'FactNameOther'
+    type { 'FactNameOther' }
     sequence(:name) {|n| "fact#{n}" }
   end
 end

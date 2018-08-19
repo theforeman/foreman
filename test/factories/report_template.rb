@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:template) { |n| "template content #{n}" }
 
     trait :snippet do
-      snippet true
+      snippet { true }
     end
   end
 end
