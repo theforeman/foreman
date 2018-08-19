@@ -150,6 +150,9 @@ module.exports = env => {
     ],
 
     optimization: {
+      runtimeChunk: {
+        name: 'vendor',
+      },
       splitChunks: {
         cacheGroups: {
           vendor: {
