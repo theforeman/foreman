@@ -4,53 +4,53 @@ FactoryBot.define do
     sequence(:url) { |n| "http://#{n}.example.com/" }
 
     trait :ec2 do
-      provider 'EC2'
-      user 'ec2user'
-      password 'ec2password'
-      url 'eu-west-1'
+      provider { 'EC2' }
+      user { 'ec2user' }
+      password { 'ec2password' }
+      url { 'eu-west-1' }
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
     trait :gce do
-      provider 'GCE'
-      key_path Rails.root
-      project 'gce_project'
+      provider { 'GCE' }
+      key_path { Rails.root }
+      project { 'gce_project' }
       sequence(:email) { |n| "user#{n}@example.com" }
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
     trait :libvirt do
-      provider 'Libvirt'
+      provider { 'Libvirt' }
     end
 
     trait :openstack do
-      provider 'Openstack'
-      user 'osuser'
-      password 'ospassword'
-      url 'http://openstack.example.com/v2.0'
+      provider { 'Openstack' }
+      user { 'osuser' }
+      password { 'ospassword' }
+      url { 'http://openstack.example.com/v2.0' }
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
     end
 
     trait :ovirt do
-      provider 'Ovirt'
-      user 'ovirtuser'
-      password 'ovirtpassword'
+      provider { 'Ovirt' }
+      user { 'ovirtuser' }
+      password { 'ovirtpassword' }
       after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 
     trait :rackspace do
-      provider 'Rackspace'
-      user 'rsuser'
-      password 'rspassword'
-      region 'IAD'
+      provider { 'Rackspace' }
+      user { 'rsuser' }
+      password { 'rspassword' }
+      region { 'IAD' }
     end
 
     trait :vmware do
-      provider 'Vmware'
-      user 'vuser'
-      password 'vpassword'
+      provider { 'Vmware' }
+      user { 'vuser' }
+      password { 'vpassword' }
       sequence(:url) { |n| "#{n}.example.com" } # alias for server
-      uuid 'vdatacenter' # alias for datacenter
+      uuid { 'vdatacenter' } # alias for datacenter
       after(:build) { |cr| cr.stubs(:update_public_key) }
     end
 
@@ -74,7 +74,7 @@ FactoryBot.define do
   factory :image do
     sequence(:name) { |n| "image#{n}" }
     uuid { Foreman.uuid }
-    username 'root'
+    username { 'root' }
     association :compute_resource, factory: :libvirt_cr
     operatingsystem
     architecture
@@ -82,12 +82,12 @@ FactoryBot.define do
 
   factory :compute_attribute do
     sequence(:name) { |n| "attributes#{n}" }
-    vm_attrs(
+    vm_attrs { 
       {
         :flavor_id => 'm1.small',
         :availability_zone => 'eu-west-1a'
       }
-    )
+     }
     before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }
   end
 
@@ -96,7 +96,7 @@ FactoryBot.define do
 
     trait :with_compute_attribute do
       transient do
-        compute_resource nil
+        compute_resource { nil }
       end
 
       after(:create) do |compute_profile, evaluator|

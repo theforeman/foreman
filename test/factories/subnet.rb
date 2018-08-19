@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :subnet_parameter, :parent => :parameter, :class => SubnetParameter do
-    type 'SubnetParameter'
+    type { 'SubnetParameter' }
   end
 
   factory :subnet do
     sequence(:name) {|n| "subnet#{n}" }
-    ipam "None"
+    ipam { "None" }
     organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
     locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
 
@@ -27,7 +27,7 @@ FactoryBot.define do
 
     trait :with_domains do
       transient do
-        domains_count 2
+        domains_count { 2 }
       end
 
       after(:create) do |subnet, evaluator|
@@ -36,7 +36,7 @@ FactoryBot.define do
     end
 
     trait :ipam_db do
-      ipam "Internal DB"
+      ipam { "Internal DB" }
     end
 
     trait :with_taxonomies do
@@ -51,7 +51,7 @@ FactoryBot.define do
       factory :subnet_ipv4_with_domains, :traits => [:with_domains]
 
       trait :ipam_dhcp do
-        ipam "DHCP"
+        ipam { "DHCP" }
       end
 
       trait :with_parameter do

@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:group) { |n| "notification_blueprint_#{n}" }
     sequence(:message) { |n| "message_#{n}" }
     sequence(:name) { |n| "name_#{n}" }
-    level 'info'
-    expires_in 24.hours
+    level { 'info' }
+    expires_in { 24.hours }
   end
 end

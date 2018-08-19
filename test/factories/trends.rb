@@ -4,15 +4,15 @@ FactoryBot.define do
     sequence(:trendable_id)
 
     trait :value do # trend for one value of a fact
-      name nil
+      name { nil }
       sequence(:fact_value) { |n| "value #{n}" }
     end
 
     transient do
-      counter_count 0
+      counter_count { 0 }
     end
     trait :with_counters do
-      counter_count 2
+      counter_count { 2 }
     end
 
     after(:create) do |trend, evaluator|
@@ -24,14 +24,14 @@ FactoryBot.define do
 
   factory :foreman_trend, :class => ForemanTrend, :parent => :trend do
     transient do
-      with_values false
+      with_values { false }
     end
     trait :with_values do
-      with_values true
+      with_values { true }
     end
 
     factory :trend_os do
-      trendable_type 'Operatingsystem'
+      trendable_type { 'Operatingsystem' }
       sequence(:name) {|n| "OS#{n}" }
 
       before(:create) do |trend, evaluator|
@@ -45,7 +45,7 @@ FactoryBot.define do
   end
 
   factory :fact_trend, :class => FactTrend, :parent => :trend do
-    trendable_type 'FactName'
+    trendable_type { 'FactName' }
     trendable { FactoryBot.create(:fact_name) }
 
     trait :with_values do

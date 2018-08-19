@@ -6,8 +6,8 @@ FactoryBot.define do
     template_kind
 
     trait :snippet do
-      snippet true
-      template_kind nil
+      snippet { true }
+      template_kind { nil }
     end
   end
 

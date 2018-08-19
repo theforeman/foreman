@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :domain_parameter, :parent => :parameter, :class => DomainParameter do
-    type 'DomainParameter'
+    type { 'DomainParameter' }
   end
 
   factory :domain do

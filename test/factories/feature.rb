@@ -1,39 +1,39 @@
 FactoryBot.define do
   factory :feature do
     factory :templates do
-      name 'Templates'
+      name { 'Templates' }
     end
 
     factory :tftp_feature do
-      name 'TFTP'
+      name { 'TFTP' }
     end
 
     trait :tftp do
-      name 'tftp'
+      name { 'tftp' }
     end
 
     trait :dhcp do
-      name 'DHCP'
+      name { 'DHCP' }
     end
 
     trait :dns do
-      name 'DNS'
+      name { 'DNS' }
     end
 
     trait :realm do
-      name 'Realm'
+      name { 'Realm' }
     end
 
     trait :puppetca do
-      name 'Puppet CA'
+      name { 'Puppet CA' }
     end
 
     trait :puppet do
-      name 'Puppet'
+      name { 'Puppet' }
     end
 
     trait :bmc do
-      name 'BMC'
+      name { 'BMC' }
     end
   end
 end
