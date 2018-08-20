@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-07-27 21:28+0000\n"
+"PO-Revision-Date: 2018-08-11 22:53+0000\n"
 "Last-Translator: Martin Zimmermann <martin.zimmermann@gmx.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -168,7 +168,7 @@ msgstr[0] "%{config_type} Neuerstellung fehlgeschlagen für Host: %{host_names}.
 msgstr[1] "%{config_type} Neuerstellung fehlgeschlagen für Hosts: %{host_names}."
 
 msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
-msgstr ""
+msgstr "%{controller}: %{host} Betriebssystem %{os} gehört zu keiner Betriebssystemfamilie"
 
 msgid "%{controller}: %{host}'s operating system is missing"
 msgstr "%{controller}: Fehlendes Betriebssystem für %{host}"
@@ -301,8 +301,8 @@ msgstr "'Content-Type: %s' ist in der API v2 für POST- und PUT-Anfragen nicht u
 
 msgid "(%s host)"
 msgid_plural "(%s hosts)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(%s Host)"
+msgstr[1] "(%s Hosts)"
 
 msgid "(Miscellaneous)"
 msgstr "(Verschiedenes)"
@@ -451,9 +451,6 @@ msgstr "Beziehe IP-Adressen für %s"
 msgid "Action"
 msgstr "Aktion"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -566,10 +563,10 @@ msgid "Administrator user account required"
 msgstr "Benutzer-Account mit Administratorrechten erforderlich"
 
 msgid "Affected Locations:"
-msgstr ""
+msgstr "Betroffene Standorte:"
 
 msgid "Affected Organizations:"
-msgstr ""
+msgstr "Betroffene Organisationen:"
 
 msgid "Alert"
 msgstr "Warnung"
@@ -845,10 +842,10 @@ msgid "Audit Comment"
 msgstr "Auditkommentar"
 
 msgid "Audit Metadata:"
-msgstr ""
+msgstr "Audit Metadata:"
 
 msgid "Audit Time:"
-msgstr ""
+msgstr "Audit Zeit:"
 
 msgid "Audit summary"
 msgstr "Auditzusammenfassung"
@@ -1967,7 +1964,7 @@ msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr "DHCP-Dateinamensoption (Standardmäßig Grub2/PXELinux)"
 
 msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
-msgstr ""
+msgstr "Zu verwendende DHCP Dateinamen Option. Auf None setzen für eine nicht-PXE Methode (z.B. iPXE)"
 
 msgid "DHCP lease conflicts have been detected"
 msgstr "DHCP-Lease-Konflikte wurden entdeckt"
@@ -2454,9 +2451,6 @@ msgstr "VMRC herunterladen"
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "Zeitraum in Minuten, nachdem Server als \"nicht-synchronisiert\" klassifiziert werden."
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr "EC2"
 
@@ -2902,7 +2896,7 @@ msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "Fehler beim Aktivieren des Hosts %{host} für Installation: %{errors}"
 
 msgid "Failed to fetch a free IP from proxy %{proxy}: %{message}"
-msgstr ""
+msgstr "Fehler beim Abrufen einer freien IP von Proxy %{proxy}: %{message}"
 
 msgid "Failed to fetch boot files"
 msgstr "Fehler beim Laden der Bootdateien"
@@ -3036,7 +3030,7 @@ msgid "Fetch TFTP boot files for %s"
 msgstr "Hole TFTP-Bootdateien für %s"
 
 msgid "Field name"
-msgstr ""
+msgstr "Feld Name"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Filter"
@@ -3376,7 +3370,7 @@ msgid "Global setting \"%s\" is not accessible in safe-mode"
 msgstr "Globales Setting \"%s\" ist nicht verfügbar im Safe-Mode"
 
 msgid "Global status changed from %{from} to %{to}"
-msgstr ""
+msgstr "Globaler Status verändert von %{from} zu %{to}"
 
 msgid "Global variables"
 msgstr "Globale Variablen"
@@ -3962,7 +3956,7 @@ msgid "IP address auto-suggest"
 msgstr "IP-Adresse automatisch vorschlagen"
 
 msgid "IP addresses that should be excluded from suggestion"
-msgstr ""
+msgstr "IP-Adressen die nicht vorgeschlagen werden sollen"
 
 msgid "IP:"
 msgstr "IP:"
@@ -4137,9 +4131,6 @@ msgstr "Import"
 msgid "Import IPv4 subnets"
 msgstr "IPv4-Subnetze importieren"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr "Importiere VM %s"
 
@@ -4151,9 +4142,6 @@ msgstr "Importiere Klassen von %s"
 
 msgid "Import environments from %s"
 msgstr "Importiere Umgebung von %s"
-
-msgid "Import facts"
-msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "Import von Fakten für Host %s fehlgeschlagen"
@@ -4171,7 +4159,7 @@ msgid "In addition to defining which puppet classes get included when building t
 msgstr "Sie können nicht nur angeben, welche Puppetklassen beim Erstellen des Hosttyps inkludiert werden, sondern auch Variablen und Erstellungsinformationen zu einer Hostgruppe zuweisen, um das Verhalten der Puppet-Laufzeit weiter einzuschränken."
 
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
-msgstr ""
+msgstr "Der Benutzer muss zuerst gespeichert werden um den SSH-Schlüssel hinzuzufügen. Die Berechtigung 'create_ssh_keys' wird ebenfalls benötigt."
 
 msgid "In-line code syntax"
 msgstr "In-Line Code Syntax"
@@ -4342,14 +4330,14 @@ msgid "Key Binding"
 msgstr "Tastaturkürzel"
 
 msgid "Key not connected to any compute resource"
-msgstr ""
+msgstr "Schlüssel ist nicht in Verwendung an einer anderen Rechenressource"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Key pair"
 msgstr "Schlüsselpaar"
 
 msgid "Key used with other compute resource"
-msgstr ""
+msgstr "Schlüssel wurde in einer anderen Rechenressource verwendet"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Name"
@@ -5049,7 +5037,7 @@ msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr "MAC-Adresse der Schnittstelle. Erforderlich für gemanagte Bare-Metal-Schnittstellen."
 
 msgid "MAC address to reuse the IP for this host"
-msgstr ""
+msgstr "MAC-Adresse zur Wiederverwendung der IP dieses Host"
 
 msgid "MAC-based"
 msgstr "MAC-basiert"
@@ -5239,7 +5227,7 @@ msgid "Method used to deliver email"
 msgstr "Methode zum E-Mail Versand"
 
 msgid "Metric already registered: %s"
-msgstr ""
+msgstr "Die Metrik wurde bereits registriert: %s"
 
 msgid "Metrics"
 msgstr "Metriken"
@@ -5793,7 +5781,7 @@ msgid "Notifications"
 msgstr "Benachrichtigungen"
 
 msgid "Notifications can't be assigned to this user."
-msgstr ""
+msgstr "Benachrichtigungen können diesem Benutzer nicht zugewiesen werden."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification|Actions"
@@ -5944,7 +5932,7 @@ msgid "Operating System"
 msgstr "Betriebssystem"
 
 msgid "Operating System Family"
-msgstr ""
+msgstr "Betriebssystemfamilie"
 
 msgid "Operating System version is required"
 msgstr "Version des Betriebssystems benötigt"
@@ -6421,7 +6409,7 @@ msgid "Port to connect to"
 msgstr ""
 
 msgid "Possible values"
-msgstr ""
+msgstr "Mögliche Werte"
 
 msgid "Power"
 msgstr "Power"
@@ -6623,6 +6611,9 @@ msgstr "YAML-Ausgabe des externen Puppet-Knotens"
 msgid "Puppet interval"
 msgstr "Puppet-Intervall"
 
+msgid "Puppet interval in minutes"
+msgstr "Puppet-Run-Intervall in Minuten"
+
 msgid "Puppet proxy ID"
 msgstr "Puppet-Proxy Kennung"
 
@@ -6763,9 +6754,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] "Erinnerung: <strong> Ein Host ist ausgewählt </strong> für Abfragefilter %{query}"
 msgstr[1] "Erinnerung: <strong> Alle %{count} Hosts sind ausgewählt </strong> für Abfragefilter %{query}"
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "Entfernte Adresse"
@@ -7225,8 +7213,8 @@ msgstr "Wählen Sie die Änderungen, die Sie in Foreman anwenden möchten"
 
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Diesen Host auswählen"
+msgstr[1] "Auswahl aller <b>%{total}</b> Hosts"
 
 msgid "Select this since it belongs to a host"
 msgstr "Wählen Sie dies, da es zu einem Host gehört"
@@ -7760,7 +7748,7 @@ msgid "Stop updating IP address and MAC values from Puppet facts (affects all in
 msgstr "Aktualisierung von IP-Adressen und MAC-Werten aus den Puppet-Fakten stoppen (wirkt sich auf alle Schnittstellen aus)"
 
 msgid "Stop updating Operating System from facts"
-msgstr ""
+msgstr "Beenden der Aktualisierung von Domänen Werten aus Fakten"
 
 msgid "Stop updating domain values from facts"
 msgstr "Beenden der Aktualisierung von Domänen Werten aus Fakten"
@@ -8394,7 +8382,7 @@ msgid "This group has nested groups!"
 msgstr "Diese Gruppe hat Untergruppen!"
 
 msgid "This group has no roles"
-msgstr ""
+msgstr "Diese Gruppe hat keine Rollen"
 
 msgid "This host's stored facts and reports will be deleted too."
 msgstr "Die gespeicherten Fakten und Berichte zu diesem Host werden ebenfalls gelöscht."
@@ -8436,7 +8424,7 @@ msgid "This role is locked from being modified by users."
 msgstr "Diese Rolle ist für die Bearbeitung gesperrt."
 
 msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
-msgstr ""
+msgstr "Diese Einstellung wurde in der Konfigurationsdatei '%{filename}' festgelegt und hat nur Lese-Berechtigung."
 
 msgid "This template is locked and may not be removed."
 msgstr "Diese Vorlage ist gesperrt und darf nicht entfernt werden."
@@ -8459,7 +8447,7 @@ msgid "This value is not hidden"
 msgstr "Dieser Wert ist nicht versteckt"
 
 msgid "This value is used also as the host's primary interface name."
-msgstr "Dieser Wert wird auch als Name für die Pirmärschnittstelle des Hosts verwendet."
+msgstr "Dieser Wert wird auch als Name für die Primärschnittstelle des Hosts verwendet."
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr "Hiermit werden alle Parameter der Klasse %s auf ihre Standardwerte zurückgesetzt. Fortfahren?"
@@ -8646,7 +8634,7 @@ msgid "URL of the proxy including schema (https://proxy.example.com:8080)"
 msgstr ""
 
 msgid "URL to fetch RSS notifications from"
-msgstr ""
+msgstr "URL zum Abrufen von RSS Benachrichtigungen"
 
 msgid "URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"
 msgstr "URL, unter der Ihre Foreman-Instanz erreichbar ist (siehe auch Bereitstellung > unattended_url)"
@@ -9411,8 +9399,8 @@ msgstr "Warnung!"
 
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Warnung! Dies wird %{name} von %{number} Benutzer entfernen. Sind sie sicher?"
+msgstr[1] "Warnung! Dies wird %{name} von %{number} Benutzern entfernen. Sind sie sicher?"
 
 msgid "Warning: This combination of loader and OS might not be able to boot."
 msgstr "Warnung: Diese Kombination aus Betriebssystem und Bootloader ist möglicherweise nicht bootfähig."
@@ -9681,7 +9669,7 @@ msgid "Zone"
 msgstr "Zone"
 
 msgid "[empty]"
-msgstr ""
+msgstr "[leer]"
 
 msgid "[redacted]"
 msgstr ""
@@ -9846,7 +9834,7 @@ msgid "e.g. givenName"
 msgstr "z.B. givenName"
 
 msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr "z.B. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr "z.B. http://openstack:5000/v2.0/tokens oder http://openstack:5000/v3/auth/tokens"
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "z.B. https://identity.api.rackspacecloud.com/v2.0"
@@ -9900,7 +9888,7 @@ msgid "filter results"
 msgstr "Ergebnisse filtern"
 
 msgid "filter..."
-msgstr ""
+msgstr "Filter ..."
 
 msgid "for EC2 only"
 msgstr "nur für EC2"
@@ -10113,7 +10101,8 @@ msgstr "externe Benutzergruppe mit dieser Benutzergruppe verknüpfen"
 msgid "list"
 msgstr "Liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Deutsch"
 

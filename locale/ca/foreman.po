@@ -425,9 +425,6 @@ msgstr ""
 msgid "Action"
 msgstr "Acció"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Accions"
 
@@ -2428,9 +2425,6 @@ msgstr ""
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr "EC2"
 
@@ -4109,9 +4103,6 @@ msgstr "Importa"
 msgid "Import IPv4 subnets"
 msgstr "Importa les subxarxes IPv4"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -4122,9 +4113,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -6597,6 +6585,9 @@ msgstr ""
 msgid "Puppet interval"
 msgstr "Interval de Puppet"
 
+msgid "Puppet interval in minutes"
+msgstr "L'interval de Puppet en minuts"
+
 msgid "Puppet proxy ID"
 msgstr "ID de servidor intermediari de Puppet"
 
@@ -6737,9 +6728,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "Adreça remota"
@@ -10088,7 +10076,8 @@ msgstr "enllaça el grup d'usuaris externs amb aquest grup d'usuaris"
 msgid "list"
 msgstr "llista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Català"
 

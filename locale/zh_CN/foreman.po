@@ -434,9 +434,6 @@ msgstr "获取 %s 的 IP 地址"
 msgid "Action"
 msgstr "动作"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "操作"
 
@@ -2437,9 +2434,6 @@ msgstr "下载 VMRC"
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "服务器被归类为非同步后的持续时间，单位：分钟。"
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr "EC2"
 
@@ -4120,9 +4114,6 @@ msgstr "导入"
 msgid "Import IPv4 subnets"
 msgstr "导入 IPv4 子网"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr "从虚拟机 %s 导入"
 
@@ -4134,9 +4125,6 @@ msgstr "从 %s 导入类"
 
 msgid "Import environments from %s"
 msgstr "从 %s 导入环境"
-
-msgid "Import facts"
-msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "主机 %s 导入详情失败"
@@ -6606,6 +6594,9 @@ msgstr "Puppet 外部节点 YAML 转储"
 msgid "Puppet interval"
 msgstr "Puppet 间隔"
 
+msgid "Puppet interval in minutes"
+msgstr "以分钟为单位的 Puppet 间隔"
+
 msgid "Puppet proxy ID"
 msgstr "Puppet 代理服务器 ID"
 
@@ -6746,9 +6737,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "远程地址"
@@ -10111,7 +10099,8 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列表"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "简体中文"
 

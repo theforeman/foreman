@@ -420,9 +420,6 @@ msgstr ""
 msgid "Action"
 msgstr "동작 "
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "동작 "
 
@@ -2422,9 +2419,6 @@ msgstr ""
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr "EC2"
 
@@ -4105,9 +4099,6 @@ msgstr "불러오기"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -4118,9 +4109,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -6591,6 +6579,9 @@ msgstr "Puppet 외부 노드 YAML 덤프 "
 msgid "Puppet interval"
 msgstr "Puppet 간격"
 
+msgid "Puppet interval in minutes"
+msgstr "Puppet 간격 (분) "
+
 msgid "Puppet proxy ID"
 msgstr "Puppet 프록시 ID"
 
@@ -6731,9 +6722,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "원격 주소"
@@ -10079,7 +10067,8 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "한국어"
 

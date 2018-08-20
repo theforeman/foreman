@@ -460,9 +460,6 @@ msgstr ""
 msgid "Action"
 msgstr "Действие"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Действия"
 
@@ -2467,9 +2464,6 @@ msgstr ""
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr "EC2"
 
@@ -4150,9 +4144,6 @@ msgstr "Импорт"
 msgid "Import IPv4 subnets"
 msgstr ""
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr ""
 
@@ -4163,9 +4154,6 @@ msgid "Import classes from %s"
 msgstr ""
 
 msgid "Import environments from %s"
-msgstr ""
-
-msgid "Import facts"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
@@ -6636,6 +6624,9 @@ msgstr "Описание внешних узлов Puppet в формате YAML
 msgid "Puppet interval"
 msgstr "Интервал Puppet"
 
+msgid "Puppet interval in minutes"
+msgstr "Интервал Puppet в минутах"
+
 msgid "Puppet proxy ID"
 msgstr "Идентификатор прокси Puppet"
 
@@ -6776,9 +6767,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "Удаленный адрес"
@@ -10136,7 +10124,8 @@ msgstr "связать внешнюю группу пользователей с
 msgid "list"
 msgstr "список"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Русский"
 

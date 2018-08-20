@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-07 10:45+0300\n"
-"PO-Revision-Date: 2018-08-07 10:45+0300\n"
+"POT-Creation-Date: 2018-08-20 17:24+0300\n"
+"PO-Revision-Date: 2018-08-20 17:24+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -5769,15 +5769,15 @@ msgstr ""
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:174
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:188
 msgid "HTTPS URL is required for API access"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:209
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:223
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:445
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:459
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -5785,7 +5785,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:472
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:486
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -8110,31 +8110,31 @@ msgstr ""
 msgid "Can't delete the last admin user group"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:173
+#: ../app/registries/foreman/plugin.rb:177
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:183
+#: ../app/registries/foreman/plugin.rb:187
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:185
+#: ../app/registries/foreman/plugin.rb:189
 msgid ""
 "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{pl"
 "ugin_version}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:279
+#: ../app/registries/foreman/plugin.rb:283
 msgid "Could not create role '%{name}': %{message}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:281
+#: ../app/registries/foreman/plugin.rb:285
 msgid ""
 "Cannot continue because some permissions were not found, please run rake db:se"
 "ed and retry"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:367
+#: ../app/registries/foreman/plugin.rb:371
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -13988,22 +13988,6 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/redux/actions/hosts/storage/vmware.consts.js:11
 msgid "Hard disk"
-msgstr ""
-
-#: action_names.rb:2
-msgid "Action with sub plans"
-msgstr ""
-
-#: action_names.rb:3
-msgid "Import facts"
-msgstr ""
-
-#: action_names.rb:4
-msgid "Import Puppet classes"
-msgstr ""
-
-#: action_names.rb:5
-msgid "Remote action:"
 msgstr ""
 
 #: apipie.rb:8

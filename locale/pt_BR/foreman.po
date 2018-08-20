@@ -447,9 +447,6 @@ msgstr "Adquirir endereços IP para %s"
 msgid "Action"
 msgstr "Ação"
 
-msgid "Action with sub plans"
-msgstr ""
-
 msgid "Actions"
 msgstr "Ações"
 
@@ -2450,9 +2447,6 @@ msgstr "Fazer download do VMRC"
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "Duração em minutos depois que os servidores são classificado como fora de sincronização."
 
-msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
-
 msgid "EC2"
 msgstr "EC2"
 
@@ -4133,9 +4127,6 @@ msgstr "Importar"
 msgid "Import IPv4 subnets"
 msgstr "Importar redes IPV4"
 
-msgid "Import Puppet classes"
-msgstr ""
-
 msgid "Import VM %s"
 msgstr "Importar MV %s"
 
@@ -4147,9 +4138,6 @@ msgstr "Importar classes de %s"
 
 msgid "Import environments from %s"
 msgstr "Importar ambientes de %s"
-
-msgid "Import facts"
-msgstr ""
 
 msgid "Import of facts failed for host %s"
 msgstr "Falha ao importar fatos para o host %s "
@@ -6621,6 +6609,9 @@ msgstr "Nós Externos de Puppet YAML dump"
 msgid "Puppet interval"
 msgstr "Intervalo de Puppet"
 
+msgid "Puppet interval in minutes"
+msgstr "Intervalo de Puppet em minutos"
+
 msgid "Puppet proxy ID"
 msgstr "Relatório de Marionete ID"
 
@@ -6761,9 +6752,6 @@ msgid "Reminder: <strong> One host is selected </strong> for query filter %{quer
 msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "Remote action:"
-msgstr ""
 
 msgid "Remote address"
 msgstr "Endereço remoto"
@@ -10126,7 +10114,8 @@ msgstr "grupo de usuário externo com este grupo de usuário"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Português (Brasil)"
 
