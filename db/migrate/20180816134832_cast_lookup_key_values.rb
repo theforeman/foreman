@@ -20,7 +20,7 @@ class CastLookupKeyValues < ActiveRecord::Migration[5.1]
   end
 
   def safemode
-    @box ||= Safemode::Box.new()
+    @box ||= Safemode::Box.new
   end
 
   def fix_value(obj, attribute)
