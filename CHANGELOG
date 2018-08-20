@@ -1,4 +1,42 @@
+2018-08-20	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Release 1.19.0-RC3
+
+2018-08-20	Timo Goebel <mail@timogoebel.name>
+	* fixes #24571 - fog-vsphere 2.3 vsphere nic selection
+
+2018-08-20	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #24657 - update jest snapshots for 1.19
+	* Refs #24654 - pin factory_bot(_rails)
+
+2018-08-20	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #24640 - Cast all lookup keys and values (#5956)
+
+2018-08-20	Tomer Brisker <tbrisker@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2018-08-20	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #24657 - Pin react-bootstrap to 0.32.1
+
+2018-08-15	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #24556 - correct report scanner test (#5952)
+
+2018-08-14	Marek Hulan <mhulan@redhat.com>
+	* Fixes #24556 - correct puppet origin detection
+
+2018-08-13	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #24371 - Improve plugin webpack detection
+
+2018-08-13	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #24578 - rename blacklist_kernel_modules snippet
+
+2018-08-10	Ori Rabin <orrabin@gmail.com>
+	* Fixes #24473 - Return other OS when oVirt os is not found
+
+2018-08-10	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #23117 - ovirt_ostype host param selects type
+
 2018-08-07	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.19.0-RC2
 	* i18n - extracting new, pulling from tx
 	* Fixes #24302 - Correct string extractions
 
