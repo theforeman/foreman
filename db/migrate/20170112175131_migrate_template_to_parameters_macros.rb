@@ -21,20 +21,22 @@ class MigrateTemplateToParametersMacros < ActiveRecord::Migration[4.2]
     end
 
     LookupKey.descendants.each do |klass|
-      klass.all.each do |parameter|
-        parameter.default_value = convert(parameter.default_value.to_s)
-        if parameter.default_value_changed?
+      klass.all.find_each do |parameter|
+        next unless parameter.default_value.contains_erb?
+        value = convert(parameter.default_value.to_s)
+        if parameter.default_value.to_s != value
           # we need to skip validations so we use #update_attributes
-          parameter.update_attribute :default_value, parameter.value
+          parameter.update_attribute :default_value, value
         end
       end
     end
 
-    LookupValue.all.each do |parameter|
-      parameter.value = convert(parameter.value.to_s)
-      if parameter.value_changed?
+    LookupValue.all.find_each do |parameter|
+      next unless parameter.value.contains_erb?
+      value = convert(parameter.value.to_s)
+      if parameter.value.to_s != value
         # we need to skip validations so we use #update_attributes
-        parameter.update_attribute :value, parameter.value
+        parameter.update_attribute :value, value
       end
     end
   end
