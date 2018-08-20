@@ -30,14 +30,13 @@ describe('bookmark modal', () => {
   });
   it('should allow closing the modal using the close button', () => {
     const { wrapper, props } = setup();
-
-    wrapper.find('.modal-header .close button').simulate('click');
+    wrapper.find('.modal-header button.close').simulate('click');
     expect(props.onHide).toBeCalled();
   });
   it('should allow closing the modal using the cancel button', () => {
     const { wrapper, props } = setup();
 
-    wrapper.find('.form-actions .btn-default button').simulate('click');
+    wrapper.find('.form-actions button.btn-default').simulate('click');
     expect(props.onHide).toBeCalled();
   });
 });
