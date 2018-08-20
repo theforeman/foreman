@@ -45,9 +45,9 @@ describe('bookmark form', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
     const { wrapper } = setup();
 
-    wrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe' } });
-    wrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    wrapper.find('input [name="publik"]').simulate('change', { target: { value: true } });
+    wrapper.find('input[name="name"]').simulate('change', { target: { value: 'Joe' } });
+    wrapper.find('textarea[name="query"]').simulate('change', { target: { value: 'search' } });
+    wrapper.find('input[name="publik"]').simulate('change', { target: { value: true } });
 
     wrapper.find('form').simulate('submit');
     expect(wrapper.find('.spinner').length).toEqual(1);
@@ -63,9 +63,9 @@ describe('bookmark form', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
     const { wrapper } = setup();
 
-    wrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe' } });
-    wrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    wrapper.find('input [name="publik"]').simulate('change', { target: { value: false } });
+    wrapper.find('input[name="name"]').simulate('change', { target: { value: 'Joe' } });
+    wrapper.find('textarea[name="query"]').simulate('change', { target: { value: 'search' } });
+    wrapper.find('input[name="publik"]').simulate('change', { target: { value: false } });
 
     wrapper.find('form').simulate('submit');
     expect(wrapper.find('.spinner').length).toEqual(1);
@@ -93,9 +93,9 @@ describe('bookmark form', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
     const { wrapper } = setup();
 
-    wrapper.find('input [name="name"]').simulate('change', { target: { value: 'Joe.D' } });
-    wrapper.find('textarea [name="query"]').simulate('change', { target: { value: 'search' } });
-    wrapper.find('input [name="publik"]').simulate('change', { target: { value: false } });
+    wrapper.find('input[name="name"]').simulate('change', { target: { value: 'Joe.D' } });
+    wrapper.find('textarea[name="query"]').simulate('change', { target: { value: 'search' } });
+    wrapper.find('input[name="publik"]').simulate('change', { target: { value: false } });
 
     wrapper.find('form').simulate('submit');
     expect(wrapper.find('.spinner').length).toEqual(1);
