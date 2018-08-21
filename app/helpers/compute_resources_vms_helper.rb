@@ -283,7 +283,8 @@ module ComputeResourcesVmsHelper
     link_to_if_authorized(
       _("Console"),
       hash_for_console_compute_resource_vm_path.merge(
-        :auth_object => @compute_resource
+        :auth_object => @compute_resource,
+        :id => vm.identity
       ),
       {
         :class => "btn btn-info"
