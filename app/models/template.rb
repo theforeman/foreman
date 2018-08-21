@@ -46,7 +46,7 @@ class Template < ApplicationRecord
       metadata + template_without_metadata
     else
       lines = template_without_metadata.split("\n")
-      [ lines[0], metadata, lines[1..-1] ].flatten.join("\n")
+      [ lines[0], metadata.chomp, lines[1..-1] ].flatten.join("\n")
     end
   end
 
