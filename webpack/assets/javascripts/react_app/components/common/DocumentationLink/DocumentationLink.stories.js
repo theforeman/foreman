@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import DocumentationLink, { DocumentLinkContent } from './index';
 
-storiesOf('DocumentationLink', module)
+storiesOf('Components/DocumentationLink', module)
   .add('Default', () => (
     <div>
       <ul>

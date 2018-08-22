@@ -4,7 +4,7 @@ import { text, select, boolean, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 
-storiesOf('Empty State Pattern', module)
+storiesOf('Components/Empty State Pattern', module)
   .addDecorator(withKnobs)
   .add('Default', () => (
     <EmptyStatePattern

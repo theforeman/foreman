@@ -69,7 +69,7 @@ The webpack processed code is placed in the following folder structure:
        ╰─ react_app/       ┈ react components and related code
 ```
 
-More detailed description of a folder structure for components is in chapter [Adding new component](/?selectedKind=Introduction&selectedStory=Adding%20new%20component).
+More detailed description of a folder structure for components is in chapter [Adding new component](./?selectedKind=Introduction&selectedStory=Adding%20new%20component).
 There are still obsolete `redux` folders at some places. They used to be a place for files containing Redux actions and reducers before a standardized folder structure was introduced. We're migrating away from them. Please don't put additional code there.
 
 
