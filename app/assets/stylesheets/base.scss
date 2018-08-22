@@ -287,14 +287,13 @@ table {
 }
 
 .console-screen {
-  border: solid #222 1px;
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-  display: inline-block;
-  margin-top: 18px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  display: block;
   min-height: 400px;
   min-width: 720px;
-  padding: 10px;
+  top: 18px;
+  margin: 18px auto;
+  position: relative;
 }
 
 .ellipsis {
