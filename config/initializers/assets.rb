@@ -27,19 +27,6 @@ Foreman::Application.configure do |app|
                   host_edit_interfaces
                   hosts
                   host_checkbox
-                  noVNC/base64
-                  noVNC/des
-                  noVNC/display
-                  noVNC/input
-                  noVNC/jsunzip
-                  noVNC/logo
-                  noVNC/playback
-                  noVNC/rfb
-                  noVNC/ui
-                  noVNC/util
-                  noVNC/websock
-                  noVNC/webutil
-                  noVNC
                   reports
                   spice
                   charts

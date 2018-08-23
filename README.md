@@ -102,7 +102,6 @@ The following files and directories are exceptions:
 * lib/tasks/convert.rake is (c) 2008, Matson Systems, Inc. under Revised BSD license.
 * extras/noVNC/websockify is (c) 2011, Joel Martin under LGPL v3 license.
 * vendor/assets/fonts/ is (c) 2011-2016, Red Hat Inc. under SIL Open Font License v1.1 or LGPL v2.1 licenses.
-* vendor/assets/javascripts/noVNC/ is (c) 1999 AT&T Laboratories Cambridge, (c) 1996 Widget Workshop, Inc., (c) 1996 Jef Poskanzer <jef@acme.com>, (c) 2011 Joel Martin, (c) Hiroshi Ichikawa <http://gimite.net/en/>, (c) Martijn Pieters <mj@digicool.com>, Samuel Sieb <samuel@sieb.net> under (MPL 1.1 or GPL v2+ or LGPL v2.1+) and LGPL v3 and LGPL v2+ and MIT and Revised BSD licenses.
 * vendor/assets/javascripts/jquery.flot.axislabels.js is (c) 2010 Xuan Luo under MIT license.
 * app/assets/images/RancherOS.png is (c) 2018 Rancher Labs, Inc.
 

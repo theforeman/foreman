@@ -1,7 +1,3 @@
-<%= javascript("noVNC/util", "noVNC/webutil", "noVNC/base64", "noVNC/websock",
-                           "noVNC/des", "noVNC/input", "noVNC/display", "noVNC/rfb",
-                           "noVNC/jsunzip", "noVNC/ui", "noVNC") %>
-
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn btn-default"),
@@ -19,7 +15,5 @@
     <div id="noVNC_status" class="col-md-12 label">Loading ...</div>
   </div>
 
-  <canvas id="noVNC_canvas" class="console-screen">
-    <%= _('Canvas not supported.') %>
-  </canvas>
+  <div id="noVNC_screen" class="console-screen"></div>
 </div>

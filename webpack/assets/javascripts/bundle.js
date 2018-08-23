@@ -17,6 +17,7 @@ require('./bundle_multiselect');
 require('./bundle_select2');
 require('./bundle_datatables');
 require('./bundle_lodash');
+require('./bundle_novnc');
 
 import compute from './foreman_compute_resource';
 
