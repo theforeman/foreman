@@ -1129,6 +1129,22 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:success]
   end
+  test "update multiple organization succeeds with search" do
+    @request.env['HTTP_REFERER'] = hosts_path
+    organization1 = taxonomies(:organization1)
+    organization2 = taxonomies(:organization2)
+    hosts = FactoryBot.create_list(:host, 2, :managed, organization: organization1)
+
+    post :update_multiple_organization, params: {
+      organization: {id: organization2.id, optimistic_import: 'yes'},
+      search: 'domain ~ example'
+    }, session: set_session_user
+    assert_redirected_to :controller => :hosts, :action => :index
+    assert_equal "Updated hosts: Changed Organization", flash[:success]
+
+    hosts = hosts.map(&:reload)
+    assert hosts.all? { |host| host.organization == organization2 }
+  end
   test "update multiple organization updates organization of hosts if succeeds on optimistic import" do
     @request.env['HTTP_REFERER'] = hosts_path
     organization = taxonomies(:organization1)
