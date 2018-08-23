@@ -35,6 +35,8 @@ module Foreman::Controller::TaxonomyMultiple
       return
     end
 
+    # Workaround for https://github.com/rails/rails/issues/28863
+    @hosts = @hosts.klass.where(:id => @hosts.pluck(:id))
     taxonomy = Taxonomy.find_by_id(id)
 
     if params[type][:optimistic_import] == 'yes'
