@@ -61,7 +61,16 @@ class Authorizer
       assoc_name = options[:association_name]
       assoc_name ||= options[:joined_on].reflect_on_all_associations.find { |a| a.klass.base_class == resource_class.base_class }.name
 
-      scope = options[:joined_on].joins(assoc_name => scope_components[:includes]).readonly(false)
+      if scope_components[:where].present?
+        # Get a subselect based on the scope search criteria
+        subselect = resource_class.joins(scope_components[:includes])
+        scope_components[:where].each do |where|
+          subselect = subselect.where(where)
+        end
+        scope_components[:where] = [{:id => subselect}]
+      end
+
+      scope = options[:joined_on].joins(assoc_name).readonly(false)
 
       # allow user to add their own further clauses
       scope_components[:where] << options[:where] if options[:where].present?
