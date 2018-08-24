@@ -1,0 +1,7 @@
+
+
+DEFAULT linux
+LABEL linux
+KERNEL ipxe.lkrn
+APPEND dhcp && chain http://foreman.some.host.fqdn/unattended/iPXE
+IPAPPEND 2

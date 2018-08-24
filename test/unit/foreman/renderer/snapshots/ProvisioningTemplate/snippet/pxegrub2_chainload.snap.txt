@@ -1,0 +1,58 @@
+
+menuentry 'Chainload Grub2 EFI from ESP' --id local {
+  unset root
+  echo Chainloading Grub2 EFI from ESP, available devices:
+  ls
+  echo -n "Probing ESP partition ... "
+  search --file --no-floppy --set=root /EFI/BOOT/BOOTX64.EFI
+  echo found $root
+  sleep 2
+  if [ -f ($root)/EFI/BOOT/grubx64.efi ]; then
+    chainloader ($root)/EFI/BOOT/grubx64.efi
+  
+  elif [ -f ($root)/EFI/fedora/grubx64.efi ]; then
+    chainloader ($root)/EFI/fedora/grubx64.efi
+  
+  elif [ -f ($root)/EFI/redhat/grubx64.efi ]; then
+    chainloader ($root)/EFI/redhat/grubx64.efi
+  
+  elif [ -f ($root)/EFI/centos/grubx64.efi ]; then
+    chainloader ($root)/EFI/centos/grubx64.efi
+  
+  elif [ -f ($root)/EFI/debian/grubx64.efi ]; then
+    chainloader ($root)/EFI/debian/grubx64.efi
+  
+  elif [ -f ($root)/EFI/ubuntu/grubx64.efi ]; then
+    chainloader ($root)/EFI/ubuntu/grubx64.efi
+  
+  elif [ -f ($root)/EFI/sles/grubx64.efi ]; then
+    chainloader ($root)/EFI/sles/grubx64.efi
+  
+  elif [ -f ($root)/EFI/opensuse/grubx64.efi ]; then
+    chainloader ($root)/EFI/opensuse/grubx64.efi
+  
+  elif [ -f ($root)/EFI/Microsoft/grubx64.efi ]; then
+    chainloader ($root)/EFI/Microsoft/grubx64.efi
+  
+  elif [ -f ($root)/EFI/EFI/grubx64.efi ]; then
+    chainloader ($root)/EFI/EFI/grubx64.efi
+    else
+    echo File grubx64.efi not found on ESP.
+    echo Update 'pxegrub2_chainload' paths array with:
+    ls ($root)/EFI
+    echo The system will halt in 2 minutes or
+    echo press ESC to halt immediately.
+    sleep -i 120
+    halt --no-apm
+  fi
+}
+
+menuentry 'Chainload into BIOS bootloader on first disk' --id local_chain_hd0 {
+  set root=(hd0,0)
+  chainloader +1
+}
+
+menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_hd1 {
+  set root=(hd1,0)
+  chainloader +1
+}

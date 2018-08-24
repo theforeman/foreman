@@ -1,0 +1,6 @@
+
+master: 
+log_level: warning
+
+
+grains: {}

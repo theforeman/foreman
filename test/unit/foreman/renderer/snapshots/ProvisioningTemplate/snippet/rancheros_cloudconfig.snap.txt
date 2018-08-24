@@ -1,0 +1,13 @@
+#cloud-config
+hostname: 
+rancher:
+  network:
+    dns:
+      nameservers:
+      search:
+        - snapshotdomain.com
+    interfaces:
+      eth*:
+        dhcp: true
+  console: debian
+ssh_authorized_keys:

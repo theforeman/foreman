@@ -1,0 +1,127 @@
+
+
+
+
+
+
+lang en_US.UTF-8
+selinux --enforcing
+keyboard us
+skipx
+
+
+network --bootproto dhcp --hostname snapshothost --device=00-f0-54-1a-7e-e0
+rootpw --iscrypted xybxa6JUkz63w
+firewall --service=ssh
+authconfig --useshadow --passalgo=sha256 --kickstart
+timezone --utc UTC
+
+
+
+
+bootloader --location=mbr --append="nofb quiet splash=quiet" 
+
+zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+
+text
+reboot
+
+%packages
+yum
+dhclient
+ntp
+wget
+@Core
+redhat-lsb-core
+
+%end
+
+%post --nochroot
+exec < /dev/tty3 > /dev/tty3
+#changing to VT 3 so that we can see whats going on....
+/usr/bin/chvt 3
+(
+cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
+/usr/bin/chvt 1
+) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
+%end
+%post
+logger "Starting anaconda snapshothost postinstall"
+exec < /dev/tty3 > /dev/tty3
+#changing to VT 3 so that we can see whats going on....
+/usr/bin/chvt 3
+(
+
+
+
+
+#update local time
+echo "updating system time"
+/usr/sbin/ntpdate -sub 0.fedora.pool.ntp.org
+/usr/sbin/hwclock --systohc
+
+
+
+
+
+
+
+
+
+
+
+
+
+# update all the base packages from the updates repository
+if [ -f /usr/bin/dnf ]; then
+  dnf -y update
+else
+  yum -t -y update
+fi
+
+
+# SSH keys setup snippet for Remote Execution plugin
+#
+# Parameters:
+#
+# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
+#
+# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
+#                            authorized
+#
+# remote_execution_create_user: create user if it not already existing
+#
+# remote_execution_effective_user_method: method to switch from ssh user to
+#                                         effective user
+#
+# This template sets up SSH keys in any host so that as long as your public
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+# works in combination with Remote Execution plugin by querying smart proxies
+# to build an array.
+#
+# To use this snippet without the plugin provide the SSH keys as host parameter
+# remote_execution_ssh_keys. It expects the same format like the authorized_keys
+# file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sync
+
+# Inform the build system that we are done.
+echo "Informing Foreman that we are built"
+wget -q -O /dev/null --no-check-certificate http://foreman.some.host.fqdn/unattended/built
+) 2>&1 | tee /root/install.post.log
+exit 0
+
+%end

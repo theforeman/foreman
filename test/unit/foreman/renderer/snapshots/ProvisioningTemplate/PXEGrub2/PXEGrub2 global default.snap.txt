@@ -1,0 +1,82 @@
+
+
+
+default=nil
+timeout=20
+
+# On Debian/Ubuntu grub2 does not have patch for loading MAC-based configs. Also due to bug
+# in RHEL 7.4 files are loaded with an extra ":" character at the end. This workarounds both
+# cases, make sure "regexp.mod" file is present on the TFTP. For more info see:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1370642#c70
+insmod regexp
+regexp --set=1:m1 --set=2:m2 --set=3:m3 --set=4:m4 --set=5:m5 --set=6:m6 '^([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})' "$net_default_mac"
+mac=${m1}-${m2}-${m3}-${m4}-${m5}-${m6}
+configfile=/grub2/grub.cfg-01-$mac
+source "$configfile"
+
+
+menuentry 'Chainload Grub2 EFI from ESP' --id local {
+  unset root
+  echo Chainloading Grub2 EFI from ESP, available devices:
+  ls
+  echo -n "Probing ESP partition ... "
+  search --file --no-floppy --set=root /EFI/BOOT/BOOTX64.EFI
+  echo found $root
+  sleep 2
+  if [ -f ($root)/EFI/BOOT/grubx64.efi ]; then
+    chainloader ($root)/EFI/BOOT/grubx64.efi
+  
+  elif [ -f ($root)/EFI/fedora/grubx64.efi ]; then
+    chainloader ($root)/EFI/fedora/grubx64.efi
+  
+  elif [ -f ($root)/EFI/redhat/grubx64.efi ]; then
+    chainloader ($root)/EFI/redhat/grubx64.efi
+  
+  elif [ -f ($root)/EFI/centos/grubx64.efi ]; then
+    chainloader ($root)/EFI/centos/grubx64.efi
+  
+  elif [ -f ($root)/EFI/debian/grubx64.efi ]; then
+    chainloader ($root)/EFI/debian/grubx64.efi
+  
+  elif [ -f ($root)/EFI/ubuntu/grubx64.efi ]; then
+    chainloader ($root)/EFI/ubuntu/grubx64.efi
+  
+  elif [ -f ($root)/EFI/sles/grubx64.efi ]; then
+    chainloader ($root)/EFI/sles/grubx64.efi
+  
+  elif [ -f ($root)/EFI/opensuse/grubx64.efi ]; then
+    chainloader ($root)/EFI/opensuse/grubx64.efi
+  
+  elif [ -f ($root)/EFI/Microsoft/grubx64.efi ]; then
+    chainloader ($root)/EFI/Microsoft/grubx64.efi
+  
+  elif [ -f ($root)/EFI/EFI/grubx64.efi ]; then
+    chainloader ($root)/EFI/EFI/grubx64.efi
+    else
+    echo File grubx64.efi not found on ESP.
+    echo Update 'pxegrub2_chainload' paths array with:
+    ls ($root)/EFI
+    echo The system will halt in 2 minutes or
+    echo press ESC to halt immediately.
+    sleep -i 120
+    halt --no-apm
+  fi
+}
+
+menuentry 'Chainload into BIOS bootloader on first disk' --id local_chain_hd0 {
+  set root=(hd0,0)
+  chainloader +1
+}
+
+menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_hd1 {
+  set root=(hd1,0)
+  chainloader +1
+}
+
+
+menuentry 'Foreman Discovery Image' --id discovery {
+  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  initrdefi boot/fdi-image/initrd0.img
+}
+
+

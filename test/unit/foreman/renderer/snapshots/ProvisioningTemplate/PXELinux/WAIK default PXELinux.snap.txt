@@ -1,0 +1,5 @@
+
+DEFAULT winPE
+
+LABEL winPE
+    KERNEL /Boot/startrom.0
