@@ -1,0 +1,8 @@
+
+title Update your PXEGrub local template to get EFI options
+  root (hd0,0)
+  chainloader +1
+
+title Chainload into bootloader on first disk
+  root (hd0,0)
+  chainloader +1

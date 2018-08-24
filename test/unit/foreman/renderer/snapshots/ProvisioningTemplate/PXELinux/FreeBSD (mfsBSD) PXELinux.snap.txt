@@ -1,0 +1,7 @@
+
+# foreman_url=http://foreman.some.host.fqdn/unattended/provision
+DEFAULT freebsd
+
+LABEL freebsd
+    KERNEL memdisk
+    APPEND initrd= harddisk raw

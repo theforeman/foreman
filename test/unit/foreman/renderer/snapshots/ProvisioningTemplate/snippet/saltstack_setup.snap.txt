@@ -1,0 +1,16 @@
+
+
+
+
+cat > /etc/salt/minion << EOF
+
+master: 
+log_level: warning
+
+
+grains: {}
+
+EOF
+
+
+/usr/bin/salt-call --no-color --grains >/dev/null

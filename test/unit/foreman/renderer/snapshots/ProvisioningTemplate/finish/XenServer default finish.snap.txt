@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/wget --output-document=/dev/null http://foreman.some.host.fqdn/unattended/built

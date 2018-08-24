@@ -1,0 +1,53 @@
+
+
+
+default=0
+timeout=20
+
+
+fallback=1 2 3 4 5 6 7 8 9 10
+  
+title Chainload Grub from /EFI/fedora or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/fedora/grubx64.efi
+  
+title Chainload Grub from /EFI/redhat or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/redhat/grubx64.efi
+  
+title Chainload Grub from /EFI/centos or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/centos/grubx64.efi
+  
+title Chainload Grub from /EFI/debian or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/debian/grubx64.efi
+  
+title Chainload Grub from /EFI/ubuntu or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/ubuntu/grubx64.efi
+  
+title Chainload Grub from /EFI/sles or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/sles/grubx64.efi
+  
+title Chainload Grub from /EFI/opensuse or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/opensuse/grubx64.efi
+  
+title Chainload Grub from /EFI/Microsoft or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/Microsoft/grubx64.efi
+  
+title Chainload Grub from /EFI/EFI or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/EFI/grubx64.efi
+  
+title Chainload Grub from /EFI/local_chain_hd0 or try next
+  rootnoverify (hd0,0)
+  chainloader /EFI/local_chain_hd0/grubx64.efi
+  
+title Chainload into bootloader on first disk
+  root (hd0,0)
+  chainloader +1
+
