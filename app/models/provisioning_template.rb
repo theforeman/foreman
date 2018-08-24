@@ -155,6 +155,7 @@ class ProvisioningTemplate < Template
     error_msgs = []
     used_templates = []
     TemplateKind::PXE.each do |kind|
+      next if kind == 'iPXE'
       global_template_name = global_template_name_for(kind)
       if (default_template = find_global_default_template global_template_name, kind).nil?
         error_msgs << _("Could not find a Configuration Template with the name \"%s\", please create one.") % global_template_name

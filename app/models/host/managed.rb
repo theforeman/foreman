@@ -822,6 +822,11 @@ class Host::Managed < Host::Base
     self.hardware_model_name
   end
 
+  def local_boot_template_name(kind)
+    key = "local_boot_#{kind}"
+    host_params[key] || Setting[key]
+  end
+
   private
 
   def update_os_from_facts
