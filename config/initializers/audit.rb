@@ -7,4 +7,3 @@ Audited::Auditor::AuditedInstanceMethods.send(:prepend, AuditAssociations::Assoc
 
 # Audit includes Taxonomix which already relies on DSL provided by audited gem
 Audit = Audited::Audit
-Audit.send(:include, AuditExtensions)
