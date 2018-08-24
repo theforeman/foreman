@@ -6,14 +6,15 @@ module PxeLoaderSupport
     :PXELinux => /^(pxelinux.*|PXELinux (BIOS|UEFI))$/,
     :PXEGrub => /^(grub\/|Grub UEFI).*/,
     :PXEGrub2 => /^(grub2\/|Grub2 UEFI|http.*grub2\/).*/,
-    :iPXE => /^(iPXE|http.*\/ipxe-).*/
+    :iPXE => /^((iPXE|http.*\/ipxe-).*|ipxe\.efi|undionly\.kpxe)$/
   }.with_indifferent_access.freeze
 
   # preference order is defined in Operatingsystem#template_kinds
   PREFERRED_KINDS = {
     :PXELinux => "PXELinux BIOS",
     :PXEGrub2 => "Grub2 UEFI",
-    :PXEGrub => "Grub UEFI"
+    :PXEGrub => "Grub UEFI",
+    :iPXE => 'iPXE Chain BIOS'
   }.with_indifferent_access.freeze
 
   class_methods do
@@ -28,7 +29,10 @@ module PxeLoaderSupport
         "Grub2 UEFI HTTP" => "http://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
         "Grub2 UEFI HTTPS" => "https://#{httpboot_host}/httpboot/grub2/grub#{precision}.efi",
         "Grub2 UEFI HTTPS SecureBoot" => "https://#{httpboot_host}/httpboot/grub2/shim#{precision}.efi",
-        "iPXE UEFI HTTP" => "http://#{httpboot_host}/httpboot/ipxe-#{precision}.efi"
+        "iPXE Embedded" => nil, # renders directly as foreman_url('iPXE')
+        "iPXE UEFI HTTP" => "http://#{httpboot_host}/httpboot/ipxe-#{precision}.efi",
+        "iPXE Chain BIOS" => "undionly.kpxe",
+        "iPXE Chain UEFI" => "ipxe.efi"
       }.freeze
     end
 

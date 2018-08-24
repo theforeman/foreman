@@ -106,6 +106,16 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       @host.pxe_loader = "http://smart_proxy/tftp/ipxe-x64.efi"
       assert_equal :iPXE, @subject.pxe_loader_kind(@host)
     end
+
+    test "iPXE is found for ipxe.efi filename" do
+      @host.pxe_loader = 'ipxe.efi'
+      assert_equal :iPXE, @subject.pxe_loader_kind(@host)
+    end
+
+    test "iPXE is found for undionly.kpxe filename" do
+      @host.pxe_loader = 'undionly.kpxe'
+      assert_equal :iPXE, @subject.pxe_loader_kind(@host)
+    end
   end
 
   describe "preferred loader" do
@@ -113,6 +123,7 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       @template_pxelinux = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXELinux))
       @template_pxegrub = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub))
       @template_pxegrub2 = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub2))
+      @template_ipxe = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:iPXE))
     end
 
     test "is none for zero template kinds and templates" do
@@ -150,6 +161,11 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
     test "is PXEGrub for associated template PXEGrub" do
       @subject.expects(:os_default_templates).returns([@template_pxegrub])
       assert_equal "Grub UEFI", @subject.preferred_loader
+    end
+
+    test "is iPXE Chain BIOS for associated template iPXE" do
+      @subject.expects(:os_default_templates).returns([@template_ipxe])
+      assert_equal "iPXE Chain BIOS", @subject.preferred_loader
     end
   end
 

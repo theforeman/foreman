@@ -7,12 +7,17 @@ class UnattendedController < ApplicationController
   # Allow HTTP POST methods without CSRF
   skip_before_action :verify_authenticity_token
 
-  before_action :set_admin_user, :unless => Proc.new { preview? }
+  before_action :set_admin_user, unless: -> { preview? }
+  before_action :ensure_kind_parameter_present, only: :host_template
   # We want to find out our requesting host
-  before_action :get_host_details, :except => [:hostgroup_template, :built, :failed]
-  before_action :get_built_host_details, :only => [:built, :failed]
-  before_action :allowed_to_install?, :except => :hostgroup_template
-  before_action :handle_realm, :if => Proc.new { params[:kind] == 'provision' }
+  before_action :get_host_details, only: :host_template
+  before_action :get_built_host_details, only: [:built, :failed]
+  before_action :render_default_global_template, only: :host_template, if: -> { ipxe_request? && !@host }
+  before_action :render_local_boot_template, only: :host_template, if: -> { ipxe_request? && !@host.build? }
+  before_action :verify_valid_host_token, only: :host_template
+  before_action :verify_found_host, only: [:host_template, :built, :failed]
+  before_action :allowed_to_install?, except: :hostgroup_template
+  before_action :handle_realm, if: -> { params[:kind] == 'provision' }
   # all of our requests should be returned in text/plain
   after_action :set_content_type
 
@@ -50,7 +55,6 @@ class UnattendedController < ApplicationController
   # Generate an action for each template kind
   # i.e. /unattended/provision will render the provisioning template for the requesting host
   def host_template
-    return head(:not_found) unless params[:kind].present?
     render_template params[:kind]
   end
 
@@ -63,14 +67,45 @@ class UnattendedController < ApplicationController
 
   private
 
+  def ensure_kind_parameter_present
+    head(:not_found) unless params[:kind].present?
+  end
+
   def preview?
     params.key?(:spoof) || params.key?(:hostname)
   end
 
   def render_custom_error(status, error_message, params)
     logger.error error_message % params
+    message = _(error_message) % params
+    return render_ipxe_message(message: message, status: status) if ipxe_request?
     # add a comment character (works with Red Hat and Debian systems) to avoid parsing errors
-    render(:plain => '# ' + _(error_message) % params, :status => status, :content_type => 'text/plain')
+    render(:plain => "# #{message}", :status => status, :content_type => 'text/plain')
+  end
+
+  def render_default_global_template
+    name = ProvisioningTemplate.global_template_name_for('iPXE')
+    template = ProvisioningTemplate.find_global_default_template(name, 'iPXE')
+
+    if template
+      safe_render(template)
+    else
+      render_ipxe_message(message: _("Global iPXE template '%s' not found") % name)
+    end
+  end
+
+  def render_local_boot_template
+    return unless verify_found_host
+
+    ipxe_template_kind = TemplateKind.find_by(name: 'iPXE')
+    name = @host.local_boot_template_name(:ipxe) || ProvisioningTemplate.local_boot_name(:iPXE)
+    template = ProvisioningTemplate.find_by(name: name, template_kind: ipxe_template_kind)
+
+    if template
+      safe_render(template)
+    else
+      render_ipxe_message(message: _("iPXE default local boot template '%s' not found") % name)
+    end
   end
 
   def render_template(type)
@@ -92,27 +127,27 @@ class UnattendedController < ApplicationController
   def get_host_details
     @host = find_host_by_spoof || find_host_by_token
     @host ||= find_host_by_ip_or_mac unless token_from_params.present?
-    verify_valid_host_token
-    verify_found_host
   end
 
   def get_built_host_details
     @host = find_host_by_spoof || find_built_host_by_token
     @host ||= find_host_by_ip_or_mac unless token_from_params.present?
-    verify_found_host
   end
 
   def verify_valid_host_token
-    return unless @host&.token_expired?
+    return true unless @host&.token_expired?
     render_custom_error(
       :precondition_failed,
       N_('%{controller}: provisioning token for host %{host} expired'),
       { :controller => controller_name, :host => @host.name }
     )
+    false
   end
 
   def verify_found_host
-    logger.debug "Found #{@host}" unless host_not_found?(@host) || host_os_is_missing?(@host) || host_os_family_is_missing?(@host)
+    return false if host_not_found?(@host) || host_os_is_missing?(@host) || host_os_family_is_missing?(@host)
+    logger.debug "Found #{@host}"
+    true
   end
 
   def value_missing?(value, error_message, error_type, custom_error_parameters = {})
@@ -247,5 +282,13 @@ class UnattendedController < ApplicationController
     msg = _("There was an error rendering the %s template: ") % template.name
     Foreman::Logging.exception(msg, error)
     render :plain => msg + error.message, :status => :internal_server_error
+  end
+
+  def ipxe_request?
+    %w[iPXE gPXE].include?(params[:kind])
+  end
+
+  def render_ipxe_message(message: _('An error occured.'), status: :not_found)
+    render(plain: Foreman::Ipxe::MessageRenderer.new(message: message).to_s, status: status, content_type: 'text/plain')
   end
 end

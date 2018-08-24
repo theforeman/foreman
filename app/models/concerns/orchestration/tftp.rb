@@ -40,7 +40,7 @@ module Orchestration::TFTP
       return true
     end
 
-    results = host.operatingsystem.template_kinds.map do |kind|
+    results = host.operatingsystem.template_kinds_for_tftp.map do |kind|
       rebuild_tftp_kind_safe(kind)
     end
     results.all?
@@ -69,7 +69,7 @@ module Orchestration::TFTP
   end
 
   def default_pxe_render(kind)
-    template = ProvisioningTemplate.find_by_name(local_boot_template_name(kind))
+    template = ProvisioningTemplate.find_by_name(host.local_boot_template_name(kind))
     raise Foreman::Exception.new(N_("Template '%s' was not found"), template.name) unless template
     host.render_template(template: template)
   rescue => e
@@ -193,11 +193,6 @@ module Orchestration::TFTP
       yield(proxy)
     end
     results.all?
-  end
-
-  def local_boot_template_name(kind)
-    key = "local_boot_#{kind}"
-    host.host_params[key] || Setting[key]
   end
 
   def host_medium_provider
