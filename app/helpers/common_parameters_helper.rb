@@ -70,9 +70,31 @@ module CommonParametersHelper
 
   def authorized_resource_parameters(resource, type)
     parameters_by_type = resource.send(type)
-    parameter_ids_to_view = parameters_by_type.authorized(:view_params).map(&:id)
-    resource_parameters = parameters_by_type.select { |p| parameter_ids_to_view.include?(p.id) }
+    @allowed_ids_hash = find_allowed_param_ids_per_action(parameters_by_type)
+    resource_parameters = parameters_by_type.select { |p| @allowed_ids_hash[:ids_to_view].include?(p.id) }
     resource_parameters += parameters_by_type.select(&:new_record?)
     resource_parameters
+  end
+
+  def can_edit_parameter?(parameter)
+    @allowed_ids_hash[:ids_to_edit].include?(parameter.id)
+  end
+
+  def can_destroy_parameter?(parameter)
+    @allowed_ids_hash[:ids_to_destroy].include?(parameter.id)
+  end
+
+  def can_create_parameter?(parameter)
+    @can_create_param ||= authorizer.can?(:create_params)
+  end
+
+  private
+
+  def find_allowed_param_ids_per_action(parameters_by_type)
+    {
+      ids_to_view: parameters_by_type.authorized(:view_params).pluck(:id),
+      ids_to_edit: parameters_by_type.authorized(:edit_params).pluck(:id),
+      ids_to_destroy: parameters_by_type.authorized(:destroy_params).pluck(:id)
+    }
   end
 end
