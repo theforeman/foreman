@@ -1,5 +1,5 @@
 <tr class="fields <%= 'has-error' if f.object.errors.any? %>" id="<%= dom_id(f.object) + '_row' %>">
-  <% authorized = f.object.new_record? ? authorizer.can?(:create_params) : authorizer.can?(:edit_params, f.object) %>
+  <% authorized = f.object.new_record? ? can_create_parameter?(f.object) : can_edit_parameter?(f.object) %>
   <td>
     <%= f.text_field(:name,  :class => "form-control", :disabled => !authorized, :placeholder => _("Name")) %>
   </td>
@@ -8,7 +8,7 @@
   </td>
   <td>
     <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if authorized %>
-    <%= link_to_remove_fields(_('Remove'), f) if f.object.new_record? || authorizer.can?(:destroy_params, f.object) %>
+    <%= link_to_remove_fields(_('Remove'), f) if f.object.new_record? || can_destroy_parameter?(f.object) %>
   </td>
 </tr>
 <% if f.object.errors.any? %>
