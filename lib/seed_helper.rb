@@ -87,6 +87,10 @@ class SeedHelper
           role.add_permissions(missing_permissions, :save! => true)
         end
 
+        # The built in role may have additional permissions added to it by users.
+        # To remove permissions from the default role use an explicit migration.
+        return if role.builtin == Role::BUILTIN_DEFAULT_ROLE
+
         extra_permissions = existing_permissions - desired_permissions
         if extra_permissions.present?
           role.remove_permissions!(extra_permissions)
