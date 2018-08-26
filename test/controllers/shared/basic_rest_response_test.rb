@@ -47,30 +47,14 @@ module BasicRestResponseTest
         test 'should render correct per_page value' do
           get :index, params: {per_page: @entries_per_page + 1}, session: set_session_user
           assert_response :success
-          per_page_results = css_select('.pagination-pf-items-current')
-          assert_equal "1-#{@entries_per_page + 1}", per_page_results.first.content.squish
+          per_page_results = response.body.scan(/perPage":\d+/).first.gsub(/[^\d]/, '').to_i
+          assert_equal @entries_per_page, per_page_results
         end
 
         test 'should render per page dropdown with correct values' do
           get :index, params: {per_page: @entries_per_page + 1}, session: set_session_user
           assert_response :success
-          assert_select "[id='per_page']" do
-            assert_select "option[selected='selected'][value='#{@entries_per_page + 1}']"
-            assert_select "option[value='5']"
-            assert_select "option[value='10']"
-            assert_select "option[value='15']"
-            assert_select "option[value='25']"
-            assert_select "option[value='50']"
-          end
-        end
-
-        test 'should display pagination buttons' do
-          get :index, params: {per_page: @entries_per_page + 1}, session: set_session_user
-          assert_response :success
-          assert_select "[id=pagination]" do
-            assert_includes @response.body.squish, "pagination pagination-pf-back"
-            assert_includes @response.body.squish, "pagination pagination-pf-forward"
-          end
+          assert_not_nil response.body['perPageOptions":[5,10,15,20,21,25,50]']
         end
 
         test 'sort links should include per page param' do
@@ -102,7 +86,7 @@ module BasicRestResponseTest
           FactoryBot.create(get_factory_name, *@factory_options)
           get :index, session: set_session_user
           assert_response :success
-          assert_select "form[id='pagination']"
+          assert_select "div[id='pagination']"
         end
 
         test 'should not render pagination when no search results' do

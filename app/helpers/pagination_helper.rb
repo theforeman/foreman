@@ -1,18 +1,4 @@
 module PaginationHelper
-  def will_paginate(collection = nil, options = {})
-    defaults = {
-      renderer: 'WillPaginate::ActionView::PatternflyLinkRenderer',
-      page_links: false,
-      container: false,
-      outer_window: 0,
-      previous_label: icon_text('angle-left', '', kind: 'fa'),
-      next_label: icon_text('angle-right', '', kind: 'fa'),
-      last_label: icon_text('angle-double-right', '', kind: 'fa'),
-      first_label: icon_text('angle-double-left', '', kind: 'fa')
-    }
-    super(collection, defaults.merge(options))
-  end
-
   def will_paginate_with_info(collection = nil, options = {})
     if collection.total_entries.zero?
       render plain: _('No entries found')

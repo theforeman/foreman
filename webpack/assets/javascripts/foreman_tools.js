@@ -117,9 +117,8 @@ export function updateTable(element) {
   if (searchTerm !== undefined) {
     values.search = searchTerm.trim();
   }
-  values.per_page = $('#per_page').val();
+  values.per_page = $('#pagination-row-dropdown').text().trim();
   uri.setSearch(values);
-
   /* eslint-disable no-undef */
   Turbolinks.visit(uri.toString());
   return false;

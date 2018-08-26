@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PaginationHelper translatePagination 1`] = `
+Object {
+  "currentPage": "Current Page",
+  "firstPage": "First Page",
+  "lastPage": "Last Page",
+  "nextPage": "Next Page",
+  "of": "of",
+  "perPage": "per page",
+  "previousPage": "Previous Page",
+}
+`;
