@@ -1,4 +1,5 @@
 require 'test_helper'
+require Rails.root + 'db/seeds.d/020-roles_list.rb'
 
 class SeedHelperTest < ActiveSupport::TestCase
   test "should create locked role" do
@@ -47,6 +48,31 @@ class SeedHelperTest < ActiveSupport::TestCase
     # keeps existing permissions
     assert_includes permissions, 'edit_domains'
     assert_includes permissions, 'view_domains'
+  end
+
+  test 'Does not fail on modified default role' do
+    role = Role.default
+    role.add_permissions!(:view_domains)
+    permissions = role.permissions.pluck(:name)
+    assert_includes permissions, 'view_domains'
+
+    name, opts = RolesList.default_role.first
+    SeedHelper.create_role(name, opts, Role::BUILTIN_DEFAULT_ROLE)
+    permissions = role.permissions.pluck(:name)
+    assert_includes permissions, 'view_domains'
+  end
+
+  test 'Does not fail on modified default role with filter' do
+    role = Role.default
+    role.add_permissions!(:view_domains, search: 'name = example.com')
+    permissions = role.permissions.pluck(:name)
+    assert_includes permissions, 'view_domains'
+
+    name, opts = RolesList.default_role.first
+    SeedHelper.create_role(name, opts, Role::BUILTIN_DEFAULT_ROLE)
+    permissions = role.permissions.pluck(:name)
+    assert_includes permissions, 'view_domains'
+    assert_includes role.filters.pluck(:search), 'name = example.com'
   end
 
   test "should recognize object was modified" do
