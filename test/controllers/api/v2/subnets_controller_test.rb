@@ -218,4 +218,19 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
     assert_response :success
   end
+
+  test "should return subnets when searching by location as non-admin user and role has taxonomies" do
+    org = FactoryBot.create(:organization)
+    loc = FactoryBot.create(:location)
+    FactoryBot.create(:subnet_ipv4, :organizations => [org], :locations => [loc])
+    manager = roles(:manager)
+    role = manager.clone :name => "Clonned manager", :organizations => [org], :locations => [loc]
+    role.save!
+    user = FactoryBot.create(:user, :organizations => [org], :locations => [loc], :default_organization_id => org.id,
+                             :default_location_id => loc.id, :roles => [role])
+    as_user user do
+      get :index, params: { :location_id => loc.id }
+    end
+    assert_response :success
+  end
 end

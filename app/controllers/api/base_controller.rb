@@ -56,7 +56,13 @@ module Api
 
     # overwrites resource_scope in FindCommon to consider nested objects
     def resource_scope(options = {})
-      resource_class.where(:id => (super(options).ids & parent_scope.ids).uniq)
+      if Rails.version.start_with?('5.2')
+        super(options).merge(parent_scope).readonly(false)
+      else
+        # workaround for https://github.com/rails/rails/pull/29413
+        # TODO: Remove once rails 5.2 migration is complete
+        super(options).where(id: parent_scope.select(:id))
+      end
     end
 
     def parent_scope
@@ -71,9 +77,10 @@ module Api
         association = resource_class.reflect_on_all_associations.detect {|assoc| assoc.class_name == 'Host::Base'}
       end
       raise "Association not found for #{parent_name}" unless association
-      result_scope = resource_class_join(association, scope)
+      result_scope = resource_class_join(association, scope).reorder(nil)
       # Check that the scope resolves before return
-      result_scope if result_scope.to_a
+      result_scope.any?
+      result_scope
     rescue ActiveRecord::ConfigurationError
       # Chaining SQL with a parent scope does not always work, as the
       # parent scope might have attributes the resource_class does not have.
@@ -86,7 +93,7 @@ module Api
       # In such cases, we resolve the scope first, and then call 'where'
       # on the results
       resource_class.joins(association.name).
-        where(association.name => scope.map(&:id))
+        where(association.name => scope.pluck(:id))
     end
 
     def resource_class_join(association, scope)
