@@ -301,10 +301,12 @@ class Role < ApplicationRecord
     errors.empty?
   end
 
-  def find_filter(resource_type, current_filters, search)
+  def find_filter(resource_type, current_filters, search = :skip)
     # rubocop:disable Rails/FindBy
-    Filter.where(:search => search, :role_id => id).joins(:permissions)
-          .where("permissions.resource_type" => resource_type).first
+    filter = Filter.where(:role_id => id).joins(:permissions)
+          .where("permissions.resource_type" => resource_type)
+    filter = filter.where(search: search) unless search == :skip
+    filter.first
     # rubocop:enable Rails/FindBy
   end
 
@@ -319,7 +321,7 @@ class Role < ApplicationRecord
   end
 
   def filter_for_permissions_remove(resource_type, current_filters)
-    filter_record = find_filter resource_type, current_filters, nil
+    filter_record = find_filter resource_type, current_filters
     find_current_filter current_filters, filter_record
   end
 
