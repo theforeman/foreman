@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDropdown rendering render switcher w/loading 1`] = `
+<VerticalNav.IconBar
+  className=""
+  collapse={true}
+  notification_url="/"
+>
+  <NavItem
+    activeHref=""
+    activeKey=""
+    className="drawer-pf-trigger dropdown notification-dropdown"
+    id="notifications_container"
+  >
+    <Connect(OnClickOutside(notificationContainer))
+      data={
+        Object {
+          "url": "",
+        }
+      }
+    />
+  </NavItem>
+  <NavDropdown
+    activeHref=""
+    activeKey=""
+    className=""
+    componentClass="li"
+    id="account_menu"
+  >
+    <DropdownToggle
+      bsClass="dropdown-toggle"
+      bsRole="toggle"
+      className="nav-item-iconic"
+      open={false}
+      useAnchor={true}
+    >
+      <Icon
+        name="user avatar small"
+        type="fa"
+      />
+      G
+       
+      L
+    </DropdownToggle>
+    <DropdownMenu
+      bsClass="dropdown-menu"
+      bsRole="menu"
+      pullRight={false}
+    >
+      <MenuItem
+        bsClass="dropdown"
+        className="user_menuitem"
+        disabled={false}
+        divider={false}
+        header={false}
+        href="/"
+        key="0"
+        onClick={[Function]}
+      >
+        My Account
+      </MenuItem>
+      <MenuItem
+        bsClass="dropdown"
+        disabled={false}
+        divider={true}
+        header={false}
+        key="1"
+      />
+    </DropdownMenu>
+  </NavDropdown>
+</VerticalNav.IconBar>
+`;

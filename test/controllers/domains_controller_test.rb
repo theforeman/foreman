@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'nokogiri'
 
 class DomainsControllerTest < ActionController::TestCase
   setup do
@@ -62,13 +63,15 @@ class DomainsControllerTest < ActionController::TestCase
     setup_user "edit", "domains"
     setup_user "view", "params"
     get :edit, params: { :id => domain.id }, session: set_session_user.merge(:user => users(:one).id)
-    assert_not_nil response.body['Parameter']
+    html_doc = Nokogiri::HTML(response.body)
+    assert_not_empty html_doc.css('a[href="#params"]')
   end
 
   test 'user without view_params rights should not see parameters in a domain' do
     domain = FactoryBot.create(:domain, :with_parameter)
     setup_user "edit", "domains"
     get :edit, params: { :id => domain.id }, session: set_session_user.merge(:user => users(:one).id)
-    assert_nil response.body['Parameter']
+    html_doc = Nokogiri::HTML(response.body)
+    assert_empty html_doc.css('a[href="#params"]')
   end
 end

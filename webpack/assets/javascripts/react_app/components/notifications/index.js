@@ -6,7 +6,7 @@ import { NotificationDrawerWrapper } from 'patternfly-react';
 
 import * as NotificationActions from '../../redux/actions/notifications';
 import './notifications.scss';
-import ToggleIcon from './toggleIcon/';
+import ToggleIcon from './toggleIcon';
 
 
 class notificationContainer extends React.Component {

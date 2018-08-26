@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'nokogiri'
 
 class SettingsControllerTest < ActionController::TestCase
   def test_index
@@ -39,7 +40,8 @@ class SettingsControllerTest < ActionController::TestCase
   test "settings shouldnt include ones about organizations when organizations are disabled" do
     SETTINGS[:organizations_enabled] = false
     get :index, session: set_session_user
-    assert_no_match /default_organization/, @response.body
+    html_doc = Nokogiri::HTML(response.body)
+    assert_empty html_doc.css('span[data-original-title="default_organization"]')
     assert_no_match /organization_fact/, @response.body
     SETTINGS[:organizations_enabled] = true
   end
@@ -47,7 +49,8 @@ class SettingsControllerTest < ActionController::TestCase
   test "settings shouldnt include ones about locations when locations are disabled" do
     SETTINGS[:locations_enabled] = false
     get :index, session: set_session_user
-    assert_no_match /default_location/, @response.body
+    html_doc = Nokogiri::HTML(response.body)
+    assert_empty html_doc.css('span[data-original-title="default_location"]')
     assert_no_match /location_fact/, @response.body
     SETTINGS[:locations_enabled] = true
   end

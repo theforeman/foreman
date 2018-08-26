@@ -51,7 +51,6 @@ class MenuManagerTest < ActiveSupport::TestCase
       :icon => "fa-icon",
       :children =>
         [{:type => :item, :name => "Item", :url => "some url"},
-         {:type => :divider, :name => nil},
          {:type => :item, :name => "Item 2", :url => "some url"},
          {:type => :item, :name => "Test Items", :url => "some url"}]},
      {:type => :sub_menu,
@@ -66,7 +65,6 @@ class MenuManagerTest < ActiveSupport::TestCase
         menu.item :item_one,
                   caption: 'Item',
                   url: 'some url'
-        menu.divider
         menu.item :item_two,
                   caption: 'Item 2',
                   url: 'some url'

@@ -46,7 +46,7 @@ class NotificationsDrawerIntegrationTest < IntegrationTestWithJavascript
 
   def navigate_somewhere_with_turbolinks
     # check the outside click with turbolinks
-    page.find('a.navbar-brand-text').click
+    page.find('a.navbar-brand').trigger('click')
 
     wait_for_turbolinks
   end

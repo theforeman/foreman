@@ -13,7 +13,12 @@
 
   .active > a,
   .open > a {
-    background: linear-gradient(to bottom, $hover_gradient_start, $hover_gradient_end);
+    background:
+      linear-gradient(
+        to bottom,
+        $hover_gradient_start,
+        $hover_gradient_end
+      );
   }
 
   .org-switcher > a {
@@ -34,32 +39,28 @@
   padding: 0;
   height: inherit;
 
-  a {
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 20px;
+  span {
+    display: table;
 
-    &:hover {
+    .navbar-brand-txt {
+      display: table-cell;
+      vertical-align: middle;
       color: white;
-      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 20px;
     }
   }
 }
 
-.notifification-dropdown {
-  padding: 21px 12px !important;
+.notification-dropdown {
+  padding: 20px 12px !important;
 }
 
 .org-switcher {
   @media (max-width: 767px) {
     display: none !important;
   }
-}
-
-.navbar-brand-text {
-  padding-left: 5px;
-  margin-top: 7px !important;
 }
 
 .navbar-pf-vertical {

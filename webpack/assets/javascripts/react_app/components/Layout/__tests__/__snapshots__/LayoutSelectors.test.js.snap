@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout Selectors should return PF-React Compatible items 1`] = `
+Array [
+  Object {
+    "className": undefined,
+    "iconClass": "fa fa-tachometer",
+    "initialActive": false,
+    "subItems": Array [
+      Object {
+        "className": "",
+        "href": "/",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Dashboard",
+      },
+      Object {
+        "className": "",
+        "href": "/fact_values",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Facts",
+      },
+    ],
+    "title": "Monitor",
+  },
+  Object {
+    "className": undefined,
+    "iconClass": "fa fa-server",
+    "initialActive": false,
+    "subItems": Array [
+      Object {
+        "className": "",
+        "href": "/hosts/new",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "All Hosts",
+      },
+      Object {
+        "className": "",
+        "href": "/architectures",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Architectures",
+      },
+    ],
+    "title": "Hosts",
+  },
+  Object {
+    "className": undefined,
+    "iconClass": "fa fa-wrench",
+    "initialActive": false,
+    "subItems": Array [
+      Object {
+        "className": "",
+        "href": "/environments",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Environments",
+      },
+      Object {
+        "className": "",
+        "href": "/architectures",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Architectures",
+      },
+    ],
+    "title": "User",
+  },
+  Object {
+    "className": undefined,
+    "iconClass": "pficon pficon-network",
+    "initialActive": false,
+    "subItems": Array [
+      Object {
+        "className": "",
+        "href": "/domains",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Domains",
+      },
+      Object {
+        "className": "",
+        "href": "/realms",
+        "isDivider": false,
+        "onClick": null,
+        "preventHref": false,
+        "title": "Realms",
+      },
+    ],
+    "title": "Infrastructure",
+  },
+]
+`;
+
+exports[`Layout Selectors should return empty array 1`] = `Array []`;

@@ -15,7 +15,6 @@ module Menu
             menu.item :my_account,
                       :caption => N_('My Account'),
                       :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
-            menu.divider
             menu.item :logout,
                       :caption => N_('Log Out'),
                       :html => {:method => :post},
@@ -28,14 +27,12 @@ module Menu
         menu.sub_menu :administer_menu,  :caption => N_('Administer'), :icon => 'fa fa-cog' do
           menu.item :locations,          :caption => N_('Locations') if SETTINGS[:locations_enabled]
           menu.item :organizations,      :caption => N_('Organizations') if SETTINGS[:organizations_enabled]
-          menu.divider
           if SETTINGS[:login]
             menu.item :auth_source_ldaps, :caption => N_('LDAP Authentication')
             menu.item :users,            :caption => N_('Users')
             menu.item :usergroups,       :caption => N_('User Groups')
             menu.item :roles,            :caption => N_('Roles')
           end
-          menu.divider
           menu.item :bookmarks,          :caption => N_('Bookmarks')
           menu.item :settings,           :caption => N_('Settings')
           menu.item :about_index,        :caption => N_('About')
@@ -54,7 +51,6 @@ module Menu
                     :url_hash => {:controller => '/config_reports', :action => 'index', :search => 'eventful = true'}
           menu.item :report_templates,  :caption => N_('Report Templates'),
                     :url_hash => { :controller => 'report_templates', :action => 'index' }
-          menu.divider
         end
 
         menu.sub_menu :hosts_menu,      :caption => N_('Hosts'), :icon => 'fa fa-server' do

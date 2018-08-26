@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'nokogiri'
 
 class SubnetsControllerTest < ActionController::TestCase
   setup do
@@ -113,14 +114,16 @@ class SubnetsControllerTest < ActionController::TestCase
       setup_user "edit", "subnets"
       setup_user "view", "params"
       get :edit, params: { :id => subnet.id }, session: set_session_user.merge(:user => users(:one).id)
-      assert_not_nil response.body['Parameter']
+      html_doc = Nokogiri::HTML(response.body)
+      assert_not_empty html_doc.css('a[href="#params"]')
     end
 
     test 'without view_params user should not see parameters in a subnet' do
       subnet = FactoryBot.create(:subnet_ipv4, :with_parameter)
       setup_user "edit", "subnets"
       get :edit, params: { :id => subnet.id }, session: set_session_user.merge(:user => users(:one).id)
-      assert_nil response.body['Parameter']
+      html_doc = Nokogiri::HTML(response.body)
+      assert_empty html_doc.css('a[href="#params"]')
     end
   end
 
