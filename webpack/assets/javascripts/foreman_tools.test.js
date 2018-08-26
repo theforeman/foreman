@@ -144,14 +144,14 @@ describe('updateTableTest', () => {
   });
 
   it('should use selected per page value and add it to the url considering search term and pagination', () => {
-    const PerPage = $('#per_page').val();
+    const PerPage = $('#pagination-row-dropdown').text().trim();
 
     $('#search-form').submit();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
   });
 
   it('should change page', () => {
-    const PerPage = $('#per_page').val();
+    const PerPage = $('#pagination-row-dropdown').text().trim();
 
     $('#cur_page_num').val('4');
     $('#pagination').submit();
@@ -159,14 +159,13 @@ describe('updateTableTest', () => {
   });
 
   it('should use find search term and add it to the url considering per page value and pagination', () => {
-    const PerPage = $('#per_page').val();
-
+    const PerPage = $('#pagination-row-dropdown').text().trim();
     $('#search-form').submit();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
   });
 
   it('should reset page param to 1 after new search', () => {
-    const PerPage = $('#per_page').val();
+    const PerPage = $('#pagination-row-dropdown').text().trim();
 
     window.location.href = 'http://localhost/?page=4';
     $('.autocomplete-input').val('test');
@@ -174,16 +173,9 @@ describe('updateTableTest', () => {
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
   });
 
-  it('should not reset search when set the per_page param', () => {
-    window.location.href = 'http://localhost/?search=blue';
-    $('#per_page').val('20');
-    $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=blue&page=1&per_page=20');
-  });
-
   it('should remove search param if search is empty', () => {
     ['', ' '].map((searchValue) => {
-      const PerPage = $('#per_page').val();
+      const PerPage = $('#pagination-row-dropdown').text().trim();
       $('.autocomplete-input').val(searchValue);
       $('#search-form').submit();
       return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=&per_page=${PerPage}`);
