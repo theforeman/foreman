@@ -3,12 +3,13 @@ import { reducer as form } from 'redux-form';
 import bookmarks from './bookmarks';
 import statistics from './statistics';
 import hosts from './hosts';
-import notifications from './notifications/';
+import notifications from './notifications';
 import toasts from './toasts';
 import { reducers as passwordStrengthReducers } from '../../components/PasswordStrength';
 import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
 import { reducers as searchBarReducers } from '../../components/SearchBar';
-import factChart from './factCharts/';
+import { reducers as layoutReducers } from '../../components/Layout';
+import factChart from './factCharts';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -20,6 +21,7 @@ export function combineReducersAsync(asyncReducers) {
     toasts,
     ...passwordStrengthReducers,
     ...breadcrumbBarReducers,
+    ...layoutReducers,
     ...asyncReducers,
     ...searchBarReducers,
     factChart,

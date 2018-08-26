@@ -1,7 +1,9 @@
 require 'integration_test_helper'
 
-class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
+class OrgAdminJSTest < IntegrationTestWithJavascript
   setup do
+    Capybara.ignore_hidden_elements = false
+
     @org1 = FactoryBot.create(:organization)
     @org2 = FactoryBot.create(:organization)
     @org3 = FactoryBot.create(:organization)
@@ -19,6 +21,10 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
     @org_admin_of_org1 = clone_role(@org_admin, @org1)
   end
 
+  teardown do
+    Capybara.ignore_hidden_elements = true
+  end
+
   context "user is org admin of single org" do
     def setup
       @user.organizations << @org1
@@ -34,7 +40,9 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
 
     def test_org_admins_can_work_with_resources_in_their_organization
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit domains_path
+      wait_for_ajax
       click_link 'Create Domain'
 
       assert_form_tab('Locations')
@@ -76,7 +84,9 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
 
     def test_org_admin_tries_to_create_domain_when_unselect_the_organization
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit new_domain_path
+      wait_for_ajax
 
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
@@ -95,7 +105,9 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
 
     def test_org_admins_can_not_assign_location_which_they_do_not_belong_to
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit new_domain_path
+      wait_for_ajax
 
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
@@ -129,7 +141,10 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
 
     def test_org_admins_can_work_with_resources_in_their_organization
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit domains_path
+      wait_for_ajax
+
       click_link 'Create Domain'
 
       assert_form_tab('Locations')
@@ -169,7 +184,9 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_organization(@org1.name)
+      select_org(@org1)
+      wait_for_ajax
+
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_link?(@visible_domain_1.name)
@@ -178,7 +195,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_organization(@org2.name)
+      select_org(@org2.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_no_content?(@visible_domain_1.name)
@@ -190,7 +207,9 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
 
     def test_org_admin_tries_to_create_resource_without_organization_selection
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit new_domain_path
+      wait_for_ajax
 
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
@@ -221,7 +240,10 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
 
     def test_org_admins_of_two_orgs_can_work_with_resources_in_their_organizations
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit domains_path
+      wait_for_ajax
+
       click_link 'Create Domain'
 
       assert_form_tab('Locations')
@@ -261,7 +283,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_organization(@org1.name)
+      select_org(@org1.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_link?(@visible_domain_1.name)
@@ -270,7 +292,7 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_organization(@org2.name)
+      select_org(@org2.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_no_content?(@visible_domain_1.name)
@@ -302,7 +324,10 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
     # what organizations can be assigned
     def test_org_admins_can_assign_resources_to_both_orgs_but_cant_switch_to_its_context
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit domains_path
+      wait_for_ajax
+
       click_link 'Create Domain'
 
       assert_form_tab('Locations')
@@ -347,14 +372,14 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
         assert page.has_link?(domain.name)
       end
 
-      select_organization(@org3.name)
+      select_org(@org3.name)
       within "#domains_list" do
         assert page.has_no_content?(domain.name)
       end
 
       refute_available_organization(@org2.name)
 
-      select_organization(@org1.name)
+      select_org(@org1.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
       end
@@ -380,7 +405,9 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
     # of organizations in form are visible
     def test_org_admins_can_assign_resources_to_both_orgs_but_cant_switch_to_its_context
       login_user(@user.login, 'changeme')
+      wait_for_ajax
       visit domains_path
+      wait_for_ajax
 
       assert page.has_no_content?(@invisible_domain_1.name)
       refute_available_organization(@org1.name)
@@ -429,5 +456,11 @@ class OrgAdminIntegrationTest < ActionDispatch::IntegrationTest
     new_role.organization_ids = [org.id]
     new_role.save!
     new_role
+  end
+
+  def select_org(org)
+    within('li#organization-dropdown ul') do
+      find("a#aid_taxonomy_#{org}").trigger('click')
+    end
   end
 end

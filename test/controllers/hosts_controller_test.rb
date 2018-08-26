@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'pagelets_test_helper'
+require 'nokogiri'
 
 class HostsControllerTest < ActionController::TestCase
   include PageletsIsolation
@@ -451,7 +452,8 @@ class HostsControllerTest < ActionController::TestCase
     host = FactoryBot.create(:host, :with_parameter)
     setup_user "edit"
     get :edit, params: { :id => host.id }, session: set_session_user.merge(:user => users(:one).id)
-    assert_nil response.body['Global Parameters']
+    html_doc = Nokogiri::HTML(response.body)
+    assert_not_nil html_doc.css('div#global_parameters_table')
   end
 
   test 'multiple without hosts' do

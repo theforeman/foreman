@@ -1,0 +1,89 @@
+@import '../../../../../../app/assets/stylesheets/colors.scss';
+
+.nav-pf-secondary-nav {
+  background-color: $nav-pf-vertical-active-bg-color !important;
+
+  .mobile-active {
+    // Mark active Location/Org in Mobile view
+    a {
+      .list-group-item-value {
+        background-color: $nav-pf-vertical-secondary-active-bg-color !important;
+      }
+    }
+  }
+
+  .list-group-item {
+    a {
+      background-color: $nav-pf-vertical-active-bg-color !important;
+
+      &:hover {
+        .list-group-item-value {
+          background-color: $nav-pf-vertical-secondary-active-bg-color !important;
+        }
+      }
+    }
+
+    span {
+      color: $nav-pf-vertical-active-icon-color !important;
+    }
+  }
+}
+
+.nav-pf-vertical {
+  background-color: $nav-pf-vertical-secondary-active-bg-color !important;
+
+  .list-group {
+    .list-group-item {
+      a {
+        span {
+          color: $nav-pf-vertical-icon-color;
+        }
+
+        &:hover {
+          background-color: $nav-pf-vertical-active-bg-color;
+
+          span {
+            color: $nav-pf-vertical-active-icon-color;
+          }
+        }
+
+        &::after {
+          color: $nav-pf-vertical-icon-color;
+        }
+      }
+
+      &:hover {
+        a {
+          background-color: $nav-pf-vertical-active-bg-color !important;
+
+          span {
+            color: $nav-pf-vertical-active-icon-color;
+          }
+        }
+      }
+
+      &.active {
+        a {
+          background-color: $nav-pf-vertical-active-bg-color;
+
+          span {
+            color: $nav-pf-vertical-active-icon-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+#account_menu {
+  outline: none;
+}
+
+#vertical-spinner {
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+.navbar-header {
+  width: 221.22px;
+}

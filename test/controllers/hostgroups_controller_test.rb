@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'pagelets_test_helper'
+require 'nokogiri'
 
 class HostgroupsControllerTest < ActionController::TestCase
   include PageletsIsolation
@@ -213,14 +214,16 @@ class HostgroupsControllerTest < ActionController::TestCase
     setup_user "edit"
     setup_user "view", "params"
     get :edit, params: { :id => hg.id }, session: set_session_user.merge(:user => users(:one).id)
-    assert_not_nil response.body['Global Parameters']
+    html_doc = Nokogiri::HTML(response.body)
+    assert_not_nil html_doc.css('div#global_parameters_table')
   end
 
   test 'user without view_params rights should not see parameters in a hostgroup' do
     hg = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "edit"
     get :edit, params: { :id => hg.id }, session: set_session_user.merge(:user => users(:one).id)
-    assert_nil response.body['Global Parameters']
+    html_doc = Nokogiri::HTML(response.body)
+    assert_not_nil html_doc.css('div#global_parameters_table')
   end
 
   describe "parent attributes" do

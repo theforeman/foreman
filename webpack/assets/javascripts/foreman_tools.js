@@ -1,12 +1,14 @@
 import $ from 'jquery';
 import URI from 'urijs';
 
+import { showLoading, hideLoading } from './foreman_navigation';
+
 export function showSpinner() {
-  $('#turbolinks-progress').show();
+  showLoading();
 }
 
 export function hideSpinner() {
-  $('#turbolinks-progress').hide();
+  hideLoading();
 }
 
 export function iconText(name, innerText, iconClass) {
@@ -57,7 +59,7 @@ export function activateTooltips(elParam = 'body') {
   });
   el
     .find('*[title]')
-    .not('*[rel]')
+    .not('*[rel],.fa,.pficon')
     .tooltip({ container: 'body' });
   $(document).on('page:restore', () => {
     $('.tooltip.in').remove();

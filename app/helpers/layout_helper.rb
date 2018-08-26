@@ -1,4 +1,65 @@
 module LayoutHelper
+  def mount_layout
+    mount_react_component('Layout', "#layout", layout_data.to_json)
+  end
+
+  def fetch_menus
+    menus_array = [ Menu::Manager.to_hash(:top_menu), Menu::Manager.to_hash(:admin_menu), Menu::Manager.to_hash(:side_menu) ]
+    menus_array << Menu::Manager.to_hash(:labs_menu) if Setting[:lab_features]
+    menus_array.flatten
+  end
+
+  def taxonomies_booleans
+    { locations: show_location_tab?, organizations: show_organization_tab? }
+  end
+
+  def available_organizations
+    Organization.my_organizations.map do |organization|
+      {id: organization.id, title: organization.title, href: main_app.select_organization_path(organization)}
+    end
+  end
+
+  def available_locations
+    Location.my_locations.map do |location|
+      {id: location.id, title: location.title, href: main_app.select_location_path(location)}
+    end
+  end
+
+  def current_organization
+    Organization&.current&.name
+  end
+
+  def current_location
+    Location&.current&.name
+  end
+
+  def fetch_organizations
+    if show_organization_tab?
+      { current_org: current_organization, available_organizations: available_organizations }
+    end
+  end
+
+  def fetch_locations
+    if show_location_tab?
+      { current_location: current_location, available_locations: available_locations }
+    end
+  end
+
+  def fetch_user
+    if SETTINGS[:login]
+      { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu) }
+    end
+  end
+
+  def layout_data
+    { menu: fetch_menus,
+      logo: image_path("header_logo.svg", :class => "header-logo"),
+      notification_url: notification_recipients_path,
+      user: fetch_user, brand: 'foreman',
+      taxonomies: taxonomies_booleans, root: main_app.root_path,
+      locations: fetch_locations, orgs: fetch_organizations }
+  end
+
   def title(page_title, page_header = nil)
     content_for(:title, page_title.to_s)
     @page_header ||= page_header || @content_for_title || page_title.to_s

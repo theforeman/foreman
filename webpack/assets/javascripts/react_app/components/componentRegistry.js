@@ -12,6 +12,7 @@ import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
 import AuditsList from './AuditsList';
 import SearchBar from './SearchBar';
+import Layout from './Layout';
 
 const componentRegistry = {
   registry: {},
@@ -72,6 +73,7 @@ const coreComponets = [
   { name: 'FactChart', type: FactChart },
   { name: 'Pagination', type: Pagination },
   { name: 'AuditsList', type: AuditsList },
+  { name: 'Layout', type: Layout },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

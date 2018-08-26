@@ -1,4 +1,6 @@
 require 'test_helper'
+require 'nokogiri'
+
 class OperatingsystemsControllerTest < ActionController::TestCase
   setup do
     @factory_options = :with_parameter
@@ -84,14 +86,16 @@ class OperatingsystemsControllerTest < ActionController::TestCase
       setup_user "edit", "operatingsystems"
       setup_user "view", "params"
       get :edit, params: { :id => os.id }, session: set_session_user.merge(:user => users(:one).id)
-      assert_not_nil response.body['Parameter']
+      html_doc = Nokogiri::HTML(response.body)
+      assert_not_empty html_doc.css('table#global_parameters_table')
     end
 
     test 'user without view_params rights should not see parameters in an os' do
       os = FactoryBot.create(:operatingsystem, :with_parameter)
       setup_user "edit", "operatingsystems"
       get :edit, params: { :id => os.id }, session: set_session_user.merge(:user => users(:one).id)
-      assert_nil response.body['Parameter']
+      html_doc = Nokogiri::HTML(response.body)
+      assert_empty html_doc.css('table#global_parameters_table')
     end
   end
 
