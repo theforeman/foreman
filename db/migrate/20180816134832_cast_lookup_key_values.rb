@@ -24,14 +24,16 @@ class CastLookupKeyValues < ActiveRecord::Migration[5.1]
   end
 
   def fix_value(obj, attribute)
-    return if obj.omit
+    return if obj.omit && !obj.try(:merge_default)
     value = obj.send(attribute)
     return unless value.is_a? String
     return if value.contains_erb?
     fixed = safemode.eval(value)
     obj.update_column(attribute, fixed)
   rescue StandardError => e
-    puts "Error casting #{attribute} #{value} for #{obj.inspect} with error #{e.message}. Perhaps it is invalid?"
-    puts e.backtrace
+    say "Failed to cast #{attribute} for #{obj.inspect}:"
+    say "Value: #{value}", subitem: true
+    say "Error: #{e.message}", subitem: true
+    say "Perhaps it is invalid? Casting skipped, manual action may be needed.", subitem: true
   end
 end
