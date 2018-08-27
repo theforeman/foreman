@@ -142,7 +142,7 @@ class FactParser
         attributes[:tag] = Regexp.last_match(2)
       elsif name =~ VIRTUAL
         # Legacy: facter < v3.0
-        # vlans fact has been reomved in facter 3.0
+        # vlans fact has been removed in facter 3.0
         attributes[:attached_to] = Regexp.last_match(1)
         tag = Regexp.last_match(2)
         if @facts[:vlans].present?
