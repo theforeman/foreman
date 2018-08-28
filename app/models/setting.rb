@@ -228,6 +228,11 @@ class Setting < ApplicationRecord
     SETTINGS[name]
   end
 
+  def read_attribute_before_type_cast(attr_name)
+    return value if attr_name == :value
+    super(attr_name)
+  end
+
   def self.create_existing(s, opts)
     bypass_readonly(s) do
       attrs = column_check([:default, :description, :full_name, :encrypted])
