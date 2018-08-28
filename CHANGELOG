@@ -1,3 +1,13 @@
+2018-08-28	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #24697 - Don't remove permissions from default role
+	* Refs #24640 - Cast omitted default with merge_overrides
+
+2018-08-28	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #24640 - Cast all lookup keys and values (#5956)
+
+2018-08-27	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #24654 - pin factory_bot(_rails)
+
 2018-08-09	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.17.3
 	* Revert "Fixes #23961 - Update Foreman Fog-Vsphere select_nic method."
