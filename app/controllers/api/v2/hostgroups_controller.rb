@@ -8,6 +8,7 @@ module Api
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy clone rebuild_config}
       before_action :process_parameter_attributes, :only => %w{update}
+      before_action :include_parameters_in_response, :only => %w{show create update}
 
       api :GET, "/hostgroups/", N_("List all host groups")
       api :GET, "/puppetclasses/:puppetclass_id/hostgroups", N_("List all host groups for a Puppet class")
@@ -32,7 +33,6 @@ module Api
       param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
-        @parameters = true
       end
 
       def_param_group :hostgroup do
@@ -68,8 +68,6 @@ module Api
       param_group :hostgroup, :as => :create
 
       def create
-        @parameters = true
-
         @hostgroup = Hostgroup.new(hostgroup_params)
         @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
 
@@ -81,8 +79,6 @@ module Api
       param_group :hostgroup
 
       def update
-        @parameters = true
-
         process_response @hostgroup.update(hostgroup_params)
       end
 
@@ -125,6 +121,10 @@ module Api
       end
 
       private
+
+      def include_parameters_in_response
+        @parameters = true
+      end
 
       def action_permission
         case params[:action]
