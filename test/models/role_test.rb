@@ -213,8 +213,7 @@ class RoleTest < ActiveSupport::TestCase
       end
 
       test "Admin user should query Role model with no restrictions" do
-        Role.expects(:where).with('0 = 0')
-        Role.for_current_user
+        assert_include Role.for_current_user.to_sql, 'WHERE (0 = 0)'
       end
     end
   end
