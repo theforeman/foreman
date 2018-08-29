@@ -50,7 +50,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
     end
   end
 
-  test "set @initrd and @kernel" do
+  test "set kernel and init RAM disk variables" do
     host = FactoryBot.build_stubbed(:host, :managed)
     architecture = FactoryBot.build_stubbed(:architecture)
     medium = FactoryBot.build_stubbed(:medium, :path => 'http://my-example.com/my_path')
@@ -61,7 +61,9 @@ class BaseVariablesTest < ActiveSupport::TestCase
 
     scope = @scope.new(host: host, source: @source)
 
-    assert scope.instance_variable_get('@initrd').present?
     assert scope.instance_variable_get('@kernel').present?
+    assert scope.instance_variable_get('@initrd').present?
+    assert scope.instance_variable_get('@kernel_uri').present?
+    assert scope.instance_variable_get('@initrd_uri').present?
   end
 end

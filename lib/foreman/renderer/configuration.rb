@@ -41,6 +41,8 @@ module Foreman
         :host,
         :initrd,
         :kernel,
+        :initrd_uri,
+        :kernel_uri,
         :mediapath,
         :mediaserver,
         :osver,

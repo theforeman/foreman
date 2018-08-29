@@ -98,6 +98,7 @@ module Foreman
             return unless medium
             @kernel = kernel(@medium_provider)
             @initrd = initrd(@medium_provider)
+            @kernel_uri, @initrd_uri = operatingsystem.boot_files_uri(@medium_provider)
           end
         end
       end
