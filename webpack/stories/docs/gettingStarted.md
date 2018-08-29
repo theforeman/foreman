@@ -48,7 +48,8 @@ Following steps are required to setup a webpack development environment:
       --https \
       --key /etc/pki/katello/private/katello-apache.key \
       --cert /etc/pki/katello/certs/katello-apache.crt \
-      --cacert /etc/pki/katello/certs/katello-default-ca.crt
+      --cacert /etc/pki/katello/certs/katello-default-ca.crt \
+      --watch-poll 1000 # only use for NFS https://community.theforeman.org/t/webpack-watch-over-nfs/10922
     ```
 
     Additionally you can set `NOTIFICATIONS_POLLING` variable to extend the notification polling interval that is 10s by default and can clutter the console.
