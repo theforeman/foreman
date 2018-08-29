@@ -12,6 +12,9 @@ module Foreman::Model
 
     delegate :clusters, :quotas, :templates, :instance_types, :to => :client
 
+    # 2^30 is the minimal unit for disk size
+    OVIRT_V4_DISK_SIZE = 2**30
+
     def self.available?
       Fog::Compute.providers.include?(:ovirt)
     end
@@ -295,7 +298,11 @@ module Foreman::Model
       change_allocation_volumes = args[:volumes_attributes].values.select { |x| x[:preallocate] == '1' }
       if args[:template].present? && change_allocation_volumes.present?
         disks = change_allocation_volumes.map do |volume|
-          { :id => volume[:id], :sparse => 'false', :format => 'raw', :storagedomain => volume[:storage_domain] }
+          { :id => volume[:id], :sparse => 'false', :format => 'raw',
+            :storage_domain => volume[:storage_domain],
+            :provisioned_size => volume[:size_gb].to_i * OVIRT_V4_DISK_SIZE,
+            :interface => volume[:interface], :bootable => volume[:bootable]
+          }
         end
         args.merge!(:clone => true, :disks => disks)
       end
