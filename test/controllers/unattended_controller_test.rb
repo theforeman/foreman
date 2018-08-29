@@ -28,6 +28,11 @@ class UnattendedControllerTest < ActionController::TestCase
                                    )
     end
 
+    test 'returns not_found when no kind is provided' do
+      get :host_template, session: set_session_user
+      assert_response :not_found
+    end
+
     test "should get a kickstart" do
       @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
       get :host_template, params: { :kind => 'provision' }
