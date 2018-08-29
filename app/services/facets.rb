@@ -26,6 +26,7 @@ module Facets
     configuration[entry.name] = entry
 
     Facets::ManagedHostExtensions.register_facet_relation(Host::Managed, entry)
+    Facets::BaseHostExtensions.register_facet_relation(Host::Base, entry)
     entry
   end
 
