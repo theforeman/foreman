@@ -3703,6 +3703,18 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
+  test "host have a valid media provider" do
+    hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os)
+    host = FactoryBot.create(:host, :managed, :hostgroup => hostgroup)
+    assert host.medium_provider
+  end
+
+  test "host have a media provider providing a valid URL" do
+    hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os)
+    host = FactoryBot.create(:host, :managed, :hostgroup => hostgroup)
+    assert_match /^http:/, host.medium_provider.medium_uri.to_s
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)
