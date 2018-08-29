@@ -16,6 +16,7 @@ class FacetConfigurationTest < ActiveSupport::TestCase
     # Do not mess with the Host::Managed object as
     # we just want to test the configuration here
     Facets::ManagedHostExtensions.stubs(:register_facet_relation)
+    Facets::BaseHostExtensions.stubs(:register_facet_relation)
   end
 
   test 'enables block configuration' do

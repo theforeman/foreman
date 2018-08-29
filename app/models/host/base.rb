@@ -7,6 +7,7 @@ module Host
     include InterfaceCloning
     include Hostext::Ownership
     include Foreman::TelemetryHelper
+    include Facets::BaseHostExtensions
 
     self.table_name = :hosts
     extend FriendlyId
