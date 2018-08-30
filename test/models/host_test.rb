@@ -3724,6 +3724,28 @@ class HostTest < ActiveSupport::TestCase
     assert_match /^http:/, host.medium_provider.medium_uri.to_s
   end
 
+  test "should find interface by attached mac" do
+    mac = 'aa:bb:cc:dd:ee:ff'
+    host = FactoryBot.create(:host, :name => 'test-host')
+    FactoryBot.create(:nic_managed, :mac => mac, :identifier => 'ens1', :host => host)
+    FactoryBot.create(:nic_managed,
+                      :mac => mac,
+                      :identifier => 'ens1.101',
+                      :virtual => true,
+                      :attached_to => 'ens1',
+                      :tag => '101',
+                      :host => host)
+    FactoryBot.create(:nic_managed,
+                      :mac => mac,
+                      :identifier => 'ens1.102',
+                      :virtual => true,
+                      :attached_to => 'ens1',
+                      :tag => '102',
+                      :host => host)
+    res = host.send(:find_by_attached_mac, host.interfaces, host.interfaces.where(:mac => mac), 'ens1', { :tag => '102' })
+    assert_equal 'ens1.102', res.first.identifier
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)

@@ -96,10 +96,6 @@ class PuppetFactParser < FactParser
     Hash[ipmi].with_indifferent_access
   end
 
-  # Remove this method override when dropping support for facter < 3.0
-  #
-  # since Puppet converts eth0.0 and eth0:0 to eth0_0 we assume it's vlan interface
-  # we can't do much better until we have more information from facter
   def interfaces
     interfaces = super
     return interfaces unless use_legacy_facts?

@@ -417,7 +417,7 @@ module Host
 
           mac_based = base.where(:mac => macaddress)
           if attributes[:virtual]
-            mac_based.virtual.where(:identifier => name)
+            mac_based.virtual.where(:identifier => name) || find_by_attached_mac(base, mac_based, identifier, attributes)
           elsif mac_based.physical.any?
             mac_based.physical
           elsif !self.managed
@@ -425,6 +425,11 @@ module Host
             base.where(:identifier => name)
           end
       end
+    end
+
+    def find_by_attached_mac(base, mac_based, identifier, attributes)
+      ifaces = base.where(:attached_to => mac_based.first&.identifier)
+      (ifaces.size > 1) ? ifaces.where(:tag => attributes[:tag]) : ifaces
     end
 
     def update_bonds(iface, name, attributes)

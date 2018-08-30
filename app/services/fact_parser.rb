@@ -1,6 +1,6 @@
 class FactParser
   delegate :logger, :to => :Rails
-  VIRTUAL = /\A([a-z0-9]+)_([a-z0-9]+)\Z/
+  VIRTUAL = /\A([a-z0-9]+)[_|\.|:]([a-z0-9]+)\Z/
   BRIDGES = /\A(vir)?br(\d+|-[a-z0-9]+)(_nic)?\Z/
   BONDS = /\A(bond\d+)\Z|\A(lagg\d+)\Z/
   ALIASES = /(\A[a-z0-9\.]+):([a-z0-9]+)\Z/
@@ -148,6 +148,8 @@ class FactParser
         if @facts[:vlans].present?
           vlans = @facts[:vlans].split(',')
           attributes[:tag] = vlans.include?(tag) ? tag : ''
+        else
+          attributes[:tag] = name.split('.').last
         end
       end
     else
