@@ -1,17 +1,16 @@
 class CreateRssNotifications < ApplicationJob
-  after_perform do |job|
-    self.class.set(:wait => 12.hours).perform_later(*job.arguments)
-  end
-
   def perform(options = {})
     # Defaults to theforeman.org blog RSS
     UINotifications::RssNotificationsChecker.new(options).deliver!
+  ensure
+    self.class.set(:wait => 12.hours).perform_later(options)
   end
 
   rescue_from(StandardError) do |error|
     Foreman::Logging.logger('background').error(
       'RSS notification checker: '\
-      "Error while creating notifications #{error}: #{error.backtrace}")
+      "Error while creating notifications #{error.message}")
+    raise error # propagate the error to the tasking system to properly report it there
   end
 
   def humanized_name
