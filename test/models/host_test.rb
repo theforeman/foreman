@@ -1664,6 +1664,19 @@ class HostTest < ActiveSupport::TestCase
     assert_equal '10.10.0.3', br0.ip
   end
 
+  test "#set_interfaces creates virtual primary interface as suggested" do
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    hash = { :eno777 => {:identifier => 'eno777', :macaddress => '00:00:00:11:22:33', :virtual => false},
+             :eno777_22 => {:identifier => 'eno777_22', :macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true, :attached_to => 'eno777', :tag => '22'}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => [:eno777_22, hash[:eno777_22]])
+    host.set_interfaces(parser)
+    host.interfaces.reload
+    assert_equal 2, host.interfaces.size
+    assert_equal 'eno777_22', host.primary_interface.identifier
+    assert_equal '10.10.0.1', host.primary_interface.ip
+  end
+
   test "#set_interfaces updates associated virtuals identifier on identifier change mutualy exclusively" do
     # eth4 was renamed to eth5 and eth5 renamed to eth4
     host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
@@ -1696,7 +1709,7 @@ class HostTest < ActiveSupport::TestCase
     hash = { :em1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
              :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.42', :virtual => true, :attached_to => nil}
     }.with_indifferent_access
-    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
 
     host.set_interfaces(parser)
     virtual.reload
