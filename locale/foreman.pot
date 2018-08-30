@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-20 17:24+0300\n"
-"PO-Revision-Date: 2018-08-20 17:24+0300\n"
+"POT-Creation-Date: 2018-08-30 10:38+0300\n"
+"PO-Revision-Date: 2018-08-30 10:38+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -322,24 +322,24 @@ msgstr ""
 msgid "There may be more information in the server's logs."
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:192
+#: ../app/controllers/api/base_controller.rb:199
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:286
+#: ../app/controllers/api/base_controller.rb:293
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:299
+#: ../app/controllers/api/base_controller.rb:306
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:331
+#: ../app/controllers/api/base_controller.rb:338
 #: ../app/controllers/application_controller.rb:167
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:342
+#: ../app/controllers/api/base_controller.rb:349
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -5777,7 +5777,7 @@ msgstr ""
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:459
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:468
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -5785,7 +5785,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:486
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:495
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -6819,7 +6819,7 @@ msgstr ""
 msgid "This role is locked from being modified by users."
 msgstr ""
 
-#: ../app/models/role.rb:333
+#: ../app/models/role.rb:335
 msgid "some permissions were not found"
 msgstr ""
 
@@ -8959,42 +8959,38 @@ msgid ""
 msgstr ""
 
 #: ../app/views/about/index.html.erb:133
-msgid "Mailing lists"
+msgid "Forums"
 msgstr ""
 
 #: ../app/views/about/index.html.erb:134
 msgid ""
-"Mailing lists are available via Google Groups. Much like IRC, we have a genera"
-"l users (support, Q/A, etc) lists and a development list:"
+"You can use the %{community_forums} to ask for help or advice, participate in "
+"discussions around challenges or ideas you have with Foreman."
 msgstr ""
 
-#: ../app/views/about/index.html.erb:136
-msgid "Foreman Users"
+#: ../app/views/about/index.html.erb:134
+msgid "community forums"
 msgstr ""
 
-#: ../app/views/about/index.html.erb:137
-msgid "Foreman Developers"
-msgstr ""
-
-#: ../app/views/about/index.html.erb:139
+#: ../app/views/about/index.html.erb:135
 msgid "Issue tracker"
 msgstr ""
 
-#: ../app/views/about/index.html.erb:140
+#: ../app/views/about/index.html.erb:136
 msgid ""
 "We use Redmine to report and track bugs and feature requests, which can be fou"
 "nd here:"
 msgstr ""
 
-#: ../app/views/about/index.html.erb:140
+#: ../app/views/about/index.html.erb:136
 msgid "issue tracker"
 msgstr ""
 
-#: ../app/views/about/index.html.erb:143
+#: ../app/views/about/index.html.erb:139
 msgid "System Information"
 msgstr ""
 
-#: ../app/views/about/index.html.erb:144
+#: ../app/views/about/index.html.erb:140
 msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
 msgstr ""
 
@@ -10157,6 +10153,10 @@ msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:32
 msgid "Sockets"
+msgstr ""
+
+#: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:7
+msgid "Interface type"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:5
@@ -11334,7 +11334,7 @@ msgstr ""
 msgid "Password:"
 msgstr ""
 
-#: ../app/views/hosts/console/vnc.html.erb:24
+#: ../app/views/hosts/console/vnc.html.erb:23
 msgid "Canvas not supported."
 msgstr ""
 

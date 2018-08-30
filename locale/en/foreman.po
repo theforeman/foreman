@@ -3123,13 +3123,7 @@ msgstr ""
 msgid "Foreman API v2 is currently the default API version."
 msgstr ""
 
-msgid "Foreman Developers"
-msgstr ""
-
 msgid "Foreman URL"
-msgstr ""
-
-msgid "Foreman Users"
 msgstr ""
 
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
@@ -3253,6 +3247,9 @@ msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml outp
 msgstr ""
 
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
+msgstr ""
+
+msgid "Forums"
 msgstr ""
 
 msgid "Found %{count} reports from the last %{days} days"
@@ -4216,6 +4213,9 @@ msgstr ""
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
 msgstr ""
 
+msgid "Interface type"
+msgstr ""
+
 msgid "Interface type, e.g. bmc. Default is %{default_nic_type}"
 msgstr ""
 
@@ -5080,12 +5080,6 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "MailNotification|Subscription type"
-msgstr ""
-
-msgid "Mailing lists"
-msgstr ""
-
-msgid "Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:"
 msgstr ""
 
 msgid "Manage"
@@ -9581,6 +9575,9 @@ msgstr ""
 msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
 msgstr ""
 
+msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
+msgstr ""
+
 msgid "You can't assign locations to this resource"
 msgstr ""
 
@@ -9768,6 +9765,9 @@ msgid "comma separated interface identifiers"
 msgstr ""
 
 msgid "comments powered by %{disqus}"
+msgstr ""
+
+msgid "community forums"
 msgstr ""
 
 msgid "could not be calculated"
