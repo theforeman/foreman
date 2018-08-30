@@ -234,6 +234,12 @@ class FactParserTest < ActiveSupport::TestCase
     assert_equal 'eth0', result[:attached_to]
     assert_equal '', result[:tag]
     refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'eth0.101')
+    assert result[:virtual]
+    assert_equal 'eth0', result[:attached_to]
+    assert_equal '101', result[:tag]
+    refute result[:bridge]
   end
 
   test "#set_additional_attributes detects virtual interface facter >= v3.0" do
