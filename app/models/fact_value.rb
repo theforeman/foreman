@@ -7,7 +7,7 @@ class FactValue < ApplicationRecord
   delegate :name, :short_name, :compose, :origin, :to => :fact_name
   has_many :hostgroup, :through => :host
 
-  has_one :parent_fact_name, :through => :fact_name, :source => :parent
+  has_one :parent_fact_name, :through => :fact_name, :source => :parent, :class_name => 'FactName'
 
   if SETTINGS[:locations_enabled]
     has_one :location, :through => :host
