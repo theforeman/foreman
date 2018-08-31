@@ -60,10 +60,6 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
-  test "#normalize_interfaces converts custom-case interface names to be downcase" do
-    assert_equal ['eth0', 'eth0.0', 'em1'], parser.send(:normalize_interfaces, ['ETH0', 'Eth0.0', 'eM1'])
-  end
-
   test "#interfaces gets facts hash for desired interfaces, keeping same values it gets from parser" do
     parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'usb0', 'vnet0', 'br0', 'virbr0', 'Local_Area_Connection_2', 'macvtap0']) do
       parser.expects(:get_facts_for_interface).with('eth1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
@@ -71,7 +67,7 @@ class FactParserTest < ActiveSupport::TestCase
       parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
-      parser.expects(:get_facts_for_interface).with('local_area_connection_2').returns({'link' => 'true', 'macaddress' => '00:00:00:00:de:ef'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('Local_Area_Connection_2').returns({'link' => 'true', 'macaddress' => '00:00:00:00:de:ef'}.with_indifferent_access)
       result = parser.interfaces
       refute_includes result.keys, 'lo'
       refute_includes result.keys, 'usb0'
@@ -82,7 +78,7 @@ class FactParserTest < ActiveSupport::TestCase
       assert_includes result.keys, 'eth1'
       assert_includes result.keys, 'eth0'
       assert_includes result.keys, 'eth0.0'
-      assert_includes result.keys, 'local_area_connection_2'
+      assert_includes result.keys, 'Local_Area_Connection_2'
       assert_equal 'true', result['eth0']['link']
       assert_equal 'false', result['eth1']['link']
       assert_equal 'value', result[:eth0]['custom']

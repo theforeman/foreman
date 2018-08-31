@@ -66,7 +66,7 @@ class FactParser
     @interfaces ||= begin
       result = {}
 
-      interfaces = remove_ignored(normalize_interfaces(get_interfaces))
+      interfaces = remove_ignored(get_interfaces)
       logger.debug { "We have following interfaces '#{interfaces.join(', ')}' based on facts" }
 
       interfaces.each do |interface|
@@ -187,10 +187,6 @@ class FactParser
       end
       remove
     end
-  end
-
-  def normalize_interfaces(interfaces)
-    interfaces.map(&:downcase)
   end
 
   # creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac

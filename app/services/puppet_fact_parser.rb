@@ -95,11 +95,13 @@ class PuppetFactParser < FactParser
     Hash[ipmi].with_indifferent_access
   end
 
+  # Remove this method override when dropping support for facter < 3.0
+  #
   # since Puppet converts eth0.0 and eth0:0 to eth0_0 we assume it's vlan interface
   # we can't do much better until we have more information from facter
   def interfaces
     interfaces = super
-
+    return interfaces unless use_legacy_facts?
     underscore_device_regexp = /\A([^_]*)_(\d+)\z/
     interfaces.clone.each do |identifier, _|
       matches = identifier.match(underscore_device_regexp)
@@ -107,8 +109,16 @@ class PuppetFactParser < FactParser
       new_name = "#{matches[1]}.#{matches[2]}"
       interfaces[new_name] = interfaces.delete(identifier)
     end
-
     interfaces
+  end
+
+  def interfaces_attribute_map(attribute)
+    map = {
+      'mac' => 'macaddress',
+      'ip' => 'ipaddress',
+      'ip6' => 'ipaddress6'
+    }
+    map.has_key?(attribute) ? map[attribute] : attribute
   end
 
   def certname
@@ -121,21 +131,47 @@ class PuppetFactParser < FactParser
 
   private
 
-  def get_interfaces
+  # remove when dropping support for facter < 3.0
+  def get_interfaces_legacy
     if facts[:interfaces]&.present?
-      facts[:interfaces].split(',')
+      facts[:interfaces].downcase.split(',')
     else
       []
     end
   end
 
-  def get_facts_for_interface(interface)
+  def get_interfaces
+    return get_interfaces_legacy if use_legacy_facts?
+    facts.dig(:networking, :interfaces)&.keys || []
+  end
+
+  # remove when dropping support for facter < 3.0
+  def get_facts_for_interface_legacy(interface)
     iface_facts = @facts.each_with_object([]) do |(name, value), facts|
       facts << [name.chomp("_#{interface}"), value] if name.end_with?("_#{interface}")
     end
     iface_facts = HashWithIndifferentAccess[iface_facts]
     logger.debug { "Interface #{interface} facts: #{iface_facts.inspect}" }
     iface_facts
+  end
+
+  def get_facts_for_interface(interface)
+    return get_facts_for_interface_legacy(interface) if use_legacy_facts?
+    interface_fact = facts.dig(:networking, :interfaces, interface) || {}
+    iface_facts = interface_fact.each_with_object([]) do |(name, value), facts|
+      facts << [interfaces_attribute_map(name), value] if interfaces_attribute_map(name)
+    end
+    iface_facts = HashWithIndifferentAccess[iface_facts]
+    logger.debug { "Interface #{interface} facts: #{iface_facts.inspect}" }
+    iface_facts
+  end
+
+  def facterversion
+    @facterversion ||= facts[:facterversion]&.split('.')&.map(&:to_i) || []
+  end
+
+  def use_legacy_facts?
+    facterversion[0].nil? || facterversion[0] < 3
   end
 
   def os_name
