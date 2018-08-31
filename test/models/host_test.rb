@@ -3715,6 +3715,15 @@ class HostTest < ActiveSupport::TestCase
     assert_match /^http:/, host.medium_provider.medium_uri.to_s
   end
 
+  test "managed boolean value must change with host type" do
+    h = Host.new
+    if (h[:type] == "Host::Managed" && h[:managed] == true) || (h[:type] != "Host::Managed" && h[:managed] == false)
+      assert true
+    else
+      assert false
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)

@@ -10,6 +10,7 @@ module Host
         args[0][:type] ||= type # adds the type if it doesn't exists
         type = args[0][:type]   # stores the type for later usage.
       end
+      args[0][:managed] = (args[0][:type] == "Host::Managed")
     end
     if type.constantize.respond_to?(method, true)
       type.constantize.send(method, *args, &block)
