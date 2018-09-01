@@ -95,8 +95,8 @@ function addNetworkInterface({ name, network }) {
 }
 
 // fill in the template volumes.
-// eslint-disable-next-line camelcase
 function addVolume({
+// eslint-disable-next-line camelcase
   size_gb, storage_domain, bootable, id, disk_interface, wipe_after_delete,
 }) {
   // eslint-disable-next-line no-undef
