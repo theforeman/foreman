@@ -51,4 +51,12 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
     assert assigns(:model).present?
     assert_equal new_model.id, assigns(:model).id
   end
+
+  test "should return hosts_count" do
+    get :index
+    resp = ActiveSupport::JSON.decode(@response.body)
+    resp["results"].map do |m|
+      assert_equal 0, m["hosts_count"]
+    end
+  end
 end
