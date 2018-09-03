@@ -16,7 +16,7 @@
         <td class="ellipsis">
           <%= link_to_if_authorized environment.name, hash_for_edit_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer) %>
         </td>
-        <td><%= link_to hosts_count.fetch(environment.id, 0), hosts_path(:search => "environment = #{environment}") %></td>
+        <td><%= link_to hosts_count[environment], hosts_path(:search => "environment = #{environment}") %></td>
         <td>
           <%= action_buttons(link_to(_('Classes'), puppetclasses_path(:search => "environment = #{environment}")),
                              import_proxy_links(hash_for_import_environments_environments_path(:env => environment)),

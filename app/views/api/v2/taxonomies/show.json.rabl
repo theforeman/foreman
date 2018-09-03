@@ -7,7 +7,7 @@ attribute :ignore_types => :select_all_types
 attributes :description, :created_at, :updated_at
 
 node :hosts_count do |taxonomy|
-  taxonomy.hosts.count
+  hosts_count[taxonomy]
 end
 
 child :users do

@@ -23,7 +23,7 @@
         <td class="ellipsis"><%= subnet.domains.map(&:name).to_sentence %></td>
         <td><%= subnet.vlanid %></td>
         <td class="ellipsis"><%= subnet.dhcp %></td>
-        <td><%= link_to_if_authorized(hosts_count.fetch(subnet.id, 0), hash_for_hosts_path(:search => "subnet.name=\"#{subnet}\"")) %>
+        <td><%= link_to_if_authorized(hosts_count[subnet], hash_for_hosts_path(:search => "subnet.name=\"#{subnet}\"")) %>
         <td class="col-md-1">
           <%= action_buttons(display_delete_if_authorized(
             hash_for_subnet_path(:id => subnet).

@@ -11,7 +11,6 @@ module Api
 
       def index
         @models = resource_scope_for_index
-        @hosts_count = HostCounter.new(:model)
       end
 
       api :GET, "/models/:id/", N_("Show a hardware model")

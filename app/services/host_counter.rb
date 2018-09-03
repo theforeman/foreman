@@ -3,15 +3,28 @@ class HostCounter
     @association = association
   end
 
+  delegate :fetch, to: :hosts_count
+
   def [](instance)
-    counted_hosts[instance&.id] || 0
+    hosts_count[instance&.id] || 0
   end
 
   def hosts_count
-    counted_hosts
+    # Use caching to save recounts in case new counters are created in
+    # quick succession, e.g. from CSV export or child hostgroup counts
+    cache do
+      counted_hosts
+    end
   end
 
   private
+
+  def cache
+    delay = Rails.env.test? ? 0 : 2.minutes
+    Rails.cache.fetch("hosts_count/#{@association}/#{User.current.id}", expires_in: delay) do
+      yield
+    end
+  end
 
   def counted_hosts
     hosts_scope = Host::Managed.reorder('')
@@ -20,9 +33,9 @@ class HostCounter
       # If we are on /organizations or /locations, this allows to display the
       # count for hosts not in the current organization & location.
       hosts_scope = hosts_scope.unscoped
-    when 'subnet'
+    when 'subnet', 'domain'
       hosts_scope = hosts_scope.joins(:primary_interface)
     end
-    @counted_hosts ||= hosts_scope.authorized(:view_hosts).group("#{@association}_id").count
+    hosts_scope.authorized(:view_hosts).group("#{@association}_id").count
   end
 end
