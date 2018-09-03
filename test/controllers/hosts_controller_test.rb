@@ -105,6 +105,49 @@ class HostsControllerTest < ActionController::TestCase
     assert_redirected_to host_url(assigns['host'])
   end
 
+  context "with libvirt" do
+    let(:other_libvirt_compute_resource) do
+      FactoryBot.create(:libvirt_cr, :locations => [taxonomies(:location2)])
+    end
+    let(:host_attrs) do
+      {:name => "myotherfullhost",
+        :mac => "aabbecddee06",
+        :ip => "2.3.4.125",
+        :domain_id => domains(:mydomain).id,
+        :operatingsystem_id => operatingsystems(:redhat).id,
+        :architecture_id => architectures(:x86_64).id,
+        :environment_id => environments(:production).id,
+        :subnet_id => subnets(:one).id,
+        :medium_id => media(:one).id,
+        :pxe_loader => "Grub2 UEFI",
+        :realm_id => realms(:myrealm).id,
+        :disk => "empty partition",
+        :puppet_proxy_id => smart_proxies(:puppetmaster).id,
+        :root_pass => "xybxa6JUkz63w",
+        :location_id => taxonomies(:location1).id,
+        :organization_id => taxonomies(:organization1).id
+      }
+    end
+
+    def setup
+      Foreman::Model::Libvirt.any_instance.stubs(:test_connection).returns(true)
+      # max_cpu_count fails
+      Foreman::Model::Libvirt.any_instance.stubs(:max_cpu_count).returns(1)
+      Fog.mock!
+    end
+
+    def teardown
+      Fog.unmock!
+    end
+
+    test "should not create a new host when the compute_resource is not in taxonomy" do
+      host_attrs[:compute_resource_id] = other_libvirt_compute_resource.id
+      assert_no_difference 'Host.unscoped.count' do
+        post :create, params: { :commit => "Create", :host => host_attrs }, session: set_session_user
+      end
+    end
+  end
+
   test "should create new host with hostgroup inherited fields" do
     leftovers = Host.search_for('myotherfullhost').first
     refute leftovers

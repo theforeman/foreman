@@ -198,7 +198,13 @@ FactoryBot.define do
       sequence :uuid do |n|
         Foreman.uuid
       end
-      association :compute_resource, :factory => :ec2_cr
+      compute_resource do
+        taxonomies = {}
+        # add taxonomy overrides in case it's set in the host object
+        taxonomies[:locations] = [location] unless location.nil?
+        taxonomies[:organizations] = [organization] unless organization.nil?
+        FactoryBot.create(:ec2_cr, taxonomies)
+      end
       before(:create) { |host| host.expects(:queue_compute) }
     end
 
@@ -296,7 +302,13 @@ FactoryBot.define do
 
     trait :with_dhcp_orchestration do
       managed
-      association :compute_resource, :factory => :libvirt_cr
+      compute_resource do
+        taxonomies = {}
+        # add taxonomy overrides in case it's set in the host object
+        taxonomies[:locations] = [location] unless location.nil?
+        taxonomies[:organizations] = [organization] unless organization.nil?
+        FactoryBot.create(:libvirt_cr, taxonomies)
+      end
       domain
       subnet do
         overrides = {
@@ -317,7 +329,13 @@ FactoryBot.define do
 
     trait :with_dns_orchestration do
       managed
-      association :compute_resource, :factory => :libvirt_cr
+      compute_resource do
+        taxonomies = {}
+        # add taxonomy overrides in case it's set in the host object
+        taxonomies[:locations] = [location] unless location.nil?
+        taxonomies[:organizations] = [organization] unless organization.nil?
+        FactoryBot.create(:libvirt_cr, taxonomies)
+      end
       subnet do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
         # add taxonomy overrides in case it's set in the host object
@@ -342,7 +360,13 @@ FactoryBot.define do
 
     trait :with_ipv6_dns_orchestration do
       managed
-      association :compute_resource, :factory => :libvirt_cr
+      compute_resource do
+        taxonomies = {}
+        # add taxonomy overrides in case it's set in the host object
+        taxonomies[:locations] = [location] unless location.nil?
+        taxonomies[:organizations] = [organization] unless organization.nil?
+        FactoryBot.create(:libvirt_cr, taxonomies)
+      end
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
         # add taxonomy overrides in case it's set in the host object
@@ -463,7 +487,13 @@ FactoryBot.define do
     trait :with_puppet_orchestration do
       managed
       environment
-      association :compute_resource, :factory => :libvirt_cr
+      compute_resource do
+        taxonomies = {}
+        # add taxonomy overrides in case it's set in the host object
+        taxonomies[:locations] = [location] unless location.nil?
+        taxonomies[:organizations] = [organization] unless organization.nil?
+        FactoryBot.create(:libvirt_cr, taxonomies)
+      end
       domain
       interfaces { [ FactoryBot.build(:nic_primary_and_provision) ] }
       puppet_ca_proxy do
