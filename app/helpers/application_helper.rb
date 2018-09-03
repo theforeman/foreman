@@ -488,7 +488,7 @@ module ApplicationHelper
   end
 
   def hosts_count(resource_name = controller.resource_name)
-    @hosts_count ||= HostCounter.new(resource_name).hosts_count
+    @hosts_count ||= HostCounter.new(resource_name)
   end
 
   def webpack_dev_server

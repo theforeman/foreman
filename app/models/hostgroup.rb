@@ -223,11 +223,12 @@ class Hostgroup < ApplicationRecord
   end
 
   def hosts_count
-    Host::Managed.authorized(:view_hosts, Host).where(:hostgroup => id).size
+    HostCounter.new(:hostgroup)[self]
   end
 
   def children_hosts_count
-    Host::Managed.authorized.where(:hostgroup => subtree_ids).size
+    counter = HostCounter.new(:hostgroup)
+    subtree_ids.map{|child_id| counter.fetch(child_id, 0)}.sum
   end
 
   # rebuilds orchestration configuration for hostgroup's hosts

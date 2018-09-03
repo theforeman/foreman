@@ -20,7 +20,7 @@
             hash_for_edit_model_path(:id => model).merge(:auth_object => model, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= model.vendor_class %></td>
         <td class="ellipsis"><%= model.hardware_model %></td>
-        <td class='ra'><%= link_to hosts_count.fetch(model.id, 0), hosts_path(:search => "model = \"#{model}\"") %></td>
+        <td class='ra'><%= link_to hosts_count[model], hosts_path(:search => "model = \"#{model}\"") %></td>
         <td class="col-md-1">
           <%= action_buttons(display_delete_if_authorized(hash_for_model_path(:id => model).
             merge(:auth_object => model, :authorizer => authorizer),
