@@ -82,12 +82,12 @@ FactoryBot.define do
 
   factory :compute_attribute do
     sequence(:name) { |n| "attributes#{n}" }
-    vm_attrs { 
+    vm_attrs do
       {
         :flavor_id => 'm1.small',
         :availability_zone => 'eu-west-1a'
       }
-     }
+    end
     before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }
   end
 
