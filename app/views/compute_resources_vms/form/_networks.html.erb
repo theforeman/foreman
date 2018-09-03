@@ -12,7 +12,7 @@
         <%= f.fields_for compute_resource.interfaces_attrs_name do |i| %>
 
           <%= render :partial => provider_partial(compute_resource, 'network'),
-              :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :new_vm => new_vm, :remove_title => _('remove network interface') },
+              :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :new_vm => new_vm, :remove_title => _('remove network interface'), :selected_cluster => selected_cluster },
               :layout => 'compute_resources_vms/form/deletable_layout' %>
 
         <% end %>
