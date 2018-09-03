@@ -204,6 +204,7 @@ class Host::Managed < Host::Base
   validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
   validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:organizations_enabled] }
   validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:locations_enabled] }
+  validate :compute_resource_in_taxonomy, :if => Proc.new { |host| Taxonomy.enabled_taxonomies.any? && host.managed? && host.compute_resource_id.present? }
 
   if SETTINGS[:unattended]
     # handles all orchestration of smart proxies.
@@ -970,5 +971,9 @@ class Host::Managed < Host::Base
     else
       true
     end
+  end
+
+  def compute_resource_in_taxonomy
+    validate_association_taxonomy(:compute_resource)
   end
 end
