@@ -4,6 +4,7 @@
     <th><%= _('Folder') %></th>
     <th><%= _('CPUs') %></th>
     <th><%= _('Memory') %></th>
+    <th><%= _('UUID') %></th>
     <th><%= _('Power') %></th>
     <th><%= _('Actions') %></th>
   </tr>
@@ -15,6 +16,7 @@
       <td><%= vm.path %></td>
       <td><%= vm.cpus %></td>
       <td><%= number_to_human_size vm.memory %></td>
+      <td><%= vm.identity %></td>
       <td><span <%= vm_power_class(vm.ready?) %>>
           <%= vm_state(vm) %></span>
       </td>
