@@ -44,6 +44,36 @@ class HostTest < ActiveSupport::TestCase
     assert host.save
   end
 
+  test "host without primary interface should rise error" do
+    host = FactoryBot.build(:host, :managed)
+    host.interfaces = [] # remove existing primary interface
+    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => false, :provision => true, :host => host,
+                                          :domain => FactoryBot.create(:domain)) ]
+    refute host.valid?
+    assert_equal [:interfaces, :base], host.errors.keys
+    assert_equal "An interface marked as primary is missing", host.errors[:base].first
+  end
+
+  test "host without primary interface should rise error" do
+    host = FactoryBot.build(:host, :managed)
+    host.interfaces = [] # remove existing primary interface
+    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => true, :provision => false, :host => host,
+                                          :domain => FactoryBot.create(:domain)) ]
+    assert_equal [:interfaces, :base], host.errors.keys
+    assert_equal "An interface marked as provision is missing", host.errors[:base].first
+  end
+
+  test "host without primary and provision interface should rise error" do
+    host = FactoryBot.build(:host, :managed)
+    host.interfaces = [] # remove existing primary interface
+    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => false, :provision => false, :host => host,
+                                          :domain => FactoryBot.create(:domain)) ]
+    refute host.valid?
+    assert_equal [:interfaces, :base], host.errors.keys
+    assert_equal "An interface marked as provision is missing", host.errors[:base].first
+    assert_equal "An interface marked as primary is missing", host.errors[:base].last
+  end
+
   test "should fix mac address hyphens" do
     host = Host.create :name => "myhost", :mac => "aa-bb-cc-dd-ee-ff"
     assert_equal "aa:bb:cc:dd:ee:ff", host.mac

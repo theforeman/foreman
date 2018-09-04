@@ -242,6 +242,7 @@ class Host::Managed < Host::Base
                           :if => Proc.new { |host| host.operatingsystem && host.medium }
     validate :provision_method_in_capabilities
     validate :short_name_periods
+    validate :check_interfaces
     before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes_empty? }
     validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
     validates :uuid, uniqueness: { :allow_blank => true }
@@ -652,6 +653,11 @@ class Host::Managed < Host::Base
     host
   end
 
+  def check_interfaces
+    errors.add(:base, _("An interface marked as provision is missing")) if self.interfaces.detect(&:provision).nil?
+    errors.add(:base, _("An interface marked as primary is missing")) if self.interfaces.detect(&:primary).nil?
+  end
+
   def bmc_nic
     interfaces.bmc.first
   end
@@ -920,10 +926,10 @@ class Host::Managed < Host::Base
   # but we should trigger it only for existing records and unless interfaces also changed (then validation is run
   # on them automatically)
   def trigger_nic_orchestration
-    self.primary_interface.valid? unless self.primary_interface.changed?
-
-    if self.primary_interface != self.provision_interface && !self.provision_interface.changed?
-      self.provision_interface.valid?
+    self.primary_interface.valid? if self.primary_interface && !self.primary_interface.changed?
+    unless self.provision_interface.nil?
+      return if self.primary_interface == self.provision_interface
+      self.provision_interface.valid? if self.provision_interface && !self.provision_interface.changed?
     end
   end
 
