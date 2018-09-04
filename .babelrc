@@ -1,9 +1,18 @@
 {
-  "presets": ["env", "react"],
+  "presets": [
+    "env",
+    "react"
+  ],
   "plugins": [
     "transform-class-properties",
     "transform-object-rest-spread",
     "transform-object-assign",
-    "lodash"
-  ]
+    "lodash",
+    "syntax-dynamic-import"
+  ],
+  "env": {
+    "test": {
+      "plugins": ["dynamic-import-node"]
+    }
+  }
 }
