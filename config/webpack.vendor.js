@@ -22,6 +22,8 @@ module.exports = [
   'prop-types',
   'seamless-immutable',
   'isomorphic-fetch',
+  'react-intl',
+  'intl',
 
   /*
    * jquery related

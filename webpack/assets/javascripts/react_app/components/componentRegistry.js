@@ -6,6 +6,10 @@ import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
 import ToastsList from './toastNotifications/';
+import RelativeDateTime from './common/dates/RelativeDateTime';
+import LongDateTime from './common/dates/LongDateTime';
+import ShortDateTime from './common/dates/ShortDateTime';
+import IsoDate from './common/dates/IsoDate';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
@@ -19,6 +23,7 @@ import ComponentWrapper from './common/ComponentWrapper/ComponentWrapper';
 import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
+import { WrapperFactory } from './wrapperFactory';
 
 const componentRegistry = {
   registry: {},
@@ -40,37 +45,42 @@ const componentRegistry = {
   },
 
   getComponent(name) {
+    if (!this.registry[name]) {
+      throw new Error(`Component not found: ${name} among ${this.registeredComponents()}`);
+    }
+
     return this.registry[name];
+  },
+
+  wrapperFactory() {
+    return new WrapperFactory();
   },
 
   registeredComponents() {
     return Object.keys(this.registry).join(', ');
   },
 
-  markup(name, data, store, flattenData) {
+  defaultWrapper(component, data = null, store = null) {
+    const factory = this.wrapperFactory();
+
+    factory.with('i18n');
+
+    if (store && component.store) {
+      factory.with('store', store);
+    }
+    if (data && component.data) {
+      factory.with('data', data);
+    }
+    return factory.wrapper;
+  },
+
+  markup(name, { data = null, store = null, wrapper = null }) {
     const currentComponent = this.getComponent(name);
+    const componentWrapper = wrapper || this.defaultWrapper(currentComponent, data, store);
 
-    if (!currentComponent) {
-      throw new Error(
-        `Component not found:  ${name} among ${this.registeredComponents()}`
-      );
-    }
-    const ComponentName = currentComponent.type;
+    const WrappedComponent = componentWrapper(currentComponent.type);
 
-    if (flattenData) {
-      return (
-        <ComponentName
-          store={currentComponent.store ? store : undefined}
-          {...data}
-        />
-      );
-    }
-    return (
-      <ComponentName
-        data={currentComponent.data ? data : undefined}
-        store={currentComponent.store ? store : undefined}
-      />
-    );
+    return (<WrappedComponent />);
   },
 };
 
@@ -94,6 +104,18 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
+  {
+    name: 'RelativeDateTime', type: RelativeDateTime, data: true, store: false,
+  },
+  {
+    name: 'LongDateTime', type: LongDateTime, data: true, store: false,
+  },
+  {
+    name: 'ShortDateTime', type: ShortDateTime, data: true, store: false,
+  },
+  {
+    name: 'IsoDate', type: IsoDate, data: true, store: false,
+  },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

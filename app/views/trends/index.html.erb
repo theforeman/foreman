@@ -34,5 +34,6 @@
 </table>
 <%= will_paginate_with_info @trends %>
 <% unless TrendCounter.unconfigured? %>
-  <%= (_("Last update: %s") % (date_time_relative(TrendCounter.order(:created_at).last.created_at)) ).html_safe %>
+  <%= _("Last update:") %>
+  <%= date_time_relative(TrendCounter.order(:created_at).last.created_at) %>
 <% end %>
