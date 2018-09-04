@@ -1,4 +1,36 @@
+2018-09-04	Ondrej Prazak <oprazak@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2018-09-04	Timo Goebel <mail@timogoebel.name>
+	* fixes #24571 - fog-vsphere 2.3 vsphere nic selection
+
+2018-09-04	Chris Roberts <chrobert@redhat.com>
+	* Fixes #23961 - Update Foreman Fog-Vsphere select_nic method.
+
+2018-08-31	Stephen Benjamin <stephen@redhat.com>
+	* fixes #24702 - fix bulk taxonomy update w/ scoped search
+
+2018-08-30	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #24712 - Fix performance regression on API
+
+2018-08-28	Ben Plessinger <ben@plessinger.us>
+	* fixes #24673 - compute resource vm tab loading
+
+2018-08-28	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #24640 - Cast omitted default with merge_overrides
+	* Fixes #24697 - Don't remove permissions from default role
+
+2018-08-28	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #24640 - Cast all lookup keys and values (#5956)
+
+2018-08-20	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #24657 - Pin react-bootstrap to 0.32.1
+
+2018-08-20	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #24654 - pin factory_bot(_rails)
+
 2018-08-14	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.18.1
 	* i18n - extracting new, pulling from tx
 
 2018-08-14	Tomer Brisker <tbrisker@gmail.com>
