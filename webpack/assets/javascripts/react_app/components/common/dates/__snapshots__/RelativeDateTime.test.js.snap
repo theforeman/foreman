@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RelativeDateTime formats date 1`] = `
+<RelativeDateTime
+  data={
+    Object {
+      "date": 2017-10-13T11:54:55.000Z,
+      "defaultValue": "Default value",
+    }
+  }
+>
+  <span
+    title="Oct 13, 2017, 11:54 AM"
+  >
+    <FormattedRelative
+      updateInterval={10000}
+      value={2017-10-13T11:54:55.000Z}
+    >
+      <span>
+        15 days ago
+      </span>
+    </FormattedRelative>
+  </span>
+</RelativeDateTime>
+`;
+
+exports[`RelativeDateTime renders default value 1`] = `
+<RelativeDateTime
+  data={
+    Object {
+      "date": null,
+      "defaultValue": "Default value",
+    }
+  }
+>
+  <span>
+    Default value
+  </span>
+</RelativeDateTime>
+`;

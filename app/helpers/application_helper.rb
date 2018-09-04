@@ -46,23 +46,17 @@ module ApplicationHelper
   # it supports two formats :short and :long
   # example of long is February 12, 2021 17:13
   # example of short is Aug 31, 12:52
-  def date_time_absolute(time, format = :short)
+  def date_time_absolute(time, format = :short, seconds = false)
     raise ArgumentError, "unsupported format '#{format}', use :long or :short" unless %w(long short).include?(format.to_s)
-    return _('N/A') if time.nil?
 
-    content_tag :span, :title => date_time_relative_value(time) do
-      date_time_absolute_value(time, format)
-    end
+    component = (format == :short) ? 'ShortDateTime' : 'LongDateTime'
+    mount_date_component(component, time, seconds)
   end
 
   # this helper should be used to print date time in relative form, e.g. "10 days ago",
   # it will also define a title with absolute time information
   def date_time_relative(time)
-    return _('N/A') if time.nil?
-
-    content_tag :span, :title => date_time_absolute_value(time, :long) do
-      date_time_relative_value(time)
-    end
+    mount_date_component('RelativeDateTime', time, false)
   end
 
   def date_time_absolute_value(time, format = :short)
@@ -73,7 +67,23 @@ module ApplicationHelper
     ((time > Time.now.utc) ? _('in %s') : _('%s ago')) % time_ago_in_words(time)
   end
 
+  def iana_timezone
+    ActiveSupport::TimeZone::MAPPING[Time.zone.try(:name)] || 'UTC'
+  end
+
   protected
+
+  def generate_date_id
+    timestamp = (Time.now.to_f * 10**7).to_i
+    "datetime_#{timestamp}"
+  end
+
+  def mount_date_component(component, time, seconds)
+    date_id = generate_date_id
+
+    content_tag(:span, '', :id => date_id).html_safe +
+    mount_react_component(component, "##{date_id}", {date: time.to_s, default: _('N/A'), seconds: seconds}.to_json)
+  end
 
   def contract(model)
     model.to_label
