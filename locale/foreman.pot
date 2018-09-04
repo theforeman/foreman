@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-14 08:29+0000\n"
-"PO-Revision-Date: 2018-08-14 08:29+0000\n"
+"POT-Creation-Date: 2018-09-04 09:51+0000\n"
+"PO-Revision-Date: 2018-09-04 09:51+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -322,24 +322,24 @@ msgstr ""
 msgid "There may be more information in the server's logs."
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:192
+#: ../app/controllers/api/base_controller.rb:199
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:286
+#: ../app/controllers/api/base_controller.rb:293
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:299
+#: ../app/controllers/api/base_controller.rb:306
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:331
+#: ../app/controllers/api/base_controller.rb:338
 #: ../app/controllers/application_controller.rb:167
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:342
+#: ../app/controllers/api/base_controller.rb:349
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -6764,7 +6764,7 @@ msgstr ""
 msgid "This role is locked from being modified by users."
 msgstr ""
 
-#: ../app/models/role.rb:333
+#: ../app/models/role.rb:335
 msgid "some permissions were not found"
 msgstr ""
 
