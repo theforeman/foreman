@@ -23,7 +23,7 @@ Capybara.register_driver :poltergeist do |app|
     # add `page.driver.debug` in code to open webkit inspector
     # :inspector => true
     :js_errors => true,
-    :timeout => 60,
+    :timeout => 20,
     :extensions => ["#{Rails.root}/test/integration/support/poltergeist_onload_extensions.js"],
     :phantomjs => File.join(Rails.root, 'node_modules', '.bin', 'phantomjs')
   }
@@ -40,7 +40,7 @@ Capybara.register_driver :selenium_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
-Capybara.default_max_wait_time = 15
+Capybara.default_max_wait_time = 20
 Capybara.javascript_driver = ENV['TESTDRIVER'].try(:to_sym) || :poltergeist
 
 class ActionDispatch::IntegrationTest
@@ -105,10 +105,11 @@ class ActionDispatch::IntegrationTest
 
   def select2(value, attrs)
     find("#s2id_#{attrs[:from]}").click
-    wait_for { find('.select2-input').visible? }
+    wait_for { find('.select2-input').visible? rescue false }
     wait_for { find(".select2-input").set(value) }
+    wait_for { find('.select2-results').visible? rescue false }
     within ".select2-results" do
-      wait_for { find("span", text: value).visible? }
+      wait_for { find(".select2-results span", text: value).visible? rescue false }
       find("span", text: value).click
     end
     wait_for do
@@ -132,6 +133,12 @@ class ActionDispatch::IntegrationTest
   def wait_for_modal
     wait_for do
       find(:css, '#interfaceModal').visible?
+    end
+  end
+
+  def wait_for_element(*args)
+    wait_for do
+      find(*args).visible? rescue false
     end
   end
 
