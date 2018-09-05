@@ -6,8 +6,12 @@ settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings
 
 SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result) if File.exist?(settings_file)
 SETTINGS[:version] = Foreman::Version.new
-SETTINGS[:unattended] = SETTINGS[:unattended].nil? || SETTINGS[:unattended]
-SETTINGS[:login]    ||= SETTINGS[:login].nil? || SETTINGS[:ldap]
+
+# default to true if missing
+[:unattended, :login, :locations_enabled, :organizations_enabled].each do |setting|
+  SETTINGS[setting] = SETTINGS[setting].nil? || SETTINGS[setting]
+end
+
 SETTINGS[:rails] = '%.1f' % SETTINGS[:rails] if SETTINGS[:rails].is_a?(Float) # unquoted YAML value
 SETTINGS[:hsts_enabled] = true unless SETTINGS.has_key?(:hsts_enabled)
 
