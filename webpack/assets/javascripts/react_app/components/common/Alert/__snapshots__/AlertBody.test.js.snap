@@ -10,13 +10,7 @@ exports[`AlertBody should render With all props 1`] = `
   <strong>
     some title
   </strong>
-  <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "some message",
-      }
-    }
-  />
+  some message
   <span>
     a Child
   </span>
@@ -25,13 +19,6 @@ exports[`AlertBody should render With all props 1`] = `
 
 exports[`AlertBody should render with childrens 1`] = `
 <span>
-  <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": undefined,
-      }
-    }
-  />
   <span>
     a Child
   </span>
@@ -45,13 +32,6 @@ exports[`AlertBody should render with link 1`] = `
   >
     link text
   </AlertLink>
-  <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": undefined,
-      }
-    }
-  />
 </span>
 `;
 
@@ -60,12 +40,6 @@ exports[`AlertBody should render with title and message 1`] = `
   <strong>
     some title
   </strong>
-  <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "some message",
-      }
-    }
-  />
+  some message
 </span>
 `;
