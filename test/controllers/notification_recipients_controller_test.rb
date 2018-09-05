@@ -51,13 +51,6 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
-  test "should not get notifications if settings login is disabled" do
-    SETTINGS[:login] = false
-    get :index, params: { :format => 'json' }
-    SETTINGS[:login] = true
-    assert_response :not_found
-  end
-
   test "should not respond with expired notifications" do
     notification = add_notification
     notification.update_attribute(:expired_at, Time.now.utc - 48.hours)
