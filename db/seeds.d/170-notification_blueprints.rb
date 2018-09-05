@@ -34,18 +34,25 @@ blueprints = [
     }
   },
   {
-    group: _('Community'),
+    group: N_('Community'),
     name: 'rss_post',
     level: 'info',
-    message: _('RSS post message goes here'),
+    message: N_('RSS post message goes here'),
     actions:
     {
       links:
       [
-        title: _('URL'),
+        title: N_('URL'),
         external: true
       ]
     }
+  },
+  {
+    group: N_('Deprecations'),
+    name: 'setting_deprecation',
+    level: 'warning',
+    message: N_('The %{setting} setting has been deprecated and will be removed in version %{version}'),
+    expires_in: 30.days
   }
 ]
 

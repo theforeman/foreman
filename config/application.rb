@@ -284,6 +284,7 @@ module Foreman
     config.after_initialize do
       init_dynflow unless Foreman.in_rake?('db:create') || Foreman.in_rake?('db:drop')
       setup_auditing
+      notify_deprecations unless Foreman.in_rake?
     end
 
     def dynflow
@@ -314,6 +315,31 @@ module Foreman
 
     def setup_auditing
       Audit.send(:include, AuditSearch)
+    end
+
+    def notify_deprecations
+      blueprint = NotificationBlueprint.find_by_name('setting_deprecation')
+      [:locations_enabled, :organizations_enabled, :login].each do |setting|
+        next if SETTINGS[setting]
+        Foreman::Deprecation.deprecation_warning('1.21', "The #{setting} setting is deprecated")
+        message = UINotifications::StringParser.new(blueprint.message, {setting: setting, version: '1.21'}).to_s
+        next if blueprint.notifications.where(message: message).any?
+        Notification.create!(
+          audience: Notification::AUDIENCE_ADMIN,
+          message: message,
+          notification_blueprint: blueprint,
+          initiator: User.anonymous_admin,
+          :actions => {
+            :links => [
+              {
+                :href => 'https://community.theforeman.org/t/proposal-remove-support-for-disabling-taxonomies-or-login/10972',
+                :title => _('Further Information'),
+                :external => true
+              }
+            ]
+          }
+        )
+      end
     end
   end
 
