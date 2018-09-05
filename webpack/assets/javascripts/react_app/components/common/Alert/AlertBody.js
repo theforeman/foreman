@@ -10,7 +10,7 @@ const AlertBody = ({
 
     {title && <strong>{title}</strong>}
 
-    <span dangerouslySetInnerHTML={{ __html: message }} />
+    {message}
 
     {children}
   </span>

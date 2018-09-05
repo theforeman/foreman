@@ -231,13 +231,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
                   message="Message number 1."
                 >
                   <span>
-                    <span
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Message number 1.",
-                        }
-                      }
-                    />
+                    Message number 1.
                   </span>
                 </AlertBody>
               </div>
@@ -340,13 +334,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
                         </a>
                       </div>
                     </AlertLink>
-                    <span
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Message number 2.",
-                        }
-                      }
-                    />
+                    Message number 2.
                   </span>
                 </AlertBody>
               </div>
@@ -449,13 +437,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
                         </a>
                       </div>
                     </AlertLink>
-                    <span
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Message number 3.",
-                        }
-                      }
-                    />
+                    Message number 3.
                   </span>
                 </AlertBody>
               </div>
@@ -615,13 +597,7 @@ exports[`ToastList should render with singleMessageState 1`] = `
                   message="Widget positions successfully saved."
                 >
                   <span>
-                    <span
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Widget positions successfully saved.",
-                        }
-                      }
-                    />
+                    Widget positions successfully saved.
                   </span>
                 </AlertBody>
               </div>
@@ -804,13 +780,7 @@ exports[`ToastList should render with singleMessageWithLinkState 1`] = `
                         </a>
                       </div>
                     </AlertLink>
-                    <span
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "Widget positions successfully saved.",
-                        }
-                      }
-                    />
+                    Widget positions successfully saved.
                   </span>
                 </AlertBody>
               </div>
