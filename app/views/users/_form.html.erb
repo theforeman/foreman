@@ -49,7 +49,8 @@
                                    :userInputIds => ['user_login'],
                                    :name => 'user[password]',
                                    :verify => {name: 'user[password_confirmation]', :error => f.object.errors[:password_confirmation].present? ? f.object.errors[:password_confirmation].to_sentence : false},
-                                   :error => f.object.errors[:password_hash].present? ? f.object.errors[:password_hash].to_sentence : false}.to_json) %>
+                                   :error => f.object.errors[:password_hash].present? ? f.object.errors[:password_hash].to_sentence : false,
+                                   :required => f.object.new_record? }.to_json) %>
       </div>
     </div>
 

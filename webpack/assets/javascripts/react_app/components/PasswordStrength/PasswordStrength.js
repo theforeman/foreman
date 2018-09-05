@@ -12,8 +12,9 @@ export default class PasswordStrength extends React.Component {
       updatePassword,
       updatePasswordConfirmation,
       doesPasswordsMatch,
+      passwordPresent,
       data: {
-        className, id, name, verify, error, userInputIds,
+        className, id, name, verify, error, userInputIds, required,
       },
     } = this.props;
 
@@ -24,7 +25,7 @@ export default class PasswordStrength extends React.Component {
 
     return (
       <div>
-        <CommonForm label={__('Password')} touched={true} error={error}>
+        <CommonForm label={__('Password')} touched={true} error={!passwordPresent && error} required={required}>
           <ReactPasswordStrength
             changeCallback={({ password }) => updatePassword(password)}
             minLength={6}
@@ -39,6 +40,7 @@ export default class PasswordStrength extends React.Component {
           <CommonForm
             label={__('Verify')}
             touched={true}
+            required={required}
             error={doesPasswordsMatch ? verify.error : __('Passwords do not match')}
           >
             <input
@@ -59,12 +61,14 @@ PasswordStrength.propTypes = {
   updatePassword: PropTypes.func.isRequired,
   updatePasswordConfirmation: PropTypes.func,
   doesPasswordsMatch: PropTypes.bool,
+  passwordPresent: PropTypes.bool,
   data: PropTypes.shape({
     className: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,
     error: PropTypes.node,
     userInputIds: PropTypes.arrayOf(PropTypes.string),
+    required: PropTypes.bool,
     verify: PropTypes.shape({
       name: PropTypes.string.isRequired,
       error: PropTypes.node,

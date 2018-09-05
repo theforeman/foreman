@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as actions from './PasswordStrengthActions';
-import { doesPasswordsMatch } from './PasswordStrengthSelectors';
+import { doesPasswordsMatch, passwordPresent } from './PasswordStrengthSelectors';
 import reducer from './PasswordStrengthReducer';
 
 import PasswordStrength from './PasswordStrength';
@@ -10,6 +10,7 @@ import PasswordStrength from './PasswordStrength';
 // map state to props
 const mapStateToProps = ({ passwordStrength }) => ({
   doesPasswordsMatch: doesPasswordsMatch(passwordStrength),
+  passwordPresent: passwordPresent(passwordStrength),
 });
 
 // map action dispatchers to props
