@@ -349,7 +349,7 @@ add_files /var/log/foreman/apipie_cache*.log*
 add_files /var/log/foreman/cron*.log*
 add_files /var/log/foreman/db_migrate*.log*
 add_files /var/log/foreman/db_seed*.log*
-add_files /var/log/foreman/production-*.log*
+add_files /var/log/foreman/production.log-*
 add_files /var/log/foreman/production.log
 add_files /var/log/foreman/dynflow_executor.output*
 add_files /var/log/foreman-proxy-certs-generate.*log
