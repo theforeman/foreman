@@ -15,8 +15,8 @@ module Api
 
       api :GET, "/provisioning_templates/", N_("List provisioning templates")
       api :GET, "/operatingsystems/:operatingsystem_id/provisioning_templates", N_("List provisioning templates per operating system")
-      api :GET, "/locations/:location_id/provisioning_templates/", N_("List provisioning templates per location")
-      api :GET, "/organizations/:organization_id/provisioning_templates/", N_("List provisioning templates per organization")
+      api :GET, "/locations/:location_id/provisioning_templates/", N_("List provisioning templates per location") if SETTINGS[:locations_enabled]
+      api :GET, "/organizations/:organization_id/provisioning_templates/", N_("List provisioning templates per organization") if SETTINGS[:organizations_enabled]
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController

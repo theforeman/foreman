@@ -10,8 +10,8 @@ module Api
 
       api :GET, "/environments/", N_("List all environments")
       api :GET, "/puppetclasses/:puppetclass_id/environments", N_("List environments of Puppet class")
-      api :GET, "/locations/:location_id/environments", N_("List environments per location")
-      api :GET, "/organizations/:organization_id/environments", N_("List environments per organization")
+      api :GET, "/locations/:location_id/environments", N_("List environments per location") if SETTINGS[:locations_enabled]
+      api :GET, "/organizations/:organization_id/environments", N_("List environments per organization") if SETTINGS[:organizations_enabled]
       param :puppetclass_id, String, :desc => N_("ID of Puppet class")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController

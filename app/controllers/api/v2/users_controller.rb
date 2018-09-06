@@ -18,8 +18,8 @@ module Api
       api :GET, "/auth_source_externals/:auth_source_external_id/users", N_("List all users for external authentication source")
       api :GET, "/usergroups/:usergroup_id/users", N_("List all users for user group")
       api :GET, "/roles/:role_id/users", N_("List all users for role")
-      api :GET, "/locations/:location_id/users", N_("List all users for location")
-      api :GET, "/organizations/:organization_id/users", N_("List all users for organization")
+      api :GET, "/locations/:location_id/users", N_("List all users for location") if SETTINGS[:locations_enabled]
+      api :GET, "/organizations/:organization_id/users", N_("List all users for organization") if SETTINGS[:organizations_enabled]
       param :auth_source_ldap_id, String, :desc => N_("ID of LDAP authentication source")
       param :usergroup_id, String, :desc => N_("ID of user group")
       param :role_id, String, :desc => N_("ID of role")

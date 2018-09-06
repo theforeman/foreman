@@ -10,10 +10,14 @@ module Api
       before_action :find_resource, :only => %w{show update destroy test}
 
       api :GET, "/auth_source_ldaps/", N_("List all LDAP authentication sources")
-      api :GET, '/locations/:location_id/auth_source_ldaps/',
-        N_('List LDAP authentication sources per location')
-      api :GET, '/organizations/:organization_id/auth_source_ldaps/',
-        N_('List LDAP authentication sources per organization')
+      if SETTINGS[:locations_enabled]
+        api :GET, '/locations/:location_id/auth_source_ldaps/',
+          N_('List LDAP authentication sources per location')
+      end
+      if SETTINGS[:organizations_enabled]
+        api :GET, '/organizations/:organization_id/auth_source_ldaps/',
+          N_('List LDAP authentication sources per organization')
+      end
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
       add_scoped_search_description_for(AuthSourceLdap)

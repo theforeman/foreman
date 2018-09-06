@@ -29,8 +29,8 @@ module Api
 
       api :GET, "/hosts/", N_("List all hosts")
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
-      api :GET, "/locations/:location_id/hosts", N_("List hosts per location")
-      api :GET, "/organizations/:organization_id/hosts", N_("List hosts per organization")
+      api :GET, "/locations/:location_id/hosts", N_("List hosts per location") if SETTINGS[:locations_enabled]
+      api :GET, "/organizations/:organization_id/hosts", N_("List hosts per organization") if SETTINGS[:organizations_enabled]
       api :GET, "/environments/:environment_id/hosts", N_("List hosts per environment")
       param :thin, :bool, :desc => N_("Only list ID and name of hosts")
       param :hostgroup_id, String, :desc => N_("ID of host group")
