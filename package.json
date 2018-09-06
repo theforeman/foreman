@@ -64,6 +64,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
+    "bootstrap-sass": "^3.3.7",
     "brace": "^0.10.0",
     "datatables.net": "~1.10.12",
     "datatables.net-bs": "~1.10.12",
