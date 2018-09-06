@@ -56,13 +56,7 @@ module Api
 
     # overwrites resource_scope in FindCommon to consider nested objects
     def resource_scope(options = {})
-      if Rails.version.start_with?('5.2')
-        super(options).merge(parent_scope).readonly(false)
-      else
-        # workaround for https://github.com/rails/rails/pull/29413
-        # TODO: Remove once rails 5.2 migration is complete
-        super(options).where(id: parent_scope.select(:id))
-      end
+      super(options).merge(parent_scope).readonly(false)
     end
 
     def parent_scope
@@ -93,7 +87,7 @@ module Api
       # In such cases, we resolve the scope first, and then call 'where'
       # on the results
       resource_class.joins(association.name).
-        where(association.name => scope.pluck(:id))
+        where(association.name => scope.select(:id))
     end
 
     def resource_class_join(association, scope)
