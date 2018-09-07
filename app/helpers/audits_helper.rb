@@ -84,7 +84,7 @@ module AuditsHelper
         end
       end
     elsif !main_object? audit
-      ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]}
+      ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0], audit: audit}
        #{(audit_action_name(audit) == 'removed') ? 'from' : 'to'} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1])}"]
     else
       []
