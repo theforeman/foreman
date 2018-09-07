@@ -288,12 +288,16 @@ table {
 
 .console-screen {
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-  display: block;
+  display: table;
   min-height: 400px;
   min-width: 720px;
   top: 18px;
   margin: 18px auto;
   position: relative;
+
+  > canvas {
+    float: left;
+  }
 }
 
 .ellipsis {
