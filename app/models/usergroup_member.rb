@@ -22,7 +22,7 @@ class UsergroupMember < ApplicationRecord
 
   belongs_to :usergroup
 
-  before_validation :ensure_no_cycle
+  before_validation :ensure_no_cycle, :ensure_not_reflexive
   before_update :remove_old_cache_for_old_record
   after_save :add_new_cache
   after_destroy :remove_old_cache
@@ -31,6 +31,13 @@ class UsergroupMember < ApplicationRecord
   scope :usergroup_memberships, -> { where("member_type = 'Usergroup'") }
 
   private
+
+  def ensure_not_reflexive
+    if member_id == usergroup_id && member_type == 'Usergroup'
+      self.errors.add :base, (_('cannot contain itself as member') % Usergroup.find(usergroup_id).name)
+      raise ::Foreman::CyclicGraphException, self
+    end
+  end
 
   def ensure_no_cycle
     current = UsergroupMember.usergroup_memberships

@@ -60,6 +60,11 @@ module Api
         process_response @usergroup.destroy
       end
 
+      rescue_from ::Foreman::CyclicGraphException do |error|
+        @usergroup.errors.add :usergroups, error.message
+        process_resource_error
+      end
+
       private
 
       def allowed_nested_id

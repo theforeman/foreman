@@ -392,4 +392,13 @@ class UsergroupTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test 'should list all usergroups but current' do
+    5.times { FactoryBot.create(:usergroup) }
+    group = Usergroup.all
+    last = Usergroup.last
+    res = Usergroup.except_current last
+    assert_equal(group.count - 1, res.count)
+    refute res.include?(last)
+  end
 end
