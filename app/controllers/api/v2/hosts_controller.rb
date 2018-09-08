@@ -296,7 +296,7 @@ Return the host's compute attributes that can be used to create a clone of this 
       param :only, Array, :desc => N_("Limit rebuild steps, valid steps are %{host_rebuild_steps}")
       def rebuild_config
         result = @host.recreate_config(params[:only])
-        failures = result.reject { |key, value| value }.keys.map{ |k| _(k) }
+        failures = result.reject { |key, value| value }.keys.map { |k| _(k) }
         if failures.empty?
           render_message _("Configuration successfully rebuilt."), :status => :ok
         else

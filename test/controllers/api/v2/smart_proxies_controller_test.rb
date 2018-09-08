@@ -182,7 +182,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     post :refresh, params: { :id => proxy }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    assert_equal Feature.all.pluck(:name).flatten.sort, response['features'].map{|x| x['name']}.sort
+    assert_equal Feature.all.pluck(:name).flatten.sort, response['features'].map {|x| x['name']}.sort
   end
 
   test "should return errors during smart proxy refresh" do

@@ -109,7 +109,7 @@ module Api
         results = @hostgroup.recreate_hosts_config(params[:only], params[:children_hosts])
         failures = []
         results.each_pair do |host, result|
-          host_failures = result.reject { |key, value| value }.keys.map{ |k| _(k) }
+          host_failures = result.reject { |key, value| value }.keys.map { |k| _(k) }
           failures << "#{host}(#{host_failures.to_sentence})" unless host_failures.empty?
         end
         if failures.empty?

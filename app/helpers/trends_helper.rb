@@ -5,7 +5,7 @@ module TrendsHelper
     options = {_('Environment') => 'Environment', _('Operating system') => 'Operatingsystem',
                _('Model') => 'Model', _('Facts') => 'FactName', _('Host group') => 'Hostgroup', _('Compute resource') => 'ComputeResource'}
     existing = ForemanTrend.types.pluck(:trendable_type)
-    options.delete_if{ |k, v| existing.include?(v) }
+    options.delete_if { |k, v| existing.include?(v) }
   end
 
   def trend_days_filter

@@ -37,7 +37,7 @@ module FindCommon
   end
 
   def scope_for(resource, options = {})
-    controller = options.delete(:controller){ controller_permission }
+    controller = options.delete(:controller) { controller_permission }
     # don't call the #action_permission method here, we are not sure if the resource is authorized at this point
     # calling #action_permission here can cause an exception, in order to avoid this, ensure :authorized beforehand
     permission = options.delete(:permission)

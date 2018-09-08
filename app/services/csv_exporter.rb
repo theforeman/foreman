@@ -20,6 +20,6 @@ module CsvExporter
   end
 
   def self.default_header(columns)
-    columns.map{|c| c.to_s.titleize}
+    columns.map {|c| c.to_s.titleize}
   end
 end

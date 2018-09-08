@@ -105,11 +105,11 @@ module Foreman::Model
     end
 
     def possible_scheduler_hints
-      SEARCHABLE_ACTIONS.collect{|x| x.to_s.camelize }
+      SEARCHABLE_ACTIONS.collect {|x| x.to_s.camelize }
     end
 
     def get_server_groups(policy)
-      server_groups = client.server_groups.select{ |sg| sg.policies.include?(policy) }
+      server_groups = client.server_groups.select { |sg| sg.policies.include?(policy) }
       errors.add(:scheduler_hint_value, _("No matching server groups found")) if server_groups.empty?
       server_groups
     end
@@ -190,7 +190,7 @@ module Foreman::Model
     end
 
     def zones
-      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map){|i| i["zoneName"]} || [])
+      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map) {|i| i["zoneName"]} || [])
     end
 
     def normalize_vm_attrs(vm_attrs)

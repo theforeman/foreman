@@ -45,7 +45,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
   test "should get 404 on invalid notification deletion" do
     get :index, params: { :format => 'json' }, session: set_session_user
     notice_id = 1
-    refute response['notifications'].map{|n| n['id']}.include?(notice_id)
+    refute response['notifications'].map {|n| n['id']}.include?(notice_id)
     refute NotificationRecipient.find_by_id(notice_id)
     delete :destroy, params: { :id => notice_id }
     assert_response :not_found

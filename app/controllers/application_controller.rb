@@ -294,7 +294,7 @@ class ApplicationController < ActionController::Base
     end
 
     logger.error "Failed to save: #{hash[:object].errors.full_messages.join(', ')}" if hash[:object].respond_to?(:errors)
-    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map {|e| _("Conflict - %s") % e}].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]
       error(hash[:error_msg], true) unless hash[:error_msg].empty?

@@ -61,7 +61,7 @@ class Notification < ApplicationRecord
 
   def set_notification_recipients
     subscribers = User.unscoped.where(:id => subscriber_ids)
-    notification_recipients.build subscribers.map{|user| { :user => user}}
+    notification_recipients.build subscribers.map {|user| { :user => user}}
   end
 
   def set_custom_attributes

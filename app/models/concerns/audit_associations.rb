@@ -13,7 +13,7 @@ module AuditAssociations
     # Prevent associations from being set when looking at revisions since
     # otherwise they will update the original object rather then the revision
     def revision_with(attrs)
-      super(attrs.reject{|k, v| k.to_s.ends_with?('_ids')})
+      super(attrs.reject {|k, v| k.to_s.ends_with?('_ids')})
     end
 
     private

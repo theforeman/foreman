@@ -36,7 +36,7 @@ class ActiveSupport::TestCase
 
   def skip_if_plugin_asked_to
     skips = Foreman::Plugin.tests_to_skip[self.class.name].to_a
-    if skips.any?{|name| @NAME.end_with?(name)}
+    if skips.any? {|name| @NAME.end_with?(name)}
       skip "Test was disabled by plugin"
     end
   end

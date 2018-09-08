@@ -31,7 +31,7 @@ module Classification
       end
 
       def calculate_value(key, lookup_values_cache, options)
-        lookup_values_for_key = lookup_values_cache.select{|i| i.lookup_key_id == key.id}
+        lookup_values_for_key = lookup_values_cache.select {|i| i.lookup_key_id == key.id}
         sorted_lookup_values = sort_lookup_values(key, lookup_values_for_key)
         value = nil
         if key.merge_overrides

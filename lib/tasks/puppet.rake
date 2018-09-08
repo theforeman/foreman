@@ -36,7 +36,7 @@ namespace :puppet do
           exit 1
         end
         if ENV["proxy"]
-          proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
+          proxy = proxies.select {|p| p.name == ENV["proxy"]}.first
           unless proxy.is_a?(SmartProxy)
             puts "Smart Proxies #{ENV['proxy']} was not found, aborting"
             exit 1
@@ -126,7 +126,7 @@ namespace :puppet do
           exit 1
         end
         if ENV["proxy"]
-          proxy = proxies.select{|p| p.name == ENV["proxy"]}.first
+          proxy = proxies.select {|p| p.name == ENV["proxy"]}.first
           unless proxy.is_a?(SmartProxy)
             puts "Smart Proxies #{ENV['proxy']} was not found, aborting"
             exit 1

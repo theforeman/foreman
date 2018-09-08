@@ -15,6 +15,6 @@ module ComputeResourceConsoleCommon
   end
 
   def name_sort(array)
-    array.sort_by{|a| a.name}
+    array.sort_by {|a| a.name}
   end
 end
