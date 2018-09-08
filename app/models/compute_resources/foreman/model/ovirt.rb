@@ -547,7 +547,8 @@ module Foreman::Model
     end
 
     def arch_name_mapping(host)
-      (host.architecture.name == 'x86_64') ? 'x64' : host.architecture.name.downcase if host.architecture
+      return unless host.architecture
+      (host.architecture.name == 'x86_64') ? 'x64' : host.architecture.name.downcase
     end
 
     def default_iface_name(interfaces)
