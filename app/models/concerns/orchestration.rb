@@ -181,7 +181,7 @@ module Orchestration
   end
 
   def fail_queue(q)
-    q.pending.each{ |task| task.status = "canceled" }
+    q.pending.each { |task| task.status = "canceled" }
 
     # handle errors
     # we try to undo all completed operations and trigger a DB rollback

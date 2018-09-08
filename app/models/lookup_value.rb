@@ -15,7 +15,7 @@ class LookupValue < ApplicationRecord
   before_validation :sanitize_match
 
   validate :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
-  validate :validate_value, :unless => Proc.new{|p| p.omit }
+  validate :validate_value, :unless => Proc.new {|p| p.omit }
 
   attr_accessor :host_or_hostgroup
 
@@ -61,7 +61,7 @@ class LookupValue < ApplicationRecord
   end
 
   def path
-    match.split(LookupKey::KEY_DELM).map{|s| s.split(LookupKey::EQ_DELM).first}.join(LookupKey::KEY_DELM)
+    match.split(LookupKey::KEY_DELM).map {|s| s.split(LookupKey::EQ_DELM).first}.join(LookupKey::KEY_DELM)
   end
 
   private

@@ -24,7 +24,7 @@ module Menu
     end
 
     def authorized_children
-      children.map{|sub_item| sub_item if sub_item.authorized?}.compact
+      children.map {|sub_item| sub_item if sub_item.authorized?}.compact
     end
 
     def children

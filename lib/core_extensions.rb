@@ -23,7 +23,7 @@ class ActiveRecord::Base
   def update_multiple_attribute(attributes)
     connection.update(
       "UPDATE #{self.class.quoted_table_name} SET " +
-      attributes.map{|key, value| " #{connection.quote_column_name(key.to_s)} = #{quote_value(value)} " }.join(', ') +
+      attributes.map {|key, value| " #{connection.quote_column_name(key.to_s)} = #{quote_value(value)} " }.join(', ') +
       "WHERE #{self.class.quoted_primary_key} = #{quote_value(id)}",
       "#{self.class.name} Attribute Update"
     )

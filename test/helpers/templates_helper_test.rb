@@ -12,7 +12,7 @@ class TemplatesHelperTest < ActionView::TestCase
   end
 
   test "all safemode jail methods should be returned" do
-    assert safemode_methods.any?{ |x| x.first == "Host::Managed" }
-    assert safemode_methods.any?{ |x| x.second.include?("subnet") }
+    assert safemode_methods.any? { |x| x.first == "Host::Managed" }
+    assert safemode_methods.any? { |x| x.second.include?("subnet") }
   end
 end

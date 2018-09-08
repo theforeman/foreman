@@ -101,7 +101,7 @@ class SmartProxy < ApplicationRecord
         errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
         throw :abort
       end
-      valid_features = reply.map{|f| Feature.name_map[f]}.compact
+      valid_features = reply.map {|f| Feature.name_map[f]}.compact
       if valid_features.any?
         self.features = Feature.where(:name => valid_features)
       else

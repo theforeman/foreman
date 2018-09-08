@@ -21,7 +21,7 @@ namespace :models  do
         puts "Please turn off unattended mode in config/settings.yaml before running this rake task."
         exit(-1)
       end
-      names = mappings.map{|m| m["name"]}
+      names = mappings.map {|m| m["name"]}
       if names.count != names.uniq.count
         puts "There are duplicate entries in the the mapping file: " + (names - names.uniq).to_sentence
         exit(-1)

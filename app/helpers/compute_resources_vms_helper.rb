@@ -30,7 +30,7 @@ module ComputeResourcesVmsHelper
         value = @vm.send(method) rescue nil
         case value
         when Array
-          value.map{|v| v.try(:name) || v.try(:to_s) || v}.to_sentence
+          value.map {|v| v.try(:name) || v.try(:to_s) || v}.to_sentence
         when Fog::Time, Time
           _("%s ago") % time_ago_in_words(value)
         when nil
@@ -159,7 +159,7 @@ module ComputeResourcesVmsHelper
 
   def subnet_vpc_hash(subnets)
     subnet_vpc_hash = {}
-    subnets.each{ |sub| subnet_vpc_hash[sub.subnet_id] = {:vpc_id => sub.vpc_id, :subnet_name => sub.tag_set["Name"] || sub.subnet_id} }
+    subnets.each { |sub| subnet_vpc_hash[sub.subnet_id] = {:vpc_id => sub.vpc_id, :subnet_name => sub.tag_set["Name"] || sub.subnet_id} }
     subnet_vpc_hash
   end
 
@@ -177,7 +177,7 @@ module ComputeResourcesVmsHelper
   end
 
   def security_groups_for_vpc(security_groups, vpc_id)
-    security_groups.map{ |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id }.compact
+    security_groups.map { |sg| [sg.name, sg.group_id] if sg.vpc_id == vpc_id }.compact
   end
 
   def security_group_not_selected(subnet_vpc_hash, vpc_sg_hash, vpc_id)

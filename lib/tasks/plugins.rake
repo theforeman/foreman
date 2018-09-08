@@ -2,7 +2,7 @@ namespace :plugin do
   desc "List Installed plugins"
   task :list => :environment do
     puts 'Collecting plugin information'
-    Foreman::Plugin.all.map{ |p| puts p.to_s }
+    Foreman::Plugin.all.map { |p| puts p.to_s }
   end
 
   desc 'Validate permissions for built-in roles'

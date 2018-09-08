@@ -48,7 +48,7 @@ class Taxonomy < ApplicationRecord
 
   default_scope -> { order(:title) }
 
-  scope :completer_scope, lambda{|opts|
+  scope :completer_scope, lambda {|opts|
     if opts[:controller] == 'organizations'
       Organization.completer_scope opts
     elsif opts[:controller] == 'locations'

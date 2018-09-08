@@ -90,7 +90,7 @@ module Foreman::Model
         return available.first[:name]
       end
 
-      logger.debug { "Available oVirt OS types: #{best_matches.map{|x| x[:name]}.join(',')}" }
+      logger.debug { "Available oVirt OS types: #{best_matches.map {|x| x[:name]}.join(',')}" }
       best_matches.last[:name] if best_matches.last
     end
 
@@ -202,7 +202,7 @@ module Foreman::Model
     end
 
     def get_datacenter_uuid(name)
-      datacenter_uuid = datacenters.select{|dc| dc[0] == name}
+      datacenter_uuid = datacenters.select {|dc| dc[0] == name}
       raise ::Foreman::Exception.new(N_('Datacenter was not found')) if datacenter_uuid.empty?
       datacenter_uuid.first[1]
     end
@@ -292,7 +292,7 @@ module Foreman::Model
     end
 
     def preallocate_disks(args)
-      change_allocation_volumes = args[:volumes_attributes].values.select{ |x| x[:preallocate] == '1' }
+      change_allocation_volumes = args[:volumes_attributes].values.select { |x| x[:preallocate] == '1' }
       if args[:template].present? && change_allocation_volumes.present?
         disks = change_allocation_volumes.map do |volume|
           { :id => volume[:id], :sparse => 'false', :format => 'raw', :storagedomain => volume[:storage_domain] }
@@ -312,7 +312,7 @@ module Foreman::Model
     def new_vm(attr = {})
       vm = super
       interfaces = nested_attributes_for :interfaces, attr[:interfaces_attributes]
-      interfaces.map{ |i| vm.interfaces << new_interface(i)}
+      interfaces.map { |i| vm.interfaces << new_interface(i)}
       volumes = nested_attributes_for :volumes, attr[:volumes_attributes]
       volumes.map { |v| vm.volumes << new_volume(v) }
       vm
@@ -552,7 +552,7 @@ module Foreman::Model
 
     def default_iface_name(interfaces)
       nic_name_num = 1
-      name_blacklist = interfaces.map{ |i| i[:name]}.reject{|n| n.blank?}
+      name_blacklist = interfaces.map { |i| i[:name]}.reject {|n| n.blank?}
       nic_name_num += 1 while name_blacklist.include?("nic#{nic_name_num}")
       "nic#{nic_name_num}"
     end

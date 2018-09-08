@@ -16,7 +16,7 @@ class EnvironmentClass < ApplicationRecord
       includes(:puppetclass_lookup_key)
   }
 
-  scope :used_by_other_environment_classes, lambda{|puppetclass_lookup_key_id, this_environment_class_id|
+  scope :used_by_other_environment_classes, lambda {|puppetclass_lookup_key_id, this_environment_class_id|
     where(:puppetclass_lookup_key_id => puppetclass_lookup_key_id).
       where("id != #{this_environment_class_id}")
   }

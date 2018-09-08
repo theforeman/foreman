@@ -332,7 +332,7 @@ class User < ApplicationRecord
   end
 
   def indirect_hosts
-    my_usergroups.map{|g| g.hosts}.flatten.uniq
+    my_usergroups.map {|g| g.hosts}.flatten.uniq
   end
 
   def hosts
@@ -474,7 +474,7 @@ class User < ApplicationRecord
 
   def self.random_password(size = 16)
     set = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a - %w(0 1 O I l)
-    Array.new(size){ set.sample }.join
+    Array.new(size) { set.sample }.join
   end
 
   def expire_topbar_cache

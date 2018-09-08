@@ -6,7 +6,7 @@ module PuppetcaHelper
 
   def state_filter
     select_tag "Filter", options_for_select([[_('valid or pending'), _('valid') + '|' + _('pending')]] +
-                                            STATES.map{|s| _(s)} +
+                                            STATES.map {|s| _(s)} +
                                             [[_('all'), '']]),
                :class => "datatable-filter", :id => "puppetca-filter"
   end

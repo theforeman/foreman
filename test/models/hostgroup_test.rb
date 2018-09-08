@@ -469,9 +469,9 @@ class HostgroupTest < ActiveSupport::TestCase
       group.group_parameters.create!(:name => "foo", :value => "bar")
       cloned = group.clone("new_name")
       cloned.save
-      assert_equal cloned.group_parameters.map{|p| [p.name, p.value]}, group.group_parameters.map{|p| [p.name, p.value]}
-      refute_equal cloned.group_parameters.map{|p| p.id}, group.group_parameters.map{|p| p.id}
-      refute_equal cloned.group_parameters.map{|p| p.reference_id}, group.group_parameters.map{|p| p.reference_id}
+      assert_equal cloned.group_parameters.map {|p| [p.name, p.value]}, group.group_parameters.map {|p| [p.name, p.value]}
+      refute_equal cloned.group_parameters.map {|p| p.id}, group.group_parameters.map {|p| p.id}
+      refute_equal cloned.group_parameters.map {|p| p.reference_id}, group.group_parameters.map {|p| p.reference_id}
     end
 
     test "clone should clone lookup values" do

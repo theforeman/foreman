@@ -203,7 +203,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   context 'save external avatar' do
-    let(:temp_dir){Dir.mktmpdir}
+    let(:temp_dir) {Dir.mktmpdir}
 
     setup do
       AuthSourceLdap.any_instance.stubs(:avatar_path).returns(temp_dir)

@@ -263,7 +263,7 @@ module ApplicationHelper
 
   def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
-    data.map{|element| element[:label] = truncate(element[:label], :length => 16)}
+    data.map {|element| element[:label] = truncate(element[:label], :length => 16)}
     header = content_tag(:h4, options[:show_title] ? title : '', :class => 'ca pie-title', :'data-original-title' => _("Expand the chart"), :rel => 'twipsy')
     link_to_function(header, "expand_chart(this)") +
         content_tag(:div, nil,
@@ -360,7 +360,7 @@ module ApplicationHelper
     content_tag(:div, :class => "btn-group") do
       primary + link_to(content_tag(:span, '', :class => 'caret'), '#', :class => "btn btn-default #{'btn-sm' if primary =~ /btn-sm/} dropdown-toggle", :'data-toggle' => 'dropdown') +
       content_tag(:ul, :class => "dropdown-menu pull-right") do
-        args.map{|option| content_tag(:li, option)}.join(" ").html_safe
+        args.map {|option| content_tag(:li, option)}.join(" ").html_safe
       end
     end
   end

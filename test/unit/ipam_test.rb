@@ -85,7 +85,7 @@ class IPAMTest < ActiveSupport::TestCase
         :from => '192.168.11.5',
         :to => '192.168.11.100',
         :ipam => IPAM::MODES[:random_db])
-      ipam = IPAM::RandomDb.new(:subnet => subnet, :excluded_ips => (1..99).map{|x| "192.168.11.#{x}"})
+      ipam = IPAM::RandomDb.new(:subnet => subnet, :excluded_ips => (1..99).map {|x| "192.168.11.#{x}"})
       assert_equal '192.168.11.100', ipam.suggest_ip
     end
 
