@@ -20,7 +20,8 @@ module Foreman
         :load_hosts,
         :all_host_statuses,
         :host_status,
-        :preview?
+        :preview?,
+        :raise
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
