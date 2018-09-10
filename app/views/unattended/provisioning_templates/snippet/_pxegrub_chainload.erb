@@ -5,13 +5,19 @@ model: ProvisioningTemplate
 snippet: true
 %>
 <%
-  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "sles", "opensuse", "Microsoft", "EFI"]
+  # paths variable must be passed into the snippet, otherwise no EFI items are rendered
+  if !@paths.nil? && @paths.size > 1
 -%>
-fallback=<%= (1..paths.size).to_a.join(' ') %>
-<% paths.each do |path| %>
-title Chainload Grub from /EFI/<%= path %>
+fallback=<%= (1..@paths.size).to_a.join(' ') %>
+  <% @paths.each do |path| %>
+title Chainload Grub from /EFI/<%= path %> or try next
   rootnoverify (hd0,0)
   chainloader /EFI/<%= path %>/grubx64.efi
+  <% end -%>
+<% else -%>
+title Update your PXEGrub local template to get EFI options
+  root (hd0,0)
+  chainloader +1
 <% end -%>
 
 title Chainload into bootloader on first disk
