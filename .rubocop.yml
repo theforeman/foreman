@@ -95,3 +95,7 @@ Layout/AlignHash:
 
 Layout/AlignParameters:
   Enabled: false
+
+# disabled until we can configure "+" as concat sign
+Style/LineEndConcatenation:
+  Enabled: false
