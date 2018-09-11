@@ -1,7 +1,10 @@
 class UnattendedController < ApplicationController
+  include ::Foreman::Controller::IpFromRequestEnv
+  include ::Foreman::Controller::TemplateRendering
+
   layout false
 
-  # We dont require any of these methods for provisioning
+  # We don't require any of these methods for provisioning
   skip_before_action :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, unless: -> { preview? }
 
   # Allow HTTP POST methods without CSRF
@@ -53,15 +56,16 @@ class UnattendedController < ApplicationController
   # Generate an action for each template kind
   # i.e. /unattended/provision will render the provisioning template for the requesting host
   def host_template
-    return head(:not_found) unless params[:kind].present?
+    kind = params[:kind]
+    return head(:not_found) unless kind.present?
 
     return if render_ipxe_template
 
     return unless verify_found_host
     return head(:method_not_allowed) unless allowed_to_install?
-    (handle_realm || return) if params[:kind] == 'provision'
+    (handle_realm || return) if kind == 'provision'
 
-    render_template params[:kind]
+    render_provisioning_template(kind)
   end
 
   protected
@@ -76,7 +80,7 @@ class UnattendedController < ApplicationController
     params.key?(:spoof) || params.key?(:hostname)
   end
 
-  def render_custom_error(status, error_message, params)
+  def render_error(status, error_message, params)
     logger.error error_message % params
     message = _(error_message) % params
     return render_ipxe_message(message: message, status: status) if ipxe_request?
@@ -117,15 +121,13 @@ class UnattendedController < ApplicationController
     render_ipxe_message(message: _("iPXE default local boot template '%s' not found") % name)
   end
 
-  def render_template(type)
+  def render_provisioning_template(type)
     # Compatibility with older URLs
     type = 'iPXE' if type == 'gPXE'
 
-    template = @host.provisioning_template({ :kind => type })
-    return safe_render(template) if template
+    template = @host.provisioning_template(kind: type)
 
-    error_message = N_("unable to find %{type} template for %{host} running %{os}")
-    render_custom_error(:not_found, error_message, {:type => type, :host => @host.name, :os => @host.operatingsystem})
+    render_template(template: template, type: type)
   end
 
   # Returns true if a template was rendered, false otherwise
@@ -169,7 +171,7 @@ class UnattendedController < ApplicationController
     end
 
     error = host_verifier.errors.first
-    render_custom_error(error[:type], error[:message], error[:params])
+    render_error(error[:type], error[:message], error[:params])
 
     false
   end
@@ -209,25 +211,6 @@ class UnattendedController < ApplicationController
     # @host has been changed even if the save fails, so we have to change it back
     old_ip = @host.ip
     @host.ip = old_ip unless @host.update({'ip' => ip})
-  end
-
-  def ip_from_request_env
-    ip = request.env['REMOTE_ADDR']
-
-    # Check if someone is asking on behalf of another system (load balancer etc)
-    if request.env['HTTP_X_FORWARDED_FOR'].present? && (ip =~ Regexp.new(Setting[:remote_addr]))
-      ip = request.env['HTTP_X_FORWARDED_FOR']
-    end
-
-    ip
-  end
-
-  def safe_render(template)
-    render :plain => template.render(host: @host, params: params).html_safe
-  rescue StandardError => error
-    msg = _("There was an error rendering the %s template: ") % template.name
-    Foreman::Logging.exception(msg, error)
-    render plain: msg + error.message, status: :internal_server_error
   end
 
   def ipxe_request?

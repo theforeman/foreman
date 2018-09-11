@@ -2,6 +2,7 @@
 
 files:
   - provision/alterator_default.erb
+  - cloud_init/cloud_init_default.erb
   - PXELinux/pxelinux_global_default.erb
   - PXEGrub/pxegrub_global_default.erb
   - PXEGrub2/pxegrub2_global_default.erb
@@ -18,6 +19,7 @@ files:
   - provision/autoyast_sles_default.erb
   - PXELinux/autoyast_default_pxelinux.erb
   - user_data/autoyast_default_user_data.erb
+  - user_data/userdata_open_vm_tools.erb
   - provision/coreos_provision.erb
   - PXELinux/coreos_pxelinux.erb
   - finish/freebsd_(mfsbsd)_finish.erb
