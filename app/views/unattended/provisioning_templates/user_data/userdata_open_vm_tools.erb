@@ -1,0 +1,36 @@
+<%#
+kind: user_data
+name: UserData open-vm-tools
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- Debian
+- Ubuntu
+-%>
+# Template for VMWare customization via open-vm-tools
+
+identity:
+  LinuxPrep:
+    domain: <%= @host.domain %>
+    hostName: <%= @host.shortname %>
+    hwClockUTC: true
+    timeZone: <%= host_param('time-zone') || 'UTC' %>
+
+globalIPSettings:
+  dnsSuffixList: [<%= @host.domain %>]
+  <%- @host.interfaces.each do |interface| -%>
+  <%- next unless interface.subnet -%>
+  dnsServerList: [<%= interface.subnet.dns_servers.join(', ') %>]
+  <%- end -%>
+
+nicSettingMap:
+<%- @host.interfaces.each do |interface| -%>
+<%- next unless interface.subnet -%>
+  - adapter:
+      dnsDomain: <%= interface.domain %>
+      dnsServerList: [<%= interface.subnet.dns_servers.join(', ') %>]
+      gateway: [<%= interface.subnet.gateway %>]
+      ip: <%= interface.ip %>
+      subnetMask: <%= interface.subnet.mask %>
+<%- end -%>

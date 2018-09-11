@@ -1,0 +1,39 @@
+<%#
+kind: cloud-init
+name: CloudInit default
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- Debian
+- Ubuntu
+-%>
+<%#
+This template accepts the following parameters:
+- force-puppet: boolean (default=false)
+- enable-puppetlabs-repo: boolean (default=false)
+- enable-puppetlabs-pc1-repo: boolean (default=false)
+- enable-puppetlabs-puppet5-repo: boolean (default=false)
+-%>
+<%
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+-%>
+#cloud-config
+hostname: <%= @host.name %>
+fqdn: <%= @host %>
+manage_etc_hosts: true
+users: {}
+<% if puppet_enabled %>
+runcmd:
+- |
+<% if host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<%= indent(2) { snippet('puppet_setup', :variables => { :full_puppet_run => true }) } %>
+<% end -%>
+
+phone_home:
+  url: <%= foreman_url('built') %>
+  post: []
+  tries: 10

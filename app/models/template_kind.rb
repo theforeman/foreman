@@ -20,7 +20,8 @@ class TemplateKind < ApplicationRecord
       "script" => N_("Script template"),
       "user_data" => N_("User data template"),
       "ZTP" => N_("ZTP PXE template"),
-      "POAP" => N_("POAP PXE template")
+      "POAP" => N_("POAP PXE template"),
+      "cloud-init" => N_("Cloud-init template")
     }
   end
 
@@ -35,7 +36,8 @@ class TemplateKind < ApplicationRecord
       "script" => N_("An arbitrary script, must be manually downloaded using wget/curl."),
       "user_data" => N_("Template with seed data for virtual or cloud instances when 'user data' flag is set, typically cloud-init or ignition format."),
       "ZTP" => N_("Provisioning Junos devices (Junos 12.2+)."),
-      "POAP" => N_("Provisioning for switches running NX-OS.")
+      "POAP" => N_("Provisioning for switches running NX-OS."),
+      "cloud-init" => N_("Template for cloud-init unattended endpoint.")
     }
   end
 
