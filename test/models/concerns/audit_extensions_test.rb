@@ -50,6 +50,15 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       assert_equal [@org.id], audit.organization_ids
     end
 
+    test 'sets no current taxonomies for audits on none-taxable resources (like Architecture)' do
+      Taxonomy.as_taxonomy(@org, @loc) do
+        arch = FactoryBot.create(:architecture, :with_auditing)
+        audit = arch.audits.last
+        assert_not audit.location_ids.include? @loc
+        assert_not audit.organization_ids.include? @org
+      end
+    end
+
     test 'records on update' do
       domain = FactoryBot.create(:domain, :with_auditing, :locations => [], :organizations => [])
       audit = domain.audits.last
