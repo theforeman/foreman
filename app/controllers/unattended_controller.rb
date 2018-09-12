@@ -55,8 +55,7 @@ class UnattendedController < ApplicationController
   def host_template
     return head(:not_found) unless params[:kind].present?
 
-    return render_default_global_template if ipxe_request? && !@host
-    return render_local_boot_template if ipxe_request? && !@host.build?
+    return if render_ipxe_template
 
     return unless verify_found_host
     return head(:method_not_allowed) unless allowed_to_install?
@@ -83,6 +82,18 @@ class UnattendedController < ApplicationController
     return render_ipxe_message(message: message, status: status) if ipxe_request?
     # add a comment character (works with Red Hat and Debian systems) to avoid parsing errors
     render(:plain => "# #{message}", :status => status, :content_type => 'text/plain')
+  end
+
+  def render_intermediate_template
+    ipxe_template_kind = TemplateKind.find_by(name: 'iPXE')
+    name = Setting[:intermediate_ipxe_script]
+    template = ProvisioningTemplate.find_by(name: name, template_kind: ipxe_template_kind)
+
+    if template
+      safe_render(template)
+    else
+      render_ipxe_message(message: _("iPXE intermediate script '%s' not found") % name)
+    end
   end
 
   def render_default_global_template
@@ -115,6 +126,28 @@ class UnattendedController < ApplicationController
 
     error_message = N_("unable to find %{type} template for %{host} running %{os}")
     render_custom_error(:not_found, error_message, {:type => type, :host => @host.name, :os => @host.operatingsystem})
+  end
+
+  # Returns true if a template was rendered, false otherwise
+  def render_ipxe_template
+    return false unless ipxe_request?
+
+    if @host.nil? && params[:bootstrap]
+      render_intermediate_template
+      return true
+    end
+
+    if @host.nil?
+      render_default_global_template
+      return true
+    end
+
+    unless @host.try(:build?)
+      render_local_boot_template
+      return true
+    end
+
+    false
   end
 
   def load_host_details

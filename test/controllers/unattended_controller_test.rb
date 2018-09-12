@@ -700,5 +700,27 @@ class UnattendedControllerTest < ActionController::TestCase
         assert_includes @response.body, 'Test build'
       end
     end
+
+    context 'with a host in bootstrap mode' do
+      test 'should render an ipxe error message' do
+        get :host_template, params: { kind: 'iPXE', bootstrap: 1 }, session: set_session_user
+        assert_response :not_found
+        assert_includes @response.body, 'iPXE intermediate'
+      end
+
+      test 'should render an intermediate template' do
+        FactoryBot.create(
+          :provisioning_template,
+          template_kind: ipxe_kind,
+          name: Setting[:intermediate_ipxe_script],
+          template: "#!ipxe\necho Test intermediate\nexit"
+        )
+
+        get :host_template, params: { kind: 'iPXE', bootstrap: 1 }, session: set_session_user
+
+        assert_response :success
+        assert_include @response.body, 'Test intermediate'
+      end
+    end
   end
 end
