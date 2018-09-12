@@ -389,3 +389,8 @@ attribute82:
   category: Setting::Provisioning
   default: true
   description: 'Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM'
+attribute83:
+  name: intermediate_ipxe_script
+  category: Setting::Provisioning
+  default: nil
+  description: 'Intermidiate iPXE script'

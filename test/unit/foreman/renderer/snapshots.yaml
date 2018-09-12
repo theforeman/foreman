@@ -46,6 +46,7 @@ files:
   - app/views/unattended/provisioning_templates/provision/xenserver_default_answerfile.erb
   - app/views/unattended/provisioning_templates/finish/xenserver_default_finish.erb
   - app/views/unattended/provisioning_templates/PXELinux/xenserver_default_pxelinux.erb
+  - app/views/unattended/provisioning_templates/iPXE/ipxe_intermediate_script.erb
   - app/views/unattended/provisioning_templates/snippet/_ansible_tower_callback_script.erb
   - app/views/unattended/provisioning_templates/snippet/_ansible_tower_callback_service.erb
   - app/views/unattended/provisioning_templates/snippet/_chef_client.erb
