@@ -19,6 +19,11 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
+  test "should not create realm with no proxy" do
+    post :create, params: { :realm => { :name => 'realm.net', :realm_proxy_id => 0, :realm_type => 'FreeIPA' }}
+    assert_response :unprocessable_entity
+  end
+
   test "should create valid realm" do
     post :create, params: { :realm => { :name => "realm.net", :realm_proxy_id => smart_proxies(:realm).to_param, :realm_type => "FreeIPA" } }
     assert_response :created

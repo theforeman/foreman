@@ -17,7 +17,7 @@ module BelongsToProxies
     def register_smart_proxy(name, options)
       self.registered_smart_proxies = registered_smart_proxies.merge(name => options)
       belongs_to name, :class_name => 'SmartProxy'
-      validates name, :proxy_features => { :feature => options[:feature] }
+      validates name, :proxy_features => { :feature => options[:feature], :required => options[:required] }
     end
 
     def register_smart_proxies_from_plugins
