@@ -29,6 +29,10 @@ module AuditExtensions
     def ensure_taxonomies_not_escalated
       true
     end
+
+    # Audits should never execute what Taxonomix#set_current_taxonomy does
+    def set_current_taxonomy
+    end
   end
 
   private
