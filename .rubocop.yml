@@ -99,3 +99,6 @@ Layout/AlignParameters:
 # disabled until we can configure "+" as concat sign
 Style/LineEndConcatenation:
   Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
