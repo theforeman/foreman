@@ -9,7 +9,7 @@ class HostCounterTest < ActiveSupport::TestCase
     HostCounter.new(association)
   end
 
-  let(:model){ FactoryBot.create(:model) }
+  let(:model) { FactoryBot.create(:model) }
 
   test 'it should get number of hosts associated to model' do
     FactoryBot.create(:host, model: model)
