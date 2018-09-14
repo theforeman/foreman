@@ -1,5 +1,7 @@
 module Foreman::Model
   class EC2 < ComputeResource
+    GOV_CLOUD_REGION = 'us-gov-west-1'
+
     include KeyPairComputeResource
     delegate :flavors, :subnets, :to => :client
     delegate :security_groups, :flavors, :zones, :to => :self, :prefix => 'available'
@@ -11,6 +13,19 @@ module Foreman::Model
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"
     end
+
+    def gov_cloud=(enable_gov_cloud)
+      if enable_gov_cloud == '1'
+        self.url = GOV_CLOUD_REGION
+      elsif gov_cloud?
+        self.url = nil
+      end
+    end
+
+    def gov_cloud
+      self.url == GOV_CLOUD_REGION
+    end
+    alias_method :gov_cloud?, :gov_cloud
 
     def provided_attributes
       super.merge({ :ip => :vm_ip_address })

@@ -59,6 +59,7 @@ export function providerSelected(item) {
   computeConnection.load(`${url} div#compute_connection`, data, () => {
     // eslint-disable-next-line no-undef
     password_caps_lock_hint();
+    $('a[rel="popover"]').popover();
   });
 
   return false;

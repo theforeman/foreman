@@ -133,6 +133,28 @@ module Foreman
           check_vm_attribute_names(cr)
         end
       end
+
+      test "url is nil without specifying govcloud" do
+        ec2 = Foreman::Model::EC2.new
+        assert_nil ec2.region
+        assert_nil ec2.url
+      end
+
+      test "setting govcloud virtual attribute to 1, region is set to gov cloud" do
+        ec2 = Foreman::Model::EC2.new(:gov_cloud => '1')
+        assert_equal Foreman::Model::EC2::GOV_CLOUD_REGION, ec2.region
+        assert_equal ec2.region, ec2.url
+      end
+
+      test "setting govcloud virtual attribute to non 1 value, gov cloud region remains untouched" do
+        ec2 = Foreman::Model::EC2.new(:gov_cloud => '0')
+        assert_nil ec2.region
+        assert_nil ec2.url
+
+        ec2 = Foreman::Model::EC2.new(:region => 'eu-west-1', :gov_cloud => '0')
+        assert_equal 'eu-west-1', ec2.region
+        assert_equal ec2.region, ec2.url
+      end
     end
   end
 end

@@ -17,7 +17,8 @@ module Foreman::Controller::Parameters::ComputeResource
 
         # ec2
         filter.permit :access_key,
-          :region
+          :region,
+          :gov_cloud
 
         # gce
         filter.permit :email,
