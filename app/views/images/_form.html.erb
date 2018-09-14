@@ -2,7 +2,7 @@
   <%= base_errors_for @image %>
   <%= text_f   f, :name %>
   <%= f.hidden_field :compute_resource_id, :value => @compute_resource.id %>
-  <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label %>
+  <%= select_f f, :operatingsystem_id, Operatingsystem.all, :id, :to_label, {}, :label => _('Operating System') %>
   <%= select_f f, :architecture_id, Architecture.all, :id, :to_label %>
   <%= render "images/form/#{@compute_resource.provider.downcase}", :f => f %>
 
