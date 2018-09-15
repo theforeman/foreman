@@ -277,7 +277,14 @@ install_clean_trap() {
 if [ -z "$DIR" ]; then
   DIR=$(mktemp -d $(basename $0)-XXXXX -p /var/tmp)
 else
-  [ ! -d "$DIR" ] && mkdir -p "$DIR"
+  if [ -d "$DIR" ]; then
+    echo -e "\nPlease define another path!
+This directory \"$DIR\" already exist in your environment.
+Passing this flag the script will create a new empty directory"
+    exit 1
+  else
+    mkdir -p "$DIR"
+  fi
 fi
 export TMPDIR=$(mktemp -d foreman-debug-auxtmp-XXXXX -p /var/tmp)
 install_clean_trap
@@ -415,6 +422,8 @@ if [ "$NOTAR" -eq 0 ]; then
   tar -c ../$(basename $DIR) 2>/dev/null | $COMPRESS > "$TARBALL"
   popd >/dev/null
   qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
+  echo "Removing temporary data - \"$DIR\""
+  rm -rf $DIR
 else
   qprintf "%s: %s\n\n" "A debug directory has been created" "$DIR"
 fi
