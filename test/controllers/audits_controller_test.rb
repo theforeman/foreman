@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class AuditsControllerTest < ActionController::TestCase
+  setup do
+    @factory_options = [:auditable_type => 'Architecture']
+  end
+
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 
@@ -16,7 +20,7 @@ class AuditsControllerTest < ActionController::TestCase
   end
 
   def test_show_diff
-    audit = FactoryBot.create(:audit, :with_diff)
+    audit = FactoryBot.create(:audit, :with_diff, *@factory_options)
     get :show, params: { :id => audit.id }, session: set_session_user
     assert_response :success
     assert_template 'show'

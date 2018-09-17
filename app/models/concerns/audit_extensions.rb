@@ -10,6 +10,24 @@ module AuditExtensions
     before_save :filter_passwords, :if => Proc.new {|audit| audit.audited_changes.try(:has_key?, 'password')}
     after_create :log_audit
 
+    scope :untaxed, -> { by_auditable_types(untaxable) }
+    scope :taxed_only_by_location, -> { by_auditable_types(location_taxable) }
+    scope :taxed_only_by_location_in_taxonomy_scope, lambda {
+      with_taxonomy_scope(Location.current, nil, :subtree_ids, [:organization]) { taxed_only_by_location }
+    }
+    scope :taxed_only_by_organization, -> { by_auditable_types(organization_taxable) }
+    scope :taxed_only_by_organization_in_taxonomy_scope, lambda {
+      with_taxonomy_scope(nil, Organization.current, :subtree_ids, [:location]) { taxed_only_by_organization }
+    }
+    scope :fully_taxable_auditables, -> { by_auditable_types(fully_taxable) }
+    scope :fully_taxable_auditables_in_taxonomy_scope, -> { with_taxonomy_scope { fully_taxable_auditables } }
+    scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
+    scope :taxed_and_untaxed, lambda {
+      untaxed.or(fully_taxable_auditables_in_taxonomy_scope)
+             .or(taxed_only_by_organization_in_taxonomy_scope)
+             .or(taxed_only_by_location_in_taxonomy_scope)
+    }
+
     include Authorizable
     include Taxonomix
     include Foreman::TelemetryHelper
@@ -32,6 +50,72 @@ module AuditExtensions
 
     # Audits should never execute what Taxonomix#set_current_taxonomy does
     def set_current_taxonomy
+    end
+
+    class << self
+      def allows_organization_filtering?
+        false
+      end
+
+      def allows_location_filtering?
+        false
+      end
+
+      def location_taxable
+        known_auditable_types.select do |model|
+          has_any_association_to?(:location, model) &&
+          !has_any_association_to?(:organization, model)
+        end
+      end
+
+      def organization_taxable
+        known_auditable_types.select do |model|
+          has_any_association_to?(:organization, model) &&
+          !has_any_association_to?(:location, model)
+        end
+      end
+
+      def fully_taxable
+        known_auditable_types.select do |model|
+          [:location, :organization].map do |taxable|
+            Taxonomy.enabled?(taxable) && has_any_association_to?(taxable, model)
+          end.all?
+        end
+      end
+
+      def untaxable
+        untaxed = known_auditable_types.select do |model|
+          !has_taxonomix?(model)
+          !has_any_association_to?(:organization, model) &&
+          !has_any_association_to?(:location, model)
+        end
+        untaxed -= Nic::Base.descendants unless User.current.admin?
+        untaxed
+      end
+
+      def known_auditable_types
+        unscoped.distinct.pluck(:auditable_type).map do |auditable_type|
+          begin
+            auditable_type.constantize
+          rescue NameError
+          end
+        end.compact
+      end
+
+      private
+
+      def has_association?(association, model = self)
+        associations = model.reflect_on_all_associations.map(&:name)
+        associations.include?(association)
+      end
+
+      def has_any_association_to?(tax_type, model)
+        [has_association?(tax_type.to_sym, model), has_association?(tax_type.to_s.pluralize.to_sym, model)].any?
+      end
+
+      def has_taxonomix?(model)
+        model.include?(Taxonomix)
+      end
     end
   end
 
@@ -108,26 +192,29 @@ module AuditExtensions
 
   def set_taxonomies
     if SETTINGS[:locations_enabled]
-      if auditable.respond_to?(:location_id)
-        self.location_ids = [auditable.location_id, audited_changes['location_id']].flatten.compact.uniq
-      elsif auditable.respond_to?(:location_ids)
-        self.location_ids = auditable.location_ids
-      elsif auditable.is_a? Location
-        self.location_ids = [auditable_id]
-      elsif associated
-        set_taxonomies_using_associated('location')
-      end
+      set_taxonomy_for(:location)
     end
     if SETTINGS[:organizations_enabled]
-      if auditable.respond_to?(:organization_id)
-        self.organization_ids = [auditable.organization_id, audited_changes['organization_id']].flatten.compact.uniq
-      elsif auditable.respond_to?(:organization_ids)
-        self.organization_ids = auditable.organization_ids
-      elsif auditable.is_a? Organization
-        self.organization_ids = [auditable_id]
-      elsif associated
-        set_taxonomies_using_associated('organization')
-      end
+      set_taxonomy_for(:organization)
+    end
+  end
+
+  def set_taxonomy_for(taxonomy)
+    taxonomy_attribute = "#{taxonomy}_id".to_sym
+    taxonomy_attribute_plural = taxonomy_attribute.to_s.pluralize.to_sym
+
+    if auditable.respond_to?(taxonomy_attribute)
+      self.send("#{taxonomy_attribute_plural}=", [
+        auditable.send(taxonomy_attribute), audited_changes[taxonomy_attribute.to_s]
+      ].flatten.compact.uniq)
+    elsif auditable.respond_to?(taxonomy_attribute_plural)
+      self.send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural))
+    elsif associated
+      set_taxonomies_using_associated(taxonomy.to_s)
+    end
+
+    if auditable.is_a? taxonomy.capitalize.to_s.constantize
+      self.send("#{taxonomy_attribute_plural}=", [auditable_id])
     end
   end
 

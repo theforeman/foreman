@@ -88,7 +88,7 @@ module BasicRestResponseTest
       context 'GET #index' do
         setup do
           @old = Setting[:entries_per_page]
-          FactoryBot.create(get_factory_name) if @controller.resource_class.count.zero?
+          FactoryBot.create(get_factory_name, *@factory_options) if @controller.resource_class.count.zero?
           Setting[:entries_per_page] = @controller.resource_class.count
         end
 

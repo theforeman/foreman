@@ -17,6 +17,10 @@ module Api
 
       def show
       end
+
+      def resource_base(*args)
+        super(*args).taxed_and_untaxed
+      end
     end
   end
 end
