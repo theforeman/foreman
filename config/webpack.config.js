@@ -160,13 +160,14 @@ module.exports = env => {
         uglifyOptions: {
           compress: { warnings: false },
         },
-        sourceMap: false
+        sourceMap: true
       }),
       new SimpleNamedModulesPlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new CompressionPlugin()
     );
+    config.devtool = 'source-map';
   } else {
     config.plugins.push(
       new webpack.HotModuleReplacementPlugin() // Enable HMR
