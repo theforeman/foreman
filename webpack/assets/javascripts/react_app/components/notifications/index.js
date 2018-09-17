@@ -1,14 +1,16 @@
-import onClickOutside from 'react-onclickoutside';
 import React from 'react';
+import PropTypes from 'prop-types';
+import onClickOutside from 'react-onclickoutside';
 import { connect } from 'react-redux';
 import { groupBy } from 'lodash';
 import { NotificationDrawerWrapper } from 'patternfly-react';
 
+import { noop } from '../../common/helpers';
 import * as NotificationActions from '../../redux/actions/notifications';
 import './notifications.scss';
 import ToggleIcon from './toggleIcon/';
 
-class notificationContainer extends React.Component {
+class NotificationContainer extends React.Component {
   componentDidMount() {
     const {
       startNotificationsPolling,
@@ -87,6 +89,41 @@ class notificationContainer extends React.Component {
   }
 }
 
+NotificationContainer.propTypes = {
+  data: PropTypes.shapeOf({
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+  notifications: PropTypes.shape,
+  isDrawerOpen: PropTypes.bool,
+  hasUnreadMessages: PropTypes.bool,
+  isReady: PropTypes.bool,
+  expandedGroup: PropTypes.string,
+  startNotificationsPolling: PropTypes.func,
+  toggleDrawer: PropTypes.func,
+  expandGroup: PropTypes.func,
+  markAsRead: PropTypes.func,
+  markGroupAsRead: PropTypes.func,
+  clearNotification: PropTypes.func,
+  clearGroup: PropTypes.func,
+  clickedLink: PropTypes.func,
+};
+
+NotificationContainer.defaultProps = {
+  notifications: {},
+  isDrawerOpen: false,
+  hasUnreadMessages: false,
+  isReady: false,
+  expandedGroup: null,
+  startNotificationsPolling: noop,
+  toggleDrawer: noop,
+  expandGroup: noop,
+  markAsRead: noop,
+  markGroupAsRead: noop,
+  clearNotification: noop,
+  clearGroup: noop,
+  clickedLink: noop,
+};
+
 const mapStateToProps = state => {
   const {
     notifications,
@@ -109,4 +146,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   NotificationActions
-)(onClickOutside(notificationContainer));
+)(onClickOutside(NotificationContainer));

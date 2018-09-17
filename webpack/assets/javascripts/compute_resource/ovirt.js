@@ -109,13 +109,14 @@ function addNetworkInterface({ name, network }) {
 
 // fill in the template volumes.
 function addVolume({
-  // eslint-disable-next-line camelcase
+  /* eslint-disable camelcase */
   size_gb,
   storage_domain,
   bootable,
   id,
   disk_interface,
   wipe_after_delete,
+  /* eslint-enable camelcase */
 }) {
   // eslint-disable-next-line no-undef
   const newId = add_child_node($('#storage_volumes .add_nested_fields'));

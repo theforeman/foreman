@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, OverlayTrigger, Tooltip } from 'patternfly-react';
 import PropTypes from 'prop-types';
-import helpers from '../../common/helpers';
+import helpers, { noop } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
@@ -108,9 +108,24 @@ class FactChart extends React.Component {
 }
 
 FactChart.propTypes = {
-  factChart: PropTypes.object,
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+  factChart: PropTypes.object.isRequired,
   modalToDisplay: PropTypes.bool,
-  data: PropTypes.object,
+  showModal: PropTypes.func,
+  getChartData: PropTypes.func,
+  closeModal: PropTypes.func,
+};
+
+FactChart.defaultProps = {
+  modalToDisplay: false,
+  showModal: noop,
+  getChartData: noop,
+  closeModal: noop,
 };
 
 const mapStateToProps = (state, ownProps) => ({

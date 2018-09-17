@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
@@ -96,6 +97,11 @@ class StorageContainer extends React.Component {
     );
   }
 }
+
+StorageContainer.propTypes = {
+  addController: PropTypes.func.isRequired,
+  controllers: PropTypes.array.isRequired,
+};
 
 const mapDispatchToProps = state => {
   const { controllers, config, volumes = [] } = state.hosts.storage.vmware;
