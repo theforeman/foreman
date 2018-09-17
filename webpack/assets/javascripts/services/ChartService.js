@@ -7,7 +7,7 @@ const sizeConfig = {
   large: donutLargeChartConfig,
 };
 
-const doDataExist = (data) => {
+const doDataExist = data => {
   if (!data || data.length === 0) {
     return false;
   }
@@ -25,9 +25,7 @@ const getColors = data =>
     return color ? { ...curr, [key]: color } : curr;
   }, {});
 
-const getChartConfig = ({
-  data, config, onclick, id = uuidV1(),
-}) => {
+const getChartConfig = ({ data, config, onclick, id = uuidV1() }) => {
   const chartConfigForType = sizeConfig[config];
   const colors = getColors(data);
   const colorsSize = Object.keys(colors).length;
@@ -39,7 +37,7 @@ const getChartConfig = ({
   let dataWithShortNames = [];
 
   if (dataExists) {
-    dataWithShortNames = data.map((val) => {
+    dataWithShortNames = data.map(val => {
       const item = Immutable.asMutable(val.slice());
       longNames.push(item[0]);
       item[0] = item[0].length > 30 ? `${val[0].substring(0, 10)}...` : item[0];
@@ -66,8 +64,7 @@ const getChartConfig = ({
         const hasTooltip = d3.select(selector)[0][0];
 
         if (!hasTooltip) {
-          d3
-            .select(`.c3-legend-item-${nameOfClass}`)
+          d3.select(`.c3-legend-item-${nameOfClass}`)
             .append('svg:title')
             .text(longNames[i]);
         }
@@ -76,9 +73,7 @@ const getChartConfig = ({
   };
 };
 
-export const getDonutChartConfig = ({
-  data, config, onclick, id = uuidV1(),
-}) =>
+export const getDonutChartConfig = ({ data, config, onclick, id = uuidV1() }) =>
   getChartConfig({
     data,
     config,

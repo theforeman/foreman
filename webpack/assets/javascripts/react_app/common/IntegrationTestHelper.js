@@ -49,8 +49,8 @@ export default class IntegrationTestHelper {
    * @return {Array} Dispach calls
    */
   getDispatchCalls() {
-    const isRelevantCall = call => call.filter(({ type }) =>
-      type.startsWith('@@redux')).length === 0;
+    const isRelevantCall = call =>
+      call.filter(({ type }) => type.startsWith('@@redux')).length === 0;
 
     return this.dispatchSpy.mock.calls.filter(isRelevantCall);
   }

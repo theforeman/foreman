@@ -23,7 +23,11 @@ export function schedulerHintFilterSelected(item) {
         // eslint-disable-next-line function-paren-newline
         $('#scheduler_hint_wrapper').html(
           // eslint-disable-next-line no-undef
-          Jed.sprintf(__('Error loading scheduler hint filters information: %s'), error));
+          Jed.sprintf(
+            __('Error loading scheduler hint filters information: %s'),
+            error
+          )
+        );
         $('#compute_resource_tab a').addClass('tab-error');
       },
       success(result) {

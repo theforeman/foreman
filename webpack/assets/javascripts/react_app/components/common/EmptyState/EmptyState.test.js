@@ -27,16 +27,20 @@ describe('Default Empty State', () => {
   // To fix this, I am using TestRenderer.create.
   // TODO: when jest-cli is upgraded to 23.0.0 move this to fixtures above.
   it('should render documentation when given a url', () => {
-    expect(TestRenderer.create(<DefaultEmptyState
+    expect(
+      TestRenderer.create(
+        <DefaultEmptyState
           header="Printers"
           description="Printers print a file from the computer"
           action={{ title: 'action-title', url: 'action-url' }}
           documentation={{ url: 'doc-url' }}
-        />)).toMatchSnapshot();
+        />
+      )
+    ).toMatchSnapshot();
   });
   testComponentSnapshotsWithFixtures(
     DefaultEmptyState,
-    defaultEmptyStateFixtures,
+    defaultEmptyStateFixtures
   );
 });
 
@@ -82,6 +86,6 @@ const emptyStatePatternFixtures = {
 describe('Empty State Pattern', () => {
   testComponentSnapshotsWithFixtures(
     EmptyStatePattern,
-    emptyStatePatternFixtures,
+    emptyStatePatternFixtures
   );
 });

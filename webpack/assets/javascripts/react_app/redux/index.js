@@ -13,8 +13,9 @@ if (process.env.NODE_ENV !== 'production' && !global.__testing__) {
 export const generateStore = () =>
   createStore(
     reducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(...middleware),
+    window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(...middleware)
   );
 
 const store = generateStore();

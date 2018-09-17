@@ -2,9 +2,7 @@ import React from 'react';
 import { simpleLoader } from '../../../common/Loader';
 import './PowerStatusInner.scss';
 
-export default ({
-  state, title, statusText, error,
-}) => {
+export default ({ state, title, statusText, error }) => {
   if (error) {
     return (
       <span

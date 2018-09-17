@@ -74,8 +74,16 @@ describe('initNavigation', () => {
      </div>`;
   it('Mark current location/organization as active in vertical menu', () => {
     init();
-    expect($('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass('active')).toBe(true);
-    expect($('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass('active')).toBe(true);
+    expect(
+      $('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass(
+        'active'
+      )
+    ).toBe(true);
+    expect(
+      $('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass(
+        'active'
+      )
+    ).toBe(true);
   });
 
   it('Mark main menu item as active', () => {
@@ -85,13 +93,23 @@ describe('initNavigation', () => {
   it('Should close secondary menu after menu item click', () => {
     $('#menu_item_loc1').click();
     expect($('#vertical-nav').hasClass('hover-secondary-nav-pf')).toBe(false);
-    expect($('.container-pf-nav-pf-vertical').hasClass('secondary-visible-pf')).toBe(false);
+    expect(
+      $('.container-pf-nav-pf-vertical').hasClass('secondary-visible-pf')
+    ).toBe(false);
   });
 
   it('Should not set secondary menu as active when taxonomies are off', () => {
     document.body.innerHTML = menuWithoutTaxonomies;
     init();
-    expect($('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass('active')).toBe(false);
-    expect($('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass('active')).toBe(false);
+    expect(
+      $('.nav-pf-secondary-nav .list-group-item:contains("Loc1")').hasClass(
+        'active'
+      )
+    ).toBe(false);
+    expect(
+      $('.nav-pf-secondary-nav .list-group-item:contains("Org1")').hasClass(
+        'active'
+      )
+    ).toBe(false);
   });
 });

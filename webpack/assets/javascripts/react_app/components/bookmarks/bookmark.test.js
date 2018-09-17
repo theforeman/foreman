@@ -35,6 +35,8 @@ describe('bookmark', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('a').simulate('click');
     expect(global.Turbolinks.visit).toBeCalled();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=query');
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      'http://localhost/?search=query'
+    );
   });
 });

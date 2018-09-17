@@ -18,7 +18,7 @@ const Controller = ({
   removeController,
   config,
 }) => {
-  const getEventValue = (e) => {
+  const getEventValue = e => {
     if (!e.target) {
       return e;
     }
@@ -33,24 +33,23 @@ const Controller = ({
     updateDisk(uuid, { [attribute]: getEventValue(e) });
   };
 
-  const disks = () => controllerVolumes.map(disk => (
-    <Disk
-      key={disk.key}
-      id={disk.key}
-      updateDisk={_updateDisk.bind(this, disk.key)}
-      removeDisk={removeDisk.bind(this, disk.key)}
-      config={config}
-      {...disk}
-    />
-  ));
+  const disks = () =>
+    controllerVolumes.map(disk => (
+      <Disk
+        key={disk.key}
+        id={disk.key}
+        updateDisk={_updateDisk.bind(this, disk.key)}
+        removeDisk={removeDisk.bind(this, disk.key)}
+        config={config}
+        {...disk}
+      />
+    ));
 
   return (
     <div className="controller-container">
       <div className="controller-header">
         <div className="control-label col-md-2 controller-selected-container">
-          <label>
-            {__('Create SCSI controller')}
-          </label>
+          <label>{__('Create SCSI controller')}</label>
         </div>
         <div className="controller-type-container col-md-4">
           <Select
@@ -77,9 +76,7 @@ const Controller = ({
           </Button>
         </div>
       </div>
-      <div className="disks-container">
-        {disks()}
-      </div>
+      <div className="disks-container">{disks()}</div>
     </div>
   );
 };

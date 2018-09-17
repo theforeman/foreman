@@ -16,7 +16,10 @@ class BookmarkContainer extends React.Component {
   }
 
   loadBookmarks() {
-    if (this.props.bookmarks.length === 0 && this.props.status !== STATUS.PENDING) {
+    if (
+      this.props.bookmarks.length === 0 &&
+      this.props.status !== STATUS.PENDING
+    ) {
       const { url, controller, getBookmarks } = this.props;
 
       getBookmarks(url, controller);
@@ -45,24 +48,33 @@ class BookmarkContainer extends React.Component {
     } = this.props;
 
     return showModal ? (
-      <SearchModal show={showModal} controller={controller} url={url} onHide={modalClosed} />
+      <SearchModal
+        show={showModal}
+        controller={controller}
+        url={url}
+        onHide={modalClosed}
+      />
     ) : (
       <Dropdown pullRight id={controller} onClick={this.loadBookmarks}>
         <Dropdown.Toggle title={__('Bookmarks')}>
-          <Icon type='fa' name='bookmark' />
+          <Icon type="fa" name="bookmark" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="scrollable-dropdown">
           {canCreate && (
-           <MenuItem key="newBookmark" id="newBookmark" onClick={this.handleNewBookmarkClick}>
+            <MenuItem
+              key="newBookmark"
+              id="newBookmark"
+              onClick={this.handleNewBookmarkClick}
+            >
               {__('Bookmark this search')}
             </MenuItem>
           )}
           <DocumentationUrl href={documentationUrl} />
-          <MenuItem divider={true} />
+          <MenuItem divider />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
-            <li className='loader-root'>
-              <Spinner size="xs" loading/>
+            <li className="loader-root">
+              <Spinner size="xs" loading />
             </li>
           )}
           {status === STATUS.RESOLVED &&
@@ -70,12 +82,13 @@ class BookmarkContainer extends React.Component {
               bookmarks.map(({ name, query }) => (
                 <Bookmark key={name} text={name} query={query} />
               ))) || <MenuItem disabled> {__('None found')}</MenuItem>)}
-          {status === STATUS.ERROR &&
+          {status === STATUS.ERROR && (
             <MenuItem key="bookmarks-errors">
               <EllipisWithTooltip>
                 {window.Jed.sprintf(__('Failed to load bookmarks: %s'), errors)}
               </EllipisWithTooltip>
-            </MenuItem>}
+            </MenuItem>
+          )}
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -94,4 +107,8 @@ const mapStateToProps = ({ bookmarks }, { data: { controller } }) => ({
 const mergeProps = (stateProps, dispatchProps, { data }) =>
   Object.assign(stateProps, data, dispatchProps);
 
-export default connect(mapStateToProps, BookmarkActions, mergeProps)(BookmarkContainer);
+export default connect(
+  mapStateToProps,
+  BookmarkActions,
+  mergeProps
+)(BookmarkContainer);

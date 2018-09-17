@@ -8,10 +8,12 @@ import * as NotificationActions from '../../redux/actions/notifications';
 import './notifications.scss';
 import ToggleIcon from './toggleIcon/';
 
-
 class notificationContainer extends React.Component {
   componentDidMount() {
-    const { startNotificationsPolling, data: { url } } = this.props;
+    const {
+      startNotificationsPolling,
+      data: { url },
+    } = this.props;
 
     startNotificationsPolling(url);
   }
@@ -40,11 +42,13 @@ class notificationContainer extends React.Component {
       clickedLink,
     } = this.props;
 
-    const notificationGroups = Object.entries(notifications).map(([key, group]) => ({
-      panelkey: key,
-      panelName: key,
-      notifications: group,
-    }));
+    const notificationGroups = Object.entries(notifications).map(
+      ([key, group]) => ({
+        panelkey: key,
+        panelName: key,
+        notifications: group,
+      })
+    );
 
     const translations = {
       title: __('Notifications'),
@@ -58,7 +62,10 @@ class notificationContainer extends React.Component {
 
     return (
       <div>
-        <ToggleIcon hasUnreadMessages={hasUnreadMessages} onClick={toggleDrawer} />
+        <ToggleIcon
+          hasUnreadMessages={hasUnreadMessages}
+          onClick={toggleDrawer}
+        />
         {isReady &&
           isDrawerOpen && (
             <NotificationDrawerWrapper
@@ -80,7 +87,7 @@ class notificationContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     notifications,
     isDrawerOpen,
@@ -99,4 +106,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, NotificationActions)(onClickOutside(notificationContainer));
+export default connect(
+  mapStateToProps,
+  NotificationActions
+)(onClickOutside(notificationContainer));

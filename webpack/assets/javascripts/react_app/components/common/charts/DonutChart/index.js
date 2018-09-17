@@ -10,16 +10,15 @@ const DonutChart = ({
   noDataMsg = __('No data available'),
   title = { type: 'percent' },
   unloadData = false,
-
 }) => {
   const chartConfig = getDonutChartConfig({ data, config, onclick });
 
   if (chartConfig.data.columns.length > 0) {
     return (
       <PfDonutChart
-       {...chartConfig}
-       title={title}
-       unloadBeforeLoad = {unloadData}
+        {...chartConfig}
+        title={title}
+        unloadBeforeLoad={unloadData}
       />
     );
   }

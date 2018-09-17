@@ -20,7 +20,7 @@ class Markdown extends React.Component {
 
     return (
       <div className="markdown-body">
-        <Remarkable source={this.props.source} options={options}/>
+        <Remarkable source={this.props.source} options={options} />
       </div>
     );
   }
