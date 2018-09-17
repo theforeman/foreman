@@ -39,7 +39,7 @@ module Api::V2::TaxonomiesController
   api :GET, '/:resource_id', N_('List all :resource_id')
   param_group :search_and_pagination, ::Api::V2::BaseController
   def index
-    taxonomy_scope = if @nested_obj
+    taxonomy_scope = if @nested_obj.respond_to?("#{taxonomy_single}_ids")
                        taxonomy_class.where(:id => @nested_obj.send("#{taxonomy_single}_ids"))
                      else
                        taxonomy_class

@@ -22,6 +22,26 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     end
   end
 
+  test "non admin user can list orgs with (default) organization set filtered by location" do
+    org1 = FactoryBot.create(:organization)
+    loc1 = FactoryBot.create(:location)
+    loc2 = FactoryBot.create(:location)
+    org2 = FactoryBot.create(:organization, :location_ids => [ loc1.id ])
+    org3 = FactoryBot.create(:organization, :location_ids => [ loc2.id ])
+    user = FactoryBot.create(:user)
+    user.organizations = [ org1, org2 ]
+    user.locations = [ loc1, loc2 ]
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    user.roles << filter.role
+    as_user user do
+      get :index, params: { :organization_id => org1.id, :location_ids => loc1.id }
+      assert_response :success
+      assert_includes assigns(:organizations), org1
+      assert_includes assigns(:organizations), org2
+      refute_includes assigns(:organizations), org3
+    end
+  end
+
   test "user without view_params permission can't see organization parameters" do
     org_with_parameter = FactoryBot.create(:organization, :with_parameter)
     setup_user "view", "organizations"
