@@ -400,13 +400,14 @@ EOF
 
   test 'sorted_values returns correctly ordered values' do
     key = FactoryBot.create(:puppetclass_lookup_key, :path => "model\nos\r\narch\nos,model")
-    value1 = LookupValue.create(:value => 1, :lookup_key => key, :match => "os=test")
-    value2 = LookupValue.create(:value => 2, :lookup_key => key, :match => "os=test2,model=a")
-    value3 = LookupValue.create(:value => 3, :lookup_key => key, :match => "model=testmodel")
-    value4 = LookupValue.create(:value => 4, :lookup_key => key, :match => "arch=testarcg")
+    value1 = LookupValue.create(:lookup_key => key, :match => "os=test", :value => "aaa")
+    value2 = LookupValue.create(:lookup_key => key, :match => "os=test2,model=a", :value => "aaa")
+    value3 = LookupValue.create(:lookup_key => key, :match => "model=testmodel", :value => "aaa")
+    value4 = LookupValue.create(:lookup_key => key, :match => "arch=testarcg", :value => "aaa")
+    value5 = LookupValue.create(:lookup_key => key, :match => "arch=testaaaa", :value => "bcd")
 
-    assert_equal([value3, value1, value4, value2], key.sorted_values)
-    refute_equal([value3, value1, value4, value2], key.lookup_values)
+    assert_equal([value3, value1, value5, value4, value2], key.sorted_values)
+    refute_equal([value3, value1, value5, value4, value2], key.lookup_values)
   end
 
   test 'should not update with invalid parameter types' do
