@@ -43,7 +43,7 @@ end
 
 if @parameters
   node do |host|
-    { :parameters => partial("api/v2/parameters/index", :object => host.host_parameters.authorized) }
+    { :parameters => partial("api/v2/parameters/index", :object => host.host_parameters.authorized(:view_params)) }
   end
 end
 
