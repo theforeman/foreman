@@ -12,6 +12,6 @@ oses:
 <% kernel = boot_files_uris[0] -%>
 <% initrd = boot_files_uris[1] -%>
 
-kernel <%= kernel %> splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1
+kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1
 initrd <%= initrd %>
 boot

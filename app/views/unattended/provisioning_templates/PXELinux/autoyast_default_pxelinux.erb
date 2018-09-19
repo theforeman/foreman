@@ -13,3 +13,4 @@ DEFAULT linux
 LABEL linux
     KERNEL <%= @kernel %>
     APPEND initrd=<%= @initrd %> ramdisk_size=65536 install=<%= @mediapath %> autoyast=<%= foreman_url('provision') %> textmode=1 <%= http_proxy_string -%>
+

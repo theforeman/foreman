@@ -76,6 +76,17 @@ cat > <%= etc_path %>/puppet.conf << EOF
 EOF
 <% end -%>
 
+<% if @host.puppetca_token.present? -%>
+<% if os_family == 'Windows' -%>
+$csr_attributes = @("<%= snippet 'csr_attributes.yaml' %>".Replace("`n","`r`n"))
+Out-File -FilePath <%= etc_path %>\csr_attributes.yaml -InputObject $csr_attributes
+<% else -%>
+cat > <%= etc_path %>/csr_attributes.yaml << EOF
+<%= snippet 'csr_attributes.yaml' %>
+EOF
+<% end -%>
+<% end -%>
+
 <% if os_family == 'Redhat' -%>
 <% if os_major > 6 -%>
 puppet_unit=puppet

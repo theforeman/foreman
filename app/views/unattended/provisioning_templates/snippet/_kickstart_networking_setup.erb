@@ -34,7 +34,7 @@ kind: snippet
 <%- end -%>
 
 <%- @host.managed_interfaces.each do |interface| %>
-<%-   next if !interface.managed? || (interface.subnet.nil? && interface.subnet6.nil?) -%>
+<%-   next if !interface.managed? -%>
 <%-   next if bonded_interfaces.include?(interface.identifier) -%>
 
 <%-   interface_identifier = @host.bond_interfaces.map { |i| i.identifier }.include?(interface.attached_to) ? interface.identifier : nil %>
@@ -45,6 +45,7 @@ kind: snippet
                         :subnet => interface.subnet,
                         :subnet6 => interface.subnet6,
                         :bonding_interfaces => bonding_interfaces,
-                        :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode? }) %>
+                        :dhcp => interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?,
+                        :attached_to_bond => interface_identifier.present? }) %>
 <%=   save_to_file('/etc/sysconfig/network-scripts/ifcfg-$sanitized_real', ifcfg) %>
 <%- end %>
