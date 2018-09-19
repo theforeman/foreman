@@ -44,8 +44,11 @@ DEFROUTE=<%= primary %>
 <%-     end -%>
 <%-   end -%>
 <%- end -%>
-<%- if @interface.virtual? && ((!@subnet.nil? && @subnet.has_vlanid?) || @interface.vlanid.present?) -%>
+<%- if @interface.virtual? && (!@subnet.nil? && (@subnet.has_vlanid? || @interface.vlanid.present?)) -%>
 <%=   "VLAN=yes" %>
+<%-   if @attached_to_bond -%>
+<%=     "NM_CONTROLLED=no" %>
+<%-   end -%>
 <%-   if @interface.identifier.match(/^vlan\d+/) -%>
 <%=     "VLAN_NAME_TYPE=VLAN_PLUS_VID_NO_PAD" %>
 <%=     "PHYSDEV=#{@interface.attached_to}" %>

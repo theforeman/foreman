@@ -30,6 +30,8 @@ echo 'Acquire::http::Proxy "<%= proxy_uri %>";' >> /etc/apt/apt.conf
 
 <%= snippet('remote_execution_ssh_keys') %>
 
+<%= snippet "blacklist_kernel_modules" %>
+
 <% if chef_enabled %>
 <%= snippet 'chef_client' %>
 <% end -%>
