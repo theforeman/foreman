@@ -278,9 +278,7 @@ if [ -z "$DIR" ]; then
   DIR=$(mktemp -d $(basename $0)-XXXXX -p /var/tmp)
 else
   if [ -d "$DIR" ]; then
-    echo -e "\nPlease define another path!
-This directory \"$DIR\" already exist in your environment.
-Passing this flag the script will create a new empty directory"
+    echo "Directory must not exist: $DIR"
     exit 1
   else
     mkdir -p "$DIR"
