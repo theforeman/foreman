@@ -607,7 +607,7 @@ class HostsController < ApplicationController
     @hostgroup = Hostgroup.find(params[:host][:hostgroup_id]) if params[:host][:hostgroup_id].to_i > 0
     return head(:not_found) unless @hostgroup
     refresh_host
-    @host.attributes = host.apply_inherited_attributes(host_params) unless @host.new_record?
+    @host.attributes = @host.apply_inherited_attributes(host_params) unless @host.new_record?
 
     @host.set_hostgroup_defaults true
     @host.set_compute_attributes unless params[:host][:compute_profile_id]
@@ -680,7 +680,7 @@ class HostsController < ApplicationController
   define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy
 
   def refresh_host
-    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params.delete(:host_id))
+    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params[:host].delete(:id))
     @host ||= Host.new(host_params)
 
     unless @host.is_a?(Host::Managed)

@@ -1550,6 +1550,21 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  test '#process_hostgroup such that it autofils values for an existing host' do
+    group1 = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
+    host = FactoryBot.create(:host, :type => "Host::Base", :hostgroup => group1)
+    # remove unneeded expectation to :queue_compute
+    host.unstub(:queue_compute)
+    host.hostgroup = group1
+
+    attrs = host_attributes(host)
+    attrs["id"] = host.id
+
+    put :process_hostgroup, params: { :host => attrs }, session: set_session_user, xhr: true
+    assert_response :success
+    assert_template :partial => '_form'
+  end
+
   test '#process_hostgroup works on Host subclasses' do
     class Host::Test < Host::Base; end
     user = FactoryBot.create(:user, :with_mail, :admin => false)
