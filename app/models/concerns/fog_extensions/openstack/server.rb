@@ -16,6 +16,7 @@ module FogExtensions
           service.resume_server(id)
         else
           service.start_server(id)
+        end
       end
 
       def stop
