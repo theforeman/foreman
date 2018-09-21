@@ -5,6 +5,7 @@ module Foreman
     # This is used by provisioning framework to supply download location for various files
     # used during the provisioning.
     class MediumProvidersRegistry
+      delegate :logger, to: Rails
       attr_reader :providers
 
       def initialize
@@ -25,8 +26,8 @@ module Foreman
         provider_instances = providers.map { |provider| provider.constantize.new(entity) }
         valid_providers = provider_instances.select { |provider| provider.valid? }
         if valid_providers.count > 1
-          raise Foreman::Exception.new(
-            'Found more than one provider for %{entity}. Valid providers: %{providers}',
+          logger.error(
+            _('Found more than one provider for %{entity}. Valid providers: %{providers}') %
             {
               entity: entity,
               providers: providers.map { |provider| provider.class.friendly_name }
@@ -34,8 +35,8 @@ module Foreman
         end
 
         unless valid_providers.present?
-          raise Foreman::Exception.new(
-            'Could not find a provider for %{entity}. Providers returned %{errors}',
+          logger.error(
+            _('Could not find a provider for %{entity}. Providers returned %{errors}') %
             {
               entity: entity,
               errors: provider_instances.map { |provider| [provider.class.friendly_name, provider.errors] }.to_h
