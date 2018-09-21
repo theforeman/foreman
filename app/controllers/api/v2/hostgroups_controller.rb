@@ -72,6 +72,9 @@ module Api
         @hostgroup.suggest_default_pxe_loader if params[:hostgroup] && params[:hostgroup][:pxe_loader].nil?
 
         process_response @hostgroup.save
+      rescue ActiveRecord::InvalidForeignKey => error
+        e = error.message.scan(/\(([^)]+)\)/)
+        not_found _("%{resource} with id %{id} not found") % {:resource => e[0][0], :id => e[1][0]}
       end
 
       api :PUT, "/hostgroups/:id/", N_("Update a host group")
