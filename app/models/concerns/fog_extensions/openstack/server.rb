@@ -12,13 +12,14 @@ module FogExtensions
       def start
         if state.downcase == 'paused'
           service.unpause_server(id)
-        else
+        elsif state.downcase == 'suspended'
           service.resume_server(id)
-        end
+        else
+          service.start_server(id)
       end
 
       def stop
-        service.suspend_server(id)
+        service.stop_server(id)
       end
 
       def pause
