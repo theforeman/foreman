@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class DefaultMediumProviderTest < ActiveSupport::TestCase
+  test 'returns default provider for managed host' do
+    host = FactoryBot.create(:host, :managed)
+    medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+    assert_instance_of MediumProviders::Default, medium_provider
+  end
+
   test 'interpolated $version does not include dots if only major is specified' do
     operatingsystem = FactoryBot.build_stubbed(:operatingsystem, :name => 'foo', :major => '4')
     architecture = FactoryBot.build_stubbed(:architecture, :name => 'x64')
