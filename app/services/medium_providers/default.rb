@@ -2,13 +2,14 @@ module MediumProviders
   class Default < Provider
     def validate
       errors = []
-      os = entity.operatingsystem
-      medium = entity.medium
-      arch = entity.architecture
+      os = entity.try(:operatingsystem)
+      medium = entity.try(:medium)
+      arch = entity.try(:architecture)
 
+      errors << N_("Operating system was not set for host '%{host}'") % { :host => entity } if os.nil?
       errors << N_("%{os} medium was not set for host '%{host}'") % { :host => entity, :os => os } if medium.nil?
-      errors << N_("Invalid medium '%{medium}' for '%{os}'") % { :medium => medium, :os => os } unless os.media.include?(medium)
-      errors << N_("Invalid architecture '%{arch}' for '%{os}'") % { :arch => arch, :os => os } unless os.architectures.include?(arch)
+      errors << N_("Invalid medium '%{medium}' for '%{os}'") % { :medium => medium, :os => os } unless os&.media&.include?(medium)
+      errors << N_("Invalid architecture '%{arch}' for '%{os}'") % { :arch => arch, :os => os } unless os&.architectures&.include?(arch)
       errors
     end
 
@@ -28,6 +29,10 @@ module MediumProviders
         full_uniq = super
         "#{entity.medium.name.parameterize}-#{full_uniq[1..10]}"
       end
+    end
+
+    def valid?
+      entity.respond_to?(:medium) && errors.empty?
     end
 
     private

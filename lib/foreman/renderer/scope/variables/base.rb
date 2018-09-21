@@ -25,7 +25,7 @@ module Foreman
           end
 
           def load_variables_base
-            @medium_provider = Foreman::Plugin.medium_providers.find_provider(host) if host.respond_to?(:medium) && medium
+            @medium_provider = Foreman::Plugin.medium_providers.find_provider(host) if host
             if operatingsystem&.respond_to?(:pxe_type)
               send "#{operatingsystem.pxe_type}_attributes"
               pxe_config
@@ -73,7 +73,7 @@ module Foreman
             @dynamic   = !!(disk_layout_source_content =~ /^#Dynamic/) if disk_layout_source_content
             @arch      = architecture_name
             @osver     = major.try(:to_i)
-            @mediapath = mediumpath(@medium_provider) if medium
+            @mediapath = mediumpath(@medium_provider) if @medium_provider
             @repos     = repos(host)
           end
 
@@ -86,16 +86,16 @@ module Foreman
 
           def yast_attributes
             @dynamic   = !!(disk_layout_source_content =~ /^#Dynamic/) if disk_layout_source_content
-            @mediapath = mediumpath(@medium_provider) if medium
+            @mediapath = mediumpath(@medium_provider) if @medium_provider
           end
 
           def xenserver_attributes
-            @mediapath = mediumpath(@medium_provider) if medium
+            @mediapath = mediumpath(@medium_provider) if @medium_provider
             @xen = xen(arch)
           end
 
           def pxe_config
-            return unless medium
+            return unless @medium_provider
             @kernel = kernel(@medium_provider)
             @initrd = initrd(@medium_provider)
             @kernel_uri, @initrd_uri = operatingsystem.boot_files_uri(@medium_provider)
