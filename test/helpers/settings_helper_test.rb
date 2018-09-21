@@ -28,4 +28,32 @@ class SettingsHelperTest < ActionView::TestCase
     self.expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :size => expected_hostgroup_count })
     value(setting)
   end
+
+  test "create a setting with no default of settings_type array" do
+    setting = Setting.create({:name => "name",
+      :value => "", :description => "description", :default => [], :settings_type => "array", :full_name => "full_name"})
+    self.expects(:edit_textarea).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "No default value was set")
+    value(setting)
+  end
+
+  test "create a setting with default of settings_type array" do
+    setting = Setting.create({:name => "name",
+      :value => "", :description => "description", :default => "default value", :settings_type => "array", :full_name => "full_name"})
+    self.expects(:edit_textarea).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "default value")
+    value(setting)
+  end
+
+  test "create a setting with no default of settings_type string" do
+    setting = Setting.create({:name => "name",
+      :value => "", :description => "description", :default => "", :settings_type => "string", :full_name => "full_name"})
+    self.expects(:edit_textfield).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "No default value was set")
+    value(setting)
+  end
+
+  test "create a setting with default of settings_type string" do
+    setting = Setting.create({:name => "name",
+      :value => "", :description => "description", :default => "default value", :settings_type => "string", :full_name => "full_name"})
+    self.expects(:edit_textfield).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "default value")
+    value(setting)
+  end
 end
