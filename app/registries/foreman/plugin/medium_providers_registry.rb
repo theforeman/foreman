@@ -19,6 +19,10 @@ module Foreman
         provider
       end
 
+      def unregister(provider)
+        @providers.delete(provider.to_s)
+      end
+
       # Find a provider that can provide a URI for a given entity.
       def find_provider(entity)
         raise Foreman::Exception.new('Must supply an entity to find a medium provider') unless entity
@@ -27,7 +31,7 @@ module Foreman
         valid_providers = provider_instances.select { |provider| provider.valid? }
         if valid_providers.count > 1
           logger.error(
-            _('Found more than one provider for %{entity}. Valid providers: %{providers}') %
+            'Found more than one provider for %{entity}. Valid providers: %{providers}' %
             {
               entity: entity,
               providers: providers.map { |provider| provider.class.friendly_name }
@@ -36,7 +40,7 @@ module Foreman
 
         unless valid_providers.present?
           logger.error(
-            _('Could not find a provider for %{entity}. Providers returned %{errors}') %
+            'Could not find a provider for %{entity}. Providers returned %{errors}' %
             {
               entity: entity,
               errors: provider_instances.map { |provider| [provider.class.friendly_name, provider.errors] }.to_h
