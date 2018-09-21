@@ -48,7 +48,9 @@
 <%= searchable_links _('Hosts with no reports'),
                      search_filter_with_origin(
                        "not has last_report and status.enabled = true",
-                       origin
+                       origin,
+                       true,
+                       true
                      ),
                      :reports_missing
 %>
