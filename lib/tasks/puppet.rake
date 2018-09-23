@@ -62,7 +62,8 @@ namespace :puppet do
           exit 1
         end
 
-        if changes["new"].empty? && changes["obsolete"].empty?
+        if changes["new"].empty? && changes["obsolete"].empty? &&
+            changes["updated"].empty?
           puts "No changes detected" unless args.batch
         else
           unless args.batch
