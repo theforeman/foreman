@@ -138,11 +138,11 @@ module DashboardHelper
     end
   end
 
-  def search_filter_with_origin(filter, origin, within_interval = false)
+  def search_filter_with_origin(filter, origin, within_interval = false, ignore_interval = false)
     interval_setting = report_origin_interval_setting(origin)
     additional_filters = []
     additional_filters << "origin = #{origin}" if origin
-    additional_filters << "last_report #{within_interval ? '<' : '>'} \"#{interval_setting} minutes ago\"" if out_of_sync_enabled?(origin)
+    additional_filters << "last_report #{within_interval ? '<' : '>'} \"#{interval_setting} minutes ago\"" if out_of_sync_enabled?(origin) && !ignore_interval
     (additional_filters + [filter]).join(' and ')
   end
 
