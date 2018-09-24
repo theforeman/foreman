@@ -680,7 +680,7 @@ class HostsController < ApplicationController
   define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy
 
   def refresh_host
-    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params[:host].delete(:id))
+    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params[:host_id] || params.dig(:host, :id))
     @host ||= Host.new(host_params)
 
     unless @host.is_a?(Host::Managed)
