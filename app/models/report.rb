@@ -69,7 +69,7 @@ class Report < ApplicationRecord
   # Expire reports based on time and status
   # Defaults to expire reports older than a week regardless of the status
   # This method will IS very slow, use only from rake task.
-  def self.expire(conditions = {}, batch_size = 1000, sleep_time = 0.2)
+  def self.expire(conditions, batch_size, sleep_time)
     timerange = conditions[:timerange] || 1.week
     status = conditions[:status]
     created = (Time.now.utc - timerange).to_formatted_s(:db)

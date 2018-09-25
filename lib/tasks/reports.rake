@@ -32,7 +32,9 @@ namespace :reports do
     conditions = {}
     conditions[:timerange] = ENV['days'].to_i.days if ENV['days']
     conditions[:status] = ENV['status'].to_i if ENV['status']
+    batch_size = 1000
     batch_size = ENV['batch_size'].to_i if ENV['batch_size']
+    sleep_time = 0.2
     sleep_time = ENV['sleep_time'].to_f if ENV['sleep_time']
 
     User.as_anonymous_admin do
