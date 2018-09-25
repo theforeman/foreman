@@ -14,7 +14,7 @@ class ReportTest < ActiveSupport::TestCase
     assert_equal report_count * 2, Report.count
     assert_difference('Report.count', -1 * report_count) do
       assert_difference(['Log.count', 'Message.count', 'Source.count'], -1 * report_count * 5) do
-        Report.expire
+        Report.expire({}, 1000, 0.2)
       end
     end
   end
@@ -111,7 +111,7 @@ class ReportTest < ActiveSupport::TestCase
     test '.expire should delete only the class which calls it' do
       FactoryBot.create_list(:config_report, 5, :old_report)
       FactoryBot.create_list(:report, 5, :old_report, :type => 'TestReport')
-      TestReport.expire
+      TestReport.expire({}, 1000, 0.2)
       refute(TestReport.all.any?)
       assert(ConfigReport.all.any?)
     end
