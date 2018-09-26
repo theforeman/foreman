@@ -105,7 +105,7 @@ class Subnet < ApplicationRecord
 
   class Jail < ::Safemode::Jail
     allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
-          :vlanid, :mtu, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description
+          :vlanid, :mtu, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?
   end
 
   # Subnets are displayed in the form of their network network/network mask
