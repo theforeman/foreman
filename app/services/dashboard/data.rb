@@ -15,7 +15,7 @@ module Dashboard
 
     def hosts
       @hosts ||= Host.authorized(:view_hosts, Host).search_for(filter).reorder('')
-      @hosts = @hosts.with_last_report_origin(settings[:origin]) if settings[:origin] && settings[:origin] != 'All'
+      @hosts = @hosts.with_last_report_origin(settings[:origin]) if is_not_all_origin?
       @hosts
     end
 
@@ -40,6 +40,10 @@ module Dashboard
     end
 
     private
+
+    def is_not_all_origin?
+      settings[:origin] && settings[:origin] != 'All'
+    end
 
     def fetch_data
       @report.update(
@@ -68,8 +72,8 @@ module Dashboard
     end
 
     def out_of_sync_hosts
-      if settings[:origin] && settings[:origin] != 'All'
-        hosts.out_of_sync_for(settings[:origin])
+      if is_not_all_origin?
+        hosts.out_of_sync_for(out_of_sync_setting_for(settings[:origin]))
       else
         hosts.out_of_sync
       end
@@ -80,7 +84,7 @@ module Dashboard
     end
 
     def recent_hosts
-      if settings[:origin] && settings[:origin] != 'All'
+      if is_not_all_origin?
         hosts.recent(Setting[:"#{settings[:origin].downcase}_interval"])
       else
         hosts.recent
@@ -98,8 +102,20 @@ module Dashboard
 
     def out_of_sync_enabled?
       return true unless settings[:origin]
-      setting = Setting[:"#{settings[:origin].downcase}_out_of_sync_disabled"]
-      setting.nil? ? true : !setting
+      if is_not_all_origin?
+        host_origins.any? { |origin| out_of_sync_setting_for(origin) }
+      else
+        !out_of_sync_setting_for(settings[:origin])
+      end
+    end
+
+    def out_of_sync_setting_for(origin)
+      setting = Setting[:"#{origin.downcase}_out_of_sync_disabled"]
+      setting.nil? ? false : setting
+    end
+
+    def host_origins
+      hosts.distinct.includes(:reports).pluck('reports.origin').compact
     end
   end
 end

@@ -34,7 +34,7 @@
                      :pending_hosts_enabled
 %>
 
-<% if out_of_sync_enabled?(origin) %>
+<% if @data.report[:out_of_sync_hosts] || @data.report[:out_of_sync_hosts_enabled] %>
   <%= searchable_links _('Out of sync hosts'),
                        search_filter_with_origin(
                          "status.enabled = true",

@@ -9,10 +9,10 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
     Setting[:outofsync_interval] = 35
   end
 
-  def assert_dashboard_link(text)
+  def assert_dashboard_link(text, widget = 'Host Configuration Status for All')
     visit_dashboard
     assert page.has_link?(text), "link '#{text}' was expected, but it does not exist"
-    within "li[data-name='Host Configuration Status for All']" do
+    within "li[data-name='#{widget}']" do
       click_link(text)
     end
     assert_current_path hosts_path, :ignore_query => true
@@ -47,7 +47,7 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
   end
 
   test "dashboard link out of sync hosts" do
-    assert_dashboard_link 'Out of sync hosts'
+    assert_dashboard_link 'Out of sync hosts', 'Host Configuration Status for Puppet'
   end
 
   context 'with origin' do
