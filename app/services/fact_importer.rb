@@ -84,7 +84,7 @@ class FactImporter
 
   private
 
-  attr_reader :host, :facts, :fact_names, :fact_names_by_id
+  attr_reader :host, :facts, :fact_names, :fact_names_by_id, :facts_to_create
 
   def fact_name_class_name
     @fact_name_class_name ||= fact_name_class.name
@@ -124,10 +124,10 @@ class FactImporter
   end
 
   def initialize_fact_names
-    name_records = fact_name_class.unscoped.where(:name => facts.keys, :type => fact_name_class_name)
+    name_records = fact_name_class.unscoped.where(:name => facts.keys, :type => fact_name_class_name).reorder('')
     @fact_names = {}
     @fact_names_by_id = {}
-    name_records.find_each do |record|
+    name_records.each do |record|
       @fact_names[record.name] = record
       @fact_names_by_id[record.id] = record
     end
@@ -140,7 +140,7 @@ class FactImporter
   end
 
   def delete_removed_facts
-    delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class_name).where.not(:fact_name => fact_names.values)
+    delete_query = FactValue.joins(:fact_name).where(:host => host, 'fact_names.type' => fact_name_class_name).where.not(:fact_name => fact_names.values).reorder('')
     if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
       # MySQL does not handle delete with inner query correctly (slow) so we will do two queries on purpose
       @counters[:deleted] = FactValue.where(:id => delete_query.pluck(:id)).delete_all
@@ -161,23 +161,25 @@ class FactImporter
   end
 
   def add_new_facts
-    facts_to_create = facts.keys - db_facts.pluck(:fact_name_id).map { |name_id| fact_names_by_id[name_id].name }
     facts_to_create.each { |f| add_new_fact(f) }
     @counters[:added] = facts_to_create.size
   end
 
   def update_facts
     time = Time.now.utc
-    updated = []
+    updated = 0
+    db_facts_names = []
     db_facts.find_each do |record|
       new_value = facts[record.name]
       if record.value != new_value
         # skip callbacks/validations
         record.update_columns(:value => new_value, :updated_at => time)
-        updated << record.name
+        updated += 1
       end
+      db_facts_names << record.name
     end
-    @counters[:updated] = updated.size
+    @facts_to_create = facts.keys - db_facts_names
+    @counters[:updated] = updated
   end
 
   def normalize(facts)
@@ -192,7 +194,12 @@ class FactImporter
   end
 
   def db_facts
-    host.fact_values.where(:fact_name => fact_names.values)
+    query = host.fact_values
+    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
+      # MySQL query optimizer does not appear to pick the correct index here: https://projects.theforeman.org/issues/25053
+      query = query.from("fact_values USE INDEX(index_fact_values_on_fact_name_id_and_host_id)")
+    end
+    query.where(:fact_name => fact_names.values).reorder('')
   end
 
   def ensure_no_active_transaction
