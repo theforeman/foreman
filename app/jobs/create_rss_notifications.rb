@@ -3,7 +3,7 @@ class CreateRssNotifications < ApplicationJob
     # Defaults to theforeman.org blog RSS
     UINotifications::RssNotificationsChecker.new(options).deliver!
   ensure
-    self.class.set(:wait => 12.hours).perform_later(options)
+    self.class.set(:wait => 12.hours).perform_later(options.reject { |k| k.to_s =~ /^_aj_/ })
   end
 
   rescue_from(StandardError) do |error|
