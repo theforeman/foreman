@@ -4,7 +4,7 @@ module Foreman
       module Macros
         module SnippetRendering
           def snippet_if_exists(name, options = {})
-            snippet(name, { silent: true }, variables: options[:variables])
+            snippet(name, { silent: true }, variables: options[:variables] || {})
           end
 
           def snippets(file, options = {})
