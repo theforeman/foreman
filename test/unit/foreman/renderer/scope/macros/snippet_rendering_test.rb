@@ -47,4 +47,9 @@ class SnippetRenderingTest < ActiveSupport::TestCase
     Template.expects(:where).with(:name => "test", :snippet => true).returns([])
     assert_nil @scope.snippet_if_exists('test')
   end
+
+  test "should render a snippet_if_exists without variables" do
+    snippet = FactoryBot.create(:provisioning_template, :snippet, :template => "test")
+    assert_equal 'test', @scope.snippet_if_exists(snippet.name)
+  end
 end
