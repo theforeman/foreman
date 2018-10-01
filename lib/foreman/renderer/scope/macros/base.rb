@@ -85,6 +85,10 @@ module Foreman
             @all_host_statuses ||= HostStatus.status_registry.to_a.sort_by(&:status_name)
           end
 
+          def all_host_statuses_hash(host)
+            all_host_statuses.map { |status| [status.status_name, host_status(host, status.status_name).status] }.to_h
+          end
+
           def host_status(host, name)
             klass = all_host_statuses.find { |status| status.status_name == name }
             raise UnknownHostStatusError.new(status: name, statuses: all_host_statuses.map(&:status_name).join(',')) if klass.nil?

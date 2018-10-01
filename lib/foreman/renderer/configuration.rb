@@ -19,6 +19,7 @@ module Foreman
         :medium_uri,
         :load_hosts,
         :all_host_statuses,
+        :all_host_statuses_hash,
         :host_status,
         :preview?,
         :raise
