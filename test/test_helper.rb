@@ -160,3 +160,11 @@ def restore_plugins
   @klass.clear
   @klass.instance_variable_set('@registered_plugins', @plugins_backup)
 end
+
+def with_auditing(klass)
+  auditing_was_enabled = klass.auditing_enabled
+  klass.enable_auditing
+  yield
+ensure
+  klass.disable_auditing unless auditing_was_enabled
+end

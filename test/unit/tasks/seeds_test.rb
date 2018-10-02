@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'seed_helper'
 require 'database_cleaner'
 
 class SeedsTest < ActiveSupport::TestCase
@@ -14,10 +15,13 @@ class SeedsTest < ActiveSupport::TestCase
     Foreman.stubs(:in_rake?).returns(true)
   end
 
-  def seed
+  def seed(*seed_files)
     # Authorisation is disabled usually when run from a rake db:* task
     as_admin do
-      load File.expand_path('../../../db/seeds.rb', __dir__)
+      seed_files = ['../seeds.rb'] if seed_files.empty?
+      seed_files.each do |file|
+        load File.expand_path("../../../db/seeds.d/#{file}", __dir__)
+      end
     end
   end
 
@@ -53,7 +57,7 @@ class SeedsTest < ActiveSupport::TestCase
 
   test 'populates hidden admin users' do
     assert_difference 'User.unscoped.where(:login => [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN]).count', 2 do
-      seed
+      seed('030-auth_sources.rb', '035-admin.rb')
     end
     [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN, User::ANONYMOUS_CONSOLE_ADMIN].each do |login|
       user = User.unscoped.find_by_login(login)
@@ -69,7 +73,7 @@ class SeedsTest < ActiveSupport::TestCase
   context 'populating an initial admin user' do
     test 'with defaults' do
       assert_difference 'User.unscoped.where(:login => "admin").count', 1 do
-        seed
+        seed('030-auth_sources.rb', '035-admin.rb')
       end
       user = User.unscoped.find_by_login('admin')
       assert user.password_hash.present?
@@ -103,26 +107,31 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "does update template that was not modified by user" do
-    seed
+    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
     ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by_name('Kickstart default').update(:template => 'test') }
-    seed
+    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
     refute_equal ProvisioningTemplate.unscoped.find_by_name('Kickstart default').template, 'test'
   end
 
   test "doesn't add a template back that was deleted" do
-    seed
-    assert_equal 1, ProvisioningTemplate.unscoped.
-      where(:name => 'Kickstart default').destroy_all.size
-    seed
+    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    with_auditing(ProvisioningTemplate) do
+      assert_equal 1, ProvisioningTemplate.unscoped.where(:name => 'Kickstart default').destroy_all.size
+    end
+    assert SeedHelper.audit_modified?(ProvisioningTemplate, 'Kickstart default')
+    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
     refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end
 
   test "doesn't add a template back that was renamed" do
-    seed
-    tmpl = ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
-    tmpl.name = 'test'
-    tmpl.save!
-    seed
+    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    with_auditing(ProvisioningTemplate) do
+      tmpl = ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
+      tmpl.name = 'test'
+      tmpl.save!
+    end
+    assert SeedHelper.audit_modified?(ProvisioningTemplate, 'Kickstart default')
+    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
     refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end
 
@@ -134,7 +143,7 @@ class SeedsTest < ActiveSupport::TestCase
   test "seed organization when environment SEED_ORGANIZATION specified" do
     Organization.stubs(:any?).returns(false)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
-      seed
+      seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
     assert Organization.unscoped.find_by_name('seed_test')
   end
@@ -142,7 +151,7 @@ class SeedsTest < ActiveSupport::TestCase
   test "don't seed organization when an org already exists" do
     Organization.stubs(:any?).returns(true)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
-      seed
+      seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
     refute Organization.unscoped.find_by_name('seed_test')
   end
@@ -150,7 +159,7 @@ class SeedsTest < ActiveSupport::TestCase
   test "seed location when environment SEED_LOCATION specified" do
     Location.stubs(:any?).returns(false)
     with_env('SEED_LOCATION' => 'seed_test') do
-      seed
+      seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
     assert Location.unscoped.find_by_name('seed_test')
   end
@@ -158,7 +167,7 @@ class SeedsTest < ActiveSupport::TestCase
   test "don't seed location when a location already exists" do
     Location.stubs(:any?).returns(true)
     with_env('SEED_LOCATION' => 'seed_test') do
-      seed
+      seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
     refute Location.unscoped.find_by_name('seed_test')
   end
@@ -171,7 +180,7 @@ class SeedsTest < ActiveSupport::TestCase
     loc_name = 'seed_loc'
 
     with_env('SEED_ORGANIZATION' => org_name, 'SEED_LOCATION' => loc_name) do
-      seed
+      seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
 
     org = Organization.unscoped.find_by_name(org_name)
@@ -181,7 +190,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "all access permissions are created by permissions seed" do
-    seed
+    seed('020-permissions_list.rb', '030-permissions.rb')
     access_permissions = Foreman::AccessControl.permissions.reject(&:public?).reject(&:plugin?).map(&:name).map(&:to_s)
     seeded_permissions = Permission.pluck('permissions.name')
     # Check all access control have a matching seeded permission
@@ -191,7 +200,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "viewer role contains all view permissions" do
-    seed
+    seed('020-permissions_list.rb', '030-permissions.rb', '020-roles_list.rb', '040-roles.rb')
     view_permissions = Permission.all.select { |permission| permission.name.match(/view/) }
     assert_equal [], view_permissions - Role.unscoped.find_by_name('Viewer').permissions
   end
