@@ -128,11 +128,17 @@ class Authorizer
   #   for normal user we allow user taxonomies only
   def allowed_taxonomies(resource_class, type)
     taxonomy_ids = []
-    if resource_class.respond_to?("used_#{type}_ids")
-      taxonomy_ids = resource_class.send("used_#{type}_ids")
-      if taxonomy_ids.empty? && !user.try(:admin?)
-        taxonomy_ids = user.try("#{type}_ids")
-      end
+    if resource_class&.allows_taxonomy_filtering?("#{type}_id") &&
+       resource_class.respond_to?("used_#{type}_ids")
+      taxonomy_ids = used_taxonomy_ids_for(resource_class, type)
+    end
+    taxonomy_ids
+  end
+
+  def used_taxonomy_ids_for(resource_class, type)
+    taxonomy_ids = resource_class.send("used_#{type}_ids")
+    if taxonomy_ids.empty? && !user.try(:admin?)
+      taxonomy_ids = user.try("#{type}_ids")
     end
     taxonomy_ids
   end

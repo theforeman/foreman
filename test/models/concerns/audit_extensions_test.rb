@@ -133,4 +133,170 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       assert_equal [@org.id], audit.organization_ids
     end
   end
+
+  describe 'taxables' do
+    subject { Audit }
+    setup do
+      auditable_types = [Organization, Location, Architecture, Domain, Nic::Managed]
+      Audit.stubs(:known_auditable_types).returns(auditable_types)
+    end
+
+    context 'as user' do
+      setup do
+        @save_user = User.current
+        User.current = users(:one)
+      end
+
+      test '.location_taxable' do
+        location_taxables = subject.location_taxable
+
+        assert_includes location_taxables, Organization
+        refute_includes location_taxables, Location
+        refute_includes location_taxables, Architecture
+        refute_includes location_taxables, Domain
+        refute_includes location_taxables, Nic::Managed
+      end
+
+      test '.organization_taxable' do
+        organization_taxables = subject.organization_taxable
+        assert_includes organization_taxables, Location
+        refute_includes organization_taxables, Organization
+        refute_includes organization_taxables, Architecture
+        refute_includes organization_taxables, Domain
+        refute_includes organization_taxables, Nic::Managed
+      end
+
+      test '.fully_taxable' do
+        fully_taxables = subject.fully_taxable
+        assert_includes fully_taxables, Domain
+        refute_includes fully_taxables, Location
+        refute_includes fully_taxables, Organization
+        refute_includes fully_taxables, Architecture
+        refute_includes fully_taxables, Nic::Managed
+      end
+
+      test '.untaxable' do
+        untaxables = subject.untaxable
+        assert_includes untaxables, Architecture
+        refute_includes untaxables, Nic::Managed
+        refute_includes untaxables, Domain
+        refute_includes untaxables, Location
+        refute_includes untaxables, Organization
+      end
+    end
+
+    context 'as_admin' do
+      setup do
+        @save_user = User.current
+        User.current = users(:admin)
+      end
+
+      test '.untaxable should have Nic::Managed' do
+        untaxables = subject.untaxable
+        assert_includes untaxables, Nic::Managed
+        refute_includes untaxables, Domain
+      end
+    end
+
+    teardown do
+      User.current = @save_user
+    end
+  end
+
+  describe 'taxonomies for audits' do
+    let(:loc1) { FactoryBot.create(:location) }
+    let(:loc2) { FactoryBot.create(:location) }
+    let(:org1) { FactoryBot.create(:organization) }
+    let(:org2) { FactoryBot.create(:organization) }
+    let(:user1) { FactoryBot.create(:user, :locations => [ loc1 ], :organizations => [ org1 ]) }
+    let(:user2) { FactoryBot.create(:user, :locations => [ loc2 ], :organizations => [ org2 ]) }
+    let(:domain1_audit) { FactoryBot.create(:audit, :organizations => [ org1 ], :locations => [ loc1 ], :auditable_type => 'Domain') }
+    let(:domain2_audit) { FactoryBot.create(:audit, :organizations => [ org2 ], :locations => [ loc2 ], :auditable_type => 'Domain') }
+    let(:domain12_audit) { FactoryBot.create(:audit, :organizations => [ org1 ], :locations => [ loc2 ], :auditable_type => 'Domain') }
+    let(:domain21_audit) { FactoryBot.create(:audit, :organizations => [ org2 ], :locations => [ loc1 ], :auditable_type => 'Domain') }
+    let(:domain01_audit) { FactoryBot.create(:audit, :locations => [ loc1 ], :auditable_type => 'Domain') }
+    let(:domain10_audit) { FactoryBot.create(:audit, :organizations => [ org1 ], :auditable_type => 'Domain') }
+    let(:architecture_audit) { FactoryBot.create(:audit, :organizations => [], :locations => [], :auditable_type => 'Architecture') }
+    let(:organization_audit) { FactoryBot.create(:audit, :auditable_type => 'Organization', :organizations => [], :locations => [ loc1 ]) }
+    let(:location_audit) { FactoryBot.create(:audit, :auditable_type => 'Location', :organizations => [ org1 ], :locations => []) }
+    let(:location2_audit) { FactoryBot.create(:audit, :auditable_type => 'Location', :organizations => [ org2 ], :locations => []) }
+    let(:lazy_load) do
+      [ architecture_audit, domain1_audit, domain2_audit, domain12_audit, domain21_audit, domain01_audit, domain10_audit, organization_audit, location_audit, location2_audit ]
+    end
+
+    test ".untaxed" do
+      lazy_load
+
+      Taxonomy.as_taxonomy(org1, loc1) do
+        as_user(user1) do
+          result = Audit.untaxed.all
+          assert_includes result, architecture_audit
+          refute_includes result, domain1_audit
+          refute_includes result, domain2_audit
+          refute_includes result, domain12_audit
+          refute_includes result, domain21_audit
+          refute_includes result, domain01_audit
+          refute_includes result, domain10_audit
+        end
+      end
+
+      Taxonomy.as_taxonomy(org2, loc2) do
+        as_user(user2) do
+          result = Audit.untaxed.all
+          assert_includes result, architecture_audit
+          refute_includes result, domain1_audit
+          refute_includes result, domain2_audit
+          refute_includes result, domain12_audit
+          refute_includes result, domain21_audit
+          refute_includes result, domain01_audit
+          refute_includes result, domain10_audit
+        end
+      end
+    end
+
+    test ".taxed_only_by_location" do
+      lazy_load
+
+      Taxonomy.as_taxonomy(org1, loc1) do
+        as_user(user1) do
+          result = Audit.taxed_only_by_location.all
+          assert_includes result, organization_audit
+          refute_includes result, architecture_audit
+          refute_includes result, domain1_audit
+        end
+      end
+    end
+
+    test ".taxed_only_by_organization" do
+      lazy_load
+
+      Taxonomy.as_taxonomy(org1, loc1) do
+        as_user(user1) do
+          result = Audit.taxed_only_by_organization.all
+          assert_includes result, location_audit
+          refute_includes result, architecture_audit
+          refute_includes result, domain1_audit
+        end
+      end
+    end
+    test ".taxed_and_untaxed" do
+      lazy_load
+
+      Taxonomy.as_taxonomy(org1, loc1) do
+        as_user(user1) do
+          result = Audit.taxed_and_untaxed
+          assert_includes result, domain1_audit
+          refute_includes result, domain2_audit
+          refute_includes result, domain12_audit
+          refute_includes result, domain21_audit
+          refute_includes result, domain01_audit
+          refute_includes result, domain10_audit
+          assert_includes result, architecture_audit
+          assert_includes result, organization_audit
+          assert_includes result, location_audit
+          refute_includes result, location2_audit
+        end
+      end
+    end
+  end
 end

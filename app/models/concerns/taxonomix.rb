@@ -25,15 +25,25 @@ module Taxonomix
   end
 
   module ClassMethods
-    attr_accessor :which_ancestry_method, :which_location, :which_organization
+    attr_accessor :which_ancestry_method, :which_location, :which_organization, :which_taxonomy_ignored
 
     # default inner_method includes children (subtree_ids)
-    def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids)
+    def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids, which_taxonomy_ignored = [])
       scope = block_given? ? yield : where(nil)
       return scope unless Taxonomy.enabled_taxonomies.present?
       self.which_ancestry_method = inner_method
-      self.which_location        = Location.expand(loc) if SETTINGS[:locations_enabled]
-      self.which_organization    = Organization.expand(org) if SETTINGS[:organizations_enabled]
+      self.which_taxonomy_ignored = which_taxonomy_ignored
+      if SETTINGS[:locations_enabled] && !which_taxonomy_ignored.include?(:location)
+        self.which_location = Location.expand(loc)
+      else
+        self.which_location = nil
+      end
+
+      if SETTINGS[:organizations_enabled] && !which_taxonomy_ignored.include?(:organization)
+        self.which_organization = Organization.expand(org)
+      else
+        self.which_organization = nil
+      end
       scope = scope_by_taxable_ids(scope)
       scope.readonly(false)
     end
@@ -77,8 +87,8 @@ module Taxonomix
         User.current.try(:admin?)
 
       ids = unscoped.pluck(:id)
-      ids &= inner_ids(loc, Location, inner_method) if SETTINGS[:locations_enabled]
-      ids &= inner_ids(org, Organization, inner_method) if SETTINGS[:organizations_enabled]
+      ids &= inner_ids(loc, Location, inner_method) if SETTINGS[:locations_enabled] && !which_taxonomy_ignored.include?(:location)
+      ids &= inner_ids(org, Organization, inner_method) if SETTINGS[:organizations_enabled] && !which_taxonomy_ignored.include?(:organization)
 
       if self == User
         # In the case of users we want the taxonomy scope to get both the users
