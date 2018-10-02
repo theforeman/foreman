@@ -1,7 +1,3 @@
-require 'database_cleaner'
-require 'factory_bot_rails'
-require_relative '../../test/unit/foreman/renderer/template_snapshot_service'
-
 desc 'Snapshots tasks'
 namespace :snapshots do
   desc "Generate snapshots"
@@ -10,6 +6,10 @@ namespace :snapshots do
       puts "This task can only be run in test environment"
       exit
     end
+
+    require 'database_cleaner'
+    require 'factory_bot_rails'
+    require_relative '../../test/unit/foreman/renderer/template_snapshot_service'
 
     DatabaseCleaner.cleaning do
       ENV['FIXTURES'] = 'settings'
