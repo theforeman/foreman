@@ -2453,9 +2453,18 @@ class HostTest < ActiveSupport::TestCase
   test "#provision_method must be within capabilities" do
     host = FactoryBot.create(:host, :managed, :with_environment)
     host.provision_method = 'image'
-    host.expects(:capabilities).returns([:build])
+    host.stubs(:capabilities).returns([:build])
     host.valid?
     assert host.errors[:provision_method].include?('is an unsupported provisioning method')
+  end
+
+  test "#provision_method can be updated to implicit value" do
+    host = FactoryBot.create(:host, :managed)
+    assert_nil host[:provision_method]
+    host.provision_method = host.provision_method
+    refute_nil host[:provision_method]
+    assert host.provision_method_changed?
+    assert host.valid?
   end
 
   test "#provision_method cannot be updated for existing host" do

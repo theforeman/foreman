@@ -910,7 +910,7 @@ class Host::Managed < Host::Base
   end
 
   def check_if_provision_method_changed
-    if self.provision_method_changed?
+    if self.provision_method_changed? && !provision_method_changed?(from: nil, to: capabilities.first.to_s)
       errors.add(:provision_method, _("can't be updated after host is provisioned"))
     end
   end
