@@ -82,4 +82,120 @@ class SeedHelperTest < ActiveSupport::TestCase
     medium.update(:name => "renamed medium")
     assert SeedHelper.audit_modified?(Medium, medium_name)
   end
+
+  describe '.import_raw_template' do
+    def get_template(metadata_hash = nil)
+      tpl = []
+      if metadata_hash
+        tpl << '<%#'
+        tpl << YAML.dump(metadata_hash).split("\n")[1..-1].join("\n")
+        tpl << '%>'
+      end
+      tpl << 'Template body'
+      tpl.join("\n")
+    end
+
+    def mock_taxonomies(type, taxonomies)
+      unscoped_mock = mock()
+      unscoped_mock.stubs(:all).returns(taxonomies)
+      type.stubs(:unscoped).returns(unscoped_mock)
+    end
+
+    let(:metadata) do
+      {
+        'name' => 'Test template',
+        'model' => 'ProvisioningTemplate',
+        'kind' => 'finish'
+      }
+    end
+
+    it 'requires name in metadata' do
+      ex = assert_raises RuntimeError do
+        SeedHelper.import_raw_template(get_template(metadata.except('name')))
+      end
+      assert_match("Attribute 'name' is required", ex.message)
+    end
+
+    it 'requires template model in metadata' do
+      ex = assert_raises RuntimeError do
+        SeedHelper.import_raw_template(get_template(metadata.except('model')))
+      end
+      assert_match("Attribute 'model' is required", ex.message)
+    end
+
+    it 'skips templates that have been changed' do
+      SeedHelper.expects(:audit_modified?).with(ProvisioningTemplate, 'Test template').returns(true)
+      assert_nil SeedHelper.import_raw_template(get_template(metadata))
+    end
+
+    it 'skips template that have unknown model' do
+      assert_nil SeedHelper.import_raw_template(get_template(metadata.merge({'model' => 'unknown'})))
+    end
+
+    it 'skips templates that require a missing plugin' do
+      requirements = {
+        'require' => [{
+          'plugin' => 'unknown_plugin'
+        }]
+      }
+      assert_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
+    end
+
+    it 'skips templates that require a plugin in higher version' do
+      requirements = {
+        'require' => [{
+          'plugin' => 'some_plugin',
+          'version' => '2.0.1'
+        }]
+      }
+      Foreman::Plugin.expects(:find).with('some_plugin').returns(mock(:version => '1.9'))
+      assert_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
+    end
+
+    it 'imports the template and sets taxonomies' do
+      orgs = [taxonomies(:organization1), taxonomies(:organization2)]
+      locs = [taxonomies(:location1), taxonomies(:location2)]
+
+      mock_taxonomies(Organization, orgs)
+      mock_taxonomies(Location, locs)
+
+      tpl = SeedHelper.import_raw_template(get_template(metadata))
+      assert(tpl.valid?)
+      assert(tpl.persisted?)
+      assert_equal(orgs, tpl.organizations)
+      assert_equal(locs, tpl.locations)
+    end
+
+    it 'sets correct vendor' do
+      tpl = SeedHelper.import_raw_template(get_template(metadata), 'SomePlugin')
+      assert_equal('SomePlugin', tpl.vendor)
+    end
+
+    it 'does not touch taxonomies on update' do
+      orgs = [taxonomies(:organization1), taxonomies(:organization2)]
+      locs = [taxonomies(:location1), taxonomies(:location2)]
+
+      mock_taxonomies(Organization, orgs)
+      mock_taxonomies(Location, locs)
+
+      tpl = SeedHelper.import_raw_template(get_template(metadata.merge({'name' => 'MyScript'})))
+      assert_equal([], tpl.organizations)
+      assert_equal([], tpl.locations)
+    end
+
+    it 'updates the template' do
+      orgs = [taxonomies(:organization1), taxonomies(:organization2)]
+      locs = [taxonomies(:location1), taxonomies(:location2)]
+
+      mock_taxonomies(Organization, orgs)
+      mock_taxonomies(Location, locs)
+
+      template_body = get_template(metadata.merge({'name' => 'MyScript'}))
+
+      tpl = SeedHelper.import_raw_template(template_body)
+      assert(tpl.valid?)
+      assert(tpl.persisted?)
+      assert_equal(template_body, tpl.template)
+    end
+  end
 end

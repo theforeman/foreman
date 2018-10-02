@@ -107,31 +107,31 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "does update template that was not modified by user" do
-    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    seed('070-provisioning_templates.rb')
     ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by_name('Kickstart default').update(:template => 'test') }
-    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    seed('070-provisioning_templates.rb')
     refute_equal ProvisioningTemplate.unscoped.find_by_name('Kickstart default').template, 'test'
   end
 
   test "doesn't add a template back that was deleted" do
-    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    seed('070-provisioning_templates.rb')
     with_auditing(ProvisioningTemplate) do
       assert_equal 1, ProvisioningTemplate.unscoped.where(:name => 'Kickstart default').destroy_all.size
     end
     assert SeedHelper.audit_modified?(ProvisioningTemplate, 'Kickstart default')
-    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    seed('070-provisioning_templates.rb')
     refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end
 
   test "doesn't add a template back that was renamed" do
-    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    seed('070-provisioning_templates.rb')
     with_auditing(ProvisioningTemplate) do
       tmpl = ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
       tmpl.name = 'test'
       tmpl.save!
     end
     assert SeedHelper.audit_modified?(ProvisioningTemplate, 'Kickstart default')
-    seed('020-provisioning_templates_list.rb', '070-provisioning_templates.rb')
+    seed('070-provisioning_templates.rb')
     refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
   end
 

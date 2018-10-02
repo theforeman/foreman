@@ -97,5 +97,84 @@ class SeedHelper
         end
       end
     end
+
+    def import_raw_template(contents, vendor = 'Foreman')
+      metadata = Template.parse_metadata(contents)
+      raise "Attribute 'name' is required in metadata in order to seed the template" if metadata['name'].nil?
+      raise "Attribute 'model' is required in metadata in order to seed the template" if metadata['model'].nil?
+
+      name = metadata['name']
+      requirements = metadata['require'] || []
+
+      begin
+        model = metadata['model'].constantize
+      rescue NameError
+        logger.info("Unknown model #{metadata['model']} in template #{name}, skipping import.")
+        return
+      end
+
+      # Skip templates with custom changes
+      return if audit_modified?(model, name)
+      # Skip templates that don't match requirements
+      return unless test_template_requirements(name, requirements)
+
+      t = model.import_without_save(name, contents, { :default => true, :lock => true, :associate => 'new' })
+      t.vendor = vendor
+
+      if !t.persisted?
+        t.organizations = Organization.unscoped.all if SETTINGS[:organizations_enabled] && t.respond_to?(:organizations=)
+        t.locations = Location.unscoped.all if SETTINGS[:locations_enabled] && t.respond_to?(:locations=)
+        raise "Unable to create template #{t.name}: #{format_errors t}" unless t.valid?
+      else
+        raise "Unable to update template #{t.name}: #{format_errors t}" unless t.valid?
+      end
+
+      t.ignore_locking { t.save! }
+      t
+    end
+
+    def import_templates(template_paths, vendor = 'Foreman')
+      template_paths.each do |path|
+        import_raw_template(File.read(path), vendor)
+      end
+    end
+
+    def partition_tables_templates
+      Dir["#{Rails.root}/app/views/unattended/partition_tables_templates/*.erb"]
+    end
+
+    def provisioning_templates
+      Dir["#{Rails.root}/app/views/unattended/provisioning_templates/**/*.erb"]
+    end
+
+    def report_templates
+      Dir["#{Rails.root}/app/views/unattended/report_templates/*.erb"]
+    end
+
+    def format_errors(model = nil)
+      return '(nil found)' if model.nil?
+      model.errors.full_messages.join(';')
+    end
+
+    private
+
+    def logger
+      Foreman::Logging.logger('app')
+    end
+
+    def test_template_requirements(template_name, requirements)
+      requirements.each do |r|
+        plugin = Foreman::Plugin.find(r['plugin'])
+
+        if plugin.nil?
+          logger.info("Template #{template_name} requires plugin #{r['plugin']}, skipping import.")
+          return false
+        elsif r['version'] && (Gem::Version.new(plugin.version) < Gem::Version.new(r['version']))
+          logger.info("Template #{template_name} requires plugin #{r['plugin']} >= #{r['version']}, skipping import.")
+          return false
+        end
+      end
+      true
+    end
   end
 end

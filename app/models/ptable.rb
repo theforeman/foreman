@@ -85,7 +85,15 @@ class Ptable < Template
   def import_custom_data(options)
     super
     import_oses(options)
+    import_os_family(options)
+  end
 
-    self.os_family = self.operatingsystems.first.family if self.operatingsystem_ids.present?
+  def import_os_family(options)
+    if @importing_metadata.key?('oses') && associate_metadata_on_import?(options)
+      family = @importing_metadata['oses'].map do |imported_os|
+        Operatingsystem::FAMILIES.find { |key, regexp| imported_os =~ regexp }&.first
+      end.compact.first
+      self.os_family = family
+    end
   end
 end
