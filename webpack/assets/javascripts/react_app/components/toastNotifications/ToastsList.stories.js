@@ -38,7 +38,7 @@ storiesOf('Components/Toast Notifications', module).add('Toaster', () => {
     store.dispatch(addToast(toast));
   };
 
-  const setRef = key => (ref) => {
+  const setRef = key => ref => {
     inputRefs[key] = ref;
   };
 

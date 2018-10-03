@@ -20,9 +20,7 @@ const submit = ({ name, query, publik }, dispatch, props) => {
 
 class BookmarkForm extends React.Component {
   render() {
-    const {
-      handleSubmit, submitting, error, onCancel,
-    } = this.props;
+    const { handleSubmit, submitting, error, onCancel } = this.props;
 
     return (
       <Form
@@ -61,5 +59,5 @@ export default connect(
   ({ bookmarks }) => ({
     initialValues: { publik: true, query: bookmarks.currentQuery || '' },
   }),
-  FormActions,
+  FormActions
 )(form);

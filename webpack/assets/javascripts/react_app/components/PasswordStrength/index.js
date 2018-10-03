@@ -2,7 +2,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as actions from './PasswordStrengthActions';
-import { doesPasswordsMatch, passwordPresent } from './PasswordStrengthSelectors';
+import {
+  doesPasswordsMatch,
+  passwordPresent,
+} from './PasswordStrengthSelectors';
 import reducer from './PasswordStrengthReducer';
 
 import PasswordStrength from './PasswordStrength';
@@ -20,4 +23,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export const reducers = { passwordStrength: reducer };
 
 // export connected component
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordStrength);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PasswordStrength);

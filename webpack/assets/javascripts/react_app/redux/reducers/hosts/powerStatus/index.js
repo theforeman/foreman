@@ -13,15 +13,9 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case HOST_POWER_STATUS_REQUEST:
     case HOST_POWER_STATUS_SUCCESS:
-      return state.set(
-        payload.id,
-        payload,
-      );
+      return state.set(payload.id, payload);
     case HOST_POWER_STATUS_FAILURE:
-      return state.set(
-        payload.item.id,
-        { error: payload.error },
-      );
+      return state.set(payload.item.id, { error: payload.error });
     default:
       return state;
   }

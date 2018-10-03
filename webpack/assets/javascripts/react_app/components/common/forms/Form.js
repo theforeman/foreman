@@ -18,7 +18,11 @@ export default ({
   <form className={className} onSubmit={onSubmit}>
     {error && (
       <Alert className="base in fade" type="danger">
-        <AlertBody title={errorTitle}>{error.map((e, idx) => <li key={idx}>{e}</li>)}</AlertBody>
+        <AlertBody title={errorTitle}>
+          {error.map((e, idx) => (
+            <li key={idx}>{e}</li>
+          ))}
+        </AlertBody>
       </Alert>
     )}
     {children}

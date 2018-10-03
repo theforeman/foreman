@@ -6,7 +6,7 @@ import './Loader.css';
 
 const _simpleLoader = spinnerSize => (
   <div className="loader-root">
-    <Spinner loading size={spinnerSize}/>
+    <Spinner loading size={spinnerSize} />
   </div>
 );
 
@@ -28,15 +28,11 @@ const Loader = ({ status, children, spinnerSize = 'lg' }) => {
       break;
     }
     default:
-      content = (<MessageBox icontype="error-circle-o" msg="Invalid Status" />);
+      content = <MessageBox icontype="error-circle-o" msg="Invalid Status" />;
       break;
   }
 
-  return (
-    <div className="loader-root">
-      {content}
-    </div>
-  );
+  return <div className="loader-root">{content}</div>;
 };
 
 export default Loader;

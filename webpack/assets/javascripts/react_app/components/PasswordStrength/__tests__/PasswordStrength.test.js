@@ -27,17 +27,21 @@ const fixtures = {
   'renders password-strength with password-confirmation': createProps({
     data: { ...passwordStrengthDataWithVerify },
   }),
-  'renders password-strength with unmatched password-confirmation': createProps({
-    doesPasswordsMatch: false,
-    data: { ...passwordStrengthDataWithVerify },
-  }),
+  'renders password-strength with unmatched password-confirmation': createProps(
+    {
+      doesPasswordsMatch: false,
+      data: { ...passwordStrengthDataWithVerify },
+    }
+  ),
   'renders password-strength with user-input-ids': createProps({
     data: { ...passwordStrengthDataWithInputIds },
   }),
 };
 
 describe('PasswordStrength component', () => {
-  jest.spyOn(document, 'getElementById').mockImplementation(id => ({ value: id }));
+  jest
+    .spyOn(document, 'getElementById')
+    .mockImplementation(id => ({ value: id }));
 
   describe('rendering', () =>
     testComponentSnapshotsWithFixtures(PasswordStrength, fixtures));
@@ -59,10 +63,14 @@ describe('PasswordStrength component', () => {
     });
 
     it('should trigger updatePasswordConfirmation', () => {
-      const props = createProps({ data: { ...passwordStrengthDataWithVerify } });
+      const props = createProps({
+        data: { ...passwordStrengthDataWithVerify },
+      });
       const component = mount(<PasswordStrength {...props} />);
 
-      const passwordConfirmationInput = component.find('input#password_confirmation');
+      const passwordConfirmationInput = component.find(
+        'input#password_confirmation'
+      );
       setInputValue(passwordConfirmationInput, 'some-value');
 
       expect(props.updatePasswordConfirmation.mock.calls).toMatchSnapshot();

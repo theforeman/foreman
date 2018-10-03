@@ -22,7 +22,12 @@ class Select extends React.Component {
       ));
 
     const {
-      label, className = '', value, onChange, options, disabled,
+      label,
+      className = '',
+      value,
+      onChange,
+      options,
+      disabled,
     } = this.props;
 
     const innerSelect = (

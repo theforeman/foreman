@@ -23,7 +23,11 @@ const renderField = ({
     {type === 'textarea' ? (
       <textarea {...input} className="form-control" />
     ) : (
-      <input {...input} type={type} className={type === 'checkbox' ? '' : 'form-control'} />
+      <input
+        {...input}
+        type={type}
+        className={type === 'checkbox' ? '' : 'form-control'}
+      />
     )}
   </CommonForm>
 );

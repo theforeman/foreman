@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { simpleLoader } from '../../../common/Loader';
 import './PowerStatusInner.scss';
 
-export default ({
-  state, title, statusText, error,
-}) => {
+const PowerStatusInner = ({ state, title, statusText, error }) => {
   if (error) {
     return (
       <span
@@ -23,3 +22,19 @@ export default ({
     />
   );
 };
+
+PowerStatusInner.propTypes = {
+  state: PropTypes.string,
+  title: PropTypes.string,
+  statusText: PropTypes.string,
+  error: PropTypes.bool,
+};
+
+PowerStatusInner.defaultProps = {
+  state: null,
+  title: null,
+  statusText: null,
+  error: false,
+};
+
+export default PowerStatusInner;

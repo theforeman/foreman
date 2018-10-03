@@ -21,7 +21,9 @@ export default (state = initialState, action) => {
     case FACT_CHART_DATA_REQUEST:
       return state.set('loaderStatus', 'PENDING');
     case FACT_CHART_DATA_SUCCESS:
-      action.payload.values.forEach((val) => { (hostsCount += val[1]); });
+      action.payload.values.forEach(val => {
+        hostsCount += val[1];
+      });
       return state
         .set('chartData', action.payload.values)
         .set('hostsCount', hostsCount)

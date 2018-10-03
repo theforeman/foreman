@@ -6,12 +6,9 @@ export default ({ onCancel, disabled = false, submitting = false }) => (
   <div className="clearfix">
     <div className="form-actions">
       <Button bsStyle="primary" type="submit" disabled={disabled || submitting}>
-          &nbsp;
+        &nbsp;
         {__('Submit')}
-        {submitting &&
-        <span className="fr">
-          {simpleLoader('sm')}
-        </span>}
+        {submitting && <span className="fr">{simpleLoader('sm')}</span>}
       </Button>
       {' ' /* adds whitespace between the buttons */}
       <Button bsStyle="default" disabled={disabled} onClick={onCancel}>

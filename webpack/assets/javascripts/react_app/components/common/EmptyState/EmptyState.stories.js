@@ -58,7 +58,8 @@ storiesOf('Components/Empty State Pattern', module)
       description={text('description', 'DESCRIPTION!')}
       documentation={
         <React.Fragment>
-          To read more about this click on the link below<br />
+          To read more about this click on the link below
+          <br />
           <a href="#">Documentation</a>
         </React.Fragment>
       }
@@ -72,10 +73,7 @@ storiesOf('Components/Empty State Pattern', module)
       docObject.label = text('documentation label', 'Read documents ->');
     }
     if (customizeDocButtonLabel) {
-      docObject.buttonLabel = text(
-        'documentation button label',
-        'Click here',
-      );
+      docObject.buttonLabel = text('documentation button label', 'Click here');
     }
     return (
       <DefaultEmptyState
