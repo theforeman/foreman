@@ -115,7 +115,7 @@ describe('updateTableTest', () => {
   </div>
 </form>
 <table></table>
-<form onsubmit="return tfm.tools.updateTable(this);" class="content-view-pf-pagination table-view-pf-pagination paginate" id="pagination" data-count="7" data-per-page="7">
+<div class="content-view-pf-pagination table-view-pf-pagination paginate" id="pagination" data-count="7" data-per-page="7">
   <div class="form-group">
     <select name="per_page" id="per_page" label="per page" onchange="tfm.tools.updateTable(this)" class="pagination-pf-pagesize without_select2 per-page"><option selected="selected" value="5">5</option>
 <option value="10">10</option>
@@ -126,7 +126,7 @@ describe('updateTableTest', () => {
     <span>per page</span>
   </div>
 
-  <div class="form-group">
+  <div onkeypress="tfm.tools.onEnter(tfm.tools.updateTable, this)(event);" class="form-group">
     <span>
       <span class="pagination-pf-items-current">
         1-5
@@ -138,7 +138,7 @@ describe('updateTableTest', () => {
     </span>
     <ul class="pagination pagination-pf-back"><li class="firs first_page disabled"><a href="#"><span class="fa fa-angle-double-left "></span> </a></li><li class="prev previous_page disabled"><a href="#"><span class="fa fa-angle-left "></span> </a></li></ul> <input class="pagination-pf-page" type="text" value="1" id="cur_page_num"><label class="sr-only" for="cur_page_num">Current Page</label><span>of <span class="pagination-pf-pages">2</span></span> <ul class="pagination pagination-pf-forward"><li class="next next_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-right "></span> </a></li><li class="last last_page "><a rel="next" href="/hosts?page=2&amp;per_page=5&amp;search=environment+%3D++testing"><span class="fa fa-angle-double-right "></span> </a></li></ul>
   </div>
-</form>
+</div>
 </div>
     `;
   });
@@ -150,12 +150,20 @@ describe('updateTableTest', () => {
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
   });
 
-  it('should change page', () => {
+  it('should reset page to 1 when per_page change', () => {
     const PerPage = $('#per_page').val();
 
     $('#cur_page_num').val('4');
-    $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=4&per_page=${PerPage}`);
+    $('#per_page').change();
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&per_page=${PerPage}`);
+  });
+
+  it('should change page on enter', () => {
+    const PerPage = $('#per_page').val();
+    const curPageNum = '2';
+
+    $('#cur_page_num').val(curPageNum).trigger($.Event('keypress', { which: 13, keyCode: 13 }));
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=${curPageNum}&per_page=${PerPage}`);
   });
 
   it('should use find search term and add it to the url considering per page value and pagination', () => {
@@ -177,7 +185,7 @@ describe('updateTableTest', () => {
   it('should not reset search when set the per_page param', () => {
     window.location.href = 'http://localhost/?search=blue';
     $('#per_page').val('20');
-    $('#pagination').submit();
+    $('#per_page').change();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith('http://localhost/?search=blue&page=1&per_page=20');
   });
 
