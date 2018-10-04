@@ -142,13 +142,13 @@ class UnattendedController < ApplicationController
   end
 
   def allowed_to_install?
-    @host.build || @spoof || Setting[:access_unattended_without_build]
+    @host.build? || spoof || Setting[:access_unattended_without_build]
   end
 
   # Reset realm OTP. This is run as a before_action for provisioning templates.
   def handle_realm
     # We don't do anything if we are in spoof mode.
-    return true if @spoof
+    return true if spoof
 
     # This should terminate the before_action and the action. We return a HTTP
     # error so the installer knows something is wrong. This is tested with
@@ -203,5 +203,9 @@ class UnattendedController < ApplicationController
 
   def render_ipxe_message(message: _('An error occured.'), status: :not_found)
     render(plain: Foreman::Ipxe::MessageRenderer.new(message: message).to_s, status: status, content_type: 'text/plain')
+  end
+
+  def spoof
+    @spoof ||= @host.present? && (params.key?(:spoof) || params.key?(:hostname))
   end
 end

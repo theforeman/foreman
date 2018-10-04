@@ -65,29 +65,45 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_match(%r{static:true}, @response.body)
     end
 
-    test "should render spoof pxelinux for a host" do
-      get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip }, session: set_session_user
-      assert_response :success
-    end
+    context "rending spoof template" do
+      before do
+        @rh_host.update(build: false)
+      end
 
-    test "should render spoof pxegrub for a host" do
-      get :host_template, params: { :kind => 'PXEGrub', :spoof => @rh_host.ip }, session: set_session_user
-      assert_response :success
-    end
+      test "should render spoof pxelinux for a host" do
+        get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip }, session: set_session_user
+        assert_response :success
+      end
 
-    test "should render spoof iPXE for a host" do
-      get :host_template, params: { :kind => 'iPXE', :spoof => @rh_host.ip }, session: set_session_user
-      assert_response :success
-    end
+      test "should render spoof pxegrub for a host" do
+        get :host_template, params: { :kind => 'PXEGrub', :spoof => @rh_host.ip }, session: set_session_user
+        assert_response :success
+      end
 
-    test "should render spoof gpxe for a host" do
-      get :host_template, params: { :kind => 'gPXE', :spoof => @rh_host.ip }, session: set_session_user
-      assert_response :success
-    end
+      test "should render spoof iPXE for a host" do
+        ipxe_template = FactoryBot.create(:provisioning_template, template_kind: TemplateKind.find_by(name: 'iPXE'),
+                                                                  name: 'iPXE default local boot')
 
-    test "should provide pxe config for redhat" do
-      get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip }, session: set_session_user
-      assert_response :success
+        @rh_host.operatingsystem.provisioning_templates << ipxe_template
+
+        get :host_template, params: { :kind => 'iPXE', :spoof => @rh_host.ip }, session: set_session_user
+        assert_response :success
+      end
+
+      test "should render spoof gpxe for a host" do
+        ipxe_template = FactoryBot.create(:provisioning_template, template_kind: TemplateKind.find_by(name: 'iPXE'),
+                                                                  name: 'iPXE default local boot')
+
+        @rh_host.operatingsystem.provisioning_templates << ipxe_template
+
+        get :host_template, params: { :kind => 'gPXE', :spoof => @rh_host.ip }, session: set_session_user
+        assert_response :success
+      end
+
+      test "should provide pxe config for redhat" do
+        get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip }, session: set_session_user
+        assert_response :success
+      end
     end
 
     test "should not provide unattened files to hosts which are not in built state" do
@@ -160,31 +176,42 @@ class UnattendedControllerTest < ActionController::TestCase
     end
 
     test "should not render a template to anonymous user" do
+      @rh_host.update(build: false)
+
       get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text' }
       assert_response :redirect
     end
 
     test "should not render a template to user w/o email" do
+      @rh_host.update(build: false)
+
       user = FactoryBot.create(:user)
       get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text' }, session: set_session_user(user)
       assert_response :unprocessable_entity
     end
 
     test 'should render a template to user with valid filter' do
+      @rh_host.update(build: false)
+
       user = FactoryBot.build(:user, :with_mail, :admin => false,
                                 :organizations => [@org], :locations => [@loc])
       user_role = roles(:destroy_hosts)
       user.roles << user_role
       user.save
+
       FactoryBot.create(:filter, :role => user_role,
                          :permissions => Permission.where(:name => 'view_hosts'),
                          :search => "name = #{@rh_host.name}")
+
       get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text' }, session: set_session_user(user)
+
       assert_response :success
       assert @response.body.include?("linux")
     end
 
     test 'should not render a template to user with invalid filter' do
+      @rh_host.update(build: false)
+
       user = FactoryBot.create(:user, :with_mail, :admin => false)
       user_role = roles(:destroy_hosts)
       user.roles << user_role
@@ -193,6 +220,7 @@ class UnattendedControllerTest < ActionController::TestCase
       FactoryBot.create(:filter, :role => user_role,
                          :permissions => Permission.where(:name => 'view_hosts'),
                          :search => "name = does_not_exist")
+
       get :host_template, params: { :kind => 'PXELinux', :spoof => @rh_host.ip, :format => 'text' }, session: set_session_user(user)
       assert_response :not_found
       assert_match /unable to find a host/, @response.body
@@ -263,25 +291,31 @@ class UnattendedControllerTest < ActionController::TestCase
       assert @response.headers["Content-Type"].match("text/plain")
     end
 
-    test "should support spoof" do
-      get :host_template, params: { :kind => 'provision', :spoof => @ub_host.ip }, session: set_session_user
-      assert_response :success
-    end
+    context "rendering spoof template" do
+      before do
+        @ub_host.update(build: false)
+      end
 
-    test "should not render spoof when user is not logged in" do
-      get :host_template, params: { :kind => 'provision', :spoof => @ub_host.ip }
-      assert_response :redirect
-    end
+      test "should support spoof" do
+        get :host_template, params: { :kind => 'provision', :spoof => @ub_host.ip }, session: set_session_user
+        assert_response :success
+      end
 
-    test "should not render hostname spoof when user is not logged in" do
-      get :host_template, params: { :kind => 'provision', :hostname => @ub_host.fqdn }
-      assert_response :redirect
-    end
+      test "should not render spoof when user is not logged in" do
+        get :host_template, params: { :kind => 'provision', :spoof => @ub_host.ip }
+        assert_response :redirect
+      end
 
-    test "should support spoof using hostname" do
-      get :host_template, params: { :kind => 'provision', :hostname => @ub_host.name }, session: set_session_user
-      assert_response :success
-      assert_equal @ub_host.name, assigns(:host).name
+      test "should not render hostname spoof when user is not logged in" do
+        get :host_template, params: { :kind => 'provision', :hostname => @ub_host.fqdn }
+        assert_response :redirect
+      end
+
+      test "should support spoof using hostname" do
+        get :host_template, params: { :kind => 'provision', :hostname => @ub_host.name }, session: set_session_user
+        assert_response :success
+        assert_equal @ub_host.name, assigns(:host).name
+      end
     end
 
     test "should provide pxe config for debian" do
