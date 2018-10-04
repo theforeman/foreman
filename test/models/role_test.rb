@@ -209,7 +209,10 @@ class RoleTest < ActiveSupport::TestCase
 
     context "when current user is admin for_current_user should return all givable roles" do
       test "Admin user should query Role model with no restrictions" do
-        assert_include Role.for_current_user.to_sql, 'WHERE "roles"."builtin" = 0'
+        FactoryBot.create(:role, :name => 'test role', :builtin => 1)
+        roles_for_current = Role.for_current_user.sort
+        roles = Role.where(:builtin => 0).sort
+        assert_equal roles_for_current, roles
       end
     end
 
