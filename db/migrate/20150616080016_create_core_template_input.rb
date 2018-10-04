@@ -1,5 +1,8 @@
 class CreateCoreTemplateInput < ActiveRecord::Migration[4.2]
   def change
+    # This could be the case if upgrading from a previous version with REX
+    return if table_exists? :template_inputs
+
     create_table :template_inputs do |t|
       t.string :name, :null => false, :limit => 255
       t.boolean :required, :null => false, :default => false
