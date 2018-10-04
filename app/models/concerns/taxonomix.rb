@@ -1,6 +1,7 @@
 module Taxonomix
   extend ActiveSupport::Concern
   include DirtyAssociations
+  include ExposeAssociations
   TAXONOMY_JOIN_TABLE = :taxable_taxonomies
 
   included do
@@ -152,6 +153,10 @@ module Taxonomix
         # and the same taxable_id on taxable_taxonomy objects
         scope.where("#{self.table_name}.id IN (#{cached_ids.join(',')})")
       end
+    end
+
+    def expose_to_taxonomy(association_name)
+      expose_association(association_name, Taxonomy)
     end
   end
 

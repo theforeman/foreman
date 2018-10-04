@@ -22,6 +22,7 @@ class Host::Managed < Host::Base
   has_many :reports, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_one :last_report_object, -> { order("#{Report.table_name}.id DESC") }, :foreign_key => :host_id, :class_name => 'ConfigReport'
   has_many :all_reports, :foreign_key => :host_id
+  has_many :config_reports, :foreign_key => :host_id
 
   belongs_to :image
   has_many :host_statuses, :class_name => 'HostStatus::Status', :foreign_key => 'host_id', :inverse_of => :host, :dependent => :destroy

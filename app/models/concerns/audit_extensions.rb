@@ -104,15 +104,6 @@ module AuditExtensions
 
       private
 
-      def has_association?(association, model = self)
-        associations = model.reflect_on_all_associations.map(&:name)
-        associations.include?(association)
-      end
-
-      def has_any_association_to?(tax_type, model)
-        [has_association?(tax_type.to_sym, model), has_association?(tax_type.to_s.pluralize.to_sym, model)].any?
-      end
-
       def has_taxonomix?(model)
         model.include?(Taxonomix)
       end

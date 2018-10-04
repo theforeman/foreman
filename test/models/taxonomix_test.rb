@@ -398,4 +398,22 @@ class TaxonomixTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe '.expose_to_taxonomy' do
+    test 'creates an association on Taxonomy for a given association' do
+      assoctiation_class = Puppetclass
+      asso_name = assoctiation_class.to_s.pluralize.to_sym
+      target_association_name = "#{@dummy.class.to_s.pluralize.underscore}_#{asso_name.to_s.pluralize.underscore}".to_sym
+
+      assoctiation_class.expects(:has_many).twice.returns(nil)
+      [Taxonomy, *Taxonomy.descendants].each do |taxonomy_model|
+        taxonomy_model.expects(:has_many)
+                      .with(target_association_name,
+                            {:through => @dummy.class.to_s.pluralize.downcase.to_sym,
+                             :source => asso_name}).returns(nil)
+      end
+
+      @dummy.class.expose_to_taxonomy(asso_name)
+    end
+  end
 end

@@ -13,11 +13,15 @@ class Environment < ApplicationRecord
   has_many :puppetclasses, -> { distinct }, :through => :environment_classes
   has_many_hosts
   has_many :hostgroups
+  has_many :config_reports, :through => :hosts
 
   validates :name, :uniqueness => true, :presence => true, :alphanumeric => true
   has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
+
+  expose_to_taxonomy :puppetclasses
+  expose_to_taxonomy :config_reports
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
