@@ -127,7 +127,7 @@ class FactImporter
     name_records = fact_name_class.unscoped.where(:name => facts.keys, :type => fact_name_class_name)
     @fact_names = {}
     @fact_names_by_id = {}
-    name_records.find_each do |record|
+    name_records.each do |record|
       @fact_names[record.name] = record
       @fact_names_by_id[record.id] = record
     end
@@ -169,7 +169,7 @@ class FactImporter
   def update_facts
     time = Time.now.utc
     updated = []
-    db_facts.find_each do |record|
+    db_facts.select(:id, :value, :fact_name_id, :host_id).each do |record|
       new_value = facts[record.name]
       if record.value != new_value
         # skip callbacks/validations
