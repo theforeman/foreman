@@ -101,7 +101,8 @@ module HostsHelper
   # method that reformat the hostname column by adding the status icons
   def name_column(host)
     style = host_global_status_icon_class_for_host(host)
-    tooltip = host.host_statuses.select(&:relevant?).sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
+    displayable_statuses = host.host_statuses.select { |status| status.relevant? && !status.substatus? }
+    tooltip = displayable_statuses.sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
 
     content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip})
     content += link_to("  #{host}", host_path(host))
@@ -298,7 +299,7 @@ module HostsHelper
 
   def host_detailed_status_list(host)
     host.host_statuses.sort_by(&:type).map do |status|
-      next unless status.relevant?
+      next unless status.relevant? && !status.substatus?
       [
         _(status.name),
         content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +

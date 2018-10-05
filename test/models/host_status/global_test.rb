@@ -1,13 +1,17 @@
 require 'test_helper'
 
 class GlobalTest < ActiveSupport::TestCase
-  class StatusMock < Struct.new(:global, :relevant)
+  class StatusMock < Struct.new(:global, :relevant, :substatus)
     def relevant?(options = {})
       relevant
     end
 
     def to_global(options = {})
       global
+    end
+
+    def substatus?(options = {})
+      substatus
     end
   end
 
@@ -20,6 +24,15 @@ class GlobalTest < ActiveSupport::TestCase
   test '.build(statuses) builds new global status with highest status code' do
     global = HostStatus::Global.build([@status1, @status2, @status3])
     assert_equal HostStatus::Global::ERROR, global.status
+  end
+
+  test '.build(statuses) ignores substatus' do
+    status1 = StatusMock.new(HostStatus::Global::WARN, true)
+    status2 = StatusMock.new(HostStatus::Global::ERROR, true, true)
+
+    global = HostStatus::Global.build([status1, status2])
+
+    assert_equal HostStatus::Global::WARN, global.status
   end
 
   test '.build(statuses, :last_reports => [reports]) uses reports cache for configuration statuses' do

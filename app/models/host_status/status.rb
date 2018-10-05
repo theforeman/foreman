@@ -57,6 +57,12 @@ module HostStatus
       true
     end
 
+    # a substatus is used by some other status in order to determine its own status
+    # this type of status does not affect the global status
+    def substatus?(options = {})
+      false
+    end
+
     private
 
     def update_timestamp
