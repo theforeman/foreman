@@ -8,7 +8,7 @@ module HostStatus
 
     def self.build(statuses, options = {})
       relevant_statuses = statuses.select do |s|
-        s.relevant?(options)
+        s.relevant?(options) && !s.substatus?
       end
 
       max_status = relevant_statuses.map { |s| s.to_global(options) }.max
