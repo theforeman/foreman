@@ -47,6 +47,15 @@ snippet: true
 #
 #   http-proxy-password = <password>            Proxy password to be used for registration
 #
+#   syspurpose_role                             Sets the system purpose role
+#
+#   syspurpose_usage                            Sets the system purpose usage
+#
+#   syspurpose_sla                              Sets the system purpose SLA
+#
+#   syspurpose_addons                           Sets the system purpose add-ons. Separate multiple
+#                                               values with commas.
+#
 # Set these parameters if you're using rhnreg_ks:
 #
 #   spacewalk_host = <hostname>                 Hostname of Spacewalk server
@@ -97,6 +106,35 @@ snippet: true
       dnf -y install subscription-manager
     else
       yum -t -y install subscription-manager
+    fi
+  <% end %>
+
+  <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
+    <%- if !atomic %>
+      if [ -f /usr/bin/dnf ]; then
+        dnf -y install subscription-manager-syspurpose
+      else
+        yum -t -y install subscription-manager-syspurpose
+      fi
+    <%- end %>
+
+    if [ -f /usr/sbin/syspurpose ]; then
+      <%- if host_param('syspurpose_role') %>
+        syspurpose set-role "<%= host_param('syspurpose_role') %>"
+      <%- end %>
+      <%- if host_param('syspurpose_usage') %>
+        syspurpose set-usage "<%= host_param('syspurpose_usage') %>"
+      <%- end %>
+      <%- if host_param('syspurpose_sla') %>
+        syspurpose set-sla "<%= host_param('syspurpose_sla') %>"
+      <%- end %>
+      <%- if host_param('syspurpose_addons') %>
+        <%- addons = host_param('syspurpose_addons').split(',')
+              .map { |add_on| "'#{add_on.strip}'" }.join(" ") %>
+        syspurpose add-addons <%= addons %>
+      <%- end %>
+    else
+      echo "Syspurpose CLI not found."
     fi
   <% end %>
 

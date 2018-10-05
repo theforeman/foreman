@@ -186,7 +186,7 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 
 <%= snippet 'redhat_register' %>
 
-<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
