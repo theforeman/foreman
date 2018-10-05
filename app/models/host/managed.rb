@@ -82,7 +82,8 @@ class Host::Managed < Host::Base
   smart_proxy_reference :self => [:puppet_proxy_id, :puppet_ca_proxy_id]
 
   class Jail < ::Safemode::Jail
-    allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
+    allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :operatingsystem_name,
+      :os, :environment, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
