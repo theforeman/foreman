@@ -1,7 +1,6 @@
 class NotificationRecipientsController < Api::V2::BaseController
   include Foreman::Controller::Parameters::NotificationRecipient
   skip_before_action :update_activity_time, :only => [:index]
-  before_action :require_login
   before_action :find_resource, :only => [:update, :destroy]
 
   def index
@@ -44,10 +43,6 @@ class NotificationRecipientsController < Api::V2::BaseController
   end
 
   private
-
-  def require_login
-    not_found unless SETTINGS[:login]
-  end
 
   def find_resource
     super
