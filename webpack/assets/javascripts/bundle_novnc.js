@@ -50,7 +50,7 @@ $(document).on('ContentLoad', () => {
   if (vncScreen.length) {
     $('#sendCtrlAltDelButton').on('click', sendCtrlAltDel);
 
-    const protocol = $('#vnc').data('encrypt') === 'true' ? 'wss' : 'ws';
+    const protocol = $('#vnc').data('encrypt') ? 'wss' : 'ws';
     const host = window.location.hostname;
     const port = $('#vnc').attr('data-port');
     const url = `${protocol}://${host}:${port}`;
