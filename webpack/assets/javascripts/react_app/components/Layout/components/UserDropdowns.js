@@ -14,14 +14,12 @@ const UserDropdowns = ({
   ...props
 }) => (
   <VerticalNav.IconBar {...props}>
-    {!!user && (
-      <NavItem
-        className="drawer-pf-trigger dropdown notification-dropdown"
-        id="notifications_container"
-      >
-        <NotificationContainer data={{ url: notificationUrl }} />
-      </NavItem>
-    )}
+    <NavItem
+      className="drawer-pf-trigger dropdown notification-dropdown"
+      id="notifications_container"
+    >
+      <NotificationContainer data={{ url: notificationUrl }} />
+    </NavItem>
     {!!user &&
       !!user.current_user && (
         <NavDropdown componentClass="li" id="account_menu">
