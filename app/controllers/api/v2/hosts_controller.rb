@@ -115,10 +115,10 @@ module Api
           param :compute_attributes, Hash, :desc => N_("Additional compute resource specific attributes.")
 
           Facets.registered_facets.values.each do |facet_config|
-            next unless facet_config.api_param_group && facet_config.api_controller
+            next unless facet_config.host_configuration.api_param_group && facet_config.host_configuration.api_controller
             param "#{facet_config.name}_attributes".to_sym, Hash, :desc => facet_config.api_param_group_description || (N_("Parameters for host's %s facet") % facet_config.name) do
-              facet_config.load_api_controller
-              param_group facet_config.api_param_group, facet_config.api_controller
+              facet_config.host_configuration.load_api_controller
+              param_group facet_config.host_configuration.api_param_group, facet_config.host_configuration.api_controller
             end
           end
         end

@@ -9,6 +9,8 @@ class Hostgroup < ApplicationRecord
   include NestedAncestryCommon
   include NestedAncestryCommon::Search
 
+  include Facets::HostgroupExtensions
+
   validates :name, :presence => true, :uniqueness => {:scope => :ancestry, :case_sensitive => false}
 
   validate :validate_subnet_types
