@@ -7,6 +7,11 @@ module Foreman
         include Foreman::Renderer::Scope::Macros::TemplateLogging
         include Foreman::Renderer::Scope::Macros::SnippetRendering
 
+        def self.inherited(child_class)
+          self.loaders.each { |loader| child_class.register_loader(loader) }
+          super
+        end
+
         delegate :template, :to => :source, :allow_nil => true
 
         def initialize(source:, host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE)
