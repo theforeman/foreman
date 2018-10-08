@@ -10,8 +10,9 @@ module SettingsHelper
         {:title => setting.full_name_with_default, :select_values => self.send("#{setting.name}_collection") })
     end
 
-    return edit_textarea(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value}) if setting.settings_type == 'array'
-    edit_textfield(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value})
+    placeholder = setting.has_default? ? setting.default : "No default value was set"
+    return edit_textarea(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value, :placeholder => placeholder}) if setting.settings_type == 'array'
+    edit_textfield(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value, :placeholder => placeholder})
   end
 
   def show_value(setting)

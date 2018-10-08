@@ -622,7 +622,42 @@ class SettingTest < ActiveSupport::TestCase
 
   test 'full_name_with_default without default value' do
     setting = FactoryBot.build_stubbed(:setting, :name => 'foo', :default => '', :description => 'test foo', :full_name => 'Foo Name')
-    assert_equal('Foo Name (Default: )', setting.full_name_with_default)
+    assert_equal('Foo Name (Default: Not set)', setting.full_name_with_default)
+  end
+
+  test 'has_default? returns false on empty array/string/hash' do
+    ['', [], {}].each do |default_value|
+      setting = FactoryBot.build_stubbed(:setting, :settings_type => default_value.class.to_s.downcase, :name => 'foo', :default => default_value)
+      assert !setting.has_default?
+    end
+
+    ['h', [''], {:one => 1}].each do |default_value|
+      setting = FactoryBot.build_stubbed(:setting, :settings_type => default_value.class.to_s.downcase, :name => 'foo', :default => default_value)
+      assert setting.has_default?
+    end
+  end
+
+  test 'has_default? returns true on setting_type boolean/integer' do
+    [0, 1, -1].each do |default_value|
+      setting = FactoryBot.build_stubbed(:setting, :settings_type => default_value.class.to_s.downcase, :name => 'foo', :default => default_value)
+      assert setting.has_default?
+    end
+    [false, true].each do |default_value|
+      setting = FactoryBot.build_stubbed(:setting, :settings_type => "boolean", :name => 'foo', :default => default_value)
+      assert setting.has_default?
+    end
+  end
+
+  test 'has_default? for other settings_type' do
+    ['', [], {}].each do |default_value|
+      setting = FactoryBot.build_stubbed(:setting, :settings_type => nil, :name => 'foo', :default => default_value)
+      assert !setting.has_default?
+    end
+
+    ['h', [''], {:one => 1}].each do |default_value|
+      setting = FactoryBot.build_stubbed(:setting, :settings_type => 'somethingelse', :name => 'foo', :default => default_value)
+      assert setting.has_default?
+    end
   end
 
   test 'orders settings alphabetically' do
