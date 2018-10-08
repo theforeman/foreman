@@ -338,10 +338,10 @@ table {
   vertical-align: bottom;
 }
 
-.audits-pagination.content-view-pf-pagination.table-view-pf-pagination {
-  margin-top: -21px !important;
+.audits-pagination {
+  margin-top: -15px !important;
   margin-bottom: 10px;
-  border-top: 1px solid #d1d1d1;
+  border-top: 1px solid #d1d1d1 !important;
 }
 
 #interfaceModal {
