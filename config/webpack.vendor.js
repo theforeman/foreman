@@ -64,4 +64,5 @@ module.exports = [
   'jstz',
   'urijs',
   'uuid',
+  '@novnc/novnc/core/rfb.js',
 ];

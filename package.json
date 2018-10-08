@@ -58,6 +58,7 @@
     "phantomjs-prebuilt": "^2.1.0"
   },
   "dependencies": {
+    "@novnc/novnc": "^1.0.0",
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "brace": "^0.10.0",
