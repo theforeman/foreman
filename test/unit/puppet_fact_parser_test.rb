@@ -14,8 +14,10 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert importer.interfaces.key?(importer.suggested_primary_interface(FactoryBot.build(:host)).first)
   end
 
-  test "should parse virtual interfaces as vlan interfaces" do
-    parser = PuppetFactParser.new({'interfaces' => 'eth0_0', 'ipaddress_eth0_0' => '192.168.0.1'})
+  test "should parse virtual interfaces as vlan interfaces when facter < v3.0" do
+    parser = PuppetFactParser.new(facterversion: '2.8.9',
+                                  interfaces: 'eth0_0',
+                                  ipaddress_eth0_0: '192.168.0.1')
     assert_equal 'eth0.0', parser.interfaces.keys.first
     assert_equal '192.168.0.1', parser.interfaces['eth0.0']['ipaddress']
   end
@@ -163,9 +165,45 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     end
   end
 
-  test "#get_interfaces" do
+  describe "#facterversion" do
+    test "returns an array of integers" do
+      parser = PuppetFactParser.new(facterversion: '3.2.1')
+      assert_equal [ 3, 2, 1 ], parser.send(:facterversion)
+    end
+
+    test "returns an array of integers when only major version is reported" do
+      parser = PuppetFactParser.new(facterversion: '3')
+      assert_equal [ 3 ], parser.send(:facterversion)
+    end
+
+    test "returns and empy array when facterversion is not reported" do
+      parser = PuppetFactParser.new({})
+      result = parser.send(:facterversion)
+      assert_instance_of Array, result
+      assert_empty result
+    end
+  end
+
+  describe "#use_legacy_facts?" do
+    test 'returns false when facterversion >= 3' do
+      parser = PuppetFactParser.new(facterversion: '3.2.1')
+      assert_not parser.send(:use_legacy_facts?)
+    end
+
+    test 'returns true when facterversion < 3' do
+      parser = PuppetFactParser.new(facterversion: '2.4.5')
+      assert parser.send(:use_legacy_facts?)
+    end
+
+    test 'returns true when facterversion is not reported' do
+      parser = PuppetFactParser.new({})
+      assert parser.send(:use_legacy_facts?)
+    end
+  end
+
+  test "#get_interfaces when facter < v3.0" do
     host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
-    parser = get_parser(host.facts_hash)
+    parser = get_parser(host.facts_hash.merge(facterversion: '2.7.9'))
 
     assert_empty parser.send(:get_interfaces)
 
@@ -173,17 +211,39 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
                                     :fact_name => FactoryBot.build(:fact_name, :name => 'interfaces'),
                                     :host => host,
                                     :value => '')
-    parser = get_parser(host.facts_hash)
+    parser = get_parser(host.facts_hash.merge(facterversion: '2.7.9'))
     assert_empty parser.send(:get_interfaces)
 
     interfaces.update_attribute :value, 'lo,eth0,eth0.0,eth1'
-    parser = get_parser(host.facts_hash)
+    parser = get_parser(host.facts_hash.merge(facterversion: '2.7.9'))
     %w(lo eth0 eth0.0 eth1).each do |interface|
       assert_includes parser.send(:get_interfaces), interface
     end
   end
 
-  test "#get_facts_for_interface(interface)" do
+  test "#get_interfaces when facter >= v3.0" do
+    parser = get_parser(facterversion: '3.1.2')
+    assert_empty parser.send(:get_interfaces)
+
+    parser = get_parser(facterversion: '3.1.2',
+                       networking: {})
+    assert_empty parser.send(:get_interfaces)
+
+    parser = get_parser(facterversion: '3.1.2',
+                        networking: { interfaces: {} })
+    assert_empty parser.send(:get_interfaces)
+
+    parser = get_parser(facterversion: '3.1.2',
+                        networking: { interfaces: nil})
+    assert_empty parser.send(:get_interfaces)
+
+    parser = get_parser(structured_networking_facts)
+    %w(bond0 em1 em2 eth0 eth1:1 eth1.2 Ethernet_0).each do |interface|
+      assert_includes parser.send(:get_interfaces), interface
+    end
+  end
+
+  test "#get_facts_for_interface(interface) uses legacy facts when facter < v3.0" do
     host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
     FactoryBot.create(:fact_value,
                        :fact_name => FactoryBot.create(:fact_name, :name => 'link_eth0'),
@@ -217,13 +277,43 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
                        :fact_name => FactoryBot.create(:fact_name, :name => 'custom_fact_eth0_0'),
                        :host => host,
                        :value => 'another_value')
-    parser = get_parser(host.facts_hash)
+    parser = get_parser(host.facts_hash.merge(facterversion: '2.7.9'))
 
     result = parser.send(:get_facts_for_interface, 'eth0')
     assert_equal 'true', result[:link]
     assert_equal '00:00:00:00:00:ab', result['macaddress']
     assert_equal '192.168.0.1', result['ipaddress']
     assert_equal 'custom_value', result['custom_fact']
+  end
+
+  test "#get_facts_for_interface(interface) uses networking fact when facter >= v3.0" do
+    parser = get_parser(structured_networking_facts)
+    result = parser.send(:get_facts_for_interface, 'eth0')
+    assert_equal 'custom_value', result['custom_fact']
+    assert_equal '00:00:00:00:00:ab', result['macaddress']
+    assert_equal 1500, result['mtu']
+    assert_equal '192.168.0.1', result['ipaddress']
+    assert_equal 'fe80::250:56ff:fea0:7e4a', result['ipaddress6']
+    assert_equal '255.255.255.0', result['netmask']
+    assert_equal 'ffff:ffff:ffff:ffff::', result['netmask6']
+    assert_equal '192.168.0.0', result['network']
+    assert_equal 'fe80::', result['network6']
+  end
+
+  test "#interfaces ignores legacy facts when facter >= v3.0" do
+    parser = get_parser(structured_networking_facts.merge(
+      interfaces: 'eth5',
+      ipadress_eth3: '192.168.6.1',
+      macaddress_eth3: '00:50:56:B7:69:F6',
+      netmask_eth3: '255.255.254.0'
+    ))
+
+    assert_not_nil parser.interfaces['eth1:1']
+    assert parser.interfaces.values.any? { |x| x[:ipaddress] == '192.168.0.1' }
+    assert_nil parser.interfaces['eth5']
+    assert_not parser.interfaces.values.any? { |x| x[:ipaddress] == '192.168.6.1' }
+    assert_not parser.interfaces.values.any? { |x| x[:macaddress] == '00:50:56:B7:69:F6' }
+    assert_not parser.interfaces.values.any? { |x| x[:netmask] == '255.255.254.0' }
   end
 
   test "#ipmi_interface" do
@@ -249,8 +339,9 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal 'custom_value', result['custom']
   end
 
-  test "#interfaces with underscores are mapped correctly" do
-    parser = get_parser({:interfaces => 'eth1_1,eth1_2,eth1,eth2',
+  test "#interfaces with underscores are mapped correctly when facter < v3.0" do
+    parser = get_parser({:facterversion => '2.7.9',
+                         :interfaces => 'eth1_1,eth1_2,eth1,eth2',
                          :ipaddress_eth1_1 => '192.168.0.1',
                          :ipaddress_eth1_2 => '192.168.0.2',
                          :ipaddress_eth1 => '192.168.0.3',
@@ -265,8 +356,9 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '192.168.0.4', parser.interfaces['eth2'][:ipaddress]
   end
 
-  test "#interfaces are mapped case-insensitively and parses Windows LAN name" do
-    parser = get_parser({:interfaces => 'Local_Area_Connection_2',
+  test "#interfaces are mapped case-insensitively and parses Windows LAN name when facter < v3.0" do
+    parser = get_parser({:facterversion => '2.7.9',
+                         :interfaces => 'Local_Area_Connection_2',
                          :ipaddress_local_area_connection_2 => '172.30.43.87',
                          :macaddress_local_area_connection_2 => '00:50:56:B7:69:F6',
                          :netmask_local_area_connection_2 => '255.255.255.0',
@@ -276,6 +368,21 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_equal '255.255.255.0', parser.interfaces['local_area_connection_2'][:netmask]
     assert_equal '00:50:56:B7:69:F6', parser.interfaces['local_area_connection_2'][:macaddress]
     assert_equal '172.30.43.0', parser.interfaces['local_area_connection_2'][:network]
+  end
+
+  test "#interfaces names are not mangled when facter >= v3.0" do
+    parser = get_parser(structured_networking_facts)
+
+    assert_not_nil parser.interfaces['eth1:1']
+    assert_equal '192.168.0.3', parser.interfaces['eth1:1'][:ipaddress]
+    assert_not_nil parser.interfaces['eth1.2']
+    assert_equal '192.168.2.1', parser.interfaces['eth1.2'][:ipaddress]
+    assert_not_nil parser.interfaces['Ethernet_0']
+    assert_equal '192.168.120.1', parser.interfaces['Ethernet_0'][:ipaddress]
+    assert_nil parser.interfaces['ethernet.0']
+    assert_nil parser.interfaces['ethernet_0']
+    assert_nil parser.interfaces['Ethernet.0']
+    assert_nil parser.interfaces['eth1_1']
   end
 
   private
@@ -307,6 +414,10 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def freebsd_patch_facts
     read_json_fixture('facts/facts_freebsd_patch.json')['facts']
+  end
+
+  def structured_networking_facts
+    read_json_fixture('facts/facts_structured_networking.json')['facts']
   end
 
   def assert_os_idempotent(previous_os = self.os)

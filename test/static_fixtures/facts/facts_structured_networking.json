@@ -1,0 +1,110 @@
+{
+    "name": "nethost.lan",
+    "facts": {
+        "facterversion": "3.1.2",
+        "networking": {
+            "domain": "lan",
+            "fqdn": "nethost.lan",
+            "hostname": "nethost",
+            "interfaces": {
+                "bond0": {
+                    "bindings": [
+                        {
+                            "address": "192.168.5.1",
+                            "netmask": "255.255.255.0",
+                            "network": "192.168.5.0"
+                        }
+                    ],
+                    "ip": "192.168.5.1",
+                    "network": "192.168.5.0",
+                    "netmask": "255.255.255.0"
+                },
+                "em1": {
+                    "mac": "00:00:00:00:ab:11",
+                    "mtu": 1500
+                },
+                "em2": {
+                    "mac": "00:00:00:00:ab:12",
+                    "mtu": 1500
+                },
+                "eth0": {
+                    "bindings": [
+                        {
+                            "address": "192.168.0.1",
+                            "netmask": "255.255.255.0",
+                            "network": "192.168.0.0"
+                        },
+                        {
+                            "address": "192.169.0.2",
+                            "netmask": "255.255.0.0",
+                            "network": "192.169.0.0"
+                        }
+                    ],
+                    "bindings6": [
+                        {
+                            "address": "fe80::250:56ff:fea0:7e4a",
+                            "netmask": "ffff:ffff:ffff:ffff::",
+                            "network": "fe80::"
+                        }
+                    ],
+                    "custom_fact": "custom_value",
+                    "ip": "192.168.0.1",
+                    "ip6": "fe80::250:56ff:fea0:7e4a",
+                    "mac": "00:00:00:00:00:ab",
+                    "mtu": 1500,
+                    "netmask": "255.255.255.0",
+                    "netmask6": "ffff:ffff:ffff:ffff::",
+                    "network": "192.168.0.0",
+                    "network6": "fe80::"
+                },
+                "eth1:1": {
+                    "bindings": [
+                        {
+                            "address": "192.168.0.3",
+                            "netmask": "255.255.255.0",
+                            "network": "192.168.0.0"
+                        }
+                    ],
+                    "ip": "192.168.0.3",
+                    "network": "192.168.0.0",
+                    "netmask": "255.255.255.0"
+                },
+                "eth1.2": {
+                    "bindings": [
+                        {
+                            "address": "192.168.2.1",
+                            "netmask": "255.255.255.0",
+                            "network": "192.168.2.0"
+                        }
+                    ],
+                    "ip": "192.168.2.1",
+                    "mac": "00:00:00:00:00:ab",
+                    "mtu": 1500,
+                    "netmask": "255.255.255.0",
+                    "network": "192.168.2.0"
+                },
+                "Ethernet_0": {
+                    "bindings": [
+                        {
+                            "address": "192.168.120.1",
+                            "netmask": "255.255.252.0",
+                            "network": "192.168.120.0"
+                        }
+                    ],
+                    "ip": "192.168.120.1",
+                    "mac": "00:00:00:00:00:ab",
+                    "mtu": 1500,
+                    "netmask": "255.255.252.0",
+                    "network": "192.168.120.0"
+                }
+            },
+            "ip": "192.168.0.1",
+            "ip6": "fe80::250:56ff:fea0:7e4a",
+            "mac": "00:00:00:00:00:ab",
+            "mtu": 1500,
+            "netmask": "255.255.255.0",
+            "netmask6": "ffff:ffff:ffff:ffff::",
+            "primary": "eth0"
+        }
+    }
+}
