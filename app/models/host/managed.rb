@@ -208,6 +208,8 @@ class Host::Managed < Host::Base
   validate :compute_resource_in_taxonomy, :if => Proc.new { |host| Taxonomy.enabled_taxonomies.any? && host.managed? && host.compute_resource_id.present? }
 
   if SETTINGS[:unattended]
+    # define before orchestration is included so we can prepare object before VM is tried to be deleted
+    before_destroy :disassociate!, :if => Proc.new { |host| host.uuid && !Setting[:destroy_vm_on_host_delete] }
     # handles all orchestration of smart proxies.
     include Orchestration
     # DHCP orchestration delegation

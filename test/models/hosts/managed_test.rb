@@ -9,6 +9,30 @@ module Host
       should validate_uniqueness_of(:uuid)
     end
 
+    describe 'deletion' do
+      let(:host) { FactoryBot.create(:host, :on_compute_resource) }
+
+      test 'it tries to delete the vm in case destroy_vm_on_host_delete is enabled' do
+        begin
+          original, Setting[:destroy_vm_on_host_delete] = Setting[:destroy_vm_on_host_delete], true
+          host.destroy!
+          assert_includes host.queue.items.map(&:name), "Removing compute instance #{host.name}"
+        ensure
+          Setting[:destroy_vm_on_host_delete] = original
+        end
+      end
+
+      test 'it disassociates the host if destroy_vm_on_host_delete setting is disabled' do
+        begin
+          original, Setting[:destroy_vm_on_host_delete] = Setting[:destroy_vm_on_host_delete], false
+          host.destroy!
+          refute_includes host.queue.items.map(&:name), "Removing compute instance #{host.name}"
+        ensure
+          Setting[:destroy_vm_on_host_delete] = original
+        end
+      end
+    end
+
     describe 'Scopes' do
       subject { Host::Managed }
       let(:host) { FactoryBot.create(:host, :with_reports, :managed) }

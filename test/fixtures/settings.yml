@@ -384,3 +384,8 @@ attribute82:
   category: Setting::Provisioning
   default: 120
   description: 'Time in seconds before SSH provisioning times out'
+attribute82:
+  name: destroy_vm_on_host_delete
+  category: Setting::Provisioning
+  default: true
+  description: 'Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM'
