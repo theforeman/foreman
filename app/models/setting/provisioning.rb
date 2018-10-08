@@ -63,6 +63,12 @@ class Setting::Provisioning < Setting
       self.set('default_pxe_item_global', N_("Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"), nil, N_("Default PXE global template entry")),
       self.set('default_pxe_item_local', N_("Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"), nil, N_("Default PXE local template entry")),
       self.set(
+        'destroy_vm_on_host_delete',
+        N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),
+        true,
+        N_("Destroy associated VM on host delete")
+      ),
+      self.set(
         'excluded_facts',
         N_("Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"),
         default_excluded_facts,
