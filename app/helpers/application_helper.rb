@@ -417,11 +417,18 @@ module ApplicationHelper
     klass      = options[:class]
     update_url = options[:update_url] || url_for(object)
     type       = options[:type]
-    title      = options[:title]
+    title      = options[:title] || default_title(object)
     placeholder = options[:placeholder]
     select_values = [true, false].include?(value) ? [_('Yes'), _('No')] : options[:select_values]
 
     editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => select_values, :url => update_url, :placeholder => placeholder}.compact)
+  end
+
+  # using this method, handle default values like setting's title for plugins
+  def default_title(object)
+    if object.respond_to?(:full_name_with_default)
+      object.send(:full_name_with_default)
+    end
   end
 
   def documentation_url(section = "", options = {})
