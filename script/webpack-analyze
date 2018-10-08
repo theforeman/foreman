@@ -8,5 +8,6 @@ WEBPACK="webpack --config $FOREMAN_PATH/config/webpack.config.js"
 WEBPACK_DIR="$FOREMAN_PATH/public/webpack"
 REPORT="${WEBPACK_DIR}/report.html"
 
+mkdir -p $WEBPACK_DIR
 $WEBPACK --profile --json > $WEBPACK_DIR/stats.json && \
 webpack-bundle-analyzer --mode static -r $REPORT $WEBPACK_DIR/stats.json
