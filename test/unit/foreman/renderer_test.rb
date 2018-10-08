@@ -4,6 +4,10 @@ class RendererTest < ActiveSupport::TestCase
   class DummyRenderer
     attr_accessor :host
 
+    def params
+      {}
+    end
+
     include Foreman::Renderer
   end
 
@@ -468,6 +472,14 @@ EOS
       setup_safemode_renderer
       @renderer.render_safe('<%= global_setting("not_allowed_setting") %>', [:global_setting])
     end
+  end
+
+  test 'load_template_vars does not cause infinite loop' do
+    ptable = FactoryBot.create(:ptable, :suse)
+    operatingsystem = FactoryBot.create(:suse, :with_archs, ptables: [ptable])
+    host = FactoryBot.create(:host, :managed, operatingsystem: operatingsystem)
+    @renderer.host = host
+    @renderer.load_template_vars
   end
 
   private
