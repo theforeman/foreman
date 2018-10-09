@@ -48,6 +48,34 @@ class BaseVariablesTest < ActiveSupport::TestCase
 
       assert_nil scope.instance_variable_get('@mediapath')
     end
+
+    describe "@dynamic" do
+      before do
+        @ptable_template = "%#\n" \
+                           "kind: ptable\n" \
+                           "name: test template\n" \
+                           "oses:\n" \
+                           "- RedHat 7\n" \
+                           "%>\n" \
+                           "#Dynamic\n"
+
+        ptable = FactoryBot.create(:ptable, template: @ptable_template, operatingsystem_ids: [operatingsystems(:redhat).id])
+        @host = FactoryBot.create(:host, :managed, ptable: ptable, operatingsystem: operatingsystems(:redhat))
+      end
+
+      test "is true when '#dynamic' is present in the template" do
+        scope = @scope.new(host: @host, source: @source)
+
+        assert_equal true, scope.instance_variable_get('@dynamic')
+      end
+
+      test "is false when '#dynamic' is not present in the template" do
+        @host.ptable.update(template: @ptable_template.gsub('#Dynamic', ''))
+        scope = @scope.new(host: @host, source: @source)
+
+        assert_equal false, scope.instance_variable_get('@dynamic')
+      end
+    end
   end
 
   test "set kernel and init RAM disk variables" do

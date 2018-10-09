@@ -70,7 +70,7 @@ module Foreman
           end
 
           def kickstart_attributes
-            @dynamic   = disk_layout_source_content.start_with?('#Dynamic') if disk_layout_source_content
+            @dynamic   = !!(disk_layout_source_content =~ /^#Dynamic/) if disk_layout_source_content
             @arch      = architecture_name
             @osver     = major.try(:to_i)
             @mediapath = mediumpath(@medium_provider) if medium
@@ -85,7 +85,7 @@ module Foreman
           end
 
           def yast_attributes
-            @dynamic   = disk_layout_source_content.start_with?('#Dynamic') if disk_layout_source_content
+            @dynamic   = !!(disk_layout_source_content =~ /^#Dynamic/) if disk_layout_source_content
             @mediapath = mediumpath(@medium_provider) if medium
           end
 
