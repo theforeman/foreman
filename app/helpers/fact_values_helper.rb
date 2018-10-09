@@ -49,4 +49,21 @@ module FactValuesHelper
     return origin if origin == 'N/A'
     image_tag(origin + ".png", :title => origin)
   end
+
+  def fact_breadcrumbs
+    breadcrumbs(
+      items: [
+        {
+          caption: _("Facts Values"),
+          url: (url_for(fact_values_path) if authorized_for(hash_for_fact_values_path))
+        },
+        {
+          caption: params[:host_id]
+        }
+      ],
+      resource_url: api_hosts_path(thin: true),
+      switcher_item_url: host_facts_path(':name'),
+      switchable: true
+    )
+  end
 end
