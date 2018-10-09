@@ -1,5 +1,9 @@
 @import "~patternfly/dist/sass/patternfly/_color-variables.scss";
-@import "~patternfly-react/dist/sass/_type-ahead-select.scss";
+// @import '~react-bootstrap-typeahead/css/Typeahead.css';
+// HACK - had no chice to copy react-bootstrap-typeahead css locally
+// after there was mo way to import it directly from patternfly-react,
+// see: packaging issue #3070 - https://github.com/theforeman/foreman-packaging/pull/3070.
+@import "./typeahead.css";
 
 .search-bar {
   .autocomplete-aux {
