@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import CommonForm from './CommonForm';
 import { noop } from '../../../common/helpers';
 
-const TextInput = ({
-  label, className, value, onChange,
-}) => (
+const TextInput = ({ label, className, value, onChange }) => (
   <CommonForm label={label} className={`common-textInput ${className}`}>
     <input
       type="text"

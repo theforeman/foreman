@@ -19,7 +19,8 @@ describe('PasswordStrength integration test', () => {
   it('should flow', () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);
 
-    const component = integrationTestHelper.mount(<div>
+    const component = integrationTestHelper.mount(
+      <div>
         <input id="username" value={passwords.username.password} readOnly />
         <input id="email" value={passwords.email.password} readOnly />
         <PasswordStrength
@@ -31,15 +32,20 @@ describe('PasswordStrength integration test', () => {
             userInputIds: ['username', 'email'],
           }}
         />
-      </div>);
+      </div>
+    );
 
     const passwordInput = component.find('input#user_password');
-    const passwordConfirmationInput = component.find('input#password_confirmation');
-    const passwordWarning = component.find('.ReactPasswordStrength-strength-desc');
+    const passwordConfirmationInput = component.find(
+      'input#password_confirmation'
+    );
+    const passwordWarning = component.find(
+      '.ReactPasswordStrength-strength-desc'
+    );
 
     integrationTestHelper.takeStoreSnapshot('initial state');
 
-    Object.keys(passwords).forEach((key) => {
+    Object.keys(passwords).forEach(key => {
       const { password, expected } = passwords[key];
 
       setInputValue(passwordInput, password);
@@ -49,11 +55,19 @@ describe('PasswordStrength integration test', () => {
     });
 
     setInputValue(passwordConfirmationInput, passwords.strong.password);
-    expect(component.find(`CommonForm[label="${'Verify'}"] .help-block`).length).toBe(1);
-    integrationTestHelper.takeStoreAndLastActionSnapshot('unmached password confirmation');
+    expect(
+      component.find(`CommonForm[label="${'Verify'}"] .help-block`)
+    ).toHaveLength(1);
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'unmached password confirmation'
+    );
 
     setInputValue(passwordConfirmationInput, passwords.veryStrong.password);
-    expect(component.find(`CommonForm[label="${'Verify'}"] .help-block`).length).toBe(0);
-    integrationTestHelper.takeStoreAndLastActionSnapshot('mached password confirmation');
+    expect(
+      component.find(`CommonForm[label="${'Verify'}"] .help-block`)
+    ).toHaveLength(0);
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'mached password confirmation'
+    );
   });
 });

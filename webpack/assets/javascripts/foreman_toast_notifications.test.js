@@ -45,14 +45,22 @@ describe('Notifications', () => {
     });
 
     it('should dispatch a sticky notification action when passing sticky=true', () => {
-      const notification = { message: 'some message', type: 'success', sticky: true };
+      const notification = {
+        message: 'some message',
+        type: 'success',
+        sticky: true,
+      };
       const expected = { ...notification, link: undefined };
 
       testNotification({ notification, expected });
     });
 
     it('should dispatch a none-sticky notification action when passing sticky=false', () => {
-      const notification = { message: 'some message', type: 'some type', sticky: false };
+      const notification = {
+        message: 'some message',
+        type: 'some type',
+        sticky: false,
+      };
       const expected = { ...notification, link: undefined };
 
       testNotification({ notification, expected });

@@ -8,9 +8,13 @@ jest.mock('../../componentRegistry');
 
 describe('ComponentWrapper', () => {
   it('should render core component', () => {
-    componentRegistry.getComponent = jest.fn(() => ({ type: 'AwesomeComponent' }));
+    componentRegistry.getComponent = jest.fn(() => ({
+      type: 'AwesomeComponent',
+    }));
 
-    const wrapper = shallow(<ComponentWrapper data={{ component: 'AwesomeComponent' }} />);
+    const wrapper = shallow(
+      <ComponentWrapper data={{ component: 'AwesomeComponent' }} />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

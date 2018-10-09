@@ -45,11 +45,13 @@ class notificationContainer extends React.Component {
       clickedLink,
     } = this.props;
 
-    const notificationGroups = Object.entries(notifications).map(([key, group]) => ({
-      panelkey: key,
-      panelName: key,
-      notifications: group,
-    }));
+    const notificationGroups = Object.entries(notifications).map(
+      ([key, group]) => ({
+        panelkey: key,
+        panelName: key,
+        notifications: group,
+      })
+    );
 
     const translations = {
       title: __('Notifications'),
@@ -122,7 +124,7 @@ notificationContainer.defaultProps = {
   clearGroup: noop,
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     notifications,
     isDrawerOpen,
@@ -143,5 +145,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  NotificationActions,
+  NotificationActions
 )(onClickOutside(notificationContainer));

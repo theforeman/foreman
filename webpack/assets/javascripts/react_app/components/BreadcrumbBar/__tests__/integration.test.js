@@ -4,7 +4,10 @@ import { Overlay } from 'react-bootstrap';
 import API from '../../../API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
-import { breadcrumbBarSwithcable, serverResourceListResponse } from '../BreadcrumbBar.fixtures';
+import {
+  breadcrumbBarSwithcable,
+  serverResourceListResponse,
+} from '../BreadcrumbBar.fixtures';
 import BreadcrumbBar, { reducers } from '../index';
 
 jest.mock('../../../API');
@@ -15,21 +18,41 @@ describe('BreadcrumbBar integration test', () => {
 
     const integrationTestHelper = new IntegrationTestHelper(reducers);
 
-    const component = integrationTestHelper.mount(<BreadcrumbBar {...breadcrumbBarSwithcable} />);
+    const component = integrationTestHelper.mount(
+      <BreadcrumbBar {...breadcrumbBarSwithcable} />
+    );
     const togglerButton = component.find('.breadcrumb-switcher .btn');
 
     integrationTestHelper.takeStoreSnapshot('initial state');
 
     togglerButton.simulate('click');
     integrationTestHelper.takeStoreAndLastActionSnapshot('switcher opened');
-    expect(component.find('#breadcrumb-switcher-popover .breadcrumb-switcher-popover-loading').exists()).toBeTruthy();
-    expect(component.find('#breadcrumb-switcher-popover .scrollable-list').exists()).not.toBeTruthy();
+    expect(
+      component
+        .find(
+          '#breadcrumb-switcher-popover .breadcrumb-switcher-popover-loading'
+        )
+        .exists()
+    ).toBeTruthy();
+    expect(
+      component.find('#breadcrumb-switcher-popover .scrollable-list').exists()
+    ).not.toBeTruthy();
 
     await IntegrationTestHelper.flushAllPromises();
     component.update();
-    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher opened and loaded');
-    expect(component.find('#breadcrumb-switcher-popover .breadcrumb-switcher-popover-loading').exists()).not.toBeTruthy();
-    expect(component.find('#breadcrumb-switcher-popover .scrollable-list').exists()).toBeTruthy();
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'switcher opened and loaded'
+    );
+    expect(
+      component
+        .find(
+          '#breadcrumb-switcher-popover .breadcrumb-switcher-popover-loading'
+        )
+        .exists()
+    ).not.toBeTruthy();
+    expect(
+      component.find('#breadcrumb-switcher-popover .scrollable-list').exists()
+    ).toBeTruthy();
 
     API.get.mockImplementation(async () => ({
       data: { ...serverResourceListResponse.data, page: 2 },
@@ -37,24 +60,32 @@ describe('BreadcrumbBar integration test', () => {
     component.find('.pager .next a').simulate('click');
     await IntegrationTestHelper.flushAllPromises();
     component.update();
-    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after next page');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'switcher after next page'
+    );
 
     API.get.mockImplementation(async () => serverResourceListResponse);
     component.find('.pager .previous a').simulate('click');
     await IntegrationTestHelper.flushAllPromises();
     component.update();
-    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after prev page');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'switcher after prev page'
+    );
 
     component.find('input').simulate('change', { target: { value: 'text' } });
     await IntegrationTestHelper.flushAllPromises();
-    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after search change');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'switcher after search change'
+    );
     expect(component.find('input').props().value).toBe('text');
 
     component.find('.fa-close').simulate('click');
     await IntegrationTestHelper.flushAllPromises();
     component.update();
     expect(component.find('input').props().value).toBe('');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('switcher after search clear ');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'switcher after search clear '
+    );
 
     togglerButton.simulate('click');
     integrationTestHelper.takeStoreAndLastActionSnapshot('switcher closed');

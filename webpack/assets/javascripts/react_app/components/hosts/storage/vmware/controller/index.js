@@ -31,7 +31,7 @@ const Controller = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const getEventValue = (e) => {
+  const getEventValue = e => {
     if (!e.target) {
       return e;
     }
@@ -58,7 +58,7 @@ const Controller = ({
         d.name,
         humanSize(d.freespace),
         humanSize(d.capacity + (d.uncommitted || 0) - d.freespace),
-        humanSize(d.capacity),
+        humanSize(d.capacity)
       );
       return obj;
     }, {});
@@ -74,7 +74,7 @@ const Controller = ({
         s.name,
         humanSize(s.freespace),
         humanSize(s.capacity - s.freespace),
-        humanSize(s.capacity),
+        humanSize(s.capacity)
       );
       return obj;
     }, {});
@@ -139,21 +139,25 @@ Controller.propTypes = {
   controller: PropTypes.object.isRequired,
   addDiskEnabled: PropTypes.bool,
   controllerVolumes: PropTypes.array,
-  datastores: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    capacity: PropTypes.number,
-    freespace: PropTypes.number,
-    uncommitted: PropTypes.number,
-  })),
+  datastores: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      capacity: PropTypes.number,
+      freespace: PropTypes.number,
+      uncommitted: PropTypes.number,
+    })
+  ),
   datastoresStatus: PropTypes.string,
   datastoresError: PropTypes.string,
-  storagePods: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    capacity: PropTypes.number,
-    freespace: PropTypes.number,
-  })),
+  storagePods: PropTypes.arrayOf(
+    PropTypes.exact({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      capacity: PropTypes.number,
+      freespace: PropTypes.number,
+    })
+  ),
   storagePodsStatus: PropTypes.string,
   storagePodsError: PropTypes.string,
   addDisk: PropTypes.func,

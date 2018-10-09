@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
 
-const Checkbox = ({
-  className, checked, onChange, label, disabled,
-}) => (
+const Checkbox = ({ className, checked, onChange, label, disabled }) => (
   <CommonForm label={label} className={`common-checkbox ${className}`}>
     <input
       disabled={disabled}

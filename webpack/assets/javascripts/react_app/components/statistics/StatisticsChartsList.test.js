@@ -15,7 +15,9 @@ describe('StatisticsChartsList', () => {
     const store = mockStore({
       statistics: immutable({ charts: [] }),
     });
-    const wrapper = shallow(<StatisticsChartsList store={store} data={statisticsData} />);
+    const wrapper = shallow(
+      <StatisticsChartsList store={store} data={statisticsData} />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
@@ -25,8 +27,10 @@ describe('StatisticsChartsList', () => {
       statistics: immutable({ charts: statisticsData }),
     });
 
-    const wrapper = shallow(<StatisticsChartsList store={store} data={statisticsData} />);
+    const wrapper = shallow(
+      <StatisticsChartsList store={store} data={statisticsData} />
+    );
 
-    expect(wrapper.render().find('.chart-box').length).toEqual(2);
+    expect(wrapper.render().find('.chart-box')).toHaveLength(2);
   });
 });

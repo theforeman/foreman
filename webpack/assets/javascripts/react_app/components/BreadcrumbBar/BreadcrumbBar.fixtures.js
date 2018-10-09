@@ -24,7 +24,6 @@ export const breadcrumbTitleItems = {
   ],
 };
 
-
 export const breadcrumbsWithReplacementTitle = {
   titleReplacement: 'override title',
   items: [
@@ -55,10 +54,16 @@ export const resourceList = [
   { id: '2', name: 'Host 2', url: '#' },
   { id: '3', name: 'Host 3 with a very long name', url: '#' },
   {
-    id: '4', name: 'Host 4', url: undefined, onClick: jest.fn(),
+    id: '4',
+    name: 'Host 4',
+    url: undefined,
+    onClick: jest.fn(),
   },
   {
-    id: '5', name: 'Host 5', url: '#', onClick: undefined,
+    id: '5',
+    name: 'Host 5',
+    url: '#',
+    onClick: undefined,
   },
 ];
 

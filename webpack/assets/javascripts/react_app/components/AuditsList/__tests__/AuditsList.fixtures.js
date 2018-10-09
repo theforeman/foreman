@@ -44,12 +44,14 @@ export const AuditRecord = {
     {
       name: 'testLoc',
       url: '/locations/2-testLoc/edit',
-    }],
+    },
+  ],
   affected_organizations: [
     {
       name: 'testOrg',
       url: '/organizations/1-testOrg/edit',
-    }],
+    },
+  ],
   allowed_actions: [
     {
       url: '/hosts/foo.example.com',
@@ -61,19 +63,14 @@ export const AuditRecord = {
   associated_name: null,
   associated_type: null,
   audit_title: 'test-template',
-  audit_title_url: '/audits?search=type+%3D+provisioning_template+and+auditable_id+%3D+1',
+  audit_title_url:
+    '/audits?search=type+%3D+provisioning_template+and+auditable_id+%3D+1',
   auditable_id: 1,
   auditable_name: 'test-template',
   auditable_type: 'ProvisioningTemplate',
   audited_changes: {
-    template: [
-      '<h1>Hello..</h1>',
-      '<h1>Hello World..</h1>',
-    ],
-    name: [
-      'temp1',
-      'temp2',
-    ],
+    template: ['<h1>Hello..</h1>', '<h1>Hello World..</h1>'],
+    name: ['temp1', 'temp2'],
   },
   audited_changes_with_id_to_label: [
     {
@@ -88,7 +85,8 @@ export const AuditRecord = {
         },
       ],
       name: 'Name',
-    }],
+    },
+  ],
   audited_type_name: 'Provisioning Template',
   comment: 'This is just test audit record',
   creation_time: {
@@ -160,14 +158,8 @@ export const AuditsProps = {
       auditable_name: 'host-foo.example.com',
       auditable_type: 'Host::Base',
       audited_changes: {
-        root_pass: [
-          '[redacted]',
-          '[redacted]',
-        ],
-        comment: [
-          '',
-          'This is info about host for audit',
-        ],
+        root_pass: ['[redacted]', '[redacted]'],
+        comment: ['', 'This is info about host for audit'],
       },
       audited_changes_with_id_to_label: [
         {

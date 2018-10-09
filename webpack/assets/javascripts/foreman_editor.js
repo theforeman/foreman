@@ -30,7 +30,7 @@ $(document).on('click', '#editor_submit', () => {
   }
 });
 
-$(document).on('change', '.editor_file_source', (e) => {
+$(document).on('change', '.editor_file_source', e => {
   if ($('.editor_file_source').val() !== '') {
     editorFileSource(e);
   }
@@ -99,7 +99,11 @@ export function showImporter() {
 /* eslint-disable max-statements, no-alert */
 function editorFileSource(evt) {
   if (window.File && window.FileList && window.FileReader) {
-    if (!confirm(__('You are about to override the editor content, are you sure?'))) {
+    if (
+      !confirm(
+        __('You are about to override the editor content, are you sure?')
+      )
+    ) {
       $('.editor_file_source').val('');
       return;
     }
@@ -232,7 +236,11 @@ function setDiffMode(item) {
   session.setMode('ace/mode/diff');
   const JsDiff = require('diff'); // eslint-disable-line global-require
 
-  let patch = JsDiff.createPatch(item.attr('data-file-name'), $('#old').val(), $('#new').val());
+  let patch = JsDiff.createPatch(
+    item.attr('data-file-name'),
+    $('#old').val(),
+    $('#new').val()
+  );
 
   patch = patch.replace(/^(.*\n){0,4}/, '');
   if (patch.length === 0) {
@@ -268,14 +276,18 @@ export function getRenderedTemplate() {
   }
 
   session.setValue(__('Rendering the template, please wait...'));
-  $.post(url, params, (response) => {
+  $.post(url, params, response => {
     $('div#preview_error').hide();
     $('div#preview_error span.text').html('');
     session.setValue(response);
-  }).fail((response) => {
+  }).fail(response => {
     $('div#preview_error span.text').text(response.responseText);
     $('div#preview_error').show();
-    session.setValue(__('There was an error during rendering, return to the Code tab to edit the template.'));
+    session.setValue(
+      __(
+        'There was an error during rendering, return to the Code tab to edit the template.'
+      )
+    );
   });
 }
 
@@ -288,7 +300,11 @@ export function submitCode() {
 /* eslint-disable max-len */
 export function revertTemplate(item) {
   if (
-    !confirm(__('You are about to override the editor content with a previous version, are you sure?'))
+    !confirm(
+      __(
+        'You are about to override the editor content with a previous version, are you sure?'
+      )
+    )
   ) {
     return;
   }
@@ -311,7 +327,9 @@ export function revertTemplate(item) {
         .find('h6 span')
         .attr('data-original-title');
 
-      $('#provisioning_template_audit_comment').text(sprintf(__('Revert to revision from: %s'), time));
+      $('#provisioning_template_audit_comment').text(
+        sprintf(__('Revert to revision from: %s'), time)
+      );
     },
   });
 }
@@ -334,7 +352,7 @@ export function enterFullscreen(element, relativeTo) {
   $('.btn-exit-fullscreen').removeClass('hidden');
 
   $('#content').addClass('hidden');
-  $(document).on('keyup', (e) => {
+  $(document).on('keyup', e => {
     if (e.keyCode === 27) {
       // esc
       exitFullscreen();

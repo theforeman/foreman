@@ -1,7 +1,11 @@
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 import Breadcrumb from './Breadcrumb';
-import { breadcrumbItems, breadcrumbTitleItems, breadcrumbsWithReplacementTitle } from '../BreadcrumbBar.fixtures';
+import {
+  breadcrumbItems,
+  breadcrumbTitleItems,
+  breadcrumbsWithReplacementTitle,
+} from '../BreadcrumbBar.fixtures';
 
 const fixtures = {
   'renders breadcrumbs menu': breadcrumbItems,
@@ -9,4 +13,5 @@ const fixtures = {
   'renders title override': breadcrumbsWithReplacementTitle,
 };
 
-describe('Breadcrumbs', () => testComponentSnapshotsWithFixtures(Breadcrumb, fixtures));
+describe('Breadcrumbs', () =>
+  testComponentSnapshotsWithFixtures(Breadcrumb, fixtures));

@@ -26,7 +26,12 @@ class DiffContainer extends React.Component {
       <div id="diff-container">
         <DiffRadioButtons changeState={this.changeState} stateView={viewType} />
         <div id="diff-table">
-          <DiffView patch={patch} oldText={oldText} newText={newText} viewType={viewType} />
+          <DiffView
+            patch={patch}
+            oldText={oldText}
+            newText={newText}
+            viewType={viewType}
+          />
         </div>
       </div>
     );

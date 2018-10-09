@@ -9,7 +9,9 @@ const pluginEditAttributes = {
 
 export function registerPluginAttributes(componentType, attributes) {
   if (pluginEditAttributes[componentType] !== undefined) {
-    const combinedAttributes = pluginEditAttributes[componentType].concat(attributes);
+    const combinedAttributes = pluginEditAttributes[componentType].concat(
+      attributes
+    );
     pluginEditAttributes[componentType] = uniq(combinedAttributes);
   }
 }
@@ -67,14 +69,14 @@ export const pxeCompatibility = {};
 set(
   pxeCompatibility,
   'ubuntu',
-  new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
+  new PXECompatibilityCheck(/ubuntu[^\d]*(\d+)(?:[.]\d+)?/, os => {
     if (os[1] <= '10') {
       return [PXE_BIOS, GRUB_UEFI];
     } else if (os[1] > '10') {
       return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
     return null;
-  }),
+  })
 );
 
 // RHEL 6.x and Grub1
@@ -84,15 +86,15 @@ set(
   'rhel',
   new PXECompatibilityCheck(
     /(?:red[ ]*hat|rhel|cent[ ]*os|scientific|oracle)[^\d]*(\d+)(?:[.]\d+)?/,
-    (os) => {
+    os => {
       if (os[1] === '6') {
         return [PXE_BIOS, GRUB_UEFI];
       } else if (os[1] >= '7') {
         return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
       }
       return null;
-    },
-  ),
+    }
+  )
 );
 
 // Debian 2-6 and Grub1
@@ -100,14 +102,14 @@ set(
 set(
   pxeCompatibility,
   'debian',
-  new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, (os) => {
+  new PXECompatibilityCheck(/debian[^\d]*(\d+)(?:[.]\d+)?/, os => {
     if (os[1] >= '2' && os[1] <= '6') {
       return [PXE_BIOS, GRUB_UEFI];
     } else if (os[1] > '6') {
       return [PXE_BIOS, GRUB2_UEFI, GRUB2_UEFI_SB];
     }
     return null;
-  }),
+  })
 );
 
 export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
@@ -118,7 +120,7 @@ export function checkPXELoaderCompatibility(osTitle, pxeLoader) {
 
   // eslint-disable-next-line no-param-reassign
   osTitle = osTitle.toLowerCase();
-  Object.values(pxeCompatibility).forEach((check) => {
+  Object.values(pxeCompatibility).forEach(check => {
     const compatibleCheck = check.isCompatible(osTitle, pxeLoader);
 
     if (compatibleCheck != null) {

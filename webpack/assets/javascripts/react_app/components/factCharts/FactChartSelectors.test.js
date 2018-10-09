@@ -1,8 +1,15 @@
-import { selectHostCount, selectFactChart, selectDisplayModal, selectFactChartData } from './FactChartSelectors';
+import {
+  selectHostCount,
+  selectFactChart,
+  selectDisplayModal,
+  selectFactChartData,
+} from './FactChartSelectors';
 import { chartDataValues } from './factChart.fixtures';
 
 describe('Fact Chart Selector', () => {
-  const factChartState = { factChart: { chartData: chartDataValues, modalToDisplay: { 1: true } } };
+  const factChartState = {
+    factChart: { chartData: chartDataValues, modalToDisplay: { 1: true } },
+  };
 
   it('should count hosts', () => {
     const selected = selectHostCount(factChartState);

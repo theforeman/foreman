@@ -1,9 +1,7 @@
 import uuidV1 from 'uuid/v1';
 import { getChartConfig } from './ChartService';
 
-export const getDonutChartConfig = ({
-  data, config, onclick, id = uuidV1(),
-}) =>
+export const getDonutChartConfig = ({ data, config, onclick, id = uuidV1() }) =>
   getChartConfig({
     type: 'donut',
     data,

@@ -55,19 +55,19 @@ describe('taxonomyAdded', () => {
        <option value=""></option>
      </select>`;
 
-    expect($('#user_default_organization_id option').length).toEqual(1);
+    expect($('#user_default_organization_id option')).toHaveLength(1);
     $('#user_organization_ids')
       .val('2')
       .change();
-    expect($('#user_default_organization_id option').length).toEqual(2);
+    expect($('#user_default_organization_id option')).toHaveLength(2);
     $('#user_organization_ids')
       .val([2, 1])
       .change();
-    expect($('#user_default_organization_id option').length).toEqual(3);
+    expect($('#user_default_organization_id option')).toHaveLength(3);
     $('#user_organization_ids')
       .val('')
       .change();
-    expect($('#user_default_organization_id option').length).toEqual(1);
+    expect($('#user_default_organization_id option')).toHaveLength(1);
   });
 });
 
@@ -92,10 +92,10 @@ describe('users Password', () => {
     $('#user_auth_source_id')
       .val('9')
       .change();
-    expect($('#password input').filter(':visible').length).toEqual(2);
+    expect($('#password input').filter(':visible')).toHaveLength(2);
     $('#user_auth_source_id')
       .val('')
       .change();
-    expect($('#password input').filter(':visible').length).toEqual(0);
+    expect($('#password input').filter(':visible')).toHaveLength(0);
   });
 });

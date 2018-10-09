@@ -15,4 +15,3 @@ describe('PaginationHelper', () => {
     expect(changePerPage).toBe('http://localhost/?search=blue&per_page=5');
   });
 });
-

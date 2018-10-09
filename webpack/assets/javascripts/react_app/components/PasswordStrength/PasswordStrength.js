@@ -12,9 +12,7 @@ const PasswordStrength = ({
   updatePasswordConfirmation,
   doesPasswordsMatch,
   passwordPresent,
-  data: {
-    className, id, name, verify, error, userInputIds, required,
-  },
+  data: { className, id, name, verify, error, userInputIds, required },
 }) => {
   const userInputs =
     userInputIds && userInputIds.length > 0

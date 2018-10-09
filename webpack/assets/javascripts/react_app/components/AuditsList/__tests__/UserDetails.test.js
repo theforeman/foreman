@@ -19,7 +19,10 @@ const userFixtures = {
 
 describe('UserDetails', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(UserDetails, userFixtures);
+    const components = shallowRenderComponentWithFixtures(
+      UserDetails,
+      userFixtures
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
         expect(toJson(component)).toMatchSnapshot();

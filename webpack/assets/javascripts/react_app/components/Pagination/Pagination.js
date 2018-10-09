@@ -11,7 +11,7 @@ import {
 } from './PaginationHelper';
 import './pagination.scss';
 
-const Pagination = (props) => {
+const Pagination = props => {
   const {
     data,
     pagination,

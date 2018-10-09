@@ -18,9 +18,7 @@ class BookmarkContainer extends React.Component {
   }
 
   loadBookmarks() {
-    const {
-      bookmarks, status, url, controller, getBookmarks,
-    } = this.props;
+    const { bookmarks, status, url, controller, getBookmarks } = this.props;
 
     if (bookmarks.length === 0 && status !== STATUS.PENDING) {
       getBookmarks(url, controller);
@@ -28,9 +26,7 @@ class BookmarkContainer extends React.Component {
   }
 
   handleNewBookmarkClick() {
-    const {
-      showModal, modalClosed, modalOpened, searchQuery,
-    } = this.props;
+    const { showModal, modalClosed, modalOpened, searchQuery } = this.props;
 
     if (showModal) {
       modalClosed();
@@ -130,7 +126,7 @@ BookmarkContainer.defaultProps = {
 
 const mapStateToProps = (
   { bookmarks },
-  { data: { controller, searchQuery } },
+  { data: { controller, searchQuery } }
 ) => ({
   errors: bookmarks[controller] && bookmarks[controller].errors,
   bookmarks: (bookmarks[controller] && bookmarks[controller].results) || [],
@@ -147,5 +143,5 @@ const mergeProps = (stateProps, dispatchProps, { data }) =>
 export default connect(
   mapStateToProps,
   BookmarkActions,
-  mergeProps,
+  mergeProps
 )(BookmarkContainer);

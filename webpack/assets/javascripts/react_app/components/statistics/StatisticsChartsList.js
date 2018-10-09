@@ -9,7 +9,7 @@ import './StatisticsChartsListStyles.scss';
 import { translate as __ } from '../../../react_app/common/I18n';
 import { noop } from '../../common/helpers';
 
-const getStatusFromChart = (chart) => {
+const getStatusFromChart = chart => {
   if (chart.data) {
     return STATUS.RESOLVED;
   }
@@ -67,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  StatisticsChartActions,
+  StatisticsChartActions
 )(StatisticsChartsList);

@@ -56,16 +56,20 @@ TaxonomySwitcher.propTypes = {
   isLoading: PropTypes.bool,
   currentOrganization: PropTypes.string,
   currentLocation: PropTypes.string,
-  organizations: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string,
-    href: PropTypes.string.isRequired,
-  })).isRequired,
-  locations: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string,
-    href: PropTypes.string.isRequired,
-  })).isRequired,
+  organizations: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string,
+      href: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  locations: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string,
+      href: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   taxonomiesBool: PropTypes.shape({
     locations: PropTypes.bool.isRequired,
     organizations: PropTypes.bool.isRequired,

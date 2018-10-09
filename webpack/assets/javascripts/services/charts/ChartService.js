@@ -20,7 +20,7 @@ const chartsSizeConfig = {
   },
 };
 
-const doDataExist = (data) => {
+const doDataExist = data => {
   if (!data || data.length === 0) {
     return false;
   }
@@ -40,7 +40,11 @@ const getColors = data =>
   }, {});
 
 export const getChartConfig = ({
-  type, data, config, onclick, id = uuidV1(),
+  type,
+  data,
+  config,
+  onclick,
+  id = uuidV1(),
 }) => {
   const chartConfigForType = chartsSizeConfig[type][config];
   const colors = getColors(data);
@@ -52,7 +56,7 @@ export const getChartConfig = ({
   let dataWithShortNames = [];
 
   if (dataExists) {
-    dataWithShortNames = data.map((val) => {
+    dataWithShortNames = data.map(val => {
       const item = Immutable.asMutable(val.slice());
       longNames.push(item[0]);
       item[0] = item[0].length > 30 ? `${val[0].substring(0, 10)}...` : item[0];
@@ -72,7 +76,6 @@ export const getChartConfig = ({
     // eslint-disable-next-line no-shadow
     tooltip: { format: { name: (d, value, ratio, id) => longNames[id] } },
 
-
     onrendered: () => {
       shortNames.forEach((name, i) => {
         const nameOfClass = name.replace(/\W/g, '-');
@@ -80,8 +83,7 @@ export const getChartConfig = ({
         const hasTooltip = d3.select(selector)[0][0];
 
         if (!hasTooltip) {
-          d3
-            .select(`.c3-legend-item-${nameOfClass}`)
+          d3.select(`.c3-legend-item-${nameOfClass}`)
             .append('svg:title')
             .text(longNames[i]);
         }

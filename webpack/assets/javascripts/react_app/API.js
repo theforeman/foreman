@@ -18,35 +18,23 @@ export default {
     });
   },
   put(url, data = {}, headers = {}) {
-    return axios.put(
-      url, data,
-      {
-        headers,
-      },
-    );
+    return axios.put(url, data, {
+      headers,
+    });
   },
   post(url, data = {}, headers = {}) {
-    return axios.post(
-      url, data,
-      {
-        headers,
-      },
-    );
+    return axios.post(url, data, {
+      headers,
+    });
   },
   delete(url, headers = {}) {
-    return axios.delete(
-      url,
-      {
-        headers,
-      },
-    );
+    return axios.delete(url, {
+      headers,
+    });
   },
   patch(url, data = {}, headers = {}) {
-    return axios.patch(
-      url, data,
-      {
-        headers,
-      },
-    );
+    return axios.patch(url, data, {
+      headers,
+    });
   },
 };

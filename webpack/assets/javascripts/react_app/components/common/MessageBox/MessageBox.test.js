@@ -6,7 +6,7 @@ import MessageBox from './index';
 
 jest.unmock('./index');
 
-const testMessageBoxSnapshot = (props) => {
+const testMessageBoxSnapshot = props => {
   const wrapper = shallow(<MessageBox {...props} />);
 
   expect(toJson(wrapper)).toMatchSnapshot();
@@ -18,7 +18,10 @@ describe('MessageBox', () => {
       testMessageBoxSnapshot({ msg: 'this is some text', icontype: 'info' }));
 
     it('displays This is another message', () =>
-      testMessageBoxSnapshot({ msg: 'This is another message', icontype: 'warning' }));
+      testMessageBoxSnapshot({
+        msg: 'This is another message',
+        icontype: 'warning',
+      }));
   });
 
   describe('the icon', () => {
@@ -26,6 +29,9 @@ describe('MessageBox', () => {
       testMessageBoxSnapshot({ msg: 'this is some text', icontype: 'info' }));
 
     it('has pficon and pficon-info classes with error icon', () =>
-      testMessageBoxSnapshot({ msg: 'this is some text', icontype: 'error-circle-o' }));
+      testMessageBoxSnapshot({
+        msg: 'this is some text',
+        icontype: 'error-circle-o',
+      }));
   });
 });

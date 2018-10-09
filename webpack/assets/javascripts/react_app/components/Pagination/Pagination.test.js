@@ -4,7 +4,6 @@ import PaginationWrapper from '../Pagination/PaginationWrapper';
 
 import { paginationMock } from './Pagination.fixtures';
 
-
 const fixtures = {
   'renders layout': paginationMock,
 };
@@ -20,8 +19,11 @@ const getBaseProps = () => ({
 });
 
 describe('Pagination', () => {
-  describe('rendering from erb', () => testComponentSnapshotsWithFixtures(Pagination, fixtures));
+  describe('rendering from erb', () =>
+    testComponentSnapshotsWithFixtures(Pagination, fixtures));
 
   describe('rendering from js', () =>
-    testComponentSnapshotsWithFixtures(PaginationWrapper, { 'renders correctly': getBaseProps() }));
+    testComponentSnapshotsWithFixtures(PaginationWrapper, {
+      'renders correctly': getBaseProps(),
+    }));
 });

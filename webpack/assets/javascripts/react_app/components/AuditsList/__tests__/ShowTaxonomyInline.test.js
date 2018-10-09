@@ -13,7 +13,10 @@ const OrgsFixtures = {
 
 describe('ShowTaxonomyInline', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(ShowTaxonomyInline, OrgsFixtures);
+    const components = shallowRenderComponentWithFixtures(
+      ShowTaxonomyInline,
+      OrgsFixtures
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
         expect(toJson(component)).toMatchSnapshot();

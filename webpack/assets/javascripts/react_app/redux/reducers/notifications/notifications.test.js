@@ -15,30 +15,38 @@ describe('notification reducer', () => {
   });
 
   it('should handle NOTIFICATIONS_MARK_GROUP_AS_READ', () => {
-    expect(reducer(stateWithNotifications, {
-      type: types.NOTIFICATIONS_MARK_GROUP_AS_READ,
-      payload: panelRequest,
-    })).toMatchSnapshot();
+    expect(
+      reducer(stateWithNotifications, {
+        type: types.NOTIFICATIONS_MARK_GROUP_AS_READ,
+        payload: panelRequest,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should handle NOTIFICATIONS_MARK_GROUP_AS_CLEARED', () => {
-    expect(reducer(stateWithNotifications, {
-      type: types.NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
-      payload: panelRequest,
-    })).toMatchSnapshot();
+    expect(
+      reducer(stateWithNotifications, {
+        type: types.NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
+        payload: panelRequest,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should handle NOTIFICATIONS_MARK_AS_CLEAR', () => {
-    expect(reducer(stateWithNotifications, {
-      type: types.NOTIFICATIONS_MARK_AS_CLEAR,
-      payload: NotificationRequest,
-    })).toMatchSnapshot();
+    expect(
+      reducer(stateWithNotifications, {
+        type: types.NOTIFICATIONS_MARK_AS_CLEAR,
+        payload: NotificationRequest,
+      })
+    ).toMatchSnapshot();
   });
 
   it('should handle NOTIFICATIONS_MARK_AS_READ', () => {
-    expect(reducer(stateWithNotifications, {
-      type: types.NOTIFICATIONS_MARK_AS_READ,
-      payload: NotificationRequest,
-    })).toMatchSnapshot();
+    expect(
+      reducer(stateWithNotifications, {
+        type: types.NOTIFICATIONS_MARK_AS_READ,
+        payload: NotificationRequest,
+      })
+    ).toMatchSnapshot();
   });
 });

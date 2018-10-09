@@ -8,9 +8,17 @@ import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
 import { STATUS } from '../../constants';
 import * as FactChartActions from '../../redux/actions/factCharts/';
-import { sprintf, ngettext as n__, translate as __ } from '../../../react_app/common/I18n';
+import {
+  sprintf,
+  ngettext as n__,
+  translate as __,
+} from '../../../react_app/common/I18n';
 import { navigateToSearch } from '../../../services/charts/DonutChartService';
-import { selectHostCount, selectFactChart, selectDisplayModal } from './FactChartSelectors';
+import {
+  selectHostCount,
+  selectFactChart,
+  selectDisplayModal,
+} from './FactChartSelectors';
 
 class FactChart extends React.Component {
   constructor(props) {
@@ -53,16 +61,24 @@ class FactChart extends React.Component {
     const chart = <DonutChart {...chartProps} config="large" />;
 
     const requestErrorMsg =
-      factChart.loaderStatus === STATUS.ERROR ? __('Request Failed') : __('No data available');
+      factChart.loaderStatus === STATUS.ERROR
+        ? __('Request Failed')
+        : __('No data available');
 
     const error = modalToDisplay ? (
-      <MessageBox msg={requestErrorMsg} icontype="error-circle-o" key={`message-${id}`} />
+      <MessageBox
+        msg={requestErrorMsg}
+        icontype="error-circle-o"
+        key={`message-${id}`}
+      />
     ) : (
       false
     );
 
     const tooltip = (
-      <Tooltip id={`viewChartTooltip-${id}`}>{__('Show distribution chart')}</Tooltip>
+      <Tooltip id={`viewChartTooltip-${id}`}>
+        {__('Show distribution chart')}
+      </Tooltip>
     );
 
     return (
@@ -71,20 +87,25 @@ class FactChart extends React.Component {
           <Button onClick={this.openModal}>{__('View Chart')}</Button>
         </OverlayTrigger>
         {modalToDisplay && (
-          <Modal show={true} onHide={this.closeModal}>
+          <Modal show onHide={this.closeModal}>
             <Modal.Header closeButton>
               <Modal.Title>
-                <b>
-                  {sprintf(__('Fact distribution chart - %s '), title)}
-                </b>
-                {hostsCount && (<small>
-                  {sprintf(n__('(%s host)', '(%s hosts)', hostsCount), hostsCount)}
-                </small>)}
+                <b>{sprintf(__('Fact distribution chart - %s '), title)}</b>
+                {hostsCount && (
+                  <small>
+                    {sprintf(
+                      n__('(%s host)', '(%s hosts)', hostsCount),
+                      hostsCount
+                    )}
+                  </small>
+                )}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div id="factChartModalBody">
-                <Loader status={factChart.loaderStatus}>{[chart, error]}</Loader>
+                <Loader status={factChart.loaderStatus}>
+                  {[chart, error]}
+                </Loader>
               </div>
             </Modal.Body>
           </Modal>
@@ -117,5 +138,5 @@ const mapStateToProps = (state, ownProps) => ({
 
 export default connect(
   mapStateToProps,
-  FactChartActions,
+  FactChartActions
 )(FactChart);

@@ -16,9 +16,10 @@ const defaultNotificationsPollingInterval = 10000;
 const notificationsInterval =
   process.env.NOTIFICATIONS_POLLING || defaultNotificationsPollingInterval;
 
-const getNotifications = url => (dispatch) => {
+const getNotifications = url => dispatch => {
   const isDocumentVisible =
-    document.visibilityState === 'visible' || document.visibilityState === 'prerender';
+    document.visibilityState === 'visible' ||
+    document.visibilityState === 'prerender';
 
   if (isDocumentVisible) {
     API.get(url)
@@ -62,7 +63,7 @@ export const startNotificationsPolling = url => (dispatch, getState) => {
   dispatch(getNotifications(url));
 };
 
-export const markAsRead = (group, id) => (dispatch) => {
+export const markAsRead = (group, id) => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_READ,
     payload: {
@@ -75,7 +76,7 @@ export const markAsRead = (group, id) => (dispatch) => {
   API.put(url, data);
 };
 
-export const markGroupAsRead = group => (dispatch) => {
+export const markGroupAsRead = group => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_READ,
     payload: {
@@ -86,7 +87,7 @@ export const markGroupAsRead = group => (dispatch) => {
   API.put(url);
 };
 
-export const clearNotification = (group, id) => (dispatch) => {
+export const clearNotification = (group, id) => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_AS_CLEAR,
     payload: {
@@ -98,7 +99,7 @@ export const clearNotification = (group, id) => (dispatch) => {
   API.delete(url);
 };
 
-export const clearGroup = group => (dispatch) => {
+export const clearGroup = group => dispatch => {
   dispatch({
     type: NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
     payload: {
@@ -137,8 +138,8 @@ export const toggleDrawer = () => (dispatch, getState) => {
 
 export const clickedLink = (
   { href, external = false },
-  toggleDrawerAction = toggleDrawer,
-) => (dispatch) => {
+  toggleDrawerAction = toggleDrawer
+) => dispatch => {
   dispatch(toggleDrawerAction());
 
   const openedWindow = window.open(href, external ? '_blank' : '_self');

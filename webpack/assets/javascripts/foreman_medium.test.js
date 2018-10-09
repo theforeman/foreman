@@ -4,8 +4,7 @@ import { nfsVisibility } from './foreman_medium';
 jest.unmock('./foreman_medium');
 const nfsRequired = ['Solaris'];
 
-document.body.innerHTML =
-`<span id="nfs-section" style=display:none;>
+document.body.innerHTML = `<span id="nfs-section" style=display:none;>
   <span class="help-block help-inline">The NFS path to the media.</span>
   <span class="help-block help-inline">The NFS path to the jumpstart control files.</span>
   <span class="help-block help-inline">The NFS path to the image directory.</span>

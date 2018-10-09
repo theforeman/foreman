@@ -1,13 +1,16 @@
 import { isEmpty } from 'lodash';
-import { changeOrganization, changeLocation } from '../../../foreman_navigation';
+import {
+  changeOrganization,
+  changeLocation,
+} from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
 
 export const getCurrentPath = () => window.location.pathname;
 
 export const getActive = (data, path) => {
   let activeItem = '';
-  data.forEach((item) => {
-    item.children.forEach((child) => {
+  data.forEach(item => {
+    item.children.forEach(child => {
       if (child.url === path) activeItem = item.name;
     });
   });
@@ -18,12 +21,14 @@ export const handleMenuClick = (primary, activeMenu, changeActive) => {
   if (primary.title !== activeMenu) changeActive(primary);
 };
 
-export const combineMenuItems = (data) => {
+export const combineMenuItems = data => {
   const items = [];
 
-  data.menu.forEach((item) => {
-    const translatedChildren = item.children.map(child =>
-      ({ ...child, name: isEmpty(child.name) ? child.name : __(child.name) }));
+  data.menu.forEach(item => {
+    const translatedChildren = item.children.map(child => ({
+      ...child,
+      name: isEmpty(child.name) ? child.name : __(child.name),
+    }));
 
     const translatedItem = {
       ...item,
@@ -45,7 +50,7 @@ export const combineMenuItems = (data) => {
   return items;
 };
 
-const createOrgItem = (orgs) => {
+const createOrgItem = orgs => {
   const anyOrg = {
     name: __('Any Organization'),
     url: '/organizations/clear',
@@ -56,7 +61,7 @@ const createOrgItem = (orgs) => {
   const childrenArray = [];
   childrenArray.push(anyOrg);
 
-  orgs.forEach((org) => {
+  orgs.forEach(org => {
     const childObject = {
       type: org.type,
       name: isEmpty(org.title) ? org.title : __(org.title),
@@ -80,7 +85,7 @@ const createOrgItem = (orgs) => {
   return orgItem;
 };
 
-const createLocationItem = (locations) => {
+const createLocationItem = locations => {
   const anyLoc = {
     name: __('Any Location'),
     url: '/locations/clear',
@@ -91,7 +96,7 @@ const createLocationItem = (locations) => {
   const childrenArray = [];
   childrenArray.push(anyLoc);
 
-  locations.forEach((loc) => {
+  locations.forEach(loc => {
     const childObject = {
       type: loc.type,
       name: isEmpty(loc.title) ? loc.title : __(loc.title),

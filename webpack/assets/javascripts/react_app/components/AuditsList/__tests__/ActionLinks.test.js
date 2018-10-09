@@ -10,10 +10,13 @@ const actionLinksFixture = {
 
 describe('ActionLinks', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(ActionLinks, actionLinksFixture);
+    const components = shallowRenderComponentWithFixtures(
+      ActionLinks,
+      actionLinksFixture
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
-        expect(component.find('a').length).toEqual(1);
+        expect(component.find('a')).toHaveLength(1);
         expect(toJson(component)).toMatchSnapshot();
       });
     });

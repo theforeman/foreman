@@ -54,7 +54,7 @@ class Select extends React.Component {
       <div>
         <select
           disabled={disabled}
-          ref={(select) => {
+          ref={select => {
             this.select = select;
           }}
           className="form-control"

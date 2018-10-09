@@ -58,7 +58,6 @@ export const donutMediumChartConfig = {
   },
 };
 
-
 export const donutLargeChartConfig = {
   ...donutChartConfig,
   size: enums.SIZE.LARGE,
@@ -74,7 +73,6 @@ export const barChartConfig = {
   size: barChartEnums.SIZE.REGULAR,
   padding: null,
 };
-
 
 export const smallBarChartConfig = {
   ...barChartConfig,

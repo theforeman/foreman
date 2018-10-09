@@ -21,13 +21,19 @@ const fixtures = {
 };
 
 describe('TaxonomyDropdown', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(TaxonomyDropdown, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(TaxonomyDropdown, fixtures));
 
   describe('simulate onClick', () => {
     const changeTaxonomy = jest.fn();
 
-    const wrapper = shallow(<TaxonomyDropdown {...props} changeTaxonomy={changeTaxonomy} />);
-    wrapper.find('.organization_menuitem').at(0).simulate('click');
+    const wrapper = shallow(
+      <TaxonomyDropdown {...props} changeTaxonomy={changeTaxonomy} />
+    );
+    wrapper
+      .find('.organization_menuitem')
+      .at(0)
+      .simulate('click');
     wrapper.find('.organizations_clear').simulate('click');
     expect(changeTaxonomy).toHaveBeenCalledTimes(2);
   });

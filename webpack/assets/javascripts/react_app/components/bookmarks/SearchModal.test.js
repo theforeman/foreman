@@ -12,9 +12,11 @@ function setup() {
     onHide: jest.fn(),
   };
 
-  const wrapper = mount(<Provider store={generateStore()}>
+  const wrapper = mount(
+    <Provider store={generateStore()}>
       <SearchModal {...props} />
-    </Provider>);
+    </Provider>
+  );
 
   return {
     props,
@@ -26,7 +28,7 @@ describe('bookmark modal', () => {
   it('should render the form within a modal', () => {
     const { wrapper } = setup();
 
-    expect(wrapper.find(SearchModal).length).toEqual(1);
+    expect(wrapper.find(SearchModal)).toHaveLength(1);
   });
   it('should allow closing the modal using the close button', () => {
     const { wrapper, props } = setup();

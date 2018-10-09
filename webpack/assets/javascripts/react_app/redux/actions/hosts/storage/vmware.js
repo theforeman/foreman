@@ -13,7 +13,10 @@ import {
   STORAGE_VMWARE_STORAGEPODS_SUCCESS,
   STORAGE_VMWARE_STORAGEPODS_FAILURE,
 } from '../../../consts';
-import { defaultControllerAttributes, getDefaultDiskAttributes } from './vmware.consts';
+import {
+  defaultControllerAttributes,
+  getDefaultDiskAttributes,
+} from './vmware.consts';
 import { ajaxRequestAction } from '../../common';
 
 export const updateDisk = (key, newValues) => ({
@@ -24,7 +27,7 @@ export const updateDisk = (key, newValues) => ({
   },
 });
 
-export const initController = (config, controllers, volumes) => (dispatch) => {
+export const initController = (config, controllers, volumes) => dispatch => {
   dispatch({
     type: STORAGE_VMWARE_INIT,
     payload: {
@@ -35,7 +38,7 @@ export const initController = (config, controllers, volumes) => (dispatch) => {
   });
 };
 
-export const fetchDatastores = url => (dispatch) => {
+export const fetchDatastores = url => dispatch => {
   ajaxRequestAction({
     dispatch,
     requestAction: STORAGE_VMWARE_DATASTORES_REQUEST,
@@ -45,7 +48,7 @@ export const fetchDatastores = url => (dispatch) => {
   });
 };
 
-export const fetchStoragePods = url => (dispatch) => {
+export const fetchStoragePods = url => dispatch => {
   ajaxRequestAction({
     dispatch,
     requestAction: STORAGE_VMWARE_STORAGEPODS_REQUEST,

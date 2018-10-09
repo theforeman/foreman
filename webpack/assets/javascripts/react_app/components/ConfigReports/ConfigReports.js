@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'patternfly-react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import ChartBox from '../statistics/ChartBox';
 import { translate as __ } from '../../common/I18n';
 import { STATUS } from '../../constants';
 
-const ConfigReports = (props) => {
+const ConfigReports = props => {
   const {
     metricsChartData,
     statusChartData,
@@ -47,7 +47,7 @@ const ConfigReports = (props) => {
         />
       </Col>
       <Col md={4}>
-        <table className={cx(tableClasses, 'report-chart')}>
+        <table className={classNames(tableClasses, 'report-chart')}>
           <tbody>{tableData.map((metric, i) => createRow(metric, i))}</tbody>
           <tfoot>
             <tr>

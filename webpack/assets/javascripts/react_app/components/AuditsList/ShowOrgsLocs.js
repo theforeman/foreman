@@ -4,9 +4,7 @@ import { Col } from 'patternfly-react';
 import ShowTaxonomyInline from './ShowTaxonomyInline';
 import { translate as __ } from '../../common/I18n';
 
-const ShowOrgsLocs = ({
-  isOrgEnabled, isLocEnabled, orgs, locs,
-}) => (
+const ShowOrgsLocs = ({ isOrgEnabled, isLocEnabled, orgs, locs }) => (
   <Col sm={10} className="taxonomy-section">
     {isOrgEnabled && (
       <ShowTaxonomyInline

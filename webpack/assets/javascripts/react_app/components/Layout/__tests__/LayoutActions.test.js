@@ -1,9 +1,16 @@
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
-import { showLoading, hideLoading, changeActiveMenu, fetchMenuItems, changeOrganization, changeLocation } from '../LayoutActions';
+import {
+  showLoading,
+  hideLoading,
+  changeActiveMenu,
+  fetchMenuItems,
+  changeOrganization,
+  changeLocation,
+} from '../LayoutActions';
 
 import { layoutMock, serverItems } from '../Layout.fixtures';
 
-const runChangeActiveMenu = () => (dispatch) => {
+const runChangeActiveMenu = () => dispatch => {
   const getState = () => ({
     layout: {
       items: serverItems,
@@ -27,4 +34,3 @@ const fixtures = {
 };
 
 describe('Layout actions', () => testActionSnapshotWithFixtures(fixtures));
-

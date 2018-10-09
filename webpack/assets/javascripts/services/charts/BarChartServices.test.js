@@ -6,17 +6,21 @@ jest.unmock('./ChartService');
 
 describe('getBarChartConfig', () => {
   it('should return regular bar chart config', () => {
-    expect(getBarChartConfig({
-      data: barChartData.data,
-      config: 'regular',
-      id: 'some-id',
-    })).toMatchSnapshot();
+    expect(
+      getBarChartConfig({
+        data: barChartData.data,
+        config: 'regular',
+        id: 'some-id',
+      })
+    ).toMatchSnapshot();
   });
   it('shoud return small bar chart config', () => {
-    expect(getBarChartConfig({
-      data: barChartData.data,
-      config: 'small',
-      id: 'some-id',
-    })).toMatchSnapshot();
+    expect(
+      getBarChartConfig({
+        data: barChartData.data,
+        config: 'small',
+        id: 'some-id',
+      })
+    ).toMatchSnapshot();
   });
 });

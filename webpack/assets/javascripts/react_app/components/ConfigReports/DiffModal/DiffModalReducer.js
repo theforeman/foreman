@@ -1,5 +1,9 @@
 import Immutable from 'seamless-immutable';
-import { DIFF_MODAL_TOGGLE, DIFF_MODAL_CREATE, DIFF_MODAL_VIEWTYPE } from './DiffModalConstants';
+import {
+  DIFF_MODAL_TOGGLE,
+  DIFF_MODAL_CREATE,
+  DIFF_MODAL_VIEWTYPE,
+} from './DiffModalConstants';
 
 const initialState = Immutable({
   isOpen: false,

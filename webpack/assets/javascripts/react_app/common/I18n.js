@@ -13,7 +13,9 @@ const getLocaleData = () => {
 
   if (locales[locale] === undefined) {
     // eslint-disable-next-line no-console
-    console.log(`could not load translations for ${locale} locale, falling back to default locale.`);
+    console.log(
+      `could not load translations for ${locale} locale, falling back to default locale.`
+    );
     return { domain: 'app', locale_data: { app: { '': {} } } };
   }
 
@@ -22,13 +24,18 @@ const getLocaleData = () => {
 
 export const jed = new Jed(getLocaleData());
 
-export const translate = (...args) => `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
-export const ngettext = (...args) => `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
+export const translate = (...args) =>
+  `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
+export const ngettext = (...args) =>
+  `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
 
 export const { sprintf } = jed;
 
 const i18n = {
-  translate, ngettext, jed, sprintf,
+  translate,
+  ngettext,
+  jed,
+  sprintf,
 };
 export default i18n;
 window.__ = translate;

@@ -18,9 +18,7 @@ const initialState = Immutable({
 export default (state = initialState, action) => {
   const {
     type,
-    payload: {
-      controller, error, results, searchQuery, status, trigger,
-    } = {},
+    payload: { controller, error, results, searchQuery, status, trigger } = {},
   } = action;
   switch (type) {
     case AUTO_COMPLETE_REQUEST:
