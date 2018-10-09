@@ -16,12 +16,16 @@ describe('common Form', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should display validation errors if touched', () => {
-    const wrapper = shallow(<CommonForm label="my label" touched error="is required!" />);
+    const wrapper = shallow(
+      <CommonForm label="my label" touched error="is required!" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should not display validation errors if not touched', () => {
-    const wrapper = shallow(<CommonForm label="my label" error="is required!" />);
+    const wrapper = shallow(
+      <CommonForm label="my label" error="is required!" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
@@ -31,7 +35,9 @@ describe('common Form', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should accept customized input class', () => {
-    const wrapper = shallow(<CommonForm name="name" inputClassName="col-md-10" label="Name" />);
+    const wrapper = shallow(
+      <CommonForm name="name" inputClassName="col-md-10" label="Name" />
+    );
 
     expect(wrapper.find('.col-md-10').exists()).toBe(true);
   });

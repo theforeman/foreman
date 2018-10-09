@@ -58,4 +58,5 @@ const fixtures = {
   },
 };
 
-describe('Layout reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));
+describe('Layout reducer', () =>
+  testReducerSnapshotWithFixtures(reducer, fixtures));

@@ -1,4 +1,3 @@
-
 import { combineMenuItems } from './LayoutHelper';
 import { selectMenuItems } from './LayoutSelectors';
 import {
@@ -18,8 +17,12 @@ export const hideLoading = () => ({
 });
 
 export const changeActiveMenu = primary => (dispatch, getState) => {
-  const items = selectMenuItems(getState()).map(item =>
-    (primary.title === item.name ? { ...item, active: true } : { ...item, active: false }));
+  const items = selectMenuItems(getState()).map(
+    item =>
+      primary.title === item.name
+        ? { ...item, active: true }
+        : { ...item, active: false }
+  );
 
   dispatch({
     type: LAYOUT_UPDATE_ITEMS,
@@ -30,7 +33,7 @@ export const changeActiveMenu = primary => (dispatch, getState) => {
   });
 };
 
-export const fetchMenuItems = data => (dispatch) => {
+export const fetchMenuItems = data => dispatch => {
   const items = combineMenuItems(data);
   dispatch({
     type: LAYOUT_UPDATE_ITEMS,
@@ -40,7 +43,7 @@ export const fetchMenuItems = data => (dispatch) => {
   });
 };
 
-export const changeOrganization = org => (dispatch) => {
+export const changeOrganization = org => dispatch => {
   dispatch({
     type: LAYOUT_CHANGE_ORG,
     payload: {
@@ -49,7 +52,7 @@ export const changeOrganization = org => (dispatch) => {
   });
 };
 
-export const changeLocation = location => (dispatch) => {
+export const changeLocation = location => dispatch => {
   dispatch({
     type: LAYOUT_CHANGE_LOCATION,
     payload: {

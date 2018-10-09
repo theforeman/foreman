@@ -14,13 +14,18 @@ let locale = document.getElementsByTagName('html')[0].lang;
 locale = locale.length === 0 ? 'en' : locale.replace(/-/g, '_');
 export const jed = new Jed(locales[locale]);
 
-export const translate = (...args) => `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
-export const ngettext = (...args) => `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
+export const translate = (...args) =>
+  `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
+export const ngettext = (...args) =>
+  `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
 
 export const { sprintf } = jed;
 
 const i18n = {
-  translate, ngettext, jed, sprintf,
+  translate,
+  ngettext,
+  jed,
+  sprintf,
 };
 export default i18n;
 window.__ = translate;

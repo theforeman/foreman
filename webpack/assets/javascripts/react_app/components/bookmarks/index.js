@@ -17,7 +17,10 @@ class BookmarkContainer extends React.Component {
   }
 
   loadBookmarks() {
-    if (this.props.bookmarks.length === 0 && this.props.status !== STATUS.PENDING) {
+    if (
+      this.props.bookmarks.length === 0 &&
+      this.props.status !== STATUS.PENDING
+    ) {
       const { url, controller, getBookmarks } = this.props;
 
       getBookmarks(url, controller);
@@ -46,7 +49,12 @@ class BookmarkContainer extends React.Component {
     } = this.props;
 
     return showModal ? (
-      <SearchModal show={showModal} controller={controller} url={url} onHide={modalClosed} />
+      <SearchModal
+        show={showModal}
+        controller={controller}
+        url={url}
+        onHide={modalClosed}
+      />
     ) : (
       <Dropdown pullRight id={controller} onClick={this.loadBookmarks}>
         <Dropdown.Toggle title={__('Bookmarks')}>
@@ -54,12 +62,16 @@ class BookmarkContainer extends React.Component {
         </Dropdown.Toggle>
         <Dropdown.Menu className="scrollable-dropdown">
           {canCreate && (
-            <MenuItem key="newBookmark" id="newBookmark" onClick={this.handleNewBookmarkClick}>
+            <MenuItem
+              key="newBookmark"
+              id="newBookmark"
+              onClick={this.handleNewBookmarkClick}
+            >
               {__('Bookmark this search')}
             </MenuItem>
           )}
           <DocumentationUrl href={documentationUrl} />
-          <MenuItem divider={true} />
+          <MenuItem divider />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
             <li className="loader-root">
@@ -84,7 +96,10 @@ class BookmarkContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bookmarks }, { data: { controller, searchQuery } }) => ({
+const mapStateToProps = (
+  { bookmarks },
+  { data: { controller, searchQuery } }
+) => ({
   errors: bookmarks[controller] && bookmarks[controller].errors,
   bookmarks: (bookmarks[controller] && bookmarks[controller].results) || [],
   status: bookmarks[controller] && bookmarks[controller].status,
@@ -100,5 +115,5 @@ const mergeProps = (stateProps, dispatchProps, { data }) =>
 export default connect(
   mapStateToProps,
   BookmarkActions,
-  mergeProps,
+  mergeProps
 )(BookmarkContainer);

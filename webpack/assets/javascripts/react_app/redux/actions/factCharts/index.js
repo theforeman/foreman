@@ -18,12 +18,14 @@ export const getChartData = (url, id) => dispatch =>
   });
 
 export const showModal = (id, title) => {
-  const showModalAction = { type: OPEN_FACT_CHART_MODAL, payload: { id, title } };
+  const showModalAction = {
+    type: OPEN_FACT_CHART_MODAL,
+    payload: { id, title },
+  };
   return showModalAction;
 };
 
-export const closeModal = (id) => {
-  const closeModalAction = ({ type: CLOSE_FACT_CHART_MODAL, payload: { id } });
+export const closeModal = id => {
+  const closeModalAction = { type: CLOSE_FACT_CHART_MODAL, payload: { id } };
   return closeModalAction;
 };
-

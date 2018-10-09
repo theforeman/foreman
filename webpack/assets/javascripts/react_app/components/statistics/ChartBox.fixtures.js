@@ -8,7 +8,12 @@ const mockStoryData = {
     },
     data: {
       type: 'donut',
-      columns: [['Fedora 21', 3], ['Ubuntu 14.04', 4], ['Centos 7', 2], ['Debian 8', 1]],
+      columns: [
+        ['Fedora 21', 3],
+        ['Ubuntu 14.04', 4],
+        ['Centos 7', 2],
+        ['Debian 8', 1],
+      ],
       names: {
         'Fedora 21': 'Fedora 21',
         'Ubuntu 14.04': 'Ubuntu 14.04',
@@ -39,7 +44,12 @@ const mockStoryData = {
     },
     data: {
       type: 'donut',
-      columns: [['Fedora 21', 3], ['Ubuntu 14.04', 4], ['Centos 7', 2], ['Debian 8', 1]],
+      columns: [
+        ['Fedora 21', 3],
+        ['Ubuntu 14.04', 4],
+        ['Centos 7', 2],
+        ['Debian 8', 1],
+      ],
       names: {
         'Fedora 21': 'Fedora 21',
         'Ubuntu 14.04': 'Ubuntu 14.04',

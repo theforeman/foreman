@@ -11,8 +11,11 @@ import {
 } from './AutoCompleteConstants';
 
 export const getResults = ({
-  url, searchQuery, controller, trigger,
-}) => (dispatch) => {
+  url,
+  searchQuery,
+  controller,
+  trigger,
+}) => dispatch => {
   startRequest({
     controller,
     searchQuery,
@@ -28,13 +31,12 @@ export const getResults = ({
         dispatch,
         searchQuery,
         trigger,
-      }))
+      })
+    )
     .catch(error => requestFailure({ error, dispatch }));
 };
 
-const startRequest = ({
-  controller, searchQuery, trigger, dispatch,
-}) => {
+const startRequest = ({ controller, searchQuery, trigger, dispatch }) => {
   dispatch({
     type: AUTO_COMPLETE_REQUEST,
     payload: {
@@ -47,7 +49,11 @@ const startRequest = ({
 };
 
 const requestSuccess = ({
-  data, trigger, controller, searchQuery, dispatch,
+  data,
+  trigger,
+  controller,
+  searchQuery,
+  dispatch,
 }) => {
   const { error } = data[0] || {};
   if (error) {
@@ -79,7 +85,10 @@ const requestFailure = ({ error, dispatch }) =>
 const isFinishedWithPoint = string => string.slice(-1) === '.';
 
 const getAPIPath = ({ trigger, searchQuery, url }) => {
-  const loadNextResults = trigger === TRIGGERS.ITEM_SELECT && !isFinishedWithPoint(searchQuery) ? ' ' : '';
+  const loadNextResults =
+    trigger === TRIGGERS.ITEM_SELECT && !isFinishedWithPoint(searchQuery)
+      ? ' '
+      : '';
   const APISearchQuery = searchQuery + loadNextResults;
   const APIPath = new URI(url);
   APIPath.addSearch({ search: APISearchQuery });
@@ -107,8 +116,9 @@ export const initialUpdate = (searchQuery, controller) => dispatch =>
 
 const objectDeepTrim = (obj, trigger) => {
   const copy = { ...obj };
-  Object.keys(copy).forEach((key) => {
-    const addSpace = key === 'label' && trigger === TRIGGERS.ITEM_SELECT ? ' ' : '';
+  Object.keys(copy).forEach(key => {
+    const addSpace =
+      key === 'label' && trigger === TRIGGERS.ITEM_SELECT ? ' ' : '';
     copy[key] = clearSpaces(copy[key]) + addSpace;
   });
   return copy;

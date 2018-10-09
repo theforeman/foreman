@@ -18,21 +18,29 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
 
   if (isAuditLogin) {
     return (
-      <span className='user-grid'>
+      <span className="user-grid">
         <EllipsisWithTooltip>
-          <span><a { ...linkProps }>{UserDisplayName}</a></span>
+          <span>
+            <a {...linkProps}>{UserDisplayName}</a>
+          </span>
         </EllipsisWithTooltip>
-        <span><a href={auditPath}>__('Logged-in')</a></span>
+        <span>
+          <a href={auditPath}>__('Logged-in')</a>
+        </span>
       </span>
     );
   }
 
   return (
-    <span className='user-grid'>
+    <span className="user-grid">
       <EllipsisWithTooltip>
-        <span><a { ...linkProps }>{UserDisplayName}</a></span>
+        <span>
+          <a {...linkProps}>{UserDisplayName}</a>
+        </span>
       </EllipsisWithTooltip>
-      {remoteAddress ? (<span className='gray-text'>({remoteAddress})</span>) : null}
+      {remoteAddress ? (
+        <span className="gray-text">({remoteAddress})</span>
+      ) : null}
     </span>
   );
 };

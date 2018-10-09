@@ -19,7 +19,8 @@ const loadResults = (requestParams, serverMock) => {
 };
 
 const fixtures = {
-  'should update store with initial data': () => initialUpdate('searchQuery', controller),
+  'should update store with initial data': () =>
+    initialUpdate('searchQuery', controller),
 
   'should load results and success': () =>
     loadResults(
@@ -29,7 +30,7 @@ const fixtures = {
         controller,
         trigger,
       },
-      async () => APISuccessMock,
+      async () => APISuccessMock
     ),
 
   'should load results and fail': () =>
@@ -40,10 +41,11 @@ const fixtures = {
         controller,
         trigger,
       },
-      async () => APIFailMock,
+      async () => APIFailMock
     ),
 
   'should reset-data': () => resetData(controller),
 };
 
-describe('AutoComplete actions', () => testActionSnapshotWithFixtures(fixtures));
+describe('AutoComplete actions', () =>
+  testActionSnapshotWithFixtures(fixtures));

@@ -55,18 +55,18 @@ describe('taxonomyAdded', () => {
        <option value=""></option>
      </select>`;
 
-    expect($('#user_default_organization_id option').length).toEqual(1);
+    expect($('#user_default_organization_id option')).toHaveLength(1);
     $('#user_organization_ids')
       .val('2')
       .change();
-    expect($('#user_default_organization_id option').length).toEqual(2);
+    expect($('#user_default_organization_id option')).toHaveLength(2);
     $('#user_organization_ids')
       .val([2, 1])
       .change();
-    expect($('#user_default_organization_id option').length).toEqual(3);
+    expect($('#user_default_organization_id option')).toHaveLength(3);
     $('#user_organization_ids')
       .val('')
       .change();
-    expect($('#user_default_organization_id option').length).toEqual(1);
+    expect($('#user_default_organization_id option')).toHaveLength(1);
   });
 });

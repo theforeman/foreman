@@ -44,16 +44,23 @@ const fixtures = {
     action: {
       type: BREADCRUMB_BAR_RESOURCES_SUCCESS,
       payload: {
-        items: [...resourceList], page: 1, pages: 2, resourceUrl: resource.resourceUrl,
+        items: [...resourceList],
+        page: 1,
+        pages: 2,
+        resourceUrl: resource.resourceUrl,
       },
     },
   },
   'should handle BREADCRUMB_BAR_RESOURCES_FAILURE': {
     action: {
       type: BREADCRUMB_BAR_RESOURCES_FAILURE,
-      payload: { error: new Error('some error'), resourceUrl: resource.resourceUrl },
+      payload: {
+        error: new Error('some error'),
+        resourceUrl: resource.resourceUrl,
+      },
     },
   },
 };
 
-describe('BreadcrumbBar reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));
+describe('BreadcrumbBar reducer', () =>
+  testReducerSnapshotWithFixtures(reducer, fixtures));

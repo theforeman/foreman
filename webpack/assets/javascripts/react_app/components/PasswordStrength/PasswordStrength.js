@@ -13,9 +13,7 @@ export default class PasswordStrength extends React.Component {
       updatePasswordConfirmation,
       doesPasswordsMatch,
       passwordPresent,
-      data: {
-        className, id, name, verify, error, userInputIds, required,
-      },
+      data: { className, id, name, verify, error, userInputIds, required },
     } = this.props;
 
     const userInputs =
@@ -25,29 +23,44 @@ export default class PasswordStrength extends React.Component {
 
     return (
       <div>
-        <CommonForm label={__('Password')} touched={true} error={!passwordPresent && error} required={required}>
+        <CommonForm
+          label={__('Password')}
+          touched
+          error={!passwordPresent && error}
+          required={required}
+        >
           <ReactPasswordStrength
             changeCallback={({ password }) => updatePassword(password)}
             minLength={6}
             minScore={2}
             userInputs={userInputs}
             tooShortWord={__('Too short')}
-            scoreWords={[__('Weak'), __('Medium'), __('Normal'), __('Strong'), __('Very strong')]}
+            scoreWords={[
+              __('Weak'),
+              __('Medium'),
+              __('Normal'),
+              __('Strong'),
+              __('Very strong'),
+            ]}
             inputProps={{ name, id, className }}
           />
         </CommonForm>
         {verify && (
           <CommonForm
             label={__('Verify')}
-            touched={true}
+            touched
             required={required}
-            error={doesPasswordsMatch ? verify.error : __('Passwords do not match')}
+            error={
+              doesPasswordsMatch ? verify.error : __('Passwords do not match')
+            }
           >
             <input
               id="password_confirmation"
               name={verify.name}
               type="password"
-              onChange={({ target }) => updatePasswordConfirmation(target.value)}
+              onChange={({ target }) =>
+                updatePasswordConfirmation(target.value)
+              }
               className="form-control"
             />
           </CommonForm>

@@ -50,7 +50,9 @@ const SearchBar = ({
         url={autocomplete.url}
       />
       <div className="input-group-btn">
-        <AutoComplete.SearchButton onClick={() => handleSearch(searchQuery, onSearch)} />
+        <AutoComplete.SearchButton
+          onClick={() => handleSearch(searchQuery, onSearch)}
+        />
         {bookmarksComponent}
       </div>
     </div>

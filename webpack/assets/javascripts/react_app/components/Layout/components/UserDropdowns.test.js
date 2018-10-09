@@ -14,10 +14,13 @@ const fixtures = {
 };
 
 describe('UserDropdown', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(UserDropdowns, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(UserDropdowns, fixtures));
 
   describe('trigger onClicks', () => {
-    const wrapper = shallow(<UserDropdowns { ...userDropdownProps } { ...createStubs() } />);
+    const wrapper = shallow(
+      <UserDropdowns {...userDropdownProps} {...createStubs()} />
+    );
 
     wrapper.find('.user_menuitem').simulate('click');
   });

@@ -16,7 +16,10 @@ class ChartBox extends React.Component {
     bindMethods(this, ['onClick', 'closeModal', 'openModal']);
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.props.chart, nextProps.chart) || !isEqual(this.state, nextState);
+    return (
+      !isEqual(this.props.chart, nextProps.chart) ||
+      !isEqual(this.state, nextState)
+    );
   }
 
   onClick() {
@@ -41,14 +44,16 @@ class ChartBox extends React.Component {
     const hasChartData = dataFiltered && dataFiltered.length > 0;
     const headerProps = hasChartData
       ? {
-        onClick: this.onClick,
-        title: this.props.tip,
-        'data-toggle': 'tooltip',
-        'data-placement': 'top',
-      }
+          onClick: this.onClick,
+          title: this.props.tip,
+          'data-toggle': 'tooltip',
+          'data-placement': 'top',
+        }
       : {};
     const handleChartClick =
-      chart.search && chart.search.match(/=$/) ? null : navigateToSearch.bind(null, chart.search);
+      chart.search && chart.search.match(/=$/)
+        ? null
+        : navigateToSearch.bind(null, chart.search);
     const chartProps = {
       data: chart.data ? chart.data : undefined,
       key: `${this.props.chart.id}-chart`,
@@ -74,7 +79,11 @@ class ChartBox extends React.Component {
         <Panel.Body>
           <Loader status={this.props.status}>{[panelChart, error]}</Loader>
           {this.state.showModal && (
-            <Modal show={this.state.showModal} enforceFocus onHide={this.closeModal}>
+            <Modal
+              show={this.state.showModal}
+              enforceFocus
+              onHide={this.closeModal}
+            >
               <Modal.Header closeButton>
                 <Modal.Title>{this.props.title}</Modal.Title>
               </Modal.Header>

@@ -39,9 +39,9 @@ class BreadcrumbSwitcher extends React.Component {
     return (
       <div className="breadcrumb-switcher" style={{ position: 'relative' }}>
         <BreadcrumbSwitcherToggler
-          id='switcher'
+          id="switcher"
           onClick={() => onTogglerClick()}
-          ref={(ref) => {
+          ref={ref => {
             this.togglerRef = ref;
           }}
         />

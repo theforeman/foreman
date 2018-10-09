@@ -31,15 +31,20 @@ export default (state = initialState, { type, payload }) => {
       // controller key is assigned here using getAvailableKey
       return state
         .update('controllers', ctrls =>
-          ctrls.concat(Object.assign({}, payload.controller, { key: availableKey })))
-        .update('volumes', volumes => (
-          volumes.concat(Object.assign(
-            {},
-            payload.volume,
-            { controllerKey: availableKey },
-            { key: uuidV1() },
-          ))
-        ));
+          ctrls.concat(
+            Object.assign({}, payload.controller, { key: availableKey })
+          )
+        )
+        .update('volumes', volumes =>
+          volumes.concat(
+            Object.assign(
+              {},
+              payload.volume,
+              { controllerKey: availableKey },
+              { key: uuidV1() }
+            )
+          )
+        );
     case STORAGE_VMWARE_ADD_DISK:
       return state.set(
         'volumes',
@@ -47,32 +52,48 @@ export default (state = initialState, { type, payload }) => {
           ...payload.data,
           key: uuidV1(),
           controllerKey: payload.controllerKey,
-        }),
+        })
       );
     case STORAGE_VMWARE_REMOVE_CONTROLLER:
       return state
-        .update('controllers', ctrls => ctrls.filter(ctrl => ctrl.key !== payload.controllerKey))
+        .update('controllers', ctrls =>
+          ctrls.filter(ctrl => ctrl.key !== payload.controllerKey)
+        )
         .update('volumes', volumes =>
-          volumes.filter(volume => volume.controllerKey !== payload.controllerKey));
+          volumes.filter(
+            volume => volume.controllerKey !== payload.controllerKey
+          )
+        );
     case STORAGE_VMWARE_UPDATE_CONTROLLER:
       return state.updateIn(['controllers', payload.idx], controller =>
-        Object.assign({}, controller, payload.newValues));
+        Object.assign({}, controller, payload.newValues)
+      );
     case STORAGE_VMWARE_UPDATE_DISK:
       return state.set(
         'volumes',
-        state.volumes.map(v => (
-          v.key === payload.key ? Object.assign({}, v, payload.newValues) : v
-        )),
+        state.volumes.map(
+          v =>
+            v.key === payload.key ? Object.assign({}, v, payload.newValues) : v
+        )
       );
     case STORAGE_VMWARE_REMOVE_DISK:
-      return state.set('volumes', state.volumes.filter(v => v.key !== payload.key));
+      return state.set(
+        'volumes',
+        state.volumes.filter(v => v.key !== payload.key)
+      );
     case STORAGE_VMWARE_INIT:
       return initialState
         .set('config', payload.config)
-        .setIn(['config', 'addControllerEnabled'], !!getAvailableKey(payload.controllers))
+        .setIn(
+          ['config', 'addControllerEnabled'],
+          !!getAvailableKey(payload.controllers)
+        )
         .set('controllers', payload.controllers)
         .set('paramsScope', payload.config.paramsScope)
-        .set('volumes', payload.volumes.map(volume => ({ ...volume, key: uuidV1() })));
+        .set(
+          'volumes',
+          payload.volumes.map(volume => ({ ...volume, key: uuidV1() }))
+        );
     default:
       return state;
   }

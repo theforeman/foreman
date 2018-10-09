@@ -3,8 +3,14 @@ import { showSpinner } from '../foreman_tools';
 
 export function networkSelected(item) {
   const selected = $(item).val();
-  const bridge = $(item).parentsUntil('.fields').parent().find('#bridge');
-  const nat = $(item).parentsUntil('.fields').parent().find('#nat');
+  const bridge = $(item)
+    .parentsUntil('.fields')
+    .parent()
+    .find('#bridge');
+  const nat = $(item)
+    .parentsUntil('.fields')
+    .parent()
+    .find('#nat');
 
   switch (selected) {
     case '':
@@ -48,12 +54,19 @@ export function imageSelected(item) {
       url,
       data: `template_id=${template}`,
       success(result) {
-        const capacity = $('#storage_volumes').children('.fields').find('[id$=capacity]')[0];
+        const capacity = $('#storage_volumes')
+          .children('.fields')
+          .find('[id$=capacity]')[0];
 
-        if (parseInt(capacity.value.slice(0, -1), 10) < parseInt(result.capacity, 10)) {
+        if (
+          parseInt(capacity.value.slice(0, -1), 10) <
+          parseInt(result.capacity, 10)
+        ) {
           capacity.value = `${result.capacity}G`;
         }
-        $('#storage_volumes').children('.fields').find('[id$=format_type]')[0].value = 'qcow2';
+        $('#storage_volumes')
+          .children('.fields')
+          .find('[id$=format_type]')[0].value = 'qcow2';
       },
       complete() {
         // eslint-disable-next-line no-undef
@@ -64,12 +77,18 @@ export function imageSelected(item) {
 }
 
 export function allocationSwitcher(element, action) {
-  const previous = $(element).parent().find('.active');
+  const previous = $(element)
+    .parent()
+    .find('.active');
 
   previous.removeClass('active');
 
-  const capacity = $(element).closest('.fields').find('[id$=capacity]')[0];
-  const allocation = $(element).closest('.fields').find('[id$=allocation]')[0];
+  const capacity = $(element)
+    .closest('.fields')
+    .find('[id$=capacity]')[0];
+  const allocation = $(element)
+    .closest('.fields')
+    .find('[id$=allocation]')[0];
 
   switch (action) {
     case 'None':

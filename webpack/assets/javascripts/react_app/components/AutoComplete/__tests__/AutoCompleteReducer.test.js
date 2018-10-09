@@ -43,4 +43,5 @@ const fixtures = {
   },
 };
 
-describe('AutoComplete reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));
+describe('AutoComplete reducer', () =>
+  testReducerSnapshotWithFixtures(reducer, fixtures));

@@ -15,16 +15,24 @@ const {
 
 const auditFixtures = {
   'render audit record changes': {
-    actionDisplayName, details, comment, auditTitle, auditedChanges, auditedChangesWithIdToLabel,
+    actionDisplayName,
+    details,
+    comment,
+    auditTitle,
+    auditedChanges,
+    auditedChangesWithIdToLabel,
   },
 };
 
 describe('ExpansiveView', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(ExpansiveView, auditFixtures);
+    const components = shallowRenderComponentWithFixtures(
+      ExpansiveView,
+      auditFixtures
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
-        expect(component.find('.editor_source.diffMode').length).toEqual(1);
+        expect(component.find('.editor_source.diffMode')).toHaveLength(1);
         expect(toJson(component)).toMatchSnapshot();
       });
     });

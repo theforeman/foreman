@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TypeAheadSelect } from 'patternfly-react';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { bindMethods, debounceMethods, noop } from '../../common/helpers';
 import AutoCompleteMenu from './components/AutoCompleteMenu';
 import AutoCompleteSearchButton from './components/AutoCompleteSearchButton';
@@ -65,7 +65,9 @@ class AutoComplete extends React.Component {
   // TODO: remove this HACK when react-bootstrap-typeahead
   // will support autocomplete = 'off' instead of 'nope' in inputProps prop.
   unableHTMLAutocomplete() {
-    const input = this._typeahead.current && this._typeahead.current.getInstance().getInput();
+    const input =
+      this._typeahead.current &&
+      this._typeahead.current.getInstance().getInput();
     if (input) {
       input.autocomplete = 'off';
     }
@@ -163,15 +165,26 @@ class AutoComplete extends React.Component {
           onKeyDown={this.handleKeyDown}
           emptyLabel={emptyLabel}
           placeholder={__(placeholder)}
-          renderMenu={(r, menuProps) => <AutoCompleteMenu {...{ results: r, menuProps }} />}
+          renderMenu={(r, menuProps) => (
+            <AutoCompleteMenu {...{ results: r, menuProps }} />
+          )}
           inputProps={{
-            className: cx('search-input', useKeyShortcuts ? 'use-shortcuts' : ''),
+            className: classNames(
+              'search-input',
+              useKeyShortcuts ? 'use-shortcuts' : ''
+            ),
             spellCheck: 'false',
             ...inputProps,
           }}
         />
-        <AutoCompleteAux onClear={this.handleClear} clearTooltipID={clearTooltipID} />
-        <AutoCompleteFocusShortcut useKeyShortcuts={useKeyShortcuts} tooltipID={focusTooltipID} />
+        <AutoCompleteAux
+          onClear={this.handleClear}
+          clearTooltipID={clearTooltipID}
+        />
+        <AutoCompleteFocusShortcut
+          useKeyShortcuts={useKeyShortcuts}
+          tooltipID={focusTooltipID}
+        />
         <AutoCompleteError error={error} />
       </div>
     );

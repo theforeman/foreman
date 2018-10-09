@@ -52,9 +52,11 @@ describe('form actions', () => {
     return store
       .dispatch(submitForm(requestData))
       .then(() => {
-        throw new Error('Should not hit this then block - test was set up incorrectly');
+        throw new Error(
+          'Should not hit this then block - test was set up incorrectly'
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         expect(error).toBeInstanceOf(SubmissionError);
       });
   });
@@ -71,9 +73,11 @@ describe('form actions', () => {
     return store
       .dispatch(submitForm(requestData))
       .then(() => {
-        throw new Error('Should not hit this then block - test was set up incorrectly');
+        throw new Error(
+          'Should not hit this then block - test was set up incorrectly'
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         expect(error).toBeInstanceOf(SubmissionError);
         expect(error.errors._error[0]).toMatch(/Error submitting data: 404*/);
       });
@@ -91,11 +95,16 @@ describe('form actions', () => {
     return store
       .dispatch(submitForm(requestData))
       .then(() => {
-        throw new Error('Should not hit this then block - test was set up incorrectly');
+        throw new Error(
+          'Should not hit this then block - test was set up incorrectly'
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         expect(error).toBeInstanceOf(SubmissionError);
-        expect(error.errors).toEqual({ name: 'already used', _error: 'some error' });
+        expect(error.errors).toEqual({
+          name: 'already used',
+          _error: 'some error',
+        });
       });
   });
   it('on success dispatch actions correctly', () => {
@@ -113,14 +122,12 @@ describe('form actions', () => {
       },
     });
 
-    return store
-      .dispatch(submitForm(requestData))
-      .then(() => {
-        // dispatch RESOURCE_FORM_SUBMITTED action
-        expect(store.getActions()[0]).toEqual(expectedAction);
-        // dispatch toast notifications
-        expect(store.getActions()[1].type).toEqual(types.TOASTS_ADD);
-      });
+    return store.dispatch(submitForm(requestData)).then(() => {
+      // dispatch RESOURCE_FORM_SUBMITTED action
+      expect(store.getActions()[0]).toEqual(expectedAction);
+      // dispatch toast notifications
+      expect(store.getActions()[1].type).toEqual(types.TOASTS_ADD);
+    });
   });
   it('on success display custom message', () => {
     const store = mockStore({ resources: [] });
@@ -133,10 +140,10 @@ describe('form actions', () => {
       },
     });
 
-    return store
-      .dispatch(submitForm(requestDataMsg))
-      .then(() => {
-        expect(store.getActions()[1].payload.message.message).toEqual('Customized success!');
-      });
+    return store.dispatch(submitForm(requestDataMsg)).then(() => {
+      expect(store.getActions()[1].payload.message.message).toEqual(
+        'Customized success!'
+      );
+    });
   });
 });

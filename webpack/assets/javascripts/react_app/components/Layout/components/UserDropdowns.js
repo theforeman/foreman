@@ -29,8 +29,9 @@ const UserDropdowns = ({
             {user.current_user.user.firstname} {user.current_user.user.lastname}
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            {user.user_dropdown[0].children.map((item, i) =>
-                (item.type === 'divider' ? (
+            {user.user_dropdown[0].children.map(
+              (item, i) =>
+                item.type === 'divider' ? (
                   <MenuItem key={i} divider />
                 ) : (
                   <MenuItem
@@ -43,7 +44,8 @@ const UserDropdowns = ({
                   >
                     {__(item.name)}
                   </MenuItem>
-                )))}
+                )
+            )}
           </Dropdown.Menu>
         </NavDropdown>
       )}

@@ -19,7 +19,7 @@ const initialState = Immutable({
   hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false,
 });
 
-const hasUnreadMessages = (notifications) => {
+const hasUnreadMessages = notifications => {
   const result = Object.values(notifications).some(n => !n.seen);
 
   // store indicator in sessionStorage.
@@ -45,32 +45,36 @@ export default (state = initialState, action) => {
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
       return state.set('expandedGroup', payload.group);
     case NOTIFICATIONS_MARK_AS_READ: {
-      const notifications = state.notifications.map(n =>
-        (n.id === payload.id ? { ...n, seen: true } : n));
+      const notifications = state.notifications.map(
+        n => (n.id === payload.id ? { ...n, seen: true } : n)
+      );
 
       return state
         .set('notifications', notifications)
         .set('hasUnreadMessages', hasUnreadMessages(notifications));
     }
     case NOTIFICATIONS_MARK_AS_CLEAR: {
-      const notifications = state.notifications.filter(n =>
-        n.id !== payload.id);
+      const notifications = state.notifications.filter(
+        n => n.id !== payload.id
+      );
 
       return state
         .set('notifications', notifications)
         .set('hasUnreadMessages', hasUnreadMessages(notifications));
     }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
-      const notifications = state.notifications.map(n =>
-        (n.group === payload.group ? { ...n, seen: true } : n));
+      const notifications = state.notifications.map(
+        n => (n.group === payload.group ? { ...n, seen: true } : n)
+      );
 
       return state
         .set('notifications', notifications)
         .set('hasUnreadMessages', hasUnreadMessages(notifications));
     }
     case NOTIFICATIONS_MARK_GROUP_AS_CLEARED: {
-      const notifications = state.notifications.filter(n =>
-        n.group !== payload.group);
+      const notifications = state.notifications.filter(
+        n => n.group !== payload.group
+      );
 
       return state
         .set('notifications', notifications)

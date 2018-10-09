@@ -10,7 +10,10 @@ const ShowOrgsLocsFixtures = {
 
 describe('ShowOrgsLocs', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(ShowOrgsLocs, ShowOrgsLocsFixtures);
+    const components = shallowRenderComponentWithFixtures(
+      ShowOrgsLocs,
+      ShowOrgsLocsFixtures
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
         expect(toJson(component)).toMatchSnapshot();

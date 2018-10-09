@@ -68,11 +68,13 @@ const TaxonomyDropdown = ({
 TaxonomyDropdown.propTypes = {
   taxonomyType: PropTypes.string.isRequired,
   currentTaxonomy: PropTypes.string.isRequired,
-  taxonomies: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string,
-    href: PropTypes.string.isRequired,
-  })).isRequired,
+  taxonomies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string,
+      href: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   id: PropTypes.string.isRequired,
   changeTaxonomy: PropTypes.func,
   anyTaxonomyText: PropTypes.string.isRequired,

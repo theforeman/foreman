@@ -8,12 +8,18 @@ import Loader from './index';
 jest.unmock('./index');
 
 const testLoaderSnapshot = (props = {}) => {
-  const wrapper = shallow(<Loader {...props}>
-    {[
-      <div key="0" className="success">Success</div>,
-      <div key="1" className="failure">Failure</div>,
-    ]}
-  </Loader>);
+  const wrapper = shallow(
+    <Loader {...props}>
+      {[
+        <div key="0" className="success">
+          Success
+        </div>,
+        <div key="1" className="failure">
+          Failure
+        </div>,
+      ]}
+    </Loader>
+  );
 
   expect(toJson(wrapper)).toMatchSnapshot();
 };

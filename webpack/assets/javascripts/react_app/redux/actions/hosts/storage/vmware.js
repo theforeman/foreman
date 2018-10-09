@@ -7,7 +7,10 @@ import {
   STORAGE_VMWARE_UPDATE_DISK,
   STORAGE_VMWARE_INIT,
 } from '../../../consts';
-import { defaultControllerAttributes, getDefaultDiskAttributes } from './vmware.consts';
+import {
+  defaultControllerAttributes,
+  getDefaultDiskAttributes,
+} from './vmware.consts';
 
 export const updateDisk = (key, newValues) => ({
   type: STORAGE_VMWARE_UPDATE_DISK,

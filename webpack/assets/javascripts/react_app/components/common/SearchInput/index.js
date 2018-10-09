@@ -15,16 +15,14 @@ class SearchInput extends React.Component {
   }
 
   render() {
-    const {
-      onSearchChange, searchValue, timeout, onClear,
-    } = this.props;
+    const { onSearchChange, searchValue, timeout, onClear } = this.props;
 
     return (
       <div className="input-search">
         <Icon type="fa" name="search" />
         <DebounceInput
           className="form-control"
-          inputRef={(input) => {
+          inputRef={input => {
             this.nameInput = input;
           }}
           id="breadcrumbs-search"
@@ -34,7 +32,7 @@ class SearchInput extends React.Component {
           debounceTimeout={timeout}
           onChange={onSearchChange}
         />
-         <Icon type="fa" name="close" onClick={() => onClear()} />
+        <Icon type="fa" name="close" onClick={() => onClear()} />
       </div>
     );
   }

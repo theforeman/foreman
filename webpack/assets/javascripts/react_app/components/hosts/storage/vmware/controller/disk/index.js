@@ -11,9 +11,7 @@ const Disk = ({
   removeDisk,
   updateDisk,
   name,
-  config: {
-    datastores, storagePods, diskModeTypes, vmExists,
-  },
+  config: { datastores, storagePods, diskModeTypes, vmExists },
   storagePod,
   datastore,
   sizeGb,
@@ -23,35 +21,34 @@ const Disk = ({
 }) => (
   <div className="disk-container">
     <div className="form-group">
-      <label className="col-md-2 control-label">
-        {__('Disk name')}
-      </label>
-      <div className="col-md-4">
-        {name}
-      </div>
+      <label className="col-md-2 control-label">{__('Disk name')}</label>
+      <div className="col-md-4">{name}</div>
       <div className="col-md-2">
-        {!vmExists &&
-        <Button className="close" onClick={removeDisk}>
-          <span aria-hidden="true">×</span>
-        </Button>}
+        {!vmExists && (
+          <Button className="close" onClick={removeDisk}>
+            <span aria-hidden="true">×</span>
+          </Button>
+        )}
       </div>
     </div>
-    {!datastore &&
-    <Select
-      label={__('Storage Pod')}
-      value={storagePod}
-      disabled={vmExists}
-      onChange={updateDisk.bind(this, 'storagePod')}
-      options={storagePods}
-    />}
-    {!storagePod &&
-    <Select
-      disabled={vmExists}
-      label={__('Data store')}
-      value={datastore}
-      onChange={updateDisk.bind(this, 'datastore')}
-      options={datastores}
-    />}
+    {!datastore && (
+      <Select
+        label={__('Storage Pod')}
+        value={storagePod}
+        disabled={vmExists}
+        onChange={updateDisk.bind(this, 'storagePod')}
+        options={storagePods}
+      />
+    )}
+    {!storagePod && (
+      <Select
+        disabled={vmExists}
+        label={__('Data store')}
+        value={datastore}
+        onChange={updateDisk.bind(this, 'datastore')}
+        options={datastores}
+      />
+    )}
 
     <Select
       label={__('Disk Mode')}

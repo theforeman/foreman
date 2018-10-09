@@ -31,10 +31,14 @@ $(document).on('ContentLoad', () => {
           // eslint-disable-next-line function-paren-newline
           tab.html(
             // eslint-disable-next-line no-undef
-            sprintf(__('There was an error listing VMs: %(status)s %(statusText)s'), {
-              status: xhr.status,
-              statusText: xhr.statusText,
-            }));
+            sprintf(
+              __('There was an error listing VMs: %(status)s %(statusText)s'),
+              {
+                status: xhr.status,
+                statusText: xhr.statusText,
+              }
+            )
+          );
         } else {
           activateDatatables();
         }
@@ -91,12 +95,17 @@ export function testConnection(item) {
         $('.alert-danger', result).length === 0 &&
         $('#compute_connection .has-error', result).length === 0
       ) {
-        notify({ message: `<p>${__('Test connection was successful')}</p>`, type: 'success' });
+        notify({
+          message: `<p>${__('Test connection was successful')}</p>`,
+          type: 'success',
+        });
       }
     },
     error({ statusText }) {
       notify({
-        message: `<p>${__('An error occurred while testing the connection: ')}${statusText}</p>`,
+        message: `<p>${__(
+          'An error occurred while testing the connection: '
+        )}${statusText}</p>`,
         type: 'danger',
       });
     },

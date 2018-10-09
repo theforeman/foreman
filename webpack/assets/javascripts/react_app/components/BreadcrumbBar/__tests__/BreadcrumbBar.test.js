@@ -22,35 +22,39 @@ const fixtures = {
 };
 
 describe('BreadcrumbBar', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(BreadcrumbBar, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(BreadcrumbBar, fixtures));
 
   describe('triggering', () => {
     it('should trigger callbacks', () => {
       const props = { ...breadcrumbBarSwithcable, ...createStubs() };
       const component = mount(<BreadcrumbBar {...props} />);
 
-      expect(props.toggleSwitcher.mock.calls.length).toBe(0);
-      expect(props.closeSwitcher.mock.calls.length).toBe(0);
-      expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(0);
+      expect(props.toggleSwitcher.mock.calls).toHaveLength(0);
+      expect(props.closeSwitcher.mock.calls).toHaveLength(0);
+      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(0);
 
-      const toggleSwitcherClick = () => component.find('.breadcrumb-switcher .btn').simulate('click');
+      const toggleSwitcherClick = () =>
+        component.find('.breadcrumb-switcher .btn').simulate('click');
       const openSwitcher = () => component.setProps({ isSwitcherOpen: true });
 
       toggleSwitcherClick();
-      expect(props.toggleSwitcher.mock.calls.length).toBe(1);
+      expect(props.toggleSwitcher.mock.calls).toHaveLength(1);
 
       openSwitcher();
-      expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(1);
+      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(1);
 
       component.setProps({ currentPage: 2, totalPages: 3 });
 
       component.find('.breadcrumb-switcher .next a').simulate('click');
-      expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(2);
+      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(2);
 
       component.find('.breadcrumb-switcher .previous a').simulate('click');
-      expect(props.loadSwitcherResourcesByResource.mock.calls.length).toBe(3);
+      expect(props.loadSwitcherResourcesByResource.mock.calls).toHaveLength(3);
 
-      expect(props.loadSwitcherResourcesByResource.mock.calls).toMatchSnapshot('loadSwitcherResourcesByResource calls');
+      expect(props.loadSwitcherResourcesByResource.mock.calls).toMatchSnapshot(
+        'loadSwitcherResourcesByResource calls'
+      );
     });
 
     it('onclick callbacks should work', () => {
@@ -63,15 +67,18 @@ describe('BreadcrumbBar', () => {
       const component = mount(<BreadcrumbBar {...props} />);
 
       // test breadcrumb switcher item click
-      expect(props.onSwitcherItemClick.mock.calls.length).toBe(0);
+      expect(props.onSwitcherItemClick.mock.calls).toHaveLength(0);
       component.setProps({ isSwitcherOpen: true });
       component.update();
       component.find('.scrollable-list.list-group button').simulate('click');
-      expect(props.onSwitcherItemClick.mock.calls.length).toBe(1);
+      expect(props.onSwitcherItemClick.mock.calls).toHaveLength(1);
 
       // test breadcrumb item click
-      component.find('.breadcrumbs-pf-title.breadcrumb a').at(1).simulate('click');
-      expect(mockBreadcrumbItemOnClick.mock.calls.length).toBe(1);
+      component
+        .find('.breadcrumbs-pf-title.breadcrumb a')
+        .at(1)
+        .simulate('click');
+      expect(mockBreadcrumbItemOnClick.mock.calls).toHaveLength(1);
     });
   });
 });

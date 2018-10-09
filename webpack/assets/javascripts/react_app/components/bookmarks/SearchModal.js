@@ -11,8 +11,8 @@ export default ({
   controller,
   url,
 }) => (
-  <Modal show={show} enforceFocus={true} onHide={onHide} onEnter={onEnter}>
-    <Modal.Header closeButton={true}>
+  <Modal show={show} enforceFocus onHide={onHide} onEnter={onEnter}>
+    <Modal.Header closeButton>
       <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
     <Modal.Body>

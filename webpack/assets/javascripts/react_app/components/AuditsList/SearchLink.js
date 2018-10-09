@@ -4,12 +4,7 @@ import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
 class SearchLink extends React.Component {
   render() {
-    const {
-      url,
-      title,
-      id,
-      textValue,
-    } = this.props;
+    const { url, title, id, textValue } = this.props;
 
     const linkProps = {
       href: url,
@@ -19,7 +14,7 @@ class SearchLink extends React.Component {
 
     return (
       <EllipsisWithTooltip>
-        <a { ...linkProps }>{textValue}</a>
+        <a {...linkProps}>{textValue}</a>
       </EllipsisWithTooltip>
     );
   }

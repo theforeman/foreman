@@ -15,4 +15,3 @@ describe('PaginationHelper', () => {
     expect(changePerPage).toBe('about:blank?search=blue&per_page=5');
   });
 });
-
