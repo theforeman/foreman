@@ -20,7 +20,7 @@ const documentationBlock = ({
     </React.Fragment>
   );
 
-const DefaultEmptyState = (props) => {
+const DefaultEmptyState = props => {
   const {
     icon,
     iconType,

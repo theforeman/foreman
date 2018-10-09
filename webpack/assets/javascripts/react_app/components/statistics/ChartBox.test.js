@@ -8,16 +8,19 @@ jest.unmock('../../../services/charts/DonutChartService');
 jest.unmock('./ChartBox');
 
 describe('ChartBox', () => {
-  const setup = ({ status, chart = { id: '2' } }) => shallow(<ChartBox
-    type="donut"
-    chart={chart}
-    noDataMsg='no data'
-    status="PENDING"
-    errorText='some error'
-    title='some title'
-    tip='sone tooltip'
-    {...chart}
-  />);
+  const setup = ({ status, chart = { id: '2' } }) =>
+    shallow(
+      <ChartBox
+        type="donut"
+        chart={chart}
+        noDataMsg="no data"
+        status="PENDING"
+        errorText="some error"
+        title="some title"
+        tip="sone tooltip"
+        {...chart}
+      />
+    );
 
   it('pending', () => {
     const box = setup({ status: 'PENDING' });
@@ -45,18 +48,23 @@ describe('ChartBox', () => {
       chart: { id: '2', data: [[1, 2]] },
       status: 'RESOLVED',
     });
-    expect(box.find('Modal').length).toBe(0);
+    expect(box.find('Modal')).toHaveLength(0);
     box.setState({ showModal: true });
-    expect(box.find('Modal').length).toBe(1);
+    expect(box.find('Modal')).toHaveLength(1);
   });
   it('shouldComponentUpdate should be called', () => {
-    const shouldUpdateSpy = jest.spyOn(ChartBox.prototype, 'shouldComponentUpdate');
-    const box = shallow(<ChartBox
-      id='4'
-      type="donut"
-      chart={{ id: '4', data: undefined }}
-      status="PENDING"
-    />);
+    const shouldUpdateSpy = jest.spyOn(
+      ChartBox.prototype,
+      'shouldComponentUpdate'
+    );
+    const box = shallow(
+      <ChartBox
+        id="4"
+        type="donut"
+        chart={{ id: '4', data: undefined }}
+        status="PENDING"
+      />
+    );
     box.setProps({ status: 'PENDING' });
     expect(shouldUpdateSpy).toHaveBeenCalled();
   });
@@ -66,17 +74,23 @@ describe('ChartBox', () => {
       props: { chart: { data: [1, 2] } },
     };
 
-    expect(classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
-      { chart: { data: [1, 2] } },
-      { showModal: false },
-    ])).toBe(false);
-    expect(classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
-      { chart: { data: [1, 1] } },
-      { showModal: false },
-    ])).toBe(true);
-    expect(classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
-      { chart: { data: [1, 2] } },
-      { showModal: true },
-    ])).toBe(true);
+    expect(
+      classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
+        { chart: { data: [1, 2] } },
+        { showModal: false },
+      ])
+    ).toBe(false);
+    expect(
+      classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
+        { chart: { data: [1, 1] } },
+        { showModal: false },
+      ])
+    ).toBe(true);
+    expect(
+      classFunctionUnitTest(ChartBox, 'shouldComponentUpdate', objThis, [
+        { chart: { data: [1, 2] } },
+        { showModal: true },
+      ])
+    ).toBe(true);
   });
 });

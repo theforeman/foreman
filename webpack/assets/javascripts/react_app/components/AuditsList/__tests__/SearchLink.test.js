@@ -10,7 +10,10 @@ const searchLinkFixture = {
 
 describe('SearchLink', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(SearchLink, searchLinkFixture);
+    const components = shallowRenderComponentWithFixtures(
+      SearchLink,
+      searchLinkFixture
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
         expect(toJson(component)).toMatchSnapshot();

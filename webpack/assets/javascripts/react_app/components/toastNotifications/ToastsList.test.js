@@ -35,6 +35,9 @@ describe('ToastList', () => {
   };
 
   Object.keys(statesToTest)
-    .map(key => ({ description: `should render with ${key}`, state: statesToTest[key] }))
+    .map(key => ({
+      description: `should render with ${key}`,
+      state: statesToTest[key],
+    }))
     .forEach(testToastListRenderWithState);
 });

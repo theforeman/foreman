@@ -13,9 +13,7 @@ import { noop } from '../../common/helpers';
 const ToastsList = ({ messages, deleteToast }) => {
   const toastsList = Object.entries(messages)
     .map(([key, message]) => ({ key, ...message }))
-    .map(({
-      key, link, message, sticky = false, ...toastProps
-    }) => {
+    .map(({ key, link, message, sticky = false, ...toastProps }) => {
       const ToastComponent = sticky
         ? ToastNotification
         : TimedToastNotification;
@@ -49,5 +47,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  ToastActions,
+  ToastActions
 )(ToastsList);

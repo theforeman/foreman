@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 
-const SearchLink = ({
-  url, title, id, textValue,
-}) => {
+const SearchLink = ({ url, title, id, textValue }) => {
   const linkProps = {
     href: url,
     title,

@@ -23,9 +23,7 @@ import DiffModal from './ConfigReports/DiffModal';
 const componentRegistry = {
   registry: {},
 
-  register({
-    name = null, type = null, store = true, data = true,
-  }) {
+  register({ name = null, type = null, store = true, data = true }) {
     if (!name || !type) {
       throw new Error('Component name or type is missing');
     }
@@ -53,7 +51,9 @@ const componentRegistry = {
     const currentComponent = this.getComponent(name);
 
     if (!currentComponent) {
-      throw new Error(`Component not found:  ${name} among ${this.registeredComponents()}`);
+      throw new Error(
+        `Component not found:  ${name} among ${this.registeredComponents()}`
+      );
     }
     const ComponentName = currentComponent.type;
 
@@ -61,7 +61,7 @@ const componentRegistry = {
       return (
         <ComponentName
           store={currentComponent.store ? store : undefined}
-          { ...data }
+          {...data}
         />
       );
     }

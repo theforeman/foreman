@@ -1,4 +1,8 @@
-import { DIFF_MODAL_TOGGLE, DIFF_MODAL_CREATE, DIFF_MODAL_VIEWTYPE } from '../DiffModalConstants';
+import {
+  DIFF_MODAL_TOGGLE,
+  DIFF_MODAL_CREATE,
+  DIFF_MODAL_VIEWTYPE,
+} from '../DiffModalConstants';
 
 import reducer from '../DiffModalReducer';
 
@@ -32,4 +36,5 @@ const fixtures = {
   },
 };
 
-describe('DiffModal reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));
+describe('DiffModal reducer', () =>
+  testReducerSnapshotWithFixtures(reducer, fixtures));

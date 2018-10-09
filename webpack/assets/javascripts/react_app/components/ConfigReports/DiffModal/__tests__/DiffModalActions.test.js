@@ -6,7 +6,8 @@ import { diffModalMock } from '../DiffModal.fixtures';
 const fixtures = {
   'should toggleModal': () => toggleModal(),
 
-  'should createDiff': () => createDiff(diffModalMock.diff, diffModalMock.title),
+  'should createDiff': () =>
+    createDiff(diffModalMock.diff, diffModalMock.title),
 
   'should changeViewType': () => changeViewType('unified'),
 };

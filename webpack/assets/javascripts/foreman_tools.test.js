@@ -6,11 +6,15 @@ jest.unmock('./foreman_tools');
 
 describe('iconText', () => {
   it('creates a label with the right icon class', () => {
-    expect(tools.iconText('plus', '', 'patternfly')).toBe('<span class="patternfly patternfly-plus"/>');
+    expect(tools.iconText('plus', '', 'patternfly')).toBe(
+      '<span class="patternfly patternfly-plus"/>'
+    );
   });
 
   it('adds a bold text next to the label', () => {
-    expect(tools.iconText('plus', 'foo', 'patternfly')).toBe('<span class="patternfly patternfly-plus"/><strong>foo</strong>');
+    expect(tools.iconText('plus', 'foo', 'patternfly')).toBe(
+      '<span class="patternfly patternfly-plus"/><strong>foo</strong>'
+    );
   });
 });
 
@@ -53,7 +57,9 @@ describe('deprecate', () => {
   it('Logs the correct deprecation message', () => {
     console.warn = jest.fn();
     tools.deprecate('oldtest', 'tfm.tools.newtest', '1.42');
-    expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.');
+    expect(console.warn).toHaveBeenCalledWith(
+      'DEPRECATION WARNING: you are using deprecated oldtest, it will be removed in Foreman 1.42. Use tfm.tools.newtest instead.'
+    );
   });
 });
 
@@ -65,10 +71,13 @@ describe('initTypeAheadSelect', () => {
 
     const field = $('#typeahead');
 
-    $.ajax = jest.fn((url) => {
+    $.ajax = jest.fn(url => {
       const ajaxMock = $.Deferred();
 
-      ajaxMock.resolve([{ id: 1, name: 'testoption' }, { id: 2, name: 'anotheroption' }]);
+      ajaxMock.resolve([
+        { id: 1, name: 'testoption' },
+        { id: 2, name: 'anotheroption' },
+      ]);
       return ajaxMock.promise();
     });
 
@@ -139,41 +148,61 @@ describe('updateTableTest', () => {
   });
 
   it('should use selected per page value and add it to the url considering search term and pagination', () => {
-    const PerPage = $('#pagination-row-dropdown').text().trim();
+    const PerPage = $('#pagination-row-dropdown')
+      .text()
+      .trim();
 
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
+    );
   });
 
   it('should change page', () => {
-    const PerPage = $('#pagination-row-dropdown').text().trim();
+    const PerPage = $('#pagination-row-dropdown')
+      .text()
+      .trim();
 
     $('#cur_page_num').val('4');
     $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=4&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=4&per_page=${PerPage}`
+    );
   });
 
   it('should use find search term and add it to the url considering per page value and pagination', () => {
-    const PerPage = $('#pagination-row-dropdown').text().trim();
+    const PerPage = $('#pagination-row-dropdown')
+      .text()
+      .trim();
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
+    );
   });
 
   it('should reset page param to 1 after new search', () => {
-    const PerPage = $('#pagination-row-dropdown').text().trim();
+    const PerPage = $('#pagination-row-dropdown')
+      .text()
+      .trim();
 
     window.history.pushState({}, 'Test Title', '/?page=4');
     $('.autocomplete-input').val('test');
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
+    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      `http://localhost/?page=1&search=test&per_page=${PerPage}`
+    );
   });
 
   it('should remove search param if search is empty', () => {
-    ['', ' '].map((searchValue) => {
-      const PerPage = $('#pagination-row-dropdown').text().trim();
+    ['', ' '].map(searchValue => {
+      const PerPage = $('#pagination-row-dropdown')
+        .text()
+        .trim();
       $('.autocomplete-input').val(searchValue);
       $('#search-form').submit();
-      return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=&per_page=${PerPage}`);
+      return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+        `http://localhost/?page=1&search=&per_page=${PerPage}`
+      );
     });
   });
 
@@ -183,6 +212,8 @@ describe('updateTableTest', () => {
 
     tools.deprecateObjectProperty(obj, 'deprecated', 'tfm.obj', '1.42');
     obj.deprecated();
-    expect(console.warn).toHaveBeenCalledWith('DEPRECATION WARNING: you are using deprecated deprecated, it will be removed in Foreman 1.42. Use tfm.obj instead.');
+    expect(console.warn).toHaveBeenCalledWith(
+      'DEPRECATION WARNING: you are using deprecated deprecated, it will be removed in Foreman 1.42. Use tfm.obj instead.'
+    );
   });
 });

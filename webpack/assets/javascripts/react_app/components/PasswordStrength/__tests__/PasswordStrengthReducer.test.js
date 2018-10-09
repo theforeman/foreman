@@ -24,4 +24,5 @@ const fixtures = {
   },
 };
 
-describe('PasswordStrength reducer', () => testReducerSnapshotWithFixtures(reducer, fixtures));
+describe('PasswordStrength reducer', () =>
+  testReducerSnapshotWithFixtures(reducer, fixtures));

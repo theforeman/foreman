@@ -7,4 +7,6 @@ import storeDecorator from '../../../../../stories/storeDecorator';
 storiesOf('Components/Bookmarks', module)
   .addDecorator(storeDecorator)
   .add('Form', () => <BookmarkForm controller="hosts" url="/api/bookmarks" />)
-  .add('ModalForm', () => <BookmarkModal controller="hosts" url="/api/bookmarks" />);
+  .add('ModalForm', () => (
+    <BookmarkModal controller="hosts" url="/api/bookmarks" />
+  ));

@@ -5,13 +5,14 @@ if (!window.sessionStorage) {
   };
 }
 
-const getValue = (key) => {
+const getValue = key => {
   const value = window.sessionStorage.getItem(key) || 'null';
 
   return JSON.parse(value);
 };
 
-const setValue = (key, value) => window.sessionStorage.setItem(key, JSON.stringify(value));
+const setValue = (key, value) =>
+  window.sessionStorage.setItem(key, JSON.stringify(value));
 
 export const notificationsDrawer = {
   getIsOpened: () => getValue('isDrawerOpen'),

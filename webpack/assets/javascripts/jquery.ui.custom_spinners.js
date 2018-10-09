@@ -17,7 +17,9 @@ $(() => {
     },
     _validate() {
       if (this.options.softMaximum !== 0) {
-        this.options.errorTarget.toggle(this.value() > this.options.softMaximum);
+        this.options.errorTarget.toggle(
+          this.value() > this.options.softMaximum
+        );
       }
     },
     _spin(step, event) {
@@ -60,7 +62,7 @@ $(() => {
       if (this.value() + megabyteStep > gigabyte) {
         step = gigabyte - this.value();
       } else if (this.value() + megabyteStep < megabyte) {
-        step *= (this.value() - megabyte);
+        step *= this.value() - megabyte;
       } else if (this.value() === megabyte && step > 0) {
         step = 255 * megabyte;
       } else {
@@ -71,8 +73,10 @@ $(() => {
     _spin(step, event) {
       let result = null;
 
-      if ((this.value() > gigabyte && step < 0) ||
-        (this.value() >= gigabyte && step > 0)) {
+      if (
+        (this.value() > gigabyte && step < 0) ||
+        (this.value() >= gigabyte && step > 0)
+      ) {
         step = this._gigabyteSpin(step);
       } else {
         step = this._megabyteSpin(step);
@@ -95,7 +99,9 @@ $(() => {
     },
     // prints value with unit, if it's multiple of gigabytes use GB, otherwise format in MB
     _format: value =>
-      ((value % gigabyte === 0) ? `${value / gigabyte} GB` : `${value / megabyte} MB`),
+      value % gigabyte === 0
+        ? `${value / gigabyte} GB`
+        : `${value / megabyte} MB`,
   });
 });
 
@@ -105,7 +111,7 @@ export function initAll() {
 }
 
 export function initCounter() {
-  $('input.counter_spinner').each(function () {
+  $('input.counter_spinner').each(function() {
     const field = $(this);
     const errorMessage = field.closest('.form-group').find('.maximum-limit');
 
@@ -119,12 +125,15 @@ export function initCounter() {
       field.limitedSpinner('validate');
     });
 
-    field.parents('div.form-group').find('label a').popover();
+    field
+      .parents('div.form-group')
+      .find('label a')
+      .popover();
   });
 }
 
 export function initByte() {
-  $('input.byte_spinner').each(function () {
+  $('input.byte_spinner').each(function() {
     const field = $(this);
     const errorMessage = field.closest('.form-group').find('.maximum-limit');
     const valueTarget = field.closest('.form-group').find('.real-hidden-value');
@@ -140,6 +149,9 @@ export function initByte() {
       field.byteSpinner('validate');
     });
 
-    field.parents('div.form-group').find('label a').popover();
+    field
+      .parents('div.form-group')
+      .find('label a')
+      .popover();
   });
 }

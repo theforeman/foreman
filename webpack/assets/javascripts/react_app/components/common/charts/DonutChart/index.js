@@ -15,7 +15,13 @@ const DonutChart = ({
   const chartConfig = getDonutChartConfig({ data, config, onclick });
 
   if (chartConfig.data.columns.length > 0) {
-    return <PfDonutChart {...chartConfig} title={title} unloadBeforeLoad={unloadData} />;
+    return (
+      <PfDonutChart
+        {...chartConfig}
+        title={title}
+        unloadBeforeLoad={unloadData}
+      />
+    );
   }
   return <MessageBox msg={noDataMsg} icontype="info" />;
 };

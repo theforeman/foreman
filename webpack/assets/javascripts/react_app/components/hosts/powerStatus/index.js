@@ -7,7 +7,10 @@ import PowerStatusInner from './powerStatusInner';
 
 class PowerStatus extends React.Component {
   componentDidMount() {
-    const { data: { id, url }, getHostPowerState } = this.props;
+    const {
+      data: { id, url },
+      getHostPowerState,
+    } = this.props;
 
     getHostPowerState({ id, url });
   }
@@ -21,4 +24,7 @@ const mapStateToProps = (state, ownProps) => ({
   power: state.hosts.powerStatus[ownProps.data.id] || {},
 });
 
-export default connect(mapStateToProps, HostsActions)(PowerStatus);
+export default connect(
+  mapStateToProps,
+  HostsActions
+)(PowerStatus);

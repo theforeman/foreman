@@ -7,7 +7,8 @@ export const SearchBarProps = {
     bookmarks: {
       url: '/api/bookmarks',
       canCreate: true,
-      documentationUrl: 'http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching',
+      documentationUrl:
+        'http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching',
     },
     controller: 'models',
   },

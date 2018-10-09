@@ -26,7 +26,11 @@ const mocks = [
   { id: 21, name: 'Pipes' },
 ];
 
-const initPagination = { page: 1, perPage: 20, perPageOptions: [5, 10, 15, 20, 25] };
+const initPagination = {
+  page: 1,
+  perPage: 20,
+  perPageOptions: [5, 10, 15, 20, 25],
+};
 
 const initItems = mocks.slice(0, 20);
 
@@ -56,16 +60,12 @@ class MockPagination extends React.Component {
           pagination={this.state.pagination}
           onChange={changes => this.onPaginationChange(changes)}
         />
-        <ul>
-          { this.state.items.map(renderItem) }
-        </ul>
+        <ul>{this.state.items.map(renderItem)}</ul>
       </div>
     );
   }
 }
 
-const renderItem = item => (
-  <li key={item.id}>{ item.name }</li>
-);
+const renderItem = item => <li key={item.id}>{item.name}</li>;
 
 export default MockPagination;

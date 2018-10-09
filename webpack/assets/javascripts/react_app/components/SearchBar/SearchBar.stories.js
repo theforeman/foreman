@@ -17,11 +17,14 @@ mock.onGet(someAutoCompletePath).reply(({ url }) => {
   return [200, results || []];
 });
 
-storiesOf('Components/SearchBar', module).add('Search Bar with mocked data', () => (
-  <Provider store={Store}>
-    <div style={storyStyle}>
-      <h4>Try typing something like: "name = "</h4>
-      <SearchBar data={SearchBarProps.data} />
-    </div>
-  </Provider>
-));
+storiesOf('Components/SearchBar', module).add(
+  'Search Bar with mocked data',
+  () => (
+    <Provider store={Store}>
+      <div style={storyStyle}>
+        <h4>Try typing something like: "name = "</h4>
+        <SearchBar data={SearchBarProps.data} />
+      </div>
+    </Provider>
+  )
+);

@@ -22,9 +22,7 @@ const submit = ({ name, query, publik }, dispatch, props) => {
   return submitForm({ url, values, item: 'Bookmark' });
 };
 
-const BookmarkForm = ({
-  handleSubmit, submitting, error, onCancel,
-}) => (
+const BookmarkForm = ({ handleSubmit, submitting, error, onCancel }) => (
   <Form
     onSubmit={handleSubmit(submit)}
     onCancel={onCancel}
@@ -73,5 +71,5 @@ export default connect(
   ({ bookmarks }) => ({
     initialValues: { publik: true, query: bookmarks.currentQuery || '' },
   }),
-  FormActions,
+  FormActions
 )(form);

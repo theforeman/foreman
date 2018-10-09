@@ -12,7 +12,11 @@ storiesOf('Components/DiffModal', module)
         title="DiffModal"
         oldText="Hello there friend"
         newText="Hello friend"
-        diffViewType={select('viewType', { split: 'split', unified: 'unified' }, 'unified')}
+        diffViewType={select(
+          'viewType',
+          { split: 'split', unified: 'unified' },
+          'unified'
+        )}
       />
     </div>
   ));

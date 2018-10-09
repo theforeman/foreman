@@ -29,7 +29,10 @@ function showStatus(state, message) {
 function securityFailed(e) {
   let msg = '';
   if ('reason' in e.detail) {
-    msg = window.Jed.sprintf(__('New connection has been rejected with reason: %'), e.detail.reason);
+    msg = window.Jed.sprintf(
+      __('New connection has been rejected with reason: %'),
+      e.detail.reason
+    );
   } else {
     msg = __('New connection has been rejected');
   }

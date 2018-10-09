@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce';
  * @param {Array} methods - Array that contains the methods to run on.
  */
 export const debounceMethods = (context, time, methods) => {
-  methods.forEach((method) => {
+  methods.forEach(method => {
     const methodName = method.name || method;
     const methodTime = method.time || time;
     // eslint-disable-next-line no-param-reassign
@@ -21,7 +21,7 @@ export const debounceMethods = (context, time, methods) => {
  * @param {Array} methods - Array that contains the methods to run on.
  */
 export const bindMethods = (context, methods) => {
-  methods.forEach((method) => {
+  methods.forEach(method => {
     // eslint-disable-next-line no-param-reassign
     context[method] = context[method].bind(context);
   });
@@ -36,7 +36,7 @@ export const noop = Function.prototype;
  * Opens the link in a new window.
  * @param {String} url - the path to open in a new window.
  */
-export const newWindowOnClick = url => (event) => {
+export const newWindowOnClick = url => event => {
   event.preventDefault();
   const newWindow = window.open(url, '_blank');
   newWindow.opener = null;

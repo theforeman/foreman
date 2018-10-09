@@ -14,13 +14,17 @@ const fieldErrors = ({ error }) => {
   return new SubmissionError(errors);
 };
 
-const onError = (error) => {
+const onError = error => {
   if (error.response.status === 422) {
     // Handle invalid form data
     throw fieldErrors(error.response.data);
   }
   throw new SubmissionError({
-    _error: [`${__('Error submitting data:')} ${error.response.status} ${__(error.response.statusText)}`],
+    _error: [
+      `${__('Error submitting data:')} ${error.response.status} ${__(
+        error.response.statusText
+      )}`,
+    ],
   });
 };
 
@@ -33,9 +37,7 @@ const verifyProps = (item, values) => {
   }
 };
 
-export const submitForm = ({
-  item, url, values, message, method = 'post',
-}) => {
+export const submitForm = ({ item, url, values, message, method = 'post' }) => {
   verifyProps(item, values);
   return dispatch =>
     API[method](url, values)
@@ -44,11 +46,14 @@ export const submitForm = ({
           type: `${item.toUpperCase()}_FORM_SUBMITTED`,
           payload: { item, data },
         });
-        dispatch(addToast({
-          type: 'success',
-          // eslint-disable-next-line no-undef
-          message: message || sprintf('%s was successfully created.', __(item)),
-        }));
+        dispatch(
+          addToast({
+            type: 'success',
+            // eslint-disable-next-line no-undef
+            message:
+              message || sprintf('%s was successfully created.', __(item)),
+          })
+        );
       })
       .catch(onError);
 };

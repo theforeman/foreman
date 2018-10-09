@@ -21,9 +21,7 @@ class BreadcrumbBar extends React.Component {
 
   render() {
     const {
-      data: {
-        breadcrumbItems, isSwitchable, resource,
-      },
+      data: { breadcrumbItems, isSwitchable, resource },
       currentPage,
       totalPages,
       resourceSwitcherItems,
@@ -71,13 +69,21 @@ class BreadcrumbBar extends React.Component {
               onHide={() => closeSwitcher()}
               onOpen={() => this.handleOpen()}
               onSearchChange={event =>
-                loadSwitcherResourcesByResource(resource, { searchQuery: event.target.value })
+                loadSwitcherResourcesByResource(resource, {
+                  searchQuery: event.target.value,
+                })
               }
               onNextPageClick={() =>
-                loadSwitcherResourcesByResource(resource, options({ pageIncrement: 1 }))
+                loadSwitcherResourcesByResource(
+                  resource,
+                  options({ pageIncrement: 1 })
+                )
               }
               onPrevPageClick={() =>
-                loadSwitcherResourcesByResource(resource, options({ pageIncrement: -1 }))
+                loadSwitcherResourcesByResource(
+                  resource,
+                  options({ pageIncrement: -1 })
+                )
               }
               searchValue={searchQuery}
               onSearchClear={() => removeSearchQuery(resource)}

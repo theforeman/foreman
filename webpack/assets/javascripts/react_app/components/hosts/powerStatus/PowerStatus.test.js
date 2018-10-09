@@ -4,7 +4,11 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { pendingState, errorState, resolvedState } from './PowerStatus.fixtures';
+import {
+  pendingState,
+  errorState,
+  resolvedState,
+} from './PowerStatus.fixtures';
 import PowerStatus from './';
 
 jest.unmock('./');
@@ -17,7 +21,7 @@ describe('PowerStatus', () => {
 
     const box = shallow(<PowerStatus store={store} data={{ id: 1 }} />);
 
-    expect(box.render().find('.spinner.spinner-xs').length).toBe(1);
+    expect(box.render().find('.spinner.spinner-xs')).toHaveLength(1);
   });
 
   it('error', () => {
@@ -33,7 +37,9 @@ describe('PowerStatus', () => {
   it('resolvedWithOn', () => {
     const store = mockStore(resolvedState);
 
-    const resolvedOnBox = shallow(<PowerStatus store={store} data={{ id: 1 }} />);
+    const resolvedOnBox = shallow(
+      <PowerStatus store={store} data={{ id: 1 }} />
+    );
 
     const resolvedOnBoxRendered = resolvedOnBox.render();
 
@@ -43,7 +49,9 @@ describe('PowerStatus', () => {
   it('resolvedWithOff', () => {
     const store = mockStore(resolvedState);
 
-    const resolvedOnBox = shallow(<PowerStatus store={store} data={{ id: 2 }} />);
+    const resolvedOnBox = shallow(
+      <PowerStatus store={store} data={{ id: 2 }} />
+    );
 
     const resolvedOffBoxRendered = resolvedOnBox.render();
 

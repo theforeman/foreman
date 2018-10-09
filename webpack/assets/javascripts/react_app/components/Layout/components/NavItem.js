@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NavItem = ({
-  activeKey,
-  activeHref,
-  children,
-  className,
-  ...props
-}) => (
-    <li className={className} {...props}>
-      {children}
-    </li>
+const NavItem = ({ activeKey, activeHref, children, className, ...props }) => (
+  <li className={className} {...props}>
+    {children}
+  </li>
 );
 NavItem.propTypes = {
   /** Child node - contents of the element */

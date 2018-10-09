@@ -2,7 +2,7 @@ import React from 'react';
 import { EmptyState as PfEmptyState } from 'patternfly-react';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 
-const EmptyStatePattern = (props) => {
+const EmptyStatePattern = props => {
   const {
     documentation,
     action,

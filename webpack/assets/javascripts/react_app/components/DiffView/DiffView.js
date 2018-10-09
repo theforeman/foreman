@@ -13,10 +13,11 @@ const getDiff = (oldText, newText) => {
   return `${header.join('\n')}\n${diffText}`;
 };
 
-const DiffView = ({
-  oldText, newText, viewType, patch,
-}) => {
-  const markEdits = markCharacterEdits({ threshold: 30, markLongDistanceDiff: true });
+const DiffView = ({ oldText, newText, viewType, patch }) => {
+  const markEdits = markCharacterEdits({
+    threshold: 30,
+    markLongDistanceDiff: true,
+  });
 
   // old,new Text
   if (patch === '') {
@@ -24,21 +25,25 @@ const DiffView = ({
     const files = parseDiff(gitDiff);
     const hunk = files[0].hunks;
 
-    return hunk && <Diff hunks={hunk} markEdits={markEdits} viewType={viewType} />;
+    return (
+      hunk && <Diff hunks={hunk} markEdits={markEdits} viewType={viewType} />
+    );
   }
   // Patch
-  const files = parseDiff(patch.split('\n').slice(1).join('\n'));
-  const renderFile = ({
-    oldRevision, newRevision, type, hunks,
-  }) => (
+  const files = parseDiff(
+    patch
+      .split('\n')
+      .slice(1)
+      .join('\n')
+  );
+  const renderFile = ({ oldRevision, newRevision, type, hunks }) => (
     <Diff
       key={`${oldRevision}-${newRevision}`}
       viewType={viewType}
       diffType={type}
       hunks={hunks}
       markEdits={markEdits}
-    >
-    </Diff>
+    />
   );
 
   return <div>{files.map(renderFile)}</div>;

@@ -29,4 +29,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export const reducers = { layout: reducer };
 
 // export connected component
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Layout);

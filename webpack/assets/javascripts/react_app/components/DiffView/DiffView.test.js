@@ -9,5 +9,6 @@ const fixtures = {
 };
 
 describe('DiffView', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(DiffView, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(DiffView, fixtures));
 });

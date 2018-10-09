@@ -16,7 +16,9 @@ const PrimaryActionButton = ({ action }) => {
     return onClickButton(action);
   }
 
-  throw new Error('Primary action button expects action with either url or onClick');
+  throw new Error(
+    'Primary action button expects action with either url or onClick'
+  );
 };
 
 const urlButton = ({ url, title }) => (

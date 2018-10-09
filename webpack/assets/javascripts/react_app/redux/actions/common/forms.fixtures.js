@@ -4,4 +4,6 @@ export const requestData = {
   item: 'Resource',
 };
 
-export const requestDataMsg = Object.assign({}, requestData, { message: 'Customized success!' });
+export const requestDataMsg = Object.assign({}, requestData, {
+  message: 'Customized success!',
+});

@@ -13,7 +13,9 @@ describe('AlertLink', () => {
 
   it('should render with onClick', () => {
     const handleClick = jest.fn();
-    const wrapper = shallow(<AlertLink onClick={handleClick}>some link</AlertLink>);
+    const wrapper = shallow(
+      <AlertLink onClick={handleClick}>some link</AlertLink>
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
 

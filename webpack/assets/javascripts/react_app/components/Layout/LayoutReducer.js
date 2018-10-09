@@ -18,11 +18,7 @@ const initialState = Immutable({
 });
 
 export default (state = initialState, action) => {
-  const {
-    payload: {
-      items, activeMenu, org, location,
-    } = {}, type,
-  } = action;
+  const { payload: { items, activeMenu, org, location } = {}, type } = action;
 
   switch (type) {
     case LAYOUT_SHOW_LOADING:

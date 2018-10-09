@@ -17,9 +17,13 @@ const combinedReducers = { ...reducers, bookmarks: bookmarksReducer };
 describe('SearchBar integration test', () => {
   it('should flow', async () => {
     const label = 'result';
-    API.get.mockImplementation(async () => ({ data: [{ label, category: '' }] }));
+    API.get.mockImplementation(async () => ({
+      data: [{ label, category: '' }],
+    }));
     const integrationTestHelper = new IntegrationTestHelper(combinedReducers);
-    const wrapper = integrationTestHelper.mount(<SearchBar {...SearchBarProps} />);
+    const wrapper = integrationTestHelper.mount(
+      <SearchBar {...SearchBarProps} />
+    );
     const AutoCompleteInstance = wrapper.find('AutoComplete').instance();
     const mainInput = wrapper.find('.rbt-input-main').first();
     const menuItemsShouldMatchSecondAPIcall = () => {
@@ -40,7 +44,9 @@ describe('SearchBar integration test', () => {
     expect(wrapper.find('.rbt-loader').exists()).toBeTruthy();
     await IntegrationTestHelper.flushAllPromises();
     wrapper.update();
-    integrationTestHelper.takeStoreAndLastActionSnapshot('request that was triggered by focus is over');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'request that was triggered by focus is over'
+    );
     // Because request status is not PENDING, check if the loading spinner disappeared.
     expect(wrapper.find('.rbt-loader').exists()).toBeFalsy();
     // Trigger Focus
@@ -61,7 +67,9 @@ describe('SearchBar integration test', () => {
     integrationTestHelper.takeStoreAndLastActionSnapshot('option selected');
     await IntegrationTestHelper.flushAllPromises();
     wrapper.update();
-    integrationTestHelper.takeStoreAndLastActionSnapshot('request that was triggered by option select is over');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'request that was triggered by option select is over'
+    );
     // expect input text to be the same as the selected option(label).
     expect(AutoCompleteInstance.props.searchQuery).toBe(label);
     // expect menu to be open and to be built correctly
@@ -71,13 +79,17 @@ describe('SearchBar integration test', () => {
       .find('.autocomplete-clear-button')
       .first()
       .simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('Clear button clicked');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'Clear button clicked'
+    );
     // Because it detects that it was searched earlier, no API request will be made,
     // and menu items should be the first menu Items.
     expect(menuItem.text()).toBe(label);
     // trigger menu item click.
     menuItem.simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('option selected again');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'option selected again'
+    );
     // same request as before, no need of another API request.
     // menu items should be the same as in the second API call.
     menuItemsShouldMatchSecondAPIcall();
@@ -86,29 +98,37 @@ describe('SearchBar integration test', () => {
       .find('.autocomplete-search-btn')
       .first()
       .simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('Clicked the search button');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'Clicked the search button'
+    );
     // expect it to call Turbolinks.
-    expect(global.Turbolinks.visit.mock.calls.length).toBe(1);
+    expect(global.Turbolinks.visit.mock.calls).toHaveLength(1);
     const event = new KeyboardEvent('keypress', { keyCode: 13 });
     global.dispatchEvent(event);
-    expect(global.Turbolinks.visit.mock.calls.length).toBe(2);
+    expect(global.Turbolinks.visit.mock.calls).toHaveLength(2);
     // bookmark this page:
     // click on bookmark button
     wrapper
       .find('button[title="Bookmarks"]')
       .first()
       .simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('bookmarks button click');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'bookmarks button click'
+    );
     // dropdown should open, lets click on 'Bookmark this page'
     wrapper
       .find('a[id="newBookmark"]')
       .first()
       .simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('in bookmarks dropdown: click on "bookmark this page"');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'in bookmarks dropdown: click on "bookmark this page"'
+    );
     // modal should open, lets check its query value
-    expect(wrapper
-      .find('ConnectedField')
-      .at(1)
-      .props().initial).toBe(label);
+    expect(
+      wrapper
+        .find('ConnectedField')
+        .at(1)
+        .props().initial
+    ).toBe(label);
   });
 });

@@ -26,12 +26,23 @@ export const props = {
       independent_nonpersistent: 'Independent - Nonpersistent',
     },
   },
-  datastores: [{
-    name: 'FC0001_LX_DC1_EXAMPLE_PROD_01', id: 'datastore-608634', capacity: 2199023255552, freespace: 380650913792, uncommitted: 3612356549242,
-  }],
-  storagePods: [{
-    name: 'LX-DC1-EXAMPLE', id: 'group-p859969', capacity: 5497021267968, freespace: 4756143603712,
-  }],
+  datastores: [
+    {
+      name: 'FC0001_LX_DC1_EXAMPLE_PROD_01',
+      id: 'datastore-608634',
+      capacity: 2199023255552,
+      freespace: 380650913792,
+      uncommitted: 3612356549242,
+    },
+  ],
+  storagePods: [
+    {
+      name: 'LX-DC1-EXAMPLE',
+      id: 'group-p859969',
+      capacity: 5497021267968,
+      freespace: 4756143603712,
+    },
+  ],
   addDisk: () => {},
   removeDisk: () => {},
   removeController: () => {},

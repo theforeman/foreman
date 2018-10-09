@@ -7,4 +7,5 @@ const fixtures = {
   'render ToggleIcon with unread-messages': { hasUnreadMessages: true },
 };
 
-describe('ToggleIcon', () => testComponentSnapshotsWithFixtures(ToggleIcon, fixtures));
+describe('ToggleIcon', () =>
+  testComponentSnapshotsWithFixtures(ToggleIcon, fixtures));

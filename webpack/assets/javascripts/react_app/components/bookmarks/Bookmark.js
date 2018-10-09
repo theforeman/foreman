@@ -5,7 +5,7 @@ import { MenuItem } from 'patternfly-react';
 import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
 
 const Bookmark = ({ text, query }) => {
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.preventDefault();
     const uri = new URI(window.location.href);
 
@@ -13,9 +13,11 @@ const Bookmark = ({ text, query }) => {
     window.Turbolinks.visit(uri.toString());
   };
 
-  return <MenuItem onClick={handleClick}>
+  return (
+    <MenuItem onClick={handleClick}>
       <EllipisWithTooltip>{text}</EllipisWithTooltip>
-    </MenuItem>;
+    </MenuItem>
+  );
 };
 
 Bookmark.propTypes = {

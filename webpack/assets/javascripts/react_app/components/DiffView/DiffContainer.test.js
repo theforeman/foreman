@@ -10,13 +10,20 @@ const fixtures = {
 };
 
 describe('DiffContainer', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(DiffContainer, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(DiffContainer, fixtures));
 
   describe('simulate onClick', () => {
     const wrapper = mount(<DiffContainer {...diffMock} />);
-    wrapper.find('#split-btn').at(0).simulate('click');
+    wrapper
+      .find('#split-btn')
+      .at(0)
+      .simulate('click');
     expect(wrapper.state().viewType).toBe('split');
-    wrapper.find('#unified-btn').at(0).simulate('click');
+    wrapper
+      .find('#unified-btn')
+      .at(0)
+      .simulate('click');
     expect(wrapper.state().viewType).toBe('unified');
   });
 });

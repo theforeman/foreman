@@ -10,7 +10,10 @@ const auditsFixtures = {
 
 describe('AuditsList', () => {
   describe('rendering', () => {
-    const components = shallowRenderComponentWithFixtures(AuditsList, auditsFixtures);
+    const components = shallowRenderComponentWithFixtures(
+      AuditsList,
+      auditsFixtures
+    );
     components.forEach(({ description, component }) => {
       it(description, () => {
         expect(toJson(component)).toMatchSnapshot();

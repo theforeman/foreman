@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { simpleLoader } from '../../../common/Loader';
 import './PowerStatusInner.scss';
 
-const PowerStatusInner = ({
-  state, title, statusText, error,
-}) => {
+const PowerStatusInner = ({ state, title, statusText, error }) => {
   if (error) {
     const errorTitle = [title, statusText].join(' ').trim();
 

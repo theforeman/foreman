@@ -6,14 +6,7 @@ import { noop } from '../../common/helpers';
 import BookmarkForm from './form';
 import { translate as __ } from '../../../react_app/common/I18n';
 
-const SearchModal = ({
-  show,
-  onHide,
-  onEnter,
-  title,
-  controller,
-  url,
-}) => (
+const SearchModal = ({ show, onHide, onEnter, title, controller, url }) => (
   <Modal show={show} enforceFocus onHide={onHide} onEnter={onEnter}>
     <Modal.Header closeButton>
       <Modal.Title>{title}</Modal.Title>

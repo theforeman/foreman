@@ -16,12 +16,16 @@ describe('Form', () => {
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should display multiple base errors', () => {
-    const wrapper = shallow(<Form error={['invalid something', 'error too']} />);
+    const wrapper = shallow(
+      <Form error={['invalid something', 'error too']} />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should accept base error title', () => {
-    const wrapper = shallow(<Form error={['invalid something']} errorTitle="Oops" />);
+    const wrapper = shallow(
+      <Form error={['invalid something']} errorTitle="Oops" />
+    );
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });

@@ -48,11 +48,13 @@ RadioButtonGroup.propTypes = {
   className: PropTypes.string,
   inputClassName: PropTypes.string,
   disabled: PropTypes.bool,
-  radios: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
-    checked: PropTypes.bool,
-  })),
+  radios: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+      checked: PropTypes.bool,
+    })
+  ),
 };
 
 RadioButtonGroup.defaultProps = {

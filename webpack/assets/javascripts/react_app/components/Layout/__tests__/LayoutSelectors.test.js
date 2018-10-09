@@ -26,13 +26,15 @@ const emptyState = {
 
 const fixtures = {
   'should return Layout': () => selectLayout(state),
-  'should return PF-React Compatible items': () => patternflyMenuItemsSelector(state),
-  'should return empty array of items': () => patternflyMenuItemsSelector(emptyState),
+  'should return PF-React Compatible items': () =>
+    patternflyMenuItemsSelector(state),
+  'should return empty array of items': () =>
+    patternflyMenuItemsSelector(emptyState),
 
   'should return isLoading from selector': () => selectIsLoading(state),
   'should return location from selector': () => selectCurrentLocation(state),
-  'should return organization from selector': () => selectCurrentOrganization(state),
+  'should return organization from selector': () =>
+    selectCurrentOrganization(state),
 };
 
 describe('Layout selectors', () => testSelectorsSnapshotWithFixtures(fixtures));
-

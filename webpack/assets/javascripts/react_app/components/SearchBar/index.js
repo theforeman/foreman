@@ -5,9 +5,7 @@ import reducer from '../AutoComplete/AutoCompleteReducer';
 import SearchBar from './SearchBar';
 
 const mapStateToProps = ({
-  autocomplete: {
-    error, results, searchQuery, status,
-  },
+  autocomplete: { error, results, searchQuery, status },
 }) => ({
   error,
   results,
@@ -21,5 +19,5 @@ export const reducers = { autocomplete: reducer };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(SearchBar);

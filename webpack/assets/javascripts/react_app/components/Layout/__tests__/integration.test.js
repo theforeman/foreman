@@ -11,7 +11,9 @@ describe('Layout integration test', () => {
   it('should flow', async () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);
 
-    const component = integrationTestHelper.mount(<Layout {...hasTaxonomiesMock} />);
+    const component = integrationTestHelper.mount(
+      <Layout {...hasTaxonomiesMock} />
+    );
     await IntegrationTestHelper.flushAllPromises();
     component.update();
 
@@ -21,21 +23,31 @@ describe('Layout integration test', () => {
     integrationTestHelper.takeStoreSnapshot('initial state');
 
     yamlLocation.at(0).simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('Location "yaml" clicked');
-    expect(component.find('#location-dropdown > .dropdown-toggle').text()).toBe('yaml');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'Location "yaml" clicked'
+    );
+    expect(component.find('#location-dropdown > .dropdown-toggle').text()).toBe(
+      'yaml'
+    );
 
     await IntegrationTestHelper.flushAllPromises();
     component.update();
 
     org2Organization.at(1).simulate('click');
     integrationTestHelper.takeStoreAndLastActionSnapshot('Org "org2" clicked');
-    expect(component.find('#organization-dropdown > .dropdown-toggle').text()).toBe('org2');
+    expect(
+      component.find('#organization-dropdown > .dropdown-toggle').text()
+    ).toBe('org2');
 
     await IntegrationTestHelper.flushAllPromises();
     component.update();
 
     hostsMenuItem.at(1).simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot('Changed ActiveMenu to Hosts');
-    expect(component.find('.secondary-nav-item-pf .active > a').text()).toBe('Hosts');
+    integrationTestHelper.takeStoreAndLastActionSnapshot(
+      'Changed ActiveMenu to Hosts'
+    );
+    expect(component.find('.secondary-nav-item-pf .active > a').text()).toBe(
+      'Hosts'
+    );
   });
 });

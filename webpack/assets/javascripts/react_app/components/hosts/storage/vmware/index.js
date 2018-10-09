@@ -11,7 +11,7 @@ import { noop } from '../../../../common/helpers';
 import './StorageContainer.scss';
 import { STATUS } from '../../../../constants';
 
-const filterKeyFromVolume = (volume) => {
+const filterKeyFromVolume = volume => {
   // eslint-disable-next-line no-unused-vars
   const { key, ...volumeWithoutKey } = volume;
   return volumeWithoutKey;
@@ -75,7 +75,9 @@ class StorageContainer extends React.Component {
     } = this.props;
 
     return controllers.map((controller, idx) => {
-      const controllerVolumes = volumes.filter(v => v.controllerKey === controller.key);
+      const controllerVolumes = volumes.filter(
+        v => v.controllerKey === controller.key
+      );
 
       return (
         <Controller
@@ -101,9 +103,7 @@ class StorageContainer extends React.Component {
   }
 
   render() {
-    const {
-      addController, controllers, volumes, config,
-    } = this.props;
+    const { addController, controllers, volumes, config } = this.props;
     const paramsScope = config && config.paramsScope;
     const enableAddControllerBtn =
       config && config.addControllerEnabled && !config.vmExists;
@@ -147,21 +147,25 @@ StorageContainer.propTypes = {
   config: PropTypes.object,
   volumes: PropTypes.array,
   datastoresLoading: PropTypes.bool,
-  datastores: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    capacity: PropTypes.number,
-    freespace: PropTypes.number,
-    uncommitted: PropTypes.number,
-  })),
+  datastores: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      capacity: PropTypes.number,
+      freespace: PropTypes.number,
+      uncommitted: PropTypes.number,
+    })
+  ),
   datastoresError: PropTypes.string,
   storagePodsLoading: PropTypes.bool,
-  storagePods: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    capacity: PropTypes.number,
-    freespace: PropTypes.number,
-  })),
+  storagePods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      capacity: PropTypes.number,
+      freespace: PropTypes.number,
+    })
+  ),
   storagePodsError: PropTypes.string,
   addController: PropTypes.func,
   addDisk: PropTypes.func,
@@ -194,7 +198,7 @@ StorageContainer.defaultProps = {
   fetchStoragePods: noop,
 };
 
-const mapDispatchToProps = (state) => {
+const mapDispatchToProps = state => {
   const {
     controllers,
     config,
@@ -222,5 +226,5 @@ const mapDispatchToProps = (state) => {
 
 export default connect(
   mapDispatchToProps,
-  VmWareActions,
+  VmWareActions
 )(StorageContainer);

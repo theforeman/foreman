@@ -29,7 +29,11 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case BOOKMARKS_REQUEST:
-      return state.set(payload.controller, { results: [], errors: null, status: STATUS.PENDING });
+      return state.set(payload.controller, {
+        results: [],
+        errors: null,
+        status: STATUS.PENDING,
+      });
     case BOOKMARKS_SUCCESS:
       return state
         .setIn([payload.controller, 'results'], payload.results)
@@ -40,7 +44,9 @@ export default (state = initialState, action) => {
       return state
         .setIn(
           [payload.data.controller, 'results'],
-          [...state[payload.data.controller].results, payload.data].sort(sortByName),
+          [...state[payload.data.controller].results, payload.data].sort(
+            sortByName
+          )
         )
         .set('showModal', false);
     case BOOKMARKS_MODAL_CLOSED:

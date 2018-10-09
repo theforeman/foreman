@@ -9,22 +9,32 @@ const initializeMocks = () => {
   mockRequest({
     url: '/api/v2/compute_resources/1/available_storage_domains',
     response: {
-      results: [{
-        name: 'MyDatastore', id: 'datastore-608634', capacity: 2199023255552, freespace: 659551158272, uncommitted: 4076735943455,
-      }],
+      results: [
+        {
+          name: 'MyDatastore',
+          id: 'datastore-608634',
+          capacity: 2199023255552,
+          freespace: 659551158272,
+          uncommitted: 4076735943455,
+        },
+      ],
     },
   });
 
   mockRequest({
     url: '/api/v2/compute_resources/1/available_storage_pods',
     response: {
-      results: [{
-        name: 'MyStoragePod', id: 'group-p859969', capacity: 5497021267968, freespace: 4829829136384,
-      }],
+      results: [
+        {
+          name: 'MyStoragePod',
+          id: 'group-p859969',
+          capacity: 5497021267968,
+          freespace: 4829829136384,
+        },
+      ],
     },
   });
 };
-
 
 storiesOf('Components/Host VMWare Storage', module)
   .add('default state for new host', () => {

@@ -4,12 +4,12 @@ import $ from 'jquery';
 export function initTypeChanges() {
   // update the hidden input which serves as template
   // and also all existing inputs in case of editing
-  $('select.input_type_selector').each(function () {
+  $('select.input_type_selector').each(function() {
     updateVisibilityAfterInputTypeChange($(this));
   });
 
   // every additional input that's added through "Add Input" button will also be handled
-  $(document).on('change', 'select.input_type_selector', function () {
+  $(document).on('change', 'select.input_type_selector', function() {
     updateVisibilityAfterInputTypeChange($(this));
   });
 }

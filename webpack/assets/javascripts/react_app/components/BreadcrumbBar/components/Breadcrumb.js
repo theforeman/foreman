@@ -4,7 +4,12 @@ import { Breadcrumb as PfBreadcrumb } from 'patternfly-react';
 import 'patternfly-react/dist/sass/_breadcrumb.scss';
 
 const Breadcrumb = ({
-  items, title, isTitle, titleReplacement, children, ...props
+  items,
+  title,
+  isTitle,
+  titleReplacement,
+  children,
+  ...props
 }) => {
   if (isTitle) {
     return (
@@ -18,7 +23,10 @@ const Breadcrumb = ({
     <PfBreadcrumb title={title} {...props}>
       {items.map((item, index) => {
         const active = index === items.length - 1;
-        const { caption, caption: { icon, text } } = item;
+        const {
+          caption,
+          caption: { icon, text },
+        } = item;
         const overrideTitle = active && titleReplacement;
         const itemTitle = overrideTitle || text || caption;
 
@@ -30,7 +38,8 @@ const Breadcrumb = ({
             href={item.url}
             title={itemTitle}
           >
-            {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />} {itemTitle}
+            {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />}{' '}
+            {itemTitle}
           </PfBreadcrumb.Item>
         );
       })}
@@ -44,19 +53,21 @@ Breadcrumb.propTypes = {
   title: PropTypes.bool,
   titleReplacement: PropTypes.string,
   isTitle: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    caption: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.shape({
-        icon: PropTypes.shape({
-          url: PropTypes.string,
-          alt: PropTypes.string,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      caption: PropTypes.oneOfType([
+        PropTypes.string.isRequired,
+        PropTypes.shape({
+          icon: PropTypes.shape({
+            url: PropTypes.string,
+            alt: PropTypes.string,
+          }),
+          text: PropTypes.string,
         }),
-        text: PropTypes.string,
-      }),
-    ]),
-    url: PropTypes.string,
-  })),
+      ]),
+      url: PropTypes.string,
+    })
+  ),
 };
 
 Breadcrumb.defaultProps = {

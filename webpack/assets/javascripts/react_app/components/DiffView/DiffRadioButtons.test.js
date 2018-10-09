@@ -8,5 +8,6 @@ const fixtures = {
 };
 
 describe('DiffView', () => {
-  describe('rendering', () => testComponentSnapshotsWithFixtures(DiffRadioButtons, fixtures));
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(DiffRadioButtons, fixtures));
 });

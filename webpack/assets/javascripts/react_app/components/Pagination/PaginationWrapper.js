@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Paginator } from 'patternfly-react';
 import Pagination from './Pagination';
 
-const PaginationWrapper = (props) => {
+const PaginationWrapper = props => {
   const {
     onPageSet,
     onPerPageSelect,
@@ -15,17 +15,17 @@ const PaginationWrapper = (props) => {
     ...otherProps
   } = props;
 
-  const onPageSetUpdate = (page) => {
+  const onPageSetUpdate = page => {
     update({ page });
     onPageSet(page);
   };
 
-  const onPerPageSelectUpdate = (perPage) => {
+  const onPerPageSelectUpdate = perPage => {
     update({ perPage, page: 1 });
     onPerPageSelect(perPage);
   };
 
-  const update = (changes) => {
+  const update = changes => {
     const newPagination = { ...pagination, ...changes };
 
     onChange({
@@ -34,7 +34,7 @@ const PaginationWrapper = (props) => {
     });
   };
 
-  const initPagination = (paginationFromProps) => {
+  const initPagination = paginationFromProps => {
     const defaultPagination = {
       page: 1,
       perPage: 20,
@@ -50,7 +50,7 @@ const PaginationWrapper = (props) => {
       onPerPageSelect={onPerPageSelectUpdate}
       dropdownButtonId={dropdownButtonId}
       pagination={initPagination(pagination)}
-      { ...otherProps }
+      {...otherProps}
     />
   );
 };

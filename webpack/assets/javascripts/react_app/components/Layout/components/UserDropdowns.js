@@ -21,32 +21,32 @@ const UserDropdowns = ({
     >
       <NotificationContainer data={{ url: notificationUrl }} />
     </NavItem>
-    {!!user &&
-      !!user.current_user && (
-        <NavDropdown componentClass="li" id="account_menu">
-          <Dropdown.Toggle useAnchor className="nav-item-iconic">
-            <Icon type="fa" name="user avatar small" />
-            {user.current_user.user.firstname} {user.current_user.user.lastname}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {user.user_dropdown[0].children.map((item, i) =>
-                (item.type === 'divider' ? (
-                  <MenuItem key={i} divider />
-                ) : (
-                  <MenuItem
-                    key={i}
-                    className="user_menuitem"
-                    href={item.url}
-                    onClick={() => {
-                      changeActiveMenu({ title: 'User' });
-                    }}
-                  >
-                    {__(item.name)}
-                  </MenuItem>
-                )))}
-          </Dropdown.Menu>
-        </NavDropdown>
-      )}
+    {!!user && !!user.current_user && (
+      <NavDropdown componentClass="li" id="account_menu">
+        <Dropdown.Toggle useAnchor className="nav-item-iconic">
+          <Icon type="fa" name="user avatar small" />
+          {user.current_user.user.firstname} {user.current_user.user.lastname}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          {user.user_dropdown[0].children.map((item, i) =>
+            item.type === 'divider' ? (
+              <MenuItem key={i} divider />
+            ) : (
+              <MenuItem
+                key={i}
+                className="user_menuitem"
+                href={item.url}
+                onClick={() => {
+                  changeActiveMenu({ title: 'User' });
+                }}
+              >
+                {__(item.name)}
+              </MenuItem>
+            )
+          )}
+        </Dropdown.Menu>
+      </NavDropdown>
+    )}
   </VerticalNav.IconBar>
 );
 
