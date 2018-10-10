@@ -474,12 +474,34 @@ EOS
     end
   end
 
-  test 'load_template_vars does not cause infinite loop' do
-    ptable = FactoryBot.create(:ptable, :suse)
-    operatingsystem = FactoryBot.create(:suse, :with_archs, ptables: [ptable])
-    host = FactoryBot.create(:host, :managed, operatingsystem: operatingsystem)
-    @renderer.host = host
-    @renderer.load_template_vars
+  describe '#load_template_vars' do
+    before do
+      @ptable_template = "%#\n" \
+                         "kind: ptable\n" \
+                         "name: test template\n" \
+                         "oses:\n" \
+                         "- RedHat 7\n" \
+                         "%>\n" \
+                         "#Dynamic\n"
+
+      ptable = FactoryBot.create(:ptable, template: @ptable_template, operatingsystem_ids: [operatingsystems(:redhat).id])
+      @host = FactoryBot.create(:host, :managed, ptable: ptable, operatingsystem: operatingsystems(:redhat))
+    end
+
+    test "is true when '#dynamic' is present in the template" do
+      @renderer.host = @host
+      @renderer.load_template_vars
+
+      assert_equal true, @renderer.instance_variable_get('@dynamic')
+    end
+
+    test "is false when '#dynamic' is not present in the template" do
+      @host.ptable.update(template: @ptable_template.gsub('#Dynamic', ''))
+      @renderer.host = @host
+      @renderer.load_template_vars
+
+      assert_equal false, @renderer.instance_variable_get('@dynamic')
+    end
   end
 
   private
