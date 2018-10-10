@@ -21,7 +21,9 @@ class BreadcrumbBar extends React.Component {
 
   render() {
     const {
-      data: { breadcrumbItems, isSwitchable, resource },
+      data: {
+        breadcrumbItems, isSwitchable, resource,
+      },
       currentPage,
       totalPages,
       resourceSwitcherItems,
@@ -35,6 +37,7 @@ class BreadcrumbBar extends React.Component {
       removeSearchQuery,
       searchDebounceTimeout,
       onSwitcherItemClick,
+      titleReplacement,
     } = this.props;
 
     const isTitle = breadcrumbItems.length === 1;
@@ -50,7 +53,12 @@ class BreadcrumbBar extends React.Component {
 
     return (
       <div className="breadcrumb-bar">
-        <Breadcrumb title items={breadcrumbItems} isTitle={isTitle}>
+        <Breadcrumb
+          title
+          items={breadcrumbItems}
+          isTitle={isTitle}
+          titleReplacement={titleReplacement}
+        >
           {isSwitchable && (
             <BreadcrumbSwitcher
               open={isSwitcherOpen}
@@ -107,6 +115,7 @@ BreadcrumbBar.propTypes = {
   loadSwitcherResourcesByResource: PropTypes.func,
   onSearchChange: PropTypes.func,
   onSwitcherItemClick: PropTypes.func,
+  titleReplacement: PropTypes.string,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -127,6 +136,7 @@ BreadcrumbBar.defaultProps = {
   onSearchChange: noop,
   searchDebounceTimeout: 300,
   onSwitcherItemClick: noop,
+  titleReplacement: null,
 };
 
 export default BreadcrumbBar;

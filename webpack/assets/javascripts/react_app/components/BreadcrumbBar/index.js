@@ -17,6 +17,7 @@ const mapStateToProps = ({ breadcrumbBar }) => ({
   totalPages: breadcrumbBar.pages,
   searchQuery: breadcrumbBar.searchQuery,
   removeSearchQuery: breadcrumbBar.removeSearchQuery,
+  titleReplacement: breadcrumbBar.titleReplacement,
 });
 
 // map action dispatchers to props

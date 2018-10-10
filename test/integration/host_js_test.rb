@@ -599,7 +599,6 @@ class HostJSTest < IntegrationTestWithJavascript
         modal.find(:button, "Ok").click
 
         assert table.find('td.fqdn').has_content?('name.' + domain.name)
-        assert page.find('#hostFQDN').has_content?('| name.' + domain.name)
 
         click_link('host_tab')
         assert_equal 'name', page.find('#host_name', :visible => false).value
