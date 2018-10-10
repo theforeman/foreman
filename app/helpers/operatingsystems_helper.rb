@@ -44,6 +44,7 @@ module OperatingsystemsHelper
                return "" if record.family.blank?
                record.family
              end
+    return image_path(family + ".png") if opts[:path]
 
     image_tag(family + ".png", opts) + " "
   end
