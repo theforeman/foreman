@@ -84,7 +84,7 @@ class FactImporter
 
   private
 
-  attr_reader :host, :facts, :fact_names, :fact_names_by_id, :facts_to_create
+  attr_reader :host, :facts, :fact_names, :facts_to_create
 
   def fact_name_class_name
     @fact_name_class_name ||= fact_name_class.name
@@ -125,12 +125,7 @@ class FactImporter
 
   def initialize_fact_names
     name_records = fact_name_class.unscoped.where(:name => facts.keys, :type => fact_name_class_name).reorder('')
-    @fact_names = {}
-    @fact_names_by_id = {}
-    name_records.each do |record|
-      @fact_names[record.name] = record
-      @fact_names_by_id[record.id] = record
-    end
+    @fact_names = name_records.index_by(&:name)
   end
 
   def fact_name_attributes(fact_name)
