@@ -7,6 +7,7 @@ import {
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
   BREADCRUMB_BAR_RESOURCES_FAILURE,
   BREADCRUMB_BAR_CLEAR_SEARCH,
+  BREADCRUMB_BAR_UPDATE_TITLE,
 } from './BreadcrumbBarConstants';
 
 const initialState = Immutable({
@@ -18,6 +19,7 @@ const initialState = Immutable({
   currentPage: null,
   searchQuery: '',
   pages: null,
+  titleReplacement: null,
 });
 
 export default (state = initialState, action) => {
@@ -26,6 +28,9 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case BREADCRUMB_BAR_CLEAR_SEARCH:
       return state.set('searchQuery', '');
+
+    case BREADCRUMB_BAR_UPDATE_TITLE:
+      return state.set('titleReplacement', payload);
 
     case BREADCRUMB_BAR_RESOURCES_REQUEST:
       return state

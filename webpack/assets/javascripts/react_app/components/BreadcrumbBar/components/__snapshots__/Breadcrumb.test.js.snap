@@ -6,33 +6,30 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
 >
   <BreadcrumbItem
     active={false}
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "root",
-      }
-    }
     href="/some-url"
     key="0"
-  />
+    title="root"
+  >
+     
+    root
+  </BreadcrumbItem>
   <BreadcrumbItem
     active={false}
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "child with onClick",
-      }
-    }
     key="1"
     onClick={[Function]}
-  />
+    title="child with onClick"
+  >
+     
+    child with onClick
+  </BreadcrumbItem>
   <BreadcrumbItem
     active={true}
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "active child",
-      }
-    }
     key="2"
-  />
+    title="active child"
+  >
+     
+    active child
+  </BreadcrumbItem>
 </Breadcrumb>
 `;
 
@@ -42,12 +39,35 @@ exports[`Breadcrumbs renders h1 title 1`] = `
 >
   <BreadcrumbItem
     active={true}
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "title",
-      }
-    }
     key="0"
-  />
+    title="title"
+  >
+     
+    title
+  </BreadcrumbItem>
+</Breadcrumb>
+`;
+
+exports[`Breadcrumbs renders title override 1`] = `
+<Breadcrumb
+  title={false}
+>
+  <BreadcrumbItem
+    active={false}
+    href="/some-url"
+    key="0"
+    title="root"
+  >
+     
+    root
+  </BreadcrumbItem>
+  <BreadcrumbItem
+    active={true}
+    key="1"
+    title="active child"
+  >
+     
+    override title
+  </BreadcrumbItem>
 </Breadcrumb>
 `;

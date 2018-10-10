@@ -24,6 +24,20 @@ export const breadcrumbTitleItems = {
   ],
 };
 
+
+export const breadcrumbsWithReplacementTitle = {
+  titleReplacement: 'override title',
+  items: [
+    {
+      caption: 'root',
+      url: '/some-url',
+    },
+    {
+      caption: 'active child',
+    },
+  ],
+};
+
 export const resource = {
   resourceUrl: 'some/url',
   nameField: 'name',

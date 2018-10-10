@@ -10,6 +10,7 @@ Object {
   "resourceSwitcherItems": Array [],
   "resourceUrl": null,
   "searchQuery": "",
+  "titleReplacement": null,
 }
 `;
 
@@ -23,6 +24,7 @@ Object {
   "resourceSwitcherItems": Array [],
   "resourceUrl": "some/url",
   "searchQuery": "",
+  "titleReplacement": null,
 }
 `;
 
@@ -36,6 +38,7 @@ Object {
   "resourceSwitcherItems": Array [],
   "resourceUrl": "some/url",
   "searchQuery": undefined,
+  "titleReplacement": null,
 }
 `;
 
@@ -49,6 +52,7 @@ Object {
   "resourceSwitcherItems": Array [],
   "resourceUrl": "some/url",
   "searchQuery": "some search",
+  "titleReplacement": null,
 }
 `;
 
@@ -90,6 +94,7 @@ Object {
   ],
   "resourceUrl": "some/url",
   "searchQuery": "",
+  "titleReplacement": null,
 }
 `;
 
@@ -103,6 +108,7 @@ Object {
   "resourceSwitcherItems": Array [],
   "resourceUrl": null,
   "searchQuery": "",
+  "titleReplacement": null,
 }
 `;
 
@@ -116,5 +122,6 @@ Object {
   "resourceSwitcherItems": Array [],
   "resourceUrl": null,
   "searchQuery": "",
+  "titleReplacement": null,
 }
 `;
