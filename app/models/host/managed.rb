@@ -184,7 +184,8 @@ class Host::Managed < Host::Base
     if fromtime.nil? || totime.nil?
       raise ::Foreman.Exception.new(N_("invalid time range"))
     else
-      joins("INNER JOIN reports ON reports.host_id = hosts.id").where("reports.reported_at BETWEEN ? AND ?", fromtime, totime)
+      joins(:all_reports)
+        .where("run_distribution_reports.reported_at BETWEEN ? AND ?", fromtime, totime)
     end
   }
 
