@@ -41,4 +41,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   templateInputs: require('./foreman_template_inputs'),
   advancedFields: require('./foreman_advanced_fields'),
   i18n,
+  breadcrumbs: require('./foreman_breadcrumbs'),
 });

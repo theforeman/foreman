@@ -67,11 +67,6 @@ module HostsHelper
             select_opts, html_opts
   end
 
-  def new_host_title
-    t = _("Create Host")
-    title(t, (t + ' <span id="hostFQDN"></span>').html_safe)
-  end
-
   def flags_for_nic(nic)
     flags = ""
     flags += "<i class=\"nic-flag glyphicon glyphicon glyphicon-tag\" title=\"#{_('Primary')}\"></i>" if nic.primary?

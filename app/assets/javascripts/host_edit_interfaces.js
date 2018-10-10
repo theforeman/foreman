@@ -317,12 +317,12 @@ $(document).on('change', '.virtual', function () {
 function update_fqdn() {
   var host_name = $('#host_name').val();
   var domain_name = primary_nic_form().find('.interface_domain option:selected').text();
-
+  var pathname = window.location.pathname;
   var name = fqdn(host_name, domain_name)
-  if (name.length > 0)
-    name = "| " + name
-
-  $('#hostFQDN').text(name);
+  if (name.length > 0 && pathname === '/hosts/new') {
+    name = __("Create Host") + " | " + name
+    tfm.breadcrumbs.updateTitle(name);
+  }
 }
 
 $(document).on('change', '.interface_mac', function (event) {
