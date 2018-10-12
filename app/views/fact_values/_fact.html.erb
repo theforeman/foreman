@@ -9,10 +9,12 @@
       </td>
   <% end %>
   <td>
+    <%= popover("", escaped_warning_context, {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.name) %>
     <%= content_tag(:ol, fact_name(fact, parent), :class => "breadcrumb") %>
   </td>
   <td class="fact-col">
     <% unless fact.compose %>
+      <%= popover("", escaped_warning_context, {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.value) %>
       <% allowed_length = 45 %>
       <%= link_to truncate(fact.value, :length => allowed_length),
                   fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),
@@ -24,6 +26,7 @@
   <td class='fact-origin'><%= fact_origin_icon(fact.origin) %></td>
   <td><%= fact_from fact %></td>
   <td><% unless fact.compose %>
+        <%= popover("", "the chart can't display special characters and probalby won't be able to redirect you to the right search", {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.value) || is_escaped_value(fact.name) %>
         <span id="view-fact-chart-<%= fact.id %>"></span>
         <%= mount_react_component('FactChart', "#view-fact-chart-#{fact.id}", {
             path: fact_path(fact.fact_name_id),
