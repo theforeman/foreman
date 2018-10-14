@@ -80,8 +80,9 @@ module.exports = env => {
       rules: [
         {
           test: /\.js$/,
-          // Include novnc in webpack, transpiling is needed for phantomjs (which does not support ES6) to run tests
-          exclude: /node_modules(?!\/@novnc)/,
+          /* Include novnc, unidiff in webpack, transpiling is needed for phantomjs (which does not support ES6) to run tests
+          unidiff can be removed once https://github.com/mvoss9000/unidiff/pull/1 is merged */
+          exclude: /node_modules(?!\/(@novnc|unidiff))/,
           loader: 'babel-loader',
           options: {
             'presets': [

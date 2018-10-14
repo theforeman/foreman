@@ -4,30 +4,10 @@ exports[`ExpansiveView rendering render audit record changes 1`] = `
 <div
   className="grid-container"
 >
-  <div
-    className="editor-section"
-  >
-    <div
-      className="editor-container"
-    >
-      <textarea
-        className="col-md-12 editor_source diffMode"
-        data-file-name="test-template"
-        label="Template diff"
-        type="text"
-      />
-    </div>
-    <input
-      id="old"
-      type="hidden"
-      value="<h1>Hello..</h1>"
-    />
-    <input
-      id="new"
-      type="hidden"
-      value="<h1>Hello World..</h1>"
-    />
-  </div>
+  <DiffContainer
+    newText="<h1>Hello World..</h1>"
+    oldText="<h1>Hello..</h1>"
+  />
   <table
     className="table-changes table table-bordered table-hover"
   >

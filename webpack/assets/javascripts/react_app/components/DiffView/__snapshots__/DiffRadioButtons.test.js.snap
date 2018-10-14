@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DiffView rendering render DiffRadioButtons 1`] = `
+<div
+  id="diff-radio-buttons"
+>
+  <ButtonGroup
+    block={false}
+    bsClass="btn-group"
+    justified={false}
+    vertical={false}
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      className="diff-button active"
+      disabled={false}
+      id="split-btn"
+      onClick={[Function]}
+    >
+      split
+    </Button>
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="diff-button"
+      disabled={false}
+      id="unified-btn"
+      onClick={[Function]}
+    >
+      unified
+    </Button>
+  </ButtonGroup>
+</div>
+`;
