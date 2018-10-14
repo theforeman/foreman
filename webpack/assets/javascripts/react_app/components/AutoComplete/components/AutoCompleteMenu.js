@@ -11,12 +11,13 @@ const AutoCompleteMenu = ({ results, menuProps }) => {
   const grouped = groupBy(results, r => r.category);
   const getMenuItemsByCategory = category =>
     grouped[category].map((result) => {
-      itemIndex += 1;
-      return (
+      const item = (
         <MenuItem key={itemIndex} option={result.label} position={itemIndex}>
           <SubstringWrapper substring={menuProps.text}>{result.label}</SubstringWrapper>
         </MenuItem>
       );
+      itemIndex += 1;
+      return item;
     });
   const items = Object.keys(grouped)
     .sort()
