@@ -89,6 +89,7 @@
     "react": "^16.4.0",
     "react-bootstrap": "0.32.1",
     "react-debounce-input": "^3.2.0",
+    "react-diff-view": "^1.8.1",
     "react-dom": "^16.4.0",
     "react-ellipsis-with-tooltip": "^1.0.8",
     "react-numeric-input": "^2.0.7",
@@ -103,6 +104,7 @@
     "reselect": "^3.0.1",
     "seamless-immutable": "^7.1.2",
     "select2": "~3.5.2-browserify",
+    "unidiff": "0.0.4",
     "urijs": "^1.18.10",
     "uuid": "^3.0.1"
   },
