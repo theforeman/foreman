@@ -6,10 +6,14 @@ module Api
       before_action :find_resource, :only => %w{show update}
 
       api :GET, "/auth_source_externals/", N_("List external authentication sources")
-      api :GET, '/locations/:location_id/auth_source_externals/',
+      if SETTINGS[:locations_enabled]
+        api :GET, '/locations/:location_id/auth_source_externals/',
           N_('List external authentication sources per location')
-      api :GET, '/organizations/:organization_id/auth_source_externals/',
+      end
+      if SETTINGS[:organizations_enabled]
+        api :GET, '/organizations/:organization_id/auth_source_externals/',
           N_('List external authentication sources per organization')
+      end
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 

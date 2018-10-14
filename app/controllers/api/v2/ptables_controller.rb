@@ -11,8 +11,8 @@ module Api
 
       api :GET, "/ptables/", N_("List all partition tables")
       api :GET, "/operatingsystems/:operatingsystem_id/ptables", N_("List all partition tables for an operating system")
-      api :GET, "/locations/:location_id/ptables/", N_("List all partition tables per location")
-      api :GET, "/organizations/:organization_id/ptables/", N_("List all partition tables per organization")
+      api :GET, "/locations/:location_id/ptables/", N_("List all partition tables per location") if SETTINGS[:locations_enabled]
+      api :GET, "/organizations/:organization_id/ptables/", N_("List all partition tables per organization") if SETTINGS[:organizations_enabled]
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController

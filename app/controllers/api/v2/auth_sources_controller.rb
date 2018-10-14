@@ -4,8 +4,8 @@ module Api
       before_action :find_resource, :only => %w{show}
 
       api :GET, "/auth_sources/", N_("List all authentication sources")
-      api :GET, '/locations/:location_id/auth_sources/', N_('List all authentication sources per location')
-      api :GET, '/organizations/:organization_id/auth_sources/', N_('List all authentication sources per organization')
+      api :GET, '/locations/:location_id/auth_sources/', N_('List all authentication sources per location') if SETTINGS[:locations_enabled]
+      api :GET, '/organizations/:organization_id/auth_sources/', N_('List all authentication sources per organization') if SETTINGS[:organizations_enabled]
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
 

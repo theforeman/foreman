@@ -12,8 +12,8 @@ module Api
 
       api :GET, "/hostgroups/", N_("List all host groups")
       api :GET, "/puppetclasses/:puppetclass_id/hostgroups", N_("List all host groups for a Puppet class")
-      api :GET, "/locations/:location_id/hostgroups", N_("List all host groups per location")
-      api :GET, "/organizations/:organization_id/hostgroups", N_("List all host groups per organization")
+      api :GET, "/locations/:location_id/hostgroups", N_("List all host groups per location") if SETTINGS[:locations_enabled]
+      api :GET, "/organizations/:organization_id/hostgroups", N_("List all host groups per organization") if SETTINGS[:organizations_enabled]
       param :puppetclass_id, String, :desc => N_("ID of Puppet class")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
