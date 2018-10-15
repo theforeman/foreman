@@ -1,0 +1,28 @@
+<%#
+name: Registered hosts
+snippet: false
+template_inputs:
+- name: Hosts filter
+  required: false
+  input_type: user
+  description: Limit the report only on hosts found by this search query. Keep empty
+    for report on all available hosts.
+  advanced: false
+model: ReportTemplate
+require:
+- plugin: katello
+￼ version: 3.9.0
+-%>
+<%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :subscriptions, :fact_values, :fact_names, :applicable_errata, :applicable_rpms]).each_record do |host| -%>
+<%-   report_row(
+        'Name': host.name,
+        'Ip': host.ip,
+        'Operating System': host.operatingsystem,
+        'Subscriptions': host_subscriptions(host),
+        'Applicable Errata': host_applicable_errata_ids(host),
+        'Owner': host.owner.login,
+        'Kernel': host.facts['kernelrelease'],
+        'Latest kernel available': host_latest_applicable_rpm_version(host, 'kernel')
+      ) -%>
+<%- end -%>
+<%= report_render -%>
