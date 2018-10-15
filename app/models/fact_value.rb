@@ -92,10 +92,13 @@ class FactValue < ApplicationRecord
     output
   end
 
-  def self.build_facts_hash(values, host_id = nil)
-    hash = values.group_by(&:host_name).transform_values! {|val| val.map {|v| [v.fact_name_name, v.value]}.to_h}
-    if host_id && hash.any?
-      hash.merge! hash.values[0]
+  def self.build_facts_hash(facts)
+    hosts = Host.where(:id => facts.group_by(&:host_id).keys).all
+
+    hash = {}
+    facts.each do |fact|
+      hash[hosts.detect {|h| h.id == fact.host_id}.to_s] ||= {}
+      hash[hosts.detect {|h| h.id == fact.host_id}.to_s].update({fact.name.to_s => fact.value})
     end
     hash
   end
