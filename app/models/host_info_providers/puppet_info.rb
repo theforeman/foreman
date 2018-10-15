@@ -14,7 +14,7 @@ module HostInfoProviders
 
       info_hash
     end
-    
+
     def puppetclass_parameters
       keys = PuppetclassLookupKey.includes(:environment_classes).parameters_for_class(host.puppetclass_ids, host.environment_id)
       key_hash = hashed_class_keys(keys)
