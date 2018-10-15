@@ -10,7 +10,7 @@ class Image < ApplicationRecord
   validates_lengths_from_database
   validates :username, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
   validates :name, :presence => true, :uniqueness => {:scope => [:compute_resource_id, :operatingsystem_id]}
-  validates :uuid, :presence => true, :uniqueness => {:scope => :compute_resource_id}
+  validates :uuid, :presence => true, :uniqueness => {:scope => :compute_resource_id}, :format => URI::regexp(%w(http https ftp))
   validate :uuid_exists?
 
   scoped_search :on => [:name, :username], :complete_value => true
