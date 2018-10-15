@@ -16,18 +16,18 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
   end
 
   test "should get facts for given host only" do
-    get :index, params: {:host_id => @host.name}
+    get :index, params: { :host_id => @host.name }
     assert_response :success
     fact_values   = ActiveSupport::JSON.decode(@response.body)['results']
-    expected_hash = {@host.name => {"kernelversion" => "2.6.9"}, "kernelversion" => "2.6.9"}
+    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
     assert_equal expected_hash, fact_values
   end
 
   test "should get facts for given host id" do
-    get :index, params: {:host_id => @host.id}
+    get :index, params: { :host_id => @host.id }
     assert_response :success
-    fact_values = ActiveSupport::JSON.decode(@response.body)['results']
-    expected_hash = {@host.name => {"kernelversion" => "2.6.9"}, "kernelversion" => "2.6.9"}
+    fact_values   = ActiveSupport::JSON.decode(@response.body)['results']
+    expected_hash = FactValue.build_facts_hash(FactValue.where(:host_id => @host.id))
     assert_equal expected_hash, fact_values
   end
 
@@ -35,7 +35,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
     setup_user
     @host.update_attribute(:hostgroup, FactoryBot.create(:hostgroup))
     as_user(users(:one)) do
-      get :index, params: {:search => "host.hostgroup = #{@host.hostgroup.name}"}
+      get :index, params: { :search => "host.hostgroup = #{@host.hostgroup.name}" }
     end
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)['results']
@@ -55,6 +55,6 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
 
   def setup_user
     @request.session[:user] = users(:one).id
-    users(:one).roles = [Role.default, Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
   end
 end
