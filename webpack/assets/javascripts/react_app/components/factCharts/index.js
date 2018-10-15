@@ -75,12 +75,9 @@ class FactChart extends React.Component {
                 <b>
                   {sprintf(__('Fact distribution chart - %s '), title)}
                 </b>
-                <small>
-                  {sprintf(
-                    n__('(%s host)', '(%s hosts)', factChart.hostsCount),
-                    factChart.hostsCount,
-                  )}
-                </small>
+                {factChart.hostsCount && (<small>
+                  {sprintf(n__('(%s host)', '(%s hosts)', factChart.hostsCount), factChart.hostsCount)}
+                </small>)}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
