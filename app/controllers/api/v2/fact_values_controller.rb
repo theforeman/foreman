@@ -15,8 +15,7 @@ module Api
           no_timestamp_facts.
           search_for(*search_options).paginate(paginate_options).
           preload(:fact_name, :host)
-        host_id = params[:host_id]
-        @fact_values = FactValue.build_facts_hash(values, host_id)
+        @fact_values = FactValue.build_facts_hash(values.all)
       end
 
       def setup_search_options
