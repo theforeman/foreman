@@ -14,15 +14,30 @@ module HostInfoProviders
 
       info_hash
     end
-
+    
     def puppetclass_parameters
       keys = PuppetclassLookupKey.includes(:environment_classes).parameters_for_class(host.puppetclass_ids, host.environment_id)
       key_hash = hashed_class_keys(keys)
       values = keys.values_hash(host)
 
       klasses = {}
+      klass_error = {}
       host.classes.each do |klass|
-        klasses[klass.name] = smart_class_params_for(klass, key_hash, values)
+        begin
+          klasses[klass.name] = smart_class_params_for(klass, key_hash, values)
+        rescue StandardError => exc
+          klass_error[klass] = exc
+        end
+      end
+      if klass_error.size
+          # FIXME: Is logger in scope under another name?
+          logger = Foreman::Logging.logger('app')
+          klass_error.sort.each do |klass, exc|
+              logger.error("Smart class parameter rendering of `#{klass.name}` failed on #{host.name}: #{exc}")
+          end
+          klass_names = klass_error.keys.map { |klass| klass.name }
+          # FIXME: RuntimeExceptions are lame. Custom Exception object with the klass_error data for HTML rendering?
+          raise "Smart class parameter rendering failed for #{klass_names}"
       end
       klasses
     end
