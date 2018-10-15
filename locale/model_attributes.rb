@@ -155,6 +155,8 @@ _('Filter|Taxonomy search')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Build')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Host::Base|Build errors')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Certname')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Comment')
@@ -168,6 +170,8 @@ _('Host::Base|Global status')
 _('Host::Base|Grub pass')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Image file')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Host::Base|Initiated at')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Host::Base|Installed at')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -553,6 +557,8 @@ _('Subnet|Ipam')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Mask')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Subnet|Mtu')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Network')
@@ -562,6 +568,12 @@ _('Subnet|Priority')
 _('Subnet|To')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet|Vlanid')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Table preference')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TablePreference|Columns')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TablePreference|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Taxable taxonomy')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -595,7 +607,31 @@ _('Template|Template')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template|Vendor')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Template input')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Advanced')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Description')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Fact name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Input type')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Options')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Puppet class name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Puppet parameter name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Required')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Variable name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Template kind')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateKind|Description')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateKind|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -622,6 +658,24 @@ _('TrendCounter|Count')
 _('TrendCounter|Interval end')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TrendCounter|Interval start')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Upgrade task')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Always run')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Last run time')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Long running')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Ordering')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Skip failure')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Subject')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('UpgradeTask|Task name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('User')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
