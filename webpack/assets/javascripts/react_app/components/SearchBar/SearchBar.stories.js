@@ -22,7 +22,7 @@ storiesOf('Components/SearchBar', module).add(
   () => (
     <Provider store={Store}>
       <div style={storyStyle}>
-        <h4>Try typing something like: "name = "</h4>
+        <h4>Try typing something like: {'"name = "'}</h4>
         <SearchBar data={SearchBarProps.data} />
       </div>
     </Provider>

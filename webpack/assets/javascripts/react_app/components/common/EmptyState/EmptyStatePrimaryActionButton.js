@@ -21,12 +21,14 @@ const PrimaryActionButton = ({ action }) => {
   );
 };
 
+// eslint-disable-next-line react/prop-types
 const urlButton = ({ url, title }) => (
   <Button href={url} bsStyle="primary" bsSize="large">
     {title}
   </Button>
 );
 
+// eslint-disable-next-line react/prop-types
 const onClickButton = ({ onClick, title }) => (
   <Button onClick={onClick} bsStyle="primary" bsSize="large">
     {title}
@@ -34,7 +36,7 @@ const onClickButton = ({ onClick, title }) => (
 );
 
 PrimaryActionButton.propTypes = {
-  action: PropTypes.shape(actionButtonPropTypes),
+  action: PropTypes.shape(actionButtonPropTypes).isRequired,
 };
 
 export default PrimaryActionButton;

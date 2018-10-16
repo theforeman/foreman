@@ -96,6 +96,7 @@ export function initTypeAheadSelect(input) {
         dataType: 'json',
       }).done(data => {
         if (data.length > 0) {
+          // eslint-disable-next-line standard/no-callback-literal
           callback({ id: data[0].id, text: data[0].name });
         }
       });
