@@ -75,6 +75,7 @@ class PuppetFactParser < FactParser
            end
     # ensure that we convert debian legacy to standard
     name = "x86_64" if name == "amd64"
+    name = "aarch64" if name == "arm64"
     Architecture.where(:name => name).first_or_create if name.present?
   end
 

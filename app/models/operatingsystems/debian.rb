@@ -57,5 +57,6 @@ class Debian < Operatingsystem
 
   def transform_vars(vars)
     vars[:arch] = vars[:arch].sub('x86_64', 'amd64')
+    vars[:arch] = vars[:arch].sub('aarch64', 'arm64')
   end
 end
