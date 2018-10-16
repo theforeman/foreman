@@ -52,6 +52,10 @@ class BreadcrumbSwitcher extends React.Component {
           container={this}
           placement="bottom"
           onHide={onHide}
+          // TODO: try to remove the `ReactDOM.findDOMNode`
+          // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-find-dom-node.md
+          // react-bootstrap still have it in their docs: https://react-bootstrap.github.io/components/overlays/
+          // eslint-disable-next-line react/no-find-dom-node
           target={() => ReactDOM.findDOMNode(this.togglerRef)}
         >
           <BreadcrumbSwitcherPopover

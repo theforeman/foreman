@@ -132,6 +132,7 @@ describe('bookmarks', () => {
     ).toBe(false);
   });
 
+  // eslint-disable-next-line jest/no-disabled-tests
   xit('should open the modal form for new bookmark', () => {
     const wrapper = mount(setup().component);
     expect(wrapper.find('BookmarkContainer').props().showModal).toBe(false);
@@ -139,6 +140,8 @@ describe('bookmarks', () => {
     expect(wrapper.find('BookmarkContainer').props().showModal).toBe(true);
     // TODO: look at alternative solution at https://github.com/airbnb/enzyme/issues/252#issuecomment-266125422
   });
+
+  // eslint-disable-next-line jest/no-disabled-tests
   xit('full flow', () => {
     const wrapper = mount(setup().component);
 

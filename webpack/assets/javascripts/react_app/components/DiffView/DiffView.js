@@ -36,6 +36,7 @@ const DiffView = ({ oldText, newText, viewType, patch }) => {
       .slice(1)
       .join('\n')
   );
+  // eslint-disable-next-line react/prop-types
   const renderFile = ({ oldRevision, newRevision, type, hunks }) => (
     <Diff
       key={`${oldRevision}-${newRevision}`}
