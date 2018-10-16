@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-02 23:49+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
+"Last-Translator: Yulia <yulia.poyarkova@redhat.com>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -424,7 +424,7 @@ msgid "A host group is in some ways similar to an inherited node declaration, in
 msgstr "Группы объединяют объявления узлов на высоком уровне. При создании нового узла можно будет выбрать группу, что создаст его конфигурацию с учетом объявленных в группе критериев."
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
-msgstr ""
+msgstr "Список доступных пользователю параметров. Если не определен, пользователю будет предложено ввести параметры в свободной форме."
 
 msgid "A mail a user receives upon account creation"
 msgstr ""
@@ -512,7 +512,7 @@ msgid "Add Controller"
 msgstr ""
 
 msgid "Add Input"
-msgstr ""
+msgstr "Добавить параметр"
 
 msgid "Add Interface"
 msgstr "Добавить интерфейс"
@@ -1924,7 +1924,7 @@ msgid "Create a subnet"
 msgstr "Создать подсеть"
 
 msgid "Create a template input"
-msgstr ""
+msgstr "Создать входной параметр"
 
 msgid "Create a trend counter"
 msgstr ""
@@ -2269,7 +2269,7 @@ msgid "Delete a template combination"
 msgstr "Удалить комбинацию шаблонов"
 
 msgid "Delete a template input"
-msgstr ""
+msgstr "Удалить входной параметр"
 
 msgid "Delete a trend counter"
 msgstr ""
@@ -2476,7 +2476,7 @@ msgid "Display Type"
 msgstr ""
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "Показать дополнительные параметры"
 
 msgid "Display hidden parameter values"
 msgstr ""
@@ -2537,7 +2537,7 @@ msgid "Download VMRC"
 msgstr ""
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr ""
+msgstr "Обнаружены дубликаты входных данных: %{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
@@ -2893,7 +2893,7 @@ msgid "Fact name"
 msgstr "Имя факта"
 
 msgid "Fact name, used when input type is fact"
-msgstr ""
+msgstr "Имя факта (используется, если поле «Тип ввода» содержит «Значение факта»)"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3149,7 +3149,7 @@ msgid "Filter overriding has been disabled"
 msgstr ""
 
 msgid "Filter..."
-msgstr ""
+msgstr "Фильтр..."
 
 msgid "Filters"
 msgstr "Фильтры"
@@ -3569,7 +3569,7 @@ msgid "Hidden Value"
 msgstr ""
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "Скрыть дополнительные параметры"
 
 msgid "Hide all values for this parameter."
 msgstr "Скрывать значения этого параметра."
@@ -4357,22 +4357,22 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "Описание параметра"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "Расширенный параметр"
 
 msgid "Input is required"
-msgstr ""
+msgstr "Обязательный параметр"
 
 msgid "Input name"
-msgstr ""
+msgstr "Имя параметра"
 
 msgid "Input type"
-msgstr ""
+msgstr "Тип ввода"
 
 msgid "Inputs"
-msgstr ""
+msgstr "Входные параметры"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -5012,7 +5012,7 @@ msgid "List template combination"
 msgstr "Список комбинаций шаблонов"
 
 msgid "List template inputs"
-msgstr ""
+msgstr "Показать параметры ввода"
 
 msgid "Load Datacenters"
 msgstr "Загрузить центры данных"
@@ -5072,7 +5072,7 @@ msgid "Loading virtual machines information ..."
 msgstr "Загрузка информации о виртуальных машинах..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "Загрузка..."
 
 msgid "Local boot %s template"
 msgstr ""
@@ -5553,7 +5553,7 @@ msgid "New"
 msgstr "Новое"
 
 msgid "New %s"
-msgstr ""
+msgstr "Создать %s"
 
 msgid "New Autosign Entry"
 msgstr "Новая запись автоматической подписи"
@@ -6804,7 +6804,7 @@ msgid "Puppet class ID"
 msgstr "Код класса Puppet"
 
 msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Имя класса Puppet (используется, если поле «Тип ввода» содержит «Параметр Puppet»)"
 
 msgid "Puppet environments"
 msgstr "Окружения Puppet"
@@ -6819,10 +6819,10 @@ msgid "Puppet interval"
 msgstr "Интервал Puppet"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Параметр Puppet"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Имя параметра Puppet (используется, если поле «Тип ввода» содержит «Параметр Puppet»)"
 
 msgid "Puppet proxy ID"
 msgstr "Идентификатор прокси Puppet"
@@ -7454,7 +7454,7 @@ msgid "Select users"
 msgstr "Выберите"
 
 msgid "Selectable values for user inputs"
-msgstr ""
+msgstr "Список возможных значений"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "Выбранные узлы назначены %s"
@@ -7802,7 +7802,7 @@ msgid "Show template combination"
 msgstr "Показать комбинацию шаблонов"
 
 msgid "Show template input details"
-msgstr ""
+msgstr "Показать информацию о параметрах ввода"
 
 msgid "Show the last report for a host"
 msgstr "Показать последний отчет узла"
@@ -7860,7 +7860,7 @@ msgid "Smart proxy IDs"
 msgstr "Код капсулы"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "Смарт-переменные"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr ""
@@ -7881,7 +7881,7 @@ msgid "Snippet"
 msgstr "Фрагмент"
 
 msgid "Sockets"
-msgstr ""
+msgstr "Сокеты"
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
 msgstr ""
@@ -8277,7 +8277,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
-msgstr ""
+msgstr "Параметр вввода"
 
 msgid "Template inputs"
 msgstr ""
@@ -9331,7 +9331,7 @@ msgid "Update a subnet"
 msgstr "Изменить подсеть"
 
 msgid "Update a template input"
-msgstr ""
+msgstr "Обновить входной параметр"
 
 msgid "Update a user"
 msgstr "Изменить пользователя"
@@ -9512,7 +9512,7 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr ""
 
 msgid "User input"
-msgstr ""
+msgstr "Ввод пользователя"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -9711,7 +9711,7 @@ msgid "Value"
 msgstr "Значение"
 
 msgid "Value for required input '%s' was not specified"
-msgstr ""
+msgstr "Входные данные «%s» не определены."
 
 msgid "Value to use when there is no match"
 msgstr "Значение, которое будет использоваться по умолчанию"
@@ -9723,7 +9723,7 @@ msgid "Variable"
 msgstr "Переменная"
 
 msgid "Variable name, used when input type is variable"
-msgstr ""
+msgstr "Имя переменной (используется, если поле «Тип ввода» содержит «Переменная»)"
 
 msgid "Variables"
 msgstr "Переменные"
@@ -9827,7 +9827,7 @@ msgid "Weekly"
 msgstr "Еженедельный"
 
 msgid "Welcome"
-msgstr ""
+msgstr "Добро пожаловать"
 
 msgid "Welcome to Foreman"
 msgstr "Добро пожаловать в Foreman"
@@ -10087,7 +10087,7 @@ msgid "a location"
 msgstr "местоположение"
 
 msgid "add a input for this template"
-msgstr ""
+msgstr "Добавить входные параметры"
 
 msgid "add a new matcher"
 msgstr "добавить условие подстановки"
@@ -10517,7 +10517,8 @@ msgstr "связать внешнюю группу пользователей с
 msgid "list"
 msgstr "список"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Русский"
 
@@ -10726,7 +10727,7 @@ msgid "remove storage volume"
 msgstr "удалить том хранения"
 
 msgid "remove template input"
-msgstr ""
+msgstr "удалить параметр ввода"
 
 msgid "report already deleted"
 msgstr ""

@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-03 15:32+0000\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
@@ -411,7 +411,7 @@ msgid "A host group is in some ways similar to an inherited node declaration, in
 msgstr "Um grupo de hosts é de certa forma semelhante à uma declaração de nó herdado, ou seja, é um agrupamento de alto nível de classes que pode ser chamado e tratado como uma unidade. Este é, então, tratado como um modelo e é selecionável durante a criação de um novo host e assegura que o host está configurado em um dos seus estados pré-definidos."
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
-msgstr ""
+msgstr "Uma lista de opções que o usuário pode selecionar. Caso não seja fornecida, o usuário obterá um campo livre "
 
 msgid "A mail a user receives upon account creation"
 msgstr ""
@@ -499,7 +499,7 @@ msgid "Add Controller"
 msgstr "Adicionar controlador"
 
 msgid "Add Input"
-msgstr ""
+msgstr "Adicionar Entrada"
 
 msgid "Add Interface"
 msgstr "Adicionar interface"
@@ -1909,7 +1909,7 @@ msgid "Create a subnet"
 msgstr "Criar uma subrete"
 
 msgid "Create a template input"
-msgstr ""
+msgstr "Criar uma entrada de modelo"
 
 msgid "Create a trend counter"
 msgstr ""
@@ -2254,7 +2254,7 @@ msgid "Delete a template combination"
 msgstr "Apagar uma combinação de template"
 
 msgid "Delete a template input"
-msgstr ""
+msgstr "Remover uma entrada de modelo "
 
 msgid "Delete a trend counter"
 msgstr ""
@@ -2461,7 +2461,7 @@ msgid "Display Type"
 msgstr "Exibir tipo"
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "Exibir campos avançados"
 
 msgid "Display hidden parameter values"
 msgstr "Exibir valores de parâmetros ocultos"
@@ -2520,7 +2520,7 @@ msgid "Download VMRC"
 msgstr "Fazer download do VMRC"
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr ""
+msgstr "Entradas duplicadas detectadas: %{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "Duração em minutos depois que os servidores são classificado como fora de sincronização."
@@ -2876,7 +2876,7 @@ msgid "Fact name"
 msgstr "Nome do fato"
 
 msgid "Fact name, used when input type is fact"
-msgstr ""
+msgstr "Nome de fato, usado quando o tipo de entrada é um fato "
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3130,7 +3130,7 @@ msgid "Filter overriding has been disabled"
 msgstr "A substituição de filtros foi desativada"
 
 msgid "Filter..."
-msgstr ""
+msgstr "Filtro..."
 
 msgid "Filters"
 msgstr "Filtros"
@@ -3550,7 +3550,7 @@ msgid "Hidden Value"
 msgstr "Valor oculto"
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "Ocultar campos avançados"
 
 msgid "Hide all values for this parameter."
 msgstr "Ocultar todos os valores para este parâmetro."
@@ -4340,22 +4340,22 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "Descrição de entrada"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "Entrada é avançada "
 
 msgid "Input is required"
-msgstr ""
+msgstr "Entrada é necessária"
 
 msgid "Input name"
-msgstr ""
+msgstr "Nome de entrada"
 
 msgid "Input type"
-msgstr ""
+msgstr "Tipos de entrada"
 
 msgid "Inputs"
-msgstr ""
+msgstr "Entradas"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -4995,7 +4995,7 @@ msgid "List template combination"
 msgstr "Listar combinação modelo"
 
 msgid "List template inputs"
-msgstr ""
+msgstr "Listar entradas de modelo"
 
 msgid "Load Datacenters"
 msgstr "Carregar datacenters"
@@ -5055,7 +5055,7 @@ msgid "Loading virtual machines information ..."
 msgstr "Carregando informações de máquinas virtuais ..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "Carregando..."
 
 msgid "Local boot %s template"
 msgstr "Modelo %s de inicialização padrão"
@@ -5536,7 +5536,7 @@ msgid "New"
 msgstr "Novo"
 
 msgid "New %s"
-msgstr ""
+msgstr "Novo %s"
 
 msgid "New Autosign Entry"
 msgstr "Nova entrada auto assinada"
@@ -6789,7 +6789,7 @@ msgid "Puppet class ID"
 msgstr "Mostrar ID da classe"
 
 msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Nome de classe do puppet, usado quando o tipo de entrada é um puppet_parameter"
 
 msgid "Puppet environments"
 msgstr "Ambientes Puppet"
@@ -6804,10 +6804,10 @@ msgid "Puppet interval"
 msgstr "Intervalo de Puppet"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Parâmetro do puppet"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Nome de parâmetro do puppet, usado quando o tipo de entrada é um puppet_parameter "
 
 msgid "Puppet proxy ID"
 msgstr "Relatório de Marionete ID"
@@ -7439,7 +7439,7 @@ msgid "Select users"
 msgstr "Selecionar usuários"
 
 msgid "Selectable values for user inputs"
-msgstr ""
+msgstr "Valores selecionáveis para entradas de usuário "
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "Hosts selecionados são agora atribuídos ao %s"
@@ -7787,7 +7787,7 @@ msgid "Show template combination"
 msgstr "Exibir combinação de modelo"
 
 msgid "Show template input details"
-msgstr ""
+msgstr "Exibir detalhes da entrada de modelo"
 
 msgid "Show the last report for a host"
 msgstr "Exibir o último relatório para um host"
@@ -7845,7 +7845,7 @@ msgid "Smart proxy IDs"
 msgstr "IDs do proxy inteligente"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "Variáveis inteligentes"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr "As variáveis são uma ferramenta para fornecer parâmetros (dados de chave/valor), para o escopo de nível principal (global) de seu ENC puppet, dependendo do conjunto de regras. "
@@ -7866,7 +7866,7 @@ msgid "Snippet"
 msgstr "Snippet"
 
 msgid "Sockets"
-msgstr ""
+msgstr "Soquetes"
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
 msgstr "Algumas classes Puppet estão indisponíveis no ambiente selecionado"
@@ -8262,7 +8262,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
-msgstr ""
+msgstr "Entrada de modelo"
 
 msgid "Template inputs"
 msgstr ""
@@ -9316,7 +9316,7 @@ msgid "Update a subnet"
 msgstr "Atualizar uma sub-rede"
 
 msgid "Update a template input"
-msgstr ""
+msgstr "Atualizar uma entrada de modelo"
 
 msgid "Update a user"
 msgstr "Atualizar um Usuário"
@@ -9497,7 +9497,7 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr "Os grupos de usuários possibilitam que os usuários façam login no Foreman e recebam permissões automaticamente."
 
 msgid "User input"
-msgstr ""
+msgstr "Entrada do usuário"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -9696,7 +9696,7 @@ msgid "Value"
 msgstr "Valor"
 
 msgid "Value for required input '%s' was not specified"
-msgstr ""
+msgstr "Valor para a entrada necessária '%s' não foi especificado "
 
 msgid "Value to use when there is no match"
 msgstr "Valor a usar quando não houver combinação"
@@ -9708,7 +9708,7 @@ msgid "Variable"
 msgstr "Variável"
 
 msgid "Variable name, used when input type is variable"
-msgstr ""
+msgstr "Nome da variável, usado quando o tipo de entrada é uma variável "
 
 msgid "Variables"
 msgstr "Variáveis"
@@ -9812,7 +9812,7 @@ msgid "Weekly"
 msgstr "Semanal"
 
 msgid "Welcome"
-msgstr ""
+msgstr "Bem vindo"
 
 msgid "Welcome to Foreman"
 msgstr "Bem-vindo ao Foreman"
@@ -10081,7 +10081,7 @@ msgid "a location"
 msgstr "a localização"
 
 msgid "add a input for this template"
-msgstr ""
+msgstr "adicionar uma entrada para este modelo"
 
 msgid "add a new matcher"
 msgstr "adicionar uma nova correspondência"
@@ -10507,7 +10507,8 @@ msgstr "grupo de usuário externo com este grupo de usuário"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Português (Brasil)"
 
@@ -10716,7 +10717,7 @@ msgid "remove storage volume"
 msgstr "remover volume de armazenamento"
 
 msgid "remove template input"
-msgstr ""
+msgstr "remover entrada de modelo"
 
 msgid "report already deleted"
 msgstr "relatório já excluído"

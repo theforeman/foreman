@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-03 13:08+0000\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
@@ -407,7 +407,7 @@ msgid "A host group is in some ways similar to an inherited node declaration, in
 msgstr "Un grupo de hosts es similar a una declaración de nodo heredada, en que es un grupo de clases de alto nivel que se puede denominar  y tratar como una unidad. Se utiliza como una plantilla que se selecciona  durante la creación de un host, y garantiza que el host se configure en alguno de los estados predefinidos."
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
-msgstr ""
+msgstr "Una lista de opciones desde la que el usuario puede realizar selecciones. Si no se proporciona, el usuario recibirá un campo libre."
 
 msgid "A mail a user receives upon account creation"
 msgstr ""
@@ -495,7 +495,7 @@ msgid "Add Controller"
 msgstr "Añadir controlador"
 
 msgid "Add Input"
-msgstr ""
+msgstr "Agregar entrada"
 
 msgid "Add Interface"
 msgstr "Añadir interfaz"
@@ -1905,7 +1905,7 @@ msgid "Create a subnet"
 msgstr "Crear una subred"
 
 msgid "Create a template input"
-msgstr ""
+msgstr "Crear una entrada de la plantilla"
 
 msgid "Create a trend counter"
 msgstr ""
@@ -2250,7 +2250,7 @@ msgid "Delete a template combination"
 msgstr "Borrar una combinación de plantillas"
 
 msgid "Delete a template input"
-msgstr ""
+msgstr "Eliminar una entrada de la plantilla"
 
 msgid "Delete a trend counter"
 msgstr ""
@@ -2457,7 +2457,7 @@ msgid "Display Type"
 msgstr "Mostrar tipo"
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "Mostrar campos avanzados"
 
 msgid "Display hidden parameter values"
 msgstr "Mostrar valores de parámetros ocultos"
@@ -2516,7 +2516,7 @@ msgid "Download VMRC"
 msgstr "Descargar VMRC"
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr ""
+msgstr "Entradas duplicadas detectadas: %{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "Duración en minutos después de que los servidores se clasifiquen como fuera de sincronización."
@@ -2872,7 +2872,7 @@ msgid "Fact name"
 msgstr "Nombre de eventos"
 
 msgid "Fact name, used when input type is fact"
-msgstr ""
+msgstr "Nombre del evento, utilizado cuando el tipo de entrada es evento"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3128,7 +3128,7 @@ msgid "Filter overriding has been disabled"
 msgstr "Se deshabilitó la anulación de filtros"
 
 msgid "Filter..."
-msgstr ""
+msgstr "Filtrar..."
 
 msgid "Filters"
 msgstr "Filtros"
@@ -3547,7 +3547,7 @@ msgid "Hidden Value"
 msgstr "Valor oculto"
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "Ocultar campos avanzados"
 
 msgid "Hide all values for this parameter."
 msgstr "Ocultar todos los valores para este parámetro"
@@ -4335,22 +4335,22 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "Descripción de la entrada"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "La entrada es avanzada."
 
 msgid "Input is required"
-msgstr ""
+msgstr "La entrada es obligatoria."
 
 msgid "Input name"
-msgstr ""
+msgstr "Nombre de la entrada"
 
 msgid "Input type"
-msgstr ""
+msgstr "Tipo de entrada"
 
 msgid "Inputs"
-msgstr ""
+msgstr "Entradas"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -4990,7 +4990,7 @@ msgid "List template combination"
 msgstr "Listar combinaciones de plantillas"
 
 msgid "List template inputs"
-msgstr ""
+msgstr "Listar entradas de la plantilla"
 
 msgid "Load Datacenters"
 msgstr "Cargar centros de datos"
@@ -5050,7 +5050,7 @@ msgid "Loading virtual machines information ..."
 msgstr "Cargando información de máquinas virtuales..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "Cargando..."
 
 msgid "Local boot %s template"
 msgstr "Plantilla %s de arranque local"
@@ -5531,7 +5531,7 @@ msgid "New"
 msgstr "nuevo"
 
 msgid "New %s"
-msgstr ""
+msgstr "Nuevo %s"
 
 msgid "New Autosign Entry"
 msgstr "Nueva entrada autofirmado"
@@ -6784,7 +6784,7 @@ msgid "Puppet class ID"
 msgstr "ID de la clase Puppet"
 
 msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Nombre de clase Puppet, utilizado cuando el tipo de entrada es puppet_parameter"
 
 msgid "Puppet environments"
 msgstr "Entornos Puppet"
@@ -6799,10 +6799,10 @@ msgid "Puppet interval"
 msgstr "Intervalo Puppet"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Parámetro Puppet"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Nombre de parámetro Puppet, utilizado cuando el tipo de entrada es puppet_parameter"
 
 msgid "Puppet proxy ID"
 msgstr "ID del Proxy Puppet"
@@ -7434,7 +7434,7 @@ msgid "Select users"
 msgstr "Seleccionar usuarios"
 
 msgid "Selectable values for user inputs"
-msgstr ""
+msgstr "Valores que se pueden seleccionar para entradas de usuario"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "Los hosts seleccionados han sido asignados a %s"
@@ -7782,7 +7782,7 @@ msgid "Show template combination"
 msgstr "Mostrar combinación de plantilla"
 
 msgid "Show template input details"
-msgstr ""
+msgstr "Mostrar detalles de entrada de la plantilla"
 
 msgid "Show the last report for a host"
 msgstr "Mostrar ultimo reporte de un host"
@@ -7840,7 +7840,7 @@ msgid "Smart proxy IDs"
 msgstr "ID de proxy inteligente"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "Variables inteligentes"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr "Las variables inteligentes son herramientas que permiten proveer parámetros (datos de claves/valores) al ámbito (global) de primer nivel del ENC de Puppet, dependiendo de un conjunto de reglas."
@@ -7861,7 +7861,7 @@ msgid "Snippet"
 msgstr "Snippet"
 
 msgid "Sockets"
-msgstr ""
+msgstr "Sockets"
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
 msgstr "Algunas clases de Pupptet no se encuentran disponibles en el entorno seleccionado"
@@ -8257,7 +8257,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
-msgstr ""
+msgstr "Entrada de la plantilla"
 
 msgid "Template inputs"
 msgstr ""
@@ -9309,7 +9309,7 @@ msgid "Update a subnet"
 msgstr "Actualizar una subred"
 
 msgid "Update a template input"
-msgstr ""
+msgstr "Actualizar una entrada de la plantilla"
 
 msgid "Update a user"
 msgstr "Actualizar un usuario"
@@ -9490,7 +9490,7 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr "Los grupos de usuarios permiten que los usuarios inicien sesión en Foreman y, además, les otorgan permisos en forma automática."
 
 msgid "User input"
-msgstr ""
+msgstr "Entrada de usuario"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -9689,7 +9689,7 @@ msgid "Value"
 msgstr "Valor"
 
 msgid "Value for required input '%s' was not specified"
-msgstr ""
+msgstr "No se especificó el valor para la entrada requerida '%s'."
 
 msgid "Value to use when there is no match"
 msgstr "Valor a utilizar cuando no existen coincidencias"
@@ -9701,7 +9701,7 @@ msgid "Variable"
 msgstr "Variable"
 
 msgid "Variable name, used when input type is variable"
-msgstr ""
+msgstr "Nombre de la variable, utilizada cuando el tipo de entrada es variable"
 
 msgid "Variables"
 msgstr "Variables"
@@ -9805,7 +9805,7 @@ msgid "Weekly"
 msgstr "Semanal"
 
 msgid "Welcome"
-msgstr ""
+msgstr "Bienvenido"
 
 msgid "Welcome to Foreman"
 msgstr "Bienvenido a Foreman"
@@ -10074,7 +10074,7 @@ msgid "a location"
 msgstr "una ubicación"
 
 msgid "add a input for this template"
-msgstr ""
+msgstr "agregar una entrada para esta plantilla"
 
 msgid "add a new matcher"
 msgstr "añadir una nueva concordancia"
@@ -10500,7 +10500,8 @@ msgstr "enlazar grupo de usuarios externos con este grupo de usuario"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Español"
 
@@ -10709,7 +10710,7 @@ msgid "remove storage volume"
 msgstr "eliminar volumen de almacenamiento"
 
 msgid "remove template input"
-msgstr ""
+msgstr "eliminar entrada de la plantilla"
 
 msgid "report already deleted"
 msgstr "informe ya eliminado"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-03 16:15+0000\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -398,7 +398,7 @@ msgid "A host group is in some ways similar to an inherited node declaration, in
 msgstr "主机组在某些方面与继承的节点技术详细，即它是可命名或视为单元的类别的高级分组。然后可将其视为模板，并在创建新主机时进行选择，保证使用预先定义的状态配置该主机。"
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
-msgstr ""
+msgstr "用户可选择的选项列表。如未提供，则会为用户提供自由格式字段。"
 
 msgid "A mail a user receives upon account creation"
 msgstr ""
@@ -486,7 +486,7 @@ msgid "Add Controller"
 msgstr "添加控制器"
 
 msgid "Add Input"
-msgstr ""
+msgstr "添加输入"
 
 msgid "Add Interface"
 msgstr "增加接口"
@@ -1896,7 +1896,7 @@ msgid "Create a subnet"
 msgstr "创建子网"
 
 msgid "Create a template input"
-msgstr ""
+msgstr "创建模板输入"
 
 msgid "Create a trend counter"
 msgstr ""
@@ -2241,7 +2241,7 @@ msgid "Delete a template combination"
 msgstr "删除模板组合"
 
 msgid "Delete a template input"
-msgstr ""
+msgstr "删除模板输入"
 
 msgid "Delete a trend counter"
 msgstr ""
@@ -2448,7 +2448,7 @@ msgid "Display Type"
 msgstr "显示类型"
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "显示高级字段"
 
 msgid "Display hidden parameter values"
 msgstr "显示隐藏的参数值"
@@ -2507,7 +2507,7 @@ msgid "Download VMRC"
 msgstr "下载 VMRC"
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr ""
+msgstr "探测到重复的输入：%{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "服务器被归类为非同步后的持续时间，单位：分钟。"
@@ -2863,7 +2863,7 @@ msgid "Fact name"
 msgstr "详情名称"
 
 msgid "Fact name, used when input type is fact"
-msgstr ""
+msgstr "Fact 名称，输入类型为 fact 时使用。"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3119,7 +3119,7 @@ msgid "Filter overriding has been disabled"
 msgstr "过滤覆盖已被禁用"
 
 msgid "Filter..."
-msgstr ""
+msgstr "过滤器......"
 
 msgid "Filters"
 msgstr "筛选"
@@ -3539,7 +3539,7 @@ msgid "Hidden Value"
 msgstr "隐藏值"
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "隐藏高级字段"
 
 msgid "Hide all values for this parameter."
 msgstr "隐藏这个参数的所有值。"
@@ -4327,22 +4327,22 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "输入描述"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "输入时高级的"
 
 msgid "Input is required"
-msgstr ""
+msgstr "需要输入"
 
 msgid "Input name"
-msgstr ""
+msgstr "输入名称"
 
 msgid "Input type"
-msgstr ""
+msgstr "输入类型"
 
 msgid "Inputs"
-msgstr ""
+msgstr "输入"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -4982,7 +4982,7 @@ msgid "List template combination"
 msgstr "列出模板组合"
 
 msgid "List template inputs"
-msgstr ""
+msgstr "列出模板输入"
 
 msgid "Load Datacenters"
 msgstr "加载数据中心"
@@ -5042,7 +5042,7 @@ msgid "Loading virtual machines information ..."
 msgstr "正在加载虚拟机的详细信息..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "载入中......"
 
 msgid "Local boot %s template"
 msgstr "本地引导 %s 模板"
@@ -5523,7 +5523,7 @@ msgid "New"
 msgstr "新建"
 
 msgid "New %s"
-msgstr ""
+msgstr "新建 %s"
 
 msgid "New Autosign Entry"
 msgstr "新建自动签名"
@@ -6774,7 +6774,7 @@ msgid "Puppet class ID"
 msgstr "Puppet 类别 ID"
 
 msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Puppet 类别名称，输入类型为 puppet_parameter 时使用。"
 
 msgid "Puppet environments"
 msgstr "Puppet 环境"
@@ -6789,10 +6789,10 @@ msgid "Puppet interval"
 msgstr "Puppet 间隔"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Puppet 参数"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Puppet 参数名称，输入类型为 puppet_parameter 时使用。"
 
 msgid "Puppet proxy ID"
 msgstr "Puppet 代理服务器 ID"
@@ -7424,7 +7424,7 @@ msgid "Select users"
 msgstr "选择用户"
 
 msgid "Selectable values for user inputs"
-msgstr ""
+msgstr "用户输入的可选值"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "现已将所选主机分配给 %s"
@@ -7772,7 +7772,7 @@ msgid "Show template combination"
 msgstr "显示模板组合"
 
 msgid "Show template input details"
-msgstr ""
+msgstr "显示模板输入详情"
 
 msgid "Show the last report for a host"
 msgstr "显示主机的最新报告"
@@ -7830,7 +7830,7 @@ msgid "Smart proxy IDs"
 msgstr "智能代理服务器 ID"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "智能变量"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr "智能变量是一种工具，用于根据一组规则向您的 Puppet ENC 的顶层（全局）范围提供参数（键/值数据）。"
@@ -7851,7 +7851,7 @@ msgid "Snippet"
 msgstr "片段"
 
 msgid "Sockets"
-msgstr ""
+msgstr "插槽"
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
 msgstr "有些 Puppet 类别在所选环境中不可用"
@@ -8247,7 +8247,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
-msgstr ""
+msgstr "模板输入"
 
 msgid "Template inputs"
 msgstr ""
@@ -9301,7 +9301,7 @@ msgid "Update a subnet"
 msgstr "更新子网"
 
 msgid "Update a template input"
-msgstr ""
+msgstr "更新模板输入"
 
 msgid "Update a user"
 msgstr "更新用户"
@@ -9482,7 +9482,7 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr "用户组支持用户登录 Foreman，然后被自动授予许可。"
 
 msgid "User input"
-msgstr ""
+msgstr "用户输入"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -9681,7 +9681,7 @@ msgid "Value"
 msgstr "值"
 
 msgid "Value for required input '%s' was not specified"
-msgstr ""
+msgstr "未指定必填输入值 '%s'"
 
 msgid "Value to use when there is no match"
 msgstr "无映射时使用的值"
@@ -9693,7 +9693,7 @@ msgid "Variable"
 msgstr "变量"
 
 msgid "Variable name, used when input type is variable"
-msgstr ""
+msgstr "变量名称，输入类型为 variable 时使用。"
 
 msgid "Variables"
 msgstr "变量"
@@ -9797,7 +9797,7 @@ msgid "Weekly"
 msgstr "每周"
 
 msgid "Welcome"
-msgstr ""
+msgstr "欢迎"
 
 msgid "Welcome to Foreman"
 msgstr "欢迎使用 Foreman"
@@ -10066,7 +10066,7 @@ msgid "a location"
 msgstr "位置"
 
 msgid "add a input for this template"
-msgstr ""
+msgstr "为这个模板添加输入"
 
 msgid "add a new matcher"
 msgstr "添加新的映射器"
@@ -10492,7 +10492,8 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列表"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "简体中文"
 
@@ -10701,7 +10702,7 @@ msgid "remove storage volume"
 msgstr "删除存储卷"
 
 msgid "remove template input"
-msgstr ""
+msgstr "删除模板输入"
 
 msgid "report already deleted"
 msgstr "报告已删除"

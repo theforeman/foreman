@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-02 23:49+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
+"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -2439,7 +2439,7 @@ msgid "Display Type"
 msgstr ""
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "Mostra els camps avançats"
 
 msgid "Display hidden parameter values"
 msgstr "Mostra els valors dels paràmetres ocults"
@@ -3528,7 +3528,7 @@ msgid "Hidden Value"
 msgstr ""
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "Oculta els camps avançats"
 
 msgid "Hide all values for this parameter."
 msgstr ""
@@ -4316,7 +4316,7 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "Descripció de l'entrada"
 
 msgid "Input is advanced"
 msgstr ""
@@ -4328,10 +4328,10 @@ msgid "Input name"
 msgstr ""
 
 msgid "Input type"
-msgstr ""
+msgstr "Tipus d'entrada"
 
 msgid "Inputs"
-msgstr ""
+msgstr "Entrades"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -5031,7 +5031,7 @@ msgid "Loading virtual machines information ..."
 msgstr "S'està carregant la informació de les màquines virtuals..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "S'està carregant..."
 
 msgid "Local boot %s template"
 msgstr ""
@@ -6780,7 +6780,7 @@ msgid "Puppet interval"
 msgstr "Interval de Puppet"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Paràmetre de Puppet"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
 msgstr ""
@@ -7821,7 +7821,7 @@ msgid "Smart proxy IDs"
 msgstr "Els ID dels servidors intermediaris intel·ligents"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "Variables intel·ligents"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr ""
@@ -10469,7 +10469,8 @@ msgstr "enllaça el grup d'usuaris externs amb aquest grup d'usuaris"
 msgid "list"
 msgstr "llista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Català"
 

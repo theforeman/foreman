@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-02 23:49+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -384,7 +384,7 @@ msgid "A host group is in some ways similar to an inherited node declaration, in
 msgstr "호스트 그룹은 단위로 이름을 지정하고 처리될 수 있는 높은 수준의 그룹화 클래스라는 점에서 상속되는 노드 선언과 비슷합니다. 이는 템플릿으로 처리되고 새 호스트 생성 시 선택할 수 있으며 호스트가 사전 정의된 상태 중 하나로 설정되게 할 수 있습니다.  "
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
-msgstr ""
+msgstr "사용자가 선택할 수 있는 옵션의 목록입니다. 지정하지 않을 경우 사용자에게 자유 형식 필드가 제공됩니다."
 
 msgid "A mail a user receives upon account creation"
 msgstr ""
@@ -472,7 +472,7 @@ msgid "Add Controller"
 msgstr ""
 
 msgid "Add Input"
-msgstr ""
+msgstr "입력 추가"
 
 msgid "Add Interface"
 msgstr "인터페이스 추가 "
@@ -1881,7 +1881,7 @@ msgid "Create a subnet"
 msgstr "서브넷 생성 "
 
 msgid "Create a template input"
-msgstr ""
+msgstr "템플릿 입력 생성"
 
 msgid "Create a trend counter"
 msgstr ""
@@ -2226,7 +2226,7 @@ msgid "Delete a template combination"
 msgstr "템플릿 조합 삭제 "
 
 msgid "Delete a template input"
-msgstr ""
+msgstr "템플릿 입력 삭제"
 
 msgid "Delete a trend counter"
 msgstr ""
@@ -2433,7 +2433,7 @@ msgid "Display Type"
 msgstr ""
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "고급 필드 표시"
 
 msgid "Display hidden parameter values"
 msgstr ""
@@ -2492,7 +2492,7 @@ msgid "Download VMRC"
 msgstr ""
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr ""
+msgstr "중복된 입력이 감지되었습니다: %{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
@@ -2848,7 +2848,7 @@ msgid "Fact name"
 msgstr "정보 이름 "
 
 msgid "Fact name, used when input type is fact"
-msgstr ""
+msgstr "입력 유형이 팩트인 경우 사용되는 팩트 이름입니다."
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3104,7 +3104,7 @@ msgid "Filter overriding has been disabled"
 msgstr ""
 
 msgid "Filter..."
-msgstr ""
+msgstr "필터..."
 
 msgid "Filters"
 msgstr "필터"
@@ -3524,7 +3524,7 @@ msgid "Hidden Value"
 msgstr ""
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "고급 필드 숨기기"
 
 msgid "Hide all values for this parameter."
 msgstr "이 매개 변수의 값을 모두 숨깁니다."
@@ -4312,22 +4312,22 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "입력 설명"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "입력이 진행됨"
 
 msgid "Input is required"
-msgstr ""
+msgstr "입력 필요"
 
 msgid "Input name"
-msgstr ""
+msgstr "입력 이름"
 
 msgid "Input type"
-msgstr ""
+msgstr "입력 유형"
 
 msgid "Inputs"
-msgstr ""
+msgstr "입력"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -4967,7 +4967,7 @@ msgid "List template combination"
 msgstr "템플릿 조합 목록 나열 "
 
 msgid "List template inputs"
-msgstr ""
+msgstr "템플릿 입력 나열"
 
 msgid "Load Datacenters"
 msgstr "데이터 센터 로드 "
@@ -5027,7 +5027,7 @@ msgid "Loading virtual machines information ..."
 msgstr "가상 머신 정보 로딩 중 ..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "로딩..."
 
 msgid "Local boot %s template"
 msgstr ""
@@ -5508,7 +5508,7 @@ msgid "New"
 msgstr "신규"
 
 msgid "New %s"
-msgstr ""
+msgstr "새 %s"
 
 msgid "New Autosign Entry"
 msgstr "새 자동 서명 항목 "
@@ -6759,7 +6759,7 @@ msgid "Puppet class ID"
 msgstr "Puppet 클래스 ID"
 
 msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "입력 유형이 puppet_parameter인 경우 사용되는 Puppet 클래스 이름입니다."
 
 msgid "Puppet environments"
 msgstr "Puppet 환경"
@@ -6774,10 +6774,10 @@ msgid "Puppet interval"
 msgstr "Puppet 간격"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Puppet 매개 변수"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "입력 유형이 puppet_parameter인 경우 사용되는 Puppet 매개 변수 이름입니다."
 
 msgid "Puppet proxy ID"
 msgstr "Puppet 프록시 ID"
@@ -7409,7 +7409,7 @@ msgid "Select users"
 msgstr "사용자 선택 "
 
 msgid "Selectable values for user inputs"
-msgstr ""
+msgstr "사용자 입력으로 선택 가능한 값"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "선택된 호스트는 %s에 할당되어 있습니다 "
@@ -7757,7 +7757,7 @@ msgid "Show template combination"
 msgstr "템플릿 조합 표시 "
 
 msgid "Show template input details"
-msgstr ""
+msgstr "템플릿 입력 정보 표시"
 
 msgid "Show the last report for a host"
 msgstr "호스트의 마지막 보고서 표시"
@@ -7815,7 +7815,7 @@ msgid "Smart proxy IDs"
 msgstr "스마트 프록시 ID "
 
 msgid "Smart variables"
-msgstr ""
+msgstr "스마트 매개 변수 "
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr ""
@@ -7836,7 +7836,7 @@ msgid "Snippet"
 msgstr "조각 모음 "
 
 msgid "Sockets"
-msgstr ""
+msgstr "소켓 "
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
 msgstr ""
@@ -8232,7 +8232,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
-msgstr ""
+msgstr "템플릿 입력"
 
 msgid "Template inputs"
 msgstr ""
@@ -9279,7 +9279,7 @@ msgid "Update a subnet"
 msgstr "서브넷 업데이트 "
 
 msgid "Update a template input"
-msgstr ""
+msgstr "템플릿 입력 업데이트"
 
 msgid "Update a user"
 msgstr "사용자 업데이트"
@@ -9460,7 +9460,7 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr ""
 
 msgid "User input"
-msgstr ""
+msgstr "사용자 입력"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -9659,7 +9659,7 @@ msgid "Value"
 msgstr "값"
 
 msgid "Value for required input '%s' was not specified"
-msgstr ""
+msgstr "필수 입력 '%s'의 값을 지정하지 않았습니다."
 
 msgid "Value to use when there is no match"
 msgstr "일치하지 않는 경우 사용할 값 "
@@ -9671,7 +9671,7 @@ msgid "Variable"
 msgstr "변수 "
 
 msgid "Variable name, used when input type is variable"
-msgstr ""
+msgstr "입력 유형이 변수인 경우 사용되는 변수 이름입니다."
 
 msgid "Variables"
 msgstr "변수 "
@@ -9775,7 +9775,7 @@ msgid "Weekly"
 msgstr "매주"
 
 msgid "Welcome"
-msgstr ""
+msgstr "환영합니다"
 
 msgid "Welcome to Foreman"
 msgstr "Foreman에 오신 것을 환영합니다 "
@@ -10035,7 +10035,7 @@ msgid "a location"
 msgstr "위치 "
 
 msgid "add a input for this template"
-msgstr ""
+msgstr "이 템플릿에 대한 입력을 추가합니다."
 
 msgid "add a new matcher"
 msgstr "새 일치 조건 추가"
@@ -10460,7 +10460,8 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "한국어"
 
@@ -10669,7 +10670,7 @@ msgid "remove storage volume"
 msgstr "스토리지 볼륨 삭제"
 
 msgid "remove template input"
-msgstr ""
+msgstr "템플릿 입력 삭제"
 
 msgid "report already deleted"
 msgstr ""

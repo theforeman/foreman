@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-03 14:45+0000\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -396,7 +396,7 @@ msgid "A host group is in some ways similar to an inherited node declaration, in
 msgstr "ホストグループは、ユニットとして指定および処理できる高レベルのクラスであるという点で、継承されるノード宣言といくらか似ています。これは次にテンプレートとして処理され、新規ホストの作成時に選択可能になり、ホストが事前に定義されたいずれかの状態で設定されるようにします。"
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
-msgstr ""
+msgstr "ユーザーが選択できるオプションの一覧。提供されていない場合は、ユーザーに自由形式のフィールドが提供されます"
 
 msgid "A mail a user receives upon account creation"
 msgstr ""
@@ -484,7 +484,7 @@ msgid "Add Controller"
 msgstr "コントローラーの追加"
 
 msgid "Add Input"
-msgstr ""
+msgstr "入力を追加"
 
 msgid "Add Interface"
 msgstr "インターフェースの追加"
@@ -1894,7 +1894,7 @@ msgid "Create a subnet"
 msgstr "サブネットの作成"
 
 msgid "Create a template input"
-msgstr ""
+msgstr "テンプレート入力を作成"
 
 msgid "Create a trend counter"
 msgstr ""
@@ -2239,7 +2239,7 @@ msgid "Delete a template combination"
 msgstr "テンプレートの組み合わせの削除"
 
 msgid "Delete a template input"
-msgstr ""
+msgstr "テンプレート入力を削除"
 
 msgid "Delete a trend counter"
 msgstr ""
@@ -2446,7 +2446,7 @@ msgid "Display Type"
 msgstr "ディスプレイのタイプ"
 
 msgid "Display advanced fields"
-msgstr ""
+msgstr "詳細フィールドを表示"
 
 msgid "Display hidden parameter values"
 msgstr "非表示のパラメーター値の表示"
@@ -2505,7 +2505,7 @@ msgid "Download VMRC"
 msgstr "VMRC のダウンロード"
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
-msgstr ""
+msgstr "重複した入力が検出されました: %{duplicated_inputs}"
 
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "サーバーが非同期として分類される Puppet の間隔後の期間 (分単位)。"
@@ -2861,7 +2861,7 @@ msgid "Fact name"
 msgstr "ファクト名"
 
 msgid "Fact name, used when input type is fact"
-msgstr ""
+msgstr "ファクト名。入力タイプがファクトの場合に使用されます"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Fact value"
@@ -3117,7 +3117,7 @@ msgid "Filter overriding has been disabled"
 msgstr "フィルターのオーバーライドが無効です"
 
 msgid "Filter..."
-msgstr ""
+msgstr "フィルター..."
 
 msgid "Filters"
 msgstr "フィルター"
@@ -3537,7 +3537,7 @@ msgid "Hidden Value"
 msgstr "非表示の値"
 
 msgid "Hide advanced fields"
-msgstr ""
+msgstr "詳細フィールドを非表示"
 
 msgid "Hide all values for this parameter."
 msgstr "このパラメーターのすべての値を非表示にします。"
@@ -4325,22 +4325,22 @@ msgid "Input %s: "
 msgstr ""
 
 msgid "Input description"
-msgstr ""
+msgstr "入力の説明"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "入力が高度"
 
 msgid "Input is required"
-msgstr ""
+msgstr "入力が必要"
 
 msgid "Input name"
-msgstr ""
+msgstr "入力名"
 
 msgid "Input type"
-msgstr ""
+msgstr "入力タイプ"
 
 msgid "Inputs"
-msgstr ""
+msgstr "入力"
 
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
@@ -4980,7 +4980,7 @@ msgid "List template combination"
 msgstr "テンプレート組み合わせの一覧表示"
 
 msgid "List template inputs"
-msgstr ""
+msgstr "テンプレート入力を一覧表示"
 
 msgid "Load Datacenters"
 msgstr "データセンターのロード"
@@ -5040,7 +5040,7 @@ msgid "Loading virtual machines information ..."
 msgstr "仮想マシン情報をロード中です..."
 
 msgid "Loading..."
-msgstr ""
+msgstr "ロード中..."
 
 msgid "Local boot %s template"
 msgstr "ローカル起動の %s テンプレート"
@@ -5521,7 +5521,7 @@ msgid "New"
 msgstr "新規"
 
 msgid "New %s"
-msgstr ""
+msgstr "新規 %s"
 
 msgid "New Autosign Entry"
 msgstr "新規の自動署名エントリー"
@@ -6774,7 +6774,7 @@ msgid "Puppet class ID"
 msgstr "Puppet クラス ID"
 
 msgid "Puppet class name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Puppet クラス名。入力タイプが puppet_parameter の場合に使用されます"
 
 msgid "Puppet environments"
 msgstr "Puppet 環境"
@@ -6789,10 +6789,10 @@ msgid "Puppet interval"
 msgstr "Puppet の間隔"
 
 msgid "Puppet parameter"
-msgstr ""
+msgstr "Puppet パラメーター"
 
 msgid "Puppet parameter name, used when input type is puppet_parameter"
-msgstr ""
+msgstr "Puppet パラメーター名。入力タイプが puppet_parameter の場合に使用されます"
 
 msgid "Puppet proxy ID"
 msgstr "Puppet プロキシー ID"
@@ -7424,7 +7424,7 @@ msgid "Select users"
 msgstr "ユーザーの選択"
 
 msgid "Selectable values for user inputs"
-msgstr ""
+msgstr "ユーザー入力に選択できる値"
 
 msgid "Selected hosts are now assigned to %s"
 msgstr "選択されたホストは %s に割り当てられています"
@@ -7772,7 +7772,7 @@ msgid "Show template combination"
 msgstr "テンプレートの組み合わせの表示"
 
 msgid "Show template input details"
-msgstr ""
+msgstr "テンプレート入力詳細を表示"
 
 msgid "Show the last report for a host"
 msgstr "ホストの最終レポートの表示"
@@ -7830,7 +7830,7 @@ msgid "Smart proxy IDs"
 msgstr "スマートプロキシー ID"
 
 msgid "Smart variables"
-msgstr ""
+msgstr "スマート変数"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr "スマート変数は、ルールセットによって、Puppet ENC のトップレベル (グローバル) スコープにパラメーター (キー/値のデータ) を提供するツールです。"
@@ -7851,7 +7851,7 @@ msgid "Snippet"
 msgstr "スニペット"
 
 msgid "Sockets"
-msgstr ""
+msgstr "ソケット"
 
 msgid "Some Puppet Classes are unavailable in the selected environment"
 msgstr "一部の Puppet クラスは選択された環境では利用できません"
@@ -8247,7 +8247,7 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
-msgstr ""
+msgstr "テンプレート入力"
 
 msgid "Template inputs"
 msgstr ""
@@ -9297,7 +9297,7 @@ msgid "Update a subnet"
 msgstr "サブネットの更新"
 
 msgid "Update a template input"
-msgstr ""
+msgstr "テンプレート入力を更新"
 
 msgid "Update a user"
 msgstr "ユーザーの更新"
@@ -9478,7 +9478,7 @@ msgid "User groups enable users to log into Foreman and be automatically granted
 msgstr "ユーザーグループを使うと、ユーザーは Foreman にログインし、自動的にパーミッションが割り当てられます。"
 
 msgid "User input"
-msgstr ""
+msgstr "ユーザー入力"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
@@ -9677,7 +9677,7 @@ msgid "Value"
 msgstr "値"
 
 msgid "Value for required input '%s' was not specified"
-msgstr ""
+msgstr "必要な入力 '%s' の値が指定されていませんでした"
 
 msgid "Value to use when there is no match"
 msgstr "一致がない場合に使用する値"
@@ -9689,7 +9689,7 @@ msgid "Variable"
 msgstr "変数"
 
 msgid "Variable name, used when input type is variable"
-msgstr ""
+msgstr "変数名。入力タイプが変数の場合に使用されます"
 
 msgid "Variables"
 msgstr "変数"
@@ -9793,7 +9793,7 @@ msgid "Weekly"
 msgstr "毎週"
 
 msgid "Welcome"
-msgstr ""
+msgstr "ようこそ"
 
 msgid "Welcome to Foreman"
 msgstr "Foreman へようこそ"
@@ -10056,7 +10056,7 @@ msgid "a location"
 msgstr "ロケーション"
 
 msgid "add a input for this template"
-msgstr ""
+msgstr "このテンプレートの入力を追加"
 
 msgid "add a new matcher"
 msgstr "新規 Matcher の追加"
@@ -10482,7 +10482,8 @@ msgstr "外部ユーザーグループをこのユーザーグループにリン
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "日本語"
 
@@ -10691,7 +10692,7 @@ msgid "remove storage volume"
 msgstr "ストレージボリュームの削除"
 
 msgid "remove template input"
-msgstr ""
+msgstr "テンプレート入力を削除"
 
 msgid "report already deleted"
 msgstr "レポートをすでに削除"

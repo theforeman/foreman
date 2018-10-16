@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-04-02 23:49+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2018-10-15 20:31+0000\n"
+"Last-Translator: Carmela Rubiños <carmela.rubinos@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/foreman/foreman/language/gl/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -5506,7 +5506,7 @@ msgid "New"
 msgstr "Novo"
 
 msgid "New %s"
-msgstr ""
+msgstr "Novo %s"
 
 msgid "New Autosign Entry"
 msgstr "Nova Chave de Autofirmado"
@@ -7813,7 +7813,7 @@ msgid "Smart proxy IDs"
 msgstr ""
 
 msgid "Smart variables"
-msgstr ""
+msgstr "Variables intelixentes"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr ""
@@ -9768,7 +9768,7 @@ msgid "Weekly"
 msgstr ""
 
 msgid "Welcome"
-msgstr ""
+msgstr "Benvid@"
 
 msgid "Welcome to Foreman"
 msgstr ""
@@ -10454,7 +10454,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Galego"
 
