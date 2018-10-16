@@ -1,14 +1,42 @@
 # Translations
 
-All strings need to be translated. We use gettext's underscore `__()` function as you know it from our asset pipeline code.
+All strings need to be translated.
 
-Note that for the time being the underscore function is available in the global `window` object and translations are handled outside of our webpack-processed code and there's no need to import it. This is most likely subject to change in future.
+### Foreman core
+import I18n.js which located in /webpack/assets/javascripts/react_app/common
 
+```js
+import { 
+sprintf,
+translate as __,
+ngettext as n_,
+} from '../react_app/common/I18n';
+
+// - Sets the key to translate
+const str = __('a string');
+
+// - Plural version of translate
+const num_toasters = 2;
+const plural_str = n_('I have one toaster.', 'I have %1$d toasters.', num_toasters)
+```
+
+Use the `__` and `n_` aliasing, it is necessary for the string extration process
+
+### Plugins
+Same as foreman core, just use `foremanReact` alias:
+
+```js
+import { 
+sprintf,
+translate as __,
+ngettext as n_,
+} from 'foremanReact/common/I18n';
+```
 
 ## Interpolation
 
 Make sure that the strings inside the underscore function don't contain any interpolated values.
-Using interpolation would break the actual translation of the string in runtime. Use `sprintf` from `jed` instead.
+Using interpolation would break the actual translation of the string in runtime. Use `sprintf` from `I18n` instead.
 
 **Example:**
 ```js
@@ -18,6 +46,8 @@ let msg = __(`%{taskCount} tasks complete`)
 
 ```js
 // Correct:
-import { sprintf } from 'jed';
+import { sprintf } from '../react_app/common/I18n';
 let msg = sprintf(__('%(taskCount)s tasks complete'), { taskCount })
 ```
+
+**Please note that the global underscore, sprintf and ngettext are deprecated**.
