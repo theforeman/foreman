@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Loader renders correct content based on status default case 1`] = `
-<Loader>
+<Loader
+  spinnerSize="lg"
+  status=""
+>
   <div
     className="loader-root"
   >

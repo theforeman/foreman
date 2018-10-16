@@ -73,7 +73,7 @@ TaxonomySwitcher.propTypes = {
   taxonomiesBool: PropTypes.shape({
     locations: PropTypes.bool.isRequired,
     organizations: PropTypes.bool.isRequired,
-  }),
+  }).isRequired,
 };
 TaxonomySwitcher.defaultProps = {
   isLoading: false,

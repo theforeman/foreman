@@ -103,6 +103,8 @@ BreadcrumbBar.propTypes = {
     }),
     breadcrumbItems: Breadcrumb.propTypes.items,
   }),
+  searchDebounceTimeout: PropTypes.number,
+  searchQuery: PropTypes.string,
   currentPage: PropTypes.number,
   totalPages: PropTypes.number,
   resourceSwitcherItems: BreadcrumbSwitcher.propTypes.resources,
@@ -113,8 +115,8 @@ BreadcrumbBar.propTypes = {
   toggleSwitcher: PropTypes.func,
   closeSwitcher: PropTypes.func,
   loadSwitcherResourcesByResource: PropTypes.func,
-  onSearchChange: PropTypes.func,
   onSwitcherItemClick: PropTypes.func,
+  removeSearchQuery: PropTypes.func,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -122,6 +124,7 @@ BreadcrumbBar.defaultProps = {
     breadcrumbItems: [],
     isSwitchable: false,
   },
+  searchQuery: '',
   currentPage: null,
   totalPages: 1,
   resourceSwitcherItems: [],
@@ -129,12 +132,12 @@ BreadcrumbBar.defaultProps = {
   isLoadingResources: false,
   hasError: false,
   isSwitcherOpen: false,
+  searchDebounceTimeout: 300,
   toggleSwitcher: noop,
   closeSwitcher: noop,
   loadSwitcherResourcesByResource: noop,
-  onSearchChange: noop,
-  searchDebounceTimeout: 300,
   onSwitcherItemClick: noop,
+  removeSearchQuery: noop,
 };
 
 export default BreadcrumbBar;

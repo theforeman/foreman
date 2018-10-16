@@ -3,75 +3,70 @@ import PropTypes from 'prop-types';
 import ReactPasswordStrength from 'react-password-strength';
 import { translate as __ } from '../../../react_app/common/I18n';
 import CommonForm from '../common/forms/CommonForm';
+import { noop } from '../../common/helpers';
 
 import './PasswordStrength.scss';
 
-export default class PasswordStrength extends React.Component {
-  render() {
-    const {
-      updatePassword,
-      updatePasswordConfirmation,
-      doesPasswordsMatch,
-      passwordPresent,
-      data: { className, id, name, verify, error, userInputIds, required },
-    } = this.props;
+const PasswordStrength = ({
+  updatePassword,
+  updatePasswordConfirmation,
+  doesPasswordsMatch,
+  passwordPresent,
+  data: { className, id, name, verify, error, userInputIds, required },
+}) => {
+  const userInputs =
+    userInputIds && userInputIds.length > 0
+      ? userInputIds.map(input => document.getElementById(input).value)
+      : [];
 
-    const userInputs =
-      userInputIds && userInputIds.length > 0
-        ? userInputIds.map(input => document.getElementById(input).value)
-        : [];
-
-    return (
-      <div>
+  return (
+    <div>
+      <CommonForm
+        label={__('Password')}
+        touched
+        error={!passwordPresent && error}
+        required={required}
+      >
+        <ReactPasswordStrength
+          changeCallback={({ password }) => updatePassword(password)}
+          minLength={6}
+          minScore={2}
+          userInputs={userInputs}
+          tooShortWord={__('Too short')}
+          scoreWords={[
+            __('Weak'),
+            __('Medium'),
+            __('Normal'),
+            __('Strong'),
+            __('Very strong'),
+          ]}
+          inputProps={{ name, id, className }}
+        />
+      </CommonForm>
+      {verify && (
         <CommonForm
-          label={__('Password')}
+          label={__('Verify')}
           touched
-          error={!passwordPresent && error}
           required={required}
+          error={
+            doesPasswordsMatch ? verify.error : __('Passwords do not match')
+          }
         >
-          <ReactPasswordStrength
-            changeCallback={({ password }) => updatePassword(password)}
-            minLength={6}
-            minScore={2}
-            userInputs={userInputs}
-            tooShortWord={__('Too short')}
-            scoreWords={[
-              __('Weak'),
-              __('Medium'),
-              __('Normal'),
-              __('Strong'),
-              __('Very strong'),
-            ]}
-            inputProps={{ name, id, className }}
+          <input
+            id="password_confirmation"
+            name={verify.name}
+            type="password"
+            onChange={({ target }) => updatePasswordConfirmation(target.value)}
+            className="form-control"
           />
         </CommonForm>
-        {verify && (
-          <CommonForm
-            label={__('Verify')}
-            touched
-            required={required}
-            error={
-              doesPasswordsMatch ? verify.error : __('Passwords do not match')
-            }
-          >
-            <input
-              id="password_confirmation"
-              name={verify.name}
-              type="password"
-              onChange={({ target }) =>
-                updatePasswordConfirmation(target.value)
-              }
-              className="form-control"
-            />
-          </CommonForm>
-        )}
-      </div>
-    );
-  }
-}
+      )}
+    </div>
+  );
+};
 
 PasswordStrength.propTypes = {
-  updatePassword: PropTypes.func.isRequired,
+  updatePassword: PropTypes.func,
   updatePasswordConfirmation: PropTypes.func,
   doesPasswordsMatch: PropTypes.bool,
   passwordPresent: PropTypes.bool,
@@ -88,3 +83,12 @@ PasswordStrength.propTypes = {
     }),
   }).isRequired,
 };
+
+PasswordStrength.defaultProps = {
+  updatePassword: noop,
+  updatePasswordConfirmation: noop,
+  doesPasswordsMatch: false,
+  passwordPresent: false,
+};
+
+export default PasswordStrength;

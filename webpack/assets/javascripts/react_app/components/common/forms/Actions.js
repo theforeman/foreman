@@ -1,9 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'patternfly-react';
+
+import { noop } from '../../../common/helpers';
 import { simpleLoader } from '../Loader';
 import { translate as __ } from '../../../../react_app/common/I18n';
 
-export default ({ onCancel, disabled = false, submitting = false }) => (
+const FormActions = ({ onCancel, disabled = false, submitting = false }) => (
   <div className="clearfix">
     <div className="form-actions">
       <Button bsStyle="primary" type="submit" disabled={disabled || submitting}>
@@ -18,3 +21,17 @@ export default ({ onCancel, disabled = false, submitting = false }) => (
     </div>
   </div>
 );
+
+FormActions.propTypes = {
+  disabled: PropTypes.bool,
+  submitting: PropTypes.bool,
+  onCancel: PropTypes.func,
+};
+
+FormActions.defaultProps = {
+  disabled: false,
+  submitting: false,
+  onCancel: noop,
+};
+
+export default FormActions;

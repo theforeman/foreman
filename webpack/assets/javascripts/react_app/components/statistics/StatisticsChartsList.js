@@ -7,6 +7,7 @@ import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
 import './StatisticsChartsListStyles.scss';
 import { translate as __ } from '../../../react_app/common/I18n';
+import { noop } from '../../common/helpers';
 
 const getStatusFromChart = chart => {
   if (chart.data) {
@@ -43,7 +44,7 @@ class StatisticsChartsList extends React.Component {
 
     return (
       <div className="statistics-charts-list-root">
-        {this.props.charts && charts}
+        {this.props.charts && this.props.charts.length && charts}
       </div>
     );
   }
@@ -51,6 +52,13 @@ class StatisticsChartsList extends React.Component {
 
 StatisticsChartsList.propTypes = {
   data: PropTypes.array.isRequired,
+  charts: PropTypes.array,
+  getStatisticsData: PropTypes.func,
+};
+
+StatisticsChartsList.defaultProps = {
+  getStatisticsData: noop,
+  charts: [],
 };
 
 const mapStateToProps = state => ({

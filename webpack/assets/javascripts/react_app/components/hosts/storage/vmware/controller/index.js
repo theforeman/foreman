@@ -1,10 +1,12 @@
 import { Button } from 'patternfly-react';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Select from '../../../../common/forms/Select';
 
 import Disk from './disk';
 import { translate as __ } from '../../../../../../react_app/common/I18n';
+import { noop } from '../../../../../common/helpers';
 import './controller.scss';
 
 const Controller = ({
@@ -13,7 +15,6 @@ const Controller = ({
   removeDisk,
   updateController,
   updateDisk,
-  ControllerTypes,
   controller,
   controllerVolumes,
   removeController,
@@ -39,8 +40,8 @@ const Controller = ({
       <Disk
         key={disk.key}
         id={disk.key}
-        updateDisk={_updateDisk.bind(this, disk.key)}
-        removeDisk={removeDisk.bind(this, disk.key)}
+        updateDisk={(attribute, e) => _updateDisk(disk.key, attribute, e)}
+        removeDisk={() => removeDisk(disk.key)}
         config={config}
         {...disk}
       />
@@ -56,7 +57,7 @@ const Controller = ({
           <Select
             value={controller.type}
             disabled={config.vmExists}
-            onChange={_updateController.bind(this, 'type')}
+            onChange={e => _updateController('type', e)}
             options={config.controllerTypes}
           />
           <Button
@@ -80,6 +81,28 @@ const Controller = ({
       <div className="disks-container">{disks()}</div>
     </div>
   );
+};
+
+Controller.propTypes = {
+  config: PropTypes.object.isRequired,
+  controller: PropTypes.object.isRequired,
+  controllerVolumes: PropTypes.array,
+  addDiskEnabled: PropTypes.bool,
+  addDisk: PropTypes.func,
+  removeDisk: PropTypes.func,
+  updateController: PropTypes.func,
+  updateDisk: PropTypes.func,
+  removeController: PropTypes.func,
+};
+
+Controller.defaultProps = {
+  controllerVolumes: [],
+  addDiskEnabled: false,
+  addDisk: noop,
+  removeDisk: noop,
+  updateController: noop,
+  updateDisk: noop,
+  removeController: noop,
 };
 
 export default Controller;

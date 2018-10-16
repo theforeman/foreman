@@ -8,9 +8,9 @@ const RadioButtonGroup = ({
   controlLabel,
   radios,
   name,
-  className = '',
-  inputClassName = 'col-md-6',
-  disabled = false,
+  className,
+  inputClassName,
+  disabled,
 }) => (
   <CommonForm
     label={controlLabel}
@@ -44,6 +44,10 @@ const Button = ({ input, item, disabled }) => (
 
 RadioButtonGroup.propTypes = {
   controlLabel: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  inputClassName: PropTypes.string,
+  disabled: PropTypes.bool,
   radios: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string,
@@ -51,7 +55,13 @@ RadioButtonGroup.propTypes = {
       checked: PropTypes.bool,
     })
   ),
-  name: PropTypes.string,
+};
+
+RadioButtonGroup.defaultProps = {
+  radios: [],
+  className: '',
+  inputClassName: 'col-md-6',
+  disabled: false,
 };
 
 export default RadioButtonGroup;

@@ -6,6 +6,7 @@ exports[`TextField should default to a text field 1`] = `
   component={[Function]}
   label="Name"
   name="name"
+  required={false}
   type="text"
 />
 `;
@@ -16,6 +17,7 @@ exports[`TextField should render a checkbox 1`] = `
   component={[Function]}
   label="Name"
   name="name"
+  required={false}
   type="checkbox"
 />
 `;
@@ -26,6 +28,7 @@ exports[`TextField should render a text area 1`] = `
   component={[Function]}
   label="Name"
   name="name"
+  required={false}
   type="textarea"
 />
 `;

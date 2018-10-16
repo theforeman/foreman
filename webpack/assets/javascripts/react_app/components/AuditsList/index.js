@@ -31,6 +31,7 @@ const renderAdditionalInfoItems = items =>
     <ListView.InfoItem key={index}>{item}</ListView.InfoItem>
   ));
 
+// eslint-disable-next-line react/prop-types
 const renderTimestamp = ({ title, value: formattedTimeString }) => (
   <span title={title} className="gray-text">
     {formattedTimeString}
@@ -129,7 +130,7 @@ AuditsList.propTypes = {
     audits: PropTypes.array.isRequired,
     isOrgEnabled: PropTypes.bool,
     isLocEnabled: PropTypes.bool,
-  }),
+  }).isRequired,
 };
 
 export default AuditsList;

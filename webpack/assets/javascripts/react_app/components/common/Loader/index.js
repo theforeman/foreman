@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
 import { STATUS } from '../../../constants';
 import MessageBox from '../MessageBox';
@@ -10,7 +11,7 @@ const _simpleLoader = spinnerSize => (
   </div>
 );
 
-const Loader = ({ status, children, spinnerSize = 'lg' }) => {
+const Loader = ({ status, children, spinnerSize }) => {
   let content;
 
   switch (status) {
@@ -33,6 +34,18 @@ const Loader = ({ status, children, spinnerSize = 'lg' }) => {
   }
 
   return <div className="loader-root">{content}</div>;
+};
+
+Loader.propTypes = {
+  children: PropTypes.array,
+  status: PropTypes.string,
+  spinnerSize: PropTypes.string,
+};
+
+Loader.defaultProps = {
+  children: ['', ''],
+  status: '',
+  spinnerSize: 'lg',
 };
 
 export default Loader;

@@ -27,6 +27,7 @@ exports[`ChartBox error 1`] = `
     collapsible={false}
   >
     <Loader
+      spinnerSize="lg"
       status="PENDING"
     >
       <DonutChart
@@ -70,6 +71,7 @@ exports[`ChartBox pending 1`] = `
     collapsible={false}
   >
     <Loader
+      spinnerSize="lg"
       status="PENDING"
     >
       <DonutChart
@@ -121,6 +123,7 @@ exports[`ChartBox resolved 1`] = `
     collapsible={false}
   >
     <Loader
+      spinnerSize="lg"
       status="PENDING"
     >
       <DonutChart

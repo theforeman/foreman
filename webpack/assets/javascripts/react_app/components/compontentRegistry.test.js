@@ -3,7 +3,7 @@ import componentRegistry from './componentRegistry';
 
 jest.unmock('./componentRegistry');
 
-class FakeComponent extends React.Component {}
+const FakeComponent = () => '';
 
 describe('Component registry', () => {
   it('should register a component', () => {

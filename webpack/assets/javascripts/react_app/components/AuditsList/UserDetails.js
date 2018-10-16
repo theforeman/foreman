@@ -25,7 +25,7 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
           </span>
         </EllipsisWithTooltip>
         <span>
-          <a href={auditPath}>__('Logged-in')</a>
+          <a href={auditPath}>{__('Logged-in')}</a>
         </span>
       </span>
     );
@@ -46,13 +46,18 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
 };
 
 UserDetails.propTypes = {
-  isAuditLogin: PropTypes.bool,
   userInfo: PropTypes.shape({
-    search_path: PropTypes.string,
-    display_name: PropTypes.string,
-    audit_path: PropTypes.string,
-  }),
+    search_path: PropTypes.string.isRequired,
+    display_name: PropTypes.string.isRequired,
+    audit_path: PropTypes.string.isRequired,
+  }).isRequired,
+  isAuditLogin: PropTypes.bool,
   remoteAddress: PropTypes.string,
+};
+
+UserDetails.defaultProps = {
+  isAuditLogin: false,
+  remoteAddress: undefined,
 };
 
 export default UserDetails;

@@ -18,6 +18,9 @@ exports[`StorageContainer should render controller 1`] = `
       className="controller-type-container col-md-4"
     >
       <Select
+        className=""
+        disabled={false}
+        label=""
         onChange={[Function]}
         options={
           Object {
@@ -96,12 +99,15 @@ exports[`StorageContainer should render controller 1`] = `
         }
       }
       controllerKey={1000}
+      datastore=""
+      eagerzero={false}
       id="e86728ee-dbde-ad59-13d6-0c5488635e73"
       key="e86728ee-dbde-ad59-13d6-0c5488635e73"
       mode="persistent"
       name="Hard disk"
       removeDisk={[Function]}
       sizeGb={10}
+      storagePod=""
       thin={true}
       updateDisk={[Function]}
     />

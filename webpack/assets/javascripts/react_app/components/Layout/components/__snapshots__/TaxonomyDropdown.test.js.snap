@@ -36,7 +36,7 @@ exports[`TaxonomyDropdown rendering render TaxonomyDropdown 1`] = `
     </li>
     <li>
       <a
-        className="organization"
+        className="manage-menu organization"
         href="/organizations"
       >
         Manage Organizations

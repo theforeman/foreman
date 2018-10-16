@@ -1,13 +1,15 @@
 import $ from 'jquery';
 import { map } from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
 
 class Select extends React.Component {
   componentDidMount() {
     if ($.fn.select2) {
-      $(this.refs.select)
+      $(this.select)
         .select2()
         .on('change', this.props.onChange);
     }
@@ -33,7 +35,9 @@ class Select extends React.Component {
     const innerSelect = (
       <select
         disabled={disabled}
-        ref="select"
+        ref={select => {
+          this.select = select;
+        }}
         className="form-control"
         value={value}
         onChange={onChange}
@@ -53,5 +57,23 @@ class Select extends React.Component {
     );
   }
 }
+
+Select.propTypes = {
+  value: PropTypes.string,
+  label: PropTypes.string,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  options: PropTypes.object,
+  onChange: PropTypes.func,
+};
+
+Select.defaultProps = {
+  value: '',
+  label: '',
+  className: '',
+  disabled: false,
+  options: {},
+  onChange: noop,
+};
 
 export default Select;

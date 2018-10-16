@@ -26,7 +26,7 @@ exports[`factCharts should render closed 1`] = `
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(Symbol.observable): [Function],
+      Symbol(observable): [Function],
     }
   }
   storeSubscription={
@@ -44,7 +44,7 @@ exports[`factCharts should render closed 1`] = `
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
-        Symbol(Symbol.observable): [Function],
+        Symbol(observable): [Function],
       },
       "unsubscribe": [Function],
     }
@@ -78,7 +78,7 @@ exports[`factCharts should render open 1`] = `
       "getState": [Function],
       "replaceReducer": [Function],
       "subscribe": [Function],
-      Symbol(Symbol.observable): [Function],
+      Symbol(observable): [Function],
     }
   }
   storeSubscription={
@@ -96,7 +96,7 @@ exports[`factCharts should render open 1`] = `
         "getState": [Function],
         "replaceReducer": [Function],
         "subscribe": [Function],
-        Symbol(Symbol.observable): [Function],
+        Symbol(observable): [Function],
       },
       "unsubscribe": [Function],
     }

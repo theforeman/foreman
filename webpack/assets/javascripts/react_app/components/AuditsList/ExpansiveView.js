@@ -135,10 +135,10 @@ class ExpansiveView extends React.Component {
 }
 
 ExpansiveView.propTypes = {
+  actionDisplayName: PropTypes.string.isRequired,
+  auditedChanges: PropTypes.object.isRequired,
   auditTitle: PropTypes.string,
   comment: PropTypes.string,
-  actionDisplayName: PropTypes.string,
-  auditedChanges: PropTypes.object,
   auditedChangesWithIdToLabel: PropTypes.arrayOf(
     PropTypes.shape({
       change: PropTypes.arrayOf(
@@ -151,6 +151,13 @@ ExpansiveView.propTypes = {
     })
   ),
   details: PropTypes.arrayOf(PropTypes.string),
+};
+
+ExpansiveView.defaultProps = {
+  auditTitle: '',
+  comment: undefined,
+  auditedChangesWithIdToLabel: [],
+  details: undefined,
 };
 
 export default ExpansiveView;

@@ -39,8 +39,7 @@ const TaxonomyDropdown = ({
       </li>
       <li>
         <a
-          className="manage-menu"
-          className={taxonomyType.toLowerCase()}
+          className={`manage-menu ${taxonomyType.toLowerCase()}`}
           href={manageTaxonomyURL}
         >
           {__(manageTaxonomyText)}

@@ -1,11 +1,13 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Controller from './controller/';
 import * as VmWareActions from '../../../../redux/actions/hosts/storage/vmware';
 import { MaxDisksPerController } from './StorageContainer.consts';
 import { translate as __ } from '../../../../../react_app/common/I18n';
+import { noop } from '../../../../common/helpers';
 import './StorageContainer.scss';
 
 const filterKeyFromVolume = volume => {
@@ -49,14 +51,14 @@ class StorageContainer extends React.Component {
       return (
         <Controller
           key={controller.key}
-          removeController={removeController.bind(this, controller.key)}
+          removeController={() => removeController(controller.key)}
           controller={controller}
           controllerVolumes={controllerVolumes}
           addDiskEnabled={controllerVolumes.length < MaxDisksPerController}
-          addDisk={addDisk.bind(this, controller.key)}
+          addDisk={() => addDisk(controller.key)}
           updateDisk={updateDisk}
           removeDisk={removeDisk}
-          updateController={updateController.bind(this, idx)}
+          updateController={() => updateController(idx)}
           config={config}
         />
       );
@@ -97,6 +99,35 @@ class StorageContainer extends React.Component {
     );
   }
 }
+
+StorageContainer.propTypes = {
+  data: PropTypes.shape({
+    config: PropTypes.object.isRequired,
+    controllers: PropTypes.array.isRequired,
+    volumes: PropTypes.array.isRequired,
+  }).isRequired,
+  config: PropTypes.object,
+  volumes: PropTypes.array.isRequired,
+  controllers: PropTypes.array.isRequired,
+  addController: PropTypes.func,
+  addDisk: PropTypes.func,
+  updateController: PropTypes.func,
+  removeDisk: PropTypes.func,
+  updateDisk: PropTypes.func,
+  removeController: PropTypes.func,
+  initController: PropTypes.func,
+};
+
+StorageContainer.defaultProps = {
+  config: {},
+  addController: noop,
+  addDisk: noop,
+  updateController: noop,
+  removeDisk: noop,
+  updateDisk: noop,
+  removeController: noop,
+  initController: noop,
+};
 
 const mapDispatchToProps = state => {
   const { controllers, config, volumes = [] } = state.hosts.storage.vmware;

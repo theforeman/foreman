@@ -1,8 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import getIconClass from './Icon.consts';
 
-export default ({ className = '', type }) => (
+const Icon = ({ className, type }) => (
   <span
     className={`${getIconClass(type)}${className ? ` ${className}` : ''}`}
   />
 );
+
+Icon.propTypes = {
+  type: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  className: '',
+};
+
+export default Icon;

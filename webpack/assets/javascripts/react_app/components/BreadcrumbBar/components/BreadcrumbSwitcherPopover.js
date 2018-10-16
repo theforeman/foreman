@@ -68,9 +68,13 @@ const BreadcrumbSwitcherPopover = ({
           {resources.map(resource => (
             <ListGroupItem {...createItemProps(resource)}>
               <EllipsisWithTooltip>
-                <SubstringWrapper substring={searchValue}>
-                  {resource.name}
-                </SubstringWrapper>
+                {searchValue && searchValue.length ? (
+                  <SubstringWrapper substring={searchValue}>
+                    {resource.name}
+                  </SubstringWrapper>
+                ) : (
+                  resource.name
+                )}
               </EllipsisWithTooltip>
             </ListGroupItem>
           ))}
@@ -105,6 +109,7 @@ const BreadcrumbSwitcherPopover = ({
 
 BreadcrumbSwitcherPopover.propTypes = {
   ...Popover.propTypes,
+  searchValue: PropTypes.string,
   loading: PropTypes.bool,
   hasError: PropTypes.bool,
   currentPage: PropTypes.number,
@@ -118,17 +123,18 @@ BreadcrumbSwitcherPopover.propTypes = {
     })
   ),
   onSearchChange: PropTypes.func,
-  searchValue: PropTypes.string,
   onResourceClick: PropTypes.func,
 };
 
 BreadcrumbSwitcherPopover.defaultProps = {
+  searchValue: '',
   loading: false,
   hasError: false,
   currentPage: 1,
   totalPages: 1,
   resources: [],
   onResourceClick: noop,
+  onSearchChange: noop,
 };
 
 export default BreadcrumbSwitcherPopover;

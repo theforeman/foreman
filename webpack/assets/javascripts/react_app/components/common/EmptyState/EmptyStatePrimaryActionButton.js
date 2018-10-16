@@ -10,7 +10,7 @@ const PrimaryActionButton = ({ action: { title, url } }) => (
 );
 
 PrimaryActionButton.propTypes = {
-  action: PropTypes.shape(actionButtonPropTypes),
+  action: PropTypes.shape(actionButtonPropTypes).isRequired,
 };
 
 export default PrimaryActionButton;

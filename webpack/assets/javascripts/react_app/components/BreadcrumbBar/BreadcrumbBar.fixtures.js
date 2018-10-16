@@ -98,6 +98,7 @@ export const breadcrumbSwitcherLoadedWithPagination = {
 
 export const breadcrumbSwitcherLoadedWithSearchQuery = {
   ...breadcrumbSwitcherLoaded,
+  searchValue: 'Host',
 };
 
 export const breadcrumbBar = {

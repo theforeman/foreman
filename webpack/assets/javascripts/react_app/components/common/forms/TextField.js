@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import CommonForm from './CommonForm';
 import '../../../common/reduxFormI18n';
@@ -52,5 +53,24 @@ const TextField = ({
     validate={validate}
   />
 );
+
+TextField.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  type: PropTypes.string,
+  className: PropTypes.string,
+  inputClassName: PropTypes.string,
+  required: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  validate: PropTypes.arrayOf(PropTypes.func),
+};
+
+TextField.defaultProps = {
+  label: '',
+  type: 'text',
+  className: '',
+  required: false,
+  inputClassName: undefined,
+  validate: undefined,
+};
 
 export default TextField;

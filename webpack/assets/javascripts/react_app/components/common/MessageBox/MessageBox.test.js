@@ -28,7 +28,7 @@ describe('MessageBox', () => {
     it('has pficon and pficon-info classes', () =>
       testMessageBoxSnapshot({ msg: 'this is some text', icontype: 'info' }));
 
-    it('has pficon and pficon-info classes', () =>
+    it('has pficon and pficon-info classes 2', () =>
       testMessageBoxSnapshot({
         msg: 'this is some text',
         icontype: 'error-circle-o',

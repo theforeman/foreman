@@ -42,6 +42,7 @@ storiesOf('Components/Toast Notifications', module).add('Toaster', () => {
     inputRefs[key] = ref;
   };
 
+  // eslint-disable-next-line react/prop-types
   const FormField = ({ id, label, children }) => (
     <FormGroup controlId={id}>
       <Col componentClass={ControlLabel} sm={3}>

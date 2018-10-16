@@ -8,6 +8,7 @@ import DonutChart from '../common/charts/DonutChart';
 import { navigateToSearch } from '../../../services/ChartService';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
+import { translate as __ } from '../../common/I18n';
 
 class ChartBox extends React.Component {
   constructor(props) {
@@ -107,6 +108,14 @@ ChartBox.propTypes = {
   type: PropTypes.oneOf(['donut']).isRequired,
   chart: PropTypes.object,
   tip: PropTypes.string,
+};
+
+ChartBox.defaultProps = {
+  config: {},
+  noDataMsg: __('No data available'),
+  errorText: '',
+  chart: {},
+  tip: '',
 };
 
 export default ChartBox;

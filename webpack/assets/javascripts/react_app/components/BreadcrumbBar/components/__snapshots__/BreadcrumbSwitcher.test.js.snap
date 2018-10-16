@@ -29,7 +29,11 @@ exports[`BreadcrumbSwitcher rendering render closed 1`] = `
       onNextPageClick={[Function]}
       onPrevPageClick={[Function]}
       onResourceClick={[Function]}
+      onSearchChange={[Function]}
+      onSearchClear={[Function]}
       resources={Array []}
+      searchDebounceTimeout={300}
+      searchValue=""
       totalPages={1}
     />
   </Overlay>
@@ -65,7 +69,11 @@ exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
       onNextPageClick={[Function]}
       onPrevPageClick={[Function]}
       onResourceClick={[Function]}
+      onSearchChange={[Function]}
+      onSearchClear={[Function]}
       resources={Array []}
+      searchDebounceTimeout={300}
+      searchValue=""
       totalPages={1}
     />
   </Overlay>
@@ -101,6 +109,8 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
       onNextPageClick={[Function]}
       onPrevPageClick={[Function]}
       onResourceClick={[Function]}
+      onSearchChange={[Function]}
+      onSearchClear={[Function]}
       resources={
         Array [
           Object {
@@ -132,6 +142,8 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
           },
         ]
       }
+      searchDebounceTimeout={300}
+      searchValue=""
       totalPages={1}
     />
   </Overlay>
@@ -167,6 +179,8 @@ exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] 
       onNextPageClick={[Function]}
       onPrevPageClick={[Function]}
       onResourceClick={[Function]}
+      onSearchChange={[Function]}
+      onSearchClear={[Function]}
       resources={
         Array [
           Object {
@@ -198,6 +212,8 @@ exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] 
           },
         ]
       }
+      searchDebounceTimeout={300}
+      searchValue=""
       totalPages={3}
     />
   </Overlay>

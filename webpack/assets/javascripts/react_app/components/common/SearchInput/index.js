@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DebounceInput } from 'react-debounce-input';
 import { Icon } from 'patternfly-react';
 import { translate as __ } from '../../../../react_app/common/I18n';
+import { noop } from '../../../common/helpers';
 import './searchInput.scss';
 
 class SearchInput extends React.Component {
@@ -37,5 +39,21 @@ class SearchInput extends React.Component {
     );
   }
 }
+
+SearchInput.propTypes = {
+  focus: PropTypes.bool,
+  searchValue: PropTypes.string,
+  timeout: PropTypes.number,
+  onSearchChange: PropTypes.func,
+  onClear: PropTypes.func,
+};
+
+SearchInput.defaultProps = {
+  focus: false,
+  searchValue: '',
+  timeout: 300,
+  onSearchChange: noop,
+  onClear: noop,
+};
 
 export default SearchInput;
