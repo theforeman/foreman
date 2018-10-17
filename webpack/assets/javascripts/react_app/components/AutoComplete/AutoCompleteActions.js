@@ -1,4 +1,5 @@
 import URI from 'urijs';
+import debounce from 'lodash/debounce';
 import API from '../../API';
 import { STATUS } from '../../constants';
 import { clearSpaces } from '../../common/helpers';
@@ -20,17 +21,35 @@ export const getResults = ({
     dispatch,
   });
 
-  return API.get(getAPIPath({ trigger, searchQuery, url }))
-    .then(({ data }) =>
-      requestSuccess({
-        data,
-        controller,
-        dispatch,
-        searchQuery,
-        trigger,
-      }))
-    .catch(error => requestFailure({ error, dispatch }));
+  const path = getAPIPath({ trigger, searchQuery, url });
+  return createAPIRequest({
+    controller,
+    path,
+    searchQuery,
+    trigger,
+    dispatch,
+  });
 };
+
+let createAPIRequest = ({
+  controller,
+  path,
+  searchQuery,
+  trigger,
+  dispatch,
+}) => API.get(path)
+  .then(({
+    data,
+  }) => requestSuccess({
+    data,
+    controller,
+    dispatch,
+    searchQuery,
+    trigger,
+  }))
+  .catch(error => requestFailure({ error, dispatch }));
+
+createAPIRequest = debounce(createAPIRequest, 250);
 
 const startRequest = ({
   controller, searchQuery, trigger, dispatch,
