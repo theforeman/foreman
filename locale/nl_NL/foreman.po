@@ -11,12 +11,13 @@
 # Engel Hendrik Fokkens, 2017
 # Maxim Burgerhout <maxim@wzzrd.com>, 2013
 # Siert Z. <sgzijl@gmail.com>, 2013
+# Wouter Wijsman <wwijsman@live.nl>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-10-15 20:31+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2018-10-16 12:46+0000\n"
+"Last-Translator: Wouter Wijsman <wwijsman@live.nl>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/foreman/foreman/l"
 "anguage/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -3549,7 +3550,7 @@ msgid "History"
 msgstr ""
 
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 msgid "Host %s is built"
 msgstr ""

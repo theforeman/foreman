@@ -16,7 +16,7 @@
 # Gael Chamoulaud <gael@redhat.com>, 2013
 # Junior Alvim <alvin@intechne.com.br>, 2014
 # Junior Alvim <alvin@intechne.com.br>, 2014-2015
-# Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2016
+# Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2016,2018
 # Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2014
 # Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2014-2015
 # Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-10-15 20:31+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2018-10-16 12:32+0000\n"
+"Last-Translator: Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -4614,13 +4614,13 @@ msgid "List all audits for a given host"
 msgstr "Listar todas auditorias para um host específico"
 
 msgid "List all authentication sources"
-msgstr ""
+msgstr "Listar todas as fontes de autenticação"
 
 msgid "List all authentication sources per location"
-msgstr ""
+msgstr "Listar todas as fontes de autenticação por localização"
 
 msgid "List all authentication sources per organization"
-msgstr ""
+msgstr "Listar todas as fontes de autenticação por organização"
 
 msgid "List all autosign entries"
 msgstr "Listar todas entradas de auto-assinatura"
