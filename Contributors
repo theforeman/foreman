@@ -9,12 +9,16 @@ Adam Ruzicka <aruzicka@redhat.com>
 Adam Růžička <adamruzicka@users.noreply.github.com>
 Adam, Till - D0249540 <till.adam@dm.de>
 Aditi Puntambekar <apuntamb@redhat.com>
+Akshay Mendhe <akshaymendhe786@gmail.com>
 Alexander "Ace" Olofsson <ace@haxalot.com>
 Alexander Chuzhoy <sashac88@hotmail.com>
+Alexander Fisher <alex@linfratech.co.uk>
+Alexander Olofsson <alexander.olofsson@liu.se>
 Alissa Bonas <abonas@redhat.com>
 Alves Lobo Michael <michael.alveslobo@coreye.fr>
 Amir Fefer <amirfefer@gmail.com>
 Amir Feferkuchen <afeferku@dhcp-4-115.tlv.redhat.com>
+Amit Karsale <akarsale@redhat.com>
 Amit Karsale <karsale.amit@gmail.com>
 Amos Benari <abenari@redhat.com>
 Andrea Kao <eirinikos@gmail.com>
@@ -29,6 +33,7 @@ Anthony Chevalet <achevalet@users.noreply.github.com>
 Antony Perigault <antony.perigault@1000mercis.com>
 Anurag Patel <apatel@redhat.com>
 Anya Marshall <anya.elise.marshall@gmail.com>
+Arend Lapere <arend.lapere@gmail.com>
 Arnoud de Jonge <arnoud.dejonge@nxs.nl>
 Ash Caire <ash.caire@gmail.com>
 Ashay Humane <ashay.humane@gmail.com>
@@ -43,6 +48,7 @@ Baptiste AGASSE <baptiste.agasse@lyra-network.com>
 Baptiste Agasse <baptiste.agasse@lyra-network.com>
 Bastian Blank <bastian.blank@credativ.de>
 Beat Gätzi <beat@chruetertee.ch>
+Ben Plessinger <ben@plessinger.us>
 Ben Plessinger <plessbd@users.noreply.github.com>
 Bernard McKeever <dregin@gmail.com>
 Bernhard Suttner <sbernhard@users.noreply.github.com>
@@ -63,6 +69,7 @@ Chris Roberts <chrobert@redhat.com>
 Chris Roberts <croberts@croberts.us>
 Christian <schulze-wiehenbrauk@strato-rz.de>
 Christine Fouant <cfouant@redhat.com>
+Clemens Bergmann <github@cbergmann.net>
 Conor O'Callaghan <ivernus@users.noreply.github.com>
 Corey Osman <corey@logicminds.biz>
 Craig Parker <craig@paragon.net.uk>
@@ -97,6 +104,7 @@ Dominik Hlavac <xhlava42@stud.fit.vutbr.cz>
 Dominik Hlavac Duran <dhlavacd@redhat.com>
 Dominique Quatravaux <dominique@quatravaux.org>
 Dustin Tsang <dtsang@redhat.com>
+Dustin Wheeler <mdwheele@ncsu.edu>
 Elisiano Petrini <elisiano@gmail.com>
 Endre Karlson <endre.karlson@gmail.com>
 Enzo Hamelin <enzo.hamelin@gmail.com>
@@ -137,7 +145,10 @@ Guido Günther <agx@sigxcpu.org>
 Gustavo Soares Souza <gustavosouza@corp.globo.com>
 Hannes Schaller <admin@cyberkov.at>
 Henrik Feldt <henrik@haf.se>
+Herwig Bogaert <herwig.bogaert@viaa.be>
 Iain Walmsley <iain.walmsley@gmail.com>
+Ian <ianballou67@gmail.com>
+Ian Ballou <ianballou67@gmail.com>
 Ian Mordey <ian.mordey@wandisco.com>
 Ido Kanner <73091+ik5@users.noreply.github.com>
 Ido Kanner <ikanner@redhat.com>
@@ -178,6 +189,7 @@ John Vagrant <vagrant@smqa-r210-02.lab.eng.brq.redhat.com>
 Jon Fautley <jon@dead.li>
 Jon McKenzie <jcmcken@gmail.com>
 Jon de la Vega <jonvega@sarenet.es>
+Jonathon Turel <jturel@gmail.com>
 Joseph Magen <jmagen@redhat.com>
 Joseph Magen <joseph@isratrade.co.il>
 Joseph Mitchell Magen <jmagen@redhat.com>
@@ -191,6 +203,7 @@ June Zhang <junzhang@redhat.com>
 Justin Sherrill <jlsherrill@gmail.com>
 Justin Sherrill <jsherril@redhat.com>
 Kai Stian Olstad <kai.stian.olstad@gmail.com>
+Kamil Szubrycht <kamil.szubrycht@ironin.pl>
 Kamjar Gerami <kami.gerami@gmail.com>
 Karli Sjoberg <karli.sjoberg@gmail.com>
 Keenan Brock <keenan@thebrocks.net>
@@ -198,6 +211,7 @@ Klaas Demter <Klaas-@users.noreply.github.com>
 Klaas Demter <externer.dl.demter@muenchen.de>
 Kot <kot4my@gmail.com>
 Kyle Flavin <Kyle.Flavin@gmail.com>
+Kyle O Button <kyle@kobutton.com>
 Kęstutis Mizara <vilkas@riftus.lt>
 Leandro Marcucci <leanucci@gmail.com>
 Lee Lowder <llowder@oreillyauto.com>
@@ -252,12 +266,14 @@ Ori Rabin <orrabin@gmail.com>
 Oved Ourfali <oourfali@redhat.com>
 Partha Aji <paji@redhat.com>
 Partha Aji <parthaa@gmail.com>
+Pat Riehecky <riehecky@fnal.gov>
 Paul Kelly <paul.ian.kelly@googlemail.com>
 Paul Kelly <pikelly@blueyonder.co.uk>
 Pavel Moravec <pmoravec@dhcp-27-35.brq.redhat.com>
 Pavel Moravec <pmoravec@redhat.com>
 Pavel Pokorný <pajkycz@gmail.com>
 Peter Lehwess <peter.lehwess@dm.de>
+Peter Lehwess <peter.lehwess@icloud.com>
 Peter Ondrejka <pondrejk@redhat.com>
 Petr Benas <petr.benas@gooddata.com>
 Petr Chalupa (Pitr) <git@pitr.ch>
@@ -337,6 +353,7 @@ Trey Dockendorf <tdockendorf@osc.edu>
 Trey Dockendorf <treydock@gmail.com>
 Trey Dockendorf <treydock@tamu.edu>
 Tristan Robert <tristan.robert.44@gmail.com>
+UXabre <arend.lapere@gmail.com>
 Unknown <flo@WKS-W7-LDN-0034.tradition.int>
 Vanya Jauhal <vanyajauhal1995@gmail.com>
 Vincent Lequertier <sky@riseup.net>
@@ -353,6 +370,8 @@ adamruzicka <adamruzicka@users.noreply.github.com>
 alejandrocfg <alejandrocfg@users.noreply.github.com>
 alongoldboim <alongoldboim@gmail.com>
 amirfefer <amirfefer@gmail.com>
+boaz1337 <2453279+boaz1337@users.noreply.github.com>
+boaz1337 <ripcurld.github@gmail.com>
 cyberkov <admin@cyberkov.at>
 cyrus-mc <cyrus-mc@users.noreply.github.com>
 dhlavac <dhlavacd@redhat.com>
@@ -368,10 +387,12 @@ josh <josh@yosemite.edu>
 jslatten <justin.slatten@gmail.com>
 julien IPPOLITO <stuxboulot@gmail.com>
 jyejare <jyejare@redhat.com>
+kamils-iRonin <kamil.szubrycht@ironin.pl>
 karimb <root@foreman.localdomain>
 karl-ravn <karl.ravn@deltaprojects.se>
 karmab <karimboumedhel@gmail.com>
 kgaikwad <kavitagaikwad103@gmail.com>
+laviro <1ronlavi@gmail.com>
 lawre <larrytek@yahoo.com>
 ldjebran <ldjebran@gmail.com>
 lizagilman <lizagilman@gmail.com>
