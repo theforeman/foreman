@@ -292,7 +292,7 @@ module Foreman::Model
     end
 
     def preallocate_disks(args)
-      change_allocation_volumes = args[:volumes_attributes].values.select { |x| x[:preallocate] == '1' }
+      change_allocation_volumes = args[:volumes_attributes].values.select { |x| x[:id].present? && x[:preallocate] == '1' }
       if args[:template].present? && change_allocation_volumes.present?
         disks = change_allocation_volumes.map do |volume|
           { :id => volume[:id], :sparse => 'false', :format => 'raw', :storagedomain => volume[:storage_domain] }
