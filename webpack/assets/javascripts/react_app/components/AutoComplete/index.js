@@ -26,9 +26,8 @@ class AutoComplete extends React.Component {
       'unableHTMLAutocomplete',
       'handleKeyDown',
     ]);
-    debounceMethods(this, 250, ['handleInputChange', 'handleLoading']);
-    debounceMethods(this, 125, ['handleInputFocus']);
     this._typeahead = React.createRef();
+    debounceMethods(this, 500, ['handleLoading']);
   }
 
   componentDidMount() {
