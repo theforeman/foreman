@@ -91,12 +91,12 @@ export function testConnection(item) {
         $('.alert-danger', result).length === 0 &&
         $('#compute_connection .has-error', result).length === 0
       ) {
-        notify({ message: `<p>${__('Test connection was successful')}</p>`, type: 'success' });
+        notify({ message: __('Test connection was successful'), type: 'success' });
       }
     },
     error({ statusText }) {
       notify({
-        message: `<p>${__('An error occurred while testing the connection: ')}${statusText}</p>`,
+        message: `${__('An error occurred while testing the connection: ')}${statusText}`,
         type: 'danger',
       });
     },

@@ -10,11 +10,11 @@ export function testConnection(item, url) {
     type: 'put',
     data,
     success({ message }, textstatus, xhr) {
-      notify({ message: `<p>${message}</p>`, type: 'success' });
+      notify({ message, type: 'success' });
     },
     error({ responseText }) {
       const error = $.parseJSON(responseText).message;
-      notify({ message: `<p>${error}</p>`, type: 'danger' });
+      notify({ message: error, type: 'danger' });
     },
     complete(result) {
       $('#test_connection_indicator').hide();
