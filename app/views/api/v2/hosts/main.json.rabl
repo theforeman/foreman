@@ -41,6 +41,12 @@ node :hostgroup_title do |host|
   host.hostgroup.title if host.hostgroup.present?
 end
 
+if @facts
+  node do |host|
+    { :facts => host.facts } if host.facts.present?
+  end
+end
+
 if @parameters
   node do |host|
     { :parameters => partial("api/v2/parameters/index", :object => host.host_parameters.authorized) }

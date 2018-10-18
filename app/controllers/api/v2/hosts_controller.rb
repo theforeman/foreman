@@ -57,6 +57,7 @@ module Api
         if params[:include].present?
           @parameters = params[:include].include?('parameters')
           @all_parameters = params[:include].include?('all_parameters')
+          @facts = params[:include].include?('facts')
         end
       end
 
