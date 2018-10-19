@@ -57,6 +57,19 @@ class SmartProxy < ApplicationRecord
     errors
   end
 
+  def ping
+    begin
+      reply = ProxyAPI::Features.new(url: url).features
+      unless reply.is_a?(Array)
+        logger.debug("Invalid response from proxy #{name}: Expected Array of features, got #{reply}.")
+        errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
+      end
+    rescue => e
+      errors.add(:base, _('Unable to communicate with the proxy: %s') % e)
+    end
+    !errors.any?
+  end
+
   def taxonomy_foreign_conditions
     conditions = {}
     if has_feature?('Puppet') && has_feature?('Puppet CA')

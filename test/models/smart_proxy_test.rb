@@ -91,4 +91,20 @@ class SmartProxyTest < ActiveSupport::TestCase
     refute proxy.save
     assert_equal('An invalid response was received while requesting available features from this proxy', proxy.errors[:base].first)
   end
+
+  describe '#ping' do
+    let(:proxy) { SmartProxy.new(name: 'Proxy', url: 'https://some.where.net:8443') }
+
+    test 'pings the smart proxy' do
+      ProxyAPI::Features.any_instance.stubs(:features).returns(['logs', 'puppetca', 'templates'])
+      assert proxy.ping
+      assert_empty proxy.errors
+    end
+
+    test 'is false when there are connection errors' do
+      ProxyAPI::Features.any_instance.stubs(:features).raises(Errno::ECONNREFUSED)
+      refute proxy.ping
+      refute_empty proxy.errors
+    end
+  end
 end
