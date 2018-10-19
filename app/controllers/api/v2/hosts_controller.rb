@@ -68,6 +68,7 @@ module Api
       def show
         @parameters = true
         @all_parameters = true
+        @facts = true
       end
 
       def_param_group :host do
