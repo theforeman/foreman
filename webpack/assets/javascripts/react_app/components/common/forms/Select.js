@@ -16,8 +16,8 @@ class Select extends React.Component {
   render() {
     const renderOptions = arr =>
       map(arr, (attribute, value) => (
-        <option key={attribute} value={value}>
-          {value}
+        <option key={value} value={value}>
+          {attribute}
         </option>
       ));
 
