@@ -47,9 +47,10 @@ class HostBuildStatus
 
     smart_proxies.each do |proxy|
       begin
-        errors = proxy.refresh.messages.any?
+        proxy.ping
+        errors = proxy.errors.messages
         errors = errors.is_a?(Array) ? errors.to_sentence : errors
-        fail!(:proxies, _('Failure deploying via smart proxy %{proxy}: %{error}.') % {:proxy => proxy, :error => errors}, proxy.id) if errors
+        fail!(:proxies, _('Failure deploying via smart proxy %{proxy}: %{error}.') % {:proxy => proxy, :error => errors}, proxy.id) if proxy.errors.any?
       rescue => error
         fail!(:proxies, _('Error connecting to %{proxy}: %{error}.') % {:proxy => proxy, :error => error}, proxy.id)
       end
