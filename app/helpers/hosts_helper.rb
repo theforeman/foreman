@@ -4,6 +4,7 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include HostsNicHelper
   include BmcHelper
+  include AuthorizeHelper
 
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource
