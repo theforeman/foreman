@@ -39,6 +39,7 @@
     "highlight.js": "^9.12.0",
     "identity-obj-proxy": "^3.0.0",
     "jest-cli": "^20.0.0",
+    "jest-prop-type-error": "^1.1.0",
     "jsdom": "^9.5.0",
     "lodash-webpack-plugin": "^0.11.4",
     "node-sass": "^4.5.0",
@@ -153,6 +154,7 @@
     ],
     "setupFiles": [
       "raf/polyfill",
+      "jest-prop-type-error",
       "./webpack/test_setup.js"
     ]
   }

@@ -9,6 +9,7 @@ exports[`BreadcrumbSwitcherPopover render loading state 1`] = `
 >
   <SearchInput
     focus={true}
+    searchValue=""
   />
   <div
     className="breadcrumb-switcher-popover-loading text-center"
@@ -32,6 +33,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
 >
   <SearchInput
     focus={true}
+    searchValue=""
   />
   <ListGroup
     bsClass="list-group"
@@ -50,6 +52,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 1
         </SubstringWrapper>
@@ -68,6 +71,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 2
         </SubstringWrapper>
@@ -86,6 +90,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 3 with a very long name
         </SubstringWrapper>
@@ -103,6 +108,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 4
         </SubstringWrapper>
@@ -121,6 +127,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 5
         </SubstringWrapper>
@@ -153,6 +160,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
 >
   <SearchInput
     focus={true}
+    searchValue=""
   />
   <ListGroup
     bsClass="list-group"
@@ -171,6 +179,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 1
         </SubstringWrapper>
@@ -189,6 +198,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 2
         </SubstringWrapper>
@@ -207,6 +217,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 3 with a very long name
         </SubstringWrapper>
@@ -224,6 +235,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 4
         </SubstringWrapper>
@@ -242,6 +254,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 5
         </SubstringWrapper>
@@ -274,6 +287,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
 >
   <SearchInput
     focus={true}
+    searchValue=""
   />
   <ListGroup
     bsClass="list-group"
@@ -292,6 +306,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 1
         </SubstringWrapper>
@@ -310,6 +325,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 2
         </SubstringWrapper>
@@ -328,6 +344,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 3 with a very long name
         </SubstringWrapper>
@@ -345,6 +362,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 4
         </SubstringWrapper>
@@ -363,6 +381,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
+          substring=""
         >
           Host 5
         </SubstringWrapper>

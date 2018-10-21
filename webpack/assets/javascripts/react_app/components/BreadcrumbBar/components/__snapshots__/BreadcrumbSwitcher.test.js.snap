@@ -30,6 +30,7 @@ exports[`BreadcrumbSwitcher rendering render closed 1`] = `
       onPrevPageClick={[Function]}
       onResourceClick={[Function]}
       resources={Array []}
+      searchValue=""
       totalPages={1}
     />
   </Overlay>
@@ -66,6 +67,7 @@ exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
       onPrevPageClick={[Function]}
       onResourceClick={[Function]}
       resources={Array []}
+      searchValue=""
       totalPages={1}
     />
   </Overlay>
@@ -132,6 +134,7 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
           },
         ]
       }
+      searchValue=""
       totalPages={1}
     />
   </Overlay>
@@ -198,6 +201,7 @@ exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] 
           },
         ]
       }
+      searchValue=""
       totalPages={3}
     />
   </Overlay>
