@@ -96,6 +96,7 @@ const BreadcrumbSwitcherPopover = ({
 
 BreadcrumbSwitcherPopover.propTypes = {
   ...Popover.propTypes,
+  searchValue: PropTypes.string,
   loading: PropTypes.bool,
   hasError: PropTypes.bool,
   currentPage: PropTypes.number,
@@ -107,11 +108,11 @@ BreadcrumbSwitcherPopover.propTypes = {
     onClick: PropTypes.func,
   })),
   onSearchChange: PropTypes.func,
-  searchValue: PropTypes.string,
   onResourceClick: PropTypes.func,
 };
 
 BreadcrumbSwitcherPopover.defaultProps = {
+  searchValue: '',
   loading: false,
   hasError: false,
   currentPage: 1,
