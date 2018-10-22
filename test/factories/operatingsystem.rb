@@ -98,6 +98,14 @@ FactoryBot.define do
       title { 'OpenSuse 11.4' }
     end
 
+    factory :rhel7_5, class: Redhat do
+      sequence(:name) { 'Red Hat Enterprise Linux' }
+      major { '7' }
+      minor { '5' }
+      type { 'Redhat' }
+      title { 'Red Hat Enterprise Linux 7.5' }
+    end
+
     factory :solaris, class: Solaris do
       sequence(:name) { 'Solaris' }
       major { '10' }

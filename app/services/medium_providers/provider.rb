@@ -24,6 +24,14 @@ module MediumProviders
       throw "medium_uri is not implemented for #{self.class.name}"
     end
 
+    # A medium provider can optionally return an array of additional software
+    # URI's to enable during installation, if the template supports it. For
+    # example, for a yum repo to give to Anaconda:
+    #   [{name: 'awesome', baseurl: 'http://yum.example.com/repo/'}]
+    def additional_media
+      []
+    end
+
     # Returns unique string representing current installation medium.
     def unique_id
       @unique_id ||= Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri.to_s), padding: false)

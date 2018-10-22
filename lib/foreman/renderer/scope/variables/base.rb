@@ -75,6 +75,7 @@ module Foreman
             @osver     = major.try(:to_i)
             @mediapath = mediumpath(@medium_provider) if @medium_provider
             @repos     = repos(host)
+            @repos    += @medium_provider.additional_media if @medium_provider
           end
 
           def preseed_attributes
