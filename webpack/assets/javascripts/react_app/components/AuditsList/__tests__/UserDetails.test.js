@@ -10,6 +10,11 @@ const userFixtures = {
     remoteAddress: AuditRecord.remote_address,
     userInfo: AuditRecord.user_info,
   },
+  'render user info with audit login': {
+    isAuditLogin: true,
+    remoteAddress: AuditRecord.remote_address,
+    userInfo: AuditRecord.user_info,
+  },
 };
 
 describe('UserDetails', () => {
