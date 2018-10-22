@@ -22,7 +22,7 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
         <EllipsisWithTooltip>
           <span><a { ...linkProps }>{UserDisplayName}</a></span>
         </EllipsisWithTooltip>
-        <span><a href={auditPath}>__('Logged-in')</a></span>
+        <span><a href={auditPath}>{__('Logged-in')}</a></span>
       </span>
     );
   }
