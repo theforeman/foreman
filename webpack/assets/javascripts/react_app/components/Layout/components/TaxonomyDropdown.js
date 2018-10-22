@@ -31,7 +31,7 @@ const TaxonomyDropdown = ({
           className={`${taxonomyType.toLowerCase()}s_clear`}
           href={anyTaxonomyURL}
           onClick={() => {
-            changeTaxonomy(anyTaxonomyText);
+            changeTaxonomy({ title: anyTaxonomyText });
           }}
         >
           {__(anyTaxonomyText)}
@@ -54,7 +54,7 @@ const TaxonomyDropdown = ({
             id={`aid_taxonomy_${taxonomy.title}`}
             href={taxonomy.href}
             onClick={() => {
-              changeTaxonomy(taxonomy.title);
+              changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });
             }}
           >
             {__(taxonomy.title)}

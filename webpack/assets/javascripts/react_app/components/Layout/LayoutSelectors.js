@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import { changeActive } from '../../../foreman_navigation';
 import { getCurrentPath } from './LayoutHelper';
 
@@ -7,8 +7,8 @@ export const selectLayout = state => state.layout;
 
 export const selectMenuItems = state => selectLayout(state).items;
 export const selectActiveMenu = state => selectLayout(state).activeMenu;
-export const selectCurrentLocation = state => selectLayout(state).currentLocation;
-export const selectCurrentOrganization = state => selectLayout(state).currentOrganization;
+export const selectCurrentLocation = state => get(selectLayout(state), 'currentLocation.title');
+export const selectCurrentOrganization = state => get(selectLayout(state), 'currentOrganization.title');
 const path = getCurrentPath();
 
 export const patternflyMenuItemsSelector = createSelector(

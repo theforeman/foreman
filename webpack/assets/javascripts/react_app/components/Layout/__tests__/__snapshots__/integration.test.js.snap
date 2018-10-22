@@ -151,8 +151,14 @@ Object {
   "state": Object {
     "layout": Object {
       "activeMenu": "Hosts",
-      "currentLocation": "yaml",
-      "currentOrganization": "org2",
+      "currentLocation": Object {
+        "id": 1,
+        "title": "yaml",
+      },
+      "currentOrganization": Object {
+        "id": 2,
+        "title": "org2",
+      },
       "isLoading": false,
       "items": Array [
         Object {
@@ -301,7 +307,10 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "location": "yaml",
+          "location": Object {
+            "id": 1,
+            "title": "yaml",
+          },
         },
         "type": "LAYOUT_CHANGE_LOCATION",
       },
@@ -310,8 +319,14 @@ Object {
   "state": Object {
     "layout": Object {
       "activeMenu": "",
-      "currentLocation": "yaml",
-      "currentOrganization": "org1",
+      "currentLocation": Object {
+        "id": 1,
+        "title": "yaml",
+      },
+      "currentOrganization": Object {
+        "id": 1,
+        "title": "org1",
+      },
       "isLoading": false,
       "items": Array [
         Object {
@@ -460,7 +475,10 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "org": "org2",
+          "org": Object {
+            "id": 2,
+            "title": "org2",
+          },
         },
         "type": "LAYOUT_CHANGE_ORG",
       },
@@ -469,8 +487,14 @@ Object {
   "state": Object {
     "layout": Object {
       "activeMenu": "",
-      "currentLocation": "yaml",
-      "currentOrganization": "org2",
+      "currentLocation": Object {
+        "id": 1,
+        "title": "yaml",
+      },
+      "currentOrganization": Object {
+        "id": 2,
+        "title": "org2",
+      },
       "isLoading": false,
       "items": Array [
         Object {
@@ -617,8 +641,14 @@ exports[`initial state 1`] = `
 Object {
   "layout": Object {
     "activeMenu": "",
-    "currentLocation": "london",
-    "currentOrganization": "org1",
+    "currentLocation": Object {
+      "id": 2,
+      "title": "london",
+    },
+    "currentOrganization": Object {
+      "id": 1,
+      "title": "org1",
+    },
     "isLoading": false,
     "items": Array [
       Object {
