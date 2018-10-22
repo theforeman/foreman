@@ -29,12 +29,18 @@ class Layout extends React.Component {
 
     if (data.taxonomies.locations && !!data.locations.current_location
       && currentLocation !== data.locations.current_location) {
-      changeLocation(data.locations.current_location);
+      const initialLocTitle = data.locations.current_location;
+      const initialLocId = data.locations.available_locations
+        .find(loc => loc.title === initialLocTitle).id;
+      changeLocation({ title: initialLocTitle, id: initialLocId });
     }
 
     if (data.taxonomies.organizations && !!data.orgs.current_org
       && currentOrganization !== data.orgs.current_org) {
-      changeOrganization(data.orgs.current_org);
+      const initialOrgTitle = data.orgs.current_org;
+      const initialOrgId = data.orgs.available_organizations
+        .find(org => org.title === initialOrgTitle).id;
+      changeOrganization({ title: initialOrgTitle, id: initialOrgId });
     }
     // changeActive on Back navigation
     window.addEventListener('popstate', () => this.changeActiveOnBack());

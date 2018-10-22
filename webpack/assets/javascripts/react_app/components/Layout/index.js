@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import * as actions from './LayoutActions';
 import reducer from './LayoutReducer';
-import { selectLayout, patternflyMenuItemsSelector } from './LayoutSelectors';
+import {
+  selectLayout,
+  patternflyMenuItemsSelector,
+  selectCurrentOrganization,
+  selectCurrentLocation,
+} from './LayoutSelectors';
 
 import Layout from './Layout';
 
@@ -15,8 +20,8 @@ const mapStateToProps = (state) => {
     items: patternflyMenuItemsSelector(state),
     isLoading: layoutState.isLoading,
     activeMenu: layoutState.activeMenu,
-    currentOrganization: layoutState.currentOrganization,
-    currentLocation: layoutState.currentLocation,
+    currentOrganization: selectCurrentOrganization(state),
+    currentLocation: selectCurrentLocation(state),
   };
 };
 

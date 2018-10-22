@@ -5,6 +5,7 @@ const state = {
   layout: {
     items: layoutMock.data.menu,
     activeMenu: 'Hosts',
+    currentOrganization: { title: 'org1' },
   },
 };
 describe('Layout Selectors', () => {

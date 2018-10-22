@@ -13,8 +13,8 @@ const initialState = Immutable({
   items: [],
   isLoading: false,
   activeMenu: '',
-  currentOrganization: 'Any Organization',
-  currentLocation: 'Any Location',
+  currentOrganization: { title: 'Any Organization' },
+  currentLocation: { title: 'Any Location' },
 });
 
 export default (state = initialState, action) => {

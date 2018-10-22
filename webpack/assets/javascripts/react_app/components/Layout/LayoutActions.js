@@ -43,9 +43,7 @@ export const fetchMenuItems = data => (dispatch) => {
 export const changeOrganization = org => (dispatch) => {
   dispatch({
     type: LAYOUT_CHANGE_ORG,
-    payload: {
-      org,
-    },
+    payload: { org },
   });
 };
 
