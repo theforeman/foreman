@@ -29,7 +29,7 @@ module HostInfoProviders
           klass_error[klass] = exc
         end
       end
-      if klass_error.size > 0
+      if !klass_error.empty?
         klass_error.sort.each do |klass, exc|
           logger.exception("Smart class parameter rendering of `#{klass.name}` failed on #{host.name}")
         end
