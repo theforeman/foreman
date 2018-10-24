@@ -4,8 +4,9 @@ scss:
 stylelint:
   enabled: true
 
-ruby:
+rubocop:
   config_file: .rubocop.yml
+  version: 0.59.2
 
 jshint:
   enabled: false
