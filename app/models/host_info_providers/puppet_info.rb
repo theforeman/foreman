@@ -26,13 +26,11 @@ module HostInfoProviders
         begin
           klasses[klass.name] = smart_class_params_for(klass, key_hash, values)
         rescue StandardError => exc
+          logger.exception(_("Smart class parameter rendering of `#{klass_name}` failed on #{host_name}) % {:klass_name => klass.name, :host_name => host.name})
           klass_error[klass] = exc
         end
       end
       unless klass_error.empty?
-        klass_error.sort.each do |klass, exc|
-          logger.exception(_("Smart class parameter rendering of `#{klass_name}` failed on #{host_name}) % {:klass_name => klass.name, :host_name => host.name})
-        end
         klass_names = klass_error.keys.map { |klass| klass.name }
         raise ::Foreman::Exception.new(N_("Smart class parameter rendering failed for %{kclass_names}"), {:klass_names => klass_names})
         # Waiting for support in #24193
