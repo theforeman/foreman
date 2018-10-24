@@ -34,7 +34,7 @@ module HostInfoProviders
           logger.exception("Smart class parameter rendering of `#{klass.name}` failed on #{host.name}")
         end
         klass_names = klass_error.keys.map { |klass| klass.name }
-        raise ::Foreman::Exception.new("Smart class parameter rendering failed for %{kclass_names}", {:klass_names => klass_names})
+        raise ::Foreman::Exception.new(N_("Smart class parameter rendering failed for %{kclass_names}"), {:klass_names => klass_names})
         # Waiting for support in #24193
         # raise ::Foreman::MultiException.new(klass_error.values, "Smart class parameter rendering failed for %{kclass_names}", {:klass_names => klass_names})
       end
