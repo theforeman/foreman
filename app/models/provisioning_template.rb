@@ -208,7 +208,7 @@ class ProvisioningTemplate < Template
   # generated for
   def self.pxe_default_combos
     combos = []
-    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).each do |template|
+    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).find_each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
         if hostgroup&.operatingsystem && hostgroup.architecture && hostgroup.medium
