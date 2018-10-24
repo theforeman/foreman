@@ -7,6 +7,9 @@ stylelint:
 ruby:
   config_file: .rubocop.yml
 
+rubocop:
+  version: 0.59.2
+
 jshint:
   enabled: false
 
