@@ -29,15 +29,14 @@ module HostInfoProviders
           klass_error[klass] = exc
         end
       end
-      if klass_error.size
-        # FIXME: Is logger in scope under another name?
-        logger = Foreman::Logging.logger('app')
+      if klass_error.size > 0
         klass_error.sort.each do |klass, exc|
-          logger.error("Smart class parameter rendering of `#{klass.name}` failed on #{host.name}: #{exc}")
+          logger.exception("Smart class parameter rendering of `#{klass.name}` failed on #{host.name}")
         end
         klass_names = klass_error.keys.map { |klass| klass.name }
-        # FIXME: RuntimeExceptions are lame. Custom Exception object with the klass_error data for HTML rendering?
-        raise "Smart class parameter rendering failed for #{klass_names}"
+        raise ::Foreman::Exception.new("Smart class parameter rendering failed for %{kclass_names}", {:klass_names => klass_names})
+        # Waiting for support in #24193
+        # raise ::Foreman::MultiException.new(klass_error.values, "Smart class parameter rendering failed for %{kclass_names}", {:klass_names => klass_names})
       end
       klasses
     end
