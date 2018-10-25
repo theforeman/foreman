@@ -122,6 +122,7 @@ module.exports = env => {
         paths: true,
         collections: true,
         flattening: true,
+        shorthands: true
       }),
       // must match config.webpack.manifest_filename
       new StatsWriterPlugin({

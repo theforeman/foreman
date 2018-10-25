@@ -9,6 +9,10 @@ module ReactjsHelper
     js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end
 
+  def webpacked_plugins_css_for(*plugin_names)
+    css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
+  end
+
   def select_requested_plugins(plugin_names)
     available_plugins = Foreman::Plugin.with_webpack.map(&:id)
     missing_plugins = plugin_names - available_plugins
@@ -22,6 +26,12 @@ module ReactjsHelper
   def js_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
       javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'), "data-turbolinks-track" => true)
+    end
+  end
+
+  def css_tags_for(requested_plugins)
+    requested_plugins.map do |plugin|
+      stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'), "data-turbolinks-track" => true)
     end
   end
 end
