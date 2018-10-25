@@ -294,6 +294,7 @@ module Foreman #:nodoc:
     # Usage:
     # add_resource_permissions_to_default_roles ['MyPlugin::FirstResource', 'MyPlugin::SecondResource'], :except => [:skip_this_permission]
     def add_resource_permissions_to_default_roles(resources, opts = {})
+      return if Foreman.in_setup_db_rake? || !permission_table_exists?
       Role.without_auditing do
         Filter.without_auditing do
           Plugin::RbacSupport.new.add_resource_permissions_to_default_roles resources, opts
@@ -305,6 +306,7 @@ module Foreman #:nodoc:
     # Usage:
     # add_permissions_to_default_roles 'Role Name' => [:first_permission, :second_permission]
     def add_permissions_to_default_roles(args)
+      return if Foreman.in_setup_db_rake? || !permission_table_exists?
       Role.without_auditing do
         Filter.without_auditing do
           Plugin::RbacSupport.new.add_permissions_to_default_roles args
