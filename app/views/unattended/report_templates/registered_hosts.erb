@@ -20,7 +20,7 @@ require:
         'Operating System': host.operatingsystem,
         'Subscriptions': host_subscriptions(host),
         'Applicable Errata': host_applicable_errata_ids(host),
-        'Owner': host.owner.login,
+        'Owner': host.owner,
         'Kernel': host.facts['kernelrelease'],
         'Latest kernel available': host_latest_applicable_rpm_version(host, 'kernel')
       ) -%>
