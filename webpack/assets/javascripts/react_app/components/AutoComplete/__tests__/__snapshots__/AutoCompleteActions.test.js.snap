@@ -6,9 +6,11 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "search-input",
         "searchQuery": "x = y",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search?search=",
       },
       "type": "AUTO_COMPLETE_REQUEST",
     },
@@ -17,6 +19,7 @@ Array [
     Object {
       "payload": Object {
         "error": "oops",
+        "id": "search-input",
         "results": Array [],
         "status": "ERROR",
       },
@@ -32,9 +35,11 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "search-input",
         "searchQuery": "",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search?search=",
       },
       "type": "AUTO_COMPLETE_REQUEST",
     },
@@ -43,6 +48,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "search-input",
         "results": Array [
           Object {
             "category": "category",
@@ -52,6 +58,7 @@ Array [
         "searchQuery": "",
         "status": "RESOLVED",
         "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search?search=",
       },
       "type": "AUTO_COMPLETE_SUCCESS",
     },
@@ -60,32 +67,39 @@ Array [
 `;
 
 exports[`AutoComplete actions should reset-data 1`] = `
-Array [
-  Array [
-    Object {
-      "error": null,
-      "payload": Object {
-        "controller": "models",
-      },
-      "type": "AUTO_COMPLETE_RESET",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "controller": "models",
+    "id": "search-input",
+    "trigger": "RESET",
+  },
+  "type": "AUTO_COMPLETE_RESET",
+}
+`;
+
+exports[`AutoComplete actions should update disability 1`] = `
+Object {
+  "payload": Object {
+    "id": "search-input",
+    "isDisabled": true,
+  },
+  "type": "AUTO_COMPLETE_DISABLED_CHANGE",
+}
 `;
 
 exports[`AutoComplete actions should update store with initial data 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "controller": "models",
-        "results": Array [],
-        "searchQuery": "searchQuery",
-        "status": "RESOLVED",
-        "trigger": "COMPONENT_DID_MOUNT",
-      },
-      "type": "AUTO_COMPLETE_SUCCESS",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "controller": "models",
+    "error": undefined,
+    "id": "search-input",
+    "isDisabled": false,
+    "results": Array [],
+    "searchQuery": "searchQuery",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+    "url": "models/auto_complete_search?search=",
+  },
+  "type": "AUTO_COMPLETE_SUCCESS",
+}
 `;

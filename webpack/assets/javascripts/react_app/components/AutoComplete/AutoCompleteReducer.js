@@ -4,48 +4,83 @@ import {
   AUTO_COMPLETE_SUCCESS,
   AUTO_COMPLETE_FAILURE,
   AUTO_COMPLETE_RESET,
+  AUTO_COMPLETE_DISABLED_CHANGE,
 } from './AutoCompleteConstants';
 
-const initialState = Immutable({
+const initialAutocompleteState = {
   controller: null,
   error: null,
   results: [],
-  searchQuery: '',
+  searchQuery: null,
   status: null,
   trigger: null,
-});
+  url: null,
+  isDisabled: false,
+};
 
-export default (state = initialState, action) => {
+export default (state = Immutable({}), action) => {
   const {
     type,
-    payload: { controller, error, results, searchQuery, status, trigger } = {},
+    payload: {
+      controller,
+      error,
+      results,
+      searchQuery,
+      status,
+      trigger,
+      url,
+      isDisabled,
+      id,
+    } = {},
   } = action;
   switch (type) {
     case AUTO_COMPLETE_REQUEST:
-      return state.merge({
+      return state.setIn([id], {
+        ...state[id],
         controller,
         error: null,
         searchQuery,
         status,
         trigger,
+        url,
       });
     case AUTO_COMPLETE_SUCCESS:
-      return state.merge({
+      return state.setIn([id], {
+        ...state[id],
         controller,
-        error: null,
+        error,
         results,
         searchQuery,
         status,
         trigger,
+        url,
+        isDisabled:
+          isDisabled === undefined && state[id]
+            ? state[id].isDisabled
+            : isDisabled,
       });
     case AUTO_COMPLETE_FAILURE:
-      return state.merge({
+      return state.setIn([id], {
+        ...state[id],
         error,
         results,
         status,
       });
     case AUTO_COMPLETE_RESET:
-      return initialState;
+      return state.setIn([id], {
+        ...initialAutocompleteState,
+        isDisabled:
+          isDisabled === undefined && state[id]
+            ? state[id].isDisabled
+            : isDisabled,
+        trigger,
+        controller,
+      });
+    case AUTO_COMPLETE_DISABLED_CHANGE:
+      return state.setIn([id], {
+        ...state[id],
+        isDisabled,
+      });
     default:
       return state;
   }

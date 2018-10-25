@@ -209,6 +209,7 @@ module ApplicationHelper
   end
 
   def auto_complete_search(name, val, options = {})
+    Foreman::Deprecation.deprecation_warning("1.23", "auto_complete_search has been deprecated, please switch to the React implementation.")
     path = options[:full_path]
     path ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}"
     options[:class] = "autocomplete-input form-control"

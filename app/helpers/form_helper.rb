@@ -198,17 +198,13 @@ module FormHelper
   end
 
   def autocomplete_f(f, attr, options = {})
-    field(f, attr, options) do
-      path = options.delete(:path) || send("#{f.object.class.pluralize.underscore}_path") if options[:full_path].nil?
-      auto_complete_search(attr,
-                           f.object.send(attr).try(:squeeze, " "),
-                           options.merge(
-                             :placeholder => _("Filter") + ' ...',
-                             :path        => path,
-                             :name        => "#{f.object_name}[#{attr}]"
-                           )
-      ).html_safe
-    end
+    props = { name: "#{f.object_name}[#{attr}]",
+              controller: options[:path] || auto_complete_controller_name,
+              url: options[:path] || '',
+              isDisabled: options[:disabled] || false,
+              initialQuery: f.object.search || '',
+              initialError: f.object.errors[attr] && f.object.errors[attr][0]}
+    render('common/form_autocomplete', props: props)
   end
 
   def byte_size_f(f, attr, options = {})

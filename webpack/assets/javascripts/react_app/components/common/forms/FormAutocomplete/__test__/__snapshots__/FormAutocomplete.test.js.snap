@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete rendering renders AutoComplete 1`] = `
+<FormGroup
+  bsClass="form-group"
+  className="form-autocomplete"
+>
+  <Col
+    bsClass="col"
+    componentClass={[Function]}
+    md={2}
+  >
+    Search
+  </Col>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={4}
+  >
+    <Connect(AutoComplete)
+      controller="bookmarks"
+      id="form-search"
+      initialDisabled={false}
+      initialError={null}
+      initialQuery=""
+      initialUrl="bookmarks/auto_complete"
+      inputProps={
+        Object {
+          "name": "Filter[search]",
+        }
+      }
+      useKeyShortcuts={false}
+    />
+  </Col>
+</FormGroup>
+`;

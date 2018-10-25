@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AutoComplete rendering renders AutoComplete 1`] = `
-<div>
+<div
+  className="foreman-autocomplete"
+>
   <TypeaheadContainer(WrappedTypeahead)
     a11yNumResults={[Function]}
     a11yNumSelected={[Function]}
@@ -11,22 +13,34 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     bodyContainer={false}
     caseSensitive={false}
     clearButton={false}
+    controller="models"
     defaultInputValue=""
     defaultOpen={false}
     defaultSelected={Array []}
     disabled={false}
     dropup={false}
     emptyLabel={null}
+    error={null}
     filterBy={Array []}
     flip={false}
+    getResults={[Function]}
+    handleSearch={[Function]}
     highlightOnlyResult={false}
+    id="search-input"
     ignoreDiacritics={true}
+    initialDisabled={false}
+    initialError={null}
+    initialQuery=""
+    initialUpdate={[Function]}
+    initialUrl="models/auto_complete_search?search="
     inputProps={
       Object {
         "className": "search-input use-shortcuts",
+        "data-autocomplete-id": "search-input",
         "spellCheck": "false",
       }
     }
+    isDisabled={false}
     isInvalid={false}
     isLoading={false}
     isValid={false}
@@ -52,7 +66,21 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     paginationText="Display additional results..."
     placeholder="Filter ..."
     renderMenu={[Function]}
+    resetData={[Function]}
+    results={
+      Array [
+        Object {
+          "category": "category",
+          "label": "some results",
+        },
+      ]
+    }
+    searchQuery=""
     selectHintOnEnter={false}
+    status={null}
+    trigger={null}
+    url={null}
+    useKeyShortcuts={true}
   />
   <AutoCompleteAux
     onClear={[Function]}

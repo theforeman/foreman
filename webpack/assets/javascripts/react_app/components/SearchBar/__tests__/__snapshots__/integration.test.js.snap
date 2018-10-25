@@ -1,45 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchBar integration test should flow: Clear button clicked 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "controller": "models",
-          "searchQuery": "",
-          "status": "PENDING",
-          "trigger": "INPUT_CLEAR",
-        },
-        "type": "AUTO_COMPLETE_REQUEST",
-      },
-    ],
-  ],
-  "state": Object {
-    "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "",
-      "status": "PENDING",
-      "trigger": "INPUT_CLEAR",
-    },
-    "bookmarks": Object {
-      "showModal": false,
-    },
-  },
-}
-`;
-
 exports[`SearchBar integration test should flow: Clicked the search button 1`] = `
 Object {
   "action": Array [
@@ -47,9 +7,11 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "search-input-1",
           "searchQuery": "result",
           "status": "PENDING",
-          "trigger": "ITEM_SELECT",
+          "trigger": "INPUT_CHANGE",
+          "url": "model/auto_complete_search",
         },
         "type": "AUTO_COMPLETE_REQUEST",
       },
@@ -57,21 +19,16 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
+      "search-input-1": Object {
+        "controller": "models",
+        "error": null,
+        "isDisabled": false,
+        "results": Array [],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
+      },
     },
     "bookmarks": Object {
       "showModal": false,
@@ -94,21 +51,16 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
+      "search-input-1": Object {
+        "controller": "models",
+        "error": null,
+        "isDisabled": false,
+        "results": Array [],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
+      },
     },
     "bookmarks": Object {
       "models": Object {
@@ -136,21 +88,16 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
+      "search-input-1": Object {
+        "controller": "models",
+        "error": null,
+        "isDisabled": false,
+        "results": Array [],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
+      },
     },
     "bookmarks": Object {
       "currentQuery": "result",
@@ -160,221 +107,6 @@ Object {
         "status": "PENDING",
       },
       "showModal": true,
-    },
-  },
-}
-`;
-
-exports[`SearchBar integration test should flow: initial state 1`] = `
-Object {
-  "autocomplete": Object {
-    "controller": "models",
-    "error": null,
-    "results": Array [],
-    "searchQuery": "",
-    "status": "RESOLVED",
-    "trigger": "COMPONENT_DID_MOUNT",
-  },
-  "bookmarks": Object {
-    "showModal": false,
-  },
-}
-`;
-
-exports[`SearchBar integration test should flow: input focused 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "controller": "models",
-          "searchQuery": "",
-          "status": "PENDING",
-          "trigger": "INPUT_FOCUS",
-        },
-        "type": "AUTO_COMPLETE_REQUEST",
-      },
-    ],
-  ],
-  "state": Object {
-    "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [],
-      "searchQuery": "",
-      "status": "PENDING",
-      "trigger": "INPUT_FOCUS",
-    },
-    "bookmarks": Object {
-      "showModal": false,
-    },
-  },
-}
-`;
-
-exports[`SearchBar integration test should flow: option selected 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "controller": "models",
-          "searchQuery": "result",
-          "status": "PENDING",
-          "trigger": "ITEM_SELECT",
-        },
-        "type": "AUTO_COMPLETE_REQUEST",
-      },
-    ],
-  ],
-  "state": Object {
-    "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "result",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
-    },
-    "bookmarks": Object {
-      "showModal": false,
-    },
-  },
-}
-`;
-
-exports[`SearchBar integration test should flow: option selected again 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "controller": "models",
-          "searchQuery": "result",
-          "status": "PENDING",
-          "trigger": "ITEM_SELECT",
-        },
-        "type": "AUTO_COMPLETE_REQUEST",
-      },
-    ],
-  ],
-  "state": Object {
-    "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
-    },
-    "bookmarks": Object {
-      "showModal": false,
-    },
-  },
-}
-`;
-
-exports[`SearchBar integration test should flow: request that was triggered by focus is over 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "controller": "models",
-          "results": Array [
-            Object {
-              "category": "",
-              "label": "result",
-            },
-          ],
-          "searchQuery": "",
-          "status": "RESOLVED",
-          "trigger": "INPUT_FOCUS",
-        },
-        "type": "AUTO_COMPLETE_SUCCESS",
-      },
-    ],
-  ],
-  "state": Object {
-    "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "result",
-        },
-      ],
-      "searchQuery": "",
-      "status": "RESOLVED",
-      "trigger": "INPUT_FOCUS",
-    },
-    "bookmarks": Object {
-      "showModal": false,
-    },
-  },
-}
-`;
-
-exports[`SearchBar integration test should flow: request that was triggered by option select is over 1`] = `
-Object {
-  "action": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "controller": "models",
-          "results": Array [
-            Object {
-              "category": "",
-              "label": "results1 ",
-            },
-            Object {
-              "category": "Dolphine",
-              "label": "results2 ",
-            },
-          ],
-          "searchQuery": "result",
-          "status": "RESOLVED",
-          "trigger": "ITEM_SELECT",
-        },
-        "type": "AUTO_COMPLETE_SUCCESS",
-      },
-    ],
-  ],
-  "state": Object {
-    "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "RESOLVED",
-      "trigger": "ITEM_SELECT",
-    },
-    "bookmarks": Object {
-      "showModal": false,
     },
   },
 }

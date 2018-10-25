@@ -2,9 +2,11 @@ import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import URI from 'urijs';
+import classNames from 'classnames';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../bookmarks';
 import { noop } from '../../common/helpers';
+import './search-bar.scss';
 
 const handleSearch = (searchQuery, onSearch) => {
   onSearch(searchQuery);
@@ -17,91 +19,60 @@ const handleSearch = (searchQuery, onSearch) => {
 const SearchBar = ({
   className,
   searchQuery,
-  error,
   onSearch,
-  results,
-  status,
-  useKeyShortcuts,
-  resetData,
-  getResults,
-  initialUpdate,
-  data: { autocomplete, controller, bookmarks },
-  ...props
-}) => {
-  const bookmarksComponent = !isEmpty(bookmarks) ? (
-    <Bookmarks data={{ ...bookmarks, controller, searchQuery }} />
-  ) : null;
-  return (
-    <div className={`search-bar input-group ${className}`}>
-      <AutoComplete
-        {...props}
-        controller={controller}
-        error={error}
-        handleSearch={() => handleSearch(searchQuery, onSearch)}
-        initialQuery={autocomplete.searchQuery || ''}
-        initialUpdate={initialUpdate}
-        getResults={getResults}
-        resetData={resetData}
-        results={results || autocomplete.results}
-        searchQuery={searchQuery}
-        status={status}
-        useKeyShortcuts={autocomplete.useKeyShortcuts}
-        url={autocomplete.url}
+  autocomplete,
+  controller,
+  bookmarks,
+}) => (
+  <div className={classNames('search-bar', 'input-group', className)}>
+    <AutoComplete
+      id={autocomplete.id}
+      controller={controller}
+      handleSearch={() => handleSearch(searchQuery, onSearch)}
+      initialQuery={autocomplete.searchQuery || ''}
+      useKeyShortcuts={autocomplete.useKeyShortcuts}
+      initialUrl={autocomplete.url}
+      initialDisabled={autocomplete.isDisabled}
+    />
+    <div className="input-group-btn">
+      <AutoComplete.SearchButton
+        onClick={() => handleSearch(searchQuery, onSearch)}
       />
-      <div className="input-group-btn">
-        <AutoComplete.SearchButton
-          onClick={() => handleSearch(searchQuery, onSearch)}
-        />
-        {bookmarksComponent}
-      </div>
+      {!isEmpty(bookmarks) ? (
+        <Bookmarks data={{ ...bookmarks, controller, searchQuery }} />
+      ) : null}
     </div>
-  );
-};
+  </div>
+);
 
 SearchBar.propTypes = {
   className: PropTypes.string,
-  onSearch: PropTypes.func,
   searchQuery: PropTypes.string,
-  error: PropTypes.string,
-  results: PropTypes.array,
-  status: PropTypes.string,
-  resetData: PropTypes.func,
-  getResults: PropTypes.func,
-  initialUpdate: PropTypes.func,
-  useKeyShortcuts: PropTypes.bool,
-  data: PropTypes.shape({
-    autocomplete: PropTypes.shape({
-      results: PropTypes.array,
-      searchQuery: PropTypes.string,
-      url: PropTypes.string,
-      useKeyShortcuts: PropTypes.bool,
-    }),
-    controller: PropTypes.string,
-    bookmarks: PropTypes.shape({ ...Bookmarks.propTypes }),
+  onSearch: PropTypes.func,
+  autocomplete: PropTypes.shape({
+    searchQuery: PropTypes.string,
+    url: PropTypes.string,
+    useKeyShortcuts: PropTypes.bool,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    isDisabled: PropTypes.bool,
   }),
+  controller: PropTypes.string,
+  bookmarks: PropTypes.shape({ ...Bookmarks.propTypes }),
 };
 
 SearchBar.defaultProps = {
-  className: '',
+  className: null,
   searchQuery: '',
   onSearch: noop,
-  error: null,
-  results: [],
-  status: null,
-  resetData: noop,
-  getResults: noop,
-  initialUpdate: noop,
-  useKeyShortcuts: true,
-  data: {
-    autocomplete: {
-      results: [],
-      searchQuery: null,
-      url: null,
-      useKeyShortcuts: true,
-    },
-    controller: null,
-    bookmarks: {},
+  autocomplete: {
+    results: [],
+    searchQuery: null,
+    url: null,
+    useKeyShortcuts: true,
+    isDisabled: false,
   },
+  controller: null,
+  bookmarks: {},
 };
 
 export default SearchBar;

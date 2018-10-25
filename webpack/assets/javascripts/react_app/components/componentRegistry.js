@@ -23,6 +23,8 @@ import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
+import FormAutocomplete from './common/forms/FormAutocomplete';
+import AutoComplete from './AutoComplete';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -112,6 +114,8 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
+  { name: 'FormAutocomplete', type: FormAutocomplete },
+  { name: 'AutoComplete', type: AutoComplete },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,

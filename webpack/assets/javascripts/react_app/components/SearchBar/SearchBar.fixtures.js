@@ -1,16 +1,17 @@
 export const SearchBarProps = {
-  data: {
-    autocomplete: {
-      searchQuery: null,
-      url: 'model/auto_complete_search',
-    },
-    bookmarks: {
-      url: '/api/bookmarks',
-      canCreate: true,
-      documentationUrl: '/doc/url',
-    },
-    controller: 'models',
+  autocomplete: {
+    searchQuery: null,
+    url: 'model/auto_complete_search',
+    isDisabled: false,
+    id: 'search-input-1',
   },
+  bookmarks: {
+    url: '/api/bookmarks',
+    canCreate: true,
+    documentationUrl:
+      'http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching',
+  },
+  controller: 'models',
 };
 
 export const mockResults = [

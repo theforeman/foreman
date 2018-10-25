@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import AutoComplete from '../index';
+import AutoComplete from '../AutoComplete';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
-import { KEYCODES } from '../AutoCompleteConstants';
+import { KEYCODES, TRIGGERS } from '../AutoCompleteConstants';
 import { noop } from '../../../common/helpers';
 
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
@@ -46,13 +46,32 @@ describe('AutoComplete', () => {
       const component = mount(<AutoComplete {...props} />);
       const instance = component.instance();
       const typeahead = instance._typeahead.current.getInstance();
+      const event = { charCode: KEYCODES.FWD_SLASH, preventDefault: noop };
       typeahead.focus = jest.fn();
       expect(typeahead.focus.mock.calls).toHaveLength(0);
-      instance.windowKeyPressHandler({
-        charCode: KEYCODES.FWD_SLASH,
-        preventDefault: noop,
-      });
+      instance.windowKeyPressHandler(event);
       expect(typeahead.focus.mock.calls).toHaveLength(1);
+      component.setProps({ useKeyShortcuts: false });
+      instance.windowKeyPressHandler(event);
+      expect(typeahead.focus.mock.calls).toHaveLength(1);
+    });
+
+    it('pressing "ENTER" while input isn\'t focused should trigger search', () => {
+      const props = getProps();
+      const component = mount(<AutoComplete {...props} />);
+      const instance = component.instance();
+      const event = { charCode: KEYCODES.ENTER, preventDefault: noop };
+      expect(props.handleSearch.mock.calls).toHaveLength(0);
+      instance.windowKeyPressHandler(event);
+      expect(props.handleSearch.mock.calls).toHaveLength(1);
+      // Shouldn't affect the ENTER listener.
+      const falseEvent = new KeyboardEvent('keypress', { keyCode: '999' });
+      instance.windowKeyPressHandler(falseEvent);
+      expect(props.handleSearch.mock.calls).toHaveLength(1);
+      // if useKeyShortcuts is false, the listener shouldn't work.
+      component.setProps({ useKeyShortcuts: false });
+      instance.windowKeyPressHandler(event);
+      expect(props.handleSearch.mock.calls).toHaveLength(1);
     });
 
     it('pressing "ESC" should trigger blur', () => {
@@ -72,6 +91,9 @@ describe('AutoComplete', () => {
       const instance = component.instance();
       expect(props.handleSearch.mock.calls).toHaveLength(0);
       instance.handleKeyDown({ keyCode: KEYCODES.ENTER });
+      expect(props.handleSearch.mock.calls).toHaveLength(1);
+      // Shouldn't affect the ENTER listener.
+      instance.handleKeyDown({ keyCode: '999' });
       expect(props.handleSearch.mock.calls).toHaveLength(1);
     });
 
@@ -124,6 +146,32 @@ describe('AutoComplete', () => {
       component.setProps({ results: props.results });
       mainInput.simulate('focus', { target: { value: '' } });
       expect(component.find('.rbt-menu').exists()).toBeTruthy();
+    });
+
+    it('should clear the input text when the trigger is reset', () => {
+      const props = { ...getProps() };
+      const initialQuery = 'test';
+      const component = mount(
+        <AutoComplete {...props} initialQuery={initialQuery} />
+      );
+      const typeahead = component.instance()._typeahead.current.getInstance();
+      const clearMethod = jest.spyOn(typeahead, 'clear');
+      component.setProps({ trigger: TRIGGERS.RESET });
+      component.instance().componentDidUpdate(props);
+      expect(clearMethod).toHaveBeenCalled();
+    });
+
+    it('Reset trigger should call typeahead clear method', () => {
+      const props = { ...getProps() };
+      const initialQuery = 'test';
+      const component = mount(
+        <AutoComplete {...props} initialQuery={initialQuery} />
+      );
+      const typeahead = component.instance()._typeahead.current.getInstance();
+      const clearMethod = jest.spyOn(typeahead, 'clear');
+      component.setProps({ trigger: TRIGGERS.RESET });
+      component.instance().componentDidUpdate(props);
+      expect(clearMethod).toHaveBeenCalled();
     });
   });
 });

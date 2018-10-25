@@ -54,18 +54,18 @@ exports[`render pageLayout w/search 1`] = `
           <Connect(SearchBar)
             data={
               Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+                "autocomplete": Object {
+                  "id": "search-input-1",
+                  "isDisabled": false,
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
                 },
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
               }
             }
           />
@@ -147,18 +147,18 @@ exports[`render pageLayout w/toastNotifications 1`] = `
           <Connect(SearchBar)
             data={
               Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+                "autocomplete": Object {
+                  "id": "search-input-1",
+                  "isDisabled": false,
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
                 },
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
               }
             }
           />
@@ -234,18 +234,18 @@ exports[`render pageLayout w/toolBar 1`] = `
           <Connect(SearchBar)
             data={
               Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+                "autocomplete": Object {
+                  "id": "search-input-1",
+                  "isDisabled": false,
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
                 },
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
               }
             }
           />
@@ -297,18 +297,18 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
           <Connect(SearchBar)
             data={
               Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+                "autocomplete": Object {
+                  "id": "search-input-1",
+                  "isDisabled": false,
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
                 },
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
               }
             }
           />
@@ -366,18 +366,18 @@ exports[`render pageLayout without breadcrumbs 1`] = `
           <Connect(SearchBar)
             data={
               Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+                "autocomplete": Object {
+                  "id": "search-input-1",
+                  "isDisabled": false,
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
                 },
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "http://www.theforeman.org/manuals/1.19/index.html#4.1.5Searching",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
               }
             }
           />

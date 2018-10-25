@@ -1,229 +1,34 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { TypeAheadSelect } from 'patternfly-react';
-import classNames from 'classnames';
-import Immutable from 'seamless-immutable';
-import { bindMethods, debounceMethods, noop } from '../../common/helpers';
-import AutoCompleteMenu from './components/AutoCompleteMenu';
-import AutoCompleteSearchButton from './components/AutoCompleteSearchButton';
-import AutoCompleteError from './components/AutoCompleteError';
-import AutoCompleteAux from './components/AutoCompleteAux';
-import AutoCompleteFocusShortcut from './components/AutoCompleteFocusShortcut';
-import { STATUS } from '../../constants';
-import { TRIGGERS, KEYCODES } from './AutoCompleteConstants';
-import { translate as __ } from '../../common/I18n';
-import './auto-complete.scss';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from './AutoCompleteActions';
+import reducer from './AutoCompleteReducer';
+import AutoComplete from './AutoComplete';
+import {
+  selectAutocompleteError,
+  selectAutocompleteResults,
+  selectAutocompleteSearchQuery,
+  selectAutocompleteStatus,
+  selectAutocompleteUrl,
+  selectAutocompleteIsDisabled,
+  selectAutocompleteTrigger,
+} from './AutoCompleteSelectors';
 
-class AutoComplete extends React.Component {
-  constructor(props) {
-    super(props);
-    bindMethods(this, [
-      'handleClear',
-      'handleInputChange',
-      'handleResultsChange',
-      'handleInputFocus',
-      'getResults',
-      'windowKeyPressHandler',
-      'unableHTMLAutocomplete',
-      'handleKeyDown',
-    ]);
-    this._typeahead = React.createRef();
-    debounceMethods(this, 500, ['handleLoading']);
-  }
+const mapStateToProps = (state, { id }) => ({
+  id,
+  error: selectAutocompleteError(state, id),
+  results: selectAutocompleteResults(state, id),
+  searchQuery: selectAutocompleteSearchQuery(state, id),
+  status: selectAutocompleteStatus(state, id),
+  url: selectAutocompleteUrl(state, id),
+  isDisabled: selectAutocompleteIsDisabled(state, id),
+  trigger: selectAutocompleteTrigger(state, id),
+});
 
-  componentDidMount() {
-    window.addEventListener('keypress', this.windowKeyPressHandler);
-    const { controller, initialQuery, initialUpdate } = this.props;
-    initialUpdate(initialQuery, controller);
-    this.unableHTMLAutocomplete();
-  }
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-  windowKeyPressHandler(e) {
-    if (!this.props.useKeyShortcuts) {
-      return;
-    }
-    const instance = this._typeahead.current.getInstance();
-    switch (e.charCode) {
-      case KEYCODES.ENTER: {
-        this.props.handleSearch();
-        break;
-      }
-      case KEYCODES.FWD_SLASH:
-      case KEYCODES.BACK_SLASH: {
-        if (!instance.state.showMenu) {
-          e.preventDefault();
-          instance.focus();
-        }
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
+export const reducers = { autocomplete: reducer };
 
-  // TODO: remove this HACK when react-bootstrap-typeahead
-  // will support autocomplete = 'off' instead of 'nope' in inputProps prop.
-  unableHTMLAutocomplete() {
-    const input =
-      this._typeahead.current &&
-      this._typeahead.current.getInstance().getInput();
-    if (input) {
-      input.autocomplete = 'off';
-    }
-  }
-
-  getResults(searchQuery, trigger) {
-    const { getResults, controller, url } = this.props;
-    getResults({
-      url,
-      searchQuery,
-      controller,
-      trigger,
-    });
-  }
-
-  handleInputFocus({ target: { value } }) {
-    if (this.props.results.length === 0) {
-      this.getResults(value, TRIGGERS.INPUT_FOCUS);
-    }
-  }
-
-  handleInputChange(query) {
-    this.getResults(query, TRIGGERS.INPUT_CHANGE);
-  }
-
-  // Gets the first result from an array of selected results.
-  handleResultsChange({ 0: result }) {
-    if (!result) {
-      return;
-    }
-    this.getResults(result, TRIGGERS.ITEM_SELECT);
-    /**
-     *  HACK: I had no choice but to call to an inner function,
-     * due to lack of design in react-bootstrap-typeahead.
-     */
-    this._typeahead.current.getInstance()._showMenu();
-  }
-
-  handleKeyDown({ keyCode }) {
-    const instance = this._typeahead.current.getInstance();
-    switch (keyCode) {
-      case KEYCODES.ENTER: {
-        if (!instance.state.activeItem) {
-          this.props.handleSearch();
-        }
-        break;
-      }
-      case KEYCODES.ESC: {
-        instance.blur();
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-  }
-
-  handleClear() {
-    this._typeahead.current.getInstance().clear();
-    this.getResults('', TRIGGERS.INPUT_CLEAR);
-  }
-
-  handleLoading() {
-    return this.props.status === STATUS.PENDING;
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keypress', this.windowKeyPressHandler);
-    const { resetData, controller } = this.props;
-    resetData(controller);
-  }
-
-  render() {
-    const {
-      emptyLabel,
-      error,
-      initialQuery,
-      inputProps,
-      placeholder,
-      results,
-      useKeyShortcuts,
-    } = this.props;
-    /** Using a 3rd party library (react-bootstrap-typeahead) that expects a mutable array. */
-    const options = Immutable.isImmutable(results)
-      ? results.asMutable()
-      : results;
-    return (
-      <div>
-        <TypeAheadSelect
-          ref={this._typeahead}
-          defaultInputValue={initialQuery}
-          options={options}
-          isLoading={this.handleLoading()}
-          onInputChange={this.handleInputChange}
-          onChange={this.handleResultsChange}
-          onFocus={this.handleInputFocus}
-          onKeyDown={this.handleKeyDown}
-          emptyLabel={emptyLabel}
-          placeholder={__(placeholder)}
-          renderMenu={(r, menuProps) => (
-            <AutoCompleteMenu {...{ results: r, menuProps }} />
-          )}
-          inputProps={{
-            className: classNames(
-              'search-input',
-              useKeyShortcuts ? 'use-shortcuts' : ''
-            ),
-            spellCheck: 'false',
-            ...inputProps,
-          }}
-        />
-        <AutoCompleteAux onClear={this.handleClear} />
-        <AutoCompleteFocusShortcut useKeyShortcuts={useKeyShortcuts} />
-        <AutoCompleteError error={error} />
-      </div>
-    );
-  }
-}
-
-AutoComplete.propTypes = {
-  results: PropTypes.array,
-  searchQuery: PropTypes.string,
-  initialQuery: PropTypes.string,
-  inputProps: PropTypes.object,
-  status: PropTypes.string,
-  error: PropTypes.string,
-  controller: PropTypes.string,
-  handleSearch: PropTypes.func,
-  getResults: PropTypes.func,
-  resetData: PropTypes.func,
-  initialUpdate: PropTypes.func,
-  useKeyShortcuts: PropTypes.bool,
-  placeholder: PropTypes.string,
-  emptyLabel: PropTypes.string,
-  url: PropTypes.string,
-};
-
-AutoComplete.defaultProps = {
-  results: [],
-  searchQuery: '',
-  initialQuery: '',
-  inputProps: {},
-  status: null,
-  error: null,
-  controller: null,
-  handleSearch: noop,
-  getResults: noop,
-  resetData: noop,
-  initialUpdate: noop,
-  useKeyShortcuts: true,
-  placeholder: 'Filter ...',
-  emptyLabel: null,
-  url: null,
-};
-
-AutoComplete.SearchButton = AutoCompleteSearchButton;
-AutoComplete.Error = AutoCompleteError;
-
-export default AutoComplete;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AutoComplete);

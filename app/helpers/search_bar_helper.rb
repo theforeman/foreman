@@ -5,7 +5,8 @@ module SearchBarHelper
     url: send("auto_complete_search_#{auto_complete_controller_name}_path"),
     search_query: params[:search],
     use_bookmarks: true,
-    use_key_shortcuts: true
+    use_key_shortcuts: true,
+    disabled: false
   )
     bookmarks = {}
     if use_bookmarks
@@ -15,14 +16,19 @@ module SearchBarHelper
         documentationUrl: documentation_url("4.1.5Searching")
       }
     end
-    mount_react_component('SearchBar', "##{id}", {
-      controller: controller,
-      autocomplete: {
-        searchQuery: search_query,
-        url: url,
-        useKeyShortcuts: use_key_shortcuts
-      },
-      bookmarks: bookmarks
+    mount_react_component('ComponentWrapper', "##{id}", {
+      component: 'SearchBar',
+      componentProps: {
+        controller: controller,
+        autocomplete: {
+          id: id,
+          searchQuery: search_query,
+          url: url,
+          useKeyShortcuts: use_key_shortcuts,
+          isDisabled: disabled
+        },
+        bookmarks: bookmarks
+      }
     }.to_json)
   end
 

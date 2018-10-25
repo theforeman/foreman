@@ -1,0 +1,42 @@
+@import "../AutoComplete/auto-complete.scss";
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/_variables';
+
+.search-bar {
+  .autocomplete-aux {
+    right: 108px;
+    // Keeps in position when screen size is xs and search button shrinks.
+    @media screen and (max-width: $screen-sm-max) {
+      right: 65px;
+    }
+  }
+
+  .autocomplete-focus-shortcut {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    padding: 0 4px;
+    user-select: none;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    border-radius: 5px;
+    width: 15px;
+    height: 19px;
+    text-align: center;
+    line-height: 17px;
+    border: 1px solid rgba($color-pf-black-600, 0.5);
+    color: $color-pf-black-600;
+
+    .hide {
+      display: none;
+    }
+  }
+
+  .autocomplete-search-btn-text {
+    display: inline;
+  }
+
+  .search-input.use-shortcuts {
+    padding-left: 21px;
+  }
+}

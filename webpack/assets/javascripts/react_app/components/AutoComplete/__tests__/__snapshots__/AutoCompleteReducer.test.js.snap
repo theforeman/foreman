@@ -1,77 +1,89 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_DISABLED_CHANGE 1`] = `
+Object {
+  "search-input": Object {
+    "isDisabled": true,
+  },
+}
+`;
+
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_FAILURE 1`] = `
 Object {
-  "controller": null,
-  "error": "oops",
-  "results": Array [],
-  "searchQuery": "",
-  "status": "ERROR",
-  "trigger": null,
+  "search-input": Object {
+    "error": "oops",
+    "results": Array [],
+    "status": "ERROR",
+  },
 }
 `;
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_REQUEST 1`] = `
 Object {
-  "controller": "models",
-  "error": null,
-  "results": Array [],
-  "searchQuery": "",
-  "status": "PENDING",
-  "trigger": "INPUT_CHANGE",
+  "search-input": Object {
+    "controller": "models",
+    "error": null,
+    "searchQuery": "",
+    "status": "PENDING",
+    "trigger": "INPUT_CHANGE",
+    "url": undefined,
+  },
 }
 `;
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_RESET 1`] = `
 Object {
-  "controller": null,
-  "error": null,
-  "results": Array [],
-  "searchQuery": "",
-  "status": null,
-  "trigger": null,
+  "search-input": Object {
+    "controller": null,
+    "error": null,
+    "isDisabled": false,
+    "results": Array [],
+    "searchQuery": null,
+    "status": null,
+    "trigger": null,
+    "url": null,
+  },
 }
 `;
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_SUCCESS 1`] = `
 Object {
-  "controller": "models",
-  "error": null,
-  "results": Array [
-    Object {
-      "category": "category",
-      "label": "some results",
-    },
-  ],
-  "searchQuery": "",
-  "status": "RESOLVED",
-  "trigger": "INPUT_CHANGE",
+  "search-input": Object {
+    "controller": "models",
+    "error": null,
+    "isDisabled": false,
+    "results": Array [
+      Object {
+        "category": "category",
+        "label": "some results",
+      },
+    ],
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "INPUT_CHANGE",
+    "url": "models/auto_complete_search?search=",
+  },
 }
 `;
 
-exports[`AutoComplete reducer should return the initial state 1`] = `
-Object {
-  "controller": null,
-  "error": null,
-  "results": Array [],
-  "searchQuery": "",
-  "status": null,
-  "trigger": null,
-}
-`;
+exports[`AutoComplete reducer should return the initial state 1`] = `Object {}`;
 
 exports[`AutoComplete reducer should update state with initial data 1`] = `
 Object {
-  "controller": "models",
-  "error": null,
-  "results": Array [
-    Object {
-      "category": "category",
-      "label": "some results",
-    },
-  ],
-  "searchQuery": "",
-  "status": "RESOLVED",
-  "trigger": "COMPONENT_DID_MOUNT",
+  "search-input": Object {
+    "controller": "models",
+    "error": undefined,
+    "isDisabled": false,
+    "results": Array [
+      Object {
+        "category": "category",
+        "label": "some results",
+      },
+    ],
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+    "url": undefined,
+  },
 }
 `;

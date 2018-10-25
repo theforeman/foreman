@@ -12,6 +12,8 @@ export const results = [{ label: 'some results', category: 'category' }];
 export const APIError = [{ error }];
 export const APISuccessMock = { data: results };
 export const APIFailMock = { data: APIError };
+export const id = 'search-input';
+export const isDisabled = false;
 
 export const AutoCompleteProps = {
   controller,
@@ -19,7 +21,9 @@ export const AutoCompleteProps = {
   initialQuery,
   status,
   results,
-  url,
+  initialUrl: url,
+  id,
+  isDisabled,
 };
 
 export const initialState = {
@@ -29,6 +33,9 @@ export const initialState = {
   searchQuery: '',
   status: null,
   trigger: null,
+  url: null,
+  id,
+  isDisabled,
 };
 
 export const initialValues = {
@@ -37,6 +44,9 @@ export const initialValues = {
   trigger: TRIGGERS.COMPONENT_DID_MOUNT,
   results,
   status: STATUS.RESOLVED,
+  url: undefined,
+  id,
+  isDisabled,
 };
 
 export const request = {
@@ -45,6 +55,7 @@ export const request = {
   searchQuery,
   status: STATUS.PENDING,
   trigger,
+  id,
 };
 
 export const success = {
@@ -54,10 +65,19 @@ export const success = {
   searchQuery,
   controller,
   trigger,
+  url,
+  id,
+  isDisabled,
 };
 
 export const failure = {
   error,
   results: [],
   status: STATUS.ERROR,
+  id,
+};
+
+export const disabledChange = {
+  isDisabled: true,
+  id,
 };
