@@ -54,7 +54,7 @@ module LayoutHelper
   def layout_data
     { menu: fetch_menus,
       logo: image_path("header_logo.svg", :class => "header-logo"),
-      notification_url: notification_recipients_path,
+      notification_url: main_app.notification_recipients_path,
       user: fetch_user, brand: 'foreman',
       taxonomies: taxonomies_booleans, root: main_app.root_path,
       locations: fetch_locations, orgs: fetch_organizations }
