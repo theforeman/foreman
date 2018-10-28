@@ -274,7 +274,7 @@ class UsergroupTest < ActiveSupport::TestCase
         :user,
         :auth_source => @external.auth_source,
         :login => 'external_user'
-        )
+      )
       internal_user = FactoryBot.create(:user)
       LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
       @usergroup.users << internal_user

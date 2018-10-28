@@ -17,7 +17,7 @@ module TaxonomiesBaseTest
         assert taxonomy1 = taxonomy_class.create!(
           :name => "Department A",
           :parent_id => taxonomies(:"#{taxonomy_name}1").id
-                                                 )
+        )
         assert taxonomy2 = taxonomy_class.create!(
           :name => "Department A",
           :parent_id => taxonomies(:"#{taxonomy_name}2").id

@@ -13,7 +13,7 @@ module UINotifications
           subject: subject,
           audience: audience,
           notification_blueprint: blueprint
-          )
+        )
       end
 
       def update_notifications

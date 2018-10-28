@@ -14,14 +14,18 @@ class ZTPTest < ActiveSupport::TestCase
           :medium => media(:vrp5),
           :puppet_proxy => smart_proxies(:puppetmaster),
           :ptable => FactoryBot.create(:ptable, :operatingsystem_ids => [operatingsystems(:vrp5).id])
-        )
+  )
     medium_provider = Foreman::Plugin.medium_providers.find_provider h
     result = h.os.ztp_arguments h
-    assert_equal({
-                   :vendor => "huawei",
-                   :firmware => {
-                     :core => "ztp.cfg/images/#{medium_provider.unique_id}/firmware.cc",
-                     :web => "ztp.cfg/images/#{medium_provider.unique_id}/web.7z"}
-                 }, result)
+    assert_equal(
+      {
+        :vendor => "huawei",
+        :firmware => {
+          :core => "ztp.cfg/images/#{medium_provider.unique_id}/firmware.cc",
+          :web => "ztp.cfg/images/#{medium_provider.unique_id}/web.7z"
+        }
+      },
+      result
+    )
   end
 end

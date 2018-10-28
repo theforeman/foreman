@@ -211,7 +211,7 @@ module FormHelper
                              :path        => path,
                              :name        => "#{f.object_name}[#{attr}]"
                            )
-      ).html_safe
+                          ).html_safe
     end
   end
 

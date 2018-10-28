@@ -88,7 +88,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
                                  :override => true,
                                  :locations => [taxonomies(:location2)],
                                  :organizations => [taxonomies(:organization2)]
-                                 )
+                                )
       put :update, params: { :id => filter.to_param, :filter => { :override => false } }
       assert_response :success
       filter.reload

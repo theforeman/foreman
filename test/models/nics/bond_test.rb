@@ -87,7 +87,7 @@ class BondTest < ActiveSupport::TestCase
         host.interfaces << FactoryBot.build(:nic_managed,
                                               :identifier => device,
                                               :mac => "00:53:67:ab:dd:0#{i}"
-                                             )
+                                            )
       end
       assert_equal ['00:53:67:ab:dd:00', '00:53:67:ab:dd:01', '00:53:67:ab:dd:02'], bond.children_mac_addresses
     end

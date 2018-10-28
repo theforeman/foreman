@@ -270,7 +270,7 @@ module ComputeResourcesVmsHelper
         :title => _("Associate VM to a Foreman host"),
         :method => :put,
         :class => "btn btn-default"
-    )
+      )
   end
 
   def vm_console_action(vm)
