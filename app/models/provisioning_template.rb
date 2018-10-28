@@ -211,7 +211,7 @@ class ProvisioningTemplate < Template
     ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).find_each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
-        if hostgroup&.operatingsystem && hostgroup.architecture && hostgroup.medium
+        if hostgroup&.operatingsystem && hostgroup&.architecture && hostgroup&.medium
           medium_provider = Foreman::Plugin.medium_providers.find_provider(hostgroup)
           combos << {
             :hostgroup => hostgroup,

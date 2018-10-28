@@ -116,13 +116,6 @@ Lint/ParenthesesAsGroupedExpression:
   Enabled: false
 
 # Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
-# Whitelist: present?, blank?, presence, try, try!
-Lint/SafeNavigationConsistency:
-  Enabled: false
-
-# Offense count: 2
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
