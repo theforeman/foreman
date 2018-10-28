@@ -22,8 +22,8 @@ class PageletManagerTest < ActiveSupport::TestCase
     manager.add_pagelet("test", :point, :partial => "tests")
     manager.add_pagelet("test", :point, :partial => "tests")
 
-    assert_equal 100, manager.pagelets_at("test", :point).sort.first.priority
-    assert_equal 200, manager.pagelets_at("test", :point).sort.last.priority
+    assert_equal 100, manager.pagelets_at("test", :point).min.priority
+    assert_equal 200, manager.pagelets_at("test", :point).max.priority
   end
 
   test '#add_pagelet should raise error when partial is missing' do
