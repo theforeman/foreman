@@ -249,11 +249,6 @@ Naming/UncommunicativeMethodParamName:
 Naming/VariableNumber:
   Enabled: false
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Performance/UnneededSort:
-  Enabled: false
-
 # Offense count: 196
 # Cop supports --auto-correct.
 # Configuration parameters: Include.
