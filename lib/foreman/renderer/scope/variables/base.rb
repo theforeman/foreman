@@ -58,7 +58,7 @@ module Foreman
             if supports_image && use_image
               @install_type     = "flash_install"
               # We have an individual override for the host's image file
-              @archive_location = image_file ? image_file : default_image_file
+              @archive_location = image_file || default_image_file
             else
               @install_type = "initial_install"
               @system_type  = "standalone"

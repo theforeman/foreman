@@ -193,7 +193,7 @@ module FormHelper
       html += content_tag(:div, :style => "margin-bottom: 10px") {_("Choose a new file:")}
     end
     field(f, attr, options) do
-      (html ? html : " ") + (f.file_field attr, options)
+      (html || " ") + (f.file_field attr, options)
     end
   end
 

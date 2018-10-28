@@ -87,7 +87,7 @@ module Foreman
         raise "Unexpected log level #{level}, expected one of #{::Logging::LEVELS.keys}"
       end
       # send class, message and stack as structured fields in addition to message string
-      backtrace = exception.backtrace ? exception.backtrace : []
+      backtrace = exception.backtrace || []
       extra_fields = {
         exception_class: exception.class.name,
         exception_message: exception.message,
