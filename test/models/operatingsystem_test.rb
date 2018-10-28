@@ -295,7 +295,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
       @os = operatingsystems(:centos5_3)
       @os.update(:os_default_templates_attributes =>
                                [{ :provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id }]
-      )
+                )
     end
 
     test 'should create os default templates' do

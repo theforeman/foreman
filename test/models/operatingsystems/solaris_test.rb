@@ -15,7 +15,7 @@ class SolarisTest < ActiveSupport::TestCase
           :medium => media(:solaris10),
           :puppet_proxy => smart_proxies(:puppetmaster),
           :ptable => FactoryBot.create(:ptable, :operatingsystem_ids => [operatingsystems(:solaris10).id])
-        )
+  )
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01").returns("2.3.4.5").once
     Resolv::DNS.any_instance.stubs(:getaddress).with("brsla01.yourdomain.net").returns("2.3.4.5").once
     result = h.os.jumpstart_params h, h.model.vendor_class

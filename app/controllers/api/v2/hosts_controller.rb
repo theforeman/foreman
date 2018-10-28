@@ -204,7 +204,9 @@ status type, can be one of
 * configuration
 * build
 EOS
+  # rubocop:disable Layout/ClosingParenthesisIndentation
 )
+      # rubocop:enable Layout/ClosingParenthesisIndentation
       description N_('Returns string representing a host status of a given type')
       def get_status
         case params[:type]

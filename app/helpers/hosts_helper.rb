@@ -330,7 +330,7 @@ module HostsHelper
                                                :target => '#review_before_build',
                                                :url    => review_before_build_host_path(:id => host)
                                 }
-          )
+                              )
         end
       ),
       if host.supports_power?
@@ -463,7 +463,7 @@ module HostsHelper
     form.submit(_("Build"),
                 :class => "btn btn-#{status} submit",
                 :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
-    )
+               )
   end
 
   def build_error_link(type, id)

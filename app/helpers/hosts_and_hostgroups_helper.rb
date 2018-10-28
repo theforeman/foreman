@@ -38,7 +38,7 @@ module HostsAndHostgroupsHelper
                   :user_set => user_set?(:realm_id)
                 },
                 { :help_inline => :indicator }
-            ).html_safe
+              ).html_safe
   end
 
   def multiple_filter(hosts)

@@ -964,10 +964,13 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       )
     end
     let(:compute_resource) do
-      cr = FactoryBot.create(:compute_resource, :vmware, :uuid => 'Solutions',
-                             :location_ids => [ basic_attrs[:location_id] ],
-                             :organization_ids => [ basic_attrs[:organization_id] ]
-                            )
+      cr = FactoryBot.create(
+        :compute_resource,
+        :vmware,
+        :uuid => 'Solutions',
+        :location_ids => [ basic_attrs[:location_id] ],
+        :organization_ids => [ basic_attrs[:organization_id] ]
+      )
       ComputeResource.find_by_id(cr.id)
     end
     let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
