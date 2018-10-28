@@ -40,7 +40,7 @@ module BasicRestResponseTest
     def basic_pagination_per_page_test
       context 'GET #index' do
         setup do
-          @entries_per_page = Setting[:entries_per_page] ? Setting[:entries_per_page] : 5
+          @entries_per_page = Setting[:entries_per_page] || 5
           FactoryBot.create_list(get_factory_name, @entries_per_page + 2, *@factory_options)
         end
 

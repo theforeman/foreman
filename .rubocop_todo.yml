@@ -547,8 +547,3 @@ Style/SymbolArray:
 # IgnoredMethods: respond_to, define_method
 Style/SymbolProc:
   Enabled: false
-
-# Offense count: 5
-# Cop supports --auto-correct.
-Style/UnneededCondition:
-  Enabled: false

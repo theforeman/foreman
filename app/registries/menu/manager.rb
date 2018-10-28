@@ -42,7 +42,7 @@ module Menu
         menu_title = items.map do |submenu|
           submenu.children.find { |item| item.name == resource }&.caption
         end.compact.first
-        menu_title ? menu_title : resource.to_s.pluralize.titleize
+        menu_title || resource.to_s.pluralize.titleize
       end
     end
 
