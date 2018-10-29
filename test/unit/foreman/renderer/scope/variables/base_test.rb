@@ -27,6 +27,16 @@ class BaseVariablesTest < ActiveSupport::TestCase
       assert_equal scope.instance_variable_get('@preseed_path'), uri.path
       assert_equal scope.instance_variable_get('@preseed_server'), uri.select(:host, :port).join(':')
     end
+
+    test "sets @additional_media from medium provider" do
+      additional_media = [{name: 'SaltStack', url: 'http://ppa.launchpad.net/saltstack/salt/ubuntu', gpgkey: 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x4759FA960E27C0A6'}]
+
+      host = FactoryBot.build_stubbed(:host, :managed, :debian)
+      MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
+
+      scope = @scope.new(host: host, source: @source)
+      assert_equal scope.instance_variable_get('@additional_media'), additional_media
+    end
   end
 
   describe "yast_attributes" do
@@ -94,23 +104,26 @@ class BaseVariablesTest < ActiveSupport::TestCase
       assert_equal scope.instance_variable_get('@mediapath'), "url --url #{media}"
     end
 
-    test "sets @repos from operatingsystem" do
-      repos = [{name: 'EPEL', baseurl: 'http://yum.example.com/epel'}]
+    test "sets @additional_media from medium provider" do
+      additional_media = [{name: 'EPEL', url: 'http://yum.example.com/epel'}]
+      repo = 'repo --name "EPEL" --baseurl "http://yum.example.com/epel"'
+
       host = FactoryBot.build_stubbed(:host, :managed, :redhat)
-      os = host.operatingsystem
-      os.stubs(:repos).returns(repos)
+      MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
 
       scope = @scope.new(host: host, source: @source)
-      assert_equal scope.instance_variable_get('@repos'), repos
+      assert_includes scope.instance_variable_get('@additional_media'), repo
     end
 
-    test "sets @repos from medium provider" do
-      repos = [{name: 'EPEL', baseurl: 'http://yum.example.com/epel'}]
+    test "sets @additional_media from medium provider installed" do
+      additional_media = [{name: 'EPEL', url: 'http://yum.example.com/epel', install: true}]
+      repo = 'repo --name "EPEL" --baseurl "http://yum.example.com/epel" --install'
+
       host = FactoryBot.build_stubbed(:host, :managed, :redhat)
-      MediumProviders::Default.any_instance.stubs(:additional_media).returns(repos)
+      MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
 
       scope = @scope.new(host: host, source: @source)
-      assert_equal scope.instance_variable_get('@repos'), repos
+      assert_includes scope.instance_variable_get('@additional_media'), repo
     end
 
     describe "@dynamic" do

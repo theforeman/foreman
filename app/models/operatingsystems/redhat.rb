@@ -16,6 +16,15 @@ class Redhat < Operatingsystem
     end
   end
 
+  def additional_media(medium_provider)
+    additional_media = []
+    medium_provider.additional_media.each do |medium|
+      next unless medium && medium[:name] && medium[:url]
+      additional_media << "repo --name \"#{medium[:name]}\" --baseurl \"#{medium[:url]}\"#{medium[:install] ? ' --install' : ''}"
+    end
+    additional_media
+  end
+
   def available_loaders
     self.class.all_loaders
   end

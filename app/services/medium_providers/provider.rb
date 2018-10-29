@@ -24,10 +24,16 @@ module MediumProviders
       throw "medium_uri is not implemented for #{self.class.name}"
     end
 
-    # A medium provider can optionally return an array of additional software
-    # URI's to enable during installation, if the template supports it. For
-    # example, for a yum repo to give to Anaconda:
-    #   [{name: 'awesome', baseurl: 'http://yum.example.com/repo/'}]
+    # A medium provider can optionally return an array of hashes for additional
+    # software repos to enable during installation, if the template supports
+    # it. The hash keys:
+    #
+    #   name:    Repo name, no spaces
+    #   comment: Repo comment
+    #   url:     Repo URL
+    #   gpgkey:  GPG key URL
+    #   install: Install repo on system for after boot
+    #
     def additional_media
       []
     end
