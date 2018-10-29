@@ -37,8 +37,10 @@ module Api
       param_group :report, :as => :create
 
       def create
-        @report = resource_class.import(params.to_unsafe_h[:report], detected_proxy.try(:id))
-        process_response @report.errors.empty?
+        Audited.without_auditing do
+          @report = resource_class.import(params.to_unsafe_h[:report], detected_proxy.try(:id))
+          process_response @report.errors.empty?
+        end
       rescue ::Foreman::Exception => e
         render_exception(e, :status => :unprocessable_entity)
       end
@@ -47,7 +49,9 @@ module Api
       param :id, String, :required => true
 
       def destroy
-        process_response @report.destroy
+        Audited.without_auditing do
+          process_response @report.destroy
+        end
       end
 
       api :GET, "/hosts/:host_id/reports/last", N_("Show the last report for a host")

@@ -304,9 +304,11 @@ Return the host's compute attributes that can be used to create a clone of this 
       param :type, String,     :desc => N_("optional: the STI type of host to create")
 
       def facts
-        @host = detect_host_type.import_host params[:name], params[:certname]
-        state = @host.import_facts(params[:facts].to_unsafe_h, detected_proxy)
-        process_response state
+        Audited.without_auditing do
+          @host = detect_host_type.import_host params[:name], params[:certname]
+          state = @host.import_facts(params[:facts].to_unsafe_h, detected_proxy)
+          process_response state
+        end
       rescue ::Foreman::Exception => e
         render_exception(e, :status => :unprocessable_entity)
       end
