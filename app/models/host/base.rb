@@ -473,7 +473,7 @@ module Host
 
       if iface.new_record? || iface.changed?
         logger.debug "Saving #{name} NIC for host #{self.name}"
-        result = iface.save
+        result = iface.save_without_auditing
 
         unless result
           logger.warn "Saving #{name} NIC for host #{self.name} failed, skipping because:"
