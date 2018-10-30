@@ -74,7 +74,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal loc, r.locations.first
   end
 
-  test "should override attributes when clonning" do
+  test "should override attributes when cloning" do
     new_name = "New Role"
     loc = taxonomies(:location1)
     org = taxonomies(:organization1)
@@ -95,7 +95,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal new_desc, cloned_role.description
   end
 
-  test "should override organizations and leave locations alone when clonning" do
+  test "should override organizations and leave locations alone when cloning" do
     new_name = "New Role"
     loc = taxonomies(:location1)
     org = taxonomies(:organization1)
@@ -115,7 +115,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     assert_equal new_desc, cloned_role.description
   end
 
-  test "should not have any taxonomies when clonning" do
+  test "should not have any taxonomies when cloning" do
     new_name = "New Role"
     loc = taxonomies(:location1)
     org = taxonomies(:organization1)

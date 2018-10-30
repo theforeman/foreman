@@ -44,9 +44,11 @@ class RolesController < ApplicationController
   end
 
   def clone
-    @cloned_role      = true
-    @original_role_id = @role.id
+    @cloned_role = true
+    @original_role = @role
     @role = Role.new
+    @role.locations = @original_role.locations
+    @role.organizations = @original_role.organizations
     render :action => :new
   end
 
