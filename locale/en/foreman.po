@@ -2893,6 +2893,9 @@ msgstr "Value"
 msgid "Facts"
 msgstr ""
 
+msgid "Facts Values"
+msgstr ""
+
 msgid "Fail on Mismatch"
 msgstr ""
 
@@ -10855,9 +10858,6 @@ msgid "valid"
 msgstr ""
 
 msgid "valid or pending"
-msgstr ""
-
-msgid "values"
 msgstr ""
 
 msgid "view last report details"
