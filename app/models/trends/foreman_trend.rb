@@ -33,6 +33,7 @@ class ForemanTrend < Trend
   end
 
   def find_hosts
+    return Host::Managed.none unless trendable
     trendable.hosts.order(:name)
   end
 end
