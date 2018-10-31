@@ -106,24 +106,12 @@ class BaseVariablesTest < ActiveSupport::TestCase
 
     test "sets @additional_media from medium provider" do
       additional_media = [{name: 'EPEL', url: 'http://yum.example.com/epel'}]
-      repo = 'repo --name "EPEL" --baseurl "http://yum.example.com/epel"'
 
       host = FactoryBot.build_stubbed(:host, :managed, :redhat)
       MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
 
       scope = @scope.new(host: host, source: @source)
-      assert_includes scope.instance_variable_get('@additional_media'), repo
-    end
-
-    test "sets @additional_media from medium provider installed" do
-      additional_media = [{name: 'EPEL', url: 'http://yum.example.com/epel', install: true}]
-      repo = 'repo --name "EPEL" --baseurl "http://yum.example.com/epel" --install'
-
-      host = FactoryBot.build_stubbed(:host, :managed, :redhat)
-      MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
-
-      scope = @scope.new(host: host, source: @source)
-      assert_includes scope.instance_variable_get('@additional_media'), repo
+      assert_equal scope.instance_variable_get('@additional_media'), additional_media
     end
 
     describe "@dynamic" do

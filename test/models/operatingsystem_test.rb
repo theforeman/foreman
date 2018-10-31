@@ -276,6 +276,15 @@ class OperatingsystemTest < ActiveSupport::TestCase
     assert_equal "Grub UEFI", os.preferred_loader
   end
 
+  test "additional_media returns media from medium provider" do
+    os = FactoryBot.create(:operatingsystem, :with_associations, :with_pxelinux)
+    additional_media = [{name: 'EPEL', url: 'http://yum.example.com/epel'}]
+    MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
+    provider = MediumProviders::Default.new(FactoryBot.build(:host))
+
+    assert_equal os.additional_media(provider), additional_media
+  end
+
   context 'os default templates' do
     setup do
       @template_kind = FactoryBot.create(:template_kind)
