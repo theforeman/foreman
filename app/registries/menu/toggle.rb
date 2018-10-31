@@ -8,11 +8,20 @@ module Menu
     end
 
     def to_hash
-      {type: :sub_menu, name: @caption, icon: @icon, children: children.map(&:to_hash)}
+      {type: :sub_menu, name: @caption, icon: @icon, children: children_hash}
+    end
+
+    def children_hash
+      list = authorized_children
+      list.reject! do |child|
+        index = list.index(child)
+        child.is_a?(Menu::Divider) && (index == list.size - 1 || list[index + 1].is_a?(Menu::Divider))
+      end
+      list.map(&:to_hash)
     end
 
     def authorized?
-      true
+      children_hash.any?
     end
   end
 end

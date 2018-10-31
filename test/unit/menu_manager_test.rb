@@ -34,6 +34,7 @@ class MenuManagerTest < ActiveSupport::TestCase
 
   def test_hashed_menu
     create_nested_menu
+    Menu::Item.any_instance.stubs(:authorized?).returns(true)
     items = Menu::Manager.to_hash(:nested_menu)
     assert_equal menu_hash, items
   end
