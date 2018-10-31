@@ -20,6 +20,33 @@ class PxeLoaderSuggestionTest < ActiveSupport::TestCase
     end
   end
 
+  context 'host with os param' do
+    def setup
+      @os = FactoryBot.create(:operatingsystem)
+      @os.os_parameters.create!(:name => "pxe-loader", :value => "PXELinux A")
+      @host = FactoryBot.create(:host, operatingsystem: @os)
+    end
+
+    test 'host suggests default PXEloader for OS' do
+      @host.suggest_default_pxe_loader
+      assert_equal 'PXELinux A', @host.pxe_loader
+    end
+  end
+
+  context 'host with model param' do
+    def setup
+      @host = FactoryBot.create(:host)
+      @os = FactoryBot.create(:operatingsystem)
+      @os.os_parameters.create!(:name => "pxe-loader", :value => "PXELinux A")
+    end
+
+    test 'host suggests default PXEloader for OS' do
+      @host.operatingsystem = @os
+      @host.suggest_default_pxe_loader
+      assert_equal 'PXELinux A', @host.pxe_loader
+    end
+  end
+
   context 'hostgroup' do
     def setup
       @hostgroup = FactoryBot.create(:hostgroup)
