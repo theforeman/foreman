@@ -74,7 +74,7 @@ module Foreman
             @arch      = architecture_name
             @osver     = major.try(:to_i)
             @mediapath = mediumpath(@medium_provider) if @medium_provider
-            @additional_media = additional_media(@medium_provider) if @medium_provider
+            @additional_media = @medium_provider.nil? [] : additional_media(@medium_provider)
           end
 
           def preseed_attributes

@@ -17,4 +17,15 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
     result_path = provider.interpolate_vars('http://foo.org/$version')
     assert result_path, 'http://foo.org/4'
   end
+
+  test 'returns additional_media from host params' do
+    additional_media = [{'name' => 'EPEL', 'url' => 'http://yum.example.com/epel'}]
+    host = FactoryBot.build_stubbed(:host, :managed, :redhat)
+    FactoryBot.create(:host_parameter,
+                      host: host,
+                      name: 'additional_media',
+                      value: additional_media.to_json)
+
+    assert_equal MediumProviders::Default.new(host).additional_media, additional_media
+  end
 end

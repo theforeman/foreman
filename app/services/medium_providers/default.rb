@@ -1,5 +1,7 @@
 module MediumProviders
   class Default < Provider
+    delegate :logger, :to => :Rails
+
     def validate
       errors = []
       os = entity.try(:operatingsystem)
@@ -35,6 +37,11 @@ module MediumProviders
       entity.respond_to?(:medium) && errors.empty?
     end
 
+    def additional_media
+      return [] unless entity.respond_to?(:host_param) && (media = entity.host_param('additional_media'))
+      parse_media(media) || []
+    end
+
     private
 
     def medium_vars_to_uri(url, arch, os, &block)
@@ -66,6 +73,24 @@ module MediumProviders
         version: os.minor.blank? ? os.major : [os.major, os.minor].compact.join('.'),
         release: os.release_name.presence || ''
       }
+    end
+
+    def parse_media(media)
+      media = JSON.parse(media)
+      if media.is_a?(Array)
+        media.reject { |medium| is_invalid_hash(medium) }
+      else
+        logger.error("Expected #{entity.name} additional_media parameter to be an array.")
+      end
+    rescue JSON::ParserError
+      logger.error("JSON parsing error on #{entity.name}'s additional_media parameter.")
+    end
+
+    def is_invalid_hash(medium)
+      return false unless medium['name'].blank? || medium['url'].blank?
+      logger.error("Medium #{medium} missing name.") if medium['name'].blank?
+      logger.error("Medium #{medium} missing URL.") if medium['url'].blank?
+      true
     end
   end
 end
