@@ -69,7 +69,8 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
   onPageSet: page => changeQuery(getURI(), { page }),
-  onPerPageSelect: perPage => changeQuery(getURI(), { per_page: perPage }),
+  onPerPageSelect: perPage =>
+    changeQuery(getURI(), { page: 1, per_page: perPage }),
   dropdownButtonId: 'pagination-row-dropdown',
   pagination: null,
 };
