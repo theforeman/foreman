@@ -34,7 +34,7 @@ module Menu
       end
 
       def to_hash(menu_name)
-        items(menu_name).children.map(&:to_hash)
+        items(menu_name).authorized_children.map(&:to_hash)
       end
 
       def get_resource_caption(resource)
