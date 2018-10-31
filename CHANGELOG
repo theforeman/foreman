@@ -1,4 +1,44 @@
+2018-10-31	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.20.0-RC2
+	* i18n - extracting new, pulling from tx
+	* Fixes #25346 - Correctly render menu for non-admin users
+
+2018-10-31	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #24276 - add resource switcher to facts page
+
+2018-10-31	Timo Goebel <mail@timogoebel.name>
+	* fixes #25331 - do not audit fact import
+	* fixes #25248 - build status check without proxy edit
+
+2018-10-27	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #25316 - ensure notifications_recipient_path resolves
+
+2018-10-25	laviro <1ronlavi@gmail.com>
+	* fixes #25197 - onChange debounce too slow
+
+2018-10-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #25301 - support hosts without owner
+
+2018-10-23	Bernhard Suttner <suttner@atix.de>
+	* fixes #25253 - Show compute resource datastore usage
+
+2018-10-23	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #25269 - Translate audit login text
+
+2018-10-21	Ivan Nečas <inecas@redhat.com>
+	* Fixes #25225 - clone oVirt disk only when source disk exists
+
+2018-10-21	Timo Goebel <mail@timogoebel.name>
+	* fixes #25257 - include AuthorizeHelper in HostsHelper
+
+2018-10-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #25230 - Remove useless html from toast notifications
+
+2018-10-18	Pawel Moll <pawel.moll@arm.com>
+	* Fixes #25215 - Support for Debian on aarch64 aka arm64
+
 2018-10-17	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.20.0-RC1
 	* i18n - extracting new, pulling from tx
 
 2018-10-16	Martin Bačovský <mbacovsk@redhat.com>
