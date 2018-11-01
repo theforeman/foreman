@@ -1,11 +1,15 @@
 module Foreman
   module HTTPProxy
     def http_proxy
-      Setting[:http_proxy]
+      ActiveRecord::Base.connection_pool.with_connection do
+        Setting[:http_proxy]
+      end
     end
 
     def http_proxy_except_list
-      Setting[:http_proxy_except_list]
+      ActiveRecord::Base.connection_pool.with_connection do
+        Setting[:http_proxy_except_list]
+      end
     end
 
     # Answers if this request should be proxied
