@@ -141,12 +141,12 @@ exports[`Layout rendering renders layout 1`] = `
             "children": Array [
               Object {
                 "isDivider": false,
-                "onClick": [Function],
+                "onClick": [MockFunction],
                 "title": "Aa",
               },
               Object {
                 "isDivider": false,
-                "onClick": [Function],
+                "onClick": [MockFunction],
                 "title": "Cc",
               },
             ],
@@ -280,12 +280,12 @@ exports[`Layout rendering renders layout 1`] = `
               "children": Array [
                 Object {
                   "isDivider": false,
-                  "onClick": [Function],
+                  "onClick": [MockFunction],
                   "title": "Aa",
                 },
                 Object {
                   "isDivider": false,
-                  "onClick": [Function],
+                  "onClick": [MockFunction],
                   "title": "Cc",
                 },
               ],

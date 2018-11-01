@@ -82,7 +82,7 @@ Object {
     Object {
       "id": "4",
       "name": "Host 4",
-      "onClick": [Function],
+      "onClick": [MockFunction],
       "url": undefined,
     },
     Object {

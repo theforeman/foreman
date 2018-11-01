@@ -14,7 +14,7 @@ exports[`BreadcrumbBar rendering renders breadcrumb-bar 1`] = `
         },
         Object {
           "caption": "child with onClick",
-          "onClick": [Function],
+          "onClick": [MockFunction],
         },
         Object {
           "caption": "active child",
@@ -44,7 +44,7 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
         },
         Object {
           "caption": "child with onClick",
-          "onClick": [Function],
+          "onClick": [MockFunction],
         },
         Object {
           "caption": "active child",
@@ -79,7 +79,7 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
 </div>
 `;
 
-exports[`loadSwitcherResourcesByResource calls 1`] = `
+exports[`BreadcrumbBar triggering should trigger callbacks: loadSwitcherResourcesByResource calls 1`] = `
 Array [
   Array [
     Object {

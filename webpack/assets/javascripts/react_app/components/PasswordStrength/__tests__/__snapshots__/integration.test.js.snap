@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`email fixture 1`] = `
+exports[`PasswordStrength integration test should flow: email fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -19,7 +19,7 @@ Object {
 }
 `;
 
-exports[`initial state 1`] = `
+exports[`PasswordStrength integration test should flow: initial state 1`] = `
 Object {
   "passwordStrength": Object {
     "password": "",
@@ -28,7 +28,7 @@ Object {
 }
 `;
 
-exports[`mached password confirmation 1`] = `
+exports[`PasswordStrength integration test should flow: mached password confirmation 1`] = `
 Object {
   "action": Array [
     Array [
@@ -47,7 +47,7 @@ Object {
 }
 `;
 
-exports[`medium fixture 1`] = `
+exports[`PasswordStrength integration test should flow: medium fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -66,7 +66,7 @@ Object {
 }
 `;
 
-exports[`normal fixture 1`] = `
+exports[`PasswordStrength integration test should flow: normal fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -85,7 +85,7 @@ Object {
 }
 `;
 
-exports[`strong fixture 1`] = `
+exports[`PasswordStrength integration test should flow: strong fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -104,7 +104,7 @@ Object {
 }
 `;
 
-exports[`tooShort fixture 1`] = `
+exports[`PasswordStrength integration test should flow: tooShort fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -123,7 +123,7 @@ Object {
 }
 `;
 
-exports[`unmached password confirmation 1`] = `
+exports[`PasswordStrength integration test should flow: unmached password confirmation 1`] = `
 Object {
   "action": Array [
     Array [
@@ -142,7 +142,7 @@ Object {
 }
 `;
 
-exports[`username fixture 1`] = `
+exports[`PasswordStrength integration test should flow: username fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -161,7 +161,7 @@ Object {
 }
 `;
 
-exports[`veryStrong fixture 1`] = `
+exports[`PasswordStrength integration test should flow: veryStrong fixture 1`] = `
 Object {
   "action": Array [
     Array [
@@ -180,7 +180,7 @@ Object {
 }
 `;
 
-exports[`weak fixture 1`] = `
+exports[`PasswordStrength integration test should flow: weak fixture 1`] = `
 Object {
   "action": Array [
     Array [

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`initial state 1`] = `
+exports[`BreadcrumbBar integration test should flow: initial state 1`] = `
 Object {
   "breadcrumbBar": Object {
     "currentPage": null,
@@ -16,7 +16,7 @@ Object {
 }
 `;
 
-exports[`switcher after next page 1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher after next page 1`] = `
 Object {
   "action": Array [
     Array [
@@ -79,7 +79,7 @@ Object {
 }
 `;
 
-exports[`switcher after prev page 1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher after prev page 1`] = `
 Object {
   "action": Array [
     Array [
@@ -142,7 +142,7 @@ Object {
 }
 `;
 
-exports[`switcher after search change 1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher after search change 1`] = `
 Object {
   "action": Array [
     Array [
@@ -205,7 +205,7 @@ Object {
 }
 `;
 
-exports[`switcher after search clear  1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher after search clear  1`] = `
 Object {
   "action": Array [
     Array [
@@ -268,7 +268,7 @@ Object {
 }
 `;
 
-exports[`switcher closed 1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher closed 1`] = `
 Object {
   "action": Array [
     Array [
@@ -309,7 +309,7 @@ Object {
 }
 `;
 
-exports[`switcher opened 1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher opened 1`] = `
 Object {
   "action": Array [
     Array [
@@ -341,7 +341,7 @@ Object {
 }
 `;
 
-exports[`switcher opened and loaded 1`] = `
+exports[`BreadcrumbBar integration test should flow: switcher opened and loaded 1`] = `
 Object {
   "action": Array [
     Array [

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Clear button clicked 1`] = `
+exports[`SearchBar integration test should flow: Clear button clicked 1`] = `
 Object {
   "action": Array [
     Array [
@@ -40,7 +40,7 @@ Object {
 }
 `;
 
-exports[`Clicked the search button 1`] = `
+exports[`SearchBar integration test should flow: Clicked the search button 1`] = `
 Object {
   "action": Array [
     Array [
@@ -80,7 +80,7 @@ Object {
 }
 `;
 
-exports[`bookmarks button click 1`] = `
+exports[`SearchBar integration test should flow: bookmarks button click 1`] = `
 Object {
   "action": Array [
     Array [
@@ -122,7 +122,7 @@ Object {
 }
 `;
 
-exports[`in bookmarks dropdown: click on "bookmark this page" 1`] = `
+exports[`SearchBar integration test should flow: in bookmarks dropdown: click on "bookmark this page" 1`] = `
 Object {
   "action": Array [
     Array [
@@ -165,7 +165,7 @@ Object {
 }
 `;
 
-exports[`initial state 1`] = `
+exports[`SearchBar integration test should flow: initial state 1`] = `
 Object {
   "autocomplete": Object {
     "controller": "models",
@@ -181,7 +181,7 @@ Object {
 }
 `;
 
-exports[`input focused 1`] = `
+exports[`SearchBar integration test should flow: input focused 1`] = `
 Object {
   "action": Array [
     Array [
@@ -212,7 +212,7 @@ Object {
 }
 `;
 
-exports[`option selected 1`] = `
+exports[`SearchBar integration test should flow: option selected 1`] = `
 Object {
   "action": Array [
     Array [
@@ -248,7 +248,7 @@ Object {
 }
 `;
 
-exports[`option selected again 1`] = `
+exports[`SearchBar integration test should flow: option selected again 1`] = `
 Object {
   "action": Array [
     Array [
@@ -288,7 +288,7 @@ Object {
 }
 `;
 
-exports[`request that was triggered by focus is over 1`] = `
+exports[`SearchBar integration test should flow: request that was triggered by focus is over 1`] = `
 Object {
   "action": Array [
     Array [
@@ -330,7 +330,7 @@ Object {
 }
 `;
 
-exports[`request that was triggered by option select is over 1`] = `
+exports[`SearchBar integration test should flow: request that was triggered by option select is over 1`] = `
 Object {
   "action": Array [
     Array [

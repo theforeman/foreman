@@ -14,7 +14,7 @@ exports[`bookmark form should render the entire form 1`] = `
 >
   <Connect(ReduxForm)
     controller="hosts"
-    onCancel={[Function]}
+    onCancel={[MockFunction]}
     url="/api/bookmarks"
   >
     <ReduxForm
@@ -25,7 +25,7 @@ exports[`bookmark form should render the entire form 1`] = `
           "query": "",
         }
       }
-      onCancel={[Function]}
+      onCancel={[MockFunction]}
       submitForm={[Function]}
       url="/api/bookmarks"
     >
@@ -43,7 +43,7 @@ exports[`bookmark form should render the entire form 1`] = `
           }
         }
         keepDirtyOnReinitialize={false}
-        onCancel={[Function]}
+        onCancel={[MockFunction]}
         persistentSubmitErrors={false}
         pure={true}
         shouldAsyncValidate={[Function]}
@@ -110,7 +110,7 @@ exports[`bookmark form should render the entire form 1`] = `
           initialized={true}
           invalid={true}
           keepDirtyOnReinitialize={false}
-          onCancel={[Function]}
+          onCancel={[MockFunction]}
           persistentSubmitErrors={false}
           pristine={true}
           pure={true}
@@ -215,7 +215,7 @@ exports[`bookmark form should render the entire form 1`] = `
             initialize={[Function]}
             initialized={true}
             invalid={true}
-            onCancel={[Function]}
+            onCancel={[MockFunction]}
             pristine={true}
             pure={true}
             reset={[Function]}
@@ -234,7 +234,7 @@ exports[`bookmark form should render the entire form 1`] = `
               disabled={false}
               error={null}
               errorTitle="Unable to save"
-              onCancel={[Function]}
+              onCancel={[MockFunction]}
               onSubmit={[Function]}
               submitting={false}
               touched={false}
@@ -326,7 +326,7 @@ exports[`bookmark form should render the entire form 1`] = `
                           "initialized": true,
                           "invalid": true,
                           "keepDirtyOnReinitialize": false,
-                          "onCancel": [Function],
+                          "onCancel": [MockFunction],
                           "persistentSubmitErrors": false,
                           "pristine": true,
                           "pure": true,
@@ -462,7 +462,7 @@ exports[`bookmark form should render the entire form 1`] = `
                             "initialized": true,
                             "invalid": true,
                             "keepDirtyOnReinitialize": false,
-                            "onCancel": [Function],
+                            "onCancel": [MockFunction],
                             "persistentSubmitErrors": false,
                             "pristine": true,
                             "pure": true,
@@ -708,7 +708,7 @@ exports[`bookmark form should render the entire form 1`] = `
                           "initialized": true,
                           "invalid": true,
                           "keepDirtyOnReinitialize": false,
-                          "onCancel": [Function],
+                          "onCancel": [MockFunction],
                           "persistentSubmitErrors": false,
                           "pristine": true,
                           "pure": true,
@@ -845,7 +845,7 @@ exports[`bookmark form should render the entire form 1`] = `
                             "initialized": true,
                             "invalid": true,
                             "keepDirtyOnReinitialize": false,
-                            "onCancel": [Function],
+                            "onCancel": [MockFunction],
                             "persistentSubmitErrors": false,
                             "pristine": true,
                             "pure": true,
@@ -1080,7 +1080,7 @@ exports[`bookmark form should render the entire form 1`] = `
                           "initialized": true,
                           "invalid": true,
                           "keepDirtyOnReinitialize": false,
-                          "onCancel": [Function],
+                          "onCancel": [MockFunction],
                           "persistentSubmitErrors": false,
                           "pristine": true,
                           "pure": true,
@@ -1210,7 +1210,7 @@ exports[`bookmark form should render the entire form 1`] = `
                             "initialized": true,
                             "invalid": true,
                             "keepDirtyOnReinitialize": false,
-                            "onCancel": [Function],
+                            "onCancel": [MockFunction],
                             "persistentSubmitErrors": false,
                             "pristine": true,
                             "pure": true,
@@ -1368,7 +1368,7 @@ exports[`bookmark form should render the entire form 1`] = `
                 </TextField>
                 <FormActions
                   disabled={false}
-                  onCancel={[Function]}
+                  onCancel={[MockFunction]}
                   submitting={false}
                 >
                   <div
@@ -1401,12 +1401,12 @@ exports[`bookmark form should render the entire form 1`] = `
                         bsClass="btn"
                         bsStyle="default"
                         disabled={false}
-                        onClick={[Function]}
+                        onClick={[MockFunction]}
                       >
                         <button
                           className="btn btn-default"
                           disabled={false}
-                          onClick={[Function]}
+                          onClick={[MockFunction]}
                           type="button"
                         >
                           Cancel

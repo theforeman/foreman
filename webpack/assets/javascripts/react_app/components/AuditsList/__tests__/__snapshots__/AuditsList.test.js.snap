@@ -18,20 +18,20 @@ exports[`AuditsList rendering render resources list 1`] = `
         <ListViewInfoItem
           className=""
           stacked={false}
-      >
+        >
           HOST
-      </ListViewInfoItem>,
+        </ListViewInfoItem>,
         <ListViewInfoItem
           className=""
           stacked={false}
-      >
+        >
           <SearchLink
-              id={234}
-              textValue="host-foo.example.com"
-              title="Filter audits for this resource only"
-              url="/audits?search=type+%3D+host+and+auditable_id+%3D+9"
+            id={234}
+            textValue="host-foo.example.com"
+            title="Filter audits for this resource only"
+            url="/audits?search=type+%3D+host+and+auditable_id+%3D+9"
           />
-      </ListViewInfoItem>,
+        </ListViewInfoItem>,
       ]
     }
     checkboxInput={null}

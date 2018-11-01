@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Changed ActiveMenu to Hosts 1`] = `
+exports[`Layout integration test should flow: Changed ActiveMenu to Hosts 1`] = `
 Object {
   "action": Array [
     Array [
@@ -301,7 +301,7 @@ Object {
 }
 `;
 
-exports[`Location "yaml" clicked 1`] = `
+exports[`Layout integration test should flow: Location "yaml" clicked 1`] = `
 Object {
   "action": Array [
     Array [
@@ -469,7 +469,7 @@ Object {
 }
 `;
 
-exports[`Org "org2" clicked 1`] = `
+exports[`Layout integration test should flow: Org "org2" clicked 1`] = `
 Object {
   "action": Array [
     Array [
@@ -637,7 +637,7 @@ Object {
 }
 `;
 
-exports[`initial state 1`] = `
+exports[`Layout integration test should flow: initial state 1`] = `
 Object {
   "layout": Object {
     "activeMenu": "",
