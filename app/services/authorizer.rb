@@ -25,6 +25,9 @@ class Authorizer
   end
 
   def find_collection(resource_class, options = {})
+    return resource_class.where('1=0') if user.nil?
+    return resource_class.where(nil) if user.admin?
+
     permission = options.delete :permission
     resource_class = Host if resource_class == Host::Base
 
