@@ -109,7 +109,7 @@ module Orchestration::TFTP
     valid = []
 
     host.operatingsystem.pxe_files(host.medium_provider).each do |bootfile_info|
-      for prefix, path in bootfile_info do
+      bootfile_info.each do |prefix, path|
         valid << each_unique_feasible_tftp_proxy do |proxy|
           proxy.fetch_boot_file(:prefix => prefix.to_s, :path => path)
         end

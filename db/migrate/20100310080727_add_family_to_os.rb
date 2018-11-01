@@ -6,7 +6,7 @@ class AddFamilyToOs < ActiveRecord::Migration[4.2]
 
     Operatingsystem.reset_column_information
 
-    for os in Operatingsystem.all
+    Operatingsystem.all.each do |os|
       case os.name
       when /RedHat|Centos|Fedora/i
         os.family_id = Operatingsystem::FAMILIES.index :RedHat
