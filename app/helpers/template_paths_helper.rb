@@ -19,9 +19,14 @@ module TemplatePathsHelper
   end
 
   def template_hash_for_member(template, member = nil)
+    return {} unless member.present?
     member = "#{member}_" if member.present?
     # hash_for is protected method
-    send("hash_for_#{member}#{template_route_prefix(template.class).singularize}_path", :id => template)
+    if template.id.present?
+      send("hash_for_#{member}#{template_route_prefix(template.class).singularize}_path", :id => template)
+    else
+      send("hash_for_#{member}#{template_route_prefix(template.class)}_path")
+    end
   end
 
   def render_if_exists(partial)
