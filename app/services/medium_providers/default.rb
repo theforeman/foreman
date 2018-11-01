@@ -1,6 +1,5 @@
 module MediumProviders
   class Default < Provider
-
     def validate
       errors = []
       os = entity.try(:operatingsystem)
@@ -68,6 +67,5 @@ module MediumProviders
         release: os.release_name.presence || ''
       }
     end
-
   end
 end

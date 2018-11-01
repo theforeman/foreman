@@ -72,7 +72,7 @@ module MediumProviders
         media.reject { |medium| is_invalid_hash(medium) }
       else
         logger.error("Expected #{entity.name} additional_media parameter to be an array.")
-	[]
+        []
       end
     rescue JSON::ParserError
       logger.error("JSON parsing error on #{entity.name}'s additional_media parameter.")
