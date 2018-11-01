@@ -91,7 +91,7 @@ class Usergroup < ApplicationRecord
   # [+users+]     : Array of users accumulated at this point
   # Returns       : Array of non unique users
   def retrieve_users_and_groups(group_list, user_list)
-    for group in usergroups
+    usergroups.each do |group|
       next if group_list.include? group
       group_list << group
 

@@ -69,12 +69,12 @@ namespace :puppet do
             puts "Scheduled changes to your environment"
             ["new", "updated"].each do |c|
               puts "#{c.titleize} environments"
-              for env, classes in changes[c]
+              changes[c].each do |env, classes|
                 print "%-15s: %s\n" % [env, classes.keys.to_sentence]
               end
             end
             puts "Delete environments"
-            for env, classes in changes["obsolete"]
+            changes["obsolete"].each do |env, classes|
               if classes.include? "_destroy_"
                 print "%-15s: %s\n" % [env, "Remove environment"]
               else

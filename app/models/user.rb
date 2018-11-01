@@ -325,7 +325,7 @@ class User < ApplicationRecord
 
   def my_usergroups
     all_groups = []
-    for usergroup in usergroups
+    usergroups.each do |usergroup|
       all_groups += usergroup.all_usergroups
     end
     all_groups.uniq

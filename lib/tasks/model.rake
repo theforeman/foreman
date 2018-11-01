@@ -34,8 +34,9 @@ namespace :models  do
 end
 
 def consolidate(mappings, dryrun)
+  original_models = Model.count
   mapped = []
-  for mapping in  mappings
+  mappings.each do |mapping|
     unless (rex = mapping.delete("rex"))
       puts "No regular expression found for #{mapping['name']}"
       next
@@ -44,7 +45,6 @@ def consolidate(mappings, dryrun)
       puts "There is a problem with the entry with regular expression #{rex}"
       next
     end
-    original_models = Model.count
     matcher = %r{#{rex}}
     if (model = Model.find_by_name(mapping["name"]))
       puts "Using existing model for #{mapping['name']}"
@@ -52,13 +52,13 @@ def consolidate(mappings, dryrun)
     elsif (model = Model.new(mapping))
       puts "Creating new model #{mapping['name']}"
     end
-    for original in Model.all
+    Model.all.each do |original|
       if original.name =~ matcher
         puts "Mapping #{original.name} to #{mapping['name']}"
         mapped << original
         # Validate before we do block assignments
         valid_hosts = []
-        for host in original.hosts
+        original.hosts.each do |host|
           if host.valid?
             valid_hosts << host
           else

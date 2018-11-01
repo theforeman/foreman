@@ -35,13 +35,13 @@ namespace :smartproxy do
       proxy.load_aliases
     end
     puts "Checking for the use of :-"
-    for proxy in proxies
+    proxies.each do |proxy|
       puts proxy.names.join ", "
     end
-    for host in Host.all
+    Host.all.each do |host|
       next if host.puppetca?
 
-      for proxy in proxies
+      proxies.each do |proxy|
         fqpm = host.pm_fqdn
         if proxy.include?(fqpm)
           # The proxy's name or puppet alias is the same as the fully qualified puppetmaster_name

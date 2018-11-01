@@ -45,7 +45,7 @@ class Puppetclass < ApplicationRecord
   # returns a hash containing modules and associated classes
   def self.classes2hash(classes)
     hash = {}
-    for klass in classes
+    classes.each do |klass|
       if (mod = klass.module_name)
         hash[mod] ||= []
         hash[mod] << klass
