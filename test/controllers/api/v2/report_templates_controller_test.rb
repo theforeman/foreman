@@ -170,6 +170,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     template = ActiveSupport::JSON.decode(@response.body)
     assert_equal(template['name'], 'MyClone')
     assert_equal(template['template'], original_report_template.template)
+    refute_equal(template['id'], original_report_template.id)
   end
 
   test 'export should export the erb of the template' do
