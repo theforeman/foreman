@@ -7,7 +7,7 @@ Object {
   },
   "data": Object {
     "columns": Array [],
-    "onclick": [Function],
+    "onclick": [MockFunction],
   },
   "donut": Object {
     "label": Object {
@@ -62,7 +62,7 @@ Object {
         0,
       ],
     ],
-    "onclick": [Function],
+    "onclick": [MockFunction],
   },
   "donut": Object {
     "label": Object {
@@ -117,7 +117,7 @@ Object {
         0,
       ],
     ],
-    "onclick": [Function],
+    "onclick": [MockFunction],
   },
   "donut": Object {
     "label": Object {
@@ -172,7 +172,7 @@ Object {
         0,
       ],
     ],
-    "onclick": [Function],
+    "onclick": [MockFunction],
   },
   "donut": Object {
     "label": Object {

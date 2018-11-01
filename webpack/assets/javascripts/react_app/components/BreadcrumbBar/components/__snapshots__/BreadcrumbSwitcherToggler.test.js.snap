@@ -7,7 +7,7 @@ exports[`BreadcrumbSwitcherToggler render a BreadcrumbSwitcherToggler 1`] = `
   bsClass="btn"
   bsStyle="default"
   disabled={false}
-  onClick={[Function]}
+  onClick={[MockFunction]}
 >
   <Icon
     name="exchange"

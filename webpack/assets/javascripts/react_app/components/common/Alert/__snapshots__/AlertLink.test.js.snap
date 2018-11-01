@@ -17,7 +17,7 @@ exports[`AlertLink should render with onClick 1`] = `
   className="pull-right toast-pf-action"
 >
   <a
-    onClick={[Function]}
+    onClick={[MockFunction]}
   >
     some link
   </a>

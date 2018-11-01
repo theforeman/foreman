@@ -15,7 +15,7 @@ exports[`BreadcrumbSwitcher rendering render closed 1`] = `
   />
   <Overlay
     animation={[Function]}
-    onHide={[Function]}
+    onHide={[MockFunction]}
     placement="bottom"
     rootClose={true}
     show={false}
@@ -26,8 +26,8 @@ exports[`BreadcrumbSwitcher rendering render closed 1`] = `
       hasError={false}
       id="breadcrumb-switcher-popover"
       loading={false}
-      onNextPageClick={[Function]}
-      onPrevPageClick={[Function]}
+      onNextPageClick={[MockFunction]}
+      onPrevPageClick={[MockFunction]}
       onResourceClick={[Function]}
       onSearchChange={[Function]}
       onSearchClear={[Function]}
@@ -55,7 +55,7 @@ exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
   />
   <Overlay
     animation={[Function]}
-    onHide={[Function]}
+    onHide={[MockFunction]}
     placement="bottom"
     rootClose={true}
     show={true}
@@ -66,8 +66,8 @@ exports[`BreadcrumbSwitcher rendering render loading state 1`] = `
       hasError={false}
       id="breadcrumb-switcher-popover"
       loading={false}
-      onNextPageClick={[Function]}
-      onPrevPageClick={[Function]}
+      onNextPageClick={[MockFunction]}
+      onPrevPageClick={[MockFunction]}
       onResourceClick={[Function]}
       onSearchChange={[Function]}
       onSearchClear={[Function]}
@@ -95,7 +95,7 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
   />
   <Overlay
     animation={[Function]}
-    onHide={[Function]}
+    onHide={[MockFunction]}
     placement="bottom"
     rootClose={true}
     show={true}
@@ -106,8 +106,8 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
       hasError={false}
       id="breadcrumb-switcher-popover"
       loading={false}
-      onNextPageClick={[Function]}
-      onPrevPageClick={[Function]}
+      onNextPageClick={[MockFunction]}
+      onPrevPageClick={[MockFunction]}
       onResourceClick={[Function]}
       onSearchChange={[Function]}
       onSearchClear={[Function]}
@@ -131,7 +131,7 @@ exports[`BreadcrumbSwitcher rendering render resources list 1`] = `
           Object {
             "id": "4",
             "name": "Host 4",
-            "onClick": [Function],
+            "onClick": [MockFunction],
             "url": undefined,
           },
           Object {
@@ -165,7 +165,7 @@ exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] 
   />
   <Overlay
     animation={[Function]}
-    onHide={[Function]}
+    onHide={[MockFunction]}
     placement="bottom"
     rootClose={true}
     show={true}
@@ -176,8 +176,8 @@ exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] 
       hasError={false}
       id="breadcrumb-switcher-popover"
       loading={false}
-      onNextPageClick={[Function]}
-      onPrevPageClick={[Function]}
+      onNextPageClick={[MockFunction]}
+      onPrevPageClick={[MockFunction]}
       onResourceClick={[Function]}
       onSearchChange={[Function]}
       onSearchClear={[Function]}
@@ -201,7 +201,7 @@ exports[`BreadcrumbSwitcher rendering render resources list with pagination 1`] 
           Object {
             "id": "4",
             "name": "Host 4",
-            "onClick": [Function],
+            "onClick": [MockFunction],
             "url": undefined,
           },
           Object {

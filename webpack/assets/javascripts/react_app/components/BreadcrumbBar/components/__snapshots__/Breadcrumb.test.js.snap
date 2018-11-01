@@ -16,7 +16,7 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
   <BreadcrumbItem
     active={false}
     key="1"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     title="child with onClick"
   >
      

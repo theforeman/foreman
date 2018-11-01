@@ -89,11 +89,6 @@ describe('updateTableTest', () => {
     global.tfm = {
       tools,
     };
-
-    Object.defineProperty(window.location, 'href', {
-      writable: true,
-      value: 'http://localhost',
-    });
     document.body.innerHTML = `
 <div>
     <form id="search-form" onsubmit="return tfm.tools.updateTable(this);" action="/templates/provisioning_templates" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
@@ -167,7 +162,7 @@ describe('updateTableTest', () => {
   it('should reset page param to 1 after new search', () => {
     const PerPage = $('#pagination-row-dropdown').text().trim();
 
-    window.location.href = 'http://localhost/?page=4';
+    window.history.pushState({}, 'Test Title', '/?page=4');
     $('.autocomplete-input').val('test');
     $('#search-form').submit();
     expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(`http://localhost/?page=1&search=test&per_page=${PerPage}`);
