@@ -80,7 +80,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def additional_media(medium_provider)
-    medium_provider.additional_media
+    medium_provider.additional_media.map(&:with_indifferent_access)
   end
 
   def self.inherited(child)

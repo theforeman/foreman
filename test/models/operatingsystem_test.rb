@@ -282,7 +282,9 @@ class OperatingsystemTest < ActiveSupport::TestCase
     MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
     provider = MediumProviders::Default.new(FactoryBot.build(:host))
 
-    assert_equal os.additional_media(provider), additional_media
+    os_media = os.additional_media(provider)
+    assert_instance_of HashWithIndifferentAccess, os_media.first
+    assert_equal os_media, additional_media.map(&:with_indifferent_access)
   end
 
   context 'os default templates' do
