@@ -74,8 +74,8 @@ module MediumProviders
         logger.error("Expected #{entity.name} additional_media parameter to be an array.")
         []
       end
-    rescue JSON::ParserError
-      logger.error("JSON parsing error on #{entity.name}'s additional_media parameter.")
+    rescue JSON::ParserError => e
+      Foreman::Logging.exception("JSON parsing error on #{entity.name}'s additional_media parameter.", e)
       []
     end
 

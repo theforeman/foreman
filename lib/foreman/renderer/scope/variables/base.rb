@@ -30,6 +30,7 @@ module Foreman
               send "#{operatingsystem.pxe_type}_attributes"
               pxe_config
             end
+            @additional_media = @medium_provider.nil? ? [] : additional_media(@medium_provider)
             @provisioning_type = host.is_a?(Hostgroup) ? 'hostgroup' : 'host'
             @static = !params[:static].empty?
             @template_url = params['url']
@@ -74,14 +75,12 @@ module Foreman
             @arch      = architecture_name
             @osver     = major.try(:to_i)
             @mediapath = mediumpath(@medium_provider) if @medium_provider
-            @additional_media = @medium_provider.nil? ? [] : additional_media(@medium_provider)
           end
 
           def preseed_attributes
             if operatingsystem && medium && architecture
               @preseed_path   = preseed_path(@medium_provider)
               @preseed_server = preseed_server(@medium_provider)
-              @additional_media = additional_media(@medium_provider)
             end
           end
 
