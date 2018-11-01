@@ -78,9 +78,9 @@ class PuppetClassImporter
       end
     end
     []
-    # rescue => e
-    #  logger.error(e)
-    #  [e.to_s]
+  rescue => e
+    Foreman::Logging.exception('Failed to calculate obsolete and new', e)
+    [e.to_s]
   end
 
   # Returns all classes for a given environment
@@ -240,7 +240,7 @@ class PuppetClassImporter
   def ignored_file
     @ignored_file ||= load_ignored_file
   rescue => e
-    logger.warn "Failed to parse environment ignore file: #{e}"
+    Foreman::Logging.exception('Failed to parse environment ignore file', e)
     @ignored_file = { }
   end
 
@@ -256,7 +256,7 @@ class PuppetClassImporter
     env         = find_or_create_env env_name
     # look for Puppet class in all scopes to make sure we do not try to create a new record
     # with a name that already exists and hit the uniqueness constraint on name
-    new_classes = klasses.map { |k| Puppetclass.unscoped.where(:name => k[0]).first_or_create }
+    new_classes = klasses.map { |k| find_or_create_puppetclass(name: k[0]) }
 
     new_classes.each do |new_class|
       EnvironmentClass.find_or_create_by! :puppetclass_id => new_class.id, :environment_id => env.id
@@ -346,5 +346,11 @@ class PuppetClassImporter
     klass.class_params.where(:key => param_name).first ||
       PuppetclassLookupKey.create!(:key => param_name, :default_value => value,
                                    :key_type => Foreman::ImporterPuppetclass.suggest_key_type(value))
+  end
+
+  def find_or_create_puppetclass(name:)
+    puppetclass = Puppetclass.unscoped.find_or_create_by!(name: name)
+    raise Foreman::Exception.new('Failed to create Puppetclass: %s', puppetclass.errors.full_messages.to_sentence) unless puppetclass.errors.empty?
+    puppetclass
   end
 end
