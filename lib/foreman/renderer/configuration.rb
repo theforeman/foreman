@@ -39,6 +39,7 @@ module Foreman
       ]
 
       DEFAULT_ALLOWED_VARIABLES = [
+        :additional_media,
         :arch,
         :dynamic,
         :host,
@@ -52,7 +53,6 @@ module Foreman
         :preseed_path,
         :preseed_server,
         :provisioning_type,
-        :repos,
         :static,
         :template_name,
         :xen
