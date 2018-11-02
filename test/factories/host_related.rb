@@ -262,6 +262,18 @@ FactoryBot.define do
       association :operatingsystem, :with_associations
     end
 
+    trait :debian do
+      operatingsystem { FactoryBot.build(:debian7_0, :with_associations) }
+    end
+
+    trait :suse do
+      operatingsystem { FactoryBot.build(:suse, :with_associations) }
+    end
+
+    trait :redhat do
+      operatingsystem { FactoryBot.build(:rhel7_5, :with_associations) }
+    end
+
     trait :with_ipv6 do
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}

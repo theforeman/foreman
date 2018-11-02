@@ -72,11 +72,15 @@ class Operatingsystem < ApplicationRecord
                'Xenserver' => %r{XenServer}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash
+    allow :name, :media_url, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash
   end
 
   def self.title_name
     "title".freeze
+  end
+
+  def additional_media(medium_provider)
+    medium_provider.additional_media.map(&:with_indifferent_access)
   end
 
   def self.inherited(child)
@@ -113,19 +117,6 @@ class Operatingsystem < ApplicationRecord
     families.map do |f|
       OpenStruct.new(:name => f.constantize.new.display_family, :value => f)
     end
-  end
-
-  # Operating system family can override this method to provide an array of
-  # hashes, each describing a repository. For example, to describe a yum repo,
-  # the following structure can be returned by the method:
-  # [{ :baseurl => "https://dl.thesource.com/get/it/here",
-  #    :name => "awesome",
-  #    :description => "awesome product repo"",
-  #    :enabled => 1,
-  #    :gpgcheck => 1
-  #  }]
-  def repos(host)
-    []
   end
 
   # The OS is usually represented as the concatenation of the OS and the revision
