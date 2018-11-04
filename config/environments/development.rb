@@ -41,6 +41,9 @@ Foreman::Application.configure do
   # Raise exception on mass assignment of unfiltered parameters
   config.action_controller.action_on_unpermitted_parameters = :strict
 
+  # include query source line when sql logging is enabled
+  config.active_record.verbose_query_logs = Foreman::Logging.logger('sql')
+
   if defined?(Bullet)
     config.after_initialize do
       Bullet.enable = true
