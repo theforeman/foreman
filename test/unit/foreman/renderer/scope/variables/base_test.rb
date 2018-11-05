@@ -35,7 +35,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
       MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
 
       scope = @scope.new(host: host, source: @source)
-      assert_equal scope.instance_variable_get('@additional_media'), additional_media
+      assert_equal additional_media.map(&:with_indifferent_access), scope.instance_variable_get('@additional_media')
     end
   end
 
@@ -111,7 +111,7 @@ class BaseVariablesTest < ActiveSupport::TestCase
       MediumProviders::Default.any_instance.stubs(:additional_media).returns(additional_media)
 
       scope = @scope.new(host: host, source: @source)
-      assert_equal scope.instance_variable_get('@additional_media'), additional_media
+      assert_equal additional_media.map(&:with_indifferent_access), scope.instance_variable_get('@additional_media')
     end
 
     describe "@dynamic" do
