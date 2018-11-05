@@ -33,6 +33,7 @@ module Api
           param :snippet, :bool, :allow_nil => true
           param :audit_comment, String, :allow_nil => true
           param :locked, :bool, :desc => N_("Whether or not the template is locked for editing")
+          param :default, :bool, :desc => N_("Whether or not the template is added automatically to new organizations and locations")
           param_group :taxonomies, ::Api::V2::BaseController
         end
       end
