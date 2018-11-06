@@ -1,3 +1,41 @@
+2018-11-06	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.19.1
+	* templates - sync from community-templates
+
+2018-11-05	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #25169 - fix xss on pages with breadcrumbs
+
+2018-11-05	Timo Goebel <mail@timogoebel.name>
+	* fixes #25351 - load trends without associated object
+
+2018-10-31	Timo Goebel <mail@timogoebel.name>
+	* fixes #25331 - do not audit fact import
+	* fixes #25248 - build status check without proxy edit
+
+2018-10-16	Martin Bačovský <mbacovsk@redhat.com>
+	* Fixes #25188 - Remove unbound facts from /hosts/x/facts
+
+2018-10-11	Peter Lehwess <peter.lehwess@icloud.com>
+	* Fixes #25150 - Check for `#dynamic` with regex
+
+2018-10-11	Timo Goebel <mail@timogoebel.name>
+	* fixes #25136 - fix infinite loop in autoyast templates
+
+2018-10-10	Timo Goebel <mail@timogoebel.name>
+	* fixes #25154 - do not join reports when searching
+
+2018-10-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #24844 - find audited objects correctly
+
+2018-09-06	Stephen Benjamin <stephen@redhat.com>
+	* fixes #24702 - fix bulk taxonomy update w/ scoped search
+
+2018-09-06	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #24807 - unsafe html in toast notification
+
+2018-09-05	Ivan Necas <inecas@redhat.com>
+	* Fixes #24526 - handle compute resource fingerprint error (#5910)
+
 2018-08-30	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.19.0
 	* i18n - extracting new, pulling from tx
