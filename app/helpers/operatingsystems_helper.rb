@@ -1,6 +1,11 @@
 module OperatingsystemsHelper
   include CommonParametersHelper
 
+  def label(record)
+    return "" if record.blank? || record.name.blank?
+    record.to_label
+  end
+
   def icon(record, opts = {})
     return "" if record.blank? || record.name.blank?
     family = case record.name

@@ -20,6 +20,7 @@ const Breadcrumb = ({
         const active = index === items.length - 1;
         const { caption, caption: { icon, text } } = item;
         const overrideTitle = active && titleReplacement;
+        const itemTitle = overrideTitle || text || caption;
 
         return (
           <PfBreadcrumb.Item
@@ -27,11 +28,9 @@ const Breadcrumb = ({
             active={active}
             onClick={item.onClick}
             href={item.url}
-            title={item.caption.text || item.caption}
+            title={itemTitle}
           >
-            {icon && <img src={icon} />}
-            {' '}
-            {overrideTitle || text || caption}
+            {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />} {itemTitle}
           </PfBreadcrumb.Item>
         );
       })}
@@ -48,7 +47,13 @@ Breadcrumb.propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
     caption: PropTypes.oneOfType([
       PropTypes.string.isRequired,
-      PropTypes.shape({ icon: PropTypes.string, text: PropTypes.string }),
+      PropTypes.shape({
+        icon: PropTypes.shape({
+          url: PropTypes.string,
+          alt: PropTypes.string,
+        }),
+        text: PropTypes.string,
+      }),
     ]),
     url: PropTypes.string,
   })),
