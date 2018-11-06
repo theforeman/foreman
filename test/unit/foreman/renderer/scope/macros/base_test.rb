@@ -29,6 +29,13 @@ class BaseMacrosTest < ActiveSupport::TestCase
     assert_equal indented, "    foo\n    bar\n    baz"
   end
 
+  test "should indent a string ignoring the first line" do
+    indented = @scope.indent(4, skip1: true) do
+      "foo\nbar\nbaz"
+    end
+    assert_equal indented, "foo\n    bar\n    baz"
+  end
+
   test '#foreman_url can be rendered even outside of controller context' do
     assert_nothing_raised do
       assert_match /\/unattended\/built/, @scope.foreman_url('built')

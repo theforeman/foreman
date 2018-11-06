@@ -46,10 +46,18 @@ module Foreman
             "cat << EOF > #{filename}\n#{content}EOF"
           end
 
-          def indent(count)
+          def indent(count, skip1: false)
             return unless block_given? && (text = yield.to_s)
-            prefix = " " * count
-            prefix + text.gsub(/\n/, "\n#{prefix}")
+            prefix = ' ' * count
+            result = []
+            text.each_line.with_index do |line, line_no|
+              if line_no == 0 && skip1
+                result << line
+              else
+                result << prefix + line
+              end
+            end
+            result.join('')
           end
 
           def dns_lookup(name_or_ip)
