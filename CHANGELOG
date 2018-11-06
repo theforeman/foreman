@@ -1,4 +1,17 @@
+2018-11-06	Ondrej Prazak <oprazak@redhat.com>
+	* i18n - extracting new, pulling from tx
+
+2018-11-05	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #25169 - fix xss on pages with breadcrumbs
+
+2018-10-04	Avi Sharvit <asharvit@redhat.com>
+	* Fixes #24807 - unsafe html in toast notification
+
+2018-10-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #24844 - find audited objects correctly
+
 2018-09-04	Ondrej Prazak <oprazak@redhat.com>
+	* Release 1.18.2
 	* i18n - extracting new, pulling from tx
 
 2018-09-04	Timo Goebel <mail@timogoebel.name>
