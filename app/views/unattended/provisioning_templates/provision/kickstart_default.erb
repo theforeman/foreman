@@ -29,6 +29,7 @@ This template accepts the following parameters:
 %>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  is_fedora = @host.operatingsystem.name == 'Fedora'
   os_major = @host.operatingsystem.major.to_i
   realm_compatible = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7)
   # safemode renderer does not support unary negation
@@ -40,7 +41,7 @@ This template accepts the following parameters:
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
 %>
-<% if @host.operatingsystem.name != 'Fedora' || os_major < 29 -%>
+<% if (is_fedora && os_major < 29) || (rhel_compatible && os_major < 8) -%>
 install
 <% end -%>
 <% if host_param('kickstart_liveimg') %>
@@ -68,7 +69,7 @@ firewall --disable
 <% else -%>
 firewall --<%= os_major >= 6 ? 'service=' : '' %>ssh
 <% end -%>
-<% if @host.operatingsystem.name == 'Fedora' && os_major >= 28 -%>
+<% if (is_fedora && os_major >= 28) || (rhel_compatible && os_major >= 8) -%>
 authselect --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
 <% else -%>
 authconfig --useshadow --passalgo=<%= @host.operatingsystem.password_hash.downcase || 'sha256' %> --kickstart
@@ -172,7 +173,7 @@ echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
 
 <%= snippet 'redhat_register' %>
 
-<% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
+<% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
 <%= snippet 'freeipa_register' %>
 <% end -%>
 
