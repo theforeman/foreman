@@ -1,5 +1,11 @@
 <% javascript 'charts', 'hosts' %>
-<% title @host.to_label, text: @host.to_label, icon: icon(@host.operatingsystem, path: true) %>
+<% title @host.to_label,
+  text: @host.to_label,
+  icon: {
+    alt: label(@host.operatingsystem),
+    url: icon(@host.operatingsystem, path: true)
+  }
+%>
 <% host_breadcrumb %>
 <%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>

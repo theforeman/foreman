@@ -64,7 +64,7 @@ exports[`Breadcrumbs renders title override 1`] = `
   <BreadcrumbItem
     active={true}
     key="1"
-    title="active child"
+    title="override title"
   >
      
     override title
