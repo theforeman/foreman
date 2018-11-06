@@ -60,6 +60,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
   end
 
   test "should search facts by location" do
+    skip "Randomly fails: https://projects.theforeman.org/issues/25398"
     get :index, params: { "location_id" => @host.location_id }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)['results']
@@ -68,6 +69,7 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
   end
 
   test "should search facts by organiztion" do
+    skip "Randomly fails: https://projects.theforeman.org/issues/25398"
     get :index, params: { "organization_id" => @host.organization_id }
     assert_response :success
     fact_values = ActiveSupport::JSON.decode(@response.body)['results']
