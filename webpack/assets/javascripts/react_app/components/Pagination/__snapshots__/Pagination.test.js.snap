@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Pagination rendering renders layout 1`] = `
+exports[`Pagination rendering from erb renders layout 1`] = `
 <Paginator
   className="col-md-12"
   dropdownButtonId="pagination-row-dropdown"
@@ -31,5 +31,42 @@ exports[`Pagination rendering renders layout 1`] = `
     }
   }
   viewType="table"
+/>
+`;
+
+exports[`Pagination rendering from js renders correctly 1`] = `
+<Pagination
+  className=""
+  data={
+    Object {
+      "itemCount": 52,
+      "viewType": "list",
+    }
+  }
+  dropdownButtonId="pagination-row-dropdown"
+  messages={
+    Object {
+      "currentPage": "Current Page",
+      "firstPage": "First Page",
+      "lastPage": "Last Page",
+      "nextPage": "Next Page",
+      "of": "of",
+      "perPage": "per page",
+      "previousPage": "Previous Page",
+    }
+  }
+  onPageSet={[Function]}
+  onPerPageSelect={[Function]}
+  pagination={
+    Object {
+      "page": 2,
+      "perPage": 5,
+      "perPageOptions": Array [
+        5,
+        10,
+        25,
+      ],
+    }
+  }
 />
 `;
