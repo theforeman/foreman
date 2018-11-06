@@ -27,7 +27,7 @@
 
 <% selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
 
-<%= counter_f f, :cores, :disabled => !new_vm, :label => _('Cores'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+<%= counter_f f, :cores, :disabled => !new_vm, :label => _('Cores per socket'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
 
 <%= counter_f f, :sockets, :disabled => !new_vm, :label => _('Sockets'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_socket_count %>
 
