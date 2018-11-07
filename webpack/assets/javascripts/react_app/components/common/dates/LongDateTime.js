@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, intlShape } from 'react-intl';
-import { timezone } from '../../../common/i18n';
 
 class LongDateTime extends React.Component {
   render() {
@@ -18,8 +17,7 @@ class LongDateTime extends React.Component {
             hour="2-digit"
             minute="2-digit"
             second={seconds}
-            year="numeric"
-            timeZone={timezone} />
+            year="numeric" />
         </span>
       );
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative, intlShape } from 'react-intl';
-import { timezone } from '../../../common/i18n';
 
 class RelativeDateTime extends React.Component {
   render() {
@@ -13,7 +12,6 @@ class RelativeDateTime extends React.Component {
         hour: '2-digit',
         minute: '2-digit',
         year: 'numeric',
-        timeZone: timezone,
       });
 
       return (
