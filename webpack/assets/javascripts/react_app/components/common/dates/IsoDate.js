@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, intlShape } from 'react-intl';
-import { timezone } from '../../../common/i18n';
 
 class IsoDate extends React.Component {
   render() {
@@ -14,8 +13,7 @@ class IsoDate extends React.Component {
           <FormattedDate value={date}
             day="2-digit"
             month="2-digit"
-            year="numeric"
-            timeZone={timezone} />
+            year="numeric" />
         </span>
       );
     }

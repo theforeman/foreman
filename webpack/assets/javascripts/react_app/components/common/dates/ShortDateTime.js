@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, intlShape } from 'react-intl';
-import { timezone } from '../../../common/i18n';
 
 class ShortDateTime extends React.Component {
   render() {
@@ -17,8 +16,7 @@ class ShortDateTime extends React.Component {
             month="short"
             hour="2-digit"
             second={secondsFormat}
-            minute="2-digit"
-            timeZone={timezone} />
+            minute="2-digit" />
         </span>
       );
     }

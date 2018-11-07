@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
 import { getDisplayName } from './helpers';
 
-const i18nProviderWrapperFactory = initialNow =>
+const i18nProviderWrapperFactory = (initialNow, timezone) =>
   (WrappedComponent) => {
     const wrappedName = getDisplayName(WrappedComponent);
 
@@ -24,8 +24,12 @@ const i18nProviderWrapperFactory = initialNow =>
           return <span />;
         }
         return (
-          <IntlProvider locale={i18n.locale} initialNow={initialNow}>
-            <WrappedComponent {...this.props} />
+          <IntlProvider
+            locale={i18n.locale}
+            initialNow={initialNow}
+            timeZone={timezone || i18n.timezone}
+          >
+            <WrappedComponent {...this.props}/>
           </IntlProvider>
         );
       }

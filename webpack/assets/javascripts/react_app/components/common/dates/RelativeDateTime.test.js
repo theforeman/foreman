@@ -8,7 +8,7 @@ import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperF
 describe('RelativeDateTime', () => {
   const date = new Date('2017-10-13 00:54:55 -1100');
   const now = new Date('2017-10-28 00:00:00 -1100');
-  const IntlDate = i18nProviderWrapperFactory(now)(RelativeDateTime);
+  const IntlDate = i18nProviderWrapperFactory(now, 'UTC')(RelativeDateTime);
 
   it('formats date', () => {
     const wrapper = mount(<IntlDate data={{

@@ -94,7 +94,7 @@
     "react-diff-view": "^1.8.1",
     "react-dom": "^16.4.0",
     "react-ellipsis-with-tooltip": "^1.0.8",
-    "react-intl": "^2.4.0",
+    "react-intl": "^2.7.0",
     "react-numeric-input": "^2.0.7",
     "react-onclickoutside": "^6.6.2",
     "react-password-strength": "^2.1.0",
