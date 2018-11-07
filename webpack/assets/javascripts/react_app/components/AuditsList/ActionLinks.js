@@ -24,4 +24,8 @@ ActionLinks.propTypes = {
   })),
 };
 
+ActionLinks.defaultProps = {
+  allowedActions: [],
+};
+
 export default ActionLinks;
