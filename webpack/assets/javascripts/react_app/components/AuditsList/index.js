@@ -105,7 +105,7 @@ AuditsList.propTypes = {
     audits: PropTypes.array.isRequired,
     isOrgEnabled: PropTypes.bool,
     isLocEnabled: PropTypes.bool,
-  }),
+  }).isRequired,
 };
 
 export default AuditsList;

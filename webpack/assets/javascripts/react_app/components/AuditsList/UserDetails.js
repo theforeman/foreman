@@ -18,33 +18,46 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
 
   if (isAuditLogin) {
     return (
-      <span className='user-grid'>
+      <span className="user-grid">
         <EllipsisWithTooltip>
-          <span><a { ...linkProps }>{UserDisplayName}</a></span>
+          <span>
+            <a {...linkProps}>{UserDisplayName}</a>
+          </span>
         </EllipsisWithTooltip>
-        <span><a href={auditPath}>{__('Logged-in')}</a></span>
+        <span>
+          <a href={auditPath}>{__('Logged-in')}</a>
+        </span>
       </span>
     );
   }
 
   return (
-    <span className='user-grid'>
+    <span className="user-grid">
       <EllipsisWithTooltip>
-        <span><a { ...linkProps }>{UserDisplayName}</a></span>
+        <span>
+          <a {...linkProps}>{UserDisplayName}</a>
+        </span>
       </EllipsisWithTooltip>
-      {remoteAddress ? (<span className='gray-text'>({remoteAddress})</span>) : null}
+      {remoteAddress ? (
+        <span className="gray-text">({remoteAddress})</span>
+      ) : null}
     </span>
   );
 };
 
 UserDetails.propTypes = {
-  isAuditLogin: PropTypes.bool,
   userInfo: PropTypes.shape({
-    search_path: PropTypes.string,
-    display_name: PropTypes.string,
-    audit_path: PropTypes.string,
-  }),
+    search_path: PropTypes.string.isRequired,
+    display_name: PropTypes.string.isRequired,
+    audit_path: PropTypes.string.isRequired,
+  }).isRequired,
+  isAuditLogin: PropTypes.bool,
   remoteAddress: PropTypes.string,
+};
+
+UserDetails.defaultProps = {
+  isAuditLogin: false,
+  remoteAddress: undefined,
 };
 
 export default UserDetails;

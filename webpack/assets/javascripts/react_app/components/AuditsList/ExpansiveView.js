@@ -85,10 +85,9 @@ class ExpansiveView extends React.Component {
 }
 
 ExpansiveView.propTypes = {
-  auditTitle: PropTypes.string,
+  actionDisplayName: PropTypes.string.isRequired,
+  auditedChanges: PropTypes.object.isRequired,
   comment: PropTypes.string,
-  actionDisplayName: PropTypes.string,
-  auditedChanges: PropTypes.object,
   auditedChangesWithIdToLabel: PropTypes.arrayOf(PropTypes.shape({
     change: PropTypes.arrayOf(PropTypes.shape({
       css_class: PropTypes.string,
@@ -97,6 +96,12 @@ ExpansiveView.propTypes = {
     name: PropTypes.string,
   })),
   details: PropTypes.arrayOf(PropTypes.string),
+};
+
+ExpansiveView.defaultProps = {
+  comment: undefined,
+  auditedChangesWithIdToLabel: [],
+  details: undefined,
 };
 
 export default ExpansiveView;
