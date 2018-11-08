@@ -60,7 +60,7 @@ const componentRegistry = {
     return Object.keys(this.registry).join(', ');
   },
 
-  defaultWrapper(component, data = null, store = null) {
+  defaultWrapper(component, data = null, store = null, flattenData = false) {
     const factory = this.wrapperFactory();
 
     factory.with('i18n');
@@ -69,14 +69,14 @@ const componentRegistry = {
       factory.with('store', store);
     }
     if (data && component.data) {
-      factory.with('data', data);
+      factory.with('data', data, flattenData);
     }
     return factory.wrapper;
   },
 
-  markup(name, { data = null, store = null, wrapper = null }) {
+  markup(name, { data = null, store = null, wrapper = null, flattenData = false }) {
     const currentComponent = this.getComponent(name);
-    const componentWrapper = wrapper || this.defaultWrapper(currentComponent, data, store);
+    const componentWrapper = wrapper || this.defaultWrapper(currentComponent, data, store, flattenData);
 
     const WrappedComponent = componentWrapper(currentComponent.type);
 

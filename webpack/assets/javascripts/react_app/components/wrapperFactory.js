@@ -19,10 +19,15 @@ const storeProviderWrapperFactory = store =>
     return StoreProvider;
   };
 
-const dataProviderWrapperFactory = data =>
+const dataProviderWrapperFactory = (data, flattenData = false) =>
   (WrappedComponent) => {
     class DataProvider extends React.Component {
       render() {
+        if (flattenData) {
+          return (
+            <WrappedComponent {...data} {...this.props} />
+          );
+        }
         return (
           <WrappedComponent data={data} {...this.props} />
         );
