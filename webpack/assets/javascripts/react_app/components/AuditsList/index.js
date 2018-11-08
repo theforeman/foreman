@@ -7,6 +7,7 @@ import ActionLinks from './ActionLinks';
 import ExpansiveView from './ExpansiveView';
 import UserDetails from './UserDetails';
 import { translate as __ } from '../../common/I18n';
+import ShortDateTime from '../common/dates/ShortDateTime';
 import './audit.scss';
 
 const isAuditLogin = auditedChanges => {
@@ -31,10 +32,9 @@ const renderAdditionalInfoItems = items =>
     <ListView.InfoItem key={index}>{item}</ListView.InfoItem>
   ));
 
-// eslint-disable-next-line react/prop-types
-const renderTimestamp = ({ title, value: formattedTimeString }) => (
-  <span title={title} className="gray-text">
-    {formattedTimeString}
+const renderTimestamp = date => (
+  <span className='gray-text'>
+    <ShortDateTime data={{ date, defaultValue: __('N/A') }} />
   </span>
 );
 
@@ -54,37 +54,28 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
 
 const AuditsList = ({ data: { audits, isOrgEnabled, isLocEnabled } }) => (
   <ListView>
-    {audits.map(
-      (
-        {
-          id,
-          creation_time: creationTime,
-          audited_type_name: auditedTypeName,
-          audit_title: auditTitle,
-          audit_title_url: auditTitleUrl,
-          audited_changes: auditedChanges,
-          user_info: userInfo,
-          remote_address: remoteAddress,
-          action_display_name: actionDisplayName,
-          affected_organizations: affectedOrganizations,
-          affected_locations: affectedLocations,
-          allowed_actions: allowedActions,
-          comment,
-          audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
-          details,
-        },
-        index
-      ) => (
-        <ListView.Item
-          id={id}
-          key={id}
-          className={
-            remoteAddress
-              ? 'main-info-minimize-padding'
-              : 'main-info-maximize-padding'
-          }
-          actions={renderTimestamp(creationTime)}
-          additionalInfo={renderAdditionalInfoItems([
+    {audits.map(({
+        id,
+        created_at: createdAt,
+        audited_type_name: auditedTypeName,
+        audit_title: auditTitle,
+        audit_title_url: auditTitleUrl,
+        audited_changes: auditedChanges,
+        user_info: userInfo,
+        remote_address: remoteAddress,
+        action_display_name: actionDisplayName,
+        affected_organizations: affectedOrganizations,
+        affected_locations: affectedLocations,
+        allowed_actions: allowedActions,
+        comment,
+        audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
+        details,
+      }, index) => (
+      <ListView.Item id={id} key={id}
+        className={remoteAddress ? 'main-info-minimize-padding' : 'main-info-maximize-padding' }
+        actions={renderTimestamp(createdAt)}
+        additionalInfo={
+          renderAdditionalInfoItems([
             auditedTypeName.toUpperCase(),
             renderResourceLink(auditTitle, auditTitleUrl, id),
           ])}

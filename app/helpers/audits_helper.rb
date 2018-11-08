@@ -219,7 +219,6 @@ module AuditsHelper
         'user_info' =>  user_info(audit),
         'audit_title' => audit_title(audit),
         'audit_title_url' => audit_title_url(audit),
-        'creation_time' => time_of_creation(audit),
         'affected_locations' => fetch_affected_locations(audit),
         'affected_organizations' => fetch_affected_organizations(audit),
         'details' => additional_details_if_any(audit, action_display_name),
@@ -299,13 +298,6 @@ module AuditsHelper
     else
       {'name' => affected_obj_name, 'url' => '#', 'css_class' => "disabled", 'disabled' => true}
     end
-  end
-
-  def time_of_creation(audit)
-    time = audit.created_at
-    return { 'value' => _('N/A') } if time.nil?
-    { 'title' => date_time_relative_value(time),
-      'value' => date_time_absolute_value(time, :short) }
   end
 
   def audit_title_url(audit)
