@@ -75,6 +75,7 @@ module Foreman
             @arch      = architecture_name
             @osver     = major.try(:to_i)
             @mediapath = mediumpath(@medium_provider) if @medium_provider
+            @repos     = repos(host)
           end
 
           def preseed_attributes
