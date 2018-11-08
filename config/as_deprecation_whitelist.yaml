@@ -18,3 +18,7 @@
 # https://projects.theforeman.org/issues/23300
 - message: 'Dangerous query method (method whose arguments are used as raw SQL) called
     with non-attribute argument(s):'
+
+# https://projects.theforeman.org/issues/25285
+- message: 'You are using a deprecated behavior, it will be removed in version 1.22,
+    `repos` is deprecated in favor of providing additional media through a Medium Provider.'

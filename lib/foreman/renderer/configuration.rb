@@ -53,6 +53,7 @@ module Foreman
         :preseed_path,
         :preseed_server,
         :provisioning_type,
+        :repos,
         :static,
         :template_name,
         :xen
