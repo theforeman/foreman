@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
 import { Dropdown, MenuItem, Spinner, Icon } from 'patternfly-react';
@@ -7,7 +8,7 @@ import Bookmark from './Bookmark';
 import * as BookmarkActions from '../../redux/actions/bookmarks';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
-import { bindMethods } from '../../common/helpers';
+import { bindMethods, noop } from '../../common/helpers';
 import { sprintf, translate as __ } from '../../../react_app/common/I18n';
 
 class BookmarkContainer extends React.Component {
@@ -17,18 +18,24 @@ class BookmarkContainer extends React.Component {
   }
 
   loadBookmarks() {
-    if (this.props.bookmarks.length === 0 && this.props.status !== STATUS.PENDING) {
-      const { url, controller, getBookmarks } = this.props;
+    const {
+      bookmarks, status, url, controller, getBookmarks,
+    } = this.props;
 
+    if (bookmarks.length === 0 && status !== STATUS.PENDING) {
       getBookmarks(url, controller);
     }
   }
 
   handleNewBookmarkClick() {
-    if (this.props.showModal) {
-      this.props.modalClosed();
+    const {
+      showModal, modalClosed, modalOpened, searchQuery,
+    } = this.props;
+
+    if (showModal) {
+      modalClosed();
     } else {
-      this.props.modalOpened(this.props.searchQuery);
+      modalOpened(searchQuery);
     }
   }
 
@@ -46,7 +53,12 @@ class BookmarkContainer extends React.Component {
     } = this.props;
 
     return showModal ? (
-      <SearchModal show={showModal} controller={controller} url={url} onHide={modalClosed} />
+      <SearchModal
+        show={showModal}
+        controller={controller}
+        url={url}
+        onHide={modalClosed}
+      />
     ) : (
       <Dropdown pullRight id={controller} onClick={this.loadBookmarks}>
         <Dropdown.Toggle title={__('Bookmarks')}>
@@ -54,12 +66,16 @@ class BookmarkContainer extends React.Component {
         </Dropdown.Toggle>
         <Dropdown.Menu className="scrollable-dropdown">
           {canCreate && (
-            <MenuItem key="newBookmark" id="newBookmark" onClick={this.handleNewBookmarkClick}>
+            <MenuItem
+              key="newBookmark"
+              id="newBookmark"
+              onClick={this.handleNewBookmarkClick}
+            >
               {__('Bookmark this search')}
             </MenuItem>
           )}
           <DocumentationUrl href={documentationUrl} />
-          <MenuItem divider={true} />
+          <MenuItem divider />
           <MenuItem header>{__('Saved Bookmarks')}</MenuItem>
           {status === STATUS.PENDING && (
             <li className="loader-root">
@@ -84,7 +100,38 @@ class BookmarkContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ bookmarks }, { data: { controller, searchQuery } }) => ({
+BookmarkContainer.propTypes = {
+  controller: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  searchQuery: PropTypes.string,
+  showModal: PropTypes.bool,
+  canCreate: PropTypes.bool,
+  bookmarks: PropTypes.array,
+  errors: PropTypes.string,
+  status: PropTypes.string,
+  documentationUrl: PropTypes.string,
+  modalClosed: PropTypes.func,
+  modalOpened: PropTypes.func,
+  getBookmarks: PropTypes.func,
+};
+
+BookmarkContainer.defaultProps = {
+  searchQuery: '',
+  showModal: false,
+  canCreate: false,
+  bookmarks: [],
+  errors: '',
+  status: null,
+  documentationUrl: '',
+  modalClosed: noop,
+  modalOpened: noop,
+  getBookmarks: noop,
+};
+
+const mapStateToProps = (
+  { bookmarks },
+  { data: { controller, searchQuery } },
+) => ({
   errors: bookmarks[controller] && bookmarks[controller].errors,
   bookmarks: (bookmarks[controller] && bookmarks[controller].results) || [],
   status: bookmarks[controller] && bookmarks[controller].status,
