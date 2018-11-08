@@ -56,12 +56,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 1
-        </SubstringWrapper>
+        Host 1
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -75,12 +70,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 2
-        </SubstringWrapper>
+        Host 2
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -94,12 +84,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 3 with a very long name
-        </SubstringWrapper>
+        Host 3 with a very long name
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -112,12 +97,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 4
-        </SubstringWrapper>
+        Host 4
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -131,12 +111,7 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 5
-        </SubstringWrapper>
+        Host 5
       </EllipisWithTooltip>
     </ListGroupItem>
   </ListGroup>
@@ -168,7 +143,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
     focus={true}
     onClear={[Function]}
     onSearchChange={[Function]}
-    searchValue=""
+    searchValue="Host"
     timeout={300}
   />
   <ListGroup
@@ -188,7 +163,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
-          substring=""
+          substring="Host"
         >
           Host 1
         </SubstringWrapper>
@@ -207,7 +182,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
-          substring=""
+          substring="Host"
         >
           Host 2
         </SubstringWrapper>
@@ -226,7 +201,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
-          substring=""
+          substring="Host"
         >
           Host 3 with a very long name
         </SubstringWrapper>
@@ -244,7 +219,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
-          substring=""
+          substring="Host"
         >
           Host 4
         </SubstringWrapper>
@@ -263,7 +238,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
       <EllipisWithTooltip>
         <SubstringWrapper
           Element="b"
-          substring=""
+          substring="Host"
         >
           Host 5
         </SubstringWrapper>
@@ -316,12 +291,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 1
-        </SubstringWrapper>
+        Host 1
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -335,12 +305,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 2
-        </SubstringWrapper>
+        Host 2
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -354,12 +319,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 3 with a very long name
-        </SubstringWrapper>
+        Host 3 with a very long name
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -372,12 +332,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 4
-        </SubstringWrapper>
+        Host 4
       </EllipisWithTooltip>
     </ListGroupItem>
     <ListGroupItem
@@ -391,12 +346,7 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
       onClick={[Function]}
     >
       <EllipisWithTooltip>
-        <SubstringWrapper
-          Element="b"
-          substring=""
-        >
-          Host 5
-        </SubstringWrapper>
+        Host 5
       </EllipisWithTooltip>
     </ListGroupItem>
   </ListGroup>

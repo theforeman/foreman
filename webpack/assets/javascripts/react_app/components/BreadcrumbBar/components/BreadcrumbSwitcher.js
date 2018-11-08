@@ -76,7 +76,9 @@ class BreadcrumbSwitcher extends React.Component {
 }
 
 BreadcrumbSwitcher.propTypes = {
+  searchValue: PropTypes.string,
   open: PropTypes.bool,
+  searchDebounceTimeout: PropTypes.number,
   currentPage: PropTypes.number,
   totalPages: PropTypes.number,
   isLoadingResources: PropTypes.bool,
@@ -88,10 +90,14 @@ BreadcrumbSwitcher.propTypes = {
   onPrevPageClick: PropTypes.func,
   onNextPageClick: PropTypes.func,
   onResourceClick: PropTypes.func,
+  onSearchChange: PropTypes.func,
+  onSearchClear: PropTypes.func,
 };
 
 BreadcrumbSwitcher.defaultProps = {
+  searchValue: '',
   open: false,
+  searchDebounceTimeout: 300,
   currentPage: 1,
   totalPages: 1,
   isLoadingResources: false,
@@ -103,6 +109,8 @@ BreadcrumbSwitcher.defaultProps = {
   onResourceClick: noop,
   onPrevPageClick: noop,
   onNextPageClick: noop,
+  onSearchChange: noop,
+  onSearchClear: noop,
 };
 
 export default BreadcrumbSwitcher;
