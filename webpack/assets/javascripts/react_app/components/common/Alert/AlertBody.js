@@ -23,4 +23,11 @@ AlertBody.propTypes = {
   children: PropTypes.node,
 };
 
+AlertBody.defaultProps = {
+  message: undefined,
+  children: undefined,
+  link: undefined,
+  title: undefined,
+};
+
 export default AlertBody;
