@@ -503,7 +503,7 @@ module Foreman #:nodoc:
       Foreman::Telemetry.instance.add_gauge(name, description, instance_labels)
     end
 
-    def add_histogram_telemetry(name, description, instance_labels = [], buckets = DEFAULT_BUCKETS)
+    def add_histogram_telemetry(name, description, instance_labels = [], buckets = Foreman::Telemetry::DEFAULT_BUCKETS)
       Foreman::Telemetry.instance.add_histogram(name, description, instance_labels, buckets)
     end
 
