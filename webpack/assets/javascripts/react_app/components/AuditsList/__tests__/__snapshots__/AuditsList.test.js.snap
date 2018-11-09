@@ -8,9 +8,15 @@ exports[`AuditsList rendering render resources list 1`] = `
     actions={
       <span
         className="gray-text"
-        title="14 days ago"
       >
-        30 Jul 15:02
+        <ShortDateTime
+          data={
+            Object {
+              "date": "2018-08-13 00:34:55 -1100",
+              "defaultValue": "N/A",
+            }
+          }
+        />
       </span>
     }
     additionalInfo={

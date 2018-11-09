@@ -89,10 +89,7 @@ export const AuditRecord = {
   ],
   audited_type_name: 'Provisioning Template',
   comment: 'This is just test audit record',
-  creation_time: {
-    title: '18 minutes ago',
-    value: '13 Aug 00:34',
-  },
+  created_at: '2018-08-13 00:34:55 -1100',
   details: ['Removed test object'],
   id: 123,
   remote_address: '127.0.0.1',
@@ -191,10 +188,7 @@ export const AuditsProps = {
       ],
       audited_type_name: 'Host',
       comment: null,
-      creation_time: {
-        title: '14 days ago',
-        value: '30 Jul 15:02',
-      },
+      created_at: '2018-08-13 00:34:55 -1100',
       id: 234,
       remote_address: '127.0.0.1',
       request_uuid: 'c134239d-8ac3-494b-9962-35133fe153ba',
