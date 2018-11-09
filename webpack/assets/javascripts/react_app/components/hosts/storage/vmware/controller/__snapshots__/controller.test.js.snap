@@ -18,6 +18,11 @@ exports[`StorageContainer should render controller 1`] = `
       className="controller-type-container col-md-4"
     >
       <Select
+        allowClear={false}
+        className=""
+        disabled={false}
+        errorMessage="An error occured."
+        label=""
         onChange={[Function]}
         options={
           Object {
@@ -27,6 +32,7 @@ exports[`StorageContainer should render controller 1`] = `
             "VirtualLsiLogicSASController": "LSI Logic SAS",
           }
         }
+        status="RESOLVED"
         value="VirtualLsiLogicController"
       />
       <Button

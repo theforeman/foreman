@@ -25,6 +25,7 @@ exports[`actions buttons could be disabled 1`] = `
       bsClass="btn"
       bsStyle="default"
       disabled={true}
+      onClick={[Function]}
     >
       Cancel
     </Button>
@@ -57,6 +58,7 @@ exports[`actions should include a cancel / submit buttons 1`] = `
       bsClass="btn"
       bsStyle="default"
       disabled={false}
+      onClick={[Function]}
     >
       Cancel
     </Button>
@@ -104,6 +106,7 @@ exports[`actions should show a spinner when submitting 1`] = `
       bsClass="btn"
       bsStyle="default"
       disabled={false}
+      onClick={[Function]}
     >
       Cancel
     </Button>

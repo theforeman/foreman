@@ -229,17 +229,22 @@ exports[`bookmark form should render the entire form 1`] = `
             url="/api/bookmarks"
             valid={false}
           >
-            <Component
+            <Form
+              className="form-horizontal well"
               disabled={false}
+              error={null}
+              errorTitle="Unable to save"
               onCancel={[Function]}
               onSubmit={[Function]}
               submitting={false}
+              touched={false}
             >
               <form
                 className="form-horizontal well"
                 onSubmit={[Function]}
               >
                 <TextField
+                  className=""
                   label="Name"
                   name="name"
                   required="true"
@@ -582,6 +587,7 @@ exports[`bookmark form should render the entire form 1`] = `
                           <CommonForm
                             className=""
                             error="can't be blank"
+                            inputClassName="col-md-4"
                             label="Name"
                             required="true"
                             touched={false}
@@ -618,6 +624,7 @@ exports[`bookmark form should render the entire form 1`] = `
                   </Field>
                 </TextField>
                 <TextField
+                  className=""
                   inputClassName="col-md-8"
                   label="Query"
                   name="query"
@@ -1003,8 +1010,10 @@ exports[`bookmark form should render the entire form 1`] = `
                   </Field>
                 </TextField>
                 <TextField
+                  className=""
                   label="Public"
                   name="publik"
+                  required={false}
                   type="checkbox"
                 >
                   <Field
@@ -1012,6 +1021,7 @@ exports[`bookmark form should render the entire form 1`] = `
                     component={[Function]}
                     label="Public"
                     name="publik"
+                    required={false}
                     type="checkbox"
                   >
                     <Connect(ConnectedField)
@@ -1141,6 +1151,7 @@ exports[`bookmark form should render the entire form 1`] = `
                       label="Public"
                       name="publik"
                       normalize={[Function]}
+                      required={false}
                       type="checkbox"
                     >
                       <ConnectedField
@@ -1275,6 +1286,7 @@ exports[`bookmark form should render the entire form 1`] = `
                         name="publik"
                         normalize={[Function]}
                         pristine={true}
+                        required={false}
                         type="checkbox"
                         value={true}
                       >
@@ -1313,11 +1325,14 @@ exports[`bookmark form should render the entire form 1`] = `
                               "warning": undefined,
                             }
                           }
+                          required={false}
                           type="checkbox"
                         >
                           <CommonForm
                             className=""
+                            inputClassName="col-md-4"
                             label="Public"
+                            required={false}
                             touched={false}
                           >
                             <div
@@ -1351,7 +1366,7 @@ exports[`bookmark form should render the entire form 1`] = `
                     </Connect(ConnectedField)>
                   </Field>
                 </TextField>
-                <Component
+                <FormActions
                   disabled={false}
                   onCancel={[Function]}
                   submitting={false}
@@ -1399,9 +1414,9 @@ exports[`bookmark form should render the entire form 1`] = `
                       </Button>
                     </div>
                   </div>
-                </Component>
+                </FormActions>
               </form>
-            </Component>
+            </Form>
           </BookmarkForm>
         </Form(BookmarkForm)>
       </Connect(Form(BookmarkForm))>

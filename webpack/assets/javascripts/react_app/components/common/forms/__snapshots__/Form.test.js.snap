@@ -3,6 +3,7 @@
 exports[`Form should accept base error title 1`] = `
 <form
   className="form-horizontal well"
+  onSubmit={[Function]}
 >
   <Alert
     className="base in fade"
@@ -19,8 +20,9 @@ exports[`Form should accept base error title 1`] = `
       </li>
     </AlertBody>
   </Alert>
-  <Component
+  <FormActions
     disabled={false}
+    onCancel={[Function]}
     submitting={false}
   />
 </form>
@@ -29,6 +31,7 @@ exports[`Form should accept base error title 1`] = `
 exports[`Form should display multiple base errors 1`] = `
 <form
   className="form-horizontal well"
+  onSubmit={[Function]}
 >
   <Alert
     className="base in fade"
@@ -50,8 +53,9 @@ exports[`Form should display multiple base errors 1`] = `
       </li>
     </AlertBody>
   </Alert>
-  <Component
+  <FormActions
     disabled={false}
+    onCancel={[Function]}
     submitting={false}
   />
 </form>
@@ -60,6 +64,7 @@ exports[`Form should display multiple base errors 1`] = `
 exports[`Form should display one base error 1`] = `
 <form
   className="form-horizontal well"
+  onSubmit={[Function]}
 >
   <Alert
     className="base in fade"
@@ -76,8 +81,9 @@ exports[`Form should display one base error 1`] = `
       </li>
     </AlertBody>
   </Alert>
-  <Component
+  <FormActions
     disabled={false}
+    onCancel={[Function]}
     submitting={false}
   />
 </form>
@@ -86,9 +92,11 @@ exports[`Form should display one base error 1`] = `
 exports[`Form should render a form 1`] = `
 <form
   className="form-horizontal well"
+  onSubmit={[Function]}
 >
-  <Component
+  <FormActions
     disabled={false}
+    onCancel={[Function]}
     submitting={false}
   />
 </form>
