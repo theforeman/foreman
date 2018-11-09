@@ -64,12 +64,36 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration,
                           :model => FactoryBot.create(:model, :vendor_class => 'Sun-Fire-V210'))
     h.expects(:jumpstart?).at_least_once.returns(true)
+    h.os.expects(:dhcp_record_type).at_least_once.returns(Net::DHCP::SparcRecord)
     h.os.expects(:jumpstart_params).at_least_once.with(h, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
     h.valid?
     assert_equal 1, h.provision_interface.dhcp_records.size
     d = h.provision_interface.dhcp_records.first
     assert_instance_of Net::DHCP::SparcRecord, d
     assert_equal '<Sun-Fire-V210>', d.vendor
+  end
+
+  test "DHCP record contains ztp attributes" do
+    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration)
+    h.os.expects(:pxe_type).at_least_once.returns("ZTP")
+    h.os.expects(:dhcp_record_type).at_least_once.returns(Net::DHCP::ZTPRecord)
+    h.os.expects(:ztp_arguments).at_least_once.with(h).returns(:vendor => 'huawei', :firmware => {:core => "firmware.cc", :web => "web.7z"})
+    h.valid?
+    assert_equal 1, h.provision_interface.dhcp_records.size
+    d = h.provision_interface.dhcp_records.first
+    assert_instance_of Net::DHCP::ZTPRecord, d
+    assert_equal 'huawei', d.vendor
+    assert_equal 'firmware.cc', d.firmware[:core]
+    assert_equal 'web.7z', d.firmware[:web]
+  end
+
+  test "DHCP record fallback if ZTP OS has no ztp attributes" do
+    h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration)
+    h.os.expects(:pxe_type).at_least_once.returns("ZTP")
+    h.valid?
+    assert_equal 1, h.provision_interface.dhcp_records.size
+    d = h.provision_interface.dhcp_records.first
+    assert_instance_of Net::DHCP::Record, d
   end
 
   test "provision interface DHCP records should contain default filename/next-server attributes for IPv4 tftp proxy" do

@@ -7,3 +7,6 @@ sparc:
 
 s390:
   name: s390
+
+ASIC:
+  name: ASIC

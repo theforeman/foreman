@@ -96,7 +96,8 @@ module Orchestration::DHCP
   def build_dhcp_record(record_mac)
     raise ::Foreman::Exception.new(N_("DHCP not supported for this NIC")) unless dhcp?
     record_attrs = dhcp_attrs(record_mac)
-    record_type = (provision? && jumpstart?) ? Net::DHCP::SparcRecord : Net::DHCP::Record
+    record_type = operatingsystem.dhcp_record_type
+
     handle_validation_errors do
       record_type.new(record_attrs)
     end
@@ -123,6 +124,9 @@ module Orchestration::DHCP
       if jumpstart?
         jumpstart_arguments = os.jumpstart_params self.host, model.vendor_class
         dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
+      elsif operatingsystem.respond_to?(:pxe_type) && operatingsystem.pxe_type == "ZTP" && operatingsystem.respond_to?(:ztp_arguments)
+        ztp_arguments = os.ztp_arguments self.host
+        dhcp_attr.merge! ztp_arguments unless ztp_arguments.empty?
       end
     end
 
