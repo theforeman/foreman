@@ -58,6 +58,13 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    test "should get a kickstart when IPv6 mapped IPv4 address is used" do
+      @request.env["HTTP_X_FORWARDED_FOR"] = "::ffff:" + @rh_host.ip
+      @request.env["REMOTE_ADDR"] = "127.0.0.1"
+      get :host_template, params: { :kind => 'provision' }
+      assert_response :success
+    end
+
     test "should set @static when requested" do
       Setting[:safemode_render] = false
       @request.env["HTTP_X_RHN_PROVISIONING_MAC_0"] = "eth0 #{@rh_host.mac}"
