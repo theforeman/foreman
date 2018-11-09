@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 module Foreman
   module UnattendedInstallation
     class HostFinder
@@ -47,7 +49,9 @@ module Foreman
 
       def find_host_by_ip_or_mac
         # In-case we get back multiple ips (see #1619)
-        ip = query_params[:ip].split(',').first
+        address_parser = IPAddr.new query_params[:ip].split(',').first
+        ip = address_parser.native.to_s
+
         mac_list = query_params[:mac_list]
 
         query = mac_list.empty? ? { :nics => { :ip => ip } } : ["lower(nics.mac) IN (?)", mac_list]
