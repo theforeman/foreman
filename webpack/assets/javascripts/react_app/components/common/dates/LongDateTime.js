@@ -4,10 +4,10 @@ import { FormattedDate, intlShape } from 'react-intl';
 
 class LongDateTime extends React.Component {
   render() {
-    const { date, defaultValue } = this.props.data;
+    const { date, defaultValue } = this.props;
     if (date) {
       const title = this.context.intl.formatRelative(date);
-      const seconds = this.props.data.seconds ? '2-digit' : undefined;
+      const seconds = this.props.seconds ? '2-digit' : undefined;
 
       return (
         <span title={title}>
@@ -32,10 +32,9 @@ LongDateTime.contextTypes = {
 };
 
 LongDateTime.propTypes = {
-  data: PropTypes.shape({
-    date: PropTypes.any,
-    defaultValue: PropTypes.string,
-  }),
+  date: PropTypes.any,
+  defaultValue: PropTypes.string,
+  seconds: PropTypes.bool,
 };
 
 export default LongDateTime;
