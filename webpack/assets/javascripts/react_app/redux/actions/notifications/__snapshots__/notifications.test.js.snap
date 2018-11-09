@@ -142,14 +142,35 @@ Array [
 ]
 `;
 
-exports[`Notification Drawer actions should open link 1`] = `
+exports[`Notification Drawer actions should open external link 1`] = `
 Array [
+  Array [
+    "toggle the drawer action",
+  ],
   Array [
     Object {
       "payload": Object {
-        "value": false,
+        "external": true,
+        "href": "https://www.redhat.com/en",
       },
-      "type": "NOTIFICATIONS_TOGGLE_DRAWER",
+      "type": "NOTIFICATIONS_LINK_CLICKED",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should open link 1`] = `
+Array [
+  Array [
+    "toggle the drawer action",
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "external": false,
+        "href": "https://www.redhat.com/en",
+      },
+      "type": "NOTIFICATIONS_LINK_CLICKED",
     },
   ],
 ]

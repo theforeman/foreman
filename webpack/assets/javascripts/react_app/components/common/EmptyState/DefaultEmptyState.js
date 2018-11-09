@@ -14,7 +14,7 @@ const documentationBlock = ({
   url && (
     <React.Fragment>
       {label}{' '}
-      <a href={url} target="_blank">
+      <a href={url} target="_blank" rel="noopener noreferrer">
         <DocumentLinkContent>{buttonLabel}</DocumentLinkContent>
       </a>
     </React.Fragment>

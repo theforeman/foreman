@@ -7,6 +7,7 @@ import {
   NOTIFICATIONS_MARK_AS_CLEAR,
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS_POLLING_STARTED,
+  NOTIFICATIONS_LINK_CLICKED,
 } from '../../consts';
 import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
 import API from '../../../API';
@@ -134,7 +135,22 @@ export const toggleDrawer = () => (dispatch, getState) => {
   });
 };
 
-export const clickedLink = link => (dispatch, getState) => {
-  toggleDrawer()(dispatch, getState);
-  window.open(link.href, link.external ? '_blank' : '_self');
+export const clickedLink = (
+  { href, external = false },
+  toggleDrawerAction = toggleDrawer,
+) => (dispatch) => {
+  dispatch(toggleDrawerAction());
+
+  const openedWindow = window.open(href, external ? '_blank' : '_self');
+
+  if (external) {
+    openedWindow.opener = null;
+  }
+
+  dispatch({
+    type: NOTIFICATIONS_LINK_CLICKED,
+    payload: { href, external },
+  });
+
+  return openedWindow;
 };
