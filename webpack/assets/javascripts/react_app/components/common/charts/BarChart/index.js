@@ -36,16 +36,6 @@ const BarChart = ({
   return <MessageBox msg={noDataMsg} icontype="info" />;
 };
 
-BarChart.defaultProps = {
-  onclick: noop,
-  noDataMsg: __('No data available'),
-  config: 'regular',
-  title: { type: 'percent' },
-  unloadData: false,
-  yAxisLabel: '',
-  xAxisLabel: '',
-};
-
 BarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.array),
   onclick: PropTypes.func,
@@ -57,6 +47,17 @@ BarChart.propTypes = {
   unloadData: PropTypes.bool,
   xAxisLabel: PropTypes.string,
   yAxisLabel: PropTypes.string,
+};
+
+BarChart.defaultProps = {
+  data: null,
+  onclick: noop,
+  noDataMsg: __('No data available'),
+  config: 'regular',
+  title: { type: 'percent' },
+  unloadData: false,
+  yAxisLabel: '',
+  xAxisLabel: '',
 };
 
 export default BarChart;
