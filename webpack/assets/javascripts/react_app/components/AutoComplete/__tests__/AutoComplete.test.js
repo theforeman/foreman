@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import AutoComplete from '../index';
-import { AutoCompleteProps } from '../AutoComplete.fixtures.js';
+import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import { KEYCODES } from '../AutoCompleteConstants';
 
