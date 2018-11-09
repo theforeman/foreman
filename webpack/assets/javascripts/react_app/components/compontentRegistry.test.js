@@ -84,6 +84,7 @@ describe('Component registry', () => {
         componentRegistry.getComponent(name),
         'DATA',
         'STORE',
+        false,
       );
     });
   });
