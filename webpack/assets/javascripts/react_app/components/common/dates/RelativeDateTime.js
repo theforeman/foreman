@@ -4,7 +4,7 @@ import { FormattedRelative, intlShape } from 'react-intl';
 
 class RelativeDateTime extends React.Component {
   render() {
-    const { date, defaultValue } = this.props.data;
+    const { date, defaultValue } = this.props;
     if (date) {
       const title = this.context.intl.formatDate(date, {
         day: '2-digit',
@@ -32,10 +32,8 @@ RelativeDateTime.contextTypes = {
 };
 
 RelativeDateTime.propTypes = {
-  data: PropTypes.shape({
-    date: PropTypes.any,
-    defaultValue: PropTypes.string,
-  }),
+  date: PropTypes.any,
+  defaultValue: PropTypes.string,
 };
 
 export default RelativeDateTime;

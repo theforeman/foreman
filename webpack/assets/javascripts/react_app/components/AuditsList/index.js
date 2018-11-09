@@ -34,7 +34,7 @@ const renderAdditionalInfoItems = items =>
 
 const renderTimestamp = date => (
   <span className='gray-text'>
-    <ShortDateTime data={{ date, defaultValue: __('N/A') }} />
+    <ShortDateTime date={date} defaultValue={ __('N/A') } />
   </span>
 );
 

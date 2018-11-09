@@ -4,7 +4,7 @@ import { FormattedDate, intlShape } from 'react-intl';
 
 class IsoDate extends React.Component {
   render() {
-    const { date, defaultValue } = this.props.data;
+    const { date, defaultValue } = this.props;
     if (date) {
       const title = this.context.intl.formatRelative(date);
 
@@ -28,10 +28,8 @@ IsoDate.contextTypes = {
 };
 
 IsoDate.propTypes = {
-  data: PropTypes.shape({
-    date: PropTypes.any,
-    defaultValue: PropTypes.string,
-  }),
+  date: PropTypes.any,
+  defaultValue: PropTypes.string,
 };
 
 export default IsoDate;

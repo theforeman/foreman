@@ -4,7 +4,7 @@ import { FormattedDate, intlShape } from 'react-intl';
 
 class ShortDateTime extends React.Component {
   render() {
-    const { date, defaultValue, seconds } = this.props.data;
+    const { date, defaultValue, seconds } = this.props;
     if (date) {
       const title = this.context.intl.formatRelative(date);
       const secondsFormat = seconds ? '2-digit' : undefined;
@@ -31,11 +31,9 @@ ShortDateTime.contextTypes = {
 };
 
 ShortDateTime.propTypes = {
-  data: PropTypes.shape({
-    date: PropTypes.any,
-    defaultValue: PropTypes.string,
-    seconds: PropTypes.bool,
-  }),
+  date: PropTypes.any,
+  defaultValue: PropTypes.string,
+  seconds: PropTypes.bool,
 };
 
 export default ShortDateTime;
