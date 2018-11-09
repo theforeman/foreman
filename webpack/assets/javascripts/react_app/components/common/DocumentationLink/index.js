@@ -5,8 +5,7 @@ import Icon from '../Icon';
 import { newWindowOnClick } from '../../../common/helpers';
 import { translate as __ } from '../../../../react_app/common/I18n';
 
-// TODO: move children's default value to defaultProps once "Fixes #17263" is merged
-export const DocumentLinkContent = ({ children = __('Documentation') }) => (
+export const DocumentLinkContent = ({ children }) => (
   <React.Fragment>
     <Icon type="question-sign" className="icon-black" />
     {` ${children}`}
@@ -15,6 +14,10 @@ export const DocumentLinkContent = ({ children = __('Documentation') }) => (
 
 DocumentLinkContent.propTypes = {
   children: PropTypes.node,
+};
+
+DocumentLinkContent.defaultProps = {
+  children: __('Documentation'),
 };
 
 const DocumentationLink = ({ href }) => (

@@ -10,6 +10,8 @@ exports[`documentation links should have an external link to documentation 1`] =
   key="documentationUrl"
   onClick={[Function]}
 >
-  <DocumentLinkContent />
+  <DocumentLinkContent>
+    Documentation
+  </DocumentLinkContent>
 </MenuItem>
 `;
