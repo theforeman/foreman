@@ -473,13 +473,6 @@ Style/NumericPredicate:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
-# Offense count: 72
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: short, verbose
-Style/PreferredHashMethods:
-  Enabled: false
-
 # Offense count: 110
 # Cop supports --auto-correct.
 Style/Proc:

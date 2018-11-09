@@ -102,3 +102,6 @@ Style/LineEndConcatenation:
 
 Style/ParallelAssignment:
   Enabled: false
+
+Style/PreferredHashMethods:
+  Enabled: false
