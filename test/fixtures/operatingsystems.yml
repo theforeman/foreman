@@ -61,3 +61,12 @@ no_hosts_os:
   minor: 1
   type: Redhat
   title: 'NoHosts 1.1'
+
+vrp5:
+  name: Huawei_VRP
+  major: 5
+  minor: 17
+  type: VRP
+  media: vrp5
+  architectures: ASIC
+  title: 'Huawei VRP 5'

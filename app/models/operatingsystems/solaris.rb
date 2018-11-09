@@ -23,6 +23,10 @@ class Solaris < Operatingsystem
     ["None"]
   end
 
+  def dhcp_record_type
+    Net::DHCP::SparcRecord
+  end
+
   def template_kinds
     ["PXEGrub"]
   end

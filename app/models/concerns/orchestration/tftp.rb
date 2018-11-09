@@ -69,11 +69,14 @@ module Orchestration::TFTP
   end
 
   def default_pxe_render(kind)
-    template = ProvisioningTemplate.find_by_name(host.local_boot_template_name(kind))
-    raise Foreman::Exception.new(N_("Template '%s' was not found"), template.name) unless template
+    template_name = host.local_boot_template_name(kind)
+    # Safely return in case there's no template configured for the specified kind
+    return unless template_name.present?
+    template = ProvisioningTemplate.find_by_name(template_name)
+    raise Foreman::Exception.new(N_("Template '%s' was not found"), template_name) unless template
     host.render_template(template: template)
   rescue => e
-    failure _("Unable to render '%{name}' template: %{e}") % { :name => template.name, :e => e }, e
+    failure _("Unable to render '%{name}' template: %{e}") % { :name => template_name, :e => e }, e
   end
 
   # Adds the host to the forward and reverse TFTP zones

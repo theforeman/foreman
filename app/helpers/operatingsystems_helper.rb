@@ -35,6 +35,8 @@ module OperatingsystemsHelper
                "AIX"
              when /Junos/i
                "Junos"
+             when /VRP/i
+               "VRP"
              when /OracleLinux/i
                "OracleLinux"
              when /CoreOS|ContainerLinux|Container Linux/i

@@ -271,6 +271,22 @@ EXPECTED
     assert_equal template.template, result
   end
 
+  test 'omit trying to generate a template for non-existing localboot template' do
+    return unless unattended?
+    h = FactoryBot.create(:host, :managed)
+    as_admin do
+      os = operatingsystems(:vrp5)
+      os.media << h.medium
+      os.architectures << h.architecture
+      h.update_attribute :operatingsystem, os
+    end
+    assert !h.build
+
+    result = h.send(:generate_pxe_template, :ZTP)
+    assert result.blank?
+    assert h.errors.empty?
+  end
+
   test 'should rebuild tftp IPv4' do
     host = FactoryBot.create(:host, :with_tftp_orchestration)
     Nic::Managed.any_instance.expects(:setTFTP).with('PXELinux').once.returns(true)

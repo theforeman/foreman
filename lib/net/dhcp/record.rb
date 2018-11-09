@@ -83,7 +83,7 @@ module Net::DHCP
     end
 
     def attrs
-      {
+      @attrs ||= {
         :hostname => hostname,
         :mac => mac,
         :ip => ip,
@@ -93,7 +93,7 @@ module Net::DHCP
         :name => name,
         :related_macs => related_macs,
         :type => type
-      }.delete_if { |k, v| v.nil? }
+      }.compact
     end
   end
 end

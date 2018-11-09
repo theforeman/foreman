@@ -21,3 +21,7 @@ solaris10:
 opensuse:
   name: OpenSUSE
   path: http://download.opensuse.org/distribution/$version/repo/oss
+
+vrp5:
+  name: Huawei VRP 5
+  path: http://firmware.fake-huawei.com

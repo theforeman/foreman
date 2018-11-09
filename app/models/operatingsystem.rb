@@ -68,6 +68,7 @@ class Operatingsystem < ApplicationRecord
                'Freebsd'   => %r{FreeBSD}i,
                'AIX'       => %r{AIX}i,
                'Junos'     => %r{Junos}i,
+               'VRP'       => %r{VRP}i,
                'NXOS'      => %r{NX-OS}i,
                'Xenserver' => %r{XenServer}i }
 
@@ -178,6 +179,11 @@ class Operatingsystem < ApplicationRecord
   # Implemented only in the OSs subclasses where it makes sense
   def available_loaders
     ["None", "PXELinux BIOS"]
+  end
+
+  # The DHCP record type to use, can be overriden by OSs subclasses
+  def dhcp_record_type
+    Net::DHCP::Record
   end
 
   # Compatibility method, don't want to break all templates that use it.
