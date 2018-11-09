@@ -97,9 +97,9 @@ module Orchestration::Compute
     if template.nil?
       failure((_("%{image} needs user data, but %{os_link} is not associated to any provisioning template of the kind user_data. Please associate it with a suitable template or uncheck 'User data' for %{compute_resource_image_link}.") %
       { :image => image.name,
-        :os_link => "<a target='_blank' href='#{url_for(edit_operatingsystem_path(operatingsystem))}'>#{operatingsystem.title}</a>",
+        :os_link => "<a target='_blank' rel='noopener noreferrer' href='#{url_for(edit_operatingsystem_path(operatingsystem))}'>#{operatingsystem.title}</a>",
         :compute_resource_image_link =>
-          "<a target='_blank' href='#{url_for(edit_compute_resource_image_path(:compute_resource_id => compute_resource.id, :id => image.id))}'>#{image.name}</a>"}).html_safe)
+          "<a target='_blank' rel='noopener noreferrer' href='#{url_for(edit_compute_resource_image_path(:compute_resource_id => compute_resource.id, :id => image.id))}'>#{image.name}</a>"}).html_safe)
       return false
     end
 

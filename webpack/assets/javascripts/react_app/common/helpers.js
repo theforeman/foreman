@@ -38,7 +38,8 @@ export const noop = Function.prototype;
  */
 export const newWindowOnClick = url => (event) => {
   event.preventDefault();
-  window.open(url, '_blank');
+  const newWindow = window.open(url, '_blank');
+  newWindow.opener = null;
 };
 
 /**

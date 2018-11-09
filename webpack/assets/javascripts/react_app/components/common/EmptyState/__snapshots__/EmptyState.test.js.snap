@@ -54,6 +54,7 @@ exports[`Default Empty State should render documentation when given a url 1`] = 
      
     <a
       href="doc-url"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <span
