@@ -21,7 +21,7 @@ require('./bundle_novnc');
 
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
-import i18n from './react_app/common/i18n';
+import i18n from './react_app/common/I18n';
 
 window.tfm = Object.assign(window.tfm || {}, {
   authSource: require('./foreman_auth_source'),
