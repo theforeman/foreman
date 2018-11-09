@@ -5,6 +5,8 @@ exports[`radio button group should render group of radio buttons 1`] = `
   className=""
   inputClassName="col-md-6"
   label="RadioButtonGroupLabel"
+  required={false}
+  touched={false}
 >
   <Field
     component={[Function]}

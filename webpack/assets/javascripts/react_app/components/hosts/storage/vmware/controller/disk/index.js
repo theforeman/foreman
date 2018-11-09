@@ -50,7 +50,7 @@ const Disk = ({
       disabled={vmExists}
       onChange={updateDisk.bind(this, 'storagePod')}
       options={storagePods}
-      allowClear="true"
+      allowClear
       key="storagePodsSelect"
       status={storagePodsStatus}
       errorMessage={storagePodsError}
@@ -62,7 +62,7 @@ const Disk = ({
       value={datastore}
       onChange={updateDisk.bind(this, 'datastore')}
       options={datastores}
-      allowClear="true"
+      allowClear
       key="datastoresSelect"
       status={datastoresStatus}
       errorMessage={datastoresError}
