@@ -7,11 +7,19 @@ export const ngettext = createTranslateMock();
 
 export const sprintf = createTranslateMock();
 
+export const intl = {
+  loaded: true,
+  ready: Promise.resolve(),
+  timezone: 'UTC',
+  locale: 'en',
+};
+
 const i18n = {
   translate,
   ngettext,
   jed,
   sprintf,
+  intl,
 };
 
 window.__ = translate;

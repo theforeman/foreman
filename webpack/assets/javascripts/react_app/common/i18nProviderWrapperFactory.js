@@ -1,6 +1,6 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import i18n from './i18n';
+import { intl } from './I18n';
 import { getDisplayName } from './helpers';
 
 const i18nProviderWrapperFactory = (initialNow, timezone) =>
@@ -10,10 +10,10 @@ const i18nProviderWrapperFactory = (initialNow, timezone) =>
     class I18nProviderWrapper extends React.Component {
       constructor(props) {
         super(props);
-        this.state = { i18nLoaded: i18n.loaded };
+        this.state = { i18nLoaded: intl.loaded };
 
-        if (!i18n.loaded) {
-          i18n.ready.then(() => {
+        if (!intl.loaded) {
+          intl.ready.then(() => {
             this.setState({ i18nLoaded: true });
           });
         }
@@ -25,9 +25,9 @@ const i18nProviderWrapperFactory = (initialNow, timezone) =>
         }
         return (
           <IntlProvider
-            locale={i18n.locale}
+            locale={intl.locale}
             initialNow={initialNow}
-            timeZone={timezone || i18n.timezone}
+            timeZone={timezone || intl.timezone}
           >
             <WrappedComponent {...this.props}/>
           </IntlProvider>
