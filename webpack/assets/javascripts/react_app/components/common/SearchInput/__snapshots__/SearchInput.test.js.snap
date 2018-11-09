@@ -17,6 +17,7 @@ exports[`Search Input should render 1`] = `
     id="breadcrumbs-search"
     inputRef={[Function]}
     minLength={0}
+    onChange={[Function]}
     placeholder="filter..."
     type="text"
     value="val"

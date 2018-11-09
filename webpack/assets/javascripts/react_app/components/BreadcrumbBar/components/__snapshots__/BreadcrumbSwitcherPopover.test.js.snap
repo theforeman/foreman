@@ -9,7 +9,10 @@ exports[`BreadcrumbSwitcherPopover render loading state 1`] = `
 >
   <SearchInput
     focus={true}
+    onClear={[Function]}
+    onSearchChange={[Function]}
     searchValue=""
+    timeout={300}
   />
   <div
     className="breadcrumb-switcher-popover-loading text-center"
@@ -33,7 +36,10 @@ exports[`BreadcrumbSwitcherPopover render resources list 1`] = `
 >
   <SearchInput
     focus={true}
+    onClear={[Function]}
+    onSearchChange={[Function]}
     searchValue=""
+    timeout={300}
   />
   <ListGroup
     bsClass="list-group"
@@ -160,7 +166,10 @@ exports[`BreadcrumbSwitcherPopover render resources list with a search query 1`]
 >
   <SearchInput
     focus={true}
+    onClear={[Function]}
+    onSearchChange={[Function]}
     searchValue=""
+    timeout={300}
   />
   <ListGroup
     bsClass="list-group"
@@ -287,7 +296,10 @@ exports[`BreadcrumbSwitcherPopover render resources list with pagination 1`] = `
 >
   <SearchInput
     focus={true}
+    onClear={[Function]}
+    onSearchChange={[Function]}
     searchValue=""
+    timeout={300}
   />
   <ListGroup
     bsClass="list-group"
