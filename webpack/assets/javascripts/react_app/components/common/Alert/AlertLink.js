@@ -13,4 +13,9 @@ AlertLink.propTypes = {
   onClick: PropTypes.func,
 };
 
+AlertLink.defaultProps = {
+  href: undefined,
+  onClick: undefined,
+};
+
 export default AlertLink;
