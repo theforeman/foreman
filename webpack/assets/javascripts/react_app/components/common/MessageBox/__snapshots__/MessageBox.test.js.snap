@@ -15,7 +15,7 @@ exports[`MessageBox the icon has pficon and pficon-info classes 1`] = `
 </div>
 `;
 
-exports[`MessageBox the icon has pficon and pficon-info classes 2`] = `
+exports[`MessageBox the icon has pficon and pficon-info classes with error icon 1`] = `
 <div
   className="message-box-root"
 >
