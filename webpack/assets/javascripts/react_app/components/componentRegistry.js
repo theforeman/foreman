@@ -26,6 +26,7 @@ import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
+import LoginPage from './LoginPage';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -147,6 +148,7 @@ const coreComponets = [
 
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
+  { name: 'LoginPage', type: LoginPage },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

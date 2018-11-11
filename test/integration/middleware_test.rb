@@ -39,7 +39,6 @@ class MiddlewareIntegrationTest < ActionDispatch::IntegrationTest
       test 'it is added to the Content-Security-Policy as well' do
         logout_admin
         visit '/environments'
-        assert page.has_selector? 'input[name="login[password]"]'
         assert page.response_headers['Content-Security-Policy'].include?(@webpack_url)
       end
     end

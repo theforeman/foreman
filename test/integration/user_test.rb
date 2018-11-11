@@ -19,8 +19,8 @@ class UserIntegrationTest < IntegrationTestWithJavascript
   context "without automatic login" do
     def login_admin
     end
-
     test "login" do
+      Capybara.current_driver = Capybara.javascript_driver
       visit "/"
       fill_in "login_login", :with => users(:admin).login
       fill_in "login_password", :with => "secret"
