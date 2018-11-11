@@ -1,0 +1,47 @@
+@import '~patternfly/dist/sass/patternfly/_color-variables.scss';
+@import '~patternfly-react/dist/sass/_login-page.scss';
+
+.login-page {
+  height: 100%;
+  overflow: hidden;
+
+  .login-pf-header {
+    margin-bottom: 0 !important; // conflicts with patternfly-sass gem.
+
+    h1 {
+      font-weight: 500;
+    }
+  }
+
+  .login-pf {
+    /* stylelint-disable-next-line */
+    background-image: linear-gradient(
+      to right,
+      #005e8c,
+      #084c75,
+      #0a3a5e,
+      #082948,
+      #041a33
+    );
+  }
+
+  .login-pf-caption {
+    color: white;
+
+    h1 {
+      font-weight: 600;
+    }
+  }
+
+  // patternfly_and_overrides.scss sets all spinners in the app to left.
+  .spinner {
+    float: none;
+  }
+
+  // patternfly_and_overrides.scss adjusts all inputs glyphicons.
+  .form-control + .glyphicon {
+    position: absolute;
+    padding: 0;
+    right: 0;
+  }
+}
