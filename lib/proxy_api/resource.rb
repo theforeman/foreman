@@ -122,6 +122,10 @@ module ProxyAPI
         :ssl_ca_file      =>  ca_cert,
         :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
       }
+    rescue StandardError => exception
+      msg = N_("Unable to read SSL certification or key for proxy communication, check settings for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readable by the foreman user.")
+      Foreman::Logging.exception(msg, exception)
+      raise Foreman::WrappedException.new(exception, msg)
     end
   end
 
