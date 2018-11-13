@@ -1,7 +1,7 @@
 <% @totaltime = metrics.delete('total') %>
 <% metrics.delete_if{ |k,v| v < 0.001 } %>
 
-<div id="config-reports">
+<div id="config-reports"></div>
 <%= mount_react_component('ConfigReports', '#config-reports', {
   metricsChartData: metrics.to_a,
   statusChartData: status.to_a,

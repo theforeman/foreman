@@ -1,0 +1,33 @@
+.diff-modal {
+  .modal-header {
+    #diff-radio-buttons {
+      margin-right: 15px;
+      margin-bottom: unset;
+      float: right;
+      overflow: hidden;
+    }
+  }
+
+  .modal-dialog {
+    width: 900px;
+  }
+
+  .diff-modal-body {
+    padding: unset;
+  }
+
+  #diff-modal-h4 {
+    float: left;
+    margin: 0;
+    padding-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 700px;
+  }
+
+  .diff-modal-button {
+    margin-top: 3px;
+    float: right;
+  }
+}

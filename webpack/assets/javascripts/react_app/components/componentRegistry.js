@@ -18,6 +18,7 @@ import EmptyState from './common/EmptyState';
 import ComponentWrapper from './common/ComponentWrapper/ComponentWrapper';
 import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
+import DiffModal from './ConfigReports/DiffModal';
 
 const componentRegistry = {
   registry: {},
@@ -92,6 +93,7 @@ const coreComponets = [
   { name: 'ChartBox', type: ChartBox },
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
+  { name: 'DiffModal', type: DiffModal },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

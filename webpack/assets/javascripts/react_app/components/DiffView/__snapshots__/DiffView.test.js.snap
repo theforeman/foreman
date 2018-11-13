@@ -1,6 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DiffView rendering render DiffView 1`] = `
+exports[`DiffView rendering render DiffView w/Patch 1`] = `
+<div>
+  <Diff
+    diffType="modify"
+    generateAnchorID={[Function]}
+    gutterAnchor={false}
+    hideGutter={false}
+    hunks={Array []}
+    key="1111111-2222222"
+    markEdits={[Function]}
+    optimizeSelection={false}
+    viewType="unified"
+  />
+</div>
+`;
+
+exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
 <Diff
   diffType="modify"
   generateAnchorID={[Function]}

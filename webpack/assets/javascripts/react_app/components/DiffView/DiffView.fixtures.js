@@ -10,3 +10,8 @@ export const radioMock = {
   stateView: 'split',
   changeState: noop,
 };
+
+export const patchMock = {
+  viewType: 'unified',
+  patch: '\n---',
+};

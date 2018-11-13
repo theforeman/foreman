@@ -7,6 +7,7 @@ exports[`ExpansiveView rendering render audit record changes 1`] = `
   <DiffContainer
     newText="<h1>Hello World..</h1>"
     oldText="<h1>Hello..</h1>"
+    patch=""
   />
   <table
     className="table-changes table table-bordered table-hover"
