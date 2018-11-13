@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DiffModal actions should changeViewType 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "diffViewType": "unified",
+      },
+      "type": "DIFF_MODAL_VIEWTYPE",
+    },
+  ],
+]
+`;
+
+exports[`DiffModal actions should createDiff 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "diff": "
+---",
+        "isOpen": true,
+        "title": "log1",
+      },
+      "type": "DIFF_MODAL_CREATE",
+    },
+  ],
+]
+`;
+
+exports[`DiffModal actions should toggleModal 1`] = `
+Object {
+  "type": "DIFF_MODAL_TOGGLE",
+}
+`;

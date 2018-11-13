@@ -1,4 +1,3 @@
-<%= javascript 'reports', 'charts' %>
 <% title "#{@config_report.host}"%>
 <% breadcrumbs(switchable: false) %>
 
@@ -21,19 +20,5 @@
   link_to(_("Other reports for this host"), host_config_reports_path(@config_report.host), :class => 'btn btn-default')
 %>
 
-<div id="diff-modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><%= _("Diff View") %></h4>
-      </div>
-      <div  id="diff-modal-editor" class="modal-body">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _("Close") %></button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<div id="diff-modal" class="modal-body"></div>
+<%= mount_react_component('DiffModal', '#diff-modal') %>

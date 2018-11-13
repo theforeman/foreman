@@ -1,10 +1,11 @@
-import { diffMock } from './DiffView.fixtures';
+import { diffMock, patchMock } from './DiffView.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../common/testHelpers';
 
 import DiffView from './DiffView';
 
 const fixtures = {
-  'render DiffView': diffMock,
+  'render DiffView w/oldText & newText': diffMock,
+  'render DiffView w/Patch': patchMock,
 };
 
 describe('DiffView', () => {

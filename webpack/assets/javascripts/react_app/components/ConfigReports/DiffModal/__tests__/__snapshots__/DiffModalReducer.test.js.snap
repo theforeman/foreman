@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DiffModal reducer should handle DIFF_MODAL_CREATE 1`] = `
+Object {
+  "diff": "
+---",
+  "diffViewType": "split",
+  "isOpen": true,
+  "title": "log1",
+}
+`;
+
+exports[`DiffModal reducer should handle DIFF_MODAL_TOGGLE 1`] = `
+Object {
+  "diff": "",
+  "diffViewType": "split",
+  "isOpen": true,
+  "title": "",
+}
+`;
+
+exports[`DiffModal reducer should handle DIFF_MODAL_VIEWTYPE 1`] = `
+Object {
+  "diff": "",
+  "diffViewType": "unified",
+  "isOpen": false,
+  "title": "",
+}
+`;
+
+exports[`DiffModal reducer should return the initial state 1`] = `
+Object {
+  "diff": "",
+  "diffViewType": "split",
+  "isOpen": false,
+  "title": "",
+}
+`;

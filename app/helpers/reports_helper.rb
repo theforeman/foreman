@@ -67,4 +67,13 @@ module ReportsHelper
   def report_default_partial
     'output'.freeze
   end
+
+  def config_report_content(log)
+    message = log.message.to_s
+    if message.start_with?("\n---")
+      filename = log.source.value.to_s.scan(/File\[(.*?)\]/).flatten.first rescue ""
+      return link_to(_('Show Diff'), '#', data: {diff: message, title: filename}, onclick: 'tfm.configReportsModalDiff.showDiff(this);')
+    end
+    message
+  end
 end
