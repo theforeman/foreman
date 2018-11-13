@@ -1,7 +1,8 @@
 require 'openssl'
 
 class CertificateExtract
-  def initialize(cert_raw)
+  def initialize(cert)
+    cert_raw = Base64.decode64(strip_cert(cert))
     @certificate = OpenSSL::X509::Certificate.new(cert_raw)
   end
 
@@ -29,5 +30,11 @@ class CertificateExtract
 
   def subject_alt_name_extension
     @certificate.extensions.find {|e| e.oid == "subjectAltName"}
+  end
+
+  private
+
+  def strip_cert(cert)
+    cert.to_s.gsub("-----BEGIN CERTIFICATE-----", "").gsub("-----END CERTIFICATE-----", "").gsub(/\s+/, '')
   end
 end
