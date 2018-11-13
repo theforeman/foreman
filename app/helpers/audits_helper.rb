@@ -85,7 +85,7 @@ module AuditsHelper
       end
     elsif !main_object? audit
       ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0], audit: audit}
-       #{(audit_action_name(audit) == 'removed') ? 'from' : 'to'} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1])}"]
+       #{(audit_action_name(audit) == 'removed') ? 'from' : 'to'} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1], audit: audit)}"]
     else
       []
     end
@@ -254,10 +254,10 @@ module AuditsHelper
       rec = { :name => name.humanize }
       if audit.action == 'update'
         rec[:change] = change.map.with_index do |v, i|
-          change_info_hash(name, v, css_class_by_action(i == 0))
+          change_info_hash(name, v, css_class_by_action(i == 0), audit: audit)
         end
       else
-        rec[:change] = (rec[:change] || []).push(change_info_hash(name, change, css_class_name))
+        rec[:change] = (rec[:change] || []).push(change_info_hash(name, change, css_class_name, audit: audit))
       end
       rec
     end.compact
@@ -267,8 +267,8 @@ module AuditsHelper
     is_condition_match ? 'show-old' : 'show-new'
   end
 
-  def change_info_hash(name, change, css_class = 'show-new')
-    { :css_class => css_class, :id_to_label => id_to_label(name, change, truncate: false) }
+  def change_info_hash(name, change, css_class = 'show-new', audit: nil)
+    { :css_class => css_class, :id_to_label => id_to_label(name, change, truncate: false, audit: audit) }
   end
 
   def fetch_affected_locations(audit)
