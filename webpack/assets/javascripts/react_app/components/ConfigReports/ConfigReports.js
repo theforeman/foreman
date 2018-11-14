@@ -70,7 +70,7 @@ ConfigReports.propTypes = {
       total: PropTypes.number,
       tableClasses: PropTypes.string,
     }),
-  }),
+  }).isRequired,
 };
 
 export default ConfigReports;
