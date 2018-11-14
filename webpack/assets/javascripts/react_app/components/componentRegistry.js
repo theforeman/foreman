@@ -74,9 +74,19 @@ const componentRegistry = {
     return factory.wrapper;
   },
 
-  markup(name, { data = null, store = null, wrapper = null, flattenData = false }) {
+  markup(name, {
+    data = null,
+    store = null,
+    wrapper = null,
+    flattenData = false,
+  }) {
     const currentComponent = this.getComponent(name);
-    const componentWrapper = wrapper || this.defaultWrapper(currentComponent, data, store, flattenData);
+    const componentWrapper = wrapper || this.defaultWrapper(
+      currentComponent,
+      data,
+      store,
+      flattenData,
+    );
 
     const WrappedComponent = componentWrapper(currentComponent.type);
 
