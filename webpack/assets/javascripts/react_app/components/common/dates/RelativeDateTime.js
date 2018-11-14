@@ -16,7 +16,7 @@ class RelativeDateTime extends React.Component {
 
       return (
         <span title={title}>
-          <FormattedRelative value={date} />
+          <FormattedRelative value={date} style="numeric" />
         </span>
       );
     }
