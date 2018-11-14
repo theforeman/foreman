@@ -95,9 +95,18 @@ class FactChart extends React.Component {
 }
 
 FactChart.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string,
+    search: PropTypes.string,
+  }).isRequired,
   factChart: PropTypes.object,
   modalToDisplay: PropTypes.bool,
-  data: PropTypes.object,
+};
+
+FactChart.defaultProps = {
+  factChart: {},
+  modalToDisplay: false,
 };
 
 const mapStateToProps = (state, ownProps) => ({
