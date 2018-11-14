@@ -109,11 +109,14 @@ module Foreman
           #   .each { |batch| batch.each { |record| record.name }}
           # or
           #   .each_record { |record| record.name }
-          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil)
+          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil, limit: nil)
+            limit ||= 10 if preview?
+
             base = klass
             base = base.search_for(search)
             base = base.includes(includes) unless includes.nil?
             base = base.authorized(permission) unless permission.nil?
+            base = base.limit(limit) unless limit.nil?
             base.in_batches(of: batch)
           end
         end
