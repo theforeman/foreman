@@ -521,6 +521,7 @@ module Foreman::Model
       opts['volumes'] = vm_model.volumes
       if args[:user_data] && valid_cloudinit_for_customspec?(args[:user_data])
         opts["customization_spec"] = client.cloudinit_to_customspec(args[:user_data])
+        opts["extraConfig"] = opts["customization_spec"]["extraConfig"] if opts["customization_spec"].key?("extraConfig")
       end
       client.servers.get(client.vm_clone(opts)['new_vm']['id'])
     end
