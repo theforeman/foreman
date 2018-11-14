@@ -13,6 +13,10 @@ module InputResolver
       input_value
     end
 
+    def preview_value
+      @input.template.is_a?(ReportTemplate) ? "" : super
+    end
+
     private
 
     def required_value_needed?
