@@ -2,12 +2,8 @@
 
 exports[`Date formats date 1`] = `
 <IsoDate
-  data={
-    Object {
-      "date": 2017-10-13T11:54:55.000Z,
-      "defaultValue": "Default value",
-    }
-  }
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
 >
   <span
     title="15 days ago"
@@ -28,12 +24,8 @@ exports[`Date formats date 1`] = `
 
 exports[`Date renders default value 1`] = `
 <IsoDate
-  data={
-    Object {
-      "date": null,
-      "defaultValue": "Default value",
-    }
-  }
+  date={null}
+  defaultValue="Default value"
 >
   <span>
     Default value

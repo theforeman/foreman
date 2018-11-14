@@ -2,17 +2,14 @@
 
 exports[`RelativeDateTime formats date 1`] = `
 <RelativeDateTime
-  data={
-    Object {
-      "date": 2017-10-13T11:54:55.000Z,
-      "defaultValue": "Default value",
-    }
-  }
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
 >
   <span
     title="Oct 13, 2017, 11:54 AM"
   >
     <FormattedRelative
+      style="numeric"
       updateInterval={10000}
       value={2017-10-13T11:54:55.000Z}
     >
@@ -26,12 +23,8 @@ exports[`RelativeDateTime formats date 1`] = `
 
 exports[`RelativeDateTime renders default value 1`] = `
 <RelativeDateTime
-  data={
-    Object {
-      "date": null,
-      "defaultValue": "Default value",
-    }
-  }
+  date={null}
+  defaultValue="Default value"
 >
   <span>
     Default value

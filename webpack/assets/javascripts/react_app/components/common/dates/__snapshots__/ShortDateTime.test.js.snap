@@ -2,12 +2,8 @@
 
 exports[`ShortDateTime formats date 1`] = `
 <ShortDateTime
-  data={
-    Object {
-      "date": 2017-10-13T11:54:55.000Z,
-      "defaultValue": "Default value",
-    }
-  }
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
 >
   <span
     title="15 days ago"
@@ -29,13 +25,9 @@ exports[`ShortDateTime formats date 1`] = `
 
 exports[`ShortDateTime formats date with seconds 1`] = `
 <ShortDateTime
-  data={
-    Object {
-      "date": 2017-10-13T11:54:55.000Z,
-      "defaultValue": "Default value",
-      "seconds": true,
-    }
-  }
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
+  seconds={true}
 >
   <span
     title="15 days ago"
@@ -58,12 +50,8 @@ exports[`ShortDateTime formats date with seconds 1`] = `
 
 exports[`ShortDateTime renders default value 1`] = `
 <ShortDateTime
-  data={
-    Object {
-      "date": null,
-      "defaultValue": "Default value",
-    }
-  }
+  date={null}
+  defaultValue="Default value"
 >
   <span>
     Default value

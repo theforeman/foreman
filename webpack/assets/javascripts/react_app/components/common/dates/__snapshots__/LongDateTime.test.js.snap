@@ -2,12 +2,8 @@
 
 exports[`LongDateTime formats date 1`] = `
 <LongDateTime
-  data={
-    Object {
-      "date": 2017-10-13T11:54:55.000Z,
-      "defaultValue": "Default value",
-    }
-  }
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
 >
   <span
     title="15 days ago"
@@ -30,13 +26,9 @@ exports[`LongDateTime formats date 1`] = `
 
 exports[`LongDateTime formats date with seconds 1`] = `
 <LongDateTime
-  data={
-    Object {
-      "date": 2017-10-13T11:54:55.000Z,
-      "defaultValue": "Default value",
-      "seconds": true,
-    }
-  }
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
+  seconds={true}
 >
   <span
     title="15 days ago"
@@ -60,12 +52,8 @@ exports[`LongDateTime formats date with seconds 1`] = `
 
 exports[`LongDateTime renders default value 1`] = `
 <LongDateTime
-  data={
-    Object {
-      "date": null,
-      "defaultValue": "Default value",
-    }
-  }
+  date={null}
+  defaultValue="Default value"
 >
   <span>
     Default value

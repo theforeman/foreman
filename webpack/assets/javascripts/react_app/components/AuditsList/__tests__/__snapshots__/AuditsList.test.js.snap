@@ -10,12 +10,8 @@ exports[`AuditsList rendering render resources list 1`] = `
         className="gray-text"
       >
         <ShortDateTime
-          data={
-            Object {
-              "date": "2018-08-13 00:34:55 -1100",
-              "defaultValue": "N/A",
-            }
-          }
+          date="2018-08-13 00:34:55 -1100"
+          defaultValue="N/A"
         />
       </span>
     }
