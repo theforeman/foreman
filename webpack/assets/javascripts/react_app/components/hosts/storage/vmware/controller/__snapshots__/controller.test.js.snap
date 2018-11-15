@@ -83,17 +83,20 @@ exports[`StorageContainer should render controller 1`] = `
         }
       }
       controllerKey={1000}
+      datastore=""
       datastores={
         Object {
           "FC0001_LX_DC1_EXAMPLE_PROD_01": "%s (free: %s, prov: %s, total: %s)",
         }
       }
+      eagerzero={false}
       id="e86728ee-dbde-ad59-13d6-0c5488635e73"
       key="e86728ee-dbde-ad59-13d6-0c5488635e73"
       mode="persistent"
       name="Hard disk"
       removeDisk={[Function]}
       sizeGb={10}
+      storagePod=""
       storagePods={
         Object {
           "LX-DC1-EXAMPLE": "%s (free: %s, prov: %s, total: %s)",
