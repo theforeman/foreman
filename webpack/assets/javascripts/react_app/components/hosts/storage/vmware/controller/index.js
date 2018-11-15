@@ -7,7 +7,11 @@ import { number_to_human_size } from 'number_helpers';
 import Select from '../../../../common/forms/Select';
 
 import Disk from './disk';
-import { sprintf, translate as __ } from '../../../../../../react_app/common/I18n';
+import {
+  sprintf,
+  translate as __,
+} from '../../../../../../react_app/common/I18n';
+import { noop } from '../../../../../common/helpers';
 import './controller.scss';
 
 const Controller = ({
@@ -16,7 +20,6 @@ const Controller = ({
   removeDisk,
   updateController,
   updateDisk,
-  ControllerTypes,
   controller,
   controllerVolumes,
   removeController,
@@ -43,14 +46,20 @@ const Controller = ({
     updateDisk(uuid, { [attribute]: getEventValue(e) });
   };
 
-  const humanSize = number => (number_to_human_size(number, { precision: 2 }));
+  const humanSize = number => number_to_human_size(number, { precision: 2 });
 
   const datastoresStats = () => {
     if (!datastores.length) {
       return {};
     }
     return datastores.reduce((obj, d) => {
-      obj[d.name] = sprintf(__('%s (free: %s, prov: %s, total: %s)'), d.name, humanSize(d.freespace), humanSize(d.capacity + (d.uncommitted || 0) - d.freespace), humanSize(d.capacity));
+      obj[d.name] = sprintf(
+        __('%s (free: %s, prov: %s, total: %s)'),
+        d.name,
+        humanSize(d.freespace),
+        humanSize(d.capacity + (d.uncommitted || 0) - d.freespace),
+        humanSize(d.capacity),
+      );
       return obj;
     }, {});
   };
@@ -60,41 +69,46 @@ const Controller = ({
       return {};
     }
     return storagePods.reduce((obj, s) => {
-      obj[s.name] = sprintf(__('%s (free: %s, prov: %s, total: %s)'), s.name, humanSize(s.freespace), humanSize(s.capacity - s.freespace), humanSize(s.capacity));
+      obj[s.name] = sprintf(
+        __('%s (free: %s, prov: %s, total: %s)'),
+        s.name,
+        humanSize(s.freespace),
+        humanSize(s.capacity - s.freespace),
+        humanSize(s.capacity),
+      );
       return obj;
     }, {});
   };
 
-  const disks = () => controllerVolumes.map(disk => (
-    <Disk
-      key={disk.key}
-      id={disk.key}
-      updateDisk={_updateDisk.bind(this, disk.key)}
-      removeDisk={removeDisk.bind(this, disk.key)}
-      config={config}
-      datastores={datastoresStats()}
-      datastoresStatus={datastoresStatus}
-      datastoresError={datastoresError}
-      storagePods={storagePodsStats()}
-      storagePodsStatus={storagePodsStatus}
-      storagePodsError={storagePodsError}
-      {...disk}
-    />
-  ));
+  const disks = () =>
+    controllerVolumes.map(disk => (
+      <Disk
+        key={disk.key}
+        id={disk.key}
+        updateDisk={(attribute, e) => _updateDisk(disk.key, attribute, e)}
+        removeDisk={() => removeDisk(disk.key)}
+        config={config}
+        datastores={datastoresStats()}
+        datastoresStatus={datastoresStatus}
+        datastoresError={datastoresError}
+        storagePods={storagePodsStats()}
+        storagePodsStatus={storagePodsStatus}
+        storagePodsError={storagePodsError}
+        {...disk}
+      />
+    ));
 
   return (
     <div className="controller-container">
       <div className="controller-header">
         <div className="control-label col-md-2 controller-selected-container">
-          <label>
-            {__('Create SCSI controller')}
-          </label>
+          <label>{__('Create SCSI controller')}</label>
         </div>
         <div className="controller-type-container col-md-4">
           <Select
             value={controller.type}
             disabled={config.vmExists}
-            onChange={_updateController.bind(this, 'type')}
+            onChange={e => _updateController('type', e)}
             options={config.controllerTypes}
           />
           <Button
@@ -115,24 +129,16 @@ const Controller = ({
           </Button>
         </div>
       </div>
-      <div className="disks-container">
-        {disks()}
-      </div>
+      <div className="disks-container">{disks()}</div>
     </div>
   );
 };
 
 Controller.propTypes = {
+  config: PropTypes.object.isRequired,
+  controller: PropTypes.object.isRequired,
   addDiskEnabled: PropTypes.bool,
-  addDisk: PropTypes.func,
-  removeDisk: PropTypes.func,
-  updateController: PropTypes.func,
-  updateDisk: PropTypes.func,
-  ControllerTypes: PropTypes.object,
-  controller: PropTypes.object,
   controllerVolumes: PropTypes.array,
-  removeController: PropTypes.func,
-  config: PropTypes.object,
   datastores: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -150,6 +156,27 @@ Controller.propTypes = {
   })),
   storagePodsStatus: PropTypes.string,
   storagePodsError: PropTypes.string,
+  addDisk: PropTypes.func,
+  removeDisk: PropTypes.func,
+  updateController: PropTypes.func,
+  updateDisk: PropTypes.func,
+  removeController: PropTypes.func,
+};
+
+Controller.defaultProps = {
+  addDiskEnabled: false,
+  controllerVolumes: [],
+  datastores: [],
+  datastoresStatus: undefined,
+  datastoresError: undefined,
+  storagePods: [],
+  storagePodsStatus: undefined,
+  storagePodsError: undefined,
+  addDisk: noop,
+  removeDisk: noop,
+  updateController: noop,
+  updateDisk: noop,
+  removeController: noop,
 };
 
 export default Controller;
