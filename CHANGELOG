@@ -1,3 +1,23 @@
+2018-11-15	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.20.0
+	* i18n - extracting new, pulling from tx
+
+2018-11-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #25207 - do not instantiate during permission checks
+
+2018-11-06	Martin Bačovský <mbacovsk@redhat.com>
+	* Fixes #25367 - Create new object when cloning the report template
+	* Fixes #25394 - Expose default in report template API
+
+2018-11-05	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #25169 - fix xss on pages with breadcrumbs
+
+2018-11-05	Timo Goebel <mail@timogoebel.name>
+	* fixes #25351 - load trends without associated object
+
+2018-11-02	Evgeni Golov <evgeni@golov.de>
+	* Fixes #25312 - skip add_*permissions_to_default_roles in rake
+
 2018-10-31	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.20.0-RC2
 	* i18n - extracting new, pulling from tx
