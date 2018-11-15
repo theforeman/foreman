@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-10-15 20:31+0000\n"
+"PO-Revision-Date: 2018-11-13 16:54+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -88,7 +88,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%s filters"
-msgstr ""
+msgstr "%s 过滤器"
 
 msgid "%s has been disassociated from VM"
 msgstr "已断开 %s 与 VM 的关联"
@@ -118,7 +118,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%s out of sync disabled"
-msgstr ""
+msgstr "%s 不同步被禁用"
 
 msgid "%s selected hosts"
 msgstr "%s 所选主机"
@@ -1375,7 +1375,7 @@ msgid "Clear"
 msgstr ""
 
 msgid "Clear All"
-msgstr ""
+msgstr "清除所有"
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
 msgstr "点击计算资源链接编辑器默认 VM 属性。"
@@ -1764,7 +1764,7 @@ msgid "Create Puppet Environment"
 msgstr "创建 Puppet 环境"
 
 msgid "Create RSS notifications"
-msgstr ""
+msgstr "创建 RSS 通知"
 
 msgid "Create Realm"
 msgstr "创建范围"
@@ -1941,7 +1941,7 @@ msgid "Create autosign entry"
 msgstr "创建自动签名条目"
 
 msgid "Create image"
-msgstr ""
+msgstr "创建镜像"
 
 msgid "Create new boot volume from image"
 msgstr "使用映象创建新引导卷"
@@ -1959,7 +1959,7 @@ msgid "Created"
 msgstr "创建时间"
 
 msgid "Creates a table preference for a given table"
-msgstr ""
+msgstr "为一个指定的表创建表偏好"
 
 msgid "Ctrl-Alt-Del"
 msgstr "重启"
@@ -2064,10 +2064,10 @@ msgid "Default PXE local template entry"
 msgstr "默认的 PXE 本地模板条目"
 
 msgid "Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"
-msgstr ""
+msgstr "全局模板中的默认 PXE 菜单项 - 'local', 'discovery' 或 custom，空为模板默认设置"
 
 msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
-msgstr ""
+msgstr "全局模板中的默认 PXE 菜单项 - 'local', 'local_chain_hd0' 或 custom，空为模板默认设置"
 
 msgid "Default Puppet environment"
 msgstr "默认 Puppet 环境"
@@ -2235,7 +2235,7 @@ msgid "Delete a subnet"
 msgstr "删除子网"
 
 msgid "Delete a table preference for a given table"
-msgstr ""
+msgstr "为一个指定的表删除表偏好"
 
 msgid "Delete a template combination"
 msgstr "删除模板组合"
@@ -2403,7 +2403,7 @@ msgid "Disable all filters overriding"
 msgstr "禁用所有过滤器覆盖"
 
 msgid "Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval"
-msgstr ""
+msgstr "禁用在配置的间隔时间后没有获得报告时把主机（%s）配置状态变为不同步"
 
 msgid "Disable overriding"
 msgstr "禁用覆盖"
@@ -2513,7 +2513,7 @@ msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "服务器被归类为非同步后的持续时间，单位：分钟。"
 
 msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
+msgstr "在其时间后（以分钟为单位）经过 Puppet 的服务器报表被认为已不同步。"
 
 msgid "EC2"
 msgstr "EC2"
@@ -2719,13 +2719,13 @@ msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authen
 msgstr "认证期间，连接到 '%{url}' 上的 '%{name}' LDAP 服务器时出错"
 
 msgid "Error while trying to create resource: %s"
-msgstr ""
+msgstr "创建资源时出错：%s"
 
 msgid "Error while trying to update resource: %s"
-msgstr ""
+msgstr "更新资源时出错：%s"
 
 msgid "Error: Unable to load resources."
-msgstr ""
+msgstr "错误：无法加载资源。"
 
 msgid "Errors"
 msgstr "错误"
@@ -3461,7 +3461,7 @@ msgid "Good host reports in the last %s"
 msgstr "在过去 %s 内的报告良好的主机"
 
 msgid "Good host with reports"
-msgstr ""
+msgstr "带有报告的良好主机"
 
 msgid "Google Project ID"
 msgstr "Google Project ID"
@@ -3503,7 +3503,7 @@ msgid "HTTPBoot Proxy to use within this subnet"
 msgstr ""
 
 msgid "HTTPS URL is required for API access"
-msgstr ""
+msgstr "API 访问需要 HTTPS URL"
 
 msgid "Hard disk"
 msgstr "硬盘"
@@ -3545,7 +3545,7 @@ msgid "Hide all values for this parameter."
 msgstr "隐藏这个参数的所有值。"
 
 msgid "Hide this notification"
-msgstr ""
+msgstr "隐藏此通知"
 
 msgid "Hide this value"
 msgstr "隐藏此值"
@@ -4601,13 +4601,13 @@ msgid "List all audits for a given host"
 msgstr "列出给定主机的所有审核"
 
 msgid "List all authentication sources"
-msgstr ""
+msgstr "列出所有认证源"
 
 msgid "List all authentication sources per location"
-msgstr ""
+msgstr "按位置列出所有认证源"
 
 msgid "List all authentication sources per organization"
-msgstr ""
+msgstr "按组织列出所有认证源"
 
 msgid "List all autosign entries"
 msgstr "列出所有自动签名条目"
@@ -4784,7 +4784,7 @@ msgid "List all users for LDAP authentication source"
 msgstr "列出 LDAP 认证源的所有用户"
 
 msgid "List all users for external authentication source"
-msgstr ""
+msgstr "为外部认证源列出所有用户"
 
 msgid "List all users for location"
 msgstr "列出位置的所有用户"
@@ -4847,13 +4847,13 @@ msgid "List environments per organization"
 msgstr "列出每个机构的环境"
 
 msgid "List external authentication sources"
-msgstr ""
+msgstr "列出外部认证源"
 
 msgid "List external authentication sources per location"
-msgstr ""
+msgstr "按位置列出外部认证源"
 
 msgid "List external authentication sources per organization"
-msgstr ""
+msgstr "按组织列出外部认证源"
 
 msgid "List hosts per environment"
 msgstr "列出每个位置的主机"
@@ -4868,7 +4868,7 @@ msgid "List installed plugins"
 msgstr "列出已安装插件"
 
 msgid "List internal authentication sources"
-msgstr ""
+msgstr "列出内部认证源"
 
 msgid "List of HTTP Proxies"
 msgstr "HTTP 代理服务器列表"
@@ -4946,13 +4946,13 @@ msgid "List of subnets per organization"
 msgstr "每个机构的子网列表"
 
 msgid "List of table preferences for a user"
-msgstr ""
+msgstr "列出用户的表偏好"
 
 msgid "List of trends counters"
 msgstr ""
 
 msgid "List of user selected columns"
-msgstr ""
+msgstr "用户选择的栏目列表"
 
 msgid "List operating systems where this template is set as a default"
 msgstr "列出将这个模板设定为默认模板的操作系统"
@@ -5199,16 +5199,16 @@ msgid "MAC-based"
 msgstr "基于 MAC"
 
 msgid "MTU"
-msgstr ""
+msgstr "MTU"
 
 msgid "MTU for this subnet"
-msgstr ""
+msgstr "这个子网的 MTU"
 
 msgid "MTU is not consistent accross subnets"
-msgstr ""
+msgstr "子网中的 MTU 设置不统一"
 
 msgid "MTU, this attribute has precedence over the subnet MTU."
-msgstr ""
+msgstr "MTU，这个属性优先于子网 MTU。"
 
 msgid "Machine Type"
 msgstr "机器型号"
@@ -5398,7 +5398,7 @@ msgid "Missing one of the required permissions: %s"
 msgstr "缺少所需权限之一：%s"
 
 msgid "Missing(ID: %s)"
-msgstr ""
+msgstr "缺少 (ID: %s)"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -5478,7 +5478,7 @@ msgid "Name of the parameter"
 msgstr "参数名称"
 
 msgid "Name of the table"
-msgstr ""
+msgstr "表的名称"
 
 msgid "Name of variable"
 msgstr "变量名称"
@@ -5660,7 +5660,7 @@ msgid "No IPv4 subnets selected"
 msgstr "未选择 IPv4 子网"
 
 msgid "No Notifications Available"
-msgstr ""
+msgstr "无通知"
 
 msgid "No TFTP feature"
 msgstr "TFTP 功能"
@@ -6706,6 +6706,8 @@ msgid ""
 "Proxied request failed with: %s\n"
 "%s"
 msgstr ""
+"代理的请求失败：%s\n"
+"%s"
 
 msgid "Proxies"
 msgstr "代理"
@@ -6714,7 +6716,7 @@ msgid "Proxy ID to use within this realm"
 msgstr "要在此域中使用的代理 ID"
 
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
-msgstr ""
+msgstr "Proxy reference 应该为 { :relation => [:column_name, ...] }"
 
 msgid "Proxy request timeout"
 msgstr "代理服务器请求"
@@ -7487,7 +7489,7 @@ msgid "Set a randomly generated password on the display connection"
 msgstr "在显示连接中设定随机创建的密码"
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
-msgstr ""
+msgstr "设置请求不需要被代理的主机名。到本地主机的请求会被默认排除。"
 
 msgid "Set parameters to defaults"
 msgstr "将参数设定为默认"
@@ -7715,7 +7717,7 @@ msgid "Show an environment"
 msgstr "显示环境"
 
 msgid "Show an external authentication source"
-msgstr ""
+msgstr "显示一个外部认证源"
 
 msgid "Show an external user group for LDAP authentication source"
 msgstr "显示 LDAP 认证源的外部用户组"
@@ -7730,7 +7732,7 @@ msgid "Show an interface for host"
 msgstr "显示主机接口"
 
 msgid "Show an internal authentication source"
-msgstr ""
+msgstr "显示一个内部认证源"
 
 msgid "Show an operating system"
 msgstr "显示操作系统"
@@ -7995,7 +7997,7 @@ msgid "Subnet description"
 msgstr "子网描述"
 
 msgid "Subnet gateway"
-msgstr ""
+msgstr "子网网关"
 
 msgid "Subnet name"
 msgstr "子网名"
@@ -8169,7 +8171,7 @@ msgid "Table preference"
 msgstr ""
 
 msgid "Table preference details of a given table"
-msgstr ""
+msgstr "一个指定表的表偏好详情"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TablePreference|Columns"
@@ -8962,7 +8964,7 @@ msgid "Unable to connect to LDAP server"
 msgstr "无法连接到 LDAP 服务器"
 
 msgid "Unable to connect to libvirt due to: %s. Please make sure your libvirt compute resource is reachable and that you have appropriate access permissions."
-msgstr ""
+msgstr "无法连接到 libvirt，原因是：%s。请确认您的 libvirt 计算资源可以被访问，并且您具有适当的访问权限。"
 
 msgid "Unable to create default TFTP boot menu"
 msgstr "无法创建默认 TFTP 引导菜单"
@@ -9181,10 +9183,10 @@ msgid "Unnamed"
 msgstr "未命名"
 
 msgid "Unread Event"
-msgstr ""
+msgstr "未读事件"
 
 msgid "Unread Events"
-msgstr ""
+msgstr "未读事件"
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s 不支持的 IPAM 模式"
@@ -9322,7 +9324,7 @@ msgid "Update an environment"
 msgstr "更新环境"
 
 msgid "Update an external authentication source"
-msgstr ""
+msgstr "更新一个外部认证源"
 
 msgid "Update an image"
 msgstr "更新映像"
@@ -9379,7 +9381,7 @@ msgid "Updated hosts: changed owner"
 msgstr "更新的主机：更改的所有者"
 
 msgid "Updates a table preference for a given table"
-msgstr ""
+msgstr "为一个指定的表更新表偏好"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -9421,7 +9423,7 @@ msgid "Upload facts for a host, creating the host if required"
 msgstr "上传主机的系统详情，如需要，请创建主机。"
 
 msgid "Use APIv4 (experimental)"
-msgstr ""
+msgstr "使用 APIv4 (试验)"
 
 msgid "Use NIS netgroups instead of posix groups."
 msgstr "使用 NIS 网络组代替 posix 组。"
@@ -9433,7 +9435,7 @@ msgid "Use short name for VMs"
 msgstr "在 VM 中使用短名称"
 
 msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
-msgstr ""
+msgstr "使用新引擎 API。这个功能被标记为“试验”，应小心使用。"
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "使用此账号验证, <i>可选</i>"
@@ -9627,7 +9629,7 @@ msgid "VLAN ID for this subnet"
 msgstr "这个子网的 VLAN ID"
 
 msgid "VLAN ID is not consistent accross subnets"
-msgstr ""
+msgstr "子网中的 VLAN ID 不统一 "
 
 msgid "VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces."
 msgstr "VLAN 标签，这个属性优先于子网 VLAN ID。仅用于虚拟接口。"
@@ -9863,7 +9865,7 @@ msgid "Whether the smart class parameter value is managed by Foreman"
 msgstr "是否由 Foreman 管理智能类别参数值"
 
 msgid "Whether to pull RSS notifications or not"
-msgstr ""
+msgstr "是否获取 RSS 通知"
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "是 <b>%s</b> 偏移。"
@@ -9958,7 +9960,7 @@ msgid "You are not authorized to perform this action."
 msgstr "您没有执行这个操作的授权。"
 
 msgid "You are trying access the preferences of a different user"
-msgstr ""
+msgstr "您正在试图访问一个不同用户的偏好"
 
 msgid "You are trying to delete your own account"
 msgstr "您要删除您自己的账户"
@@ -10159,7 +10161,7 @@ msgid "cannot be removed from the last admin account"
 msgstr "不能从最后一个管理员帐户中删除"
 
 msgid "cannot be used, please choose another"
-msgstr ""
+msgstr "无法使用，请选择另外一个"
 
 msgid "clone"
 msgstr "克隆"
@@ -10282,10 +10284,10 @@ msgid "filter results"
 msgstr "过滤结果"
 
 msgid "filter..."
-msgstr ""
+msgstr "过滤..."
 
 msgid "for EC2 only, use '%s' for GovCloud region"
-msgstr ""
+msgstr "只用于 EC2，使用 '%s' 做为 GovCloud 区"
 
 msgid "for Libvirt and VMware only"
 msgstr "仅用于 Libvirt 和 VMware"
@@ -10300,7 +10302,7 @@ msgid "for VMware"
 msgstr "用于 VMware"
 
 msgid "for oVirt only"
-msgstr ""
+msgstr "只用于 oVirt"
 
 msgid "for oVirt, VMware Datacenter"
 msgstr "用于 oVirt、VMware 数据库"
@@ -10450,7 +10452,7 @@ msgid "is not allowed to change"
 msgstr "不允许更改"
 
 msgid "is not defined for host's %s"
-msgstr ""
+msgstr "没有为主机的 %s 定义"
 
 msgid "is not found in the authentication source"
 msgstr "在认证源中没有找到"
@@ -10504,7 +10506,7 @@ msgid "locations"
 msgstr "位置"
 
 msgid "lock imported templates (false by default)"
-msgstr ""
+msgstr "锁定导入的模板（默认为 false）"
 
 msgid "makes the template default meaning it will be automatically associated with newly created organizations and locations (false by default)"
 msgstr ""
@@ -10558,7 +10560,7 @@ msgid "must be true to edit the parameter"
 msgstr "必须为 true 以编辑参数"
 
 msgid "must belong to host's operating system"
-msgstr ""
+msgstr "必须属于主机的操作系统"
 
 msgid "must contain valid hostnames"
 msgstr "必须包含有效的主机名"
@@ -10576,7 +10578,7 @@ msgid "must set host and port"
 msgstr "必须设置主机和端口"
 
 msgid "name of the table"
-msgstr ""
+msgstr "表的名称"
 
 msgid "new"
 msgstr "新建"
@@ -10869,7 +10871,7 @@ msgid "valid or pending"
 msgstr "有效或待处理"
 
 msgid "values"
-msgstr ""
+msgstr "值"
 
 msgid "view last report details"
 msgstr "查看上一次的报告详情"
@@ -10881,13 +10883,13 @@ msgid "virtual attached to %s"
 msgstr "虚拟附加到 %s"
 
 msgid "was not found"
-msgstr ""
+msgstr "没有找到"
 
 msgid "with given ID not found"
-msgstr ""
+msgstr "没有找到指定 ID"
 
 msgid "with id %{object_id} doesn't exist or is not assigned to proper organization and/or location"
-msgstr ""
+msgstr "id %{object_id} 不存在，或没有被分配到适当的组织/位置"
 
 msgid "yaml"
 msgstr "yaml"
