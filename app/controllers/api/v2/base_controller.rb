@@ -61,12 +61,12 @@ module Api
       end
 
       def metadata_total
-        @total ||= resource_scope.try(:size).to_i
+        @total ||= resource_scope.try(:count).to_i
       end
 
       def metadata_subtotal
         if params[:search].present?
-          @subtotal ||= instance_variable_get("@#{controller_name}").try(:size).to_i
+          @subtotal ||= instance_variable_get("@#{controller_name}").try(:count).to_i
         else
           @subtotal ||= metadata_total
         end
