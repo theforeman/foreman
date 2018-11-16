@@ -65,6 +65,11 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
       assert_equal({}, importer.send(:facts))
     end
 
+    test 'keeps false fact values' do
+      importer = StructuredFactImporter.new(nil, 'a' => false)
+      assert_equal({'a' => 'false'}, importer.send(:facts))
+    end
+
     test 'changes symbol keys to strings' do
       importer = StructuredFactImporter.new(nil, :a => 'b')
       assert_equal({'a' => 'b'}, importer.send(:facts))

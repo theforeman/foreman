@@ -1,7 +1,7 @@
 class StructuredFactImporter < FactImporter
   def normalize(facts)
     # Remove empty values first, so nil facts added by flatten_composite imply compose
-    facts.keep_if { |k, v| v.present? }
+    facts.delete_if { |k, v| v.nil? || (v.is_a?(String) && v.empty?) }
     facts = flatten_composite({}, facts)
 
     original_keys = facts.keys.to_a
