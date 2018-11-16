@@ -214,6 +214,7 @@ module Foreman
     # Check that the loggers setting exist to configure the app and sql loggers
     Foreman::Logging.add_loggers((SETTINGS[:loggers] || {}).reverse_merge(
       :app => {:enabled => true},
+      :params => {:enabled => true},
       :audit => {:enabled => true},
       :ldap => {:enabled => false},
       :permissions => {:enabled => false},

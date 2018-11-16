@@ -78,6 +78,8 @@
 #:loggers:
 #  :app:
 #    :enabled: true
+#  :params:
+#    :enabled: true
 #  :audit:
 #    :enabled: true
 #  :ldap:
