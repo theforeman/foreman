@@ -103,7 +103,7 @@ describe('SearchBar integration test', () => {
     );
     // expect it to call Turbolinks.
     expect(global.Turbolinks.visit.mock.calls).toHaveLength(1);
-    const event = new KeyboardEvent('keypress', { keyCode: 13 });
+    const event = new KeyboardEvent('keypress', { charCode: 13 });
     global.dispatchEvent(event);
     expect(global.Turbolinks.visit.mock.calls).toHaveLength(2);
     // bookmark this page:

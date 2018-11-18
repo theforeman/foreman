@@ -51,7 +51,7 @@ describe('AutoComplete', () => {
       typeahead.focus = jest.fn();
       expect(typeahead.focus.mock.calls).toHaveLength(0);
       instance.windowKeyPressHandler({
-        keyCode: KEYCODES.FWD_SLASH,
+        charCode: KEYCODES.FWD_SLASH,
         preventDefault: noop,
       });
       expect(typeahead.focus.mock.calls).toHaveLength(1);
