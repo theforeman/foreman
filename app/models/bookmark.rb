@@ -20,13 +20,7 @@ class Bookmark < ApplicationRecord
   scoped_search :on => :name, :complete_value => true
 
   scope :my_bookmarks, lambda {
-    user = User.current
-    if !SETTINGS[:login] || user.nil?
-      conditions = {}
-    else
-      conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
-    end
-    where(conditions)
+    where(public: true).or(Bookmark.where(owner: User.current))
   }
 
   scope :controller, ->(*args) { where("controller = ?", (args.first || '')) }

@@ -162,7 +162,7 @@ module HostsHelper
       actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
       actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
       actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
-      actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
+      actions <<  [_('Change Owner'), select_multiple_owner_hosts_path]
       actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
       actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
     end
@@ -282,12 +282,10 @@ module HostsHelper
     fields += [[_("Host group"), link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"}))]] if host.hostgroup.present?
     fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => %{location = "#{host.location}"})) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => %{organization = "#{host.organization}"})) if host.organization)]] if SETTINGS[:organizations_enabled]
-    if SETTINGS[:login]
-      if host.owner_type == _("User")
-        fields += [[_("Owner"), (link_to(host.owner, hosts_path(:search => %{user.login = "#{host.owner.login}"})) if host.owner)]]
-      else
-        fields += [[_("Owner"), host.owner]]
-      end
+    if host.owner_type == _("User")
+      fields += [[_("Owner"), (link_to(host.owner, hosts_path(:search => %{user.login = "#{host.owner.login}"})) if host.owner)]]
+    else
+      fields += [[_("Owner"), host.owner]]
     end
     fields += [[_("Certificate Name"), host.certname]] if Setting[:use_uuid_for_certificates]
     fields

@@ -270,57 +270,55 @@ Foreman::Application.routes.draw do
     end
   end
 
-  if SETTINGS[:login]
-    resources :usergroups, :except => [:show] do
-      collection do
-        get 'auto_complete_search'
-      end
+  resources :usergroups, :except => [:show] do
+    collection do
+      get 'auto_complete_search'
     end
-    resources :users, :except => [:show] do
-      collection do
-        get 'login'
-        post 'login'
-        get 'logout'
-        post 'logout'
-        get 'extlogin'
-        get 'extlogout'
-        get 'auto_complete_search'
-      end
-      resources :ssh_keys, :only => [:new, :create, :destroy]
+  end
+  resources :users, :except => [:show] do
+    collection do
+      get 'login'
+      post 'login'
+      get 'logout'
+      post 'logout'
+      get 'extlogin'
+      get 'extlogout'
+      get 'auto_complete_search'
     end
-    resources :roles, :except => [:show] do
-      member do
-        get 'clone'
-        patch 'disable_filters_overriding'
-      end
-      collection do
-        get 'auto_complete_search'
-      end
+    resources :ssh_keys, :only => [:new, :create, :destroy]
+  end
+  resources :roles, :except => [:show] do
+    member do
+      get 'clone'
+      patch 'disable_filters_overriding'
     end
-
-    resources :filters, :except => [:show] do
-      member do
-        patch 'disable_overriding'
-      end
-      collection do
-        get 'auto_complete_search'
-      end
+    collection do
+      get 'auto_complete_search'
     end
+  end
 
-    resources :permissions, :only => [:index]
-
-    resources :auth_source_ldaps, :except => [:show] do
-      collection do
-        put 'test_connection'
-      end
+  resources :filters, :except => [:show] do
+    member do
+      patch 'disable_overriding'
     end
+    collection do
+      get 'auto_complete_search'
+    end
+  end
 
-    put 'users/(:id)/test_mail', :to => 'users#test_mail', :as => 'test_mail_user'
+  resources :permissions, :only => [:index]
 
-    resources :external_usergroups, :except => [:index, :new, :create, :show, :edit, :update, :destroy] do
-      member do
-        put 'refresh'
-      end
+  resources :auth_source_ldaps, :except => [:show] do
+    collection do
+      put 'test_connection'
+    end
+  end
+
+  put 'users/(:id)/test_mail', :to => 'users#test_mail', :as => 'test_mail_user'
+
+  resources :external_usergroups, :except => [:index, :new, :create, :show, :edit, :update, :destroy] do
+    member do
+      put 'refresh'
     end
   end
 

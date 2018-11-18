@@ -46,9 +46,7 @@ module LayoutHelper
   end
 
   def fetch_user
-    if SETTINGS[:login]
-      { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu) }
-    end
+    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu) }
   end
 
   def layout_data
