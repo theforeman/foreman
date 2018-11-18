@@ -102,44 +102,10 @@ class Api::TestableControllerTest < ActionController::TestCase
     end
   end
 
-  context "API usage when authentication is disabled" do
-    setup do
-      User.current = nil
-      reset_api_credentials
-      SETTINGS[:login] = false
-    end
-
-    teardown do
-      SETTINGS[:login] = true
-    end
-
-    it "does not need a username and password" do
-      get :index
-      assert_response :success
-    end
-
-    it "does not set user session data for API requests" do
-      get :index
-      assert_not session[:user]
-    end
-
-    it "sets api_sesion flag for API requests" do
-      get :index
-      assert session[:api_authenticated_session]
-    end
-
-    it "uses an accessible admin user" do
-      User.unscoped.except_hidden.only_admin.where('login <> ?', users(:apiadmin).login).destroy_all
-      @controller.expects(:set_current_user).with(responds_with(:login, users(:apiadmin).login)).returns(true)
-      get :index
-    end
-  end
-
   context "API usage when authentication is enabled" do
     setup do
       User.current = nil
       reset_api_credentials
-      SETTINGS[:login] = true
     end
 
     it "requires a username and password" do
@@ -191,7 +157,6 @@ class Api::TestableControllerTest < ActionController::TestCase
   context 'CSRF' do
     setup do
       ActionController::Base.allow_forgery_protection = true
-      SETTINGS[:login] = true
       User.current = nil
       reset_api_credentials
     end
@@ -308,7 +273,6 @@ class Api::TestableControllerTest < ActionController::TestCase
 
   context 'controllers uses timezone' do
     setup do
-      SETTINGS[:login] = true
       @user = users(:admin)
       @user.update_attribute(:timezone, 'Fiji')
     end

@@ -221,6 +221,6 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
 
   def set_session_user
     User.current = users(:admin) unless User.current
-    SETTINGS[:login] ? {:user => User.current.id, :expires_at => 5.minutes.from_now} : {}
+    {:user => User.current.id, :expires_at => 5.minutes.from_now}
   end
 end

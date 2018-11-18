@@ -172,7 +172,6 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not delete same user" do
-    return unless SETTINGS[:login]
     @request.env['HTTP_REFERER'] = users_path
     user = users(:one)
     user.update_attribute :admin, true

@@ -319,7 +319,7 @@ module Foreman
 
     def notify_deprecations
       blueprint = NotificationBlueprint.find_by_name('setting_deprecation')
-      [:locations_enabled, :organizations_enabled, :login].each do |setting|
+      [:locations_enabled, :organizations_enabled].each do |setting|
         next if SETTINGS[setting]
         Foreman::Deprecation.deprecation_warning('1.21', "The #{setting} setting is deprecated")
         message = UINotifications::StringParser.new(blueprint.message, {setting: setting, version: '1.21'}).to_s

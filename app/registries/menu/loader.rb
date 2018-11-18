@@ -9,17 +9,15 @@ module Menu
     def self.load
       Manager.map :header_menu
 
-      if SETTINGS[:login]
-        Manager.map :side_menu do |menu|
-          menu.sub_menu :user_menu, :caption => N_('User'), :icon => 'fa fa-user' do
-            menu.item :my_account,
-                      :caption => N_('My Account'),
-                      :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
-            menu.item :logout,
-                      :caption => N_('Log Out'),
-                      :html => {:method => :post},
-                      :url_hash => {:controller => '/users', :action => 'logout'}
-          end
+      Manager.map :side_menu do |menu|
+        menu.sub_menu :user_menu, :caption => N_('User'), :icon => 'fa fa-user' do
+          menu.item :my_account,
+                    :caption => N_('My Account'),
+                    :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
+          menu.item :logout,
+                    :caption => N_('Log Out'),
+                    :html => {:method => :post},
+                    :url_hash => {:controller => '/users', :action => 'logout'}
         end
       end
 
@@ -27,12 +25,10 @@ module Menu
         menu.sub_menu :administer_menu,  :caption => N_('Administer'), :icon => 'fa fa-cog' do
           menu.item :locations,          :caption => N_('Locations') if SETTINGS[:locations_enabled]
           menu.item :organizations,      :caption => N_('Organizations') if SETTINGS[:organizations_enabled]
-          if SETTINGS[:login]
-            menu.item :auth_source_ldaps, :caption => N_('LDAP Authentication')
-            menu.item :users,            :caption => N_('Users')
-            menu.item :usergroups,       :caption => N_('User Groups')
-            menu.item :roles,            :caption => N_('Roles')
-          end
+          menu.item :auth_source_ldaps,  :caption => N_('LDAP Authentication')
+          menu.item :users,              :caption => N_('Users')
+          menu.item :usergroups,         :caption => N_('User Groups')
+          menu.item :roles,              :caption => N_('Roles')
           menu.item :bookmarks,          :caption => N_('Bookmarks')
           menu.item :settings,           :caption => N_('Settings')
           menu.item :about_index,        :caption => N_('About')

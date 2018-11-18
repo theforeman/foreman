@@ -8,7 +8,7 @@ SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result)
 SETTINGS[:version] = Foreman::Version.new
 
 # default to true if missing
-[:unattended, :login, :locations_enabled, :organizations_enabled].each do |setting|
+[:unattended, :locations_enabled, :organizations_enabled].each do |setting|
   SETTINGS[setting] = SETTINGS[setting].nil? || SETTINGS[setting]
 end
 

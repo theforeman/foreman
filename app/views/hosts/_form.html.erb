@@ -121,12 +121,10 @@
       </div>
 
       <div class="tab-pane"  id="info">
-        <% if SETTINGS[:login] %>
-          <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
-            [User.authorized(:view_users), Usergroup.authorized(:view_usergroups)], :visible, :table_name, :id_and_type, :select_title,
-            @host.owner_suggestion.id_and_type), { :include_blank => _("Select an owner") }, { :label => _("Owned By") }
-          %>
-        <% end %>
+        <%= selectable_f f, :is_owned_by, option_groups_from_collection_for_select(
+          [User.authorized(:view_users), Usergroup.authorized(:view_usergroups)], :visible, :table_name, :id_and_type, :select_title,
+          @host.owner_suggestion.id_and_type), { :include_blank => _("Select an owner") }, { :label => _("Owned By") }
+        %>
         <%= checkbox_f f, :enabled,
           :help_inline => _("Include this host within Foreman reporting")
         %>

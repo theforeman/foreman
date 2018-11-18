@@ -9,29 +9,22 @@ module Foreman::Controller::Authentication
     return true if (User.current && Rails.env.test? && api_request?) ||
                    session[:user] && (User.current = User.unscoped.find_by(id: session[:user]))
 
-    if SETTINGS[:login]
-      # authentication is enabled
-      user = sso_authentication
+    user = sso_authentication
 
-      if user.is_a?(User)
-        logger.info("Authorized user #{user.login}(#{user.to_label})")
-        set_current_user user
-      else
-        return false if api_request?
-        # Keep the old request uri that we can redirect later on
-        session[:original_uri] = request.fullpath
-        @available_sso ||= SSO::Base.new(self)
-        if session[:user] && !User.current
-          backup_session_content { reset_session }
-          warning _('Your session has expired, please login again')
-        end
-        return if @available_sso.has_rendered
-        redirect_to @available_sso.login_url
-      end
+    if user.is_a?(User)
+      logger.info("Authorized user #{user.login}(#{user.to_label})")
+      set_current_user user
     else
-      # We assume we always have a user logged in
-      # if authentication is disabled, the user is the built-in admin account
-      set_current_user User.unscoped.only_admin.except_hidden.first
+      return false if api_request?
+      # Keep the old request uri that we can redirect later on
+      session[:original_uri] = request.fullpath
+      @available_sso ||= SSO::Base.new(self)
+      if session[:user] && !User.current
+        backup_session_content { reset_session }
+        warning _('Your session has expired, please login again')
+      end
+      return if @available_sso.has_rendered
+      redirect_to @available_sso.login_url
     end
   end
 
@@ -48,7 +41,6 @@ module Foreman::Controller::Authentication
   end
 
   def is_admin?
-    return true unless SETTINGS[:login]
     return true if User.current&.admin?
     User.current = sso_authentication || (return false)
     return User.current.admin? if User.current
@@ -85,7 +77,7 @@ module Foreman::Controller::Authentication
     # UI access resets only session ID
     if api_request?
       reset_session
-      session[:user] = user.id if SETTINGS[:login]
+      session[:user] = user.id
       session[:api_authenticated_session] = true
       set_activity_time
     else

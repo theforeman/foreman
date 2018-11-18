@@ -47,26 +47,9 @@ end
 class TestableResourcesControllerTest < ActionController::TestCase
   tests ::TestableResourcesController
 
-  context "when authentication is disabled" do
-    setup do
-      User.current = nil
-      SETTINGS[:login] = false
-    end
-
-    teardown do
-      SETTINGS[:login] = true
-    end
-
-    it "does not need a username and password" do
-      get :index
-      assert_response :success
-    end
-  end
-
   context "when authentication is enabled" do
     setup do
       User.current = nil
-      SETTINGS[:login] = true
     end
 
     it "requires a username and password" do
@@ -186,7 +169,6 @@ class TestableResourcesControllerTest < ActionController::TestCase
 
   context 'controllers uses timezone' do
     setup do
-      SETTINGS[:login] = true
       @user = users(:admin)
       @user.update_attribute(:timezone, 'Fiji')
     end

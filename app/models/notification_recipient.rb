@@ -22,7 +22,6 @@ class NotificationRecipient < ApplicationRecord
   end
 
   def current_user?
-    return true unless SETTINGS[:login]
     User.current.id == user_id
   end
 

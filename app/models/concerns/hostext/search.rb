@@ -89,13 +89,11 @@ module Hostext
         scoped_search :relation => :provision_interface, :on => :mac, :complete_value => true
       end
 
-      if SETTINGS[:login]
-        scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login', :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
-        scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname', :operators => ['= ', '~ '], :ext_method => :search_by_user
-        scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
-        scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
-        scoped_search :relation => :usergroups,   :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name', :aliases => [:usergroup]
-      end
+      scoped_search :relation => :search_users, :on => :login,     :complete_value => true, :only_explicit => true, :rename => :'user.login', :operators => ['= ', '~ '], :ext_method => :search_by_user, :aliases => [:owner]
+      scoped_search :relation => :search_users, :on => :firstname, :complete_value => true, :only_explicit => true, :rename => :'user.firstname', :operators => ['= ', '~ '], :ext_method => :search_by_user
+      scoped_search :relation => :search_users, :on => :lastname,  :complete_value => true, :only_explicit => true, :rename => :'user.lastname', :operators => ['= ', '~ '], :ext_method => :search_by_user
+      scoped_search :relation => :search_users, :on => :mail,      :complete_value => true, :only_explicit => true, :rename => :'user.mail',     :operators => ['= ', '~ '], :ext_method => :search_by_user
+      scoped_search :relation => :usergroups,   :on => :name,      :complete_value => true, :only_explicit => true, :rename => :'usergroup.name', :aliases => [:usergroup]
 
       cattr_accessor :fact_values_table_counter
     end

@@ -36,7 +36,6 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
   context "when authentication is enabled" do
     setup do
       User.current = nil
-      SETTINGS[:login] = true
     end
 
     context 'with dummy sso' do
