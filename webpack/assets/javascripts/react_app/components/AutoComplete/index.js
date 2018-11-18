@@ -43,7 +43,7 @@ class AutoComplete extends React.Component {
       return;
     }
     const instance = this._typeahead.current.getInstance();
-    switch (e.keyCode) {
+    switch (e.charCode) {
       case KEYCODES.ENTER: {
         this.props.handleSearch();
         break;
