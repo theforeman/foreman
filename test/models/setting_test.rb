@@ -465,7 +465,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "create succeeds when cache is non-functional" do
-    Setting.cache.expects(:delete).with('test_broken_cache').returns(false)
+    Setting.cache.expects(:delete).with(Setting.cache_key('test_broken_cache')).returns(false)
     assert_valid Setting.create!(:name => 'test_broken_cache', :description => 'foo', :default => 'default')
   end
 
@@ -569,21 +569,22 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def check_value_returns_from_cache_with(options = {})
-    name = options[:name].to_s
+    name = options[:name]
+    cache_key = Setting.cache_key(name)
 
     # cache must be cleared on create
-    Rails.cache.write(name, "old value")
+    Rails.cache.write(cache_key, "old value")
     assert Setting.create(options)
-    assert_nil Rails.cache.read(name)
+    assert_nil Rails.cache.read(cache_key)
 
     # first time getter method, write the cache
-    Rails.cache.delete(name)
+    Rails.cache.delete(cache_key)
     assert_equal options[:value], Setting[name]
-    assert_equal options[:value], Rails.cache.read(name)
+    assert_equal options[:value], Rails.cache.read(cache_key)
 
     # setter method deletes the cache
     Setting[name] = options[:value]
-    assert_nil Rails.cache.read(name)
+    assert_nil Rails.cache.read(cache_key)
   end
 
   test 'bmc_credentials_accessible may not be disabled with safemode_render disabled' do

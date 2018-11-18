@@ -28,7 +28,6 @@ class Setting < ApplicationRecord
   end
 
   validates_lengths_from_database
-  # audit the changes to this model
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true
@@ -90,15 +89,14 @@ class Setting < ApplicationRecord
     nil
   end
 
+  def self.cache_key(name)
+    "settings/#{name}"
+  end
+
   def self.[](name)
     name = name.to_s
-    cache_value = Setting.cache.read(name)
-    if cache_value.nil?
-      value = find_by(:name => name).try(:value)
-      Setting.cache.write(name, value)
-      return value
-    else
-      return cache_value
+    cache.fetch(cache_key(name)) do
+      find_by(:name => name)&.value
     end
   end
 
@@ -357,9 +355,13 @@ class Setting < ApplicationRecord
 
   def clear_cache
     # ensures we don't have cache left overs in settings
-    if Setting.cache.delete(name.to_s) == false
+    unless Setting.cache.delete(cache_key)
       Rails.logger.warn "Failed to remove #{name} from cache"
     end
+  end
+
+  def cache_key
+    Setting.cache_key(self.name)
   end
 
   def readonly_when_overridden
