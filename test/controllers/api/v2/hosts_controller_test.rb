@@ -1235,27 +1235,33 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   # to test the API response metadata is returned correctly
   describe 'should create correct subtotals' do
     before do
+      @empty_org = Organization.find_by_name("Empty Organization")
       as_admin do
-        100.times { |_| FactoryBot.create(:host) }
+        FactoryBot.create_list(:host, 10, organization: @empty_org)
       end
     end
 
     it 'with no search parameter' do
-      get :index
+      get :index, params: { per_page: 5 }
       hosts_response = ActiveSupport::JSON.decode(@response.body)
+      total_host_count = Host.all.count
 
       assert_response :success
-      assert_equal hosts_response["subtotal"], ::Host.all.count
+      assert_equal hosts_response["subtotal"], total_host_count
+      assert_equal hosts_response["total"], total_host_count
       assert hosts_response["subtotal"] > hosts_response["per_page"]
     end
 
     it 'with search parameter' do
-      org1 = Organization.find_by_name('Organization 1')
-      get :index, params: { search: "organization = \"#{org1.name}\""}
+      get :index, params: { per_page: 5, search: "organization = \"#{@empty_org.name}\""}
       hosts_response = ActiveSupport::JSON.decode(@response.body)
+      empty_org_host_count = @empty_org.hosts.count
+      total_host_count = Host.all.count
 
       assert_response :success
-      assert_equal hosts_response["subtotal"], org1.hosts.count
+      assert_not_equal total_host_count, empty_org_host_count
+      assert_equal hosts_response["subtotal"], empty_org_host_count
+      assert_equal hosts_response["total"], total_host_count
       assert hosts_response["subtotal"] > hosts_response["per_page"]
     end
   end
