@@ -72,7 +72,7 @@ describe('taxonomyAdded', () => {
 });
 
 describe('users Password', () => {
-  // the following test is disabled as I wasn't able to simulate a change event on a select2 dropdown.
+  // the following test is disabled. I wasn't able to simulate a change event on a select2 dropdown
   xit('should toggle password field', () => {
     document.body.innerHTML = `
     <div>
