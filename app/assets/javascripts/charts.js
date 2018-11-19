@@ -149,7 +149,7 @@ $.fn.flot_bar = function(){
         show: false
       }
     });
-    bind_hover_event(target, function(item){return "<b>" + target.data('yaxis-label') + ":</b> " + item.datapoint[1];});
+    bind_hover_event(target, function(item){return target.data('yaxis-label') + ": " + item.datapoint[1];});
   });
 };
 
@@ -184,7 +184,7 @@ function flot_time_chart(target, data, legendOptions){
     legend: legendOptions
   };
   $.plot($(target), data , chart_options);
-  bind_hover_event(target, function(item){return "<b>" + item.series.label + ":</b> " + item.series.data[item.dataIndex][1];});
+  bind_hover_event(target, function(item){return item.series.label + ": " + item.series.data[item.dataIndex][1];});
   target.bind("plotselected", function (event, ranges) {flot_zoom(target, chart_options, ranges);});
 }
 
