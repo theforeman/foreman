@@ -28,7 +28,9 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
     title="active child"
   >
      
-    active child
+    <EllipisWithTooltip>
+      active child
+    </EllipisWithTooltip>
   </BreadcrumbItem>
 </Breadcrumb>
 `;
@@ -43,7 +45,9 @@ exports[`Breadcrumbs renders h1 title 1`] = `
     title="title"
   >
      
-    title
+    <EllipisWithTooltip>
+      title
+    </EllipisWithTooltip>
   </BreadcrumbItem>
 </Breadcrumb>
 `;
@@ -67,7 +71,9 @@ exports[`Breadcrumbs renders title override 1`] = `
     title="override title"
   >
      
-    override title
+    <EllipisWithTooltip>
+      override title
+    </EllipisWithTooltip>
   </BreadcrumbItem>
 </Breadcrumb>
 `;

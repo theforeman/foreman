@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Breadcrumb as PfBreadcrumb } from 'patternfly-react';
 import 'patternfly-react/dist/sass/_breadcrumb.scss';
+import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import './Breadcrumbs.scss';
 
 const Breadcrumb = ({
   items,
@@ -29,6 +31,9 @@ const Breadcrumb = ({
         } = item;
         const overrideTitle = active && titleReplacement;
         const itemTitle = overrideTitle || text || caption;
+        const inner = (active
+                       ? (<EllipsisWithTooltip>{itemTitle}</EllipsisWithTooltip>)
+                       : itemTitle);
 
         return (
           <PfBreadcrumb.Item
@@ -39,7 +44,7 @@ const Breadcrumb = ({
             title={itemTitle}
           >
             {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />}{' '}
-            {itemTitle}
+            {inner}
           </PfBreadcrumb.Item>
         );
       })}
