@@ -111,6 +111,7 @@ function addNetworkInterface({ name, network }) {
 function addVolume({
   size_gb: sizeGb,
   storage_domain: storageDomain,
+  sparse,
   bootable,
   id,
   disk_interface: diskInterface,
@@ -121,9 +122,11 @@ function addVolume({
 
   disableElement($(`[id$=${newId}_size_gb]`).val(sizeGb));
   disableElement($(`[id$=${newId}_storage_domain]`).val(storageDomain));
-  disableElement($(`[id$=${newId}_wipe_after_delete]`).val(wipeAfterDelete));
   disableElement($(`[id$=${newId}_interface]`).val(diskInterface));
   disableElement($(`[id$=${newId}_bootable_true]`).attr('checked', bootable));
+  disableElement(
+    $(`[id$=${newId}_wipe_after_delete]`).prop('checked', wipeAfterDelete)
+  );
   if (id) {
     $(`[id$=${newId}_id]`).val(id);
   }
