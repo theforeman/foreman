@@ -354,8 +354,8 @@ class Setting < ApplicationRecord
   end
 
   def clear_cache
-    # ensures we don't have cache left overs in settings
-    unless Setting.cache.delete(cache_key)
+    # Rails cache returns false if the delete failed and nil if the key is missing
+    if Setting.cache.delete(cache_key) == false
       Rails.logger.warn "Failed to remove #{name} from cache"
     end
   end
