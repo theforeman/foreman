@@ -577,11 +577,25 @@ module Foreman::Model
       # add volumes
       volumes = nested_attributes_for :volumes, attrs
       volumes.map do |vol|
-        set_preallocated_attributes!(vol, vol[:preallocate])
-        # The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
-        vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol)) if vol[:id].blank?
+        if vol[:id].blank?
+          set_preallocated_attributes!(vol, vol[:preallocate])
+          vol[:wipe_after_delete] = to_fog_ovirt_boolean(vol[:wipe_after_delete])
+          # The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
+          vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol))
+        end
       end
       vm.volumes.reload
+    end
+
+    def to_fog_ovirt_boolean(val)
+      case val
+      when '1'
+        'true'
+      when '0'
+        'false'
+      else
+        val
+      end
     end
 
     def set_preallocated_attributes!(volume_attributes, preallocate)
