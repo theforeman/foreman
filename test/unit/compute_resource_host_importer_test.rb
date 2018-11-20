@@ -37,6 +37,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
         assert_equal '00:50:56:a9:00:28', host.mac
         assert_equal expected_compute_attributes, host.primary_interface.compute_attributes
         assert_equal false, host.build
+        assert_equal compute_resource, host.compute_resource
       end
     end
 
@@ -67,6 +68,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_nil host.domain
       assert_equal 'aa:bb:cc:dd:ee:ff', host.mac
       assert_empty host.primary_interface.compute_attributes
+      assert_equal compute_resource, host.compute_resource
     end
   end
 
@@ -83,6 +85,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_nil host.domain
       assert_nil host.mac
       assert_empty host.primary_interface.compute_attributes
+      assert_equal compute_resource, host.compute_resource
     end
   end
 
@@ -95,6 +98,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_nil host.domain
       assert_nil host.mac
       assert_empty host.primary_interface.compute_attributes
+      assert_equal compute_resource, host.compute_resource
     end
   end
 
@@ -126,6 +130,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_equal @domain, host.domain
       assert_equal floating_ip, host.ip
       assert_empty host.primary_interface.compute_attributes
+      assert_equal compute_resource, host.compute_resource
     end
   end
 
@@ -139,6 +144,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_nil host.domain
       assert_equal '00:1a:4a:23:1b:8f', host.mac
       assert_empty host.primary_interface.compute_attributes
+      assert_equal compute_resource, host.compute_resource
     end
   end
 
@@ -170,6 +176,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_equal '192.168.100.1', host.ip
       assert_equal '2001:db8::1', host.ip6
       assert_empty host.primary_interface.compute_attributes
+      assert_equal compute_resource, host.compute_resource
     end
   end
 end

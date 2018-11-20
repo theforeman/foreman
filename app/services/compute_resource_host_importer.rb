@@ -10,7 +10,7 @@ class ComputeResourceHostImporter
     self.host = Host::Managed.new(
       :managed => true,
       :build => false,
-      :compute_resource_id => compute_resource.id,
+      :compute_resource => compute_resource,
       :vm => vm
     )
     copy_vm_attributes
