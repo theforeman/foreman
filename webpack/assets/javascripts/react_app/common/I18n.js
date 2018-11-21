@@ -4,15 +4,23 @@ import { deprecateObjectProperty } from '../../foreman_tools';
 const cheveronPrefix = () => (window.I18N_MARK ? '\u00BB' : '');
 const cheveronSuffix = () => (window.I18N_MARK ? '\u00AB' : '');
 
-const emptyLocales = {
-  en: { domain: 'app', locale_data: { app: { '': {} } } },
+const documentLocale = () =>
+  document.getElementsByTagName('html')[0].lang.replace(/-/g, '_');
+
+const getLocaleData = () => {
+  const locales = window.locales || {};
+  const locale = documentLocale();
+
+  if (locales[locale] === undefined) {
+    // eslint-disable-next-line no-console
+    console.log(`could not load translations for ${locale} locale, falling back to default locale.`);
+    return { domain: 'app', locale_data: { app: { '': {} } } };
+  }
+
+  return locales[locale];
 };
 
-const locales = window.locales || emptyLocales;
-let locale = document.getElementsByTagName('html')[0].lang;
-
-locale = locale.length === 0 ? 'en' : locale.replace(/-/g, '_');
-export const jed = new Jed(locales[locale]);
+export const jed = new Jed(getLocaleData());
 
 export const translate = (...args) => `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;
 export const ngettext = (...args) => `${cheveronPrefix()}${jed.ngettext(...args)}${cheveronSuffix()}`;
