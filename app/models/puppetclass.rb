@@ -49,8 +49,6 @@ class Puppetclass < ApplicationRecord
       if (mod = klass.module_name)
         hash[mod] ||= []
         hash[mod] << klass
-      else
-        next
       end
     end
     hash
