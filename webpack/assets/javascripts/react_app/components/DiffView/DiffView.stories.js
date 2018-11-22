@@ -2,14 +2,15 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { text, withKnobs } from '@storybook/addon-knobs';
 import DiffContainer from './DiffContainer';
+import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/DiffView', module)
+storiesOf('Components/Diff', module)
   .addDecorator(withKnobs)
   .add('DiffView', () => (
-    <div style={{ width: '600px', padding: '30px' }}>
+    <Story narrow>
       <DiffContainer
         oldText={text('Old Text', 'Old Text')}
         newText={text('New Text', 'New Text')}
       />
-    </div>
+    </Story>
   ));

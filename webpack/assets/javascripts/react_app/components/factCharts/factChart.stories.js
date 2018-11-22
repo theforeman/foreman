@@ -9,6 +9,7 @@ import {
   modalLoadingState,
   modalErrorState,
 } from './factChart.fixtures';
+import Story from '../../../../../stories/components/Story';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -16,23 +17,34 @@ const dataProp = { id: 1, title: 'test title' };
 
 storiesOf('Components/FactChartModal', module)
   .add('ModalClosed', () => (
-    <FactChart store={mockStore({ factChart: initialState })} data={dataProp} />
+    <Story>
+      <FactChart
+        store={mockStore({ factChart: initialState })}
+        data={dataProp}
+      />
+    </Story>
   ))
   .add('ModalOpen', () => (
-    <FactChart
-      store={mockStore({ factChart: modalSuccessState })}
-      data={dataProp}
-    />
+    <Story>
+      <FactChart
+        store={mockStore({ factChart: modalSuccessState })}
+        data ={dataProp}
+      />
+    </Story>
   ))
   .add('Loading', () => (
-    <FactChart
-      store={mockStore({ factChart: modalLoadingState })}
-      data={dataProp}
-    />
+    <Story>
+      <FactChart
+        store={mockStore({ factChart: modalLoadingState })}
+        data={dataProp}
+      />
+    </Story>
   ))
   .add('No data', () => (
-    <FactChart
-      store={mockStore({ factChart: modalErrorState })}
-      data={dataProp}
-    />
+    <Story>
+      <FactChart
+        store={mockStore({ factChart: modalErrorState })}
+        data={dataProp}
+      />
+    </Story>
   ));

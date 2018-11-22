@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import RadioButtonGroup from './RadioButtonGroup';
 import Form from './Form';
 import storeDecorator from '../../../../../../stories/storeDecorator';
+import Story from '../../../../../../stories/components/Story';
 
 const formName = 'storybookForm';
 
@@ -44,4 +45,8 @@ const ConnectedForm = connect(
 
 storiesOf('Components/Form', module)
   .addDecorator(storeDecorator)
-  .add('Radio Button Group', () => <ConnectedForm />);
+  .add('Radio Button Group', () => (
+    <Story>
+      <ConnectedForm />
+    </Story>
+  ));

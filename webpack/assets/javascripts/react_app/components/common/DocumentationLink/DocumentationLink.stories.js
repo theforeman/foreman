@@ -2,17 +2,18 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import DocumentationLink, { DocumentLinkContent } from './index';
+import Story from '../../../../../../stories/components/Story';
 
 storiesOf('Components/DocumentationLink', module)
   .add('Default', () => (
-    <div>
+    <Story>
       <ul>
         <DocumentationLink handleClick={action('Link was clicked')} href="#" />
       </ul>
-    </div>
+    </Story>
   ))
   .add('DocumentLinkContent wrapped in a button', () => (
-    <div>
+    <Story>
       <button className="btn btn-default">
         <DocumentLinkContent />
       </button>
@@ -25,6 +26,10 @@ storiesOf('Components/DocumentationLink', module)
       <button className="btn btn-danger">
         <DocumentLinkContent />
       </button>
-    </div>
+    </Story>
   ))
-  .add('DocumentLinkContent', () => <DocumentLinkContent />);
+  .add('DocumentLinkContent', () => (
+    <Story>
+      <DocumentLinkContent />
+    </Story>
+  ));
