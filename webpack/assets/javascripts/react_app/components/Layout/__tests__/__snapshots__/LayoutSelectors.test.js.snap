@@ -1,6 +1,93 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Layout Selectors should return PF-React Compatible items 1`] = `
+exports[`Layout selectors should return Layout 1`] = `
+Object {
+  "activeMenu": "Hosts",
+  "currentLocation": Object {
+    "title": "loc1",
+  },
+  "currentOrganization": Object {
+    "title": "org1",
+  },
+  "isLoading": true,
+  "items": Array [
+    Object {
+      "active": false,
+      "children": Array [
+        Object {
+          "name": "Dashboard",
+          "type": "item",
+          "url": "/",
+        },
+        Object {
+          "name": "Facts",
+          "type": "item",
+          "url": "/fact_values",
+        },
+      ],
+      "icon": "fa fa-tachometer",
+      "name": "Monitor",
+      "type": "sub_menu",
+    },
+    Object {
+      "active": false,
+      "children": Array [
+        Object {
+          "name": "All Hosts",
+          "type": "item",
+          "url": "/hosts/new",
+        },
+        Object {
+          "name": "Architectures",
+          "type": "item",
+          "url": "/architectures",
+        },
+      ],
+      "icon": "fa fa-server",
+      "name": "Hosts",
+      "type": "sub_menu",
+    },
+    Object {
+      "active": false,
+      "children": Array [
+        Object {
+          "name": "Environments",
+          "type": "item",
+          "url": "/environments",
+        },
+        Object {
+          "name": "Architectures",
+          "type": "item",
+          "url": "/architectures",
+        },
+      ],
+      "icon": "fa fa-wrench",
+      "name": "User",
+      "type": "sub_menu",
+    },
+    Object {
+      "active": false,
+      "children": Array [
+        Object {
+          "name": "Domains",
+          "type": "item",
+          "url": "/domains",
+        },
+        Object {
+          "name": "Realms",
+          "type": "item",
+          "url": "/realms",
+        },
+      ],
+      "icon": "pficon pficon-network",
+      "name": "Infrastructure",
+      "type": "sub_menu",
+    },
+  ],
+}
+`;
+
+exports[`Layout selectors should return PF-React Compatible items 1`] = `
 Array [
   Object {
     "className": undefined,
@@ -101,4 +188,10 @@ Array [
 ]
 `;
 
-exports[`Layout Selectors should return empty array 1`] = `Array []`;
+exports[`Layout selectors should return empty array of items 1`] = `Array []`;
+
+exports[`Layout selectors should return isLoading from selector 1`] = `true`;
+
+exports[`Layout selectors should return location from selector 1`] = `"loc1"`;
+
+exports[`Layout selectors should return organization from selector 1`] = `"org1"`;

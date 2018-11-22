@@ -139,7 +139,7 @@ Array [
 ]
 `;
 
-exports[`LayoutHelper should getActiveOnBack(Monitor) 1`] = `
+exports[`LayoutHelper should getActive(Monitor) 1`] = `
 Object {
   "title": "Monitor",
 }

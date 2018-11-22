@@ -1,4 +1,11 @@
-import { patternflyMenuItemsSelector } from '../LayoutSelectors';
+import { testSelectorsSnapshotWithFixtures } from '../../../common/testHelpers';
+import {
+  patternflyMenuItemsSelector,
+  selectIsLoading,
+  selectLayout,
+  selectCurrentLocation,
+  selectCurrentOrganization,
+} from '../LayoutSelectors';
 import { layoutMock } from '../Layout.fixtures';
 
 const state = {
@@ -6,22 +13,26 @@ const state = {
     items: layoutMock.data.menu,
     activeMenu: 'Hosts',
     currentOrganization: { title: 'org1' },
+    currentLocation: { title: 'loc1' },
+    isLoading: true,
   },
 };
-describe('Layout Selectors', () => {
-  it('should return PF-React Compatible items', () => {
-    const output = patternflyMenuItemsSelector(state);
 
-    expect(output).toMatchSnapshot();
-  });
-  it('should return empty array', () => {
-    const emptyState = {
-      layout: {
-        items: [],
-      },
-    };
-    const output = patternflyMenuItemsSelector(emptyState);
+const emptyState = {
+  layout: {
+    items: [],
+  },
+};
 
-    expect(output).toMatchSnapshot();
-  });
-});
+const fixtures = {
+  'should return Layout': () => selectLayout(state),
+  'should return PF-React Compatible items': () => patternflyMenuItemsSelector(state),
+  'should return empty array of items': () => patternflyMenuItemsSelector(emptyState),
+
+  'should return isLoading from selector': () => selectIsLoading(state),
+  'should return location from selector': () => selectCurrentLocation(state),
+  'should return organization from selector': () => selectCurrentOrganization(state),
+};
+
+describe('Layout selectors', () => testSelectorsSnapshotWithFixtures(fixtures));
+

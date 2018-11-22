@@ -93,3 +93,12 @@ export const testReducerSnapshotWithFixtures = (reducer, fixtures) => {
   Object.entries(fixtures).forEach(([description, action]) =>
     it(description, () => expect(reduce(action)).toMatchSnapshot()));
 };
+
+/**
+ * Test selectors with fixtures and snapshots
+ * @param  {Object} fixtures  key=fixture description,
+ *                            value=selector runner function
+ */
+export const testSelectorsSnapshotWithFixtures = fixtures =>
+  Object.entries(fixtures).forEach(([description, selectorRunner]) =>
+    it(description, () => expect(selectorRunner()).toMatchSnapshot()));
