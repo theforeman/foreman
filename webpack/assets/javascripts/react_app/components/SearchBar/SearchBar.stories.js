@@ -7,8 +7,8 @@ import URI from 'urijs';
 import Store from '../../redux';
 import SearchBar from './index';
 import { SearchBarProps, APImock } from './SearchBar.fixtures';
+import Story from '../../../../../stories/components/Story';
 
-const storyStyle = { width: '600px', margin: 'auto', marginTop: '100px' };
 const someAutoCompletePath = /^models\/auto_complete_search.*/;
 const mock = new MockAdapter(axios);
 mock.onGet(someAutoCompletePath).reply(({ url }) => {
@@ -17,14 +17,11 @@ mock.onGet(someAutoCompletePath).reply(({ url }) => {
   return [200, results || []];
 });
 
-storiesOf('Components/SearchBar', module).add(
-  'Search Bar with mocked data',
-  () => (
-    <Provider store={Store}>
-      <div style={storyStyle}>
-        <h4>Try typing something like: {'"name = "'}</h4>
-        <SearchBar data={SearchBarProps.data} />
-      </div>
-    </Provider>
-  )
-);
+storiesOf('Components/SearchBar', module).add('Search Bar with mocked data', () => (
+  <Provider store={Store}>
+    <Story narrow>
+      <h4>Try typing something like: "name = "</h4>
+      <SearchBar data={SearchBarProps.data} />
+    </Story>
+  </Provider>
+));

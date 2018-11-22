@@ -1,6 +1,7 @@
 import React from 'react';
 import { configure, storiesOf } from '@storybook/react';
 import Markdown from './components/Markdown';
+import Story from './components/Story';
 
 import gettingStarted from './docs/gettingStarted.md';
 import addingNewComponent from './docs/addingNewComponent.md';
@@ -12,19 +13,39 @@ require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
 require('../../app/assets/stylesheets/base.scss');
 
-const req = require.context(
-  '../assets/javascripts/react_app',
-  true,
-  /.stories.js$/
-);
+require('patternfly/dist/js/patternfly');
+
+require('./index.scss');
+
+const req = require.context('../assets/javascripts/react_app', true, /.stories.js$/);
 
 const loadStories = () => req.keys().forEach(filename => req(filename));
 
 storiesOf('Introduction', module)
-  .add('Getting started', () => <Markdown source={gettingStarted} />)
-  .add('Adding new component', () => <Markdown source={addingNewComponent} />)
-  .add('Adding dependencies', () => <Markdown source={addingDependencies} />)
-  .add('Internationalization', () => <Markdown source={internationalization} />)
-  .add('Plugins', () => <Markdown source={plugins} />);
+  .add('Getting started', () => (
+    <Story>
+      <Markdown source={gettingStarted} />
+    </Story>
+  ))
+  .add('Adding new component', () => (
+    <Story>
+      <Markdown source={addingNewComponent} />
+    </Story>
+  ))
+  .add('Adding dependencies', () => (
+    <Story>
+      <Markdown source={addingDependencies} />
+    </Story>
+  ))
+  .add('Internationalization', () => (
+    <Story>
+      <Markdown source={internationalization} />
+    </Story>
+  ))
+  .add('Plugins', () => (
+    <Story>
+      <Markdown source={plugins} />
+    </Story>
+  ));
 
 configure(loadStories, module);

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import hljs from 'highlight.js';
 import Remarkable from 'react-remarkable';
+import Text from '../Text';
 import './Markdown.scss';
 
 const Markdown = ({ source }) => {
@@ -18,9 +19,9 @@ const Markdown = ({ source }) => {
   };
 
   return (
-    <div className="markdown-body">
+    <Text>
       <Remarkable source={source} options={options} />
-    </div>
+    </Text>
   );
 };
 

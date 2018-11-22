@@ -31,13 +31,35 @@ module.exports = (baseConfig, env, defaultConfig) => {
     },
     {
       test: /\.scss$/,
-      loaders: ['style-loader', 'css-loader', 'sass-loader']
+      loaders: ['style-loader', 'css-loader', {
+        loader: 'sass-loader',
+        options: {
+          includePaths: [
+            // teach webpack to resolve patternfly dependencies
+            path.resolve(__dirname, '..', 'node_modules', 'patternfly', 'dist', 'sass'),
+            path.resolve(__dirname, '..', 'node_modules', 'bootstrap-sass', 'assets', 'stylesheets'),
+            path.resolve(__dirname, '..', 'node_modules', 'font-awesome-sass', 'assets', 'stylesheets')
+          ]
+        }
+      }]
     },
     {
       test: /\.md$/,
       loaders: ['raw-loader']
-    }
+    },
+    {
+      test: /(\.ttf|\.woff|\.woff2|\.eot|\.svg|\.jpg)$/,
+      loaders: ['url-loader']
+    },
   ]
+
+  defaultConfig.resolve = {
+    modules: [
+      path.join(__dirname, '..', 'webpack'),
+      path.join(__dirname, '..', 'node_modules'),
+      'node_modules/',
+    ],
+  };
 
   return defaultConfig;
 };
