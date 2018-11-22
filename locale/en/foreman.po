@@ -3586,9 +3586,8 @@ msgstr ""
 msgid "Host Group Parameters"
 msgstr ""
 
-#, fuzzy
 msgid "Host Groups"
-msgstr "Host Group"
+msgstr ""
 
 msgid "Host Parameters"
 msgstr ""
