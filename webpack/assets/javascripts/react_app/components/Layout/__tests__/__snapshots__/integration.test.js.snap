@@ -318,7 +318,7 @@ Object {
   ],
   "state": Object {
     "layout": Object {
-      "activeMenu": "",
+      "activeMenu": "Monitor",
       "currentLocation": Object {
         "id": 1,
         "title": "yaml",
@@ -330,7 +330,7 @@ Object {
       "isLoading": false,
       "items": Array [
         Object {
-          "active": false,
+          "active": true,
           "children": Array [
             Object {
               "name": "Dashboard",
@@ -486,7 +486,7 @@ Object {
   ],
   "state": Object {
     "layout": Object {
-      "activeMenu": "",
+      "activeMenu": "Monitor",
       "currentLocation": Object {
         "id": 1,
         "title": "yaml",
@@ -498,7 +498,7 @@ Object {
       "isLoading": false,
       "items": Array [
         Object {
-          "active": false,
+          "active": true,
           "children": Array [
             Object {
               "name": "Dashboard",
@@ -640,7 +640,7 @@ Object {
 exports[`Layout integration test should flow: initial state 1`] = `
 Object {
   "layout": Object {
-    "activeMenu": "",
+    "activeMenu": "Monitor",
     "currentLocation": Object {
       "id": 2,
       "title": "london",
@@ -652,7 +652,7 @@ Object {
     "isLoading": false,
     "items": Array [
       Object {
-        "active": false,
+        "active": true,
         "children": Array [
           Object {
             "name": "Dashboard",

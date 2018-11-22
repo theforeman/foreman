@@ -4,17 +4,12 @@ import PropTypes from 'prop-types';
 import { VerticalNav } from 'patternfly-react';
 import { noop } from '../../common/helpers';
 
-import { getActiveOnBack, getCurrentPath } from './LayoutHelper';
+import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';
 import TaxonomySwitcher from './components/TaxonomySwitcher';
 import UserDropdowns from './components/UserDropdowns';
 import './layout.scss';
 
 class Layout extends React.Component {
-  changeActiveOnBack() {
-    const { data, changeActiveMenu } = this.props;
-    changeActiveMenu(getActiveOnBack(data.menu, getCurrentPath()));
-  }
-
   componentDidMount() {
     const {
       items,
@@ -24,8 +19,15 @@ class Layout extends React.Component {
       currentLocation,
       changeOrganization,
       currentOrganization,
+      changeActiveMenu,
+      activeMenu,
     } = this.props;
     if (items.length === 0) fetchMenuItems(data);
+
+    const activeURLMenu = getActive(data.menu, getCurrentPath());
+    if (activeMenu !== activeURLMenu.title) {
+      changeActiveMenu(activeURLMenu);
+    }
 
     if (data.taxonomies.locations && !!data.locations.current_location
       && currentLocation !== data.locations.current_location) {
@@ -42,12 +44,6 @@ class Layout extends React.Component {
         .find(org => org.title === initialOrgTitle).id;
       changeOrganization({ title: initialOrgTitle, id: initialOrgId });
     }
-    // changeActive on Back navigation
-    window.addEventListener('popstate', () => this.changeActiveOnBack());
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('popstate', () => this.changeActiveOnBack());
   }
 
   render() {
@@ -60,12 +56,15 @@ class Layout extends React.Component {
       changeLocation,
       currentOrganization,
       currentLocation,
+      activeMenu,
     } = this.props;
+
     return (
       <VerticalNav
         hoverDelay={0}
         items={items}
-        onItemClick={changeActiveMenu}
+        onItemClick={primary => handleMenuClick(primary, activeMenu, changeActiveMenu)}
+        activePath={`/${activeMenu}/`}
         {...this.props}
       >
         <VerticalNav.Masthead>

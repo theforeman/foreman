@@ -1,4 +1,4 @@
-import { combineMenuItems, getActiveOnBack } from '../LayoutHelper';
+import { combineMenuItems, getActive, handleMenuClick } from '../LayoutHelper';
 import { layoutMock } from '../Layout.fixtures';
 
 describe('LayoutHelper', () => {
@@ -6,8 +6,13 @@ describe('LayoutHelper', () => {
     const combined = combineMenuItems(layoutMock.data);
     expect(combined).toMatchSnapshot();
   });
-  it('should getActiveOnBack(Monitor)', () => {
-    const active = getActiveOnBack(layoutMock.data.menu, '/fact_values');
+  it('should getActive(Monitor)', () => {
+    const active = getActive(layoutMock.data.menu, '/fact_values');
     expect(active).toMatchSnapshot();
+  });
+  it('should handleMenuClick', () => {
+    const change = jest.fn();
+    handleMenuClick({ title: 'Host' }, 'Infra', change);
+    expect(change).toHaveBeenCalled();
   });
 });

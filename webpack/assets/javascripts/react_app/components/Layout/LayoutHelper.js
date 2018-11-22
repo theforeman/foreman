@@ -1,13 +1,10 @@
 import { isEmpty } from 'lodash';
-import {
-  changeOrganization,
-  changeLocation,
-} from '../../../foreman_navigation';
+import { changeOrganization, changeLocation } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
 
 export const getCurrentPath = () => window.location.pathname;
 
-export const getActiveOnBack = (data, path) => {
+export const getActive = (data, path) => {
   let activeItem = '';
   data.forEach((item) => {
     item.children.forEach((child) => {
@@ -15,6 +12,10 @@ export const getActiveOnBack = (data, path) => {
     });
   });
   return { title: activeItem };
+};
+
+export const handleMenuClick = (primary, activeMenu, changeActive) => {
+  if (primary.title !== activeMenu) changeActive(primary);
 };
 
 export const combineMenuItems = (data) => {
@@ -113,4 +114,3 @@ const createLocationItem = (locations) => {
   };
   return locItem;
 };
-

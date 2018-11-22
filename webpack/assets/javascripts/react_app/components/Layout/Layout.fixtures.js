@@ -210,6 +210,7 @@ const serverUser = {
 
 export const layoutMock = {
   items: PFitems,
+  activeMenu: 'Monitor',
   data: {
     menu: [...hashItemsA, ...hashItemsB],
     locations,
