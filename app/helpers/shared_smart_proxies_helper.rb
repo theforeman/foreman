@@ -16,7 +16,7 @@ module SharedSmartProxiesHelper
     override = options.fetch(:override, false)
     blank = options.fetch(:blank, blank_or_inherit_f(f, resource))
 
-    proxies = accessible_smart_proxies(f.object, resource, options[:feature])
+    proxies = accessible_smart_proxies_for_select(f.object, resource, options[:feature])
     return if !required && proxies.blank?
 
     select_options = {
@@ -26,17 +26,18 @@ module SharedSmartProxiesHelper
     }
     select_options[:include_blank] = blank unless required
 
-    select_f f, :"#{resource}_id", proxies, :id, :name,
+    select_f f, :"#{resource}_id", proxies, :first, :last,
       select_options,
       :label => _(options[:label]),
       :label_help => _(options[:description]),
       :wrapper_class => "form-group #{'hide' if hidden}"
   end
 
-  def accessible_smart_proxies(obj, resource, feature)
-    list = accessible_resource_records(:smart_proxy).with_features(feature).to_a
-    current = obj.public_send(resource) if obj.respond_to?(resource)
-    list |= [current] if current.present?
-    list
+  def accessible_smart_proxies(obj, association, feature)
+    accessible_resource(obj, :smart_proxy, :name, association: association).with_features(feature)
+  end
+
+  def accessible_smart_proxies_for_select(obj, resource, feature)
+    accessible_smart_proxies(obj, resource, feature).pluck(:id, :name)
   end
 end
