@@ -5,7 +5,7 @@ import BookmarkModal from './SearchModal';
 import storeDecorator from '../../../../../stories/storeDecorator';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/Bookmarks', module)
+storiesOf('Page chunks/Bookmarks', module)
   .addDecorator(storeDecorator)
   .add('Form', () => (
     <Story>

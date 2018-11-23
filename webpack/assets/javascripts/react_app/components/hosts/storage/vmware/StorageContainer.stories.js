@@ -37,7 +37,8 @@ const initializeMocks = () => {
   });
 };
 
-storiesOf('Components/Host VMWare Storage', module)
+
+storiesOf('Page chunks/Host VMWare Storage', module)
   .add('default state for new host', () => {
     initializeMocks();
     return (
