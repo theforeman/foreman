@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Icon, Button } from 'patternfly-react';
 import PropTypes from 'prop-types';
 
+import { noop } from '../../../common/helpers';
 import DiffView from '../../DiffView/DiffView';
 import DiffRadioButtons from '../../DiffView/DiffRadioButtons';
 
@@ -20,31 +21,48 @@ const DiffModal = ({
   <Modal show={isOpen} onHide={toggleModal} className="diff-modal">
     <Modal.Header>
       <h4 id="diff-modal-h4">{title}</h4>
-      <Button className="close diff-modal-close" onClick={toggleModal} bsStyle="link">
+      <Button
+        className="close diff-modal-close"
+        onClick={toggleModal}
+        bsStyle="link"
+      >
         <Icon type="pf" name="close" />
       </Button>
       <DiffRadioButtons changeState={changeViewType} stateView={diffViewType} />
     </Modal.Header>
     <Modal.Body className="diff-modal-body">
       <div id="diff-table">
-        <DiffView oldText={oldText} newText={newText} patch={diff} viewType={diffViewType} />
+        <DiffView
+          oldText={oldText}
+          newText={newText}
+          patch={diff}
+          viewType={diffViewType}
+        />
       </div>
     </Modal.Body>
   </Modal>
 );
 
 DiffModal.propTypes = {
-  patch: PropTypes.string,
+  title: PropTypes.string,
+  diff: PropTypes.string,
   oldText: PropTypes.string,
   newText: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
-  toggleModal: PropTypes.func.isRequired,
+  diffViewType: PropTypes.oneOf(['split', 'unified']),
+  isOpen: PropTypes.bool,
+  changeViewType: PropTypes.func,
+  toggleModal: PropTypes.func,
 };
 
 DiffModal.defaultProps = {
-  patch: '',
+  title: '',
+  diff: '',
   oldText: '',
   newText: '',
+  diffViewType: 'split',
+  isOpen: false,
+  changeViewType: noop,
+  toggleModal: noop,
 };
 
 export default DiffModal;
