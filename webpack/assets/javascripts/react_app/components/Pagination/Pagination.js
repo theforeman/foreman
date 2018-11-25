@@ -1,5 +1,5 @@
 import React from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
 import {
@@ -45,25 +45,25 @@ const Pagination = (props) => {
       messages={translatePagination(Paginator.defaultProps.messages)}
       className={className}
       dropdownButtonId={dropdownButtonId}
-      { ...otherProps }
+      {...otherProps}
     />
   );
 };
 
 Pagination.propTypes = {
-  data: Proptypes.shape({
-    viewType: Proptypes.string,
-    perPageOptions: Proptypes.arrayOf(Proptypes.number),
-    itemCount: Proptypes.number,
-    perPage: Proptypes.number,
+  data: PropTypes.shape({
+    viewType: PropTypes.string,
+    perPageOptions: PropTypes.arrayOf(PropTypes.number),
+    itemCount: PropTypes.number,
+    perPage: PropTypes.number,
   }).isRequired,
-  onPageSet: Proptypes.func,
-  onPerPageSelect: Proptypes.func,
-  dropdownButtonId: Proptypes.string,
-  pagination: Proptypes.shape({
-    page: Proptypes.number,
-    perPage: Proptypes.number,
-    perPageOptions: Proptypes.arrayOf(Proptypes.number),
+  onPageSet: PropTypes.func,
+  onPerPageSelect: PropTypes.func,
+  dropdownButtonId: PropTypes.string,
+  pagination: PropTypes.shape({
+    page: PropTypes.number,
+    perPage: PropTypes.number,
+    perPageOptions: PropTypes.arrayOf(PropTypes.number),
   }),
 };
 
