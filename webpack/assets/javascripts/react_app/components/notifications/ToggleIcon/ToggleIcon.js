@@ -1,7 +1,9 @@
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import { noop } from '../../../common/helpers';
 
-export default ({ hasUnreadMessages, onClick }) => {
+const ToggleIcon = ({ hasUnreadMessages, onClick }) => {
   const iconType = hasUnreadMessages ? 'fa-bell' : 'fa-bell-o';
   const tooltip = <Tooltip id="tooltip">Notifications</Tooltip>;
 
@@ -19,3 +21,15 @@ export default ({ hasUnreadMessages, onClick }) => {
     </OverlayTrigger>
   );
 };
+
+ToggleIcon.propTypes = {
+  hasUnreadMessages: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+ToggleIcon.defaultProps = {
+  hasUnreadMessages: false,
+  onClick: noop,
+};
+
+export default ToggleIcon;

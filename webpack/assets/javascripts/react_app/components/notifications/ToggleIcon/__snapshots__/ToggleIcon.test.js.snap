@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleIcon render ToggleIcon 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  id="notifications-toggle-icon"
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="tooltip"
+      placement="right"
+    >
+      Notifications
+    </Tooltip>
+  }
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span
+    aria-describedby="tooltip"
+    className="fa fa-bell-o"
+    onClick={[Function]}
+  />
+</OverlayTrigger>
+`;
+
+exports[`ToggleIcon render ToggleIcon with unread-messages 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  id="notifications-toggle-icon"
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="tooltip"
+      placement="right"
+    >
+      Notifications
+    </Tooltip>
+  }
+  placement="bottom"
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span
+    aria-describedby="tooltip"
+    className="fa fa-bell"
+    onClick={[Function]}
+  />
+</OverlayTrigger>
+`;
