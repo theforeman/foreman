@@ -145,7 +145,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "seed organization when environment SEED_ORGANIZATION specified" do
-    Organization.stubs(:any?).returns(false)
+    Organization.stubs(:none?).returns(true)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
@@ -153,7 +153,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "don't seed organization when an org already exists" do
-    Organization.stubs(:any?).returns(true)
+    Organization.stubs(:none?).returns(false)
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
@@ -161,7 +161,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "seed location when environment SEED_LOCATION specified" do
-    Location.stubs(:any?).returns(false)
+    Location.stubs(:none?).returns(true)
     with_env('SEED_LOCATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
@@ -169,7 +169,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "don't seed location when a location already exists" do
-    Location.stubs(:any?).returns(true)
+    Location.stubs(:none?).returns(false)
     with_env('SEED_LOCATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
@@ -177,8 +177,8 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test "seeded organization contains seeded location" do
-    Location.stubs(:any?).returns(false)
-    Organization.stubs(:any?).returns(false)
+    Location.stubs(:none?).returns(true)
+    Organization.stubs(:none?).returns(true)
 
     org_name = 'seed_org'
     loc_name = 'seed_loc'
