@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TypeAheadSelect } from 'patternfly-react';
 import cx from 'classnames';
+import Immutable from 'seamless-immutable';
 import { bindMethods, debounceMethods, noop } from '../../common/helpers';
 import AutoCompleteMenu from './components/AutoCompleteMenu';
 import AutoCompleteSearchButton from './components/AutoCompleteSearchButton';
@@ -149,12 +150,16 @@ class AutoComplete extends React.Component {
       results,
       useKeyShortcuts,
     } = this.props;
+    /** Using a 3rd party library (react-bootstrap-typeahead) that expects a mutable array. */
+    const options = Immutable.isImmutable(results)
+      ? results.asMutable()
+      : results;
     return (
       <div>
         <TypeAheadSelect
           ref={this._typeahead}
           defaultInputValue={initialQuery}
-          options={results}
+          options={options}
           isLoading={this.handleLoading()}
           onInputChange={this.handleInputChange}
           onChange={this.handleResultsChange}
