@@ -7,9 +7,7 @@ module HostsNicHelper
   end
 
   def accessible_subnets_for_select(obj, resource)
-    fields = [:id, :name, :vlanid]
-    subnets = accessible_resource(obj, resource).pluck(*fields)
-    subnets.map { |subnet| fields.zip(subnet).to_h }
+    accessible_resource_for_select(obj, resource, columns: [:id, :name, :vlanid])
   end
 
   def nic_subnet_field(f, attr, klass, html_options = {})
@@ -23,7 +21,7 @@ module HostsNicHelper
     if subnets.any?
       array = options_for_select(
         [[]] +
-        subnets.map { |subnet| [subnet[:name], subnet[:id], {'data-suggest_new' => false, 'data-vlan_id' => subnet[:vlanid]}]}, f.object.public_send(attr)
+        subnets.map { |subnet| [subnet[1], subnet[0], {'data-suggest_new' => false, 'data-vlan_id' => subnet[2]}]}, f.object.public_send(attr)
       )
     else
       array = [[_("No subnets"), '']]
