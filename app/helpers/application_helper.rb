@@ -508,9 +508,9 @@ module ApplicationHelper
     related.authorized.where(where).reorder(order)
   end
 
-  def accessible_related_resource_for_select(obj, relation, order: :name, where: nil)
+  def accessible_related_resource_for_select(obj, relation, order: :name, where: nil, columns: [:id, :name])
     return [] if obj.blank?
-    accessible_related_resource(obj, relation, order: order, where: where).pluck(:id, :name)
+    accessible_related_resource(obj, relation, order: order, where: where).pluck(*columns)
   end
 
   def explicit_value?(field)

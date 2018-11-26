@@ -7,7 +7,7 @@ module HostsAndHostgroupsHelper
   end
 
   def arch_oss
-    accessible_related_resource_for_select(@architecture, :operatingsystems, order: :title)
+    accessible_related_resource_for_select(@architecture, :operatingsystems, order: :title, columns: [:id, :title])
   end
 
   def os_media
