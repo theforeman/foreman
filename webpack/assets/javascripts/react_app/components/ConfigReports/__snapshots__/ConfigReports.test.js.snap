@@ -24,8 +24,10 @@ exports[`ComponentWrapper should render config reports 1`] = `
       }
       className="report-chart"
       config="medium"
+      errorText=""
       noDataMsg="No data available"
       status="RESOLVED"
+      tip=""
       title="Report Metrics"
       type="donut"
     />
@@ -49,8 +51,10 @@ exports[`ComponentWrapper should render config reports 1`] = `
       }
       className="report-chart"
       config="medium"
+      errorText=""
       noDataMsg="No data available"
       status="RESOLVED"
+      tip=""
       title="Report Status"
       type="bar"
     />
