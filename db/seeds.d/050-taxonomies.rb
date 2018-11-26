@@ -1,23 +1,27 @@
-# Create an initial organization if specified
-if SETTINGS[:organizations_enabled] && ENV['SEED_ORGANIZATION'] && !Organization.any?
-  Organization.without_auditing do
-    original_user, User.current = User.current, User.anonymous_admin
-    @organization = Organization.where(:name => ENV['SEED_ORGANIZATION']).first_or_create
-    User.current = original_user
-  end
-end
+# some associations shouldn't be set or require special handling.
+skip_associations = [:associated_audits, :audits, :default_users, :hosts,
+                     :location_parameters, :organization_parameters,
+                     :taxable_taxonomies ] + Template.descendants.map {|type| type.to_s.tableize.to_sym}
 
-# Create an initial location if specified
-if SETTINGS[:locations_enabled] && ENV['SEED_LOCATION'] && !Location.any?
-  Location.without_auditing do
-    original_user, User.current = User.current, User.anonymous_admin
-    @location = Location.where(:name => ENV['SEED_LOCATION']).first_or_create!
-    User.current = original_user
-  end
-end
+User.as_anonymous_admin do
+  [Location, Organization].select(&:none?).each do |taxonomy|
+    taxonomy.without_auditing do
+      tax_name = ENV.fetch("SEED_#{taxonomy.to_s.upcase}", "Default #{taxonomy}")
+      tax = taxonomy.create!(name: tax_name)
+      associations = taxonomy.reflect_on_all_associations.reject {|assoc| skip_associations.include?(assoc.name)}
+      associations.each do |association|
+        tax.send("#{association.name}=", association.klass.all)
+      end
 
-# Add the initial location to the initial organization to prevent mismatches
-# when a host is created that uses them
-if @organization && @location && @organization.locations.exclude?(@location)
-  @organization.locations << @location
+      # Only default templates are assigned during taxonomy creation
+      Template.where(default: false).each do |template|
+        template.send("#{taxonomy.to_s.parameterize.pluralize}=", [tax])
+      end
+
+      # Mass update when we can
+      tax_id = "#{taxonomy.to_s.parameterize}_id"
+      Host::Managed.update_all(tax_id => tax.id)
+      User.update_all("default_#{tax_id}": tax.id)
+    end
+  end
 end

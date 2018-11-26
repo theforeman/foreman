@@ -122,8 +122,8 @@ class SeedHelper
       t.vendor = vendor
 
       if !t.persisted?
-        t.organizations = Organization.unscoped.all if SETTINGS[:organizations_enabled] && t.respond_to?(:organizations=)
-        t.locations = Location.unscoped.all if SETTINGS[:locations_enabled] && t.respond_to?(:locations=)
+        t.organizations = Organization.unscoped.all if t.respond_to?(:organizations=)
+        t.locations = Location.unscoped.all if t.respond_to?(:locations=)
         raise "Unable to create template #{t.name}: #{format_errors t}" unless t.valid?
       else
         raise "Unable to update template #{t.name}: #{format_errors t}" unless t.valid?

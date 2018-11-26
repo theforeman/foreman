@@ -7,8 +7,6 @@ class Taxonomy < ApplicationRecord
 
   serialize :ignore_types, Array
 
-  belongs_to :user
-
   before_create :assign_default_templates
   after_create :assign_taxonomy_to_user
   before_validation :sanitize_ignored_types
