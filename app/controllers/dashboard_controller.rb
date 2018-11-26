@@ -16,7 +16,13 @@ class DashboardController < ApplicationController
 
   def show
     if @widget.present? && @widget.user == User.current
-      render(:partial => @widget.template, :locals => @widget.data)
+      cache_key = "#{@widget.cache_key}-#{@widget.user.id}/search-#{params[:search]}"
+      from_cache = Rails.cache.fetch(cache_key)
+      if from_cache
+        render html: from_cache
+      else
+        Rails.cache.write(cache_key, render(:partial => @widget.template, :locals => @widget.data), expires_in: Setting[:widget_cache])
+      end
     else
       render_403 "User #{User.current} attempted to access another user's widget"
     end
