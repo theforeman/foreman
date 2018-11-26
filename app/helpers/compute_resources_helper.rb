@@ -107,7 +107,7 @@ module ComputeResourcesHelper
   end
 
   def http_proxy_field(f)
-    select_f(f, :http_proxy_id, HttpProxy.all, :id, :name,
+    select_f(f, :http_proxy_id, HttpProxy.pluck(:id, :name), :first, :last,
                            {:include_blank => true },
                            { :label => _("HTTP Proxy") }
                       )
