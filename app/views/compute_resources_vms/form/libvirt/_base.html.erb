@@ -15,7 +15,7 @@
    images = possible_images(compute_resource, arch, os)
 -%>
 <div id='image_selection'>
-  <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
+  <%= select_f f, :image_id, images, :first, :last,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
              { :disabled    => images.empty? || (params[:host] && params[:host][:provision_method] == 'build'),
                :'data-url'  => template_selected_compute_resource_path(compute_resource),
                :onchange    => 'tfm.computeResource.libvirt.imageSelected(this);',

@@ -8,7 +8,7 @@
                 {:inculde_blank => (compute_resource.zones.empty? || compute_resource.zones.size == 1) ? false : _("No preference") },
                 :label => _('Availability zone'), :label_size => "col-md-2" %>
 <div id='image_selection'>
-  <%= select_f f, :image_ref, images, :uuid, :name,
+  <%= select_f f, :image_ref, images, :first, :last,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
                { :disabled => images.empty?, :label => _("Image"), :label_size => "col-md-2" } %>
 </div>
