@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Panel } from 'react-bootstrap';
 import { Modal } from 'patternfly-react';
 import { isEqual } from 'lodash';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { bindMethods } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import BarChart from '../common/charts/BarChart';
 import { navigateToSearch } from '../../../services/charts/DonutChartService';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
+import { translate as __ } from '../../common/I18n';
 
 class ChartBox extends React.Component {
   constructor(props) {
@@ -18,7 +19,10 @@ class ChartBox extends React.Component {
     bindMethods(this, ['onClick', 'closeModal', 'openModal']);
   }
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(this.props.chart, nextProps.chart) || !isEqual(this.state, nextState);
+    return (
+      !isEqual(this.props.chart, nextProps.chart) ||
+      !isEqual(this.state, nextState)
+    );
   }
 
   onClick() {
@@ -53,7 +57,9 @@ class ChartBox extends React.Component {
       }
       : {};
     const handleChartClick =
-      chart.search && chart.search.match(/=$/) ? null : navigateToSearch.bind(null, chart.search);
+      chart.search && chart.search.match(/=$/)
+        ? null
+        : navigateToSearch.bind(null, chart.search);
     const chartProps = {
       data: chart.data ? chart.data : undefined,
       key: `${chart.id}-chart`,
@@ -71,7 +77,9 @@ class ChartBox extends React.Component {
       bar: barChartProps,
     };
 
-    const panelChart = <Chart {...chartPropsForType[type]} config={this.props.config}/>;
+    const panelChart = (
+      <Chart {...chartPropsForType[type]} config={this.props.config} />
+    );
     const error = (
       <MessageBox
         msg={this.props.errorText}
@@ -86,12 +94,20 @@ class ChartBox extends React.Component {
     );
 
     return (
-      <Panel className={cx('chart-box', className)} header={boxHeader} key={chart.id}>
+      <Panel
+        className={classNames('chart-box', className)}
+        header={boxHeader}
+        key={chart.id}
+      >
         <Panel.Heading>{boxHeader}</Panel.Heading>
         <Panel.Body>
           <Loader status={status}>{[panelChart, error]}</Loader>
           {this.state.showModal && (
-            <Modal show={this.state.showModal} enforceFocus onHide={this.closeModal}>
+            <Modal
+              show={this.state.showModal}
+              enforceFocus
+              onHide={this.closeModal}
+            >
               <Modal.Header closeButton>
                 <Modal.Title>{title}</Modal.Title>
               </Modal.Header>
@@ -106,10 +122,6 @@ class ChartBox extends React.Component {
   }
 }
 
-ChartBox.defaultProps = {
-  config: 'regular',
-};
-
 ChartBox.propTypes = {
   status: PropTypes.string.isRequired,
   config: PropTypes.string,
@@ -118,6 +130,14 @@ ChartBox.propTypes = {
   type: PropTypes.oneOf(['donut', 'bar']).isRequired,
   chart: PropTypes.object,
   tip: PropTypes.string,
+};
+
+ChartBox.defaultProps = {
+  config: 'regular',
+  noDataMsg: __('No data available'),
+  errorText: '',
+  chart: {},
+  tip: '',
 };
 
 export default ChartBox;
