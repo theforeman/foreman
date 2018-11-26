@@ -136,6 +136,30 @@ module Foreman
           )
         end
 
+        test "passes neutron nics hash" do
+          args = {
+            :nics => [
+              'nic1',
+              {'net_id' => 'nic2', 'v4_fixed_ip' => '10.1.1.1'}
+            ],
+            'flavor_ref' => 'foo_flavor',
+            'image_ref' => 'foo_image'
+          }
+          desired = {
+            :nics => [
+              {'net_id' => 'nic1'},
+              {'net_id' => 'nic2', 'v4_fixed_ip' => '10.1.1.1'}
+            ],
+            'flavor_ref' => 'foo_flavor',
+            'image_ref' => 'foo_image'
+          }
+
+          Fog.mock!
+          @compute_resource.stubs(:key_pair).returns(mocked_key_pair)
+          @compute_resource.create_vm(args)
+          assert_equal(desired, args)
+        end
+
         test 'maps flavor_ref to flavor_id' do
           assert_attrs_mapped(cr, 'flavor_ref', 'flavor_id')
         end
