@@ -9,7 +9,8 @@
         puppet_classes = list.last.sort
       %>
       <ul class="puppetclass_group">
-        <li><%= puppetclass_group_with_icon(list, selected_puppet_classes) %>
+        <li>
+          <%= puppetclass_group_with_icon(puppet_class, puppet_classes, selected_puppet_classes) %>
           <ul id="pc_<%= puppet_class %>" style="display: none;">
             <% for klass in puppet_classes %>
               <% unless authorized %>
