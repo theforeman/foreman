@@ -1,12 +1,6 @@
-import { Paginator } from 'patternfly-react';
-import { getURI, translatePagination, changeQuery } from './PaginationHelper';
+import { getURI, changeQuery } from './PaginationHelper';
 
 describe('PaginationHelper', () => {
-  it('translatePagination', () => {
-    const translated = translatePagination(Paginator.defaultProps.messages);
-    expect(translated).toMatchSnapshot();
-  });
-
   it('should not reset search when set the per_page param', () => {
     const uri = getURI();
     let changePerPage = changeQuery(uri, { search: 'blue' }, () => {});

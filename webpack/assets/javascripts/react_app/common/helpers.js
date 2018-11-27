@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import { translate as __ } from './I18n';
 
 /**
  * Add a debounce timeout for your methods.
@@ -50,6 +51,20 @@ export const clearSpaces = string => string.trim().replace(/\s\s+/, ' ');
 
 export const getDisplayName = Component =>
   Component.displayName || Component.name || 'Component';
+/**
+ * Use I18n to translate an object of strings
+ * @param {Object.<string, string>} obj - the object to translate
+ * @returns {Object.<string, string>} a translated object
+ */
+export const translateObject = obj =>
+  Object.assign({}, ...Object.entries(obj).map(([k, v]) => ({ [k]: __(v) })));
+
+/**
+ * Use I18n to translate an array of strings
+ * @param {Array.<string>} arr - the array to translate
+ * @returns {Array.<string>} a translated array
+ */
+export const translateArray = arr => arr.map(str => __(str));
 
 export default {
   bindMethods,
@@ -58,4 +73,6 @@ export default {
   clearSpaces,
   newWindowOnClick,
   getDisplayName,
+  translateObject,
+  translateArray,
 };

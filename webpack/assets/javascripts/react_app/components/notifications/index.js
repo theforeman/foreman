@@ -3,10 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { groupBy } from 'lodash';
-import { NotificationDrawerWrapper } from 'patternfly-react';
-import { translate as __ } from '../../../react_app/common/I18n';
+import {
+  NotificationDrawerWrapper,
+  NotificationDrawerPanelWrapper,
+} from 'patternfly-react';
 import * as NotificationActions from '../../redux/actions/notifications';
-import { noop } from '../../common/helpers';
+import { noop, translateObject } from '../../common/helpers';
 
 import './notifications.scss';
 import ToggleIcon from './ToggleIcon/ToggleIcon';
@@ -43,6 +45,7 @@ class notificationContainer extends React.Component {
       hasUnreadMessages,
       isReady,
       clickedLink,
+      translations,
     } = this.props;
 
     const notificationGroups = Object.entries(notifications).map(
@@ -52,16 +55,6 @@ class notificationContainer extends React.Component {
         notifications: group,
       })
     );
-
-    const translations = {
-      title: __('Notifications'),
-      unreadEvent: __('Unread Event'),
-      unreadEvents: __('Unread Events'),
-      emptyState: __('No Notifications Available'),
-      readAll: __('Mark All Read'),
-      clearAll: __('Clear All'),
-      deleteNotification: __('Hide this notification'),
-    };
 
     return (
       <div>
@@ -81,7 +74,7 @@ class notificationContainer extends React.Component {
             onClickedLink={clickedLink}
             toggleDrawerHide={toggleDrawer}
             isExpandable={false}
-            translations={translations}
+            translations={translateObject(translations)}
           />
         )}
       </div>
@@ -106,6 +99,15 @@ notificationContainer.propTypes = {
   markGroupAsRead: PropTypes.func,
   clearNotification: PropTypes.func,
   clearGroup: PropTypes.func,
+  translations: PropTypes.shape({
+    title: PropTypes.string,
+    unreadEvent: PropTypes.string,
+    unreadEvents: PropTypes.string,
+    emptyState: PropTypes.string,
+    readAll: PropTypes.string,
+    clearAll: PropTypes.string,
+    deleteNotification: PropTypes.string,
+  }),
 };
 
 notificationContainer.defaultProps = {
@@ -122,6 +124,7 @@ notificationContainer.defaultProps = {
   markGroupAsRead: noop,
   clearNotification: noop,
   clearGroup: noop,
+  translations: NotificationDrawerPanelWrapper.defaultProps.translations,
 };
 
 const mapStateToProps = state => {
