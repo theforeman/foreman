@@ -431,7 +431,8 @@ module HostsHelper
   def subnets_ipam_data(field)
     data = {}
     domain_subnets(field).each do |subnet|
-      data[subnet.id] = { :ipam => subnet.ipam? }
+      id, ipam, _name = subnet
+      data[id] = { :ipam => Subnet.ipam?(ipam) }
     end
     data
   end
