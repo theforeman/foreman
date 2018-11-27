@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
+import { translateObject } from '../../common/helpers';
 import {
   getURI,
   getURIpage,
   getURIperPage,
   changeQuery,
-  translatePagination,
 } from './PaginationHelper';
 import './pagination.scss';
 
@@ -42,7 +42,7 @@ const Pagination = props => {
       itemCount={data.itemCount}
       onPageSet={onPageSet}
       onPerPageSelect={onPerPageSelect}
-      messages={translatePagination(Paginator.defaultProps.messages)}
+      messages={translateObject(Paginator.defaultProps.messages)}
       className={className}
       dropdownButtonId={dropdownButtonId}
       {...otherProps}

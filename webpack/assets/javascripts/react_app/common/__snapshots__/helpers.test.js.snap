@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`translateArray, translateObject should translate Array 1`] = `
+Array [
+  "Hello",
+  "There",
+]
+`;
+
+exports[`translateArray, translateObject should translate Object 1`] = `
+Object {
+  "first": "Hello",
+  "second": "There",
+}
+`;
