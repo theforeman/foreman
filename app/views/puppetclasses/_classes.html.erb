@@ -1,4 +1,4 @@
-<% authorized = authorized_for(:controller => :host_editing, :action => :edit_classes) %>
+<% authorized = authorized_for(controller: :host_editing, action: :edit_classes) %>
 
 <% puppetclasses.group_by { |klass| klass.module_name }.sort.in_groups(2, nil) do |group| %>
   <div class="col-md-6 classes">
