@@ -112,7 +112,7 @@ export function initCounter() {
     field.limitedSpinner({
       softMaximum: field.data('softMax'),
       errorTarget: errorMessage,
-      min: 1,
+      min: 0,
     });
 
     field.change(() => {
