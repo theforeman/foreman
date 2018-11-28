@@ -10,13 +10,11 @@ const i18nProviderWrapperFactory = (initialNow, timezone) =>
     class I18nProviderWrapper extends React.Component {
       constructor(props) {
         super(props);
-        this.state = { i18nLoaded: intl.loaded };
+        this.state = { i18nLoaded: false };
 
-        if (!intl.loaded) {
-          intl.ready.then(() => {
-            this.setState({ i18nLoaded: true });
-          });
-        }
+        intl.ready.then(() => {
+          this.setState({ i18nLoaded: true });
+        });
       }
 
       render() {
