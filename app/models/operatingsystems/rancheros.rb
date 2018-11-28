@@ -17,10 +17,6 @@ class Rancheros < Operatingsystem
     ''
   end
 
-  def boot_files_uri(medium, architecture, host = nil)
-    super(medium, architecture, host)
-  end
-
   def display_family
     'RancherOS'
   end
