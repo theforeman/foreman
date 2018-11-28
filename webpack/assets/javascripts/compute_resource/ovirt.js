@@ -121,7 +121,7 @@ function addVolume({
   const newId = add_child_node($('#storage_volumes .add_nested_fields'));
 
   disableElement($(`[id$=${newId}_size_gb]`).val(sizeGb));
-  disableElement($(`[id$=${newId}_storage_domain]`).val(storageDomain));
+  $(`[id$=${newId}_storage_domain]`).val(storageDomain);
   disableElement($(`[id$=${newId}_interface]`).val(diskInterface));
   disableElement($(`[id$=${newId}_bootable_true]`).attr('checked', bootable));
   disableElement(
