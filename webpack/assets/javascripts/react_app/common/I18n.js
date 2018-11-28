@@ -10,14 +10,13 @@ class IntlLoader {
 
     [this.locale] = locale.split('-');
     this.timezone = this.fallbackIntl ? 'UTC' : timezone;
-    this.loaded = false;
     this.ready = this.init();
   }
 
   async init() {
     await this.fetchIntl();
     addLocaleData(await import(/* webpackChunkName: 'react-intl/locale/[request]' */`react-intl/locale-data/${this.locale}`));
-    this.loaded = true;
+    return true;
   }
 
   async fetchIntl() {
