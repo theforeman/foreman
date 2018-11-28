@@ -70,14 +70,20 @@ module CommonParametersHelper
 
   def authorized_resource_parameters(resource, type)
     parameters_by_type = resource.send(type)
-    @authorizer_for_params = Authorizer.new(User.current, :collection => parameters_by_type)
-    resource_parameters = @authorizer_for_params.find_collection(
-      parameters_by_type, :permission => :view_params)
+    parameter_ids_to_view = find_parameters_to_view(parameters_by_type).map(&:id)
+    resource_parameters = parameters_by_type.select { |p| parameter_ids_to_view.include?(p.id) }
     resource_parameters += parameters_by_type.select(&:new_record?)
     resource_parameters
   end
 
+  def find_parameters_to_view(parameters_by_type, user = User.current)
+    @params_authorizer = Authorizer.new(user, :collection => parameters_by_type)
+    return parameters_by_type.none if user.nil?
+    return parameters_by_type.where(nil) if user&.admin?
+    @params_authorizer.find_collection(parameters_by_type.klass, :permission => :view_params)
+  end
+
   def can_create_parameter?(parameter)
-    @can_create_param ||= @authorizer_for_params.can?(:create_params)
+    @can_create_param ||= @params_authorizer.can?(:create_params)
   end
 end
