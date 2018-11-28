@@ -253,13 +253,12 @@ module Foreman::Model
       find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data, :use_custom_script => true)
     end
 
-    def sanitize_inherited_vm_attributes(args)
+    def sanitize_inherited_vm_attributes(args, template)
       # Cleanup memory an cores values if template and/or instance type provided when VM values are
       # * Blank values for these attributes, because oVirt will fail if empty values are present in VM definition
       # * Provided but identical to values present in the template or instance type
       # Instance type values take precedence on templates values
-      if args[:template].present?
-        template = template(args[:template])
+      if template.present?
         cores = template.cores.to_i if template.cores.present?
         memory = template.memory.to_i if template.memory.present?
       end
@@ -275,9 +274,10 @@ module Foreman::Model
     def create_vm(args = {})
       args[:comment] = args[:user_data] if args[:user_data]
       args[:template] = args[:image_id] if args[:image_id]
-      sanitize_inherited_vm_attributes(args)
+      template = template(args[:template]) if args[:template]
 
-      preallocate_disks(args) if args[:volumes_attributes].present?
+      sanitize_inherited_vm_attributes(args, template)
+      preallocate_and_clone_disks(args, template) if args[:volumes_attributes].present? && template.present?
 
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
 
@@ -291,14 +291,22 @@ module Foreman::Model
       vm
     end
 
-    def preallocate_disks(args)
-      change_allocation_volumes = args[:volumes_attributes].values.select { |x| x[:id].present? && x[:preallocate] == '1' }
-      if args[:template].present? && change_allocation_volumes.present?
-        disks = change_allocation_volumes.map do |volume|
-          { :id => volume[:id], :sparse => 'false', :format => 'raw', :storagedomain => volume[:storage_domain] }
+    def preallocate_and_clone_disks(args, template)
+      volumes_to_change = args[:volumes_attributes].values.select {|x| x[:id].present?}
+      return unless volumes_to_change.present?
+
+      template_disks = template.volumes
+
+      disks = volumes_to_change.map do |volume|
+        if volume[:preallocate] == '1'
+          {:id => volume[:id], :sparse => 'false', :format => 'raw', :storage_domain => volume[:storage_domain]}
+        else
+          template_volume = template_disks.detect {|v| v.id == volume["id"]}
+          {:id => volume["id"], :storage_domain => volume["storage_domain"]} if template_volume.storage_domain != volume["storage_domain"]
         end
-        args.merge!(:clone => true, :disks => disks)
-      end
+      end.compact
+
+      args.merge!(:clone => true, :disks => disks) if disks.present?
     end
 
     def vm_instance_defaults
