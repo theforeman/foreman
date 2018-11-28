@@ -329,14 +329,24 @@ module AuditsHelper
   end
 
   def host_details_action(host, options = {})
+    host_path_name = find_host_path_name(host)
     action_details = { :title => _("Host details"), :css_class => 'btn btn-default' }
     action_details[:name] = _("Associated Host") if options[:is_associated]
-    auth_options = hash_for_host_path(:id => host.to_param).merge(:auth_object => host, :auth_action => 'view')
+    auth_options = send("hash_for_#{host_path_name}", :id => host.to_param).merge(
+      :auth_object => host, :auth_action => 'view')
     if authorized_for(auth_options)
-      action_details[:url] = host_path(:id => host.to_param)
+      action_details[:url] = send(host_path_name, :id => host.to_param)
     else
       action_details.merge!(:url => '#', :css_class => 'btn btn-default disabled', :disabled => true)
     end
     action_details
+  end
+
+  def find_host_path_name(host)
+    host_type = host.type
+    default_path = 'host_path'
+    return default_path if ['Host::Base', 'Host::Managed'].include?(host_type)
+    host_path_name = host_type.split('::').last.downcase + "_#{default_path}"
+    respond_to?(host_path_name) ? host_path_name : default_path
   end
 end
