@@ -68,9 +68,7 @@ describe('Component registry', () => {
         },
       });
 
-      expect(markup).toEqual(
-        <FakeComponent data={{ fakeData: true }} store={undefined} />
-      );
+      expect(markup).toEqual(<FakeComponent />);
     });
 
     it('should use default wrapper', () => {

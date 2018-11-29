@@ -12,6 +12,7 @@ exports[`AuditsList rendering render resources list 1`] = `
         <ShortDateTime
           date="2018-08-13 00:34:55 -1100"
           defaultValue="N/A"
+          seconds={false}
         />
       </span>
     }

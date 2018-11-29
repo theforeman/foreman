@@ -4,6 +4,7 @@ exports[`ShortDateTime formats date 1`] = `
 <ShortDateTime
   date={2017-10-13T11:54:55.000Z}
   defaultValue="Default value"
+  seconds={false}
 >
   <span
     title="15 days ago"
@@ -52,6 +53,7 @@ exports[`ShortDateTime renders default value 1`] = `
 <ShortDateTime
   date={null}
   defaultValue="Default value"
+  seconds={false}
 >
   <span>
     Default value
