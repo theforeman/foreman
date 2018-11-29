@@ -789,6 +789,11 @@ create_report_templates:
   resource_type: ReportTemplate
   created_at: "2014-01-07 15:09:32.783442"
   updated_at: "2014-01-07 15:09:32.783442"
+generate_report_templates:
+  name: generate_report_templates
+  resource_type: ReportTemplate
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
 view_settings:
   name: view_settings
   resource_type: Setting

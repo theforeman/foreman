@@ -110,6 +110,6 @@ class ReportComposer
   end
 
   def load_report_template(id)
-    ReportTemplate.authorized(:generate_report_template).find_by_id(id)
+    ReportTemplate.authorized(:generate_report_templates).find_by_id(id)
   end
 end
