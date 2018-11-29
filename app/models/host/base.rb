@@ -196,13 +196,14 @@ module Host
       # is saved to primary interface so we match it in updating code below
       if !self.managed? && self.primary_interface.mac.blank? && self.primary_interface.identifier.blank?
         identifier, values = parser.suggested_primary_interface(self)
-        self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress]) if values.present?
-        self.primary_interface.update_attribute(:identifier, identifier)
+        set_interface(values, identifier, self.primary_interface)
         self.primary_interface.save!
       end
 
       changed_count = 0
       parser.interfaces.each do |name, attributes|
+        next if name == self.primary_interface.identifier
+
         iface = get_interface_scope(name, attributes).try(:first) || interface_class(name).new(:managed => false)
         # create or update existing interface
         changed_count += 1 if set_interface(attributes, name, iface)

@@ -1620,6 +1620,19 @@ class HostTest < ActiveSupport::TestCase
       assert_equal '10.10.0.3', bond0.ip
     end
 
+    test "#set_interfaces creates virtual primary interface as suggested" do
+      host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+      hash = { :eno777 => {:identifier => 'eno777', :macaddress => '00:00:00:11:22:33', :virtual => false},
+               :eno777_22 => {:identifier => 'eno777_22', :macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true, :attached_to => 'eno777', :tag => '22'}
+      }.with_indifferent_access
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => [:eno777_22, hash[:eno777_22]])
+      host.set_interfaces(parser)
+      host.interfaces.reload
+      assert_equal 2, host.interfaces.size
+      assert_equal 'eno777_22', host.primary_interface.identifier
+      assert_equal '10.10.0.1', host.primary_interface.ip
+    end
+
     test "#set_interfaces matches bridges based on identifier and even updates its mac" do
       # interface with empty identifier was renamed to eth5 (same MAC)
       host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup), :mac => '00:00:00:11:22:33')
