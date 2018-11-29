@@ -4,6 +4,7 @@ exports[`LongDateTime formats date 1`] = `
 <LongDateTime
   date={2017-10-13T11:54:55.000Z}
   defaultValue="Default value"
+  seconds={false}
 >
   <span
     title="15 days ago"
@@ -54,6 +55,7 @@ exports[`LongDateTime renders default value 1`] = `
 <LongDateTime
   date={null}
   defaultValue="Default value"
+  seconds={false}
 >
   <span>
     Default value
