@@ -29,7 +29,7 @@ export function mount(component, selector, data, flattenData = false) {
         store,
         flattenData,
       }),
-      reactNode,
+      reactNode
     );
 
     mountedNodes.push(reactNode);

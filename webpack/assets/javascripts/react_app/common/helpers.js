@@ -48,7 +48,8 @@ export const newWindowOnClick = url => event => {
  */
 export const clearSpaces = string => string.trim().replace(/\s\s+/, ' ');
 
-export const getDisplayName = Component => Component.displayName || Component.name || 'Component';
+export const getDisplayName = Component =>
+  Component.displayName || Component.name || 'Component';
 
 export default {
   bindMethods,
