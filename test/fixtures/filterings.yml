@@ -269,6 +269,9 @@ manager_25_3:
 manager_25_4:
   filter: manager_25
   permission: destroy_report_templates
+manager_25_5:
+  filter: manager_25
+  permission: generate_report_templates
 edit_partition_tables_1_0:
   filter: edit_partition_tables_1
   permission: view_ptables

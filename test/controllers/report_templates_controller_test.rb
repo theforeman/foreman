@@ -78,7 +78,8 @@ class ReportTemplatesControllerTest < ActionController::TestCase
     @report_template.update_attribute :template, '<%= 1 + 1 %> <%= input("hello") %>'
     input = FactoryBot.create(:template_input, :name => 'hello')
     @report_template.template_inputs = [ input ]
-    get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { input.id.to_s => { :value => 'ohai' } } } }, session: set_session_user
+    user = FactoryBot.create(:user, :role_ids => [ Role.find_by_name('Manager').id ], :mail => 'user@example.com')
+    get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { input.id.to_s => { :value => 'ohai' } } } }, session: set_session_user(user)
     assert_response :success
     assert_equal 'text/plain', response.content_type
     assert_equal "2 ohai", response.body
