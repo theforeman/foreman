@@ -33,8 +33,8 @@ const renderAdditionalInfoItems = items =>
   ));
 
 const renderTimestamp = date => (
-  <span className='gray-text'>
-    <ShortDateTime date={date} defaultValue={ __('N/A') } />
+  <span className="gray-text">
+    <ShortDateTime date={date} defaultValue={__('N/A')} />
   </span>
 );
 
@@ -54,28 +54,37 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
 
 const AuditsList = ({ data: { audits, isOrgEnabled, isLocEnabled } }) => (
   <ListView>
-    {audits.map(({
-        id,
-        created_at: createdAt,
-        audited_type_name: auditedTypeName,
-        audit_title: auditTitle,
-        audit_title_url: auditTitleUrl,
-        audited_changes: auditedChanges,
-        user_info: userInfo,
-        remote_address: remoteAddress,
-        action_display_name: actionDisplayName,
-        affected_organizations: affectedOrganizations,
-        affected_locations: affectedLocations,
-        allowed_actions: allowedActions,
-        comment,
-        audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
-        details,
-      }, index) => (
-      <ListView.Item id={id} key={id}
-        className={remoteAddress ? 'main-info-minimize-padding' : 'main-info-maximize-padding' }
-        actions={renderTimestamp(createdAt)}
-        additionalInfo={
-          renderAdditionalInfoItems([
+    {audits.map(
+      (
+        {
+          id,
+          created_at: createdAt,
+          audited_type_name: auditedTypeName,
+          audit_title: auditTitle,
+          audit_title_url: auditTitleUrl,
+          audited_changes: auditedChanges,
+          user_info: userInfo,
+          remote_address: remoteAddress,
+          action_display_name: actionDisplayName,
+          affected_organizations: affectedOrganizations,
+          affected_locations: affectedLocations,
+          allowed_actions: allowedActions,
+          comment,
+          audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
+          details,
+        },
+        index
+      ) => (
+        <ListView.Item
+          id={id}
+          key={id}
+          className={
+            remoteAddress
+              ? 'main-info-minimize-padding'
+              : 'main-info-maximize-padding'
+          }
+          actions={renderTimestamp(createdAt)}
+          additionalInfo={renderAdditionalInfoItems([
             auditedTypeName.toUpperCase(),
             renderResourceLink(auditTitle, auditTitleUrl, id),
           ])}

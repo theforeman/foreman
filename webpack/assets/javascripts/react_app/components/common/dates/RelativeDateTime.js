@@ -2,30 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative, intlShape } from 'react-intl';
 
-class RelativeDateTime extends React.Component {
-  render() {
-    const { date, defaultValue } = this.props;
-    if (date) {
-      const title = this.context.intl.formatDate(date, {
-        day: '2-digit',
-        month: 'short',
-        hour: '2-digit',
-        minute: '2-digit',
-        year: 'numeric',
-      });
+const RelativeDateTime = (props, context) => {
+  const { date, defaultValue } = props;
+  if (date) {
+    const title = context.intl.formatDate(date, {
+      day: '2-digit',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      year: 'numeric',
+    });
 
-      return (
-        <span title={title}>
-          <FormattedRelative value={date} style="numeric" />
-        </span>
-      );
-    }
-
+    /* eslint-disable react/style-prop-object */
     return (
-      <span>{defaultValue}</span>
+      <span title={title}>
+        <FormattedRelative value={date} style="numeric" />
+      </span>
     );
+    /* eslint-enable react/style-prop-object */
   }
-}
+
+  return <span>{defaultValue}</span>;
+};
 
 RelativeDateTime.contextTypes = {
   intl: intlShape,
@@ -34,6 +32,11 @@ RelativeDateTime.contextTypes = {
 RelativeDateTime.propTypes = {
   date: PropTypes.any,
   defaultValue: PropTypes.string,
+};
+
+RelativeDateTime.defaultProps = {
+  date: null,
+  defaultValue: '',
 };
 
 export default RelativeDateTime;

@@ -3,54 +3,44 @@ import { Provider } from 'react-redux';
 import { i18nProviderWrapperFactory } from '../common/i18nProviderWrapperFactory';
 import { getDisplayName } from '../common/helpers';
 
-const storeProviderWrapperFactory = store =>
-  (WrappedComponent) => {
-    class StoreProvider extends React.Component {
-      render() {
-        return (
-          <Provider store={store}>
-            <WrappedComponent {...this.props} />
-          </Provider>
-        );
-      }
+const storeProviderWrapperFactory = store => WrappedComponent => {
+  const StoreProvider = props => (
+    <Provider store={store}>
+      <WrappedComponent {...props} />
+    </Provider>
+  );
+  StoreProvider.displayName = `StoreProvider(${getDisplayName(
+    WrappedComponent
+  )})`;
+
+  return StoreProvider;
+};
+
+const dataProviderWrapperFactory = (
+  data,
+  flattenData = false
+) => WrappedComponent => {
+  const DataProvider = props => {
+    if (flattenData) {
+      return <WrappedComponent {...data} {...props} />;
     }
-    StoreProvider.displayName = `StoreProvider(${getDisplayName(WrappedComponent)})`;
-
-    return StoreProvider;
+    return <WrappedComponent data={data} {...props} />;
   };
+  DataProvider.displayName = `DataProvider(${getDisplayName(
+    WrappedComponent
+  )})`;
 
-const dataProviderWrapperFactory = (data, flattenData = false) =>
-  (WrappedComponent) => {
-    class DataProvider extends React.Component {
-      render() {
-        if (flattenData) {
-          return (
-            <WrappedComponent {...data} {...this.props} />
-          );
-        }
-        return (
-          <WrappedComponent data={data} {...this.props} />
-        );
-      }
-    }
-    DataProvider.displayName = `DataProvider(${getDisplayName(WrappedComponent)})`;
+  return DataProvider;
+};
 
-    return DataProvider;
-  };
+const propDataMapperWrapperFactory = () => WrappedComponent => {
+  const PropDataMapper = props => <WrappedComponent data={props} />;
+  PropDataMapper.displayName = `PropDataMapper(${getDisplayName(
+    WrappedComponent
+  )})`;
 
-const propDataMapperWrapperFactory = () =>
-  (WrappedComponent) => {
-    class PropDataMapper extends React.Component {
-      render() {
-        return (
-          <WrappedComponent data={this.props} />
-        );
-      }
-    }
-    PropDataMapper.displayName = `PropDataMapper(${getDisplayName(WrappedComponent)})`;
-
-    return PropDataMapper;
-  };
+  return PropDataMapper;
+};
 
 export const wrapperRegistry = {
   wrappers: {

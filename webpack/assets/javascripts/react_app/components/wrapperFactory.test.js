@@ -20,17 +20,15 @@ describe('wrapperRegistry', () => {
 
 describe('WrapperFactory', () => {
   it('builds a wrapper', () => {
-    wrapperRegistry.register(
-      'name_wrapper',
-      name => component => `${name}(${component})`,
+    wrapperRegistry.register('name_wrapper', name => component =>
+      `${name}(${component})`
     );
 
     const factory = new WrapperFactory();
 
-    factory
-      .with('name_wrapper', 'WrapperA')
-      .with('name_wrapper', 'WrapperB');
-    expect(factory.wrapper('Component'))
-      .toEqual('WrapperB(WrapperA(Component))');
+    factory.with('name_wrapper', 'WrapperA').with('name_wrapper', 'WrapperB');
+    expect(factory.wrapper('Component')).toEqual(
+      'WrapperB(WrapperA(Component))'
+    );
   });
 });

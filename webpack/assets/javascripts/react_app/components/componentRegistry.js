@@ -46,7 +46,9 @@ const componentRegistry = {
 
   getComponent(name) {
     if (!this.registry[name]) {
-      throw new Error(`Component not found: ${name} among ${this.registeredComponents()}`);
+      throw new Error(
+        `Component not found: ${name} among ${this.registeredComponents()}`
+      );
     }
 
     return this.registry[name];
@@ -74,23 +76,18 @@ const componentRegistry = {
     return factory.wrapper;
   },
 
-  markup(name, {
-    data = null,
-    store = null,
-    wrapper = null,
-    flattenData = false,
-  }) {
+  markup(
+    name,
+    { data = null, store = null, wrapper = null, flattenData = false }
+  ) {
     const currentComponent = this.getComponent(name);
-    const componentWrapper = wrapper || this.defaultWrapper(
-      currentComponent,
-      data,
-      store,
-      flattenData,
-    );
+    const componentWrapper =
+      wrapper ||
+      this.defaultWrapper(currentComponent, data, store, flattenData);
 
     const WrappedComponent = componentWrapper(currentComponent.type);
 
-    return (<WrappedComponent />);
+    return <WrappedComponent />;
   },
 };
 
@@ -115,16 +112,28 @@ const coreComponets = [
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
   {
-    name: 'RelativeDateTime', type: RelativeDateTime, data: true, store: false,
+    name: 'RelativeDateTime',
+    type: RelativeDateTime,
+    data: true,
+    store: false,
   },
   {
-    name: 'LongDateTime', type: LongDateTime, data: true, store: false,
+    name: 'LongDateTime',
+    type: LongDateTime,
+    data: true,
+    store: false,
   },
   {
-    name: 'ShortDateTime', type: ShortDateTime, data: true, store: false,
+    name: 'ShortDateTime',
+    type: ShortDateTime,
+    data: true,
+    store: false,
   },
   {
-    name: 'IsoDate', type: IsoDate, data: true, store: false,
+    name: 'IsoDate',
+    type: IsoDate,
+    data: true,
+    store: false,
   },
 ];
 

@@ -2,7 +2,7 @@ import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
 import { deprecateObjectProperty } from '../../foreman_tools';
 
-const runningInPhantomJS = () => (window._phantom !== undefined);
+const runningInPhantomJS = () => window._phantom !== undefined;
 
 class IntlLoader {
   constructor(locale, timezone) {
@@ -15,14 +15,20 @@ class IntlLoader {
 
   async init() {
     await this.fetchIntl();
-    addLocaleData(await import(/* webpackChunkName: 'react-intl/locale/[request]' */`react-intl/locale-data/${this.locale}`));
+    addLocaleData(
+      await import(/* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${
+        this.locale
+      }`)
+    );
     return true;
   }
 
   async fetchIntl() {
     if (this.fallbackIntl) {
       global.Intl = await import(/* webpackChunkName: "intl" */ 'intl');
-      await import(/* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${this.locale}`);
+      await import(/* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${
+        this.locale
+      }`);
     }
   }
 }
@@ -32,7 +38,6 @@ const langAttr = htmlElemnt.getAttribute('lang') || 'en';
 const timezoneAttr = htmlElemnt.getAttribute('data-timezone') || 'UTC';
 
 export const intl = new IntlLoader(langAttr, timezoneAttr);
-
 
 const cheveronPrefix = () => (window.I18N_MARK ? '\u00BB' : '');
 const cheveronSuffix = () => (window.I18N_MARK ? '\u00AB' : '');
