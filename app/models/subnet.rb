@@ -195,12 +195,8 @@ class Subnet < ApplicationRecord
     @template_proxy ||= ProxyAPI::Template.new({:url => template.url}.merge(attrs)) if template?
   end
 
-  def self.ipam?(ipam)
-    ipam != IPAM::MODES[:none]
-  end
-
   def ipam?
-    self.class.ipam?(self.ipam)
+    self.ipam != IPAM::MODES[:none]
   end
 
   def ipam_needs_range?

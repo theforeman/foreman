@@ -2,7 +2,7 @@ module HostsAndHostgroupsHelper
   include AncestryHelper
 
   def domain_subnets(type)
-    accessible_related_resource_for_select(@domain, :subnets, :where => {:type => type}, columns: [:id, :ipam, :name])
+    accessible_related_resource_for_select(@domain, :subnets, :where => {:type => type})
   end
 
   def arch_oss
