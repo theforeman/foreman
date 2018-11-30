@@ -12,7 +12,7 @@
 
 <%
    arch ||= nil ; os ||= nil
-   images = possible_images(compute_resource, arch, os)
+   images = possible_images(compute_resource, arch, os).pluck(:uuid, :name)
 -%>
 <div id='image_selection'>
   <%= select_f f, :image_id, images, :first, :last,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},

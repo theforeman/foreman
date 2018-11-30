@@ -307,7 +307,7 @@ module HostsHelper
   def possible_images(cr, arch = nil, os = nil)
     return cr.images.order(:name) unless controller_name == "hosts"
     return [] unless arch && os
-    cr.images.where(:architecture_id => arch, :operatingsystem_id => os).order(:name).pluck(:uuid, :name)
+    cr.images.where(:architecture_id => arch, :operatingsystem_id => os).order(:name)
   end
 
   def state(s)

@@ -40,7 +40,7 @@
 <% unless local_assigns[:hide_image] %>
   <%
      arch ||= nil ; os ||= nil
-     images = possible_images(compute_resource, arch, os)
+     images = possible_images(compute_resource, arch, os).pluck(:uuid, :name)
   -%>
 
   <div id='image_selection'>
