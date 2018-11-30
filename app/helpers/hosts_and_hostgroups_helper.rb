@@ -6,7 +6,7 @@ module HostsAndHostgroupsHelper
   end
 
   def arch_oss
-    accessible_related_resource_for_select(@architecture, :operatingsystems, order: :title, columns: [:id, :title])
+    accessible_related_resource_for_select(@architecture, :operatingsystems, order: :title)
   end
 
   def os_media
@@ -27,7 +27,7 @@ module HostsAndHostgroupsHelper
     # Don't show this if we have no Realms, otherwise always include blank
     # so the user can choose not to use a Realm on this host
     return unless (SETTINGS[:unattended] == true) && @host.managed
-    realms = accessible_resource_for_select(f.object, :realm)
+    realms = accessible_resource(f.object, :realm).pluck(:id, :name)
     return unless realms.present?
     select_f(f, :realm_id,
                 realms,

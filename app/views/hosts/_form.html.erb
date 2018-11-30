@@ -42,7 +42,7 @@
           <%= host_taxonomy_select(f, Location) %>
         <% end %>
 
-        <%= select_f f, :hostgroup_id, accessible_resource_for_select(@host, :hostgroup, order: :title, columns: [:id, :title]), :first, :last,
+        <%= select_f f, :hostgroup_id, accessible_resource(@host, :hostgroup, :title).pluck(:id, :title), :first, :last,
           { :include_blank => true},
           { :onchange => 'hostgroup_changed(this);',
             :data => {

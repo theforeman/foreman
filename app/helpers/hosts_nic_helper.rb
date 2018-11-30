@@ -6,10 +6,6 @@ module HostsNicHelper
     link_to(_("Suggest new"), '#', :class => link_class)
   end
 
-  def accessible_subnets_for_select(obj, resource)
-    accessible_resource_for_select(obj, resource, columns: [:id, :name, :vlanid])
-  end
-
   def nic_subnet_field(f, attr, klass, html_options = {})
     subnets = accessible_subnets_for_select(f.object, klass)
     html_options.merge!(
@@ -21,7 +17,7 @@ module HostsNicHelper
     if subnets.any?
       array = options_for_select(
         [[]] +
-        subnets.map { |subnet| [subnet[1], subnet[0], {'data-suggest_new' => false, 'data-vlan_id' => subnet[2]}]}, f.object.public_send(attr)
+        accessible_resource(f.object, klass).map { |subnet| [subnet.to_label, subnet.id, {'data-suggest_new' => subnet.unused_ip.suggest_new?, 'data-vlan_id' => subnet.vlanid}]}, f.object.public_send(attr)
       )
     else
       array = [[_("No subnets"), '']]

@@ -491,11 +491,6 @@ module ApplicationHelper
     list.reorder(order)
   end
 
-  def accessible_resource_for_select(obj, resource, order: :name, association: resource, columns: [:id, :name])
-    columns = Array(columns)
-    accessible_resource(obj, resource, order, association: association).pluck(*columns)
-  end
-
   def accessible_related_resource(obj, relation, order: :name, where: nil)
     return [] if obj.blank?
     related = obj.public_send(relation)
