@@ -35,9 +35,9 @@ class Setting::Provisioning < Setting
 
   CPU_MODES = {
     'default' => 'default',
-    #'custom' => 'custom' # custom is not implemented. This needs extra UI.
+    # 'custom' => 'custom' # custom is not implemented. This needs extra UI.
     'host-model' => 'host-model',
-    'host-passthrough' => 'host-passthrough',
+    'host-passthrough' => 'host-passthrough'
   }
 
   def self.default_settings
