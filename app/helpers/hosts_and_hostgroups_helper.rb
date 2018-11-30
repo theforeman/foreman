@@ -2,19 +2,19 @@ module HostsAndHostgroupsHelper
   include AncestryHelper
 
   def domain_subnets(type)
-    accessible_related_resource_for_select(@domain, :subnets, :where => {:type => type})
+    accessible_related_resource(@domain, :subnets, :where => {:type => type})
   end
 
   def arch_oss
-    accessible_related_resource_for_select(@architecture, :operatingsystems, order: :title)
+    accessible_related_resource(@architecture, :operatingsystems, order: :title)
   end
 
   def os_media
-    accessible_related_resource_for_select(@operatingsystem, :media)
+    accessible_related_resource(@operatingsystem, :media)
   end
 
   def os_ptable
-    accessible_related_resource_for_select(@operatingsystem, :ptables)
+    accessible_related_resource(@operatingsystem, :ptables)
   end
 
   def visible_compute_profiles(obj)

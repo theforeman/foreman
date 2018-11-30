@@ -49,16 +49,18 @@
         <%= select_f f, :domain_id, accessible_resource(@hostgroup, :domain), :id, :to_label, {:include_blank => blank_or_inherit_f(f, :domain)},
           {:help_inline => :indicator, :label => _("Domain"),
            :onchange => 'interface_domain_selected(this);', :'data-url' => method_path('domain_selected') } %>
-        <%= select_f f, :subnet_id, domain_subnets(:"Subnet::Ipv4"), :first, :last,
-                     { :include_blank => domain_subnets(:"Subnet::Ipv4").any? ? blank_or_inherit_f(f, :subnet) : _("No subnets") },
-                     { :disabled => domain_subnets(:"Subnet::Ipv4").empty?,
+        <% ipv4_domains = domain_subnets(:"Subnet::Ipv4") %>
+        <%= select_f f, :subnet_id, ipv4_domains, :id, :to_label,
+                     { :include_blank => ipv4_domains.any? ? blank_or_inherit_f(f, :subnet) : _("No subnets") },
+                     { :disabled => ipv4_domains.empty?,
                        :data     => { :url     => SETTINGS[:unattended] ? freeip_subnets_path : '',
                                       :subnets => subnets_ipam_data(:"Subnet::Ipv4").to_json },
                        :label    => _("IPv4 Subnet"),
                        :help_inline => :indicator } %>
-        <%= select_f f, :subnet6_id, domain_subnets(:"Subnet::Ipv6"), :first, :last,
-                     { :include_blank => domain_subnets(:"Subnet::Ipv6").any? ? blank_or_inherit_f(f, :subnet6) : _("No subnets") },
-                     { :disabled => domain_subnets(:"Subnet::Ipv6").empty?,
+        <% ipv6_domains = domain_subnets(:"Subnet::Ipv6") %>
+        <%= select_f f, :subnet6_id, ipv6_domains, :id, :to_label,
+                     { :include_blank => ipv6_domains.any? ? blank_or_inherit_f(f, :subnet6) : _("No subnets") },
+                     { :disabled => ipv6_domains.empty?,
                        :label    => _("IPv6 Subnet"),
                        :help_inline => :indicator } %>
         <%= select_f f, :realm_id, accessible_resource(@hostgroup, :realms), :id, :to_label,
