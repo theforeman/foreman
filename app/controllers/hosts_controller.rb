@@ -35,7 +35,7 @@ class HostsController < ApplicationController
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
                                           :toggle_manage, :pxe_config, :disassociate, :build_errors]
 
-  before_action :taxonomy_scope, :only => [:new] + AJAX_REQUESTS
+  before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
   before_action :find_multiple, :only => MULTIPLE_ACTIONS
   before_action :validate_power_action, :only => :update_multiple_power_state
