@@ -50,7 +50,8 @@ exports[`bookmarks empty state 1`] = `
         tabindex="-1"
       >
         <span
-          class="glyphicon glyphicon-question-sign icon-black"
+          aria-hidden="true"
+          class="fa fa-question-circle"
         />
          Documentation
       </a>
@@ -119,7 +120,8 @@ exports[`bookmarks should show an error message if loading failed 1`] = `
         tabindex="-1"
       >
         <span
-          class="glyphicon glyphicon-question-sign icon-black"
+          aria-hidden="true"
+          class="fa fa-question-circle"
         />
          Documentation
       </a>
@@ -204,7 +206,8 @@ exports[`bookmarks should show no bookmarks if server did not respond with any 1
         tabindex="-1"
       >
         <span
-          class="glyphicon glyphicon-question-sign icon-black"
+          aria-hidden="true"
+          class="fa fa-question-circle"
         />
          Documentation
       </a>
