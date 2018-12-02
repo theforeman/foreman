@@ -57,10 +57,7 @@ exports[`Default Empty State should render documentation when given a url 1`] = 
       rel="noopener noreferrer"
       target="_blank"
     >
-      <span
-        className="glyphicon glyphicon-question-sign icon-black"
-      />
-       Documentation
+      Documentation
     </a>
   </p>
   <div

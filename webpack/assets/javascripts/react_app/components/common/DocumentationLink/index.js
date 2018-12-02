@@ -1,33 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem } from 'patternfly-react';
-import Icon from '../Icon';
+import { MenuItem, Icon } from 'patternfly-react';
 import { newWindowOnClick } from '../../../common/helpers';
 import { translate as __ } from '../../../../react_app/common/I18n';
 
-export const DocumentLinkContent = ({ children }) => (
-  <React.Fragment>
-    <Icon type="question-sign" className="icon-black" />
-    {` ${children}`}
-  </React.Fragment>
-);
-
-DocumentLinkContent.propTypes = {
-  children: PropTypes.node,
-};
-
-DocumentLinkContent.defaultProps = {
-  children: __('Documentation'),
-};
-
-const DocumentationLink = ({ href }) => (
+const DocumentationLink = ({ href, children }) => (
   <MenuItem key="documentationUrl" href={href} onClick={newWindowOnClick(href)}>
-    <DocumentLinkContent />
+    <Icon type="fa" name="question-circle" />
+    {` ${children}`}
   </MenuItem>
 );
 
 DocumentationLink.propTypes = {
   href: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
+
+DocumentationLink.defaultProps = {
+  children: __('Documentation'),
 };
 
 export default DocumentationLink;
