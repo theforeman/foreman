@@ -6,7 +6,6 @@ class AuditsControllerTest < ActionController::TestCase
   end
 
   basic_pagination_per_page_test
-  basic_pagination_rendered_test
 
   def test_index
     get :index, session: set_session_user
