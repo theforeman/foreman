@@ -15,7 +15,6 @@ import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
-import AuditsList from './AuditsList';
 import SearchBar from './SearchBar';
 import Layout from './Layout';
 import EmptyState from './common/EmptyState';
@@ -24,6 +23,9 @@ import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
+
+// Pages
+import AuditsPage from '../pages/AuditsPage/AuditsPage';
 
 const componentRegistry = {
   registry: {},
@@ -103,7 +105,6 @@ const coreComponets = [
   { name: 'BreadcrumbBar', type: BreadcrumbBar },
   { name: 'FactChart', type: FactChart },
   { name: 'Pagination', type: Pagination },
-  { name: 'AuditsList', type: AuditsList },
   { name: 'Layout', type: Layout },
   { name: 'EmptyState', type: EmptyState },
   { name: 'BarChart', type: BarChart },
@@ -135,6 +136,9 @@ const coreComponets = [
     data: true,
     store: false,
   },
+
+  // Pages
+  { name: 'AuditsPage', type: AuditsPage },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

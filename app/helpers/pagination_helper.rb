@@ -12,4 +12,14 @@ module PaginationHelper
     options << params[:per_page].to_i if params[:per_page].present?
     options.uniq.sort
   end
+
+  def react_pagination_props(collection = nil, classname = nil)
+    {
+      viewType: 'table',
+      itemCount: collection.total_entries,
+      perPageOptions: per_page_options,
+      perPage: Setting[:entries_per_page],
+      classNames: {pagination_classes: classname}
+    }
+  end
 end
