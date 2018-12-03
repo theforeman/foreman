@@ -7,7 +7,7 @@ module HostsNicHelper
   end
 
   def nic_subnet_field(f, attr, klass, html_options = {})
-    subnets = accessible_subnets_for_select(f.object, klass)
+    subnets = accessible_resource(f.object, klass)
     html_options.merge!(
       { :disabled => subnets.empty?,
         :help_inline => :indicator,
@@ -17,7 +17,7 @@ module HostsNicHelper
     if subnets.any?
       array = options_for_select(
         [[]] +
-        accessible_resource(f.object, klass).map { |subnet| [subnet.to_label, subnet.id, {'data-suggest_new' => subnet.unused_ip.suggest_new?, 'data-vlan_id' => subnet.vlanid}]}, f.object.public_send(attr)
+        subnets.map { |subnet| [subnet.to_label, subnet.id, {'data-suggest_new' => subnet.unused_ip.suggest_new?, 'data-vlan_id' => subnet.vlanid}]}, f.object.public_send(attr)
       )
     else
       array = [[_("No subnets"), '']]
