@@ -1230,4 +1230,39 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal puppet_proxy['name'], JSON.parse(@response.body)['puppet_proxy']['name'], "Can't update host with puppet proxy #{puppet_proxy}"
   end
+
+  # This is a test of the base_controller functionality, but we need to use a real endpoint
+  # to test the API response metadata is returned correctly
+  describe 'should create correct subtotals' do
+    before do
+      @empty_org = Organization.find_by_name("Empty Organization")
+      as_admin do
+        FactoryBot.create_list(:host, 10, organization: @empty_org)
+      end
+    end
+
+    it 'with no search parameter' do
+      get :index, params: { per_page: 5 }
+      hosts_response = ActiveSupport::JSON.decode(@response.body)
+      total_host_count = Host.all.count
+
+      assert_response :success
+      assert_equal hosts_response["subtotal"], total_host_count
+      assert_equal hosts_response["total"], total_host_count
+      assert hosts_response["subtotal"] > hosts_response["per_page"]
+    end
+
+    it 'with search parameter' do
+      get :index, params: { per_page: 5, search: "organization = \"#{@empty_org.name}\""}
+      hosts_response = ActiveSupport::JSON.decode(@response.body)
+      empty_org_host_count = @empty_org.hosts.count
+      total_host_count = Host.all.count
+
+      assert_response :success
+      assert_not_equal total_host_count, empty_org_host_count
+      assert_equal hosts_response["subtotal"], empty_org_host_count
+      assert_equal hosts_response["total"], total_host_count
+      assert hosts_response["subtotal"] > hosts_response["per_page"]
+    end
+  end
 end
