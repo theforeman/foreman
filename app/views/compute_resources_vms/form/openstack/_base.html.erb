@@ -2,13 +2,13 @@
 <%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => _('Flavor'), :label_size => "col-md-2" %>
 <%
    arch ||= nil ; os ||= nil
-   images = possible_images(compute_resource, arch, os).pluck(:uuid, :name)
+   images = possible_images(compute_resource, arch, os)
 %>
 <%= selectable_f f, :availability_zone, compute_resource.zones,
                 {:inculde_blank => (compute_resource.zones.empty? || compute_resource.zones.size == 1) ? false : _("No preference") },
                 :label => _('Availability zone'), :label_size => "col-md-2" %>
 <div id='image_selection'>
-  <%= select_f f, :image_ref, images, :first, :last,
+  <%= select_f f, :image_ref, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
                { :disabled => images.empty?, :label => _("Image"), :label_size => "col-md-2" } %>
 </div>

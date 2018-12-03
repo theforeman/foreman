@@ -27,11 +27,11 @@ module HostsAndHostgroupsHelper
     # Don't show this if we have no Realms, otherwise always include blank
     # so the user can choose not to use a Realm on this host
     return unless (SETTINGS[:unattended] == true) && @host.managed
-    realms = accessible_resource(f.object, :realm).pluck(:id, :name)
+    realms = accessible_resource(f.object, :realm)
     return unless realms.present?
     select_f(f, :realm_id,
                 realms,
-                :first, :last,
+                :id, :to_label,
                 { :include_blank => true,
                   :disable_button => can_override ? _(INHERIT_TEXT) : nil,
                   :disable_button_enabled => override && !explicit_value?(:realm_id),
