@@ -135,6 +135,7 @@ module Orchestration::DHCP
   end
 
   def queue_dhcp
+    logger.warn("Provisioning interface #{self} has no name set, cannot queue DHCP update") if provision? && hostname.blank?
     return log_orchestration_errors unless (dhcp? || (old&.dhcp?)) && orchestration_errors?
     queue_remove_dhcp_conflicts
     new_record? ? queue_dhcp_create : queue_dhcp_update
@@ -142,14 +143,14 @@ module Orchestration::DHCP
 
   def queue_dhcp_create
     logger.debug "Scheduling new DHCP reservations for #{self}"
-    queue.create(id: "dhcp_create_#{self.mac}", name: _("Create DHCP Settings for %s") % self, priority: 10, action: [self, :set_dhcp]) if dhcp?
+    queue.create(id: "dhcp_create_#{self.mac}_#{self.identifier}", name: _("Create DHCP Settings for %s") % self, priority: 10, action: [self, :set_dhcp]) if dhcp?
   end
 
   def queue_dhcp_update
     return unless dhcp_update_required?
     logger.debug("Detected a changed required for DHCP record")
-    queue.create(id: "dhcp_remove_#{old.mac}", name: _("Remove DHCP Settings for %s") % old, priority: 5, action: [old, :del_dhcp]) if old.dhcp?
-    queue.create(id: "dhcp_create_#{self.mac}", name: _("Create DHCP Settings for %s") % self, priority: 9, action: [self, :set_dhcp]) if dhcp?
+    queue.create(id: "dhcp_remove_#{old.mac}_#{old.identifier}", name: _("Remove DHCP Settings for %s") % old, priority: 5, action: [old, :del_dhcp]) if old.dhcp?
+    queue.create(id: "dhcp_create_#{self.mac}_#{self.identifier}", name: _("Create DHCP Settings for %s") % self, priority: 9, action: [self, :set_dhcp]) if dhcp?
   end
 
   # do we need to update our dhcp reservations
@@ -174,7 +175,7 @@ module Orchestration::DHCP
 
   def queue_dhcp_destroy
     return unless dhcp? && errors.empty?
-    queue.create(id: "dhcp_remove_#{self.mac}", name: _("Remove DHCP Settings for %s") % self, priority: 5, action: [self, :del_dhcp])
+    queue.create(id: "dhcp_remove_#{self.mac}_#{self.identifier}", name: _("Remove DHCP Settings for %s") % self, priority: 5, action: [self, :del_dhcp])
     true
   end
 
@@ -182,7 +183,7 @@ module Orchestration::DHCP
     return if !dhcp? || !overwrite?
 
     logger.debug "Scheduling DHCP conflicts removal"
-    queue.create(id: "dhcp_conflicts_remove_#{self.mac}", name: _("DHCP conflicts removal for %s") % self, priority: 5, action: [self, :del_dhcp_conflicts])
+    queue.create(id: "dhcp_conflicts_remove_#{self.mac}_#{self.identifier}", name: _("DHCP conflicts removal for %s") % self, priority: 5, action: [self, :del_dhcp_conflicts])
   end
 
   def dhcp_conflict_detected?

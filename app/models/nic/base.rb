@@ -209,6 +209,10 @@ module Nic
       [mac, name, identifier, _('Unnamed')].detect(&:present?)
     end
 
+    def to_s
+      identifier || mac
+    end
+
     protected
 
     def normalize_mac
