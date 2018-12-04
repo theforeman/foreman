@@ -423,9 +423,9 @@ module ApplicationHelper
   end
 
   def documentation_url(section = "", options = {})
-    root_url = options[:root_url] || "http://www.theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#"
+    root_url = options[:root_url] || "https://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#"
     if section.empty?
-      "http://www.theforeman.org/documentation.html##{SETTINGS[:version].short}"
+      "https://theforeman.org/documentation.html##{SETTINGS[:version].short}"
     else
       root_url + section
     end
