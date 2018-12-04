@@ -278,7 +278,9 @@ module Foreman::Model
         (volumes = args[:volumes]).each do |vol|
           vol.name = "#{args[:prefix]}-disk#{volumes.index(vol) + 1}"
           vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
-          vol.allocation = "#{vol.allocation}G" unless vol.allocation.to_s.end_with?('G')
+          if vol.allocation.match(/^\d+/) && !vol.allocation.to_s.end_with?('G')
+            vol.allocation = "#{vol.allocation}G"
+          end
           vol.save
           vols << vol
         end

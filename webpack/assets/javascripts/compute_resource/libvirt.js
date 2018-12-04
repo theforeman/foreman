@@ -97,7 +97,7 @@ export function allocationSwitcher(element, action) {
       break;
     case 'Size':
       $(allocation).removeAttr('readonly');
-      allocation.value = '';
+      allocation.value = '0G';
       $(allocation).focus();
       break;
     case 'Full':

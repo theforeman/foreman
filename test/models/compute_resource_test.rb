@@ -75,7 +75,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "libvirt: 'G' suffix should be appended to libvirt volume capacity if none was specified" do
-    volume = OpenStruct.new(:capacity => 10)
+    volume = OpenStruct.new(:capacity => 10, :allocation => '10')
     volume.stubs(:save!).returns(true)
 
     result = Foreman::Model::Libvirt.new.send(:create_volumes, {:prefix => 'test', :volumes => [volume]})
@@ -84,7 +84,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "libvirt: no exceptions should be raised if a 'G' suffix was specified for volume capacity" do
-    volume = OpenStruct.new(:capacity => "10G")
+    volume = OpenStruct.new(:capacity => "10G", :allocation => "10G")
     volume.stubs(:save!).returns(true)
 
     assert_nothing_raised { Foreman::Model::Libvirt.new.send(:create_volumes, {:prefix => 'test', :volumes => [volume]}) }
