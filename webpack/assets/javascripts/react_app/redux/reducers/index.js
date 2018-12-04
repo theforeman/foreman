@@ -10,6 +10,7 @@ import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBa
 import { reducers as searchBarReducers } from '../../components/SearchBar';
 import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
+import { reducers as deleteDialogReducers } from '../../components/DeleteMessageDialog';
 import factChart from './factCharts';
 
 export function combineReducersAsync(asyncReducers) {
@@ -26,6 +27,7 @@ export function combineReducersAsync(asyncReducers) {
     ...asyncReducers,
     ...searchBarReducers,
     ...diffModalReducers,
+    ...deleteDialogReducers,
     factChart,
   });
 }

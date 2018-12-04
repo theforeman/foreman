@@ -22,12 +22,12 @@
         <td class="ellipsis"><%= model.hardware_model %></td>
         <td class='ra'><%= link_to hosts_count[model], hosts_path(:search => "model = \"#{model}\"") %></td>
         <td class="col-md-1">
-          <%= action_buttons(display_delete_if_authorized(hash_for_model_path(:id => model).
-            merge(:auth_object => model, :authorizer => authorizer),
-            :confirm => _("Delete %s?") % model.name)) %>
+          <%= display_delete_action_if_authorized(model) %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 <%= will_paginate_with_info @models %>
+<div id="delete-modal"></div>
+<%= mount_delete_message_dialog('delete-modal') %>

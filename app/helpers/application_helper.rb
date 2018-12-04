@@ -151,6 +151,15 @@ module ApplicationHelper
     display_link_if_authorized(text, options, html_options)
   end
 
+  def display_delete_action_if_authorized(record)
+    options = send("hash_for_#{controller_name.singularize}_path", :id => record)
+    if authorized_for(options)
+      action_buttons(link_to(_("Delete"), "#", { :onClick => "tfm.deleteDialog.confirmDelete('#{record.name}', '#{url_for(options)}');" }))
+    else
+      ""
+    end
+  end
+
   # Display a link if user is authorized, otherwise nothing
   # +name+    : String to be displayed
   # +options+ : Hash containing options for authorized_for and link_to

@@ -50,6 +50,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   advancedFields: require('./foreman_advanced_fields'),
   breadcrumbs: require('./foreman_breadcrumbs'),
   configReportsModalDiff: require('./foreman_config_reports_modal_diff'),
+  deleteDialog: require('./foreman_delete_dialog'),
   i18n,
   componentRegistry,
 });

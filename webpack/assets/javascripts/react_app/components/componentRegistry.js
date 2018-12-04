@@ -23,6 +23,7 @@ import ComponentWrapper from './common/ComponentWrapper/ComponentWrapper';
 import ChartBox from './statistics/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
+import DeleteMessageDialog from './DeleteMessageDialog';
 import { WrapperFactory } from './wrapperFactory';
 
 const componentRegistry = {
@@ -111,6 +112,7 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
+  { name: 'DeleteMessageDialog', type: DeleteMessageDialog },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,
