@@ -113,6 +113,10 @@ module Foreman
             NameGenerator.new.generate_next_mac_name(mac_address)
           end
 
+          def host_kernel_release(host)
+            host&.kernel_release&.value
+          end
+
           private
 
           def validate_subnet(subnet)

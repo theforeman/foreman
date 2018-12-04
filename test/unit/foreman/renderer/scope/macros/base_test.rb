@@ -59,6 +59,34 @@ class BaseMacrosTest < ActiveSupport::TestCase
     assert_equal '', @scope.pxe_kernel_options
   end
 
+  describe '#host_kernel_release' do
+    test 'should return kernel release' do
+      host = FactoryBot.create(:host)
+      fact = FactoryBot.create(:fact_name, name: 'kernelrelease')
+      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => '1.2.3')
+      assert_equal '1.2.3', @scope.host_kernel_release(host)
+    end
+
+    test 'should return nil if no kernel release fact is available' do
+      host = FactoryBot.create(:host)
+      assert_nil @scope.host_kernel_release(host)
+    end
+
+    test 'should return kernel release and based on backup facts even if there are multiple other facts' do
+      host = FactoryBot.create(:host)
+      ansible_kernel_fact = FactoryBot.create(:fact_name, name: 'ansible_kernel', :type => 'FactName::Ansible')
+      chef_kernel_fact = FactoryBot.create(:fact_name, name: 'kernel::release', :type => 'FactName::Chef')
+      unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
+      puppet_and_salt_fact = FactoryBot.create(:fact_name, name: 'kernelrelease')
+      FactoryBot.create(:fact_value, fact_name: ansible_kernel_fact, host: host, :value => '1.2.3')
+      FactoryBot.create(:fact_value, fact_name: chef_kernel_fact, host: host, :value => '2.2.2')
+      FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, :value => 'Fedora 29')
+      assert_equal '1.2.3', @scope.host_kernel_release(host)
+      FactoryBot.create(:fact_value, fact_name: puppet_and_salt_fact, host: host, :value => '4.5.6')
+      assert_equal '4.5.6', @scope.host_kernel_release(host.reload)
+    end
+  end
+
   ["Redhat", "Ubuntu", "OpenSuse", "Solaris"].each do |osname|
     test "pxe_kernel_options returns kernelcmd option for #{osname}" do
       host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by_name(osname))

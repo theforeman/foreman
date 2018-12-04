@@ -1,5 +1,7 @@
 module Host
   class Base < ApplicationRecord
+    KERNEL_RELEASE_FACTS = [ 'kernelrelease', 'ansible_kernel', 'kernel::release' ]
+
     prepend Foreman::STI
     include Authorizable
     include Parameterizable::ByName
@@ -25,6 +27,7 @@ module Host
     has_one :domain, :through => :primary_interface
     has_one :subnet, :through => :primary_interface
     has_one :subnet6, :through => :primary_interface
+    has_one :kernel_release, -> { joins(:fact_name).where({ 'fact_names.name' => KERNEL_RELEASE_FACTS }).order('fact_names.type') }, :class_name => '::FactValue', :foreign_key => 'host_id'
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     belongs_to :location
