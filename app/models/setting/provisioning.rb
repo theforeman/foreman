@@ -33,13 +33,6 @@ class Setting::Provisioning < Setting
     'vovsbr*'
   ]
 
-  CPU_MODES = {
-    'default' => 'default',
-    # 'custom' => 'custom' # custom is not implemented. This needs extra UI.
-    'host-model' => 'host-model',
-    'host-passthrough' => 'host-passthrough'
-  }
-
   def self.default_settings
     fqdn = SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"
@@ -82,8 +75,7 @@ class Setting::Provisioning < Setting
         N_("Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"),
         default_excluded_facts,
         N_('Exclude pattern for facts stored in foreman')
-      ),
-      self.set('libvirt_default_cpu_mode', N_("Default cpu mode for libvirt."), 'custom', N_("Default Libvirt CPU mode."), nil, {:collection => Proc.new {CPU_MODES} })
+      )
     ] + default_global_templates + default_local_boot_templates
   end
 

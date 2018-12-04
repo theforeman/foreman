@@ -12,7 +12,7 @@ module FogExtensions
       end
 
       def cpu_mode
-        attributes[:cpu][:mode].nil? ? Setting[:libvirt_default_cpu_mode] : attributes[:cpu][:mode]
+        attributes[:cpu][:mode]
       end
 
       def cpu_mode=(cpumode)
