@@ -1,6 +1,10 @@
 class Windows < Operatingsystem
   PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}
 
+  class Jail < Operatingsystem::Jail
+    allow :bootfile
+  end
+
   def available_loaders
     self.class.all_loaders
   end
@@ -10,7 +14,7 @@ class Windows < Operatingsystem
   end
 
   def pxe_prefix(medium_provider)
-    medium_provider.interpolate_vars("boot/windows-$arch-#{medium_provider.unique_id}/").tr(" ", "-")
+    medium_provider.interpolate_vars("boot/windows-$arch-#{medium_provider.unique_id}/").to_s.tr(" ", "-")
   end
 
   def bootfile(medium_provider, type)
