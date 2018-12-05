@@ -28,7 +28,7 @@ storiesOf('Page chunks/FactChartModal', module)
     <Story>
       <FactChart
         store={mockStore({ factChart: modalSuccessState })}
-        data ={dataProp}
+        data={dataProp}
       />
     </Story>
   ))

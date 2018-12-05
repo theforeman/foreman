@@ -17,7 +17,11 @@ require('patternfly/dist/js/patternfly');
 
 require('./index.scss');
 
-const req = require.context('../assets/javascripts/react_app', true, /.stories.js$/);
+const req = require.context(
+  '../assets/javascripts/react_app',
+  true,
+  /.stories.js$/
+);
 
 const loadStories = () => req.keys().forEach(filename => req(filename));
 
