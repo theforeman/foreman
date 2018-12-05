@@ -32,7 +32,9 @@ const Breadcrumb = ({
         const overrideTitle = active && titleReplacement;
         const itemTitle = overrideTitle || text || caption;
         const inner = active ? (
-          <EllipsisWithTooltip>{itemTitle}</EllipsisWithTooltip>
+          <EllipsisWithTooltip placement="bottom">
+            {itemTitle}
+          </EllipsisWithTooltip>
         ) : (
           itemTitle
         );
