@@ -19,6 +19,42 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
     assert puppetclasses['results'].is_a?(Array)
   end
 
+  context 'with taxonomy given' do
+    let(:default_organization) { Organization.first }
+    let(:default_location) { Location.first }
+    let(:example_environment) do
+      FactoryBot.create(:environment, :locations => [default_location], :organizations => [default_organization])
+    end
+    let(:example_puppetclass) { FactoryBot.create(:puppetclass, :environments => [example_environment]) }
+    let(:eager_load) { [default_organization, default_location, example_environment, example_puppetclass]}
+    setup do
+      eager_load
+    end
+
+    test 'index should return puppetclasses only in Organization' do
+      get :index, params: { :organization_id => default_organization.id }
+      includes_example_puppetclass
+      assert_response :success
+    end
+
+    test 'index should return puppetclasses only in Organization' do
+      get :index, params: { :location_id => default_location.id }
+      includes_example_puppetclass
+      assert_response :success
+    end
+
+    test 'index should return puppetclasses only in Organization' do
+      get :index, params: { :location_id => default_location.id, :organization_id => default_organization.id }
+      includes_example_puppetclass
+      assert_response :success
+    end
+
+    def includes_example_puppetclass
+      puppetclasses = ActiveSupport::JSON.decode(@response.body)
+      assert_include puppetclasses['results'].map { |_, v| v[0]['id'] }, example_puppetclass.id
+    end
+  end
+
   test "should create puppetclass" do
     assert_difference('Puppetclass.count') do
       post :create, params: { :puppetclass => valid_attrs }
