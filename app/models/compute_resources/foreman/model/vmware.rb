@@ -475,10 +475,11 @@ module Foreman::Model
       # volumes are not part of vm.attributes so we have to set them seperately if needed
       if attr.has_key?(:volumes_attributes)
         vm.volumes.each do |vm_volume|
-          volume_attrs = attr[:volumes_attributes].values.detect {|vol| vol[:id] == vm_volume.id}
-          if volume_attrs.class == Hash && volume_attrs.key?(:size_gb)
-            vm_volume.size_gb = volume_attrs[:size_gb]
-          end
+          volume_attrs = attr[:volumes_attributes].values.detect { |vol| vol[:id] == vm_volume.id }
+
+          next unless volume_attrs.present?
+
+          vm_volume.size_gb = volume_attrs[:size_gb] if volume_attrs[:size_gb].present?
         end
       end
       vm.save
