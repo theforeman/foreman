@@ -28,6 +28,8 @@ class Taxonomy < ApplicationRecord
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
   has_many :auth_sources, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'AuthSource'
 
+  has_many :puppetclasses, :through => :environments
+
   validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
   # the condition for parent_id != 0 is required because of our tests, should validate macros fill in attribute with values and it set 0 to this one
   # which would lead to an error when we ask for parent object

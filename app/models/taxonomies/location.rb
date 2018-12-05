@@ -7,6 +7,7 @@ class Location < Taxonomy
   has_and_belongs_to_many :organizations, :join_table => 'locations_organizations', :validate => false
   has_many_hosts :dependent => :nullify
   before_destroy EnsureNotUsedBy.new(:hosts)
+  has_many :reports, :through => :hosts, :class_name => 'ConfigReport'
 
   has_many :location_parameters, :class_name => 'LocationParameter', :foreign_key => :reference_id, :dependent => :destroy, :inverse_of => :location
   has_many :default_users,       :class_name => 'User',              :foreign_key => :default_location_id

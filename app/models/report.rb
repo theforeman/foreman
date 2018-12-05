@@ -13,6 +13,9 @@ class Report < ApplicationRecord
   has_one :environment, :through => :host
   has_one :hostgroup, :through => :host
 
+  has_one :organization, :through => :host
+  has_one :location, :through => :host
+
   validates :host_id, :status, :presence => true
   validates :reported_at, :presence => true, :uniqueness => {:scope => [:host_id, :type]}
 
@@ -20,6 +23,8 @@ class Report < ApplicationRecord
     child.instance_eval do
       scoped_search :relation => :host,        :on => :name,  :complete_value => true, :rename => :host
       scoped_search :relation => :environment, :on => :name,  :complete_value => true, :rename => :environment
+      scoped_search :relation => :organization, :on => :name, :complete_value => true, :rename => :organization
+      scoped_search :relation => :location,    :on => :name,  :complete_value => true, :rename => :location
       scoped_search :relation => :messages,    :on => :value,                          :rename => :log, :only_explicit => true
       scoped_search :relation => :sources,     :on => :value,                          :rename => :resource, :only_explicit => true
       scoped_search :relation => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup

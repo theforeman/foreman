@@ -65,6 +65,11 @@ module Api
 
       private
 
+      def setup_search_options
+        params[:search] ||= ""
+        params[:search] += " host = " + params[:host_id] if params[:host_id]
+      end
+
       def resource_scope(options = {})
         options[:permission] = :view_config_reports
         super(options).my_reports

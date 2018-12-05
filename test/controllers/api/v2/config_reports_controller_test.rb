@@ -130,6 +130,29 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
     assert !reports['results'].empty?
   end
 
+  context "with organization given" do
+    let(:config_report_org) { Organization.first }
+    let(:config_report_loc) { Location.first }
+    let(:config_report_env) do
+      FactoryBot.create(:environment, :organizations => [config_report_org], :locations => [config_report_loc])
+    end
+    let(:reporting_host) do
+      FactoryBot.create(:host, :environment => config_report_env, :location => config_report_loc, :organization => config_report_org)
+    end
+    let(:config_report) do
+      FactoryBot.create(:config_report, :host => reporting_host)
+    end
+
+    test "should get config reports in organization" do
+      config_report.save!
+      get :index, params: { :organization_id => config_report_org.id }
+      assert_response :success
+      assert_not_nil assigns(:config_reports)
+      reports = ActiveSupport::JSON.decode(@response.body)
+      assert !reports['results'].empty?
+    end
+  end
+
   test "should show individual record" do
     report = FactoryBot.create(:config_report)
     get :show, params: { :id => report.to_param }
