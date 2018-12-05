@@ -31,9 +31,11 @@ const Breadcrumb = ({
         } = item;
         const overrideTitle = active && titleReplacement;
         const itemTitle = overrideTitle || text || caption;
-        const inner = (active
-                       ? (<EllipsisWithTooltip>{itemTitle}</EllipsisWithTooltip>)
-                       : itemTitle);
+        const inner = active ? (
+          <EllipsisWithTooltip>{itemTitle}</EllipsisWithTooltip>
+        ) : (
+          itemTitle
+        );
 
         return (
           <PfBreadcrumb.Item
