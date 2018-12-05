@@ -35,7 +35,10 @@ storiesOf('Components/Empty State Pattern', module)
         header={text('header', 'Header')}
         description={text('description', 'Description!')}
         action={
-          <button onClick={action('create clicked')} className="btn btn-primary">
+          <button
+            onClick={action('create clicked')}
+            className="btn btn-primary"
+          >
             Create
           </button>
         }
@@ -87,7 +90,11 @@ storiesOf('Components/Empty State Pattern', module)
     return (
       <Story>
         <DefaultEmptyState
-          icon={select('icons', ['add-circle-o', 'edit', 'key', 'print'], 'key')}
+          icon={select(
+            'icons',
+            ['add-circle-o', 'edit', 'key', 'print'],
+            'key'
+          )}
           header={text('header', 'Header')}
           description={text('description', 'Description!')}
           documentation={docObject}

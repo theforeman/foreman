@@ -7,12 +7,23 @@ import Story from '../../../../../stories/components/Story';
 storiesOf('Components/Charts', module)
   .add('Loading', () => (
     <Story narrow>
-      <ChartBox chart={{ data: [] }} noDataMsg={'No data here'} title="Title" status="PENDING" />
+      <ChartBox
+        chart={{ data: [] }}
+        noDataMsg="No data here"
+        title="Title"
+        status="PENDING"
+      />
     </Story>
   ))
   .add('Without Data', () => (
     <Story narrow>
-      <ChartBox type="donut" chart={{ data: [] }} noDataMsg={'No data here'} title="Title" status="RESOLVED" />
+      <ChartBox
+        type="donut"
+        chart={{ data: [] }}
+        noDataMsg="No data here"
+        title="Title"
+        status="RESOLVED"
+      />
     </Story>
   ))
   .add('With Error', () => (
@@ -20,7 +31,7 @@ storiesOf('Components/Charts', module)
       <ChartBox
         chart={{ data: [] }}
         title="Title"
-        noDataMsg={'No data here'}
+        noDataMsg="No data here"
         errorText="Ooops"
         status="ERROR"
       />
