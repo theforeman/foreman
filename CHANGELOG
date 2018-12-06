@@ -1,3 +1,53 @@
+2018-12-06	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.20.1
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* Fixes #25635 - Correct deprecation version for operatingsystems
+
+2018-12-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #25466 - user inputs should be previewed as empty strings
+	* Fixes #25465 - limit load macros in preview mode
+	* Fixes #25586 - fix the permission name
+
+2018-12-05	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #25621 - fixed windows os
+
+2018-12-05	laviro <1ronlavi@gmail.com>
+	* Fixes #25548 - SearchBar bug on hosts page
+
+2018-12-04	Marek Hulan <mhulan@redhat.com>
+	* Fixes #25620 - do not log reports to blob logger
+
+2018-12-04	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #24900 - expiration task no longer error out
+
+2018-12-04	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #25567 - Fix TFTP for RancherOS
+
+2018-12-04	John Mitsch <jomitsch@redhat.com>
+	* Fixes #25487 - Fix subtotal in API response
+
+2018-11-28	Stephen Benjamin <stephen@redhat.com>
+	* refs #25285 - deprecate @repos variable
+
+2018-11-28	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #25285 - medium provider test fixes
+
+2018-11-28	Stephen Benjamin <stephen@bitbin.de>
+	* Fixes #25285 - medium provider can supply multiple repos
+
+2018-11-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #25523 - Fallback to english if js locale is missing
+
+2018-11-21	Timo Goebel <mail@timogoebel.name>
+	* fixes #25513 - associate host during import
+
+2018-11-19	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #25340 - improve SSL error exception
+
+2018-11-19	Marek Hulan <mhulan@redhat.com>
+	* Fixes #25437 - fix missing ids in audits page
+
 2018-11-15	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.20.0
 	* i18n - extracting new, pulling from tx
