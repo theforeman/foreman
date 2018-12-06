@@ -9074,6 +9074,9 @@ msgstr ""
 msgid "Unable to perform power BMC operation"
 msgstr ""
 
+msgid "Unable to read SSL certification or key for proxy communication, check settings for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readable by the foreman user."
+msgstr ""
+
 msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr ""
 
@@ -9843,6 +9846,9 @@ msgid "When using TLS, you can set how OpenSSL checks the certificate"
 msgstr ""
 
 msgid "Whether or not the image supports user data"
+msgstr ""
+
+msgid "Whether or not the template is added automatically to new organizations and locations"
 msgstr ""
 
 msgid "Whether or not the template is locked for editing"
