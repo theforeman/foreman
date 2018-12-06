@@ -182,7 +182,7 @@ class Operatingsystem < ApplicationRecord
 
   # Compatibility method, don't want to break all templates that use it.
   def medium_uri(host)
-    Foreman::Deprecation.deprecation_warning("1.20", "medium_uri is now accessible through @medium_provider.medium_uri in templates")
+    Foreman::Deprecation.deprecation_warning("1.22", "medium_uri is now accessible through @medium_provider.medium_uri in templates")
     @medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
     @medium_provider.medium_uri
   end
@@ -198,7 +198,7 @@ class Operatingsystem < ApplicationRecord
   def pxe_files(medium_provider, _arch = nil, host = nil)
     # Try to maintain backwards compatibility, if medium_provider could be constructed - do it with a warning.
     if host
-      Foreman::Deprecation.deprecation_warning("1.20", "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)")
+      Foreman::Deprecation.deprecation_warning("1.22", "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)")
       medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
     end
 
