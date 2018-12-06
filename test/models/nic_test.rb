@@ -277,7 +277,6 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test '.proxy chooses BMC SmartProxy in Nic::BMC subnet if available' do
-      @subnet.dhcp.features << Feature.find_by_name('BMC')
       assert_equal @interface.proxy.url, @subnet.dhcp.url + '/bmc'
     end
 

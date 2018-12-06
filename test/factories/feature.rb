@@ -12,6 +12,10 @@ FactoryBot.define do
       name { 'tftp' }
     end
 
+    trait :templates do
+      name { 'Templates' }
+    end
+
     trait :dhcp do
       name { 'DHCP' }
     end

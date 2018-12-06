@@ -1,7 +1,10 @@
 class Feature < ApplicationRecord
   extend FriendlyId
   friendly_id :name
-  has_and_belongs_to_many :smart_proxies
+
+  has_many :smart_proxy_features, :dependent => :destroy
+  has_many :smart_proxies, :through => :smart_proxy_features
+
   validates_lengths_from_database
   validates :name, :presence => true
 

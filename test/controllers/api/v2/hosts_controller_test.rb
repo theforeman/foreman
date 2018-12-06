@@ -635,7 +635,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test 'hosts with a registered smart proxy on should import facts successfully' do
-    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+    stub_smart_proxy_v2_features
     proxy = smart_proxies(:puppetmaster)
     proxy.update_attribute(:url, 'https://factsimporter.foreman')
 
@@ -1207,7 +1207,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update with puppet ca proxy" do
-    puppet_ca_proxy = FactoryBot.create(:smart_proxy)
+    puppet_ca_proxy = FactoryBot.create(:puppet_ca_smart_proxy)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_ca_proxy_id => puppet_ca_proxy.id) }
     assert_response :success
     assert_equal puppet_ca_proxy['name'], JSON.parse(@response.body)['puppet_ca_proxy']['name'], "Can't update host with puppet ca proxy #{puppet_ca_proxy}"
@@ -1225,7 +1225,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should update with puppet proxy" do
-    puppet_proxy = FactoryBot.create(:smart_proxy)
+    puppet_proxy = FactoryBot.create(:puppet_smart_proxy)
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:puppet_proxy_id => puppet_proxy.id) }
     assert_response :success
     assert_equal puppet_proxy['name'], JSON.parse(@response.body)['puppet_proxy']['name'], "Can't update host with puppet proxy #{puppet_proxy}"

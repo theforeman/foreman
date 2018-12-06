@@ -5,7 +5,7 @@ class HostBuildStatusTest < ActiveSupport::TestCase
 
   setup do
     disable_orchestration
-    ProxyAPI::Features.any_instance.stubs(:features).returns(Feature.name_map.keys)
+    stub_smart_proxy_v2_features
     User.current = users(:admin)
     @host = Host.new(:name => "myfullhost", :mac => "aabbecddeeff", :ip => "2.3.4.03", :ptable => FactoryBot.build(:ptable), :medium => media(:one),
                     :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :puppet_proxy => smart_proxies(:puppetmaster),
