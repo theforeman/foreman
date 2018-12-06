@@ -16,7 +16,7 @@ module DashboardHelper
           widgets_to_add
         end
       ),
-      auto_refresh_button(:defaults_to => true),
+      auto_refresh_button(:defaults_to => false),
       documentation_button
     ]
   end
