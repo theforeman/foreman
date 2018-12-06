@@ -91,6 +91,13 @@ user-setup-udeb passwd/make-user boolean false
 
 <% repos = 0 %>
 
+<% @additional_media.each do |medium| -%>
+d-i apt-setup/local<%= repos %>/repository string <%= medium[:url] %> <%= @host.operatingsystem.release_name %>-<%= medium[:name] %> main
+<%= "d-i apt-setup/local#{repos}/comment string #{medium[:comment]}" if medium[:comment] %>
+<%= "d-i apt-setup/local#{repos}/key string #{medium[:gpgkey]}" if medium[:gpgkey] %>
+<% repos +=1 -%>
+<% end -%>
+
 <% if salt_enabled -%>
 <% salt_package = 'salt-minion' -%>
 <% if host_param_true?('enable-saltstack-repo') -%>

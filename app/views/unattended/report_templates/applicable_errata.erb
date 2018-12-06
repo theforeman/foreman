@@ -17,7 +17,7 @@ template_inputs:
 model: ReportTemplate
 require:
 - plugin: katello
-  version: 3.9.0
+￼ version: 3.9.0
 -%>
 <%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :applicable_errata, :lifecycle_environment]).each_record do |host| -%>
 <%-   host_applicable_errata_filtered(host, input('Errata filter')).each do |erratum| -%>
