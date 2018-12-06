@@ -186,10 +186,12 @@ module Foreman #:nodoc:
     # Sets a requirement on a Foreman plugin version
     # Raises a PluginRequirementError exception if the requirement is not met
     # matcher format is gem dependency format
-    def requires_foreman_plugin(plugin_name, matcher)
+    def requires_foreman_plugin(plugin_name, matcher, allow_prerelease: true)
       plugin = Plugin.find(plugin_name)
       raise PluginNotFound.new(N_("%{id} plugin requires the %{plugin_name} plugin, not found") % {:id => id, :plugin_name => plugin_name}) unless plugin
-      unless Gem::Dependency.new('', matcher).match?('', plugin.version)
+      dep_checker = Gem::Dependency.new('', matcher)
+      dep_checker.prerelease = true if allow_prerelease
+      unless dep_checker.match?('', plugin.version)
         raise PluginRequirementError.new(N_("%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{plugin_version}" % {:id => id, :plugin_name => plugin_name, :matcher => matcher, :plugin_version => plugin.version}))
       end
       true

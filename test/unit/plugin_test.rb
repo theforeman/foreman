@@ -184,6 +184,11 @@ class PluginTest < ActiveSupport::TestCase
       name 'Other'
       version other_version
     end
+    other_version_pre = '0.5.0.pre.master'
+    @klass.register :other_pre do
+      name 'Other'
+      version other_version_pre
+    end
     @klass.register :foo do
       test.assert requires_foreman_plugin(:other, '>= 0.1.0')
       test.assert requires_foreman_plugin(:other, other_version)
@@ -193,6 +198,11 @@ class PluginTest < ActiveSupport::TestCase
       test.assert_raise Foreman::PluginRequirementError do
         requires_foreman_plugin(:other, '= 99.0.0')
       end
+      test.assert_raise Foreman::PluginRequirementError do
+        requires_foreman_plugin(:other_pre, '>= 0.4.0', allow_prerelease: false)
+      end
+      test.assert requires_foreman_plugin(:other_pre, '>= 0.4.0', allow_prerelease: true)
+      test.assert requires_foreman_plugin(:other_pre, '>= 0.4.0')
 
       # Missing plugin
       test.assert_raise Foreman::PluginNotFound do
