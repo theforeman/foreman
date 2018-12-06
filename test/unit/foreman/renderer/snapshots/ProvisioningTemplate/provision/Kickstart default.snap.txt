@@ -14,7 +14,8 @@ network --bootproto dhcp --hostname snapshothost --device=00-f0-54-1a-7e-e0
 rootpw --iscrypted xybxa6JUkz63w
 firewall --service=ssh
 authconfig --useshadow --passalgo=sha256 --kickstart
-timezone --utc UTC
+timezone --utc UTC 
+
 
 
 
@@ -29,7 +30,7 @@ reboot
 %packages
 yum
 dhclient
-ntp
+chrony
 wget
 @Core
 redhat-lsb-core
@@ -55,9 +56,8 @@ exec < /dev/tty3 > /dev/tty3
 
 
 
-#update local time
-echo "updating system time"
-/usr/sbin/ntpdate -sub 0.fedora.pool.ntp.org
+echo "Updating system time"
+/usr/bin/chronyc makestep
 /usr/sbin/hwclock --systohc
 
 
