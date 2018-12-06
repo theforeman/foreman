@@ -1,0 +1,20 @@
+<div id="host-conflicts-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('OpenScap Proxy is not having Openscap feature enabled !') %></h4>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning alert-block base">
+          <%= icon_text("warning-triangle-o", "",:kind => "pficon") %>
+          <% proxy = @host.try(:openscap_proxy) || @hostgroup.try(:openscap_proxy) %>
+          <b><%= ("OpenSCAP Proxy: #{proxy[:name]}") %></b><%=_(' is not having Openscap feature, change to valid proxy or unset it.') %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('OK') %></button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

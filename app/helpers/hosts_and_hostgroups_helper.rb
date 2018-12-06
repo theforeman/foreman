@@ -50,4 +50,10 @@ module HostsAndHostgroupsHelper
                      "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}", host_count).html_safe % {count: host_count, query: h(params[:search]) }
     params[:search].blank? ? no_filter : with_filter
   end
+  
+  def proxy_openscap_enabled?(proxy_id)
+    return true if proxy_id.nil?
+    all_oscap_proxies = SmartProxy.all.reject {|s| !s.feature_names.include?("Openscap")}
+    all_oscap_proxies.include?(proxy_id)
+  end
 end
