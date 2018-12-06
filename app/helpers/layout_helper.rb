@@ -63,6 +63,17 @@ module LayoutHelper
     @page_header ||= page_header || page_title.to_s
   end
 
+  def edit_title(obj, page_header: nil, attribute: :to_s)
+    valid_obj = obj
+    unless obj.valid?
+      # we need to override changed values with previous ones,
+      # in order to show the valid name in the page title after an unsuccessful editing
+      old_attributes = obj.attributes.merge(obj.changed_attributes)
+      valid_obj = obj.class.new(old_attributes)
+    end
+    title(_('Edit %s') % valid_obj.public_send(attribute), page_header)
+  end
+
   def title_actions(*elements)
     content_for(:title_actions) { elements.join(" ").html_safe }
   end

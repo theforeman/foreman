@@ -35,4 +35,12 @@ class LayoutHelperTest < ActionView::TestCase
 
     mount_breadcrumbs
   end
+
+  test "edit title should return valid name" do
+    valid = FactoryBot.create(:architecture)
+    valid_name = valid.name
+    valid.name = 'name with spaces'
+
+    assert_equal edit_title(valid), "Edit #{valid_name}"
+  end
 end
