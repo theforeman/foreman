@@ -38,6 +38,7 @@ module Api
           param :datacenter, String, :desc => N_("for oVirt, VMware Datacenter")
           param :use_v4, :bool, :desc => N_("for oVirt only")
           param :ovirt_quota, String, :desc => N_("for oVirt only")
+          param :public_key, String, :desc => N_("for oVirt only")
           param :region, String, :desc => N_("for EC2 only, use '%s' for GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION
           param :tenant, String, :desc => N_("for OpenStack only")
           param :domain, String, :desc => N_("for OpenStack only")
