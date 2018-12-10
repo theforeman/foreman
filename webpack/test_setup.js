@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import '@theforeman/vendor/jest-setup';
 
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';

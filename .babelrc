@@ -7,6 +7,7 @@
     "transform-class-properties",
     "transform-object-rest-spread",
     "transform-object-assign",
+    "transform-export-default",
     "lodash",
     "syntax-dynamic-import"
   ],
