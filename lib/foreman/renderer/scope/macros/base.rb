@@ -8,6 +8,8 @@ module Foreman
 
           attr_reader :template_name, :medium_provider
 
+          delegate :medium_uri, to: :medium_provider
+
           def subnet_has_param?(subnet, param_name)
             validate_subnet(subnet)
             subnet.parameters.exists?(name: param_name)
