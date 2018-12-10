@@ -1,5 +1,10 @@
 # Adding components
 
+## Component Generator
+We created a shell script that can help you start very quickly.
+Use the command `npm run create-react-component` to execute the script, which will ask you for the name of the new component and if its connected to Redux.
+The script will create all the folders and files for you, with code based on your component's name.
+
 ## Where to put them
 
 Components are stored in `webpack/assets/javascripts/react_app/components/`. Each component should be placed in its own subfolder that respects the following structure:

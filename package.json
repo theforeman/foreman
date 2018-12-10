@@ -118,7 +118,8 @@
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages",
     "postinstall": "node ./script/npm_install_plugins.js",
-    "analyze": "./script/webpack-analyze"
+    "analyze": "./script/webpack-analyze",
+    "create-react-component": "./script/create-react-component"
   },
   "jest": {
     "automock": true,

@@ -1,0 +1,73 @@
+#! /bin/bash
+
+COMPONENT=$1
+COMPONENT_DIR=$2
+
+# Class Component File
+cat >> "$COMPONENT_DIR/${COMPONENT}.js" << EOF
+/**
+ * DELETE ME
+ * Remember to Add ${COMPONENT} to componentRegistry.js
+ */
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+class ${COMPONENT} extends Component {
+  componentDidMount() {
+    // Do Something here
+  }
+
+  render() {
+    const { children, className } = this.props;
+    return <div className={className}>{children}</div>;
+  }
+}
+
+$COMPONENT.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
+
+$COMPONENT.defaultProps = {
+  className: '',
+  children: null,
+};
+
+export default ${COMPONENT};
+EOF
+
+# Storybook File
+cat >> "$COMPONENT_DIR/${COMPONENT}.stories.js" << EOF 
+import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { withKnobs } from '@storybook/addon-knobs';
+import $COMPONENT from './$COMPONENT';
+import Story from '../../../../../stories/components/Story';
+
+storiesOf('Components/$COMPONENT', module)
+  .addDecorator(withKnobs)
+  .add('$COMPONENT', () => (
+    <Story narrow>
+      <$COMPONENT />
+    </Story>
+  ));
+EOF
+
+# TESTS #
+
+# Component.js test file
+cat >> "$COMPONENT_DIR/__tests__/${COMPONENT}.test.js" << EOF 
+import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+
+import $COMPONENT from '../$COMPONENT';
+
+const fixtures = {
+  'render without Props': {},
+  /** fixtures, props for the component */
+};
+
+describe('$COMPONENT', () => {
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures($COMPONENT, fixtures));
+});
+EOF

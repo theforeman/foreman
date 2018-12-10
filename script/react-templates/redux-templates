@@ -1,0 +1,164 @@
+#! /bin/bash
+
+COMPONENT=$1
+COMPONENT_LOWERCASE=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+COMPONENT_UPPERCASE=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+COMPONENT_DIR=$2
+
+# index.js File
+cat >> "$COMPONENT_DIR/index.js" << EOF
+/**
+ * DELETE ME
+ * Remember to Add ${COMPONENT} to componentRegistry.js
+ * Remember to Add ${COMPONENT} Reducer to react_app/redux/reducers/index.js
+ */
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import * as actions from './${COMPONENT}Actions';
+import reducer from './${COMPONENT}Reducer';
+import { selectBool } from './${COMPONENT}Selectors';
+
+import $COMPONENT from './$COMPONENT';
+
+// map state to props
+const mapStateToProps = state => ({
+  /** add state keys here */
+  bool: selectBool(state),
+});
+
+// map action dispatchers to props
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+
+// export reducers
+export const reducers = { $COMPONENT_LOWERCASE: reducer };
+
+// export connected component
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)($COMPONENT);
+EOF
+
+# Redux Reducer File
+cat >> "$COMPONENT_DIR/${COMPONENT}Reducer.js" << EOF 
+import Immutable from 'seamless-immutable';
+
+import { ${COMPONENT_UPPERCASE}_CHANGE_BOOL } from './${COMPONENT}Constants';
+
+const initialState = Immutable({
+  /** insert ${COMPONENT} state here */
+  bool: false,
+});
+
+export default (state = initialState, action) => {
+  const { payload } = action;
+
+  switch (action.type) {
+    case ${COMPONENT_UPPERCASE}_CHANGE_BOOL:
+      return state.set('bool', payload.bool);
+
+    default:
+      return state;
+  }
+};
+EOF
+
+# Redux Actions File
+cat >> "$COMPONENT_DIR/${COMPONENT}Actions.js" << EOF 
+import { ${COMPONENT_UPPERCASE}_CHANGE_BOOL } from './${COMPONENT}Constants';
+
+/**
+ * Create Actions here
+ * e.g.
+ */
+export const changeBool = resource => dispatch => {
+  dispatch({
+    type: ${COMPONENT_UPPERCASE}_CHANGE_BOOL,
+    payload: resource,
+  });
+};
+EOF
+
+# Redux Selectors File
+cat >> "$COMPONENT_DIR/${COMPONENT}Selectors.js" << EOF 
+export const select${COMPONENT} = state => state.$COMPONENT_LOWERCASE;
+export const selectBool = state => select${COMPONENT}(state).bool;
+EOF
+
+# Constants File
+cat >> "$COMPONENT_DIR/${COMPONENT}Constants.js" << EOF 
+export const ${COMPONENT_UPPERCASE}_CHANGE_BOOL = '${COMPONENT_UPPERCASE}_CHANGE_BOOL';
+EOF
+
+# TESTS #
+
+# Redux Actions Test File
+cat >> "$COMPONENT_DIR/__tests__/${COMPONENT}Actions.test.js" << EOF 
+import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
+import { changeBool } from '../${COMPONENT}Actions';
+
+const fixtures = {
+  'should changeBool': () => changeBool({ bool: true }),
+};
+
+describe('${COMPONENT} actions', () => testActionSnapshotWithFixtures(fixtures));
+EOF
+
+# Redux Reducer Test File
+cat >> "$COMPONENT_DIR/__tests__/${COMPONENT}Reducer.test.js" << EOF 
+import { ${COMPONENT_UPPERCASE}_CHANGE_BOOL } from '../${COMPONENT}Constants';
+
+import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
+import reducer from '../${COMPONENT}Reducer';
+
+const fixtures = {
+  'should return the initial state': {},
+  'should handle ${COMPONENT_UPPERCASE}_CHANGE_BOOL': {
+    action: {
+      type: ${COMPONENT_UPPERCASE}_CHANGE_BOOL,
+      payload: {
+        bool: true,
+      },
+    },
+  },
+};
+
+describe('${COMPONENT} reducer', () =>
+  testReducerSnapshotWithFixtures(reducer, fixtures));
+EOF
+
+# Redux Selectors Test File
+cat >> "$COMPONENT_DIR/__tests__/${COMPONENT}Selectors.test.js" << EOF 
+import { testSelectorsSnapshotWithFixtures } from '../../../common/testHelpers';
+import { select${COMPONENT}, selectBool } from '../${COMPONENT}Selectors';
+
+const state = {
+  ${COMPONENT_LOWERCASE}: {
+    bool: false,
+  },
+};
+
+const fixtures = {
+  'should return ${COMPONENT}': () => select${COMPONENT}(state),
+  'should return ${COMPONENT} bool': () => selectBool(state),
+};
+
+describe('${COMPONENT} selectors', () => testSelectorsSnapshotWithFixtures(fixtures));
+EOF
+
+# Redux Integration Test File
+cat >> "$COMPONENT_DIR/__tests__/integration.test.js" << EOF 
+import React from 'react';
+
+import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+import $COMPONENT, { reducers } from '../index';
+
+describe('${COMPONENT} integration test', () => {
+  it('should flow', async () => {
+    const integrationTestHelper = new IntegrationTestHelper(reducers);
+    const component = integrationTestHelper.mount(<${COMPONENT} />);
+    /** Create a Flow test */
+  });
+});
+EOF

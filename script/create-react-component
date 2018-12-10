@@ -1,0 +1,52 @@
+#! /bin/bash
+
+FOREMAN_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+FOREMAN_PATH="${FOREMAN_PATH}/.."
+REACT_DIR="$FOREMAN_PATH/webpack/assets/javascripts/react_app/components"
+
+# Colors
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+RESET_COLOR=`tput sgr0`
+
+# Ask for the Component's name
+echo "${BLUE}Hello, Please name the Component:${RESET_COLOR}"
+echo
+read component
+echo
+
+# Check if the Component already exists
+while [ -d "$REACT_DIR/$component" ]
+do
+    echo "${YELLOW}The Component $component already exists! Try again:${RESET_COLOR}"
+    echo
+    read component
+    echo
+done
+
+mkdir "$REACT_DIR/$component" && cd "$_"
+mkdir {"__tests__","components"}
+
+touch $component.js $component.fixtures.js $component.scss $component.stories.js "__tests__/$component.test.js"
+# Put Templates in new files.
+$FOREMAN_PATH/script/react-templates/component-templates $component "$REACT_DIR/$component"
+
+read -p "${BLUE}Is the Component connected to Redux? (y/n): "
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    touch "${component}Actions.js" "${component}Reducer.js" "${component}Constants.js" "${component}Selectors.js" "index.js"
+    cd __tests__ && touch "${component}Actions.test.js" "${component}Reducer.test.js" "${component}Selectors.test.js" "integration.test.js"
+    # Put Templates in new files.
+    $FOREMAN_PATH/script/react-templates/redux-templates $component "$REACT_DIR/$component"
+fi
+
+echo
+echo "${GREEN}Created $component succesfully :)"
+echo
+# Print folder tree
+cd "$REACT_DIR/$component" && find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+echo
+echo Please make sure to Register $component in componentRegistry.js
+echo
