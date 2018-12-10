@@ -60,9 +60,10 @@ require_dependency File.expand_path('../lib/foreman/exception', __dir__)
 require_dependency File.expand_path('../lib/core_extensions', __dir__)
 require_dependency File.expand_path('../lib/foreman/logging', __dir__)
 require_dependency File.expand_path('../lib/foreman/http_proxy', __dir__)
-require_dependency File.expand_path('../lib/middleware/catch_json_parse_errors', __dir__)
-require_dependency File.expand_path('../lib/middleware/logging_context', __dir__)
-require_dependency File.expand_path('../lib/middleware/telemetry', __dir__)
+require_dependency File.expand_path('../lib/foreman/middleware/catch_json_parse_errors', __dir__)
+require_dependency File.expand_path('../lib/foreman/middleware/logging_context_request', __dir__)
+require_dependency File.expand_path('../lib/foreman/middleware/logging_context_session', __dir__)
+require_dependency File.expand_path('../lib/foreman/middleware/telemetry', __dir__)
 
 if SETTINGS[:support_jsonp]
   if File.exist?(File.expand_path('../Gemfile.in', __dir__))
@@ -186,16 +187,17 @@ module Foreman
     config.assets.quiet = true
 
     # Catching Invalid JSON Parse Errors with Rack Middleware
-    config.middleware.use Middleware::CatchJsonParseErrors
+    config.middleware.use Foreman::Middleware::CatchJsonParseErrors
 
     # Record request and session tokens in logging MDC
-    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Middleware::LoggingContext
+    config.middleware.insert_before Rails::Rack::Logger, Foreman::Middleware::LoggingContextRequest
+    config.middleware.insert_after ActionDispatch::Session::ActiveRecordStore, Foreman::Middleware::LoggingContextSession
 
     # Add apidoc hash in headers for smarter caching
     config.middleware.use Apipie::Middleware::ChecksumInHeaders
 
     # Add telemetry
-    config.middleware.use Middleware::Telemetry
+    config.middleware.use Foreman::Middleware::Telemetry
 
     # New config option to opt out of params "deep munging" that was used to address security vulnerability CVE-2013-0155.
     config.action_dispatch.perform_deep_munge = false
