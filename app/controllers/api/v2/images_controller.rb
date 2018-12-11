@@ -34,7 +34,7 @@ module Api
         param :image, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :username, String, :required => true
-          param :uuid, String, :required => true
+          param :uuid, String, :required => true, :desc => N_("Template ID in the compute resource")
           param :password, String, :required => false
           param :compute_resource_id, String, :desc => N_("ID of compute resource")
           param :architecture_id, String, :desc => N_("ID of architecture")
