@@ -331,6 +331,7 @@ if [ $NOGENERIC -eq 0 ]; then
     [ $DEBUG -eq 0 ] && add_cmd "dpkg --list" "installed_packages"
   fi
 
+  add_cmd "virt-who -dop"
 fi
 
 # FOREMAN RELATED ARTIFACTS
