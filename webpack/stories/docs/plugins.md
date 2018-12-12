@@ -69,6 +69,11 @@ Once all the above is set up then the script `npm run install` executed from roo
 Also `npm run lint` behaves similarly.
 
 
+### Entry points
+
+The webpack config respects the main entry point defined in `package.json`. On top of that it loads all files matching `./webpack/*index.js`. That allows plugins to define multiple independent entry points. This can be useful in special use-cases. For example when you need to mix some parts of webpack processed code into pages that use asset pipeline only.
+
+
 ### Troubleshooting
 
 You can make sure webpack knows about your plugin by executing script `plugin_webpack_directories.rb` that prints json-formatted info about all recognized plugins.
