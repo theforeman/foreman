@@ -101,6 +101,18 @@ module Foreman
             mode == Renderer::PREVIEW_MODE
           end
 
+          def rand_hex(n)
+            SecureRandom.hex(n)
+          end
+
+          def rand_name
+            NameGenerator.new.generate_next_random_name
+          end
+
+          def mac_name(mac_address)
+            NameGenerator.new.generate_next_mac_name(mac_address)
+          end
+
           private
 
           def validate_subnet(subnet)

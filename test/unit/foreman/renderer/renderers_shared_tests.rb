@@ -39,6 +39,21 @@ module RenderersSharedTests
       assert_equal 'http://foreman.some.host.fqdn', renderer.render(source, @scope)
     end
 
+    test "rand_hex helper method" do
+      source = OpenStruct.new(content: '<%= rand_hex(5) %>')
+      assert_not_nil renderer.render(source, @scope)
+    end
+
+    test "rand_name helper method" do
+      source = OpenStruct.new(content: '<%= rand_name %>')
+      assert_not_nil renderer.render(source, @scope)
+    end
+
+    test "mac_name helper method" do
+      source = OpenStruct.new(content: '<%= mac_name("52:54:00:3d:f3:53") %>')
+      assert_equal 'jimmy-alton-danko-deckard', renderer.render(source, @scope)
+    end
+
     test "indent helper method" do
       source = OpenStruct.new(content: '<%= indent(3) { "test" } %>')
       assert_equal '   test', renderer.render(source, @scope)
