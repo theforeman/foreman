@@ -67,6 +67,21 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
       click_link 'Parameters'
       assert_equal class_params.find("textarea").value, "a: c\n"
     end
+
+    test 'displays warning when vm not found by uuid' do
+      ComputeResource.any_instance.stubs(:find_vm_by_uuid).raises(ActiveRecord::RecordNotFound)
+      host = FactoryBot.create(:host, :with_hostgroup, :with_environment, :on_compute_resource, :managed)
+
+      visit edit_host_path(host)
+      assert page.has_link?('Operating System')
+      click_link 'Operating System'
+
+      alert_header = page.find('#compute_resource div.alert strong')
+      alert_body = page.find('#compute_resource div.alert span.text')
+
+      assert_equal "'#{host.name}' not found on '#{host.compute_resource}'", alert_header.text
+      assert_equal "'#{host.name}' could be deleted or '#{host.compute_resource}' is not responding.", alert_body.text
+    end
   end
 
   describe 'clone page' do
