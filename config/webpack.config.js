@@ -82,7 +82,7 @@ module.exports = env => {
     publicPath = process.env.ASSET_PATH || `${devServerProtocol}://${devServerBindHost}:${devServerPort}/webpack/`;
   }
 
-  const supportedLanguagesRE = supportedLanguages().join('|');
+  const supportedLanguagesRE = new RegExp(`/(${supportedLanguages().join('|')})$`);
 
   var config = {
     entry: entry,
@@ -184,12 +184,12 @@ module.exports = env => {
       // limit locales from intl only to supported ones
       new webpack.ContextReplacementPlugin(
         /intl\/locale-data\/jsonp/,
-        new RegExp(`/(${supportedLanguagesRE})$`)
+        supportedLanguagesRE
       ),
       // limit locales from react-intl only to supported ones
       new webpack.ContextReplacementPlugin(
         /react-intl\/locale-data/,
-        new RegExp(`/(${supportedLanguagesRE})$`)
+        supportedLanguagesRE
       ),
     ]
   };
