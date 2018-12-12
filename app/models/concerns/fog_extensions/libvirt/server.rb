@@ -11,6 +11,14 @@ module FogExtensions
         name
       end
 
+      def cpu_mode
+        attributes[:cpu][:mode]
+      end
+
+      def cpu_mode=(cpumode)
+        attributes[:cpu][:mode] = (cpumode == 'default') ? nil : cpumode
+      end
+
       def nics_attributes=(attrs)
       end
 

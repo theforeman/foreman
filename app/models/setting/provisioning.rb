@@ -32,6 +32,7 @@ class Setting::Provisioning < Setting
     'vlinuxbr*',
     'vovsbr*'
   ]
+
   def self.default_settings
     fqdn = SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"

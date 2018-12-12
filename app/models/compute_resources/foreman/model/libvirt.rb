@@ -4,6 +4,9 @@ module Foreman::Model
 
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 
+    # 'custom' is not implemented. This needs extra UI.
+    CPU_MODES = %w(default host-model host-passthrough)
+
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }
 
