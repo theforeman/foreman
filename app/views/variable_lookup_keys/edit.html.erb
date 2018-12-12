@@ -1,4 +1,5 @@
-<% title(_("Edit Smart Variable")) %>
+<% title _("Edit %s") % @variable_lookup_key.to_label %>
+
 <%= breadcrumbs(
     items:
     [
@@ -7,7 +8,7 @@
         url: (url_for(variable_lookup_keys_path) if authorized_for(hash_for_variable_lookup_keys_path))
       },
       {
-        caption: _('Edit Smart Variable')
+        caption: _("Edit %s") % @variable_lookup_key.to_label
       }
     ],
     resource_url: api_smart_variables_path,
