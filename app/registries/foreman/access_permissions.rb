@@ -356,7 +356,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :"api/v2/hosts" => [:rebuild_config]
                                      }
     map.permission :power_hosts,   {:hosts          => [:power],
-                                    :"api/v2/hosts" => [:power] }
+                                    :"api/v2/hosts" => [:power, :power_status] }
     map.permission :console_hosts, {:hosts => [:console] }
     map.permission :ipmi_boot_hosts, { :hosts          => [:ipmi_boot],
                                        :"api/v2/hosts" => [:boot] }

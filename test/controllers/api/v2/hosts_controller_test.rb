@@ -1265,4 +1265,94 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert hosts_response["subtotal"] > hosts_response["per_page"]
     end
   end
+
+  describe '/host/:id/power_status' do
+    let(:host) { FactoryBot.create(:host, compute_resource: compute_resources(:vmware)) }
+
+    setup { Fog.mock! }
+    teardown { Fog.unmock! }
+
+    test 'show power status for a host' do
+      expected_resp = {
+        "id" => host.id,
+        "state" => "on",
+        "title" => "On"
+      }
+
+      Host.any_instance.stubs(:supports_power?).returns(true)
+      Host.any_instance.stubs(:supports_power_and_running?).returns(true)
+      get :power_status, params: { :id => host.id }, session: set_session_user, xhr: true
+      assert_response :success
+      response = JSON.parse @response.body
+      assert_equal(expected_resp.sort, response.sort)
+    end
+
+    test 'show power status for a powered off host' do
+      expected_resp = {
+        "id" => host.id,
+        "state" => "off",
+        "title" => "Off"
+      }
+
+      Host.any_instance.stubs(:supports_power?).returns(true)
+      Host.any_instance.stubs(:supports_power_and_running?).returns(false)
+      get :power_status, params: { :id => host.id }, session: set_session_user, xhr: true
+      assert_response :success
+      response = JSON.parse @response.body
+      assert_equal(expected_resp.sort, response.sort)
+    end
+
+    test 'show power status for a host that has no power' do
+      expected_resp = {
+        "id" => host.id,
+        "state" => "na",
+        "title" => 'N/A',
+        "statusText" => "Power operations are not enabled on this host."
+      }
+
+      Host.any_instance.stubs(:supports_power?).returns(false)
+      get :power_status, params: { :id => host.id }, session: set_session_user, xhr: true
+      assert_response :success
+      response = JSON.parse @response.body
+      assert_equal(expected_resp.sort, response.sort)
+    end
+
+    test 'shows power status for bmc hosts' do
+      bmchost = FactoryBot.create(:host, :managed)
+      FactoryBot.create(:nic_bmc, :host => bmchost)
+      ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
+
+      expected_resp = {
+        "id" => bmchost.id,
+        "state" => "on",
+        "title" => "On"
+      }
+
+      get :power_status, params: { :id => bmchost.id }, session: set_session_user, xhr: true
+      assert_response :success
+      response = JSON.parse @response.body
+      assert_equal(expected_resp.sort, response.sort)
+    end
+
+    test 'show power status for a host that has an exception' do
+      expected_resp = {
+        "id" => host.id,
+        "state" => "na",
+        "title" => "N/A",
+        "statusText" => "Failed to fetch power status: ERF42-9958 [Foreman::Exception]: Unknown power management support - can't continue"
+      }
+
+      Host.any_instance.stubs(:supports_power?).returns(true)
+      Host.any_instance.stubs(:power).raises(::Foreman::Exception.new(N_("Unknown power management support - can't continue")))
+      get :power_status, params: { :id => host.id }, session: set_session_user, xhr: true
+      assert_response :success
+      response = JSON.parse @response.body
+      assert_equal(expected_resp.sort, response.sort)
+    end
+
+    test 'do not provide power state on an unknown host' do
+      get :power_status, params: { :id => 'no-such-host' }, session: set_session_user, xhr: true
+      assert_response :not_found
+    end
+  end
 end

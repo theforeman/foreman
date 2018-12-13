@@ -262,6 +262,22 @@ Return the host's compute attributes that can be used to create a clone of this 
         end
       end
 
+      api :GET, '/hosts/:id/power', N_('Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs.')
+      param :id, :identifier_dottable, required: true
+
+      def power_status
+        render json: PowerManager::PowerStatus.new(host: @host).power_state
+      rescue => e
+        Foreman::Logging.exception("Failed to fetch power status", e)
+
+        resp = {
+          id: @host.id,
+          statusText: _("Failed to fetch power status: %s") % e
+        }
+
+        render json: resp.merge(PowerManager::PowerStatus::HOST_POWER[:na])
+      end
+
       api :PUT, "/hosts/:id/boot", N_("Boot host from specified device")
       param :id, :identifier_dottable, :required => true
       param :device, String, :required => true, :desc => N_("boot device, valid devices are disk, cdrom, pxe, bios")
@@ -348,6 +364,8 @@ Return the host's compute attributes that can be used to create a clone of this 
 
       def action_permission
         case params[:action]
+          when 'power_status'
+            :power
           when 'power'
             :power
           when 'boot'
