@@ -256,6 +256,8 @@ class Operatingsystem < ApplicationRecord
 
   # Does this OS family use release_name in its naming scheme
   def use_release_name?
+    return false unless family
+    return self.becomes(family.constantize).use_release_name? unless self.class == family.constantize
     false
   end
 
