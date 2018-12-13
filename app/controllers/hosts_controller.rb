@@ -23,15 +23,9 @@ class HostsController < ApplicationController
                         rebuild_config submit_rebuild_config select_multiple_owner update_multiple_owner
                         select_multiple_power_state update_multiple_power_state)
 
-  HOST_POWER = {
-    :on =>  { :state => 'on', :title => N_('On') },
-    :off => { :state => 'off', :title => N_('Off') },
-    :na =>  { :state => 'na', :title => N_('N/A') }
-  }.freeze
-
-  before_action :ajax_request, :only => AJAX_REQUESTS + [:get_power_state]
+  before_action :ajax_request, :only => AJAX_REQUESTS
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
-                                          :setBuild, :cancelBuild, :power, :get_power_state, :overview, :bmc, :vm,
+                                          :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
                                           :toggle_manage, :pxe_config, :disassociate, :build_errors]
 
@@ -271,22 +265,6 @@ class HostsController < ApplicationController
     process_success :success_redirect => :back, :success_msg => _("%{host} is about to %{action}") % { :host => @host, :action => _(params[:power_action].downcase) }
   rescue => e
     process_error :redirect => :back, :error_msg => _("Failed to %{action} %{host}: %{e}") % { :action => _(params[:power_action]), :host => @host, :e => e }
-  end
-
-  def get_power_state
-    result = {:id => @host.id}.merge(host_power_state(:na))
-    if @host.supports_power?
-      result = host_power_ping result
-    else
-      result[:statusText] = _('Power operations are not enabled on this host.')
-    end
-
-    render :json => result
-  rescue => e
-    Foreman::Logging.exception("Failed to fetch power status", e)
-    result.merge!(host_power_state(:na))
-    result[:statusText] = _("Failed to fetch power status: %s") % e
-    render :json => result
   end
 
   def overview
@@ -859,24 +837,6 @@ class HostsController < ApplicationController
       @host.provisioning_template(:kind => kind.name)
     end.compact
     raise Foreman::Exception.new(N_("No templates found")) if @templates.empty?
-  end
-
-  def host_power_ping(result)
-    timeout = 3
-    Timeout.timeout(timeout) do
-      result.merge!(host_power_state(@host.supports_power_and_running? ? :on : :off))
-    end
-    result
-  rescue Timeout::Error
-    logger.debug("Failed to retrieve power status for #{@host} within #{timeout} seconds.")
-    result[:statusText] = n_("Failed to retrieve power status for %{host} within %{timeout} second.",
-                             "Failed to retrieve power status for %{host} within %{timeout} seconds.", timeout) %
-                            {:host => @host, :timeout => timeout}
-    result
-  end
-
-  def host_power_state(key)
-    HOST_POWER[key].merge(:title => _(HOST_POWER[key][:title]))
   end
 
   def host_attributes_for_templates(host)

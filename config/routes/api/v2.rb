@@ -370,6 +370,7 @@ Foreman::Application.routes.draw do
           get 'template/:kind', :on => :member, :action => :template
           put :disassociate, :on => :member
           put :boot, :on => :member
+          get :power, :on => :member, :action => :power_status
           put :power, :on => :member
           put :rebuild_config, :on => :member
           post :facts, :on => :collection
