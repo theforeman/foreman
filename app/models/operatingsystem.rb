@@ -40,7 +40,7 @@ class Operatingsystem < ApplicationRecord
   before_validation :downcase_release_name, :set_title, :stringify_major_and_minor
   validates :title, :uniqueness => true, :presence => true
 
-  before_save :set_family
+  before_validation :set_family
 
   default_scope -> { order(:title) }
 
