@@ -69,7 +69,7 @@ class FiltersController < ApplicationController
 
   def resource_base
     @resource_base ||= if @role.present?
-                         @role.filters.authorized(current_permission)
+                         Filter.authorized(current_permission)
                        else
                          Filter.where(nil).authorized(current_permission)
                        end
