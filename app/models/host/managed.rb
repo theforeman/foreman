@@ -312,11 +312,6 @@ class Host::Managed < Host::Base
     end
   end
 
-  # retuns fqdn of host puppetmaster
-  def pm_fqdn
-    (puppetmaster == "puppet") ? "puppet.#{domain.name}" : puppetmaster.to_s
-  end
-
   def import_facts(facts, source_proxy = nil)
     # Facts come from 'existing' attributes/infrastructure. We skip triggering
     # the orchestration of this infrastructure when we create a host this way.
