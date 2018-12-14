@@ -1,9 +1,7 @@
 module ProxyStatus
   class TFTP < Base
     def server
-      fetch_proxy_data do
-        api.bootServer
-      end
+      proxy.setting('TFTP', 'tftp_servername') || fetch_proxy_data { api.bootServer }
     end
 
     def self.humanized_name
