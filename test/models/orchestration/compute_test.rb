@@ -65,6 +65,34 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
+  describe 'compute' do
+    let(:compute_resource) do
+      FactoryBot.build(:libvirt_cr)
+    end
+
+    let(:host) do
+      FactoryBot.build(:host, compute_resource: compute_resource, compute_attributes: {})
+    end
+
+    test "creates vm successfully" do
+      compute_resource.stubs(:create_vm).returns(true).once
+      assert host.send(:setCompute)
+    end
+
+    test "alerts user when compute attributes are not set" do
+      host.compute_attributes = nil
+      host.expects(:log_failure).once
+      refute host.send(:setCompute)
+    end
+
+    test "logs a failure when creating vm throws exception" do
+      compute_resource.stubs(:create_vm).raises(Fog::Errors::Error).once
+      host.expects(:log_failure).once
+      host.compute_attributes = {}
+      refute host.send(:setCompute)
+    end
+  end
+
   test "if MAC is changed, dhcp_record cache is dropped" do
     cr = FactoryBot.build_stubbed(:libvirt_cr)
     cr.stubs(:provided_attributes).returns({:mac => :mac})

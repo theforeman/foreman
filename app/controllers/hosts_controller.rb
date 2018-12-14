@@ -153,6 +153,7 @@ class HostsController < ApplicationController
       return not_found if compute_resource_id.blank?
       compute_profile_id = params[:host][:compute_profile_id] || hostgroup.try(:inherited_compute_profile_id)
       compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(compute_resource_id)
+      return not_found if compute_resource.blank?
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
     end

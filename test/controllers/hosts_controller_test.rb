@@ -1596,6 +1596,18 @@ class HostsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test '#compute_resource_selected returns 404 without valid compute resource' do
+    user = FactoryBot.build(:user, :with_mail, :admin => false)
+    FactoryBot.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
+    user.roles << roles(:create_hosts)
+    user.save!
+
+    parent = FactoryBot.create(:hostgroup, :compute_profile => compute_profiles(:two))
+    group = FactoryBot.build(:hostgroup, :parent => parent)
+    get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user(user), xhr: true
+    assert_response :not_found
+  end
+
   test '#interfaces applies compute profile and returns interfaces partial' do
     modifier = mock('InterfaceMerge')
     InterfaceMerge.expects(:new).with().returns(modifier)

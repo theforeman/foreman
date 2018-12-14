@@ -80,6 +80,10 @@ module Orchestration::Compute
 
   def setCompute
     logger.info "Adding Compute instance for #{name}"
+    if compute_attributes.nil?
+      failure _("Failed to find compute attributes, please check if VM #{name} was deleted: %{message}") % { name: name, message: e.message }, e
+      return false
+    end
     # TODO: extract the merging into separate class in combination
     # with ComputeAttributesMerge and InterfacesMerge http://projects.theforeman.org/issues/14536
     final_compute_attrs = compute_attributes.merge(compute_resource.host_compute_attrs(self))
