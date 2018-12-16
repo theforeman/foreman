@@ -2,18 +2,8 @@ require 'test_helper'
 
 class DhcpOrchestrationTest < ActiveSupport::TestCase
   def setup
-    users(:one).roles << Role.find_by_name('Manager')
-    User.current = users(:one)
     disable_orchestration
-    SETTINGS[:locations_enabled] = false
-    SETTINGS[:organizations_enabled] = false
     skip_without_unattended
-  end
-
-  def teardown
-    SETTINGS[:locations_enabled] = true
-    SETTINGS[:organizations_enabled] = true
-    User.current = nil
   end
 
   test 'host_should_have_dhcp' do

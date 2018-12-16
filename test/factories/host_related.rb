@@ -31,8 +31,8 @@ FactoryBot.define do
     sequence(:name) { |n| "ptable#{n}" }
     layout { 'zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=<%= 10 * 10 %> --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended' }
     os_family { 'Redhat' }
-    organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
-    locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
+    organizations { [Organization.find_by_name('Organization 1')] }
+    locations { [Location.find_by_name('Location 1')] }
 
     trait :ubuntu do
       sequence(:name) { |n| "ubuntu default#{n}" }
@@ -126,8 +126,8 @@ FactoryBot.define do
     sequence(:name) { |n| "host#{n}" }
     sequence(:hostname) { |n| "host#{n}" }
     root_pass { 'xybxa6JUkz63w' }
-    organization { Organization.find_by_name('Organization 1') } if SETTINGS[:organizations_enabled]
-    location { Location.find_by_name('Location 1') } if SETTINGS[:locations_enabled]
+    organization { Organization.find_by_name('Organization 1') }
+    location { Location.find_by_name('Location 1') }
 
     # This allows a test to declare build/create(:host, :ip => '1.2.3.4') and
     # have the primary interface correctly updated with the specified attrs
@@ -524,8 +524,8 @@ FactoryBot.define do
 
   factory :hostgroup do
     sequence(:name) { |n| "hostgroup#{n}" }
-    organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
-    locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
+    organizations { [Organization.find_by_name('Organization 1')] }
+    locations { [Location.find_by_name('Location 1')] }
 
     after(:build) do |host, evaluator|
       set_environment_taxonomies(host)

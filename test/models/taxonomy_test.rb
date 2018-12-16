@@ -1,27 +1,8 @@
 require 'test_helper'
 
 class TaxonomyTest < ActiveSupport::TestCase
-  def setup
-    SETTINGS.stubs(:[]).with(:organizations_enabled).returns(true)
-    SETTINGS.stubs(:[]).with(:locations_enabled).returns(false)
-    SETTINGS.stubs(:[]).with(:unattended).returns(false)
-  end
-
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name).scoped_to(:ancestry, :type).case_insensitive
-
-  test '.enabled?' do
-    assert Taxonomy.enabled?(:organization)
-    refute Taxonomy.enabled?(:location)
-  end
-
-  test '.locations_enabled' do
-    refute Taxonomy.locations_enabled
-  end
-
-  test '.organizations_enabled' do
-    assert Taxonomy.organizations_enabled
-  end
 
   test 'expand return [] for admin if no taxonomy set' do
     as_admin do

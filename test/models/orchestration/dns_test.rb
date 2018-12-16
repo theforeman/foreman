@@ -3,14 +3,7 @@ require 'test_helper'
 class DnsOrchestrationTest < ActiveSupport::TestCase
   def setup
     disable_orchestration
-    SETTINGS[:locations_enabled] = false
-    SETTINGS[:organizations_enabled] = false
     skip_without_unattended
-  end
-
-  def teardown
-    SETTINGS[:locations_enabled] = true
-    SETTINGS[:organizations_enabled] = true
   end
 
   context 'host without dns' do

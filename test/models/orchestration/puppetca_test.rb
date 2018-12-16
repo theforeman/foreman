@@ -5,15 +5,11 @@ class PuppetCaOrchestrationTest < ActiveSupport::TestCase
     users(:one).roles << Role.find_by_name('Manager')
     User.current = users(:one)
     disable_orchestration
-    SETTINGS[:locations_enabled] = false
-    SETTINGS[:organizations_enabled] = false
     Setting[:manage_puppetca] = true
     skip_without_unattended
   end
 
   def teardown
-    SETTINGS[:locations_enabled] = true
-    SETTINGS[:organizations_enabled] = true
     User.current = nil
   end
 

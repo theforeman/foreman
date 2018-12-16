@@ -144,18 +144,6 @@ class NicTest < ActiveSupport::TestCase
     end
   end
 
-  test "should ignore subnet with mismatched taxonomy in host when settings disabled" do
-    disable_taxonomies do
-      orgs = FactoryBot.build_stubbed_pair(:organization)
-      locs = FactoryBot.build_stubbed_pair(:location)
-      subn = FactoryBot.build_stubbed(:subnet_ipv4, :locations => [locs.first], :organizations => [orgs.first])
-      host = FactoryBot.build_stubbed(:host, :location => locs.last, :organization => orgs.last)
-      nic = Nic::Base.new :mac => "cabbccddeeff", :host => host
-      nic.subnet = subn
-      assert_valid nic
-    end
-  end
-
   test "should accept subnets with aligned location and organization in host" do
     location1 = FactoryBot.build(:location)
     organization1 = FactoryBot.build(:organization)

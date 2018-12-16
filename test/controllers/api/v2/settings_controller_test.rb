@@ -28,24 +28,6 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert_equal 100, Setting.find(setting_id).value
   end
 
-  test "settings shouldnt include ones about organizations when organizations are disabled" do
-    SETTINGS[:organizations_enabled] = false
-    get :index
-    assert_response :success
-    assert_no_match /default_organization/, @response.body
-    assert_no_match /organization_fact/, @response.body
-    SETTINGS[:organizations_enabled] = true
-  end
-
-  test "settings shouldnt include ones about locations when locations are disabled" do
-    SETTINGS[:locations_enabled] = false
-    get :index
-    assert_response :success
-    assert_no_match /default_location/, @response.body
-    assert_no_match /location_fact/, @response.body
-    SETTINGS[:locations_enabled] = true
-  end
-
   test_attributes :pid => 'fb8b0bf1-b475-435a-926b-861aa18d31f1'
   test "should update login page footer text with long value" do
     value = RFauxFactory.gen_alpha 1000

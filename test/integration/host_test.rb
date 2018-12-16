@@ -5,14 +5,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   include HostFinders
 
   before do
-    SETTINGS[:locations_enabled] = false
-    SETTINGS[:organizations_enabled] = false
     as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
-  end
-
-  after do
-    SETTINGS[:locations_enabled] = true
-    SETTINGS[:organizations_enabled] = true
   end
 
   test "index page with search" do

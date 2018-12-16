@@ -413,67 +413,6 @@ class UnattendedControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    context "location or organizations are not enabled" do
-      before do
-        SETTINGS[:locations_enabled] = false
-        SETTINGS[:organizations_enabled] = false
-      end
-
-      after do
-        SETTINGS[:locations_enabled] = true
-        SETTINGS[:organizations_enabled] = true
-      end
-
-      test "hosts with mismatched ip and update_ip=false should have the old ip" do
-        Setting[:token_duration] = 30
-        Setting[:update_ip_from_built_request] = false
-        @request.env["REMOTE_ADDR"] = '127.0.0.1'
-        h = @ub_host
-        h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 5.minutes)
-        get :built, params: { 'token' => h.token.value }
-        h_new = Host.find_by_name(h.name)
-
-        assert_response :success
-        assert_equal h.ip, h_new.ip
-      end
-
-      test "hosts with mismatched ip and update_ip true should have the new ip" do
-        Setting[:token_duration] = 30
-        Setting[:update_ip_from_built_request] = true
-        h = @ub_host
-        new_ip = h.subnet.network.gsub(/\.0$/, '.100') # Must be in the subnet, which isn't fixed
-        @request.env["REMOTE_ADDR"] = new_ip
-        refute_equal new_ip, h.ip
-        h.create_token(:value => "aaaaab", :expires => Time.now.utc + 5.minutes)
-        get :built, params: { 'token' => h.token.value }
-        h_new = Host.find_by_name(h.reload.name)
-        assert_response :success
-        assert_equal new_ip, h_new.ip
-      end
-
-      test "hosts with mismatched ip and update_ip true and a duplicate ip should succeed with no ip update" do
-        Setting[:token_duration] = 30
-        Setting[:update_ip_from_built_request] = true
-        @request.env["REMOTE_ADDR"] = FactoryBot.create(:host).ip
-        h = @ub_host
-        h.create_token(:value => "aaaaac", :expires => Time.now.utc + 5.minutes)
-        get :built, params: { 'token' => h.token.value }
-        assert_response :success
-        h_new = Host.find_by_name(h.reload.name)
-        assert_equal h.ip, h_new.ip
-      end
-
-      # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
-      test "template should contain tokens when tokens enabled and present for the host" do
-        Setting[:token_duration]    = 30
-        Setting[:unattended_url]    = "http://test.host"
-        @request.env["REMOTE_ADDR"] = @ub_host.ip
-        @ub_host.create_token(:value => "aaaaaa", :expires => Time.now.utc + 5.minutes)
-        get :host_template, params: { :kind => 'provision' }
-        assert @response.body.include?("http://test.host/unattended/finish?token=aaaaaa")
-      end
-    end # end of context "location or organizations are not enabled"
-
     # Should this test be moved into renderer_test, as it excercises foreman_url() functionality?
     test "template should not contain https when ssl enabled" do
       @request.env["HTTPS"] = "on"
