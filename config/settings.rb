@@ -7,13 +7,17 @@ settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings
 SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result) if File.exist?(settings_file)
 SETTINGS[:version] = Foreman::Version.new
 
+# Force setting to true until all code using it is removed
+[:locations_enabled, :organizations_enabled].each do |setting|
+  SETTINGS[setting] = true
+end
+
 # default to true if missing
-[:unattended, :locations_enabled, :organizations_enabled].each do |setting|
-  SETTINGS[setting] = SETTINGS[setting].nil? || SETTINGS[setting]
+[:unattended, :hsts_enabled].each do |setting|
+  SETTINGS[setting] = SETTINGS.fetch(setting, true)
 end
 
 SETTINGS[:rails] = '%.1f' % SETTINGS[:rails] if SETTINGS[:rails].is_a?(Float) # unquoted YAML value
-SETTINGS[:hsts_enabled] = true unless SETTINGS.has_key?(:hsts_enabled)
 
 unless SETTINGS[:domain] && SETTINGS[:fqdn]
   require 'facter'
