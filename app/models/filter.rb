@@ -133,7 +133,7 @@ class Filter < ApplicationRecord
 
   def search_condition
     searches = [self.search]
-    searches << self.taxonomy_search if Taxonomy.enabled_taxonomies.any?
+    searches << self.taxonomy_search
     searches.compact!
     searches.map! { |s| parenthesize(s) } if searches.size > 1
     searches.join(' and ')

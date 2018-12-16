@@ -10,8 +10,7 @@ module TemplatesHelper
   end
 
   def show_default?
-    rights = Taxonomy.enabled_taxonomies.select { |taxonomy| User.current.can?("create_#{taxonomy}".to_sym) }
-    rights.all? && rights.present?
+    User.current.can?(:create_oragnizations) && User.current.can?(:create_locations)
   end
 
   def safemode_methods

@@ -28,8 +28,6 @@ module ApplicationShared
     return if user.nil?
 
     ['location', 'organization'].each do |taxonomy|
-      next unless Taxonomy.enabled?(taxonomy.to_sym)
-
       available = user.send("my_#{taxonomy.pluralize}")
       determined_taxonomy = nil
 

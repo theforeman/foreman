@@ -52,7 +52,7 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
   return auditTitle;
 };
 
-const AuditsList = ({ data: { audits, isOrgEnabled, isLocEnabled } }) => (
+const AuditsList = ({ data: { audits } }) => (
   <ListView>
     {audits.map(
       (
@@ -101,8 +101,6 @@ const AuditsList = ({ data: { audits, isOrgEnabled, isLocEnabled } }) => (
         >
           <Row>
             <ShowOrgsLocs
-              isOrgEnabled={isOrgEnabled}
-              isLocEnabled={isLocEnabled}
               orgs={affectedOrganizations}
               locs={affectedLocations}
             />
@@ -128,8 +126,6 @@ const AuditsList = ({ data: { audits, isOrgEnabled, isLocEnabled } }) => (
 AuditsList.propTypes = {
   data: PropTypes.shape({
     audits: PropTypes.array.isRequired,
-    isOrgEnabled: PropTypes.bool,
-    isLocEnabled: PropTypes.bool,
   }).isRequired,
 };
 

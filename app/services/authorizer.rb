@@ -34,18 +34,16 @@ class Authorizer
     base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
     all_filters = permission.nil? ? base : base.where(["#{Permission.table_name}.name = ?", permission])
 
-    if Taxonomy.enabled_taxonomies.any?
-      organization_ids = allowed_organizations(resource_class)
-      Foreman::Logging.logger('permissions').debug "organization_ids: #{organization_ids.inspect}"
-      location_ids = allowed_locations(resource_class)
-      Foreman::Logging.logger('permissions').debug "location_ids: #{location_ids.inspect}"
+    organization_ids = allowed_organizations(resource_class)
+    Foreman::Logging.logger('permissions').debug "organization_ids: #{organization_ids.inspect}"
+    location_ids = allowed_locations(resource_class)
+    Foreman::Logging.logger('permissions').debug "location_ids: #{location_ids.inspect}"
 
-      organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)
-      all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
-                                                                "OR (#{organizations}) " +
-                                                                "OR (#{locations})",
-                                                            *values]).distinct
-    end
+    organizations, locations, values = taxonomy_conditions(organization_ids, location_ids)
+    all_filters = all_filters.joins(taxonomy_join).where(["#{TaxableTaxonomy.table_name}.id IS NULL " +
+                                                              "OR (#{organizations}) " +
+                                                              "OR (#{locations})",
+                                                          *values]).distinct
 
     all_filters = all_filters.reorder(nil).to_a # load all records, so #empty? does not call extra COUNT(*) query
     Foreman::Logging.logger('permissions').debug do

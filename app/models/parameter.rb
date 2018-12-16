@@ -27,12 +27,8 @@ class Parameter < ApplicationRecord
   scoped_search :relation => :subnet, :on => :name, :complete_value => true, :rename => 'subnet_name'
   scoped_search :relation => :host, :on => :name, :complete_value => true, :rename => 'host_name'
   scoped_search :relation => :hostgroup, :on => :name, :complete_value => true, :rename => 'host_group_name'
-  if Taxonomy.locations_enabled
-    scoped_search :relation => :location, :on => :name, :complete_value => true, :rename => 'location_name'
-  end
-  if Taxonomy.organizations_enabled
-    scoped_search :relation => :organization, :on => :name, :complete_value => true, :rename => 'organization_name'
-  end
+  scoped_search :relation => :location, :on => :name, :complete_value => true, :rename => 'location_name'
+  scoped_search :relation => :organization, :on => :name, :complete_value => true, :rename => 'organization_name'
 
   default_scope -> { order("parameters.name") }
 

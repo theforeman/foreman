@@ -30,7 +30,6 @@ module Taxonomix
     # default inner_method includes children (subtree_ids)
     def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids, which_taxonomy_ignored = [])
       scope = block_given? ? yield : where(nil)
-      return scope unless Taxonomy.enabled_taxonomies.present?
       self.which_ancestry_method = inner_method
       self.which_taxonomy_ignored = which_taxonomy_ignored
       if SETTINGS[:locations_enabled] && !which_taxonomy_ignored.include?(:location)
@@ -181,7 +180,7 @@ module Taxonomix
                              raise ArgumentError, "unknown taxonomy #{taxonomy}"
                          end
     current_taxonomy = klass.current
-    Taxonomy.enabled?(taxonomy) && current_taxonomy && !self.send(association).include?(current_taxonomy)
+    current_taxonomy && !self.send(association).include?(current_taxonomy)
   end
 
   def used_location_ids

@@ -53,10 +53,10 @@ module Hostext
     def owner_taxonomies_match
       return true if self.owner.admin?
 
-      if Organization.organizations_enabled && self.organization_id && !self.owner.my_organizations.where(:id => self.organization_id).exists?
+      if self.organization_id && !self.owner.my_organizations.where(:id => self.organization_id).exists?
         errors.add :is_owned_by, _("does not belong into host's organization")
       end
-      if Location.locations_enabled && self.location_id && !self.owner.my_locations.where(:id => self.location_id).exists?
+      if self.location_id && !self.owner.my_locations.where(:id => self.location_id).exists?
         errors.add :is_owned_by, _("does not belong into host's location")
       end
     end

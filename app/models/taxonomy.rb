@@ -57,11 +57,13 @@ class Taxonomy < ApplicationRecord
   }
 
   def self.locations_enabled
-    enabled?(:location)
+    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.locations_enabled is always true, settings to disable taxonomies has been removed in 1.21.')
+    true
   end
 
   def self.organizations_enabled
-    enabled?(:organization)
+    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.organizations_enabled is always true, settings to disable taxonomies has been removed in 1.21.')
+    true
   end
 
   def self.no_taxonomy_scope
@@ -79,18 +81,14 @@ class Taxonomy < ApplicationRecord
   end
 
   def self.enabled?(taxonomy)
-    case taxonomy
-      when :organization
-        SETTINGS[:organizations_enabled]
-      when :location
-        SETTINGS[:locations_enabled]
-      else
-        raise ArgumentError, "unknown taxonomy #{taxonomy}"
-    end
+    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.enabled? is always true, settings to disable taxonomies has been removed in 1.21.')
+    true
   end
 
   def self.enabled_taxonomies
-    %w(locations organizations).select { |taxonomy| SETTINGS["#{taxonomy}_enabled".to_sym] }
+    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.enabled_taxonomies is always locations and organizations, settings to disable taxonomies has been removed in 1.21.')
+    true
+    %w(locations organizations)
   end
 
   def self.ignore?(taxable_type)

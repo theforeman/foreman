@@ -73,8 +73,6 @@ exports[`AuditsList rendering render resources list 1`] = `
       componentClass="div"
     >
       <ShowOrgsLocs
-        isLocEnabled={false}
-        isOrgEnabled={true}
         locs={
           Array [
             Object {
