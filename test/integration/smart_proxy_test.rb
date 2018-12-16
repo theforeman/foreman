@@ -10,11 +10,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
     assert_index_page(smart_proxies_path, "Smart Proxies", "Create Smart Proxy", false)
     visit smart_proxies_path
-    if SETTINGS[:locations_enabled]
-      assert page.has_selector?('th', :text => 'Locations')
-    else
-      refute page.has_selector?('th', :text => 'Locations')
-    end
+    assert page.has_selector?('th', :text => 'Locations')
   end
 
   test "create new page" do

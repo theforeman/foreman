@@ -17,15 +17,11 @@ class HostJSTest < IntegrationTestWithJavascript
   include HostOrchestrationStubs
 
   before do
-    SETTINGS[:locations_enabled] = false
-    SETTINGS[:organizations_enabled] = false
     as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
     Fog.mock!
   end
 
   after do
-    SETTINGS[:locations_enabled] = true
-    SETTINGS[:organizations_enabled] = true
     Fog.unmock!
   end
 
@@ -130,17 +126,18 @@ class HostJSTest < IntegrationTestWithJavascript
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
-      page.find('#inherited_parameters .btn[data-tag=override]').click
-      assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
+      id = '#override-param-test' # the global param fixture override button
+      assert page.has_selector?(id)
+      page.find(id).click
+      assert page.has_no_selector?(id)
       click_on_submit
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
-      assert page.has_no_selector?('#inherited_parameters .btn[data-tag=override]')
+      assert page.has_no_selector?(id)
       page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
-      assert page.has_selector?('#inherited_parameters .btn[data-tag=override]')
+      assert page.has_selector?(id)
     end
   end
 
@@ -230,6 +227,10 @@ class HostJSTest < IntegrationTestWithJavascript
       visit new_host_path
 
       fill_in 'host_name', :with => 'myhost1'
+      select2 'Organization 1', :from => 'host_organization_id'
+      wait_for_ajax
+      select2 'Location 1', :from => 'host_location_id'
+      wait_for_ajax
       select2 env.name, :from => 'host_environment_id'
       click_link 'Operating System'
       wait_for_ajax
@@ -266,6 +267,10 @@ class HostJSTest < IntegrationTestWithJavascript
       visit new_host_path
 
       fill_in 'host_name', :with => 'myhost1'
+      select2 'Organization 1', :from => 'host_organization_id'
+      wait_for_ajax
+      select2 'Location 1', :from => 'host_location_id'
+      wait_for_ajax
       select2 env1.name, :from => 'host_environment_id'
       wait_for_ajax
       select2 hg.name, :from => 'host_hostgroup_id'

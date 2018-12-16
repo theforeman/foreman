@@ -148,7 +148,7 @@ module TaxonomiesBaseTest
       # match to manually generated taxable_taxonomies
       assert_equal selected_ids[:environment_ids], [environments(:production).id]
       assert_equal selected_ids[:hostgroup_ids], [hostgroups(:common).id]
-      assert_equal selected_ids[:subnet_ids], [subnets(:one).id]
+      assert_equal selected_ids[:subnet_ids].sort, [subnets(:one).id, subnets(:five).id].sort
       assert_equal selected_ids[:domain_ids], [domains(:mydomain).id, domains(:yourdomain).id]
       assert_equal selected_ids[:medium_ids], [media(:one).id]
       assert_equal selected_ids[:user_ids], [users(:one).id, users(:scoped).id]
@@ -315,17 +315,17 @@ module TaxonomiesBaseTest
 
     test "multiple inheritance" do
       parent1 = taxonomies(:"#{taxonomy_name}1")
-      assert_equal [subnets(:one).id], parent1.selected_ids["subnet_ids"]
+      assert_equal [subnets(:one).id, subnets(:five).id].sort, parent1.selected_ids["subnet_ids"].sort
 
       # inherit from parent 1
       parent2 = taxonomy_class.create :name => "floor1", :parent_id => parent1.id
       assert TaxableTaxonomy.create(:taxonomy_id => parent2.id, :taxable_id => subnets(:two).id, :taxable_type => "Subnet")
-      assert_equal [subnets(:one).id, subnets(:two).id].sort, parent2.selected_or_inherited_ids["subnet_ids"].sort
+      assert_equal [subnets(:one).id, subnets(:five).id, subnets(:two).id].sort, parent2.selected_or_inherited_ids["subnet_ids"].sort
 
       # inherit from parent 2
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent2.id
       assert TaxableTaxonomy.create(:taxonomy_id => parent2.id, :taxable_id => subnets(:three).id, :taxable_type => "Subnet")
-      assert_equal [subnets(:one).id, subnets(:two).id, subnets(:three).id].sort, taxonomy.selected_or_inherited_ids["subnet_ids"].sort
+      assert_equal [subnets(:one).id, subnets(:five).id, subnets(:two).id, subnets(:three).id].sort, taxonomy.selected_or_inherited_ids["subnet_ids"].sort
     end
 
     test "parameter inheritence with no new parameters on child taxonomy" do

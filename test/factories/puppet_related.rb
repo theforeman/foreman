@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :environment do
     sequence(:name) {|n| "environment#{n}" }
-    organizations { [] }
-    locations { [] }
+    organizations { [Organization.find_by_name('Organization 1')] }
+    locations { [Location.find_by_name('Location 1')] }
   end
 
   factory :environment_class

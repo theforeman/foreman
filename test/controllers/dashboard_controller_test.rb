@@ -23,10 +23,12 @@ class DashboardControllerTest < ActionController::TestCase
 
   test '#destroy removes a widget from the user' do
     widget = FactoryBot.create(:widget, :user => users(:admin))
+    assert_includes users(:admin).widget_ids, widget.id
     delete :destroy, params: { :id => widget.id, :format => 'json' }, session: set_session_user
     assert_response :success
     assert_equal widget.id.to_s, @response.body
-    assert_empty users(:admin).widgets.reload
+    users(:admin).widgets.reload
+    refute_includes users(:admin).widget_ids, widget.id
   end
 
   test "#destroy returns forbidden for other user's widget" do

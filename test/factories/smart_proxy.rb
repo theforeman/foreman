@@ -2,8 +2,8 @@ FactoryBot.define do
   factory :smart_proxy do
     sequence(:name) {|n| "proxy#{n}" }
     sequence(:url) {|n| "https://somewhere#{n}.net:8443" }
-    organizations { [Organization.find_by_name('Organization 1')] } if SETTINGS[:organizations_enabled]
-    locations { [Location.find_by_name('Location 1')] } if SETTINGS[:locations_enabled]
+    organizations { [Organization.find_by_name('Organization 1')] }
+    locations { [Location.find_by_name('Location 1')] }
 
     before(:create, :build, :build_stubbed) do
       ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)

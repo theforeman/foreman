@@ -24,17 +24,11 @@ end
 class TaxonomixTest < ActiveSupport::TestCase
   def setup
     @dummy = TaxonomixDummy.new
-    Taxonomy.stubs(:enabled?).with(:location).returns(false)
-    Taxonomy.stubs(:enabled?).with(:organization).returns(true)
   end
 
   test "STI is properly supported" do
     TaxableTaxonomy.expects(:where).with({ :taxable_type => 'UntaxedDummy' }).returns(TaxableTaxonomy.all)
     InheritingTaxonomixDummy.inner_select(nil, :subtree_ids)
-  end
-
-  test "#add_current_taxonomy? returns false for disabled taxonomy" do
-    refute @dummy.add_current_taxonomy?(:location)
   end
 
   test "#add_current_taxonomy? returns false for unset current taxonomy" do

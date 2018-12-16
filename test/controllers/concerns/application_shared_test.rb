@@ -32,15 +32,11 @@ class ApplicationSharedTest < ActiveSupport::TestCase
     setup do
       @dummy = DummyController.new
       @dummy.params = {:organization_id => taxonomies(:organization1).id, :location_id => taxonomies(:location1).id}
-      @org_enabled, SETTINGS[:organizations_enabled] = SETTINGS[:organizations_enabled], true
-      @loc_enabled, SETTINGS[:locations_enabled] = SETTINGS[:locations_enabled], true
       Location.current = nil
       Organization.current = nil
     end
 
     teardown do
-      SETTINGS[:locations_enabled] = @loc_enabled
-      SETTINGS[:organizations_enabled] = @org_enabled
       users(:one).organizations = []
       users(:one).locations = []
       Location.current = nil

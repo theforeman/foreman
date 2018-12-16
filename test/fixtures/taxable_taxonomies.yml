@@ -149,6 +149,16 @@ subnet_one_loc:
   taxable: one
   taxable_type: "Subnet"
 
+subnet_five_org:
+  taxonomy: organization1
+  taxable: five
+  taxable_type: "Subnet"
+
+subnet_five_loc:
+  taxonomy: location1
+  taxable: five
+  taxable_type: "Subnet"
+
 compute_mycompute_org:
   taxonomy: organization1
   taxable: mycompute

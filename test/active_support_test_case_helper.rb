@@ -102,18 +102,6 @@ class ActiveSupport::TestCase
     result
   end
 
-  def disable_taxonomies
-    org_settings = SETTINGS[:organizations_enabled]
-    SETTINGS[:organizations_enabled] = false
-    loc_settings = SETTINGS[:locations_enabled]
-    SETTINGS[:locations_enabled] = false
-    result = yield
-  ensure
-    SETTINGS[:organizations_enabled] = org_settings
-    SETTINGS[:locations_enabled] = loc_settings
-    result
-  end
-
   def setup_users
     User.current = users :admin
     user = User.find_by_login("one")
