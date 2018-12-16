@@ -59,7 +59,7 @@ end %>
             <% buttons.push display_link_if_authorized(_("Edit"), hash_for_edit_filter_path(:id => filter, :role_id => @role).
                               merge(:auth_object => filter, :authorizer => authorizer)) %>
             <% buttons.push display_link_if_authorized(_("Disable overriding"), hash_for_disable_overriding_filter_path(:id => filter, :role_id => @role).
-                              merge(:auth_object => filter, :authorizer => authorizer), :method => :patch) if filter.override? && Taxonomy.enabled_taxonomies.any? %>
+                              merge(:auth_object => filter, :authorizer => authorizer), :method => :patch) if filter.override? %>
             <% buttons.push display_delete_if_authorized(hash_for_filter_path(:id => filter, :role_id => @role).
                                                            merge(:auth_object => filter, :authorizer => authorizer),
                                                            :data => { :confirm => (_("Delete filter?")) } ) %>

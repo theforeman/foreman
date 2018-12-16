@@ -1,2 +1,2 @@
 <div id='audit-list'></div>
-<%= mount_react_component('AuditsList','#audit-list', {audits: construct_additional_info(audits), isOrgEnabled: Taxonomy.organizations_enabled, isLocEnabled: Taxonomy.locations_enabled}.to_json) %>
+<%= mount_react_component('AuditsList','#audit-list', {audits: construct_additional_info(audits)}.to_json) %>

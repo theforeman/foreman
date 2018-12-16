@@ -6,7 +6,7 @@ class BelongsToHostTaxonomyValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     taxonomy = @options[:taxonomy]
-    return unless Taxonomy.enabled?(taxonomy) && record.host.present? && value.present?
+    return unless record.host.present? && value.present?
 
     host_taxonomy = record.host.public_send(taxonomy)
     attribute_taxonomies = value.public_send(taxonomy.to_s.pluralize.to_sym)

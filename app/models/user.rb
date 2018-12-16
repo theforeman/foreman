@@ -442,11 +442,9 @@ class User < ApplicationRecord
 
   def visible_environments
     authorized_scope = Environment.unscoped.authorized(:view_environments)
-    if Taxonomy.locations_enabled || Taxonomy.organizations_enabled
-      authorized_scope = authorized_scope.
-        joins(:taxable_taxonomies)
-        .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
-    end
+    authorized_scope = authorized_scope
+      .joins(:taxable_taxonomies)
+      .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
     result = authorized_scope.distinct.pluck(:name)
     if User.current.admin?
       # Admin users can also see Environments that do not have any organization or location, even when
@@ -500,9 +498,8 @@ class User < ApplicationRecord
     user = new(attrs)
     # Inherit taxonomies from authentication source on creation
     auth_source = AuthSource.find(attrs[:auth_source_id])
-    Taxonomy.enabled_taxonomies.each do |taxonomy|
-      user.public_send("#{taxonomy}=", auth_source.public_send(taxonomy))
-    end
+    user.locations = auth_source.locations
+    user.organizations = auth_source.organizations
 
     # If an invalid data returned from an authentication source for any attribute(s) then set its value as nil
     saved_attrs = {}

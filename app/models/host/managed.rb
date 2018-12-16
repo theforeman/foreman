@@ -205,7 +205,7 @@ class Host::Managed < Host::Base
   validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
   validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:organizations_enabled] }
   validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:locations_enabled] }
-  validate :compute_resource_in_taxonomy, :if => Proc.new { |host| Taxonomy.enabled_taxonomies.any? && host.managed? && host.compute_resource_id.present? }
+  validate :compute_resource_in_taxonomy, :if => Proc.new { |host| host.managed? && host.compute_resource_id.present? }
 
   if SETTINGS[:unattended]
     # define before orchestration is included so we can prepare object before VM is tried to be deleted
@@ -974,7 +974,7 @@ class Host::Managed < Host::Base
     association = self.class.reflect_on_association(association_name)
     raise ArgumentError, "Association #{association_name} not found" unless association
     associated_object_id = public_send(association.foreign_key)
-    if Taxonomy.enabled_taxonomies.present? && associated_object_id.present? &&
+    if associated_object_id.present? &&
       association.klass.with_taxonomy_scope(organization, location).find_by(id: associated_object_id).blank?
       errors.add(association.foreign_key, _("with id %{object_id} doesn't exist or is not assigned to proper organization and/or location") % { :object_id => associated_object_id })
       false

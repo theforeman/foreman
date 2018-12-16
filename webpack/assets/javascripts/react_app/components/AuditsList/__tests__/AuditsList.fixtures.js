@@ -15,8 +15,6 @@ export const actionsList = [
 ];
 
 export const TaxonomyProps = {
-  isOrgEnabled: true,
-  isLocEnabled: true,
   orgs: [
     {
       name: 'testOrg',
@@ -204,6 +202,4 @@ export const AuditsProps = {
       version: 2,
     },
   ],
-  isLocEnabled: false,
-  isOrgEnabled: true,
 };

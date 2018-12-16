@@ -78,7 +78,7 @@ module AuditExtensions
       def fully_taxable
         known_auditable_types.select do |model|
           [:location, :organization].map do |taxable|
-            Taxonomy.enabled?(taxable) && has_any_association_to?(taxable, model)
+            has_any_association_to?(taxable, model)
           end.all?
         end
       end
