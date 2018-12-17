@@ -122,7 +122,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       # this is partly buggy behavior based on fact user does not belong to location
       # but has view + assign locations permission, this test describe this behavior
       # which should change once org/loc selection is based on permissions entirely
-      assert page.has_content?("don't have access to specified locations or organizations")
+      assert page.has_content?("don't have access to specified organizations or locations")
     end
   end
 
@@ -361,7 +361,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       page.click_button 'Submit'
 
       # choosing only org that user does not belong to is forbidden
-      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified locations or organizations")
+      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
 
       # with org1 which user belongs to, submit passes but the organization selection is limited to user's list
       organization_selector = page.find('select#domain_organization_ids')
@@ -436,7 +436,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       page.click_button 'Submit'
 
       # choosing only org that user does not belong to is forbidden
-      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified locations or organizations")
+      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
 
       # with org1 which user belongs to, submit passes but the organization selection is limited to user's list
       organization_selector = page.find('select#domain_organization_ids')
@@ -445,7 +445,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       page.click_button 'Submit'
 
       # can't create in any context either
-      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified locations or organizations")
+      assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
     end
   end
 
