@@ -163,8 +163,4 @@ module TaxonomyHelper
     }
     labels[resource][verb]
   end
-
-  def org_loc_string(conjunction)
-    Taxonomy.enabled_taxonomies.map { |tax| _(tax) }.join(" #{conjunction} ")
-  end
 end
