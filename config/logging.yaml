@@ -90,8 +90,8 @@
     - message
     - mdc
     - ndc
-  :pattern: "%d [%.1l|%.3c|%.5X{request}] %m\n"
-  :sys_pattern: "[%.1l|%.3c|%.5X{request}] %m\n"
+  :pattern: "%d [%.1l|%.3c|%.8X{request}] %m\n"
+  :sys_pattern: "[%.1l|%.3c|%.8X{request}] %m\n"
   :facility: LOG_LOCAL6
 
 :production:
