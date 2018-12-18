@@ -11,9 +11,25 @@ var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
+var argvParse = require('argv-parse');
 var fs = require('fs');
 var os = require('os');
 var { execSync } = require('child_process');
+
+var args = argvParse({
+  https: {
+    type: 'boolean',
+  },
+  public: {
+    type: 'string',
+  },
+  port: {
+    type: 'string',
+  },
+  host: {
+    type: 'string',
+  }
+})
 
 const supportedLocales = () => {
   const localeDir = path.join(__dirname, '..', 'locale');
@@ -30,11 +46,24 @@ const supportedLanguages = () => {
   return [ ...new Set(supportedLocales().map(d => d.split('_')[0]))];
 }
 
+const removePort = host => host && host.replace(/:[0-9]*$/, "");
+
+const devServerConfig = () => {
+  const result = require('dotenv').config();
+  if (result.error && result.error.code !== 'ENOENT') {
+    throw result.error;
+  }
+
+  return {
+    port: args.port || '3808',
+    host: args.host || process.env.BIND || 'localhost',
+    publicHost: removePort(args.public) || args.host || os.hostname(),
+    protocol: args.https ? 'https' : 'http',
+  }
+}
+
 module.exports = env => {
-  // must match config.webpack.dev_server.port
-  const devServerPort = 3808;
-  const devServerBindHost = process.env.HOSTNAME || os.hostname();
-  const devServerProtocol = process.argv.includes('--https') ? 'https' : 'http';
+  const devServer = devServerConfig();
 
   // set TARGETNODE_ENV=production on the environment to add asset fingerprints
   var production =
@@ -77,9 +106,9 @@ module.exports = env => {
 
   var publicPath;
   if (production) {
-    publicPath = process.env.ASSET_PATH || '/webpack/';
+    publicPath = '/webpack/';
   } else {
-    publicPath = process.env.ASSET_PATH || `${devServerProtocol}://${devServerBindHost}:${devServerPort}/webpack/`;
+    publicPath = `${devServer.protocol}://${devServer.publicHost}:${devServer.port}/webpack/`;
   }
 
   const supportedLanguagesRE = new RegExp(`/(${supportedLanguages().join('|')})$`);
@@ -218,14 +247,10 @@ module.exports = env => {
     config.plugins.push(
       new webpack.HotModuleReplacementPlugin() // Enable HMR
     );
-    var result = require('dotenv').config();
-    if (result.error && result.error.code !== 'ENOENT') {
-      throw result.error;
-    }
 
     config.devServer = {
-      host: process.env.BIND || 'localhost',
-      port: devServerPort,
+      host: devServer.host,
+      port: devServer.port,
       headers: { 'Access-Control-Allow-Origin': '*' },
       hot: true
     };
