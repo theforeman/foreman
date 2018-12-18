@@ -25,15 +25,7 @@ module ProvisioningTemplatesHelper
     if template.locked?
       confirm = [
         _("You are about to unlock a locked template."),
-
-        if locations_only?
-          _("This is for every location that uses it.")
-        elsif organizations_only?
-          _("This is for every organization that uses it.")
-        elsif locations_and_organizations?
-          _("This is for every location and organization that uses it.")
-        end,
-
+        _("This is for every location and organization that uses it."),
         if template.vendor
           _("It is not recommended to unlock this template, as it is provided by %{vendor} and may be overwritten. Please consider cloning it instead.") %
             {:vendor => template.vendor}
@@ -86,19 +78,5 @@ following order:") + '</p>' + '<ul>' +
     '</ul>' +
     (_("The final entry, Operating System default, can be set by editing the %s page.") %
      (link_to _("Operating System"), operatingsystems_path))).html_safe)
-  end
-
-  private
-
-  def locations_only?
-    SETTINGS[:locations_enabled] && !SETTINGS[:organizations_enabled]
-  end
-
-  def organizations_only?
-    SETTINGS[:organizations_enabled] && !SETTINGS[:locations_enabled]
-  end
-
-  def locations_and_organizations?
-    SETTINGS[:locations_enabled] && SETTINGS[:organizations_enabled]
   end
 end
