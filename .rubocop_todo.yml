@@ -382,10 +382,6 @@ Style/ClassVars:
 Style/CommentAnnotation:
   Enabled: false
 
-# Offense count: 2
-Style/CommentedKeyword:
-  Enabled: false
-
 # Offense count: 33
 Style/DoubleNegation:
   Enabled: false
