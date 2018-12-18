@@ -6,13 +6,7 @@ module TemplatesHelper
   end
 
   def default_template_description
-    if locations_only?
-      _("Default templates are automatically added to new locations")
-    elsif organizations_only?
-      _("Default templates are automatically added to new organizations")
-    elsif locations_and_organizations?
-      _("Default templates are automatically added to new organizations and locations")
-    end
+    _("Default templates are automatically added to new organizations and locations")
   end
 
   def show_default?
