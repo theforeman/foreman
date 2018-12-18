@@ -8,7 +8,11 @@ User.as_anonymous_admin do
     taxonomy.without_auditing do
       tax_name = ENV.fetch("SEED_#{taxonomy.to_s.upcase}", "Default #{taxonomy}")
       tax = taxonomy.create!(name: tax_name)
-      associations = taxonomy.reflect_on_all_associations.reject {|assoc| skip_associations.include?(assoc.name)}
+      associations = taxonomy.reflect_on_all_associations.reject do |assoc|
+        skip_associations.include?(assoc.name) ||
+        assoc.is_a?(ActiveRecord::Reflection::HasOneReflection) ||
+            assoc.is_a?(ActiveRecord::Reflection::BelongsToReflection)
+      end
       associations.each do |association|
         tax.send("#{association.name}=", association.klass.all)
       end
