@@ -2,3 +2,11 @@
   display: inline-flex;
   max-width: 50%;
 }
+
+.breadcrumbs-pf-title li.breadcrumb-item-with-icon span {
+  vertical-align: middle;
+
+  img {
+    align-self: center;
+  }
+}
