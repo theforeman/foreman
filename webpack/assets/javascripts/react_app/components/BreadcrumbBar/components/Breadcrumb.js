@@ -46,6 +46,7 @@ const Breadcrumb = ({
             onClick={item.onClick}
             href={item.url}
             title={itemTitle}
+            className={icon && active && 'breadcrumb-item-with-icon'}
           >
             {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />}{' '}
             {inner}
