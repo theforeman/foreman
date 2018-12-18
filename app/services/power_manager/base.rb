@@ -26,7 +26,7 @@ module PowerManager
         end
         result = send(action_entry[:output], result) if action_entry[:output]
         result
-      end # end
+      end
     end
 
     def logger

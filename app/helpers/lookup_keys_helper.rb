@@ -28,7 +28,8 @@ module LookupKeysHelper
         puppetclasses = accessible_resource(f.object, :puppetclass)
         select_f(f, :puppetclass_id, puppetclasses, :id, :to_label, { :include_blank => true }, {:label => _("Puppet class")})
       end
-    end # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
+      # nested smart-vars form in a tab of puppetclass/_form: no edition allowed, and the puppetclass is already visible as a context
+    end
   end
 
   def param_type_selector(f, options = {})
