@@ -66,7 +66,7 @@ class Setting::Provisioning < Setting
       self.set('intermediate_ipxe_script', N_('Intermediate iPXE script for unattended installations'), 'iPXE intermediate script', N_('iPXE intermediate script'), nil, { :collection => Proc.new { Hash[ProvisioningTemplate.unscoped.of_kind(:iPXE).map { |tmpl| [tmpl.name, tmpl.name] }] } }),
       self.set(
         'destroy_vm_on_host_delete',
-        N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),
+        N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),
         true,
         N_("Destroy associated VM on host delete")
       ),
