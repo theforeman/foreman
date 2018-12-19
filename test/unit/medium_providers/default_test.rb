@@ -18,6 +18,30 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
     assert result_path, 'http://foo.org/4'
   end
 
+  [["Redhat", "http://mirror.centos.org/centos/6.0/os/x86_64"],
+   ["Ubuntu", "http://sg.archive.ubuntu.com/"],
+   ["OpenSuse", "http://download.opensuse.org/distribution/12.3/repo/oss"],
+   ["Solaris", "http://brsla01/vol/solgi_5.10/sol10_hw0910_sparc"]].each do |osname, expected_uri|
+    test "generates URI for #{osname}" do
+      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by_name(osname))
+      assert_equal expected_uri, MediumProviders::Default.new(host).medium_uri.to_s
+    end
+  end
+
+  [["Redhat", "http://mirror.centos.org/centos/6.0/os/x86_64/images/pxeboot"],
+   ["Ubuntu", "http://sg.archive.ubuntu.com/dists//main/installer-x86_64/current/images/netboot/ubuntu-installer/x86_64"],
+   ["OpenSuse", "http://download.opensuse.org/distribution/12.3/repo/oss/boot/x86_64/loader"],
+   ["Solaris", "http://brsla01/vol/solgi_5.10/sol10_hw0910_sparc/Solaris_10/Tools/Boot"]].each do |osname, expected_uri|
+    test "generates unique ID based on base and pxedir for #{osname}" do
+      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by_name(osname))
+      medium_uri_with_path = MediumProviders::Default.new(host).medium_uri(host.operatingsystem.pxedir).to_s
+      assert_equal expected_uri, medium_uri_with_path
+      digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri_with_path), padding: false)
+      expected_id = "#{host.medium.name.parameterize}-#{digest.gsub(/[-_]/, '')[1..12]}"
+      assert_equal expected_id, MediumProviders::Default.new(host).unique_id.to_s
+    end
+  end
+
   test 'returns additional_media from host params' do
     additional_media = [{'name' => 'EPEL', 'url' => 'http://yum.example.com/epel'}]
     host = FactoryBot.build_stubbed(:host, :managed, :redhat)
