@@ -365,9 +365,9 @@ module HostsHelper
   def delete_host_dialog(host)
     if host.compute?
       if Setting[:destroy_vm_on_host_delete]
-        _("Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed in global settings.") % host.name
+        _("Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\".") % host.name
       else
-        _("Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed in global settings.") % host.name
+        _("Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\".") % host.name
       end
     else
       _("Are you sure you want to delete host %s? This action is irreversible.") % host.name
