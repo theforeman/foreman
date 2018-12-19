@@ -1,5 +1,15 @@
 # Adding components
 
+ ## Component Generator
+We are using `generator-react-domain` to help you generate your component easily.
+```sh
+npm i -g yo generator-react-domain       # install the generator globally
+
+npm run create-react-component            # create a component.
+npm run create-react-component -- --redux # create a connected component
+```
+This generator will create all folders and files for you with prewritten templates.
+
 ## Where to put them
 
 Components are stored in `webpack/assets/javascripts/react_app/components/`. Each component should be placed in its own subfolder that respects the following structure:
