@@ -85,7 +85,7 @@ module.exports = env => {
     var outputPath = path.join(plugins['plugins'][env.pluginName]['root'], 'public', 'webpack');
     var jsFilename = production ? env.pluginName + '/[name]-[chunkhash].js' : env.pluginName + '/[name].js';
     var cssFilename = production ? env.pluginName + '/[name]-[chunkhash].css' : env.pluginName + '/[name].css';
-    var chunkFilename = production ? env.pluginName + '[name]-[chunkhash].js' : env.pluginName + '[name].js';
+    var chunkFilename = production ? env.pluginName + '/[name]-[chunkhash].js' : env.pluginName + '/[name].js';
     var manifestFilename = env.pluginName + '/manifest.json';
   } else {
     var pluginEntries = plugins['entries'];
