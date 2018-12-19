@@ -41,9 +41,11 @@ module MediumProviders
       parse_media(media) || []
     end
 
-    # Returns unique string representing current installation medium.
+    # Returns unique string representing current installation medium. PXE prefix path is passed as a parameter
+    # and it is important to take it into account when generating unique string as some operating systems (e.g.
+    # Debian/Ubuntu) has a constant base URL for all versions.
     def unique_id
-      @unique_id ||= Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri.to_s), padding: false)
+      raise "unique_id is not implemented for #{self.class.name}"
     end
 
     def valid?
