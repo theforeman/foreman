@@ -2,8 +2,16 @@ module FogExtensions
   module Google
     module Server
       extend ActiveSupport::Concern
+      extend Fog::Attributes::ClassMethods
 
       delegate :flavors, :to => :service
+
+      attribute :network
+      attribute :external_ip
+
+      def persisted?
+        creation_timestamp.present?
+      end
 
       def pretty_machine_type
         machine_type.split('/')[-1]

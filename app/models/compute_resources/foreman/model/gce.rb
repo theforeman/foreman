@@ -5,7 +5,7 @@ module Foreman::Model
     validate :check_google_key_path
     validates :key_path, :project, :email, :presence => true
 
-    delegate :flavors, :to => :client
+    delegate :machine_types, :to => :client
 
     def self.available?
       Fog::Compute.providers.include?(:google)
@@ -48,15 +48,15 @@ module Foreman::Model
     end
 
     def zones
-      client.list_zones.body['items'].map { |zone| zone['name'] }
+      client.list_zones.items.map(&:name)
     end
 
     def networks
-      client.list_networks.body['items'].map { |n| n['name'] }
+      client.list_networks.items.map(&:name)
     end
 
     def disks
-      client.list_disks(zone).body['items'].map { |disk| disk['name'] }
+      client.list_disks(zone).items.map(&:name)
     end
 
     def zone
@@ -81,8 +81,8 @@ module Foreman::Model
       args[:network_interfaces] = nil
 
       if args[:volumes].present?
-        if args[:image_id].present?
-          args[:volumes].first[:source_image] = client.images.find { |i| i.id == args[:image_id] }.name
+        if args[:image_id].to_i > 0
+          args[:volumes].first[:source_image] = client.images.find { |i| i.id == args[:image_id].to_i }.name
         end
         args[:disks] = []
         args[:volumes].each_with_index do |vol_args, i|
@@ -170,7 +170,10 @@ module Foreman::Model
     private
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => 'google', :google_project => project, :google_client_email => email, :google_key_location => key_path)
+      @client ||= ::Fog::Compute.new(:provider => 'google',
+                                     :google_project => project,
+                                     :google_client_email => email,
+                                     :google_json_key_location => key_path)
     end
 
     def check_google_key_path
