@@ -14,7 +14,7 @@ storiesOf('Components/Common', module)
   .addDecorator(withKnobs)
   .add('Dates', () => {
     const now = new Date();
-    const defaultValue = new Date('2018-11-12 00:54:55 -1100');
+    const defaultValue = new Date('2018-11-12T00:54:55-1100');
 
     const dateToShow = new Date(
       date('Date and time in your time zone', defaultValue)
@@ -28,7 +28,7 @@ storiesOf('Components/Common', module)
       'UTC',
       'Europe/Prague',
       'Europe/Kiev',
-      'Asia/Tel_Aviv',
+      'Asia/Jerusalem',
     ];
     const timezone = select(
       "User's time zone",
