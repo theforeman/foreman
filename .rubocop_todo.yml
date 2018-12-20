@@ -147,55 +147,6 @@ Lint/UriEscapeUnescape:
 Lint/Void:
   Enabled: false
 
-# Offense count: 625
-Metrics/AbcSize:
-  Max: 131
-
-# Offense count: 376
-# Configuration parameters: CountComments, ExcludedMethods.
-# ExcludedMethods: refine
-Metrics/BlockLength:
-  Max: 702
-
-# Offense count: 9
-# Configuration parameters: CountBlocks.
-Metrics/BlockNesting:
-  Max: 5
-
-# Offense count: 64
-# Configuration parameters: CountComments.
-Metrics/ClassLength:
-  Max: 755
-
-# Offense count: 162
-Metrics/CyclomaticComplexity:
-  Max: 24
-
-# Offense count: 11926
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 340
-
-# Offense count: 557
-# Configuration parameters: CountComments, ExcludedMethods.
-Metrics/MethodLength:
-  Max: 185
-
-# Offense count: 27
-# Configuration parameters: CountComments.
-Metrics/ModuleLength:
-  Max: 448
-
-# Offense count: 13
-# Configuration parameters: CountKeywordArgs.
-Metrics/ParameterLists:
-  Max: 7
-
-# Offense count: 128
-Metrics/PerceivedComplexity:
-  Max: 25
-
 # Offense count: 46
 Naming/AccessorMethodName:
   Enabled: false
