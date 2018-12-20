@@ -63,10 +63,10 @@
       <%= alert(:class => 'alert-info', :header => _('Template inputs'),
                 :text => ('<p>' + _("Inputs can be used to parametrize templates during rendering \
   based on template type, it allows to fetch the value from host facts, \
-  host parameterization or ask user interactively. To use value loaded loaded \
+  host parameterization or ask user interactively. To use value loaded \
   via input, use <code>input('name')</code> global macro. The template needs to be \
   saved before input macro can load the value. If the value is not available during
-  template preview, it's value is expanded to <code>$TYPE_INPUT[name]</code> string." + '</p>')
+  template preview, its value is expanded to <code>$TYPE_INPUT[name]</code> string." + '</p>')
                 ).html_safe) %>
 
       <div class="children_fields">
