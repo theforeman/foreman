@@ -365,6 +365,17 @@ Return the host's compute attributes that can be used to create a clone of this 
         end
       end
 
+      def parent_permission(child_permission)
+        case child_permission.to_s
+          when 'power', 'boot', 'console', 'vm_compute_attributes', 'get_status', 'template', 'enc', 'rebuild_config'
+            'view'
+          when 'disassociate'
+            'edit'
+          else
+            super
+        end
+      end
+
       # this is required for template generation (such as pxelinux) which is not done via a web request
       def forward_request_url
         @host.request_url = request.host_with_port if @host.respond_to?(:request_url)
