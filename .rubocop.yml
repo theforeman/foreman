@@ -37,9 +37,8 @@ Style/StringLiterals:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Metrics/ClassLength:
-  Exclude:
-    - 'test/**/*'
+Metrics:
+  Enabled: false
 
 Performance/Casecmp:
   Enabled: false
@@ -104,4 +103,8 @@ Style/ParallelAssignment:
   Enabled: false
 
 Style/PreferredHashMethods:
+  Enabled: false
+
+# Won't work with sqlite
+Rails/BulkChangeTable:
   Enabled: false
