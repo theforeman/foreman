@@ -962,7 +962,7 @@ class HostTest < ActiveSupport::TestCase
     host.provision_method = 'image'
     host.stubs(:capabilities).returns([:build])
     host.valid?
-    assert host.errors[:provision_method].include?('is an unsupported provisioning method')
+    assert_match(/unsupported provisioning method/, host.errors[:provision_method].to_sentence)
   end
 
   test "#provision_method can be updated to implicit value" do
@@ -2251,6 +2251,1521 @@ class HostTest < ActiveSupport::TestCase
                       :host => host)
     res = host.send(:find_by_attached_mac, host.interfaces, host.interfaces.where(:mac => mac), 'ens1', { :tag => '102' })
     assert_equal 'ens1.102', res.first.identifier
+  end
+
+  test "should save if root password is undefined when the host is managed and in build mode" do
+    Setting[:root_pass] = ''
+    host = Host.new :name => "myfullhost", :managed => true, :build => false
+    host.valid?
+    refute host.errors[:root_pass].present?
+  end
+
+  test "should save if root password is undefined when the compute resource is image capable and in build mode" do
+    host = Host.new :name => "myfullhost", :managed => true, :build => true, :compute_resource_id => compute_resources(:openstack).id
+    host.valid?
+    refute host.errors[:root_pass].any?
+  end
+
+  test "should not save if root password is undefined when the host is managed and in build mode" do
+    Setting[:root_pass] = ''
+    host = Host.new :name => "myfullhost", :managed => true, :build => true
+    refute host.valid?
+    assert host.errors[:root_pass].present?
+  end
+
+  test "should not save if neither ptable or disk are defined when the host is managed" do
+    if unattended?
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :medium => media(:one),
+        :architecture => Architecture.first, :environment => Environment.first, :managed => true
+      refute_valid host
+    end
+  end
+
+  test "should save if neither ptable or disk are defined when the host is not managed" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3", :medium => media(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+    assert host.valid?
+  end
+
+  test "should save if ptable is defined" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+      :subnet => subnets(:two), :architecture => architectures(:x86_64), :environment => environments(:production), :ptable => Ptable.first
+    assert !host.new_record?
+  end
+
+  test "should save if disk is defined" do
+    host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :medium => media(:one),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa", :puppet_proxy => smart_proxies(:puppetmaster)
+    assert !host.new_record?
+  end
+
+  test "should not save if IP is not in the right subnet" do
+    if unattended?
+      host = Host.create :name => "myfullhost", :mac => "aabbecddeeff", :ip => "123.5.2.3", :ptable => FactoryBot.create(:ptable),
+        :domain => domains(:mydomain), :operatingsystem => Operatingsystem.first, :subnet => subnets(:two), :managed => true, :medium => media(:one),
+        :architecture => Architecture.first, :environment => Environment.first, :puppet_proxy => smart_proxies(:puppetmaster),
+        :ip6 => "2001:db8::1", :subnet6 => subnets(:six)
+      refute host.valid?, "Host should be invalid: #{host.errors.messages}"
+      assert_includes host.errors.messages.keys, :"interfaces.ip"
+      assert_includes host.errors.messages.keys, :"interfaces.ip6"
+    end
+  end
+
+  test "should not save if installation media is missing" do
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :ptable => FactoryBot.create(:ptable),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => true, :build => true,
+      :owner_type => "User", :root_pass => "xybxa6JUkz63w"
+    refute host.valid?
+    assert_equal "can't be blank", host.errors[:medium_id][0]
+  end
+
+  test "should save if owner_type is empty and Host is unmanaged" do
+    host = Host.new :name => "myfullhost", :mac => "aabbecddeeff", :ip => "3.3.4.03", :medium => media(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two), :puppet_proxy => smart_proxies(:puppetmaster),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :managed => false
+    assert host.valid?
+  end
+
+  test "should import from external nodes output" do
+    Setting[:Parametrized_Classes_in_ENC] = true
+    Setting[:Enable_Smart_Variables_in_ENC] = true
+    # create a dummy node
+    Parameter.destroy_all
+    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
+      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
+      :puppet_proxy => smart_proxies(:puppetmaster)
+
+    # dummy external node info
+    nodeinfo = {"environment" => "production",
+                "parameters" => {"puppetmaster" => "puppet", "MYVAR" => "value", "port" => "80",
+                                "ssl_port" => "443", "foreman_env" => "production", "owner_name" => "Admin User",
+                                "root_pw" => "xybxa6JUkz63w", "owner_email" => "admin@someware.com",
+                                "foreman_subnets" =>
+    [{"network" => "3.3.4.0",
+      "name" => "two",
+      "gateway" => nil,
+      "mask" => "255.255.255.0",
+      "dns_primary" => nil,
+      "dns_secondary" => nil,
+      "from" => nil,
+      "to" => nil,
+      "boot_mode" => "DHCP",
+      "vlanid" => "41",
+      "ipam" => "DHCP"}],
+      "foreman_interfaces" =>
+    [{"mac" => "aa:bb:ac:dd:ee:ff",
+      "ip" => "3.3.4.12",
+      "type" => "Interface",
+      "name" => 'myfullhost.mydomain.net',
+      "attrs" => {},
+      "virtual" => false,
+      "link" => true,
+      "identifier" => nil,
+      "managed" => true,
+      "primary" => true,
+      "provision" => true,
+      "subnet" => {"network" => "3.3.4.0",
+                  "mask" => "255.255.255.0",
+                  "name" => "two",
+                  "gateway" => nil,
+                  "dns_primary" => nil,
+                  "dns_secondary" => nil,
+                  "from" => nil,
+                  "to" => nil,
+                  "boot_mode" => "DHCP",
+                  "vlanid" => "41",
+                  "ipam" => "DHCP"}}]},
+                  "classes" => {"apache" => {"custom_class_param" => "abcdef"}, "base" => {"cluster" => "secret"}} }
+
+    host.importNode nodeinfo
+    nodeinfo["parameters"]["special_info"] = "secret" # smart variable on apache
+
+    info = host.info
+    assert_includes info.keys, 'environment'
+    assert_equal 'production', host.environment.name
+    assert_includes info.keys, 'parameters'
+    assert_includes info.keys, 'classes'
+    assert_equal({ 'apache' => { 'custom_class_param' => 'abcdef' }, 'base' => { 'cluster' => 'secret' } }, info['classes'])
+    parameters = info['parameters']
+    assert_equal 'puppet', parameters['puppetmaster']
+    assert_equal 'xybxa6JUkz63w', parameters['root_pw']
+    assert_includes parameters.keys, 'foreman_subnets'
+    assert_includes parameters.keys, 'foreman_interfaces'
+    assert_equal '3.3.4.12', parameters['foreman_interfaces'].first['ip']
+  end
+
+  test "should import from non-parameterized external nodes output" do
+    host = FactoryBot.create(:host, :environment => environments(:production))
+    host.importNode("environment" => "production", "classes" => ["apache", "base"], "parameters" => {})
+
+    Setting[:Parametrized_Classes_in_ENC] = true
+    Setting[:Enable_Smart_Variables_in_ENC] = true
+    assert_equal ['apache', 'base'], host.info['classes'].keys
+  end
+
+  test "show be enabled by default" do
+    host = Host.create :name => "myhost", :mac => "aabbccddeeff"
+    assert host.enabled?
+  end
+
+  test "host can be disabled" do
+    host = Host.create :name => "myhost", :mac => "aabbccddeeff"
+    host.enabled = false
+    host.save
+    assert host.disabled?
+  end
+
+  test "a fqdn Host should be assigned to a domain if such domain exists" do
+    domain = domains(:mydomain)
+    host = Host.create :name => "host.mydomain.net", :mac => "aabbccddeaff", :ip => "2.3.04.03",
+      :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:one), :medium => media(:one),
+      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa"
+    host.valid?
+    assert_equal domain, host.domain
+  end
+
+  test "custom_disk_partition_with_erb" do
+    operatingsystem = operatingsystems(:redhat)
+    arch = FactoryBot.build(:architecture)
+    medium = FactoryBot.build(:medium)
+    operatingsystem.architectures << arch
+    operatingsystem.media << medium
+    host = FactoryBot.build(
+      :host,
+      :operatingsystem => operatingsystem,
+      :architecture => arch,
+      :medium => medium
+    )
+    host.disk = "<%= template_name %> - <%= @osver %>"
+    assert host.save
+    assert host.disk.present?
+    assert_equal "Custom disk layout - #{operatingsystem.major}", host.diskLayout
+  end
+
+  test "custom_disk_partition_with_ptable" do
+    h = FactoryBot.create(:host, :managed)
+    h.disk = ''
+    h.ptable.stubs(:name).returns("some_name")
+    h.ptable.stubs(:layout).returns("<%= template_name %>")
+    assert h.save
+    assert_equal "some_name", h.diskLayout
+  end
+
+  test "models are updated when host.model has no value" do
+    h = FactoryBot.create(:host)
+    FactoryBot.create(:fact_value, :value => 'superbox', :host => h,
+                       :fact_name => FactoryBot.create(:fact_name, :name => 'kernelversion'))
+    assert_difference('Model.count') do
+      facts = read_json_fixture('facts/facts.json')
+      h.populate_fields_from_facts(
+        mock_parser(facts['facts']),
+        'puppet',
+        nil)
+    end
+  end
+
+  test "hostgroup should set default values for new host" do
+    hg = hostgroups(:common)
+    h  = Host.new
+
+    h.architecture = architectures(:sparc)
+
+    h.hostgroup = hg
+    h.set_hostgroup_defaults
+
+    assert_equal hg.operatingsystem, h.operatingsystem
+    assert_equal architectures(:sparc), h.architecture
+    # overwrite host attrs with values from hostgroup
+    h.set_hostgroup_defaults true
+    assert_equal hg.operatingsystem, h.operatingsystem
+    assert_equal hg.architecture, h.architecture
+  end
+
+  test "host os attributes must be associated with the host os" do
+    h = FactoryBot.create(:host, :managed)
+    h.architecture = architectures(:sparc)
+    assert !h.os.architectures.include?(h.arch)
+    assert !h.valid?
+    assert_equal ["#{h.architecture} does not belong to #{h.os} operating system"], h.errors[:architecture_id]
+  end
+
+  test "host puppet classes must belong to the host environment" do
+    h = FactoryBot.create(:host, :with_environment)
+
+    pc = puppetclasses(:three)
+    h.puppetclasses << pc
+    assert !h.environment.puppetclasses.map(&:id).include?(pc.id)
+    assert !h.valid?
+    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
+  end
+
+  test "when changing host environment, its puppet classes should be verified" do
+    h = FactoryBot.create(:host, :environment => environments(:production))
+    pc = puppetclasses(:one)
+    h.puppetclasses << pc
+    assert h.save
+    h.environment = environments(:testing)
+    assert !h.save
+    assert_equal ["#{pc} does not belong to the #{h.environment} environment"], h.errors[:puppetclasses]
+  end
+
+  test "when setting host environment to nil, its puppet classes should be removed" do
+    h = FactoryBot.create(:host, :environment => environments(:production))
+    pc = puppetclasses(:one)
+    h.puppetclasses << pc
+    assert h.save
+    h.environment = nil
+    h.save!
+    assert_empty h.puppetclasses
+  end
+
+  test "when setting host environment to nil, its config groups should be removed" do
+    h = FactoryBot.create(:host, :environment => environments(:production))
+    pc = config_groups(:one)
+    h.config_groups << pc
+    assert h.save
+    h.environment = nil
+    h.save!
+    assert_empty h.config_groups
+  end
+
+  test "when saving a host, do not require a puppet environment" do
+    h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => nil)
+    h.environment = nil
+    assert h.valid?
+  end
+
+  test "when saving a host, require puppet environment if puppet master is set" do
+    h = FactoryBot.build_stubbed(:host, :environment => environments(:production), :puppet_proxy => smart_proxies(:puppetmaster))
+    h.environment = nil
+    refute h.valid?
+  end
+
+  test "should not allow short root passwords for managed host in build mode" do
+    h = FactoryBot.create(:host, :managed)
+    h.build = true
+    h.root_pass = "2short"
+    h.valid?
+    assert h.errors[:root_pass].include?("should be 8 characters or more")
+  end
+
+  test "should allow build mode for managed hosts" do
+    h = FactoryBot.build(:host, :managed)
+    assert h.valid?
+    h.build = true
+    assert h.valid?
+  end
+
+  test "should not allow build mode for unmanaged hosts" do
+    h = FactoryBot.build_stubbed(:host)
+    assert h.valid?
+    h.build = true
+    refute h.valid?
+    assert h.errors[:build].include?("cannot be enabled for an unmanaged host")
+  end
+
+  test "should allow to save root pw" do
+    h = FactoryBot.create(:host, :managed)
+    pw = h.root_pass
+    h.root_pass = "12345678"
+    h.hostgroup = nil
+    assert h.save!
+    assert_not_equal pw, h.root_pass
+  end
+
+  test "should allow to revert to default root pw" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = FactoryBot.create(:host, :managed)
+    h.root_pass = "xybxa6JUkz63w"
+    assert h.save
+    h.root_pass = nil
+    assert h.save!
+    assert_equal h.root_pass, Setting[:root_pass]
+  end
+
+  test "should crypt the password and update it in the database" do
+    unencrypted_password = "xybxa6JUkz63w"
+    host = FactoryBot.create(:host, :managed)
+    host.hostgroup = nil
+    host.root_pass = unencrypted_password
+    assert host.save!
+    first_password = host.root_pass
+
+    # Make sure that the password gets encrypted in the DB, we don't care how it does that
+    refute first_password.include?(unencrypted_password)
+
+    # Check it changes
+    host.root_pass = "12345678"
+    assert host.save
+    assert_not_equal first_password, host.root_pass
+    # Encrypted passwords should have UTF-8 encoding
+    assert_equal Encoding::UTF_8, host.root_pass.encoding
+  end
+
+  test "should pass through existing salt when saving root pw" do
+    h = FactoryBot.create(:host, :managed)
+    pass = "$1$jmUiJ3NW$bT6CdeWZ3a6gIOio5qW0f1"
+    h.root_pass = pass
+    h.hostgroup = nil
+    assert h.save
+    assert_equal pass, h.root_pass
+  end
+
+  test "should base64-encode the root password and update it in the database" do
+    unencrypted_password = "xybxa6JUkz63w"
+    host = FactoryBot.create(:host, :managed)
+    host.hostgroup = nil
+    host.operatingsystem.password_hash = 'Base64'
+    host.root_pass = unencrypted_password
+    assert host.save!
+    assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
+    # Encrypted passwords should have UTF-8 encoding
+    assert_equal Encoding::UTF_8, host.root_pass.encoding
+  end
+
+  test "should not reencode base64 passwords" do
+    unencrypted_password = "xybxa6JUkz63w"
+    host = FactoryBot.create(:host, :managed)
+    host.hostgroup = nil
+    host.operatingsystem.password_hash = 'Base64'
+    host.operatingsystem.save
+    host.root_pass = unencrypted_password
+    assert host.save!
+    host.reload
+    host.name = "whatever"
+    assert host.save!
+    assert_equal 'eHlieGE2SlVrejYzdw==', host.root_pass
+    # then let's check that we can change root pass
+    host.root_pass = "oh my pass"
+    assert host.save!
+    refute_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
+  end
+
+  test "should use hostgroup base64 root password without reencoding" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    hg = FactoryBot.create(:hostgroup, :with_os, :with_domain)
+    hg.operatingsystem.update_attribute(:password_hash, 'Base64')
+    hg.root_pass = "abcdefghi"
+    hg.save!
+    assert_equal "YWJjZGVmZ2hp", hg.root_pass
+
+    h = FactoryBot.create(:host, :managed, :hostgroup => hg, :operatingsystem => nil)
+    h.root_pass = nil
+    h.save!
+    assert h.root_pass.present?
+    assert_equal h.hostgroup.root_pass, h.root_pass
+    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host unmodified'
+  end
+
+  test "should use hostgroup root password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = FactoryBot.create(:host, :managed, :with_hostgroup)
+    h.hostgroup.update_attribute(:root_pass, "abc")
+    h.root_pass = nil
+    assert h.save
+    assert h.root_pass.present?
+    assert_equal h.hostgroup.root_pass, h.root_pass
+    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
+  end
+
+  test "should use a nested hostgroup parent root password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = FactoryBot.create(:host, :managed, :with_hostgroup)
+    g = h.hostgroup
+    p = FactoryBot.create(:hostgroup, :environment => h.environment)
+    p.update_attribute(:root_pass, "abc")
+    h.root_pass = nil
+    g.root_pass = nil
+    g.parent = p
+    g.save
+    assert h.save
+    assert h.root_pass.present?
+    assert_equal p.root_pass, h.root_pass
+    assert_equal p.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host'
+  end
+
+  test "should use settings root password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    h = FactoryBot.create(:host, :managed)
+    h.root_pass = nil
+    assert h.save
+    assert h.root_pass.present?
+    assert_equal Setting[:root_pass], h.root_pass
+    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+  end
+
+  test "should use settings root password when hostgroup has empty root password" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    g = FactoryBot.create(:hostgroup, :with_domain, :with_os, :root_pass => "")
+    h = FactoryBot.create(:host, :managed, :hostgroup => g)
+    h.root_pass = ""
+    h.save
+    assert_valid h
+    assert h.root_pass.present?
+    assert_equal Setting[:root_pass], h.root_pass
+    assert_equal Setting[:root_pass], h.read_attribute(:root_pass), 'should copy root_pass to host'
+  end
+
+  test "should validate pxe loader when provided" do
+    host = Host.create :name => "myhostpxe", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true, :pxe_loader => "PXELinux BIOS", :location => taxonomies(:location1), :organization => taxonomies(:organization1)
+    assert_equal "x86_64", host.architecture.name
+    assert_equal "PXELinux BIOS", host.pxe_loader
+    assert_empty host.errors.messages
+    assert host.valid?
+  end
+
+  test "should save uuid on managed hosts" do
+    Setting[:use_uuid_for_certificates] = true
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => true, :location => taxonomies(:location1), :organization => taxonomies(:organization1)
+    assert host.valid?, host.errors.full_messages.to_sentence
+    assert !host.new_record?
+    assert_not_nil host.certname
+    assert_not_equal host.name, host.certname
+  end
+
+  test "should not save uuid on non managed hosts" do
+    Setting[:use_uuid_for_certificates] = true
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal host.name, host.certname
+  end
+
+  test "should not save uuid when settings disable it" do
+    Setting[:use_uuid_for_certificates] = false
+    host = Host.create :name => "myhost1", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal host.name, host.certname
+  end
+
+  test "all whitespace should be removed from hostname" do
+    host = Host.create :name => "my host 1  ", :mac => "aabbecddeeff", :ip => "2.3.4.3", :hostgroup => hostgroups(:common), :managed => false
+    assert host.valid?
+    assert !host.new_record?
+    assert_equal "myhost1.mydomain.net", host.name
+  end
+
+  test "should have only one provision interface" do
+    organization = FactoryBot.create(:organization)
+    location = FactoryBot.create(:location)
+    subnet = FactoryBot.create(:subnet_ipv4, :organizations => [organization], :locations => [location])
+    host = FactoryBot.create(:host, :managed, :organization => organization,
+                              :location => location, :subnet => subnet,
+                              :ip => subnet.network.succ)
+    host.interfaces_attributes = [
+      { :name => "dummy-bootable2", :ip => "2.3.4.103",
+        :mac => "aa:bb:cd:cd:ee:ff", :subnet_id => host.subnet_id,
+        :type => 'Nic::Managed', :domain_id => host.domain_id,
+        :provision => true }
+    ]
+    refute host.valid?
+    assert_equal ['host already has provision interface'], host.errors['interfaces.provision']
+    assert_equal 1, host.interfaces.count
+  end
+
+  test "#set_interfaces handles no interfaces" do
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    parser = stub(:class_name_humanized => 'TestParser', :ipmi_interface => {}, :interfaces => {}, :suggested_primary_interface => [nil, nil])
+    host.set_interfaces(parser)
+    assert host.primary_interface
+    assert_empty host.primary_interface.mac
+  end
+
+  test "#set_interfaces updates primary physical interface" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :identifier => 'eth1'})
+    host.update_attribute :mac, '00:00:00:11:22:33'
+    host.update_attribute :ip, '10.0.0.100'
+    host.update_attribute :ip6, '2001:db8::1'
+    host.primary_interface.update_attribute :identifier, 'eth0'
+    refute_nil host.primary_interface
+    assert_equal '10.0.0.100', host.ip
+    assert_equal '2001:db8::1', host.ip6
+
+    # physical NICs with same MAC are skipped
+    assert_no_difference 'Nic::Base.count' do
+      host.set_interfaces(parser)
+    end
+    assert_equal '10.0.0.200', host.ip
+    assert_equal '2001:db8::2', host.ip6
+    assert_equal 'eth1', host.primary_interface.identifier
+  end
+
+  test "#set_interfaces updates existing physical interface" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :link => false})
+    FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :ip6 => '2001:db8::1', :link => true)
+    assert_no_difference 'Nic::Base.count' do
+      host.set_interfaces(parser)
+    end
+    assert_equal '10.0.0.200', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip
+    assert_equal '2001:db8::2', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip6
+    refute host.interfaces.where(:mac => '00:00:00:11:22:33').first.link
+  end
+
+  test "#set_interfaces does not save when no changes made" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.0.0.1', :ipaddress6 => '2001:db8::1', :link => true})
+    host.primary_interface.update_attribute :mac, '00:00:00:11:22:33'
+    host.primary_interface.update_attribute :ip, '10.0.0.1'
+    host.primary_interface.update_attribute :ip6, '2001:db8::1'
+    host.primary_interface.update_attribute :identifier, 'eth0'
+    Nic::Base.any_instance.expects(:save).never
+    assert_no_difference 'Nic::Base.count' do
+      host.set_interfaces(parser)
+    end
+  end
+
+  test "#set_interfaces updates existing physical interface by identifier" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:22:33:44', :identifier => 'eth0', :virtual => false, :ipaddress => '10.0.0.200', :ipaddress6 => '2001:db8::2', :link => false})
+    host.managed = false
+    host.primary_interface.update(:identifier => 'eth0', :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :ip6 => '2001:db8::1', :link => true)
+    assert_no_difference 'Nic::Base.count' do
+      host.set_interfaces(parser)
+    end
+
+    assert_equal '10.0.0.200', host.interfaces.where(:mac => '00:00:00:22:33:44').first.ip
+    assert_equal '2001:db8::2', host.interfaces.where(:mac => '00:00:00:22:33:44').first.ip6
+    assert_empty host.interfaces.where(:mac => '00:00:00:11:22:33')
+    refute host.interfaces.where(:mac => '00:00:00:22:33:44').first.link
+  end
+
+  test "#set_interfaces updates existing physical interface by MAC address" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.10.0.1', :ipaddress6 => '2001:db8::1'})
+
+    # primary already existed so it's updated
+    assert_no_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+    assert_equal '10.10.0.1', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip
+    assert_equal '2001:db8::1', host.interfaces.where(:mac => '00:00:00:11:22:33').first.ip6
+  end
+
+  test "#set_interfaces creates new physical interface if none exists" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:34', :virtual => false, :ipaddress => '10.10.0.1', :ipaddress6 => '2001:db8::1'})
+    host.managed = true
+
+    assert_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+    assert_equal '10.10.0.1', host.interfaces.where(:mac => '00:00:00:11:22:34').first.ip
+    assert_equal '2001:db8::1', host.interfaces.where(:mac => '00:00:00:11:22:34').first.ip6
+  end
+
+  test "#set_interfaces creates new interface with link up if no link fact specified" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => false, :ipaddress => '10.10.0.1'})
+    host.set_interfaces(parser)
+    assert host.interfaces.where(:mac => '00:00:00:11:22:33').first.link
+  end
+
+  test "#set_interfaces creates new interface even if primary interface has same MAC" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :attached_to => 'eth0', :identifier => 'eth0_0'})
+    host.update_attribute :mac, '00:00:00:11:22:33'
+    host.update_attribute :ip, '10.0.0.100'
+
+    assert_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+    assert_equal '10.0.0.100', host.ip
+  end
+
+  test "#set_interfaces creates new interface even if another virtual interface has same MAC but another identifier" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.2', :identifier => 'eth0_1', :attached_to => 'eth0'})
+    host.update_attribute :mac, '00:00:00:11:22:44'
+    FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :virtual => true, :identifier => 'eth0_0', :attached_to => 'eth0', :name => 'second')
+
+    assert_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+  end
+
+  test "#set_interfaces updates existing virtual interface only if it has same MAC and identifier" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :virtual => true, :ipaddress => '10.10.0.1', :attached_to => 'eth0', :identifier => 'eth0_0'})
+    host.primary_interface.update_attribute :identifier, 'eth0'
+    FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.200', :virtual => true, :attached_to => 'eth0', :identifier => 'eth0_0')
+
+    assert_no_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+    assert_equal '10.10.0.1', host.interfaces.where(:identifier => 'eth0_0').first.ip
+  end
+
+  test "#set_interfaces creates IPMI device if parameters are found" do
+    host, parser = setup_host_with_ipmi_parser({:ipaddress => '192.168.0.1', :macaddress => '00:00:00:11:33:55'})
+
+    assert_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+    bmc = host.interfaces.where(:type => 'Nic::BMC').first
+    assert_equal '192.168.0.1', bmc.ip
+    assert_equal '00:00:00:11:33:55', bmc.mac
+  end
+
+  test "#set_interfaces updates IPMI device if parameters are found and there's existing IPMI with same MAC" do
+    host, parser = setup_host_with_ipmi_parser({:ipaddress => '192.168.0.1', :macaddress => '00:00:00:11:33:55'})
+    FactoryBot.create(:nic_bmc, :host => host, :mac => '00:00:00:11:33:55', :ip => '10.10.0.200', :virtual => false)
+
+    assert_no_difference 'host.interfaces.tap { |i| i.reload }.count' do
+      host.set_interfaces(parser)
+    end
+    bmcs = host.interfaces.where(:type => 'Nic::BMC')
+    assert_equal 1, bmcs.count
+    assert_equal '192.168.0.1', bmcs.first.ip
+  end
+
+  test "#set_interfaces updates associated virtuals identifier on identifier change" do
+    # eth4 was renamed to eth5 (same MAC)
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'})
+    FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
+    virtual = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth4.1', :attached_to => 'eth4')
+
+    host.set_interfaces(parser)
+    virtual.reload
+    assert_equal 'eth5.1', virtual.identifier
+    assert_equal 'eth5', virtual.attached_to
+  end
+
+  test "#set_interfaces does not update unassociated virtuals identifier on identifier change if original identifier was blank" do
+    # interface with empty identifier was renamed to eth5 (same MAC)
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup), :mac => '00:00:00:11:22:33')
+    host.primary_interface.update_attribute :identifier, ''
+    hash = { :bond0 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => true},
+             :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+    bond0 = FactoryBot.create(:nic_bond, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'bond0', :attached_to => '')
+
+    host.set_interfaces(parser)
+    bond0.reload
+    assert_equal 'bond0', bond0.identifier
+    assert_equal '', bond0.attached_to
+  end
+
+  test "set_interfaces updates associated virtuals identifier even on primary interface" do
+    host, parser = setup_host_with_nic_parser({:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth1'})
+    host.primary_interface.update_attribute :identifier, 'eth0'
+    host.primary_interface.update_attribute :mac, '00:00:00:11:22:33'
+    virtual = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'eth0.1', :attached_to => 'eth0')
+
+    host.set_interfaces(parser)
+    virtual.reload
+    assert_equal 'eth1.1', virtual.identifier
+    assert_equal 'eth1', virtual.attached_to
+  end
+
+  test "#set_interfaces matches bonds based on identifier and even updates its mac" do
+    # interface with empty identifier was renamed to eth5 (same MAC)
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup), :mac => '00:00:00:11:22:33')
+    hash = { :bond0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
+             :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+    bond0 = FactoryBot.create(:nic_bond, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'bond0')
+
+    host.set_interfaces(parser)
+    host.interfaces.reload
+    assert_equal 1, host.interfaces.bonds.size
+    bond0.reload
+    assert_equal 'aa:bb:cc:44:55:66', bond0.mac
+    assert_equal '10.10.0.3', bond0.ip
+  end
+
+  test "#set_interfaces matches bridges based on identifier and even updates its mac" do
+    # interface with empty identifier was renamed to eth5 (same MAC)
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup), :mac => '00:00:00:11:22:33')
+    hash = { :br0 => {:macaddress => 'aa:bb:cc:44:55:66', :ipaddress => '10.10.0.3', :virtual => true},
+             :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false, :identifier => 'eth5'}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+    br0 = FactoryBot.create(:nic_bridge, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'br0')
+
+    host.set_interfaces(parser)
+    host.interfaces.reload
+    assert_equal 1, host.interfaces.bridges.size
+    br0.reload
+    assert_equal 'aa:bb:cc:44:55:66', br0.mac
+    assert_equal '10.10.0.3', br0.ip
+  end
+
+  test "#set_interfaces updates associated virtuals identifier on identifier change mutualy exclusively" do
+    # eth4 was renamed to eth5 and eth5 renamed to eth4
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    hash = { :eth5 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
+             :eth4 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+    physical4 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'eth4')
+    physical5 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :ip => '10.10.0.2', :identifier => 'eth5')
+    virtual4 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.10', :identifier => 'eth4.1', :attached_to => 'eth4')
+    virtual5 = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:44:55:66', :virtual => true, :ip => '10.10.0.20', :identifier => 'eth5.1', :attached_to => 'eth5')
+
+    host.set_interfaces(parser)
+    physical4.reload
+    physical5.reload
+    virtual4.reload
+    virtual5.reload
+    assert_equal 'eth5', physical4.identifier
+    assert_equal 'eth4', physical5.identifier
+    assert_equal 'eth5.1', virtual4.identifier
+    assert_equal 'eth4.1', virtual5.identifier
+    assert_equal 'eth5', virtual4.attached_to
+    assert_equal 'eth4', virtual5.attached_to
+  end
+
+  test "#set_interfaces updates virtuals with :attached_to defined" do
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :ip => '10.10.0.1', :identifier => 'em1')
+    virtual = FactoryBot.create(:nic_managed, :host => host, :mac => '00:00:00:11:22:33', :virtual => true, :ip => '10.10.0.2', :identifier => 'bond0', :attached_to => 'em1')
+    hash = { :em1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
+             :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.42', :virtual => true, :attached_to => nil}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+    host.set_interfaces(parser)
+    virtual.reload
+    assert_equal 'em1', virtual.attached_to
+    assert_equal '10.10.0.42', virtual.ip
+  end
+
+  test "#set_interfaces does not allow two physical devices with same IP, it ignores the second" do
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    hash = { :eth0 => {:macaddress => '00:00:00:55:66:77', :ipaddress => '10.10.0.1', :virtual => false },
+             :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false },
+             :eth2 => {:macaddress => '00:00:00:44:55:66', :ipaddress => '10.10.0.2', :virtual => false }
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+
+    host.set_interfaces(parser)
+    host.reload
+    assert_includes host.interfaces.map(&:identifier), 'eth2'
+    assert_includes host.interfaces, host.primary_interface
+    refute_includes host.interfaces.map(&:identifier), 'eth1'
+    assert_equal 2, host.interfaces.size
+  end
+
+  context 'update_subnets_from_facts is enabled' do
+    setup do
+      Setting[:update_subnets_from_facts] = true
+    end
+    let(:subnet) { FactoryBot.create(:subnet_ipv4, :dhcp, :network => '10.10.0.0') }
+
+    test "#set_interfaces updates existing physical interface when subnet does not match ip and new subnet is unknown" do
+      host = FactoryBot.create(:host,
+                                :managed,
+                                :mac => '00:00:00:11:22:33',
+                                :ip => '10.10.0.1',
+                                :subnet => subnet
+                               )
+      hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
+      }.with_indifferent_access
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+      assert_no_difference 'Nic::Base.count' do
+        host.set_interfaces(parser)
+      end
+
+      assert_equal '10.10.20.2', host.primary_interface.ip
+      assert_nil host.primary_interface.subnet
+    end
+
+    test "#set_interfaces updates existing physical interface when subnet does not match ip and new subnet is known" do
+      subnet2 = FactoryBot.create(:subnet_ipv4, :dhcp, :network => '10.10.20.0')
+      host = FactoryBot.create(:host,
+                                :managed,
+                                :mac => '00:00:00:11:22:33',
+                                :ip => '10.10.0.1',
+                                :subnet => subnet
+                               )
+      hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
+      }.with_indifferent_access
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+      assert_no_difference 'Nic::Base.count' do
+        host.set_interfaces(parser)
+      end
+
+      assert_equal '10.10.20.2', host.primary_interface.ip
+      assert_equal subnet2, host.primary_interface.subnet
+    end
+
+    test "#set_interfaces does not update subnet when keep_subnet attribute is present" do
+      FactoryBot.create(:subnet_ipv4, :dhcp, :network => '10.10.20.0')
+      host = FactoryBot.create(:host,
+                                :managed,
+                                :mac => '00:00:00:11:22:33',
+                                :ip => '10.10.0.1',
+                                :subnet => subnet
+                               )
+      hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false, :keep_subnet => true}
+      }.with_indifferent_access
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+      assert_no_difference 'Nic::Base.count' do
+        host.set_interfaces(parser)
+      end
+
+      assert_equal subnet, host.primary_interface.subnet
+    end
+
+    test "#set_interfaces updates existing physical interface when subnet6 is set but facts report no ipv6 addr" do
+      subnet6 = FactoryBot.create(:subnet_ipv6, :network => '2001:db8::')
+      host = FactoryBot.create(:host,
+                                :managed,
+                                :mac => '00:00:00:11:22:33',
+                                :ip => '10.10.0.1',
+                                :ip6 => '2001:db8::10',
+                                :subnet => subnet,
+                                :subnet6 => subnet6
+                               )
+      hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false}
+      }.with_indifferent_access
+      parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
+
+      assert_no_difference 'Nic::Base.count' do
+        host.set_interfaces(parser)
+      end
+      assert_equal '10.10.0.1', host.primary_interface.ip
+      assert_equal subnet, host.primary_interface.subnet
+      assert_nil host.primary_interface.ip6
+      assert_nil host.primary_interface.subnet6
+    end
+  end
+
+  test "#set_interfaces creates bond interfaces according to identifier" do
+    host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup))
+    hash = {
+      :eth1 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '', :virtual => false},
+      :bond0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => true}
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.first)
+
+    host.set_interfaces(parser)
+    host.reload
+    assert_includes host.interfaces.map(&:identifier), 'eth1'
+    assert_includes host.interfaces.map(&:identifier), 'bond0'
+    assert_equal 2, host.interfaces.size
+    assert_kind_of Nic::Bond, host.interfaces.find_by_identifier('bond0')
+    assert_kind_of Nic::Managed, host.interfaces.find_by_identifier('eth1')
+  end
+
+  test "host can't have more interfaces with the same identifier" do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    host.primary_interface.identifier = 'eth0'
+    nic = host.interfaces.build(:identifier => 'eth0')
+    refute host.valid?
+    assert nic.errors[:identifier].present?
+    assert host.errors[:interfaces].present?
+    nic.identifier = 'eth1'
+    host.valid?
+    refute_includes nic.errors.keys, :identifier
+    refute_includes host.errors.keys, :interfaces
+  end
+
+  # Token tests
+
+  context "tokens are enabled" do
+    setup do
+      Setting[:token_duration] = 30
+    end
+
+    test "built should clean tokens" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
+      assert_equal Token.all.size, 1
+      h.expire_token
+      assert_equal Token.all.size, 0
+    end
+
+    test "hosts should be able to retrieve their token if one exists" do
+      h = FactoryBot.create(:host, :managed, build: true)
+      assert_equal Token.first, h.token
+    end
+
+    test "a token can be matched to a host" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 1.minute)
+      assert_equal h, Host.for_token("aaaaaa").first
+    end
+
+    test "a token cannot be matched to a host when expired" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => 1.minute.ago)
+      refute Host.for_token("aaaaaa").first
+    end
+
+    test "deleting an host with an expired token does not cause a Foreign Key error" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
+      assert_nothing_raised {h.reload.destroy}
+    end
+
+    test "token_expired? should be true if expiration date is in the past" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc - 1)
+      assert_equal h.token_expired?, true
+    end
+
+    test "token_expired? should be false if expiration date is in the future" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc + 30)
+      assert_equal h.token_expired?, false
+    end
+  end
+
+  context "tokens are disabled" do
+    setup do
+      Setting[:token_duration] = 0
+    end
+
+    test "built should clean tokens even when tokens are disabled" do
+      h = FactoryBot.create(:host, :managed)
+      h.create_token(:value => "aaaaaa", :expires => Time.now.utc)
+      assert_equal Token.all.size, 1
+      h.expire_token
+      assert_equal Token.all.size, 0
+    end
+
+    test "token should be nil when tokens are disabled or invalid" do
+      h = FactoryBot.create(:host, :managed)
+      assert_nil h.token
+      Setting[:token_duration] = 30
+      h.reload
+      assert_nil h.token
+    end
+  end
+
+  test "can search hosts by hostgroup" do
+    # setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    FactoryBot.create(:host, :hostgroup => hostgroup)
+    # search hosts by hostgroup label
+    hosts = Host.search_for("hostgroup_title = #{hostgroup.title}")
+    assert_equal 1, hosts.count
+    assert_equal hosts.first.hostgroup_id, hostgroup.id
+  end
+
+  test "can search hosts by parent hostgroup and its descendants" do
+    # setup - add parent to hostgroup :common (not in fixtures, since no field parent_id)
+    hostgroup = hostgroups(:db)
+    parent_hostgroup = hostgroups(:common)
+    hostgroup.parent_id = parent_hostgroup.id
+    assert hostgroup.save!
+
+    FactoryBot.create(:host, :hostgroup => hostgroup)
+    FactoryBot.create(:host, :hostgroup => parent_hostgroup)
+    # search hosts by parent hostgroup label
+    hosts = Host::Managed.search_for("parent_hostgroup = Common")
+    assert_equal hosts.count, 2
+    assert_equal ["Common", "Common/db"].sort, hosts.map { |h| h.hostgroup.title }.sort
+  end
+
+  test "search hosts by non-existing parent hostgroup returns no results" do
+    FactoryBot.create(:host, :with_hostgroup)
+    refute_equal Host::Managed.count, 0
+    hosts = Host::Managed.search_for("parent_hostgroup = Nosuchgroup")
+    assert_equal hosts.count, 0
+  end
+
+  test "can search hosts by numeric and string facts" do
+    host = FactoryBot.create(:host, :hostname => 'num001.example.com')
+    host.import_facts({:architecture => "x86_64", :interfaces => 'eth0', :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2', :memory_mb => "64498", :custom_fact => "find_me"})
+
+    hosts = Host::Managed.search_for("facts.memory_mb > 112889")
+    assert_equal hosts.count, 0
+
+    hosts = Host::Managed.search_for("facts.memory_mb > 6544")
+    assert_equal hosts.count, 1
+    assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
+    hosts = Host::Managed.search_for("facts.memory_mb ~ 64498")
+    assert_equal hosts.count, 1
+    assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
+    hosts = Host::Managed.search_for("facts.custom_fact = find_me")
+    assert_equal hosts.count, 1
+    assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
+    hosts = Host::Managed.search_for("facts.memory_mb > 6544 and facts.custom_fact = find_me")
+    assert_equal hosts.count, 1
+    assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
+    hosts = Host::Managed.search_for("facts.custom_fact ~ %nd_me")
+    assert_equal hosts.count, 1
+    assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+
+    hosts = Host::Managed.search_for("facts.custom_fact ~ nd_m")
+    assert_equal hosts.count, 1
+    assert_equal ["num001.example.com"], hosts.map { |h| h.name }.sort
+  end
+
+  test "search by fact name is not vulnerable to SQL injection in name" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 1)
+    query = "facts.a'b = c or facts.#{host.facts.keys.first} = #{host.facts.values.first}"
+    assert_equal [host], Host::Managed.search_for(query)
+  end
+
+  test "search by fact name is not vulnerable to SQL injection in value" do
+    host = FactoryBot.create(:host, :with_facts, :fact_count => 1)
+    query = "facts.a = \"a'b\" or facts.#{host.facts.keys.first} = #{host.facts.values.first}"
+    assert_equal [host], Host::Managed.search_for(query)
+  end
+
+  test "host edit permision must be always edit_hosts" do
+    h = FactoryBot.build(:host, :managed)
+    assert_equal "edit_hosts", h.send(:permission_name, :edit)
+  end
+
+  test "non-admin user with edit_hosts permission can update interface" do
+    @one = users(:one)
+    # add permission for user :one
+    as_admin do
+      filter = FactoryBot.build(:filter)
+      filter.permissions = [ Permission.find_by_name('edit_hosts') ]
+      filter.save!
+      role = Role.where(:name => "testing_role").first_or_create
+      role.filters = [ filter ]
+      role.save!
+      @one.roles = [ role ]
+      @one.save!
+    end
+    h = FactoryBot.create(:host, :managed)
+    assert h.interfaces.create :mac => "cabbccddeeff", :host => h, :type => 'Nic::BMC',
+      :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35",
+      :identifier => 'eth2'
+    as_user :one do
+      h.update!("interfaces_attributes" => {"0" => {"mac" => "00:52:10:1e:45:16"}})
+      assert_empty h.errors
+    end
+  end
+
+  context "built notifications" do
+    let(:host) { FactoryBot.build(:host, :managed, :owner => User.current) }
+
+    setup do
+      ActionMailer::Base.deliveries = []
+      User.current.mail_notifications << MailNotification[:host_built]
+    end
+
+    test "is sent notification when installed" do
+      host.built(true)
+      email = ActionMailer::Base.deliveries.detect { |mail| mail.subject =~ /Host #{host} is built/ }
+      assert email
+      assert_match /Your host has finished/, email.body.encoded
+    end
+
+    test "is not sent when not installed" do
+      host.built(false)
+      assert_empty ActionMailer::Base.deliveries
+    end
+  end
+
+  test "can auto-complete searches by host name" do
+    as_admin do
+      completions = Host::Managed.complete_for("name =")
+      Host::Managed.all.each do |h|
+        assert completions.include?("name = #{h.name}"), "completion missing: #{h}"
+      end
+    end
+  end
+
+  test "can auto-complete searches by facts" do
+    as_admin do
+      completions = Host::Managed.complete_for("facts.")
+      FactName.order(:name).each do |fact|
+        assert completions.include?(" facts.#{fact.name} "), "completion missing: #{fact}"
+      end
+    end
+  end
+
+  test "can auto-complete user searches by current_user" do
+    as_admin do
+      completions = Host::Managed.complete_for("user.login =")
+      assert completions.include?("user.login = current_user"), "completion missing: current_user"
+    end
+  end
+
+  test "should accept lookup_values_attributes" do
+    h = FactoryBot.create(:host)
+    as_admin do
+      assert_difference "LookupValue.count" do
+        assert h.update(:lookup_values_attributes => {"0" => {:lookup_key_id => lookup_keys(:one).id, :value => "8080" }})
+      end
+    end
+  end
+
+  test "can search hosts by params" do
+    host = FactoryBot.create(:host, :with_parameter)
+    parameter = host.parameters.first
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+    assert_equal 1, results.count
+    assert_equal parameter.value, results.first.params[parameter.name]
+  end
+
+  test "can search hosts by current_user" do
+    FactoryBot.create(:host)
+    results = Host.search_for("owner = current_user")
+    assert_equal 1, results.count
+    assert_equal results[0].owner, User.current
+  end
+
+  test "search by params returns only the relevant hosts" do
+    hg = hostgroups(:common)
+    host = FactoryBot.create(:host, :hostgroup => hg)
+    host2 = FactoryBot.create(:host, :hostgroup => nil)
+    parameter = hg.group_parameters.first
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+    assert results.include?(host)
+    refute results.include?(host2)
+  end
+
+  test "can search hosts by domain connected to their primary interface" do
+    host = FactoryBot.create(:host, :managed)
+    domain = host.domain
+    domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog")
+    parameter = domain.domain_parameters.first
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+    assert results.include?(host)
+  end
+
+  test "can search hosts by inherited params from a hostgroup" do
+    hg = hostgroups(:common)
+    host = FactoryBot.create(:host, :hostgroup => hg)
+    parameter = hg.group_parameters.first
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+    assert results.include?(host)
+    assert_equal parameter.value, results.find(host.id).params[parameter.name]
+  end
+
+  test "can search hosts by inherited params from a parent hostgroup" do
+    parent_hg = hostgroups(:common)
+    hg = FactoryBot.create(:hostgroup, :parent => parent_hg)
+    host = FactoryBot.create(:host, :hostgroup => hg)
+    parameter = parent_hg.group_parameters.first
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+    assert results.include?(host)
+    assert_equal parameter.value, results.find(host.id).params[parameter.name]
+  end
+
+  test "Correctly find hosts with overridden parameter values" do
+    host1 = FactoryBot.create(:host)
+    host2 = FactoryBot.create(:host)
+    parameter = FactoryBot.create(:parameter)
+    override = FactoryBot.create(:host_parameter, name: parameter.name, value: "different", host: host1)
+
+    results = Host.search_for(%{params.#{parameter.name} = "#{parameter.value}"})
+    assert results.include?(host2)
+    refute results.include?(host1)
+
+    results = Host.search_for(%{params.#{parameter.name} = "#{override.value}"})
+    assert results.include?(host1)
+    refute results.include?(host2)
+
+    results = Host.search_for(%{params.#{parameter.name} != "very_different_parameter"})
+    assert results.include?(host2)
+    assert results.include?(host1)
+
+    results = Host.search_for(%{params.#{parameter.name} != "#{parameter.value}"})
+    refute results.include?(host2)
+    assert results.include?(host1)
+  end
+
+  test "can search hosts by smart proxy" do
+    host = FactoryBot.create(:host)
+    proxy = FactoryBot.create(:puppet_and_ca_smart_proxy)
+    results = Host.search_for("smart_proxy = #{proxy.name}")
+    assert_equal 0, results.count
+    host.update_attribute(:puppet_proxy_id, proxy.id)
+    results = Host.search_for("smart_proxy = #{proxy.name}")
+    assert_equal 1, results.count
+    assert results.include?(host)
+    # the results should not change even if the host has multiple connections to same proxy
+    host.update_attribute(:puppet_ca_proxy_id, proxy.id)
+    results2 = Host.search_for("smart_proxy = #{proxy.name}")
+    assert_equal results, results2
+  end
+
+  test "can search hosts by puppet class" do
+    host = FactoryBot.create(:host, :with_puppetclass)
+    results = Host.search_for("class = #{host.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal host.puppetclasses.first, results.first.puppetclasses.first
+  end
+
+  test "can search hosts by inherited puppet class from a hostgroup" do
+    hg = FactoryBot.create(:hostgroup, :with_puppetclass)
+    FactoryBot.create(:host, :hostgroup => hg, :environment => hg.environment)
+    results = Host.search_for("class = #{hg.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal 0, results.first.puppetclasses.count
+    assert_equal hg.puppetclasses.first, results.first.hostgroup.puppetclasses.first
+  end
+
+  test "can search hosts by inherited puppet class from a parent hostgroup" do
+    parent_hg = FactoryBot.create(:hostgroup, :with_puppetclass)
+    hg = FactoryBot.create(:hostgroup, :parent => parent_hg)
+    FactoryBot.create(:host, :hostgroup => hg, :environment => hg.environment)
+    results = Host.search_for("class = #{parent_hg.puppetclasses.first.name}")
+    assert_equal 1, results.count
+    assert_equal 0, results.first.puppetclasses.count
+    assert_equal 0, results.first.hostgroup.puppetclasses.count
+    assert_equal parent_hg.puppetclasses.first, results.first.hostgroup.parent.puppetclasses.first
+  end
+
+  test "can search hosts by puppet class from config group in parent hostgroup" do
+    hostgroup = FactoryBot.create(:hostgroup, :with_config_group)
+    host = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => hostgroup.environment)
+    puppetclass = hostgroup.config_groups.first.puppetclasses.first
+    results = Host.search_for("class = #{puppetclass.name}")
+    assert_equal 1, results.count
+    assert_equal host, results.first
+  end
+
+  test "should update puppet_proxy_id to the id of the validated proxy" do
+    sp = smart_proxies(:puppetmaster)
+    raw = read_json_fixture('facts/facts_with_caps.json')
+    host = Host.import_host(raw['name'], nil)
+    assert host.import_facts(raw['facts'], sp)
+    assert_equal sp.id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
+  end
+
+  test "should not update puppet_proxy_id if it was not puppet upload" do
+    sp = smart_proxies(:puppetmaster)
+    raw = read_json_fixture('facts/facts_with_caps.json')
+    host = Host.import_host(raw['name'])
+    assert host.import_facts(raw['facts'].merge(:_type => 'chef'), sp)
+    assert_nil host.puppet_proxy_id
+  end
+
+  test "shouldn't update puppet_proxy_id if it has been set" do
+    Host.new(:name => 'sinn1636.lan', :puppet_proxy_id => smart_proxies(:puppetmaster).id).save(:validate => false)
+    sp = smart_proxies(:puppetmaster)
+    raw = read_json_fixture('facts/facts_with_certname.json')
+    host = Host.import_host(raw['name'])
+    assert host.import_facts(raw['facts'], sp)
+    assert_equal smart_proxies(:puppetmaster).id, Host.find_by_name('sinn1636.lan').puppet_proxy_id
+  end
+
+  # Ip validations
+  test "unmanaged hosts don't require an IPv4 or IPv6" do
+    host = FactoryBot.build_stubbed(:host)
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "CRs without IP attribute don't require an IP" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the CR
+    host = FactoryBot.build_stubbed(:host, :managed,
+                        :compute_resource => compute_resources(:one),
+                        :compute_attributes => {:fake => "data"})
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "CRs with IP attribute and a DNS-enabled domain do not require an IP" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the CR
+    host = FactoryBot.build_stubbed(:host, :managed, :domain => domains(:mydomain),
+                        :compute_resource => compute_resources(:openstack),
+                        :compute_attributes => {:fake => "data"})
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts with a IPv4 DNS-enabled Domain do require an IPv4 address" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the domain
+    host = FactoryBot.build(:host, :managed, :domain => domains(:mydomain))
+    assert host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts with a DNS-enabled Domain without IPv4 do require an IPv6 address" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the domain
+    host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6, :domain => domains(:mydomain))
+    refute host.require_ip4_validation?
+    assert host.require_ip6_validation?
+  end
+
+  test "hosts without a DNS-enabled Domain don't require an IP" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the domain
+    host = FactoryBot.build_stubbed(:host, :managed, :domain => domains(:useless))
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts with a DNS-enabled Subnet do require an IPv4 address" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dns))
+    assert host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts with a DNS-enabled Domain on CR providing a IPv4 address do not require any kind of address" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    proxy = FactoryBot.create(:smart_proxy,
+                               :features => [FactoryBot.create(:feature, :dns)])
+    domain = FactoryBot.create(:domain,
+                                :dns => proxy)
+    host = FactoryBot.build_stubbed(:host,
+                             :managed,
+                             :on_compute_resource,
+                             :with_compute_profile,
+                             :ip => nil,
+                             :domain => domain)
+    host.compute_resource.stubs(:provided_attributes).returns({:ip => :ip})
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts with a DHCP-enabled Subnet do require an IP" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp))
+    assert host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts without a DNS/DHCP-enabled Subnet don't require an IP" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    host = FactoryBot.build_stubbed(:host, :managed, :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil))
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "hosts with a DNS-enabled IPv6 Subnet require an IPv6 but don't require an IPv4 address" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    host = FactoryBot.build_stubbed(:host, :managed,
+                             :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil),
+                             :subnet6 => FactoryBot.build_stubbed(:subnet_ipv6, :dns))
+    refute host.require_ip4_validation?
+    assert host.require_ip6_validation?
+  end
+
+  test "hosts with a DNS-enabled IPv6 Subnet, the mac provided by a CR and a mac based IPAM require neither a IPv6 nor a IPv4 address" do
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    subnet6 = FactoryBot.build_stubbed(:subnet_ipv6, :dns, :ipam => IPAM::MODES[:eui64])
+    host = FactoryBot.build_stubbed(:host,
+                             :on_compute_resource,
+                             :with_compute_profile,
+                             :with_ipv6_dns_orchestration,
+                             :ip6 => nil,
+                             :subnet6 => subnet6)
+    host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
+    assert_nil host.ip
+    assert_nil host.ip6
+    refute host.require_ip4_validation?, 'should not require ipv4 validation'
+    refute host.require_ip6_validation?, 'should not require ipv6 validation'
+  end
+
+  test "with tokens enabled hosts don't require an IPv4 or IPv6 address" do
+    Setting[:token_duration] = 30
+    host = FactoryBot.build_stubbed(:host, :managed)
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "with tokens disabled PXE build hosts do require an IPv4 address" do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    host.expects(:pxe_build?).twice.returns(true)
+    host.stubs(:image_build?).returns(false)
+    assert host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "with tokens disabled PXE build IPv6 hosts do not require an IPv4 but a IPv6 address" do
+    host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6)
+    host.expects(:pxe_build?).twice.returns(true)
+    host.stubs(:image_build?).returns(false)
+    refute host.require_ip4_validation?
+    assert host.require_ip6_validation?
+  end
+
+  test "tokens disabled doesn't require an IPv4 or IPv6 address for image hosts" do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    host.expects(:pxe_build?).twice.returns(false)
+    host.expects(:image_build?).twice.returns(true)
+    image = stub()
+    image.expects(:user_data?).twice.returns(false)
+    host.stubs(:image).returns(image)
+    refute host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "tokens disabled requires an IPv4 address for image hosts with user data" do
+    host = FactoryBot.build_stubbed(:host, :managed)
+    host.expects(:pxe_build?).twice.returns(false)
+    host.expects(:image_build?).twice.returns(true)
+    image = stub()
+    image.expects(:user_data?).twice.returns(true)
+    host.stubs(:image).returns(image)
+    assert host.require_ip4_validation?
+    refute host.require_ip6_validation?
+  end
+
+  test "tokens disabled requires only an IPv6 address for image hosts with user data and IPv6 address" do
+    host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6)
+    host.expects(:pxe_build?).twice.returns(false)
+    host.expects(:image_build?).twice.returns(true)
+    image = stub()
+    image.expects(:user_data?).twice.returns(true)
+    host.stubs(:image).returns(image)
+    refute host.require_ip4_validation?
+    assert host.require_ip6_validation?
+  end
+
+  test "test tokens are not created until host is saved" do
+    class Host::Test < Host::Base
+      def lookup_value_match
+        'no_match'
+      end
+
+      def to_managed!
+        host       = self.becomes(::Host::Managed)
+        host.type  = 'Host::Managed'
+        host.name  = "#{host.name}-Managed"
+        host.save
+        host
+      end
+    end
+    Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
+    test_host    = Host::Test.create(:name => 'testhost', :interfaces => [FactoryBot.build(:nic_primary_and_provision)])
+    managed_host = test_host.to_managed!
+    assert_empty Token.where(:host_id => managed_host.id)
+  end
+
+  test "compute attributes are populated by hardware profile from hostgroup" do
+    cr_hostgroup = FactoryBot.build(:compute_resource, :libvirt)
+    cr_host = FactoryBot.build(:compute_resource, :libvirt)
+    hg = FactoryBot.build(:hostgroup, :compute_resource => cr_hostgroup)
+    host = FactoryBot.build(:host, :managed, :provision_method => 'image',
+      :hostgroup => hg,
+      :compute_resource => cr_host)
+    host.stubs(:provision_method_in_capabilities).returns(true)
+    host.stubs(:vm_exists?).returns(false)
+    host.stubs(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
+    assert_equal cr_hostgroup.attrs, host.compute_attributes
+  end
+
+  test "compute attributes are populated by hardware profile passed to host" do
+    cr_hostgroup = FactoryBot.build(:compute_resource, :libvirt)
+    cr_host = FactoryBot.build(:compute_resource, :libvirt)
+    attributes = FactoryBot.build(:compute_attribute)
+    profile = FactoryBot.build(:compute_profile, :compute_resource => cr_hostgroup, :compute_attributes => [attributes])
+    hg = FactoryBot.build(:hostgroup, :compute_resource => cr_hostgroup)
+    host = FactoryBot.build(:host, :managed, :provision_method => 'image',
+      :hostgroup => hg,
+      :compute_resource => cr_host,
+      :compute_profile => profile)
+    host.stubs(:provision_method_in_capabilities).returns(true)
+    host.stubs(:vm_exists?).returns(false)
+    host.stubs(:queue_compute_create)
+    assert host.valid?, host.errors.full_messages.to_sentence
+    assert_equal profile.compute_attributes.first.vm_attrs, host.compute_attributes
   end
 
   private
