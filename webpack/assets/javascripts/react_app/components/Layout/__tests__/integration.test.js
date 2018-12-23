@@ -5,8 +5,7 @@ import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { hasTaxonomiesMock } from '../Layout.fixtures';
 import Layout, { reducers } from '../index';
 
-jest.mock('../../notifications/index', () => 'notification');
-
+jest.mock('../../notifications', () => 'span');
 describe('Layout integration test', () => {
   it('should flow', async () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);
