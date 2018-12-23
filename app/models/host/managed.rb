@@ -909,7 +909,8 @@ class Host::Managed < Host::Base
 
   def provision_method_in_capabilities
     return unless managed?
-    errors.add(:provision_method, _('is an unsupported provisioning method')) unless capabilities.map(&:to_s).include?(self.provision_method)
+    methods_available = capabilities.map(&:to_s)
+    errors.add(:provision_method, _('is an unsupported provisioning method, available: %s') % methods_available.join(',')) unless methods_available.include?(self.provision_method)
   end
 
   def check_if_provision_method_changed

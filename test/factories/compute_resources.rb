@@ -2,6 +2,8 @@ FactoryBot.define do
   factory :compute_resource do
     sequence(:name) { |n| "compute_resource#{n}" }
     sequence(:url) { |n| "http://#{n}.example.com/" }
+    organizations { [Organization.find_by_name('Organization 1')] }
+    locations { [Location.find_by_name('Location 1')] }
 
     trait :ec2 do
       provider { 'EC2' }
