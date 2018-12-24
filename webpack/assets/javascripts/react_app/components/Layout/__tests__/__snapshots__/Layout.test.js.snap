@@ -136,6 +136,7 @@ exports[`Layout rendering renders layout 1`] = `
             "id": 4,
             "lastname": "User",
             "login": "admin",
+            "name": "Admin User",
           },
         },
         "user_dropdown": Array [
@@ -275,6 +276,7 @@ exports[`Layout rendering renders layout 1`] = `
               "id": 4,
               "lastname": "User",
               "login": "admin",
+              "name": "Admin User",
             },
           },
           "user_dropdown": Array [
