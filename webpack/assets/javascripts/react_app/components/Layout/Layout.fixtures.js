@@ -158,6 +158,7 @@ const user = {
       login: 'admin',
       firstname: 'Admin',
       lastname: 'User',
+      name: 'Admin User',
     },
   },
   user_dropdown: [
@@ -192,6 +193,7 @@ const serverUser = {
     user: {
       firstname: 'G',
       lastname: 'L',
+      name: 'G L',
     },
   },
   user_dropdown: [

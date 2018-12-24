@@ -38,9 +38,7 @@ exports[`UserDropdown rendering render switcher w/loading 1`] = `
         name="user avatar small"
         type="fa"
       />
-      G
-       
-      L
+      G L
     </DropdownToggle>
     <DropdownMenu
       bsClass="dropdown-menu"

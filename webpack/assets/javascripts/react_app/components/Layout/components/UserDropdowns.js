@@ -28,7 +28,7 @@ const UserDropdowns = ({
         <NavDropdown componentClass="li" id="account_menu">
           <Dropdown.Toggle useAnchor className="nav-item-iconic">
             <Icon type="fa" name="user avatar small" />
-            {userInfo.firstname} {userInfo.lastname}
+            {userInfo.name}
           </Dropdown.Toggle>
           <Dropdown.Menu>
             {user.user_dropdown[0].children.map((item, i) =>

@@ -129,6 +129,10 @@ class User < ApplicationRecord
 
   attr_exportable :firstname, :lastname, :mail, :description, :fullname, :name => ->(user) { user.login }, :ssh_authorized_keys => ->(user) { user.ssh_keys.map(&:to_export_hash) }
 
+  def as_json(options = {})
+    super.tap { |h| h.key?('user') ? h['user']['name'] = name : h['name'] = name }
+  end
+
   class Jail < ::Safemode::Jail
     allow :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail
   end
