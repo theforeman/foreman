@@ -9,10 +9,9 @@
   <div class="col-md-4 classes">
     <h3><%= _('Included Classes') %></h3>
 
-    <%= hidden_field_tag "#{obj_type(obj)}[puppetclass_ids][]" %>
-
     <ul id="selected_classes">
       <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
+        <%= hidden_field_tag "#{obj_type(obj)}[puppetclass_ids][]" %>
         <%= render :partial => "puppetclasses/selectedClasses",
           :collection => obj.individual_puppetclasses,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
         <% unless controller_name == 'config_groups' %>
