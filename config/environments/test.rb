@@ -54,8 +54,8 @@ Foreman::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # Raise exception on mass assignment of unfiltered parameters
-  config.action_controller.action_on_unpermitted_parameters = :strict
+  # log on mass assignment of unfiltered parameters
+  config.action_controller.action_on_unpermitted_parameters = :log
 
   # Use default memory cache (32 MB top)
   config.cache_store = :memory_store

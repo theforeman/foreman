@@ -38,8 +38,8 @@ Foreman::Application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  # Raise exception on mass assignment of unfiltered parameters
-  config.action_controller.action_on_unpermitted_parameters = :strict
+  # log on mass assignment of unfiltered parameters
+  config.action_controller.action_on_unpermitted_parameters = :log
 
   # include query source line when sql logging is enabled
   config.active_record.verbose_query_logs = Foreman::Logging.logger('sql')
