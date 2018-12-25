@@ -49,13 +49,4 @@ class PuppetclassLookupKeysControllerTest < ActionController::TestCase
     get :index, session: set_session_user.merge(:user => users(:one).id)
     assert_response :success
   end
-
-  test "smart class parameters that aren't connected to an environment class shouldn't appear in the index" do
-    lkey1 = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => puppetclasses(:one), :override => true, :default_value => 'test')
-    lkey2 = FactoryBot.create(:puppetclass_lookup_key)
-    get :index, params: { :search => "key=#{lkey1.key}" }, session: set_session_user
-    refute_empty assigns(:lookup_keys)
-    get :index, params: { :search => "key=#{lkey2.key}" }, session: set_session_user
-    assert_empty assigns(:lookup_keys)
-  end
 end
