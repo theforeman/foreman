@@ -382,15 +382,33 @@ class ApplicationController < ActionController::Base
   end
 
   def allow_webpack
-    webpack_csp = { script_src: [webpack_server], connect_src: [webpack_server],
-                    style_src: [webpack_server], img_src: [webpack_server] }
+    webpack_urls = [webpack_server, webpack_server_hostname, webpack_server_localhost]
+
+    webpack_csp = {
+      script_src: webpack_urls, connect_src: webpack_urls,
+      style_src: webpack_urls, img_src: webpack_urls
+    }
 
     append_content_security_policy_directives(webpack_csp)
   end
 
-  def webpack_server
+  def webpack_server_url hostname = request.host
+    protocol = request.protocol
     port = Rails.configuration.webpack.dev_server.port
-    @dev_server ||= "#{request.protocol}#{request.host}:#{port}"
+
+    "#{protocol}#{hostname}:#{port}"
+  end
+
+  def webpack_server
+    @dev_server ||= webpack_server_url
+  end
+
+  def webpack_server_hostname
+    webpack_server_url Socket.gethostname
+  end
+
+  def webpack_server_localhost
+    webpack_server_url 'localhost'
   end
 
   class << self

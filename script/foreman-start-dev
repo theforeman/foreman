@@ -1,3 +1,15 @@
 #!/bin/sh
-./node_modules/.bin/webpack-dev-server --config config/webpack.config.js --host 0.0.0.0 --disable-host-check $WEBPACK_OPTS &
+
+# load the .env file
+if [ -f ".env" ];
+then
+   set -a
+   . ./.env
+   set +a
+   echo ".env file loaded."
+else
+   echo ".env file does not exist."
+fi
+
+./node_modules/.bin/webpack-dev-server --config config/webpack.config.js --disable-host-check $WEBPACK_OPTS &
 ./bin/rails server -b 0.0.0.0 "$@"

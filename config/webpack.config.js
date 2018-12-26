@@ -25,11 +25,8 @@ var args = argvParse({
   },
   port: {
     type: 'string',
-  },
-  host: {
-    type: 'string',
   }
-})
+});
 
 const supportedLocales = () => {
   const localeDir = path.join(__dirname, '..', 'locale');
@@ -54,10 +51,14 @@ const devServerConfig = () => {
     throw result.error;
   }
 
+  const host = process.env.BIND || 'localhost';
+  const publicHost = host === '0.0.0.0' ?
+    (args.public || os.hostname()) : host;
+
   return {
     port: args.port || '3808',
-    host: args.host || process.env.BIND || 'localhost',
-    publicHost: removePort(args.public) || args.host || os.hostname(),
+    host,
+    publicHost,
     protocol: args.https ? 'https' : 'http',
   }
 }
