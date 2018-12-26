@@ -13,16 +13,9 @@ var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
 var argvParse = require('argv-parse');
 var fs = require('fs');
-var os = require('os');
 var { execSync } = require('child_process');
 
 var args = argvParse({
-  https: {
-    type: 'boolean',
-  },
-  public: {
-    type: 'string',
-  },
   port: {
     type: 'string',
   },
@@ -46,8 +39,6 @@ const supportedLanguages = () => {
   return [ ...new Set(supportedLocales().map(d => d.split('_')[0]))];
 }
 
-const removePort = host => host && host.replace(/:[0-9]*$/, "");
-
 const devServerConfig = () => {
   const result = require('dotenv').config();
   if (result.error && result.error.code !== 'ENOENT') {
@@ -57,8 +48,6 @@ const devServerConfig = () => {
   return {
     port: args.port || '3808',
     host: args.host || process.env.BIND || 'localhost',
-    publicHost: removePort(args.public) || args.host || os.hostname(),
-    protocol: args.https ? 'https' : 'http',
   }
 }
 
@@ -104,13 +93,6 @@ module.exports = env => {
     pluginEntries
   );
 
-  var publicPath;
-  if (production) {
-    publicPath = '/webpack/';
-  } else {
-    publicPath = `${devServer.protocol}://${devServer.publicHost}:${devServer.port}/webpack/`;
-  }
-
   const supportedLanguagesRE = new RegExp(`/(${supportedLanguages().join('|')})$`);
 
   var config = {
@@ -121,7 +103,7 @@ module.exports = env => {
 
       // must match config.webpack.output_dir
       path: outputPath,
-      publicPath,
+      publicPath: '/webpack/',
       filename: jsFilename,
       chunkFilename
     },
