@@ -8,7 +8,11 @@
     </tr>
     </thead>
     <tbody>
-      <% authorized_resource_parameters(f.object, type).each do |parameter| %>
+      <%
+        parameters_by_type = f.object.send(type)
+        @params_authorizer = Authorizer.new(User.current, :collection => parameters_by_type)
+      %>
+      <% authorized_resource_parameters(@params_authorizer, parameters_by_type).each do |parameter| %>
         <%= f.fields_for type, parameter do |builder| %>
           <%= render "common_parameters/parameter", :f => builder %>
         <% end %>

@@ -1,5 +1,5 @@
 <tr class="fields <%= 'has-error' if f.object.errors.any? %>" id="<%= dom_id(f.object) + '_row' %>">
-  <% authorized = f.object.new_record? ? can_create_parameter?(f.object) : @params_authorizer.can?(:edit_params, f.object) %>
+  <% authorized = f.object.new_record? ? can_create_parameter?(f.object, @params_authorizer) : @params_authorizer.can?(:edit_params, f.object) %>
   <td>
     <%= f.text_field(:name,  :class => "form-control", :disabled => !authorized, :placeholder => _("Name")) %>
   </td>
