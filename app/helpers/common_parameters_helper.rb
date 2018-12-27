@@ -68,22 +68,30 @@ module CommonParametersHelper
     end
   end
 
-  def authorized_resource_parameters(resource, type)
-    parameters_by_type = resource.send(type)
-    parameter_ids_to_view = find_parameters_to_view(parameters_by_type).map(&:id)
+  def authorized_resource_parameters(params_authorizer, parameters_by_type)
+    unless params_authorizer.is_a?(Authorizer)
+      Foreman::Deprecation.deprecation_warning(
+        '1.22',
+        "definition changed for method 'authorized_resource_parameters'."\
+        'New definition accepts Authorizer object & parameters collection as arguments.'\
+        'resource and type arguments are deprecated.'\
+        'Please modify method calling as per new definition.'
+      )
+      return nil
+    end
+    parameter_ids_to_view = find_parameters_to_view(params_authorizer, parameters_by_type).map(&:id)
     resource_parameters = parameters_by_type.select { |p| parameter_ids_to_view.include?(p.id) }
     resource_parameters += parameters_by_type.select(&:new_record?)
     resource_parameters
   end
 
-  def find_parameters_to_view(parameters_by_type, user = User.current)
-    @params_authorizer = Authorizer.new(user, :collection => parameters_by_type)
+  def find_parameters_to_view(params_authorizer, parameters_by_type, user = User.current)
     return parameters_by_type.none if user.nil?
     return parameters_by_type.where(nil) if user&.admin?
-    @params_authorizer.find_collection(parameters_by_type.klass, :permission => :view_params)
+    params_authorizer.find_collection(parameters_by_type.klass, :permission => :view_params)
   end
 
-  def can_create_parameter?(parameter)
-    @can_create_param ||= @params_authorizer.can?(:create_params)
+  def can_create_parameter?(parameter, params_authorizer)
+    @can_create_param ||= params_authorizer.can?(:create_params)
   end
 end
