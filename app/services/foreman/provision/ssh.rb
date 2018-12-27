@@ -99,10 +99,19 @@ class Foreman::Provision::SSH
         retry
       rescue Timeout::Error
         retry
+      rescue IOError
+        logger.debug "net-ssh threw an IOError, retrying"
+        sleep(2)
+        retry
       rescue => e
-        Foreman::Logging.exception("SSH error", e)
+        logger.info "An error occured while connecting before timeout occured \"#{e.inspect}\", retrying"
+        logger.debug "Full stacktrace of exception: \n  #{e.backtrace.join("\n  ")}"
+        sleep(2)
+        retry
       end
     end
+  rescue Timeout::Error
+    Foreman::Logging.exception("Error connecting over SSH, reached max timeout of 360 seconds")
   end
 
   def ssh
