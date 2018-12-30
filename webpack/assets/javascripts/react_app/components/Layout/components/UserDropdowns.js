@@ -8,8 +8,8 @@ import NavItem from './NavItem';
 import { translate as __ } from '../../../common/I18n';
 
 const UserDropdowns = ({
-  activeKey,
-  activeHref,
+  activeKey, // eslint-disable-line react/prop-types
+  activeHref, // eslint-disable-line react/prop-types
   user,
   changeActiveMenu,
   notificationUrl,
