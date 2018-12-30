@@ -39,10 +39,8 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
   />
   <AutoCompleteAux
     onClear={[Function]}
-    tooltipID="1234"
   />
   <AutoCompleteFocusShortcut
-    tooltipID="1234"
     useKeyShortcuts={true}
   />
   <AutoCompleteError

@@ -7,7 +7,6 @@ import { KEYCODES } from '../AutoCompleteConstants';
 import { noop } from '../../../common/helpers';
 
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
-jest.mock('uuid/v1', () => jest.fn(fn => '1234'));
 
 const getProps = () => ({
   ...AutoCompleteProps,

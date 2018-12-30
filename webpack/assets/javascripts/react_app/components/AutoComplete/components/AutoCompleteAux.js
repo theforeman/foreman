@@ -1,9 +1,9 @@
 import React from 'react';
 import AutoCompleteClearButton from './AutoCompleteClearButton';
 
-const AutoCompleteAux = ({ onClear, clearTooltipID }) => (
+const AutoCompleteAux = ({ ...props }) => (
   <div className="autocomplete-aux">
-    <AutoCompleteClearButton onClear={onClear} tooltipID={clearTooltipID} />
+    <AutoCompleteClearButton {...props} />
   </div>
 );
 

@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import { OverlayTrigger, Tooltip } from 'patternfly-react';
 import { translate as __ } from '../../../common/I18n';
 
-const AutoCompleteFocusShortcut = ({ useKeyShortcuts, tooltipID }) => {
+const AutoCompleteFocusShortcut = ({ useKeyShortcuts }) => {
   const tooltip = useKeyShortcuts && (
-    <Tooltip id={tooltipID}>{__("Press ' / ' to focus on search")}</Tooltip>
+    <Tooltip id={UUID()}>{__("Press ' / ' to focus on search")}</Tooltip>
   );
   return (
     <OverlayTrigger
@@ -29,12 +29,10 @@ const AutoCompleteFocusShortcut = ({ useKeyShortcuts, tooltipID }) => {
 
 AutoCompleteFocusShortcut.propTypes = {
   useKeyShortcuts: PropTypes.bool,
-  tooltipID: PropTypes.string,
 };
 
 AutoCompleteFocusShortcut.defaultProps = {
   useKeyShortcuts: true,
-  tooltipID: UUID(),
 };
 
 export default AutoCompleteFocusShortcut;

@@ -142,8 +142,6 @@ class AutoComplete extends React.Component {
 
   render() {
     const {
-      clearTooltipID,
-      focusTooltipID,
       emptyLabel,
       error,
       initialQuery,
@@ -181,14 +179,8 @@ class AutoComplete extends React.Component {
             ...inputProps,
           }}
         />
-        <AutoCompleteAux
-          onClear={this.handleClear}
-          clearTooltipID={clearTooltipID}
-        />
-        <AutoCompleteFocusShortcut
-          useKeyShortcuts={useKeyShortcuts}
-          tooltipID={focusTooltipID}
-        />
+        <AutoCompleteAux onClear={this.handleClear} />
+        <AutoCompleteFocusShortcut useKeyShortcuts={useKeyShortcuts} />
         <AutoCompleteError error={error} />
       </div>
     );
@@ -201,7 +193,9 @@ AutoComplete.propTypes = {
   initialQuery: PropTypes.string,
   inputProps: PropTypes.object,
   status: PropTypes.string,
+  error: PropTypes.string,
   controller: PropTypes.string,
+  handleSearch: PropTypes.func,
   getResults: PropTypes.func,
   resetData: PropTypes.func,
   initialUpdate: PropTypes.func,
@@ -217,7 +211,9 @@ AutoComplete.defaultProps = {
   initialQuery: '',
   inputProps: {},
   status: null,
+  error: null,
   controller: null,
+  handleSearch: noop,
   getResults: noop,
   resetData: noop,
   initialUpdate: noop,
