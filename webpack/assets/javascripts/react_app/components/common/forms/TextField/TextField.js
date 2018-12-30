@@ -1,37 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import CommonForm from './CommonForm';
-import '../../../common/reduxFormI18n';
-
-const renderField = ({
-  input,
-  label,
-  type,
-  required,
-  className,
-  inputClassName,
-  meta: { touched, error },
-}) => (
-  <CommonForm
-    label={label}
-    className={className}
-    inputClassName={inputClassName}
-    touched={touched}
-    required={required}
-    error={error}
-  >
-    {type === 'textarea' ? (
-      <textarea {...input} className="form-control" />
-    ) : (
-      <input
-        {...input}
-        type={type}
-        className={type === 'checkbox' ? '' : 'form-control'}
-      />
-    )}
-  </CommonForm>
-);
+import TextFieldInner from './TextFieldInner';
+import '../../../../common/reduxFormI18n';
 
 const TextField = ({
   name,
@@ -45,7 +16,7 @@ const TextField = ({
   <Field
     name={name}
     type={type}
-    component={renderField}
+    component={TextFieldInner}
     required={required}
     className={className}
     inputClassName={inputClassName}

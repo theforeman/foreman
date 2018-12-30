@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { Radio } from 'patternfly-react';
-import CommonForm from './CommonForm';
+
+import CommonForm from '../CommonForm';
+import RadioButton from './RadioButton';
 
 const RadioButtonGroup = ({
   controlLabel,
@@ -20,26 +21,13 @@ const RadioButtonGroup = ({
     {radios.map((item, index) => (
       <Field
         name={name}
-        component={Button}
+        component={RadioButton}
         item={item}
         disabled={disabled}
         key={index}
       />
     ))}
   </CommonForm>
-);
-
-const Button = ({ input, item, disabled }) => (
-  <Radio
-    {...input}
-    inline
-    title={item.label}
-    checked={item.checked}
-    disabled={disabled}
-    value={item.value}
-  >
-    {item.label}
-  </Radio>
 );
 
 RadioButtonGroup.propTypes = {
