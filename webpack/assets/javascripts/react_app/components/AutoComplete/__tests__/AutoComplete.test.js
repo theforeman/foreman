@@ -27,9 +27,8 @@ describe('AutoComplete', () => {
 
   describe('triggering', () => {
     it('initial query should update query on componentDidMount', () => {
-      const initialQuery = 'test';
       const props = getProps();
-      mount(<AutoComplete {...props} initialQuery={initialQuery} />);
+      mount(<AutoComplete {...props} />);
       expect(props.initialUpdate.mock.calls).toHaveLength(1);
     });
 

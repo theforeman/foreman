@@ -7,6 +7,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
   <AutoComplete
     controller="models"
     emptyLabel={null}
+    error={null}
     getResults={[Function]}
     handleSearch={[Function]}
     initialQuery=""
