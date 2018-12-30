@@ -33,7 +33,14 @@ exports[`ChartBox error 1`] = `
       <DonutChart
         config="regular"
         key="2-chart"
+        noDataMsg="No data available"
         onclick={[Function]}
+        title={
+          Object {
+            "type": "percent",
+          }
+        }
+        unloadData={false}
       />
       <MessageBox
         icontype="error-circle-o"
@@ -78,7 +85,14 @@ exports[`ChartBox pending 1`] = `
       <DonutChart
         config="regular"
         key="2-chart"
+        noDataMsg="No data available"
         onclick={[Function]}
+        title={
+          Object {
+            "type": "percent",
+          }
+        }
+        unloadData={false}
       />
       <MessageBox
         icontype="error-circle-o"
@@ -139,7 +153,14 @@ exports[`ChartBox resolved 1`] = `
           ]
         }
         key="2-chart"
+        noDataMsg="No data available"
         onclick={[Function]}
+        title={
+          Object {
+            "type": "percent",
+          }
+        }
+        unloadData={false}
       />
       <MessageBox
         icontype="error-circle-o"

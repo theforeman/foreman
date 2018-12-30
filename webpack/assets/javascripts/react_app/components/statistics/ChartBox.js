@@ -122,6 +122,8 @@ class ChartBox extends React.Component {
 
 ChartBox.propTypes = {
   status: PropTypes.string.isRequired,
+  title: PropTypes.node,
+  className: PropTypes.string,
   config: PropTypes.string,
   noDataMsg: PropTypes.string,
   errorText: PropTypes.string,
@@ -131,6 +133,8 @@ ChartBox.propTypes = {
 };
 
 ChartBox.defaultProps = {
+  title: '',
+  className: '',
   config: 'regular',
   noDataMsg: __('No data available'),
   errorText: '',
