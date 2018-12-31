@@ -359,8 +359,10 @@ module FormHelper
   # +partial+    : String containing an optional partial into which we render
   def link_to_add_fields(name, f, association, partial = nil, options = {})
     new_object = f.object.class.reflect_on_association(association).klass.new
+    locals_option = options.delete(:locals) || {}
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
-      render((partial.nil? ? association.to_s.singularize + "_fields" : partial), :f => builder)
+      render((partial.nil? ? association.to_s.singularize + "_fields" : partial),
+             { :f => builder }.merge(locals_option))
     end
     options[:class] = link_to_add_fields_classes(options)
     link_to_function(name, "add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')".html_safe, options)
