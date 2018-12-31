@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: 2017-01-12 08:26+0000\n"
 "Last-Translator: Lukas Zapletal <lzap+git@redhat.com>\n"
-"Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
+"Language-Team: English (http://www.transifex.com/foreman/foreman/language/en/)\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -724,9 +724,8 @@ msgstr ""
 msgid "Architecture Distribution"
 msgstr ""
 
-#, fuzzy
 msgid "Architecture ID"
-msgstr "Name"
+msgstr ""
 
 msgid "Architectures"
 msgstr ""
@@ -1156,9 +1155,8 @@ msgstr ""
 msgid "Browse host facts"
 msgstr ""
 
-#, fuzzy
 msgid "Browser locale"
-msgstr "Email address"
+msgstr ""
 
 msgid "Browser timezone"
 msgstr ""
@@ -1307,9 +1305,8 @@ msgstr ""
 msgid "Change the password"
 msgstr ""
 
-#, fuzzy
 msgid "Changed environments"
-msgstr "Environment"
+msgstr ""
 
 msgid "Changes to %s will propagate to all inheriting filters"
 msgstr ""
@@ -2075,16 +2072,14 @@ msgstr ""
 msgid "Default encrypted root password on provisioned hosts"
 msgstr ""
 
-#, fuzzy
 msgid "Default location"
-msgstr "Default value"
+msgstr ""
 
 msgid "Default on login"
 msgstr ""
 
-#, fuzzy
 msgid "Default organization"
-msgstr "Organizations and/or"
+msgstr ""
 
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
@@ -2098,9 +2093,8 @@ msgstr ""
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr ""
 
-#, fuzzy
 msgid "Default value"
-msgstr "Default value"
+msgstr ""
 
 msgid "Default value of variable"
 msgstr ""
@@ -2468,9 +2462,8 @@ msgstr ""
 msgid "Domain"
 msgstr ""
 
-#, fuzzy
 msgid "Domain ID"
-msgstr "DNS domain"
+msgstr ""
 
 msgid "Domain IDs"
 msgstr ""
@@ -2516,9 +2509,8 @@ msgstr ""
 msgid "EFI"
 msgstr ""
 
-#, fuzzy
 msgid "ENC environment"
-msgstr "Environment"
+msgstr ""
 
 msgid "ERROR or FATAL"
 msgstr ""
@@ -2622,9 +2614,8 @@ msgstr ""
 msgid "Enable this host for provisioning"
 msgstr ""
 
-#, fuzzy
 msgid "Enabled"
-msgstr "Partition Table"
+msgstr ""
 
 msgid "Enabled %s for reboot and rebuild"
 msgstr ""
@@ -2648,9 +2639,8 @@ msgstr ""
 msgid "Environment Distribution"
 msgstr ""
 
-#, fuzzy
 msgid "Environment ID"
-msgstr "Name"
+msgstr ""
 
 msgid "Environment IDs"
 msgstr ""
@@ -3366,9 +3356,8 @@ msgstr ""
 msgid "GMT time"
 msgstr ""
 
-#, fuzzy
 msgid "Gateway"
-msgstr "Gateway address"
+msgstr ""
 
 msgid "Gateway Address"
 msgstr ""
@@ -3586,9 +3575,8 @@ msgstr ""
 msgid "Host Group Parameters"
 msgstr ""
 
-#, fuzzy
 msgid "Host Groups"
-msgstr "Host Group"
+msgstr ""
 
 msgid "Host Parameters"
 msgstr ""
@@ -3612,9 +3600,8 @@ msgstr ""
 msgid "Host group IDs"
 msgstr ""
 
-#, fuzzy
 msgid "Host group and Environment"
-msgstr "Environment"
+msgstr ""
 
 msgid "Host group description"
 msgstr ""
@@ -3622,9 +3609,8 @@ msgstr ""
 msgid "Host group matchers inheritance"
 msgstr ""
 
-#, fuzzy
 msgid "Host group only"
-msgstr "Host Group"
+msgstr ""
 
 msgid "Host groups"
 msgstr ""
@@ -5468,9 +5454,8 @@ msgstr ""
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)"
 msgstr ""
 
-#, fuzzy
 msgid "Name of the host group"
-msgstr "Host Group"
+msgstr ""
 
 msgid "Name of the parameter"
 msgstr ""
@@ -5687,9 +5672,8 @@ msgstr ""
 msgid "No comment provided"
 msgstr ""
 
-#, fuzzy
 msgid "No compute resource to show"
-msgstr "Attributes"
+msgstr ""
 
 msgid "No data available"
 msgstr ""
@@ -6092,13 +6076,11 @@ msgstr ""
 msgid "Operating Systems"
 msgstr ""
 
-#, fuzzy
 msgid "Operating system"
-msgstr "Name"
+msgstr ""
 
-#, fuzzy
 msgid "Operating system ID"
-msgstr "Name"
+msgstr ""
 
 msgid "Operating system IDs"
 msgstr ""
@@ -6205,9 +6187,8 @@ msgstr ""
 msgid "Organization Distribution"
 msgstr ""
 
-#, fuzzy
 msgid "Organization fact"
-msgstr "Organizations and/or"
+msgstr ""
 
 msgid "Organization parameters"
 msgstr ""
@@ -6370,9 +6351,8 @@ msgstr ""
 msgid "Parent is already selected"
 msgstr ""
 
-#, fuzzy
 msgid "Parent parameters"
-msgstr "Host Group"
+msgstr ""
 
 msgid "Partition Table"
 msgstr ""
@@ -6383,9 +6363,8 @@ msgstr ""
 msgid "Partition table ID"
 msgstr ""
 
-#, fuzzy
 msgid "Partition template IDs"
-msgstr "Provisioning templates"
+msgstr ""
 
 msgid "Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities."
 msgstr ""
@@ -6815,9 +6794,8 @@ msgstr "Puppet class"
 msgid "Puppetclass|Name"
 msgstr "Class name"
 
-#, fuzzy
 msgid "Puppetrun"
-msgstr "Puppet class"
+msgstr ""
 
 msgid "Query"
 msgstr ""
@@ -7375,16 +7353,14 @@ msgstr ""
 msgid "Select domains"
 msgstr ""
 
-#, fuzzy
 msgid "Select environment"
-msgstr "Environment"
+msgstr ""
 
 msgid "Select environments"
 msgstr ""
 
-#, fuzzy
 msgid "Select host group"
-msgstr "Host Group"
+msgstr ""
 
 msgid "Select host groups"
 msgstr ""
@@ -7958,9 +7934,8 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
-#, fuzzy
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 msgid "Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"
 msgstr ""
@@ -7993,9 +7968,8 @@ msgstr ""
 msgid "Subnet"
 msgstr ""
 
-#, fuzzy
 msgid "Subnet ID"
-msgstr "End of IP range"
+msgstr ""
 
 msgid "Subnet IDs"
 msgstr ""
@@ -8155,9 +8129,8 @@ msgstr ""
 msgid "System Information"
 msgstr ""
 
-#, fuzzy
 msgid "System Status"
-msgstr "Status"
+msgstr ""
 
 msgid "TFTP"
 msgstr ""
@@ -8401,7 +8374,6 @@ msgid ""
 "    then the domain is <b>somewhere.com</b>."
 msgstr ""
 
-#, fuzzy
 msgid "The %{proxy_type} proxy could not be set for host: %{host_names}."
 msgid_plural "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}"
 msgstr[0] ""
@@ -9579,9 +9551,8 @@ msgid "User|Lastname"
 msgstr "Surname"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#, fuzzy
 msgid "User|Locale"
-msgstr "Email address"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Login"
@@ -9596,9 +9567,8 @@ msgid "User|Mail"
 msgstr "Email address"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#, fuzzy
 msgid "User|Mail enabled"
-msgstr "First name"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User|Password hash"
@@ -10641,9 +10611,8 @@ msgstr ""
 msgid "or"
 msgstr ""
 
-#, fuzzy
 msgid "organization"
-msgstr "Organizations and/or"
+msgstr ""
 
 msgid "organizations"
 msgstr ""
@@ -10823,9 +10792,8 @@ msgstr ""
 msgid "unknown parent permission for %s"
 msgstr ""
 
-#, fuzzy
 msgid "unknown permission %s"
-msgstr "Permissions"
+msgstr ""
 
 msgid "unknown permission for %s"
 msgstr ""
