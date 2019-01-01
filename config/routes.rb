@@ -264,7 +264,7 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :audits do
+  resources :audits, :only => [:index] do
     collection do
       get 'auto_complete_search'
     end
