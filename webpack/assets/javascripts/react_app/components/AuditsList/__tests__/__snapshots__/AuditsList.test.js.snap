@@ -123,6 +123,16 @@ exports[`AuditsList rendering render resources list 1`] = `
         }
       />
     </Row>
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <ShowInlineRequestUuid
+        fetchAndPush={[MockFunction]}
+        id={234}
+        requestUuid="c134239d-8ac3-494b-9962-35133fe153ba"
+      />
+    </Row>
     <ExpansiveView
       actionDisplayName="updated"
       auditTitle="host-foo.example.com"

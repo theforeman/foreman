@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListView, Row } from 'patternfly-react';
 import SearchLink from './SearchLink';
+import ShowInlineRequestUuid from './ShowInlineRequestUuid';
 import ShowOrgsLocs from './ShowOrgsLocs';
 import ActionLinks from './ActionLinks';
 import ExpansiveView from './ExpansiveView';
@@ -56,7 +57,7 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
   return auditTitle;
 };
 
-const AuditsList = ({ data: { audits } }) => {
+const AuditsList = ({ data: { audits }, fetchAndPush }) => {
   const initExpanded = audits.length === 1;
 
   return (
@@ -75,6 +76,7 @@ const AuditsList = ({ data: { audits } }) => {
           affected_organizations: affectedOrganizations,
           affected_locations: affectedLocations,
           allowed_actions: allowedActions,
+          request_uuid: requestUuid,
           comment,
           audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
           details,
@@ -112,6 +114,14 @@ const AuditsList = ({ data: { audits } }) => {
               <ActionLinks allowedActions={allowedActions} />
             </Row>
 
+            <Row>
+              <ShowInlineRequestUuid
+                fetchAndPush={fetchAndPush}
+                requestUuid={requestUuid}
+                id={id}
+              />
+            </Row>
+
             <ExpansiveView
               {...{
                 actionDisplayName,
@@ -132,6 +142,7 @@ AuditsList.propTypes = {
   data: PropTypes.shape({
     audits: PropTypes.array.isRequired,
   }).isRequired,
+  fetchAndPush: PropTypes.func.isRequired,
 };
 
 export default AuditsList;

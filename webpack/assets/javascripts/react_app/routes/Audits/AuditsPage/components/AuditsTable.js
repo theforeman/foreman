@@ -15,7 +15,7 @@ const AuditsTable = ({
 }) => (
   <React.Fragment>
     <div id="audit-list">
-      <AuditsList data={{ audits }} />
+      <AuditsList data={{ audits }} fetchAndPush={fetchAndPush} />
     </div>
     <div id="pagination">
       <Pagination

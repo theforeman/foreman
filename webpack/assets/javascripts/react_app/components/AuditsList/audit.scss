@@ -109,9 +109,14 @@
       }
     }
 
-    .taxonomy-section {
+    .taxonomy-section,
+    .request-uuid-column {
       padding-left: 50px;
       word-break: break-word;
+    }
+
+    .request-uuid-column .value {
+      font-weight: bold;
     }
 
     .grid-container {
