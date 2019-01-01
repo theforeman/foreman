@@ -47,6 +47,12 @@ class AuditMailerTest < ActionMailer::TestCase
     assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.last.body, query_should_be)
   end
 
+  test 'Audit html mail should include correct id query' do
+    @options[:query] = 'id = 21'
+    query_should_be = CGI.escape(@options[:query])
+    assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.last.body, query_should_be)
+  end
+
   test "Audit template change should not crash" do
     template = FactoryBot.create(:provisioning_template, :template => 'aaaa', :name => 'audited ptable', :snippet => true)
     template.update(:template => 'bbbbbb')
