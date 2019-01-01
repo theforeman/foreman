@@ -121,6 +121,46 @@ exports[`AuditsList rendering render resources list 1`] = `
         }
       />
     </Row>
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        className="request_uuid_column"
+        componentClass="div"
+        sm={10}
+      >
+        <Row
+          bsClass="row"
+          componentClass="div"
+        >
+          <Col
+            bsClass="col"
+            componentClass="div"
+            md={2}
+          >
+            <span>
+              Request UUID
+            </span>
+          </Col>
+          <Col
+            bsClass="col"
+            componentClass="div"
+            md={10}
+          >
+            <strong>
+              <SearchLink
+                id={234}
+                textValue="c134239d-8ac3-494b-9962-35133fe153ba"
+                title="HTTP request UUID, clicking will filter audits for this request. It can also be used for searching in application logs."
+                url="/audits?search=request_uuid=xyz"
+              />
+            </strong>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
     <ExpansiveView
       actionDisplayName="updated"
       auditTitle="host-foo.example.com"

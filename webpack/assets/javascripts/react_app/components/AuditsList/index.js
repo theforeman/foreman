@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListView, Row } from 'patternfly-react';
+import { ListView, Row, Col } from 'patternfly-react';
 import SearchLink from './SearchLink';
 import ShowOrgsLocs from './ShowOrgsLocs';
 import ActionLinks from './ActionLinks';
@@ -52,6 +52,17 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
   return auditTitle;
 };
 
+const renderRequestUuidLink = (url, title, id) => (
+  <SearchLink
+    url={url}
+    textValue={title}
+    title={__(
+      'HTTP request UUID, clicking will filter audits for this request. It can also be used for searching in application logs.'
+    )}
+    id={id}
+  />
+);
+
 const AuditsList = ({ data: { audits } }) => (
   <ListView>
     {audits.map(
@@ -69,6 +80,8 @@ const AuditsList = ({ data: { audits } }) => (
           affected_organizations: affectedOrganizations,
           affected_locations: affectedLocations,
           allowed_actions: allowedActions,
+          request_uuid: requestUuid,
+          audit_request_search: auditRequestSearch,
           comment,
           audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
           details,
@@ -105,6 +118,21 @@ const AuditsList = ({ data: { audits } }) => (
               locs={affectedLocations}
             />
             <ActionLinks allowedActions={allowedActions} />
+          </Row>
+
+          <Row>
+            <Col sm={10} className="request_uuid_column">
+              <Row>
+                <Col md={2}>
+                  <span>{__('Request UUID')}</span>
+                </Col>
+                <Col md={10}>
+                  <strong>
+                    {renderRequestUuidLink(auditRequestSearch, requestUuid, id)}
+                  </strong>
+                </Col>
+              </Row>
+            </Col>
           </Row>
 
           <ExpansiveView

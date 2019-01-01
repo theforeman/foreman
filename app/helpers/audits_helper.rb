@@ -223,7 +223,8 @@ module AuditsHelper
         'affected_organizations' => fetch_affected_organizations(audit),
         'details' => additional_details_if_any(audit, action_display_name),
         'audited_changes_with_id_to_label' => audit.audited_changes.blank? ? [] : rebuild_audit_changes(audit),
-        'allowed_actions' => actions_allowed(audit)
+        'allowed_actions' => actions_allowed(audit),
+        'audit_request_search' => audit_request_search(audit)
       )
     end
   end
@@ -304,6 +305,10 @@ module AuditsHelper
     keytype_array = Audit.find_complete_keytype_array(audit.auditable_type)
     filter = "type = #{keytype_array.first} and auditable_id = #{audit.auditable_id}" if keytype_array.present?
     (filter ? audits_path(:search => filter) : nil)
+  end
+
+  def audit_request_search(audit)
+    audits_path(:search => "request_uuid = #{audit.request_uuid}")
   end
 
   def user_info(audit)

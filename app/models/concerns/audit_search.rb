@@ -16,6 +16,7 @@ module AuditSearch
     belongs_to :search_settings, :class_name => 'Setting', :foreign_key => :auditable_id
 
     scoped_search :on => :id, :complete_value => false
+    scoped_search :on => :request_uuid, :complete_value => false, :only_explicit => true
     scoped_search :on => [:username, :remote_address, :comment], :complete_value => true
     scoped_search :on => :audited_changes, :rename => 'changes'
     scoped_search :on => :created_at, :complete_value => true, :rename => :time, :default_order => :desc
