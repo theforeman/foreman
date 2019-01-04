@@ -84,11 +84,11 @@
     "jquery-ujs": "~1.2.0",
     "jquery.cookie": "~1.4.1",
     "jstz": "~1.0.7",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "multiselect": "~0.9.12",
     "number_helpers": "^0.1.1",
     "patternfly": "^3.58.0",
-    "patternfly-react": "^2.25.5",
+    "patternfly-react": "^2.29.0",
     "prop-types": "^15.6.0",
     "react": "^16.4.0",
     "react-bootstrap": "0.32.1",
@@ -111,7 +111,7 @@
     "select2": "~3.5.2-browserify",
     "unidiff": "0.0.4",
     "urijs": "^1.18.10",
-    "uuid": "^3.0.1"
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/",
