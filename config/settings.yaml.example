@@ -22,6 +22,10 @@
 # errors in your browser
 :webpack_dev_server_https: false
 
+# If you set webpack_dev_server_https you most likely also want to specify hostname
+# matching your SSL certificate
+# :webpack_dev_server_host: foreman.example.com
+
 # Assets in development are not bundled/minified
 # Do not set this to false if you plan to edit assets (css, js, etc.)
 :assets_debug: false

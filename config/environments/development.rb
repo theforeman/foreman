@@ -60,4 +60,5 @@ Foreman::Application.configure do
   # Allow disabling the webpack dev server from the settings
   config.webpack.dev_server.enabled = SETTINGS.fetch(:webpack_dev_server, true)
   config.webpack.dev_server.https = SETTINGS.fetch(:webpack_dev_server_https, false)
+  config.webpack.dev_server.manifest_host = SETTINGS.fetch(:webpack_dev_server_host, 'localhost')
 end
