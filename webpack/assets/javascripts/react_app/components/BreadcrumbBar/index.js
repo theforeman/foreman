@@ -4,20 +4,33 @@ import { connect } from 'react-redux';
 import * as actions from './BreadcrumbBarActions';
 import reducer from './BreadcrumbBarReducer';
 
+import {
+  selectResourceSwitcherItems,
+  selectIsSwitcherOpen,
+  selectResourceUrl,
+  selectIsLoadingResources,
+  selectHasError,
+  selectCurrentPage,
+  selectTotalPages,
+  selectSearchQuery,
+  selectRemoveSearchQuery,
+  selectTitleReplacement,
+} from './BreadcrumbBarSelector';
+
 import BreadcrumbBar from './BreadcrumbBar';
 
 // map state to props
-const mapStateToProps = ({ breadcrumbBar }) => ({
-  resourceSwitcherItems: breadcrumbBar.resourceSwitcherItems,
-  isSwitcherOpen: breadcrumbBar.isSwitcherOpen,
-  resourceUrl: breadcrumbBar.resourceUrl,
-  isLoadingResources: breadcrumbBar.isLoadingResources,
-  hasError: breadcrumbBar.requestError !== null,
-  currentPage: breadcrumbBar.currentPage,
-  totalPages: breadcrumbBar.pages,
-  searchQuery: breadcrumbBar.searchQuery,
-  removeSearchQuery: breadcrumbBar.removeSearchQuery,
-  titleReplacement: breadcrumbBar.titleReplacement,
+const mapStateToProps = state => ({
+  resourceSwitcherItems: selectResourceSwitcherItems(state),
+  isSwitcherOpen: selectIsSwitcherOpen(state),
+  resourceUrl: selectResourceUrl(state),
+  isLoadingResources: selectIsLoadingResources(state),
+  hasError: selectHasError(state),
+  currentPage: selectCurrentPage(state),
+  totalPages: selectTotalPages(state),
+  searchQuery: selectSearchQuery(state),
+  removeSearchQuery: selectRemoveSearchQuery(state),
+  titleReplacement: selectTitleReplacement(state),
 });
 
 // map action dispatchers to props

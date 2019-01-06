@@ -12,9 +12,17 @@ class BreadcrumbBar extends React.Component {
       loadSwitcherResourcesByResource,
       currentPage,
       resourceUrl,
+      resourceSwitcherItems,
     } = this.props;
-
-    if (!currentPage || resourceUrl !== resource.resourceUrl) {
+    const isUrlFormatValid = resourceSwitcherItems.length
+      ? resourceSwitcherItems[0].url ===
+        resource.switcherItemUrl.replace(':id', resourceSwitcherItems[0].id)
+      : true;
+    if (
+      !currentPage ||
+      resourceUrl !== resource.resourceUrl ||
+      !isUrlFormatValid
+    ) {
       loadSwitcherResourcesByResource(resource);
     }
   }

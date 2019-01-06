@@ -58,6 +58,7 @@ describe('BreadcrumbBar', () => {
     });
 
     it('onclick callbacks should work', () => {
+      window.history.pushState({}, 'Test Title', '/hosts/1');
       const props = {
         ...breadcrumbBarSwithcable,
         ...createStubs(),

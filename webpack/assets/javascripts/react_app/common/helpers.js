@@ -37,6 +37,15 @@ export const bindMethods = (context, methods) => {
 };
 
 /**
+ * Removes slashes from the beggining and end of the path
+ * @param {String} path - the path that should be removed of slashes
+ */
+export const removeLastSlashFromPath = path => {
+  if (!path || path.length < 2) return path;
+  const lastCharIndex = path.length - 1;
+  return path[lastCharIndex] === '/' ? path.slice(0, -1) : path;
+};
+/**
  * An empty function which is usually used as a default function.
  */
 export const noop = Function.prototype;

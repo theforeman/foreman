@@ -10,9 +10,10 @@ import {
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import SearchInput from '../../common/SearchInput';
 import SubstringWrapper from '../../common/SubstringWrapper';
-import { noop } from '../../../common/helpers';
+import { noop, removeLastSlashFromPath } from '../../../common/helpers';
 import { translate as __ } from '../../../../react_app/common/I18n';
 import './BreadcrumbSwitcherPopover.scss';
+import { getCurrentPath } from '../../Layout/LayoutHelper';
 
 const BreadcrumbSwitcherPopover = ({
   resources,
@@ -47,12 +48,15 @@ const BreadcrumbSwitcherPopover = ({
     const createItemProps = item => {
       const { id, url, name } = item;
       const key = `${id}-${name}`;
-
+      const urlWithName = url
+        ? removeLastSlashFromPath(url.replace(id, name))
+        : url;
+      const pathname = getCurrentPath();
       const itemProps = {
         key,
         id: key,
         className: 'no-border',
-        active: url === window.location.pathname,
+        active: url === pathname || urlWithName === pathname,
       };
 
       if (itemProps.active) {
