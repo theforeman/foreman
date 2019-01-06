@@ -4,8 +4,10 @@ import {
   changeLocation,
 } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
+import { removeLastSlashFromPath } from '../../common/helpers';
 
-export const getCurrentPath = () => window.location.pathname;
+export const getCurrentPath = () =>
+  removeLastSlashFromPath(window.location.pathname);
 
 export const getActive = (data, path) => {
   let activeItem = '';

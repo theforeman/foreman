@@ -3,6 +3,7 @@ import {
   translateObject,
   propsToSnakeCase,
   propsToCamelCase,
+  removeLastSlashFromPath,
 } from './helpers';
 
 describe('translateArray, translateObject', () => {
@@ -26,5 +27,16 @@ describe('propsToCamelCase, propsToSnakeCase', () => {
 
   it('should transform keys to snake case', () => {
     expect(propsToSnakeCase(camelObj)).toEqual(snakeObj);
+  });
+});
+
+describe('removeLastSlashFromPath', () => {
+  const pathWithSlash = 'example.com/';
+  const pathWithoutSlash = 'example.com';
+  it('should remove the last Slash', () => {
+    expect(removeLastSlashFromPath(pathWithSlash)).toBe('example.com');
+  });
+  it('should not change the path', () => {
+    expect(removeLastSlashFromPath(pathWithoutSlash)).toBe('example.com');
   });
 });
