@@ -90,7 +90,7 @@ module Authorizable
     end
 
     def allows_taxonomy_filtering?(taxonomy)
-      scoped_search_definition&.fields&.has_key?(taxonomy)
+      scoped_search_definition&.fields&.has_key?(taxonomy.to_sym)
     end
 
     def allows_organization_filtering?
