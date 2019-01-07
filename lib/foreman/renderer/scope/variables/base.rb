@@ -91,8 +91,9 @@ module Foreman
           end
 
           def xenserver_attributes
-            @mediapath = mediumpath(@medium_provider) if @medium_provider
-            @xen = xen(arch)
+            return unless @medium_provider
+            @mediapath = mediumpath(@medium_provider)
+            @xen = xen(@medium_provider)
           end
 
           def pxe_config
