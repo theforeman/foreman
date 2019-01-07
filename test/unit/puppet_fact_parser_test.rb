@@ -68,10 +68,27 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_os_idempotent
     end
 
+    test "release_name should be unknown when lsbdistcodename isn't set on Debian" do
+      @importer = PuppetFactParser.new(debian_facts.delete_if { |k, v| k == "lsbdistcodename" })
+      assert_equal 'unknown', os.release_name
+      assert_os_idempotent
+    end
+
     test "should set os.release_name to the lsbdistcodename fact on Debian" do
       @importer = PuppetFactParser.new(debian_facts)
       assert_equal 'wheezy', os.release_name
       assert_os_idempotent
+    end
+
+    test "should not alter lsbdistcodename and set it to unknown" do
+      @importer = PuppetFactParser.new(debian_facts)
+      assert_equal 'wheezy', os.release_name
+      first_os = @importer.operatingsystem
+      assert first_os.present?
+      @importer = PuppetFactParser.new(debian_facts.delete_if { |k, v| k == "lsbdistcodename" })
+      second_os = @importer.operatingsystem
+      assert_equal 'wheezy', os.release_name
+      assert_equal first_os, second_os
     end
 
     test "should not set os.release_name to the lsbdistcodename on non-Debian OS" do
