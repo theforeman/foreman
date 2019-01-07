@@ -320,7 +320,7 @@ class User < ApplicationRecord
   end
 
   def self.fetch_ids_by_list(userlist)
-    User.where(:lower_login => userlist.map(&:downcase)).pluck(:id)
+    self.where(:lower_login => userlist.map(&:downcase)).pluck(:id)
   end
 
   def matching_password?(pass)
@@ -488,6 +488,9 @@ class User < ApplicationRecord
     TopbarSweeper.expire_cache(self)
   end
 
+  # Returns aproximated list of users external groups, without contacting LDAP.
+  # Known issue:
+  #   If usergroup have two associated external groups, we don't know which one the user is in.
   def external_usergroups
     usergroups.flat_map(&:external_usergroups).select { |group| group.auth_source == self.auth_source }
   end

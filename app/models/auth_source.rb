@@ -79,6 +79,9 @@ class AuthSource < ApplicationRecord
   def update_usergroups(login)
   end
 
+  def refresh_usergroup_members(usergroup)
+  end
+
   # Does the user exist?
   def valid_user?(name)
     false

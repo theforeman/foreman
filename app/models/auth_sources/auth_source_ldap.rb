@@ -124,19 +124,34 @@ class AuthSourceLdap < AuthSource
     end
 
     logger.debug "Updating user groups for user #{login}"
-    internal = User.unscoped.find_by_login(login).external_usergroups.map(&:name)
-    external = ldap_con.group_list(login) # this list may return all groups in lowercase
-    (internal | external).each do |name|
-      begin
-        external_usergroup = external_usergroups.where('lower(name) = ?', name.downcase).last
-        if external_usergroup.present?
-          logger.debug "Refreshing external user group #{external_usergroup.name}"
-          external_usergroup.refresh
-        end
-      rescue => error
-        logger.warn "Could not update user group #{name}: #{error}"
-      end
+    user = User.unscoped.find_by_login(login)
+    external = ldap_con.group_list(login).map(&:downcase)
+    group_name_arel = ExternalUsergroup.arel_table[:name].lower
+
+    usergroup_ids = user.usergroup_ids
+    usergroup_ids.concat(
+      ExternalUsergroup.where(auth_source_id: id)
+        .where(group_name_arel.in(external))
+        .pluck(:usergroup_id)
+    )
+
+    Usergroup.where(id: usergroup_ids.uniq).find_each do |usergroup|
+      refresh_usergroup_members(usergroup)
     end
+  end
+
+  def refresh_usergroup_members(usergroup)
+    logins = usergroup.external_usergroups.where(auth_source_id: id).map(&:users)
+    logins = logins.select { |a| !!a }.flatten.map(&:downcase).uniq
+
+    user_ids = User.unscoped.where(auth_source_id: id).fetch_ids_by_list(logins)
+    current_user_ids = usergroup.users.where(auth_source_id: id).pluck(:id)
+
+    usergroup.user_ids -= (current_user_ids - user_ids)
+    usergroup.user_ids += (user_ids - current_user_ids)
+
+    # audit changes - see #23377
+    usergroup.save
   end
 
   def valid_user?(name)
