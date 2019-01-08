@@ -968,7 +968,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
   end
 
-
   test "host with two interfaces should get ips assigned on both interfaces" do
     disable_orchestration
     subnet1 = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
