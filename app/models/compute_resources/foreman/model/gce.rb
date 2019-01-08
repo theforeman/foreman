@@ -99,7 +99,12 @@ module Foreman::Model
 
       username = images.find_by(:uuid => args[:image_name]).try(:username)
       ssh      = { :username => username, :public_key => key_pair.public }
-      vm = super(args.merge(ssh))
+      args.merge!(ssh)
+
+      options = vm_instance_defaults.merge(args.to_hash.deep_symbolize_keys)
+      logger.debug("creating VM with the following options: #{options.inspect}")
+
+      vm = client.servers.create options.symbolize_keys
       vm.disks.each { |disk| vm.set_disk_auto_delete(true, disk['deviceName']) }
       vm
     rescue Fog::Errors::Error => e
