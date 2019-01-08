@@ -52,11 +52,13 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
   return auditTitle;
 };
 
-const AuditsList = ({ data: { audits } }) => (
-  <ListView>
-    {audits.map(
-      (
-        {
+const AuditsList = ({ data: { audits } }) => {
+  const initExpanded = audits.length === 1;
+
+  return (
+    <ListView>
+      {audits.map(
+        ({
           id,
           created_at: createdAt,
           audited_type_name: auditedTypeName,
@@ -72,57 +74,56 @@ const AuditsList = ({ data: { audits } }) => (
           comment,
           audited_changes_with_id_to_label: auditedChangesWithIdToLabel,
           details,
-        },
-        index
-      ) => (
-        <ListView.Item
-          id={id}
-          key={id}
-          className={
-            remoteAddress
-              ? 'main-info-minimize-padding'
-              : 'main-info-maximize-padding'
-          }
-          actions={renderTimestamp(createdAt)}
-          additionalInfo={renderAdditionalInfoItems([
-            auditedTypeName.toUpperCase(),
-            renderResourceLink(auditTitle, auditTitleUrl, id),
-          ])}
-          heading={
-            <UserDetails
-              isAuditLogin={isAuditLogin(auditedChanges)}
-              userInfo={userInfo}
-              remoteAddress={remoteAddress}
-            />
-          }
-          description={description(actionDisplayName)}
-          stacked={false}
-          hideCloseIcon
-        >
-          <Row>
-            <ShowOrgsLocs
-              orgs={affectedOrganizations}
-              locs={affectedLocations}
-            />
-            <ActionLinks allowedActions={allowedActions} />
-          </Row>
+        }) => (
+          <ListView.Item
+            id={id}
+            key={id}
+            className={
+              remoteAddress
+                ? 'main-info-minimize-padding'
+                : 'main-info-maximize-padding'
+            }
+            actions={renderTimestamp(createdAt)}
+            additionalInfo={renderAdditionalInfoItems([
+              auditedTypeName.toUpperCase(),
+              renderResourceLink(auditTitle, auditTitleUrl, id),
+            ])}
+            heading={
+              <UserDetails
+                isAuditLogin={isAuditLogin(auditedChanges)}
+                userInfo={userInfo}
+                remoteAddress={remoteAddress}
+              />
+            }
+            description={description(actionDisplayName)}
+            stacked={false}
+            hideCloseIcon
+            initExpanded={initExpanded}
+          >
+            <Row>
+              <ShowOrgsLocs
+                orgs={affectedOrganizations}
+                locs={affectedLocations}
+              />
+              <ActionLinks allowedActions={allowedActions} />
+            </Row>
 
-          <ExpansiveView
-            {...{
-              actionDisplayName,
-              details,
-              comment,
-              auditTitle,
-              auditedChanges,
-              auditedChangesWithIdToLabel,
-            }}
-          />
-        </ListView.Item>
-      )
-    )}
-  </ListView>
-);
-
+            <ExpansiveView
+              {...{
+                actionDisplayName,
+                details,
+                comment,
+                auditTitle,
+                auditedChanges,
+                auditedChangesWithIdToLabel,
+              }}
+            />
+          </ListView.Item>
+        )
+      )}
+    </ListView>
+  );
+};
 AuditsList.propTypes = {
   data: PropTypes.shape({
     audits: PropTypes.array.isRequired,

@@ -64,7 +64,7 @@ exports[`AuditsList rendering render resources list 1`] = `
     }
     hideCloseIcon={true}
     id={234}
-    initExpanded={false}
+    initExpanded={true}
     key="234"
     leftContent={null}
     onCloseCompoundExpand={[Function]}
