@@ -16,6 +16,12 @@ var fs = require('fs');
 var { execSync } = require('child_process');
 
 var args = argvParse({
+  https: {
+    type: 'boolean',
+  },
+  public: {
+    type: 'string',
+  },
   port: {
     type: 'string',
   },
@@ -39,15 +45,22 @@ const supportedLanguages = () => {
   return [ ...new Set(supportedLocales().map(d => d.split('_')[0]))];
 }
 
+const removePort = host => host && host.replace(/:[0-9]*$/, "");
+
 const devServerConfig = () => {
   const result = require('dotenv').config();
   if (result.error && result.error.code !== 'ENOENT') {
     throw result.error;
   }
 
+  const port = args.port || '3808';
+  const host = args.host || process.env.BIND || 'localhost';
+
   return {
-    port: args.port || '3808',
-    host: args.host || process.env.BIND || 'localhost',
+    port: port,
+    host: host,
+    publicHost: `${removePort(args.public) || host}:${port}`,
+    protocol: args.https ? 'https' : 'http',
   }
 }
 
@@ -99,6 +112,13 @@ module.exports = env => {
     pluginEntries
   );
 
+  var publicPath;
+  if (production) {
+    publicPath = '/webpack/';
+  } else {
+    publicPath = `${devServer.protocol}://${devServer.publicHost}/webpack/`;
+  }
+
   const supportedLanguagesRE = new RegExp(`/(${supportedLanguages().join('|')})$`);
 
   var config = {
@@ -109,7 +129,7 @@ module.exports = env => {
 
       // must match config.webpack.output_dir
       path: outputPath,
-      publicPath: '/webpack/',
+      publicPath,
       filename: jsFilename,
       chunkFilename
     },
@@ -239,6 +259,8 @@ module.exports = env => {
     config.devServer = {
       host: devServer.host,
       port: devServer.port,
+      public: devServer.publicHost,
+      publicPath: publicPath,
       headers: { 'Access-Control-Allow-Origin': '*' },
       hot: true
     };
