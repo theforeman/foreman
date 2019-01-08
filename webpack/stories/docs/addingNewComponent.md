@@ -86,7 +86,7 @@ All tests can be executed with `npm test`.
 If you want to run only a single test use `jest` directly: `./node_modules/.bin/jest <path/to/some.test.js>`
 This is useful especially for debugging because it doesn't hide console output.
 
-Linter (code style checking) can be executed with `npm run lint`. You can run it with parameter `--fix` to let it automatically fix the discovered issues.
+Linter (code style checking) can be executed with `npm run lint`. You can run it with parameter `--fix` to let it automatically fix the discovered issues. You need to pass the parameter to eslint, so run the command like this `npm run lint -- --fix`.
 
 
 ## Making it available from erb
