@@ -191,7 +191,6 @@ class HostJSTest < IntegrationTestWithJavascript
       compute_attributes.vm_attrs['cpus'] = '2'
       compute_attributes.save
 
-
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
