@@ -1,7 +1,7 @@
 
 <%= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
 <%= f.hidden_field :size_gb if !new_vm %>
-<%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
+<%= select_f f, :storage_domain, ovirt_storage_domains_for_select(compute_resource), :id, :label,
              { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
 <%= f.hidden_field :storage_domain if !new_vm %>
 <%= f.hidden_field :id %>

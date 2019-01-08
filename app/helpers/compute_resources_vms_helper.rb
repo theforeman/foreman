@@ -193,6 +193,10 @@ module ComputeResourcesVmsHelper
     params['start'].to_i + 1 + [@vms.length, params['length'].to_i].min
   end
 
+  def ovirt_storage_domains_for_select(compute_resource)
+    compute_resource.storage_domains.map { |sd| OpenStruct.new({ id: sd.id, label: "#{sd.name} (" + _("Available") + ": #{sd.available.to_i / 1.gigabyte} GiB, " + _("Used") + ": #{sd.used.to_i / 1.gigabyte} GiB)" }) }
+  end
+
   def ovirt_vms_data
     data = @vms.map do |vm|
       [
