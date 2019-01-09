@@ -16,7 +16,7 @@ attributes :ip, :ip6, :environment_id, :environment_name, :last_report, :mac, :r
            :compute_resource_id, :compute_resource_name,
            :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
            :certname, :image_id, :image_name, :created_at, :updated_at,
-           :last_compile, :global_status, :global_status_label
+           :last_compile, :global_status, :global_status_label, :facts
 attributes :organization_id, :organization_name if SETTINGS[:organizations_enabled]
 attributes :location_id, :location_name         if SETTINGS[:locations_enabled]
 
