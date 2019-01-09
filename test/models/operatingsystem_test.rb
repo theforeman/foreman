@@ -30,14 +30,14 @@ class OperatingsystemTest < ActiveSupport::TestCase
   should allow_value(*valid_name_list).for(:description)
 
   test "name and major should be unique" do
-    operating_system = FactoryBot.build(:operatingsystem, :name => "Ubuntu", :major => "10")
+    operating_system = FactoryBot.build(:operatingsystem, :name => "Ubuntu", :major => "10", :release_name => "rn10")
     assert operating_system.save
-    other_operating_system = FactoryBot.build(:operatingsystem, :name => "Ubuntu", :major => "10")
+    other_operating_system = FactoryBot.build(:operatingsystem, :name => "Ubuntu", :major => "10", :release_name => "rn10")
     refute_valid other_operating_system
   end
 
   test "should not destroy while using" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10"
+    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "10", :release_name => "rn10"
     assert operating_system.save
 
     host = FactoryBot.create(:host)
@@ -49,12 +49,12 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   # Methods tests
   test "to_label should print correctly" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10"
+    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10", :release_name => "rn9"
     assert operating_system.to_label == "Ubuntu 9.10"
   end
 
   test "to_s retrives label" do
-    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10"
+    operating_system = Operatingsystem.new :name => "Ubuntu", :major => "9", :minor => "10", :release_name => "rn9"
     assert operating_system.to_s == operating_system.to_label
   end
 
@@ -121,6 +121,7 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
     test "os family can be one of defined os families" do
       Operatingsystem.families.each do |family|
+        os.release_name = "nicereleasename" if (family == 'Debian')
         os.family = family
         assert_valid os
       end

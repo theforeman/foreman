@@ -37,7 +37,13 @@ class PuppetFactParser < FactParser
       minor = minor.to_s.gsub(/[^\d\.]/, '')
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
-      os.release_name = facts[:lsbdistcodename] if facts[:lsbdistcodename] && (os_name[/debian|ubuntu/i] || os.family == 'Debian')
+      if os_name[/debian|ubuntu/i] || os.family == 'Debian'
+        if facts[:lsbdistcodename]
+          os.release_name = facts[:lsbdistcodename]
+        elsif os.release_name.blank?
+          os.release_name = 'unknown'
+        end
+      end
     else
       os = Operatingsystem.find_or_initialize_by(:name => os_name)
     end

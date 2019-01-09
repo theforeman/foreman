@@ -22,6 +22,7 @@ ubuntu1010:
   name: Ubuntu
   major: 10
   minor: 10
+  release_name: rn10
   type: Debian
   media: ubuntu
   architectures: x86_64
@@ -31,6 +32,7 @@ ubuntu1210:
   name: Ubuntu
   major: 12
   minor: 10
+  release_name: rn10
   type: Debian
   media: ubuntu
   architectures: x86_64
