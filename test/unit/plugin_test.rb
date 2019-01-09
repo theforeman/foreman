@@ -417,7 +417,7 @@ class PluginTest < ActiveSupport::TestCase
   def test_hosts_controller_action_scope
     mock_scope = ->(scope) { scope }
     Foreman::Plugin.register :test_hosts_controller_action_scope do
-      add_controller_action_scope HostsController, :test_action, &mock_scope
+      add_controller_action_scope 'HostsController', :test_action, &mock_scope
     end
     scopes = HostsController.scopes_for(:test_action)
     assert_equal mock_scope, scopes.last
@@ -429,7 +429,7 @@ class PluginTest < ActiveSupport::TestCase
       scope
     end
     Foreman::Plugin.register :test_hosts_controller_action_scope_added_to_local do
-      add_controller_action_scope HostsController, :test_action, &mock_scope
+      add_controller_action_scope 'HostsController', :test_action, &mock_scope
     end
     scopes = HostsController.scopes_for(:test_action)
     assert_equal 2, scopes.count
