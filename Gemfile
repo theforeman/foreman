@@ -51,6 +51,7 @@ gem 'sshkey', '~> 1.9'
 gem 'dynflow', '>= 1.0.0', '< 2.0.0'
 gem 'daemons'
 gem 'get_process_mem'
+gem 'keycloak-api-rails'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

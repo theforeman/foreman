@@ -3,6 +3,7 @@ Foreman::Application.routes.draw do
   namespace :api, :defaults => {:format => 'json'} do
     # new v2 routes that point to v2
     scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
+      get '/keycloak_authentication', to: 'keycloak#authentication'
       resources :architectures, :except => [:new, :edit] do
         constraints(:id => /[^\/]+/) do
           resources :hosts, :except => [:new, :edit]
