@@ -7,8 +7,8 @@ module Api
 
       before_action :find_override_values
       before_action :find_override_value, :only => [:show, :update, :destroy]
-      # override return_if_smart_mismatch in LookupKeysCommonController to add :index, :create
-      before_action :return_if_smart_mismatch, :only => [:index, :create, :show, :update, :destroy]
+      # override return_if_smart_mismatch in LookupKeysCommonController to add :create
+      before_action :return_if_smart_mismatch, :only => [:create, :show, :update, :destroy]
       before_action :return_if_override_mismatch, :only => [:show, :update, :destroy]
 
       before_action :rename_use_puppet_default, :only => [:create, :update]
