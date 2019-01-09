@@ -466,12 +466,16 @@ module Foreman #:nodoc:
       @smart_proxies.fetch(klass.name, {})
     end
 
-    def add_controller_action_scope(controller_class, action, &block)
-      controller_actions = @controller_action_scopes[controller_class.name] || {}
+    def add_controller_action_scope(controller_name, action, &block)
+      if controller_name.is_a? Class
+        Foreman::Deprecation.deprecation_warning('1.22', "Passing class to add_controller_action_scope is deprecated. Use string instead.")
+        controller_name = controller_name.name
+      end
+      controller_actions = @controller_action_scopes[controller_name] || {}
       actions_list = controller_actions[action] || []
       actions_list << block
       controller_actions[action] = actions_list
-      @controller_action_scopes[controller_class.name] = controller_actions
+      @controller_action_scopes[controller_name] = controller_actions
     end
 
     def action_scopes_hash_for(controller_class)
