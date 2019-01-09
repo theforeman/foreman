@@ -172,6 +172,18 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert Foreman.is_uuid?(show_response["datacenter"])
   end
 
+  test "should update with datacenter name" do
+    compute_resource = compute_resources(:ovirt)
+    Foreman::Model::Ovirt.any_instance.stubs(:datacenters).returns([["test", Foreman.uuid]])
+    Foreman::Model::Ovirt.any_instance.stubs(:test_connection).returns(true)
+
+    attrs = { :datacenter => 'test' }
+    post :update, params: { :id => compute_resource.id, :compute_resource => attrs }
+    assert_response :created
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert Foreman.is_uuid?(show_response["datacenter"])
+  end
+
   context 'cache refreshing' do
     test 'should refresh cache if supported' do
       put :refresh_cache, params: { :id => compute_resources(:vmware).to_param }
