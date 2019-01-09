@@ -730,7 +730,7 @@ class Host::Managed < Host::Base
   end
 
   def validate_media?
-    managed && pxe_build? && build?
+    managed && !image_build? && build?
   end
 
   def build_status_checker
