@@ -71,6 +71,16 @@ class PluginTest < ActiveSupport::TestCase
     assert_equal '/some/path/on/disk', plugin.path
   end
 
+  def test_register_finished
+    Foreman::Deprecation.expects(:deprecation_warning).once
+    @klass.mark_finished_registration!
+    @klass.register :foo do
+      name 'Foo plugin'
+    end
+  ensure
+    @klass.reset_finished_registration!
+  end
+
   def test_installed
     @klass.register(:foo) {}
     assert_equal true, @klass.installed?(:foo)

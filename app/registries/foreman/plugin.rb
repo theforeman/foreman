@@ -61,6 +61,10 @@ module Foreman #:nodoc:
 
       # Plugin constructor
       def register(id, &block)
+        if finished_registration?
+          Foreman::Deprecation.deprecation_warning('1.23', "Plugins registration already finished. "\
+                                                           "Ensure registering plugin before: :finisher_hook")
+        end
         plugin = new(id)
         if (gem = Gem.loaded_specs[id.to_s])
           plugin.name gem.name
@@ -114,6 +118,18 @@ module Foreman #:nodoc:
 
       def with_global_js
         with_webpack.select { |plugin| plugin.global_js_files.present? }
+      end
+
+      def mark_finished_registration!
+        @finished_registration = true
+      end
+
+      def reset_finished_registration!
+        @finished_registration = false
+      end
+
+      def finished_registration?
+        @finished_registration
       end
     end
 

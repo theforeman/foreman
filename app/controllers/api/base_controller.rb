@@ -102,6 +102,13 @@ module Api
       true
     end
 
+    def self.inherited(base)
+      if !Rails.env.test? && !Foreman::Plugin.finished_registration?
+        Foreman::Deprecation.deprecation_warning('1.23', "Plugins registration has not finished yet. "\
+                                                         "Ensure not loading API controllers before to_prepare phase")
+      end
+    end
+
     protected
 
     def not_found(options = nil)

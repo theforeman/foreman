@@ -292,6 +292,12 @@ module Foreman
       routes_reloader.execute_if_updated
     end
 
+    # First to_prepare block to run to mark the pre-initialization phase.
+    before_to_prepare_block = lambda do
+      Foreman::Plugin.mark_finished_registration!
+    end
+    config.to_prepare_blocks.unshift(before_to_prepare_block)
+
     config.after_initialize do
       init_dynflow unless Foreman.in_rake?('db:create') || Foreman.in_rake?('db:drop')
       setup_auditing

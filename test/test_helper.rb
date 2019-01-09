@@ -26,6 +26,7 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Foreman::Plugin.reset_finished_registration!
 # Use our custom test runner, and register a fake plugin to skip a specific test
 Foreman::Plugin.register :skip_test do
   tests_to_skip "CustomRunnerTest" => [ "custom runner is working" ]
