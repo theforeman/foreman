@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
-# Arend Lapere <arend.lapere@gmail.com>, 2018
+# Arend Lapere <arend.lapere@gmail.com>, 2018-2019
 # dschutterop <daniel@schutterop.nl>, 2014
 # dschutterop <daniel@schutterop.nl>, 2014
 # EmielK <emiel@kremers.us>, 2014
@@ -11,12 +11,13 @@
 # Engel Hendrik Fokkens, 2017
 # Maxim Burgerhout <maxim@wzzrd.com>, 2013
 # Siert Z. <sgzijl@gmail.com>, 2013
+# Wouter Wijsman <wwijsman@live.nl>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-10-15 20:31+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-01-08 15:58+0000\n"
+"Last-Translator: Arend Lapere <arend.lapere@gmail.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/foreman/foreman/l"
 "anguage/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -233,7 +234,7 @@ msgid "%{record} is used by host in build mode %{what}"
 msgstr "%{record} is gebruikt door host in build mode %{what}"
 
 msgid "%{resource_name} not found by id '%{id}'"
-msgstr "%s{resource_name} werd niet gevonden bij id '%{id}'"
+msgstr "%{resource_name} werd niet gevonden voor id '%{id}'"
 
 msgid "%{subject} has been deleted successfully"
 msgstr ""
@@ -833,7 +834,7 @@ msgid "Associated Host"
 msgstr ""
 
 msgid "Associating VMs is not supported for this compute resource"
-msgstr ""
+msgstr "Associëren van VM's is niet ondersteund voor deze compute resource"
 
 msgid "Association"
 msgstr "Associatie"
@@ -1468,7 +1469,7 @@ msgid "Compute resource"
 msgstr "Compute resource"
 
 msgid "Compute resource ID"
-msgstr ""
+msgstr "Compute Resource ID"
 
 msgid "Compute resource IDs"
 msgstr "Compute resource IDs"
@@ -2121,7 +2122,7 @@ msgid "Delete"
 msgstr "Verwijderen"
 
 msgid "Delete %s?"
-msgstr ""
+msgstr "%s verwijderen?"
 
 msgid "Delete :a_resource"
 msgstr "Verwijder :a_resource"
@@ -2713,10 +2714,10 @@ msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authen
 msgstr ""
 
 msgid "Error while trying to create resource: %s"
-msgstr ""
+msgstr "Fout tijdens het creëren van hulpbron: %s"
 
 msgid "Error while trying to update resource: %s"
-msgstr ""
+msgstr "Fout tijdens het bijwerken van hulpbron: %s"
 
 msgid "Error: Unable to load resources."
 msgstr ""
@@ -3549,7 +3550,7 @@ msgid "History"
 msgstr ""
 
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 msgid "Host %s is built"
 msgstr ""
@@ -4590,13 +4591,13 @@ msgid "List all audits for a given host"
 msgstr "Toon alle audits voor een specifieke host"
 
 msgid "List all authentication sources"
-msgstr ""
+msgstr "Lijst alle authenticatie bronnen op"
 
 msgid "List all authentication sources per location"
-msgstr ""
+msgstr "Lijst alle authenticatie bronnen per locatie op"
 
 msgid "List all authentication sources per organization"
-msgstr ""
+msgstr "Lijst alle authenticatie bronnen per organisatie op"
 
 msgid "List all autosign entries"
 msgstr "Som alle autosign entries op"
@@ -4626,7 +4627,7 @@ msgid "List all filters"
 msgstr "Bekijk alle filters"
 
 msgid "List all global parameters"
-msgstr ""
+msgstr "Lijst alle globale parameters op"
 
 msgid "List all hardware models"
 msgstr "Som alle hardware modellen op"
@@ -4812,7 +4813,7 @@ msgid "List available networks for a compute resource cluster"
 msgstr "Som beschikbare netwerken voor een compute cluster op"
 
 msgid "List available resource types"
-msgstr ""
+msgstr "Lijst beschikbare hulpbron types op"
 
 msgid "List available security groups for a compute resource"
 msgstr "Som beschikbare security groups voor een compute resource op"
@@ -4836,13 +4837,13 @@ msgid "List environments per organization"
 msgstr "Bekijk omgevingen per organisatie"
 
 msgid "List external authentication sources"
-msgstr ""
+msgstr "Lijst externe authenticatie bronnen op"
 
 msgid "List external authentication sources per location"
-msgstr ""
+msgstr "Lijst externe authenticatie bronnen per locatie op"
 
 msgid "List external authentication sources per organization"
-msgstr ""
+msgstr "Lijst externe authenticatie bronnen per organisatie op"
 
 msgid "List hosts per environment"
 msgstr "Bekijk hosts per omgeving"
@@ -4857,7 +4858,7 @@ msgid "List installed plugins"
 msgstr "Som geinstalleerde plugins op"
 
 msgid "List internal authentication sources"
-msgstr ""
+msgstr "Lijst interne authenticatie bronnen op"
 
 msgid "List of HTTP Proxies"
 msgstr ""
@@ -5260,7 +5261,7 @@ msgid "Manual"
 msgstr ""
 
 msgid "Manual configuration is needed."
-msgstr ""
+msgstr "Handmatige configuratie vereist"
 
 msgid "Manually Assign"
 msgstr ""
@@ -7704,7 +7705,7 @@ msgid "Show an environment"
 msgstr "Bekijk een omgeving"
 
 msgid "Show an external authentication source"
-msgstr ""
+msgstr "Geef een externe authenticatie bron weer"
 
 msgid "Show an external user group for LDAP authentication source"
 msgstr "bekijk een externe gebruikers groep voor LDAP authenticatie source"
@@ -7719,7 +7720,7 @@ msgid "Show an interface for host"
 msgstr "Bekijk een interface voor de host"
 
 msgid "Show an internal authentication source"
-msgstr ""
+msgstr "Geef een interne authenticatie bron weer"
 
 msgid "Show an operating system"
 msgstr "Bekijk een besturingssysteem"
@@ -9299,7 +9300,7 @@ msgid "Update an environment"
 msgstr "Wijzig een omgeving"
 
 msgid "Update an external authentication source"
-msgstr ""
+msgstr "Werk een externe authenticatie bron bij"
 
 msgid "Update an image"
 msgstr "Wijzig een image"
@@ -9744,7 +9745,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
+msgstr "Waarschuwing: Deze combinatie van lader en besturingssysteem zal mogelijks niet starten"
 
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
@@ -10253,7 +10254,7 @@ msgid "filter..."
 msgstr ""
 
 msgid "for EC2 only, use '%s' for GovCloud region"
-msgstr ""
+msgstr "Enkel voor EC2, gebruik '%s' voor  GovCloud regio"
 
 msgid "for Libvirt and VMware only"
 msgstr "alleen voor Libvirt en VMware"
@@ -10268,7 +10269,7 @@ msgid "for VMware"
 msgstr "voor VMware"
 
 msgid "for oVirt only"
-msgstr ""
+msgstr "enkel voor oVirt"
 
 msgid "for oVirt, VMware Datacenter"
 msgstr "voor oVirt, VMware Datacenter"
@@ -10472,7 +10473,7 @@ msgid "locations"
 msgstr "locaties"
 
 msgid "lock imported templates (false by default)"
-msgstr ""
+msgstr "Beveilig geïmporteerde sjablonen (standaard uit)"
 
 msgid "makes the template default meaning it will be automatically associated with newly created organizations and locations (false by default)"
 msgstr ""

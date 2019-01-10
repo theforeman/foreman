@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-10-15 20:31+0000\n"
+"PO-Revision-Date: 2018-11-13 19:31+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -86,7 +86,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%s filters"
-msgstr ""
+msgstr "%s フィルター"
 
 msgid "%s has been disassociated from VM"
 msgstr "%s の VM との関連付けが解除されました"
@@ -116,7 +116,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "%s out of sync disabled"
-msgstr ""
+msgstr "%s の非同期切り替えを無効にしました"
 
 msgid "%s selected hosts"
 msgstr "%s つの選択されたホスト"
@@ -1373,7 +1373,7 @@ msgid "Clear"
 msgstr ""
 
 msgid "Clear All"
-msgstr ""
+msgstr "すべて消去"
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
 msgstr "デフォルトの VM 属性を編集するためにコンピュートリソースのリンクをクリックします。"
@@ -1762,7 +1762,7 @@ msgid "Create Puppet Environment"
 msgstr "Puppet 環境の作成"
 
 msgid "Create RSS notifications"
-msgstr ""
+msgstr "RSS 通知の作成"
 
 msgid "Create Realm"
 msgstr "レルムの作成"
@@ -1939,7 +1939,7 @@ msgid "Create autosign entry"
 msgstr "自動署名エントリーの作成"
 
 msgid "Create image"
-msgstr ""
+msgstr "イメージの作成"
 
 msgid "Create new boot volume from image"
 msgstr "イメージから新規起動ボリュームを作成"
@@ -1957,7 +1957,7 @@ msgid "Created"
 msgstr "作成日時"
 
 msgid "Creates a table preference for a given table"
-msgstr ""
+msgstr "特定のテーブルの設定を作成します"
 
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
@@ -2062,10 +2062,10 @@ msgid "Default PXE local template entry"
 msgstr "デフォルトの PXE ローカルテンプレートのエントリー"
 
 msgid "Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"
-msgstr ""
+msgstr "グローバルテンプレートでのデフォルトの PXE メニューアイテム - 'local'、'discovery' またはカスタム。デフォルトテンプレートには blank を使用します"
 
 msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"
-msgstr ""
+msgstr "ローカルテンプレートでのデフォルトの PXE メニューアイテム - 'local'、'discovery' またはカスタム。デフォルトテンプレートには blank を使用します"
 
 msgid "Default Puppet environment"
 msgstr "デフォルトの Puppet 環境"
@@ -2233,7 +2233,7 @@ msgid "Delete a subnet"
 msgstr "サブネットの削除"
 
 msgid "Delete a table preference for a given table"
-msgstr ""
+msgstr "特定のテーブルの設定を削除します"
 
 msgid "Delete a template combination"
 msgstr "テンプレートの組み合わせの削除"
@@ -2401,7 +2401,7 @@ msgid "Disable all filters overriding"
 msgstr "すべてのフィルターオーバーライドの無効化"
 
 msgid "Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval"
-msgstr ""
+msgstr "設定した間隔でレポートが到達しない場合に、%s のホスト設定ステータスが非同期に切り替わらないように無効にします"
 
 msgid "Disable overriding"
 msgstr "オーバーライドの無効化"
@@ -2511,7 +2511,7 @@ msgid "Duration in minutes after servers are classed as out of sync."
 msgstr "サーバーが非同期として分類される Puppet の間隔後の期間 (分単位)。"
 
 msgid "Duration in minutes after servers reporting via Puppet are classed as out of sync."
-msgstr ""
+msgstr "Puppet 経由で報告するサーバーが非同期として分類されるまでの期間 (分単位)。"
 
 msgid "EC2"
 msgstr "EC2"
@@ -2717,13 +2717,13 @@ msgid "Error while connecting to '%{name}' LDAP server at '%{url}' during authen
 msgstr "認証中に '%{url}' の '%{name}' LDAP サーバーへの接続でエラー"
 
 msgid "Error while trying to create resource: %s"
-msgstr ""
+msgstr "リソースの作成中のエラー: %s"
 
 msgid "Error while trying to update resource: %s"
-msgstr ""
+msgstr "リソースの更新中のエラー: %s"
 
 msgid "Error: Unable to load resources."
-msgstr ""
+msgstr "エラー: リソースをロードできません。"
 
 msgid "Errors"
 msgstr "エラー"
@@ -3459,7 +3459,7 @@ msgid "Good host reports in the last %s"
 msgstr "直近 %s 間での良好なホストレポート"
 
 msgid "Good host with reports"
-msgstr ""
+msgstr "レポートありの良好なホスト"
 
 msgid "Google Project ID"
 msgstr "グローバルプロジェクト ID"
@@ -3501,7 +3501,7 @@ msgid "HTTPBoot Proxy to use within this subnet"
 msgstr ""
 
 msgid "HTTPS URL is required for API access"
-msgstr ""
+msgstr "API にアクセスするには HTTPS URL が必要です"
 
 msgid "Hard disk"
 msgstr "ハードディスク"
@@ -3543,7 +3543,7 @@ msgid "Hide all values for this parameter."
 msgstr "このパラメーターのすべての値を非表示にします。"
 
 msgid "Hide this notification"
-msgstr ""
+msgstr "この通知を非表示にする"
 
 msgid "Hide this value"
 msgstr "この値を非表示"
@@ -4599,13 +4599,13 @@ msgid "List all audits for a given host"
 msgstr "指定されたホストのすべての監査を一覧表示"
 
 msgid "List all authentication sources"
-msgstr ""
+msgstr "全認証ソースを一覧表示"
 
 msgid "List all authentication sources per location"
-msgstr ""
+msgstr "場所ごとの全認証ソースを一覧表示します"
 
 msgid "List all authentication sources per organization"
-msgstr ""
+msgstr "組織ごとの全認証ソースを一覧表示します"
 
 msgid "List all autosign entries"
 msgstr "すべての自動署名エントリーを一覧表示"
@@ -4782,7 +4782,7 @@ msgid "List all users for LDAP authentication source"
 msgstr "LDAP 認証ソースに対してすべてのユーザーを一覧表示"
 
 msgid "List all users for external authentication source"
-msgstr ""
+msgstr "外部認証ソースに対してすべてのユーザーを一覧表示"
 
 msgid "List all users for location"
 msgstr "ロケーションに対してすべてのユーザーを一覧表示"
@@ -4845,13 +4845,13 @@ msgid "List environments per organization"
 msgstr "組織ごとに環境を一覧表示"
 
 msgid "List external authentication sources"
-msgstr ""
+msgstr "外部認証ソースを一覧表示"
 
 msgid "List external authentication sources per location"
-msgstr ""
+msgstr "場所ごとの外部認証ソースを一覧表示します"
 
 msgid "List external authentication sources per organization"
-msgstr ""
+msgstr "組織ごとの外部認証ソースを一覧表示します"
 
 msgid "List hosts per environment"
 msgstr "環境ごとにホストを一覧表示"
@@ -4866,7 +4866,7 @@ msgid "List installed plugins"
 msgstr "インストールされたプラグインを一覧表示"
 
 msgid "List internal authentication sources"
-msgstr ""
+msgstr "内部認証ソースを一覧表示"
 
 msgid "List of HTTP Proxies"
 msgstr "HTTP プロキシーを一覧表示"
@@ -4944,13 +4944,13 @@ msgid "List of subnets per organization"
 msgstr "組織ごとのサブネットの一覧"
 
 msgid "List of table preferences for a user"
-msgstr ""
+msgstr "ユーザーのテーブル設定一覧"
 
 msgid "List of trends counters"
 msgstr ""
 
 msgid "List of user selected columns"
-msgstr ""
+msgstr "ユーザーが選択したコラムの一覧"
 
 msgid "List operating systems where this template is set as a default"
 msgstr "このテンプレートがデフォルトで設定されるオペレーティングシステムを一覧表示"
@@ -5197,16 +5197,16 @@ msgid "MAC-based"
 msgstr "MAC ベース"
 
 msgid "MTU"
-msgstr ""
+msgstr "MTU"
 
 msgid "MTU for this subnet"
-msgstr ""
+msgstr "このサブネットの MTU"
 
 msgid "MTU is not consistent accross subnets"
-msgstr ""
+msgstr "サブネット全体で MTU に一貫性がありません"
 
 msgid "MTU, this attribute has precedence over the subnet MTU."
-msgstr ""
+msgstr "MTU。この属性はサブネット MTU より優先されます。"
 
 msgid "Machine Type"
 msgstr "マシンタイプ"
@@ -5396,7 +5396,7 @@ msgid "Missing one of the required permissions: %s"
 msgstr "必要ないずれかのパーミッションがありません: %s"
 
 msgid "Missing(ID: %s)"
-msgstr ""
+msgstr "以下がありません (ID: %s)"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
@@ -5476,7 +5476,7 @@ msgid "Name of the parameter"
 msgstr "パラメーター名"
 
 msgid "Name of the table"
-msgstr ""
+msgstr "テーブル名"
 
 msgid "Name of variable"
 msgstr "変数の名前"
@@ -5658,7 +5658,7 @@ msgid "No IPv4 subnets selected"
 msgstr "IPv4 サブネットが選択されていません"
 
 msgid "No Notifications Available"
-msgstr ""
+msgstr "通知がありません"
 
 msgid "No TFTP feature"
 msgstr "TFTP 機能なし"
@@ -6706,6 +6706,8 @@ msgid ""
 "Proxied request failed with: %s\n"
 "%s"
 msgstr ""
+"プロキシー化されたリクエストが失敗しました:  %s\n"
+"%s"
 
 msgid "Proxies"
 msgstr "プロキシー"
@@ -6714,7 +6716,7 @@ msgid "Proxy ID to use within this realm"
 msgstr "このレルム内で使用するプロキシー ID"
 
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
-msgstr ""
+msgstr "プロキシー参照は { :relation => [:column_name, ...] } でなければなりません"
 
 msgid "Proxy request timeout"
 msgstr "プロキシー要求のタイムアウト"
@@ -7487,7 +7489,7 @@ msgid "Set a randomly generated password on the display connection"
 msgstr "ディスプレイ接続時にランダムに生成されたパスワードを設定します"
 
 msgid "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default."
-msgstr ""
+msgstr "プロキシーを設定しないリクエストにホスト名を設定します。ローカルホストへのリクエストはデフォルトでは除外されます。"
 
 msgid "Set parameters to defaults"
 msgstr "パラメーターをデフォルトに設定"
@@ -7715,7 +7717,7 @@ msgid "Show an environment"
 msgstr "環境の表示"
 
 msgid "Show an external authentication source"
-msgstr ""
+msgstr "外部認証ソースの表示"
 
 msgid "Show an external user group for LDAP authentication source"
 msgstr "LDAP 認証ソースの外部ユーザーグループの表示"
@@ -7730,7 +7732,7 @@ msgid "Show an interface for host"
 msgstr "ホストのインターフェースの表示"
 
 msgid "Show an internal authentication source"
-msgstr ""
+msgstr "内部認証ソースの表示"
 
 msgid "Show an operating system"
 msgstr "オペレーティングシステムの表示"
@@ -7995,7 +7997,7 @@ msgid "Subnet description"
 msgstr "サブネットの説明"
 
 msgid "Subnet gateway"
-msgstr ""
+msgstr "サブネットゲートウェイ"
 
 msgid "Subnet name"
 msgstr "サブネット名"
@@ -8169,7 +8171,7 @@ msgid "Table preference"
 msgstr ""
 
 msgid "Table preference details of a given table"
-msgstr ""
+msgstr "特定のテーブルの設定詳細"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TablePreference|Columns"
@@ -8958,7 +8960,7 @@ msgid "Unable to connect to LDAP server"
 msgstr "LDAP サーバーに接続できません"
 
 msgid "Unable to connect to libvirt due to: %s. Please make sure your libvirt compute resource is reachable and that you have appropriate access permissions."
-msgstr ""
+msgstr "次の理由で libvirt に接続できません: %s。libvirt のコンピュートリソースに到達でき、適切なアクセス権限があることを確認してください。"
 
 msgid "Unable to create default TFTP boot menu"
 msgstr "デフォルトの TFTP ブートメニューを作成できません"
@@ -9177,10 +9179,10 @@ msgid "Unnamed"
 msgstr "名前なし"
 
 msgid "Unread Event"
-msgstr ""
+msgstr "未読イベント"
 
 msgid "Unread Events"
-msgstr ""
+msgstr "未読イベント"
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "%s の未サポート IPAM モード"
@@ -9318,7 +9320,7 @@ msgid "Update an environment"
 msgstr "環境の更新"
 
 msgid "Update an external authentication source"
-msgstr ""
+msgstr "外部認証ソースの更新"
 
 msgid "Update an image"
 msgstr "イメージの更新"
@@ -9375,7 +9377,7 @@ msgid "Updated hosts: changed owner"
 msgstr "更新済みホスト: 変更済み所有者"
 
 msgid "Updates a table preference for a given table"
-msgstr ""
+msgstr "特定のテーブルの設定を更新します"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Upgrade task"
@@ -9417,7 +9419,7 @@ msgid "Upload facts for a host, creating the host if required"
 msgstr "ホストのファクトをアップロードし、必要な場合はホストを作成します"
 
 msgid "Use APIv4 (experimental)"
-msgstr ""
+msgstr "APIv4 の使用 (プレビュー)"
 
 msgid "Use NIS netgroups instead of posix groups."
 msgstr "POSIX グループの代わりに NIS ネットグループを使用します。"
@@ -9429,7 +9431,7 @@ msgid "Use short name for VMs"
 msgstr "VM の短い名前の使用"
 
 msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
-msgstr ""
+msgstr "新しいエンジン API を使用します。この機能はプレビューとマークされており、細心の注意を払って使用するようにしてください。"
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "認証用にこのアカウントを使用します。<i>オプション</i>"
@@ -9623,7 +9625,7 @@ msgid "VLAN ID for this subnet"
 msgstr "このサブネットの VLAN ID"
 
 msgid "VLAN ID is not consistent accross subnets"
-msgstr ""
+msgstr "サブネット全体で VLAN ID に一貫性がありません"
 
 msgid "VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces."
 msgstr "VLAN タグ。この属性はサブネット VLAN ID より優先されます。仮想インターフェースの場合のみ使用されます。"
@@ -9853,7 +9855,7 @@ msgid "Whether the smart class parameter value is managed by Foreman"
 msgstr "スマートクラスパラメーター値が Foreman によって管理されているかどうか"
 
 msgid "Whether to pull RSS notifications or not"
-msgstr ""
+msgstr "RSS 通知をぷるするかどうか"
 
 msgid "Which is an offset of <b>%s</b>"
 msgstr "<b>%s</b> のオフセットはどれか"
@@ -9948,7 +9950,7 @@ msgid "You are not authorized to perform this action."
 msgstr "このアクションを実行する権限がありません。"
 
 msgid "You are trying access the preferences of a different user"
-msgstr ""
+msgstr "別ユーザーの設定にアクセスしようとしています"
 
 msgid "You are trying to delete your own account"
 msgstr "ご自身のアカウントを削除しようとしています"
@@ -10149,7 +10151,7 @@ msgid "cannot be removed from the last admin account"
 msgstr "最後の管理者アカウントから削除できません"
 
 msgid "cannot be used, please choose another"
-msgstr ""
+msgstr "使用できません。別のものを選択してください"
 
 msgid "clone"
 msgstr "クローン"
@@ -10272,10 +10274,10 @@ msgid "filter results"
 msgstr "結果のフィルター"
 
 msgid "filter..."
-msgstr ""
+msgstr "フィルタリングしています..."
 
 msgid "for EC2 only, use '%s' for GovCloud region"
-msgstr ""
+msgstr "EC2 の場合のみ。GovCloud リージョンには '%s' を使用します"
 
 msgid "for Libvirt and VMware only"
 msgstr "Libvirt および VMware の場合のみ"
@@ -10290,7 +10292,7 @@ msgid "for VMware"
 msgstr "VMware の場合"
 
 msgid "for oVirt only"
-msgstr ""
+msgstr "oVirt の場合のみ"
 
 msgid "for oVirt, VMware Datacenter"
 msgstr "oVirt、VMware Datacenter の場合"
@@ -10440,7 +10442,7 @@ msgid "is not allowed to change"
 msgstr "変更することができません"
 
 msgid "is not defined for host's %s"
-msgstr ""
+msgstr "ホストの %s に定義されていません。"
 
 msgid "is not found in the authentication source"
 msgstr "認証ソースに見つかりません"
@@ -10494,7 +10496,7 @@ msgid "locations"
 msgstr "ロケーション"
 
 msgid "lock imported templates (false by default)"
-msgstr ""
+msgstr "インポートされたテンプレートをロックします (デフォルトは false)"
 
 msgid "makes the template default meaning it will be automatically associated with newly created organizations and locations (false by default)"
 msgstr ""
@@ -10548,7 +10550,7 @@ msgid "must be true to edit the parameter"
 msgstr "パラメーターを編集するには true に設定する必要があります"
 
 msgid "must belong to host's operating system"
-msgstr ""
+msgstr "ホストのオペレーティングシステムに所属する必要があります"
 
 msgid "must contain valid hostnames"
 msgstr "有効なホスト名を含める必要があります"
@@ -10566,7 +10568,7 @@ msgid "must set host and port"
 msgstr "ホストとポートを設定する必要があります"
 
 msgid "name of the table"
-msgstr ""
+msgstr "テーブル名"
 
 msgid "new"
 msgstr "新規"
@@ -10859,7 +10861,7 @@ msgid "valid or pending"
 msgstr "有効または保留"
 
 msgid "values"
-msgstr ""
+msgstr "値"
 
 msgid "view last report details"
 msgstr "最終レポートの詳細の表示"
@@ -10871,13 +10873,13 @@ msgid "virtual attached to %s"
 msgstr "%s に接続された仮想"
 
 msgid "was not found"
-msgstr ""
+msgstr "見つかりませんでした"
 
 msgid "with given ID not found"
-msgstr ""
+msgstr "この ID が指定されている項目が見つかりません"
 
 msgid "with id %{object_id} doesn't exist or is not assigned to proper organization and/or location"
-msgstr ""
+msgstr "id で %{object_id} が存在しないか、適切な組織またはロケーションに割り当てられていません"
 
 msgid "yaml"
 msgstr "yaml"
