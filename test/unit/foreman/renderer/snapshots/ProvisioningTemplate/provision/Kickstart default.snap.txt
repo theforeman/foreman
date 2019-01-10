@@ -14,7 +14,8 @@ network --bootproto dhcp --hostname snapshothost --device=00-f0-54-1a-7e-e0
 rootpw --iscrypted xybxa6JUkz63w
 firewall --service=ssh
 authconfig --useshadow --passalgo=sha256 --kickstart
-timezone --utc UTC
+timezone --utc UTC 
+
 
 
 
@@ -29,7 +30,7 @@ reboot
 %packages
 yum
 dhclient
-ntp
+chrony
 wget
 @Core
 redhat-lsb-core
@@ -55,9 +56,8 @@ exec < /dev/tty3 > /dev/tty3
 
 
 
-#update local time
-echo "updating system time"
-/usr/sbin/ntpdate -sub 0.fedora.pool.ntp.org
+echo "Updating system time"
+/usr/bin/chronyc makestep
 /usr/sbin/hwclock --systohc
 
 
@@ -118,9 +118,15 @@ fi
 
 sync
 
-# Inform the build system that we are done.
 echo "Informing Foreman that we are built"
-wget -q -O /dev/null --no-check-certificate http://foreman.some.host.fqdn/unattended/built
+if [ -x /usr/bin/curl ]; then
+  /usr/bin/curl -o /dev/null --noproxy \*  --silent 'http://foreman.some.host.fqdn/unattended/built'
+elif [ -x /usr/bin/wget ]; then
+  /usr/bin/wget -q -O /dev/null --no-proxy  'http://foreman.some.host.fqdn/unattended/built'
+else
+  wget -q -O /dev/null 'http://foreman.some.host.fqdn/unattended/built'
+fi
+
 ) 2>&1 | tee /root/install.post.log
 exit 0
 

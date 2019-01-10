@@ -13,15 +13,15 @@ require:
 - plugin: katello
 ￼ version: 3.9.0
 -%>
-<%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :subscriptions, :fact_values, :fact_names, :applicable_errata, :applicable_rpms]).each_record do |host| -%>
+<%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :subscriptions, :kernel_release, :interfaces, :owner, :applicable_errata, :applicable_rpms]).each_record do |host| -%>
 <%-   report_row(
         'Name': host.name,
         'Ip': host.ip,
         'Operating System': host.operatingsystem,
         'Subscriptions': host_subscriptions(host),
         'Applicable Errata': host_applicable_errata_ids(host),
-        'Owner': host.owner.login,
-        'Kernel': host.facts['kernelrelease'],
+        'Owner': host.owner,
+        'Kernel': host_kernel_release(host),
         'Latest kernel available': host_latest_applicable_rpm_version(host, 'kernel')
       ) -%>
 <%- end -%>

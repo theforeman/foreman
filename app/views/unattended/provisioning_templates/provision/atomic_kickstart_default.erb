@@ -48,7 +48,7 @@ rm -f /etc/ostree/remotes.d/*.conf
 <%= snippet('remote_execution_ssh_keys') %>
 (
 # Report success back to Foreman
-curl -s -o /dev/null --insecure <%= foreman_url('built') %>
+<%= snippet 'built' %>
 ) 2>&1 | tee /mnt/sysimage/root/install.post.log
 
 exit 0

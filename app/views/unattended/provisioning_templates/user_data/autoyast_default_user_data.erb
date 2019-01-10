@@ -38,4 +38,4 @@ echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 
 # UserData still needs to mark the build as finished
-/usr/bin/curl -o /dev/null -k '<%= foreman_url('built') %>'
+<%= snippet 'built' %>

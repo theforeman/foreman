@@ -31,6 +31,7 @@ rsync -r \
   --exclude '.*' \
   --exclude test \
   --exclude Rakefile \
+  --exclude Gemfile \
   --exclude 'job_templates/' \
   $REPO/ct/ ./
 
@@ -40,5 +41,5 @@ git status -- app/views/unattended
 
 if [ $(git status --porcelain -u -- app/views/unattended | grep -c '^\?') -gt 0 ]; then
   echo
-  echo "Warning: new files copied, add them to db/seeds.d/"
+  echo "Warning: new files copied, update template snapshot tests using 'RAILS_ENV=test rake snapshots:generate' "
 fi
