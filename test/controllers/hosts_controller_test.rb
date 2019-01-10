@@ -110,6 +110,9 @@ class HostsControllerTest < ActionController::TestCase
     let(:other_libvirt_compute_resource) do
       FactoryBot.create(:libvirt_cr, :locations => [taxonomies(:location2)])
     end
+    let(:other_orgs_libvirt_compute_resource) do
+      FactoryBot.create(:libvirt_cr, :organizations => [taxonomies(:organization2)])
+    end
     let(:host_attrs) do
       {:name => "myotherfullhost",
         :mac => "aabbecddee06",
@@ -141,10 +144,19 @@ class HostsControllerTest < ActionController::TestCase
       Fog.unmock!
     end
 
-    test "should not create a new host when the compute_resource is not in taxonomy" do
+    test "should not create a new host when the compute_resource is not in same location" do
       host_attrs[:compute_resource_id] = other_libvirt_compute_resource.id
       assert_no_difference 'Host.unscoped.count' do
         post :create, params: { :commit => "Create", :host => host_attrs }, session: set_session_user
+        assert_not assigns(:host).valid?
+      end
+    end
+
+    test "should not create a new host when the compute_resource is not in same organization" do
+      host_attrs[:compute_resource_id] = other_orgs_libvirt_compute_resource.id
+      assert_no_difference 'Host.unscoped.count' do
+        post :create, params: { :commit => "Create", :host => host_attrs }, session: set_session_user
+        assert_not assigns(:host).valid?
       end
     end
   end
@@ -1327,6 +1339,7 @@ class HostsControllerTest < ActionController::TestCase
   test "#host update shouldn't diassociate from VM" do
     hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os)
     compute_resource = compute_resources(:ovirt)
+    compute_resource.update(:locations => hostgroup.locations, :organizations => hostgroup.organizations)
     host = FactoryBot.create(:host, :hostgroup => hostgroup, :compute_resource => compute_resource)
     host_attributes = host.attributes
     host_attributes.delete("compute_resource_id")

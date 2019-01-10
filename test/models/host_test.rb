@@ -169,7 +169,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "can fetch vm compute attributes" do
-    host = FactoryBot.create(:host, :compute_resource => compute_resources(:ec2))
+    host = FactoryBot.create(:host, :on_compute_resource)
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:cpus => 4})
     assert_equal host.vm_compute_attributes, :cpus => 4
   end
@@ -2824,7 +2824,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'clone should create compute_attributes for VM-based hosts' do
-    host = FactoryBot.create(:host, :compute_resource => compute_resources(:ec2))
+    host = FactoryBot.create(:host, :on_compute_resource)
     ComputeResource.any_instance.stubs(:vm_compute_attributes_for).returns({:foo => 'bar'})
     copy = host.clone
     assert !copy.compute_attributes.nil?

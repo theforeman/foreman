@@ -159,6 +159,23 @@ class ManagedTest < ActiveSupport::TestCase
     end
   end
 
+  context "with computeresource not in taxonomy scope" do
+    let(:managed_host) { FactoryBot.build_stubbed(:host, :managed, :on_compute_resource) }
+    let(:host_cr) { managed_host.compute_resource }
+
+    setup do
+      host_cr.update({ :locations => [taxonomies(:location2)],
+                       :organizations => [taxonomies(:organization2)]
+                    })
+    end
+
+    test 'host should be invalid via the interfaces compute_resource validation' do
+      managed_host.interfaces.build(:name => 'test')
+      refute managed_host.valid?
+      assert managed_host.errors[:"interfaces.compute_resource_id"].present?
+    end
+  end
+
   private
 
   def setup_primary_nic_with_name(name, opts = {})
