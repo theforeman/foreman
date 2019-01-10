@@ -9,7 +9,7 @@ template_inputs:
     for report on all available hosts.
   advanced: false
 model: ReportTemplate
-%>
+-%>
 <%- load_hosts(search: input('hosts'), includes: :host_statuses).each_record do |host| -%>
 <%-   report_row({
         'Name': host.name,

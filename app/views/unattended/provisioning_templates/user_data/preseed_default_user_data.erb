@@ -48,4 +48,4 @@ echo 'Acquire::http::Proxy "<%= proxy_uri %>";' >> /etc/apt/apt.conf
 <% end -%>
 
 # UserData still needs wget to mark as finished
-/usr/bin/wget --quiet --output-document=/dev/null --no-check-certificate <%= foreman_url('built') %>
+<%= snippet 'built' %>

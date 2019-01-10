@@ -1,2 +1,9 @@
 #!/bin/bash
-/usr/bin/wget --output-document=/dev/null http://foreman.some.host.fqdn/unattended/built
+if [ -x /usr/bin/curl ]; then
+  /usr/bin/curl -o /dev/null --noproxy \*  --silent 'http://foreman.some.host.fqdn/unattended/built'
+elif [ -x /usr/bin/wget ]; then
+  /usr/bin/wget -q -O /dev/null --no-proxy  'http://foreman.some.host.fqdn/unattended/built'
+else
+  wget -q -O /dev/null 'http://foreman.some.host.fqdn/unattended/built'
+fi
+

@@ -37,7 +37,14 @@ server          =
 EOF
 
 /usr/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server  --no-daemonize
-/usr/bin/wget -q -O /dev/null --no-check-certificate http://foreman.some.host.fqdn/unattended/built
+if [ -x /usr/bin/curl ]; then
+  /usr/bin/curl -o /dev/null --noproxy \*  --silent 'http://foreman.some.host.fqdn/unattended/built'
+elif [ -x /usr/bin/wget ]; then
+  /usr/bin/wget -q -O /dev/null --no-proxy  'http://foreman.some.host.fqdn/unattended/built'
+else
+  wget -q -O /dev/null 'http://foreman.some.host.fqdn/unattended/built'
+fi
+
 /sbin/chkconfig puppetd on
 
 exit 0

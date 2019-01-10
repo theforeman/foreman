@@ -187,7 +187,7 @@ cp /etc/resolv.conf /mnt/etc
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
-/usr/bin/curl -o /dev/null -k '<%= foreman_url('built') %>'
+<%= snippet 'built' %>
 
 rm /etc/resolv.conf
 ]]>

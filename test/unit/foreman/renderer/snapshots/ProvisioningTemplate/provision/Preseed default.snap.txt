@@ -50,6 +50,7 @@ user-setup-udeb passwd/make-user boolean false
 
 
 
+
 # Install minimal task set (see tasksel --task-packages minimal)
 tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
