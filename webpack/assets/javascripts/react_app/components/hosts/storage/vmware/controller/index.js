@@ -54,7 +54,7 @@ const Controller = ({
     }
     return datastores.reduce((obj, d) => {
       obj[d.name] = sprintf(
-        __('%(name) (free: %(free), prov: %(prov), total: %(total))'),
+        __('%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)'),
         {
           name: d.name,
           free: humanSize(d.freespace),
@@ -72,7 +72,7 @@ const Controller = ({
     }
     return storagePods.reduce((obj, s) => {
       obj[s.name] = sprintf(
-        __('%(name) (free: %(free), prov: %(prov), total: %(total))'),
+        __('%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)'),
         {
           name: s.name,
           free: humanSize(s.freespace),
