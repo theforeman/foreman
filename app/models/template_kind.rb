@@ -47,7 +47,7 @@ class TemplateKind < ApplicationRecord
     [self.class.default_template_labels[name], self.class.plugin_template_labels[name]].detect(&:present?)
   end
 
-  def to_s
+  def to_label
     return _(humanized_name) if humanized_name.present?
     name
   end
