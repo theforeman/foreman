@@ -14,7 +14,7 @@ import DateTime from './common/forms/DateTime/DateTime';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
-import FactChart from './factCharts';
+import FactChart from './FactCharts';
 import Pagination from './Pagination/Pagination';
 import AutoComplete from './AutoComplete';
 import SearchBar from './SearchBar';

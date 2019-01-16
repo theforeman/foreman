@@ -10,9 +10,9 @@ import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBa
 import { reducers as autoCompleteReducers } from '../../components/AutoComplete';
 import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
-import factChart from './factCharts';
 import { reducers as modelsReducers } from '../../components/ModelsTable';
 import { reducers as templateGenerationReducers } from '../../components/TemplateGenerator';
+import { reducers as factChartReducers } from '../../components/FactCharts';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -28,9 +28,9 @@ export function combineReducersAsync(asyncReducers) {
     ...asyncReducers,
     ...autoCompleteReducers,
     ...diffModalReducers,
-    factChart,
     ...modelsReducers,
     ...templateGenerationReducers,
+    ...factChartReducers,
   });
 }
 

@@ -1,8 +1,8 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import React from 'react';
-import FactChart from './';
-import Store from '../../redux';
+import FactChart from '..';
+import Store from '../../../redux';
 
 describe('factCharts', () => {
   it('should render closed', () => {

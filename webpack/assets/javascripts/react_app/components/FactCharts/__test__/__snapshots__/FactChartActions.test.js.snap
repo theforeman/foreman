@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FactCharts actions should close modal 1`] = `
+Object {
+  "payload": Object {
+    "id": 1,
+  },
+  "type": "FACT_CHART_MODAL_CLOSE",
+}
+`;
+
+exports[`FactCharts actions should open modal 1`] = `
+Object {
+  "payload": Object {
+    "id": 1,
+    "title": "test title",
+  },
+  "type": "FACT_CHART_MODAL_OPEN",
+}
+`;
