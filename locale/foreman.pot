@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-10 17:23+0200\n"
-"PO-Revision-Date: 2019-01-10 17:23+0200\n"
+"POT-Creation-Date: 2019-01-16 16:32+0200\n"
+"PO-Revision-Date: 2019-01-16 16:32+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -13839,10 +13839,6 @@ msgid ""
 "level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr ""
 
-#: ../config/application.rb:338
-msgid "Further Information"
-msgstr ""
-
 #: ../db/seeds.d/160-mail_notifications.rb:8
 msgid "Puppet summary"
 msgstr ""
@@ -14432,7 +14428,7 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:57
 #: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/index.js:75
-msgid "%(name) (free: %(free), prov: %(prov), total: %(total))"
+msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
 
 #:

@@ -23,7 +23,7 @@ msgstr ""
 msgid " Remove"
 msgstr ""
 
-msgid "%(name) (free: %(free), prov: %(prov), total: %(total))"
+msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
@@ -3343,9 +3343,6 @@ msgid "Fullscreen"
 msgstr ""
 
 msgid "Function not available for %s"
-msgstr ""
-
-msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"

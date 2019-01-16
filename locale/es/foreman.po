@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-11-13 18:59+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-01-10 21:01+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -36,6 +36,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "Quitar"
+
+msgid "%(name) (free: %(free), prov: %(prov), total: %(total))"
+msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Pulse Shift-F12 para liberar el cursor."
@@ -701,8 +704,11 @@ msgstr "Ocurrió un error al intentar conectarse a LDAP. Corrobore que el host d
 msgid "An error occured."
 msgstr ""
 
-msgid "An error occurred while testing the connection: "
-msgstr "Ocurrió un error al probar la conexión:"
+msgid "An interface marked as primary is missing"
+msgstr ""
+
+msgid "An interface marked as provision is missing"
+msgstr ""
 
 msgid "An invalid response was received while requesting available features from this proxy"
 msgstr "Se recibió una respuesta no válida mientras se solicitaban funciones disponibles de este proxy"
@@ -715,9 +721,6 @@ msgstr "Anotaciones"
 
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr "Falta usuario de administración anónimo r %s, ejecute foreman-rake db:seed"
-
-msgid "Any %s"
-msgstr ""
 
 msgid "Any Location"
 msgstr "Cualquier Lugar"
@@ -758,13 +761,13 @@ msgstr "Nombre"
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "¿Seguro de que: %{act} %{vm}?"
 
-msgid "Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed in global settings."
+msgid "Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr "¿Está seguro de que desea eliminar el host %s? Esta acción es irreversible."
 
-msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed in global settings."
+msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
@@ -1224,6 +1227,9 @@ msgstr "Función de agregado en caliente de la CPU"
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr "La función de agregado en caliente de la CPU le permite añadir recursos de la CPU para una máquina virtual mientras la máquina se enciende."
 
+msgid "CPU mode"
+msgstr ""
+
 msgid "CPUs"
 msgstr "Procesadores"
 
@@ -1329,8 +1335,8 @@ msgstr "Cambiar la contraseña"
 msgid "Changed environments"
 msgstr "Entornos modificados"
 
-msgid "Changes to %s will propagate to all inheriting filters"
-msgstr "Los cambios implementados en %s se extenderán a los filtros heredados"
+msgid "Changes to organizations and locations will propagate to all inheriting filters"
+msgstr ""
 
 msgid "Chassis"
 msgstr "Chasis"
@@ -1381,9 +1387,6 @@ msgid "Cleanup PuppetCA certificates for %s"
 msgstr ""
 
 msgid "Clear"
-msgstr ""
-
-msgid "Clear All"
 msgstr ""
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
@@ -1618,9 +1621,6 @@ msgstr "¿Continuar?"
 
 msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
 msgstr ""
-
-msgid "Cores"
-msgstr "Núcleos"
 
 msgid "Cores per socket"
 msgstr "Núcleos por socket"
@@ -2105,12 +2105,6 @@ msgstr "Organización por defecto"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr "Propietario predeterminado en los hosts provistos, en caso de que el Foreman vacío utilice el usuario actual"
 
-msgid "Default templates are automatically added to new locations"
-msgstr "Las plantillas predeterminadas se añaden automáticamente a nuevas ubicaciones."
-
-msgid "Default templates are automatically added to new organizations"
-msgstr "Las plantillas predeterminadas se añaden automáticamente a nuevas organizaciones."
-
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "Las plantillas predeterminadas se añaden automáticamente a nuevas organizaciones y ubicaciones."
 
@@ -2375,7 +2369,7 @@ msgstr "Destruir"
 msgid "Destroy associated VM on host delete"
 msgstr ""
 
-msgid "Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM"
+msgid "Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"
 msgstr ""
 
 msgid "Destroyed selected hosts"
@@ -2395,9 +2389,6 @@ msgstr "Identificador de dispositivo, p.ej. eth0 o eth1.1"
 
 msgid "Diff"
 msgstr "Dif"
-
-msgid "Diff View"
-msgstr "Vista Diff"
 
 msgid "Disable Notifications"
 msgstr "Inhabilitar Notificaciones"
@@ -2568,9 +2559,6 @@ msgstr "Editar propiedades"
 
 msgid "Edit Puppet Class %s"
 msgstr "Editar clase Puppet %s"
-
-msgid "Edit Smart Variable"
-msgstr "Editar variable inteligente"
 
 msgid "Edit Trend %s"
 msgstr "Editar tendencia %s"
@@ -2904,6 +2892,9 @@ msgstr "Valor"
 msgid "Facts"
 msgstr "Eventos"
 
+msgid "Facts Values"
+msgstr ""
+
 msgid "Fail on Mismatch"
 msgstr "Error en discordancia"
 
@@ -2979,6 +2970,9 @@ msgstr "Error al buscar el estado de encendido: %s"
 
 msgid "Failed to fetch: "
 msgstr "Falló al extraer: "
+
+msgid "Failed to find compute attributes, please check if VM %{name} was deleted: %{message}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "Falló al asignar la IP de %{name}: %{e}"
@@ -3133,8 +3127,8 @@ msgstr ""
 msgid "Filters"
 msgstr "Filtros"
 
-msgid "Filters inherit %{orgs_and_locs} associated with the role by default. If override field is enabled, <br> the filter can override the set of its %{orgs_and_locs}. Later role changes will not affect such filter.<br> After disabling the override field, the role %{orgs_and_locs} apply again."
-msgstr "Los filtros heredan %{orgs_and_locs} asociados con el rol de manera predeterminada. Si se habilita el campo de reemplazo, <br> el filtro puede reemplazar el conjunto de sus %{orgs_and_locs}. Los cambios de rol posteriores no afectarán dicho filtro.<br> Después de deshabilitar el campo de reemplazo, se aplica el rol %{orgs_and_locs} nuevamente."
+msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again."
+msgstr ""
 
 msgid "Filters overriding has been disabled"
 msgstr "Se deshabilitó la anulación de filtros"
@@ -3551,9 +3545,6 @@ msgstr "Ocultar campos avanzados"
 
 msgid "Hide all values for this parameter."
 msgstr "Ocultar todos los valores para este parámetro"
-
-msgid "Hide this notification"
-msgstr ""
 
 msgid "Hide this value"
 msgstr "Ocultar este valor"
@@ -4156,8 +4147,8 @@ msgstr "Si la marca administrada está habilitada, ninguno de los servicios se c
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr "Si la marca administrada está habilitada, los servicios externos, como DHCP, DNS, y TFTP, se configurarán de acuerdo con la información proporcionada."
 
-msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with %s, the filters are not considered unlimited</br> as they are scoped accordingly."
-msgstr "Si el campo ilimitado está habilitado, el filtro se aplica a todos los recursos del tipo seleccionado. Si el campo </br> ilimitado está deshabilitado, puede especificar otros filtros utilizando la sintaxis de búsqueda de Foreman en el campo de búsqueda.</br> Si el rol está asociado con %s, los filtros no se consideran ilimitados</br> ya que tiene un alcance adecuado."
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgstr ""
 
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
 msgstr "Si es así, se mostrará un error si no existe un valor predeterminado y no existe ninguna concordancia que pueda proporcionar un valor"
@@ -4355,10 +4346,10 @@ msgstr "Entradas"
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
 "  based on template type, it allows to fetch the value from host facts, \\\n"
-"  host parameterization or ask user interactively. To use value loaded loaded \\\n"
+"  host parameterization or ask user interactively. To use value loaded \\\n"
 "  via input, use <code>input('name')</code> global macro. The template needs to be \\\n"
 "  saved before input macro can load the value. If the value is not available during\n"
-"  template preview, it's value is expanded to <code>$TYPE_INPUT[name]</code> string.</p>"
+"  template preview, its value is expanded to <code>$TYPE_INPUT[name]</code> string.</p>"
 msgstr ""
 
 msgid "Installation Media"
@@ -4399,6 +4390,9 @@ msgstr "Nombre de DNS de la interfaz"
 
 msgid "Interfaces"
 msgstr "Interfaces"
+
+msgid "Intermediate iPXE script for unattended installations"
+msgstr ""
 
 msgid "Internal DB"
 msgstr "Base de datos interna"
@@ -4456,6 +4450,9 @@ msgstr "¿Está habilitada la tarea programada que ejecuta %s?"
 
 msgid "Issue tracker"
 msgstr "Seguimiento de incidencias"
+
+msgid "It is irreversible, but VMs and their disks <b>will not be deleted</b>."
+msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage."
 msgstr "No es posible asignar plantillas de aprovisionamiento en esta etapa."
@@ -4533,8 +4530,8 @@ msgstr "Último informe"
 msgid "Last report"
 msgstr "Último informe"
 
-msgid "Last update: %s"
-msgstr "Última actualización: %s"
+msgid "Last update:"
+msgstr ""
 
 msgid "Latest Events"
 msgstr "Últimos eventos"
@@ -5287,9 +5284,6 @@ msgstr "Asignar manualmente"
 msgid "Manually select and assign hosts with no %s"
 msgstr "Seleccionar de forma manual y asignar hosts sin %s"
 
-msgid "Mark All Read"
-msgstr "Marcar todos como leídos"
-
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "La concordancia es la combinación de un atributo y su valor; si coinciden, se proporcionará el valor a continuación.<br> Puede utilizar cualquier atributo que Foreman conozca, como eventos, etc., por ejemplo: <code> domain = example.com </code> o <code> is_virtual = true</code>."
 
@@ -5667,9 +5661,6 @@ msgstr ""
 msgid "No IPv4 subnets selected"
 msgstr "No se seleccionaron subredes de IPv4"
 
-msgid "No Notifications Available"
-msgstr ""
-
 msgid "No TFTP feature"
 msgstr "Ninguna funcionalidad TFTP"
 
@@ -6015,11 +6006,11 @@ msgstr "Imagen SO"
 msgid "OS friendly name; e.g. RHEL 6.5"
 msgstr "nombre descriptivo del sistema operativo; por ejemplo, RHEL 6.5"
 
-msgid "OS major version from facter; e.g. 6"
-msgstr "Versión mayor del SO procedente de facter. P.ej., 6"
+msgid "OS major version from facter; e.g. 7"
+msgstr ""
 
-msgid "OS minor version from facter; e.g. 5"
-msgstr "Versión mayor del SO procedente de facter. P.e.j., 5"
+msgid "OS minor version from facter; e.g. 0 or 6.1810 (CentOS scheme)"
+msgstr ""
 
 msgid "OS name from facter; e.g. RedHat"
 msgstr "Nombre del SO procedente de facter; p. e.j., RedHat"
@@ -7863,9 +7854,6 @@ msgstr "Snippet"
 msgid "Sockets"
 msgstr ""
 
-msgid "Some Puppet Classes are unavailable in the selected environment"
-msgstr "Algunas clases de Pupptet no se encuentran disponibles en el entorno seleccionado"
-
 msgid "Some imported user account details cannot be saved: %s"
 msgstr "No se pueden guardar algunos detalles de la cuenta de usuario importada: %s"
 
@@ -8000,6 +7988,9 @@ msgstr "ID de subred"
 
 msgid "Subnet IDs"
 msgstr "ID de subred"
+
+msgid "Subnet IPv6 ID"
+msgstr ""
 
 msgid "Subnet description"
 msgstr "Descripción de subred"
@@ -8239,6 +8230,9 @@ msgstr "ID de proxy HTTP(S) de plantilla para utilizar dentro de esta subred"
 
 msgid "Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks"
 msgstr "Proxy HTTP(S) de plantilla para utilizar dentro de esta subred para permitir el acceso al uso de plantillas en el punto de conexión desde redes aisladas"
+
+msgid "Template ID in the compute resource"
+msgstr ""
 
 msgid "Template Proxy"
 msgstr "Proxy de plantilla"
@@ -8640,9 +8634,6 @@ msgstr "Es posible que los registros del servidor contengan más información."
 msgid "There was an error creating the PXE file: %s"
 msgstr "Se produjo un error al crear el archivo PXE: %s"
 
-msgid "There was an error during rendering, return to the Code tab to edit the template."
-msgstr "Se produjo un error durante la reproducción, regrese a la pestaña Código para editar la plantilla."
-
 msgid "There was an error listing %{listing}: %{errors}"
 msgstr "Se produjo un error al confeccionar la lista de errores %{listing}: %{errors}"
 
@@ -8666,6 +8657,9 @@ msgstr "Estas dos opciones son decisiones personales. (La diferencia principal r
 
 msgid "Thin provision"
 msgstr "Aprovisionamiento fino"
+
+msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversible."
+msgstr ""
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr "Esta clase Puppet no tiene parámetros en su firma."
@@ -8691,12 +8685,6 @@ msgstr "Este es un mensaje de prueba para confirmar que la configuración de cor
 msgid "This is for every location and organization that uses it."
 msgstr "Esto es para cada ubicación y organización que la utiliza."
 
-msgid "This is for every location that uses it."
-msgstr "Esto es para cada ubicación que la utiliza."
-
-msgid "This is for every organization that uses it."
-msgstr "Esto es para cada organización que la utiliza."
-
 msgid "This is inherited from parent"
 msgstr "Se ha heredado del padre"
 
@@ -8706,8 +8694,8 @@ msgstr "Un host está utilizándolo"
 msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
 msgstr "Esto se puede deber a la falta de disponibilidad de algún servicio requerido, llamada de API incorrecta o un error del servidor."
 
-msgid "This might take a while, as all hosts, facts and reports will be destroyed as well"
-msgstr "Esta acción puede tardar un rato, ya que se destruirán todos los hosts, eventos e informes."
+msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgstr ""
 
 msgid "This role has been cloned from role %s"
 msgstr "Este rol se ha clonado del rol %s"
@@ -9080,6 +9068,9 @@ msgstr "No se puede realizar la operación BMC lan"
 msgid "Unable to perform power BMC operation"
 msgstr "No puedo realizar la operación BMC de alimentación"
 
+msgid "Unable to read SSL certification or key for proxy communication, check settings for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readable by the foreman user."
+msgstr ""
+
 msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr "No se puede mostrar la plantilla %{kind} '%{name}': %{e}"
 
@@ -9187,12 +9178,6 @@ msgstr "Host sin administrar"
 
 msgid "Unnamed"
 msgstr "Sin nombre"
-
-msgid "Unread Event"
-msgstr ""
-
-msgid "Unread Events"
-msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
 msgstr "Modo IPAM no compatible para %s"
@@ -9727,9 +9712,6 @@ msgstr "Muy fuerte"
 msgid "View Chart"
 msgstr "Ver gráfico"
 
-msgid "View Diff"
-msgstr "Vista diferencial"
-
 msgid "View in Foreman:"
 msgstr "Ver en Foreman:"
 
@@ -9858,6 +9840,9 @@ msgstr "Cuando usa TLS, puede configurar cómo OpenSSL verifica el certificado"
 msgid "Whether or not the image supports user data"
 msgstr "Independientemente de si la imagen admite los datos del usuario"
 
+msgid "Whether or not the template is added automatically to new organizations and locations"
+msgstr ""
+
 msgid "Whether or not the template is locked for editing"
 msgstr "Si la plantilla está bloqueada o no para edición"
 
@@ -9947,9 +9932,6 @@ msgstr "sí "
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "Está por modificar el menú PXE predeterminado en todos los servidores TFTP configurados, ¿desea continuar?"
 
-msgid "You are about to override the editor content with a previous version, are you sure?"
-msgstr "Está a punto de sustituir el contenido del editor por una versión previa, ¿Está seguro?"
-
 msgid "You are about to override the editor content, are you sure?"
 msgstr "Está a punto de sustituir el contenido del editor, ¿Está seguro?"
 
@@ -10007,8 +9989,8 @@ msgstr "No tiene permiso para editar el inicio de sesión"
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "No tiene hosts visibles. Los hosts se pueden añadir y aprovisionar desde Foreman, o configurarse para informar a Foreman."
 
-msgid "You don't have permission %{name} with attributes that you have specified or you don't have access to specified %{tax_string}"
-msgstr "No tiene permisos %{name} con los atributos que ha especificado o no tiene acceso al %{tax_string} especificado"
+msgid "You don't have permission %{name} with attributes that you have specified or you don't have access to specified organizations or locations"
+msgstr ""
 
 msgid "You don't seem to have any bookmarks."
 msgstr "No parece tener marcadores."
@@ -10370,6 +10352,12 @@ msgstr "nombre de host del host"
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
+msgid "iPXE intermediate script"
+msgstr ""
+
+msgid "iPXE intermediate script '%s' not found"
+msgstr ""
+
 msgid "iPXE template"
 msgstr "Plantilla iPXE "
 
@@ -10430,8 +10418,8 @@ msgstr "es una cuenta de administrador"
 msgid "is an admin user group"
 msgstr "es un grupo de usuarios administradores"
 
-msgid "is an unsupported provisioning method"
-msgstr "es un método de aprovisionamiento no soportado"
+msgid "is an unsupported provisioning method, available: %s"
+msgstr ""
 
 msgid "is invalid"
 msgstr "no es válido"
@@ -10655,9 +10643,6 @@ msgstr "opcional: nombre de certificado del host"
 msgid "optional: the STI type of host to create"
 msgstr "opcional: el tipo STI de host a crear"
 
-msgid "or"
-msgstr "o"
-
 msgid "organization"
 msgstr "Organización"
 
@@ -10781,6 +10766,9 @@ msgstr "opciones separadas por espacios, p.ej. miimon=100"
 msgid "specified template \"%s\" kind was not found"
 msgstr "no se encontró el tipo \"%s\" de plantilla especificada"
 
+msgid "split"
+msgstr ""
+
 msgid "start"
 msgstr "inicio"
 
@@ -10837,6 +10825,9 @@ msgstr "no se pudo encontrar la plantilla %{type} para %{host} que ejecuta %{os}
 msgid "unable to sign a non pending certificate"
 msgstr "no se ha podido firmar un certificado no-pendiente"
 
+msgid "unified"
+msgstr ""
+
 msgid "unknown network_type"
 msgstr "network_type desconocido"
 
@@ -10875,9 +10866,6 @@ msgstr "válido"
 
 msgid "valid or pending"
 msgstr "válida o pendiente"
-
-msgid "values"
-msgstr ""
 
 msgid "view last report details"
 msgstr "ver detalles del último informe"
