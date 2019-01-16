@@ -29,7 +29,7 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
   end
 
   [["Redhat", "http://mirror.centos.org/centos/6.0/os/x86_64/images/pxeboot"],
-   ["Ubuntu", "http://sg.archive.ubuntu.com/dists//main/installer-x86_64/current/images/netboot/ubuntu-installer/x86_64"],
+   ["Ubuntu", "http://sg.archive.ubuntu.com/dists/rn10/main/installer-x86_64/current/images/netboot/ubuntu-installer/x86_64"],
    ["OpenSuse", "http://download.opensuse.org/distribution/12.3/repo/oss/boot/x86_64/loader"],
    ["Solaris", "http://brsla01/vol/solgi_5.10/sol10_hw0910_sparc/Solaris_10/Tools/Boot"]].each do |osname, expected_uri|
     test "generates unique ID based on base and pxedir for #{osname}" do
