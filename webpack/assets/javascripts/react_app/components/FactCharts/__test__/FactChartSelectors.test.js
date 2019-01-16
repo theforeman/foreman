@@ -3,8 +3,8 @@ import {
   selectFactChart,
   selectDisplayModal,
   selectFactChartData,
-} from './FactChartSelectors';
-import { chartDataValues } from './factChart.fixtures';
+} from '../FactChartSelectors';
+import { chartDataValues } from '../FactChart.fixtures';
 
 describe('Fact Chart Selector', () => {
   const factChartState = {

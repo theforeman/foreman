@@ -2,13 +2,13 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import FactChart from './';
+import FactChart from '.';
 import {
   initialState,
   modalSuccessState,
   modalLoadingState,
   modalErrorState,
-} from './factChart.fixtures';
+} from './FactChart.fixtures';
 import Story from '../../../../../stories/components/Story';
 
 const mockStore = configureMockStore([thunk]);

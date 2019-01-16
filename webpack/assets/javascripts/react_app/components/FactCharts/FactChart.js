@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Modal, Button, OverlayTrigger, Tooltip } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { bindMethods, noop } from '../../common/helpers';
@@ -7,18 +6,12 @@ import DonutChart from '../common/charts/DonutChart';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
 import { STATUS } from '../../constants';
-import * as FactChartActions from '../../redux/actions/factCharts/';
+import { navigateToSearch } from '../../../services/charts/DonutChartService';
 import {
   sprintf,
   ngettext as n__,
   translate as __,
 } from '../../../react_app/common/I18n';
-import { navigateToSearch } from '../../../services/charts/DonutChartService';
-import {
-  selectHostCount,
-  selectFactChart,
-  selectDisplayModal,
-} from './FactChartSelectors';
 
 class FactChart extends React.Component {
   constructor(props) {
@@ -32,7 +25,6 @@ class FactChart extends React.Component {
       getChartData,
       data: { id, path, title },
     } = this.props;
-
     getChartData(path, id);
     showModal(id, title);
   }
@@ -121,7 +113,12 @@ FactChart.propTypes = {
     title: PropTypes.string,
     search: PropTypes.string,
   }).isRequired,
-  factChart: PropTypes.object,
+  factChart: PropTypes.shape({
+    chartData: PropTypes.arrayOf(PropTypes.array),
+    loaderStatus: PropTypes.string,
+    modalToDisplay: PropTypes.object,
+    title: PropTypes.string,
+  }),
   modalToDisplay: PropTypes.bool,
   hostsCount: PropTypes.number,
   getChartData: PropTypes.func,
@@ -138,13 +135,4 @@ FactChart.defaultProps = {
   closeModal: noop,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  factChart: selectFactChart(state),
-  hostsCount: selectHostCount(state),
-  modalToDisplay: selectDisplayModal(state, ownProps.data.id),
-});
-
-export default connect(
-  mapStateToProps,
-  FactChartActions
-)(FactChart);
+export default FactChart;
