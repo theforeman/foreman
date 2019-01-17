@@ -2,12 +2,15 @@ import { mount } from 'enzyme';
 import React from 'react';
 import { generateStore } from '../../redux';
 import API from '../../API';
+import { doesDocumentHasFocus } from '../../common/document';
 
 import { componentMountData, serverResponse } from './notifications.fixtures';
 
 import Notifications from './';
 
 jest.mock('../../API');
+jest.mock('../../common/document');
+
 let failResponse = { response: { status: 200 } };
 
 function mockjqXHR() {
@@ -24,6 +27,8 @@ function mockjqXHR() {
 }
 
 describe('notifications', () => {
+  doesDocumentHasFocus.mockImplementation(() => true);
+
   beforeEach(() => {
     global.tfm = {
       tools: {

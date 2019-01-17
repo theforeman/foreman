@@ -9,10 +9,13 @@ function auto_refresh(){
 
   if (element[0]) {
     refresh_timeout = setTimeout(function(){
-      if ($(".auto-refresh").hasClass("on")) {
+      var autoRefreshIsOn = $(".auto-refresh").hasClass("on");
+      var hasFocus = tfm.document.doesDocumentHasFocus();
+
+      if (autoRefreshIsOn && hasFocus) {
         Turbolinks.visit(window.location.href);
       }
-    },60000);
+    }, 60000);
   }
 }
 

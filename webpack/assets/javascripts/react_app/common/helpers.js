@@ -2,6 +2,12 @@ import debounce from 'lodash/debounce';
 import { translate as __ } from './I18n';
 
 /**
+ * Does it run in phantomjs test environment
+ * @return {boolean}
+ */
+export const runningInPhantomJS = () => window._phantom !== undefined;
+
+/**
  * Add a debounce timeout for your methods.
  * @param {Object} context - the context where your method is running.
  * @param {Number} time - the amount of debounce time in miliseconds.
