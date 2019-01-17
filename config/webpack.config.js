@@ -71,6 +71,12 @@ module.exports = env => {
   if (env && env.pluginName !== undefined) {
     var pluginEntries = {};
     pluginEntries[env.pluginName] = plugins['entries'][env.pluginName];
+    for (var entry of plugins['entries']) {
+      if (entry.startsWith(env.pluginName + ":")) {
+          pluginEntries[entry] = plugins['entries'][entry]
+      }
+    };
+
     var outputPath = path.join(plugins['plugins'][env.pluginName]['root'], 'public', 'webpack');
     var jsFilename = production ? env.pluginName + '/[name]-[chunkhash].js' : env.pluginName + '/[name].js';
     var cssFilename = production ? env.pluginName + '/[name]-[chunkhash].css' : env.pluginName + '/[name].css';
