@@ -27,7 +27,7 @@ end
 def entry_name(plugin_name, entry)
   prefix = File.basename(entry).gsub(/[_]?index.js$/, '')
   if prefix != ''
-    "#{plugin_name}_#{prefix}"
+    "#{plugin_name}:#{prefix}"
   else
     plugin_name
   end
