@@ -9,6 +9,7 @@ import {
   NOTIFICATIONS_POLLING_STARTED,
   NOTIFICATIONS_LINK_CLICKED,
 } from '../../consts';
+import { doesDocumentHasFocus } from '../../../common/document';
 import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
 import API from '../../../API';
 
@@ -17,11 +18,7 @@ const notificationsInterval =
   process.env.NOTIFICATIONS_POLLING || defaultNotificationsPollingInterval;
 
 const getNotifications = url => dispatch => {
-  const isDocumentVisible =
-    document.visibilityState === 'visible' ||
-    document.visibilityState === 'prerender';
-
-  if (isDocumentVisible) {
+  if (doesDocumentHasFocus()) {
     API.get(url)
       .then(onGetNotificationsSuccess)
       .catch(onGetNotificationsFailed)

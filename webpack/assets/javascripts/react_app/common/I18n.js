@@ -1,8 +1,7 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
 import { deprecateObjectProperty } from '../../foreman_tools';
-
-const runningInPhantomJS = () => window._phantom !== undefined;
+import { runningInPhantomJS } from './helpers';
 
 class IntlLoader {
   constructor(locale, timezone) {

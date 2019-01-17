@@ -29,6 +29,7 @@ require('./bundle_novnc');
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
 import i18n from './react_app/common/I18n';
+import * as foremanDocument from './react_app/common/document';
 
 window.tfm = Object.assign(window.tfm || {}, {
   authSource: require('./foreman_auth_source'),
@@ -51,5 +52,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   breadcrumbs: require('./foreman_breadcrumbs'),
   configReportsModalDiff: require('./foreman_config_reports_modal_diff'),
   i18n,
+  document: foremanDocument,
   componentRegistry,
 });
