@@ -30,10 +30,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     end
   end
 
-  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-EClLgEZtX_-coreos_production_pxe.vmlinuz' },
-    :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-EClLgEZtX_-linux' },
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-_3yVUzKcKw-linux' },
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-gyHZQuKN-y-linux' } }.
+  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-gomKIDxxXGyr-coreos_production_pxe.vmlinuz' },
+    :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-22gSejCmiWvb-linux' },
+    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-MISc0aOlWLr3-linux' },
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-n8xNOWMpKlrW-linux' } }.
   each do |os, config|
     test "kernel location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
@@ -50,10 +50,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     end
   end
 
-  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-EClLgEZtX_-coreos_production_pxe_image.cpio.gz' },
-    :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-EClLgEZtX_-initrd.gz' },
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-_3yVUzKcKw-initrd.gz' },
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-gyHZQuKN-y-initrd' } }.
+  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-gomKIDxxXGyr-coreos_production_pxe_image.cpio.gz' },
+    :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-22gSejCmiWvb-initrd.gz' },
+    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-MISc0aOlWLr3-initrd.gz' },
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-n8xNOWMpKlrW-initrd' } }.
   each do |os, config|
     test "initrd location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
@@ -70,10 +70,10 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     end
   end
 
-  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-EClLgEZtX_'},
-    :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-EClLgEZtX_'},
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-_3yVUzKcKw'},
-    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-gyHZQuKN-y' } }.
+  { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-gomKIDxxXGyr'},
+    :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'medium' => :unused, 'expected' => 'boot/unused-22gSejCmiWvb'},
+    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu, 'expected' => 'boot/ubuntu-mirror-MISc0aOlWLr3'},
+    :suse        => { 'os' => :suse,        'arch' => :x86_64, 'medium' => :opensuse, 'expected' => 'boot/opensuse-n8xNOWMpKlrW' } }.
   each do |os, config|
     test "pxe prefix for #{os}" do
       arch = architectures(config['arch'])
