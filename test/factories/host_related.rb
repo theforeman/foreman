@@ -201,8 +201,8 @@ FactoryBot.define do
       compute_resource do
         taxonomies = {}
         # add taxonomy overrides in case it's set in the host object
-        taxonomies[:locations] = [location] unless location.nil?
-        taxonomies[:organizations] = [organization] unless organization.nil?
+        taxonomies[:locations] = [location]
+        taxonomies[:organizations] = [organization]
         FactoryBot.create(:ec2_cr, taxonomies)
       end
       before(:create) { |host| host.expects(:queue_compute) }
@@ -217,8 +217,8 @@ FactoryBot.define do
     trait :with_subnet do
       after(:build) do |host|
         overrides = {}
-        overrides[:locations] = [host.location] unless host.location.nil?
-        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        overrides[:locations] = [host.location]
+        overrides[:organizations] = [host.organization]
         host.subnet = FactoryBot.build(:subnet_ipv4, overrides)
         host.ip = IPAddr.new(IPAddr.new(host.subnet.network).to_i + 1, Socket::AF_INET).to_s
       end
@@ -227,8 +227,8 @@ FactoryBot.define do
     trait :with_ipv6_subnet do
       after(:build) do |host|
         overrides = {}
-        overrides[:locations] = [host.location] unless host.location.nil?
-        overrides[:organizations] = [host.organization] unless host.organization.nil?
+        overrides[:locations] = [host.location]
+        overrides[:organizations] = [host.organization]
         host.subnet6 = FactoryBot.build(:subnet_ipv6, overrides)
       end
     end
@@ -278,8 +278,8 @@ FactoryBot.define do
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
         # add taxonomy overrides in case it's set in the host object
-        overrides[:locations] = [location] unless location.nil?
-        overrides[:organizations] = [organization] unless organization.nil?
+        overrides[:locations] = [location]
+        overrides[:organizations] = [organization]
 
         FactoryBot.create(:subnet_ipv6, :dns, overrides)
       end
@@ -297,8 +297,8 @@ FactoryBot.define do
       subnet do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
         # add taxonomy overrides in case it's set in the host object
-        overrides[:locations] = [location] unless location.nil?
-        overrides[:organizations] = [organization] unless organization.nil?
+        overrides[:locations] = [location]
+        overrides[:organizations] = [organization]
 
         FactoryBot.create(:subnet_ipv4, overrides)
       end
@@ -317,8 +317,8 @@ FactoryBot.define do
       compute_resource do
         taxonomies = {}
         # add taxonomy overrides in case it's set in the host object
-        taxonomies[:locations] = [location] unless location.nil?
-        taxonomies[:organizations] = [organization] unless organization.nil?
+        taxonomies[:locations] = [location]
+        taxonomies[:organizations] = [organization]
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       domain
@@ -327,8 +327,8 @@ FactoryBot.define do
           :dhcp => FactoryBot.create(:dhcp_smart_proxy)
         }
         # add taxonomy overrides in case it's set in the host object
-        overrides[:locations] = [location] unless location.nil?
-        overrides[:organizations] = [organization] unless organization.nil?
+        overrides[:locations] = [location]
+        overrides[:organizations] = [organization]
         FactoryBot.create(
           :subnet_ipv4,
           overrides
@@ -344,15 +344,15 @@ FactoryBot.define do
       compute_resource do
         taxonomies = {}
         # add taxonomy overrides in case it's set in the host object
-        taxonomies[:locations] = [location] unless location.nil?
-        taxonomies[:organizations] = [organization] unless organization.nil?
+        taxonomies[:locations] = [location]
+        taxonomies[:organizations] = [organization]
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       subnet do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
         # add taxonomy overrides in case it's set in the host object
-        overrides[:locations] = [location] unless location.nil?
-        overrides[:organizations] = [organization] unless organization.nil?
+        overrides[:locations] = [location]
+        overrides[:organizations] = [organization]
 
         FactoryBot.create(:subnet_ipv4, overrides)
       end
@@ -375,15 +375,15 @@ FactoryBot.define do
       compute_resource do
         taxonomies = {}
         # add taxonomy overrides in case it's set in the host object
-        taxonomies[:locations] = [location] unless location.nil?
-        taxonomies[:organizations] = [organization] unless organization.nil?
+        taxonomies[:locations] = [location]
+        taxonomies[:organizations] = [organization]
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       subnet6 do
         overrides = {:dns => FactoryBot.create(:dns_smart_proxy)}
         # add taxonomy overrides in case it's set in the host object
-        overrides[:locations] = [location] unless location.nil?
-        overrides[:organizations] = [organization] unless organization.nil?
+        overrides[:locations] = [location]
+        overrides[:organizations] = [organization]
 
         FactoryBot.create(:subnet_ipv6, :dns, overrides)
       end
@@ -502,8 +502,8 @@ FactoryBot.define do
       compute_resource do
         taxonomies = {}
         # add taxonomy overrides in case it's set in the host object
-        taxonomies[:locations] = [location] unless location.nil?
-        taxonomies[:organizations] = [organization] unless organization.nil?
+        taxonomies[:locations] = [location]
+        taxonomies[:organizations] = [organization]
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       domain
