@@ -108,7 +108,7 @@ class Setting < ApplicationRecord
 
   def self.[]=(name, value)
     name   = name.to_s
-    record = where(:name => name).first_or_create
+    record = where(:name => name).first!
     record.value = value
     record.save!
   end
