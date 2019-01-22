@@ -71,7 +71,7 @@ module.exports = env => {
   if (env && env.pluginName !== undefined) {
     var pluginEntries = {};
     pluginEntries[env.pluginName] = plugins['entries'][env.pluginName];
-    for (var entry of plugins['entries']) {
+    for (var entry of Object.keys(plugins['entries'])) {
       if (entry.startsWith(env.pluginName + ":")) {
           pluginEntries[entry] = plugins['entries'][entry]
       }
