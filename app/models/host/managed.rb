@@ -336,21 +336,24 @@ class Host::Managed < Host::Base
     end
   end
 
-  def disk_layout_source
-    @disk_layout_source ||= if disk.present?
-                              Foreman::Renderer::Source::String.new(name: 'Custom disk layout',
-                                                                    content: disk.tr("\r", ''))
-                            elsif ptable.present?
-                              Foreman::Renderer::Source::String.new(name: ptable.name,
-                                                                    content: ptable.layout.tr("\r", ''))
-                            end
+  def disk_layout_source(available_snippets: [])
+    if disk.present?
+      Foreman::Renderer::Source::String.new(name: 'Custom disk layout',
+                                            content: disk.tr("\r", ''),
+                                            available_snippets: available_snippets)
+    elsif ptable.present?
+      Foreman::Renderer::Source::String.new(name: ptable.name,
+                                            content: ptable.layout.tr("\r", ''),
+                                            available_snippets: available_snippets)
+    end
   end
 
   # returns the host correct disk layout, custom or common
-  def diskLayout
-    raise Foreman::Renderer::Errors::RenderingError, 'Neither disk nor partition table defined for host' unless disk_layout_source
-    scope = Foreman::Renderer.get_scope(host: self, source: disk_layout_source)
-    Foreman::Renderer.render(disk_layout_source, scope)
+  def diskLayout(available_snippets: [])
+    disk_layout = disk_layout_source(available_snippets: available_snippets)
+    raise Foreman::Renderer::Errors::RenderingError, 'Neither disk nor partition table defined for host' unless disk_layout
+    scope = Foreman::Renderer.get_scope(host: self, source: disk_layout)
+    Foreman::Renderer.render(disk_layout, scope)
   end
 
   # reports methods
