@@ -1,3 +1,6 @@
+2019-01-23	Justin Sherrill <jsherril@redhat.com>
+	* Refs #25882 - use working iterator for webpack entries
+
 2019-01-22	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.21.0-RC2
 
