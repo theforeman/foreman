@@ -1095,12 +1095,18 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test "custom_disk_partition_with_ptable" do
-      h = FactoryBot.create(:host, :managed)
-      h.disk = ''
-      h.ptable.stubs(:name).returns("some_name")
-      h.ptable.stubs(:layout).returns("<%= template_name %>")
-      assert h.save
-      assert_equal "some_name", h.diskLayout
+      h = FactoryBot.create(:host, :managed, disk: '')
+      assert h.ptable.update(layout: '<%= template_name %>')
+      refute h.disk.present?
+      assert_equal h.ptable.name, h.diskLayout
+    end
+
+    test 'custom disk partition with ptable can render snippets' do
+      snippet = FactoryBot.create(:provisioning_template, :snippet)
+      h = FactoryBot.create(:host, :managed, disk: '')
+      assert h.ptable.update(layout: "<%= snippet('#{snippet.name}') %>")
+      refute h.disk.present?
+      assert_equal snippet.template, h.diskLayout
     end
 
     test "models are updated when host.model has no value" do
