@@ -1267,7 +1267,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   describe '/host/:id/power_status' do
-    let(:host) { FactoryBot.create(:host, compute_resource: compute_resources(:vmware)) }
+    let(:host) { FactoryBot.create(:host, compute_resource: FactoryBot.create(:vmware_cr)) }
 
     setup { Fog.mock! }
     teardown { Fog.unmock! }
