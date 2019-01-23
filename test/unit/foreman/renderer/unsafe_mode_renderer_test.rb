@@ -25,15 +25,4 @@ EOS
     assert_include exception.message, 'my_template:3'
     assert_include exception.message, "syntax error, unexpected ')'"
   end
-
-  test 'should render host.diskLayout with snippet from db' do
-    Setting[:safemode_render] = false
-
-    snippet = FactoryBot.create(:provisioning_template, :snippet)
-    @scope.host.stubs(:ptable).returns(OpenStruct.new(name: 'ptable name',
-                                                      layout: "<%= snippet('#{snippet.name}') %>"))
-    source = OpenStruct.new(content: "<%= host.diskLayout(available_snippets: [ProvisioningTemplate.find_by(name: '#{snippet.name}')]) %>")
-
-    assert_equal snippet.template, renderer.render(source, @scope)
-  end
 end
