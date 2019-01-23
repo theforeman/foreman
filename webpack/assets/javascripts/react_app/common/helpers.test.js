@@ -1,4 +1,9 @@
-import { translateArray, translateObject } from './helpers';
+import {
+  translateArray,
+  translateObject,
+  propsToSnakeCase,
+  propsToCamelCase,
+} from './helpers';
 
 describe('translateArray, translateObject', () => {
   const arr = ['Hello', 'There'];
@@ -8,5 +13,18 @@ describe('translateArray, translateObject', () => {
   });
   it('should translate Object', () => {
     expect(translateObject(obj)).toMatchSnapshot();
+  });
+});
+
+describe('propsToCamelCase, propsToSnakeCase', () => {
+  const snakeObj = { hello_world: 'hello', test_obj: 'test' };
+  const camelObj = { helloWorld: 'hello', testObj: 'test' };
+
+  it('should transform keys to camel case', () => {
+    expect(propsToCamelCase(snakeObj)).toEqual(camelObj);
+  });
+
+  it('should transform keys to snake case', () => {
+    expect(propsToSnakeCase(camelObj)).toEqual(snakeObj);
   });
 });

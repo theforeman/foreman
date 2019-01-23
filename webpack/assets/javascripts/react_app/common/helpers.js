@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import { snakeCase, camelCase } from 'lodash';
 import { translate as __ } from './I18n';
 
 /**
@@ -72,6 +73,27 @@ export const translateObject = obj =>
  */
 export const translateArray = arr => arr.map(str => __(str));
 
+/**
+ * Transform object keys to snake case
+ */
+export const propsToSnakeCase = ob =>
+  propsToCase(snakeCase, 'propsToSnakeCase only takes objects', ob);
+
+/**
+ * Transform object keys to camel case
+ */
+export const propsToCamelCase = ob =>
+  propsToCase(camelCase, 'propsToCamelCase only takes objects', ob);
+
+const propsToCase = (casingFn, errorMsg, ob) => {
+  if (typeof ob !== 'object') throw Error(errorMsg);
+
+  return Object.keys(ob).reduce((memo, key) => {
+    memo[casingFn(key)] = ob[key];
+    return memo;
+  }, {});
+};
+
 export default {
   bindMethods,
   noop,
@@ -81,4 +103,6 @@ export default {
   getDisplayName,
   translateObject,
   translateArray,
+  propsToCamelCase,
+  propsToSnakeCase,
 };
