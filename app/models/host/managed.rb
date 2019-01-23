@@ -341,8 +341,7 @@ class Host::Managed < Host::Base
                               Foreman::Renderer::Source::String.new(name: 'Custom disk layout',
                                                                     content: disk.tr("\r", ''))
                             elsif ptable.present?
-                              Foreman::Renderer::Source::String.new(name: ptable.name,
-                                                                    content: ptable.layout.tr("\r", ''))
+                              Foreman::Renderer::Source::Database.new(ptable)
                             end
   end
 
