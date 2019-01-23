@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import {
   dateTimeWithErrorProps,
   textFieldWithHelpProps,

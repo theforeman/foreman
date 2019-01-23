@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import PageLayout from './PageLayout';
 import { pageLayoutMock } from './PageLayout.fixtures';
 

@@ -1,3 +1,4 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import * as types from '../../consts';
 
 import {
@@ -9,7 +10,6 @@ import {
 } from './statistics.fixtures';
 
 import reducer from './index';
-import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 
 describe('statistics reducer', () => {
   const fixtures = {

@@ -1,5 +1,5 @@
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import SubstringWrapper from './';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const fixtures = {
   'should render with b tag': {

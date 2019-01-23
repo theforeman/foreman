@@ -1,3 +1,4 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import {
   AUTO_COMPLETE_REQUEST,
   AUTO_COMPLETE_SUCCESS,
@@ -7,7 +8,6 @@ import {
 } from '../AutoCompleteConstants';
 import reducer from '../AutoCompleteReducer';
 
-import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 import * as mock from '../AutoComplete.fixtures';
 
 const fixtures = {

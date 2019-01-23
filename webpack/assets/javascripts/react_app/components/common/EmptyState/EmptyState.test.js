@@ -1,9 +1,9 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import PrimaryActionButton from './EmptyStatePrimaryActionButton';
 import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const defaultEmptyStateFixtures = {
   'icon, header, description and main action are mandatory': {

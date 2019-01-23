@@ -1,5 +1,5 @@
+import { testActionSnapshotWithFixtures } from 'react-redux-test-utils';
 import API from '../../../API';
-import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import { getResults, resetData, initialUpdate } from '../AutoCompleteActions';
 import {
   APIFailMock,

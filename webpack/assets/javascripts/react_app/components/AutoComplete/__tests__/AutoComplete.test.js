@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import AutoComplete from '../AutoComplete';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import { KEYCODES } from '../../../common/keyCodes';
 import { noop } from '../../../common/helpers';
 

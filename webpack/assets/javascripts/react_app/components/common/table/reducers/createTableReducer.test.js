@@ -1,4 +1,4 @@
-import { testReducerSnapshotWithFixtures } from '../../../../common/testHelpers';
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import createTableActionTypes from '../actionsHelpers/actionTypeCreator';
 import createTableReducer from './createTableReducer';
 

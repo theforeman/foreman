@@ -1,4 +1,4 @@
-import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
+import { testActionSnapshotWithFixtures } from 'react-redux-test-utils';
 import { toggleModal, createDiff, changeViewType } from '../DiffModalActions';
 
 import { diffModalMock } from '../DiffModal.fixtures';

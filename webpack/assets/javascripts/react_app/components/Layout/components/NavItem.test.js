@@ -1,5 +1,5 @@
 import React from 'react';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 
 import NavItem from '../components/NavItem';
 

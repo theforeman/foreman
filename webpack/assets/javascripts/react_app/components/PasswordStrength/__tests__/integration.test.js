@@ -1,6 +1,6 @@
 import React from 'react';
 
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+import { IntegrationTestHelper } from 'react-redux-test-utils';
 
 import { passwords } from '../PasswordStrength.fixtures';
 import PasswordStrength, { reducers } from '../index';

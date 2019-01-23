@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import { DateTimeProps, DateTimeWithRequireAndInfo } from './DateTime.fixtures';
 import DateTime from './DateTime';
 

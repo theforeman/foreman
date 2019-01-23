@@ -1,6 +1,6 @@
 import React from 'react';
+import { IntegrationTestHelper } from 'react-redux-test-utils';
 import API from '../../../API';
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import Autocomplete, { reducers } from '../index';
 

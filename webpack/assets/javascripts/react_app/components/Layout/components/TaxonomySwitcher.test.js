@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import TaxonomySwitcher from './TaxonomySwitcher';
 import { layoutMock } from '../Layout.fixtures';
 

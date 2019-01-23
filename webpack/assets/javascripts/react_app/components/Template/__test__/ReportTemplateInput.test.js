@@ -1,9 +1,10 @@
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
+
 import TemplateInput from '../TemplateInput';
 import {
   ReportTemplateGenerateDate,
   ReportTemplateGenerateSearch,
 } from '../Inputs/TemplateInput.fixures';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const fixtures = {
   'renders report template with date input': ReportTemplateGenerateDate,

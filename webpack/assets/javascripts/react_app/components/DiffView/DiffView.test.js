@@ -1,5 +1,5 @@
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import { diffMock, patchMock } from './DiffView.fixtures';
-import { testComponentSnapshotsWithFixtures } from '../../common/testHelpers';
 
 import DiffView from './DiffView';
 

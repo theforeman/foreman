@@ -1,7 +1,7 @@
 import React from 'react';
+import { IntegrationTestHelper } from 'react-redux-test-utils';
 import { KEYCODES } from '../../../common/keyCodes';
 import API from '../../../API';
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { SearchBarProps } from '../SearchBar.fixtures';
 import SearchBar from '../index';
 import { reducers } from '../../AutoComplete';

@@ -1,8 +1,7 @@
 import React from 'react';
+import { IntegrationTestHelper } from 'react-redux-test-utils';
 
 import API from '../../../API';
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
-
 import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
 

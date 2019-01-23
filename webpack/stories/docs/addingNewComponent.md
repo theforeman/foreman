@@ -29,6 +29,10 @@ Components are stored in `webpack/assets/javascripts/react_app/components/`. Eac
    ╰─ index.js                       ┈ redux connected file
 ```
 
+Notice the `<COMPONENT_NAME>.js` exports the pure react component (not connected to redux) while the `index.js` exports the component connected to redux.
+
+[Learn how to separate your component.](https://sharvit.github.io/react-redux-test-utils/manual/manage-your-code-folder-structure.html)
+
 ## Storybook
 
 [Storybook](https://storybook.js.org/) is an isolated environment for developing and demonstrating components. It serves as a nice documentation of a component usage.
@@ -64,20 +68,35 @@ Tests must be placed in `__tests__` subfolder of the main component's folder. Te
 ╰─ __tests__
     ├─ <COMPONENT_NAME>Actions.test.js
     ├─ <COMPONENT_NAME>Reducer.test.js
+    ├─ <COMPONENT_NAME>Selectors.test.js
     ├─ <COMPONENT_NAME>.test.js
     ├─ integration.test.js
     ╰─ __snapshots__
         ├── # All snapshot files (created automaically, updated with `npm test -- -u`)
 ```
 
-### Testing components
+Foreman uses multiple tools to test its javascript code:
 
-In most cases (when the component doesn't provide any user interaction callbacks) it's enough to test how the component is rendered with various supported properties. Foreman uses [enzyme](https://github.com/airbnb/enzyme) for that.
+1. [jest](jest) - Jest is used by Facebook to test all JavaScript code including React applications.
+2. [react-redux-test-utils](https://sharvit.github.io/react-redux-test-utils/) - Utils for testing react-redux applications using enzyme and jest snapshots.
+3. [enzyme](https://github.com/airbnb/enzyme) - Enzyme is a JavaScript Testing utility for React that makes it easier to assert, manipulate, and traverse your React Components' output.
 
-There are 3 ways how a component can be rendered in enzyme:
-  - **shallow** - render subcomponents as names, **preferred alternative**, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md)
-  - **mount** - full rendering API, useful when you need to interact with dom, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md)
-  - **render** - static rendering, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/render.md)
+### unit-testing
+
+Unit testing should be done for every single javascript function. Foreman uses [react-redux-test-utils](https://sharvit.github.io/react-redux-test-utils/) to test Components, Actions, Reducers and Selectors.
+
+1. [Testing components](https://sharvit.github.io/react-redux-test-utils/manual/unit-testing-components.html)
+2. [Testing actions](https://sharvit.github.io/react-redux-test-utils/manual/unit-testing-actions.html)
+3. [Testing reducers](https://sharvit.github.io/react-redux-test-utils/manual/unit-testing-reducers.html)
+4. [Testing selectors](https://sharvit.github.io/react-redux-test-utils/manual/unit-testing-selectors.html)
+
+### integration-testing
+
+Once the units are correctly tested, foreman test they integrate well with each other. The most common integration points in foreman are the connected-components where foreman integrates components, reducers, actions, selectors, helpers and more into a single component.
+
+The foreman uses [react-redux-test-utils](https://sharvit.github.io/react-redux-test-utils/) again to create integration testing for those connected-components.
+
+[Learn how to write integration-testing](https://sharvit.github.io/react-redux-test-utils/manual/integration-testing.html)
 
 ### Running the tests
 

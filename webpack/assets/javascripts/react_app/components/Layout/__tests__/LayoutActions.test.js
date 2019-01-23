@@ -1,4 +1,4 @@
-import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
+import { testActionSnapshotWithFixtures } from 'react-redux-test-utils';
 import {
   showLoading,
   hideLoading,

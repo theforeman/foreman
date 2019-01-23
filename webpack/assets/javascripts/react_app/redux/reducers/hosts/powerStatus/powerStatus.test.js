@@ -1,3 +1,4 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import * as types from '../../../consts';
 
 import {
@@ -9,7 +10,6 @@ import {
 } from './powerStatus.fixtures';
 
 import reducer from './index';
-import { testReducerSnapshotWithFixtures } from '../../../../common/testHelpers';
 
 describe('powerStatus reducer', () => {
   const fixtures = {

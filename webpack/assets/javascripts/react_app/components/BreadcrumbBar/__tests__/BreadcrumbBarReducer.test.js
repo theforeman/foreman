@@ -1,3 +1,4 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import {
   BREADCRUMB_BAR_TOGGLE_SWITCHER,
   BREADCRUMB_BAR_CLOSE_SWITCHER,
@@ -7,7 +8,6 @@ import {
 } from '../BreadcrumbBarConstants';
 import reducer from '../BreadcrumbBarReducer';
 
-import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 import { resource, resourceList } from '../BreadcrumbBar.fixtures';
 
 const fixtures = {

@@ -1,4 +1,4 @@
-import { testSelectorsSnapshotWithFixtures } from '../../../common/testHelpers';
+import { testSelectorsSnapshotWithFixtures } from 'react-redux-test-utils';
 import {
   patternflyMenuItemsSelector,
   selectIsLoading,

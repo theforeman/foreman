@@ -1,4 +1,4 @@
-import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import { chartDataValues } from '../FactChart.fixtures';
 
 import reducer from '../FactChartReducer';

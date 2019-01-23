@@ -1,12 +1,11 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
+
 import {
   DIFF_MODAL_TOGGLE,
   DIFF_MODAL_CREATE,
   DIFF_MODAL_VIEWTYPE,
 } from '../DiffModalConstants';
-
 import reducer from '../DiffModalReducer';
-
-import { testReducerSnapshotWithFixtures } from '../../../../common/testHelpers';
 import { diffModalMock } from '../DiffModal.fixtures';
 
 const fixtures = {

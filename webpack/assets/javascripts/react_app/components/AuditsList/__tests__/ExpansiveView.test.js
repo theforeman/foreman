@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import ExpansiveView from '../ExpansiveView';
 
 import { AuditRecord } from './AuditsList.fixtures';

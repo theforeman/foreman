@@ -1,6 +1,6 @@
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import SearchBar from '../SearchBar';
 import { SearchBarProps } from '../SearchBar.fixtures';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const fixtures = {
   'renders AutoComplete': SearchBarProps,

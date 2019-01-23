@@ -1,5 +1,6 @@
+import { testActionSnapshotWithFixtures } from 'react-redux-test-utils';
+
 import API from '../../../API';
-import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 
 import { loadSetting } from '../SettingsActions';
 

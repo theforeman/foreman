@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import Layout from '../Layout';
 import { layoutMock, noItemsMock, hasTaxonomiesMock } from '../Layout.fixtures';
 

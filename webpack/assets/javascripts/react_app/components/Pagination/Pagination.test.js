@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import Pagination from '../Pagination/Pagination';
 import PaginationWrapper from '../Pagination/PaginationWrapper';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { testComponentSnapshotsWithFixtures } from '../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import AuditsPage from './AuditsPage';
 import { AuditsProps } from '../../components/AuditsList/__tests__/AuditsList.fixtures';
 import { paginationMock } from '../../components/Pagination/Pagination.fixtures';

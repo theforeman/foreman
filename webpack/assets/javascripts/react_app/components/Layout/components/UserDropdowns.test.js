@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 
 import UserDropdowns from '../components/UserDropdowns';
 import { userDropdownProps } from '../Layout.fixtures';

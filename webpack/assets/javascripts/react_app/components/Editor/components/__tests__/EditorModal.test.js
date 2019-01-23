@@ -1,4 +1,4 @@
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 
 import EditorModal from '../EditorModal';
 import { editorOptions } from '../../Editor.fixtures';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import IntegrationTestHelper from '../../../../../common/IntegrationTestHelper';
+import { IntegrationTestHelper } from 'react-redux-test-utils';
 import { vmwareData, hiddenFieldValue } from './StorageContainer.fixtures';
 import hostReducers from '../../../../../redux/reducers/hosts';
 import StorageContainer from '../';

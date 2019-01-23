@@ -1,9 +1,10 @@
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
+
 import Autocomplete from './AutoComplete';
 import {
   ReportAutocompleteWithRequireAndInfo,
   ReportAutocompleteProps,
 } from './TemplateInput.fixures';
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const fixtures = {
   'renders ReportAutoComplete': ReportAutocompleteProps,

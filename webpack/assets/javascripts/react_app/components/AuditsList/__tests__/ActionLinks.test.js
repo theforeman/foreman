@@ -1,5 +1,5 @@
 import toJson from 'enzyme-to-json';
-import { shallowRenderComponentWithFixtures } from '../../../common/testHelpers';
+import { shallowRenderComponentWithFixtures } from 'react-redux-test-utils';
 import ActionLinks from '../ActionLinks';
 
 import { actionsList } from './AuditsList.fixtures';

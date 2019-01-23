@@ -1,3 +1,5 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
+
 import {
   EDITOR_CHANGE_DIFF_VIEW,
   EDITOR_CHANGE_SETTING,
@@ -23,8 +25,6 @@ import {
 } from '../EditorConstants';
 
 import reducer from '../EditorReducer';
-
-import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 
 const fixtures = {
   'should return the initial state': {},

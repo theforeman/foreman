@@ -1,3 +1,4 @@
+import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import {
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
@@ -10,8 +11,6 @@ import {
 } from '../LayoutConstants';
 
 import reducer from '../LayoutReducer';
-
-import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
 import { layoutMock } from '../Layout.fixtures';
 
 const fixtures = {
