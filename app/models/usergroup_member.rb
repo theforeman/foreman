@@ -86,7 +86,9 @@ class UsergroupMember < ApplicationRecord
   end
 
   def recache_memberships
-    find_all_affected_memberships.each(&:save!)
+    memberships = find_all_affected_memberships
+    memberships = memberships.without(self) if self.destroyed?
+    memberships.each(&:save!)
   end
 
   def drop_role_cache(users, user_roles)
