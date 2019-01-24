@@ -315,6 +315,14 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_includes @semiadmin_user.cached_user_roles.map(&:role), @admin_role
   end
 
+  # before destroy callback could fail, covers #25914
+  test "user can be destroyed and it destroys also user group members correctly" do
+    user = FactoryBot.create :user
+    group = FactoryBot.create :usergroup
+    group.users = [ user ]
+    assert user.destroy
+  end
+
   def setup_redundant_scenario
     as_admin do
       @semiadmins = FactoryBot.create :usergroup, :name => 'um_semiadmins'
