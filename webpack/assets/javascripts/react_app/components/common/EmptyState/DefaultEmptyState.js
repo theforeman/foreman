@@ -37,7 +37,7 @@ const DefaultEmptyState = props => {
       header={header}
       description={description}
       documentation={documentation ? documentationBlock(documentation) : null}
-      action={<PrimaryActionButton action={action} />}
+      action={action && <PrimaryActionButton action={action} />}
       secondaryActions={<SecondaryActionButtons actions={secondaryActions} />}
     />
   );

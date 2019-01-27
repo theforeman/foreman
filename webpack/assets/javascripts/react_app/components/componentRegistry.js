@@ -25,7 +25,7 @@ import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 
 // Pages
-import AuditsPage from '../pages/AuditsPage/AuditsPage';
+import AuditsPage from '../pages/AuditsPage';
 
 const componentRegistry = {
   registry: {},

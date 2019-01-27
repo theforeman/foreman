@@ -7,11 +7,11 @@ import Bookmarks from '../bookmarks';
 import { noop } from '../../common/helpers';
 
 const handleSearch = (searchQuery, onSearch) => {
-  onSearch(searchQuery);
+  if (onSearch) return onSearch(searchQuery);
   const uri = new URI(window.location.href);
   const data = { ...uri.query(true), search: searchQuery.trim(), page: 1 };
   uri.query(URI.buildQuery(data, true));
-  window.Turbolinks.visit(uri.toString());
+  return window.Turbolinks.visit(uri.toString());
 };
 
 const SearchBar = ({
@@ -84,7 +84,7 @@ SearchBar.propTypes = {
 SearchBar.defaultProps = {
   className: '',
   searchQuery: '',
-  onSearch: noop,
+  onSearch: null,
   error: null,
   results: [],
   status: null,

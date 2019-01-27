@@ -4,6 +4,7 @@ export const getURI = () => new URI(window.location.href);
 
 export const getURIpage = () => Number(getURI().query(true).page);
 export const getURIperPage = () => Number(getURI().query(true).per_page);
+export const getURIsearch = () => getURI().query(true).search;
 
 export const changeQuery = (uri, newQuery, navigateTo) => {
   uri.setQuery(newQuery);

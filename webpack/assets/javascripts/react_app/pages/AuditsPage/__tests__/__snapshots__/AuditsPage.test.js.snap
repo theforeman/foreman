@@ -5,7 +5,23 @@ exports[`AuditsPage rendering render audits page 1`] = `
   breadcrumbOptions={null}
   customBreadcrumbs={null}
   header="Audits"
-  searchProps={Object {}}
+  onSearch={[Function]}
+  searchProps={
+    Object {
+      "data": Object {
+        "autocomplete": Object {
+          "searchQuery": null,
+          "url": "model/auto_complete_search",
+        },
+        "bookmarks": Object {
+          "canCreate": true,
+          "documentationUrl": "/doc/url",
+          "url": "/api/bookmarks",
+        },
+        "controller": "models",
+      },
+    }
+  }
   searchable={true}
   toastNotifications={null}
   toolbarButtons={
@@ -145,21 +161,188 @@ exports[`AuditsPage rendering render audits page 1`] = `
     <Pagination
       data={
         Object {
-          "itemCount": 21,
-          "perPage": 20,
-          "perPageOptions": Array [
-            5,
-            10,
-            15,
-            20,
-          ],
+          "classNames": Object {
+            "pagination_classes": "audits-pagination",
+          },
+          "itemCount": 0,
           "viewType": "table",
         }
       }
       dropdownButtonId="pagination-row-dropdown"
       onPageSet={[Function]}
       onPerPageSelect={[Function]}
-      pagination={null}
+      pagination={
+        Object {
+          "page": 1,
+          "perPage": 20,
+          "perPageOptions": Array [
+            5,
+            10,
+            20,
+            50,
+          ],
+        }
+      }
+    />
+  </div>
+</PageLayout>
+`;
+
+exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
+<PageLayout
+  breadcrumbOptions={null}
+  customBreadcrumbs={null}
+  header="Audits"
+  onSearch={[Function]}
+  searchProps={
+    Object {
+      "data": Object {
+        "autocomplete": Object {
+          "searchQuery": null,
+          "url": "model/auto_complete_search",
+        },
+        "bookmarks": Object {
+          "canCreate": true,
+          "documentationUrl": "/doc/url",
+          "url": "/api/bookmarks",
+        },
+        "controller": "models",
+      },
+    }
+  }
+  searchable={true}
+  toastNotifications={null}
+  toolbarButtons={
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="btn-docs"
+      disabled={false}
+      href="/url"
+    >
+      <Icon
+        name="help"
+        type="pf"
+      />
+       Documentation
+    </Button>
+  }
+>
+  <DefaultEmptyState
+    description="no audits"
+    header="No Audits Found"
+    icon="add-circle-o"
+    iconType="pf"
+    secondaryActions={Array []}
+  />
+</PageLayout>
+`;
+
+exports[`AuditsPage rendering render audits page w/error 1`] = `
+<PageLayout
+  breadcrumbOptions={null}
+  customBreadcrumbs={null}
+  header="Audits"
+  onSearch={[Function]}
+  searchProps={
+    Object {
+      "data": Object {
+        "autocomplete": Object {
+          "searchQuery": null,
+          "url": "model/auto_complete_search",
+        },
+        "bookmarks": Object {
+          "canCreate": true,
+          "documentationUrl": "/doc/url",
+          "url": "/api/bookmarks",
+        },
+        "controller": "models",
+      },
+    }
+  }
+  searchable={true}
+  toastNotifications={null}
+  toolbarButtons={
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="btn-docs"
+      disabled={false}
+      href="/url"
+    >
+      <Icon
+        name="help"
+        type="pf"
+      />
+       Documentation
+    </Button>
+  }
+>
+  <DefaultEmptyState
+    description="some-error"
+    header="Error"
+    icon="error-circle-o"
+    iconType="pf"
+    secondaryActions={Array []}
+  />
+</PageLayout>
+`;
+
+exports[`AuditsPage rendering render loading audits page 1`] = `
+<PageLayout
+  breadcrumbOptions={null}
+  customBreadcrumbs={null}
+  header="Audits"
+  onSearch={[Function]}
+  searchProps={
+    Object {
+      "data": Object {
+        "autocomplete": Object {
+          "searchQuery": null,
+          "url": "model/auto_complete_search",
+        },
+        "bookmarks": Object {
+          "canCreate": true,
+          "documentationUrl": "/doc/url",
+          "url": "/api/bookmarks",
+        },
+        "controller": "models",
+      },
+    }
+  }
+  searchable={true}
+  toastNotifications={null}
+  toolbarButtons={
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      className="btn-docs"
+      disabled={false}
+      href="/url"
+    >
+      <Icon
+        name="help"
+        type="pf"
+      />
+       Documentation
+    </Button>
+  }
+>
+  <div
+    id="loading-audits"
+  >
+    <Spinner
+      className=""
+      inline={false}
+      inverse={false}
+      loading={true}
+      size="lg"
     />
   </div>
 </PageLayout>

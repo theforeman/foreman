@@ -12,6 +12,9 @@ import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
 import factChart from './factCharts';
 
+// Pages
+import { reducers as auditsPageReducers } from '../../pages/AuditsPage';
+
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
     bookmarks,
@@ -27,6 +30,9 @@ export function combineReducersAsync(asyncReducers) {
     ...searchBarReducers,
     ...diffModalReducers,
     factChart,
+
+    // Pages
+    ...auditsPageReducers,
   });
 }
 

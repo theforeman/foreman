@@ -2,7 +2,6 @@
 <%= mount_react_component('AuditsPage', '#audits_page', {
     searchProps: get_search_props,
     docURL: documentation_url('4.1.4Auditing'),
-    audits: {audits: construct_additional_info(@audits)},
-    pagination: react_pagination_props(@audits, "audits-pagination"),
+    perPageOptions: per_page_options,
     searchable: true
 }.to_json) %>
