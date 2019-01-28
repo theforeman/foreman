@@ -61,7 +61,7 @@ module Classification
         lookup_values.sort_by do |lv|
           matcher_key, matcher_value = split_matcher(lv)
           # prefer matchers in order of the path, then more specific matches (i.e. hostgroup children)
-          [key.path.index(matcher_key.chomp(',')), -1 * matcher_value.length]
+          [key.path.split.index(matcher_key.chomp(',')), -1 * matcher_value.length]
         end
       end
 
