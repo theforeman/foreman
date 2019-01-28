@@ -87,7 +87,7 @@ class SmartProxy < ApplicationRecord
     self.smart_proxy_features.any? { |proxy_feature| proxy_feature.feature.name == feature }
   end
 
-  def capabilties(feature)
+  def capabilities(feature)
     self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:capabilities)
   end
 

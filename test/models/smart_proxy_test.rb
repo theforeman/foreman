@@ -145,7 +145,7 @@ class SmartProxyTest < ActiveSupport::TestCase
       proxy.save!
       proxy.reload
 
-      assert_include proxy.capabilties('TFTP'), 'FOO'
+      assert_include proxy.capabilities('TFTP'), 'FOO'
       assert_equal 'bar', proxy.setting('TFTP', 'foo')
     end
 
