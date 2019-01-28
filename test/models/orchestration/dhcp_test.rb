@@ -87,7 +87,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "provision interface DHCP records should contain default filename/next-server attributes for IPv4 tftp proxy" do
-    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    SmartProxy.any_instance.expects(:setting).with('TFTP', 'tftp_servername').returns('192.168.1.1')
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = as_admin do
       FactoryBot.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet)
@@ -113,7 +113,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "provision interface DHCP records should contain PXELinux BIOS filename/next-server attributes for IPv4 tftp proxy" do
-    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    SmartProxy.any_instance.expects(:setting).with('TFTP', 'tftp_servername').returns('192.168.1.1')
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = as_admin do
       FactoryBot.create(:host, :with_dhcp_orchestration, :with_tftp_dual_stack_orchestration, :subnet => subnet, :pxe_loader => 'PXELinux BIOS')
@@ -126,7 +126,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   context "provision interface DHCP filename option" do
     context "for IPv4" do
       setup do
-        ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('192.168.1.1')
+        SmartProxy.any_instance.stubs(:setting).with('TFTP', 'tftp_servername').returns('192.168.1.1')
       end
 
       def host_with_loader(loader)
@@ -187,7 +187,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
   end
 
   test "provision interface DHCP records should not contain explicit filename attribute when PXE loader is set to None" do
-    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+    SmartProxy.any_instance.expects(:setting).with('TFTP', 'tftp_servername').returns('192.168.1.1')
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryBot.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => 'None')
     assert_equal 1, h.provision_interface.dhcp_records.size
@@ -463,8 +463,16 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     let(:nic) { host.provision_interface }
 
     test 'should use boot server provided by proxy' do
-      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.13.0.1')
+      SmartProxy.any_instance.expects(:setting).with('TFTP', 'tftp_servername').returns('127.13.0.1')
       assert_equal '127.13.0.1', nic.send(:boot_server)
+    end
+
+    test 'should use tftpserver name if proxy setting not present' do
+      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('192.168.1.1')
+      SmartProxy.any_instance.expects(:setting).once.returns(nil)
+      Foreman::Deprecation.expects(:deprecation_warning).once
+
+      assert_equal '192.168.1.1', nic.send(:boot_server)
     end
 
     test 'should use boot server based on proxy url' do

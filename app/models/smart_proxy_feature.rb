@@ -3,6 +3,7 @@ class SmartProxyFeature < ApplicationRecord
   belongs_to :feature
   validates :feature, :uniqueness => {:scope => :smart_proxy_id}
 
+  serialize :capabilities, Array
   store :settings, coder: JSON
 
   def details

@@ -79,7 +79,11 @@ module Orchestration::DHCP
     return unless tftp?
 
     # first try to ask our IPv4 TFTP server for its boot server
-    bs = subnet.tftp.setting('TFTP', 'tftp_servername') || tftp.bootServer
+    bs = subnet.tftp.setting('TFTP', 'tftp_servername')
+    if bs.nil? && tftp.bootServer
+      bs = tftp.bootServer
+      Foreman::Deprecation.deprecation_warning('1.23', 'Tftp server name assumption will be removed, please update your Smart Proxy to 1.22 or later.')
+    end
     # if that failed, trying to guess out tftp next server based on the smart proxy hostname
     bs ||= URI.parse(subnet.tftp.url).host
     # now convert it into an ip address (see http://theforeman.org/issues/show/1381)

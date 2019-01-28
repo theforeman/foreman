@@ -3,7 +3,7 @@ class SmartProxyCapabilities < ActiveRecord::Migration[5.1]
     rename_table :features_smart_proxies, :smart_proxy_features
     change_table :smart_proxy_features, :bulk => true do |t|
       t.primary_key :id
-      t.text :capabilities, array: true
+      t.text :capabilities
       t.text :settings
     end
   end

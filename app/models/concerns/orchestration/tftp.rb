@@ -30,10 +30,6 @@ module Orchestration::TFTP
     subnet.tftp_proxy if tftp?
   end
 
-  def tftp_smart_proxy
-    subnet.tftp
-  end
-
   def tftp6
     subnet6.tftp_proxy if tftp6?
   end
