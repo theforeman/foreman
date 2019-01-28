@@ -190,11 +190,16 @@ class FactImporter
 
   def db_facts
     query = host.fact_values
+    # MySQL query optimizer does not appear to pick the correct index here: https://projects.theforeman.org/issues/25053
     if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      # MySQL query optimizer does not appear to pick the correct index here: https://projects.theforeman.org/issues/25053
       query = query.from("fact_values USE INDEX(index_fact_values_on_fact_name_id_and_host_id)")
     end
-    query.where(:fact_name => fact_names.values).reorder('')
+    # When using PostgreSQL use regular expression to prevent query with thousands of parameters
+    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'postgresql'
+      query.where("fact_names.name ~ ?", "^(#{fact_names.values.map {|x| Regexp.escape(x)}.join('|')})$").reorder('')
+    else
+      query.where(:fact_name => fact_names.values).reorder('')
+    end
   end
 
   def ensure_no_active_transaction
