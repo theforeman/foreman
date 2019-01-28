@@ -134,7 +134,7 @@ class SmartProxy < ApplicationRecord
       valid_features = reply.select { |feature, options| feature_name_map.key?(feature) }
 
       if valid_features.any?
-        import_features(feature_name_map, valid_features)
+        SmartProxyFeature.import_features(self, valid_features)
       else
         self.features.clear
         if reply.any?
@@ -149,22 +149,6 @@ class SmartProxy < ApplicationRecord
       errors.add(:base, _('Please check the proxy is configured and running on the host.'))
     end
     throw :abort if smart_proxy_features.empty?
-  end
-
-  def import_features(name_map, features_json)
-    new_feature_classes = features_json.keys.map {|feature| name_map[feature]}
-    smart_proxy_features.where.not(feature_id: new_feature_classes).destroy_all
-    features_json.each do |name, feature_json|
-      import_feature_json(name_map[name], feature_json)
-    end
-  end
-
-  def import_feature_json(feature_class, feature_json)
-    smart_proxy_feature = smart_proxy_features.to_a.find {|spf| spf.feature_id == feature_class.id}
-    smart_proxy_feature ||= SmartProxyFeature.new(:feature_id => feature_class.id)
-    smart_proxy_feature.capabilities = feature_json[:capabilities]
-    smart_proxy_feature.settings = feature_json[:settings]
-    self.smart_proxy_features << smart_proxy_feature
   end
 
   def get_features
