@@ -647,7 +647,30 @@ class ClassificationTest < ActiveSupport::TestCase
     assert_equal value2.value, enc["base"][key.key]
   end
 
-  test 'enc should return correct values for multi-key matchers' do
+  test 'enc should return correct values for multi-key matchers with more specific first' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
+                             :override => true, :key_type => 'string', :default_value => '',
+                             :path => "organization,location\norganization",
+                             :puppetclass => puppetclasses(:one))
+
+    value = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
+                          :value => 'test_correct',
+                          :omit => false
+    end
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => 'test_incorrect',
+                          :omit => false
+    end
+    enc = HostInfoProviders::PuppetInfo.new(@host).puppetclass_parameters
+
+    assert_equal value.value, enc["base"][key.key]
+  end
+
+  test 'enc should return correct values for multi-key matchers with hostgroup inheritance' do
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
                              :path => "hostgroup,organization\nlocation",
