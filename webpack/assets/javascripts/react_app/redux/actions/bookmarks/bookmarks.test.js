@@ -49,7 +49,7 @@ describe('bookmark actions', () => {
     const expectedURL = '/api/bookmarks?search=controller%3Dhosts&per_page=100';
 
     store.dispatch(actions.getBookmarks(url, controller));
-    expect(spy).toBeCalledWith(expectedURL);
+    expect(spy).toBeCalledWith(expectedURL, {}, {});
   });
   it('should open modal with current search query in action payload', () => {
     const query = 'some search query';

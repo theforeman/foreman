@@ -155,7 +155,7 @@ export function bootableRadio(item) {
 }
 export function clusterSelected(item) {
   const cluster = $(item).val();
-  const url = $(item).attr('data-url');
+  const url = $(item).data('url');
 
   showSpinner();
   $.ajax({

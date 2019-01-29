@@ -99,40 +99,51 @@ module Foreman::Model
       dc_clusters.map(&:full_path).sort
     end
 
+    # Params:
+    # +name+ identifier of the datastore - its name unique in given vCenter
+    def datastore(name)
+      cache.cache(:"datastore-#{name}") do
+        dc.datastores.get(name)
+      end
+    end
+
+    # ==== Options
+    #
+    # * +:cluster_id+ - Limits the datastores in response to the ones available to defined cluster
     def datastores(opts = {})
-      if opts[:storage_domain]
-        cache.cache(:"datastores-#{opts[:storage_domain]}") do
-          name_sort(dc.datastores.get(opts[:storage_domain]))
-        end
-      else
-        cache.cache(:datastores) do
-          name_sort(dc.datastores.all(:accessible => true))
+      cache.cache(cachekey_with_cluster(:datastores, opts[:cluster_id])) do
+        name_sort(dc.datastores(cluster: opts[:cluster_id]).all(:accessible => true))
+      end
+    end
+
+    def storage_pod(name)
+      cache.cache(:"storage_pod-#{name}") do
+        begin
+          dc.storage_pods.get(name)
+        rescue RbVmomi::VIM::InvalidArgument
+          {} # Return an empty storage pod hash if vsphere does not support the feature
         end
       end
     end
 
+    ##
+    # Lists storage_pods for datastore/cluster.
+    # TODO: fog-vsphere doesn't support cluster base filtering, so the cluser_id is useless for now.
+    # ==== Options
+    #
+    # * +:cluster_id+ - Limits the datastores in response to the ones available to defined cluster
     def storage_pods(opts = {})
-      if opts[:storage_pod]
-        cache.cache(:"storage_pods-#{opts[:storage_pod]}") do
-          begin
-            dc.storage_pods.get(opts[:storage_pod])
-          rescue RbVmomi::VIM::InvalidArgument
-            {} # Return an empty storage pod hash if vsphere does not support the feature
-          end
-        end
-      else
-        cache.cache(:storage_pods) do
-          begin
-            name_sort(dc.storage_pods.all())
-          rescue RbVmomi::VIM::InvalidArgument
-            [] # Return an empty set of storage pods if vsphere does not support the feature
-          end
+      cache.cache(cachekey_with_cluster(:storage_pods, opts[:cluster_id])) do
+        begin
+          name_sort(dc.storage_pods.all(cluster: opts[:cluster_id]))
+        rescue RbVmomi::VIM::InvalidArgument
+          [] # Return an empty set of storage pods if vsphere does not support the feature
         end
       end
     end
 
-    def available_storage_pods(storage_pod = nil)
-      storage_pods({:storage_pod => storage_pod})
+    def available_storage_pods(cluster_id = nil)
+      storage_pods(cluster_id: cluster_id)
     end
 
     def folders
@@ -142,8 +153,9 @@ module Foreman::Model
     end
 
     def networks(opts = {})
-      cache.cache(:networks) do
-        name_sort(dc.networks.all(:accessible => true))
+      cache_key = opts[:cluster_id].nil? ? :networks : :"networks-#{opts[:cluster_id]}"
+      cache.cache(cache_key) do
+        name_sort(dc.networks(cluster: opts[:cluster_id]).all(:accessible => true))
       end
     end
 
@@ -165,11 +177,15 @@ module Foreman::Model
     end
 
     def available_networks(cluster_id = nil)
-      networks
+      networks(cluster_id: cluster_id)
     end
 
-    def available_storage_domains(storage_domain = nil)
-      datastores({:storage_domain => storage_domain})
+    def storage_domain(storage_domain)
+      datastore(storage_domain)
+    end
+
+    def available_storage_domains(cluster_id = nil)
+      datastores(cluster_id: cluster_id)
     end
 
     def available_resource_pools(opts = {})
@@ -762,6 +778,10 @@ module Foreman::Model
     rescue Psych::SyntaxError => e
       Foreman::Logging.exception('Failed to parse user-data template', e)
       raise Foreman::Exception.new('The user-data template must be valid YAML for VM customization to work.')
+    end
+
+    def cachekey_with_cluster(key, cluster_id = nil)
+      cluster_id.nil? ? key.to_sym : "#{key}-#{cluster_id}".to_sym
     end
   end
 end

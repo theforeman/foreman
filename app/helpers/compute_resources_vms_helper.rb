@@ -65,16 +65,16 @@ module ComputeResourcesVmsHelper
     options
   end
 
-  def libvirt_networks(compute)
-    networks   = compute.networks
+  def libvirt_networks(compute_resource)
+    networks   = compute_resource.networks
     select     = []
     select << [_('Physical (Bridge)'), :bridge]
     select << [_('Virtual (NAT)'), :network] if networks.any?
     select
   end
 
-  def vsphere_networks(compute_resource)
-    networks = compute_resource.networks
+  def vsphere_networks(compute_resource, cluster_id = nil)
+    networks = compute_resource.networks(cluster_id: cluster_id)
     networks.map do |net|
       net_id = net.id
       net_name = net.name
@@ -216,9 +216,9 @@ module ComputeResourcesVmsHelper
     display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer), :class => 'btn btn-danger')
   end
 
-  def vsphere_scsi_controllers(compute)
+  def vsphere_scsi_controllers(compute_resource)
     scsi_controllers = {}
-    compute.scsi_controller_types.each { |type| scsi_controllers[type[:key]] = type[:title] }
+    compute_resource.scsi_controller_types.each { |type| scsi_controllers[type[:key]] = type[:title] }
     scsi_controllers
   end
 

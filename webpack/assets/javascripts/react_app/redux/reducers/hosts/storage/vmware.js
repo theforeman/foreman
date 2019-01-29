@@ -5,6 +5,7 @@ import Immutable from 'seamless-immutable';
 import uuidV1 from 'uuid/v1';
 
 import {
+  VMWARE_CLUSTER_CHANGE,
   STORAGE_VMWARE_ADD_CONTROLLER,
   STORAGE_VMWARE_ADD_DISK,
   STORAGE_VMWARE_REMOVE_DISK,
@@ -22,6 +23,7 @@ import {
 
 const initialState = Immutable({
   controllers: [],
+  volumes: [],
 });
 
 const availableControllerKeys = [1000, 1001, 1002, 1003, 1004];
@@ -31,6 +33,8 @@ const getAvailableKey = controllers =>
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case VMWARE_CLUSTER_CHANGE:
+      return state.set('cluster', payload.cluster);
     case STORAGE_VMWARE_ADD_CONTROLLER:
       const availableKey = getAvailableKey(state.controllers);
 
@@ -91,12 +95,13 @@ export default (state = initialState, { type, payload }) => {
         controllers: payload.controllers,
         paramsScope: payload.config.paramsScope,
         datastores: [],
-        datastoresLoading: true,
+        datastoresLoading: false,
         datastoresError: undefined,
         storagePods: [],
-        storagePodsLoading: true,
+        storagePodsLoading: false,
         storagePodsError: undefined,
         volumes: payload.volumes.map(volume => ({ ...volume, key: uuidV1() })),
+        cluster: payload.cluster,
       };
       return initialState
         .set('config', payload.config)
