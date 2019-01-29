@@ -1,5 +1,7 @@
+import { pick } from 'lodash';
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import { Alert } from 'patternfly-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -8,6 +10,7 @@ import * as VmWareActions from '../../../../redux/actions/hosts/storage/vmware';
 import { MaxDisksPerController } from './StorageContainer.consts';
 import { translate as __ } from '../../../../../react_app/common/I18n';
 import { noop } from '../../../../common/helpers';
+import AlertBody from '../../../common/Alert/AlertBody';
 import './StorageContainer.scss';
 import { STATUS } from '../../../../constants';
 
@@ -26,15 +29,11 @@ export const controllersToJsonString = (controllers, volumes) =>
 class StorageContainer extends React.Component {
   componentDidMount() {
     const {
-      data: { config, controllers, volumes },
+      data: { config, controllers, volumes, cluster },
       initController,
-      fetchDatastores,
-      fetchStoragePods,
     } = this.props;
 
-    initController(config, controllers, volumes);
-    fetchDatastores(config.datastoresUrl);
-    fetchStoragePods(config.storagePodsUrl);
+    initController(config, cluster, controllers, volumes);
   }
 
   getDatastoresStatus() {
@@ -103,10 +102,18 @@ class StorageContainer extends React.Component {
   }
 
   render() {
-    const { addController, controllers, volumes, config } = this.props;
+    const { addController, controllers, volumes, cluster, config } = this.props;
     const paramsScope = config && config.paramsScope;
     const enableAddControllerBtn =
       config && config.addControllerEnabled && !config.vmExists;
+
+    if (!cluster) {
+      return (
+        <Alert type="info">
+          <AlertBody message={__('Please select a cluster')} />
+        </Alert>
+      );
+    }
 
     return (
       <div className="row vmware-storage-container">
@@ -142,10 +149,12 @@ StorageContainer.propTypes = {
     config: PropTypes.object.isRequired,
     controllers: PropTypes.array.isRequired,
     volumes: PropTypes.array.isRequired,
+    cluster: PropTypes.string,
   }).isRequired,
   controllers: PropTypes.array.isRequired,
   config: PropTypes.object,
   volumes: PropTypes.array,
+  cluster: PropTypes.string,
   datastoresLoading: PropTypes.bool,
   datastores: PropTypes.arrayOf(
     PropTypes.shape({
@@ -174,12 +183,11 @@ StorageContainer.propTypes = {
   updateDisk: PropTypes.func,
   removeController: PropTypes.func,
   initController: PropTypes.func,
-  fetchDatastores: PropTypes.func,
-  fetchStoragePods: PropTypes.func,
 };
 
 StorageContainer.defaultProps = {
   config: {},
+  cluster: '',
   volumes: [],
   datastoresLoading: false,
   storagePodsLoading: false,
@@ -194,37 +202,23 @@ StorageContainer.defaultProps = {
   updateDisk: noop,
   removeController: noop,
   initController: noop,
-  fetchDatastores: noop,
-  fetchStoragePods: noop,
 };
 
-const mapDispatchToProps = state => {
-  const {
-    controllers,
-    config,
-    volumes,
-    datastores,
-    datastoresLoading,
-    datastoresError,
-    storagePods,
-    storagePodsLoading,
-    storagePodsError,
-  } = state.hosts.storage.vmware;
-
-  return {
-    controllers,
-    volumes,
-    config,
-    datastores,
-    datastoresLoading,
-    datastoresError,
-    storagePods,
-    storagePodsLoading,
-    storagePodsError,
-  };
-};
+const mapStateToProps = state =>
+  pick(state.hosts.storage.vmware, [
+    'controllers',
+    'config',
+    'cluster',
+    'volumes',
+    'datastores',
+    'datastoresLoading',
+    'datastoresError',
+    'storagePods',
+    'storagePodsLoading',
+    'storagePodsError',
+  ]);
 
 export default connect(
-  mapDispatchToProps,
+  mapStateToProps,
   VmWareActions
 )(StorageContainer);

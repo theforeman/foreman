@@ -9,7 +9,7 @@ module Api
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
                                               :available_clusters, :available_flavors, :available_folders,
                                               :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
-                                              :available_zones, :available_storage_pods, :refresh_cache]
+                                              :available_zones, :available_storage_pods, :storage_domain, :storage_pod, :refresh_cache]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -123,7 +123,7 @@ module Api
       param :id, :identifier, :required => true
       param :cluster_id, String
       def available_networks
-        @available_networks = @compute_resource.available_networks(params[:cluster_id])
+        @available_networks = @compute_resource.available_networks(params[:cluster_id].presence)
         @total = @available_networks&.size
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
       end
@@ -137,22 +137,50 @@ module Api
         render :available_resource_pools, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/storage_domains/:storage_domain_id", N_("List attributes for a given storage domain")
+      param :id, :identifier, :required => true
+      param :storage_domain_id, String, :required => true
+      def storage_domain
+        @storage_domain = @compute_resource.storage_domain(params[:storage_domain_id])
+      end
+
       api :GET, "/compute_resources/:id/available_storage_domains", N_("List storage domains for a compute resource")
       api :GET, "/compute_resources/:id/available_storage_domains/:storage_domain", N_("List attributes for a given storage domain")
+      api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_storage_domains", N_("List storage domains for a compute resource")
       param :id, :identifier, :required => true
+      param :cluster_id, String
       param :storage_domain, String
       def available_storage_domains
-        @available_storage_domains = @compute_resource.available_storage_domains(params[:storage_domain])
+        if params[:storage_domain]
+          Foreman::Deprecation.api_deprecation_warning("use /compute_resources/:id/storage_domain/:storage_domain_id endpoind instead")
+          @available_storage_domains = [@compute_resource.storage_domain(params[:storage_domain])]
+        else
+          @available_storage_domains = @compute_resource.available_storage_domains(params[:cluster_id].presence)
+        end
         @total = @available_storage_domains&.size
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
+      api :GET, "/compute_resources/:id/storage_pods/:storage_pod_id", N_("List attributes for a given storage pod")
+      param :id, :identifier, :required => true
+      param :storage_pod_id, String, :required => true
+      def storage_pod
+        @storage_pod = @compute_resource.storage_pod(params[:storage_pod_id])
+      end
+
       api :GET, "/compute_resources/:id/available_storage_pods", N_("List storage pods for a compute resource")
       api :GET, "/compute_resources/:id/available_storage_pods/:storage_pod", N_("List attributes for a given storage pod")
+      api :GET, "/compute_resources/:id/available_clusters/:cluster_id/available_storage_pods", N_("List storage pods for a compute resource")
       param :id, :identifier, :required => true
+      param :cluster_id, String
       param :storage_pod, String
       def available_storage_pods
-        @available_storage_pods = @compute_resource.available_storage_pods(params[:storage_pod])
+        if params[:storage_pod]
+          Foreman::Deprecation.api_deprecation_warning("use /compute_resources/:id/storage_pod/:storage_pod_id endpoind instead")
+          @available_storage_pods = [@compute_resource.storage_pod(params[:storage_pod])]
+        else
+          @available_storage_pods = @compute_resource.available_storage_pods(params[:cluster_id].presence)
+        end
         @total = @available_storage_pods&.size
         render :available_storage_pods, :layout => 'api/v2/layouts/index_layout'
       end
@@ -192,7 +220,7 @@ module Api
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'available_zones', 'associate', 'available_storage_pods', 'refresh_cache'
+          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache'
             :view
           else
             super

@@ -247,6 +247,14 @@ class ComputeResource < ApplicationRecord
     false
   end
 
+  def storage_domain(storage_domain)
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def storage_pod(storage_pod)
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   def available_zones
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
@@ -255,7 +263,7 @@ class ComputeResource < ApplicationRecord
     []
   end
 
-  def available_networks
+  def available_networks(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
@@ -279,11 +287,11 @@ class ComputeResource < ApplicationRecord
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_storage_domains(storage_domain = nil)
+  def available_storage_domains(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_storage_pods(storage_pod = nil)
+  def available_storage_pods(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 

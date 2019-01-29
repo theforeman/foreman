@@ -44,6 +44,7 @@ export const vmwareData = {
     },
   ],
   controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }],
+  cluster: 'Foreman_Cluster',
 };
 
 export const hiddenFieldValue = {
@@ -107,6 +108,7 @@ export const state1 = {
     },
   ],
   controllers: [{ type: 'VirtualLsiLogicController', key: 1000 }],
+  cluster: 'Foreman_Cluster',
 };
 
 export const state2 = {
@@ -150,6 +152,7 @@ export const state2 = {
       unitNumber: 0,
     },
   ],
+  cluster: 'Foreman_Cluster',
 };
 
 export const clone = {
@@ -223,6 +226,7 @@ export const clone = {
       key: 1001,
     },
   ],
+  cluster: 'Foreman_Cluster',
 };
 
 export const emptyState = {
@@ -243,4 +247,5 @@ export const emptyState = {
   },
   volumes: [],
   controllers: [],
+  cluster: null,
 };

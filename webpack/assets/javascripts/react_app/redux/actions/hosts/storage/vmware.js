@@ -1,4 +1,5 @@
 import {
+  VMWARE_CLUSTER_CHANGE,
   STORAGE_VMWARE_ADD_CONTROLLER,
   STORAGE_VMWARE_ADD_DISK,
   STORAGE_VMWARE_REMOVE_CONTROLLER,
@@ -27,36 +28,62 @@ export const updateDisk = (key, newValues) => ({
   },
 });
 
-export const initController = (config, controllers, volumes) => dispatch => {
+export const initController = (
+  config,
+  cluster,
+  controllers,
+  volumes
+) => dispatch => {
   dispatch({
     type: STORAGE_VMWARE_INIT,
     payload: {
       config,
       controllers: controllers || defaultControllerAttributes,
       volumes: volumes || getDefaultDiskAttributes,
+      cluster,
     },
   });
+  dispatch(fetchDatastores(config.datastoresUrl, cluster));
+  dispatch(fetchStoragePods(config.storagePodsUrl, cluster));
 };
 
-export const fetchDatastores = url => dispatch => {
-  ajaxRequestAction({
-    dispatch,
+export const changeCluster = newCluster => (dispatch, getState) => {
+  const { config } = getState().hosts.storage.vmware;
+
+  dispatch({
+    type: VMWARE_CLUSTER_CHANGE,
+    payload: {
+      cluster: newCluster,
+    },
+  });
+  dispatch(fetchDatastores(config.datastoresUrl, newCluster));
+  dispatch(fetchStoragePods(config.storagePodsUrl, newCluster));
+};
+
+const fetchStorages = (url, cluster = null, actions = {}) => dispatch => {
+  if (cluster) {
+    ajaxRequestAction({
+      dispatch,
+      ...actions,
+      url,
+      item: { params: { cluster_id: cluster } },
+    });
+  }
+};
+
+export const fetchDatastores = (url, cluster = null) =>
+  fetchStorages(url, cluster, {
     requestAction: STORAGE_VMWARE_DATASTORES_REQUEST,
     successAction: STORAGE_VMWARE_DATASTORES_SUCCESS,
     failedAction: STORAGE_VMWARE_DATASTORES_FAILURE,
-    url,
   });
-};
 
-export const fetchStoragePods = url => dispatch => {
-  ajaxRequestAction({
-    dispatch,
+export const fetchStoragePods = (url, cluster = null) =>
+  fetchStorages(url, cluster, {
     requestAction: STORAGE_VMWARE_STORAGEPODS_REQUEST,
     successAction: STORAGE_VMWARE_STORAGEPODS_SUCCESS,
     failedAction: STORAGE_VMWARE_STORAGEPODS_FAILURE,
-    url,
   });
-};
 
 export const addController = data => ({
   type: STORAGE_VMWARE_ADD_CONTROLLER,
