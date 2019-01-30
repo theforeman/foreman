@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-16 16:32+0200\n"
-"PO-Revision-Date: 2019-01-16 16:32+0200\n"
+"POT-Creation-Date: 2019-01-30 11:45+0200\n"
+"PO-Revision-Date: 2019-01-30 11:45+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -6556,71 +6556,71 @@ msgstr ""
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:435
+#: ../app/models/host/managed.rb:434
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:493
+#: ../app/models/host/managed.rb:492
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:494
+#: ../app/models/host/managed.rb:493
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:602
+#: ../app/models/host/managed.rb:601
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:608
+#: ../app/models/host/managed.rb:607
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:657
+#: ../app/models/host/managed.rb:656
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:658
+#: ../app/models/host/managed.rb:657
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:702
+#: ../app/models/host/managed.rb:701
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:809
+#: ../app/models/host/managed.rb:808
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:862
+#: ../app/models/host/managed.rb:861
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:887
+#: ../app/models/host/managed.rb:886
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:898
+#: ../app/models/host/managed.rb:897
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:913
+#: ../app/models/host/managed.rb:912
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:918
+#: ../app/models/host/managed.rb:917
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:923 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:922 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:979
+#: ../app/models/host/managed.rb:978
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
