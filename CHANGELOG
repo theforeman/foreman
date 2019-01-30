@@ -1,3 +1,27 @@
+2019-01-30	Tomer Brisker <tbrisker@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2019-01-29	Kamil Szubrycht <kamil.szubrycht@ironin.pl>
+	* fixes #25898 - partition tables do not render snippets
+
+2019-01-29	Timo Goebel <mail@timogoebel.name>
+	* fixes #25852 - coreos mediapath vars are interpolated
+
+2019-01-29	Marek Hulan <mhulan@redhat.com>
+	* Fixes #25914 - fix user deletion
+
+2019-01-29	Gilad Lekner <gilad215@gmail.com>
+	* Fixes #25850 - Topbar is shortly white after refresh
+
+2019-01-29	Boaz Shuster <boaz.shuster.github@gmail.com>
+	* Fixes #25362 - Reset page to 1 when selecting per page
+
+2019-01-29	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Refs #25882 - Load additional plugin chunks
+
+2019-01-23	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.0-RC3
+
 2019-01-23	Justin Sherrill <jsherril@redhat.com>
 	* Refs #25882 - use working iterator for webpack entries
 
