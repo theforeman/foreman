@@ -1,7 +1,15 @@
 module ReactjsHelper
   def mount_react_component(name, selector, data = [], opts = {})
-    javascript_tag defer: 'defer' do
-      "$(tfm.reactMounter.mount('#{name}', '#{selector}', #{data}, #{opts[:flatten_data] || false}));".html_safe
+    selector_id = selector.present? ? selector : "##{opts[:dom_id]}"
+    react_component = javascript_tag defer: 'defer' do
+      "$(tfm.reactMounter.mount('#{name}', '#{selector_id}', #{data}, #{opts[:flatten_data] || false}));".html_safe
+    end
+    if selector.present? 
+      react_component
+    else 
+      content_tag(:div, '', id: opts[:dom_id]) do  
+        react_component
+      end
     end
   end
 
