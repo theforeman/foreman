@@ -19,7 +19,6 @@ module TemplatePathsHelper
   end
 
   def template_hash_for_member(template, member = nil)
-    return {} unless member.present?
     member = "#{member}_" if member.present?
     # hash_for is protected method
     if template.id.present?
