@@ -27,7 +27,7 @@ if Foreman::Model::Libvirt.available?
   require 'fog/libvirt'
   require 'fog/libvirt/compute'
   require 'fog/libvirt/models/compute/server'
-  Fog::Compute::Libvirt::Server.send(:include, FogExtensions::Libvirt::Server)
+  Fog::Libvirt::Compute::Server.send(:include, FogExtensions::Libvirt::Server)
 end
 
 if Foreman::Model::Ovirt.available?
