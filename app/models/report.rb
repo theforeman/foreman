@@ -89,22 +89,28 @@ class Report < ApplicationRecord
         batch_start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         report_ids = where(cond).reorder('').limit(batch_size).pluck(:id)
         if report_ids.count > 0
-          message_count = Message.unscoped.joins(:logs).where("logs.report_id" => report_ids).delete_all
-          source_count = Source.unscoped.joins(:logs).where("logs.report_id" => report_ids).delete_all
           log_count = Log.unscoped.where(:report_id => report_ids).reorder('').delete_all
           count = where(:id => report_ids).reorder('').delete_all
           total_count += count
           rate = (count / (Process.clock_gettime(Process::CLOCK_MONOTONIC) - batch_start_time)).to_i
-          Foreman::Logging.with_fields(deleted_messages: message_count, expired_sources: source_count, expired_logs: log_count, expired_total: count, expire_rate: rate) do
-            logger.info "Expired #{count} #{to_s.underscore.humanize.pluralize} at rate #{rate} rec/sec"
+          Foreman::Logging.with_fields(expired_logs: log_count, expired_total: count, expire_rate: rate) do
+            logger.info "Expired #{count} reports and #{log_count} logs at rate #{rate} reports/sec"
           end
         end
       end
-      break if report_ids.blank?
+      # Delete orphan messages/sources when no reports are left
+      if report_ids.blank?
+        message_count = Message.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
+        source_count = Source.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
+        Foreman::Logging.with_fields(deleted_messages: message_count, expired_sources: source_count) do
+          logger.info "Expired #{message_count} messages and #{source_count} sources"
+        end
+        break
+      end
       sleep sleep_time
     end
     duration = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) / 60).to_i
-    logger.info "Total #{to_s.underscore.humanize.pluralize} expired: #{total_count}, duration: #{duration} min(s)"
+    logger.info "Total expired reports #{total_count} in #{duration} min(s)"
     total_count
   end
 
