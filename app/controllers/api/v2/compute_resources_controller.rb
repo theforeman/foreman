@@ -90,6 +90,7 @@ module Api
       param :id, :identifier, :required => true
       def available_clusters
         @available_clusters = @compute_resource.available_clusters
+        @total = @available_clusters&.size
         render :available_clusters, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -97,6 +98,7 @@ module Api
       param :id, :identifier, :required => true
       def available_flavors
         @available_flavors = @compute_resource.available_flavors
+        @total = @available_flavors&.size
         render :available_flavors, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -104,6 +106,7 @@ module Api
       param :id, :identifier, :required => true
       def available_folders
         @available_folders = @compute_resource.available_folders
+        @total = @available_folders&.size
         render :available_folders, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -111,6 +114,7 @@ module Api
       param :id, :identifier, :required => true
       def available_zones
         @available_zones = @compute_resource.available_zones
+        @total = @available_zones&.size
         render :available_zones, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -120,6 +124,7 @@ module Api
       param :cluster_id, String
       def available_networks
         @available_networks = @compute_resource.available_networks(params[:cluster_id])
+        @total = @available_networks&.size
         render :available_networks, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -128,6 +133,7 @@ module Api
       param :cluster_id, String, :required => true
       def available_resource_pools
         @available_resource_pools = @compute_resource.available_resource_pools({ :cluster_id => params[:cluster_id] })
+        @total = @available_resource_pools&.size
         render :available_resource_pools, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -137,6 +143,7 @@ module Api
       param :storage_domain, String
       def available_storage_domains
         @available_storage_domains = @compute_resource.available_storage_domains(params[:storage_domain])
+        @total = @available_storage_domains&.size
         render :available_storage_domains, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -146,6 +153,7 @@ module Api
       param :storage_pod, String
       def available_storage_pods
         @available_storage_pods = @compute_resource.available_storage_pods(params[:storage_pod])
+        @total = @available_storage_pods&.size
         render :available_storage_pods, :layout => 'api/v2/layouts/index_layout'
       end
 
@@ -153,6 +161,7 @@ module Api
       param :id, :identifier, :required => true
       def available_security_groups
         @available_security_groups = @compute_resource.available_security_groups
+        @total = @available_security_groups&.size
         render :available_security_groups, :layout => 'api/v2/layouts/index_layout'
       end
 
