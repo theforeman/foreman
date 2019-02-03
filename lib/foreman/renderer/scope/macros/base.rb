@@ -117,6 +117,10 @@ module Foreman
             host&.kernel_release&.value
           end
 
+          def host_uptime_seconds(host)
+            host&.uptime_seconds
+          end
+
           private
 
           def validate_subnet(subnet)
@@ -127,14 +131,17 @@ module Foreman
           #   .each { |batch| batch.each { |record| record.name }}
           # or
           #   .each_record { |record| record.name }
-          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil, limit: nil)
+          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil, limit: nil, select: nil, joins: nil, where: nil)
             limit ||= 10 if preview?
 
             base = klass
             base = base.search_for(search)
             base = base.includes(includes) unless includes.nil?
+            base = base.joins(joins) unless joins.nil?
             base = base.authorized(permission) unless permission.nil?
             base = base.limit(limit) unless limit.nil?
+            base = base.where(where) unless where.nil?
+            base = base.select(select) unless select.nil?
             base.in_batches(of: batch)
           end
         end

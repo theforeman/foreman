@@ -3786,6 +3786,35 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'ens1.102', res.first.identifier
   end
 
+  describe '#uptime_seconds' do
+    test 'should return uptime in seconds' do
+      host = FactoryBot.create(:host)
+      fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds')
+      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => 123)
+      assert_equal 123, host.uptime_seconds
+    end
+
+    test 'should return nil if no uptime fact is available' do
+      host = FactoryBot.create(:host)
+      assert_nil host.uptime_seconds
+    end
+
+    test 'should return uptime and based on backup facts even if there are multiple other facts' do
+      host = FactoryBot.create(:host)
+      ansible_uptime_fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds', :type => 'FactName::Ansible')
+      chef_uptime_fact = FactoryBot.create(:fact_name, name: 'uptime_seconds', :type => 'FactName::Chef')
+      unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
+      puppet_fact = FactoryBot.create(:fact_name, name: 'system_uptime::seconds')
+      FactoryBot.create(:fact_value, fact_name: ansible_uptime_fact, host: host, :value => 123)
+      FactoryBot.create(:fact_value, fact_name: chef_uptime_fact, host: host, :value => 222)
+      FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, :value => 'Fedora 29')
+      assert_equal 123, host.uptime_seconds
+      FactoryBot.create(:fact_value, fact_name: puppet_fact, host: host, :value => 456)
+      host.reload
+      assert_equal 456, host.uptime_seconds
+    end
+  end
+
   private
 
   def setup_host_with_nic_parser(nic_attributes)
