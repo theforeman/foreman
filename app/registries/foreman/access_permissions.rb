@@ -85,7 +85,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_compute_resources, {:compute_resources => [:edit, :update].push(*ajax_actions),
                                                 :compute_attributes => [:new, :create, :edit, :update],
                                                 :"api/v2/compute_resources" => [:update],
-                                                :"api/v2/compute_attributes" => [:create, :update]
+                                                :"api/v2/compute_attributes" => [:index, :show, :create, :update]
     }
     map.permission :destroy_compute_resources, {:compute_resources => [:destroy],
                                                 :"api/v2/compute_resources" => [:destroy]

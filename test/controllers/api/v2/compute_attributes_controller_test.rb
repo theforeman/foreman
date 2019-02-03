@@ -1,6 +1,22 @@
 require 'test_helper'
 
 class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
+  def setup
+    Fog.mock!
+  end
+
+  def teardown
+    Fog.unmock!
+  end
+
+  test "index content is a JSON array" do
+    get :index
+    compute_attributes = ActiveSupport::JSON.decode(@response.body)
+    assert compute_attributes['results'].is_a?(Array)
+    assert_response :success
+    assert !compute_attributes.empty?
+  end
+
   test "should create compute attribute" do
     assert_difference('ComputeAttribute.count') do
       ComputeAttribute.any_instance.stubs(:new_vm).returns(nil)
@@ -10,6 +26,13 @@ class Api::V2::ComputeAttributesControllerTest < ActionController::TestCase
                               :compute_resource_id => compute_resources(:one).id }
     end
     assert_response :created
+  end
+
+  test "should show compute attribute" do
+    get :show, params: { :id => compute_attributes(:two).to_param }
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert !show_response.empty?
   end
 
   test "should update compute attribute" do
