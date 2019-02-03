@@ -1,6 +1,7 @@
 module Host
   class Base < ApplicationRecord
     KERNEL_RELEASE_FACTS = [ 'kernelrelease', 'ansible_kernel', 'kernel::release' ]
+    UPTIME_FACTS = [ 'system_uptime::seconds', 'ansible_uptime_seconds', 'uptime_seconds' ]
 
     prepend Foreman::STI
     include Authorizable
@@ -28,6 +29,7 @@ module Host
     has_one :subnet, :through => :primary_interface
     has_one :subnet6, :through => :primary_interface
     has_one :kernel_release, -> { joins(:fact_name).where({ 'fact_names.name' => KERNEL_RELEASE_FACTS }).order('fact_names.type') }, :class_name => '::FactValue', :foreign_key => 'host_id'
+    has_one :uptime_fact, -> { joins(:fact_name).where({ 'fact_names.name' => UPTIME_FACTS }).order('fact_names.type') }, :class_name => '::FactValue', :foreign_key => 'host_id'
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     belongs_to :location
@@ -361,6 +363,10 @@ module Host
 
     def render_template(template:, **params)
       template.render(host: self, **params)
+    end
+
+    def uptime_seconds
+      self.uptime_fact&.value&.to_i
     end
 
     private

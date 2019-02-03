@@ -59,6 +59,15 @@ class BaseMacrosTest < ActiveSupport::TestCase
     assert_equal '', @scope.pxe_kernel_options
   end
 
+  describe '#host_uptime_seconds' do
+    test 'should return host uptime in seconds' do
+      host = FactoryBot.create(:host)
+      fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds')
+      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => '123')
+      assert_equal 123, @scope.host_uptime_seconds(host)
+    end
+  end
+
   describe '#host_kernel_release' do
     test 'should return kernel release' do
       host = FactoryBot.create(:host)

@@ -27,7 +27,8 @@ module Foreman
         :rand_hex,
         :rand_name,
         :mac_name,
-        :host_kernel_release
+        :host_kernel_release,
+        :host_uptime_seconds
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
