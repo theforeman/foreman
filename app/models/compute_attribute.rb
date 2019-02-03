@@ -11,6 +11,10 @@ class ComputeAttribute < ApplicationRecord
   before_save :update_name
 
   delegate :provider_friendly_name, :to => :compute_resource
+  scoped_search :on => [:name], :complete_value => true
+
+  scoped_search :relation => :compute_resource, :on => :name, :rename => :compute_resource, :complete_value => true
+  scoped_search :relation => :compute_profile, :on => :name, :rename => :compute_profile, :complete_value => true
 
   def method_missing(method, *args, &block)
     method = method.to_s

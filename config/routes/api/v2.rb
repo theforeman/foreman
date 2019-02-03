@@ -292,12 +292,12 @@ Foreman::Application.routes.draw do
       resources :template_combinations, :only => [:show, :destroy]
       resources :config_groups, :except => [:new, :edit]
 
-      resources :compute_attributes, :only => [:create, :update]
+      resources :compute_attributes, :only => [:index, :show, :create, :update]
 
       resources :compute_profiles, :except => [:new, :edit] do
-        resources :compute_attributes, :only => [:create, :update]
+        resources :compute_attributes, :only => [:index, :show, :create, :update]
         resources :compute_resources, :except => [:new, :edit] do
-          resources :compute_attributes, :only => [:create, :update]
+          resources :compute_attributes, :only => [:index, :show, :create, :update]
         end
       end
 
@@ -322,9 +322,9 @@ Foreman::Application.routes.draw do
           put :refresh_cache, :on => :member
           (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
           (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-          resources :compute_attributes, :only => [:create, :update]
+          resources :compute_attributes, :only => [:index, :show, :create, :update]
           resources :compute_profiles, :except => [:new, :edit] do
-            resources :compute_attributes, :only => [:create, :update]
+            resources :compute_attributes, :only => [:index, :show, :create, :update]
           end
         end
 
