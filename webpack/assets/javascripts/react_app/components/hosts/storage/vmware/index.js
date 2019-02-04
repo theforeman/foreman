@@ -1,7 +1,6 @@
 import { pick } from 'lodash';
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Alert } from 'patternfly-react';
+import { Alert, Button } from 'patternfly-react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 

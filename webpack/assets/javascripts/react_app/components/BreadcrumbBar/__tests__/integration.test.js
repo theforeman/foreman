@@ -1,5 +1,5 @@
 import React from 'react';
-import { Overlay } from 'react-bootstrap';
+import { Overlay } from 'patternfly-react';
 
 import API from '../../../API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';

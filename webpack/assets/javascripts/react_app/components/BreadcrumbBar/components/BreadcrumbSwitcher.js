@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { Overlay } from 'react-bootstrap';
+import { Overlay } from 'patternfly-react';
 
 import { noop } from '../../../common/helpers';
 
