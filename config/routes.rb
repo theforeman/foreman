@@ -473,7 +473,7 @@ Foreman::Application.routes.draw do
 
   root :to => 'dashboard#index'
   get 'dashboard', :to => 'dashboard#index', :as => "dashboard"
-  get 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboards"
+  get 'dashboard/auto_complete_search', :to => 'hosts#auto_complete_search', :as => "auto_complete_search_dashboard"
   get 'status', :to => 'home#status', :as => "status"
 
   # get only for alterator unattended scripts
