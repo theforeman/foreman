@@ -1,7 +1,7 @@
 # some associations shouldn't be set or require special handling.
 skip_associations = [:associated_audits, :audits, :default_users, :hosts,
                      :location_parameters, :organization_parameters,
-                     :taxable_taxonomies ] + Template.descendants.map {|type| type.to_s.tableize.to_sym}
+                     :taxable_taxonomies, :reports ] + Template.descendants.map {|type| type.to_s.tableize.to_sym}
 
 User.as_anonymous_admin do
   [Location, Organization].select(&:none?).each do |taxonomy|
