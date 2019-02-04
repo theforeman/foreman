@@ -2,7 +2,7 @@ module SearchBarHelper
   def mount_search_bar(
     id,
     controller: auto_complete_controller_name,
-    url: "#{auto_complete_controller_name}/auto_complete_search",
+    url: send("auto_complete_search_#{auto_complete_controller_name}_path"),
     search_query: params[:search],
     use_bookmarks: true,
     use_key_shortcuts: true
@@ -28,7 +28,7 @@ module SearchBarHelper
 
   def get_search_props(
     controller: auto_complete_controller_name,
-    url: "#{auto_complete_controller_name}/auto_complete_search",
+    url: send("auto_complete_search_#{auto_complete_controller_name}_path"),
     search_query: params[:search]
   )
     bookmarks = {
