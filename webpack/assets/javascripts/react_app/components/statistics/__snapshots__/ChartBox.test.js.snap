@@ -1,30 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ChartBox error 1`] = `
-<Uncontrolled(Panel)
+<Card
+  accented={true}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
   className="chart-box"
-  header={
-    <h3
-      className="pointer panel-title"
-    >
-      some title
-    </h3>
-  }
   key="2"
+  matchHeight={false}
 >
-  <PanelHeading
-    bsClass="panel"
-    componentClass="div"
+  <CardHeading
+    className=""
   >
-    <h3
+    <CardTitle
       className="pointer panel-title"
     >
       some title
-    </h3>
-  </PanelHeading>
-  <PanelBody
-    bsClass="panel"
-    collapsible={false}
+    </CardTitle>
+  </CardHeading>
+  <CardBody
+    className=""
   >
     <Loader
       spinnerSize="lg"
@@ -48,35 +44,31 @@ exports[`ChartBox error 1`] = `
         msg="some error"
       />
     </Loader>
-  </PanelBody>
-</Uncontrolled(Panel)>
+  </CardBody>
+</Card>
 `;
 
 exports[`ChartBox pending 1`] = `
-<Uncontrolled(Panel)
+<Card
+  accented={true}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
   className="chart-box"
-  header={
-    <h3
-      className="pointer panel-title"
-    >
-      some title
-    </h3>
-  }
   key="2"
+  matchHeight={false}
 >
-  <PanelHeading
-    bsClass="panel"
-    componentClass="div"
+  <CardHeading
+    className=""
   >
-    <h3
+    <CardTitle
       className="pointer panel-title"
     >
       some title
-    </h3>
-  </PanelHeading>
-  <PanelBody
-    bsClass="panel"
-    collapsible={false}
+    </CardTitle>
+  </CardHeading>
+  <CardBody
+    className=""
   >
     <Loader
       spinnerSize="lg"
@@ -100,31 +92,24 @@ exports[`ChartBox pending 1`] = `
         msg="some error"
       />
     </Loader>
-  </PanelBody>
-</Uncontrolled(Panel)>
+  </CardBody>
+</Card>
 `;
 
 exports[`ChartBox resolved 1`] = `
-<Uncontrolled(Panel)
+<Card
+  accented={true}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
   className="chart-box"
-  header={
-    <h3
-      className="pointer panel-title"
-      data-placement="top"
-      data-toggle="tooltip"
-      onClick={[Function]}
-      title="sone tooltip"
-    >
-      some title
-    </h3>
-  }
   key="2"
+  matchHeight={false}
 >
-  <PanelHeading
-    bsClass="panel"
-    componentClass="div"
+  <CardHeading
+    className=""
   >
-    <h3
+    <CardTitle
       className="pointer panel-title"
       data-placement="top"
       data-toggle="tooltip"
@@ -132,11 +117,10 @@ exports[`ChartBox resolved 1`] = `
       title="sone tooltip"
     >
       some title
-    </h3>
-  </PanelHeading>
-  <PanelBody
-    bsClass="panel"
-    collapsible={false}
+    </CardTitle>
+  </CardHeading>
+  <CardBody
+    className=""
   >
     <Loader
       spinnerSize="lg"
@@ -168,6 +152,6 @@ exports[`ChartBox resolved 1`] = `
         msg="some error"
       />
     </Loader>
-  </PanelBody>
-</Uncontrolled(Panel)>
+  </CardBody>
+</Card>
 `;

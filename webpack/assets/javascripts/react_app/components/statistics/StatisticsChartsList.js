@@ -43,7 +43,7 @@ class StatisticsChartsList extends React.Component {
     ));
 
     return (
-      <div className="statistics-charts-list-root">
+      <div className="statistics-charts-list-root cards-pf">
         {this.props.charts && charts.length && charts}
       </div>
     );

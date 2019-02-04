@@ -96,7 +96,6 @@
     "patternfly-react": "^2.34.1",
     "prop-types": "^15.6.0",
     "react": "^16.8.1",
-    "react-bootstrap": "0.32.1",
     "react-debounce-input": "^3.2.0",
     "react-diff-view": "^1.8.1",
     "react-dom": "^16.8.1",

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Panel } from 'react-bootstrap';
-import { Modal } from 'patternfly-react';
+import { Card, Modal } from 'patternfly-react';
 import { isEqual } from 'lodash';
 import classNames from 'classnames';
 import { bindMethods } from '../../common/helpers';
@@ -85,20 +84,19 @@ class ChartBox extends React.Component {
         icontype="error-circle-o"
       />
     );
-    const boxHeader = (
-      <h3 className="pointer panel-title" {...headerProps}>
-        {title}
-      </h3>
-    );
 
     return (
-      <Panel
+      <Card
         className={classNames('chart-box', className)}
-        header={boxHeader}
         key={chart.id}
+        accented
       >
-        <Panel.Heading>{boxHeader}</Panel.Heading>
-        <Panel.Body>
+        <Card.Heading>
+          <Card.Title className="pointer panel-title" {...headerProps}>
+            {title}
+          </Card.Title>
+        </Card.Heading>
+        <Card.Body>
           <Loader status={status}>{[panelChart, error]}</Loader>
           {this.state.showModal && (
             <Modal
@@ -114,8 +112,8 @@ class ChartBox extends React.Component {
               </Modal.Body>
             </Modal>
           )}
-        </Panel.Body>
-      </Panel>
+        </Card.Body>
+      </Card>
     );
   }
 }
