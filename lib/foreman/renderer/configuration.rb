@@ -81,7 +81,6 @@ module Foreman
         :puppet_interval,
         :outofsync_interval,
         :default_puppet_environment,
-        :puppetrun,
         :puppet_server,
         :update_ip_from_built_request
       ]

@@ -166,7 +166,6 @@ module HostsHelper
       actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
       actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
     end
-    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
     actions <<  [_('Change Power State'), select_multiple_power_state_hosts_path] if authorized_for(:controller => :hosts, :action => :power)
     actions << [_('Delete Hosts'), multiple_destroy_hosts_path] if authorized_for(:controller => :hosts, :action => :destroy)
     actions
@@ -344,14 +343,6 @@ module HostsHelper
           link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
         )
       end,
-      button_group(
-        if host.try(:puppet_proxy)
-          link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
-                                :disabled => !Setting[:puppetrun],
-                                :class => 'btn btn-default',
-                                :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
-        end
-      ),
       button_group(
         link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
                               :class => "btn btn-danger",

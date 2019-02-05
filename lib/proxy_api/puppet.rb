@@ -34,11 +34,5 @@ module ProxyAPI
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to get classes from Puppet for %s"), env)
     end
-
-    def run(hosts)
-      parse(post({:nodes => hosts}, "run"))
-    rescue => e
-      raise ProxyException.new(url, e, N_("Unable to execute Puppet run"))
-    end
   end
 end
