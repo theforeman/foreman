@@ -46,13 +46,14 @@ module LayoutHelper
   end
 
   def fetch_user
-    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu) }
+    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.find_by_id(session[:impersonated_by]) }
   end
 
   def layout_data
     { menu: fetch_menus,
       logo: image_path("header_logo.svg", :class => "header-logo"),
       notification_url: main_app.notification_recipients_path,
+      stop_impersonation_url: main_app.stop_impersonation_users_path,
       user: fetch_user, brand: 'foreman',
       taxonomies: taxonomies_booleans, root: main_app.root_path,
       locations: fetch_locations, orgs: fetch_organizations }

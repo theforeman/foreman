@@ -105,6 +105,7 @@ class Layout extends React.Component {
             notificationUrl={data.notification_url}
             user={data.user}
             changeActiveMenu={changeActiveMenu}
+            stopImpersonationUrl={data.stop_impersonation_url}
           />
         </VerticalNav.Masthead>
       </VerticalNav>

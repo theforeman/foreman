@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, VerticalNav, Icon, MenuItem } from 'patternfly-react';
+import { Dropdown, VerticalNav, Icon, MenuItem, OverlayTrigger, Tooltip } from 'patternfly-react';
 import get from 'lodash/get';
 import NotificationContainer from '../../notifications';
 import NavDropdown from './NavDropdown';
 import NavItem from './NavItem';
 import { translate as __ } from '../../../common/I18n';
+import './UserDropdowns.scss'
 
 const UserDropdowns = ({
   activeKey, // eslint-disable-line react/prop-types
@@ -13,11 +14,26 @@ const UserDropdowns = ({
   user,
   changeActiveMenu,
   notificationUrl,
+  stopImpersonationUrl,
   ...props
 }) => {
   const userInfo = get(user, 'current_user.user');
   return (
     <VerticalNav.IconBar {...props}>
+      {user.impersonated_by &&  (
+          <OverlayTrigger
+            overlay={<Tooltip>{ __('You are impersonating another user, click to stop the impersonation') }</Tooltip>}
+            placement="right"
+            trigger={['hover','focus']}
+            rootClose={false}
+          >
+            <li className="drawer-pf-trigger masthead-icon">
+              <a href={ stopImpersonationUrl } className="nav-item-iconic" data-no-turbolink="true">
+                <Icon name="eye avatar small" tooltip="hello" className="blink-image"/>
+              </a>
+            </li>
+          </OverlayTrigger>
+      )}
       <NavItem
         className="drawer-pf-trigger dropdown notification-dropdown"
         id="notifications_container"
