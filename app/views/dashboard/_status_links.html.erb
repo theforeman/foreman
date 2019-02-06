@@ -57,7 +57,9 @@
 <%= searchable_links _('Hosts with alerts disabled'),
                      search_filter_with_origin(
                        "status.enabled = false",
-                       origin
+                       origin,
+                       true,
+                       true
                      ),
                      :disabled_hosts
 %>
