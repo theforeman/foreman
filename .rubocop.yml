@@ -108,3 +108,6 @@ Style/PreferredHashMethods:
 # Won't work with sqlite
 Rails/BulkChangeTable:
   Enabled: false
+
+Style/MultipleComparison:
+  Enabled: false

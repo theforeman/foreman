@@ -378,10 +378,6 @@ Style/MethodCallWithoutArgsParentheses:
 Style/MixinUsage:
   Enabled: false
 
-# Offense count: 3
-Style/MultipleComparison:
-  Enabled: false
-
 # Offense count: 120
 # Cop supports --auto-correct.
 Style/MutableConstant:
