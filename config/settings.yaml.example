@@ -41,6 +41,10 @@
 :domain: 'localdomain.net'
 :fqdn: 'localhost.localdomain.net'
 
+# List of Domains allowed for Cross-Origin Resource Sharing
+# :cors_domains:
+#   - https://foreman.example.com
+
 # Log settings for the current environment can be adjusted by adding them
 # here. It is also possible to override settings per environment. See
 # logging.yaml for more details and examples. Some recommended configurations:

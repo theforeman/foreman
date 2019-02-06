@@ -240,6 +240,15 @@ module Foreman
       end
     end
 
+    if Array(SETTINGS[:cors_domains]).present?
+      config.middleware.insert_before 0, Rack::Cors do
+        allow do
+          origins Array(SETTINGS[:cors_domains])
+          resource '*', headers: :any, methods: [:get, :post, :options]
+        end
+      end
+    end
+
     config.to_prepare do
       # AuditExtensions contain code from app/ so can only be loaded after initializing is done
       # otherwise rails auto-reloader won't be able to reload Taxonomies which are linked there
