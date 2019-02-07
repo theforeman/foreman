@@ -29,7 +29,7 @@ module SmartProxiesHelper
     end
 
     if proxy.has_feature?('Logs')
-      actions << link_to_function_if_authorized(_('Expire logs'), "expireLogs(this, (new Date).getTime() / 1000);",
+      actions << link_to_function_if_authorized(_('Expire logs'), "tfm.smartProxies.expireLogs(this, (new Date).getTime() / 1000);",
         hash_for_expire_logs_smart_proxy_path(:id => proxy), {
           :data => {
             :url => expire_logs_smart_proxy_path(:id => proxy),

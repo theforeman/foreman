@@ -71,18 +71,18 @@ module ApplicationHelper
     ActiveSupport::TimeZone::MAPPING[Time.zone.try(:name)] || 'UTC'
   end
 
-  protected
-
   def generate_date_id
     timestamp = (Time.now.to_f * 10**7).to_i
     "datetime_#{timestamp}"
   end
 
+  protected
+
   def mount_date_component(component, time, seconds)
     date_id = generate_date_id
 
     content_tag(:span, '', :id => date_id).html_safe +
-    mount_react_component(component, "##{date_id}", { date: time.iso8601, default: _('N/A'), seconds: seconds }.to_json, { :flatten_data => true })
+    mount_react_component(component, "##{date_id}", { date: time.iso8601, defaultValue: _('N/A'), seconds: seconds }.to_json, { :flatten_data => true })
   end
 
   def contract(model)

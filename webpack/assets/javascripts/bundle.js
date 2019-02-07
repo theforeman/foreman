@@ -39,6 +39,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   sshKeys: require('./foreman_ssh_keys'),
   trends: require('./foreman_trends'),
   hostgroups: require('./foreman_hostgroups'),
+  smartProxies: require('./foreman_smart_proxies'),
   hosts: require('./foreman_hosts'),
   httpProxies: require('./foreman_http_proxies'),
   toastNotifications: require('./foreman_toast_notifications'),

@@ -1,5 +1,4 @@
 //= require proxy_status/puppet
-//= require proxy_status/logs
 
 $(document).on('ContentLoad', function() {
   $('.nav-tabs a').on('shown.bs.tab', refreshCharts);
