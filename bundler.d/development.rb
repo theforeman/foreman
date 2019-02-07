@@ -16,4 +16,5 @@ group :development do
   gem 'benchmark-ips'
   gem 'foreman'
   gem('bootsnap', :require => false)
+  gem 'graphiql-rails', '~> 1.7'
 end

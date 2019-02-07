@@ -549,4 +549,8 @@ Foreman::Application.routes.draw do
       delete 'group/:group' => 'notification_recipients#destroy_group'
     end
   end
+
+  if Rails.env.development? && defined?(::GraphiQL::Rails::Engine)
+    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'
+  end
 end
