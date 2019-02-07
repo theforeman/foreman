@@ -94,6 +94,19 @@ module Menu
       Manager.map :labs_menu do |menu|
         menu.sub_menu :lab_features_menu, :caption => N_('Lab Features'), :icon => 'fa fa-flask'
       end
+
+      if Rails.env.development? && defined?(::GraphiQL::Rails::Engine)
+        Manager.map :devel_menu do |menu|
+          menu.sub_menu :devel_tools, :caption => 'Toolbox', :icon => 'pficon pficon-maintenance' do
+            menu.item :graphiql,
+                      :caption => 'GraphiQL',
+                      :url => '/graphiql',
+                      :engine => ::GraphiQL::Rails::Engine,
+                      :url_hash => { :controller => 'graphiql/rails/editors',
+                                     :action => 'show' }
+          end
+        end
+      end
     end
   end
 end
