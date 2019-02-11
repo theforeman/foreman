@@ -60,7 +60,7 @@ class Parameter < ApplicationRecord
 
   def value_before_type_cast
     return self[:value] if errors[:value].present?
-    value_before_type_casting(value)
+    format_value_before_type_cast(value)
   end
 
   def hash_for_include_source(source, source_name = nil)

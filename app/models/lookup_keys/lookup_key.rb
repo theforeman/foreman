@@ -105,7 +105,7 @@ class LookupKey < ApplicationRecord
 
   def default_value_before_type_cast
     return self[:default_value] if errors[:default_value].present?
-    value_before_type_casting default_value
+    format_value_before_type_cast default_value
   end
 
   def path_elements

@@ -1,8 +1,11 @@
 class CastKeyTypesAndValuesInParameters < ActiveRecord::Migration[5.2]
   def up
-    User.as_anonymous_admin do
+    Parameter.skip_permission_check do
       Parameter.unscoped.each do |parameter|
-        next if parameter.value.contains_erb?
+        if parameter.value.contains_erb?
+          save_param(parameter, parameter.value, 'string')
+          next
+        end
         next unless parameter.value.is_a? String
         override_key_type_and_value(parameter)
       end
@@ -27,11 +30,13 @@ class CastKeyTypesAndValuesInParameters < ActiveRecord::Migration[5.2]
   end
 
   def save_param(param, new_value, new_key_type)
-    if Parameter::KEY_TYPES.include?(N_(new_key_type))
-      param.value = new_value
-      param.key_type = new_key_type
-      result = param.save
-      return if result
+    if Parameter::KEY_TYPES.include?(new_key_type)
+      param.class.without_auditing do
+        param.value = new_value
+        param.key_type = new_key_type
+        result = param.save(:validate => false)
+        return if result
+      end
       say "Failed to update param(#{param.id}): #{param.inspect}"
       say "Error: #{param.errors.full_messages.inspect}"
     else

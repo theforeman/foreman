@@ -8,7 +8,7 @@ module KeyType
     alias_attribute :parameter_type, :key_type
   end
 
-  def value_before_type_casting(val)
+  def format_value_before_type_cast(val)
     return val if val.nil? || val.contains_erb?
     if key_type.present?
       case key_type.to_sym
