@@ -15,12 +15,10 @@ end
 
 if Foreman::Model::GCE.available?
   require 'fog/google'
-  require 'fog/google/models/compute/image'
+  require 'fog/compute/google/models/image'
   Fog::Compute::Google::Image.send(:include, FogExtensions::Google::Image)
-  require 'fog/google/models/compute/server'
+  require 'fog/compute/google/models/server'
   Fog::Compute::Google::Server.send(:include, FogExtensions::Google::Server)
-  require 'fog/google/models/compute/flavor'
-  Fog::Compute::Google::Flavor.send(:include, FogExtensions::Google::Flavor)
 end
 
 if Foreman::Model::Libvirt.available?
