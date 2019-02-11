@@ -521,35 +521,37 @@ class HostJSTest < IntegrationTestWithJavascript
 
     # At this point in time this only tests the UI. Since Fog mocks all requests the Hard drive change is ignored as it
     # will always return the mocked values. Not a total waste however as the UI is still tested with this.
-    test 'enables changing vm disk size' do
-      Fog.mock!
-
-      organization = Organization.find_by_name('Organization 1')
-      location = Location.find_by_name('Location 1')
-      uuid = '5032c8a5-9c5e-ba7a-3804-832a03e16381'
-      compute_resource = FactoryBot.create(:compute_resource, :vmware, organizations: [organization], locations: [location], uuid: 'Solutions')
-      compute_resource = ComputeResource.find_by_id(compute_resource.id)
-
-      host = FactoryBot.create(:host, :managed, compute_resource: compute_resource,
-                                                uuid: uuid,
-                                                location: location,
-                                                organization: organization,
-                                                provision_method: 'image')
-
-      visit edit_host_path(host)
-
-      wait_for_ajax
-
-      click_link('Virtual Machine')
-      within('.text-vmware-size') do
-        # Unusual here that the volume size input field has no name or id.
-        first('input').set('10 GB')
+    context 'with vmware' do
+      setup do
+        Fog.mock!
+        compute_resource = FactoryBot.create(:vmware_cr, uuid: 'Solutions')
+        # without reloading the host will try using the unmocked vmware client
+        compute_resource = ComputeResource.find(compute_resource.id)
+        uuid = '5032c8a5-9c5e-ba7a-3804-832a03e16381' # from fog mock
+        @vm_host = FactoryBot.create(:host, :managed, compute_resource: compute_resource,
+                                                      uuid: uuid,
+                                                      provision_method: 'image')
       end
 
-      click_on('Submit')
+      teardown do
+        Fog.unmock!
+      end
 
-      assert_content("Successfully updated #{host.name}")
-      Fog.unmock!
+      test 'enables changing vm disk size' do
+        visit edit_host_path(@vm_host)
+
+        wait_for_ajax
+
+        click_link('Virtual Machine')
+        within('.text-vmware-size') do
+          # Unusual here that the volume size input field has no name or id.
+          first('input').set('10 GB')
+        end
+
+        click_on('Submit')
+
+        assert_content("Successfully updated #{@vm_host.name}")
+      end
     end
   end
 
