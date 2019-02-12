@@ -159,6 +159,9 @@ module Host
       time = time.to_time if time.is_a?(String)
       self.last_compile = time if time
 
+      # taxonomy must be set before populate_fields_from_facts call
+      set_taxonomies(facts)
+
       unless build?
         parser = FactParser.parser_for(type).new(facts)
 
@@ -166,8 +169,6 @@ module Host
           populate_fields_from_facts(parser, type, source_proxy)
         end
       end
-
-      set_taxonomies(facts)
 
       # we are saving here with no validations, as we want this process to be as fast
       # as possible, assuming we already have all the right settings in Foreman.
@@ -251,7 +252,6 @@ module Host
 
     def set_taxonomies(facts)
       ['location', 'organization'].each do |taxonomy|
-        next unless SETTINGS["#{taxonomy.pluralize}_enabled".to_sym]
         taxonomy_class = taxonomy.classify.constantize
         taxonomy_fact = Setting["#{taxonomy}_fact"]
 
