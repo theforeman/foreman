@@ -1,4 +1,23 @@
+2019-02-12	Tomer Brisker <tbrisker@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2019-02-11	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #20394 - Fix Ovirt volume attrs
+
+2019-02-07	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #25569 - Added windows password encryption
+
+2019-02-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #25961 - report expiration record disappearing
+
+2019-02-05	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #25956 - pin fog-libvirt
+
+2019-02-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #25950 - Don't try to assign seeded taxonomies to reports
+
 2019-01-30	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.0-RC4
 	* i18n - extracting new, pulling from tx
 
 2019-01-29	Kamil Szubrycht <kamil.szubrycht@ironin.pl>
