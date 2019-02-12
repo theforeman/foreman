@@ -5,40 +5,10 @@
     <%= alert :class => 'alert-danger', :header => '', :text => _("Some of the interfaces are invalid. Please check the table below.") %>
   <% end %>
   <!-- interface list -->
-  <table class="<%= table_css_classes %>" id="interfaceList">
-    <thead>
-      <tr>
-        <th class="hidden-xs" width="3%"></th>
-        <th class="hidden-xs" width="6%"></th>
-        <th class="ellipsis"><%= _('Identifier') %></th>
-        <th class="hidden-xs"><%= _('Type') %></th>
-        <th class="hidden-xs"><%= _("MAC Address") %></th>
-        <th class="hidden-xs"><%= _("IPv4 Address") %></th>
-        <th class="hidden-xs"><%= _("IPv6 Address") %></th>
-        <th class="hidden-xs"><%= _("FQDN") %></th>
-        <th><%= _('Actions') %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr id="interfaceTemplate" style="display: none">
-        <td class="status hidden-xs" align="center"></td>
-        <td class="flags hidden-xs" align="center"></td>
-        <td class="identifier ellipsis"></td>
-        <td class="type hidden-xs"></td>
-        <td class="mac hidden-xs"></td>
-        <td class="ip hidden-xs"></td>
-        <td class="ip6 hidden-xs"></td>
-        <td class="fqdn hidden-xs"></td>
-        <td>
-          <button type="button" class="btn btn-default showModal"><%= _('Edit') %></button>
-          <button type="button" class="btn btn-danger removeInterface"><%= _('Delete') %></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span id="interfaceListWrapper"></span>
 
   <div class="btn-toolbar">
-    <button type="button" onclick="edit_interface();return false;"
+    <button type="button" onclick="add_interface();return false;"
       class="info btn btn-success" id="addInterface"
                                    title="add new network interface">+ <%= _('Add Interface') %>
     </button>
@@ -47,7 +17,7 @@
   <!-- hidden interface forms -->
   <div id="interfaceForms">
     <%= f.fields_for :interfaces do |interface| %>
-      <%= render :partial => interface.object, :locals => {:f => interface, :id => interface.object.object_id}, :layout => 'nic/hidden_layout' %>
+      <%= render :partial => interface.object, :locals => {:f => interface, :id => interface.object.id || interface.object.object_id}, :layout => 'nic/hidden_layout' %>
     <% end %>
   </div>
   <!-- modal window -->
@@ -71,3 +41,8 @@
   <%= new_child_fields_template(f, :interfaces, {:partial => Nic::Managed.new, :layout => 'nic/hidden_layout'}) %>
 
 </fieldset>
+
+<%= mount_react_component('InterfaceTable', "#interfaceListWrapper", {
+    interfaces: interface_table_info(@host.interfaces),
+    tableCssClasses: table_css_classes
+  }.to_json) %>

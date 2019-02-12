@@ -4,15 +4,16 @@ $(document).ready(function() {
 })
 
 function remove_interface(interface_id) {
-  $('#interface'+interface_id).remove();
-  $('#interfaceHidden'+interface_id+' .destroyFlag').val(1);
+  tfm.hosts.removeInterface(interface_id);
+}
+
+function add_interface() {
+  const form = get_interface_template_clone();
+  show_interface_modal(form);
 }
 
 function edit_interface(interface_id) {
-  if (interface_id == null)
-    form = get_interface_template_clone();
-  else
-    form = $('#interfaces #interfaceHidden'+interface_id).clone(true);
+  const form = $('#interfaces #interfaceHidden'+interface_id).clone(true);
   show_interface_modal(form);
 }
 
@@ -46,31 +47,13 @@ function save_interface_modal() {
   preserve_selected_options(modal_window);
 
   var modal_form = modal_window.find('.modal-body').contents();
-  if (modal_form.find('.interface_primary').is(':checked')) {
-    $('#interfaceForms .interface_primary:checked').attr("checked", false);
-  }
-  if (modal_form.find('.interface_provision').is(':checked')) {
-    $('#interfaceForms .interface_provision:checked').attr("checked", false);
-  }
 
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
   interface_hidden.append(modal_form);
 
   close_interface_modal();
-  sync_primary_name(false);
-  update_interface_table();
-  update_fqdn();
-}
-
-function sync_primary_name(ovewrite_blank) {
-  var nic_name = primary_nic_form().find('.interface_name');
-  var host_name = $('#host_name');
-
-  if (ovewrite_blank && (nic_name.val().length == 0))
-    nic_name.val(host_name.val());
-  else
-    host_name.val(nic_name.val());
+  update_interface_info(interface_id, interface_hidden);
 }
 
 function close_interface_modal() {
@@ -100,29 +83,6 @@ function get_interface_template_clone() {
   return hidden;
 }
 
-function get_interface_row(interface_id) {
-  var interface_row = $('#interface'+interface_id);
-  if ( interface_row.length == 0) {
-    interface_row = $('#interfaceTemplate').clone(true);
-    interface_row.attr('id', 'interface'+interface_id);
-    interface_row.data('interface-id', interface_id);
-
-    interface_row.find('.showModal').click( function(){
-      edit_interface(interface_id);
-      return false;
-    });
-
-    interface_row.find('.removeInterface').click( function(){
-      remove_interface(interface_id);
-      return false;
-    });
-
-    interface_row.show();
-    interface_row.insertBefore('#interfaceTemplate');
-  }
-  return interface_row;
-}
-
 function get_interface_hidden(interface_id) {
   var interface_hidden = $('#interfaceHidden'+interface_id);
   if ( interface_hidden.length == 0) {
@@ -131,74 +91,71 @@ function get_interface_hidden(interface_id) {
     interface_hidden.attr('class', 'hidden');
     interface_hidden.attr('id', 'interfaceHidden'+interface_id);
     interface_hidden.data('interface-id', interface_id);
+    interface_hidden.data('new-interface', true);
 
     $('#interfaceForms').append(interface_hidden);
   }
   return interface_hidden;
 }
 
-function fqdn(name, domain) {
-  if (!name || !domain)
-    return ""
-  else
-    return name + '.' + domain;
+function update_interface_info(interface_id, interface_form) {
+  const interfaceData = {
+    name: interface_form.find('.interface_name').val(),
+    domain: interface_form.find('.interface_domain option:selected').text(),
+    type: interface_form.find('.interface_type').val(),
+    typeName: interface_form.find('.interface_type option:selected').text(),
+    identifier: interface_form.find('.interface_identifier').val(),
+    mac: interface_form.find('.interface_mac').val(),
+    ip: interface_form.find('.interface_ip').val(),
+    ip6: interface_form.find('.interface_ip6').val(),
+    primary: interface_form.find('.interface_primary').is(':checked'),
+    provision: interface_form.find('.interface_provision').is(':checked'),
+    virtual: interface_form.find('.virtual').is(':checked'),
+    attachedTo: interface_form.find('.attached').val(),
+    hasErrors: interface_form.find('.has-error').length > 0,
+  };
+  if (interface_form.data('new-interface')) {
+    tfm.hosts.addInterface({id: interface_id, ...interfaceData});
+    interface_form.removeData('new-interface');
+  } else {
+    tfm.hosts.updateInterface(interface_id, interfaceData);
+  }
 }
 
-function update_interface_row(row, interface_form) {
+function updateInterfaceTable(state, prevState) {
+  var pathname = window.location.pathname;
 
-  var has_errors = (interface_form.find('.has-error').length > 0)
-  row.toggleClass('has-error', has_errors);
+  state.interfaces.forEach(function(interfaceData, idx) {
+    var prevData = prevState.interfaces.filter(function(i){ return i.id == interfaceData.id })[0];
+    if (prevData && prevData == interfaceData) return;
 
-  var virtual = interface_form.find('.virtual').is(':checked');
-  var attached = interface_form.find('.attached').val();
+    var hiddenFields = get_interface_hidden(interfaceData.id)[0];
+    var nameEl = hiddenFields.getElementsByClassName('interface_name')[0];
+    var primaryCheck = hiddenFields.getElementsByClassName('interface_primary')[0];
+    var provisionCheck = hiddenFields.getElementsByClassName('interface_provision')[0];
+    var virtualCheck = hiddenFields.getElementsByClassName('virtual')[0];
 
-  var type = interface_form.find('.interface_type option:selected').text();
-  type += '<div class="additional-info">'
-  type += nic_info(interface_form);
-  type += '</div>'
-  row.find('.type').html(type);
+    nameEl.value = interfaceData.name;
+    primaryCheck.checked = interfaceData.primary;
+    provisionCheck.checked = interfaceData.provision;
+    virtualCheck.checked = interfaceData.virtual;
 
-  row.find('.identifier').text(interface_form.find('.interface_identifier').val());
-  row.find('.mac').text(interface_form.find('.interface_mac').val());
-  row.find('.ip').text(interface_form.find('.interface_ip').val());
-  row.find('.ip6').text(interface_form.find('.interface_ip6').val());
+    if (interfaceData.primary) {
+      $('#host_name').val(interfaceData.name);
 
-  var flags = '', primary_class = '', provision_class = '';
-  if (interface_form.find('.interface_primary').is(':checked'))
-    primary_class = 'active'
-
-  if (interface_form.find('.interface_provision').is(':checked'))
-    provision_class = 'active'
-
-  if (primary_class == '' && provision_class == '')
-    row.find('.removeInterface').removeAttr('disabled');
-  else
-    row.find('.removeInterface').attr('disabled', 'disabled');
-
-  flags += '<i class="glyphicon glyphicon glyphicon-tag primary-flag '+ primary_class +'" title="" data-original-title="'+ __('Primary') +'"></i>';
-  flags += '<i class="glyphicon glyphicon glyphicon-hdd provision-flag '+ provision_class +'" title="" data-original-title="'+ __('Provisioning') +'"></i>';
-
-  row.find('.flags').html(flags);
-
-  row.find('.fqdn').text(fqdn(
-    interface_form.find('.interface_name').val(),
-    interface_form.find('.interface_domain option:selected').text()
-  ));
-
-  $('.primary-flag').tooltip();
-  $('.provision-flag').tooltip();
+      var fqdn_val = tfm.hosts.fqdn(interfaceData.name, interfaceData.domain);
+      if (fqdn_val.length > 0 && pathname === '/hosts/new') {
+        tfm.breadcrumbs.updateTitle(__("Create Host") + " | " + fqdn_val);
+      }
+    }
+  });
+  state.destroyed.forEach(function(destroyedId, idx) {
+    $('#interfaceHidden'+destroyedId+' .destroyFlag').val(1);
+  });
 }
-
-function update_interface_table() {
-  $.each(active_interface_forms(), function(index, form) {
-    var interface_id = $(form).data('interface-id');
-
-    var interface_row = get_interface_row(interface_id);
-    var interface_hidden = get_interface_hidden(interface_id)
-
-    update_interface_row(interface_row, interface_hidden);
-  })
-}
+tfm.observeStore(updateInterfaceTable, function(store) {
+  return store.hosts.interfaces;
+});
 
 function active_interface_forms() {
   return $.grep($('#interfaceForms > div'), function(f) {
@@ -251,56 +208,10 @@ $(document).on('click', '.interface_provision', function () {
 
 $(document).on('change', '#host_name', function () {
   // copy host name to the primary interface's name
-  primary_nic_form().find('.interface_name').val($(this).val());
-  update_interface_table();
-  update_fqdn();
-});
-
-$(document).on('click', '.primary-flag', function () {
-  var interface_id = $(this).closest('tr').data('interface-id');
-
-  $('#interfaceForms .interface_primary:checked').prop('checked', false);
-  get_interface_hidden(interface_id).find('.interface_primary').prop('checked', true);
-
-  sync_primary_name(true);
-  update_interface_table();
-  update_fqdn();
-});
-
-$(document).on('click', '.provision-flag', function () {
-  var interface_id = $(this).closest('tr').data('interface-id');
-
-  $('#interfaceForms .interface_provision:checked').prop('checked', false);
-  get_interface_hidden(interface_id).find('.interface_provision').prop('checked', true);
-
-  update_interface_table();
+  tfm.hosts.setPrimaryInterfaceName($(this).val());
 });
 
 var providerSpecificNICInfo = null;
-
-function nic_info(form) {
-  var info = "";
-  var virtual_types = ['Nic::Bond', 'Nic::Bridge']
-  if (form.find('.virtual').is(':checked') || virtual_types.indexOf(form.find('select.interface_type').val()) >= 0) {
-
-    // common virtual
-    var attached = form.find('.attached').val();
-    if (attached != "")
-      info = tfm.i18n.sprintf(__("virtual attached to %s"), attached);
-    else
-      info = __("virtual");
-
-  } else {
-
-    // provider specific
-    if (typeof(providerSpecificNICInfo) == "function")
-      info = providerSpecificNICInfo(form);
-    else
-      info = __("physical")
-
-  }
-  return info;
-}
 
 $(document).on('change', '.compute_attributes', function () {
   // remove "from profile" note if any of the fields changes
@@ -313,17 +224,6 @@ $(document).on('change', '.virtual', function () {
   $(this).closest('fieldset').find('.virtual_form').toggle(is_virtual);
   $(this).closest('fieldset').find('.compute_attributes').toggle(!is_virtual);
 });
-
-function update_fqdn() {
-  var host_name = $('#host_name').val();
-  var domain_name = primary_nic_form().find('.interface_domain option:selected').text();
-  var pathname = window.location.pathname;
-  var name = fqdn(host_name, domain_name)
-  if (name.length > 0 && pathname === '/hosts/new') {
-    name = __("Create Host") + " | " + name
-    tfm.breadcrumbs.updateTitle(name);
-  }
-}
 
 $(document).on('change', '.interface_mac', function (event) {
   if (event.target.id == $('#interfaceModal').find('.interface_mac').attr('id')) {

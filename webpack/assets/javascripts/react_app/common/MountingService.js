@@ -35,8 +35,26 @@ export function mount(component, selector, data, flattenData = false) {
     mountedNodes.push(reactNode);
   } else {
     // eslint-disable-next-line no-console
-    console.log(
+    console.warn(
       `Cannot find '${selector}' element for mounting the '${component}'`
     );
+  }
+}
+
+export function unmount(selector) {
+  const reactNode = document.querySelector(selector);
+  let i;
+
+  if (reactNode) {
+    for (i = 0; i < mountedNodes.length - 1; i++) {
+      if (mountedNodes[i] === reactNode) {
+        ReactDOM.unmountComponentAtNode(reactNode);
+        mountedNodes.splice(i, 1);
+        break;
+      }
+    }
+  } else {
+    // eslint-disable-next-line no-console
+    console.warn(`Cannot find '${selector}' element for react unmounting`);
   }
 }

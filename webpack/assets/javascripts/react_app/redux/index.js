@@ -20,4 +20,19 @@ export const generateStore = () =>
 
 const store = generateStore();
 
+export function observeStore(onChange, select = state => state) {
+  let currentState = select(store.getState());
+
+  function handleChange() {
+    const nextState = select(store.getState());
+    if (nextState !== currentState) {
+      onChange(nextState, currentState);
+      currentState = nextState;
+    }
+  }
+
+  const unsubscribe = store.subscribe(handleChange);
+  return unsubscribe;
+}
+
 export default store;

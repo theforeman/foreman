@@ -1,4 +1,25 @@
 module HostsNicHelper
+  def interface_table_info(interfaces)
+    interfaces.map do |i|
+      {
+        id: i.id || i.object_id,
+        identifier: i.identifier,
+        type: i.type,
+        typeName: i.class.humanized_name,
+        mac: i.mac,
+        ip: i.ip,
+        ip6: i.ip6,
+        name: i.name,
+        domain: i.domain&.name,
+        primary: i.primary,
+        provision: i.provision,
+        managed: i.managed,
+        virtual: i.virtual,
+        hasErrors: !i.errors.empty?
+      }
+    end
+  end
+
   def suggest_new_link(form, field, link_class)
     subnet = form.object.public_send(field)
     show = subnet.present? && subnet.unused_ip.suggest_new?
