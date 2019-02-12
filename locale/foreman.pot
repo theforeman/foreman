@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-30 11:45+0200\n"
-"PO-Revision-Date: 2019-01-30 11:45+0200\n"
+"POT-Creation-Date: 2019-02-12 16:32+0200\n"
+"PO-Revision-Date: 2019-02-12 16:32+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -10419,27 +10419,27 @@ msgstr ""
 msgid "Storage domain"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
+#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:8
 msgid "Uses thin provisioning if unchecked"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
+#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:8
 msgid "Preallocate disk"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:10
+#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:9
 msgid "Wipe disk after delete"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:12
+#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:11
 msgid "Disk interface"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:15
+#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:13
 msgid "Bootable"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:17
+#: ../app/views/compute_resources_vms/form/ovirt/_volume.html.erb:15
 msgid "Only one volume can be bootable"
 msgstr ""
 

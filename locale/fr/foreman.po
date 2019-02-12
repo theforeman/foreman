@@ -21,6 +21,7 @@
 # Iounes Gardon <iounes.gardon@gmail.com>, 2013
 # julien IPPOLITO <stuxboulot@gmail.com>, 2016
 # Florentin Raud <florentin.raud@gmail.com>, 2013
+# Manuel Tancoigne <m.tancoigne@gmail.com>, 2019
 # Mickaël Canévet <mickael.canevet@camptocamp.com>, 2013
 # Mickaël Canévet <mickael.canevet@camptocamp.com>, 2013
 # Pierre-Emmanuel Dutang <dutangp@gmail.com>, 2014-2017
@@ -31,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-01-10 21:01+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-02-11 08:50+0000\n"
+"Last-Translator: Manuel Tancoigne <m.tancoigne@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,8 +93,8 @@ msgstr "La console %s n'est pas prise en charge pour le moment."
 
 msgid "%s core"
 msgid_plural "%s cores"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1%s cœur"
+msgstr[1] "%s cœurs"
 
 msgid "%s day ago"
 msgid_plural "%s days ago"
@@ -113,8 +114,8 @@ msgstr "%s a été dissocié de la VM"
 
 msgid "%s host"
 msgid_plural "%s hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s hôte"
+msgstr[1] "%s hôtes"
 
 msgid "%s is an unknown attribute"
 msgstr "%s est un attribut inconnu "
@@ -8622,8 +8623,8 @@ msgstr "Il  y a deux stratégies quand on utilise les groupes d'hôtes"
 
 msgid "There is"
 msgid_plural "There are"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Il y a"
+msgstr[1] "Il y a"
 
 msgid "There is no owner with id %d and type %s"
 msgstr "Aucun propriétaire ayant pour id %sd et type %s"
@@ -8828,8 +8829,8 @@ msgstr "Nombre d'hôtes total"
 
 msgid "Total of one host"
 msgid_plural "Total of %{hosts} hosts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Total : un hôte"
+msgstr[1] "Total : %{hosts} hôtes"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Trend"
@@ -10462,8 +10463,8 @@ msgstr "est invalide"
 
 msgid "is too long (maximum is 1 character)"
 msgid_plural "is too long (maximum is %s characters)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "est trop long (maximum : 1 caractère)"
+msgstr[1] "est trop long (maximum : %s caractères)"
 
 msgid "is too long (maximum is 254 characters)"
 msgstr "est trop long (254 caractères maximum)"
