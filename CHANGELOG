@@ -1,5 +1,46 @@
+2019-02-11	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #25693 - pin i18n gem
+
+2019-02-07	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #25569 - Added windows password encryption
+
+2019-02-06	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #25961 - report expiration record disappearing
+
+2019-02-05	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #25956 - pin fog-libvirt
+
+2019-02-01	Marek Hulan <mhulan@redhat.com>
+	* Disable Metrics cops
+
+2019-01-29	Kamil Szubrycht <kamil.szubrycht@ironin.pl>
+	* fixes #25898 - partition tables do not render snippets
+
+2019-01-29	Timo Goebel <mail@timogoebel.name>
+	* fixes #25852 - coreos mediapath vars are interpolated
+
+2019-01-16	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #25733 - PXE uid generated from pxedir
+
+2019-01-13	Marek Hulan <mhulan@redhat.com>
+	* Fixes #25840 - fix ldap logging
+
+2019-01-08	Shimon Shtein <sshtein@redhat.com>
+	* Fixes #25767 - fixed call to xen() after rebase
+	* Fixes #25650 - Added medium_uri macro to templates
+
+2019-01-08	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #24259 - Raise Metrics/ModuleLength for Rubocop to pass
+
+2019-01-08	Gilad Lekner <gilad215@gmail.com>
+	* Fixes #25760 - audit incorrect links
+
+2018-12-17	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #25490 - fix html rendering in tooltips
+
 2018-12-06	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.20.1
+	* templates - Update snapshots
 	* templates - sync from community-templates
 	* i18n - extracting new, pulling from tx
 	* Fixes #25635 - Correct deprecation version for operatingsystems
