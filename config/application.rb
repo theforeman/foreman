@@ -224,7 +224,7 @@ module Foreman
       :background => {:enabled => true},
       :dynflow => {:enabled => true},
       :telemetry => {:enabled => false},
-      :blob => {:enabled => true}
+      :blob => {:enabled => false}
     ))
 
     config.logger = Foreman::Logging.logger('app')
