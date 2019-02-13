@@ -164,7 +164,8 @@ class FactImporter
     time = Time.now.utc
     updated = 0
     db_facts_names = []
-    db_facts.find_each do |record|
+    host.fact_values.joins(:fact_name).where('fact_names.type' => fact_name_class_name).reorder('').find_each do |record|
+      next unless fact_names.include?(record.name)
       new_value = facts[record.name]
       if record.value != new_value
         # skip callbacks/validations
@@ -189,7 +190,9 @@ class FactImporter
   end
 
   def db_facts
+    Foreman::Deprecation.deprecation_warning("1.23", "FactImporter.db_facts will be removed, use host.fact_values instead and filter values manually")
     query = host.fact_values
+    # filter out fact names which are being imported - this is very long and slow SQL call
     if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
       # MySQL query optimizer does not appear to pick the correct index here: https://projects.theforeman.org/issues/25053
       query = query.from("fact_values USE INDEX(index_fact_values_on_fact_name_id_and_host_id)")
