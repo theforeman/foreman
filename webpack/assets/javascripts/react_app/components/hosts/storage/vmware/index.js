@@ -89,7 +89,7 @@ class StorageContainer extends React.Component {
           addDisk={() => addDisk(controller.key)}
           updateDisk={updateDisk}
           removeDisk={removeDisk}
-          updateController={() => updateController(idx)}
+          updateController={newValues => updateController(idx, newValues)}
           config={config}
           datastores={datastores}
           datastoresError={datastoresError}
