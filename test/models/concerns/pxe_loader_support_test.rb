@@ -57,8 +57,18 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
       assert_equal :PXEGrub, @subject.pxe_loader_kind(@host)
     end
 
-    test "PXEGrub2 is found for given loader name" do
+    test "PXEGrub2 is found for EFI loader name" do
       @host.pxe_loader = "Grub2 UEFI"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for ELF loader name" do
+      @host.pxe_loader = "Grub2 ELF"
+      assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
+    end
+
+    test "PXEGrub2 is found for PC loader name" do
+      @host.pxe_loader = "Grub2 BIOS"
       assert_equal :PXEGrub2, @subject.pxe_loader_kind(@host)
     end
 
