@@ -1,4 +1,4 @@
-import { controllersToJsonString } from './index';
+import { controllersToJsonString } from '../index';
 
 describe('controllersToJsonString', () => {
   it('removes the key parameter from volumes', () => {
