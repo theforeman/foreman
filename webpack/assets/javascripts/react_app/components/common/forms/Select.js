@@ -12,21 +12,31 @@ import MessageBox from '../MessageBox';
 
 class Select extends React.Component {
   initializeSelect2() {
-    const { allowClear, onChange } = this.props;
+    const { allowClear } = this.props;
 
     if ($.fn.select2) {
-      $(this.select)
-        .select2({ allowClear })
-        .on('change', onChange);
+      $(this.select).select2({ allowClear });
     }
+  }
+
+  attachEvent() {
+    const { onChange } = this.props;
+    $(this.select)
+      .off('change', onChange)
+      .on('change', onChange);
   }
 
   componentDidMount() {
     this.initializeSelect2();
+    this.attachEvent();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.initializeSelect2();
+
+    if (this.props.status !== prevProps.status) {
+      this.attachEvent();
+    }
   }
 
   render() {
