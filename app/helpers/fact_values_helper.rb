@@ -79,10 +79,6 @@ module FactValuesHelper
     _("Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >")
   end
 
-  def escaped_warning_chart_context
-    _("Fact chart labels may look weird or give the wrong results since the item contains special characters that are query keywords (<,>,&)")
-  end
-
   def print_escape_warning(column)
     fact_contains_escaped_values
   end
