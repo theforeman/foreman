@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import { STATUS } from '../../constants';
 import { mockStoryData } from '../common/charts/DonutChart/DonutChart.fixtures';
 

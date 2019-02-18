@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ReactPasswordStrength from 'react-password-strength';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import ReactPasswordStrength from '@theforeman/vendor/react-password-strength';
 import { translate as __ } from '../../../react_app/common/I18n';
 import CommonForm from '../common/forms/CommonForm';
 import { noop } from '../../common/helpers';

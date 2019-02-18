@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedRelative, intlShape } from 'react-intl';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { FormattedRelative, intlShape } from '@theforeman/vendor/react-intl';
 
 const RelativeDateTime = (props, context) => {
   const { date, defaultValue } = props;

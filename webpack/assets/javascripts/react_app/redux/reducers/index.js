@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { reducer as form } from 'redux-form';
+import { combineReducers } from '@theforeman/vendor/redux';
+import { reducer as form } from '@theforeman/vendor/redux-form';
 import bookmarks from './bookmarks';
 import statistics from './statistics';
 import hosts from './hosts';

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { showSpinner, hideSpinner } from '../foreman_tools';
 import { sprintf, translate as __ } from '../react_app/common/I18n';
 

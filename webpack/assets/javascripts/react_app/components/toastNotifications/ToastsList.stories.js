@@ -1,7 +1,7 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from '@theforeman/vendor/react';
+import { Provider } from '@theforeman/vendor/react-redux';
 import { storiesOf } from '@storybook/react';
-import { Alert } from 'patternfly-react';
+import { Alert } from '@theforeman/vendor/patternfly-react';
 import {
   Form,
   FormGroup,
@@ -12,7 +12,7 @@ import {
   Grid,
   Col,
   Row,
-} from 'react-bootstrap';
+} from '@theforeman/vendor/react-bootstrap';
 import store from '../../redux';
 import { addToast } from '../../redux/actions/toasts';
 import ToastsList from './index';

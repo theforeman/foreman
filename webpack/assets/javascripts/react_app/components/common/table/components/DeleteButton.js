@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Button } from '@theforeman/vendor/patternfly-react';
 import { translate as __ } from '../../../../common/I18n';
 
 // TODO(bshuster): Move the confirmation to DialogModal that uses API to

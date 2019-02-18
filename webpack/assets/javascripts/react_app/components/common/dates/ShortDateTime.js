@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedDate, intlShape } from 'react-intl';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { FormattedDate, intlShape } from '@theforeman/vendor/react-intl';
 
 const ShortDateTime = (props, context) => {
   const { date, defaultValue, seconds } = props;

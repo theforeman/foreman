@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Alert } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Alert } from '@theforeman/vendor/patternfly-react';
 
 import { noop } from '../../../common/helpers';
 import AlertBody from '../Alert/AlertBody';

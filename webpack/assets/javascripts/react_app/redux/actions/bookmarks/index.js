@@ -1,4 +1,4 @@
-import URI from 'urijs';
+import URI from '@theforeman/vendor/urijs';
 import {
   BOOKMARKS_REQUEST,
   BOOKMARKS_SUCCESS,

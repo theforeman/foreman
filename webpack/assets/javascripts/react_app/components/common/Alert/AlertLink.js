@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 const AlertLink = ({ children, ...props }) => (
   <div className="pull-right toast-pf-action">

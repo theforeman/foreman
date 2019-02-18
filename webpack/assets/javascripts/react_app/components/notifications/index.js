@@ -1,12 +1,12 @@
-import onClickOutside from 'react-onclickoutside';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import onClickOutside from '@theforeman/vendor/react-onclickoutside';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { connect } from '@theforeman/vendor/react-redux';
 import { groupBy } from 'lodash';
 import {
   NotificationDrawerWrapper,
   NotificationDrawerPanelWrapper,
-} from 'patternfly-react';
+} from '@theforeman/vendor/patternfly-react';
 import * as NotificationActions from '../../redux/actions/notifications';
 import { noop, translateObject } from '../../common/helpers';
 

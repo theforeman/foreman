@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import {
   FACT_CHART_DATA_REQUEST,
   FACT_CHART_DATA_SUCCESS,

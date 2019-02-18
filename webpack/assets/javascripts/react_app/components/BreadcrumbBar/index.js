@@ -1,5 +1,5 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { bindActionCreators } from '@theforeman/vendor/redux';
+import { connect } from '@theforeman/vendor/react-redux';
 
 import * as actions from './BreadcrumbBarActions';
 import reducer from './BreadcrumbBarReducer';

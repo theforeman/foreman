@@ -1,5 +1,5 @@
-import React from 'react';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import React from '@theforeman/vendor/react';
+import EllipsisWithTooltip from '@theforeman/vendor/react-ellipsis-with-tooltip';
 import cellFormatter from './cellFormatter';
 
 export default value =>

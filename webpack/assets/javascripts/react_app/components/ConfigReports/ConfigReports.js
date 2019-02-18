@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col } from 'patternfly-react';
-import classNames from 'classnames';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Row, Col } from '@theforeman/vendor/patternfly-react';
+import classNames from '@theforeman/vendor/classnames';
 import ChartBox from '../statistics/ChartBox';
 import { translate as __ } from '../../common/I18n';
 import { STATUS } from '../../constants';

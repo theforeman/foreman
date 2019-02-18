@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import { required, length } from 'redux-form-validators';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { reduxForm } from '@theforeman/vendor/redux-form';
+import { connect } from '@theforeman/vendor/react-redux';
+import { required, length } from '@theforeman/vendor/redux-form-validators';
 
 import { noop } from '../../../common/helpers';
 import Form from '../../common/forms/Form';

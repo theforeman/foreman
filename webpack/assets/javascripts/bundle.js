@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
   __webpack_public_path__ =`${window.location.protocol}//${window.location.hostname}:3808/webpack/`;
 }
 
-import 'babel-polyfill';
+import '@theforeman/vendor/babel-polyfill';
 
 require('expose-loader?$!expose-loader?jQuery!jquery');
 require('jquery-ujs');

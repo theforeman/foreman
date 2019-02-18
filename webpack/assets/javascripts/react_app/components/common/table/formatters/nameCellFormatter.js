@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import NameCell from '../components/NameCell';
 
 const nameCellFormatter = controllerPluralize => (

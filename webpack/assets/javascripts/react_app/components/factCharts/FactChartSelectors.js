@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@theforeman/vendor/reselect';
 
 export const selectFactChartData = state => selectFactChart(state).chartData;
 

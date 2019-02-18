@@ -1,6 +1,6 @@
-import React from 'react';
-import { Spinner } from 'patternfly-react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { Spinner } from '@theforeman/vendor/patternfly-react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import { Table } from '../common/table';
 import { STATUS } from '../../constants';
 import MessageBox from '../common/MessageBox';

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import store from '../react_app/redux';
 import { showSpinner, hideSpinner } from '../foreman_tools';
 import { changeCluster } from '../react_app/redux/actions/hosts/storage/vmware';

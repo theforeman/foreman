@@ -1,6 +1,6 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { shallow } from 'enzyme';
-import { Button } from 'patternfly-react';
+import { Button } from '@theforeman/vendor/patternfly-react';
 import DeleteButton from './DeleteButton';
 
 describe('DeleteButton', () => {

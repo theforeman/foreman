@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DebounceInput } from 'react-debounce-input';
-import { Icon } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { DebounceInput } from '@theforeman/vendor/react-debounce-input';
+import { Icon } from '@theforeman/vendor/patternfly-react';
 import { translate as __ } from '../../../../react_app/common/I18n';
 import { noop } from '../../../common/helpers';
 import './searchInput.scss';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { shallow } from 'enzyme';
 
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';

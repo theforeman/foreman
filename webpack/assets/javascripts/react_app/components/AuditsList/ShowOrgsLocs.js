@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Col } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Col } from '@theforeman/vendor/patternfly-react';
 import ShowTaxonomyInline from './ShowTaxonomyInline';
 import { translate as __ } from '../../common/I18n';
 

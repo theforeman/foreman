@@ -1,7 +1,7 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import isEmpty from 'lodash/isEmpty';
-import PropTypes from 'prop-types';
-import URI from 'urijs';
+import PropTypes from '@theforeman/vendor/prop-types';
+import URI from '@theforeman/vendor/urijs';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../bookmarks';
 import { noop } from '../../common/helpers';

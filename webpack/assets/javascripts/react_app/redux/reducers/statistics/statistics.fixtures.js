@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 
 export const initialState = Immutable({
   charts: Immutable({}),

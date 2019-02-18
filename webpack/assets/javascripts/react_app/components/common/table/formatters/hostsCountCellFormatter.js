@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import HostsCountCell from '../components/HostsCountCell';
 
 const hostsCountCellFormatter = controllerSingular => (

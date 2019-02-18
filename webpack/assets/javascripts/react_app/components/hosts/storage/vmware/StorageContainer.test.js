@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 
 import { generateStore } from '../../../../redux';
 import { vmwareData, hiddenFieldValue } from './StorageContainer.fixtures';

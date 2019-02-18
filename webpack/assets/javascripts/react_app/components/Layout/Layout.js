@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 
-import { VerticalNav } from 'patternfly-react';
+import { VerticalNav } from '@theforeman/vendor/patternfly-react';
 import { noop } from '../../common/helpers';
 
 import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';

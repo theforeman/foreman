@@ -1,4 +1,4 @@
-import URI from 'urijs';
+import URI from '@theforeman/vendor/urijs';
 import debounce from 'lodash/debounce';
 import API from '../../API';
 import { STATUS } from '../../constants';

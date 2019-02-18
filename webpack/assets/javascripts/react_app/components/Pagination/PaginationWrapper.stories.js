@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
 import Story from '../../../../../stories/components/Story';
 import MockPagination from './PaginationWrapper.fixtures';

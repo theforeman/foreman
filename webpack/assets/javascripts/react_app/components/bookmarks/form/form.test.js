@@ -1,7 +1,7 @@
 import toJson from 'enzyme-to-json';
 import { mount } from 'enzyme';
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from '@theforeman/vendor/react';
+import { Provider } from '@theforeman/vendor/react-redux';
 import BookmarkForm from './';
 import { generateStore } from '../../../redux';
 import * as FormActions from '../../../redux/actions/common/forms';

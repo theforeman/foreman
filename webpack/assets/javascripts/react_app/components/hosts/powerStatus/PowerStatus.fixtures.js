@@ -1,4 +1,4 @@
-import immutable from 'seamless-immutable';
+import immutable from '@theforeman/vendor/seamless-immutable';
 
 export const pendingState = {
   hosts: immutable({

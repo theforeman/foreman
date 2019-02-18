@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { shallowRenderComponentWithFixtures } from '../../../common/testHelpers';

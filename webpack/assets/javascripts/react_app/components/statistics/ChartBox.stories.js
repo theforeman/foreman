@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
 import ChartBox from './ChartBox';
 import mockStoryData from './ChartBox.fixtures';

@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Field } from '@theforeman/vendor/redux-form';
 
 import CommonForm from '../CommonForm';
 import RadioButton from './RadioButton';

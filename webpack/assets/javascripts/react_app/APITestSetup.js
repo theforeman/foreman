@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '@theforeman/vendor/axios';
 
 // a counter for active requests, like jQuery.active
 window.axiosActive = 0;

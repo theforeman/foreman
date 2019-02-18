@@ -1,4 +1,4 @@
-import Validators from 'redux-form-validators';
+import Validators from '@theforeman/vendor/redux-form-validators';
 import { sprintf, translate as __ } from '../../react_app/common/I18n';
 
 Validators.formatMessage = props => {

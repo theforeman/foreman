@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 export function vpcSelected({ value }) {
   const sgSelect = $('select.security_group_ids');

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable camelcase */
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 
 export const initialState = Immutable({
   expandedGroup: null,

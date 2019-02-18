@@ -1,4 +1,4 @@
-import immutable from 'seamless-immutable';
+import immutable from '@theforeman/vendor/seamless-immutable';
 import * as types from '../../consts';
 import { bookmarks } from '../../reducers/bookmarks/bookmarks.fixtures';
 

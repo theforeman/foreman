@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { showSpinner } from '../foreman_tools';
 
 export function networkSelected(item) {

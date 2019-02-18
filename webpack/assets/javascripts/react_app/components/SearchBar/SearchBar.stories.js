@@ -1,9 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from '@theforeman/vendor/react';
+import { Provider } from '@theforeman/vendor/react-redux';
 import { storiesOf } from '@storybook/react';
-import axios from 'axios';
+import axios from '@theforeman/vendor/axios';
 import MockAdapter from 'axios-mock-adapter';
-import URI from 'urijs';
+import URI from '@theforeman/vendor/urijs';
 import Store from '../../redux';
 import SearchBar from './index';
 import { SearchBarProps, APImock } from './SearchBar.fixtures';

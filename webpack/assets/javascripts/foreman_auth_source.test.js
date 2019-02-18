@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { changeLdapPort } from './foreman_auth_source';
 
 jest.unmock('./foreman_auth_source');

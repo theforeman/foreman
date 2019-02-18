@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { MenuItem, Icon } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { MenuItem, Icon } from '@theforeman/vendor/patternfly-react';
 import { newWindowOnClick } from '../../../common/helpers';
 import { translate as __ } from '../../../../react_app/common/I18n';
 

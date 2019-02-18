@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Row, Col } from '@theforeman/vendor/patternfly-react';
 
 import ToastsList from '../../../components/toastNotifications';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';

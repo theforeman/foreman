@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom';
+import ReactDOM from '@theforeman/vendor/react-dom';
 import store from '../redux';
 import componentRegistry from '../components/componentRegistry';
 

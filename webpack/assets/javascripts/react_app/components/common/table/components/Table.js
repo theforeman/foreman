@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Table as PfTable } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Table as PfTable } from '@theforeman/vendor/patternfly-react';
 import TableBody from './TableBody';
 
 const Table = ({ columns, rows, bodyMessage, children, ...props }) => {

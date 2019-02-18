@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Breadcrumb as PfBreadcrumb } from 'patternfly-react';
-import 'patternfly-react/dist/sass/_breadcrumb.scss';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Breadcrumb as PfBreadcrumb } from '@theforeman/vendor/patternfly-react';
+import EllipsisWithTooltip from '@theforeman/vendor/react-ellipsis-with-tooltip';
 import './Breadcrumbs.scss';
 
 const Breadcrumb = ({

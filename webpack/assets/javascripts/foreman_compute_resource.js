@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { activateDatatables } from './foreman_tools';
 import { notify } from './foreman_toast_notifications';
 import { sprintf, translate as __ } from './react_app/common/I18n';

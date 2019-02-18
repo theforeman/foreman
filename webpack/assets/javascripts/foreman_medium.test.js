@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { nfsVisibility } from './foreman_medium';
 
 jest.unmock('./foreman_medium');

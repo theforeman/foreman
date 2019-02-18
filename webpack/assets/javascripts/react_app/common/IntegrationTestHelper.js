@@ -1,8 +1,12 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunk from 'redux-thunk';
+import { Provider } from '@theforeman/vendor/react-redux';
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore,
+} from '@theforeman/vendor/redux';
+import thunk from '@theforeman/vendor/redux-thunk';
 
 export default class IntegrationTestHelper {
   /**

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 export function autofillSshKeyName() {
   const name = $('#ssh_key_name');

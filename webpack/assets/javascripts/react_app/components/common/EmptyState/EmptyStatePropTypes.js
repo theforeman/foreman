@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 export const actionButtonPropTypes = {
   title: PropTypes.node.isRequired,

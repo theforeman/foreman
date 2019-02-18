@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { generateStore } from '../../redux';
 import API from '../../API';
 import { doesDocumentHasFocus } from '../../common/document';

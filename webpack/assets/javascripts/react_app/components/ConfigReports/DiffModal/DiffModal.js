@@ -1,6 +1,6 @@
-import React from 'react';
-import { Modal, Icon, Button } from 'patternfly-react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { Modal, Icon, Button } from '@theforeman/vendor/patternfly-react';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 import { noop } from '../../../common/helpers';
 import DiffView from '../../DiffView/DiffView';

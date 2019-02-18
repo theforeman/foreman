@@ -1,8 +1,8 @@
 /* eslint-disable camelcase, no-mixed-operators, no-param-reassign */
-import { Button } from 'patternfly-react';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { number_to_human_size } from 'number_helpers';
+import { Button } from '@theforeman/vendor/patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { number_to_human_size } from '@theforeman/vendor/number_helpers';
 
 import Select from '../../../../common/forms/Select';
 

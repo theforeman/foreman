@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import { isEmpty } from 'lodash';
-import { Paginator } from 'patternfly-react';
+import { Paginator } from '@theforeman/vendor/patternfly-react';
 import { translateObject } from '../../common/helpers';
 import {
   getURI,

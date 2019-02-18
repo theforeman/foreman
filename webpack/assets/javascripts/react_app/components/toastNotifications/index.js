@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { connect } from '@theforeman/vendor/react-redux';
 import {
   ToastNotificationList,
   ToastNotification,
   TimedToastNotification,
-} from 'patternfly-react';
+} from '@theforeman/vendor/patternfly-react';
 import AlertBody from '../common/Alert/AlertBody';
 import * as ToastActions from '../../redux/actions/toasts';
 import { noop } from '../../common/helpers';

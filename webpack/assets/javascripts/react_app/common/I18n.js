@@ -1,5 +1,5 @@
-import Jed from 'jed';
-import { addLocaleData } from 'react-intl';
+import Jed from '@theforeman/vendor/jed';
+import { addLocaleData, asyncLoadLocalData } from '@theforeman/vendor/react-intl';
 import { deprecateObjectProperty } from '../../foreman_tools';
 import { runningInPhantomJS } from './helpers';
 

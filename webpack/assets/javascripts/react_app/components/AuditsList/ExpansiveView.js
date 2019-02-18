@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import DiffContainer from '../DiffView/DiffContainer';
 import { translate as __ } from '../../common/I18n';
 

@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import BarChart from './';
 import * as chartService from '../../../../../services/charts/BarChartService';
 import {

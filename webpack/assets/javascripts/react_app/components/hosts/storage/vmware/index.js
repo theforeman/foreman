@@ -1,9 +1,9 @@
 import { pick } from 'lodash';
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Alert } from 'patternfly-react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { Button } from '@theforeman/vendor/react-bootstrap';
+import { Alert } from '@theforeman/vendor/patternfly-react';
+import { connect } from '@theforeman/vendor/react-redux';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 import Controller from './controller/';
 import * as VmWareActions from '../../../../redux/actions/hosts/storage/vmware';

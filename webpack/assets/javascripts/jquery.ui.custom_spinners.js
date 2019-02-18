@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 const megabyte = 1024 * 1024;
 const gigabyte = 1024 * megabyte;

@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { SubmissionError } from 'redux-form';
+import { SubmissionError } from '@theforeman/vendor/redux-form';
 import API from '../../../API';
 import { addToast } from '../toasts';
 import { sprintf, translate as __ } from '../../../../react_app/common/I18n';

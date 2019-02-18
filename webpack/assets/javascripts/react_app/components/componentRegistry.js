@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';

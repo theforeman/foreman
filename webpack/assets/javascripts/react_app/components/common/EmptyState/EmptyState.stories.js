@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
 import { text, select, boolean, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';

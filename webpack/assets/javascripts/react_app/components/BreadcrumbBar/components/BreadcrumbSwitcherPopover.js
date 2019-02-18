@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import {
   Popover,
   ListGroup,
   ListGroupItem,
   Pager,
   Icon,
-} from 'patternfly-react';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+} from '@theforeman/vendor/patternfly-react';
+import EllipsisWithTooltip from '@theforeman/vendor/react-ellipsis-with-tooltip';
 import SearchInput from '../../common/SearchInput';
 import SubstringWrapper from '../../common/SubstringWrapper';
 import { noop } from '../../../common/helpers';

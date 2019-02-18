@@ -2,8 +2,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable import/first */
-import $ from 'jquery';
-import * as ace from 'brace';
+import $ from '@theforeman/vendor/jquery';
+import * as ace from '@theforeman/vendor/brace';
 
 import 'brace/mode/ruby';
 import 'brace/mode/json';

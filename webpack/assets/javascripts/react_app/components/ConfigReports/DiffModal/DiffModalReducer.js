@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import {
   DIFF_MODAL_TOGGLE,
   DIFF_MODAL_CREATE,

@@ -1,4 +1,4 @@
-import uuidV1 from 'uuid/v1';
+import uuidV1 from '@theforeman/vendor/uuid/v1';
 
 import * as types from '../../../consts';
 

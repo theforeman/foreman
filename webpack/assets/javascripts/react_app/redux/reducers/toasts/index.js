@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import { TOASTS_ADD, TOASTS_DELETE, TOASTS_CLEAR } from '../../consts';
 
 const initialState = Immutable({

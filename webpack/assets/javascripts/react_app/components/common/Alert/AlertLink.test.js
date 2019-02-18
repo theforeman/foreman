@@ -1,6 +1,6 @@
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 
 import AlertLink from './AlertLink';
 

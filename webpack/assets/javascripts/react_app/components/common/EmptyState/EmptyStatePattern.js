@@ -1,5 +1,5 @@
-import React from 'react';
-import { EmptyState as PfEmptyState } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import { EmptyState as PfEmptyState } from '@theforeman/vendor/patternfly-react';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 
 const EmptyStatePattern = props => {

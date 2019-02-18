@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@theforeman/vendor/reselect';
 import { get } from 'lodash';
 
 export const selectLayout = state => state.layout;

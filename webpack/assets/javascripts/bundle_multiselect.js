@@ -1,2 +1,2 @@
-import 'multiselect/css/multi-select.css';
-import 'multiselect';
+import '@theforeman/vendor/multiselect/css/multi-select.css';
+import '@theforeman/vendor/multiselect';

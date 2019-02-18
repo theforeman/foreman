@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import SortableHeader from '../components/SortableHeader';
 
 const sortableHeaderFormatter = sortController => (label, { property }) => {

@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Dropdown } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Dropdown } from '@theforeman/vendor/patternfly-react';
 
 const NavDropdown = ({ activeKey, activeHref, children, ...props }) => (
   <Dropdown componentClass="li" id="account_menu" {...props}>

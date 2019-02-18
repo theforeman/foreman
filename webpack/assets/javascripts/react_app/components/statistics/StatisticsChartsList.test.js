@@ -1,9 +1,9 @@
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import immutable from 'seamless-immutable';
+import thunk from '@theforeman/vendor/redux-thunk';
+import immutable from '@theforeman/vendor/seamless-immutable';
 
 import StatisticsChartsList from './StatisticsChartsList';
 import { statisticsData } from './StatisticsChartsList.fixtures';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import AutoCompleteClearButton from './AutoCompleteClearButton';
 
 const AutoCompleteAux = ({ ...props }) => (

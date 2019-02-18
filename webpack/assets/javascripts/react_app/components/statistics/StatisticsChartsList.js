@@ -1,6 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { connect } from '@theforeman/vendor/react-redux';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 import ChartBox from './ChartBox';
 import * as StatisticsChartActions from '../../redux/actions/statistics';

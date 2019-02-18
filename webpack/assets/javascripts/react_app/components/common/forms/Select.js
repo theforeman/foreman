@@ -1,8 +1,8 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { map } from 'lodash';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Spinner } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Spinner } from '@theforeman/vendor/patternfly-react';
 
 import { translate as __ } from '../../../common/I18n';
 import { noop } from '../../../common/helpers';

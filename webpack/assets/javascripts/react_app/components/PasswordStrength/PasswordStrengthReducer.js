@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 
 import {
   PASSWORD_STRENGTH_PASSWORD_CHANGED,

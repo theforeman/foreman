@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import EmptyStatePattern from './EmptyStatePattern';
 import PrimaryActionButton from './EmptyStatePrimaryActionButton';
 import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';

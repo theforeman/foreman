@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { Overlay } from 'react-bootstrap';
+import React from '@theforeman/vendor/react';
+import ReactDOM from '@theforeman/vendor/react-dom';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Overlay } from '@theforeman/vendor/react-bootstrap';
 
 import { noop } from '../../../common/helpers';
 

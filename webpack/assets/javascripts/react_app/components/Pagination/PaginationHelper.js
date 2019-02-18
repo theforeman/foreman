@@ -1,4 +1,4 @@
-import URI from 'urijs';
+import URI from '@theforeman/vendor/urijs';
 
 export const getURI = () => new URI(window.location.href);
 

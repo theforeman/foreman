@@ -1,10 +1,10 @@
 import toJson from 'enzyme-to-json';
 import { render, mount } from 'enzyme';
-import React from 'react';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import React from '@theforeman/vendor/react';
+import { Provider } from '@theforeman/vendor/react-redux';
+import thunk from '@theforeman/vendor/redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { Dropdown } from 'patternfly-react';
+import { Dropdown } from '@theforeman/vendor/patternfly-react';
 import BookmarksContainer from './';
 import API from '../../API';
 import {

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import groupBy from 'lodash/groupBy';
-import { TypeAheadSelect } from 'patternfly-react';
+import { TypeAheadSelect } from '@theforeman/vendor/patternfly-react';
 import SubstringWrapper from '../../common/SubstringWrapper';
 
 const { Menu, MenuItem } = TypeAheadSelect;

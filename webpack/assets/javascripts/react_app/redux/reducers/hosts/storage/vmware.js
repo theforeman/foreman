@@ -1,8 +1,8 @@
 /* eslint no-case-declarations:0 */
 /* eslint no-case-declarations:0 */
 import { difference, head } from 'lodash';
-import Immutable from 'seamless-immutable';
-import uuidV1 from 'uuid/v1';
+import Immutable from '@theforeman/vendor/seamless-immutable';
+import uuidV1 from '@theforeman/vendor/uuid/v1';
 
 import {
   VMWARE_CLUSTER_CHANGE,

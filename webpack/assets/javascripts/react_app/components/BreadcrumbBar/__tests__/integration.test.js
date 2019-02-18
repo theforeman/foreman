@@ -1,5 +1,5 @@
-import React from 'react';
-import { Overlay } from 'react-bootstrap';
+import React from '@theforeman/vendor/react';
+import { Overlay } from '@theforeman/vendor/react-bootstrap';
 
 import API from '../../../API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';

@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 
 import {
   NOTIFICATIONS_GET_NOTIFICATIONS,

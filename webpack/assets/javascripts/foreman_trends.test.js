@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 jest.unmock('./foreman_trends');
 window.trends = require('./foreman_trends');

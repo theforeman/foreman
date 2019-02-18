@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { configure, storiesOf } from '@storybook/react';
 import Markdown from './components/Markdown';
 import Story from './components/Story';

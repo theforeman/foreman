@@ -1,5 +1,5 @@
 /* eslint-disable func-names */
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 export function initTypeChanges() {
   // update the hidden input which serves as template

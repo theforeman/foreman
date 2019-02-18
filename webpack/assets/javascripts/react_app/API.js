@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '@theforeman/vendor/axios';
 import './APITestSetup';
 
 const getcsrfToken = () => {

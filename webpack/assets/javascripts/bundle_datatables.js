@@ -1,2 +1,2 @@
-import 'datatables.net-bs/css/dataTables.bootstrap.css';
-import 'datatables.net-bs';
+import '@theforeman/vendor/datatables.net-bs/css/dataTables.bootstrap.css';
+import '@theforeman/vendor/datatables.net-bs';

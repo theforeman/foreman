@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { DonutChart as PfDonutChart } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { DonutChart as PfDonutChart } from '@theforeman/vendor/patternfly-react';
 import { getDonutChartConfig } from '../../../../../services/charts/DonutChartService';
 import MessageBox from '../../MessageBox';
 import { translate as __ } from '../../../../../react_app/common/I18n';

@@ -1,5 +1,5 @@
-import uuidV1 from 'uuid/v1';
-import Immutable from 'seamless-immutable';
+import uuidV1 from '@theforeman/vendor/uuid/v1';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import {
   donutChartConfig,
   donutLargeChartConfig,

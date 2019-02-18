@@ -1,8 +1,8 @@
 import toJson from 'enzyme-to-json';
 import { mount } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import thunk from '@theforeman/vendor/redux-thunk';
 
 import {
   emptyState,

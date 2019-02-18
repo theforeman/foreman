@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 
 import { props } from './disk.fixtures';
 import Disk from './';

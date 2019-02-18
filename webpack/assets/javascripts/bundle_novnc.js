@@ -1,4 +1,4 @@
-import RFB from '@novnc/novnc/core/rfb';
+import RFB from '@theforeman/vendor/@novnc/novnc/core/rfb';
 
 let rfb;
 const StatusLevelLookup = {

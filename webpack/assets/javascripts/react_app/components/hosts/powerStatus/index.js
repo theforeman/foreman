@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from '@theforeman/vendor/react-redux';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 import { noop } from '../../../common/helpers';
 import * as HostsActions from '../../../redux/actions/hosts/powerStatus/';

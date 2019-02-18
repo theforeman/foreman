@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Radio } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Radio } from '@theforeman/vendor/patternfly-react';
 
 const RadioButton = ({ input, item, disabled }) => (
   <Radio

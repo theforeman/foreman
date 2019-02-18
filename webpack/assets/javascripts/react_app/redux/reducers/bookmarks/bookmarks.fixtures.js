@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import { STATUS } from '../../../constants';
 
 export const initialState = Immutable({

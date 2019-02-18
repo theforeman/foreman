@@ -1,4 +1,4 @@
-import URI from 'urijs';
+import URI from '@theforeman/vendor/urijs';
 import { ajaxRequestAction } from '../../../../redux/actions/common';
 
 /**

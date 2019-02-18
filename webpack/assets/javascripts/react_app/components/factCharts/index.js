@@ -1,7 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Modal, Button, OverlayTrigger, Tooltip } from 'patternfly-react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { connect } from '@theforeman/vendor/react-redux';
+import {
+  Modal,
+  Button,
+  OverlayTrigger,
+  Tooltip,
+} from '@theforeman/vendor/patternfly-react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import { bindMethods, noop } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import Loader from '../common/Loader';

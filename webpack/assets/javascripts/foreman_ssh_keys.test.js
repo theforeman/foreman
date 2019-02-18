@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { autofillSshKeyName } from './foreman_ssh_keys';
 
 jest.unmock('./foreman_ssh_keys');

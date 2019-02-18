@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from '@theforeman/vendor/react-redux';
+import { bindActionCreators } from '@theforeman/vendor/redux';
 import * as actions from '../AutoComplete/AutoCompleteActions';
 import reducer from '../AutoComplete/AutoCompleteReducer';
 import SearchBar from './SearchBar';

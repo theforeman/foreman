@@ -1,6 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Dropdown, VerticalNav, Icon, MenuItem } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import {
+  Dropdown,
+  VerticalNav,
+  Icon,
+  MenuItem,
+} from '@theforeman/vendor/patternfly-react';
 import get from 'lodash/get';
 import NotificationContainer from '../../notifications';
 import NavDropdown from './NavDropdown';

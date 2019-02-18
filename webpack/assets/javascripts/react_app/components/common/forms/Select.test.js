@@ -1,7 +1,7 @@
-import $ from 'jquery';
-import 'select2';
+import $ from '@theforeman/vendor/jquery';
+import '@theforeman/vendor/select2';
 import { mount } from 'enzyme';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 
 import Select from './Select';
 

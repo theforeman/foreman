@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import immutable from 'seamless-immutable';
+import thunk from '@theforeman/vendor/redux-thunk';
+import immutable from '@theforeman/vendor/seamless-immutable';
 import {
   requestData,
   onFailureActions,

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { notify } from './foreman_toast_notifications';
 
 export function testConnection(item, url) {

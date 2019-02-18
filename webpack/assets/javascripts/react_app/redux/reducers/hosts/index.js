@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from '@theforeman/vendor/redux';
 import storage from './storage';
 import powerStatus from './powerStatus';
 

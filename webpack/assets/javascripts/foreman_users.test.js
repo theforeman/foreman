@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import * as users from './foreman_users';
 
 jest.unmock('./foreman_users');

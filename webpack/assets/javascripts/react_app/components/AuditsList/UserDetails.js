@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import EllipsisWithTooltip from '@theforeman/vendor/react-ellipsis-with-tooltip';
 import { translate as __ } from '../../common/I18n';
 
 const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {

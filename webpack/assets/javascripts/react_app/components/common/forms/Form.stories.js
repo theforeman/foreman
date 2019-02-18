@@ -1,7 +1,7 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
-import { reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
+import { reduxForm } from '@theforeman/vendor/redux-form';
+import { connect } from '@theforeman/vendor/react-redux';
 
 import RadioButtonGroup from './RadioButtonGroup';
 import Form from './Form';

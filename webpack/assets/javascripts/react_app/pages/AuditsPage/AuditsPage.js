@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, Icon } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Button, Icon } from '@theforeman/vendor/patternfly-react';
 import { translate as __ } from '../../common/I18n';
 
 import PageLayout from '../common/PageLayout/PageLayout';

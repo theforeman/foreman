@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 import { checkForUnavailablePuppetclasses } from './foreman_hostgroups';
 

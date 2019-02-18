@@ -1,7 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import UUID from 'uuid/v1';
-import { Icon, OverlayTrigger, Tooltip } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import UUID from '@theforeman/vendor/uuid/v1';
+import {
+  Icon,
+  OverlayTrigger,
+  Tooltip,
+} from '@theforeman/vendor/patternfly-react';
 import { noop } from '../../../common/helpers';
 import { translate as __ } from '../../../common/I18n';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import TestRenderer from 'react-test-renderer';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import PrimaryActionButton from './EmptyStatePrimaryActionButton';

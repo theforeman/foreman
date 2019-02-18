@@ -1,4 +1,4 @@
-import Jed from 'jed';
+import Jed from '@theforeman/vendor/jed';
 import { translate, ngettext } from './I18n';
 
 jest.unmock('./I18n');

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from '@theforeman/vendor/react';
+import { Provider } from '@theforeman/vendor/react-redux';
 import { mount } from 'enzyme';
 import { generateStore } from '../../redux';
 import SearchModal from './SearchModal';

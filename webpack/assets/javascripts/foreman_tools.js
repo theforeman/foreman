@@ -1,5 +1,5 @@
-import $ from 'jquery';
-import URI from 'urijs';
+import $ from '@theforeman/vendor/jquery';
+import URI from '@theforeman/vendor/urijs';
 import { translate as __ } from './react_app/common/I18n';
 
 import { showLoading, hideLoading } from './foreman_navigation';

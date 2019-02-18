@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { mount } from 'enzyme';
 import { diffMock } from './DiffView.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../common/testHelpers';

@@ -1,5 +1,5 @@
-import $ from 'jquery';
-import 'select2';
+import $ from '@theforeman/vendor/jquery';
+import '@theforeman/vendor/select2';
 import * as tools from './foreman_tools';
 
 jest.unmock('./foreman_tools');

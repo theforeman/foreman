@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 import NavItem from '../components/NavItem';

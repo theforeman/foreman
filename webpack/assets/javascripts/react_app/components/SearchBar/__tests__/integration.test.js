@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import API from '../../../API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { SearchBarProps } from '../SearchBar.fixtures';
@@ -7,7 +7,7 @@ import bookmarksReducer from '../../../redux/reducers/bookmarks';
 
 jest.mock('../../../API');
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
-jest.mock('uuid/v1', () => jest.fn(fn => '1234'));
+jest.mock('@theforeman/vendor/uuid/v1', () => jest.fn(fn => '1234'));
 global.Turbolinks = {
   visit: jest.fn(),
 };

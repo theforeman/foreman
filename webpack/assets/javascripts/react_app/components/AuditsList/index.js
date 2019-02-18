@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ListView, Row } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { ListView, Row } from '@theforeman/vendor/patternfly-react';
 import SearchLink from './SearchLink';
 import ShowOrgsLocs from './ShowOrgsLocs';
 import ActionLinks from './ActionLinks';

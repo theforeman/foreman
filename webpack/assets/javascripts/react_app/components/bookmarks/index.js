@@ -1,8 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
-import { Dropdown, MenuItem, Spinner, Icon } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { connect } from '@theforeman/vendor/react-redux';
+import EllipisWithTooltip from '@theforeman/vendor/react-ellipsis-with-tooltip';
+import {
+  Dropdown,
+  MenuItem,
+  Spinner,
+  Icon,
+} from '@theforeman/vendor/patternfly-react';
 import SearchModal from './SearchModal';
 import Bookmark from './Bookmark';
 import * as BookmarkActions from '../../redux/actions/bookmarks';

@@ -1,7 +1,7 @@
 // Configure Enzyme
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import IsoDate from './IsoDate';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';
 import { intl } from '../../../common/I18n';

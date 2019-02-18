@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import {
   HOST_POWER_STATUS_REQUEST,
   HOST_POWER_STATUS_SUCCESS,

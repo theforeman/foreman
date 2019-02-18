@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
 import BookmarkForm from './form';
 import BookmarkModal from './SearchModal';

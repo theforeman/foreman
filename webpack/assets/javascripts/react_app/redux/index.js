@@ -1,6 +1,6 @@
-import createLogger from 'redux-logger';
-import thunk from 'redux-thunk';
-import { applyMiddleware, createStore } from 'redux';
+import createLogger from '@theforeman/vendor/redux-logger';
+import thunk from '@theforeman/vendor/redux-thunk';
+import { applyMiddleware, createStore } from '@theforeman/vendor/redux';
 
 import reducers from './reducers';
 

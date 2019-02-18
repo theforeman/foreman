@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button } from 'patternfly-react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { Button } from '@theforeman/vendor/patternfly-react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import Select from '../../../../../common/forms/Select';
 import Checkbox from '../../../../../common/forms/Checkbox';
 import NumericInput from '../../../../../common/forms/NumericInput';

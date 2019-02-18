@@ -1,6 +1,6 @@
-import React from 'react';
-import { Col } from 'patternfly-react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { Col } from '@theforeman/vendor/patternfly-react';
+import PropTypes from '@theforeman/vendor/prop-types';
 
 const ActionLinks = ({ allowedActions }) => (
   <Col sm={2} className="actions-btns">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import DeleteButton from '../components/DeleteButton';
 
 export const deleteActionCellFormatter = controllerPluralize => (

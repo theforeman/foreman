@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Panel } from 'react-bootstrap';
-import { Modal } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Panel } from '@theforeman/vendor/react-bootstrap';
+import { Modal } from '@theforeman/vendor/patternfly-react';
 import { isEqual } from 'lodash';
-import classNames from 'classnames';
+import classNames from '@theforeman/vendor/classnames';
 import { bindMethods } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import BarChart from '../common/charts/BarChart';

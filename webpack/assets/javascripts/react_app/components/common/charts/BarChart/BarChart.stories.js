@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
 import BarChart from './';
 import { barChartData } from './BarChart.fixtures';

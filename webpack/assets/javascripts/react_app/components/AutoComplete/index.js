@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { TypeAheadSelect } from 'patternfly-react';
-import classNames from 'classnames';
-import Immutable from 'seamless-immutable';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { TypeAheadSelect } from '@theforeman/vendor/patternfly-react';
+import classNames from '@theforeman/vendor/classnames';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import { bindMethods, debounceMethods, noop } from '../../common/helpers';
 import AutoCompleteMenu from './components/AutoCompleteMenu';
 import AutoCompleteSearchButton from './components/AutoCompleteSearchButton';

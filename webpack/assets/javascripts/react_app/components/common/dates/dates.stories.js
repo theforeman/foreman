@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
 import { date, boolean, select, withKnobs } from '@storybook/addon-knobs';
 import IsoDate from './IsoDate';

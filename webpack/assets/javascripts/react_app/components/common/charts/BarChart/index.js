@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { BarChart as PfBarChart } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { BarChart as PfBarChart } from '@theforeman/vendor/patternfly-react';
 import { getBarChartConfig } from '../../../../../services/charts/BarChartService';
 import { noop } from '../../../../common/helpers';
 import { translate as __ } from '../../../../common/I18n';

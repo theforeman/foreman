@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { shallow } from 'enzyme';
 import ModelsTable from './ModelsTable';
 import { Table } from '../common/table';

@@ -1,5 +1,5 @@
-import React from 'react';
-import { IntlProvider } from 'react-intl';
+import React from '@theforeman/vendor/react';
+import { IntlProvider } from '@theforeman/vendor/react-intl';
 import { intl } from './I18n';
 import { getDisplayName } from './helpers';
 

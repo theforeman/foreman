@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { escape } from 'lodash';
 import { notify } from './foreman_toast_notifications';
 

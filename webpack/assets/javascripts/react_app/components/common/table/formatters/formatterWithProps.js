@@ -1,5 +1,5 @@
-import React from 'react';
-import { Table as PfTable } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import { Table as PfTable } from '@theforeman/vendor/patternfly-react';
 
 export const withProps = Component => (
   value,

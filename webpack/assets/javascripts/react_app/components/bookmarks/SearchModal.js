@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Modal } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import { Modal } from '@theforeman/vendor/patternfly-react';
 
 import { noop } from '../../common/helpers';
 import BookmarkForm from './form';

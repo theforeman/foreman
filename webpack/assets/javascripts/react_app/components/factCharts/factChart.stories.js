@@ -1,6 +1,6 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { storiesOf } from '@storybook/react';
-import thunk from 'redux-thunk';
+import thunk from '@theforeman/vendor/redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import FactChart from './';
 import {

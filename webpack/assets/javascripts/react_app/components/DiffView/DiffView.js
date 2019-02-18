@@ -1,9 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 
-import { parseDiff, Diff, markCharacterEdits } from 'react-diff-view';
-import { formatLines, diffLines } from 'unidiff';
-import 'react-diff-view/index.css';
+import {
+  parseDiff,
+  Diff,
+  markCharacterEdits,
+} from '@theforeman/vendor/react-diff-view';
+import { formatLines, diffLines } from '@theforeman/vendor/unidiff';
+import '@theforeman/vendor/react-diff-view/index.css';
 import './diffview.scss';
 
 const getDiff = (oldText, newText) => {

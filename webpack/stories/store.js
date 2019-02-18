@@ -1,5 +1,5 @@
-import createLogger from 'redux-logger';
+import createLogger from '@theforeman/vendor/redux-logger';
 import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import thunk from '@theforeman/vendor/redux-thunk';
 
 export default configureMockStore([thunk, createLogger()]);

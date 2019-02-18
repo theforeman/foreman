@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from '@theforeman/vendor/react-redux';
+import { bindActionCreators } from '@theforeman/vendor/redux';
 import ModelsTable from './ModelsTable';
 import reducer from './ModelsTableReducer';
 import * as actions from '../common/table/actions/getTableItemsAction';

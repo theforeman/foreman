@@ -1,5 +1,5 @@
 /* eslint-disable func-names */
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 
 export function initAdvancedFields() {
   $('a.advanced_fields_switch').each(function() {

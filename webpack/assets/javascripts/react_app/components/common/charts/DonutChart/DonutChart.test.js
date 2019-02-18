@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { mockStoryData, emptyData } from './DonutChart.fixtures';
 import DonutChart from './';
 import * as chartService from '../../../../../services/charts/DonutChartService';

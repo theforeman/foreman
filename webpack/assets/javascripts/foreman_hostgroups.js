@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from '@theforeman/vendor/jquery';
 import { translate as __ } from './react_app/common/I18n';
 
 export function checkForUnavailablePuppetclasses() {

@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import URI from 'urijs';
-import { MenuItem } from 'patternfly-react';
-import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import URI from '@theforeman/vendor/urijs';
+import { MenuItem } from '@theforeman/vendor/patternfly-react';
+import EllipisWithTooltip from '@theforeman/vendor/react-ellipsis-with-tooltip';
 
 const Bookmark = ({ text, query }) => {
   const handleClick = e => {

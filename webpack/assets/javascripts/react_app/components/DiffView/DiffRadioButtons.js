@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { ButtonGroup, Button } from 'patternfly-react';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
+import classNames from '@theforeman/vendor/classnames';
+import { ButtonGroup, Button } from '@theforeman/vendor/patternfly-react';
 import { translate as __ } from '../../common/I18n';
 
 const btnClass = (stateView, btnView) =>

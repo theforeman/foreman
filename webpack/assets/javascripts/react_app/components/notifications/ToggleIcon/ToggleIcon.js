@@ -1,6 +1,6 @@
-import React from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import { OverlayTrigger, Tooltip } from '@theforeman/vendor/react-bootstrap';
+import PropTypes from '@theforeman/vendor/prop-types';
 import { noop } from '../../../common/helpers';
 
 const ToggleIcon = ({ hasUnreadMessages, onClick }) => {

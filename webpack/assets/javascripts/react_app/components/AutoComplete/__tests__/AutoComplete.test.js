@@ -1,4 +1,4 @@
-import React from 'react';
+import React from '@theforeman/vendor/react';
 import { mount } from 'enzyme';
 import AutoComplete from '../index';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';

@@ -1,6 +1,6 @@
-import { SubmissionError } from 'redux-form';
+import { SubmissionError } from '@theforeman/vendor/redux-form';
 import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import thunk from '@theforeman/vendor/redux-thunk';
 import { requestData, requestDataMsg } from './forms.fixtures';
 import * as types from '../../consts';
 import { submitForm } from './forms';

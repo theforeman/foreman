@@ -2,8 +2,8 @@
 // will be replaced by patternfly markup when available
 // temporary component
 // will be replaced by patternfly markup when available
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from '@theforeman/vendor/react';
+import PropTypes from '@theforeman/vendor/prop-types';
 import './MessageBox.css';
 
 const MessageBox = ({ msg, icontype }) => (

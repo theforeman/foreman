@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import Immutable from '@theforeman/vendor/seamless-immutable';
 import { STATUS } from '../../constants';
 import { MODELS_TABLE_ACTION_TYPES } from './ModelsTableConstants';
 
