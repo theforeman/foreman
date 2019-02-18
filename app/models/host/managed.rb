@@ -89,7 +89,7 @@ class Host::Managed < Host::Base
       :provision_interface, :interfaces, :bond_interfaces, :bridge_interfaces, :interfaces_with_identifier,
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
-      :ssh_authorized_keys, :pxe_loader, :global_status, :get_status, :puppetca_token
+      :ssh_authorized_keys, :pxe_loader, :global_status, :get_status, :puppetca_token, :last_report
   end
 
   scope :recent, lambda { |interval = Setting[:outofsync_interval]|
