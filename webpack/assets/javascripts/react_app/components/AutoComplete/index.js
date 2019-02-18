@@ -39,20 +39,34 @@ class AutoComplete extends React.Component {
   }
 
   windowKeyPressHandler(e) {
-    if (!this.props.useKeyShortcuts) {
+    const { useKeyShortcuts, handleSearch } = this.props;
+    const instance = this._typeahead.current.getInstance();
+    const { ENTER, FWD_SLASH, BACK_SLASH } = KEYCODES;
+    const didEventCameFromInput = e.target.tagName === 'INPUT';
+
+    /**
+     Disable this functionality if the event came from an input,
+     or if the 'useKeyShortcuts' is falsy.
+    */
+    if (didEventCameFromInput || !useKeyShortcuts) {
       return;
     }
-    const instance = this._typeahead.current.getInstance();
+
     switch (e.charCode) {
-      case KEYCODES.ENTER: {
-        this.props.handleSearch();
+      case ENTER: {
+        handleSearch();
         break;
       }
-      case KEYCODES.FWD_SLASH:
-      case KEYCODES.BACK_SLASH: {
-        if (!instance.state.showMenu) {
+      case FWD_SLASH:
+      case BACK_SLASH: {
+        const {
+          focus,
+          state: { showMenu },
+        } = instance;
+        const isMenuHidden = !showMenu;
+        if (isMenuHidden) {
           e.preventDefault();
-          instance.focus();
+          focus();
         }
         break;
       }

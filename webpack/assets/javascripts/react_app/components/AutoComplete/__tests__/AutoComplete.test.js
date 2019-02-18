@@ -51,8 +51,24 @@ describe('AutoComplete', () => {
       instance.windowKeyPressHandler({
         charCode: KEYCODES.FWD_SLASH,
         preventDefault: noop,
+        target: { tagName: 'BODY' },
       });
       expect(typeahead.focus.mock.calls).toHaveLength(1);
+    });
+
+    it('pressing "forward-slash" inside an input should not trigger focus', () => {
+      const props = getProps();
+      const component = mount(<AutoComplete {...props} />);
+      const instance = component.instance();
+      const typeahead = instance._typeahead.current.getInstance();
+      typeahead.focus = jest.fn();
+      expect(typeahead.focus.mock.calls).toHaveLength(0);
+      instance.windowKeyPressHandler({
+        charCode: KEYCODES.FWD_SLASH,
+        preventDefault: noop,
+        target: { tagName: 'INPUT' },
+      });
+      expect(typeahead.focus.mock.calls).toHaveLength(0);
     });
 
     it('pressing "ESC" should trigger blur', () => {
