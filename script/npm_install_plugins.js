@@ -1,10 +1,20 @@
-const childProcess = require('child_process');
+const { spawnSync } = require('./npm_spawn');
 const { packageJsonDirs } = require('./plugin_webpack_directories');
 
-packageJsonDirs('pipe').forEach(pluginPath => {
-  childProcess.spawn('npm', ['i'], {
-    env: process.env,
-    cwd: pluginPath,
-    stdio: 'inherit',
+const installPlugin = pluginPath =>
+  spawnSync({
+    command: 'npm',
+    commandArgs: ['install', '--no-save', pluginPath],
   });
+
+const installPluginDeps = pluginPath =>
+  spawnSync({
+    command: 'npm',
+    commandArgs: ['install'],
+    cwd: pluginPath,
+  });
+
+packageJsonDirs('pipe').forEach(pluginPath => {
+  installPluginDeps(pluginPath);
+  installPlugin(pluginPath);
 });
