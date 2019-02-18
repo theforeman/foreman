@@ -22,9 +22,9 @@ class SimpleNamedModulesPlugin {
             module.id = module.libIdent({
               context: this.options.context || compiler.options.context
             });
-            if (module.id.includes('node_modules')) {
-              module.id = module.id.slice(module.id.indexOf('node_modules'))
-            }
+            // if (module.id.includes('node_modules')) {
+            //   module.id = module.id.slice(module.id.indexOf('node_modules'))
+            // }
           }
         });
       });

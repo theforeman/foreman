@@ -4,18 +4,8 @@
 /* eslint-disable import/first */
 import $ from '@theforeman/vendor/jquery';
 import * as ace from '@theforeman/vendor/brace';
+import JsDiff from '@theforeman/vendor/diff';
 
-import 'brace/mode/ruby';
-import 'brace/mode/json';
-import 'brace/mode/sh';
-import 'brace/mode/xml';
-import 'brace/mode/yaml';
-import 'brace/mode/diff';
-import 'brace/theme/twilight';
-import 'brace/theme/clouds';
-import 'brace/keybinding/vim';
-import 'brace/keybinding/emacs';
-import 'brace/ext/searchbox';
 import { sprintf, translate as __ } from './react_app/common/I18n';
 
 import { initTypeAheadSelect } from './foreman_tools';
@@ -234,7 +224,6 @@ function setDiffMode(item) {
   const session = Editor.getSession();
 
   session.setMode('ace/mode/diff');
-  const JsDiff = require('diff'); // eslint-disable-line global-require
 
   let patch = JsDiff.createPatch(
     item.attr('data-file-name'),

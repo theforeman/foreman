@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+/* eslint-disable no-multi-assign */
 /* eslint-disable import/no-webpack-loader-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-unresolved */
@@ -11,18 +12,27 @@ if (process.env.NODE_ENV !== 'production') {
   __webpack_public_path__ =`${window.location.protocol}//${window.location.hostname}:3808/webpack/`;
 }
 
-import '@theforeman/vendor/babel-polyfill';
+import '@theforeman/vendor';
+import '@theforeman/vendor/patternfly-react/sass/patternfly-react.scss';
 
-require('expose-loader?$!expose-loader?jQuery!jquery');
-require('jquery-ujs');
-require('expose-loader?jstz!jstz');
-require('expose-loader?ipaddr!ipaddr.js');
-require('jquery.cookie');
-require('expose-loader?JsDiff!diff');
-require('./bundle_flot');
+import jQuery from '@theforeman/vendor/jquery';
+
+window.$ = window.jQuery = jQuery;
+
+import '@theforeman/vendor/jquery.cookie';
+import '@theforeman/vendor/jquery-ujs';
+import '@theforeman/vendor/jquery-flot';
+
+import JsDiff from '@theforeman/vendor/diff';
+import ipaddr from '@theforeman/vendor/ipaddr.js';
+import jstz from '@theforeman/vendor/jstz';
+
+window.JsDiff = JsDiff;
+window.ipaddr = ipaddr;
+window.jstz = jstz;
+
 require('./bundle_multiselect');
 require('./bundle_select2');
-require('./bundle_datatables');
 require('./bundle_lodash');
 require('./bundle_novnc');
 

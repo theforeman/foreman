@@ -14,7 +14,8 @@ require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
 require('../../app/assets/stylesheets/base.scss');
 
-require('patternfly/dist/js/patternfly');
+// eslint-disable-next-line
+require('@theforeman/vendor/node_modules/patternfly/dist/js/patternfly');
 
 require('./index.scss');
 

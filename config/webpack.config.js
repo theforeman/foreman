@@ -9,8 +9,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
-var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
+var BreakingChangeModuleIdentifier = require('../webpack/breaking-change-module-identifier');
 var argvParse = require('argv-parse');
 var fs = require('fs');
 var { execSync } = require('child_process');
@@ -63,10 +63,12 @@ module.exports = env => {
 
   var plugins = pluginUtils.getPluginDirs('pipe');
 
-  var resolveModules = [  path.join(__dirname, '..', 'webpack'),
-                          path.join(__dirname, '..', 'node_modules'),
-                          'node_modules/',
-                       ].concat(pluginUtils.pluginNodeModules(plugins));
+  var resolveModules = [
+    path.join(__dirname, '..', 'node_modules/@theforeman/vendor/node_modules'),
+    path.join(__dirname, '..', 'webpack'),
+    path.join(__dirname, '..', 'node_modules'),
+    'node_modules/',
+  ];
 
   if (env && env.pluginName !== undefined) {
     var pluginEntries = {};
@@ -94,7 +96,7 @@ module.exports = env => {
   var entry = Object.assign(
     {
       bundle: bundleEntry,
-      vendor: vendorEntry,
+      vendor: ['@theforeman/vendor'],
     },
     pluginEntries
   );
@@ -209,13 +211,14 @@ module.exports = env => {
         /react-intl\/locale-data/,
         supportedLanguagesRE
       ),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: Infinity,
+      }),
+      new SimpleNamedModulesPlugin(),
+      // new BreakingChangeModuleIdentifier(),
     ]
   };
-
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: Infinity,
-  }))
 
   if (production) {
     config.plugins.push(
@@ -226,7 +229,6 @@ module.exports = env => {
         },
         sourceMap: true
       }),
-      new SimpleNamedModulesPlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new CompressionPlugin()

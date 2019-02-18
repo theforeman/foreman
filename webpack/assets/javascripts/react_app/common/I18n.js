@@ -1,5 +1,8 @@
 import Jed from '@theforeman/vendor/jed';
-import { addLocaleData, asyncLoadLocalData } from '@theforeman/vendor/react-intl';
+import {
+  addLocaleData,
+  asyncLoadLocalData,
+} from '@theforeman/vendor/react-intl';
 import { deprecateObjectProperty } from '../../foreman_tools';
 import { runningInPhantomJS } from './helpers';
 
@@ -14,20 +17,17 @@ class IntlLoader {
 
   async init() {
     await this.fetchIntl();
-    addLocaleData(
-      await import(/* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${
-        this.locale
-      }`)
-    );
+    addLocaleData(await asyncLoadLocalData(this.locale));
     return true;
   }
 
   async fetchIntl() {
     if (this.fallbackIntl) {
-      global.Intl = await import(/* webpackChunkName: "intl" */ 'intl');
-      await import(/* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${
-        this.locale
-      }`);
+      global.Intl = await import(/* webpackChunkName: "@theforeman/vendor/intl" */ '@theforeman/vendor/intl');
+      await global.Intl.asyncLoadLocalData(this.locale);
+      // await import(/* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${
+      //   this.locale
+      // }`);
     }
   }
 }

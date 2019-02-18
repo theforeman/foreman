@@ -2,7 +2,7 @@ import Jed from '@theforeman/vendor/jed';
 import { translate, ngettext } from './I18n';
 
 jest.unmock('./I18n');
-jest.unmock('jed');
+jest.unmock('@theforeman/vendor/jed');
 
 jest.mock('../../foreman_tools', () => ({
   deprecateObjectProperty: jest.fn(),
