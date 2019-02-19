@@ -1,5 +1,6 @@
 import React from 'react';
 
+import App from '../App';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
@@ -24,9 +25,6 @@ import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
-
-// Pages
-import AuditsPage from '../pages/AuditsPage/AuditsPage';
 
 const componentRegistry = {
   registry: {},
@@ -95,6 +93,7 @@ const componentRegistry = {
 };
 
 const coreComponets = [
+  { name: 'App', type: App },
   { name: 'SearchBar', type: SearchBar },
   { name: 'DonutChart', type: DonutChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
@@ -138,9 +137,6 @@ const coreComponets = [
     store: false,
   },
   { name: 'ModelsTable', type: ModelsTable },
-
-  // Pages
-  { name: 'AuditsPage', type: AuditsPage },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

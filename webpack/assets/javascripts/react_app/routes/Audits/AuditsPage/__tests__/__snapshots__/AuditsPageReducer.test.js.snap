@@ -1,0 +1,310 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_CHANGE_PARAMS 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 2,
+  "perPage": 21,
+  "prevAudits": Array [],
+  "searchQuery": "search",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_CLEAR_CACHE 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_FETCH 1`] = `
+Object {
+  "audits": Array [
+    Object {
+      "action": "update",
+      "action_display_name": "updated",
+      "affected_locations": Array [
+        Object {
+          "name": "test_loc1",
+          "url": "/locations/2-test_loc1/edit",
+        },
+        Object {
+          "name": "test_loc2",
+          "url": "/locations/6-test_loc2/edit",
+        },
+        Object {
+          "name": "test_loc3",
+          "url": "/locations/9-test_loc3/edit",
+        },
+      ],
+      "affected_organizations": Array [
+        Object {
+          "name": "test_org1",
+          "url": "/organizations/1-test_org1/edit",
+        },
+        Object {
+          "name": "test_org2",
+          "url": "/organizations/3-test_org2/edit",
+        },
+        Object {
+          "name": "test_org3",
+          "url": "/organizations/5-test_org3/edit",
+        },
+      ],
+      "allowed_actions": Array [
+        Object {
+          "css_class": "btn btn-default",
+          "title": "Host details",
+          "url": "/hosts/host-foo.example.com",
+        },
+      ],
+      "associated_id": null,
+      "associated_name": null,
+      "associated_type": null,
+      "audit_title": "host-foo.example.com",
+      "audit_title_url": "/audits?search=type+%3D+host+and+auditable_id+%3D+9",
+      "auditable_id": 9,
+      "auditable_name": "host-foo.example.com",
+      "auditable_type": "Host::Base",
+      "audited_changes": Object {
+        "comment": Array [
+          "",
+          "This is info about host for audit",
+        ],
+        "root_pass": Array [
+          "[redacted]",
+          "[redacted]",
+        ],
+      },
+      "audited_changes_with_id_to_label": Array [
+        Object {
+          "change": Array [
+            Object {
+              "css_class": "show-old",
+              "id_to_label": "[redacted]",
+            },
+            Object {
+              "css_class": "show-new",
+              "id_to_label": "[redacted]",
+            },
+          ],
+          "name": "Root pass",
+        },
+        Object {
+          "change": Array [
+            Object {
+              "css_class": "show-old",
+              "id_to_label": "[empty]",
+            },
+            Object {
+              "css_class": "show-new",
+              "id_to_label": "This is info about host for audit",
+            },
+          ],
+          "name": "Comment",
+        },
+      ],
+      "audited_type_name": "Host",
+      "comment": null,
+      "created_at": "2018-08-13 00:34:55 -1100",
+      "id": 234,
+      "remote_address": "127.0.0.1",
+      "request_uuid": "c134239d-8ac3-494b-9962-35133fe153ba",
+      "user_id": 4,
+      "user_info": Object {
+        "audit_path": "/audits?search=id+%3D+234",
+        "display_name": "Admin ",
+        "login": "admin",
+        "search_path": "/audits?search=user+%3D+admin",
+      },
+      "user_type": null,
+      "username": "Admin User",
+      "version": 2,
+    },
+  ],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 21,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_HIDE_LOADING 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_HIDE_MESSAGE 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_NEXT_PENDING 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": true,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_NEXT_RESOLVED 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_PREV_PENDING 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": true,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_PREV_RESOLVED 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_SHOW_LOADING 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": true,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;
+
+exports[`AuditsPage reducer should handle AUDITS_PAGE_SHOW_MESSAGE 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {
+    "text": "No Audits found, please search again.",
+    "type": "empty",
+  },
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": true,
+}
+`;
+
+exports[`AuditsPage reducer should return the initial state 1`] = `
+Object {
+  "audits": Array [],
+  "isFetchingNext": false,
+  "isFetchingPrev": false,
+  "isLoading": false,
+  "itemCount": 0,
+  "message": Object {},
+  "nextAudits": Array [],
+  "page": 1,
+  "perPage": 20,
+  "prevAudits": Array [],
+  "searchQuery": "",
+  "showMessage": false,
+}
+`;

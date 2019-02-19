@@ -1,0 +1,788 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuditsPage actions should auditSearch 1`] = `
+Array [
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`AuditsPage actions should changePage 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_CLEAR_CACHE",
+    },
+  ],
+  Array [
+    [Function],
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`AuditsPage actions should changePage and fetchNext 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [
+          1,
+          2,
+        ],
+        "nextAudits": Array [],
+        "page": 4,
+        "perPage": 20,
+        "prevAudits": undefined,
+        "searchQuery": "search",
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`AuditsPage actions should changePage and fetchPrev 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [
+          1,
+          2,
+        ],
+        "nextAudits": undefined,
+        "page": 2,
+        "perPage": 20,
+        "prevAudits": Array [],
+        "searchQuery": "search",
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`AuditsPage actions should changePerPage 1`] = `
+Array [
+  Array [
+    [Function],
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`AuditsPage actions should changePerPage without API 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+        "perPage": 5,
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should clearCache 1`] = `
+Object {
+  "type": "AUDITS_PAGE_CLEAR_CACHE",
+}
+`;
+
+exports[`AuditsPage actions should displayMessage 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "message": Object {
+          "text": "text",
+          "type": "error",
+        },
+        "showMessage": true,
+      },
+      "type": "AUDITS_PAGE_SHOW_MESSAGE",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetch Audits 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [
+          Object {
+            "action": "update",
+            "action_display_name": "updated",
+            "affected_locations": Array [
+              Object {
+                "name": "test_loc1",
+                "url": "/locations/2-test_loc1/edit",
+              },
+              Object {
+                "name": "test_loc2",
+                "url": "/locations/6-test_loc2/edit",
+              },
+              Object {
+                "name": "test_loc3",
+                "url": "/locations/9-test_loc3/edit",
+              },
+            ],
+            "affected_organizations": Array [
+              Object {
+                "name": "test_org1",
+                "url": "/organizations/1-test_org1/edit",
+              },
+              Object {
+                "name": "test_org2",
+                "url": "/organizations/3-test_org2/edit",
+              },
+              Object {
+                "name": "test_org3",
+                "url": "/organizations/5-test_org3/edit",
+              },
+            ],
+            "allowed_actions": Array [
+              Object {
+                "css_class": "btn btn-default",
+                "title": "Host details",
+                "url": "/hosts/host-foo.example.com",
+              },
+            ],
+            "associated_id": null,
+            "associated_name": null,
+            "associated_type": null,
+            "audit_title": "host-foo.example.com",
+            "audit_title_url": "/audits?search=type+%3D+host+and+auditable_id+%3D+9",
+            "auditable_id": 9,
+            "auditable_name": "host-foo.example.com",
+            "auditable_type": "Host::Base",
+            "audited_changes": Object {
+              "comment": Array [
+                "",
+                "This is info about host for audit",
+              ],
+              "root_pass": Array [
+                "[redacted]",
+                "[redacted]",
+              ],
+            },
+            "audited_changes_with_id_to_label": Array [
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[redacted]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "[redacted]",
+                  },
+                ],
+                "name": "Root pass",
+              },
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[empty]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "This is info about host for audit",
+                  },
+                ],
+                "name": "Comment",
+              },
+            ],
+            "audited_type_name": "Host",
+            "comment": null,
+            "created_at": "2018-08-13 00:34:55 -1100",
+            "id": 234,
+            "remote_address": "127.0.0.1",
+            "request_uuid": "c134239d-8ac3-494b-9962-35133fe153ba",
+            "user_id": 4,
+            "user_info": Object {
+              "audit_path": "/audits?search=id+%3D+234",
+              "display_name": "Admin ",
+              "login": "admin",
+              "search_path": "/audits?search=user+%3D+admin",
+            },
+            "user_type": null,
+            "username": "Admin User",
+            "version": 2,
+          },
+        ],
+        "itemCount": 1,
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetch Audits and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_MESSAGE",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_LOADING",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetch Audits and remove emptyState 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_MESSAGE",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [
+          Object {
+            "action": "update",
+            "action_display_name": "updated",
+            "affected_locations": Array [
+              Object {
+                "name": "test_loc1",
+                "url": "/locations/2-test_loc1/edit",
+              },
+              Object {
+                "name": "test_loc2",
+                "url": "/locations/6-test_loc2/edit",
+              },
+              Object {
+                "name": "test_loc3",
+                "url": "/locations/9-test_loc3/edit",
+              },
+            ],
+            "affected_organizations": Array [
+              Object {
+                "name": "test_org1",
+                "url": "/organizations/1-test_org1/edit",
+              },
+              Object {
+                "name": "test_org2",
+                "url": "/organizations/3-test_org2/edit",
+              },
+              Object {
+                "name": "test_org3",
+                "url": "/organizations/5-test_org3/edit",
+              },
+            ],
+            "allowed_actions": Array [
+              Object {
+                "css_class": "btn btn-default",
+                "title": "Host details",
+                "url": "/hosts/host-foo.example.com",
+              },
+            ],
+            "associated_id": null,
+            "associated_name": null,
+            "associated_type": null,
+            "audit_title": "host-foo.example.com",
+            "audit_title_url": "/audits?search=type+%3D+host+and+auditable_id+%3D+9",
+            "auditable_id": 9,
+            "auditable_name": "host-foo.example.com",
+            "auditable_type": "Host::Base",
+            "audited_changes": Object {
+              "comment": Array [
+                "",
+                "This is info about host for audit",
+              ],
+              "root_pass": Array [
+                "[redacted]",
+                "[redacted]",
+              ],
+            },
+            "audited_changes_with_id_to_label": Array [
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[redacted]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "[redacted]",
+                  },
+                ],
+                "name": "Root pass",
+              },
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[empty]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "This is info about host for audit",
+                  },
+                ],
+                "name": "Comment",
+              },
+            ],
+            "audited_type_name": "Host",
+            "comment": null,
+            "created_at": "2018-08-13 00:34:55 -1100",
+            "id": 234,
+            "remote_address": "127.0.0.1",
+            "request_uuid": "c134239d-8ac3-494b-9962-35133fe153ba",
+            "user_id": 4,
+            "user_info": Object {
+              "audit_path": "/audits?search=id+%3D+234",
+              "display_name": "Admin ",
+              "login": "admin",
+              "search_path": "/audits?search=user+%3D+admin",
+            },
+            "user_type": null,
+            "username": "Admin User",
+            "version": 2,
+          },
+        ],
+        "itemCount": 1,
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetch empty Audits 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_LOADING",
+    },
+  ],
+  Array [
+    [Function],
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [],
+        "itemCount": 0,
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetch nextAudits 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_NEXT_PENDING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "itemCount": 1,
+        "nextAudits": Array [
+          Object {
+            "action": "update",
+            "action_display_name": "updated",
+            "affected_locations": Array [
+              Object {
+                "name": "test_loc1",
+                "url": "/locations/2-test_loc1/edit",
+              },
+              Object {
+                "name": "test_loc2",
+                "url": "/locations/6-test_loc2/edit",
+              },
+              Object {
+                "name": "test_loc3",
+                "url": "/locations/9-test_loc3/edit",
+              },
+            ],
+            "affected_organizations": Array [
+              Object {
+                "name": "test_org1",
+                "url": "/organizations/1-test_org1/edit",
+              },
+              Object {
+                "name": "test_org2",
+                "url": "/organizations/3-test_org2/edit",
+              },
+              Object {
+                "name": "test_org3",
+                "url": "/organizations/5-test_org3/edit",
+              },
+            ],
+            "allowed_actions": Array [
+              Object {
+                "css_class": "btn btn-default",
+                "title": "Host details",
+                "url": "/hosts/host-foo.example.com",
+              },
+            ],
+            "associated_id": null,
+            "associated_name": null,
+            "associated_type": null,
+            "audit_title": "host-foo.example.com",
+            "audit_title_url": "/audits?search=type+%3D+host+and+auditable_id+%3D+9",
+            "auditable_id": 9,
+            "auditable_name": "host-foo.example.com",
+            "auditable_type": "Host::Base",
+            "audited_changes": Object {
+              "comment": Array [
+                "",
+                "This is info about host for audit",
+              ],
+              "root_pass": Array [
+                "[redacted]",
+                "[redacted]",
+              ],
+            },
+            "audited_changes_with_id_to_label": Array [
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[redacted]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "[redacted]",
+                  },
+                ],
+                "name": "Root pass",
+              },
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[empty]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "This is info about host for audit",
+                  },
+                ],
+                "name": "Comment",
+              },
+            ],
+            "audited_type_name": "Host",
+            "comment": null,
+            "created_at": "2018-08-13 00:34:55 -1100",
+            "id": 234,
+            "remote_address": "127.0.0.1",
+            "request_uuid": "c134239d-8ac3-494b-9962-35133fe153ba",
+            "user_id": 4,
+            "user_info": Object {
+              "audit_path": "/audits?search=id+%3D+234",
+              "display_name": "Admin ",
+              "login": "admin",
+              "search_path": "/audits?search=user+%3D+admin",
+            },
+            "user_type": null,
+            "username": "Admin User",
+            "version": 2,
+          },
+        ],
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_NEXT_RESOLVED",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetch prevAudits 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_PREV_PENDING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "itemCount": 1,
+        "prevAudits": Array [
+          Object {
+            "action": "update",
+            "action_display_name": "updated",
+            "affected_locations": Array [
+              Object {
+                "name": "test_loc1",
+                "url": "/locations/2-test_loc1/edit",
+              },
+              Object {
+                "name": "test_loc2",
+                "url": "/locations/6-test_loc2/edit",
+              },
+              Object {
+                "name": "test_loc3",
+                "url": "/locations/9-test_loc3/edit",
+              },
+            ],
+            "affected_organizations": Array [
+              Object {
+                "name": "test_org1",
+                "url": "/organizations/1-test_org1/edit",
+              },
+              Object {
+                "name": "test_org2",
+                "url": "/organizations/3-test_org2/edit",
+              },
+              Object {
+                "name": "test_org3",
+                "url": "/organizations/5-test_org3/edit",
+              },
+            ],
+            "allowed_actions": Array [
+              Object {
+                "css_class": "btn btn-default",
+                "title": "Host details",
+                "url": "/hosts/host-foo.example.com",
+              },
+            ],
+            "associated_id": null,
+            "associated_name": null,
+            "associated_type": null,
+            "audit_title": "host-foo.example.com",
+            "audit_title_url": "/audits?search=type+%3D+host+and+auditable_id+%3D+9",
+            "auditable_id": 9,
+            "auditable_name": "host-foo.example.com",
+            "auditable_type": "Host::Base",
+            "audited_changes": Object {
+              "comment": Array [
+                "",
+                "This is info about host for audit",
+              ],
+              "root_pass": Array [
+                "[redacted]",
+                "[redacted]",
+              ],
+            },
+            "audited_changes_with_id_to_label": Array [
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[redacted]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "[redacted]",
+                  },
+                ],
+                "name": "Root pass",
+              },
+              Object {
+                "change": Array [
+                  Object {
+                    "css_class": "show-old",
+                    "id_to_label": "[empty]",
+                  },
+                  Object {
+                    "css_class": "show-new",
+                    "id_to_label": "This is info about host for audit",
+                  },
+                ],
+                "name": "Comment",
+              },
+            ],
+            "audited_type_name": "Host",
+            "comment": null,
+            "created_at": "2018-08-13 00:34:55 -1100",
+            "id": 234,
+            "remote_address": "127.0.0.1",
+            "request_uuid": "c134239d-8ac3-494b-9962-35133fe153ba",
+            "user_id": 4,
+            "user_info": Object {
+              "audit_path": "/audits?search=id+%3D+234",
+              "display_name": "Admin ",
+              "login": "admin",
+              "search_path": "/audits?search=user+%3D+admin",
+            },
+            "user_type": null,
+            "username": "Admin User",
+            "version": 2,
+          },
+        ],
+      },
+      "type": "AUDITS_PAGE_FETCH",
+    },
+  ],
+  Array [
+    Object {
+      "type": "AUDITS_PAGE_PREV_RESOLVED",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetchAndPush 1`] = `
+Array [
+  Array [
+    [Function],
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "loadingBool": true,
+        "page": 1,
+        "perPage": 20,
+        "searchQuery": "",
+      },
+      "type": "AUDITS_PAGE_CHANGE_PARAMS",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should fetchingNext 1`] = `
+Object {
+  "type": "AUDITS_PAGE_NEXT_PENDING",
+}
+`;
+
+exports[`AuditsPage actions should fetchingPrev 1`] = `
+Object {
+  "type": "AUDITS_PAGE_PREV_PENDING",
+}
+`;
+
+exports[`AuditsPage actions should initializeAudits 1`] = `
+Array [
+  Array [
+    [Function],
+  ],
+  Array [
+    [Function],
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "page": 2,
+        "perPage": 20,
+        "searchQuery": "search",
+      },
+      "type": "AUDITS_PAGE_CHANGE_PARAMS",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should initializeAudits w/replace 1`] = `
+Array [
+  Array [
+    [Function],
+  ],
+  Array [
+    [Function],
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "page": 2,
+        "perPage": 20,
+        "searchQuery": "search",
+      },
+      "type": "AUDITS_PAGE_CHANGE_PARAMS",
+    },
+  ],
+]
+`;
+
+exports[`AuditsPage actions should resolvedNext 1`] = `
+Object {
+  "type": "AUDITS_PAGE_NEXT_RESOLVED",
+}
+`;
+
+exports[`AuditsPage actions should resolvedPrev 1`] = `
+Object {
+  "type": "AUDITS_PAGE_PREV_RESOLVED",
+}
+`;

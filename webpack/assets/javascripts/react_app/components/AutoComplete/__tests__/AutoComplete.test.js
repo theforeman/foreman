@@ -82,15 +82,6 @@ describe('AutoComplete', () => {
       expect(typeahead.blur.mock.calls).toHaveLength(1);
     });
 
-    it('"Enter" keydown should trigger handle search', () => {
-      const props = getProps();
-      const component = mount(<AutoComplete {...props} />);
-      const instance = component.instance();
-      expect(props.handleSearch.mock.calls).toHaveLength(0);
-      instance.handleKeyDown({ keyCode: KEYCODES.ENTER });
-      expect(props.handleSearch.mock.calls).toHaveLength(1);
-    });
-
     it('input change should call getResult', () => {
       const props = getProps();
       const component = mount(<AutoComplete {...props} />);

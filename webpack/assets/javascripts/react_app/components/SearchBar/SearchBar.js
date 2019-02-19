@@ -7,11 +7,11 @@ import Bookmarks from '../bookmarks';
 import { noop } from '../../common/helpers';
 
 const handleSearch = (searchQuery, onSearch) => {
-  onSearch(searchQuery);
+  if (onSearch) return onSearch(searchQuery);
   const uri = new URI(window.location.href);
   const data = { ...uri.query(true), search: searchQuery.trim(), page: 1 };
   uri.query(URI.buildQuery(data, true));
-  window.Turbolinks.visit(uri.toString());
+  return window.Turbolinks.visit(uri.toString());
 };
 
 const SearchBar = ({
@@ -25,6 +25,8 @@ const SearchBar = ({
   resetData,
   getResults,
   initialUpdate,
+  initialQuery,
+  showLoading,
   data: { autocomplete, controller, bookmarks },
   ...props
 }) => {
@@ -38,13 +40,14 @@ const SearchBar = ({
         controller={controller}
         error={error}
         handleSearch={() => handleSearch(searchQuery, onSearch)}
-        initialQuery={autocomplete.searchQuery || ''}
+        initialQuery={initialQuery || autocomplete.searchQuery || ''}
         initialUpdate={initialUpdate}
         getResults={getResults}
         resetData={resetData}
         results={results || autocomplete.results}
         searchQuery={searchQuery}
         status={status}
+        showLoading={showLoading}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
         url={autocomplete.url}
       />
@@ -61,6 +64,7 @@ const SearchBar = ({
 SearchBar.propTypes = {
   className: PropTypes.string,
   onSearch: PropTypes.func,
+  initialQuery: PropTypes.string,
   searchQuery: PropTypes.string,
   error: PropTypes.string,
   results: PropTypes.array,
@@ -69,6 +73,7 @@ SearchBar.propTypes = {
   getResults: PropTypes.func,
   initialUpdate: PropTypes.func,
   useKeyShortcuts: PropTypes.bool,
+  showLoading: PropTypes.bool,
   data: PropTypes.shape({
     autocomplete: PropTypes.shape({
       results: PropTypes.array,
@@ -83,14 +88,16 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   className: '',
+  initialQuery: '',
   searchQuery: '',
-  onSearch: noop,
+  onSearch: null,
   error: null,
   results: [],
   status: null,
   resetData: noop,
   getResults: noop,
   initialUpdate: noop,
+  showLoading: false,
   useKeyShortcuts: true,
   data: {
     autocomplete: {

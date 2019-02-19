@@ -17,6 +17,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     resetData={[Function]}
     results={Array []}
     searchQuery=""
+    showLoading={false}
     status={null}
     url="model/auto_complete_search"
     useKeyShortcuts={true}

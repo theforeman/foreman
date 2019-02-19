@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
@@ -11,7 +12,9 @@ describe('Layout integration test', () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);
 
     const component = integrationTestHelper.mount(
-      <Layout {...hasTaxonomiesMock} />
+      <Router>
+        <Layout {...hasTaxonomiesMock} />
+      </Router>
     );
     await IntegrationTestHelper.flushAllPromises();
     component.update();

@@ -2,7 +2,7 @@
 
 exports[`Pagination rendering from erb renders layout 1`] = `
 <Paginator
-  className="col-md-12"
+  className="col-md-12 some class"
   dropdownButtonId="pagination-row-dropdown"
   itemCount={21}
   messages={
@@ -43,6 +43,8 @@ exports[`Pagination rendering from js renders correctly 1`] = `
       "viewType": "list",
     }
   }
+  disableNext={false}
+  disablePrev={false}
   dropdownButtonId="pagination-row-dropdown"
   messages={
     Object {

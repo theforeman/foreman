@@ -5,7 +5,7 @@ import AuditsList from '../../AuditsList';
 import { AuditsProps } from './AuditsList.fixtures';
 
 const auditsFixtures = {
-  'render resources list': { data: { ...AuditsProps } },
+  'render resources list': { ...AuditsProps },
 };
 
 describe('AuditsList', () => {

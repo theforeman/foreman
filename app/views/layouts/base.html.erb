@@ -49,11 +49,13 @@
     <![endif]-->
     <% if User.current %>
       <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
-        <div id="layout"></div>
+        <div id="react-application-root"></div>
+        <%= mount_react_application %>
       <% end %>
-      <div class="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary">
-      <%# mounting layout after the container to change its width if the navbar is collapsed %>
-      <%= mount_layout %> 
+      <div
+        id="rails-application-content"
+        class="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary"
+      >
       <%= yield(:content) %>
       </div>
     <% else %>

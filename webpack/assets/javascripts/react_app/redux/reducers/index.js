@@ -13,6 +13,9 @@ import { reducers as diffModalReducers } from '../../components/ConfigReports/Di
 import factChart from './factCharts';
 import { reducers as modelsReducers } from '../../components/ModelsTable';
 
+// Pages
+import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
+
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
     bookmarks,
@@ -21,14 +24,17 @@ export function combineReducersAsync(asyncReducers) {
     hosts,
     notifications,
     toasts,
+    factChart,
     ...passwordStrengthReducers,
     ...breadcrumbBarReducers,
     ...layoutReducers,
     ...asyncReducers,
     ...searchBarReducers,
     ...diffModalReducers,
-    factChart,
     ...modelsReducers,
+
+    // Pages
+    ...auditsPageReducers,
   });
 }
 

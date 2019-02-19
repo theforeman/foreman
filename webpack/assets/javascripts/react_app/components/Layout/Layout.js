@@ -65,54 +65,66 @@ class Layout extends React.Component {
       currentOrganization,
       currentLocation,
       activeMenu,
+      children,
+      history,
     } = this.props;
 
     return (
-      <VerticalNav
-        hoverDelay={0}
-        items={items}
-        onItemClick={primary =>
-          handleMenuClick(primary, activeMenu, changeActiveMenu)
-        }
-        activePath={`/${activeMenu}/`}
-        {...this.props}
-      >
-        <VerticalNav.Masthead>
-          <VerticalNav.Brand
-            title={data.brand}
-            iconImg={data.logo}
-            href={data.root}
-          />
-          <TaxonomySwitcher
-            taxonomiesBool={data.taxonomies}
-            currentLocation={currentLocation}
-            locations={
-              data.taxonomies.locations
-                ? data.locations.available_locations
-                : []
-            }
-            onLocationClick={changeLocation}
-            currentOrganization={currentOrganization}
-            organizations={
-              data.taxonomies.organizations
-                ? data.orgs.available_organizations
-                : []
-            }
-            onOrgClick={changeOrganization}
-            isLoading={isLoading}
-          />
-          <UserDropdowns
-            notificationUrl={data.notification_url}
-            user={data.user}
-            changeActiveMenu={changeActiveMenu}
-          />
-        </VerticalNav.Masthead>
-      </VerticalNav>
+      <React.Fragment>
+        <VerticalNav
+          hoverDelay={0}
+          items={items}
+          onItemClick={primary =>
+            handleMenuClick(primary, activeMenu, changeActiveMenu)
+          }
+          onNavigate={({ url }) => history.push(url)}
+          activePath={`/${activeMenu}/`}
+          {...this.props}
+        >
+          <VerticalNav.Masthead>
+            <VerticalNav.Brand
+              title={data.brand}
+              iconImg={data.logo}
+              href={data.root}
+            />
+            <TaxonomySwitcher
+              taxonomiesBool={data.taxonomies}
+              currentLocation={currentLocation}
+              locations={
+                data.taxonomies.locations
+                  ? data.locations.available_locations
+                  : []
+              }
+              onLocationClick={changeLocation}
+              currentOrganization={currentOrganization}
+              organizations={
+                data.taxonomies.organizations
+                  ? data.orgs.available_organizations
+                  : []
+              }
+              onOrgClick={changeOrganization}
+              isLoading={isLoading}
+            />
+            <UserDropdowns
+              notificationUrl={data.notification_url}
+              user={data.user}
+              changeActiveMenu={changeActiveMenu}
+            />
+          </VerticalNav.Masthead>
+        </VerticalNav>
+        <div className="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary">
+          {children}
+        </div>
+      </React.Fragment>
     );
   }
 }
 
 Layout.propTypes = {
+  children: PropTypes.node,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   currentOrganization: PropTypes.string,
   currentLocation: PropTypes.string,
   isLoading: PropTypes.bool,
@@ -132,7 +144,7 @@ Layout.propTypes = {
           title: PropTypes.string,
           isDivider: PropTypes.bool,
           className: PropTypes.string,
-          href: PropTypes.string.isRequired,
+          href: PropTypes.string,
         })
       ),
     })
@@ -188,6 +200,7 @@ Layout.propTypes = {
 };
 
 Layout.defaultProps = {
+  children: null,
   items: [],
   data: {},
   currentOrganization: 'Any Organization',

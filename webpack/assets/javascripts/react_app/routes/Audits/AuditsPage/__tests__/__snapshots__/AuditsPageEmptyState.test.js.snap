@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuditsPageEmptyState rendering render AuditsPageEmptyState w/empty 1`] = `
+<DefaultEmptyState
+  description="empty"
+  header="No Audits Found"
+  icon="add-circle-o"
+  iconType="pf"
+  secondaryActions={Array []}
+/>
+`;
+
+exports[`AuditsPageEmptyState rendering render AuditsPageEmptyState w/error 1`] = `
+<DefaultEmptyState
+  description="error"
+  header="Error"
+  icon="error-circle-o"
+  iconType="pf"
+  secondaryActions={Array []}
+/>
+`;

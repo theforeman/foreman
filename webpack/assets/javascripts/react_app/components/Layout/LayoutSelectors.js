@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 import { get } from 'lodash';
+import { noop } from '../../common/helpers';
+import { pages } from '../../routes';
 
 export const selectLayout = state => state.layout;
 
@@ -26,16 +28,20 @@ const patternflyItems = (data, currentLocation, currentOrganization) => {
   data.forEach(item => {
     const childrenArray = [];
     item.children.forEach(child => {
+      const isReact =
+        pages.filter(route => route.path === child.url).length > 0;
+
       const childObject = {
+        url: child.url,
         title: child.name,
         isDivider: child.type === 'divider' && !!child.name,
         className:
           child.name === currentLocation || child.name === currentOrganization
             ? 'mobile-active'
             : '',
-        href: child.url ? child.url : '#',
-        preventHref: false,
-        onClick: child.onClick ? () => child.onClick() : null,
+        href: child.url || '#',
+        preventHref: !!isReact,
+        onClick: isReact ? noop : child.onClick,
       };
       childrenArray.push(childObject);
     });

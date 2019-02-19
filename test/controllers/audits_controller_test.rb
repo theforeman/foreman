@@ -5,8 +5,6 @@ class AuditsControllerTest < ActionController::TestCase
     @factory_options = [:auditable_type => 'Architecture']
   end
 
-  basic_pagination_per_page_test
-
   def test_index
     get :index, session: set_session_user
     assert_template 'index'

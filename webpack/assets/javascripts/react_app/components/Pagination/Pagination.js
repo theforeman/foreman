@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
 import { translateObject } from '../../common/helpers';
@@ -17,15 +18,19 @@ const Pagination = props => {
     pagination,
     onPageSet,
     onPerPageSelect,
+    disableNext,
+    disablePrev,
     dropdownButtonId,
     ...otherProps
   } = props;
 
   const urlPage = getURIpage();
   const urlPerPage = getURIperPage();
-  const className = isEmpty(data.classNames)
-    ? 'col-md-12'
-    : `col-md-12 ${data.classNames.pagination_classes}`;
+  const className = classNames(
+    'col-md-12',
+    data.classNames.pagination_classes,
+    { disable_next: disableNext, disable_prev: disablePrev }
+  );
 
   return (
     <Paginator
@@ -59,6 +64,8 @@ Pagination.propTypes = {
   }).isRequired,
   onPageSet: PropTypes.func,
   onPerPageSelect: PropTypes.func,
+  disableNext: PropTypes.bool,
+  disablePrev: PropTypes.bool,
   dropdownButtonId: PropTypes.string,
   pagination: PropTypes.shape({
     page: PropTypes.number,
@@ -73,6 +80,8 @@ Pagination.defaultProps = {
     changeQuery(getURI(), { page: 1, per_page: perPage }),
   dropdownButtonId: 'pagination-row-dropdown',
   pagination: null,
+  disableNext: false,
+  disablePrev: false,
 };
 
 export default Pagination;

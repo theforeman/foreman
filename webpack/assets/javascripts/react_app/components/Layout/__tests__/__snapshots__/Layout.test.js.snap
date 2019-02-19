@@ -1,275 +1,136 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Layout rendering renders layout 1`] = `
-<VerticalNav
-  activeMenu="Monitor"
-  activePath="/Monitor/"
-  blurDelay={700}
-  blurDisabled={false}
-  changeActiveMenu={[Function]}
-  changeLocation={[Function]}
-  changeOrganization={[Function]}
-  currentLocation="Any Location"
-  currentOrganization="Any Organization"
-  data={
-    Object {
-      "locations": Object {
-        "available_locations": Array [
-          Object {
-            "href": "/locations/1-yaml/select",
-            "id": 1,
-            "title": "yaml",
-          },
-          Object {
-            "href": "/locations/2-london/select",
-            "id": 2,
-            "title": "london",
-          },
-          Object {
-            "href": "/locations/3-norway/select",
-            "id": 3,
-            "title": "norway",
-          },
-        ],
-        "current_location": "london",
-      },
-      "logo": "/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg",
-      "menu": Array [
-        Object {
-          "active": false,
-          "children": Array [
+<Fragment>
+  <VerticalNav
+    activeMenu="Monitor"
+    activePath="/Monitor/"
+    blurDelay={700}
+    blurDisabled={false}
+    changeActiveMenu={[Function]}
+    changeLocation={[Function]}
+    changeOrganization={[Function]}
+    currentLocation="Any Location"
+    currentOrganization="Any Organization"
+    data={
+      Object {
+        "locations": Object {
+          "available_locations": Array [
             Object {
-              "name": "Dashboard",
-              "type": "item",
-              "url": "/",
+              "href": "/locations/1-yaml/select",
+              "id": 1,
+              "title": "yaml",
             },
             Object {
-              "name": "Facts",
-              "type": "item",
-              "url": "/fact_values",
+              "href": "/locations/2-london/select",
+              "id": 2,
+              "title": "london",
+            },
+            Object {
+              "href": "/locations/3-norway/select",
+              "id": 3,
+              "title": "norway",
             },
           ],
-          "icon": "fa fa-tachometer",
-          "name": "Monitor",
-          "type": "sub_menu",
+          "current_location": "london",
         },
-        Object {
-          "active": false,
-          "children": Array [
-            Object {
-              "name": "All Hosts",
-              "type": "item",
-              "url": "/hosts/new",
-            },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "icon": "fa fa-server",
-          "name": "Hosts",
-          "type": "sub_menu",
-        },
-        Object {
-          "active": false,
-          "children": Array [
-            Object {
-              "name": "Environments",
-              "type": "item",
-              "url": "/environments",
-            },
-            Object {
-              "name": "Architectures",
-              "type": "item",
-              "url": "/architectures",
-            },
-          ],
-          "icon": "fa fa-wrench",
-          "name": "User",
-          "type": "sub_menu",
-        },
-        Object {
-          "active": false,
-          "children": Array [
-            Object {
-              "name": "Domains",
-              "type": "item",
-              "url": "/domains",
-            },
-            Object {
-              "name": "Realms",
-              "type": "item",
-              "url": "/realms",
-            },
-          ],
-          "icon": "pficon pficon-network",
-          "name": "Infrastructure",
-          "type": "sub_menu",
-        },
-      ],
-      "notification_url": "/notification_recipients",
-      "orgs": Object {
-        "available_organizations": Array [
+        "logo": "/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg",
+        "menu": Array [
           Object {
-            "href": "/organizations/1-org1/select",
-            "id": 1,
-            "title": "org1",
-          },
-          Object {
-            "href": "/organizations/2-org2/select",
-            "id": 2,
-            "title": "org2",
-          },
-        ],
-        "current_org": "org1",
-      },
-      "root": "/",
-      "taxonomies": Object {
-        "locations": true,
-        "organizations": true,
-      },
-      "user": Object {
-        "current_user": Object {
-          "user": Object {
-            "firstname": "Admin",
-            "id": 4,
-            "lastname": "User",
-            "login": "admin",
-            "name": "Admin User",
-          },
-        },
-        "user_dropdown": Array [
-          Object {
+            "active": false,
             "children": Array [
               Object {
-                "isDivider": false,
-                "onClick": [MockFunction],
-                "title": "Aa",
+                "name": "Dashboard",
+                "type": "item",
+                "url": "/",
               },
               Object {
-                "isDivider": false,
-                "onClick": [MockFunction],
-                "title": "Cc",
+                "name": "Facts",
+                "type": "item",
+                "url": "/fact_values",
               },
             ],
-            "icon": "fa fa-user",
+            "icon": "fa fa-tachometer",
+            "name": "Monitor",
+            "type": "sub_menu",
+          },
+          Object {
+            "active": false,
+            "children": Array [
+              Object {
+                "name": "All Hosts",
+                "type": "item",
+                "url": "/hosts/new",
+              },
+              Object {
+                "name": "Architectures",
+                "type": "item",
+                "url": "/architectures",
+              },
+            ],
+            "icon": "fa fa-server",
+            "name": "Hosts",
+            "type": "sub_menu",
+          },
+          Object {
+            "active": false,
+            "children": Array [
+              Object {
+                "name": "Environments",
+                "type": "item",
+                "url": "/environments",
+              },
+              Object {
+                "name": "Architectures",
+                "type": "item",
+                "url": "/architectures",
+              },
+            ],
+            "icon": "fa fa-wrench",
             "name": "User",
             "type": "sub_menu",
           },
+          Object {
+            "active": false,
+            "children": Array [
+              Object {
+                "name": "Domains",
+                "type": "item",
+                "url": "/domains",
+              },
+              Object {
+                "name": "Realms",
+                "type": "item",
+                "url": "/realms",
+              },
+            ],
+            "icon": "pficon pficon-network",
+            "name": "Infrastructure",
+            "type": "sub_menu",
+          },
         ],
-      },
-    }
-  }
-  dynamicBodyClasses={true}
-  fetchMenuItems={[Function]}
-  forceHidden={false}
-  hiddenIcons={false}
-  hideMasthead={false}
-  hoverDelay={0}
-  hoverDisabled={false}
-  isLoading={false}
-  items={
-    Array [
-      Object {
-        "href": "/a",
-        "iconClass": "fa fa-tachometer",
-        "initialActive": true,
-        "subItems": undefined,
-        "title": "Monitor",
-      },
-      Object {
-        "href": "/b",
-        "iconClass": "fa fa-server",
-        "initialActive": false,
-        "subItems": undefined,
-        "title": "Hosts",
-      },
-      Object {
-        "href": "/c",
-        "iconClass": "fa fa-wrench",
-        "initialActive": false,
-        "subItems": undefined,
-        "title": "Configure",
-      },
-    ]
-  }
-  masthead={null}
-  onCollapse={null}
-  onExpand={null}
-  onItemBlur={null}
-  onItemClick={[Function]}
-  onItemHover={null}
-  onItemPin={null}
-  onMenuToggleClick={null}
-  onMobileSelection={null}
-  onNavigate={[Function]}
-  persist={true}
-  persistentSecondary={true}
-  pinnableMenus={false}
-  showBadges={false}
->
-  <VerticalNav.Masthead>
-    <VerticalNav.Brand
-      href="/"
-      iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
-      img=""
-      onClick={null}
-      title=""
-      titleImg=""
-    />
-    <TaxonomySwitcher
-      currentLocation="Any Location"
-      currentOrganization="Any Organization"
-      isLoading={false}
-      locations={
-        Array [
-          Object {
-            "href": "/locations/1-yaml/select",
-            "id": 1,
-            "title": "yaml",
-          },
-          Object {
-            "href": "/locations/2-london/select",
-            "id": 2,
-            "title": "london",
-          },
-          Object {
-            "href": "/locations/3-norway/select",
-            "id": 3,
-            "title": "norway",
-          },
-        ]
-      }
-      onLocationClick={[Function]}
-      onOrgClick={[Function]}
-      organizations={
-        Array [
-          Object {
-            "href": "/organizations/1-org1/select",
-            "id": 1,
-            "title": "org1",
-          },
-          Object {
-            "href": "/organizations/2-org2/select",
-            "id": 2,
-            "title": "org2",
-          },
-        ]
-      }
-      taxonomiesBool={
-        Object {
+        "notification_url": "/notification_recipients",
+        "orgs": Object {
+          "available_organizations": Array [
+            Object {
+              "href": "/organizations/1-org1/select",
+              "id": 1,
+              "title": "org1",
+            },
+            Object {
+              "href": "/organizations/2-org2/select",
+              "id": 2,
+              "title": "org2",
+            },
+          ],
+          "current_org": "org1",
+        },
+        "root": "/",
+        "taxonomies": Object {
           "locations": true,
           "organizations": true,
-        }
-      }
-    />
-    <UserDropdowns
-      changeActiveMenu={[Function]}
-      className=""
-      notificationUrl="/notification_recipients"
-      user={
-        Object {
+        },
+        "user": Object {
           "current_user": Object {
             "user": Object {
               "firstname": "Admin",
@@ -298,9 +159,158 @@ exports[`Layout rendering renders layout 1`] = `
               "type": "sub_menu",
             },
           ],
-        }
+        },
       }
-    />
-  </VerticalNav.Masthead>
-</VerticalNav>
+    }
+    dynamicBodyClasses={true}
+    fetchMenuItems={[Function]}
+    forceHidden={false}
+    hiddenIcons={false}
+    hideMasthead={false}
+    history={
+      Object {
+        "push": [MockFunction],
+      }
+    }
+    hoverDelay={0}
+    hoverDisabled={false}
+    isLoading={false}
+    items={
+      Array [
+        Object {
+          "href": "/a",
+          "iconClass": "fa fa-tachometer",
+          "initialActive": true,
+          "subItems": undefined,
+          "title": "Monitor",
+        },
+        Object {
+          "href": "/b",
+          "iconClass": "fa fa-server",
+          "initialActive": false,
+          "subItems": undefined,
+          "title": "Hosts",
+        },
+        Object {
+          "href": "/c",
+          "iconClass": "fa fa-wrench",
+          "initialActive": false,
+          "subItems": undefined,
+          "title": "Configure",
+        },
+      ]
+    }
+    masthead={null}
+    onCollapse={null}
+    onExpand={null}
+    onItemBlur={null}
+    onItemClick={[Function]}
+    onItemHover={null}
+    onItemPin={null}
+    onMenuToggleClick={null}
+    onMobileSelection={null}
+    onNavigate={[Function]}
+    persist={true}
+    persistentSecondary={true}
+    pinnableMenus={false}
+    showBadges={false}
+  >
+    <VerticalNav.Masthead>
+      <VerticalNav.Brand
+        href="/"
+        iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
+        img=""
+        onClick={null}
+        title=""
+        titleImg=""
+      />
+      <TaxonomySwitcher
+        currentLocation="Any Location"
+        currentOrganization="Any Organization"
+        isLoading={false}
+        locations={
+          Array [
+            Object {
+              "href": "/locations/1-yaml/select",
+              "id": 1,
+              "title": "yaml",
+            },
+            Object {
+              "href": "/locations/2-london/select",
+              "id": 2,
+              "title": "london",
+            },
+            Object {
+              "href": "/locations/3-norway/select",
+              "id": 3,
+              "title": "norway",
+            },
+          ]
+        }
+        onLocationClick={[Function]}
+        onOrgClick={[Function]}
+        organizations={
+          Array [
+            Object {
+              "href": "/organizations/1-org1/select",
+              "id": 1,
+              "title": "org1",
+            },
+            Object {
+              "href": "/organizations/2-org2/select",
+              "id": 2,
+              "title": "org2",
+            },
+          ]
+        }
+        taxonomiesBool={
+          Object {
+            "locations": true,
+            "organizations": true,
+          }
+        }
+      />
+      <UserDropdowns
+        changeActiveMenu={[Function]}
+        className=""
+        notificationUrl="/notification_recipients"
+        user={
+          Object {
+            "current_user": Object {
+              "user": Object {
+                "firstname": "Admin",
+                "id": 4,
+                "lastname": "User",
+                "login": "admin",
+                "name": "Admin User",
+              },
+            },
+            "user_dropdown": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Aa",
+                  },
+                  Object {
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Cc",
+                  },
+                ],
+                "icon": "fa fa-user",
+                "name": "User",
+                "type": "sub_menu",
+              },
+            ],
+          }
+        }
+      />
+    </VerticalNav.Masthead>
+  </VerticalNav>
+  <div
+    className="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary"
+  />
+</Fragment>
 `;

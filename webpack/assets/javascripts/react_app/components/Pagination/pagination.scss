@@ -8,4 +8,22 @@
   span {
     margin-left: 5px;
   }
+
+  .disable_prev {
+    .pagination-pf-back {
+      li:nth-child(2) {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  .disable_next {
+    .pagination-pf-forward {
+      li:nth-child(1) {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+    }
+  }
 }

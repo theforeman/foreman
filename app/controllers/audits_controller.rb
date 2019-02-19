@@ -4,8 +4,16 @@ class AuditsController < ReactController
   before_action :setup_search_options, :only => :index
 
   def index
-    @audits = resource_base_search_and_page.preload(:user)
-    @host = resource_finder(Host.authorized(:view_hosts), params[:host_id]) if params[:host_id]
+    respond_to do |format|
+      format.html
+      format.json do
+        @audits = resource_base_search_and_page.preload(:user)
+        render :json => {
+          :audits => helpers.construct_additional_info(@audits),
+          :itemCount => @audits.count
+        }
+      end
+    end
   end
 
   private
