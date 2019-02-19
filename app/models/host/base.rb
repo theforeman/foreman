@@ -1,7 +1,7 @@
 module Host
   class Base < ApplicationRecord
     KERNEL_RELEASE_FACTS = [ 'kernelrelease', 'ansible_kernel', 'kernel::release' ]
-    UPTIME_FACTS = [ 'system_uptime::seconds', 'ansible_uptime_seconds', 'uptime_seconds' ]
+    UPTIME_FACTS = [ 'system_uptime::seconds', 'ansible_uptime_seconds', 'uptime_seconds', 'proc_stat::btime' ]
 
     prepend Foreman::STI
     include Authorizable
