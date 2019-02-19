@@ -9,9 +9,9 @@ class SeedsTest < ActiveSupport::TestCase
 
   setup do
     DatabaseCleaner.clean_with :truncation
-    Setting.stubs(:[]).with(:administrator).returns("root@localhost")
-    Setting.stubs(:[]).with(:send_welcome_email).returns(false)
-    Setting.stubs(:[]).with(:authorize_login_delegation_auth_source_user_autocreate).returns('EXTERNAL')
+    # Since we truncate the db, settings getter/setter won't work properly
+    Setting.stubs(:[])
+    Setting.stubs(:[]=)
     Foreman.stubs(:in_rake?).returns(true)
   end
 
@@ -30,6 +30,7 @@ class SeedsTest < ActiveSupport::TestCase
   end
 
   test 'populates multiple tables' do
+    Setting.stubs(:[]).with(:authorize_login_delegation_auth_source_user_autocreate).returns('EXTERNAL')
     tables = [Feature, Ptable, ProvisioningTemplate, Medium, Bookmark, AuthSourceExternal]
 
     tables.each do |model|

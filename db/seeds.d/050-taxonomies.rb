@@ -26,6 +26,8 @@ User.as_anonymous_admin do
       tax_id = "#{taxonomy.to_s.parameterize}_id"
       Host::Managed.update_all(tax_id => tax.id)
       User.update_all("default_#{tax_id}": tax.id)
+
+      Setting[:"default_#{taxonomy.to_s.parameterize}"] = tax_name
     end
   end
 end
