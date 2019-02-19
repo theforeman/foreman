@@ -26,7 +26,10 @@ module HostParams
 
     def params_to_hash(params)
       params.each_with_object({}) do |param, hash|
-        hash[param.name] = param.hash_for_include_source(param.associated_type)
+        hash[param.name] = param.hash_for_include_source(
+          param.associated_type,
+          (param.associated_type != 'global') ? param.associated_label : nil
+        )
       end
     end
 
