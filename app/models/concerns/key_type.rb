@@ -8,17 +8,19 @@ module KeyType
     alias_attribute :parameter_type, :key_type
   end
 
-  def format_value_before_type_cast(val)
-    return val if val.nil? || val.contains_erb?
-    if key_type.present?
-      case key_type.to_sym
-        when :json, :array
-          val = JSON.dump(val)
-        when :yaml, :hash
-          val = YAML.dump val
-          val.sub!(/\A---\s*$\n/, '')
+  module ClassMethods
+    def format_value_before_type_cast(val, key_type)
+      return val if val.nil? || val.contains_erb?
+      if key_type.present?
+        case key_type.to_sym
+          when :json, :array
+            val = JSON.dump(val)
+          when :yaml, :hash
+            val = YAML.dump val
+            val.sub!(/\A---\s*$\n/, '')
+        end
       end
+      val
     end
-    val
   end
 end

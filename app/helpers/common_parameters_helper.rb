@@ -15,7 +15,9 @@ module CommonParametersHelper
     content_tag(
       :div,
       parameter_value_content(
-        "value_#{value[:safe_value]}", value[:safe_value], :hidden_value? => value[:hidden_value?],
+        "value_#{value[:safe_value]}",
+        Parameter.format_value_before_type_cast(value[:safe_value], value[:parameter_type]),
+        :hidden_value? => value[:hidden_value?],
         :popover => popover_tag, :disabled => true
       ) + fullscreen_input,
       :class => 'input-group'

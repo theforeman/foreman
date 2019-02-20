@@ -4,7 +4,7 @@ module HiddenValue
   HIDDEN_VALUE = "*" * 5
 
   def safe_value
-    self.hidden_value? ? HIDDEN_VALUE : self.value_before_type_cast
+    self.hidden_value? ? HIDDEN_VALUE : self.value
   end
 
   def hidden_value
