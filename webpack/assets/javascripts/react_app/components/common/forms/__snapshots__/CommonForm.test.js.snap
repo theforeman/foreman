@@ -84,3 +84,25 @@ exports[`common Form should not display validation errors if there are none 1`] 
   />
 </div>
 `;
+
+exports[`common Form should render tooltip help 1`] = `
+<div
+  className="form-group  "
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    Required form field
+     *
+    <FieldLevelHelp
+      buttonClass=""
+      content="This is a helpful tooltip"
+      placement="top"
+      rootClose={true}
+    />
+  </label>
+  <div
+    className="col-md-4"
+  />
+</div>
+`;

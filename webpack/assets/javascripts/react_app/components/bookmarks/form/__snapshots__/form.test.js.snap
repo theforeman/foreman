@@ -590,6 +590,7 @@ exports[`bookmark form should render the entire form 1`] = `
                             inputClassName="col-md-4"
                             label="Name"
                             required="true"
+                            tooltipHelp={null}
                             touched={false}
                           >
                             <div
@@ -977,6 +978,7 @@ exports[`bookmark form should render the entire form 1`] = `
                             inputClassName="col-md-8"
                             label="Query"
                             required="true"
+                            tooltipHelp={null}
                             touched={false}
                           >
                             <div
@@ -1333,6 +1335,7 @@ exports[`bookmark form should render the entire form 1`] = `
                             inputClassName="col-md-4"
                             label="Public"
                             required={false}
+                            tooltipHelp={null}
                             touched={false}
                           >
                             <div

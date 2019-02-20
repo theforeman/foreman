@@ -9,6 +9,7 @@ const CommonForm = ({
   required,
   children,
   inputClassName,
+  tooltipHelp,
 }) => (
   <div
     className={`form-group ${className} ${touched && error ? 'has-error' : ''}`}
@@ -16,6 +17,7 @@ const CommonForm = ({
     <label className="col-md-2 control-label">
       {label}
       {required && ' *'}
+      {tooltipHelp}
     </label>
     <div className={inputClassName}>{children}</div>
     {touched && error && (
@@ -34,6 +36,7 @@ CommonForm.propTypes = {
   required: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   children: PropTypes.node,
   inputClassName: PropTypes.string,
+  tooltipHelp: PropTypes.node,
 };
 
 CommonForm.defaultProps = {
@@ -44,6 +47,7 @@ CommonForm.defaultProps = {
   required: false,
   children: null,
   inputClassName: 'col-md-4',
+  tooltipHelp: null,
 };
 
 export default CommonForm;

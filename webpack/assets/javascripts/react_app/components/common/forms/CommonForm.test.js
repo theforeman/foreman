@@ -1,6 +1,7 @@
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 import React from 'react';
+import { FieldLevelHelp } from 'patternfly-react';
 
 import CommonForm from './CommonForm';
 
@@ -40,5 +41,18 @@ describe('common Form', () => {
     );
 
     expect(wrapper.find('.col-md-10').exists()).toBe(true);
+  });
+
+  it('should render tooltip help', () => {
+    const wrapper = shallow(
+      <CommonForm
+        name="name"
+        label="Required form field"
+        required
+        tooltipHelp={<FieldLevelHelp content="This is a helpful tooltip" />}
+      />
+    );
+
+    expect(toJson(wrapper)).toMatchSnapshot();
   });
 });
