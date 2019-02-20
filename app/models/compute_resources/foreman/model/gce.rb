@@ -75,10 +75,17 @@ module Foreman::Model
       end
 
       # Dots are not allowed in names
-      args[:name]        = args[:name].parameterize if args[:name].present?
-      args[:external_ip] = args[:external_ip] == '1'
+      args[:name] = args[:name].parameterize if args[:name].present?
+
       # GCE network interfaces cannot be defined though Foreman yet
-      args[:network_interfaces] = nil
+      if args[:network]
+        args[:network_interfaces] = [{ :network => construct_network(args[:network]) }]
+        args.except!(:network)
+      end
+
+      if to_bool(args.delete(:associate_external_ip))
+        args[:network_interfaces] = construct_network_interfaces(args[:network_interfaces])
+      end
 
       if args[:volumes].present?
         if args[:image_id].to_i > 0
@@ -89,7 +96,6 @@ module Foreman::Model
           args[:disks] << new_volume(vol_args.merge(:name => "#{args[:name]}-disk#{i + 1}"))
         end
       end
-
       super(args)
     end
 
@@ -102,9 +108,9 @@ module Foreman::Model
       args.merge!(ssh)
 
       options = vm_instance_defaults.merge(args.to_hash.deep_symbolize_keys)
-      logger.debug("creating VM with the following options: #{options.inspect}")
+      server_optns = options.slice!(:network_interfaces)
 
-      vm = client.servers.create options.symbolize_keys
+      vm = client.servers.create options.to_hash.deep_symbolize_keys.merge(server_optns.symbolize_keys)
       vm.disks.each { |disk| vm.set_disk_auto_delete(true, disk['deviceName']) }
       vm
     rescue Fog::Errors::Error => e
@@ -158,8 +164,7 @@ module Foreman::Model
 
     def normalize_vm_attrs(vm_attrs)
       normalized = slice_vm_attributes(vm_attrs, ['image_id', 'machine_type', 'network'])
-
-      normalized['external_ip'] = to_bool(vm_attrs['external_ip'])
+      normalized['associate_external_ip'] = to_bool(vm_attrs['associate_external_ip'])
       normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
 
       volume_attrs = vm_attrs['volumes_attributes'] || {}
@@ -179,6 +184,29 @@ module Foreman::Model
                                      :google_project => project,
                                      :google_client_email => email,
                                      :google_json_key_location => key_path)
+    end
+
+    def construct_network(network_name)
+      client.api_url + client.project + "/global/networks/#{network_name}"
+    end
+
+    # handle network_interface for external ip
+    def construct_network_interfaces(network_interfaces_list, external_ip = nil)
+      # assign  ephemeral external IP address using associate_external_ip
+      if network_interfaces_list.blank?
+        network_interfaces_list = [
+          {
+            :network => "global/networks/#{::Fog::Compute::Google::GOOGLE_COMPUTE_DEFAULT_NETWORK}"
+          }
+        ]
+      end
+
+      access_config = { :name => "External NAT", :type => "ONE_TO_ONE_NAT" }
+
+      # Add external IP as default access config if given
+      access_config[:nat_ip] = external_ip if external_ip
+      network_interfaces_list[0][:access_configs] = [access_config]
+      network_interfaces_list
     end
 
     def check_google_key_path
