@@ -12,6 +12,7 @@ import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
 import factChart from './factCharts';
 import { reducers as modelsReducers } from '../../components/ModelsTable';
+import { reducers as templateGenerationReducers } from '../../components/TemplateGenerator';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -29,6 +30,7 @@ export function combineReducersAsync(asyncReducers) {
     ...diffModalReducers,
     factChart,
     ...modelsReducers,
+    ...templateGenerationReducers,
   });
 }
 

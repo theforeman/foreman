@@ -61,37 +61,6 @@ class ReportTemplatesControllerTest < ActionController::TestCase
     assert_equal @report_template.to_erb, response.body
   end
 
-  test "generate" do
-    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
-    assert_response :success
-  end
-
-  test "schedule_report" do
-    @report_template.update_attribute :template, '<%= 1 + 1 %>'
-    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
-    assert_response :success
-    assert_equal 'text/plain', response.content_type
-    assert_equal "2", response.body
-  end
-
-  test "schedule report with parameters" do
-    @report_template.update_attribute :template, '<%= 1 + 1 %> <%= input("hello") %>'
-    input = FactoryBot.create(:template_input, :name => 'hello')
-    @report_template.template_inputs = [ input ]
-    user = FactoryBot.create(:user, :role_ids => [ Role.find_by_name('Manager').id ], :mail => 'user@example.com')
-    get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { input.id.to_s => { :value => 'ohai' } } } }, session: set_session_user(user)
-    assert_response :success
-    assert_equal 'text/plain', response.content_type
-    assert_equal "2 ohai", response.body
-  end
-
-  test "returns error when required inputs are missing" do
-    @report_template.update_attribute :template, '<%= 1 + 1 %> <%= input("hello") %>'
-    @report_template.template_inputs = [ FactoryBot.create(:template_input, :name => 'hello') ]
-    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
-    assert_response :internal_server_error
-  end
-
   def setup_view_user
     @request.session[:user] = users(:one).id
     users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
@@ -165,5 +134,31 @@ class ReportTemplatesControllerTest < ActionController::TestCase
 
     post :preview, params: { :template => '<%= 1+ -%>', :id => template }, session: set_session_user
     assert_includes @response.body, 'parse error on value'
+  end
+
+  test "generate" do
+    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
+    assert_response :success
+  end
+
+  describe '#schedule_report' do
+    it "schedule report and returns report_data_url" do
+      job_stub = OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER')
+      TemplateRenderJob.expects(:perform_later).with('template_id' => @report_template.to_param, 'input_values' => nil, 'gzip' => false).returns(job_stub)
+      get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
+    end
+
+    it "schedule report with parameters" do
+      job_stub = OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER')
+      user = FactoryBot.create(:user, :role_ids => [ Role.find_by_name('Manager').id ], :mail => 'user@example.com')
+      TemplateRenderJob.expects(:perform_later).with('template_id' => @report_template.to_param, 'input_values' => { '1' => { 'value' => 'ohai' } }, 'gzip' => false).returns(job_stub)
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { '1' => { :value => 'ohai' } } } }, session: set_session_user(user)
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
+    end
   end
 end

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TemplateGenerator rendering do not render link if not polling 1`] = `
+<Fragment>
+  <Alert
+    className=""
+    onDismiss={null}
+    title="Generating a report"
+    type="info"
+  >
+    <AlertBody
+      message="This will generate report %s. Based on its definition, it can take a long time to process."
+    />
+  </Alert>
+</Fragment>
+`;
+
+exports[`TemplateGenerator rendering render link if polling 1`] = `
+<Fragment>
+  <Alert
+    className=""
+    onDismiss={null}
+    title="Generating a report"
+    type="info"
+  >
+    <AlertBody
+      message="Report %s is now being generated, the download will start once it's done. In case you don't want to wait, use the following link to come later on for the result."
+    />
+  </Alert>
+  <a
+    href="/data/IDENTIFIER.json"
+  >
+    /data/IDENTIFIER.json
+  </a>
+</Fragment>
+`;

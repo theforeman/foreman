@@ -2,32 +2,37 @@
 
 <% title _("Generate a Report") %>
 
+<div id="template_generator"></div>
+<%= mount_react_component('TemplateGenerator', '#template_generator', {'templateName' => @template.name}.to_json) %>
 
-<%= form_for :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
+<div class="schedule-report">
+  <%= form_for :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
 
-  <%= alert(:class => 'alert-info',
-            :header => _('Generating a report'),
-            :text => ('<p>' +
-                (_('This will generate a report %s. Based on its definition, it can take a long time to process. This operation runs in the web process, therefore should be executed with caution. Triggering multiple reports can consume many resources and may result in other system functions unavailability.') % h(@template.name)) +
-                '</p>').html_safe) %>
+    <%= f.fields_for :input_values do |input_values_fields| %>
+      <% inputs = @template.template_inputs.select {|input| input.input_type == 'user'} %>
 
-  <%= f.fields_for :input_values do |input_values_fields| %>
-    <% inputs = @template.template_inputs.select {|input| input.input_type == 'user'} %>
+      <% inputs.select(&:basic?).each do |input| %>
+        <%= render :partial => 'template_inputs/invocation_form', :locals => {:input_values_fields => input_values_fields, :composer => @composer, :input => input} %>
+      <% end %>
 
-    <% inputs.select(&:basic?).each do |input| %>
-      <%= render :partial => 'template_inputs/invocation_form', :locals => {:input_values_fields => input_values_fields, :composer => @composer, :input => input} %>
+      <% if inputs.any?(&:advanced?) %>
+        <%= advanced_switch_f _('Display advanced fields'), _('Hide advanced fields') %>
+
+        <div class="advanced hidden">
+          <% inputs.select(&:advanced).each do |input| %>
+            <%= render :partial => 'template_inputs/invocation_form', :locals => {:input_values_fields => input_values_fields, :composer => @composer, :input => input} %>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
 
-    <% if inputs.any?(&:advanced?) %>
-      <%= advanced_switch_f _('Display advanced fields'), _('Hide advanced fields') %>
-
-      <div class="advanced hidden">
-        <% inputs.select(&:advanced).each do |input| %>
-          <%= render :partial => 'template_inputs/invocation_form', :locals => {:input_values_fields => input_values_fields, :composer => @composer, :input => input} %>
-        <% end %>
-      </div>
-    <% end %>
+    <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
   <% end %>
+</div>
 
-  <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
-<% end %>
+<script type="text/javascript">
+  tfm.templateInputs.initScheduleFormSubmit(
+    '<%= schedule_report_api_report_template_path(@template) %>'
+  );
+</script>
+

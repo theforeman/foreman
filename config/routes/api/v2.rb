@@ -179,8 +179,9 @@ Foreman::Application.routes.draw do
         (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
         (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
         member do
-          post :clone, :generate
+          post :clone, :generate, :schedule_report
           get :export
+          get 'report_data/:job_id', action: 'report_data', as: 'report_data'
         end
         collection do
           get 'revision'

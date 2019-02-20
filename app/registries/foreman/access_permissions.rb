@@ -542,7 +542,7 @@ Foreman::AccessControl.map do |permission_set|
     }
 
     map.permission :generate_report_templates, {:report_templates => [:generate, :schedule_report],
-                                   :"api/v2/report_templates" => [:generate]
+                                   :"api/v2/report_templates" => [:generate, :schedule_report, :report_data]
     }
   end
 
