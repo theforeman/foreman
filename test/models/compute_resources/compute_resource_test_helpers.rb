@@ -76,7 +76,7 @@ module ComputeResourceTestHelpers
       cores_per_socket
       cpu_hot_add_enabled
       cpus
-      external_ip
+      associate_external_ip
       firmware
       flavor_id
       flavor_name

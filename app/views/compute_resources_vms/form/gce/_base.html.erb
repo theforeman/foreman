@@ -11,4 +11,4 @@
 </div>
 
 <%= selectable_f f, :network, compute_resource.networks, {}, :label => _('Network'), :label_size => "col-md-2" %>
-<%= checkbox_f f, :external_ip, :label => _('External IP'), :label_size => "col-md-2" %>
+<%= checkbox_f f, :associate_external_ip, :label => _('Associate Ephemeral External IP'), :label_size => "col-md-2" %>

@@ -7,17 +7,17 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
   describe '#normalize_vm_attrs' do
     let(:cr) { FactoryBot.build(:gce_cr) }
 
-    describe 'external_ip' do
+    describe 'associate_external_ip' do
       test 'normalizes 1 to true' do
-        normalized = cr.normalize_vm_attrs({ 'external_ip' => '1' })
+        normalized = cr.normalize_vm_attrs({ 'associate_external_ip' => '1' })
 
-        assert_equal(true, normalized['external_ip'])
+        assert_equal(true, normalized['associate_external_ip'])
       end
 
       test 'normalizes 0 to false' do
-        normalized = cr.normalize_vm_attrs({ 'external_ip' => '0' })
+        normalized = cr.normalize_vm_attrs({ 'associate_external_ip' => '0' })
 
-        assert_equal(false, normalized['external_ip'])
+        assert_equal(false, normalized['associate_external_ip'])
       end
     end
 
