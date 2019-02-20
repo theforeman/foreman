@@ -6,6 +6,7 @@ exports[`TextFieldInner render 1`] = `
   inputClassName="col-md-4"
   label=""
   required={false}
+  tooltipHelp={null}
   touched={false}
 >
   <input
@@ -21,6 +22,7 @@ exports[`TextFieldInner render textarea 1`] = `
   inputClassName="col-md-4"
   label=""
   required={false}
+  tooltipHelp={null}
   touched={false}
 >
   <textarea
@@ -37,6 +39,7 @@ exports[`TextFieldInner render with item some props 1`] = `
   inputClassName="some-input-class"
   label="some-label"
   required={true}
+  tooltipHelp={null}
   touched={true}
 >
   <input

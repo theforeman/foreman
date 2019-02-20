@@ -6,6 +6,7 @@ exports[`radio button group should render group of radio buttons 1`] = `
   inputClassName="col-md-6"
   label="RadioButtonGroupLabel"
   required={false}
+  tooltipHelp={null}
   touched={false}
 >
   <Field
