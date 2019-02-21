@@ -78,6 +78,10 @@ module Nic
       mac_addresses_for_provisioning.any? || (host.present? && host.compute_provides?(:mac))
     end
 
+    def unique_id
+      [self.mac, self.ip, self.identifier, self.id].find{|x| x&.present?}
+    end
+
     protected
 
     def copy_hostname_from_host
