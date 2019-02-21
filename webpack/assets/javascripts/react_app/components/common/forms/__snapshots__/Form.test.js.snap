@@ -13,11 +13,35 @@ exports[`Form should accept base error title 1`] = `
     <AlertBody
       title="Oops"
     >
-      <li
-        key="0"
-      >
+      <span>
         invalid something
-      </li>
+      </span>
+    </AlertBody>
+  </Alert>
+  <FormActions
+    disabled={false}
+    onCancel={[Function]}
+    submitting={false}
+  />
+</form>
+`;
+
+exports[`Form should dispaly form errors as warning 1`] = `
+<form
+  className="form-horizontal well"
+  onSubmit={[Function]}
+>
+  <Alert
+    className="base in fade"
+    onDismiss={null}
+    type="warning"
+  >
+    <AlertBody
+      title="Unable to save. "
+    >
+      <span>
+        Do not feed the trolls
+      </span>
     </AlertBody>
   </Alert>
   <FormActions
@@ -39,7 +63,7 @@ exports[`Form should display multiple base errors 1`] = `
     type="danger"
   >
     <AlertBody
-      title="Unable to save"
+      title="Unable to save. "
     >
       <li
         key="0"
@@ -72,13 +96,11 @@ exports[`Form should display one base error 1`] = `
     type="danger"
   >
     <AlertBody
-      title="Unable to save"
+      title="Unable to save. "
     >
-      <li
-        key="0"
-      >
+      <span>
         invalid something
-      </li>
+      </span>
     </AlertBody>
   </Alert>
   <FormActions

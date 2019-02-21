@@ -20,11 +20,13 @@ const Form = ({
 }) => (
   <form className={className} onSubmit={onSubmit}>
     {error && (
-      <Alert className="base in fade" type="danger">
+      <Alert className="base in fade" type={error.severity}>
         <AlertBody title={errorTitle}>
-          {error.map((e, idx) => (
-            <li key={idx}>{e}</li>
-          ))}
+          {error.errorMsgs.length === 1 ? (
+            <span>{error.errorMsgs[0]}</span>
+          ) : (
+            error.errorMsgs.map((e, idx) => <li key={idx}>{e}</li>)
+          )}
         </AlertBody>
       </Alert>
     )}
@@ -36,7 +38,10 @@ const Form = ({
 Form.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  error: PropTypes.arrayOf(PropTypes.string),
+  error: PropTypes.shape({
+    errorMsgs: PropTypes.arrayOf(PropTypes.string),
+    severity: PropTypes.string,
+  }),
   touched: PropTypes.bool,
   disabled: PropTypes.bool,
   submitting: PropTypes.bool,
@@ -52,7 +57,7 @@ Form.defaultProps = {
   touched: false,
   disabled: false,
   submitting: false,
-  errorTitle: __('Unable to save'),
+  errorTitle: __('Unable to save. '),
   onSubmit: noop,
   onCancel: noop,
 };

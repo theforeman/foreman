@@ -4,27 +4,34 @@ import API from '../../../API';
 import { addToast } from '../toasts';
 import { sprintf, translate as __ } from '../../../../react_app/common/I18n';
 
-const fieldErrors = ({ error }) => {
-  const { errors } = error;
+const fieldErrors = ({ error }, defaultSeverity) => {
+  const { errors, severity = defaultSeverity } = error;
 
   if (errors.base) {
-    errors._error = errors.base;
+    errors._error = {};
+    errors._error.errorMsgs = errors.base;
+    errors._error.severity = severity;
     delete errors.base;
   }
+
   return new SubmissionError(errors);
 };
 
 const onError = error => {
+  const severity = 'danger';
   if (error.response.status === 422) {
     // Handle invalid form data
-    throw fieldErrors(error.response.data);
+    throw fieldErrors(error.response.data, severity);
   }
   throw new SubmissionError({
-    _error: [
-      `${__('Error submitting data:')} ${error.response.status} ${__(
-        error.response.statusText
-      )}`,
-    ],
+    _error: {
+      severity,
+      errorMsgs: [
+        `${__('Error submitting data:')} ${error.response.status} ${__(
+          error.response.statusText
+        )}`,
+      ],
+    },
   });
 };
 
