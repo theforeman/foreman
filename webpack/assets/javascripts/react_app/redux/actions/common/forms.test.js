@@ -79,7 +79,9 @@ describe('form actions', () => {
       })
       .catch(error => {
         expect(error).toBeInstanceOf(SubmissionError);
-        expect(error.errors._error[0]).toMatch(/Error submitting data: 404*/);
+        expect(error.errors._error.errorMsgs[0]).toMatch(
+          /Error submitting data: 404*/
+        );
       });
   });
   it('on failed response handle field errors', () => {
@@ -89,7 +91,7 @@ describe('form actions', () => {
       ...mockRequestData,
       status: 422,
       response: {
-        error: { errors: { name: 'already used', base: 'some error' } },
+        error: { errors: { name: 'already used', base: ['some error'] } },
       },
     });
     return store
@@ -103,7 +105,10 @@ describe('form actions', () => {
         expect(error).toBeInstanceOf(SubmissionError);
         expect(error.errors).toEqual({
           name: 'already used',
-          _error: 'some error',
+          _error: {
+            errorMsgs: ['some error'],
+            severity: 'danger',
+          },
         });
       });
   });
