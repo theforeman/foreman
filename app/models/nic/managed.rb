@@ -79,7 +79,7 @@ module Nic
     end
 
     def unique_id
-      [self.mac, self.ip, self.identifier, self.id].find{|x| x&.present?}
+      [self.mac, self.ip, self.identifier, self.id].find {|x| x&.present?}
     end
 
     protected
