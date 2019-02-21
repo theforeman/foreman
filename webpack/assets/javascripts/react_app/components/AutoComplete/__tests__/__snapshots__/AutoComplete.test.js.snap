@@ -1,14 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AutoComplete rendering renders AutoComplete 1`] = `
-<div>
+<div
+  className="foreman-autocomplete"
+>
   <TypeaheadContainer(WrappedTypeahead)
     a11yNumResults={[Function]}
     a11yNumSelected={[Function]}
     align="justify"
     allowNew={false}
     autoFocus={false}
-    bodyContainer={false}
     caseSensitive={false}
     clearButton={false}
     defaultInputValue=""

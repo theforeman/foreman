@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import AutoComplete from '../index';
+import AutoComplete from '../AutoComplete';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import { KEYCODES } from '../AutoCompleteConstants';

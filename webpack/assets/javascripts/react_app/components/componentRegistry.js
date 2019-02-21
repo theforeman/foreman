@@ -15,6 +15,7 @@ import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './factCharts';
 import Pagination from './Pagination/Pagination';
+import AutoComplete from './AutoComplete';
 import SearchBar from './SearchBar';
 import Layout from './Layout';
 import EmptyState from './common/EmptyState';
@@ -96,6 +97,7 @@ const componentRegistry = {
 
 const coreComponets = [
   { name: 'SearchBar', type: SearchBar },
+  { name: 'AutoComplete', type: AutoComplete },
   { name: 'DonutChart', type: DonutChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },

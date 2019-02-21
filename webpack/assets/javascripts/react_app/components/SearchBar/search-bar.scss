@@ -1,0 +1,20 @@
+@import "../AutoComplete/auto-complete.scss";
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/_variables';
+
+.search-bar {
+  .autocomplete-aux {
+    right: 108px;
+    // Keeps in position when screen size is xs and search button shrinks.
+    @media screen and (max-width: $screen-sm-min) {
+      right: 65px;
+    }
+  }
+
+  .autocomplete-search-btn-text {
+    display: inline;
+  }
+
+  .search-input.use-shortcuts {
+    padding-left: 21px;
+  }
+}

@@ -1,17 +1,12 @@
 @import "~patternfly/dist/sass/patternfly/_color-variables.scss";
 @import "~patternfly-react/dist/sass/_type-ahead-select.scss";
 
-.search-bar {
+.foreman-autocomplete {
   .autocomplete-aux {
     position: absolute;
-    right: 108px;
+    right: 25px;
     top: 4px;
     z-index: 10;
-
-    // Keeps in position when screen size is xs and search button shrinks.
-    @media screen and (max-width: 767px) {
-      right: 65px;
-    }
 
     .autocomplete-clear-button {
       margin-right: 2px;
@@ -50,14 +45,6 @@
   .autocomplete-error {
     position: absolute;
     color: $color-pf-red-200;
-  }
-
-  .autocomplete-search-btn-text {
-    display: inline;
-  }
-
-  .search-input.use-shortcuts {
-    padding-left: 21px;
   }
 }
 
