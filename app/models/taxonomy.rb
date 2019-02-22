@@ -184,7 +184,9 @@ class Taxonomy < ApplicationRecord
     hash = {}
     elements = parents_with_params
     elements.each do |el|
-      el.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
+      el.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each do |p|
+        hash[p.name] = include_source ? p.hash_for_include_source(sti_name, el.title) : p.value
+      end
     end
     hash
   end
@@ -192,7 +194,9 @@ class Taxonomy < ApplicationRecord
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = parent_params(include_source)
-    self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each {|p| hash[p.name] = include_source ? {:value => p.value, :source => sti_name, :safe_value => p.safe_value, :source_name => el.title} : p.value }
+    self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each do |p|
+      hash[p.name] = include_source ? p.hash_for_include_source(sti_name, el.title) : p.value
+    end
     hash
   end
 

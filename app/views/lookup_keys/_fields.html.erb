@@ -16,7 +16,7 @@
     <%= checkbox_f(f, :override, :onchange => 'toggleOverrideValue(this)', :size => "col-md-8",
                    :label_help => _('Whether the class parameter value is managed by Foreman.')
         ) if is_param %>
-    <%= param_type_selector(f, :onchange => 'keyTypeChange(this)') %>
+    <%= param_type_selector(f, false, :onchange => 'keyTypeChange(this)') %>
     <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast, :size => "col-md-8",
                    :disabled => (is_param && (!f.object.override || f.object.omit)),
                    :input_group_btn => fullscreen_input,

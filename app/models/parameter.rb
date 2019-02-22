@@ -3,15 +3,21 @@ class Parameter < ApplicationRecord
   friendly_id :name
   include Parameterizable::ByIdName
   include HiddenValue
+  include KeyType
+  include KeyValueValidation
 
   validates_lengths_from_database
 
   include Authorizable
   validates :name, :presence => true, :no_whitespace => true
 
+  validate :validate_and_cast_value
+  serialize :value
+
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :type, :complete_value => true
   scoped_search :on => :value, :complete_value => true
+  scoped_search :on => :key_type, :aliases => [:parameter_type], :complete_value => true
 
   # children associations must be defined here, otherwise scoped search definitions won't find them
   belongs_to :domain, :foreign_key => :reference_id, :inverse_of => :domain_parameters
@@ -50,6 +56,21 @@ class Parameter < ApplicationRecord
 
   def self.type_priority(type)
     PRIORITY.fetch(type.to_s.underscore.to_sym, nil) unless type.nil?
+  end
+
+  def value_before_type_cast
+    return self[:value] if errors[:value].present?
+    self.class.format_value_before_type_cast(value, key_type)
+  end
+
+  def hash_for_include_source(source, source_name = nil)
+    options = {
+      :value => value, :source => source, :key_type => key_type,
+      :safe_value => safe_value, :parameter_type => parameter_type,
+      :hidden_value? => hidden_value?
+    }
+    options[:source_name] = source_name if source_name
+    options
   end
 
   private

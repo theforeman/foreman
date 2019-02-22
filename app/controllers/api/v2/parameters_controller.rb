@@ -62,6 +62,7 @@ module Api
         param :parameter, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :value, String, :required => true
+          param :parameter_type, Parameter::KEY_TYPES, :desc => N_("Type of value"), :required => true
         end
       end
 

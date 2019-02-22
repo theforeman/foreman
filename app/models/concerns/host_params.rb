@@ -26,12 +26,10 @@ module HostParams
 
     def params_to_hash(params)
       params.each_with_object({}) do |param, hash|
-        source = param.associated_type
-        options = {:value => param.value,
-                   :source => source,
-                   :safe_value => param.safe_value }
-        options[:source_name] = param.associated_label if source != 'global'
-        hash[param.name] = options
+        hash[param.name] = param.hash_for_include_source(
+          param.associated_type,
+          (param.associated_type != 'global') ? param.associated_label : nil
+        )
       end
     end
 

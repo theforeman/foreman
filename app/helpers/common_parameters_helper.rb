@@ -12,7 +12,16 @@ module CommonParametersHelper
   def parameter_value_field(value)
     source_name = value[:source_name] ? "(#{value[:source_name]})" : nil
     popover_tag = popover('', _("<b>Source:</b> %{type} %{name}") % { :type => _(value[:source]), :name => html_escape(source_name) }, :data => { :placement => 'top' })
-    content_tag(:div, parameter_value_content("value_#{value[:safe_value]}", value[:safe_value], :popover => popover_tag, :disabled => true) + fullscreen_input, :class => 'input-group')
+    content_tag(
+      :div,
+      parameter_value_content(
+        "value_#{value[:safe_value]}",
+        Parameter.format_value_before_type_cast(value[:safe_value], value[:parameter_type]),
+        :hidden_value? => value[:hidden_value?],
+        :popover => popover_tag, :disabled => true
+      ) + fullscreen_input,
+      :class => 'input-group'
+    )
   end
 
   def parameter_value_content(id, value, options)
@@ -40,14 +49,13 @@ module CommonParametersHelper
                                              :class => html_class,
                                              :rows => 1,
                                              :id => dom_id(f.object) + '_value',
-                                             :placeholder => _("Value")))
+                                             :placeholder => _("Value"),
+                                             :value => f.object.value_before_type_cast))
 
     input_group(input, input_group_btn(hidden_toggle(f.object.hidden_value?), fullscreen_button("$(this).closest('.input-group').find('input,textarea')")))
   end
 
   def lookup_key_field(id, value, options)
-    lookup_key = options[:lookup_key]
-
     option_hash = { :rows => 1,
                     :class => 'form-control no-stretch',
                     :'data-property' => 'value',
@@ -55,8 +63,7 @@ module CommonParametersHelper
                     :'data-inherited-value' => options[:inherited_value],
                     :name => options[:name].to_s,
                     :disabled => options[:disabled] }
-
-    option_hash[:class] += " masked-input" if lookup_key.present? && options[:lookup_key_hidden_value?]
+    option_hash[:class] += " masked-input" if options[:hidden_value?]
 
     case options[:lookup_key_type]
     when "boolean"

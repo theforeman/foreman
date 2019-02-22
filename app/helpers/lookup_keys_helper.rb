@@ -32,22 +32,6 @@ module LookupKeysHelper
     end
   end
 
-  def param_type_selector(f, options = {})
-    selectable_f f, :key_type, options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e), e] }, f.object.key_type), {},
-                 options.merge({ :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
-                 :label_help => _("<dl>" +
-                   "<dt>String</dt> <dd>Everything is taken as a string.</dd>" +
-                   "<dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd>" +
-                   "<dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd>" +
-                   "<dt>Real</dt> <dd>Accept any numerical input.</dd>" +
-                   "<dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd>" +
-                   "<dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd>" +
-                   "<dt>YAML</dt> <dd>Any valid YAML input.</dd>" +
-                   "<dt>JSON</dt> <dd>Any valid JSON input.</dd>" +
-               "</dl>").html_safe,
-                 :label_help_options => { :title => _("How values are validated") }})
-  end
-
   def validator_type_selector(f)
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e), e] }, f.object.validator_type), {:include_blank => _("None")},
                { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
@@ -69,7 +53,7 @@ module LookupKeysHelper
 
   def lookup_key_with_diagnostic(obj, lookup_key, lookup_value)
     value, matcher = value_matcher(obj, lookup_key)
-    inherited_value = lookup_key.value_before_type_cast(value)
+    inherited_value = LookupKey.format_value_before_type_cast(value, lookup_key.key_type)
     effective_value = lookup_value.lookup_key_id.nil? ? inherited_value.to_s : lookup_value.value_before_type_cast.to_s
     warnings = lookup_key_warnings(lookup_key.required, effective_value.present?)
     popover_value = lookup_key.hidden_value? ? lookup_key.hidden_value : inherited_value
@@ -82,7 +66,7 @@ module LookupKeysHelper
       :disabled => !lookup_key.overridden?(obj) || lookup_value.omit || !can_edit_params?,
       :inherited_value => inherited_value,
       :lookup_key => lookup_key,
-      :lookup_key_hidden_value? => lookup_key.hidden_value?,
+      :hidden_value? => lookup_key.hidden_value?,
       :lookup_key_type => lookup_key.key_type)
   end
 
