@@ -20,3 +20,14 @@ export const changeOrganization = org => {
 export const changeActive = active => {
   store.dispatch(LayoutActions.changeActiveMenu({ title: active }));
 };
+
+export function showContent(layout, unsubscribe) {
+  const content = () => {
+    $('#content').show();
+    unsubscribe();
+  };
+  // workaround for pages with no layout object
+  if (layout.items.length && !layout.isLoading) {
+    content();
+  } else if ($('#layout').length === 0) content();
+}
