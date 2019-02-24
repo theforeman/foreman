@@ -30,6 +30,7 @@ $(function() {
 });
 
 function onContentLoad(){
+  tfm.store.observeStore('layout', tfm.nav.showContent);
   uninitialized_autocompletes = $.grep($('.autocomplete-input'), function(i){ return !$(i).next().hasClass('autocomplete-clear'); });
   if (uninitialized_autocompletes.length > 0) {
     $.each(uninitialized_autocompletes, function(i, input) {$(input).scopedSearch({'delay': 250})});

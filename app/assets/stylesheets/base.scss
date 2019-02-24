@@ -153,6 +153,10 @@ select {
   cursor: auto;
 }
 
+#content {
+  display: none;
+}
+
 .used_by_hosts {
   color: #000 !important;
   cursor: auto;
