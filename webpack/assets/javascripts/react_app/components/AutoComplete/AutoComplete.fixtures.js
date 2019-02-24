@@ -31,6 +31,7 @@ export const initialState = {
   searchQuery: '',
   status: null,
   trigger: null,
+  id,
 };
 
 export const initialValues = {
@@ -39,6 +40,7 @@ export const initialValues = {
   trigger: TRIGGERS.COMPONENT_DID_MOUNT,
   results,
   status: STATUS.RESOLVED,
+  id,
 };
 
 export const request = {
@@ -47,6 +49,7 @@ export const request = {
   searchQuery,
   status: STATUS.PENDING,
   trigger,
+  id,
 };
 
 export const success = {
@@ -56,12 +59,14 @@ export const success = {
   searchQuery,
   controller,
   trigger,
+  id,
 };
 
 export const failure = {
   error,
   results: [],
   status: STATUS.ERROR,
+  id,
 };
 
 export const API = {

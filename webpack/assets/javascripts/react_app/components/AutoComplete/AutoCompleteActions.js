@@ -16,12 +16,14 @@ export const getResults = ({
   searchQuery,
   controller,
   trigger,
+  id,
 }) => dispatch => {
   startRequest({
     controller,
     searchQuery,
     trigger,
     dispatch,
+    id,
   });
 
   const path = getAPIPath({ trigger, searchQuery, url });
@@ -30,11 +32,19 @@ export const getResults = ({
     path,
     searchQuery,
     trigger,
+    id,
     dispatch,
   });
 };
 
-let createAPIRequest = ({ controller, path, searchQuery, trigger, dispatch }) =>
+let createAPIRequest = ({
+  controller,
+  path,
+  searchQuery,
+  trigger,
+  id,
+  dispatch,
+}) =>
   API.get(path)
     .then(({ data }) =>
       requestSuccess({
@@ -43,13 +53,14 @@ let createAPIRequest = ({ controller, path, searchQuery, trigger, dispatch }) =>
         dispatch,
         searchQuery,
         trigger,
+        id,
       })
     )
-    .catch(error => requestFailure({ error, dispatch }));
+    .catch(error => requestFailure({ error, id, dispatch }));
 
 createAPIRequest = debounce(createAPIRequest, 250);
 
-const startRequest = ({ controller, searchQuery, trigger, dispatch }) => {
+const startRequest = ({ controller, searchQuery, trigger, dispatch, id }) => {
   dispatch({
     type: AUTO_COMPLETE_REQUEST,
     payload: {
@@ -57,6 +68,7 @@ const startRequest = ({ controller, searchQuery, trigger, dispatch }) => {
       searchQuery,
       status: STATUS.PENDING,
       trigger,
+      id,
     },
   });
 };
@@ -66,6 +78,7 @@ const requestSuccess = ({
   trigger,
   controller,
   searchQuery,
+  id,
   dispatch,
 }) => {
   const { error } = data[0] || {};
@@ -81,17 +94,19 @@ const requestSuccess = ({
       searchQuery,
       status: STATUS.RESOLVED,
       trigger,
+      id,
     },
   });
 };
 
-const requestFailure = ({ error, dispatch }) =>
+const requestFailure = ({ error, id, dispatch }) =>
   dispatch({
     type: AUTO_COMPLETE_FAILURE,
     payload: {
       results: [],
       error: error.message || error,
       status: STATUS.ERROR,
+      id,
     },
   });
 
@@ -108,14 +123,13 @@ const getAPIPath = ({ trigger, searchQuery, url }) => {
   return APIPath.toString();
 };
 
-export const resetData = controller => dispatch =>
+export const resetData = (controller, id) => dispatch =>
   dispatch({
     type: AUTO_COMPLETE_RESET,
-    payload: { controller },
-    error: null,
+    payload: { controller, id },
   });
 
-export const initialUpdate = (searchQuery, controller) => dispatch =>
+export const initialUpdate = (searchQuery, controller, id) => dispatch =>
   dispatch({
     type: AUTO_COMPLETE_SUCCESS,
     payload: {
@@ -124,6 +138,7 @@ export const initialUpdate = (searchQuery, controller) => dispatch =>
       trigger: TRIGGERS.COMPONENT_DID_MOUNT,
       status: STATUS.RESOLVED,
       results: [],
+      id,
     },
   });
 

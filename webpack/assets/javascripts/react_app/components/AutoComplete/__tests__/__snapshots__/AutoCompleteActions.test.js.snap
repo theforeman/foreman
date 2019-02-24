@@ -6,6 +6,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "some-id",
         "searchQuery": "x = y",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
@@ -17,6 +18,7 @@ Array [
     Object {
       "payload": Object {
         "error": "oops",
+        "id": "some-id",
         "results": Array [],
         "status": "ERROR",
       },
@@ -32,6 +34,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "some-id",
         "searchQuery": "",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
@@ -43,6 +46,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "some-id",
         "results": Array [
           Object {
             "category": "category",
@@ -63,9 +67,9 @@ exports[`AutoComplete actions should reset-data 1`] = `
 Array [
   Array [
     Object {
-      "error": null,
       "payload": Object {
         "controller": "models",
+        "id": "some-id",
       },
       "type": "AUTO_COMPLETE_RESET",
     },
@@ -79,6 +83,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "id": "some-id",
         "results": Array [],
         "searchQuery": "searchQuery",
         "status": "RESOLVED",

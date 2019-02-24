@@ -7,6 +7,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "some-id",
           "searchQuery": "",
           "status": "PENDING",
           "trigger": "INPUT_CLEAR",
@@ -17,21 +18,23 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "",
-      "status": "PENDING",
-      "trigger": "INPUT_CLEAR",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "results1 ",
+          },
+          Object {
+            "category": "Dolphine",
+            "label": "results2 ",
+          },
+        ],
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_CLEAR",
+      },
     },
   },
 }
@@ -40,12 +43,14 @@ Object {
 exports[`Autocomplete integration test should flow: initial state 1`] = `
 Object {
   "autocomplete": Object {
-    "controller": "models",
-    "error": null,
-    "results": Array [],
-    "searchQuery": "",
-    "status": "RESOLVED",
-    "trigger": "COMPONENT_DID_MOUNT",
+    "some-id": Object {
+      "controller": "models",
+      "error": null,
+      "results": Array [],
+      "searchQuery": "",
+      "status": "RESOLVED",
+      "trigger": "COMPONENT_DID_MOUNT",
+    },
   },
 }
 `;
@@ -57,6 +62,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "some-id",
           "searchQuery": "",
           "status": "PENDING",
           "trigger": "INPUT_FOCUS",
@@ -67,12 +73,14 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [],
-      "searchQuery": "",
-      "status": "PENDING",
-      "trigger": "INPUT_FOCUS",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [],
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_FOCUS",
+      },
     },
   },
 }
@@ -85,6 +93,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "some-id",
           "searchQuery": "result",
           "status": "PENDING",
           "trigger": "ITEM_SELECT",
@@ -95,17 +104,19 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "result",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "result",
+          },
+        ],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "ITEM_SELECT",
+      },
     },
   },
 }
@@ -118,6 +129,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "some-id",
           "searchQuery": "result",
           "status": "PENDING",
           "trigger": "ITEM_SELECT",
@@ -128,21 +140,23 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "ITEM_SELECT",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "results1 ",
+          },
+          Object {
+            "category": "Dolphine",
+            "label": "results2 ",
+          },
+        ],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "ITEM_SELECT",
+      },
     },
   },
 }
@@ -155,6 +169,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "some-id",
           "results": Array [
             Object {
               "category": "",
@@ -171,17 +186,19 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "result",
-        },
-      ],
-      "searchQuery": "",
-      "status": "RESOLVED",
-      "trigger": "INPUT_FOCUS",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "result",
+          },
+        ],
+        "searchQuery": "",
+        "status": "RESOLVED",
+        "trigger": "INPUT_FOCUS",
+      },
     },
   },
 }
@@ -194,6 +211,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "id": "some-id",
           "results": Array [
             Object {
               "category": "",
@@ -214,21 +232,23 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [
-        Object {
-          "category": "",
-          "label": "results1 ",
-        },
-        Object {
-          "category": "Dolphine",
-          "label": "results2 ",
-        },
-      ],
-      "searchQuery": "result",
-      "status": "RESOLVED",
-      "trigger": "ITEM_SELECT",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "results1 ",
+          },
+          Object {
+            "category": "Dolphine",
+            "label": "results2 ",
+          },
+        ],
+        "searchQuery": "result",
+        "status": "RESOLVED",
+        "trigger": "ITEM_SELECT",
+      },
     },
   },
 }

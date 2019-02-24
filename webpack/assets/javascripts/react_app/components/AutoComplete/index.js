@@ -10,11 +10,11 @@ import {
   selectAutocompleteStatus,
 } from './AutoCompleteSelectors';
 
-const mapStateToProps = state => ({
-  error: selectAutocompleteError(state),
-  results: selectAutocompleteResults(state),
-  searchQuery: selectAutocompleteSearchQuery(state),
-  status: selectAutocompleteStatus(state),
+const mapStateToProps = (state, { id }) => ({
+  error: selectAutocompleteError(state, id),
+  results: selectAutocompleteResults(state, id),
+  searchQuery: selectAutocompleteSearchQuery(state, id),
+  status: selectAutocompleteStatus(state, id),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

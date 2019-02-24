@@ -32,8 +32,8 @@ class AutoComplete extends React.Component {
 
   componentDidMount() {
     window.addEventListener('keypress', this.windowKeyPressHandler);
-    const { controller, initialQuery, initialUpdate } = this.props;
-    initialUpdate(initialQuery, controller);
+    const { controller, initialQuery, initialUpdate, id } = this.props;
+    initialUpdate(initialQuery, controller, id);
   }
 
   windowKeyPressHandler(e) {
@@ -74,32 +74,36 @@ class AutoComplete extends React.Component {
     }
   }
 
-  getResults(searchQuery, trigger) {
+  getResults(searchQuery, trigger, id) {
     const { getResults, controller, url } = this.props;
     getResults({
       url,
       searchQuery,
       controller,
       trigger,
+      id,
     });
   }
 
   handleInputFocus({ target: { value } }) {
-    if (this.props.results.length === 0) {
-      this.getResults(value, TRIGGERS.INPUT_FOCUS);
+    const { id, results } = this.props;
+    if (results.length === 0) {
+      this.getResults(value, TRIGGERS.INPUT_FOCUS, id);
     }
   }
 
   handleInputChange(query) {
-    this.getResults(query, TRIGGERS.INPUT_CHANGE);
+    const { id } = this.props;
+    this.getResults(query, TRIGGERS.INPUT_CHANGE, id);
   }
 
   // Gets the first result from an array of selected results.
   handleResultsChange({ 0: result }) {
+    const { id } = this.props;
     if (!result) {
       return;
     }
-    this.getResults(result, TRIGGERS.ITEM_SELECT);
+    this.getResults(result, TRIGGERS.ITEM_SELECT, id);
     /**
      *  HACK: I had no choice but to call to an inner function,
      * due to lack of design in react-bootstrap-typeahead.
@@ -127,8 +131,9 @@ class AutoComplete extends React.Component {
   }
 
   handleClear() {
+    const { id } = this.props;
     this._typeahead.current.getInstance().clear();
-    this.getResults('', TRIGGERS.INPUT_CLEAR);
+    this.getResults('', TRIGGERS.INPUT_CLEAR, id);
   }
 
   handleLoading() {
@@ -137,8 +142,8 @@ class AutoComplete extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('keypress', this.windowKeyPressHandler);
-    const { resetData, controller } = this.props;
-    resetData(controller);
+    const { resetData, controller, id } = this.props;
+    resetData(controller, id);
   }
 
   render() {
@@ -177,6 +182,7 @@ class AutoComplete extends React.Component {
               useKeyShortcuts ? 'use-shortcuts' : ''
             ),
             spellCheck: 'false',
+            'data-autocomplete-id': id,
             ...inputProps,
           }}
         />

@@ -6,23 +6,32 @@ import {
   AUTO_COMPLETE_RESET,
 } from './AutoCompleteConstants';
 
-const initialState = Immutable({
+const initialAutocompleteState = {
   controller: null,
   error: null,
   results: [],
   searchQuery: '',
   status: null,
   trigger: null,
-});
+};
 
-export default (state = initialState, action) => {
+export default (state = Immutable({}), action) => {
   const {
     type,
-    payload: { controller, error, results, searchQuery, status, trigger } = {},
+    payload: {
+      controller,
+      error,
+      results,
+      searchQuery,
+      status,
+      trigger,
+      id,
+    } = {},
   } = action;
   switch (type) {
     case AUTO_COMPLETE_REQUEST:
-      return state.merge({
+      return state.setIn([id], {
+        ...state[id],
         controller,
         error: null,
         searchQuery,
@@ -30,7 +39,8 @@ export default (state = initialState, action) => {
         trigger,
       });
     case AUTO_COMPLETE_SUCCESS:
-      return state.merge({
+      return state.setIn([id], {
+        ...state[id],
         controller,
         error: null,
         results,
@@ -39,13 +49,17 @@ export default (state = initialState, action) => {
         trigger,
       });
     case AUTO_COMPLETE_FAILURE:
-      return state.merge({
+      return state.setIn([id], {
+        ...state[id],
         error,
         results,
         status,
       });
     case AUTO_COMPLETE_RESET:
-      return initialState;
+      return state.setIn([id], {
+        ...initialAutocompleteState,
+        controller,
+      });
     default:
       return state;
   }
