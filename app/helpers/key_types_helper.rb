@@ -20,7 +20,7 @@ module KeyTypesHelper
 
     send(method_for_select_f, f, :parameter_type,
          options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e), e] }, f.object.parameter_type), {},
-         options.merge(common_extra_options))
+         common_extra_options.merge(options))
   end
 
   def lookup_keys_table?(f)

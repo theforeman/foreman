@@ -140,7 +140,7 @@ function undo_remove_child_node(item){
 function toggleOverrideValue(item) {
   var override = $(item).is(':checked');
   var fields = $(item).closest('.fields');
-  var fields_to_disable = fields.find("[name$='[required]'],[id$='_key_type'],[id$='_validator_type'],[name$='[omit]'],[name$='[hidden_value]']");
+  var fields_to_disable = fields.find("[name$='[required]'],[id$='_validator_type'],[name$='[omit]'],[name$='[hidden_value]'],[name$='[parameter_type]']");
   var omit = $(item).closest('fieldset').find("[id$='omit']").is(':checked');
   var default_value_field = fields.find("[id$='_default_value']");
   var pill_icon = $('#pill_' + fields[0].id +' i');
