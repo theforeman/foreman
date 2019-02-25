@@ -49,6 +49,7 @@ class Host::Managed < Host::Base
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
   before_save :clear_data_on_build
+  before_save :set_initiated_at
   before_save :clear_puppetinfo, :if => :environment_id_changed?
 
   include PxeLoaderValidator
@@ -293,6 +294,11 @@ class Host::Managed < Host::Base
     clear_facts
     clear_reports
     self.build_errors = nil
+  end
+
+  def set_initiated_at
+    return unless build? && self.initiated_at.nil?
+    self.initiated_at = Time.now.utc
   end
 
   # Called from the host build post install process to indicate that the base build has completed
