@@ -1,7 +1,4 @@
 module AuditsHelper
-  MAIN_OBJECTS = %w(Host::Base Hostgroup User Operatingsystem Environment Puppetclass Parameter Architecture ComputeResource ProvisioningTemplate ComputeProfile ComputeAttribute
-                    Location Organization Domain Subnet SmartProxy AuthSource Image Role Usergroup Bookmark ConfigGroup Ptable ReportTemplate)
-
   # lookup the Model representing the numerical id and return its label
   def id_to_label(name, change, audit: @audit, truncate: true)
     return _("N/A") if change.nil?
@@ -235,9 +232,10 @@ module AuditsHelper
   end
 
   def main_object?(audit)
-    return true if MAIN_OBJECTS.include?(audit.auditable_type)
+    main_objects_names = Audit.main_object_names
+    return true if main_objects_names.include?(audit.auditable_type)
     type = audit.auditable_type.split("::").last rescue ''
-    MAIN_OBJECTS.include?(type)
+    main_objects_names.include?(type)
   end
 
   def key_to_class(key, audit)
