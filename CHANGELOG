@@ -1,4 +1,21 @@
+2019-02-26	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.0
+	* Fixes #26113 - Show timestamp in proxy log pane
+
+2019-02-26	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #26128 - pin highlight.js package
+
+2019-02-25	kgaikwad <kavitagaikwad103@gmail.com>
+	* Refs #22898 - delete action broken for provisioning_templates
+
+2019-02-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26085 - Set default taxonomy setting to seeded taxonomies
+
+2019-02-20	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #26089 - Handle empty times in react date components
+
 2019-02-12	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.0-RC5
 	* i18n - extracting new, pulling from tx
 
 2019-02-11	Shira Maximov <shiramaximov@gmail.com>
