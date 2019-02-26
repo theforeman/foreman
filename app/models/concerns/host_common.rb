@@ -92,15 +92,29 @@ module HostCommon
     !!(puppet_ca_proxy && puppet_ca_proxy.url.present?)
   end
 
-  # no need to store anything in the db if the entry is plain "puppet"
-  # If the system is using smart proxies and the user has run the smartproxy:migrate task
-  # then the puppetmaster functions handle smart proxy objects
-  def puppetmaster
-    puppet_proxy.to_s
+  def puppet_server_uri
+    return unless puppet_proxy
+    url = puppet_proxy.setting('Puppet', 'puppet_url')
+    url ||= "https://#{puppet_proxy}:8140"
+    URI(url)
   end
 
+  # The Puppet server FQDN or an empty string. Exposed as a provisioning macro
+  def puppetmaster
+    puppet_server_uri.try(:host) || ''
+  end
+
+  def puppet_ca_server_uri
+    return unless puppet_ca_proxy
+    url = puppet_ca_proxy.setting('Puppet CA', 'puppet_url')
+    url ||= "https://#{puppet_ca_proxy}:8140"
+    URI(url)
+  end
+
+  # The Puppet CA server FQDN or an empty string. Exposed as a provisioning
+  # macro.
   def puppet_ca_server
-    puppet_ca_proxy.to_s
+    puppet_ca_server_uri.try(:host) || ''
   end
 
   # If the host/hostgroup has a medium then use the path from there

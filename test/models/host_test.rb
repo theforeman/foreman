@@ -426,6 +426,46 @@ class HostTest < ActiveSupport::TestCase
     refute_valid host, :'lookup_values.value', /invalid hash/
   end
 
+  test "should read the Puppetserver URL from its proxy settings" do
+    host = FactoryBot.build_stubbed(:host)
+    assert_nil host.puppet_server_uri
+    assert_empty host.puppetmaster
+
+    proxy = FactoryBot.create(:puppet_smart_proxy, url: 'https://smartproxy.example.com:8443')
+    host.puppet_proxy = proxy
+    assert_equal 'https://smartproxy.example.com:8140', host.puppet_server_uri.to_s
+    assert_equal 'smartproxy.example.com', host.puppetmaster
+
+    features = {
+      'puppet' => {
+        settings: {'puppet_url': 'https://puppet.example.com:8140'},
+      },
+    }
+    SmartProxyFeature.import_features(proxy, features)
+    assert_equal 'https://puppet.example.com:8140', host.puppet_server_uri.to_s
+    assert_equal 'puppet.example.com', host.puppetmaster
+  end
+
+  test "should read the Puppet CA Server URL from its proxy settings" do
+    host = FactoryBot.build_stubbed(:host)
+    assert_nil host.puppet_ca_server_uri
+    assert_empty host.puppet_ca_server
+
+    proxy = FactoryBot.create(:puppet_ca_smart_proxy, url: 'https://smartproxy.example.com:8443')
+    host.puppet_ca_proxy = proxy
+    assert_equal 'https://smartproxy.example.com:8140', host.puppet_ca_server_uri.to_s
+    assert_equal 'smartproxy.example.com', host.puppet_ca_server
+
+    features = {
+      'puppetca' => {
+        settings: {'puppet_url': 'https://puppetca.example.com:8140'},
+      },
+    }
+    SmartProxyFeature.import_features(proxy, features)
+    assert_equal 'https://puppetca.example.com:8140', host.puppet_ca_server_uri.to_s
+    assert_equal 'puppetca.example.com', host.puppet_ca_server
+  end
+
   test "should not trigger dhcp orchestration when importing facts" do
     host = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :name => "sinn1636.lan")
     host.stubs(:skip_orchestration_for_testing?).returns(false) # Explicitly enable orchestration

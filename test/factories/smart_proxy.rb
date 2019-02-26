@@ -47,6 +47,9 @@ FactoryBot.define do
     end
 
     factory :puppet_ca_smart_proxy do
+      before(:create, :build, :build_stubbed) do
+        ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:puppetca => {'state' => 'running'})
+      end
       after(:build) do |smart_proxy, _evaluator|
         smart_proxy.smart_proxy_features << FactoryBot.build(:smart_proxy_feature, :puppetca, :smart_proxy => smart_proxy)
       end
