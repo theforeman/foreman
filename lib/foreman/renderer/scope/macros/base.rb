@@ -79,8 +79,8 @@ module Foreman
                     :host => host, :port => port)
           end
 
-          def load_hosts(search: '', includes: nil)
-            load_resource(klass: Host, search: search, permission: 'view_hosts', includes: includes)
+          def load_hosts(search: '', includes: nil, preload: nil)
+            load_resource(klass: Host, search: search, permission: 'view_hosts', includes: includes, preload: preload)
           end
 
           def all_host_statuses
@@ -131,11 +131,12 @@ module Foreman
           #   .each { |batch| batch.each { |record| record.name }}
           # or
           #   .each_record { |record| record.name }
-          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil, limit: nil, select: nil, joins: nil, where: nil)
+          def load_resource(klass:, search:, permission:, batch: 1_000, includes: nil, limit: nil, select: nil, joins: nil, where: nil, preload: nil)
             limit ||= 10 if preview?
 
             base = klass
             base = base.search_for(search)
+            base = base.preload(preload) unless preload.nil?
             base = base.includes(includes) unless includes.nil?
             base = base.joins(joins) unless joins.nil?
             base = base.authorized(permission) unless permission.nil?
