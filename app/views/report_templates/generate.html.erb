@@ -3,7 +3,7 @@
 <% title _("Generate a Report") %>
 
 
-<%= form_for :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
+<%= form_for @composer, as: :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
 
   <%= alert(:class => 'alert-info',
             :header => _('Generating a report'),
@@ -28,6 +28,12 @@
       </div>
     <% end %>
   <% end %>
+
+  <%= checkbox_f f, :send_mail, label: _('Send report to e-mail') %>
+  <%= text_f f, :mail_to, {
+    label: _('Mail(s) to deliver report to'),
+    label_help: _('Values has to be valid e-mails delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER
+  %>
 
   <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
 <% end %>

@@ -142,24 +142,34 @@ class ReportTemplatesControllerTest < ActionController::TestCase
   end
 
   describe '#schedule_report' do
+    let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
+    def expect_job_enque_with(input_values, mail_to: nil)
+      composer_params = {
+        'template_id' => @report_template.to_param,
+        'input_values' => input_values,
+        'gzip' => !!mail_to,
+        'send_mail' => !!mail_to,
+        'mail_to' => mail_to
+      }
+      TemplateRenderJob.expects(:perform_later).with(composer_params, user_id: User.current.id).returns(job)
+    end
+
     it "schedule report and returns report_data_url" do
-      job_stub = OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER')
-      TemplateRenderJob
-        .expects(:perform_later)
-        .with({ 'template_id' => @report_template.to_param, 'input_values' => nil, 'gzip' => false }, { user_id: User.current.id})
-        .returns(job_stub)
+      expect_job_enque_with(nil)
       get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
       assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
 
     it "schedule report with parameters" do
-      job_stub = OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER')
-      TemplateRenderJob
-        .expects(:perform_later)
-        .with({ 'template_id' => @report_template.to_param, 'input_values' => { '1' => { 'value' => 'ohai' } }, 'gzip' => false }, { user_id: User.current.id })
-        .returns(job_stub)
+      expect_job_enque_with({ '1' => { 'value' => 'ohai' } })
       get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { '1' => { :value => 'ohai' } } } }, session: set_session_user
       assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
+    end
+
+    it "schedule report delivery by e-mail" do
+      expect_job_enque_with(nil, mail_to: 'this@email.cz')
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { send_mail: '1', mail_to: 'this@email.cz' } }, session: set_session_user
+      assert_redirected_to report_templates_url
     end
   end
 end

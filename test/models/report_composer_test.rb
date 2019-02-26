@@ -45,21 +45,11 @@ class ReportComposerTest < ActiveSupport::TestCase
     assert_equal 'hello', composer.template_input_values[@template_input.name]
   end
 
-  describe '#render_to_store' do
-    it 'writes rendered template to the store' do
+  describe '#render' do
+    it 'render template' do
       @report_template.update_attribute :template, "<%= 1 + 1 %> <%= input('#{@template_input.name}') %>"
-      StoredValue.expects('write').with('STORE-UNIQUE-KEY', '2 hello', has_key(:expire_at)).returns(true)
       composer = ReportComposer.new(@composer_params) # to reload the inner template instance
-      composer.render_to_store('STORE-UNIQUE-KEY')
-    end
-
-    it 'passes params to the render method' do
-      StoredValue.expects('write').with('STORE-UNIQUE-KEY', 'val', has_key(:expire_at)).returns(true)
-      ReportTemplate.any_instance
-        .expects('render')
-        .with(mode: Foreman::Renderer::REAL_MODE, template_input_values: @composer.template_input_values, foo: 'bar')
-        .returns('val')
-      @composer.render_to_store('STORE-UNIQUE-KEY', foo: 'bar')
+      assert_equal composer.render, '2 hello'
     end
   end
 end

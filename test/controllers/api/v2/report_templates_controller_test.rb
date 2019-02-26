@@ -232,11 +232,15 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
 
   describe '#schedule_report' do
     let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
-    def expect_job_enque_with(input_values)
-      TemplateRenderJob.expects(:perform_later).with(
-        {'template_id' => report_template.id.to_s, 'input_values' => input_values, 'gzip' => false},
-        { user_id: User.current.id }
-      ).returns(job)
+    def expect_job_enque_with(input_values, mail_to: nil)
+      composer_params = {
+        'template_id' => report_template.id.to_s,
+        'input_values' => input_values,
+        'gzip' => !!mail_to,
+        'send_mail' => !!mail_to,
+        'mail_to' => mail_to
+      }
+      TemplateRenderJob.expects(:perform_later).with(composer_params, user_id: User.current.id).returns(job)
     end
 
     it "schedule report and returns data_url" do
@@ -259,6 +263,15 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal 'application/json', response.content_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
     end
+
+    it "schedule report delivery by e-mail" do
+      expect_job_enque_with({}, mail_to: 'this@email.cz')
+      ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
+      post :schedule_report, params: { :id => report_template.id, mail_to: 'this@email.cz' }
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
+    end
   end
 
   describe '#report_data' do
@@ -273,8 +286,8 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       @controller.expects(:load_dynflow_plan).with('JOBID').returns(plan)
     end
 
-    def stub_plan_arguments(gzip: false, user_id: User.current.id)
-      composer_params = { 'template_id' => report_template.id, 'input_values' => nil, 'gzip' => gzip }
+    def stub_plan_arguments(gzip: false, user_id: User.current.id, mail_to: nil)
+      composer_params = { 'template_id' => report_template.id, 'input_values' => nil, 'gzip' => gzip, 'send_mail' => !!mail_to, 'mail_to' => mail_to }
       @controller.stubs(:plan_arguments).returns([ composer_params, { 'user_id' => user_id } ])
     end
 
