@@ -44,7 +44,7 @@ module AuditsHelper
     type_name = audited_type audit
     case type_name
       when 'Puppet Class'
-        (id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0]).to_s
+        (id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0], audit: audit).to_s
       else
         name = if audit.auditable_name.blank?
                  revision = audit.revision
