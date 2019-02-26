@@ -21,7 +21,7 @@
     <% log_entries.each do |log| %>
       <tr class="<%= logs_color_map[log['level']] || '' %>">
         <% timestamp = Time.at(log['timestamp']) %>
-        <td class="ca col-md-2 hidden-xs nbsp"><%= date_time_absolute(timestamp) %></td>
+        <td class="ca col-md-2 hidden-xs nbsp"><%= date_time_absolute(timestamp, :short, true) %></td>
         <td class="ca col-md-1 hidden-sm hidden-xs nbsp">
           <a href="#"
             data-toggle="modal"

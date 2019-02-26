@@ -29,9 +29,6 @@ function activateLogsDataTable() {
     dom: "<'row'<'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
     autoWidth: false,
     columnDefs: [{
-      render: function ( data, type, row ) {
-        return data;
-      },
       width: "15%",
       targets: 0
     },{
