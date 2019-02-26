@@ -242,7 +242,9 @@ module AuditsHelper
 
   def key_to_class(key, audit)
     auditable_type = (audit.auditable_type == 'Host::Base') ? 'Host::Managed' : audit.auditable_type
-    auditable_type.constantize.reflect_on_association(key.sub(/_id(s?)$/, '\1'))&.klass
+    association_name = key.gsub(/_id(s?)$/, '')
+    association_name = association_name.pluralize if key =~ /_ids$/
+    auditable_type.constantize.reflect_on_association(association_name)&.klass
   end
 
   def rebuild_audit_changes(audit)
