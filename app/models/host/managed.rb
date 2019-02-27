@@ -231,9 +231,9 @@ class Host::Managed < Host::Base
     validates :architecture_id, :presence => true, :if => Proc.new {|host| host.managed}
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
-                          :if => Proc.new { |host| host.managed && host.pxe_build? && build? }
+                          :if => Proc.new { |host| host.managed && !host.image_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && host.pxe_build? && host.build? }
+                          :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
     validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
     validates :medium_id, :presence => true,
                           :if => Proc.new { |host| host.validate_media? }
@@ -513,7 +513,7 @@ class Host::Managed < Host::Base
   end
 
   def can_be_built?
-    managed? && SETTINGS[:unattended] && pxe_build? && !build?
+    managed? && SETTINGS[:unattended] && !image_build? && !build?
   end
 
   def hostgroup_inherited_attributes
@@ -569,7 +569,7 @@ class Host::Managed < Host::Base
       inherited_attrs.concat(%w{operatingsystem_id architecture_id compute_resource_id})
       inherited_attrs << "subnet_id" unless compute_provides?(:ip)
       inherited_attrs << "subnet6_id" unless compute_provides?(:ip6)
-      inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) if pxe_build?
+      inherited_attrs.concat(%w{medium_id ptable_id pxe_loader}) unless image_build?
     end
     inherited_attrs
   end
@@ -884,7 +884,7 @@ class Host::Managed < Host::Base
   # checks if the host association is a valid association for this host
   def ensure_associations
     status = true
-    if SETTINGS[:unattended] && managed? && os && pxe_build?
+    if SETTINGS[:unattended] && managed? && os && !image_build?
       %w{ptable medium architecture}.each do |e|
         value = self.send(e.to_sym)
         next if value.blank?

@@ -51,7 +51,7 @@ module NicIpRequired
     end
 
     def unattended_controller_used?
-      host.pxe_build? || (host.image_build? && host.image.try(:user_data?))
+      !host.image_build? || (host.image_build? && host.image.try(:user_data?))
     end
 
     def compute_provides_ip?

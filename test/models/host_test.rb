@@ -2316,24 +2316,24 @@ class HostTest < ActiveSupport::TestCase
 
   test "with tokens disabled PXE build hosts do require an IPv4 address" do
     host = FactoryBot.build_stubbed(:host, :managed)
-    host.expects(:pxe_build?).twice.returns(true)
-    host.stubs(:image_build?).returns(false)
+    host.stubs(:pxe_build?).returns(true)
+    host.expects(:image_build?).twice.returns(false)
     assert host.require_ip4_validation?
     refute host.require_ip6_validation?
   end
 
   test "with tokens disabled PXE build IPv6 hosts do not require an IPv4 but a IPv6 address" do
     host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6)
-    host.expects(:pxe_build?).twice.returns(true)
-    host.stubs(:image_build?).returns(false)
+    host.stubs(:pxe_build?).returns(true)
+    host.expects(:image_build?).twice.returns(false)
     refute host.require_ip4_validation?
     assert host.require_ip6_validation?
   end
 
   test "tokens disabled doesn't require an IPv4 or IPv6 address for image hosts" do
     host = FactoryBot.build_stubbed(:host, :managed)
-    host.expects(:pxe_build?).twice.returns(false)
-    host.expects(:image_build?).twice.returns(true)
+    host.stubs(:pxe_build?).returns(false)
+    host.expects(:image_build?).times(4).returns(true)
     image = stub()
     image.expects(:user_data?).twice.returns(false)
     host.stubs(:image).returns(image)
@@ -2343,8 +2343,8 @@ class HostTest < ActiveSupport::TestCase
 
   test "tokens disabled requires an IPv4 address for image hosts with user data" do
     host = FactoryBot.build_stubbed(:host, :managed)
-    host.expects(:pxe_build?).twice.returns(false)
-    host.expects(:image_build?).twice.returns(true)
+    host.stubs(:pxe_build?).returns(false)
+    host.expects(:image_build?).times(4).returns(true)
     image = stub()
     image.expects(:user_data?).twice.returns(true)
     host.stubs(:image).returns(image)
@@ -2354,8 +2354,8 @@ class HostTest < ActiveSupport::TestCase
 
   test "tokens disabled requires only an IPv6 address for image hosts with user data and IPv6 address" do
     host = FactoryBot.build_stubbed(:host, :managed, :with_ipv6)
-    host.expects(:pxe_build?).twice.returns(false)
-    host.expects(:image_build?).twice.returns(true)
+    host.stubs(:pxe_build?).returns(false)
+    host.expects(:image_build?).times(4).returns(true)
     image = stub()
     image.expects(:user_data?).twice.returns(true)
     host.stubs(:image).returns(image)
