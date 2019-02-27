@@ -5,6 +5,7 @@ import {
   INTERFACES_ADD_INTERFACE,
   INTERFACES_UPDATE_INTERFACE,
   INTERFACES_REMOVE_INTERFACE,
+  INTERFACES_TOGGLE_INTERFACE_EDITING,
   INTERFACES_SET_PRIMARY_INTERFACE_NAME,
   INTERFACES_SET_PRIMARY_INTERFACE,
   INTERFACES_SET_PROVISION_INTERFACE,
@@ -50,6 +51,11 @@ export default (state = initialState, { type, payload }) => {
         interfaces: state.interfaces.filter(i => i.id !== payload.id),
         destroyed: [...state.destroyed, payload.id],
       });
+    case INTERFACES_TOGGLE_INTERFACE_EDITING:
+      return state.set(
+        'interfaces',
+        state.interfaces.map(i => ({ ...i, editing: i.id === payload.id && payload.flag }))
+      );
     case INTERFACES_SET_PRIMARY_INTERFACE:
       return state.set(
         'interfaces',

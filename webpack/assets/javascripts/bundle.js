@@ -47,6 +47,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   reactMounter: require('./react_app/common/MountingService'),
   editor: require('./foreman_editor'),
   nav: require('./foreman_navigation'),
+  nestedForms: require('./foreman_nested_forms'),
   medium: require('./foreman_medium'),
   templateInputs: require('./foreman_template_inputs'),
   advancedFields: require('./foreman_advanced_fields'),

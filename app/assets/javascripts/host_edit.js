@@ -5,7 +5,6 @@ $(document).on('AddedClass', function(event, link){load_puppet_class_parameters(
 
 function update_nics(success_callback) {
   var data = serializeForm().replace('method=patch', 'method=post');
-  tfm.reactMounter.unmount('#interfaceListWrapper');
   tfm.hosts.initializeInterfaces([]);
   $('#network').html(spinner_placeholder(__('Loading interfaces information ...')));
   $('#network_tab a').removeClass('tab-error');

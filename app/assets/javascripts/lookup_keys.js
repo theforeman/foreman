@@ -52,8 +52,7 @@ function fix_template_context(content, context) {
 }
 
 function fix_template_names(content, assoc, new_id) {
-  var regexp  = new RegExp('new_' + assoc, 'g');
-  return content.replace(regexp, new_id);
+  tfm.nestedForms.fixTemplateNames(content, assoc, new_id);
 }
 
 function add_child_node(item) {

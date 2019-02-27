@@ -1,6 +1,10 @@
 import { uniq, set } from 'lodash';
-import store from './react_app/redux';
+import $ from 'jquery';
 
+import store, { observeStore } from './react_app/redux';
+
+import { fixTemplateNames } from './foreman_nested_forms';
+import * as breadcrumbs from './foreman_breadcrumbs';
 import * as interfaceActions from './react_app/redux/actions/hosts/interfaces';
 
 const pluginEditAttributes = {
@@ -42,6 +46,99 @@ export const fqdn = (name, domain) => {
 
   return `${name}.${domain}`;
 };
+
+export const createInterfaceHiddenWrapper = interfaceId => {
+  const interfaceHidden = document.createElement('div');
+  interfaceHidden.id = `interfaceHidden${interfaceId}`;
+  interfaceHidden.className = 'hidden';
+  interfaceHidden.dataset.interfaceId = interfaceId;
+
+  document.getElementById('interfaceForms').appendChild(interfaceHidden);
+  return interfaceHidden;
+}
+
+export const getInterfaceHiddenFields = interfaceId =>
+  document.getElementById(`interfaceHidden${interfaceId}`) ||
+    createInterfaceHiddenWrapper(interfaceId);
+
+const updateInterfaceHiddenForms = (state, prevState) => {
+  const pathname = window.location.pathname;
+
+  state.interfaces.forEach((interfaceData, idx) => {
+    const prevData = prevState.interfaces.filter(i => i.id == interfaceData.id)[0];
+    if (prevData && prevData === interfaceData) return;
+
+    const hiddenFields = getInterfaceHiddenFields(interfaceData.id);
+    const nameEl = hiddenFields.getElementsByClassName('interface_name')[0];
+    const primaryCheck = hiddenFields.getElementsByClassName('interface_primary')[0];
+    const provisionCheck = hiddenFields.getElementsByClassName('interface_provision')[0];
+    const virtualCheck = hiddenFields.getElementsByClassName('virtual')[0];
+
+    nameEl.value = interfaceData.name;
+    primaryCheck.checked = interfaceData.primary;
+    provisionCheck.checked = interfaceData.provision;
+    virtualCheck.checked = interfaceData.virtual;
+
+    if (interfaceData.primary) {
+      $('#host_name').val(interfaceData.name);
+
+      const fqdnVal = fqdn(interfaceData.name, interfaceData.domain);
+      if (fqdnVal.length > 0 && pathname === '/hosts/new') {
+        breadcrumbs.updateTitle(__("Create Host") + " | " + fqdnVal);
+      }
+    }
+
+    if (interfaceData.editing) {
+      showEditInterfaceModal(interfaceData.id);
+    }
+
+    if (!interfaceData.providerSpecificInfo) {
+      const providerSpecificInfo = window.providerSpecificInterfaceInfo($(hiddenFields));
+      if (providerSpecificInfo)
+      tfm.hosts.updateInterface(interfaceData.id, { providerSpecificInfo });
+    }
+  });
+  state.destroyed.forEach((destroyedId, idx) => {
+    $('#interfaceHidden'+destroyedId+' .destroyFlag').val(1);
+  });
+}
+observeStore(updateInterfaceHiddenForms, store => store.hosts.interfaces);
+
+function getInterfaceFormTemplateClone() {
+  var content = $('#interfaces .interfaces_fields_template').html();
+  var interfaceId = new Date().getTime();
+
+  content = fixTemplateNames(content, 'interfaces', interfaceId);
+
+  var hidden = $(content);
+
+  $('#interfaceForms').closest("form").trigger({ type: 'nested:fieldAdded', field: hidden });
+  $('a[rel="popover"]').popover();
+  $('a[rel="twipsy"]').tooltip();
+
+  hidden.attr('id', 'interfaceHidden'+interfaceId);
+  hidden.data('interface-id', interfaceId);
+  hidden.find('.destroyFlag').val(0);
+
+  return hidden;
+}
+
+const showInterfaceModal = ($form, newInterface = false) => {
+  $('#interfaceModal').data('new-interface', newInterface);
+  window.show_interface_modal($form);
+};
+
+export const showEditInterfaceModal = interfaceId => {
+  const $form = $(getInterfaceHiddenFields(interfaceId)).clone(true);
+  showInterfaceModal($form, false);
+};
+
+export const showNewInterfaceModal = () => {
+  const $form = getInterfaceFormTemplateClone();
+  showInterfaceModal($form, true);
+};
+
+export const getInterfacesData = () => store.getState().hosts.interfaces;
 
 export const initializeInterfaces = interfaces => {
   store.dispatch(interfaceActions.initializeInterfaces(interfaces));

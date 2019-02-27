@@ -25,9 +25,10 @@ export function observeStore(onChange, select = state => state) {
 
   function handleChange() {
     const nextState = select(store.getState());
+    const prevState = currentState;
     if (nextState !== currentState) {
-      onChange(nextState, currentState);
       currentState = nextState;
+      onChange(currentState, prevState);
     }
   }
 
