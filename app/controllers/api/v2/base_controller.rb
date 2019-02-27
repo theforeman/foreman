@@ -4,6 +4,8 @@ module Api
       include Api::Version2
       include Foreman::Controller::Authorize
 
+      rescue_from ActiveRecord::InvalidForeignKey, :with => :show_errors
+
       resource_description do
         api_version "v2"
         app_info N_("Foreman API v2 is currently the default API version.")
@@ -153,6 +155,13 @@ module Api
         options = set_error_details(error, options)
         render options.merge(:template => "api/v2/errors/#{error}",
                              :layout   => 'api/v2/layouts/error_layout')
+      end
+
+      def show_errors(exception = nil)
+        if exception
+          e = exception.message.scan(/\(([^)]+)\)/)
+          not_found _("Associated resource %{resource} with id %{id} not found") % {:resource => e[0][0], :id => e[1][0]}
+        end
       end
 
       private

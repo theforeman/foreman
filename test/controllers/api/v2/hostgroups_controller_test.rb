@@ -175,6 +175,14 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     assert_include @response.body, "Name can't be blank"
   end
 
+  test "should not create hostgroup with invalid foreign-key" do
+    assert_difference('Hostgroup.unscoped.count') do
+      post :create, params: { :hostgroup => { :name => 'Test Hostgroup', :subnet_id => '9999999' } }
+    end
+    assert_response 404
+    assert_include @response.body, "Associated resource subnet_id with id 9999999 not found"
+  end
+
   test_attributes :pid => '6d8c4738-a0c4-472b-9a71-27c8a3832335'
   test "should not update hostgroup with invalid name" do
     hostgroup = hostgroups(:common)
