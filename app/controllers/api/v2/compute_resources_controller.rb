@@ -61,7 +61,12 @@ module Api
       param_group :compute_resource, :as => :create
 
       def create
-        @compute_resource = ComputeResource.new_provider(compute_resource_params)
+        begin
+          @compute_resource = ComputeResource.new_provider(compute_resource_params)
+        rescue Foreman::Exception => e
+          render_message(e.message, :status => :unprocessable_entity)
+          return
+        end
 
         datacenter = change_datacenter_to_uuid(compute_resource_params[:datacenter])
         @compute_resource.datacenter = datacenter if datacenter.present?
