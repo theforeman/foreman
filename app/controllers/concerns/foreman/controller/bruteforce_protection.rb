@@ -11,7 +11,7 @@ module Foreman::Controller::BruteforceProtection
 
   def bruteforce_attempt?
     limit = Setting[:failed_login_attempts_limit].to_i
-    limit > 0 && get_login_failures >= limit
+    limit > 0 && get_login_failures >= limit && session[:user].nil?
   end
 
   def log_bruteforce
