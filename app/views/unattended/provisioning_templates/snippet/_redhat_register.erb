@@ -39,6 +39,8 @@ snippet: true
 #
 #   subscription_manager_pool = <pool>          Specific subscription pool to use
 #
+#   subscription_manager_override_repos_cost = <cost>  Override repository cost
+#
 #   http-proxy = <host>                         Proxy hostname to be used for registration
 #
 #   http-proxy-port = <port>                    Proxy port to be used for registration
@@ -175,6 +177,12 @@ snippet: true
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
     <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(',', ' --enable')}" %>
+  <% end %>
+
+  <% if host_param('subscription_manager_override_repos_cost') %>
+    for repo in $(subscription-manager repos --list-enabled | grep "Repo ID:" | awk -F' ' '{ print $3 }'); do
+      <%= "subscription-manager repo-override --list --repo $repo | grep 'cost:' &>/dev/null || subscription-manager repo-override --repo $repo --add=cost:#{host_param('subscription_manager_override_repos_cost')}" %>
+    done
   <% end %>
 
   <% if !atomic %>
