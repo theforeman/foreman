@@ -429,6 +429,11 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity, "Can create libvirt compute resource with the name of already existing resource"
   end
 
+  test "should not update with unknown provider" do
+    post :create, params: { :compute_resource => { :name => compute_resources(:mycompute).name, :provider => 'unknown' } }
+    assert_response :unprocessable_entity, "unknown provider"
+  end
+
   test "should not update with already taken name" do
     compute_resource = FactoryBot.create(:libvirt_cr)
     put :update, params: { :id => compute_resource.id, :compute_resource => { :name => compute_resources(:mycompute).name } }
