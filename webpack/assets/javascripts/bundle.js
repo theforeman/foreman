@@ -25,6 +25,7 @@ require('./bundle_select2');
 require('./bundle_datatables');
 require('./bundle_lodash');
 require('./bundle_novnc');
+require('./foreman_settings');
 
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';

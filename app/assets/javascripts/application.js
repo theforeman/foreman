@@ -8,7 +8,6 @@
 //= require vendor
 //= require jquery.extentions
 //= require jquery.multi-select
-//= require settings
 //= require jquery.gridster
 //= require hidden_values
 //= require select_on_click
