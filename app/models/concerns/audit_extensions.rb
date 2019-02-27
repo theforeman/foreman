@@ -119,6 +119,16 @@ module AuditExtensions
     end
   end
 
+  module ClassMethods
+    def main_objects
+      audited_classes.reject { |cl| cl.audited_options.key?(:associated_with) }
+    end
+
+    def main_object_names
+      main_objects.map(&:name)
+    end
+  end
+
   private
 
   def log_audit
