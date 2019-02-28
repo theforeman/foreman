@@ -1,8 +1,4 @@
 module LayoutHelper
-  def mount_layout
-    mount_react_component('Layout', "#layout", layout_data.to_json)
-  end
-
   def fetch_menus
     menus_array = [ Menu::Manager.to_hash(:top_menu), Menu::Manager.to_hash(:admin_menu), Menu::Manager.to_hash(:side_menu) ]
     menus_array << Menu::Manager.to_hash(:labs_menu) if Setting[:lab_features]

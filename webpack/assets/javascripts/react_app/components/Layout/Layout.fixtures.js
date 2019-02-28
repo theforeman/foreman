@@ -213,6 +213,9 @@ const serverUser = {
 export const layoutMock = {
   items: PFitems,
   activeMenu: 'Monitor',
+  history: {
+    push: jest.fn(),
+  },
   data: {
     menu: [...hashItemsA, ...hashItemsB],
     locations,

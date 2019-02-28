@@ -4,6 +4,8 @@ import {
   LAYOUT_UPDATE_ITEMS,
   LAYOUT_CHANGE_ORG,
   LAYOUT_CHANGE_LOCATION,
+  LAYOUT_COLLAPSE,
+  LAYOUT_EXPAND,
 } from '../LayoutConstants';
 
 import reducer from '../LayoutReducer';
@@ -21,6 +23,16 @@ const fixtures = {
   'should handle LAYOUT_HIDE_LOADING': {
     action: {
       type: LAYOUT_HIDE_LOADING,
+    },
+  },
+  'should handle LAYOUT_COLLAPSE': {
+    action: {
+      type: LAYOUT_COLLAPSE,
+    },
+  },
+  'should handle LAYOUT_EXPAND': {
+    action: {
+      type: LAYOUT_EXPAND,
     },
   },
   'should handle LAYOUT_UPDATE_ITEMS with changeActive': {

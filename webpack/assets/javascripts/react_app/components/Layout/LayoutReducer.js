@@ -7,12 +7,15 @@ import {
   LAYOUT_UPDATE_ITEMS,
   LAYOUT_CHANGE_ORG,
   LAYOUT_CHANGE_LOCATION,
+  LAYOUT_EXPAND,
+  LAYOUT_COLLAPSE,
 } from './LayoutConstants';
 
 const initialState = Immutable({
   items: [],
   isLoading: false,
   activeMenu: 'initialActive',
+  isCollapsed: false,
   currentOrganization: { title: 'Any Organization' },
   currentLocation: { title: 'Any Location' },
 });
@@ -36,6 +39,12 @@ export default (state = initialState, action) => {
 
     case LAYOUT_CHANGE_LOCATION:
       return state.set('currentLocation', location);
+
+    case LAYOUT_EXPAND:
+      return state.set('isCollapsed', false);
+
+    case LAYOUT_COLLAPSE:
+      return state.set('isCollapsed', true);
 
     default:
       return state;
