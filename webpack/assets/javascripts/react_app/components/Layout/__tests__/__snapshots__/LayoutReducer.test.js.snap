@@ -9,6 +9,7 @@ Object {
   "currentOrganization": Object {
     "title": "Any Organization",
   },
+  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }
@@ -21,6 +22,7 @@ Object {
   "currentOrganization": Object {
     "title": "Any Organization",
   },
+  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }
@@ -33,6 +35,37 @@ Object {
     "title": "Any Location",
   },
   "currentOrganization": "org1",
+  "isCollapsed": false,
+  "isLoading": false,
+  "items": Array [],
+}
+`;
+
+exports[`Layout reducer should handle LAYOUT_COLLAPSE 1`] = `
+Object {
+  "activeMenu": "initialActive",
+  "currentLocation": Object {
+    "title": "Any Location",
+  },
+  "currentOrganization": Object {
+    "title": "Any Organization",
+  },
+  "isCollapsed": true,
+  "isLoading": false,
+  "items": Array [],
+}
+`;
+
+exports[`Layout reducer should handle LAYOUT_EXPAND 1`] = `
+Object {
+  "activeMenu": "initialActive",
+  "currentLocation": Object {
+    "title": "Any Location",
+  },
+  "currentOrganization": Object {
+    "title": "Any Organization",
+  },
+  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }
@@ -47,6 +80,7 @@ Object {
   "currentOrganization": Object {
     "title": "Any Organization",
   },
+  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }
@@ -61,6 +95,7 @@ Object {
   "currentOrganization": Object {
     "title": "Any Organization",
   },
+  "isCollapsed": false,
   "isLoading": true,
   "items": Array [],
 }
@@ -75,6 +110,7 @@ Object {
   "currentOrganization": Object {
     "title": "Any Organization",
   },
+  "isCollapsed": false,
   "isLoading": false,
   "items": Array [
     Object {
@@ -111,6 +147,7 @@ Object {
   "currentOrganization": Object {
     "title": "Any Organization",
   },
+  "isCollapsed": false,
   "isLoading": false,
   "items": Array [],
 }

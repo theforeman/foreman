@@ -187,6 +187,18 @@ Object {
 }
 `;
 
+exports[`Layout actions should onCollapse 1`] = `
+Object {
+  "type": "LAYOUT_COLLAPSE",
+}
+`;
+
+exports[`Layout actions should onExpand 1`] = `
+Object {
+  "type": "LAYOUT_EXPAND",
+}
+`;
+
 exports[`Layout actions should showLoading 1`] = `
 Object {
   "type": "LAYOUT_SHOW_LOADING",

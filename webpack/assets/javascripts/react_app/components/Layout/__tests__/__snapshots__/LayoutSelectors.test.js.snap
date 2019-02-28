@@ -9,6 +9,7 @@ Object {
   "currentOrganization": Object {
     "title": "org1",
   },
+  "isCollapsed": false,
   "isLoading": true,
   "items": Array [
     Object {
@@ -93,16 +94,16 @@ Array [
         "className": "",
         "href": "/",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Dashboard",
       },
       Object {
         "className": "",
         "href": "/fact_values",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Facts",
       },
     ],
@@ -116,16 +117,16 @@ Array [
         "className": "",
         "href": "/hosts/new",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "All Hosts",
       },
       Object {
         "className": "",
         "href": "/architectures",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Architectures",
       },
     ],
@@ -139,16 +140,16 @@ Array [
         "className": "",
         "href": "/environments",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Environments",
       },
       Object {
         "className": "",
         "href": "/architectures",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Architectures",
       },
     ],
@@ -162,16 +163,16 @@ Array [
         "className": "",
         "href": "/domains",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Domains",
       },
       Object {
         "className": "",
         "href": "/realms",
         "isDivider": false,
-        "onClick": null,
-        "preventHref": false,
+        "onClick": [Function],
+        "preventHref": true,
         "title": "Realms",
       },
     ],
@@ -181,6 +182,8 @@ Array [
 `;
 
 exports[`Layout selectors should return empty array of items 1`] = `Array []`;
+
+exports[`Layout selectors should return isCollapsed from selector 1`] = `false`;
 
 exports[`Layout selectors should return isLoading from selector 1`] = `true`;
 
