@@ -244,7 +244,7 @@ class Operatingsystem < ApplicationRecord
     return default_boot_filename if host.nil? || host.pxe_loader.nil?
     return host.foreman_url('iPXE') if host.pxe_loader == 'iPXE Embedded'
     architecture = host.arch.nil? ? '' : host.arch.bootfilename_efi
-    boot_uri = URI.parse(host.subnet.httpboot? ? host.subnet.httpboot.url : Setting[:unattended_url])
+    boot_uri = URI.parse((host.subnet&.httpboot?) ? host.subnet.httpboot.url : Setting[:unattended_url])
     self.class.all_loaders_map(architecture, "#{boot_uri.host}:#{boot_uri.port}")[host.pxe_loader]
   end
 
