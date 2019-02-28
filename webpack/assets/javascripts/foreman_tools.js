@@ -126,3 +126,8 @@ export function updateTable(element) {
   Turbolinks.visit(uri.toString());
   return false;
 }
+
+// generates an absolute, needed in case of running Foreman from a subpath
+export function foremanUrl(path) {
+  return URL_PREFIX + path;
+}

@@ -178,9 +178,9 @@ module HostsHelper
         # If the action array has 3 entries, the third one is whether to use a modal dialog or not
         modal = (action.size == 3) ? action[3] : true
         if modal
-          link_to_function(action[0], "build_modal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+          link_to_function(action[0], "tfm.hosts.table.buildModal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         else
-          link_to_function(action[0], "build_redirect('#{action[1]}')")
+          link_to_function(action[0], "tfm.hosts.table.buildRedirect('#{action[1]}')")
         end
       end.flatten
     )
@@ -488,7 +488,7 @@ module HostsHelper
       [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
       SmartProxy.with_features(proxy_feature).map {|p| [p.name, p.id]},
       {},
-      {:label => _(proxy_feature), :onchange => "toggle_multiple_ok_button(this)" }
+      {:label => _(proxy_feature), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" }
   end
 
   def randomize_mac_link

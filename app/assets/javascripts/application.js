@@ -15,6 +15,7 @@
 //= require lookup_keys
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require deprecation
 
 $(document).on("page:fetch", function() {
   tfm.tools.showSpinner();
@@ -57,7 +58,11 @@ function onContentLoad(){
   // Prevents all links with the disabled attribute set to "disabled"
   // from being clicked.
   $('a[disabled="disabled"]').click(function() {
-    return false;
+    // return false for actual disabled links, this is
+    // required in case the link was "enabled" after the
+    // function has registered.
+
+    return !this.disabled;
   });
 
   // allow opening new window for selected links
@@ -318,11 +323,6 @@ function update_puppetclasses(element) {
       reloadOnAjaxComplete(element);
     }
   })
-}
-
-// generates an absolute, needed in case of running Foreman from a subpath
-function foreman_url(path) {
-  return URL_PREFIX + path;
 }
 
 function spinner_placeholder(text){

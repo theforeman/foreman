@@ -1,4 +1,13 @@
 import { uniq, set } from 'lodash';
+import * as table from './hosts/tableCheckboxes';
+
+export default {
+  table,
+  registerPluginAttributes,
+  getAttributesToPost,
+  checkPXELoaderCompatibility,
+  pxeCompatibility,
+};
 
 const pluginEditAttributes = {
   architecture: [],

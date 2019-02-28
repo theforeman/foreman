@@ -26,7 +26,6 @@ Foreman::Application.configure do |app|
                   host_edit
                   host_edit_interfaces
                   hosts
-                  host_checkbox
                   reports
                   spice
                   charts
