@@ -186,7 +186,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      associate_by("mac", vm.mac)
+      associate_by("mac", vm.interfaces.map(&:mac))
     end
 
     def vm_compute_attributes_for(uuid)

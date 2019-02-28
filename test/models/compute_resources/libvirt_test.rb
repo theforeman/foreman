@@ -11,9 +11,22 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
 
   test "#associated_host matches any NIC" do
     host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
+    Nic::Base.create! :mac => "ca:d0:e6:32:16:99", :host => host
+    host.reload
     cr = FactoryBot.build_stubbed(:libvirt_cr)
     iface = mock('iface1', :mac => 'ca:d0:e6:32:16:97')
-    assert_equal host, as_admin { cr.associated_host(iface) }
+    vm = mock('vm', :interfaces => [iface])
+    assert_equal host, as_admin { cr.associated_host(vm) }
+  end
+
+  test "#associated_host matches any NIC with upper case MAC" do
+    host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
+    Nic::Base.create! :mac => "ca:d0:e6:32:16:99", :host => host
+    host.reload
+    cr = FactoryBot.build_stubbed(:libvirt_cr)
+    iface = mock('iface1', :mac => 'CA:D0:E6:32:16:97')
+    vm = mock('vm', :interfaces => [iface])
+    assert_equal host, as_admin { cr.associated_host(vm) }
   end
 
   test 'should update with multiple valid names' do

@@ -482,6 +482,17 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     assert_equal host, as_admin { cr.associated_host(vm) }
   end
 
+  test "#associated_host matches NIC mac with uppercase letters" do
+    host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:98')
+    Nic::Base.create! :mac => "ca:d0:e6:32:16:99", :host => host
+    host.reload
+    cr = FactoryBot.build_stubbed(:vmware_cr)
+    iface1 = mock('iface1', :mac => 'CA:D0:E6:32:16:98')
+    iface2 = mock('iface1', :mac => 'ca:d0:e6:32:16:99')
+    vm = mock('vm', :interfaces => [iface1, iface2])
+    assert_equal host, as_admin { cr.associated_host(vm) }
+  end
+
   describe "vm_compute_attributes_for" do
     before do
       plain_attrs = {
