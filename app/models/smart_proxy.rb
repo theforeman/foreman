@@ -83,8 +83,9 @@ class SmartProxy < ApplicationRecord
     conditions
   end
 
-  def has_feature?(feature)
-    self.smart_proxy_features.any? { |proxy_feature| proxy_feature.feature.name == feature }
+  def has_feature?(feature_name)
+    feature_ids = Feature.where(:name => feature_name).pluck(:id)
+    self.smart_proxy_features.any? { |proxy_feature| feature_ids.include?(proxy_feature.feature_id) }
   end
 
   def capabilities(feature)
