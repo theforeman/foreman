@@ -1,14 +1,12 @@
-<% javascript 'filters' %>
-
 <%= form_for @filter do |f| %>
   <%= base_errors_for f.object %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Filter") %></a></li>
     <% if show_location_tab? %>
-      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <li><a href="#locations" data-toggle="tab" style=<%= display(!(@filter.override? && @filter.allows_location_filtering?))%>><%= _("Locations") %></a></li>
     <% end %>
     <% if show_organization_tab? %>
-      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <li><a href="#organizations" data-toggle="tab" style=<%= display(!@filter.override? && @filter.allows_organization_filtering?) %>><%= _("Organizations") %></a></li>
     <% end %>
   </ul>
 
@@ -28,6 +26,7 @@
                        {:include_blank => _('(Miscellaneous)')}, {:'data-url' => permissions_path,
                                                                   :'data-allow-organizations' => @filter.allows_organization_filtering?,
                                                                   :'data-allow-locations' => @filter.allows_location_filtering?,
+                                                                  :onchange => 'tfm.filters.resourceTypeChanged(this)',
                                                                   :autofocus => true}) %>
 
       <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
@@ -45,12 +44,14 @@
 
       <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? ? '' : 'hidden' %>">
         <%= checkbox_f f, :override?,
+                       :onchange => 'tfm.filters.overrideTaxonomyChecked(this)',
                        :label_help => _("Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again.").html_safe,
                        :id => 'override_taxonomy_checkbox' %>
       </div>
 
       <div id="granular_form" style="<%= f.object.granular? ? '' : 'display:none' %>">
         <%= checkbox_f f, :unlimited?,
+                       :onchange => 'tfm.filters.unlimitedChanged(this)',
                        :label_help => _("If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly.").html_safe %>
 
 

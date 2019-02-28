@@ -32,7 +32,6 @@ Foreman::Application.configure do |app|
                   charts
                   taxonomy_edit
                   gettext/all
-                  filters
                   class_edit
                   dashboard
                   subnets
