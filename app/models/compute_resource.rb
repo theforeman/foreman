@@ -423,6 +423,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def associate_by(name, attributes)
+    attributes = Array.wrap(attributes).map { |mac| Net::Validations.normalize_mac(mac) } if name == 'mac'
     Host.authorized(:view_hosts, Host).joins(:primary_interface).
       where(:nics => {:primary => true}).
       where("nics.#{name}" => attributes).

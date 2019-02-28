@@ -19,6 +19,15 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     assert_equal host, as_admin { cr.associated_host(vm) }
   end
 
+  test "#associated_host matches NIC mac with uppercase letters" do
+    host = FactoryBot.create(:host, :mac => 'ca:d0:e6:32:16:97')
+    cr = FactoryBot.build_stubbed(:ovirt_cr)
+    iface1 = mock('iface1', :mac => '36:48:c5:c9:86:f2')
+    iface2 = mock('iface2', :mac => 'CA:D0:E6:32:16:97')
+    vm = mock('vm', :interfaces => [iface1, iface2])
+    assert_equal host, as_admin { cr.associated_host(vm) }
+  end
+
   describe "destroy_vm" do
     it "handles situation when vm is not present" do
       cr = mock_cr_servers(Foreman::Model::Ovirt.new, empty_servers)
