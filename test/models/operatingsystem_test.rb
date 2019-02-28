@@ -365,5 +365,10 @@ class OperatingsystemTest < ActiveSupport::TestCase
       host = FactoryBot.build(:host, :managed, :with_templates_subnet, pxe_loader: 'iPXE Embedded')
       assert_equal 'https://someproxy:8443/unattended/iPXE', host.operatingsystem.boot_filename(host)
     end
+
+    test 'should be the unattended url for a host without a subnet' do
+      host = FactoryBot.build(:host, :managed, pxe_loader: 'Grub2 UEFI HTTP')
+      assert_equal 'http://foreman.some.host.fqdn:80/httpboot/grub2/grubx64.efi', host.operatingsystem.boot_filename(host)
+    end
   end
 end
