@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - '6.14' # previous LTS, currently in EPEL
   - '8' # current LTS
   - '10' # future LTS
 script: ./script/travis_run_js_tests.sh
