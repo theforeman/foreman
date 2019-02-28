@@ -1,5 +1,11 @@
 require 'test_helper'
 class ConfigReportStatusCalculatorTest < ActiveSupport::TestCase
+  test 'it should return status' do
+    r = ConfigReportStatusCalculator.new(:counters => {'applied' => 0, 'restarted' => 0, 'failed' => 0, 'failed_restarts' => 0, 'skipped' => 1, 'pending' => 0})
+    expected = {"applied" => 0, "restarted" => 0, "failed" => 0, "failed_restarts" => 0, "skipped" => 1, "pending" => 0}
+    assert_equal expected, r.status
+  end
+
   test 'it should not change host report status when we have skipped reports but there are no log entries' do
     r = ConfigReportStatusCalculator.new(:counters => {'applied' => 0, 'restarted' => 0, 'failed' => 0, 'failed_restarts' => 0, 'skipped' => 1, 'pending' => 0})
     assert_equal 0, r.status['failed']

@@ -28,3 +28,4 @@ telemetry.add_histogram(:report_importer_create, 'Total duration of report impor
 telemetry.add_histogram(:report_importer_refresh, 'Total duration of report status refresh', [:type])
 telemetry.add_counter(:audit_records_created, 'Number of audit records created in the DB', [:type])
 telemetry.add_counter(:audit_records_logged, 'Number of audit records sent into logger', [:type])
+telemetry.add_counter(:config_report_metric_count, 'Number of config report status metrics', [:metric])
