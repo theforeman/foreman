@@ -13,7 +13,7 @@ class SmartProxyFeature < ApplicationRecord
   def self.import_features(smart_proxy, features_json)
     name_map = Feature.name_map
     new_feature_classes = features_json.keys.map {|feature| name_map[feature]}
-    smart_proxy.smart_proxy_features.where.not(feature_id: new_feature_classes).destroy_all
+    smart_proxy.smart_proxy_features.where.not(feature: new_feature_classes).destroy_all
     features_json.each do |name, feature_json|
       feature_class = name_map[name]
       smart_proxy_feature = smart_proxy.smart_proxy_features.to_a.find {|spf| spf.feature_id == feature_class.id}

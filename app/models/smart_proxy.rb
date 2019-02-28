@@ -110,7 +110,7 @@ class SmartProxy < ApplicationRecord
   end
 
   def feature_details
-    self.smart_proxy_features.each_with_object({}) do |smart_proxy_feature, hash|
+    self.smart_proxy_features.includes(:feature).each_with_object({}) do |smart_proxy_feature, hash|
       hash[smart_proxy_feature.feature.name] = smart_proxy_feature.details
     end
   end
@@ -136,7 +136,7 @@ class SmartProxy < ApplicationRecord
       if valid_features.any?
         SmartProxyFeature.import_features(self, valid_features)
       else
-        self.features.clear
+        self.smart_proxy_features.clear
         if reply.any?
           errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
                               'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.keys.to_sentence

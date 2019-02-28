@@ -10,7 +10,7 @@ module ProxyAPI::V2
     rescue RestClient::ResourceNotFound
       raise NotImplementedError
     rescue => e
-      raise ProxyException.new(url, e, N_("Unable to detect features"))
+      raise ProxyAPI::ProxyException.new(url, e, N_("Unable to detect features"))
     end
   end
 end
