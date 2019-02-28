@@ -5,6 +5,8 @@ import {
   LAYOUT_CHANGE_ORG,
   LAYOUT_CHANGE_LOCATION,
   LAYOUT_CHANGE_ACTIVE,
+  LAYOUT_COLLAPSE,
+  LAYOUT_EXPAND,
 } from '../LayoutConstants';
 
 import reducer from '../LayoutReducer';
@@ -30,6 +32,16 @@ const fixtures = {
       payload: {
         activeMenu: 'Monitor',
       },
+    },
+  },
+  'should handle LAYOUT_COLLAPSE': {
+    action: {
+      type: LAYOUT_COLLAPSE,
+    },
+  },
+  'should handle LAYOUT_EXPAND': {
+    action: {
+      type: LAYOUT_EXPAND,
     },
   },
   'should handle LAYOUT_UPDATE_ITEMS': {

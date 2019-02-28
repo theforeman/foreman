@@ -6,6 +6,7 @@ import { translate as __ } from '../../common/I18n';
 import { noop } from '../../common/helpers';
 
 import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';
+import LayoutContainer from './components/LayoutContainer';
 import TaxonomySwitcher from './components/TaxonomySwitcher';
 import UserDropdowns from './components/UserDropdowns';
 import './layout.scss';
@@ -22,8 +23,11 @@ class Layout extends React.Component {
       currentOrganization,
       changeActiveMenu,
       activeMenu,
+      isCollapsed,
+      onCollapse,
     } = this.props;
     if (items.length === 0) fetchMenuItems(data);
+    if (isCollapsed) onCollapse();
 
     const activeURLMenu = getActive(data.menu, getCurrentPath());
     if (activeMenu !== activeURLMenu.title) {
@@ -60,68 +64,86 @@ class Layout extends React.Component {
       items,
       data,
       isLoading,
+      isCollapsed,
+      onExpand,
+      onCollapse,
       changeActiveMenu,
       changeOrganization,
       changeLocation,
       currentOrganization,
       currentLocation,
       activeMenu,
+      children,
+      history,
     } = this.props;
 
     return (
-      <VerticalNav
-        hoverDelay={100}
-        items={items}
-        onItemClick={primary =>
-          handleMenuClick(primary, activeMenu, changeActiveMenu)
-        }
-        activePath={`/${__(activeMenu || 'active')}/`}
-        {...this.props}
-      >
-        <VerticalNav.Masthead>
-          <VerticalNav.Brand
-            title={data.brand}
-            iconImg={data.logo}
-            href={data.root}
-          />
-          <TaxonomySwitcher
-            taxonomiesBool={data.taxonomies}
-            currentLocation={currentLocation}
-            locations={
-              data.taxonomies.locations
-                ? data.locations.available_locations
-                : []
-            }
-            onLocationClick={changeLocation}
-            currentOrganization={currentOrganization}
-            organizations={
-              data.taxonomies.organizations
-                ? data.orgs.available_organizations
-                : []
-            }
-            onOrgClick={changeOrganization}
-            isLoading={isLoading}
-          />
-          <UserDropdowns
-            notificationUrl={data.notification_url}
-            user={data.user}
-            changeActiveMenu={changeActiveMenu}
-          />
-        </VerticalNav.Masthead>
-      </VerticalNav>
+      <React.Fragment>
+        <VerticalNav
+          hoverDelay={100}
+          items={items}
+          onItemClick={primary =>
+            handleMenuClick(primary, activeMenu, changeActiveMenu)
+          }
+          onNavigate={({ href }) => history.push(href)}
+          activePath={`/${__(activeMenu || 'active')}/`}
+          onCollapse={onCollapse}
+          onExpand={onExpand}
+          {...this.props}
+        >
+          <VerticalNav.Masthead>
+            <VerticalNav.Brand
+              title={data.brand}
+              iconImg={data.logo}
+              href={data.root}
+            />
+            <TaxonomySwitcher
+              taxonomiesBool={data.taxonomies}
+              currentLocation={currentLocation}
+              locations={
+                data.taxonomies.locations
+                  ? data.locations.available_locations
+                  : []
+              }
+              onLocationClick={changeLocation}
+              currentOrganization={currentOrganization}
+              organizations={
+                data.taxonomies.organizations
+                  ? data.orgs.available_organizations
+                  : []
+              }
+              onOrgClick={changeOrganization}
+              isLoading={isLoading}
+            />
+            <UserDropdowns
+              notificationUrl={data.notification_url}
+              user={data.user}
+              changeActiveMenu={changeActiveMenu}
+            />
+          </VerticalNav.Masthead>
+        </VerticalNav>
+        <LayoutContainer isCollapsed={isCollapsed}>{children}</LayoutContainer>
+      </React.Fragment>
     );
   }
 }
 
 Layout.propTypes = {
+  children: PropTypes.node,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   currentOrganization: PropTypes.string,
   currentLocation: PropTypes.string,
   isLoading: PropTypes.bool,
+  isCollapsed: PropTypes.bool,
   activeMenu: PropTypes.string,
   fetchMenuItems: PropTypes.func,
   changeActiveMenu: PropTypes.func,
   changeOrganization: PropTypes.func,
   changeLocation: PropTypes.func,
+  onExpand: PropTypes.func,
+  onCollapse: PropTypes.func,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -133,7 +155,7 @@ Layout.propTypes = {
           title: PropTypes.string,
           isDivider: PropTypes.bool,
           className: PropTypes.string,
-          href: PropTypes.string.isRequired,
+          href: PropTypes.string,
         })
       ),
     })
@@ -189,16 +211,20 @@ Layout.propTypes = {
 };
 
 Layout.defaultProps = {
+  children: null,
   items: [],
   data: {},
   currentOrganization: 'Any Organization',
   currentLocation: 'Any Location',
   isLoading: false,
+  isCollapsed: false,
   activeMenu: '',
   fetchMenuItems: noop,
   changeActiveMenu: noop,
   changeOrganization: noop,
   changeLocation: noop,
+  onExpand: noop,
+  onCollapse: noop,
 };
 
 export default Layout;

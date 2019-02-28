@@ -1,11 +1,13 @@
 import { createSelector } from 'reselect';
 import { get } from 'lodash';
+import { noop } from '../../common/helpers';
 
 export const selectLayout = state => state.layout;
 
 export const selectMenuItems = state => selectLayout(state).items;
 export const selectActiveMenu = state => selectLayout(state).activeMenu;
 export const selectIsLoading = state => selectLayout(state).isLoading;
+export const selectIsCollapsed = state => selectLayout(state).isCollapsed;
 export const selectCurrentLocation = state =>
   get(selectLayout(state), 'currentLocation.title');
 export const selectCurrentOrganization = state =>
@@ -33,9 +35,9 @@ const patternflyItems = (data, currentLocation, currentOrganization) => {
           child.name === currentLocation || child.name === currentOrganization
             ? 'mobile-active'
             : '',
-        href: child.url ? child.url : '#',
-        preventHref: false,
-        onClick: child.onClick ? () => child.onClick() : null,
+        href: child.url || '#',
+        preventHref: true,
+        onClick: child.onClick || noop,
       };
       childrenArray.push(childObject);
     });

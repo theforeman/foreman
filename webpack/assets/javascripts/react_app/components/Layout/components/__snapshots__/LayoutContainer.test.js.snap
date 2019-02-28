@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LayoutContainer rendering render LayoutContainer 1`] = `
+<div
+  className="react-container container-fluid nav-pf-persistent-secondary"
+>
+  <li
+    key="key"
+  >
+    TEST
+  </li>
+</div>
+`;
+
+exports[`LayoutContainer rendering render LayoutContainer w/Collapsed Nav 1`] = `
+<div
+  className="react-container container-fluid nav-pf-persistent-secondary collapsed-nav"
+>
+  <li
+    key="key"
+  >
+    TEST
+  </li>
+</div>
+`;

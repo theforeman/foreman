@@ -24,6 +24,8 @@ module.exports = [
   'isomorphic-fetch',
   'react-intl',
   'intl',
+  'react-router-dom',
+  'history',
 
   /*
    * jquery related
