@@ -34,7 +34,6 @@ Foreman::Application.configure do |app|
                   gettext/all
                   filters
                   class_edit
-                  dashboard
                   subnets
                   hidden_values
                   proxy_status
