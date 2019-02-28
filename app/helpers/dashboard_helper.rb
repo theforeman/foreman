@@ -8,7 +8,7 @@ module DashboardHelper
       _("Generated at %s") % date_time_absolute(Time.zone.now),
       select_action_button(
         _('Manage'), {},
-        link_to_function(_('Save positions'), "save_position('#{save_positions_widgets_path}')"),
+        link_to_function(_('Save positions'), "tfm.dashboard.savePosition('#{save_positions_widgets_path}')"),
         link_to(_('Reset to default'), reset_default_widgets_path, :method => :put),
         content_tag(:li, '', :class => 'divider'),
         content_tag(:li, _("Add widgets"), :class => 'nav-header'),
@@ -32,7 +32,7 @@ module DashboardHelper
     return link_to(_('Nothing to add'), '#') unless removed_widgets.present?
     removed_widgets.sort_by {|w| w[:name] }.each do |removed_widget|
       concat(link_to_function(_(removed_widget[:name]),
-                              "add_widget('#{removed_widget[:name]}')"))
+                              "tfm.dashboard.addWidget('#{removed_widget[:name]}')"))
     end
   end
 
