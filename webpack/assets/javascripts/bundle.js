@@ -17,7 +17,6 @@ require('expose-loader?$!expose-loader?jQuery!jquery');
 require('jquery-ujs');
 require('expose-loader?jstz!jstz');
 require('expose-loader?ipaddr!ipaddr.js');
-require('jquery.cookie');
 require('expose-loader?JsDiff!diff');
 require('./bundle_flot');
 require('./bundle_multiselect');
@@ -30,6 +29,7 @@ import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
 import i18n from './react_app/common/I18n';
 import * as foremanDocument from './react_app/common/document';
+import hosts from './foreman_hosts';
 import * as foremanStore from './foreman_store';
 
 window.tfm = Object.assign(window.tfm || {}, {
@@ -40,7 +40,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   sshKeys: require('./foreman_ssh_keys'),
   trends: require('./foreman_trends'),
   hostgroups: require('./foreman_hostgroups'),
-  hosts: require('./foreman_hosts'),
+  hosts,
   httpProxies: require('./foreman_http_proxies'),
   toastNotifications: require('./foreman_toast_notifications'),
   numFields: require('./jquery.ui.custom_spinners'),

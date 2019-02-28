@@ -1,10 +1,9 @@
-<%= javascript "host_checkbox" %>
 <% title header ||= "" %>
 <span class="pull-right"><%= (_("<b class='select_count'>0</b> of <b>%s</b> selected") % @hosts.total_entries).html_safe %></span>
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
-      <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onchange => "toggleCheck()", :'check-title' => _("Select all items on this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
+      <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onchange => "tfm.hosts.table.toggleCheck()", :'check-title' => _("Select all items on this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
       <% if power_status_visible? %>
         <th class="ca" width="5%"><%= _('Power') %></th>
       <% end %>
@@ -21,7 +20,7 @@
     <% hosts.each do |host| %>
       <tr>
         <td class="ca">
-          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'hostChecked(this)' %>
+          <%= check_box_tag "host_ids[]", nil, false, :id => "host_ids_#{host.id}", :class => 'host_select_boxes', :onclick => 'tfm.hosts.table.hostChecked(this)' %>
         </td>
         <% if power_status_visible? %>
           <td class="ca">
@@ -58,7 +57,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('Cancel') %></button>
-        <button type="button" class="btn btn-primary" onclick="submit_modal_form()"><%= _('Submit') %></button>
+        <button type="button" class="btn btn-primary" onclick='tfm.hosts.table.submitModalForm()'><%= _('Submit') %></button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

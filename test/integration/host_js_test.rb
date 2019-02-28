@@ -393,7 +393,7 @@ class HostJSTest < IntegrationTestWithJavascript
       host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
       assert(host_ids_on_cookie.include?(@host.id))
 
-      page.execute_script("build_redirect('#{select_multiple_environment_hosts_path}')")
+      page.execute_script("tfm.hosts.table.buildRedirect('#{select_multiple_environment_hosts_path}')")
       assert_current_path(select_multiple_environment_hosts_path, :ignore_query => true)
     end
   end
