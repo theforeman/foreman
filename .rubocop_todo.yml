@@ -259,13 +259,6 @@ Rails/Output:
 Rails/OutputSafety:
   Enabled: false
 
-# Offense count: 864
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: **/test/**/*
-Rails/RefuteMethods:
-  Enabled: false
-
 # Offense count: 4
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb
