@@ -111,3 +111,6 @@ Rails/BulkChangeTable:
 
 Style/MultipleComparison:
   Enabled: false
+
+Rails/RefuteMethods:
+  Enabled: false
