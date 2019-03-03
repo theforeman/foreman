@@ -15,6 +15,9 @@ require 'webmock/minitest'
 require 'webmock'
 require 'robottelo/reporter/attributes'
 
+# FactoryBot 5 changed the default to 'true'
+FactoryBot.use_parent_strategy = false
+
 # Do not allow network connections and external processes
 WebMock.disable_net_connect!(allow_localhost: true)
 
