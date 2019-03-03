@@ -7,10 +7,14 @@ import MessageBox from '../common/MessageBox';
 import { translate as __ } from '../../common/I18n';
 import createModelsTableSchema from './ModelsTableSchema';
 import { getURIQuery } from '../../common/helpers';
+import { MODELS_TABLE_CONTROLLER } from './ModelsTableConstants';
 
 class ModelsTable extends React.Component {
   componentDidMount() {
-    this.props.getTableItems('models', getURIQuery(window.location.href));
+    this.props.getTableItems(
+      MODELS_TABLE_CONTROLLER,
+      getURIQuery(window.location.href)
+    );
   }
 
   render() {
