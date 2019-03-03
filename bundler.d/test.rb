@@ -10,7 +10,7 @@ group :test do
   gem 'show_me_the_cookies', '~> 4.0', :require => false
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
-  gem 'factory_bot_rails', '~> 4.5', :require => false
+  gem 'factory_bot_rails', '~> 5.0', :require => false
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem 'poltergeist', '>= 1.18.0', :require => false
   gem 'selenium-webdriver', :require => false
