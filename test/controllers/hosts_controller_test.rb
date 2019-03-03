@@ -1654,6 +1654,52 @@ class HostsControllerTest < ActionController::TestCase
     assert_valid host.lookup_values.first
   end
 
+  describe '#update' do
+    context 'with vmware' do
+      setup do
+        Fog.mock!
+
+        uuid = '5032c8a5-9c5e-ba7a-3804-832a03e16381' # from fog mock data
+        compute_resource = FactoryBot.create(:vmware_cr, uuid: 'Solutions')
+        compute_resource = ComputeResource.find(compute_resource.id)
+        @vmware_host = FactoryBot.create(:host, :managed, compute_resource: compute_resource,
+                                                  uuid: uuid,
+                                                  provision_method: 'image')
+      end
+
+      teardown { Fog.unmock! }
+
+      it 'allows edit disk size' do
+        scsi_controllers = [{ 'type' => 'VirtualLsiLogicController', 'key' => 1000 }]
+        volume_params = {
+          'thin' => true,
+          'name' => 'Hard disk',
+          'mode' => 'persistent',
+          'controllerKey' => 1000,
+          'size' => 10485760,
+          'sizeGb' => 12
+        }
+        volume_attributes = volume_params.clone.tap do |attrs|
+          attrs['controller_key'] = attrs.delete('controllerKey')
+          attrs['size_gb'] = attrs.delete('sizeGb')
+        end
+
+        Host::Managed.any_instance.expects('compute_attributes=').with(
+          'scsi_controllers' => scsi_controllers,
+          'volumes_attributes' => { '0' => volume_attributes }
+        )
+
+        put :update, params: {
+          commit: "Update",
+          id: @vmware_host.name,
+          host: { compute_attributes: { scsi_controllers: { 'scsiControllers' => scsi_controllers, 'volumes' => [volume_params] }.to_json } }
+        }, session: set_session_user
+
+        assert_redirected_to host_path(@vmware_host.to_param)
+      end
+    end
+  end
+
   describe '#ipmi_boot' do
     setup do
       @request.env['HTTP_REFERER'] = host_path(@host.id)
