@@ -81,7 +81,7 @@ module Orchestration::Compute
   def setCompute
     logger.info "Adding Compute instance for #{name}"
     if compute_attributes.nil?
-      failure _("Failed to find compute attributes, please check if VM %{name} was deleted: %{message}") % { name: name, message: e.message }, e
+      failure _("Failed to find compute attributes, please check if VM %s was deleted") % name
       return false
     end
     # TODO: extract the merging into separate class in combination
