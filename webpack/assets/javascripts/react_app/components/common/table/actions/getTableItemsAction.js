@@ -1,5 +1,6 @@
 import URI from 'urijs';
 import { ajaxRequestAction } from '../../../../redux/actions/common';
+import createTableActionTypes from '../actionsHelpers/actionTypeCreator';
 
 /**
  * An async Redux action that fetches and stores table data in Redux.
@@ -7,15 +8,20 @@ import { ajaxRequestAction } from '../../../../redux/actions/common';
  * @param  {Object} query      the API request query
  * @return {Function}          Redux Thunk function
  */
-export const getTableItems = (controller, query) => dispatch => {
+const getTableItemsAction = (controller, query) => dispatch => {
   const url = new URI(`/api/${controller}`);
   url.addSearch({ ...query, include_permissions: true });
+
+  const ACTION_TYPES = createTableActionTypes(controller);
+
   return ajaxRequestAction({
     dispatch,
-    requestAction: `${controller.toUpperCase()}_TABLE_REQUEST`,
-    successAction: `${controller.toUpperCase()}_TABLE_SUCCESS`,
-    failedAction: `${controller.toUpperCase()}_TABLE_FAILURE`,
+    requestAction: ACTION_TYPES.REQUEST,
+    successAction: ACTION_TYPES.SUCCESS,
+    failedAction: ACTION_TYPES.FAILURE,
     url: url.toString(),
     item: { controller, url: url.toString() },
   });
 };
+
+export default getTableItemsAction;

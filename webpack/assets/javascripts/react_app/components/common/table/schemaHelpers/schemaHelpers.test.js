@@ -13,6 +13,6 @@ describe('sortControllerFactory', () => {
     const apiCall = jest.fn();
     const sortCtrl = sortControllerFactory(apiCall, '', '');
     sortCtrl.apply('nickname', 'ASC');
-    expect(apiCall).toBeCalledWith('models', { order: 'nickname ASC' });
+    expect(apiCall).toBeCalledWith({ order: 'nickname ASC' });
   });
 });

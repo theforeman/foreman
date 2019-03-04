@@ -10,7 +10,7 @@ import { getURIQuery } from '../../common/helpers';
 
 class ModelsTable extends React.Component {
   componentDidMount() {
-    this.props.getTableItems('models', getURIQuery(window.location.href));
+    this.props.getTableItems(getURIQuery(window.location.href));
   }
 
   render() {

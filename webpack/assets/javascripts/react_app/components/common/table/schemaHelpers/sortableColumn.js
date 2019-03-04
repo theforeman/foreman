@@ -48,7 +48,7 @@ export const sortControllerFactory = (apiCall, sortBy, sortOrder) => ({
     // FIXME(bshuster): Going back in the browser won't render the state.
     //                  Using react-router will fix this completely.
     window.history.pushState({ path: uri.toString() }, '', uri.toString());
-    apiCall('models', uri.query(true));
+    apiCall(uri.query(true));
   },
   property: sortBy,
   order: sortOrder,

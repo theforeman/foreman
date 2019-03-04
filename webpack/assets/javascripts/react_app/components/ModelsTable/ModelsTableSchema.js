@@ -13,7 +13,7 @@ import {
 /**
  * Generate a table schema to the Hardware Models page.
  * @param  {Function} apiCall a Redux async action that fetches and stores table data in Redux.
- *                            See actions/common/getTableItemsAction.
+ *                            See ModelsTableActions.
  * @param  {String}   by      by which column the table is sorted.
  *                            If none then set it to undefined/null.
  * @param  {String}   order   in what order to sort a column. If none then set it to undefined/null.
