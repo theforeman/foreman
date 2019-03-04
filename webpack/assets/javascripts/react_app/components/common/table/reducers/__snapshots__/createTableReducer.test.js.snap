@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ModelsTable reducer should handle MODELS_TABLE_FAILURE 1`] = `
+exports[`Table createTableReducer should handle FAILURE 1`] = `
 Object {
   "error": [Error: ooops!],
   "results": Array [],
@@ -10,7 +10,7 @@ Object {
 }
 `;
 
-exports[`ModelsTable reducer should handle MODELS_TABLE_REQUEST 1`] = `
+exports[`Table createTableReducer should handle REQUEST 1`] = `
 Object {
   "error": null,
   "results": Array [],
@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`ModelsTable reducer should handle MODELS_TABLE_SUCCESS 1`] = `
+exports[`Table createTableReducer should handle SUCCESS 1`] = `
 Object {
   "error": null,
   "results": Array [
@@ -35,7 +35,7 @@ Object {
 }
 `;
 
-exports[`ModelsTable reducer should return initial state 1`] = `
+exports[`Table createTableReducer should return initial state 1`] = `
 Object {
   "error": null,
   "results": Array [],
