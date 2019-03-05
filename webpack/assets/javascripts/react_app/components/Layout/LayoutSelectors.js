@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
+import { get, snakeCase } from 'lodash';
 import { noop } from '../../common/helpers';
 
 export const selectLayout = state => state.layout;
@@ -29,6 +29,7 @@ const patternflyItems = (data, currentLocation, currentOrganization) => {
     const childrenArray = [];
     item.children.forEach(child => {
       const childObject = {
+        id: `menu_item_${snakeCase(child.name)}`,
         title: child.name,
         isDivider: child.type === 'divider' && !!child.name,
         className:

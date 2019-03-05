@@ -93,6 +93,7 @@ Array [
       Object {
         "className": "",
         "href": "/",
+        "id": "menu_item_dashboard",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -101,6 +102,7 @@ Array [
       Object {
         "className": "",
         "href": "/fact_values",
+        "id": "menu_item_facts",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -116,6 +118,7 @@ Array [
       Object {
         "className": "",
         "href": "/hosts/new",
+        "id": "menu_item_all_hosts",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -124,6 +127,7 @@ Array [
       Object {
         "className": "",
         "href": "/architectures",
+        "id": "menu_item_architectures",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -139,6 +143,7 @@ Array [
       Object {
         "className": "",
         "href": "/environments",
+        "id": "menu_item_environments",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -147,6 +152,7 @@ Array [
       Object {
         "className": "",
         "href": "/architectures",
+        "id": "menu_item_architectures",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -162,6 +168,7 @@ Array [
       Object {
         "className": "",
         "href": "/domains",
+        "id": "menu_item_domains",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
@@ -170,6 +177,7 @@ Array [
       Object {
         "className": "",
         "href": "/realms",
+        "id": "menu_item_realms",
         "isDivider": false,
         "onClick": [Function],
         "preventHref": true,
