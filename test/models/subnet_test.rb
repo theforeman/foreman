@@ -144,4 +144,21 @@ class SubnetTest < ActiveSupport::TestCase
   test "should have MTU set to 1500 by default" do
     assert_equal 1500, Subnet.new.mtu
   end
+
+  describe '#dns_servers' do
+    test 'should display a list of dns servers' do
+      subnet = FactoryBot.create(:subnet_ipv4, dns_primary: '192.0.2.1', dns_secondary: '192.0.2.2')
+      assert_equal ['192.0.2.1', '192.0.2.2'], subnet.dns_servers
+    end
+
+    test 'should skip empty dns servers' do
+      subnet = FactoryBot.create(:subnet_ipv4, dns_secondary: '192.0.2.1')
+      assert_equal ['192.0.2.1'], subnet.dns_servers
+    end
+
+    test 'should display an empty list if no dns servers are present' do
+      subnet = FactoryBot.create(:subnet_ipv4)
+      assert_equal [], subnet.dns_servers
+    end
+  end
 end
