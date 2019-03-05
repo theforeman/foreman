@@ -1,12 +1,8 @@
-# This class represents temporary storage for values processed in background.
-# This is a database solution, wich should not be the only one, as it has many limitations.
 class StoredValue < ApplicationRecord
   scope :valid, lambda {
-    f = arel_table[:expire_at]
-    where(f.eq(nil).or(f.gteq(Time.now)))
+    where([ "expire_at > ?", Time.now ]).or(where(expire_at: nil))
   }
-
-  scope :expired, ->(ago = 0) { where(arel_table[:expire_at].lteq(Time.now - ago)) }
+  scope :expired, ->(ago = 0) { where([ "expire_at <= ?", (Time.now - ago)]) }
 
   def self.write(result_key, result_value, expire_at: nil)
     record = self.find_by(key: result_key) || new(key: result_key)

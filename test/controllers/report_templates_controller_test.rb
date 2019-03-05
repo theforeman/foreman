@@ -137,28 +137,29 @@ class ReportTemplatesControllerTest < ActionController::TestCase
   end
 
   test "generate" do
-    get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
+    get :generate, params: { :id => @report_template.to_param }, session: set_session_user
     assert_response :success
   end
 
   describe '#schedule_report' do
     it "schedule report and returns report_data_url" do
       job_stub = OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER')
-      TemplateRenderJob.expects(:perform_later).with('template_id' => @report_template.to_param, 'input_values' => nil, 'gzip' => false).returns(job_stub)
+      TemplateRenderJob
+        .expects(:perform_later)
+        .with({ 'template_id' => @report_template.to_param, 'input_values' => nil, 'gzip' => false }, { user_id: User.current.id})
+        .returns(job_stub)
       get :schedule_report, params: { :id => @report_template.to_param }, session: set_session_user
-      assert_response :success
-      assert_equal 'application/json', response.content_type
-      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
+      assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
 
     it "schedule report with parameters" do
       job_stub = OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER')
-      user = FactoryBot.create(:user, :role_ids => [ Role.find_by_name('Manager').id ], :mail => 'user@example.com')
-      TemplateRenderJob.expects(:perform_later).with('template_id' => @report_template.to_param, 'input_values' => { '1' => { 'value' => 'ohai' } }, 'gzip' => false).returns(job_stub)
-      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { '1' => { :value => 'ohai' } } } }, session: set_session_user(user)
-      assert_response :success
-      assert_equal 'application/json', response.content_type
-      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
+      TemplateRenderJob
+        .expects(:perform_later)
+        .with({ 'template_id' => @report_template.to_param, 'input_values' => { '1' => { 'value' => 'ohai' } }, 'gzip' => false }, { user_id: User.current.id })
+        .returns(job_stub)
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { '1' => { :value => 'ohai' } } } }, session: set_session_user
+      assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
   end
 end

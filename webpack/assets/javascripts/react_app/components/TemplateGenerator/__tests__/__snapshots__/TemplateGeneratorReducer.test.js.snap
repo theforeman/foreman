@@ -4,6 +4,11 @@ exports[`TemplateGenerator reducer handles TEMPLATE_GENERATE_FAILURE 1`] = `
 Object {
   "dataUrl": null,
   "generationError": "some error",
+  "generationErrorMessages": Array [
+    Object {
+      "message": "It did not went so well",
+    },
+  ],
   "polling": false,
   "scheduleInProgress": false,
 }

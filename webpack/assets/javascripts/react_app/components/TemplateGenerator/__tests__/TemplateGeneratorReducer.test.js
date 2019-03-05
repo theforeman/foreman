@@ -32,6 +32,7 @@ const fixtures = {
       type: TEMPLATE_GENERATE_FAILURE,
       payload: {
         error: new Error('some error'),
+        messages: [{ message: 'It did not went so well' }],
       },
     },
   },

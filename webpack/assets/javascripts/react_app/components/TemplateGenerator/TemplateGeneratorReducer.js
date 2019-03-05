@@ -26,14 +26,13 @@ export default (state = initialState, { type, payload }) => {
     case TEMPLATE_GENERATE_FAILURE:
       return state.merge({
         scheduleInProgress: false,
-        dataUrl: null,
         polling: false,
         generationError: payload.error.message,
+        generationErrorMessages: payload.messages,
       });
     case TEMPLATE_GENERATE_SUCCESS:
       return state.merge({
         scheduleInProgress: false,
-        dataUrl: null,
         polling: false,
       });
     default:

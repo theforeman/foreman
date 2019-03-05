@@ -1,3 +1,4 @@
+import { pick } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -11,11 +12,13 @@ export const actions = templateActions;
 export const reducers = { templates: reducer };
 
 // map state to props
-const mapStateToProps = ({ templates }) => ({
-  scheduleInProgress: templates.scheduleInProgress,
-  polling: templates.polling,
-  dataUrl: templates.dataUrl,
-});
+const mapStateToProps = ({ templates }) =>
+  pick(templates, [
+    'polling',
+    'dataUrl',
+    'generationError',
+    'generationErrorMessages',
+  ]);
 
 // map action dispatchers to props
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

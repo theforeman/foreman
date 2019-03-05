@@ -91,6 +91,10 @@ class ReportComposer
   end
 
   def to_param
+    @params.to_param
+  end
+
+  def to_params
     @params
   end
 

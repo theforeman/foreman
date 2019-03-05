@@ -1,17 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TemplateGenerator rendering do not render link if not polling 1`] = `
+exports[`TemplateGenerator rendering render button if not polling and no errors 1`] = `
 <Fragment>
   <Alert
     className=""
     onDismiss={null}
     title="Generating a report"
-    type="info"
+    type="success"
   >
     <AlertBody
-      message="This will generate report %s. Based on its definition, it can take a long time to process."
+      message="Generation of report %s has completed. Download should start automatically. In case it does not, please use download button below."
     />
   </Alert>
+  <div
+    data-turbolinks="false"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={false}
+      href="/data/IDENTIFIER.json"
+    >
+      Download
+    </Button>
+  </div>
 </Fragment>
 `;
 
@@ -24,13 +38,13 @@ exports[`TemplateGenerator rendering render link if polling 1`] = `
     type="info"
   >
     <AlertBody
-      message="Report %s is now being generated, the download will start once it's done. In case you don't want to wait, use the following link to come later on for the result."
+      message="
+  Report %s is now being generated, the download will start once it's done.
+  You can come to this site anytime to get the results.
+"
     />
   </Alert>
-  <a
-    href="/data/IDENTIFIER.json"
-  >
-    /data/IDENTIFIER.json
-  </a>
 </Fragment>
 `;
+
+exports[`TemplateGenerator rendering renders errors if there are some 1`] = `""`;

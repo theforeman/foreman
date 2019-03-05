@@ -1,8 +1,8 @@
 class StoredValuesCleanupJob < ApplicationJob
   def perform(options = {})
-    StoredValue.expired(options[:ago]).delete_all
+    StoredValue.expired(options[:ago] || 0).destroy_all
   ensure
-    self.class.set(:wait => 12.hours).perform_later(options.reject { |k| k.to_s =~ /^_aj_/ })
+    self.class.set(:wait => 12.hours).perform_later(options)
   end
 
   rescue_from(StandardError) do |error|

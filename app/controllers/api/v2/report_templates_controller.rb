@@ -128,9 +128,17 @@ module Api
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
       param :gzip, :bool, desc: N_('Compress the report uzing gzip')
       returns :code => 200, :desc => "a successful response" do
+        property :job_id, String, :desc => "An id of generation job, pass it to the report_data action for data retrieval."
         property :data_url, String, :desc => "An url to get resulting report from."
       end
-      example " 'data_url': '/api/v2/report_templates/1/report_data/UNIQUE-REPORT-GENERATION-JOB-ID' "
+      example <<-EXAMPLE
+      POST /api/report_templates/:id/schedule_report/
+      200
+      {
+        "job_id": UNIQUE-REPORT-GENERATION-JOB-ID
+        "data_url": "/api/v2/report_templates/1/report_data/UNIQUE-REPORT-GENERATION-JOB-ID"
+      }
+      EXAMPLE
       description <<-DOC
         The reports are generated asynchronously. Action returns an url to get resulting report from (see <b>report_data</b>).
       DOC
@@ -138,8 +146,8 @@ module Api
       def schedule_report
         @composer = ReportComposer.from_api_params(params)
         if @composer.valid?
-          job = TemplateRenderJob.perform_later(@composer.to_param, user_id: User.current.id)
-          render json: { data_url: report_data_api_report_template_path(@report_template, job_id: job.provider_job_id) }
+          job = TemplateRenderJob.perform_later(@composer.to_params, user_id: User.current.id)
+          render json: { job_id: job.provider_job_id, data_url: report_data_api_report_template_path(@report_template, job_id: job.provider_job_id) }
         else
           @report_template = @composer
           process_resource_error
@@ -156,7 +164,7 @@ module Api
         if @plan.progress < 1
           head :no_content
         elsif @plan.failure?
-          head :unprocessable_entity
+          render json: { errors: @plan.errors }, status: :unprocessable_entity
         else
           send_data @composer.stored_result(params[:job_id]), type: @composer.mime_type, filename: @composer.report_filename
         end
@@ -184,7 +192,7 @@ module Api
         if User.current.admin? || options['user_id'].to_i == User.current.id
           @composer = ReportComposer.new(composer_attrs)
         else
-          deny_access(_('Report data are available only for the user who started the report'))
+          deny_access(_('Data are available only for the user who triggered the report and administrators'))
         end
       end
 

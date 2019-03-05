@@ -19,7 +19,7 @@ export const generateTemplate = (url, templateInputData) => dispatch => {
   });
   return API.post(url, templateInputData)
     .then(({ data }) => {
-      dispatch(pollGeneratedResult(data.data_url));
+      dispatch(pollReportData(data.data_url));
     })
     .catch(error =>
       dispatch({
@@ -29,31 +29,38 @@ export const generateTemplate = (url, templateInputData) => dispatch => {
     );
 };
 
-const pollGeneratedResult = pollUrl => dispatch => {
+const _downloadFile = response => {
+  const blob = new Blob([response.data], {
+    type: response.headers['content-type'],
+  });
+  const filename = response.headers['content-disposition'].match(
+    /filename="(.*)"/
+  );
+  saveAs(blob, (filename && filename[1]) || 'report.txt');
+};
+
+const _getErrors = errorResponse => {
+  if (!errorResponse || !errorResponse.data) return null;
+  if (errorResponse.status === 422) return errorResponse.data.errors;
+  return [errorResponse.data.error];
+};
+
+export const pollReportData = pollUrl => dispatch => {
   dispatch({ type: TEMPLATE_GENERATE_POLLING, payload: { url: pollUrl } });
 
   return API.get(pollUrl, { responseType: 'blob' })
     .then(response => {
       if (response.status === 200) {
         dispatch({ type: TEMPLATE_GENERATE_SUCCESS, payload: {} });
-        const blob = new Blob([response.data], {
-          type: response.headers['content-type'],
-        });
-        const filename = response.headers['content-disposition'].match(
-          /filename="(.*)"/
-        );
-        saveAs(blob, (filename && filename[1]) || 'report.txt');
+        _downloadFile(response);
       } else if (pollingInterval) {
-        setTimeout(
-          () => dispatch(pollGeneratedResult(pollUrl)),
-          pollingInterval
-        );
+        setTimeout(() => dispatch(pollReportData(pollUrl)), pollingInterval);
       }
     })
-    .catch(error =>
+    .catch(error => {
       dispatch({
         type: TEMPLATE_GENERATE_FAILURE,
-        payload: { error, item: {} },
-      })
-    );
+        payload: { error, messages: _getErrors(error.response) },
+      });
+    });
 };
