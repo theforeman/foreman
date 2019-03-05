@@ -254,4 +254,46 @@ class Nic::BaseTest < ActiveSupport::TestCase
     nic = FactoryBot.build_stubbed(:nic_base)
     assert_equal [], nic.children_mac_addresses
   end
+
+  describe 'MAC validation' do
+    let(:subnet) { FactoryBot.build_stubbed(:subnet_ipv4, :network => '10.10.10.0') }
+    let(:subnetv6) { FactoryBot.build_stubbed(:subnet_ipv6, :network => '2001:db8::') }
+    let(:host) { FactoryBot.build_stubbed(:host, :managed) }
+
+    test 'MAC address is validated if subnet is set' do
+      nic = FactoryBot.build_stubbed(:nic_managed, :subnet => subnet, :host => host)
+      nic.mac = ""
+      refute_valid nic
+      assert_includes nic.errors.keys, :mac
+      nic.mac = "00:00:00:00:00:00"
+      assert_valid nic
+    end
+
+    test 'MAC address is validated if subnet6 is set' do
+      nic = FactoryBot.build_stubbed(:nic_managed, :subnet6 => subnetv6, :host => host)
+      nic.mac = ""
+      refute_valid nic
+      assert_includes nic.errors.keys, :mac
+      nic.mac = "00:00:00:00:00:00"
+      assert_valid nic
+    end
+
+    test 'MAC address is validated if provisioning is set' do
+      nic = host.primary_interface
+      nic.domain = domains(:mydomain)
+      nic.mac = ""
+      refute_valid nic
+      assert_includes nic.errors.keys, :mac
+      nic.mac = "00:00:00:00:00:00"
+      assert_valid nic
+    end
+
+    test 'MAC address is not checked if no subnet or provisioning' do
+      nic = FactoryBot.build_stubbed(:nic_managed, :host => host)
+      nic.mac = ""
+      assert_valid nic
+      nic.mac = "00:00:00:00:00:00"
+      assert_valid nic
+    end
+  end
 end
