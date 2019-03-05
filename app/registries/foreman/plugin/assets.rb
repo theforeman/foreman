@@ -31,7 +31,7 @@ module Foreman
       end
 
       def uses_webpack?
-        File.file?(File.join(path, 'webpack', 'index.js')) || webpack_manifest_path.present?
+        path && (File.file?(File.join(path, 'webpack', 'index.js')) || webpack_manifest_path.present?)
       end
 
       private
