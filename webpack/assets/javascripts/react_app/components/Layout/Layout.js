@@ -69,7 +69,7 @@ class Layout extends React.Component {
 
     return (
       <VerticalNav
-        hoverDelay={0}
+        hoverDelay={100}
         items={items}
         onItemClick={primary =>
           handleMenuClick(primary, activeMenu, changeActiveMenu)
