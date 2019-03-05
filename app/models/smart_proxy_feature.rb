@@ -16,6 +16,7 @@ class SmartProxyFeature < ApplicationRecord
     smart_proxy.smart_proxy_features.where.not(feature: new_feature_classes).destroy_all
     features_json.each do |name, feature_json|
       feature_class = name_map[name]
+      # loop through smart_proxy_features to handle unsaved objects
       smart_proxy_feature = smart_proxy.smart_proxy_features.to_a.find {|spf| spf.feature_id == feature_class.id}
       smart_proxy_feature ||= SmartProxyFeature.new(:feature_id => feature_class.id)
       smart_proxy_feature.import_json(feature_json)
