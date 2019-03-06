@@ -27,16 +27,8 @@ class SmartProxyTest < ActiveSupport::TestCase
     end
   end
 
-  test "should not include trailing slash" do
-    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
-    @proxy = FactoryBot.build(:smart_proxy)
-    @proxy.url = 'http://some.proxy:4568/'
-    as_admin { assert @proxy.save }
-    assert_equal @proxy.url, "http://some.proxy:4568"
-  end
-
   test "proxy should respond correctly to has_feature? method" do
-    proxy = FactoryBot.build_stubbed(:template_smart_proxy)
+    proxy = FactoryBot.build(:template_smart_proxy)
     assert proxy.has_feature?('Templates')
     refute proxy.has_feature?('Puppet CA')
   end
@@ -61,50 +53,116 @@ class SmartProxyTest < ActiveSupport::TestCase
     assert_equal({'env1' => 1, 'env2' => 2}, proxy.statuses[:puppet].environment_stats)
   end
 
-  test "can count connected hosts" do
-    proxy = FactoryBot.create(:puppet_smart_proxy)
-    FactoryBot.create(:host, :with_environment, :puppet_proxy => proxy)
-    as_admin do
-      assert_equal 1, proxy.hosts_count
+  describe "with older smart proxy on v1 api" do
+    before do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).raises(NotImplementedError.new('not supported'))
+    end
+
+    test "should not include trailing slash" do
+      ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+      @proxy = FactoryBot.build(:smart_proxy)
+      @proxy.url = 'http://some.proxy:4568/'
+
+      as_admin do
+        assert @proxy.save
+      end
+      assert_equal @proxy.url, "http://some.proxy:4568"
+    end
+
+    test "can count connected hosts" do
+      proxy = FactoryBot.create(:puppet_smart_proxy)
+      FactoryBot.create(:host, :with_environment, :puppet_proxy => proxy)
+
+      as_admin do
+        assert_equal 1, proxy.hosts_count
+      end
+    end
+
+    test "should be saved if features exist" do
+      proxy = FactoryBot.build(:smart_proxy)
+      ProxyAPI::Features.any_instance.stubs(:features => ["tftp"])
+      assert proxy.save
+      assert_include(proxy.reload.features, features(:tftp))
+    end
+
+    test "should not be saved if features do not exist" do
+      proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
+      error_message = 'Features "feature" in this proxy are not recognized by Foreman. '\
+      'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.'
+
+      ProxyAPI::Features.any_instance.stubs(:features => ["feature"])
+      refute proxy.save
+      assert_equal(error_message, proxy.errors[:base].first)
+    end
+
+    test "should not be saved if features are not array" do
+      proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
+      ProxyAPI::Features.any_instance.stubs(:features => :fe)
+      refute proxy.save
+      assert_equal('An invalid response was received while requesting available features from this proxy', proxy.errors[:base].first)
+    end
+
+    describe '#ping' do
+      let(:proxy) { SmartProxy.new(name: 'Proxy', url: 'https://some.where.net:8443') }
+
+      test 'pings the smart proxy' do
+        ProxyAPI::Features.any_instance.stubs(:features).returns(['logs', 'puppetca', 'templates'])
+        assert proxy.ping
+        assert_empty proxy.errors
+      end
+
+      test 'is false when there are connection errors' do
+        ProxyAPI::Features.any_instance.stubs(:features).raises(Errno::ECONNREFUSED)
+        refute proxy.ping
+        refute_empty proxy.errors
+      end
     end
   end
 
-  test "should be saved if features exist" do
-    proxy = FactoryBot.build(:smart_proxy)
-    ProxyAPI::Features.any_instance.stubs(:features => ["tftp"])
-    assert proxy.save
-    assert_include(proxy.features, features(:tftp))
-  end
+  describe "with v2 api" do
+    test "should be saved if features exist" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:tftp => {:settings => {}, :capabilities => [], :state => 'running'}, :puppet => {:state => 'not_running'})
+      proxy = FactoryBot.build(:smart_proxy)
 
-  test "should not be saved if features do not exist" do
-    proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
-    error_message = 'Features "feature" in this proxy are not recognized by Foreman. '\
-    'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.'
-    ProxyAPI::Features.any_instance.stubs(:features => ["feature"])
-    refute proxy.save
-    assert_equal(error_message, proxy.errors[:base].first)
-  end
-
-  test "should not be saved if features are not array" do
-    proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
-    ProxyAPI::Features.any_instance.stubs(:features => {:fe => :at, :ur => :e})
-    refute proxy.save
-    assert_equal('An invalid response was received while requesting available features from this proxy', proxy.errors[:base].first)
-  end
-
-  describe '#ping' do
-    let(:proxy) { SmartProxy.new(name: 'Proxy', url: 'https://some.where.net:8443') }
-
-    test 'pings the smart proxy' do
-      ProxyAPI::Features.any_instance.stubs(:features).returns(['logs', 'puppetca', 'templates'])
-      assert proxy.ping
-      assert_empty proxy.errors
+      assert proxy.save
+      assert_include(proxy.reload.features, features(:tftp))
+      refute_includes(proxy.reload.features, features(:puppet))
     end
 
-    test 'is false when there are connection errors' do
-      ProxyAPI::Features.any_instance.stubs(:features).raises(Errno::ECONNREFUSED)
-      refute proxy.ping
-      refute_empty proxy.errors
+    test "should not be saved if features do not exist" do
+      proxy = SmartProxy.new(:name => 'Proxy', :url => 'https://some.where.net:8443')
+      error_message = 'Features "feature" in this proxy are not recognized by Foreman. '\
+      'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.'
+
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns({'feature' => {'state' => 'running'}})
+      refute proxy.save
+      assert_equal(error_message, proxy.errors[:base].first)
+    end
+
+    test "can import and access capabilities and settings" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:tftp => {:settings => {:foo => :bar}, :capabilities => ['FOO'], :state => 'running'})
+      proxy = FactoryBot.build(:smart_proxy)
+      proxy.save!
+      proxy.reload
+
+      assert_include proxy.capabilities('TFTP'), 'FOO'
+      assert_equal 'bar', proxy.setting('TFTP', 'foo')
+    end
+
+    describe '#ping' do
+      let(:proxy) { SmartProxy.new(name: 'Proxy', url: 'https://some.where.net:8443') }
+
+      test 'pings the smart proxy' do
+        ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:tftp => {:settings => {}, :capabilities => []})
+        assert proxy.ping
+        assert_empty proxy.errors
+      end
+
+      test 'is false when there are connection errors' do
+        ProxyAPI::V2::Features.any_instance.stubs(:features).raises(Errno::ECONNREFUSED)
+        refute proxy.ping
+        refute_empty proxy.errors
+      end
     end
   end
 end

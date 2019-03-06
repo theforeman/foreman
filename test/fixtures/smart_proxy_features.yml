@@ -1,0 +1,44 @@
+---
+one_dhcp:
+  smart_proxy: one
+  feature: dhcp
+
+two_tftp:
+  smart_proxy: two
+  feature: tftp
+
+three_dns:
+  smart_proxy: three
+  feature: dns
+
+puppetmaster_puppet:
+  smart_proxy: puppetmaster
+  feature: puppet
+
+puppetmaster_puppetca:
+  smart_proxy: puppetmaster
+  feature: puppetca
+
+realm_realm:
+  smart_proxy: realm
+  feature: realm
+
+bmc_bmc:
+  smart_proxy: bmc
+  feature: bmc
+
+logs_dhcp:
+  smart_proxy: logs
+  feature: dhcp
+
+logs_dns:
+  smart_proxy: logs
+  feature: dns
+
+logs_puppet:
+  smart_proxy: logs
+  feature: puppet
+
+logs_logs:
+  smart_proxy: logs
+  feature: logs

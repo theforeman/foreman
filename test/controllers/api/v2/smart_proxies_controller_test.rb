@@ -6,7 +6,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
   include SmartProxiesControllerSharedTest
 
   setup do
-    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+    stub_smart_proxy_v2_features
   end
 
   test "should get index" do

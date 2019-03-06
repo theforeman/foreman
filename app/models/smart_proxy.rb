@@ -10,7 +10,8 @@ class SmartProxy < ApplicationRecord
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, [:puppet_ca_hosts, :hosts], [:puppet_ca_hostgroups, :hostgroups], :realms)
   # TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
-  has_and_belongs_to_many :features
+  has_many :smart_proxy_features, :dependent => :destroy
+  has_many :features, :through => :smart_proxy_features
   has_many :subnets,                                          :foreign_key => 'dhcp_id'
   has_many :domains,                                          :foreign_key => 'dns_id'
   has_many_hosts                                              :foreign_key => 'puppet_proxy_id'
@@ -59,9 +60,9 @@ class SmartProxy < ApplicationRecord
 
   def ping
     begin
-      reply = ProxyAPI::Features.new(url: url).features
-      unless reply.is_a?(Array)
-        logger.debug("Invalid response from proxy #{name}: Expected Array of features, got #{reply}.")
+      reply = get_features
+      unless reply.is_a?(Hash)
+        logger.debug("Invalid response from proxy #{name}: Expected Hash of features, got #{reply}.")
         errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
       end
     rescue => e
@@ -82,8 +83,17 @@ class SmartProxy < ApplicationRecord
     conditions
   end
 
-  def has_feature?(feature)
-    self.features.any? { |proxy_feature| proxy_feature.name == feature }
+  def has_feature?(feature_name)
+    feature_ids = Feature.where(:name => feature_name).pluck(:id)
+    self.smart_proxy_features.any? { |proxy_feature| feature_ids.include?(proxy_feature.feature_id) }
+  end
+
+  def capabilities(feature)
+    self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:capabilities)
+  end
+
+  def setting(feature, setting)
+    self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:settings).try(:[], setting)
   end
 
   def statuses
@@ -100,6 +110,12 @@ class SmartProxy < ApplicationRecord
     @statuses
   end
 
+  def feature_details
+    self.smart_proxy_features.includes(:feature).each_with_object({}) do |smart_proxy_feature, hash|
+      hash[smart_proxy_feature.feature.name] = smart_proxy_feature.details
+    end
+  end
+
   private
 
   def sanitize_url
@@ -108,20 +124,23 @@ class SmartProxy < ApplicationRecord
 
   def associate_features
     begin
-      reply = ProxyAPI::Features.new(:url => url).features
-      unless reply.is_a?(Array)
-        logger.debug("Invalid response from proxy #{name}: Expected Array of features, got #{reply}.")
+      reply = get_features
+      unless reply.is_a?(Hash)
+        logger.debug("Invalid response from proxy #{name}: Expected Hash or Array of features, got #{reply}.")
         errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
         throw :abort
       end
-      valid_features = reply.map {|f| Feature.name_map[f]}.compact
+
+      feature_name_map = Feature.name_map
+      valid_features = reply.select { |feature, options| feature_name_map.key?(feature) }
+
       if valid_features.any?
-        self.features = Feature.where(:name => valid_features)
+        SmartProxyFeature.import_features(self, valid_features)
       else
-        self.features.clear
+        self.smart_proxy_features.clear
         if reply.any?
           errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
-                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.to_sentence
+                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.keys.to_sentence
         else
           errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
         end
@@ -130,6 +149,21 @@ class SmartProxy < ApplicationRecord
       errors.add(:base, _('Unable to communicate with the proxy: %s') % e)
       errors.add(:base, _('Please check the proxy is configured and running on the host.'))
     end
-    throw :abort if features.empty?
+    throw :abort if smart_proxy_features.empty?
+  end
+
+  def get_features
+    begin
+      reply = ProxyAPI::V2::Features.new(:url => url).features.with_indifferent_access
+      reply.reject! {|name| reply[name]['state'] != 'running'}
+    rescue NotImplementedError
+      reply = ProxyAPI::Features.new(:url => url).features
+    end
+
+    if reply.is_a?(Array)
+      Hash[reply.collect { |f| [f, {}] }]
+    else
+      reply
+    end
   end
 end

@@ -30,9 +30,9 @@ class SmartProxiesController < ApplicationController
   end
 
   def refresh
-    old_features = @smart_proxy.features.to_a
+    old_features = @smart_proxy.feature_details
     if @smart_proxy.refresh.blank? && @smart_proxy.save
-      msg = (@smart_proxy.features.to_a == old_features) ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
+      msg = (@smart_proxy.reload.feature_details == old_features) ? _("No changes found when refreshing features from %s.") : _("Successfully refreshed features from %s.")
       process_success :object => @smart_proxy, :success_msg => msg % @smart_proxy.name
     else
       process_error :object => @smart_proxy
@@ -107,7 +107,8 @@ class SmartProxiesController < ApplicationController
 
   def failed_modules
     modules = @smart_proxy.statuses[:logs].logs.failed_modules || {}
-    render :partial => 'smart_proxies/logs/failed_modules', :locals => {:modules => modules}
+    name_map = Feature.name_map.each_with_object({}) {|(k, v), h| h[k] = v.name }
+    render :partial => 'smart_proxies/logs/failed_modules', :locals => {:modules => modules, :name_map => name_map}
   rescue Foreman::Exception => exception
     process_ajax_error exception
   end

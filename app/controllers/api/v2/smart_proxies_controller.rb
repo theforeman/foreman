@@ -57,7 +57,7 @@ module Api
       param :id, String, :required => true
 
       def refresh
-        process_response @smart_proxy.refresh.blank? && @smart_proxy.save
+        process_response @smart_proxy.refresh.blank? && @smart_proxy.save && @smart_proxy.reload
       end
 
       def version

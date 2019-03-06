@@ -5,7 +5,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
   basic_pagination_per_page_test
 
   setup do
-    ProxyAPI::Features.any_instance.stubs(:features => Feature.name_map.keys)
+    stub_smart_proxy_v2_features
   end
 
   def test_index
@@ -61,7 +61,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_refresh
     proxy = smart_proxies(:one)
-    SmartProxy.any_instance.stubs(:features).returns([features(:dns)])
+    SmartProxy.any_instance.stubs(:feature_details).returns(:dns => {})
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
     assert_equal "No changes found when refreshing features from DHCP Proxy.", flash[:success]
@@ -69,7 +69,7 @@ class SmartProxiesControllerTest < ActionController::TestCase
 
   def test_refresh_change
     proxy = smart_proxies(:one)
-    SmartProxy.any_instance.stubs(:features).returns([features(:dns)]).then.returns([features(:dns), features(:tftp)])
+    SmartProxy.any_instance.stubs(:feature_details).returns(:dns => {}).then.returns(:dns => {}, :tftp => {})
     post :refresh, params: { :id => proxy }, session: set_session_user
     assert_redirected_to smart_proxies_url
     assert_equal "Successfully refreshed features from DHCP Proxy.", flash[:success]
