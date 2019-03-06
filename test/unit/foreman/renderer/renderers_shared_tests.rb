@@ -39,6 +39,18 @@ module RenderersSharedTests
       assert_equal 'http://foreman.some.host.fqdn', renderer.render(source, @scope)
     end
 
+    test "plugin_present? finds existing plugin" do
+      Foreman::Plugin.register(:existing_plugin) {}
+      source = OpenStruct.new(content: '<%= plugin_present?("existing_plugin") %>')
+      assert_equal 'true', renderer.render(source, @scope)
+    end
+
+    test "plugin_present? does not find nonexistant plugin" do
+      Foreman::Plugin.register(:existing_plugin) {}
+      source = OpenStruct.new(content: '<%= plugin_present?("nonexisting_plugin") %>')
+      assert_equal 'false', renderer.render(source, @scope)
+    end
+
     test "rand_hex helper method" do
       source = OpenStruct.new(content: '<%= rand_hex(5) %>')
       assert_not_nil renderer.render(source, @scope)

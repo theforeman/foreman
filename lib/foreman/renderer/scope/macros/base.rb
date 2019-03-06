@@ -21,6 +21,10 @@ module Foreman
             (setting.settings_type != "boolean" && setting.value.blank?) ? blank_default : setting.value
           end
 
+          def plugin_present?(name)
+            Foreman::Plugin.find(name).present?
+          end
+
           def subnet_param(subnet, param_name)
             validate_subnet(subnet)
             param = subnet.parameters.where(name: param_name).first
