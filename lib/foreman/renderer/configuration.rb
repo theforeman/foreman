@@ -15,6 +15,7 @@ module Foreman
         :subnet_param, :subnet_has_param?,
         :global_setting,
         :default_template_url,
+        :plugin_present?,
         :medium_provider,
         :medium_uri,
         :load_hosts,
