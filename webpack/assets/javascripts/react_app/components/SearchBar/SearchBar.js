@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import URI from 'urijs';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../bookmarks';
-import { noop } from '../../common/helpers';
+import './search-bar.scss';
 
-const handleSearch = (searchQuery, onSearch) => {
-  onSearch(searchQuery);
+const handleSearch = searchQuery => {
   const uri = new URI(window.location.href);
   const data = { ...uri.query(true), search: searchQuery.trim(), page: 1 };
   uri.query(URI.buildQuery(data, true));
@@ -15,43 +14,23 @@ const handleSearch = (searchQuery, onSearch) => {
 };
 
 const SearchBar = ({
-  className,
   searchQuery,
-  error,
-  onSearch,
-  results,
-  status,
-  useKeyShortcuts,
-  resetData,
-  getResults,
-  initialUpdate,
   data: { autocomplete, controller, bookmarks },
-  ...props
 }) => {
   const bookmarksComponent = !isEmpty(bookmarks) ? (
     <Bookmarks data={{ ...bookmarks, controller, searchQuery }} />
   ) : null;
   return (
-    <div className={`search-bar input-group ${className}`}>
+    <div className="search-bar input-group">
       <AutoComplete
-        {...props}
-        controller={controller}
-        error={error}
-        handleSearch={() => handleSearch(searchQuery, onSearch)}
+        handleSearch={() => handleSearch(searchQuery)}
         initialQuery={autocomplete.searchQuery || ''}
-        initialUpdate={initialUpdate}
-        getResults={getResults}
-        resetData={resetData}
-        results={results || autocomplete.results}
-        searchQuery={searchQuery}
-        status={status}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
         url={autocomplete.url}
+        controller={controller}
       />
       <div className="input-group-btn">
-        <AutoComplete.SearchButton
-          onClick={() => handleSearch(searchQuery, onSearch)}
-        />
+        <AutoComplete.SearchButton onClick={() => handleSearch(searchQuery)} />
         {bookmarksComponent}
       </div>
     </div>
@@ -59,16 +38,7 @@ const SearchBar = ({
 };
 
 SearchBar.propTypes = {
-  className: PropTypes.string,
-  onSearch: PropTypes.func,
   searchQuery: PropTypes.string,
-  error: PropTypes.string,
-  results: PropTypes.array,
-  status: PropTypes.string,
-  resetData: PropTypes.func,
-  getResults: PropTypes.func,
-  initialUpdate: PropTypes.func,
-  useKeyShortcuts: PropTypes.bool,
   data: PropTypes.shape({
     autocomplete: PropTypes.shape({
       results: PropTypes.array,
@@ -82,16 +52,7 @@ SearchBar.propTypes = {
 };
 
 SearchBar.defaultProps = {
-  className: '',
   searchQuery: '',
-  onSearch: noop,
-  error: null,
-  results: [],
-  status: null,
-  resetData: noop,
-  getResults: noop,
-  initialUpdate: noop,
-  useKeyShortcuts: true,
   data: {
     autocomplete: {
       results: [],

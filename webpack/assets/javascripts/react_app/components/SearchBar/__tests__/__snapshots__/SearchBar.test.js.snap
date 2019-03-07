@@ -2,24 +2,13 @@
 
 exports[`AutoComplete rendering renders AutoComplete 1`] = `
 <div
-  className="search-bar input-group "
+  className="search-bar input-group"
 >
-  <AutoComplete
+  <Connect(AutoComplete)
     controller="models"
-    emptyLabel={null}
-    error={null}
-    getResults={[Function]}
     handleSearch={[Function]}
     initialQuery=""
-    initialUpdate={[Function]}
-    inputProps={Object {}}
-    placeholder="Filter ..."
-    resetData={[Function]}
-    results={Array []}
-    searchQuery=""
-    status={null}
     url="model/auto_complete_search"
-    useKeyShortcuts={true}
   />
   <div
     className="input-group-btn"
