@@ -687,29 +687,36 @@ class UserTest < ActiveSupport::TestCase
   end
 
   context "find_or_create_external_user" do
+    not_existing_user_login = 'not_existing_user'
+    not_existing_auth_source = 'new_external_source'
+
     context "internal or not existing AuthSource" do
       test 'existing user' do
         assert_difference('User.count', 0) do
-          assert User.find_or_create_external_user({:login => users(:one).login}, nil)
+          login = users(:one).login
+          assert_equal User.find_or_create_external_user({:login => login}, nil),
+            User.find_by_login(login)
         end
       end
 
       test 'not existing user without auth source specified' do
         assert_difference('User.count', 0) do
-          refute User.find_or_create_external_user({:login => 'not_existing_user'}, nil)
+          user = User.find_or_create_external_user({:login => not_existing_user_login}, nil)
+          assert user.nil?
         end
       end
 
       test 'not existing user with non existing auth source' do
         assert_difference('User.count', 1) do
           assert_difference('AuthSource.count', 1) do
-            assert User.find_or_create_external_user({:login => 'not_existing_user'},
-                                                     'new_external_source')
+            user = User.find_or_create_external_user({:login => not_existing_user_login},
+              not_existing_auth_source)
+            assert_equal user, User.find_by_login(not_existing_user_login)
+
+            new_source = AuthSourceExternal.find_by_name(not_existing_auth_source)
+            assert_equal new_source.name, user.auth_source.name
           end
         end
-        created_user = User.find_by_login('not_existing_user')
-        new_source = AuthSourceExternal.find_by_name('new_external_source')
-        assert_equal new_source.name, created_user.auth_source.name
       end
     end
 
@@ -721,23 +728,24 @@ class UserTest < ActiveSupport::TestCase
       test "not existing" do
         assert_difference('User.count', 1) do
           assert_difference('AuthSource.count', 0) do
-            assert User.find_or_create_external_user({:login => 'not_existing_user'},
-                                                     @apache_source.name)
+            assert_equal User.find_or_create_external_user(
+              {:login => not_existing_user_login}, @apache_source.name),
+              User.find_by_login(not_existing_user_login)
           end
         end
       end
 
       test "not existing with attributes" do
-        assert User.find_or_create_external_user({:login => 'not_existing_user',
-                                                  :mail => 'foobar@example.com',
-                                                  :firstname => 'Foo',
-                                                  :lastname => 'Bar'},
-                                                 @apache_source.name)
-        created_user = User.find_by_login('not_existing_user')
-        assert_equal @apache_source.name,  created_user.auth_source.name
+        created_user = User.find_or_create_external_user(
+          {:login => not_existing_user_login,
+           :mail => 'foobar@example.com',
+           :firstname => 'Foo',
+           :lastname => 'Bar'}, @apache_source.name)
+        assert_equal not_existing_user_login, created_user.login
+        assert_equal @apache_source.name, created_user.auth_source.name
         assert_equal 'foobar@example.com', created_user.mail
-        assert_equal 'Foo',                created_user.firstname
-        assert_equal 'Bar',                created_user.lastname
+        assert_equal 'Foo', created_user.firstname
+        assert_equal 'Bar', created_user.lastname
       end
 
       context 'with external user groups' do
@@ -749,11 +757,9 @@ class UserTest < ActiveSupport::TestCase
 
         test "existing user groups that are assigned" do
           @external.update(:usergroup => @usergroup, :name => @usergroup.name)
-          assert User.find_or_create_external_user({:login => "not_existing_user",
-                                                    :groups => [@external.name,
-                                                                "notexistentexternal"]},
-                                                   @apache_source.name)
-          created_user = User.find_by_login("not_existing_user")
+          created_user = User.find_or_create_external_user(
+            {:login => not_existing_user_login, :groups => [@external.name, 'notexistentexternal']},
+            @apache_source.name)
           assert_equal [@usergroup], created_user.usergroups
         end
       end

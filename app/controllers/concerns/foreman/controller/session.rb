@@ -14,8 +14,8 @@ module Foreman::Controller::Session
 
   # Backs up some state from a user's session around a supplied block, which
   # will usually expire or reset the session in some way
-  def backup_session_content
-    save_items = session.to_hash.slice('organization_id', 'location_id', 'original_uri', 'sso_method').symbolize_keys
+  def backup_session_content(keys = [:organization_id, :location_id, :original_uri, :sso_method])
+    save_items = session.to_hash.slice(*keys.map(&:to_s)).symbolize_keys
     yield if block_given?
     session.update(save_items)
   end
@@ -25,7 +25,11 @@ module Foreman::Controller::Session
     set_activity_time
   end
 
+  # In case of SSO::OpenidConnect Foreman will use :expiry_at from the token. This is
+  # set when the current user is set (in Authentication#set_current_user method)
+  # For other SSO types like basic_auth we use expiry at from the Settings
   def set_activity_time
+    return if session[:sso_method] == "SSO::OpenidConnect"
     session[:expires_at] = Setting[:idle_timeout].minutes.from_now.to_i
   end
 

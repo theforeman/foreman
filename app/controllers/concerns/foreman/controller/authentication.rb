@@ -71,12 +71,18 @@ module Foreman::Controller::Authentication
 
   def set_current_user(user)
     User.current = user
-
     # API access resets the whole session and marks the session as initialized from API
     # such sessions aren't checked for CSRF
     # UI access resets only session ID
     if api_request?
-      reset_session
+      # When authenticating using SSO::OpenidConnect, upon successful authentication, we refresh the
+      # :expires_at and :sso_method values in the session (in OpenidConnect#update_session).
+      # Hence when we reset_session for SSO::OpenidConnect here, we do not reset the expires_at for session.
+      if session[:sso_method] == "SSO::OpenidConnect"
+        backup_session_content([:sso_method, :expires_at]) { reset_session }
+      else
+        reset_session
+      end
       session[:user] = user.id
       session[:api_authenticated_session] = true
       set_activity_time
