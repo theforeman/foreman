@@ -8,7 +8,10 @@ import { reducers } from '../../AutoComplete';
 import bookmarksReducer from '../../../redux/reducers/bookmarks';
 
 jest.mock('../../../API');
-jest.mock('lodash/debounce', () => jest.fn(fn => fn));
+jest.mock('lodash', () => ({
+  debounce: jest.fn(fn => fn),
+  isEmpty: jest.fn(item => !item),
+}));
 global.Turbolinks = {
   visit: jest.fn(),
 };

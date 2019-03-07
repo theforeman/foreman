@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import 'jquery.cookie';
+
 import {
   sprintf,
   ngettext as n__,

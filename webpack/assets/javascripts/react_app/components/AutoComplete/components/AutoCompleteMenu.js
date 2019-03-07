@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import groupBy from 'lodash/groupBy';
+import { groupBy } from 'lodash';
 import { TypeAheadSelect } from 'patternfly-react';
 import SubstringWrapper from '../../common/SubstringWrapper';
 

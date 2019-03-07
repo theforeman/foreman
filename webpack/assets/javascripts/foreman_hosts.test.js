@@ -5,6 +5,7 @@ import {
 } from './foreman_hosts';
 
 jest.unmock('./foreman_hosts');
+jest.unmock('jquery');
 
 describe('getAttributesToPost', () => {
   beforeEach(() => {

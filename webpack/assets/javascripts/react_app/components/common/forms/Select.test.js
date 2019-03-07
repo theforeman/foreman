@@ -5,6 +5,8 @@ import React from 'react';
 
 import Select from './Select';
 
+jest.unmock('jquery');
+
 beforeEach(() => {
   document.body.innerHTML = '<div>\n  <span id="select" />\n</div>';
 });

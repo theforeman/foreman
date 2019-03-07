@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import chunk from 'lodash/chunk';
-import times from 'lodash/times';
+import { chunk, times } from 'lodash';
+
 import Day from './Day';
 import {
   addDays,

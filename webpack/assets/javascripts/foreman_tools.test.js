@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'select2';
 import * as tools from './foreman_tools';
 
+jest.unmock('jquery');
 jest.unmock('./foreman_tools');
 
 describe('iconText', () => {

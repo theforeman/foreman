@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import * as users from './foreman_users';
 
+jest.unmock('jquery');
 jest.unmock('./foreman_users');
 
 describe('initInheritedRoles', () => {
