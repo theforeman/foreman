@@ -271,7 +271,7 @@ module AuditsHelper
   end
 
   def fetch_affected_locations(audit)
-    base = audit.locations.authorized(:view_locations)
+    base = (audit.locations.authorized(:view_locations) + (audit.locations & User.current.my_locations)).uniq
     return [] if base.empty?
 
     authorizer = Authorizer.new(User.current, base)
@@ -282,7 +282,7 @@ module AuditsHelper
   end
 
   def fetch_affected_organizations(audit)
-    base = audit.organizations.authorized(:view_organizations)
+    base = (audit.organizations.authorized(:view_organizations) + (audit.organizations & User.current.my_organizations)).uniq
     return [] if base.empty?
 
     authorizer = Authorizer.new(User.current, base)
