@@ -404,3 +404,28 @@ attribute87:
   category: Setting::General
   default: '2abbbe02-4ace-4269-9e20-2753f3206cc2'
   description: 'Foreman UUID'
+attribute88:
+  name: oidc_jwks_url
+  category: Setting::Auth
+  default: 'https://keycloak.example.com/auth/realms/foreman/protocol/openid-connect/certs'
+  description: 'OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs if you are using Keycloak as an IDP'
+attribute89:
+  name: oidc_audience
+  category: Setting::Auth
+  default: 'rest-client'
+  description: 'Name of the OpenID Connect Audience that is being used for Authentication. For example in case of Keycloak this is the Client ID.'
+attribute90:
+  name: oidc_issuer
+  category: Setting::Auth
+  default: 127.0.0.1
+  description: "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the IDP's."
+attribute91:
+  name: oidc_algorithm
+  category: Setting::Auth
+  default: 'RS512'
+  description: 'The algorithm used to encode the JWT in the IDP.'
+attribute92:
+  name: authorize_login_delegation_auth_source_user_autocreate
+  category: Setting::Auth
+  default: 'External'
+  description: 'Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'

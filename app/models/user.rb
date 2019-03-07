@@ -299,10 +299,10 @@ class User < ApplicationRecord
         user.usergroups = new_usergroups.uniq
       end
 
-      return true
+      return user
     # not existing user and creating is disabled by settings
     elsif auth_source_name.nil?
-      return false
+      return nil
     # not existing user and auth source is set, we'll create the user and auth source if needed
     else
       User.as_anonymous_admin do
@@ -315,7 +315,7 @@ class User < ApplicationRecord
         end
         user.post_successful_login
       end
-      return true
+      return user
     end
   end
 

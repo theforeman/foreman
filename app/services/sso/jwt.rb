@@ -3,7 +3,7 @@ module SSO
     attr_reader :current_user
 
     def available?
-      controller.api_request? && bearer_token_set?
+      controller.api_request? && bearer_token_set? && no_issuer?
     end
 
     def authenticate!
@@ -34,6 +34,10 @@ module SSO
 
     def bearer_token_set?
       request.authorization.present? && request.authorization.start_with?('Bearer')
+    end
+
+    def no_issuer?
+      !jwt_token.decoded_payload.key?('iss')
     end
   end
 end

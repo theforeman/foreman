@@ -6,7 +6,7 @@ class JwtTest < ActiveSupport::TestCase
   end
 
   context 'api request' do
-    let(:token) { 'invalid' }
+    let(:token) { users(:one).jwt_token! }
     let(:controller) { get_controller(true, token) }
     let(:sso) { SSO::Jwt.new(controller) }
 
@@ -22,8 +22,6 @@ class JwtTest < ActiveSupport::TestCase
     end
 
     context 'with valid token' do
-      let(:token) { users(:one).jwt_token! }
-
       test '#authenticate! authenticates a user' do
         assert_equal users(:one).login, sso.authenticated?
         assert_equal users(:one).login, sso.user
@@ -32,6 +30,7 @@ class JwtTest < ActiveSupport::TestCase
     end
 
     context 'with invalid token' do
+      let(:token) { 'invalid' }
       test '#authenticate! does not set user' do
         assert_nil sso.authenticated?
         assert_nil sso.user
@@ -64,6 +63,7 @@ class JwtTest < ActiveSupport::TestCase
   def get_controller(api_request, jwt_token = 'invalid', headers = {})
     controller = Struct.new(:request).new(Struct.new(:authorization, :headers).new("Bearer #{jwt_token}", headers))
     controller.stubs(:api_request?).returns(api_request)
+    controller.stubs(:session).returns(ActionController::TestSession.new)
     controller
   end
 end

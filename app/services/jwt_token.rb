@@ -33,6 +33,11 @@ class JwtToken < Struct.new(:token)
     token
   end
 
+  # This method does not verify if the token signature is valid
+  def decoded_payload
+    @decoded_payload ||= JWT.decode(token, nil, false).first
+  end
+
   private
 
   def secret
@@ -42,10 +47,5 @@ class JwtToken < Struct.new(:token)
 
   def user_id
     @user_id ||= decoded_payload['user_id']
-  end
-
-  # This method does not verify if the token signature is valid
-  def decoded_payload
-    @decoded_payload ||= JWT.decode(token, nil, false).first
   end
 end
