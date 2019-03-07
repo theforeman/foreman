@@ -104,7 +104,7 @@ class Subnet < ApplicationRecord
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 
   class Jail < ::Safemode::Jail
-    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary,
+    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :dns_servers,
           :vlanid, :mtu, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?
   end
 
@@ -239,6 +239,10 @@ class Subnet < ApplicationRecord
 
   def as_json(options = {})
     super({:methods => [:to_label, :type]}.merge(options))
+  end
+
+  def dns_servers
+    [dns_primary, dns_secondary].select(&:present?)
   end
 
   private
