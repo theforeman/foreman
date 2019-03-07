@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import times from 'lodash/times';
+import { times } from 'lodash';
 import { addYears } from './helpers';
 import { noop } from '../../../../common/helpers';
 import { DecadeViewHeader } from './DecadeViewHeader';

@@ -1,21 +1,27 @@
 
-# Adding or updating NPM dependencies
+# Using/Adding/updating NPM dependencies
 
-The easiest way of adding dependencies into [package.json](https://github.com/theforeman/foreman/blob/develop/package.json) is executing `npm install` with `--save` or `--save-dev` for devel dependencies:
+Foreman manage npm dependencies with a seperate project called `@theforeman/vendor` which responsible to deliver 3rd-party modules to foreman and its plugins.
+Foreman and its plugins consumes `@theforeman/vendor` project from `npm` in development and from `rpm` in production.
+
+`@theforeman/vendor` lives inside a monorepo together with other foreman javascript tools in a project called [`foreman-js`](https://github.com/theforeman/foreman-js)
+
+[Read more about `@theforeman/vendor`](https://github.com/theforeman/foreman-js/tree/master/packages/vendor)
+
+### Consuming `foreman-js` projects from source (locally)
+
+1. Clone and install the `foreman-js` project on your local machine:
+```sh
+git clone git@github.com:theforeman/foreman-js.git
+cd foreman-js
+npm install
 ```
-npm install --save <pkg>@<version>
-npm install --save-dev <pkg>@<version>
+
+2. Link `foreman-js` to foreman, go to `foreman` folder and run:
+```sh
+FOREMAN_JS_LOCATION=<replace with foreman-js location> npm run foreman-js:link
 ```
-That will automatically edit pacakge.json at correct places for you.
 
-### Packaging
+> `FOREMAN_JS_LOCATION` default value is `../foreman-js` so if your `foreman-js` project lives there, you don't have to set this variable.
 
-The Foreman distributes npm dependencies in separate rpm files. Therefore you have to make sure the new dependency is packaged as rpm. You can find the instructions about how to create an rpm from an npm packge in the [foreman-packaging](https://github.com/theforeman/foreman-packaging/tree/rpm/develop#adding-npm-packages) repo.
-
-**Watch out:** adding/updating npm dependencies is currently very frequent source of errors. There's a check on Github that won't let you merge a PR that touches package.json unless the packaging team approves the change, but it's good to be careful in this area. More details in the following section.
-
-### Troubleshooting
-
-Since npm packages are installed from rpms in production, and the nature of both packaging systems is a bit different, issues can occur quite frequently. Rpm allows only one package version to be installed on a system (if we don't take scl into account) while npm supports multiple versions of one pacakge. Mapping both systems on each other therefore isn't trivial.
-
-It can happen that you change version of a Foreman's direct dependency and it silently breaks some other npm package (or plugin) that depended on it too. It usually results in nightlies with completely broken js functionality. This is tricky, because develop continues working normally. In such cases it's helpful to use the [update_npm_dependencies.rb](https://github.com/theforeman/foreman-packaging/pull/2627) script that can help you with updating all packages to the correct versions.
+**NOTICE: running `npm install` in `foreman` will replace the linked version of `foreman-js` with the `npm` version.**

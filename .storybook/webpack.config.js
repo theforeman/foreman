@@ -1,4 +1,4 @@
-let path = require('path');
+const path = require('path');
 
 // Use storybook's default configuration with our customizations
 module.exports = (baseConfig, env, defaultConfig) => {
@@ -9,18 +9,6 @@ module.exports = (baseConfig, env, defaultConfig) => {
       test: /\.js$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
-      options: {
-        presets: [
-          path.join(__dirname, '..', 'node_modules/babel-preset-react'),
-          path.join(__dirname, '..', 'node_modules/babel-preset-env')
-        ],
-        plugins: [
-          path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
-          path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
-          path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign'),
-          path.join(__dirname, '..', 'node_modules/babel-plugin-syntax-dynamic-import')
-        ]
-      }
     },
     {
       test: /(\.png|\.gif)$/,

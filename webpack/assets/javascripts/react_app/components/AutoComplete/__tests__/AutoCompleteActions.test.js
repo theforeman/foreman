@@ -12,7 +12,7 @@ import {
   id,
 } from '../AutoComplete.fixtures';
 
-jest.mock('lodash/debounce', () => jest.fn(fn => fn));
+jest.mock('lodash', () => ({ debounce: jest.fn(fn => fn) }));
 jest.mock('../../../API');
 
 const loadResults = (requestParams, serverMock) => {

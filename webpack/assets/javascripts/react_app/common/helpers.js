@@ -1,5 +1,4 @@
-import debounce from 'lodash/debounce';
-import { snakeCase, camelCase } from 'lodash';
+import { snakeCase, camelCase, debounce } from 'lodash';
 import URI from 'urijs';
 import { translate as __ } from './I18n';
 

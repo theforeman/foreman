@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { nfsVisibility } from './foreman_medium';
 
+jest.unmock('jquery');
 jest.unmock('./foreman_medium');
 const nfsRequired = ['Solaris'];
 

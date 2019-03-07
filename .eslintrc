@@ -1,6 +1,9 @@
 {
   "plugins": ["patternfly-react"],
-  "extends": ["plugin:patternfly-react/recommended"],
+  "extends": [
+    "plugin:patternfly-react/recommended",
+    "./node_modules/@theforeman/vendor-dev/eslint.extends.js"
+  ],
   "rules": {
     "prettier/prettier": ["error", {
       "singleQuote": true,

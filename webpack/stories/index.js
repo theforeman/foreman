@@ -13,11 +13,6 @@ import plugins from './docs/plugins.md';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
-require('../../app/assets/stylesheets/base.scss');
-
-require('patternfly/dist/js/patternfly');
-
-require('./index.scss');
 
 const req = require.context(
   '../assets/javascripts/react_app',

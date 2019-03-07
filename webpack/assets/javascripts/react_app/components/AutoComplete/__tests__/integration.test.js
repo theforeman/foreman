@@ -5,7 +5,15 @@ import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import Autocomplete, { reducers } from '../index';
 
 jest.mock('../../../API');
-jest.mock('lodash/debounce', () => jest.fn(fn => fn));
+jest.mock('lodash', () => ({
+  debounce: jest.fn(fn => fn),
+  groupBy: jest.fn((list, getProps) =>
+    list.reduce((a, b) => {
+      (a[getProps(b)] = a[getProps(b)] || []).push(b);
+      return a;
+    }, {})
+  ),
+}));
 jest.mock('uuid', () => jest.fn(fn => '1234'));
 global.Turbolinks = {
   visit: jest.fn(),

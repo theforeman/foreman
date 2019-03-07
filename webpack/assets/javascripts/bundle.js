@@ -25,21 +25,7 @@ import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
 import * as classEditor from './foreman_class_edit';
 import * as dashboard from './dashboard';
 import * as spice from './spice';
-import './bundle_datatables';
-import './bundle_lodash';
 import './bundle_novnc';
-
-/* eslint-disable-next-line */
-require('expose-loader?$!expose-loader?jQuery!jquery');
-require('jquery-ujs');
-
-window.jstz = require('jstz');
-window.ipaddr = require('ipaddr.js');
-window.JsDiff = require('diff');
-
-require('./bundle_flot');
-require('./bundle_multiselect');
-require('./bundle_select2');
 
 // Set the public path for dynamic imports
 if (process.env.NODE_ENV !== 'production') {

@@ -3,11 +3,11 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var ForemanVendorPlugin = require('@theforeman/vendor').WebpackForemanVendorPlugin;
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var StatsWriterPlugin = require("webpack-stats-plugin").StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
 var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
@@ -142,7 +142,6 @@ module.exports = env => {
               path.join(__dirname, '..', 'node_modules/babel-plugin-transform-class-properties'),
               path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-rest-spread'),
               path.join(__dirname, '..', 'node_modules/babel-plugin-transform-object-assign'),
-              path.join(__dirname, '..', 'node_modules/babel-plugin-lodash'),
               path.join(__dirname, '..', 'node_modules/babel-plugin-syntax-dynamic-import')
             ]
           }
@@ -169,12 +168,7 @@ module.exports = env => {
     },
 
     plugins: [
-      new LodashModuleReplacementPlugin({
-        paths: true,
-        collections: true,
-        flattening: true,
-        shorthands: true
-      }),
+      new ForemanVendorPlugin({ mode: production ? 'production' : 'development' }),
       // must match config.webpack.manifest_filename
       new StatsWriterPlugin({
         filename: manifestFilename,

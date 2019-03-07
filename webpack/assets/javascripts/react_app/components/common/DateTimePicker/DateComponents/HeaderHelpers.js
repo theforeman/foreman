@@ -1,4 +1,4 @@
-import times from 'lodash/times';
+import { times } from 'lodash';
 import { addDays, getWeekStart } from './helpers';
 
 export const getWeekArray = (weekStartsOn, locale) => {

@@ -7,12 +7,15 @@
     "transform-class-properties",
     "transform-object-rest-spread",
     "transform-object-assign",
-    "lodash",
     "syntax-dynamic-import"
   ],
   "env": {
     "test": {
+      "presets": ["@theforeman/vendor-dev/babel.preset.js"],
       "plugins": ["dynamic-import-node"]
+    },
+    "storybook": {
+      "presets": ["@theforeman/vendor-dev/babel.preset.js"]
     }
   }
 }

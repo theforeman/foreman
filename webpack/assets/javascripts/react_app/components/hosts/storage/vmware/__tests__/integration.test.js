@@ -5,6 +5,8 @@ import { vmwareData, hiddenFieldValue } from './StorageContainer.fixtures';
 import hostReducers from '../../../../../redux/reducers/hosts';
 import StorageContainer from '../';
 
+jest.unmock('jquery');
+
 let helper;
 let component = null;
 

@@ -3,6 +3,7 @@ import * as ToastActions from './react_app/redux/actions/toasts';
 
 import { notify, clear } from './foreman_toast_notifications';
 
+jest.unmock('jquery');
 jest.unmock('./foreman_toast_notifications');
 
 describe('Notifications', () => {

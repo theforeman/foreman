@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { changeLdapPort } from './foreman_auth_source';
 
+jest.unmock('jquery');
 jest.unmock('./foreman_auth_source');
 
 describe('AuthSourceLDAP tests', () => {
