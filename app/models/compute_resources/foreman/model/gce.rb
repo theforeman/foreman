@@ -103,7 +103,7 @@ module Foreman::Model
       new_vm(args)
       create_volumes(args)
 
-      username = images.find_by(:uuid => args[:image_name]).try(:username)
+      username = images.find_by(:uuid => args[:image_id]).try(:username)
       ssh      = { :username => username, :public_key => key_pair.public }
       args.merge!(ssh)
 
