@@ -768,6 +768,8 @@ function selectRelatedNetwork(element) {
 
   if (selected !== null) {
     network_select.val(selected).trigger('change');
+    preserve_selected_options(network_select);
+    update_interface_table();
   }
 }
 
