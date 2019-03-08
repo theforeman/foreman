@@ -10,8 +10,8 @@ module Queries
     def results(params = {})
       if params[:search].present?
         authorized_scope.search_for(*search_options(params))
-      elsif params[:orderField].present?
-        ordered_results(order_field: params[:orderField], order_direction: params[:orderDirection])
+      elsif params[:order_by].present?
+        ordered_results(order_field: params[:order_by], order_direction: params[:order])
       else
         authorized_scope.all
       end
@@ -35,8 +35,8 @@ module Queries
 
     def search_options(params)
       search_options = [params[:search]]
-      if params[:orderField].present?
-        search_options << { :order => "#{params[:orderField]} #{params[:orderDirection]}".strip }
+      if params[:order_by].present?
+        search_options << { :order => "#{params[:order_by]} #{params[:order]}".strip }
       end
       search_options
     end

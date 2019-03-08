@@ -5,10 +5,10 @@ module Types
     field :node, field: GraphQL::Relay::Node.field
     field :nodes, field: GraphQL::Relay::Node.plural_field
 
-    field :model, Types::Model,
-      function: Queries::FetchField.new(type: Types::Model, model_class: ::Model), null: true
+    field :model, Types::Model, resolver: Resolvers::Model
+    field :models, Types::Model.connection_type, resolver: Resolvers::Models
 
-    field :models, Types::Model.connection_type, connection: true,
-      function: Queries::PluralField.new(type: Types::Model, model_class: ::Model)
+    field :location, Types::Location, resolver: Resolvers::Location
+    field :locations, Types::Location.connection_type, resolver: Resolvers::Locations
   end
 end
