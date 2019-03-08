@@ -87,30 +87,30 @@ class Queries::AuthorizedModelQueryTest < ActiveSupport::TestCase
 
       result = Queries::AuthorizedModelQuery.new(
         model_class: Host::Managed, user: user
-      ).results(search: 'name ~ "sample"', orderField: 'name', orderDirection: 'DESC')
+      ).results(search: 'name ~ "sample"', order_by: 'name', order: 'DESC')
 
       refute_includes result, excluded_host
       assert_equal included_hosts, result
     end
 
-    test 'returns ordered records for authorized user by given orderField' do
+    test 'returns ordered records for authorized user by given order_by' do
       user = as_admin { setup_user 'view', 'hosts' }
       old_host = as_admin { FactoryBot.create(:host, created_at: Time.zone.now - 2.days) }
       new_host = as_admin { FactoryBot.create(:host, created_at: Time.zone.now) }
 
       result = Queries::AuthorizedModelQuery.new(model_class: Host::Managed, user: user)
-                                            .results(orderField: 'created_at')
+                                            .results(order_by: 'created_at')
 
       assert_equal [old_host, new_host], result
     end
 
-    test 'returns ordered records for authorized user by given orderField and orderDirection' do
+    test 'returns ordered records for authorized user by given order_by and order' do
       user = as_admin { setup_user 'view', 'hosts' }
       old_host = as_admin { FactoryBot.create(:host, created_at: Time.zone.now - 2.days) }
       new_host = as_admin { FactoryBot.create(:host, created_at: Time.zone.now) }
 
       result = Queries::AuthorizedModelQuery.new(model_class: Host::Managed, user: user)
-                                            .results(orderField: 'created_at', orderDirection: 'desc')
+                                            .results(order_by: 'created_at', order: 'desc')
 
       assert_equal [new_host, old_host], result
     end
