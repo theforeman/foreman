@@ -6,9 +6,9 @@ class Queries::ModelQueryTest < ActiveSupport::TestCase
 
     query = <<-GRAPHQL
       query modelQuery (
-        $modelId: Int!
+        $id: String!
       ) {
-        model(id: $modelId) {
+        model(id: $id) {
           id
           name
           info
@@ -18,15 +18,14 @@ class Queries::ModelQueryTest < ActiveSupport::TestCase
       }
     GRAPHQL
 
+    model_global_id = Foreman::GlobalId.for(model)
     context = { current_user: FactoryBot.create(:user, :admin) }
-    variables = { modelId: model.id }
+    variables = { id: model_global_id }
 
     result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
 
-    expected_id = Foreman::GlobalId.encode('Model', model.id)
-
     expected_model_attributes = {
-      'id' => expected_id,
+      'id' => model_global_id,
       'name' => model.name,
       'info' => model.info,
       'vendorClass' => model.vendor_class,

@@ -17,6 +17,11 @@ module Queries
       end
     end
 
+    def find_by_global_id(global_id)
+      id = Foreman::GlobalId.decode(global_id).last
+      find_by(id: id)
+    end
+
     private
 
     attr_reader :model_class, :user
