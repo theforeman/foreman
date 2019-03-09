@@ -21,5 +21,9 @@ module Foreman
       type_name, object_value = payload.split(ID_SEPARATOR, 2)
       [version.to_i, type_name, object_value]
     end
+
+    def self.for(obj)
+      encode(obj.class.name, obj.id)
+    end
   end
 end
