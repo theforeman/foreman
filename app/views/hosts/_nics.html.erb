@@ -36,6 +36,12 @@
         <td><%= link_to_if_authorized nic.subnet.to_label, hash_for_edit_subnet_path(:id => nic.subnet).merge(:auth_object => nic.subnet, :authorizer => authorizer) %></td>
       </tr>
     <% end %>
+    <% if nic.subnet6 %>
+      <tr>
+        <td><%= _('IPv6 Subnet') %></td>
+        <td><%= link_to_if_authorized nic.subnet6.to_label, hash_for_edit_subnet_path(:id => nic.subnet6).merge(:auth_object => nic.subnet6, :authorizer => authorizer) %></td>
+      </tr>
+    <% end %>
   </table>
   <br>
 <% end %>
