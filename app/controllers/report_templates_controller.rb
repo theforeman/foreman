@@ -17,7 +17,11 @@ class ReportTemplatesController < TemplatesController
   def schedule_report
     @composer = ReportComposer.from_ui_params(params)
     if @composer.valid?
-      job = TemplateRenderJob.perform_later(@composer.to_params, user_id: User.current.id)
+      scheduler = TemplateRenderJob
+      if @composer.schedule_on
+        scheduler = scheduler.set(wait_until: @composer.schedule_on)
+      end
+      job = scheduler.perform_later(@composer.to_params, user_id: User.current.id)
       if @composer.send_mail?
         success _('Report is being rendered, it will be delivered via e-mail.')
         redirect_to report_templates_path

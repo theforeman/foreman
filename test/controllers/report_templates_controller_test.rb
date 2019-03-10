@@ -143,7 +143,7 @@ class ReportTemplatesControllerTest < ActionController::TestCase
 
   describe '#schedule_report' do
     let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
-    def expect_job_enque_with(input_values, mail_to: nil)
+    def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil)
       composer_params = {
         'template_id' => @report_template.to_param,
         'input_values' => input_values,
@@ -151,7 +151,13 @@ class ReportTemplatesControllerTest < ActionController::TestCase
         'send_mail' => !!mail_to,
         'mail_to' => mail_to
       }
-      TemplateRenderJob.expects(:perform_later).with(composer_params, user_id: User.current.id).returns(job)
+      if delay_to
+        scheduler = mock('TemplateRenderJob')
+        TemplateRenderJob.expects(:set).with(has_key(:wait_until)).returns(scheduler)
+      else
+        scheduler = TemplateRenderJob
+      end
+      scheduler.expects(:perform_later).with(composer_params, user_id: User.current.id).returns(job)
     end
 
     it "schedule report and returns report_data_url" do
@@ -170,6 +176,13 @@ class ReportTemplatesControllerTest < ActionController::TestCase
       expect_job_enque_with(nil, mail_to: 'this@email.cz')
       get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { send_mail: '1', mail_to: 'this@email.cz' } }, session: set_session_user
       assert_redirected_to report_templates_url
+    end
+
+    it 'schedule delayed report' do
+      delay_to = Date.today.to_time + 2.hours
+      expect_job_enque_with(nil, delay_to: delay_to)
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { schedule_on: delay_to } }, session: set_session_user
+      assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
   end
 end

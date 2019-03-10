@@ -34,11 +34,16 @@ class ReportComposer
     end
 
     def send_mail?
-      raw_params['send_mail'] == '1'
+      raw_params['send_mail'].to_s == '1'
+    end
+
+    def schedule_on
+      raw_params['schedule_on']&.to_time
     end
 
     def params
       { template_id: raw_params[:id],
+        schedule_on: schedule_on,
         gzip: gzip?,
         send_mail: send_mail?,
         mail_to: mail_to }.with_indifferent_access
@@ -56,6 +61,10 @@ class ReportComposer
 
     def mail_to
       report_base_params[:mail_to]
+    end
+
+    def schedule_on
+      report_base_params['schedule_on']&.to_time
     end
 
     def params
@@ -106,12 +115,13 @@ class ReportComposer
     end
   end
 
-  attr_reader :template
+  attr_reader :template, :schedule_on
 
   validates :mail_to, mail_to: true, if: :send_mail?
 
   def initialize(params)
     @params = params.with_indifferent_access
+    @schedule_on = @params.delete('schedule_on')
     @template = load_report_template(@params[:template_id])
     @input_values = build_inputs(@template, @params[:input_values])
   end

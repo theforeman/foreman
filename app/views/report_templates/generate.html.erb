@@ -39,5 +39,7 @@
       label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
   </div>
 
+  <%= text_f f, :schedule_on, label: _('Schedule on'), label_help: _('Schedule report generating on a given time. Full datetime required.') %>
+
   <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
 <% end %>

@@ -232,7 +232,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
 
   describe '#schedule_report' do
     let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
-    def expect_job_enque_with(input_values, mail_to: nil)
+    def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil)
       composer_params = {
         'template_id' => report_template.id.to_s,
         'input_values' => input_values,
@@ -240,7 +240,13 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
         'send_mail' => !!mail_to,
         'mail_to' => mail_to
       }
-      TemplateRenderJob.expects(:perform_later).with(composer_params, user_id: User.current.id).returns(job)
+      if delay_to
+        scheduler = mock('TemplateRenderJob')
+        TemplateRenderJob.expects(:set).with(has_key(:wait_until)).returns(scheduler)
+      else
+        scheduler = TemplateRenderJob
+      end
+      scheduler.expects(:perform_later).with(composer_params, user_id: User.current.id).returns(job)
     end
 
     it "schedule report and returns data_url" do
@@ -272,6 +278,17 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal 'application/json', response.content_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
       refute JSON.parse(response.body).has_key?('data_url')
+    end
+
+    it 'schedule delayed report' do
+      delay_to = Time.now + 2.hours
+      expect_job_enque_with({}, delay_to: delay_to)
+      ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
+      post :schedule_report, params: { :id => report_template.id, schedule_on: delay_to }
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
     end
   end
 
