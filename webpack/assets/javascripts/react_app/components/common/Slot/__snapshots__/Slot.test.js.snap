@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slot-Fill default slot 1`] = `
+<Slot
+  dispatch={[Function]}
+  id="slot-4"
+  multi={true}
+  shouldUpdate={false}
+>
+  <SlotComponent
+    text="Default Value"
+  >
+    <div>
+      Default Value
+    </div>
+  </SlotComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill multiple fills 1`] = `
+<Slot
+  dispatch={[Function]}
+  id="slot-1"
+  multi={true}
+  shouldUpdate={true}
+>
+  <div
+    0={
+      <span>
+         Extendable component 2 
+      </span>
+    }
+    1={
+      <div>
+         Extendable component 1 
+      </div>
+    }
+  >
+     defaul value 
+  </div>
+</Slot>
+`;
+
+exports[`Slot-Fill no nultiple fills 1`] = `
+<Slot
+  dispatch={[Function]}
+  id="slot-2"
+  multi={false}
+  shouldUpdate={true}
+>
+  <span
+    dispatch={[Function]}
+  >
+     Extendable component 2 
+  </span>
+</Slot>
+`;
+
+exports[`Slot-Fill props fill 1`] = `
+<Slot
+  dispatch={[Function]}
+  id="slot-3"
+  multi={false}
+  shouldUpdate={true}
+>
+  <SlotComponent
+    text="This is given by a prop"
+  >
+    <div>
+      This is given by a prop
+    </div>
+  </SlotComponent>
+</Slot>
+`;

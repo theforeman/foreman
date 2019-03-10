@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Extendable Registery should render one component after a removal 1`] = `
+Array [
+  [Function],
+]
+`;
+
+exports[`Extendable Registery should render one component after a removal 2`] = `[Function]`;
+
+exports[`Extendable Registery should render two components by weights 1`] = `[Function]`;
+
+exports[`Extendable Registery should render two components by weights 2`] = `
+Array [
+  [Function],
+  [Function],
+]
+`;

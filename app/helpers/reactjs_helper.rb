@@ -9,6 +9,10 @@ module ReactjsHelper
     js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end
 
+  def webpacked_plugins_with_global_js
+    js_tags_for_global_files(Foreman::Plugin.with_global_js.map { |plugin| { id: plugin.id, files: plugin.global_js_files } }).join.html_safe
+  end
+
   def webpacked_plugins_css_for(*plugin_names)
     css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end
@@ -26,6 +30,14 @@ module ReactjsHelper
   def js_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
       javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'), "data-turbolinks-track" => true)
+    end
+  end
+
+  def js_tags_for_global_files(requested_plugins)
+    requested_plugins.map do |plugin|
+      plugin[:files].map do |file|
+        javascript_include_tag(*webpack_asset_paths(plugin[:id].to_s + ":#{file}", :extension => 'js'), "data-turbolinks-track" => true, :defer => "defer")
+      end
     end
   end
 

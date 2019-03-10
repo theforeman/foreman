@@ -111,10 +111,15 @@ module Foreman #:nodoc:
       def with_webpack
         all.select(&:uses_webpack?)
       end
+
+      def with_global_js
+        with_webpack.select { |plugin| plugin.global_js_files.present? }
+      end
     end
 
     prepend Foreman::Plugin::Assets
     prepend Foreman::Plugin::SearchOverrides
+    prepend Foreman::Plugin::GlobalJs
 
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,

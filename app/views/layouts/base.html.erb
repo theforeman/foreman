@@ -13,7 +13,7 @@
     <%= stylesheet_link_tag *webpack_asset_paths('bundle', :extension => 'css'), "data-turbolinks-track" => true %>
     <%= stylesheet_link_tag 'application', "data-turbolinks-track" => true %>
     <%= yield(:stylesheets) %>
-
+  
     <%= csrf_meta_tags %>
 
     <script type="text/javascript">
@@ -33,9 +33,10 @@
     <%= javascript_include_tag *webpack_asset_paths('vendor', :extension => 'js'), "data-turbolinks-track" => true %>
     <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js'), "data-turbolinks-track" => true %>
     <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
+    <%= webpacked_plugins_with_global_js %>
     <%= webpack_dev_server %>
     <%= yield(:javascripts) %>
-
+    
     <script type="text/javascript">
       <%= yield(:inline_javascripts) %>
     </script>

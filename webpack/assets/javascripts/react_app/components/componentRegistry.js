@@ -25,6 +25,7 @@ import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
+import Slot from './common/Slot';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -115,6 +116,7 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
+  { name: 'Slot', type: Slot },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,
