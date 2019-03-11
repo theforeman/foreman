@@ -749,12 +749,14 @@ function interface_subnet_selected(element, ip_field, skip_mac) {
   });
 }
 
-function selectRelatedNetwork(element) {
-  var subnet_select = $(element);
+function selectRelatedNetwork(subnetElement) {
+  var subnet_select = $(subnetElement);
   var vlanId = subnet_select.find(':selected').attr('data-vlan_id');
   var network_select = subnet_select.closest('fieldset').find('.vmware_network,.ovirt_network');
+  var isVisible = subnet_select.closest('#interfaceModal').length > 0;
+  var isPreSelected = network_select.find("option[selected]").length > 0;
 
-  if (!vlanId || network_select.length == 0) {
+  if ((!isVisible && isPreSelected) || !vlanId || network_select.length == 0) {
     return;
   }
 
