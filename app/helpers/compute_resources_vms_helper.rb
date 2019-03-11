@@ -237,13 +237,25 @@ module ComputeResourcesVmsHelper
 
   def vm_import_action(vm, html_options = {})
     return unless Host.for_vm(@compute_resource, vm).empty?
-    display_link_if_authorized(
-      _("Import"),
+
+    import_managed_link = display_link_if_authorized(
+      _("Import as managed Host"),
       hash_for_import_compute_resource_vm_path(
         :compute_resource_id => @compute_resource,
-        :id => vm.identity),
-        html_options
+        :id => vm.identity,
+        :type => 'managed'),
+      html_options
     )
+    import_unmanaged_link = display_link_if_authorized(
+      _("Import as unmanaged Host"),
+      hash_for_import_compute_resource_vm_path(
+        :compute_resource_id => @compute_resource,
+        :id => vm.identity,
+        :type => 'unmanaged'),
+      html_options
+    )
+
+    import_managed_link + import_unmanaged_link
   end
 
   def vm_associate_action(vm)

@@ -20,6 +20,20 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
     end
     let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
 
+    context 'can import unmanaged hosts' do
+      let(:importer) do
+        ComputeResourceHostImporter.new(
+          :compute_resource => compute_resource,
+          :vm => vm,
+          :managed => false
+        )
+      end
+
+      test 'imported host is unmanaged' do
+        refute host.managed
+      end
+    end
+
     context 'with existing domain' do
       setup do
         @domain = FactoryBot.create(:domain, :name => 'virt.bos.redhat.com')
@@ -31,6 +45,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
           'type' => 'VirtualE1000'
         }
 
+        assert host.managed
         assert_equal 'dhcp75-197', host.name
         assert_equal uuid, host.uuid
         assert_equal @domain, host.domain
