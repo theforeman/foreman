@@ -111,7 +111,7 @@ module Foreman::Model
       server_optns = options.slice!(:network_interfaces)
 
       vm = client.servers.create options.to_hash.deep_symbolize_keys.merge(server_optns.symbolize_keys)
-      vm.disks.each { |disk| vm.set_disk_auto_delete(true, disk['deviceName']) }
+      vm.disks.each { |disk| vm.set_disk_auto_delete(true, disk[:device_name]) }
       vm
     rescue Fog::Errors::Error => e
       args[:disks].find_all(&:status).map(&:destroy) if args[:disks].present?
@@ -203,6 +203,7 @@ module Foreman::Model
 
       access_config = { :name => "External NAT", :type => "ONE_TO_ONE_NAT" }
 
+      # note - currently not supporting external_ip from foreman
       # Add external IP as default access config if given
       access_config[:nat_ip] = external_ip if external_ip
       network_interfaces_list[0][:access_configs] = [access_config]
