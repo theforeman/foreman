@@ -13,5 +13,8 @@ module Types
 
     field :operatingsystem, Types::Operatingsystem, resolver: Resolvers::Operatingsystem
     field :operatingsystems, Types::Operatingsystem.connection_type, resolver: Resolvers::Operatingsystems
+
+    field :subnet, Types::Subnet, resolver: Resolvers::Subnet
+    field :subnets, Types::Subnet.connection_type, resolver: Resolvers::Subnets
   end
 end
