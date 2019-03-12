@@ -10,6 +10,8 @@ class Queries::LocationQueryTest < ActiveSupport::TestCase
       ) {
         location(id: $id) {
           id
+          createdAt
+          updatedAt
           name
           title
         }
@@ -24,6 +26,8 @@ class Queries::LocationQueryTest < ActiveSupport::TestCase
     expected = {
       'location' => {
         'id' => location_global_id,
+        'createdAt' => location.created_at.utc.iso8601,
+        'updatedAt' => location.updated_at.utc.iso8601,
         'name' => location.name,
         'title' => location.title
       }

@@ -3,7 +3,7 @@ require 'test_helper'
 class Queries::NodesQueryTest < ActiveSupport::TestCase
   test 'fetching node by relay global id' do
     model = FactoryBot.create(:model)
-    global_id = Foreman::GlobalId.encode('Model', model.id)
+    global_id = Foreman::GlobalId.for(model)
 
     query = <<-GRAPHQL
       query getNode {
@@ -31,7 +31,7 @@ class Queries::NodesQueryTest < ActiveSupport::TestCase
 
   test 'fetching multiple nodes by relay global id' do
     model = FactoryBot.create(:model)
-    global_id = Foreman::GlobalId.encode('Model', model.id)
+    global_id = Foreman::GlobalId.for(model)
 
     query = <<-GRAPHQL
       query getNodes {
