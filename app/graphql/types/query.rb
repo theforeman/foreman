@@ -10,5 +10,8 @@ module Types
 
     field :location, Types::Location, resolver: Resolvers::Location
     field :locations, Types::Location.connection_type, resolver: Resolvers::Locations
+
+    field :operatingsystem, Types::Operatingsystem, resolver: Resolvers::Operatingsystem
+    field :operatingsystems, Types::Operatingsystem.connection_type, resolver: Resolvers::Operatingsystems
   end
 end

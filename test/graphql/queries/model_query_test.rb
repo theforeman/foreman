@@ -10,6 +10,8 @@ class Queries::ModelQueryTest < ActiveSupport::TestCase
       ) {
         model(id: $id) {
           id
+          createdAt
+          updatedAt
           name
           info
           vendorClass
@@ -27,6 +29,8 @@ class Queries::ModelQueryTest < ActiveSupport::TestCase
     expected = {
       'model' => {
         'id' => model_global_id,
+        'createdAt' => model.created_at.utc.iso8601,
+        'updatedAt' => model.updated_at.utc.iso8601,
         'name' => model.name,
         'info' => model.info,
         'vendorClass' => model.vendor_class,

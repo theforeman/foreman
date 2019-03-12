@@ -4,7 +4,7 @@ module Resolvers
       extend ActiveSupport::Concern
 
       included do
-        type "Types::#{self::MODEL_CLASS}".constantize, null: false
+        type "Types::#{self::MODEL_CLASS}".safe_constantize, null: false
 
         argument :id, String, 'Global ID for Record', required: true
       end
