@@ -16,5 +16,8 @@ module Types
 
     field :subnet, Types::Subnet, resolver: Resolvers::Subnet
     field :subnets, Types::Subnet.connection_type, resolver: Resolvers::Subnets
+
+    field :usergroup, Types::Usergroup, resolver: Resolvers::Usergroup
+    field :usergroups, Types::Usergroup.connection_type, resolver: Resolvers::Usergroups
   end
 end
