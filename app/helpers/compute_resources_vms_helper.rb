@@ -2,7 +2,7 @@ module ComputeResourcesVmsHelper
   def vm_power_actions(host, vm)
     button_group(
       if vm
-        html_opts = vm.ready? ? {:confirm => _('Are you sure?'), :class => "btn btn-danger"} : {:class => "btn btn-success"}
+        html_opts = vm.ready? ? {:data => {:confirm => _('Are you sure?')}, :class => "btn btn-danger"} : {:class => "btn btn-success"}
         link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
         html_opts.merge(:method => :put)
       else

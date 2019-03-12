@@ -21,6 +21,7 @@ module ApplicationHelper
       html_options[:'data-id'] = "aid_#{id}" unless id.empty?
     end
     if html_options[:confirm]
+      Foreman::Deprecation.deprecation_warning('1.24', 'passing :confirm parameter in html_options to link_to is deprecated. Please use `data: {confirm: "confirmation message?"}` instead.')
       html_options[:data] ||= {}
       html_options[:data][:confirm] = html_options.delete(:confirm)
     end
