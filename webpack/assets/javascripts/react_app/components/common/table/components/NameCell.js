@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 
 const NameCell = ({ active, id, name, controller, children }) =>
   active ? (
-    <a
-      href={`/${controller}/${id}-${name}/edit`}
-      data-id={`aid_${controller}-${id}-${name}_edit`}
-    >
-      {children}
-    </a>
+    <a href={`/${controller}/${id}-${name}/edit`}>{children}</a>
   ) : (
     <a href="#" className="disabled" disabled="disabled" onClick={() => {}}>
       {children}

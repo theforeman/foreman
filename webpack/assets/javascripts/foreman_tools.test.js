@@ -113,7 +113,7 @@ describe('updateTableTest', () => {
       <ul class="dropdown-menu pull-right">
         <li class="divider"></li>
         <li><a id="bookmark" data-url="/bookmarks/new?kontroller=provisioning_templates" href="#" onclick="$('#bookmarks-modal').modal();; return false;">Bookmark this search</a></li>
-        <li><a rel="external noopener noreferrer" target="_blank" data-id="aid_manuals_1.16_index.html" href="http://www.theforeman.org/manuals/1.16/index.html#4.1.5Searching"><span class="glyphicon glyphicon-question-sign icon-black"></span> Documentation</a></li>
+        <li><a rel="external noopener noreferrer" target="_blank" href="http://www.theforeman.org/manuals/1.16/index.html#4.1.5Searching"><span class="glyphicon glyphicon-question-sign icon-black"></span> Documentation</a></li>
       </ul>
     </span>
   </div>

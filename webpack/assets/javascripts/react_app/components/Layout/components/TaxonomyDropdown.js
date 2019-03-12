@@ -47,7 +47,7 @@ const TaxonomyDropdown = ({
         <li key={i}>
           <a
             className={`${taxonomyType.toLowerCase()}_menuitem`}
-            id={`aid_taxonomy_${taxonomy.title}`}
+            id={`select_taxonomy_${taxonomy.title}`}
             href={taxonomy.href}
             onClick={() => {
               changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });

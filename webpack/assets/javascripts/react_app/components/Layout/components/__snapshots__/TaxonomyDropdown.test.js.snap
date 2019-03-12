@@ -51,7 +51,7 @@ exports[`TaxonomyDropdown rendering render TaxonomyDropdown 1`] = `
       <a
         className="organization_menuitem"
         href="/organizations/1-org1/select"
-        id="aid_taxonomy_org1"
+        id="select_taxonomy_org1"
         onClick={[Function]}
       >
         org1
@@ -63,7 +63,7 @@ exports[`TaxonomyDropdown rendering render TaxonomyDropdown 1`] = `
       <a
         className="organization_menuitem"
         href="/organizations/2-org2/select"
-        id="aid_taxonomy_org2"
+        id="select_taxonomy_org2"
         onClick={[Function]}
       >
         org2

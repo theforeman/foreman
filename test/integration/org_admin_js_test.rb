@@ -460,7 +460,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
   def select_org(org)
     within('li#organization-dropdown ul') do
-      find("a#aid_taxonomy_#{org}").trigger('click')
+      find("a#select_taxonomy_#{org}").trigger('click')
     end
   end
 end

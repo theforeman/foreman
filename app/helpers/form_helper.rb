@@ -240,23 +240,6 @@ module FormHelper
     end
   end
 
-  def form_to_submit_id(f)
-    object = f.object.respond_to?(:to_model) ? f.object.to_model : f.object
-    key = if object.present?
-            object.persisted? ? :update : :create
-          else
-            :submit
-          end
-    model = if object.class.respond_to?(:humanize_class_name)
-              object.class.humanize_class_name.downcase
-            elsif object.class.respond_to?(:model_name)
-              object.class.model_name.human.downcase
-            else
-              f.object_name.to_s
-            end.gsub(/\W+/, '_')
-    "aid_#{key}_#{model}"
-  end
-
   def submit_or_cancel(f, overwrite = false, args = { })
     args[:cancel_path] ||= send("#{controller_name}_path")
     content_tag(:div, :class => "clearfix") do
@@ -272,7 +255,6 @@ module FormHelper
     options = {}
     options[:disabled] = true if args[:disabled]
     options[:class] = "btn btn-#{overwrite ? 'danger' : 'primary'} remove_form_templates"
-    options[:'data-id'] = form_to_submit_id(f) unless options.has_key?(:'data-id')
     options[:data] = args[:data] if args.key?(:data)
     options
   end
