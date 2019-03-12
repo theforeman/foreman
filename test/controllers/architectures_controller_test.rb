@@ -11,16 +11,6 @@ class ArchitecturesControllerTest < ActionController::TestCase
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 
-  def test_new_submit_button_id
-    get :new, session: set_session_user
-    assert_select "[data-id='aid_create_architecture']"
-  end
-
-  def test_new_cancel_button_id
-    get :new, session: set_session_user
-    assert_select "[data-id='aid_architectures']"
-  end
-
   def test_create_invalid
     Architecture.any_instance.stubs(:valid?).returns(false)
     post :create, params: { :architecture => {:name => nil} }, session: set_session_user
@@ -31,11 +21,6 @@ class ArchitecturesControllerTest < ActionController::TestCase
     Architecture.any_instance.stubs(:valid?).returns(true)
     post :create, params: { :architecture => {:name => 'i386'} }, session: set_session_user
     assert_redirected_to architectures_url
-  end
-
-  def test_edit_submit_button_id
-    get :edit, params: { :id => Architecture.first }, session: set_session_user
-    assert_select "[data-id='aid_update_architecture']"
   end
 
   def test_update_invalid

@@ -12,7 +12,6 @@ const DeleteButton = ({ active, id, name, controller }) =>
       data-method="delete"
       data-confirm={`${__('Delete')} ${name}?`}
       href={`${controller}/${id}-${name}`}
-      data-id={`aid_${controller}_${id}-${name}`}
     >
       {__('Delete')}
     </Button>
