@@ -10,7 +10,7 @@ const fixtures = {
     polling: false,
     dataUrl: '/data/IDENTIFIER.json',
   },
-  'render link if polling': {
+  'render info alert if polling': {
     data: {
       templateName: 'template',
     },
@@ -22,8 +22,8 @@ const fixtures = {
       templateName: 'template',
     },
     polling: false,
-    generationError: '422 unprocessable entity',
-    generationErrorMessages: [
+    generatingError: '422 unprocessable entity',
+    generatingErrorMessages: [
       { message: 'Eh there was no method error during the render :(' },
     ],
   },

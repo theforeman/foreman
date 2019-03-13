@@ -123,20 +123,20 @@ module Api
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
       end
 
-      api :POST, "/report_templates/:id/schedule_report/", N_("Schedule a report generation")
+      api :POST, "/report_templates/:id/schedule_report/", N_("Schedule generating of a report")
       param :id, :identifier, :required => true
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
       param :gzip, :bool, desc: N_('Compress the report uzing gzip')
       returns :code => 200, :desc => "a successful response" do
-        property :job_id, String, :desc => "An id of generation job, pass it to the report_data action for data retrieval."
+        property :job_id, String, :desc => "An ID of job, which generates report. To be used with report_data API endpoint for report data retrieval."
         property :data_url, String, :desc => "An url to get resulting report from."
       end
       example <<-EXAMPLE
       POST /api/report_templates/:id/schedule_report/
       200
       {
-        "job_id": UNIQUE-REPORT-GENERATION-JOB-ID
-        "data_url": "/api/v2/report_templates/1/report_data/UNIQUE-REPORT-GENERATION-JOB-ID"
+        "job_id": UNIQUE-REPORT-GENERATING-JOB-UUID
+        "data_url": "/api/v2/report_templates/1/report_data/UNIQUE-REPORT-GENERATING-JOB-UUID"
       }
       EXAMPLE
       description <<-DOC
@@ -166,7 +166,9 @@ module Api
         elsif @plan.failure?
           render json: { errors: @plan.errors }, status: :unprocessable_entity
         else
-          send_data @composer.stored_result(params[:job_id]), type: @composer.mime_type, filename: @composer.report_filename
+          data = @composer.stored_result(params[:job_id])
+          return not_found(_('Report data are not available, it has probably expired.')) unless data
+          send_data data, type: @composer.mime_type, filename: @composer.report_filename
         end
       end
 
@@ -187,7 +189,7 @@ module Api
 
       def load_and_authorize_plan
         @plan = load_dynflow_plan(params[:job_id])
-        return not_found(_('Report schedule not found, please ensure you have got right job_id')) if @plan.nil?
+        return not_found(_('Report not found, please ensure you used the correct job_id')) if @plan.nil?
         composer_attrs, options = plan_arguments(@plan)
         if User.current.admin? || options['user_id'].to_i == User.current.id
           @composer = ReportComposer.new(composer_attrs)
@@ -198,6 +200,9 @@ module Api
 
       def load_dynflow_plan(plan_id)
         Rails.application.dynflow.world.persistence.load_execution_plan(plan_id)
+      rescue => e
+        Foreman::Logging.exception 'Dynflow plan lookup failed', e
+        nil
       end
 
       def plan_arguments(plan)

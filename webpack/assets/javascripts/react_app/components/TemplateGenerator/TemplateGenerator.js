@@ -7,10 +7,13 @@ import AlertBody from '../common/Alert/AlertBody';
 
 const pollingMsg = `
   Report %s is now being generated, the download will start once it's done.
-  You can come to this site anytime to get the results.
+  You can come to this page later to get the results. The result is available for 24 hours.
 `;
-const doneMsg =
-  'Generation of report %s has completed. Download should start automatically. In case it does not, please use download button below.';
+const doneMsg = `
+  Generating of the report %s has been completed.
+  Download should start automatically.
+  In case it does not, please use the download button below.
+`;
 
 const getAlert = (type, msg) => (
   <Alert type={type} title={__('Generating a report')}>
@@ -20,11 +23,11 @@ const getAlert = (type, msg) => (
 
 class TemplateGenerator extends React.Component {
   getError() {
-    const { generationError, generationErrorMessages } = this.props;
+    const { generatingError, generatingErrorMessages } = this.props;
     return (
-      (generationErrorMessages &&
-        generationErrorMessages.map(e => e.message).join('\n')) ||
-      generationError
+      (generatingErrorMessages &&
+        generatingErrorMessages.map(e => e.message).join('\n')) ||
+      generatingError
     );
   }
 
@@ -40,19 +43,17 @@ class TemplateGenerator extends React.Component {
   }
 
   render() {
-    const { polling, dataUrl, generationError } = this.props;
+    const { polling, dataUrl, generatingError } = this.props;
 
     if (!dataUrl && !polling) return null;
 
     return (
       <React.Fragment>
         {this.renderAlert()}
-        {!polling && !generationError && (
-          <div data-turbolinks="false">
-            <Button bsStyle="primary" href={dataUrl}>
-              {__('Download')}
-            </Button>
-          </div>
+        {!polling && !generatingError && (
+          <Button bsStyle="primary" href={dataUrl} target="_blank">
+            {__('Download')}
+          </Button>
         )}
       </React.Fragment>
     );
@@ -65,15 +66,15 @@ TemplateGenerator.propTypes = {
   }).isRequired,
   polling: PropTypes.bool,
   dataUrl: PropTypes.string,
-  generationError: PropTypes.string,
-  generationErrorMessages: PropTypes.array,
+  generatingError: PropTypes.string,
+  generatingErrorMessages: PropTypes.array,
 };
 
 TemplateGenerator.defaultProps = {
   polling: false,
   dataUrl: null,
-  generationError: null,
-  generationErrorMessages: null,
+  generatingError: null,
+  generatingErrorMessages: null,
 };
 
 export default TemplateGenerator;

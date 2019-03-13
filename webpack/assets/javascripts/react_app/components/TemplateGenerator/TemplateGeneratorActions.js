@@ -42,7 +42,8 @@ const _downloadFile = response => {
 const _getErrors = errorResponse => {
   if (!errorResponse || !errorResponse.data) return null;
   if (errorResponse.status === 422) return errorResponse.data.errors;
-  return [errorResponse.data.error];
+  if (errorResponse.data.error) return [errorResponse.data.error]; // most of >500
+  return [errorResponse.data];
 };
 
 export const pollReportData = pollUrl => dispatch => {

@@ -27,8 +27,8 @@ export default (state = initialState, { type, payload }) => {
       return state.merge({
         scheduleInProgress: false,
         polling: false,
-        generationError: payload.error.message,
-        generationErrorMessages: payload.messages,
+        generatingError: payload.error.message,
+        generatingErrorMessages: payload.messages,
       });
     case TEMPLATE_GENERATE_SUCCESS:
       return state.merge({

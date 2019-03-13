@@ -16,8 +16,8 @@ const mapStateToProps = ({ templates }) =>
   pick(templates, [
     'polling',
     'dataUrl',
-    'generationError',
-    'generationErrorMessages',
+    'generatingError',
+    'generatingErrorMessages',
   ]);
 
 // map action dispatchers to props

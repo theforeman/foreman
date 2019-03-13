@@ -11,11 +11,11 @@ class TemplateRenderJob < ApplicationJob
   end
 
   def template_id
-    arguments.first['template_id']
+    arguments.first['template_id'] unless arguments.first.nil?
   end
 
   def humanized_name
-    template = template_id && ReportTemplate.find_by(id: template_id)
-    template && (_('Render report %s') % template.name) || _('Render report template')
+    template = template_id && ReportTemplate.unscoped.find_by(id: template_id)
+    (template && (_('Render report %s') % template.name)) || _('Render report template')
   end
 end
