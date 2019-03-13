@@ -19,5 +19,8 @@ module Types
 
     field :usergroup, Types::Usergroup, resolver: Resolvers::Usergroup
     field :usergroups, Types::Usergroup.connection_type, resolver: Resolvers::Usergroups
+
+    field :architecture, Types::Architecture, resolver: Resolvers::Architecture
+    field :architectures, Types::Architecture.connection_type, resolver: Resolvers::Architectures
   end
 end
