@@ -8,6 +8,14 @@ namespace :test do
     t.verbose = true
     t.warning = false
   end
+
+  desc "Test GraphQL"
+  Rake::TestTask.new(:graphql) do |t|
+    t.libs << "test"
+    t.pattern = ['test/graphql/**/*_test.rb']
+    t.verbose = true
+    t.warning = false
+  end
 end
 
 # Ensure webpack files are compiled in case integration tests are executed

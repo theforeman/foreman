@@ -3,7 +3,7 @@ begin
   require 'robottelo/reporter/rake/minitest'
 
   namespace :jenkins do
-    task :unit => ['jenkins:setup:minitest', 'rake:test:units', 'rake:test:functionals']
+    task :unit => ['jenkins:setup:minitest', 'rake:test:units', 'rake:test:functionals', 'rake:test:graphql']
     task :integration => ['webpack:compile', 'jenkins:setup:minitest', 'rake:test:integration']
     task :functionals => ["jenkins:setup:minitest", 'rake:test:functionals']
     task :units => ["jenkins:setup:minitest", 'rake:test:units']
