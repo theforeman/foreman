@@ -1,3 +1,4 @@
+require 'English'
 require 'fileutils'
 
 namespace :pkg do
