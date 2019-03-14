@@ -3765,13 +3765,18 @@ class HostTest < ActiveSupport::TestCase
       chef_uptime_fact = FactoryBot.create(:fact_name, name: 'uptime_seconds', :type => 'FactName::Chef')
       unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
       puppet_fact = FactoryBot.create(:fact_name, name: 'system_uptime::seconds')
-      FactoryBot.create(:fact_value, fact_name: ansible_uptime_fact, host: host, :value => 123)
-      FactoryBot.create(:fact_value, fact_name: chef_uptime_fact, host: host, :value => 222)
+      ansible_fact = FactoryBot.create(:fact_value, fact_name: ansible_uptime_fact, host: host, :value => 123)
+      cf = FactoryBot.create(:fact_value, fact_name: chef_uptime_fact, host: host, :value => 222)
+      cf.update_attribute :updated_at, cf.updated_at + 1.second
       FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, :value => 'Fedora 29')
-      assert_equal 123, host.uptime_seconds
-      FactoryBot.create(:fact_value, fact_name: puppet_fact, host: host, :value => 456)
+      assert_equal 222, host.uptime_seconds
+      pf = FactoryBot.create(:fact_value, fact_name: puppet_fact, host: host, :value => 456)
+      pf.update_attribute :updated_at, cf.updated_at + 2.seconds
       host.reload
       assert_equal 456, host.uptime_seconds
+      ansible_fact.update :value => 789, :updated_at => cf.updated_at + 3.seconds
+      host.reload
+      assert_equal 789, host.uptime_seconds
     end
   end
 
