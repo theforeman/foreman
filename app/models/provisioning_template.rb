@@ -208,18 +208,21 @@ class ProvisioningTemplate < Template
   # generated for
   def self.pxe_default_combos
     combos = []
-    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [ :operatingsystem, :architecture, :medium]}]).find_each do |template|
+    ProvisioningTemplate.joins(:template_kind).where("template_kinds.name" => "provision").includes(:template_combinations => [:environment, {:hostgroup => [:operatingsystem, :architecture]}]).find_each do |template|
       template.template_combinations.each do |combination|
         hostgroup = combination.hostgroup
-        if hostgroup&.operatingsystem && hostgroup&.architecture && hostgroup&.medium
-          medium_provider = Foreman::Plugin.medium_providers.find_provider(hostgroup)
-          combos << {
-            :hostgroup => hostgroup,
-            :template => template,
-            :kernel => hostgroup.operatingsystem.kernel(medium_provider),
-            :initrd => hostgroup.operatingsystem.initrd(medium_provider),
-            :pxe_type => hostgroup.operatingsystem.pxe_type
-          }
+        if hostgroup&.operatingsystem && hostgroup&.architecture
+          if (medium_provider = Foreman::Plugin.medium_providers.find_provider(hostgroup))
+            combos << {
+              :hostgroup => hostgroup,
+              :template => template,
+              :kernel => hostgroup.operatingsystem.kernel(medium_provider),
+              :initrd => hostgroup.operatingsystem.initrd(medium_provider),
+              :pxe_type => hostgroup.operatingsystem.pxe_type
+            }
+          else
+            Rails.logger.warn "Could not find medium_provider for hostgroup #{hostgroup}, skipping"
+          end
         end
       end
     end

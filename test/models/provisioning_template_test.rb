@@ -155,40 +155,79 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
     assert_equal "a\nb\nc\n", template.template
   end
 
+  class AMediumProvider < MediumProviders::Provider
+    def self.friendly_name
+      'a_provider'
+    end
+
+    def medium_uri(path = "", &block)
+      '/a_medium'
+    end
+
+    def valid?
+      entity.respond_to?(:medium) && entity.medium.nil?
+    end
+
+    def validate
+      []
+    end
+
+    def unique_id
+      "123"
+    end
+  end
+
   describe "Association cascading" do
     setup do
-      @os1 = FactoryBot.create(:operatingsystem)
-      @hg1 = FactoryBot.create(:hostgroup)
-      @hg2 = FactoryBot.create(:hostgroup)
-      @hg3 = FactoryBot.create(:hostgroup)
-      @ev1 = FactoryBot.create(:environment)
-      @ev2 = FactoryBot.create(:environment)
-      @ev3 = FactoryBot.create(:environment)
+      @arch = FactoryBot.create(:architecture)
+      medium = FactoryBot.create(:medium, :name => "combo_medium", :path => "http://www.example.com/m")
+      @os1 = FactoryBot.create(:rhel7_5, :media => [medium], :architectures => [@arch])
+      @hg1 = FactoryBot.create(:hostgroup, :name => "hg1", :operatingsystem => @os1, :architecture => @arch, :medium => @os1.media.first)
+      @hg2 = FactoryBot.create(:hostgroup, :name => "hg2", :operatingsystem => @os1, :architecture => @arch)
+      @hg3 = FactoryBot.create(:hostgroup, :name => "hg3", :operatingsystem => @os1, :architecture => @arch)
+      @ev1 = FactoryBot.create(:environment, :name => "env1")
+      @ev2 = FactoryBot.create(:environment, :name => "env2")
+      @ev3 = FactoryBot.create(:environment, :name => "env3")
 
-      @tk = FactoryBot.create(:template_kind)
+      @tk = TemplateKind.find_by_name('provision')
 
       # Most specific template association
-      @ct1 = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct1 = FactoryBot.create(:provisioning_template, :name => "ct1", :template_kind => @tk, :operatingsystems => [@os1])
       @ct1.template_combinations.create(:hostgroup => @hg1, :environment => @ev1)
 
       # HG only
       # We add an association on HG2/EV2 to ensure that we're not just blindly
       # selecting all template_combinations where environment_id => nil
-      @ct2 = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct2 = FactoryBot.create(:provisioning_template, :name => "ct2", :template_kind => @tk, :operatingsystems => [@os1])
       @ct2.template_combinations.create(:hostgroup => @hg1, :environment => nil)
       @ct2.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
 
       # Env only
       # We add an association on HG2/EV2 to ensure that we're not just blindly
       # selecting all template_combinations where hostgroup_id => nil
-      @ct3 = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
+      @ct3 = FactoryBot.create(:provisioning_template, :name => "ct3", :template_kind => @tk, :operatingsystems => [@os1])
       @ct3.template_combinations.create(:hostgroup => nil, :environment => @ev1)
       @ct3.template_combinations.create(:hostgroup => @hg2, :environment => @ev2)
 
       # Default template for the OS
-      @ctd = FactoryBot.create(:provisioning_template, :template_kind => @tk, :operatingsystems => [@os1])
-      @ctd.os_default_templates.create(:operatingsystem => @os1,
-                                      :template_kind_id => @ctd.template_kind_id)
+      @ctd = FactoryBot.create(:provisioning_template, :name => "ctd", :template_kind => @tk, :operatingsystems => [@os1])
+      @ctd.os_default_templates.create(:operatingsystem => @os1, :template_kind_id => @ctd.template_kind_id)
+
+      Foreman::Plugin.medium_providers.register(AMediumProvider)
+    end
+
+    teardown do
+      Foreman::Plugin.medium_providers.unregister(AMediumProvider)
+    end
+
+    test "medium providers validate hostgroups" do
+      p1 = Foreman::Plugin.medium_providers.find_provider(@hg1)
+      refute_nil p1
+      assert_empty p1.validate
+
+      p2 = Foreman::Plugin.medium_providers.find_provider(@hg2)
+      refute_nil p2
+      assert_empty p2.validate
     end
 
     test "find_template finds a matching template with hg and env" do
@@ -198,12 +237,14 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
                                       :hostgroup_id => @hg1.id,
                                       :environment_id => @ev1.id}).name
     end
+
     test "find_template finds a matching template with hg only" do
       assert_equal @ct2.name,
         ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg1.id}).name
     end
+
     test "find_template finds a matching template with hg and mismatched env" do
       assert_equal @ct2.name,
         ProvisioningTemplate.find_template({:kind => @tk.name,
@@ -211,12 +252,14 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
                                       :hostgroup_id => @hg1.id,
                                       :environment_id => @ev3.id}).name
     end
+
     test "find_template finds a matching template with env only" do
       assert_equal @ct3.name,
         ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :environment_id => @ev1.id}).name
     end
+
     test "find_template finds a matching template with env and mismatched hg" do
       assert_equal @ct3.name,
         ProvisioningTemplate.find_template({:kind => @tk.name,
@@ -224,12 +267,34 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
                                       :hostgroup_id => @hg3.id,
                                       :environment_id => @ev1.id}).name
     end
+
     test "find_template finds the default template when hg and env do not match" do
       assert_equal @ctd.name,
         ProvisioningTemplate.find_template({:kind => @tk.name,
                                       :operatingsystem_id => @os1.id,
                                       :hostgroup_id => @hg3.id,
                                       :environment_id => @ev3.id}).name
+    end
+
+    test "pxe_default_combos should return valid combinations" do
+      ProvisioningTemplate.pxe_default_combos
+    end
+
+    TemplateKind::PXE.each do |kind|
+      test "should call pxe_default_combos and render the result for #{kind}" do
+        return if kind == "iPXE"
+        ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
+        ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
+        global_template_name = ProvisioningTemplate.global_template_name_for(kind)
+        default_template = ProvisioningTemplate.find_global_default_template(global_template_name, kind)
+        expected = {}
+        expected["PXELinux"] = [/combo_medium-8X6BsGonIA0A-(vmlinuz|initrd.img)/, /LABEL hg1 - ct[12]/, /LABEL hg2 - ct[23]/]
+        expected["PXEGrub"] = [/combo_medium-8X6BsGonIA0A-(vmlinuz|initrd.img)/, /title hg1 - ct[12]/, /title hg2 - ct[23]/]
+        expected["PXEGrub2"] = [/combo_medium-8X6BsGonIA0A-(vmlinuz|initrd.img)/, /hg1 - ct[12]/, /hg2 - ct[23]/]
+        expected[kind].each do |match|
+          assert_match match, default_template.render(variables: { profiles: ProvisioningTemplate.pxe_default_combos })
+        end
+      end
     end
 
     test "should call build_pxe_default with allowed_helpers containing the default helpers" do
