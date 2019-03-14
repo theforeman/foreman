@@ -3,7 +3,6 @@
 </div>
 
 <%
-  all_actions = available_actions(@vm).push(
-                  link_to(_("Back"), compute_resource_path(@compute_resource), :class => 'btn btn-default'))
+  all_actions = available_actions(@vm)
   title_actions *all_actions
 %>

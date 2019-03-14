@@ -316,9 +316,6 @@ module HostsHelper
   def host_title_actions(host)
     title_actions(
       button_group(
-        link_to(_("Back"), hosts_path, :class => 'btn btn-default')
-      ),
-      button_group(
         link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
                                 :title    => _("Edit this host"), :id => "edit-button", :class => 'btn btn-default'),
         display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host, :permission => 'create_hosts'),
