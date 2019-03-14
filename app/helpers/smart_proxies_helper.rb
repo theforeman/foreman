@@ -46,9 +46,6 @@ module SmartProxiesHelper
 
   def smart_proxy_title_actions(proxy, authorizer)
     title_actions(
-      button_group(
-        link_to(_("Back"), smart_proxies_path, :class => 'btn btn-default')
-      ),
       select_action_button(_("Actions"), {}, feature_actions(proxy, authorizer)),
       button_group(
         display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy), :class => 'btn btn-default')
