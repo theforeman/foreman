@@ -143,8 +143,8 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     @compute_resource.organizations = User.current.organizations
     @compute_resource.locations = User.current.locations
 
-    Fog::Compute::OpenStack::Server.any_instance.expects(:state).returns('ACTIVE').at_least_once
-    Fog::Compute::OpenStack::Server.any_instance.expects(:pause).returns(true)
+    Fog::OpenStack::Compute::Server.any_instance.expects(:state).returns('ACTIVE').at_least_once
+    Fog::OpenStack::Compute::Server.any_instance.expects(:pause).returns(true)
     get :pause, params: { :format => 'json', :id => @test_vm.id, :compute_resource_id => @compute_resource.to_param }, session: set_session_user
     assert_redirected_to compute_resource_vm_path(:compute_resource_id => @compute_resource.to_param, :id => @test_vm.identity)
     Fog.unmock!

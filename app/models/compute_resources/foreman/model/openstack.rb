@@ -6,6 +6,7 @@ module Foreman::Model
     delegate :security_groups, :to => :client
 
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
+    validate :url_contains_version
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
     validates :domain, :format => { :with => /\A\S+\z/ }, :allow_blank => true
@@ -43,12 +44,22 @@ module Foreman::Model
     end
 
     def tenants
-      if url =~ /\/v3\/auth\/tokens/
+      if identity_version == 3
         user_id = identity_client.current_user_id
         identity_client.list_user_projects(user_id).body["projects"].map { |p| Fog::Identity::OpenStack::V3::Project.new(p) }
       else
-        client.tenants
+        identity_client.tenants
       end
+    end
+
+    def identity_version
+      return 3 if url =~ /\/v3/
+      return 2 if url =~ /\/v2/
+      0
+    end
+
+    def url_contains_version
+      errors.add(:url, _("must end with /v2 or /v3")) if identity_version == 0
     end
 
     def allow_external_network
@@ -233,20 +244,26 @@ module Foreman::Model
 
     private
 
+    def url_for_fog
+      u = URI.parse(url)
+      "#{u.scheme}://#{u.host}:#{u.port}"
+    end
+
     def fog_credentials
       { :provider           => :openstack,
         :openstack_api_key  => password,
         :openstack_username => user,
-        :openstack_auth_url => url,
+        :openstack_auth_url => url_for_fog,
         :openstack_tenant   => tenant,
-        :openstack_identity_endpoint => url,
+        :openstack_identity_endpoint => url_for_fog,
         :openstack_user_domain       => domain,
         :openstack_endpoint_type     => "publicURL"
       }.tap do |h|
         if tenant
-          h.merge!(:openstack_domain_name  => domain,
-                   :openstack_project_name => tenant)
+          h[:openstack_domain_name] = domain
+          h[:openstack_project_name] = tenant
         end
+        h[:openstack_identity_api_version] = 'v2.0' if identity_version == 2
       end
     end
 

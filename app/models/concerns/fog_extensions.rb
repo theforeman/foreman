@@ -1,6 +1,7 @@
 module FogExtensions
 end
 
+require 'concerns/fog_extensions/model'
 Fog::Model.send(:include, FogExtensions::Model) if defined? Fog::Model
 
 # Fog is required by bundler, and depending on the group configuration,
@@ -43,12 +44,11 @@ end
 
 if Foreman::Model::Openstack.available?
   require 'fog/openstack'
-  require 'fog/compute/openstack'
-  Fog::Compute::OpenStack::Real.send(:include, FogExtensions::Openstack::Core)
-  require 'fog/compute/openstack/models/server'
-  Fog::Compute::OpenStack::Server.send(:prepend, FogExtensions::Openstack::Server)
-  require 'fog/compute/openstack/models/flavor'
-  Fog::Compute::OpenStack::Flavor.send(:include, FogExtensions::Openstack::Flavor)
+  require 'fog/openstack/compute/models/server'
+  require 'fog/openstack/compute/models/flavor'
+  Fog::OpenStack::Compute::Real.send(:include, FogExtensions::Openstack::Core)
+  Fog::OpenStack::Compute::Server.send(:prepend, FogExtensions::Openstack::Server)
+  Fog::OpenStack::Compute::Flavor.send(:include, FogExtensions::Openstack::Flavor)
 end
 
 if Foreman::Model::Vmware.available?
