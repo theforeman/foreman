@@ -3,7 +3,7 @@ module Foreman
     module RestClientExtension
       def proxy_uri
         if proxy_http_request?(@proxy, @uri.hostname, @uri.scheme)
-          log_proxied_request(http_proxy, @uri.hostname)
+          log_proxied_request("RestClient", http_proxy, @uri.hostname)
           return URI.parse(http_proxy)
         end
         super
