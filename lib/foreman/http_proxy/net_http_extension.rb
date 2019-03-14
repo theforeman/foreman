@@ -4,7 +4,7 @@ module Foreman
       def request(req, body = nil, &block)
         host = URI.parse(@address).host
         if proxy_http_request?(@proxy_address, host, @socket)
-          log_proxied_request(http_proxy, host)
+          log_proxied_request("NetHttp", http_proxy, host)
           @proxy_address = URI.parse(http_proxy)
           http_proxied_rescue do
             super(req, body, &block)
