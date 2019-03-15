@@ -2,7 +2,10 @@ require 'test_helper'
 
 class Queries::ModelQueryTest < ActiveSupport::TestCase
   test 'fetching model attributes' do
-    model = FactoryBot.create(:model)
+    host = FactoryBot.create(:host, :with_model)
+    # Create a host that is not associated to the model
+    # so we can test it does not show up in the result
+    FactoryBot.create(:host, :managed)
 
     query = <<-GRAPHQL
       query (
@@ -16,11 +19,19 @@ class Queries::ModelQueryTest < ActiveSupport::TestCase
           info
           vendorClass
           hardwareModel
+          hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
 
-    model_global_id = Foreman::GlobalId.for(model)
+    model_global_id = Foreman::GlobalId.for(host.model)
     variables = { id: model_global_id }
     context = { current_user: FactoryBot.create(:user, :admin) }
 
@@ -29,12 +40,22 @@ class Queries::ModelQueryTest < ActiveSupport::TestCase
     expected = {
       'model' => {
         'id' => model_global_id,
-        'createdAt' => model.created_at.utc.iso8601,
-        'updatedAt' => model.updated_at.utc.iso8601,
-        'name' => model.name,
-        'info' => model.info,
-        'vendorClass' => model.vendor_class,
-        'hardwareModel' => model.hardware_model
+        'createdAt' => host.model.created_at.utc.iso8601,
+        'updatedAt' => host.model.updated_at.utc.iso8601,
+        'name' => host.model.name,
+        'info' => host.model.info,
+        'vendorClass' => host.model.vendor_class,
+        'hardwareModel' => host.model.hardware_model,
+        'hosts' => {
+          'totalCount' => 1,
+          'edges' => [
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.encode('Host', host.id)
+              }
+            }
+          ]
+        }
       }
     }
 

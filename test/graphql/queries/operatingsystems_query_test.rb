@@ -7,6 +7,7 @@ class Queries::OperatingsystemsQueryTest < ActiveSupport::TestCase
     query = <<-GRAPHQL
       query {
         operatingsystems {
+          totalCount
           pageInfo {
             startCursor
             endCursor
@@ -26,7 +27,10 @@ class Queries::OperatingsystemsQueryTest < ActiveSupport::TestCase
     context = { current_user: FactoryBot.create(:user, :admin) }
     result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
 
+    expected_count = Operatingsystem.count
+
     assert_empty result['errors']
-    assert_equal Operatingsystem.count, result['data']['operatingsystems']['edges'].count
+    assert_equal expected_count, result['data']['operatingsystems']['totalCount']
+    assert_equal expected_count, result['data']['operatingsystems']['edges'].count
   end
 end

@@ -144,6 +144,10 @@ FactoryBot.define do
       set_environment_taxonomies(host)
     end
 
+    trait :with_model do
+      model
+    end
+
     trait :with_environment do
       environment
     end
