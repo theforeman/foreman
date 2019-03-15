@@ -22,5 +22,8 @@ module Types
 
     field :architecture, Types::Architecture, resolver: Resolvers::Architecture
     field :architectures, Types::Architecture.connection_type, resolver: Resolvers::Architectures
+
+    field :host, Types::Host, resolver: Resolvers::Host
+    field :hosts, Types::Host.connection_type, resolver: Resolvers::Hosts
   end
 end

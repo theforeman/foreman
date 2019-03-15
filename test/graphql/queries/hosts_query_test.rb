@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class Queries::ModelsQueryTest < ActiveSupport::TestCase
-  test 'fetching models attributes' do
-    FactoryBot.create_list(:model, 2)
+class Queries::HostsQueryTest < ActiveSupport::TestCase
+  test 'fetching hosts attributes' do
+    FactoryBot.create_list(:host, 2, :managed)
 
     query = <<-GRAPHQL
       query {
-        models {
+        hosts {
           totalCount
           pageInfo {
             startCursor
@@ -27,10 +27,10 @@ class Queries::ModelsQueryTest < ActiveSupport::TestCase
     context = { current_user: FactoryBot.create(:user, :admin) }
     result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
 
-    expected_count = Model.count
+    expected_count = Host.count
 
     assert_empty result['errors']
-    assert_equal expected_count, result['data']['models']['totalCount']
-    assert_equal expected_count, result['data']['models']['edges'].count
+    assert_equal expected_count, result['data']['hosts']['totalCount']
+    assert_equal expected_count, result['data']['hosts']['edges'].count
   end
 end
