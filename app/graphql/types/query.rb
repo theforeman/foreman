@@ -2,28 +2,43 @@ module Types
   class Query < GraphQL::Schema::Object
     graphql_name 'Query'
 
+    class << self
+      def record_field(name, model)
+        field name, "Types::#{model}".safe_constantize,
+          resolver: Resolvers::Generic.for(model).record
+      end
+
+      def collection_field(name, model)
+        field name, "Types::#{model}".safe_constantize.connection_type,
+          resolver: Resolvers::Generic.for(model).collection
+      end
+    end
+
     field :node, field: GraphQL::Relay::Node.field
     field :nodes, field: GraphQL::Relay::Node.plural_field
 
-    field :model, Types::Model, resolver: Resolvers::Model
-    field :models, Types::Model.connection_type, resolver: Resolvers::Models
+    record_field :model, ::Model
+    collection_field :models, ::Model
 
-    field :location, Types::Location, resolver: Resolvers::Location
-    field :locations, Types::Location.connection_type, resolver: Resolvers::Locations
+    record_field :location, ::Location
+    collection_field :locations, ::Location
 
-    field :operatingsystem, Types::Operatingsystem, resolver: Resolvers::Operatingsystem
-    field :operatingsystems, Types::Operatingsystem.connection_type, resolver: Resolvers::Operatingsystems
+    record_field :operatingsystem, ::Operatingsystem
+    collection_field :operatingsystems, ::Operatingsystem
 
-    field :subnet, Types::Subnet, resolver: Resolvers::Subnet
-    field :subnets, Types::Subnet.connection_type, resolver: Resolvers::Subnets
+    record_field :subnet, ::Subnet
+    collection_field :subnets, ::Subnet
 
-    field :usergroup, Types::Usergroup, resolver: Resolvers::Usergroup
-    field :usergroups, Types::Usergroup.connection_type, resolver: Resolvers::Usergroups
+    record_field :usergroup, ::Usergroup
+    collection_field :usergroups, ::Usergroup
 
-    field :architecture, Types::Architecture, resolver: Resolvers::Architecture
-    field :architectures, Types::Architecture.connection_type, resolver: Resolvers::Architectures
+    record_field :host, ::Host
+    collection_field :hosts, ::Host
 
-    field :host, Types::Host, resolver: Resolvers::Host
-    field :hosts, Types::Host.connection_type, resolver: Resolvers::Hosts
+    record_field :architecture, ::Architecture
+    collection_field :architectures, ::Architecture
+
+    record_field :smart_proxy, ::SmartProxy
+    collection_field :smart_proxies, ::SmartProxy
   end
 end
