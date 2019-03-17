@@ -17,10 +17,11 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     defaultSelected={Array []}
     disabled={false}
     dropup={false}
-    emptyLabel={null}
+    emptyLabel="No matches found."
     filterBy={Array []}
     flip={false}
     highlightOnlyResult={false}
+    id="some-id"
     ignoreDiacritics={true}
     inputProps={
       Object {

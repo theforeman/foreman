@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import groupBy from 'lodash/groupBy';
 import { TypeAheadSelect } from 'patternfly-react';
 import SubstringWrapper from '../../common/SubstringWrapper';
 
 const { Menu, MenuItem } = TypeAheadSelect;
+const { Divider, Header } = Menu;
 
 const AutoCompleteMenu = ({ results, menuProps }) => {
+  if (results && results.length === 0) {
+    return null;
+  }
+
   let itemIndex = 0;
   const grouped = groupBy(results, r => r.category);
   const getMenuItemsByCategory = category =>
@@ -24,11 +29,11 @@ const AutoCompleteMenu = ({ results, menuProps }) => {
   const items = Object.keys(grouped)
     .sort()
     .map(category => (
-      <React.Fragment key={`${category}-fragment`}>
-        {!!itemIndex && <Menu.Divider key={`${category}-divider`} />}
-        <Menu.Header key={`${category}-header`}>{category}</Menu.Header>
+      <Fragment key={`${category}-fragment`}>
+        {!!itemIndex && <Divider key={`${category}-divider`} />}
+        <Header key={`${category}-header`}>{category}</Header>
         {getMenuItemsByCategory(category)}
-      </React.Fragment>
+      </Fragment>
     ));
   return <Menu {...menuProps}>{items}</Menu>;
 };

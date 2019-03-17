@@ -16,6 +16,7 @@ const SearchBar = ({
   return (
     <div className="search-bar input-group">
       <AutoComplete
+        id={autocomplete.id}
         handleSearch={() => resolveSearchQuery(searchQuery)}
         initialQuery={autocomplete.searchQuery || ''}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
@@ -40,6 +41,7 @@ SearchBar.propTypes = {
       searchQuery: PropTypes.string,
       url: PropTypes.string,
       useKeyShortcuts: PropTypes.bool,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     }),
     controller: PropTypes.string,
     bookmarks: PropTypes.shape({ ...Bookmarks.propTypes }),

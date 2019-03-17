@@ -56,6 +56,7 @@ exports[`render pageLayout w/search 1`] = `
               Object {
                 "data": Object {
                   "autocomplete": Object {
+                    "id": "some-id",
                     "searchQuery": null,
                     "url": "model/auto_complete_search",
                   },
@@ -149,6 +150,7 @@ exports[`render pageLayout w/toastNotifications 1`] = `
               Object {
                 "data": Object {
                   "autocomplete": Object {
+                    "id": "some-id",
                     "searchQuery": null,
                     "url": "model/auto_complete_search",
                   },
@@ -236,6 +238,7 @@ exports[`render pageLayout w/toolBar 1`] = `
               Object {
                 "data": Object {
                   "autocomplete": Object {
+                    "id": "some-id",
                     "searchQuery": null,
                     "url": "model/auto_complete_search",
                   },
@@ -299,6 +302,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
               Object {
                 "data": Object {
                   "autocomplete": Object {
+                    "id": "some-id",
                     "searchQuery": null,
                     "url": "model/auto_complete_search",
                   },
@@ -368,6 +372,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
               Object {
                 "data": Object {
                   "autocomplete": Object {
+                    "id": "some-id",
                     "searchQuery": null,
                     "url": "model/auto_complete_search",
                   },
