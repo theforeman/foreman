@@ -1,3 +1,6 @@
+# We need to delete the existing task which comes from webpack-rails gem or this task will get executed twice
+Rake::Task['webpack:compile'].clear
+
 namespace :webpack do
   # TODO: remove after migrating away from webpack-rails (after setting the
   # max_old_space_size) in other tool.
