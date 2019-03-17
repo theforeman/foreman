@@ -1,17 +1,10 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import URI from 'urijs';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../bookmarks';
+import { resolveSearchQuery } from './SearchBarHelpers';
 import './search-bar.scss';
-
-const handleSearch = searchQuery => {
-  const uri = new URI(window.location.href);
-  const data = { ...uri.query(true), search: searchQuery.trim(), page: 1 };
-  uri.query(URI.buildQuery(data, true));
-  window.Turbolinks.visit(uri.toString());
-};
 
 const SearchBar = ({
   searchQuery,
@@ -23,14 +16,16 @@ const SearchBar = ({
   return (
     <div className="search-bar input-group">
       <AutoComplete
-        handleSearch={() => handleSearch(searchQuery)}
+        handleSearch={() => resolveSearchQuery(searchQuery)}
         initialQuery={autocomplete.searchQuery || ''}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
         url={autocomplete.url}
         controller={controller}
       />
       <div className="input-group-btn">
-        <AutoComplete.SearchButton onClick={() => handleSearch(searchQuery)} />
+        <AutoComplete.SearchButton
+          onClick={() => resolveSearchQuery(searchQuery)}
+        />
         {bookmarksComponent}
       </div>
     </div>
