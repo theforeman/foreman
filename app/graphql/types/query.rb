@@ -23,6 +23,9 @@ module Types
     record_field :location, ::Location
     collection_field :locations, ::Location
 
+    record_field :organization, ::Organization
+    collection_field :organizations, ::Organization
+
     record_field :operatingsystem, ::Operatingsystem
     collection_field :operatingsystems, ::Operatingsystem
 
