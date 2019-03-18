@@ -45,13 +45,11 @@ module FactValuesHelper
     end.html_safe
   end
 
-  def fact_origin_icon(origin)
-    return origin if origin == 'N/A'
-    title = origin
-    if origin.include? "/"
-      title = origin.split("/")[1]
-    end
-    image_tag(origin + ".png", :title => title)
+  # Return fact icon image tag. Stub is used in some cases because
+  # of legal requirements. Make sure to get legal advice prior
+  # putting any logos into our git repository.
+  def fact_origin_icon(origin, icon_path)
+    image_tag(icon_path, title: origin, size: '16x16')
   end
 
   def fact_breadcrumbs
