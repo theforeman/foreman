@@ -249,10 +249,10 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
   end
 
   test "should detect correct environments for import" do
-    org_a = FactoryBot.build(:organization, :name => "OrgA")
-    loc_a = FactoryBot.build(:location, :name => "LocA")
-    org_b = FactoryBot.build(:organization, :name => "OrgB")
-    loc_b = FactoryBot.build(:location, :name => "LocB")
+    org_a = FactoryBot.create(:organization, :name => "OrgA")
+    loc_a = FactoryBot.create(:location, :name => "LocA")
+    org_b = FactoryBot.create(:organization, :name => "OrgB")
+    loc_b = FactoryBot.create(:location, :name => "LocB")
     b_role = roles(:manager).clone :name => 'b_role'
     b_role.add_permissions! [:destroy_external_parameters, :edit_external_parameters, :create_external_parameters, :view_external_parameters]
     a_user = FactoryBot.create(:user, :organizations => [org_a], :locations => [loc_a], :roles => [roles(:manager)], :login => 'a_user')

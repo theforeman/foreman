@@ -888,6 +888,24 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test "my_locations includes locations set to 'all users'" do
+    user = FactoryBot.create(:user)
+    location = FactoryBot.create(:location)
+    refute_includes user.my_locations, location
+    location.ignore_types = ['User']
+    location.save!
+    assert_includes user.my_locations, location
+  end
+
+  test "my_organizations includes organizations set to 'all users'" do
+    user = FactoryBot.create(:user)
+    organization = FactoryBot.create(:organization)
+    refute_includes user.my_organizations, organization
+    organization.ignore_types = ['User']
+    organization.save!
+    assert_includes user.my_organizations, organization
+  end
+
   test "chaging hostgroup should update cache" do
     u = FactoryBot.create(:user)
     g1 = FactoryBot.create(:usergroup)
@@ -911,18 +929,16 @@ class UserTest < ActiveSupport::TestCase
     assert_empty u.cached_usergroups
   end
 
-  #  Uncomment after users get access to children taxonomies of their current taxonomies.
-  #
-  #  test 'default taxonomy inclusion validator takes into account inheritance' do
-  #    inherited_location     = Location.create(:parent => Location.first, :name => 'inherited_loc')
-  #    inherited_organization = Organization.create(:parent => Organization.first, :name => 'inherited_org')
-  #    users(:one).update_attribute(:locations, [Location.first])
-  #    users(:one).update_attribute(:organizations, [Organization.first])
-  #    users(:one).default_location     = Location.find_by_name('inherited_loc')
-  #    users(:one).default_organization = Organization.find_by_name('inherited_org')
-  #
-  #    assert users(:one).valid?
-  #  end
+  test 'default taxonomy inclusion validator takes into account inheritance' do
+    Location.create(:parent => Location.first, :name => 'inherited_loc')
+    Organization.create(:parent => Organization.first, :name => 'inherited_org')
+    users(:one).update_attribute(:locations, [Location.first])
+    users(:one).update_attribute(:organizations, [Organization.first])
+    users(:one).default_location     = Location.find_by_name('inherited_loc')
+    users(:one).default_organization = Organization.find_by_name('inherited_org')
+
+    assert users(:one).valid?
+  end
 
   test "#matching_password? succeeds if password matches" do
     u = FactoryBot.build_stubbed(:user)

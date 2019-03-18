@@ -465,11 +465,10 @@ class User < ApplicationRecord
   end
 
   def taxonomy_and_child_ids(taxonomies)
-    ids = []
-    send(taxonomies).each do |taxonomy|
-      ids += taxonomy.subtree_ids
-    end
-    ids.uniq
+    top_level = send(taxonomies) + taxonomies.to_s.classify.constantize.unscoped.select {|tax| tax.ignore?('user')}
+    top_level.each_with_object([]) do |taxonomy, ids|
+      ids.concat taxonomy.subtree_ids
+    end.uniq
   end
 
   def location_and_child_ids
@@ -674,13 +673,13 @@ class User < ApplicationRecord
   end
 
   def default_location_inclusion
-    unless locations.include?(default_location) || default_location.blank? || self.admin?
+    unless my_locations.include?(default_location) || default_location.blank? || self.admin?
       errors.add :default_location, _("default locations need to be user locations first")
     end
   end
 
   def default_organization_inclusion
-    unless organizations.include?(default_organization) || default_organization.blank? || self.admin?
+    unless my_organizations.include?(default_organization) || default_organization.blank? || self.admin?
       errors.add :default_organization, _("default organizations need to be user organizations first")
     end
   end
