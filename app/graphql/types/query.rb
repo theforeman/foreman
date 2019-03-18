@@ -40,5 +40,8 @@ module Types
 
     record_field :smart_proxy, ::SmartProxy
     collection_field :smart_proxies, ::SmartProxy
+
+    record_field :domain, ::Domain
+    collection_field :domains, ::Domain
   end
 end
