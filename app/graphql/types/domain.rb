@@ -7,7 +7,6 @@ module Types
     field :name, String, null: true
     field :fullname, String, null: true
 
-    field :subnets, Types::Subnet.connection_type, null: true,
-      resolve: proc { |object| CollectionLoader.for(object.class, :subnets).load(object) }
+    has_many :subnets, Types::Subnet
   end
 end

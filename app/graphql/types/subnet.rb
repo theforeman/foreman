@@ -21,7 +21,6 @@ module Types
     field :network_type, String, null: true
     field :cidr, Int, null: true
 
-    field :domains, Types::Domain.connection_type, null: true,
-      resolve: proc { |object| CollectionLoader.for(object.class, :domains).load(object) }
+    has_many :domains, Types::Domain
   end
 end
