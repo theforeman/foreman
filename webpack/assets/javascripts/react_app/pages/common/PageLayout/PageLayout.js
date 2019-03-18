@@ -17,7 +17,7 @@ const PageLayout = ({
   children,
 }) => (
   <div id="main">
-    <div id="content">
+    <div id="react-content">
       {toastNotifications && (
         <div
           id="toast-notifications-container"

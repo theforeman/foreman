@@ -5,7 +5,7 @@ exports[`render pageLayout w/search 1`] = `
   id="main"
 >
   <div
-    id="content"
+    id="react-content"
   >
     <div
       id="breadcrumb"
@@ -93,7 +93,7 @@ exports[`render pageLayout w/toastNotifications 1`] = `
   id="main"
 >
   <div
-    id="content"
+    id="react-content"
   >
     <div
       data-notifications="notification"
@@ -187,7 +187,7 @@ exports[`render pageLayout w/toolBar 1`] = `
   id="main"
 >
   <div
-    id="content"
+    id="react-content"
   >
     <div
       id="breadcrumb"
@@ -277,7 +277,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
   id="main"
 >
   <div
-    id="content"
+    id="react-content"
   >
     <div
       id="breadcrumb"
@@ -339,7 +339,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
   id="main"
 >
   <div
-    id="content"
+    id="react-content"
   >
     <div
       id="breadcrumb"
@@ -409,7 +409,7 @@ exports[`render pageLayout without search 1`] = `
   id="main"
 >
   <div
-    id="content"
+    id="react-content"
   >
     <div
       id="breadcrumb"
