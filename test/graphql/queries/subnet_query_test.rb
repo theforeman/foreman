@@ -2,7 +2,8 @@ require 'test_helper'
 
 class Queries::SubnetQueryTest < ActiveSupport::TestCase
   test 'fetching subnet attributes' do
-    subnet = FactoryBot.create(:subnet_ipv4)
+    domains = FactoryBot.create_list(:domain, 2)
+    subnet = FactoryBot.create(:subnet_ipv4, domains: domains)
 
     query = <<-GRAPHQL
       query (
@@ -28,6 +29,14 @@ class Queries::SubnetQueryTest < ActiveSupport::TestCase
           networkAddress
           networkType
           cidr
+          domains {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
@@ -57,7 +66,17 @@ class Queries::SubnetQueryTest < ActiveSupport::TestCase
         'bootMode' => subnet.boot_mode,
         'networkAddress' => subnet.network_address,
         'networkType' => subnet.network_type,
-        'cidr' => subnet.cidr
+        'cidr' => subnet.cidr,
+        'domains' => {
+          'totalCount' => subnet.domains.count,
+          'edges' => subnet.domains.map do |domain|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(domain)
+              }
+            }
+          end
+        }
       }
     }
 
