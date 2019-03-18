@@ -4,6 +4,8 @@ import { translate as __ } from './react_app/common/I18n';
 
 import { showLoading, hideLoading } from './foreman_navigation';
 
+export * from './react_app/common/DeprecationService';
+
 export function showSpinner() {
   showLoading();
 }
@@ -66,13 +68,6 @@ export function activateTooltips(elParam = 'body') {
   });
 }
 
-/* eslint-disable no-console, max-len */
-export function deprecate(oldMethod, newMethod, version = '1.22') {
-  console.warn(
-    `DEPRECATION WARNING: you are using deprecated ${oldMethod}, it will be removed in Foreman ${version}. Use ${newMethod} instead.`
-  );
-}
-
 export function initTypeAheadSelect(input) {
   input.select2({
     ajax: {
@@ -130,20 +125,4 @@ export function updateTable(element) {
   /* eslint-disable no-undef */
   Turbolinks.visit(uri.toString());
   return false;
-}
-
-export function deprecateObjectProperty(
-  obj,
-  oldProp,
-  newProp,
-  version = '1.20'
-) {
-  const oldPropPointer = obj[oldProp];
-
-  Object.defineProperty(obj, oldProp, {
-    get: () => {
-      deprecate(oldProp, newProp, version);
-      return oldPropPointer;
-    },
-  });
 }
