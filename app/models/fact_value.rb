@@ -4,7 +4,7 @@ class FactValue < ApplicationRecord
 
   belongs_to :host, {:class_name => "Host::Base", :foreign_key => :host_id}
   belongs_to :fact_name
-  delegate :name, :short_name, :compose, :origin, :to => :fact_name
+  delegate :name, :short_name, :compose, :origin, :icon_path, :to => :fact_name
   has_many :hostgroup, :through => :host
 
   has_one :parent_fact_name, :through => :fact_name, :source => :parent, :class_name => 'FactName'

@@ -34,8 +34,14 @@ class FactName < ApplicationRecord
   end
 
   # To be overridden in subclasses to specify what is the origin of this
-  # fact, normally a configuration management system, e.g: 'Puppet'
+  # fact, normally a configuration management system, e.g: 'Puppet', 'Ansible'...
   def origin
     'N/A'
+  end
+
+  # Relative path within app/assets/images to the 16x16 icon in PNG format.
+  # Stock (stub) icons can be used, e.g. "icons16x16/stub/green-h.png".
+  def icon_path
+    "icons16x16/stub/black-x.png"
   end
 end
