@@ -1,6 +1,6 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
-import { deprecateObjectProperty } from '../../foreman_tools';
+import { deprecateObjectProperty } from './DeprecationService';
 import { runningInPhantomJS } from './helpers';
 
 class IntlLoader {
