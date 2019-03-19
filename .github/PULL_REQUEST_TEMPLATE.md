@@ -1,4 +1,15 @@
 
+<!--
+Simple description of what is fixed/introduced.
+
+Prerequisites for testing:
+* VMware cluster
+* Two smart proxies
+
+Tests needed (anticipated impacts):
+* Hosts list - mainly power column
+* Power status on host page
+-->
 
 <!---
 
@@ -9,6 +20,7 @@ Thank you for contributing to The Foreman, please read the
 * Reference the issue via `Fixes #1234` in the commit message
 * Prefer present-tense, imperative-style commit messages
 * Mark all strings for translation, see [Translating section in the guide]
+* Suggest prerequisites for testing and testing scenarios following example above.
 (https://projects.theforeman.org/projects/foreman/wiki/Translating)
 * Prepend `[WIP]` for work in progress to prevent bots from triggering actions
 * Be patient, we will do our best to take a look as soon as we can
