@@ -10,9 +10,11 @@ User.as_anonymous_admin do
       tax = taxonomy.create!(name: tax_name)
       associations = taxonomy.reflect_on_all_associations.reject do |assoc|
         skip_associations.include?(assoc.name) ||
-        assoc.is_a?(ActiveRecord::Reflection::HasOneReflection) ||
-            assoc.is_a?(ActiveRecord::Reflection::BelongsToReflection)
+          assoc.is_a?(ActiveRecord::Reflection::HasOneReflection) ||
+          assoc.is_a?(ActiveRecord::Reflection::BelongsToReflection) ||
+          assoc.nested?
       end
+
       associations.each do |association|
         tax.send("#{association.name}=", association.klass.all)
       end
