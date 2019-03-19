@@ -99,7 +99,7 @@ FactoryBot.define do
     end
 
     factory :rhel7_5, class: Redhat do
-      sequence(:name) { 'Red Hat Enterprise Linux' }
+      sequence(:name) { |n| "RedHat#{n}" }
       major { '7' }
       minor { '5' }
       type { 'Redhat' }
