@@ -16,7 +16,7 @@ const initialState = Immutable({
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case TEMPLATE_GENERATE_REQUEST:
-      return state.merge({ scheduleInProgress: true });
+      return state.set('scheduleInProgress', true);
     case TEMPLATE_GENERATE_POLLING:
       return state.merge({
         scheduleInProgress: false,

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TemplateGeneratorSelectors selects template properties 1`] = `
+Object {
+  "dataUrl": "/some/url",
+  "generatingError": "there was an error",
+  "generatingErrorMessages": Array [
+    Object {
+      "error": Object {
+        "message": "aha",
+      },
+    },
+  ],
+  "polling": false,
+}
+`;

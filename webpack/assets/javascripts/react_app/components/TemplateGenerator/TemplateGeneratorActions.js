@@ -8,9 +8,7 @@ import {
   TEMPLATE_GENERATE_FAILURE,
 } from './TemplateGeneratorConstants';
 
-const defaultPollingInterval = 2500;
-const pollingInterval =
-  process.env.NOTIFICATIONS_POLLING || defaultPollingInterval;
+const pollingInterval = 3000;
 
 export const generateTemplate = (url, templateInputData) => dispatch => {
   dispatch({

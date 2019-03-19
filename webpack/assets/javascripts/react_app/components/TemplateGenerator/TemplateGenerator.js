@@ -24,11 +24,11 @@ const getAlert = (type, msg) => (
 class TemplateGenerator extends React.Component {
   getError() {
     const { generatingError, generatingErrorMessages } = this.props;
-    return (
-      (generatingErrorMessages &&
-        generatingErrorMessages.map(e => e.message).join('\n')) ||
-      generatingError
-    );
+    const errors =
+      generatingErrorMessages &&
+      generatingErrorMessages.map(e => e.message).join('\n');
+
+    return errors || generatingError;
   }
 
   renderAlert() {
@@ -67,7 +67,9 @@ TemplateGenerator.propTypes = {
   polling: PropTypes.bool,
   dataUrl: PropTypes.string,
   generatingError: PropTypes.string,
-  generatingErrorMessages: PropTypes.array,
+  generatingErrorMessages: PropTypes.arrayOf(
+    PropTypes.shape({ message: PropTypes.string })
+  ),
 };
 
 TemplateGenerator.defaultProps = {
