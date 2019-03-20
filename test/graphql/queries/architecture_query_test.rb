@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::ArchitectureQueryTest < ActiveSupport::TestCase
-  test 'fetching architecture attributes' do
-    architecture = FactoryBot.create(:architecture)
-
-    query = <<-GRAPHQL
+class Queries::ArchitectureQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -13,25 +11,34 @@ class Queries::ArchitectureQueryTest < ActiveSupport::TestCase
           createdAt
           updatedAt
           name
+          hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
+  end
 
-    architecture_global_id = Foreman::GlobalId.for(architecture)
-    variables = { id: architecture_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:hosts) { FactoryBot.create_list(:host, 2) }
+  let(:architecture) { FactoryBot.create(:architecture, hosts: hosts) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'architecture' => {
-        'id' => architecture_global_id,
-        'createdAt' => architecture.created_at.utc.iso8601,
-        'updatedAt' => architecture.updated_at.utc.iso8601,
-        'name' => architecture.name
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(architecture) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['architecture'] }
 
+  test 'fetching architecture attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal architecture.created_at.utc.iso8601, data['createdAt']
+    assert_equal architecture.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal architecture.name, data['name']
+
+    assert_collection architecture.hosts, data['hosts'], type_name: 'Host'
   end
 end

@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::HostsQueryTest < ActiveSupport::TestCase
-  test 'fetching hosts attributes' do
-    FactoryBot.create_list(:host, 2, :managed)
-
-    query = <<-GRAPHQL
+class Queries::HostsQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         hosts {
           totalCount
@@ -23,14 +21,21 @@ class Queries::HostsQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['hosts'] }
+
+  setup do
+    FactoryBot.create_list(:host, 2, :managed)
+  end
+
+  test 'fetching hosts attributes' do
+    assert_empty result['errors']
 
     expected_count = Host.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['hosts']['totalCount']
-    assert_equal expected_count, result['data']['hosts']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end

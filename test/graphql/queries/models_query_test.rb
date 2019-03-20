@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::ModelsQueryTest < ActiveSupport::TestCase
-  test 'fetching models attributes' do
-    FactoryBot.create_list(:model, 2)
-
-    query = <<-GRAPHQL
+class Queries::ModelsQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         models {
           totalCount
@@ -23,14 +21,21 @@ class Queries::ModelsQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['models'] }
+
+  setup do
+    FactoryBot.create_list(:model, 2)
+  end
+
+  test 'fetching models attributes' do
+    assert_empty result['errors']
 
     expected_count = Model.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['models']['totalCount']
-    assert_equal expected_count, result['data']['models']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end

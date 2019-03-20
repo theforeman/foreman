@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Queries::AuthorizedModelQueryTest < ActiveSupport::TestCase
+class Queries::AuthorizedModelQueryTest < GraphQLQueryTestCase
   describe '#find_by' do
     let(:host) do
       as_admin { FactoryBot.create(:host) }

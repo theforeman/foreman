@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::PersonalAccessTokensQueryTest < ActiveSupport::TestCase
-  test 'fetching personalAccessTokens attributes' do
-    FactoryBot.create_list(:personal_access_token, 2)
-
-    query = <<-GRAPHQL
+class Queries::PersonalAccessTokensQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         personalAccessTokens {
           totalCount
@@ -23,14 +21,21 @@ class Queries::PersonalAccessTokensQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['personalAccessTokens'] }
+
+  setup do
+    FactoryBot.create_list(:personal_access_token, 2)
+  end
+
+  test 'fetching personalAccessTokens attributes' do
+    assert_empty result['errors']
 
     expected_count = PersonalAccessToken.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['personalAccessTokens']['totalCount']
-    assert_equal expected_count, result['data']['personalAccessTokens']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end

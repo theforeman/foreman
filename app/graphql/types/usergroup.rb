@@ -6,5 +6,7 @@ module Types
     timestamps
     field :name, String
     field :admin, Boolean
+
+    has_many :users, Types::User
   end
 end

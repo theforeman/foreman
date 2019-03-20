@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::OperatingsystemQueryTest < ActiveSupport::TestCase
-  test 'fetching operatingsystem attributes' do
-    operatingsystem = FactoryBot.create(:operatingsystem)
-
-    query = <<-GRAPHQL
+class Queries::OperatingsystemQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -16,28 +14,37 @@ class Queries::OperatingsystemQueryTest < ActiveSupport::TestCase
           title
           type
           fullname
+          hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
+  end
 
-    operatingsystem_global_id = Foreman::GlobalId.for(operatingsystem)
-    variables = { id: operatingsystem_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:hosts) { FactoryBot.create_list(:host, 2) }
+  let(:operatingsystem) { FactoryBot.create(:operatingsystem, hosts: hosts) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'operatingsystem' => {
-        'id' => operatingsystem_global_id,
-        'createdAt' => operatingsystem.created_at.utc.iso8601,
-        'updatedAt' => operatingsystem.updated_at.utc.iso8601,
-        'name' => operatingsystem.name,
-        'title' => operatingsystem.title,
-        'type' => operatingsystem.type,
-        'fullname' => operatingsystem.fullname
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(operatingsystem) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['operatingsystem'] }
 
+  test 'fetching operatingsystem attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal operatingsystem.created_at.utc.iso8601, data['createdAt']
+    assert_equal operatingsystem.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal operatingsystem.name, data['name']
+    assert_equal operatingsystem.title, data['title']
+    assert_equal operatingsystem.type, data['type']
+    assert_equal operatingsystem.fullname, data['fullname']
+
+    assert_collection operatingsystem.hosts, data['hosts'], type_name: 'Host'
   end
 end

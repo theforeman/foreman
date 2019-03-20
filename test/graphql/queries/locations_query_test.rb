@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::LocationsQueryTest < ActiveSupport::TestCase
-  test 'fetching locations attributes' do
-    FactoryBot.create_list(:location, 2)
-
-    query = <<-GRAPHQL
+class Queries::LocationsQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         locations {
           totalCount
@@ -23,14 +21,21 @@ class Queries::LocationsQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['locations'] }
+
+  setup do
+    FactoryBot.create_list(:location, 2)
+  end
+
+  test 'fetching locations attributes' do
+    assert_empty result['errors']
 
     expected_count = Location.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['locations']['totalCount']
-    assert_equal expected_count, result['data']['locations']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end

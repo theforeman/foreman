@@ -6,5 +6,7 @@ module Types
     timestamps
     field :name, String
     field :url, String
+
+    has_many :hosts, Types::Host
   end
 end

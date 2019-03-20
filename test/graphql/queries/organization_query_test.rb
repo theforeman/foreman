@@ -1,12 +1,8 @@
 require 'test_helper'
 
-class Queries::OrganizationQueryTest < ActiveSupport::TestCase
-  test 'fetching organization attributes' do
-    environment = FactoryBot.create(:environment)
-    FactoryBot.create(:puppetclass, :environments => [environment])
-    organization = FactoryBot.create(:organization, environments: [environment])
-
-    query = <<-GRAPHQL
+class Queries::OrganizationQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -35,43 +31,29 @@ class Queries::OrganizationQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    organization_global_id = Foreman::GlobalId.for(organization)
-    variables = { id: organization_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:environment) { FactoryBot.create(:environment) }
+  let(:organization) { FactoryBot.create(:organization, environments: [environment]) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'organization' => {
-        'id' => organization_global_id,
-        'createdAt' => organization.created_at.utc.iso8601,
-        'updatedAt' => organization.updated_at.utc.iso8601,
-        'name' => organization.name,
-        'title' => organization.title,
-        'environments' => {
-          'totalCount' => organization.environments.count,
-          'edges' => organization.environments.sort_by(&:id).map do |env|
-            {
-              'node' => {
-                'id' => Foreman::GlobalId.for(env)
-              }
-            }
-          end
-        },
-        'puppetclasses' => {
-          'totalCount' => organization.puppetclasses.count,
-          'edges' => organization.puppetclasses.map do |puppetclass|
-            {
-              'node' => {
-                'id' => Foreman::GlobalId.for(puppetclass)
-              }
-            }
-          end
-        }
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(organization) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['organization'] }
 
+  setup do
+    FactoryBot.create(:puppetclass, :environments => [environment])
+  end
+
+  test 'fetching organization attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal organization.created_at.utc.iso8601, data['createdAt']
+    assert_equal organization.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal organization.name, data['name']
+    assert_equal organization.title, data['title']
+
+    assert_collection organization.environments, data['environments']
+    assert_collection organization.puppetclasses, data['puppetclasses']
   end
 end

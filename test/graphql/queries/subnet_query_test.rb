@@ -1,11 +1,8 @@
 require 'test_helper'
 
-class Queries::SubnetQueryTest < ActiveSupport::TestCase
-  test 'fetching subnet attributes' do
-    domains = FactoryBot.create_list(:domain, 2)
-    subnet = FactoryBot.create(:subnet_ipv4, domains: domains)
-
-    query = <<-GRAPHQL
+class Queries::SubnetQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -40,47 +37,38 @@ class Queries::SubnetQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    subnet_global_id = Foreman::GlobalId.encode('Subnet', subnet.id)
-    variables = { id: subnet_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:domains) { FactoryBot.create_list(:domain, 2) }
+  let(:subnet) { FactoryBot.create(:subnet_ipv4, domains: domains) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'subnet' => {
-        'id' => subnet_global_id,
-        'createdAt' => subnet.created_at.utc.iso8601,
-        'updatedAt' => subnet.updated_at.utc.iso8601,
-        'name' => subnet.name,
-        'type' => subnet.type,
-        'network' => subnet.network,
-        'mask' => subnet.mask,
-        'priority' => subnet.priority,
-        'vlanid' => subnet.vlanid,
-        'gateway' => subnet.gateway,
-        'dnsPrimary' => subnet.dns_primary,
-        'dnsSecondary' => subnet.dns_secondary,
-        'from' => subnet.from,
-        'to' => subnet.to,
-        'ipam' => subnet.ipam,
-        'bootMode' => subnet.boot_mode,
-        'networkAddress' => subnet.network_address,
-        'networkType' => subnet.network_type,
-        'cidr' => subnet.cidr,
-        'domains' => {
-          'totalCount' => subnet.domains.count,
-          'edges' => subnet.domains.map do |domain|
-            {
-              'node' => {
-                'id' => Foreman::GlobalId.for(domain)
-              }
-            }
-          end
-        }
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.encode('Subnet', subnet.id) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['subnet'] }
 
+  test 'fetching subnet attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal subnet.created_at.utc.iso8601, data['createdAt']
+    assert_equal subnet.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal subnet.name, data['name']
+    assert_equal subnet.type, data['type']
+    assert_equal subnet.network, data['network']
+    assert_equal subnet.mask, data['mask']
+    assert_equal subnet.priority, data['priority']
+    assert_equal subnet.vlanid, data['vlanid']
+    assert_equal subnet.gateway, data['gateway']
+    assert_equal subnet.dns_primary, data['dnsPrimary']
+    assert_equal subnet.dns_secondary, data['dnsSecondary']
+    assert_equal subnet.from, data['from']
+    assert_equal subnet.to, data['to']
+    assert_equal subnet.ipam, data['ipam']
+    assert_equal subnet.boot_mode, data['bootMode']
+    assert_equal subnet.network_address, data['networkAddress']
+    assert_equal subnet.network_type, data['networkType']
+    assert_equal subnet.cidr, data['cidr']
+
+    assert_collection subnet.domains, data['domains']
   end
 end

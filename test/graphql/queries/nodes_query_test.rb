@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Queries::NodesQueryTest < ActiveSupport::TestCase
+class Queries::NodesQueryTest < GraphQLQueryTestCase
   test 'fetching node by relay global id' do
     model = FactoryBot.create(:model)
     global_id = Foreman::GlobalId.for(model)

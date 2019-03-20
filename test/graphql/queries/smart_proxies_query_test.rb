@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::SmartProxiesQueryTest < ActiveSupport::TestCase
-  test 'fetching smart proxies attributes' do
-    FactoryBot.create_list(:smart_proxy, 2)
-
-    query = <<-GRAPHQL
+class Queries::SmartProxiesQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         smartProxies {
           totalCount
@@ -23,14 +21,21 @@ class Queries::SmartProxiesQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['smartProxies'] }
+
+  setup do
+    FactoryBot.create_list(:smart_proxy, 2)
+  end
+
+  test 'fetching smart proxies attributes' do
+    assert_empty result['errors']
 
     expected_count = SmartProxy.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['smartProxies']['totalCount']
-    assert_equal expected_count, result['data']['smartProxies']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end

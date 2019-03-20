@@ -7,6 +7,7 @@ module Types
     field :name, String
     field :fullname, String
 
+    has_many :hosts, Types::Host
     has_many :subnets, Types::Subnet, resolver: Resolvers::Domain::Subnets
   end
 end

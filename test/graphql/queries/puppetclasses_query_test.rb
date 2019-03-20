@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::PuppetclassesQueryTest < ActiveSupport::TestCase
-  test 'fetching puppetclasses attributes' do
-    FactoryBot.create_list(:puppetclass, 2)
-
-    query = <<-GRAPHQL
+class Queries::PuppetclassesQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         puppetclasses {
           totalCount
@@ -23,14 +21,21 @@ class Queries::PuppetclassesQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['puppetclasses'] }
+
+  setup do
+    FactoryBot.create_list(:puppetclass, 2)
+  end
+
+  test 'fetching puppetclasses attributes' do
+    assert_empty result['errors']
 
     expected_count = Puppetclass.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['puppetclasses']['totalCount']
-    assert_equal expected_count, result['data']['puppetclasses']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end
