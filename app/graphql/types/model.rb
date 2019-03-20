@@ -9,7 +9,6 @@ module Types
     field :vendorClass, String, null: true
     field :hardwareModel, String, null: true
 
-    field :hosts, Types::Host.connection_type, null: false,
-      resolve: proc { |object| CollectionLoader.for(object.class, :hosts).load(object) }
+    has_many :hosts, Types::Host
   end
 end

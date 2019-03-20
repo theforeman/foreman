@@ -1,6 +1,6 @@
 module Types
   class Organization < BaseObject
-    description 'A Organization'
+    description 'An Organization'
 
     global_id_field :id
     timestamps

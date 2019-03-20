@@ -5,7 +5,9 @@ module Types
     global_id_field :id
     timestamps
     field :name, String, null: false
-    field :model, Types::Model, null: true,
-      resolve: proc { |object| RecordLoader.for(::Model).load(object.model_id) }
+
+    belongs_to :model, Types::Model
+    has_many :fact_names, Types::FactName
+    has_many :fact_values, Types::FactValue
   end
 end

@@ -3,48 +3,52 @@ module Types
     graphql_name 'Query'
 
     class << self
-      def record_field(name, model)
-        field name, "Types::#{model}".safe_constantize,
-          resolver: Resolvers::Generic.for(model).record
+      def record_field(name, type)
+        field name, type, resolver: Resolvers::Generic.for(type).record
       end
 
-      def collection_field(name, model)
-        field name, "Types::#{model}".safe_constantize.connection_type,
-          resolver: Resolvers::Generic.for(model).collection
+      def collection_field(name, type)
+        field name, type.connection_type, resolver: Resolvers::Generic.for(type).collection
       end
     end
 
     field :node, field: GraphQL::Relay::Node.field
     field :nodes, field: GraphQL::Relay::Node.plural_field
 
-    record_field :model, ::Model
-    collection_field :models, ::Model
+    record_field :model, Types::Model
+    collection_field :models, Types::Model
 
-    record_field :location, ::Location
-    collection_field :locations, ::Location
+    record_field :location, Types::Location
+    collection_field :locations, Types::Location
 
-    record_field :organization, ::Organization
-    collection_field :organizations, ::Organization
+    record_field :organization, Types::Organization
+    collection_field :organizations, Types::Organization
 
-    record_field :operatingsystem, ::Operatingsystem
-    collection_field :operatingsystems, ::Operatingsystem
+    record_field :operatingsystem, Types::Operatingsystem
+    collection_field :operatingsystems, Types::Operatingsystem
 
-    record_field :subnet, ::Subnet
-    collection_field :subnets, ::Subnet
+    record_field :subnet, Types::Subnet
+    collection_field :subnets, Types::Subnet
 
-    record_field :usergroup, ::Usergroup
-    collection_field :usergroups, ::Usergroup
+    record_field :usergroup, Types::Usergroup
+    collection_field :usergroups, Types::Usergroup
 
-    record_field :host, ::Host
-    collection_field :hosts, ::Host
+    record_field :host, Types::Host
+    collection_field :hosts, Types::Host
 
-    record_field :architecture, ::Architecture
-    collection_field :architectures, ::Architecture
+    record_field :architecture, Types::Architecture
+    collection_field :architectures, Types::Architecture
 
-    record_field :smart_proxy, ::SmartProxy
-    collection_field :smart_proxies, ::SmartProxy
+    record_field :domain, Types::Domain
+    collection_field :domains, Types::Domain
 
-    record_field :domain, ::Domain
-    collection_field :domains, ::Domain
+    record_field :smart_proxy, Types::SmartProxy
+    collection_field :smart_proxies, Types::SmartProxy
+
+    record_field :fact_name, Types::FactName
+    collection_field :fact_names, Types::FactName
+
+    record_field :fact_value, Types::FactValue
+    collection_field :fact_values, Types::FactValue
   end
 end

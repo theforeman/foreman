@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Queries::HostQueryTest < ActiveSupport::TestCase
   test 'fetching host attributes' do
-    host = FactoryBot.create(:host, :managed, :with_model)
+    host = FactoryBot.create(:host, :managed, :with_model, :with_facts)
 
     query = <<-GRAPHQL
       query (
@@ -15,6 +15,22 @@ class Queries::HostQueryTest < ActiveSupport::TestCase
           name
           model {
             id
+          }
+          factNames {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
+          factValues {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
           }
         }
       }
@@ -33,6 +49,26 @@ class Queries::HostQueryTest < ActiveSupport::TestCase
         'name' => host.name,
         'model' => {
           'id' => Foreman::GlobalId.for(host.model)
+        },
+        'factNames' => {
+          'totalCount' => host.fact_names.count,
+          'edges' => host.fact_names.sort_by(&:id).map do |fact_name|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(fact_name)
+              }
+            }
+          end
+        },
+        'factValues' => {
+          'totalCount' => host.fact_values.count,
+          'edges' => host.fact_values.map do |fact_value|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(fact_value)
+              }
+            }
+          end
         }
       }
     }
