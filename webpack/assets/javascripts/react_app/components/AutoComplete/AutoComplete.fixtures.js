@@ -1,6 +1,7 @@
 import { STATUS } from '../../constants';
 import { TRIGGERS } from './AutoCompleteConstants';
 
+export const id = 'some-id';
 export const url = 'models/auto_complete_search';
 export const status = null;
 export const controller = 'models';
@@ -20,6 +21,7 @@ export const AutoCompleteProps = {
   status,
   results,
   url,
+  id,
 };
 
 export const initialState = {

@@ -3,6 +3,7 @@ export const SearchBarProps = {
     autocomplete: {
       searchQuery: null,
       url: 'model/auto_complete_search',
+      id: 'some-id',
     },
     bookmarks: {
       url: '/api/bookmarks',

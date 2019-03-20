@@ -24,7 +24,6 @@ class AutoComplete extends React.Component {
       'handleInputFocus',
       'getResults',
       'windowKeyPressHandler',
-      'unableHTMLAutocomplete',
       'handleKeyDown',
     ]);
     this._typeahead = React.createRef();
@@ -35,7 +34,6 @@ class AutoComplete extends React.Component {
     window.addEventListener('keypress', this.windowKeyPressHandler);
     const { controller, initialQuery, initialUpdate } = this.props;
     initialUpdate(initialQuery, controller);
-    this.unableHTMLAutocomplete();
   }
 
   windowKeyPressHandler(e) {
@@ -73,17 +71,6 @@ class AutoComplete extends React.Component {
       default: {
         break;
       }
-    }
-  }
-
-  // TODO: remove this HACK when react-bootstrap-typeahead
-  // will support autocomplete = 'off' instead of 'nope' in inputProps prop.
-  unableHTMLAutocomplete() {
-    const input =
-      this._typeahead.current &&
-      this._typeahead.current.getInstance().getInput();
-    if (input) {
-      input.autocomplete = 'off';
     }
   }
 
@@ -156,7 +143,7 @@ class AutoComplete extends React.Component {
 
   render() {
     const {
-      emptyLabel,
+      id,
       error,
       initialQuery,
       inputProps,
@@ -171,6 +158,7 @@ class AutoComplete extends React.Component {
     return (
       <div className="foreman-autocomplete">
         <TypeAheadSelect
+          id={id}
           ref={this._typeahead}
           defaultInputValue={initialQuery}
           options={options}
@@ -179,7 +167,6 @@ class AutoComplete extends React.Component {
           onChange={this.handleResultsChange}
           onFocus={this.handleInputFocus}
           onKeyDown={this.handleKeyDown}
-          emptyLabel={emptyLabel}
           placeholder={__(placeholder)}
           renderMenu={(r, menuProps) => (
             <AutoCompleteMenu {...{ results: r, menuProps }} />
@@ -202,6 +189,7 @@ class AutoComplete extends React.Component {
 }
 
 AutoComplete.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   results: PropTypes.array,
   searchQuery: PropTypes.string,
   initialQuery: PropTypes.string,
@@ -215,7 +203,6 @@ AutoComplete.propTypes = {
   initialUpdate: PropTypes.func,
   useKeyShortcuts: PropTypes.bool,
   placeholder: PropTypes.string,
-  emptyLabel: PropTypes.string,
   url: PropTypes.string,
 };
 
@@ -233,7 +220,6 @@ AutoComplete.defaultProps = {
   initialUpdate: noop,
   useKeyShortcuts: true,
   placeholder: 'Filter ...',
-  emptyLabel: null,
   url: null,
 };
 
