@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class Queries::UsergroupsQueryTest < ActiveSupport::TestCase
-  test 'fetching usergroups attributes' do
-    FactoryBot.create_list(:usergroup, 2)
+class Queries::UsersQueryTest < ActiveSupport::TestCase
+  test 'fetching users attributes' do
+    FactoryBot.create_list(:user, 2)
 
     query = <<-GRAPHQL
       query {
-        usergroups {
+        users {
           totalCount
           pageInfo {
             startCursor
@@ -27,10 +27,10 @@ class Queries::UsergroupsQueryTest < ActiveSupport::TestCase
     context = { current_user: FactoryBot.create(:user, :admin) }
     result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
 
-    expected_count = Usergroup.count
+    expected_count = User.count
 
     assert_empty result['errors']
-    assert_equal expected_count, result['data']['usergroups']['totalCount']
-    assert_equal expected_count, result['data']['usergroups']['edges'].count
+    assert_equal expected_count, result['data']['users']['totalCount']
+    assert_equal expected_count, result['data']['users']['edges'].count
   end
 end

@@ -7,6 +7,7 @@ class Queries::SubnetsQueryTest < ActiveSupport::TestCase
     query = <<-GRAPHQL
       query {
         subnets {
+          totalCount
           pageInfo {
             startCursor
             endCursor
@@ -26,7 +27,10 @@ class Queries::SubnetsQueryTest < ActiveSupport::TestCase
     context = { current_user: FactoryBot.create(:user, :admin) }
     result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
 
+    expected_count = Subnet.count
+
     assert_empty result['errors']
-    assert_equal Subnet.count, result['data']['subnets']['edges'].count
+    assert_equal expected_count, result['data']['subnets']['totalCount']
+    assert_equal expected_count, result['data']['subnets']['edges'].count
   end
 end

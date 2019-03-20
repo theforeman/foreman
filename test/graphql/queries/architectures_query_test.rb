@@ -7,6 +7,7 @@ class Queries::ArchitecturesQueryTest < ActiveSupport::TestCase
     query = <<-GRAPHQL
       query {
         architectures {
+          totalCount
           pageInfo {
             startCursor
             endCursor
@@ -26,7 +27,10 @@ class Queries::ArchitecturesQueryTest < ActiveSupport::TestCase
     context = { current_user: FactoryBot.create(:user, :admin) }
     result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
 
+    expected_count = Architecture.count
+
     assert_empty result['errors']
-    assert_equal Architecture.count, result['data']['architectures']['edges'].count
+    assert_equal expected_count, result['data']['architectures']['totalCount']
+    assert_equal expected_count, result['data']['architectures']['edges'].count
   end
 end
