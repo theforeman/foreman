@@ -368,6 +368,23 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @cr.parse_args(attrs_in)
       assert_equal "network-17", attrs_in["interfaces_attributes"]["0"]["network"]
     end
+
+    context 'scsi_controller_type - from hammer' do
+      test 'parse to be a default scsi_controller_type' do
+        attrs_in = HashWithIndifferentAccess.new('scsi_controller_type' => 'ParaVirtualSCSIController')
+        attrs_out = { scsi_controllers: [{ type: 'ParaVirtualSCSIController' }] }
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+
+      test 'do not override scsi_controllers if passed' do
+        attrs_in = HashWithIndifferentAccess.new(
+          'scsi_controller_type' => 'ParaVirtualSCSIController',
+          'scsi_controllers' => [{ 'type' => 'VirtualBusLogicController' }]
+        )
+        attrs_out = { scsi_controllers: [{ type: 'VirtualBusLogicController' }] }
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
+    end
   end
 
   describe "#parse_networks" do
