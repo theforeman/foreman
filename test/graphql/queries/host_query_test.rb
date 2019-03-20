@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Queries::HostQueryTest < ActiveSupport::TestCase
   test 'fetching host attributes' do
-    host = FactoryBot.create(:host, :managed, :with_model, :with_facts)
+    host = FactoryBot.create(:host, :managed, :with_environment, :with_model, :with_facts)
 
     query = <<-GRAPHQL
       query (
@@ -13,6 +13,9 @@ class Queries::HostQueryTest < ActiveSupport::TestCase
           createdAt
           updatedAt
           name
+          environment {
+            id
+          }
           model {
             id
           }
@@ -47,6 +50,9 @@ class Queries::HostQueryTest < ActiveSupport::TestCase
         'createdAt' => host.created_at.utc.iso8601,
         'updatedAt' => host.updated_at.utc.iso8601,
         'name' => host.name,
+        'environment' => {
+          'id' => Foreman::GlobalId.for(host.environment)
+        },
         'model' => {
           'id' => Foreman::GlobalId.for(host.model)
         },
