@@ -30,6 +30,9 @@ module Types
     record_field :subnet, Types::Subnet
     collection_field :subnets, Types::Subnet
 
+    record_field :user, Types::User
+    collection_field :users, Types::User
+
     record_field :usergroup, Types::Usergroup
     collection_field :usergroups, Types::Usergroup
 
