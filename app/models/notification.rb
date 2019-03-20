@@ -60,6 +60,7 @@ class Notification < ApplicationRecord
   end
 
   def set_notification_recipients
+    return unless notification_recipients.empty?
     subscribers = User.unscoped.where(:id => subscriber_ids)
     notification_recipients.build subscribers.map {|user| { :user => user}}
   end
