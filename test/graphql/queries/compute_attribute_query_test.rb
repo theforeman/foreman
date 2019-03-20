@@ -1,12 +1,8 @@
 require 'test_helper'
 
-class Queries::ComputeAttributeQueryTest < ActiveSupport::TestCase
-  test 'fetching compute attribute attributes' do
-    compute_resource = FactoryBot.create(:compute_resource, :vmware, uuid: 'Solutions')
-    FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource)
-    compute_attribute = compute_resource.compute_attributes.first
-
-    query = <<-GRAPHQL
+class Queries::ComputeAttributeQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -21,25 +17,27 @@ class Queries::ComputeAttributeQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    compute_attribute_global_id = Foreman::GlobalId.for(compute_attribute)
-    variables = { id: compute_attribute_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:compute_resource) { FactoryBot.create(:compute_resource, :vmware, uuid: 'Solutions') }
+  let(:compute_attribute) { compute_resource.compute_attributes.first }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'computeAttribute' => {
-        'id' => compute_attribute_global_id,
-        'createdAt' => compute_attribute.created_at.utc.iso8601,
-        'updatedAt' => compute_attribute.updated_at.utc.iso8601,
-        'name' => compute_attribute.name,
-        'computeResource' => {
-          'id' => Foreman::GlobalId.for(compute_attribute.compute_resource)
-        }
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(compute_attribute) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['computeAttribute'] }
 
+  setup do
+    FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource)
+  end
+
+  test 'fetching compute attribute attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal compute_attribute.created_at.utc.iso8601, data['createdAt']
+    assert_equal compute_attribute.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal compute_attribute.name, data['name']
+
+    assert_record compute_attribute.compute_resource, data['computeResource']
   end
 end

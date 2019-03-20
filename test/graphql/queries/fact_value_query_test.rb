@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::FactValueQueryTest < ActiveSupport::TestCase
-  test 'fetching fact value attributes' do
-    fact_value = FactoryBot.create(:fact_value)
-
-    query = <<-GRAPHQL
+class Queries::FactValueQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -22,28 +20,23 @@ class Queries::FactValueQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    fact_value_global_id = Foreman::GlobalId.for(fact_value)
-    variables = { id: fact_value_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:fact_value) { FactoryBot.create(:fact_value) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'factValue' => {
-        'id' => fact_value_global_id,
-        'createdAt' => fact_value.created_at.utc.iso8601,
-        'updatedAt' => fact_value.updated_at.utc.iso8601,
-        'value' => fact_value.value,
-        'factName' => {
-          'id' => Foreman::GlobalId.for(fact_value.fact_name)
-        },
-        'host' => {
-          'id' => Foreman::GlobalId.encode('Host', fact_value.host.id)
-        }
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(fact_value) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['factValue'] }
 
+  test 'fetching fact value attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal fact_value.created_at.utc.iso8601, data['createdAt']
+    assert_equal fact_value.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal fact_value.value, data['value']
+
+    assert_record fact_value.fact_name, data['factName']
+    assert_record fact_value.host, data['host'], type_name: 'Host'
   end
 end

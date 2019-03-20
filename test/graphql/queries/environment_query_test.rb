@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::EnvironmentQueryTest < ActiveSupport::TestCase
-  test 'fetching environment attributes' do
-    environment = FactoryBot.create(:environment)
-
-    query = <<-GRAPHQL
+class Queries::EnvironmentQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -32,42 +30,23 @@ class Queries::EnvironmentQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    environment_global_id = Foreman::GlobalId.for(environment)
-    variables = { id: environment_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:environment) { FactoryBot.create(:environment) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'environment' => {
-        'id' => environment_global_id,
-        'createdAt' => environment.created_at.utc.iso8601,
-        'updatedAt' => environment.updated_at.utc.iso8601,
-        'name' => environment.name,
-        'locations' => {
-          'totalCount' => environment.locations.count,
-          'edges' => environment.locations.sort_by(&:id).map do |location|
-            {
-              'node' => {
-                'id' => Foreman::GlobalId.for(location)
-              }
-            }
-          end
-        },
-        'organizations' => {
-          'totalCount' => environment.organizations.count,
-          'edges' => environment.organizations.sort_by(&:id).map do |organization|
-            {
-              'node' => {
-                'id' => Foreman::GlobalId.for(organization)
-              }
-            }
-          end
-        }
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(environment) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['environment'] }
 
+  test 'fetching environment attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal environment.created_at.utc.iso8601, data['createdAt']
+    assert_equal environment.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal environment.name, data['name']
+
+    assert_collection environment.locations, data['locations']
+    assert_collection environment.organizations, data['organizations']
   end
 end

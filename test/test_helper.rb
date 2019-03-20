@@ -150,6 +150,27 @@ class ActionController::TestCase
   end
 end
 
+class GraphQLQueryTestCase < ActiveSupport::TestCase
+  let(:variables) { {} }
+  let(:context) {{ current_user: FactoryBot.create(:user, :admin) }}
+  let(:result) { ForemanGraphqlSchema.execute(query, variables: variables, context: context) }
+
+  def assert_record(expected, actual, type_name: nil)
+    assert_not_nil expected
+    assert_equal Foreman::GlobalId.encode(type_name || expected.class.name, expected.id), actual['id']
+  end
+
+  def assert_collection(expected, actual, type_name: nil)
+    assert expected.any?
+    assert_equal expected.count, actual['totalCount']
+
+    expected_global_ids = expected.map { |r| Foreman::GlobalId.encode(type_name || r.class.name, r.id) }
+    actual_global_ids = actual['edges'].map { |e| e['node']['id'] }
+
+    assert_same_elements expected_global_ids, actual_global_ids
+  end
+end
+
 def clear_plugins
   @klass = Foreman::Plugin
   @plugins_backup = @klass.registered_plugins

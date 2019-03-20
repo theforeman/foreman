@@ -1,13 +1,8 @@
 require 'test_helper'
 
-class Queries::DomainQueryTest < ActiveSupport::TestCase
-  test 'fetching domain attributes' do
-    location = FactoryBot.create(:location)
-    expected_subnet = FactoryBot.create(:subnet_ipv4, locations: [location])
-    unexpected_subnet = FactoryBot.create(:subnet_ipv4, locations: [])
-    domain = FactoryBot.create(:domain, subnets: [expected_subnet, unexpected_subnet])
-
-    query = <<-GRAPHQL
+class Queries::DomainQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
         $subnetsLocation: String!
@@ -26,36 +21,39 @@ class Queries::DomainQueryTest < ActiveSupport::TestCase
               }
             }
           }
+          hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
+  end
 
-    domain_global_id = Foreman::GlobalId.for(domain)
-    variables = { id: domain_global_id, subnetsLocation: location.name }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:hosts) { FactoryBot.create_list(:host, 2) }
+  let(:subnet_location) { FactoryBot.create(:location) }
+  let(:expected_subnet) { FactoryBot.create(:subnet_ipv4, locations: [subnet_location]) }
+  let(:unexpected_subnet) { FactoryBot.create(:subnet_ipv4, locations: []) }
+  let(:domain) { FactoryBot.create(:domain, hosts: hosts, subnets: [expected_subnet, unexpected_subnet]) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'domain' => {
-        'id' => domain_global_id,
-        'createdAt' => domain.created_at.utc.iso8601,
-        'updatedAt' => domain.updated_at.utc.iso8601,
-        'name' => domain.name,
-        'fullname' => domain.fullname,
-        'subnets' => {
-          'totalCount' => 1,
-          'edges' => [
-            {
-              'node' => {
-                'id' => Foreman::GlobalId.encode('Subnet', expected_subnet.id)
-              }
-            }
-          ]
-        }
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(domain) }
+  let(:variables) {{ id: global_id, subnetsLocation: subnet_location.name }}
+  let(:data) { result['data']['domain'] }
 
+  test 'fetching domain attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal domain.created_at.utc.iso8601, data['createdAt']
+    assert_equal domain.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal domain.name, data['name']
+    assert_equal domain.fullname, data['fullname']
+
+    assert_collection [expected_subnet], data['subnets'], type_name: 'Subnet'
+    assert_collection domain.hosts, data['hosts'], type_name: 'Host'
   end
 end

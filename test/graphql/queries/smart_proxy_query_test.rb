@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::SmartProxyQueryTest < ActiveSupport::TestCase
-  test 'fetching smart proxy attributes' do
-    smart_proxy = FactoryBot.create(:smart_proxy)
-
-    query = <<-GRAPHQL
+class Queries::SmartProxyQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -14,26 +12,35 @@ class Queries::SmartProxyQueryTest < ActiveSupport::TestCase
           updatedAt
           name
           url
+          hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
+  end
 
-    smart_proxy_global_id = Foreman::GlobalId.for(smart_proxy)
-    variables = { id: smart_proxy_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:hosts) { FactoryBot.create_list(:host, 2) }
+  let(:smart_proxy) { FactoryBot.create(:smart_proxy, hosts: hosts) }
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'smartProxy' => {
-        'id' => smart_proxy_global_id,
-        'createdAt' => smart_proxy.created_at.utc.iso8601,
-        'updatedAt' => smart_proxy.updated_at.utc.iso8601,
-        'name' => smart_proxy.name,
-        'url' => smart_proxy.url
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(smart_proxy) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['smartProxy'] }
 
+  test 'fetching smart proxy attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']
+
+    assert_equal global_id, data['id']
+    assert_equal smart_proxy.created_at.utc.iso8601, data['createdAt']
+    assert_equal smart_proxy.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal smart_proxy.name, data['name']
+    assert_equal smart_proxy.url, data['url']
+
+    assert_collection smart_proxy.hosts, data['hosts'], type_name: 'Host'
   end
 end

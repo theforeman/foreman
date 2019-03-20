@@ -8,5 +8,7 @@ module Types
     field :title, String
     field :type, String
     field :fullname, String
+
+    has_many :hosts, Types::Host
   end
 end

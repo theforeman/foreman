@@ -1,19 +1,8 @@
 require 'test_helper'
 
-class Queries::UserQueryTest < ActiveSupport::TestCase
-  test 'fetching user attributes' do
-    location = FactoryBot.create(:location)
-    organization = FactoryBot.create(:organization)
-    user = FactoryBot.create(:user, :with_mail,
-                                    locations: [location],
-                                    default_location: location,
-                                    organizations: [organization],
-                                    default_organization: organization,
-                                    locale: 'en',
-                                    timezone: 'Berlin')
-    FactoryBot.create_list(:personal_access_token, 2, user: user)
-
-    query = <<-GRAPHQL
+class Queries::UserQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -45,48 +34,60 @@ class Queries::UserQueryTest < ActiveSupport::TestCase
               }
             }
           }
+          usergroups {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
+  end
 
-    user_global_id = Foreman::GlobalId.for(user)
-    variables = { id: user_global_id }
-    context = { current_user: FactoryBot.create(:user, :admin) }
+  let(:location_object) { FactoryBot.create(:location) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:user) do
+    FactoryBot.create(:user, :with_mail, :with_usergroup,
+                             locations: [location_object],
+                             default_location: location_object,
+                             organizations: [organization],
+                             default_organization: organization,
+                             locale: 'en',
+                             timezone: 'Berlin')
+  end
 
-    result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-    expected = {
-      'id' => user_global_id,
-      'createdAt' => user.created_at.utc.iso8601,
-      'updatedAt' => user.updated_at.utc.iso8601,
-      'login' => user.login,
-      'admin' => user.admin,
-      'mail' => user.mail,
-      'firstname' => user.firstname,
-      'lastname' => user.lastname,
-      'fullname' => user.fullname,
-      'locale' => user.locale,
-      'timezone' => user.timezone,
-      'description' => user.description,
-      'lastLoginOn' => user.last_login_on&.utc&.iso8601,
-      'defaultLocation' => {
-        'id' => Foreman::GlobalId.for(user.default_location)
-      },
-      'defaultOrganization' => {
-        'id' => Foreman::GlobalId.for(user.default_organization)
-      },
-      'personalAccessTokens' => {
-        'totalCount' => user.personal_access_tokens.count,
-        'edges' => user.personal_access_tokens.sort_by(&:id).map do |personal_access_token|
-          {
-            'node' => {
-              'id' => Foreman::GlobalId.for(personal_access_token)
-            }
-          }
-        end
-      }
-    }
+  let(:global_id) { Foreman::GlobalId.for(user) }
+  let(:variables) {{ id: global_id }}
+  let(:data) { result['data']['user'] }
 
+  setup do
+    FactoryBot.create_list(:personal_access_token, 2, user: user)
+  end
+
+  test 'fetching user attributes' do
     assert_empty result['errors']
-    assert_equal expected, result['data']['user']
+
+    assert_equal global_id, data['id']
+    assert_equal user.created_at.utc.iso8601, data['createdAt']
+    assert_equal user.updated_at.utc.iso8601, data['updatedAt']
+    assert_equal user.login, data['login']
+    assert_equal user.admin, data['admin']
+    assert_equal user.mail, data['mail']
+    assert_equal user.firstname, data['firstname']
+    assert_equal user.lastname, data['lastname']
+    assert_equal user.fullname, data['fullname']
+    assert_equal user.locale, data['locale']
+    assert_equal user.timezone, data['timezone']
+    assert_equal user.description, data['description']
+    assert_equal user.last_login_on, data['lastLoginOn']
+
+    assert_record user.default_location, data['defaultLocation']
+    assert_record user.default_organization, data['defaultOrganization']
+
+    assert_collection user.personal_access_tokens, data['personalAccessTokens']
+    assert_collection user.usergroups, data['usergroups']
   end
 end

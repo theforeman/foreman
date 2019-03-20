@@ -5,5 +5,7 @@ module Types
     global_id_field :id
     timestamps
     field :name, String
+
+    has_many :hosts, Types::Host
   end
 end

@@ -1,10 +1,8 @@
 require 'test_helper'
 
-class Queries::EnvironmentsQueryTest < ActiveSupport::TestCase
-  test 'fetching environments attributes' do
-    FactoryBot.create_list(:environment, 2)
-
-    query = <<-GRAPHQL
+class Queries::EnvironmentsQueryTest < GraphQLQueryTestCase
+  let(:query) do
+    <<-GRAPHQL
       query {
         environments {
           totalCount
@@ -23,14 +21,21 @@ class Queries::EnvironmentsQueryTest < ActiveSupport::TestCase
         }
       }
     GRAPHQL
+  end
 
-    context = { current_user: FactoryBot.create(:user, :admin) }
-    result = ForemanGraphqlSchema.execute(query, variables: {}, context: context)
+  let(:data) { result['data']['environments'] }
+
+  setup do
+    FactoryBot.create_list(:environment, 2)
+  end
+
+  test 'fetching environments attributes' do
+    assert_empty result['errors']
 
     expected_count = Environment.count
 
-    assert_empty result['errors']
-    assert_equal expected_count, result['data']['environments']['totalCount']
-    assert_equal expected_count, result['data']['environments']['edges'].count
+    assert_not_equal 0, expected_count
+    assert_equal expected_count, data['totalCount']
+    assert_equal expected_count, data['edges'].count
   end
 end
