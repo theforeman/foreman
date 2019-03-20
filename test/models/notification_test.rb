@@ -24,6 +24,13 @@ class NotificationTest < ActiveSupport::TestCase
     assert_equal User.all, notice.recipients
   end
 
+  test 'should allow setting custom recipients' do
+    notice = FactoryBot.build(:notification, :audience => 'global')
+    notice.notification_recipients.build(user: User.current)
+    notice.save!
+    assert_equal [User.current], notice.recipients, 'the custom notification recipient should not be overridden'
+  end
+
   test 'should return active notifications' do
     blueprint = FactoryBot.create(
       :notification_blueprint,
