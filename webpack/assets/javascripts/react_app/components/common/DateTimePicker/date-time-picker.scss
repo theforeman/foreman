@@ -1,0 +1,35 @@
+.bootstrap-datetimepicker-widget.dropdown-menu.top {
+  max-width: none;
+  margin-top: -10px;
+
+  .arrow {
+    left: 10% !important;
+  }
+
+  .popover-content {
+    color: #292e34;
+  }
+
+  .clock-btn {
+    border: 0;
+    box-shadow: none;
+    color: #363636;
+    display: block;
+    padding-bottom: 4px;
+    padding-top: 4px;
+  }
+
+  table td {
+    .today-button {
+      padding: 0 16px 0 0;
+      border: 0;
+      background-color: transparent;
+
+      span {
+        height: 24px;
+        line-height: 24px;
+        color: #0088ce;
+      }
+    }
+  }
+}

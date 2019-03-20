@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Day is working properly 1`] = `
+<td
+  class="day weekend"
+  data-day="4"
+>
+  4
+</td>
+`;

@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateTimePicker is working properly 1`] = `
+<div>
+  <span
+    class="input-group date-time-picker-pf input-group"
+  >
+    <input
+      aria-label="date-picker-input"
+      class="form-control"
+      type="text"
+      value="2/21/2019 2:22 PM"
+    />
+    <span
+      class="date-time-picker-pf input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-calendar"
+      />
+    </span>
+  </span>
+</div>
+`;
+
+exports[`Edit form of DateTimePicker 1`] = `
+<div>
+  <span
+    class="input-group date-time-picker-pf input-group"
+  >
+    <input
+      aria-label="date-picker-input"
+      class="form-control"
+      type="text"
+      value="2/21/2019 2:22 PM"
+    />
+    <span
+      class="date-time-picker-pf input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-calendar"
+      />
+    </span>
+  </span>
+</div>
+`;
