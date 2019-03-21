@@ -465,7 +465,7 @@ module Foreman::Model
         vm.firmware = 'bios' if vm.firmware == 'automatic'
         vm.save
       end
-    rescue Fog::Compute::Vsphere::NotFound => e
+    rescue Fog::Vsphere::Compute::NotFound => e
       Foreman::Logging.exception('Caught VMware error', e)
       raise ::Foreman::WrappedException.new(
         e,
@@ -582,7 +582,7 @@ module Foreman::Model
     end
 
     def new_scsi_controller(attr = {})
-      Fog::Compute::Vsphere::SCSIController.new(attr)
+      Fog::Vsphere::Compute::SCSIController.new(attr)
     end
 
     def pubkey_hash
