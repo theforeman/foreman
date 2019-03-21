@@ -26,6 +26,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     inputProps={
       Object {
         "className": "search-input use-shortcuts",
+        "data-autocomplete-id": "some-id",
         "spellCheck": "false",
       }
     }

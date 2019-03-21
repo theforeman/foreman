@@ -2,76 +2,73 @@
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_FAILURE 1`] = `
 Object {
-  "controller": null,
-  "error": "oops",
-  "results": Array [],
-  "searchQuery": "",
-  "status": "ERROR",
-  "trigger": null,
+  "some-id": Object {
+    "error": "oops",
+    "results": Array [],
+    "status": "ERROR",
+  },
 }
 `;
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_REQUEST 1`] = `
 Object {
-  "controller": "models",
-  "error": null,
-  "results": Array [],
-  "searchQuery": "",
-  "status": "PENDING",
-  "trigger": "INPUT_CHANGE",
+  "some-id": Object {
+    "controller": "models",
+    "error": null,
+    "searchQuery": "",
+    "status": "PENDING",
+    "trigger": "INPUT_CHANGE",
+  },
 }
 `;
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_RESET 1`] = `
 Object {
-  "controller": null,
-  "error": null,
-  "results": Array [],
-  "searchQuery": "",
-  "status": null,
-  "trigger": null,
+  "some-id": Object {
+    "controller": null,
+    "error": null,
+    "results": Array [],
+    "searchQuery": "",
+    "status": null,
+    "trigger": null,
+  },
 }
 `;
 
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_SUCCESS 1`] = `
 Object {
-  "controller": "models",
-  "error": null,
-  "results": Array [
-    Object {
-      "category": "category",
-      "label": "some results",
-    },
-  ],
-  "searchQuery": "",
-  "status": "RESOLVED",
-  "trigger": "INPUT_CHANGE",
+  "some-id": Object {
+    "controller": "models",
+    "error": null,
+    "results": Array [
+      Object {
+        "category": "category",
+        "label": "some results",
+      },
+    ],
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "INPUT_CHANGE",
+  },
 }
 `;
 
-exports[`AutoComplete reducer should return the initial state 1`] = `
-Object {
-  "controller": null,
-  "error": null,
-  "results": Array [],
-  "searchQuery": "",
-  "status": null,
-  "trigger": null,
-}
-`;
+exports[`AutoComplete reducer should return the initial state 1`] = `Object {}`;
 
 exports[`AutoComplete reducer should update state with initial data 1`] = `
 Object {
-  "controller": "models",
-  "error": null,
-  "results": Array [
-    Object {
-      "category": "category",
-      "label": "some results",
-    },
-  ],
-  "searchQuery": "",
-  "status": "RESOLVED",
-  "trigger": "COMPONENT_DID_MOUNT",
+  "some-id": Object {
+    "controller": "models",
+    "error": null,
+    "results": Array [
+      Object {
+        "category": "category",
+        "label": "some results",
+      },
+    ],
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+  },
 }
 `;

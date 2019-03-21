@@ -19,6 +19,7 @@ module SearchBarHelper
     mount_react_component("SearchBar", "##{id}", {
       controller: controller,
       autocomplete: {
+        id: autocomplete_id,
         searchQuery: search_query,
         url: url,
         useKeyShortcuts: use_key_shortcuts,

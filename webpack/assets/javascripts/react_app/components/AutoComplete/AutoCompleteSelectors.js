@@ -1,18 +1,20 @@
-export const selectAutocomplete = state => state.autocomplete;
+export const selectAutocomplete = ({ autocomplete }, id) =>
+  autocomplete[id] || {};
 
-export const selectAutocompleteError = state => selectAutocomplete(state).error;
+export const selectAutocompleteError = (state, id) =>
+  selectAutocomplete(state, id).error;
 
-export const selectAutocompleteResults = state =>
-  selectAutocomplete(state).results;
+export const selectAutocompleteResults = (state, id) =>
+  selectAutocomplete(state, id).results;
 
-export const selectAutocompleteSearchQuery = state =>
-  selectAutocomplete(state).searchQuery;
+export const selectAutocompleteSearchQuery = (state, id) =>
+  selectAutocomplete(state, id).searchQuery;
 
-export const selectAutocompleteStatus = state =>
-  selectAutocomplete(state).status;
+export const selectAutocompleteStatus = (state, id) =>
+  selectAutocomplete(state, id).status;
 
-export const selectAutocompleteController = state =>
-  selectAutocomplete(state).controller;
+export const selectAutocompleteController = (state, id) =>
+  selectAutocomplete(state, id).controller;
 
-export const selectAutocompleteTrigger = state =>
-  selectAutocomplete(state).trigger;
+export const selectAutocompleteTrigger = (state, id) =>
+  selectAutocomplete(state, id).trigger;

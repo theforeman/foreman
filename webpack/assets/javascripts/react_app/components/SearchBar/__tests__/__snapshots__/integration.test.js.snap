@@ -14,12 +14,14 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "INPUT_CHANGE",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+      },
     },
     "bookmarks": Object {
       "models": Object {
@@ -47,12 +49,14 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "controller": "models",
-      "error": null,
-      "results": Array [],
-      "searchQuery": "result",
-      "status": "PENDING",
-      "trigger": "INPUT_CHANGE",
+      "some-id": Object {
+        "controller": "models",
+        "error": null,
+        "results": Array [],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+      },
     },
     "bookmarks": Object {
       "currentQuery": "result",
