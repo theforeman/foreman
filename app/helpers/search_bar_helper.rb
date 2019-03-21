@@ -22,8 +22,7 @@ module SearchBarHelper
         id: autocomplete_id,
         searchQuery: search_query,
         url: url,
-        useKeyShortcuts: use_key_shortcuts,
-        id: autocomplete_id
+        useKeyShortcuts: use_key_shortcuts
       },
       bookmarks: bookmarks
     }.to_json)
