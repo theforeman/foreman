@@ -64,7 +64,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     useKeyShortcuts={false}
   />
   <AutoCompleteError
-    error={null}
+    error="oops"
   />
 </div>
 `;

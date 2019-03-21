@@ -13,6 +13,7 @@ export const results = [{ label: 'some results', category: 'category' }];
 export const APIError = [{ error }];
 export const APISuccessMock = { data: results };
 export const APIFailMock = { data: APIError };
+export const isErrorVisible = false;
 
 export const AutoCompleteProps = {
   controller,
@@ -21,6 +22,7 @@ export const AutoCompleteProps = {
   status,
   results,
   url,
+  error,
   id,
 };
 
@@ -31,6 +33,7 @@ export const initialState = {
   searchQuery: '',
   status: null,
   trigger: null,
+  isErrorVisible: false,
   id,
 };
 
@@ -53,7 +56,6 @@ export const request = {
 };
 
 export const success = {
-  error: null,
   results,
   status: STATUS.RESOLVED,
   searchQuery,
@@ -64,6 +66,7 @@ export const success = {
 
 export const failure = {
   error,
+  isErrorVisible,
   results: [],
   status: STATUS.ERROR,
   id,

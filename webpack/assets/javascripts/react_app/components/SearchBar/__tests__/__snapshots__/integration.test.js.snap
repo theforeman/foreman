@@ -17,6 +17,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isErrorVisible": false,
         "results": Array [],
         "searchQuery": "result",
         "status": "PENDING",
@@ -52,6 +53,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isErrorVisible": false,
         "results": Array [],
         "searchQuery": "result",
         "status": "PENDING",

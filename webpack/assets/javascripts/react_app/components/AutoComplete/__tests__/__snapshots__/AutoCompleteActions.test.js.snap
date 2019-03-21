@@ -19,6 +19,7 @@ Array [
       "payload": Object {
         "error": "oops",
         "id": "some-id",
+        "isErrorVisible": true,
         "results": Array [],
         "status": "ERROR",
       },
@@ -83,7 +84,9 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "error": "oops",
         "id": "some-id",
+        "isErrorVisible": true,
         "results": Array [],
         "searchQuery": "searchQuery",
         "status": "RESOLVED",

@@ -32,8 +32,19 @@ class AutoComplete extends React.Component {
 
   componentDidMount() {
     window.addEventListener('keypress', this.windowKeyPressHandler);
-    const { controller, initialQuery, initialUpdate, id } = this.props;
-    initialUpdate(initialQuery, controller, id);
+    const {
+      id,
+      controller,
+      initialError,
+      initialQuery,
+      initialUpdate,
+    } = this.props;
+    initialUpdate({
+      id,
+      controller,
+      error: initialError,
+      searchQuery: initialQuery,
+    });
   }
 
   windowKeyPressHandler(e) {
@@ -203,6 +214,7 @@ AutoComplete.propTypes = {
   inputProps: PropTypes.object,
   status: PropTypes.string,
   error: PropTypes.string,
+  initialError: PropTypes.string,
   controller: PropTypes.string,
   handleSearch: PropTypes.func,
   getResults: PropTypes.func,
@@ -220,6 +232,7 @@ AutoComplete.defaultProps = {
   inputProps: {},
   status: null,
   error: null,
+  initialError: null,
   controller: null,
   handleSearch: noop,
   getResults: noop,

@@ -26,37 +26,53 @@ export const getResults = ({
     id,
   });
 
-  const path = getAPIPath({ trigger, searchQuery, url });
   return createAPIRequest({
     controller,
-    path,
     searchQuery,
     trigger,
     id,
     dispatch,
+    url,
   });
 };
 
-let createAPIRequest = ({
+let createAPIRequest = async ({
   controller,
-  path,
   searchQuery,
   trigger,
   id,
   dispatch,
-}) =>
-  API.get(path)
-    .then(({ data }) =>
-      requestSuccess({
-        data,
-        controller,
-        dispatch,
-        searchQuery,
-        trigger,
-        id,
-      })
-    )
-    .catch(error => requestFailure({ error, id, dispatch }));
+  url,
+}) => {
+  if (!url) {
+    return requestFailure({
+      error: new Error('No API path was provided.'),
+      id,
+      dispatch,
+      isVisible: false,
+    });
+  }
+  try {
+    const path = getAPIPath({ trigger, searchQuery, url });
+    const { data } = await API.get(path);
+
+    return requestSuccess({
+      data,
+      controller,
+      dispatch,
+      searchQuery,
+      trigger,
+      id,
+    });
+  } catch (error) {
+    return requestFailure({
+      error,
+      id,
+      dispatch,
+      isVisible: error.message === 'Network Error',
+    });
+  }
+};
 
 createAPIRequest = debounce(createAPIRequest, 250);
 
@@ -83,7 +99,18 @@ const requestSuccess = ({
 }) => {
   const { error } = data[0] || {};
   if (error) {
-    throw error;
+    return requestFailure({ error: new Error(error), id, dispatch });
+  }
+  if (!Array.isArray(data)) {
+    const noDataError = new Error(
+      `Response data is not an array, instead received: ${JSON.stringify(data)}`
+    );
+    return requestFailure({
+      error: noDataError,
+      id,
+      dispatch,
+      isVisible: false,
+    });
   }
   const results = data.map(result => objectDeepTrim(result, trigger));
   return dispatch({
@@ -99,16 +126,18 @@ const requestSuccess = ({
   });
 };
 
-const requestFailure = ({ error, id, dispatch }) =>
+const requestFailure = ({ error, id, dispatch, isVisible = true }) => {
   dispatch({
     type: AUTO_COMPLETE_FAILURE,
     payload: {
       results: [],
-      error: error.message || error,
+      error: error.message,
+      isErrorVisible: isVisible,
       status: STATUS.ERROR,
       id,
     },
   });
+};
 
 const isFinishedWithPoint = string => string.slice(-1) === '.';
 
@@ -129,7 +158,12 @@ export const resetData = (controller, id) => dispatch =>
     payload: { controller, id },
   });
 
-export const initialUpdate = (searchQuery, controller, id) => dispatch =>
+export const initialUpdate = ({
+  searchQuery,
+  controller,
+  error,
+  id,
+}) => dispatch =>
   dispatch({
     type: AUTO_COMPLETE_SUCCESS,
     payload: {
@@ -138,6 +172,8 @@ export const initialUpdate = (searchQuery, controller, id) => dispatch =>
       trigger: TRIGGERS.COMPONENT_DID_MOUNT,
       status: STATUS.RESOLVED,
       results: [],
+      error,
+      isErrorVisible: !!error,
       id,
     },
   });

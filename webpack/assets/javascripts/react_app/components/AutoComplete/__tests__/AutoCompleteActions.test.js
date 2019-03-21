@@ -8,6 +8,7 @@ import {
   controller,
   trigger,
   url,
+  error,
   id,
 } from '../AutoComplete.fixtures';
 
@@ -22,7 +23,7 @@ const loadResults = (requestParams, serverMock) => {
 
 const fixtures = {
   'should update store with initial data': () =>
-    initialUpdate('searchQuery', controller, id),
+    initialUpdate({ searchQuery: 'searchQuery', error, controller, id }),
 
   'should load results and success': () =>
     loadResults(
