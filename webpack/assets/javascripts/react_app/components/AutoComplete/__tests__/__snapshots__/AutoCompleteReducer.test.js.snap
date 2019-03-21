@@ -4,6 +4,7 @@ exports[`AutoComplete reducer should handle AUTO_COMPLETE_FAILURE 1`] = `
 Object {
   "some-id": Object {
     "error": "oops",
+    "isErrorVisible": false,
     "results": Array [],
     "status": "ERROR",
   },
@@ -27,6 +28,7 @@ Object {
   "some-id": Object {
     "controller": null,
     "error": null,
+    "isErrorVisible": false,
     "results": Array [],
     "searchQuery": "",
     "status": null,
@@ -40,6 +42,7 @@ Object {
   "some-id": Object {
     "controller": "models",
     "error": null,
+    "isErrorVisible": false,
     "results": Array [
       Object {
         "category": "category",
@@ -60,6 +63,7 @@ Object {
   "some-id": Object {
     "controller": "models",
     "error": null,
+    "isErrorVisible": false,
     "results": Array [
       Object {
         "category": "category",

@@ -9,6 +9,7 @@ import {
 const initialAutocompleteState = {
   controller: null,
   error: null,
+  isErrorVisible: false,
   results: [],
   searchQuery: '',
   status: null,
@@ -25,6 +26,7 @@ export default (state = Immutable({}), action) => {
       searchQuery,
       status,
       trigger,
+      isErrorVisible,
       id,
     } = {},
   } = action;
@@ -42,7 +44,9 @@ export default (state = Immutable({}), action) => {
       return state.setIn([id], {
         ...state[id],
         controller,
-        error: null,
+        error: error || initialAutocompleteState.error,
+        isErrorVisible:
+          isErrorVisible || initialAutocompleteState.isErrorVisible,
         results,
         searchQuery,
         status,
@@ -52,6 +56,7 @@ export default (state = Immutable({}), action) => {
       return state.setIn([id], {
         ...state[id],
         error,
+        isErrorVisible,
         results,
         status,
       });
