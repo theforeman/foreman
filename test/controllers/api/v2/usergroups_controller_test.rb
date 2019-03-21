@@ -102,6 +102,13 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)["usergroups"][0]["name"], usergroup.name, "Can't update usergroup with user #{usergroup}"
   end
 
+  test "should not update usergroup with itself" do
+    usergroup = FactoryBot.create(:usergroup)
+    put :update, params: { :id => usergroup.to_param, :usergroup => {:usergroup_ids => [usergroup.id] } }
+    assert_response :unprocessable_entity
+    assert_equal "Validation failed: cannot contain itself as member", JSON.parse(@response.body)['error']['errors']['usergroups'].first
+  end
+
   test "should destroy usergroups" do
     assert_difference('Usergroup.count', -1) do
       delete :destroy, params: { :id => @usergroup.to_param }
