@@ -41,9 +41,11 @@ const PageLayout = ({
               <h1 className="col-md-8">{header}</h1>
             </div>
           )}
-          {customBreadcrumbs
-            ? { customBreadcrumbs }
-            : breadcrumbOptions && <BreadcrumbBar data={breadcrumbOptions} />}
+          {customBreadcrumbs ? (
+            <React.Fragment>{customBreadcrumbs}</React.Fragment>
+          ) : (
+            breadcrumbOptions && <BreadcrumbBar data={breadcrumbOptions} />
+          )}
         </div>
         {beforeToolbarComponent}
         <Row>

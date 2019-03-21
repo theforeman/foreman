@@ -131,3 +131,15 @@ export const breadcrumbBarSwithcable = {
   searchQuery: 'some value',
   searchDebounceTimeout: 0,
 };
+
+export const breadcrumbBarRouterLinks = {
+  data: {
+    breadcrumbItems: [
+      {
+        caption: 'Import or Export Templates',
+        to: '/template_syncs',
+      },
+      { caption: 'Sync Result' },
+    ],
+  },
+};

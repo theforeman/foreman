@@ -387,7 +387,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
     <div
       id="breadcrumb"
     >
-      <Component />
+      customBreadcrumbs
     </div>
     <Row
       bsClass="row"

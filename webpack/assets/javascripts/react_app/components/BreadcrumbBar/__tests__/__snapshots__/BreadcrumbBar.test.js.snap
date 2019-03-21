@@ -81,6 +81,32 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
 </div>
 `;
 
+exports[`BreadcrumbBar rendering renders with links for react-router 1`] = `
+<div
+  className="breadcrumb-bar"
+>
+  <Breadcrumb
+    isTitle={false}
+    items={
+      Array [
+        Object {
+          "caption": "Import or Export Templates",
+          "to": "/template_syncs",
+        },
+        Object {
+          "caption": "Sync Result",
+        },
+      ]
+    }
+    title={true}
+    titleReplacement={null}
+  />
+  <hr
+    className="breadcrumb-line"
+  />
+</div>
+`;
+
 exports[`BreadcrumbBar triggering should trigger callbacks: loadSwitcherResourcesByResource calls 1`] = `
 Array [
   Array [

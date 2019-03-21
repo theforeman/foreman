@@ -4,6 +4,9 @@ import { boolean, number, withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import BreadcrumbBar from './BreadcrumbBar';
 import Story from '../../../../../stories/components/Story';
+import Markdown from '../../../../../stories/components/Markdown';
+
+import routing from './BreadcrumbBar.md';
 
 storiesOf('Components/BreadcrumbBar', module)
   .addDecorator(withKnobs)
@@ -36,5 +39,10 @@ storiesOf('Components/BreadcrumbBar', module)
           ],
         }}
       />
+    </Story>
+  ))
+  .add('With react-router', () => (
+    <Story>
+      <Markdown source={routing} />
     </Story>
   ));

@@ -8,6 +8,7 @@ import {
   breadcrumbBar,
   breadcrumbBarSwithcable,
   mockBreadcrumbItemOnClick,
+  breadcrumbBarRouterLinks,
 } from '../BreadcrumbBar.fixtures';
 
 const createStubs = () => ({
@@ -19,6 +20,7 @@ const createStubs = () => ({
 const fixtures = {
   'renders breadcrumb-bar': breadcrumbBar,
   'renders switchable breadcrumb-bar': breadcrumbBarSwithcable,
+  'renders with links for react-router': breadcrumbBarRouterLinks,
 };
 
 describe('BreadcrumbBar', () => {
