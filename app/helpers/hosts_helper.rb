@@ -249,11 +249,7 @@ module HostsHelper
 
   def build_duration(host)
     return _('N/A') if host.initiated_at.nil? || host.installed_at.nil?
-    if host.installed_at.nil?
-      time_ago_in_words(host.initiated_at, include_seconds: true) + " (in progress)"
-    else
-      distance_of_time_in_words(host.initiated_at, host.installed_at, include_seconds: true)
-    end
+    distance_of_time_in_words(host.initiated_at, host.installed_at, include_seconds: true)
   end
 
   def overview_fields(host)
