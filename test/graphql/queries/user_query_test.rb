@@ -11,6 +11,7 @@ class Queries::UserQueryTest < ActiveSupport::TestCase
                                     default_organization: organization,
                                     locale: 'en',
                                     timezone: 'Berlin')
+    FactoryBot.create_list(:personal_access_token, 2, user: user)
 
     query = <<-GRAPHQL
       query (
@@ -35,6 +36,14 @@ class Queries::UserQueryTest < ActiveSupport::TestCase
           }
           defaultOrganization {
             id
+          }
+          personalAccessTokens {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
           }
         }
       }
@@ -64,6 +73,16 @@ class Queries::UserQueryTest < ActiveSupport::TestCase
       },
       'defaultOrganization' => {
         'id' => Foreman::GlobalId.for(user.default_organization)
+      },
+      'personalAccessTokens' => {
+        'totalCount' => user.personal_access_tokens.count,
+        'edges' => user.personal_access_tokens.sort_by(&:id).map do |personal_access_token|
+          {
+            'node' => {
+              'id' => Foreman::GlobalId.for(personal_access_token)
+            }
+          }
+        end
       }
     }
 
