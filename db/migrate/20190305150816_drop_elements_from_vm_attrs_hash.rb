@@ -4,8 +4,8 @@ class DropElementsFromVmAttrsHash < ActiveRecord::Migration[5.1]
     if nics.count > 0
       say "Correcting serialized nics attributes, total #{nics.count}"
       nics.find_each do |nic|
-        nic.attrs = drop_elements(compute_attribute.attrs)
-        nic.compute_attributes = drop_elements(compute_attribute.compute_attributes)
+        nic.attrs = drop_elements(nic.attrs)
+        nic.compute_attributes = drop_elements(nic.compute_attributes)
         nic.save!(validate: false)
       end
     end
@@ -32,7 +32,7 @@ class DropElementsFromVmAttrsHash < ActiveRecord::Migration[5.1]
     if lookup_keys.count > 0
       say "Correcting serialized Lookup Keys default values, total #{lookup_keys.count}"
       lookup_keys.find_each do |lk|
-        lk.default_value = drop_elements(compute_attribute.default_value)
+        lk.default_value = drop_elements(lk.default_value)
         lk.save!(validate: false)
       end
     end
@@ -41,7 +41,7 @@ class DropElementsFromVmAttrsHash < ActiveRecord::Migration[5.1]
     if lookup_key_values.count > 0
       say "Correcting serialized Lookup Keys value, total #{lookup_key_values.count}"
       lookup_key_values.find_each do |lv|
-        lv.value = drop_elements(compute_attribute.value)
+        lv.value = drop_elements(lv.value)
         lv.save!(validate: false)
       end
     end
