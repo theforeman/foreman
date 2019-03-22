@@ -1,7 +1,8 @@
 class CollectionLoader < GraphQL::Batch::Loader
-  def initialize(model, association_name)
+  def initialize(model, association_name, scope = nil)
     @model = model
     @association_name = association_name
+    @scope = scope
     validate
   end
 
@@ -30,7 +31,7 @@ class CollectionLoader < GraphQL::Batch::Loader
   end
 
   def preload_association(records)
-    ::ActiveRecord::Associations::Preloader.new.preload(records, @association_name)
+    ::ActiveRecord::Associations::Preloader.new.preload(records, @association_name, @scope)
   end
 
   def read_association(record)
