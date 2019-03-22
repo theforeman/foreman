@@ -23,6 +23,14 @@ class Queries::FactNameQueryTest < ActiveSupport::TestCase
               }
             }
           }
+          hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
@@ -45,6 +53,16 @@ class Queries::FactNameQueryTest < ActiveSupport::TestCase
             {
               'node' => {
                 'id' => Foreman::GlobalId.for(fv)
+              }
+            }
+          end
+        },
+        'hosts' => {
+          'totalCount' => fact_name.hosts.count,
+          'edges' => fact_name.hosts.sort_by(&:id).map do |host|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.encode('Host', host.id)
               }
             }
           end
