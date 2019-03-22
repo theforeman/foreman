@@ -62,5 +62,11 @@ module Types
 
     record_field :puppetclass, Types::Puppetclass
     collection_field :puppetclasses, Types::Puppetclass
+
+    record_field :compute_resource, Types::ComputeResource
+    collection_field :compute_resources, Types::ComputeResource
+
+    record_field :compute_attribute, Types::ComputeAttribute
+    collection_field :compute_attributes, Types::ComputeAttribute
   end
 end

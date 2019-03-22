@@ -9,5 +9,6 @@ module Types
     field :type, String
 
     has_many :fact_values, Types::FactValue
+    has_many :hosts, Types::Host
   end
 end
