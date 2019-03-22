@@ -36,6 +36,9 @@ module Types
     record_field :usergroup, Types::Usergroup
     collection_field :usergroups, Types::Usergroup
 
+    record_field :personal_access_token, Types::PersonalAccessToken
+    collection_field :personal_access_tokens, Types::PersonalAccessToken
+
     record_field :host, Types::Host
     collection_field :hosts, Types::Host
 
