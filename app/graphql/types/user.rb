@@ -18,6 +18,7 @@ module Types
     belongs_to :default_location, Types::Location
     belongs_to :default_organization, Types::Organization
     has_many :personal_access_tokens, Types::PersonalAccessToken
+    has_many :ssh_keys, Types::SshKey
     has_many :usergroups, Types::Usergroup
   end
 end

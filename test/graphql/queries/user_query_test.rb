@@ -34,6 +34,14 @@ class Queries::UserQueryTest < GraphQLQueryTestCase
               }
             }
           }
+          sshKeys {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
           usergroups {
             totalCount
             edges {
@@ -65,6 +73,7 @@ class Queries::UserQueryTest < GraphQLQueryTestCase
 
   setup do
     FactoryBot.create_list(:personal_access_token, 2, user: user)
+    FactoryBot.create_list(:ssh_key, 2, user: user)
   end
 
   test 'fetching user attributes' do
@@ -88,6 +97,7 @@ class Queries::UserQueryTest < GraphQLQueryTestCase
     assert_record user.default_organization, data['defaultOrganization']
 
     assert_collection user.personal_access_tokens, data['personalAccessTokens']
+    assert_collection user.ssh_keys, data['sshKeys']
     assert_collection user.usergroups, data['usergroups']
   end
 end
