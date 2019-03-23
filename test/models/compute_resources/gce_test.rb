@@ -86,7 +86,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       expected_attrs = {
         'machine_type' => nil,
         'network' => nil,
-        'external_ip' => nil,
+        'associate_external_ip' => nil,
         'image_id' => nil,
         'image_name' => nil,
         'volumes_attributes' => {}

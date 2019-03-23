@@ -8,8 +8,6 @@ module FogExtensions
 
       attribute :network
       attribute :associate_external_ip
-
-      # TODO: remove this, UI using it
       attribute :external_ip
 
       def persisted?
@@ -31,8 +29,8 @@ module FogExtensions
       def volumes_attributes=(attrs)
       end
 
-      # need to fix - actual disk objects needed
-      # getting data =>
+      # return [Array<Hash>] for disks in response and doesn't contain disk_size
+      # Example -
       # disks=[{
       # :auto_delete=>true,
       # :boot=>true,
@@ -47,19 +45,27 @@ module FogExtensions
         list_of_disks = disks
         if list_of_disks[0].is_a? Hash
           requires :identity, :zone
-          service.disks(:server => self)
+          service.disks.all(
+            :zone => self.zone_name,
+            :filter => construct_disk_filter(list_of_disks)
+          )
         else
           list_of_disks
         end
       end
 
       def vm_ip_address
-        # external_ip ? public_ip_address : private_ip_address
         public_ip_address || private_ip_address
       end
 
       def associate_external_ip
         public_ip_address.present?
+      end
+
+      private
+
+      def construct_disk_filter(disks_arr)
+        disks_arr.map { |d| "(name = \"#{d[:source][/([^\/]+)$/]}\")" }.join(' OR ')
       end
     end
   end
