@@ -113,16 +113,27 @@ module Foreman::Model
       ssh      = { :username => username, :public_key => key_pair.public }
       args.merge!(ssh)
 
-      options = vm_instance_defaults.merge(args.to_hash.deep_symbolize_keys)
-      server_optns = options.slice!(:network_interfaces, :metadata)
-
-      vm = client.servers.create options.to_hash.deep_symbolize_keys.merge(server_optns.symbolize_keys)
+      vm = client.servers.create vm_options(args)
       vm.disks.each { |disk| vm.set_disk_auto_delete(true, disk[:device_name]) }
       vm
     rescue Fog::Errors::Error => e
       args[:disks].find_all(&:status).map(&:destroy) if args[:disks].present?
       Foreman::Logging.exception("Unhandled GCE error", e)
       raise e
+    end
+
+    def vm_options(args)
+      options = vm_instance_defaults.merge(args.to_hash.deep_symbolize_keys)
+
+      # deep_symbolize_keys required for :network_interfaces,:metadata
+      # fog-google processes these keys & creates objects of respective
+      # classes from ::Google::Apis::ComputeV1
+      server_optns = options.slice!(:network_interfaces, :metadata)
+
+      # HashWithIndifferentAccess won't work here.
+      # server_optns.symbolize_keys required as ::Google::Apis::ComputeV1 classes
+      # only accepts keyword arguments while initializing instance.
+      options.to_hash.deep_symbolize_keys.merge(server_optns.symbolize_keys)
     end
 
     def create_volumes(args)
@@ -175,9 +186,7 @@ module Foreman::Model
 
       volume_attrs = vm_attrs['volumes_attributes'] || {}
       normalized['volumes_attributes'] = volume_attrs.each_with_object({}) do |(key, vol), volumes|
-        volumes[key] = {
-          'size' => memory_gb_to_bytes(vol['size_gb']).to_s
-        }
+        volumes[key] = { 'size' => memory_gb_to_bytes(vol['size_gb']).to_s }
       end
 
       normalized
@@ -190,10 +199,12 @@ module Foreman::Model
     private
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => 'google',
-                                     :google_project => project,
-                                     :google_client_email => email,
-                                     :google_json_key_location => key_path)
+      @client ||= ::Fog::Compute.new(
+        :provider => 'google',
+        :google_project => project,
+        :google_client_email => email,
+        :google_json_key_location => key_path
+      )
     end
 
     def construct_network(network_name)
@@ -210,12 +221,10 @@ module Foreman::Model
           }
         ]
       end
-
       access_config = { :name => "External NAT", :type => "ONE_TO_ONE_NAT" }
 
-      # note - currently not supporting external_ip from foreman
-      # Add external IP as default access config if given
-      access_config[:nat_ip] = external_ip if external_ip
+      # Note - no support for external_ip from foreman
+      # access_config[:nat_ip] = external_ip if external_ip
       network_interfaces_list[0][:access_configs] = [access_config]
       network_interfaces_list
     end
