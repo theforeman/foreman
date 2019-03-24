@@ -8,7 +8,7 @@ const supportedTypes = ['plain', 'search', 'date'];
 export const ReportAutocompleteProps = {
   url: 'some-url',
   resourceType: 'some-controller',
-  initailQuery: 'a query',
+  searchQuery: 'a query',
   label: 'some label',
   id: 3,
   template: 'report_template_report',

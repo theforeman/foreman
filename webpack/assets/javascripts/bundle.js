@@ -24,6 +24,7 @@ import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
 import * as classEditor from './foreman_class_edit';
 import * as dashboard from './dashboard';
 import * as spice from './spice';
+import * as autocomplete from './foreman_autocomplete';
 import './bundle_novnc';
 
 // Set the public path for dynamic imports
@@ -60,4 +61,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   document,
   componentRegistry,
   store,
+  autocomplete,
 });

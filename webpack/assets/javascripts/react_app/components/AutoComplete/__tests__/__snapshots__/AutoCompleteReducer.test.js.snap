@@ -1,5 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_CONTROLLER_CHANGE 1`] = `
+Object {
+  "some-id": Object {
+    "controller": "models",
+    "trigger": "INPUT_CHANGE",
+    "url": "models/auto_complete_search",
+  },
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_DISABLED_CHANGE 1`] = `
+Object {
+  "some-id": Object {
+    "isDisabled": true,
+  },
+}
+`;
+
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_FAILURE 1`] = `
 Object {
   "some-id": Object {
@@ -19,6 +37,7 @@ Object {
     "searchQuery": "",
     "status": "PENDING",
     "trigger": "INPUT_CHANGE",
+    "url": undefined,
   },
 }
 `;
@@ -28,11 +47,13 @@ Object {
   "some-id": Object {
     "controller": null,
     "error": null,
+    "isDisabled": false,
     "isErrorVisible": false,
     "results": Array [],
     "searchQuery": "",
     "status": null,
-    "trigger": null,
+    "trigger": "RESET",
+    "url": undefined,
   },
 }
 `;
@@ -58,10 +79,13 @@ Object {
   "some-id": Object {
     "controller": "models",
     "error": "oops",
+    "isDisabled": false,
     "isErrorVisible": true,
+    "results": undefined,
     "searchQuery": "",
     "status": "RESOLVED",
     "trigger": "COMPONENT_DID_MOUNT",
+    "url": undefined,
   },
 }
 `;

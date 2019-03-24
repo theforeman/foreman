@@ -19,10 +19,13 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
+        "results": undefined,
         "searchQuery": "result",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
       },
     },
     "bookmarks": Object {
@@ -54,10 +57,13 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
+        "results": undefined,
         "searchQuery": "result",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
       },
     },
     "bookmarks": Object {

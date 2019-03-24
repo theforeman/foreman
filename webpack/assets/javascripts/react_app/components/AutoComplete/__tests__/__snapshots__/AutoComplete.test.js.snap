@@ -25,6 +25,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     ignoreDiacritics={true}
     inputProps={
       Object {
+        "autoComplete": "off",
         "className": "search-input",
         "data-autocomplete-id": "some-id",
         "spellCheck": "false",

@@ -10,7 +10,13 @@ $(document).ready(function() {
   });
 
   $('#filter_unlimited').change(function() {
-    $('#search').prop('disabled', $(this).prop('checked'));
+    var isChecked = $(this).prop('checked');
+    var autocompleteID = $('.search-input').data('autocompleteId');
+    if (isChecked) {
+      tfm.autocomplete.disableAutocomplete(autocompleteID);
+    } else {
+      tfm.autocomplete.enableAutocomplete(autocompleteID);
+    }
   });
 
   $('#override_taxonomy_checkbox').change(function() {

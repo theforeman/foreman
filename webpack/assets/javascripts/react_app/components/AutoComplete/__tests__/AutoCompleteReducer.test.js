@@ -4,6 +4,8 @@ import {
   AUTO_COMPLETE_FAILURE,
   AUTO_COMPLETE_RESET,
   AUTO_COMPLETE_INIT,
+  AUTO_COMPLETE_DISABLED_CHANGE,
+  AUTO_COMPLETE_CONTROLLER_CHANGE,
 } from '../AutoCompleteConstants';
 import reducer from '../AutoCompleteReducer';
 
@@ -40,6 +42,18 @@ const fixtures = {
     action: {
       type: AUTO_COMPLETE_FAILURE,
       payload: mock.failure,
+    },
+  },
+  'should handle AUTO_COMPLETE_DISABLED_CHANGE': {
+    action: {
+      type: AUTO_COMPLETE_DISABLED_CHANGE,
+      payload: mock.disabledChange,
+    },
+  },
+  'should handle AUTO_COMPLETE_CONTROLLER_CHANGE': {
+    action: {
+      type: AUTO_COMPLETE_CONTROLLER_CHANGE,
+      payload: mock.controllerChange,
     },
   },
 };
