@@ -24,7 +24,7 @@ const SearchBar = ({
       <AutoComplete
         id={autocomplete.id}
         handleSearch={() => onSearch(searchQuery)}
-        initialQuery={initialQuery || autocomplete.searchQuery || ''}
+        searchQuery={initialQuery || autocomplete.searchQuery || ''}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
         url={autocomplete.url}
         controller={controller}

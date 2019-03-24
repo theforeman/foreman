@@ -8,7 +8,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     controller="models"
     handleSearch={[Function]}
     id="some-id"
-    initialQuery=""
+    searchQuery=""
     url="model/auto_complete_search"
     useKeyShortcuts={true}
   />

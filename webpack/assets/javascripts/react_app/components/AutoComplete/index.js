@@ -8,14 +8,23 @@ import {
   selectAutocompleteResults,
   selectAutocompleteSearchQuery,
   selectAutocompleteStatus,
+  selectAutocompleteIsDisabled,
+  selectAutocompleteUrl,
+  selectAutocompleteTrigger,
 } from './AutoCompleteSelectors';
 
-const mapStateToProps = (state, { id }) => ({
-  error: selectAutocompleteError(state, id),
-  results: selectAutocompleteResults(state, id),
-  searchQuery: selectAutocompleteSearchQuery(state, id),
-  status: selectAutocompleteStatus(state, id),
-});
+const mapStateToProps = (state, ownProps) => {
+  const { id } = ownProps;
+  return {
+    error: selectAutocompleteError(state, id, ownProps),
+    results: selectAutocompleteResults(state, id, ownProps),
+    searchQuery: selectAutocompleteSearchQuery(state, id, ownProps),
+    status: selectAutocompleteStatus(state, id, ownProps),
+    isDisabled: selectAutocompleteIsDisabled(state, id, ownProps),
+    url: selectAutocompleteUrl(state, id, ownProps),
+    trigger: selectAutocompleteTrigger(state, id, ownProps),
+  };
+};
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 

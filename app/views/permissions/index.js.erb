@@ -1,15 +1,10 @@
 var permissions = $('#filter_permission_ids');
 permissions.html("<%= escape_javascript(options_for_select(@permissions.map {|p| [p.name, p.id] })) %>");
 permissions.multiSelect('refresh');
-
-var search = $('#search');
-var path = '<%= escape_javascript(@search_path) %>'
-search.attr('data-url', path);
-search.val('');
-search.catcomplete({source: function( request, response ) {
-    $.getJSON( search.attr('data-url'), { search: request.term }, response );
-}})
-
+var url = '<%= escape_javascript(@search_path) %>'
+var controller = $('#filter_resource_type').val();
+var autocompleteID = $('.search-input').data('autocompleteId');
+tfm.autocomplete.updateController( controller, url, autocompleteID);
 <% if @granular %>
   $('#granular_warning').hide();
   $('#granular_form').show();

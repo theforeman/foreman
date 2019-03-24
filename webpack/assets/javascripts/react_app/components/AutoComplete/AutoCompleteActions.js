@@ -9,6 +9,8 @@ import {
   AUTO_COMPLETE_SUCCESS,
   AUTO_COMPLETE_FAILURE,
   AUTO_COMPLETE_RESET,
+  AUTO_COMPLETE_DISABLED_CHANGE,
+  AUTO_COMPLETE_CONTROLLER_CHANGE,
   TRIGGERS,
 } from './AutoCompleteConstants';
 
@@ -26,6 +28,7 @@ export const getResults = ({
       trigger,
       dispatch,
       id,
+      url,
     })
   );
 
@@ -75,7 +78,7 @@ let createAPIRequest = async ({ searchQuery, trigger, id, dispatch, url }) => {
 
 createAPIRequest = debounce(createAPIRequest, 250);
 
-const startRequest = ({ controller, searchQuery, trigger, id }) => ({
+const startRequest = ({ controller, searchQuery, trigger, id, url }) => ({
   type: AUTO_COMPLETE_REQUEST,
   payload: {
     controller,
@@ -84,6 +87,7 @@ const startRequest = ({ controller, searchQuery, trigger, id }) => ({
     trigger,
     error: null,
     id,
+    url,
   },
 });
 
@@ -142,7 +146,14 @@ export const resetData = (controller, id) => ({
   payload: { controller, id },
 });
 
-export const initialUpdate = ({ searchQuery, controller, error, id }) => ({
+export const initialUpdate = ({
+  searchQuery,
+  controller,
+  error,
+  id,
+  url,
+  isDisabled,
+}) => ({
   type: AUTO_COMPLETE_INIT,
   payload: {
     searchQuery,
@@ -152,6 +163,8 @@ export const initialUpdate = ({ searchQuery, controller, error, id }) => ({
     error,
     isErrorVisible: !!error,
     id,
+    isDisabled,
+    url,
   },
 });
 
@@ -164,3 +177,21 @@ const objectDeepTrim = (obj, trigger) => {
   });
   return copy;
 };
+
+export const updateDisability = (isDisabled, id) => ({
+  type: AUTO_COMPLETE_DISABLED_CHANGE,
+  payload: {
+    isDisabled,
+    id,
+  },
+});
+
+export const updateController = (controller, url, id) => ({
+  type: AUTO_COMPLETE_CONTROLLER_CHANGE,
+  payload: {
+    controller,
+    url,
+    trigger: TRIGGERS.CONTROLLER_CHANGED,
+    id,
+  },
+});

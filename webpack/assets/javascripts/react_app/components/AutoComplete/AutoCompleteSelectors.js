@@ -1,25 +1,51 @@
-export const selectAutocomplete = ({ autocomplete }, id) =>
-  autocomplete[id] || {};
+import { TRIGGERS } from './AutoCompleteConstants';
 
-export const selectAutocompleteIsErrorVisible = (state, id) =>
-  selectAutocomplete(state, id).isErrorVisible;
+export const selectAutocomplete = ({ autocomplete }, id) => autocomplete[id];
 
-export const selectAutocompleteError = (state, id) => {
-  const { error, isErrorVisible } = selectAutocomplete(state, id);
-  return error && isErrorVisible ? error : null;
+export const selectAutocompleteProp = (state, id, prop, ownProps) => {
+  const selectedAutocomplete = selectAutocomplete(state, id);
+  const isAutocompleteInitiated = selectedAutocomplete !== undefined;
+  const { trigger } = selectedAutocomplete || {};
+  const didComponentReset = prop !== 'trigger' && trigger === TRIGGERS.RESET;
+  const propFromOwnProps = ownProps && ownProps[prop];
+
+  if (isAutocompleteInitiated) {
+    if (didComponentReset) {
+      return propFromOwnProps;
+    }
+    return selectedAutocomplete[prop];
+  }
+  return propFromOwnProps;
 };
 
-export const selectAutocompleteResults = (state, id) =>
-  selectAutocomplete(state, id).results;
+export const selectAutocompleteError = (state, id, ownProps) => {
+  const isErrorVisible = selectAutocompleteIsErrorVisible(state, id, ownProps);
+  if (!isErrorVisible) {
+    return null;
+  }
+  return selectAutocompleteProp(state, id, 'error', ownProps);
+};
 
-export const selectAutocompleteSearchQuery = (state, id) =>
-  selectAutocomplete(state, id).searchQuery;
+export const selectAutocompleteIsErrorVisible = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'isErrorVisible', ownProps);
 
-export const selectAutocompleteStatus = (state, id) =>
-  selectAutocomplete(state, id).status;
+export const selectAutocompleteResults = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'results', ownProps);
 
-export const selectAutocompleteController = (state, id) =>
-  selectAutocomplete(state, id).controller;
+export const selectAutocompleteSearchQuery = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'searchQuery', ownProps);
 
-export const selectAutocompleteTrigger = (state, id) =>
-  selectAutocomplete(state, id).trigger;
+export const selectAutocompleteStatus = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'status', ownProps);
+
+export const selectAutocompleteController = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'controller', ownProps);
+
+export const selectAutocompleteTrigger = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'trigger', ownProps);
+
+export const selectAutocompleteUrl = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'url', ownProps);
+
+export const selectAutocompleteIsDisabled = (state, id, ownProps) =>
+  selectAutocompleteProp(state, id, 'isDisabled', ownProps);

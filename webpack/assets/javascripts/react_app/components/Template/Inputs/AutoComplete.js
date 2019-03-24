@@ -9,7 +9,7 @@ const TemplateAutoComplete = ({
   label,
   resourceType,
   id,
-  initialQuery,
+  searchQuery,
   initialError,
   info,
   isRequired,
@@ -37,13 +37,13 @@ const TemplateAutoComplete = ({
       }}
       controller={resourceType}
       url={url}
-      initialQuery={initialQuery}
+      searchQuery={searchQuery}
     />
   </Form>
 );
 TemplateAutoComplete.propTypes = {
   resourceType: PropTypes.string,
-  initialQuery: PropTypes.string,
+  searchQuery: PropTypes.string,
   initialError: PropTypes.string,
   label: PropTypes.string.isRequired,
   info: PropTypes.string,
@@ -55,7 +55,7 @@ TemplateAutoComplete.propTypes = {
 
 TemplateAutoComplete.defaultProps = {
   resourceType: null,
-  initialQuery: '',
+  searchQuery: '',
   initialError: null,
   info: null,
   isRequired: false,

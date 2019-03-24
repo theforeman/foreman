@@ -34,26 +34,28 @@ class AutoComplete extends React.Component {
   componentDidMount() {
     window.addEventListener('keypress', this.windowKeyPressHandler);
     const {
-      id,
       controller,
-      initialError,
-      initialQuery,
+      searchQuery,
+      isDisabled,
+      error,
+      id,
+      url,
       initialUpdate,
     } = this.props;
-    initialUpdate({
-      id,
-      controller,
-      error: initialError,
-      searchQuery: initialQuery,
-    });
+
+    initialUpdate({ searchQuery, controller, id, isDisabled, error, url });
   }
 
   componentDidUpdate(prevProps) {
     this.handleLoading();
-    const { initialQuery } = this.props;
-    if (prevProps.initialQuery !== initialQuery) {
+    const { searchQuery, trigger } = this.props;
+    const { RESET, CONTROLLER_CHANGED } = TRIGGERS;
+    if (trigger === RESET || trigger === CONTROLLER_CHANGED) {
+      this.handleClear();
+    }
+    if (prevProps.searchQuery !== searchQuery) {
       const typeahead = this._typeahead && this._typeahead.current;
-      typeahead && typeahead.setState({ text: initialQuery });
+      typeahead && typeahead.setState({ text: searchQuery });
     }
   }
 
@@ -114,9 +116,9 @@ class AutoComplete extends React.Component {
     }
   }
 
-  handleInputChange(query) {
+  handleInputChange(searchQuery) {
     const { id } = this.props;
-    this.getResults(query, TRIGGERS.INPUT_CHANGE, id);
+    this.getResults(searchQuery, TRIGGERS.INPUT_CHANGE, id);
   }
 
   // Gets the first result from an array of selected results.
@@ -175,28 +177,31 @@ class AutoComplete extends React.Component {
     const {
       id,
       error,
-      initialQuery,
+      searchQuery,
       inputProps,
       placeholder,
       results,
       useKeyShortcuts,
+      isDisabled,
     } = this.props;
     /** Using a 3rd party library (react-bootstrap-typeahead) that expects a mutable array. */
     const options = Immutable.isImmutable(results)
       ? results.asMutable()
       : results;
+
     return (
       <div className="foreman-autocomplete">
         <TypeAheadSelect
           id={id}
           ref={this._typeahead}
-          defaultInputValue={initialQuery}
+          defaultInputValue={searchQuery}
           options={options}
           onInputChange={this.handleInputChange}
           onChange={this.handleResultsChange}
           onFocus={this.handleInputFocus}
           onKeyDown={this.handleKeyDown}
           placeholder={__(placeholder)}
+          disabled={isDisabled}
           renderMenu={(r, menuProps) => (
             <AutoCompleteMenu {...{ results: r, menuProps }} />
           )}
@@ -207,6 +212,7 @@ class AutoComplete extends React.Component {
             ),
             spellCheck: 'false',
             'data-autocomplete-id': id,
+            autoComplete: 'off',
             ...inputProps,
           }}
         />
@@ -220,9 +226,9 @@ class AutoComplete extends React.Component {
 
 AutoComplete.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  url: PropTypes.string.isRequired,
   results: PropTypes.array,
   searchQuery: PropTypes.string,
-  initialQuery: PropTypes.string,
   inputProps: PropTypes.object,
   status: PropTypes.string,
   error: PropTypes.string,
@@ -234,13 +240,13 @@ AutoComplete.propTypes = {
   initialUpdate: PropTypes.func,
   useKeyShortcuts: PropTypes.bool,
   placeholder: PropTypes.string,
-  url: PropTypes.string,
+  isDisabled: PropTypes.bool,
+  trigger: PropTypes.string,
 };
 
 AutoComplete.defaultProps = {
   results: [],
   searchQuery: '',
-  initialQuery: '',
   inputProps: {},
   status: null,
   error: null,
@@ -252,7 +258,8 @@ AutoComplete.defaultProps = {
   initialUpdate: noop,
   useKeyShortcuts: false,
   placeholder: 'Filter ...',
-  url: null,
+  isDisabled: false,
+  trigger: null,
 };
 
 AutoComplete.SearchButton = AutoCompleteSearchButton;

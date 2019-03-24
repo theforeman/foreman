@@ -12,6 +12,7 @@ Object {
           "searchQuery": "",
           "status": "PENDING",
           "trigger": "INPUT_CLEAR",
+          "url": "models/auto_complete_search",
         },
         "type": "AUTO_COMPLETE_REQUEST",
       },
@@ -22,6 +23,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -36,6 +38,7 @@ Object {
         "searchQuery": "",
         "status": "PENDING",
         "trigger": "INPUT_CLEAR",
+        "url": "models/auto_complete_search",
       },
     },
   },
@@ -48,10 +51,13 @@ Object {
     "some-id": Object {
       "controller": "models",
       "error": null,
+      "isDisabled": false,
       "isErrorVisible": false,
+      "results": undefined,
       "searchQuery": "",
       "status": "RESOLVED",
       "trigger": "COMPONENT_DID_MOUNT",
+      "url": "models/auto_complete_search",
     },
   },
 }
@@ -69,6 +75,7 @@ Object {
           "searchQuery": "",
           "status": "PENDING",
           "trigger": "INPUT_FOCUS",
+          "url": "models/auto_complete_search",
         },
         "type": "AUTO_COMPLETE_REQUEST",
       },
@@ -79,10 +86,13 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
+        "results": undefined,
         "searchQuery": "",
         "status": "PENDING",
         "trigger": "INPUT_FOCUS",
+        "url": "models/auto_complete_search",
       },
     },
   },
@@ -101,6 +111,7 @@ Object {
           "searchQuery": "result",
           "status": "PENDING",
           "trigger": "ITEM_SELECT",
+          "url": "models/auto_complete_search",
         },
         "type": "AUTO_COMPLETE_REQUEST",
       },
@@ -111,6 +122,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -121,6 +133,7 @@ Object {
         "searchQuery": "result",
         "status": "PENDING",
         "trigger": "ITEM_SELECT",
+        "url": "models/auto_complete_search",
       },
     },
   },
@@ -139,6 +152,7 @@ Object {
           "searchQuery": "result",
           "status": "PENDING",
           "trigger": "ITEM_SELECT",
+          "url": "models/auto_complete_search",
         },
         "type": "AUTO_COMPLETE_REQUEST",
       },
@@ -149,6 +163,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -163,6 +178,7 @@ Object {
         "searchQuery": "result",
         "status": "PENDING",
         "trigger": "ITEM_SELECT",
+        "url": "models/auto_complete_search",
       },
     },
   },
@@ -193,6 +209,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -203,6 +220,7 @@ Object {
         "searchQuery": "",
         "status": "RESOLVED",
         "trigger": "INPUT_FOCUS",
+        "url": "models/auto_complete_search",
       },
     },
   },
@@ -237,6 +255,7 @@ Object {
       "some-id": Object {
         "controller": "models",
         "error": null,
+        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -251,6 +270,7 @@ Object {
         "searchQuery": "result",
         "status": "RESOLVED",
         "trigger": "ITEM_SELECT",
+        "url": "models/auto_complete_search",
       },
     },
   },

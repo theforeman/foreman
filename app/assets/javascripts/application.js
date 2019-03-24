@@ -1,8 +1,6 @@
 //= require jquery.turbolinks
 //= require turbolinks
-//= require jquery.ui.autocomplete
 //= require jquery.ui.spinner
-//= require scoped_search
 //= require bootstrap
 //= require patternfly
 //= require vendor
@@ -40,17 +38,6 @@ $(document).on('click', 'a[disabled="disabled"]', function(evt) {
 
 function onContentLoad() {
   tfm.store.observeStore('layout', tfm.nav.showContent);
-  uninitialized_autocompletes = $.grep($('.autocomplete-input'), function(i) {
-    return !$(i)
-      .next()
-      .hasClass('autocomplete-clear');
-  });
-  if (uninitialized_autocompletes.length > 0) {
-    $.each(uninitialized_autocompletes, function(i, input) {
-      $(input).scopedSearch({ delay: 250 });
-    });
-    $('.ui-helper-hidden-accessible').remove();
-  }
 
   if ($('input[focus_on_load=true]').length > 0) {
     $('input[focus_on_load]')
