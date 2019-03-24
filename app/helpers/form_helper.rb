@@ -202,17 +202,22 @@ module FormHelper
   end
 
   def autocomplete_f(f, attr, options = {})
-    field(f, attr, options) do
-      path = options.delete(:path) || send("#{f.object.class.pluralize.underscore}_path") if options[:full_path].nil?
-      auto_complete_search(attr,
-                           f.object.send(attr).try(:squeeze, " "),
-                           options.merge(
-                             :placeholder => _("Filter") + ' ...',
-                             :path        => path,
-                             :name        => "#{f.object_name}[#{attr}]"
-                           )
-                          ).html_safe
-    end
+    url = options[:full_path]
+    url ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{attr}"
+    props = {
+      name: "#{f.object_name}[#{attr}]",
+      controller: options[:path] || auto_complete_controller_name,
+      url: url,
+      isDisabled: options[:disabled] || false,
+      query: f.object.search || '',
+      error: f.object.errors[attr] && f.object.errors[attr][0],
+      useKeyShortcuts: options[:use_key_shortcuts] || false,
+      id: options[:id] || "autocomplete-#{Foreman.uuid}"
+    }
+
+    container_class_name = "container-#{props[:id]}"
+    content_tag(:div, nil, :class => container_class_name) +
+      mount_react_component('FormAutocomplete', ".#{container_class_name}", props.to_json, flatten_data: true)
   end
 
   def byte_size_f(f, attr, options = {})

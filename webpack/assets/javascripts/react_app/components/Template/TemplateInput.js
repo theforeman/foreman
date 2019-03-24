@@ -34,7 +34,7 @@ const TemplateInput = ({
           resourceType={resourceType}
           url={url}
           template={template}
-          initialQuery={value}
+          searchQuery={value}
         />
       );
     case date:

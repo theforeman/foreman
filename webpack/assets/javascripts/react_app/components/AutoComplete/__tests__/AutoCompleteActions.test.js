@@ -1,6 +1,12 @@
 import API from '../../../API';
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
-import { getResults, resetData, initialUpdate } from '../AutoCompleteActions';
+import {
+  getResults,
+  resetData,
+  initialUpdate,
+  updateDisability,
+  updateController,
+} from '../AutoCompleteActions';
 import {
   APIFailMock,
   APISuccessMock,
@@ -10,6 +16,7 @@ import {
   url,
   error,
   id,
+  isDisabled,
 } from '../AutoComplete.fixtures';
 
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
@@ -23,7 +30,7 @@ const loadResults = (requestParams, serverMock) => {
 
 const fixtures = {
   'should update store with initial data': () =>
-    initialUpdate({ searchQuery: 'searchQuery', error, controller, id }),
+    initialUpdate({ searchQuery, controller, id, isDisabled, error, url }),
 
   'should load results and success': () =>
     loadResults(
@@ -50,6 +57,10 @@ const fixtures = {
     ),
 
   'should reset-data': () => resetData(controller, id),
+
+  'should update disability': () => updateDisability(true, id),
+
+  updateController: () => updateController(controller, url, id),
 };
 
 describe('AutoComplete actions', () =>

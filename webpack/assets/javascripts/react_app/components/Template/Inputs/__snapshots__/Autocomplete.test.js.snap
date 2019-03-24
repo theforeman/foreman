@@ -24,12 +24,12 @@ exports[`Report Template AutoComplete rendering With Require and Descriptions 1`
   <Connect(AutoComplete)
     controller="some-controller"
     id="template-autocomplete-input-3"
-    initialQuery=""
     inputProps={
       Object {
         "name": "report_template_report[input_values][3][value]",
       }
     }
+    searchQuery="a query"
     url="some-url"
   />
 </CommonForm>
@@ -48,12 +48,12 @@ exports[`Report Template AutoComplete rendering renders ReportAutoComplete 1`] =
   <Connect(AutoComplete)
     controller="some-controller"
     id="template-autocomplete-input-3"
-    initialQuery=""
     inputProps={
       Object {
         "name": "report_template_report[input_values][3][value]",
       }
     }
+    searchQuery="a query"
     url="some-url"
   />
 </CommonForm>

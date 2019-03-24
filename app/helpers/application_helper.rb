@@ -193,14 +193,6 @@ module ApplicationHelper
     controller.respond_to?(:auto_complete_controller_name) ? controller.auto_complete_controller_name : controller_name
   end
 
-  def auto_complete_search(name, val, options = {})
-    path = options[:full_path]
-    path ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}"
-    options[:class] = "autocomplete-input form-control"
-    options[:'data-url'] = path
-    text_field_tag(name, val, options)
-  end
-
   def sort(field, permitted: [], **kwargs)
     kwargs[:url_options] ||= current_url_params(permitted: permitted)
     super(field, kwargs)

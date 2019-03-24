@@ -4,6 +4,7 @@ import AutoComplete from '../AutoComplete';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import { KEYCODES } from '../../../common/keyCodes';
+import { TRIGGERS } from '../AutoCompleteConstants';
 import { noop } from '../../../common/helpers';
 
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
@@ -140,6 +141,14 @@ describe('AutoComplete', () => {
       component.setProps({ results: props.results });
       mainInput.simulate('focus', { target: { value: '' } });
       expect(component.find('.rbt-menu').exists()).toBeTruthy();
+    });
+
+    it('component update with trigger "RESET" should call handleClear which should reset the input and call getResults', () => {
+      const props = { ...getProps() };
+      const component = mount(<AutoComplete {...props} />);
+      expect(props.getResults.mock.calls).toHaveLength(0);
+      component.setProps({ trigger: TRIGGERS.RESET });
+      expect(props.getResults.mock.calls).toHaveLength(1);
     });
   });
 });

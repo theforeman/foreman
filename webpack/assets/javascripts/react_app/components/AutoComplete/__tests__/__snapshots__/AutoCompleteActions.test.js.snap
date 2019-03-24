@@ -11,6 +11,7 @@ Array [
         "searchQuery": "x = y",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search",
       },
       "type": "AUTO_COMPLETE_REQUEST",
     },
@@ -41,6 +42,7 @@ Array [
         "searchQuery": "",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search",
       },
       "type": "AUTO_COMPLETE_REQUEST",
     },
@@ -73,17 +75,41 @@ Object {
 }
 `;
 
+exports[`AutoComplete actions should update disability 1`] = `
+Object {
+  "payload": Object {
+    "id": "some-id",
+    "isDisabled": true,
+  },
+  "type": "AUTO_COMPLETE_DISABLED_CHANGE",
+}
+`;
+
 exports[`AutoComplete actions should update store with initial data 1`] = `
 Object {
   "payload": Object {
     "controller": "models",
     "error": "oops",
     "id": "some-id",
+    "isDisabled": false,
     "isErrorVisible": true,
-    "searchQuery": "searchQuery",
+    "searchQuery": "",
     "status": "RESOLVED",
     "trigger": "COMPONENT_DID_MOUNT",
+    "url": "models/auto_complete_search",
   },
   "type": "AUTO_COMPLETE_INIT",
+}
+`;
+
+exports[`AutoComplete actions updateController 1`] = `
+Object {
+  "payload": Object {
+    "controller": "models",
+    "id": "some-id",
+    "trigger": "CONTROLLER_CHANGED",
+    "url": "models/auto_complete_search",
+  },
+  "type": "AUTO_COMPLETE_CONTROLLER_CHANGE",
 }
 `;

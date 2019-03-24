@@ -5,6 +5,9 @@ import {
   AUTO_COMPLETE_SUCCESS,
   AUTO_COMPLETE_FAILURE,
   AUTO_COMPLETE_RESET,
+  AUTO_COMPLETE_DISABLED_CHANGE,
+  AUTO_COMPLETE_CONTROLLER_CHANGE,
+  TRIGGERS,
 } from './AutoCompleteConstants';
 
 const initialAutocompleteState = {
@@ -15,6 +18,8 @@ const initialAutocompleteState = {
   searchQuery: '',
   status: null,
   trigger: null,
+  url: undefined,
+  isDisabled: false,
 };
 
 export default (state = Immutable({}), action) => {
@@ -29,6 +34,8 @@ export default (state = Immutable({}), action) => {
       trigger,
       isErrorVisible,
       id,
+      isDisabled,
+      url,
     } = {},
   } = action;
   switch (type) {
@@ -38,9 +45,12 @@ export default (state = Immutable({}), action) => {
         controller,
         error,
         isErrorVisible,
+        results,
         searchQuery,
         status,
         trigger,
+        isDisabled,
+        url,
       });
     case AUTO_COMPLETE_REQUEST:
       return state.setIn([id], {
@@ -50,6 +60,7 @@ export default (state = Immutable({}), action) => {
         searchQuery,
         status,
         trigger,
+        url,
       });
     case AUTO_COMPLETE_SUCCESS:
       return state.setIn([id], {
@@ -68,7 +79,19 @@ export default (state = Immutable({}), action) => {
     case AUTO_COMPLETE_RESET:
       return state.setIn([id], {
         ...initialAutocompleteState,
+        trigger: TRIGGERS.RESET,
+      });
+    case AUTO_COMPLETE_DISABLED_CHANGE:
+      return state.setIn([id], {
+        ...state[id],
+        isDisabled,
+      });
+    case AUTO_COMPLETE_CONTROLLER_CHANGE:
+      return state.setIn([id], {
+        ...state[id],
         controller,
+        url,
+        trigger,
       });
     default:
       return state;

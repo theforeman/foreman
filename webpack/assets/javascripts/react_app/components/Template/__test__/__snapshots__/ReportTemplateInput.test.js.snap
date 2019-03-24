@@ -22,10 +22,10 @@ exports[`Report Template AutoComplete rendering renders report template with sea
   id={3}
   info={null}
   initialError={null}
-  initialQuery=""
   isRequired={false}
   label="some label"
   resourceType="some-controller"
+  searchQuery=""
   template="report_template_report"
   url="some-url"
 />

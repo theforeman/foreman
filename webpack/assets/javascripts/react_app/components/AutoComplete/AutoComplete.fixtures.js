@@ -6,7 +6,6 @@ export const url = 'models/auto_complete_search';
 export const status = null;
 export const controller = 'models';
 export const searchQuery = '';
-export const initialQuery = '';
 export const trigger = TRIGGERS.INPUT_CHANGE;
 export const error = 'oops';
 export const results = [{ label: 'some results', category: 'category' }];
@@ -14,16 +13,17 @@ export const APIError = [{ error }];
 export const APISuccessMock = { data: results };
 export const APIFailMock = { data: APIError };
 export const isErrorVisible = false;
+export const isDisabled = false;
 
 export const AutoCompleteProps = {
   controller,
   searchQuery,
-  initialQuery,
   status,
   results,
   url,
   error,
   id,
+  isDisabled,
 };
 
 export const initialState = {
@@ -35,6 +35,8 @@ export const initialState = {
   trigger: null,
   isErrorVisible: false,
   id,
+  isDisabled,
+  url,
 };
 
 export const initialValues = {
@@ -45,6 +47,7 @@ export const initialValues = {
   error,
   isErrorVisible: !!error,
   id,
+  isDisabled,
 };
 
 export const request = {
@@ -59,9 +62,6 @@ export const request = {
 export const success = {
   results,
   status: STATUS.RESOLVED,
-  searchQuery,
-  controller,
-  trigger,
   id,
 };
 
@@ -70,6 +70,24 @@ export const failure = {
   isErrorVisible,
   results: [],
   status: STATUS.ERROR,
+  id,
+};
+
+export const disabledChange = {
+  isDisabled: true,
+  id,
+};
+
+export const controllerChange = {
+  controller,
+  url,
+  trigger,
+  id,
+};
+
+export const reset = {
+  ...initialState,
+  trigger: TRIGGERS.RESET,
   id,
 };
 
