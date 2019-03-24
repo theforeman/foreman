@@ -600,7 +600,8 @@ exports[`bookmark form should render the entire form 1`] = `
                                 className="col-md-2 control-label"
                               >
                                 Name
-                                 *
+                                 
+                                *
                               </label>
                               <div
                                 className="col-md-4"
@@ -988,7 +989,8 @@ exports[`bookmark form should render the entire form 1`] = `
                                 className="col-md-2 control-label"
                               >
                                 Query
-                                 *
+                                 
+                                *
                               </label>
                               <div
                                 className="col-md-8"
@@ -1345,6 +1347,7 @@ exports[`bookmark form should render the entire form 1`] = `
                                 className="col-md-2 control-label"
                               >
                                 Public
+                                 
                               </label>
                               <div
                                 className="col-md-4"

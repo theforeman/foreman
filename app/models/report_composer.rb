@@ -143,10 +143,9 @@ class ReportComposer
     return inputs if template.nil?
 
     # process values from params (including empty hash)
-    unless input_values.nil?
-      @template.template_inputs.each do |input|
-        inputs[input.id.to_s] = InputValue.new(value: input_values[input.id.to_s].try(:[], 'value'), template_input: input)
-      end
+    template.template_inputs.each do |input|
+      val = input_values[input.id.to_s].try(:[], 'value') unless input_values.nil?
+      inputs[input.id.to_s] = InputValue.new(value: val, template_input: input)
     end
 
     inputs

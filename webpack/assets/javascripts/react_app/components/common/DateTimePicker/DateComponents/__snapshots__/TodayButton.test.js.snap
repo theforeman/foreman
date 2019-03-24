@@ -9,6 +9,7 @@ exports[`TodayButton is working properly 1`] = `
       <td>
         <button
           class="today-button"
+          type="button"
         >
           <span
             class="today-button-"

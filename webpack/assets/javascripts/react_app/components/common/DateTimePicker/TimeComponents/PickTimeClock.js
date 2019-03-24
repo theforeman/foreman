@@ -70,6 +70,7 @@ class PickTimeClock extends React.Component {
               </td>
               <td>
                 <button
+                  type="button"
                   className="btn btn-primary ampm-toggle"
                   onClick={() => this.toggleAMPM()}
                 >

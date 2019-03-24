@@ -8,7 +8,8 @@ exports[`common Form should accept a required field 1`] = `
     className="col-md-2 control-label"
   >
     my label
-     *
+     
+    *
   </label>
   <div
     className="col-md-4"
@@ -24,6 +25,7 @@ exports[`common Form should display a label field 1`] = `
     className="col-md-2 control-label"
   >
     my label
+     
   </label>
   <div
     className="col-md-4"
@@ -39,6 +41,7 @@ exports[`common Form should display validation errors if touched 1`] = `
     className="col-md-2 control-label"
   >
     my label
+     
   </label>
   <div
     className="col-md-4"
@@ -63,6 +66,7 @@ exports[`common Form should not display validation errors if not touched 1`] = `
     className="col-md-2 control-label"
   >
     my label
+     
   </label>
   <div
     className="col-md-4"
@@ -78,6 +82,7 @@ exports[`common Form should not display validation errors if there are none 1`] 
     className="col-md-2 control-label"
   >
     my label
+     
   </label>
   <div
     className="col-md-4"
@@ -93,13 +98,14 @@ exports[`common Form should render tooltip help 1`] = `
     className="col-md-2 control-label"
   >
     Required form field
-     *
     <FieldLevelHelp
       buttonClass=""
       content="This is a helpful tooltip"
       placement="top"
       rootClose={true}
     />
+     
+    *
   </label>
   <div
     className="col-md-4"

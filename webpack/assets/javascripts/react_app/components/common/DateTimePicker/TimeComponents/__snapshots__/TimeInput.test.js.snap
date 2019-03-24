@@ -58,6 +58,7 @@ exports[`TimeInput is working properly 1`] = `
           <td>
             <button
               class="btn btn-primary ampm-toggle"
+              type="button"
             >
               PM
             </button>

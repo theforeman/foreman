@@ -8,6 +8,7 @@ const TodayButton = ({ setSelected }) => (
       <tr>
         <td>
           <button
+            type="button"
             className="today-button"
             onClick={() => {
               if (setSelected) setSelected(new Date());

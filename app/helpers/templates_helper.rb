@@ -53,4 +53,31 @@ module TemplatesHelper
     keys.map!(&:to_s)
     TemplateInput::TYPES.select { |k, _| keys.include?(k.to_s) }.map { |key, name| [ _(name), key ] }
   end
+
+  def hide_resource_type_input(obj)
+    'hide' unless obj.value_type == 'search'
+  end
+
+  def mount_report_template_input(input_value)
+    return if input_value.nil?
+
+    input = input_value.template_input
+    controller = input.resource_type.tableize
+
+    mount_react_component('TemplateInput', "#template-input-#{input.id}", {
+      value: input_value.value.to_s,
+      required: input.required,
+      template: 'report_template_report',
+      description: input.description,
+      supportedTypes: TemplateInput::VALUE_TYPE,
+      resourceType: controller,
+      id: input.id,
+      useKeyShortcuts: false,
+      url: search_path(controller),
+      label: input.name,
+      type: input.value_type,
+      initialError: input_value.errors[:value].join("\n").presence,
+      resourceTypes: Hash[Permission.resources.map { |d| [d.tableize.to_s, d] }]
+    }.to_json)
+  end
 end

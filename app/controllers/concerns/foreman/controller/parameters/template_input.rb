@@ -4,7 +4,7 @@ module Foreman::Controller::Parameters::TemplateInput
   class_methods do
     def template_input_params_filter
       Foreman::ParameterFilter.new(::TemplateInput).tap do |filter|
-        filter.permit_by_context :id, :_destroy, :name, :required, :input_type, :fact_name,
+        filter.permit_by_context :id, :_destroy, :name, :required, :input_type, :fact_name, :resource_type, :value_type,
                                  :variable_name, :puppet_class_name, :puppet_parameter_name, :description, :template_id,
                                  :options, :advanced, :nested => true
       end

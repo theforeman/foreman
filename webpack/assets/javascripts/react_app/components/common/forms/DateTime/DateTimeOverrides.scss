@@ -1,0 +1,23 @@
+@import "~patternfly/dist/sass/patternfly/_color-variables.scss";
+@import "~patternfly/dist/sass/patternfly/_variables.scss";
+
+$screen-md:                  992px !default;
+$screen-md-min:              $screen-md !default;
+
+@import "~patternfly/dist/sass/patternfly/_time-picker.scss";
+
+.row > .datepicker > div {
+  display: block;
+}
+
+.bootstrap-datetimepicker-widget table td {
+  vertical-align: inherit;
+}
+
+.timepicker-picker tr:nth-child(2) td {
+  background-color: #def3ff !important;
+}
+
+.field-help {
+  margin-right: -5px;
+}
