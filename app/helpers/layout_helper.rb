@@ -26,11 +26,11 @@ module LayoutHelper
   end
 
   def current_organization
-    Organization&.current&.name
+    Organization&.current&.title
   end
 
   def current_location
-    Location&.current&.name
+    Location&.current&.title
   end
 
   def fetch_organizations
