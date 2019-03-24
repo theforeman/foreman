@@ -5,9 +5,9 @@
   "description": "Foreman isn't really a node module, these are just dependencies needed to build the webpack bundle. 'dependencies' are the asset libraries in use and 'devDependencies' are used for the build process.",
   "private": true,
   "devDependencies": {
-    "@storybook/addon-actions": "~3.4.11",
-    "@storybook/addon-knobs": "~3.4.11",
-    "@storybook/react": "~3.4.11",
+    "@storybook/addon-actions": "~3.4.12",
+    "@storybook/addon-knobs": "~3.4.12",
+    "@storybook/react": "~3.4.12",
     "@storybook/storybook-deployer": "^2.0.0",
     "argv-parse": "^1.0.1",
     "axios-mock-adapter": "^1.10.0",
