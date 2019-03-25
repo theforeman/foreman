@@ -10,10 +10,6 @@ class Xenserver < Operatingsystem
     "xenserver"
   end
 
-  def pxedir
-    ""
-  end
-
   def xen(medium_provider)
     bootfile(medium_provider, :xen)
   end

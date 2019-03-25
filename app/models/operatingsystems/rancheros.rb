@@ -13,10 +13,6 @@ class Rancheros < Operatingsystem
     PXEFILES[file]
   end
 
-  def pxedir
-    ''
-  end
-
   def display_family
     'RancherOS'
   end

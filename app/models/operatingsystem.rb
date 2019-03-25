@@ -217,6 +217,10 @@ class Operatingsystem < ApplicationRecord
     end
   end
 
+  def pxedir
+    ""
+  end
+
   def kernel(medium_provider)
     bootfile(medium_provider, :kernel)
   end
