@@ -105,7 +105,7 @@ module Api
         send_data @report_template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @report_template.filename
       end
 
-      api :POST, "/report_templates/:id/generate/", N_("Generate a report from template")
+      api :POST, "/report_templates/:id/generate/", N_("Generate report from a template")
       param :id, :identifier, :required => true
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
       param :gzip, :bool, desc: N_('Compress the report uzing gzip'), default_value: false
@@ -126,7 +126,7 @@ module Api
       api :POST, "/report_templates/:id/schedule_report/", N_("Schedule generating of a report")
       param :id, :identifier, :required => true
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
-      param :gzip, :bool, desc: N_('Compress the report uzing gzip')
+      param :gzip, :bool, desc: N_('Compress the report using gzip')
       returns :code => 200, :desc => "a successful response" do
         property :job_id, String, :desc => "An ID of job, which generates report. To be used with report_data API endpoint for report data retrieval."
         property :data_url, String, :desc => "An url to get resulting report from."
