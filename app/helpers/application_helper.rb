@@ -83,7 +83,7 @@ module ApplicationHelper
     date_id = generate_date_id
 
     content_tag(:span, '', :id => date_id).html_safe +
-    mount_react_component(component, "##{date_id}", { date: time.try(:iso8601), default: _('N/A'), seconds: seconds }.to_json, { :flatten_data => true })
+    mount_react_component(component, "##{date_id}", { date: time.try(:iso8601), defaultValue: _('N/A'), seconds: seconds }.to_json, { :flatten_data => true })
   end
 
   def contract(model)
