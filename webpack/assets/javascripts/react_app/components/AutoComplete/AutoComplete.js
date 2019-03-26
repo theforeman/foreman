@@ -224,7 +224,7 @@ AutoComplete.defaultProps = {
   getResults: noop,
   resetData: noop,
   initialUpdate: noop,
-  useKeyShortcuts: true,
+  useKeyShortcuts: false,
   placeholder: 'Filter ...',
   url: null,
 };
