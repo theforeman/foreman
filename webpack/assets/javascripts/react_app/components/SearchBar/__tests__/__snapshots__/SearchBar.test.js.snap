@@ -10,6 +10,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     id="some-id"
     initialQuery=""
     url="model/auto_complete_search"
+    useKeyShortcuts={true}
   />
   <div
     className="input-group-btn"

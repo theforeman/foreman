@@ -4,6 +4,7 @@ export const SearchBarProps = {
       searchQuery: null,
       url: 'model/auto_complete_search',
       id: 'some-id',
+      useKeyShortcuts: true,
     },
     bookmarks: {
       url: '/api/bookmarks',

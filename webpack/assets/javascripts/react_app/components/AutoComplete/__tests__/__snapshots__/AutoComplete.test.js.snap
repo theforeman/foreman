@@ -25,7 +25,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     ignoreDiacritics={true}
     inputProps={
       Object {
-        "className": "search-input use-shortcuts",
+        "className": "search-input",
         "data-autocomplete-id": "some-id",
         "spellCheck": "false",
       }
@@ -61,7 +61,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     onClear={[Function]}
   />
   <AutoCompleteFocusShortcut
-    useKeyShortcuts={true}
+    useKeyShortcuts={false}
   />
   <AutoCompleteError
     error={null}

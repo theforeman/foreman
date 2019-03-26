@@ -43,7 +43,7 @@ describe('AutoComplete', () => {
 
     it('pressing "forward-slash" should trigger focus', () => {
       const props = getProps();
-      const component = mount(<AutoComplete {...props} />);
+      const component = mount(<AutoComplete {...props} useKeyShortcuts />);
       const instance = component.instance();
       const typeahead = instance._typeahead.current.getInstance();
       typeahead.focus = jest.fn();

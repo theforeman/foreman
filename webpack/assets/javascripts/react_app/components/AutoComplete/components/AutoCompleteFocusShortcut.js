@@ -32,7 +32,7 @@ AutoCompleteFocusShortcut.propTypes = {
 };
 
 AutoCompleteFocusShortcut.defaultProps = {
-  useKeyShortcuts: true,
+  useKeyShortcuts: false,
 };
 
 export default AutoCompleteFocusShortcut;
