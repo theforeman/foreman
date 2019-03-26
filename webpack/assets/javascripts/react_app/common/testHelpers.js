@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 
+jest.useFakeTimers();
+
 export default {
   mockStorage: () => {
     const storage = {};
@@ -57,6 +59,30 @@ export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
     ({ description, component }) =>
       it(description, () => expect(toJson(component)).toMatchSnapshot())
   );
+
+const resolveDispatch = async (action, depth) => {
+  // if it is async action and we are allowed to go deeper
+  if (depth && typeof action === 'function') {
+    const dispatch = jest.fn();
+    await action(dispatch);
+    jest.runOnlyPendingTimers();
+
+    return Promise.all(
+      dispatch.mock.calls.map(call => resolveDispatch(call[0], depth - 1))
+    );
+  }
+  // else return the action itself
+  return action;
+};
+
+/**
+ * run an action (sync or async) and returns a call tree
+ * @param  {Function}  runAction  Action runner function
+ * @param  {Number} states the depth of dispatch calls
+ * @return calls result tree to the given depth - array for each branch of calls
+ */
+export const runActionInDepth = (runAction, depth = 1) =>
+  resolveDispatch(runAction(), depth);
 
 /**
  * run an action (sync or async) and except the results to much snapshot

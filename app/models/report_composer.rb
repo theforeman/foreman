@@ -30,12 +30,13 @@ class ReportComposer
     end
 
     def params
-      { :template_id => ui_params[:id],
-        :input_values => report_base_params[:input_values] }.with_indifferent_access
+      { template_id: ui_params[:id],
+        input_values: report_base_params[:input_values],
+        gzip: !!ui_params[:gzip] }.with_indifferent_access
     end
 
     def report_base_params
-      ui_params[:report_template_report] || {}.with_indifferent_access
+      (ui_params[:report_template_report] || {}).to_hash.with_indifferent_access
     end
   end
 
@@ -47,8 +48,12 @@ class ReportComposer
     end
 
     def params
-      { :template_id => api_params[:id],
-        :input_values => convert_input_names_to_ids(api_params[:id], api_params[:input_values] || {}) }.with_indifferent_access
+      { template_id:  api_params[:id],
+        input_values: convert_input_names_to_ids(
+          api_params[:id],
+          (api_params[:input_values] || {}).to_hash
+        ),
+        gzip: !!api_params[:gzip]}.with_indifferent_access
     end
 
     def convert_input_names_to_ids(template_id, input_values)
@@ -58,9 +63,9 @@ class ReportComposer
   end
 
   def initialize(params)
-    @params = params
-    @template = load_report_template(params[:template_id])
-    @input_values = build_inputs(@template, params[:input_values])
+    @params = params.with_indifferent_access
+    @template = load_report_template(@params[:template_id])
+    @input_values = build_inputs(@template, @params[:input_values])
   end
 
   def self.from_ui_params(ui_params)
@@ -83,6 +88,14 @@ class ReportComposer
     end
 
     inputs
+  end
+
+  def to_param
+    @params.to_param
+  end
+
+  def to_params
+    @params
   end
 
   def valid?
@@ -111,5 +124,33 @@ class ReportComposer
 
   def load_report_template(id)
     ReportTemplate.authorized(:generate_report_templates).find_by_id(id)
+  end
+
+  def gzip?
+    !!@params[:gzip]
+  end
+
+  def mime_type
+    gzip? ? :gzip : :text
+  end
+
+  def report_filename
+    name = @template.suggested_report_name.to_s
+    name += '.gz' if gzip?
+    name
+  end
+
+  def render(mode: Foreman::Renderer::REAL_MODE, **params)
+    @template.render(mode: mode, template_input_values: template_input_values, **params)
+  end
+
+  def render_to_store(result_key, mode: Foreman::Renderer::REAL_MODE, **params)
+    result = render(mode: mode, **params)
+    result = ActiveSupport::Gzip.compress(result) if gzip?
+    StoredValue.write(result_key, result, expire_at: Time.now + 1.day)
+  end
+
+  def stored_result(result_key)
+    StoredValue.read(result_key)
   end
 end

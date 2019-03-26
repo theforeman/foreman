@@ -331,6 +331,7 @@ Foreman::Application.routes.draw do
         get 'generate'
         post 'schedule_report'
         post 'preview'
+        get 'report_data'
       end
       collection do
         post 'preview'

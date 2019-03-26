@@ -1,6 +1,9 @@
 /* eslint-disable func-names */
 import $ from 'jquery';
 
+import store from './react_app/redux';
+import { actions as TemplateActions } from './react_app/components/TemplateGenerator';
+
 export function initTypeChanges() {
   // update the hidden input which serves as template
   // and also all existing inputs in case of editing
@@ -19,3 +22,11 @@ function updateVisibilityAfterInputTypeChange(select) {
   fieldset.find('div.custom_input_type_fields').hide();
   fieldset.find(`div.${select.val()}_input_type`).show();
 }
+
+export const generateTemplate = (url, templateInputData) => {
+  store.dispatch(TemplateActions.generateTemplate(url, templateInputData));
+};
+
+export const pollReportData = url => {
+  store.dispatch(TemplateActions.pollReportData(url));
+};

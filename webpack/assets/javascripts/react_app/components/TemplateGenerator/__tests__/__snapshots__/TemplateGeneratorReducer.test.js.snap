@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TemplateGenerator reducer handles TEMPLATE_GENERATE_FAILURE 1`] = `
+Object {
+  "dataUrl": null,
+  "generatingError": "some error",
+  "generatingErrorMessages": Array [
+    Object {
+      "message": "It did not went so well",
+    },
+  ],
+  "polling": false,
+  "scheduleInProgress": false,
+}
+`;
+
+exports[`TemplateGenerator reducer handles TEMPLATE_GENERATE_REQUEST 1`] = `
+Object {
+  "dataUrl": null,
+  "polling": false,
+  "scheduleInProgress": true,
+}
+`;
+
+exports[`TemplateGenerator reducer returns the initial state 1`] = `
+Object {
+  "dataUrl": null,
+  "polling": false,
+  "scheduleInProgress": false,
+}
+`;
+
+exports[`TemplateGenerator reducer should handle TEMPLATE_GENERATE_POLLING 1`] = `
+Object {
+  "dataUrl": "/some/poll/url/with/UNIQUE-ID",
+  "polling": true,
+  "scheduleInProgress": false,
+}
+`;
+
+exports[`TemplateGenerator reducer should handle TEMPLATE_GENERATE_SUCCESS 1`] = `
+Object {
+  "dataUrl": null,
+  "polling": false,
+  "scheduleInProgress": false,
+}
+`;

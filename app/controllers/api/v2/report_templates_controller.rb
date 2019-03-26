@@ -7,7 +7,8 @@ module Api
       wrap_parameters :report_template, :include => report_template_params_filter.accessible_attributes(parameter_filter_context)
 
       before_action :find_optional_nested_object
-      before_action :find_resource, :only => %w{show update destroy clone export generate}
+      before_action :find_resource, :only => %w{show update destroy clone export generate schedule_report report_data}
+      before_action :load_and_authorize_plan, only: 'report_data'
 
       api :GET, "/report_templates/", N_("List all report templates")
       api :GET, "/locations/:location_id/report_templates/", N_("List all report templates per location")
@@ -104,21 +105,71 @@ module Api
         send_data @report_template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @report_template.filename
       end
 
-      api :POST, "/report_templates/:id/generate/", N_("Generate a report template")
+      api :POST, "/report_templates/:id/generate/", N_("Generate report from a template")
       param :id, :identifier, :required => true
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
+      param :gzip, :bool, desc: N_('Compress the report uzing gzip'), default_value: false
 
       def generate
         @composer = ReportComposer.from_api_params(params)
         if @composer.valid?
-          response = @report_template.render(params: params, template_input_values: @composer.template_input_values)
-          send_data response, :filename => @report_template.suggested_report_name.to_s
+          response = @composer.render(params: params)
+          send_data response, type: @composer.mime_type, filename: @composer.report_filename
         else
           @report_template = @composer
           process_resource_error
         end
       rescue => e
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
+      end
+
+      api :POST, "/report_templates/:id/schedule_report/", N_("Schedule generating of a report")
+      param :id, :identifier, :required => true
+      param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
+      param :gzip, :bool, desc: N_('Compress the report using gzip')
+      returns :code => 200, :desc => "a successful response" do
+        property :job_id, String, :desc => "An ID of job, which generates report. To be used with report_data API endpoint for report data retrieval."
+        property :data_url, String, :desc => "An url to get resulting report from."
+      end
+      example <<-EXAMPLE
+      POST /api/report_templates/:id/schedule_report/
+      200
+      {
+        "job_id": UNIQUE-REPORT-GENERATING-JOB-UUID
+        "data_url": "/api/v2/report_templates/1/report_data/UNIQUE-REPORT-GENERATING-JOB-UUID"
+      }
+      EXAMPLE
+      description <<-DOC
+        The reports are generated asynchronously. Action returns an url to get resulting report from (see <b>report_data</b>).
+      DOC
+
+      def schedule_report
+        @composer = ReportComposer.from_api_params(params)
+        if @composer.valid?
+          job = TemplateRenderJob.perform_later(@composer.to_params, user_id: User.current.id)
+          render json: { job_id: job.provider_job_id, data_url: report_data_api_report_template_path(@report_template, job_id: job.provider_job_id) }
+        else
+          @report_template = @composer
+          process_resource_error
+        end
+      rescue => e
+        render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
+      end
+
+      api :GET, "/report_templates/:id/report_data/:job_id", N_("Return a generated report")
+      param :id, :identifier, required: true
+      param :job_id, String, required: true
+
+      def report_data
+        if @plan.progress < 1
+          head :no_content
+        elsif @plan.failure?
+          render json: { errors: @plan.errors }, status: :unprocessable_entity
+        else
+          data = @composer.stored_result(params[:job_id])
+          return not_found(_('Report data are not available, it has probably expired.')) unless data
+          send_data data, type: @composer.mime_type, filename: @composer.report_filename
+        end
       end
 
       private
@@ -129,11 +180,33 @@ module Api
             'create'
           when 'export'
             'view'
-          when 'generate'
+          when 'generate', 'schedule_report', 'report_data'
             'generate'
           else
             super
         end
+      end
+
+      def load_and_authorize_plan
+        @plan = load_dynflow_plan(params[:job_id])
+        return not_found(_('Report not found, please ensure you used the correct job_id')) if @plan.nil?
+        composer_attrs, options = plan_arguments(@plan)
+        if User.current.admin? || options['user_id'].to_i == User.current.id
+          @composer = ReportComposer.new(composer_attrs)
+        else
+          deny_access(_('Data are available only for the user who triggered the report and administrators'))
+        end
+      end
+
+      def load_dynflow_plan(plan_id)
+        Rails.application.dynflow.world.persistence.load_execution_plan(plan_id)
+      rescue => e
+        Foreman::Logging.exception 'Dynflow plan lookup failed', e
+        nil
+      end
+
+      def plan_arguments(plan)
+        plan.actions.first.input['job_data']['arguments']
       end
     end
   end

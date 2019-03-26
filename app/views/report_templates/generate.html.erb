@@ -8,7 +8,7 @@
   <%= alert(:class => 'alert-info',
             :header => _('Generating a report'),
             :text => ('<p>' +
-                (_('This will generate a report %s. Based on its definition, it can take a long time to process. This operation runs in the web process, therefore should be executed with caution. Triggering multiple reports can consume many resources and may result in other system functions unavailability.') % h(@template.name)) +
+                (_('This will generate a report %s. Based on its definition, it can take a long time to process.') % h(@template.name)) +
                 '</p>').html_safe) %>
 
   <%= f.fields_for :input_values do |input_values_fields| %>
