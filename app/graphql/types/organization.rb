@@ -4,7 +4,10 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: true
-    field :title, String, null: true
+    field :name, String
+    field :title, String
+
+    has_many :environments, Types::Environment
+    has_many :puppetclasses, Types::Puppetclass
   end
 end

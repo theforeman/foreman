@@ -2,7 +2,9 @@ require 'test_helper'
 
 class Queries::OrganizationQueryTest < ActiveSupport::TestCase
   test 'fetching organization attributes' do
-    organization = FactoryBot.create(:organization)
+    environment = FactoryBot.create(:environment)
+    FactoryBot.create(:puppetclass, :environments => [environment])
+    organization = FactoryBot.create(:organization, environments: [environment])
 
     query = <<-GRAPHQL
       query (
@@ -14,6 +16,22 @@ class Queries::OrganizationQueryTest < ActiveSupport::TestCase
           updatedAt
           name
           title
+          environments {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
+          puppetclasses {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
@@ -29,7 +47,27 @@ class Queries::OrganizationQueryTest < ActiveSupport::TestCase
         'createdAt' => organization.created_at.utc.iso8601,
         'updatedAt' => organization.updated_at.utc.iso8601,
         'name' => organization.name,
-        'title' => organization.title
+        'title' => organization.title,
+        'environments' => {
+          'totalCount' => organization.environments.count,
+          'edges' => organization.environments.sort_by(&:id).map do |env|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(env)
+              }
+            }
+          end
+        },
+        'puppetclasses' => {
+          'totalCount' => organization.puppetclasses.count,
+          'edges' => organization.puppetclasses.map do |puppetclass|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(puppetclass)
+              }
+            }
+          end
+        }
       }
     }
 

@@ -4,6 +4,6 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: true
+    field :name, String
   end
 end

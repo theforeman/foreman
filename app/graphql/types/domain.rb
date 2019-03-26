@@ -4,8 +4,8 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: true
-    field :fullname, String, null: true
+    field :name, String
+    field :fullname, String
 
     has_many :subnets, Types::Subnet, resolver: Resolvers::Domain::Subnets
   end

@@ -4,16 +4,16 @@ module Types
 
     global_id_field :id
     timestamps
-    field :login, String, null: false
-    field :admin, Boolean, null: false
-    field :mail, String, null: true
-    field :firstname, String, null: true
-    field :lastname, String, null: true
-    field :fullname, String, null: true
-    field :locale, Types::LocaleEnum, null: true
-    field :timezone, Types::TimezoneEnum, null: true
-    field :description, String, null: true
-    field :last_login_on, GraphQL::Types::ISO8601DateTime, null: true
+    field :login, String
+    field :admin, Boolean
+    field :mail, String
+    field :firstname, String
+    field :lastname, String
+    field :fullname, String
+    field :locale, Types::LocaleEnum
+    field :timezone, Types::TimezoneEnum
+    field :description, String
+    field :last_login_on, GraphQL::Types::ISO8601DateTime
 
     belongs_to :default_location, Types::Location
     belongs_to :default_organization, Types::Organization

@@ -2,7 +2,9 @@ require 'test_helper'
 
 class Queries::LocationQueryTest < ActiveSupport::TestCase
   test 'fetching location attributes' do
-    location = FactoryBot.create(:location)
+    environment = FactoryBot.create(:environment)
+    FactoryBot.create(:puppetclass, :environments => [environment])
+    location = FactoryBot.create(:location, environments: [environment])
 
     query = <<-GRAPHQL
       query (
@@ -14,6 +16,22 @@ class Queries::LocationQueryTest < ActiveSupport::TestCase
           updatedAt
           name
           title
+          environments {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
+          puppetclasses {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
@@ -29,7 +47,27 @@ class Queries::LocationQueryTest < ActiveSupport::TestCase
         'createdAt' => location.created_at.utc.iso8601,
         'updatedAt' => location.updated_at.utc.iso8601,
         'name' => location.name,
-        'title' => location.title
+        'title' => location.title,
+        'environments' => {
+          'totalCount' => location.environments.count,
+          'edges' => location.environments.sort_by(&:id).map do |env|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(env)
+              }
+            }
+          end
+        },
+        'puppetclasses' => {
+          'totalCount' => location.puppetclasses.count,
+          'edges' => location.puppetclasses.sort_by(&:id).map do |puppetclass|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(puppetclass)
+              }
+            }
+          end
+        }
       }
     }
 
