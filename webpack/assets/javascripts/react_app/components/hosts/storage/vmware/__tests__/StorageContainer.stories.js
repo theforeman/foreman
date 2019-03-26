@@ -1,39 +1,20 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Store from '../../../../redux';
-import StorageContainer from './index';
+import Store from '../../../../../redux';
+import StorageContainer from '../index';
 import * as VMWareData from './StorageContainer.fixtures';
-import { mockRequest } from '../../../../mockRequests';
-import Story from '../../../../../../../stories/components/Story';
+import { mockRequest } from '../../../../../mockRequests';
+import Story from '../../../../../../../../stories/components/Story';
 
 const initializeMocks = () => {
   mockRequest({
     url: '/api/v2/compute_resources/1/available_storage_domains',
-    response: {
-      results: [
-        {
-          name: 'MyDatastore',
-          id: 'datastore-608634',
-          capacity: 2199023255552,
-          freespace: 659551158272,
-          uncommitted: 4076735943455,
-        },
-      ],
-    },
+    response: VMWareData.storageDomainResponse,
   });
 
   mockRequest({
     url: '/api/v2/compute_resources/1/available_storage_pods',
-    response: {
-      results: [
-        {
-          name: 'MyStoragePod',
-          id: 'group-p859969',
-          capacity: 5497021267968,
-          freespace: 4829829136384,
-        },
-      ],
-    },
+    response: VMWareData.storagePodResponse,
   });
 };
 
