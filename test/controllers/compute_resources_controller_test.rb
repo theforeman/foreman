@@ -213,9 +213,10 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     end
 
     test 'should not refresh the cache if unsupported' do
-      put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
-      assert_redirected_to compute_resource_url(@compute_resource)
-      assert_match /Failed to refresh the cache/, flash[:error]
+      err = assert_raise Foreman::Exception do
+        put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
+      end
+      assert_match /Not implemented for Libvirt/, err.message
     end
   end
 

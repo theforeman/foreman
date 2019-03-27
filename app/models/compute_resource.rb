@@ -301,6 +301,10 @@ class ComputeResource < ApplicationRecord
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
+  def refresh_cache
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   # returs an array of translated errors that prevents to build a volume on this provider
   def new_volume_errors
     []
