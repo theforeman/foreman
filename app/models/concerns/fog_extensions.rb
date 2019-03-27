@@ -51,12 +51,11 @@ end
 
 if Foreman::Model::Vmware.available?
   require 'fog/vsphere'
-  require 'fog/vsphere/compute'
   require 'fog/vsphere/models/compute/server'
-  Fog::Compute::Vsphere::Server.send(:include, FogExtensions::Vsphere::Server)
+  Fog::Vsphere::Compute::Server.send(:include, FogExtensions::Vsphere::Server)
 
   require 'fog/vsphere/models/compute/folder'
-  Fog::Compute::Vsphere::Folder.send(:include, FogExtensions::Vsphere::Folder)
+  Fog::Vsphere::Compute::Folder.send(:include, FogExtensions::Vsphere::Folder)
 end
 
 if Foreman::Model::Rackspace.available?
