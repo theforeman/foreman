@@ -84,9 +84,9 @@ module ComputeResourcesVmsHelper
   end
 
   def available_actions(vm, authorizer = nil)
-    return default_available_actions(vm, authorizer) unless defined? Fog::Compute::OpenStack::Server
+    return default_available_actions(vm, authorizer) unless defined? Fog::OpenStack::Compute::Server
     case vm
-    when Fog::Compute::OpenStack::Server
+    when Fog::OpenStack::Compute::Server
       openstack_available_actions(vm, authorizer)
     else
       default_available_actions(vm, authorizer)
