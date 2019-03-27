@@ -7,6 +7,6 @@ module Types
     field :name, String, null: true
     field :fullname, String, null: true
 
-    has_many :subnets, Types::Subnet
+    has_many :subnets, Types::Subnet, resolver: Resolvers::Domain::Subnets
   end
 end

@@ -2,12 +2,15 @@ require 'test_helper'
 
 class Queries::DomainQueryTest < ActiveSupport::TestCase
   test 'fetching domain attributes' do
-    subnets = FactoryBot.create_list(:subnet_ipv4, 2)
-    domain = FactoryBot.create(:domain, subnets: subnets)
+    location = FactoryBot.create(:location)
+    expected_subnet = FactoryBot.create(:subnet_ipv4, locations: [location])
+    unexpected_subnet = FactoryBot.create(:subnet_ipv4, locations: [])
+    domain = FactoryBot.create(:domain, subnets: [expected_subnet, unexpected_subnet])
 
     query = <<-GRAPHQL
       query (
         $id: String!
+        $subnetsLocation: String!
       ) {
         domain(id: $id) {
           id
@@ -15,7 +18,7 @@ class Queries::DomainQueryTest < ActiveSupport::TestCase
           updatedAt
           name
           fullname
-          subnets {
+          subnets(location: $subnetsLocation) {
             totalCount
             edges {
               node {
@@ -28,7 +31,7 @@ class Queries::DomainQueryTest < ActiveSupport::TestCase
     GRAPHQL
 
     domain_global_id = Foreman::GlobalId.for(domain)
-    variables = { id: domain_global_id }
+    variables = { id: domain_global_id, subnetsLocation: location.name }
     context = { current_user: FactoryBot.create(:user, :admin) }
 
     result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
@@ -40,14 +43,14 @@ class Queries::DomainQueryTest < ActiveSupport::TestCase
         'name' => domain.name,
         'fullname' => domain.fullname,
         'subnets' => {
-          'totalCount' => domain.subnets.count,
-          'edges' => domain.subnets.map do |subnet|
+          'totalCount' => 1,
+          'edges' => [
             {
               'node' => {
-                'id' => Foreman::GlobalId.encode('Subnet', subnet.id)
+                'id' => Foreman::GlobalId.encode('Subnet', expected_subnet.id)
               }
             }
-          end
+          ]
         }
       }
     }
