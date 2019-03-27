@@ -90,8 +90,22 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   end
 
   context 'on gce' do
-    let(:compute_resource) { compute_resources(:gce) }
-    let(:vm) { compute_resource.vms.first }
+    let(:compute_resource) { FactoryBot.build(:gce_cr) }
+    let(:vm) do
+      # TODO - please remove this mock vm object
+      # once fog-google mocks are available
+      mock_vm = mock()
+      mock_vm.stubs(:identity).returns('test-google')
+      mock_vm.stubs(:vm_ip_address).returns('192.168.100.122')
+      mock_vm.stubs(:attributes).returns(
+        :identity => 'test-google',
+        :public_ip_address => '192.168.100.122',
+        :zone => 'foo'
+      )
+      compute_resource.stubs(:vms).returns([mock_vm])
+      compute_resource.stubs(:find_vm_by_uuid).returns(mock_vm)
+      mock_vm
+    end
 
     test 'imports the VM with all parameters' do
       assert_equal vm.identity, host.name
