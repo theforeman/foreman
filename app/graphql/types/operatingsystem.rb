@@ -4,9 +4,9 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: true
-    field :title, String, null: true
-    field :type, String, null: true
-    field :fullname, String, null: true
+    field :name, String
+    field :title, String
+    field :type, String
+    field :fullname, String
   end
 end

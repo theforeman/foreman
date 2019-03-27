@@ -4,22 +4,22 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: true
-    field :type, String, null: true
-    field :network, String, null: true
-    field :mask, String, null: true
-    field :priority, Int, null: true
-    field :vlanid, Int, null: true
-    field :gateway, String, null: true
-    field :dns_primary, String, null: true
-    field :dns_secondary, String, null: true
-    field :from, String, null: true
-    field :to, String, null: true
-    field :ipam, String, null: true
-    field :boot_mode, String, null: true
-    field :network_address, String, null: true
-    field :network_type, String, null: true
-    field :cidr, Int, null: true
+    field :name, String
+    field :type, String
+    field :network, String
+    field :mask, String
+    field :priority, Int
+    field :vlanid, Int
+    field :gateway, String
+    field :dns_primary, String
+    field :dns_secondary, String
+    field :from, String
+    field :to, String
+    field :ipam, String
+    field :boot_mode, String
+    field :network_address, String
+    field :network_type, String
+    field :cidr, Int
 
     has_many :domains, Types::Domain
   end

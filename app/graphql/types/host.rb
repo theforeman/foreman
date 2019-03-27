@@ -4,7 +4,7 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: false
+    field :name, String
 
     belongs_to :environment, Types::Environment
     belongs_to :model, Types::Model

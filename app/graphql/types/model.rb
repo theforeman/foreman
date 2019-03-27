@@ -4,10 +4,10 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: false
-    field :info, String, null: true
-    field :vendorClass, String, null: true
-    field :hardwareModel, String, null: true
+    field :name, String
+    field :info, String
+    field :vendorClass, String
+    field :hardwareModel, String
 
     has_many :hosts, Types::Host
   end

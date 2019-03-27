@@ -4,7 +4,7 @@ module Types
 
     global_id_field :id
     timestamps
-    field :value, String, null: true
+    field :value, String
 
     belongs_to :fact_name, Types::FactName
     belongs_to :host, Types::Host

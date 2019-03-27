@@ -13,6 +13,22 @@ class Queries::EnvironmentQueryTest < ActiveSupport::TestCase
           createdAt
           updatedAt
           name
+          locations {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
+          organizations {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
         }
       }
     GRAPHQL
@@ -27,7 +43,27 @@ class Queries::EnvironmentQueryTest < ActiveSupport::TestCase
         'id' => environment_global_id,
         'createdAt' => environment.created_at.utc.iso8601,
         'updatedAt' => environment.updated_at.utc.iso8601,
-        'name' => environment.name
+        'name' => environment.name,
+        'locations' => {
+          'totalCount' => environment.locations.count,
+          'edges' => environment.locations.sort_by(&:id).map do |location|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(location)
+              }
+            }
+          end
+        },
+        'organizations' => {
+          'totalCount' => environment.organizations.count,
+          'edges' => environment.organizations.sort_by(&:id).map do |organization|
+            {
+              'node' => {
+                'id' => Foreman::GlobalId.for(organization)
+              }
+            }
+          end
+        }
       }
     }
 

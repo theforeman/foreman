@@ -4,7 +4,7 @@ module Types
 
     global_id_field :id
     timestamps
-    field :name, String, null: false
-    field :admin, Boolean, null: false
+    field :name, String
+    field :admin, Boolean
   end
 end

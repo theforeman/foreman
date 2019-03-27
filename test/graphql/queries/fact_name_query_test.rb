@@ -44,7 +44,7 @@ class Queries::FactNameQueryTest < ActiveSupport::TestCase
           'edges' => fact_name.fact_values.map do |fv|
             {
               'node' => {
-                'id' => Foreman::GlobalId.for(fact_value)
+                'id' => Foreman::GlobalId.for(fv)
               }
             }
           end
