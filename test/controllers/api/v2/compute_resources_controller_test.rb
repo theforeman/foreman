@@ -192,7 +192,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
 
     test 'should fail if unsupported' do
       put :refresh_cache, params: { :id => compute_resources(:ovirt).to_param }
-      assert_response :unprocessable_entity
+      assert_response :error
     end
   end
 
