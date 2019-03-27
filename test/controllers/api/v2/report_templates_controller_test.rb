@@ -270,7 +270,8 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       post :schedule_report, params: { :id => report_template.id, mail_to: 'this@email.cz' }
       assert_response :success
       assert_equal 'application/json', response.content_type
-      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
+      refute JSON.parse(response.body).has_key?('data_url')
     end
   end
 

@@ -92,7 +92,7 @@ class ReportComposer
   end
 
   class MailToValidator < ActiveModel::EachValidator
-    MAIL_DELIMITER = ';'
+    MAIL_DELIMITER = ','
 
     def validate_each(model, attribute, value)
       return if value.empty?
@@ -105,6 +105,8 @@ class ReportComposer
       @mail_validator ||= EmailValidator.new(attributes: attributes)
     end
   end
+
+  attr_reader :template
 
   validates :mail_to, mail_to: true, if: :send_mail?
 

@@ -23,6 +23,14 @@ function updateVisibilityAfterInputTypeChange(select) {
   fieldset.find(`div.${select.val()}_input_type`).show();
 }
 
+export const toggleEmailFields = checkbox => {
+  const $checkbox = $(checkbox);
+  $checkbox
+    .closest('form')
+    .find('.email-fields')
+    .toggle($checkbox.is(':checked'));
+};
+
 export const generateTemplate = (url, templateInputData) => {
   store.dispatch(TemplateActions.generateTemplate(url, templateInputData));
 };

@@ -29,11 +29,15 @@
     <% end %>
   <% end %>
 
-  <%= checkbox_f f, :send_mail, label: _('Send report to e-mail') %>
-  <%= text_f f, :mail_to, {
-    label: _('Mail(s) to deliver report to'),
-    label_help: _('Values has to be valid e-mails delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER
-  %>
+  <%= checkbox_f f, :send_mail,
+    label: _('Send report via e-mail'),
+    label_help: _('By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser.'),
+    onchange: 'tfm.templateInputs.toggleEmailFields(this)' %>
+  <div class="email-fields" <%= display?(!@composer.send_mail?) %> >
+    <%= text_f f, :mail_to,
+      label: _('Deliver to e-mail addresses'),
+      label_help: _('Values has to be valid e-mails delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
+  </div>
 
   <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
 <% end %>

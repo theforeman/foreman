@@ -1,7 +1,9 @@
 class ReportMailer < ApplicationMailer
-  def report(mail_to, filename, report_result, opts = {})
-    attachments[filename] = report_result
+  def report(composer_params, report_result, opts = {})
+    @composer = ReportComposer.new(composer_params)
+    @start, @end = opts[:start], opts[:end]
+    attachments[@composer.report_filename] = report_result
 
-    mail(to: mail_to, subject: opts[:subject] || _('Report result'))
+    mail(to: @composer.mail_to, subject: opts[:subject] || _('Result of report %s') % @composer.template&.name.to_s)
   end
 end
