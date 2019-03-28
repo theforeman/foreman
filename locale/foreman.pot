@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-12 16:32+0200\n"
-"PO-Revision-Date: 2019-02-12 16:32+0200\n"
+"POT-Creation-Date: 2019-03-28 12:01+0200\n"
+"PO-Revision-Date: 2019-03-28 12:01+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -6146,9 +6146,7 @@ msgid "Removing compute instance %s"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/compute.rb:84
-msgid ""
-"Failed to find compute attributes, please check if VM %{name} was deleted: %{m"
-"essage}"
+msgid "Failed to find compute attributes, please check if VM %s was deleted"
 msgstr ""
 
 #: ../app/models/concerns/orchestration/compute.rb:92
@@ -6857,13 +6855,13 @@ msgid "Operating system version already exists"
 msgstr ""
 
 #: ../app/models/operatingsystem.rb:200 ../app/models/operatingsystem.rb:213
-#: ../app/models/operatingsystem.rb:230
+#: ../app/models/operatingsystem.rb:234
 msgid ""
 "Please provide a medium provider. It can be found as @medium_provider in templ"
 "ates, or Foreman::Plugin.medium_providers.find_provider(host)"
 msgstr ""
 
-#: ../app/models/operatingsystem.rb:266
+#: ../app/models/operatingsystem.rb:270
 msgid ""
 "Attempting to construct an operating system image filename but %s cannot be bu"
 "ilt from an image"

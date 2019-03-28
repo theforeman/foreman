@@ -16,6 +16,7 @@
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Martin Zimmermann <martin.zimmermann@gmx.com>, 2018
+# Oliver Freyermuth <o.freyermuth@googlemail.com>, 2019
 # Paul Puschmann, 2013
 # abf90805572190d649c59f7a021d76cb, 2013-2014
 # ppuschmann, 2013
@@ -33,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-01-10 21:01+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-03-23 02:44+0000\n"
+"Last-Translator: Oliver Freyermuth <o.freyermuth@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -581,7 +582,7 @@ msgid "Additional information about this host"
 msgstr "Weitere Informationen über diesen Host"
 
 msgid "Address to connect to"
-msgstr ""
+msgstr "Adresse zum Verbinden"
 
 msgid "Admin permissions required"
 msgstr "Administratorberechtigungen erdorderlich"
@@ -713,10 +714,10 @@ msgid "An error occured."
 msgstr "Fehler aufgetreten."
 
 msgid "An interface marked as primary is missing"
-msgstr ""
+msgstr "Eine als primär markierte Schnittstelle fehlt"
 
 msgid "An interface marked as provision is missing"
-msgstr ""
+msgstr "Eine zur Bereitstellung markierte Schnittstelle fehlt"
 
 msgid "An invalid response was received while requesting available features from this proxy"
 msgstr "Eine ungültige Antwort wurde empfangen während die verfügbaren Features dieses Proxy abgerufen wurden"
@@ -1092,7 +1093,7 @@ msgid "BMC"
 msgstr "BMC"
 
 msgid "BMC credentials access"
-msgstr ""
+msgstr "BMC-Anmeldedatenzugriff"
 
 msgid "BMC password usage"
 msgstr ""
@@ -1236,7 +1237,7 @@ msgid "CPU hot add lets you add CPU resources for a virtual machine while the ma
 msgstr "CPU Hot-Add lässt Sie CPU-Ressourcen für eine virtuelle Maschine hinzufügen, während die Maschine eingeschaltet ist."
 
 msgid "CPU mode"
-msgstr ""
+msgstr "CPU Modus"
 
 msgid "CPUs"
 msgstr "CPUs"
@@ -3610,7 +3611,7 @@ msgid "Host audit entries"
 msgstr "Hostaudit-Einträge"
 
 msgid "Host built"
-msgstr ""
+msgstr "Host gebaut"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Host config group"
@@ -6573,7 +6574,7 @@ msgid "Plugins"
 msgstr "Plugins"
 
 msgid "Port to connect to"
-msgstr ""
+msgstr "Port zum Verbinden"
 
 msgid "Possible values"
 msgstr "Mögliche Werte"
@@ -8261,7 +8262,7 @@ msgid "Template input"
 msgstr "Vorlageneingabe"
 
 msgid "Template inputs"
-msgstr ""
+msgstr "Vorlageneingaben"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template kind"
@@ -8895,7 +8896,7 @@ msgid "Type"
 msgstr "Typ"
 
 msgid "Type of name generator"
-msgstr ""
+msgstr "Typ des Namensgenerators"
 
 msgid "Type of realm, e.g. FreeIPA"
 msgstr "Art des Realms, z.B. FreeIPA"
@@ -10871,7 +10872,7 @@ msgid "virtual attached to %s"
 msgstr "virtuell angeschlossen an %s"
 
 msgid "was not found"
-msgstr ""
+msgstr "wurde nicht gefunden"
 
 msgid "with given ID not found"
 msgstr ""

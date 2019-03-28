@@ -2949,7 +2949,7 @@ msgstr ""
 msgid "Failed to fetch: "
 msgstr ""
 
-msgid "Failed to find compute attributes, please check if VM %{name} was deleted: %{message}"
+msgid "Failed to find compute attributes, please check if VM %s was deleted"
 msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
