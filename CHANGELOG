@@ -1,3 +1,41 @@
+2019-03-28	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.1
+	* i18n - extracting new, pulling from tx
+
+2019-03-27	Shira Maximov <mshira@redhat.com>
+	* Fixes #26450 - add destroy rabl for compute resource
+
+2019-03-26	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #26441 - default value for React datetime
+
+2019-03-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26154 - implement pxedir method for operatingsystem base
+
+2019-03-24	Gilad Lekner <gilad215@gmail.com>
+	* fixes #26394 - fix layout crash w/nested taxonomies
+
+2019-03-21	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #26423 - pin fog-vsphere to <3.0 (#6601)
+	* Fixes #26405 - Disable implicit puppetclass taxonomy search (#6591)
+
+2019-03-19	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #26344 - Skip nested associations during taxonomy seed (#6587)
+
+2019-03-18	Jan Düpmeier <j.duepmeier@googlemail.com>
+	* Fixes #24396 - Wrong search on alert-disabled hosts
+
+2019-03-18	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #26260 - Mass assign discovered hosts to seeded taxonomies (#6546)
+
+2019-03-11	Vitaly Pyslar <vpyslar@ivi.ru>
+	* Fixes #25476 - downgrade fog-openstack to 0.2.0
+
+2019-03-06	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #26209 - undefined method 'e' in compute
+
+2019-03-04	Timo Goebel <mail@timogoebel.name>
+	* fixes #26197 - boot_filename for host without subnet
+
 2019-02-26	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.21.0
 	* Fixes #26113 - Show timestamp in proxy log pane
