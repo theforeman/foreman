@@ -18,6 +18,7 @@ module Foreman::Controller::Parameters::HostBase
         :overwrite,
         :provider,
         :root_pass,
+        :root_pass_confirmation,
         :start,
         :type,
         :pxe_loader,

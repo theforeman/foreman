@@ -23,7 +23,7 @@ class Hostgroup < ApplicationRecord
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many :hostgroup_classes
   has_many :puppetclasses, :through => :hostgroup_classes, :dependent => :destroy
-  validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}
+  validates :root_pass, :allow_blank => true, :length => {:minimum => 8, :message => _('should be 8 characters or more')}, :confirmation => true
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators

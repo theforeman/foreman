@@ -11,6 +11,7 @@ module Foreman::Controller::Parameters::Hostgroup
         filter.permit :name,
           :description,
           :root_pass,
+          :root_pass_confirmation,
           :title,
           :vm_defaults,
           :pxe_loader,
