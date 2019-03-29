@@ -31,6 +31,22 @@ class Queries::ComputeResourceQueryTest < GraphQLQueryTestCase
               }
             }
           }
+          networks {
+            totalCount
+            edges {
+              node {
+                __typename
+                ... on Vmware {
+                  id
+                  name
+                  virtualswitch
+                  datacenter
+                  accessible
+                  vlanid
+                }
+              }
+            }
+          }
         }
       }
     GRAPHQL
@@ -44,12 +60,14 @@ class Queries::ComputeResourceQueryTest < GraphQLQueryTestCase
   let(:data) { result['data']['computeResource'] }
 
   setup do
+    Queries::AuthorizedModelQuery.any_instance.expects(:find_by_global_id).returns(compute_resource)
+    Fog.mock!
     FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource)
   end
 
-  test 'fetching compute resource attributes' do
-    Queries::AuthorizedModelQuery.any_instance.expects(:find_by_global_id).returns(compute_resource)
+  teardown { Fog.unmock! }
 
+  test 'fetching compute resource attributes' do
     assert_empty result['errors']
 
     assert_equal global_id, data['id']
@@ -63,5 +81,22 @@ class Queries::ComputeResourceQueryTest < GraphQLQueryTestCase
 
     assert_collection compute_resource.compute_attributes, data['computeAttributes']
     assert_collection compute_resource.hosts, data['hosts'], type_name: 'Host'
+  end
+
+  test 'fetching compute resource VMWare networks' do
+    assert compute_resource.networks.any?
+    assert_equal compute_resource.networks.count, data['networks']['totalCount']
+    assert_same_elements compute_resource.networks.map(&:id), data['networks']['edges'].map { |e| e['node']['id'] }
+
+    network = compute_resource.networks.first
+    edge = data['networks']['edges'].find { |e| e['node']['id'] == network.id }['node']
+
+    assert_equal 'Vmware', edge['__typename']
+    assert_equal network.id, edge['id']
+    assert_equal network.name, edge['name']
+    assert_equal network.virtualswitch, edge['virtualswitch']
+    assert_equal network.datacenter, edge['datacenter']
+    assert_equal network.accessible, edge['accessible']
+    assert_equal network.vlanid, edge['vlanid']
   end
 end
