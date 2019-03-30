@@ -31,11 +31,12 @@ module Types
         else
           field name, type,
             resolve: (proc do |object|
-              foreign_key ||= object.class.reflect_on_association(name)&.foreign_key
-              raise "Could not determine foreign key for #{name}" unless foreign_key
-              RecordLoader.for(type.model_class).load(object.send(foreign_key))
-            end),
-            **kwargs.except(:resolver, :foreign_key)
+                        reflection = object.class.reflect_on_association(name)
+                        foreign_key ||= reflection.foreign_key
+                        target_class = (reflection&.polymorphic?) ? object.public_send(reflection.foreign_type).constantize : type.model_class
+                        RecordLoader.for(target_class).load(object.send(foreign_key))
+                      end),
+          **kwargs.except(:resolver, :foreign_key)
         end
       end
 

@@ -13,6 +13,7 @@ module Queries
           updatedAt
           name
           build
+          managed
           ip
           ip6
           path
@@ -26,6 +27,9 @@ module Queries
             id
           }
           computeResource {
+            id
+          }
+          computeProfile {
             id
           }
           architecture {
@@ -61,6 +65,15 @@ module Queries
           hostgroup {
             id
           }
+          subnet {
+            id
+          }
+          owner {
+            ... on User {
+              id
+              login
+            }
+          }
           factNames {
             totalCount
             edges {
@@ -83,15 +96,20 @@ module Queries
     end
 
     let(:hostgroup) { FactoryBot.create(:hostgroup, :with_compute_resource) }
+    let(:owner) { FactoryBot.create(:user) }
     let(:host) do
       FactoryBot.create(:host, :managed,
+                        :dualstack,
                         :with_environment,
                         :with_model,
                         :with_facts,
                         :with_puppet,
                         :with_puppet_ca,
+                        :on_compute_resource,
+                        :with_compute_profile,
                         hostgroup: hostgroup,
                         uuid: Foreman.uuid,
+                        owner: owner,
                         last_report: Time.now)
     end
     let(:global_id) { Foreman::GlobalId.encode('Host', host.id) }
@@ -105,6 +123,7 @@ module Queries
       assert_equal host.updated_at.utc.iso8601, data['updatedAt']
       assert_equal host.name, data['name']
       assert_equal host.build, data['build']
+      assert_equal host.managed, data['managed']
       assert_equal host.ip, data['ip']
       assert_equal host.ip6, data['ip6']
       assert_equal Rails.application.routes.url_helpers.host_path(host), data['path']
@@ -128,6 +147,11 @@ module Queries
       assert_record host.puppet_proxy, data['puppetProxy']
       assert_record host.medium, data['medium']
       assert_record host.hostgroup, data['hostgroup']
+      assert_record host.subnet, data['subnet'], type_name: 'Subnet'
+      assert_record host.owner, data['owner']
+      assert_record host.compute_profile, data['computeProfile']
+
+      assert_equal host.owner.login, data['owner']['login']
 
       assert_collection host.fact_names, data['factNames']
       assert_collection host.fact_values, data['factValues']

@@ -143,7 +143,7 @@ module Api
 
         forward_request_url
         process_response @host.save
-      rescue InterfaceTypeMapper::UnknownTypeExeption => e
+      rescue InterfaceTypeMapper::UnknownTypeException => e
         render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
       end
 
@@ -159,7 +159,7 @@ module Api
         apply_compute_profile(@host) if (params[:host] && params[:host][:compute_attributes].present?) || @host.compute_profile_id_changed?
 
         process_response @host.save
-      rescue InterfaceTypeMapper::UnknownTypeExeption => e
+      rescue InterfaceTypeMapper::UnknownTypeException => e
         render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => e.to_s }
       end
 

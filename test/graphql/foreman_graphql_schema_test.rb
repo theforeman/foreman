@@ -40,6 +40,14 @@ class ForemanGraphqlSchemaTest < ActiveSupport::TestCase
       assert_equal 'Subnet', type&.graphql_name
     end
 
+    test 'resolves the type for a Compute Resource' do
+      compute_resource = FactoryBot.build_stubbed(:vmware_cr)
+      assert_kind_of ::Foreman::Model::Vmware, compute_resource
+      assert_kind_of ::ComputeResource, compute_resource
+      type = schema.resolve_type(nil, compute_resource, nil)
+      assert_equal 'ComputeResource', type&.graphql_name
+    end
+
     test 'resolves the type for Model' do
       model = FactoryBot.build_stubbed(:model)
       assert_kind_of ::Model, model

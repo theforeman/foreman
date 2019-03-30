@@ -22,7 +22,7 @@ class InterfaceTypeMapperTest < ActiveSupport::TestCase
   end
 
   test "it raises exception on unknown name" do
-    assert_raises InterfaceTypeMapper::UnknownTypeExeption do
+    assert_raises InterfaceTypeMapper::UnknownTypeException do
       @mapper.map("unknown")
     end
   end
