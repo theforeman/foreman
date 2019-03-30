@@ -8,6 +8,7 @@ module Types
     timestamps
     field :name, String
     field :build, Boolean
+    field :managed, Boolean
     field :ip, String
     field :ip6, String
     field :path, resolver: Resolvers::Host::Path
@@ -31,6 +32,9 @@ module Types
     belongs_to :puppet_proxy, Types::SmartProxy
     belongs_to :medium, Types::Medium
     belongs_to :hostgroup, Types::Hostgroup
+    belongs_to :owner, Types::UserOrUsergroupUnion
+    belongs_to :subnet, Types::Subnet
+    belongs_to :compute_profile, Types::ComputeProfile
     has_many :fact_names, Types::FactName
     has_many :fact_values, Types::FactValue
   end

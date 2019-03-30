@@ -65,7 +65,7 @@ module Mutations
                  end
 
         {
-          resource_class.name.downcase => resource,
+          result_key => resource,
           errors: errors
         }
       end
@@ -78,6 +78,13 @@ module Mutations
           message: message
         }
       end
+    end
+
+    def result_key
+      keys = self.class.fields.select { |field_name, field| field.owner == self.class }.keys.map(&:to_sym)
+      raise GraphQL::ExecutionError.new("Could not detect result key for #{self.class}. Did you define a result field for the mutation?") unless keys.any?
+      raise GraphQL::ExecutionError.new("Could not detect result key for #{self.class}. Possible values are #{keys.to_sentence}.") if keys.size > 1
+      keys.first
     end
   end
 end

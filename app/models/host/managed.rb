@@ -838,17 +838,17 @@ class Host::Managed < Host::Base
     host_params[key] || host_params[key.downcase] || Setting[key]
   end
 
+  # Permissions introduced by plugins for this class can cause resource <-> permission
+  # names mapping to fail randomly so as a safety precaution, we specify the name more explicitly.
+  def permission_name(action)
+    "#{action}_hosts"
+  end
+
   private
 
   def update_os_from_facts
     operatingsystem.architectures << architecture if operatingsystem && architecture && !operatingsystem.architectures.include?(architecture)
     self.medium = nil if medium&.operatingsystems&.exclude?(operatingsystem)
-  end
-
-  # Permissions introduced by plugins for this class can cause resource <-> permission
-  # names mapping to fail randomly so as a safety precaution, we specify the name more explicitly.
-  def permission_name(action)
-    "#{action}_hosts"
   end
 
   def compute_profile_present?
