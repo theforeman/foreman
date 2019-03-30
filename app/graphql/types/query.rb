@@ -15,6 +15,8 @@ module Types
     field :node, field: GraphQL::Relay::Node.field
     field :nodes, field: GraphQL::Relay::Node.plural_field
 
+    field :currentUser, Types::User, null: true, resolver: Resolvers::User::Current
+
     record_field :model, Types::Model
     collection_field :models, Types::Model
 
