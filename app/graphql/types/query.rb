@@ -74,5 +74,8 @@ module Types
 
     record_field :compute_attribute, Types::ComputeAttribute
     collection_field :compute_attributes, Types::ComputeAttribute
+
+    record_field :medium, Types::Medium
+    collection_field :media, Types::Medium
   end
 end

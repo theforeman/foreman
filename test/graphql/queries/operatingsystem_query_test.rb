@@ -14,7 +14,16 @@ class Queries::OperatingsystemQueryTest < GraphQLQueryTestCase
           title
           type
           fullname
+          family
           hosts {
+            totalCount
+            edges {
+              node {
+                id
+              }
+            }
+          }
+          media {
             totalCount
             edges {
               node {
@@ -28,7 +37,8 @@ class Queries::OperatingsystemQueryTest < GraphQLQueryTestCase
   end
 
   let(:hosts) { FactoryBot.create_list(:host, 2) }
-  let(:operatingsystem) { FactoryBot.create(:operatingsystem, hosts: hosts) }
+  let(:medium) { FactoryBot.create(:medium) }
+  let(:operatingsystem) { FactoryBot.create(:operatingsystem, family: 'Redhat', hosts: hosts, media: [medium]) }
 
   let(:global_id) { Foreman::GlobalId.for(operatingsystem) }
   let(:variables) {{ id: global_id }}
@@ -44,7 +54,9 @@ class Queries::OperatingsystemQueryTest < GraphQLQueryTestCase
     assert_equal operatingsystem.title, data['title']
     assert_equal operatingsystem.type, data['type']
     assert_equal operatingsystem.fullname, data['fullname']
+    assert_equal operatingsystem.family, data['family']
 
     assert_collection operatingsystem.hosts, data['hosts'], type_name: 'Host'
+    assert_collection operatingsystem.media, data['media']
   end
 end
