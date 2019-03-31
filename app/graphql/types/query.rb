@@ -39,6 +39,9 @@ module Types
     record_field :personal_access_token, Types::PersonalAccessToken
     collection_field :personal_access_tokens, Types::PersonalAccessToken
 
+    record_field :ptable, Types::Ptable
+    collection_field :ptables, Types::Ptable
+
     record_field :ssh_key, Types::SshKey
     collection_field :ssh_keys, Types::SshKey
 

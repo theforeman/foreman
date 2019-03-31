@@ -30,6 +30,9 @@ class Queries::HostQueryTest < GraphQLQueryTestCase
           architecture {
             id
           }
+          ptable {
+            id
+          }
           domain {
             id
           }
@@ -105,6 +108,7 @@ class Queries::HostQueryTest < GraphQLQueryTestCase
     assert_record host.environment, data['environment']
     assert_record host.compute_resource, data['computeResource'], type_name: 'ComputeResource'
     assert_record host.architecture, data['architecture']
+    assert_record host.ptable, data['ptable']
     assert_record host.domain, data['domain']
     assert_record host.location, data['location']
     assert_record host.model, data['model']
