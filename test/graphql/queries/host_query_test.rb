@@ -48,6 +48,9 @@ class Queries::HostQueryTest < GraphQLQueryTestCase
           puppetProxy {
             id
           }
+          medium {
+            id
+          }
           factNames {
             totalCount
             edges {
@@ -111,6 +114,7 @@ class Queries::HostQueryTest < GraphQLQueryTestCase
     assert_record host.operatingsystem, data['operatingsystem']
     assert_record host.puppet_ca_proxy, data['puppetCaProxy']
     assert_record host.puppet_proxy, data['puppetProxy']
+    assert_record host.medium, data['medium']
 
     assert_collection host.fact_names, data['factNames']
     assert_collection host.fact_values, data['factValues']

@@ -25,6 +25,7 @@ module Types
     belongs_to :operatingsystem, Types::Operatingsystem
     belongs_to :puppet_ca_proxy, Types::SmartProxy
     belongs_to :puppet_proxy, Types::SmartProxy
+    belongs_to :medium, Types::Medium
     has_many :fact_names, Types::FactName
     has_many :fact_values, Types::FactValue
   end
