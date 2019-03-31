@@ -50,6 +50,9 @@ module Types
     record_field :host, Types::Host
     collection_field :hosts, Types::Host
 
+    record_field :hostgroup, Types::Hostgroup
+    collection_field :hostgroups, Types::Hostgroup
+
     record_field :architecture, Types::Architecture
     collection_field :architectures, Types::Architecture
 

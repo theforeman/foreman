@@ -4,7 +4,7 @@ module Queries
   class HostQueryTest < GraphQLQueryTestCase
     let(:query) do
       <<-GRAPHQL
-      query (
+    query (
         $id: String!
       ) {
         host(id: $id) {
@@ -40,6 +40,9 @@ module Queries
           location {
             id
           }
+          organization {
+            id
+          }
           model {
             id
           }
@@ -53,6 +56,9 @@ module Queries
             id
           }
           medium {
+            id
+          }
+          hostgroup {
             id
           }
           factNames {
@@ -89,7 +95,7 @@ module Queries
                         last_report: Time.now)
     end
     let(:global_id) { Foreman::GlobalId.encode('Host', host.id) }
-    let(:variables) { { id: Foreman::GlobalId.encode('Host', host.id) } }
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['host'] }
 
     test 'fetching host attributes' do
@@ -116,10 +122,12 @@ module Queries
       assert_record host.domain, data['domain']
       assert_record host.location, data['location']
       assert_record host.model, data['model']
+      assert_record host.organization, data['organization']
       assert_record host.operatingsystem, data['operatingsystem']
       assert_record host.puppet_ca_proxy, data['puppetCaProxy']
       assert_record host.puppet_proxy, data['puppetProxy']
       assert_record host.medium, data['medium']
+      assert_record host.hostgroup, data['hostgroup']
 
       assert_collection host.fact_names, data['factNames']
       assert_collection host.fact_values, data['factValues']
