@@ -5,8 +5,6 @@ module Queries
       @user = user
     end
 
-    delegate :find_by, to: :authorized_scope
-
     def results(params = {})
       if params[:search].present?
         authorized_scope.search_for(*search_options(params))
@@ -15,11 +13,6 @@ module Queries
       else
         authorized_scope.all
       end
-    end
-
-    def find_by_global_id(global_id)
-      id = Foreman::GlobalId.decode(global_id).last
-      find_by(id: id)
     end
 
     private

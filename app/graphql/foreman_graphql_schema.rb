@@ -17,8 +17,7 @@ class ForemanGraphqlSchema < GraphQL::Schema
 
     return unless model_class
 
-    Queries::AuthorizedModelQuery.new(model_class: model_class, user: query_ctx[:current_user])
-      .find_by(id: item_id)
+    RecordLoader.for(model_class).load(item_id.to_i)
   end
 
   def self.resolve_type(_, obj, _)

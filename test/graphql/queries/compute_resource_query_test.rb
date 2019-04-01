@@ -60,7 +60,7 @@ class Queries::ComputeResourceQueryTest < GraphQLQueryTestCase
   let(:data) { result['data']['computeResource'] }
 
   setup do
-    Queries::AuthorizedModelQuery.any_instance.expects(:find_by_global_id).returns(compute_resource)
+    RecordLoader.any_instance.expects(:load_by_global_id).returns(compute_resource)
     Fog.mock!
     FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource)
   end

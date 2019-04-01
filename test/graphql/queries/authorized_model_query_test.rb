@@ -1,37 +1,6 @@
 require 'test_helper'
 
 class Queries::AuthorizedModelQueryTest < GraphQLQueryTestCase
-  describe '#find_by' do
-    let(:host) do
-      as_admin { FactoryBot.create(:host) }
-    end
-
-    test 'does not return record for missing user' do
-      result = Queries::AuthorizedModelQuery.new(model_class: Host::Managed, user: nil)
-        .find_by(id: host.id)
-
-      assert_nil result
-    end
-
-    test 'does not return record for not authorized user' do
-      user = as_admin { FactoryBot.create(:user) }
-
-      result = Queries::AuthorizedModelQuery.new(model_class: Host::Managed, user: user)
-                                            .find_by(id: host.id)
-
-      assert_nil result
-    end
-
-    test 'returns record for authorized user' do
-      user = as_admin { setup_user 'view', 'hosts' }
-
-      result = Queries::AuthorizedModelQuery.new(model_class: Host::Managed, user: user)
-                                            .find_by(id: host.id)
-
-      assert_equal host, result
-    end
-  end
-
   describe '#results' do
     test 'does not return records for missing user' do
       as_admin { FactoryBot.create(:host) }

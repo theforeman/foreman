@@ -36,23 +36,31 @@ module Types
         end
       end
 
-      def model_class
-        "::#{self.to_s.demodulize}".safe_constantize
+      def model_class(new_model_class = nil)
+        if new_model_class
+          @model_class = new_model_class
+        else
+          @model_class ||= "::#{self.to_s.demodulize}".safe_constantize
+        end
       end
 
       private
 
-      def nullable?(attribute)
-        return false if model_class.columns_hash[attribute.to_s]&.null == false
+      def attribute_required?(attribute)
+        return true if model_class.columns_hash[attribute.to_s]&.null == false
 
-        return false if model_class.validators_on(attribute).find do |v|
-          v.is_a?(ActiveModel::Validations::PresenceValidator) && v.options.none? { |o| [:if, :unless].include?(o) }
+        return true if model_class.validators_on(attribute).find do |validator|
+          validator.is_a?(ActiveModel::Validations::PresenceValidator) && ([:if, :unless] & validator.options.keys).none?
         end
 
         reflection = model_class.reflect_on_association(attribute)
-        return false if reflection && reflection.macro == :belongs_to && nullable?(reflection.foreign_key)
+        return true if reflection && reflection.macro == :belongs_to && attribute_required?(reflection.foreign_key)
 
-        true
+        false
+      end
+
+      def nullable?(attribute)
+        !attribute_required?(attribute)
       end
     end
   end
