@@ -109,11 +109,35 @@ module Hostext
         end
         key_name = User.connection.quote_column_name(clean_key)
         condition = sanitize_sql_for_conditions(["#{key_name} #{operator} ?", value_to_sql(operator, value)])
-        users = User.where(condition)
-        hosts = users.map(&:hosts).flatten
-        opts  = hosts.empty? ? "< 0" : "IN (#{hosts.map(&:id).join(',')})"
 
-        {:conditions => " hosts.id #{opts} " }
+        user_ids = User.where(condition).reorder(nil).pluck(:id)
+
+        return { conditions: '1 = 0' } if user_ids.empty?
+
+        usergroup_ids = CachedUsergroupMember.where(user_id: user_ids)
+                                             .reorder(nil)
+                                             .distinct
+                                             .pluck(:usergroup_id)
+
+        sql = <<-SQL
+          hosts.owner_id IS NOT NULL
+            AND
+          (
+            (
+              hosts.owner_type = 'User'
+                AND
+              hosts.owner_id IN (?)
+            )
+              OR
+            (
+              hosts.owner_type = 'Usergroup'
+                AND
+              hosts.owner_id IN (?)
+            )
+          )
+        SQL
+
+        { conditions: sanitize_sql_array([sql, user_ids, usergroup_ids]) }
       end
 
       def search_by_puppetclass(key, operator, value)
