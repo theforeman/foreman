@@ -10,10 +10,12 @@ module Resolvers
         includes = [:domains]
         includes << { taxable_taxonomies: :taxonomy } if args[:location]
 
-        scope = ::Subnet.includes(includes)
-                        .where(domains: { id: object.id })
-                        .try { |query| args[:location] ? query.where(taxonomies: { type: 'Location', name: args[:location] }) : query }
-                        .try { |query| args[:type] ? query.where(type: args[:type]) : query }
+        scope = lambda do |scope|
+          scope.includes(includes)
+            .where(domains: { id: object.id })
+            .try { |query| args[:location] ? query.where(taxonomies: { type: 'Location', name: args[:location] }) : query }
+            .try { |query| args[:type] ? query.where(type: args[:type]) : query }
+        end
 
         CollectionLoader.for(object.class, :subnets, scope).load(object)
       end

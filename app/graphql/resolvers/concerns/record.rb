@@ -10,10 +10,7 @@ module Resolvers
       end
 
       def resolve(id:)
-        Queries::AuthorizedModelQuery.new(
-          model_class: self.class::MODEL_CLASS,
-          user: context[:current_user]
-        ).find_by_global_id(id)
+        RecordLoader.for(self.class::MODEL_CLASS).load_by_global_id(id)
       end
     end
   end

@@ -1,5 +1,7 @@
 module Types
   class Host < BaseObject
+    model_class ::Host::Managed
+
     description 'A Host'
 
     global_id_field :id

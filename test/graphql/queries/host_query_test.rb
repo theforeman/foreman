@@ -123,4 +123,24 @@ class Queries::HostQueryTest < GraphQLQueryTestCase
     assert_collection host.fact_names, data['factNames']
     assert_collection host.fact_values, data['factValues']
   end
+
+  context 'with user without view_models permission' do
+    let(:context_user) { setup_user 'view', 'hosts' }
+
+    test 'does not load associated model' do
+      assert_empty result['errors']
+
+      assert_nil data['model']
+    end
+  end
+
+  context 'with user without view_hosts permission' do
+    let(:context_user) { setup_user 'view', 'models' }
+
+    test 'does not load any hosts' do
+      assert_empty result['errors']
+
+      assert_nil data
+    end
+  end
 end

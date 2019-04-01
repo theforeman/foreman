@@ -152,7 +152,8 @@ end
 
 class GraphQLQueryTestCase < ActiveSupport::TestCase
   let(:variables) { {} }
-  let(:context) {{ current_user: FactoryBot.create(:user, :admin) }}
+  let(:context_user) { FactoryBot.create(:user, :admin) }
+  let(:context) {{ current_user: context_user }}
   let(:result) { ForemanGraphqlSchema.execute(query, variables: variables, context: context) }
 
   def assert_record(expected, actual, type_name: nil)
