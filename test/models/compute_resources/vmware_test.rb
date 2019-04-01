@@ -646,7 +646,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       args = default_args.merge(
         user_data: "---\n{}"
       )
-      Fog::Compute::Vsphere::Real.any_instance.expects(:cloudinit_to_customspec).never
+      Fog::Vsphere::Compute::Real.any_instance.expects(:cloudinit_to_customspec).never
       cr.send(:client).stubs(:vm_clone).returns({'new_vm' => {'id' => 123}})
       cr.clone_vm(args)
     end

@@ -65,8 +65,8 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       end
 
       test 'does not create an invalid domain' do
-        Fog::Compute::Vsphere::Server.any_instance.stubs(:name).returns('mytestvm')
-        Fog::Compute::Vsphere::Server.any_instance.stubs(:hostname).returns(nil)
+        Fog::Vsphere::Compute::Server.any_instance.stubs(:name).returns('mytestvm')
+        Fog::Vsphere::Compute::Server.any_instance.stubs(:hostname).returns(nil)
         assert_equal 'mytestvm', host.name
         assert_nil host.domain
       end
