@@ -27,6 +27,7 @@
     "babel-register": "^6.9.0",
     "compression-webpack-plugin": "~1.1.11",
     "coveralls": "^3.0.0",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.23.1",
     "dotenv": "^5.0.0",
     "enzyme": "^3.4.0",
@@ -122,8 +123,8 @@
     "test:current": "node node_modules/.bin/jest --watch",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages",
+    "build-storybook": "cross-env NODE_OPTIONS=--max_old_space_size=8192 build-storybook",
+    "deploy-storybook": "cross-env NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
     "postinstall": "node ./script/npm_install_plugins.js",
     "analyze": "./script/webpack-analyze",
     "create-react-component": "yo react-domain"
