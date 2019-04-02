@@ -1,7 +1,7 @@
 
 <%= _('Report completed') %>
 
-  <%= _('The report %{name}s that was requested at %{time}s has been generated%{compression}s and attached to this email.') %
+  <%= _('The report %{name} that was requested at %{time} has been generated%{compression} and attached to this email.') %
         { name: @composer.template&.name, time: l(@start), compression: (@composer.gzip? ? ', ' + _('compresed') : '')] %>
 
   <%= _('Generating the report took %s.') % distance_of_time_in_words(@end - @start) %>

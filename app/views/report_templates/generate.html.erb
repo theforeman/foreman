@@ -36,7 +36,7 @@
   <div class="email-fields" <%= display?(!@composer.send_mail?) %> >
     <%= text_f f, :mail_to,
       label: _('Deliver to e-mail addresses'),
-      label_help: _('Values has to be valid e-mails delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
+      label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
   </div>
 
   <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
