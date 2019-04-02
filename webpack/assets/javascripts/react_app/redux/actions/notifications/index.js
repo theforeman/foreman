@@ -37,8 +37,8 @@ const getNotifications = url => dispatch => {
     });
   }
 
-  function onGetNotificationsFailed(error) {
-    if (error.response.status === 401) {
+  function onGetNotificationsFailed({ response }) {
+    if (response && response.status === 401) {
       window.location.replace('/users/login');
     }
   }
