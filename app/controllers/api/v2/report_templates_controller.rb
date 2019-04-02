@@ -127,9 +127,10 @@ module Api
       param :id, :identifier, :required => true
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
       param :gzip, :bool, desc: N_('Compress the report using gzip')
+      param :mail_to, String, desc: N_("If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses.") % ReportComposer::MailToValidator::MAIL_DELIMITER
       returns :code => 200, :desc => "a successful response" do
         property :job_id, String, :desc => "An ID of job, which generates report. To be used with report_data API endpoint for report data retrieval."
-        property :data_url, String, :desc => "An url to get resulting report from."
+        property :data_url, String, :desc => "An url to get resulting report from. This is not available when report is delivered via e-mail."
       end
       example <<-EXAMPLE
       POST /api/report_templates/:id/schedule_report/
@@ -140,14 +141,17 @@ module Api
       }
       EXAMPLE
       description <<-DOC
-        The reports are generated asynchronously. Action returns an url to get resulting report from (see <b>report_data</b>).
+        The reports are generated asynchronously.
+        If mail_to is not given, action returns an url to get resulting report from (see <b>report_data</b>).
       DOC
 
       def schedule_report
         @composer = ReportComposer.from_api_params(params)
         if @composer.valid?
           job = TemplateRenderJob.perform_later(@composer.to_params, user_id: User.current.id)
-          render json: { job_id: job.provider_job_id, data_url: report_data_api_report_template_path(@report_template, job_id: job.provider_job_id) }
+          response = { job_id: job.provider_job_id }
+          response[:data_url] = report_data_api_report_template_path(@report_template, job_id: job.provider_job_id) unless @composer.send_mail?
+          render json: response
         else
           @report_template = @composer
           process_resource_error
@@ -166,7 +170,7 @@ module Api
         elsif @plan.failure?
           render json: { errors: @plan.errors }, status: :unprocessable_entity
         else
-          data = @composer.stored_result(params[:job_id])
+          data = StoredValue.read(params[:job_id])
           return not_found(_('Report data are not available, it has probably expired.')) unless data
           send_data data, type: @composer.mime_type, filename: @composer.report_filename
         end

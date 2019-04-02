@@ -18,7 +18,12 @@ class ReportTemplatesController < TemplatesController
     @composer = ReportComposer.from_ui_params(params)
     if @composer.valid?
       job = TemplateRenderJob.perform_later(@composer.to_params, user_id: User.current.id)
-      redirect_to report_data_report_template_path(@template, job_id: job.provider_job_id)
+      if @composer.send_mail?
+        success _('Report is being rendered, it will be delivered via e-mail.')
+        redirect_to report_templates_path
+      else
+        redirect_to report_data_report_template_path(@template, job_id: job.provider_job_id)
+      end
     else
       error _('Could not generate the report, check the form for error messages'), now: true
       render 'generate'

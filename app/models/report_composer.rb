@@ -22,38 +22,67 @@ class ReportComposer
     end
   end
 
-  class UiParams
-    attr_reader :ui_params
+  class ParamParser
+    attr_reader :raw_params
 
-    def initialize(ui_params)
-      @ui_params = ui_params.permit!
+    def mail_to
+      raw_params[:mail_to]
+    end
+
+    def gzip?
+      raw_params[:gzip].nil? ? send_mail? : !!raw_params[:gzip]
+    end
+
+    def send_mail?
+      raw_params['send_mail'] == '1'
     end
 
     def params
-      { template_id: ui_params[:id],
-        input_values: report_base_params[:input_values],
-        gzip: !!ui_params[:gzip] }.with_indifferent_access
-    end
-
-    def report_base_params
-      (ui_params[:report_template_report] || {}).to_hash.with_indifferent_access
+      { template_id: raw_params[:id],
+        gzip: gzip?,
+        send_mail: send_mail?,
+        mail_to: mail_to }.with_indifferent_access
     end
   end
 
-  class ApiParams
-    attr_reader :api_params
+  class UiParams < ParamParser
+    def initialize(raw_params)
+      @raw_params = raw_params.permit!
+    end
 
-    def initialize(api_params)
-      @api_params = api_params.permit!
+    def send_mail?
+      report_base_params['send_mail'].to_s == '1'
+    end
+
+    def mail_to
+      report_base_params[:mail_to]
     end
 
     def params
-      { template_id:  api_params[:id],
+      super.merge(input_values: report_base_params[:input_values])
+    end
+
+    def report_base_params
+      (raw_params[:report_template_report] || {}).to_hash.with_indifferent_access
+    end
+  end
+
+  class ApiParams < ParamParser
+    def initialize(raw_params)
+      @raw_params = raw_params.permit!
+    end
+
+    def send_mail?
+      !!mail_to
+    end
+
+    def params
+      super.merge(
         input_values: convert_input_names_to_ids(
-          api_params[:id],
-          (api_params[:input_values] || {}).to_hash
-        ),
-        gzip: !!api_params[:gzip]}.with_indifferent_access
+          raw_params[:id],
+          (raw_params[:input_values] || {}).to_hash
+        )
+      )
     end
 
     def convert_input_names_to_ids(template_id, input_values)
@@ -61,6 +90,25 @@ class ReportComposer
       Hash[inputs.map { |i| [ i.id.to_s, 'value' => input_values[i.name] ] }]
     end
   end
+
+  class MailToValidator < ActiveModel::EachValidator
+    MAIL_DELIMITER = ','
+
+    def validate_each(model, attribute, value)
+      return if value.empty?
+      value.split(MAIL_DELIMITER).each do |mail|
+        mail_validator.validate_each(model, attribute, mail.strip)
+      end
+    end
+
+    def mail_validator
+      @mail_validator ||= EmailValidator.new(attributes: attributes)
+    end
+  end
+
+  attr_reader :template
+
+  validates :mail_to, mail_to: true, if: :send_mail?
 
   def initialize(params)
     @params = params.with_indifferent_access
@@ -99,19 +147,9 @@ class ReportComposer
   end
 
   def valid?
-    super & @input_values.map { |_, input_value| input_value.valid? }.all?
-  end
-
-  def errors
-    errors = super.dup
-
-    @input_values.each do |id, input_value|
-      input_value.errors.full_messages.each do |message|
-        errors.add :base, (_("Input %s: ") % input_value.template_input.name) + message
-      end
-    end
-
-    errors
+    res = super & @input_values.map { |_, input_value| input_value.valid? }.all?
+    merge_input_errors unless res
+    res
   end
 
   def template_input_values
@@ -127,11 +165,20 @@ class ReportComposer
   end
 
   def gzip?
-    !!@params[:gzip]
+    !!@params['gzip']
   end
 
   def mime_type
     gzip? ? :gzip : :text
+  end
+
+  def send_mail?
+    !!@params['send_mail']
+  end
+  alias_method :send_mail, :send_mail?
+
+  def mail_to
+    @params['mail_to'] || User.current.mail
   end
 
   def report_filename
@@ -141,16 +188,18 @@ class ReportComposer
   end
 
   def render(mode: Foreman::Renderer::REAL_MODE, **params)
-    @template.render(mode: mode, template_input_values: template_input_values, **params)
-  end
-
-  def render_to_store(result_key, mode: Foreman::Renderer::REAL_MODE, **params)
-    result = render(mode: mode, **params)
+    result = @template.render(mode: mode, template_input_values: template_input_values, **params)
     result = ActiveSupport::Gzip.compress(result) if gzip?
-    StoredValue.write(result_key, result, expire_at: Time.now + 1.day)
+    result
   end
 
-  def stored_result(result_key)
-    StoredValue.read(result_key)
+  private
+
+  def merge_input_errors
+    @input_values.each do |id, input_value|
+      input_value.errors.full_messages.each do |message|
+        errors.add :base, (_("Input %s: ") % input_value.template_input.name) + message
+      end
+    end
   end
 end
