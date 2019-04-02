@@ -14,7 +14,7 @@ const DateTime = ({
   isRequired,
   hideValue,
   locale,
-  template,
+  inputProps,
   value,
   initialError,
 }) => {
@@ -40,8 +40,8 @@ const DateTime = ({
         value={value}
         id={`template-date-input-${id}`}
         inputProps={{
-          name: `${template}[input_values][${id}][value]`,
           autoComplete: 'off',
+          ...inputProps,
         }}
         locale={currentLocale}
       />
@@ -55,6 +55,7 @@ DateTime.propTypes = {
   isRequired: PropTypes.bool,
   id: PropTypes.number.isRequired,
   locale: PropTypes.string,
+  inputProps: PropTypes.object,
   template: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   initialError: PropTypes.string,
@@ -68,6 +69,7 @@ DateTime.defaultProps = {
   value: new Date(),
   initialError: undefined,
   hideValue: false,
+  inputProps: {},
 };
 
 export default DateTime;
