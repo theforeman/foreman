@@ -17,8 +17,8 @@ attributes :ip, :ip6, :environment_id, :environment_name, :last_report, :mac, :r
            :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
            :certname, :image_id, :image_name, :created_at, :updated_at,
            :last_compile, :global_status, :global_status_label, :uptime_seconds
-attributes :organization_id, :organization_name if SETTINGS[:organizations_enabled]
-attributes :location_id, :location_name         if SETTINGS[:locations_enabled]
+attributes :organization_id, :organization_name
+attributes :location_id, :location_name
 
 # for compatibility, :puppet_status was moved to host statuses
 attributes :configuration_status => :puppet_status
