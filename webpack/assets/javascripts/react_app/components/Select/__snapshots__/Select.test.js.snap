@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select renders properly 1`] = `
+<Select
+  cursor={-1}
+  emptyText="No Results"
+  isLoading={false}
+  loadingText="Loading..."
+  onChange={[Function]}
+  onKeyDown={[Function]}
+  onSearchChange={[Function]}
+  onSearchClear={[Function]}
+  onToggle={[Function]}
+  open={true}
+  options={
+    Array [
+      Object {
+        "id": "1",
+        "name": "one",
+      },
+      Object {
+        "id": "2",
+        "name": "two",
+      },
+      Object {
+        "id": "3",
+        "name": "selected",
+      },
+      Object {
+        "disabled": true,
+        "id": "4",
+        "name": "disabled",
+      },
+      Object {
+        "id": "5",
+        "name": "very very very long very very very very very very very very very very",
+      },
+      Object {
+        "id": "6",
+        "name": "three",
+      },
+      Object {
+        "id": "7",
+        "name": "four",
+      },
+      Object {
+        "id": "8",
+        "name": "five",
+      },
+      Object {
+        "disabled": true,
+        "id": "9",
+        "name": "disabled",
+      },
+      Object {
+        "id": "10",
+        "name": "ten",
+      },
+    ]
+  }
+  placeholder="Filter..."
+  searchValue="one"
+  selectedItem={
+    Object {
+      "id": "3",
+      "name": "selected",
+    }
+  }
+/>
+`;
