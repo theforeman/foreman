@@ -8,7 +8,7 @@ class ComputeResourceHostImporter
     self.vm = compute_resource.find_vm_by_uuid(opts[:uuid]) if opts[:uuid]
     self.vm ||= opts.fetch(:vm)
     self.host = Host::Managed.new(
-      :managed => true,
+      :managed => opts.key?(:managed) ? opts[:managed] : true,
       :build => false,
       :compute_resource => compute_resource,
       :vm => vm

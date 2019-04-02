@@ -93,7 +93,8 @@ class ComputeResourcesVmsController < ApplicationController
   def import
     @host = ComputeResourceHostImporter.new(
       :compute_resource => @compute_resource,
-      :vm => @vm
+      :vm => @vm,
+      :managed => (params[:type] != 'unmanaged')
     ).host
     load_vars_for_ajax
   end
