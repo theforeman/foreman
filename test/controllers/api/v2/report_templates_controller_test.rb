@@ -284,7 +284,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       delay_to = Time.now + 2.hours
       expect_job_enque_with({}, delay_to: delay_to)
       ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
-      post :schedule_report, params: { :id => report_template.id, schedule_on: delay_to }
+      post :schedule_report, params: { :id => report_template.id, generate_at: delay_to }
       assert_response :success
       assert_equal 'application/json', response.content_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']

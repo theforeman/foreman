@@ -21,7 +21,7 @@
       label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
   </div>
 
-  <%= text_f f, :schedule_on, label: _('Schedule on'), label_help: _('Schedule report generating on a given time. Full datetime required.') %>
+  <%= text_f f, :generate_at, label: _('Generate at'), label_help: _('Generate report on a given time. Both date and time are required. Please use format yyyy-mm-dd HH:MM +000') %>
 
   <%= f.fields_for :input_values do |input_values_fields| %>
     <% inputs = @template.template_inputs.select {|input| input.input_type == 'user'} %>

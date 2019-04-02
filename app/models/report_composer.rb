@@ -37,13 +37,13 @@ class ReportComposer
       raw_params['send_mail'].to_s == '1'
     end
 
-    def schedule_on
-      raw_params['schedule_on']&.to_time
+    def generate_at
+      raw_params['generate_at']&.to_time
     end
 
     def params
       { template_id: raw_params[:id],
-        schedule_on: schedule_on,
+        generate_at: generate_at,
         gzip: gzip?,
         send_mail: send_mail?,
         mail_to: mail_to }.with_indifferent_access
@@ -63,8 +63,8 @@ class ReportComposer
       report_base_params[:mail_to]
     end
 
-    def schedule_on
-      report_base_params['schedule_on']&.to_time
+    def generate_at
+      report_base_params['generate_at']&.to_time
     end
 
     def params
@@ -83,6 +83,10 @@ class ReportComposer
 
     def send_mail?
       !!mail_to
+    end
+
+    def generate_at
+      Time.find_zone("UTC").parse(raw_params['generate_at']) if raw_params['generate_at'].present?
     end
 
     def params
@@ -115,13 +119,13 @@ class ReportComposer
     end
   end
 
-  attr_reader :template, :schedule_on
+  attr_reader :template, :generate_at
 
   validates :mail_to, mail_to: true, if: :send_mail?
 
   def initialize(params)
     @params = params.with_indifferent_access
-    @schedule_on = @params.delete('schedule_on')
+    @generate_at = @params.delete('generate_at')
     @template = load_report_template(@params[:template_id])
     @input_values = build_inputs(@template, @params[:input_values])
   end
@@ -195,6 +199,14 @@ class ReportComposer
     name = @template.suggested_report_name.to_s
     name += '.gz' if gzip?
     name
+  end
+
+  def schedule_rendering
+    scheduler = TemplateRenderJob
+    if generate_at
+      scheduler = scheduler.set(wait_until: generate_at)
+    end
+    scheduler.perform_later(self.to_params, user_id: User.current.id)
   end
 
   def render(mode: Foreman::Renderer::REAL_MODE, **params)

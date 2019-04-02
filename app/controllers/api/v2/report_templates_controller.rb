@@ -128,7 +128,7 @@ module Api
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
       param :gzip, :bool, desc: N_('Compress the report using gzip')
       param :mail_to, String, desc: N_("If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses.") % ReportComposer::MailToValidator::MAIL_DELIMITER
-      param :schedule_on, String, desc: N_("UTC time to start report generating on")
+      param :generate_at, String, desc: N_("UTC time to generate report at")
       returns :code => 200, :desc => "a successful response" do
         property :job_id, String, :desc => "An ID of job, which generates report. To be used with report_data API endpoint for report data retrieval."
         property :data_url, String, :desc => "An url to get resulting report from. This is not available when report is delivered via e-mail."
@@ -149,11 +149,7 @@ module Api
       def schedule_report
         @composer = ReportComposer.from_api_params(params)
         if @composer.valid?
-          scheduler = TemplateRenderJob
-          if @composer.schedule_on
-            scheduler = scheduler.set(wait_until: @composer.schedule_on)
-          end
-          job = scheduler.perform_later(@composer.to_params, user_id: User.current.id)
+          job = @composer.schedule_rendering
           response = { job_id: job.provider_job_id }
           response[:data_url] = report_data_api_report_template_path(@report_template, job_id: job.provider_job_id) unless @composer.send_mail?
           render json: response

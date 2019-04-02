@@ -181,7 +181,7 @@ class ReportTemplatesControllerTest < ActionController::TestCase
     it 'schedule delayed report' do
       delay_to = Date.today.to_time + 2.hours
       expect_job_enque_with(nil, delay_to: delay_to)
-      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { schedule_on: delay_to } }, session: set_session_user
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { generate_at: delay_to } }, session: set_session_user
       assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
   end
