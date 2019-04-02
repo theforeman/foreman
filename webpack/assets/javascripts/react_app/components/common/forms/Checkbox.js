@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
+import { makeOnChangeHanler } from './helpers';
 
-const Checkbox = ({ className, checked, onChange, label, disabled }) => (
+const Checkbox = ({
+  className,
+  checked,
+  onValueChange,
+  onChange,
+  label,
+  disabled,
+}) => (
   <CommonForm label={label} className={`common-checkbox ${className}`}>
     <input
       disabled={disabled}
       type="checkbox"
       checked={checked}
-      onChange={onChange}
+      onChange={makeOnChangeHanler(onChange, onValueChange)}
     />
   </CommonForm>
 );
@@ -21,6 +29,7 @@ Checkbox.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
+  onValueChange: PropTypes.func,
 };
 
 Checkbox.defaultProps = {
@@ -29,6 +38,7 @@ Checkbox.defaultProps = {
   label: '',
   disabled: false,
   onChange: noop,
+  onValueChange: noop,
 };
 
 export default Checkbox;

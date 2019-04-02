@@ -9,6 +9,7 @@ import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
 import { STATUS } from '../../../constants';
 import MessageBox from '../MessageBox';
+import { makeOnChangeHanler } from './helpers';
 
 class Select extends React.Component {
   initializeSelect2() {
@@ -19,11 +20,16 @@ class Select extends React.Component {
     }
   }
 
+  customOnChange() {
+    const { onChange, onValueChange } = this.props;
+    return makeOnChangeHanler(onChange, onValueChange);
+  }
+
   attachEvent() {
     const { onChange } = this.props;
     $(this.select)
-      .off('change', onChange)
-      .on('change', onChange);
+      .off('change')
+      .on('change', this.customOnChange());
   }
 
   componentDidMount() {
@@ -52,6 +58,7 @@ class Select extends React.Component {
       className,
       value,
       onChange,
+      onValueChange,
       options,
       disabled,
       status = STATUS.RESOLVED,
@@ -69,7 +76,7 @@ class Select extends React.Component {
           }}
           className="form-control"
           value={value}
-          onChange={onChange}
+          onChange={this.customOnChange()}
         >
           <option />
           {renderOptions(options)}
@@ -116,6 +123,7 @@ Select.propTypes = {
   status: PropTypes.string,
   errorMessage: PropTypes.string,
   onChange: PropTypes.func,
+  onValueChange: PropTypes.func,
 };
 
 Select.defaultProps = {
@@ -128,6 +136,7 @@ Select.defaultProps = {
   status: STATUS.RESOLVED,
   errorMessage: __('An error occured.'),
   onChange: noop,
+  onValueChange: noop,
 };
 
 export default Select;

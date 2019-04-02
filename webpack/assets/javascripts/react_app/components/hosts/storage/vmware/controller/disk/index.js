@@ -26,13 +26,13 @@ const Disk = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const updateStoragePod = newValues => {
-    updateDisk('storagePod', newValues);
-    updateDisk('datastore', { target: { value: null } });
+  const updateStoragePod = newValue => {
+    updateDisk('storagePod', newValue);
+    updateDisk('datastore', null);
   };
-  const updateDatastore = newValues => {
-    updateDisk('datastore', newValues);
-    updateDisk('storagePod', { target: { value: null } });
+  const updateDatastore = newValue => {
+    updateDisk('datastore', newValue);
+    updateDisk('storagePod', null);
   };
 
   return (
@@ -53,7 +53,7 @@ const Disk = ({
           label={__('Storage Pod')}
           value={storagePod}
           disabled={vmExists}
-          onChange={newValues => updateStoragePod(newValues)}
+          onValueChange={newValue => updateStoragePod(newValue)}
           options={storagePods}
           allowClear
           key="storagePodsSelect"
@@ -67,7 +67,7 @@ const Disk = ({
           disabled={vmExists}
           label={__('Data store')}
           value={datastore}
-          onChange={newValues => updateDatastore(newValues)}
+          onValueChange={newValue => updateDatastore(newValue)}
           options={datastores}
           allowClear
           key="datastoresSelect"
@@ -81,7 +81,7 @@ const Disk = ({
         label={__('Disk Mode')}
         value={mode}
         disabled={vmExists}
-        onChange={newValues => updateDisk('mode', newValues)}
+        onValueChange={newValue => updateDisk('mode', newValue)}
         options={diskModeTypes}
       />
 
@@ -90,7 +90,7 @@ const Disk = ({
         minValue={1}
         format={v => `${v} GB`}
         className="text-vmware-size"
-        onChange={newValues => updateDisk('sizeGb', newValues)}
+        onValueChange={newValue => updateDisk('sizeGb', newValue)}
         label={__('Size (GB)')}
       />
 
@@ -98,14 +98,14 @@ const Disk = ({
         label={__('Thin provision')}
         checked={thin}
         disabled={vmExists}
-        onChange={newValues => updateDisk('thin', newValues)}
+        onValueChange={newValue => updateDisk('thin', newValue)}
       />
 
       <Checkbox
         label={__('Eager zero')}
         checked={eagerzero}
         disabled={vmExists}
-        onChange={newValues => updateDisk('eagerzero', newValues)}
+        onValueChange={newValue => updateDisk('eagerzero', newValue)}
       />
     </div>
   );

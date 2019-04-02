@@ -9,7 +9,7 @@ const NumericInput = ({
   label,
   className,
   value,
-  onChange,
+  onValueChange,
   format,
   precision,
   minValue,
@@ -20,7 +20,7 @@ const NumericInput = ({
       min={minValue}
       value={value}
       precision={precision}
-      onChange={v => onChange({ target: { value: v } })}
+      onChange={onValueChange}
     />
   </CommonForm>
 );
@@ -32,7 +32,7 @@ NumericInput.propTypes = {
   format: PropTypes.func,
   precision: PropTypes.number,
   minValue: PropTypes.number,
-  onChange: PropTypes.func,
+  onValueChange: PropTypes.func,
 };
 
 NumericInput.defaultProps = {
@@ -42,7 +42,7 @@ NumericInput.defaultProps = {
   format: null,
   precision: 0,
   minValue: 0,
-  onChange: noop,
+  onValueChange: noop,
 };
 
 export default NumericInput;

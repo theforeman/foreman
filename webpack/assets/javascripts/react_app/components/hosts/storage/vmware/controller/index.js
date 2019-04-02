@@ -31,15 +31,12 @@ const Controller = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const getEventValue = e =>
-    e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-
-  const _updateController = (attribute, e) => {
-    updateController({ [attribute]: getEventValue(e) });
+  const _updateController = (attribute, value) => {
+    updateController({ [attribute]: value });
   };
 
-  const _updateDisk = (uuid, attribute, e) => {
-    updateDisk(uuid, { [attribute]: getEventValue(e) });
+  const _updateDisk = (uuid, attribute, value) => {
+    updateDisk(uuid, { [attribute]: value });
   };
 
   const humanSize = number => number_to_human_size(number, { precision: 2 });
@@ -85,7 +82,7 @@ const Controller = ({
       <Disk
         key={disk.key}
         id={disk.key}
-        updateDisk={(attribute, e) => _updateDisk(disk.key, attribute, e)}
+        updateDisk={(attribute, val) => _updateDisk(disk.key, attribute, val)}
         removeDisk={() => removeDisk(disk.key)}
         config={config}
         datastores={datastoresStats()}
@@ -108,7 +105,7 @@ const Controller = ({
           <Select
             value={controller.type}
             disabled={config.vmExists}
-            onChange={e => _updateController('type', e)}
+            onValueChange={v => _updateController('type', v)}
             options={config.controllerTypes}
           />
           <Button
