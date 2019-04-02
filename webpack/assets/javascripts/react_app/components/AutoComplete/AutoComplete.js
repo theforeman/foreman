@@ -40,7 +40,8 @@ class AutoComplete extends React.Component {
     const { useKeyShortcuts, handleSearch } = this.props;
     const instance = this._typeahead.current.getInstance();
     const { ENTER, FWD_SLASH, BACK_SLASH } = KEYCODES;
-    const didEventCameFromInput = e.target.tagName === 'INPUT';
+    const { tagName } = e.target;
+    const didEventCameFromInput = tagName === 'INPUT' || tagName === 'TEXTAREA';
 
     /**
      Disable this functionality if the event came from an input,
