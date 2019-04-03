@@ -5,11 +5,11 @@ After=network.target remote-fs.target nss-lookup.target
 
 [Service]
 Type=simple
-User=$FOREMAN_USER
+User=foreman
 TimeoutSec=300
 WorkingDirectory=/usr/share/foreman
 ExecStart=/usr/bin/scl enable tfm "rails server --environment $FOREMAN_ENV --port $FOREMAN_PORT --binding $FOREMAN_BIND"
-Environment=FOREMAN_ENV=production FOREMAN_PORT=3000 FOREMAN_BIND=0.0.0.0 FOREMAN_USER=foreman
+Environment=FOREMAN_ENV=production FOREMAN_PORT=3000 FOREMAN_BIND=0.0.0.0
 
 [Install]
 WantedBy=multi-user.target
