@@ -20,7 +20,7 @@ const Form = ({
 }) => (
   <form className={className} onSubmit={onSubmit}>
     {error && (
-      <Alert className="base in fade" type={error.severity}>
+      <Alert className="base in fade" type={error.severity || 'danger'}>
         <AlertBody title={errorTitle}>
           {error.errorMsgs.length === 1 ? (
             <span>{error.errorMsgs[0]}</span>

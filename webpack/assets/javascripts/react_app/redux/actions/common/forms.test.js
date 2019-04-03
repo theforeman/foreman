@@ -107,7 +107,6 @@ describe('form actions', () => {
           name: 'already used',
           _error: {
             errorMsgs: ['some error'],
-            severity: 'danger',
           },
         });
       });
