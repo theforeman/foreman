@@ -396,7 +396,7 @@ function update_provisioning_image(){
   $.ajax({
       data: {'operatingsystem_id': os_id, 'architecture_id': arch_id},
       type:'get',
-      url: foreman_url('/compute_resources/'+compute_id+'/images'),
+      url: tfm.tools.foremanUrl('/compute_resources/'+compute_id+'/images'),
       dataType: 'json',
       success: function(result) {
         $.each(result, function() {
