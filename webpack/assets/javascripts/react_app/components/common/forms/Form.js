@@ -57,7 +57,7 @@ Form.defaultProps = {
   touched: false,
   disabled: false,
   submitting: false,
-  errorTitle: __('Unable to save. '),
+  errorTitle: `${__('Unable to save')}. `,
   onSubmit: noop,
   onCancel: noop,
 };
