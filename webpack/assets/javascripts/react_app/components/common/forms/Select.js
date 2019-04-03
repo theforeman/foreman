@@ -20,16 +20,13 @@ class Select extends React.Component {
     }
   }
 
-  customOnChange() {
-    const { onChange, onValueChange } = this.props;
-    return makeOnChangeHanler(onChange, onValueChange);
-  }
-
   attachEvent() {
-    const { onChange } = this.props;
+    const { onChange, onValueChange } = this.props;
+    const newOnChange = makeOnChangeHanler(onChange, onValueChange);
     $(this.select)
-      .off('change')
-      .on('change', this.customOnChange());
+      .off('change', this.onChange)
+      .on('change', newOnChange);
+    this.onChange = newOnChange;
   }
 
   componentDidMount() {
@@ -76,7 +73,7 @@ class Select extends React.Component {
           }}
           className="form-control"
           value={value}
-          onChange={this.customOnChange()}
+          onChange={makeOnChangeHanler(onChange, onValueChange)}
         >
           <option />
           {renderOptions(options)}

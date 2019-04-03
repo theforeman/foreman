@@ -24,6 +24,7 @@ exports[`StorageContainer should render controller 1`] = `
         errorMessage="An error occured."
         label=""
         onChange={[Function]}
+        onValueChange={[Function]}
         options={
           Object {
             "ParaVirtualSCSIController": "VMware Paravirtual",

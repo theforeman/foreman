@@ -25,91 +25,84 @@ const Disk = ({
   storagePods,
   storagePodsStatus,
   storagePodsError,
-}) => {
-  const updateStoragePod = newValue => {
-    updateDisk('storagePod', newValue);
-    updateDisk('datastore', null);
-  };
-  const updateDatastore = newValue => {
-    updateDisk('datastore', newValue);
-    updateDisk('storagePod', null);
-  };
-
-  return (
-    <div className="disk-container">
-      <div className="form-group">
-        <label className="col-md-2 control-label">{__('Disk name')}</label>
-        <div className="col-md-4">{name}</div>
-        <div className="col-md-2">
-          {!vmExists && (
-            <Button className="close" onClick={removeDisk}>
-              <span aria-hidden="true">&times;</span>
-            </Button>
-          )}
-        </div>
+}) => (
+  <div className="disk-container">
+    <div className="form-group">
+      <label className="col-md-2 control-label">{__('Disk name')}</label>
+      <div className="col-md-4">{name}</div>
+      <div className="col-md-2">
+        {!vmExists && (
+          <Button className="close" onClick={removeDisk}>
+            <span aria-hidden="true">&times;</span>
+          </Button>
+        )}
       </div>
-      {!(datastore && datastore.length) && (
-        <Select
-          label={__('Storage Pod')}
-          value={storagePod}
-          disabled={vmExists}
-          onValueChange={newValue => updateStoragePod(newValue)}
-          options={storagePods}
-          allowClear
-          key="storagePodsSelect"
-          status={storagePodsStatus}
-          errorMessage={storagePodsError}
-          className="storage-pod"
-        />
-      )}
-      {!(storagePod && storagePod.length) && (
-        <Select
-          disabled={vmExists}
-          label={__('Data store')}
-          value={datastore}
-          onValueChange={newValue => updateDatastore(newValue)}
-          options={datastores}
-          allowClear
-          key="datastoresSelect"
-          status={datastoresStatus}
-          errorMessage={datastoresError}
-          className="datastore"
-        />
-      )}
-
-      <Select
-        label={__('Disk Mode')}
-        value={mode}
-        disabled={vmExists}
-        onValueChange={newValue => updateDisk('mode', newValue)}
-        options={diskModeTypes}
-      />
-
-      <NumericInput
-        value={sizeGb}
-        minValue={1}
-        format={v => `${v} GB`}
-        className="text-vmware-size"
-        onValueChange={newValue => updateDisk('sizeGb', newValue)}
-        label={__('Size (GB)')}
-      />
-
-      <Checkbox
-        label={__('Thin provision')}
-        checked={thin}
-        disabled={vmExists}
-        onValueChange={newValue => updateDisk('thin', newValue)}
-      />
-
-      <Checkbox
-        label={__('Eager zero')}
-        checked={eagerzero}
-        disabled={vmExists}
-        onValueChange={newValue => updateDisk('eagerzero', newValue)}
-      />
     </div>
-  );
-};
+    {!(datastore && datastore.length) && (
+      <Select
+        label={__('Storage Pod')}
+        value={storagePod}
+        disabled={vmExists}
+        onValueChange={newValue =>
+          updateDisk({ storagePod: newValue, datastore: '' })
+        }
+        options={storagePods}
+        allowClear
+        key="storagePodsSelect"
+        status={storagePodsStatus}
+        errorMessage={storagePodsError}
+        className="storage-pod"
+      />
+    )}
+    {!(storagePod && storagePod.length) && (
+      <Select
+        disabled={vmExists}
+        label={__('Data store')}
+        value={datastore}
+        onValueChange={newValue =>
+          updateDisk({ datastore: newValue, storagePod: '' })
+        }
+        options={datastores}
+        allowClear
+        key="datastoresSelect"
+        status={datastoresStatus}
+        errorMessage={datastoresError}
+        className="datastore"
+      />
+    )}
+
+    <Select
+      label={__('Disk Mode')}
+      value={mode}
+      disabled={vmExists}
+      onValueChange={newValue => updateDisk({ mode: newValue })}
+      options={diskModeTypes}
+    />
+
+    <NumericInput
+      value={sizeGb}
+      minValue={1}
+      format={v => `${v} GB`}
+      className="text-vmware-size"
+      onValueChange={newValue => updateDisk({ sizeGb: newValue })}
+      label={__('Size (GB)')}
+    />
+
+    <Checkbox
+      label={__('Thin provision')}
+      checked={thin}
+      disabled={vmExists}
+      onValueChange={newValue => updateDisk({ thin: newValue })}
+    />
+
+    <Checkbox
+      label={__('Eager zero')}
+      checked={eagerzero}
+      disabled={vmExists}
+      onValueChange={newValue => updateDisk({ eagerzero: newValue })}
+    />
+  </div>
+);
 
 Disk.propTypes = {
   config: PropTypes.shape({

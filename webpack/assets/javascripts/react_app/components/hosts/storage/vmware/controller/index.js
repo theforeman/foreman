@@ -31,14 +31,6 @@ const Controller = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const _updateController = (attribute, value) => {
-    updateController({ [attribute]: value });
-  };
-
-  const _updateDisk = (uuid, attribute, value) => {
-    updateDisk(uuid, { [attribute]: value });
-  };
-
   const humanSize = number => number_to_human_size(number, { precision: 2 });
 
   const datastoresStats = () => {
@@ -82,7 +74,7 @@ const Controller = ({
       <Disk
         key={disk.key}
         id={disk.key}
-        updateDisk={(attribute, val) => _updateDisk(disk.key, attribute, val)}
+        updateDisk={newValues => updateDisk(disk.key, newValues)}
         removeDisk={() => removeDisk(disk.key)}
         config={config}
         datastores={datastoresStats()}
@@ -105,7 +97,7 @@ const Controller = ({
           <Select
             value={controller.type}
             disabled={config.vmExists}
-            onValueChange={v => _updateController('type', v)}
+            onValueChange={v => updateController({ type: v })}
             options={config.controllerTypes}
           />
           <Button
