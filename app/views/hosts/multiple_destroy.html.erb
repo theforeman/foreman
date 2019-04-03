@@ -1,4 +1,4 @@
-<%= form_tag submit_multiple_destroy_hosts_path(:host_ids => params[:host_ids]), :onsubmit => "resetSelection()" do %>
+<%= form_tag submit_multiple_destroy_hosts_path(:host_ids => params[:host_ids]), :onsubmit => "tfm.hosts.table.resetSelection()" do %>
   <% if Setting[:destroy_vm_on_host_delete] %>
     <% extra_warning = _("This <b>will delete</b> the linked VMs and their disks, and is irreversible.") %>
   <% else %>
