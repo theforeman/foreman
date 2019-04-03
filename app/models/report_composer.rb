@@ -64,7 +64,7 @@ class ReportComposer
     end
 
     def generate_at
-      report_base_params['generate_at']&.to_time
+      Time.zone.parse(report_base_params['generate_at']) if report_base_params['generate_at'].present?
     end
 
     def params
