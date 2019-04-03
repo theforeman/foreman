@@ -2,11 +2,9 @@ module Api
   # TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include ApplicationShared
+    include Foreman::Controller::RequireSsl
+    include Foreman::Controller::ApiCsrfProtection
     include Foreman::Controller::BruteforceProtection
-
-    protect_from_forgery
-    force_ssl :if => :require_ssl?
-    skip_before_action :verify_authenticity_token, :unless => :protect_api_from_forgery?
 
     before_action :set_default_response_format, :authorize, :set_taxonomy, :add_version_header, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
@@ -105,10 +103,6 @@ module Api
     end
 
     protected
-
-    def require_ssl?
-      SETTINGS[:require_ssl]
-    end
 
     def not_found(options = nil)
       not_found_message = {}
@@ -408,10 +402,6 @@ module Api
     def prioritize_friendly_name_records(base_scope, friendly_field_query)
       field_query = friendly_field_query.to_sql
       base_scope.order("CASE WHEN #{field_query} THEN 1 ELSE 0 END")
-    end
-
-    def protect_api_from_forgery?
-      session[:user].present? && !session[:api_authenticated_session]
     end
 
     def parameter_filter_context

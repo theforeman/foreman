@@ -5,10 +5,13 @@ module Api
     include Foreman::Controller::RequireSsl
     include Foreman::Controller::Session
     include Foreman::Controller::Authentication
+    include Foreman::Controller::ApiCsrfProtection
+    include Foreman::Controller::BruteforceProtection
 
-    rescue_from Exception, :with => :generic_exception if Rails.env.production?
+    rescue_from Exception, with: :generic_exception if Rails.env.production?
 
     before_action :authenticate
+    before_action :session_expiry, :update_activity_time
     around_action :set_timezone
 
     def execute
