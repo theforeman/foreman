@@ -11,6 +11,18 @@
                 (_('This will generate a report %s. Based on its definition, it can take a long time to process.') % h(@template.name)) +
                 '</p>').html_safe) %>
 
+  <%= text_f f, :generate_at, label: _('Generate at'), label_help: _('Generate report on a given time. Both date and time are required. Please use format yyyy-mm-dd HH:MM +000') %>
+
+  <%= checkbox_f f, :send_mail,
+    label: _('Send report via e-mail'),
+    label_help: _('By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser.'),
+    onchange: 'tfm.templateInputs.toggleEmailFields(this)' %>
+  <div class="email-fields" <%= display?(!@composer.send_mail?) %> >
+    <%= text_f f, :mail_to,
+      label: _('Deliver to e-mail addresses'),
+      label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
+  </div>
+
   <%= f.fields_for :input_values do |input_values_fields| %>
     <% inputs = @template.template_inputs.select {|input| input.input_type == 'user'} %>
 
@@ -28,16 +40,6 @@
       </div>
     <% end %>
   <% end %>
-
-  <%= checkbox_f f, :send_mail,
-    label: _('Send report via e-mail'),
-    label_help: _('By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser.'),
-    onchange: 'tfm.templateInputs.toggleEmailFields(this)' %>
-  <div class="email-fields" <%= display?(!@composer.send_mail?) %> >
-    <%= text_f f, :mail_to,
-      label: _('Deliver to e-mail addresses'),
-      label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
-  </div>
 
   <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
 <% end %>
