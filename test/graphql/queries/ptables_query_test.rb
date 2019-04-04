@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::PtablesQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class PtablesQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query {
         ptables {
           totalCount
@@ -20,22 +21,23 @@ class Queries::PtablesQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:data) { result['data']['ptables'] }
+    let(:data) { result['data']['ptables'] }
 
-  setup do
-    FactoryBot.create_list(:ptable, 2)
-  end
+    setup do
+      FactoryBot.create_list(:ptable, 2)
+    end
 
-  test 'fetching ptables attributes' do
-    assert_empty result['errors']
+    test 'fetching ptables attributes' do
+      assert_empty result['errors']
 
-    expected_count = Ptable.count
+      expected_count = Ptable.count
 
-    assert_not_equal 0, expected_count
-    assert_equal expected_count, data['totalCount']
-    assert_equal expected_count, data['edges'].count
+      assert_not_equal 0, expected_count
+      assert_equal expected_count, data['totalCount']
+      assert_equal expected_count, data['edges'].count
+    end
   end
 end

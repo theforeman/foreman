@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::ArchitecturesQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class ArchitecturesQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query {
         architectures {
           totalCount
@@ -20,22 +21,23 @@ class Queries::ArchitecturesQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:data) { result['data']['architectures'] }
+    let(:data) { result['data']['architectures'] }
 
-  setup do
-    FactoryBot.create_list(:architecture, 2)
-  end
+    setup do
+      FactoryBot.create_list(:architecture, 2)
+    end
 
-  test 'fetching architectures attributes' do
-    assert_empty result['errors']
+    test 'fetching architectures attributes' do
+      assert_empty result['errors']
 
-    expected_count = Architecture.count
+      expected_count = Architecture.count
 
-    assert_not_equal 0, expected_count
-    assert_equal expected_count, data['totalCount']
-    assert_equal expected_count, data['edges'].count
+      assert_not_equal 0, expected_count
+      assert_equal expected_count, data['totalCount']
+      assert_equal expected_count, data['edges'].count
+    end
   end
 end

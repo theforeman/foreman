@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::OrganizationQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class OrganizationQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -30,30 +31,31 @@ class Queries::OrganizationQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:environment) { FactoryBot.create(:environment) }
-  let(:organization) { FactoryBot.create(:organization, environments: [environment]) }
+    let(:environment) { FactoryBot.create(:environment) }
+    let(:organization) { FactoryBot.create(:organization, environments: [environment]) }
 
-  let(:global_id) { Foreman::GlobalId.for(organization) }
-  let(:variables) {{ id: global_id }}
-  let(:data) { result['data']['organization'] }
+    let(:global_id) { Foreman::GlobalId.for(organization) }
+    let(:variables) {{ id: global_id }}
+    let(:data) { result['data']['organization'] }
 
-  setup do
-    FactoryBot.create(:puppetclass, :environments => [environment])
-  end
+    setup do
+      FactoryBot.create(:puppetclass, :environments => [environment])
+    end
 
-  test 'fetching organization attributes' do
-    assert_empty result['errors']
+    test 'fetching organization attributes' do
+      assert_empty result['errors']
 
-    assert_equal global_id, data['id']
-    assert_equal organization.created_at.utc.iso8601, data['createdAt']
-    assert_equal organization.updated_at.utc.iso8601, data['updatedAt']
-    assert_equal organization.name, data['name']
-    assert_equal organization.title, data['title']
+      assert_equal global_id, data['id']
+      assert_equal organization.created_at.utc.iso8601, data['createdAt']
+      assert_equal organization.updated_at.utc.iso8601, data['updatedAt']
+      assert_equal organization.name, data['name']
+      assert_equal organization.title, data['title']
 
-    assert_collection organization.environments, data['environments']
-    assert_collection organization.puppetclasses, data['puppetclasses']
+      assert_collection organization.environments, data['environments']
+      assert_collection organization.puppetclasses, data['puppetclasses']
+    end
   end
 end

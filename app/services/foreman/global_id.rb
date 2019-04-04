@@ -3,6 +3,7 @@ module Foreman
     ID_SEPARATOR = '-'
     VERSION_SEPARATOR = ':'
     DEFAULT_VERSION = 1
+    BASE64_FORMAT = %r(\A([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?\Z)
 
     def self.encode(type_name, object_value, version: DEFAULT_VERSION)
       object_value_str = object_value.to_s
@@ -16,14 +17,27 @@ module Foreman
     end
 
     def self.decode(node_id)
+      raise InvalidGlobalIdException unless base64_encoded?(node_id)
       decoded = Base64.decode64(node_id)
       version, payload = decoded.split(VERSION_SEPARATOR, 2)
+      raise InvalidGlobalIdException unless version.present? && payload.present?
       type_name, object_value = payload.split(ID_SEPARATOR, 2)
+      raise InvalidGlobalIdException unless type_name.present? && object_value.present?
       [version.to_i, type_name, object_value]
     end
 
     def self.for(obj)
       encode(obj.class.name, obj.id)
+    end
+
+    def self.base64_encoded?(string)
+      !!string.match(BASE64_FORMAT)
+    end
+
+    class InvalidGlobalIdException < Foreman::Exception
+      def initialize
+        super('Invalid Global ID. Can not decode.')
+      end
     end
   end
 end

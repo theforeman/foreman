@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::MediaQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class MediaQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query {
         media {
           totalCount
@@ -20,22 +21,23 @@ class Queries::MediaQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:data) { result['data']['media'] }
+    let(:data) { result['data']['media'] }
 
-  setup do
-    FactoryBot.create_list(:medium, 2)
-  end
+    setup do
+      FactoryBot.create_list(:medium, 2)
+    end
 
-  test 'fetching media attributes' do
-    assert_empty result['errors']
+    test 'fetching media attributes' do
+      assert_empty result['errors']
 
-    expected_count = Medium.count
+      expected_count = Medium.count
 
-    assert_not_equal 0, expected_count
-    assert_equal expected_count, data['totalCount']
-    assert_equal expected_count, data['edges'].count
+      assert_not_equal 0, expected_count
+      assert_equal expected_count, data['totalCount']
+      assert_equal expected_count, data['edges'].count
+    end
   end
 end
