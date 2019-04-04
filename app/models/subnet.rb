@@ -34,6 +34,8 @@ class Subnet < ApplicationRecord
     super
   end
 
+  graphql_type '::Types::Subnet'
+
   validates_lengths_from_database :except => [:gateway]
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :interfaces, :domains)
 

@@ -20,14 +20,17 @@ class ForemanGraphqlSchema < GraphQL::Schema
     return unless id.present?
 
     _, type_name, item_id = Foreman::GlobalId.decode(id)
-    model_class = type_name.safe_constantize
+    type_class = "::Types::#{type_name}".safe_constantize
+
+    model_class = type_class&.model_class
 
     return unless model_class
 
     RecordLoader.for(model_class).load(item_id.to_i)
   end
 
-  def self.resolve_type(_, obj, _)
-    types[obj.class.name]
+  def self.resolve_type(_, object, _)
+    klass = object.class
+    klass.try(:graphql_type)&.safe_constantize || types[klass.name]
   end
 end

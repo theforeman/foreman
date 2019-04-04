@@ -81,6 +81,8 @@ class Host::Managed < Host::Base
   smart_proxy_reference :realm => [:realm_proxy_id]
   smart_proxy_reference :self => [:puppet_proxy_id, :puppet_ca_proxy_id]
 
+  graphql_type '::Types::Host'
+
   class Jail < ::Safemode::Jail
     allow :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
