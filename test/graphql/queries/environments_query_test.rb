@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::EnvironmentsQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class EnvironmentsQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query {
         environments {
           totalCount
@@ -20,22 +21,23 @@ class Queries::EnvironmentsQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:data) { result['data']['environments'] }
+    let(:data) { result['data']['environments'] }
 
-  setup do
-    FactoryBot.create_list(:environment, 2)
-  end
+    setup do
+      FactoryBot.create_list(:environment, 2)
+    end
 
-  test 'fetching environments attributes' do
-    assert_empty result['errors']
+    test 'fetching environments attributes' do
+      assert_empty result['errors']
 
-    expected_count = Environment.count
+      expected_count = Environment.count
 
-    assert_not_equal 0, expected_count
-    assert_equal expected_count, data['totalCount']
-    assert_equal expected_count, data['edges'].count
+      assert_not_equal 0, expected_count
+      assert_equal expected_count, data['totalCount']
+      assert_equal expected_count, data['edges'].count
+    end
   end
 end

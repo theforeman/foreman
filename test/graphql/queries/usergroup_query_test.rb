@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::UsergroupQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class UsergroupQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -22,25 +23,26 @@ class Queries::UsergroupQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:user) { FactoryBot.create(:user, :with_usergroup) }
-  let(:usergroup) { user.usergroups.first }
+    let(:user) { FactoryBot.create(:user, :with_usergroup) }
+    let(:usergroup) { user.usergroups.first }
 
-  let(:global_id) { Foreman::GlobalId.for(usergroup) }
-  let(:variables) {{ id: global_id }}
-  let(:data) { result['data']['usergroup'] }
+    let(:global_id) { Foreman::GlobalId.for(usergroup) }
+    let(:variables) {{ id: global_id }}
+    let(:data) { result['data']['usergroup'] }
 
-  test 'fetching usergroup attributes' do
-    assert_empty result['errors']
+    test 'fetching usergroup attributes' do
+      assert_empty result['errors']
 
-    assert_equal global_id, data['id']
-    assert_equal usergroup.created_at.utc.iso8601, data['createdAt']
-    assert_equal usergroup.updated_at.utc.iso8601, data['updatedAt']
-    assert_equal usergroup.name, data['name']
-    assert_equal usergroup.admin, data['admin']
+      assert_equal global_id, data['id']
+      assert_equal usergroup.created_at.utc.iso8601, data['createdAt']
+      assert_equal usergroup.updated_at.utc.iso8601, data['updatedAt']
+      assert_equal usergroup.name, data['name']
+      assert_equal usergroup.admin, data['admin']
 
-    assert_collection usergroup.users, data['users']
+      assert_collection usergroup.users, data['users']
+    end
   end
 end

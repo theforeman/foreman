@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::MediumQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class MediumQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -47,32 +48,33 @@ class Queries::MediumQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:medium) { FactoryBot.create(:medium, :with_operatingsystem) }
+    let(:medium) { FactoryBot.create(:medium, :with_operatingsystem) }
 
-  let(:global_id) { Foreman::GlobalId.for(medium) }
-  let(:variables) {{ id: global_id }}
-  let(:data) { result['data']['medium'] }
+    let(:global_id) { Foreman::GlobalId.for(medium) }
+    let(:variables) {{ id: global_id }}
+    let(:data) { result['data']['medium'] }
 
-  setup do
-    FactoryBot.create(:host, :managed, medium: medium, operatingsystem: medium.operatingsystems.first, architecture: medium.operatingsystems.first.architectures.first)
-  end
+    setup do
+      FactoryBot.create(:host, :managed, medium: medium, operatingsystem: medium.operatingsystems.first, architecture: medium.operatingsystems.first.architectures.first)
+    end
 
-  test 'fetching medium attributes' do
-    assert_empty result['errors']
+    test 'fetching medium attributes' do
+      assert_empty result['errors']
 
-    assert_equal global_id, data['id']
-    assert_equal medium.created_at.utc.iso8601, data['createdAt']
-    assert_equal medium.updated_at.utc.iso8601, data['updatedAt']
-    assert_equal medium.name, data['name']
-    assert_equal medium.path, data['path']
-    assert_equal medium.os_family, data['osFamily']
+      assert_equal global_id, data['id']
+      assert_equal medium.created_at.utc.iso8601, data['createdAt']
+      assert_equal medium.updated_at.utc.iso8601, data['updatedAt']
+      assert_equal medium.name, data['name']
+      assert_equal medium.path, data['path']
+      assert_equal medium.os_family, data['osFamily']
 
-    assert_collection medium.operatingsystems, data['operatingsystems']
-    assert_collection medium.hosts, data['hosts'], type_name: 'Host'
-    assert_collection medium.locations, data['locations']
-    assert_collection medium.organizations, data['organizations']
+      assert_collection medium.operatingsystems, data['operatingsystems']
+      assert_collection medium.hosts, data['hosts'], type_name: 'Host'
+      assert_collection medium.locations, data['locations']
+      assert_collection medium.organizations, data['organizations']
+    end
   end
 end

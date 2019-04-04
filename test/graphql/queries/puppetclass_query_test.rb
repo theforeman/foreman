@@ -1,8 +1,9 @@
 require 'test_helper'
 
-class Queries::PuppetclassQueryTest < GraphQLQueryTestCase
-  let(:query) do
-    <<-GRAPHQL
+module Queries
+  class PuppetclassQueryTest < GraphQLQueryTestCase
+    let(:query) do
+      <<-GRAPHQL
       query (
         $id: String!
       ) {
@@ -37,30 +38,31 @@ class Queries::PuppetclassQueryTest < GraphQLQueryTestCase
           }
         }
       }
-    GRAPHQL
-  end
+      GRAPHQL
+    end
 
-  let(:environment) { FactoryBot.create(:environment) }
-  let(:puppetclass) { FactoryBot.create(:puppetclass) }
+    let(:environment) { FactoryBot.create(:environment) }
+    let(:puppetclass) { FactoryBot.create(:puppetclass) }
 
-  let(:global_id) { Foreman::GlobalId.for(puppetclass) }
-  let(:variables) {{ id: global_id }}
-  let(:data) { result['data']['puppetclass'] }
+    let(:global_id) { Foreman::GlobalId.for(puppetclass) }
+    let(:variables) {{ id: global_id }}
+    let(:data) { result['data']['puppetclass'] }
 
-  setup do
-    FactoryBot.create(:environment_class, puppetclass: puppetclass, environment: environment)
-  end
+    setup do
+      FactoryBot.create(:environment_class, puppetclass: puppetclass, environment: environment)
+    end
 
-  test 'fetching puppetclass attributes' do
-    assert_empty result['errors']
+    test 'fetching puppetclass attributes' do
+      assert_empty result['errors']
 
-    assert_equal global_id, data['id']
-    assert_equal puppetclass.created_at.utc.iso8601, data['createdAt']
-    assert_equal puppetclass.updated_at.utc.iso8601, data['updatedAt']
-    assert_equal puppetclass.name, data['name']
+      assert_equal global_id, data['id']
+      assert_equal puppetclass.created_at.utc.iso8601, data['createdAt']
+      assert_equal puppetclass.updated_at.utc.iso8601, data['updatedAt']
+      assert_equal puppetclass.name, data['name']
 
-    assert_collection puppetclass.environments, data['environments']
-    assert_collection puppetclass.locations, data['locations']
-    assert_collection puppetclass.organizations, data['organizations']
+      assert_collection puppetclass.environments, data['environments']
+      assert_collection puppetclass.locations, data['locations']
+      assert_collection puppetclass.organizations, data['organizations']
+    end
   end
 end
