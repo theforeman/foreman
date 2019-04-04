@@ -36,6 +36,10 @@ class AutoComplete extends React.Component {
     initialUpdate(initialQuery, controller, id);
   }
 
+  componentDidUpdate() {
+    this.handleLoading();
+  }
+
   windowKeyPressHandler(e) {
     const { useKeyShortcuts, handleSearch } = this.props;
     const instance = this._typeahead.current.getInstance();
@@ -138,7 +142,10 @@ class AutoComplete extends React.Component {
   }
 
   handleLoading() {
-    return this.props.status === STATUS.PENDING;
+    const { status } = this.props;
+    const typeahead = this._typeahead && this._typeahead.current;
+    const isLoading = status === STATUS.PENDING;
+    typeahead && typeahead.setState({ isLoading });
   }
 
   componentWillUnmount() {
@@ -168,7 +175,6 @@ class AutoComplete extends React.Component {
           ref={this._typeahead}
           defaultInputValue={initialQuery}
           options={options}
-          isLoading={this.handleLoading()}
           onInputChange={this.handleInputChange}
           onChange={this.handleResultsChange}
           onFocus={this.handleInputFocus}
