@@ -8,7 +8,7 @@ module Foreman
           @report_headers = []
         end
 
-        def report_render(format: :csv)
+        def report_render(format: params[:format] || :csv)
           case format
           when :csv
             report_render_csv

@@ -1,5 +1,7 @@
 require 'ostruct'
 module ReportsHelper
+  FILE_TYPES = { :csv => 'csv', :txt => 'txt', :yaml => 'yaml'}
+
   def reported_at_column(record)
     link_to config_report_path(record) do
       date_time_relative(record.reported_at)

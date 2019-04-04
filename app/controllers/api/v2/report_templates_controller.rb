@@ -112,6 +112,7 @@ module Api
 
       def generate
         @composer = ReportComposer.from_api_params(params)
+        type = params[:type] || params[:input_values][:type]
         if @composer.valid?
           response = @composer.render(params: params)
           send_data response, type: @composer.mime_type, filename: @composer.report_filename

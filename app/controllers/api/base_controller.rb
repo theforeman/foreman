@@ -335,6 +335,8 @@ module Api
         'edit'
       when 'edit', 'view'
         'view'
+      when 'generate'
+        'generate'
       else
         raise ::Foreman::Exception.new(N_("unknown parent permission for %s"), "#{params[:controller]}##{child_permission}")
       end

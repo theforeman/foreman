@@ -49,6 +49,6 @@
       </div>
     <% end %>
   <% end %>
-
+  <%= select_f f, :format, ReportsHelper::FILE_TYPES, :first, :last, {}, { :label => _('File type')} %>
   <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
 <% end %>

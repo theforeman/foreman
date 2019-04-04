@@ -40,8 +40,8 @@ class ReportTemplate < Template
     { :report_template_id => id }
   end
 
-  def suggested_report_name
-    "#{name}-#{Date.today}.txt"
+  def suggested_report_name(type = 'csv')
+    "#{name}-#{Date.today}.#{type}"
   end
 
   def self.acceptable_template_input_types
