@@ -1,3 +1,9 @@
+2019-04-05	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.2
+
+2019-03-31	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26493 - Pin Capybara on Ruby 2.3 to supported version
+
 2019-03-28	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.21.1
 	* i18n - extracting new, pulling from tx
