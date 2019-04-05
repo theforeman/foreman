@@ -161,9 +161,13 @@ module Api
         render_error 'standard_error', :status => :internal_error, :locals => { :exception => e }
       end
 
-      api :GET, "/report_templates/:id/report_data/:job_id", N_("Return a generated report")
+      api :GET, "/report_templates/:id/report_data/:job_id", N_("Downloads a generated report")
       param :id, :identifier, required: true
-      param :job_id, String, required: true
+      param :job_id, String, required: true, desc: N_('ID assigned to generation job by the schedule command')
+      description <<-DOC
+        Returns the report data as a raw response.
+        In case the report hasn't been generated yet, it will return an empty response with http status 204 - NoContent.
+      DOC
 
       def report_data
         if @plan.progress < 1
