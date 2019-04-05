@@ -2,6 +2,7 @@
 
 exports[`DiffContainer rendering render DiffContainer 1`] = `
 <div
+  className=""
   id="diff-container"
 >
   <DiffRadioButtons

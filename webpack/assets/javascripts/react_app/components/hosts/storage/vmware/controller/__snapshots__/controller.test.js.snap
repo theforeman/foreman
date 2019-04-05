@@ -22,6 +22,7 @@ exports[`StorageContainer should render controller 1`] = `
         className=""
         disabled={false}
         errorMessage="An error occured."
+        id="abc"
         label=""
         onChange={[Function]}
         options={

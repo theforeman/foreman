@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorRadioButton renders EditorRadioButton 1`] = `
+<NavItem
+  active={true}
+  disabled={false}
+  id="input-navitem"
+  onClick={[Function]}
+>
+  Editor
+</NavItem>
+`;

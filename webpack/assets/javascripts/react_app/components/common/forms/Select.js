@@ -15,7 +15,9 @@ class Select extends React.Component {
     const { allowClear } = this.props;
 
     if ($.fn.select2) {
-      $(this.select).select2({ allowClear });
+      $(this.select).select2({
+        allowClear,
+      });
     }
   }
 
@@ -51,6 +53,7 @@ class Select extends React.Component {
       label,
       className,
       value,
+      id,
       onChange,
       options,
       disabled,
@@ -67,6 +70,7 @@ class Select extends React.Component {
           ref={select => {
             this.select = select;
           }}
+          id={id}
           className="form-control"
           value={value}
           onChange={onChange}
@@ -116,11 +120,13 @@ Select.propTypes = {
   status: PropTypes.string,
   errorMessage: PropTypes.string,
   onChange: PropTypes.func,
+  id: PropTypes.string,
 };
 
 Select.defaultProps = {
   value: '',
   label: '',
+  id: 'abc',
   className: '',
   allowClear: false,
   disabled: false,

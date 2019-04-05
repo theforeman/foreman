@@ -6,7 +6,7 @@
            public_send("#{@type_name_singular}_path", :id => @resource_class.new)
          end
 %>
-<%= form_for @template, :url => url, :html => { :multipart => true, :onsubmit => 'tfm.editor.submitCode();' } do |f| %>
+<%= form_for @template, :url => url, :html => { :multipart => true } do |f| %>
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
@@ -41,17 +41,19 @@
 
       <div class='form-group'>
         <div class="col-md-12">
-            <label class="control-label"  for="template"><%= _("Template *") %></label>
-        </div>
-
-        <div class="col-md-12">
-          <div class="editor-container">
-            <%= render :partial => 'editor/toolbar', :locals => { :show_preview => true, :show_import => !@template.locked?} %>
-
-            <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
-            <%= textarea_f f, :template, :class => "editor_source", :label =>:none, :disabled => @template.locked?, :size => "max",
-                            :'data-file-name' => @template.name, :'data-render-path' => url_for(template_hash_for_member(@template, 'preview')) %>
-          </div>
+            <div id="react-ace"></div>
+              <%= mount_react_component('Editor', "#react-ace", {
+                template: @template.template,
+                locked: @template.locked,
+                id: @template.id,
+                type: 'templates',
+                name: template_name_attribute(@template.class),
+                templateClass: @template.class.to_s,
+                title: @template.name,
+                showImport: !@template.locked,
+                showPreview: true,
+                renderPath: url_for(template_hash_for_member(@template, 'preview')),
+              }.to_json) %>
         </div>
       </div>
 
@@ -175,11 +177,6 @@
 
     <%= render "custom_tabs", :f => f unless type == 'ptable'%>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @template %>
-
-    <%# These hidden inputs are used for the diff Preview. They intentionally do
-        not have a 'name' attribute so browsers will not send them in the form POST. %>
-    <input type="hidden" id="old" value="<%= @template.template %>" />
-    <input type="hidden" id="new" value="<%= @template.template %>" />
 
     <%= submit_or_cancel f, false, :cancel_path => template_path_for(@template.class) %>
   </div>
