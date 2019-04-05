@@ -330,7 +330,7 @@ module HostsHelper
                                                :target => '#review_before_build',
                                                :url    => review_before_build_host_path(:id => host)
                                 }
-                              )
+          )
         end
       ),
       if host.supports_power?

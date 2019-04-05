@@ -25,7 +25,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :architecture => architectures(:x86_64),
                                     :organization => @org,
                                     :location => @loc
-    )
+      )
     end
 
     test 'returns not_found when no kind is provided' do
@@ -270,7 +270,7 @@ class UnattendedControllerTest < ActionController::TestCase
                                     :architecture => architectures(:x86_64),
                                     :organization => @org,
                                     :location => @loc
-    )
+      )
     end
 
     test "should get a preseed finish script" do
@@ -514,7 +514,7 @@ class UnattendedControllerTest < ActionController::TestCase
                               :ptable => ptable_ubuntu,
                               :medium => media(:ubuntu),
                               :architecture => architectures(:x86_64)
-    )
+      )
     end
 
     test "hosts with a template proxy which supplies a templateServer should use it" do

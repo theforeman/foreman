@@ -110,6 +110,6 @@ module ComputeResourcesHelper
     select_f(f, :http_proxy_id, HttpProxy.all, :id, :name,
                            {:include_blank => true },
                            { :label => _("HTTP Proxy") }
-                         )
+    )
   end
 end

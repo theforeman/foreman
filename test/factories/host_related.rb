@@ -395,7 +395,7 @@ FactoryBot.define do
         FactoryBot.create(:domain,
                            :dns => FactoryBot.create(:smart_proxy,
                            :features => [FactoryBot.create(:feature, :dns)])
-                         )
+        )
       end
       interfaces do
         [FactoryBot.build(:nic_managed, :without_ipv4,

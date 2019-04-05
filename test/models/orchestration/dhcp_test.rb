@@ -197,11 +197,11 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
         FactoryBot.build(:nic_interface,
                           :identifier => 'eth0',
                           :mac => '00:53:67:ab:dd:00'
-                        ),
+        ),
         FactoryBot.build(:nic_interface,
                           :identifier => 'eth1',
                           :mac => '00:53:67:ab:dd:01'
-                        )
+        )
       ]
     end
     let(:host) do
