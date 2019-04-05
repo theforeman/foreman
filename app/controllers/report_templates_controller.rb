@@ -20,7 +20,7 @@ class ReportTemplatesController < TemplatesController
       job = @composer.schedule_rendering
       if @composer.send_mail?
         if @composer.generate_at
-          success _('Report is going to be rendered at %s, it will be delivered via e-mail.', l(@composer.generate_at))
+          success _('Report is going to be rendered at %s and it will be delivered via e-mail once ready.') % l(@composer.generate_at)
         else
           success _('Report is being rendered, it will be delivered via e-mail.')
         end
