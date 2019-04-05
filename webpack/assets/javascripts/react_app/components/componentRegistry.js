@@ -29,6 +29,7 @@ import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
 import TemplateInput from './Template/TemplateInput';
+import Editor from './Editor';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -148,6 +149,7 @@ const coreComponets = [
   },
   { name: 'FormField', type: FormField, store: false },
   { name: 'ModelsTable', type: ModelsTable },
+  { name: 'Editor', type: Editor },
 
   // Pages
   { name: 'AuditsPage', type: AuditsPage },

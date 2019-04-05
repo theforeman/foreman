@@ -5,6 +5,7 @@ exports[`ExpansiveView rendering render audit record changes 1`] = `
   className="grid-container"
 >
   <DiffContainer
+    className=""
     newText="<h1>Hello World..</h1>"
     oldText="<h1>Hello..</h1>"
     patch=""

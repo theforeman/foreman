@@ -7,14 +7,16 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
       assert_index_page(report_templates_path, "Report Templates", "Create Template")
     end
   end
+
   test "creating report templates with inputs, displaying them when generating the template" do
     visit report_templates_path
     assert page.has_link?('Create Report Template')
 
     click_link 'Create Report Template'
     fill_in :id => 'report_template_name', :with => 'A testing report'
-    # can't use fill_in because text area is hidden thanks to ace editor
-    first('textarea#report_template_template', visible: false).set('CPUs,RAM,HDD\n<%= input("cpus") -%>,<%= 1024 -%> MB,N/A')
+    find('#editor').click
+    find('.ace_content').send_keys "CPUs,RAM,HDD\n<%= input('cpus') -%>,<%= 1024 -%> MB,N/A"
+    sleep 1 # Wait for the editor onChange debounce
 
     click_link('Inputs')
     within "#template_inputs" do

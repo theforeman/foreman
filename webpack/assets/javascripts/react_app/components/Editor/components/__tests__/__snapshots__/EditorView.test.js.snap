@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorView EditorView renders EditorView 1`] = `
+<ReactAce
+  className=""
+  cursorStart={1}
+  debounceChangePeriod={250}
+  editorProps={
+    Object {
+      "$blockScrolling": Infinity,
+    }
+  }
+  enableBasicAutocompletion={false}
+  enableLiveAutocompletion={false}
+  focus={false}
+  fontSize={12}
+  height="500px"
+  highlightActiveLine={true}
+  keyboardHandler={null}
+  maxLines={null}
+  minLines={null}
+  mode="ruby"
+  name="editor"
+  navigateToFileEnd={true}
+  onChange={[Function]}
+  onLoad={null}
+  onPaste={null}
+  onScroll={null}
+  placeholder={null}
+  readOnly={false}
+  scrollMargin={
+    Array [
+      0,
+      0,
+      0,
+      0,
+    ]
+  }
+  setOptions={Object {}}
+  showGutter={true}
+  showPrintMargin={false}
+  style={Object {}}
+  tabSize={4}
+  theme="monokai"
+  value="value"
+  width="500px"
+  wrapEnabled={false}
+/>
+`;
+
+exports[`EditorView EditorView renders EditorView w/vim&mask 1`] = `
+<ReactAce
+  className=" mask-editor"
+  cursorStart={1}
+  debounceChangePeriod={250}
+  editorProps={
+    Object {
+      "$blockScrolling": Infinity,
+    }
+  }
+  enableBasicAutocompletion={false}
+  enableLiveAutocompletion={false}
+  focus={false}
+  fontSize={12}
+  height="500px"
+  highlightActiveLine={true}
+  keyboardHandler="vim"
+  maxLines={null}
+  minLines={null}
+  mode="ruby"
+  name="editor"
+  navigateToFileEnd={true}
+  onChange={[Function]}
+  onLoad={null}
+  onPaste={null}
+  onScroll={null}
+  placeholder={null}
+  readOnly={false}
+  scrollMargin={
+    Array [
+      0,
+      0,
+      0,
+      0,
+    ]
+  }
+  setOptions={Object {}}
+  showGutter={true}
+  showPrintMargin={false}
+  style={Object {}}
+  tabSize={4}
+  theme="monokai"
+  value="value"
+  width="500px"
+  wrapEnabled={false}
+/>
+`;
