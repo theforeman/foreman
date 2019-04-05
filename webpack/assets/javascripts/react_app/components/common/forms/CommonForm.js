@@ -16,8 +16,7 @@ const CommonForm = ({
   >
     <label className="col-md-2 control-label">
       {label}
-      {required && ' *'}
-      {tooltipHelp}
+      {tooltipHelp} {required && '*'}
     </label>
     <div className={inputClassName}>{children}</div>
     {touched && error && (

@@ -14,24 +14,32 @@ import { MONTH } from './DateComponents/DateConstants';
 import './date-time-picker.scss';
 
 class DateTimePicker extends React.Component {
-  state = {
-    value: new Date(this.props.value),
-    typeOfDateInput: MONTH,
-    isTimeTableOpen: false,
-    left: 'auto',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: new Date(this.props.value),
+      typeOfDateInput: MONTH,
+      isTimeTableOpen: false,
+      hiddenValue: this.props.hiddenValue,
+    };
+  }
+
   formatDate = () => {
-    const { locale } = this.props;
+    const zeroPadding = n => (n < 10 ? `0${n}` : n);
     const { value } = this.state;
-    const options = [
-      { year: 'numeric', month: 'numeric', day: 'numeric' },
-      { hour: '2-digit', minute: '2-digit' },
-    ];
-    return `${value.toLocaleString(locale, options[0])} ${value.toLocaleString(
-      locale,
-      options[1]
-    )}`;
+    const date = {
+      year: value.getFullYear(),
+      month: zeroPadding(value.getMonth() + 1),
+      day: zeroPadding(value.getDate()),
+      hour: zeroPadding(value.getHours()),
+      minutes: zeroPadding(value.getMinutes()),
+    };
+
+    return `${date.year}-${date.month}-${date.day} ${date.hour}:${
+      date.minutes
+    }:00`;
   };
+
   setSelected = date => {
     if (Date.parse(date)) {
       const newDate = new Date(date);
@@ -42,20 +50,14 @@ class DateTimePicker extends React.Component {
       isTimeTableOpen: false,
     });
   };
-  getLeft = () => {
-    const div = document
-      .getElementsByClassName('date-time-picker-pf')[0]
-      .getBoundingClientRect();
-    this.setState({ left: div.left });
-  };
+
   render() {
-    const { locale, weekStartsOn, inputProps } = this.props;
-    const { value, typeOfDateInput, isTimeTableOpen, left } = this.state;
+    const { locale, weekStartsOn, inputProps, id } = this.props;
+    const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
     const popover = (
       <Popover
-        id="popover-date-picker1"
+        id={id}
         className="bootstrap-datetimepicker-widget dropdown-menu timepicker-sbs"
-        style={{ left: `${left} !important` }}
       >
         <div className="row">
           <DateInput
@@ -79,29 +81,38 @@ class DateTimePicker extends React.Component {
     );
     return (
       <div>
-        <OverlayTrigger
-          trigger="click"
-          placement="top"
-          overlay={popover}
-          rootClose
-          shouldUpdatePosition
-        >
-          <InputGroup
-            className="input-group date-time-picker-pf"
-            onClick={this.getLeft}
+        <InputGroup className="input-group date-time-picker-pf">
+          <FormControl
+            {...inputProps}
+            aria-label="date-picker-input"
+            type="text"
+            className="date-time-input"
+            value={hiddenValue ? '' : this.formatDate()}
+            onChange={e => this.setSelected(e.target.value)}
+          />
+
+          <OverlayTrigger
+            trigger="click"
+            placement="top"
+            overlay={popover}
+            rootClose
+            container={this}
+            onEnter={() => this.setState({ hiddenValue: false })}
           >
-            <FormControl
-              {...inputProps}
-              aria-label="date-picker-input"
-              type="text"
-              value={this.formatDate()}
-              onChange={e => this.setSelected(e.target.value)}
-            />
             <InputGroup.Addon className="date-time-picker-pf">
               <Icon type="fa" name="calendar" />
             </InputGroup.Addon>
-          </InputGroup>
-        </OverlayTrigger>
+          </OverlayTrigger>
+          <InputGroup.Addon className="clear-button">
+            <Icon
+              type="fa"
+              name="close"
+              onClick={() =>
+                this.setState({ hiddenValue: true, value: new Date() })
+              }
+            />
+          </InputGroup.Addon>
+        </InputGroup>
       </div>
     );
   }
@@ -112,11 +123,15 @@ DateTimePicker.propTypes = {
   locale: PropTypes.string,
   weekStartsOn: PropTypes.number,
   inputProps: PropTypes.object,
+  id: PropTypes.string,
+  hiddenValue: PropTypes.bool,
 };
 DateTimePicker.defaultProps = {
   value: new Date(),
   locale: 'en-US',
   weekStartsOn: 1,
   inputProps: {},
+  id: 'datetime-picker-popover',
+  hiddenValue: true,
 };
 export default DateTimePicker;

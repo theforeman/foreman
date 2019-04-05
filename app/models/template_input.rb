@@ -8,6 +8,7 @@ class TemplateInput < ApplicationRecord
 
   TYPES = { :user => N_('User input'), :fact => N_('Fact value'), :variable => N_('Variable'),
             :puppet_parameter => N_('Puppet parameter') }.with_indifferent_access
+  VALUE_TYPE = ['plain', 'search', 'date']
 
   attr_exportable(:name, :required, :input_type, :fact_name, :variable_name, :puppet_class_name,
                   :puppet_parameter_name, :description, :options, :advanced)
@@ -23,6 +24,7 @@ class TemplateInput < ApplicationRecord
   validates :fact_name, :presence => { :if => :fact_template_input? }
   validates :variable_name, :presence => { :if => :variable_template_input? }
   validates :puppet_parameter_name, :puppet_class_name, :presence => { :if => :puppet_parameter_template_input? }
+  validates :value_type, inclusion: { in: VALUE_TYPE }
 
   def user_template_input?
     input_type == 'user'

@@ -26,6 +26,7 @@ import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
+import TemplateInput from './Template/TemplateInput';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -116,6 +117,8 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
+  { name: 'TemplateInput', type: TemplateInput },
+
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,

@@ -55,6 +55,7 @@ exports[`Edit hours of PickTimeClock 1`] = `
         <td>
           <button
             class="btn btn-primary ampm-toggle"
+            type="button"
           >
             PM
           </button>
@@ -146,6 +147,7 @@ exports[`Edit minutes of PickTimeClock 1`] = `
         <td>
           <button
             class="btn btn-primary ampm-toggle"
+            type="button"
           >
             PM
           </button>
@@ -237,6 +239,7 @@ exports[`PickTimeClock is working properly 1`] = `
         <td>
           <button
             class="btn btn-primary ampm-toggle"
+            type="button"
           >
             PM
           </button>
@@ -328,6 +331,7 @@ exports[`Toggle hours of PickTimeClock 1`] = `
         <td>
           <button
             class="btn btn-primary ampm-toggle"
+            type="button"
           >
             AM
           </button>
