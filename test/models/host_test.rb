@@ -1745,7 +1745,7 @@ class HostTest < ActiveSupport::TestCase
                                 :mac => '00:00:00:11:22:33',
                                 :ip => '10.10.0.1',
                                 :subnet => subnet
-                              )
+      )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
       }.with_indifferent_access
       parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
@@ -1765,7 +1765,7 @@ class HostTest < ActiveSupport::TestCase
                                 :mac => '00:00:00:11:22:33',
                                 :ip => '10.10.0.1',
                                 :subnet => subnet
-                              )
+      )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false}
       }.with_indifferent_access
       parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
@@ -1785,7 +1785,7 @@ class HostTest < ActiveSupport::TestCase
                                 :mac => '00:00:00:11:22:33',
                                 :ip => '10.10.0.1',
                                 :subnet => subnet
-                              )
+      )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false, :keep_subnet => true}
       }.with_indifferent_access
       parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
@@ -1805,7 +1805,7 @@ class HostTest < ActiveSupport::TestCase
                                 :ip6 => '2001:db8::10',
                                 :subnet => subnet,
                                 :subnet6 => subnet6
-                              )
+      )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false}
       }.with_indifferent_access
       parser = stub(:class_name_humanized => 'TestParser', :interfaces => hash, :ipmi_interface => {}, :suggested_primary_interface => hash.to_a.last)
