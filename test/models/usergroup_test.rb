@@ -220,9 +220,11 @@ class UsergroupTest < ActiveSupport::TestCase
   context 'external usergroups' do
     setup do
       @usergroup = FactoryBot.create(:usergroup)
-      @external = @usergroup.external_usergroups.new(:auth_source_id => FactoryBot.create(:auth_source_ldap).id,
+      auth_source_ldap = FactoryBot.create(:auth_source_ldap)
+      @external = @usergroup.external_usergroups.new(:auth_source_id => auth_source_ldap.id,
                                                      :name           => 'aname')
       LdapFluff.any_instance.stubs(:ldap).returns(Net::LDAP.new)
+      users(:one).update_column(:auth_source_id, auth_source_ldap.id)
     end
 
     test "can be associated with external_usergroups" do
@@ -240,8 +242,8 @@ class UsergroupTest < ActiveSupport::TestCase
     end
 
     test "delete user if not in LDAP directory" do
-      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(false)
-      @usergroup.users << users(:one)
+      LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
+      @usergroup.user_ids = [users(:one).id]
       @usergroup.save
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([])
@@ -255,18 +257,18 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.save
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([users(:one).login])
-      @usergroup.external_usergroups.find { |eu| eu.name == 'aname'}.refresh
+      @usergroup.external_usergroups.find { |eu| eu.name == 'aname' }.refresh
       assert_includes @usergroup.users, users(:one)
     end
 
     test "keep user if in LDAP directory" do
       LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
-      @usergroup.users << users(:one)
+      @usergroup.user_ids = [users(:one).id]
       @usergroup.save
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([users(:one).login])
       @usergroup.external_usergroups.find { |eu| eu.name == 'aname'}.refresh
-      assert_includes @usergroup.users, users(:one)
+      assert_includes @usergroup.reload.users, users(:one)
     end
 
     test 'internal auth source users remain after refresh' do
@@ -277,8 +279,7 @@ class UsergroupTest < ActiveSupport::TestCase
         )
       internal_user = FactoryBot.create(:user)
       LdapFluff.any_instance.stubs(:valid_group?).with('aname').returns(true)
-      @usergroup.users << internal_user
-      @usergroup.users << external_user
+      @usergroup.user_ids = [internal_user.id, external_user.id]
       @usergroup.save
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').

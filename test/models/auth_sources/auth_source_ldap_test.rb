@@ -4,6 +4,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup
     @auth_source_ldap = FactoryBot.create(:auth_source_ldap)
     User.current = users(:admin)
+    User.unscoped.find_by_login('test').update_column(:auth_source_id, @auth_source_ldap.id)
   end
 
   should validate_presence_of(:name)
@@ -85,24 +86,29 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal 'Bär', attrs[:firstname]
   end
 
-  test 'update_usergroups returns if entry does not belong to any group' do
-    setup_ldap_stubs
-    ExternalUsergroup.any_instance.expects(:refresh).never
-    LdapFluff.any_instance.expects(:group_list).with('test').returns([])
-    @auth_source_ldap.send(:update_usergroups, 'test')
-  end
-
-  context 'refresh ldap' do
+  context 'refresh usergroups according to ldap' do
     setup do
       setup_ldap_stubs
       LdapFluff.any_instance.expects(:group_list).with('test').returns(['ipausers'])
     end
 
-    test 'update_usergroups calls refresh_ldap if entry belongs to some group' do
+    test 'update_usergroups add user to a group' do
+      LdapFluff.any_instance.expects(:user_list).with('ipausers').returns(['test'])
+      ldap_user = User.unscoped.find_by_login('test')
       @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
-      FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
-      ExternalUsergroup.any_instance.expects(:refresh)
+      external = FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
       @auth_source_ldap.send(:update_usergroups, 'test')
+      assert_include ldap_user.usergroups, external.usergroup
+    end
+
+    test 'update_usergroups removes user from a group' do
+      LdapFluff.any_instance.expects(:user_list).with('ipausers2').returns([])
+      ldap_user = User.unscoped.find_by_login('test')
+      @auth_source_ldap.expects(:valid_group?).with('ipausers2').returns(true)
+      external = FactoryBot.create(:external_usergroup, :name => 'ipausers2', :auth_source => @auth_source_ldap)
+      ldap_user.usergroup_ids = [external.usergroup_id]
+      @auth_source_ldap.send(:update_usergroups, 'test')
+      refute_includes ldap_user.reload.usergroups, external.usergroup
     end
 
     test 'update_usergroups matches LDAP gids with external user groups case insensitively' do
@@ -114,11 +120,16 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_include ldap_user.usergroups, external.usergroup
     end
 
-    test 'update_usergroups refreshes on all external user groups, in LDAP and in Foreman auth source' do
-      @auth_source_ldap.expects(:valid_group?).with('new external group').returns(true)
-      external = FactoryBot.create(:external_usergroup, :name => 'new external group', :auth_source => @auth_source_ldap)
-      User.any_instance.expects(:external_usergroups).returns([external])
+    test 'update_usergroups does not remove user from a group if belongs to one of two mapped external groups' do
+      LdapFluff.any_instance.expects(:user_list).with('ipausers').returns(['test'])
+      LdapFluff.any_instance.expects(:user_list).with('ipausers2').returns([])
+      ldap_user = User.unscoped.find_by_login('test')
+      @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
+      @auth_source_ldap.expects(:valid_group?).with('ipausers2').returns(true)
+      external = FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
+      FactoryBot.create(:external_usergroup, usergroup: external.usergroup, :name => 'ipausers2', :auth_source => @auth_source_ldap)
       @auth_source_ldap.send(:update_usergroups, 'test')
+      assert_include ldap_user.usergroups, external.usergroup
     end
   end
 
