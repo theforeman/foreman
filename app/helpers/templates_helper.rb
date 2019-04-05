@@ -62,7 +62,7 @@ module TemplatesHelper
     return if input_value.nil?
 
     input = input_value.template_input
-    controller = input.resource_type.tableize
+    controller = input.resource_type&.tableize
 
     mount_react_component('TemplateInput', "#template-input-#{input.id}", {
       value: input_value.value.to_s,
