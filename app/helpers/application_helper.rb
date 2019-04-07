@@ -88,7 +88,7 @@ module ApplicationHelper
   def remove_link_to_function(text, options)
     options.delete_if { |key, value| !options[key].to_s } # otherwise error during template render
     title = (_("Click to remove %s") % options[:"data-class-name"])
-    link_to_function(text, "remove_puppet_class(this)", options.merge!(:'data-original-title' => title))
+    link_to_function(text, "tfm.classEditor.removePuppetClass(this)", options.merge!(:'data-original-title' => title))
   end
 
   def link_to_add_puppetclass(klass, type)
@@ -99,7 +99,7 @@ module ApplicationHelper
   end
 
   def add_link_to_function(text, options)
-    link_to_function(text, "add_puppet_class(this)",
+    link_to_function(text, "tfm.classEditor.addPuppetClass(this)",
         options.merge(:'data-original-title' => _("Click to add %s") % options[:"data-class-name"]))
   end
 
