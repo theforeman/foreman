@@ -59,6 +59,36 @@ class HostJSTest < IntegrationTestWithJavascript
       check 'check_all'
       assert page.has_text?(:all, "All 3 hosts on this page are selected")
     end
+
+    test 'cookie should exist after checking all, cookie should clear after search' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path()
+      check 'check_all'
+      assert_not_nil get_me_the_cookie('_ForemanSelectedhosts')
+      visit hosts_path(search: "name = abc")
+      assert_nil get_me_the_cookie('_ForemanSelectedhosts')
+    end
+
+    test 'bulk select all hosts' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path(per_page: 2)
+      check 'check_all'
+      assert page.has_text?(:all, "Select all 3 hosts")
+      find('#multiple-alert > .text > a').click
+      assert page.has_text?(:all, "All 3 hosts are selected")
+    end
+
+    test 'apply bulk action, change environment on all hosts' do
+      Setting[:entries_per_page] = 3
+      visit hosts_path(per_page: 2)
+      check 'check_all'
+      find('#multiple-alert > .text > a').click
+      find('#submit_multiple').click
+      find("a", :text => /\AChange Environment\z/).click
+      find('#environment_id').find(:xpath, 'option[4]').select_option
+      find("button", :text => /\ASubmit\z/).click
+      assert page.has_text?(:all, "Updated hosts: changed environment")
+    end
   end
 
   describe 'edit page' do
