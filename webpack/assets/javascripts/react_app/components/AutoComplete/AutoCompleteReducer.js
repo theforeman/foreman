@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
 import {
+  AUTO_COMPLETE_INIT,
   AUTO_COMPLETE_REQUEST,
   AUTO_COMPLETE_SUCCESS,
   AUTO_COMPLETE_FAILURE,
@@ -31,11 +32,21 @@ export default (state = Immutable({}), action) => {
     } = {},
   } = action;
   switch (type) {
+    case AUTO_COMPLETE_INIT:
+      return state.setIn([id], {
+        ...state[id],
+        controller,
+        error,
+        isErrorVisible,
+        searchQuery,
+        status,
+        trigger,
+      });
     case AUTO_COMPLETE_REQUEST:
       return state.setIn([id], {
         ...state[id],
         controller,
-        error: null,
+        error,
         searchQuery,
         status,
         trigger,
@@ -43,14 +54,8 @@ export default (state = Immutable({}), action) => {
     case AUTO_COMPLETE_SUCCESS:
       return state.setIn([id], {
         ...state[id],
-        controller,
-        error: error || initialAutocompleteState.error,
-        isErrorVisible:
-          isErrorVisible || initialAutocompleteState.isErrorVisible,
         results,
-        searchQuery,
         status,
-        trigger,
       });
     case AUTO_COMPLETE_FAILURE:
       return state.setIn([id], {

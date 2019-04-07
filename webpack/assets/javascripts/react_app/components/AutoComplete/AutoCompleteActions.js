@@ -4,6 +4,7 @@ import API from '../../API';
 import { STATUS } from '../../constants';
 import { clearSpaces } from '../../common/helpers';
 import {
+  AUTO_COMPLETE_INIT,
   AUTO_COMPLETE_REQUEST,
   AUTO_COMPLETE_SUCCESS,
   AUTO_COMPLETE_FAILURE,
@@ -27,7 +28,6 @@ export const getResults = ({
   });
 
   return createAPIRequest({
-    controller,
     searchQuery,
     trigger,
     id,
@@ -36,14 +36,7 @@ export const getResults = ({
   });
 };
 
-let createAPIRequest = async ({
-  controller,
-  searchQuery,
-  trigger,
-  id,
-  dispatch,
-  url,
-}) => {
+let createAPIRequest = async ({ searchQuery, trigger, id, dispatch, url }) => {
   if (!url) {
     return requestFailure({
       error: new Error('No API path was provided.'),
@@ -58,9 +51,7 @@ let createAPIRequest = async ({
 
     return requestSuccess({
       data,
-      controller,
       dispatch,
-      searchQuery,
       trigger,
       id,
     });
@@ -84,19 +75,13 @@ const startRequest = ({ controller, searchQuery, trigger, dispatch, id }) => {
       searchQuery,
       status: STATUS.PENDING,
       trigger,
+      error: null,
       id,
     },
   });
 };
 
-const requestSuccess = ({
-  data,
-  trigger,
-  controller,
-  searchQuery,
-  id,
-  dispatch,
-}) => {
+const requestSuccess = ({ data, trigger, id, dispatch }) => {
   const { error } = data[0] || {};
   if (error) {
     return requestFailure({ error: new Error(error), id, dispatch });
@@ -116,11 +101,8 @@ const requestSuccess = ({
   return dispatch({
     type: AUTO_COMPLETE_SUCCESS,
     payload: {
-      controller,
       results,
-      searchQuery,
       status: STATUS.RESOLVED,
-      trigger,
       id,
     },
   });
@@ -165,13 +147,12 @@ export const initialUpdate = ({
   id,
 }) => dispatch =>
   dispatch({
-    type: AUTO_COMPLETE_SUCCESS,
+    type: AUTO_COMPLETE_INIT,
     payload: {
       searchQuery,
       controller,
       trigger: TRIGGERS.COMPONENT_DID_MOUNT,
       status: STATUS.RESOLVED,
-      results: [],
       error,
       isErrorVisible: !!error,
       id,

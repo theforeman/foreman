@@ -6,6 +6,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "error": null,
         "id": "some-id",
         "searchQuery": "x = y",
         "status": "PENDING",
@@ -35,6 +36,7 @@ Array [
     Object {
       "payload": Object {
         "controller": "models",
+        "error": null,
         "id": "some-id",
         "searchQuery": "",
         "status": "PENDING",
@@ -46,7 +48,6 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "controller": "models",
         "id": "some-id",
         "results": Array [
           Object {
@@ -54,9 +55,7 @@ Array [
             "label": "some results",
           },
         ],
-        "searchQuery": "",
         "status": "RESOLVED",
-        "trigger": "INPUT_CHANGE",
       },
       "type": "AUTO_COMPLETE_SUCCESS",
     },
@@ -87,12 +86,11 @@ Array [
         "error": "oops",
         "id": "some-id",
         "isErrorVisible": true,
-        "results": Array [],
         "searchQuery": "searchQuery",
         "status": "RESOLVED",
         "trigger": "COMPONENT_DID_MOUNT",
       },
-      "type": "AUTO_COMPLETE_SUCCESS",
+      "type": "AUTO_COMPLETE_INIT",
     },
   ],
 ]

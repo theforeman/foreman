@@ -3,6 +3,7 @@ import {
   AUTO_COMPLETE_SUCCESS,
   AUTO_COMPLETE_FAILURE,
   AUTO_COMPLETE_RESET,
+  AUTO_COMPLETE_INIT,
 } from '../AutoCompleteConstants';
 import reducer from '../AutoCompleteReducer';
 
@@ -13,7 +14,7 @@ const fixtures = {
   'should return the initial state': {},
   'should update state with initial data': {
     action: {
-      type: AUTO_COMPLETE_SUCCESS,
+      type: AUTO_COMPLETE_INIT,
       payload: mock.initialValues,
     },
   },

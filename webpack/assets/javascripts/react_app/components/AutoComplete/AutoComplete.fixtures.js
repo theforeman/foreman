@@ -41,8 +41,9 @@ export const initialValues = {
   searchQuery,
   controller,
   trigger: TRIGGERS.COMPONENT_DID_MOUNT,
-  results,
   status: STATUS.RESOLVED,
+  error,
+  isErrorVisible: !!error,
   id,
 };
 
