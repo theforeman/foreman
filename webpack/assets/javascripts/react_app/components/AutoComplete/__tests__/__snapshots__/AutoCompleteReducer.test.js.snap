@@ -40,18 +40,13 @@ Object {
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_SUCCESS 1`] = `
 Object {
   "some-id": Object {
-    "controller": "models",
-    "error": null,
-    "isErrorVisible": false,
     "results": Array [
       Object {
         "category": "category",
         "label": "some results",
       },
     ],
-    "searchQuery": "",
     "status": "RESOLVED",
-    "trigger": "INPUT_CHANGE",
   },
 }
 `;
@@ -62,14 +57,8 @@ exports[`AutoComplete reducer should update state with initial data 1`] = `
 Object {
   "some-id": Object {
     "controller": "models",
-    "error": null,
-    "isErrorVisible": false,
-    "results": Array [
-      Object {
-        "category": "category",
-        "label": "some results",
-      },
-    ],
+    "error": "oops",
+    "isErrorVisible": true,
     "searchQuery": "",
     "status": "RESOLVED",
     "trigger": "COMPONENT_DID_MOUNT",

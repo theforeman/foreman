@@ -7,6 +7,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "error": null,
           "id": "some-id",
           "searchQuery": "",
           "status": "PENDING",
@@ -48,7 +49,6 @@ Object {
       "controller": "models",
       "error": null,
       "isErrorVisible": false,
-      "results": Array [],
       "searchQuery": "",
       "status": "RESOLVED",
       "trigger": "COMPONENT_DID_MOUNT",
@@ -64,6 +64,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "error": null,
           "id": "some-id",
           "searchQuery": "",
           "status": "PENDING",
@@ -79,7 +80,6 @@ Object {
         "controller": "models",
         "error": null,
         "isErrorVisible": false,
-        "results": Array [],
         "searchQuery": "",
         "status": "PENDING",
         "trigger": "INPUT_FOCUS",
@@ -96,6 +96,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "error": null,
           "id": "some-id",
           "searchQuery": "result",
           "status": "PENDING",
@@ -133,6 +134,7 @@ Object {
       Object {
         "payload": Object {
           "controller": "models",
+          "error": null,
           "id": "some-id",
           "searchQuery": "result",
           "status": "PENDING",
@@ -173,7 +175,6 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "controller": "models",
           "id": "some-id",
           "results": Array [
             Object {
@@ -181,9 +182,7 @@ Object {
               "label": "result",
             },
           ],
-          "searchQuery": "",
           "status": "RESOLVED",
-          "trigger": "INPUT_FOCUS",
         },
         "type": "AUTO_COMPLETE_SUCCESS",
       },
@@ -216,7 +215,6 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "controller": "models",
           "id": "some-id",
           "results": Array [
             Object {
@@ -228,9 +226,7 @@ Object {
               "label": "results2 ",
             },
           ],
-          "searchQuery": "result",
           "status": "RESOLVED",
-          "trigger": "ITEM_SELECT",
         },
         "type": "AUTO_COMPLETE_SUCCESS",
       },
