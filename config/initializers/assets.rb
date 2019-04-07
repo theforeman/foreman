@@ -32,7 +32,6 @@ Foreman::Application.configure do |app|
                   taxonomy_edit
                   gettext/all
                   filters
-                  class_edit
                   subnets
                   hidden_values
                   proxy_status
