@@ -1,13 +1,10 @@
-import DateTime from './DateTime';
-import {
-  ReportDateTimePrpos,
-  ReportDateTimeWithRequireAndInfo,
-} from '../../../Template/Inputs/TemplateInput.fixures';
 import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { DateTimeProps, DateTimeWithRequireAndInfo } from './DateTime.fixtures';
+import DateTime from './DateTime';
 
 const fixtures = {
-  'renders Report Date input': ReportDateTimePrpos,
-  'With Require and Info': ReportDateTimeWithRequireAndInfo,
+  'renders Report Date input': DateTimeProps,
+  'renders with Require and Info': DateTimeWithRequireAndInfo,
 };
 
 describe('Report Template AutoComplete', () => {
