@@ -56,7 +56,6 @@ DateTime.propTypes = {
   id: PropTypes.number.isRequired,
   locale: PropTypes.string,
   inputProps: PropTypes.object,
-  template: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   initialError: PropTypes.string,
   hideValue: PropTypes.bool,
