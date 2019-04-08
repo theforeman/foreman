@@ -23,6 +23,7 @@
 </div>
 <%= number_f f, :vlanid, :min => 0, :max => 4095, :help_inline => _("Optional: VLAN ID for this subnet") %>
 <%= number_f f, :mtu, :label => _('MTU'), :min => 68, :max => 4294967295, :help_inline => _('MTU for this subnet') %>
+<%= number_f f, :nic_delay, :label => _('Link Delay'), :min => 0, :max => 900, :help_inline => _('Delay network activity during install for X seconds') %>
 <%= selectable_f f, :boot_mode, Subnet.boot_modes_with_translations, {},
                  :label => _("Boot Mode"), :help_inline => _("Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates") %>
 <%= hidden_field_tag :redirect, params[:redirect] %>

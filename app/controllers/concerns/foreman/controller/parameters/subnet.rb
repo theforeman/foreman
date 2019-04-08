@@ -23,6 +23,7 @@ module Foreman::Controller::Parameters::Subnet
           :type,
           :vlanid,
           :mtu,
+          :nic_delay,
           :domain_ids => [], :domain_names => [],
           :subnet_parameters_attributes => [parameter_params_filter(::SubnetParameter)]
         add_taxonomix_params_filter(filter)

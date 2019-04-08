@@ -146,6 +146,10 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal 1500, Subnet.new.mtu
   end
 
+  test "should have nic_delay set to nil by default" do
+    assert_nil Subnet.new.nic_delay
+  end
+
   describe '#dns_servers' do
     test 'should display a list of dns servers' do
       subnet = FactoryBot.create(:subnet_ipv4, dns_primary: '192.0.2.1', dns_secondary: '192.0.2.2')
