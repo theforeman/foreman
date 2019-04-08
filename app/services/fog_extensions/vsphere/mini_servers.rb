@@ -93,7 +93,8 @@ module FogExtensions
           :cpus => 'config.hardware.numCPU',
           :corespersocket => 'config.hardware.numCoresPerSocket',
           :memory => 'config.hardware.memoryMB',
-          :state => 'runtime.powerState'
+          :state => 'runtime.powerState',
+          :operatingsystem => 'config.guestFullName'
         }
       end
 
