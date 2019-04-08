@@ -93,6 +93,7 @@ class NicTest < ActiveSupport::TestCase
     assert_equal subnet6.network, interface.network6
     assert_equal subnet.vlanid, interface.vlanid
     assert_equal 42, interface.vlanid
+    assert_equal 3, subnet.nic_delay
     assert_equal 1496, interface.mtu
     assert_equal subnet.mtu, interface.mtu
   end
