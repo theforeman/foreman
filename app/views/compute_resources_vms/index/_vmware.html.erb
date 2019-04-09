@@ -6,6 +6,7 @@
     <th><%= _('Memory') %></th>
     <th><%= _('Power') %></th>
     <th><%= _('Operating system') %></th>
+    <th><%= _('Hypervisor') %></th>
     <th><%= _('Actions') %></th>
   </tr>
 </thead>
@@ -20,6 +21,7 @@
           <%= vm_state(vm) %></span>
       </td>
       <td><%= vm.operatingsystem %></td>
+      <td><%= vm.hypervisor&.name %></td>
       <td>
         <%= action_buttons(vm_power_action(vm, authorizer),
                          (display_link_if_authorized(_('Console'), hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer)) if vm.ready?),
