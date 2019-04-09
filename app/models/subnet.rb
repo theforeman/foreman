@@ -81,7 +81,7 @@ class Subnet < ApplicationRecord
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name, :length => {:maximum => 255}, :uniqueness => true
   validates :vlanid, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 4096}, :allow_blank => true
-  validates :mtu, :presence => true
+  validates :mtu, numericality: { :only_integer => true, :greater_than_or_equal_to => 68}, :presence => true
 
   before_validation :normalize_addresses
   validate :ensure_ip_addrs_valid
