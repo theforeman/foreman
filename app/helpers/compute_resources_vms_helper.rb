@@ -243,7 +243,8 @@ module ComputeResourcesVmsHelper
   end
 
   def vm_import_action(vm, html_options = {})
-    return unless Host.for_vm(@compute_resource, vm).empty?
+    @_linked_hosts_cache ||= Host.where(:compute_resource_id => @compute_resource.id).pluck(:uuid)
+    return if @_linked_hosts_cache.include?(vm.identity.to_s)
 
     import_managed_link = display_link_if_authorized(
       _("Import as managed Host"),
