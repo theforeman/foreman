@@ -94,7 +94,8 @@ module FogExtensions
           :corespersocket => 'config.hardware.numCoresPerSocket',
           :memory => 'config.hardware.memoryMB',
           :state => 'runtime.powerState',
-          :operatingsystem => 'config.guestFullName'
+          :operatingsystem => 'config.guestFullName',
+          :hypervisor => 'runtime.host'
         }
       end
 
