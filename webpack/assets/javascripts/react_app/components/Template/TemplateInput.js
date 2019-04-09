@@ -45,8 +45,9 @@ const TemplateInput = ({
           isRequired={required}
           info={description || 'Format is yyyy-mm-dd HH-mm-ss'}
           initialError={initialError}
-          url={url}
-          template={template}
+          inputProps={{
+            name: `${template}[input_values][${id}][value]`,
+          }}
           hideValue={!value.length}
           value={value || undefined}
         />

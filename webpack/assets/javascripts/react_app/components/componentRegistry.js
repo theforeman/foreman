@@ -10,6 +10,7 @@ import RelativeDateTime from './common/dates/RelativeDateTime';
 import LongDateTime from './common/dates/LongDateTime';
 import ShortDateTime from './common/dates/ShortDateTime';
 import IsoDate from './common/dates/IsoDate';
+import DateTime from './common/forms/DateTime/DateTime';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
@@ -143,6 +144,7 @@ const coreComponets = [
     data: true,
     store: false,
   },
+  { name: 'DateTime', type: DateTime, store: false },
   { name: 'ModelsTable', type: ModelsTable },
 
   // Pages
