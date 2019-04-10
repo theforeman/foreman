@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { VerticalNav } from 'patternfly-react';
+import { translate as __ } from '../../common/I18n';
 import { noop } from '../../common/helpers';
 
 import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';
@@ -74,7 +75,7 @@ class Layout extends React.Component {
         onItemClick={primary =>
           handleMenuClick(primary, activeMenu, changeActiveMenu)
         }
-        activePath={`/${activeMenu}/`}
+        activePath={`/${__(activeMenu)}/`}
         {...this.props}
       >
         <VerticalNav.Masthead>

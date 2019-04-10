@@ -2,7 +2,7 @@
 
 exports[`Layout reducer should handle LAYOUT_CHANGE_LOCATION 1`] = `
 Object {
-  "activeMenu": "",
+  "activeMenu": "initialActive",
   "currentLocation": "yaml",
   "currentOrganization": Object {
     "title": "Any Organization",
@@ -14,7 +14,7 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_CHANGE_ORG 1`] = `
 Object {
-  "activeMenu": "",
+  "activeMenu": "initialActive",
   "currentLocation": Object {
     "title": "Any Location",
   },
@@ -26,7 +26,7 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_HIDE_LOADING 1`] = `
 Object {
-  "activeMenu": "",
+  "activeMenu": "initialActive",
   "currentLocation": Object {
     "title": "Any Location",
   },
@@ -40,7 +40,7 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_SHOW_LOADING 1`] = `
 Object {
-  "activeMenu": "",
+  "activeMenu": "initialActive",
   "currentLocation": Object {
     "title": "Any Location",
   },
@@ -90,7 +90,7 @@ Object {
 
 exports[`Layout reducer should handle LAYOUT_UPDATE_ITEMS without changeActive 1`] = `
 Object {
-  "activeMenu": "",
+  "activeMenu": "initialActive",
   "currentLocation": Object {
     "title": "Any Location",
   },
@@ -126,7 +126,7 @@ Object {
 
 exports[`Layout reducer should return the initial state 1`] = `
 Object {
-  "activeMenu": "",
+  "activeMenu": "initialActive",
   "currentLocation": Object {
     "title": "Any Location",
   },

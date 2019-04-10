@@ -15,9 +15,11 @@ class IntlLoader {
   async init() {
     await this.fetchIntl();
     addLocaleData(
-      await import(/* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${
-        this.locale
-      }`)
+      await import(
+        /* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${
+          this.locale
+        }`
+      )
     );
     return true;
   }
@@ -25,9 +27,11 @@ class IntlLoader {
   async fetchIntl() {
     if (this.fallbackIntl) {
       global.Intl = await import(/* webpackChunkName: "intl" */ 'intl');
-      await import(/* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${
-        this.locale
-      }`);
+      await import(
+        /* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${
+          this.locale
+        }`
+      );
     }
   }
 }
