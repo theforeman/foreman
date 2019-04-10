@@ -39,7 +39,7 @@ module Foreman
         end
 
         unless valid_providers.present?
-          logger.error(
+          logger.warn(
             'Could not find a provider for %{entity}. Providers returned %{errors}' %
             {
               entity: entity,
