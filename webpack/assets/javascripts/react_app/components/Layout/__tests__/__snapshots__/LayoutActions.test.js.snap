@@ -6,82 +6,8 @@ Array [
     Object {
       "payload": Object {
         "activeMenu": "Monitor",
-        "items": Array [
-          Object {
-            "active": true,
-            "children": Array [
-              Object {
-                "name": "Dashboard",
-                "type": "item",
-                "url": "/",
-              },
-              Object {
-                "name": "Facts",
-                "type": "item",
-                "url": "/fact_values",
-              },
-            ],
-            "icon": "fa fa-tachometer",
-            "name": "Monitor",
-            "type": "sub_menu",
-          },
-          Object {
-            "active": false,
-            "children": Array [
-              Object {
-                "name": "All Hosts",
-                "type": "item",
-                "url": "/hosts/new",
-              },
-              Object {
-                "name": "Architectures",
-                "type": "item",
-                "url": "/architectures",
-              },
-            ],
-            "icon": "fa fa-server",
-            "name": "Hosts",
-            "type": "sub_menu",
-          },
-          Object {
-            "active": false,
-            "children": Array [
-              Object {
-                "name": "Environments",
-                "type": "item",
-                "url": "/environments",
-              },
-              Object {
-                "name": "Architectures",
-                "type": "item",
-                "url": "/architectures",
-              },
-            ],
-            "icon": "fa fa-wrench",
-            "name": "User",
-            "type": "sub_menu",
-          },
-          Object {
-            "active": false,
-            "children": Array [
-              Object {
-                "name": "Domains",
-                "type": "item",
-                "url": "/domains",
-              },
-              Object {
-                "name": "Realms",
-                "type": "item",
-                "url": "/realms",
-              },
-            ],
-            "icon": "pficon pficon-network",
-            "name": "Infrastructure",
-            "type": "sub_menu",
-          },
-        ],
       },
-      "type": "LAYOUT_UPDATE_ITEMS",
+      "type": "LAYOUT_CHANGE_ACTIVE",
     },
   ],
 ]
@@ -120,7 +46,6 @@ Array [
       "payload": Object {
         "items": Array [
           Object {
-            "active": false,
             "children": Array [
               Object {
                 "name": "Dashboard",
@@ -139,7 +64,6 @@ Array [
             "type": "sub_menu",
           },
           Object {
-            "active": false,
             "children": Array [
               Object {
                 "name": "All Hosts",
@@ -158,7 +82,6 @@ Array [
             "type": "sub_menu",
           },
           Object {
-            "active": false,
             "children": Array [
               Object {
                 "name": "Environments",
@@ -177,7 +100,6 @@ Array [
             "type": "sub_menu",
           },
           Object {
-            "active": false,
             "children": Array [
               Object {
                 "name": "Domains",
@@ -196,7 +118,6 @@ Array [
             "type": "sub_menu",
           },
           Object {
-            "active": false,
             "children": Array [
               Object {
                 "name": "Any Organization",
@@ -222,7 +143,6 @@ Array [
             "type": "sub_menu",
           },
           Object {
-            "active": false,
             "children": Array [
               Object {
                 "name": "Any Location",

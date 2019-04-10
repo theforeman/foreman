@@ -8,23 +8,15 @@ import {
   changeLocation,
 } from '../LayoutActions';
 
-import { layoutMock, serverItems } from '../Layout.fixtures';
-
-const runChangeActiveMenu = () => dispatch => {
-  const getState = () => ({
-    layout: {
-      items: serverItems,
-    },
-  });
-  changeActiveMenu({ title: 'Monitor' })(dispatch, getState);
-};
+import { layoutMock } from '../Layout.fixtures';
 
 const fixtures = {
   'should showLoading': () => showLoading(),
 
   'should hideLoading': () => hideLoading(),
 
-  'should changeActiveMenu to Monitor': () => runChangeActiveMenu(),
+  'should changeActiveMenu to Monitor': () =>
+    changeActiveMenu({ title: 'Monitor' }),
 
   'should fetchMenuItems': () => fetchMenuItems(layoutMock.data),
 

@@ -36,7 +36,6 @@ exports[`Layout rendering renders layout 1`] = `
       "logo": "/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg",
       "menu": Array [
         Object {
-          "active": false,
           "children": Array [
             Object {
               "name": "Dashboard",
@@ -54,7 +53,6 @@ exports[`Layout rendering renders layout 1`] = `
           "type": "sub_menu",
         },
         Object {
-          "active": false,
           "children": Array [
             Object {
               "name": "All Hosts",
@@ -72,7 +70,6 @@ exports[`Layout rendering renders layout 1`] = `
           "type": "sub_menu",
         },
         Object {
-          "active": false,
           "children": Array [
             Object {
               "name": "Environments",
@@ -90,7 +87,6 @@ exports[`Layout rendering renders layout 1`] = `
           "type": "sub_menu",
         },
         Object {
-          "active": false,
           "children": Array [
             Object {
               "name": "Domains",

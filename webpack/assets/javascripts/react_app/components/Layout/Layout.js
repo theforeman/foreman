@@ -75,7 +75,7 @@ class Layout extends React.Component {
         onItemClick={primary =>
           handleMenuClick(primary, activeMenu, changeActiveMenu)
         }
-        activePath={`/${__(activeMenu)}/`}
+        activePath={`/${__(activeMenu || 'active')}/`}
         {...this.props}
       >
         <VerticalNav.Masthead>

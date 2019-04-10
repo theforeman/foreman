@@ -4,6 +4,7 @@ import {
   LAYOUT_UPDATE_ITEMS,
   LAYOUT_CHANGE_ORG,
   LAYOUT_CHANGE_LOCATION,
+  LAYOUT_CHANGE_ACTIVE,
 } from '../LayoutConstants';
 
 import reducer from '../LayoutReducer';
@@ -23,16 +24,15 @@ const fixtures = {
       type: LAYOUT_HIDE_LOADING,
     },
   },
-  'should handle LAYOUT_UPDATE_ITEMS with changeActive': {
+  'should handle LAYOUT_CHANGE_ACTIVE': {
     action: {
-      type: LAYOUT_UPDATE_ITEMS,
+      type: LAYOUT_CHANGE_ACTIVE,
       payload: {
         activeMenu: 'Monitor',
-        items: layoutMock.items,
       },
     },
   },
-  'should handle LAYOUT_UPDATE_ITEMS without changeActive': {
+  'should handle LAYOUT_UPDATE_ITEMS': {
     action: {
       type: LAYOUT_UPDATE_ITEMS,
       payload: {

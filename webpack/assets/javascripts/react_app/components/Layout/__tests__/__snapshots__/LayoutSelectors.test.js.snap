@@ -12,7 +12,6 @@ Object {
   "isLoading": true,
   "items": Array [
     Object {
-      "active": false,
       "children": Array [
         Object {
           "name": "Dashboard",
@@ -30,7 +29,6 @@ Object {
       "type": "sub_menu",
     },
     Object {
-      "active": false,
       "children": Array [
         Object {
           "name": "All Hosts",
@@ -48,7 +46,6 @@ Object {
       "type": "sub_menu",
     },
     Object {
-      "active": false,
       "children": Array [
         Object {
           "name": "Environments",
@@ -66,7 +63,6 @@ Object {
       "type": "sub_menu",
     },
     Object {
-      "active": false,
       "children": Array [
         Object {
           "name": "Domains",
@@ -92,7 +88,6 @@ Array [
   Object {
     "className": undefined,
     "iconClass": "fa fa-tachometer",
-    "initialActive": false,
     "subItems": Array [
       Object {
         "className": "",
@@ -116,7 +111,6 @@ Array [
   Object {
     "className": undefined,
     "iconClass": "fa fa-server",
-    "initialActive": false,
     "subItems": Array [
       Object {
         "className": "",
@@ -140,7 +134,6 @@ Array [
   Object {
     "className": undefined,
     "iconClass": "fa fa-wrench",
-    "initialActive": false,
     "subItems": Array [
       Object {
         "className": "",
@@ -164,7 +157,6 @@ Array [
   Object {
     "className": undefined,
     "iconClass": "pficon pficon-network",
-    "initialActive": false,
     "subItems": Array [
       Object {
         "className": "",
