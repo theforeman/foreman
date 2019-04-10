@@ -12,7 +12,7 @@ import {
 const initialState = Immutable({
   items: [],
   isLoading: false,
-  activeMenu: '',
+  activeMenu: 'initialActive',
   currentOrganization: { title: 'Any Organization' },
   currentLocation: { title: 'Any Location' },
 });
