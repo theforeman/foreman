@@ -75,7 +75,7 @@ Rabl.configure do |config|
   # config.cache_engine = Rabl::CacheEngine.new # Defaults to Rails cache
   # config.perform_caching = false
   # config.escape_all_output = false
-  # config.json_engine = nil # Class with #dump class method (defaults JSON)
+  config.json_engine = ActiveSupport::JSON # Class with #dump class method (defaults JSON)
   # config.msgpack_engine = nil # Defaults to ::MessagePack
   # config.bson_engine = nil # Defaults to ::BSON
   # config.plist_engine = nil # Defaults to ::Plist::Emit
