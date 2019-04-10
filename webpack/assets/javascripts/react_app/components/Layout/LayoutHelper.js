@@ -82,7 +82,6 @@ const createOrgItem = orgs => {
     children: childrenArray,
     // Hiding Organizations if not on Mobile view
     className: 'visible-xs-block',
-    active: false,
   };
   return orgItem;
 };
@@ -117,7 +116,6 @@ const createLocationItem = locations => {
     children: childrenArray,
     // Hiding Locations if not on Mobile view
     className: 'visible-xs-block',
-    active: false,
   };
   return locItem;
 };

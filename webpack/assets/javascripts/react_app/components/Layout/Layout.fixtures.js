@@ -119,14 +119,12 @@ const hashItemsA = [
     name: 'Monitor',
     icon: 'fa fa-tachometer',
     children: monitorChildren,
-    active: false,
   },
   {
     type: 'sub_menu',
     name: 'Hosts',
     icon: 'fa fa-server',
     children: hostsChildren,
-    active: false,
   },
 ];
 
@@ -136,14 +134,12 @@ const hashItemsB = [
     name: 'User',
     icon: 'fa fa-wrench',
     children: userChildren,
-    active: false,
   },
   {
     type: 'sub_menu',
     name: 'Infrastructure',
     icon: 'pficon pficon-network',
     children: infrastructureChildren,
-    active: false,
   },
 ];
 

@@ -41,7 +41,6 @@ const patternflyItems = (data, currentLocation, currentOrganization) => {
     });
     const itemObject = {
       title: item.name,
-      initialActive: item.active,
       iconClass: item.icon,
       subItems: childrenArray,
       className: item.className,

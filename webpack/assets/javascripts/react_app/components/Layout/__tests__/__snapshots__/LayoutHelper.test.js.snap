@@ -3,7 +3,6 @@
 exports[`LayoutHelper should combineMenuItems 1`] = `
 Array [
   Object {
-    "active": false,
     "children": Array [
       Object {
         "name": "Dashboard",
@@ -22,7 +21,6 @@ Array [
     "type": "sub_menu",
   },
   Object {
-    "active": false,
     "children": Array [
       Object {
         "name": "All Hosts",
@@ -41,7 +39,6 @@ Array [
     "type": "sub_menu",
   },
   Object {
-    "active": false,
     "children": Array [
       Object {
         "name": "Environments",
@@ -60,7 +57,6 @@ Array [
     "type": "sub_menu",
   },
   Object {
-    "active": false,
     "children": Array [
       Object {
         "name": "Domains",
@@ -79,7 +75,6 @@ Array [
     "type": "sub_menu",
   },
   Object {
-    "active": false,
     "children": Array [
       Object {
         "name": "Any Organization",
@@ -105,7 +100,6 @@ Array [
     "type": "sub_menu",
   },
   Object {
-    "active": false,
     "children": Array [
       Object {
         "name": "Any Location",
