@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2018-10-15 20:31+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-01-10 21:01+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,6 +19,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "삭제 "
+
+msgid "%(name) (free: %(free), prov: %(prov), total: %(total))"
+msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
 msgstr "%s - Shift-F12 키를 눌러  커서를 해제합니다. "
@@ -678,7 +681,10 @@ msgstr ""
 msgid "An error occured."
 msgstr ""
 
-msgid "An error occurred while testing the connection: "
+msgid "An interface marked as primary is missing"
+msgstr ""
+
+msgid "An interface marked as provision is missing"
 msgstr ""
 
 msgid "An invalid response was received while requesting available features from this proxy"
@@ -692,9 +698,6 @@ msgstr ""
 
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr "익명의 관리자 %s가 없습니다. foreman-rake db:seed를 실행합니다 "
-
-msgid "Any %s"
-msgstr ""
 
 msgid "Any Location"
 msgstr "모든 위치 "
@@ -735,13 +738,13 @@ msgstr "이름 "
 msgid "Are you sure you want to %{act} %{vm}?"
 msgstr "%{vm}의 %{act}을(를) 실행하시겠습니까?"
 
-msgid "Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed in global settings."
+msgid "Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
 msgid "Are you sure you want to delete host %s? This action is irreversible."
 msgstr "%s 호스트를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
 
-msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed in global settings."
+msgid "Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
 msgstr ""
 
 msgid "Are you sure you want to delete this widget from your dashboard?"
@@ -1200,6 +1203,9 @@ msgstr "CPU 동적 추가"
 msgid "CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."
 msgstr "CPU 동적 추가는 가상 머신이 작동하는 동안 가상 머신의 CPU 리소스를 추가할 수 있는 기능입니다."
 
+msgid "CPU mode"
+msgstr ""
+
 msgid "CPUs"
 msgstr "CPU"
 
@@ -1305,7 +1311,7 @@ msgstr "암호 변경"
 msgid "Changed environments"
 msgstr "변경된 환경 "
 
-msgid "Changes to %s will propagate to all inheriting filters"
+msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
 msgid "Chassis"
@@ -1357,9 +1363,6 @@ msgid "Cleanup PuppetCA certificates for %s"
 msgstr ""
 
 msgid "Clear"
-msgstr ""
-
-msgid "Clear All"
 msgstr ""
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
@@ -1594,9 +1597,6 @@ msgstr "계속하시겠습니까?"
 
 msgid "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}"
 msgstr ""
-
-msgid "Cores"
-msgstr "코어 "
 
 msgid "Cores per socket"
 msgstr "소켓당 코어 수 "
@@ -2081,12 +2081,6 @@ msgstr "기본 조직"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
-msgid "Default templates are automatically added to new locations"
-msgstr "기본 템플릿이 새 위치에 자동으로 추가됩니다."
-
-msgid "Default templates are automatically added to new organizations"
-msgstr "기본 템플릿이 새 조직에 자동으로 추가됩니다."
-
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "기본 템플릿이 새 조직과 위치에 자동으로 추가됩니다."
 
@@ -2351,7 +2345,7 @@ msgstr "삭제 "
 msgid "Destroy associated VM on host delete"
 msgstr ""
 
-msgid "Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM"
+msgid "Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"
 msgstr ""
 
 msgid "Destroyed selected hosts"
@@ -2371,9 +2365,6 @@ msgstr "장치 식별자. 예: eth0 또는 eth1.1"
 
 msgid "Diff"
 msgstr "비교"
-
-msgid "Diff View"
-msgstr "다른점 표시 "
 
 msgid "Disable Notifications"
 msgstr "통지 비활성화 "
@@ -2544,9 +2535,6 @@ msgstr "속성 편집"
 
 msgid "Edit Puppet Class %s"
 msgstr "Puppet 클래스 %s 편집 "
-
-msgid "Edit Smart Variable"
-msgstr "스마트 변수 편집 "
 
 msgid "Edit Trend %s"
 msgstr "트렌드 %s 편집 "
@@ -2880,6 +2868,9 @@ msgstr "값 "
 msgid "Facts"
 msgstr "정보 "
 
+msgid "Facts Values"
+msgstr ""
+
 msgid "Fail on Mismatch"
 msgstr "불일치로 인해 실패 "
 
@@ -2955,6 +2946,9 @@ msgstr ""
 
 msgid "Failed to fetch: "
 msgstr "가져오는데 실패했습니다: "
+
+msgid "Failed to find compute attributes, please check if VM %{name} was deleted: %{message}"
+msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
 msgstr "%{name}의 IP를 얻는데 실패했습니다: %{e}"
@@ -3109,7 +3103,7 @@ msgstr "필터..."
 msgid "Filters"
 msgstr "필터"
 
-msgid "Filters inherit %{orgs_and_locs} associated with the role by default. If override field is enabled, <br> the filter can override the set of its %{orgs_and_locs}. Later role changes will not affect such filter.<br> After disabling the override field, the role %{orgs_and_locs} apply again."
+msgid "Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again."
 msgstr ""
 
 msgid "Filters overriding has been disabled"
@@ -3528,9 +3522,6 @@ msgstr "고급 필드 숨기기"
 
 msgid "Hide all values for this parameter."
 msgstr "이 매개 변수의 값을 모두 숨깁니다."
-
-msgid "Hide this notification"
-msgstr ""
 
 msgid "Hide this value"
 msgstr "이 값 숨기기"
@@ -4133,7 +4124,7 @@ msgstr ""
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
 msgstr ""
 
-msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with %s, the filters are not considered unlimited</br> as they are scoped accordingly."
+msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
 msgstr ""
 
 msgid "If true, will raise an error if there is no default value and no matcher provide a value"
@@ -4332,10 +4323,10 @@ msgstr "입력"
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
 "  based on template type, it allows to fetch the value from host facts, \\\n"
-"  host parameterization or ask user interactively. To use value loaded loaded \\\n"
+"  host parameterization or ask user interactively. To use value loaded \\\n"
 "  via input, use <code>input('name')</code> global macro. The template needs to be \\\n"
 "  saved before input macro can load the value. If the value is not available during\n"
-"  template preview, it's value is expanded to <code>$TYPE_INPUT[name]</code> string.</p>"
+"  template preview, its value is expanded to <code>$TYPE_INPUT[name]</code> string.</p>"
 msgstr ""
 
 msgid "Installation Media"
@@ -4376,6 +4367,9 @@ msgstr "인터페이스의 DNS 이름"
 
 msgid "Interfaces"
 msgstr "인터페이스 "
+
+msgid "Intermediate iPXE script for unattended installations"
+msgstr ""
 
 msgid "Internal DB"
 msgstr "내부 DB"
@@ -4433,6 +4427,9 @@ msgstr "%s을(를) 실행하는 cron 작업이 활성화되어 있습니까?"
 
 msgid "Issue tracker"
 msgstr "문제 추적기 "
+
+msgid "It is irreversible, but VMs and their disks <b>will not be deleted</b>."
+msgstr ""
 
 msgid "It is not possible to assign provisioning templates at this stage."
 msgstr "이 단계에서는 프로비저닝 템플릿을 할당할 수 없습니다."
@@ -4510,7 +4507,7 @@ msgstr "마지막 보고 "
 msgid "Last report"
 msgstr "마지막 보고 "
 
-msgid "Last update: %s"
+msgid "Last update:"
 msgstr ""
 
 msgid "Latest Events"
@@ -5264,9 +5261,6 @@ msgstr "수동 할당 "
 msgid "Manually select and assign hosts with no %s"
 msgstr "%s이(가) 없는 호스트를 수동으로 선택 및 할당합니다 "
 
-msgid "Mark All Read"
-msgstr ""
-
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr "일치 조건은 속성과 해당 값의 조합입니다. 일치하는 경우 아래의 값이 제공됩니다.<br> 팩트와 같이 Foreman에 알려진 속성을 모두 사용할 수 있습니다. 예: <code> domain = example.com </code> 또는 <code> is_virtual = true</code>."
 
@@ -5644,9 +5638,6 @@ msgstr ""
 msgid "No IPv4 subnets selected"
 msgstr ""
 
-msgid "No Notifications Available"
-msgstr ""
-
 msgid "No TFTP feature"
 msgstr "TFTP 기능 없음"
 
@@ -5992,11 +5983,11 @@ msgstr "OS 이미지 "
 msgid "OS friendly name; e.g. RHEL 6.5"
 msgstr "OS 이름; 예: RHEL 6.5"
 
-msgid "OS major version from facter; e.g. 6"
-msgstr "정보에서 OS 메이저 버전; 예: 6"
+msgid "OS major version from facter; e.g. 7"
+msgstr ""
 
-msgid "OS minor version from facter; e.g. 5"
-msgstr "정보에서 OS 마이너 버전; 예: 5"
+msgid "OS minor version from facter; e.g. 0 or 6.1810 (CentOS scheme)"
+msgstr ""
 
 msgid "OS name from facter; e.g. RedHat"
 msgstr "정보에서 OS 이름, 예: RedHat"
@@ -7838,9 +7829,6 @@ msgstr "조각 모음 "
 msgid "Sockets"
 msgstr "소켓 "
 
-msgid "Some Puppet Classes are unavailable in the selected environment"
-msgstr ""
-
 msgid "Some imported user account details cannot be saved: %s"
 msgstr ""
 
@@ -7975,6 +7963,9 @@ msgstr "서브넷 ID"
 
 msgid "Subnet IDs"
 msgstr "서브넷 ID "
+
+msgid "Subnet IPv6 ID"
+msgstr ""
 
 msgid "Subnet description"
 msgstr ""
@@ -8213,6 +8204,9 @@ msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
 msgid "Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks"
+msgstr ""
+
+msgid "Template ID in the compute resource"
 msgstr ""
 
 msgid "Template Proxy"
@@ -8612,9 +8606,6 @@ msgstr ""
 msgid "There was an error creating the PXE file: %s"
 msgstr ""
 
-msgid "There was an error during rendering, return to the Code tab to edit the template."
-msgstr "렌더링하는 도중 오류가 발생했습니다. 코드 탭으로 돌아가 템플릿을 편집하십시오."
-
 msgid "There was an error listing %{listing}: %{errors}"
 msgstr ""
 
@@ -8638,6 +8629,9 @@ msgstr "이 두 옵션은 개인적으로 결정하는 것이므로 필요에 �
 
 msgid "Thin provision"
 msgstr "씬 프로비저닝"
+
+msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversible."
+msgstr ""
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr "Puppet 클래스 서명에는 매개 변수가 없습니다."
@@ -8663,12 +8657,6 @@ msgstr "Foreman의 이메일 구성이 올바른지를 확인하는 테스트 �
 msgid "This is for every location and organization that uses it."
 msgstr "해당 템플릿을 사용하는 모든 위치와 조직에서 잠금 해제됩니다."
 
-msgid "This is for every location that uses it."
-msgstr "해당 템플릿을 사용하는 모든 위치에서 잠금 해제됩니다."
-
-msgid "This is for every organization that uses it."
-msgstr "해당 템플릿을 사용하는 모든 조직에서 잠금 해제됩니다."
-
 msgid "This is inherited from parent"
 msgstr "이는 부모로 부터 상속됩니다"
 
@@ -8678,8 +8666,8 @@ msgstr "이는 호스트에 의해 사용됩니다 "
 msgid "This may be caused by unavailability of some required service, incorrect API call or a server-side bug. "
 msgstr ""
 
-msgid "This might take a while, as all hosts, facts and reports will be destroyed as well"
-msgstr "모든 호스트, 정보, 보고서가 삭제되므로 시간이 걸릴 수 있습니다 "
+msgid "This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\"."
+msgstr ""
 
 msgid "This role has been cloned from role %s"
 msgstr ""
@@ -9050,6 +9038,9 @@ msgstr "lan BMC 작업을 실행할 수 없습니다 "
 msgid "Unable to perform power BMC operation"
 msgstr "power BMC 작업을 실행할 수 없습니다 "
 
+msgid "Unable to read SSL certification or key for proxy communication, check settings for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readable by the foreman user."
+msgstr ""
+
 msgid "Unable to render %{kind} template '%{name}': %{e}"
 msgstr ""
 
@@ -9156,12 +9147,6 @@ msgid "Unmanage host"
 msgstr "관리되지 않는 호스트 "
 
 msgid "Unnamed"
-msgstr ""
-
-msgid "Unread Event"
-msgstr ""
-
-msgid "Unread Events"
 msgstr ""
 
 msgid "Unsupported IPAM mode for %s"
@@ -9697,9 +9682,6 @@ msgstr ""
 msgid "View Chart"
 msgstr ""
 
-msgid "View Diff"
-msgstr "차이점 표시 "
-
 msgid "View in Foreman:"
 msgstr "Foreman에서 보기:"
 
@@ -9819,6 +9801,9 @@ msgstr ""
 msgid "Whether or not the image supports user data"
 msgstr "이미지가 사용자 데이터를 지원하는지 여부"
 
+msgid "Whether or not the template is added automatically to new organizations and locations"
+msgstr ""
+
 msgid "Whether or not the template is locked for editing"
 msgstr "편집을 위한 템플릿의 잠금 여부 "
 
@@ -9908,9 +9893,6 @@ msgstr "제공됨"
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "구성된 모든 TFTP 서버에 있는 기본 PXE 메뉴가 변경됩니다. 계속하시겠습니까?"
 
-msgid "You are about to override the editor content with a previous version, are you sure?"
-msgstr "편집기의 컨텐츠를 이전 버전으로 덮어쓰기하려고 합니다. 정말로 실행하시겠습니까? "
-
 msgid "You are about to override the editor content, are you sure?"
 msgstr "편집기의 컨텐츠를 덮어쓰기하려고 합니다. 정말로 실행하시겠습니까? "
 
@@ -9968,7 +9950,7 @@ msgstr ""
 msgid "You don't have any visible hosts. Hosts can be added and provisioned from Foreman, or configured to report to Foreman."
 msgstr "표시 가능한 호스트가 없습니다. Foreman에서 호스트를 추가하거나 프로비저닝할 수 있습니다. 또는 Foreman에 보고하도록 호스트를 구성할 수 있습니다."
 
-msgid "You don't have permission %{name} with attributes that you have specified or you don't have access to specified %{tax_string}"
+msgid "You don't have permission %{name} with attributes that you have specified or you don't have access to specified organizations or locations"
 msgstr ""
 
 msgid "You don't seem to have any bookmarks."
@@ -10331,6 +10313,12 @@ msgstr "호스트의 호스트 이름 "
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
+msgid "iPXE intermediate script"
+msgstr ""
+
+msgid "iPXE intermediate script '%s' not found"
+msgstr ""
+
 msgid "iPXE template"
 msgstr ""
 
@@ -10391,8 +10379,8 @@ msgstr "관리자 계정입니다 "
 msgid "is an admin user group"
 msgstr ""
 
-msgid "is an unsupported provisioning method"
-msgstr "지원되지 않는 프로비저닝 방식입니다 "
+msgid "is an unsupported provisioning method, available: %s"
+msgstr ""
 
 msgid "is invalid"
 msgstr "유효하지 않음 "
@@ -10615,9 +10603,6 @@ msgstr "옵션: 호스트의 인증서 이름 "
 msgid "optional: the STI type of host to create"
 msgstr "옵션: 생성할 호스트의 STI 유형 "
 
-msgid "or"
-msgstr ""
-
 msgid "organization"
 msgstr "조직 "
 
@@ -10741,6 +10726,9 @@ msgstr "공백으로 구분된 옵션 (예: miimon=100)"
 msgid "specified template \"%s\" kind was not found"
 msgstr ""
 
+msgid "split"
+msgstr ""
+
 msgid "start"
 msgstr "시작 "
 
@@ -10797,6 +10785,9 @@ msgstr ""
 msgid "unable to sign a non pending certificate"
 msgstr "보류 중이 아닌 인증서에 서명할 수 없습니다 "
 
+msgid "unified"
+msgstr ""
+
 msgid "unknown network_type"
 msgstr ""
 
@@ -10835,9 +10826,6 @@ msgstr "유효함"
 
 msgid "valid or pending"
 msgstr "유효 또는 보류 중"
-
-msgid "values"
-msgstr ""
 
 msgid "view last report details"
 msgstr ""

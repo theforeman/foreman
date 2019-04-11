@@ -257,6 +257,10 @@ _('Image|Username')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Image|Uuid')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Jwt secret')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('JwtSecret|Token')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Key pair')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('KeyPair|Name')
@@ -443,6 +447,8 @@ _('Parameter')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Parameter|Hidden value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Parameter|Key type')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Parameter|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Parameter|Priority')
@@ -523,6 +529,12 @@ _('SmartProxy|Name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('SmartProxy|Url')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Smart proxy feature')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('SmartProxyFeature|Capabilities')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('SmartProxyFeature|Settings')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Source')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Source|Digest')
@@ -538,6 +550,14 @@ _('SshKey|Key')
 _('SshKey|Length')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('SshKey|Name')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('Stored value')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('StoredValue|Expire at')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('StoredValue|Key')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('StoredValue|Value')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('Subnet')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -626,6 +646,10 @@ _('TemplateInput|Puppet class name')
 _('TemplateInput|Puppet parameter name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateInput|Required')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Resource type')
+# TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+_('TemplateInput|Value type')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 _('TemplateInput|Variable name')
 # TRANSLATORS: "Table name" or "Table name|Column name" for error messages
