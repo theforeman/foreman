@@ -119,7 +119,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       TemplateKind::PXE.each do |kind|
         next if kind == 'iPXE'
         ["chainload", "discovery"].each do |snippet_type|
-          snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/_#{kind.downcase}_#{snippet_type}.erb"))
+          snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/#{kind.downcase}_#{snippet_type}.erb"))
           ProvisioningTemplate.create!(:name => "#{kind.downcase}_#{snippet_type}", :template => snippet, :snippet => true)
         end
 
@@ -127,7 +127,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
         template_kind = TemplateKind.find_by :name => kind
         ProvisioningTemplate.find_or_create_by(:name => "#{kind} global default").update(:template => template, :template_kind => template_kind)
       end
-      mac = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/_pxegrub2_mac.erb"))
+      mac = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/pxegrub2_mac.erb"))
       ProvisioningTemplate.create!(:name => "pxegrub2_mac", :template => mac, :snippet => true)
 
       ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)

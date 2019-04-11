@@ -18,7 +18,7 @@ class SnapshotSource
   end
 
   def find_snippet(name)
-    snippet_path = Rails.root.join('app', 'views', 'unattended', 'provisioning_templates', 'snippet', "_#{name}.erb")
+    snippet_path = Rails.root.join('app', 'views', 'unattended', 'provisioning_templates', 'snippet', "#{name}.erb")
     return unless File.file?(snippet_path)
     content = File.read(snippet_path)
     Template.new(name: name, template: content, snippet: true)

@@ -47,23 +47,23 @@ files:
   - app/views/unattended/provisioning_templates/finish/xenserver_default_finish.erb
   - app/views/unattended/provisioning_templates/PXELinux/xenserver_default_pxelinux.erb
   - app/views/unattended/provisioning_templates/iPXE/ipxe_intermediate_script.erb
-  - app/views/unattended/provisioning_templates/snippet/_ansible_tower_callback_script.erb
-  - app/views/unattended/provisioning_templates/snippet/_ansible_tower_callback_service.erb
-  - app/views/unattended/provisioning_templates/snippet/_chef_client.erb
-  - app/views/unattended/provisioning_templates/snippet/_coreos_cloudconfig.erb
-  - app/views/unattended/provisioning_templates/snippet/_epel.erb
-  - app/views/unattended/provisioning_templates/snippet/_fix_hosts.erb
-  - app/views/unattended/provisioning_templates/snippet/_freeipa_register.erb
-  - app/views/unattended/provisioning_templates/snippet/_preseed_networking_setup.erb
-  - app/views/unattended/provisioning_templates/snippet/_puppet.conf.erb
-  - app/views/unattended/provisioning_templates/snippet/_puppet_setup.erb
-  - app/views/unattended/provisioning_templates/snippet/_pxegrub2_chainload.erb
-  - app/views/unattended/provisioning_templates/snippet/_pxegrub2_discovery.erb
-  - app/views/unattended/provisioning_templates/snippet/_pxegrub_chainload.erb
-  - app/views/unattended/provisioning_templates/snippet/_pxegrub_discovery.erb
-  - app/views/unattended/provisioning_templates/snippet/_pxelinux_chainload.erb
-  - app/views/unattended/provisioning_templates/snippet/_pxelinux_discovery.erb
-  - app/views/unattended/provisioning_templates/snippet/_rancheros_cloudconfig.erb
-  - app/views/unattended/provisioning_templates/snippet/_remote_execution_ssh_keys.erb
-  - app/views/unattended/provisioning_templates/snippet/_saltstack_minion.erb
-  - app/views/unattended/provisioning_templates/snippet/_saltstack_setup.erb
+  - app/views/unattended/provisioning_templates/snippet/ansible_tower_callback_script.erb
+  - app/views/unattended/provisioning_templates/snippet/ansible_tower_callback_service.erb
+  - app/views/unattended/provisioning_templates/snippet/chef_client.erb
+  - app/views/unattended/provisioning_templates/snippet/coreos_cloudconfig.erb
+  - app/views/unattended/provisioning_templates/snippet/epel.erb
+  - app/views/unattended/provisioning_templates/snippet/fix_hosts.erb
+  - app/views/unattended/provisioning_templates/snippet/freeipa_register.erb
+  - app/views/unattended/provisioning_templates/snippet/preseed_networking_setup.erb
+  - app/views/unattended/provisioning_templates/snippet/puppet.conf.erb
+  - app/views/unattended/provisioning_templates/snippet/puppet_setup.erb
+  - app/views/unattended/provisioning_templates/snippet/pxegrub2_chainload.erb
+  - app/views/unattended/provisioning_templates/snippet/pxegrub2_discovery.erb
+  - app/views/unattended/provisioning_templates/snippet/pxegrub_chainload.erb
+  - app/views/unattended/provisioning_templates/snippet/pxegrub_discovery.erb
+  - app/views/unattended/provisioning_templates/snippet/pxelinux_chainload.erb
+  - app/views/unattended/provisioning_templates/snippet/pxelinux_discovery.erb
+  - app/views/unattended/provisioning_templates/snippet/rancheros_cloudconfig.erb
+  - app/views/unattended/provisioning_templates/snippet/remote_execution_ssh_keys.erb
+  - app/views/unattended/provisioning_templates/snippet/saltstack_minion.erb
+  - app/views/unattended/provisioning_templates/snippet/saltstack_setup.erb
