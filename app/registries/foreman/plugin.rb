@@ -124,7 +124,7 @@ module Foreman #:nodoc:
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
                 :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
-                :renderer_variable_loaders, :ping_extension, :status_extension
+                :renderer_variable_loaders
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -147,8 +147,6 @@ module Foreman #:nodoc:
       @rabl_template_extensions = {}
       @smart_proxy_references = []
       @renderer_variable_loaders = []
-      @ping_extension = nil
-      @status_extension = nil
     end
 
     def report_scanner_registry
@@ -528,14 +526,6 @@ module Foreman #:nodoc:
 
     def register_renderer_variable_loader(loader_name)
       @renderer_variable_loaders << loader_name
-    end
-
-    def register_ping_extension(&block)
-      @ping_extension = block
-    end
-
-    def register_status_extension(&block)
-      @status_extension = block
     end
 
     private
