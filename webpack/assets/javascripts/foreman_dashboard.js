@@ -29,7 +29,7 @@ function autoRefresh() {
   }
 }
 
-function startGridster() {
+export function startGridster() {
   $('.gridster>ul')
     .gridster({
       widget_margins: [10, 10],
