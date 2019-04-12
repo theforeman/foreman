@@ -53,13 +53,10 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     "active_storage/variants/show",
 
     # graphql
-    "api/graphql/execute",
-
-    # ping
-    "api/v2/ping/ping"
+    "api/graphql/execute"
   ]
 
-  MAY_SKIP_AUTHORIZED = [ "about/index", "api/v2/ping/ping" ]
+  MAY_SKIP_AUTHORIZED = [ "about/index" ]
 
   SPECIAL_PATH = ['api/v2/puppet_hosts/puppetrun']
 
