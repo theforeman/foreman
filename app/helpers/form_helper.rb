@@ -309,9 +309,7 @@ module FormHelper
     label_size = options.delete(:label_size) || "col-md-2"
     required_mark = check_required(options, f, attr)
     label = ''.html_safe + options.delete(:label)
-    if label.empty? && f.try(:object) && (clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name)
-      label = s_(clazz.gettext_translation_for_attribute_name(attr)).titleize.html_safe
-    end
+    label = get_attr_label(f, attr).to_s.html_safe if label.empty?
 
     if options[:label_help].present?
       label += ' '.html_safe + popover("", options[:label_help], options[:label_help_options] || {})
@@ -356,7 +354,7 @@ module FormHelper
 
   def field(f, attr, options = {})
     table_field = options.delete(:table_field)
-    error       = options.delete(:error) || f.object.errors[attr] if f && f.object.respond_to?(:errors)
+    error       = options.delete(:error) || get_attr_error(f, attr)
     help_inline = help_inline(options.delete(:help_inline), error)
     help_inline += options[:help_inline_permanent] unless options[:help_inline_permanent].nil?
     size_class = options.delete(:size) || "col-md-4"
@@ -389,6 +387,19 @@ module FormHelper
     end
   end
 
+  def datetime_local_f(f, attr, options = {})
+    react_form_input('dateTime', f, attr, options)
+  end
+
+  def react_form_input(type, f, attr, options = {})
+    options[:label] ||= get_attr_label(f, attr)
+    options[:error] ||= get_attr_error(f, attr)
+    options[:error] = options[:error].to_sentence
+    options[:required] = is_required?(f, attr) unless options.key?(:required)
+
+    Tags::ReactInput.new(f.object_name, attr, self, options.merge(type: type, object: f.object)).render
+  end
+
   def advanced_switch_f(default_text, switch_text)
     content_tag :div, :class => 'form-group' do
       content_tag(:div, '', :class => 'col-md-2 control-label') +
@@ -400,6 +411,16 @@ module FormHelper
   end
 
   private
+
+  def get_attr_label(f, attr)
+    if f.try(:object) && (clazz = f.object.class).respond_to?(:gettext_translation_for_attribute_name)
+      s_(clazz.gettext_translation_for_attribute_name(attr)).titleize
+    end
+  end
+
+  def get_attr_error(f, attr)
+    f.object.errors[attr] if f&.object.respond_to?(:errors)
+  end
 
   def form_select_f(f, attr, array, select_options = {}, html_options = {})
     addClass html_options, "form-control"
