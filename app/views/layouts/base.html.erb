@@ -49,12 +49,12 @@
       <%= _('You are using an unsupported browser.') %>
     <![endif]-->
     <% if User.current %>
-      <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
-        <div id="layout"></div>
-      <% end %>
+      <div id="layout"></div>
       <div class="container-fluid container-pf-nav-pf-vertical nav-pf-persistent-secondary">
       <%# mounting layout after the container to change its width if the navbar is collapsed %>
-      <%= mount_layout %> 
+      <% cache(TopbarSweeper.fragment_name, :skip_digest => true) do %>
+        <%= mount_layout %> 
+      <% end %>
       <%= yield(:content) %>
       </div>
     <% else %>
