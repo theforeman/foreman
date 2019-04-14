@@ -122,10 +122,14 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
           snippet = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/_#{kind.downcase}_#{snippet_type}.erb"))
           ProvisioningTemplate.create!(:name => "#{kind.downcase}_#{snippet_type}", :template => snippet, :snippet => true)
         end
+
         template = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/#{kind}/#{kind.downcase}_global_default.erb"))
         template_kind = TemplateKind.find_by :name => kind
         ProvisioningTemplate.find_or_create_by(:name => "#{kind} global default").update(:template => template, :template_kind => template_kind)
       end
+      mac = File.read(File.expand_path(File.dirname(__FILE__) + "/../../app/views/unattended/provisioning_templates/snippet/_pxegrub2_mac.erb"))
+      ProvisioningTemplate.create!(:name => "pxegrub2_mac", :template => mac, :snippet => true)
+
       ProxyAPI::TFTP.any_instance.stubs(:fetch_boot_file).returns(true)
       Setting[:unattended_url] = "http://foreman.unattended.url"
       @request.env['HTTP_REFERER'] = provisioning_templates_path
