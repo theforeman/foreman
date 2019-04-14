@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DualList rendering renders DualList 1`] = `
+<DualListControlled
+  allowHiddenInputs={true}
+  left={
+    Object {
+      "items": Array [
+        Object {
+          "label": "RedHat",
+          "value": "RedHat",
+        },
+        Object {
+          "label": "Debian",
+          "value": "Debian",
+        },
+        Object {
+          "label": "Ubuntu",
+          "value": "Ubuntu",
+        },
+      ],
+    }
+  }
+  right={
+    Object {
+      "inputProps": Object {
+        "name": "operating_systems",
+      },
+      "items": Array [
+        Object {
+          "label": "CentOS",
+          "value": "CentOS",
+        },
+        Object {
+          "label": "Fedora",
+          "value": "Fedora",
+        },
+      ],
+    }
+  }
+/>
+`;
