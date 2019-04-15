@@ -3,17 +3,22 @@
 
 default=nil
 timeout=20
+echo Default PXE global template entry is set to 'nil'
 
-# On Debian/Ubuntu grub2 does not have patch for loading MAC-based configs. Also due to bug
-# in RHEL 7.4 files are loaded with an extra ":" character at the end. This workarounds both
-# cases, make sure "regexp.mod" file is present on the TFTP. For more info see:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1370642#c70
+# To load MAC-based config explicitly, a MAC address separated by dash chars is needed.
+# Also due to bug in RHEL 7.4 files are loaded with an extra ":" character at the end.
+# This workarounds both cases, make sure "regexp.mod" file is present on the TFTP.
+# For more info see: https://bugzilla.redhat.com/show_bug.cgi?id=1370642#c70
 insmod regexp
 regexp --set=1:m1 --set=2:m2 --set=3:m3 --set=4:m4 --set=5:m5 --set=6:m6 '^([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})' "$net_default_mac"
 mac=${m1}-${m2}-${m3}-${m4}-${m5}-${m6}
+
+
+# Only grub2 from redhat has MAC-based config loading patch, load explicitly
 configfile=/grub2/grub.cfg-01-$mac
 source "$configfile"
 
+# And if that fails render chain and discovery menu
 
 insmod part_gpt
 insmod fat
@@ -23,105 +28,108 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   echo Chainloading Grub2 EFI from ESP, enabled devices for booting:
   ls
   echo "Trying /EFI/fedora/shim.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/fedora/shim.efi
-  if [ -f ($root)/EFI/fedora/shim.efi ]; then
-    chainloader ($root)/EFI/fedora/shim.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/fedora/shim.efi
+  if [ -f ($chroot)/EFI/fedora/shim.efi ]; then
+    chainloader ($chroot)/EFI/fedora/shim.efi
+    echo "Found /EFI/fedora/shim.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/fedora/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/fedora/grubx64.efi
-  if [ -f ($root)/EFI/fedora/grubx64.efi ]; then
-    chainloader ($root)/EFI/fedora/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/fedora/grubx64.efi
+  if [ -f ($chroot)/EFI/fedora/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/fedora/grubx64.efi
+    echo "Found /EFI/fedora/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/redhat/shim.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/redhat/shim.efi
-  if [ -f ($root)/EFI/redhat/shim.efi ]; then
-    chainloader ($root)/EFI/redhat/shim.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/redhat/shim.efi
+  if [ -f ($chroot)/EFI/redhat/shim.efi ]; then
+    chainloader ($chroot)/EFI/redhat/shim.efi
+    echo "Found /EFI/redhat/shim.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/redhat/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/redhat/grubx64.efi
-  if [ -f ($root)/EFI/redhat/grubx64.efi ]; then
-    chainloader ($root)/EFI/redhat/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/redhat/grubx64.efi
+  if [ -f ($chroot)/EFI/redhat/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/redhat/grubx64.efi
+    echo "Found /EFI/redhat/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/centos/shim.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/centos/shim.efi
-  if [ -f ($root)/EFI/centos/shim.efi ]; then
-    chainloader ($root)/EFI/centos/shim.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/centos/shim.efi
+  if [ -f ($chroot)/EFI/centos/shim.efi ]; then
+    chainloader ($chroot)/EFI/centos/shim.efi
+    echo "Found /EFI/centos/shim.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/centos/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/centos/grubx64.efi
-  if [ -f ($root)/EFI/centos/grubx64.efi ]; then
-    chainloader ($root)/EFI/centos/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/centos/grubx64.efi
+  if [ -f ($chroot)/EFI/centos/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/centos/grubx64.efi
+    echo "Found /EFI/centos/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/debian/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/debian/grubx64.efi
-  if [ -f ($root)/EFI/debian/grubx64.efi ]; then
-    chainloader ($root)/EFI/debian/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/debian/grubx64.efi
+  if [ -f ($chroot)/EFI/debian/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/debian/grubx64.efi
+    echo "Found /EFI/debian/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/ubuntu/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/ubuntu/grubx64.efi
-  if [ -f ($root)/EFI/ubuntu/grubx64.efi ]; then
-    chainloader ($root)/EFI/ubuntu/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/ubuntu/grubx64.efi
+  if [ -f ($chroot)/EFI/ubuntu/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/ubuntu/grubx64.efi
+    echo "Found /EFI/ubuntu/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/sles/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/sles/grubx64.efi
-  if [ -f ($root)/EFI/sles/grubx64.efi ]; then
-    chainloader ($root)/EFI/sles/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/sles/grubx64.efi
+  if [ -f ($chroot)/EFI/sles/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/sles/grubx64.efi
+    echo "Found /EFI/sles/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/opensuse/grubx64.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/opensuse/grubx64.efi
-  if [ -f ($root)/EFI/opensuse/grubx64.efi ]; then
-    chainloader ($root)/EFI/opensuse/grubx64.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/opensuse/grubx64.efi
+  if [ -f ($chroot)/EFI/opensuse/grubx64.efi ]; then
+    chainloader ($chroot)/EFI/opensuse/grubx64.efi
+    echo "Found /EFI/opensuse/grubx64.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
   echo "Trying /EFI/Microsoft/boot/bootmgfw.efi "
-  unset root
-  search --file --no-floppy --set=root /EFI/Microsoft/boot/bootmgfw.efi
-  if [ -f ($root)/EFI/Microsoft/boot/bootmgfw.efi ]; then
-    chainloader ($root)/EFI/Microsoft/boot/bootmgfw.efi
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot /EFI/Microsoft/boot/bootmgfw.efi
+  if [ -f ($chroot)/EFI/Microsoft/boot/bootmgfw.efi ]; then
+    chainloader ($chroot)/EFI/Microsoft/boot/bootmgfw.efi
+    echo "Found /EFI/Microsoft/boot/bootmgfw.efi at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
-  echo Partition with known EFI file not found, update 'pxegrub2_chainload' template.
+  echo Partition with known EFI file not found, you may want to drop to grub shell
+  echo and investigate available files updating 'pxegrub2_chainload' template and
+  echo the list of known filepaths for probing. Contents of \EFI directory:
+  ls ($chroot)/EFI
   echo The system will halt in 2 minutes or press ESC to halt immediately.
   sleep -i 120
   halt --no-apm
@@ -140,9 +148,15 @@ menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_legac
 }
 
 
-menuentry 'Foreman Discovery Image' --id discovery {
-  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+menuentry 'Foreman Discovery Image efi' --id discoveryefi {
+  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
   initrdefi boot/fdi-image/initrd0.img
 }
+
+menuentry 'Foreman Discovery Image ' --id discovery {
+  linux boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  initrd boot/fdi-image/initrd0.img
+}
+
 
 

@@ -11,7 +11,7 @@ oses:
   pm_set = @host.puppetmaster.empty? ? false : true
   puppet_enabled = pm_set || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
-
+  os_major = @host.operatingsystem.major.to_i
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
 -%>
@@ -87,6 +87,8 @@ oses:
     </routing>
 <% end -%>
   </networking>
+  <%# NTP client configuration has incompatible changes in Leap 15 -%>
+  <% if os_major <= 12 || os_major == 42 -%>
   <ntp-client>
     <configure_dhcp config:type="boolean">false</configure_dhcp>
     <peers config:type="list">
@@ -100,6 +102,19 @@ oses:
     <start_at_boot config:type="boolean">true</start_at_boot>
     <start_in_chroot config:type="boolean">true</start_in_chroot>
   </ntp-client>
+<% else -%>
+  <ntp-client>
+   <ntp_policy>auto</ntp_policy>
+   <ntp_servers config:type="list">
+    <ntp_server>
+     <iburst config:type="boolean">false</iburst>
+     <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+     <offline config:type="boolean">true</offline>
+    </ntp_server>
+   </ntp_servers>
+   <ntp_sync>systemd</ntp_sync>
+   </ntp-client>
+<% end -%>
 <% if ! @dynamic -%>
   <%= @host.diskLayout %>
 <% end -%>

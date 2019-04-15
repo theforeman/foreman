@@ -30,18 +30,21 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   paths.each do |path|
 -%>
   echo "Trying <%= path %> "
-  unset root
-  search --file --no-floppy --set=root <%= path %>
-  if [ -f ($root)<%= path %> ]; then
-    chainloader ($root)<%= path %>
-    echo "Found Grub2 at $root"
+  unset chroot
+  search --file --no-floppy --set=chroot <%= path %>
+  if [ -f ($chroot)<%= path %> ]; then
+    chainloader ($chroot)<%= path %>
+    echo "Found <%= path %> at $chroot, attempting to chainboot it..."
     sleep 2
     boot
   fi
 <%
   end
 -%>
-  echo Partition with known EFI file not found, update 'pxegrub2_chainload' template.
+  echo Partition with known EFI file not found, you may want to drop to grub shell
+  echo and investigate available files updating 'pxegrub2_chainload' template and
+  echo the list of known filepaths for probing. Contents of \EFI directory:
+  ls ($chroot)/EFI
   echo The system will halt in 2 minutes or press ESC to halt immediately.
   sleep -i 120
   halt --no-apm

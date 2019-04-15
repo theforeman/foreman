@@ -57,13 +57,17 @@ oses:
     options.push('inst.stage2=' + @host.operatingsystem.medium_uri(@host).to_s)
   end
 
+  if @host.operatingsystem.name != 'Fedora' && @host.operatingsystem.major.to_i >= 7 && host_param_true?('fips_enabled')
+    options.push('fips=1')
+  end
+
   # send PXELinux "IPAPPEND 2" option along
   options.push("BOOTIF=01-$net_default_mac")
 
   ksoptions = options.join(' ')
 
-  # efi grub commands are RHEL7+ only, this prevents "Kernel is too old"
-  if @host.operatingsystem.family == 'Redhat' && major < 7
+  # Grub EFI commands are RHEL7+ only (prevents "Kernel is too old") or for non-EFI arch
+  if (@host.operatingsystem.family == 'Redhat' && major < 7) || !@host.pxe_loader.include?('EFI')
     linuxcmd = "linux"
     initrdcmd = "initrd"
   else
@@ -79,3 +83,5 @@ menuentry '<%= template_name %>' {
   <%= linuxcmd %> <%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
   <%= initrdcmd %> <%= @initrd %>
 }
+
+<%= snippet_if_exists(template_name + " custom menu") %>

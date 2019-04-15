@@ -8,12 +8,14 @@ template_inputs:
   description: Limit the report only on hosts found by this search query. Keep empty
     for report on all available hosts.
   advanced: false
+  value_type: search
+  resource_type: Host
 model: ReportTemplate
 require:
 - plugin: katello
 ￼ version: 3.9.0
 -%>
-<%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :subscriptions, :kernel_release, :interfaces, :owner, :applicable_errata, :applicable_rpms]).each_record do |host| -%>
+<%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :subscriptions, :interfaces, :applicable_errata], preload: [:kernel_release, :owner]).each_record do |host| -%>
 <%-   report_row(
         'Name': host.name,
         'Ip': host.ip,

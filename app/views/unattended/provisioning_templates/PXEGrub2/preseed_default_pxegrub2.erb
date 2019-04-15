@@ -51,3 +51,5 @@ menuentry '<%= template_name %>' {
   linux<%= efi_suffix %>  <%= @kernel %> interface=auto url=<%= foreman_url('provision')%> ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=<%= @host.name %> <%= options %>
   initrd<%= efi_suffix %> <%= @initrd %>
 }
+
+<%= snippet_if_exists(template_name + " custom menu") %>

@@ -75,6 +75,7 @@ reboot
 nodectl init
 <%= snippet 'redhat_register' %>
 <%= snippet 'kickstart_networking_setup' %>
+<%= snippet 'efibootmgr_netboot' %>
 /usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
 /usr/sbin/hwclock --systohc
 

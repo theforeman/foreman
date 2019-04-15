@@ -166,6 +166,8 @@ isset ${net32/mac} || goto no_nic
 dhcp net32 || goto net33
 chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net32/mac} || goto net33
 
+:net33
+goto no_nic
 
 exit 0
 

@@ -1,0 +1,13 @@
+<%#
+kind: snippet
+name: pxegrub2_mac
+model: ProvisioningTemplate
+snippet: true
+-%>
+# To load MAC-based config explicitly, a MAC address separated by dash chars is needed.
+# Also due to bug in RHEL 7.4 files are loaded with an extra ":" character at the end.
+# This workarounds both cases, make sure "regexp.mod" file is present on the TFTP.
+# For more info see: https://bugzilla.redhat.com/show_bug.cgi?id=1370642#c70
+insmod regexp
+regexp --set=1:m1 --set=2:m2 --set=3:m3 --set=4:m4 --set=5:m5 --set=6:m6 '^([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})\:([0-9a-f]{1,2})' "$net_default_mac"
+mac=${m1}-${m2}-${m3}-${m4}-${m5}-${m6}

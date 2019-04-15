@@ -8,6 +8,8 @@ template_inputs:
   description: Limit the report only on hosts found by this search query. Keep empty
     for report on all available hosts.
   advanced: false
+  value_type: search
+  resource_type: Host
 model: ReportTemplate
 -%>
 <%- load_hosts(search: input('hosts'), includes: :host_statuses).each_record do |host| -%>

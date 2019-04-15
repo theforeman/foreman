@@ -11,11 +11,13 @@ set menu-timeout 5000
 
 :start
 menu iPXE global boot menu
-item --key l local     Continue local boot
+item --key l local     Local boot (next entry)
 item shell             Drop into iPXE shell
 item reboot            Reboot system
 item
-item --key d discovery Foreman Discovery
+item --key d discovery Discovery from ${next-server}:8000 (httpboot module)
+item --key d discovery8448 Discovery from ${next-server}:8448 (httpboot module)
+item --key d discovery80 Discovery from ${next-server}:80 (custom script)
 choose --timeout ${menu-timeout} --default ${menu-default} selected || goto cancel
 set menu-timeout 0
 goto ${selected}
@@ -41,7 +43,27 @@ exit
 
 :discovery
 dhcp
-kernel ${next-server}/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-${net0/mac}
-initrd ${next-server}/boot/fdi-image/initrd0.img
+kernel http://${next-server}:8000/boot/fdi-image/vmlinuz0 initrd=initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset nokaslr proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-${net0/mac}
+initrd http://${next-server}:8000/boot/fdi-image/initrd0.img
+imgstat
+sleep 2
+boot || goto failed
+goto start
+
+:discovery80
+dhcp
+kernel http://${next-server}/httpboot/boot/fdi-image/vmlinuz0 initrd=initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset nokaslr proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-${net0/mac}
+initrd http://${next-server}/httpboot/boot/fdi-image/initrd0.img
+imgstat
+sleep 2
+boot || goto failed
+goto start
+
+:discovery8000
+dhcp
+kernel http://${next-server}:8000/httpboot/boot/fdi-image/vmlinuz0 initrd=initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset nokaslr proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-${net0/mac}
+initrd http://${next-server}:8000/httpboot/boot/fdi-image/initrd0.img
+imgstat
+sleep 2
 boot || goto failed
 goto start
