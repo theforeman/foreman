@@ -10,3 +10,11 @@
   <td><%= _("Use APIv4") %></td>
   <td><%= @compute_resource.use_v4? ? _('Yes') : _('No') %></td>
 </tr>
+<tr>
+  <td><%= _("Default Display Type") %></td>
+  <td><%= @compute_resource.display_type.upcase %></td>
+</tr>
+<tr>
+  <td><%= _("Default VNC Keyboard") %></td>
+  <td><%= @compute_resource.keyboard_layout %></td>
+</tr>

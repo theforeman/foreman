@@ -44,7 +44,8 @@ module Api
           param :domain, String, :desc => N_("for OpenStack only")
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
-          param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt only')
+          param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt and oVirt only')
+          param :keyboard, ComputeResource::ALLOWED_KEYBOARD_LAYOUTS, :desc => N_('for oVirt only')
           param :caching_enabled, :bool, :desc => N_('enable caching, for VMware only')
           param_group :taxonomies, ::Api::V2::BaseController
         end

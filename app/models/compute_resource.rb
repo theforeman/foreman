@@ -6,6 +6,8 @@ class ComputeResource < ApplicationRecord
   include Parameterizable::ByIdName
   encrypts :password
 
+  ALLOWED_KEYBOARD_LAYOUTS = %w(ar de-ch es fo fr-ca hu ja mk no pt-br sv da en-gb et fr fr-ch is lt nl pl ru th de en-us fi fr-be hr it lv nl-be pt sl tr)
+
   validates_lengths_from_database
 
   serialize :attrs, Hash
@@ -326,13 +328,26 @@ class ComputeResource < ApplicationRecord
     self.attrs[:setpw] = nil
   end
 
-  # this method is overwritten for Libvirt & VMWare
+  # this method is overwritten for Libvirt, oVirt & VMWare
   def display_type=(_)
   end
 
-  # this method is overwritten for Libvirt & VMWare
+  # this method is overwritten for Libvirt, oVirt & VMWare
   def display_type
     nil
+  end
+
+  # this method is overwritten for oVirt
+  def keyboard_layout=(_)
+  end
+
+  # this method is overwritten for oVirt
+  def keyboard_layout
+    nil
+  end
+
+  def keyboard_layouts
+    ALLOWED_KEYBOARD_LAYOUTS
   end
 
   def compute_profile_for(id)

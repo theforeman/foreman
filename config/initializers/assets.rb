@@ -21,6 +21,7 @@ Foreman::Application.configure do |app|
   javascript = %w(compute_resource
                   compute_resources/libvirt/nic_info
                   compute_resources/ovirt/nic_info
+                  compute_resources/ovirt/display
                   compute_resources/vmware/nic_info
                   host_edit
                   host_edit_interfaces
