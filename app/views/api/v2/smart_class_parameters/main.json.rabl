@@ -21,4 +21,6 @@ end
 # compatibility
 attribute :omit => :use_puppet_default
 
-attribute :param_class, :as => :puppetclass_name
+node :puppetclass_name do |lk|
+  lk.param_class.name
+end
