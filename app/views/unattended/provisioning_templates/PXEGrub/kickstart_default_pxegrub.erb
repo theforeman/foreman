@@ -57,6 +57,10 @@ oses:
     options.push('inst.stage2=' + @host.operatingsystem.medium_uri(@host).to_s)
   end
 
+  if @host.operatingsystem.name != 'Fedora' && @host.operatingsystem.major.to_i >= 7 && host_param_true?('fips_enabled')
+    options.push('fips=1')
+  end
+
   ksoptions = options.join(' ')
 -%>
 
@@ -67,3 +71,5 @@ title <%= template_name %>
   root (nd)
   kernel (nd)/../<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
   initrd (nd)/../<%= @initrd %>
+
+<%= snippet_if_exists(template_name + " custom menu") %>

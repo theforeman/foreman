@@ -99,6 +99,7 @@ snippet: true
             command: restart
 <% end -%>
 <% end -%>
+      hostname: <%= @host.name %>
 <% if host_param('ssh_authorized_keys') -%>
       ssh_authorized_keys:
   <% host_param('ssh_authorized_keys').split(',').map{ |item| item.strip }.each do |ssh_key| -%>

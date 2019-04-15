@@ -27,6 +27,7 @@ This template accepts the following parameters:
 - package_upgrade: boolean (default=true)
 - disable-uek: boolean (default=false)
 - use-ntp: boolean (default depends on OS release)
+- fips_enabled: boolean (default=false)
 %>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -140,6 +141,7 @@ reboot
 <% end -%>
 
 %packages
+<%= snippet_if_exists(template_name + " custom packages") %>
 yum
 dhclient
 <% if use_ntp -%>
@@ -152,6 +154,10 @@ wget
 <% if os_major >= 6 -%>
 redhat-lsb-core
 <% end -%>
+<% if host_param_true?('fips_enabled') -%>
+<%=   snippet 'fips_packages' %>
+<% end -%>
+
 
 <% if salt_enabled %>
 salt-minion
@@ -160,6 +166,7 @@ salt-minion
 
 <% if @dynamic -%>
 %pre
+<%= snippet_if_exists(template_name + " custom pre") %>
 <%= @host.diskLayout %>
 <%= section_end -%>
 <% end -%>
@@ -174,12 +181,15 @@ cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
 ) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
 <%= section_end -%>
 
-%post
+<%#
+Main post script, if it fails the last post is still executed.
+%>
+%post --log=/mnt/sysimage/root/install.post.log
 logger "Starting anaconda <%= @host %> postinstall"
 exec < /dev/tty3 > /dev/tty3
 #changing to VT 3 so that we can see whats going on....
 /usr/bin/chvt 3
-(
+<%= snippet_if_exists(template_name + " custom post") %>
 <% if subnet.respond_to?(:dhcp_boot_mode?) || @host.subnet6.respond_to?(:dhcp_boot_mode?) -%>
 <%= snippet 'kickstart_networking_setup' %>
 <% end -%>
@@ -243,12 +253,27 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 
 <%= snippet('ansible_provisioning_callback') %>
 
+<%= snippet 'efibootmgr_netboot' %>
+
+touch /tmp/foreman_built
+<%= section_end -%>
+
+<%#
+The last post section halts Anaconda to prevent endless loop
+%>
+<% if (is_fedora && os_major < 20) || (rhel_compatible && os_major < 7) -%>
+%post
+<% else -%>
+%post --erroronfail
+<% end -%>
+if test -f /tmp/foreman_built; then
+  echo "calling home: build is done!"
+  <%= indent(2, skip1: true) { snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/mnt/sysimage/root/install.post.log' }) } -%>
+else
+  echo "calling home: build failed!"
+  <%= indent(2, skip1: true) { snippet('built', :variables => { :endpoint => 'failed', :method => 'POST', :body_file => '/mnt/sysimage/root/install.post.log' }) } -%>
+fi
+
 sync
-
-echo "Informing Foreman that we are built"
-<%= snippet 'built' %>
-) 2>&1 | tee /root/install.post.log
-exit 0
-
 <%= section_end -%>
 

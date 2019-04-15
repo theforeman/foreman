@@ -8,9 +8,16 @@ oses:
 %>
 <%
   proxy_string = host_param('http-proxy') ? " http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''
+  ansible_enabled = plugin_present?('foreman_ansible')
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
   squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
+
+  additional_packages = ['lsb-release']
+  additional_packages << host_param('additional-packages')
+  additional_packages << 'python' if ansible_enabled
+  additional_packages << 'salt-minion' if salt_enabled
+  additional_packages = additional_packages.join(" ").split().uniq().join(" ")
 %>
 # Locale
 d-i debian-installer/locale string <%= host_param('lang') || 'en_US' %>
@@ -122,7 +129,7 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
 # Install some base packages
-d-i pkgsel/include string <%= salt_package %> lsb-release
+d-i pkgsel/include string <%= additional_packages %>
 d-i pkgsel/update-policy select <%= host_param('preseed-update-policy') || 'unattended-upgrades' %>
 d-i pkgsel/upgrade select <%= host_param('preseed-post-install-upgrade') || 'none' %>
 

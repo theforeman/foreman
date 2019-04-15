@@ -40,6 +40,9 @@ vardir = <%= var_dir %>
 logdir = <%= log_dir %>
 rundir = <%= run_dir %>
 ssldir = <%= ssl_dir %>
+<% if host_param_true?('fips_enabled') -%>
+digest_algorithm = sha256
+<% end -%>
 
 [agent]
 pluginsync      = true
