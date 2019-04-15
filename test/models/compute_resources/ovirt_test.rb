@@ -273,4 +273,48 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       check_vm_attribute_names(cr)
     end
   end
+
+  describe '#display_type' do
+    let(:cr) { FactoryBot.build_stubbed(:ovirt_cr) }
+
+    test "default display type is 'vnc'" do
+      assert_nil cr.attrs[:display]
+      assert_equal 'vnc', cr.display_type
+    end
+
+    test "display type can be set" do
+      expected = 'spice'
+      cr.display_type = 'Spice'
+      assert_equal expected, cr.attrs[:display]
+      assert_equal expected, cr.display_type
+      assert cr.valid?
+    end
+
+    test "don't allow wrong display type to be set" do
+      cr.display_type = 'teletype'
+      refute cr.valid?
+    end
+  end
+
+  describe '#keyboard_layout' do
+    let(:cr) { FactoryBot.build_stubbed(:ovirt_cr) }
+
+    test "default keyboard layout is 'en-us'" do
+      assert_nil cr.attrs[:keyboard_layout]
+      assert_equal 'en-us', cr.keyboard_layout
+    end
+
+    test "keyboard layout can be set" do
+      expected = 'hu'
+      cr.keyboard_layout = 'hu'
+      assert_equal expected, cr.attrs[:keyboard_layout]
+      assert_equal expected, cr.keyboard_layout
+      assert cr.valid?
+    end
+
+    test "don't allow wrong keyboard layout to be set" do
+      cr.keyboard_layout = 'fake-layout'
+      refute cr.valid?
+    end
+  end
 end

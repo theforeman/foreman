@@ -10,5 +10,7 @@
                  :help_inline_permanent => load_datacenters_button_f(f, !datacenters.empty?) }) %>
 <% quotas = (f.object.uuid.nil? && controller.action_name != 'test_connection') ? [] : f.object.quotas.all rescue []%>
 <%= select_f f, :ovirt_quota, quotas, :id, :name, {}, :label => _("Quota ID") %>
+<%= select_f f, :display_type, f.object.display_types, :to_s , :upcase, { }, :label => _("Default Display Type") %>
+<%= select_f f, :keyboard_layout, f.object.keyboard_layouts,:downcase, :to_s, { }, :label => _("Default VNC Keyboard") %>
 <%= textarea_f f, :public_key, :label => _("X509 Certification Authorities"), :size => "col-md-8",
   :placeholder => _("Optionally provide a CA, or a correctly ordered CA chain. If left blank, a self-signed CA will be populated automatically by the server during the first request.") %>

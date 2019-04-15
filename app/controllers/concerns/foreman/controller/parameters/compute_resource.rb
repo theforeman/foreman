@@ -40,6 +40,7 @@ module Foreman::Controller::Parameters::ComputeResource
         # ovirt
         filter.permit :datacenter,
           :ovirt_quota,
+          :keyboard_layout,
           :use_v4,
           :public_key,
           :uuid

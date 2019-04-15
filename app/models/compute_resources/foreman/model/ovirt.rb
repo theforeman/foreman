@@ -3,8 +3,12 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
+    ALLOWED_DISPLAY_TYPES = %w(vnc spice)
+
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true,
               :url_schema => ['http', 'https']
+    validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }
+    validates :keyboard_layout, :inclusion => { :in => ALLOWED_KEYBOARD_LAYOUTS }
     validates :user, :password, :presence => true
     after_validation :connect, :update_available_operating_systems unless Rails.env.test?
 
@@ -154,6 +158,10 @@ module Foreman::Model
 
     def instance_type(id)
       client.instance_types.get(id) || raise(ActiveRecord::RecordNotFound)
+    end
+
+    def display_types
+      ALLOWED_DISPLAY_TYPES
     end
 
     # Check if HTTPS is mandatory, since rest_client will fail with a POST
@@ -313,7 +321,11 @@ module Foreman::Model
       super.merge(
         :memory     => 1024.megabytes,
         :cores      => '1',
-        :sockets    => '1'
+        :sockets    => '1',
+        :display    => { :type => display_type,
+                         :keyboard_layout => keyboard_layout,
+                         :port => -1,
+                         :monitors => 1 }
       )
     end
 
@@ -337,7 +349,7 @@ module Foreman::Model
 
     def save_vm(uuid, attr)
       vm = find_vm_by_uuid(uuid)
-      vm.attributes.merge!(attr.symbolize_keys).deep_symbolize_keys
+      vm.attributes.deep_merge!(attr.deep_symbolize_keys).deep_symbolize_keys
       update_interfaces(vm, attr[:interfaces_attributes])
       update_volumes(vm, attr[:volumes_attributes])
       vm.interfaces
@@ -401,6 +413,22 @@ module Foreman::Model
 
     def self.provider_friendly_name
       "oVirt"
+    end
+
+    def display_type
+      self.attrs[:display].presence || 'vnc'
+    end
+
+    def display_type=(display)
+      self.attrs[:display] = display.downcase
+    end
+
+    def keyboard_layout
+      self.attrs[:keyboard_layout].presence || 'en-us'
+    end
+
+    def keyboard_layout=(layout)
+      self.attrs[:keyboard_layout] = layout.downcase
     end
 
     def public_key
