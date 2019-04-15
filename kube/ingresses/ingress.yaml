@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: foreman
+spec:
+  rules:
+    - host: foreman-prod.local
+      http:
+        paths:
+          - backend:
+              serviceName: rails
+              servicePort: 3000
+            path: /
+

@@ -1,0 +1,12 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker
+  labels:
+    app: foreman
+spec:
+  selector:
+    app: foreman
+    tier: app

@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: foreman
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: foreman
+      tier: database
+  template:
+    metadata:
+      name: postgres
+      labels:
+        app: foreman
+        tier: database
+    spec:
+      volumes:
+      - name: postgres-pv
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+      containers:
+      - name: postgres
+        image: postgres:9.6-alpine
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: "db-user"
+              key: "username"
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "db-user-pass"
+              key: "password"
+        - name: POSTGRES_DB
+          value: "foreman_production"
+        - name: PGDATA
+          value: "/var/lib/postgresql/data"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: "/var/lib/postgresql/data"
+          name: postgres-pv

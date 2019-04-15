@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: worker-deployment
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1  
+  selector:
+    matchLabels: 
+      app: foreman
+      tier: app
+  template:
+    metadata:
+      name: worker
+      labels:
+        app: foreman
+        tier: app
+    spec:
+      containers:
+      - name: worker
+        image: quay.io/ohadlevy/foreman:dockerfile
+        imagePullPolicy: "Always"
+        args: 
+        - bundle 
+        - exec
+        - rake
+        - dynflow:executor
+        env:
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: "db-url"
+              key: "url"
+        - name: RAILS_ENV
+          value: "production"
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: "secret-key-base"
+              key: "secret-key-base"
