@@ -8,7 +8,7 @@ Type=simple
 User=foreman
 TimeoutSec=300
 WorkingDirectory=/usr/share/foreman
-ExecStart=/usr/bin/scl enable tfm "rails server --environment $FOREMAN_ENV --port $FOREMAN_PORT --binding $FOREMAN_BIND"
+ExecStart=/usr/bin/rails server --environment $FOREMAN_ENV --port $FOREMAN_PORT --binding $FOREMAN_BIND
 Environment=FOREMAN_ENV=production FOREMAN_PORT=3000 FOREMAN_BIND=0.0.0.0
 
 [Install]
