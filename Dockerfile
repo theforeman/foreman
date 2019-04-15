@@ -6,6 +6,7 @@ RUN \
   yum -y upgrade && \
   yum -y install centos-release-scl epel-release && \
   yum -y install rh-ruby25 rh-nodejs8-nodejs \
+     mariadb-libs postgresql-libs \
     rh-ruby25-ruby{,gems} rh-ruby25-rubygem-{rdoc,rake,bundler} nc && \
   yum clean all && \
   rm -rf /var/cache/yum/
@@ -32,8 +33,6 @@ RUN \
     mariadb-devel postgresql-devel libsq3-devel && \
   yum clean all && \
   rm -rf /var/cache/yum/
-  # scl enable rh-ruby25 "gem install bundler" && \
-  # scl enable rh-nodejs8 "npm i npm@latest"
 
 ENV RAILS_ENV="production"
 ENV FOREMAN_APIPIE_LANGS="en"
@@ -79,11 +78,6 @@ ENV RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_LOG_TO_STDOUT true
 ENV HOME=/home/foreman
 ENV FOREMAN_APIPIE_LANGS="en"
-
-USER root
-RUN yum -y install mariadb-libs postgresql-libs && \
-  yum clean all && \
-  rm -rf /var/cache/yum
 
 USER 1001
 WORKDIR ${HOME}
