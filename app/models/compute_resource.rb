@@ -357,6 +357,7 @@ class ComputeResource < ApplicationRecord
     vm_attrs = vm_attrs.reject {|k, v| k == :id }
 
     vm_attrs = set_vm_volumes_attributes(vm, vm_attrs)
+    vm_attrs = set_vm_interfaces_attributes(vm, vm_attrs)
     vm_attrs
   end
 
@@ -451,5 +452,9 @@ class ComputeResource < ApplicationRecord
 
   def ensure_provider_not_changed
     errors.add(:provider, _("cannot be changed")) if self.type_changed?
+  end
+
+  def set_vm_interfaces_attributes(_vm, vm_attrs)
+    vm_attrs
   end
 end
