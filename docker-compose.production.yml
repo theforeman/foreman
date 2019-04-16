@@ -1,0 +1,52 @@
+version: '3.4'
+services:
+  db:
+    environment:
+      - MYSQL_USER=foreman
+      - MYSQL_PASSWORD=foreman
+      - MYSQL_DATABASE=foreman
+      - MYSQL_DATADIR_ACTION=upgrade-auto
+    hostname: db.prod.com
+    image: centos/mariadb-102-centos7
+    ports:
+      - 3306
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3306 || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    volumes:
+      - db-mysql:/var/lib/mysql/data
+
+  app: &app_base
+    image: quay.io/ohadlevy/foreman:dockerfile
+    command: bundle exec bin/rails server
+    build:
+      context: .
+    environment:
+      - DATABASE_URL=mysql2://foreman:foreman@db:3306/foreman
+      - RAILS_MAX_THREADS=5
+      #- SECRET_KEY_BASE=my-secret-access-key
+    hostname: foreman.prod.com
+    links:
+      - db
+    ports:
+      - 3000
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
+      interval: 5m
+      start_period: 1m
+
+  worker:
+    <<: *app_base
+    command: bundle exec rake dynflow:executor
+    hostname: worker.docker-rails.my-site.com
+    healthcheck:
+      test: "ps ax | grep -v grep | grep dynflow_executor"
+      interval: 1m
+      start_period: 1m
+
+volumes:
+  db-mysql:
