@@ -50,6 +50,7 @@ class ComputeResourceHostImporter
 
   def set_nic_compute_attributes(interface, vm_interface)
     interface.assign_attributes(vm_interface)
+    interface
   end
 
   def vm_interface_attributes
