@@ -633,5 +633,23 @@ module Foreman::Model
         vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(volume)) if volume[:id].blank?
       end
     end
+
+    def set_vm_interfaces_attributes(vm, vm_attrs)
+      if vm.respond_to?(:interfaces)
+        interfaces = vm.interfaces || []
+        vm_attrs[:interfaces_attributes] = interfaces.each_with_index.each_with_object({}) do |(interface, index), hsh|
+          interface_attrs = {
+            mac: interface.mac,
+            compute_attributes: {
+              name: interface.name,
+              network: interface.network,
+              interface: interface.interface
+            }
+          }
+          hsh[index.to_s] = interface_attrs
+        end
+      end
+      vm_attrs
+    end
   end
 end
