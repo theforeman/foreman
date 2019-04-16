@@ -9,7 +9,6 @@ namespace :snapshots do
 
     require 'database_cleaner'
     require 'factory_bot_rails'
-    require_relative '../../test/unit/foreman/renderer/template_snapshot_service'
 
     DatabaseCleaner.cleaning do
       ENV['FIXTURES'] = 'settings'
@@ -19,16 +18,14 @@ namespace :snapshots do
       admin = FactoryBot.create(:user, :admin, password: 'password123', auth_source: FactoryBot.create(:auth_source_ldap))
 
       User.as(admin.login) do
-        host = TemplateSnapshotService.host
-
-        TemplateSnapshotService.sources.each do |source|
-          dir = File.dirname(source.snapshot_path)
+        Foreman::TemplateSnapshotService.templates.each do |template|
+          snapshot_path = Foreman::Renderer::Source::Snapshot.snapshot_path(template)
+          dir = File.dirname(snapshot_path)
           FileUtils.mkdir_p(dir) unless File.directory?(dir)
 
-          scope = Foreman::Renderer.get_scope(host: host, source: source)
-          snapshot = Foreman::Renderer.render(source, scope)
+          snapshot = Foreman::TemplateSnapshotService.render_template(template)
 
-          File.open(source.snapshot_path, 'w') { |f| f.write(snapshot) }
+          File.open(snapshot_path, 'w') { |f| f.write(snapshot) }
         end
       end
     end

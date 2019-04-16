@@ -167,8 +167,8 @@ class Template < ApplicationRecord
     self.class.log_render_results?
   end
 
-  def render(host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE, template_input_values: {})
-    source = Foreman::Renderer.get_source(template: self, host: host)
+  def render(host: nil, params: {}, variables: {}, mode: Foreman::Renderer::REAL_MODE, template_input_values: {}, source_klass: nil)
+    source = Foreman::Renderer.get_source(template: self, host: host, klass: source_klass)
     scope = Foreman::Renderer.get_scope(host: host, params: params, variables: variables, mode: mode, template: self, source: source, template_input_values: template_input_values)
     Foreman::Renderer.render(source, scope)
   end
