@@ -64,7 +64,7 @@ module Foreman::Controller::SmartProxyAuth
       # If we have the client certficate in the request environment we can extract the dn and sans from there
       # if not we use the dn in the request environment
       # SAN validation requires "SSLOptions +ExportCertData" in Apache httpd
-      if request.env.has_key?(Setting[:ssl_client_cert_env]) && request.env[Setting[:ssl_client_cert_env]].present?
+      if request.env.has_key?(Setting[:ssl_client_cert_env]) && request.env[Setting[:ssl_client_cert_env]].present? && request.env[Setting[:ssl_client_cert_env]] != '(null)'
         logger.debug "Examining client certificate to extract dn and sans"
         cert_raw = request.env[Setting[:ssl_client_cert_env]]
         certificate = CertificateExtract.new(cert_raw)
