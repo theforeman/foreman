@@ -52,6 +52,9 @@ function save_interface_modal() {
   if (modal_form.find('.interface_provision').is(':checked')) {
     $('#interfaceForms .interface_provision:checked').attr("checked", false);
   }
+  if (modal_form.find('.interface_managed').is(':checked')) {
+    $('#interfaceForms .interface_managed:checked').attr("checked", false);
+  }
 
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
@@ -163,12 +166,15 @@ function update_interface_row(row, interface_form) {
   row.find('.ip').text(interface_form.find('.interface_ip').val());
   row.find('.ip6').text(interface_form.find('.interface_ip6').val());
 
-  var flags = '', primary_class = '', provision_class = '';
+  var flags = '', primary_class = '', provision_class = '', managed_class = '';
   if (interface_form.find('.interface_primary').is(':checked'))
     primary_class = 'active'
 
   if (interface_form.find('.interface_provision').is(':checked'))
     provision_class = 'active'
+
+  if (interface_form.find('.interface_managed').is(':checked'))
+    managed_class = 'active'
 
   if (primary_class == '' && provision_class == '')
     row.find('.removeInterface').removeAttr('disabled');
@@ -177,6 +183,7 @@ function update_interface_row(row, interface_form) {
 
   flags += '<i class="glyphicon glyphicon glyphicon-tag primary-flag '+ primary_class +'" title="" data-original-title="'+ __('Primary') +'"></i>';
   flags += '<i class="glyphicon glyphicon glyphicon-hdd provision-flag '+ provision_class +'" title="" data-original-title="'+ __('Provisioning') +'"></i>';
+  flags += '<i class="glyphicon glyphicon glyphicon-home managed-flag '+ managed_class +'" title="" data-original-title="'+ __('Managed') +'"></i>';
 
   row.find('.flags').html(flags);
 
@@ -187,6 +194,7 @@ function update_interface_row(row, interface_form) {
 
   $('.primary-flag').tooltip();
   $('.provision-flag').tooltip();
+  $('.managed-flag').tooltip();
 }
 
 function update_interface_table() {
@@ -256,24 +264,28 @@ $(document).on('change', '#host_name', function () {
   update_fqdn();
 });
 
-$(document).on('click', '.primary-flag', function () {
+$(document).on('click', '.provision-flag, .managed-flag, .primary-flag', function () { 
+  var interface_class_substring; 
   var interface_id = $(this).closest('tr').data('interface-id');
 
-  $('#interfaceForms .interface_primary:checked').prop('checked', false);
-  get_interface_hidden(interface_id).find('.interface_primary').prop('checked', true);
+  // checking which icon clicked
+  if ($(this).hasClass('provision-flag')) {
+    interface_class_substring = '.interface_provision';
+  } else if ($(this).hasClass('managed-flag')) {
+    interface_class_substring = '.interface_managed';
+  } else if ($(this).hasClass('primary-flag')) {
+    interface_class_substring = '.interface_primary';
+  }
+  $('#interfaceForms ' + interface_class_substring + ':checked').prop('checked', false);
+  get_interface_hidden(interface_id).find(interface_class_substring).prop('checked', true);
 
-  sync_primary_name(true);
-  update_interface_table();
-  update_fqdn();
-});
-
-$(document).on('click', '.provision-flag', function () {
-  var interface_id = $(this).closest('tr').data('interface-id');
-
-  $('#interfaceForms .interface_provision:checked').prop('checked', false);
-  get_interface_hidden(interface_id).find('.interface_provision').prop('checked', true);
-
-  update_interface_table();
+  if ($(this).hasClass('primary-flag')) {
+    sync_primary_name(true);
+    update_interface_table();
+    update_fqdn();
+  } else if ($(this).hasClass('managed-flag') || $(this).hasClass('provision-flag')){
+    update_interface_table();
+  }
 });
 
 var providerSpecificNICInfo = null;
