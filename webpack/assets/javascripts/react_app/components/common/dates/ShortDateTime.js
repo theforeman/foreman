@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedDate, intlShape } from 'react-intl';
+import { isoCompatibleDate } from '../../../common/helpers';
 
 const ShortDateTime = (props, context) => {
   const { date, defaultValue, seconds } = props;
   if (date) {
-    const title = context.intl.formatRelative(date);
+    const isoDate = isoCompatibleDate(date);
+    const title = context.intl.formatRelative(isoDate);
     const secondsFormat = seconds ? '2-digit' : undefined;
 
     return (
       <span title={title}>
         <FormattedDate
-          value={date}
+          value={isoDate}
           day="2-digit"
           month="short"
           hour="2-digit"

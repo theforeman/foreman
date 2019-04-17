@@ -2,6 +2,23 @@ import debounce from 'lodash/debounce';
 import { translate as __ } from './I18n';
 
 /**
+ * Our API returns non-ISO8601 dates
+ * This method converts those strings into ISO8601 format
+ * @param {String} date - non-ISO date to convert
+ */
+export const isoCompatibleDate = date => {
+  if (
+    typeof date === 'string' &&
+    date.match(/\d{4}-\d\d-\d\d\s\d\d:\d\d:\d\d\s[+-]?\d{4}/)
+  ) {
+    // we've matched a date in the format: 2019-03-14 15:39:27 -0400
+    return date.replace(/\s/, 'T').replace(/\s/, '');
+  }
+
+  return date;
+};
+
+/**
  * Add a debounce timeout for your methods.
  * @param {Object} context - the context where your method is running.
  * @param {Number} time - the amount of debounce time in miliseconds.
@@ -67,6 +84,7 @@ export const translateObject = obj =>
 export const translateArray = arr => arr.map(str => __(str));
 
 export default {
+  isoCompatibleDate,
   bindMethods,
   noop,
   debounceMethods,
