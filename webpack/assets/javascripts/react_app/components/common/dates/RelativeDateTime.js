@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedRelative, intlShape } from 'react-intl';
+import { isoCompatibleDate } from '../../../common/helpers';
 
 const RelativeDateTime = (props, context) => {
   const { date, defaultValue } = props;
   if (date) {
-    const title = context.intl.formatDate(date, {
+    const isoDate = isoCompatibleDate(date);
+    const title = context.intl.formatDate(isoDate, {
       day: '2-digit',
       month: 'short',
       hour: '2-digit',
@@ -16,7 +18,7 @@ const RelativeDateTime = (props, context) => {
     /* eslint-disable react/style-prop-object */
     return (
       <span title={title}>
-        <FormattedRelative value={date} style="numeric" />
+        <FormattedRelative value={isoDate} style="numeric" />
       </span>
     );
     /* eslint-enable react/style-prop-object */

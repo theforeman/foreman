@@ -4,6 +4,23 @@ import URI from 'urijs';
 import { translate as __ } from './I18n';
 
 /**
+ * Our API returns non-ISO8601 dates
+ * This method converts those strings into ISO8601 format
+ * @param {String} date - non-ISO date to convert
+ */
+export const isoCompatibleDate = date => {
+  if (
+    typeof date === 'string' &&
+    date.match(/\d{4}-\d\d-\d\d\s\d\d:\d\d:\d\d\s[+-]?\d{4}/)
+  ) {
+    // we've matched a date in the format: 2019-03-14 15:39:27 -0400
+    return date.replace(/\s/, 'T').replace(/\s/, '');
+  }
+
+  return date;
+};
+
+/**
  * Does it run in phantomjs test environment
  * @return {boolean}
  */
@@ -112,6 +129,7 @@ const propsToCase = (casingFn, errorMsg, ob) => {
 };
 
 export default {
+  isoCompatibleDate,
   bindMethods,
   noop,
   debounceMethods,
