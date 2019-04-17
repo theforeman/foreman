@@ -72,6 +72,10 @@ module HostStatus
     def update_status
       self.status = to_status
     end
+
+    def remediation_help_text
+      nil
+    end
   end
 end
 

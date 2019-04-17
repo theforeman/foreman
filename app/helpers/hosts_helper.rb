@@ -293,8 +293,10 @@ module HostsHelper
       next unless status.relevant? && !status.substatus?
       [
         _(status.name),
-        content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
+        content_tag(:span, (
+          content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
           content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
+        ), { :'data-original-title' => _(status.remediation_help_text), :rel => 'twipsy' })
       ]
     end.compact
   end
