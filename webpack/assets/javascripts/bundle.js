@@ -33,6 +33,7 @@ import hosts from './foreman_hosts';
 import * as foremanStore from './foreman_store';
 
 window.tfm = Object.assign(window.tfm || {}, {
+  ajaxRemount: require('./foreman_ajax_remount'),
   authSource: require('./foreman_auth_source'),
   tools: require('./foreman_tools'),
   users: require('./foreman_users'),

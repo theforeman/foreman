@@ -327,6 +327,7 @@ function update_form(element, options) {
       }
 
       $(document.body).trigger('ContentLoad');
+      $(document.body).trigger('RemountComponents')
     }
   })
 }
