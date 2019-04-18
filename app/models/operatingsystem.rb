@@ -287,10 +287,14 @@ class Operatingsystem < ApplicationRecord
     description
   end
 
-  def deduce_family
-    self.family || self.class.families.find do |f|
+  def self.deduce_family(name)
+    families.find do |f|
       name =~ FAMILIES[f]
     end
+  end
+
+  def deduce_family
+    self.family || self.class.deduce_family(name)
   end
 
   def boot_files_uri(medium_provider, &block)
