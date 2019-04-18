@@ -3,7 +3,14 @@ class TopbarSweeper
   attr_accessor :controller
 
   def expire_cache(user = User.current)
-    controller.expire_fragment(self.class.fragment_name(user.id)) if controller.present? && user.present?
+    if controller.present? && user.present?
+      controller.expire_fragment(self.class.fragment_name(user.id))
+      expire_count_cache(user)
+    end
+  end
+
+  def expire_count_cache(user)
+    Rails.cache.delete("hosts_count/#{controller.resource_name}/#{user.id}")
   end
 
   class << self
