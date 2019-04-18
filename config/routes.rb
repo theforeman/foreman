@@ -490,48 +490,44 @@ Foreman::Application.routes.draw do
 
   resources :tasks, :only => [:show]
 
-  if SETTINGS[:locations_enabled]
-    resources :locations, :except => [:show] do
-      resources :hosts, :only => :index
-      member do
-        get 'select'
-        get "clone" => 'locations#clone_taxonomy'
-        get 'nest'
-        post 'import_mismatches'
-        get 'step2'
-        get 'assign_hosts'
-        post 'assign_all_hosts'
-        put 'assign_selected_hosts'
-        post 'parent_taxonomy_selected'
-      end
-      collection do
-        get 'auto_complete_search'
-        get 'clear'
-        get  'mismatches'
-        post 'import_mismatches'
-      end
+  resources :locations, :except => [:show] do
+    resources :hosts, :only => :index
+    member do
+      get 'select'
+      get "clone" => 'locations#clone_taxonomy'
+      get 'nest'
+      post 'import_mismatches'
+      get 'step2'
+      get 'assign_hosts'
+      post 'assign_all_hosts'
+      put 'assign_selected_hosts'
+      post 'parent_taxonomy_selected'
+    end
+    collection do
+      get 'auto_complete_search'
+      get 'clear'
+      get  'mismatches'
+      post 'import_mismatches'
     end
   end
 
-  if SETTINGS[:organizations_enabled]
-    resources :organizations, :except => [:show] do
-      member do
-        get 'select'
-        get "clone" => 'organizations#clone_taxonomy'
-        get 'nest'
-        post 'import_mismatches'
-        get 'step2'
-        get 'assign_hosts'
-        post 'assign_all_hosts'
-        put 'assign_selected_hosts'
-        post 'parent_taxonomy_selected'
-      end
-      collection do
-        get 'auto_complete_search'
-        get 'clear'
-        get  'mismatches'
-        post 'import_mismatches'
-      end
+  resources :organizations, :except => [:show] do
+    member do
+      get 'select'
+      get "clone" => 'organizations#clone_taxonomy'
+      get 'nest'
+      post 'import_mismatches'
+      get 'step2'
+      get 'assign_hosts'
+      post 'assign_all_hosts'
+      put 'assign_selected_hosts'
+      post 'parent_taxonomy_selected'
+    end
+    collection do
+      get 'auto_complete_search'
+      get 'clear'
+      get  'mismatches'
+      post 'import_mismatches'
     end
   end
 
