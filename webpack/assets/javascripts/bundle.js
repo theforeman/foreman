@@ -53,7 +53,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   breadcrumbs: require('./foreman_breadcrumbs'),
   configReportsModalDiff: require('./foreman_config_reports_modal_diff'),
   classEditor: require('./foreman_class_edit'),
-  dashboard: require('./foreman_dashboard'),
+  dashboard: require('./dashboard'),
   i18n,
   document: foremanDocument,
   componentRegistry,
