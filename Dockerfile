@@ -61,7 +61,7 @@ RUN entrypoint.sh npm install --no-optional && entrypoint.sh npm rebuild node-sa
 
 RUN entrypoint.sh bundle exec rake assets:clean assets:precompile db:migrate &&  \
  entrypoint.sh bundle exec rake db:seed apipie:cache:index && rm tmp/bootstrap-db.sql
-RUN entrypoint.sh ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js
+RUN entrypoint.sh ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && entrypoint.sh npm run analyze
 
 RUN date -u > BUILD_TIME
 
