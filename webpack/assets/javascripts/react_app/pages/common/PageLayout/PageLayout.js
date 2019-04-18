@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'patternfly-react';
 
-import ToastsList from '../../../components/toastNotifications';
+import ToastsList from '../../../components/ToastsList';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
 import SearchBar from '../../../components/SearchBar';
 
