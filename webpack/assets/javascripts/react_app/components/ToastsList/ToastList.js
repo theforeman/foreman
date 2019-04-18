@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
   ToastNotificationList,
   ToastNotification,
   TimedToastNotification,
 } from 'patternfly-react';
-import AlertBody from '../common/Alert/AlertBody';
-import * as ToastActions from '../../redux/actions/toasts';
+import PropTypes from 'prop-types';
 import { noop } from '../../common/helpers';
+import AlertBody from '../common/Alert/AlertBody';
 
 const ToastsList = ({ messages, deleteToast }) => {
   const toastsList = Object.entries(messages)
@@ -41,11 +39,4 @@ ToastsList.defaultProps = {
   deleteToast: noop,
 };
 
-const mapStateToProps = state => ({
-  messages: state.toasts.messages,
-});
-
-export default connect(
-  mapStateToProps,
-  ToastActions
-)(ToastsList);
+export default ToastsList;
