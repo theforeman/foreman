@@ -1,8 +1,10 @@
 import $ from 'jquery';
-import { doesDocumentHasFocus } from './react_app/common/document';
-import { notify } from './foreman_toast_notifications';
-import { activateTooltips, foremanUrl } from './foreman_tools';
-import { translate as __ } from './react_app/common/I18n';
+import 'gridster/dist/jquery.gridster';
+import { doesDocumentHasFocus } from '../react_app/common/document';
+import { notify } from '../foreman_toast_notifications';
+import { activateTooltips, foremanUrl } from '../foreman_tools';
+import { translate as __ } from '../react_app/common/I18n';
+import './index.scss';
 
 $(document).on('ContentLoad', () => {
   if (foremanUrl('/') === window.location.pathname) {
