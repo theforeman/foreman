@@ -64,6 +64,13 @@ module Nic
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
 
+    scoped_search :on => :mac, :complete_value => true
+    scoped_search :on => :ip, :complete_value => true
+    scoped_search :on => :name, :complete_value => true
+    scoped_search :on => :managed, :complete_value => {:true => true, :false => false}
+    scoped_search :on => :primary, :complete_value => {:true => true, :false => false}
+    scoped_search :on => :domain, :complete_value => true
+
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
