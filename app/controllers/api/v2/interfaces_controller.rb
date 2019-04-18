@@ -19,7 +19,7 @@ module Api
       param_group :pagination, ::Api::V2::BaseController
 
       def index
-        @interfaces = resource_scope.paginate(paginate_options)
+        @interfaces = resource_scope_for_index
       end
 
       api :GET, '/hosts/:host_id/interfaces/:id', N_("Show an interface for host")
