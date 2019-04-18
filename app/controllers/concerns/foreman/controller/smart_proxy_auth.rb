@@ -64,35 +64,21 @@ module Foreman::Controller::SmartProxyAuth
       # If we have the client certficate in the request environment we can extract the dn and sans from there
       # if not we use the dn in the request environment
       # SAN validation requires "SSLOptions +ExportCertData" in Apache httpd
-      if request.env.has_key?(Setting[:ssl_client_cert_env]) && request.env[Setting[:ssl_client_cert_env]].present? && request.env[Setting[:ssl_client_cert_env]] != '(null)'
-        logger.debug "Examining client certificate to extract dn and sans"
-        cert_raw = request.env[Setting[:ssl_client_cert_env]]
-        certificate = CertificateExtract.new(cert_raw)
-        logger.debug "Client sent certificate with subject '#{certificate.subject}' and subject alt names '#{certificate.subject_alternative_names.inspect}'"
-      else
-        dn = request.env[Setting[:ssl_client_dn_env]]
-      end
+      client_certificate = Foreman::ClientCertificate.new(request: request)
 
-      if (dn && dn =~ /CN=([^\s\/,]+)/i) || certificate
-        verify = request.env[Setting[:ssl_client_verify_env]]
-        if verify == 'SUCCESS'
+      if client_certificate.raw_cert_available? || client_certificate.subject.present?
+        logger.debug "Client sent certificate with subject '#{client_certificate.subject}' and subject alt names '#{client_certificate.subject_alternative_names.inspect}'"
+        logger.debug "CN and SANs were extracted from a client certificate." if client_certificate.raw_cert_available?
+        if client_certificate.verified?
           # If the client sent certificate contains a subject or sans, use them for request_hosts, else fall back to the dn set in the request environment
-          request_hosts = []
-          if certificate
-            if certificate.subject_alternative_names.present?
-              request_hosts += certificate.subject_alternative_names
-            elsif certificate.subject
-              request_hosts << certificate.subject
-            end
-          else
-            request_hosts << Regexp.last_match(1) if Regexp.last_match(1)
-          end
+          request_hosts = client_certificate.hosts
         else
-          logger.warn "SSL cert has not been verified (#{verify}) - request from #{request.ip}, #{dn}"
+          logger.warn "SSL cert has not been verified (#{client_certificate.verify}) - request from #{request.ip}, #{client_certificate.subject}"
         end
       elsif require_cert
-        logger.warn "No SSL cert with CN supplied - request from #{request.ip}, #{dn}"
+        logger.warn "No SSL cert with CN supplied - request from #{request.ip}"
       else
+        logger.warn "No SSL cert supplied, falling back to reverse DNS for hostname lookup - request from #{request.ip}"
         request_hosts = Resolv.new.getnames(request.ip)
       end
     elsif SETTINGS[:require_ssl]
