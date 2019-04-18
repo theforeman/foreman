@@ -1,3 +1,15 @@
+2019-04-18	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.3
+
+2019-04-18	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #26104 - multiple NICs without MAC are orchestrated
+
+2019-04-18	Jonathon Turel <jturel@gmail.com>
+	* Fixes #26616 - Cast dates to be ISO compatible
+
+2019-04-15	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #26054 - VMware storage controller type chage
+
 2019-04-05	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.21.2
 
