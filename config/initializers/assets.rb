@@ -22,7 +22,6 @@ Foreman::Application.configure do |app|
                   compute_resources/libvirt/nic_info
                   compute_resources/ovirt/nic_info
                   compute_resources/vmware/nic_info
-                  lookup_keys
                   host_edit
                   host_edit_interfaces
                   hosts
@@ -33,7 +32,6 @@ Foreman::Application.configure do |app|
                   gettext/all
                   filters
                   subnets
-                  hidden_values
                   proxy_status
                   about
                   parameter_override)
