@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-[ -e /opt/rh/rh-ruby25/enable ] && . /opt/rh/rh-ruby25/enable
-[ -e /opt/rh/rh-nodejs8/enable ] && . /opt/rh/rh-nodejs8/enable
+[ -e /opt/rh/${RUBY_SCL}/enable ] && . /opt/rh/${RUBY_SCL}/enable
+[ -e /opt/rh/${NODEJS_SCL}/enable ] && . /opt/rh/${NODEJS_SCL}/enable
 
 export PATH=~/bin:${GEM_HOME}/bin:${PATH}
 

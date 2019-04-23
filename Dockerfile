@@ -1,13 +1,15 @@
 # Base container that is used for both building and running the app
 FROM centos:latest as base
+ENV RUBY_SCL="rh-ruby25"
+ENV NODEJS_SCL="rh-nodejs8"
 
 RUN \
   echo "tsflags=nodocs" >> /etc/yum.conf && \
   yum -y upgrade && \
   yum -y install centos-release-scl epel-release && \
-  yum -y install rh-ruby25 rh-nodejs8-nodejs \
+  yum -y install ${RUBY_SCL} ${NODEJS_SCL}-nodejs \
      mariadb-libs postgresql-libs \
-    rh-ruby25-ruby{,gems} rh-ruby25-rubygem-{rdoc,rake,bundler} nc && \
+    ${RUBY_SCL}-ruby{,gems} ${RUBY_SCL}-rubygem-{rdoc,rake,bundler} nc && \
   yum clean all && \
   rm -rf /var/cache/yum/
 
@@ -29,7 +31,7 @@ FROM base as builder
 RUN \
   yum -y install redhat-rpm-config git \
     gcc-c++ make bzip2 \
-    libxml2-devel libcurl-devel rh-ruby25-ruby-devel \
+    libxml2-devel libcurl-devel ${RUBY_SCL}-ruby-devel \
     mariadb-devel postgresql-devel libsq3-devel && \
   yum clean all && \
   rm -rf /var/cache/yum/
@@ -93,5 +95,4 @@ RUN date -u > BUILD_TIME
 # Start the main process.
 CMD "bundle exec bin/rails server"
 
-# Foreman UID
 EXPOSE 3000/tcp
