@@ -1,11 +1,11 @@
 import $ from 'jquery';
 import { doesDocumentHasFocus } from './react_app/common/document';
 import { notify } from './foreman_toast_notifications';
-import { activateTooltips } from './foreman_tools';
+import { activateTooltips, foremanUrl } from './foreman_tools';
 import { translate as __ } from './react_app/common/I18n';
 
 $(document).on('ContentLoad', () => {
-  if (window.foreman_url('/') === window.location.pathname) {
+  if (foremanUrl('/') === window.location.pathname) {
     startGridster();
     autoRefresh();
   }
