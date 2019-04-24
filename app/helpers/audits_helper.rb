@@ -9,13 +9,13 @@ module AuditsHelper
         label = change.to_s(:short)
       when /.*_id$/
         begin
-          label = key_to_class(name, audit)&.find(change)&.to_label
+          label = key_to_class(name, change, audit)&.to_label
         rescue NameError
           # fallback to the value only instead of N/A that is in generic rescue below
           return _("Missing(ID: %s)") % change
         end
       when /.*_ids$/
-        existing = key_to_class(name, audit)&.where(id: change)&.index_by(&:id)
+        existing = key_to_class(name, change, audit)
         label = change.map do |id|
           if existing&.has_key?(id)
             existing[id].to_label
@@ -238,11 +238,26 @@ module AuditsHelper
     main_objects_names.include?(type)
   end
 
-  def key_to_class(key, audit)
+  def find_auditable_type_class(audit)
     auditable_type = (audit.auditable_type == 'Host::Base') ? 'Host::Managed' : audit.auditable_type
+    auditable_type.constantize
+  end
+
+  def key_to_class(key, change, audit)
+    auditable_class = find_auditable_type_class(audit)
     association_name = key.gsub(/_id(s?)$/, '')
     association_name = association_name.pluralize if key =~ /_ids$/
-    auditable_type.constantize.reflect_on_association(association_name)&.klass
+    reflection_obj = auditable_class.reflect_on_association(association_name)
+    if reflection_obj.nil? && auditable_class.respond_to?('audit_hook_to_find_records')
+      auditable_class.send('audit_hook_to_find_records', key, change, audit)
+    else
+      association_class = reflection_obj&.klass
+      if key =~ /_ids$/
+        association_class&.where(id: change)&.index_by(&:id)
+      elsif key =~ /_id$/
+        association_class&.find(change)
+      end
+    end
   end
 
   def rebuild_audit_changes(audit)
