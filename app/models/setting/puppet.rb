@@ -25,17 +25,6 @@ class Setting::Puppet < Setting
     ]
   end
 
-  def self.load_defaults
-    # Check the table exists
-    return unless super
-
-    self.transaction do
-      default_settings.compact.each { |s| self.create s.update(:category => "Setting::Puppet")}
-    end
-
-    true
-  end
-
   def self.humanized_category
     N_('Puppet')
   end

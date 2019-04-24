@@ -80,17 +80,6 @@ class Setting::Provisioning < Setting
     ] + default_global_templates + default_local_boot_templates
   end
 
-  def self.load_defaults
-    # Check the table exists
-    return unless super
-
-    self.transaction do
-      default_settings.each { |s| self.create! s.update(:category => "Setting::Provisioning")}
-    end
-
-    true
-  end
-
   def self.humanized_category
     N_('Provisioning')
   end
