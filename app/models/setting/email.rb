@@ -25,17 +25,6 @@ class Setting::Email < Setting
 
   validates :value, :length => {:maximum => 255}, :if => Proc.new { |s| s.name == "email_subject_prefix" }
 
-  def self.load_defaults
-    # Check the table exists
-    return unless super
-
-    self.transaction do
-      default_settings.each { |s| self.create! s.update(:category => "Setting::Email")}
-    end
-
-    true
-  end
-
   def self.delivery_settings
     options = {}
     self.all.find_each do |setting|

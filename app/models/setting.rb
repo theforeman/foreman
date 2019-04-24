@@ -242,9 +242,15 @@ class Setting < ApplicationRecord
       attrs = column_check([:default, :description, :full_name, :encrypted])
       to_update = Hash[opts.select { |k, v| attrs.include? k }]
       to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
-      s.update(to_update)
+      # default is converted to yaml so we need to convert the yaml here too,
+      # in order to check, if the update of default is needed
+      # if it is the same, we don't try to update default, it would trigger
+      # update query for every setting
+      to_update.delete(:default) if to_update[:default].to_yaml.strip == s[:default]
+      s.attributes = to_update
+      s.save if s.changed? # to bypass name uniqueness validator to query db
       s.update_column :category, opts[:category] if s.category != opts[:category]
-      s.update_column :full_name, opts[:full_name] unless column_check([:full_name]).empty?
+      s.update_column :full_name, opts[:full_name] if column_check([:full_name]).present? && s.full_name != opts[:full_name]
       raw_value = s.read_attribute(:value)
       if s.is_encryptable?(raw_value) && attrs.include?(:encrypted) && opts[:encrypted]
         s.update_column :value, s.encrypt_field(raw_value)
@@ -269,10 +275,19 @@ class Setting < ApplicationRecord
 
   # Methods for loading default settings
 
+  def self.default_settings
+    []
+  end
+
   def self.load_defaults
-    # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
-    Setting.first rescue return false
-    # STI classes will load their own defaults
+    return false unless table_exists?
+    dbcache = Hash[Setting.where(:category => self.name).map { |s| [s.name, s] }]
+    self.transaction do
+      default_settings.compact.each do |s|
+        val = s.update(:category => self.name).symbolize_keys
+        dbcache.key?(val[:name]) ? create_existing(dbcache[val[:name]], s) : create!(s)
+      end
+    end
     true
   end
 

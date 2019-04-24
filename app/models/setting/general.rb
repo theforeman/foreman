@@ -31,17 +31,6 @@ class Setting::General < Setting
     ]
   end
 
-  def self.load_defaults
-    # Check the table exists
-    return unless super
-
-    self.transaction do
-      default_settings.each { |s| self.create! s.update(:category => "Setting::General")}
-    end
-
-    true
-  end
-
   def self.humanized_category
     N_('General')
   end
