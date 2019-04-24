@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-01-10 21:01+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-04-11 20:33+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -21,10 +21,13 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid " Documentation"
+msgstr ""
+
 msgid " Remove"
 msgstr "移除"
 
-msgid "%(name) (free: %(free), prov: %(prov), total: %(total))"
+msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
@@ -37,9 +40,6 @@ msgid "%s Active Feature"
 msgid_plural "%s Active Features"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "%s Distribution"
-msgstr "%s 分配"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -381,8 +381,8 @@ msgstr "<b>來源：</b> %{type} %{name}"
 msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
 msgstr "<dl><dt>列表</dt> <dd>一個可以允許加入驗證規則欄位的值列表.</dd><dt>正規表示法</dt> <dd>在驗證規則欄位中利用正規表示法來驗證輸入值.</dd></dl>"
 
-msgid "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
-msgstr "<dl><dt>String</dt> <dd>所有輸入皆會被視為字串。</dd><dt>Boolean</dt> <dd>接受布林值的常見表示式。</dd><dt>Integer</dt> <dd>僅能使用數字，能夠是負數。</dd><dt>Real</dt> <dd>接受任何數字輸入。</dd><dt>Array</dt> <dd>有效的 JSON 或是 YAML 輸入，並且必須作為陣列。</dd><dt>Hash</dt> <dd>有效的 JSON 或 YAML 輸入，並且必須作為 object/map/dict/hash。</dd><dt>YAML</dt> <dd>任何有效的 YAML 輸入。</dd><dt>JSON</dt> <dd>任何有效的 JSON 輸入。</dd></dl>"
+msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
+msgstr ""
 
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr ""
@@ -819,6 +819,9 @@ msgstr "指定給 %s"
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "指定主機給 %{taxonomy_name} 也會更新 %{taxonomy_name} 以包含所選主機目前正在使用的所有資源。"
 
+msgid "Associate Ephemeral External IP"
+msgstr ""
+
 msgid "Associate VM"
 msgstr "建立 VM 的相聯性"
 
@@ -1046,6 +1049,9 @@ msgstr ""
 msgid "Availability zone"
 msgstr "可用性區域"
 
+msgid "Available"
+msgstr ""
+
 msgid "Available Classes"
 msgstr "可用類別"
 
@@ -1196,6 +1202,9 @@ msgstr "由 OS 映像檔組建"
 msgid "Build in progress"
 msgstr ""
 
+msgid "By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser."
+msgstr ""
+
 msgid "By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups."
 msgstr ""
 
@@ -1283,6 +1292,9 @@ msgstr "切換內容時找不到使用者 %s"
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
+msgid "Cannot resolve network type for %s"
+msgstr ""
+
 msgid "Caps lock ON"
 msgstr "Caps Lock 已開啟"
 
@@ -1367,6 +1379,9 @@ msgstr "類別發佈"
 msgid "Classes"
 msgstr "類別"
 
+msgid "Clean up StoredValues"
+msgstr ""
+
 msgid "Clean up failed deployment"
 msgstr "清除失敗的建置"
 
@@ -1440,6 +1455,12 @@ msgid "Communication status"
 msgstr "通訊狀態"
 
 msgid "Community"
+msgstr ""
+
+msgid "Compress the report using gzip"
+msgstr ""
+
+msgid "Compress the report uzing gzip"
 msgstr ""
 
 msgid "Compute Profiles"
@@ -1654,10 +1675,16 @@ msgstr ""
 msgid "Could not locate CA certificate."
 msgstr "無法定位 CA 憑證。"
 
+msgid "Could not receive data: ${error && error.message}"
+msgstr ""
+
 msgid "Could not recreate a new SSH key"
 msgstr ""
 
 msgid "Could not refresh external usergroups: %{e} - %{message} - %{suggestion}"
+msgstr ""
+
+msgid "Could not resolve ID."
 msgstr ""
 
 msgid "Create"
@@ -2038,6 +2065,9 @@ msgstr "每天"
 msgid "Dashboard"
 msgstr "控制面板"
 
+msgid "Data are available only for the user who triggered the report and administrators"
+msgstr ""
+
 msgid "Data store"
 msgstr "資料存放區"
 
@@ -2046,6 +2076,9 @@ msgstr "資料中心"
 
 msgid "Datacenter was not found"
 msgstr ""
+
+msgid "Date"
+msgstr "日期"
 
 msgid "Default"
 msgstr "預設值"
@@ -2314,6 +2347,9 @@ msgstr "已刪除的環境"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "已刪除的環境 %{env} 和 %{pcs}"
 
+msgid "Deliver to e-mail addresses"
+msgstr ""
+
 msgid "Delivery method"
 msgstr ""
 
@@ -2470,9 +2506,6 @@ msgstr "區域 ID"
 msgid "Domain Users is a special group in AD. Unfortunately, we cannot obtain membership information from a LDAP search and therefore sync it."
 msgstr ""
 
-msgid "Domain for V3 authentication"
-msgstr ""
-
 msgid "Domains"
 msgstr "網域"
 
@@ -2491,6 +2524,12 @@ msgid "Download"
 msgstr "下載"
 
 msgid "Download VMRC"
+msgstr ""
+
+msgid "Download generated report"
+msgstr ""
+
+msgid "Downloads a generated report"
 msgstr ""
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
@@ -2798,9 +2837,6 @@ msgstr "匯出為 CSV"
 msgid "External Groups"
 msgstr "外部群組"
 
-msgid "External IP"
-msgstr "外部IP"
-
 msgid "External user group"
 msgstr "外部使用者群組"
 
@@ -2956,7 +2992,7 @@ msgstr ""
 msgid "Failed to fetch: "
 msgstr "擷取失敗："
 
-msgid "Failed to find compute attributes, please check if VM %{name} was deleted: %{message}"
+msgid "Failed to find compute attributes, please check if VM %s was deleted"
 msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
@@ -3078,6 +3114,9 @@ msgstr "名稱"
 msgid "Fetch TFTP boot files for %s"
 msgstr "為 %s 擷取 TFTP 開機檔案"
 
+msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
+msgstr ""
+
 msgid "Field name"
 msgstr ""
 
@@ -3194,6 +3233,9 @@ msgid "For more information"
 msgstr "欲知更多資訊"
 
 msgid "For more information please see"
+msgstr ""
+
+msgid "For values of type search, this is the resource the value searches in"
 msgstr ""
 
 msgid "Force a Puppet agent run on the host"
@@ -3355,9 +3397,6 @@ msgstr ""
 msgid "Function not available for %s"
 msgstr "%s 的功能不可用"
 
-msgid "Further Information"
-msgstr ""
-
 msgid "GMT time"
 msgstr "GMT 時間"
 
@@ -3379,10 +3418,16 @@ msgstr ""
 msgid "Generate a Report"
 msgstr ""
 
-msgid "Generate a report template"
+msgid "Generate at"
 msgstr ""
 
 msgid "Generate new random name. Visit Settings to disable this feature."
+msgstr ""
+
+msgid "Generate report from a template"
+msgstr ""
+
+msgid "Generate report on a given time."
 msgstr ""
 
 msgid "Generated %s ago"
@@ -3392,6 +3437,9 @@ msgid "Generated at %s"
 msgstr "產生於 %s"
 
 msgid "Generating a report"
+msgstr ""
+
+msgid "Generating the report took %s."
 msgstr ""
 
 msgid "Get ENC values of host"
@@ -3931,6 +3979,12 @@ msgstr ""
 msgid "HttpProxy|Username"
 msgstr ""
 
+msgid "Hypervisor"
+msgstr ""
+
+msgid "ID assigned to generation job by the schedule command"
+msgstr ""
+
 msgid "ID of LDAP authentication source"
 msgstr "LDAP 認證來源的 ID"
 
@@ -3940,8 +3994,14 @@ msgstr "Puppet 類別的 ID"
 msgid "ID of architecture"
 msgstr "架構的 ID"
 
+msgid "ID of compute profile"
+msgstr ""
+
 msgid "ID of compute resource"
 msgstr "運算資源的 ID"
+
+msgid "ID of compute_resource"
+msgstr ""
 
 msgid "ID of config template"
 msgstr "配置範本的 ID"
@@ -4127,6 +4187,9 @@ msgstr "若選取而沒有預設值並且比對器未提供值的話，將會造
 msgid "If owner type is specified, owner must be specified too."
 msgstr ""
 
+msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
+msgstr ""
+
 msgid "If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain."
 msgstr ""
 
@@ -4212,6 +4275,9 @@ msgstr "名稱"
 msgid "Image|Password"
 msgstr "密碼"
 
+msgid "Image|User Data"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
 msgstr "使用者資料"
@@ -4237,6 +4303,12 @@ msgid "Import a provisioning template"
 msgstr ""
 
 msgid "Import a report template"
+msgstr ""
+
+msgid "Import as managed Host"
+msgstr ""
+
+msgid "Import as unmanaged Host"
 msgstr ""
 
 msgid "Import classes from %s"
@@ -4456,6 +4528,14 @@ msgid "JSON VM listing is not supported for this compute resource."
 msgstr "此運算資源並不支援 JSON VM 清單。"
 
 msgid "JSON object of the scheduler hint"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Jwt secret"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "JwtSecret|Token"
 msgstr ""
 
 msgid "Key Binding"
@@ -4864,6 +4944,18 @@ msgstr ""
 msgid "List of HTTP Proxies"
 msgstr ""
 
+msgid "List of compute attributes"
+msgstr ""
+
+msgid "List of compute attributes for compute profile"
+msgstr ""
+
+msgid "List of compute attributes for compute resource"
+msgstr ""
+
+msgid "List of compute attributes for provided compute profile and compute resource"
+msgstr ""
+
 msgid "List of compute profiles"
 msgstr "運算設定檔清單"
 
@@ -4975,14 +5067,14 @@ msgstr "列出範本組合"
 msgid "List template inputs"
 msgstr "列出範本輸入"
 
+msgid "Load"
+msgstr ""
+
 msgid "Load Datacenters"
 msgstr "載入資料中心"
 
 msgid "Load Regions"
 msgstr "載入區域"
-
-msgid "Load Tenants"
-msgstr "載入租用戶"
 
 msgid "Load Zones"
 msgstr ""
@@ -5391,9 +5483,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "型號"
-
-msgid "Model|Hardware Model"
-msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
@@ -6034,6 +6123,9 @@ msgstr ""
 msgid "Only for BMC interfaces."
 msgstr "僅適用於 BMC 介面卡。"
 
+msgid "Only for v3 authentication"
+msgstr ""
+
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
 "                are automatically synced from the External Groups list."
@@ -6324,12 +6416,19 @@ msgid "Parameter|Hidden value"
 msgstr "隱藏值"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Key type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
 msgstr "名稱"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Priority"
 msgstr "優先順序"
+
+msgid "Parameter|Type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Value"
@@ -6480,6 +6579,9 @@ msgstr "照片屬性"
 msgid "Physical (Bridge)"
 msgstr "實體（橋接）"
 
+msgid "Plain"
+msgstr ""
+
 msgid "Please Confirm"
 msgstr "請確認"
 
@@ -6626,6 +6728,12 @@ msgstr ""
 
 msgid "Proceed to Edit"
 msgstr "繼續前往編輯"
+
+msgid "Project (Tenant)"
+msgstr ""
+
+msgid "Project (v3) or Tenant (v2)"
+msgstr ""
 
 msgid "Properties"
 msgstr "屬性"
@@ -6974,6 +7082,12 @@ msgstr "正在移除運算事例 %s"
 msgid "Rename"
 msgstr "重新命名"
 
+msgid "Render report %s"
+msgstr ""
+
+msgid "Render report template"
+msgstr ""
+
 msgid "Render user data template for %s"
 msgstr "為 %s 轉譯使用者資料範本"
 
@@ -6994,6 +7108,21 @@ msgid "Report Status"
 msgstr "報告狀態"
 
 msgid "Report Templates"
+msgstr ""
+
+msgid "Report completed"
+msgstr ""
+
+msgid "Report data are not available, it has probably expired."
+msgstr ""
+
+msgid "Report is being rendered, it will be delivered via e-mail."
+msgstr ""
+
+msgid "Report is going to be rendered at %s and it will be delivered via e-mail once ready."
+msgstr ""
+
+msgid "Report not found, please ensure you used the correct job_id"
 msgstr ""
 
 msgid "ReportTemplate|Locked"
@@ -7087,6 +7216,9 @@ msgstr "R"
 
 msgid "Restrict registered smart proxies"
 msgstr "限制已註冊的智慧代理"
+
+msgid "Result of report %s"
+msgstr ""
 
 msgid "Resume"
 msgstr "復原"
@@ -7289,6 +7421,9 @@ msgstr "進行儲存並重新嘗試"
 msgid "Saved Bookmarks"
 msgstr ""
 
+msgid "Schedule generating of a report"
+msgstr ""
+
 msgid "Scheduler hint filter"
 msgstr ""
 
@@ -7305,6 +7440,9 @@ msgid "Search"
 msgstr "搜尋"
 
 msgid "Search fields"
+msgstr ""
+
+msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
 msgstr ""
 
 msgid "Secondary DNS Server"
@@ -7434,6 +7572,9 @@ msgstr "發送測試訊息到使用者的電子郵件信箱，已確認配置是
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "傳送一封包含了使用者名稱和 URL 的歡迎電子郵件給新使用者"
+
+msgid "Send report via e-mail"
+msgstr ""
 
 msgid "Send welcome email"
 msgstr "傳送歡迎電子郵件"
@@ -7575,6 +7716,9 @@ msgstr "顯示主機的 Puppet 類別"
 
 msgid "Show a bookmark"
 msgstr "顯示書籤"
+
+msgid "Show a compute attributes set"
+msgstr ""
 
 msgid "Show a compute profile"
 msgstr "顯示運算設定檔"
@@ -7814,10 +7958,22 @@ msgstr "智慧代理"
 msgid "Smart proxy IDs"
 msgstr "智慧型代理伺服器的 ID"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Smart proxy feature"
+msgstr ""
+
 msgid "Smart variables"
 msgstr "智慧變數"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SmartProxyFeature|Capabilities"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SmartProxyFeature|Settings"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -7956,6 +8112,22 @@ msgstr "儲存網域"
 
 msgid "Storage pool"
 msgstr "儲存集區"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Stored value"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "StoredValue|Expire at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "StoredValue|Key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "StoredValue|Value"
+msgstr ""
 
 msgid "Strong"
 msgstr "強"
@@ -8299,6 +8471,14 @@ msgid "TemplateInput|Required"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TemplateInput|Resource type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TemplateInput|Value type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TemplateInput|Variable name"
 msgstr ""
 
@@ -8470,8 +8650,8 @@ msgstr ""
 msgid "The default administrator email address"
 msgstr "預設的管理員電子郵件地址"
 
-msgid "The file path where your p12 file is located"
-msgstr "您 p12 檔案位於的檔案路徑"
+msgid "The file path where your JSON file is located"
+msgstr ""
 
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "最後的項目「作業系統預設值」可透過編輯 %s 頁面來設置。"
@@ -8565,6 +8745,9 @@ msgstr "遠端系統會顯示一組由未辨識的憑證許可所簽署的公共
 
 msgid "The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"
 msgstr "遠端系統提供了一組包含雜湊 %s 的公共金鑰，然而我們所預期的乃另一個雜湊。若您能確認遠端系統乃的真實性，請至運算資源編輯頁，按下「測試連線」或是「載入資料中心」按鈕並提交。"
+
+msgid "The report %{name} that was requested at %{time} has been generated%{compression} and attached to this email."
+msgstr ""
 
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr "所選主機已啟用，以重新啟動並重建"
@@ -8714,7 +8897,7 @@ msgstr ""
 msgid "This value is used also as the host's primary interface name."
 msgstr "這個值也用於主機的主介面名稱。"
 
-msgid "This will generate a report %s. Based on its definition, it can take a long time to process. This operation runs in the web process, therefore should be executed with caution. Triggering multiple reports can consume many resources and may result in other system functions unavailability."
+msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
 msgstr ""
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
@@ -8763,6 +8946,9 @@ msgstr ""
 
 msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
 msgstr "若要更新類別簽章，請至 Puppet 類別網頁並選擇「匯入」。"
+
+msgid "Today"
+msgstr ""
 
 msgid "Toggle"
 msgstr "切換"
@@ -8877,6 +9063,9 @@ msgstr ""
 msgid "Type of realm, e.g. FreeIPA"
 msgstr "領域類型，例如 FreeIPA"
 
+msgid "Type of value"
+msgstr ""
+
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr ""
 
@@ -8912,6 +9101,9 @@ msgstr "您的 Foreman instance 所能連上的 URL（請參閱佈建 > unattend
 
 msgid "UTC time of report"
 msgstr "報告的 UTC 時間"
+
+msgid "UTC time to generate report at"
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -9107,6 +9299,9 @@ msgstr "未經允許的面板小工具範本：%s"
 
 msgid "Unattended URL"
 msgstr "無人看顧的 URL"
+
+msgid "Unauthorized. You do not have the required permission %s."
+msgstr ""
 
 msgid "Undo remove"
 msgstr "還原移除"
@@ -9393,6 +9588,9 @@ msgstr ""
 msgid "Upload facts for a host, creating the host if required"
 msgstr "上傳主機的詳情，並視需求建立主機"
 
+msgid "Uptime"
+msgstr "上線時間"
+
 msgid "Use APIv4 (experimental)"
 msgstr ""
 
@@ -9416,6 +9614,9 @@ msgstr "使用此 puppet 伺服器來作為 CA 伺服器"
 
 msgid "Use this puppet server as an initial Puppet Server or to execute puppet runs"
 msgstr "使用此 puppet 伺服器來作為初始 Puppet Server 或用來執行 puppet run"
+
+msgid "Used"
+msgstr ""
 
 msgid "Used in iPXE environments."
 msgstr ""
@@ -9644,6 +9845,9 @@ msgstr "VNC/SPICE websocket 代理主控台存取加密（需要設定 websocket
 msgid "Valid Host Group and Environment Combinations"
 msgstr ""
 
+msgid "Valid e-mail addresses delimited by \"%s\""
+msgstr ""
+
 msgid "Valid from"
 msgstr "可從...使用："
 
@@ -9661,6 +9865,9 @@ msgstr "當沒有相符的項目時所使用的值"
 
 msgid "Value to use when there is no match."
 msgstr "當沒有相符的項目時所使用的值。"
+
+msgid "Value type, defaults to plain"
+msgstr ""
 
 msgid "Variable"
 msgstr "變數"
@@ -10122,6 +10329,9 @@ msgstr "不可從最後一個管理員帳號移除"
 msgid "cannot be used, please choose another"
 msgstr ""
 
+msgid "cannot contain itself as member"
+msgstr ""
+
 msgid "clone"
 msgstr "複製"
 
@@ -10132,6 +10342,12 @@ msgid "comments powered by %{disqus}"
 msgstr "由 %{disqus} 提供的註解"
 
 msgid "community forums"
+msgstr ""
+
+msgid "compresed"
+msgstr ""
+
+msgid "contains special characters"
 msgstr ""
 
 msgid "could not be calculated"
@@ -10261,6 +10477,9 @@ msgid "for VMware"
 msgstr "適用於 Vmware"
 
 msgid "for oVirt only"
+msgstr ""
+
+msgid "for oVirt only, ID of quota to use"
 msgstr ""
 
 msgid "for oVirt, VMware Datacenter"
@@ -10530,6 +10749,9 @@ msgstr ""
 msgid "must contain valid hostnames"
 msgstr ""
 
+msgid "must end with /v2 or /v3"
+msgstr ""
+
 msgid "must not include periods"
 msgstr "必須不能包含句號"
 
@@ -10686,17 +10908,11 @@ msgstr "若主機是個受管理的主機，並且值不是由主機群組所繼
 msgid "required if host is managed and value is not inherited from host group or default password in settings"
 msgstr "若主機是個受管理的主機，並且值不是由主機群組或是設定中的預設密碼所繼承的話便需要"
 
-msgid "required if locations are enabled"
-msgstr "若啟用了位置的話便需要"
-
 msgid "required if not imaged based provisioning and host is managed and value is not inherited from host group"
 msgstr "若不是基於映像檔的佈建，而主機受管理並且值並非由主機群組所繼承的話便需要"
 
 msgid "required if onthefly_register is true"
 msgstr "若 onthefly_register 為 true 的話便需要"
-
-msgid "required if organizations are enabled"
-msgstr "若組織啟用的話便需要"
 
 msgid "reset"
 msgstr "重設"

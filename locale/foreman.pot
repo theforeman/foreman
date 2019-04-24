@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-11 15:28+0300\n"
-"PO-Revision-Date: 2019-04-11 15:28+0300\n"
+"POT-Creation-Date: 2019-04-24 16:40+0300\n"
+"PO-Revision-Date: 2019-04-24 16:40+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -74,24 +74,6 @@ msgstr[1] ""
 
 #: ../app/assets/javascripts/charts.js:388
 msgid "Failed to load chart"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:23
-#: ../app/helpers/application_helper.rb:90
-msgid "Click to remove %s"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:48
-#: ../app/views/puppetclasses/_classes_in_groups.html.erb:2
-msgid "belongs to config group"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:87
-msgid "Click to remove config group"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:90
-msgid " Remove"
 msgstr ""
 
 #: ../app/assets/javascripts/compute_resources/libvirt/nic_info.js:3
@@ -4257,6 +4239,11 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
+#: ../app/helpers/application_helper.rb:90
+#: ../webpack/assets/javascripts/foreman_class_edit.js:38
+msgid "Click to remove %s"
+msgstr ""
+
 #: ../app/helpers/application_helper.rb:103
 msgid "Click to add %s"
 msgstr ""
@@ -4362,7 +4349,7 @@ msgstr ""
 
 #: ../app/helpers/audits_helper.rb:194 ../app/registries/menu/loader.rb:52
 #: ../app/views/architectures/index.html.erb:9
-#: ../app/views/config_groups/index.html.erb:12
+#: ../app/views/config_groups/index.html.erb:10
 #: ../app/views/config_reports/index.html.erb:4
 #: ../app/views/domains/index.html.erb:9
 #: ../app/views/environments/index.html.erb:9
@@ -4802,7 +4789,7 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:26
 #: ../app/views/compute_profiles/index.html.erb:18
 #: ../app/views/compute_resources/index.html.erb:20
-#: ../app/views/config_groups/index.html.erb:25
+#: ../app/views/config_groups/index.html.erb:23
 #: ../app/views/domains/index.html.erb:18
 #: ../app/views/http_proxies/index.html.erb:21
 #: ../app/views/media/index.html.erb:29
@@ -5656,7 +5643,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:7
 #: ../app/views/compute_resources_vms/index/_rackspace.html.erb:6
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:10
-#: ../app/views/config_groups/index.html.erb:14
+#: ../app/views/config_groups/index.html.erb:12
 #: ../app/views/config_reports/_list.html.erb:15
 #: ../app/views/domains/index.html.erb:10
 #: ../app/views/environments/index.html.erb:10
@@ -8735,7 +8722,7 @@ msgid "Configure"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:71
-#: ../app/views/config_groups/index.html.erb:13
+#: ../app/views/config_groups/index.html.erb:11
 #: ../app/views/hostgroups/index.html.erb:1
 #: ../app/views/puppetclasses/index.html.erb:11
 #: ../app/views/taxonomies/_form.html.erb:40
@@ -8764,7 +8751,7 @@ msgid "Classes"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:76
-#: ../app/views/config_groups/index.html.erb:3
+#: ../app/views/config_groups/index.html.erb:1
 #: ../app/views/config_groups/welcome.html.erb:1
 #: ../app/views/config_groups/welcome.html.erb:6
 msgid "Config Groups"
@@ -10766,13 +10753,13 @@ msgstr ""
 msgid "Available Config Groups"
 msgstr ""
 
-#: ../app/views/config_groups/index.html.erb:5
+#: ../app/views/config_groups/index.html.erb:3
 #: ../app/views/config_groups/new.html.erb:1
 #: ../app/views/config_groups/welcome.html.erb:10
 msgid "Create Config Group"
 msgstr ""
 
-#: ../app/views/config_groups/index.html.erb:11
+#: ../app/views/config_groups/index.html.erb:9
 #: ../app/views/hostgroups/_form.html.erb:7
 #: ../app/views/puppetclasses/index.html.erb:1
 #: ../config/initializers/puppet.rb:5
@@ -12783,6 +12770,11 @@ msgstr ""
 msgid "Filter classes"
 msgstr ""
 
+#: ../app/views/puppetclasses/_classes_in_groups.html.erb:2
+#: ../webpack/assets/javascripts/foreman_class_edit.js:67
+msgid "belongs to config group"
+msgstr ""
+
 #: ../app/views/puppetclasses/_form.html.erb:4
 msgid ""
 "The class could not be saved because of an error in one of the class parameter"
@@ -14399,6 +14391,14 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/compute_resource/openstack.js:28
 msgid "Error loading scheduler hint filters information: %s"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_class_edit.js:125
+msgid "Click to remove config group"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_class_edit.js:128
+msgid " Remove"
 msgstr ""
 
 #: ../webpack/assets/javascripts/foreman_compute_resource.js:35
