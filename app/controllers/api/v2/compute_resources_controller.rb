@@ -41,7 +41,9 @@ module Api
           param :public_key, String, :desc => N_("for oVirt only")
           param :region, String, :desc => N_("for EC2 only, use '%s' for GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION
           param :tenant, String, :desc => N_("for OpenStack only")
-          param :domain, String, :desc => N_("for OpenStack only")
+          param :domain, String, :desc => N_("for OpenStack (v3) only")
+          param :project_domain_name, String, :desc => N_("for OpenStack (v3) only")
+          param :project_domain_id, String, :desc => N_("for OpenStack (v3) only")
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
           param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt only')
