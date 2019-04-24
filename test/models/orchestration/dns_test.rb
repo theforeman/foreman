@@ -128,7 +128,7 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_equal 2, tasks.size
     end
 
-    test 'should queue dns update' do
+    test 'IP address change should queue dns update' do
       @host.save!
       @host.queue.clear
       @host.ip = IPAddr.new(IPAddr.new(@host.ip).to_i + 1, Socket::AF_INET).to_s
@@ -139,6 +139,34 @@ class DnsOrchestrationTest < ActiveSupport::TestCase
       assert_includes tasks, "Create IPv4 DNS record for #{@host.provision_interface}"
       assert_includes tasks, "Create Reverse IPv4 DNS record for #{@host.provision_interface}"
       assert_equal 4, tasks.size
+    end
+
+    test 'name change should queue dns update' do
+      @host.save!
+      @host.queue.clear
+      original_name = @host.primary_interface.name
+      @host.primary_interface.name = 'updated-' + @host.primary_interface.name
+      assert_valid @host
+      tasks = @host.queue.all.map(&:name)
+      assert_includes tasks, "Remove IPv4 DNS record for #{original_name}"
+      assert_includes tasks, "Remove Reverse IPv4 DNS record for #{original_name}"
+      assert_includes tasks, "Create IPv4 DNS record for #{@host.provision_interface}"
+      assert_includes tasks, "Create Reverse IPv4 DNS record for #{@host.provision_interface}"
+      assert_equal 4, tasks.size
+    end
+
+    test 'name deletion should queue dns update on a secondary interface' do
+      secondary = FactoryBot.create(:nic_managed, :primary => false, :ip => "1.2.3.4", :host => @host, :domain => @host.domain, :name => 'secondary')
+      @host.interfaces << secondary
+      @host.save!
+      @host.queue.clear
+      original_name = secondary.name
+      secondary.name = ''
+      assert_valid @host
+      tasks = @host.queue.all.map(&:name)
+      assert_equal 2, @host.interfaces.count
+      assert_includes tasks, "Remove IPv4 DNS record for #{original_name}"
+      assert_equal 1, tasks.size
     end
 
     test 'should not queue dns update on blank IPv6 change' do
