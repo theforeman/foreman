@@ -28,6 +28,20 @@ module Api
       true
     end
 
+    def authenticate
+      if bruteforce_attempt?
+        log_bruteforce
+        render_error('Bruteforce attempt.', status: :unauthorized)
+        return false
+      end
+
+      authenticated = super
+
+      count_login_failure if available_sso.present? && !authenticated
+
+      authenticated
+    end
+
     private
 
     def execute_multiplexed_graphql_query
@@ -84,7 +98,12 @@ module Api
 
     def generic_exception(exception)
       Foreman::Logging.exception('Action failed', exception)
-      render json: "{ 'error': 500 }", :status => :internal_server_error
+      render_error
+    end
+
+    def render_error(error = 'An error occured.', options = {})
+      options[:status] ||= :internal_server_error
+      render options.merge(json: {error: error})
     end
   end
 end
