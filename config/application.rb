@@ -220,7 +220,8 @@ module Foreman
       :background => {:enabled => true},
       :dynflow => {:enabled => true},
       :telemetry => {:enabled => false},
-      :blob => {:enabled => false}
+      :blob => {:enabled => false},
+      :taxonomy => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')
