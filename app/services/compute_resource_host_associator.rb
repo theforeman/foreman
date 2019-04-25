@@ -19,9 +19,12 @@ class ComputeResourceHostAssociator
 
   def associate_vm(vm)
     host = compute_resource.associated_host(vm)
-    if host.present?
-      host.associate!(compute_resource, vm)
-      @hosts << host
+    datacenter = compute_resource.uuid
+    vm_datacenter = vm.datacenter
+    if host.present? && vm_datacenter == datacenter
+        host.associate!(compute_resource, vm)
+        @hosts << host
+      end
     end
   rescue StandardError => e
     @fail_count += 1
