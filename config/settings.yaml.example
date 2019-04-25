@@ -91,6 +91,9 @@
 #  :templates:
 #    :enabled: true
 #  :notifications:
+#    :enabled: false
+#  :taxonomy:
+#    :enabled: true
 #  :background:
 #    :enabled: true
 #  :dynflow:

@@ -26,7 +26,7 @@ module Foreman
 
       def clear_thread
         if Thread.current[:user] && !Rails.env.test?
-          Rails.logger.warn("Current user is set, but not expected. Clearing")
+          Foreman::Logging.logger('taxonomy').warn("Current user is set, but not expected. Clearing")
           Thread.current[:user] = nil
         end
         yield
@@ -73,9 +73,9 @@ module Foreman
             user = o.login
             type = o.admin? ? 'admin' : 'regular'
             if o.hidden?
-              Rails.logger.debug("Current user set to #{user} (#{type})")
+              Foreman::Logging.logger('permissions').debug("Current user set to #{user} (#{type})")
             else
-              Rails.logger.info("Current user set to #{user} (#{type})")
+              Foreman::Logging.logger('permissions').info("Current user set to #{user} (#{type})")
             end
           end
           ::Logging.mdc['user_login'] = o&.login
@@ -126,7 +126,7 @@ module Foreman
             raise(ArgumentError, "Unable to set current organization, expected class '#{self}', got #{organization.inspect}")
           end
 
-          Rails.logger.debug "Current organization set to #{organization || 'none'}"
+          Foreman::Logging.logger('taxonomy').debug "Current organization set to #{organization || 'none'}"
           org_id = organization.try(:id)
           ::Logging.mdc['org_id'] = org_id if org_id
           Thread.current[:organization] = organization
@@ -163,7 +163,7 @@ module Foreman
             raise(ArgumentError, "Unable to set current location, expected class '#{self}'. got #{location.inspect}")
           end
 
-          Rails.logger.debug "Current location set to #{location || 'none'}"
+          Foreman::Logging.logger('taxonomy').debug "Current location set to #{location || 'none'}"
           loc_id = location.try(:id)
           ::Logging.mdc['loc_id'] = loc_id if loc_id
           Thread.current[:location] = location
