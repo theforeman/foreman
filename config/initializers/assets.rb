@@ -26,7 +26,6 @@ Foreman::Application.configure do |app|
                   host_edit_interfaces
                   hosts
                   reports
-                  spice
                   charts
                   taxonomy_edit
                   gettext/all
