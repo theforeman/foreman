@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ReactApp from '../ReactApp';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
@@ -99,6 +100,7 @@ const componentRegistry = {
 };
 
 const coreComponets = [
+  { name: 'ReactApp', type: ReactApp },
   { name: 'SearchBar', type: SearchBar },
   { name: 'AutoComplete', type: AutoComplete },
   { name: 'DonutChart', type: DonutChart },

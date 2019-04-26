@@ -159,6 +159,7 @@ Object {
         "id": 2,
         "title": "org2",
       },
+      "isCollapsed": false,
       "isLoading": false,
       "items": Array [
         Object {
@@ -327,6 +328,7 @@ Object {
         "id": 1,
         "title": "org1",
       },
+      "isCollapsed": false,
       "isLoading": false,
       "items": Array [
         Object {
@@ -495,6 +497,7 @@ Object {
         "id": 2,
         "title": "org2",
       },
+      "isCollapsed": false,
       "isLoading": false,
       "items": Array [
         Object {
@@ -649,6 +652,7 @@ Object {
       "id": 1,
       "title": "org1",
     },
+    "isCollapsed": false,
     "isLoading": false,
     "items": Array [
       Object {
