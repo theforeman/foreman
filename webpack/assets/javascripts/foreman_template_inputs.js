@@ -47,3 +47,14 @@ export const inputValueOnchange = input => {
   $(`.resource-type-${inputId}`).toggle(searchValue);
   $(`.input-options-${inputId}`).toggle(plainValue);
 };
+export function snippetChanged(item) {
+  const checked = $(item).is(':checked');
+
+  $('#kind_selector').toggle(!checked);
+  $('#snippet_message').toggle(checked);
+  $('#association').toggle(!checked);
+  if (checked) {
+    $('#ptable_os_family').val('');
+    $('#ptable_os_family').trigger('change');
+  }
+}

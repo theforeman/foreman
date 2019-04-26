@@ -30,6 +30,7 @@ import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
 import TemplateInput from './Template/TemplateInput';
 import LoginPage from './LoginPage';
+import Editor from './Editor';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -149,6 +150,7 @@ const coreComponets = [
   },
   { name: 'DateTime', type: DateTime, store: false },
   { name: 'ModelsTable', type: ModelsTable },
+  { name: 'Editor', type: Editor },
 
   // Pages
   { name: 'AuditsPage', type: AuditsPage },

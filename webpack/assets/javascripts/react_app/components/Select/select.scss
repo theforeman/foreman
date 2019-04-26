@@ -1,0 +1,143 @@
+@import '~patternfly/dist/sass/patternfly/_color-variables.scss';
+
+$select-max-height: 205px;
+$select-min-width: 220px;
+
+.select-container-pf {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  padding-right: 0;
+  overflow: hidden;
+  width: 100%;
+  min-width: $select-min-width;
+  border: 1px solid $color-pf-black-400;
+  z-index: 1000;
+
+  &.open {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  }
+
+  .select-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    border: 0;
+
+    .select-toggle-placeholder {
+      font-style: italic;
+      color: $color-pf-black-500;
+    }
+
+    .select-caret {
+      margin-left: auto;
+    }
+  }
+
+  .select-body-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+    max-height: $select-max-height;
+    overflow: hidden;
+    width: 100%;
+    min-width: $select-min-width;
+    z-index: 1000;
+
+    .select-input-search {
+      position: relative;
+
+      input {
+        width: 100% !important;
+        padding: 0 25px 0 25px;
+      }
+
+      .fa-search {
+        color: $color-pf-blue-400;
+        position: absolute;
+        top: 7px;
+        left: 8px;
+        z-index: 99;
+      }
+
+      .fa-close {
+        cursor: pointer;
+        position: absolute;
+        top: 7px;
+        right: 10px;
+        z-index: 99;
+      }
+    }
+
+    .select-scrollable-list {
+      overflow: auto;
+
+      .list-group-item {
+        padding: 5px 10px 5px 10px;
+        outline: 0;
+
+        &:hover {
+          background-color: $color-pf-blue-25;
+        }
+
+        &.active {
+          background-color: $color-pf-blue-400;
+        }
+
+        &.cursor:not(.active) {
+          background-color: $color-pf-blue-25;
+        }
+
+        &.no-border {
+          border: 0;
+        }
+
+        &:focus {
+          background-color: $color-pf-blue-400;
+          color: $color-pf-white;
+        }
+
+        &#select-empty {
+          user-select: none;
+          font-style: italic;
+          color: $color-pf-black-500;
+          display: flex;
+
+          #empty-text {
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+
+        &#select-loading {
+          &:hover {
+            background-color: $color-pf-white;
+          }
+
+          margin-left: auto;
+          margin-right: auto;
+          display: flex;
+          text-align: center;
+          user-select: none;
+          font-style: italic;
+          color: $color-pf-black-500;
+
+          #select-loading-container {
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+
+            #select-spinner {
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    .list-group {
+      margin-bottom: 0;
+    }
+  }
+}

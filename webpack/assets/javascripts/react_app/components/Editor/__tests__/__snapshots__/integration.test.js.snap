@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor integration test should flow: entered fullscreen 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "type": "EDITOR_MODAL_TOGGLE",
+      },
+    ],
+  ],
+  "state": Object {
+    "editor": Object {
+      "diffViewType": "split",
+      "editorName": "editor",
+      "errorText": "",
+      "filteredHosts": Array [],
+      "hosts": Array [],
+      "isFetchingHosts": false,
+      "isLoading": true,
+      "isMasked": false,
+      "isMaximized": true,
+      "isRendering": true,
+      "isSearchingHosts": false,
+      "isSelectOpen": false,
+      "keyBinding": "Default",
+      "mode": "Ruby",
+      "previewResult": "",
+      "readOnly": false,
+      "renderedEditorValue": "",
+      "searchQuery": "",
+      "selectedHost": Object {
+        "id": "",
+        "name": "",
+      },
+      "selectedView": "preview",
+      "showError": false,
+      "templateClass": undefined,
+      "theme": "Monokai",
+      "value": "<? />",
+    },
+  },
+}
+`;
+
+exports[`Editor integration test should flow: initial state 1`] = `
+Object {
+  "editor": Object {
+    "diffViewType": "split",
+    "editorName": "editor",
+    "errorText": "",
+    "filteredHosts": Array [],
+    "hosts": Array [],
+    "isFetchingHosts": false,
+    "isLoading": false,
+    "isMasked": false,
+    "isMaximized": false,
+    "isRendering": false,
+    "isSearchingHosts": false,
+    "isSelectOpen": false,
+    "keyBinding": "Default",
+    "mode": "Ruby",
+    "previewResult": "",
+    "readOnly": false,
+    "renderedEditorValue": "",
+    "searchQuery": "",
+    "selectedHost": Object {
+      "id": "",
+      "name": "",
+    },
+    "selectedView": "input",
+    "showError": false,
+    "templateClass": undefined,
+    "theme": "Monokai",
+    "value": "<? />",
+  },
+}
+`;
+
+exports[`Editor integration test should flow: switched to preview view 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "type": "EDITOR_SHOW_LOADING",
+      },
+    ],
+  ],
+  "state": Object {
+    "editor": Object {
+      "diffViewType": "split",
+      "editorName": "editor",
+      "errorText": "",
+      "filteredHosts": Array [],
+      "hosts": Array [],
+      "isFetchingHosts": false,
+      "isLoading": true,
+      "isMasked": false,
+      "isMaximized": false,
+      "isRendering": true,
+      "isSearchingHosts": false,
+      "isSelectOpen": false,
+      "keyBinding": "Default",
+      "mode": "Ruby",
+      "previewResult": "",
+      "readOnly": false,
+      "renderedEditorValue": "",
+      "searchQuery": "",
+      "selectedHost": Object {
+        "id": "",
+        "name": "",
+      },
+      "selectedView": "preview",
+      "showError": false,
+      "templateClass": undefined,
+      "theme": "Monokai",
+      "value": "<? />",
+    },
+  },
+}
+`;
