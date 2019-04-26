@@ -1,0 +1,48 @@
+@import '~bootstrap-sass/assets/stylesheets/bootstrap/_variables';
+
+.small_clouds {
+  position: fixed;
+  top: -2%;
+  height: 100vh;
+  transition-timing-function: ease-in;
+  animation: fly 60s infinite;
+  left: 150vw;
+
+  @media screen and (max-width: $screen-md) {
+    animation-duration: 30s;
+  }
+
+  @media screen and (max-width: $screen-sm) {
+    animation-duration: 15s;
+  }
+}
+
+.big_clouds {
+  position: fixed;
+  top: 33%;
+  height: 100vh;
+  transition-timing-function: ease-in;
+  animation: fly_backword 60s infinite;
+  animation-delay: 5s;
+  left: -150vw;
+
+  @media screen and (max-width: $screen-md) {
+    animation-duration: 30s;
+  }
+
+  @media screen and (max-width: $screen-sm) {
+    animation-duration: 15s;
+  }
+}
+
+@keyframes fly {
+  0% { left: 120vw; }
+  50% { left: -120vw; }
+  100% { left: 120vw; }
+}
+
+@keyframes fly_backword {
+  0% { left: -120vw; }
+  50% { left: 120vw; }
+  100% { left: -120vw; }
+}
