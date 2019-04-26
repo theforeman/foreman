@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: rails-deployment
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1  
+  selector:
+    matchLabels: 
+      app: foreman
+      tier: app
+  template:
+    metadata:
+      name: rails
+      labels:
+        app: foreman
+        tier: app
+    spec:
+      containers:
+      - name: rails
+        image: quay.io/ohadlevy/foreman:dockerfile
+        imagePullPolicy: "Always"
+        args: 
+        - bundle 
+        - exec
+        - rails
+        - server
+        env:
+        - name: RAILS_LOG_TO_STDOUT
+          value: "true"
+        - name: RAILS_SERVE_STATIC_FILES
+          value: "true"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: "db-url"
+              key: "url"
+        - name: RAILS_ENV
+          value: "production"
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: "secret-key-base"
+              key: "secret-key-base"
+        ports:
+          - containerPort: 3000
