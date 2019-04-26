@@ -193,12 +193,11 @@ class Setting < ApplicationRecord
 
   # in order to avoid code duplication, this method was introduced
   def self.create_find_by_name(opts)
-    @setting_cache ||= Hash[Setting.where(:category => self.to_s).map { |s| [s.name, s] }]
     # self.name can be set by default scope, e.g. from first_or_create use
     opts ||= { name: new.name }
     opts.symbolize_keys!
 
-    s = @setting_cache[opts[:name].to_s] || Setting.find_by_name(opts[:name].to_s)
+    s = Setting.find_by_name(opts[:name].to_s)
     return create_existing(s, opts) if s
 
     column_check(opts)
@@ -243,16 +242,9 @@ class Setting < ApplicationRecord
       attrs = column_check([:default, :description, :full_name, :encrypted])
       to_update = Hash[opts.select { |k, v| attrs.include? k }]
       to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
-      # default is converted to yaml so we need to convert the yaml here too,
-      # in order to check, if the update of default is needed
-      # if it is the same, we don't try to update default, it would trigger
-      # update query for every setting
-      to_update.delete(:default) if to_update[:default].to_yaml.strip == s[:default]
-      s.attributes = to_update
-      s.save if s.changed?
+      s.update(to_update)
       s.update_column :category, opts[:category] if s.category != opts[:category]
-      # we only update category (skipping validations) if it really differs
-      s.update_column :full_name, opts[:full_name] if s.full_name != opts[:full_name] && column_check([:full_name]).present?
+      s.update_column :full_name, opts[:full_name] unless column_check([:full_name]).empty?
       raw_value = s.read_attribute(:value)
       if s.is_encryptable?(raw_value) && attrs.include?(:encrypted) && opts[:encrypted]
         s.update_column :value, s.encrypt_field(raw_value)
@@ -279,7 +271,7 @@ class Setting < ApplicationRecord
 
   def self.load_defaults
     # We may be executing something like rake db:migrate:reset, which destroys this table; only continue if the table exists
-    Setting.table_exists? rescue return false
+    Setting.first rescue return false
     # STI classes will load their own defaults
     true
   end
