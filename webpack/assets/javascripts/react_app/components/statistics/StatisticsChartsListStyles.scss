@@ -12,16 +12,17 @@
     flex-direction: column;
     min-height: 312px;
 
-    .panel-heading {
+    .card-pf-heading {
       -ms-flex: 0 0 30px;
       flex: 0 0 30px;
     }
 
-    .panel-body {
+    .card-pf-body {
       display: -ms-flexbox;
       display: flex;
       -ms-flex: 1;
       flex: 1;
+      margin: 0;
     }
   }
 }

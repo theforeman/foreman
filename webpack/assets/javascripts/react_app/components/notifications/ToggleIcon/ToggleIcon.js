@@ -1,5 +1,5 @@
 import React from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'patternfly-react';
 import PropTypes from 'prop-types';
 import { noop } from '../../../common/helpers';
 
