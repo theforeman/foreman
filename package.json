@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@novnc/novnc": "^1.0.0",
+    "@webcomponents/webcomponentsjs": "^2.2.10",
     "axios": "^0.17.1",
     "babel-polyfill": "^6.26.0",
     "bootstrap-sass": "^3.3.7",

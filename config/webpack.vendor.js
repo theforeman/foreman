@@ -71,4 +71,6 @@ module.exports = [
   'urijs',
   'uuid',
   '@novnc/novnc/core/rfb.js',
+  '@webcomponents/webcomponentsjs/webcomponents-bundle.js',
+  '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js',
 ];
