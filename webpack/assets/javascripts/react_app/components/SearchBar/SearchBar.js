@@ -7,8 +7,10 @@ import { resolveSearchQuery } from './SearchBarHelpers';
 import './search-bar.scss';
 
 const SearchBar = ({
-  searchQuery,
   data: { autocomplete, controller, bookmarks },
+  searchQuery,
+  onSearch,
+  initialQuery,
 }) => {
   const bookmarksComponent = !isEmpty(bookmarks) ? (
     <Bookmarks data={{ ...bookmarks, controller, searchQuery }} />
@@ -17,16 +19,14 @@ const SearchBar = ({
     <div className="search-bar input-group">
       <AutoComplete
         id={autocomplete.id}
-        handleSearch={() => resolveSearchQuery(searchQuery)}
-        initialQuery={autocomplete.searchQuery || ''}
+        handleSearch={() => onSearch(searchQuery)}
+        initialQuery={initialQuery || autocomplete.searchQuery || ''}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
         url={autocomplete.url}
         controller={controller}
       />
       <div className="input-group-btn">
-        <AutoComplete.SearchButton
-          onClick={() => resolveSearchQuery(searchQuery)}
-        />
+        <AutoComplete.SearchButton onClick={() => onSearch(searchQuery)} />
         {bookmarksComponent}
       </div>
     </div>
@@ -35,6 +35,8 @@ const SearchBar = ({
 
 SearchBar.propTypes = {
   searchQuery: PropTypes.string,
+  initialQuery: PropTypes.string,
+  onSearch: PropTypes.func,
   data: PropTypes.shape({
     autocomplete: PropTypes.shape({
       results: PropTypes.array,
@@ -50,6 +52,8 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   searchQuery: '',
+  initialQuery: '',
+  onSearch: resolveSearchQuery,
   data: {
     autocomplete: {
       results: [],

@@ -70,6 +70,8 @@ exports[`render pageLayout w/search 1`] = `
                 },
               }
             }
+            initialQuery=""
+            onSearch={[Function]}
           />
         </div>
       </Col>
@@ -165,6 +167,8 @@ exports[`render pageLayout w/toastNotifications 1`] = `
                 },
               }
             }
+            initialQuery=""
+            onSearch={[Function]}
           />
         </div>
       </Col>
@@ -254,6 +258,8 @@ exports[`render pageLayout w/toolBar 1`] = `
                 },
               }
             }
+            initialQuery=""
+            onSearch={[Function]}
           />
         </div>
       </Col>
@@ -319,6 +325,8 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
                 },
               }
             }
+            initialQuery=""
+            onSearch={[Function]}
           />
         </div>
       </Col>
@@ -390,6 +398,8 @@ exports[`render pageLayout without breadcrumbs 1`] = `
                 },
               }
             }
+            initialQuery=""
+            onSearch={[Function]}
           />
         </div>
       </Col>

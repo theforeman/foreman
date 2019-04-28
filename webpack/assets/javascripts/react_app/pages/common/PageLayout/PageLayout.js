@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'patternfly-react';
+import { resolveSearchQuery } from '../../../components/SearchBar/SearchBarHelpers';
 
 import ToastsList from '../../../components/ToastsList';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
@@ -10,6 +11,8 @@ const PageLayout = ({
   header,
   searchable,
   searchProps,
+  searchQuery,
+  onSearch,
   customBreadcrumbs,
   breadcrumbOptions,
   toolbarButtons,
@@ -39,7 +42,15 @@ const PageLayout = ({
       <Row>
         <Col className="title_filter" md={searchable ? 6 : 4}>
           {searchable && (
-            <div id="search-bar">{<SearchBar data={searchProps} />}</div>
+            <div id="search-bar">
+              {
+                <SearchBar
+                  data={searchProps}
+                  initialQuery={searchQuery}
+                  onSearch={onSearch}
+                />
+              }
+            </div>
           )}
         </Col>
         <Col id="title_action" md={searchable ? 6 : 8}>
@@ -95,15 +106,19 @@ PageLayout.propTypes = {
   }),
   toolbarButtons: PropTypes.node,
   toastNotifications: PropTypes.string,
+  onSearch: PropTypes.func,
+  searchQuery: PropTypes.string,
 };
 
 PageLayout.defaultProps = {
   searchProps: {},
   header: '',
+  searchQuery: '',
   toastNotifications: null,
   customBreadcrumbs: null,
   toolbarButtons: null,
   breadcrumbOptions: null,
+  onSearch: resolveSearchQuery,
 };
 
 export default PageLayout;
