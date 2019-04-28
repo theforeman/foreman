@@ -47,8 +47,13 @@ class AutoComplete extends React.Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.handleLoading();
+    const { initialQuery } = this.props;
+    if (prevProps.initialQuery !== initialQuery) {
+      const typeahead = this._typeahead && this._typeahead.current;
+      typeahead && typeahead.setState({ text: initialQuery });
+    }
   }
 
   windowKeyPressHandler(e) {
