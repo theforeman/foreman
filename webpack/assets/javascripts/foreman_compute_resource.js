@@ -1,15 +1,19 @@
-/* eslint-disable global-require */
 import $ from 'jquery';
 import { activateDatatables } from './foreman_tools';
 import { notify } from './foreman_toast_notifications';
 import { sprintf, translate as __ } from './react_app/common/I18n';
+import * as ec2 from './compute_resource/ec2';
+import * as libvirt from './compute_resource/libvirt';
+import * as openstack from './compute_resource/openstack';
+import * as ovirt from './compute_resource/ovirt';
+import * as vmware from './compute_resource/vmware';
 
 export default {
-  ec2: require('./compute_resource/ec2'),
-  libvirt: require('./compute_resource/libvirt'),
-  openstack: require('./compute_resource/openstack'),
-  ovirt: require('./compute_resource/ovirt'),
-  vmware: require('./compute_resource/vmware'),
+  ec2,
+  libvirt,
+  openstack,
+  ovirt,
+  vmware,
   capacityEdit,
   providerSelected,
   testConnection,
