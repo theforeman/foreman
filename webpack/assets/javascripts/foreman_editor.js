@@ -1,7 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable import/first */
 import $ from 'jquery';
 import * as ace from 'brace';
 
@@ -100,7 +96,7 @@ export function showImporter() {
 function editorFileSource(evt) {
   if (window.File && window.FileList && window.FileReader) {
     if (
-      !confirm(
+      !window.confirm(
         __('You are about to override the editor content, are you sure?')
       )
     ) {
@@ -300,7 +296,7 @@ export function submitCode() {
 /* eslint-disable max-len */
 export function revertTemplate(item) {
   if (
-    !confirm(
+    !window.confirm(
       __(
         'You are about to override the editor content with a previous version, are you sure?'
       )
