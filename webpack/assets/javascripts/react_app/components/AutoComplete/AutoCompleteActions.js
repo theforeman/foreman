@@ -19,13 +19,15 @@ export const getResults = ({
   trigger,
   id,
 }) => dispatch => {
-  startRequest({
-    controller,
-    searchQuery,
-    trigger,
-    dispatch,
-    id,
-  });
+  dispatch(
+    startRequest({
+      controller,
+      searchQuery,
+      trigger,
+      dispatch,
+      id,
+    })
+  );
 
   return createAPIRequest({
     searchQuery,
@@ -38,53 +40,57 @@ export const getResults = ({
 
 let createAPIRequest = async ({ searchQuery, trigger, id, dispatch, url }) => {
   if (!url) {
-    return requestFailure({
-      error: new Error('No API path was provided.'),
-      id,
-      dispatch,
-      isVisible: false,
-    });
+    return dispatch(
+      requestFailure({
+        error: new Error('No API path was provided.'),
+        id,
+        dispatch,
+        isVisible: false,
+      })
+    );
   }
   try {
     const path = getAPIPath({ trigger, searchQuery, url });
     const { data } = await API.get(path);
 
-    return requestSuccess({
-      data,
-      dispatch,
-      trigger,
-      id,
-    });
+    return dispatch(
+      requestSuccess({
+        data,
+        dispatch,
+        trigger,
+        id,
+      })
+    );
   } catch (error) {
-    return requestFailure({
-      error,
-      id,
-      dispatch,
-      isVisible: error.message === 'Network Error',
-    });
+    return dispatch(
+      requestFailure({
+        error,
+        id,
+        dispatch,
+        isVisible: error.message === 'Network Error',
+      })
+    );
   }
 };
 
 createAPIRequest = debounce(createAPIRequest, 250);
 
-const startRequest = ({ controller, searchQuery, trigger, dispatch, id }) => {
-  dispatch({
-    type: AUTO_COMPLETE_REQUEST,
-    payload: {
-      controller,
-      searchQuery,
-      status: STATUS.PENDING,
-      trigger,
-      error: null,
-      id,
-    },
-  });
-};
+const startRequest = ({ controller, searchQuery, trigger, id }) => ({
+  type: AUTO_COMPLETE_REQUEST,
+  payload: {
+    controller,
+    searchQuery,
+    status: STATUS.PENDING,
+    trigger,
+    error: null,
+    id,
+  },
+});
 
-const requestSuccess = ({ data, trigger, id, dispatch }) => {
+const requestSuccess = ({ data, trigger, id }) => {
   const { error } = data[0] || {};
   if (error) {
-    return requestFailure({ error: new Error(error), id, dispatch });
+    return requestFailure({ error: new Error(error), id });
   }
   if (!Array.isArray(data)) {
     const noDataError = new Error(
@@ -93,33 +99,30 @@ const requestSuccess = ({ data, trigger, id, dispatch }) => {
     return requestFailure({
       error: noDataError,
       id,
-      dispatch,
       isVisible: false,
     });
   }
   const results = data.map(result => objectDeepTrim(result, trigger));
-  return dispatch({
+  return {
     type: AUTO_COMPLETE_SUCCESS,
     payload: {
       results,
       status: STATUS.RESOLVED,
       id,
     },
-  });
+  };
 };
 
-const requestFailure = ({ error, id, dispatch, isVisible = true }) => {
-  dispatch({
-    type: AUTO_COMPLETE_FAILURE,
-    payload: {
-      results: [],
-      error: error.message,
-      isErrorVisible: isVisible,
-      status: STATUS.ERROR,
-      id,
-    },
-  });
-};
+const requestFailure = ({ error, id, isVisible = true }) => ({
+  type: AUTO_COMPLETE_FAILURE,
+  payload: {
+    results: [],
+    error: error.message,
+    isErrorVisible: isVisible,
+    status: STATUS.ERROR,
+    id,
+  },
+});
 
 const isFinishedWithPoint = string => string.slice(-1) === '.';
 
@@ -134,30 +137,23 @@ const getAPIPath = ({ trigger, searchQuery, url }) => {
   return APIPath.toString();
 };
 
-export const resetData = (controller, id) => dispatch =>
-  dispatch({
-    type: AUTO_COMPLETE_RESET,
-    payload: { controller, id },
-  });
+export const resetData = (controller, id) => ({
+  type: AUTO_COMPLETE_RESET,
+  payload: { controller, id },
+});
 
-export const initialUpdate = ({
-  searchQuery,
-  controller,
-  error,
-  id,
-}) => dispatch =>
-  dispatch({
-    type: AUTO_COMPLETE_INIT,
-    payload: {
-      searchQuery,
-      controller,
-      trigger: TRIGGERS.COMPONENT_DID_MOUNT,
-      status: STATUS.RESOLVED,
-      error,
-      isErrorVisible: !!error,
-      id,
-    },
-  });
+export const initialUpdate = ({ searchQuery, controller, error, id }) => ({
+  type: AUTO_COMPLETE_INIT,
+  payload: {
+    searchQuery,
+    controller,
+    trigger: TRIGGERS.COMPONENT_DID_MOUNT,
+    status: STATUS.RESOLVED,
+    error,
+    isErrorVisible: !!error,
+    id,
+  },
+});
 
 const objectDeepTrim = (obj, trigger) => {
   const copy = { ...obj };

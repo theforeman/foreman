@@ -64,34 +64,26 @@ Array [
 `;
 
 exports[`AutoComplete actions should reset-data 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "controller": "models",
-        "id": "some-id",
-      },
-      "type": "AUTO_COMPLETE_RESET",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "controller": "models",
+    "id": "some-id",
+  },
+  "type": "AUTO_COMPLETE_RESET",
+}
 `;
 
 exports[`AutoComplete actions should update store with initial data 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "controller": "models",
-        "error": "oops",
-        "id": "some-id",
-        "isErrorVisible": true,
-        "searchQuery": "searchQuery",
-        "status": "RESOLVED",
-        "trigger": "COMPONENT_DID_MOUNT",
-      },
-      "type": "AUTO_COMPLETE_INIT",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "controller": "models",
+    "error": "oops",
+    "id": "some-id",
+    "isErrorVisible": true,
+    "searchQuery": "searchQuery",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+  },
+  "type": "AUTO_COMPLETE_INIT",
+}
 `;
