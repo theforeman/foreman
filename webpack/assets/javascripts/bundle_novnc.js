@@ -1,4 +1,3 @@
-import RFB from '@novnc/novnc/core/rfb';
 import $ from 'jquery';
 
 let rfb;
@@ -60,16 +59,21 @@ $(document).on('ContentLoad', () => {
     const url = `${protocol}://${host}:${port}`;
     const password = $('#vnc').attr('data-password');
 
-    rfb = new RFB(vncScreen.get(0), url, {
-      credentials: {
-        password,
-      },
-    });
+    import(/* webpackChunkName: "noVNC" */ '@novnc/novnc/core/rfb').then(
+      module => {
+        showStatus('disconnected', __('Loading...'));
+        const RFB = module.default;
 
-    rfb.addEventListener('connect', connectFinished);
-    rfb.addEventListener('disconnect', disconnectFinished);
-    rfb.addEventListener('securityfailure', securityFailed);
+        rfb = new RFB(vncScreen.get(0), url, {
+          credentials: {
+            password,
+          },
+        });
 
-    showStatus('disconnected', __('Loading...'));
+        rfb.addEventListener('connect', connectFinished);
+        rfb.addEventListener('disconnect', disconnectFinished);
+        rfb.addEventListener('securityfailure', securityFailed);
+      }
+    );
   }
 });

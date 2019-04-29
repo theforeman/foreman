@@ -1,7 +1,3 @@
-import {
-  SpiceMainConn,
-  sendCtrlAltDel as _sendCtrlAltDel,
-} from '@spice-project/spice-html5';
 import { sprintf, translate as __ } from './react_app/common/I18n';
 
 let sc = null;
@@ -22,13 +18,19 @@ export function startSpice() {
   const uri = `${scheme + host}:${port}`;
 
   try {
-    sc = new SpiceMainConn({
-      uri,
-      screen_id: 'spice-screen',
-      password,
-      onerror: spiceError,
-      onsuccess: spiceSuccess,
-    });
+    import(/* webpackChunkName: "spice" */ '@spice-project/spice-html5').then(
+      module => {
+        const { SpiceMainConn } = module;
+
+        sc = new SpiceMainConn({
+          uri,
+          screen_id: 'spice-screen',
+          password,
+          onerror: spiceError,
+          onsuccess: spiceSuccess,
+        });
+      }
+    );
   } catch (e) {
     alert(e.toString());
     disconnect();
@@ -81,7 +83,12 @@ export function connectXPI() {
 }
 
 export function sendCtrlAltDel() {
-  window.sc = sc;
-  _sendCtrlAltDel();
-  window.sc = undefined;
+  import(/* webpackChunkName: "spice" */ '@spice-project/spice-html5').then(
+    module => {
+      const _sendCtrlAltDel = module.sendCtrlAltDel;
+      window.sc = sc;
+      _sendCtrlAltDel();
+      window.sc = undefined;
+    }
+  );
 }

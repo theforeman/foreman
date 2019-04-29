@@ -10,7 +10,6 @@ module.exports = [
   'react-ellipsis-with-tooltip',
   'react-numeric-input',
   'react-onclickoutside',
-  'react-password-strength',
   'patternfly-react',
   'react-redux',
   'redux',
@@ -44,23 +43,6 @@ module.exports = [
   'jquery-flot/jquery.flot.time',
 
   /**
-   * Brace related
-   */
-  'brace',
-  'brace/mode/ruby',
-  'brace/mode/html_ruby',
-  'brace/mode/json',
-  'brace/mode/sh',
-  'brace/mode/xml',
-  'brace/mode/yaml',
-  'brace/mode/diff',
-  'brace/theme/twilight',
-  'brace/theme/clouds',
-  'brace/keybinding/vim',
-  'brace/keybinding/emacs',
-  'brace/ext/searchbox',
-
-  /**
    * Other packages
    */
   'axios',
@@ -69,5 +51,4 @@ module.exports = [
   'jstz',
   'urijs',
   'uuid',
-  '@novnc/novnc/core/rfb.js',
 ];

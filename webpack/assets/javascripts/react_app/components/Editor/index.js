@@ -1,11 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
+import Loadable from 'react-loadable';
+import { simpleLoader } from '../common/Loader';
 import * as actions from './EditorActions';
 import reducer from './EditorReducer';
-
-import Editor from './Editor';
-
 import {
   navFilteredHostsSelector,
   navHostsSelector,
@@ -31,6 +29,11 @@ import {
   selectTheme,
   selectValue,
 } from './EditorSelectors';
+
+const Editor = Loadable({
+  loader: () => import(/* webpackChunkName: 'Editor' */ './Editor'),
+  loading: simpleLoader,
+});
 
 // map state to props
 const mapStateToProps = state => ({

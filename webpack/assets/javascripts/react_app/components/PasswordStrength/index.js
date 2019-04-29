@@ -1,5 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
+import { LoadingState } from 'patternfly-react';
 
 import * as actions from './PasswordStrengthActions';
 import {
@@ -8,7 +10,11 @@ import {
 } from './PasswordStrengthSelectors';
 import reducer from './PasswordStrengthReducer';
 
-import PasswordStrength from './PasswordStrength';
+const PasswordStrength = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'passwordStrength' */ './PasswordStrength'),
+  loading: LoadingState,
+});
 
 // map state to props
 const mapStateToProps = ({ passwordStrength }) => ({
