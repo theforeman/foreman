@@ -23,7 +23,7 @@ module Menu
     end
 
     def to_hash
-      {type: :item, name: @caption || @name, url: url} if authorized?
+      {type: :item, html_options: @html_options, name: @caption || @name, url: url} if authorized?
     end
 
     def url
