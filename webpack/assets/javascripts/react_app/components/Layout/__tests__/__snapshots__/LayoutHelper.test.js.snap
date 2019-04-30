@@ -138,3 +138,9 @@ Object {
   "title": "Monitor",
 }
 `;
+
+exports[`LayoutHelper should getActive(null) 1`] = `
+Object {
+  "title": "",
+}
+`;
