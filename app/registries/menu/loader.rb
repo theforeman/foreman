@@ -16,7 +16,7 @@ module Menu
                     :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
           menu.item :logout,
                     :caption => N_('Log Out'),
-                    :html => {:method => :post},
+                    :html => {:'data-method' => :post},
                     :url_hash => {:controller => '/users', :action => 'logout'}
         end
       end

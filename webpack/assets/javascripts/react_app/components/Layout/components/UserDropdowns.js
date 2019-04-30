@@ -42,6 +42,7 @@ const UserDropdowns = ({
                   onClick={() => {
                     changeActiveMenu({ title: 'User' });
                   }}
+                  {...item.html_options}
                 >
                   {__(item.name)}
                 </MenuItem>
