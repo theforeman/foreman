@@ -1,5 +1,4 @@
 import 'babel-polyfill';
-import 'jquery-ujs';
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
 import i18n from './react_app/common/I18n';
@@ -25,12 +24,22 @@ import * as breadcrumbs from './foreman_breadcrumbs';
 import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
 import * as classEditor from './foreman_class_edit';
 import * as dashboard from './dashboard';
-import './bundle_flot';
-import './bundle_multiselect';
-import './bundle_select2';
+
 import './bundle_datatables';
 import './bundle_lodash';
 import './bundle_novnc';
+
+/* eslint-disable-next-line */
+require('expose-loader?$!expose-loader?jQuery!jquery');
+require('jquery-ujs');
+
+window.jstz = require('jstz');
+window.ipaddr = require('ipaddr.js');
+window.JsDiff = require('diff');
+
+require('./bundle_flot');
+require('./bundle_multiselect');
+require('./bundle_select2');
 
 // Set the public path for dynamic imports
 if (process.env.NODE_ENV !== 'production') {
@@ -39,11 +48,6 @@ if (process.env.NODE_ENV !== 'production') {
     window.location.hostname
   }:3808/webpack/`;
 }
-
-window.$ = window.jQuery = require('jquery'); // eslint-disable-line no-multi-assign
-window.jstz = require('jstz');
-window.ipaddr = require('ipaddr.js');
-window.JsDiff = require('diff');
 
 window.tfm = Object.assign(window.tfm || {}, {
   authSource,

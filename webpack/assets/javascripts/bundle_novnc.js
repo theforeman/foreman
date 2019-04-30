@@ -1,4 +1,5 @@
 import RFB from '@novnc/novnc/core/rfb';
+import $ from 'jquery';
 
 let rfb;
 const StatusLevelLookup = {
