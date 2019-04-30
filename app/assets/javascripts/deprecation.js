@@ -3,7 +3,8 @@
 function toggle_multiple_ok_button(element) {
   tfm.tools.deprecate(
     'toggle_multiple_ok_button',
-    'tfm.hosts.table.toggleMultipleOkButton', '1.24'
+    'tfm.hosts.table.toggleMultipleOkButton',
+    '1.24'
   );
   return tfm.hosts.table.toggleMultipleOkButton(element);
 }
@@ -14,12 +15,20 @@ function build_modal(element, args) {
 }
 
 function submit_modal_form(args) {
-  tfm.tools.deprecate('submit_modal_form', 'tfm.hosts.table.submitModalForm', '1.24');
+  tfm.tools.deprecate(
+    'submit_modal_form',
+    'tfm.hosts.table.submitModalForm',
+    '1.24'
+  );
   return tfm.hosts.table.submitModalForm(args);
 }
 
 function build_redirect(args) {
-  tfm.tools.deprecate('build_redirect', 'tfm.hosts.table.buildRedirect', '1.24');
+  tfm.tools.deprecate(
+    'build_redirect',
+    'tfm.hosts.table.buildRedirect',
+    '1.24'
+  );
   return tfm.hosts.table.buildRedirect(args);
 }
 
