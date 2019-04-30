@@ -100,7 +100,7 @@ module Api
         host_mock = Openstruct.new(operatingsystem: @operatingsystem, medium: medium, architecture: arch)
         medium_provider = MediumProviders::Default.new(host_mock)
 
-        render :json => @operatingsystem.pxe_files(medium_provider)
+        render :json => host_mock.pxe_files
       rescue => e
         render_message(e.to_s, :status => :unprocessable_entity)
       end

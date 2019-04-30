@@ -25,7 +25,7 @@ module Foreman
           end
 
           def load_variables_base
-            @medium_provider = Foreman::Plugin.medium_providers.find_provider(host) if host
+            @medium_provider = host.medium_provider if host
             if operatingsystem&.respond_to?(:pxe_type)
               send "#{operatingsystem.pxe_type}_attributes"
               pxe_config

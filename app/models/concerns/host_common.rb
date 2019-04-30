@@ -224,6 +224,14 @@ module HostCommon
     environment.puppetclasses - parent_classes
   end
 
+  def pxe_files
+    @pxe_files ||= begin
+      operatingsystem.boot_files_uri(medium_provider).collect do |img|
+        { operatingsystem.pxe_prefix(medium_provider).to_sym => img.to_s}
+      end
+    end
+  end
+
   protected
 
   def set_lookup_value_matcher

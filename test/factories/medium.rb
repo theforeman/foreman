@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :medium do
     sequence(:name) {|n| "medium#{n}" }
-    sequence(:path) {|n| "http://www.example.com/path#{n}" }
+    sequence(:path) {|n| "http://mirror.centos.org/path#{n}" }
     os_family { 'Redhat' }
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
@@ -26,7 +26,7 @@ FactoryBot.define do
 
     trait :suse do
       sequence(:name) { |n| "OpenSuse Mirror #{n}"}
-      sequence(:path) {'http://mirror.isoc.org.il/pub/opensuse/distribution/$major.$minor/repo/oss'}
+      sequence(:path) {'http://download.opensuse.org/pub/opensuse/distribution/$major.$minor/repo/oss'}
       os_family { 'Suse' }
     end
 

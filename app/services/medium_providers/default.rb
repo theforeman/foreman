@@ -24,11 +24,47 @@ module MediumProviders
       medium_vars_to_uri(pattern, entity.architecture.name, entity.operatingsystem)
     end
 
+    def last_modified_id
+      hash_source = []
+      entity.operatingsystem.boot_files_uri(self).each do |url|
+        fetch_headers_url(url, 5, hash_source)
+      end
+      hash_source.first
+    end
+
+    def fetch_headers_url(url, limit, result)
+      raise "maximum redirection hit" if limit <= 0
+      logger.debug "Performing HTTP HEAD #{url}"
+      uri = URI(url)
+      Net::HTTP.start(uri.host, uri.port) do |http|
+        http.open_timeout = 5
+        http.read_timeout = 5
+        response = http.head(uri.path)
+        ['last-modified', 'etag'].each do |header|
+          result << response[header] if response[header]
+        end
+        if response.code =~ /301|302/
+          fetch_headers_url(response['location'], limit - 1, result)
+        elsif response.code != '200'
+          raise "server returned #{response.code}"
+        end
+      end
+    rescue => e
+      raise ::Foreman::WrappedException.new(e, N_("Check media URL, unable to perform HTTP HEAD for %s"), url)
+    end
+
+    def format_unique_id(input)
+      digest = Base64.urlsafe_encode64(Digest::SHA1.digest(input), padding: false)
+      # return first 8 characters of encoded digest stripped down of non-alphanums for better readability
+      "#{entity.medium.name.parameterize}-#{digest.gsub(/[-_]/, '')[0..7]}"
+    end
+
+    # filename-friendly formatted hash of either last-modified, etag or URL
     def unique_id
       @unique_id ||= begin
-        digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri(entity.operatingsystem.pxedir).to_s), padding: false)
-        # return first 12 characters of encoded digest stripped down of non-alphanums for better readability
-        "#{entity.medium.name.parameterize}-#{digest.gsub(/[-_]/, '')[1..12]}"
+        source = last_modified_id
+        source ||= medium_uri(entity.operatingsystem.pxedir).to_s
+        format_unique_id(source)
       end
     end
 

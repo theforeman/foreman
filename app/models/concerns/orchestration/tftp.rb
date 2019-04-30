@@ -111,7 +111,7 @@ module Orchestration::TFTP
     logger.info "Fetching required TFTP boot files for #{host.name}"
     valid = []
 
-    host.operatingsystem.pxe_files(host.medium_provider).each do |bootfile_info|
+    host.pxe_files.each do |bootfile_info|
       bootfile_info.each do |prefix, path|
         valid << each_unique_feasible_tftp_proxy do |proxy|
           proxy.fetch_boot_file(:prefix => prefix.to_s, :path => path)

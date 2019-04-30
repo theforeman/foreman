@@ -203,18 +203,9 @@ class Operatingsystem < ApplicationRecord
   end
 
   def pxe_files(medium_provider, _arch = nil, host = nil)
-    # Try to maintain backwards compatibility, if medium_provider could be constructed - do it with a warning.
-    if host
-      Foreman::Deprecation.deprecation_warning("1.22", "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)")
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
-    end
-
-    unless medium_provider.is_a? MediumProviders::Provider
-      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
-    end
-    boot_files_uri(medium_provider).collect do |img|
-      { pxe_prefix(medium_provider).to_sym => img.to_s}
-    end
+    Foreman::Deprecation.deprecation_warning("1.24", "Use host.pxe_files instead operatingsystem.pxe_files")
+    raise Foreman::Exception.new(N_('Operatingsystem.pxe_files() no longer works without host')) unless host
+    host.pxe_files
   end
 
   def pxedir
