@@ -169,8 +169,8 @@ class ComputeResource < ApplicationRecord
   end
 
   # return a list of virtual machines
-  def vms(opts = {})
-    client.servers
+  def vms(attrs = {})
+    client.servers(attrs)
   end
 
   def supports_vms_pagination?
