@@ -4,3 +4,9 @@ node_js:
   - '10'
   - '12'
 script: ./script/travis_run_js_tests.sh
+ 
+jobs:
+  include:
+    - stage: storybook-deploy
+      node_js: 10
+      script: ./script/storybook-deploy.sh
