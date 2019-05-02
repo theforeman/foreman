@@ -52,7 +52,7 @@ module Foreman::Model
 
     def vms(opts = {})
       if opts[:eager_loading] == true
-        super()
+        super(datacenter: datacenter)
       else
         # VMware server loading is very slow
         # not using FOG models directly to save the time
