@@ -79,10 +79,10 @@ class FactParser
   end
 
   # tries to detect primary interface among interfaces using host name
-  def suggested_primary_interface(host)
+  def suggested_primary_interface(hname)
     # we search among interface with ip and mac if we didn't find it by name
     potential = interfaces.select { |_, values| values[:ipaddress].present? && values[:macaddress].present? }
-    find_interface_by_name(host.name) || find_physical_interface(potential) ||
+    find_interface_by_name(hname) || find_physical_interface(potential) ||
       find_virtual_interface(potential) || potential.first || interfaces.first
   end
 

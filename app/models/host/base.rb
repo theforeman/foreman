@@ -66,7 +66,7 @@ module Host
                                     :subnet, :subnet_id, :subnet_name,
                                     :subnet6, :subnet6_id, :subnet6_name,
                                     :domain, :domain_id, :domain_name,
-                                    :lookup_values_attributes].freeze
+                                    :lookup_values_attributes, :primary_interface_identifier].freeze
 
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
@@ -80,7 +80,8 @@ module Host
 
       super(*args)
 
-      build_required_interfaces
+      primary_interface_identifier = values_for_primary_interface.delete(:primary_interface_identifier)
+      build_required_interfaces(:identifier => primary_interface_identifier)
       update_primary_interface_attributes(values_for_primary_interface)
     end
 
@@ -110,7 +111,7 @@ module Host
       super - [ inheritance_column ]
     end
 
-    def self.import_host(hostname, certname = nil)
+    def self.import_host_from_facts(hostname, facts, certname = nil)
       raise(::Foreman::Exception.new("Invalid Hostname, must be a String")) unless hostname.is_a?(String)
 
       # downcase everything
@@ -119,7 +120,16 @@ module Host
 
       host = Host.find_by_certname(certname) if certname.present?
       host ||= Host.find_by_name(hostname)
-      host ||= self.new(:name => hostname) # if no host was found, build a new one
+
+      # if no host was found, build a new one
+      if host.nil?
+        # Get primary interface from facts needed if we need to create new host
+        facts = facts.with_indifferent_access
+        parser = FactParser.parser_for(facts[:_type]).new(facts)
+        primary_interface_identifier, _primary_values = parser.suggested_primary_interface(hostname)
+
+        host = Host.new(:name => hostname, :primary_interface_identifier => primary_interface_identifier)
+      end
 
       # if we were given a certname but found the Host by hostname we should update the certname
       # this also sets certname for newly created hosts
@@ -201,7 +211,7 @@ module Host
       # instead of creating new interface, suggested primary interface mac and identifier
       # is saved to primary interface so we match it in updating code below
       if !self.managed? && self.primary_interface.mac.blank? && self.primary_interface.identifier.blank?
-        identifier, values = parser.suggested_primary_interface(self)
+        identifier, values = parser.suggested_primary_interface(self.hostname)
         if values.present?
           self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress])
           # bridge interfaces are not attached to parent interface so save would not be possible
@@ -406,7 +416,9 @@ module Host
     def build_required_interfaces(attrs = {})
       if self.primary_interface.nil?
         if self.interfaces.empty?
-          self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed'))
+          buildattrs = attrs.merge({ :primary => true })
+          buildattrs = buildattrs.merge({ :type => interface_class(buildattrs[:identifier]).to_s }) unless buildattrs.has_key?(:type)
+          self.interfaces.build(buildattrs)
         else
           interface = self.interfaces.first
           interface.attributes = attrs
