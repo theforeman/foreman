@@ -20,18 +20,9 @@ document.addEventListener('page:before-unload', () => {
 
 export function mount(component, selector, data, flattenData = false) {
   const reactNode = document.querySelector(selector);
-
   if (reactNode) {
     ReactDOM.unmountComponentAtNode(reactNode);
-    ReactDOM.render(
-      componentRegistry.markup(component, {
-        data,
-        store,
-        flattenData,
-      }),
-      reactNode
-    );
-
+    mountNode(component, reactNode, data, flattenData);
     mountedNodes.push(reactNode);
   } else {
     // eslint-disable-next-line no-console
@@ -40,3 +31,35 @@ export function mount(component, selector, data, flattenData = false) {
     );
   }
 }
+
+export function mountNode(component, reactNode, data, flattenData = false) {
+  ReactDOM.render(
+    componentRegistry.markup(component, {
+      data,
+      store,
+      flattenData,
+    }),
+    reactNode
+  );
+}
+
+/**
+ * This is a html tag (Web component) that can be used for mounting react component from ComponentRegistry.
+ */
+class ReactComponentElement extends HTMLElement {
+  connectedCallback() {
+    const mountPoint = document.createElement('span');
+    this.appendChild(mountPoint);
+    const componentName = this.getAttribute('name');
+    const props = JSON.parse(this.dataset.props);
+    const flattenData = this.hasAttribute('flatten-data');
+
+    mountNode(componentName, mountPoint, props, flattenData);
+  }
+
+  disconnectedCallback() {
+    ReactDOM.unmountComponentAtNode(this.children.first);
+  }
+}
+
+window.customElements.define('react-component', ReactComponentElement);
