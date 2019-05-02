@@ -2,7 +2,7 @@
 <% title _('Overview') %>
 <%= title_actions dashboard_actions %>
 
-<div class="row">
+<div class="row cards-pf">
   <% if User.current.widgets.empty? %>
     <div class="col-md-12 ca">
       <%= link_to(_("Get default dashboard widgets"), reset_default_widgets_path, :method => :put, :class=>'btn btn-default') %>
