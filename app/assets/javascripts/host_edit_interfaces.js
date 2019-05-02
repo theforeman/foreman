@@ -51,6 +51,9 @@ function save_interface_modal() {
   if (modal_form.find('.interface_provision').is(':checked')) {
     $('#interfaceForms .interface_provision:checked').attr('checked', false);
   }
+  if (modal_form.find('.interface_managed').is(':checked')) {
+    $('#interfaceForms .interface_managed:checked').attr("checked", false);
+  }
 
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
@@ -163,12 +166,17 @@ function update_interface_row(row, interface_form) {
 
   var flags = '',
     primary_class = '',
-    provision_class = '';
+    provision_class = '',
+    managed_class = '';
+
   if (interface_form.find('.interface_primary').is(':checked'))
     primary_class = 'active';
 
   if (interface_form.find('.interface_provision').is(':checked'))
     provision_class = 'active';
+
+  if (interface_form.find('.interface_managed').is(':checked'))
+    managed_class = 'active'
 
   if (primary_class == '' && provision_class == '')
     row.find('.removeInterface').removeAttr('disabled');
@@ -186,6 +194,12 @@ function update_interface_row(row, interface_form) {
     '" title="" data-original-title="' +
     __('Provisioning') +
     '"></i>';
+  flags +=
+    '<i class="glyphicon glyphicon glyphicon-home managed-flag ' +
+    managed_class +
+    '" title="" data-original-title="' +
+    __('Managed') +
+    '"></i>';
 
   row.find('.flags').html(flags);
 
@@ -200,6 +214,7 @@ function update_interface_row(row, interface_form) {
 
   $('.primary-flag').tooltip();
   $('.provision-flag').tooltip();
+  $('.managed-flag').tooltip();
 }
 
 function update_interface_table() {
@@ -312,6 +327,19 @@ $(document).on('click', '.provision-flag', function() {
   $('#interfaceForms .interface_provision:checked').prop('checked', false);
   get_interface_hidden(interface_id)
     .find('.interface_provision')
+    .prop('checked', true);
+
+  update_interface_table();
+});
+
+$(document).on('click', '.managed-flag', function() {
+  var interface_id = $(this)
+    .closest('tr')
+    .data('interface-id');
+
+  $('#interfaceForms .interface_managed:checked').prop('checked', false);
+  get_interface_hidden(interface_id)
+    .find('.interface_managed')
     .prop('checked', true);
 
   update_interface_table();

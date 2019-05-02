@@ -67,6 +67,7 @@
 <% if SETTINGS[:unattended] %>
   <%= checkbox_f f, :managed,
                  :label_help => _("If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided.") + '<br/>' + _("The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding") % { :subnet => link_to(_('subnet'), subnets_path, :target => :blank), :domain => link_to(_('domain'), domains_path, :target => :blank)} + '<br/>' + _("service configuration will be skipped.") + '<br/><br/>' + _("If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain.") + '<br/><br/>' + _("The Managed flag also determines whether the interface should be configured during host provisioning, so that the configuration remains after reboot."),
+                 :class => :interface_managed,
                  :label_help_options => { :rel => 'popover-modal' },
                  :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
