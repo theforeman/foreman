@@ -7,6 +7,9 @@ class Setting::General < Setting
     administrator = "root@#{domain}"
     foreman_url = "#{protocol}://#{SETTINGS[:fqdn]}"
 
+    locales = Hash['' => _("Browser locale")].merge(Hash[FastGettext.human_available_locales.map { |lang| [lang[1], lang[0]] }])
+    timezones = Hash['' => _("Browser timezone")].merge(Hash[ActiveSupport::TimeZone.all.map { |tz| [tz.name, "(GMT #{tz.formatted_offset}) #{tz.name}"] }])
+
     [
       self.set('administrator', N_("The default administrator email address"), administrator, N_('Administrator email address')),
       self.set('foreman_url', N_("URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"), foreman_url, N_('Foreman URL')),
@@ -22,7 +25,9 @@ class Setting::General < Setting
       self.set('http_proxy_except_list', N_('Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.'), [], N_('HTTP(S) proxy except hosts')),
       self.set('lab_features', N_("Whether or not to show a menu to access experimental lab features (requires reload of page)"), false, N_('Show Experimental Labs')),
       self.set("append_domain_name_for_hosts", N_("Foreman will append domain names when new hosts are provisioned"), true, N_("Append domain names to the host")),
-      self.set('outofsync_interval', N_("Duration in minutes after servers are classed as out of sync."), 30, N_('Out of sync interval'))
+      self.set('outofsync_interval', N_("Duration in minutes after servers are classed as out of sync."), 30, N_('Out of sync interval')),
+      self.set('default_locale', N_("Language to use for new users"), nil, N_('Default language'), nil, { :collection => Proc.new { locales } }),
+      self.set('default_timezone', N_("Timezone to use for new users"), nil, N_('Default timezone'), nil, { :collection => Proc.new { timezones } })
     ]
   end
 
