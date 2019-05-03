@@ -25,6 +25,10 @@ class User < ApplicationRecord
   attribute :password
 
   after_save :ensure_default_role
+
+  attribute :locale, :string, default: -> { Setting[:default_locale].presence }
+  attribute :timezone, :string, default: -> { Setting[:default_timezone].presence }
+
   before_destroy EnsureNotUsedBy.new([:direct_hosts, :hosts]), :ensure_hidden_users_are_not_deleted, :ensure_last_admin_is_not_deleted
 
   belongs_to :auth_source
