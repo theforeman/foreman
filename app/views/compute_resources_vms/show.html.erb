@@ -3,6 +3,5 @@
 </div>
 
 <%
-  all_actions = available_actions(@vm)
-  title_actions *all_actions
+  title_actions *available_vm_actions(@compute_resource, @vm, for_view: :show)
 %>

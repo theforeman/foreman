@@ -56,8 +56,6 @@ module ApplicationHelper
     ActiveSupport::TimeZone::MAPPING[Time.zone.try(:name)] || 'UTC'
   end
 
-  protected
-
   def generate_date_id
     timestamp = (Time.now.to_f * 10**7).to_i
     "datetime_#{timestamp}"

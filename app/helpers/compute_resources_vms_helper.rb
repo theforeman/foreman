@@ -83,6 +83,11 @@ module ComputeResourcesVmsHelper
     end
   end
 
+  def available_vm_actions(compute_resource, vm, authorizer: nil, for_view: :list)
+    presenter = ComputeResourcePresenter.for_cr(compute_resource, self)
+    presenter.vm_actions(vm, authorizer: authorizer, for_view: for_view)
+  end
+
   def available_actions(vm, authorizer = nil)
     return default_available_actions(vm, authorizer) unless defined? Fog::OpenStack::Compute::Server
     case vm
@@ -91,40 +96,6 @@ module ComputeResourcesVmsHelper
     else
       default_available_actions(vm, authorizer)
     end
-  end
-
-  def common_available_actions(vm, authorizer = nil)
-    actions = []
-    actions << vm_delete_action(vm, authorizer)
-    actions << vm_console_action(vm)
-    host_action = vm_host_action(vm)
-    if host_action
-      actions << host_action
-    else
-      actions << vm_import_action(vm, :class => 'btn btn-default')
-      actions << vm_associate_action(vm)
-    end
-    actions
-  end
-
-  def openstack_available_actions(vm, authorizer = nil)
-    actions = []
-    if vm.state == 'ACTIVE'
-      actions << vm_power_action(vm, authorizer)
-      actions << vm_pause_action(vm, authorizer)
-    elsif vm.state == 'PAUSED'
-      actions << vm_pause_action(vm, authorizer)
-    else
-      actions << vm_power_action(vm, authorizer)
-    end
-
-    (actions + common_available_actions(vm, authorizer)).compact
-  end
-
-  def default_available_actions(vm, authorizer = nil)
-    actions = []
-    actions << vm_power_action(vm, authorizer)
-    (actions + common_available_actions(vm, authorizer)).compact
   end
 
   def vpc_security_group_hash(security_groups)
@@ -229,33 +200,9 @@ module ComputeResourcesVmsHelper
     !compute_object.persisted?
   end
 
-  def vm_host_action(vm)
-    host = Host.for_vm(@compute_resource, vm).first
-    return unless host
-    display_link_if_authorized(_("Host"), hash_for_host_path(:id => host), :class => 'btn btn-default')
-  end
-
   def vm_import_action(vm, html_options = {})
     return unless Host.for_vm(@compute_resource, vm).empty?
-
-    import_managed_link = display_link_if_authorized(
-      _("Import as managed Host"),
-      hash_for_import_compute_resource_vm_path(
-        :compute_resource_id => @compute_resource,
-        :id => vm.identity,
-        :type => 'managed'),
-      html_options
-    )
-    import_unmanaged_link = display_link_if_authorized(
-      _("Import as unmanaged Host"),
-      hash_for_import_compute_resource_vm_path(
-        :compute_resource_id => @compute_resource,
-        :id => vm.identity,
-        :type => 'unmanaged'),
-      html_options
-    )
-
-    import_managed_link + import_unmanaged_link
+    ComputeResourcePresenter.for_cr(@compute_resource, self).vm_import_action(vm, html_options)
   end
 
   def vm_associate_action(vm)

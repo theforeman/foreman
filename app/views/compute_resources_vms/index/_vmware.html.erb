@@ -11,6 +11,8 @@
   </tr>
 </thead>
 <tbody>
+  <% presenter = VmwarePresenter.new(@compute_resource, self) %>
+  <% presenter.prepare_host_existance_cache!(@vms) %>
   <% @vms.each do |vm| %>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :auth_action => 'view', :authorizer => authorizer) %></td>
@@ -23,10 +25,7 @@
       <td><%= vm.operatingsystem %></td>
       <td><%= vm.hypervisor&.name %></td>
       <td>
-        <%= action_buttons(vm_power_action(vm, authorizer),
-                         (display_link_if_authorized(_('Console'), hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer)) if vm.ready?),
-                         vm_import_action(vm),
-                         display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))) %>
+        <%= action_buttons(*presenter.vm_actions(vm, authorizer: @authorizer)) %>
       </td>
     </tr>
   <% end %>
