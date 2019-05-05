@@ -4,9 +4,7 @@ module Tags
       options = @options.stringify_keys
       options['value'] = options.fetch('value') { value_before_type_cast }
       add_default_name_and_id(options)
-      wrapper_id = options.fetch('id') + '_wrapper'
-      content_tag('div', '', 'id' => wrapper_id) +
-        @template_object.mount_react_component('FormField', "##{wrapper_id}", reactify_options(options).to_json, flatten_data: true)
+      @template_object.react_component('FormField', reactify_options(options).to_json, flatten_data: true)
     end
 
     private

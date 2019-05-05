@@ -24,9 +24,7 @@
         </td>
         <% if power_status_visible? %>
           <td class="ca">
-            <% selector = dom_id(host, 'power') %>
-            <span id=<%= selector %>></span>
-            <%= mount_react_component('PowerStatus', '#' + selector, {:id => host.id, :url => power_api_host_path(host)}.to_json) %>
+            <%= react_component('PowerStatus', {:id => host.id, :url => power_api_host_path(host)}.to_json) %>
           </td>
         <% end %>
         <td class="ellipsis"><%= name_column(host) %>

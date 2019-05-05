@@ -5,6 +5,10 @@ module ReactjsHelper
     end
   end
 
+  def react_component(name, data = [], opts = {})
+    content_tag('react-component', '', :name => name, :data => { props: data }, 'flatten-data' => opts[:flatten_data])
+  end
+
   def webpacked_plugins_js_for(*plugin_names)
     js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end
