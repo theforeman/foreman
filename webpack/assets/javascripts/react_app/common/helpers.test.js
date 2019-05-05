@@ -5,6 +5,7 @@ import {
   propsToSnakeCase,
   propsToCamelCase,
   removeLastSlashFromPath,
+  stringIsPositiveNumber,
 } from './helpers';
 
 describe('isoCompatibleDate', () => {
@@ -56,5 +57,17 @@ describe('removeLastSlashFromPath', () => {
   });
   it('should not change the path', () => {
     expect(removeLastSlashFromPath(pathWithoutSlash)).toBe('example.com');
+  });
+});
+
+describe('stringIsPositiveNumber', () => {
+  it('should return true on positive number', () => {
+    expect(stringIsPositiveNumber('1')).toBeTruthy();
+  });
+  it('should return false on negative number', () => {
+    expect(stringIsPositiveNumber('-1')).toBeFalsy();
+  });
+  it('should return false on a word', () => {
+    expect(stringIsPositiveNumber('number')).toBeFalsy();
   });
 });

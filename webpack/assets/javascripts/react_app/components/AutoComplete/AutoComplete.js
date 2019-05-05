@@ -10,7 +10,8 @@ import AutoCompleteError from './components/AutoCompleteError';
 import AutoCompleteAux from './components/AutoCompleteAux';
 import AutoCompleteFocusShortcut from './components/AutoCompleteFocusShortcut';
 import { STATUS } from '../../constants';
-import { TRIGGERS, KEYCODES } from './AutoCompleteConstants';
+import { TRIGGERS } from './AutoCompleteConstants';
+import { KEYCODES } from '../../common/keyCodes';
 import { translate as __ } from '../../common/I18n';
 import './auto-complete.scss';
 
