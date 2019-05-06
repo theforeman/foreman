@@ -18,7 +18,7 @@ module ReactjsHelper
     attributes = {
       :name => name,
       :data => { props: data },
-      'flatten-data' => opts[:flatten_data]
+      'flatten-data' => opts[:flatten_data],
     }
 
     content_tag('react-component', '', attributes)
