@@ -47,18 +47,51 @@ export function mountNode(component, reactNode, data, flattenData = false) {
  * This is a html tag (Web component) that can be used for mounting react component from ComponentRegistry.
  */
 class ReactComponentElement extends HTMLElement {
-  connectedCallback() {
-    const mountPoint = document.createElement('span');
-    this.appendChild(mountPoint);
-    const componentName = this.getAttribute('name');
-    const props = JSON.parse(this.dataset.props);
-    const flattenData = this.hasAttribute('flatten-data');
+  get componentName() {
+    return this.getAttribute('name');
+  }
+  get props() {
+    return this.dataset.props !== '' ? JSON.parse(this.dataset.props) : {};
+  }
+  get flattenData() {
+    return this.hasAttribute('flatten-data');
+  }
+  get mountPoint() {
+    if (!this._mountPoint) {
+      this._mountPoint = document.createElement('span');
+      this.appendChild(this._mountPoint);
+    }
 
-    mountNode(componentName, mountPoint, props, flattenData);
+    return this._mountPoint;
+  }
+
+  connectedCallback() {
+    try {
+      mountNode(
+        this.componentName,
+        this.mountPoint,
+        this.props,
+        this.flattenData
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Unable to mount react-component: ${this.componentName}`,
+        error
+      );
+    }
   }
 
   disconnectedCallback() {
-    ReactDOM.unmountComponentAtNode(this.children.first);
+    try {
+      ReactDOM.unmountComponentAtNode(this.mountPoint);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(
+        `Unable to unmount react-component: ${this.componentName}`,
+        error
+      );
+    }
   }
 }
 
