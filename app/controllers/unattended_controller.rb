@@ -80,12 +80,12 @@ class UnattendedController < ApplicationController
     params.key?(:spoof) || params.key?(:hostname)
   end
 
-  def render_error(status, error_message, params)
-    logger.error error_message % params
-    message = _(error_message) % params
-    return render_ipxe_message(message: message, status: status) if ipxe_request?
-    # add a comment character (works with Red Hat and Debian systems) to avoid parsing errors
-    render(:plain => "# #{message}", :status => status, :content_type => 'text/plain')
+  def render_error(message, options)
+    if ipxe_request?
+      render_ipxe_message(message: message, status: options[:status] || :not_found)
+    else
+      super
+    end
   end
 
   def render_intermediate_template
@@ -171,8 +171,7 @@ class UnattendedController < ApplicationController
     end
 
     error = host_verifier.errors.first
-    render_error(error[:type], error[:message], error[:params])
-
+    render_error(error[:message], { :status => error[:type] }.merge(error[:params]))
     false
   end
 
