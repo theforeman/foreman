@@ -7,6 +7,7 @@ function setup() {
   const props = {
     text: 'label',
     query: 'query',
+    onClick: jest.fn(),
   };
 
   const wrapper = mount(<Bookmark {...props} />);
@@ -26,13 +27,10 @@ const setupTurbolinksMock = () => {
 describe('bookmark', () => {
   it('should create a link to a bookmark', () => {
     setupTurbolinksMock();
-    const { wrapper } = setup();
+    const { props, wrapper } = setup();
 
     expect(toJson(wrapper)).toMatchSnapshot();
     wrapper.find('a').simulate('click');
-    expect(global.Turbolinks.visit).toBeCalled();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
-      'http://localhost/?search=query'
-    );
+    expect(props.onClick).toBeCalled();
   });
 });

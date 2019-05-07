@@ -17,6 +17,7 @@ import {
 } from './bookmarks.fixtures';
 import { onSuccessActions } from '../../redux/actions/bookmarks/bookmarks.fixtures';
 import * as BookmarkActions from '../../redux/actions/bookmarks';
+import { noop } from '../../common/helpers';
 
 jest.mock('../../API');
 API.get = jest.fn(() => Promise.resolve({ results: bookmarks }));
@@ -30,6 +31,7 @@ function setup(state = initialState) {
       canCreate: true,
       documentationUrl: '',
     },
+    onBookmarkClick: noop,
   };
 
   const component = (

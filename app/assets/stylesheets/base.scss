@@ -12,6 +12,10 @@ body {
   margin-left: 200px;
   padding-left: 20px;
   padding-right: 20px;
+
+  &.collapsed-nav {
+    margin-left: 75px;
+  }
 }
 
 .base li {

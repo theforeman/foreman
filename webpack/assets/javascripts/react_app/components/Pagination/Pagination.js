@@ -4,11 +4,10 @@ import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
 import { translateObject } from '../../common/helpers';
 import {
-  getURI,
   getURIpage,
   getURIperPage,
   changeQuery,
-} from './PaginationHelper';
+} from '../../common/urlHelpers';
 import './pagination.scss';
 
 const Pagination = props => {
@@ -32,7 +31,7 @@ const Pagination = props => {
       pagination={
         isEmpty(pagination)
           ? {
-              page: urlPage || 1,
+              page: urlPage,
               perPage: urlPerPage || data.perPage,
               perPageOptions: data.perPageOptions,
             }
@@ -68,9 +67,8 @@ Pagination.propTypes = {
 };
 
 Pagination.defaultProps = {
-  onPageSet: page => changeQuery(getURI(), { page }),
-  onPerPageSelect: perPage =>
-    changeQuery(getURI(), { page: 1, per_page: perPage }),
+  onPageSet: page => changeQuery({ page }),
+  onPerPageSelect: perPage => changeQuery({ page: 1, per_page: perPage }),
   dropdownButtonId: 'pagination-row-dropdown',
   pagination: null,
 };
