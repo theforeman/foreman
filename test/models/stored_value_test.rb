@@ -2,7 +2,7 @@ require 'test_helper'
 
 class StoredValueTest < ActiveSupport::TestCase
   let(:stored_value) { FactoryBot.create(:stored_value) }
-  let(:expired) { FactoryBot.create(:stored_value, expire_at: Time.now - 1.hour) }
+  let(:expired) { FactoryBot.create(:stored_value, expire_at: Time.zone.now - 1.hour) }
 
   before do
     stored_value

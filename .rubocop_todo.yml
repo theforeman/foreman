@@ -270,12 +270,6 @@ Rails/ReversibleMigration:
 Rails/SkipsModelValidations:
   Enabled: false
 
-# Offense count: 19
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: strict, flexible
-Rails/TimeZone:
-  Enabled: false
-
 # Offense count: 8
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect.

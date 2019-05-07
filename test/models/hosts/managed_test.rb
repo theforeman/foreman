@@ -36,7 +36,7 @@ module Host
     describe 'Scopes' do
       subject { Host::Managed }
       let(:host) { FactoryBot.create(:host, :with_reports, :managed) }
-      let(:past_time) { Time.now - (Setting[:outofsync_interval] * 2).minutes }
+      let(:past_time) { Time.zone.now - (Setting[:outofsync_interval] * 2).minutes }
       let(:out_of_sync_host) do
         FactoryBot.create(:host, :with_reports, :managed)
       end

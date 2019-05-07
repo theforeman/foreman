@@ -118,7 +118,7 @@ namespace :puppet do
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
         puts " ================================================================ "
-        puts "Import starts: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
+        puts "Import starts: #{Time.zone.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
 
         proxies = SmartProxy.with_features("Puppet")
         if proxies.empty?
@@ -149,7 +149,7 @@ namespace :puppet do
           puts "Please fix these issues and try again"
           exit 1
         end
-        puts "Import ends: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
+        puts "Import ends: #{Time.zone.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
         puts " ================================================================ "
       end
     end

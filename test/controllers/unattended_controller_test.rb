@@ -240,7 +240,7 @@ class UnattendedControllerTest < ActionController::TestCase
       # MySQL datetime precision is seconds - explicitly create host1 with tomorrow's created_at
       host1 = FactoryBot.create(:host, :managed, :with_dhcp_orchestration, :build => true,
         :name => "host2_same_mac",
-        :created_at => Time.now.tomorrow,
+        :created_at => Time.zone.now.tomorrow,
         :mac => @rh_host.mac,
         :operatingsystem => operatingsystems(:ubuntu1010),
         :ptable => ptable_ubuntu,

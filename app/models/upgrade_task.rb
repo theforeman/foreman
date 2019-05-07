@@ -9,7 +9,7 @@ class UpgradeTask < ApplicationRecord
   }
 
   def mark_as_ran!
-    update!(:last_run_time => Time.now)
+    update!(:last_run_time => Time.zone.now)
   end
 
   def self.define_tasks(subject)

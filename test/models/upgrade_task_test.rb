@@ -3,8 +3,8 @@ require 'test_helper'
 class UpgradeTaskTest < ActiveSupport::TestCase
   test "needing run should return results" do
     task1 = UpgradeTask.create!(:name => 'task1', :subject => 'foreman')
-    task2 = UpgradeTask.create!(:name => 'task2', :always_run => true, :last_run_time => Time.now, :subject => 'foreman')
-    task3 = UpgradeTask.create!(:name => 'task3', :last_run_time => Time.now, :subject => 'foreman')
+    task2 = UpgradeTask.create!(:name => 'task2', :always_run => true, :last_run_time => Time.zone.now, :subject => 'foreman')
+    task3 = UpgradeTask.create!(:name => 'task3', :last_run_time => Time.zone.now, :subject => 'foreman')
 
     assert_includes UpgradeTask.needing_run, task1
     assert_includes UpgradeTask.needing_run, task2

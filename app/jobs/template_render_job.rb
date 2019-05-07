@@ -6,13 +6,13 @@ class TemplateRenderJob < ApplicationJob
     composer_params['gzip'] = opts[:gzip].nil? ? !!composer_params['gzip'] : opts[:gzip]
     User.as user.login do
       composer = ReportComposer.new(composer_params)
-      start_time = Time.now
+      start_time = Time.zone.now
       result = composer.render
-      end_time = Time.now
+      end_time = Time.zone.now
       if composer.send_mail?
         ReportMailer.report(composer_params, result, start: start_time, end: end_time).deliver_now
       else
-        StoredValue.write(provider_job_id, result, expire_at: Time.now + 1.day)
+        StoredValue.write(provider_job_id, result, expire_at: Time.zone.now + 1.day)
       end
     end
   end

@@ -38,7 +38,7 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
     assert_response :created
     response = ActiveSupport::JSON.decode(@response.body)
     assert response['token_value'].present?
-    assert_equal Time.at(expiry_date.to_i), Time.at(response['expires_at'].to_time.to_i)
+    assert_equal Time.zone.at(expiry_date.to_i), Time.zone.at(response['expires_at'].to_time.to_i)
   end
 
   test "should created personal_access_token with unwrapped 'layout'" do

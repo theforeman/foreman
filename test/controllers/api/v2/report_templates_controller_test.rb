@@ -281,7 +281,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     end
 
     it 'schedule delayed report' do
-      delay_to = Time.now + 2.hours
+      delay_to = Time.zone.now + 2.hours
       expect_job_enque_with({}, delay_to: delay_to)
       ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
       post :schedule_report, params: { :id => report_template.id, generate_at: delay_to }

@@ -92,7 +92,7 @@ module Queries
                         :with_puppet_ca,
                         hostgroup: hostgroup,
                         uuid: Foreman.uuid,
-                        last_report: Time.now)
+                        last_report: Time.zone.now)
     end
     let(:global_id) { Foreman::GlobalId.encode('Host', host.id) }
     let(:variables) { { id: global_id } }
