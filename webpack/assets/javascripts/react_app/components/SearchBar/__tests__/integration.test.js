@@ -1,11 +1,11 @@
 import React from 'react';
+import { KEYCODES } from '../../../common/keyCodes';
 import API from '../../../API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { SearchBarProps } from '../SearchBar.fixtures';
 import SearchBar from '../index';
 import { reducers } from '../../AutoComplete';
 import bookmarksReducer from '../../../redux/reducers/bookmarks';
-import { KEYCODES } from '../../AutoComplete/AutoCompleteConstants';
 
 jest.mock('../../../API');
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
