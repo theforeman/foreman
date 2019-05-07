@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../bookmarks';
-import { resolveSearchQuery } from './SearchBarHelpers';
+import { changeQuery } from '../../common/urlHelpers';
 import './search-bar.scss';
 
 const SearchBar = ({
@@ -11,9 +11,13 @@ const SearchBar = ({
   searchQuery,
   onSearch,
   initialQuery,
+  onBookmarkClick,
 }) => {
   const bookmarksComponent = !isEmpty(bookmarks) ? (
-    <Bookmarks data={{ ...bookmarks, controller, searchQuery }} />
+    <Bookmarks
+      data={{ ...bookmarks, controller, searchQuery }}
+      onBookmarkClick={onBookmarkClick}
+    />
   ) : null;
   return (
     <div className="search-bar input-group">
@@ -37,6 +41,7 @@ SearchBar.propTypes = {
   searchQuery: PropTypes.string,
   initialQuery: PropTypes.string,
   onSearch: PropTypes.func,
+  onBookmarkClick: PropTypes.func,
   data: PropTypes.shape({
     autocomplete: PropTypes.shape({
       results: PropTypes.array,
@@ -53,7 +58,9 @@ SearchBar.propTypes = {
 SearchBar.defaultProps = {
   searchQuery: '',
   initialQuery: '',
-  onSearch: resolveSearchQuery,
+  onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
+  onBookmarkClick: searchQuery =>
+    changeQuery({ search: searchQuery.trim(), page: 1 }),
   data: {
     autocomplete: {
       results: [],

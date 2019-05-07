@@ -5,6 +5,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
   breadcrumbOptions={null}
   customBreadcrumbs={null}
   header="Audits"
+  onBookmarkClick={[Function]}
   onSearch={[Function]}
   searchProps={Object {}}
   searchQuery=""

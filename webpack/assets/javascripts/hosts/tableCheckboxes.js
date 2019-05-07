@@ -5,7 +5,7 @@ import {
   ngettext as n__,
   translate as __,
 } from '../react_app/common/I18n';
-import { getURIsearch } from '../react_app/components/Pagination/PaginationHelper';
+import { getURIsearch } from '../react_app/common/urlHelpers';
 import { foremanUrl } from '../foreman_tools';
 
 // Array contains list of host ids

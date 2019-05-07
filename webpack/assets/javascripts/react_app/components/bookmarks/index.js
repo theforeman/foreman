@@ -46,6 +46,7 @@ class BookmarkContainer extends React.Component {
       errors,
       status,
       documentationUrl,
+      onBookmarkClick,
     } = this.props;
 
     return showModal ? (
@@ -81,7 +82,12 @@ class BookmarkContainer extends React.Component {
           {status === STATUS.RESOLVED &&
             ((bookmarks.length > 0 &&
               bookmarks.map(({ name, query }) => (
-                <Bookmark key={name} text={name} query={query} />
+                <Bookmark
+                  key={name}
+                  text={name}
+                  query={query}
+                  onClick={onBookmarkClick}
+                />
               ))) || <MenuItem disabled> {__('None found')}</MenuItem>)}
           {status === STATUS.ERROR && (
             <MenuItem key="bookmarks-errors">
@@ -98,6 +104,7 @@ class BookmarkContainer extends React.Component {
 
 BookmarkContainer.propTypes = {
   controller: PropTypes.string.isRequired,
+  onBookmarkClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
   searchQuery: PropTypes.string,
   showModal: PropTypes.bool,
@@ -137,8 +144,8 @@ const mapStateToProps = (
 
 // I'm flatting the props that come from data attribute, this is done to avoid
 // having special handling for this.props.data vs this.props in the codebase.
-const mergeProps = (stateProps, dispatchProps, { data }) =>
-  Object.assign(stateProps, data, dispatchProps);
+const mergeProps = (stateProps, dispatchProps, { data, onBookmarkClick }) =>
+  Object.assign(stateProps, { ...data, onBookmarkClick }, dispatchProps);
 
 export default connect(
   mapStateToProps,

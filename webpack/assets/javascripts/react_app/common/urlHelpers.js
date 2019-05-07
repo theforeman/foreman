@@ -1,3 +1,5 @@
+import URI from 'urijs';
+
 /**
  * Build a url from given controller, action and id
  * @param {String} controller - the controller
@@ -13,3 +15,57 @@ export const urlBuilder = (controller, action, id = undefined) =>
  */
 export const urlWithSearch = (base, searchQuery) =>
   `/${base}?search=${searchQuery}`;
+
+/**
+ * Get updated URI
+ */
+export const getURI = () => new URI(window.location.href);
+
+/**
+ * Get updated page param
+ */
+export const getURIpage = () => Number(getURI().query(true).page) || 1;
+/**
+ * Get updated perPage param
+ */
+export const getURIperPage = () => Number(getURI().query(true).per_page);
+/**
+ * Get updated searchQuery param
+ */
+export const getURIsearch = () => getURI().query(true).search || '';
+
+/**
+ * Get updated URI params
+ */
+export const getParams = () => ({
+  page: getURIpage(),
+  perPage: getURIperPage(),
+  searchQuery: getURIsearch(),
+});
+
+/**
+ * Get updated Stringified params
+ */
+export const stringifyParams = ({
+  page = 1,
+  perPage = 25,
+  searchQuery = '',
+}) => {
+  const uri = getURI();
+  if (searchQuery !== '')
+    uri.search({ page, per_page: perPage, search: searchQuery });
+  else uri.search({ page, per_page: perPage });
+  return uri.search();
+};
+
+/**
+ * change current query and trigger navigation
+ * @param {URI} uri - URI object
+ * @param {Object} newQuery  - Query Object
+ * @param {Function} navigateTo  - navigate func
+ */
+export const changeQuery = (newQuery, navigateTo, uri = getURI()) => {
+  uri.setQuery(newQuery);
+  if (navigateTo) navigateTo(uri.toString());
+  else window.Turbolinks.visit(uri.toString());
+};
