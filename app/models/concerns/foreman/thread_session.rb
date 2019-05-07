@@ -64,6 +64,10 @@ module Foreman
           Thread.current[:user]
         end
 
+        def impersonator=(user)
+          ::Logging.mdc['user_impersonator'] = user&.login
+        end
+
         def current=(o)
           unless o.nil? || o.is_a?(self)
             raise(ArgumentError, "Unable to set current User, expected class '#{self}', got #{o.inspect}")
