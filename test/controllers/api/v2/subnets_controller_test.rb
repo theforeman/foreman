@@ -44,7 +44,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
 
   test "does not create subnet with non-existent domain" do
     post :create, params: { :subnet => valid_v4_attrs.merge(:domain_ids => [1, 2]) }
-    assert_response :not_found
+    assert_response :unprocessable_entity
   end
 
   test "should update subnet" do

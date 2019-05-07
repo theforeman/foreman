@@ -36,12 +36,18 @@ module Api
 
     rescue_from ActiveRecord::RecordNotFound do |error|
       logger.info "#{error.message} (#{error.class})"
-      not_found
+      if error.model == resource_class.model_name.name || error.model.nil?
+        not_found
+      elsif (error.model.include? resource_class.model_name.name) || (resource_class.model_name.name.include? error.model)
+        not_found
+      else
+        association_not_found(error)
+      end
     end
 
     rescue_from Foreman::AssociationNotFound do |error|
       logger.info "#{error.message} (#{error.class})"
-      not_found error.message
+      association_not_found(error)
     end
 
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
@@ -122,6 +128,10 @@ module Api
       render :json => not_found_message, :status => :not_found
 
       false
+    end
+
+    def association_not_found(error)
+      render_error 'custom_error', :status => :unprocessable_entity, :locals => { :message => error.message }
     end
 
     def service_unavailable(exception = nil)

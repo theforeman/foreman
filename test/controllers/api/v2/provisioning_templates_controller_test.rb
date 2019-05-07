@@ -57,8 +57,8 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
   test_attributes :pid => 'e6de9ceb-fe4b-43ce-b7e3-5453ca4bd164'
   test "should report correct error message for invalid association name" do
     post :create, params: { :provisioning_template => {:name => "no", :template_kind_name => 'kind_that_does_not_exist'} }
-    assert_response :missing
-    assert_includes JSON.parse(response.body)['message'], 'Could not find template_kind with name: kind_that_does_not_exist'
+    assert_response :unprocessable_entity
+    assert_includes JSON.parse(response.body)['error']['message'], 'Could not find template_kind with name: kind_that_does_not_exist'
   end
 
   test "should update valid" do

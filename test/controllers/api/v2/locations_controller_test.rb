@@ -364,7 +364,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     deleted_id = domain.id
     domain.destroy
     post :create, params: { :location => { :domain_ids => [deleted_id] } }
-    assert_response 404
+    assert_response :unprocessable_entity
   end
 
   test "should update with valid name" do
