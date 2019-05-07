@@ -163,7 +163,7 @@ module Api
 
       api :GET, "/report_templates/:id/report_data/:job_id", N_("Downloads a generated report")
       param :id, :identifier, required: true
-      param :job_id, String, required: true, desc: N_('ID assigned to generation job by the schedule command')
+      param :job_id, String, required: true, desc: N_('ID assigned to generating job by the schedule command')
       description <<-DOC
         Returns the report data as a raw response.
         In case the report hasn't been generated yet, it will return an empty response with http status 204 - NoContent.
@@ -173,7 +173,9 @@ module Api
         if @plan.progress < 1
           head :no_content
         elsif @plan.failure?
-          render json: { errors: @plan.errors }, status: :unprocessable_entity
+          errors = [{ message: _('Generating of report has been canceled') }] if @plan.result == :cancelled
+          errors ||= @plan.errors
+          render json: { errors: errors }, status: :unprocessable_entity
         else
           data = StoredValue.read(params[:job_id])
           return not_found(_('Report data are not available, it has probably expired.')) unless data
@@ -199,7 +201,7 @@ module Api
       def load_and_authorize_plan
         @plan = load_dynflow_plan(params[:job_id])
         return not_found(_('Report not found, please ensure you used the correct job_id')) if @plan.nil?
-        return @plan if @plan.state == :scheduled
+        return @plan if @plan.state == :scheduled || @plan.failure?
         composer_attrs, options = plan_arguments(@plan)
         if User.current.admin? || options['user_id'].to_i == User.current.id
           @composer = ReportComposer.new(composer_attrs)
