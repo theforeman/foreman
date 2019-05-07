@@ -65,8 +65,7 @@ class UserdataController < ApplicationController
     @host = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params).search
 
     return true if @host
-    render_error(
-      :message => 'Could not find host for request %{request_ip}',
+    render_error('Could not find host for request %{request_ip}',
       :status => :not_found,
       :request_ip => ip_from_request_env
     )
