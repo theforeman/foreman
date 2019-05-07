@@ -266,3 +266,18 @@ export const userDropdownProps = {
   user: serverUser,
   notification_url: '/',
 };
+
+export const userDropdownImpersonation = {
+  user: {
+    ...serverUser,
+    impersonated_by: {
+      user: {
+        id: 99,
+        login: 'superadmin',
+        firstname: 'S',
+        lastname: 'L',
+        email: 's@l.com',
+      },
+    },
+  },
+};

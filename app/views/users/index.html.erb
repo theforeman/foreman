@@ -18,7 +18,7 @@
   <tbody>
     <% @users.each do |user| %>
       <% additional_actions = [] %>
-      <% if User.current.admin? && user != User.current %>
+      <% if User.current.admin? && user != User.current && session[:impersonated_by].blank? %>
         <% additional_actions << link_to(_('Impersonate'), {:controller => 'users', :action => 'impersonate', :id => user.id}, :data => { :no_turbolink => true }) %>
       <% end %>
 

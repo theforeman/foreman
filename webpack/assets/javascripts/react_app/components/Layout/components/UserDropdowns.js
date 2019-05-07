@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, VerticalNav, Icon, MenuItem, OverlayTrigger, Tooltip } from 'patternfly-react';
+import {
+  Dropdown,
+  VerticalNav,
+  Icon,
+  MenuItem,
+  OverlayTrigger,
+  Tooltip,
+} from 'patternfly-react';
 import get from 'lodash/get';
 import NotificationContainer from '../../notifications';
 import NavDropdown from './NavDropdown';
 import NavItem from './NavItem';
 import { translate as __ } from '../../../common/I18n';
-import './UserDropdowns.scss'
+import './UserDropdowns.scss';
 
 const UserDropdowns = ({
   activeKey, // eslint-disable-line react/prop-types
@@ -18,22 +25,38 @@ const UserDropdowns = ({
   ...props
 }) => {
   const userInfo = get(user, 'current_user.user');
+  const impersonateIcon = (
+    <OverlayTrigger
+      overlay={
+        <Tooltip id="stop-impersonation">
+          {__(
+            'You are impersonating another user, click to stop the impersonation'
+          )}
+        </Tooltip>
+      }
+      placement="right"
+      trigger={['hover', 'focus']}
+      rootClose={false}
+    >
+      <li className="drawer-pf-trigger masthead-icon">
+        <a
+          href={stopImpersonationUrl}
+          className="nav-item-iconic"
+          data-no-turbolink="true"
+        >
+          <Icon
+            name="eye avatar small"
+            tooltip="hello"
+            className="blink-image"
+          />
+        </a>
+      </li>
+    </OverlayTrigger>
+  );
+
   return (
     <VerticalNav.IconBar {...props}>
-      {user.impersonated_by &&  (
-          <OverlayTrigger
-            overlay={<Tooltip>{ __('You are impersonating another user, click to stop the impersonation') }</Tooltip>}
-            placement="right"
-            trigger={['hover','focus']}
-            rootClose={false}
-          >
-            <li className="drawer-pf-trigger masthead-icon">
-              <a href={ stopImpersonationUrl } className="nav-item-iconic" data-no-turbolink="true">
-                <Icon name="eye avatar small" tooltip="hello" className="blink-image"/>
-              </a>
-            </li>
-          </OverlayTrigger>
-      )}
+      {user.impersonated_by && impersonateIcon}
       <NavItem
         className="drawer-pf-trigger dropdown notification-dropdown"
         id="notifications_container"
@@ -80,11 +103,13 @@ UserDropdowns.propTypes = {
   notificationUrl: PropTypes.string,
   /** changeActiveMenu Func */
   changeActiveMenu: PropTypes.func,
+  stopImpersonationUrl: PropTypes.string,
 };
 UserDropdowns.defaultProps = {
   className: '',
   user: {},
   notificationUrl: '',
   changeActiveMenu: null,
+  stopImpersonationUrl: '',
 };
 export default UserDropdowns;
