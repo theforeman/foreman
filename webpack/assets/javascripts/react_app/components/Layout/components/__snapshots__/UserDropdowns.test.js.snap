@@ -100,6 +100,7 @@ exports[`UserDropdown rendering render with impersonation active 1`] = `
       <a
         className="nav-item-iconic"
         data-no-turbolink="true"
+        href=""
       >
         <Icon
           className="blink-image"

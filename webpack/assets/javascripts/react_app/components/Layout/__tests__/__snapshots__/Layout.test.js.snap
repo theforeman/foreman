@@ -279,6 +279,7 @@ exports[`Layout rendering renders layout 1`] = `
         changeActiveMenu={[Function]}
         className=""
         notificationUrl="/notification_recipients"
+        stopImpersonationUrl=""
         user={
           Object {
             "current_user": Object {
