@@ -426,7 +426,7 @@ module Foreman::Model
 
       # see #26402 - consume scsi_controller_type from hammer as a default scsi type
       scsi_type = args.delete(:scsi_controller_type)
-      args[:scsi_controllers] ||= [{ type: scsi_type }] if scsi_type
+      args[:scsi_controllers] ||= [{ type: scsi_type }] if scsi_controller_types.key?(scsi_type)
 
       add_cdrom = args.delete(:add_cdrom)
       args[:cdroms] = [new_cdrom] if add_cdrom == '1'

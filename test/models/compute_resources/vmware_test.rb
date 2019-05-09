@@ -384,6 +384,14 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         attrs_out = { scsi_controllers: [{ type: 'VirtualBusLogicController' }] }
         assert_equal attrs_out, @cr.parse_args(attrs_in)
       end
+
+      test 'drop invalid scsi_controller_type attribute' do
+        attrs_in = HashWithIndifferentAccess.new(
+          'scsi_controller_type' => 'ParaVirtualSCSICntrlr'
+        )
+        attrs_out = {}
+        assert_equal attrs_out, @cr.parse_args(attrs_in)
+      end
     end
   end
 
