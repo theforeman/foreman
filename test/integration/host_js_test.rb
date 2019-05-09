@@ -225,7 +225,7 @@ class HostJSTest < IntegrationTestWithJavascript
       cpus_field = page.find_field('host_compute_attributes_cpus')
       assert_equal '1', cpus_field.value
 
-      click_link('Interfaces')
+      switch_form_tab_to_interfaces
       click_button('Edit')
       ipv4_field = page.find_field('host_interfaces_attributes_0_ip')
       refute_empty ipv4_field.value
@@ -239,7 +239,7 @@ class HostJSTest < IntegrationTestWithJavascript
       cpus_field = page.find_field('host_compute_attributes_cpus')
       assert_equal '2', cpus_field.value
 
-      click_link('Interfaces')
+      switch_form_tab_to_interfaces
       click_button('Edit')
       bridge_field = page.find_field('host_interfaces_attributes_0_compute_attributes_bridge')
       assert_equal 'test', bridge_field.value
@@ -267,7 +267,7 @@ class HostJSTest < IntegrationTestWithJavascript
       select2 os.ptables.first.name, :from => 'host_ptable_id'
       fill_in 'host_root_pass', :with => '12345678'
 
-      click_link 'Interfaces'
+      switch_form_tab_to_interfaces
       click_button 'Edit'
       select2 domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
@@ -295,6 +295,7 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       select2 env1.name, :from => 'host_environment_id'
       select2 hg.name, :from => 'host_hostgroup_id'
+      wait_for_ajax
 
       click_link 'Operating System'
       select2 os.architectures.first.name, :from => 'host_architecture_id'
@@ -305,7 +306,7 @@ class HostJSTest < IntegrationTestWithJavascript
       select2 os.ptables.first.name, :from => 'host_ptable_id'
       fill_in 'host_root_pass', :with => '12345678'
 
-      click_link 'Interfaces'
+      switch_form_tab_to_interfaces
       click_button 'Edit'
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
@@ -324,10 +325,12 @@ class HostJSTest < IntegrationTestWithJavascript
       visit new_host_path
       select2(hostgroup.name, :from => 'host_hostgroup_id')
 
+      wait_for_ajax
+
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
 
-      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}", visible: false)
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}")
     end
 
     test 'new parameters can be edited and removed' do
@@ -382,7 +385,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert multiple_actions_div.find('ul').visible?
 
       # Hosts are added to cookie
-      host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
+      host_ids_on_cookie = JSON.parse(CGI.unescape(get_me_the_cookie('_ForemanSelectedhosts')&.fetch(:value)))
       assert(host_ids_on_cookie.include?(@host.id))
 
       # Open modal box
@@ -395,7 +398,7 @@ class HostJSTest < IntegrationTestWithJavascript
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').click
       assert_current_path hosts_path
-      assert_empty(page.driver.cookies['_ForemanSelectedhosts'])
+      assert_empty(get_me_the_cookie('_ForemanSelectedhosts'))
     end
 
     test 'redirect js' do
@@ -406,7 +409,7 @@ class HostJSTest < IntegrationTestWithJavascript
       assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
 
       # Hosts are added to cookie
-      host_ids_on_cookie = JSON.parse(CGI.unescape(page.driver.cookies['_ForemanSelectedhosts'].value))
+      host_ids_on_cookie = JSON.parse(CGI.unescape(get_me_the_cookie('_ForemanSelectedhosts')&.fetch(:value)))
       assert(host_ids_on_cookie.include?(@host.id))
 
       page.execute_script("tfm.hosts.table.buildRedirect('#{select_multiple_environment_hosts_path}')")
@@ -482,15 +485,15 @@ class HostJSTest < IntegrationTestWithJavascript
       visit edit_host_path(@host)
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
 
-      assert_equal original_hostgroup.puppet_proxy.name, find("#s2id_host_puppet_proxy_id .select2-chosen").text
+      assert_equal original_hostgroup.puppet_proxy.name, find('#s2id_host_puppet_proxy_id .select2-chosen').text
 
       click_on_inherit('puppet_proxy')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
 
-      assert find("#s2id_host_environment_id .select2-chosen", visible: false).has_text? original_hostgroup.environment.name
+      assert find('#s2id_host_environment_id .select2-chosen').has_text? original_hostgroup.environment.name
 
-      # On host group change, the disabled select will be reset to an empty value
-      assert find("#s2id_host_puppet_proxy_id .select2-chosen", visible: false).has_text? ''
+      # On host group change, the disabled select will be reset to an empty value - disabled select2 is invisible on chrome
+      assert find('#s2id_host_puppet_proxy_id .select2-chosen', visible: :all).has_text? ''
     end
 
     test 'class parameters and overrides are displayed correctly for booleans' do
@@ -646,7 +649,7 @@ class HostJSTest < IntegrationTestWithJavascript
         click_link 'Parameters'
         assert_equal class_params.find("textarea").value, "default"
 
-        click_link 'Interfaces'
+        switch_form_tab_to_interfaces
         table.first(:button, 'Edit').click
 
         select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
@@ -738,12 +741,21 @@ class HostJSTest < IntegrationTestWithJavascript
 
   private
 
+  def switch_form_tab_to_interfaces
+    switch_form_tab('Interfaces')
+    disable_interface_modal_animation
+  end
+
   def subnet_and_domain_are_selected(modal, domain)
-    modal.has_select?('host_interfaces_attributes_0_subnet_id',
-                      :visible => false,
-                      :options => domain.subnets.map(&:to_label))
-    modal.has_select?('host_interfaces_attributes_0_domain_id',
-                      :visible => false,
-                      :selected => domain.name)
+    modal.assert_selector("#interfaceModal #s2id_host_interfaces_attributes_0_domain_id .select2-chosen",
+                          text: domain.name)
+    modal.assert_selector('#interfaceModal #host_interfaces_attributes_0_subnet_id option',
+                          visible: false,
+                          count: domain.subnets.count + 1) # plus one empty
+    domain.subnets.each do |subnet|
+      modal.assert_selector('#interfaceModal #host_interfaces_attributes_0_subnet_id option',
+                            visible: false,
+                            text: subnet.to_label)
+    end
   end
 end

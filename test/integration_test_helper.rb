@@ -19,17 +19,19 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
   Rails.logger.error("DO NOT IGNORE - Consistent failure - #{klass} #{test_name}")
 end
 
-Selenium::WebDriver::Chrome.driver_path = ENV['TESTDRIVER_PATH'] || File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
+Selenium::WebDriver::Chrome::Service.driver_path = ENV['TESTDRIVER_PATH'] || File.join(Rails.root, 'node_modules', '.bin', 'chromedriver')
 Capybara.register_driver :selenium_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.args << '--disable-gpu'
   options.args << '--no-sandbox'
   options.args << '--window-size=1024,768'
-  options.args << '--headless' unless ENV['DEBUG_TEST'] == '1'
+  options.args << '--headless' unless ENV['DEBUG_JS_TEST'] == '1'
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
-Capybara.javascript_driver = ENV["JS_TEST_DRIVER"]&.to_sym || :selenium_chrome
-Capybara.default_max_wait_time = 20
+Capybara.configure do |config|
+  config.javascript_driver      = ENV["JS_TEST_DRIVER"]&.to_sym || :selenium_chrome
+  config.default_max_wait_time  = 20
+end
 
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
@@ -130,12 +132,26 @@ class ActionDispatch::IntegrationTest
     end
   end
 
-  def close_interfaces_modal
-    click_button 'Ok' # close interfaces
-    # wait for the dialog to close
-    wait_for do
-      find(:css, '#interfaceModal', visible: false)
-    end
+  def cookie_named(name)
+    page.driver.browser.manage.cookie_named(name)
+  end
+
+  def cookie_value(name)
+    cookie_named(name) && cookie_named(name)[:value]
+  end
+
+  def has_editor_display?(css_locator, text)
+    has_css?("#{css_locator} .ace_content", text: text)
+  end
+
+  # Works only with css locator
+  def fill_in_editor_field(css_locator, text)
+    # the input is not visible for chrome driver
+    find("#{css_locator} .ace_editor").click
+    has_css?("#{css_locator} .ace_editor")
+    find("#{css_locator} .ace_text-input", visible: :all).set text
+    # wait for the debounce
+    has_editor_display?(css_locator, text)
   end
 
   def login_user(username, password)
@@ -158,25 +174,25 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_available_location(location)
-    within('li#location-dropdown ul') do
+    within('li#location-dropdown ul', visible: :all) do
       assert page.has_link?(location)
     end
   end
 
   def refute_available_location(location)
-    within('li#location-dropdown ul') do
+    within('li#location-dropdown ul', visible: :all) do
       assert page.has_no_link?(location)
     end
   end
 
   def assert_available_organization(organization)
-    within('li#organization-dropdown ul') do
+    within('li#organization-dropdown ul', visible: :all) do
       assert page.has_link?(organization)
     end
   end
 
   def refute_available_organization(organization)
-    within('li#location-dropdown ul') do
+    within('li#location-dropdown ul', visible: :all) do
       assert page.has_no_link?(organization)
     end
   end
@@ -194,14 +210,16 @@ class ActionDispatch::IntegrationTest
   end
 
   def select_organization(organization)
-    within('li#organization-dropdown ul') do
-      click_link organization
+    within('li#organization-dropdown') do
+      find('a.dropdown-toggle').click
+      find("a.organization_menuitem", text: organization).click
     end
   end
 
   def select_location(location)
-    within('li#location-dropdown ul') do
-      click_link location
+    within('li#location-dropdown') do
+      find('a.dropdown-toggle').click
+      find("a.organization_menuitem", text: location).click
     end
   end
 
@@ -210,8 +228,14 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_form_tab(label)
-    within(%(label[for="#{label.singularize.underscore}_ids"])) do
+    within('form .nav-tabs') do
       assert page.has_content?(label)
+    end
+  end
+
+  def switch_form_tab(name)
+    within('form .nav-tabs') do
+      click_link name
     end
   end
 
@@ -250,7 +274,6 @@ class ActionDispatch::IntegrationTest
   def login_admin
     visit('/users/login') if Capybara.current_driver == :selenium_chrome
     SSO.register_method(TestSSO)
-    visit('/users/login') if Capybara.current_driver == :selenium_chrome
     set_request_user(:admin)
   end
 

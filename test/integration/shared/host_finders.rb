@@ -1,11 +1,24 @@
 module HostFinders
   extend ActiveSupport::Concern
 
+  def disable_interface_modal_animation
+    page.evaluate_script('document.getElementById("interfaceModal").classList.remove("fade")')
+  end
+
   def go_to_interfaces_tab
     # go to New Host page
     assert_new_button(hosts_path, "Create Host", new_host_path)
     # switch to interfaces tab
     page.find(:link, "Interfaces").click
+    disable_interface_modal_animation
+  end
+
+  def close_interfaces_modal
+    button = page.find(:button, 'Ok')
+    page.scroll_to(button)
+    button.click # close interfaces
+    # wait for the dialog to close
+    page.has_no_css?('#interfaceModal.in')
   end
 
   def add_interface
@@ -15,7 +28,7 @@ module HostFinders
   end
 
   def modal
-    page.find('#interfaceModal')
+    page.find('#interfaceModal.in')
   end
 
   def table

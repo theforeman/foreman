@@ -71,7 +71,7 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
       proxy = smart_proxies(:one)
       visit smart_proxy_path(proxy)
       assert page.has_link?("VisibleTab")
-      refute page.has_link?("HiddenTab")
+      assert page.has_no_link?("HiddenTab")
     end
   end
 end

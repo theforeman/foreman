@@ -13,9 +13,11 @@ class PtableJSTest < IntegrationTestWithJavascript
     visit ptables_path
     click_link "ubuntu default"
     fill_in "ptable_name", :with => "debian default"
-    find('#editor').click
-    find('.ace_content').send_keys "d-i partman-auto/disk string /dev/sda\nd-i"
-    sleep 1 # Wait for the editor onChange debounce
+
+    editor_text = "d-i partman-auto/disk string /dev/sda\nd-i"
+    fill_in_editor_field('#react-ace', editor_text)
+    assert has_editor_display?('#react-ace', editor_text)
+
     assert_submit_button(ptables_path)
     assert page.has_link? 'debian default'
   end
@@ -24,13 +26,15 @@ class PtableJSTest < IntegrationTestWithJavascript
     visit ptables_path
     click_link "ubuntu default"
     fill_in "ptable_name", :with => "debian.default /dev/sda"
-    find('#editor').click
-    find('.ace_content').send_keys "d-i partman-auto/disk string /dev/sda\nd-i"
-    sleep 1 # Wait for the editor onChange debounce
+
+    editor_text = "d-i partman-auto/disk string /dev/sda\nd-i"
+    fill_in_editor_field('#react-ace', editor_text)
+
     assert_submit_button(ptables_path)
 
     assert page.has_link? 'debian.default /dev/sda'
     click_link "debian.default /dev/sda"
     assert page.has_field?("ptable_name") # not 404
+    assert has_editor_display?('#react-ace', editor_text)
   end
 end
