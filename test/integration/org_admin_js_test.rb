@@ -2,8 +2,6 @@ require 'integration_test_helper'
 
 class OrgAdminJSTest < IntegrationTestWithJavascript
   setup do
-    Capybara.ignore_hidden_elements = false
-
     @org1 = FactoryBot.create(:organization)
     @org2 = FactoryBot.create(:organization)
     @org3 = FactoryBot.create(:organization)
@@ -19,10 +17,6 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
     @org_admin = Role.find_by_name('Organization admin')
 
     @org_admin_of_org1 = clone_role(@org_admin, @org1)
-  end
-
-  teardown do
-    Capybara.ignore_hidden_elements = true
   end
 
   context "user is org admin of single org" do
@@ -48,28 +42,30 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       assert_form_tab('Locations')
       assert_form_tab('Organizations')
 
-      within('#domain_organization_ids') do
+      domain = FactoryBot.build_stubbed(:domain)
+      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
+
+      switch_form_tab('Locations')
+      within('#ms-domain_location_ids') do
+        assert page.has_content? @loc1.name
+        assert page.has_content? @loc2.name
+        assert page.has_content? @loc3.name
+      end
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
+      select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
+
+      switch_form_tab('Organizations')
+      within('#ms-domain_organization_ids') do
         assert page.has_content? @org1.name
         assert page.has_no_content? @org2.name
         assert page.has_no_content? @org3.name
 
         # current organization is selected
-        within('option[selected="selected"]') do
+        within('.ms-selection') do
           assert page.has_content? @org1.name
         end
       end
 
-      within('#domain_location_ids') do
-        assert page.has_content? @loc1.name
-        assert page.has_content? @loc2.name
-        assert page.has_content? @loc3.name
-      end
-
-      domain = FactoryBot.build_stubbed(:domain)
-      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
-      location_selector.select @loc2.name
       page.click_button 'Submit'
 
       within "#domains_list" do
@@ -90,12 +86,13 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.unselect @org1.name
 
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
-      location_selector.select @loc2.name
+      switch_form_tab('Locations')
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
+      select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
+
+      switch_form_tab('Organizations')
+      ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
       created_domain = Domain.unscoped.find_by_name(domain.name)
@@ -111,12 +108,12 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.unselect @org1.name
+      switch_form_tab('Organizations')
+      ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
 
-      location_selector = page.find('select#domain_location_ids')
       # once selection are driven by permissions only, this should not be possible
-      location_selector.select @loc3.name
+      switch_form_tab('Locations')
+      select_option_of_multiselect(@loc3.name, select_id: 'domain_location_ids')
       page.click_button 'Submit'
 
       # this is partly buggy behavior based on fact user does not belong to location
@@ -150,30 +147,30 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       assert_form_tab('Locations')
       assert_form_tab('Organizations')
 
-      within('#domain_organization_ids') do
+      domain = FactoryBot.build_stubbed(:domain)
+      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
+
+      switch_form_tab('Organizations')
+      within('#ms-domain_organization_ids') do
         assert page.has_content? @org1.name
         assert page.has_content? @org2.name
         assert page.has_no_content? @org3.name
 
         # current context is any organization
-        assert page.has_no_content?('option[selected="selected"]')
+        assert page.has_no_content?('.ms-selection span')
       end
+      select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
+      select_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
 
-      within('#domain_location_ids') do
+      switch_form_tab('Locations')
+      within('#ms-domain_location_ids') do
         assert page.has_content? @loc1.name
         assert page.has_content? @loc2.name
         assert page.has_content? @loc3.name
       end
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
+      select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
 
-      domain = FactoryBot.build_stubbed(:domain)
-      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.select @org1.name
-      organization_selector.select @org2.name
-
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
-      location_selector.select @loc2.name
       page.click_button 'Submit'
 
       within "#domains_list" do
@@ -184,7 +181,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_org(@org1)
+      select_organization(@org1.name)
       wait_for_ajax
 
       within "#domains_list" do
@@ -195,7 +192,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_org(@org2.name)
+      select_organization(@org2.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_no_content?(@visible_domain_1.name)
@@ -214,8 +211,8 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
 
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
+      switch_form_tab('Locations')
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
       page.click_button 'Submit'
 
       assert page.has_content?("Invalid organizations selection, you must select at least one of yours and have 'assign_organizations' permission")
@@ -249,7 +246,11 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       assert_form_tab('Locations')
       assert_form_tab('Organizations')
 
-      within('#domain_organization_ids') do
+      domain = FactoryBot.build_stubbed(:domain)
+      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
+
+      switch_form_tab('Organizations')
+      within('#ms-domain_organization_ids') do
         assert page.has_content? @org1.name
         assert page.has_content? @org2.name
         assert page.has_no_content? @org3.name
@@ -257,22 +258,18 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
         # current context is any organization
         assert page.has_no_content?('option[selected="selected"]')
       end
+      select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
+      select_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
 
-      within('#domain_location_ids') do
+      switch_form_tab('Locations')
+      within('#ms-domain_location_ids') do
         assert page.has_content? @loc1.name
         assert page.has_content? @loc2.name
         assert page.has_content? @loc3.name
       end
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
+      select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
 
-      domain = FactoryBot.build_stubbed(:domain)
-      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.select @org1.name
-      organization_selector.select @org2.name
-
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
-      location_selector.select @loc2.name
       page.click_button 'Submit'
 
       within "#domains_list" do
@@ -283,7 +280,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_org(@org1.name)
+      select_organization(@org1.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_link?(@visible_domain_1.name)
@@ -292,7 +289,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
         assert page.has_no_content?(@invisible_domain_2.name)
       end
 
-      select_org(@org2.name)
+      select_organization(@org2.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
         assert page.has_no_content?(@visible_domain_1.name)
@@ -333,7 +330,20 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       assert_form_tab('Locations')
       assert_form_tab('Organizations')
 
-      within('#domain_organization_ids') do
+      domain = FactoryBot.build_stubbed(:domain)
+      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
+
+      switch_form_tab('Locations')
+      within('#ms-domain_location_ids') do
+        assert page.has_content? @loc1.name
+        assert page.has_content? @loc2.name
+        assert page.has_content? @loc3.name
+      end
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
+      select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
+
+      switch_form_tab('Organizations')
+      within('#ms-domain_organization_ids') do
         assert page.has_content? @org1.name
         assert page.has_content? @org2.name
         assert page.has_content? @org3.name
@@ -341,45 +351,31 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
         # current context is any organization
         assert page.has_no_content?('option[selected="selected"]')
       end
+      # select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
+      select_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
 
-      within('#domain_location_ids') do
-        assert page.has_content? @loc1.name
-        assert page.has_content? @loc2.name
-        assert page.has_content? @loc3.name
-      end
-
-      domain = FactoryBot.build_stubbed(:domain)
-      page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
-
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
-      location_selector.select @loc2.name
-
-      organization_selector = page.find('select#domain_organization_ids')
-      # organization_selector.select @org1.name
-      organization_selector.select @org2.name
       page.click_button 'Submit'
 
       # choosing only org that user does not belong to is forbidden
       assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
 
+      switch_form_tab('Organizations')
       # with org1 which user belongs to, submit passes but the organization selection is limited to user's list
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.select @org1.name
+      select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
       within "#domains_list" do
         assert page.has_link?(domain.name)
       end
 
-      select_org(@org3.name)
+      select_organization(@org3.name)
       within "#domains_list" do
         assert page.has_no_content?(domain.name)
       end
 
       refute_available_organization(@org2.name)
 
-      select_org(@org1.name)
+      select_organization(@org1.name)
       within "#domains_list" do
         assert page.has_link?(domain.name)
       end
@@ -418,30 +414,29 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       assert_form_tab('Locations')
       assert_form_tab('Organizations')
 
-      within('#domain_organization_ids') do
-        assert page.has_content? @org1.name
-        assert page.has_content? @org2.name
-      end
-
       domain = FactoryBot.build_stubbed(:domain)
       page.fill_in 'domain[name]', :with => domain.name, :id => 'domain_name'
 
-      location_selector = page.find('select#domain_location_ids')
-      location_selector.select @loc1.name
-      location_selector.select @loc2.name
+      switch_form_tab('Locations')
+      select_option_of_multiselect(@loc1.name, select_id: 'domain_location_ids')
+      select_option_of_multiselect(@loc2.name, select_id: 'domain_location_ids')
 
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.select @org1.name
-      organization_selector.select @org2.name
+      switch_form_tab('Organizations')
+      within('#ms-domain_organization_ids') do
+        assert page.has_content? @org1.name
+        assert page.has_content? @org2.name
+      end
+      select_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
+      select_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
       # choosing only org that user does not belong to is forbidden
       assert page.has_content?("You don't have permission create_domains with attributes that you have specified or you don't have access to specified organizations or locations")
 
+      switch_form_tab('Organizations')
       # with org1 which user belongs to, submit passes but the organization selection is limited to user's list
-      organization_selector = page.find('select#domain_organization_ids')
-      organization_selector.unselect @org1.name
-      organization_selector.unselect @org2.name
+      deselect_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
+      deselect_option_of_multiselect(@org2.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
       # can't create in any context either
@@ -458,9 +453,16 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
     new_role
   end
 
-  def select_org(org)
-    within('li#organization-dropdown ul') do
-      find("a#select_taxonomy_#{org}").trigger('click')
-    end
+  def ensure_selected_option_of_multiselect(label, select_id: nil)
+    selected = page.find("#ms-#{select_id} .ms-selection").has_content?(label)
+    selected || select_option_of_multiselect(label, select_id: select_id)
+  end
+
+  def select_option_of_multiselect(label, select_id: nil)
+    page.find("#ms-#{select_id} .ms-selectable").find('span', text: label).click
+  end
+
+  def deselect_option_of_multiselect(label, select_id: nil)
+    page.find("#ms-#{select_id} .ms-selection").find('span', text: label).click
   end
 end

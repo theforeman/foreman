@@ -120,7 +120,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'build mode is not enabled for unmanaged hosts' do
       host = FactoryBot.create(:host)
       visit clone_host_path(host)
-      refute page.has_checked_field?('host_build')
+      assert page.has_no_checked_field?('host_build')
     end
   end
 end

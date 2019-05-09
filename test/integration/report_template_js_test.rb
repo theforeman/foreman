@@ -13,14 +13,16 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
     assert page.has_link?('Create Report Template')
 
     click_link 'Create Report Template'
+
+    template_text = "CPUs,RAM,HDD\n<%= input(\'cpus\') -%>,<%= 1024 -%> MB,N/A"
+
     fill_in :id => 'report_template_name', :with => 'A testing report'
-    find('#editor').click
-    find('.ace_content').send_keys "CPUs,RAM,HDD\n<%= input('cpus') -%>,<%= 1024 -%> MB,N/A"
-    sleep 1 # Wait for the editor onChange debounce
+    fill_in_editor_field('#react-ace', template_text)
+    assert has_editor_display?('#react-ace', template_text)
 
     click_link('Inputs')
     within "#template_inputs" do
-      refute page.has_content?('Input Type')
+      assert page.has_no_content?('Input Type')
 
       click_link '+ Add Input'
       assert page.has_content?('Input Type')
@@ -34,6 +36,8 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
     template = ReportTemplate.find_by_name('A testing report')
     visit generate_report_template_path(template)
 
+    assert_equal template.template, template_text
+
     assert page.has_content?('cpus')
   end
 
@@ -44,13 +48,13 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
 
     visit generate_report_template_path(template)
     within '#content' do
-      refute page.has_content? input.name
+      assert page.has_no_content? input.name
 
       click_link 'Display advanced fields'
       assert page.has_content? input.name
 
       click_link 'Hide advanced fields'
-      refute page.has_content? input.name
+      assert page.has_no_content? input.name
     end
   end
 end

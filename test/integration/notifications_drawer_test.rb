@@ -46,14 +46,8 @@ class NotificationsDrawerIntegrationTest < IntegrationTestWithJavascript
 
   def navigate_somewhere_with_turbolinks
     # check the outside click with turbolinks
-    page.find('a.navbar-brand').trigger('click')
-
-    wait_for_turbolinks
-  end
-
-  def wait_for_turbolinks
-    Timeout.timeout(Capybara.default_max_wait_time) do
-      loop until page.has_no_selector?('div.spinner')
-    end
+    page.find('a.navbar-brand').click
+    # wait for loader to dissapear
+    page.has_no_selector?('div.spinner')
   end
 end

@@ -63,8 +63,7 @@
     "webpack-stats-plugin": "^0.1.5"
   },
   "optionalDependencies": {
-    "phantomjs-prebuilt": "^2.1.0",
-    "chromedriver": "2.43.0"
+    "chromedriver": "2.46.0"
   },
   "dependencies": {
     "@novnc/novnc": "^1.0.0",

@@ -19,8 +19,7 @@ class BreadcrumbsSwitcherTest < IntegrationTestWithJavascript
     click_button 'switcher'
     fill_in('breadcrumbs-search', :with => 'three')
     wait_for_ajax
-    all_items = page.all('.no-border.list-group-item')
-    assert all_items.count == 1
-    assert_equal all_items[0].text, 'three'
+    page.assert_selector('.no-border.list-group-item', count: 1)
+    page.assert_selector('.no-border.list-group-item', text: 'three')
   end
 end

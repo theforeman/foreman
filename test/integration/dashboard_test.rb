@@ -60,14 +60,8 @@ class DashboardIntegrationTest < IntegrationTestWithJavascript
       test 'has no out of sync link' do
         visit_dashboard
         within "li[data-name='Host Configuration Status for Puppet']" do
-          refute page.has_link?('Out of sync hosts')
-        end
-      end
-
-      test 'good hosts link drops time' do
-        visit_dashboard
-        within "li[data-name='Host Configuration Status for Puppet']" do
-          refute page.has_link?('Good host reports in the last')
+          assert page.has_no_link?('Out of sync hosts')
+          assert page.has_no_link?('Good host reports in the last')
           assert page.has_link?('Good host with reports')
         end
       end

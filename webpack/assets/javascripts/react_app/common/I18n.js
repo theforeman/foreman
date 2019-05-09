@@ -1,11 +1,10 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
 import { deprecateObjectProperty } from './DeprecationService';
-import { runningInPhantomJS } from './helpers';
 
 class IntlLoader {
   constructor(locale, timezone) {
-    this.fallbackIntl = !global.Intl || runningInPhantomJS();
+    this.fallbackIntl = !global.Intl;
 
     [this.locale] = locale.split('-');
     this.timezone = this.fallbackIntl ? 'UTC' : timezone;
