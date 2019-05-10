@@ -52,7 +52,7 @@ class DateTimePicker extends React.Component {
   };
 
   render() {
-    const { locale, weekStartsOn, inputProps, id } = this.props;
+    const { locale, weekStartsOn, inputProps, id, placement } = this.props;
     const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
     const popover = (
       <Popover
@@ -93,7 +93,7 @@ class DateTimePicker extends React.Component {
 
           <OverlayTrigger
             trigger="click"
-            placement="top"
+            placement={placement}
             overlay={popover}
             rootClose
             container={this}
@@ -125,6 +125,7 @@ DateTimePicker.propTypes = {
   inputProps: PropTypes.object,
   id: PropTypes.string,
   hiddenValue: PropTypes.bool,
+  placement: OverlayTrigger.propTypes.placement,
 };
 DateTimePicker.defaultProps = {
   value: new Date(),
@@ -133,5 +134,6 @@ DateTimePicker.defaultProps = {
   inputProps: {},
   id: 'datetime-picker-popover',
   hiddenValue: true,
+  placement: 'top',
 };
 export default DateTimePicker;
