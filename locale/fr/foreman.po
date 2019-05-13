@@ -3558,6 +3558,9 @@ msgstr "Cacher cette valeur"
 msgid "Highly Available"
 msgstr "Hautement disponible"
 
+msgid "Target Storage Domain for VM Lease"
+msgstr "Domaine de stockage cible pour la location des VMs"
+
 msgid "Hint data is missing"
 msgstr "Donnée de conseil manquante"
 
@@ -9937,6 +9940,9 @@ msgstr "Wiki"
 
 msgid "Wipe disk after delete"
 msgstr "Nettoyer le disque après la suppression"
+
+msgid "Enable discard"
+msgstr "Activer le rejet"
 
 msgid "With user groups, you can group your users and assign them roles on a group basis."
 msgstr "Avec les groupes d'utilisateurs, vous pouvez regrouper les utilisateurs et leur attribuer des rôles par groupe."

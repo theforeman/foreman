@@ -14,3 +14,6 @@
   radio_button_f f, :bootable, {:disabled => !new_vm, :value=> 'true', :checked => f.object.bootable == 'true', :onclick => 'tfm.computeResource.ovirt.bootableRadio(this)',
   :text => _('Only one volume can be bootable')}
 end %>
+<% if compute_resource.use_v4 %>
+<%= checkbox_f f, :attachment_pass_discard, {:disabled => !new_vm, :checked => f.object.attachment_pass_discard  == 'true', :label => _('Enable discard'), :label_size => "col-md-2" } %>
+<% end %>

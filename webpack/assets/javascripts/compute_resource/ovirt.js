@@ -93,6 +93,11 @@ export function instanceTypeSelected(item) {
   }
 }
 
+export function highlyAvailableSelected(item) {
+    const disabled = !$(item).is(':checked');
+    $('#host_compute_attributes_lease_storage_domain').prop('disabled', disabled);
+}
+
 // fill in the template interfaces.
 function addNetworkInterface({ name, network }) {
   const nestedFields = $('#network_interfaces .add_nested_fields');

@@ -418,6 +418,8 @@ module Foreman::Model
 
       normalized['template_id'] = vm_attrs['template']
       normalized['template_name'] = self.templates.detect { |t| t.id == normalized['template_id'] }.try(:name)
+      normalized['lease_storage_domain_id'] = vm_attrs['lease_storage_domain']
+      normalized['lease_storage_domain_name'] = storage_domains.detect { |d| d.id == vol['lease_storage_domain'] }.try(:name)
 
       cluster_networks = self.networks(:cluster_id => normalized['cluster_id'])
 
@@ -588,6 +590,7 @@ module Foreman::Model
         if vol[:id].blank?
           set_preallocated_attributes!(vol, vol[:preallocate])
           vol[:wipe_after_delete] = to_fog_ovirt_boolean(vol[:wipe_after_delete])
+          vol[:attachment_pass_discard] = to_fog_ovirt_boolean(vol[:attachment_pass_discard])
           # The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
           vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol))
         end

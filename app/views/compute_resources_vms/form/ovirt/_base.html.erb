@@ -34,7 +34,11 @@
 <%= byte_size_f f, :memory, :disabled => !new_vm, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :ha, { :checked => f.object.ha.present? , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
+<%= checkbox_f f, :ha, { :checked => f.object.ha.present? , :label => _('Highly Available'), :label_size => "col-md-2", :onchange => 'tfm.computeResource.ovirt.highlyAvailableSelected(this)' }  %>
+<% if compute_resource.use_v4 %>
+<%= select_f f, :lease_storage_domain, ovirt_storage_domains_for_select(compute_resource), :id, :label,
+{ }, :label => _('Target Storage Domain for VM Lease'), :label_size => "col-md-2", :class => "col-md-2", :disabled => !f.object.ha.present? %>
+<% end %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
 <% unless local_assigns[:hide_image] %>
