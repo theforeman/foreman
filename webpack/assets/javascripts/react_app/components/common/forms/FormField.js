@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { pick, omit, keys } from 'lodash';
 import {
   Col,
   FormGroup,
@@ -24,6 +25,22 @@ const inputComponents = {
 export const registerInputComponent = (name, Component) => {
   inputComponents[name] = Component;
 };
+
+export const wrapInput = (type, Input) => {
+  registerInputComponent(type, Input);
+  const Field = props => (
+    <FormField
+      {...pick(props, keys(FormField.propTypes))}
+      inputProps={omit(props, keys(FormField.propTypes))}
+      type={type}
+    />
+  );
+  Field.displayName = `FormField(${Input.displayName ||
+    Input.name ||
+    'Input'})`;
+  return Field;
+};
+
 export const ControlContext = React.createContext();
 
 const InputFactory = ({ type }) => {

@@ -1,48 +1,59 @@
-import NumericInput from 'react-numeric-input';
+import ReactNumericInput from 'react-numeric-input';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';
-import CommonForm from './CommonForm';
+import { wrapInput } from './FormField';
 
-const TextInput = ({
-  label,
+/**
+ * NumericInput field.
+ *
+ * === Change handler
+ * It does not support *onChange* prop as a change handler,
+ * because the it has different behaviour and would confuse users.
+ * Use *onValueChange* instead.
+ */
+const NumericInput = ({
   className,
   value,
-  onChange,
+  onValueChange,
   format,
   precision,
   minValue,
 }) => (
-  <CommonForm label={label} className={`common-numericInput ${className}`}>
-    <NumericInput
-      format={format}
-      min={minValue}
-      value={value}
-      precision={precision}
-      onChange={onChange}
-    />
-  </CommonForm>
+  <ReactNumericInput
+    className={className}
+    format={format}
+    min={minValue}
+    value={value}
+    precision={precision}
+    onChange={onValueChange}
+  />
 );
 
-TextInput.propTypes = {
-  label: PropTypes.string,
+NumericInput.propTypes = {
   className: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   format: PropTypes.func,
   precision: PropTypes.number,
   minValue: PropTypes.number,
-  onChange: PropTypes.func,
+  /**
+   * Only supported change handler.
+   *
+   * @param valueAsNumber
+   * @param valueAsString
+   * @param input the underlying input
+   */
+  onValueChange: PropTypes.func,
 };
 
-TextInput.defaultProps = {
-  label: '',
+NumericInput.defaultProps = {
   className: '',
   value: 0,
   format: null,
   precision: 0,
   minValue: 0,
-  onChange: noop,
+  onValueChange: noop,
 };
 
-export default TextInput;
+export default wrapInput('numeric', NumericInput);

@@ -90,7 +90,7 @@ const Disk = ({
         minValue={1}
         format={v => `${v} GB`}
         className="text-vmware-size"
-        onChange={newValues => updateDisk('sizeGb', newValues)}
+        onValueChange={value => updateDisk('sizeGb', { target: { value } })}
         label={__('Size (GB)')}
       />
 

@@ -31,12 +31,8 @@ const Controller = ({
   storagePodsStatus,
   storagePodsError,
 }) => {
-  const getEventValue = e => {
-    if (!e || !e.target) {
-      return e;
-    }
-    return e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-  };
+  const getEventValue = ({ target: { type, checked, value } }) =>
+    type === 'checkbox' ? checked : value;
 
   const _updateController = (attribute, e) => {
     updateController({ [attribute]: getEventValue(e) });
