@@ -18,9 +18,9 @@
       id: 'report_generate_at_datetime',
       value: ( f.object.generate_at || Time.now ).iso8601,
       hideValue: f.object.generate_at.blank?,
+      placement: 'bottom',
       inputProps: { name: 'report_template_report[generate_at]' }
     }.to_json, flatten_data: true) %>
-
 
   <%= checkbox_f f, :send_mail,
     label: _('Send report via e-mail'),
