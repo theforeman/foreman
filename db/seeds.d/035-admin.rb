@@ -52,6 +52,8 @@ unless User.unscoped.only_admin.except_hidden.present?
                       :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).try(:dup))
       user.admin = true
       user.auth_source = src_internal
+      user.locale = ENV['SEED_ADMIN_LOCALE'] if ENV['SEED_ADMIN_LOCALE'].present?
+      user.timezone = ENV['SEED_ADMIN_TIMEZONE'] if ENV['SEED_ADMIN_TIMEZONE'].present?
       if ENV['SEED_ADMIN_PASSWORD'].present?
         user.password = ENV['SEED_ADMIN_PASSWORD']
       else
