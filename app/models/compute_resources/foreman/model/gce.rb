@@ -196,6 +196,13 @@ module Foreman::Model
       true
     end
 
+    def console(uuid)
+      vm = find_vm_by_uuid(uuid)
+      { 'output' =>  vm.serial_port_output,
+        'timestamp' => Time.now.utc
+      }.merge(:type => 'log', :name => vm.name)
+    end
+
     private
 
     def client
