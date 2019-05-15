@@ -30,6 +30,12 @@ FactoryBot.define do
       os_family { 'Suse' }
     end
 
+    trait :rancheros do
+      sequence(:name) { |n| "Rancheros Mirror #{n}"}
+      sequence(:path) { 'https://github.com/rancher/os/releases/download/v$version' }
+      os_family { 'Rancheros' }
+    end
+
     trait :with_operatingsystem do
       operatingsystems { [FactoryBot.create(:operatingsystem, :with_archs)] }
     end
