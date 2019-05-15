@@ -1,6 +1,6 @@
 import {
   PASSWORD_STRENGTH_PASSWORD_CHANGED,
-  PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED,
+  PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED,
 } from '../PasswordStrengthConstants';
 
 import reducer from '../PasswordStrengthReducer';
@@ -16,9 +16,9 @@ const fixtures = {
     },
   },
 
-  'should handle PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED': {
+  'should handle PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED': {
     action: {
-      type: PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED,
+      type: PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED,
       payload: 'some-password',
     },
   },
