@@ -15,12 +15,14 @@ import AutoComplete from '../../AutoComplete';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import TimePicker from '../DateTimePicker/TimePicker';
+import OrderableSelect from './OrderableSelect';
 
 const inputComponents = {
   date: DatePicker,
   dateTime: DateTimePicker,
   time: TimePicker,
   autocomplete: AutoComplete,
+  orderableSelect: OrderableSelect,
 };
 
 export const registerInputComponent = (name, Component) => {
@@ -128,6 +130,7 @@ FormField.propTypes = {
     PropTypes.string,
     PropTypes.number,
     PropTypes.instanceOf(Date),
+    PropTypes.array,
   ]),
   className: PropTypes.string,
   label: PropTypes.string,
