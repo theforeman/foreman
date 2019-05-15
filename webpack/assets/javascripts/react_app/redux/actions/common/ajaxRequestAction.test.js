@@ -1,5 +1,5 @@
 import { ajaxRequestAction } from './';
-import API from '../../../API';
+import { API } from '../../API';
 
 const data = { results: [1] };
 

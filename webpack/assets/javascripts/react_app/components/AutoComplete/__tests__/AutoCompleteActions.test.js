@@ -1,4 +1,4 @@
-import API from '../../../API';
+import API from '../../../redux/API/API';
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import { getResults, resetData, initialUpdate } from '../AutoCompleteActions';
 import {
@@ -13,7 +13,7 @@ import {
 } from '../AutoComplete.fixtures';
 
 jest.mock('lodash', () => ({ debounce: jest.fn(fn => fn) }));
-jest.mock('../../../API');
+jest.mock('../../../redux/API/API');
 
 const loadResults = (requestParams, serverMock) => {
   API.get.mockImplementation(serverMock);

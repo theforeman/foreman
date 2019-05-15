@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`FactCharts actions getChartData should return api get with url and id 1`] = `
+Object {
+  "key": "FACT_CHART",
+  "payload": Object {
+    "id": 1,
+  },
+  "type": "API_GET",
+  "url": "url",
+}
+`;
+
 exports[`FactCharts actions should close modal 1`] = `
 Object {
   "payload": Object {

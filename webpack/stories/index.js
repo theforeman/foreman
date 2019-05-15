@@ -9,6 +9,7 @@ import addingNewComponent from './docs/addingNewComponent.md';
 import hoc from './docs/hoc.md';
 import addingDependencies from './docs/addingDependencies.md';
 import internationalization from './docs/internationalization.md';
+import APIMiddleware from './docs/APIMiddleware.md';
 import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
 import LegacyJs from './docs/LegacyJs.md';
@@ -65,6 +66,11 @@ storiesOf('Introduction', module)
     <Story>
       <img src={ForemanFrontendDiagram} alt="Foreman Frontend Infrastructure" />
       <Markdown source={LegacyJs} />
+    </Story>
+  ))
+  .add('API Middleware', () => (
+    <Story>
+      <Markdown source={APIMiddleware} />
     </Story>
   ));
 

@@ -1,10 +1,9 @@
 import React from 'react';
-import API from '../../../API';
+import { API } from '../../../redux/API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import Autocomplete, { reducers } from '../index';
 
-jest.mock('../../../API');
 jest.mock('lodash', () => ({
   debounce: jest.fn(fn => fn),
   groupBy: jest.fn((list, getProps) =>
@@ -14,6 +13,7 @@ jest.mock('lodash', () => ({
     }, {})
   ),
 }));
+jest.mock('../../../redux/API');
 jest.mock('uuid', () => jest.fn(fn => '1234'));
 global.Turbolinks = {
   visit: jest.fn(),

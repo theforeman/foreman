@@ -1,5 +1,5 @@
 import immutable from 'seamless-immutable';
-import * as types from '../../consts';
+import { BOOKMARKS_REQUEST, BOOKMARKS_SUCCESS } from '../../consts';
 import { bookmarks } from '../../reducers/bookmarks/bookmarks.fixtures';
 
 export const initialState = immutable({
@@ -17,7 +17,7 @@ export const requestData = {
 };
 
 const requestAction = {
-  type: types.BOOKMARKS_REQUEST,
+  type: BOOKMARKS_REQUEST,
   payload: { controller: 'hosts' },
 };
 
@@ -26,9 +26,9 @@ export const onFailureActions = [
   {
     payload: {
       error: new Error('Request failed with status code 422'),
-      item: { controller: 'hosts' },
+      payload: { controller: 'hosts' },
     },
-    type: types.BOOKMARKS_FAILURE,
+    type: 'BOOKMARKS_FAILURE',
   },
 ];
 
@@ -39,6 +39,6 @@ export const onSuccessActions = [
       results: bookmarks,
       controller: 'hosts',
     },
-    type: types.BOOKMARKS_SUCCESS,
+    type: BOOKMARKS_SUCCESS,
   },
 ];

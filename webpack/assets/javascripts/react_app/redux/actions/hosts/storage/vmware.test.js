@@ -1,4 +1,3 @@
-import { ajaxRequestAction } from '../../common';
 import {
   datastoresUrl,
   storagePodsUrl,
@@ -11,12 +10,6 @@ import {
 } from './vmware.fixtures';
 
 import * as actions from './vmware';
-
-jest.mock('../../common');
-
-afterEach(() => {
-  ajaxRequestAction.mockReset();
-});
 
 describe('vmware storage hosts actions', () => {
   describe('initController', () => {
@@ -55,22 +48,15 @@ describe('vmware storage hosts actions', () => {
     it('doesnt make the ajax request when cluster is not set', () => {
       const dispatch = jest.fn();
       const dispatcher = actions[actionName](url, null);
-
       dispatcher(dispatch);
-
-      expect(ajaxRequestAction).not.toBeCalled();
+      expect(dispatch).not.toBeCalled();
     });
 
     it('makes the ajax request to the right url', () => {
       const dispatch = jest.fn();
       const dispatcher = actions[actionName](url, 'cluster');
-
       dispatcher(dispatch);
-
-      expect(ajaxRequestAction).toBeCalledWith({
-        dispatch,
-        ...fetchParams,
-      });
+      expect(dispatch.mock.calls[0]).toMatchSnapshot();
     });
   });
 });

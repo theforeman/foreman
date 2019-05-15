@@ -1,23 +1,16 @@
 import {
-  FACT_CHART_REQUEST,
-  FACT_CHART_SUCCESS,
-  FACT_CHART_FAILURE,
+  FACT_CHART,
   FACT_CHART_MODAL_OPEN,
   FACT_CHART_MODAL_CLOSE,
 } from './FactChartConstants';
+import { API_OPERATIONS } from '../../redux/API';
 
-import { ajaxRequestAction } from '../../redux/actions/common/index';
-
-export const getChartData = (url, id) => dispatch =>
-  ajaxRequestAction({
-    dispatch,
-    requestAction: FACT_CHART_REQUEST,
-    successAction: FACT_CHART_SUCCESS,
-    failedAction: FACT_CHART_FAILURE,
-    url,
-    item: { id },
-  });
-
+export const getChartData = (url, id) => ({
+  type: API_OPERATIONS.GET,
+  key: FACT_CHART,
+  url,
+  payload: { id },
+});
 export const showModal = (id, title) => {
   const showModalAction = {
     type: FACT_CHART_MODAL_OPEN,

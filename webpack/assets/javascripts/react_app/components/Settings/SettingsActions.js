@@ -1,4 +1,4 @@
-import API from '../../API';
+import { API } from '../../redux/API';
 import {
   GET_SETTING_REQUEST,
   GET_SETTING_SUCCESS,

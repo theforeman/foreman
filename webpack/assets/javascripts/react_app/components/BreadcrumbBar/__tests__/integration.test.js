@@ -1,7 +1,7 @@
 import React from 'react';
 import { Overlay } from 'patternfly-react';
 
-import API from '../../../API';
+import API from '../../../redux/API/API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
 import {
@@ -10,7 +10,7 @@ import {
 } from '../BreadcrumbBar.fixtures';
 import BreadcrumbBar, { reducers } from '../index';
 
-jest.mock('../../../API');
+jest.mock('../../../redux/API/API');
 
 describe('BreadcrumbBar integration test', () => {
   it('should flow', async () => {

@@ -1,11 +1,11 @@
 import Immutable from 'seamless-immutable';
 import {
-  FACT_CHART_REQUEST,
-  FACT_CHART_SUCCESS,
-  FACT_CHART_FAILURE,
+  FACT_CHART,
   FACT_CHART_MODAL_CLOSE,
   FACT_CHART_MODAL_OPEN,
 } from './FactChartConstants';
+
+import { actionTypeGenerator } from '../../redux/API';
 
 const initialState = Immutable({
   modalToDisplay: {},
@@ -14,14 +14,15 @@ const initialState = Immutable({
 });
 
 export default (state = initialState, action) => {
+  const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(FACT_CHART);
   switch (action.type) {
-    case FACT_CHART_REQUEST:
+    case REQUEST:
       return state.set('loaderStatus', 'PENDING');
-    case FACT_CHART_SUCCESS:
+    case SUCCESS:
       return state
         .set('chartData', action.payload.values)
         .set('loaderStatus', 'RESOLVED');
-    case FACT_CHART_FAILURE:
+    case FAILURE:
       return state.set('loaderStatus', 'ERROR');
     case FACT_CHART_MODAL_OPEN:
       return state

@@ -1,16 +1,9 @@
-import {
-  HOST_POWER_STATUS_REQUEST,
-  HOST_POWER_STATUS_SUCCESS,
-  HOST_POWER_STATUS_FAILURE,
-} from '../../../consts';
-import { ajaxRequestAction } from '../../common';
+import { HOST_POWER_STATUS } from '../../../consts';
+import { API_OPERATIONS } from '../../../API';
 
-export const getHostPowerState = ({ id, url }) => dispatch =>
-  ajaxRequestAction({
-    dispatch,
-    requestAction: HOST_POWER_STATUS_REQUEST,
-    successAction: HOST_POWER_STATUS_SUCCESS,
-    failedAction: HOST_POWER_STATUS_FAILURE,
-    url,
-    item: { id },
-  });
+export const getHostPowerState = ({ id, url }) => ({
+  type: API_OPERATIONS.GET,
+  key: HOST_POWER_STATUS,
+  url,
+  payload: { id },
+});

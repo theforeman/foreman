@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { Dropdown } from 'patternfly-react';
 import BookmarksContainer from './';
-import API from '../../API';
+import { API } from '../../redux/API';
 import {
   initialState,
   afterSuccess,
@@ -19,7 +19,7 @@ import { onSuccessActions } from '../../redux/actions/bookmarks/bookmarks.fixtur
 import * as BookmarkActions from '../../redux/actions/bookmarks';
 import { noop } from '../../common/helpers';
 
-jest.mock('../../API');
+jest.mock('../../redux/API');
 API.get = jest.fn(() => Promise.resolve({ results: bookmarks }));
 const mockStore = configureMockStore([thunk]);
 
