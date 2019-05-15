@@ -11,10 +11,6 @@ class Coreos < Operatingsystem
     end.to_s
   end
 
-  def url_for_boot(file)
-    PXEFILES[file]
-  end
-
   def pxedir
     '$arch-usr/$version'
   end

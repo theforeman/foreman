@@ -113,5 +113,13 @@ FactoryBot.define do
       type { 'Solaris' }
       title { 'Solaris 10.8' }
     end
+
+    factory :rancheros, class: Rancheros do
+      sequence(:name) { 'Rancheros' }
+      major { '1' }
+      minor { '4.3' }
+      type { 'Rancheros' }
+      title { 'Rancheros 1.4.3' }
+    end
   end
 end

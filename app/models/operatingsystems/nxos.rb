@@ -19,7 +19,7 @@ class NXOS < Operatingsystem
     "boot/$arch/images"
   end
 
-  def url_for_boot(file)
+  def url_for_boot(medium_provider, file)
     raise ::Foreman::Exception.new(N_("Function not available for %s"), self.display_family)
   end
 
