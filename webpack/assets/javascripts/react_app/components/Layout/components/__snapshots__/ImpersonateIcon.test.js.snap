@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImpersonateIcon should render 1`] = `
+<Fragment>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="stop-impersonation"
+        placement="right"
+      >
+        You are impersonating another user, click to stop the impersonation
+      </Tooltip>
+    }
+    placement="bottom"
+    rootClose={false}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <li
+      className="drawer-pf-trigger masthead-icon"
+    >
+      <span
+        className="nav-item-iconic"
+        onClick={[Function]}
+      >
+        <Icon
+          className="blink-image"
+          name="eye avatar small"
+          type="fa"
+        />
+      </span>
+    </li>
+  </OverlayTrigger>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={null}
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="primary"
+    primaryActionButtonContent="Confirm"
+    primaryContent="You are about to stop impersonating other user. Are you sure?"
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent="Cancel"
+    secondaryContent={null}
+    show={false}
+    title="Confirm Action"
+  />
+</Fragment>
+`;

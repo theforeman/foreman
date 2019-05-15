@@ -3,10 +3,7 @@ import { shallow } from 'enzyme';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 import UserDropdowns from '../components/UserDropdowns';
-import {
-  userDropdownProps,
-  userDropdownImpersonation,
-} from '../Layout.fixtures';
+import { userDropdownProps } from '../Layout.fixtures';
 
 const createStubs = () => ({
   changeActiveMenu: jest.fn(),
@@ -15,10 +12,6 @@ const createStubs = () => ({
 const fixtures = {
   'render switcher w/loading': {
     ...userDropdownProps,
-    ...createStubs(),
-  },
-  'render with impersonation active': {
-    ...userDropdownImpersonation,
     ...createStubs(),
   },
 };

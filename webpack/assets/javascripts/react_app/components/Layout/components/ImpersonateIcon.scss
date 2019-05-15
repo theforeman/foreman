@@ -1,8 +1,7 @@
 @import '~patternfly/dist/sass/patternfly/_color-variables.scss';
 
 .masthead-icon {
-  margin-top: -15px;
-  padding-top: 5px;
+  margin-top: 4px;
 }
 
 @keyframes blink {
@@ -29,11 +28,9 @@
 .navbar-pf-vertical .nav {
   .nav-item-iconic .fa.blink-image {
     color: $color-pf-gold-200;
-    padding-top: 6px;
   }
 
   .nav-item-iconic:hover .fa.blink-image {
     color: $color-pf-gold-200;
-    padding-top: 6px;
   }
 }
