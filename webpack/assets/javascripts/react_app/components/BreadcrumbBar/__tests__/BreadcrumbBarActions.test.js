@@ -1,4 +1,4 @@
-import API from '../../../API';
+import { API } from '../../../redux/API';
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
   toggleSwitcher,
@@ -13,7 +13,7 @@ import {
   serverResourceListWithNestedFieldsResponse,
 } from '../BreadcrumbBar.fixtures';
 
-jest.mock('../../../API');
+jest.mock('../../../redux/API');
 
 const runLoadSwitcherResourcesByResourceAction = (resourceMock, serverMock) => {
   API.get.mockImplementation(serverMock);

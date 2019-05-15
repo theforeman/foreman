@@ -1,22 +1,17 @@
 import URI from 'urijs';
 import {
-  BOOKMARKS_REQUEST,
-  BOOKMARKS_SUCCESS,
-  BOOKMARKS_FAILURE,
+  BOOKMARKS,
   BOOKMARKS_MODAL_OPENED,
   BOOKMARKS_MODAL_CLOSED,
 } from '../../consts';
-import { ajaxRequestAction } from '../common';
+import { API_OPERATIONS } from '../../API';
 
-const _getBookmarks = (url, controller) => dispatch =>
-  ajaxRequestAction({
-    dispatch,
-    requestAction: BOOKMARKS_REQUEST,
-    successAction: BOOKMARKS_SUCCESS,
-    failedAction: BOOKMARKS_FAILURE,
-    url,
-    item: { controller },
-  });
+const _getBookmarks = (url, controller) => ({
+  type: API_OPERATIONS.GET,
+  key: BOOKMARKS,
+  url,
+  payload: { controller },
+});
 
 export const getBookmarks = (url, controller) => {
   const uri = new URI(url);

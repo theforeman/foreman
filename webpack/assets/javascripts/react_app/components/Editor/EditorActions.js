@@ -1,5 +1,5 @@
 import { debounce, toString } from 'lodash';
-import API from '../../API';
+import { API } from '../../redux/API';
 import { translate as __ } from '../../common/I18n';
 
 import {

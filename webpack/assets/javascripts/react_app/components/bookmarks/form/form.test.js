@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import BookmarkForm from './';
 import { generateStore } from '../../../redux';
 import * as FormActions from '../../../redux/actions/common/forms';
-import API from '../../../API';
+import API from '../../../redux/API/API';
 
-jest.mock('../../../API');
+jest.mock('../../../redux/API/API');
 API.post = jest.fn(() => Promise.resolve({ id: 1 }));
 
 function setup() {

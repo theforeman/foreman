@@ -1,14 +1,14 @@
 import { mount } from 'enzyme';
 import React from 'react';
 import { generateStore } from '../../redux';
-import API from '../../API';
+import API from '../../redux/API/API';
 import { doesDocumentHasFocus } from '../../common/document';
 
 import { componentMountData, serverResponse } from './notifications.fixtures';
 
 import Notifications from './';
 
-jest.mock('../../API');
+jest.mock('../../redux/API/API');
 jest.mock('../../common/document');
 
 let failResponse = { response: { status: 200 } };

@@ -1,4 +1,4 @@
-import API from './react_app/API';
+import { API } from './react_app/redux/API';
 import store from './react_app/redux';
 
 import * as editorActions from './react_app/components/Editor/EditorActions';

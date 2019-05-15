@@ -1,6 +1,6 @@
 import URI from 'urijs';
 import { debounce } from 'lodash';
-import API from '../../API';
+import { API } from '../../redux/API';
 import { STATUS } from '../../constants';
 import { clearSpaces } from '../../common/helpers';
 import {

@@ -6,7 +6,7 @@ import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
 import * as EditorActions from '../EditorActions';
 
-jest.mock('../../../API');
+jest.mock('../../../redux/API');
 
 describe('Editor integration test', () => {
   it('should flow', () => {

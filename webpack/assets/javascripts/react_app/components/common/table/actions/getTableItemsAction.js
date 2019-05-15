@@ -1,7 +1,5 @@
 import URI from 'urijs';
-import { ajaxRequestAction } from '../../../../redux/actions/common';
-import createTableActionTypes from '../actionsHelpers/actionTypeCreator';
-
+import { API_OPERATIONS } from './../../../../redux/API';
 /**
  * An async Redux action that fetches and stores table data in Redux.
  * @param  {String} tableID    the table ID for Redux
@@ -9,20 +7,16 @@ import createTableActionTypes from '../actionsHelpers/actionTypeCreator';
  * @param  {String} url        the url for the data
  * @return {Function}          Redux Thunk function
  */
-const getTableItemsAction = (tableID, query, fetchUrl) => dispatch => {
+const getTableItemsAction = (tableID, query, fetchUrl) => {
   const url = new URI(fetchUrl);
   url.addSearch({ ...query, include_permissions: true });
 
-  const ACTION_TYPES = createTableActionTypes(tableID);
-
-  return ajaxRequestAction({
-    dispatch,
-    requestAction: ACTION_TYPES.REQUEST,
-    successAction: ACTION_TYPES.SUCCESS,
-    failedAction: ACTION_TYPES.FAILURE,
+  return {
+    type: API_OPERATIONS.GET,
+    key: tableID.toUpperCase(),
     url: url.toString(),
-    item: { tableID, url: url.toString() },
-  });
+    payload: { tableID, url: url.toString() },
+  };
 };
 
 export default getTableItemsAction;

@@ -1,7 +1,7 @@
-import API from '../../../API';
+import { API } from '../../../redux/API';
 import * as actions from './index';
 
-jest.mock('../../../API');
+jest.mock('../../../redux/API');
 
 describe('Notification Drawer actions', () => {
   it('should start polling notifications', () => {

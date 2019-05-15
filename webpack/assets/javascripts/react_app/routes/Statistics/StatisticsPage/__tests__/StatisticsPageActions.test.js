@@ -1,10 +1,10 @@
-import API from '../../../../API';
+import API from '../../../../redux/API/API';
 
 import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
 import { getStatisticsMeta } from '../StatisticsPageActions';
 import { statisticsProps } from '../StatisticsPage.fixtures';
 
-jest.mock('../../../../API');
+jest.mock('../../../../redux/API/API');
 
 const runStatisticsAction = (callback, props, serverMock) => {
   API.get.mockImplementation(serverMock);

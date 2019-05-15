@@ -1,20 +1,13 @@
-import {
-  STATISTICS_DATA_REQUEST,
-  STATISTICS_DATA_SUCCESS,
-  STATISTICS_DATA_FAILURE,
-} from '../../consts';
-import { ajaxRequestAction } from '../common/';
+import { STATISTICS_DATA } from '../../consts';
+import { API_OPERATIONS } from '../../API';
 
-export const getStatisticsData = charts => dispatch =>
-  Promise.all(
-    charts.map(chart =>
-      ajaxRequestAction({
-        dispatch,
-        requestAction: STATISTICS_DATA_REQUEST,
-        successAction: STATISTICS_DATA_SUCCESS,
-        failedAction: STATISTICS_DATA_FAILURE,
-        url: chart.url,
-        item: chart,
-      })
-    )
-  );
+export const getStatisticsData = charts => dispatch => {
+  charts.forEach(chart => {
+    dispatch({
+      type: API_OPERATIONS.GET,
+      key: STATISTICS_DATA,
+      url: chart.url,
+      payload: chart,
+    });
+  });
+};

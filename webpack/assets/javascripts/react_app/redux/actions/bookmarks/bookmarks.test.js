@@ -9,39 +9,44 @@ import {
   onFailureActions,
   onSuccessActions,
 } from './bookmarks.fixtures';
-import API from '../../../API';
-import { mockRequest, mockReset } from '../../../mockRequests';
+import API from '../../API/API';
+import { APIMiddleware } from '../../API';
+import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
-const middlewares = [thunk];
+const middlewares = [thunk, APIMiddleware];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore(initialState);
 
+jest.mock('../../API/API');
 afterEach(() => {
   store.clearActions();
-  mockReset();
 });
 
 describe('bookmark actions', () => {
   it('should handle failure to load bookmarks', async () => {
-    const { url, controller, searchRegex } = requestData;
-
-    mockRequest({
-      searchRegex,
-      status: 422,
-    });
-
+    API.get.mockImplementationOnce(
+      url =>
+        new Promise((resolve, reject) => {
+          reject(Error('Request failed with status code 422'));
+        })
+    );
+    const { url, controller } = requestData;
     await store.dispatch(actions.getBookmarks(url, controller));
+    await IntegrationTestHelper.flushAllPromises();
+
     expect(store.getActions()).toEqual(onFailureActions);
   });
   it('should load bookmarks', async () => {
-    const { url, controller, response, searchRegex } = requestData;
+    const { url, controller, response } = requestData;
+    API.get.mockImplementation(
+      urlAPI =>
+        new Promise((resolve, reject) => {
+          resolve({ data: response });
+        })
+    );
+    store.dispatch(actions.getBookmarks(url, controller));
+    await IntegrationTestHelper.flushAllPromises();
 
-    mockRequest({
-      searchRegex,
-      response,
-    });
-
-    await store.dispatch(actions.getBookmarks(url, controller));
     expect(store.getActions()).toEqual(onSuccessActions);
   });
   it('should load bookmarks with correct search url', () => {

@@ -1,6 +1,6 @@
 import { flatten, get } from 'lodash';
 import { translate as __ } from '../../common/I18n';
-import API from '../../API';
+import { API } from '../../redux/API';
 
 import {
   BREADCRUMB_BAR_TOGGLE_SWITCHER,

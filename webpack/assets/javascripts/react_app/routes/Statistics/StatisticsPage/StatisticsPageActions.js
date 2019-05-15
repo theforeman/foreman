@@ -1,4 +1,4 @@
-import API from '../../../API';
+import API from '../../../redux/API/API';
 
 import {
   STATISTICS_PAGE_DATA_RESOLVED,

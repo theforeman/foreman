@@ -1,6 +1,6 @@
 /* eslint-disable promise/prefer-await-to-then */
 import { saveAs } from 'file-saver';
-import API from '../../../API';
+import { API } from '../../../redux/API';
 import { runActionInDepth } from '../../../common/testHelpers';
 
 import {
@@ -19,7 +19,7 @@ import {
 import * as actions from '../TemplateGeneratorActions';
 
 jest.mock('file-saver');
-jest.mock('../../../API');
+jest.mock('../../../redux/API');
 
 beforeEach(() => {
   API.post.mockImplementation(async () => scheduleResponse);
