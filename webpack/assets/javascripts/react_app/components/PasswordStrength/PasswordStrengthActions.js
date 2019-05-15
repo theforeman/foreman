@@ -1,6 +1,6 @@
 import {
   PASSWORD_STRENGTH_PASSWORD_CHANGED,
-  PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED,
+  PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED,
 } from './PasswordStrengthConstants';
 
 export const updatePassword = password => ({
@@ -9,6 +9,6 @@ export const updatePassword = password => ({
 });
 
 export const updatePasswordConfirmation = password => ({
-  type: PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED,
+  type: PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED,
   payload: password,
 });

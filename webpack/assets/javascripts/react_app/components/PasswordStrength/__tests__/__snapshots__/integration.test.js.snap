@@ -34,7 +34,7 @@ Object {
     Array [
       Object {
         "payload": "|Kkh)Xeu#T8($\\"P;",
-        "type": "PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED",
       },
     ],
   ],
@@ -129,7 +129,7 @@ Object {
     Array [
       Object {
         "payload": "StrongP@$w0rd",
-        "type": "PASSWORD_STRENGTH_PASSWROD_CONFIRMATION_CHANGED",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED",
       },
     ],
   ],
