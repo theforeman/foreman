@@ -15,8 +15,14 @@ module Tags
       react_opts = {}
       react_opts['inputSizeClass'] = options.delete('size') if options.key?('size')
       react_opts['labelSizeClass'] = options.delete('label_size') if options.key?('label_size')
-      options.each { |k, v| react_opts[k.camelize(:lower)] = v }
+      react_opts.merge! deep_camelize_keys(options)
       react_opts
+    end
+
+    def deep_camelize_keys(hash)
+      hash.inject({}) do |res, (k, v)|
+        res.tap { |r| r[k.camelize(:lower)] = v.is_a?(Hash) ? deep_camelize_keys(v.stringify_keys) : v }
+      end
     end
   end
 end

@@ -406,10 +406,17 @@ module FormHelper
     react_form_input('dateTime', f, attr, options)
   end
 
+  def orderable_select_f(f, attr, choices, select_options = {}, html_options = {})
+    options = choices.collect { |choice| { label: choice[0], value: choice[1] } } if choices.is_a?(Array)
+    options = choices.collect { |(key, val)| { label: val, value: key } } if choices.is_a?(Hash)
+    input_props = select_options.merge(options: options)
+    react_form_input('orderableSelect', f, attr, html_options.merge(input_props: input_props))
+  end
+
   def react_form_input(type, f, attr, options = {})
     options[:label] ||= get_attr_label(f, attr)
     options[:error] ||= get_attr_error(f, attr)
-    options[:error] = options[:error].to_sentence
+    options[:error] = options[:error].to_sentence if options[:error]
     options[:required] = is_required?(f, attr) unless options.key?(:required)
 
     Tags::ReactInput.new(f.object_name, attr, self, options.merge(type: type, object: f.object)).render

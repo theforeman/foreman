@@ -8,9 +8,11 @@ import { Grid, Row } from 'patternfly-react';
 import RadioButtonGroup from './RadioButtonGroup';
 import FormField, { registerInputComponent, ControlContext } from './FormField';
 import Form from './Form';
+import OrderableSelect from './OrderableSelect';
 import storeDecorator from '../../../../../../stories/storeDecorator';
 import Story from '../../../../../../stories/components/Story';
 
+import { yesNoOpts } from './__fixtures__/Form.fixtures';
 import {
   textFieldWithHelpProps,
   dateTimeWithErrorProps,
@@ -19,32 +21,15 @@ import {
 
 const formName = 'storybookForm';
 
-const StoryForm = () => {
-  const radios = [
-    {
-      label: 'Yes',
-      value: 'yes',
-    },
-    {
-      label: 'No',
-      value: 'no',
-    },
-    {
-      label: 'Do Not Know',
-      value: 'dnk',
-    },
-  ];
-
-  return (
-    <Form>
-      <RadioButtonGroup
-        name="hamburger"
-        controlLabel="Would you like a hamburger?"
-        radios={radios}
-      />
-    </Form>
-  );
-};
+const StoryForm = () => (
+  <Form>
+    <RadioButtonGroup
+      name="hamburger"
+      controlLabel="Would you like a hamburger?"
+      radios={yesNoOpts}
+    />
+  </Form>
+);
 
 function CustomSelect(props) {
   return (
@@ -102,5 +87,14 @@ storiesOf('Components/Form', module)
           </FormField>
         </Row>
       </Grid>
+    </Story>
+  ))
+  .add('OrderableSelect', () => (
+    <Story>
+      <OrderableSelect
+        name="orderable[select][]"
+        options={yesNoOpts}
+        id="orderable_select"
+      />
     </Story>
   ));
