@@ -22,8 +22,7 @@ Foreman::Application.configure do |app|
   config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS.
-  # use support for ES6 syntax in uglifier
-  config.assets.js_compressor = Sprockets::UglifierCompressor.new(:harmony => true)
+  config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
