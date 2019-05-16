@@ -219,6 +219,15 @@ module Foreman::Model
       }
     end
 
+    def boot_devices
+      {
+        'disk' => _('Harddisk'),
+        'cdrom' => _('CD-ROM'),
+        'network' => _('Network'),
+        'floppy' => _('Floppy'),
+      }
+    end
+
     # vSphere guest OS type descriptions
     # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
     # https://code.vmware.com/apis/358/vsphere/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html

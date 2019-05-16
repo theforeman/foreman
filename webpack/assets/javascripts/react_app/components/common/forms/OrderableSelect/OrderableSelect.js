@@ -14,6 +14,7 @@ import OrderableToken from './components/OrderableToken';
  * The value can not be changed through props once the component is rendered.
  */
 const OrderableSelect = ({
+  className,
   onChange,
   defaultValue,
   value,
@@ -27,6 +28,14 @@ const OrderableSelect = ({
   const moveDraggedOption = (dragIndex, hoverIndex) => {
     setInternalValue(orderDragged(internalValue, dragIndex, hoverIndex));
   };
+
+  // hack the form-control, which in TypeAhead so it will be duplicated
+  const classesWithoutFormControl =
+    className &&
+    className
+      .split(/\s+/)
+      .filter(el => el !== 'form-control')
+      .join(' ');
 
   return (
     <TypeAheadSelect
@@ -45,6 +54,7 @@ const OrderableSelect = ({
         </div>
       )}
       {...props}
+      className={classesWithoutFormControl}
       options={options}
       selected={internalValue}
       onChange={newValue => {
@@ -61,12 +71,14 @@ OrderableSelect.propTypes = {
   onChange: PropTypes.func,
   defaultValue: PropTypes.array,
   value: PropTypes.array,
+  className: PropTypes.string,
 };
 
 OrderableSelect.defaultProps = {
   onChange: noop,
   defaultValue: [],
   value: null,
+  className: '',
 };
 
 export default OrderableSelect;
