@@ -90,7 +90,7 @@
     "multiselect": "~0.9.12",
     "number_helpers": "^0.1.1",
     "patternfly": "^3.58.0",
-    "patternfly-react": "^2.30.6",
+    "patternfly-react": "~2.31.0",
     "prop-types": "^15.6.0",
     "react": "^16.8.1",
     "react-bootstrap": "0.32.1",
