@@ -7,7 +7,7 @@ import {
   selectCurrentOrganization,
   selectIsCollapsed,
 } from '../LayoutSelectors';
-import { layoutMock } from '../Layout.fixtures';
+import { layoutMock, hashItemNameless } from '../Layout.fixtures';
 
 const state = {
   layout: {
@@ -26,12 +26,25 @@ const emptyState = {
   },
 };
 
+const namelessState = {
+  layout: {
+    items: hashItemNameless,
+    activeMenu: 'Empty',
+    currentOrganization: { title: 'org1' },
+    currentLocation: { title: 'loc1' },
+    isLoading: true,
+    isCollapsed: false,
+  },
+};
+
 const fixtures = {
   'should return Layout': () => selectLayout(state),
   'should return PF-React Compatible items': () =>
     patternflyMenuItemsSelector(state),
   'should return empty array of items': () =>
     patternflyMenuItemsSelector(emptyState),
+  'should filter out nameless items': () =>
+    patternflyMenuItemsSelector(namelessState),
 
   'should return isLoading from selector': () => selectIsLoading(state),
   'should return isCollapsed from selector': () => selectIsCollapsed(state),
