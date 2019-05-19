@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Layout selectors should filter out nameless items 1`] = `
+Array [
+  Object {
+    "className": undefined,
+    "iconClass": "pficon pficon-unplugged",
+    "subItems": Array [],
+    "title": "Empty",
+  },
+]
+`;
+
 exports[`Layout selectors should return Layout 1`] = `
 Object {
   "activeMenu": "Hosts",
