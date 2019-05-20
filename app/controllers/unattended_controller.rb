@@ -113,7 +113,7 @@ class UnattendedController < ApplicationController
     return unless verify_found_host
 
     ipxe_template_kind = TemplateKind.find_by(name: 'iPXE')
-    name = @host.local_boot_template_name(:ipxe) || ProvisioningTemplate.local_boot_name(:iPXE)
+    name = @host.local_boot_template_name(:iPXE) || ProvisioningTemplate.local_boot_name(:iPXE)
     template = ProvisioningTemplate.find_by(name: name, template_kind: ipxe_template_kind)
 
     return safe_render(template) if template

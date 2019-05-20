@@ -833,7 +833,7 @@ class Host::Managed < Host::Base
 
   def local_boot_template_name(kind)
     key = "local_boot_#{kind}"
-    host_params[key] || Setting[key]
+    host_params[key] || host_params[key.downcase] || Setting[key]
   end
 
   private
