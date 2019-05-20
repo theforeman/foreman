@@ -106,6 +106,42 @@ module Hostext
           assert_not_includes result, other_host
         end
       end
+
+      context "search by facts" do
+        let (:host) { FactoryBot.create(:host) }
+        let (:fact_name) { FactoryBot.create(:fact_name, :compose => true) }
+        let (:fact_value) { FactoryBot.create(:fact_value, :host => host, :fact_name => fact_name) }
+
+        test "searching fact returns correct host" do
+          result = Host.search_for("name=#{host.name} or facts.goofy=bad_value")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          assert_empty(Host.search_for("name=#{host.name} and facts.goofy=bad_value"))
+          result = Host.search_for("name=#{host.name} and facts.#{fact_name.name}=#{fact_value.value}")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+        end
+
+        test "invalid fact property should properly format" do
+          assert_match /\'goofy.bad\'/, Host.search_for("facts.goofy.bad=value").to_sql
+          assert_match /\'goofy\'/, Host.search_for("facts.goofy=value").to_sql
+        end
+
+        test "searching fact on complex search returns correct host" do
+          host1 = FactoryBot.create(:host)
+          name1 = FactoryBot.create(:fact_name, :compose => true)
+          value1 = FactoryBot.create(:fact_value, :host => host1, :fact_name => name1)
+
+          result = Host.search_for("facts.#{fact_name.name}=#{fact_value.value} or facts.#{name1.name}=#{value1.value}")
+          assert_equal(2, result.count)
+          assert_includes result.map(&:id), host.id
+          assert_includes result.map(&:id), host1.id
+
+          result = Host.search_for("facts.#{fact_name.name}=#{value1.value} or facts.#{name1.name}=#{fact_value.value}")
+          assert_empty result
+        end
+      end
     end
   end
 end
