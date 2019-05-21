@@ -36,6 +36,15 @@ FactoryBot.define do
       os_family { 'Rancheros' }
     end
 
+    trait :solaris do
+      sequence(:name) { |n| "Solaris Mirror #{n}"}
+      path { 'http://www.example.com/vol/solgi_5.10/sol$minor_$release_$arch' }
+      media_path { 'www.example.com:/vol/solgi_5.10/sol$minor_$release_$arch' }
+      config_path { 'www.example.com:/vol/jumpstart' }
+      image_path { 'www.example.com:/vol/solgi_5.10/sol$minor_$release_$arch/flash/' }
+      os_family { 'Solaris' }
+    end
+
     trait :with_operatingsystem do
       operatingsystems { [FactoryBot.create(:operatingsystem, :with_archs)] }
     end
