@@ -26,6 +26,10 @@ module FogExtensions
         machine_type.split('/')[-1]
       end
 
+      def pretty_image_name
+        image_name.split('/')[-1] if disks.present?
+      end
+
       def image_id
         image_name if disks.present?
       end
