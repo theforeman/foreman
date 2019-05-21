@@ -36,6 +36,12 @@ FactoryBot.define do
       os_family { 'Rancheros' }
     end
 
+    trait :altlinux do
+      sequence(:name) { |n| "Altlinux Mirror #{n}"}
+      sequence(:path) { 'http://example.com/pub/altlinux/$version' }
+      os_family { 'Altlinux' }
+    end
+
     trait :with_operatingsystem do
       operatingsystems { [FactoryBot.create(:operatingsystem, :with_archs)] }
     end
