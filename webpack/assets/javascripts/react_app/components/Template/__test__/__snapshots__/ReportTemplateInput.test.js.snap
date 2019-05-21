@@ -13,6 +13,7 @@ exports[`Report Template AutoComplete rendering renders report template with dat
   isRequired={false}
   label="some-label"
   locale={null}
+  placement="top"
   value="2019-01-04"
 />
 `;
