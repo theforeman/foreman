@@ -1,3 +1,23 @@
+2019-05-21	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.22.0-RC2
+	* i18n - extracting new, pulling from tx
+
+2019-05-16	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Revert "Fixes #26790 - Support ES6 in Uglifier"
+
+2019-05-15	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #26790 - Support ES6 in Uglifier
+
+2019-05-06	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #26371 - Fix breadcrumbs for puppet envs
+
+2019-05-04	Gilad Lekner <gilad215@gmail.com>
+	* Fixes #25656 - Foreman redirects to logout page
+	* Fixes #26494 - select all on hosts lists
+
+2019-05-04	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #26705 - switch required with tooltip help
+
 2019-04-24	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.22.0-RC1
 	* i18n - extracting new, pulling from tx
