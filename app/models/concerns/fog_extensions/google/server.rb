@@ -10,6 +10,14 @@ module FogExtensions
       attribute :associate_external_ip
       attribute :external_ip
 
+      def to_s
+        name || identity
+      end
+
+      def state
+        status.downcase
+      end
+
       def persisted?
         creation_timestamp.present?
       end
