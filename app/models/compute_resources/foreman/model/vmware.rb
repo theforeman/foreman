@@ -226,7 +226,7 @@ module Foreman::Model
 
     # vSphere guest OS type descriptions
     # list fetched from RbVmomi::VIM::VirtualMachineGuestOsIdentifier.values and
-    # http://pubs.vmware.com/vsphere-65/topic/com.vmware.wssdk.apiref.doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
+    # https://code.vmware.com/apis/358/vsphere/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html
     def guest_types_descriptions
       {
         "asianux3_64Guest" => "Asianux Server 3 (64-bit)",
@@ -235,11 +235,13 @@ module Foreman::Model
         "asianux4Guest" => "Asianux Server 4 (32-bit)",
         "asianux5_64Guest" => "Asianux Server 5 (64-bit)",
         "asianux7_64Guest" => "Asianux Server 7 (64-bit)",
+        "asianux8_64Guest" => "Asianux Server 8 (64 bit)",
         "centos6_64Guest" => "CentOS 6 (64-bit)",
         "centos64Guest" => "CentOS 4/5 (64-bit)",
         "centos6Guest" => "CentOS 6 (32-bit)",
         "centos7_64Guest" => "CentOS 7 (64-bit)",
         "centos7Guest" => "CentOS 7 (32-bit)",
+        "centos8_64Guest" => "CentOS 8 (64-bit)",
         "centosGuest" => "CentOS 4/5 (32-bit)",
         "coreos64Guest" => "CoreOS Linux (64-bit)",
         "darwin10_64Guest" => "Mac OS 10.6 (64-bit)",
@@ -251,6 +253,8 @@ module Foreman::Model
         "darwin14_64Guest" => "Mac OS 10.10 (64-bit)",
         "darwin15_64Guest" => "Mac OS 10.11 (64-bit)",
         "darwin16_64Guest" => "Mac OS 10.12 (64-bit)",
+        "darwin17_64Guest" => "macOS 10.13 (64 bit)",
+        "darwin18_64Guest" => "macOS 10.14 (64 bit)",
         "darwin64Guest" => "Mac OS 10.5 (64-bit)",
         "darwinGuest" => "Mac OS 10.5 (32-bit)",
         "debian10_64Guest" => "Debian GNU/Linux 10 (64-bit)",
@@ -274,6 +278,10 @@ module Foreman::Model
         "fedoraGuest" => "Fedora Linux (32-bit)",
         "freebsd64Guest" => "FreeBSD (64-bit)",
         "freebsdGuest" => "FreeBSD (32-bit)",
+        "freebsd11_64Guest" => "FreeBSD 11 x64",
+        "freebsd11Guest" => "FreeBSD 11",
+        "freebsd12_64Guest" => "FreeBSD 12 x64",
+        "freebsd12Guest" => "FreeBSD 12",
         "genericLinuxGuest" => "Other Linux",
         "mandrakeGuest" => "Mandrake Linux",
         "mandriva64Guest" => "Mandriva Linux (64-bit)",
@@ -292,6 +300,7 @@ module Foreman::Model
         "oracleLinux6Guest" => "Oracle 6 (32-bit)",
         "oracleLinux7_64Guest" => "Oracle 7 (64-bit)",
         "oracleLinux7Guest" => "Oracle 7 (32-bit)",
+        "oracleLinux8_64Guest" => "Oracle 8 (64-bit)",
         "oracleLinuxGuest" => "Oracle Linux 4/5",
         "os2Guest" => "IBM OS/2",
         "other24xLinux64Guest" => "Linux 2.4x Kernel (64-bit)",
@@ -300,6 +309,8 @@ module Foreman::Model
         "other26xLinuxGuest" => "Linux 2.6x Kernel (32-bit)",
         "other3xLinux64Guest" => "Linux 3.x Kernel (64-bit)",
         "other3xLinuxGuest" => "Linux 3.x Kernel (32-bit)",
+        "other4xLinux64Guest" => "Linux 4.x Kernel (64 bit)",
+        "other4xLinuxGuest" => " Linux 4.x Kernel",
         "otherGuest" => "Other Operating System (32-bit)",
         "otherGuest64" => "Other Operating System (64-bit)",
         "otherLinux64Guest" => "Linux (64-bit)",
@@ -316,6 +327,7 @@ module Foreman::Model
         "rhel6Guest" => "Red Hat Enterprise Linux 6 (32-bit)",
         "rhel7_64Guest" => "Red Hat Enterprise Linux 7 (64-bit)",
         "rhel7Guest" => "Red Hat Enterprise Linux 7 (32-bit)",
+        "rhel8_64Guest" => "Red Hat Enterprise Linux 8 (64 bit)",
         "sjdsGuest" => "Sun Java Desktop System",
         "sles10_64Guest" => "Suse Linux Enterprise Server 10 (64-bit)",
         "sles10Guest" => "Suse Linux Enterprise Server 10 (32-bit)",
@@ -323,6 +335,7 @@ module Foreman::Model
         "sles11Guest" => "Suse Linux Enterprise Server 11 (32-bit)",
         "sles12_64Guest" => "Suse Linux Enterprise Server 12 (64-bit)",
         "sles12Guest" => "Suse Linux Enterprise Server 12 (32-bit)",
+        "sles15_64Guest" => "Suse Linux Enterprise Server 15 (64 bit)",
         "sles64Guest" => "Suse Linux Enterprise Server 9 (64-bit)",
         "slesGuest" => "Suse Linux Enterprise Server 9 (32-bit)",
         "solaris10_64Guest" => "Solaris 10 (64-bit)",
