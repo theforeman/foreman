@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-24 16:40+0300\n"
-"PO-Revision-Date: 2019-04-24 16:40+0300\n"
+"POT-Creation-Date: 2019-05-21 11:26+0300\n"
+"PO-Revision-Date: 2019-05-21 11:26+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4692,6 +4692,7 @@ msgid "Build in progress"
 msgstr ""
 
 #: ../app/helpers/environments_helper.rb:6
+#: ../app/views/environments/new.html.erb:5
 #: ../app/views/environments/welcome.html.erb:12
 msgid "Create Puppet Environment"
 msgstr ""
@@ -11026,7 +11027,9 @@ msgstr ""
 msgid "Key Binding"
 msgstr ""
 
+#: ../app/views/environments/edit.html.erb:5
 #: ../app/views/environments/index.html.erb:1
+#: ../app/views/environments/new.html.erb:4
 #: ../app/views/lookup_keys/_fields.html.erb:10
 msgid "Puppet Environments"
 msgstr ""
@@ -11715,7 +11718,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../app/views/hosts/index.html.erb:5
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:140
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:157
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
 msgstr[0] ""
@@ -14454,11 +14457,11 @@ msgstr ""
 msgid "Filter..."
 msgstr ""
 
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:56
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:61
 msgid "Please select hosts to perform action on."
 msgstr ""
 
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:118
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:135
 msgid "Undo selection"
 msgstr ""
 
