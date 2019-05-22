@@ -102,6 +102,17 @@ class FactImporterTest < ActiveSupport::TestCase
 
       assert_equal data.good_facts, actual_facts
     end
+
+    test 'filters default disk facts' do
+      data = FactsData::DefaultDisksFacts.new
+
+      facts = data.good_facts.merge(data.ignored_facts)
+
+      importer = FactImporter.new(nil, facts)
+      actual_facts = importer.send(:facts)
+
+      assert_equal data.good_facts, actual_facts
+    end
   end
 
   describe '#import!' do

@@ -181,4 +181,23 @@ module FactsData
       }
     end
   end
+
+  class DefaultDisksFacts
+    def filter
+      Setting[:excluded_facts]
+    end
+
+    def good_facts
+      {
+        'good_fact' => 'a_value'
+      }
+    end
+
+    def ignored_facts
+      {
+        'partitions' => {"nvme0n1p5" => {}, "nvme0n1p3" => {"uuid" => "2bff39f0-8e86-4852-9ef5-a27d2d64064f", "mount" => "/"}},
+        'mountpoints' => {"/var/lib/kubelet/pods/18d36b62-526f-11e9-98b1-0200004190da/volumes/kubernetes.io~secret/certs" => {"used_bytes" => 13}}
+      }
+    end
+  end
 end
