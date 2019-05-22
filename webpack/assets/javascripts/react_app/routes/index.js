@@ -27,8 +27,12 @@ const AppSwitcher = () => (
           currentLocation &&
           currentLocation.pathname !== child.location.pathname
         ) {
-          if (!window.history.state.turbolinks)
-            window.Turbolinks.visit(child.location.pathname);
+          const useTurbolinks =
+            child.location.state &&
+            child.location.state.useTurbolinks &&
+            !window.history.state.turbolinks; // visit() already called
+
+          if (useTurbolinks) window.Turbolinks.visit(child.location.pathname);
         }
         currentLocation = child.location;
         return null;
