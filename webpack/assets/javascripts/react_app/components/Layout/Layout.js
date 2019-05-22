@@ -85,7 +85,9 @@ class Layout extends React.Component {
           onItemClick={primary =>
             handleMenuClick(primary, activeMenu, changeActiveMenu)
           }
-          onNavigate={({ href }) => history.push(href)}
+          onNavigate={({ href, preventHref }) =>
+            history.push(href, { useTurbolinks: preventHref })
+          }
           activePath={`/${__(activeMenu || 'active')}/`}
           onCollapse={onCollapse}
           onExpand={onExpand}

@@ -24,7 +24,7 @@ module Menu
     end
 
     def to_hash
-      {type: :item, exact: @exact, html_options: @html_options, name: @caption || @name, url: url} if authorized?
+      {type: :item, exact: @exact, turbolinks: @turbolinks, html_options: @html_options, name: @caption || @name, url: url} if authorized?
     end
 
     def url
