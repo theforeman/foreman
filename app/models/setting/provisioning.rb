@@ -72,7 +72,7 @@ class Setting::Provisioning < Setting
       ),
       self.set(
         'excluded_facts',
-        N_("Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"),
+        N_("Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"),
         default_excluded_facts,
         N_('Exclude pattern for facts stored in foreman')
       )
@@ -120,6 +120,6 @@ class Setting::Provisioning < Setting
   end
 
   def self.default_excluded_facts(ignored_interfaces = IGNORED_INTERFACES)
-    ignored_interfaces
+    ignored_interfaces + ['mountpoints', 'partitions', 'blockdevice*']
   end
 end
