@@ -2,11 +2,6 @@ class NXOS < Operatingsystem
   # We don't fetch any files here.
   PXEFILES = {}
 
-  # Simple output of the media url
-  def mediumpath(medium_provider)
-    medium_provider.medium_uri.to_s
-  end
-
   def template_kinds
     ["POAP"]
   end

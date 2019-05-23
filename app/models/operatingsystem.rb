@@ -313,6 +313,10 @@ class Operatingsystem < ApplicationRecord
     options
   end
 
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri.to_s
+  end
+
   private
 
   def set_family
