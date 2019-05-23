@@ -1,11 +1,6 @@
 class VRP < Operatingsystem
   PXEFILES = {:core => "firmware.cc", :web => "web.7z"}
 
-  # Simple output of the media url
-  def mediumpath(medium_provider)
-    medium_provider.medium_uri.to_s
-  end
-
   def pxe_prefix(medium_provider)
     "ztp.cfg/images/#{medium_provider.unique_id}/"
   end
