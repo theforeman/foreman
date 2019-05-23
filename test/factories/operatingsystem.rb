@@ -106,6 +106,14 @@ FactoryBot.define do
       title { 'Red Hat Enterprise Linux 7.5' }
     end
 
+    factory :altlinux, class: Altlinux do
+      sequence(:name) { 'Altlinux' }
+      major { '8' }
+      minor { '2' }
+      type { 'Altlinux' }
+      title { 'Altlinux 8.2' }
+    end
+
     factory :solaris, class: Solaris do
       sequence(:name) { 'Solaris' }
       major { '10' }

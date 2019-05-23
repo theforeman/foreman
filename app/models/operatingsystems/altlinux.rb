@@ -7,6 +7,10 @@ class Altlinux < Operatingsystem
     end
   end
 
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri.to_s
+  end
+
   def pxe_type
     "alterator"
   end
