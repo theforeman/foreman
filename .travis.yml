@@ -1,5 +1,6 @@
 language: node_js
 node_js:
-  - '8' # current LTS
-  - '10' # future LTS
+  - '8'
+  - '10'
+  - '12'
 script: ./script/travis_run_js_tests.sh

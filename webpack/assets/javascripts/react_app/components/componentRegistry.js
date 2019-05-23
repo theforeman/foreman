@@ -30,6 +30,7 @@ import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
 import TemplateInput from './Template/TemplateInput';
 import Editor from './Editor';
+import LoginPage from './LoginPage';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -156,6 +157,7 @@ const coreComponets = [
 
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
+  { name: 'LoginPage', type: LoginPage },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

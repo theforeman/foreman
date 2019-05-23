@@ -8,7 +8,7 @@ module HostTemplateHelpers
 
   # Calculates the media's path in relation to the domain and convert host to an IP
   def install_path
-    operatingsystem.interpolate_medium_vars(operatingsystem.media_path(medium, domain), architecture.name, operatingsystem)
+    medium_provider.interpolate_vars(medium.media_dir).to_s
   end
 
   # Calculates the jumpstart path in relation to the domain and convert host to an IP

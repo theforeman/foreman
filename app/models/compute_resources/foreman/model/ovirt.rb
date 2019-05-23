@@ -327,12 +327,12 @@ module Foreman::Model
     end
 
     def new_interface(attr = {})
-      Fog::Compute::Ovirt::Interface.new(attr)
+      Fog::Ovirt::Compute::Interface.new(attr)
     end
 
     def new_volume(attr = {})
       set_preallocated_attributes!(attr, attr[:preallocate])
-      Fog::Compute::Ovirt::Volume.new(attr)
+      Fog::Ovirt::Compute::Volume.new(attr)
     end
 
     def save_vm(uuid, attr)

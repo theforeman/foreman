@@ -20,7 +20,7 @@ services:
       - db:/var/lib/mysql/data
 
   app: &app_base
-    image: quay.io/ohadlevy/foreman:containers
+    image: quay.io/foreman/foreman:develop
     command: bundle exec bin/rails server -b 0.0.0.0
     build:
       context: .
