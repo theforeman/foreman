@@ -36,6 +36,12 @@ FactoryBot.define do
       os_family { 'Rancheros' }
     end
 
+    trait :altlinux do
+      sequence(:name) { |n| "Altlinux Mirror #{n}"}
+      sequence(:path) { 'http://example.com/pub/altlinux/$version' }
+      os_family { 'Altlinux' }
+    end
+
     trait :solaris do
       sequence(:name) { |n| "Solaris Mirror #{n}"}
       path { 'http://www.example.com/vol/solgi_5.10/sol$minor_$release_$arch' }
