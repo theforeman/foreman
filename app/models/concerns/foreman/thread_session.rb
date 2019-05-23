@@ -132,7 +132,11 @@ module Foreman
 
           Foreman::Logging.logger('taxonomy').debug "Current organization set to #{organization || 'none'}"
           org_id = organization.try(:id)
+          org_name = organization.try(:name)
+          org_label = organization.try(:label)
           ::Logging.mdc['org_id'] = org_id if org_id
+          ::Logging.mdc['org_name'] = org_name if org_name
+          ::Logging.mdc['org_label'] = org_label if org_label
           Thread.current[:organization] = organization
         end
 
@@ -169,7 +173,11 @@ module Foreman
 
           Foreman::Logging.logger('taxonomy').debug "Current location set to #{location || 'none'}"
           loc_id = location.try(:id)
+          loc_name = location.try(:name)
+          loc_label = location.try(:label)
           ::Logging.mdc['loc_id'] = loc_id if loc_id
+          ::Logging.mdc['loc_name'] = loc_name if loc_name
+          ::Logging.mdc['loc_label'] = loc_label if loc_label
           Thread.current[:location] = location
         end
 
