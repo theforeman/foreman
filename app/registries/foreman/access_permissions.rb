@@ -723,6 +723,10 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
+  permission_set.security_block :statuses do |map|
+    map.permission :view_statuses, {:"api/v2/ping" => [:statuses]}
+  end
+
   permission_set.security_block :anonymous do |map|
     map.permission :logout, {:users => [:logout]}, :public => true
   end

@@ -185,6 +185,7 @@ class PermissionsList
         ['User', 'create_users'],
         ['User', 'edit_users'],
         ['User', 'destroy_users'],
+        [nil, 'view_statuses']
       ]
     end
   end
