@@ -74,7 +74,7 @@ ONTIMEOUT installer
 LABEL installer
   MENU LABEL <%= template_name %>
   KERNEL <%= @kernel %>
-  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= host_param('pxe_kernel_options') %> <%= ksoptions %>
   IPAPPEND 2
 
 <%= snippet_if_exists(template_name + " custom menu") %>
