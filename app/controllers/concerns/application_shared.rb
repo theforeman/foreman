@@ -33,7 +33,9 @@ module ApplicationShared
           if params["#{taxonomy}_id"].blank? # the key is present and explicitly set to nil which indicates "any" context
             determined_taxonomy = nil
           else
-            determined_taxonomy = available.where(:id => params["#{taxonomy}_id"]).first
+            identifier = params["#{taxonomy}_id"]
+            determined_taxonomy = available.friendly.find(identifier) rescue ActiveRecord::RecordNotFound
+            determined_taxonomy ||= available.where(:id => identifier).first
 
             # in case user asked for taxonomy that does not exist or is not accessible, we reply with 404
             if determined_taxonomy.nil?
