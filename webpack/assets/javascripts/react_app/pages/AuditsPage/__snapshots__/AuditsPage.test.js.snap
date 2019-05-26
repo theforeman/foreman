@@ -159,6 +159,8 @@ exports[`AuditsPage rendering render audits page 1`] = `
           "viewType": "table",
         }
       }
+      disableNext={false}
+      disablePrev={false}
       dropdownButtonId="pagination-row-dropdown"
       onPageSet={[Function]}
       onPerPageSelect={[Function]}

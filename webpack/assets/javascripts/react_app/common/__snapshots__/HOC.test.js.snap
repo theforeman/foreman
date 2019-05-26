@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HOCs test withRenderHandler: should return component 1`] = `
+<Component
+  hasData={true}
+  hasError={false}
+  isLoading={false}
+  message={
+    Object {
+      "text": "empty",
+      "type": "empty",
+    }
+  }
+/>
+`;
+
+exports[`HOCs test withRenderHandler: should return empty 1`] = `
+<EmptyPage
+  hasData={false}
+  hasError={false}
+  isLoading={false}
+  message={
+    Object {
+      "text": "empty",
+      "type": "empty",
+    }
+  }
+/>
+`;
+
+exports[`HOCs test withRenderHandler: should return error 1`] = `
+<EmptyPage
+  hasData={false}
+  hasError={true}
+  isLoading={false}
+  message={
+    Object {
+      "text": "empty",
+      "type": "empty",
+    }
+  }
+/>
+`;
+
+exports[`HOCs test withRenderHandler: should return loading 1`] = `
+<LoadingPage
+  hasData={false}
+  hasError={false}
+  isLoading={true}
+  message={
+    Object {
+      "text": "empty",
+      "type": "empty",
+    }
+  }
+/>
+`;

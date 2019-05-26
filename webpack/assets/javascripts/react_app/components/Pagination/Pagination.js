@@ -17,6 +17,8 @@ const Pagination = props => {
     onPageSet,
     onPerPageSelect,
     dropdownButtonId,
+    disableNext,
+    disablePrev,
     ...otherProps
   } = props;
 
@@ -41,6 +43,8 @@ const Pagination = props => {
       itemCount={data.itemCount}
       onPageSet={onPageSet}
       onPerPageSelect={onPerPageSelect}
+      disableNext={disableNext}
+      disablePrev={disablePrev}
       messages={translateObject(Paginator.defaultProps.messages)}
       className={className}
       dropdownButtonId={dropdownButtonId}
@@ -59,6 +63,8 @@ Pagination.propTypes = {
   onPageSet: PropTypes.func,
   onPerPageSelect: PropTypes.func,
   dropdownButtonId: PropTypes.string,
+  disableNext: PropTypes.bool,
+  disablePrev: PropTypes.bool,
   pagination: PropTypes.shape({
     page: PropTypes.number,
     perPage: PropTypes.number,
@@ -71,6 +77,8 @@ Pagination.defaultProps = {
   onPerPageSelect: perPage => changeQuery({ page: 1, per_page: perPage }),
   dropdownButtonId: 'pagination-row-dropdown',
   pagination: null,
+  disableNext: false,
+  disablePrev: false,
 };
 
 export default Pagination;

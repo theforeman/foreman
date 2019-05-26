@@ -1,17 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
-
 import { routes } from './routes';
 
 let currentLocation = null;
 
 const AppSwitcher = () => (
   <Switch>
-    {routes.map(({ render, ...props }) => (
+    {routes.map(({ render, path, ...routeProps }) => (
       <Route
-        {...props}
-        key={props.path}
+        path={path}
+        key={path}
+        {...routeProps}
         render={renderProps => {
           const railsContainer = document.getElementById('rails-app-content');
           if (railsContainer) railsContainer.remove();
@@ -40,13 +39,5 @@ const AppSwitcher = () => (
     />
   </Switch>
 );
-
-AppSwitcher.propTypes = {
-  path: PropTypes.string,
-};
-
-AppSwitcher.defaultProps = {
-  path: '',
-};
 
 export default AppSwitcher;
