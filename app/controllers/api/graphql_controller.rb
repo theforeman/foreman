@@ -45,16 +45,12 @@ module Api
     private
 
     def execute_multiplexed_graphql_query
-      current_user = User.current
       queries = params[:_json].map do |param|
         {
           query: param['query'],
           operation_name: param['operationName'],
           variables: ensure_hash(param['variables']),
-          context: {
-            current_user: current_user,
-            request_id: request.uuid
-          }
+          context: graphql_context
         }
       end
       ForemanGraphqlSchema.multiplex(queries)
@@ -64,11 +60,16 @@ module Api
       ForemanGraphqlSchema.execute(
         params[:query],
         variables: variables,
-        context: {
-          current_user: User.current,
-          request_id: request.uuid
-        }
+        context: graphql_context
       )
+    end
+
+    def graphql_context
+      {
+        current_user: User.current,
+        request_id: request.uuid,
+        request_ip: request.ip
+      }
     end
 
     def variables
