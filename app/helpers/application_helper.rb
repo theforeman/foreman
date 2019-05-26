@@ -527,4 +527,8 @@ module ApplicationHelper
   def current_url_params(permitted: [])
     params.slice(*permitted.concat([:locale, :search, :per_page])).permit!
   end
+
+  def app_metadata
+    { version: SETTINGS[:version].short, docUrl: documentation_url, perPageOptions: per_page_options }
+  end
 end
