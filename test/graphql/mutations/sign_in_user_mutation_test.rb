@@ -2,7 +2,15 @@ require 'test_helper'
 
 module Mutations
   class SignInUserMutationTest < ActiveSupport::TestCase
-    let(:context) { {} }
+    setup do
+      Rails.cache.clear
+    end
+
+    teardown do
+      Rails.cache.clear
+    end
+
+    let(:context) { { request_ip: '127.0.0.1' } }
     let(:user) { FactoryBot.create(:user, firstname: 'Jane', lastname: 'Doe') }
     let(:global_id) { Foreman::GlobalId.for(user) }
     let(:variables) do
