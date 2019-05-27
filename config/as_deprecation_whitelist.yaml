@@ -5,10 +5,6 @@
 - message: "`secrets.secret_token` is deprecated in favor of `secret_key_base` and
     will be removed in Rails 6.0."
 
-# https://projects.theforeman.org/issues/23191
-- message: Using a dynamic :controller segment in a route is deprecated and will be
-    removed in Rails 6.0.
-
 - message: |-
     DEPRECATION WARNING: Leaving `ActiveRecord::ConnectionAdapters::SQLite3Adapter.represent_boolean_as_integer`
     set to false is deprecated. SQLite databases have used 't' and 'f' to serialize

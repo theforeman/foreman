@@ -14,7 +14,42 @@ Foreman::Application.routes.draw do
     end
   end
 
-  get '(:controller)/help', :action => 'welcome', :as => "help"
+  welcoming_controllers = [
+    'architectures',
+    'auth_source_ldaps',
+    'bookmarks',
+    'common_parameters',
+    'compute_profiles',
+    'compute_resources',
+    'config_groups',
+    'config_reports',
+    'domains',
+    'environments',
+    'fact_values',
+    'hostgroups',
+    'hosts',
+    'http_proxies',
+    'locations',
+    'media',
+    'models',
+    'operatingsystems',
+    'organizations',
+    'provisioning_templates',
+    'ptables',
+    'puppetclass_lookup_keys',
+    'realms',
+    'report_templates',
+    'smart_proxies',
+    'subnets',
+    'trends',
+    'usergroups',
+    'variable_lookup_keys'
+  ]
+
+  welcoming_controllers.each do |welcoming_controller|
+    get "#{welcoming_controller}/help", :action => :welcome, :controller => welcoming_controller
+  end
+
   constraints(:id => /[^\/]+/) do
     resources :hosts do
       member do
