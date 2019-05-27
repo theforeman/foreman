@@ -51,6 +51,8 @@ end
 
 if Foreman::Model::Vmware.available?
   require 'fog/vsphere'
+  require 'fog/vsphere/models/compute/cluster'
+  require 'fog/vsphere/models/compute/network'
   require 'fog/vsphere/models/compute/server'
   Fog::Vsphere::Compute::Server.send(:include, FogExtensions::Vsphere::Server)
 
