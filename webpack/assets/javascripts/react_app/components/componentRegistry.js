@@ -31,6 +31,7 @@ import TemplateGenerator from './TemplateGenerator';
 import TemplateInput from './Template/TemplateInput';
 import Editor from './Editor';
 import LoginPage from './LoginPage';
+import GraphQLTest from './GraphQLTest';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -38,7 +39,13 @@ import AuditsPage from '../pages/AuditsPage/AuditsPage';
 const componentRegistry = {
   registry: {},
 
-  register({ name = null, type = null, store = true, data = true }) {
+  register({
+    name = null,
+    type = null,
+    store = true,
+    data = true,
+    graphql = false,
+  }) {
     if (!name || !type) {
       throw new Error('Component name or type is missing');
     }
@@ -46,7 +53,7 @@ const componentRegistry = {
       throw new Error(`Component name already taken: ${name}`);
     }
 
-    this.registry[name] = { type, store, data };
+    this.registry[name] = { type, store, data, graphql };
     return this.registry;
   },
 
@@ -76,7 +83,9 @@ const componentRegistry = {
     const factory = this.wrapperFactory();
 
     factory.with('i18n');
-
+    if (component.graphql) {
+      factory.with('graphql');
+    }
     if (store && component.store) {
       factory.with('store', store);
     }
@@ -123,7 +132,7 @@ const coreComponets = [
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
   { name: 'TemplateInput', type: TemplateInput },
-
+  { name: 'GraphQLTest', type: GraphQLTest, graphql: true },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,

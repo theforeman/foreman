@@ -2,6 +2,9 @@
 <% title _('Overview') %>
 <%= title_actions dashboard_actions %>
 
+      <div id="graphql-test"></div>
+      <%= mount_react_component('GraphQLTest', '#graphql-test') %>
+
 <div class="row">
   <% if User.current.widgets.empty? %>
     <div class="col-md-12 ca">

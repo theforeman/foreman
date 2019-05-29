@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { i18nProviderWrapperFactory } from '../common/i18nProviderWrapperFactory';
+import { graphQLWrapperFactory } from '../common/graphql';
 import { getDisplayName } from '../common/helpers';
 
 const storeProviderWrapperFactory = store => WrappedComponent => {
@@ -48,6 +49,7 @@ export const wrapperRegistry = {
     dataMapper: propDataMapperWrapperFactory,
     store: storeProviderWrapperFactory,
     i18n: i18nProviderWrapperFactory,
+    graphql: graphQLWrapperFactory,
   },
   register(name, wrapper) {
     if (this.wrappers[name]) {
