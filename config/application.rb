@@ -276,6 +276,8 @@ module Foreman
       Plugin.all.each do |plugin|
         plugin.to_prepare_callbacks.each(&:call)
       end
+
+      Plugin.graphql_types_registry.realise_extensions
     end
 
     # Use the database for sessions instead of the cookie-based default

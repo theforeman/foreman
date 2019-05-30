@@ -1897,6 +1897,30 @@ hosts of this origin need report.
 * `ORIGIN_out_of_sync_disabled` - A boolean setting to disable the out
 of sync status for hosts reporting with this origin.
 
+[[extending-the-graphql-schema]]
+=== Extending the graphql schema
+
+_Requires Foreman 1.23 or higher, set requires_foreman '>= 1.23' in
+engine.rb_
+
+To extend a graphl type with custom code, you can register the extension via `extend_graphql_type` in your plugin's `engine.rb`.
+The plugin DSL allows to pass a code block that is run in the type's class scope.
+
+[source, ruby]
+....
+  extend_graphql_type type: Types::Host do
+    belongs_to :openscap_proxy, Types::SmartProxy
+  end
+....
+
+In order to extend a graphql type with code defined in a module, you can register an extension by passing the module name to `extend_graphql_type`.
+The module should `extend ActiveSupport::Concern`. Note that any code that is supposed to run in the class scope of the module needs to be in an `included do ... end` block.
+
+[source, ruby]
+....
+   extend_graphql_type type: Types::SmartProxy, with_module: ForemanOpenscap::SmartProxyTypeExtensions
+....
+
 [[translating]]
 == Translating
 

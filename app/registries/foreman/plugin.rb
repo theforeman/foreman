@@ -42,11 +42,13 @@ module Foreman #:nodoc:
     @report_scanner_registry = Plugin::ReportScannerRegistry.new
     @report_origin_registry = Plugin::ReportOriginRegistry.new
     @medium_providers = Plugin::MediumProvidersRegistry.new
+    @graphql_types_registry = Plugin::GraphqlTypesRegistry.new
 
     class << self
       attr_reader   :registered_plugins
       attr_accessor :tests_to_skip, :report_scanner_registry,
-                    :report_origin_registry, :medium_providers
+                    :report_origin_registry, :medium_providers,
+                    :graphql_types_registry
       private :new
 
       def def_field(*names)
@@ -526,6 +528,12 @@ module Foreman #:nodoc:
 
     def register_renderer_variable_loader(loader_name)
       @renderer_variable_loaders << loader_name
+    end
+
+    delegate :graphql_types_registry, to: :class
+
+    def extend_graphql_type(type:, with_module: nil, &block)
+      graphql_types_registry.register_extension(type: type, with_module: with_module, &block)
     end
 
     private
