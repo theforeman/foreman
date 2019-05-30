@@ -151,10 +151,6 @@ module Foreman
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
-    # enables in memory cache store with ttl
-    # config.cache_store = TimedCachedStore.new
-    config.cache_store = :file_store, Rails.root.join("tmp", "cache")
-
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
 
@@ -231,6 +227,20 @@ module Foreman
     # Explicitly set the log_level from our config, overriding the Rails env default
     config.log_level = Foreman::Logging.logger_level('app').to_sym
     config.active_record.logger = Foreman::Logging.logger('sql')
+
+    # enables in memory cache store with ttl
+    # config.cache_store = TimedCachedStore.new
+    rails_cache_settings = SETTINGS[:rails_cache_store]
+    if (rails_cache_settings && rails_cache_settings[:type] == 'redis')
+      options = [:redis_cache_store]
+      redis_urls = Array.wrap(rails_cache_settings[:urls])
+      options << { namespace: 'foreman', urls: redis_urls }.merge(rails_cache_settings[:options] || {})
+      config.cache_store = options
+      Foreman::Logging.logger('app').info "Rails cache backend: Redis"
+    else
+      config.cache_store = :file_store, Rails.root.join('tmp', 'cache')
+      Foreman::Logging.logger('app').info "Rails cache backend: File"
+    end
 
     if config.public_file_server.enabled
       ::Rails::Engine.subclasses.map(&:instance).each do |engine|

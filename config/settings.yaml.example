@@ -127,3 +127,15 @@
 #
 # :dynflow:
 #   :pool_size: 5
+
+#
+# Set the rails cache implementation:
+# file (default) and redis are supported
+#
+# :rails_cache_store:
+#   :type: redis
+#   :urls:
+#    - redis://localhost:8479/0
+#   :options:
+#     :compress: true
+#     :namespace: foreman
