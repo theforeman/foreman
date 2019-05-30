@@ -626,4 +626,17 @@ class PluginTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe 'graphql type extensions' do
+    subject { Foreman::Plugin.register('test') {} }
+
+    it 'registers a graphql type extension' do
+      assert_empty subject.graphql_types_registry.type_block_extensions
+      subject.extend_graphql_type(type: Class.new) do
+        def foo
+        end
+      end
+      assert_not_empty subject.graphql_types_registry.type_block_extensions
+    end
+  end
 end
