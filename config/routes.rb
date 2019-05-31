@@ -587,6 +587,14 @@ Foreman::Application.routes.draw do
     end
   end
 
+  namespace :foreman_register do
+    resources :hosts, only: [] do
+      collection do
+        get :register
+      end
+    end
+  end
+
   if Rails.env.development? && defined?(::GraphiQL::Rails::Engine)
     mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'
   end

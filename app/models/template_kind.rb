@@ -22,6 +22,7 @@ class TemplateKind < ApplicationRecord
       "ZTP" => N_("ZTP PXE template"),
       "POAP" => N_("POAP PXE template"),
       "cloud-init" => N_("Cloud-init template"),
+      "registration" => N_("Registration template"),
     }
   end
 
