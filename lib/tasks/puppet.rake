@@ -28,6 +28,8 @@ namespace :puppet do
     Update puppet environments and classes. Optional batch flag triggers run with no prompting\nUse proxy=<proxy name> to import from or get the first one by default"
     task :puppet_classes, [:batch, :envname] => :environment do |t, args|
       User.as_anonymous_admin do
+        puts Foreman::Deprecation.deprecation_warning('1.24', 'use API/CLI commands instead of puppet:import:puppet_classes rake task')
+
         args.batch = args.batch == "true"
         proxies = SmartProxy.with_features("Puppet")
 
@@ -117,6 +119,7 @@ namespace :puppet do
     task :environments_only, [:batch] => :environment do |t, args|
       User.as_anonymous_admin do
         args.batch = args.batch == "true"
+        puts Foreman::Deprecation.deprecation_warning('1.24', 'use API/CLI commands instead of puppet:import:environments_only rake task')
         puts " ================================================================ "
         puts "Import starts: #{Time.now.strftime('%Y-%m-%d %H:%M:%S %Z')}"
 
