@@ -532,6 +532,10 @@ FactoryBot.define do
     trait :without_owner do
       owner { nil }
     end
+
+    trait :with_registration_facet do
+      association :registration_facet, factory: :registration_facet, strategy: :build
+    end
   end
 
   factory :hostgroup do

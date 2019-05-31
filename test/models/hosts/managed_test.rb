@@ -204,5 +204,26 @@ module Host
         end
       end
     end
+
+    context 'host registration' do
+      let(:host) { FactoryBot.create(:host) }
+      let(:jwt_secret) { 'wtLAhNwPI5JhsUk3LfA7tg==' }
+
+      describe '#registration_token' do
+        it 'generates a jwt token' do
+          host.registration_facet!.update(jwt_secret: jwt_secret)
+          token = host.registration_token.token
+          payload = JWT.decode(token, jwt_secret, true).first
+          assert_equal host.id, payload['host_id']
+        end
+      end
+
+      describe '#registration_url' do
+        it 'generates a registration url' do
+          ForemanRegister::RegistrationToken.stubs(:encode).returns('some-jwt-token')
+          assert_equal 'http://foreman.some.host.fqdn/foreman_register/hosts/register?token=some-jwt-token', host.registration_url
+        end
+      end
+    end
   end
 end
