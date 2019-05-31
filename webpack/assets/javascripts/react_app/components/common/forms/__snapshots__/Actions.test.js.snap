@@ -1,38 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`actions buttons could be disabled 1`] = `
-<div
-  className="clearfix"
->
-  <div
-    className="form-actions"
-  >
-    <Button
-      active={false}
-      block={false}
-      bsClass="btn"
-      bsStyle="primary"
-      disabled={true}
-      type="submit"
-    >
-       
-      Submit
-    </Button>
-     
-    <Button
-      active={false}
-      block={false}
-      bsClass="btn"
-      bsStyle="default"
-      disabled={true}
-      onClick={[Function]}
-    >
-      Cancel
-    </Button>
-  </div>
-</div>
-`;
-
 exports[`actions should include a cancel / submit buttons 1`] = `
 <div
   className="clearfix"
@@ -98,6 +65,39 @@ exports[`actions should show a spinner when submitting 1`] = `
           />
         </div>
       </span>
+    </Button>
+     
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={true}
+      onClick={[Function]}
+    >
+      Cancel
+    </Button>
+  </div>
+</div>
+`;
+
+exports[`actions should show disabled submit button 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={true}
+      type="submit"
+    >
+       
+      Submit
     </Button>
      
     <Button

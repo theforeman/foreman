@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'patternfly-react';
 
-import { noop } from '../../common/helpers';
-import BookmarkForm from './form';
-import { translate as __ } from '../../../react_app/common/I18n';
+import { noop } from '../../../common/helpers';
+import BookmarkForm from './BookmarkForm';
+import { translate as __ } from '../../../../react_app/common/I18n';
 
 const SearchModal = ({ show, onHide, onEnter, title, controller, url }) => (
   <Modal show={show} enforceFocus onHide={onHide} onEnter={onEnter}>

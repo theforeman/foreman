@@ -27,7 +27,7 @@ exports[`RadioButton render with default props 1`] = `
 exports[`RadioButton render with item 1`] = `
 <Radio
   bsClass="radio"
-  checked={true}
+  checked={false}
   disabled={false}
   inline={true}
   some="input"

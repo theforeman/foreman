@@ -5,12 +5,13 @@ import {
   BOOKMARKS_FAILURE,
   BOOKMARKS_MODAL_OPENED,
   BOOKMARKS_MODAL_CLOSED,
-  BOOKMARK_FORM_SUBMITTED,
-} from '../../consts';
-import { STATUS } from '../../../constants';
+  BOOKMARKS_FORM_SUBMITTED,
+} from './BookmarksConstants';
+import { STATUS } from '../../constants';
 
-const initialState = Immutable({
+export const initialState = Immutable({
   showModal: false,
+  currentQuery: '',
 });
 
 const sortByName = (a, b) => {
@@ -40,7 +41,7 @@ export default (state = initialState, action) => {
         .setIn([payload.controller, 'status'], STATUS.RESOLVED);
     case BOOKMARKS_MODAL_OPENED:
       return state.set('currentQuery', payload.query).set('showModal', true);
-    case BOOKMARK_FORM_SUBMITTED:
+    case BOOKMARKS_FORM_SUBMITTED:
       return state
         .setIn(
           [payload.data.controller, 'results'],

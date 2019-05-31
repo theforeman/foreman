@@ -29,6 +29,7 @@ Object {
       },
     },
     "bookmarks": Object {
+      "currentQuery": "",
       "models": Object {
         "errors": null,
         "results": Array [],

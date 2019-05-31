@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import EllipisWithTooltip from 'react-ellipsis-with-tooltip';
 import { Dropdown, MenuItem, Spinner, Icon } from 'patternfly-react';
-import SearchModal from './SearchModal';
-import Bookmark from './Bookmark';
-import * as BookmarkActions from '../../redux/actions/bookmarks';
+import SearchModal from './components/SearchModal';
+import Bookmark from './components/Bookmark';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
 import { bindMethods, noop } from '../../common/helpers';
 import { sprintf, translate as __ } from '../../../react_app/common/I18n';
 
-class BookmarkContainer extends React.Component {
+class Bookmarks extends React.Component {
   constructor(props) {
     super(props);
     bindMethods(this, ['handleNewBookmarkClick', 'loadBookmarks']);
@@ -102,7 +100,7 @@ class BookmarkContainer extends React.Component {
   }
 }
 
-BookmarkContainer.propTypes = {
+Bookmarks.propTypes = {
   controller: PropTypes.string.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
@@ -118,7 +116,7 @@ BookmarkContainer.propTypes = {
   getBookmarks: PropTypes.func,
 };
 
-BookmarkContainer.defaultProps = {
+Bookmarks.defaultProps = {
   searchQuery: '',
   showModal: false,
   canCreate: false,
@@ -131,24 +129,4 @@ BookmarkContainer.defaultProps = {
   getBookmarks: noop,
 };
 
-const mapStateToProps = (
-  { bookmarks },
-  { data: { controller, searchQuery } }
-) => ({
-  errors: bookmarks[controller] && bookmarks[controller].errors,
-  bookmarks: (bookmarks[controller] && bookmarks[controller].results) || [],
-  status: bookmarks[controller] && bookmarks[controller].status,
-  showModal: bookmarks.showModal,
-  searchQuery,
-});
-
-// I'm flatting the props that come from data attribute, this is done to avoid
-// having special handling for this.props.data vs this.props in the codebase.
-const mergeProps = (stateProps, dispatchProps, { data, onBookmarkClick }) =>
-  Object.assign(stateProps, { ...data, onBookmarkClick }, dispatchProps);
-
-export default connect(
-  mapStateToProps,
-  BookmarkActions,
-  mergeProps
-)(BookmarkContainer);
+export default Bookmarks;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import BookmarkForm from './form';
-import BookmarkModal from './SearchModal';
+import BookmarkForm from './components/BookmarkForm';
+import BookmarkModal from './components/SearchModal';
 import storeDecorator from '../../../../../stories/storeDecorator';
 import Story from '../../../../../stories/components/Story';
 

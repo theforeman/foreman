@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux';
-import { reducer as form } from 'redux-form';
-import bookmarks from './bookmarks';
 import statistics from './statistics';
 import hosts from './hosts';
 import notifications from './notifications';
@@ -19,11 +17,11 @@ import { reducers as statisticsPageReducers } from '../../routes/Statistics/Stat
 import { reducers as fillReducers } from '../../components/common/Fill';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware';
+import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
-    bookmarks,
-    form,
+    ...bookmarksReducers,
     statistics,
     hosts,
     notifications,

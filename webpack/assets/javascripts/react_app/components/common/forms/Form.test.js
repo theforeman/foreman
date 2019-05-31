@@ -42,13 +42,6 @@ describe('Form', () => {
 
     expect(toJson(wrapper)).toMatchSnapshot();
   });
-  it('should accept a submit function', () => {
-    const submit = jest.fn();
-    const wrapper = shallow(<Form onSubmit={submit} />);
-
-    wrapper.find('form').simulate('submit');
-    expect(submit).toBeCalled();
-  });
   it('should dispaly form errors as warning', () => {
     const wrapper = shallow(
       <Form

@@ -1,34 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextField should default to a text field 1`] = `
-<Field
-  className=""
-  component={[Function]}
-  label="Name"
+<FormikConnect(FieldInner)
   name="name"
-  required={false}
-  type="text"
+  render={[Function]}
 />
 `;
 
 exports[`TextField should render a checkbox 1`] = `
-<Field
-  className=""
-  component={[Function]}
-  label="Name"
+<FormikConnect(FieldInner)
   name="name"
-  required={false}
-  type="checkbox"
+  render={[Function]}
 />
 `;
 
 exports[`TextField should render a text area 1`] = `
-<Field
-  className=""
-  component={[Function]}
-  label="Name"
+<FormikConnect(FieldInner)
   name="name"
-  required={false}
-  type="textarea"
+  render={[Function]}
 />
 `;

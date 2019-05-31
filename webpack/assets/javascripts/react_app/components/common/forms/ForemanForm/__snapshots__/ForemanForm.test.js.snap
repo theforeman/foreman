@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanForm render foreman form with fields 1`] = `
+<ForemanForm
+  error={null}
+  initialValues={
+    Object {
+      "name": "Charles",
+      "surname": "Lindbergh",
+    }
+  }
+  onCancel={[Function]}
+  onSubmit={[Function]}
+  validationSchema={
+    ObjectSchema {
+      "_blacklist": RefSet {
+        "list": Array [],
+        "refs": Array [],
+      },
+      "_conditions": Array [],
+      "_defaultDefault": [Function],
+      "_deps": Array [],
+      "_excludedEdges": Array [],
+      "_exclusive": Object {},
+      "_mutate": undefined,
+      "_nodes": Array [
+        "surname",
+        "name",
+      ],
+      "_options": Object {
+        "abortEarly": true,
+        "recursive": true,
+      },
+      "_type": "object",
+      "_typeError": [Function],
+      "_whitelist": RefSet {
+        "list": Array [],
+        "refs": Array [],
+      },
+      "fields": Object {
+        "name": StringSchema {
+          "_blacklist": RefSet {
+            "list": Array [],
+            "refs": Array [],
+          },
+          "_conditions": Array [],
+          "_deps": Array [],
+          "_exclusive": Object {
+            "required": true,
+          },
+          "_mutate": undefined,
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "string",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Array [],
+            "refs": Array [],
+          },
+          "tests": Array [
+            [Function],
+          ],
+          "transforms": Array [
+            [Function],
+          ],
+        },
+        "surname": StringSchema {
+          "_blacklist": RefSet {
+            "list": Array [],
+            "refs": Array [],
+          },
+          "_conditions": Array [],
+          "_deps": Array [],
+          "_exclusive": Object {
+            "min": true,
+          },
+          "_mutate": undefined,
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "string",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Array [],
+            "refs": Array [],
+          },
+          "tests": Array [
+            [Function],
+          ],
+          "transforms": Array [
+            [Function],
+          ],
+        },
+      },
+      "tests": Array [],
+      "transforms": Array [
+        [Function],
+      ],
+    }
+  }
+>
+  <TextField
+    className=""
+    label="name"
+    name="name"
+    required="true"
+    type="text"
+  />
+  <TextField
+    className=""
+    label="surname"
+    name="surname"
+    required={false}
+    type="text"
+  />
+</ForemanForm>
+`;

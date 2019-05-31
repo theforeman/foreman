@@ -25,6 +25,7 @@ const TextFieldInner = ({
       <input
         {...input}
         type={type}
+        checked={type === 'checkbox' ? input.value : undefined}
         className={type === 'checkbox' ? '' : 'form-control'}
       />
     )}

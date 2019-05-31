@@ -15,7 +15,7 @@ const FormActions = ({ onCancel, disabled, submitting }) => (
         {submitting && <span className="fr">{simpleLoader('sm')}</span>}
       </Button>
       {' ' /* adds whitespace between the buttons */}
-      <Button bsStyle="default" disabled={disabled} onClick={onCancel}>
+      <Button bsStyle="default" onClick={onCancel} disabled={submitting}>
         {__('Cancel')}
       </Button>
     </div>

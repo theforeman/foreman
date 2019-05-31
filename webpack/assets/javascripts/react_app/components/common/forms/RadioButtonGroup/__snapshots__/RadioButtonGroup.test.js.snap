@@ -9,31 +9,15 @@ exports[`radio button group should render group of radio buttons 1`] = `
   tooltipHelp={null}
   touched={false}
 >
-  <Field
-    component={[Function]}
-    disabled={false}
-    item={
-      Object {
-        "checked": true,
-        "label": "A",
-        "value": "A",
-      }
-    }
+  <FormikConnect(FieldInner)
     key="0"
     name="RadioButtonGroupTest"
+    render={[Function]}
   />
-  <Field
-    component={[Function]}
-    disabled={false}
-    item={
-      Object {
-        "checked": false,
-        "label": "B",
-        "value": "B",
-      }
-    }
+  <FormikConnect(FieldInner)
     key="1"
     name="RadioButtonGroupTest"
+    render={[Function]}
   />
 </CommonForm>
 `;

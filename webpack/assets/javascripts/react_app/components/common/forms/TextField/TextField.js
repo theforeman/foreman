@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 import TextFieldInner from './TextFieldInner';
-import '../../../../common/reduxFormI18n';
 
 const TextField = ({
   name,
@@ -15,13 +14,19 @@ const TextField = ({
 }) => (
   <Field
     name={name}
-    type={type}
-    component={TextFieldInner}
-    required={required}
-    className={className}
-    inputClassName={inputClassName}
-    label={label}
     validate={validate}
+    render={({ field, form: { touched, errors } }) => (
+      <TextFieldInner
+        input={field}
+        meta={{ touched: touched[name], error: errors[name] }}
+        name={name}
+        type={type}
+        required={required}
+        className={className}
+        inputClassName={inputClassName}
+        label={label}
+      />
+    )}
   />
 );
 
@@ -32,7 +37,7 @@ TextField.propTypes = {
   className: PropTypes.string,
   inputClassName: PropTypes.string,
   required: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  validate: PropTypes.arrayOf(PropTypes.func),
+  validate: PropTypes.func,
 };
 
 TextField.defaultProps = {

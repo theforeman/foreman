@@ -58,11 +58,6 @@ describe('SearchBar integration test', () => {
       'in bookmarks dropdown: click on "bookmark this page"'
     );
     // modal should open, lets check its query value
-    expect(
-      wrapper
-        .find('ConnectedField')
-        .at(1)
-        .props().initial
-    ).toBe(label);
+    expect(wrapper.find('textarea[name="query"]').props().value).toBe(label);
   });
 });
