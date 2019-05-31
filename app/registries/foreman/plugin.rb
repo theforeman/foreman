@@ -537,7 +537,7 @@ module Foreman #:nodoc:
     end
 
     def register_status_extension(&block)
-      @status_extension = bloc
+      @status_extension = block
     end
 
     delegate :graphql_types_registry, to: :class

@@ -1,4 +1,7 @@
 class Ping
+  STATUS_OK = 'ok'.freeze
+  STATUS_FAIL = 'FAIL'.freeze
+
   class << self
     def ping
       {
@@ -26,17 +29,27 @@ class Ping
 
     private
 
+    def duration_ms(start)
+      ((Time.new - start) * 1000).round.to_s
+    end
+
     def ping_database
-      ActiveRecord::Base.connection.active?
+      start = Time.now
+      {
+        active: ActiveRecord::Base.connection.active?,
+        duration_ms: duration_ms(start)
+      }
     end
 
     def statuses_compute_resources
       results = []
       ComputeResource.all.index.map do |resource|
+        start = Time.now
         errors = resource.ping
         results << {
           name: resource.name,
-          status: errors.empty? ? 'ok' : 'FAIL',
+          status: errors.empty? ? STATUS_OK : STATUS_FAIL,
+          duration_ms: duration_ms(start),
           errors: errors.full_messages
         }
       end
@@ -46,11 +59,12 @@ class Ping
     def statuses_smart_proxies
       results = []
       SmartProxy.all.includes(:features).map do |proxy|
+        start = Time.now
         begin
           version = proxy.statuses[:version].version['version']
           features = proxy.statuses[:version].version['modules']
           failed_features = proxy.statuses[:logs].logs.failed_modules
-          status = 'ok'
+          status = STATUS_OK
         rescue ::Foreman::WrappedException => error
           version ||= 'N/A'
           features ||= {}
@@ -60,6 +74,7 @@ class Ping
         results << {
           name: proxy.name,
           status: status,
+          duration_ms: duration_ms(start),
           version: version,
           features: features,
           failed_features: failed_features
