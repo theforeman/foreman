@@ -553,4 +553,6 @@ Foreman::Application.routes.draw do
   if Rails.env.development? && defined?(::GraphiQL::Rails::Engine)
     mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'
   end
+
+  match 'host_wizard' => 'react#index', :via => :get
 end
