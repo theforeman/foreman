@@ -1,1 +1,3 @@
-export const routes = [];
+import HostWizard from './HostWizard';
+
+export const routes = [HostWizard];
