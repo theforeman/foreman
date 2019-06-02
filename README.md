@@ -7,7 +7,7 @@
 [![Support IRC channel](https://kiwiirc.com/buttons/irc.freenode.net/theforeman.png)](https://kiwiirc.com/client/irc.freenode.net/?#theforeman)
 [![Storybook](https://github.com/storybooks/press/raw/master/badges/storybook.svg?sanitize=true)](http://theforeman.github.io/foreman)
 
-[Foreman](https://theforeman.org) is a free open source project that gives you the power to easily **automate repetitive tasks**, quickly **deploy applications**, and proactively **manage your servers lifecyle**, on-premises or in the cloud.
+[Foreman](https://theforeman.org) is a free open source project that gives you the power to easily **automate repetitive tasks**, quickly **deploy applications**, and proactively **manage your servers life cycle**, on-premises or in the cloud.
 
 From **provisioning** and **configuration** to **orchestration** and **monitoring**, Foreman integrates with your existing infrastructure to make operations easier.
 
