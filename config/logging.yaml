@@ -16,7 +16,7 @@
 #
 # :type:
 #   Type of logging, for file variant you can specify other options below like filename
-#   values: file, syslog or journald
+#   values: file, stdout, syslog or journald
 #
 # :filename:
 #   Log filename for this environment, it will be placed into #{Rails.root}/log directory
