@@ -67,11 +67,13 @@ const monitorChildren = [
     type: 'item',
     name: 'Dashboard',
     url: '/',
+    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Facts',
     url: '/fact_values',
+    turbolinks: true,
   },
 ];
 
@@ -80,11 +82,13 @@ const hostsChildren = [
     type: 'item',
     name: 'All Hosts',
     url: '/hosts/new',
+    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Architectures',
     url: '/architectures',
+    turbolinks: true,
   },
 ];
 
@@ -93,23 +97,39 @@ const userChildren = [
     type: 'item',
     name: 'Environments',
     url: '/environments',
+    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Architectures',
     url: '/architectures',
+    turbolinks: true,
   },
 ];
+
 const infrastructureChildren = [
   {
     type: 'item',
     name: 'Domains',
     url: '/domains',
+    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Realms',
     url: '/realms',
+    turbolinks: true,
+  },
+];
+
+const namelessChildren = [
+  {
+    type: 'item',
+    url: '/nameless',
+    turbolinks: true,
+  },
+  {
+    type: 'divider',
   },
 ];
 
@@ -143,7 +163,14 @@ const hashItemsB = [
   },
 ];
 
-export const serverItems = [...hashItemsA, ...hashItemsB];
+export const hashItemNameless = [
+  {
+    type: 'sub_menu',
+    name: 'Empty',
+    icon: 'pficon pficon-unplugged',
+    children: namelessChildren,
+  },
+];
 
 const logo =
   '/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg';
@@ -209,6 +236,9 @@ const serverUser = {
 export const layoutMock = {
   items: PFitems,
   activeMenu: 'Monitor',
+  history: {
+    push: jest.fn(),
+  },
   data: {
     menu: [...hashItemsA, ...hashItemsB],
     locations,

@@ -99,5 +99,32 @@ module Host
         end
       end
     end
+
+    describe 'a sparc host' do
+      let(:medium) { FactoryBot.create(:medium, :solaris) }
+      let(:architecture) { architectures(:sparc) }
+      let(:os) { FactoryBot.create(:solaris, architectures: [architecture], media: [medium]) }
+      let(:host) { FactoryBot.create(:host, :managed, operatingsystem: os, architecture: architecture) }
+
+      setup do
+        Resolv::DNS.any_instance.stubs(:getaddress).returns('2.3.4.5')
+      end
+
+      it 'has an install_path' do
+        assert_equal '/vol/solgi_5.10/sol8__sparc', host.install_path
+      end
+
+      it 'has a jumpstart_path' do
+        assert_equal '2.3.4.5:/vol/jumpstart', host.jumpstart_path
+      end
+
+      it 'has a multiboot' do
+        assert_equal 'boot/Solaris-10.8-multiboot', host.multiboot
+      end
+
+      it 'has a miniroot' do
+        assert_equal 'boot/Solaris-10.8-x86.miniroot', host.miniroot
+      end
+    end
   end
 end

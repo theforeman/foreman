@@ -106,12 +106,28 @@ FactoryBot.define do
       title { 'Red Hat Enterprise Linux 7.5' }
     end
 
+    factory :altlinux, class: Altlinux do
+      sequence(:name) { 'Altlinux' }
+      major { '8' }
+      minor { '2' }
+      type { 'Altlinux' }
+      title { 'Altlinux 8.2' }
+    end
+
     factory :solaris, class: Solaris do
       sequence(:name) { 'Solaris' }
       major { '10' }
       minor { '8' }
       type { 'Solaris' }
       title { 'Solaris 10.8' }
+    end
+
+    factory :rancheros, class: Rancheros do
+      sequence(:name) { 'Rancheros' }
+      major { '1' }
+      minor { '4.3' }
+      type { 'Rancheros' }
+      title { 'Rancheros 1.4.3' }
     end
   end
 end

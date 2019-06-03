@@ -1,18 +1,18 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
-import { Alert } from 'patternfly-react';
 import {
   Form,
   FormGroup,
   FormControl,
   ControlLabel,
   Checkbox,
-  Button,
   Grid,
   Col,
   Row,
-} from 'react-bootstrap';
+  Button,
+  Alert,
+} from 'patternfly-react';
 import store from '../../redux';
 import { addToast } from '../../redux/actions/toasts';
 import ToastsList from './index';

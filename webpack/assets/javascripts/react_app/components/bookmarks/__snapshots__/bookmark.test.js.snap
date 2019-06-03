@@ -2,6 +2,7 @@
 
 exports[`bookmark should create a link to a bookmark 1`] = `
 <Bookmark
+  onClick={[MockFunction]}
   query="query"
   text="label"
 >

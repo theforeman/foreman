@@ -4,7 +4,7 @@ skip_associations = [:associated_audits, :audits, :default_users, :hosts, :disco
                      :taxable_taxonomies, :reports ] + Template.descendants.map {|type| type.to_s.tableize.to_sym}
 
 User.as_anonymous_admin do
-  [Location, Organization].select(&:none?).each do |taxonomy|
+  [Organization, Location].select(&:none?).each do |taxonomy|
     taxonomy.without_auditing do
       tax_name = ENV.fetch("SEED_#{taxonomy.to_s.upcase}", "Default #{taxonomy}")
       tax = taxonomy.create!(name: tax_name)

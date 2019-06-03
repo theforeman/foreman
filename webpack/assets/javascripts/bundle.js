@@ -24,7 +24,7 @@ import * as breadcrumbs from './foreman_breadcrumbs';
 import * as configReportsModalDiff from './foreman_config_reports_modal_diff';
 import * as classEditor from './foreman_class_edit';
 import * as dashboard from './dashboard';
-
+import * as spice from './spice';
 import './bundle_datatables';
 import './bundle_lodash';
 import './bundle_novnc';
@@ -72,6 +72,7 @@ window.tfm = Object.assign(window.tfm || {}, {
   classEditor,
   dashboard,
   i18n,
+  spice,
   document,
   componentRegistry,
   store,

@@ -11,16 +11,11 @@
                 (_('This will generate a report %s. Based on its definition, it can take a long time to process.') % h(@template.name)) +
                 '</p>').html_safe) %>
 
-  <div id="report_generate_at"></div>
-  <%= mount_react_component('DateTime', '#report_generate_at', {
+  <%= datetime_local_f f, :generate_at,
       label: _('Generate at'),
       label_help: _('Generate report on a given time.'),
-      id: 'report_generate_at_datetime',
-      value: ( f.object.generate_at || Time.now ).iso8601,
-      hideValue: f.object.generate_at.blank?,
-      inputProps: { name: 'report_template_report[generate_at]' }
-    }.to_json, flatten_data: true) %>
-
+      input_props: { placement: 'bottom' }
+    %>
 
   <%= checkbox_f f, :send_mail,
     label: _('Send report via e-mail'),

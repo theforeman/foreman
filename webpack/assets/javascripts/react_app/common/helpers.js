@@ -128,6 +128,15 @@ const propsToCase = (casingFn, errorMsg, ob) => {
   }, {});
 };
 
+/**
+ * Check if a string is a positive integer
+ * @param {String} value - the string
+ */
+export const stringIsPositiveNumber = value => {
+  const reg = new RegExp('^[0-9]+$');
+  return reg.test(value);
+};
+
 export default {
   isoCompatibleDate,
   bindMethods,
@@ -140,4 +149,5 @@ export default {
   translateArray,
   propsToCamelCase,
   propsToSnakeCase,
+  stringIsPositiveNumber,
 };

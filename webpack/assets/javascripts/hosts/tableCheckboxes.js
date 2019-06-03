@@ -1,6 +1,11 @@
 import $ from 'jquery';
 import 'jquery.cookie';
-import { sprintf, n__, translate as __ } from '../react_app/common/I18n';
+import {
+  sprintf,
+  ngettext as n__,
+  translate as __,
+} from '../react_app/common/I18n';
+import { getURIsearch } from '../react_app/common/urlHelpers';
 import { foremanUrl } from '../foreman_tools';
 
 // Array contains list of host ids
@@ -68,6 +73,18 @@ function toggleActions() {
 // setups checkbox values upon document load
 $(document).on('ContentLoad', () => {
   if (window.location.pathname !== foremanUrl('/hosts')) return;
+
+  const hostQuery = sessionStorage.getItem('hostQuery');
+  const uriSearch = getURIsearch();
+
+  // clear selected hosts if new search occurs
+  if (uriSearch !== '' && hostQuery !== uriSearch) {
+    cleanHostsSelection();
+    sessionStorage.setItem('hostQuery', uriSearch);
+    return;
+  }
+  sessionStorage.setItem('hostQuery', uriSearch);
+
   for (let i = 0; i < foremanSelectedHosts.length; i++) {
     const cid = `host_ids_${foremanSelectedHosts[i]}`;
     const boxes = $(`#${cid}`);
@@ -106,7 +123,7 @@ function cleanHostsSelection() {
 }
 
 export function multipleSelection() {
-  const total = $('#pagination').data('count');
+  const { total } = paginationMetaData();
   const alertText = sprintf(
     n__(
       'Single host is selected in total',
@@ -181,7 +198,7 @@ export function submitModalForm() {
     const query = $('<input>')
       .attr('type', 'hidden')
       .attr('name', 'search')
-      .val($('#search').val());
+      .val(getURIsearch());
     $('#confirmation-modal form').append(query);
   }
   $('#confirmation-modal form').submit();
@@ -194,7 +211,7 @@ function isMultple() {
 
 function getBulkParam() {
   return isMultple()
-    ? { search: $('#search').val() }
+    ? { search: getURIsearch() }
     : { host_ids: foremanSelectedHosts };
 }
 
@@ -229,9 +246,12 @@ export function buildRedirect(url) {
 }
 
 function paginationMetaData() {
-  const pagination = $('#pagination');
-  const total = pagination.data('count');
-  const perPage = $('#per_page').val();
+  const total = Number(
+    document.getElementsByClassName('pagination-pf-items-total')[0].textContent
+  );
+  const perPage = Number(
+    document.getElementById('pagination-row-dropdown').textContent
+  );
   return { total, perPage };
 }
 

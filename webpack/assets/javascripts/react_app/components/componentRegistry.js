@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ReactApp from '../ReactApp';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
@@ -10,7 +11,7 @@ import RelativeDateTime from './common/dates/RelativeDateTime';
 import LongDateTime from './common/dates/LongDateTime';
 import ShortDateTime from './common/dates/ShortDateTime';
 import IsoDate from './common/dates/IsoDate';
-import DateTime from './common/forms/DateTime/DateTime';
+import FormField from './common/forms/FormField';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
@@ -28,6 +29,8 @@ import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
 import TemplateInput from './Template/TemplateInput';
+import Editor from './Editor';
+import LoginPage from './LoginPage';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -99,6 +102,7 @@ const componentRegistry = {
 };
 
 const coreComponets = [
+  { name: 'ReactApp', type: ReactApp },
   { name: 'SearchBar', type: SearchBar },
   { name: 'AutoComplete', type: AutoComplete },
   { name: 'DonutChart', type: DonutChart },
@@ -144,14 +148,16 @@ const coreComponets = [
     data: true,
     store: false,
   },
-  { name: 'DateTime', type: DateTime, store: false },
+  { name: 'FormField', type: FormField, store: false },
   { name: 'ModelsTable', type: ModelsTable },
+  { name: 'Editor', type: Editor },
 
   // Pages
   { name: 'AuditsPage', type: AuditsPage },
 
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
+  { name: 'LoginPage', type: LoginPage },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

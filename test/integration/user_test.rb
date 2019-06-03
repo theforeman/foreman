@@ -17,15 +17,8 @@ class UserIntegrationTest < IntegrationTestWithJavascript
   end
 
   context "without automatic login" do
-    def login_admin
-    end
-
     test "login" do
-      visit "/"
-      fill_in "login_login", :with => users(:admin).login
-      fill_in "login_password", :with => "secret"
-      click_button "Log In"
-      assert_current_path root_path
+      login_user(users(:admin).login, "secret")
     end
   end
 

@@ -32,12 +32,12 @@ end
 if Foreman::Model::Ovirt.available?
   require 'fog/ovirt'
   require 'fog/ovirt/models/compute/server'
-  Fog::Compute::Ovirt::Server.send(:include, FogExtensions::Ovirt::Server)
+  Fog::Ovirt::Compute::Server.send(:include, FogExtensions::Ovirt::Server)
   require 'fog/ovirt/models/compute/template'
-  Fog::Compute::Ovirt::Template.send(:include, FogExtensions::Ovirt::Template)
+  Fog::Ovirt::Compute::Template.send(:include, FogExtensions::Ovirt::Template)
 
   require 'fog/ovirt/models/compute/volume'
-  Fog::Compute::Ovirt::Volume.send(:include, FogExtensions::Ovirt::Volume)
+  Fog::Ovirt::Compute::Volume.send(:include, FogExtensions::Ovirt::Volume)
 end
 
 if Foreman::Model::Openstack.available?
@@ -51,6 +51,8 @@ end
 
 if Foreman::Model::Vmware.available?
   require 'fog/vsphere'
+  require 'fog/vsphere/models/compute/cluster'
+  require 'fog/vsphere/models/compute/network'
   require 'fog/vsphere/models/compute/server'
   Fog::Vsphere::Compute::Server.send(:include, FogExtensions::Vsphere::Server)
 

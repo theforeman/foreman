@@ -16,7 +16,7 @@ module Menu
                     :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
           menu.item :logout,
                     :caption => N_('Log Out'),
-                    :html => {:method => :post},
+                    :html => {:'data-method' => :post},
                     :url_hash => {:controller => '/users', :action => 'logout'}
         end
       end
@@ -37,7 +37,7 @@ module Menu
 
       Manager.map :top_menu do |menu|
         menu.sub_menu :monitor_menu,    :caption => N_('Monitor'), :icon => 'fa fa-tachometer' do
-          menu.item :dashboard,         :caption => N_('Dashboard')
+          menu.item :dashboard,         :caption => N_('Dashboard'), :exact => true
           menu.item :fact_values,       :caption => N_('Facts')
           menu.item :statistics,        :caption => N_('Statistics')
           menu.item :trends,            :caption => N_('Trends')

@@ -1,11 +1,13 @@
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
+import { get, snakeCase } from 'lodash';
+import { noop } from '../../common/helpers';
 
 export const selectLayout = state => state.layout;
 
 export const selectMenuItems = state => selectLayout(state).items;
 export const selectActiveMenu = state => selectLayout(state).activeMenu;
 export const selectIsLoading = state => selectLayout(state).isLoading;
+export const selectIsCollapsed = state => selectLayout(state).isCollapsed;
 export const selectCurrentLocation = state =>
   get(selectLayout(state), 'currentLocation.title');
 export const selectCurrentOrganization = state =>
@@ -19,33 +21,31 @@ export const patternflyMenuItemsSelector = createSelector(
     patternflyItems(items, currentLocation, currentOrganization)
 );
 
-const patternflyItems = (data, currentLocation, currentOrganization) => {
-  if (data.length === 0) return [];
-  const items = [];
+const childToMenuItem = (child, currentLocation, currentOrganization) => ({
+  id: `menu_item_${snakeCase(child.name)}`,
+  title: child.name,
+  isDivider: child.type === 'divider',
+  className:
+    child.name === currentLocation || child.name === currentOrganization
+      ? 'mobile-active'
+      : '',
+  href: child.url || '#',
+  preventHref: child.turbolinks,
+  onClick: child.onClick || noop,
+});
 
-  data.forEach(item => {
-    const childrenArray = [];
-    item.children.forEach(child => {
-      const childObject = {
-        title: child.name,
-        isDivider: child.type === 'divider' && !!child.name,
-        className:
-          child.name === currentLocation || child.name === currentOrganization
-            ? 'mobile-active'
-            : '',
-        href: child.url ? child.url : '#',
-        preventHref: false,
-        onClick: child.onClick ? () => child.onClick() : null,
-      };
-      childrenArray.push(childObject);
-    });
-    const itemObject = {
+const patternflyItems = (data, currentLocation, currentOrganization) =>
+  data.map(item => {
+    const childrenArray = item.children
+      .filter(child => child.name)
+      .map(child =>
+        childToMenuItem(child, currentLocation, currentOrganization)
+      );
+
+    return {
       title: item.name,
       iconClass: item.icon,
       subItems: childrenArray,
       className: item.className,
     };
-    items.push(itemObject);
   });
-  return items;
-};

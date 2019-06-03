@@ -2,10 +2,6 @@ class Xenserver < Operatingsystem
   PXEFILES = {:kernel => "boot/vmlinuz", :initrd => "install.img", :xen => "boot/xen.gz"}
   MBOOT = "boot/pxelinux/mboot.c32"
 
-  def mediumpath(medium_provider)
-    medium_provider.medium_uri.to_s
-  end
-
   def pxe_type
     "xenserver"
   end

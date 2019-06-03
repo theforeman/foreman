@@ -10,7 +10,8 @@ import AutoCompleteError from './components/AutoCompleteError';
 import AutoCompleteAux from './components/AutoCompleteAux';
 import AutoCompleteFocusShortcut from './components/AutoCompleteFocusShortcut';
 import { STATUS } from '../../constants';
-import { TRIGGERS, KEYCODES } from './AutoCompleteConstants';
+import { TRIGGERS } from './AutoCompleteConstants';
+import { KEYCODES } from '../../common/keyCodes';
 import { translate as __ } from '../../common/I18n';
 import './auto-complete.scss';
 
@@ -47,8 +48,13 @@ class AutoComplete extends React.Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.handleLoading();
+    const { initialQuery } = this.props;
+    if (prevProps.initialQuery !== initialQuery) {
+      const typeahead = this._typeahead && this._typeahead.current;
+      typeahead && typeahead.setState({ text: initialQuery });
+    }
   }
 
   windowKeyPressHandler(e) {

@@ -3,30 +3,34 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import AutoComplete from '../AutoComplete';
 import Bookmarks from '../bookmarks';
-import { resolveSearchQuery } from './SearchBarHelpers';
+import { changeQuery } from '../../common/urlHelpers';
 import './search-bar.scss';
 
 const SearchBar = ({
-  searchQuery,
   data: { autocomplete, controller, bookmarks },
+  searchQuery,
+  onSearch,
+  initialQuery,
+  onBookmarkClick,
 }) => {
   const bookmarksComponent = !isEmpty(bookmarks) ? (
-    <Bookmarks data={{ ...bookmarks, controller, searchQuery }} />
+    <Bookmarks
+      data={{ ...bookmarks, controller, searchQuery }}
+      onBookmarkClick={onBookmarkClick}
+    />
   ) : null;
   return (
     <div className="search-bar input-group">
       <AutoComplete
         id={autocomplete.id}
-        handleSearch={() => resolveSearchQuery(searchQuery)}
-        initialQuery={autocomplete.searchQuery || ''}
+        handleSearch={() => onSearch(searchQuery)}
+        initialQuery={initialQuery || autocomplete.searchQuery || ''}
         useKeyShortcuts={autocomplete.useKeyShortcuts}
         url={autocomplete.url}
         controller={controller}
       />
       <div className="input-group-btn">
-        <AutoComplete.SearchButton
-          onClick={() => resolveSearchQuery(searchQuery)}
-        />
+        <AutoComplete.SearchButton onClick={() => onSearch(searchQuery)} />
         {bookmarksComponent}
       </div>
     </div>
@@ -35,6 +39,9 @@ const SearchBar = ({
 
 SearchBar.propTypes = {
   searchQuery: PropTypes.string,
+  initialQuery: PropTypes.string,
+  onSearch: PropTypes.func,
+  onBookmarkClick: PropTypes.func,
   data: PropTypes.shape({
     autocomplete: PropTypes.shape({
       results: PropTypes.array,
@@ -50,6 +57,10 @@ SearchBar.propTypes = {
 
 SearchBar.defaultProps = {
   searchQuery: '',
+  initialQuery: '',
+  onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
+  onBookmarkClick: searchQuery =>
+    changeQuery({ search: searchQuery.trim(), page: 1 }),
   data: {
     autocomplete: {
       results: [],

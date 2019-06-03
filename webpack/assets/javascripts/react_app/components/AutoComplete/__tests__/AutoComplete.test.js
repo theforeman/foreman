@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import AutoComplete from '../AutoComplete';
 import { AutoCompleteProps } from '../AutoComplete.fixtures';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
-import { KEYCODES } from '../AutoCompleteConstants';
+import { KEYCODES } from '../../../common/keyCodes';
 import { noop } from '../../../common/helpers';
 
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));

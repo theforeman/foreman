@@ -55,7 +55,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     setup do
       operating_systems_xml = Nokogiri::XML(File.read('test/fixtures/ovirt_operating_systems.xml'))
       @ovirt_oses = operating_systems_xml.xpath('/operating_systems/operating_system').map do |os|
-        Fog::Compute::Ovirt::OperatingSystem.new({ :id => os[:id], :name => (os / 'name').text, :href => os[:href] })
+        Fog::Ovirt::Compute::OperatingSystem.new({ :id => os[:id], :name => (os / 'name').text, :href => os[:href] })
       end
       @os_hashes = @ovirt_oses.map do |ovirt_os|
         { :id => ovirt_os.id, :name => ovirt_os.name, :href => ovirt_os.href }
@@ -271,6 +271,50 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
     test 'attribute names' do
       check_vm_attribute_names(cr)
+    end
+  end
+
+  describe '#display_type' do
+    let(:cr) { FactoryBot.build_stubbed(:ovirt_cr) }
+
+    test "default display type is 'vnc'" do
+      assert_nil cr.attrs[:display]
+      assert_equal 'vnc', cr.display_type
+    end
+
+    test "display type can be set" do
+      expected = 'spice'
+      cr.display_type = 'Spice'
+      assert_equal expected, cr.attrs[:display]
+      assert_equal expected, cr.display_type
+      assert cr.valid?
+    end
+
+    test "don't allow wrong display type to be set" do
+      cr.display_type = 'teletype'
+      refute cr.valid?
+    end
+  end
+
+  describe '#keyboard_layout' do
+    let(:cr) { FactoryBot.build_stubbed(:ovirt_cr) }
+
+    test "default keyboard layout is 'en-us'" do
+      assert_nil cr.attrs[:keyboard_layout]
+      assert_equal 'en-us', cr.keyboard_layout
+    end
+
+    test "keyboard layout can be set" do
+      expected = 'hu'
+      cr.keyboard_layout = 'hu'
+      assert_equal expected, cr.attrs[:keyboard_layout]
+      assert_equal expected, cr.keyboard_layout
+      assert cr.valid?
+    end
+
+    test "don't allow wrong keyboard layout to be set" do
+      cr.keyboard_layout = 'fake-layout'
+      refute cr.valid?
     end
   end
 end

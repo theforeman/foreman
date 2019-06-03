@@ -10,6 +10,10 @@ describe('LayoutHelper', () => {
     const active = getActive(layoutMock.data.menu, '/fact_values');
     expect(active).toMatchSnapshot();
   });
+  it('should getActive(null)', () => {
+    const active = getActive([{ children: [] }], '/fact_values');
+    expect(active).toMatchSnapshot();
+  });
   it('should handleMenuClick', () => {
     const change = jest.fn();
     handleMenuClick({ title: 'Host' }, 'Infra', change);

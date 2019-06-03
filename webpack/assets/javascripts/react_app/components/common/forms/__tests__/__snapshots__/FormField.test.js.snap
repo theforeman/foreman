@@ -1,0 +1,290 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormField register own component renders registered component 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId="own-field"
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  >
+    ownField
+  </ControlLabel>
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "group[ownfield]",
+          "onChange": [Function],
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="ownInput"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders Date input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "a",
+          "onChange": [Function],
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="date"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders DateTime complex options and error 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId="date-time"
+  disabled={false}
+  validationState="error"
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  >
+    DateTime with error
+  </ControlLabel>
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "group[datetime]",
+          "onChange": [Function],
+          "value": 1991-01-01T01:12:01.000Z,
+        }
+      }
+    >
+      <InputFactory
+        type="dateTime"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error="can not be in the past"
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders DateTime input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "a",
+          "onChange": [Function],
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="dateTime"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders Time input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "a",
+          "onChange": [Function],
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="time"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders text complex options and help 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId="text-field"
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  >
+    textField
+    <FieldLevelHelp
+      buttonClass="field-help"
+      content={
+        <React.Fragment>
+          This is more helpful text
+        </React.Fragment>
+      }
+      placement="right"
+      rootClose={true}
+    />
+  </ControlLabel>
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "group[textfield]",
+          "onChange": [Function],
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="text"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders text input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "name": "a",
+          "onChange": [Function],
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="text"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;

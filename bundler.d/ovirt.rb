@@ -1,3 +1,3 @@
 group :ovirt do
-  gem 'fog-ovirt', '~> 1.1.5'
+  gem 'fog-ovirt', '~> 1.2.0'
 end

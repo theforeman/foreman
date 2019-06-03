@@ -1,6 +1,13 @@
 .bootstrap-datetimepicker-widget.dropdown-menu.top {
-  max-width: none;
   margin-top: -10px;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.bottom {
+  margin-top: 10px !important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  max-width: none;
 
   .arrow {
     left: 10% !important;

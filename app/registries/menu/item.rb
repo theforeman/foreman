@@ -19,11 +19,12 @@ module Menu
       @last = options[:last] || false
       @context =  options[:engine] || Rails.application
       @turbolinks = options.fetch(:turbolinks, true)
+      @exact = options[:exact] || false
       super @name.to_sym
     end
 
     def to_hash
-      {type: :item, name: @caption || @name, url: url} if authorized?
+      {type: :item, exact: @exact, turbolinks: @turbolinks, html_options: @html_options, name: @caption || @name, url: url} if authorized?
     end
 
     def url

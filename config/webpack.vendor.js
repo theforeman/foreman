@@ -5,7 +5,6 @@ module.exports = [
   'babel-polyfill',
   'react',
   'react-dom',
-  'react-bootstrap',
   'react-debounce-input',
   'react-diff-view',
   'react-ellipsis-with-tooltip',
@@ -24,6 +23,8 @@ module.exports = [
   'isomorphic-fetch',
   'react-intl',
   'intl',
+  'react-router-dom',
+  'history',
 
   /*
    * jquery related

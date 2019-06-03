@@ -6,11 +6,13 @@ Array [
     "children": Array [
       Object {
         "name": "Dashboard",
+        "turbolinks": true,
         "type": "item",
         "url": "/",
       },
       Object {
         "name": "Facts",
+        "turbolinks": true,
         "type": "item",
         "url": "/fact_values",
       },
@@ -24,11 +26,13 @@ Array [
     "children": Array [
       Object {
         "name": "All Hosts",
+        "turbolinks": true,
         "type": "item",
         "url": "/hosts/new",
       },
       Object {
         "name": "Architectures",
+        "turbolinks": true,
         "type": "item",
         "url": "/architectures",
       },
@@ -42,11 +46,13 @@ Array [
     "children": Array [
       Object {
         "name": "Environments",
+        "turbolinks": true,
         "type": "item",
         "url": "/environments",
       },
       Object {
         "name": "Architectures",
+        "turbolinks": true,
         "type": "item",
         "url": "/architectures",
       },
@@ -60,11 +66,13 @@ Array [
     "children": Array [
       Object {
         "name": "Domains",
+        "turbolinks": true,
         "type": "item",
         "url": "/domains",
       },
       Object {
         "name": "Realms",
+        "turbolinks": true,
         "type": "item",
         "url": "/realms",
       },
@@ -136,5 +144,11 @@ Array [
 exports[`LayoutHelper should getActive(Monitor) 1`] = `
 Object {
   "title": "Monitor",
+}
+`;
+
+exports[`LayoutHelper should getActive(null) 1`] = `
+Object {
+  "title": "",
 }
 `;

@@ -6,6 +6,8 @@ import {
   fetchMenuItems,
   changeOrganization,
   changeLocation,
+  onCollapse,
+  onExpand,
 } from '../LayoutActions';
 
 import { layoutMock } from '../Layout.fixtures';
@@ -17,6 +19,9 @@ const fixtures = {
 
   'should changeActiveMenu to Monitor': () =>
     changeActiveMenu({ title: 'Monitor' }),
+  'should onExpand': () => onExpand(),
+
+  'should onCollapse': () => onCollapse(),
 
   'should fetchMenuItems': () => fetchMenuItems(layoutMock.data),
 

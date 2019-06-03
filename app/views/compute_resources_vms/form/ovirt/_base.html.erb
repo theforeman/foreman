@@ -37,6 +37,21 @@
 <%= checkbox_f f, :ha, { :checked => f.object.ha.present? , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
+<%= f.fields_for :display, OpenStruct.new(f.object.display) do |display_f| %>
+  <%= select_f display_f, :type, compute_resource.display_types, :downcase, :upcase, 
+                { },
+                { :label_size => "col-md-2",
+                  :label => _("Display Type"),
+                  :class => 'display_type',
+                  :disabled => f.object.status != "down" && !new_vm } %>
+  <%= select_f display_f, :keyboard_layout, compute_resource.keyboard_layouts, :downcase, :to_s, 
+                { },
+                { :label_size => "col-md-2",
+                  :label => _("Keyboard"),
+                  :class => 'keyboard_layout',
+                  :disabled => f.object.status != "down" && !new_vm } %>
+<% end %>
+
 <% unless local_assigns[:hide_image] %>
   <%
      arch ||= nil ; os ||= nil
@@ -54,3 +69,4 @@
 <% end %>
 
 <%= compute_specific_js(compute_resource, "nic_info") %>
+<%= compute_specific_js(compute_resource, "display") %>

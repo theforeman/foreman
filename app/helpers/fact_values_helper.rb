@@ -47,7 +47,11 @@ module FactValuesHelper
 
   def fact_origin_icon(origin)
     return origin if origin == 'N/A'
-    image_tag(origin + ".png", :title => origin)
+    title = origin
+    if origin.include? "/"
+      title = origin.split("/")[1]
+    end
+    image_tag(origin + ".png", :title => title)
   end
 
   def fact_breadcrumbs

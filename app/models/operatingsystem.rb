@@ -74,7 +74,7 @@ class Operatingsystem < ApplicationRecord
                'Xenserver' => %r{XenServer}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash
+    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash, :mediumpath
   end
 
   def self.title_name
@@ -311,6 +311,10 @@ class Operatingsystem < ApplicationRecord
     options = []
     options << params['kernelcmd'] if params['kernelcmd']
     options
+  end
+
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri.to_s
   end
 
   private
