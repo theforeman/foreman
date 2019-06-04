@@ -1,11 +1,15 @@
 require_relative 'boot_settings'
 require_relative '../app/services/foreman/version'
+require_relative '../app/services/foreman/env_settings_loader'
 
 root = File.expand_path(File.dirname(__FILE__) + "/..")
 settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings.yaml'
 
 SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result) if File.exist?(settings_file)
 SETTINGS[:version] = Foreman::Version.new
+
+# Load settings from env variables
+SETTINGS.deep_merge!(Foreman::EnvSettingsLoader.new.to_h)
 
 # Force setting to true until all code using it is removed
 [:locations_enabled, :organizations_enabled].each do |setting|

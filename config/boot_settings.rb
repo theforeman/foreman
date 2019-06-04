@@ -9,5 +9,6 @@ if File.exist?(settings_file)
   settings = YAML.load(ERB.new(File.read(settings_file)).result)
   SETTINGS[:rails] = settings[:rails] if settings[:rails]
 end
+SETTINGS[:rails] = ENV['FOREMAN_RAILS'] if ENV.key?('FOREMAN_RAILS')
 SETTINGS[:rails] ||= '5.2'
 SETTINGS[:rails] = '%.1f' % SETTINGS[:rails] if SETTINGS[:rails].is_a?(Float) # unquoted YAML value
