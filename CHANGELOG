@@ -1,3 +1,42 @@
+2019-06-04	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.22.0
+	* i18n - extracting new, pulling from tx
+
+2019-06-04	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #26679 - Add report template API attributes
+
+2019-06-03	Lukáš Zapletal <lzap+git@redhat.com>
+	* Fixes #26804 - add_cmd requires second parameter (#6766)
+
+2019-05-28	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #26620 - Fix import interfaces in ovirt CR
+
+2019-05-28	Bernhard Suttner <suttner@atix.de>
+	* Fixes #26873 - fix vsphere networks (auto)-loading
+
+2019-05-27	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #26756 - drop invalid values for scsi_controller_type (#6744)
+
+2019-05-24	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #26803 - pin patternfly-react to 2.31.x
+
+2019-05-23	Timo Goebel <mail@timogoebel.name>
+	* fixes #26842 - altlinux: fix mediumpath
+	* fixes #26841 - sparc: render install_path
+
+2019-05-23	Marek Hulan <mhulan@redhat.com>
+	* Fixes #26859 - revert the changed seed order
+
+2019-05-22	Ondřej Ezr <oezr@redhat.com>
+	* Refs #26781 - fixes snapshot test
+	* Refs #26781 - datepicker css v2 (#6761)
+	* Refs #26781 - css independent on the placement (#6756)
+	* Fixes #26781 - DateTimePicker placement (#6750)
+
+2019-05-21	Timo Goebel <mail@timogoebel.name>
+	* fixes #26831 - refresh_usergroups as anonymous admin (#6772)
+	* fixes #26796 - coreos: url_for_boot
+
 2019-05-21	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.22.0-RC2
 	* i18n - extracting new, pulling from tx
