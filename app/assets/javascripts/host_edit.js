@@ -579,7 +579,7 @@ function build_provision_method_selected() {
   $('#network_provisioning').show();
   $('#image_selection select').attr('disabled', true);
   if ($('#provider').val() == 'Ovirt')
-    $('#host_compute_attributes_template').attr('disabled', false);
+    $('#host_compute_attributes_template').select2('readonly',false);
 }
 $(document).on(
   'change',
@@ -598,7 +598,7 @@ function image_provision_method_selected() {
   } else if ($('#provider').val() == 'Ovirt') {
     var template_options = $('#host_compute_attributes_template');
     if (template_options.length > 0) {
-      template_options.attr('disabled', true);
+      template_options.select2('readonly',true);
       template_options.val(image_options.val());
       tfm.computeResource.ovirt.templateSelected(image_options);
     }
