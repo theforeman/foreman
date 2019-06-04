@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
+# Andrea MTP, 2019
 # Dominic Cleal <dominic@cleal.org>, 2014
 # Dominic Cleal <dominic@cleal.org>, 2014
 # Giuseppe Pignataro <rogepix@gmail.com>, 2014
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-11 20:33+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-05-24 16:45+0000\n"
+"Last-Translator: Andrea MTP\n"
 "Language-Team: Italian (http://www.transifex.com/foreman/foreman/language/it/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -1949,10 +1950,10 @@ msgid "Create an operating system"
 msgstr "Crea un sistema operativo"
 
 msgid "Create an override value for a specific smart class parameter"
-msgstr "Crea un valore di override per un parametro di classe smart specifico"
+msgstr "Crea un valore di override per uno specifico parametro di smart class"
 
 msgid "Create an override value for a specific smart variable"
-msgstr "Crea un valore override per una variabile smart specifica"
+msgstr "Crea un valore override per una specifica smart variable"
 
 msgid "Create autosign entry"
 msgstr ""
@@ -2318,10 +2319,10 @@ msgid "Delete an operating system"
 msgstr "Cancella un sistema operativo"
 
 msgid "Delete an override value for a specific smart class parameter"
-msgstr "Cancella un valore di override per un parametro di classe smart specifico"
+msgstr "Cancella un valore di override per uno specifico parametro di smart class"
 
 msgid "Delete an override value for a specific smart variable"
-msgstr "Cancella un valore override per una variabile smart specifica"
+msgstr "Cancella un valore override per una specifica variabile smart"
 
 msgid "Delete autosign entry"
 msgstr ""
@@ -3070,7 +3071,7 @@ msgid "Failed to update environments and Puppet classes from the on-disk Puppet 
 msgstr "Impossibile aggiornare le classi del puppet e gli ambienti dall'installazione puppet su-disco: %s"
 
 msgid "Failed to update the environments and Puppet classes from the on-disk puppet installation: %s"
-msgstr "Impossibile aggiornare le classi del puppet e gli ambienti dall'installazione puppet su-disco: %s"
+msgstr "Impossibile aggiornare le classi di puppet e gli ambienti dall'installazione puppet sul disco: %s"
 
 msgid "Failed to validate %{host}: %{error}"
 msgstr "Impossibile convalidare %{host}: %{error}"
@@ -4312,7 +4313,7 @@ msgid "Import of facts failed for host %s"
 msgstr ""
 
 msgid "Import puppet classes from puppet proxy"
-msgstr ""
+msgstr "Importa le classi puppet dal puppet proxy."
 
 msgid "Import puppet classes from puppet proxy for an environment"
 msgstr "Importa le classi del puppet dal puppet proxy per un ambiente"
@@ -4972,10 +4973,10 @@ msgid "List of hosts which answer to the provided query"
 msgstr "Elenco di host che rispondono all'interrogazione fornita"
 
 msgid "List of override values for a specific smart class parameter"
-msgstr "Elenco di valori di override per un parametro di classe smart specifico"
+msgstr "Elenco di valori di override per uno specifico parametro di smart class"
 
 msgid "List of override values for a specific smart variable"
-msgstr "Elenco di valori override per una variabile smart specifica"
+msgstr "Elenco di valori override per una specifica smart variable"
 
 msgid "List of realms"
 msgstr "Elenco di realm"
@@ -5857,7 +5858,7 @@ msgid "No preference"
 msgstr "Nessuna preferenza"
 
 msgid "No proxy found to import classes from, ensure that the smart proxy has the Puppet feature enabled."
-msgstr "Nessun proxy trovato dal quale importare le classi, assicurati di aver abilitato la funzione Puppet in smart proxy."
+msgstr "Nessun proxy trovato dal quale importare le classi, assicurati di aver abilitato la funzione Puppet sullo smart proxy."
 
 msgid "No proxy selected!"
 msgstr ""
@@ -7856,10 +7857,10 @@ msgid "Show an operating system"
 msgstr "Mostra un sistema operativo"
 
 msgid "Show an override value for a specific smart class parameter"
-msgstr "Mostra un valore override per un parametro di classe smart specifico"
+msgstr "Mostra un valore override per uno specifico parametro di smart class"
 
 msgid "Show an override value for a specific smart variable"
-msgstr "Mostra un valore override per una variabile smart specifica"
+msgstr "Mostra un valore override per una specifica variabile smart"
 
 msgid "Show available API links"
 msgstr "Mostra i link API disponibili"
@@ -9484,10 +9485,10 @@ msgid "Update an operating system"
 msgstr "Aggiorna un sistema operativo"
 
 msgid "Update an override value for a specific smart class parameter"
-msgstr "Aggiorna un valore override per un parametro di classe smart specifico"
+msgstr "Aggiorna un valore override per uno specifico parametro di smart class"
 
 msgid "Update an override value for a specific smart variable"
-msgstr "Aggiorna un valore override per una variabile smart specifica"
+msgstr "Aggiorna un valore override per una specifica variabile smart"
 
 msgid "Update environment from facts"
 msgstr ""
