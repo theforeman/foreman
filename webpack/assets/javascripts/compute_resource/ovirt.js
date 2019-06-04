@@ -6,7 +6,7 @@ import { testConnection } from '../foreman_compute_resource';
 export function templateSelected(item) {
   const template = $(item).val();
 
-  if (item.disabled || template === null) {
+  if (template === null) {
     return;
   }
 
@@ -43,8 +43,8 @@ export function templateSelected(item) {
       });
       const templateSelector = $('#host_compute_attributes_template');
 
-      if (templateSelector.is(':disabled')) {
-        templateSelector.val(result.id).trigger('change');
+      if (templateSelector.siblings('.select2-container-disabled').length > 0) {
+        templateSelector.val(result.id);
       }
     },
     complete() {
