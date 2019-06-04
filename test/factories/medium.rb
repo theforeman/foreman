@@ -51,6 +51,12 @@ FactoryBot.define do
       os_family { 'Solaris' }
     end
 
+    trait :freebsd do
+      sequence(:name) { |n| "Freebsd Mirror #{n}"}
+      sequence(:path) { 'http://ftp.freebsd.org/pub/FreeBSD/releases/$arch/$major.$minor-RELEASE' }
+      os_family { 'Freebsd' }
+    end
+
     trait :with_operatingsystem do
       operatingsystems { [FactoryBot.create(:operatingsystem, :with_archs)] }
     end
