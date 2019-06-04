@@ -109,5 +109,8 @@ and then, use tar to combine all needed directories and follow symlinks, e.g.
 
 [source, bash]
 ....
-tar -chf - --exclude-from=.dockerignore | docker build -
+tar -chf - --exclude-from=.dockerignore . | docker build -
 ....
+
+*Buildah note*: In case you wanted to build the container image with Buildah, be aware of https://github.com/containers/buildah/issues/1578[the following issue] that currently prevents using it.
+
