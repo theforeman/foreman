@@ -129,5 +129,13 @@ FactoryBot.define do
       type { 'Rancheros' }
       title { 'Rancheros 1.4.3' }
     end
+
+    factory :freebsd, class: Freebsd do
+      sequence(:name) { 'FreeBSD' }
+      major { '11' }
+      minor { '2' }
+      type { 'Freebsd' }
+      title { 'FreeBSD 11.2' }
+    end
   end
 end
