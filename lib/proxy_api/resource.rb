@@ -8,9 +8,17 @@ module ProxyAPI
     def initialize(args)
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
 
-      @connect_params = {:timeout => Setting[:proxy_request_timeout], :open_timeout => 10,
-                         :headers => { :accept => :json, :x_request_id => request_id },
-                         :user => args[:user], :password => args[:password]}
+      @connect_params = {
+        :timeout => Setting[:proxy_request_timeout],
+        :open_timeout => 10,
+        :headers => {
+          :accept => :json,
+          :x_request_id => request_id,
+          :x_session_id => session_id
+        },
+        :user => args[:user],
+        :password => args[:password]
+      }
 
       # We authenticate only if we are using SSL
       @connect_params.merge!(ssl_auth_params) if url =~ /^https/i && !Rails.env.test?
@@ -108,7 +116,11 @@ module ProxyAPI
     end
 
     def request_id
-      ::Logging.mdc['session'] || SecureRandom.hex(32)
+      ::Logging.mdc['request'] || SecureRandom.uuid
+    end
+
+    def session_id
+      ::Logging.mdc['session'] || SecureRandom.uuid
     end
 
     def ssl_auth_params
