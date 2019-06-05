@@ -23,8 +23,8 @@ COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
-# Temp container that download gems/npms and compile assets etc
-FROM base as builder-base
+# Container that provides the build dependencies
+FROM base
 ENV RAILS_ENV=production
 ENV FOREMAN_APIPIE_LANGS=en
 ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter"
