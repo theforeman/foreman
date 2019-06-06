@@ -1,6 +1,17 @@
 @import '~patternfly/dist/sass/patternfly/_color-variables.scss';
 @import '~patternfly-react/dist/sass/_login-page.scss';
 
+$caption_font_weight: 600;
+/* stylelint-disable-next-line */
+$background_image: linear-gradient(
+  to right,
+  #005e8c,
+  #084c75,
+  #0a3a5e,
+  #082948,
+  #041a33
+);
+
 .login-page {
   height: 100%;
   overflow: hidden;
@@ -14,22 +25,14 @@
   }
 
   .login-pf {
-    /* stylelint-disable-next-line */
-    background-image: linear-gradient(
-      to right,
-      #005e8c,
-      #084c75,
-      #0a3a5e,
-      #082948,
-      #041a33
-    );
+    background-image: $background_image;
   }
 
   .login-pf-caption {
     color: white;
 
     h1 {
-      font-weight: 600;
+      font-weight: $caption_font_weight;
     }
   }
 

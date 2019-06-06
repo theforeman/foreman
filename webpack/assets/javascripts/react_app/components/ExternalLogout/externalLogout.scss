@@ -1,0 +1,40 @@
+@import '../LoginPage/LoginPage.scss';
+
+.login-page {
+  background-image: $background_image;
+
+  .external_logout {
+    height: 100%;
+
+    .external-logout {
+      height: 100%;
+
+      header {
+        text-align: center;
+
+        img.brand {
+          margin-top: 62px;
+          max-width: 360px;
+          width: 70%;
+        }
+
+        .login-pf-caption {
+          #title {
+            font-weight: $caption_font_weight;
+          }
+
+          p {
+            font-size: 14px;
+            margin-top: 20px;
+          }
+        }
+      }
+
+      .login-pf-submit-button {
+        margin: 40px auto;
+        font-size: 20px;
+        width: 250px;
+      }
+    }
+  }
+}
