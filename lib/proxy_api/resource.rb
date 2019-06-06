@@ -10,7 +10,6 @@ module ProxyAPI
 
       @connect_params = {
         :timeout => Setting[:proxy_request_timeout],
-        :open_timeout => 10,
         :headers => {
           :accept => :json,
           :x_request_id => request_id,
