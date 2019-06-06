@@ -82,7 +82,7 @@ class LookupValue < ApplicationRecord
     md = ensure_matcher(/fqdn=(.*)/)
     return md if md == true || md == false
     fqdn = md[1].split(LookupKey::KEY_DELM)[0]
-    return true if Host.unscoped.find_by_name(fqdn) || host_or_hostgroup.try(:new_record?) ||
+    return true if host_with_fqdn_exists?(fqdn) || host_or_hostgroup.try(:new_record?) ||
         (host_or_hostgroup.present? && host_or_hostgroup.type_changed? && host_or_hostgroup.type == "Host::Managed")
     errors.add(:match, _("%{match} does not match an existing host") % { :match => "fqdn=#{fqdn}" })
 
@@ -120,5 +120,9 @@ class LookupValue < ApplicationRecord
 
   def skip_strip_attrs
     ['value']
+  end
+
+  def host_with_fqdn_exists?(fqdn)
+    Host.unscoped.left_joins(:primary_interface).where("nics.name = ?", fqdn).any?
   end
 end

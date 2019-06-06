@@ -67,6 +67,19 @@ class LookupValueTest < ActiveSupport::TestCase
     end
   end
 
+  test "can create lookup value if match fqdn= does match existing host" do
+    as_admin do
+      Setting[:append_domain_name_for_hosts] = false
+      domain = FactoryBot.create(:domain)
+      host = FactoryBot.create(:host, interfaces: [FactoryBot.build(:nic_managed, identifier: 'fqdn_test', primary: true, domain: domain)])
+      attrs = { :match => "fqdn=#{host.primary_interface.fqdn}", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      refute_match /#{domain.name}/, host.name, "#{host.name} shouldn't be FQDN"
+      assert_difference('LookupValue.count') do
+        LookupValue.create!(attrs)
+      end
+    end
+  end
+
   test "can create lookup value if user has matching hostgroup " do
     as_user :one do
       lookup_value = LookupValue.new(valid_attrs2)
