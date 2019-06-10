@@ -14,7 +14,7 @@ group :test do
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
   gem 'poltergeist', '>= 1.18.0', :require => false
   gem 'selenium-webdriver', :require => false
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers', (RUBY_VERSION.start_with?('2.3') ? '~> 4.0.0' : '~> 4.0')
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.4'
   gem 'rails-controller-testing', '~> 1.0'
