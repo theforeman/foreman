@@ -46,7 +46,7 @@ module Foreman::Model
     def tenants
       if identity_version == 3
         user_id = identity_client.current_user_id
-        identity_client.list_user_projects(user_id).body["projects"].map { |p| Fog::Identity::OpenStack::V3::Project.new(p) }
+        identity_client.list_user_projects(user_id).body["projects"].map { |p| Fog::OpenStack::Identity::V3::Project.new(p) }
       else
         identity_client.tenants
       end
