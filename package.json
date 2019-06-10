@@ -44,7 +44,7 @@
     "jest-prop-type-error": "^1.1.0",
     "lodash-webpack-plugin": "^0.11.4",
     "node-sass": "^4.5.0",
-    "prettier": "^1.13.5",
+    "prettier": "^1.18.0",
     "raf": "^3.4.0",
     "raw-loader": "^0.5.1",
     "react-redux-test-utils": "^0.1.1",

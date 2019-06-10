@@ -35,9 +35,7 @@ class DateTimePicker extends React.Component {
       minutes: zeroPadding(value.getMinutes()),
     };
 
-    return `${date.year}-${date.month}-${date.day} ${date.hour}:${
-      date.minutes
-    }:00`;
+    return `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minutes}:00`;
   };
 
   setSelected = date => {
