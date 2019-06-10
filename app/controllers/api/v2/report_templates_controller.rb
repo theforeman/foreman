@@ -201,7 +201,7 @@ module Api
       def load_and_authorize_plan
         @plan = load_dynflow_plan(params[:job_id])
         return not_found(_('Report not found, please ensure you used the correct job_id')) if @plan.nil?
-        return @plan if @plan.state == :scheduled || @plan.failure?
+        return @plan if @plan.progress < 1 || @plan.failure?
         composer_attrs, options = plan_arguments(@plan)
         if User.current.admin? || options['user_id'].to_i == User.current.id
           @composer = ReportComposer.new(composer_attrs)

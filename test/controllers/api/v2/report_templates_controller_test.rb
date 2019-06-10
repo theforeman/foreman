@@ -312,14 +312,14 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     describe 'failures' do
       it 'returns no_content if not ready' do
         stub_plan('progress' => 0.0)
-        stub_plan_arguments
+        @controller.expects(:plan_arguments).never
         get :report_data, params: { id: report_template.id, job_id: 'JOBID' }
         assert_response :no_content
       end
 
       it 'fails if underlying job failed ' do
         stub_plan('failure?' => true)
-        stub_plan_arguments
+        @controller.expects(:plan_arguments).never
         get :report_data, params: { id: report_template.id, job_id: 'JOBID' }
         assert_response :unprocessable_entity
       end
