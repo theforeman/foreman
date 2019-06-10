@@ -1,0 +1,55 @@
+= Reviewing Pull Requests
+:toc: right
+:toclevels: 5
+
+This document provide a guideance for the Github Pull Request review. It's not a complete list and can be little bit overhelming for smaller patches, however it sets the standard we should all aim for.
+
+[[How]]
+== How to use the list
+
+It's a good idea to use https://help.github.com/en/articles/using-saved-replies[Saved reply Github] feature and use it for patches which require extra attention.
+
+[[List]]
+== Review list
+
+- [ ] Ticket number, title and description is correct.
+- [ ] Fixes the problem described in the issue.
+- [ ] No unrelated changes present.
+- [ ] Redmine opened for the correct project.
+- [ ] No use of .to_sym, .send or other reflection on untrusted inputs.
+- [ ] All strings extracted (use :mark_translated: true).
+- [ ] All string extractions follow our rules.
+- [ ] Appropriate permissions for non-admin users added.
+- [ ] New code hasn't been copy-pasted from elsewhere.
+- [ ] All new AR fields have appropriate validators.
+- [ ] No exceptions are swallowed/squashed.
+- [ ] New exceptions are type of Foreman::Exception or WrappedException.
+- [ ] Covered with meaningful unit/functional/integration test(s).
+- [ ] New view templates have .html.erb extensions, not just .erb.
+- [ ] Mixins use ActiveSupport::Concern instead of class_eval etc.
+- [ ] Concerns and new classes are added to app/ and not lib/.
+- [ ] Apipie documentation is correct: HTTP methods, names of parameters, required true/false.
+- [ ] Scoped_search definitions are added for new model attributes where appropriate.
+- [ ] Scoped_search definitions for virtual fields (:ext_method) use :only_explicit.
+- [ ] Rails logging is appropriately used. Enough debug log statements.
+- [ ] Block used for logger.debug to lazily evaluate expensive debug statements.
+- [ ] Deprecations use Foreman::Deprecation with a deadline of latest stable + three versions.
+- [ ] New controllers/actions have API counterparts.
+- [ ] New controllers/actions have Hammer CLI counterparts.
+- [ ] Public HTTP API not changed in incompatible way.
+- [ ] No memory or performance concerns.
+- [ ] Necessary packaging done.
+- [ ] Agreed who would provide user documentation.
+- [ ] Agreed who would provide community demo.
+- [ ] Agreed who would provide Upgrade Notes or New Mainline Features docs.
+
+Feel free to edit this page and more items to the list.
+
+[[Additionally]]
+== Additional info
+
+String extractions have http://projects.theforeman.org/projects/foreman/wiki/Translating#Translating-for-developers[several hard to remember rules].
+
+Scoped_search definitions for virtual fields can stop free text search if the field definition added doesn't actually exist - i.e. it's a fake field that uses :ext_method to return results. In this case it should use :only_explicit => true too so it isn't searched in free text searches (see also #5777 for another instance of this).
+
+For internal APIs etc that are changing, use Foreman::Deprecation.deprecation_warning to add a warning for plugins that are triggering old codepaths. We ship deprecated methods for two stable releases, giving plugin authors the chance to ship their plugin with compatibility for a couple of versions before forcing their hand. If our most recent stable release is say, 1.9-stable, then the deprecation first goes into develop which becomes 1.10, still in 1.11 and so the deadline would be 1.12. It would be removed after 1.11-stable's branched. Use the most recent stable number, plus three to work out the deadline.
