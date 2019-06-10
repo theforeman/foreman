@@ -234,7 +234,7 @@ module Foreman
     if (rails_cache_settings && rails_cache_settings[:type] == 'redis')
       options = [:redis_cache_store]
       redis_urls = Array.wrap(rails_cache_settings[:urls])
-      options << { namespace: 'foreman', urls: redis_urls }.merge(rails_cache_settings[:options] || {})
+      options << { namespace: 'foreman', url: redis_urls }.merge(rails_cache_settings[:options] || {})
       config.cache_store = options
       Foreman::Logging.logger('app').info "Rails cache backend: Redis"
     else

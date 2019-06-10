@@ -28,9 +28,14 @@ services:
       - DATABASE_URL=mysql2://foreman:foreman@db:3306/foreman
       - RAILS_MAX_THREADS=5
       - RAILS_ENV=production
+      - FOREMAN_FQDN=foreman.example.com
+      - FOREMAN_DOMAIN=example.com
+      - FOREMAN_RAILS_CACHE_STORE_TYPE=redis
+      - FOREMAN_RAILS_CACHE_STORE_URLS=redis://redis:6379/0
     hostname: foreman.example.com
     links:
       - db
+      - redis
     ports:
       - "${MY_DOCKER_IP:-127.0.0.1}:3000:3000"
       - "${MY_DOCKER_IP:-127.0.0.1}:5910-5930:5910-5930"
@@ -50,6 +55,9 @@ services:
       test: "ps ax | grep -v grep | grep dynflow_executor"
       interval: 1m
       start_period: 1m
+
+  redis:
+    image: redis
 
 volumes:
   db:
