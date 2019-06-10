@@ -2,6 +2,8 @@
 FROM registry.fedoraproject.org/fedora-minimal:30 as base
 ARG RUBY_VERSION="2.6"
 ARG NODEJS_VERSION="11"
+ENV FOREMAN_FQDN=foreman.example.com
+ENV FOREMAN_DOMAIN=example.com
 
 RUN \
   echo -e "[nodejs]\nname=nodejs\nstream=${NODEJS_VERSION}\nprofiles=\nstate=enabled\n" > /etc/dnf/modules.d/nodejs.module && \
@@ -27,7 +29,7 @@ ENTRYPOINT ["entrypoint.sh"]
 FROM base as builder
 ENV RAILS_ENV=production
 ENV FOREMAN_APIPIE_LANGS=en
-ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald"
+ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter"
 
 RUN \
   microdnf install redhat-rpm-config git \
@@ -62,7 +64,7 @@ FROM base
 ARG HOME=/home/foreman
 ARG RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=true
-ENV RAILS_LOG_TO_STDOUT true
+ENV RAILS_LOG_TO_STDOUT=true
 
 USER 1001
 WORKDIR ${HOME}
