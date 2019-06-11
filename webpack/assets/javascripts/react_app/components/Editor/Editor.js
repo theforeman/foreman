@@ -188,7 +188,9 @@ class Editor extends React.Component {
           isMasked={isMasked}
           isRendering={isRendering}
         />
-        <textarea className="hidden" name={name} value={value} readOnly />
+        {!readOnly && (
+          <textarea className="hidden" name={name} value={value} readOnly />
+        )}
       </div>
     );
   }

@@ -88,4 +88,15 @@ describe('Editor', () => {
     const wrapper = mount(<Editor {...props} />);
     expect(wrapper.find('.mask-editor').exists()).toBe(true);
   });
+  it('textarea disappears if readOnly', () => {
+    const props = {
+      ...editorOptions,
+      ...didMountStubs(),
+      selectedView: 'input',
+    };
+    const wrapper = mount(<Editor {...props} />);
+    expect(wrapper.find('textarea.hidden').exists()).toBe(true);
+    wrapper.setProps({ readOnly: true });
+    expect(wrapper.find('textarea.hidden').exists()).toBe(false);
+  });
 });
