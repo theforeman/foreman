@@ -38,7 +38,7 @@ export const withRenderHandler = ({
 }) => componentProps => {
   const { isLoading, hasData, hasError } = componentProps;
 
-  if (isLoading) return <LoadingComponent {...componentProps} />;
+  if (isLoading && !hasData) return <LoadingComponent {...componentProps} />;
   if (hasError) return <ErrorComponent {...componentProps} />;
   if (hasData) return <Component {...componentProps} />;
   return <EmptyComponent {...componentProps} />;
