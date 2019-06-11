@@ -81,7 +81,6 @@ docker build . -t mytag
 ....
 if you have any plugins configured in your `bundler.d/Gemfile.local.rb` it will pick them up and include them in your generated container, you would then might need to change the line pointing to the container image to point to the image you just created.
 
-
 If you happen to have gem in a local checkout - e.g.
 
 [source, ruby]
@@ -114,3 +113,39 @@ tar -chf - --exclude-from=.dockerignore . | docker build -
 
 *Buildah note*: In case you wanted to build the container image with Buildah, be aware of https://github.com/containers/buildah/issues/1578[the following issue] that currently prevents using it.
 
+==== Building base images
+
+In the build process, there are base images used to:
+
+* have a faster image build time (to avoid installing ruby/node/python all the time)
+* have a image that can be used for development
+* speed up plugin image build time by reusing a foreman published build image
+
+Here are the layers used in the process:
+
+quay.io/theforeman/foreman-base::
+    the base OS with minimal runtime (ruby, node, python) dependencies.
+quay.io/theforeman/foreman-builder-base::
+    the base image for the builder image, with pre-installed devel/build dependencies
+builder::
+    https://docs.docker.com/develop/develop-images/multistage-build/[a staged image]
+    to build the assets and other built-time artifacts to be copied over to the final image
+
+
+....
+Dockerfile.builder-base[quay.io/theforeman/foreman-base]
+│
+├─ Dockerfile.builder-base[quay.io/theforeman/foreman-builder-base]
+│  │
+│  └─ Dockerfile[builder]
+│     ¦
+│     ¦ # artifacts copied over
+│     v
+└─ Dockerfile
+....
+
+[source, bash]
+....
+docker build --target base -t quay.io/foreman/foreman-base -f containers/Dockerfile.builder-base .
+docker build -t quay.io/foreman/foreman-builder-base -f containers/Dockerfile.builder-base .
+....

@@ -1,9 +1,10 @@
-FROM quay.io/foreman/foreman:builder-base as builder
+FROM quay.io/foreman/foreman-builder-base as builder
 
 ARG HOME=/home/foreman
 ARG RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_LOG_TO_STDOUT=true
+ENV DATABASE_URL=sqlite3:tmp/bootstrap-db.sqlite3
 
 USER 1001
 WORKDIR $HOME
@@ -21,7 +22,7 @@ RUN \
 RUN ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && npm run analyze && rm -rf public/webpack/stats.json
 RUN rm -rf vendor/ruby/*/cache vendor/ruby/*/gems/*/node_modules
 
-FROM quay.io/foreman/foreman:base
+FROM quay.io/foreman/foreman-base
 
 ARG HOME=/home/foreman
 ARG RAILS_ENV=production

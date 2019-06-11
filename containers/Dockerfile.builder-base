@@ -2,6 +2,8 @@
 FROM registry.fedoraproject.org/fedora-minimal:30 as base
 ARG RUBY_VERSION="2.6"
 ARG NODEJS_VERSION="11"
+ENV FOREMAN_FQDN=foreman.example.com
+ENV FOREMAN_DOMAIN=example.com
 
 RUN \
   echo -e "[nodejs]\nname=nodejs\nstream=${NODEJS_VERSION}\nprofiles=\nstate=enabled\n" > /etc/dnf/modules.d/nodejs.module && \
@@ -19,7 +21,7 @@ RUN groupadd -r foreman -f -g 1001 && \
     chown -R 1001:1001 $HOME
 
 # Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
+COPY containers/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
@@ -28,8 +30,6 @@ FROM base
 ENV RAILS_ENV=production
 ENV FOREMAN_APIPIE_LANGS=en
 ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter"
-ENV FOREMAN_FQDN=foreman.example.com
-ENV FOREMAN_DOMAIN=example.com
 
 RUN \
   microdnf install redhat-rpm-config git \
