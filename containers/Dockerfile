@@ -37,7 +37,7 @@ COPY --from=builder --chown=1001:1001 ${HOME}/.bundle/config ${HOME}/.bundle/con
 COPY --from=builder --chown=1001:1001 ${HOME}/Gemfile.lock ${HOME}/Gemfile.lock
 COPY --from=builder --chown=1001:1001 ${HOME}/vendor/ruby ${HOME}/vendor/ruby
 COPY --from=builder --chown=1001:1001 ${HOME}/public ${HOME}/public
-RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb
+COPY --from=builder --chown=1001:1001 ${HOME}/bundler.d/container.rb ${HOME}/bundler.d/container.rb
 
 RUN date -u > BUILD_TIME
 
