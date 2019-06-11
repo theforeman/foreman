@@ -77,7 +77,7 @@ docker-compose build app
 or
 [source, bash]
 ....
-docker build . -t mytag
+docker build .. -t mytag Dockerfile
 ....
 if you have any plugins configured in your `bundler.d/Gemfile.local.rb` it will pick them up and include them in your generated container, you would then might need to change the line pointing to the container image to point to the image you just created.
 
@@ -108,7 +108,7 @@ and then, use tar to combine all needed directories and follow symlinks, e.g.
 
 [source, bash]
 ....
-tar -chf - --exclude-from=.dockerignore . | docker build -
+tar -chf - --exclude-from=.dockerignore .. | docker build -
 ....
 
 *Buildah note*: In case you wanted to build the container image with Buildah, be aware of https://github.com/containers/buildah/issues/1578[the following issue] that currently prevents using it.
@@ -146,6 +146,6 @@ Dockerfile.builder-base[quay.io/theforeman/foreman-base]
 
 [source, bash]
 ....
-docker build --target base -t quay.io/foreman/foreman-base -f containers/Dockerfile.builder-base .
-docker build -t quay.io/foreman/foreman-builder-base -f containers/Dockerfile.builder-base .
+docker build --target base -t quay.io/foreman/foreman-base -f Dockerfile.builder-base ..
+docker build -t quay.io/foreman/foreman-builder-base -f Dockerfile.builder-base ..
 ....
