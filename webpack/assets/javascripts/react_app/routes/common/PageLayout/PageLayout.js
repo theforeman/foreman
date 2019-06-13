@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col } from 'patternfly-react';
+import { Row, Col, Spinner } from 'patternfly-react';
 import { updateDocumentTitle } from '../../../common/document';
 import { changeQuery } from '../../../common/urlHelpers';
 
@@ -20,6 +20,7 @@ const PageLayout = ({
   toolbarButtons,
   toastNotifications,
   beforeToolbarComponent,
+  isLoading,
   children,
 }) => {
   updateDocumentTitle(header);
@@ -61,7 +62,14 @@ const PageLayout = ({
             )}
           </Col>
           <Col id="title_action" md={searchable ? 6 : 8}>
-            <div className="btn-toolbar pull-right">{toolbarButtons}</div>
+            <div className="btn-toolbar pull-right">
+              {isLoading && (
+                <div id="toolbar-spinner">
+                  <Spinner loading size="sm" />
+                </div>
+              )}
+              {toolbarButtons}
+            </div>
           </Col>
         </Row>
         {children}
@@ -118,6 +126,7 @@ PageLayout.propTypes = {
   onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
   beforeToolbarComponent: PropTypes.node,
+  isLoading: PropTypes.bool,
 };
 
 PageLayout.defaultProps = {
@@ -128,6 +137,7 @@ PageLayout.defaultProps = {
   customBreadcrumbs: null,
   toolbarButtons: null,
   breadcrumbOptions: null,
+  isLoading: false,
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
   onBookmarkClick: searchQuery =>
     changeQuery({ search: searchQuery.trim(), page: 1 }),

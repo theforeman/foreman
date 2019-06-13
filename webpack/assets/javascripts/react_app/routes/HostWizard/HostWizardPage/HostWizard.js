@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wizard, Button, Icon } from 'patternfly-react';
-import PageLayout from '../common/PageLayout/PageLayout';
-import { translate as __ } from '../../common/I18n';
+import PageLayout from '../../common/PageLayout/PageLayout';
+import { translate as __ } from '../../../common/I18n';
 
 class LoadingWizardExample extends React.Component {
   constructor(props) {

@@ -298,11 +298,9 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :audits, :only => [:index] do
-    collection do
-      get 'auto_complete_search'
-    end
-  end
+  resources :audits, :only => [:index], constraints: ->(req) { req.format == :json }
+  match '/audits/auto_complete_search' => 'audits#auto_complete_search', :via => [:get]
+  match '/audits' => 'react#index', :via => [:get]
 
   resources :usergroups, :except => [:show] do
     collection do
