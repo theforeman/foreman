@@ -6,6 +6,7 @@ exports[`HostWizard rendering renders LoginPage 1`] = `
   breadcrumbOptions={null}
   customBreadcrumbs={null}
   header="Host Wizard"
+  isLoading={false}
   onBookmarkClick={[Function]}
   onSearch={[Function]}
   searchProps={Object {}}

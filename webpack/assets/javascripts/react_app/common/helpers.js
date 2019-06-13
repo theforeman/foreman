@@ -156,6 +156,13 @@ export const stringIsPositiveNumber = value => {
   return reg.test(value);
 };
 
+/**
+ * Get manual url based on version
+ * @param {String} version - foreman short version
+ */
+export const getManualURL = version =>
+  `https://theforeman.org/manuals/${version}/index.html`;
+
 export default {
   isoCompatibleDate,
   bindMethods,
@@ -171,4 +178,5 @@ export default {
   deepPropsToCamelCase,
   deepPropsToSnakeCase,
   stringIsPositiveNumber,
+  getManualURL,
 };

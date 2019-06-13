@@ -6,6 +6,7 @@ exports[`StatisticsPage rendering render with props 1`] = `
   breadcrumbOptions={null}
   customBreadcrumbs={null}
   header="Statistics"
+  isLoading={false}
   onBookmarkClick={[Function]}
   onSearch={[Function]}
   searchProps={Object {}}

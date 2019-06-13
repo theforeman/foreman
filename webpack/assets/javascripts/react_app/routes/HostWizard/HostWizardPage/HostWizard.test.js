@@ -1,5 +1,5 @@
 import HostWizard from './HostWizard';
-import { testComponentSnapshotsWithFixtures } from '../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const props = {};
 const fixtures = {

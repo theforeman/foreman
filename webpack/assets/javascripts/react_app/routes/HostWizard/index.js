@@ -1,5 +1,5 @@
 import React from 'react';
-import HostWizard from '../../pages/HostWizardPage';
+import HostWizard from './HostWizardPage';
 
 export default {
   path: '/host_wizard',

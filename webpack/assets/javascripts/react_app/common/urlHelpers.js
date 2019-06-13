@@ -28,7 +28,7 @@ export const getURIpage = () => Number(getURI().query(true).page) || 1;
 /**
  * Get updated perPage param
  */
-export const getURIperPage = () => Number(getURI().query(true).per_page);
+export const getURIperPage = () => Number(getURI().query(true).per_page) || 20;
 /**
  * Get updated searchQuery param
  */

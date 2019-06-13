@@ -148,6 +148,13 @@ a {
 }
 
 .btn-toolbar {
+  display: flex;
+  align-items: center;
+
+  #toolbar-spinner {
+    margin-right: 5px;
+  }
+
   .btn-group,
   .btn-docs {
     float: none;
