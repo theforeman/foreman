@@ -55,9 +55,11 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
     titleReplacement={null}
   >
     <BreadcrumbSwitcher
+      className=""
       currentPage={null}
       hasError={false}
-      isLoadingResources={false}
+      isLoading={false}
+      isPaginated={true}
       onHide={[Function]}
       onNextPageClick={[Function]}
       onOpen={[Function]}

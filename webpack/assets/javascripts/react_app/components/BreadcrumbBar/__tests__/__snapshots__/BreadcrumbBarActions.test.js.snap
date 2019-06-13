@@ -51,19 +51,19 @@ Array [
       "payload": Object {
         "items": Array [
           Object {
+            "href": "some/url/1",
             "id": "1",
             "name": "name-1",
-            "url": "some/url/1",
           },
           Object {
+            "href": "some/url/2",
             "id": "2",
             "name": "name-2",
-            "url": "some/url/2",
           },
           Object {
+            "href": "some/url/3",
             "id": "3",
             "name": "name-3",
-            "url": "some/url/3",
           },
         ],
         "page": 1,
@@ -95,19 +95,19 @@ Array [
       "payload": Object {
         "items": Array [
           Object {
+            "href": "some/url/1",
             "id": "1",
             "name": "username-1",
-            "url": "some/url/1",
           },
           Object {
+            "href": "some/url/2",
             "id": "2",
             "name": "username-2",
-            "url": "some/url/2",
           },
           Object {
+            "href": "some/url/3",
             "id": "3",
             "name": "username-3",
-            "url": "some/url/3",
           },
         ],
         "page": 1,
