@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import { callOnMount, withRenderHandler } from './HOC';
+import { callOnMount, withRenderHandler, callOnPopState } from './HOC';
 
 const Component = () => <div>component mounted</div>;
 
@@ -50,6 +50,22 @@ describe('HOCs', () => {
     const callback = jest.fn();
     const OnMount = callOnMount(callback)(Component);
     mount(<OnMount />);
+    expect(callback).toHaveBeenCalled();
+  });
+
+  it('test callOnPopState', () => {
+    const callback = jest.fn();
+    const props = {
+      history: { action: 'PUSH' },
+      location: { search: 'search' },
+    };
+
+    const OnPopState = callOnPopState(callback)(Component);
+    const wrapper = mount(<OnPopState {...props} />);
+    wrapper.setProps({
+      history: { action: 'POP' },
+      location: { search: 'changed' },
+    });
     expect(callback).toHaveBeenCalled();
   });
 });

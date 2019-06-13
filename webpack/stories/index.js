@@ -6,6 +6,7 @@ import Story from './components/Story';
 import './index.scss';
 import gettingStarted from './docs/gettingStarted.md';
 import addingNewComponent from './docs/addingNewComponent.md';
+import hoc from './docs/hoc.md';
 import addingDependencies from './docs/addingDependencies.md';
 import internationalization from './docs/internationalization.md';
 import plugins from './docs/plugins.md';
@@ -35,6 +36,11 @@ storiesOf('Introduction', module)
   .add('Adding new component', () => (
     <Story>
       <Markdown source={addingNewComponent} />
+    </Story>
+  ))
+  .add('HOCs', () => (
+    <Story>
+      <Markdown source={hoc} />
     </Story>
   ))
   .add('Adding dependencies', () => (

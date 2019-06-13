@@ -16,6 +16,23 @@ export const callOnMount = callback => WrappedComponent => componentProps => {
 };
 
 /**
+ * HOC that runs a function onPopState if search query has changed,
+ * assuming the component has withRouter
+ * @param {Function} callback - function to run
+ */
+export const callOnPopState = callback => WrappedComponent => componentProps => {
+  useEffect(() => {
+    const {
+      history: { action },
+    } = componentProps;
+
+    if (action === 'POP') callback(componentProps);
+  }, [componentProps.location.search]);
+
+  return <WrappedComponent {...componentProps} />;
+};
+
+/**
  * HOC That renders a component based on its state
  *
  * the following root Component props are required
