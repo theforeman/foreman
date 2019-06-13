@@ -24,19 +24,19 @@ Object {
         "payload": Object {
           "items": Array [
             Object {
+              "href": "some/url/1",
               "id": "1",
               "name": "name-1",
-              "url": "some/url/1",
             },
             Object {
+              "href": "some/url/2",
               "id": "2",
               "name": "name-2",
-              "url": "some/url/2",
             },
             Object {
+              "href": "some/url/3",
               "id": "3",
               "name": "name-3",
-              "url": "some/url/3",
             },
           ],
           "page": 2,
@@ -56,19 +56,19 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [
         Object {
+          "href": "some/url/1",
           "id": "1",
           "name": "name-1",
-          "url": "some/url/1",
         },
         Object {
+          "href": "some/url/2",
           "id": "2",
           "name": "name-2",
-          "url": "some/url/2",
         },
         Object {
+          "href": "some/url/3",
           "id": "3",
           "name": "name-3",
-          "url": "some/url/3",
         },
       ],
       "resourceUrl": "some/url",
@@ -87,19 +87,19 @@ Object {
         "payload": Object {
           "items": Array [
             Object {
+              "href": "some/url/1",
               "id": "1",
               "name": "name-1",
-              "url": "some/url/1",
             },
             Object {
+              "href": "some/url/2",
               "id": "2",
               "name": "name-2",
-              "url": "some/url/2",
             },
             Object {
+              "href": "some/url/3",
               "id": "3",
               "name": "name-3",
-              "url": "some/url/3",
             },
           ],
           "page": 1,
@@ -119,19 +119,19 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [
         Object {
+          "href": "some/url/1",
           "id": "1",
           "name": "name-1",
-          "url": "some/url/1",
         },
         Object {
+          "href": "some/url/2",
           "id": "2",
           "name": "name-2",
-          "url": "some/url/2",
         },
         Object {
+          "href": "some/url/3",
           "id": "3",
           "name": "name-3",
-          "url": "some/url/3",
         },
       ],
       "resourceUrl": "some/url",
@@ -150,19 +150,19 @@ Object {
         "payload": Object {
           "items": Array [
             Object {
+              "href": "some/url/1",
               "id": "1",
               "name": "name-1",
-              "url": "some/url/1",
             },
             Object {
+              "href": "some/url/2",
               "id": "2",
               "name": "name-2",
-              "url": "some/url/2",
             },
             Object {
+              "href": "some/url/3",
               "id": "3",
               "name": "name-3",
-              "url": "some/url/3",
             },
           ],
           "page": 1,
@@ -182,19 +182,19 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [
         Object {
+          "href": "some/url/1",
           "id": "1",
           "name": "name-1",
-          "url": "some/url/1",
         },
         Object {
+          "href": "some/url/2",
           "id": "2",
           "name": "name-2",
-          "url": "some/url/2",
         },
         Object {
+          "href": "some/url/3",
           "id": "3",
           "name": "name-3",
-          "url": "some/url/3",
         },
       ],
       "resourceUrl": "some/url",
@@ -213,19 +213,19 @@ Object {
         "payload": Object {
           "items": Array [
             Object {
+              "href": "some/url/1",
               "id": "1",
               "name": "name-1",
-              "url": "some/url/1",
             },
             Object {
+              "href": "some/url/2",
               "id": "2",
               "name": "name-2",
-              "url": "some/url/2",
             },
             Object {
+              "href": "some/url/3",
               "id": "3",
               "name": "name-3",
-              "url": "some/url/3",
             },
           ],
           "page": 1,
@@ -245,19 +245,19 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [
         Object {
+          "href": "some/url/1",
           "id": "1",
           "name": "name-1",
-          "url": "some/url/1",
         },
         Object {
+          "href": "some/url/2",
           "id": "2",
           "name": "name-2",
-          "url": "some/url/2",
         },
         Object {
+          "href": "some/url/3",
           "id": "3",
           "name": "name-3",
-          "url": "some/url/3",
         },
       ],
       "resourceUrl": "some/url",
@@ -286,19 +286,19 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [
         Object {
+          "href": "some/url/1",
           "id": "1",
           "name": "name-1",
-          "url": "some/url/1",
         },
         Object {
+          "href": "some/url/2",
           "id": "2",
           "name": "name-2",
-          "url": "some/url/2",
         },
         Object {
+          "href": "some/url/3",
           "id": "3",
           "name": "name-3",
-          "url": "some/url/3",
         },
       ],
       "resourceUrl": "some/url",
@@ -349,19 +349,19 @@ Object {
         "payload": Object {
           "items": Array [
             Object {
+              "href": "some/url/1",
               "id": "1",
               "name": "name-1",
-              "url": "some/url/1",
             },
             Object {
+              "href": "some/url/2",
               "id": "2",
               "name": "name-2",
-              "url": "some/url/2",
             },
             Object {
+              "href": "some/url/3",
               "id": "3",
               "name": "name-3",
-              "url": "some/url/3",
             },
           ],
           "page": 1,
@@ -381,19 +381,19 @@ Object {
       "requestError": null,
       "resourceSwitcherItems": Array [
         Object {
+          "href": "some/url/1",
           "id": "1",
           "name": "name-1",
-          "url": "some/url/1",
         },
         Object {
+          "href": "some/url/2",
           "id": "2",
           "name": "name-2",
-          "url": "some/url/2",
         },
         Object {
+          "href": "some/url/3",
           "id": "3",
           "name": "name-3",
-          "url": "some/url/3",
         },
       ],
       "resourceUrl": "some/url",

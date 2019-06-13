@@ -1,0 +1,10 @@
+@import '~patternfly/dist/sass/patternfly/_color-variables.scss';
+@import '~patternfly-react/dist/sass/_breadcrumbswitcher-popover.scss';
+
+.breadcrumb-switcher {
+  position: relative;
+
+  .spinner {
+    float: unset;
+  }
+}

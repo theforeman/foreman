@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { BreadcrumbSwitcher } from 'patternfly-react';
 
 import { noop } from '../../common/helpers';
 import Breadcrumb from './components/Breadcrumb';
-import BreadcrumbSwitcher from './components/BreadcrumbSwitcher';
+import './breadcrumbswitcher.scss';
 
 class BreadcrumbBar extends React.Component {
   handleOpen() {
@@ -52,9 +53,9 @@ class BreadcrumbBar extends React.Component {
       page: Number(currentPage) + pageIncrement,
     });
 
-    const handleSwitcherItemClick = (e, url) => {
+    const handleSwitcherItemClick = (e, href) => {
       closeSwitcher();
-      onSwitcherItemClick(e, url);
+      onSwitcherItemClick(e, href);
     };
 
     return (
@@ -68,7 +69,7 @@ class BreadcrumbBar extends React.Component {
           {isSwitchable && (
             <BreadcrumbSwitcher
               open={isSwitcherOpen}
-              isLoadingResources={isLoadingResources}
+              isLoading={isLoadingResources}
               hasError={hasError}
               resources={resourceSwitcherItems}
               currentPage={currentPage}
@@ -96,7 +97,7 @@ class BreadcrumbBar extends React.Component {
               searchValue={searchQuery}
               onSearchClear={() => removeSearchQuery(resource)}
               searchDebounceTimeout={searchDebounceTimeout}
-              onResourceClick={(e, url) => handleSwitcherItemClick(e, url)}
+              onResourceClick={handleSwitcherItemClick}
             />
           )}
         </Breadcrumb>
