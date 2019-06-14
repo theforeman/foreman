@@ -71,7 +71,7 @@ class UnattendedController < ApplicationController
   protected
 
   def require_ssl?
-    preview? ? super : false
+    preview? ? super : unattended_ssl?
   end
 
   private
