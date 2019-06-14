@@ -12,6 +12,10 @@ module Foreman
       def require_ssl?
         SETTINGS[:require_ssl]
       end
+
+      def unattended_ssl?
+        SETTINGS[:require_ssl] && URI.parse(Setting[:unattended_url]).scheme == 'https'
+      end
     end
   end
 end

@@ -42,7 +42,7 @@ class Setting::Provisioning < Setting
     [
       self.set('host_owner', N_("Default owner on provisioned hosts, if empty Foreman will use current user"), nil, N_('Host owner'), nil, {:collection => Proc.new { select }, :include_blank => _("Select an owner")}),
       self.set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil, N_('Root password')),
-      self.set('unattended_url', N_("URL hosts will retrieve templates from during build (normally http as many installers don't support https)"), unattended_url, N_('Unattended URL')),
+      self.set('unattended_url', N_("URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"), unattended_url, N_('Unattended URL')),
       self.set('safemode_render', N_("Enable safe mode config templates rendering (recommended)"), true, N_('Safemode rendering')),
       self.set('access_unattended_without_build', N_("Allow access to unattended URLs without build mode being used"), false, N_('Access unattended without build')),
       self.set('manage_puppetca', N_("Foreman will automate certificate signing upon provision of new host"), true, N_('Manage PuppetCA')),
