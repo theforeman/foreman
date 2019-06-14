@@ -367,7 +367,12 @@ module Host
     end
 
     def uptime_seconds
-      self.uptime_fact&.value&.to_i
+      fact = self.uptime_fact
+      if fact&.fact_name&.name == 'proc_stat::btime'
+        Time.now.to_i - fact&.value&.to_i
+      else
+        fact&.value&.to_i
+      end
     end
 
     private

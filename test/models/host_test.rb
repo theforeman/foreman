@@ -3793,6 +3793,13 @@ class HostTest < ActiveSupport::TestCase
       assert_equal 123, host.uptime_seconds
     end
 
+    test 'should return uptime in seconds also when based on boot time fact' do
+      host = FactoryBot.create(:host)
+      fact = FactoryBot.create(:fact_name, name: 'proc_stat::btime')
+      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => 1560178781)
+      assert_in_delta host.uptime_seconds, Time.now.to_i - 1560178781, 10
+    end
+
     test 'should return nil if no uptime fact is available' do
       host = FactoryBot.create(:host)
       assert_nil host.uptime_seconds
@@ -3800,8 +3807,8 @@ class HostTest < ActiveSupport::TestCase
 
     test 'should return uptime and based on backup facts even if there are multiple other facts' do
       host = FactoryBot.create(:host)
-      ansible_uptime_fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds', :type => 'FactName::Ansible')
-      chef_uptime_fact = FactoryBot.create(:fact_name, name: 'uptime_seconds', :type => 'FactName::Chef')
+      ansible_uptime_fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds')
+      chef_uptime_fact = FactoryBot.create(:fact_name, name: 'uptime_seconds')
       unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
       puppet_fact = FactoryBot.create(:fact_name, name: 'system_uptime::seconds')
       ansible_fact = FactoryBot.create(:fact_value, fact_name: ansible_uptime_fact, host: host, :value => 123)
