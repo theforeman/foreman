@@ -12,7 +12,7 @@ group :development do
 
   gem 'bullet', '>= 5.7.3'
   gem "parallel_tests"
-  gem 'spring', '>= 1.0', '< 3'
+  gem 'spring', '>= 1.0', ((RUBY_VERSION < '2.4') ? '< 2.1.0' : '< 3')
   gem 'benchmark-ips'
   gem 'foreman'
   gem('bootsnap', :require => false)
