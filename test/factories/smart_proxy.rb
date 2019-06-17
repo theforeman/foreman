@@ -37,6 +37,12 @@ FactoryBot.define do
       end
     end
 
+    factory :ipam_smart_proxy do
+      after(:build) do |smart_proxy, _evaluator|
+        smart_proxy.smart_proxy_features << FactoryBot.build(:smart_proxy_feature, :external_ipam, :smart_proxy => smart_proxy)
+      end
+    end
+
     factory :puppet_smart_proxy do
       before(:create, :build, :build_stubbed) do
         ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:puppet => {'state' => 'running'})
@@ -97,6 +103,10 @@ FactoryBot.define do
 
     trait :bmc do
       association :feature, :bmc
+    end
+
+    trait :external_ipam do
+      association :feature, :external_ipam
     end
   end
 end

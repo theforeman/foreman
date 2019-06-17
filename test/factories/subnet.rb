@@ -9,6 +9,11 @@ FactoryBot.define do
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
 
+    # Skip the Subnet.after_validation hook that validates against external IPAM
+    after(:build) do |subnet|
+      subnet.class.skip_callback(:validation, :after, :validate_against_external_ipam, raise: false)
+    end
+
     trait :tftp do
       association :tftp, :factory => :template_smart_proxy
     end

@@ -33,4 +33,8 @@ module SubnetsHelper
     return [] unless Subnet::SUBNET_TYPES.key?(type.to_sym)
     type.safe_constantize.supported_ipam_modes_with_translations
   end
+
+  def external_ipam?(subnet)
+    subnet&.ipam&.downcase == "external ipam"
+  end
 end
