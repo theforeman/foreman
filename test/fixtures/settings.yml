@@ -399,3 +399,8 @@ attribute85:
   category: Setting::Provisioning
   default: nil
   description: 'Intermidiate iPXE script'
+attribute86:
+  name: launch_vm_wait
+  category: Setting::Provisioning
+  default: 0
+  description: 'VM Launch Wait'

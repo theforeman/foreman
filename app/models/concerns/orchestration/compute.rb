@@ -201,6 +201,12 @@ module Orchestration::Compute
   end
 
   def setComputePowerUp
+    delay = (Setting[:launch_vm_wait].to_i rescue 0)
+    if delay && !ActiveRecord::Base.connection.transaction_open?
+      logger.warn "Waiting #{delay} seconds due to 'VM Launch Wait' global setting"
+      sleep delay
+    end
+
     logger.info "Powering up Compute instance for #{name}"
     compute_resource.start_vm uuid
   rescue => e
