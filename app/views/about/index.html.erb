@@ -140,5 +140,6 @@
       <p id="copyright-p"><%= (_("Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}") % {:version => SETTINGS[:version], :copyright => "&copy;", :year=>DateTime.now.year, :author=>mail_to("ohadlevy@gmail.com", "Ohad Levy" )}).html_safe %></p>
     </div>
   </div>
+  <%= slot('aboutFooterSlot', true) %>
 </div>
-</div>
+
