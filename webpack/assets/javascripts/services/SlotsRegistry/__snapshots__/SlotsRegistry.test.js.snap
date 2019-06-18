@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Extendable Registry should render one component after a removal 1`] = `
+Array [
+  Object {
+    "component": [Function],
+    "weight": 100,
+  },
+]
+`;
+
+exports[`Extendable Registry should render two components by weights 1`] = `
+Array [
+  Object {
+    "component": [Function],
+    "weight": 100,
+  },
+  Object {
+    "component": [Function],
+    "weight": 200,
+  },
+]
+`;

@@ -32,6 +32,7 @@ import TemplateInput from './Template/TemplateInput';
 import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
+import Slot from './common/Slot';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -125,6 +126,7 @@ const coreComponets = [
   { name: 'DiffModal', type: DiffModal },
   { name: 'TemplateInput', type: TemplateInput },
   { name: 'ExternalLogout', type: ExternalLogout },
+  { name: 'Slot', type: Slot },
 
   {
     name: 'RelativeDateTime',
