@@ -159,7 +159,8 @@
       "^.+\\.(png|gif|css|scss)$": "identity-obj-proxy"
     },
     "globals": {
-      "__testing__": true
+      "__testing__": true,
+      "URL_PREFIX": "/"
     },
     "transform": {
       "^.+\\.js$": "babel-jest"
