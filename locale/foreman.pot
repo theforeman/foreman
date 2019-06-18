@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-11 15:28+0300\n"
-"PO-Revision-Date: 2019-04-11 15:28+0300\n"
+"POT-Creation-Date: 2019-06-18 16:53+0300\n"
+"PO-Revision-Date: 2019-06-18 16:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -18,80 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../app/assets/javascripts/application.js:77
+#: ../app/assets/javascripts/application.js:92
 msgid "Failed to fetch: "
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:214
+#: ../app/assets/javascripts/application.js:251
 msgid "Sorry but no templates were configured."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:337
+#: ../app/assets/javascripts/application.js:411
 #: ../app/models/config_report.rb:81
 msgid "Success"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:339
+#: ../app/assets/javascripts/application.js:415
 #: ../app/helpers/layout_helper.rb:156 ../app/models/host_status/global.rb:36
 msgid "Warning"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:341
+#: ../app/assets/javascripts/application.js:419
 #: ../app/controllers/application_controller.rb:348
 #: ../app/helpers/dashboard_helper.rb:59 ../app/helpers/layout_helper.rb:162
 #: ../app/models/host_status/configuration_status.rb:71
 #: ../app/models/host_status/global.rb:38
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:10
 msgid "Error"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:369
+#: ../app/assets/javascripts/application.js:455
 msgid "Unknown power state"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:398
+#: ../app/assets/javascripts/application.js:483
 msgid "Exit Full Screen"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:207 ../app/views/hosts/show.html.erb:17
+#: ../app/assets/javascripts/charts.js:244 ../app/views/hosts/show.html.erb:17
 #: ../app/views/smart_proxies/show.html.erb:21
 #: ../db/seeds.d/170-notification_blueprints.rb:12
 msgid "Details"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:231
+#: ../app/assets/javascripts/charts.js:279
 msgid "Reset zoom"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:316
+#: ../app/assets/javascripts/charts.js:393
 msgid "Fact distribution chart"
 msgstr ""
 
-#: ../app/assets/javascripts/charts.js:316
+#: ../app/assets/javascripts/charts.js:398
 msgid "%s host"
 msgid_plural "%s hosts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/assets/javascripts/charts.js:388
+#: ../app/assets/javascripts/charts.js:501
 msgid "Failed to load chart"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:23
-#: ../app/helpers/application_helper.rb:90
-msgid "Click to remove %s"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:48
-#: ../app/views/puppetclasses/_classes_in_groups.html.erb:2
-msgid "belongs to config group"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:87
-msgid "Click to remove config group"
-msgstr ""
-
-#: ../app/assets/javascripts/class_edit.js:90
-msgid " Remove"
 msgstr ""
 
 #: ../app/assets/javascripts/compute_resources/libvirt/nic_info.js:3
@@ -102,94 +85,78 @@ msgstr ""
 msgid "physical @ bridge %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:8
+#: ../app/assets/javascripts/host_edit.js:13
 msgid "Loading interfaces information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:18
+#: ../app/assets/javascripts/host_edit.js:25
 msgid "Error loading interfaces information: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:59
+#: ../app/assets/javascripts/host_edit.js:74
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:219
-#: ../app/assets/javascripts/host_edit.js:485
+#: ../app/assets/javascripts/host_edit.js:250
+#: ../app/assets/javascripts/host_edit.js:544
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:609
+#: ../app/assets/javascripts/host_edit.js:704
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:53
 #: ../app/views/hostgroups/_form.html.erb:60
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:743
+#: ../app/assets/javascripts/host_edit.js:869
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:840
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit.js:841
+#: ../app/assets/javascripts/host_edit.js:990
 msgid "Manual configuration is needed."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:30
+#: ../app/assets/javascripts/host_edit_interfaces.js:29
 #: ../app/models/nic/managed.rb:71
 msgid "Interface"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:178
+#: ../app/assets/javascripts/host_edit_interfaces.js:181
 #: ../app/views/taxonomies/_form.html.erb:6
 msgid "Primary"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:179
+#: ../app/assets/javascripts/host_edit_interfaces.js:187
 #: ../app/models/setting/provisioning.rb:94
 msgid "Provisioning"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:233
-msgid ""
-"Some other interface is already set as primary. Are you sure you want to use t"
-"his one instead?"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:248
-msgid ""
-"Some other interface is already set as provisioning. Are you sure you want to "
-"use this one instead?"
-msgstr ""
-
-#: ../app/assets/javascripts/host_edit_interfaces.js:289
+#: ../app/assets/javascripts/host_edit_interfaces.js:332
 msgid "virtual attached to %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:291
+#: ../app/assets/javascripts/host_edit_interfaces.js:333
 msgid "virtual"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:299
+#: ../app/assets/javascripts/host_edit_interfaces.js:338
 msgid "physical"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:323
+#: ../app/assets/javascripts/host_edit_interfaces.js:372
 #: ../app/registries/menu/loader.rb:54 ../app/views/hosts/index.html.erb:1
 #: ../app/views/hosts/new.html.erb:1 ../app/views/hosts/welcome.html.erb:10
 msgid "Create Host"
 msgstr ""
 
-#: ../app/assets/javascripts/hosts.js:20 ../app/helpers/hosts_helper.rb:324
+#: ../app/assets/javascripts/hosts.js:23 ../app/helpers/hosts_helper.rb:324
 #: ../app/helpers/hosts_helper.rb:463 ../app/helpers/hosts_helper.rb:465
 #: ../app/models/host_status/build_status.rb:9
 msgid "Build"
 msgstr ""
 
-#: ../app/assets/javascripts/hosts.js:20
+#: ../app/assets/javascripts/hosts.js:23
 msgid "Reboot and build"
 msgstr ""
 
@@ -234,11 +201,11 @@ msgstr ""
 msgid "Parent is already selected"
 msgstr ""
 
-#: ../app/assets/javascripts/lookup_keys.js:74
+#: ../app/assets/javascripts/lookup_keys.js:110
 msgid "new"
 msgstr ""
 
-#: ../app/assets/javascripts/proxy_status.js:22
+#: ../app/assets/javascripts/proxy_status.js:26
 #: ../app/helpers/dashboard_helper.rb:58
 #: ../app/models/host_status/configuration_status.rb:75
 msgid "Active"
@@ -254,25 +221,17 @@ msgstr ""
 msgid "valid"
 msgstr ""
 
-#: ../app/assets/javascripts/spice.js:12
-msgid "must set host and port"
-msgstr ""
-
-#: ../app/assets/javascripts/spice.js:33
-msgid "Connected (unencrypted) to: %s"
-msgstr ""
-
-#: ../app/assets/javascripts/subnets.js:51
-#: ../app/assets/javascripts/subnets.js:76
+#: ../app/assets/javascripts/subnets.js:63
+#: ../app/assets/javascripts/subnets.js:87
 msgid "can't be blank"
 msgstr ""
 
-#: ../app/assets/javascripts/subnets.js:62
-#: ../app/assets/javascripts/subnets.js:82
-#: ../app/assets/javascripts/subnets.js:89
+#: ../app/assets/javascripts/subnets.js:73
+#: ../app/assets/javascripts/subnets.js:93
+#: ../app/assets/javascripts/subnets.js:100
 #: ../app/models/lookup_keys/lookup_key.rb:159
 #: ../app/models/nic/interface.rb:101 ../app/models/nic/interface.rb:102
-#: ../app/models/subnet.rb:277
+#: ../app/models/subnet.rb:279
 #: ../app/services/foreman/parameters/validator.rb:29
 #: ../app/validators/email_validator.rb:14
 msgid "is invalid"
@@ -722,6 +681,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:39
 #: ../app/controllers/api/v2/compute_resources_controller.rb:41
+#: ../app/controllers/api/v2/compute_resources_controller.rb:48
 msgid "for oVirt only"
 msgstr ""
 
@@ -747,99 +707,99 @@ msgid "for Libvirt and VMware only"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:47
-msgid "for Libvirt only"
+msgid "for Libvirt and oVirt only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:48
+#: ../app/controllers/api/v2/compute_resources_controller.rb:49
 msgid "enable caching, for VMware only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:60
+#: ../app/controllers/api/v2/compute_resources_controller.rb:61
 msgid "Create a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:77
+#: ../app/controllers/api/v2/compute_resources_controller.rb:78
 msgid "Update a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:87
+#: ../app/controllers/api/v2/compute_resources_controller.rb:88
 msgid "Delete a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:94
+#: ../app/controllers/api/v2/compute_resources_controller.rb:95
 msgid "List available images for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:100
+#: ../app/controllers/api/v2/compute_resources_controller.rb:101
 msgid "List available clusters for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:108
+#: ../app/controllers/api/v2/compute_resources_controller.rb:109
 msgid "List available flavors for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:116
+#: ../app/controllers/api/v2/compute_resources_controller.rb:117
 msgid "List available folders for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:124
+#: ../app/controllers/api/v2/compute_resources_controller.rb:125
 msgid "List available zone for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:132
+#: ../app/controllers/api/v2/compute_resources_controller.rb:133
 msgid "List available networks for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:133
+#: ../app/controllers/api/v2/compute_resources_controller.rb:134
 msgid "List available networks for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:142
+#: ../app/controllers/api/v2/compute_resources_controller.rb:143
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:151
-#: ../app/controllers/api/v2/compute_resources_controller.rb:159
+#: ../app/controllers/api/v2/compute_resources_controller.rb:152
+#: ../app/controllers/api/v2/compute_resources_controller.rb:160
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:158
-#: ../app/controllers/api/v2/compute_resources_controller.rb:160
+#: ../app/controllers/api/v2/compute_resources_controller.rb:159
+#: ../app/controllers/api/v2/compute_resources_controller.rb:161
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:175
-#: ../app/controllers/api/v2/compute_resources_controller.rb:183
+#: ../app/controllers/api/v2/compute_resources_controller.rb:176
+#: ../app/controllers/api/v2/compute_resources_controller.rb:184
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:182
-#: ../app/controllers/api/v2/compute_resources_controller.rb:184
+#: ../app/controllers/api/v2/compute_resources_controller.rb:183
+#: ../app/controllers/api/v2/compute_resources_controller.rb:185
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:199
+#: ../app/controllers/api/v2/compute_resources_controller.rb:200
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:207
+#: ../app/controllers/api/v2/compute_resources_controller.rb:208
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:216
+#: ../app/controllers/api/v2/compute_resources_controller.rb:217
 msgid "Associating VMs is not supported for this compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:220
+#: ../app/controllers/api/v2/compute_resources_controller.rb:221
 msgid "Refresh Compute Resource Cache"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:224
+#: ../app/controllers/api/v2/compute_resources_controller.rb:225
 #: ../app/controllers/compute_resources_controller.rb:96
 msgid "Successfully refreshed the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:226
+#: ../app/controllers/api/v2/compute_resources_controller.rb:227
 #: ../app/controllers/compute_resources_controller.rb:101
 msgid "Failed to refresh the cache."
 msgstr ""
@@ -2724,18 +2684,22 @@ msgid "Downloads a generated report"
 msgstr ""
 
 #: ../app/controllers/api/v2/report_templates_controller.rb:166
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:179
+#: ../app/controllers/api/v2/report_templates_controller.rb:176
+msgid "Generating of report has been canceled"
+msgstr ""
+
+#: ../app/controllers/api/v2/report_templates_controller.rb:181
 msgid "Report data are not available, it has probably expired."
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:201
+#: ../app/controllers/api/v2/report_templates_controller.rb:203
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:207
+#: ../app/controllers/api/v2/report_templates_controller.rb:209
 msgid ""
 "Data are available only for the user who triggered the report and administrato"
 "rs"
@@ -3790,6 +3754,10 @@ msgstr ""
 msgid "Selected hosts are now assigned to %s"
 msgstr ""
 
+#: ../app/controllers/concerns/foreman/controller/template_rendering.rb:11
+msgid "unable to find %{type} template for %{host} running %{os}"
+msgstr ""
+
 #: ../app/controllers/config_reports_controller.rb:37
 msgid "Successfully deleted report."
 msgstr ""
@@ -3816,7 +3784,7 @@ msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:45
-#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:39
+#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:45
 msgid "Disk"
 msgstr ""
 
@@ -4146,31 +4114,23 @@ msgstr ""
 msgid "Template unlocked"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:95
+#: ../app/controllers/unattended_controller.rb:99
 msgid "iPXE intermediate script '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:105
+#: ../app/controllers/unattended_controller.rb:109
 msgid "Global iPXE template '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:117
+#: ../app/controllers/unattended_controller.rb:121
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:127
-msgid "unable to find %{type} template for %{host} running %{os}"
-msgstr ""
-
-#: ../app/controllers/unattended_controller.rb:190
+#: ../app/controllers/unattended_controller.rb:192
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:228
-msgid "There was an error rendering the %s template: "
-msgstr ""
-
-#: ../app/controllers/unattended_controller.rb:237
+#: ../app/controllers/unattended_controller.rb:220
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:58
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:129
 msgid "An error occured."
@@ -4186,6 +4146,7 @@ msgid "You cannot delete this user while logged in as this user"
 msgstr ""
 
 #: ../app/controllers/users_controller.rb:72
+#: ../app/graphql/mutations/sign_in_user.rb:22
 #: ../app/views/api/v2/errors/bruteforce_attempt.json.rabl:3
 msgid "Too many tries, please try again in a few minutes."
 msgstr ""
@@ -4257,6 +4218,11 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
+#: ../app/helpers/application_helper.rb:90
+#: ../webpack/assets/javascripts/foreman_class_edit.js:38
+msgid "Click to remove %s"
+msgstr ""
+
 #: ../app/helpers/application_helper.rb:103
 msgid "Click to add %s"
 msgstr ""
@@ -4306,7 +4272,7 @@ msgid "Documentation"
 msgstr ""
 
 #: ../app/helpers/application_helper.rb:378
-#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:85
+#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:91
 msgid "None found"
 msgstr ""
 
@@ -4362,7 +4328,7 @@ msgstr ""
 
 #: ../app/helpers/audits_helper.rb:194 ../app/registries/menu/loader.rb:52
 #: ../app/views/architectures/index.html.erb:9
-#: ../app/views/config_groups/index.html.erb:12
+#: ../app/views/config_groups/index.html.erb:10
 #: ../app/views/config_reports/index.html.erb:4
 #: ../app/views/domains/index.html.erb:9
 #: ../app/views/environments/index.html.erb:9
@@ -4705,6 +4671,7 @@ msgid "Build in progress"
 msgstr ""
 
 #: ../app/helpers/environments_helper.rb:6
+#: ../app/views/environments/new.html.erb:5
 #: ../app/views/environments/welcome.html.erb:12
 msgid "Create Puppet Environment"
 msgstr ""
@@ -4725,21 +4692,21 @@ msgstr ""
 msgid "Show full value"
 msgstr ""
 
-#: ../app/helpers/fact_values_helper.rb:57
+#: ../app/helpers/fact_values_helper.rb:61
 msgid "Facts Values"
 msgstr ""
 
-#: ../app/helpers/fact_values_helper.rb:75
+#: ../app/helpers/fact_values_helper.rb:79
 msgid "contains special characters"
 msgstr ""
 
-#: ../app/helpers/fact_values_helper.rb:79
+#: ../app/helpers/fact_values_helper.rb:83
 msgid ""
 "Search may fail or give you wrong results since it contains special characters"
 " that are query keywords such as < and >"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:30 ../app/views/users/login.html.erb:34
+#: ../app/helpers/form_helper.rb:30
 msgid "Caps lock ON"
 msgstr ""
 
@@ -4780,15 +4747,15 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:328
+#: ../app/helpers/form_helper.rb:326
 msgid "no value"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:333
+#: ../app/helpers/form_helper.rb:331
 msgid "Inherit parent (%s)"
 msgstr ""
 
-#: ../app/helpers/form_helper.rb:337
+#: ../app/helpers/form_helper.rb:335
 msgid "Remove Parameter"
 msgstr ""
 
@@ -4802,7 +4769,7 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:26
 #: ../app/views/compute_profiles/index.html.erb:18
 #: ../app/views/compute_resources/index.html.erb:20
-#: ../app/views/config_groups/index.html.erb:25
+#: ../app/views/config_groups/index.html.erb:23
 #: ../app/views/domains/index.html.erb:18
 #: ../app/views/http_proxies/index.html.erb:21
 #: ../app/views/media/index.html.erb:29
@@ -4979,7 +4946,7 @@ msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:271
 #: ../app/views/hosts/_interfaces.html.erb:17
-#: ../app/views/hosts/_nics.html.erb:26 ../app/views/nic/_base_form.html.erb:53
+#: ../app/views/hosts/_nics.html.erb:26 ../app/views/nic/_base_form.html.erb:55
 msgid "IPv6 Address"
 msgstr ""
 
@@ -5246,7 +5213,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:26
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:13
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:52
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:67
 #: ../app/views/compute_resources_vms/form/rackspace/_base.html.erb:9
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:39
 #: model_attributes.rb:246
@@ -5523,7 +5490,6 @@ msgid "Ignored environment"
 msgstr ""
 
 #: ../app/helpers/puppetclasses_and_environments_helper.rb:17
-#: ../app/views/editor/_toolbar.html.erb:19
 msgid "Import"
 msgstr ""
 
@@ -5656,7 +5622,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:7
 #: ../app/views/compute_resources_vms/index/_rackspace.html.erb:6
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:10
-#: ../app/views/config_groups/index.html.erb:14
+#: ../app/views/config_groups/index.html.erb:12
 #: ../app/views/config_reports/_list.html.erb:15
 #: ../app/views/domains/index.html.erb:10
 #: ../app/views/environments/index.html.erb:10
@@ -5961,37 +5927,37 @@ msgstr ""
 msgid "%s is an unknown attribute"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:77
+#: ../app/models/compute_resource.rb:81
 msgid "Libvirt, oVirt, OpenStack and Rackspace"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:87
+#: ../app/models/compute_resource.rb:91
 msgid "must provide a provider"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:91
+#: ../app/models/compute_resource.rb:95
 msgid "unknown provider"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:242
+#: ../app/models/compute_resource.rb:246
 msgid "%s console is not supported at this time"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:251 ../app/models/compute_resource.rb:255
-#: ../app/models/compute_resource.rb:259 ../app/models/compute_resource.rb:267
-#: ../app/models/compute_resource.rb:271 ../app/models/compute_resource.rb:275
-#: ../app/models/compute_resource.rb:279 ../app/models/compute_resource.rb:283
-#: ../app/models/compute_resource.rb:287 ../app/models/compute_resource.rb:291
-#: ../app/models/compute_resource.rb:295 ../app/models/compute_resource.rb:301
-#: ../app/models/compute_resource.rb:305
+#: ../app/models/compute_resource.rb:255 ../app/models/compute_resource.rb:259
+#: ../app/models/compute_resource.rb:263 ../app/models/compute_resource.rb:271
+#: ../app/models/compute_resource.rb:275 ../app/models/compute_resource.rb:279
+#: ../app/models/compute_resource.rb:283 ../app/models/compute_resource.rb:287
+#: ../app/models/compute_resource.rb:291 ../app/models/compute_resource.rb:295
+#: ../app/models/compute_resource.rb:299 ../app/models/compute_resource.rb:305
+#: ../app/models/compute_resource.rb:309
 msgid "Not implemented for %s"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:400
+#: ../app/models/compute_resource.rb:418
 msgid "Not implemented"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:453
+#: ../app/models/compute_resource.rb:471
 msgid "cannot be changed"
 msgstr ""
 
@@ -6049,19 +6015,19 @@ msgstr ""
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:188
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:196
 msgid "HTTPS URL is required for API access"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:206
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:214
 msgid "Datacenter was not found"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:229
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:237
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:482
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:510
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -6069,7 +6035,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:509
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:537
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -6105,27 +6071,26 @@ msgstr ""
 msgid "Independent - Nonpersistent"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:397
-#: ../app/views/editor/_toolbar.html.erb:50
+#: ../app/models/compute_resources/foreman/model/vmware.rb:410
 #: ../app/views/templates/_form.html.erb:32
 msgid "Default"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:476
+#: ../app/models/compute_resources/foreman/model/vmware.rb:491
 msgid ""
 "Foreman could not find a required vSphere resource. Check if Foreman has the r"
 "equired permissions and the resource exists. Reason: %s"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:552
+#: ../app/models/compute_resources/foreman/model/vmware.rb:567
 msgid "The console is not available because the VM is not powered on"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:626
+#: ../app/models/compute_resources/foreman/model/vmware.rb:641
 msgid "Could not find network %s on VMWare compute resource"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:728
+#: ../app/models/compute_resources/foreman/model/vmware.rb:743
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a di"
 "fferent hash. If you are sure the remote system is authentic, go to the comput"
@@ -6416,7 +6381,7 @@ msgstr ""
 msgid "DHCP records %s already exists"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/dns.rb:9 ../app/models/subnet.rb:60
+#: ../app/models/concerns/orchestration/dns.rb:9 ../app/models/subnet.rb:62
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:4
 #: ../app/views/smart_proxies/plugins/_dns.html.erb:2
 msgid "DNS"
@@ -6531,7 +6496,7 @@ msgid ""
 "e in your %s settings"
 msgstr ""
 
-#: ../app/models/concerns/orchestration/tftp.rb:12 ../app/models/subnet.rb:48
+#: ../app/models/concerns/orchestration/tftp.rb:12 ../app/models/subnet.rb:50
 #: ../app/views/smart_proxies/plugins/_tftp.html.erb:2
 msgid "TFTP"
 msgstr ""
@@ -6596,7 +6561,7 @@ msgstr ""
 msgid "is not valid"
 msgstr ""
 
-#: ../app/models/concerns/validate_os_family.rb:9 ../app/models/subnet.rb:81
+#: ../app/models/concerns/validate_os_family.rb:9 ../app/models/subnet.rb:83
 msgid "must be one of [ %s ]"
 msgstr ""
 
@@ -6639,7 +6604,7 @@ msgstr ""
 msgid "is not found in the authentication source"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:36 ../app/models/user.rb:692
+#: ../app/models/external_usergroup.rb:36 ../app/models/user.rb:716
 msgid "is not permitted"
 msgstr ""
 
@@ -6693,95 +6658,95 @@ msgstr ""
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
-#: ../app/models/host/managed.rb:185
+#: ../app/models/host/managed.rb:187
 msgid "invalid time range"
 msgstr ""
 
-#: ../app/models/host/managed.rb:232 ../app/models/hostgroup.rb:26
+#: ../app/models/host/managed.rb:234 ../app/models/hostgroup.rb:26
 msgid "should be 8 characters or more"
 msgstr ""
 
-#: ../app/models/host/managed.rb:233
+#: ../app/models/host/managed.rb:235
 msgid "should not be blank - consider setting a global or host group default"
 msgstr ""
 
-#: ../app/models/host/managed.rb:235
+#: ../app/models/host/managed.rb:237
 msgid "can't be blank unless a custom partition has been defined"
 msgstr ""
 
-#: ../app/models/host/managed.rb:237
+#: ../app/models/host/managed.rb:239
 msgid "is unknown"
 msgstr ""
 
-#: ../app/models/host/managed.rb:241
+#: ../app/models/host/managed.rb:243
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:440
+#: ../app/models/host/managed.rb:442
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:498
+#: ../app/models/host/managed.rb:500
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:499
+#: ../app/models/host/managed.rb:501
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:607
+#: ../app/models/host/managed.rb:609
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:613
+#: ../app/models/host/managed.rb:615
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:662
+#: ../app/models/host/managed.rb:664
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:663
+#: ../app/models/host/managed.rb:665
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:707
+#: ../app/models/host/managed.rb:709
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:814
+#: ../app/models/host/managed.rb:816
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:867
+#: ../app/models/host/managed.rb:869
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:892
+#: ../app/models/host/managed.rb:894
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:903
+#: ../app/models/host/managed.rb:905
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:918
+#: ../app/models/host/managed.rb:920
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:923
+#: ../app/models/host/managed.rb:925
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:928 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:930 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:984
+#: ../app/models/host/managed.rb:986
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -6818,7 +6783,6 @@ msgid "No reports"
 msgstr ""
 
 #: ../app/models/host_status/configuration_status.rb:79
-#: ../webpack/assets/javascripts/foreman_editor.js:247
 msgid "No changes"
 msgstr ""
 
@@ -6989,7 +6953,7 @@ msgid ""
 "ilt from an image"
 msgstr ""
 
-#: ../app/models/operatingsystems/nxos.rb:23
+#: ../app/models/operatingsystems/nxos.rb:18
 msgid "Function not available for %s"
 msgstr ""
 
@@ -6998,7 +6962,7 @@ msgid "global"
 msgstr ""
 
 #: ../app/models/parameters/domain_parameter.rb:7
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid "domain"
 msgstr ""
 
@@ -7033,7 +6997,7 @@ msgid "operating system"
 msgstr ""
 
 #: ../app/models/parameters/subnet_parameter.rb:7
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid "subnet"
 msgstr ""
 
@@ -7330,33 +7294,44 @@ msgstr ""
 
 #: ../app/models/setting/auth.rb:27
 msgid ""
+"Cost value of bcrypt password hash function for internal auth-sources (4-30). "
+"Higher value is safer but verification is slower particularly for stateless AP"
+"I calls and UI logins. Password change needed to take effect."
+msgstr ""
+
+#: ../app/models/setting/auth.rb:27
+msgid "BCrypt password cost"
+msgstr ""
+
+#: ../app/models/setting/auth.rb:28
+msgid ""
 "Permits access to BMC interface passwords through ENC YAML output and in templ"
 "ates"
 msgstr ""
 
-#: ../app/models/setting/auth.rb:27
+#: ../app/models/setting/auth.rb:28
 msgid "BMC credentials access"
 msgstr ""
 
-#: ../app/models/setting/auth.rb:43
+#: ../app/models/setting/auth.rb:44
 msgid "Authentication"
 msgstr ""
 
-#: ../app/models/setting/auth.rb:48
+#: ../app/models/setting/auth.rb:49
 msgid "Unable to disable bmc_credentials_accessible when safemode_render is disabled"
 msgstr ""
 
-#: ../app/models/setting/auth.rb:54
+#: ../app/models/setting/auth.rb:55
 msgid ""
 "Unable to turn on websockets_encrypt, either websockets_ssl_key or websockets_"
 "ssl_cert is missing"
 msgstr ""
 
-#: ../app/models/setting/auth.rb:60
+#: ../app/models/setting/auth.rb:61
 msgid "Unable to unset websockets_ssl_key when websockets_encrypt is on"
 msgstr ""
 
-#: ../app/models/setting/auth.rb:66
+#: ../app/models/setting/auth.rb:67
 msgid "Unable to unset websockets_ssl_cert when websockets_encrypt is on"
 msgstr ""
 
@@ -7488,146 +7463,170 @@ msgstr ""
 msgid "Sendmail location"
 msgstr ""
 
-#: ../app/models/setting/general.rb:11
+#: ../app/models/setting/general.rb:10 ../app/views/users/_form.html.erb:32
+msgid "Browser locale"
+msgstr ""
+
+#: ../app/models/setting/general.rb:11 ../app/views/users/_form.html.erb:34
+msgid "Browser timezone"
+msgstr ""
+
+#: ../app/models/setting/general.rb:14
 msgid "The default administrator email address"
 msgstr ""
 
-#: ../app/models/setting/general.rb:11
+#: ../app/models/setting/general.rb:14
 msgid "Administrator email address"
 msgstr ""
 
-#: ../app/models/setting/general.rb:12
+#: ../app/models/setting/general.rb:15
 msgid ""
 "URL where your Foreman instance is reachable (see also Provisioning > unattend"
 "ed_url)"
 msgstr ""
 
-#: ../app/models/setting/general.rb:12
+#: ../app/models/setting/general.rb:15
 msgid "Foreman URL"
 msgstr ""
 
-#: ../app/models/setting/general.rb:13
+#: ../app/models/setting/general.rb:16
 msgid "Number of records shown per page in Foreman"
 msgstr ""
 
-#: ../app/models/setting/general.rb:13
+#: ../app/models/setting/general.rb:16
 msgid "Entries per page"
 msgstr ""
 
-#: ../app/models/setting/general.rb:14
+#: ../app/models/setting/general.rb:17
 msgid "Fix DB cache on next Foreman restart"
 msgstr ""
 
-#: ../app/models/setting/general.rb:14
+#: ../app/models/setting/general.rb:17
 msgid "Fix DB cache"
 msgstr ""
 
-#: ../app/models/setting/general.rb:15
+#: ../app/models/setting/general.rb:18
 msgid "Max days for Trends graphs"
 msgstr ""
 
-#: ../app/models/setting/general.rb:15
+#: ../app/models/setting/general.rb:18
 msgid "Max trends"
 msgstr ""
 
-#: ../app/models/setting/general.rb:16
+#: ../app/models/setting/general.rb:19
 msgid ""
 "Should the `foreman-rake db:migrate` be executed on the next run of the instal"
 "ler modules?"
 msgstr ""
 
-#: ../app/models/setting/general.rb:16
+#: ../app/models/setting/general.rb:19
 msgid "DB pending migration"
 msgstr ""
 
-#: ../app/models/setting/general.rb:17
+#: ../app/models/setting/general.rb:20
 msgid ""
 "Should the `foreman-rake db:seed` be executed on the next run of the installer"
 " modules?"
 msgstr ""
 
-#: ../app/models/setting/general.rb:17
+#: ../app/models/setting/general.rb:20
 msgid "DB pending seed"
 msgstr ""
 
-#: ../app/models/setting/general.rb:18
+#: ../app/models/setting/general.rb:21
 msgid "Max timeout for REST client requests to smart-proxy"
 msgstr ""
 
-#: ../app/models/setting/general.rb:18
+#: ../app/models/setting/general.rb:21
 msgid "Proxy request timeout"
 msgstr ""
 
-#: ../app/models/setting/general.rb:19
+#: ../app/models/setting/general.rb:22
 msgid "Text to be shown in the login-page footer"
 msgstr ""
 
-#: ../app/models/setting/general.rb:19
+#: ../app/models/setting/general.rb:22
 msgid "Login page footer text"
 msgstr ""
 
-#: ../app/models/setting/general.rb:20
+#: ../app/models/setting/general.rb:23
 msgid ""
 "Show power status on host index page. This feature calls to compute resource p"
 "roviders which may lead to decreased performance on host listing page."
 msgstr ""
 
-#: ../app/models/setting/general.rb:20
+#: ../app/models/setting/general.rb:23
 msgid "Show host power status"
 msgstr ""
 
-#: ../app/models/setting/general.rb:21
+#: ../app/models/setting/general.rb:24
 msgid "Sets a proxy for all outgoing HTTP connections."
 msgstr ""
 
-#: ../app/models/setting/general.rb:21
+#: ../app/models/setting/general.rb:24
 msgid "HTTP(S) proxy"
 msgstr ""
 
-#: ../app/models/setting/general.rb:22
+#: ../app/models/setting/general.rb:25
 msgid ""
 "Set hostnames to which requests are not to be proxied. Requests to the local h"
 "ost are excluded by default."
 msgstr ""
 
-#: ../app/models/setting/general.rb:22
+#: ../app/models/setting/general.rb:25
 msgid "HTTP(S) proxy except hosts"
 msgstr ""
 
-#: ../app/models/setting/general.rb:23
+#: ../app/models/setting/general.rb:26
 msgid ""
 "Whether or not to show a menu to access experimental lab features (requires re"
 "load of page)"
 msgstr ""
 
-#: ../app/models/setting/general.rb:23
+#: ../app/models/setting/general.rb:26
 msgid "Show Experimental Labs"
 msgstr ""
 
-#: ../app/models/setting/general.rb:24
+#: ../app/models/setting/general.rb:27
 msgid "Foreman will append domain names when new hosts are provisioned"
 msgstr ""
 
-#: ../app/models/setting/general.rb:24
+#: ../app/models/setting/general.rb:27
 msgid "Append domain names to the host"
 msgstr ""
 
-#: ../app/models/setting/general.rb:25
+#: ../app/models/setting/general.rb:28
 msgid "Duration in minutes after servers are classed as out of sync."
 msgstr ""
 
-#: ../app/models/setting/general.rb:25
+#: ../app/models/setting/general.rb:28
 msgid "Out of sync interval"
 msgstr ""
 
-#: ../app/models/setting/general.rb:41
+#: ../app/models/setting/general.rb:29
+msgid "Language to use for new users"
+msgstr ""
+
+#: ../app/models/setting/general.rb:29
+msgid "Default language"
+msgstr ""
+
+#: ../app/models/setting/general.rb:30
+msgid "Timezone to use for new users"
+msgstr ""
+
+#: ../app/models/setting/general.rb:30
+msgid "Default timezone"
+msgstr ""
+
+#: ../app/models/setting/general.rb:46
 #: ../app/views/smart_proxies/plugins/_puppet.html.erb:3
 #: ../app/views/smart_proxies/plugins/_puppet_ca.html.erb:2
 #: ../app/views/users/_form.html.erb:64
 msgid "General"
 msgstr ""
 
-#: ../app/models/setting/general.rb:46
+#: ../app/models/setting/general.rb:51
 msgid "Not a valid URL for a HTTP proxy"
 msgstr ""
 
@@ -7903,9 +7902,10 @@ msgstr ""
 
 #: ../app/models/setting/provisioning.rb:75
 msgid ""
-"Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those f"
-"acts won't be stored in foreman's database. You can use * wildcard to match na"
-"mes with indexes e.g. macvtap*"
+"Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those"
+" facts won't be stored in foreman's database. You can use * wildcard to match "
+"names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a"
+"::ignore or even a::ignore123::b"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:77
@@ -8180,109 +8180,109 @@ msgstr ""
 msgid "Static"
 msgstr ""
 
-#: ../app/models/subnet.rb:42 ../app/views/subnets/index.html.erb:13
+#: ../app/models/subnet.rb:44 ../app/views/subnets/index.html.erb:13
 msgid "DHCP Proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:43
+#: ../app/models/subnet.rb:45
 msgid "DHCP Proxy to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:44
+#: ../app/models/subnet.rb:46
 msgid "DHCP Proxy ID to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:49
+#: ../app/models/subnet.rb:51
 msgid "TFTP Proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:50
+#: ../app/models/subnet.rb:52
 msgid "TFTP Proxy ID to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:51
+#: ../app/models/subnet.rb:53
 msgid "TFTP Proxy to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:54
+#: ../app/models/subnet.rb:56
 msgid "HTTPBoot"
 msgstr ""
 
-#: ../app/models/subnet.rb:55
+#: ../app/models/subnet.rb:57
 msgid "HTTPBoot Proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:56
+#: ../app/models/subnet.rb:58
 msgid "HTTPBoot Proxy ID to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:57
+#: ../app/models/subnet.rb:59
 msgid "HTTPBoot Proxy to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:61
+#: ../app/models/subnet.rb:63
 msgid "Reverse DNS Proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:62
+#: ../app/models/subnet.rb:64
 msgid "DNS Proxy ID to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:63
+#: ../app/models/subnet.rb:65
 msgid ""
 "DNS Proxy to use within this subnet for managing PTR records, note that A and "
 "AAAA records are managed via Domain DNS proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:66 ../app/registries/menu/loader.rb:62
+#: ../app/models/subnet.rb:68 ../app/registries/menu/loader.rb:62
 #: ../app/views/hosts/show.html.erb:35
 #: ../app/views/operatingsystems/_form.html.erb:8
 msgid "Templates"
 msgstr ""
 
-#: ../app/models/subnet.rb:67
+#: ../app/models/subnet.rb:69
 msgid "Template Proxy"
 msgstr ""
 
-#: ../app/models/subnet.rb:68
+#: ../app/models/subnet.rb:70
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:69
+#: ../app/models/subnet.rb:71
 msgid ""
 "Template HTTP(S) Proxy to use within this subnet to allow access templating en"
 "dpoint from isolated networks"
 msgstr ""
 
-#: ../app/models/subnet.rb:80
+#: ../app/models/subnet.rb:82
 msgid "not supported by this protocol"
 msgstr ""
 
-#: ../app/models/subnet.rb:212
+#: ../app/models/subnet.rb:214
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
 
-#: ../app/models/subnet.rb:252
+#: ../app/models/subnet.rb:254
 msgid "must be specified if to is defined"
 msgstr ""
 
-#: ../app/models/subnet.rb:253
+#: ../app/models/subnet.rb:255
 msgid "must be specified if from is defined"
 msgstr ""
 
-#: ../app/models/subnet.rb:256 ../app/models/subnet.rb:257
+#: ../app/models/subnet.rb:258 ../app/models/subnet.rb:259
 msgid "does not belong to subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:258
+#: ../app/models/subnet.rb:260
 msgid "can't be bigger than to range"
 msgstr ""
 
-#: ../app/models/subnet.rb:263
+#: ../app/models/subnet.rb:265
 msgid "can't be updated after subnet is saved"
 msgstr ""
 
-#: ../app/models/subnet.rb:317
+#: ../app/models/subnet.rb:319
 msgid "unknown network_type"
 msgstr ""
 
@@ -8373,121 +8373,129 @@ msgstr ""
 msgid "POAP PXE template"
 msgstr ""
 
-#: ../app/models/template_kind.rb:29
+#: ../app/models/template_kind.rb:24
+msgid "Cloud-init template"
+msgstr ""
+
+#: ../app/models/template_kind.rb:30
 msgid ""
 "Used when PXELinux loader is set, loads pxelinux.0 which loads content generat"
 "ed by this template."
 msgstr ""
 
-#: ../app/models/template_kind.rb:30
+#: ../app/models/template_kind.rb:31
 msgid ""
 "Used when Grub2 loader is set, loads grub/bootx64.efi which loads content gene"
 "rated by this template."
 msgstr ""
 
-#: ../app/models/template_kind.rb:31
+#: ../app/models/template_kind.rb:32
 msgid ""
 "Used when PXELinux loader is set, loads grub/grubx64.efi which loads content g"
 "enerated by this template."
 msgstr ""
 
-#: ../app/models/template_kind.rb:32
+#: ../app/models/template_kind.rb:33
 msgid "Used in iPXE environments."
 msgstr ""
 
-#: ../app/models/template_kind.rb:33
+#: ../app/models/template_kind.rb:34
 msgid ""
 "Template for OS installer, for example kickstart, preseed or jumpstart. Depend"
 "s on the operating system."
 msgstr ""
 
-#: ../app/models/template_kind.rb:34
+#: ../app/models/template_kind.rb:35
 msgid ""
 "Post-install script for preseed-based or cloud instance. Connection is made vi"
 "a SSH, credentials or key must exist and inventory IP address must match. Only"
 " used when 'user data' is not set."
 msgstr ""
 
-#: ../app/models/template_kind.rb:35
+#: ../app/models/template_kind.rb:36
 msgid "An arbitrary script, must be manually downloaded using wget/curl."
 msgstr ""
 
-#: ../app/models/template_kind.rb:36
+#: ../app/models/template_kind.rb:37
 msgid ""
 "Template with seed data for virtual or cloud instances when 'user data' flag i"
 "s set, typically cloud-init or ignition format."
 msgstr ""
 
-#: ../app/models/template_kind.rb:37
+#: ../app/models/template_kind.rb:38
 msgid "Provisioning Junos devices (Junos 12.2+)."
 msgstr ""
 
-#: ../app/models/template_kind.rb:38
+#: ../app/models/template_kind.rb:39
 msgid "Provisioning for switches running NX-OS."
 msgstr ""
 
-#: ../app/models/user.rb:92
+#: ../app/models/template_kind.rb:40
+msgid "Template for cloud-init unattended endpoint."
+msgstr ""
+
+#: ../app/models/user.rb:97
 msgid "already exists"
 msgstr ""
 
-#: ../app/models/user.rb:208 ../app/models/user.rb:212
-#: ../app/models/user.rb:216
+#: ../app/models/user.rb:213 ../app/models/user.rb:217
+#: ../app/models/user.rb:221
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:598
+#: ../app/models/user.rb:622
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:606
+#: ../app/models/user.rb:630
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:612
+#: ../app/models/user.rb:636
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:620 ../app/models/usergroup.rb:110
+#: ../app/models/user.rb:644 ../app/models/usergroup.rb:110
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:629
+#: ../app/models/user.rb:653
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:638
+#: ../app/models/user.rb:662
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:644
+#: ../app/models/user.rb:668
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:656
+#: ../app/models/user.rb:680
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:663
+#: ../app/models/user.rb:687
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:674
+#: ../app/models/user.rb:698
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:680
+#: ../app/models/user.rb:704
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:686
+#: ../app/models/user.rb:710
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:699
+#: ../app/models/user.rb:723
 msgid "It is not possible to change external users login"
 msgstr ""
 
-#: ../app/models/user.rb:701
+#: ../app/models/user.rb:725
 msgid "You do not have permission to edit the login"
 msgstr ""
 
@@ -8507,31 +8515,31 @@ msgstr ""
 msgid "cannot contain itself as member"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:186
+#: ../app/registries/foreman/plugin.rb:188
 msgid "%{id} plugin requires Foreman %{matcher} but current is %{current}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:196
+#: ../app/registries/foreman/plugin.rb:198
 msgid "%{id} plugin requires the %{plugin_name} plugin, not found"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:200
+#: ../app/registries/foreman/plugin.rb:202
 msgid ""
 "%{id} plugin requires the %{plugin_name} plugin %{matcher} but current is %{pl"
 "ugin_version}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:294
+#: ../app/registries/foreman/plugin.rb:296
 msgid "Could not create role '%{name}': %{message}"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:296
+#: ../app/registries/foreman/plugin.rb:298
 msgid ""
 "Cannot continue because some permissions were not found, please run rake db:se"
 "ed and retry"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:391
+#: ../app/registries/foreman/plugin.rb:393
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
@@ -8605,7 +8613,7 @@ msgstr ""
 #: ../app/views/taxonomies/_form.html.erb:46
 #: ../app/views/templates/_form.html.erb:20
 #: ../app/views/users/_form.html.erb:12
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:80
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:81
 #: taxonomies.rb:15
 msgid "Organizations"
 msgstr ""
@@ -8633,11 +8641,12 @@ msgstr ""
 #: ../app/registries/menu/loader.rb:32 ../app/views/bookmarks/index.html.erb:1
 #: ../app/views/bookmarks/welcome.html.erb:1
 #: ../app/views/bookmarks/welcome.html.erb:6
-#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:60
+#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:61
 msgid "Bookmarks"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:33 ../app/views/settings/index.html.erb:1
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:25
 msgid "Settings"
 msgstr ""
 
@@ -8735,7 +8744,7 @@ msgid "Configure"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:71
-#: ../app/views/config_groups/index.html.erb:13
+#: ../app/views/config_groups/index.html.erb:11
 #: ../app/views/hostgroups/index.html.erb:1
 #: ../app/views/puppetclasses/index.html.erb:11
 #: ../app/views/taxonomies/_form.html.erb:40
@@ -8764,7 +8773,7 @@ msgid "Classes"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:76
-#: ../app/views/config_groups/index.html.erb:3
+#: ../app/views/config_groups/index.html.erb:1
 #: ../app/views/config_groups/welcome.html.erb:1
 #: ../app/views/config_groups/welcome.html.erb:6
 msgid "Config Groups"
@@ -9328,6 +9337,7 @@ msgstr ""
 #: ../app/views/about/index.html.erb:28 ../app/views/about/index.html.erb:103
 #: ../app/views/smart_proxies/plugins/_plugin_version.html.erb:2
 #: ../app/views/smart_proxies/show.html.erb:43
+#: ../webpack/assets/javascripts/react_app/components/LoginPage/components/LoginPageCaption.js:7
 msgid "Version"
 msgstr ""
 
@@ -10058,6 +10068,7 @@ msgstr ""
 #: ../app/views/compute_resources/form/_vmware.html.erb:9
 #: ../app/views/compute_resources/show/_libvirt.html.erb:6
 #: ../app/views/compute_resources/show/_vmware.html.erb:6
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:44
 msgid "Display Type"
 msgstr ""
 
@@ -10100,13 +10111,11 @@ msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:3
 #: ../app/views/compute_resources/show/_ovirt.html.erb:10
-msgid "Use APIv4 (experimental)"
+msgid "Use APIv4"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:4
-msgid ""
-"Use the new engine API. This feature is marked as experimental and should be u"
-"sed with caution."
+msgid "Use the new engine API."
 msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:5
@@ -10123,10 +10132,20 @@ msgid "Quota ID"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:13
-msgid "X509 Certification Authorities"
+#: ../app/views/compute_resources/show/_ovirt.html.erb:14
+msgid "Default Display Type"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_ovirt.html.erb:14
+#: ../app/views/compute_resources/show/_ovirt.html.erb:18
+msgid "Default VNC Keyboard"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_ovirt.html.erb:15
+msgid "X509 Certification Authorities"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_ovirt.html.erb:16
 msgid ""
 "Optionally provide a CA, or a correctly ordered CA chain. If left blank, a sel"
 "f-signed CA will be populated automatically by the server during the first req"
@@ -10300,7 +10319,7 @@ msgid "No networks found."
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/_volumes.html.erb:3
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:121
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:120
 msgid "Storage"
 msgstr ""
 
@@ -10331,7 +10350,7 @@ msgstr ""
 #: ../app/views/compute_resources_vms/form/gce/_base.html.erb:8
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:20
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:12
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:47
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:62
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:38
 msgid "Please select an image"
 msgstr ""
@@ -10435,7 +10454,7 @@ msgid "Start"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:25
-#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:51
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:66
 msgid "Image to use"
 msgstr ""
 
@@ -10559,6 +10578,11 @@ msgstr ""
 msgid "Highly Available"
 msgstr ""
 
+#: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:50
+#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:33
+msgid "Keyboard"
+msgstr ""
+
 #: ../app/views/compute_resources_vms/form/ovirt/_network.html.erb:9
 msgid "Interface type"
 msgstr ""
@@ -10605,7 +10629,7 @@ msgid "Firmware"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/vmware/_base.html.erb:12
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:113
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:112
 msgid "Please select a cluster"
 msgstr ""
 
@@ -10725,7 +10749,7 @@ msgid "Display"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:39
-#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:33
+#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:39
 msgid "NIC"
 msgstr ""
 
@@ -10738,11 +10762,11 @@ msgid "Path"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:54
-#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:44
+#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:50
 msgid "Running on"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:40
+#: ../app/views/compute_resources_vms/show/_ovirt.html.erb:46
 msgid "using %s"
 msgstr ""
 
@@ -10766,13 +10790,13 @@ msgstr ""
 msgid "Available Config Groups"
 msgstr ""
 
-#: ../app/views/config_groups/index.html.erb:5
+#: ../app/views/config_groups/index.html.erb:3
 #: ../app/views/config_groups/new.html.erb:1
 #: ../app/views/config_groups/welcome.html.erb:10
 msgid "Create Config Group"
 msgstr ""
 
-#: ../app/views/config_groups/index.html.erb:11
+#: ../app/views/config_groups/index.html.erb:9
 #: ../app/views/hostgroups/_form.html.erb:7
 #: ../app/views/puppetclasses/index.html.erb:1
 #: ../config/initializers/puppet.rb:5
@@ -11011,35 +11035,9 @@ msgid ""
 "    and also available as an external node parameter"
 msgstr ""
 
-#: ../app/views/editor/_toolbar.html.erb:5
-msgid "Input"
-msgstr ""
-
-#: ../app/views/editor/_toolbar.html.erb:8
-msgid "Diff"
-msgstr ""
-
-#: ../app/views/editor/_toolbar.html.erb:12
-msgid "Preview"
-msgstr ""
-
-#: ../app/views/editor/_toolbar.html.erb:34
-msgid "Fullscreen"
-msgstr ""
-
-#: ../app/views/editor/_toolbar.html.erb:38
-msgid "Exit Fullscreen"
-msgstr ""
-
-#: ../app/views/editor/_toolbar.html.erb:44
-msgid "Syntax Highlighting"
-msgstr ""
-
-#: ../app/views/editor/_toolbar.html.erb:50
-msgid "Key Binding"
-msgstr ""
-
+#: ../app/views/environments/edit.html.erb:5
 #: ../app/views/environments/index.html.erb:1
+#: ../app/views/environments/new.html.erb:4
 #: ../app/views/lookup_keys/_fields.html.erb:10
 msgid "Puppet Environments"
 msgstr ""
@@ -11327,7 +11325,7 @@ msgid "IPv4 Subnet"
 msgstr ""
 
 #: ../app/views/hostgroups/_form.html.erb:62
-#: ../app/views/hosts/_nics.html.erb:41 ../app/views/nic/_base_form.html.erb:36
+#: ../app/views/hosts/_nics.html.erb:41 ../app/views/nic/_base_form.html.erb:38
 msgid "IPv6 Subnet"
 msgstr ""
 
@@ -11552,7 +11550,7 @@ msgid "Identifier"
 msgstr ""
 
 #: ../app/views/hosts/_interfaces.html.erb:16
-#: ../app/views/hosts/_nics.html.erb:22 ../app/views/nic/_base_form.html.erb:41
+#: ../app/views/hosts/_nics.html.erb:22 ../app/views/nic/_base_form.html.erb:43
 msgid "IPv4 Address"
 msgstr ""
 
@@ -11663,7 +11661,7 @@ msgid "Generated %s ago"
 msgstr ""
 
 #: ../app/views/hosts/console/log.html.erb:3
-#: ../app/views/hosts/console/spice.html.erb:9
+#: ../app/views/hosts/console/spice.html.erb:8
 #: ../app/views/hosts/console/vmrc.html.erb:12
 #: ../app/views/hosts/console/vnc.html.erb:5
 msgid "Back to host"
@@ -11673,19 +11671,19 @@ msgstr ""
 msgid "Console output may be out of date"
 msgstr ""
 
-#: ../app/views/hosts/console/spice.html.erb:4
+#: ../app/views/hosts/console/spice.html.erb:3
 msgid "Ctrl-Alt-Del"
 msgstr ""
 
-#: ../app/views/hosts/console/spice.html.erb:6
+#: ../app/views/hosts/console/spice.html.erb:5
 msgid "New window"
 msgstr ""
 
-#: ../app/views/hosts/console/spice.html.erb:6
+#: ../app/views/hosts/console/spice.html.erb:5
 msgid "Open Spice in a new window"
 msgstr ""
 
-#: ../app/views/hosts/console/spice.html.erb:17
+#: ../app/views/hosts/console/spice.html.erb:16
 msgid "Connecting (unencrypted) to: %s"
 msgstr ""
 
@@ -11728,7 +11726,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../app/views/hosts/index.html.erb:5
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:140
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:157
 msgid "Select this host"
 msgid_plural "Select all <b> %{total} </b> hosts"
 msgstr[0] ""
@@ -12387,7 +12385,13 @@ msgstr ""
 msgid "No domains"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:44
+#: ../app/views/nic/_base_form.html.erb:34
+msgid ""
+"IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisi"
+"oning."
+msgstr ""
+
+#: ../app/views/nic/_base_form.html.erb:46
 msgid ""
 "An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subn"
 "et selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li"
@@ -12396,24 +12400,24 @@ msgid ""
 "e DHCP reservations</li></ul>"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:46
-#: ../app/views/nic/_base_form.html.erb:59
+#: ../app/views/nic/_base_form.html.erb:48
+#: ../app/views/nic/_base_form.html.erb:61
 msgid "IP address auto-suggest"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:57
+#: ../app/views/nic/_base_form.html.erb:59
 msgid ""
 "An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subn"
 "et selected above."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid ""
 "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP "
 "will be configured according to the information provided."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid ""
 "The services to be configured are determined by the subnet and domain that are"
 " selected for this interface. If you want to manage<br/> only a subset of thes"
@@ -12421,39 +12425,39 @@ msgid ""
 "roxy is set to 'None', the corresponding"
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid "service configuration will be skipped."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid ""
 "If the Managed flag is disabled, none of the services will be configured for t"
 "his interface, even if it is configured for the subnet and domain."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:67
+#: ../app/views/nic/_base_form.html.erb:69
 msgid ""
 "The Managed flag also determines whether the interface should be configured du"
 "ring host provisioning, so that the configuration remains after reboot."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:72
+#: ../app/views/nic/_base_form.html.erb:74
 msgid "The Primary interface is used for constructing the FQDN of the host."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:72
+#: ../app/views/nic/_base_form.html.erb:74
 msgid ""
 "This interface is also used for network communication during provisioning, e.g"
 ". downloading installation packages."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:77
+#: ../app/views/nic/_base_form.html.erb:79
 msgid ""
 "The Provisioning interface is used for TFTP configuration for PXE boot based o"
 "n this interface MAC address."
 msgstr ""
 
-#: ../app/views/nic/_base_form.html.erb:77
+#: ../app/views/nic/_base_form.html.erb:79
 msgid ""
 "For image based provisioning using finish template, this interface's IP will b"
 "e used as the SSH target."
@@ -12783,6 +12787,11 @@ msgstr ""
 msgid "Filter classes"
 msgstr ""
 
+#: ../app/views/puppetclasses/_classes_in_groups.html.erb:2
+#: ../webpack/assets/javascripts/foreman_class_edit.js:67
+msgid "belongs to config group"
+msgstr ""
+
 #: ../app/views/puppetclasses/_form.html.erb:4
 msgid ""
 "The class could not be saved because of an error in one of the class parameter"
@@ -12838,7 +12847,7 @@ msgid "Puppetclass|Name"
 msgstr ""
 
 #: ../app/views/puppetclasses/index.html.erb:14
-#: ../app/views/templates/_form.html.erb:110
+#: ../app/views/templates/_form.html.erb:112
 msgid "Variables"
 msgstr ""
 
@@ -12928,37 +12937,37 @@ msgid ""
 "me to process."
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:16
+#: ../app/views/report_templates/generate.html.erb:15
 msgid "Generate at"
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:17
+#: ../app/views/report_templates/generate.html.erb:16
 msgid "Generate report on a given time."
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:26
+#: ../app/views/report_templates/generate.html.erb:21
 msgid "Send report via e-mail"
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:27
+#: ../app/views/report_templates/generate.html.erb:22
 msgid ""
 "By checking this, the report will be sent to e-mail address specified below. K"
 "eep unchecked if you prefer to download the report in your browser."
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:31
+#: ../app/views/report_templates/generate.html.erb:26
 msgid "Deliver to e-mail addresses"
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:32
+#: ../app/views/report_templates/generate.html.erb:27
 msgid "Valid e-mail addresses delimited by \"%s\""
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:43
+#: ../app/views/report_templates/generate.html.erb:38
 msgid "Display advanced fields"
 msgstr ""
 
-#: ../app/views/report_templates/generate.html.erb:43
+#: ../app/views/report_templates/generate.html.erb:38
 msgid "Hide advanced fields"
 msgstr ""
 
@@ -13528,7 +13537,7 @@ msgid ""
 msgstr ""
 
 #: ../app/views/templates/_form.html.erb:13
-#: ../app/views/templates/_form.html.erb:127
+#: ../app/views/templates/_form.html.erb:129
 msgid "Inputs"
 msgstr ""
 
@@ -13547,25 +13556,21 @@ msgstr ""
 msgid "recreate"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:44
-msgid "Template *"
-msgstr ""
-
-#: ../app/views/templates/_form.html.erb:58
+#: ../app/views/templates/_form.html.erb:60
 msgid "Audit Comment"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:59
+#: ../app/views/templates/_form.html.erb:61
 msgid ""
 "The Audit Comment field is saved with the template auditing to document the te"
 "mplate changes"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:63
+#: ../app/views/templates/_form.html.erb:65
 msgid "Template inputs"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:64
+#: ../app/views/templates/_form.html.erb:66
 msgid ""
 "Inputs can be used to parametrize templates during rendering \\\n"
 "  based on template type, it allows to fetch the value from host facts, \\\n"
@@ -13578,78 +13583,78 @@ msgid ""
 "ring.</p>"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:79
+#: ../app/views/templates/_form.html.erb:81
 msgid "Add Input"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:79
+#: ../app/views/templates/_form.html.erb:81
 msgid "add a input for this template"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:89
+#: ../app/views/templates/_form.html.erb:91
 msgid "Template syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:90
+#: ../app/views/templates/_form.html.erb:92
 msgid "Provisioning templates are generated using the Embedded Ruby (ERB) language."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:91
+#: ../app/views/templates/_form.html.erb:93
 msgid ""
 "The following table and example snippet shows global methods, variables and cl"
 "ass methods and how to use them."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:92
+#: ../app/views/templates/_form.html.erb:94
 msgid ""
 "These are guaranteed to work via the safe mode rendering, to ensure a template"
 " can do nothing harmful."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:94
+#: ../app/views/templates/_form.html.erb:96
 msgid ""
 "To enable safe mode, navigate to Settings page and enable Safemode rendering o"
 "ption."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:96
+#: ../app/views/templates/_form.html.erb:98
 msgid "For more info visit our documentation."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:97 apipie.rb:22
+#: ../app/views/templates/_form.html.erb:99 apipie.rb:22
 msgid "Examples"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:99
+#: ../app/views/templates/_form.html.erb:101
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/ExpansiveView.js:101
 msgid "Comments"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:102
+#: ../app/views/templates/_form.html.erb:104
 msgid "In-line code syntax"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:107
+#: ../app/views/templates/_form.html.erb:109
 msgid "Printing data"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:113
+#: ../app/views/templates/_form.html.erb:115
 msgid "Calling methods on objects"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:116
+#: ../app/views/templates/_form.html.erb:118
 msgid "Safe mode methods"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:119
+#: ../app/views/templates/_form.html.erb:121
 msgid "Global macros"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:122
+#: ../app/views/templates/_form.html.erb:124
 msgid "Iterating"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:129
+#: ../app/views/templates/_form.html.erb:131
 msgid ""
 "Once you define a template input in Inputs tab and save the template, it can b"
 "e used in the ERB.\n"
@@ -13659,7 +13664,7 @@ msgid ""
 "ugh input called cpus."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:136
+#: ../app/views/templates/_form.html.erb:138
 msgid ""
 "While rendering the template in preview mode, the input either loads the value"
 " or uses a placeholder\n"
@@ -13674,23 +13679,23 @@ msgid ""
 "                Note that the fact name can differ from input name."
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:149
+#: ../app/views/templates/_form.html.erb:151
 msgid "Safe mode methods and variables"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:153
+#: ../app/views/templates/_form.html.erb:155
 msgid "Class"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:154
+#: ../app/views/templates/_form.html.erb:156
 msgid "Allowed methods or members"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:159
+#: ../app/views/templates/_form.html.erb:161
 msgid "Global methods (macros)"
 msgstr ""
 
-#: ../app/views/templates/_form.html.erb:163
+#: ../app/views/templates/_form.html.erb:165
 msgid "Global variables"
 msgstr ""
 
@@ -13816,7 +13821,7 @@ msgid "Your Foreman user account has been created:"
 msgstr ""
 
 #: ../app/views/user_mailer/welcome.text.erb:3
-#: ../app/views/users/login.html.erb:24
+#: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:39
 msgid "Username"
 msgstr ""
 
@@ -13919,15 +13924,7 @@ msgid "SSH Keys"
 msgstr ""
 
 #: ../app/views/users/_form.html.erb:32
-msgid "Browser locale"
-msgstr ""
-
-#: ../app/views/users/_form.html.erb:32
 msgid "Language"
-msgstr ""
-
-#: ../app/views/users/_form.html.erb:34
-msgid "Browser timezone"
 msgstr ""
 
 #: ../app/views/users/_form.html.erb:39 ../app/views/users/index.html.erb:14
@@ -14006,23 +14003,6 @@ msgstr ""
 msgid "User|Last login on"
 msgstr ""
 
-#: ../app/views/users/login.html.erb:1
-msgid "Login"
-msgstr ""
-
-#: ../app/views/users/login.html.erb:14
-msgid "Success!"
-msgstr ""
-
-#: ../app/views/users/login.html.erb:30
-#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:25
-msgid "Password"
-msgstr ""
-
-#: ../app/views/users/login.html.erb:39
-msgid "Log In"
-msgstr ""
-
 #: ../app/views/users/logout.html.erb:1
 msgid "Are you sure you want to log out?"
 msgstr ""
@@ -14047,6 +14027,7 @@ msgid "Puppet summary"
 msgstr ""
 
 #: ../db/seeds.d/160-mail_notifications.rb:9
+#: ../webpack/assets/javascripts/react_app/components/LoginPage/components/LoginPageCaption.js:6
 msgid "Welcome"
 msgstr ""
 
@@ -14145,6 +14126,14 @@ msgstr ""
 msgid ""
 "Proxied request failed with: %s\n"
 "%s"
+msgstr ""
+
+#: ../lib/foreman/password_hash.rb:25
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
+#: ../lib/foreman/password_hash.rb:49
+msgid "Unknown password hash method: %s"
 msgstr ""
 
 #: ../lib/foreman/renderer/errors.rb:11
@@ -14342,7 +14331,7 @@ msgstr ""
 msgid "Unable to create realm entry"
 msgstr ""
 
-#: ../lib/proxy_api/resource.rb:126
+#: ../lib/proxy_api/resource.rb:138
 msgid ""
 "Unable to read SSL certification or key for proxy communication, check setting"
 "s for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readab"
@@ -14377,23 +14366,23 @@ msgstr ""
 msgid "No free ports available for websockify, try again later"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:33
+#: ../webpack/assets/javascripts/bundle_novnc.js:34
 msgid "New connection has been rejected with reason: %"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:37
+#: ../webpack/assets/javascripts/bundle_novnc.js:38
 msgid "New connection has been rejected"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:43
+#: ../webpack/assets/javascripts/bundle_novnc.js:44
 msgid "Disconnected"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:47
+#: ../webpack/assets/javascripts/bundle_novnc.js:48
 msgid "Connected"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:72
+#: ../webpack/assets/javascripts/bundle_novnc.js:73
 msgid "Loading..."
 msgstr ""
 
@@ -14401,52 +14390,56 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_compute_resource.js:35
-msgid "There was an error listing VMs: %(status)s %(statusText)s"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_compute_resource.js:99
-msgid "Test connection was successful"
-msgstr ""
-
-#: ../webpack/assets/javascripts/foreman_dashboard.js:52
+#: ../webpack/assets/javascripts/dashboard/index.js:54
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_dashboard.js:60
+#: ../webpack/assets/javascripts/dashboard/index.js:62
 msgid "Widget removed from dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_dashboard.js:67
+#: ../webpack/assets/javascripts/dashboard/index.js:69
 msgid "Error removing widget from dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_dashboard.js:82
+#: ../webpack/assets/javascripts/dashboard/index.js:84
 msgid "Widget added to dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_dashboard.js:89
+#: ../webpack/assets/javascripts/dashboard/index.js:91
 msgid "Error adding widget to dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_dashboard.js:105
+#: ../webpack/assets/javascripts/dashboard/index.js:107
 msgid "Widget positions successfully saved."
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_dashboard.js:111
+#: ../webpack/assets/javascripts/dashboard/index.js:113
 msgid "Failed to save widget positions."
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_editor.js:104
-msgid "You are about to override the editor content, are you sure?"
+#: ../webpack/assets/javascripts/foreman_class_edit.js:125
+msgid "Click to remove config group"
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_editor.js:278
-msgid "Rendering the template, please wait..."
+#: ../webpack/assets/javascripts/foreman_class_edit.js:128
+msgid " Remove"
 msgstr ""
 
-#: ../webpack/assets/javascripts/foreman_editor.js:331
-msgid "Revert to revision from: %s"
+#: ../webpack/assets/javascripts/foreman_compute_resource.js:39
+msgid "There was an error listing VMs: %(status)s %(statusText)s"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_compute_resource.js:103
+msgid "Test connection was successful"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_editor.js:9
+msgid "Are you sure you would like to revert the Template?"
+msgstr ""
+
+#: ../webpack/assets/javascripts/foreman_editor.js:17
+msgid "Revert Failed, ${res}"
 msgstr ""
 
 #: ../webpack/assets/javascripts/foreman_tools.js:31
@@ -14454,11 +14447,11 @@ msgstr ""
 msgid "Filter..."
 msgstr ""
 
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:56
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:61
 msgid "Please select hosts to perform action on."
 msgstr ""
 
-#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:118
+#: ../webpack/assets/javascripts/hosts/tableCheckboxes.js:135
 msgid "Undo selection"
 msgstr ""
 
@@ -14504,10 +14497,10 @@ msgstr ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:25
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:58
 #: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:55
 #: ../webpack/assets/javascripts/react_app/components/common/charts/DonutChart/index.js:43
-#: ../webpack/assets/javascripts/react_app/components/factCharts/index.js:66
-#: ../webpack/assets/javascripts/react_app/components/statistics/ChartBox.js:139
+#: ../webpack/assets/javascripts/react_app/components/statistics/ChartBox.js:137
 #: ../webpack/assets/javascripts/react_app/components/statistics/StatisticsChartsList.js:35
 msgid "No data available"
 msgstr ""
@@ -14527,14 +14520,131 @@ msgstr ""
 msgid "unified"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:57
-#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:60
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/EditorActions.js:140
+#: ../webpack/assets/javascripts/react_app/components/Editor/EditorActions.js:179
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/EditorActions.js:178
+msgid "Host Fetch ${response}"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorHostSelect.js:55
+msgid "Filter Host..."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:57
+msgid "Editor"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:69
+msgid "Changes"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:81
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:117
+msgid "Preview"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:94
+msgid "Select Host..."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorNavbar.js:110
+msgid "Preview is outdated."
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:66
+msgid "Hide Content"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:86
+msgid "Revert Local Changes"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:123
+msgid "Import File"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorOptions.js:158
+msgid "Maximize"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:27
+msgid "Syntax"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:43
+msgid "Keybind"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Editor/components/EditorSettings.js:62
+msgid "Theme"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:57
+msgid "Request Failed"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:72
+msgid "Show distribution chart"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:79
+msgid "View Chart"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:85
+msgid "Fact distribution chart - %s "
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:89
+msgid "(%s host)"
+msgid_plural "(%s hosts)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:58
+#: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:61
 msgid "Any Organization"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:92
 #: ../webpack/assets/javascripts/react_app/components/Layout/LayoutHelper.js:95
 msgid "Any Location"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:29
+msgid "Log Into Your Account"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:47
+#: ../webpack/assets/javascripts/react_app/components/PasswordStrength/PasswordStrength.js:25
+msgid "Password"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:49
+msgid "Log In"
 msgstr ""
 
 #:
@@ -14599,11 +14709,11 @@ msgstr ""
 msgid "Query"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:70
+#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:71
 msgid "Bookmark this search"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:75
+#: ../webpack/assets/javascripts/react_app/components/bookmarks/index.js:76
 msgid "Saved Bookmarks"
 msgstr ""
 
@@ -14618,31 +14728,14 @@ msgid "For more information please see"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/common/ModalProgressBar/ModalProgressBar.js:16
+msgid "${progress}%% Complete"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/common/SearchInput/index.js:31
 msgid "filter..."
 msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/factCharts/index.js:65
-msgid "Request Failed"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/factCharts/index.js:80
-msgid "Show distribution chart"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/factCharts/index.js:87
-msgid "View Chart"
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/factCharts/index.js:93
-msgid "Fact distribution chart - %s "
-msgstr ""
-
-#: ../webpack/assets/javascripts/react_app/components/factCharts/index.js:97
-msgid "(%s host)"
-msgid_plural "(%s hosts)"
-msgstr[0] ""
-msgstr[1] ""
 
 #:
 #: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:41
@@ -14696,12 +14789,17 @@ msgid "Delete Controller"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:129
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/index.js:128
 msgid "Add Controller"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/pages/AuditsPage/AuditsPage.js:20
 msgid " Documentation"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/pages/HostWizardPage/HostWizard.js:20
+msgid "Host Wizard"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/redux/actions/common/forms.js:28
@@ -14711,6 +14809,18 @@ msgstr ""
 #:
 #: ../webpack/assets/javascripts/react_app/redux/actions/hosts/storage/vmware.consts.js:13
 msgid "Hard disk"
+msgstr ""
+
+#: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:10
+msgid "No Results"
+msgstr ""
+
+#: ../webpack/assets/javascripts/spice.js:18
+msgid "must set host and port"
+msgstr ""
+
+#: ../webpack/assets/javascripts/spice.js:55
+msgid "Connected (unencrypted) to: %s"
 msgstr ""
 
 #: apipie.rb:8

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-03-18 19:57+0000\n"
+"PO-Revision-Date: 2019-04-11 20:33+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -23,10 +23,13 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid " Documentation"
+msgstr ""
+
 msgid " Remove"
 msgstr "削除"
 
-msgid "%(name) (free: %(free), prov: %(prov), total: %(total))"
+msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
 
 msgid "%s - Press Shift-F12 to release the cursor."
@@ -39,9 +42,6 @@ msgid "%s Active Feature"
 msgid_plural "%s Active Features"
 msgstr[0] ""
 msgstr[1] ""
-
-msgid "%s Distribution"
-msgstr "%s 分布"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -383,8 +383,8 @@ msgstr "<b>ソース:</b> %{type} %{name}"
 msgid "<dl><dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd><dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd></dl>"
 msgstr "<dl><dt>List</dt> <dd>「バリデータールール」フィールドで指定される、許可される値の一覧です。</dd><dt>Regexp</dt> <dd>「バリデータールール」フィールドの正規表現による入力の検証を行います。</dd></dl>"
 
-msgid "<dl><dt>String</dt> <dd>Everything is taken as a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
-msgstr "<dl><dt>String</dt> <dd>すべての値を文字列として取得します。</dd><dt>Boolean</dt> <dd>ブール値の共通表現が受け入れられます。</dd><dt>Integer</dt> <dd>整数のみです。負の値にできます。</dd><dt>Real</dt> <dd>すべての数値入力を受け入れます。</dd><dt>Array</dt> <dd>配列に評価される有効な JSON または YAML 入力です。</dd><dt>Hash</dt> <dd>object/map/dict/hash として評価される有効な JSON または YAML 入力です。</dd><dt>YAML</dt> <dd>すべての有効な YAML 入力です。</dd><dt>JSON</dt> <dd>すべての有効な JSON 入力です。</dd></dl>"
+msgid "<dl><dt>String</dt> <dd>Everything turns into a string.</dd><dt>Boolean</dt> <dd>Common representation of boolean values are accepted.</dd><dt>Integer</dt> <dd>Integer numbers only, can be negative.</dd><dt>Real</dt> <dd>Accept any numerical input.</dd><dt>Array</dt> <dd>A valid JSON or YAML input, that must evaluate to an array.</dd><dt>Hash</dt> <dd>A valid JSON or YAML input, that must evaluate to an object/map/dict/hash.</dd><dt>YAML</dt> <dd>Any valid YAML input.</dd><dt>JSON</dt> <dd>Any valid JSON input.</dd></dl>"
+msgstr ""
 
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr "Foreman ユーザーグループは LDAP サーバーに保存されるグループに関連付けられるため、LDAP グループのメンバーシップはユーザーを Foreman ユーザーグループに自動的に追加します。"
@@ -821,6 +821,9 @@ msgstr "%s に割り当て"
 msgid "Assigning hosts to %{taxonomy_name} will also update %{taxonomy_name} to include all the resources that the selected hosts are currently using."
 msgstr "ホストを %{taxonomy_name} に割り当てることにより、選択したホストが現在使用しているすべてのリソースを含むように %{taxonomy_name} も更新されます。"
 
+msgid "Associate Ephemeral External IP"
+msgstr ""
+
 msgid "Associate VM"
 msgstr "VM の関連付け"
 
@@ -1048,6 +1051,9 @@ msgstr "自動署名エントリー名"
 msgid "Availability zone"
 msgstr "利用可能ゾーン"
 
+msgid "Available"
+msgstr ""
+
 msgid "Available Classes"
 msgstr "利用可能なクラス"
 
@@ -1198,6 +1204,9 @@ msgstr "OS イメージからのビルド"
 msgid "Build in progress"
 msgstr "ビルド中"
 
+msgid "By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser."
+msgstr ""
+
 msgid "By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups."
 msgstr "デフォルトでは、標準の LDAP グループオブジェクトにユーザーグループをマッピングします。FreeIPA と POSIX LDAP のサーバータイプでは、ネットグループを使用した別の方法でユーザーをグループ化することができます。標準グループではなく、ネットグループを使用する場合には、このチェックボックスを有効化してください。"
 
@@ -1285,6 +1294,9 @@ msgstr "コンテキストの切り替え時にユーザー %s を見つける�
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr "コンピュートリソースを登録できません。指定されたタイプが間違っています"
 
+msgid "Cannot resolve network type for %s"
+msgstr ""
+
 msgid "Caps lock ON"
 msgstr "Caps Lock がオン"
 
@@ -1369,6 +1381,9 @@ msgstr "クラス分布"
 msgid "Classes"
 msgstr "クラス"
 
+msgid "Clean up StoredValues"
+msgstr ""
+
 msgid "Clean up failed deployment"
 msgstr "障害が発生したデプロイメントのクリーンアップ"
 
@@ -1443,6 +1458,12 @@ msgstr "通信ステータス"
 
 msgid "Community"
 msgstr "コミュニティー"
+
+msgid "Compress the report using gzip"
+msgstr ""
+
+msgid "Compress the report uzing gzip"
+msgstr ""
 
 msgid "Compute Profiles"
 msgstr "コンピュートプロファイル"
@@ -1656,11 +1677,17 @@ msgstr "レポートを生成できませんでした。エラーメッセージ
 msgid "Could not locate CA certificate."
 msgstr "CA 証明書を見つけることができませんでした。"
 
+msgid "Could not receive data: ${error && error.message}"
+msgstr ""
+
 msgid "Could not recreate a new SSH key"
 msgstr "新規の SSH キーを再作成できませんでした"
 
 msgid "Could not refresh external usergroups: %{e} - %{message} - %{suggestion}"
 msgstr "外部ユーザーグループを更新できませんでした: %{e} - %{message} - %{suggestion}"
+
+msgid "Could not resolve ID."
+msgstr ""
 
 msgid "Create"
 msgstr "作成"
@@ -2040,6 +2067,9 @@ msgstr "毎日"
 msgid "Dashboard"
 msgstr "ダッシュボード"
 
+msgid "Data are available only for the user who triggered the report and administrators"
+msgstr ""
+
 msgid "Data store"
 msgstr "データストア"
 
@@ -2048,6 +2078,9 @@ msgstr "データセンター"
 
 msgid "Datacenter was not found"
 msgstr "データセンターが見つかりませんでした"
+
+msgid "Date"
+msgstr "日付"
 
 msgid "Default"
 msgstr "デフォルト"
@@ -2316,6 +2349,9 @@ msgstr "削除済みの環境"
 msgid "Deleted environment %{env} and %{pcs}"
 msgstr "削除済みの環境 %{env} および %{pcs}"
 
+msgid "Deliver to e-mail addresses"
+msgstr ""
+
 msgid "Delivery method"
 msgstr "配信方法"
 
@@ -2472,9 +2508,6 @@ msgstr "ドメイン ID"
 msgid "Domain Users is a special group in AD. Unfortunately, we cannot obtain membership information from a LDAP search and therefore sync it."
 msgstr "ドメインユーザーは、AD 内の特別グループです。LDAP 検索からメンバーシップ情報を取得できないので、同期できません。"
 
-msgid "Domain for V3 authentication"
-msgstr "V3 認証のドメイン"
-
 msgid "Domains"
 msgstr "ドメイン"
 
@@ -2494,6 +2527,12 @@ msgstr "ダウンロード"
 
 msgid "Download VMRC"
 msgstr "VMRC のダウンロード"
+
+msgid "Download generated report"
+msgstr ""
+
+msgid "Downloads a generated report"
+msgstr ""
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
 msgstr "重複した入力が検出されました: %{duplicated_inputs}"
@@ -2800,9 +2839,6 @@ msgstr "CSV にエクスポート"
 msgid "External Groups"
 msgstr "外部グループ"
 
-msgid "External IP"
-msgstr "外部 IP"
-
 msgid "External user group"
 msgstr "外部ユーザーグループ"
 
@@ -2960,7 +2996,7 @@ msgstr "電源状態の取得に失敗しました: %s"
 msgid "Failed to fetch: "
 msgstr "取得に失敗しました: "
 
-msgid "Failed to find compute attributes, please check if VM %{name} was deleted: %{message}"
+msgid "Failed to find compute attributes, please check if VM %s was deleted"
 msgstr ""
 
 msgid "Failed to get IP for %{name}: %{e}"
@@ -3082,6 +3118,9 @@ msgstr "名前"
 msgid "Fetch TFTP boot files for %s"
 msgstr "%s の TFTP ブートファイルの取得"
 
+msgid "Fetch the status of whether the host is powered on or not. Supported hosts are VMs and physical hosts with BMCs."
+msgstr ""
+
 msgid "Field name"
 msgstr "フィールド名"
 
@@ -3199,6 +3238,9 @@ msgstr "詳細情報"
 
 msgid "For more information please see"
 msgstr "詳細は、以下を参照してください: "
+
+msgid "For values of type search, this is the resource the value searches in"
+msgstr ""
 
 msgid "Force a Puppet agent run on the host"
 msgstr "ホスト上で Puppet エージェントの実行を強制します。"
@@ -3359,9 +3401,6 @@ msgstr "全画面表示"
 msgid "Function not available for %s"
 msgstr "%s の機能が使用不可です"
 
-msgid "Further Information"
-msgstr "追加情報"
-
 msgid "GMT time"
 msgstr "GMT 時間"
 
@@ -3383,11 +3422,17 @@ msgstr "生成"
 msgid "Generate a Report"
 msgstr "レポートの生成"
 
-msgid "Generate a report template"
-msgstr "レポートテンプレートの生成"
+msgid "Generate at"
+msgstr ""
 
 msgid "Generate new random name. Visit Settings to disable this feature."
 msgstr "新しいランダムな名前を生成します。この機能を無効にするには、設定にアクセスしてください"
+
+msgid "Generate report from a template"
+msgstr ""
+
+msgid "Generate report on a given time."
+msgstr ""
 
 msgid "Generated %s ago"
 msgstr "%s 前に生成"
@@ -3397,6 +3442,9 @@ msgstr "生成日: %s "
 
 msgid "Generating a report"
 msgstr "レポートの生成"
+
+msgid "Generating the report took %s."
+msgstr ""
 
 msgid "Get ENC values of host"
 msgstr "ホストの ENC 値の取得"
@@ -3935,6 +3983,12 @@ msgstr "URL"
 msgid "HttpProxy|Username"
 msgstr "ユーザー名"
 
+msgid "Hypervisor"
+msgstr ""
+
+msgid "ID assigned to generation job by the schedule command"
+msgstr ""
+
 msgid "ID of LDAP authentication source"
 msgstr "LDAP 認証ソースの ID"
 
@@ -3944,8 +3998,14 @@ msgstr "Puppet クラスの ID"
 msgid "ID of architecture"
 msgstr "アーキテクチャーの ID"
 
+msgid "ID of compute profile"
+msgstr ""
+
 msgid "ID of compute resource"
 msgstr "コンピュートリソースの ID"
+
+msgid "ID of compute_resource"
+msgstr ""
 
 msgid "ID of config template"
 msgstr "設定テンプレートの ID"
@@ -4131,6 +4191,9 @@ msgstr "チェックが付けられていると、デフォルト値がなく Ma
 msgid "If owner type is specified, owner must be specified too."
 msgstr "所有者タイプが指定されている場合は、所有者も指定する必要があります。"
 
+msgid "If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses."
+msgstr ""
+
 msgid "If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain."
 msgstr "管理フラグが無効になっている場合は、サービスがサブネットやドメインで設定されていても、このインターフェースでは設定されません。"
 
@@ -4216,6 +4279,9 @@ msgstr "名前"
 msgid "Image|Password"
 msgstr "パスワード"
 
+msgid "Image|User Data"
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Image|User data"
 msgstr "ユーザーデータ"
@@ -4242,6 +4308,12 @@ msgstr "プロビジョニングテンプレートのインポート"
 
 msgid "Import a report template"
 msgstr "レポートテンプレートのインポート"
+
+msgid "Import as managed Host"
+msgstr ""
+
+msgid "Import as unmanaged Host"
+msgstr ""
 
 msgid "Import classes from %s"
 msgstr "%s からのクラスのインポート"
@@ -4467,6 +4539,14 @@ msgstr "このコンピュートリソースには JSON VM の一覧表示がサ
 
 msgid "JSON object of the scheduler hint"
 msgstr "スケジューラーヒントの JSON オブジェクト"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Jwt secret"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "JwtSecret|Token"
+msgstr ""
 
 msgid "Key Binding"
 msgstr "キーバインディング"
@@ -4874,6 +4954,18 @@ msgstr "内部認証ソースを一覧表示"
 msgid "List of HTTP Proxies"
 msgstr "HTTP プロキシーを一覧表示"
 
+msgid "List of compute attributes"
+msgstr ""
+
+msgid "List of compute attributes for compute profile"
+msgstr ""
+
+msgid "List of compute attributes for compute resource"
+msgstr ""
+
+msgid "List of compute attributes for provided compute profile and compute resource"
+msgstr ""
+
 msgid "List of compute profiles"
 msgstr "コンピュートプロファイルの一覧"
 
@@ -4985,14 +5077,14 @@ msgstr "テンプレート組み合わせの一覧表示"
 msgid "List template inputs"
 msgstr "テンプレート入力を一覧表示"
 
+msgid "Load"
+msgstr ""
+
 msgid "Load Datacenters"
 msgstr "データセンターのロード"
 
 msgid "Load Regions"
 msgstr "リージョンのロード"
-
-msgid "Load Tenants"
-msgstr "テナントのロード"
 
 msgid "Load Zones"
 msgstr "ゾーンのロード"
@@ -5401,9 +5493,6 @@ msgstr "以下がありません (ID: %s)"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model"
 msgstr "モデル"
-
-msgid "Model|Hardware Model"
-msgstr "ハードウェアモデル"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Model|Hardware model"
@@ -6047,6 +6136,9 @@ msgstr "関連付けられたフィルター 1 つ以上が無効であるため
 msgid "Only for BMC interfaces."
 msgstr "BMC インターフェスのみ。"
 
+msgid "Only for v3 authentication"
+msgstr ""
+
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
 "                are automatically synced from the External Groups list."
@@ -6339,12 +6431,19 @@ msgid "Parameter|Hidden value"
 msgstr "非表示の値"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Parameter|Key type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Name"
 msgstr "名前"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Priority"
 msgstr "優先度"
+
+msgid "Parameter|Type"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Parameter|Value"
@@ -6495,6 +6594,9 @@ msgstr "写真属性"
 msgid "Physical (Bridge)"
 msgstr "物理 (ブリッジ)"
 
+msgid "Plain"
+msgstr ""
+
 msgid "Please Confirm"
 msgstr "確認してください"
 
@@ -6641,6 +6743,12 @@ msgstr "Foreman で websocket を暗号化するために使用する秘密キ�
 
 msgid "Proceed to Edit"
 msgstr "編集に進む"
+
+msgid "Project (Tenant)"
+msgstr ""
+
+msgid "Project (v3) or Tenant (v2)"
+msgstr ""
 
 msgid "Properties"
 msgstr "プロパティー"
@@ -6991,6 +7099,12 @@ msgstr "コンピュートインスタンス %s を削除中です"
 msgid "Rename"
 msgstr "名前変更"
 
+msgid "Render report %s"
+msgstr ""
+
+msgid "Render report template"
+msgstr ""
+
 msgid "Render user data template for %s"
 msgstr "%s のユーザーデータテンプレートのレンダリング"
 
@@ -7012,6 +7126,21 @@ msgstr "レポートの状態"
 
 msgid "Report Templates"
 msgstr "レポートテンプレート"
+
+msgid "Report completed"
+msgstr ""
+
+msgid "Report data are not available, it has probably expired."
+msgstr ""
+
+msgid "Report is being rendered, it will be delivered via e-mail."
+msgstr ""
+
+msgid "Report is going to be rendered at %s and it will be delivered via e-mail once ready."
+msgstr ""
+
+msgid "Report not found, please ensure you used the correct job_id"
+msgstr ""
 
 msgid "ReportTemplate|Locked"
 msgstr "ロック"
@@ -7104,6 +7233,9 @@ msgstr "R"
 
 msgid "Restrict registered smart proxies"
 msgstr "登録されたスマートプロキシーの制限"
+
+msgid "Result of report %s"
+msgstr ""
 
 msgid "Resume"
 msgstr "再開"
@@ -7306,6 +7438,9 @@ msgstr "保存してからやり直してください"
 msgid "Saved Bookmarks"
 msgstr "ブックマークを保存しました"
 
+msgid "Schedule generating of a report"
+msgstr ""
+
 msgid "Scheduler hint filter"
 msgstr "スケジューラーヒントフィルター"
 
@@ -7323,6 +7458,9 @@ msgstr "検索"
 
 msgid "Search fields"
 msgstr "検索フィールド"
+
+msgid "Search may fail or give you wrong results since it contains special characters that are query keywords such as < and >"
+msgstr ""
 
 msgid "Secondary DNS Server"
 msgstr "セカンダリー DNS サーバー"
@@ -7451,6 +7589,9 @@ msgstr "ユーザーの電子メールアドレスにテストメッセージを
 
 msgid "Send a welcome email including username and URL to new users"
 msgstr "ユーザー名および URL を含む歓迎電子メールを新規ユーザーに送信します"
+
+msgid "Send report via e-mail"
+msgstr ""
 
 msgid "Send welcome email"
 msgstr "歓迎電子メールの送信"
@@ -7592,6 +7733,9 @@ msgstr "ホストの Puppet クラスの表示"
 
 msgid "Show a bookmark"
 msgstr "ブックマークの表示"
+
+msgid "Show a compute attributes set"
+msgstr ""
 
 msgid "Show a compute profile"
 msgstr "コンピュートプロファイルの表示"
@@ -7831,11 +7975,23 @@ msgstr "スマートプロキシー"
 msgid "Smart proxy IDs"
 msgstr "スマートプロキシー ID"
 
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Smart proxy feature"
+msgstr ""
+
 msgid "Smart variables"
 msgstr "スマート変数"
 
 msgid "Smart variables are a tool to provide parameters (key/value data), to the top-level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr "スマート変数は、ルールセットによって、Puppet ENC のトップレベル (グローバル) スコープにパラメーター (キー/値のデータ) を提供するツールです。"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SmartProxyFeature|Capabilities"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "SmartProxyFeature|Settings"
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "SmartProxy|Expired logs"
@@ -7973,6 +8129,22 @@ msgstr "ストレージドメイン"
 
 msgid "Storage pool"
 msgstr "ストレージプール"
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "Stored value"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "StoredValue|Expire at"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "StoredValue|Key"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "StoredValue|Value"
+msgstr ""
 
 msgid "Strong"
 msgstr "強"
@@ -8316,6 +8488,14 @@ msgid "TemplateInput|Required"
 msgstr "必須"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TemplateInput|Resource type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+msgid "TemplateInput|Value type"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "TemplateInput|Variable name"
 msgstr "変数名"
 
@@ -8487,8 +8667,8 @@ msgstr "仮想マシンの電源がオンになっていないため、コンソ
 msgid "The default administrator email address"
 msgstr "デフォルトの管理者メールアドレス"
 
-msgid "The file path where your p12 file is located"
-msgstr "p12 ファイルのあるファイルパス"
+msgid "The file path where your JSON file is located"
+msgstr ""
 
 msgid "The final entry, Operating System default, can be set by editing the %s page."
 msgstr "最終エントリーのオペレーティングシステムのデフォルトは、%s ページを編集して設定できます。"
@@ -8582,6 +8762,9 @@ msgstr "リモートシステムは、未確認の証明機関によって署名
 
 msgid "The remote system presented a public key with hash %s but we're expecting a different hash. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"
 msgstr "リモートシステムは公開キーとハッシュ %s を提示しましたが、ハッシュは異なるものであることが予想されます。リモートシステムが認証済みであることが確認できる場合、コンピュートリソースの編集ページに移動してから「テスト接続」または「データセンターのロード」ボタンを押して送信します"
+
+msgid "The report %{name} that was requested at %{time} has been generated%{compression} and attached to this email."
+msgstr ""
 
 msgid "The selected hosts were enabled for reboot and rebuild"
 msgstr "選択されたホストの再起動と再ビルドが有効にされました"
@@ -8731,8 +8914,8 @@ msgstr "この値は非表示になりません"
 msgid "This value is used also as the host's primary interface name."
 msgstr "この値は、ホストのプライマリーインターフェース名としても使用されます。"
 
-msgid "This will generate a report %s. Based on its definition, it can take a long time to process. This operation runs in the web process, therefore should be executed with caution. Triggering multiple reports can consume many resources and may result in other system functions unavailability."
-msgstr "これでレポート %s が生成されます。定義によって、処理時に長時間かかる可能性があります。この操作は Web プロセスで実行されるので、慎重に実行してください。複数のレポートをトリガーすると、多くのリソースが消費され、他のシステムの機能が利用できなくなる可能性があります。"
+msgid "This will generate a report %s. Based on its definition, it can take a long time to process."
+msgstr ""
 
 msgid "This will reset parameters of the class %s to their default values. Continue?"
 msgstr "これは、クラス %s のパラメーターをそれらのデフォルト値にリセットします。続行しますか?"
@@ -8782,6 +8965,9 @@ msgstr "トレンドデータの収集を開始するには、少なくとも %s
 
 msgid "To update the class signature, go to the Puppet Classes page and select \"Import\"."
 msgstr "クラス署名を更新するには「Puppet クラス」ページに移動して「インポート」を選択します。"
+
+msgid "Today"
+msgstr ""
 
 msgid "Toggle"
 msgstr "トグル"
@@ -8896,6 +9082,9 @@ msgstr "名前ジェネレーターのタイプ"
 msgid "Type of realm, e.g. FreeIPA"
 msgstr "レルムのタイプ (例: FreeIPA)"
 
+msgid "Type of value"
+msgstr ""
+
 msgid "Type or protocol, IPv4 or IPv6, defaults to IPv4"
 msgstr "タイプまたはプロトコル、IPv4 または IPv6、デフォルト値は IPv4"
 
@@ -8931,6 +9120,9 @@ msgstr "Foreman インスタンスに到達できる URL (プロビジョニン�
 
 msgid "UTC time of report"
 msgstr "レポートの UTC 時間"
+
+msgid "UTC time to generate report at"
+msgstr ""
 
 msgid "UUID"
 msgstr "UUID"
@@ -9126,6 +9318,9 @@ msgstr "ダッシュボードウィジェットのテンプレートは許可さ
 
 msgid "Unattended URL"
 msgstr "自動 URL"
+
+msgid "Unauthorized. You do not have the required permission %s."
+msgstr ""
 
 msgid "Undo remove"
 msgstr "削除を元に戻す"
@@ -9412,6 +9607,9 @@ msgstr "タスク名"
 msgid "Upload facts for a host, creating the host if required"
 msgstr "ホストのファクトをアップロードし、必要な場合はホストを作成します"
 
+msgid "Uptime"
+msgstr "アップタイム"
+
 msgid "Use APIv4 (experimental)"
 msgstr "APIv4 の使用 (プレビュー)"
 
@@ -9435,6 +9633,9 @@ msgstr "この puppet サーバーを CA サーバーとして使用します"
 
 msgid "Use this puppet server as an initial Puppet Server or to execute puppet runs"
 msgstr "この puppet サーバーを初期の Puppet サーバーとして使用するか、または puppetrun の実行用に使用します"
+
+msgid "Used"
+msgstr ""
 
 msgid "Used in iPXE environments."
 msgstr "iPXE 環境で使用"
@@ -9663,6 +9864,9 @@ msgstr "VNC/SPICE websocket プロキシーコンソールアクセス暗号化 
 msgid "Valid Host Group and Environment Combinations"
 msgstr "有効なホストグループと環境の組み合わせ"
 
+msgid "Valid e-mail addresses delimited by \"%s\""
+msgstr ""
+
 msgid "Valid from"
 msgstr "有効期間の起点"
 
@@ -9680,6 +9884,9 @@ msgstr "一致がない場合に使用する値"
 
 msgid "Value to use when there is no match."
 msgstr "一致がない場合に使用する値。"
+
+msgid "Value type, defaults to plain"
+msgstr ""
 
 msgid "Variable"
 msgstr "変数"
@@ -10149,6 +10356,9 @@ msgstr "最後の管理者アカウントから削除できません"
 msgid "cannot be used, please choose another"
 msgstr "使用できません。別のものを選択してください"
 
+msgid "cannot contain itself as member"
+msgstr ""
+
 msgid "clone"
 msgstr "クローン"
 
@@ -10160,6 +10370,12 @@ msgstr "%{disqus} で提供されるコメント"
 
 msgid "community forums"
 msgstr "コミュニティーフォーラム"
+
+msgid "compresed"
+msgstr ""
+
+msgid "contains special characters"
+msgstr ""
 
 msgid "could not be calculated"
 msgstr "計算できませんでした"
@@ -10289,6 +10505,9 @@ msgstr "VMware の場合"
 
 msgid "for oVirt only"
 msgstr "oVirt の場合のみ"
+
+msgid "for oVirt only, ID of quota to use"
+msgstr ""
 
 msgid "for oVirt, VMware Datacenter"
 msgstr "oVirt、VMware Datacenter の場合"
@@ -10557,6 +10776,9 @@ msgstr "ホストのオペレーティングシステムに所属する必要が
 msgid "must contain valid hostnames"
 msgstr "有効なホスト名を含める必要があります"
 
+msgid "must end with /v2 or /v3"
+msgstr ""
+
 msgid "must not include periods"
 msgstr "ピリオドを含めることはできません"
 
@@ -10713,17 +10935,11 @@ msgstr "ホストが管理されており、値がホストグループから継
 msgid "required if host is managed and value is not inherited from host group or default password in settings"
 msgstr "ホストが管理されており、値がホストグループから継承されていないか、または設定済みのデフォルトパスワードである場合に必須です。"
 
-msgid "required if locations are enabled"
-msgstr "ロケーションが有効にされている場合に必須です。"
-
 msgid "required if not imaged based provisioning and host is managed and value is not inherited from host group"
 msgstr "イメージベースのプロビジョニングでない場合で、ホストが管理されており、値がホストグループから継承されていない場合に必須です。"
 
 msgid "required if onthefly_register is true"
 msgstr "onthefly_register が true の場合に必須です。"
-
-msgid "required if organizations are enabled"
-msgstr "組織が有効にされている場合に必須です。"
 
 msgid "reset"
 msgstr "リセット"
