@@ -470,7 +470,8 @@ Foreman::Application.routes.draw do
     end
   end
 
-  resources :statistics, :only => [:index, :show]
+  resources :statistics, :only => [:index, :show], constraints: ->(req) { req.format == :json }
+  match 'statistics' => 'react#index', :via => :get
 
   root :to => 'dashboard#index'
   get 'dashboard', :to => 'dashboard#index', :as => "dashboard"
