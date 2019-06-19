@@ -1,7 +1,37 @@
 class StructuredFactImporter < FactImporter
+  include ActionView::Helpers::NumberHelper
+
+  MAXIMUM_FLAT_FACTS = /^(blockdevice_|ipaddress6?_|macaddress_|mtu_|speed_|auto_negotiation_|duplex_|link_|wol_)/
+
   def normalize(facts)
+    max = Setting[:maximum_structured_facts]
+    flat_counts = {}
+    dropped = 0
     # Remove empty values first, so nil facts added by flatten_composite imply compose
-    facts.delete_if { |k, v| v.nil? || (v.is_a?(String) && v.empty?) }
+    # and count flat counts for later removal and also directly remove too large sub-hashes
+    facts.delete_if do |k, v|
+      match = k.to_s.match(MAXIMUM_FLAT_FACTS)
+      if match
+        flat_counts[match.captures.first] ||= 0
+        flat_counts[match.captures.first] += 1
+      end
+      v.nil? || (v.is_a?(String) && v.empty?) || ((v.is_a?(Hash) || v.is_a?(Array)) && v.count > max && (dropped += v.count))
+    end
+
+    # Remove flat facts exceeding the limit
+    flat_counts.each_pair do |string, count|
+      if count > max
+        facts.delete_if {|k, v| k.to_s.start_with?(string) && (dropped += 1)}
+      end
+    end
+
+    # Report rough precision of number of dropped facts so it does not change often (e.g. "10 Thousand")
+    if dropped > 0
+      facts['foreman'] ||= {}
+      facts['foreman']['dropped_subtree_facts'] = number_to_human(dropped, precision: 1)
+      logger.warn "Some subtrees exceeded #{max} limit of facts, dropped #{dropped} keys"
+    end
+
     facts = flatten_composite({}, facts)
 
     original_keys = facts.keys.to_a
