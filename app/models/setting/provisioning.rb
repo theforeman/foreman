@@ -76,6 +76,7 @@ class Setting::Provisioning < Setting
         default_excluded_facts,
         N_('Exclude pattern for facts stored in foreman')
       ),
+      self.set('maximum_structured_facts', N_("Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"), 100, N_('Maximum structured facts')),
     ] + default_global_templates + default_local_boot_templates
   end
 
@@ -120,6 +121,6 @@ class Setting::Provisioning < Setting
   end
 
   def self.default_excluded_facts(ignored_interfaces = IGNORED_INTERFACES)
-    ignored_interfaces + ['mountpoints', 'partitions', 'blockdevice*']
+    ignored_interfaces
   end
 end
