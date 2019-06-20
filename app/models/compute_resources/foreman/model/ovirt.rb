@@ -111,15 +111,15 @@ module Foreman::Model
     end
 
     def max_cpu_count
-      16
+      client.max_num_of_vm_cpus
     end
 
     def max_socket_count
-      16
+      client.max_num_of_vm_sockets
     end
 
     def max_memory
-      16.gigabytes
+      client.vm_max_memory_size_in_mb.megabytes
     end
 
     def use_v4=(value)
