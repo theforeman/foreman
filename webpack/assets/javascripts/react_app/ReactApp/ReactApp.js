@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { Router } from 'react-router-dom';
 import history from '../history';
 
+import BrowserSupport from '../components/BrowserSupport';
 import Layout from '../components/Layout';
 import AppSwitcher from '../routes';
 
 const ReactApp = ({ data: { layout } }) => (
-  <Router history={history}>
-    <Layout data={layout}>
-      <AppSwitcher />
-    </Layout>
-  </Router>
+  <React.Fragment>
+    <BrowserSupport />
+    <Router history={history}>
+      <Layout data={layout}>
+        <AppSwitcher />
+      </Layout>
+    </Router>
+  </React.Fragment>
 );
 
 ReactApp.propTypes = {

@@ -6,7 +6,6 @@ import { translate as __ } from '../../common/I18n';
 import { noop } from '../../common/helpers';
 
 import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';
-import { checkBrowserSupport } from './browserSupportHelper';
 import LayoutContainer from './components/LayoutContainer';
 import TaxonomySwitcher from './components/TaxonomySwitcher';
 import UserDropdowns from './components/UserDropdowns';
@@ -27,7 +26,6 @@ class Layout extends React.Component {
       isCollapsed,
       onCollapse,
     } = this.props;
-    checkBrowserSupport();
     if (items.length === 0) fetchMenuItems(data);
     if (isCollapsed) onCollapse();
 
