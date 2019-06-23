@@ -75,7 +75,7 @@
     "classnames": "^2.2.5",
     "datatables.net": "~1.10.12",
     "datatables.net-bs": "~1.10.12",
-    "diff": "~3.0.0",
+    "diff": ">=4.0.1",
     "file-saver": "^2.0.1",
     "gridster": "^0.5.6",
     "history": "^4.7.2",
