@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce';
+import { toString } from 'lodash';
 import API from '../../API';
 import { translate as __ } from '../../common/I18n';
 
@@ -122,7 +123,7 @@ export const previewTemplate = ({ host, renderPath }) => (
         payload: {
           renderedEditorValue: templateValue,
           selectedHost: {
-            id: id.toString(),
+            id: toString(id),
             name,
           },
           previewResult: response.data,
@@ -139,7 +140,7 @@ export const previewTemplate = ({ host, renderPath }) => (
           errorText: __(error.response.data),
           previewResult: __('Error during rendering, Return to Editor tab.'),
           selectedHost: {
-            id: id.toString(),
+            id: toString(id),
             name,
           },
         },
