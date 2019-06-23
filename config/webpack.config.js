@@ -195,7 +195,8 @@ module.exports = env => {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(production ? 'production' : 'development'),
-          NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING
+          NOTIFICATIONS_POLLING: process.env.NOTIFICATIONS_POLLING,
+          REDUX_LOGGER: process.env.REDUX_LOGGER
         }
       }),
       // limit locales from intl only to supported ones

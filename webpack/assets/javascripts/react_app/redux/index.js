@@ -6,9 +6,17 @@ import reducers from './reducers';
 
 let middleware = [thunk];
 
-if (process.env.NODE_ENV !== 'production' && !global.__testing__) {
-  middleware = [...middleware, createLogger()];
-}
+const useLogger = () => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const isLogger = process.env.REDUX_LOGGER;
+
+  if (!isProduction && !global.__testing__) {
+    if (isLogger === undefined || isLogger === true) return true;
+  }
+  return isProduction && isLogger;
+};
+
+if (useLogger()) middleware = [...middleware, createLogger()];
 
 export const generateStore = () =>
   createStore(
