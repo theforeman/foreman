@@ -16,8 +16,7 @@ module Api
       param :host_id, String, :required => true, :desc => N_("ID or name of host")
       param :domain_id, String, :required => false, :desc => N_('ID or name of domain')
       param :subnet_id, String, :required => false, :desc => N_('ID or name of subnet')
-      param :page, String, :desc => N_("paginate results")
-      param :per_page, String, :desc => N_("number of entries per request")
+      param_group :pagination, ::Api::V2::BaseController
 
       def index
         @interfaces = resource_scope.paginate(paginate_options)
