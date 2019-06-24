@@ -12,8 +12,8 @@ module Api
       end
 
       def_param_group :pagination do
-        param :page, String, :desc => N_("paginate results")
-        param :per_page, String, :desc => N_("number of entries per request")
+        param :page, :number, :desc => N_("Page number, starting at 1")
+        param :per_page, :number, :desc => N_("Number of results per page to return")
       end
 
       def_param_group :search_and_pagination do
