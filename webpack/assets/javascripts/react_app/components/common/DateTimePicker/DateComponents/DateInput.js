@@ -15,6 +15,8 @@ class DateInput extends React.Component {
   componentDidUpdate = prevProps => {
     const newDate = this.props.date;
     if (prevProps.date !== newDate) {
+      // TODO: Fix #27114 - stop violating react/no-did-update-set-state
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         date: newDate,
         typeOfDateInput: this.props.typeOfDateInput,

@@ -163,6 +163,7 @@ Layout.propTypes = {
     })
   ),
   data: PropTypes.shape({
+    brand: PropTypes.string,
     menu: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
@@ -182,7 +183,7 @@ Layout.propTypes = {
       ),
     }),
     orgs: PropTypes.shape({
-      current_organization: PropTypes.string,
+      current_org: PropTypes.string,
       available_organizations: PropTypes.arrayOf(
         PropTypes.shape({
           href: PropTypes.string.isRequired,

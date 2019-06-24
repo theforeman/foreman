@@ -59,6 +59,9 @@ Pagination.propTypes = {
     perPageOptions: PropTypes.arrayOf(PropTypes.number),
     itemCount: PropTypes.number,
     perPage: PropTypes.number,
+    classNames: PropTypes.shape({
+      pagination_classes: PropTypes.string,
+    }),
   }).isRequired,
   onPageSet: PropTypes.func,
   onPerPageSelect: PropTypes.func,

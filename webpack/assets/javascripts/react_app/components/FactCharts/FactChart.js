@@ -112,6 +112,7 @@ FactChart.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string,
     search: PropTypes.string,
+    path: PropTypes.string,
   }).isRequired,
   factChart: PropTypes.shape({
     chartData: PropTypes.arrayOf(PropTypes.array),

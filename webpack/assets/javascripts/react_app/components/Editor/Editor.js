@@ -206,6 +206,9 @@ Editor.propTypes = {
     name: PropTypes.string,
     title: PropTypes.string,
     renderPath: PropTypes.string,
+    hosts: PropTypes.array,
+    locked: PropTypes.bool,
+    type: PropTypes.string,
   }).isRequired,
   selectedHost: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
