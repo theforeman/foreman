@@ -59,6 +59,8 @@ const TemplateInput = ({
 
 TemplateInput.propTypes = {
   data: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    type: PropTypes.string,
     url: PropTypes.string,
     resourceType: PropTypes.string,
     initialError: PropTypes.string,

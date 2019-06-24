@@ -10,6 +10,8 @@ class PickTimeClock extends React.Component {
   componentDidUpdate = prevProps => {
     const newTime = this.props.time;
     if (prevProps.time !== newTime) {
+      // TODO: Fix #27114 - stop violating react/no-did-update-set-state
+      // eslint-disable-next-line react/no-did-update-set-state
       this.setState({ ampm: newTime.getHours() >= 12 ? 'PM' : 'AM' });
     }
   };
