@@ -6,7 +6,8 @@ module Api
     include Foreman::Controller::ApiCsrfProtection
     include Foreman::Controller::BruteforceProtection
 
-    before_action :set_default_response_format, :authorize, :set_taxonomy, :add_version_header, :set_gettext_locale
+    before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :add_info_headers, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
 
@@ -227,6 +228,18 @@ module Api
     def add_version_header
       response.headers["Foreman_version"] = SETTINGS[:version].full
       response.headers["Foreman_api_version"] = api_version
+    end
+
+    def add_taxonomies_header
+      current_org = "#{Organization.current.id}; #{Organization.current.name}" if Organization.current
+      response.headers["Foreman_current_organization"] = current_org || '; ANY'
+      current_loc = "#{Location.current.id}; #{Location.current.name}" if Location.current
+      response.headers["Foreman_current_location"] = current_loc || '; ANY'
+    end
+
+    def add_info_headers
+      add_version_header
+      add_taxonomies_header
     end
 
     # this method is used with nested resources, where obj_id is passed into the parameters hash.

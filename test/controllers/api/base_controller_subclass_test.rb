@@ -57,6 +57,10 @@ class Api::TestableControllerTest < ActionController::TestCase
   tests Api::TestableController
 
   context "api base headers" do
+    setup do
+      @organization = FactoryBot.create :organization, :name => "org"
+      @location = FactoryBot.create :location, :name => "loc"
+    end
     test "should contain version in headers" do
       get :index
       assert_match /\d+\.\d+/, @response.headers["Foreman_version"]
@@ -65,6 +69,18 @@ class Api::TestableControllerTest < ActionController::TestCase
     test "should contain version as string in headers" do
       get :index
       assert @response.headers["Foreman_version"].is_a? String
+    end
+
+    test "should contain ANY location and ANY Organization in the headers" do
+      get :index
+      assert_equal @response.headers["Foreman_current_organization"], "; ANY"
+      assert_equal @response.headers["Foreman_current_location"], "; ANY"
+    end
+
+    test "should contain current location and organization in the headers" do
+      get :index, :params => { :location_id => @location.id, :organization_id => @organization.id }
+      assert_equal @response.headers["Foreman_current_organization"], "#{@organization.id}; #{@organization.name}"
+      assert_equal @response.headers["Foreman_current_location"], "#{@location.id}; #{@location.name}"
     end
   end
 
