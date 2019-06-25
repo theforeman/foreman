@@ -1,7 +1,7 @@
 module Foreman::Model
   class Openstack < ComputeResource
     include KeyPairComputeResource
-    attr_accessor :tenant, :scheduler_hint_value
+    attr_accessor :scheduler_hint_value
     delegate :flavors, :to => :client
     delegate :security_groups, :to => :client
 
@@ -41,6 +41,22 @@ module Foreman::Model
 
     def tenant=(name)
       attrs[:tenant] = name
+    end
+
+    def project_domain_id
+      attrs[:project_domain_id]
+    end
+
+    def project_domain_id=(domain)
+      attrs[:project_domain_id] = domain
+    end
+
+    def project_domain_name
+      attrs[:project_domain_name]
+    end
+
+    def project_domain_name=(domain)
+      attrs[:project_domain_name] = domain
     end
 
     def tenants
@@ -254,16 +270,21 @@ module Foreman::Model
         :openstack_api_key  => password,
         :openstack_username => user,
         :openstack_auth_url => url_for_fog,
-        :openstack_tenant   => tenant,
-        :openstack_identity_endpoint => url_for_fog,
-        :openstack_user_domain       => domain,
-        :openstack_endpoint_type     => "publicURL"
+        :openstack_identity_endpoint => url_for_fog
       }.tap do |h|
-        if tenant
-          h[:openstack_domain_name] = domain
-          h[:openstack_project_name] = tenant
+        if tenant.present?
+          if identity_version == 2
+            h[:openstack_tenant] = tenant
+          else
+            h[:openstack_project_name] = tenant
+          end
         end
+        h[:openstack_user_domain] = domain if domain.present?
+        h[:openstack_domain_id] = project_domain_id if project_domain_id.present?
+        h[:openstack_domain_name] = project_domain_name if project_domain_name.present?
         h[:openstack_identity_api_version] = 'v2.0' if identity_version == 2
+        logger.debug { "OpenStack fog credentials: " + h.dup.delete_if { |key, value| key == :openstack_api_key }.to_s }
+        h
       end
     end
 
