@@ -122,11 +122,11 @@ module Orchestration::DNS
       end
     end
     !status # failure method returns 'false'
-  rescue Net::Error => e
+  rescue Resolv::ResolvTimeout, Net::Error => e
     if domain.nameservers.empty?
       failure(_("Error connecting to system DNS server(s) - check /etc/resolv.conf"), e)
     else
-      failure(_("Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings") % {:domain => domain.try(:name), :servers => domain.nameservers.join(',')}, e)
+      failure(_("Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings") % {:domain => domain.try(:name), :servers => domain.nameservers.join(',')}, e)
     end
   end
 end

@@ -68,15 +68,14 @@ module Foreman
 
           def dns_lookup(name_or_ip)
             resolver = Resolv::DNS.new
-            Timeout.timeout(Setting[:dns_conflict_timeout]) do
-              begin
-                resolver.getname(name_or_ip)
-              rescue Resolv::ResolvError
-                resolver.getaddress(name_or_ip)
-              end
+            resolver.timeouts = Setting[:dns_timeout]
+            begin
+              resolver.getname(name_or_ip)
+            rescue Resolv::ResolvError
+              resolver.getaddress(name_or_ip)
             end
           rescue StandardError => e
-            log_warn "Template helper dns_lookup failed: #{e}"
+            log_warn "Template helper dns_lookup failed: #{e} (timeout set to #{Setting[:dns_timeout]})"
             raise e
           end
 

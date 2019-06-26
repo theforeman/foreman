@@ -76,7 +76,7 @@ module Foreman
         :ignored_interface_identifiers,
         :remote_addr,
         :token_duration,
-        :dns_conflict_timeout,
+        :dns_timeout,
         :name_generator_type,
         :default_pxe_item_global,
         :default_pxe_item_local,
