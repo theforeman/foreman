@@ -35,7 +35,7 @@ gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '2.1.0'
 gem 'net-scp'
 gem 'net-ssh', '4.2.0'
-gem 'net-ldap', '>= 0.8.0'
+gem 'net-ldap', '>= 0.16.0'
 gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 1.1.0', '< 2'
 gem 'sprockets', '~> 3'
