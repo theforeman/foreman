@@ -1,36 +1,36 @@
 @import '../../common/colors.scss';
 
-.nav-pf-secondary-nav {
-  background-color: $nav-pf-vertical-active-bg-color !important;
+.secondary-nav-item-pf > .nav-pf-secondary-nav {
+  background-color: $nav-pf-vertical-active-bg-color;
 
   .mobile-active {
     // Mark active Location/Org in Mobile view
     a {
       .list-group-item-value {
-        background-color: $nav-pf-vertical-secondary-active-bg-color !important;
+        background-color: $nav-pf-vertical-secondary-active-bg-color;
       }
     }
   }
 
   .list-group-item {
     a {
-      background-color: $nav-pf-vertical-active-bg-color !important;
+      background-color: $nav-pf-vertical-active-bg-color;
 
       &:hover {
         .list-group-item-value {
-          background-color: $nav-pf-vertical-secondary-active-bg-color !important;
+          background-color: $nav-pf-vertical-secondary-active-bg-color;
         }
       }
     }
 
     span {
-      color: $nav-pf-vertical-active-icon-color !important;
+      color: $nav-pf-vertical-active-icon-color;
     }
   }
 }
 
-.nav-pf-vertical {
-  background-color: $nav-pf-vertical-secondary-active-bg-color !important;
+#react-app-root > .nav-pf-vertical {
+  background-color: $nav-pf-vertical-secondary-active-bg-color;
 
   .list-group {
     .list-group-item {
@@ -54,7 +54,7 @@
 
       &:hover {
         a {
-          background-color: $nav-pf-vertical-active-bg-color !important;
+          background-color: $nav-pf-vertical-active-bg-color;
 
           span {
             color: $nav-pf-vertical-active-icon-color;
