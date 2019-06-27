@@ -100,4 +100,20 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       check_vm_attribute_names(cr)
     end
   end
+
+  describe '#associated_host' do
+    let(:cr) { FactoryBot.build_stubbed(:gce_cr) }
+
+    test "matches host by public_ip_address NIC" do
+      host = FactoryBot.create(:host, :ip => '10.0.0.154')
+      compute = mock('gce_compute', :public_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
+      assert_equal host, as_admin { cr.associated_host(compute) }
+    end
+
+    test "matches host by private_ip_address NIC" do
+      host = FactoryBot.create(:host, :ip => '10.1.1.1')
+      compute = mock('gce_compute', :public_ip_address => '10.0.0.154', :private_ip_address => "10.1.1.1")
+      assert_equal host, as_admin { cr.associated_host(compute) }
+    end
+  end
 end

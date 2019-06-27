@@ -207,6 +207,10 @@ module Foreman::Model
       end
     end
 
+    def associated_host(vm)
+      associate_by("ip", [vm.public_ip_address, vm.private_ip_address])
+    end
+
     private
 
     def client
