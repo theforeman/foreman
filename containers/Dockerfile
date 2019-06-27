@@ -1,4 +1,4 @@
-FROM quay.io/foreman/foreman-builder-base as builder
+FROM quay.io/foreman/foreman-builder as builder
 
 ARG HOME=/home/foreman
 ARG RAILS_ENV=production

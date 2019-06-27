@@ -125,7 +125,7 @@ Here are the layers used in the process:
 
 quay.io/theforeman/foreman-base::
     the base OS with minimal runtime (ruby, node, python) dependencies.
-quay.io/theforeman/foreman-builder-base::
+quay.io/theforeman/foreman-builder::
     the base image for the builder image, with pre-installed devel/build dependencies
 builder::
     https://docs.docker.com/develop/develop-images/multistage-build/[a staged image]
@@ -133,9 +133,9 @@ builder::
 
 
 ....
-Dockerfile.builder-base[quay.io/theforeman/foreman-base]
+Dockerfile.base[quay.io/theforeman/foreman-base]
 │
-├─ Dockerfile.builder-base[quay.io/theforeman/foreman-builder-base]
+├─ Dockerfile.builder[quay.io/theforeman/foreman-builder]
 │  │
 │  └─ Dockerfile[builder]
 │     ¦
@@ -146,6 +146,6 @@ Dockerfile.builder-base[quay.io/theforeman/foreman-base]
 
 [source, bash]
 ....
-docker build --target base -t quay.io/foreman/foreman-base -f Dockerfile.builder-base ..
-docker build -t quay.io/foreman/foreman-builder-base -f Dockerfile.builder-base ..
+docker build -t quay.io/foreman/foreman-base -f Dockerfile.base ..
+docker build -t quay.io/foreman/foreman-builder -f Dockerfile.builder ..
 ....
