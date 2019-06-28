@@ -12,6 +12,9 @@ module Types
       end
     end
 
+    include ::Foreman::Plugin::GraphqlPluginFields
+    realize_plugin_query_extensions
+
     field :node, field: GraphQL::Relay::Node.field
     field :nodes, field: GraphQL::Relay::Node.plural_field
 

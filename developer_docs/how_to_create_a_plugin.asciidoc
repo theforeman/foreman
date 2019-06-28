@@ -1921,6 +1921,32 @@ The module should `extend ActiveSupport::Concern`. Note that any code that is su
    extend_graphql_type type: Types::SmartProxy, with_module: ForemanOpenscap::SmartProxyTypeExtensions
 ....
 
+[[adding-graphql-types]]
+=== Adding new graphql types
+
+_Requires Foreman 1.23 or higher, set requires_foreman '>= 1.23' in
+engine.rb_
+
+When you create a new graphql type in your plugin, you need to register it in your `engine.rb` so that Foreman knows how it should be used in a query.
+
+[source, ruby]
+....
+  register_graphql_query_field :duck, ::Types::Duck, :record_field
+  register_graphql_query_field :ducks, ::Types::Duck, :collection_field
+....
+
+With the example above, server will know how to respond to `duck` and `ducks` queries. The first argument of `register_graphql_field` is query name, second is the type class and the third is whether the query is for a single record or a collection.
+
+Similarly for mutations:
+
+[source, ruby]
+....
+  register_graphql_mutation_field :delete_duck, ::Mutations::Ducks::Delete
+....
+
+where `::Mutations::Ducks::Delete` is your delete mutation class inheriting from `::Mutations::DeleteMutation`.
+
+
 [[translating]]
 == Translating
 
