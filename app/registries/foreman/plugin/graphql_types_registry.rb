@@ -2,11 +2,24 @@ module Foreman
   class Plugin
     class GraphqlTypesRegistry
       delegate :logger, to: Rails
-      attr_reader :type_block_extensions, :type_module_extensions
+      attr_reader :type_block_extensions, :type_module_extensions, :plugin_query_fields, :plugin_mutation_fields
 
       def initialize
         @type_block_extensions = {}
         @type_module_extensions = {}
+        @plugin_query_fields = []
+        @plugin_mutation_fields = []
+      end
+
+      def register_plugin_query_field(field_name, type, field_type)
+        unless [:record_field, :collection_field].any? { |field| field == field_type }
+          raise "expected :record_field or :collection_field as a field_type, got #{field_type}"
+        end
+        @plugin_query_fields << { :field_type => field_type, :field_name => field_name, :type => type }
+      end
+
+      def register_plugin_mutation_field(field_name, mutation)
+        @plugin_mutation_fields << { :field_name => field_name, :mutation => mutation }
       end
 
       # Register a new extension for a graphql type
