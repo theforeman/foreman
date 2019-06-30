@@ -22,7 +22,7 @@ class TimePicker extends React.Component {
   formatDate = () => {
     const { locale } = this.props;
     const { value } = this.state;
-    const options = { hour: '2-digit', minute: '2-digit' };
+    const options = { hour: 'numeric', minute: 'numeric' };
     return value.toLocaleString(locale, options);
   };
   setSelected = date => {
