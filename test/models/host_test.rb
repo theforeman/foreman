@@ -266,6 +266,27 @@ class HostTest < ActiveSupport::TestCase
       host.expects(:enable_orchestration!).never
       assert host.import_facts(raw['facts'])
     end
+
+    test 'should import facts boot time to report data facet' do
+      refute Host.find_by_name('sinn1636.lan')
+      raw = read_json_fixture('facts/facts_with_certname.json')
+      first_boot_time = nil
+      host = nil
+      freeze_time do
+        host = Host.import_host(raw['name'], 'puppet')
+        assert host.import_facts(raw['facts'])
+        first_boot_time = host.reported_data.boot_time
+        refute_nil host.reported_data.boot_time
+        assert_equal Time.now - raw['facts']['uptime_seconds'].to_i.seconds, host.reported_data.boot_time
+      end
+
+      travel 1.minute do
+        # it gets updated if the facet exists
+        assert host.import_facts(raw['facts'])
+        second_boot_time = host.reported_data.boot_time
+        refute_equal first_boot_time, second_boot_time, "boot time didn't get updated during second import of facts"
+      end
+    end
   end
 
   context "when enable_orchestration_on_fact_import is true" do
@@ -3788,41 +3809,41 @@ class HostTest < ActiveSupport::TestCase
   describe '#uptime_seconds' do
     test 'should return uptime in seconds' do
       host = FactoryBot.create(:host)
-      fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds')
-      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => 123)
-      assert_equal 123, host.uptime_seconds
-    end
-
-    test 'should return uptime in seconds also when based on boot time fact' do
-      host = FactoryBot.create(:host)
-      fact = FactoryBot.create(:fact_name, name: 'proc_stat::btime')
-      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => 1560178781)
-      assert_in_delta host.uptime_seconds, Time.now.to_i - 1560178781, 10
+      boot_time = 1.day.ago
+      host.create_reported_data(:boot_time => boot_time)
+      now = Time.zone.now.to_i
+      assert_equal host.uptime_seconds, now - boot_time.to_i
     end
 
     test 'should return nil if no uptime fact is available' do
       host = FactoryBot.create(:host)
       assert_nil host.uptime_seconds
     end
+  end
 
-    test 'should return uptime and based on backup facts even if there are multiple other facts' do
+  describe '#uptime_seconds' do
+    test 'should not fail on host without reported data' do
       host = FactoryBot.create(:host)
-      ansible_uptime_fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds')
-      chef_uptime_fact = FactoryBot.create(:fact_name, name: 'uptime_seconds')
-      unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
-      puppet_fact = FactoryBot.create(:fact_name, name: 'system_uptime::seconds')
-      ansible_fact = FactoryBot.create(:fact_value, fact_name: ansible_uptime_fact, host: host, :value => 123)
-      cf = FactoryBot.create(:fact_value, fact_name: chef_uptime_fact, host: host, :value => 222)
-      cf.update_attribute :updated_at, cf.updated_at + 1.second
-      FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, :value => 'Fedora 29')
-      assert_equal 222, host.uptime_seconds
-      pf = FactoryBot.create(:fact_value, fact_name: puppet_fact, host: host, :value => 456)
-      pf.update_attribute :updated_at, cf.updated_at + 2.seconds
+      assert_nothing_raised do
+        host.clear_data_on_build
+      end
+    end
+
+    test 'should delete reported data on rebuild' do
+      host = FactoryBot.create(:host)
+      boot_time = 1.day.ago
+      host.create_reported_data(:boot_time => boot_time)
+      refute_nil host.uptime_seconds
+      host.instance_variable_set '@old', host.clone
+      host.build = true
+      host.clear_data_on_build
       host.reload
-      assert_equal 456, host.uptime_seconds
-      ansible_fact.update :value => 789, :updated_at => cf.updated_at + 3.seconds
-      host.reload
-      assert_equal 789, host.uptime_seconds
+      assert_nil host.uptime_seconds
+    end
+
+    test 'should return nil if no uptime fact is available' do
+      host = FactoryBot.create(:host)
+      assert_nil host.uptime_seconds
     end
   end
 

@@ -67,6 +67,8 @@ module Hostext
       scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
       scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params, :only_explicit => true
 
+      scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'boot_time'
+
       if SETTINGS[:locations_enabled]
         scoped_search :relation => :location, :on => :title, :rename => :location, :complete_value => true, :only_explicit => true
         scoped_search :on => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

@@ -15,7 +15,7 @@ module Host
     should allow_value('hostname.with.periods').for(:name)
 
     test "should import facts from json stream" do
-      host = Host::Base.new(:name => "sinn1636.lan")
+      host = Host::Managed.new(:name => "sinn1636.lan")
       assert host.import_facts(read_json_fixture('facts/facts.json')['facts'])
     end
 

@@ -102,6 +102,12 @@ class FactParser
     @class_name_humanized ||= self.class.name.demodulize.underscore
   end
 
+  # timestamp (unix epoch based) when the host has booted, e.g. 1563281738
+  # should return nil if the parser does not support this information
+  def boot_timestamp
+    nil
+  end
+
   private
 
   def find_interface_by_name(host_name)

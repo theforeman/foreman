@@ -276,7 +276,7 @@ module HostsHelper
     fields += [[_("Operating System"), link_to(host.operatingsystem.to_label, hosts_path(:search => %{os_title = "#{host.operatingsystem.title}"}))]] if host.operatingsystem.present?
     fields += [[_("PXE Loader"), host.pxe_loader]] if host.operatingsystem.present? && !host.image_build?
     fields += [[_("Host group"), link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"}))]] if host.hostgroup.present?
-    fields += [[_("Uptime"), time_ago_in_words(host.uptime_seconds.seconds.from_now)]] if host.uptime_seconds.present?
+    fields += [[_("Boot time"), (boot_time = host&.reported_data&.boot_time) ? date_time_relative(boot_time) : _('Not reported')]]
     fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => %{location = "#{host.location}"})) if host.location)]] if SETTINGS[:locations_enabled]
     fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => %{organization = "#{host.organization}"})) if host.organization)]] if SETTINGS[:organizations_enabled]
     if host.owner_type == _("User")

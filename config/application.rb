@@ -274,6 +274,10 @@ module Foreman
         child.helper helpers
       end
 
+      Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
+        set_dependent_action :destroy
+      end
+
       Plugin.all.each do |plugin|
         plugin.to_prepare_callbacks.each(&:call)
       end

@@ -1,7 +1,6 @@
 module Host
   class Base < ApplicationRecord
     KERNEL_RELEASE_FACTS = [ 'kernelrelease', 'ansible_kernel', 'kernel::release' ]
-    UPTIME_FACTS = [ 'system_uptime::seconds', 'ansible_uptime_seconds', 'uptime_seconds', 'proc_stat::btime' ]
 
     prepend Foreman::STI
     include Authorizable
@@ -29,7 +28,6 @@ module Host
     has_one :subnet, :through => :primary_interface
     has_one :subnet6, :through => :primary_interface
     has_one :kernel_release, -> { joins(:fact_name).where({ 'fact_names.name' => KERNEL_RELEASE_FACTS }).order('fact_names.type') }, :class_name => '::FactValue', :foreign_key => 'host_id'
-    has_one :uptime_fact, -> { joins(:fact_name).where({ 'fact_names.name' => UPTIME_FACTS }).order('fact_values.updated_at DESC') }, :class_name => '::FactValue', :foreign_key => 'host_id'
     accepts_nested_attributes_for :interfaces, :allow_destroy => true
 
     belongs_to :location
@@ -187,6 +185,7 @@ module Host
       build_required_interfaces(:managed => false)
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser) if parser.parse_interfaces?
+      set_reported_data(parser)
     end
 
     def set_non_empty_values(parser, methods)
@@ -232,6 +231,16 @@ module Host
       telemetry_increment_counter(:importer_facts_count_interfaces, changed_count, type: parser.class_name_humanized)
 
       self.interfaces.reload
+    end
+
+    def set_reported_data(parser)
+      return unless parser.boot_timestamp
+
+      reported_data_facet.update!(boot_time: Time.at(parser.boot_timestamp)) if self.persisted?
+    end
+
+    def reported_data_facet
+      self.reported_data || self.build_reported_data
     end
 
     def facts_hash
@@ -367,12 +376,8 @@ module Host
     end
 
     def uptime_seconds
-      fact = self.uptime_fact
-      if fact&.fact_name&.name == 'proc_stat::btime'
-        Time.now.to_i - fact&.value&.to_i
-      else
-        fact&.value&.to_i
-      end
+      boot_time = self&.reported_data&.boot_time
+      boot_time.nil? ? nil : Time.zone.now.to_i - boot_time.to_i
     end
 
     private
