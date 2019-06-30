@@ -105,6 +105,10 @@ class Filter < ApplicationRecord
     type.presence
   end
 
+  def resource_type_label
+    resource_class.try(:humanize_class_name) || resource_type || N_('(Miscellaneous)')
+  end
+
   def resource_class
     @resource_class ||= self.class.get_resource_class(resource_type)
   end

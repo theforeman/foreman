@@ -74,10 +74,10 @@ const BreadcrumbSwitcherPopover = ({
               <EllipsisWithTooltip>
                 {searchValue && searchValue.length ? (
                   <SubstringWrapper substring={searchValue}>
-                    {resource.name}
+                    {__(resource.name)}
                   </SubstringWrapper>
                 ) : (
-                  resource.name
+                  __(resource.name)
                 )}
               </EllipsisWithTooltip>
             </ListGroupItem>
