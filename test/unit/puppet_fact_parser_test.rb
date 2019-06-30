@@ -396,6 +396,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     assert_nil parser.interfaces['eth1_1']
   end
 
+  test "#test boot time based on uptime" do
+    host = FactoryBot.build(:host, :hostgroup => FactoryBot.build(:hostgroup))
+    freeze_time do
+      parser = get_parser(host.facts_hash.merge({:uptime_seconds => (60 * 5).to_s}))
+      assert_equal 5.minutes.ago.to_i, parser.boot_timestamp
+    end
+  end
+
   private
 
   def get_parser(facts)

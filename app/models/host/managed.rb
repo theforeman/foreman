@@ -300,6 +300,7 @@ class Host::Managed < Host::Base
     return unless respond_to?(:old) && old && build? && !old.build?
     clear_facts
     clear_reports
+    self.reported_data_facet.destroy
     self.build_errors = nil
   end
 

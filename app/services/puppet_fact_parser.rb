@@ -132,6 +132,12 @@ class PuppetFactParser < FactParser
     true
   end
 
+  def boot_timestamp
+    # system_uptime::seconds is Facter 3, we also fallback to Facter 2 uptime_seconds
+    uptime_seconds = facts.fetch('system_uptime', {}).fetch('seconds', nil) || facts[:uptime_seconds]
+    uptime_seconds.nil? ? nil : (Time.zone.now.to_i - uptime_seconds.to_i)
+  end
+
   private
 
   # remove when dropping support for facter < 3.0

@@ -69,9 +69,11 @@ class BaseMacrosTest < ActiveSupport::TestCase
   describe '#host_uptime_seconds' do
     test 'should return host uptime in seconds' do
       host = FactoryBot.create(:host)
-      fact = FactoryBot.create(:fact_name, name: 'ansible_uptime_seconds')
-      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => '123')
-      assert_equal 123, @scope.host_uptime_seconds(host)
+      facet = host.reported_data_facet
+      freeze_time do
+        facet.update!(:boot_time => 123.seconds.ago)
+        assert_equal 123, @scope.host_uptime_seconds(host)
+      end
     end
   end
 
