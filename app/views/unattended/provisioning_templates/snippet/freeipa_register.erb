@@ -35,8 +35,11 @@ snippet: true
   <% else -%>
     freeipa_client=ipa-client
   <% end -%>
-  <% if @host.operatingsystem.major.to_i > 6 -%>
+  <% os_major = @host.operatingsystem.major.to_i %>
+  <% if os_major == 7 -%>
     /usr/sbin/sshd-keygen
+  <% elsif os_major > 7 %>
+    /usr/libexec/openssh/sshd-keygen
   <% end -%>
 <% else -%>
   freeipa_client=freeipa-client
