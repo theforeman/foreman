@@ -7,7 +7,7 @@ import {
   addDays,
   addMonths,
   getMonthStart,
-  isEquelDate,
+  isEqualDate,
   isWeekend,
 } from './helpers';
 import Header from './Header';
@@ -18,17 +18,16 @@ class MonthView extends React.Component {
     date: new Date(this.props.date),
   };
 
-  componentDidUpdate = prevProps => {
-    const newDate = this.props.date;
-    if (prevProps.date !== newDate) {
-      // TODO: Fix #27114 - stop violating react/no-did-update-set-state
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        selectedDate: newDate,
+  static getDerivedStateFromProps(props, state) {
+    const newDate = new Date(props.date);
+    if (newDate !== new Date(state.date)) {
+      return {
         date: newDate,
-      });
+        selectedDate: newDate,
+      };
     }
-  };
+    return null;
+  }
 
   calendarArray = date => {
     const { weekStartsOn } = this.props;
@@ -79,8 +78,8 @@ class MonthView extends React.Component {
                     classNamesArray={{
                       weekend: isWeekend(day),
                       old: day.getMonth() !== date.getMonth(),
-                      active: isEquelDate(day, selectedDate),
-                      today: isEquelDate(day, new Date()),
+                      active: isEqualDate(day, selectedDate),
+                      today: isEqualDate(day, new Date()),
                     }}
                   />
                 ))}

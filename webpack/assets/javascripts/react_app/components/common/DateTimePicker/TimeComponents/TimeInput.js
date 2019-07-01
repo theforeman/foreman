@@ -13,12 +13,13 @@ class TimeInput extends React.Component {
   componentDidUpdate = prevProps => {
     const { time: nextTime, isTimeTableOpen } = this.props;
     if (prevProps.time !== nextTime) {
-      // TODO: Fix #27114 - stop violating react/no-did-update-set-state
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        isTimeTableOpen,
-      });
+      this.setIsTimeTableOpen(isTimeTableOpen);
     }
+  };
+  setIsTimeTableOpen = isTimeTableOpen => {
+    this.setState({
+      isTimeTableOpen,
+    });
   };
   toggleTimeTable = type => {
     this.setState({
