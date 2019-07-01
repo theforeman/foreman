@@ -12,17 +12,15 @@ class DateInput extends React.Component {
     date: new Date(this.props.date),
     typeOfDateInput: this.props.typeOfDateInput,
   };
-  componentDidUpdate = prevProps => {
-    const newDate = this.props.date;
-    if (prevProps.date !== newDate) {
-      // TODO: Fix #27114 - stop violating react/no-did-update-set-state
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        date: newDate,
-        typeOfDateInput: this.props.typeOfDateInput,
-      });
+  static getDerivedStateFromProps(props, state) {
+    if (props.date !== state.date) {
+      return {
+        date: props.date,
+        typeOfDateInput: props.typeOfDateInput,
+      };
     }
-  };
+    return null;
+  }
   getPrevMonth = () => {
     const { date } = this.state;
     this.setState({ date: addMonths(date, -1) });

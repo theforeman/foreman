@@ -16,7 +16,7 @@ export const addYears = (date, years) => {
   return result;
 };
 
-export const isEquelDate = (date1, date2) =>
+export const isEqualDate = (date1, date2) =>
   date1.getYear() === date2.getYear() &&
   date1.getMonth() === date2.getMonth() &&
   date1.getDate() === date2.getDate();
@@ -33,7 +33,7 @@ export const getWeekStart = date => addDays(date, (7 - date.getDay()) % 7);
 export const helpers = {
   addDays,
   addMonths,
-  isEquelDate,
+  isEqualDate,
   isWeekend,
   getMonthStart,
   getWeekStart,

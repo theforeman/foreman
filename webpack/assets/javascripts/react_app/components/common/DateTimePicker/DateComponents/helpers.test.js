@@ -1,7 +1,7 @@
 import {
   addDays,
   addMonths,
-  isEquelDate,
+  isEqualDate,
   isWeekend,
   getMonthStart,
 } from './helpers';
@@ -38,15 +38,15 @@ describe('addMonths ', () => {
   });
 });
 
-describe('isEquelDate ', () => {
+describe('isEqualDate ', () => {
   const date = new Date('2/21/2019 , 2:22:31 PM');
   test('equal', () => {
     const date2 = new Date('2/21/2019 , 6:22:31 PM');
-    expect(isEquelDate(date, date2)).toBeTruthy();
+    expect(isEqualDate(date, date2)).toBeTruthy();
   });
   test('not equal', () => {
     const date2 = new Date('2/22/2019 , 6:22:31 PM');
-    expect(isEquelDate(date, date2)).toBeFalsy();
+    expect(isEqualDate(date, date2)).toBeFalsy();
   });
 });
 
