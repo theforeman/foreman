@@ -23,13 +23,13 @@ const UserDropdowns = ({
   );
   return (
     <VerticalNav.IconBar {...props}>
-      {user.impersonated_by && impersonateIcon}
       <NavItem
         className="drawer-pf-trigger dropdown notification-dropdown"
         id="notifications_container"
       >
         <NotificationContainer data={{ url: notificationUrl }} />
       </NavItem>
+      {user.impersonated_by && impersonateIcon}
       {userInfo && (
         <NavDropdown componentClass="li" id="account_menu">
           <Dropdown.Toggle useAnchor className="nav-item-iconic">

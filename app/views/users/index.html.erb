@@ -17,11 +17,6 @@
   </thead>
   <tbody>
     <% @users.each do |user| %>
-      <% additional_actions = [] %>
-      <% if User.current.admin? && user != User.current && session[:impersonated_by].blank? %>
-        <% additional_actions << link_to(_('Impersonate'), {:controller => 'users', :action => 'impersonate', :id => user.id}, :data => { :no_turbolink => true }) %>
-      <% end %>
-
       <tr>
         <td class="ellipsis"><%= avatar_image_tag user, :class => "avatar" %> <%=link_to_if_authorized user.login, hash_for_edit_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= user.firstname %></td>
@@ -29,10 +24,8 @@
         <td class="ellipsis"><%= user.mail %></td>
         <td><%= checked_icon user.admin? %></td>
         <td class="ellipsis"><%= last_login_on_column(user)%></td>
-        <td class="ellipsis"><%= auth_source_column(user)%></td>
-        <td><%= action_buttons(*([display_delete_if_authorized(
-          hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer),
-            :data => { :confirm => _("Delete %s?") % user.name } ) ] + additional_actions)) %></td>
+        <td class="ellipsis"><%= auth_source_column(user) %></td>
+        <td><%= user_action_buttons(user) %></td>
       </tr>
     <% end %>
   </tbody>

@@ -68,7 +68,8 @@ class UsersController < ApplicationController
     if session[:impersonated_by].blank?
       session[:impersonated_by] = User.current.id
       User.impersonator = User.current
-      session[:user] = user = User.find_by_id(params[:id])
+      user = User.find_by_id(params[:id])
+      session[:user] = user.id
       success _("You impersonated user %s, to cancel the session, click the eye icon in the top bar.") % user.name
       Audit.create :auditable_type => 'User', :auditable_id => user.id, :user_id => User.current.id, :action => 'impersonate', :audited_changes => {}
       logger.info "User #{User.current.name} impersonated #{user.name}"
@@ -81,7 +82,8 @@ class UsersController < ApplicationController
 
   def stop_impersonation
     if session[:impersonated_by].present?
-      session[:user] = user = User.unscoped.find_by_id(session[:impersonated_by])
+      user = User.unscoped.find_by_id(session[:impersonated_by])
+      session[:user] = user.id
       session[:impersonated_by] = nil
       User.impersonator = nil
       success _("You now act as %s again.") % user.name
