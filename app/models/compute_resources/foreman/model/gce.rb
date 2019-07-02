@@ -71,7 +71,7 @@ module Foreman::Model
       # convert rails nested_attributes into a plain hash
       [:volumes].each do |collection|
         nested_attrs = args.delete("#{collection}_attributes".to_sym)
-        args[collection] = nested_attributes_for(collection, nested_attrs) if nested_attrs
+        args[collection] = nested_attributes_for(collection, nested_attrs.deep_symbolize_keys) if nested_attrs
       end
 
       # Dots are not allowed in names
