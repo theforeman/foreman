@@ -1,3 +1,37 @@
+2019-07-02	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.20.3
+
+2019-07-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #27192 - Pin scoped_search to <4.1.7
+	* Fixes #24993 - Modify token value to text
+
+2019-04-23	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #26104 - multiple NICs without MAC are orchestrated
+
+2019-03-31	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26493 - Pin Capybara on Ruby 2.3 to supported version
+
+2019-03-27	Shira Maximov <mshira@redhat.com>
+	* Fixes #26450 - add destroy rabl for compute resource
+
+2019-03-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26154 - implement pxedir method for operatingsystem base
+
+2019-03-24	Gilad Lekner <gilad215@gmail.com>
+	* fixes #26394 - fix layout crash w/nested taxonomies
+
+2019-03-21	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Refs #26423 - pin fog-vsphere to <3.0 (#6601)
+
+2019-03-11	Vitaly Pyslar <vpyslar@ivi.ru>
+	* Fixes #25476 - downgrade fog-openstack to 0.2.0
+
+2019-03-04	Timo Goebel <mail@timogoebel.name>
+	* fixes #26197 - boot_filename for host without subnet
+
+2019-02-12	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.20.2
+
 2019-02-11	Michael Moll <kvedulv@kvedulv.de>
 	* Refs #25693 - pin i18n gem
 
