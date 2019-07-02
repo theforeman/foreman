@@ -17,10 +17,14 @@ module Nic
     def proxy
       proxy = bmc_proxy
       raise Foreman::Exception.new(N_('Unable to find a proxy with BMC feature')) if proxy.nil?
-      ProxyAPI::BMC.new({ :host_ip  => ip,
-                          :url      => proxy.url,
-                          :user     => username,
-                          :password => password_unredacted })
+      args = {
+        :host_ip => ip,
+        :url => proxy.url,
+        :user => username,
+        :password => password_unredacted
+      }
+      args[:bmc_provider] = provider if provider != 'IPMI'
+      ProxyAPI::BMC.new(args)
     end
 
     def self.humanized_name
