@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { OverlayTrigger, Tooltip, Icon, MessageDialog } from 'patternfly-react';
-import { translate as __ } from '../../../common/I18n';
+import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
 
@@ -10,11 +10,6 @@ const ImpersonateIcon = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => setShowModal(!showModal);
-
-  const stopImpersonating = url => () => {
-    const stopUrl = `${window.location.origin}/${url}`;
-    window.location.href = stopUrl;
-  };
 
   return (
     <React.Fragment>
@@ -39,7 +34,7 @@ const ImpersonateIcon = (props) => {
       <MessageDialog
         show={showModal}
         onHide={toggleModal}
-        primaryAction={stopImpersonating(
+        primaryAction={() => props.stopImpersonating(
           props.stopImpersonationUrl
         )}
         secondaryAction={toggleModal}

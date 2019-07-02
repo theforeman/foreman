@@ -500,8 +500,8 @@ class UsersControllerTest < ActionController::TestCase
   test "should stop impersonating a user" do
     session[:impersonated_by] = users(:admin)
     get :stop_impersonation, session: set_session_user(:one)
-    assert_redirected_to hosts_path
-    assert_equal flash.to_hash["success"], "You now act as Admin User again."
+    assert_response :success
+    assert_equal "You now act as Admin User again.", JSON.parse(@response.body)['message']
   end
 
   context 'personal access tokens' do

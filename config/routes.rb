@@ -318,10 +318,10 @@ Foreman::Application.routes.draw do
       get 'extlogin'
       get 'extlogout'
       get 'auto_complete_search'
-      get 'stop_impersonation'
+      delete 'stop_impersonation'
     end
     member do
-      get 'impersonate'
+      post 'impersonate'
     end
     resources :ssh_keys, :only => [:new, :create, :destroy]
   end

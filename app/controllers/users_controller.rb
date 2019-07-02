@@ -86,11 +86,10 @@ class UsersController < ApplicationController
       session[:user] = user.id
       session[:impersonated_by] = nil
       User.impersonator = nil
-      success _("You now act as %s again.") % user.name
+      render :json => { :message => _("You now act as %s again.") % user.name, :type => :success }
     else
-      warning _("No active impersonate session.")
+      render :json => { :message => _("No active impersonate session."), :type => :warning }
     end
-    redirect_to hosts_path
   end
 
   # Called from the login form.
