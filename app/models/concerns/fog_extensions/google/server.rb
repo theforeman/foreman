@@ -4,6 +4,9 @@ module FogExtensions
       extend ActiveSupport::Concern
       extend Fog::Attributes::ClassMethods
 
+      EXTERNAL_NAT_NAME = "External NAT".freeze
+      EXTERNAL_NAT_TYPE = "ONE_TO_ONE_NAT".freeze
+
       delegate :flavors, :to => :service
 
       attribute :network
@@ -71,10 +74,23 @@ module FogExtensions
       end
 
       def associate_external_ip
-        public_ip_address.present?
+        external_nat_present?
       end
 
       private
+
+      def external_nat_present?
+        return false if network_interfaces.blank?
+        external_ip_flag = false
+        network_interfaces.each do |nic|
+          next if nic[:access_configs].blank?
+          access_config = nic[:access_configs].find { |c| c[:name].eql?(EXTERNAL_NAT_NAME) }
+          next if access_config.blank?
+          external_ip_flag = true
+          break
+        end
+        external_ip_flag
+      end
 
       def construct_disk_filter(disks_arr)
         disks_arr.map { |d| "(name = \"#{d[:source][/([^\/]+)$/]}\")" }.join(' OR ')

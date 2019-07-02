@@ -83,7 +83,7 @@ module Foreman::Model
         args.except!(:network)
       end
 
-      if to_bool(args.delete(:associate_external_ip))
+      if to_bool(args[:associate_external_ip])
         args[:network_interfaces] = construct_network_interfaces(args[:network_interfaces])
       end
 
@@ -236,8 +236,10 @@ module Foreman::Model
           }
         ]
       end
-      access_config = { :name => "External NAT", :type => "ONE_TO_ONE_NAT" }
-
+      access_config = {
+        :name => ::Fog::Compute::Google::Server::EXTERNAL_NAT_NAME,
+        :type => ::Fog::Compute::Google::Server::EXTERNAL_NAT_TYPE
+      }
       # Note - no support for external_ip from foreman
       # access_config[:nat_ip] = external_ip if external_ip
       network_interfaces_list[0][:access_configs] = [access_config]
