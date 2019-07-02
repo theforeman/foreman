@@ -64,7 +64,7 @@ PAGE_SIZE = 10000
 
 namespace :db do
   namespace :convert do
-    desc 'Convert/import production data to development.   DANGER Deletes all data in the development database.   Assumes both schemas are already migrated.'
+    desc 'Convert/import production data to development. Deletes ALL DATA in the development database. Assumes both schemas are already migrated.'
     task :prod2dev => :environment do
       # We need unique classes so ActiveRecord can hash different connections
       # We do not want to use the real Model classes because any business
@@ -81,77 +81,84 @@ namespace :db do
       ActiveRecord::Base.establish_connection(:production)
       skip_tables = ["schema_info", "schema_migrations"]
       (ActiveRecord::Base.connection.tables - skip_tables).each do |table_name|
-        time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        begin
+          time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-        ProductionModelClass.establish_connection(:production)
-        ProductionModelClass.table_name = table_name
-        ProductionModelClass.reset_column_information
+          ProductionModelClass.establish_connection(:production)
+          ProductionModelClass.table_name = table_name
+          ProductionModelClass.reset_column_information
 
-        DevelopmentModelClass.establish_connection(:development)
-        # turn off Foreign Key checks for development db - this is per session
-        sql = case DevelopmentModelClass.connection.adapter_name.downcase
-              when /^mysql/
-                'SET FOREIGN_KEY_CHECKS=0;'
-              when /^postgresql/
-                "ALTER TABLE #{table_name} DISABLE TRIGGER ALL;"
+          DevelopmentModelClass.establish_connection(:development)
+          # turn off Foreign Key checks for development db - this is per session
+          sql = case DevelopmentModelClass.connection.adapter_name.downcase
+                when /^mysql/
+                  'SET FOREIGN_KEY_CHECKS=0;'
+                when /^postgresql/
+                  "ALTER TABLE #{table_name} DISABLE TRIGGER ALL;"
+                end
+          DevelopmentModelClass.connection.execute(sql) if sql
+
+          DevelopmentModelClass.table_name = table_name
+          DevelopmentModelClass.reset_column_information
+          DevelopmentModelClass.record_timestamps = false
+
+          # Handle HABTM tables which don't have an id primary key
+          # This *shouldn't* be needed but Rails seems to be picking
+          # up the pkey from other tables in some kind of race condition
+          unless ProductionModelClass.column_names.include?('id')
+            DevelopmentModelClass.primary_key = nil
+            ProductionModelClass.primary_key = nil
+          end
+
+          # Page through the data in case the table is too large to fit in RAM
+          offset = count = 0
+          print "Converting #{table_name}..."
+          STDOUT.flush
+          # First, delete any old dev data
+          DevelopmentModelClass.delete_all
+          until (models = ProductionModelClass.offset(offset).limit(PAGE_SIZE)).empty?
+
+            count += models.size
+            offset += PAGE_SIZE
+
+            # Now, write out the prod data to the dev db
+            DevelopmentModelClass.transaction do
+              models.each do |model|
+                new_model = DevelopmentModelClass.new()
+
+                model.attributes.each do |key, value|
+                  new_model[key] = value rescue nil
+                end
+
+                # don't miss the type attribute when using single-table-inheritance
+                new_model[:type] = model[:type] if model[:type].present?
+
+                # Write timestamps for things which haven't had them set
+                # as these columns are DEFAULT NOT NULL
+                new_model[:created_at] ||= time if new_model.attributes.include?('created_at')
+                new_model[:updated_at] ||= time if new_model.attributes.include?('updated_at')
+
+                new_model.save(:validate => false)
               end
-        DevelopmentModelClass.connection.execute(sql) if sql
-
-        DevelopmentModelClass.table_name = table_name
-        DevelopmentModelClass.reset_column_information
-        DevelopmentModelClass.record_timestamps = false
-
-        # Handle HABTM tables which don't have an id primary key
-        # This *shouldn't* be needed but Rails seems to be picking
-        # up the pkey from other tables in some kind of race condition
-        unless ProductionModelClass.column_names.include?('id')
-          DevelopmentModelClass.primary_key = nil
-          ProductionModelClass.primary_key = nil
-        end
-
-        # Page through the data in case the table is too large to fit in RAM
-        offset = count = 0
-        print "Converting #{table_name}..."
-        STDOUT.flush
-        # First, delete any old dev data
-        DevelopmentModelClass.delete_all
-        until (models = ProductionModelClass.offset(offset).limit(PAGE_SIZE)).empty?
-
-          count += models.size
-          offset += PAGE_SIZE
-
-          # Now, write out the prod data to the dev db
-          DevelopmentModelClass.transaction do
-            models.each do |model|
-              new_model = DevelopmentModelClass.new()
-
-              model.attributes.each do |key, value|
-                new_model[key] = value rescue nil
-              end
-
-              # don't miss the type attribute when using single-table-inheritance
-              new_model[:type] = model[:type] if model[:type].present?
-
-              # Write timestamps for things which haven't had them set
-              # as these columns are DEFAULT NOT NULL
-              new_model[:created_at] ||= time if new_model.attributes.include?('created_at')
-              new_model[:updated_at] ||= time if new_model.attributes.include?('updated_at')
-
-              new_model.save(:validate => false)
             end
           end
-        end
-        # turn Foreign Key checks back on, for cleanliness
-        sql = case DevelopmentModelClass.connection.adapter_name.downcase
-              when /^mysql/
-                'SET FOREIGN_KEY_CHECKS=1;'
-              when /^postgresql/
-                "ALTER TABLE #{table_name} ENABLE TRIGGER ALL;"
-              end
-        DevelopmentModelClass.connection.execute(sql) if sql.present?
+          # turn Foreign Key checks back on, for cleanliness
+          sql = case DevelopmentModelClass.connection.adapter_name.downcase
+                when /^mysql/
+                  'SET FOREIGN_KEY_CHECKS=1;'
+                when /^postgresql/
+                  "ALTER TABLE #{table_name} ENABLE TRIGGER ALL;"
+                end
+          DevelopmentModelClass.connection.execute(sql) if sql.present?
 
-        print "#{count} records converted in #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - time} seconds\n"
+          print "#{count} records converted in #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - time} seconds\n"
+        rescue StandardError => e
+          print "Unable to convert #{table_name}, skipping: #{e}"
+        end
       end
     end
+
+    desc 'Migrate MySQL (prod) to PostgreSQL (dev). Deletes ALL DATA in the development database.'
+    task :mysql2pgsql => :prod2dev
   end
 end
