@@ -240,6 +240,15 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal 2, data[1]['a']
     end
 
+    it "should generate report in html format, with data escaping" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row("<b>" => 1); report_row("<b>" => "<br>"); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'html' }
+      assert_response :success
+      assert_equal 'text/html', response.content_type
+      assert_includes response.body, "<th>&lt;b&gt;</th>"
+      assert_includes response.body, "<td>1</td>"
+      assert_includes response.body, "<td>&lt;br&gt;</td>"
+    end
 
     it "should generate report with optional params without value" do
       report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')

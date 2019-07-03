@@ -16,6 +16,8 @@ module Foreman
             report_render_yaml
           when :json
             report_render_json
+          when :html
+            report_render_html
           end
         end
 
@@ -55,6 +57,30 @@ module Foreman
               csv << row.map { |cell| serialize_cell(cell) }
             end
           end
+        end
+
+        def report_render_html
+          html = ""
+
+          html << "<html><head><title>#{@template_name}</title><style>#{html_style}</style></head><body><table><thead><tr>"
+          html << @report_headers.map { |header| "<th>#{ERB::Util.html_escape(header)}</th>" }.join('')
+          html << "</tr></thead><tbody>"
+
+          @report_data.each do |row|
+            html << "<tr>"
+            html << row.map { |cell| "<td>#{ERB::Util.html_escape(cell)}</td>" }.join('')
+            html << "</tr>"
+          end
+          html << "</tbody></table></body></html>"
+
+          html
+        end
+
+        def html_style
+          <<CSS
+th { background-color: black; color: white; }
+table,th,td { border-collapse: collapse; border: 1px solid black; }
+CSS
         end
 
         def serialize_cell(cell)

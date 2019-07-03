@@ -3,8 +3,9 @@ class ReportTemplateFormat
     @all_formats ||= [
       new(id: :csv, mime_type: 'text/csv', human_name: 'CSV'),
       new(id: :txt, mime_type: 'text/plain', human_name: 'Plain text'),
-      new(id: :yaml, mime_type: 'text/yaml', human_name: 'YAML'),
       new(id: :json, mime_type: 'application/json', human_name: 'JSON'),
+      new(id: :yaml, mime_type: 'text/yaml', human_name: 'YAML'),
+      new(id: :html, mime_type: 'text/html', human_name: 'HTML')
     ]
   end
 
