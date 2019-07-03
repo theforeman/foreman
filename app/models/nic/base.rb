@@ -25,7 +25,7 @@ module Nic
 
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
 
-    validates :identifier, :uniqueness => { :scope => :host_id },
+    validates :identifier, :uniqueness => { :scope => :host_id, :message => _('NIC identifier must be unique within a host')},
       :if => ->(nic) { nic.identifier.present? && nic.host && nic.identifier_was.blank? }
 
     validate :exclusive_primary_interface
@@ -288,11 +288,11 @@ module Nic
 
     private
 
-    def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
+    def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil), message = :taken)
       in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
       db_candidates = base.where(attr => self.public_send(attr))
       db_candidates = db_candidates.select { |c| c.id != self.id && in_memory_candidates.map(&:id).include?(c.id) }
-      errors.add(attr, :taken) if db_candidates.present?
+      errors.add(attr, message) if db_candidates.present?
     end
   end
 end

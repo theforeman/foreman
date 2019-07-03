@@ -3,6 +3,9 @@ require 'socket'
 
 module Net
   module Validations
+    RECORD_UNIQUE_PRESENCE = N_("%{field} must be present and unique for %{model}")
+    RECORD_UNIQUE = N_("%{field} must be unique for %{model}")
+
     IP_REGEXP  ||= /\A((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\z/
     MAC_REGEXP ||= /\A([a-f0-9]{1,2}:){5}[a-f0-9]{1,2}\z/i
     MAC_REGEXP_64BIT ||= /\A([a-f0-9]{1,2}:){19}[a-f0-9]{1,2}\z/i

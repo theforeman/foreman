@@ -94,7 +94,7 @@ module Nic
     end
 
     def name_uniqueness
-      interface_attribute_uniqueness(:name, Nic::Base.where(:domain_id => self.domain_id))
+      interface_attribute_uniqueness(:name, Nic::Base.where(:domain_id => self.domain_id), _('NIC Name must be unique within domain'))
     end
 
     def ip_presence_and_formats
