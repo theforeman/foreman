@@ -126,14 +126,14 @@ class PtablesControllerTest < ActionController::TestCase
 
     # works for given host
     post :preview, params: { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, session: set_session_user
-    assert_equal host.hostname.to_s, @response.body
+    assert_equal host.hostname.to_s.to_json, @response.body
 
     # without host specified it uses first one
     post :preview, params: { :template => '<%= 1+1 -%>', :id => template }, session: set_session_user
-    assert_equal '2', @response.body
+    assert_equal '2'.to_json, @response.body
 
     post :preview, params: { :template => '<%= 1+1 -%>' }, session: set_session_user
-    assert_equal '2', @response.body
+    assert_equal '2'.to_json, @response.body
 
     post :preview, params: { :template => '<%= 1+ -%>', :id => template }, session: set_session_user
     assert_includes @response.body, 'parse error on value'

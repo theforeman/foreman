@@ -182,6 +182,7 @@ module Api
         else
           data = StoredValue.read(params[:job_id])
           return not_found(_('Report data are not available, it has probably expired.')) unless data
+          data = data.to_json if @composer.mime_type == 'application/json'
           send_data data, type: @composer.mime_type, filename: @composer.report_filename
         end
       end

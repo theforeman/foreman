@@ -227,6 +227,20 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal "---\n- a: 1\n- a: 2\n", response.body
     end
 
+    it "should generate report in json format" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'json' }
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      data = nil
+      assert_nothing_raised do
+        data = JSON.parse response.body
+      end
+      assert_equal 1, data[0]['a']
+      assert_equal 2, data[1]['a']
+    end
+
+
     it "should generate report with optional params without value" do
       report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
       input = FactoryBot.create(:template_input, :name => 'hello')

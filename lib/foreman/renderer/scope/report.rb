@@ -14,6 +14,8 @@ module Foreman
             report_render_csv
           when :yaml
             report_render_yaml
+          when :json
+            report_render_json
           end
         end
 
@@ -39,6 +41,13 @@ module Foreman
           end.to_yaml
         end
 
+        def report_render_json
+          @report_data.map do |row|
+            valid_row = row.map { |cell| valid_json_type(cell) }
+            Hash[@report_headers.zip(valid_row)]
+          end.to_json
+        end
+
         def report_render_csv
           CSV.generate(headers: true, encoding: Encoding::UTF_8) do |csv|
             csv << @report_headers
@@ -61,6 +70,19 @@ module Foreman
             cell
           elsif cell.is_a?(Enumerable)
             cell.map { |item| valid_yaml_type(item) }
+          else
+            cell.to_s
+          end
+        end
+
+        def valid_json_type(cell)
+          if cell.is_a?(String) || [true, false].include?(cell) || cell.is_a?(Numeric) || cell.nil?
+            cell
+          elsif cell.is_a?(Enumerable)
+            hashify = cell.is_a?(Hash)
+            cell = cell.map { |item| valid_json_type(item) }
+            cell = cell.to_h if hashify
+            cell
           else
             cell.to_s
           end
