@@ -203,6 +203,14 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal '2', response.body
     end
 
+    it "should allow generating reports with headers even if data is empty" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_headers(:a); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'csv' }
+      assert_response :success
+      assert_equal "a\n", response.body
+    end
+
+
     it "should generate report in csv format" do
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'csv' }

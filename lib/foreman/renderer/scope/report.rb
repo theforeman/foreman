@@ -21,13 +21,20 @@ module Foreman
           end
         end
 
+        def report_headers(*headers)
+          @report_headers = headers.map(&:to_s)
+        end
+
         def report_row(row_data)
-          @report_headers = row_data.keys.map(&:to_s) if @report_headers.empty?
+          new_headers = row_data.keys
+          if @report_headers.size < new_headers.size
+            @report_headers |= new_headers.map(&:to_s)
+          end
           @report_data << row_data.values
         end
 
         def allowed_helpers
-          @allowed_helpers ||= super + [ :report_row, :report_render, :report_format ]
+          @allowed_helpers ||= super + [ :report_row, :report_render, :report_format, :report_headers ]
         end
 
         def report_format
