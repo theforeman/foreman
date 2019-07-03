@@ -41,7 +41,7 @@ class ReportTemplate < Template
   end
 
   def suggested_report_name
-    "#{name}-#{Date.today}.txt"
+    "#{name}-#{Date.today}"
   end
 
   def self.acceptable_template_input_types
@@ -51,5 +51,9 @@ class ReportTemplate < Template
   # we don't want to log reports, it can be a lot of data
   def self.log_render_results?
     false
+  end
+
+  def supports_format_selection?
+    self.template.include?('report_render')
   end
 end

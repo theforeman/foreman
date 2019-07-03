@@ -110,6 +110,7 @@ module Api
       param :id, :identifier, :required => true
       param :input_values, Hash, :desc => N_('Hash of input values where key is the name of input, value is the value for this input')
       param :gzip, :bool, desc: N_('Compress the report uzing gzip'), default_value: false
+      param :report_format, ReportTemplateFormat.selectable.map(&:id), desc: N_("Report format, defaults to '%s'") % ReportTemplateFormat.default.id
 
       def generate
         @composer = ReportComposer.from_api_params(params)
@@ -130,6 +131,7 @@ module Api
       param :gzip, :bool, desc: N_('Compress the report using gzip')
       param :mail_to, String, desc: N_("If set, scheduled report will be delivered via e-mail. Use '%s' to separate multiple email addresses.") % ReportComposer::MailToValidator::MAIL_DELIMITER
       param :generate_at, String, desc: N_("UTC time to generate report at")
+      param :report_format, ReportTemplateFormat.selectable.map(&:id), desc: N_("Report format, defaults to '%s'") % ReportTemplateFormat.default.id
       returns :code => 200, :desc => "a successful response" do
         property :job_id, String, :desc => "An ID of job, which generates report. To be used with report_data API endpoint for report data retrieval."
         property :data_url, String, :desc => "An url to get resulting report from. This is not available when report is delivered via e-mail."

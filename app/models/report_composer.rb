@@ -41,12 +41,17 @@ class ReportComposer
       raw_params['generate_at']&.to_time
     end
 
+    def format
+      raw_params['format']
+    end
+
     def params
       { template_id: raw_params[:id],
         generate_at: generate_at,
         gzip: gzip?,
         send_mail: send_mail?,
-        mail_to: mail_to }.with_indifferent_access
+        mail_to: mail_to,
+        format: format }.with_indifferent_access
     end
   end
 
@@ -65,6 +70,10 @@ class ReportComposer
 
     def generate_at
       Time.zone.parse(report_base_params['generate_at']) if report_base_params['generate_at'].present?
+    end
+
+    def format
+      report_base_params['format']
     end
 
     def params
@@ -94,7 +103,8 @@ class ReportComposer
         input_values: convert_input_names_to_ids(
           raw_params[:id],
           (raw_params[:input_values] || {}).to_hash
-        )
+        ),
+        format: raw_params[:report_format]
       )
     end
 
@@ -122,6 +132,7 @@ class ReportComposer
   attr_reader :template, :generate_at
 
   validates :mail_to, mail_to: true, if: :send_mail?
+  validate :valid_format
 
   def initialize(params)
     @params = params.with_indifferent_access
@@ -182,7 +193,22 @@ class ReportComposer
   end
 
   def mime_type
-    gzip? ? :gzip : :text
+    gzip? ? :gzip : format.mime_type
+  end
+
+  def format
+    if (format = ReportTemplateFormat.find(@params['format']))
+      format
+    else
+      Rails.logger.debug "Report format #{@params['format']} not found" if @params['format'].present?
+      @template.supports_format_selection? ? ReportTemplateFormat.default : ReportTemplateFormat.system
+    end
+  end
+
+  def valid_format
+    return true if @params['format'].blank?
+    format_ids = ReportTemplateFormat.all.map { |f| f.id.to_s }
+    errors.add :format, "is unsupported, chose one of: %s" % format_ids.join(', ') unless format_ids.include?(@params['format'])
   end
 
   def send_mail?
@@ -196,6 +222,7 @@ class ReportComposer
 
   def report_filename
     name = @template.suggested_report_name.to_s
+    name += '.' + format.extension
     name += '.gz' if gzip?
     name
   end
@@ -209,6 +236,7 @@ class ReportComposer
   end
 
   def render(mode: Foreman::Renderer::REAL_MODE, **params)
+    params[:params] = { :format => format }.merge(params.fetch(:params, {}))
     result = @template.render(mode: mode, template_input_values: template_input_values, **params)
     result = ActiveSupport::Gzip.compress(result) if gzip?
     result

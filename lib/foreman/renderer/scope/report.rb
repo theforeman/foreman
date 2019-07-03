@@ -8,9 +8,9 @@ module Foreman
           @report_headers = []
         end
 
-        def report_render(format: :csv)
+        def report_render(format: report_format&.id)
           case format
-          when :csv
+          when :csv, :txt, nil
             report_render_csv
           when :yaml
             report_render_yaml
@@ -23,7 +23,11 @@ module Foreman
         end
 
         def allowed_helpers
-          @allowed_helpers ||= super + [ :report_row, :report_render ]
+          @allowed_helpers ||= super + [ :report_row, :report_render, :report_format ]
+        end
+
+        def report_format
+          @params[:format]
         end
 
         private
