@@ -466,4 +466,28 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     assert_equal org.domains.length, assigns(:domains).length
     assert_equal assigns(:domains), org.domains
   end
+
+  context "lone taxonomy assignment" do
+    it 'assigns single taxonomies when only one present' do
+      Location.stubs(:one?).returns(true)
+      Organization.stubs(:one?).returns(true)
+      post :create, params: { :domain => { :name => "domain.net" } }
+      assert_response :created
+      domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
+      assert_equal 1, domain.locations.size
+      assert_equal 1, domain.organizations.size
+      assert_equal Location.first.id, domain.locations.first.id
+      assert_equal Organization.first.id, domain.organizations.first.id
+    end
+
+    it "doesn't assign taxonomies when more than one present" do
+      Location.stubs(:one?).returns(false)
+      Organization.stubs(:one?).returns(false)
+      post :create, params: { :domain => { :name => "domain.net" } }
+      assert_response :created
+      domain = Domain.unscoped.find(JSON.parse(response.body)['id'])
+      assert_empty domain.locations
+      assert_empty domain.organizations
+    end
+  end
 end
