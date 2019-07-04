@@ -47,9 +47,9 @@ const UserDetails = ({ isAuditLogin, userInfo, remoteAddress }) => {
 
 UserDetails.propTypes = {
   userInfo: PropTypes.shape({
-    search_path: PropTypes.string.isRequired,
-    display_name: PropTypes.string.isRequired,
-    audit_path: PropTypes.string.isRequired,
+    search_path: PropTypes.string,
+    display_name: PropTypes.string,
+    audit_path: PropTypes.string,
   }).isRequired,
   isAuditLogin: PropTypes.bool,
   remoteAddress: PropTypes.string,
