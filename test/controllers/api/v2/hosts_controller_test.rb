@@ -240,6 +240,38 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  context "lone taxonomy assignment" do
+    setup do
+      disable_orchestration
+    end
+
+    let (:attrs) { valid_attrs.except(:location_id, :organization_id) }
+
+    it 'assigns single taxonomies when only one present' do
+      Location.stubs(:one?).returns(true)
+      Organization.stubs(:one?).returns(true)
+      # We need to make sure we return the correct taxonomies for the resources to match
+      Location.stubs(:first).returns(taxonomies(:location1))
+      Organization.stubs(:first).returns(taxonomies(:organization1))
+      post :create, params: { :host => attrs }
+      assert_response :created
+      host = Host.unscoped.find(JSON.parse(response.body)['id'])
+      assert_equal taxonomies(:location1).id, host.location_id
+      assert_equal taxonomies(:organization1).id, host.organization_id
+    end
+
+    it "doesn't assign taxonomies when more than one present" do
+      Location.stubs(:one?).returns(false)
+      Organization.stubs(:one?).returns(false)
+      post :create, params: { :host => attrs }
+      # Taxonomy id is required so the creation should fail
+      assert_response :unprocessable_entity
+      res = JSON.parse(response.body)['error']
+      assert_not_empty res['errors']['location_id']
+      assert_not_empty res['errors']['organization_id']
+    end
+  end
+
   test "should create host with build true" do
     disable_orchestration
     assert_difference('Host.count') do

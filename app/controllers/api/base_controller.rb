@@ -7,6 +7,7 @@ module Api
     include Foreman::Controller::BruteforceProtection
 
     before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :assign_lone_taxonomies, :only => :create
     before_action :add_info_headers, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
@@ -223,6 +224,24 @@ module Api
         :page     => params[:page],
         :per_page => params[:per_page],
       }
+    end
+
+    def assign_lone_taxonomies
+      return unless resource_class_for(resource_name)
+      [Location, Organization].each do |taxonomy|
+        tax_name = taxonomy.to_s.downcase
+        if resource_class.reflections.has_key? tax_name.pluralize
+          tax_ids = "#{tax_name}_ids"
+          next if params[resource_name].try(:has_key?, tax_ids)
+          next unless taxonomy.one?
+          params[resource_name][tax_ids] = [taxonomy.first.id]
+        elsif resource_class.reflections.has_key? tax_name
+          tax_id = "#{tax_name}_id"
+          next if params[resource_name].try(:has_key?, tax_id)
+          next unless taxonomy.one?
+          params[resource_name][tax_id] = taxonomy.first.id
+        end
+      end
     end
 
     def add_version_header
