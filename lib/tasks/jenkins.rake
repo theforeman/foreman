@@ -13,7 +13,7 @@ begin
         ENV["CI_REPORTS"] = 'jenkins/reports/unit/'
         gem 'ci_reporter'
       end
-      minitest_plugins = [:pre_ci, 'webpack:try_compile', 'ci:setup:minitest']
+      minitest_plugins = [:pre_ci, 'ci:setup:minitest']
       minitest_plugins << 'robottelo:setup:minitest' if ENV['GENERATE_ROBOTTELO_REPORT'] == 'true'
       task :minitest => minitest_plugins
     end
