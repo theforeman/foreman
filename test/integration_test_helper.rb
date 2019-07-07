@@ -107,7 +107,47 @@ class ActionDispatch::IntegrationTest
     end
   end
 
-  def wait_for
+  def select_all_from_multiple_selects(attrs)
+    dual_list = find("#dual_list_#{attrs[:from]}")
+    main_checkbox = dual_list.first(".dual-list-pf-main-checkbox")
+    main_checkbox.click
+    dual_list_arrow = dual_list.first(".dual-list-pf-arrows")
+    dual_list_arrow.click
+  end
+
+  def select_from_multiple_selects(value, attrs)
+    dual_list = find("#dual_list_#{attrs[:from]}")
+    item = dual_list.first("span", text: value)
+    item.trigger('click')
+    dual_list_arrow = dual_list.first(".dual-list-pf-arrows")
+    dual_list_arrow.trigger('click')
+  end
+
+  def deselect_from_multiple_selects(value, attrs)
+    dual_list = find("#dual_list_#{attrs[:from]}")
+    item = dual_list.first("span", text: value)
+    item.trigger('click')
+    dual_list_arrow = dual_list.all(".dual-list-pf-selector")[1]
+
+    dual_list_arrow.trigger('click')
+  end
+
+  def is_selected_in_multiple_selects(value, attrs)
+    selector = multi_select_selected_list(attrs[:from])
+    assert selector.has_content? value
+  end
+
+  def is_nothing_selected_in_multiple_selects(attrs)
+    selector = multi_select_selected_list(attrs[:from])
+    selector.assert_selector('.dual-list-pf-no-items')
+  end
+
+  def multi_select_selected_list(list_name)
+    dual_list = find("#dual_list_#{list_name}")
+    dual_list.all(".dual-list-pf-selector")[1]
+  end
+
+  def wait_for_ajax
     Timeout.timeout(Capybara.default_max_wait_time) do
       sleep 0.15 until (result = yield)
       result
@@ -228,9 +268,8 @@ class ActionDispatch::IntegrationTest
   end
 
   def assert_form_tab(label)
-    within('form .nav-tabs') do
-      assert page.has_content?(label)
-    end
+    tab = page.find_by_id(label.underscore)
+    assert tab.has_content?(label)
   end
 
   def switch_form_tab(name)

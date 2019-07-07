@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DualList actions should update store on change between the selectors 1`] = `
+Object {
+  "payload": Object {
+    "id": "some-id",
+    "selectedItems": Array [
+      Object {
+        "label": "CentOS",
+        "value": 1,
+      },
+      Object {
+        "label": "Fedora",
+        "value": 2,
+      },
+    ],
+  },
+  "type": "DUAL_LIST_CHANGE",
+}
+`;
+
+exports[`DualList actions should update store with initial data 1`] = `
+Object {
+  "payload": Object {
+    "id": "some-id",
+    "selectedItems": Array [
+      Object {
+        "label": "CentOS",
+        "value": 1,
+      },
+      Object {
+        "label": "Fedora",
+        "value": 2,
+      },
+    ],
+  },
+  "type": "DUAL_LIST_INIT",
+}
+`;

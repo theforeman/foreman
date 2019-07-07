@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duallist integration test should flow: initial state 1`] = `
+Object {
+  "dualList": Object {
+    "some-id": Object {
+      "selectedItems": Array [
+        Object {
+          "label": "CentOS",
+          "value": 1,
+        },
+        Object {
+          "label": "Fedora",
+          "value": 2,
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`Duallist integration test should flow: transitions between lists 1`] = `
+Object {
+  "dualList": Object {
+    "some-id": Object {
+      "selectedItems": Array [
+        Object {
+          "label": "CentOS",
+          "value": 1,
+        },
+        Object {
+          "label": "Debian",
+          "value": 4,
+        },
+        Object {
+          "label": "Fedora",
+          "value": 2,
+        },
+      ],
+    },
+  },
+}
+`;

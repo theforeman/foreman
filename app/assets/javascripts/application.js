@@ -7,7 +7,6 @@
 //= require patternfly
 //= require vendor
 //= require jquery.extentions
-//= require jquery.multi-select
 //= require settings
 //= require hidden_values
 //= require select_on_click
@@ -99,8 +98,6 @@ function onContentLoad() {
       tfm.tools.activateTooltips(this);
     });
   });
-
-  multiSelectOnLoad();
 
   // Removes the value from fake password field.
   $('#fakepassword').val('');

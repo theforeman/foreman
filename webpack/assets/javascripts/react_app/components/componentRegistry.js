@@ -33,6 +33,7 @@ import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
+import DualList from './DualList';
 
 // Pages
 import AuditsPage from '../pages/AuditsPage/AuditsPage';
@@ -127,6 +128,7 @@ const coreComponets = [
   { name: 'TemplateInput', type: TemplateInput },
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
+  { name: 'DualList', type: DualList },
 
   {
     name: 'RelativeDateTime',

@@ -1,0 +1,2 @@
+export const DUAL_LIST_INIT = 'DUAL_LIST_INIT';
+export const DUAL_LIST_CHANGE = 'DUAL_LIST_CHANGE';

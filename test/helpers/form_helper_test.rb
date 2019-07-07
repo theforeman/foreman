@@ -83,11 +83,13 @@ class FormHelperTest < ActionView::TestCase
   end
 
   test 'multiple_checkboxes produces right output for taxonomy relations' do
+    expects(:mount_react_component).with() do |_name, _selector, data, _opts|
+      /\"name\":\"filter\[organization_ids\]\[\]\"/.match(data)
+    end
     user = FactoryBot.build_stubbed(:user,
                              :organizations => [taxonomies(:organization1)])
     form_for Filter.new do |f|
-      assert_match(/input name=\"filter\[organization_ids\]\[\].*/,
-        multiple_checkboxes(f, :organizations, f.object, user.organizations))
+      multiple_checkboxes(f, :organizations, f.object, user.organizations)
     end
   end
 end

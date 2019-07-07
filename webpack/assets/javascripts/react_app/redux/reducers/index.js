@@ -9,6 +9,7 @@ import { reducers as appReducers } from '../../ReactApp';
 import { reducers as passwordStrengthReducers } from '../../components/PasswordStrength';
 import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
 import { reducers as autoCompleteReducers } from '../../components/AutoComplete';
+import { reducers as dualListReducers } from '../../components/DualList';
 import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
 import { reducers as editorReducers } from '../../components/Editor';
@@ -39,6 +40,7 @@ export function combineReducersAsync(asyncReducers) {
     ...factChartReducers,
     ...statisticsPageReducers,
     ...fillReducers,
+    ...dualListReducers,
   });
 }
 

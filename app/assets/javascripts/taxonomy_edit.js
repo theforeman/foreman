@@ -37,7 +37,6 @@ function parent_taxonomy_changed(element) {
     success: function(response) {
       $('form').replaceWith(response);
       $(document.body).trigger('ContentLoad');
-      multiSelectOnLoad();
     },
   });
 }

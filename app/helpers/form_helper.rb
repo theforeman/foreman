@@ -56,7 +56,6 @@ module FormHelper
 
   # add hidden field for options[:disabled]
   def multiple_selects(f, attr, associations, selected_ids, options = {}, html_options = {})
-    options[:size] = "col-md-10"
     case attr
       when :organizations
         klass = Organization
@@ -65,30 +64,49 @@ module FormHelper
       else
         klass = nil
     end
+
     authorized = AssociationAuthorizer.authorized_associations(associations.reorder(nil), klass).all
-
-    # select2.js breaks the multiselects disabled items location
-    # http://projects.theforeman.org/issues/12028
-    html_options["class"] ||= ""
-    html_options["class"] += " without_select2"
-    html_options["class"].strip!
-
     unauthorized = selected_ids.blank? ? [] : selected_ids - authorized.map(&:id)
-    field(f, attr, options) do
-      attr_ids = attr.to_s
-      attr_ids = (attr_ids.singularize + '_ids').to_sym unless attr_ids.end_with?('_ids')
-      hidden_fields = ''
-      html_options["data-useds"] ||= "[]"
-      JSON.parse(html_options["data-useds"]).each do |disabled_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => disabled_value, :id => '')
-      end
-      unauthorized.each do |unauthorized_value|
-        hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id => '')
-      end
-      hidden_fields + f.collection_select(attr_ids, authorized.sort_by { |a| a.to_s },
-                                          :id, options.delete(:object_label_method) || :to_label, options.merge(:selected => selected_ids),
-                                          html_options.merge(:multiple => true))
+    items = authorized.map { |item| { value: item.id, label: item.try(:object_label_method) || item.to_label } }
+    attr_ids = attr.to_s
+    attr_ids = (attr_ids.singularize + '_ids').to_sym unless attr_ids.end_with?('_ids')
+    class_name = (html_options["class"] || "" + " without_select2").strip!
+
+    items += unauthorized.map do |unauthorized_value|
+      {
+        value: '',
+        label: unauthorized_value.to_s,
+        hidden: true,
+      }
     end
+
+    if (html_options["data-useds"])
+      JSON.parse(html_options["data-useds"]).map do |disabled_value|
+        items.each do |item|
+          item[:disabled] = true if item[:value] == disabled_value
+        end
+      end
+    end
+
+    input_id = "#{f.object_name}_#{attr_ids}"
+    error_messages = f.object.errors[attr].map(&:inspect).join(', ')
+    props = {
+      id: "dual_list_#{input_id}",
+      label: options[:label],
+      error: error_messages,
+      items: items,
+      selectedIDs: selected_ids,
+      inputProps: {
+        name: "#{f.object_name}[#{attr_ids}][]",
+        id: input_id,
+        className: class_name,
+        form: f.options[:html][:id],
+      },
+    }.to_json
+
+    container_class = "container-#{input_id}"
+    content_tag(:div, nil, :class => container_class) +
+    mount_react_component("DualList", ".#{container_class}", props, flatten_data: true)
   end
 
   def line_count(f, attr)

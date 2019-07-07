@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DualList reducer should handle DUAL_LIST_CHANGE 1`] = `
+Object {
+  "some-id": Object {
+    "selectedItems": Array [
+      Object {
+        "label": "CentOS",
+        "value": 1,
+      },
+      Object {
+        "label": "Fedora",
+        "value": 2,
+      },
+    ],
+  },
+}
+`;
+
+exports[`DualList reducer should return the initial state 1`] = `Object {}`;
+
+exports[`DualList reducer should update state with initial data 1`] = `
+Object {
+  "some-id": Object {
+    "selectedItems": Array [
+      Object {
+        "label": "CentOS",
+        "value": 1,
+      },
+      Object {
+        "label": "Fedora",
+        "value": 2,
+      },
+    ],
+  },
+}
+`;

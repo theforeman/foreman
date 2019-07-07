@@ -8,7 +8,7 @@ class PuppetclassIntegrationTest < IntegrationTestWithJavascript
     visit puppetclasses_path
     click_link "vim"
     assert page.has_no_link? 'Common'
-    find(:xpath, "//a[@data-original-title='Select All']").click
+    select_all_from_multiple_selects :from => "puppetclass_hostgroup_ids"
     assert_submit_button(puppetclasses_path)
     assert page.has_link? 'vim'
     assert page.has_link? 'Common'

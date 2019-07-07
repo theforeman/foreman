@@ -91,7 +91,7 @@ class HostgroupJSTest < IntegrationTestWithJavascript
 
     visit edit_hostgroup_path(group)
     page.find(:css, "a[href='#locations']").click
-    select_from_list 'hostgroup_location_ids', new_location
+    select_from_multiple_selects new_location.name, :from => "hostgroup_location_ids"
 
     click_button "Submit"
     # wait for submit to finish

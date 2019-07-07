@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DualList rendering renders DualList 1`] = `
+<div
+  id="some-id"
+>
+  <FormField
+    className=""
+    disabled={false}
+    helpInline={null}
+    id={null}
+    inputProps={null}
+    inputSizeClass="col-md-10"
+    label="some -label"
+    labelHelp={null}
+    labelSizeClass="col-md-2"
+    onChange={[Function]}
+    required={false}
+    touched={false}
+    type="text"
+  >
+    <DualListControlled
+      allowHiddenInputs={true}
+      left={
+        Object {
+          "inputProps": Object {
+            "className": undefined,
+          },
+          "items": Array [
+            Object {
+              "label": "RedHat",
+              "value": 3,
+            },
+            Object {
+              "label": "Debian",
+              "value": 4,
+            },
+            Object {
+              "label": "Ubuntu",
+              "value": 5,
+            },
+          ],
+        }
+      }
+      onChange={[Function]}
+      onComponentInit={[Function]}
+      onFilterChange={[Function]}
+      onItemChange={[Function]}
+      onMainCheckboxChange={[Function]}
+      onSortClick={[Function]}
+      right={
+        Object {
+          "inputProps": Object {
+            "id": "some-id",
+            "name": "some-name",
+          },
+          "items": Array [
+            Object {
+              "label": "CentOS",
+              "value": 1,
+            },
+            Object {
+              "label": "Fedora",
+              "value": 2,
+            },
+          ],
+        }
+      }
+    />
+    <div
+      className="dual_list_error"
+    />
+  </FormField>
+</div>
+`;
