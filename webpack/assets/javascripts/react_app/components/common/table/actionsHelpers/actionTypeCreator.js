@@ -1,7 +1,7 @@
-const createTableActionTypes = controller => ({
-  REQUEST: `${controller.toUpperCase()}_TABLE_REQUEST`,
-  SUCCESS: `${controller.toUpperCase()}_TABLE_SUCCESS`,
-  FAILURE: `${controller.toUpperCase()}_TABLE_FAILURE`,
+const createTableActionTypes = tableID => ({
+  REQUEST: `${tableID.toUpperCase()}_REQUEST`,
+  SUCCESS: `${tableID.toUpperCase()}_SUCCESS`,
+  FAILURE: `${tableID.toUpperCase()}_FAILURE`,
 });
 
 export default createTableActionTypes;

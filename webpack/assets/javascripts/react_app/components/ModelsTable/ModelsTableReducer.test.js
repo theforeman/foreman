@@ -1,4 +1,4 @@
-import { MODELS_TABLE_CONTROLLER } from './ModelsTableConstants';
+import { MODELS_TABLE_ID } from './ModelsTableConstants';
 import reducer from './ModelsTableReducer';
 
 jest.mock('../common/table', () => ({
@@ -7,6 +7,6 @@ jest.mock('../common/table', () => ({
 
 describe('ModelsTable reducer', () => {
   it('should reuse createTableReducer', () => {
-    expect(reducer).toEqual(MODELS_TABLE_CONTROLLER);
+    expect(reducer).toEqual(MODELS_TABLE_ID);
   });
 });
