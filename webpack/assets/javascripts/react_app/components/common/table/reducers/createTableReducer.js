@@ -10,8 +10,8 @@ const initState = Immutable({
   status: STATUS.PENDING,
 });
 
-const createTableReducer = controller => (state = initState, action) => {
-  const { REQUEST, FAILURE, SUCCESS } = createTableActionTypes(controller);
+const createTableReducer = tableID => (state = initState, action) => {
+  const { REQUEST, FAILURE, SUCCESS } = createTableActionTypes(tableID);
 
   switch (action.type) {
     case REQUEST:

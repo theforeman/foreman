@@ -4,7 +4,7 @@ import { ajaxRequestAction } from '../../../../redux/actions/common';
 jest.mock('../../../../redux/actions/common');
 describe('getTableItemsAction', () => {
   it('should call ajaxRequestAction with url ', () => {
-    const controller = 'models';
+    const tableID = 'models_table';
     const url = '/api/models?include_permissions=true';
     const dispatch = jest.fn();
     const expectedParams = {
@@ -13,9 +13,9 @@ describe('getTableItemsAction', () => {
       requestAction: 'MODELS_TABLE_REQUEST',
       successAction: 'MODELS_TABLE_SUCCESS',
       url,
-      item: { controller, url },
+      item: { tableID, url },
     };
-    const dispatcher = getTableItemsAction(controller, {}, url);
+    const dispatcher = getTableItemsAction(tableID, {}, url);
     dispatcher(dispatch);
     expect(ajaxRequestAction).toBeCalledWith(expectedParams);
   });
