@@ -82,7 +82,13 @@ Object {
   "action": Array [
     Array [
       Object {
-        "type": "EDITOR_SHOW_LOADING",
+        "payload": Object {
+          "params": Object {
+            "q": "",
+            "scope": undefined,
+          },
+        },
+        "type": "EDITOR_REQUEST",
       },
     ],
   ],

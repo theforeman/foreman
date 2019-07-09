@@ -5,8 +5,9 @@ import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
 import * as EditorActions from '../EditorActions';
+import { APIMiddleware } from '../../../redux/API';
 
-jest.mock('../../../redux/API');
+jest.mock('../../../redux/API/API');
 
 describe('Editor integration test', () => {
   it('should flow', () => {
@@ -14,7 +15,9 @@ describe('Editor integration test', () => {
       .spyOn(EditorActions, 'fetchTemplatePreview')
       .mockImplementation(async () => serverRenderResponse);
 
-    const integrationTestHelper = new IntegrationTestHelper(reducers);
+    const integrationTestHelper = new IntegrationTestHelper(reducers, [
+      APIMiddleware,
+    ]);
 
     const component = integrationTestHelper.mount(
       <Editor {...editorOptions} />
@@ -33,7 +36,6 @@ describe('Editor integration test', () => {
         .at(2)
         .hasClass('active')
     ).toBe(true);
-
     IntegrationTestHelper.flushAllPromises();
     component.update();
 

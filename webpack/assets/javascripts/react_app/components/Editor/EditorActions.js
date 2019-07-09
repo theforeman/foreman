@@ -166,33 +166,26 @@ const debouncedFetchHosts = (
 
 // API & debounced API
 const createHostAPIRequest = async (query, array, url, dispatch, getState) => {
-  const onResultsSuccess = response =>
-    dispatch({
-      type: EDITOR_FETCH_HOST_RESOLVED,
-      payload: { [array]: response.data },
-    });
-
-  const onResultsError = response =>
-    dispatch({
-      type: EDITOR_SHOW_ERROR,
-      payload: {
-        showError: true,
-        errorText: __(`Host Fetch ${response}`),
-        previewResult: __('Error during rendering, Return to Editor tab.'),
-      },
-    });
-
-  try {
-    const response = await API.get(
-      url,
-      {},
-      { q: query, scope: selectTemplateClass(getState()) }
-    );
-    return onResultsSuccess(response);
-  } catch (error) {
-    return onResultsError(error);
-  }
+  const successFormat = ({ data }) => ({ [array]: data });
+  const errorFormat = error => ({
+    showError: true,
+    errorText: __(`Host Fetch ${error}`),
+    previewResult: __('Error during rendering, Return to Editor tab.'),
+  });
+  dispatch({
+    type: 'API_GET',
+    outputType: 'EDITOR',
+    url,
+    payload: { params: { q: query, scope: selectTemplateClass(getState()) } },
+    errorFormat,
+    successFormat,
+    actionTypes: {
+      SUCCESS: EDITOR_FETCH_HOST_RESOLVED,
+      FAILURE: EDITOR_SHOW_ERROR,
+    },
+  });
 };
+
 const debouncedCreateHostAPIRequest = debounce(createHostAPIRequest, 250);
 
 export const onHostSearch = e => (dispatch, getState) => {
