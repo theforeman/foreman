@@ -2,32 +2,31 @@
 
 exports[`Settings actions should load settings and fail 1`] = `
 Array [
-  Array [
-    Object {
-      "type": "GET_SETTING_REQUEST",
+  Object {
+    "payload": Object {},
+    "type": "GET_SETTING_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "error": [Error: some-error],
+      "payload": Object {},
     },
-  ],
-  Array [
-    Object {
-      "result": [Error: some-error],
-      "type": "GET_SETTING_FAILURE",
-    },
-  ],
+    "type": "GET_SETTING_FAILURE",
+  },
 ]
 `;
 
 exports[`Settings actions should load settings and success 1`] = `
 Array [
-  Array [
-    Object {
-      "type": "GET_SETTING_REQUEST",
+  Object {
+    "payload": Object {},
+    "type": "GET_SETTING_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "data": "some-data",
     },
-  ],
-  Array [
-    Object {
-      "response": "some-data",
-      "type": "GET_SETTING_SUCCESS",
-    },
-  ],
+    "type": "GET_SETTING_SUCCESS",
+  },
 ]
 `;

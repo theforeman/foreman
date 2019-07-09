@@ -1,28 +1,46 @@
-import { API } from '../../../redux/API';
-import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
+import API from '../../../redux/API/API';
 import { loadSetting } from '../SettingsActions';
+import { APIMiddleware } from '../../../redux/API';
+import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
-jest.mock('../../../redux/API');
+jest.mock('../../../redux/API/API');
+const middlewares = [thunk, APIMiddleware];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore();
 
 const successResponse = {
   data: 'some-data',
 };
 
-const doLoadSettings = (settingName, serverMock) => {
-  API.get.mockImplementation(serverMock);
+afterEach(() => {
+  store.clearActions();
+});
 
-  return loadSetting(settingName);
-};
+describe('Settings actions', () => {
+  it('should load settings and success', async () => {
+    API.get.mockImplementation(
+      url =>
+        new Promise((resolve, reject) => {
+          resolve(successResponse);
+        })
+    );
+    await store.dispatch(loadSetting('some-name'));
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.getActions()).toMatchSnapshot();
+  });
 
-const fixtures = {
-  'should load settings and success': () =>
-    doLoadSettings('some-name', async () => successResponse),
-
-  'should load settings and fail': () =>
-    doLoadSettings('some-name', async () => {
-      throw new Error('some-error');
-    }),
-};
-
-describe('Settings actions', () => testActionSnapshotWithFixtures(fixtures));
+  it('should load settings and fail', async () => {
+    API.get.mockImplementation(
+      url =>
+        new Promise((resolve, reject) => {
+          reject(Error('some-error'));
+        })
+    );
+    await store.dispatch(loadSetting('some-name'));
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.getActions()).toMatchSnapshot();
+  });
+});

@@ -1,24 +1,13 @@
-import { API } from '../../redux/API';
-import {
-  GET_SETTING_REQUEST,
-  GET_SETTING_SUCCESS,
-  GET_SETTING_FAILURE,
-} from './SettingsConstants';
+import { GET_SETTING } from './SettingsConstants';
+import { API_OPERATIONS } from '../../redux/API';
 
-export const loadSetting = settingName => async dispatch => {
-  dispatch({ type: GET_SETTING_REQUEST });
-  try {
-    const { data } = await API.get(`/api/v2/settings/${settingName}`);
-    return dispatch({
-      type: GET_SETTING_SUCCESS,
-      response: data,
-    });
-  } catch (error) {
-    return dispatch({
-      type: GET_SETTING_FAILURE,
-      result: error,
-    });
-  }
+export const loadSetting = settingName => dispatch => {
+  dispatch({
+    type: API_OPERATIONS.GET,
+    outputType: GET_SETTING,
+    url: `/api/v2/settings/${settingName}`,
+    successFormat: data => ({ data }),
+  });
 };
 
 export default loadSetting;
