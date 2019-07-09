@@ -1,5 +1,5 @@
 import { debounce, toString } from 'lodash';
-import { API } from '../../redux/API';
+import { API, API_OPERATIONS } from '../../redux/API';
 import { translate as __ } from '../../common/I18n';
 
 import {
@@ -166,15 +166,15 @@ const debouncedFetchHosts = (
 
 // API & debounced API
 const createHostAPIRequest = async (query, array, url, dispatch, getState) => {
-  const successFormat = ({ data }) => ({ [array]: data });
+  const successFormat = data => ({ [array]: data });
   const errorFormat = error => ({
     showError: true,
     errorText: __(`Host Fetch ${error}`),
     previewResult: __('Error during rendering, Return to Editor tab.'),
   });
   dispatch({
-    type: 'API_GET',
-    outputType: 'EDITOR',
+    type: API_OPERATIONS.GET,
+    key: 'EDITOR',
     url,
     payload: { params: { q: query, scope: selectTemplateClass(getState()) } },
     errorFormat,

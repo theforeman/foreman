@@ -50,7 +50,7 @@ export const pollReportData = pollUrl => dispatch => {
   dispatch({ type: TEMPLATE_GENERATE_POLLING, payload: { url: pollUrl } });
   dispatch({
     type: API_OPERATIONS.GET,
-    outputType: TEMPLATE_GENERATE,
+    key: TEMPLATE_GENERATE,
     url: pollUrl,
     payload: { headers: { responseType: 'blob' } },
     onSuccess: response => {

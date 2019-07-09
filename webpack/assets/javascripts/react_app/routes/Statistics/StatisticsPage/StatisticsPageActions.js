@@ -1,4 +1,4 @@
-import { API_OPERATIONS } from '../../../redux/consts';
+import { API_OPERATIONS } from '../../../redux/API';
 
 import {
   STATISTICS_PAGE_DATA_RESOLVED,
@@ -22,7 +22,7 @@ export const getStatisticsMeta = (
   });
   dispatch({
     type: API_OPERATIONS.GET,
-    outputType: 'STATISTICS_PAGE',
+    key: 'STATISTICS_PAGE',
     actionTypes: {
       SUCCESS: STATISTICS_PAGE_DATA_RESOLVED,
       FAILURE: STATISTICS_PAGE_DATA_FAILED,

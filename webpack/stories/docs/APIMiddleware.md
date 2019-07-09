@@ -11,6 +11,7 @@ const someAction = url => ({
   type: API_OPERATIONS.GET,
   key: COMPONENT_NAME,
   url,
+  
 });
 ```
 
@@ -46,3 +47,9 @@ dispatch({
   }
 });
 ```
+**Option functions**
+
+`errorFormat`: format function for the error in the payload
+`successFormat`: format function for the data in the payload
+`onSuccess`: function to run on success, recieves the response
+`onFailure`: function to run on failure, recieves the error

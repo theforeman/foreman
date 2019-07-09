@@ -28,7 +28,7 @@ const fixtures = {
   'should handle API_GET BREADCRUMB_BAR_RESOURCES': {
     action: {
       type: API_OPERATIONS.GET,
-      outputType: BREADCRUMB_BAR_RESOURCES,
+      key: BREADCRUMB_BAR_RESOURCES,
       url: resource.resourceUrl,
     },
   },

@@ -9,10 +9,11 @@ import {
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS_POLLING_STARTED,
   NOTIFICATIONS_LINK_CLICKED,
+  NOTIFICATIONS,
 } from '../../consts';
 import { doesDocumentHasFocus } from '../../../common/document';
 import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
-import { API } from '../../API';
+import { API, API_OPERATIONS } from '../../API';
 
 const defaultNotificationsPollingInterval = 10000;
 const notificationsInterval =
@@ -20,22 +21,18 @@ const notificationsInterval =
 
 const getNotifications = url => dispatch => {
   if (doesDocumentHasFocus()) {
-    API.get(url)
-      .then(onGetNotificationsSuccess)
-      .catch(onGetNotificationsFailed)
-      .then(triggerPolling);
+    dispatch({
+      type: API_OPERATIONS.GET,
+      key: NOTIFICATIONS,
+      url: url.toString(),
+      actionTypes: { SUCCESS: NOTIFICATIONS_GET_NOTIFICATIONS },
+      successFormat: data => ({ notifications: data.notifications }),
+      onSuccess: triggerPolling,
+      onFailure: onGetNotificationsFailed,
+    });
   } else {
     // document is not visible, keep polling without api call
     triggerPolling();
-  }
-
-  function onGetNotificationsSuccess({ data }) {
-    dispatch({
-      type: NOTIFICATIONS_GET_NOTIFICATIONS,
-      payload: {
-        notifications: data.notifications,
-      },
-    });
   }
 
   function onGetNotificationsFailed({ response }) {

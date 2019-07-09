@@ -56,7 +56,7 @@ export const loadSwitcherResourcesByResource = (
 
   dispatch({
     type: API_OPERATIONS.GET,
-    outputType: BREADCRUMB_BAR_RESOURCES,
+    key: BREADCRUMB_BAR_RESOURCES,
     url: resourceUrl,
     payload: {
       params: {
