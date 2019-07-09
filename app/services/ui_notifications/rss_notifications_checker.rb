@@ -57,9 +57,9 @@ module UINotifications
               {
                 :href => item.link,
                 :title => _('Open'),
-                :external => true
-              }
-            ]
+                :external => true,
+              },
+            ],
           }
         )
       end

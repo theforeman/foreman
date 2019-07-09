@@ -34,8 +34,8 @@ module SmartProxiesHelper
           :data => {
             :url => expire_logs_smart_proxy_path(:id => proxy),
             :"url-errors" => errors_card_smart_proxy_path(:id => proxy),
-            :"url-modules" => modules_card_smart_proxy_path(:id => proxy)
-          }
+            :"url-modules" => modules_card_smart_proxy_path(:id => proxy),
+          },
         })
     end
 
@@ -80,7 +80,7 @@ module SmartProxiesHelper
       'INFO' => 'info',
       'WARN' => 'warning',
       'ERROR' => 'danger',
-      'FATAL' => 'danger'
+      'FATAL' => 'danger',
     }
   end
 

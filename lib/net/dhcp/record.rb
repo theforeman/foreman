@@ -92,7 +92,7 @@ module Net::DHCP
         :filename => filename,
         :name => name,
         :related_macs => related_macs,
-        :type => type
+        :type => type,
       }.compact
     end
   end

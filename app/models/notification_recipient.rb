@@ -17,7 +17,7 @@ class NotificationRecipient < ApplicationRecord
       :text       => notification.message,
       :created_at => notification.created_at.utc,
       :group      => notification_blueprint.group,
-      :actions    => notification.actions
+      :actions    => notification.actions,
     }
   end
 

@@ -64,7 +64,7 @@ class ComputeResourceHostImporter
     [
       vm.try(:hostname),
       vm.try(:name),
-      vm.try(:identity)
+      vm.try(:identity),
     ].detect(&:present?)
   end
 end

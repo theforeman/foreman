@@ -49,7 +49,7 @@ class DashboardControllerTest < ActionController::TestCase
   test "#save_positions updates each widget" do
     widget = FactoryBot.create(:widget, :user => users(:admin))
     params = {
-      widget.id.to_s => {:col => '4', :row => '3', :sizex => '8', :sizey => '1'}
+      widget.id.to_s => {:col => '4', :row => '3', :sizex => '8', :sizey => '1'},
     }
     post :save_positions, params: { :widgets => params, :format => 'json' }, session: set_session_user
     assert_response :success

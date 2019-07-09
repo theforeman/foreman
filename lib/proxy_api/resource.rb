@@ -14,10 +14,10 @@ module ProxyAPI
         :headers => {
           :accept => :json,
           :x_request_id => request_id,
-          :x_session_id => session_id
+          :x_session_id => session_id,
         },
         :user => args[:user],
-        :password => args[:password]
+        :password => args[:password],
       }
 
       # We authenticate only if we are using SSL
@@ -132,7 +132,7 @@ module ProxyAPI
         :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
         :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
         :ssl_ca_file      =>  ca_cert,
-        :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
+        :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER,
       }
     rescue StandardError => exception
       msg = N_("Unable to read SSL certification or key for proxy communication, check settings for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readable by the foreman user.")

@@ -34,7 +34,7 @@ class EmailSettingTest < ActiveSupport::TestCase
         Setting::Email.set('delivery_method', N_("Method used to deliver email"), 'test', nil, nil, { :collection => Proc.new {{'Sendmail' => :sendmail, 'SMTP' => :smtp}}}),
         Setting::Email.set('smtp_address', N_("Address to connect to"), '', nil),
         Setting::Email.set('smtp_authentication', N_("Specify authentication type, if required"), 'none', nil, nil, { :collection => Proc.new {{'plain' => :plain, 'login' => :login, 'cram_md5' => :cram_md5, 'none' => :none}}}),
-        Setting::Email.set('sendmail_arguments', N_("Specify additional options to sendmail"), '-i', nil)
+        Setting::Email.set('sendmail_arguments', N_("Specify additional options to sendmail"), '-i', nil),
       ].each { |s| Setting::Email.create! s.update(:category => "Setting::Email")}
     end
   end

@@ -51,7 +51,7 @@ module ComputeResourcesVmsHelper
   def spice_data_attributes(console)
     options = {
       :port     => console[:proxy_port],
-      :password => console[:password]
+      :password => console[:password],
     }
     if supports_spice_xpi?
       options.merge!(
@@ -206,7 +206,7 @@ module ComputeResourcesVmsHelper
         "<span #{vm_power_class(vm.ready?)}>#{vm_state(vm)}</span>",
         action_buttons(vm_power_action(vm, authorizer),
                        vm_import_action(vm),
-                       display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer)))
+                       display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer))),
       ]
     end
     JSON.fast_generate(data).html_safe
@@ -282,7 +282,7 @@ module ComputeResourcesVmsHelper
         :id => vm.identity
       ),
       {
-        :class => "btn btn-info"
+        :class => "btn btn-info",
       }
     )
   end

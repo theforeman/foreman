@@ -14,7 +14,7 @@ class EnvironmentTest < ActiveSupport::TestCase
       RFauxFactory.gen_alphanumeric(255),
       RFauxFactory.gen_alphanumeric(rand(1..254)),
       RFauxFactory.gen_alpha(rand(1..254)),
-      RFauxFactory.gen_numeric_string(rand(1..254))
+      RFauxFactory.gen_numeric_string(rand(1..254)),
     ]
   end
 
@@ -27,7 +27,7 @@ class EnvironmentTest < ActiveSupport::TestCase
       RFauxFactory.gen_alpha(256),
       RFauxFactory.gen_numeric_string(256),
       RFauxFactory.gen_alphanumeric(256),
-      RFauxFactory.gen_html(249)
+      RFauxFactory.gen_html(249),
     ]
   end
 

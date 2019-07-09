@@ -10,7 +10,7 @@ def valid_hostgroup_name_list
     RFauxFactory.gen_alpha(1),
     RFauxFactory.gen_alpha(245),
     *RFauxFactory.gen_strings(1..245, exclude: [:html, :punctuation]).values,
-    RFauxFactory.gen_html(rand((1..220)))
+    RFauxFactory.gen_html(rand((1..220))),
   ]
 end
 

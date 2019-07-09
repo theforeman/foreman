@@ -65,7 +65,7 @@ module MediumProviders
         major: os.major,
         minor: os.minor,
         version: os.minor.blank? ? os.major : [os.major, os.minor].compact.join('.'),
-        release: os.release_name.presence || ''
+        release: os.release_name.presence || '',
       }
     end
   end

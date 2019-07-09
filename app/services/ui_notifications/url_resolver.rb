@@ -29,7 +29,7 @@ module UINotifications
     def parse_link(path_method, title)
       {
         href: path_for(path_method),
-        title: StringParser.new(title, {subject: subject}).to_s
+        title: StringParser.new(title, {subject: subject}).to_s,
       }
     end
 

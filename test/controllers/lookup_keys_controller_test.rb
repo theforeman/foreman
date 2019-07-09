@@ -8,7 +8,7 @@ class LookupKeysControllerTest < ActionController::TestCase
     @base = {
       :key => @key.key,
       :override => true,
-      :lookup_values_attributes => {}
+      :lookup_values_attributes => {},
     }
     @value = @key.override_values[1]
     @key.override_values = [@value]

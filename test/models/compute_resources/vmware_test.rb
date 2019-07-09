@@ -50,23 +50,23 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         "new_interfaces" => {
           "type"    => "VirtualE1000",
           "network" => "network-17",
-          "_delete" => ""
+          "_delete" => "",
         },
         "0" => {
           "type"    => "VirtualVmxnet3",
           "network" => "network-17",
-          "_delete" => ""
-        }
+          "_delete" => "",
+        },
       },
       "volumes_attributes" => {
         "new_volumes" => {
           "size_gb" => "10",
-          "_delete" => ""
+          "_delete" => "",
         },
         "0" => {
           "size_gb" => "1",
-          "_delete" => ""
-        }
+          "_delete" => "",
+        },
       }
     )
     attrs_parsed = {
@@ -75,15 +75,15 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         {
           :type    => "VirtualVmxnet3",
           :network => "network-17",
-          :_delete => ""
-        }
+          :_delete => "",
+        },
       ],
       :volumes => [
         {
           :size_gb => "1",
-          :_delete => ""
-        }
-      ]
+          :_delete => "",
+        },
+      ],
     }
     attrs_out = {
       :name       => 'test',
@@ -92,15 +92,15 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         {
           :type    => "VirtualVmxnet3",
           :network => "network-17",
-          :_delete => ""
-        }
+          :_delete => "",
+        },
       ],
       :volumes => [
         {
           :size_gb => "1",
-          :_delete => ""
-        }
-      ]
+          :_delete => "",
+        },
+      ],
     }
 
     mock_vm = mock('new server')
@@ -166,23 +166,23 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         "new_interfaces" => {
           "type"    => "VirtualE1000",
           "network" => "network-17",
-          "_delete" => ""
+          "_delete" => "",
         },
         "0" => {
           "type"    => "VirtualVmxnet3",
           "network" => "network-17",
-          "_delete" => ""
-        }
+          "_delete" => "",
+        },
       },
       "volumes_attributes" => {
         "new_volumes" => {
           "size_gb" => "10",
-          "_delete" => ""
+          "_delete" => "",
         },
         "0" => {
           "size_gb" => "1",
-          "_delete" => ""
-        }
+          "_delete" => "",
+        },
       }
     )
     attrs_parsed = HashWithIndifferentAccess.new(
@@ -192,20 +192,20 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         "new_interfaces" => {
           "type" => "VirtualE1000",
           "network" => "Test network",
-          "_delete" => ""
+          "_delete" => "",
         },
         "0" => {
           "type" => "VirtualVmxnet3",
           "network" => "Test network",
-          "_delete" => ""
-        }
+          "_delete" => "",
+        },
       },
       "volumes_attributes" => {
         "new_volumes" => {
           "size_gb" => "10",
-          "_delete" => ""
+          "_delete" => "",
         },
-        "0" => {"size_gb" => "1", "_delete" => ""}
+        "0" => {"size_gb" => "1", "_delete" => ""},
       },
       "provision_method" => "image"
     )
@@ -234,23 +234,23 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "new_interfaces" => {
             "type"    => "VirtualE1000",
             "network" => "network-17",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "type"    => "VirtualVmxnet3",
             "network" => "network-17",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         },
         "volumes_attributes" => {
           "new_volumes" => {
             "size_gb" => "10",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "size_gb" => "1",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         }
       )
       # All keys must be symbolized
@@ -266,23 +266,23 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "new_interfaces" => {
             "type"    => "VirtualE1000",
             "network" => "network-17",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "type"    => "VirtualVmxnet3",
             "network" => "network-17",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         },
         "volumes_attributes" => {
           "new_volumes" => {
             "size_gb" => "10",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "size_gb" => "1",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         }
       )
       attrs_out = {:cpus => "1", :interfaces => [{:type => "VirtualVmxnet3", :network => "network-17", :_delete => ""}], :volumes => [{:size_gb => "1", :_delete => ""}]}
@@ -297,23 +297,23 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "new_interfaces" => {
             "type"    => "VirtualE1000",
             "network" => "network-17",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "type"    => "VirtualVmxnet3",
             "network" => "network-17",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         },
         "volumes_attributes" => {
           "new_volumes" => {
             "size_gb" => "10",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "size_gb" => "1",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         }
       )
       attrs_out = {
@@ -323,15 +323,15 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           {
             :type    => "VirtualVmxnet3",
             :network => "network-17",
-            :_delete => ""
-          }
+            :_delete => "",
+          },
         ],
         :volumes => [
           {
             :size_gb => "1",
-            :_delete => ""
-          }
-        ]
+            :_delete => "",
+          },
+        ],
       }
       assert_equal attrs_out, @cr.parse_args(attrs_in)
     end
@@ -415,13 +415,13 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "new_interfaces" => {
             "type"    => "VirtualE1000",
             "network" => "network-17",
-            "_delete" => ""
+            "_delete" => "",
           },
           "0" => {
             "type"    => "VirtualVmxnet3",
             "network" => "network-17",
-            "_delete" => ""
-          }
+            "_delete" => "",
+          },
         }
       )
       attrs_out = HashWithIndifferentAccess.new(
@@ -430,14 +430,14 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             "type"          => "VirtualE1000",
             "network"       => "Test network",
             "virtualswitch" => nil,
-            "_delete"       => ""
+            "_delete"       => "",
           },
           "0" => {
             "type"          => "VirtualVmxnet3",
             "network"       => "Test network",
             "virtualswitch" => nil,
-            "_delete"       => ""
-          }
+            "_delete"       => "",
+          },
         }
       )
       assert_equal attrs_out, @cr.parse_networks(attrs_in)
@@ -450,14 +450,14 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             "type"          => "VirtualE1000",
             "network"       => "Test network",
             "virtualswitch" => nil,
-            "_delete"       => ""
+            "_delete"       => "",
           },
           "0" => {
             "type"          => "VirtualVmxnet3",
             "network"       => "Test network",
             "virtualswitch" => nil,
-            "_delete"       => ""
-          }
+            "_delete"       => "",
+          },
         }
       )
       assert_equal attrs, @cr.parse_networks(attrs)
@@ -505,7 +505,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     before do
       plain_attrs = {
         :id => 'abc',
-        :cpus => 5
+        :cpus => 5,
       }
       @vm = mock('vm')
       @vm.stubs(:attributes).returns(plain_attrs)
@@ -522,7 +522,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       vol2.stubs(:size_gb).returns(4)
       @volumes = [
         vol1,
-        vol2
+        vol2,
       ]
       @vm.stubs(:volumes).returns(@volumes)
 
@@ -531,7 +531,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       @vm.stubs(:scsi_controllers).returns([scsi_controller1])
 
       @networks = [
-        OpenStruct.new(:id => 'dvportgroup-123456', :name => 'Testnetwork')
+        OpenStruct.new(:id => 'dvportgroup-123456', :name => 'Testnetwork'),
       ]
       @cr.stubs(:networks).returns(@networks)
     end
@@ -541,7 +541,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         :cpus => 5,
         :volumes_attributes => {
           "0" => { :vol => 1, :size_gb => 4 },
-          "1" => { :vol => 2, :size_gb => 4 }
+          "1" => { :vol => 2, :size_gb => 4 },
         },
         :interfaces_attributes => {},
         :scsi_controllers => [
@@ -549,9 +549,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             :type => "VirtualLsiLogicController",
             :shared_bus => "noSharing",
             :unit_number => 7,
-            :key => 1000
-          }
-        ]
+            :key => 1000,
+          },
+        ],
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -570,14 +570,14 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           :key => 4000,
           :virtualswitch => nil,
           :server_id => '5004913f-4ba3-7a6c-4481-b796d1234999'
-        )
+        ),
       ]
       @vm.stubs(:interfaces).returns(interfaces)
       expected_attrs = {
         :cpus => 5,
         :volumes_attributes => {
           "0" => { :vol => 1, :size_gb => 4 },
-          "1" => { :vol => 2, :size_gb => 4 }
+          "1" => { :vol => 2, :size_gb => 4 },
         },
         :interfaces_attributes => {"0" => {:compute_attributes => {:network => "Testnetwork", :type => "VirtualVmxnet3"}, :mac => "00:50:56:84:f1:b1"}},
         :scsi_controllers => [
@@ -585,9 +585,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             :type => "VirtualLsiLogicController",
             :shared_bus => "noSharing",
             :unit_number => 7,
-            :key => 1000
-          }
-        ]
+            :key => 1000,
+          },
+        ],
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -626,11 +626,11 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         name: 'test',
         cpus: '1',
         interfaces: [
-          { type: 'VirtualVmxnet3', :network => 'network-17'}
+          { type: 'VirtualVmxnet3', :network => 'network-17'},
         ],
         volumes: [
-          { :size_gb => '1'}
-        ]
+          { :size_gb => '1'},
+        ],
       }
     end
 
@@ -677,24 +677,24 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       mock_cr(base_cr,
         :folders => [
           stub(:path => 'some/path', :name => 'some path'),
-          stub(:path => 'another/path', :name => 'another path')
+          stub(:path => 'another/path', :name => 'another path'),
         ],
         :available_clusters => [
           stub(:id => 'c1', :name => 'cluster 1'),
-          stub(:id => 'c2', :name => 'cluster 2')
+          stub(:id => 'c2', :name => 'cluster 2'),
         ],
         :resource_pools => [],
         :datastores => [
           stub(:id => 'ds1', :name => 'store 1'),
-          stub(:id => 'ds2', :name => 'store 2')
+          stub(:id => 'ds2', :name => 'store 2'),
         ],
         :networks => [
           stub(:id => 'net1', :name => 'network 1'),
-          stub(:id => 'net2', :name => 'network 2')
+          stub(:id => 'net2', :name => 'network 2'),
         ],
         :subnets => [
           stub(:subnet_id => 'sn1', :cidr_block => 'cidr blk 1'),
-          stub(:subnet_id => 'sn2', :cidr_block => 'cidr blk 2')
+          stub(:subnet_id => 'sn2', :cidr_block => 'cidr blk 2'),
         ]
       )
     end
@@ -705,7 +705,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test 'memory_mb mapped to memory' do
       vm_attrs = {
-        'memory_mb' => '768'
+        'memory_mb' => '768',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -718,7 +718,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test 'finds folder_name' do
       vm_attrs = {
-        'path' => 'some/path'
+        'path' => 'some/path',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -735,7 +735,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test 'finds cluster_id' do
       vm_attrs = {
-        'cluster' => 'cluster 2'
+        'cluster' => 'cluster 2',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -745,12 +745,12 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     test 'finds resource_pool_id' do
       vm_attrs = {
         'cluster' => 'cluster 2',
-        'resource_pool' => 'pool 2'
+        'resource_pool' => 'pool 2',
       }
       cr.expects(:resource_pools).with(:cluster_id => 'cluster 2').returns(
         [
           stub(:id => 'rp1', :name => 'pool 1'),
-          stub(:id => 'rp2', :name => 'pool 2')
+          stub(:id => 'rp2', :name => 'pool 2'),
         ]
       )
       normalized = cr.normalize_vm_attrs(vm_attrs)
@@ -768,7 +768,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test 'finds guest_name' do
       vm_attrs = {
-        'guest_id' => 'asianux3_64Guest'
+        'guest_id' => 'asianux3_64Guest',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -781,7 +781,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test 'finds hardware_version_name' do
       vm_attrs = {
-        'hardware_version' => 'vmx-13'
+        'hardware_version' => 'vmx-13',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -790,7 +790,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "sets memory_hot_add_enabled to true when memoryHotAddEnabled is '1'" do
       vm_attrs = {
-        'memoryHotAddEnabled' => '1'
+        'memoryHotAddEnabled' => '1',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -799,7 +799,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "sets memory_hot_add_enabled to false when memoryHotAddEnabled is '0'" do
       vm_attrs = {
-        'memoryHotAddEnabled' => '0'
+        'memoryHotAddEnabled' => '0',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -808,7 +808,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "sets cpu_hot_add_enabled to true when cpuHotAddEnabled is '1'" do
       vm_attrs = {
-        'cpuHotAddEnabled' => '1'
+        'cpuHotAddEnabled' => '1',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -817,7 +817,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "sets cpu_hot_add_enabled to false when cpuHotAddEnabled is '0'" do
       vm_attrs = {
-        'cpuHotAddEnabled' => '0'
+        'cpuHotAddEnabled' => '0',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -826,7 +826,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "sets add_cdrom to true when it's '1'" do
       vm_attrs = {
-        'add_cdrom' => '1'
+        'add_cdrom' => '1',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -835,7 +835,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "sets add_cdrom to false when it's '0'" do
       vm_attrs = {
-        'add_cdrom' => '0'
+        'add_cdrom' => '0',
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -847,7 +847,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
       test 'adds image name' do
         vm_attrs = {
-          'image_id' => cr.images.last.uuid
+          'image_id' => cr.images.last.uuid,
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -856,7 +856,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
       test 'leaves image name empty when image_id is nil' do
         vm_attrs = {
-          'image_id' => nil
+          'image_id' => nil,
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -866,7 +866,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
       test "leaves image name empty when image wasn't found" do
         vm_attrs = {
-          'image_id' => 'unknown'
+          'image_id' => 'unknown',
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -881,25 +881,25 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           {
             'type' => 'VirtualLsiLogicController',
             'key' => 1000,
-            'eagerzero' => true
+            'eagerzero' => true,
           }, {
             'type' => 'VirtualLsiLogicController',
             'key' => 1001,
-            'eagerzero' => false
+            'eagerzero' => false,
           }
-        ]
+        ],
       }
       expected_attrs = {
         '0' => {
           'type' => 'VirtualLsiLogicController',
           'key' => 1000,
-          'eager_zero' => true
+          'eager_zero' => true,
         },
         '1' => {
           'type' => 'VirtualLsiLogicController',
           'key' => 1001,
-          'eager_zero' => false
-        }
+          'eager_zero' => false,
+        },
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -915,9 +915,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
             'mode' => 'persistent',
             'controller_key' => 1000,
             'size_gb' => 10,
-            'datastore' => 'store 1'
-          }
-        }
+            'datastore' => 'store 1',
+          },
+        },
       }
       expected_attrs = {
         '0' => {
@@ -927,8 +927,8 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           'controller_key' => 1000,
           'size' => 10.gigabyte.to_s,
           'datastore_name' => 'store 1',
-          'datastore_id' => 'ds1'
-        }
+          'datastore_id' => 'ds1',
+        },
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -940,17 +940,17 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         'interfaces_attributes' => {
           '0' => {
             'type' => 'VirtualE1000',
-            'network' => 'net1'
-          }
-        }
+            'network' => 'net1',
+          },
+        },
       }
       expected_attrs = {
         '0' => {
           'type_id' => 'VirtualE1000',
           'type_name' => 'E1000',
           'network_id' => 'net1',
-          'network_name' => 'network 1'
-        }
+          'network_name' => 'network 1',
+        },
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -982,7 +982,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         'cpu_hot_add_enabled' => nil,
         'scsi_controllers' => {},
         'interfaces_attributes' => {},
-        'volumes_attributes' => {}
+        'volumes_attributes' => {},
       }
 
       assert_equal(expected_attrs.keys.sort, normalized.keys.sort)

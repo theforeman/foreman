@@ -25,7 +25,7 @@ module SubnetsHelper
     {
       'data-supported_ipam_modes' => klass.supported_ipam_modes_with_translations.to_json,
       'data-supports_dhcp' => klass.supports_ipam_mode?(:dhcp),
-      'data-show_mask' => klass.show_mask?
+      'data-show_mask' => klass.show_mask?,
     }
   end
 

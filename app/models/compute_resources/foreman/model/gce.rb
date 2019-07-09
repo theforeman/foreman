@@ -174,7 +174,7 @@ module Foreman::Model
     def new_volume(attrs = { })
       args = {
         :size_gb   => (attrs[:size_gb] || 10).to_i,
-        :zone_name => zone
+        :zone_name => zone,
       }.merge(attrs)
       client.disks.new(args)
     end
@@ -232,8 +232,8 @@ module Foreman::Model
       if network_interfaces_list.blank?
         network_interfaces_list = [
           {
-            :network => "global/networks/#{::Fog::Compute::Google::GOOGLE_COMPUTE_DEFAULT_NETWORK}"
-          }
+            :network => "global/networks/#{::Fog::Compute::Google::GOOGLE_COMPUTE_DEFAULT_NETWORK}",
+          },
         ]
       end
       access_config = { :name => "External NAT", :type => "ONE_TO_ONE_NAT" }

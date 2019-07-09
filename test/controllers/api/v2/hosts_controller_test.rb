@@ -28,7 +28,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :compute_resource_id => compute_resources(:one).id,
       :root_pass           => "xybxa6JUkz63w",
       :location_id         => taxonomies(:location1).id,
-      :organization_id     => taxonomies(:organization1).id
+      :organization_id     => taxonomies(:organization1).id,
     }
   end
 
@@ -36,15 +36,15 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     {
       :compute_attributes => {
         :cpus => 4,
-        :memory => 1024
-      }
+        :memory => 1024,
+      },
     }
   end
 
   def valid_attrs
     net_attrs = {
       :ip  => '10.0.0.20',
-      :mac => '52:53:00:1e:85:93'
+      :mac => '52:53:00:1e:85:93',
     }
     basic_attrs.merge(net_attrs).merge(valid_compute_attrs)
   end
@@ -62,7 +62,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   def basic_attrs_with_hg
     hostgroup_attr = {
-      :hostgroup_id => Hostgroup.first.id
+      :hostgroup_id => Hostgroup.first.id,
     }
     basic_attrs.merge(hostgroup_attr)
   end
@@ -71,14 +71,14 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     [{
       :primary => true,
       :ip => '10.0.0.20',
-      :mac => '00:11:22:33:44:00'
+      :mac => '00:11:22:33:44:00',
     }, {
       :type => 'bmc',
       :provider => 'IPMI',
-      :mac => '00:11:22:33:44:01'
+      :mac => '00:11:22:33:44:01',
     }, {
       :mac => '00:11:22:33:44:02',
-      :_destroy => 1
+      :_destroy => 1,
     }]
   end
 
@@ -1279,7 +1279,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       expected_resp = {
         "id" => host.id,
         "state" => "on",
-        "title" => "On"
+        "title" => "On",
       }
 
       Host.any_instance.stubs(:supports_power?).returns(true)
@@ -1294,7 +1294,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       expected_resp = {
         "id" => host.id,
         "state" => "off",
-        "title" => "Off"
+        "title" => "Off",
       }
 
       Host.any_instance.stubs(:supports_power?).returns(true)
@@ -1310,7 +1310,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         "id" => host.id,
         "state" => "na",
         "title" => 'N/A',
-        "statusText" => "Power operations are not enabled on this host."
+        "statusText" => "Power operations are not enabled on this host.",
       }
 
       Host.any_instance.stubs(:supports_power?).returns(false)
@@ -1328,7 +1328,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       expected_resp = {
         "id" => bmchost.id,
         "state" => "on",
-        "title" => "On"
+        "title" => "On",
       }
 
       get :power_status, params: { :id => bmchost.id }, session: set_session_user, xhr: true
@@ -1342,7 +1342,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         "id" => host.id,
         "state" => "na",
         "title" => "N/A",
-        "statusText" => "Failed to fetch power status: ERF42-9958 [Foreman::Exception]: Unknown power management support - can't continue"
+        "statusText" => "Failed to fetch power status: ERF42-9958 [Foreman::Exception]: Unknown power management support - can't continue",
       }
 
       Host.any_instance.stubs(:supports_power?).returns(true)

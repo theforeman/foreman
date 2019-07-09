@@ -47,7 +47,7 @@ class Parameter < ApplicationRecord
                :subnet_parameter => 40,
                :os_parameter => 50,
                :group_parameter => 60,
-               :host_parameter => 70
+               :host_parameter => 70,
              }
 
   def editable_by_user?

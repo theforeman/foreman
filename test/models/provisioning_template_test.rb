@@ -308,7 +308,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       template = FactoryBot.build_stubbed(:provisioning_template, :operatingsystems => [
                                             FactoryBot.create(:operatingsystem, :name => 'CentOS'),
                                             FactoryBot.create(:operatingsystem, :name => 'CentOS'),
-                                            FactoryBot.create(:operatingsystem, :name => 'Fedora')
+                                            FactoryBot.create(:operatingsystem, :name => 'Fedora'),
                                           ])
 
       lines = template.metadata.split("\n")

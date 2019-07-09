@@ -26,7 +26,7 @@ class HostMailer < ApplicationMailer
         :skipped => total_metrics["skipped"],
         :applied => total_metrics["applied"],
         :failed_restarts => total_metrics["failed_restarts"],
-        :total => total
+        :total => total,
       }
 
       mail(:to => user.mail, :subject => subject) do |format|

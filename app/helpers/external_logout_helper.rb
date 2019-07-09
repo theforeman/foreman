@@ -5,7 +5,7 @@ module ExternalLogoutHelper
       caption: Setting[:login_text],
       logoSrc: image_path("login_logo.png"),
       submitLink: extlogin_users_path,
-      backgroundUrl: nil
+      backgroundUrl: nil,
     }
   end
 

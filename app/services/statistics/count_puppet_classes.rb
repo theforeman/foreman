@@ -11,7 +11,7 @@ module Statistics
         next if count.zero?
         {
           :label => pc.to_label,
-          :data => count
+          :data => count,
         }
       end.compact
     end

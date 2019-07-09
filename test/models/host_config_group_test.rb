@@ -11,8 +11,8 @@ class HostConfigGroupTest < ActiveSupport::TestCase
                                                    puppetclasses(:five),
                                                    puppetclasses(:six),
                                                    puppetclasses(:seven),
-                                                   puppetclasses(:eight)
-                                                 ])
+                                                   puppetclasses(:eight),
+                                                 ]),
                              ])
     assert_equal 4, host.group_puppetclasses.count
     assert_equal ['auth', 'chkmk', "nagios", 'pam'].sort, host.group_puppetclasses.pluck(:name).sort

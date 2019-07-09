@@ -31,7 +31,7 @@ class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
       mock_cr(base_cr,
         :flavors => [
           stub(:id => 'flvr1', :name => 'flavour 1'),
-          stub(:id => 'flvr2', :name => 'flavour 2')
+          stub(:id => 'flvr2', :name => 'flavour 2'),
         ]
       )
     end
@@ -47,7 +47,7 @@ class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
 
       test 'adds image name' do
         vm_attrs = {
-          'image_id' => cr.images.last.uuid
+          'image_id' => cr.images.last.uuid,
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -56,7 +56,7 @@ class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
 
       test 'leaves image name empty when image_id is nil' do
         vm_attrs = {
-          'image_id' => nil
+          'image_id' => nil,
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -66,7 +66,7 @@ class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
 
       test "leaves image name empty when image wasn't found" do
         vm_attrs = {
-          'image_id' => 'unknown'
+          'image_id' => 'unknown',
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -81,7 +81,7 @@ class Foreman::Model::RackspaceTest < ActiveSupport::TestCase
         'flavor_id' => nil,
         'flavor_name' => nil,
         'image_name' => nil,
-        'image_id' => nil
+        'image_id' => nil,
       }
 
       assert_equal(expected_attrs.keys.sort, normalized.keys.sort)

@@ -21,7 +21,7 @@ module Queries
 
       expected_model_attributes = {
         'id' => global_id,
-        'name' => model.name
+        'name' => model.name,
       }
 
       assert_empty result['errors']
@@ -44,7 +44,7 @@ module Queries
 
       expected_model_attributes = {
         'id' => global_id,
-        'name' => model.name
+        'name' => model.name,
       }
 
       assert_empty result['errors']

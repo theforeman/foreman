@@ -35,7 +35,7 @@ module HostsAndHostgroupsHelper
                 { :include_blank => true,
                   :disable_button => can_override ? _(INHERIT_TEXT) : nil,
                   :disable_button_enabled => override && !explicit_value?(:realm_id),
-                  :user_set => user_set?(:realm_id)
+                  :user_set => user_set?(:realm_id),
                 },
                 { :help_inline => :indicator }
     ).html_safe

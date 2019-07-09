@@ -31,15 +31,15 @@ module FogExtensions
                 :vlanid => 123,
                 :virtualswitch => 'VDS-example',
                 :datacenter => 'Solutions',
-                :_ref => 'dvportgroup-123456'
+                :_ref => 'dvportgroup-123456',
               },
               {
                 :name => 'examplenet',
                 :accessible => true,
                 :id => 'network-12345',
                 :datacenter => 'Solutions',
-                :_ref => 'network-12345'
-              }
+                :_ref => 'network-12345',
+              },
             ]
           )
         end
@@ -49,7 +49,7 @@ module FogExtensions
             host.primary_interface.tap do |nic|
               nic.compute_attributes = {
                 'type' => 'VirtualVmxnet3',
-                'network' => 'examplenet'
+                'network' => 'examplenet',
               }
             end
           end
@@ -66,7 +66,7 @@ module FogExtensions
             host.primary_interface.tap do |nic|
               nic.compute_attributes = {
                 'type' => 'VirtualVmxnet3',
-                'network' => 'dvportgroup-123456'
+                'network' => 'dvportgroup-123456',
               }
             end
           end

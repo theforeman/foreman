@@ -22,7 +22,7 @@ module UsersHelper
     unless user.admin?
       {
         :location     => { :onchange => 'tfm.users.taxonomyAdded(this, "location")'},
-        :organization => { :onchange => 'tfm.users.taxonomyAdded(this, "organization")'}
+        :organization => { :onchange => 'tfm.users.taxonomyAdded(this, "organization")'},
       }
     end
   end

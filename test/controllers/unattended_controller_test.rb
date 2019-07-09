@@ -437,7 +437,7 @@ class UnattendedControllerTest < ActionController::TestCase
                               :location => @loc,
                               :interfaces => [
                                 FactoryBot.build(:nic_managed, :primary => true),
-                                FactoryBot.build(:nic_managed, :provision => true)
+                                FactoryBot.build(:nic_managed, :provision => true),
                               ])
 
     @request.env["REMOTE_ADDR"] = host.provision_interface.ip

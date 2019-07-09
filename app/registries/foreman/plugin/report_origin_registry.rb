@@ -3,7 +3,7 @@ module Foreman
     class ReportOriginRegistry
       DEFAULT_ORIGIN_REPORT_CLASS = 'Report'.freeze
       DEFAULT_REPORT_ORIGINS = {
-        'ConfigReport' => ['Puppet']
+        'ConfigReport' => ['Puppet'],
       }.freeze
 
       attr_accessor :report_origins

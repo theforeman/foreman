@@ -13,7 +13,7 @@ module SearchBarHelper
       bookmarks = {
         url: api_bookmarks_path,
         canCreate: authorizer.can?(:create_bookmarks),
-        documentationUrl: documentation_url("4.1.5Searching")
+        documentationUrl: documentation_url("4.1.5Searching"),
       }
     end
     mount_react_component("SearchBar", "##{id}", {
@@ -22,9 +22,9 @@ module SearchBarHelper
         id: autocomplete_id,
         searchQuery: search_query,
         url: url,
-        useKeyShortcuts: use_key_shortcuts
+        useKeyShortcuts: use_key_shortcuts,
       },
-      bookmarks: bookmarks
+      bookmarks: bookmarks,
     }.to_json)
   end
 
@@ -37,16 +37,16 @@ module SearchBarHelper
     bookmarks = {
       url: api_bookmarks_path,
       canCreate: authorizer.can?(:create_bookmarks),
-      documentationUrl: documentation_url("4.1.5Searching")
+      documentationUrl: documentation_url("4.1.5Searching"),
     }
     {
       controller: controller,
       autocomplete: {
         searchQuery: search_query,
         url: url,
-        id: autocomplete_id
+        id: autocomplete_id,
       },
-      bookmarks: bookmarks
+      bookmarks: bookmarks,
     }
   end
 end

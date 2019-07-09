@@ -5,7 +5,7 @@ module TemplateTax
     def taxonomy_exportable
       {
         :organizations => method(:assigned_organization_titles),
-        :locations => method(:assigned_location_titles)
+        :locations => method(:assigned_location_titles),
       }
     end
 

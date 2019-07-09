@@ -205,7 +205,7 @@ class Filter < ApplicationRecord
         _('must be of same resource type (%{types}) - Role (%{role})') %
         {
           types: types.join(','),
-          role: self.role.name
+          role: self.role.name,
         }
       )
     end

@@ -19,7 +19,7 @@ module PaginationHelper
       itemCount: collection.total_entries,
       perPageOptions: per_page_options,
       perPage: Setting[:entries_per_page],
-      classNames: {pagination_classes: classname}
+      classNames: {pagination_classes: classname},
     }
   end
 end

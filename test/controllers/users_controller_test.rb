@@ -30,8 +30,8 @@ class UsersControllerTest < ActionController::TestCase
         :login          => 'foo',
         :mail           => 'foo@bar.com',
         :auth_source_id => auth_sources(:internal).id,
-        :password       => 'changeme'
-      }
+        :password       => 'changeme',
+      },
     }, session: set_session_user
     assert_redirected_to users_path
     refute User.unscoped.find_by_login('foo').admin
@@ -44,8 +44,8 @@ class UsersControllerTest < ActionController::TestCase
         :admin          => true,
         :mail           => 'foo@bar.com',
         :auth_source_id => auth_sources(:internal).id,
-        :password       => 'changeme'
-      }
+        :password       => 'changeme',
+      },
     }, session: set_session_user
     assert_redirected_to users_path
     assert User.unscoped.find_by_login('foo').admin
@@ -101,7 +101,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id,
                            :user => {
                              :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy"
-                           }
+                           },
                  }, session: set_session_user
 
     mod_user = User.unscoped.find_by_id(user.id)
@@ -118,7 +118,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id,
                   :user => {
                     :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY"
-                  }
+                  },
                 }, session: set_session_user
     user.reload
     assert user.matching_password?("changeme")
@@ -131,7 +131,7 @@ class UsersControllerTest < ActionController::TestCase
     assert user.save
 
     put :update, params: { :id => user.id,
-                           :user => { :login => "foobar" }
+                           :user => { :login => "foobar" },
                          }, session: set_session_user
 
     assert_redirected_to users_url
@@ -144,7 +144,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id,
                            :user => {
                              :current_password => "password", :password => "newpassword", :password_confirmation => "newpassword"
-                           }
+                           },
     }, session: set_session_user
 
     user.reload

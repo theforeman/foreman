@@ -10,6 +10,6 @@
     :connect_src => ["'self'", 'ws:', 'wss:'],
     :style_src   => ["'unsafe-inline'", "'self'"],
     :script_src  => ["'unsafe-eval'", "'unsafe-inline'", "'self'"],
-    :img_src     => ["'self'", 'data:', '*.gravatar.com']
+    :img_src     => ["'self'", 'data:', '*.gravatar.com'],
   }
 end

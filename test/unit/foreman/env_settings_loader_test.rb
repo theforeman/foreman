@@ -36,7 +36,7 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_NAMESPACE' => 'foreman',
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_CONNECT_TIMEOUT' => '30',
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_READ_TIMEOUT' => '0.2',
-        'FOREMAN_RAILS_CACHE_STORE_OPTIONS_WRITE_TIMEOUT' => '0.2'
+        'FOREMAN_RAILS_CACHE_STORE_OPTIONS_WRITE_TIMEOUT' => '0.2',
       }
     end
 
@@ -58,26 +58,26 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
           level: 'debug',
           production: {
             type: 'file',
-            layout: 'multiline_pattern'
-          }
+            layout: 'multiline_pattern',
+          },
         },
         telemetry: {
           prefix: 'fm_rails',
           prometheus: {
-            enabled: false
+            enabled: false,
           },
           statsd: {
             enabled: false,
             host: '127.0.0.1:8125',
-            protocol: 'statsd'
+            protocol: 'statsd',
           },
           logger: {
             enabled: false,
-            level: 'DEBUG'
-          }
+            level: 'DEBUG',
+          },
         },
         dynflow: {
-          pool_size: 5
+          pool_size: 5,
         },
         rails_cache_store: {
           type: 'redis',
@@ -87,9 +87,9 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
             namespace: 'foreman',
             connect_timeout: 30.0,
             read_timeout: 0.2,
-            write_timeout: 0.2
-          }
-        }
+            write_timeout: 0.2,
+          },
+        },
       }
 
       assert_equal expected, subject.to_h
@@ -101,7 +101,7 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
       {
         'FOREMAN_LOGGERS_SQL_ENABLED' => 'true',
         'FOREMAN_LOGGERS_SQL_LEVEL' => 'info',
-        'FOREMAN_LOGGERS_PLUGIN__EXAMPLE_ENABLED' => 'true'
+        'FOREMAN_LOGGERS_PLUGIN__EXAMPLE_ENABLED' => 'true',
       }
     end
 
@@ -110,12 +110,12 @@ class EnvSettingsLoaderTest < ActiveSupport::TestCase
         loggers: {
           sql: {
             enabled: true,
-            level: 'info'
+            level: 'info',
           },
           'plugin/example': {
-            enabled: true
-          }
-        }
+            enabled: true,
+          },
+        },
       }
       assert_equal expected, subject.to_h
     end

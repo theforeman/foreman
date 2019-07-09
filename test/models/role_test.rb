@@ -243,7 +243,7 @@ class RoleTest < ActiveSupport::TestCase
         FactoryBot.build_stubbed(:permission, :name => 'a'),
         FactoryBot.build_stubbed(:permission, :name => 'b'),
         FactoryBot.build_stubbed(:permission, :name => 'a'),
-        FactoryBot.build_stubbed(:permission, :name => 'b')
+        FactoryBot.build_stubbed(:permission, :name => 'b'),
       ]
     end
   end

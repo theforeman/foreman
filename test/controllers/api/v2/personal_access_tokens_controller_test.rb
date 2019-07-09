@@ -7,7 +7,7 @@ class Api::V2::PersonalAccessTokensControllerTest < ActionController::TestCase
   let(:valid_attrs) do
     {
       :name => 'foreman@example.com',
-      :expires_at => expiry_date.iso8601
+      :expires_at => expiry_date.iso8601,
     }
   end
 

@@ -5,7 +5,7 @@ class Api::V2::MediaControllerTest < ActionController::TestCase
     @new_medium = {
       :name => "new medium",
       :path => "http://www.newmedium.com/",
-      :organization_ids => [Organization.first.id]
+      :organization_ids => [Organization.first.id],
     }
   end
 

@@ -2,7 +2,7 @@ class NameGenerator
   GENERATOR_TYPES = {
     'Off' => _('Off'),
     'Random-based' => _('Random-based'),
-    'MAC-based' => _('MAC-based')
+    'MAC-based' => _('MAC-based'),
   }.freeze
 
   def self.random_based?

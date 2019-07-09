@@ -127,7 +127,7 @@ module Foreman::Model
         :destination_type => "volume",
         :delete_on_termination => "1",
         :uuid => @boot_vol_id,
-        :boot_index => "0"
+        :boot_index => "0",
       } ]
     end
 
@@ -248,7 +248,7 @@ module Foreman::Model
       normalized['interfaces_attributes'] = nics_ids.map.with_index do |nic_id, idx|
         [idx.to_s, {
           'id' => nic_id,
-          'name' => self.internal_networks.detect { |n| n.id == nic_id }.try(:name)
+          'name' => self.internal_networks.detect { |n| n.id == nic_id }.try(:name),
         }]
       end.to_h
 
@@ -270,7 +270,7 @@ module Foreman::Model
         :openstack_api_key  => password,
         :openstack_username => user,
         :openstack_auth_url => url_for_fog,
-        :openstack_identity_endpoint => url_for_fog
+        :openstack_identity_endpoint => url_for_fog,
       }.tap do |h|
         if tenant.present?
           if identity_version == 2

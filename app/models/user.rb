@@ -171,7 +171,7 @@ class User < ApplicationRecord
 
     {
       :include    => :cached_usergroups,
-      :conditions => sanitize_sql_for_conditions([conditions, value, value])
+      :conditions => sanitize_sql_for_conditions([conditions, value, value]),
     }
   end
 

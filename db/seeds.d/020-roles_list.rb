@@ -34,14 +34,14 @@ class RolesList
         'Bookmarks manager' => { :permissions => [:view_bookmarks, :create_bookmarks, :edit_bookmarks, :destroy_bookmarks],
                                  :description => 'Role granting permissions for managing search bookmarks. Usually useful in combination with Viewer role. This role also grants the permission to update all public bookmarks.' },
         'Auditor' => { :permissions => [:view_audit_logs],
-                       :description => 'Role granting permission to view only the Audit log and nothing else.'
-        }
+                       :description => 'Role granting permission to view only the Audit log and nothing else.',
+        },
       }
     end
 
     def default_role
       {
-        'Default role' => { :permissions => [:view_bookmarks, :view_tasks], :description => 'Role that is automatically assigned to every user in the system. Adding a permission grants it to everybody' }
+        'Default role' => { :permissions => [:view_bookmarks, :view_tasks], :description => 'Role that is automatically assigned to every user in the system. Adding a permission grants it to everybody' },
       }
     end
 

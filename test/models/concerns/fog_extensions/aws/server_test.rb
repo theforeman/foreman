@@ -10,7 +10,7 @@ class AwsServerTest < ActiveSupport::TestCase
   test "#to_s and #name return name from tags" do
     server.expects(:tags).at_least_once.returns(
       {
-        'Name' => 'test.example.com'
+        'Name' => 'test.example.com',
       }
     )
     assert_equal 'test.example.com', server.to_s

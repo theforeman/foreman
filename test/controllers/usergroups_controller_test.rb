@@ -79,9 +79,9 @@ class UsergroupsControllerTest < ActionController::TestCase
           '0' => {
             'name' => external.name,
             'auth_source_id' => external.auth_source_id,
-            'id' => external.id
-          }
-        }
+            'id' => external.id,
+          },
+        },
       }}, session: set_session_user
 
       assert_match(/.*refresh.*external.*verify.*reachable.*/, response.body)
@@ -94,7 +94,7 @@ class UsergroupsControllerTest < ActionController::TestCase
       ExternalUsergroup.any_instance.expects(:refresh).returns(true)
 
       put :update, params: { :id => external.usergroup_id, :usergroup => { :external_usergroups_attributes => {
-        '0' => {'_destroy' => '1', 'name' => external.name, 'auth_source_id' => external.auth_source_id, 'id' => external.id}
+        '0' => {'_destroy' => '1', 'name' => external.name, 'auth_source_id' => external.auth_source_id, 'id' => external.id},
       }}}, session: set_session_user
       assert_response :redirect
     end

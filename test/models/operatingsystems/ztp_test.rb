@@ -22,8 +22,8 @@ class ZTPTest < ActiveSupport::TestCase
         :vendor => "huawei",
         :firmware => {
           :core => "ztp.cfg/images/#{medium_provider.unique_id}/firmware.cc",
-          :web => "ztp.cfg/images/#{medium_provider.unique_id}/web.7z"
-        }
+          :web => "ztp.cfg/images/#{medium_provider.unique_id}/web.7z",
+        },
       },
       result
     )

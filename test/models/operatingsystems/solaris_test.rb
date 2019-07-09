@@ -28,7 +28,7 @@ class SolarisTest < ActiveSupport::TestCase
                    :root_path_name => "/vol/solgi_5.10/sol10_hw0910_sparc/Solaris_10/Tools/Boot",
                    :root_server_hostname => "brsla01",
                    :root_server_ip => "2.3.4.5",
-                   :sysid_server_path => "2.3.4.5:/vol/jumpstart/sysidcfg/sysidcfg_primary"
+                   :sysid_server_path => "2.3.4.5:/vol/jumpstart/sysidcfg/sysidcfg_primary",
                  }, result)
   end
 end

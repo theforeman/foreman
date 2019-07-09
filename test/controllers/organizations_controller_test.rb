@@ -134,7 +134,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_difference "organization.hosts.count", 2 do
       put :assign_selected_hosts, params: { :id => organization.id,
-                                            :organization => {:host_ids => selected_hosts_no_organization_ids}
+                                            :organization => {:host_ids => selected_hosts_no_organization_ids},
       }, session: set_session_user
     end
     assert_redirected_to :controller => :organizations, :action => :index
@@ -175,7 +175,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_difference "Organization.unscoped.count", 1 do
       post :create, params: {
         :organization => organization_dup.selected_ids.each { |_, v| v.uniq! }
-          .merge(:name => 'organization_dup_name')
+          .merge(:name => 'organization_dup_name'),
       }, session: set_session_user
     end
 

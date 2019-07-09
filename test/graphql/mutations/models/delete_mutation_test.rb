@@ -7,7 +7,7 @@ module Mutations
       let(:model_id) { Foreman::GlobalId.for(model) }
       let(:variables) do
         {
-          id: model_id
+          id: model_id,
         }
       end
       let(:query) do

@@ -9,14 +9,14 @@ class LookupValueTest < ActiveSupport::TestCase
   def valid_attrs1
     { :match => "fqdn=#{@host2.name}",
       :value => "3001",
-      :lookup_key_id => lookup_keys(:one).id
+      :lookup_key_id => lookup_keys(:one).id,
     }
   end
 
   def valid_attrs2
     { :match => "hostgroup=Common",
       :value => "3001",
-      :lookup_key_id => lookup_keys(:one).id
+      :lookup_key_id => lookup_keys(:one).id,
     }
   end
 
@@ -326,7 +326,7 @@ EOF
     as_user :one do
       lookup_value = LookupValue.new({ :match => "os=Common",
                                        :value => 'a' * 280,
-                                       :lookup_key_id => lookup_keys(:complex).id
+                                       :lookup_key_id => lookup_keys(:complex).id,
                                      })
       assert_difference('LookupValue.count') do
         assert lookup_value.save

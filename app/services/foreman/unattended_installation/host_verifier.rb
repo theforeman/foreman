@@ -31,7 +31,7 @@ module Foreman
         errors << {
           message: N_('%{controller}: provisioning token for host %{host} expired'),
           type: :precondition_failed,
-          params: { host: @host.name, controller: controller_name }
+          params: { host: @host.name, controller: controller_name },
         }
 
         false
@@ -43,7 +43,7 @@ module Foreman
         errors << {
           message: N_("%{controller}: unable to find a host that matches the request from %{addr}"),
           type: :not_found,
-          params: { addr: request_ip, controller: controller_name }
+          params: { addr: request_ip, controller: controller_name },
         }
 
         false
@@ -55,7 +55,7 @@ module Foreman
         errors << {
           message: N_("%{controller}: %{host}'s operating system is missing"),
           type: :conflict,
-          params: { host: host.name, controller: controller_name }
+          params: { host: host.name, controller: controller_name },
         }
 
         false
@@ -67,7 +67,7 @@ module Foreman
         errors << {
           message: N_("%{controller}: %{host}'s operating system %{os} has no OS family"),
           type: :conflict,
-          params: { host: host.name, os: host.operatingsystem.fullname, controller: controller_name }
+          params: { host: host.name, os: host.operatingsystem.fullname, controller: controller_name },
         }
 
         false

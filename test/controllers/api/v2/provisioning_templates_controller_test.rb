@@ -168,7 +168,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     valid_attrs = {
       :name => name, :template => RFauxFactory.gen_alpha, :template_kind_id => template_kinds(:ipxe).id,
       :template_combinations_attributes => [
-        { :hostgroup_id => hostgroups(:common).id, :environment_id => environments(:production).id }
+        { :hostgroup_id => hostgroups(:common).id, :environment_id => environments(:production).id },
       ]
     }
     post :create, params: { :provisioning_template => valid_attrs }

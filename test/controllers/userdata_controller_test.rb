@@ -33,7 +33,7 @@ class UserdataControllerTest < ActionController::TestCase
         family: 'Redhat',
         provisioning_templates: [
           user_data_template,
-          cloud_init_template
+          cloud_init_template,
         ]
       )
     end

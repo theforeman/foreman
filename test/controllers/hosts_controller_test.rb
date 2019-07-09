@@ -99,8 +99,8 @@ class HostsControllerTest < ActionController::TestCase
           :puppet_proxy_id => smart_proxies(:puppetmaster).id,
           :root_pass => "xybxa6JUkz63w",
           :location_id => taxonomies(:location1).id,
-          :organization_id => taxonomies(:organization1).id
-        }
+          :organization_id => taxonomies(:organization1).id,
+        },
        }, session: set_session_user
     end
     assert_redirected_to host_url(assigns['host'])
@@ -129,7 +129,7 @@ class HostsControllerTest < ActionController::TestCase
         :puppet_proxy_id => smart_proxies(:puppetmaster).id,
         :root_pass => "xybxa6JUkz63w",
         :location_id => taxonomies(:location1).id,
-        :organization_id => taxonomies(:organization1).id
+        :organization_id => taxonomies(:organization1).id,
       }
     end
 
@@ -180,8 +180,8 @@ class HostsControllerTest < ActionController::TestCase
           :disk => "empty partition",
           :root_pass => "xybxa6JUkz63w",
           :location_id => taxonomies(:location1).id,
-          :organization_id => taxonomies(:organization1).id
-        }
+          :organization_id => taxonomies(:organization1).id,
+        },
       }, session: set_session_user
     end
     as_admin do
@@ -246,8 +246,8 @@ class HostsControllerTest < ActionController::TestCase
       'dhcp' => {
         'bootfiles' => [
           {'name' => 'foo', 'mount_point' => '/bar'}.with_indifferent_access,
-          {'name' => 'john', 'mount_point' => '/doe'}.with_indifferent_access
-        ]
+          {'name' => 'john', 'mount_point' => '/doe'}.with_indifferent_access,
+        ],
       }
     ).at_least_once
 
@@ -1088,7 +1088,7 @@ class HostsControllerTest < ActionController::TestCase
     location = taxonomies(:location1)
     post :update_multiple_location, params: {
       :location => {:id => location.id, :optimistic_import => "no"},
-      :host_ids => Host.pluck('hosts.id')
+      :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert flash[:error] == "Cannot update Location to Location 1 because of mismatch in settings"
@@ -1099,7 +1099,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.hosts.count", 0 do
       post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "no"},
-        :host_ids => Host.pluck('hosts.id')
+        :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
   end
@@ -1109,7 +1109,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.taxable_taxonomies.count", 0 do
       post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "no"},
-        :host_ids => Host.pluck('hosts.id')
+        :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
   end
@@ -1122,7 +1122,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.hosts.count", (Host.unscoped.count - cnt_hosts_location) do
       post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "yes"},
-        :host_ids => Host.pluck('hosts.id')
+        :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
     assert_redirected_to :controller => :hosts, :action => :index
@@ -1138,7 +1138,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "location.taxable_taxonomies.count", 1 do
       post :update_multiple_location, params: {
         :location => {:id => location.id, :optimistic_import => "yes"},
-        :host_ids => hosts.map(&:id)
+        :host_ids => hosts.map(&:id),
       }, session: set_session_user
     end
   end
@@ -1149,7 +1149,7 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     post :update_multiple_organization, params: {
       :organization => {:id => organization.id, :optimistic_import => "no"},
-      :host_ids => Host.pluck('hosts.id')
+      :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Cannot update Organization to Organization 1 because of mismatch in settings", flash[:error]
@@ -1160,7 +1160,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.hosts.count", 0 do
       post :update_multiple_organization, params: {
         :organization => {:id => organization.id, :optimistic_import => "no"},
-        :host_ids => Host.pluck('hosts.id')
+        :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
   end
@@ -1170,7 +1170,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.taxable_taxonomies.count", 0 do
       post :update_multiple_organization, params: {
         :organization => {:id => organization.id, :optimistic_import => "no"},
-        :host_ids => Host.pluck('hosts.id')
+        :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
   end
@@ -1181,7 +1181,7 @@ class HostsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization1)
     post :update_multiple_organization, params: {
       :organization => {:id => organization.id, :optimistic_import => "yes"},
-      :host_ids => Host.pluck('hosts.id')
+      :host_ids => Host.pluck('hosts.id'),
     }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:success]
@@ -1194,7 +1194,7 @@ class HostsControllerTest < ActionController::TestCase
 
     post :update_multiple_organization, params: {
       organization: {id: organization2.id, optimistic_import: 'yes'},
-      search: 'domain ~ example'
+      search: 'domain ~ example',
     }, session: set_session_user
     assert_redirected_to :controller => :hosts, :action => :index
     assert_equal "Updated hosts: Changed Organization", flash[:success]
@@ -1209,7 +1209,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.hosts.count", (Host.unscoped.count - cnt_hosts_organization) do
       post :update_multiple_organization, params: {
         :organization => {:id => organization.id, :optimistic_import => "yes"},
-        :host_ids => Host.pluck('hosts.id')
+        :host_ids => Host.pluck('hosts.id'),
       }, session: set_session_user
     end
   end
@@ -1223,7 +1223,7 @@ class HostsControllerTest < ActionController::TestCase
     assert_difference "organization.taxable_taxonomies.count", 1 do
       post :update_multiple_organization, params: {
         :organization => { :id => organization.id, :optimistic_import => "yes"},
-        :host_ids => hosts.map(&:id)
+        :host_ids => hosts.map(&:id),
       }, session: set_session_user
     end
   end
@@ -1677,7 +1677,7 @@ class HostsControllerTest < ActionController::TestCase
           'mode' => 'persistent',
           'controllerKey' => 1000,
           'size' => 10485760,
-          'sizeGb' => 12
+          'sizeGb' => 12,
         }
         volume_attributes = volume_params.clone.tap do |attrs|
           attrs['controller_key'] = attrs.delete('controllerKey')
@@ -1692,7 +1692,7 @@ class HostsControllerTest < ActionController::TestCase
         put :update, params: {
           commit: "Update",
           id: @vmware_host.name,
-          host: { compute_attributes: { scsi_controllers: { 'scsiControllers' => scsi_controllers, 'volumes' => [volume_params] }.to_json } }
+          host: { compute_attributes: { scsi_controllers: { 'scsiControllers' => scsi_controllers, 'volumes' => [volume_params] }.to_json } },
         }, session: set_session_user
 
         assert_redirected_to host_path(@vmware_host.to_param)
@@ -1727,8 +1727,8 @@ class HostsControllerTest < ActionController::TestCase
       post :hostgroup_or_environment_selected, params: {
         :host_id => nil,
         :host => {
-          :environment_id => Environment.unscoped.first.id
-        }
+          :environment_id => Environment.unscoped.first.id,
+        },
       }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => 'puppetclasses/_class_selection'
@@ -1739,8 +1739,8 @@ class HostsControllerTest < ActionController::TestCase
         :host_id => @host.id,
         :host => {
           :environment_id => Environment.unscoped.first.id,
-          :hostgroup_id => Hostgroup.unscoped.first.id
-        }
+          :hostgroup_id => Hostgroup.unscoped.first.id,
+        },
       }, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => 'puppetclasses/_class_selection'
@@ -1761,7 +1761,7 @@ class HostsControllerTest < ActionController::TestCase
 
       params = {
         host_id: host.id,
-        host: host.attributes.merge(lk)
+        host: host.attributes.merge(lk),
       }
 
       # environment change calls puppetclass_parameters which caused the extra escaping

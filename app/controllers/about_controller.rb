@@ -11,7 +11,7 @@ class AboutController < ApplicationController
       {
         :friendly_name => provider_class.constantize.provider_friendly_name,
         :name => provider_name,
-        :status => enabled_providers.include?(provider_name) ? :installed : :absent
+        :status => enabled_providers.include?(provider_name) ? :installed : :absent,
       }
     end
   end

@@ -48,7 +48,7 @@ exporter_template(:enabled, :managed_hosts_bootfiles) do |header, data|
     bootfiles = host.operatingsystem.send(:boot_files_uri, host.medium_provider) rescue []
     data << [
       host.name,
-      bootfiles.join(' + ')
+      bootfiles.join(' + '),
     ]
   end
 end
@@ -67,7 +67,7 @@ exporter_template(:disabled, :discovered_hosts_summary) do |header, data|
       facts.collect {|k, v| v if k =~ /macaddress/}.compact.join(','),
       facts.collect {|k, v| v if k =~ /ipaddress/}.compact.join(','),
       record.created_at,
-      record.last_report
+      record.last_report,
     ]
   end
 end

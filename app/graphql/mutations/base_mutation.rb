@@ -66,7 +66,7 @@ module Mutations
 
         {
           result_key => resource,
-          errors: errors
+          errors: errors,
         }
       end
     end
@@ -75,7 +75,7 @@ module Mutations
       resource.errors.map do |attribute, message|
         {
           path: ['attributes', attribute.to_s.camelize(:lower)],
-          message: message
+          message: message,
         }
       end
     end

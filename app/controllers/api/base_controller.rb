@@ -221,7 +221,7 @@ module Api
     def paginate_options
       {
         :page     => params[:page],
-        :per_page => params[:per_page]
+        :per_page => params[:per_page],
       }
     end
 

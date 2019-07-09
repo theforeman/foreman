@@ -42,7 +42,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       test 'imports the VM with all parameters' do
         expected_compute_attributes = {
           'network' => 'network1',
-          'type' => 'VirtualE1000'
+          'type' => 'VirtualE1000',
         }
 
         assert host.managed

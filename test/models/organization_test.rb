@@ -13,7 +13,7 @@ class OrganizationTest < ActiveSupport::TestCase
       RFauxFactory.gen_alpha(1),
       RFauxFactory.gen_alpha(242),
       *RFauxFactory.gen_strings(1..242, exclude: [:html]).values,
-      RFauxFactory.gen_html(rand((1..217)))
+      RFauxFactory.gen_html(rand((1..217))),
     ]
   end
 
@@ -23,7 +23,7 @@ class OrganizationTest < ActiveSupport::TestCase
       '',
       ' ',
       "\t",
-      *RFauxFactory.gen_strings(243).values
+      *RFauxFactory.gen_strings(243).values,
     ]
   end
 

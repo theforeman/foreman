@@ -37,7 +37,7 @@ module Plugin
             :error,
             _('Could not find %{migration_name} migration in %{destination}') % {
               :migration_name => migration_pattern,
-              :destination => destination_root
+              :destination => destination_root,
             },
             :red
           )

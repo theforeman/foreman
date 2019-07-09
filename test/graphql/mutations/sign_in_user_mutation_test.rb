@@ -16,7 +16,7 @@ module Mutations
     let(:variables) do
       {
         username: user.login,
-        password: 'password'
+        password: 'password',
       }
     end
     let(:query) do

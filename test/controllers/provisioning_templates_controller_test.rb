@@ -219,12 +219,12 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
         :name => 'foo',
         :template => '#nocontent',
         :template_kind_id => TemplateKind.find_by_name('iPXE').id,
-        :template_combinations_attributes => { '3923' => template_combination }
+        :template_combinations_attributes => { '3923' => template_combination },
       }
       assert_difference('TemplateCombination.unscoped.count', 1) do
         assert_difference('ProvisioningTemplate.unscoped.count', 1) do
           post :create, params: {
-            :provisioning_template => provisioning_template
+            :provisioning_template => provisioning_template,
           }, session: set_session_user
         end
       end
@@ -246,10 +246,10 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
               '0' => {
                 :id => @template_combination.id,
                 :environment_id => new_environment.id,
-                :hostgroup_id => @template_combination.hostgroup.id
-              }
-            }
-          }
+                :hostgroup_id => @template_combination.hostgroup.id,
+              },
+            },
+          },
         }, session: set_session_user
         assert_response :found
         as_admin do
@@ -266,10 +266,10 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
               :template_combinations_attributes => {
                 '0' => {
                   :id => @template_combination.id,
-                  :_destroy => 1
-                }
-              }
-            }
+                  :_destroy => 1,
+                },
+              },
+            },
           }, session: set_session_user
         end
         assert_response :found

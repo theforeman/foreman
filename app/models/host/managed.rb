@@ -498,7 +498,7 @@ class Host::Managed < Host::Base
   def self.provision_methods
     {
       'build' => N_('Network Based'),
-      'image' => N_('Image Based')
+      'image' => N_('Image Based'),
     }.merge(registered_provision_methods)
   end
 

@@ -4,27 +4,27 @@ class ProxyStatusLogsTest < ActiveSupport::TestCase
   setup do
     @empty_buffer = {
       "info" => {
-        "failed_modules" => {}
+        "failed_modules" => {},
       },
       "logs" => []}
 
     @four_entries_buffer = {
       "info" => {
-        "failed_modules" => {}
+        "failed_modules" => {},
       },
       "logs" => [
         { "timestamp" => 1000, "level" => "INFO", "message" => "Message" },
         { "timestamp" => 1001, "level" => "INFO", "message" => "Message" },
         { "timestamp" => 1002, "level" => "ERROR", "message" => "Message" },
-        { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" }
+        { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" },
       ]}
 
     @two_failed_buffer = {
       "info" => {
         "failed_modules" => {
           "BMC" => "Message",
-          "Puppet" => "Another message"
-        }
+          "Puppet" => "Another message",
+        },
       },
       "logs" => []}
 

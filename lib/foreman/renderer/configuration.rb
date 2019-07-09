@@ -62,7 +62,7 @@ module Foreman
         :repos,
         :static,
         :template_name,
-        :xen
+        :xen,
       ]
 
       DEFAULT_ALLOWED_GLOBAL_SETTINGS = [
@@ -85,7 +85,7 @@ module Foreman
         :default_puppet_environment,
         :puppetrun,
         :puppet_server,
-        :update_ip_from_built_request
+        :update_ip_from_built_request,
       ]
 
       def initialize

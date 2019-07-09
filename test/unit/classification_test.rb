@@ -77,9 +77,9 @@ class ClassificationTest < ActiveSupport::TestCase
             :value => 'overridden value',
             :element => 'comment',
             :element_name => 'override',
-            :managed => false
-          }
-        }
+            :managed => false,
+          },
+        },
       },
       Classification::ValuesHashQuery.values_hash(host, LookupKey.where(:id => [lkey])).raw
     )

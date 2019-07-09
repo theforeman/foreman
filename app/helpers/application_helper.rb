@@ -238,8 +238,8 @@ module ApplicationHelper
                       :data  => {
                         :title  => title,
                         :series => data,
-                        :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#"
-                      }
+                        :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#",
+                      },
                     }.merge(options))
   end
 
@@ -252,8 +252,8 @@ module ApplicationHelper
                     :'legend-options' => options.delete(:legend),
                     :'xaxis-label'    => xaxis_label,
                     :'yaxis-label'    => yaxis_label,
-                    :series => data
-                  }
+                    :series => data,
+                  },
                 }.merge(options))
   end
 
@@ -280,8 +280,8 @@ module ApplicationHelper
                     :'xaxis-label' => xaxis_label,
                     :'yaxis-label' => yaxis_label,
                     :chart   => data,
-                    :ticks   => ticks
-                  }
+                    :ticks   => ticks,
+                  },
                 }.merge(options))
   end
 
@@ -432,7 +432,7 @@ module ApplicationHelper
       :'data-class-name' => klass.name,
       :'data-type'       => type,
       :'data-url'        => parameters_puppetclass_path(:id => klass.id),
-      :rel               => 'twipsy'
+      :rel               => 'twipsy',
     }
   end
 

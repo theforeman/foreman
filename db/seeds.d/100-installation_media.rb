@@ -13,7 +13,7 @@ Medium.without_auditing do
     { :name => "OpenSUSE mirror",      :os_family => "Suse",    :path => "http://download.opensuse.org/distribution/leap/$version/repo/oss", :operatingsystems => os_suse },
     { :name => "Ubuntu mirror",        :os_family => "Debian",  :path => "http://archive.ubuntu.com/ubuntu" },
     { :name => "CoreOS mirror",        :os_family => "Coreos",  :path => "http://$release.release.core-os.net" },
-    { :name => "RancherOS mirror", :os_family => "Rancheros", :path => "https://github.com/rancher/os/releases/download/v$version" }
+    { :name => "RancherOS mirror", :os_family => "Rancheros", :path => "https://github.com/rancher/os/releases/download/v$version" },
   ].each do |input|
     next if Medium.unscoped.where(['name = ? OR path = ?', input[:name], input[:path]]).any?
     next if SeedHelper.audit_modified? Medium, input[:name]

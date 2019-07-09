@@ -23,7 +23,7 @@ class Migrations::DeduplicateSubnetsTest < ActiveSupport::TestCase
         @duplicate_subnet,
         @different_network_subnet,
         @different_org_subnet,
-        @different_loc_subnet
+        @different_loc_subnet,
       ]
     end
     it 'deduplicates the subnets with the same name' do

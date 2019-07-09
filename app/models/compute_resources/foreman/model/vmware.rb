@@ -15,7 +15,7 @@ module Foreman::Model
     validates :user, :password, :server, :datacenter, :presence => true
     validates :display_type, :inclusion => {
       :in => Proc.new { |cr| cr.class.supported_display_types.keys },
-      :message => N_('not supported by this compute resource')
+      :message => N_('not supported by this compute resource'),
     }
 
     before_create :update_public_key
@@ -34,7 +34,7 @@ module Foreman::Model
     def self.supported_display_types
       {
         'vnc' => _('VNC'),
-        'vmrc' => _('VMRC')
+        'vmrc' => _('VMRC'),
       }
     end
 
@@ -195,7 +195,7 @@ module Foreman::Model
     def nictypes
       {
         "VirtualE1000" => "E1000",
-        "VirtualVmxnet3" => "VMXNET 3"
+        "VirtualVmxnet3" => "VMXNET 3",
       }
     end
 
@@ -204,7 +204,7 @@ module Foreman::Model
         "VirtualBusLogicController" => "Bus Logic Parallel",
         "VirtualLsiLogicController" => "LSI Logic Parallel",
         "VirtualLsiLogicSASController" => "LSI Logic SAS",
-        "ParaVirtualSCSIController" => "VMware Paravirtual"
+        "ParaVirtualSCSIController" => "VMware Paravirtual",
       }
     end
 
@@ -212,7 +212,7 @@ module Foreman::Model
       {
         "automatic" => N_("Automatic"),
         "bios" => N_("BIOS"),
-        "efi" => N_("EFI")
+        "efi" => N_("EFI"),
       }
     end
 
@@ -220,7 +220,7 @@ module Foreman::Model
       {
         "persistent" => _("Persistent"),
         "independent_persistent" => _("Independent - Persistent"),
-        "independent_nonpersistent" => _("Independent - Nonpersistent")
+        "independent_nonpersistent" => _("Independent - Nonpersistent"),
       }
     end
 
@@ -389,7 +389,7 @@ module Foreman::Model
         "winVistaGuest" => "Microsoft Windows Vista",
         "winXPHomeGuest" => "Microsoft Windows XP Home Edition",
         "winXPPro64Guest" => "Microsoft Windows XP Professional Edition (64-bit)",
-        "winXPProGuest" => "Microsoft Windows XP Professional (32-bit)"
+        "winXPProGuest" => "Microsoft Windows XP Professional (32-bit)",
       }
     end
 
@@ -416,7 +416,7 @@ module Foreman::Model
         'vmx-09' => '9 (ESXi 5.1)',
         'vmx-08' => '8 (ESXi 5.0)',
         'vmx-07' => '7 (ESX/ESXi 4.x)',
-        'vmx-04' => '4 (ESX/ESXi 3.5)'
+        'vmx-04' => '4 (ESX/ESXi 3.5)',
       }
     end
 
@@ -547,7 +547,7 @@ module Foreman::Model
         "datastore" => args[:volumes].first[:datastore],
         "storage_pod" => args[:volumes].first[:storage_pod],
         "resource_pool" => [args[:cluster], args[:resource_pool]],
-        "boot_order" => [:disk]
+        "boot_order" => [:disk],
       }
 
       opts['transform'] = (args[:volumes].first[:thin] == 'true') ? 'sparse' : 'flat' unless args[:volumes].empty?
@@ -584,7 +584,7 @@ module Foreman::Model
       {
         :name => vm.name,
         :console_url => build_vmrc_uri(server, vm.mo_ref, client.connection.serviceContent.sessionManager.AcquireCloneTicket),
-        :type => 'vmrc'
+        :type => 'vmrc',
       }
     end
 
@@ -709,7 +709,7 @@ module Foreman::Model
         interfaces.update(key => { 'type_id' => nic['type'],
                                    'type_name' => nictypes[nic['type']],
                                    'network_id' => nic['network'],
-                                   'network_name' => networks.detect { |n| n.id == nic['network'] }.try(:name)
+                                   'network_name' => networks.detect { |n| n.id == nic['network'] }.try(:name),
                                  })
       end
 

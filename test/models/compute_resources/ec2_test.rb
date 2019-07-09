@@ -42,15 +42,15 @@ module Foreman
           mock_cr(FactoryBot.build(:ec2_cr),
             :subnets => [
               stub(:subnet_id => 'sn1', :cidr_block => 'cidr blk 1'),
-              stub(:subnet_id => 'sn2', :cidr_block => 'cidr blk 2')
+              stub(:subnet_id => 'sn2', :cidr_block => 'cidr blk 2'),
             ],
             :security_groups => [
               stub(:group_id => 'grp1', :name => 'group 1'),
-              stub(:group_id => 'grp2', :name => 'group 2')
+              stub(:group_id => 'grp2', :name => 'group 2'),
             ],
             :flavors => [
               stub(:id => 'flvr1', :name => 'flavour 1'),
-              stub(:id => 'flvr2', :name => 'flavour 2')
+              stub(:id => 'flvr2', :name => 'flavour 2'),
             ]
           )
         end
@@ -61,7 +61,7 @@ module Foreman
 
         test 'sets flavor_name' do
           vm_attrs = {
-            'flavor_id' => 'flvr1'
+            'flavor_id' => 'flvr1',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -78,7 +78,7 @@ module Foreman
 
         test 'sets subnet_name' do
           vm_attrs = {
-            'subnet_id' => 'sn1'
+            'subnet_id' => 'sn1',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -89,7 +89,7 @@ module Foreman
           cr = FactoryBot.create(:gce_cr, :with_images)
 
           vm_attrs = {
-            'image_id' => cr.images.last.uuid
+            'image_id' => cr.images.last.uuid,
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -98,13 +98,13 @@ module Foreman
 
         test 'maps security_groups' do
           vm_attrs = {
-            'security_group_ids' => ['', 'grp1']
+            'security_group_ids' => ['', 'grp1'],
           }
           expected_attrs = {
             '0' => {
               'id' => 'grp1',
-              'name' => 'group 1'
-            }
+              'name' => 'group 1',
+            },
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -122,7 +122,7 @@ module Foreman
             'managed_ip' => nil,
             'subnet_id' => nil,
             'subnet_name' => nil,
-            'security_groups' => {}
+            'security_groups' => {},
           }
 
           assert_equal(expected_attrs.keys.sort, normalized.keys.sort)

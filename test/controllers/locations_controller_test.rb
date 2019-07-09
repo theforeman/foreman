@@ -122,7 +122,7 @@ class LocationsControllerTest < ActionController::TestCase
 
     assert_difference "location.hosts.count", 2 do
       put :assign_selected_hosts, params: { :id => location.id,
-                                            :location => {:host_ids => selected_hosts_no_location_ids}
+                                            :location => {:host_ids => selected_hosts_no_location_ids},
                                           }, session: set_session_user
     end
     assert_redirected_to :controller => :locations, :action => :index
@@ -163,7 +163,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_difference "Location.unscoped.count", 1 do
       post :create, params: {
         :location => location_dup.selected_ids.each { |_, v| v.uniq! }
-          .merge(:name => 'location_dup_name')
+          .merge(:name => 'location_dup_name'),
       }, session: set_session_user
     end
 

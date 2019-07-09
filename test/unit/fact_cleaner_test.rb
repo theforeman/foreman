@@ -69,7 +69,7 @@ class FactCleanerTest < ActiveSupport::TestCase
     [
       FactsData::FlatFacts,
       FactsData::RhsmStyleFacts,
-      FactsData::FlatPuppetStyleFacts
+      FactsData::FlatPuppetStyleFacts,
     ].each do |data_class|
       data = data_class.new
 

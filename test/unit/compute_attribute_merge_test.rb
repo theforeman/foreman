@@ -18,7 +18,7 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
     @profile_attributes.stubs(:vm_attrs).returns(
       {
         'cpus' => 1,
-        'memory' => 4294967296
+        'memory' => 4294967296,
       }
     )
     @merge.run(@host, @profile_attributes)
@@ -30,11 +30,11 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
     @profile_attributes.stubs(:vm_attrs).returns(
       {
         'cpus' => 1,
-        'memory' => 4294967296
+        'memory' => 4294967296,
       }
     )
     @host.compute_attributes = {
-      'cpus' => 2
+      'cpus' => 2,
     }
 
     @merge.run(@host, @profile_attributes)
@@ -50,22 +50,22 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
         'volumes_attributes' => {
           '0' => {
             'attr0a' => 'a',
-            'attr0b' => 'b'
+            'attr0b' => 'b',
           },
           '1' => {
             'attr0a' => 'a',
-            'attr0b' => 'b'
-          }
-        }
+            'attr0b' => 'b',
+          },
+        },
       })
     @host.compute_attributes = {
       'cpus' => 2,
       'volumes_attributes' => {
         '1' => {
           'attr0b' => 'b1',
-          'attr0c' => 'c1'
-        }
-      }
+          'attr0c' => 'c1',
+        },
+      },
     }
     expected_attrs = {
       'cpus' => 2,
@@ -73,14 +73,14 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
       'volumes_attributes' => {
         '0' => {
           'attr0a' => 'a',
-          'attr0b' => 'b'
+          'attr0b' => 'b',
         },
         '1' => {
           'attr0a' => 'a',
           'attr0b' => 'b1',
-          'attr0c' => 'c1'
-        }
-      }
+          'attr0c' => 'c1',
+        },
+      },
     }
 
     @merge.run(@host, @profile_attributes)
@@ -98,17 +98,17 @@ class ComputeAttributeMergeTest < ActiveSupport::TestCase
         'nics_attributes' => {
           '0' => {
             'attr0a' => 'a',
-            'attr0b' => 'b'
-          }
-        }
+            'attr0b' => 'b',
+          },
+        },
       }
     )
     @host.compute_attributes = {
-      'cpus' => 2
+      'cpus' => 2,
     }
     expected_attrs = {
       'cpus' => 2,
-      'memory' => 4294967296
+      'memory' => 4294967296,
     }
 
     @merge.run(@host, @profile_attributes)

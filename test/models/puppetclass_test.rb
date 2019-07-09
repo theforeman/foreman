@@ -173,9 +173,9 @@ class PuppetclassTest < ActiveSupport::TestCase
           "path" => "owner\r\nfqdn\r\nhostgroup\r\nos\r\ndomain",
           "merge_overrides" => "0",
           "lookup_values_attributes" => {"0" => {"match" => "owner=sdgsd", "value" => "{\"foo\" => \"bar\"}", "_destroy" => "false"}},
-          "id" => lk.id
-        }
-      }
+          "id" => lk.id,
+        },
+      },
     }
 
     refute klass.update(attributes)

@@ -6,7 +6,7 @@ module Foreman
       def initialize(item, options = {})
         defaults = {
           :attribute_name => :value,
-          :to => :string
+          :to => :string,
         }
         options.reverse_merge!(defaults)
         @item, @options = item, options

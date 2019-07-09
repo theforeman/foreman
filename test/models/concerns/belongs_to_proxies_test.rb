@@ -38,7 +38,7 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
     end
     expected = {
       :foo => {:feature => 'Foo'},
-      :bar => {:feature => 'Bar'}
+      :bar => {:feature => 'Bar'},
     }
     assert_equal expected, SampleModelOne.registered_smart_proxies
   end

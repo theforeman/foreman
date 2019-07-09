@@ -83,7 +83,7 @@ class ComputeResourceCache
   def cache_options
     {
       :expires_in => cache_duration,
-      :race_condition_ttl => 1.minute
+      :race_condition_ttl => 1.minute,
     }
   end
 end

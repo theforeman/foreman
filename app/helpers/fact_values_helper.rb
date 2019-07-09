@@ -59,11 +59,11 @@ module FactValuesHelper
       items: [
         {
           caption: _("Facts Values"),
-          url: (url_for(fact_values_path) if authorized_for(hash_for_fact_values_path))
+          url: (url_for(fact_values_path) if authorized_for(hash_for_fact_values_path)),
         },
         {
-          caption: params[:host_id]
-        }
+          caption: params[:host_id],
+        },
       ],
       resource_url: api_hosts_path(thin: true),
       switcher_item_url: host_facts_path(':name'),

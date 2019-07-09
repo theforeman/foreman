@@ -132,7 +132,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       {
         'EC2' => 'Foreman::Model::EC2',
         'Libvirt' => 'Best::Provider::Libvirt',  # prefer plugin classes
-        'MyBest' => 'Best::Provider::MyBest'
+        'MyBest' => 'Best::Provider::MyBest',
       },
       ComputeResource.providers
     )
@@ -145,7 +145,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
       {
         'EC2' => 'Foreman::Model::EC2',
         'Libvirt' => 'Best::Provider::Libvirt',  # prefer plugin classes
-        'MyBest' => 'Best::Provider::MyBest'
+        'MyBest' => 'Best::Provider::MyBest',
       },
       ComputeResource.all_providers
     )
@@ -265,7 +265,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
     before do
       plain_attrs = {
         :id => 'abc',
-        :cpus => 5
+        :cpus => 5,
       }
       @vm = mock()
       @vm.stubs(:attributes).returns(plain_attrs)
@@ -280,7 +280,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
       @volumes = [
         vol1,
-        vol2
+        vol2,
       ]
     end
 
@@ -291,8 +291,8 @@ class ComputeResourceTest < ActiveSupport::TestCase
         :cpus => 5,
         :volumes_attributes => {
           "0" => { :vol => 1 },
-          "1" => { :vol => 2 }
-        }
+          "1" => { :vol => 2 },
+        },
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -301,7 +301,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
     test "returns correct vm attributes when vm does not respond to volumes" do
       expected_attrs = {
-        :cpus => 5
+        :cpus => 5,
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -313,7 +313,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
       expected_attrs = {
         :cpus => 5,
-        :volumes_attributes => {}
+        :volumes_attributes => {},
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
