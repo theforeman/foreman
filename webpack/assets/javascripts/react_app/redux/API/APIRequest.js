@@ -1,24 +1,35 @@
 import { API } from './';
 
-export const get = async (payload, url, store, actionTypes) => {
+export const get = async (
+  payload,
+  url,
+  store,
+  actionTypes,
+  errorFormat,
+  successFormat,
+  onSuccess,
+  onFailure
+) => {
   store.dispatch({
     type: actionTypes.REQUEST,
     payload,
   });
   try {
-    const { data } = await API.get(
+    const response = await API.get(
       url,
       payload.headers || {},
       payload.params || {}
     );
+    onSuccess(response);
     store.dispatch({
       type: actionTypes.SUCCESS,
-      payload: { ...payload, ...data },
+      payload: { ...payload, ...successFormat(response.data) },
     });
   } catch (error) {
+    onFailure(error);
     store.dispatch({
       type: actionTypes.FAILURE,
-      payload: { error, payload },
+      payload: { ...errorFormat({ error }), payload },
     });
   }
 };

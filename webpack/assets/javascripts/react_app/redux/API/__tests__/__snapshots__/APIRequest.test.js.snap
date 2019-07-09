@@ -51,3 +51,53 @@ Array [
   ],
 ]
 `;
+
+exports[`API get should format fail response 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "id": "myid",
+        "name": "test",
+      },
+      "type": "TEST_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "0": "Formatted error Error: bad request",
+        "payload": Object {
+          "id": "myid",
+          "name": "test",
+        },
+      },
+      "type": "TEST_FAILURE",
+    },
+  ],
+]
+`;
+
+exports[`API get should format success response 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "id": "myid",
+        "name": "test",
+      },
+      "type": "TEST_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "id": "myid",
+        "name": "test",
+        "success": "Formatted success 1",
+      },
+      "type": "TEST_SUCCESS",
+    },
+  ],
+]
+`;
