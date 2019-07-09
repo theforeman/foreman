@@ -1,26 +1,38 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import { routes } from './routes';
+import LayoutRoute from './RouteWithLayout';
+import { layoutPropTypes } from '../components/Layout/Layout';
+import ForemanRoute from './ForemanRoute';
 
 let currentLocation = null;
 
-const AppSwitcher = () => (
-  <Switch>
-    {routes.map(({ render, path, ...routeProps }) => (
-      <Route
-        path={path}
-        key={path}
-        {...routeProps}
-        render={renderProps => {
-          const railsContainer = document.getElementById('rails-app-content');
-          if (railsContainer) railsContainer.remove();
-          currentLocation = renderProps.location;
+const removeRootContainer = renderProps => {
+  const railsContainer = document.getElementById('rails-app-content');
 
-          return render(renderProps);
-        }}
+  if (railsContainer) {
+    railsContainer.remove();
+  }
+  currentLocation = renderProps.location;
+};
+
+const AppSwitcher = ({ data: { layout } }) => (
+  <Switch>
+    {routes.map(({ render, path, skipLayout, ...routeProps }) => (
+      <ForemanRoute
+        key={path}
+        render={render}
+        layout={layout}
+        path={path}
+        skipLayout={skipLayout}
+        beforeRender={removeRootContainer}
+        {...routeProps}
       />
     ))}
-    <Route
+    <LayoutRoute
+      layout={layout}
       render={child => {
         if (
           currentLocation &&
@@ -39,5 +51,11 @@ const AppSwitcher = () => (
     />
   </Switch>
 );
+
+AppSwitcher.propTypes = {
+  data: PropTypes.shape({
+    layout: PropTypes.shape(layoutPropTypes),
+  }).isRequired,
+};
 
 export default AppSwitcher;

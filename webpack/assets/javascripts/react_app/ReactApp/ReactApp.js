@@ -6,11 +6,9 @@ import history from '../history';
 import Layout from '../components/Layout';
 import AppSwitcher from '../routes';
 
-const ReactApp = ({ data: { layout } }) => (
+const ReactApp = ({ data }) => (
   <Router history={history}>
-    <Layout data={layout}>
-      <AppSwitcher />
-    </Layout>
+    <AppSwitcher data={data} />
   </Router>
 );
 

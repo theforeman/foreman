@@ -130,7 +130,7 @@ class Layout extends React.Component {
   }
 }
 
-Layout.propTypes = {
+export const layoutPropTypes = {
   children: PropTypes.node,
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -213,7 +213,7 @@ Layout.propTypes = {
   }),
 };
 
-Layout.defaultProps = {
+export const layoutDefaults = {
   children: null,
   items: [],
   data: {},
@@ -229,5 +229,9 @@ Layout.defaultProps = {
   onExpand: noop,
   onCollapse: noop,
 };
+
+Layout.propTypes = layoutPropTypes;
+
+Layout.defaultProps = layoutDefaults;
 
 export default Layout;
