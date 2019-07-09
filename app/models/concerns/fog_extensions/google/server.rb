@@ -81,15 +81,9 @@ module FogExtensions
 
       def external_nat_present?
         return false if network_interfaces.blank?
-        external_ip_flag = false
-        network_interfaces.each do |nic|
-          next if nic[:access_configs].blank?
-          access_config = nic[:access_configs].find { |c| c[:name].eql?(EXTERNAL_NAT_NAME) }
-          next if access_config.blank?
-          external_ip_flag = true
-          break
+        !!network_interfaces.detect do |nic|
+          nic[:access_configs].present? && nic[:access_configs].detect { |c| c[:name].eql?(EXTERNAL_NAT_NAME) }
         end
-        external_ip_flag
       end
 
       def construct_disk_filter(disks_arr)
