@@ -365,9 +365,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "hostgroup name can't be too big to create lookup value matcher over 255 characters" do
     parent = FactoryBot.create(:hostgroup)
-    # rubocop:disable Performance/FixedSize
     min_lookupvalue_length = "hostgroup=".length + parent.title.length + 1
-    # rubocop:enable Performance/FixedSize
     hostgroup = Hostgroup.new :parent => parent, :name => 'a' * 256
     refute_valid hostgroup
     assert_equal "is too long (maximum is %s characters)" % (255 - min_lookupvalue_length), hostgroup.errors[:name].first
@@ -375,9 +373,7 @@ class HostgroupTest < ActiveSupport::TestCase
 
   test "hostgroup name can be up to 255 characters" do
     parent = FactoryBot.create(:hostgroup)
-    # rubocop:disable Performance/FixedSize
     min_lookupvalue_length = "hostgroup=".length + parent.title.length + 1
-    # rubocop:enable Performance/FixedSize
     hostgroup = Hostgroup.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
     assert_valid hostgroup
   end
