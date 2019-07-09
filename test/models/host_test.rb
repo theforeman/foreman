@@ -455,6 +455,42 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 1, host.interfaces.where(:ip6 => '2001:db8::1').count
   end
 
+  test "should handle and ignore link-local ipv6 addresses with device identifiers when importing from facts" do
+    host = FactoryBot.create(:host, :mac => '00:00:11:22:11:22')
+
+    interfaces = {
+      :eth0 => {
+        :macaddress => '00:00:11:22:11:22',
+        :ipaddress6 => 'fe80::200:11ff:fe22:1122%5',
+        :virtual => false,
+      },
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => interfaces, :ipmi_interface => {}, :suggested_primary_interface => interfaces.to_a.last)
+    Setting[:update_subnets_from_facts] = true
+
+    host.set_interfaces(parser)
+
+    assert_nil host.primary_interface.ip6
+  end
+
+  test "should ignore link-local ipv4 addresses when importing from facts" do
+    host = FactoryBot.create(:host, :mac => '00:00:11:22:11:22')
+
+    interfaces = {
+      :eth0 => {
+        :macaddress => '00:00:11:22:11:22',
+        :ipaddress => '169.254.1.2',
+        :virtual => false,
+      },
+    }.with_indifferent_access
+    parser = stub(:class_name_humanized => 'TestParser', :interfaces => interfaces, :ipmi_interface => {}, :suggested_primary_interface => interfaces.to_a.last)
+    Setting[:update_subnets_from_facts] = true
+
+    host.set_interfaces(parser)
+
+    assert_nil host.primary_interface.ip
+  end
+
   test "#configuration? returns true when host has puppetmaster" do
     host = FactoryBot.build_stubbed(:host)
     refute host.configuration?
