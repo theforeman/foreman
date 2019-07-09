@@ -27,8 +27,12 @@ class TaxonomixTest < ActiveSupport::TestCase
   end
 
   test "STI is properly supported" do
-    TaxableTaxonomy.expects(:where).with({ :taxable_type => 'UntaxedDummy' }).returns(TaxableTaxonomy.all)
-    InheritingTaxonomixDummy.inner_select(nil, :subtree_ids)
+    parent = FactoryBot.create(:location)
+    child = FactoryBot.create(:location, :parent => parent)
+    user = FactoryBot.create(:user, :roles => [roles(:manager)], :locations => [parent])
+    User.current = user
+    User.current.expects(:taxonomy_and_child_ids).with(:locations).returns([parent, child])
+    InheritingTaxonomixDummy.taxonomy_inner_ids(nil, Location, :subtree_ids)
   end
 
   test "#add_current_taxonomy? returns false for unset current taxonomy" do
@@ -78,27 +82,88 @@ class TaxonomixTest < ActiveSupport::TestCase
     end
 
     test 'does not return anything if no taxable IDs were found' do
-      TaxonomixDummy.expects(:taxable_ids).returns([]).at_least_once
+      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns([]).once
       taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
       assert_empty taxonomy_scoped_dummies
     end
 
     test 'returns only objects in the given taxonomies' do
       @dummy.name = 'foo'
+      @dummy.organization_ids = [@org.id]
+      @dummy.location_ids = [@loc.id]
       @dummy.save
-      TaxonomixDummy.expects(:taxable_ids).returns([@dummy.id]).at_least_once
+      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns([@org.id, @loc.id]).once
       taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
       assert_equal 1, taxonomy_scoped_dummies.count
       assert_equal [@dummy], taxonomy_scoped_dummies.to_a
     end
 
+    test 'list only users from the organization and myself but not global admins' do
+      loc = FactoryBot.create(:location)
+      org = FactoryBot.create(:organization)
+      user1 = FactoryBot.create(:user, :organizations => [org], :locations => [loc])
+      user2 = FactoryBot.create(:user, :organizations => [org], :locations => [loc])
+      admin = FactoryBot.create(:user, :admin)
+
+      as_user(user1) do
+        found_ids = User.with_taxonomy_scope(loc, org).reorder('').pluck(:id)
+        assert_includes found_ids, user1.id
+        assert_includes found_ids, user2.id
+        refute_includes found_ids, admin.id
+      end
+    end
+
+    test "can work with array of taxonomies" do
+      loc1 = FactoryBot.create(:location)
+      loc2 = FactoryBot.create(:location, :parent_id => loc1.id)
+      loc3 = FactoryBot.create(:location, :parent_id => loc2.id)
+      loc4 = FactoryBot.create(:location)
+      org = FactoryBot.create(:organization)
+      env1 = FactoryBot.create(:environment, :organizations => [org], :locations => [loc2])
+      env2 = FactoryBot.create(:environment, :organizations => [org])
+      env3 = FactoryBot.create(:environment, :locations => [loc2])
+      env4 = FactoryBot.create(:environment, :locations => [loc4])
+      env5 = FactoryBot.create(:environment, :locations => [loc1])
+      env6 = FactoryBot.create(:environment, :locations => [loc3])
+      env_ids = Environment.with_taxonomy_scope([loc2, loc4], org, :subtree_ids).reorder('').pluck(:id)
+      visible = [ env1 ]
+      invisible = [ env2, env3, env4, env5, env6 ]
+      visible.each { |env| assert_includes env_ids, env.id }
+      invisible.each { |env| refute_includes env_ids, env.id }
+
+      env_ids = Environment.with_taxonomy_scope([], org, :subtree_ids).reorder('').pluck(:id)
+      visible = [ env1, env2 ]
+      invisible = [ env3, env4, env5, env6 ]
+      visible.each { |env| assert_includes env_ids, env.id }
+      invisible.each { |env| refute_includes env_ids, env.id }
+
+      env_ids = Environment.with_taxonomy_scope(loc2, [], :subtree_ids).reorder('').pluck(:id)
+      visible = [ env1, env3, env5, env6 ]
+      invisible = [ env2, env4 ]
+      visible.each { |env| assert_includes env_ids, env.id }
+      invisible.each { |env| refute_includes env_ids, env.id }
+
+      env_ids = Environment.with_taxonomy_scope([loc2, loc4], [], :subtree_ids).reorder('').pluck(:id)
+      visible = [ env1, env3, env4, env5, env6 ]
+      invisible = [ env2 ]
+      visible.each { |env| assert_includes env_ids, env.id }
+      invisible.each { |env| refute_includes env_ids, env.id }
+
+      as_user(:one) do
+        env_ids = Environment.with_taxonomy_scope([], [], :subtree_ids).reorder('').pluck(:id)
+        visible = []
+        invisible = [env1, env2, env3, env4, env5, env6]
+        visible.each { |env| assert_includes env_ids, env.id }
+        invisible.each { |env| refute_includes env_ids, env.id }
+      end
+    end
+
     test 'does not return objects outside the specified taxonomies' do
       @dummy.name = 'foo'
       @dummy.save
-      other_ids = TaxonomixDummy.pluck(:id) - [@dummy.id]
-      TaxonomixDummy.expects(:taxable_ids).returns(other_ids).at_least_once
+      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns([@org.id, @loc.id]).once
       taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
-      assert_equal other_ids.count, taxonomy_scoped_dummies.count
+      assert_equal 0, taxonomy_scoped_dummies.count
       refute_includes taxonomy_scoped_dummies.to_a, @dummy
     end
   end
@@ -157,9 +222,9 @@ class TaxonomixTest < ActiveSupport::TestCase
     assert_includes used_organizations, org4.id
   end
 
-  describe '#taxable_ids' do
+  describe '#taxonomy_ids_in_taxable_taxonomy' do
     test "can work with empty array returning nil" do
-      assert_nil @dummy.class.taxable_ids([], [])
+      assert_nil @dummy.class.taxonomy_ids_in_taxable_taxonomy([], [])
     end
 
     test 'returns IDs for non-admin user of any context when no org/loc' do
@@ -169,69 +234,10 @@ class TaxonomixTest < ActiveSupport::TestCase
         any_org = User.current.organizations
         any_loc = User.current.locations
 
-        visible_dummies = any_org.map(&:"#{@dummy.class.table_name}").flatten.map(&:id) &
-          any_loc.map(&:"#{@dummy.class.table_name}").flatten.map(&:id)
-
-        # We need to call '.taxable_ids' using the Environment class because
-        # '.taxable_ids' will look for the 'taxable_taxonomies.taxable_type'
-        # table of the caller.
-        # Since TaxonomixDummy is defined in terms of the Environment table,
-        # the table will have Environment, not TaxonomixDummy as taxable_type
-        assert_equal visible_dummies, Environment.taxable_ids(nil, nil)
-        assert_equal visible_dummies, Environment.taxable_ids([], [])
+        TaxonomixDummy.which_taxonomy_ignored = []
+        assert_equal any_org.pluck(:id).concat(any_loc.pluck(:id)).sort, TaxonomixDummy.taxonomy_ids_in_taxable_taxonomy(nil, nil).sort
+        assert_equal any_org.pluck(:id).concat(any_loc.pluck(:id)).sort, TaxonomixDummy.taxonomy_ids_in_taxable_taxonomy([], []).sort
       end
-    end
-
-    test 'list only users from the organization and myself but not global admins' do
-      loc = FactoryBot.create(:location)
-      org = FactoryBot.create(:organization)
-      user1 = FactoryBot.create(:user, :organizations => [org], :locations => [loc])
-      user2 = FactoryBot.create(:user, :organizations => [org], :locations => [loc])
-      admin = FactoryBot.create(:user, :admin)
-
-      as_user(user1) do
-        found_ids = User.taxable_ids(loc, org)
-        assert_includes found_ids, user1.id
-        assert_includes found_ids, user2.id
-        refute_includes found_ids, admin.id
-      end
-    end
-
-    test "can work with array of taxonomies" do
-      loc1 = FactoryBot.create(:location)
-      loc2 = FactoryBot.create(:location, :parent_id => loc1.id)
-      loc3 = FactoryBot.create(:location, :parent_id => loc2.id)
-      loc4 = FactoryBot.create(:location)
-      org = FactoryBot.create(:organization)
-      env1 = FactoryBot.create(:environment, :organizations => [org], :locations => [loc2])
-      env2 = FactoryBot.create(:environment, :organizations => [org])
-      env3 = FactoryBot.create(:environment, :locations => [loc2])
-      env4 = FactoryBot.create(:environment, :locations => [loc4])
-      env5 = FactoryBot.create(:environment, :locations => [loc1])
-      env6 = FactoryBot.create(:environment, :locations => [loc3])
-      taxable_ids = Environment.taxable_ids([loc2, loc4], org, :subtree_ids)
-      visible = [ env1 ]
-      invisible = [ env2, env3, env4, env5, env6 ]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
-
-      taxable_ids = Environment.taxable_ids([], org, :subtree_ids)
-      visible = [ env1, env2 ]
-      invisible = [ env3, env4, env5, env6 ]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
-
-      taxable_ids = Environment.taxable_ids(loc2, [], :subtree_ids)
-      visible = [ env1, env3, env5, env6 ]
-      invisible = [ env2, env4 ]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
-
-      taxable_ids = Environment.taxable_ids([loc2, loc4], [], :subtree_ids)
-      visible = [ env1, env3, env4, env5, env6 ]
-      invisible = [ env2 ]
-      visible.each { |env| assert_includes taxable_ids, env.id }
-      invisible.each { |env| refute_includes taxable_ids, env.id }
     end
   end
 
@@ -276,7 +282,7 @@ class TaxonomixTest < ActiveSupport::TestCase
     assert new_dom.taxable_taxonomies.all?(&:valid?)
   end
 
-  test "#taxable_ids works even if the resources uses eager loading on through associations" do
+  test "taxonomix works even if the resources uses eager loading on through associations" do
     user = FactoryBot.create(:user)
     filter = FactoryBot.create(:filter)
     filter.permissions = Permission.where(:name => [ 'view_provisioning_templates' ])

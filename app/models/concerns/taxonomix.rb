@@ -43,7 +43,7 @@ module Taxonomix
       else
         self.which_organization = nil
       end
-      scope = scope_by_taxable_ids(scope)
+      scope = scope_by_taxonomy_ids(scope)
       scope.readonly(false)
     end
 
@@ -79,77 +79,62 @@ module Taxonomix
       self.where(nil).limit(0).all unless which_ancestry_method.present?
     end
 
-    def taxable_ids(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
-      # Return everything (represented by nil), including objects without
-      # taxonomies. This value should only be returned for admin users.
-      return nil if any_context?(loc) && any_context?(org) &&
-        User.current.try(:admin?)
+    def taxonomy_ids_in_taxable_taxonomy(loc = which_location, org = which_organization, inner_method = which_ancestry_method)
+      result = { :loc_ids => nil, :org_ids => nil }
+      return result if any_context?(loc) && any_context?(org) && User.current.try(:admin?)
 
-      ids = unscoped.pluck(:id)
-      ids &= inner_ids(loc, Location, inner_method) if SETTINGS[:locations_enabled] && !which_taxonomy_ignored.include?(:location)
-      ids &= inner_ids(org, Organization, inner_method) if SETTINGS[:organizations_enabled] && !which_taxonomy_ignored.include?(:organization)
-
-      if self == User
-        # In the case of users we want the taxonomy scope to get both the users
-        # of the taxonomy, admins, and the current user.
-        ids.concat(admin_ids) if User.current.present? && User.current.admin?
-        ids << User.current.id if User.current.present?
-      end
-
-      ids
+      result[:loc_ids] = taxonomy_inner_ids(loc, Location, inner_method) unless which_taxonomy_ignored.include?(:location)
+      result[:org_ids] = taxonomy_inner_ids(org, Organization, inner_method) unless which_taxonomy_ignored.include?(:organization)
+      result
     end
 
-    # Returns the IDs available for the passed context.
-    # Passing a nil or [] value as taxonomy equates to "Any context".
-    # Any other value will be understood as 'IDs available in this taxonomy'.
-    def inner_ids(taxonomy, taxonomy_class, inner_method)
-      return unscoped.pluck("#{table_name}.id") if taxonomy_class.ignore?(to_s)
-      return inner_select(taxonomy, inner_method) if taxonomy.present?
+    def taxonomy_inner_ids(taxonomy, taxonomy_class, inner_method)
       return [] unless User.current.present?
-      # Any available taxonomy to the current user
-      return unscoped.pluck("#{table_name}.id") if User.current.admin?
+      return taxonomy_class.pluck(:id) if taxonomy_class.ignore?(to_s)
+      return get_taxonomy_ids(taxonomy, inner_method) if taxonomy.present?
+      # return everything if admin is in 'Any Context'
+      # note this is intentionaly positioned after the taxonomy.present? check
+      return taxonomy_class.pluck(:id) if User.current.admin?
 
       taxonomy_relation = taxonomy_class.to_s.underscore.pluralize
-      any_context_taxonomies = User.current.
-        taxonomy_and_child_ids(:"#{taxonomy_relation}")
-      unscoped.joins(TAXONOMY_JOIN_TABLE).
-        where("#{TAXONOMY_JOIN_TABLE}.taxonomy_id" => any_context_taxonomies).
-        pluck(:id)
+      User.current.taxonomy_and_child_ids(:"#{taxonomy_relation}")
     end
 
     def any_context?(taxonomy)
       taxonomy.blank?
     end
 
-    # taxonomy can be either specific taxonomy object or array of these objects
-    # it can also be an empty array that means all taxonomies (user is not assigned to any)
-    def inner_select(taxonomy, inner_method = which_ancestry_method)
-      # always include ancestor_ids in inner select
-      conditions = { :taxable_type => self.base_class.name }
-      if taxonomy.present?
-        taxonomy_ids = get_taxonomy_ids(taxonomy, inner_method)
-        conditions[:taxonomy_id] = taxonomy_ids
-      end
-
-      TaxableTaxonomy.where(conditions).distinct.pluck(:taxable_id).compact
-    end
-
     def admin_ids
       User.unscoped.only_admin.pluck(:id) if self == User
     end
 
-    def scope_by_taxable_ids(scope)
-      case (cached_ids = taxable_ids)
-      when nil
+    def scope_by_taxonomy_ids(scope)
+      case (cached_ids = taxonomy_ids_in_taxable_taxonomy)
+      when ->(hash) { hash[:loc_ids].nil? && hash[:org_ids].nil? }
+        # return everything for admin
         scope
-      when []
-        # If *no* taxable ids were found, then don't show any resources
-        scope.where('1=0')
+      when ->(hash) { hash[:loc_ids].empty? && hash[:org_ids].empty? }
+        # return nothing when there are no taxonomies for non-admin
+        scope.none
       else
-        # We need to generate the WHERE part of the SQL query as a string,
-        # otherwise the default scope would set id on each new instance
-        # and the same taxable_id on taxable_taxonomy objects
-        scope.where("#{self.table_name}.id IN (#{cached_ids.join(',')})")
+        apply_scope_joins(scope, cached_ids)
+      end
+    end
+
+    def apply_scope_joins(scope, ids_hash)
+      scope = scope_join_by(scope, ids_hash[:loc_ids], :by_loc)
+      scope = scope_join_by(scope, ids_hash[:org_ids], :by_org)
+      scope
+    end
+
+    def scope_join_by(scope, ids, table_alias)
+      if ids.present?
+        scope.joins("INNER JOIN taxable_taxonomies AS #{table_alias}
+                       ON #{table_alias}.taxable_id = #{table_name}.id
+                       AND #{table_alias}.taxable_type = '#{self}'")
+             .where("#{table_alias}.taxonomy_id IN (#{ids.join(',')})")
+      else
+        scope
       end
     end
   end

@@ -22,10 +22,19 @@ module AuditExtensions
     scope :fully_taxable_auditables, -> { by_auditable_types(fully_taxable) }
     scope :fully_taxable_auditables_in_taxonomy_scope, -> { with_taxonomy_scope { fully_taxable_auditables } }
     scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
+
     scope :taxed_and_untaxed, lambda {
-      untaxed.or(fully_taxable_auditables_in_taxonomy_scope)
-             .or(taxed_only_by_organization_in_taxonomy_scope)
-             .or(taxed_only_by_location_in_taxonomy_scope)
+      # Always keep :audits alias last for ORDER BY to work
+      scopes = {
+        :fully_taxable_auditables_in_taxonomy_scope => :audits_1,
+        :taxed_only_by_location_in_taxonomy_scope => :audits_2,
+        :taxed_only_by_organization_in_taxonomy_scope => :audits
+      }
+
+      scopes.reduce(untaxed) do |memo, (scope_method, subquery_name)|
+        union = memo.union(public_send(scope_method))
+        select("#{subquery_name}.*").from(arel_table.create_table_alias(union, subquery_name))
+      end
     }
 
     include Authorizable
