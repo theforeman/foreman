@@ -31,19 +31,17 @@ export default (state = initialState, action) => {
 
     case BREADCRUMB_BAR_UPDATE_TITLE:
       return state.set('titleReplacement', payload);
-
     case BREADCRUMB_BAR_RESOURCES_REQUEST:
       return state
-        .set('resourceSwitcherItems', [])
         .set('resourceUrl', payload.resourceUrl)
+        .set('resourceSwitcherItems', [])
         .set('requestError', null)
         .set('isLoadingResources', true)
-        .set('searchQuery', payload.options.searchQuery);
+        .set('searchQuery', payload.searchQuery);
 
     case BREADCRUMB_BAR_RESOURCES_SUCCESS:
       return state
         .set('resourceSwitcherItems', payload.items)
-        .set('resourceUrl', payload.resourceUrl)
         .set('currentPage', payload.page)
         .set('pages', payload.pages)
         .set('requestError', null)
@@ -53,7 +51,6 @@ export default (state = initialState, action) => {
       return state
         .set('resourceSwitcherItems', [])
         .set('requestError', payload.error)
-        .set('resourceUrl', payload.resourceUrl)
         .set('isLoadingResources', false);
 
     case BREADCRUMB_BAR_TOGGLE_SWITCHER:

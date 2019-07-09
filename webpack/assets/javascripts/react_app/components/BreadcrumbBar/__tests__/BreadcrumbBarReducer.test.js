@@ -4,7 +4,10 @@ import {
   BREADCRUMB_BAR_RESOURCES_REQUEST,
   BREADCRUMB_BAR_RESOURCES_SUCCESS,
   BREADCRUMB_BAR_RESOURCES_FAILURE,
+  BREADCRUMB_BAR_RESOURCES,
 } from '../BreadcrumbBarConstants';
+import { API_OPERATIONS } from '../../../redux/API';
+
 import reducer from '../BreadcrumbBarReducer';
 
 import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
@@ -22,11 +25,17 @@ const fixtures = {
       type: BREADCRUMB_BAR_CLOSE_SWITCHER,
     },
   },
+  'should handle API_GET BREADCRUMB_BAR_RESOURCES': {
+    action: {
+      type: API_OPERATIONS.GET,
+      outputType: BREADCRUMB_BAR_RESOURCES,
+      url: resource.resourceUrl,
+    },
+  },
   'should handle BREADCRUMB_BAR_RESOURCES_REQUEST': {
     action: {
       type: BREADCRUMB_BAR_RESOURCES_REQUEST,
       payload: {
-        resourceUrl: resource.resourceUrl,
         options: {},
       },
     },
@@ -35,8 +44,7 @@ const fixtures = {
     action: {
       type: BREADCRUMB_BAR_RESOURCES_REQUEST,
       payload: {
-        resourceUrl: resource.resourceUrl,
-        options: { searchQuery: 'some search' },
+        searchQuery: 'some search',
       },
     },
   },
@@ -47,7 +55,6 @@ const fixtures = {
         items: [...resourceList],
         page: 1,
         pages: 2,
-        resourceUrl: resource.resourceUrl,
       },
     },
   },
@@ -56,7 +63,6 @@ const fixtures = {
       type: BREADCRUMB_BAR_RESOURCES_FAILURE,
       payload: {
         error: new Error('some error'),
-        resourceUrl: resource.resourceUrl,
       },
     },
   },

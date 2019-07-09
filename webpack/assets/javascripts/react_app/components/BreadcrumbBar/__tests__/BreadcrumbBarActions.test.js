@@ -1,4 +1,6 @@
-import { API } from '../../../redux/API';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import API from '../../../redux/API/API';
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
   toggleSwitcher,
@@ -13,39 +15,62 @@ import {
   serverResourceListWithNestedFieldsResponse,
 } from '../BreadcrumbBar.fixtures';
 
-jest.mock('../../../redux/API');
+import { APIMiddleware } from '../../../redux/API';
+import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
-const runLoadSwitcherResourcesByResourceAction = (resourceMock, serverMock) => {
-  API.get.mockImplementation(serverMock);
+jest.mock('../../../redux/API/API');
+const middlewares = [thunk, APIMiddleware];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore();
 
-  return loadSwitcherResourcesByResource(resourceMock);
-};
+afterEach(() => {
+  store.clearActions();
+});
 
 const fixtures = {
   'should toggle-switcher': () => toggleSwitcher(),
 
   'should close-switcher': () => closeSwitcher(),
-
-  'should load-switcher-resources-by-resource and success': () =>
-    runLoadSwitcherResourcesByResourceAction(
-      resource,
-      async () => serverResourceListResponse
-    ),
-
-  'should load-switcher-resources-by-resource-with-nested-fields and success': () =>
-    runLoadSwitcherResourcesByResourceAction(
-      resourceWithNestedFields,
-      async () => serverResourceListWithNestedFieldsResponse
-    ),
-
-  'should load-switcher-resources-by-resource and fail': () =>
-    runLoadSwitcherResourcesByResourceAction(resource, async () => {
-      throw new Error('some-error');
-    }),
 };
 
-describe('BreadcrumbBar actions', () =>
-  testActionSnapshotWithFixtures(fixtures));
+describe('BreadcrumbBar actions', () => {
+  testActionSnapshotWithFixtures(fixtures);
+  it('should load-switcher-resources-by-resource and success', async () => {
+    API.get.mockImplementation(
+      () =>
+        new Promise((resolve, reject) => {
+          resolve(serverResourceListResponse);
+        })
+    );
+    await store.dispatch(loadSwitcherResourcesByResource(resource));
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.getActions()).toMatchSnapshot();
+  });
+  it('should load-switcher-resources-by-resource-with-nested-fields and success', async () => {
+    API.get.mockImplementation(
+      () =>
+        new Promise((resolve, reject) => {
+          resolve(serverResourceListWithNestedFieldsResponse);
+        })
+    );
+    await store.dispatch(
+      loadSwitcherResourcesByResource(resourceWithNestedFields)
+    );
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.getActions()).toMatchSnapshot();
+  });
+  it('should load-switcher-resources-by-resource and fail', async () => {
+    API.get.mockImplementation(
+      () =>
+        new Promise((resolve, reject) => {
+          reject(Error('some-error'));
+        })
+    );
+    await store.dispatch(loadSwitcherResourcesByResource(resource));
+    await IntegrationTestHelper.flushAllPromises();
+    expect(store.getActions()).toMatchSnapshot();
+  });
+});
 
 describe('createSearch', () => {
   it('should add filter to query', () => {

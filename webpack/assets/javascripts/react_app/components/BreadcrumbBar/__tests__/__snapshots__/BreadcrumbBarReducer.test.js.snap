@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`BreadcrumbBar reducer should handle API_GET BREADCRUMB_BAR_RESOURCES 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": false,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": null,
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;
+
 exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_CLOSE_SWITCHER 1`] = `
 Object {
   "currentPage": null,
@@ -22,7 +36,7 @@ Object {
   "pages": null,
   "requestError": [Error: some error],
   "resourceSwitcherItems": Array [],
-  "resourceUrl": "some/url",
+  "resourceUrl": null,
   "searchQuery": "",
   "titleReplacement": null,
 }
@@ -36,7 +50,7 @@ Object {
   "pages": null,
   "requestError": null,
   "resourceSwitcherItems": Array [],
-  "resourceUrl": "some/url",
+  "resourceUrl": undefined,
   "searchQuery": undefined,
   "titleReplacement": null,
 }
@@ -50,7 +64,7 @@ Object {
   "pages": null,
   "requestError": null,
   "resourceSwitcherItems": Array [],
-  "resourceUrl": "some/url",
+  "resourceUrl": undefined,
   "searchQuery": "some search",
   "titleReplacement": null,
 }
@@ -92,7 +106,7 @@ Object {
       "url": "#",
     },
   ],
-  "resourceUrl": "some/url",
+  "resourceUrl": null,
   "searchQuery": "",
   "titleReplacement": null,
 }

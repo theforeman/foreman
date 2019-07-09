@@ -9,6 +9,7 @@ import {
   serverResourceListResponse,
 } from '../BreadcrumbBar.fixtures';
 import BreadcrumbBar, { reducers } from '../index';
+import { APIMiddleware } from '../../../redux/API';
 
 jest.mock('../../../redux/API/API');
 
@@ -16,7 +17,9 @@ describe('BreadcrumbBar integration test', () => {
   it('should flow', async () => {
     API.get.mockImplementation(async () => serverResourceListResponse);
 
-    const integrationTestHelper = new IntegrationTestHelper(reducers);
+    const integrationTestHelper = new IntegrationTestHelper(reducers, [
+      APIMiddleware,
+    ]);
 
     const component = integrationTestHelper.mount(
       <BreadcrumbBar {...breadcrumbBarSwithcable} />

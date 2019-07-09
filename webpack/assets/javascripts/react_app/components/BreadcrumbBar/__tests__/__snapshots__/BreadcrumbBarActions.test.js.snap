@@ -8,115 +8,129 @@ Object {
 
 exports[`BreadcrumbBar actions should load-switcher-resources-by-resource and fail 1`] = `
 Array [
-  Array [
-    Object {
+  Object {
+    "payload": Object {
+      "params": Object {
+        "page": 1,
+        "per_page": 10,
+        "search": "",
+      },
+      "resourceUrl": "some/url",
+      "searchQuery": "",
+    },
+    "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "error": [Error: some-error],
       "payload": Object {
-        "options": Object {
+        "params": Object {
           "page": 1,
-          "searchQuery": "",
+          "per_page": 10,
+          "search": "",
         },
         "resourceUrl": "some/url",
+        "searchQuery": "",
       },
-      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
     },
-  ],
-  Array [
-    Object {
-      "payload": Object {
-        "error": [Error: some-error],
-        "resourceUrl": "some/url",
-      },
-      "type": "BREADCRUMB_BAR_RESOURCES_FAILURE",
-    },
-  ],
+    "type": "BREADCRUMB_BAR_RESOURCES_FAILURE",
+  },
 ]
 `;
 
 exports[`BreadcrumbBar actions should load-switcher-resources-by-resource and success 1`] = `
 Array [
-  Array [
-    Object {
-      "payload": Object {
-        "options": Object {
-          "page": 1,
-          "searchQuery": "",
-        },
-        "resourceUrl": "some/url",
-      },
-      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
-    },
-  ],
-  Array [
-    Object {
-      "payload": Object {
-        "items": Array [
-          Object {
-            "href": "some/url/1",
-            "id": "1",
-            "name": "name-1",
-          },
-          Object {
-            "href": "some/url/2",
-            "id": "2",
-            "name": "name-2",
-          },
-          Object {
-            "href": "some/url/3",
-            "id": "3",
-            "name": "name-3",
-          },
-        ],
+  Object {
+    "payload": Object {
+      "params": Object {
         "page": 1,
-        "pages": 1.5,
-        "resourceUrl": "some/url",
+        "per_page": 10,
+        "search": "",
       },
-      "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+      "resourceUrl": "some/url",
+      "searchQuery": "",
     },
-  ],
+    "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "items": Array [
+        Object {
+          "href": "some/url/1",
+          "id": "1",
+          "name": "name-1",
+        },
+        Object {
+          "href": "some/url/2",
+          "id": "2",
+          "name": "name-2",
+        },
+        Object {
+          "href": "some/url/3",
+          "id": "3",
+          "name": "name-3",
+        },
+      ],
+      "page": 1,
+      "pages": 1.5,
+      "params": Object {
+        "page": 1,
+        "per_page": 10,
+        "search": "",
+      },
+      "resourceUrl": "some/url",
+      "searchQuery": "",
+    },
+    "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+  },
 ]
 `;
 
 exports[`BreadcrumbBar actions should load-switcher-resources-by-resource-with-nested-fields and success 1`] = `
 Array [
-  Array [
-    Object {
-      "payload": Object {
-        "options": Object {
-          "page": 1,
-          "searchQuery": "",
-        },
-        "resourceUrl": "some/url",
-      },
-      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
-    },
-  ],
-  Array [
-    Object {
-      "payload": Object {
-        "items": Array [
-          Object {
-            "href": "some/url/1",
-            "id": "1",
-            "name": "username-1",
-          },
-          Object {
-            "href": "some/url/2",
-            "id": "2",
-            "name": "username-2",
-          },
-          Object {
-            "href": "some/url/3",
-            "id": "3",
-            "name": "username-3",
-          },
-        ],
+  Object {
+    "payload": Object {
+      "params": Object {
         "page": 1,
-        "pages": 1.5,
-        "resourceUrl": "some/url",
+        "per_page": 10,
+        "search": "",
       },
-      "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+      "resourceUrl": "some/url",
+      "searchQuery": "",
     },
-  ],
+    "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+  },
+  Object {
+    "payload": Object {
+      "items": Array [
+        Object {
+          "href": "some/url/1",
+          "id": "1",
+          "name": "username-1",
+        },
+        Object {
+          "href": "some/url/2",
+          "id": "2",
+          "name": "username-2",
+        },
+        Object {
+          "href": "some/url/3",
+          "id": "3",
+          "name": "username-3",
+        },
+      ],
+      "page": 1,
+      "pages": 1.5,
+      "params": Object {
+        "page": 1,
+        "per_page": 10,
+        "search": "",
+      },
+      "resourceUrl": "some/url",
+      "searchQuery": "",
+    },
+    "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+  },
 ]
 `;
 
