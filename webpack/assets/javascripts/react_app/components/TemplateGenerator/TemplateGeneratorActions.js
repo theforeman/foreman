@@ -1,12 +1,13 @@
 /* eslint-disable promise/prefer-await-to-then */
 import { saveAs } from 'file-saver';
-import { API } from '../../redux/API';
+import { API, API_OPERATIONS } from '../../redux/API';
 
 import {
   TEMPLATE_GENERATE_REQUEST,
   TEMPLATE_GENERATE_POLLING,
   TEMPLATE_GENERATE_SUCCESS,
   TEMPLATE_GENERATE_FAILURE,
+  TEMPLATE_GENERATE,
 } from './TemplateGeneratorConstants';
 
 const pollingInterval = 3000;
@@ -47,20 +48,23 @@ const _getErrors = errorResponse => {
 
 export const pollReportData = pollUrl => dispatch => {
   dispatch({ type: TEMPLATE_GENERATE_POLLING, payload: { url: pollUrl } });
-
-  return API.get(pollUrl, { responseType: 'blob' })
-    .then(response => {
+  dispatch({
+    type: API_OPERATIONS.GET,
+    outputType: TEMPLATE_GENERATE,
+    url: pollUrl,
+    payload: { headers: { responseType: 'blob' } },
+    onSuccess: response => {
       if (response.status === 200) {
         dispatch({ type: TEMPLATE_GENERATE_SUCCESS, payload: {} });
         _downloadFile(response);
       } else if (pollingInterval) {
         setTimeout(() => dispatch(pollReportData(pollUrl)), pollingInterval);
       }
-    })
-    .catch(error => {
-      dispatch({
-        type: TEMPLATE_GENERATE_FAILURE,
-        payload: { error, messages: _getErrors(error.response) },
-      });
-    });
+    },
+    errorFormat: ({ error }) => ({
+      error,
+      messages: _getErrors(error.response),
+    }),
+    actionTypes: { SUCCESS: 'API_TEMPLATE_GENERATE_SUCCESS' },
+  });
 };
