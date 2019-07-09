@@ -68,7 +68,7 @@ class PuppetFactParser < FactParser
   def environment
     # by default, puppet doesn't store an env name in the database
     name = facts[:environment] || facts[:agent_specified_environment] || Setting[:default_puppet_environment]
-    Environment.where(:name => name).first_or_create
+    Environment.unscoped.where(:name => name).first_or_create
   end
 
   def architecture
@@ -94,7 +94,7 @@ class PuppetFactParser < FactParser
 
   def domain
     name = facts[:domain]
-    Domain.where(:name => name).first_or_create if name.present?
+    Domain.unscoped.where(:name => name).first_or_create if name.present?
   end
 
   def ipmi_interface
