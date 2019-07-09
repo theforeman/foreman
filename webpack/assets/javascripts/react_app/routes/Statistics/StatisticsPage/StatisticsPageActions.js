@@ -1,4 +1,4 @@
-import API from '../../../redux/API/API';
+import { API_OPERATIONS } from '../../../redux/consts';
 
 import {
   STATISTICS_PAGE_DATA_RESOLVED,
@@ -10,32 +10,29 @@ import {
 export const getStatisticsMeta = (
   url = STATISTICS_PAGE_URL
 ) => async dispatch => {
-  const onFetchSuccess = ({ data }) => {
-    dispatch(hideLoading());
-    dispatch({
-      type: STATISTICS_PAGE_DATA_RESOLVED,
-      payload: { metadata: data, hasData: data.length > 0 },
-    });
-  };
-
-  const onFetchError = ({ message }) => {
-    dispatch(hideLoading());
-    dispatch({
-      type: STATISTICS_PAGE_DATA_FAILED,
-      payload: {
-        message: {
-          type: 'error',
-          text: message,
-        },
-      },
-    });
-  };
-  try {
-    const response = await API.get(url);
-    return onFetchSuccess(response);
-  } catch (error) {
-    return onFetchError(error);
-  }
+  const formatResults = data => ({
+    metadata: data,
+    hasData: data.length > 0,
+  });
+  const formatErrors = ({ error }) => ({
+    message: {
+      type: 'error',
+      text: error.message,
+    },
+  });
+  dispatch({
+    type: API_OPERATIONS.GET,
+    outputType: 'STATISTICS_PAGE',
+    actionTypes: {
+      SUCCESS: STATISTICS_PAGE_DATA_RESOLVED,
+      FAILURE: STATISTICS_PAGE_DATA_FAILED,
+    },
+    url,
+    onSuccess: () => dispatch(hideLoading()),
+    onFailure: () => dispatch(hideLoading()),
+    successFormat: formatResults,
+    errorFormat: formatErrors,
+  });
 };
 
 const hideLoading = () => ({
