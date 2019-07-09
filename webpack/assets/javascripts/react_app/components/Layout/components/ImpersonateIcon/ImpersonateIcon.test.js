@@ -5,6 +5,7 @@ import ImpersonateIcon from './ImpersonateIcon';
 const fixtures = {
   'should render': {
     stopImpersonationUrl: '/stop_impersonation',
+    stopImpersonating: () => {},
   },
 };
 

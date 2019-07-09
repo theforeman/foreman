@@ -165,6 +165,7 @@ Layout.propTypes = {
   ),
   data: PropTypes.shape({
     brand: PropTypes.string,
+    stop_impersonation_url: PropTypes.string.isRequired,
     menu: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,

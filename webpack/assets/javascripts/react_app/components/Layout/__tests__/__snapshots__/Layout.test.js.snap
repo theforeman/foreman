@@ -130,6 +130,7 @@ exports[`Layout rendering renders layout 1`] = `
           "current_org": "org1",
         },
         "root": "/",
+        "stop_impersonation_url": "/users/stop_impersonation",
         "taxonomies": Object {
           "locations": true,
           "organizations": true,
@@ -279,7 +280,7 @@ exports[`Layout rendering renders layout 1`] = `
         changeActiveMenu={[Function]}
         className=""
         notificationUrl="/notification_recipients"
-        stopImpersonationUrl=""
+        stopImpersonationUrl="/users/stop_impersonation"
         user={
           Object {
             "current_user": Object {

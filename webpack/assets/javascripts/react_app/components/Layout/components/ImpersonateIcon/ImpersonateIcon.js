@@ -6,7 +6,7 @@ import { translate as __ } from '../../../../common/I18n';
 
 import './ImpersonateIcon.scss';
 
-const ImpersonateIcon = (props) => {
+const ImpersonateIcon = props => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => setShowModal(!showModal);
@@ -34,9 +34,9 @@ const ImpersonateIcon = (props) => {
       <MessageDialog
         show={showModal}
         onHide={toggleModal}
-        primaryAction={() => props.stopImpersonating(
-          props.stopImpersonationUrl
-        )}
+        primaryAction={() =>
+          props.stopImpersonating(props.stopImpersonationUrl)
+        }
         secondaryAction={toggleModal}
         primaryActionButtonContent={__('Confirm')}
         secondaryActionButtonContent={__('Cancel')}
@@ -47,10 +47,11 @@ const ImpersonateIcon = (props) => {
       />
     </React.Fragment>
   );
-}
+};
 
 ImpersonateIcon.propTypes = {
   stopImpersonationUrl: PropTypes.string.isRequired,
+  stopImpersonating: PropTypes.func.isRequired,
 };
 
 export default ImpersonateIcon;

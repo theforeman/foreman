@@ -248,6 +248,7 @@ export const layoutMock = {
     notification_url: '/notification_recipients',
     taxonomies: { locations: true, organizations: true },
     user,
+    stop_impersonation_url: '/users/stop_impersonation',
   },
 };
 
