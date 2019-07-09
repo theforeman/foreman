@@ -40,7 +40,7 @@ module PowerManager
                          :soft     => 'reboot',
                          :cycle    => 'reset',
                          :status   => {:action => :virt_state, :output => :state_output},
-                         :state    => {:action => :virt_state, :output => :state_output}
+                         :state    => {:action => :virt_state, :output => :state_output},
                        })
     end
 

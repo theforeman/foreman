@@ -15,7 +15,7 @@ module ProvisioningTemplatesHelper
   def permitted_actions(template)
     actions = [
       display_link_if_authorized(_('Clone'), template_hash_for_member(template, 'clone_template')),
-      display_link_if_authorized(_('Export'), template_hash_for_member(template, 'export'), { :data => { :no_turbolink => true } })
+      display_link_if_authorized(_('Export'), template_hash_for_member(template, 'export'), { :data => { :no_turbolink => true } }),
     ]
 
     if template.is_a?(ReportTemplate) && !template.snippet
@@ -31,7 +31,7 @@ module ProvisioningTemplatesHelper
             {:vendor => template.vendor}
         end,
 
-        _("Continue?")
+        _("Continue?"),
       ].compact
 
       actions << display_link_if_authorized(_('Unlock'), template_hash_for_member(template, 'unlock'),

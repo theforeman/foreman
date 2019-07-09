@@ -238,7 +238,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
         'input_values' => input_values,
         'gzip' => !!mail_to,
         'send_mail' => !!mail_to,
-        'mail_to' => mail_to
+        'mail_to' => mail_to,
       }
       if delay_to
         scheduler = mock('TemplateRenderJob')

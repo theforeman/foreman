@@ -26,7 +26,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
 
       test 'adds image name' do
         vm_attrs = {
-          'image_id' => cr.images.last.uuid
+          'image_id' => cr.images.last.uuid,
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -35,7 +35,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
 
       test 'leaves image name empty when image_id is nil' do
         vm_attrs = {
-          'image_id' => nil
+          'image_id' => nil,
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -45,7 +45,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
 
       test "leaves image name empty when image wasn't found" do
         vm_attrs = {
-          'image_id' => 'unknown'
+          'image_id' => 'unknown',
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -66,14 +66,14 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
           'volumes_attributes' => {
             '0' => {
               'size_gb' => '1GB',
-              'id' => ''
-            }
-          }
+              'id' => '',
+            },
+          },
         }
         expected_attrs = {
           '0' => {
-            'size' => 1.gigabyte.to_s
-          }
+            'size' => 1.gigabyte.to_s,
+          },
         }
         normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -89,7 +89,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
         'associate_external_ip' => nil,
         'image_id' => nil,
         'image_name' => nil,
-        'volumes_attributes' => {}
+        'volumes_attributes' => {},
       }
 
       assert_equal(expected_attrs.keys.sort, normalized.keys.sort)

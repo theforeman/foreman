@@ -6,7 +6,7 @@ def valid_interfaces_names
     RFauxFactory.gen_alpha(rand(1..255)).downcase,
     RFauxFactory.gen_alphanumeric(rand(1..255)).downcase,
     RFauxFactory.gen_numeric_string(rand(1..255)).downcase,
-    RFauxFactory.gen_alpha(255).downcase
+    RFauxFactory.gen_alpha(255).downcase,
   ]
 end
 
@@ -19,7 +19,7 @@ def invalid_interfaces_names
     RFauxFactory.gen_cyrillic,
     RFauxFactory.gen_html,
     RFauxFactory.gen_latin1,
-    RFauxFactory.gen_utf8
+    RFauxFactory.gen_utf8,
   ]
 end
 

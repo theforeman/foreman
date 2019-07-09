@@ -243,7 +243,7 @@ class ProxyApiBmcTest < ActiveSupport::TestCase
       fake_rest_client_response(
         {
           'action' => action,
-          'result' => result
+          'result' => result,
         }
       )
     )

@@ -200,7 +200,7 @@ module Hostext
                     where("#{FactName.table_name}.name = ?", key.split('.', 2).last).
                     where(cast_facts(FactValue.table_name, key, operator, value)).to_sql
         {
-          :conditions => "#{Host::Managed.table_name}.id in (#{in_query})"
+          :conditions => "#{Host::Managed.table_name}.id in (#{in_query})",
         }
       end
     end

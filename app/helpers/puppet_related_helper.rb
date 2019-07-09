@@ -10,8 +10,8 @@ module PuppetRelatedHelper
       :data => {
         :url => hostgroup_or_environment_selected_hosts_path,
         :host => {
-          :id => @host.id
-        }
+          :id => @host.id,
+        },
       }}.deep_merge(html_options)
 
     puppet_environment_field(
@@ -23,12 +23,12 @@ module PuppetRelatedHelper
 
   def hostgroup_puppet_environment_field(form, select_options = {}, html_options = {})
     select_options = {
-      :include_blank => blank_or_inherit_f(form, :environment)
+      :include_blank => blank_or_inherit_f(form, :environment),
     }.deep_merge(select_options)
 
     html_options = {
       :data => {
-        :url => environment_selected_hostgroups_path
+        :url => environment_selected_hostgroups_path,
       }}.deep_merge(html_options)
 
     puppet_environment_field(

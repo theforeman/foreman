@@ -22,7 +22,7 @@ class UpgradeTaskTest < ActiveSupport::TestCase
   test "defining tasks should update tasks" do
     UpgradeTask.define_tasks(:test_tasks) do
       [
-        {:name => 'testTask1', :always_run => true}
+        {:name => 'testTask1', :always_run => true},
       ]
     end
 
@@ -30,7 +30,7 @@ class UpgradeTaskTest < ActiveSupport::TestCase
 
     UpgradeTask.define_tasks(:test_tasks) do
       [
-        {:name => 'testTask1', :always_run => false}
+        {:name => 'testTask1', :always_run => false},
       ]
     end
 
@@ -41,7 +41,7 @@ class UpgradeTaskTest < ActiveSupport::TestCase
     UpgradeTask.define_tasks(:test_tasks) do
       [
         {:name => 'testTask1'},
-        {:name => 'testTask2'}
+        {:name => 'testTask2'},
       ]
     end
 
@@ -49,7 +49,7 @@ class UpgradeTaskTest < ActiveSupport::TestCase
 
     UpgradeTask.define_tasks(:test_tasks) do
       [
-        {:name => 'testTask1'}
+        {:name => 'testTask1'},
       ]
     end
 

@@ -13,7 +13,7 @@ class BreadcrumbsOptions
     {
       isSwitchable: switchable?,
       breadcrumbItems: items,
-      resource: resource
+      resource: resource,
     }
   end
 
@@ -31,7 +31,7 @@ class BreadcrumbsOptions
 
     {
       caption: _(Menu::Manager.get_resource_caption(controller.controller_name.to_s.downcase.pluralize.to_sym)),
-      url: resource_path(class_name) || resource_path(resource_name)
+      url: resource_path(class_name) || resource_path(resource_name),
     }
   end
 
@@ -79,7 +79,7 @@ class BreadcrumbsOptions
       switcherItemUrl: options[:switcher_item_url] || switcher_url_template,
       resourceUrl: options[:resource_url] || "/api/v2/#{controller_path}",
       nameField: options[:name_field] || model_name_field || 'name',
-      resourceFilter: options[:resource_filter] || ''
+      resourceFilter: options[:resource_filter] || '',
     }
   end
 end

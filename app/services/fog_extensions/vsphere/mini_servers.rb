@@ -43,7 +43,7 @@ module FogExtensions
                    end
           inventory[folder.obj._ref] = {
             :name => folder['name'],
-            :parent => parent
+            :parent => parent,
           }
         end
         set_folder_paths(folder_inventory)
@@ -73,14 +73,14 @@ module FogExtensions
                 :path => 'childEntity',
                 :skip => false,
                 :selectSet => [
-                  RbVmomi::VIM.SelectionSpec(:name => 'tsFolder')
+                  RbVmomi::VIM.SelectionSpec(:name => 'tsFolder'),
                 ]
-              )
-            ]
+              ),
+            ],
           ],
           :propSet => [
             { :type => 'Folder', :pathSet => ['name', 'parent'] },
-            { :type => 'VirtualMachine', :pathSet => attribute_mapping.values + ['parent'] }
+            { :type => 'VirtualMachine', :pathSet => attribute_mapping.values + ['parent'] },
           ]
         )
       end
@@ -95,7 +95,7 @@ module FogExtensions
           :memory => 'config.hardware.memoryMB',
           :state => 'runtime.powerState',
           :operatingsystem => 'config.guestFullName',
-          :hypervisor => 'runtime.host'
+          :hypervisor => 'runtime.host',
         }
       end
 

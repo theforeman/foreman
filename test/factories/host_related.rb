@@ -135,7 +135,7 @@ FactoryBot.define do
       unless host.primary_interface.present?
         opts = {
           :primary => true,
-          :domain  => FactoryBot.build(:domain)
+          :domain  => FactoryBot.build(:domain),
         }
         host.interfaces << FactoryBot.build(:nic_managed, opts)
       end
@@ -328,7 +328,7 @@ FactoryBot.define do
       domain
       subnet do
         overrides = {
-          :dhcp => FactoryBot.create(:dhcp_smart_proxy)
+          :dhcp => FactoryBot.create(:dhcp_smart_proxy),
         }
         # add taxonomy overrides in case it's set in the host object
         overrides[:locations] = [location] unless location.nil?

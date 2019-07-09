@@ -5,7 +5,7 @@ module LoginHelper
       version: SETTINGS[:version].version,
       caption: Setting[:login_text],
       alerts: flash_inline,
-      logoSrc: image_path("login_logo.png")
+      logoSrc: image_path("login_logo.png"),
     }
   end
 

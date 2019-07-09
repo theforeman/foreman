@@ -77,8 +77,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, params:
       { "changed" =>
         {"new" =>
-          {"env1" => '{"a":{"new":{}}}'}
-        }
+          {"env1" => '{"a":{"new":{}}}'},
+        },
       }, session: set_session_user
     assert_redirected_to environments_url
   end
@@ -94,8 +94,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, params:
       { "changed" =>
         {"new" =>
-          {"env1" => '{"a":{"new":{}}}'}
-        }
+          {"env1" => '{"a":{"new":{}}}'},
+        },
       }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
@@ -115,8 +115,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new,
       params: { "changed" =>
         {"obsolete" =>
-          {"env1" => '["d"]'}
-        }
+          {"env1" => '["d"]'},
+        },
       }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
@@ -134,8 +134,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, params:
       { "changed" =>
         {"obsolete" =>
-          {"env3" => '[]'}
-        }
+          {"env3" => '[]'},
+        },
       }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
@@ -158,8 +158,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, params:
       { "changed" =>
        {"obsolete" =>
-        {"env1" => '["a","b","c","_destroy_"]'}
-       }
+        {"env1" => '["a","b","c","_destroy_"]'},
+       },
      }, session: set_session_user
     assert Environment.unscoped.find_by_name("env1").hosts.count > 0
     # assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
@@ -225,8 +225,8 @@ class EnvironmentsControllerTest < ActionController::TestCase
     post :obsolete_and_new, params:
       { "changed" =>
        {"new" =>
-        {"new" => '{"a":{"new":{}}}'}
-       }
+        {"new" => '{"a":{"new":{}}}'},
+       },
     }, session: set_session_user
     assert(Environment.unscoped.all.map(&:name).include?('new'), 'Should include environment with name "new"')
   end

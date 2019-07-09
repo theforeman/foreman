@@ -77,7 +77,7 @@ module TemplatesHelper
       label: input.name,
       type: input.value_type,
       initialError: input_value.errors[:value].join("\n").presence,
-      resourceTypes: Hash[Permission.resources.map { |d| [d.tableize.to_s, d] }]
+      resourceTypes: Hash[Permission.resources.map { |d| [d.tableize.to_s, d] }],
     }.to_json)
   end
 end

@@ -117,7 +117,7 @@ class TaxHost
                         :taxonomy_name => taxonomy.name,
                         :taxonomy_type => taxonomy.class.to_s,
                         :taxable_value => taxable_record.name,
-                        :taxable_type  => taxable_type
+                        :taxable_type  => taxable_type,
         }
       end
     end

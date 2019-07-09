@@ -41,7 +41,7 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
     roles = [
       Role.find_by_name('Manager'),
       Role.find_by_name('View hosts'),
-      Role.find_by_name('Edit hosts')
+      Role.find_by_name('Edit hosts'),
     ]
     post :create, params: { :usergroup => valid_attrs.clone.update(:role_ids => roles.map { |role| role.id })}
     assert_response :created
@@ -61,7 +61,7 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
     users = [
       User.find_by_login('one'),
       User.find_by_login('two'),
-      User.find_by_login('test')
+      User.find_by_login('test'),
     ]
     post :create, params: { :usergroup => valid_attrs.clone.update(:user_ids => users.map { |user| user.id })}
     assert_response :created

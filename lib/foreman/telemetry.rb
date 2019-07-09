@@ -36,7 +36,7 @@ module Foreman
     GC_METRICS = {
       :count => :ruby_gc_count,
       :major_gc_count => :ruby_gc_major_count,
-      :minor_gc_count => :ruby_gc_minor_count
+      :minor_gc_count => :ruby_gc_minor_count,
     }
     def register_rails
       if enabled?

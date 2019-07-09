@@ -32,7 +32,7 @@ module Mutations
 
       {
         token: user.jwt_token!,
-        user: user
+        user: user,
       }
     end
   end

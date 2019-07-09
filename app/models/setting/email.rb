@@ -19,7 +19,7 @@ class Setting::Email < Setting
       self.set('smtp_password', N_("Password to use to authenticate, if required"), '', N_('SMTP password'), nil, {:encrypted => true}),
       self.set('smtp_authentication', N_("Specify authentication type, if required"), '', N_('SMTP authentication'), nil, { :collection => Proc.new {{:plain => "plain", :login => "login", :cram_md5 => "cram_md5", '' => _("none")}}}),
       self.set('sendmail_arguments', N_("Specify additional options to sendmail"), '-i', N_('Sendmail arguments')),
-      self.set('sendmail_location', N_("The location of the sendmail executable"), "/usr/sbin/sendmail", N_('Sendmail location'))
+      self.set('sendmail_location', N_("The location of the sendmail executable"), "/usr/sbin/sendmail", N_('Sendmail location')),
     ]
   end
 

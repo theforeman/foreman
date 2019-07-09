@@ -22,7 +22,7 @@ class ProxyApiDhcpTest < ActiveSupport::TestCase
         'filename' => 'pxelinux.0',
         'nextServer' => '1.2.3.4',
         'hostname' => 'www.example.com',
-        'subnet' => '192.168.0.0/255.255.255.0'
+        'subnet' => '192.168.0.0/255.255.255.0',
       }
     end
 

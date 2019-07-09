@@ -21,7 +21,7 @@ Apipie.configure do |config|
     :providers_requiring_url => -> { ComputeResource.providers_requiring_url },
     :default_nic_type => InterfaceTypeMapper::DEFAULT_TYPE.humanized_name.downcase,
     :template_kinds => -> { Rails.cache.fetch("template_kind_names", expires_in: 1.hour) {TemplateKind.pluck(:name).join(", ")} },
-    :host_rebuild_steps => -> { Host::Managed.valid_rebuild_only_values.join(', ') }
+    :host_rebuild_steps => -> { Host::Managed.valid_rebuild_only_values.join(', ') },
   }
 
   config.translate = lambda do |str, loc|

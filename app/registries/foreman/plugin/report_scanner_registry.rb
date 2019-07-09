@@ -4,7 +4,7 @@ module Foreman
   class Plugin
     class ReportScannerRegistry
       DEFAULT_REPORT_SCANNERS = [
-        ::Foreman::PuppetReportScanner
+        ::Foreman::PuppetReportScanner,
       ].freeze
 
       attr_accessor :report_scanners

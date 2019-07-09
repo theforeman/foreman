@@ -28,26 +28,26 @@ class PuppetReportScannerTest < ActiveSupport::TestCase
           "log" => {
             "sources" => {
               "source" => "/Stage[main]/Foreman_scap_client/Package[rubygem-foreman_scap_client]/ensure",
-              "message" => "created"
-            }
-          }
+              "message" => "created",
+            },
+          },
         },
         {
           "log" => {
             "sources" => {
               "source" => "/Stage[main]/Foreman_scap_client/File[foreman_scap_client]/ensure",
-              "message" => "defined content as '{md5}44782af0f20a1d3c5ea5fe19a79c1b6f'"
-            }
-          }
+              "message" => "defined content as '{md5}44782af0f20a1d3c5ea5fe19a79c1b6f'",
+            },
+          },
         },
         {
           "log" => {
             "sources" => {
               "source" => "//scapclient.example.tst/Puppet",
-              "message" => "Applied catalog in 11.17 seconds"
-            }
-          }
-        }
+              "message" => "Applied catalog in 11.17 seconds",
+            },
+          },
+        },
       ]
     end
 

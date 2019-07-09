@@ -69,7 +69,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
       @proxy = smart_proxies(:puppetmaster)
       classes = {
         'ignored-class' => {},
-        'not-ignored-class' => {}
+        'not-ignored-class' => {},
       }
       @proxy_api = ProxyAPI::Puppet.new(:url => @proxy.url)
       @proxy_api.stubs(:classes).returns(classes)
@@ -117,7 +117,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
       @proxy = smart_proxies(:puppetmaster)
       classes = {
         'ignored-class' => {},
-        'not-ignored-class' => {}
+        'not-ignored-class' => {},
       }
       @proxy_api = ProxyAPI::Puppet.new(:url => @proxy.url)
       @proxy_api.stubs(:classes).returns(classes)
@@ -287,8 +287,8 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
       "apache::service" => {
         "name"   => "service",
         "params" => { "port" => "80", "version" => "2.0" },
-        "module" => "apache"
-      }
+        "module" => "apache",
+      },
     }]
     Hash[pcs.map { |k| [k.keys.first, Foreman::ImporterPuppetclass.new(k.values.first)] }]
   end

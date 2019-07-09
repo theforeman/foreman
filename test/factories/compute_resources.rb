@@ -87,7 +87,7 @@ FactoryBot.define do
     vm_attrs do
       {
         :flavor_id => 'm1.small',
-        :availability_zone => 'eu-west-1a'
+        :availability_zone => 'eu-west-1a',
       }
     end
     before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }

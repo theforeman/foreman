@@ -157,7 +157,7 @@ module HostsHelper
         [_('Disable Notifications'), multiple_disable_hosts_path],
         [_('Enable Notifications'), multiple_enable_hosts_path],
         [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
-        [_('Rebuild Config'), rebuild_config_hosts_path]
+        [_('Rebuild Config'), rebuild_config_hosts_path],
       ]
       actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
       actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
@@ -258,8 +258,8 @@ module HostsHelper
       [
         _("Status"),
         content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
-          content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
-      ]
+          content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status)),
+      ],
     ]
     fields += host_detailed_status_list(host)
     fields += [[_("Build duration"), build_duration(host)]]
@@ -294,7 +294,7 @@ module HostsHelper
       [
         _(status.name),
         content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
-          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
+          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global)),
       ]
     end.compact
   end
@@ -328,7 +328,7 @@ module HostsHelper
                                 :id       => "build-review",
                                 :data     => { :toggle => 'modal',
                                                :target => '#review_before_build',
-                                               :url    => review_before_build_host_path(:id => host)
+                                               :url    => review_before_build_host_path(:id => host),
                                 }
           )
         end
@@ -397,7 +397,7 @@ module HostsHelper
       link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
       (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
       (link_to_if_authorized(_("Reports"), hash_for_host_config_reports_path(:host_id => host), :title => _("Browse host config management reports"), :class => 'btn btn-default') if host.reports.any?),
-      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
+      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?),
     ].compact
   end
 

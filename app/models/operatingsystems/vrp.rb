@@ -49,8 +49,8 @@ class VRP < Operatingsystem
       :vendor   => "huawei",
       :firmware => {
         :core => "#{pxe_prefix medium_provider}#{PXEFILES[:core]}",
-        :web => "#{pxe_prefix medium_provider}#{PXEFILES[:web]}"
-      }
+        :web => "#{pxe_prefix medium_provider}#{PXEFILES[:web]}",
+      },
     }
   end
 end

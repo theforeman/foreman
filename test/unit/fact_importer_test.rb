@@ -218,7 +218,7 @@ class FactImporterTest < ActiveSupport::TestCase
         end
 
         {
-          name: fact_name
+          name: fact_name,
         }
       end
 

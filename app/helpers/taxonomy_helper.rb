@@ -159,7 +159,7 @@ module TaxonomyHelper
                :domains => { :all => _("All domains"), :select => _("Select domains") },
                :realms => { :all => _("All realms"), :select => _("Select realms") },
                :environments => { :all => _("All environments"), :select => _("Select environments") },
-               :hostgroups => { :all => _("All host groups"), :select => _("Select host groups") }
+               :hostgroups => { :all => _("All host groups"), :select => _("Select host groups") },
     }
     labels[resource][verb]
   end

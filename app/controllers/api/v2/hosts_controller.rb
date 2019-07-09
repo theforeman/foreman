@@ -274,7 +274,7 @@ Return the host's compute attributes that can be used to create a clone of this 
 
         resp = {
           id: @host.id,
-          statusText: _("Failed to fetch power status: %s") % e
+          statusText: _("Failed to fetch power status: %s") % e,
         }
 
         render json: resp.merge(PowerManager::PowerStatus::HOST_POWER[:na])

@@ -28,7 +28,7 @@ module ComputeResourcesHelper
     if vm.ready?
       {
         :data => { :confirm => _("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm }},
-        :class => "btn btn-danger"
+        :class => "btn btn-danger",
       }
     else
       { :class => "btn btn-info" }
@@ -49,7 +49,7 @@ module ComputeResourcesHelper
     else
       {
         :data => { :confirm => _("Are you sure you want to %{act} %{vm}?") % { :act => pause_action, :vm => vm } },
-        :class => "btn btn-danger"
+        :class => "btn btn-danger",
       }
     end
   end

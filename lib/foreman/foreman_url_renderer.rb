@@ -36,7 +36,7 @@ module Foreman
       {
         :protocol => config.scheme || 'http',
         :host     => config.host || request.host,
-        :port     => config.port || request.port
+        :port     => config.port || request.port,
       }
     end
 
@@ -45,7 +45,7 @@ module Foreman
       {
         :host     => uri.host,
         :port     => uri.port,
-        :protocol => uri.scheme
+        :protocol => uri.scheme,
       }
     end
 

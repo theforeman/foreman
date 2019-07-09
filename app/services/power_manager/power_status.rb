@@ -3,7 +3,7 @@ module PowerManager
     HOST_POWER = {
       on:  { state: 'on', title: N_('On') },
       off: { state: 'off', title: N_('Off') },
-      na:  { state: 'na', title: N_('N/A') }
+      na:  { state: 'na', title: N_('N/A') },
     }.freeze
 
     def power_state

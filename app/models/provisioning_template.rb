@@ -50,7 +50,7 @@ class ProvisioningTemplate < Template
 
   attr_exportable({
     :kind => Proc.new { |template| template.template_kind.try(:name) },
-    :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq }
+    :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq },
   }.merge(taxonomy_exportable))
 
   dirty_has_many_associations :template_combinations, :os_default_templates, :operatingsystems
@@ -218,7 +218,7 @@ class ProvisioningTemplate < Template
               :template => template,
               :kernel => hostgroup.operatingsystem.kernel(medium_provider),
               :initrd => hostgroup.operatingsystem.initrd(medium_provider),
-              :pxe_type => hostgroup.operatingsystem.pxe_type
+              :pxe_type => hostgroup.operatingsystem.pxe_type,
             }
           else
             Rails.logger.warn "Could not find medium_provider for hostgroup #{hostgroup}, skipping"

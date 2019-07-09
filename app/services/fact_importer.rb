@@ -37,7 +37,7 @@ class FactImporter
       Setting[:excluded_facts],
       {
         :prefix => '(\A|.*::|.*_)',
-        :suffix => '(\Z|::.*)'
+        :suffix => '(\Z|::.*)',
       }
     )
   end
@@ -130,7 +130,7 @@ class FactImporter
 
   def fact_name_attributes(fact_name)
     {
-      name: fact_name
+      name: fact_name,
     }
   end
 

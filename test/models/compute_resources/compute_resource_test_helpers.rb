@@ -34,7 +34,7 @@ module ComputeResourceTestHelpers
 
   def assert_blank_attr_nilified(cr, attr_name)
     vm_attrs = {
-      attr_name => ''
+      attr_name => '',
     }
     normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -44,7 +44,7 @@ module ComputeResourceTestHelpers
 
   def assert_attrs_mapped(cr, attr_before, attr_after)
     vm_attrs = {
-      attr_before => 'ATTR_VALUE'
+      attr_before => 'ATTR_VALUE',
     }
     normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -54,7 +54,7 @@ module ComputeResourceTestHelpers
 
   def assert_blank_mapped_attr_nilified(cr, attr_before, attr_after)
     vm_attrs = {
-      attr_before => ''
+      attr_before => '',
     }
     normalized = cr.normalize_vm_attrs(vm_attrs)
 

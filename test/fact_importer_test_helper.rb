@@ -44,7 +44,7 @@ module FactsData
     def good_facts
       {
         'just_a_fact' => 'hello',
-        'nofilter' => 'hello'
+        'nofilter' => 'hello',
       }
     end
 
@@ -54,7 +54,7 @@ module FactsData
         'fact_bad' => 'will_not_show',
         'filter' => 'will_not_show',
         'ignore' => 'will_not_show',
-        '_bad' => 'will_not_show'
+        '_bad' => 'will_not_show',
       }
     end
   end
@@ -66,7 +66,7 @@ module FactsData
 
     def good_facts
       {
-        'something::something_else' => 'hello'
+        'something::something_else' => 'hello',
       }
     end
 
@@ -80,7 +80,7 @@ module FactsData
         'something::fact_bad::something_else' => 'will_not_show',
         'filter::something' => 'will_not_show',
         'something::filter' => 'will_not_show',
-        'something::filter::something_else' => 'will_not_show'
+        'something::filter::something_else' => 'will_not_show',
       }
     end
   end
@@ -94,7 +94,7 @@ module FactsData
       {
         'something_filter_something_else' => 'hello',
         'fact_bad_something' => 'hello',
-        'filter_something' => 'hello'
+        'filter_something' => 'hello',
       }
     end
 
@@ -104,7 +104,7 @@ module FactsData
         'something_ignored_fact' => 'will_not_show',
         'something_ignored_fact_something_else' => 'will_not_show',
         'something_fact_bad' => 'will_not_show',
-        'something_filter' => 'will_not_show'
+        'something_filter' => 'will_not_show',
       }
     end
   end
@@ -119,9 +119,9 @@ module FactsData
         :good => 'hello',
         :common_ancestor => {
           :good_subtree => {
-            :good_key => 'hello'
-          }
-        }
+            :good_key => 'hello',
+          },
+        },
       }
     end
 
@@ -130,13 +130,13 @@ module FactsData
         :common_ancestor => {
           :ignored_subtree => {
             :key1 => 'will_not_show',
-            :key2 => 'will_not_show'
-          }
+            :key2 => 'will_not_show',
+          },
         },
         :empty_ancestor => {
-          :ignored_key => 'will_not_show'
+          :ignored_key => 'will_not_show',
         },
-        :ignored_value => 'will_not_show'
+        :ignored_value => 'will_not_show',
       }
     end
 
@@ -145,7 +145,7 @@ module FactsData
         "good" => "hello",
         "common_ancestor::good_subtree::good_key" => "hello",
         "common_ancestor::good_subtree" => nil,
-        "common_ancestor" => nil
+        "common_ancestor" => nil,
       }
     end
   end
@@ -164,7 +164,7 @@ module FactsData
         'net::interface::virbr4::ipv6_netmask::link' => '64',
         'net::interface::virbr4::ipv6_netmask::link_list' => '64',
         'net::interface::virbr4::mac_address' => 'FE:54:00:59:4E:BF',
-        'net::interface::virbr4::permanent_mac_address' => 'Unknown'
+        'net::interface::virbr4::permanent_mac_address' => 'Unknown',
       }
     end
 
@@ -177,7 +177,7 @@ module FactsData
         'net::interface::veth4::ipv6_netmask::link' => '64',
         'net::interface::docker4::ipv6_netmask::link_list' => '64',
         'net::interface::vlinuxbr4::mac_address' => 'FE:54:00:59:4E:BF',
-        'net::interface::usb4::permanent_mac_address' => 'Unknown'
+        'net::interface::usb4::permanent_mac_address' => 'Unknown',
       }
     end
   end
@@ -189,14 +189,14 @@ module FactsData
 
     def good_facts
       {
-        'good_fact' => 'a_value'
+        'good_fact' => 'a_value',
       }
     end
 
     def ignored_facts
       {
         'partitions' => {"nvme0n1p5" => {}, "nvme0n1p3" => {"uuid" => "2bff39f0-8e86-4852-9ef5-a27d2d64064f", "mount" => "/"}},
-        'mountpoints' => {"/var/lib/kubelet/pods/18d36b62-526f-11e9-98b1-0200004190da/volumes/kubernetes.io~secret/certs" => {"used_bytes" => 13}}
+        'mountpoints' => {"/var/lib/kubelet/pods/18d36b62-526f-11e9-98b1-0200004190da/volumes/kubernetes.io~secret/certs" => {"used_bytes" => 13}},
       }
     end
   end

@@ -21,7 +21,7 @@ class UserdataController < ApplicationController
       :hostname => @host.name,
       :mac => @host.mac,
       :'local-ipv4' => @host.ip,
-      :'local-hostname' => @host.name
+      :'local-hostname' => @host.name,
     }
     render plain: data.map { |key, value| "#{key}: #{value}" }.join("\n")
   end
@@ -59,7 +59,7 @@ class UserdataController < ApplicationController
 
   def find_host
     query_params = {
-      ip: ip_from_request_env
+      ip: ip_from_request_env,
     }
 
     @host = Foreman::UnattendedInstallation::HostFinder.new(query_params: query_params).search

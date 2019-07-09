@@ -78,7 +78,7 @@ module HostInfoProviders
       {
         "ip"  => host.ip,
         "ip6" => host.ip6,
-        "mac" => host.mac
+        "mac" => host.mac,
       }
     end
 

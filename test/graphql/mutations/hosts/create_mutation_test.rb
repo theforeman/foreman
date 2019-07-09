@@ -44,7 +44,7 @@ module Mutations
           domainId: domain_id,
           ownerId: owner_id,
           rootPass: root_pass,
-          build: true
+          build: true,
         }
       end
       let(:variables) do
@@ -183,17 +183,17 @@ module Mutations
                   volumes_attributes: [
                     {
                       size_gb: 50,
-                      storage_pod: 'DC1-Storage-01'
-                    }
-                  ]
+                      storage_pod: 'DC1-Storage-01',
+                    },
+                  ],
                 },
                 interfacesAttributes: [
                   {
                     computeAttributes: {
                       type: 'VirtualVmxnet3',
-                      network: 'dvportgroup-1288722'
-                    }
-                  }
+                      network: 'dvportgroup-1288722',
+                    },
+                  },
                 ]
               )
             end
@@ -238,7 +238,7 @@ module Mutations
                     identifier: 'bond0',
                     primary: true,
                     provision: true,
-                    managed: true
+                    managed: true,
                   },
                   {
                     type: 'interface',
@@ -246,7 +246,7 @@ module Mutations
                     mac: '00:11:22:33:44:11',
                     primary: false,
                     provision: false,
-                    managed: true
+                    managed: true,
                   },
                   {
                     type: 'interface',
@@ -254,8 +254,8 @@ module Mutations
                     mac: '00:11:22:33:44:22',
                     primary: false,
                     provision: false,
-                    managed: true
-                  }
+                    managed: true,
+                  },
                 ]
               )
             end

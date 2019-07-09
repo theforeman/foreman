@@ -40,8 +40,8 @@ module Dashboard
                 name: N_('Host Configuration Status for %s') % origin,
                 settings: {
                   origin: origin,
-                  class_name: 'host-configuration-status'
-                }
+                  class_name: 'host-configuration-status',
+                },
               },
               {
                 template: 'status_chart_widget',
@@ -50,9 +50,9 @@ module Dashboard
                 name: N_('Host Configuration Chart for %s') % origin,
                 settings: {
                   origin: origin,
-                  class_name: 'host-configuration-chart'
-                }
-              }
+                  class_name: 'host-configuration-chart',
+                },
+              },
             ]
           end,
           registered_report_orgins.flat_map do |origin|
@@ -63,13 +63,13 @@ module Dashboard
               name: N_('Run Distribution Chart for %s') % origin,
               settings: {
                 origin: origin,
-                class_name: 'run-distribution-chart'
-              }
+                class_name: 'run-distribution-chart',
+              },
             }
           end,
           {template: 'reports_widget', sizex: 6, sizey: 1, name: N_('Latest Events')},
           {template: 'new_hosts_widget', sizex: 8, sizey: 1, name: N_('New Hosts')},
-          {template: 'hosts_in_build_mode_widget', sizex: 8, sizey: 1, name: N_('Hosts in build mode')}
+          {template: 'hosts_in_build_mode_widget', sizex: 8, sizey: 1, name: N_('Hosts in build mode')},
         ].flatten.sort_by {|widget| widget['name'] }
       end
 

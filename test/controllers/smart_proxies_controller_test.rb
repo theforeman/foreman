@@ -227,9 +227,9 @@ class SmartProxiesControllerTest < ActionController::TestCase
           {
             "timestamp" => 1453890750.9860077,
             "level"     => "DEBUG",
-            "message"   => "A debug message"
-          }
-        ]
+            "message"   => "A debug message",
+          },
+        ],
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
@@ -247,9 +247,9 @@ class SmartProxiesControllerTest < ActionController::TestCase
           {
             "timestamp" => 1453890750.9860077,
             "level"     => "DEBUG",
-            "message"   => "A debug message"
-          }
-        ]
+            "message"   => "A debug message",
+          },
+        ],
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
@@ -266,9 +266,9 @@ class SmartProxiesControllerTest < ActionController::TestCase
       {
         'info' => {
           "failed_modules" => {
-            "BMC" => "Initialization error"
-          }
-        }
+            "BMC" => "Initialization error",
+          },
+        },
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
@@ -283,14 +283,14 @@ class SmartProxiesControllerTest < ActionController::TestCase
     fake_data = ::SmartProxies::LogBuffer.new(
       {
         "info" => {
-          "failed_modules" => {}
+          "failed_modules" => {},
         },
         "logs" => [
           { "timestamp" => 1000, "level" => "INFO", "message" => "Message" },
           { "timestamp" => 1001, "level" => "INFO", "message" => "Message" },
           { "timestamp" => 1002, "level" => "ERROR", "message" => "Message" },
-          { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" }
-        ]
+          { "timestamp" => 1003, "level" => "FATAL", "message" => "Message" },
+        ],
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
@@ -306,9 +306,9 @@ class SmartProxiesControllerTest < ActionController::TestCase
     fake_data = ::SmartProxies::LogBuffer.new(
       {
         "info" => {
-          "failed_modules" => {}
+          "failed_modules" => {},
         },
-        "logs" => []
+        "logs" => [],
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
@@ -328,10 +328,10 @@ class SmartProxiesControllerTest < ActionController::TestCase
         "info" => {
           "failed_modules" => {
             "BMC" => "Message",
-            "Puppet" => "Another message"
-          }
+            "Puppet" => "Another message",
+          },
         },
-        "logs" => []
+        "logs" => [],
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)
@@ -347,9 +347,9 @@ class SmartProxiesControllerTest < ActionController::TestCase
     fake_data = ::SmartProxies::LogBuffer.new(
       {
         "info" => {
-          "failed_modules" => {}
+          "failed_modules" => {},
         },
-        "logs" => []
+        "logs" => [],
       }
     )
     ProxyStatus::Logs.any_instance.expects(:logs).returns(fake_data)

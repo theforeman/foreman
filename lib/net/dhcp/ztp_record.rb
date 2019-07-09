@@ -12,7 +12,7 @@ module Net::DHCP
       @attrs ||= super.merge(
         {
           :ztp_firmware   => firmware,
-          :ztp_vendor     => vendor
+          :ztp_vendor     => vendor,
         }).compact
     end
   end

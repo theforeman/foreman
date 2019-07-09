@@ -6,7 +6,7 @@ module SSO
     ENV_TO_ATTR_MAPPING = {
       'REMOTE_USER_EMAIL'     => :mail,
       'REMOTE_USER_FIRSTNAME' => :firstname,
-      'REMOTE_USER_LASTNAME'  => :lastname
+      'REMOTE_USER_LASTNAME'  => :lastname,
     }
 
     def available?

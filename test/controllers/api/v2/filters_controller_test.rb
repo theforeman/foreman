@@ -68,7 +68,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
           :permission_ids => [permissions(:view_domains).id],
           :override => true,
           :location_ids => [filter_loc.id],
-          :organization_ids => [filter_org.id]
+          :organization_ids => [filter_org.id],
         }
         post :create, params: { :filter => filter_attr }
       end
@@ -117,7 +117,7 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
           :permission_ids => [permissions(:view_architectures).id],
           :override => true,
           :location_ids => [@loc.id],
-          :organization_ids => [@org.id]
+          :organization_ids => [@org.id],
         }
         post :create, params: { :filter => filter_attr }
       end

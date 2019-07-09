@@ -123,7 +123,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       as_admin do
         post :create, params: { :smart_variable => {
           :variable => lookup_keys(:four).variable,
-          :puppetclass_id => puppetclasses(:two).id
+          :puppetclass_id => puppetclasses(:two).id,
         }}
       end
     end
@@ -137,7 +137,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       :variable => 'new_variable_name',
       :puppetclass_id => puppetclasses(:two).id,
       :variable_type => 'array',
-      :default_value => '["a string", "123456789", "<test>html</test>"]'
+      :default_value => '["a string", "123456789", "<test>html</test>"]',
     }
     assert_difference('LookupKey.count') do
       as_admin do
@@ -158,7 +158,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       :variable => 'new_variable_name',
       :puppetclass_id => puppetclasses(:two).id,
       :variable_type => 'array',
-      :default_value => 'not a valid array in a string'
+      :default_value => 'not a valid array in a string',
     }
     assert_difference('LookupKey.count', 0) do
       as_admin do
@@ -198,7 +198,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     put :update, params: { :id => smart_variable.to_param, :smart_variable => {
       :validator_type => 'regexp',
       :validator_rule => '[0-9]',
-      :default_value => RFauxFactory.gen_alpha
+      :default_value => RFauxFactory.gen_alpha,
     }}
     assert_response :error
     assert_include @response.body, 'Validation failed: Default value is invalid'
@@ -212,7 +212,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
       RFauxFactory.gen_alpha,
       RFauxFactory.gen_alphanumeric,
       rand(100..1000000),
-      %w[true false].sample
+      %w[true false].sample,
     ]
     validator_rule = values_list.join(', ')
     default_value = values_list[1]
@@ -223,7 +223,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
           :puppetclass_id => puppetclasses(:two).id,
           :validator_type => 'list',
           :validator_rule => validator_rule,
-          :default_value => default_value
+          :default_value => default_value,
         }}
       end
     end
@@ -248,7 +248,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
           :puppetclass_id => puppetclasses(:two).id,
           :validator_type => 'list',
           :validator_rule => validator_rule,
-          :default_value => default_value
+          :default_value => default_value,
         }}
       end
     end
@@ -269,7 +269,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     refute smart_variable.merge_default
     put :update, params: { :id => smart_variable.to_param, :smart_variable => {
       :merge_overrides => true,
-      :merge_default => true
+      :merge_default => true,
     }}
     assert_response :success
     smart_variable.reload
@@ -282,7 +282,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     smart_variable = lookup_keys(:four)
     refute_includes %w[array hash], smart_variable.variable_type
     put :update, params: { :id => smart_variable.to_param, :smart_variable => {
-      :merge_overrides => true
+      :merge_overrides => true,
     }}
     assert_response :error
     assert_includes @response.body, 'Validation failed: Merge overrides can only be set for array or hash'
@@ -293,7 +293,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     smart_variable = lookup_keys(:four)
     refute smart_variable.merge_overrides
     put :update, params: { :id => smart_variable.to_param, :smart_variable => {
-      :merge_default => true
+      :merge_default => true,
     }}
     assert_response :error
     assert_includes @response.body, 'Validation failed: Merge default can only be set when merge overrides is set'
@@ -312,7 +312,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     refute smart_variable.avoid_duplicates
     put :update, params: { :id => smart_variable.to_param, :smart_variable => {
       :merge_overrides => true,
-      :avoid_duplicates => true
+      :avoid_duplicates => true,
     }}
     assert_response :success
     smart_variable.reload
@@ -325,7 +325,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
     smart_variable = lookup_keys(:four)
     refute smart_variable.merge_overrides
     put :update, params: { :id => smart_variable.to_param, :smart_variable => {
-      :avoid_duplicates => true
+      :avoid_duplicates => true,
     }}
     assert_response :error
     assert_includes @response.body, 'Avoid duplicates can only be set for arrays that have merge_overrides set to true'
@@ -339,7 +339,7 @@ class Api::V2::SmartVariablesControllerTest < ActionController::TestCase
           post :create, params: { :smart_variable => {
             :variable => RFauxFactory.gen_alpha,
             :puppetclass_id => puppetclasses(:two).id,
-            :hidden_value => true
+            :hidden_value => true,
           }}
         end
       end

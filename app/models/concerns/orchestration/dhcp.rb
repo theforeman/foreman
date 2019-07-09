@@ -119,7 +119,7 @@ module Orchestration::DHCP
       :mac => record_mac,
       :proxy => subnet.dhcp_proxy,
       :network => subnet.network,
-      :related_macs => mac_addresses_for_provisioning - [record_mac]
+      :related_macs => mac_addresses_for_provisioning - [record_mac],
     }
 
     if provision?

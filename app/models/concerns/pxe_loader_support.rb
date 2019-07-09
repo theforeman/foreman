@@ -6,7 +6,7 @@ module PxeLoaderSupport
     :PXELinux => /^(pxelinux.*|PXELinux (BIOS|UEFI))$/,
     :PXEGrub => /^(grub\/|Grub UEFI).*/,
     :PXEGrub2 => /^(grub2\/|Grub2 (BIOS|UEFI|ELF)|http.*grub2\/).*/,
-    :iPXE => /^((iPXE|http.*\/ipxe-).*|ipxe\.efi|undionly\.kpxe)$/
+    :iPXE => /^((iPXE|http.*\/ipxe-).*|ipxe\.efi|undionly\.kpxe)$/,
   }.with_indifferent_access.freeze
 
   # preference order is defined in Operatingsystem#template_kinds
@@ -14,7 +14,7 @@ module PxeLoaderSupport
     :PXELinux => "PXELinux BIOS",
     :PXEGrub2 => "Grub2 UEFI",
     :PXEGrub => "Grub UEFI",
-    :iPXE => 'iPXE Chain BIOS'
+    :iPXE => 'iPXE Chain BIOS',
   }.with_indifferent_access.freeze
 
   class_methods do
@@ -34,7 +34,7 @@ module PxeLoaderSupport
         "iPXE Embedded" => nil, # renders directly as foreman_url('iPXE')
         "iPXE UEFI HTTP" => "http://#{httpboot_host}/httpboot/ipxe-#{precision}.efi",
         "iPXE Chain BIOS" => "undionly.kpxe",
-        "iPXE Chain UEFI" => "ipxe.efi"
+        "iPXE Chain UEFI" => "ipxe.efi",
       }.freeze
     end
 

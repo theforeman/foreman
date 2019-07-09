@@ -39,7 +39,7 @@ class ComputeAttributeTest < ActiveSupport::TestCase
       set = compute_attributes(:with_interfaces)
       expected_vm_interfaces = [
         {'attr' => 1},
-        {'attr' => 2}
+        {'attr' => 2},
       ]
       assert_equal expected_vm_interfaces, set.vm_interfaces
     end

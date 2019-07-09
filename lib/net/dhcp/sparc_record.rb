@@ -18,7 +18,7 @@ module Net::DHCP
           "#{vendor}install_server_name"   => install_server_name,
           "#{vendor}root_server_hostname"  => root_server_hostname,
           "#{vendor}root_server_ip"        => root_server_ip,
-          "#{vendor}install_path"          => install_path
+          "#{vendor}install_path"          => install_path,
         }).compact
     end
   end

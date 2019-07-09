@@ -11,9 +11,9 @@ class RackspaceV2ServerTest < ActiveSupport::TestCase
       {
         "public" => [
           {"version" => 4, "addr" => "166.78.105.63"},
-          {"version" => 6, "addr" => "2001:4801:7817:0072:0fe1:75e8:ff10:61a9"}
+          {"version" => 6, "addr" => "2001:4801:7817:0072:0fe1:75e8:ff10:61a9"},
         ],
-        "private" => [{"version" => 4, "addr" => "10.177.18.209"}]
+        "private" => [{"version" => 4, "addr" => "10.177.18.209"}],
       }
     )
     assert_equal ["10.177.18.209", "166.78.105.63", "2001:4801:7817:0072:0fe1:75e8:ff10:61a9"], server.ip_addresses.sort

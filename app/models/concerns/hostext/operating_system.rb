@@ -27,7 +27,7 @@ module Hostext
         ProvisioningTemplate.find_template({ :kind               => kind.name,
                                              :operatingsystem_id => operatingsystem_id,
                                              :hostgroup_id       => hostgroup_id,
-                                             :environment_id     => environment_id
+                                             :environment_id     => environment_id,
         })
       end.compact
     end

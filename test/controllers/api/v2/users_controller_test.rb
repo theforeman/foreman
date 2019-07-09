@@ -16,7 +16,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       '',
       "space #{RFauxFactory.gen_alpha}",
       RFauxFactory.gen_alpha(101),
-      RFauxFactory.gen_html
+      RFauxFactory.gen_html,
     ]
   end
 
@@ -179,7 +179,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
 
     as_user :one do
       post :create, params: { :user => {
-        :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id }
+        :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id },
       }
       assert_response :created
       assert User.unscoped.find_by_login('new_admin').admin?

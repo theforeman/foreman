@@ -165,7 +165,7 @@ class ManagedTest < ActiveSupport::TestCase
 
     setup do
       host_cr.update({ :locations => [taxonomies(:location2)],
-                       :organizations => [taxonomies(:organization2)]
+                       :organizations => [taxonomies(:organization2)],
                     })
     end
 

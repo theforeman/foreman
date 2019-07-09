@@ -22,7 +22,7 @@ module PowerManager
                          :reboot   => 'soft',
                          :reset    => 'cycle',
                          :state    => 'status',
-                         :ready?   => 'ready?'
+                         :ready?   => 'ready?',
                        })
     end
 

@@ -373,7 +373,7 @@ module Foreman::Model
         :search => params['search']['value'] || '',
         :max => max,
         :page => (params['start'].to_i / max) + 1,
-        :without_details => true
+        :without_details => true,
       }
     end
 
@@ -453,7 +453,7 @@ module Foreman::Model
       normalized['interfaces_attributes'] = interface_attrs.inject({}) do |interfaces, (key, nic)|
         interfaces.update(key => { 'name' => nic['name'],
                                 'network_id' => nic['network'],
-                                'network_name' => cluster_networks.detect { |n| n.id == nic['network'] }.try(:name)
+                                'network_name' => cluster_networks.detect { |n| n.id == nic['network'] }.try(:name),
                               })
       end
 
@@ -463,7 +463,7 @@ module Foreman::Model
                                 'storage_domain_id' => vol['storage_domain'],
                                 'storage_domain_name' => storage_domains.detect { |d| d.id == vol['storage_domain'] }.try(:name),
                                 'preallocate' => to_bool(vol['preallocate']),
-                                'bootable' => to_bool(vol['bootable'])
+                                'bootable' => to_bool(vol['bootable']),
                               })
       end
 
@@ -475,7 +475,7 @@ module Foreman::Model
         OpenStruct.new({:id => 'virtio', :name => 'VirtIO'}),
         OpenStruct.new({:id => 'rtl8139', :name => 'rtl8139'}),
         OpenStruct.new({:id => 'e1000', :name => 'e1000'}),
-        OpenStruct.new({:id => 'pci_passthrough', :name => 'PCI Passthrough'})
+        OpenStruct.new({:id => 'pci_passthrough', :name => 'PCI Passthrough'}),
       ]
     end
 
@@ -671,8 +671,8 @@ module Foreman::Model
             compute_attributes: {
               name: interface.name,
               network: interface.network,
-              interface: interface.interface
-            }
+              interface: interface.interface,
+            },
           }
           hsh[index.to_s] = interface_attrs
         end

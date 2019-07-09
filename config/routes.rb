@@ -43,7 +43,7 @@ Foreman::Application.routes.draw do
     'subnets',
     'trends',
     'usergroups',
-    'variable_lookup_keys'
+    'variable_lookup_keys',
   ]
 
   welcoming_controllers.each do |welcoming_controller|

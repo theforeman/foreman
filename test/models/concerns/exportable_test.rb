@@ -14,7 +14,7 @@ class ExportableTest < ActiveSupport::TestCase
         'attrs' => attrs,
         'mac' => mac,
         'password' => password,
-        'subnet' => subnet
+        'subnet' => subnet,
       }
     end
   end
@@ -28,7 +28,7 @@ class ExportableTest < ActiveSupport::TestCase
     def attributes
       {
         'name' => name,
-        'network' => network
+        'network' => network,
       }
     end
   end
@@ -43,7 +43,7 @@ class ExportableTest < ActiveSupport::TestCase
       {
         'name' => name,
         'network' => network,
-        'domain' => domain
+        'domain' => domain,
       }
     end
   end

@@ -47,7 +47,7 @@ class SshKey < ApplicationRecord
     {
       'type' => type,
       'key' => ssh_key,
-      'comment' => comment
+      'comment' => comment,
     }
   end
 

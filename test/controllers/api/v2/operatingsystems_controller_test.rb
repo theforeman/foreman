@@ -348,14 +348,14 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     {
       :name  => "awsome_os",
       :major => "1",
-      :minor => "2"
+      :minor => "2",
     }
   end
 
   def minimum_required_os_params
     {
       :name  => RFauxFactory.gen_alpha,
-      :major => RFauxFactory.gen_numeric_string(rand(1..5))
+      :major => RFauxFactory.gen_numeric_string(rand(1..5)),
     }
   end
 end

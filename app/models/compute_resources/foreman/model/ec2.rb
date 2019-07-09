@@ -133,7 +133,7 @@ module Foreman::Model
       normalized['security_groups'] = group_ids.map.with_index do |gid, idx|
         [idx.to_s, {
           'id' => gid,
-          'name' => self.security_groups.detect { |g| g.group_id == gid }.try(:name)
+          'name' => self.security_groups.detect { |g| g.group_id == gid }.try(:name),
         }]
       end.to_h
 

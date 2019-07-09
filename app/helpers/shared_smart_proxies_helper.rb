@@ -22,7 +22,7 @@ module SharedSmartProxiesHelper
     select_options = {
       :disable_button => can_override ? _(INHERIT_TEXT) : nil,
       :disable_button_enabled => override && !explicit_value?(:"#{resource}_id"),
-      :user_set => user_set?(:"#{resource}_id")
+      :user_set => user_set?(:"#{resource}_id"),
     }
     select_options[:include_blank] = blank unless required
 

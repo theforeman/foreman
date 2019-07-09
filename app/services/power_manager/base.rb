@@ -41,7 +41,7 @@ module PowerManager
 
     def action_map
       {
-        :status => { :output => :translate_status }
+        :status => { :output => :translate_status },
       }
     end
 

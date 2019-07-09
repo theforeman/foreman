@@ -40,13 +40,13 @@ module Foreman
           args = {
             :scheduler_hint_filter => "ServerGroupAntiAffinity",
               :scheduler_hint_data => {
-                :scheduler_hint_value => "some-uuid"
-              }
+                :scheduler_hint_value => "some-uuid",
+              },
           }
           desired = {
             :os_scheduler_hints => {
-              :group => "some-uuid"
-            }
+              :group => "some-uuid",
+            },
           }
           @compute_resource.format_scheduler_hint_filter(args)
           assert_equal(desired, args)
@@ -56,13 +56,13 @@ module Foreman
           args = {
             :scheduler_hint_filter => "ServerGroupAffinity",
               :scheduler_hint_data => {
-                :scheduler_hint_value => "some-uuid"
-              }
+                :scheduler_hint_value => "some-uuid",
+              },
           }
           desired = {
             :os_scheduler_hints => {
-              :group => "some-uuid"
-            }
+              :group => "some-uuid",
+            },
           }
           @compute_resource.format_scheduler_hint_filter(args)
           assert_equal(desired, args)
@@ -72,13 +72,13 @@ module Foreman
           args = {
             :scheduler_hint_filter => "Raw",
               :scheduler_hint_data => {
-                :scheduler_hint_value => '{"key": "value"}'
-              }
+                :scheduler_hint_value => '{"key": "value"}',
+              },
           }
           desired = {
             :os_scheduler_hints => {
-              'key' => "value"
-            }
+              'key' => "value",
+            },
           }
           @compute_resource.format_scheduler_hint_filter(args)
           assert_equal(desired, args)
@@ -88,8 +88,8 @@ module Foreman
           args = {
             :scheduler_hint_filter => "Raw",
               :scheduler_hint_data => {
-                :scheduler_hint_value => '{"key": }'
-              }
+                :scheduler_hint_value => '{"key": }',
+              },
           }
           assert_raise ::JSON::ParserError do
             @compute_resource.format_scheduler_hint_filter(args)
@@ -98,7 +98,7 @@ module Foreman
 
         it "Should raise exception if no hint data provided" do
           args = {
-            :scheduler_hint_filter => "Raw"
+            :scheduler_hint_filter => "Raw",
           }
           e = assert_raise(::Foreman::Exception) do
             @compute_resource.format_scheduler_hint_filter(args)
@@ -119,19 +119,19 @@ module Foreman
           mock_cr(FactoryBot.build(:openstack_cr),
             :security_groups => [
               stub(:id => 'grp1', :name => 'group 1'),
-              stub(:id => 'grp2', :name => 'group 2')
+              stub(:id => 'grp2', :name => 'group 2'),
             ],
             :tenants => [
               stub(:id => 'tn1', :name => 'tenant 1'),
-              stub(:id => 'tn2', :name => 'tenant 2')
+              stub(:id => 'tn2', :name => 'tenant 2'),
             ],
             :flavors => [
               stub(:id => 'flvr1', :name => 'flavour 1'),
-              stub(:id => 'flvr2', :name => 'flavour 2')
+              stub(:id => 'flvr2', :name => 'flavour 2'),
             ],
             :internal_networks => [
               stub(:id => 'nic1', :name => 'default'),
-              stub(:id => 'nic2', :name => 'bridge')
+              stub(:id => 'nic2', :name => 'bridge'),
             ]
           )
         end
@@ -140,18 +140,18 @@ module Foreman
           args = {
             :nics => [
               'nic1',
-              {'net_id' => 'nic2', 'v4_fixed_ip' => '10.1.1.1'}
+              {'net_id' => 'nic2', 'v4_fixed_ip' => '10.1.1.1'},
             ],
             'flavor_ref' => 'foo_flavor',
-            'image_ref' => 'foo_image'
+            'image_ref' => 'foo_image',
           }
           desired = {
             :nics => [
               {'net_id' => 'nic1'},
-              {'net_id' => 'nic2', 'v4_fixed_ip' => '10.1.1.1'}
+              {'net_id' => 'nic2', 'v4_fixed_ip' => '10.1.1.1'},
             ],
             'flavor_ref' => 'foo_flavor',
-            'image_ref' => 'foo_image'
+            'image_ref' => 'foo_image',
           }
 
           Fog.mock!
@@ -166,7 +166,7 @@ module Foreman
 
         test 'finds flavor_name' do
           vm_attrs = {
-            'flavor_ref' => 'flvr1'
+            'flavor_ref' => 'flvr1',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -183,7 +183,7 @@ module Foreman
 
         test 'finds tenant_name' do
           vm_attrs = {
-            'tenant_id' => 'tn1'
+            'tenant_id' => 'tn1',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -200,7 +200,7 @@ module Foreman
 
         test 'finds security_group_id' do
           vm_attrs = {
-            'security_groups' => 'group 2'
+            'security_groups' => 'group 2',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -217,7 +217,7 @@ module Foreman
 
         test 'casts boot_from_volume to boolean' do
           vm_attrs = {
-            'boot_from_volume' => 'true'
+            'boot_from_volume' => 'true',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -226,7 +226,7 @@ module Foreman
 
         test 'translates boot_volume_size to bytes' do
           vm_attrs = {
-            'size_gb' => '2'
+            'size_gb' => '2',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -235,7 +235,7 @@ module Foreman
 
         test 'maps zero (default) boot_volume_size nil' do
           vm_attrs = {
-            'size_gb' => '0'
+            'size_gb' => '0',
           }
           normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -244,17 +244,17 @@ module Foreman
 
         test 'normalizes nics_attributes' do
           vm_attrs = {
-            'nics' => ['', 'nic1', 'nic2']
+            'nics' => ['', 'nic1', 'nic2'],
           }
           expected_attrs = {
             '0' => {
               'id' => 'nic1',
-              'name' => 'default'
+              'name' => 'default',
             },
             '1' => {
               'id' => 'nic2',
-              'name' => 'bridge'
-            }
+              'name' => 'bridge',
+            },
           }
 
           normalized = cr.normalize_vm_attrs(vm_attrs)
@@ -275,7 +275,7 @@ module Foreman
 
           test 'adds image name' do
             vm_attrs = {
-              'image_id' => cr.images.last.uuid
+              'image_id' => cr.images.last.uuid,
             }
             normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -284,7 +284,7 @@ module Foreman
 
           test 'leaves image name empty when image_id is nil' do
             vm_attrs = {
-              'image_id' => nil
+              'image_id' => nil,
             }
             normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -294,7 +294,7 @@ module Foreman
 
           test "leaves image name empty when image wasn't found" do
             vm_attrs = {
-              'image_id' => 'unknown'
+              'image_id' => 'unknown',
             }
             normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -319,7 +319,7 @@ module Foreman
             'boot_volume_size' => nil,
             'interfaces_attributes' => {},
             'image_id' => nil,
-            'image_name' => nil
+            'image_name' => nil,
           }
 
           assert_equal(expected_attrs.keys.sort, normalized.keys.sort)

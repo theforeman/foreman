@@ -15,8 +15,8 @@ def valid_sc_variable_data
     { sc_type: 'yaml',
       value: "--- #{RFauxFactory.gen_alpha}=>#{RFauxFactory.gen_alpha} ..." },
     { sc_type: 'json',
-      value: "{\"#{RFauxFactory.gen_alpha}\":\"#{RFauxFactory.gen_numeric_string}\",\"#{RFauxFactory.gen_alpha}\":\"#{RFauxFactory.gen_alphanumeric}\"}"
-    }
+      value: "{\"#{RFauxFactory.gen_alpha}\":\"#{RFauxFactory.gen_numeric_string}\",\"#{RFauxFactory.gen_alpha}\":\"#{RFauxFactory.gen_alphanumeric}\"}",
+    },
   ]
 end
 
@@ -29,7 +29,7 @@ def invalid_sc_variable_data
     { sc_type: 'array', value: 'not a valid array in string' },
     { sc_type: 'hash', value: 'not a valid hash in string' },
     { sc_type: 'yaml', value: "{#{RFauxFactory.gen_alpha}:#{RFauxFactory.gen_alpha}}" },
-    { sc_type: 'json', value: "{#{RFauxFactory.gen_alpha}:#{RFauxFactory.gen_numeric_string},#{RFauxFactory.gen_alpha}:#{RFauxFactory.gen_alphanumeric}}"}
+    { sc_type: 'json', value: "{#{RFauxFactory.gen_alpha}:#{RFauxFactory.gen_numeric_string},#{RFauxFactory.gen_alpha}:#{RFauxFactory.gen_alphanumeric}}"},
   ]
 end
 
@@ -97,14 +97,14 @@ class VariableLookupKeyTest < ActiveSupport::TestCase
       RFauxFactory.gen_alpha,
       RFauxFactory.gen_alphanumeric,
       rand(100..1000000),
-      %w[true false].sample
+      %w[true false].sample,
     ]
     validator_rule = values_list.join(', ')
     valid_attr = {
       :variable => RFauxFactory.gen_alpha,
       :puppetclass_id => puppetclasses(:two).id,
       :validator_type => 'list',
-      :validator_rule => validator_rule
+      :validator_rule => validator_rule,
     }
     values_list.each do |default_value|
       smart_variable = FactoryBot.build(

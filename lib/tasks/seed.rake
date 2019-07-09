@@ -139,7 +139,7 @@ namespace :seed do
         # Ubuntu
         build(:operatingsystem, :name => 'Ubuntu', :major => '12', :minor => '04', :release_name => 'precise', :architectures => architectures),
         build(:operatingsystem, :name => 'Ubuntu', :major => '14', :minor => '04', :release_name => 'trusty', :architectures => architectures),
-        build(:operatingsystem, :name => 'Ubuntu', :major => '16', :minor => '04', :release_name => 'xenial', :architectures => architectures)
+        build(:operatingsystem, :name => 'Ubuntu', :major => '16', :minor => '04', :release_name => 'xenial', :architectures => architectures),
       ]
     end
 

@@ -140,7 +140,7 @@ module AuditExtensions
         audit_action: self.action,
         audit_type: self.auditable_type,
         audit_id: self.auditable_id,
-        audit_attribute: attribute
+        audit_attribute: attribute,
       }
       if self.action == 'update'
         audited_fields[:audit_field_old] = change[0]

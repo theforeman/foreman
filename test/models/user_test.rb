@@ -9,7 +9,7 @@ def valid_emails_list
     "#{RFauxFactory.gen_alphanumeric}+#{RFauxFactory.gen_alphanumeric}@example.com",
     "#{RFauxFactory.gen_alphanumeric}.#{RFauxFactory.gen_alphanumeric}@example.com",
     '"():;"@example.com',
-    '!#$%&*+-/=?^`{|}~@example.com'
+    '!#$%&*+-/=?^`{|}~@example.com',
   ]
 end
 
@@ -23,7 +23,7 @@ def invalid_emails_list
     'A@b@c@example.com',
     "#{RFauxFactory.gen_alpha 243}@example.com",
     "#{RFauxFactory.gen_html}@example.com",
-    's p a c e s@example.com'
+    's p a c e s@example.com',
   ]
 end
 
@@ -31,7 +31,7 @@ def test_roles
   [
     Role.find_by_name('Manager'),
     Role.find_by_name('View hosts'),
-    Role.find_by_name('Edit hosts')
+    Role.find_by_name('Edit hosts'),
   ]
 end
 

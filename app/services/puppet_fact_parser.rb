@@ -119,7 +119,7 @@ class PuppetFactParser < FactParser
     map = {
       'mac' => 'macaddress',
       'ip' => 'ipaddress',
-      'ip6' => 'ipaddress6'
+      'ip6' => 'ipaddress6',
     }
     map.has_key?(attribute) ? map[attribute] : attribute
   end

@@ -108,7 +108,7 @@ module Classification
         {
           :value => lookup_value.send(value_method),
           :element => element,
-          :element_name => element_name
+          :element_name => element_name,
         }
       end
 

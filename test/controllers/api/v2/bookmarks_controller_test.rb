@@ -3,17 +3,17 @@ require 'test_helper'
 class Api::V2::BookmarksControllerTest < ActionController::TestCase
   bookmark_base = {
     :public     => false,
-    :controller => "hosts"
+    :controller => "hosts",
   }
 
   simple_bookmark = bookmark_base.merge({
                                           :name  => "foo-bar",
-                                          :query => "bar"
+                                          :query => "bar",
                                         })
 
   dot_bookmark = bookmark_base.merge({
                                        :name  => "facts.architecture",
-                                       :query => " facts.architecture = x86_64"
+                                       :query => " facts.architecture = x86_64",
                                      })
 
   test "should get index" do

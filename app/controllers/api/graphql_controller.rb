@@ -50,7 +50,7 @@ module Api
           query: param['query'],
           operation_name: param['operationName'],
           variables: ensure_hash(param['variables']),
-          context: graphql_context
+          context: graphql_context,
         }
       end
       ForemanGraphqlSchema.multiplex(queries)
@@ -68,7 +68,7 @@ module Api
       {
         current_user: User.current,
         request_id: request.uuid,
-        request_ip: request.ip
+        request_ip: request.ip,
       }
     end
 

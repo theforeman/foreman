@@ -37,19 +37,19 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
       breadcrumbItems: [
         {
           caption: "Strings",
-          url: 'strings'
+          url: 'strings',
         },
         {
-          caption: "a page"
-        }
+          caption: "a page",
+        },
       ],
       resource:
       {
         switcherItemUrl: "/strings/:id/",
         resourceUrl: "/api/v2/strings",
         nameField: "name",
-        resourceFilter: ""
-      }
+        resourceFilter: "",
+      },
     }
   end
 
@@ -57,11 +57,11 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
     custom_items = [
       {
         caption: "custom page",
-        url: nil
+        url: nil,
       },
       {
-        caption: "another custom page"
-      }
+        caption: "another custom page",
+      },
     ]
     custom_resource_url = "/api/v2/custom_page"
     custom_switcher_item_url = '/customPage/:id'
@@ -78,8 +78,8 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
         switcherItemUrl: custom_switcher_item_url,
         resourceUrl: custom_resource_url,
         nameField: "name",
-        resourceFilter: ""
-      }
+        resourceFilter: "",
+      },
     }
   end
 

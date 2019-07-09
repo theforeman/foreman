@@ -103,7 +103,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
       assert_difference('@location.domains.count', 2) do
         put :update, params: {
           :id => @location.to_param,
-          :location => { :domain_ids => Domain.unscoped.pluck(:id) }
+          :location => { :domain_ids => Domain.unscoped.pluck(:id) },
         }
         User.current = users(:admin)
         # as_admin gets invalidated after the call, so we need to restore it

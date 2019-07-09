@@ -192,16 +192,16 @@ module AuditsHelper
       items: [
         {
           caption: _("Hosts"),
-          url: (url_for(hosts_path) if authorized_for(hash_for_hosts_path))
+          url: (url_for(hosts_path) if authorized_for(hash_for_hosts_path)),
         },
         {
           caption: @host.name,
-          url: (host_path(@host) if authorized_for(hash_for_host_path(@host)))
+          url: (host_path(@host) if authorized_for(hash_for_host_path(@host))),
         },
         {
           caption: _('Audits'),
-          url: url_for(audits_path)
-        }
+          url: url_for(audits_path),
+        },
       ]
     )
   end
@@ -313,7 +313,7 @@ module AuditsHelper
       'display_name' => audit.username.gsub(_('User'), ''),
       'login' => login,
       'search_path' => audits_path(:search => login ? "user = #{login}" : "username = \"#{audit.username}\""),
-      'audit_path' => audits_path(:search => "id=#{audit.id}")
+      'audit_path' => audits_path(:search => "id=#{audit.id}"),
     }
   end
 

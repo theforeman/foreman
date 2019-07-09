@@ -37,7 +37,7 @@ class Api::V2::AuthSourceExternalsControllerTest < ActionController::TestCase
     put :update, params: { :id => auth_sources(:external).to_param,
                    :auth_source_external => {
                      :organization_names => [taxonomies(:organization1).name],
-                     :location_ids => [taxonomies(:location1).id] }
+                     :location_ids => [taxonomies(:location1).id] },
     }
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert_response :success

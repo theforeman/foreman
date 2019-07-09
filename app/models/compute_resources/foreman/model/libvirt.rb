@@ -211,7 +211,7 @@ module Foreman::Model
           'capacity' => memory_gb_to_bytes(vol['capacity']).to_s,
           'allocation' => memory_gb_to_bytes(vol['allocation']).to_s,
           'format_type' => vol['format_type'],
-          'pool' => vol['pool_name']
+          'pool' => vol['pool_name'],
         }
       end
 
@@ -219,7 +219,7 @@ module Foreman::Model
       normalized['interfaces_attributes'] = interface_attrs.each_with_object({}) do |(key, nic), interfaces|
         interfaces[key] = {
           'type' => nic['type'],
-          'model' => nic['model']
+          'model' => nic['model'],
         }
         if nic['type'] == 'network'
           interfaces[key]['network'] = nic['network']

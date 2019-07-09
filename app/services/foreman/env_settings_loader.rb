@@ -59,7 +59,7 @@ module Foreman
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_NAMESPACE' => [:string, :rails_cache_store, :options, :namespace],
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_CONNECT_TIMEOUT' => [:float, :rails_cache_store, :options, :connect_timeout],
         'FOREMAN_RAILS_CACHE_STORE_OPTIONS_READ_TIMEOUT' => [:float, :rails_cache_store, :options, :read_timeout],
-        'FOREMAN_RAILS_CACHE_STORE_OPTIONS_WRITE_TIMEOUT' => [:float, :rails_cache_store, :options, :write_timeout]
+        'FOREMAN_RAILS_CACHE_STORE_OPTIONS_WRITE_TIMEOUT' => [:float, :rails_cache_store, :options, :write_timeout],
       }.merge(logger_settings_map)
     end
 

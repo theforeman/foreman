@@ -9,8 +9,8 @@ task :rescan_reports_origins do
             {'log' =>
                {
                  'sources' => { 'source' => log.source.value },
-                 'messages' => { 'message' => log.message.value }
-               }
+                 'messages' => { 'message' => log.message.value },
+               },
             }
           end
 

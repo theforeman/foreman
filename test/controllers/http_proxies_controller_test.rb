@@ -47,7 +47,7 @@ class HttpProxiesControllerTest < ActionController::TestCase
     put :update,
         params: {
           :id => @model.id,
-          :http_proxy => { :location_ids => [location_id], :organization_ids => [organization_id] }
+          :http_proxy => { :location_ids => [location_id], :organization_ids => [organization_id] },
         },
         session: set_session_user
 

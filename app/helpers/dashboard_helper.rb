@@ -17,7 +17,7 @@ module DashboardHelper
         end
       ),
       auto_refresh_button(:defaults_to => false),
-      documentation_button
+      documentation_button,
     ]
   end
 
@@ -61,7 +61,7 @@ module DashboardHelper
       [_('Pending changes'), report[:pending_hosts_enabled], report_color[:pending_hosts_enabled]],
       [_('Out of sync'), report[:out_of_sync_hosts_enabled], report_color[:out_of_sync_hosts_enabled]],
       [_('No report'), report[:reports_missing], report_color[:reports_missing]],
-      [_('Notification disabled'), report[:disabled_hosts], report_color[:disabled_hosts]]
+      [_('Notification disabled'), report[:disabled_hosts], report_color[:disabled_hosts]],
     ].to_json
   end
 
@@ -110,7 +110,7 @@ module DashboardHelper
       :pending_hosts_enabled => "#80699B",
       :out_of_sync_hosts_enabled => "#3D96AE",
       :reports_missing => "#DB843D",
-      :disabled_hosts => "#92A8CD"
+      :disabled_hosts => "#92A8CD",
     }
   end
 

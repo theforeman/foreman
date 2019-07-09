@@ -44,7 +44,7 @@ module Foreman
         {
           :user => User.current,
           :organization => Organization.current,
-          :location => Location.current
+          :location => Location.current,
         }
       end
 

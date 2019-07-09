@@ -18,7 +18,7 @@ module Mutations
 
         {
           id: id,
-          errors: errors
+          errors: errors,
         }
       end
     end

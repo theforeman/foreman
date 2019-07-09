@@ -7,7 +7,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
   def basic_attrs
     {
       :architecture_id     => Architecture.find_by_name('x86_64').id,
-      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id
+      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
     }
   end
 

@@ -48,7 +48,7 @@ def valid_name_list
     RFauxFactory.gen_alpha(1),
     RFauxFactory.gen_alpha(255),
     *RFauxFactory.gen_strings(1..255, exclude: [:html]).values,
-    RFauxFactory.gen_html(rand((1..230)))
+    RFauxFactory.gen_html(rand((1..230))),
   ]
 end
 
@@ -59,7 +59,7 @@ def invalid_name_list
     ' ',
     '  ',
     "\t",
-    *RFauxFactory.gen_strings(256).values
+    *RFauxFactory.gen_strings(256).values,
   ]
 end
 

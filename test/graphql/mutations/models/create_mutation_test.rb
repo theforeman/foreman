@@ -8,7 +8,7 @@ module Mutations
           name: 'SUN T2000',
           info: 'Sun Sparc Enterprise T2000',
           vendorClass: 'Sun-Fire-T200',
-          hardwareModel: 'SUN4V'
+          hardwareModel: 'SUN4V',
         }
       end
       let(:query) do

@@ -52,8 +52,8 @@ class ComputeAttributesControllerTest < ActionController::TestCase
       :compute_attribute => {
         :compute_resource_id => @set.compute_resource_id,
         :compute_profile_id => @set.compute_profile_id,
-        :vm_attrs => {"scsi_controllers" => json_scsi_data}
-      }
+        :vm_attrs => {"scsi_controllers" => json_scsi_data},
+      },
     }, session: set_session_user
     saved_attrs = compute_attributes(:one).reload.vm_attrs
     assert_equal [{"type" => "VirtualLsiLogicController", "key" => 1000}], saved_attrs['scsi_controllers']
@@ -65,7 +65,7 @@ class ComputeAttributesControllerTest < ActionController::TestCase
         'controller_key' => 1000,
         'size' => 10485760,
         'size_gb' => 10,
-        'storage_pod' => 'POD-ZERO'
+        'storage_pod' => 'POD-ZERO',
       },
       '1' => {
         'size_gb' => 10,
@@ -75,8 +75,8 @@ class ComputeAttributesControllerTest < ActionController::TestCase
         'eager_zero' => false,
         'name' => 'Hard disk',
         'mode' => 'persistent',
-        'controller_key' => 1000
-      }
+        'controller_key' => 1000,
+      },
     }
     assert_equal volumes_attrs, saved_attrs['volumes_attributes']
   end

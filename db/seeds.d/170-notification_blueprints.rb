@@ -9,15 +9,15 @@ blueprints = [
       links:
       [
         path_method: :host_path,
-        title: N_('Details')
-      ]
-    }
+        title: N_('Details'),
+      ],
+    },
   },
   {
     group: N_('Hosts'),
     name: 'host_destroyed',
     message: N_('%{subject} has been deleted successfully'),
-    level: 'info'
+    level: 'info',
   },
   {
     group: N_('Hosts'),
@@ -29,9 +29,9 @@ blueprints = [
       links:
       [
         path_method: :edit_host_path,
-        title: N_('Update host')
-      ]
-    }
+        title: N_('Update host'),
+      ],
+    },
   },
   {
     group: N_('Community'),
@@ -43,17 +43,17 @@ blueprints = [
       links:
       [
         title: N_('URL'),
-        external: true
-      ]
-    }
+        external: true,
+      ],
+    },
   },
   {
     group: N_('Deprecations'),
     name: 'setting_deprecation',
     level: 'warning',
     message: N_('The %{setting} setting has been deprecated and will be removed in version %{version}'),
-    expires_in: 30.days
-  }
+    expires_in: 30.days,
+  },
 ]
 
 blueprints.each { |blueprint| UINotifications::Seed.new(blueprint).configure }

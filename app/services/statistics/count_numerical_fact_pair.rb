@@ -17,12 +17,12 @@ module Statistics
       [
         {
           :label => _('free memory'),
-          :data => mem_free
+          :data => mem_free,
         },
         {
           :label => _('used memory'),
-          :data => (mem_size - mem_free).round(2)
-        }
+          :data => (mem_size - mem_free).round(2),
+        },
       ]
     end
 

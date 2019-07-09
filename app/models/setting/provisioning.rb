@@ -30,7 +30,7 @@ class Setting::Provisioning < Setting
     'qr-*',
     'qg-*',
     'vlinuxbr*',
-    'vovsbr*'
+    'vovsbr*',
   ]
 
   def self.default_settings
@@ -75,7 +75,7 @@ class Setting::Provisioning < Setting
         N_("Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"),
         default_excluded_facts,
         N_('Exclude pattern for facts stored in foreman')
-      )
+      ),
     ] + default_global_templates + default_local_boot_templates
   end
 

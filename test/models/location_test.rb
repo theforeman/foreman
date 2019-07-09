@@ -9,7 +9,7 @@ class LocationTest < ActiveSupport::TestCase
       RFauxFactory.gen_alpha(1),
       RFauxFactory.gen_alpha(246),
       *RFauxFactory.gen_strings(1..246, exclude: [:html]).values,
-      RFauxFactory.gen_html(rand((1..221)))
+      RFauxFactory.gen_html(rand((1..221))),
     ]
   end
 
@@ -19,7 +19,7 @@ class LocationTest < ActiveSupport::TestCase
       '',
       ' ',
       "\t",
-      *RFauxFactory.gen_strings(247).values
+      *RFauxFactory.gen_strings(247).values,
     ]
   end
 

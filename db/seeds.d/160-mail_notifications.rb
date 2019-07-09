@@ -18,7 +18,7 @@ notifications = [
     :description       => N_('A summary of eventful configuration management reports'),
     :mailer            => 'HostMailer',
     :method            => 'summary',
-    :subscription_type => 'report'
+    :subscription_type => 'report',
   },
 
   {
@@ -26,7 +26,7 @@ notifications = [
     :description       => N_('A mail a user receives upon account creation'),
     :mailer            => 'UserMailer',
     :method            => 'welcome',
-    :subscriptable     => false
+    :subscriptable     => false,
   },
 
   {
@@ -35,7 +35,7 @@ notifications = [
     :mailer             => 'AuditMailer',
     :method             => 'summary',
     :subscription_type  => 'report',
-    :queryable          => true
+    :queryable          => true,
   },
 
   {
@@ -43,7 +43,7 @@ notifications = [
     :description        => N_('A notification when a host finishes building'),
     :mailer             => 'HostMailer',
     :method             => 'host_built',
-    :subscription_type  => 'alert'
+    :subscription_type  => 'alert',
   },
 
   {
@@ -52,7 +52,7 @@ notifications = [
     :mailer             => 'UserMailer',
     :method             => 'tester',
     :subscriptable      => false,
-    :subscription_type  => nil
+    :subscription_type  => nil,
   },
 
   {
@@ -60,8 +60,8 @@ notifications = [
     :description        => N_('A notification when a host reports a configuration error'),
     :mailer             => 'HostMailer',
     :method             => 'error_state',
-    :subscription_type  => 'alert'
-  }
+    :subscription_type  => 'alert',
+  },
 ]
 
 notifications.each do |notification|

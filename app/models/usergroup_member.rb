@@ -123,7 +123,7 @@ class UsergroupMember < ApplicationRecord
   def find_all_affected_memberships
     [
       find_all_affected_memberships_for(member, :usergroups),
-      find_all_affected_memberships_for(usergroup, :parents)
+      find_all_affected_memberships_for(usergroup, :parents),
     ].flatten
   end
 

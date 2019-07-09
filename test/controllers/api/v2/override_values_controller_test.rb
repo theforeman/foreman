@@ -51,7 +51,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count', 0) do
       post :create, params: {
         :smart_variable_id => smart_variable.to_param,
-        :override_value => { :match => match, :value => RFauxFactory.gen_alpha }
+        :override_value => { :match => match, :value => RFauxFactory.gen_alpha },
       }
     end
     assert_response :error
@@ -71,7 +71,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count') do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => 'is_virtual=true', :value => '' }
+        :override_value => { :match => 'is_virtual=true', :value => '' },
       }
     end
     assert_response :success
@@ -94,7 +94,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count', 0) do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => 'is_virtual=true', :value => '' }
+        :override_value => { :match => 'is_virtual=true', :value => '' },
       }
     end
     assert_response :error
@@ -106,7 +106,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count', 0) do
       post :create, params: {
         :smart_variable_id => lookup_keys(:four).id,
-        :override_value => { :match => 'invalid_value', :value => RFauxFactory.gen_alpha }
+        :override_value => { :match => 'invalid_value', :value => RFauxFactory.gen_alpha },
       }
     end
     assert_response :error
@@ -130,7 +130,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count') do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => match, :value => value }
+        :override_value => { :match => match, :value => value },
       }
     end
     assert_response :created
@@ -155,7 +155,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count', 0) do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => 'domain=example.com', :value => RFauxFactory.gen_alpha }
+        :override_value => { :match => 'domain=example.com', :value => RFauxFactory.gen_alpha },
       }
     end
     assert_response :error
@@ -179,7 +179,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count') do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => match, :value => value }
+        :override_value => { :match => match, :value => value },
       }
     end
     assert_response :created
@@ -206,7 +206,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count', 0) do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => 'domain=example.com', :value => value }
+        :override_value => { :match => 'domain=example.com', :value => value },
       }
     end
     assert_response :error
@@ -227,7 +227,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count') do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => match, :value => true }
+        :override_value => { :match => match, :value => true },
       }
     end
     assert_response :created
@@ -249,7 +249,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count', 0) do
       post :create, params: {
         :smart_variable_id => smart_variable.id,
-        :override_value => { :match => 'domain=example.com', :value => 30 }
+        :override_value => { :match => 'domain=example.com', :value => 30 },
       }
     end
     assert_response :error

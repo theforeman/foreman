@@ -6,7 +6,7 @@ module ValidateOsFamily
       validates family_attr_name,
         :inclusion => {
           :in => Operatingsystem.families,
-          :message => N_("must be one of [ %s ]" % Operatingsystem.families.join(", "))
+          :message => N_("must be one of [ %s ]" % Operatingsystem.families.join(", ")),
         },
         :allow_nil => true
 

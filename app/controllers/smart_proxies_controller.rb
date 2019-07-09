@@ -126,7 +126,7 @@ class SmartProxiesController < ApplicationController
       :logs => logs,
       :features => @smart_proxy.features,
       :features_started => @smart_proxy.features.count,
-      :names => logs.failed_module_names
+      :names => logs.failed_module_names,
     }
   rescue Foreman::Exception => exception
     process_ajax_error exception
@@ -189,7 +189,7 @@ class SmartProxiesController < ApplicationController
     foreman_version = Foreman::Version.new.notag
 
     {
-      :message => _('Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}') % {foreman_version: foreman_version, proxy_version: proxy_versions_hash['version']}
+      :message => _('Core and proxy versions do not match. foreman: %{foreman_version}, foreman-proxy: %{proxy_version}') % {foreman_version: foreman_version, proxy_version: proxy_versions_hash['version']},
     }
   end
 end
