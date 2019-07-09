@@ -16,7 +16,7 @@ module Foreman
         false
 
       when TrueClass, FalseClass
-        return value
+        value
 
       end
     end
