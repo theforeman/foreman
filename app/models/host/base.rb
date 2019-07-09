@@ -372,6 +372,35 @@ module Host
 
     private
 
+    def parse_ip_address(address, ignore_link_local: true)
+      return nil unless address
+
+      begin
+        addr = IPAddr.new(address)
+      rescue IPAddr::InvalidAddressError
+        # This works around https://bugs.ruby-lang.org/issues/8464 and strips off
+        # the interface identifier if present
+        if address.is_a?(String) && address.include?('%')
+          addr = IPAddr.new(address.split('%').first)
+        else
+          logger.warn "Ignoring invalid IP address #{address}"
+          return nil
+        end
+      end
+
+      if ignore_link_local
+        # Ruby 2.5 introduced IPAddr#link_local?
+        if addr.respond_to?(:link_local?)
+          return if addr.link_local?
+        else
+          return if addr.ipv4? && IPAddr.new('169.254.0.0/16').include?(addr)
+          return if addr.ipv6? && IPAddr.new('fe80::/10').include?(addr)
+        end
+      end
+
+      addr.to_s
+    end
+
     def build_values_for_primary_interface!(values_for_primary_interface, args)
       new_attrs = args.shift
       unless new_attrs.nil?
@@ -479,9 +508,8 @@ module Host
       update_bonds(iface, name, attributes) if iface.identifier != name && !iface.virtual? && iface.persisted?
       attributes = attributes.clone
       iface.mac = attributes.delete(:macaddress)
-      iface.ip = attributes.delete(:ipaddress)
-      iface.ip6 = attributes.delete(:ipaddress6)
-      iface.ip6 = nil if (IPAddr.new('fe80::/10').include?(iface.ip6) rescue false)
+      iface.ip = parse_ip_address(attributes.delete(:ipaddress))
+      iface.ip6 = parse_ip_address(attributes.delete(:ipaddress6))
       keep_subnet = attributes.delete(:keep_subnet)
 
       if Setting[:update_subnets_from_facts] && !keep_subnet
