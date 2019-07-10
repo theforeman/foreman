@@ -190,11 +190,6 @@ Naming/PredicateName:
 Naming/RescuedExceptionsVariableName:
   Enabled: false
 
-# Offense count: 1
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-Naming/UncommunicativeBlockParamName:
-  Enabled: false
-
 # Offense count: 148
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at, ip, db

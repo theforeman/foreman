@@ -184,7 +184,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       hg = FactoryBot.build(:hostgroup, :name => "hg", :operatingsystem => operatingsystems(:centos5_3), :architecture => architectures(:x86_64), :medium => media(:one))
       FactoryBot.create(:template_combination, :provisioning_template => templates(:mystring2), :hostgroup => hg)
       ProxyAPI::TFTP.any_instance.stubs(:create_default).returns(true)
-      Redhat.any_instance.expects(:pxe_files) do |_, __, host|
+      Redhat.any_instance.expects(:pxe_files) do |_medium_provider, _arch, host|
         host.name == "hg"
       end.at_least(1)
       get :build_pxe_default, session: set_session_user
