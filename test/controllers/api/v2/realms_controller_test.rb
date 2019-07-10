@@ -53,42 +53,42 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     refute Realm.unscoped.find_by_id(realm['id'])
   end
 
-  # test that taxonomy scope works for api for realms
-  def setup
-    taxonomies(:location1).realm_ids = [realms(:myrealm).id, realms(:yourrealm).id]
-    taxonomies(:organization1).realm_ids = [realms(:myrealm).id]
-  end
+  context 'taxonomy scope' do
+    let (:myrealm) { realms(:myrealm) }
+    let (:yourrealm) { realms(:yourrealm) }
+    let (:loc) { FactoryBot.create(:location, realms: [myrealm, yourrealm]) }
+    let (:org) { FactoryBot.create(:organization, realms: [myrealm]) }
 
-  test "should get realms for location only" do
-    get :index, params: { :location_id => taxonomies(:location1).id }
-    assert_response :success
-    assert_equal taxonomies(:location1).realms.length, assigns(:realms).length
-    assert_equal assigns(:realms), taxonomies(:location1).realms
-  end
+    test "should get realms for location only" do
+      get :index, params: { :location_id => loc.id }
+      assert_response :success
+      assert_equal loc.realms.length, assigns(:realms).length
+      assert_equal assigns(:realms).sort, loc.realms.sort
+    end
 
-  test "should get realms for organization only" do
-    get :index, params: { :organization_id => taxonomies(:organization1).id }
-    assert_response :success
-    assert_equal taxonomies(:organization1).realms.length, assigns(:realms).length
-    assert_equal assigns(:realms), taxonomies(:organization1).realms
-  end
+    test "should get realms for organization only" do
+      get :index, params: { :organization_id => org.id }
+      assert_response :success
+      assert_equal org.realms.length, assigns(:realms).length
+      assert_equal assigns(:realms), org.realms
+    end
 
-  test "should get realms for both location and organization" do
-    get :index, params: { :location_id => taxonomies(:location1).id, :organization_id => taxonomies(:organization1).id }
-    assert_response :success
-    assert_equal 1, assigns(:realms).length
-    assert_equal assigns(:realms), [realms(:myrealm)]
-  end
+    test "should get realms for both location and organization" do
+      get :index, params: { :location_id => loc.id, :organization_id => org.id }
+      assert_response :success
+      assert_equal 1, assigns(:realms).length
+      assert_equal assigns(:realms), [myrealm]
+    end
 
-  test "should show realm with correct child nodes including location and organization" do
-    get :show, params: { :id => realms(:myrealm).to_param }
-    assert_response :success
-    show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
-    # assert child nodes are included in response'
-    NODES = ["locations", "organizations"]
-    NODES.sort.each do |node|
-      assert show_response.key?(node), "'#{node}' child node should be in response but was not"
+    test "should show realm with correct child nodes including location and organization" do
+      get :show, params: { :id => myrealm.to_param }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert !show_response.empty?
+
+      ["locations", "organizations"].each do |node|
+        assert show_response.key?(node), "'#{node}' child node should be in response but was not"
+      end
     end
   end
 end
