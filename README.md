@@ -87,7 +87,7 @@ See [LICENSE](LICENSE) file.
 
 The Foreman repository/package is licensed under the GNU GPL v3 or newer, with some exceptions.
 
-Copyright (c) 2009-2018 to Ohad Levy, Paul Kelly and their respective owners.
+Copyright (c) 2009-2019 to Ohad Levy, Paul Kelly and their respective owners.
 
 All copyright holders for the Foreman project are in the separate file called Contributors.
 
