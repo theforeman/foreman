@@ -238,7 +238,7 @@ module Foreman::Model
       end
       access_config = {
         :name => ::Fog::Compute::Google::Server::EXTERNAL_NAT_NAME,
-        :type => ::Fog::Compute::Google::Server::EXTERNAL_NAT_TYPE
+        :type => ::Fog::Compute::Google::Server::EXTERNAL_NAT_TYPE,
       }
       # Note - no support for external_ip from foreman
       # access_config[:nat_ip] = external_ip if external_ip
