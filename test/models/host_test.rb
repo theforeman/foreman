@@ -637,26 +637,29 @@ class HostTest < ActiveSupport::TestCase
       raw = read_json_fixture('facts/facts.json')
       host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
-      Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location2))
-      Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
+      host = Host.find_by_name('sinn1636.lan')
+      host.update_attribute(:location, taxonomies(:location2))
+      host.import_facts(raw['facts'])
+      host.reload
 
-      assert_equal taxonomies(:location2), Host.find_by_name('sinn1636.lan').location
+      assert_equal taxonomies(:location2), host.location
     end
 
     test 'taxonomies from facts override already existing taxonomies in hosts' do
       Setting[:create_new_host_when_facts_are_uploaded] = true
       Setting[:location_fact] = "foreman_location"
-      Setting[:organization_fact] = "foreman_organization"
 
       raw = read_json_fixture('facts/facts.json')
       raw['facts']['foreman_location'] = 'Location 2'
       host = Host.import_host(raw['name'])
       assert host.import_facts(raw['facts'])
 
-      Host.find_by_name('sinn1636.lan').update_attribute(:location, taxonomies(:location1))
-      Host.find_by_name('sinn1636.lan').import_facts(raw['facts'])
+      host = Host.find_by_name('sinn1636.lan')
+      host.update_attribute(:location, taxonomies(:location1))
+      host.import_facts(raw['facts'])
+      host.reload
 
-      assert_equal taxonomies(:location2), Host.find_by_name('sinn1636.lan').location
+      assert_equal taxonomies(:location2), host.location
     end
 
     test 'operatingsystem updated from facts' do
