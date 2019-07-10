@@ -1,6 +1,5 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
-import { deprecateObjectProperty } from './DeprecationService';
 
 class IntlLoader {
   constructor(locale, timezone) {
@@ -78,8 +77,3 @@ export default i18n;
 
 window.__ = translate;
 window.n__ = ngettext;
-window.Jed = jed;
-window.i18n = jed;
-
-deprecateObjectProperty(window, 'i18n', 'tfm.i18n');
-deprecateObjectProperty(window, 'Jed', 'tfm.i18n.jed');

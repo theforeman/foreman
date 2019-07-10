@@ -4,10 +4,6 @@ import { translate, ngettext } from './I18n';
 jest.unmock('./I18n');
 jest.unmock('jed');
 
-jest.mock('../../foreman_tools', () => ({
-  deprecateObjectProperty: jest.fn(),
-}));
-
 describe('gettext', () => {
   Jed.gettext = jest.fn(s => s);
   it('chevrons should not be presented', () => {
