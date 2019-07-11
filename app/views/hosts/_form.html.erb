@@ -108,6 +108,11 @@
           <h2><%= _('Puppet Class Parameters') %></h2>
           <%= render "puppetclasses/classes_parameters", :obj => @host %>
         </fieldset>
+
+        <br/>
+
+        <%= slot('HostParams', true, lookup_values: lookup_values_data(@host)) %>
+
         <br/>
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>

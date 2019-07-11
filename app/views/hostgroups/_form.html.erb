@@ -80,6 +80,9 @@
         <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
       </fieldset>
       <br/>
+
+      <%= slot('HostgroupParams', true, lookup_values: lookup_values_data(@hostgroup)) %>
+
       <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
         <fieldset>
           <% if @hostgroup.parent.present? %>
