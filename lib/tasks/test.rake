@@ -17,3 +17,10 @@ namespace :test do
     t.warning = false
   end
 end
+
+# Ensure webpack files are compiled in case integration tests are executed
+unless ENV['SKIP_WEBPACK']
+  Rake::Task[:test].enhance ['webpack:try_compile'] do
+    Rake::FileUtilsExt.verbose(false)
+  end
+end
