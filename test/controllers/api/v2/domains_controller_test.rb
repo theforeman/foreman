@@ -64,42 +64,42 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     refute Domain.find_by_id(domain['id'])
   end
 
-  # test that taxonomy scope works for api for domains
-  def setup
-    taxonomies(:location1).domain_ids = [domains(:mydomain).id, domains(:yourdomain).id]
-    taxonomies(:organization1).domain_ids = [domains(:mydomain).id]
-  end
+  context "taxonomy scope" do
+    let (:mydomain) { domains(:mydomain) }
+    let (:yourdomain) { domains(:yourdomain) }
+    let (:loc) { FactoryBot.create(:location, domains: [mydomain, yourdomain]) }
+    let (:org) { FactoryBot.create(:organization, domains: [mydomain]) }
 
-  test "should get domains for location only" do
-    get :index, params: { :location_id => taxonomies(:location1).id }
-    assert_response :success
-    assert_equal taxonomies(:location1).domains.length, assigns(:domains).length
-    assert_equal assigns(:domains), taxonomies(:location1).domains
-  end
+    test "should get domains for location only" do
+      get :index, params: { :location_id => loc.id }
+      assert_response :success
+      assert_equal loc.domains.length, assigns(:domains).length
+      assert_same_elements assigns(:domains), loc.domains
+    end
 
-  test "should get domains for organization only" do
-    get :index, params: { :organization_id => taxonomies(:organization1).id }
-    assert_response :success
-    assert_equal taxonomies(:organization1).domains.length, assigns(:domains).length
-    assert_equal taxonomies(:organization1).domains, assigns(:domains)
-  end
+    test "should get domains for organization only" do
+      get :index, params: { :organization_id => org.id }
+      assert_response :success
+      assert_equal org.domains.length, assigns(:domains).length
+      assert_same_elements org.domains, assigns(:domains)
+    end
 
-  test "should get domains for both location and organization" do
-    get :index, params: { :location_id => taxonomies(:location1).id, :organization_id => taxonomies(:organization1).id }
-    assert_response :success
-    assert_equal 1, assigns(:domains).length
-    assert_equal assigns(:domains), [domains(:mydomain)]
-  end
+    test "should get domains for both location and organization" do
+      get :index, params: { :location_id => loc.id, :organization_id => org.id }
+      assert_response :success
+      assert_equal 1, assigns(:domains).length
+      assert_equal assigns(:domains), [mydomain]
+    end
 
-  test "should show domain with correct child nodes including location and organization" do
-    get :show, params: { :id => domains(:mydomain).to_param }
-    assert_response :success
-    show_response = ActiveSupport::JSON.decode(@response.body)
-    assert !show_response.empty?
-    # assert child nodes are included in response'
-    NODES = ["locations", "organizations", "parameters", "subnets"]
-    NODES.sort.each do |node|
-      assert show_response.key?(node), "'#{node}' child node should be in response but was not"
+    test "should show domain with correct child nodes including location and organization" do
+      get :show, params: { :id => mydomain.to_param }
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert !show_response.empty?
+      # assert child nodes are included in response
+      ["locations", "organizations", "parameters", "subnets"].each do |node|
+        assert show_response.key?(node), "'#{node}' child node should be in response but was not"
+      end
     end
   end
 
