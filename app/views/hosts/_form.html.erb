@@ -6,6 +6,8 @@
 <% Taxonomy.as_taxonomy @organization , @location do %>
   <%= form_for @host, :url => (@host.new_record? ? hosts_path : host_path(:id => @host.id)), :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @host.try(:id), :type_changed => !!@host.type_changed?, :submit => 'progress_bar'}} do |f| %>
     <%= base_errors_for @host %>
+    <div id="host-errors"/>
+    <%= mount_react_component('ResourceErrors', '#host-errors', host_errors(@host).to_json, :flatten_data => true) %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" id='host_tab' data-toggle="tab"><%= _('Host') %></a></li>
@@ -108,6 +110,11 @@
           <h2><%= _('Puppet Class Parameters') %></h2>
           <%= render "puppetclasses/classes_parameters", :obj => @host %>
         </fieldset>
+
+        <br/>
+
+        <%= slot('HostParams', true) %>
+
         <br/>
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>

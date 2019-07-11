@@ -131,3 +131,24 @@ export function updateTable(element) {
 export function foremanUrl(path) {
   return URL_PREFIX + path;
 }
+
+export function highlightTabErrors() {
+  var errorFields = $('.tab-content .has-error');
+  errorFields.parents('.tab-pane').each(function() {
+    $('a[href="#' + this.id + '"]').addClass('tab-error');
+  });
+  $('.tab-error')
+    .first()
+    .click();
+  $('.nav-pills .tab-error')
+    .first()
+    .click();
+  errorFields
+    .first()
+    .find('.form-control')
+    .focus();
+
+  $('a[rel="popover"]').popover();
+  activateTooltips();
+  activateDatatables();
+}

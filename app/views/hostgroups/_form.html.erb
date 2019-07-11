@@ -1,6 +1,8 @@
 <%= javascript 'host_edit', 'host_edit_interfaces' %>
 <%= form_for @hostgroup, :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
+  <div id="hostgroup-errors"/>
+  <%= mount_react_component('ResourceErrors', '#hostgroup-errors', host_errors(@hostgroup).to_json, :flatten_data => true) %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
@@ -80,6 +82,9 @@
         <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
       </fieldset>
       <br/>
+
+      <%= slot('HostgroupParams', true) %>
+
       <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
         <fieldset>
           <% if @hostgroup.parent.present? %>

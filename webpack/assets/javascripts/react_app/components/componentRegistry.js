@@ -34,6 +34,7 @@ import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
+import ResourceErrors from './ResourceErrors';
 
 const componentRegistry = {
   registry: {},
@@ -126,6 +127,7 @@ const coreComponets = [
   { name: 'TemplateInput', type: TemplateInput },
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
+  { name: 'ResourceErrors', type: ResourceErrors },
 
   {
     name: 'RelativeDateTime',
