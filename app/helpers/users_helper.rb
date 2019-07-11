@@ -32,7 +32,7 @@ module UsersHelper
       additional_actions << link_to(_('Impersonate'),
                                     { :controller => 'users',
                                       :action => 'impersonate',
-                                      :id => user.id
+                                      :id => user.id,
                                     },
                                     :method => :post,
                                     :data => { :no_turbolink => true })
