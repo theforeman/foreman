@@ -34,28 +34,7 @@ function onContentLoad() {
   }
 
   // highlight tabs with errors
-  var errorFields = $('.tab-content .has-error');
-  errorFields.parents('.tab-pane').each(function() {
-    $('a[href="#' + this.id + '"]').addClass('tab-error');
-  });
-  $('.tab-error')
-    .first()
-    .click();
-  $('.nav-pills .tab-error')
-    .first()
-    .click();
-  errorFields
-    .first()
-    .find('.form-control')
-    .focus();
-
-  $('a[rel="popover"]').popover();
-  tfm.tools.activateTooltips();
-  tfm.tools.activateDatatables();
-
-  $('a[disabled="disabled"]').click(function(event) {
-    return handleDisabledClick(event, this);
-  });
+  tfm.tools.highlightTabErrors();
 
   // allow opening new window for selected links
   $('a[rel="external"]').attr('target', '_blank');

@@ -431,4 +431,15 @@ module HostsHelper
       sort_by { |member| member[:priority] }.
       map { |member_hash| member_hash[value_key] }
   end
+
+  def lookup_values_data(host_or_hostgroup)
+    host_or_hostgroup.lookup_values.map do |item|
+      {
+        :id => item.id,
+        :lookup_key_id => item.lookup_key_id,
+        :value => item.value,
+        :errors => item.errors.to_hash,
+      }
+    end
+  end
 end
