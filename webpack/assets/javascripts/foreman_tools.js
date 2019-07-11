@@ -3,6 +3,7 @@
 /* eslint-disable jquery/no-text */
 /* eslint-disable jquery/no-ajax */
 /* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-class */
 
 import $ from 'jquery';
 import URI from 'urijs';
@@ -146,3 +147,24 @@ export const setTab = () => {
     $(`.nav-tabs a[href="${urlHash}"]`).tab('show');
   }
 };
+
+export function highlightTabErrors() {
+  const errorFields = $('.tab-content .has-error');
+  errorFields.parents('.tab-pane').each(function fn() {
+    $(`a[href="#${this.id}"]`).addClass('tab-error');
+  });
+  $('.tab-error')
+    .first()
+    .click();
+  $('.nav-pills .tab-error')
+    .first()
+    .click();
+  errorFields
+    .first()
+    .find('.form-control')
+    .focus();
+
+  $('a[rel="popover"]').popover();
+  activateTooltips();
+  activateDatatables();
+}

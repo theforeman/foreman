@@ -47,3 +47,9 @@ function select(state) {
 
   return stateObj;
 }
+
+export function stateExists(state) {
+  const stateObj = get(store.getState(), state);
+
+  return !!stateObj;
+}

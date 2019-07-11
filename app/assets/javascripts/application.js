@@ -34,24 +34,13 @@ function onContentLoad() {
   }
 
   // highlight tabs with errors
-  var errorFields = $('.tab-content .has-error');
-  errorFields.parents('.tab-pane').each(function() {
-    $('a[href="#' + this.id + '"]').addClass('tab-error');
-  });
-  $('.tab-error')
-    .first()
-    .click();
-  $('.nav-pills .tab-error')
-    .first()
-    .click();
-  errorFields
-    .first()
-    .find('.form-control')
-    .focus();
-
-  $('a[rel="popover"]').popover();
-  tfm.tools.activateTooltips();
-  tfm.tools.activateDatatables();
+  tfm.tools.highlightTabErrors();
+  // observe store for resource errors if exists
+  if (tfm.store.stateExists('resourceErrors.rerunAt')) {
+    tfm.store.observeStore('resourceErrors.rerunAt', function() {
+      tfm.tools.highlightTabErrors();
+    });
+  }
 
   $('a[disabled="disabled"]').click(function(event) {
     return handleDisabledClick(event, this);

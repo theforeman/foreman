@@ -6,6 +6,7 @@
 <% Taxonomy.as_taxonomy @organization , @location do %>
   <%= form_for @host, :url => (@host.new_record? ? hosts_path : host_path(:id => @host.id)), :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @host.try(:id), :type_changed => !!@host.type_changed?, :submit => 'progress_bar'}} do |f| %>
     <%= base_errors_for @host %>
+    <%= react_component('ResourceErrors', host_errors(@host).to_json) %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
       <li class="active"><a href="#primary" id='host_tab' data-toggle="tab"><%= _('Host') %></a></li>

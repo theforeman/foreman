@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceErrorsReducer should handle RESOURCE_ERRORS_RERUN 1`] = `
+Object {
+  "rerunAt": "2020-12-24",
+  "resolved": true,
+  "resources": Object {},
+}
+`;
+
+exports[`ResourceErrorsReducer should handle RESOURCE_ERRORS_RESOLVE 1`] = `
+Object {
+  "rerunAt": null,
+  "resolved": true,
+  "resources": Object {
+    "name": "cannot be blank",
+  },
+}
+`;

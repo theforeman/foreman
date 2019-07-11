@@ -1,6 +1,7 @@
 <%= javascript 'host_edit', 'host_edit_interfaces' %>
 <%= form_for @hostgroup, :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
+  <%= react_component('ResourceErrors', host_errors(@hostgroup).to_json) %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
