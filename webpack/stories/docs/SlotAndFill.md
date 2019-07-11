@@ -1,6 +1,11 @@
 # Slot And Fill
 
-`Slot & Fill` allows plugins to extend foreman core functionality in the UI
+Slot & Fill allows plugins to extend foreman core functionality in the UI
+
+## Current Slots List
+| Name               | Id               | Path  |
+| ------------------ |:----------------:| -----:|
+| **About-footer**   | aboutFooterSlot  | *views/about/index.html.erb*
 
 ## Components
 

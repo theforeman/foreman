@@ -10,6 +10,7 @@ import hoc from './docs/hoc.md';
 import addingDependencies from './docs/addingDependencies.md';
 import internationalization from './docs/internationalization.md';
 import plugins from './docs/plugins.md';
+import SlotAndFill from './docs/SlotAndFill.md';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
@@ -51,6 +52,11 @@ storiesOf('Introduction', module)
   .add('Plugins', () => (
     <Story>
       <Markdown source={plugins} />
+    </Story>
+  ))
+  .add('Slot&Fill', () => (
+    <Story>
+      <Markdown source={SlotAndFill} />
     </Story>
   ));
 
