@@ -489,6 +489,21 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to realms_path
   end
 
+  test "should impersonate a user" do
+    session[:impersonated_by] = nil
+    user = users(:one)
+    get :impersonate, params: { :id => user.id }, session: set_session_user
+    assert_redirected_to hosts_path
+    assert flash.to_hash["success"]
+  end
+
+  test "should stop impersonating a user" do
+    session[:impersonated_by] = users(:admin)
+    get :stop_impersonation, session: set_session_user(:one)
+    assert_response :success
+    assert_equal "You now act as Admin User again.", JSON.parse(@response.body)['message']
+  end
+
   context 'personal access tokens' do
     let(:user) { FactoryBot.create(:user) }
     let(:token) { FactoryBot.create(:personal_access_token, :user => user) }

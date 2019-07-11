@@ -27,6 +27,22 @@ module UsersHelper
     end
   end
 
+  def user_action_buttons(user, additional_actions = [])
+    if User.current.admin? && user != User.current && session[:impersonated_by].blank?
+      additional_actions << link_to(_('Impersonate'),
+                                    { :controller => 'users',
+                                      :action => 'impersonate',
+                                      :id => user.id
+                                    },
+                                    :method => :post,
+                                    :data => { :no_turbolink => true })
+    end
+
+    action_buttons(*([display_delete_if_authorized(
+      hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer),
+        :data => { :confirm => _("Delete %s?") % user.name }) ] + additional_actions))
+  end
+
   def mail_notification_query_builder(mail_notification, f)
     render :partial => "#{mail_notification}_query_builder", :locals => {:f => f, :mailer => mail_notification.name } if mail_notification.queryable?
   end

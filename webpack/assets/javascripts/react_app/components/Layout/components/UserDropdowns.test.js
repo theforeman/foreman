@@ -10,7 +10,10 @@ const createStubs = () => ({
 });
 
 const fixtures = {
-  'render switcher w/loading': { ...userDropdownProps, ...createStubs() },
+  'render switcher w/loading': {
+    ...userDropdownProps,
+    ...createStubs(),
+  },
 };
 
 describe('UserDropdown', () => {

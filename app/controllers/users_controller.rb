@@ -5,9 +5,10 @@ class UsersController < ApplicationController
   include Foreman::Controller::BruteforceProtection
   include Foreman::TelemetryHelper
 
-  skip_before_action :require_mail, :only => [:edit, :update, :logout]
+  skip_before_action :require_mail, :only => [:edit, :update, :logout, :stop_impersonation]
   skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
-  skip_before_action :authorize, :only => :extlogin
+  skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
+  before_action      :require_admin, :only => :impersonate
   after_action       :update_activity_time, :only => :login
   before_action      :verify_active_session, :only => :login
 
@@ -60,6 +61,34 @@ class UsersController < ApplicationController
       process_success
     else
       process_error
+    end
+  end
+
+  def impersonate
+    if session[:impersonated_by].blank?
+      session[:impersonated_by] = User.current.id
+      User.impersonator = User.current
+      user = User.find_by_id(params[:id])
+      session[:user] = user.id
+      success _("You impersonated user %s, to cancel the session, click the eye icon in the top bar.") % user.name
+      Audit.create :auditable_type => 'User', :auditable_id => user.id, :user_id => User.current.id, :action => 'impersonate', :audited_changes => {}
+      logger.info "User #{User.current.name} impersonated #{user.name}"
+      redirect_to hosts_path
+    else
+      info _("You are already impersonating, click the icon in the top bar before starting a new impersonation.")
+      redirect_to users_path
+    end
+  end
+
+  def stop_impersonation
+    if session[:impersonated_by].present?
+      user = User.unscoped.find_by_id(session[:impersonated_by])
+      session[:user] = user.id
+      session[:impersonated_by] = nil
+      User.impersonator = nil
+      render :json => { :message => _("You now act as %s again.") % user.name, :type => :success }
+    else
+      render :json => { :message => _("No active impersonate session."), :type => :warning }
     end
   end
 
