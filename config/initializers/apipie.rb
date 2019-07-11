@@ -46,20 +46,17 @@ end
 # check apipie cache in dev mode
 if Apipie.configuration.use_cache
   cache_name = File.join(Apipie.configuration.cache_dir, Apipie.configuration.doc_base_url + '.json')
-  if File.exist? cache_name
-    target = max = File.mtime(cache_name)
-    roots = ::Rails::Engine.subclasses.map(&:instance).collect { |e| e.root }
+  if File.exist?(cache_name)
+    target = File.mtime(cache_name)
+    roots = ::Rails::Engine.subclasses.map { |e| e.instance.root }
     roots << Rails.root
-    roots.each do |root|
+    outdated = roots.any? do |root|
       path = "#{root}/app/controllers/api"
-      if File.exist?(path)
-        Find.find(path) do |e|
-          t = File.mtime(e)
-          max = t if t > max
-        end
+      File.exist?(path) && Find.find(path).any? do |e|
+        File.mtime(e) > target
       end
     end
-    if !$ARGV.nil? && $ARGV.first != "apipie:cache" && max > target
+    if !$ARGV.nil? && $ARGV.first != "apipie:cache" && outdated
       puts "API controllers newer than Apipie cache! Run apipie:cache rake task to regenerate cache."
     end
   else
