@@ -19,7 +19,6 @@ import BreadcrumbBar from './BreadcrumbBar';
 import FactChart from './FactCharts';
 import Pagination from './Pagination/Pagination';
 import AutoComplete from './AutoComplete';
-import FormAutocomplete from './common/forms/FormAutocomplete/FormAutocomplete';
 import SearchBar from './SearchBar';
 import Layout from './Layout';
 import EmptyState from './common/EmptyState';
@@ -106,7 +105,6 @@ const coreComponets = [
   { name: 'ReactApp', type: ReactApp },
   { name: 'SearchBar', type: SearchBar },
   { name: 'AutoComplete', type: AutoComplete },
-  { name: 'FormAutocomplete', type: FormAutocomplete },
   { name: 'DonutChart', type: DonutChart },
   { name: 'LineChart', type: LineChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
@@ -153,7 +151,7 @@ const coreComponets = [
     data: true,
     store: false,
   },
-  { name: 'FormField', type: FormField, store: false },
+  { name: 'FormField', type: FormField },
   { name: 'ModelsTable', type: ModelsTable },
   { name: 'Editor', type: Editor },
 

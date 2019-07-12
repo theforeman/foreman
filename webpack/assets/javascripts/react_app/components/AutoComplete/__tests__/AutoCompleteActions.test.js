@@ -16,7 +16,7 @@ import {
   url,
   error,
   id,
-  isDisabled,
+  disabled,
 } from '../AutoComplete.fixtures';
 
 jest.mock('lodash', () => ({ debounce: jest.fn(fn => fn) }));
@@ -30,7 +30,7 @@ const loadResults = (requestParams, serverMock) => {
 
 const fixtures = {
   'should update store with initial data': () =>
-    initialUpdate({ searchQuery, controller, id, isDisabled, error, url }),
+    initialUpdate({ searchQuery, controller, id, disabled, error, url }),
 
   'should load results and success': () =>
     loadResults(

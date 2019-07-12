@@ -13,7 +13,7 @@ export const APIError = [{ error }];
 export const APISuccessMock = { data: results };
 export const APIFailMock = { data: APIError };
 export const isErrorVisible = false;
-export const isDisabled = false;
+export const disabled = false;
 
 export const AutoCompleteProps = {
   controller,
@@ -23,7 +23,7 @@ export const AutoCompleteProps = {
   url,
   error,
   id,
-  isDisabled,
+  disabled,
 };
 
 export const initialState = {
@@ -35,7 +35,7 @@ export const initialState = {
   trigger: null,
   isErrorVisible: false,
   id,
-  isDisabled,
+  disabled,
   url,
 };
 
@@ -47,7 +47,7 @@ export const initialValues = {
   error,
   isErrorVisible: !!error,
   id,
-  isDisabled,
+  disabled,
 };
 
 export const request = {
@@ -74,7 +74,7 @@ export const failure = {
 };
 
 export const disabledChange = {
-  isDisabled: true,
+  disabled: true,
   id,
 };
 

@@ -201,23 +201,34 @@ module FormHelper
     end
   end
 
+  # Returns an AutoComplete React input tailored for accessing a specified attribute (identified by +attr+) on an object
+  # assigned to the form (identified by +f+). Additional properties on the input tag can be passed as a
+  # hash with +options+. These options will be tagged onto the React Component as an props as in the example
+  # shown.
+  #
+  # ==== Options
+  # * Creates standard React props for the component.
+  # * <tt>:url</tt> - path where the search results should be fetched from.
+  # * <tt>:disabled</tt> - If set to true, the user will not be able to use this input.
+  # * <tt>:search_query</tt> - Default search query.
+  # * <tt>:use_key_shortcuts</tt> - If set to true, keyboard shortcuts are enabled on the field.
+  #
+  # ==== Examples
+  #   form_for(@user) do |f|
+  #     autocomplete_f(f, :country, url: api_countries_path, search_query: 'Czech')
+  #   end
+  #   # => <AutoComplete id="user_country" name="user[country]" url="/api/countries/auto_complete_country" searchQuery="Czech" />
   def autocomplete_f(f, attr, options = {})
-    url = options[:full_path]
-    url ||= (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{attr}"
-    props = {
-      name: "#{f.object_name}[#{attr}]",
-      controller: options[:path] || auto_complete_controller_name,
-      url: url,
-      isDisabled: options[:disabled] || false,
-      query: f.object.search || '',
-      error: f.object.errors[attr] && f.object.errors[attr][0],
-      useKeyShortcuts: options[:use_key_shortcuts] || false,
-      id: options[:id] || "autocomplete-#{Foreman.uuid}"
-    }
+    options.merge!(
+      {
+        url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{attr}",
+        controller: options[:path] || auto_complete_controller_name,
+        search_query: f.object&.search || '',
+        use_key_shortcuts: options[:use_key_shortcuts] || false,
+      }
+    )
 
-    container_class_name = "container-#{props[:id]}"
-    content_tag(:div, nil, :class => container_class_name) +
-      mount_react_component('FormAutocomplete', ".#{container_class_name}", props.to_json, flatten_data: true)
+    react_form_input('autocomplete', f, attr, options)
   end
 
   def byte_size_f(f, attr, options = {})

@@ -16,8 +16,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": undefined,
         "searchQuery": "result",
@@ -54,8 +54,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": undefined,
         "searchQuery": "result",

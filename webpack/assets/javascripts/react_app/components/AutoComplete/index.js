@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => {
     results: selectAutocompleteResults(state, id, ownProps),
     searchQuery: selectAutocompleteSearchQuery(state, id, ownProps),
     status: selectAutocompleteStatus(state, id, ownProps),
-    isDisabled: selectAutocompleteIsDisabled(state, id, ownProps),
+    disabled: selectAutocompleteIsDisabled(state, id, ownProps),
     url: selectAutocompleteUrl(state, id, ownProps),
     trigger: selectAutocompleteTrigger(state, id, ownProps),
   };

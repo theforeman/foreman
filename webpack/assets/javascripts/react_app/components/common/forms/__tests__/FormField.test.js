@@ -7,6 +7,7 @@ import {
   dateTimeWithErrorProps,
   textFieldWithHelpProps,
   ownComponentFieldProps,
+  formAutocompleteDataProps,
 } from '../FormField.fixtures';
 import FormField, { registerInputComponent } from '../FormField';
 
@@ -17,6 +18,7 @@ const fixtures = {
   'renders DateTime input': { type: 'dateTime', name: 'a' },
   'renders text complex options and help': textFieldWithHelpProps,
   'renders DateTime complex options and error': dateTimeWithErrorProps,
+  'renders AutoComplete': formAutocompleteDataProps,
 };
 
 const Abc = props => <input type="hidden" id={props.id} name={props.name} />;

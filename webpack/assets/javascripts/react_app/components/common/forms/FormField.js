@@ -9,8 +9,9 @@ import {
   HelpBlock,
   FieldLevelHelp,
 } from 'patternfly-react';
-
 import { noop } from '../../../common/helpers';
+
+import AutoComplete from '../../AutoComplete';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import TimePicker from '../DateTimePicker/TimePicker';
@@ -19,6 +20,7 @@ const inputComponents = {
   date: DatePicker,
   dateTime: DateTimePicker,
   time: TimePicker,
+  autocomplete: AutoComplete,
 };
 
 export const registerInputComponent = (name, Component) => {
@@ -68,7 +70,6 @@ const FormField = ({
   className,
   disabled,
   required,
-  touched,
   error,
   value,
   label,
@@ -79,12 +80,16 @@ const FormField = ({
   onChange,
   children,
   inputProps,
+  ...otherProps
 }) => {
   const controlProps = {
     value,
     name,
+    disabled,
+    required,
     className,
     onChange,
+    ...otherProps,
     ...inputProps,
   };
 
@@ -92,7 +97,7 @@ const FormField = ({
     <FormGroup
       controlId={id}
       disabled={disabled}
-      validationState={touched && error ? 'error' : null}
+      validationState={error ? 'error' : null}
     >
       <ControlLabel className={labelSizeClass}>
         {label}
@@ -110,7 +115,7 @@ const FormField = ({
           {children || <InputFactory type={type} />}
         </ControlContext.Provider>
       </Col>
-      <InlineMessage error={touched ? error : null} helpInline={helpInline} />
+      <InlineMessage error={error} helpInline={helpInline} />
     </FormGroup>
   );
 };
@@ -129,7 +134,6 @@ FormField.propTypes = {
   labelHelp: PropTypes.string,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
-  touched: PropTypes.bool,
   error: PropTypes.string,
   helpInline: PropTypes.string,
   inputSizeClass: PropTypes.string,
@@ -149,8 +153,7 @@ FormField.defaultProps = {
   labelHelp: null,
   required: false,
   disabled: false,
-  touched: false,
-  error: undefined,
+  error: null,
   helpInline: null,
   inputSizeClass: 'col-md-4',
   labelSizeClass: 'col-md-2',
