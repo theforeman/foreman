@@ -23,14 +23,61 @@ exports[`FormField register own component renders registered component 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "group[ownfield]",
           "onChange": [Function],
+          "required": false,
           "value": undefined,
         }
       }
     >
       <InputFactory
         type="ownInput"
+      />
+    </ContextProvider>
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders AutoComplete 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId="form-search"
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <ContextProvider
+      value={
+        Object {
+          "className": "",
+          "controller": "bookmarks",
+          "disabled": false,
+          "name": "Filter[search]",
+          "onChange": [Function],
+          "required": false,
+          "searchQuery": "",
+          "url": "bookmarks/auto_complete",
+          "useKeyShortcuts": false,
+          "value": undefined,
+        }
+      }
+    >
+      <InputFactory
+        type="text"
       />
     </ContextProvider>
   </Col>
@@ -62,8 +109,10 @@ exports[`FormField rendering renders Date input 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "a",
           "onChange": [Function],
+          "required": false,
           "value": undefined,
         }
       }
@@ -103,8 +152,10 @@ exports[`FormField rendering renders DateTime complex options and error 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "group[datetime]",
           "onChange": [Function],
+          "required": false,
           "value": 1991-01-01T01:12:01.000Z,
         }
       }
@@ -142,8 +193,10 @@ exports[`FormField rendering renders DateTime input 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "a",
           "onChange": [Function],
+          "required": false,
           "value": undefined,
         }
       }
@@ -181,8 +234,10 @@ exports[`FormField rendering renders Time input 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "a",
           "onChange": [Function],
+          "required": false,
           "value": undefined,
         }
       }
@@ -232,8 +287,10 @@ exports[`FormField rendering renders text complex options and help 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "group[textfield]",
           "onChange": [Function],
+          "required": false,
           "value": undefined,
         }
       }
@@ -271,8 +328,10 @@ exports[`FormField rendering renders text input 1`] = `
       value={
         Object {
           "className": "",
+          "disabled": false,
           "name": "a",
           "onChange": [Function],
+          "required": false,
           "value": undefined,
         }
       }

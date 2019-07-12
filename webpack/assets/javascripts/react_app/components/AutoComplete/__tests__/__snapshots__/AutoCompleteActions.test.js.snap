@@ -78,8 +78,8 @@ Object {
 exports[`AutoComplete actions should update disability 1`] = `
 Object {
   "payload": Object {
+    "disabled": true,
     "id": "some-id",
-    "isDisabled": true,
   },
   "type": "AUTO_COMPLETE_DISABLED_CHANGE",
 }
@@ -89,9 +89,9 @@ exports[`AutoComplete actions should update store with initial data 1`] = `
 Object {
   "payload": Object {
     "controller": "models",
+    "disabled": false,
     "error": "oops",
     "id": "some-id",
-    "isDisabled": false,
     "isErrorVisible": true,
     "searchQuery": "",
     "status": "RESOLVED",

@@ -13,7 +13,7 @@ Object {
 exports[`AutoComplete reducer should handle AUTO_COMPLETE_DISABLED_CHANGE 1`] = `
 Object {
   "some-id": Object {
-    "isDisabled": true,
+    "disabled": true,
   },
 }
 `;
@@ -46,8 +46,8 @@ exports[`AutoComplete reducer should handle AUTO_COMPLETE_RESET 1`] = `
 Object {
   "some-id": Object {
     "controller": null,
+    "disabled": false,
     "error": null,
-    "isDisabled": false,
     "isErrorVisible": false,
     "results": Array [],
     "searchQuery": "",
@@ -78,8 +78,8 @@ exports[`AutoComplete reducer should update state with initial data 1`] = `
 Object {
   "some-id": Object {
     "controller": "models",
+    "disabled": false,
     "error": "oops",
-    "isDisabled": false,
     "isErrorVisible": true,
     "results": undefined,
     "searchQuery": "",

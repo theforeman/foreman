@@ -19,7 +19,7 @@ const initialAutocompleteState = {
   status: null,
   trigger: null,
   url: undefined,
-  isDisabled: false,
+  disabled: false,
 };
 
 export default (state = Immutable({}), action) => {
@@ -34,7 +34,7 @@ export default (state = Immutable({}), action) => {
       trigger,
       isErrorVisible,
       id,
-      isDisabled,
+      disabled,
       url,
     } = {},
   } = action;
@@ -49,7 +49,7 @@ export default (state = Immutable({}), action) => {
         searchQuery,
         status,
         trigger,
-        isDisabled,
+        disabled,
         url,
       });
     case AUTO_COMPLETE_REQUEST:
@@ -84,7 +84,7 @@ export default (state = Immutable({}), action) => {
     case AUTO_COMPLETE_DISABLED_CHANGE:
       return state.setIn([id], {
         ...state[id],
-        isDisabled,
+        disabled,
       });
     case AUTO_COMPLETE_CONTROLLER_CHANGE:
       return state.setIn([id], {

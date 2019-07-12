@@ -22,8 +22,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -50,8 +50,8 @@ Object {
   "autocomplete": Object {
     "some-id": Object {
       "controller": "models",
+      "disabled": false,
       "error": null,
-      "isDisabled": false,
       "isErrorVisible": false,
       "results": undefined,
       "searchQuery": "",
@@ -85,8 +85,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": undefined,
         "searchQuery": "",
@@ -121,8 +121,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -162,8 +162,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -208,8 +208,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {
@@ -254,8 +254,8 @@ Object {
     "autocomplete": Object {
       "some-id": Object {
         "controller": "models",
+        "disabled": false,
         "error": null,
-        "isDisabled": false,
         "isErrorVisible": false,
         "results": Array [
           Object {

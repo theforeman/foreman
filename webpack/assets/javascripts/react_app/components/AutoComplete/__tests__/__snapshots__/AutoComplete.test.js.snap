@@ -28,6 +28,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
         "autoComplete": "off",
         "className": "search-input",
         "data-autocomplete-id": "some-id",
+        "name": null,
         "spellCheck": "false",
       }
     }

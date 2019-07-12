@@ -152,7 +152,7 @@ export const initialUpdate = ({
   error,
   id,
   url,
-  isDisabled,
+  disabled,
 }) => ({
   type: AUTO_COMPLETE_INIT,
   payload: {
@@ -163,7 +163,7 @@ export const initialUpdate = ({
     error,
     isErrorVisible: !!error,
     id,
-    isDisabled,
+    disabled,
     url,
   },
 });
@@ -178,10 +178,10 @@ const objectDeepTrim = (obj, trigger) => {
   return copy;
 };
 
-export const updateDisability = (isDisabled, id) => ({
+export const updateDisability = (disabled, id) => ({
   type: AUTO_COMPLETE_DISABLED_CHANGE,
   payload: {
-    isDisabled,
+    disabled,
     id,
   },
 });

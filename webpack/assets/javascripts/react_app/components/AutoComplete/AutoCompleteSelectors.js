@@ -48,4 +48,4 @@ export const selectAutocompleteUrl = (state, id, ownProps) =>
   selectAutocompleteProp(state, id, 'url', ownProps);
 
 export const selectAutocompleteIsDisabled = (state, id, ownProps) =>
-  selectAutocompleteProp(state, id, 'isDisabled', ownProps);
+  selectAutocompleteProp(state, id, 'disabled', ownProps);

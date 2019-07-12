@@ -36,14 +36,14 @@ class AutoComplete extends React.Component {
     const {
       controller,
       searchQuery,
-      isDisabled,
+      disabled,
       error,
       id,
       url,
       initialUpdate,
     } = this.props;
 
-    initialUpdate({ searchQuery, controller, id, isDisabled, error, url });
+    initialUpdate({ searchQuery, controller, id, disabled, error, url });
   }
 
   componentDidUpdate(prevProps) {
@@ -177,12 +177,13 @@ class AutoComplete extends React.Component {
     const {
       id,
       error,
+      name,
       searchQuery,
       inputProps,
       placeholder,
       results,
       useKeyShortcuts,
-      isDisabled,
+      disabled,
     } = this.props;
     /** Using a 3rd party library (react-bootstrap-typeahead) that expects a mutable array. */
     const options = Immutable.isImmutable(results)
@@ -201,7 +202,7 @@ class AutoComplete extends React.Component {
           onFocus={this.handleInputFocus}
           onKeyDown={this.handleKeyDown}
           placeholder={__(placeholder)}
-          disabled={isDisabled}
+          disabled={disabled}
           renderMenu={(r, menuProps) => (
             <AutoCompleteMenu {...{ results: r, menuProps }} />
           )}
@@ -213,6 +214,7 @@ class AutoComplete extends React.Component {
             spellCheck: 'false',
             'data-autocomplete-id': id,
             autoComplete: 'off',
+            name,
             ...inputProps,
           }}
         />
@@ -227,6 +229,7 @@ class AutoComplete extends React.Component {
 AutoComplete.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   url: PropTypes.string.isRequired,
+  name: PropTypes.string,
   results: PropTypes.array,
   searchQuery: PropTypes.string,
   inputProps: PropTypes.object,
@@ -240,11 +243,12 @@ AutoComplete.propTypes = {
   initialUpdate: PropTypes.func,
   useKeyShortcuts: PropTypes.bool,
   placeholder: PropTypes.string,
-  isDisabled: PropTypes.bool,
+  disabled: PropTypes.bool,
   trigger: PropTypes.string,
 };
 
 AutoComplete.defaultProps = {
+  name: null,
   results: [],
   searchQuery: '',
   inputProps: {},
@@ -258,7 +262,7 @@ AutoComplete.defaultProps = {
   initialUpdate: noop,
   useKeyShortcuts: false,
   placeholder: 'Filter ...',
-  isDisabled: false,
+  disabled: false,
   trigger: null,
 };
 
