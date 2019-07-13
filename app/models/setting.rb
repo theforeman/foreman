@@ -179,7 +179,7 @@ class Setting < ApplicationRecord
 
     when "string", nil
       # string is taken as default setting type for parsing
-      self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
+      self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip.presence
 
     when "hash"
       raise Foreman::Exception, "parsing hash from string is not supported"
