@@ -2,7 +2,7 @@ module Foreman
   module HTTPProxy
     def http_proxy
       ActiveRecord::Base.connection_pool.with_connection do
-        Setting[:http_proxy]
+        Setting[:http_proxy].presence
       end
     end
 
