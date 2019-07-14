@@ -114,6 +114,7 @@ export const previewTemplate = ({ host, renderPath }) => (
   };
   dispatch({ type: EDITOR_SHOW_LOADING });
   fetchTemplatePreview(renderPath, params)
+    // eslint-disable-next-line promise/prefer-await-to-then
     .then(response => {
       if (isErrorShown) dispatch(dismissErrorToast());
       dispatch({ type: EDITOR_HIDE_LOADING });

@@ -29,9 +29,12 @@ describe('statistics actions', () => {
       url: '/statistics/operatingsystem',
       status: 422,
     });
-    return store
-      .dispatch(actions.getStatisticsData(failedRequestData))
-      .then(() => expect(store.getActions()).toEqual(onFailureActions));
+    return (
+      store
+        .dispatch(actions.getStatisticsData(failedRequestData))
+        // eslint-disable-next-line promise/prefer-await-to-then
+        .then(() => expect(store.getActions()).toEqual(onFailureActions))
+    );
   });
   it('creates STATISTICS_DATA_REQUEST and ends with success', () => {
     mockRequest({
@@ -48,8 +51,11 @@ describe('statistics actions', () => {
         data: [['x86_64', 6]],
       },
     });
-    return store
-      .dispatch(actions.getStatisticsData(successRequestData))
-      .then(() => expect(store.getActions()).toEqual(onSuccessActions));
+    return (
+      store
+        .dispatch(actions.getStatisticsData(successRequestData))
+        // eslint-disable-next-line promise/prefer-await-to-then
+        .then(() => expect(store.getActions()).toEqual(onSuccessActions))
+    );
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable promise/prefer-await-to-then */
 // Configure Enzyme
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';

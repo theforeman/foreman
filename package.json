@@ -60,6 +60,7 @@
     "eslint": "^4.10.0",
     "eslint-plugin-jquery": "^1.5.1",
     "eslint-plugin-patternfly-react": "0.2.0",
+    "eslint-plugin-promise": "^4.2.1",
     "expose-loader": "~0.6.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.9.0",

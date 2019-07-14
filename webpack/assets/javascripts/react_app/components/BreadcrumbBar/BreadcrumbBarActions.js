@@ -84,6 +84,7 @@ export const loadSwitcherResourcesByResource = (
       per_page: 10,
       search: createSearch(nameField, searchQuery, resource.resourceFilter),
     }
+    // eslint-disable-next-line promise/prefer-await-to-then
   ).then(onRequestSuccess, onRequestFail);
 };
 
