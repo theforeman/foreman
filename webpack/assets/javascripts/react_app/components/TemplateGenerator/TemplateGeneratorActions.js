@@ -1,3 +1,4 @@
+/* eslint-disable promise/prefer-await-to-then */
 import { saveAs } from 'file-saver';
 import API from '../../API';
 

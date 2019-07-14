@@ -1,3 +1,4 @@
+/* eslint-disable promise/prefer-await-to-then */
 import {
   NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,

@@ -8,19 +8,22 @@ import {
 export const loadSetting = settingName => dispatch => {
   dispatch({ type: GET_SETTING_REQUEST });
 
-  return API.get(`/api/v2/settings/${settingName}`)
-    .then(({ data }) => {
-      dispatch({
-        type: GET_SETTING_SUCCESS,
-        response: data,
-      });
-    })
-    .catch(result => {
-      dispatch({
-        type: GET_SETTING_FAILURE,
-        result,
-      });
-    });
+  return (
+    API.get(`/api/v2/settings/${settingName}`)
+      // eslint-disable-next-line promise/prefer-await-to-then
+      .then(({ data }) => {
+        dispatch({
+          type: GET_SETTING_SUCCESS,
+          response: data,
+        });
+      })
+      .catch(result => {
+        dispatch({
+          type: GET_SETTING_FAILURE,
+          result,
+        });
+      })
+  );
 };
 
 export default loadSetting;

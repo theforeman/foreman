@@ -14,6 +14,7 @@ const i18nProviderWrapperFactory = (
       super(props);
       this.state = { i18nLoaded: false };
 
+      // eslint-disable-next-line promise/prefer-await-to-then
       intl.ready.then(() => {
         this.setState({ i18nLoaded: true });
       });

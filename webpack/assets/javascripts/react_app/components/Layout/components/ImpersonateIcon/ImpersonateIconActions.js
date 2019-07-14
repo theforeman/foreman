@@ -6,6 +6,7 @@ import { addToast } from '../../../../redux/actions/toasts';
 export const stopImpersonating = (url, history) => dispatch =>
   api
     .delete(url)
+    // eslint-disable-next-line promise/prefer-await-to-then
     .then(({ data }) => {
       window.location.href = foremanUrl('/users');
 
