@@ -1,4 +1,25 @@
 <% title(_("Virtual Machines on %s") % @compute_resource) %>
-<%= vms_table do %>
-  <%= render "compute_resources_vms/index/#{@compute_resource.provider.downcase}" %>
+<%= vms_table(@compute_resource, @vms, authorizer: @authorizer) do |renderer| %>
+  <thead>
+    <tr>
+      <% renderer.columns.each do |column| %>
+        <th><%= column[:label] %></th>
+      <% end %>
+      <th><%= _('Actions') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% renderer.vms.each do |vm| %>
+      <tr>
+        <% renderer.columns.each do |column| %>
+          <%= renderer.render_column(column, vm) %>
+        <% end %>
+        <td>
+          <%= action_buttons(*renderer.presenter.vm_actions(vm, authorizer: @authorizer)) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+  <%#= render "compute_resources_vms/index/#{@compute_resource.provider.downcase}" %>
 <% end %>

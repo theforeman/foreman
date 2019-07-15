@@ -84,7 +84,7 @@ module ComputeResourcesVmsHelper
   end
 
   def available_vm_actions(compute_resource, vm, authorizer: nil, for_view: :list)
-    presenter = ComputeResourcePresenter.for_cr(compute_resource, self)
+    presenter = ComputeResourcePresenter.for(compute_resource, view: self)
     presenter.vm_actions(vm, authorizer: authorizer, for_view: for_view)
   end
 
@@ -146,15 +146,16 @@ module ComputeResourcesVmsHelper
     selectable_f form, :resource_pool, resource_pools, { }, :class => "col-md-2", :label => _('Resource pool'), :disabled => disabled
   end
 
-  def vms_table
-    data = if @compute_resource.supports_vms_pagination?
-             { :table => 'server', :source => compute_resource_vms_path }
+  def vms_table(compute_resource, vms, authorizer: nil)
+    data = if compute_resource.supports_vms_pagination?
+             { :table => 'server', :source => compute_resource_vms_path(compute_resource) }
            else
              { :table => 'inline' }
            end
 
+    presenter = ComputeResourcePresenter.for(compute_resource, view: self)
     content_tag :table, :class => table_css_classes, :width => '100%', :data => data do
-      yield
+      yield presenter.vms_table(vms)
     end
   end
 
@@ -202,7 +203,7 @@ module ComputeResourcesVmsHelper
 
   def vm_import_action(vm, html_options = {})
     return unless Host.for_vm(@compute_resource, vm).empty?
-    ComputeResourcePresenter.for_cr(@compute_resource, self).vm_import_action(vm, html_options)
+    ComputeResourcePresenter.for(@compute_resource, view: self).vm_import_action(vm, html_options)
   end
 
   def vm_associate_action(vm)

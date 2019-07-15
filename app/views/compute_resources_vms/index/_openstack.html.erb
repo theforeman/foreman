@@ -8,7 +8,7 @@
 </thead>
 <tbody>
   <% presenter = OpenstackPresenter.new(@compute_resource, self) %>
-  <% presenter.prepare_host_cache! %>
+  <% presenter.prepare_host_cache!(@vms) %>
   <% @vms.each do |vm| %>
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :auth_action => 'view', :authorizer => authorizer) %></td>
