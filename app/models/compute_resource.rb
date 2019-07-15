@@ -42,6 +42,10 @@ class ComputeResource < ApplicationRecord
 
   graphql_type '::Types::ComputeResource'
 
+  def self.taxable_type
+    'ComputeResource'
+  end
+
   def self.supported_providers
     {
       'Libvirt'   => 'Foreman::Model::Libvirt',

@@ -49,6 +49,10 @@ class AuthSourceLdap < AuthSource
     end
   }
 
+  def self.taxable_type
+    'AuthSource'
+  end
+
   DEFAULT_PORTS = {:ldap => 389, :ldaps => 636 }
   # Loads the LDAP info for a user and authenticates the user with their password
   # Returns : Array of Strings.

@@ -82,7 +82,7 @@ class TaxonomixTest < ActiveSupport::TestCase
     end
 
     test 'does not return anything if no taxable IDs were found' do
-      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns([]).once
+      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns({ :loc_ids => [], :org_ids => [] }).once
       taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
       assert_empty taxonomy_scoped_dummies
     end
@@ -92,7 +92,7 @@ class TaxonomixTest < ActiveSupport::TestCase
       @dummy.organization_ids = [@org.id]
       @dummy.location_ids = [@loc.id]
       @dummy.save
-      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns([@org.id, @loc.id]).once
+      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns({ :org_ids => [@org.id], :loc_ids => [@loc.id] }).once
       taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
       assert_equal 1, taxonomy_scoped_dummies.count
       assert_equal [@dummy], taxonomy_scoped_dummies.to_a
@@ -161,7 +161,7 @@ class TaxonomixTest < ActiveSupport::TestCase
     test 'does not return objects outside the specified taxonomies' do
       @dummy.name = 'foo'
       @dummy.save
-      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns([@org.id, @loc.id]).once
+      TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns({ :org_ids => [@org.id], :loc_ids => [@loc.id] }).once
       taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
       assert_equal 0, taxonomy_scoped_dummies.count
       refute_includes taxonomy_scoped_dummies.to_a, @dummy
@@ -224,7 +224,9 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   describe '#taxonomy_ids_in_taxable_taxonomy' do
     test "can work with empty array returning nil" do
-      assert_nil @dummy.class.taxonomy_ids_in_taxable_taxonomy([], [])
+      result = @dummy.class.taxonomy_ids_in_taxable_taxonomy([], [])
+      assert_nil result[:loc_ids]
+      assert_nil result[:org_ids]
     end
 
     test 'returns IDs for non-admin user of any context when no org/loc' do
@@ -235,8 +237,8 @@ class TaxonomixTest < ActiveSupport::TestCase
         any_loc = User.current.locations
 
         TaxonomixDummy.which_taxonomy_ignored = []
-        assert_equal any_org.pluck(:id).concat(any_loc.pluck(:id)).sort, TaxonomixDummy.taxonomy_ids_in_taxable_taxonomy(nil, nil).sort
-        assert_equal any_org.pluck(:id).concat(any_loc.pluck(:id)).sort, TaxonomixDummy.taxonomy_ids_in_taxable_taxonomy([], []).sort
+        assert_equal any_org.pluck(:id).concat(any_loc.pluck(:id)).sort, TaxonomixDummy.taxonomy_ids_in_taxable_taxonomy(nil, nil).values.flatten.sort
+        assert_equal any_org.pluck(:id).concat(any_loc.pluck(:id)).sort, TaxonomixDummy.taxonomy_ids_in_taxable_taxonomy([], []).values.flatten.sort
       end
     end
   end

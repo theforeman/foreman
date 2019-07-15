@@ -28,11 +28,11 @@ module AuditExtensions
       scopes = {
         :fully_taxable_auditables_in_taxonomy_scope => :audits_1,
         :taxed_only_by_location_in_taxonomy_scope => :audits_2,
-        :taxed_only_by_organization_in_taxonomy_scope => :audits
+        :taxed_only_by_organization_in_taxonomy_scope => :audits,
       }
 
       scopes.reduce(untaxed) do |memo, (scope_method, subquery_name)|
-        union = memo.union(public_send(scope_method))
+        union = memo.arel.union(public_send(scope_method).arel)
         select("#{subquery_name}.*").from(arel_table.create_table_alias(union, subquery_name))
       end
     }

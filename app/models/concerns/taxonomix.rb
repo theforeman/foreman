@@ -29,7 +29,7 @@ module Taxonomix
 
     # default inner_method includes children (subtree_ids)
     def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids, which_taxonomy_ignored = [])
-      scope = block_given? ? yield : where(nil)
+      scope = block_given? ? yield : unscoped
       self.which_ancestry_method = inner_method
       self.which_taxonomy_ignored = which_taxonomy_ignored
       if SETTINGS[:locations_enabled] && !which_taxonomy_ignored.include?(:location)
@@ -88,13 +88,11 @@ module Taxonomix
       result
     end
 
+    # return ids of a taxonomy to join on
     def taxonomy_inner_ids(taxonomy, taxonomy_class, inner_method)
-      return [] unless User.current.present?
-      return taxonomy_class.pluck(:id) if taxonomy_class.ignore?(to_s)
+      return [] if User.current.nil?
+      return nil if taxonomy_class.ignore?(to_s)
       return get_taxonomy_ids(taxonomy, inner_method) if taxonomy.present?
-      # return everything if admin is in 'Any Context'
-      # note this is intentionaly positioned after the taxonomy.present? check
-      return taxonomy_class.pluck(:id) if User.current.admin?
 
       taxonomy_relation = taxonomy_class.to_s.underscore.pluralize
       User.current.taxonomy_and_child_ids(:"#{taxonomy_relation}")
@@ -111,14 +109,27 @@ module Taxonomix
     def scope_by_taxonomy_ids(scope)
       case (cached_ids = taxonomy_ids_in_taxable_taxonomy)
       when ->(hash) { hash[:loc_ids].nil? && hash[:org_ids].nil? }
-        # return everything for admin
+        # return everything for admin or when resource ignores taxonomies
         scope
-      when ->(hash) { hash[:loc_ids].empty? && hash[:org_ids].empty? }
+      when ->(hash) { scope_empty?(hash) && self == User && User.current.present? }
+        # user should view self even if there are no taxonomies
+        scope.where(:id => User.current.id)
+      when ->(hash) { scope_empty?(hash) }
         # return nothing when there are no taxonomies for non-admin
         scope.none
       else
         apply_scope_joins(scope, cached_ids)
       end
+    end
+
+    # return true for { :loc_ids => [], :org_ids => [] }
+    # be very careful as nil.empty? is true,
+    # but { :loc_ids => nil, :org_ids => nil } means an unscoped resource
+    def scope_empty?(hash_ids)
+      hash_ids[:loc_ids].respond_to?(:size) &&
+      hash_ids[:loc_ids].empty? &&
+      hash_ids[:org_ids].respond_to?(:size) &&
+      hash_ids[:org_ids].empty?
     end
 
     def apply_scope_joins(scope, ids_hash)
@@ -127,12 +138,22 @@ module Taxonomix
       scope
     end
 
+    # used to determine taxable_type in taxable_taxonomies table,
+    # bacause some STI classes mix this into parent (ComputeResource)
+    # while others into the child classes (ProvisioningTemplate)
+    def taxable_type
+      self
+    end
+
     def scope_join_by(scope, ids, table_alias)
       if ids.present?
-        scope.joins("INNER JOIN taxable_taxonomies AS #{table_alias}
-                       ON #{table_alias}.taxable_id = #{table_name}.id
-                       AND #{table_alias}.taxable_type = '#{self}'")
-             .where("#{table_alias}.taxonomy_id IN (#{ids.join(',')})")
+        scope.joins("INNER JOIN
+                         (SELECT taxable_id, taxonomy_id
+                          FROM taxable_taxonomies
+                          WHERE taxonomy_id IN (#{ids.join(',')})
+                            AND taxable_taxonomies.taxable_type = '#{taxable_type}'
+                          ) #{table_alias}
+                       ON #{table_alias}.taxable_id = #{table_name}.id")
       else
         scope
       end
