@@ -1,7 +1,9 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
+import { useSelector } from 'react-redux';
 import { intl } from './I18n';
 import { getDisplayName } from './helpers';
+import { selectI18NReady } from '../ReactApp/ReactAppSelectors';
 
 const i18nProviderWrapperFactory = (
   initialNow,
@@ -9,32 +11,20 @@ const i18nProviderWrapperFactory = (
 ) => WrappedComponent => {
   const wrappedName = getDisplayName(WrappedComponent);
 
-  class I18nProviderWrapper extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { i18nLoaded: false };
-
-      // eslint-disable-next-line promise/prefer-await-to-then
-      intl.ready.then(() => {
-        this.setState({ i18nLoaded: true });
-      });
-    }
-
-    render() {
-      if (!this.state.i18nLoaded) {
-        return <span />;
-      }
-      return (
+  const I18nProviderWrapper = props => {
+    const i18nReady = useSelector(selectI18NReady);
+    return (
+      i18nReady && (
         <IntlProvider
           locale={intl.locale}
           initialNow={initialNow}
           timeZone={timezone || intl.timezone}
         >
-          <WrappedComponent {...this.props} />
+          <WrappedComponent {...props} />
         </IntlProvider>
-      );
-    }
-  }
+      )
+    );
+  };
   I18nProviderWrapper.displayName = `I18nProviderWrapper(${wrappedName})`;
 
   return I18nProviderWrapper;

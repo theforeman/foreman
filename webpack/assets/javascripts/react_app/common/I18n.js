@@ -1,6 +1,8 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
 
+import { i18nReady } from '../ReactApp/ReactAppActions';
+
 class IntlLoader {
   constructor(locale, timezone) {
     this.fallbackIntl = !global.Intl;
@@ -11,13 +13,14 @@ class IntlLoader {
   }
 
   async init() {
+    const store = await import('../redux');
     await this.fetchIntl();
     addLocaleData(
       await import(
         /* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`
       )
     );
-    return true;
+    store.default.dispatch(i18nReady());
   }
 
   async fetchIntl() {
