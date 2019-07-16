@@ -16,8 +16,6 @@ end
 
 if Foreman::Model::GCE.available?
   require 'fog/google'
-  require 'fog/compute/google/models/image'
-  Fog::Compute::Google::Image.send(:include, FogExtensions::Google::Image)
   require 'fog/compute/google/models/server'
   Fog::Compute::Google::Server.send(:include, FogExtensions::Google::Server)
 end

@@ -34,7 +34,7 @@ module FogExtensions
       end
 
       def image_id
-        image_name if disks.present?
+        service.images.get(pretty_image_name).try(:id) if disks.present? && image_name
       end
 
       def vm_description
