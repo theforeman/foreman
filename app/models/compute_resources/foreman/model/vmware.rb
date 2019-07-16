@@ -548,6 +548,7 @@ module Foreman::Model
         "storage_pod" => args[:volumes].first[:storage_pod],
         "resource_pool" => [args[:cluster], args[:resource_pool]],
         "boot_order" => [:disk],
+        "annotation" => args[:annotation],
       }
 
       opts['transform'] = (args[:volumes].first[:thin] == 'true') ? 'sparse' : 'flat' unless args[:volumes].empty?
