@@ -9,8 +9,16 @@
           {:id => "troubleshootingButton", :class => "btn btn-default"}
         )
  ) %>
-<p class="toggle-hidden-value"><%= _('Password:') %> <a href="#" class="toggle-hidden-value"><%=icon_text("plus")%></a><span><%= @console[:password] %></span></p>
-<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>' data-encrypt='<%= @encrypt %>'>
+
+<div id='vnc'
+     data-host='<%= @console[:host] %>'
+     data-port='<%= @console[:port] %>'
+     data-path='<%= @console[:path] %>'
+     data-token-protocol='<%= @console[:token_protocol] %>'
+     data-plain-protocol='<%= @console[:plain_protocol] %>'
+     data-password='<%= @console[:password] %>'
+     data-encrypt='<%= @console[:encrypt] %>'
+>
   <div id="noVNC_status_bar" class="console-status">
     <div id="noVNC_status" class="col-md-12 label">Loading ...</div>
   </div>

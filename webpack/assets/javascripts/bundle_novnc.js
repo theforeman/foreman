@@ -52,24 +52,38 @@ function connectFinished() {
   showStatus('normal', __('Connected'));
 }
 
+function onClose(e) {
+  if (e.code === 1006) {
+    showStatus(
+      'failed',
+      __(
+        'The connection was closed by the browser. please verify that the certificate authority is valid'
+      )
+    );
+  }
+}
 $(document).on('ContentLoad', () => {
   const vncScreen = $('#noVNC_screen');
 
   if (vncScreen.length) {
     $('#sendCtrlAltDelButton').on('click', sendCtrlAltDel);
-
     const protocol = $('#vnc').data('encrypt') ? 'wss' : 'ws';
-    const host = window.location.hostname;
+    const host = $('#vnc').attr('data-host') || window.location.hostname;
     const port = $('#vnc').attr('data-port');
-    const url = `${protocol}://${host}:${port}`;
+    const path = $('#vnc').attr('data-path');
     const password = $('#vnc').attr('data-password');
-
-    rfb = new RFB(vncScreen.get(0), url, {
-      credentials: {
-        password,
-      },
-    });
-
+    const tokenProtocol = $('#vnc').attr('data-token-protocol');
+    const plainProtocol = $('#vnc').attr('data-plain-protocol');
+    const url = `${protocol}://${host}:${port}${path || ''}`;
+    const options = {};
+    if (password) {
+      options.credentials = { password };
+    }
+    if (tokenProtocol || plainProtocol) {
+      options.wsProtocols = [tokenProtocol, plainProtocol].filter(String);
+    }
+    rfb = new RFB(vncScreen.get(0), url, options);
+    rfb._sock.on('close', onClose);
     rfb.addEventListener('connect', connectFinished);
     rfb.addEventListener('disconnect', disconnectFinished);
     rfb.addEventListener('securityfailure', securityFailed);
