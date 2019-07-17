@@ -14,6 +14,7 @@ import { noop } from '../../../common/helpers';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import TimePicker from '../DateTimePicker/TimePicker';
+import { documentLocaleForJS } from '../../../common/I18n';
 
 const inputComponents = {
   date: DatePicker,
@@ -28,10 +29,15 @@ export const ControlContext = React.createContext();
 
 const InputFactory = ({ type }) => {
   const controlProps = useContext(ControlContext);
+  const currentLocale = documentLocaleForJS();
 
   if (inputComponents[type]) {
     return (
-      <FormControl componentClass={inputComponents[type]} {...controlProps} />
+      <FormControl
+        componentClass={inputComponents[type]}
+        locale={currentLocale}
+        {...controlProps}
+      />
     );
   }
   return <FormControl type={type} {...controlProps} />;

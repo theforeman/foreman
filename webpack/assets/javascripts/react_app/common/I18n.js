@@ -39,6 +39,9 @@ export const intl = new IntlLoader(langAttr, timezoneAttr);
 const cheveronPrefix = () => (window.I18N_MARK ? '\u00BB' : '');
 const cheveronSuffix = () => (window.I18N_MARK ? '\u00AB' : '');
 
+export const documentLocaleForJS = () =>
+  document.getElementsByTagName('html')[0].lang;
+
 export const documentLocale = () =>
   document.getElementsByTagName('html')[0].lang.replace(/-/g, '_');
 
