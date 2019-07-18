@@ -982,8 +982,9 @@ class Host::Managed < Host::Base
     association = self.class.reflect_on_association(association_name)
     raise ArgumentError, "Association #{association_name} not found" unless association
     associated_object_id = public_send(association.foreign_key)
-    if associated_object_id.present? &&
-      association.klass.with_taxonomy_scope(organization, location).find_by(id: associated_object_id).blank?
+    return true unless associated_object_id
+    taxable_scope = association.klass.respond_to?(:with_taxonomy_scope) ? association.klass : association.klass.find(associated_object_id).class
+    if taxable_scope.with_taxonomy_scope(organization, location).find_by(id: associated_object_id).blank?
       errors.add(association.foreign_key, _("with id %{object_id} doesn't exist or is not assigned to proper organization and/or location") % { :object_id => associated_object_id })
       false
     else

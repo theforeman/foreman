@@ -28,8 +28,9 @@ module Taxonomix
     attr_accessor :which_ancestry_method, :which_location, :which_organization, :which_taxonomy_ignored
 
     # default inner_method includes children (subtree_ids)
-    def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids, which_taxonomy_ignored = [])
-      scope = block_given? ? yield : unscoped
+    def with_taxonomy_scope(loc = Location.current, org = Organization.current, inner_method = :subtree_ids, which_taxonomy_ignored = [], unscope_all = true)
+      scope = unscope_all ? unscoped : all
+      scope = block_given? ? yield : scope
       self.which_ancestry_method = inner_method
       self.which_taxonomy_ignored = which_taxonomy_ignored
       if SETTINGS[:locations_enabled] && !which_taxonomy_ignored.include?(:location)
@@ -48,9 +49,9 @@ module Taxonomix
     end
 
     # default inner_method includes parents (path_ids)
-    def with_taxonomy_scope_override(loc = nil, org = nil, inner_method = :path_ids)
+    def with_taxonomy_scope_override(loc = nil, org = nil, inner_method = :path_ids, which_taxonomy_ignored = [], unscope_all = false)
       # need to .unscope in case default_scope {with_taxonomy_scope} overrides inner_method
-      unscope(:where => :taxonomy).with_taxonomy_scope(loc, org, inner_method)
+      unscope(:where => :taxonomy).with_taxonomy_scope(loc, org, inner_method, which_taxonomy_ignored, unscope_all)
     end
 
     def used_taxonomy_ids
@@ -138,9 +139,7 @@ module Taxonomix
       scope
     end
 
-    # used to determine taxable_type in taxable_taxonomies table,
-    # bacause some STI classes mix this into parent (ComputeResource)
-    # while others into the child classes (ProvisioningTemplate)
+    # used to determine taxable_type in taxable_taxonomies table for STI
     def taxable_type
       self
     end

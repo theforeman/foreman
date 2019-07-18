@@ -17,7 +17,7 @@ module Resolvers
           argument :organization_id, String, required: false
         end
 
-        delegate :has_taxonomix?, to: :class
+        delegate :has_taxonomix?, :sti_taxable?, to: :class
       end
 
       def resolve(**kwargs)
@@ -63,13 +63,7 @@ module Resolvers
           filters << search_and_sort_filter(search: search, sort_by: sort_by, sort_direction: sort_direction)
         end
 
-        if has_taxonomix?
-          taxonomy_ids = taxonomy_ids_for_filter(location_id: location_id, organization_id: organization_id,
-                                                 location: location, organization: organization)
-          filters << taxonomy_id_filter(taxonomy_ids) if taxonomy_ids.any?
-        end
-
-        filters
+        add_taxonomy_filters filters, location_id, organization_id, location, organization
       end
 
       def search_and_sort_filter(search:, sort_by:, sort_direction:)
@@ -79,6 +73,31 @@ module Resolvers
           rescue ScopedSearch::QueryNotSupported => error
             raise GraphQL::ExecutionError.new(error.message)
           end
+        end
+      end
+
+      def add_taxonomy_filters(filters, location_id, organization_id, location, organization)
+        taxonomy_ids = taxonomy_ids_for_filter(location_id: location_id, organization_id: organization_id,
+                                               location: location, organization: organization)
+        return filters unless taxonomy_ids.any?
+
+        if has_taxonomix?
+          filters << taxonomy_id_filter(taxonomy_ids)
+        end
+
+        if sti_taxable?
+          filters << taxable_id_filter(taxonomy_ids)
+        end
+
+        filters
+      end
+
+      def taxable_id_filter(taxonomy_ids)
+        lambda do |scope|
+          # join manually as Taxonomix is in subclasses
+          scope.joins("INNER JOIN taxable_taxonomies
+                          ON taxable_taxonomies.taxable_id = #{scope.table_name}.id
+                        WHERE taxable_taxonomies.taxonomy_id IN (#{taxonomy_ids.join(',')})").distinct
         end
       end
 
@@ -118,14 +137,18 @@ module Resolvers
       end
 
       def resolve_taxonomy_name_to_id(taxonomy_class, taxonomy_name)
-        id = taxonomy_class.find_by(name: taxonomy_name)
-        raise GraphQL::ExecutionError.new("#{taxonomy_class.name} could not be found my name #{name}.") unless id
-        id
+        taxonomy = taxonomy_class.find_by(name: taxonomy_name)
+        raise GraphQL::ExecutionError.new("#{taxonomy_class.name} could not be found my name #{name}.") unless taxonomy
+        taxonomy.id
       end
 
       class_methods do
         def has_taxonomix?
           self::MODEL_CLASS.include?(Taxonomix)
+        end
+
+        def sti_taxable?
+          self::MODEL_CLASS.descendants.any? { |child| child.include?(Taxonomix) }
         end
       end
     end

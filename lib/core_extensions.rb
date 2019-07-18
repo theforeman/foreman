@@ -175,3 +175,53 @@ class ActiveModel::Errors
     self[:conflict].count + self[:'interfaces.conflict'].count == self.count
   end
 end
+
+# based on https://github.com/rails/rails/pull/36284
+# Arel::Nodes::StringJoin has no right side, so make sure it is properly applied
+# needed for Taxonomix to properly join the taxable scopes, see scope_join_by
+module ActiveRecord
+  module Associations
+    class JoinDependency
+      class JoinAssociation
+        def join_constraints(foreign_table, foreign_klass, join_type, alias_tracker)
+          joins = []
+
+          # The chain starts with the target table, but we want to end with it here (makes
+          # more sense in this context), so we reverse
+          reflection.chain.reverse_each.with_index(1) do |reflection, i|
+            table = tables[-i]
+            klass = reflection.klass
+
+            constraint = reflection.build_join_constraint(table, foreign_table)
+
+            joins << table.create_join(table, table.create_on(constraint), join_type)
+
+            join_scope = reflection.join_scope(table, foreign_klass)
+            arel = join_scope.arel(alias_tracker.aliases)
+
+            if arel.constraints.any?
+              joins.concat arel.join_sources
+              append_constraints(joins.last, arel.constraints)
+            end
+
+            # The current table in this iteration becomes the foreign table in the next
+            foreign_table, foreign_klass = table, klass
+          end
+
+          joins
+        end
+
+        private
+
+        def append_constraints(join, constraints)
+          if join.is_a?(Arel::Nodes::StringJoin)
+            join_string = table.create_and(constraints.unshift(join.left))
+            join.left = Arel.sql(base_klass.connection.visitor.compile(join_string))
+          else
+            join.right.expr = join.right.expr.and(constraints)
+          end
+        end
+      end
+    end
+  end
+end

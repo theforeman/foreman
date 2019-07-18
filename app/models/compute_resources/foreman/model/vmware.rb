@@ -11,6 +11,13 @@ module Foreman::Model
   class Vmware < ComputeResource
     include ComputeResourceConsoleCommon
     include ComputeResourceCaching
+    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
+    # never include Taxonomix in the superclass
+    include Taxonomix
+
+    def self.taxable_type
+      'ComputeResource'
+    end
 
     validates :user, :password, :server, :datacenter, :presence => true
     validates :display_type, :inclusion => {
@@ -22,6 +29,14 @@ module Foreman::Model
 
     alias_attribute :server, :url
     alias_attribute :datacenter, :uuid
+
+    # with proc support, default_scope can no longer be chained
+    # include all default scoping here
+    default_scope lambda {
+      with_taxonomy_scope do
+        order("compute_resources.name")
+      end
+    }
 
     def self.available?
       Fog::Compute.providers.include?(:vsphere)

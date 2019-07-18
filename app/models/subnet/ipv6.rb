@@ -1,6 +1,14 @@
 require 'socket'
 
 class Subnet::Ipv6 < Subnet
+  # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
+  # never include Taxonomix in the superclass
+  include Taxonomix
+
+  def self.taxable_type
+    'Subnet'
+  end
+
   has_many :interfaces, :class_name => '::Nic::Base', :foreign_key => :subnet6_id
   has_many :primary_interfaces, -> { where(:primary => true) }, :class_name => 'Nic::Base', :foreign_key => :subnet6_id
   # The has_many :through associations below have to be defined after the
@@ -10,6 +18,12 @@ class Subnet::Ipv6 < Subnet
 
   validate :validate_eui64_prefix_length, :if => Proc.new { |subnet| subnet.ipam == IPAM::MODES[:eui64]}
   validates :mtu, :numericality => {:only_integer => true, :greater_than_or_equal_to => 1280, :less_than_or_equal_to => 4294967295}
+
+  default_scope lambda {
+    with_taxonomy_scope do
+      order(:vlanid)
+    end
+  }
 
   def family
     Socket::AF_INET6

@@ -11,7 +11,6 @@ class Subnet < ApplicationRecord
   prepend Foreman::STI
   extend FriendlyId
   friendly_id :name
-  include Taxonomix
   include Parameterizable::ByIdName
   include Exportable
   include BelongsToProxies
@@ -90,12 +89,6 @@ class Subnet < ApplicationRecord
 
   validate :validate_ranges
   validate :check_if_type_changed, :on => :update
-
-  default_scope lambda {
-    with_taxonomy_scope do
-      order(:vlanid)
-    end
-  }
 
   scoped_search :on => [:name, :network, :mask, :gateway, :dns_primary, :dns_secondary,
                         :vlanid, :mtu, :ipam, :boot_mode, :type], :complete_value => true

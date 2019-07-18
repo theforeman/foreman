@@ -1,6 +1,14 @@
 module Foreman::Model
   class Openstack < ComputeResource
     include KeyPairComputeResource
+    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
+    # never include Taxonomix in the superclass
+    include Taxonomix
+
+    def self.taxable_type
+      'ComputeResource'
+    end
+
     attr_accessor :scheduler_hint_value
     delegate :flavors, :to => :client
     delegate :security_groups, :to => :client
@@ -14,6 +22,14 @@ module Foreman::Model
     alias_method :available_flavors, :flavors
 
     SEARCHABLE_ACTIONS = [:server_group_anti_affinity, :server_group_affinity, :raw]
+
+    # with proc support, default_scope can no longer be chained
+    # include all default scoping here
+    default_scope lambda {
+      with_taxonomy_scope do
+        order("compute_resources.name")
+      end
+    }
 
     def provided_attributes
       super.merge({ :ip => :floating_ip_address })

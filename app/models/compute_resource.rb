@@ -1,6 +1,5 @@
 class ComputeResource < ApplicationRecord
   audited :except => [:attrs]
-  include Taxonomix
   include Encryptable
   include Authorizable
   include Parameterizable::ByIdName
@@ -32,19 +31,7 @@ class ComputeResource < ApplicationRecord
   # The DB may contain compute resource from disabled plugins - filter them out here
   scope :live_descendants, -> { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
-  # with proc support, default_scope can no longer be chained
-  # include all default scoping here
-  default_scope lambda {
-    with_taxonomy_scope do
-      order("compute_resources.name")
-    end
-  }
-
   graphql_type '::Types::ComputeResource'
-
-  def self.taxable_type
-    'ComputeResource'
-  end
 
   def self.supported_providers
     {

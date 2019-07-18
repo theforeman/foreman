@@ -11,6 +11,7 @@ FactoryBot.define do
       password { 'ec2password' }
       url { 'eu-west-1' }
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
+      initialize_with { Foreman::Model::EC2.new(attributes) }
     end
 
     trait :gce do
@@ -19,10 +20,12 @@ FactoryBot.define do
       project { 'gce_project' }
       sequence(:email) { |n| "user#{n}@example.com" }
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
+      initialize_with { Foreman::Model::GCE.new(attributes) }
     end
 
     trait :libvirt do
       provider { 'Libvirt' }
+      initialize_with { Foreman::Model::Libvirt.new(attributes) }
     end
 
     trait :openstack do
@@ -31,6 +34,7 @@ FactoryBot.define do
       password { 'ospassword' }
       url { 'http://openstack.example.com/v2.0' }
       after(:build) { |cr| cr.stubs(:setup_key_pair) }
+      initialize_with { Foreman::Model::Openstack.new(attributes) }
     end
 
     trait :ovirt do
@@ -38,6 +42,7 @@ FactoryBot.define do
       user { 'ovirtuser' }
       password { 'ovirtpassword' }
       after(:build) { |cr| cr.stubs(:update_public_key) }
+      initialize_with { Foreman::Model::Ovirt.new(attributes) }
     end
 
     trait :rackspace do
@@ -45,6 +50,7 @@ FactoryBot.define do
       user { 'rsuser' }
       password { 'rspassword' }
       region { 'IAD' }
+      initialize_with { Foreman::Model::Rackspace.new(attributes) }
     end
 
     trait :vmware do
@@ -54,6 +60,7 @@ FactoryBot.define do
       sequence(:url) { |n| "#{n}.example.com" } # alias for server
       uuid { 'vdatacenter' } # alias for datacenter
       after(:build) { |cr| cr.stubs(:update_public_key) }
+      initialize_with { Foreman::Model::Vmware.new(attributes) }
     end
 
     trait :with_images do
