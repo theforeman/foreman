@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-11 20:33+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-06-18 20:18+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "删除"
+
+msgid "${progress}%% Complete"
+msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
@@ -770,6 +773,9 @@ msgstr "确定要注销吗？"
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "您确定要打开 %{act} %{vm} 吗？"
 
+msgid "Are you sure you would like to revert the Template?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr "确认？"
 
@@ -1074,6 +1080,12 @@ msgstr "平均交换分区使用情况"
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "合并时是否避免重复值（只适用于阵列类型）？"
 
+msgid "BCrypt password cost"
+msgstr ""
+
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
 msgid "BIOS"
 msgstr "BIOS"
 
@@ -1338,6 +1350,9 @@ msgstr "更改密码"
 msgid "Changed environments"
 msgstr "改变环境"
 
+msgid "Changes"
+msgstr ""
+
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
@@ -1442,6 +1457,9 @@ msgstr "克隆此主机"
 
 msgid "Close"
 msgstr "关闭"
+
+msgid "Cloud-init template"
+msgstr ""
 
 msgid "Cluster"
 msgstr "集群"
@@ -1636,6 +1654,9 @@ msgstr "内核和代理版本不匹配。foreman: %{foreman_version}, foreman-pr
 
 msgid "Cores per socket"
 msgstr "每个插槽的 core"
+
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
+msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr "无法为 Manager 和 Viewer 角色添加权限：%s"
@@ -2090,6 +2111,9 @@ msgstr "默认"
 msgid "Default Behavior"
 msgstr "默认行为"
 
+msgid "Default Display Type"
+msgstr ""
+
 msgid "Default PXE global template entry"
 msgstr "默认的 PXE 全局模板条目"
 
@@ -2108,6 +2132,9 @@ msgstr "默认 Puppet 环境"
 msgid "Default Puppet server hostname"
 msgstr "默认puppet服务器名"
 
+msgid "Default VNC Keyboard"
+msgstr ""
+
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr "分配到此子网的接口的默认引导模式，从置备模板应用到主机"
 
@@ -2116,6 +2143,9 @@ msgstr "分配给这个子网接口的默认引导模式，有效值为 \"Static
 
 msgid "Default encrypted root password on provisioned hosts"
 msgstr "供应的主机中的默认加密 root 秘密"
+
+msgid "Default language"
+msgstr ""
 
 msgid "Default location"
 msgstr "默认位置"
@@ -2131,6 +2161,9 @@ msgstr "预配主机的默认所有者如果为空，Foreman 将使用当前用�
 
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "自动在新机构和位置中添加默认模板"
+
+msgid "Default timezone"
+msgstr ""
 
 msgid "Default value"
 msgstr "默认值"
@@ -2414,9 +2447,6 @@ msgstr "这个接口的设备标识符。不同的平台和环境可能会有不
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "设备标识符，例如：eth0 或者 eth1.1。"
 
-msgid "Diff"
-msgstr "差异"
-
 msgid "Disable Notifications"
 msgstr "停用通知"
 
@@ -2596,6 +2626,9 @@ msgstr "编辑 %s 的走势"
 msgid "Edit this host"
 msgstr "编辑此主机"
 
+msgid "Editor"
+msgstr ""
+
 msgid "Email Preferences"
 msgstr "电子邮件首选项"
 
@@ -2724,6 +2757,9 @@ msgstr "连接系统 DNS 服务器时出错 - 请检查 /etc/resolv.conf"
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
 msgstr "LDAP 连接 %{name}（使用登陆 %{login}）错误：%{error}"
 
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr "生成 IP 出错：%s"
 
@@ -2793,16 +2829,13 @@ msgstr "示例值为 <code>uid=foreman,dc=example,dc=com</code>"
 msgid "Examples"
 msgstr "例子"
 
-msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
-msgstr "所有导入详情类型（rhsm、puppet 等）的排除模式。这些详情不会存储在 foreman 的数据库中。您可以使用 * 通配符来匹配带索引（例如 macvtap*）的名称"
+msgid "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"
+msgstr ""
 
 msgid "Exclude pattern for facts stored in foreman"
 msgstr "foreman 中存储的详情的排除模式"
 
 msgid "Exit Full Screen"
-msgstr "退出全屏"
-
-msgid "Exit Fullscreen"
 msgstr "退出全屏"
 
 msgid "Expand nested items"
@@ -3130,6 +3163,9 @@ msgstr "字段名"
 msgid "Filter"
 msgstr "过滤器"
 
+msgid "Filter Host..."
+msgstr ""
+
 msgid "Filter audits for this resource only"
 msgstr "仅为这个资源的过滤审计"
 
@@ -3397,9 +3433,6 @@ msgstr "全屏"
 msgid "Full trace"
 msgstr "全跟踪"
 
-msgid "Fullscreen"
-msgstr "全屏"
-
 msgid "Function not available for %s"
 msgstr "功能无法用于 %s"
 
@@ -3444,6 +3477,9 @@ msgstr "通过 %s 生成"
 
 msgid "Generating a report"
 msgstr "正在生成报告"
+
+msgid "Generating of report has been canceled"
+msgstr ""
 
 msgid "Generating the report took %s."
 msgstr ""
@@ -3580,6 +3616,9 @@ msgstr "帮助"
 msgid "Hidden Value"
 msgstr "隐藏值"
 
+msgid "Hide Content"
+msgstr ""
+
 msgid "Hide advanced fields"
 msgstr "隐藏高级字段"
 
@@ -3619,6 +3658,9 @@ msgstr "主机配置状态"
 msgid "Host Configuration Status for %s"
 msgstr "%s 的主机配置状态"
 
+msgid "Host Fetch ${response}"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr "主机组 / 环境"
 
@@ -3636,6 +3678,9 @@ msgstr "主机组"
 
 msgid "Host Parameters"
 msgstr "主机参数"
+
+msgid "Host Wizard"
+msgstr ""
 
 msgid "Host audit entries"
 msgstr "主机审计项"
@@ -3988,7 +4033,7 @@ msgstr "Http 代理服务器|用户名"
 msgid "Hypervisor"
 msgstr ""
 
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -4142,6 +4187,9 @@ msgstr[1] ""
 
 msgid "IPv4 Subnet"
 msgstr "IPv4 子网"
+
+msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
+msgstr ""
 
 msgid "IPv4 address of interface"
 msgstr "接口的 IPv4 地址"
@@ -4299,6 +4347,9 @@ msgstr "Uuid"
 msgid "Import"
 msgstr "导入"
 
+msgid "Import File"
+msgstr ""
+
 msgid "Import IPv4 subnets"
 msgstr "导入 IPv4 子网"
 
@@ -4382,9 +4433,6 @@ msgstr "从 %s 继承类"
 
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr "如果没有设置则从子网 VLAN ID 继承"
-
-msgid "Input"
-msgstr "输入"
 
 msgid "Input %s: "
 msgstr "输入 %s: "
@@ -4550,9 +4598,6 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
-msgid "Key Binding"
-msgstr "绑定密钥"
-
 msgid "Key not connected to any compute resource"
 msgstr "密钥未连接任何计算资源"
 
@@ -4574,6 +4619,12 @@ msgstr "公有"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "安全码"
+
+msgid "Keybind"
+msgstr ""
+
+msgid "Keyboard"
+msgstr ""
 
 msgid "Kind"
 msgstr "种类"
@@ -4601,6 +4652,9 @@ msgstr "实验功能"
 
 msgid "Language"
 msgstr "语言"
+
+msgid "Language to use for new users"
+msgstr ""
 
 msgid "Last Report"
 msgstr "最新报告"
@@ -5175,6 +5229,9 @@ msgstr "锁定"
 msgid "Log In"
 msgstr "登录"
 
+msgid "Log Into Your Account"
+msgstr ""
+
 msgid "Log Out"
 msgstr "注销"
 
@@ -5188,9 +5245,6 @@ msgid "Logged out - See you soon"
 msgstr "登出"
 
 msgid "Logged-in"
-msgstr "登录"
-
-msgid "Login"
 msgstr "登录"
 
 msgid "Login delegation logout URL"
@@ -5385,6 +5439,9 @@ msgstr "智能代理服务器 REST 客户端请求的最大超时值"
 
 msgid "Max trends"
 msgstr "最大趋势"
+
+msgid "Maximize"
+msgstr ""
 
 msgid "Media"
 msgstr "介质"
@@ -5747,6 +5804,9 @@ msgstr "没有处于构建模式或有构建错误的主机"
 
 msgid "No IPv4 subnets selected"
 msgstr "未选择 IPv4 子网"
+
+msgid "No Results"
+msgstr ""
 
 msgid "No TFTP feature"
 msgstr "TFTP 功能"
@@ -6714,6 +6774,9 @@ msgstr "按 ' / ' 聚焦搜索"
 msgid "Preview"
 msgstr "预览"
 
+msgid "Preview is outdated."
+msgstr ""
+
 msgid "Preview rendered provisioning template content"
 msgstr "预览呈现的预配模板内容"
 
@@ -7111,9 +7174,6 @@ msgstr "修改 %s 的用户数据模板"
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr "处理失败，输入宏没有找到名为 \"%{s}\" 的输入"
 
-msgid "Rendering the template, please wait..."
-msgstr "正在呈现模板，请稍候..."
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "报告"
@@ -7259,8 +7319,11 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "还原"
 
-msgid "Revert to revision from: %s"
-msgstr "从 %s 恢复至修订本"
+msgid "Revert Failed, ${res}"
+msgstr ""
+
+msgid "Revert Local Changes"
+msgstr ""
 
 msgid "Review"
 msgstr "审核"
@@ -7479,6 +7542,9 @@ msgstr "选择执行"
 
 msgid "Select All"
 msgstr "选择全部"
+
+msgid "Select Host..."
+msgstr ""
 
 msgid "Select Hosts"
 msgstr "选择主机"
@@ -8023,12 +8089,6 @@ msgstr "有些接口无效。请检查下表。"
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr "部分或者所有主机运行失败，请检查日志文件查看更多信息。"
 
-msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr "已将其他接口设定为主接口。您确定要使用这个接口吗？"
-
-msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr "已将其他接口设定为预配接口。您确定要使用这个接口吗？"
-
 msgid "Something went wrong while changing host type - %s"
 msgstr "更改主机类型时出错 - %s"
 
@@ -8251,9 +8311,6 @@ msgstr "订阅我的主机"
 msgid "Success"
 msgstr "成功"
 
-msgid "Success!"
-msgstr "成功！"
-
 msgid "Successfully created %s."
 msgstr "成功创建 %s "
 
@@ -8311,8 +8368,8 @@ msgstr "支持的格式"
 msgid "Synchronize group from authentication source"
 msgstr "使用认证源同步组"
 
-msgid "Syntax Highlighting"
-msgstr "语法高亮"
+msgid "Syntax"
+msgstr ""
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
 msgstr "解释模板 %{name} 时出现语法错误，请确定所有 ERB tag 已正确关闭，Ruby 语法有效。Ruby 错误：%{message}"
@@ -8395,9 +8452,6 @@ msgstr "模板 %s 为空。"
 msgid "Template '%s' was not found"
 msgstr "没有找到模板 '%s'"
 
-msgid "Template *"
-msgstr "模板 *"
-
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr "要在此子网中使用的模板 HTTP 代理服务器 ID"
 
@@ -8421,6 +8475,9 @@ msgstr "模板差异"
 
 msgid "Template for OS installer, for example kickstart, preseed or jumpstart. Depends on the operating system."
 msgstr "OS installer（如 kickstart、preseed 或 jumpstart）的模板。依赖于操作系统。"
+
+msgid "Template for cloud-init unattended endpoint."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Template input"
@@ -8791,6 +8848,9 @@ msgstr "使用 ssh 进入该实例的用户，通常为 cloud-user, ec2-user, ub
 msgid "The virtual machine is being deleted."
 msgstr "已删除该虚拟机。"
 
+msgid "Theme"
+msgstr ""
+
 msgid "There are migrations pending in the system."
 msgstr "系统中有未完成的迁移。"
 
@@ -8825,9 +8885,6 @@ msgstr "列出 %{listing} 时出错：%{errors}"
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "列出 VM 时出错：%(status)s %(statusText)s"
-
-msgid "There was an error rendering the %s template: "
-msgstr "修改 %s 模板是出错："
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "呈现 %{name} 模板时出错：%{error}"
@@ -8946,6 +9003,9 @@ msgstr "DNS 冲突验证超时（单位：秒）"
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "与 %s 沟通时出现超时"
+
+msgid "Timezone to use for new users"
+msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
 msgstr "请使用“添加趋势计数器”按钮定义趋势计数器。</br>要开始收集趋势数据，请将 cron 任务设为至少每隔 %s 分钟执行一次 'foreman-rake trends:counter' 。"
@@ -9359,6 +9419,9 @@ msgstr "在 host_status 宏中指定了一个未知的状态 \"%{status}\"，使
 msgid "Unknown interface type, must be one of [%s]"
 msgstr "未知接口类型，必须为  [%s] 之一。"
 
+msgid "Unknown password hash method: %s"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr "未知电源操作：可用方法为 %s"
 
@@ -9614,8 +9677,8 @@ msgstr "上传主机的系统详情，如需要，请创建主机。"
 msgid "Uptime"
 msgstr "运行时间"
 
-msgid "Use APIv4 (experimental)"
-msgstr "使用 APIv4 (试验)"
+msgid "Use APIv4"
+msgstr ""
 
 msgid "Use NIS netgroups instead of posix groups."
 msgstr "使用 NIS 网络组代替 posix 组。"
@@ -9626,8 +9689,8 @@ msgstr "在证书中使用 UUID"
 msgid "Use short name for VMs"
 msgstr "在 VM 中使用短名称"
 
-msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
-msgstr "使用新引擎 API。这个功能被标记为“试验”，应小心使用。"
+msgid "Use the new engine API."
+msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
 msgstr "使用此账号验证, <i>可选</i>"
@@ -9966,9 +10029,6 @@ msgid_plural "Warning! This will remove %{name} from %{number} users. are you su
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr "警告：这种装载程序和 OS 的组合可能无法启动。"
-
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "警告：这样会删除这个主机机器所有数据！"
 
@@ -10147,9 +10207,6 @@ msgstr "是"
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "您要在所有配置的 TFTP 服务器中更改默认 PXE 菜单，要继续吗？"
-
-msgid "You are about to override the editor content, are you sure?"
-msgstr "要替代编辑器内容，您确定要进行此操作吗？"
 
 msgid "You are about to unlock a locked template."
 msgstr "要解锁已锁定的模板。"
@@ -10505,8 +10562,8 @@ msgstr "只用于 EC2，使用 '%s' 做为 GovCloud 区"
 msgid "for Libvirt and VMware only"
 msgstr "仅用于 Libvirt 和 VMware"
 
-msgid "for Libvirt only"
-msgstr "仅用于 Libvirt"
+msgid "for Libvirt and oVirt only"
+msgstr ""
 
 msgid "for OpenStack only"
 msgstr "仅用于 OpenStack"

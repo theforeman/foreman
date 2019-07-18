@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-11 20:33+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-06-18 20:18+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "移除"
+
+msgid "${progress}%% Complete"
+msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
@@ -766,6 +769,9 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "您是否確定要開啓 %{act} %{vm} 的電源？"
 
+msgid "Are you sure you would like to revert the Template?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr "您是否確定？"
 
@@ -1070,6 +1076,12 @@ msgstr ""
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "合併值時避免重複（僅及於陣列類型）？"
 
+msgid "BCrypt password cost"
+msgstr ""
+
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
 msgid "BIOS"
 msgstr "BIOS"
 
@@ -1334,6 +1346,9 @@ msgstr "更改密碼"
 msgid "Changed environments"
 msgstr "已更改的環境"
 
+msgid "Changes"
+msgstr ""
+
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
@@ -1438,6 +1453,9 @@ msgstr ""
 
 msgid "Close"
 msgstr "關閉"
+
+msgid "Cloud-init template"
+msgstr ""
 
 msgid "Cluster"
 msgstr "叢集"
@@ -1632,6 +1650,9 @@ msgstr ""
 
 msgid "Cores per socket"
 msgstr "每個插槽的核心數"
+
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
+msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
@@ -2086,6 +2107,9 @@ msgstr "預設值"
 msgid "Default Behavior"
 msgstr ""
 
+msgid "Default Display Type"
+msgstr ""
+
 msgid "Default PXE global template entry"
 msgstr ""
 
@@ -2104,6 +2128,9 @@ msgstr "預設 Puppet 環境"
 msgid "Default Puppet server hostname"
 msgstr "預設的 Puppet 伺服器主機名稱"
 
+msgid "Default VNC Keyboard"
+msgstr ""
+
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
@@ -2112,6 +2139,9 @@ msgstr "指定給這個子網路的介面卡的預設啟動模式，有效的值
 
 msgid "Default encrypted root password on provisioned hosts"
 msgstr "在已佈建主機上的預設加密 root 密碼"
+
+msgid "Default language"
+msgstr ""
 
 msgid "Default location"
 msgstr "預設位置"
@@ -2127,6 +2157,9 @@ msgstr ""
 
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "預設範本會自動加入至新組織與位置"
+
+msgid "Default timezone"
+msgstr ""
 
 msgid "Default value"
 msgstr "預設值"
@@ -2410,9 +2443,6 @@ msgstr "此介面卡的裝置辨識子。這在各種平台與環境上可能會
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "裝置辨識子，例如 eth0 或 eth1.1"
 
-msgid "Diff"
-msgstr "Diff"
-
 msgid "Disable Notifications"
 msgstr "停用通知"
 
@@ -2592,6 +2622,9 @@ msgstr "編輯趨勢 %s"
 msgid "Edit this host"
 msgstr ""
 
+msgid "Editor"
+msgstr ""
+
 msgid "Email Preferences"
 msgstr "電子郵件偏好設定"
 
@@ -2720,6 +2753,9 @@ msgstr "連接至系統的 DNS 伺服器錯誤 - 請檢查 /etc/resolv.conf"
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
 msgstr ""
 
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr "轉譯 IP 錯誤：%s"
 
@@ -2789,7 +2825,7 @@ msgstr ""
 msgid "Examples"
 msgstr "範例"
 
-msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgid "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"
 msgstr ""
 
 msgid "Exclude pattern for facts stored in foreman"
@@ -2797,9 +2833,6 @@ msgstr ""
 
 msgid "Exit Full Screen"
 msgstr "退出全螢幕"
-
-msgid "Exit Fullscreen"
-msgstr ""
 
 msgid "Expand nested items"
 msgstr "展開巢狀的項目"
@@ -3124,6 +3157,9 @@ msgstr ""
 msgid "Filter"
 msgstr "篩選器"
 
+msgid "Filter Host..."
+msgstr ""
+
 msgid "Filter audits for this resource only"
 msgstr ""
 
@@ -3391,9 +3427,6 @@ msgstr "全螢幕"
 msgid "Full trace"
 msgstr "完整追蹤"
 
-msgid "Fullscreen"
-msgstr ""
-
 msgid "Function not available for %s"
 msgstr "%s 的功能不可用"
 
@@ -3437,6 +3470,9 @@ msgid "Generated at %s"
 msgstr "產生於 %s"
 
 msgid "Generating a report"
+msgstr ""
+
+msgid "Generating of report has been canceled"
 msgstr ""
 
 msgid "Generating the report took %s."
@@ -3574,6 +3610,9 @@ msgstr "協助"
 msgid "Hidden Value"
 msgstr ""
 
+msgid "Hide Content"
+msgstr ""
+
 msgid "Hide advanced fields"
 msgstr "隱藏進階欄位"
 
@@ -3613,6 +3652,9 @@ msgstr "主機配置狀態"
 msgid "Host Configuration Status for %s"
 msgstr ""
 
+msgid "Host Fetch ${response}"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr ""
 
@@ -3629,6 +3671,9 @@ msgid "Host Groups"
 msgstr "主機群組"
 
 msgid "Host Parameters"
+msgstr ""
+
+msgid "Host Wizard"
 msgstr ""
 
 msgid "Host audit entries"
@@ -3982,7 +4027,7 @@ msgstr ""
 msgid "Hypervisor"
 msgstr ""
 
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -4135,6 +4180,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv4 Subnet"
+msgstr ""
+
+msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
 msgstr ""
 
 msgid "IPv4 address of interface"
@@ -4293,6 +4341,9 @@ msgstr "UUID"
 msgid "Import"
 msgstr "匯入"
 
+msgid "Import File"
+msgstr ""
+
 msgid "Import IPv4 subnets"
 msgstr ""
 
@@ -4376,9 +4427,6 @@ msgstr ""
 
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr "若未設置的話便由子網路 VLAN ID 繼承"
-
-msgid "Input"
-msgstr "輸入"
 
 msgid "Input %s: "
 msgstr ""
@@ -4538,9 +4586,6 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
-msgid "Key Binding"
-msgstr "金鑰綁定"
-
 msgid "Key not connected to any compute resource"
 msgstr ""
 
@@ -4562,6 +4607,12 @@ msgstr "公鑰"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "私密"
+
+msgid "Keybind"
+msgstr ""
+
+msgid "Keyboard"
+msgstr ""
 
 msgid "Kind"
 msgstr "種類"
@@ -4589,6 +4640,9 @@ msgstr ""
 
 msgid "Language"
 msgstr "語言"
+
+msgid "Language to use for new users"
+msgstr ""
 
 msgid "Last Report"
 msgstr "最後一份報告"
@@ -5163,6 +5217,9 @@ msgstr "鎖定"
 msgid "Log In"
 msgstr "登入"
 
+msgid "Log Into Your Account"
+msgstr ""
+
 msgid "Log Out"
 msgstr "登出"
 
@@ -5177,9 +5234,6 @@ msgstr "已登出 - 希望很快再見到您"
 
 msgid "Logged-in"
 msgstr "已登入"
-
-msgid "Login"
-msgstr "登入"
 
 msgid "Login delegation logout URL"
 msgstr "登入委派登出 URL"
@@ -5373,6 +5427,9 @@ msgstr "向智慧型代理伺服器發出的 REST 客戶端請求的最大逾時
 
 msgid "Max trends"
 msgstr "最大趨勢"
+
+msgid "Maximize"
+msgstr ""
 
 msgid "Media"
 msgstr "媒介"
@@ -5734,6 +5791,9 @@ msgid "No Hosts are in build mode or have build errors."
 msgstr ""
 
 msgid "No IPv4 subnets selected"
+msgstr ""
+
+msgid "No Results"
 msgstr ""
 
 msgid "No TFTP feature"
@@ -6699,6 +6759,9 @@ msgstr ""
 msgid "Preview"
 msgstr "Preview"
 
+msgid "Preview is outdated."
+msgstr ""
+
 msgid "Preview rendered provisioning template content"
 msgstr "預覽已轉譯的範本內容"
 
@@ -7094,9 +7157,6 @@ msgstr "為 %s 轉譯使用者資料範本"
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr ""
 
-msgid "Rendering the template, please wait..."
-msgstr "轉譯範本，請稍候……"
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "報告"
@@ -7242,8 +7302,11 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "還原"
 
-msgid "Revert to revision from: %s"
-msgstr "由 %s 還原至修訂版"
+msgid "Revert Failed, ${res}"
+msgstr ""
+
+msgid "Revert Local Changes"
+msgstr ""
 
 msgid "Review"
 msgstr "檢視"
@@ -7462,6 +7525,9 @@ msgstr "選擇動作"
 
 msgid "Select All"
 msgstr "全部選擇"
+
+msgid "Select Host..."
+msgstr ""
 
 msgid "Select Hosts"
 msgstr "選擇主機"
@@ -8006,12 +8072,6 @@ msgstr "部分介面卡無法使用。請檢查下列表格。"
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr "部分或所有主機執行失敗，請檢查日誌檔案以取得更多資訊"
 
-msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr "其它介面已設為主要。您是否確定要使用此介面？"
-
-msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr "其它介面已設為佈建。您是否確定要使用此介面？"
-
 msgid "Something went wrong while changing host type - %s"
 msgstr "更改主機類型時發生了錯誤 - %s"
 
@@ -8234,9 +8294,6 @@ msgstr ""
 msgid "Success"
 msgstr "成功"
 
-msgid "Success!"
-msgstr "成功！"
-
 msgid "Successfully created %s."
 msgstr "已成功建立了 %s。"
 
@@ -8294,8 +8351,8 @@ msgstr "格式"
 msgid "Synchronize group from authentication source"
 msgstr "從認證來源同步群組"
 
-msgid "Syntax Highlighting"
-msgstr "語法色彩"
+msgid "Syntax"
+msgstr ""
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
 msgstr ""
@@ -8378,9 +8435,6 @@ msgstr "範本 %s 是空的。"
 msgid "Template '%s' was not found"
 msgstr ""
 
-msgid "Template *"
-msgstr ""
-
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
@@ -8403,6 +8457,9 @@ msgid "Template diff"
 msgstr "範本差異"
 
 msgid "Template for OS installer, for example kickstart, preseed or jumpstart. Depends on the operating system."
+msgstr ""
+
+msgid "Template for cloud-init unattended endpoint."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8770,6 +8827,9 @@ msgstr "使用來 ssh 入 instance 的使用者，一般會是 cloud-user、ec2-
 msgid "The virtual machine is being deleted."
 msgstr "虛擬機器正被刪除中。"
 
+msgid "Theme"
+msgstr ""
+
 msgid "There are migrations pending in the system."
 msgstr ""
 
@@ -8804,9 +8864,6 @@ msgstr ""
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "列出虛擬機器時發生了錯誤：%(status)s %(statusText)s"
-
-msgid "There was an error rendering the %s template: "
-msgstr "轉譯 %s 範本時發生了錯誤："
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "轉譯 %{name} 範本時發生錯誤：%{error}"
@@ -8923,6 +8980,9 @@ msgstr "DNS 衝突驗證的逾時值（秒）"
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "與 %s 進行通訊時發生了逾時錯誤"
+
+msgid "Timezone to use for new users"
+msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
 msgstr ""
@@ -9336,6 +9396,9 @@ msgstr ""
 msgid "Unknown interface type, must be one of [%s]"
 msgstr "不明的介面卡類型，必須是 [%s] 其中之一"
 
+msgid "Unknown password hash method: %s"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr "不明的電源動作：可用方式為 %s"
 
@@ -9591,7 +9654,7 @@ msgstr "上傳主機的詳情，並視需求建立主機"
 msgid "Uptime"
 msgstr "上線時間"
 
-msgid "Use APIv4 (experimental)"
+msgid "Use APIv4"
 msgstr ""
 
 msgid "Use NIS netgroups instead of posix groups."
@@ -9603,7 +9666,7 @@ msgstr "為憑證使用 UUID"
 msgid "Use short name for VMs"
 msgstr "使用 VM 的短名稱"
 
-msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
+msgid "Use the new engine API."
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
@@ -9943,9 +10006,6 @@ msgid_plural "Warning! This will remove %{name} from %{number} users. are you su
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
-
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "警告：這將會刪除這部主機及其所有資料！"
 
@@ -10109,9 +10169,6 @@ msgstr "是"
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "您即將在所有已配置的 TFTP 伺服器上更改預設的 PXE 選單 - 是否繼續？"
-
-msgid "You are about to override the editor content, are you sure?"
-msgstr "您即將置換編輯器內容，您是否確定？"
 
 msgid "You are about to unlock a locked template."
 msgstr "即將解鎖已鎖定範本。"
@@ -10467,7 +10524,7 @@ msgstr ""
 msgid "for Libvirt and VMware only"
 msgstr "僅適用於 Libvirt 和 VMware"
 
-msgid "for Libvirt only"
+msgid "for Libvirt and oVirt only"
 msgstr ""
 
 msgid "for OpenStack only"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-06 04:59+0000\n"
+"PO-Revision-Date: 2019-07-05 18:28+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -25,6 +25,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "Odebrat"
+
+msgid "${progress}%% Complete"
+msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
@@ -692,7 +695,7 @@ msgid "An error happened trying to connect to LDAP, please verify the authentica
 msgstr ""
 
 msgid "An error occured."
-msgstr ""
+msgstr "Došlo k chybě."
 
 msgid "An interface marked as primary is missing"
 msgstr ""
@@ -767,6 +770,9 @@ msgid "Are you sure you want to log out?"
 msgstr "Opravdu se chcete odhlásit?"
 
 msgid "Are you sure you want to power %{act} %{vm}?"
+msgstr ""
+
+msgid "Are you sure you would like to revert the Template?"
 msgstr ""
 
 msgid "Are you sure?"
@@ -1073,6 +1079,12 @@ msgstr "Průměrné využití odkládacího prostoru"
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr ""
 
+msgid "BCrypt password cost"
+msgstr ""
+
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
 msgid "BIOS"
 msgstr "BIOS"
 
@@ -1107,7 +1119,7 @@ msgid "Before you proceed to using Foreman you should provide information about 
 msgstr ""
 
 msgid "Blank template"
-msgstr ""
+msgstr "Prázdná šablona"
 
 msgid "Bond"
 msgstr ""
@@ -1337,6 +1349,9 @@ msgstr "Změnit heslo"
 msgid "Changed environments"
 msgstr "Změněná prostředí"
 
+msgid "Changes"
+msgstr ""
+
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
@@ -1441,6 +1456,9 @@ msgstr "Naklonovat tento stroj"
 
 msgid "Close"
 msgstr "Zavřít"
+
+msgid "Cloud-init template"
+msgstr ""
 
 msgid "Cluster"
 msgstr ""
@@ -1635,6 +1653,9 @@ msgstr ""
 
 msgid "Cores per socket"
 msgstr "Jader na patici"
+
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
+msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
@@ -2078,7 +2099,7 @@ msgid "Datacenter"
 msgstr "Datacentrum"
 
 msgid "Datacenter was not found"
-msgstr ""
+msgstr "Datacentrum nebylo nalezeno"
 
 msgid "Date"
 msgstr "Datum"
@@ -2088,6 +2109,9 @@ msgstr "Výchozí"
 
 msgid "Default Behavior"
 msgstr "Výchozí chování"
+
+msgid "Default Display Type"
+msgstr ""
 
 msgid "Default PXE global template entry"
 msgstr ""
@@ -2107,6 +2131,9 @@ msgstr ""
 msgid "Default Puppet server hostname"
 msgstr "Výchozí název stroje puppet serveru"
 
+msgid "Default VNC Keyboard"
+msgstr ""
+
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
@@ -2114,6 +2141,9 @@ msgid "Default boot mode for interfaces assigned to this subnet, valid values ar
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
+
+msgid "Default language"
 msgstr ""
 
 msgid "Default location"
@@ -2129,6 +2159,9 @@ msgid "Default owner on provisioned hosts, if empty Foreman will use current use
 msgstr ""
 
 msgid "Default templates are automatically added to new organizations and locations"
+msgstr ""
+
+msgid "Default timezone"
 msgstr ""
 
 msgid "Default value"
@@ -2413,9 +2446,6 @@ msgstr ""
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "Identifikátor zařízení, např. eth0 nebo eth1.1"
 
-msgid "Diff"
-msgstr "Rozdíl"
-
 msgid "Disable Notifications"
 msgstr "Vypnout oznamování"
 
@@ -2595,6 +2625,9 @@ msgstr "Upravit trend %s"
 msgid "Edit this host"
 msgstr "Upravit tento stroj"
 
+msgid "Editor"
+msgstr ""
+
 msgid "Email Preferences"
 msgstr "Předvolby e-mailu"
 
@@ -2723,6 +2756,9 @@ msgstr ""
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
 msgstr ""
 
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr ""
 
@@ -2792,16 +2828,13 @@ msgstr ""
 msgid "Examples"
 msgstr "Příklady"
 
-msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgid "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"
 msgstr ""
 
 msgid "Exclude pattern for facts stored in foreman"
 msgstr ""
 
 msgid "Exit Full Screen"
-msgstr "Opustit režim na celou obrazovku"
-
-msgid "Exit Fullscreen"
 msgstr "Opustit režim na celou obrazovku"
 
 msgid "Expand nested items"
@@ -3127,6 +3160,9 @@ msgstr "Název kolonky"
 msgid "Filter"
 msgstr ""
 
+msgid "Filter Host..."
+msgstr ""
+
 msgid "Filter audits for this resource only"
 msgstr ""
 
@@ -3391,9 +3427,6 @@ msgstr "Celá obrazovka"
 msgid "Full trace"
 msgstr ""
 
-msgid "Fullscreen"
-msgstr "Na celou obrazovku"
-
 msgid "Function not available for %s"
 msgstr ""
 
@@ -3439,6 +3472,9 @@ msgstr "Vytvořeno v %s"
 msgid "Generating a report"
 msgstr ""
 
+msgid "Generating of report has been canceled"
+msgstr ""
+
 msgid "Generating the report took %s."
 msgstr ""
 
@@ -3479,7 +3515,7 @@ msgid "Global iPXE template '%s' not found"
 msgstr ""
 
 msgid "Global macros"
-msgstr ""
+msgstr "Globální makra"
 
 msgid "Global methods (macros)"
 msgstr ""
@@ -3574,6 +3610,9 @@ msgstr "Nápověda"
 msgid "Hidden Value"
 msgstr "Skrytá hodnota"
 
+msgid "Hide Content"
+msgstr ""
+
 msgid "Hide advanced fields"
 msgstr "Skrýt kolonky pro pokročilé uživatele"
 
@@ -3613,6 +3652,9 @@ msgstr "Stav nastavení stroje"
 msgid "Host Configuration Status for %s"
 msgstr ""
 
+msgid "Host Fetch ${response}"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr ""
 
@@ -3630,6 +3672,9 @@ msgstr ""
 
 msgid "Host Parameters"
 msgstr "Parametry stroje"
+
+msgid "Host Wizard"
+msgstr ""
 
 msgid "Host audit entries"
 msgstr ""
@@ -3982,7 +4027,7 @@ msgstr "HttpProxy|Uživatelské jméno"
 msgid "Hypervisor"
 msgstr ""
 
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -4136,6 +4181,9 @@ msgstr[1] ""
 
 msgid "IPv4 Subnet"
 msgstr "IPv4 podsíť"
+
+msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
+msgstr ""
 
 msgid "IPv4 address of interface"
 msgstr "IPv4 adresa rozhraní"
@@ -4293,6 +4341,9 @@ msgstr ""
 msgid "Import"
 msgstr "Import"
 
+msgid "Import File"
+msgstr ""
+
 msgid "Import IPv4 subnets"
 msgstr "Importovat IPv4 podsítě"
 
@@ -4377,17 +4428,14 @@ msgstr ""
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr ""
 
-msgid "Input"
-msgstr "Vstup"
-
 msgid "Input %s: "
-msgstr ""
+msgstr "Vstup %s: "
 
 msgid "Input description"
 msgstr "Popis vstupu"
 
 msgid "Input is advanced"
-msgstr ""
+msgstr "Vstup je pokročilý"
 
 msgid "Input is required"
 msgstr ""
@@ -4538,9 +4586,6 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
-msgid "Key Binding"
-msgstr ""
-
 msgid "Key not connected to any compute resource"
 msgstr "Klíč nesouvisí se žádným výpočetním prostředkem"
 
@@ -4561,6 +4606,12 @@ msgstr "KeyPair|Veřejný"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
+msgstr ""
+
+msgid "Keybind"
+msgstr ""
+
+msgid "Keyboard"
 msgstr ""
 
 msgid "Kind"
@@ -4589,6 +4640,9 @@ msgstr ""
 
 msgid "Language"
 msgstr "Jazyk"
+
+msgid "Language to use for new users"
+msgstr ""
 
 msgid "Last Report"
 msgstr ""
@@ -5163,6 +5217,9 @@ msgstr "Zamknout"
 msgid "Log In"
 msgstr "Přihlásit"
 
+msgid "Log Into Your Account"
+msgstr ""
+
 msgid "Log Out"
 msgstr "Odhlásit"
 
@@ -5177,9 +5234,6 @@ msgstr "Odhlášeni – brzy nashledanou"
 
 msgid "Logged-in"
 msgstr "Přihlášeni"
-
-msgid "Login"
-msgstr "Přihlášení"
 
 msgid "Login delegation logout URL"
 msgstr ""
@@ -5372,6 +5426,9 @@ msgid "Max timeout for REST client requests to smart-proxy"
 msgstr ""
 
 msgid "Max trends"
+msgstr ""
+
+msgid "Maximize"
 msgstr ""
 
 msgid "Media"
@@ -5735,6 +5792,9 @@ msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr "Nevybrána žádná IPv4 podsíť"
+
+msgid "No Results"
+msgstr ""
 
 msgid "No TFTP feature"
 msgstr "Žádná TFTP funkce"
@@ -6699,6 +6759,9 @@ msgstr ""
 msgid "Preview"
 msgstr "Náhled"
 
+msgid "Preview is outdated."
+msgstr ""
+
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
@@ -7094,9 +7157,6 @@ msgstr ""
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr ""
 
-msgid "Rendering the template, please wait..."
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "Výkaz"
@@ -7242,8 +7302,11 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "Vrátit zpět"
 
-msgid "Revert to revision from: %s"
-msgstr "Vrátit do podoby revize: %s"
+msgid "Revert Failed, ${res}"
+msgstr ""
+
+msgid "Revert Local Changes"
+msgstr ""
 
 msgid "Review"
 msgstr ""
@@ -7462,6 +7525,9 @@ msgstr "Vybrat akci"
 
 msgid "Select All"
 msgstr "Vybrat vše"
+
+msgid "Select Host..."
+msgstr ""
 
 msgid "Select Hosts"
 msgstr "Vybrat stroje"
@@ -8006,12 +8072,6 @@ msgstr ""
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr ""
 
-msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
-
-msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
-
 msgid "Something went wrong while changing host type - %s"
 msgstr ""
 
@@ -8234,9 +8294,6 @@ msgstr ""
 msgid "Success"
 msgstr "Úspěch"
 
-msgid "Success!"
-msgstr "Úspěch!"
-
 msgid "Successfully created %s."
 msgstr "Úspěšně vytvořeno %s."
 
@@ -8294,8 +8351,8 @@ msgstr "Podporované formáty"
 msgid "Synchronize group from authentication source"
 msgstr "Synchronizovat skupinu ze zdroje ověřování"
 
-msgid "Syntax Highlighting"
-msgstr "Zvýrazňování syntaxe"
+msgid "Syntax"
+msgstr ""
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
 msgstr ""
@@ -8378,9 +8435,6 @@ msgstr "Šablona %s je prázdná."
 msgid "Template '%s' was not found"
 msgstr "Šablona „%s“ nenalezena"
 
-msgid "Template *"
-msgstr "Šablona *"
-
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
@@ -8403,6 +8457,9 @@ msgid "Template diff"
 msgstr ""
 
 msgid "Template for OS installer, for example kickstart, preseed or jumpstart. Depends on the operating system."
+msgstr ""
+
+msgid "Template for cloud-init unattended endpoint."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8764,6 +8821,9 @@ msgstr ""
 msgid "The virtual machine is being deleted."
 msgstr "Virtuální stroj je mazán."
 
+msgid "Theme"
+msgstr ""
+
 msgid "There are migrations pending in the system."
 msgstr ""
 
@@ -8800,9 +8860,6 @@ msgstr "Došlo k chybě při vypisování %{listing}: %{errors}"
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Došlo k chybě při vypisování virt. strojů: %(status)s %(statusText)s"
-
-msgid "There was an error rendering the %s template: "
-msgstr "Došlo k chybě při vykreslování šablony %s:"
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
@@ -8919,6 +8976,9 @@ msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "Při komunikaci s %s došlo k překročení časového limitu odpovědi"
+
+msgid "Timezone to use for new users"
+msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
 msgstr ""
@@ -9332,6 +9392,9 @@ msgstr ""
 msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
+msgid "Unknown password hash method: %s"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
@@ -9507,7 +9570,7 @@ msgid "Update external user group"
 msgstr ""
 
 msgid "Update host"
-msgstr ""
+msgstr "Aktualizovat hostitele"
 
 msgid "Update realm entry for %s"
 msgstr ""
@@ -9587,7 +9650,7 @@ msgstr ""
 msgid "Uptime"
 msgstr ""
 
-msgid "Use APIv4 (experimental)"
+msgid "Use APIv4"
 msgstr ""
 
 msgid "Use NIS netgroups instead of posix groups."
@@ -9599,7 +9662,7 @@ msgstr ""
 msgid "Use short name for VMs"
 msgstr ""
 
-msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
+msgid "Use the new engine API."
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
@@ -9939,9 +10002,6 @@ msgid_plural "Warning! This will remove %{name} from %{number} users. are you su
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
-
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
 
@@ -10104,9 +10164,6 @@ msgid "Yes"
 msgstr "Ano"
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
-msgstr ""
-
-msgid "You are about to override the editor content, are you sure?"
 msgstr ""
 
 msgid "You are about to unlock a locked template."
@@ -10463,8 +10520,8 @@ msgstr ""
 msgid "for Libvirt and VMware only"
 msgstr "pouze pro Libvirt a VMware"
 
-msgid "for Libvirt only"
-msgstr "pouze pro Libvirt"
+msgid "for Libvirt and oVirt only"
+msgstr ""
 
 msgid "for OpenStack only"
 msgstr "pouze pro OpenStack"

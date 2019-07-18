@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-11 20:33+0000\n"
+"PO-Revision-Date: 2019-06-18 20:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/foreman/foreman/l"
 "anguage/nl_NL/)\n"
@@ -31,6 +31,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "Verwijder"
+
+msgid "${progress}%% Complete"
+msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
@@ -765,6 +768,9 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Weet u zeker dat u de stroom van %{vm} wilt %{act}?"
 
+msgid "Are you sure you would like to revert the Template?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr "Weet u het zeker?"
 
@@ -1069,6 +1075,12 @@ msgstr ""
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr ""
 
+msgid "BCrypt password cost"
+msgstr ""
+
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
 msgid "BIOS"
 msgstr "BIOS"
 
@@ -1333,6 +1345,9 @@ msgstr "Verander het wachtwoord"
 msgid "Changed environments"
 msgstr "Gewijzigde omgevingen"
 
+msgid "Changes"
+msgstr ""
+
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
@@ -1437,6 +1452,9 @@ msgstr ""
 
 msgid "Close"
 msgstr "Sluiten"
+
+msgid "Cloud-init template"
+msgstr ""
 
 msgid "Cluster"
 msgstr "Cluster"
@@ -1631,6 +1649,9 @@ msgstr ""
 
 msgid "Cores per socket"
 msgstr "Cores per socket"
+
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
+msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
@@ -2085,6 +2106,9 @@ msgstr ""
 msgid "Default Behavior"
 msgstr ""
 
+msgid "Default Display Type"
+msgstr ""
+
 msgid "Default PXE global template entry"
 msgstr ""
 
@@ -2103,6 +2127,9 @@ msgstr ""
 msgid "Default Puppet server hostname"
 msgstr ""
 
+msgid "Default VNC Keyboard"
+msgstr ""
+
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
@@ -2111,6 +2138,9 @@ msgstr "Standaard boot mode voor interfaces toegekend aan dit subnet, valide waa
 
 msgid "Default encrypted root password on provisioned hosts"
 msgstr "Standaard versleuteld root wachtwoord op uitgerolde hosts"
+
+msgid "Default language"
+msgstr ""
 
 msgid "Default location"
 msgstr ""
@@ -2125,6 +2155,9 @@ msgid "Default owner on provisioned hosts, if empty Foreman will use current use
 msgstr ""
 
 msgid "Default templates are automatically added to new organizations and locations"
+msgstr ""
+
+msgid "Default timezone"
 msgstr ""
 
 msgid "Default value"
@@ -2409,9 +2442,6 @@ msgstr ""
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "Device identifier, bijvoorbeeld eth0 of eth1.1"
 
-msgid "Diff"
-msgstr ""
-
 msgid "Disable Notifications"
 msgstr ""
 
@@ -2591,6 +2621,9 @@ msgstr "Bewerk Trend %s"
 msgid "Edit this host"
 msgstr ""
 
+msgid "Editor"
+msgstr ""
+
 msgid "Email Preferences"
 msgstr ""
 
@@ -2719,6 +2752,9 @@ msgstr ""
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
 msgstr ""
 
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr "Fout bij het genereren van IP: %s"
 
@@ -2788,7 +2824,7 @@ msgstr "Voorbeeld waarde is <code>uid=foreman,dc=example,dc=com</code>"
 msgid "Examples"
 msgstr ""
 
-msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgid "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"
 msgstr ""
 
 msgid "Exclude pattern for facts stored in foreman"
@@ -2796,9 +2832,6 @@ msgstr ""
 
 msgid "Exit Full Screen"
 msgstr "Verlaat Volledig Scherm"
-
-msgid "Exit Fullscreen"
-msgstr ""
 
 msgid "Expand nested items"
 msgstr "Uitvouwen geneste items"
@@ -3123,6 +3156,9 @@ msgstr ""
 msgid "Filter"
 msgstr "Filter"
 
+msgid "Filter Host..."
+msgstr ""
+
 msgid "Filter audits for this resource only"
 msgstr ""
 
@@ -3387,9 +3423,6 @@ msgstr ""
 msgid "Full trace"
 msgstr ""
 
-msgid "Fullscreen"
-msgstr ""
-
 msgid "Function not available for %s"
 msgstr ""
 
@@ -3433,6 +3466,9 @@ msgid "Generated at %s"
 msgstr "Aangemaakt op %s"
 
 msgid "Generating a report"
+msgstr ""
+
+msgid "Generating of report has been canceled"
 msgstr ""
 
 msgid "Generating the report took %s."
@@ -3570,6 +3606,9 @@ msgstr "Help"
 msgid "Hidden Value"
 msgstr ""
 
+msgid "Hide Content"
+msgstr ""
+
 msgid "Hide advanced fields"
 msgstr ""
 
@@ -3609,6 +3648,9 @@ msgstr "Host Configuratie Status"
 msgid "Host Configuration Status for %s"
 msgstr ""
 
+msgid "Host Fetch ${response}"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr ""
 
@@ -3625,6 +3667,9 @@ msgid "Host Groups"
 msgstr ""
 
 msgid "Host Parameters"
+msgstr ""
+
+msgid "Host Wizard"
 msgstr ""
 
 msgid "Host audit entries"
@@ -3978,7 +4023,7 @@ msgstr ""
 msgid "Hypervisor"
 msgstr ""
 
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -4131,6 +4176,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv4 Subnet"
+msgstr ""
+
+msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
 msgstr ""
 
 msgid "IPv4 address of interface"
@@ -4289,6 +4337,9 @@ msgstr ""
 msgid "Import"
 msgstr "Geimporteerd"
 
+msgid "Import File"
+msgstr ""
+
 msgid "Import IPv4 subnets"
 msgstr ""
 
@@ -4371,9 +4422,6 @@ msgid "Inherited Classes from %s"
 msgstr ""
 
 msgid "Inherits from subnet VLAN ID if not set"
-msgstr ""
-
-msgid "Input"
 msgstr ""
 
 msgid "Input %s: "
@@ -4534,9 +4582,6 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
-msgid "Key Binding"
-msgstr ""
-
 msgid "Key not connected to any compute resource"
 msgstr ""
 
@@ -4557,6 +4602,12 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
+msgstr ""
+
+msgid "Keybind"
+msgstr ""
+
+msgid "Keyboard"
 msgstr ""
 
 msgid "Kind"
@@ -4584,6 +4635,9 @@ msgid "Lab Features"
 msgstr ""
 
 msgid "Language"
+msgstr ""
+
+msgid "Language to use for new users"
 msgstr ""
 
 msgid "Last Report"
@@ -5159,6 +5213,9 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
+msgid "Log Into Your Account"
+msgstr ""
+
 msgid "Log Out"
 msgstr ""
 
@@ -5172,9 +5229,6 @@ msgid "Logged out - See you soon"
 msgstr "Uitgelogd - Tot ziens!"
 
 msgid "Logged-in"
-msgstr ""
-
-msgid "Login"
 msgstr ""
 
 msgid "Login delegation logout URL"
@@ -5368,6 +5422,9 @@ msgid "Max timeout for REST client requests to smart-proxy"
 msgstr ""
 
 msgid "Max trends"
+msgstr ""
+
+msgid "Maximize"
 msgstr ""
 
 msgid "Media"
@@ -5731,6 +5788,9 @@ msgstr ""
 
 msgid "No IPv4 subnets selected"
 msgstr "Geen IPv4 subnetten geselecteerd"
+
+msgid "No Results"
+msgstr ""
 
 msgid "No TFTP feature"
 msgstr "Geen TFTP feature"
@@ -6695,6 +6755,9 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
+msgid "Preview is outdated."
+msgstr ""
+
 msgid "Preview rendered provisioning template content"
 msgstr "Preview gerenderde provisioning template inhoud"
 
@@ -7090,9 +7153,6 @@ msgstr ""
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr ""
 
-msgid "Rendering the template, please wait..."
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "Rapport"
@@ -7238,7 +7298,10 @@ msgstr[1] ""
 msgid "Revert"
 msgstr ""
 
-msgid "Revert to revision from: %s"
+msgid "Revert Failed, ${res}"
+msgstr ""
+
+msgid "Revert Local Changes"
 msgstr ""
 
 msgid "Review"
@@ -7458,6 +7521,9 @@ msgstr ""
 
 msgid "Select All"
 msgstr "Selecteer Alles"
+
+msgid "Select Host..."
+msgstr ""
 
 msgid "Select Hosts"
 msgstr "Selecteer Hosts"
@@ -8002,12 +8068,6 @@ msgstr ""
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr "Sommige of alle host uitvoeringen zijn niet gelukt, check de log files voor meer informatie"
 
-msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr "Een andere interface is al als primair aangewezen. Weet je zeker dat je deze in plaats daarvan wil gebruiken?"
-
-msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr "Een andere interface is al als uitrollen aangewezen. Weet je zeker dat je deze in plaats daarvan wil gebruiken?"
-
 msgid "Something went wrong while changing host type - %s"
 msgstr "Er ging iets fout tijdens de verandering van host type - %s"
 
@@ -8230,9 +8290,6 @@ msgstr ""
 msgid "Success"
 msgstr "Gelukt."
 
-msgid "Success!"
-msgstr ""
-
 msgid "Successfully created %s."
 msgstr "%s is succesvol aangemaakt"
 
@@ -8290,7 +8347,7 @@ msgstr ""
 msgid "Synchronize group from authentication source"
 msgstr ""
 
-msgid "Syntax Highlighting"
+msgid "Syntax"
 msgstr ""
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
@@ -8374,9 +8431,6 @@ msgstr ""
 msgid "Template '%s' was not found"
 msgstr ""
 
-msgid "Template *"
-msgstr ""
-
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
@@ -8399,6 +8453,9 @@ msgid "Template diff"
 msgstr ""
 
 msgid "Template for OS installer, for example kickstart, preseed or jumpstart. Depends on the operating system."
+msgstr ""
+
+msgid "Template for cloud-init unattended endpoint."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8760,6 +8817,9 @@ msgstr ""
 msgid "The virtual machine is being deleted."
 msgstr "De virtuele machine wordt verwijderd"
 
+msgid "Theme"
+msgstr ""
+
 msgid "There are migrations pending in the system."
 msgstr "Er zijn migraties niet afgerond in het systeem."
 
@@ -8794,9 +8854,6 @@ msgstr ""
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Er was een probleem bij het tonen van de VMs: %(status)s %(statusText)s"
-
-msgid "There was an error rendering the %s template: "
-msgstr "Er was een probleem bij het renderen van de %s template"
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "Er was een fout bij het renderen van %{name} template: %{error}"
@@ -8912,6 +8969,9 @@ msgid "Timeout for DNS conflict validation (in seconds)"
 msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
+msgstr ""
+
+msgid "Timezone to use for new users"
 msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
@@ -9326,6 +9386,9 @@ msgstr ""
 msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
+msgid "Unknown password hash method: %s"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr "Onbekende power actie: Beschikbare methoden zijn %s"
 
@@ -9581,7 +9644,7 @@ msgstr "Upload feiten voor een host, creeer de host waar nodig"
 msgid "Uptime"
 msgstr ""
 
-msgid "Use APIv4 (experimental)"
+msgid "Use APIv4"
 msgstr ""
 
 msgid "Use NIS netgroups instead of posix groups."
@@ -9593,7 +9656,7 @@ msgstr ""
 msgid "Use short name for VMs"
 msgstr ""
 
-msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
+msgid "Use the new engine API."
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
@@ -9933,9 +9996,6 @@ msgid_plural "Warning! This will remove %{name} from %{number} users. are you su
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr "Waarschuwing: Deze combinatie van lader en besturingssysteem zal mogelijks niet starten"
-
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
 
@@ -10099,9 +10159,6 @@ msgstr ""
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr ""
-
-msgid "You are about to override the editor content, are you sure?"
-msgstr "U staat op het punt de editor-inhoud te overschrijven. Weet u het zeker?"
 
 msgid "You are about to unlock a locked template."
 msgstr ""
@@ -10457,8 +10514,8 @@ msgstr "Enkel voor EC2, gebruik '%s' voor  GovCloud regio"
 msgid "for Libvirt and VMware only"
 msgstr "alleen voor Libvirt en VMware"
 
-msgid "for Libvirt only"
-msgstr "alleen voor Libvirt"
+msgid "for Libvirt and oVirt only"
+msgstr ""
 
 msgid "for OpenStack only"
 msgstr "Alleen voor OpenStack"

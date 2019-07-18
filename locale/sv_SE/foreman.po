@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-11 20:33+0000\n"
+"PO-Revision-Date: 2019-06-18 20:18+0000\n"
 "Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/foreman/foreman/lang"
 "uage/sv_SE/)\n"
@@ -28,6 +28,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "Ta bort:"
+
+msgid "${progress}%% Complete"
+msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
@@ -762,6 +765,9 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "Är du säker på att du vill starta/stänga %{act} %{vm}?"
 
+msgid "Are you sure you would like to revert the Template?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr "Är du säker?"
 
@@ -1066,6 +1072,12 @@ msgstr ""
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr ""
 
+msgid "BCrypt password cost"
+msgstr ""
+
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
 msgid "BIOS"
 msgstr "BIOS"
 
@@ -1330,6 +1342,9 @@ msgstr ""
 msgid "Changed environments"
 msgstr "Ändrade miljöer"
 
+msgid "Changes"
+msgstr ""
+
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
@@ -1434,6 +1449,9 @@ msgstr ""
 
 msgid "Close"
 msgstr "Stäng"
+
+msgid "Cloud-init template"
+msgstr ""
 
 msgid "Cluster"
 msgstr "Kluster"
@@ -1627,6 +1645,9 @@ msgid "Core and proxy versions do not match. foreman: %{foreman_version}, forema
 msgstr ""
 
 msgid "Cores per socket"
+msgstr ""
+
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
 msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
@@ -2082,6 +2103,9 @@ msgstr "Standard"
 msgid "Default Behavior"
 msgstr ""
 
+msgid "Default Display Type"
+msgstr ""
+
 msgid "Default PXE global template entry"
 msgstr ""
 
@@ -2100,6 +2124,9 @@ msgstr ""
 msgid "Default Puppet server hostname"
 msgstr "Standard Puppet-server värdnamn"
 
+msgid "Default VNC Keyboard"
+msgstr ""
+
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
@@ -2107,6 +2134,9 @@ msgid "Default boot mode for interfaces assigned to this subnet, valid values ar
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts"
+msgstr ""
+
+msgid "Default language"
 msgstr ""
 
 msgid "Default location"
@@ -2122,6 +2152,9 @@ msgid "Default owner on provisioned hosts, if empty Foreman will use current use
 msgstr ""
 
 msgid "Default templates are automatically added to new organizations and locations"
+msgstr ""
+
+msgid "Default timezone"
 msgstr ""
 
 msgid "Default value"
@@ -2406,9 +2439,6 @@ msgstr ""
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr ""
 
-msgid "Diff"
-msgstr ""
-
 msgid "Disable Notifications"
 msgstr "Inaktivera notifieringar"
 
@@ -2588,6 +2618,9 @@ msgstr "Redigera Trend %s"
 msgid "Edit this host"
 msgstr ""
 
+msgid "Editor"
+msgstr ""
+
 msgid "Email Preferences"
 msgstr ""
 
@@ -2716,6 +2749,9 @@ msgstr ""
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
 msgstr ""
 
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr "Fel vid generering av IP: %s"
 
@@ -2785,7 +2821,7 @@ msgstr ""
 msgid "Examples"
 msgstr ""
 
-msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgid "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"
 msgstr ""
 
 msgid "Exclude pattern for facts stored in foreman"
@@ -2793,9 +2829,6 @@ msgstr ""
 
 msgid "Exit Full Screen"
 msgstr "Lämna Fullskärmsläge"
-
-msgid "Exit Fullscreen"
-msgstr ""
 
 msgid "Expand nested items"
 msgstr "Expandera nästlade poster"
@@ -3120,6 +3153,9 @@ msgstr ""
 msgid "Filter"
 msgstr "Filter"
 
+msgid "Filter Host..."
+msgstr ""
+
 msgid "Filter audits for this resource only"
 msgstr ""
 
@@ -3384,9 +3420,6 @@ msgstr "Fullskärmsläge"
 msgid "Full trace"
 msgstr "Fullständigt spårning"
 
-msgid "Fullscreen"
-msgstr ""
-
 msgid "Function not available for %s"
 msgstr ""
 
@@ -3430,6 +3463,9 @@ msgid "Generated at %s"
 msgstr "Genererad vid %s"
 
 msgid "Generating a report"
+msgstr ""
+
+msgid "Generating of report has been canceled"
 msgstr ""
 
 msgid "Generating the report took %s."
@@ -3567,6 +3603,9 @@ msgstr "Hjälp"
 msgid "Hidden Value"
 msgstr ""
 
+msgid "Hide Content"
+msgstr ""
+
 msgid "Hide advanced fields"
 msgstr ""
 
@@ -3606,6 +3645,9 @@ msgstr "Värdkonfigurationsstatus"
 msgid "Host Configuration Status for %s"
 msgstr ""
 
+msgid "Host Fetch ${response}"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr ""
 
@@ -3622,6 +3664,9 @@ msgid "Host Groups"
 msgstr "Värdgrupper"
 
 msgid "Host Parameters"
+msgstr ""
+
+msgid "Host Wizard"
 msgstr ""
 
 msgid "Host audit entries"
@@ -3975,7 +4020,7 @@ msgstr ""
 msgid "Hypervisor"
 msgstr ""
 
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -4128,6 +4173,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv4 Subnet"
+msgstr ""
+
+msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
 msgstr ""
 
 msgid "IPv4 address of interface"
@@ -4286,6 +4334,9 @@ msgstr "Uuid"
 msgid "Import"
 msgstr "Importera"
 
+msgid "Import File"
+msgstr ""
+
 msgid "Import IPv4 subnets"
 msgstr ""
 
@@ -4368,9 +4419,6 @@ msgid "Inherited Classes from %s"
 msgstr ""
 
 msgid "Inherits from subnet VLAN ID if not set"
-msgstr ""
-
-msgid "Input"
 msgstr ""
 
 msgid "Input %s: "
@@ -4531,9 +4579,6 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
-msgid "Key Binding"
-msgstr "Tangentbordsbindningar"
-
 msgid "Key not connected to any compute resource"
 msgstr ""
 
@@ -4555,6 +4600,12 @@ msgstr "Publik"
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "Hemlighet"
+
+msgid "Keybind"
+msgstr ""
+
+msgid "Keyboard"
+msgstr ""
 
 msgid "Kind"
 msgstr "Variant"
@@ -4581,6 +4632,9 @@ msgid "Lab Features"
 msgstr ""
 
 msgid "Language"
+msgstr ""
+
+msgid "Language to use for new users"
 msgstr ""
 
 msgid "Last Report"
@@ -5156,6 +5210,9 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
+msgid "Log Into Your Account"
+msgstr ""
+
 msgid "Log Out"
 msgstr ""
 
@@ -5170,9 +5227,6 @@ msgstr "Utloggad - Ses snart igen"
 
 msgid "Logged-in"
 msgstr "Inloggad"
-
-msgid "Login"
-msgstr "Login"
 
 msgid "Login delegation logout URL"
 msgstr ""
@@ -5365,6 +5419,9 @@ msgid "Max timeout for REST client requests to smart-proxy"
 msgstr ""
 
 msgid "Max trends"
+msgstr ""
+
+msgid "Maximize"
 msgstr ""
 
 msgid "Media"
@@ -5727,6 +5784,9 @@ msgid "No Hosts are in build mode or have build errors."
 msgstr ""
 
 msgid "No IPv4 subnets selected"
+msgstr ""
+
+msgid "No Results"
 msgstr ""
 
 msgid "No TFTP feature"
@@ -6692,6 +6752,9 @@ msgstr ""
 msgid "Preview"
 msgstr "Förhandsgranska"
 
+msgid "Preview is outdated."
+msgstr ""
+
 msgid "Preview rendered provisioning template content"
 msgstr ""
 
@@ -7087,9 +7150,6 @@ msgstr "Rendrera användardatamall för %s"
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr ""
 
-msgid "Rendering the template, please wait..."
-msgstr "Renderar mallen, vänligen vänta..."
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "Rapport"
@@ -7235,8 +7295,11 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "Återgå"
 
-msgid "Revert to revision from: %s"
-msgstr "Återgå till revision från: %s"
+msgid "Revert Failed, ${res}"
+msgstr ""
+
+msgid "Revert Local Changes"
+msgstr ""
 
 msgid "Review"
 msgstr "Granska"
@@ -7455,6 +7518,9 @@ msgstr "Välj Åtgärd"
 
 msgid "Select All"
 msgstr "Välj Alla"
+
+msgid "Select Host..."
+msgstr ""
 
 msgid "Select Hosts"
 msgstr "Välj Värdar"
@@ -7999,12 +8065,6 @@ msgstr ""
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr "Några eller alla värdexekveringar misslyckades. Var vänlig se loggfiler för mer information."
 
-msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr ""
-
-msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr ""
-
 msgid "Something went wrong while changing host type - %s"
 msgstr "Något blev fel vid byte av värdtyp - %s"
 
@@ -8227,9 +8287,6 @@ msgstr ""
 msgid "Success"
 msgstr "Lyckades"
 
-msgid "Success!"
-msgstr ""
-
 msgid "Successfully created %s."
 msgstr "Lyckades skapa %s."
 
@@ -8287,7 +8344,7 @@ msgstr ""
 msgid "Synchronize group from authentication source"
 msgstr ""
 
-msgid "Syntax Highlighting"
+msgid "Syntax"
 msgstr ""
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
@@ -8371,9 +8428,6 @@ msgstr ""
 msgid "Template '%s' was not found"
 msgstr ""
 
-msgid "Template *"
-msgstr ""
-
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
@@ -8396,6 +8450,9 @@ msgid "Template diff"
 msgstr "Mallskillnad"
 
 msgid "Template for OS installer, for example kickstart, preseed or jumpstart. Depends on the operating system."
+msgstr ""
+
+msgid "Template for cloud-init unattended endpoint."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8757,6 +8814,9 @@ msgstr "Användaren som används för att ssha till instansen, normalt cloud-use
 msgid "The virtual machine is being deleted."
 msgstr ""
 
+msgid "Theme"
+msgstr ""
+
 msgid "There are migrations pending in the system."
 msgstr ""
 
@@ -8791,9 +8851,6 @@ msgstr ""
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "Fel vid listning av VMs: %(status)s %(statusText)s"
-
-msgid "There was an error rendering the %s template: "
-msgstr "Fel vid tolkning av %s mallen:"
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr ""
@@ -8910,6 +8967,9 @@ msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "Tidsgränsen uppnåddes vid kommunicering med %s"
+
+msgid "Timezone to use for new users"
+msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
 msgstr ""
@@ -9323,6 +9383,9 @@ msgstr ""
 msgid "Unknown interface type, must be one of [%s]"
 msgstr ""
 
+msgid "Unknown password hash method: %s"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr ""
 
@@ -9578,7 +9641,7 @@ msgstr ""
 msgid "Uptime"
 msgstr ""
 
-msgid "Use APIv4 (experimental)"
+msgid "Use APIv4"
 msgstr ""
 
 msgid "Use NIS netgroups instead of posix groups."
@@ -9590,7 +9653,7 @@ msgstr ""
 msgid "Use short name for VMs"
 msgstr ""
 
-msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
+msgid "Use the new engine API."
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
@@ -9930,9 +9993,6 @@ msgid_plural "Warning! This will remove %{name} from %{number} users. are you su
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
-
 msgid "Warning: This will delete this host and all of its data!"
 msgstr ""
 
@@ -10096,9 +10156,6 @@ msgstr ""
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr ""
-
-msgid "You are about to override the editor content, are you sure?"
-msgstr "Du kommer att åsidosätta redigerarens innehåll, är du säker?"
 
 msgid "You are about to unlock a locked template."
 msgstr ""
@@ -10454,8 +10511,8 @@ msgstr ""
 msgid "for Libvirt and VMware only"
 msgstr "endast för Libvirt och VMware"
 
-msgid "for Libvirt only"
-msgstr "endast för Libvirt"
+msgid "for Libvirt and oVirt only"
+msgstr ""
 
 msgid "for OpenStack only"
 msgstr "endast för OpenStack"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-18 16:53+0300\n"
-"PO-Revision-Date: 2019-06-18 16:53+0300\n"
+"POT-Creation-Date: 2019-07-18 16:22+0300\n"
+"PO-Revision-Date: 2019-07-18 16:22+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -32,13 +32,13 @@ msgid "Success"
 msgstr ""
 
 #: ../app/assets/javascripts/application.js:415
-#: ../app/helpers/layout_helper.rb:156 ../app/models/host_status/global.rb:36
+#: ../app/helpers/layout_helper.rb:157 ../app/models/host_status/global.rb:36
 msgid "Warning"
 msgstr ""
 
 #: ../app/assets/javascripts/application.js:419
 #: ../app/controllers/application_controller.rb:348
-#: ../app/helpers/dashboard_helper.rb:59 ../app/helpers/layout_helper.rb:162
+#: ../app/helpers/dashboard_helper.rb:59 ../app/helpers/layout_helper.rb:163
 #: ../app/models/host_status/configuration_status.rb:71
 #: ../app/models/host_status/global.rb:38
 #: ../webpack/assets/javascripts/react_app/routes/common/EmptyPage/index.js:10
@@ -237,38 +237,38 @@ msgstr ""
 msgid "is invalid"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:24
+#: ../app/controllers/api/base_controller.rb:26
 msgid "Internal Server Error: the server was unable to finish the request. "
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:25
+#: ../app/controllers/api/base_controller.rb:27
 msgid ""
 "This may be caused by unavailability of some required service, incorrect API c"
 "all or a server-side bug. "
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:26
+#: ../app/controllers/api/base_controller.rb:28
 msgid "There may be more information in the server's logs."
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:189
+#: ../app/controllers/api/base_controller.rb:191
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:283
+#: ../app/controllers/api/base_controller.rb:315
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:296
+#: ../app/controllers/api/base_controller.rb:328
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:328
+#: ../app/controllers/api/base_controller.rb:360
 #: ../app/controllers/application_controller.rb:159
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:339
+#: ../app/controllers/api/base_controller.rb:371
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -473,13 +473,11 @@ msgid "Scope by organizations"
 msgstr ""
 
 #: ../app/controllers/api/v2/base_controller.rb:15
-#: ../app/controllers/api/v2/interfaces_controller.rb:19
-msgid "paginate results"
+msgid "Page number, starting at 1"
 msgstr ""
 
 #: ../app/controllers/api/v2/base_controller.rb:16
-#: ../app/controllers/api/v2/interfaces_controller.rb:20
-msgid "number of entries per request"
+msgid "Number of results per page to return"
 msgstr ""
 
 #: ../app/controllers/api/v2/base_controller.rb:20
@@ -681,7 +679,7 @@ msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:39
 #: ../app/controllers/api/v2/compute_resources_controller.rb:41
-#: ../app/controllers/api/v2/compute_resources_controller.rb:48
+#: ../app/controllers/api/v2/compute_resources_controller.rb:50
 msgid "for oVirt only"
 msgstr ""
 
@@ -694,112 +692,117 @@ msgid "for EC2 only, use '%s' for GovCloud region"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:43
-#: ../app/controllers/api/v2/compute_resources_controller.rb:44
 msgid "for OpenStack only"
 msgstr ""
 
+#: ../app/controllers/api/v2/compute_resources_controller.rb:44
 #: ../app/controllers/api/v2/compute_resources_controller.rb:45
-msgid "for VMware"
-msgstr ""
-
 #: ../app/controllers/api/v2/compute_resources_controller.rb:46
-msgid "for Libvirt and VMware only"
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:47
-msgid "for Libvirt and oVirt only"
+msgid "for VMware"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:48
+msgid "for Libvirt and VMware only"
 msgstr ""
 
 #: ../app/controllers/api/v2/compute_resources_controller.rb:49
+msgid "for Libvirt and oVirt only"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:51
 msgid "enable caching, for VMware only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:61
+#: ../app/controllers/api/v2/compute_resources_controller.rb:63
 msgid "Create a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:78
+#: ../app/controllers/api/v2/compute_resources_controller.rb:80
 msgid "Update a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:88
+#: ../app/controllers/api/v2/compute_resources_controller.rb:90
 msgid "Delete a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:95
+#: ../app/controllers/api/v2/compute_resources_controller.rb:97
 msgid "List available images for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:101
+#: ../app/controllers/api/v2/compute_resources_controller.rb:103
 msgid "List available clusters for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:109
+#: ../app/controllers/api/v2/compute_resources_controller.rb:111
 msgid "List available flavors for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:117
+#: ../app/controllers/api/v2/compute_resources_controller.rb:119
 msgid "List available folders for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:125
+#: ../app/controllers/api/v2/compute_resources_controller.rb:127
 msgid "List available zone for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:133
+#: ../app/controllers/api/v2/compute_resources_controller.rb:135
 msgid "List available networks for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:134
+#: ../app/controllers/api/v2/compute_resources_controller.rb:136
 msgid "List available networks for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:143
+#: ../app/controllers/api/v2/compute_resources_controller.rb:145
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:152
-#: ../app/controllers/api/v2/compute_resources_controller.rb:160
+#: ../app/controllers/api/v2/compute_resources_controller.rb:154
+#: ../app/controllers/api/v2/compute_resources_controller.rb:162
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:159
 #: ../app/controllers/api/v2/compute_resources_controller.rb:161
+#: ../app/controllers/api/v2/compute_resources_controller.rb:163
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:176
-#: ../app/controllers/api/v2/compute_resources_controller.rb:184
+#: ../app/controllers/api/v2/compute_resources_controller.rb:178
+#: ../app/controllers/api/v2/compute_resources_controller.rb:186
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:183
 #: ../app/controllers/api/v2/compute_resources_controller.rb:185
+#: ../app/controllers/api/v2/compute_resources_controller.rb:187
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:200
+#: ../app/controllers/api/v2/compute_resources_controller.rb:202
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:208
+#: ../app/controllers/api/v2/compute_resources_controller.rb:210
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:217
+#: ../app/controllers/api/v2/compute_resources_controller.rb:219
 msgid "Associating VMs is not supported for this compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:221
+#: ../app/controllers/api/v2/compute_resources_controller.rb:223
 msgid "Refresh Compute Resource Cache"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:225
+#: ../app/controllers/api/v2/compute_resources_controller.rb:227
 #: ../app/controllers/compute_resources_controller.rb:96
 msgid "Successfully refreshed the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:227
+#: ../app/controllers/api/v2/compute_resources_controller.rb:229
 #: ../app/controllers/compute_resources_controller.rb:101
 msgid "Failed to refresh the cache."
 msgstr ""
@@ -1079,7 +1082,7 @@ msgstr ""
 #: ../app/controllers/api/v2/hosts_controller.rb:65
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:41
 #: ../app/controllers/api/v2/subnets_controller.rb:28
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:56
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:59
 msgid "Display hidden parameter values"
 msgstr ""
 
@@ -1832,10 +1835,10 @@ msgid "List all interfaces for subnet"
 msgstr ""
 
 #: ../app/controllers/api/v2/interfaces_controller.rb:16
-#: ../app/controllers/api/v2/interfaces_controller.rb:27
-#: ../app/controllers/api/v2/interfaces_controller.rb:71
-#: ../app/controllers/api/v2/interfaces_controller.rb:80
-#: ../app/controllers/api/v2/interfaces_controller.rb:89
+#: ../app/controllers/api/v2/interfaces_controller.rb:26
+#: ../app/controllers/api/v2/interfaces_controller.rb:70
+#: ../app/controllers/api/v2/interfaces_controller.rb:79
+#: ../app/controllers/api/v2/interfaces_controller.rb:88
 msgid "ID or name of host"
 msgstr ""
 
@@ -1847,135 +1850,135 @@ msgstr ""
 msgid "ID or name of subnet"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:26
+#: ../app/controllers/api/v2/interfaces_controller.rb:25
 msgid "Show an interface for host"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:28
+#: ../app/controllers/api/v2/interfaces_controller.rb:27
 msgid "ID or name of interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:35
+#: ../app/controllers/api/v2/interfaces_controller.rb:34
 msgid "MAC address of interface. Required for managed interfaces on bare metal."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:36
+#: ../app/controllers/api/v2/interfaces_controller.rb:35
 msgid "IPv4 address of interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:37
+#: ../app/controllers/api/v2/interfaces_controller.rb:36
 msgid "IPv6 address of interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:38
+#: ../app/controllers/api/v2/interfaces_controller.rb:37
 msgid "Interface type, e.g. bmc. Default is %{default_nic_type}"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:39
+#: ../app/controllers/api/v2/interfaces_controller.rb:38
 msgid "Interface's DNS name"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:40
+#: ../app/controllers/api/v2/interfaces_controller.rb:39
 msgid "Foreman subnet ID of IPv4 interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:41
+#: ../app/controllers/api/v2/interfaces_controller.rb:40
 msgid "Foreman subnet ID of IPv6 interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:42
+#: ../app/controllers/api/v2/interfaces_controller.rb:41
 msgid ""
 "Foreman domain ID of interface. Required for primary interfaces on managed hos"
 "ts."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:43
+#: ../app/controllers/api/v2/interfaces_controller.rb:42
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:44
+#: ../app/controllers/api/v2/interfaces_controller.rb:43
 msgid ""
 "Should this interface be managed via DHCP and DNS smart proxy and should it be"
 " configured during provisioning?"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:45
+#: ../app/controllers/api/v2/interfaces_controller.rb:44
 msgid ""
 "Should this interface be used for constructing the FQDN of the host? Each mana"
 "ged hosts needs to have one primary interface."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:46
+#: ../app/controllers/api/v2/interfaces_controller.rb:45
 msgid ""
 "Should this interface be used for TFTP of PXELinux (or SSH for image-based hos"
 "ts)? Each managed hosts needs to have one provision interface."
 msgstr ""
 
+#: ../app/controllers/api/v2/interfaces_controller.rb:47
 #: ../app/controllers/api/v2/interfaces_controller.rb:48
-#: ../app/controllers/api/v2/interfaces_controller.rb:49
 msgid "Only for BMC interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:50
+#: ../app/controllers/api/v2/interfaces_controller.rb:49
 msgid "Interface provider, e.g. IPMI. Only for BMC interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:52
+#: ../app/controllers/api/v2/interfaces_controller.rb:51
 msgid "Alias or VLAN device"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:53
+#: ../app/controllers/api/v2/interfaces_controller.rb:52
 msgid ""
 "VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virt"
 "ual interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:54
+#: ../app/controllers/api/v2/interfaces_controller.rb:53
 msgid "MTU, this attribute has precedence over the subnet MTU."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:55
+#: ../app/controllers/api/v2/interfaces_controller.rb:54
 msgid ""
 "Identifier of the interface to which this interface belongs, e.g. eth1. Only f"
 "or virtual interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:57
+#: ../app/controllers/api/v2/interfaces_controller.rb:56
 msgid "Bond mode of the interface, e.g. balance-rr. Only for bond interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:58
+#: ../app/controllers/api/v2/interfaces_controller.rb:57
 msgid ""
 "Identifiers of attached interfaces, e.g. `['eth1', 'eth2']`. For bond interfac"
 "es those are the slaves. Only for bond and bridges interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:59
+#: ../app/controllers/api/v2/interfaces_controller.rb:58
 msgid "Space separated options, e.g. miimon=100. Only for bond interfaces."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:61
+#: ../app/controllers/api/v2/interfaces_controller.rb:60
 msgid "Additional compute resource specific attributes for the interface."
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:65
+#: ../app/controllers/api/v2/interfaces_controller.rb:64
 msgid "interface information"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:70
+#: ../app/controllers/api/v2/interfaces_controller.rb:69
 msgid "Create an interface on a host"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:79
+#: ../app/controllers/api/v2/interfaces_controller.rb:78
 msgid "Update a host's interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:81
-#: ../app/controllers/api/v2/interfaces_controller.rb:90
+#: ../app/controllers/api/v2/interfaces_controller.rb:80
+#: ../app/controllers/api/v2/interfaces_controller.rb:89
 msgid "ID of interface"
 msgstr ""
 
-#: ../app/controllers/api/v2/interfaces_controller.rb:88
+#: ../app/controllers/api/v2/interfaces_controller.rb:87
 msgid "Delete a host's interface"
 msgstr ""
 
@@ -3543,27 +3546,31 @@ msgstr ""
 msgid "List of resources types that will be automatically associated"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:39
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:38
+msgid "Associated %{resource} IDs"
+msgstr ""
+
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:42
 msgid "List all :resource_id"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:55
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:58
 msgid "Show :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:63
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:66
 msgid "Create :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:71
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:74
 msgid "Update :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:81
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:84
 msgid "Delete :a_resource"
 msgstr ""
 
-#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:86
+#: ../app/controllers/concerns/api/v2/taxonomies_controller.rb:89
 #: ../app/controllers/concerns/foreman/controller/taxonomies_controller.rb:96
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
@@ -4136,46 +4143,65 @@ msgstr ""
 msgid "An error occured."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:54
-#: ../app/views/users/extlogout.html.erb:1
+#: ../app/controllers/users_controller.rb:55
 msgid "Logout"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:55
+#: ../app/controllers/users_controller.rb:56
 msgid "You cannot delete this user while logged in as this user"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:72
+#: ../app/controllers/users_controller.rb:73
+msgid ""
+"You impersonated user %s, to cancel the session, click the eye icon in the top"
+" bar."
+msgstr ""
+
+#: ../app/controllers/users_controller.rb:78
+msgid ""
+"You are already impersonating, click the icon in the top bar before starting a"
+" new impersonation."
+msgstr ""
+
+#: ../app/controllers/users_controller.rb:89
+msgid "You now act as %s again."
+msgstr ""
+
+#: ../app/controllers/users_controller.rb:91
+msgid "No active impersonate session."
+msgstr ""
+
+#: ../app/controllers/users_controller.rb:101
 #: ../app/graphql/mutations/sign_in_user.rb:22
 #: ../app/views/api/v2/errors/bruteforce_attempt.json.rabl:3
 msgid "Too many tries, please try again in a few minutes."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:89
+#: ../app/controllers/users_controller.rb:118
 msgid "Incorrect username or password"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:97
+#: ../app/controllers/users_controller.rb:126
 msgid "Some imported user account details cannot be saved: %s"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:132
+#: ../app/controllers/users_controller.rb:161
 msgid "Logged out - See you soon"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:145
+#: ../app/controllers/users_controller.rb:174
 msgid "Email address is missing"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:151
+#: ../app/controllers/users_controller.rb:180
 msgid "Unable to send email, check server logs for more information"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:154
+#: ../app/controllers/users_controller.rb:183
 msgid "Email was sent successfully"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:182
+#: ../app/controllers/users_controller.rb:211
 msgid "You have already logged in"
 msgstr ""
 
@@ -4743,6 +4769,7 @@ msgstr ""
 #: ../app/views/hosts/_assign_hosts.html.erb:38
 #: ../app/views/hosts/_interfaces.html.erb:64
 #: ../app/views/hosts/_list.html.erb:59 ../app/views/trends/edit.html.erb:43
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:42
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Actions.js:19
 msgid "Cancel"
 msgstr ""
@@ -4762,7 +4789,7 @@ msgstr ""
 #: ../app/helpers/hostgroups_helper.rb:6
 #: ../app/helpers/provisioning_templates_helper.rb:44
 #: ../app/helpers/roles_helper.rb:34 ../app/helpers/smart_proxies_helper.rb:8
-#: ../app/helpers/smart_proxies_helper.rb:55
+#: ../app/helpers/smart_proxies_helper.rb:55 ../app/helpers/users_helper.rb:43
 #: ../app/views/architectures/index.html.erb:22
 #: ../app/views/auth_source_ldaps/index.html.erb:22
 #: ../app/views/bookmarks/index.html.erb:23
@@ -4778,7 +4805,6 @@ msgstr ""
 #: ../app/views/realms/index.html.erb:18 ../app/views/subnets/index.html.erb:31
 #: ../app/views/taxonomies/index.html.erb:32
 #: ../app/views/usergroups/index.html.erb:24
-#: ../app/views/users/index.html.erb:30
 #: ../app/views/variable_lookup_keys/index.html.erb:19
 msgid "Delete %s?"
 msgstr ""
@@ -5276,39 +5302,39 @@ msgstr ""
 msgid "How values are validated"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:109
+#: ../app/helpers/layout_helper.rb:110
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Form.js:60
 msgid "Unable to save"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:135
+#: ../app/helpers/layout_helper.rb:136
 msgid "Warning!"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:136
+#: ../app/helpers/layout_helper.rb:137
 msgid "Alert"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:153 ../app/helpers/layout_helper.rb:159
+#: ../app/helpers/layout_helper.rb:154 ../app/helpers/layout_helper.rb:160
 #: ../app/helpers/puppet_related_helper.rb:72
 #: ../app/views/hosts/_compute.html.erb:3
 #: ../app/views/media/welcome.html.erb:14
 msgid "Notice"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:190
+#: ../app/helpers/layout_helper.rb:191
 #: ../app/views/hosts/_interfaces.html.erb:58
 msgid "Close"
 msgstr ""
 
-#: ../app/helpers/layout_helper.rb:195 ../app/views/hosts/show.html.erb:83
+#: ../app/helpers/layout_helper.rb:196 ../app/views/hosts/show.html.erb:83
 #: ../app/views/hosts/show.html.erb:90 ../app/views/trends/show.html.erb:7
 msgid "last %s day"
 msgid_plural "last %s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../app/helpers/layout_helper.rb:199
+#: ../app/helpers/layout_helper.rb:200
 msgid "Full screen"
 msgstr ""
 
@@ -5837,6 +5863,10 @@ msgstr ""
 msgid "Trend of the last %s days."
 msgstr ""
 
+#: ../app/helpers/users_helper.rb:32
+msgid "Impersonate"
+msgstr ""
+
 #: ../app/jobs/create_rss_notifications.rb:17
 msgid "Create RSS notifications"
 msgstr ""
@@ -5961,7 +5991,11 @@ msgstr ""
 msgid "cannot be changed"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:235
+#: ../app/models/compute_resources/foreman/model/gce.rb:206
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
+#: ../app/models/compute_resources/foreman/model/gce.rb:252
 msgid "Unable to access key"
 msgstr ""
 
@@ -5999,19 +6033,19 @@ msgid ""
 "e size in gigabytes."
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:62
+#: ../app/models/compute_resources/foreman/model/openstack.rb:78
 msgid "must end with /v2 or /v3"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:124
+#: ../app/models/compute_resources/foreman/model/openstack.rb:140
 msgid "No matching server groups found"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:129
+#: ../app/models/compute_resources/foreman/model/openstack.rb:145
 msgid "Hint data is missing"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/openstack.rb:166
+#: ../app/models/compute_resources/foreman/model/openstack.rb:182
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
@@ -6082,15 +6116,15 @@ msgid ""
 "equired permissions and the resource exists. Reason: %s"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:567
+#: ../app/models/compute_resources/foreman/model/vmware.rb:568
 msgid "The console is not available because the VM is not powered on"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:641
+#: ../app/models/compute_resources/foreman/model/vmware.rb:642
 msgid "Could not find network %s on VMWare compute resource"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:743
+#: ../app/models/compute_resources/foreman/model/vmware.rb:744
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a di"
 "fferent hash. If you are sure the remote system is authentic, go to the comput"
@@ -6129,7 +6163,7 @@ msgstr ""
 msgid "%{cpus} CPUs and %{memory} MB memory"
 msgstr ""
 
-#: ../app/models/concerns/foreman/thread_session.rb:103
+#: ../app/models/concerns/foreman/thread_session.rb:107
 msgid "Cannot find user %s when switching context"
 msgstr ""
 
@@ -6642,19 +6676,19 @@ msgstr ""
 msgid "is locked for user modifications."
 msgstr ""
 
-#: ../app/models/host/base.rb:564
+#: ../app/models/host/base.rb:593
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:570
+#: ../app/models/host/base.rb:599
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:589
+#: ../app/models/host/base.rb:618
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:595
+#: ../app/models/host/base.rb:624
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
@@ -7687,8 +7721,8 @@ msgstr ""
 
 #: ../app/models/setting/provisioning.rb:45
 msgid ""
-"URL hosts will retrieve templates from during build (normally http as many ins"
-"tallers don't support https)"
+"URL hosts will retrieve templates from during build, when it starts with https"
+" unattended/userdata controllers cannot be accessed via HTTP"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:45
@@ -8663,6 +8697,7 @@ msgid "Dashboard"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:42 ../app/views/statistics/index.html.erb:1
+#: ../webpack/assets/javascripts/react_app/routes/Statistics/StatisticsPage/StatisticsPage.js:7
 msgid "Statistics"
 msgstr ""
 
@@ -9337,6 +9372,7 @@ msgstr ""
 #: ../app/views/about/index.html.erb:28 ../app/views/about/index.html.erb:103
 #: ../app/views/smart_proxies/plugins/_plugin_version.html.erb:2
 #: ../app/views/smart_proxies/show.html.erb:43
+#: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:26
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/components/LoginPageCaption.js:7
 msgid "Version"
 msgstr ""
@@ -10082,26 +10118,61 @@ msgid "Set a randomly generated password on the display connection"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_openstack.html.erb:1
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+#: ../app/views/compute_resources/show/_libvirt.html.erb:2
+#: ../app/views/compute_resources/show/_openstack.html.erb:2
+#: ../app/views/compute_resources/show/_ovirt.html.erb:2
+#: ../app/views/compute_resources/show/_vmware.html.erb:2
+#: ../app/views/http_proxies/index.html.erb:9
+#: ../app/views/smart_proxies/show.html.erb:35
+#: ../db/seeds.d/170-notification_blueprints.rb:45
+msgid "URL"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_openstack.html.erb:6
-msgid "Project (Tenant)"
+#: ../app/views/compute_resources/form/_openstack.html.erb:1
+msgid ""
+"Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or"
+" http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_openstack.html.erb:6
-msgid "Project (v3) or Tenant (v2)"
+#: ../app/views/compute_resources/form/_openstack.html.erb:5
+msgid "Project (Tenant) name"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_openstack.html.erb:5
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 #: ../app/views/compute_resources/form/_openstack.html.erb:7
-msgid "Load"
+msgid "User domain"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_openstack.html.erb:7
+msgid ""
+"Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentica"
+"tion."
 msgstr ""
 
 #: ../app/views/compute_resources/form/_openstack.html.erb:9
-msgid "Only for v3 authentication"
+msgid "Project domain name"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_openstack.html.erb:9
+msgid ""
+"Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentica"
+"tion."
 msgstr ""
 
 #: ../app/views/compute_resources/form/_openstack.html.erb:11
+msgid "Project domain ID"
+msgstr ""
+
+#: ../app/views/compute_resources/form/_openstack.html.erb:11
+msgid ""
+"Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 auth"
+"entication."
+msgstr ""
+
+#: ../app/views/compute_resources/form/_openstack.html.erb:13
 msgid "Allow external network as main network"
 msgstr ""
 
@@ -10251,16 +10322,6 @@ msgstr ""
 
 #: ../app/views/compute_resources/show.html.erb:69
 msgid "VM Attributes"
-msgstr ""
-
-#: ../app/views/compute_resources/show/_libvirt.html.erb:2
-#: ../app/views/compute_resources/show/_openstack.html.erb:2
-#: ../app/views/compute_resources/show/_ovirt.html.erb:2
-#: ../app/views/compute_resources/show/_vmware.html.erb:2
-#: ../app/views/http_proxies/index.html.erb:9
-#: ../app/views/smart_proxies/show.html.erb:35
-#: ../db/seeds.d/170-notification_blueprints.rb:45
-msgid "URL"
 msgstr ""
 
 #: ../app/views/compute_resources/show/_libvirt.html.erb:11
@@ -12066,7 +12127,7 @@ msgstr ""
 msgid "New SSH key"
 msgstr ""
 
-#: ../app/views/layouts/base.html.erb:49
+#: ../app/views/layouts/base.html.erb:51
 msgid "You are using an unsupported browser."
 msgstr ""
 
@@ -13965,10 +14026,6 @@ msgstr ""
 msgid "Version %{version}"
 msgstr ""
 
-#: ../app/views/users/extlogout.html.erb:13
-msgid "Click to log in again."
-msgstr ""
-
 #: ../app/views/users/index.html.erb:3 ../app/views/users/new.html.erb:1
 msgid "Create User"
 msgstr ""
@@ -14027,6 +14084,7 @@ msgid "Puppet summary"
 msgstr ""
 
 #: ../db/seeds.d/160-mail_notifications.rb:9
+#: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:25
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/components/LoginPageCaption.js:6
 msgid "Welcome"
 msgstr ""
@@ -14366,23 +14424,23 @@ msgstr ""
 msgid "No free ports available for websockify, try again later"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:34
+#: ../webpack/assets/javascripts/bundle_novnc.js:35
 msgid "New connection has been rejected with reason: %"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:38
+#: ../webpack/assets/javascripts/bundle_novnc.js:39
 msgid "New connection has been rejected"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:44
+#: ../webpack/assets/javascripts/bundle_novnc.js:45
 msgid "Disconnected"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:48
+#: ../webpack/assets/javascripts/bundle_novnc.js:49
 msgid "Connected"
 msgstr ""
 
-#: ../webpack/assets/javascripts/bundle_novnc.js:73
+#: ../webpack/assets/javascripts/bundle_novnc.js:74
 msgid "Loading..."
 msgstr ""
 
@@ -14390,31 +14448,31 @@ msgstr ""
 msgid "Error loading scheduler hint filters information: %s"
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:54
+#: ../webpack/assets/javascripts/dashboard/index.js:53
 msgid "Are you sure you want to delete this widget from your dashboard?"
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:62
+#: ../webpack/assets/javascripts/dashboard/index.js:61
 msgid "Widget removed from dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:69
+#: ../webpack/assets/javascripts/dashboard/index.js:68
 msgid "Error removing widget from dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:84
+#: ../webpack/assets/javascripts/dashboard/index.js:83
 msgid "Widget added to dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:91
+#: ../webpack/assets/javascripts/dashboard/index.js:90
 msgid "Error adding widget to dashboard."
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:107
+#: ../webpack/assets/javascripts/dashboard/index.js:106
 msgid "Widget positions successfully saved."
 msgstr ""
 
-#: ../webpack/assets/javascripts/dashboard/index.js:113
+#: ../webpack/assets/javascripts/dashboard/index.js:112
 msgid "Failed to save widget positions."
 msgstr ""
 
@@ -14598,6 +14656,11 @@ msgid "Theme"
 msgstr ""
 
 #:
+#: ../webpack/assets/javascripts/react_app/components/ExternalLogout/ExternalLogout.js:38
+msgid "Click to log in again"
+msgstr ""
+
+#:
 #: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:57
 msgid "Request Failed"
 msgstr ""
@@ -14634,6 +14697,16 @@ msgstr ""
 msgid "Any Location"
 msgstr ""
 
+#:
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:41
+msgid "Confirm"
+msgstr ""
+
+#:
+#: ../webpack/assets/javascripts/react_app/components/Layout/components/ImpersonateIcon/ImpersonateIcon.js:43
+msgid "Confirm Action"
+msgstr ""
+
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:29
 msgid "Log Into Your Account"
 msgstr ""
@@ -14648,7 +14721,7 @@ msgid "Log In"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTable.js:31
+#: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTable.js:32
 msgid "Could not receive data: ${error && error.message}"
 msgstr ""
 

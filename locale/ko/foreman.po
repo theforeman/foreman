@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-04-11 20:33+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-06-18 20:18+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +22,9 @@ msgstr ""
 
 msgid " Remove"
 msgstr "삭제 "
+
+msgid "${progress}%% Complete"
+msgstr ""
 
 msgid "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)"
 msgstr ""
@@ -756,6 +759,9 @@ msgstr ""
 msgid "Are you sure you want to power %{act} %{vm}?"
 msgstr "%{vm}의 %{act}을(를) 실행하시겠습니까?"
 
+msgid "Are you sure you would like to revert the Template?"
+msgstr ""
+
 msgid "Are you sure?"
 msgstr "정말로 삭제하시겠습니까? "
 
@@ -1059,6 +1065,12 @@ msgstr ""
 msgid "Avoid duplicate values when merging them (only array type)?"
 msgstr "값을 병합할 때 중복 값을 제외하시겠습니까(배열 유형만)?"
 
+msgid "BCrypt password cost"
+msgstr ""
+
+msgid "BCrypt salt '%s' is invalid"
+msgstr ""
+
 msgid "BIOS"
 msgstr "BIOS"
 
@@ -1323,6 +1335,9 @@ msgstr "암호 변경"
 msgid "Changed environments"
 msgstr "변경된 환경 "
 
+msgid "Changes"
+msgstr ""
+
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
 
@@ -1427,6 +1442,9 @@ msgstr ""
 
 msgid "Close"
 msgstr "종료 "
+
+msgid "Cloud-init template"
+msgstr ""
 
 msgid "Cluster"
 msgstr "클러스터"
@@ -1621,6 +1639,9 @@ msgstr ""
 
 msgid "Cores per socket"
 msgstr "소켓당 코어 수 "
+
+msgid "Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."
+msgstr ""
 
 msgid "Could not add permissions to Manager and Viewer roles: %s"
 msgstr ""
@@ -2075,6 +2096,9 @@ msgstr "기본값 "
 msgid "Default Behavior"
 msgstr ""
 
+msgid "Default Display Type"
+msgstr ""
+
 msgid "Default PXE global template entry"
 msgstr ""
 
@@ -2093,6 +2117,9 @@ msgstr "기본 Puppet 환경"
 msgid "Default Puppet server hostname"
 msgstr "기본 Puppet 서버 호스트 이름 "
 
+msgid "Default VNC Keyboard"
+msgstr ""
+
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
@@ -2101,6 +2128,9 @@ msgstr "이 서브넷에 할당된 인터페이스의 기본 부팅 모드입니
 
 msgid "Default encrypted root password on provisioned hosts"
 msgstr "프로비저닝 호스트의 기본값으로 암호화된 root 암호 "
+
+msgid "Default language"
+msgstr ""
 
 msgid "Default location"
 msgstr "기본 위치"
@@ -2116,6 +2146,9 @@ msgstr ""
 
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "기본 템플릿이 새 조직과 위치에 자동으로 추가됩니다."
+
+msgid "Default timezone"
+msgstr ""
 
 msgid "Default value"
 msgstr "기본값 "
@@ -2399,9 +2432,6 @@ msgstr "이 인터페이스의 장치 ID입니다. 이는 다양한 플랫폼 �
 msgid "Device identifier, e.g. eth0 or eth1.1"
 msgstr "장치 식별자. 예: eth0 또는 eth1.1"
 
-msgid "Diff"
-msgstr "비교"
-
 msgid "Disable Notifications"
 msgstr "통지 비활성화 "
 
@@ -2581,6 +2611,9 @@ msgstr "트렌드 %s 편집 "
 msgid "Edit this host"
 msgstr ""
 
+msgid "Editor"
+msgstr ""
+
 msgid "Email Preferences"
 msgstr "이메일 기본 설정"
 
@@ -2709,6 +2742,9 @@ msgstr "시스템 DNS 서버에 연결하는 도중 오류가 발생했습니다
 msgid "Error during LDAP connection %{name} using login %{login}: %{error}"
 msgstr ""
 
+msgid "Error during rendering, Return to Editor tab."
+msgstr ""
+
 msgid "Error generating IP: %s"
 msgstr "IP 생성 오류: %s"
 
@@ -2778,7 +2814,7 @@ msgstr ""
 msgid "Examples"
 msgstr "예제 "
 
-msgid "Exclude pattern for all types of imported facts (rhsm, puppet e.t.c.). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. macvtap*"
+msgid "Exclude pattern for all types of imported facts (puppet, ansible, rhsm). Those facts won't be stored in foreman's database. You can use * wildcard to match names with indexes e.g. ignore* will filter out ignore, ignore123 as well as a::ignore or even a::ignore123::b"
 msgstr ""
 
 msgid "Exclude pattern for facts stored in foreman"
@@ -2786,9 +2822,6 @@ msgstr ""
 
 msgid "Exit Full Screen"
 msgstr "전체 화면에서 나가기 "
-
-msgid "Exit Fullscreen"
-msgstr ""
 
 msgid "Expand nested items"
 msgstr "중첩된 항목을 확장 "
@@ -3115,6 +3148,9 @@ msgstr ""
 msgid "Filter"
 msgstr "필터 "
 
+msgid "Filter Host..."
+msgstr ""
+
 msgid "Filter audits for this resource only"
 msgstr ""
 
@@ -3382,9 +3418,6 @@ msgstr "전체 화면 "
 msgid "Full trace"
 msgstr "전체 추적 "
 
-msgid "Fullscreen"
-msgstr ""
-
 msgid "Function not available for %s"
 msgstr "%s에 사용할 수 없는 기능"
 
@@ -3428,6 +3461,9 @@ msgid "Generated at %s"
 msgstr "%s에 생성 "
 
 msgid "Generating a report"
+msgstr ""
+
+msgid "Generating of report has been canceled"
 msgstr ""
 
 msgid "Generating the report took %s."
@@ -3565,6 +3601,9 @@ msgstr "도움말"
 msgid "Hidden Value"
 msgstr ""
 
+msgid "Hide Content"
+msgstr ""
+
 msgid "Hide advanced fields"
 msgstr "고급 필드 숨기기"
 
@@ -3604,6 +3643,9 @@ msgstr "호스트 설정 상태 "
 msgid "Host Configuration Status for %s"
 msgstr ""
 
+msgid "Host Fetch ${response}"
+msgstr ""
+
 msgid "Host Group / Environment"
 msgstr ""
 
@@ -3620,6 +3662,9 @@ msgid "Host Groups"
 msgstr "호스트 그룹 "
 
 msgid "Host Parameters"
+msgstr ""
+
+msgid "Host Wizard"
 msgstr ""
 
 msgid "Host audit entries"
@@ -3973,7 +4018,7 @@ msgstr ""
 msgid "Hypervisor"
 msgstr ""
 
-msgid "ID assigned to generation job by the schedule command"
+msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
 msgid "ID of LDAP authentication source"
@@ -4126,6 +4171,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "IPv4 Subnet"
+msgstr ""
+
+msgid "IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."
 msgstr ""
 
 msgid "IPv4 address of interface"
@@ -4284,6 +4332,9 @@ msgstr "UUID"
 msgid "Import"
 msgstr "불러오기"
 
+msgid "Import File"
+msgstr ""
+
 msgid "Import IPv4 subnets"
 msgstr ""
 
@@ -4367,9 +4418,6 @@ msgstr ""
 
 msgid "Inherits from subnet VLAN ID if not set"
 msgstr "설정되어 있지 않은 경우 서브넷 VLAN에서 상속 "
-
-msgid "Input"
-msgstr "입력"
 
 msgid "Input %s: "
 msgstr ""
@@ -4529,9 +4577,6 @@ msgstr ""
 msgid "JwtSecret|Token"
 msgstr ""
 
-msgid "Key Binding"
-msgstr "키 바인딩 "
-
 msgid "Key not connected to any compute resource"
 msgstr ""
 
@@ -4553,6 +4598,12 @@ msgstr "공개 "
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "KeyPair|Secret"
 msgstr "비공개 "
+
+msgid "Keybind"
+msgstr ""
+
+msgid "Keyboard"
+msgstr ""
 
 msgid "Kind"
 msgstr "종류 "
@@ -4580,6 +4631,9 @@ msgstr ""
 
 msgid "Language"
 msgstr "언어"
+
+msgid "Language to use for new users"
+msgstr ""
 
 msgid "Last Report"
 msgstr "마지막 보고 "
@@ -5154,6 +5208,9 @@ msgstr "잠금"
 msgid "Log In"
 msgstr "로그인"
 
+msgid "Log Into Your Account"
+msgstr ""
+
 msgid "Log Out"
 msgstr ""
 
@@ -5168,9 +5225,6 @@ msgstr "로그 아웃했습니다 "
 
 msgid "Logged-in"
 msgstr "로그인했습니다 "
-
-msgid "Login"
-msgstr "로그인 "
 
 msgid "Login delegation logout URL"
 msgstr "로그인 권한 로그아웃 URL"
@@ -5364,6 +5418,9 @@ msgstr "스마트 프록시에 REST 클라이언트 요청의 최대 대기 시�
 
 msgid "Max trends"
 msgstr "최대 트렌드 수"
+
+msgid "Maximize"
+msgstr ""
 
 msgid "Media"
 msgstr "미디어 "
@@ -5725,6 +5782,9 @@ msgid "No Hosts are in build mode or have build errors."
 msgstr ""
 
 msgid "No IPv4 subnets selected"
+msgstr ""
+
+msgid "No Results"
 msgstr ""
 
 msgid "No TFTP feature"
@@ -6690,6 +6750,9 @@ msgstr ""
 msgid "Preview"
 msgstr "미리 보기 "
 
+msgid "Preview is outdated."
+msgstr ""
+
 msgid "Preview rendered provisioning template content"
 msgstr "렌더링된 프로비저닝 템플릿 컨텐츠 미리 보기"
 
@@ -7085,9 +7148,6 @@ msgstr "%s의 사용자 데이터 템플릿 렌더링 "
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr ""
 
-msgid "Rendering the template, please wait..."
-msgstr "템플릿을 렌더링하는 중입니다. 잠시 기다려 주십시오."
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr "보고서 "
@@ -7233,8 +7293,11 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "되돌리기 "
 
-msgid "Revert to revision from: %s"
-msgstr "다음에서 개정 버전으로 되돌리기: %s"
+msgid "Revert Failed, ${res}"
+msgstr ""
+
+msgid "Revert Local Changes"
+msgstr ""
 
 msgid "Review"
 msgstr "확인 "
@@ -7453,6 +7516,9 @@ msgstr "작업 선택 "
 
 msgid "Select All"
 msgstr "모두 선택 "
+
+msgid "Select Host..."
+msgstr ""
 
 msgid "Select Hosts"
 msgstr "호스트 선택"
@@ -7997,12 +8063,6 @@ msgstr "일부 인터페이스는 사용할 수 없습니다. 아래 표를 확�
 msgid "Some or all hosts execution failed, Please check log files for more information"
 msgstr "일부 또는 모든 호스트 실행에 실패했습니다. 상세 정보에서 로그 파일을 확인하십시오"
 
-msgid "Some other interface is already set as primary. Are you sure you want to use this one instead?"
-msgstr "이미 다른 인터페이스가 기본 인터페이스로 설정되어 있습니다. 이 인터페이스를 대신 사용하시겠습니까?"
-
-msgid "Some other interface is already set as provisioning. Are you sure you want to use this one instead?"
-msgstr "이미 다른 인터페이스가 프로비저닝 인터페이스로 설정되어 있습니다. 이 인터페이스를 대신 사용하시겠습니까?"
-
 msgid "Something went wrong while changing host type - %s"
 msgstr "호스트 유형을 변경하는 도중 문제가 발생했습니다 - %s"
 
@@ -8225,9 +8285,6 @@ msgstr ""
 msgid "Success"
 msgstr "성공 "
 
-msgid "Success!"
-msgstr "성공!  "
-
 msgid "Successfully created %s."
 msgstr "%s을(를) 성공적으로 생성했습니다. "
 
@@ -8285,8 +8342,8 @@ msgstr "지원되는 형식 "
 msgid "Synchronize group from authentication source"
 msgstr "인증 소스에서 그룹 동기화 "
 
-msgid "Syntax Highlighting"
-msgstr "구문 강조"
+msgid "Syntax"
+msgstr ""
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
 msgstr ""
@@ -8369,9 +8426,6 @@ msgstr "템플릿 %s이 비어있습니다. "
 msgid "Template '%s' was not found"
 msgstr ""
 
-msgid "Template *"
-msgstr ""
-
 msgid "Template HTTP(S) Proxy ID to use within this subnet"
 msgstr ""
 
@@ -8394,6 +8448,9 @@ msgid "Template diff"
 msgstr "템플릿 차이 "
 
 msgid "Template for OS installer, for example kickstart, preseed or jumpstart. Depends on the operating system."
+msgstr ""
+
+msgid "Template for cloud-init unattended endpoint."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -8761,6 +8818,9 @@ msgstr "ssh를 인스턴스에 사용하는 사용자는 일반적으로 cloud-u
 msgid "The virtual machine is being deleted."
 msgstr "가상 머신이 삭제되어 있습니다. "
 
+msgid "Theme"
+msgstr ""
+
 msgid "There are migrations pending in the system."
 msgstr ""
 
@@ -8794,9 +8854,6 @@ msgstr ""
 
 msgid "There was an error listing VMs: %(status)s %(statusText)s"
 msgstr "VM을 나열하는 도중 오류가 발생했습니다: %(status)s %(statusText)s"
-
-msgid "There was an error rendering the %s template: "
-msgstr "%s 템플릿을 렌더링하는 도중 오류가 발생했습니다: "
 
 msgid "There was an error rendering the %{name} template: %{error}"
 msgstr "%{name} 템플릿을 렌더링하는 도중 오류가 발생했습니다: %{error}"
@@ -8913,6 +8970,9 @@ msgstr "DNS 충돌 유효 시간 초과(초)"
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "%s와 통신하는 도중 시간 초과되었습니다 "
+
+msgid "Timezone to use for new users"
+msgstr ""
 
 msgid "To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes."
 msgstr ""
@@ -9326,6 +9386,9 @@ msgstr ""
 msgid "Unknown interface type, must be one of [%s]"
 msgstr "알 수 없는 인터페이스 유형. [%s] 중 하나이어야 합니다 "
 
+msgid "Unknown password hash method: %s"
+msgstr ""
+
 msgid "Unknown power action: available methods are %s"
 msgstr "알 수 없는 전원 동작:  사용 가능한 방법은 %s입니다 "
 
@@ -9581,7 +9644,7 @@ msgstr "호스트의 팩트를 업로드하고 필요한 경우 호스트를 생
 msgid "Uptime"
 msgstr "업타임"
 
-msgid "Use APIv4 (experimental)"
+msgid "Use APIv4"
 msgstr ""
 
 msgid "Use NIS netgroups instead of posix groups."
@@ -9593,7 +9656,7 @@ msgstr "인증서에 UUID 사용"
 msgid "Use short name for VMs"
 msgstr "VM에 약어 사용"
 
-msgid "Use the new engine API. This feature is marked as experimental and should be used with caution."
+msgid "Use the new engine API."
 msgstr ""
 
 msgid "Use this account to authenticate, <i>optional</i>"
@@ -9933,9 +9996,6 @@ msgid_plural "Warning! This will remove %{name} from %{number} users. are you su
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Warning: This combination of loader and OS might not be able to boot."
-msgstr ""
-
 msgid "Warning: This will delete this host and all of its data!"
 msgstr "경고: 이 호스트와 호스트의 데이터가 모두 삭제됩니다!"
 
@@ -10099,9 +10159,6 @@ msgstr "제공됨"
 
 msgid "You are about to change the default PXE menu on all configured TFTP servers - continue?"
 msgstr "구성된 모든 TFTP 서버에 있는 기본 PXE 메뉴가 변경됩니다. 계속하시겠습니까?"
-
-msgid "You are about to override the editor content, are you sure?"
-msgstr "편집기의 컨텐츠를 덮어쓰기하려고 합니다. 정말로 실행하시겠습니까? "
 
 msgid "You are about to unlock a locked template."
 msgstr "잠긴 템플릿을 잠금 해제합니다."
@@ -10457,7 +10514,7 @@ msgstr ""
 msgid "for Libvirt and VMware only"
 msgstr "Libvirt 및 VMware만 해당"
 
-msgid "for Libvirt only"
+msgid "for Libvirt and oVirt only"
 msgstr ""
 
 msgid "for OpenStack only"
