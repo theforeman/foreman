@@ -110,18 +110,6 @@ module Foreman::Model
       super.merge({:mac => :mac})
     end
 
-    def max_cpu_count
-      16
-    end
-
-    def max_socket_count
-      16
-    end
-
-    def max_memory
-      16.gigabytes
-    end
-
     def use_v4=(value)
       value = case value
               when true, '1'
