@@ -56,7 +56,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     "api/graphql/execute"
   ]
 
-  MAY_SKIP_AUTHORIZED = [ "about/index" ]
+  MAY_SKIP_AUTHORIZED = [ "about/index", "react/index" ]
 
   SPECIAL_PATH = ['api/v2/puppet_hosts/puppetrun']
 

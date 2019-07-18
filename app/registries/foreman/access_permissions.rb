@@ -756,8 +756,4 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :edit_settings, { :settings => [:update],
                                      :'api/v2/settings' => [:update] }
   end
-
-  permission_set.security_block :react do |map|
-    map.permission :view_react, {:react => [:index]}
-  end
 end
