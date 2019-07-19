@@ -1225,7 +1225,7 @@ class UserTest < ActiveSupport::TestCase
       @user.save
 
       recent_audit = @user.audits.last
-      audited_changes = recent_audit.audited_changes[:role_ids]
+      audited_changes = recent_audit.audited_changes['role_ids']
 
       assert audited_changes, 'No audits found for user-roles'
       assert_empty audited_changes.first
@@ -1239,7 +1239,7 @@ class UserTest < ActiveSupport::TestCase
       @user.save
 
       recent_audit = @user.audits.last
-      audited_changes = recent_audit.audited_changes[:role_ids]
+      audited_changes = recent_audit.audited_changes['role_ids']
 
       assert audited_changes, 'No audits found for user-roles'
       assert_equal [[@role.id, Role.default.id], []], audited_changes
@@ -1253,9 +1253,9 @@ class UserTest < ActiveSupport::TestCase
 
       recent_audit = @user.audits.last
 
-      assert recent_audit.audited_changes[:firstname]
-      assert recent_audit.audited_changes[:description]
-      assert_nil recent_audit.audited_changes[:roles]
+      assert recent_audit.audited_changes['firstname']
+      assert recent_audit.audited_changes['description']
+      assert_nil recent_audit.audited_changes['roles']
     end
   end
 
