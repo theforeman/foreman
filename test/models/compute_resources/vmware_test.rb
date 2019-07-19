@@ -396,30 +396,40 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
   end
 
   describe "#parse_networks" do
+    def mock_network(id, name, virtualswitch = nil)
+      mock_network = mock('network')
+      mock_network.stubs('id').returns(id)
+      mock_network.stubs('name').returns(name)
+      mock_network.stubs('virtualswitch').returns(virtualswitch)
+      mock_network
+    end
+
     setup do
-      @mock_network = mock('network')
-      @mock_network.stubs('id').returns('network-17')
-      @mock_network.stubs('name').returns('Test network')
-      @mock_network.stubs('virtualswitch').returns(nil)
       @cr = FactoryBot.build_stubbed(:vmware_cr)
-      @cr.stubs(:networks).returns([@mock_network])
+      @cr.stubs(:networks).returns(
+        [
+          mock_network('network-17', 'Test network'),
+          mock_network('network-11', 'network-14'),
+          mock_network('network-14', 'Network name'),
+        ]
+      )
     end
 
     test "converts empty hash" do
       assert_equal({}, @cr.parse_networks(HashWithIndifferentAccess.new))
     end
 
-    test "converts form network ID to network name" do
+    test "converts form network name to network ID" do
       attrs_in = HashWithIndifferentAccess.new(
         "interfaces_attributes" => {
           "new_interfaces" => {
             "type"    => "VirtualE1000",
-            "network" => "network-17",
+            "network" => "Test network",
             "_delete" => "",
           },
           "0" => {
             "type"    => "VirtualVmxnet3",
-            "network" => "network-17",
+            "network" => "Test network",
             "_delete" => "",
           },
         }
@@ -428,13 +438,13 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         "interfaces_attributes" => {
           "new_interfaces" => {
             "type"          => "VirtualE1000",
-            "network"       => "Test network",
+            "network"       => "network-17",
             "virtualswitch" => nil,
             "_delete"       => "",
           },
           "0" => {
             "type"          => "VirtualVmxnet3",
-            "network"       => "Test network",
+            "network"       => "network-17",
             "virtualswitch" => nil,
             "_delete"       => "",
           },
@@ -443,18 +453,32 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       assert_equal attrs_out, @cr.parse_networks(attrs_in)
     end
 
-    test "ignores existing network names" do
+    test "matches the network id, before name lookup" do
+      attrs = HashWithIndifferentAccess.new(
+        "interfaces_attributes" => {
+          "0" => {
+            "type"          => "VirtualVmxnet3",
+            "network"       => "network-14",
+            "virtualswitch" => nil,
+            "_delete"       => "",
+          },
+        }
+      )
+      assert_equal attrs, @cr.parse_networks(attrs)
+    end
+
+    test "ignores existing network IDs" do
       attrs = HashWithIndifferentAccess.new(
         "interfaces_attributes" => {
           "new_interfaces" => {
             "type"          => "VirtualE1000",
-            "network"       => "Test network",
+            "network"       => "network-17",
             "virtualswitch" => nil,
             "_delete"       => "",
           },
           "0" => {
             "type"          => "VirtualVmxnet3",
-            "network"       => "Test network",
+            "network"       => "network-17",
             "virtualswitch" => nil,
             "_delete"       => "",
           },
@@ -465,9 +489,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
 
     test "doesn't modify input hash" do
       # else compute profiles won't save properly
-      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes" => {"0" => {"network" => "network-17"}})
+      attrs_in = HashWithIndifferentAccess.new("interfaces_attributes" => {"0" => {"network" => "Test network"}})
       @cr.parse_args(attrs_in)
-      assert_equal "network-17", attrs_in["interfaces_attributes"]["0"]["network"]
+      assert_equal "Test network", attrs_in["interfaces_attributes"]["0"]["network"]
     end
   end
 
