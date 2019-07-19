@@ -324,7 +324,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
       test 'should audit when a child-usergroup is assigned to a parent-usergroup' do
         recent_audit = @usergroup.audits.last
-        audited_changes = recent_audit.audited_changes[:usergroup_ids]
+        audited_changes = recent_audit.audited_changes['usergroup_ids']
         assert audited_changes, 'No audits found for usergroups'
         assert_empty audited_changes.first
         assert_equal [@child_usergroup.id], audited_changes.last
@@ -334,7 +334,7 @@ class UsergroupTest < ActiveSupport::TestCase
         @usergroup.usergroup_ids = []
         @usergroup.save
         recent_audit = @usergroup.audits.last
-        audited_changes = recent_audit.audited_changes[:usergroup_ids]
+        audited_changes = recent_audit.audited_changes['usergroup_ids']
         assert audited_changes, 'No audits found for usergroups'
         assert_equal [@child_usergroup.id], audited_changes.first
         assert_empty audited_changes.last
@@ -350,7 +350,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
       test 'should audit when a role is assigned to a usergroup' do
         recent_audit = @usergroup.audits.last
-        audited_changes = recent_audit.audited_changes[:role_ids]
+        audited_changes = recent_audit.audited_changes['role_ids']
         assert audited_changes, 'No audits found for user-roles'
         assert_empty audited_changes.first
         assert_equal [@role.id], audited_changes.last
@@ -360,7 +360,7 @@ class UsergroupTest < ActiveSupport::TestCase
         @usergroup.role_ids = []
         @usergroup.save
         recent_audit = @usergroup.audits.last
-        audited_changes = recent_audit.audited_changes[:role_ids]
+        audited_changes = recent_audit.audited_changes['role_ids']
         assert audited_changes, 'No audits found for usergroup-roles'
         assert_equal [@role.id], audited_changes.first
         assert_empty audited_changes.last
@@ -376,7 +376,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
       test 'should audit when a user is assigned to a usergroup' do
         recent_audit = @usergroup.audits.last
-        audited_changes = recent_audit.audited_changes[:user_ids]
+        audited_changes = recent_audit.audited_changes['user_ids']
         assert audited_changes, 'No audits found for users'
         assert_empty audited_changes.first
         assert_equal [@user.id], audited_changes.last
@@ -386,7 +386,7 @@ class UsergroupTest < ActiveSupport::TestCase
         @usergroup.user_ids = []
         @usergroup.save
         recent_audit = @usergroup.audits.last
-        audited_changes = recent_audit.audited_changes[:user_ids]
+        audited_changes = recent_audit.audited_changes['user_ids']
         assert audited_changes, 'No audits found for users'
         assert_equal [@user.id], audited_changes.first
         assert_empty audited_changes.last
