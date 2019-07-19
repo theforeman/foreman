@@ -460,10 +460,11 @@ module Foreman::Model
       args = args.deep_dup
       dc_networks = networks
       args["interfaces_attributes"]&.each do |key, interface|
-        # Convert network id into name
-        net = dc_networks.detect { |n| [n.id, n.name].include?(interface['network']) }
+        # Consolidate network to network id
+        net = dc_networks.detect { |n| n.id == interface['network'] }
+        net ||= dc_networks.detect { |n| n.name == interface['network'] }
         raise "Unknown Network ID: #{interface['network']}" if net.nil?
-        interface["network"] = net.name
+        interface["network"] = net.id
         interface["virtualswitch"] = net.virtualswitch
       end
       args
