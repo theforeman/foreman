@@ -17,7 +17,7 @@ const AuditsPage = ({
     toolbarButtons={
       <Button href={docURL} className="btn-docs">
         <Icon type="pf" name="help" />
-        {__(' Documentation')}
+        {` ${__('Documentation')}`}
       </Button>
     }
   >
