@@ -32,11 +32,10 @@ oses:
 <% if @host.domain -%>
       <domain><%= @host.domain -%></domain>
 <% end -%>
-<% if primary_interface_subnet.dns_primary.present? -%>
+<% unless primary_interface_subnet.dns_servers.empty? -%>
       <nameservers config:type="list">
-        <nameserver><%= primary_interface_subnet.dns_primary -%></nameserver>
-<% if primary_interface_subnet.dns_secondary.present? -%>
-        <nameserver><%= primary_interface_subnet.dns_secondary -%></nameserver>
+<% primary_interface_subnet.dns_servers.each do |nameserver| -%>
+        <nameserver><%= nameserver %></nameserver>
 <% end -%>
       </nameservers>
 <% end -%>

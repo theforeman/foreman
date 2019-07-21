@@ -37,10 +37,9 @@ PEERDNS=<%= primary %>
 PEERROUTES=<%= primary %>
 DEFROUTE=<%= primary %>
 <%- if @interface.primary -%>
-<%-   if !@dhcp && @subnet && @subnet.dns_primary.present? -%>
-<%=     "DNS1=\"#{@subnet.dns_primary}\"" %>
-<%-     if @subnet.dns_secondary.present? -%>
-<%=       "DNS2=\"#{@subnet.dns_secondary}\"" %>
+<%-   if !@dhcp && @subnet -%>
+<%-     @subnet.dns_servers.each_index { |index| -%>
+<%=       "DNS#{index +1}=\"#{@subnet.dns_servers[index]}\"" %>
 <%-     end -%>
 <%-   end -%>
 <%- end -%>

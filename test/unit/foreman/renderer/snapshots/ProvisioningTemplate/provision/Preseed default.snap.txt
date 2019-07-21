@@ -6,7 +6,7 @@ d-i debian-installer/locale string en_US
 # ... for wheezy and newer:
 d-i keyboard-configuration/xkb-keymap seen true
 
-  
+
 # Network configuration
 d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname string snapshothost

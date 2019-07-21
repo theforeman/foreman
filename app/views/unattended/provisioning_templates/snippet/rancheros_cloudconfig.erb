@@ -9,13 +9,10 @@ hostname: <%= @host.shortname %>
 rancher:
   network:
     dns:
+<% unless @host.subnet.dns_servers.empty? -%>
       nameservers:
-<% if @host.subnet.dns_primary.present? or @host.subnet.dns_secondary.present? -%>
-<% if @host.subnet.dns_primary.present? -%>
-        - <%= @host.subnet.dns_primary %>
-<% end -%>
-<% if @host.subnet.dns_secondary.present? -%>
-        - <%= @host.subnet.dns_secondary %>
+<% @host.subnet.dns_servers.each do |nameserver| -%>
+        - <%= nameserver %>
 <% end -%>
 <% end -%>
       search:
