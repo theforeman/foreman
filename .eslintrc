@@ -10,16 +10,4 @@
       "trailingComma": "es5"
     }],
   },
-  "globals": {
-    "document": false,
-    "escape": false,
-    "navigator": false,
-    "unescape": false,
-    "window": false,
-    "$": true,
-    "_": true,
-    "__": true,
-    "n__": true,
-    "d3": true
-  }
 }

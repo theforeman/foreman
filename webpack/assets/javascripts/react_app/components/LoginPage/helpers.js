@@ -1,3 +1,5 @@
+import { translate as __ } from '../../common/I18n';
+
 export const adjustAlerts = alerts => {
   const submitErrors = [];
   const modifiedAlerts = [];

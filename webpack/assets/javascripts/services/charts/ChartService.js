@@ -80,9 +80,11 @@ export const getChartConfig = ({
       shortNames.forEach((name, i) => {
         const nameOfClass = name.replace(/\W/g, '-');
         const selector = `.c3-legend-item-${nameOfClass} > title`;
+        // eslint-disable-next-line no-undef
         const hasTooltip = d3.select(selector)[0][0];
 
         if (!hasTooltip) {
+          // eslint-disable-next-line no-undef
           d3.select(`.c3-legend-item-${nameOfClass}`)
             .append('svg:title')
             .text(longNames[i]);

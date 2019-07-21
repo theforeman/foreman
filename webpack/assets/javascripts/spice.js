@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {
   SpiceMainConn,
   sendCtrlAltDel as _sendCtrlAltDel,

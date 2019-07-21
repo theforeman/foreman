@@ -1,6 +1,6 @@
 import RFB from '@novnc/novnc/core/rfb';
 import $ from 'jquery';
-import { sprintf } from './react_app/common/I18n';
+import { sprintf, translate as __ } from './react_app/common/I18n';
 
 let rfb;
 const StatusLevelLookup = {

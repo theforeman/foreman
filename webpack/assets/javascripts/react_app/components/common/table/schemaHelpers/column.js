@@ -1,3 +1,4 @@
+import { translate as __ } from '../../../../common/I18n';
 /**
  * Generate a column for a patternfly-3 table.
  * See more in http://patternfly-react.surge.sh/patternfly-3/
