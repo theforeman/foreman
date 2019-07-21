@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { translate as __ } from '../../../common/I18n';
 
 const LoginPageCaption = ({ version, caption }) => (
   <Fragment>

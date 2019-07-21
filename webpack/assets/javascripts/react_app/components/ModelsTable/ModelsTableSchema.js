@@ -1,3 +1,4 @@
+import { translate as __ } from '../../common/I18n';
 import {
   sortControllerFactory,
   column,

@@ -1,4 +1,5 @@
-import { sprintf } from './react_app/common/I18n';
+import $ from 'jquery';
+import { sprintf, translate as __ } from './react_app/common/I18n';
 
 export function filterPuppetClasses(item) {
   const term = $(item)
