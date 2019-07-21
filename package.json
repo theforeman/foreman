@@ -4,6 +4,30 @@
   "license": "GPL-3.0",
   "description": "Foreman isn't really a node module, these are just dependencies needed to build the webpack bundle. 'dependencies' are the asset libraries in use and 'devDependencies' are used for the build process.",
   "private": true,
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/",
+    "foreman-js:link": "./script/npm_link_foreman_js.sh",
+    "postlint": "node ./script/npm_lint_plugins.js",
+    "test": "node node_modules/.bin/jest --no-cache --config config/jest.config.js",
+    "test:watch": "node node_modules/.bin/jest --watchAll --config config/jest.config.js",
+    "test:current": "node node_modules/.bin/jest --watch --config config/jest.config.js",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "storybook": "cross-env NODE_ENV=storybook start-storybook -p 6006",
+    "build-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 build-storybook",
+    "deploy-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
+    "postinstall": "node ./script/npm_install_plugins.js",
+    "analyze": "./script/webpack-analyze",
+    "create-react-component": "yo react-domain"
+  },
+  "dependencies": {
+    "@theforeman/vendor": "^0.1.0-alpha.11",
+    "intl": "~1.2.5",
+    "jed": "^1.1.1",
+    "react-intl": "^2.8.0"
+  },
+  "optionalDependencies": {
+    "chromedriver": "2.46.0"
+  },
   "devDependencies": {
     "@storybook/addon-actions": "~3.4.12",
     "@storybook/addon-knobs": "~3.4.12",
@@ -60,29 +84,5 @@
     "webpack-bundle-analyzer": ">=3.3.2",
     "webpack-dev-server": "^2.5.1",
     "webpack-stats-plugin": "^0.1.5"
-  },
-  "optionalDependencies": {
-    "chromedriver": "2.46.0"
-  },
-  "dependencies": {
-    "@theforeman/vendor": "^0.1.0-alpha.11",
-    "intl": "~1.2.5",
-    "jed": "^1.1.1",
-    "react-intl": "^2.8.0"
-  },
-  "scripts": {
-    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/",
-    "foreman-js:link": "./script/npm_link_foreman_js.sh",
-    "postlint": "node ./script/npm_lint_plugins.js",
-    "test": "node node_modules/.bin/jest --no-cache --config config/jest.config.js",
-    "test:watch": "node node_modules/.bin/jest --watchAll --config config/jest.config.js",
-    "test:current": "node node_modules/.bin/jest --watch --config config/jest.config.js",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "storybook": "cross-env NODE_ENV=storybook start-storybook -p 6006",
-    "build-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 build-storybook",
-    "deploy-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
-    "postinstall": "node ./script/npm_install_plugins.js",
-    "analyze": "./script/webpack-analyze",
-    "create-react-component": "yo react-domain"
   }
 }
