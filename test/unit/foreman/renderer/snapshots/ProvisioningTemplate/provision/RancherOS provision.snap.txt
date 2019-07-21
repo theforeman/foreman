@@ -3,7 +3,6 @@ hostname:
 rancher:
   network:
     dns:
-      nameservers:
       search:
         - snapshotdomain.com
     interfaces:

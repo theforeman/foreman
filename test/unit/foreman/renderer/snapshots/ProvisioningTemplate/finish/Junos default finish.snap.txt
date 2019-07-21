@@ -5,8 +5,8 @@ system {
         encrypted-password "xybxa6JUkz63w"; ## SECRET-DATA
     }
     name-server {
-        8.8.8.8;
-            }
+                8.8.8.8;
+                    }
     ntp {
         boot-server 0.pool.ntp.org;
         server 0.pool.ntp.org;

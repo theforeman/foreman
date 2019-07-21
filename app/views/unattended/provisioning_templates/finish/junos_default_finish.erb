@@ -12,9 +12,11 @@ system {
         encrypted-password "<%= root_pass %>"; ## SECRET-DATA
     }
     name-server {
-        <%= @host.subnet.dns_primary || '8.8.8.8' %>;
-        <% if @host.subnet.dns_secondary -%>
-        <%= @host.subnet.dns_secondary %>;
+        <% if @host.subnet.dns_servers.empty? -%>
+        8.8.8.8;
+        <% end -%>
+        <% @host.subnet.dns_servers.each do |nameserver| -%>
+        <%= nameserver %>;
         <% end -%>
     }
     ntp {

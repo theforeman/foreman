@@ -30,10 +30,12 @@ d-i console-keymaps-at/keymap seen true
 <% end -%>
 
 <% subnet = @host.subnet -%>
-<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
-  <% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% if @static -%>
+  <%- dhcp = false -%>
+<% elsif subnet.nil? -%>
+  <%- dhcp = true -%>
 <% else -%>
-  <% dhcp = !@static -%>
+  <%- dhcp = subnet.dhcp_boot_mode? -%>
 <% end -%>
 <% unless dhcp -%>
 # Static network configuration.
@@ -44,7 +46,7 @@ d-i netcfg/dhcp_options select Configure network manually
 d-i netcfg/disable_dhcp boolean true
 d-i netcfg/get_ipaddress string <%= @host.ip %>
 d-i netcfg/get_netmask string <%= subnet.mask %>
-d-i netcfg/get_nameservers string <%= [subnet.dns_primary,subnet.dns_secondary].reject{|n| n.blank?}.join(' ') %>
+d-i netcfg/get_nameservers string <%= subnet.dns_servers.join(' ') %>
 d-i netcfg/get_gateway string <%= subnet.gateway %>
 d-i netcfg/confirm_static boolean true
 <% end -%>
@@ -140,11 +142,6 @@ popularity-contest popularity-contest/participate boolean false
 #grub-pc grub-pc/timeout string 10
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
-<% if host_param('install-disk') -%>
-d-i grub-installer/bootdev string <%= host_param('install-disk') %>
-<% elsif (@host.operatingsystem.name == 'Debian' and @host.operatingsystem.major.to_i >= 8) or (@host.operatingsystem.name == 'Ubuntu' and @host.operatingsystem.major.to_i >= 16) -%>
-d-i grub-installer/bootdev string default
-<% end -%>
 d-i finish-install/reboot_in_progress note
 
 d-i preseed/late_command string wget -Y off <%= @static ? "'#{foreman_url('finish')}&static=true'" : foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh

@@ -83,11 +83,8 @@ snippet: true
               Gateway=<%= @host.subnet.gateway %>
 <% end -%>
               Address=<%= @host.ip %>/<%= @host.subnet.cidr %>
-<% if @host.subnet.dns_primary.present? -%>
-              DNS=<%= @host.subnet.dns_primary %>
-<% end -%>
-<% if @host.subnet.dns_secondary.present? -%>
-              DNS=<%= @host.subnet.dns_secondary %>
+<% @host.subnet.dns_servers.each do |nameserver| -%>
+              DNS=<%= nameserver %>
 <% end -%>
           - name: down-interfaces.service
             command: start

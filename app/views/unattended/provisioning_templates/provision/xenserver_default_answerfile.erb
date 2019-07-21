@@ -26,11 +26,8 @@ oses:
 <% end -%>
 <% end -%>
   </admin-interface>
-<% if subnet.dns_primary.present? -%>
-  <name-server><%= subnet.dns_primary %></name-server>
-<% end -%>
-<% if subnet.dns_secondary.present? -%>
-  <name-server><%= subnet.dns_secondary %></name-server>
+<% subnet.dns_servers.each do |nameserver| -%>
+  <name-server><%= nameserver %></name-server>
 <% end -%>
   <ntp-server><%= host_param('ntp-server') || 'pool.ntp.org' %></ntp-server>
   <timezone><%= host_param('time-zone') || 'UTC' %></timezone>
