@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import 'select2';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -20,14 +19,15 @@ describe('Select', () => {
       { attachTo: document.getElementById('select') }
     );
 
-    $('#select select').trigger('change');
+    wrapper.find('select').simulate('change', { target: { value: 'val' } });
+
     expect(onChangeMock).toHaveBeenCalledTimes(1);
 
     options.three = '3';
     wrapper.setProps(Object.assign({}, wrapper.props(), { options }));
 
     onChangeMock.mockClear();
-    $('#select select').trigger('change');
+    wrapper.find('select').simulate('change', { target: { value: 'val' } });
     expect(onChangeMock).toHaveBeenCalledTimes(1);
   });
 });
