@@ -1,0 +1,6 @@
+{
+  "plugins": ["jquery"],
+  "extends": [
+    "plugin:jquery/deprecated"
+  ]
+}
