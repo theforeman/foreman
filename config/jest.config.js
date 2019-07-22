@@ -26,7 +26,7 @@ module.exports = {
   transform: {
     '^.+\\.js$': 'babel-jest',
   },
-  moduleDirectories: ['node_modules'],
+  moduleDirectories: ['node_modules/@theforeman/vendor-core/node_modules', 'node_modules'],
   setupFiles: [
     'raf/polyfill',
     'jest-prop-type-error',
