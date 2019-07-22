@@ -11,7 +11,6 @@ module FogExtensions
 
       attribute :network
       attribute :associate_external_ip
-      attribute :external_ip
 
       def to_s
         name || identity
@@ -75,6 +74,13 @@ module FogExtensions
 
       def associate_external_ip
         external_nat_present?
+      end
+
+      # Added a getter method here as this attribute removed from fog-google
+      def network
+        return nil if network_interfaces.blank?
+        network_path = network_interfaces[0][:network]
+        network_path ? network_path.split('/')[-1] : nil
       end
 
       private
