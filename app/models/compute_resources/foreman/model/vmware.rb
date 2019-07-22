@@ -160,9 +160,8 @@ module Foreman::Model
     end
 
     def resource_pools(opts = {})
-      cluster = cluster(opts[:cluster_id])
-      cache.cache(:resource_pools) do
-        name_sort(cluster.resource_pools.all(:accessible => true))
+      cache.cache(:"resource_pools-#{opts[:cluster_id]}") do
+        name_sort(cluster(opts[:cluster_id]).resource_pools.all(:accessible => true))
       end
     end
 
