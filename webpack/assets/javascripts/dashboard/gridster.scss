@@ -5,6 +5,7 @@ $row-margin: 10px;
   padding-left: 0;
   list-style: none;
   max-width: 100%;
+  margin: 0 auto;
 
   @media (min-width: 992px) {
     @for $i from 1 through 12 {
