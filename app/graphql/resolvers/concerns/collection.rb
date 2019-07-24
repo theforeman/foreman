@@ -10,7 +10,7 @@ module Resolvers
         argument :sort_by, String, 'Sort by this searchable field', required: false
         argument :sort_direction, Types::SortDirectionEnum, 'Sort direction', required: false
 
-        if has_taxonomix?
+        if has_taxonomix? || sti_taxable?
           argument :location, String, required: false
           argument :location_id, String, required: false
           argument :organization, String, required: false
@@ -94,10 +94,7 @@ module Resolvers
 
       def taxable_id_filter(taxonomy_ids)
         lambda do |scope|
-          # join manually as Taxonomix is in subclasses
-          scope.joins("INNER JOIN taxable_taxonomies
-                          ON taxable_taxonomies.taxable_id = #{scope.table_name}.id
-                        WHERE taxable_taxonomies.taxonomy_id IN (#{taxonomy_ids.join(',')})").distinct
+          TaxableSti.join_scopes scope, taxonomy_ids
         end
       end
 
@@ -148,7 +145,7 @@ module Resolvers
         end
 
         def sti_taxable?
-          self::MODEL_CLASS.descendants.any? { |child| child.include?(Taxonomix) }
+          self::MODEL_CLASS.sti_taxable?
         end
       end
     end

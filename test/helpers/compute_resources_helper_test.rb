@@ -16,7 +16,7 @@ class ComputeResourcesHelperTest < ActionView::TestCase
 
   describe '.list_datacenters' do
     it 'properly catches fingerpint exception' do
-      compute = FactoryBot.build(:compute_resource)
+      compute = FactoryBot.build(:compute_resource, :ec2)
       compute.stubs(:datacenters).raises(Foreman::FingerprintException, 'Wrong fingerprint')
       instance.controller.action_name = 'test_connection'
       instance.list_datacenters(compute)

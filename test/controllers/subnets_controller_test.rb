@@ -13,44 +13,44 @@ class SubnetsControllerTest < ActionController::TestCase
   basic_pagination_per_page_test
   basic_pagination_rendered_test
 
-  def test_create_invalid
+  test 'create_invalid' do
     Subnet.any_instance.stubs(:valid?).returns(false)
     post :create, params: { :subnet => {:network => nil} }, session: set_session_user
     assert_template 'new'
   end
 
-  def test_create_valid_without_type
+  test 'create_valid_without_type' do
     post :create, params: { :subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet'} }, session: set_session_user
     assert_redirected_to subnets_url
   end
 
-  def test_create_valid_with_type
+  test 'create_valid_with_type' do
     post :create, params: { :subnet => {:network => "192.168.0.1", :cidr => "24", :name => 'testsubnet', :type => 'Subnet::Ipv4'} }, session: set_session_user
     assert_redirected_to subnets_url
   end
 
-  def test_update_invalid
+  test 'update_invalid' do
     Subnet.any_instance.stubs(:valid?).returns(false)
     subnet_id = @model
     put :update, params: { :id => subnet_id, :subnet => {:network => nil} }, session: set_session_user
     assert_template 'edit'
   end
 
-  def test_update_valid
+  test 'update_valid' do
     Subnet.any_instance.stubs(:valid?).returns(true)
     put :update, params: { :id => @model, :subnet => {:network => '192.168.100.10'} }, session: set_session_user
     assert_equal '192.168.100.10', Subnet.unscoped.find(@model.id).network
     assert_redirected_to subnets_url
   end
 
-  def test_should_not_destroy_if_used_by_hosts
+  test 'should_not_destroy_if_used_by_hosts' do
     subnet = subnets(:one)
     delete :destroy, params: { :id => subnet }, session: set_session_user
     assert_redirected_to subnets_url
     assert Subnet.unscoped.exists?(subnet.id)
   end
 
-  def test_destroy
+  test 'destroy' do
     @model.hosts.clear
     @model.interfaces.clear
     @model.domains.clear

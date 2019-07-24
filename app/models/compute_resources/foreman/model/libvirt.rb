@@ -1,21 +1,7 @@
 module Foreman::Model
   class Libvirt < ComputeResource
     include ComputeResourceConsoleCommon
-    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
-    # never include Taxonomix in the superclass
-    include Taxonomix
-
-    def self.taxable_type
-      'ComputeResource'
-    end
-
-    # with proc support, default_scope can no longer be chained
-    # include all default scoping here
-    default_scope lambda {
-      with_taxonomy_scope do
-        order("compute_resources.name")
-      end
-    }
+    include TaxableCompute
 
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 

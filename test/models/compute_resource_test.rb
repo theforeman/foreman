@@ -220,19 +220,19 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   test "#associate_by returns host by MAC attribute" do
     host = FactoryBot.create(:host, :mac => '00:22:33:44:55:1a')
-    cr = FactoryBot.build_stubbed(:compute_resource)
+    cr = FactoryBot.build_stubbed(:compute_resource, :ec2)
     assert_equal host, as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }
   end
 
   test "#associate_by returns host by MAC attribute with upper case MAC" do
     host = FactoryBot.create(:host, :mac => '00:22:33:44:C8:1A')
-    cr = FactoryBot.build_stubbed(:compute_resource)
+    cr = FactoryBot.build_stubbed(:compute_resource, :ec2)
     assert_equal host, as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:c8:1a') }
   end
 
   test "#associated_by returns read/write host" do
     FactoryBot.create(:host, :mac => '00:22:33:44:55:1a')
-    cr = FactoryBot.build_stubbed(:compute_resource)
+    cr = FactoryBot.build_stubbed(:compute_resource, :ec2)
     refute as_admin { cr.send(:associate_by, 'mac', '00:22:33:44:55:1a') }.readonly?
   end
 

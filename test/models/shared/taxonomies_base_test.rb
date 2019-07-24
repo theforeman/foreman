@@ -157,7 +157,7 @@ module TaxonomiesBaseTest
       assert_equal selected_ids[:user_ids], [users(:one).id, users(:scoped).id]
       assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
       assert_equal selected_ids[:provisioning_template_ids], [templates(:mystring2).id]
-      assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id, compute_resources(:mycompute).id]
+      assert_equal selected_ids[:compute_resource_ids].sort, [compute_resources(:one).id, compute_resources(:mycompute).id].sort
     end
 
     test 'it should return selected_ids array of ALL values (when types are ignored)' do

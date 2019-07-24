@@ -1,14 +1,7 @@
 module Foreman::Model
   class EC2 < ComputeResource
-    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
-    # never include Taxonomix in the superclass
-    include Taxonomix
-
-    def self.taxable_type
-      'ComputeResource'
-    end
-
     GOV_CLOUD_REGION = 'us-gov-west-1'
+    include TaxableCompute
 
     include KeyPairComputeResource
     delegate :flavors, :subnets, :to => :client

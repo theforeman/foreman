@@ -1,12 +1,6 @@
 module Foreman::Model
   class GCE < ComputeResource
-    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
-    # never include Taxonomix in the superclass
-    include Taxonomix
-
-    def self.taxable_type
-      'ComputeResource'
-    end
+    include TaxableCompute
 
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
     before_create :setup_key_pair

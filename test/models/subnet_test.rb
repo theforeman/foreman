@@ -20,7 +20,7 @@ class SubnetTest < ActiveSupport::TestCase
     FactoryBot.create(:subnet_ipv4, vlanid: 33)
     FactoryBot.create(:subnet_ipv4, vlanid: 4)
     vlanids = Subnet.all.pluck(:vlanid).reject(&:nil?)
-    assert_equal vlanids, vlanids.map(&:to_i).sort
+    assert_equal vlanids.sort, vlanids.map(&:to_i).sort
   end
 
   test 'should be cast to Subnet::Ipv4 if no type is set' do

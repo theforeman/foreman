@@ -1,13 +1,7 @@
 require 'socket'
 
 class Subnet::Ipv4 < Subnet
-  # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
-  # never include Taxonomix in the superclass
-  include Taxonomix
-
-  def self.taxable_type
-    'Subnet'
-  end
+  include TaxableSubnet
 
   has_many :interfaces, :class_name => 'Nic::Base', :foreign_key => :subnet_id
   has_many :primary_interfaces, -> { where(:primary => true) }, :class_name => 'Nic::Base', :foreign_key => :subnet_id
@@ -20,12 +14,6 @@ class Subnet::Ipv4 < Subnet
   validates :mtu, :numericality => {:only_integer => true, :greater_than_or_equal_to => 68, :less_than_or_equal_to => 65536}
 
   before_validation :cleanup_addresses
-
-  default_scope lambda {
-    with_taxonomy_scope do
-      order(:vlanid)
-    end
-  }
 
   def family
     Socket::AF_INET

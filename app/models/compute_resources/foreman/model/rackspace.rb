@@ -1,12 +1,6 @@
 module Foreman::Model
   class Rackspace < ComputeResource
-    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
-    # never include Taxonomix in the superclass
-    include Taxonomix
-
-    def self.taxable_type
-      'ComputeResource'
-    end
+    include TaxableCompute
 
     validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :user, :password, :region, :presence => true
@@ -17,14 +11,6 @@ module Foreman::Model
     def provided_attributes
       super.merge(:ip => :ipv4_address, :ip6 => :ipv6_address)
     end
-
-    # with proc support, default_scope can no longer be chained
-    # include all default scoping here
-    default_scope lambda {
-      with_taxonomy_scope do
-        order("compute_resources.name")
-      end
-    }
 
     def self.available?
       Fog::Compute.providers.include?(:rackspace)

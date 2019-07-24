@@ -3,13 +3,7 @@ require 'uri'
 
 module Foreman::Model
   class Ovirt < ComputeResource
-    # Taxonomix cannot handle STI properly as it fails to supply type argument for joins
-    # never include Taxonomix in the superclass
-    include Taxonomix
-
-    def self.taxable_type
-      'ComputeResource'
-    end
+    include TaxableCompute
 
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 
@@ -23,14 +17,6 @@ module Foreman::Model
     alias_attribute :datacenter, :uuid
 
     delegate :clusters, :quotas, :templates, :instance_types, :to => :client
-
-    # with proc support, default_scope can no longer be chained
-    # include all default scoping here
-    default_scope lambda {
-      with_taxonomy_scope do
-        order("compute_resources.name")
-      end
-    }
 
     def self.available?
       Fog::Compute.providers.include?(:ovirt)

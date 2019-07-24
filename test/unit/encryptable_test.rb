@@ -82,7 +82,7 @@ class EncryptableTest < ActiveSupport::TestCase
   end
 
   test "does not decrypt if string is not decryptable and returns database value" do
-    compute_resource = stub_encryption_key(FactoryBot.build_stubbed(:compute_resource, password: '1234567'))
+    compute_resource = stub_encryption_key(FactoryBot.build_stubbed(:compute_resource, :ec2, password: '1234567'))
     orig_pass = compute_resource.password
     orig_pass_in_db = compute_resource.password_in_db
     refute compute_resource.is_decryptable?(orig_pass_in_db)

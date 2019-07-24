@@ -4,6 +4,8 @@ class DummyComputeResource < ComputeResource
   include KeyPairComputeResource
   include Mocha::API
 
+  include Taxonomix
+
   def client
     @client ||= ::Fog::Compute.new(
       provider: :aws,

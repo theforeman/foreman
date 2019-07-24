@@ -72,6 +72,9 @@ module Api
       if association.nil? && parent_name == 'host'
         association = resource_class.reflect_on_all_associations.detect {|assoc| assoc.class_name == 'Host::Base'}
       end
+      if association.nil? && (parent_name == 'organization' || parent_name == 'location') && resource_class.sti_taxable?
+        return TaxableSti.join_scopes(resource_class, scope.pluck(:id)).reorder(nil)
+      end
       raise "Association not found for #{parent_name}" unless association
       result_scope = resource_class_join(association, scope).reorder(nil)
       # Check that the scope resolves before return

@@ -21,4 +21,8 @@ class ApplicationRecord < ActiveRecord::Base
       @graphql_type || superclass.try(:graphql_type)
     end
   end
+
+  def self.sti_taxable?
+    descendants.any? { |child| child.include?(Taxonomix) }
+  end
 end
