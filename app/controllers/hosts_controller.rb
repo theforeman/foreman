@@ -527,7 +527,7 @@ class HostsController < ApplicationController
     else
       error _("The following hosts were not deleted: %s") % missed_hosts.map(&:name).to_sentence
     end
-    redirect_to(hosts_path)
+    redirect_to(saved_redirect_url_or(send("#{controller_name}_url")))
   end
 
   def multiple_disable
