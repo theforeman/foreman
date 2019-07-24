@@ -48,6 +48,23 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     assert_not show_response.empty?
   end
 
+  test "should show current user" do
+    as_user(:one) do
+      get :show_current
+      assert_response :success
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal show_response['id'], users(:one).id
+    end
+  end
+
+  test "should not show current user when not logged in" do
+    User.current = nil
+    @request.session[:user] = nil
+    reset_api_credentials
+    get :show_current
+    assert_response :unauthorized
+  end
+
   test "shows default taxonomies on show response" do
     users(:one).update_attribute :locations, [taxonomies(:location1)]
     users(:one).update_attribute :default_location, taxonomies(:location1)

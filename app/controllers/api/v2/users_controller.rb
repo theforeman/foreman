@@ -37,6 +37,13 @@ module Api
       def show
       end
 
+      api :GET, "/current_user", N_("Show the currently logged-in user")
+
+      def show_current
+        @user = User.current
+        render :show
+      end
+
       def_param_group :user_params do
         param :login, String, :required => true
         param :firstname, String, :required => false
