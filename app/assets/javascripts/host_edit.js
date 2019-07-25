@@ -146,10 +146,6 @@ function update_capabilities(capabilities) {
 var stop_pooling;
 
 function submit_with_all_params() {
-  var url = $('form').attr('action'),
-  resource = 'host',
-  page_state_title = page_title_by_resource(resource),
-  url_to_redirect;
   $('form input[type="submit"]').attr('disabled', true);
   stop_pooling = false;
   $('body').css('cursor', 'progress');
@@ -158,17 +154,14 @@ function submit_with_all_params() {
 
   $.ajax({
     type: 'POST',
-    url: url,
+    url: $('form').attr('action'),
     data: serializeForm(),
     success: function(response) {
-      $('#' + resource + '-progress').hide();
+      $('#host-progress').hide();
       $('#content').replaceWith($('#content', response));
       $(document.body).trigger('ContentLoad');
-      if (resource == 'host' && $("[data-history-url]").exists()) {
-        url_to_redirect = $("[data-history-url]").data('history-url');
-      }
-      if(url_to_redirect){
-        history.pushState({}, page_state_title, url_to_redirect);
+      if ($("[data-history-url]").exists()) {
+        history.pushState({}, 'Host show', $("[data-history-url]").data('history-url'));
       }
     },
     error: function(response) {
@@ -180,16 +173,8 @@ function submit_with_all_params() {
       $('form input[type="submit"]').attr('disabled', false);
     },
   });
-  return false;
-}
 
-function page_title_by_resource(resource) {
-  var capitalized_resource = resource[0].toUpperCase() + resource.slice(1),
-  page_state_title = capitalized_resource;
-  if (resource == 'host') {
-    page_state_title = capitalized_resource + " show";
-  }
-  return page_state_title;
+  return false;
 }
 
 function clear_errors() {
