@@ -329,9 +329,9 @@ class ApplicationController < ActionController::Base
     return if ["locations", "organizations"].include?(controller_name)
 
     if User.current&.admin?
-      if SETTINGS[:locations_enabled] && Location.unconfigured?
+      if Location.unconfigured?
         redirect_to main_app.locations_path, :info => _("You must create at least one location before continuing.")
-      elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
+      elsif Organization.unconfigured?
         redirect_to main_app.organizations_path, :info => _("You must create at least one organization before continuing.")
       end
     end
@@ -362,8 +362,8 @@ class ApplicationController < ActionController::Base
     @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
     @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
 
-    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
-    @location     ||= Location.current if SETTINGS[:locations_enabled]
+    @organization ||= Organization.current
+    @location     ||= Location.current
   end
 
   # Called from ActionController::RequestForgeryProtection, overrides
