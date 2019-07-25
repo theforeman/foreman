@@ -39,12 +39,11 @@ export const intl = new IntlLoader(langAttr, timezoneAttr);
 const cheveronPrefix = () => (window.I18N_MARK ? '\u00BB' : '');
 const cheveronSuffix = () => (window.I18N_MARK ? '\u00AB' : '');
 
-export const documentLocale = () =>
-  document.getElementsByTagName('html')[0].lang.replace(/-/g, '_');
+export const documentLocale = () => langAttr;
 
 const getLocaleData = () => {
   const locales = window.locales || {};
-  const locale = documentLocale();
+  const locale = documentLocale().replace(/-/g, '_');
 
   if (locales[locale] === undefined) {
     // eslint-disable-next-line no-console
