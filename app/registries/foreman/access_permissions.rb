@@ -411,22 +411,20 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :destroy_keypairs, {:key_pairs => [:destroy, :create]}
   end
 
-  if SETTINGS[:locations_enabled]
-    permission_set.security_block :locations do |map|
-      map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search, :welcome],
-                                       :"api/v2/locations" => [:index, :show],
-      }
-      map.permission :create_locations, {:locations => [:new, :create, :clone_taxonomy, :step2, :nest],
-                                       :"api/v2/locations" => [:create],
-                                     }
-      map.permission :edit_locations, {:locations => [:edit, :update, :import_mismatches, :parent_taxonomy_selected],
-                                       :"api/v2/locations" => [:update],
-      }
-      map.permission :destroy_locations, {:locations => [:destroy],
-                                       :"api/v2/locations" => [:destroy],
-      }
-      map.permission :assign_locations, {:locations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
-    end
+  permission_set.security_block :locations do |map|
+    map.permission :view_locations, {:locations =>  [:index, :show, :auto_complete_search, :welcome],
+                                     :"api/v2/locations" => [:index, :show],
+    }
+    map.permission :create_locations, {:locations => [:new, :create, :clone_taxonomy, :step2, :nest],
+                                     :"api/v2/locations" => [:create],
+                                   }
+    map.permission :edit_locations, {:locations => [:edit, :update, :import_mismatches, :parent_taxonomy_selected],
+                                     :"api/v2/locations" => [:update],
+    }
+    map.permission :destroy_locations, {:locations => [:destroy],
+                                     :"api/v2/locations" => [:destroy],
+    }
+    map.permission :assign_locations, {:locations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
   end
 
   permission_set.security_block :mail_notifications do |map|
@@ -607,22 +605,20 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :import_subnets, {:subnets => [:import, :create_multiple]}
   end
 
-  if SETTINGS[:organizations_enabled]
-    permission_set.security_block :organizations do |map|
-      map.permission :view_organizations, {:organizations =>  [:index, :show, :auto_complete_search, :welcome],
-                                           :"api/v2/organizations" => [:index, :show],
-                                         }
-      map.permission :create_organizations, {:organizations => [:new, :create, :clone_taxonomy, :step2, :nest],
-                                           :"api/v2/organizations" => [:create],
-      }
-      map.permission :edit_organizations, {:organizations => [:edit, :update, :import_mismatches, :parent_taxonomy_selected],
-                                           :"api/v2/organizations" => [:update],
-      }
-      map.permission :destroy_organizations, {:organizations => [:destroy],
-                                           :"api/v2/organizations" => [:destroy],
-      }
-      map.permission :assign_organizations, {:organizations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
-    end
+  permission_set.security_block :organizations do |map|
+    map.permission :view_organizations, {:organizations =>  [:index, :show, :auto_complete_search, :welcome],
+                                         :"api/v2/organizations" => [:index, :show],
+                                       }
+    map.permission :create_organizations, {:organizations => [:new, :create, :clone_taxonomy, :step2, :nest],
+                                         :"api/v2/organizations" => [:create],
+    }
+    map.permission :edit_organizations, {:organizations => [:edit, :update, :import_mismatches, :parent_taxonomy_selected],
+                                         :"api/v2/organizations" => [:update],
+    }
+    map.permission :destroy_organizations, {:organizations => [:destroy],
+                                         :"api/v2/organizations" => [:destroy],
+    }
+    map.permission :assign_organizations, {:organizations => [:assign_all_hosts, :assign_hosts, :assign_selected_hosts]}
   end
 
   permission_set.security_block :usergroups do |map|
