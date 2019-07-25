@@ -3,11 +3,11 @@ module TaxonomyHelper
   include FormHelper
 
   def show_location_tab?
-    SETTINGS[:locations_enabled] && User.current.allowed_to?(:view_locations)
+    User.current.allowed_to?(:view_locations)
   end
 
   def show_organization_tab?
-    SETTINGS[:organizations_enabled] && User.current.allowed_to?(:view_organizations)
+    User.current.allowed_to?(:view_organizations)
   end
 
   def taxonomy_single

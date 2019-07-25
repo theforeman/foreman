@@ -45,7 +45,7 @@ module Foreman::Controller::HostFormCommon
     @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
     @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
 
-    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
-    @location     ||= Location.current     if SETTINGS[:locations_enabled]
+    @organization ||= Organization.current
+    @location     ||= Location.current
   end
 end

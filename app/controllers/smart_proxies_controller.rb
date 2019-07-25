@@ -157,10 +157,7 @@ class SmartProxiesController < ApplicationController
   end
 
   def resource_base
-    base = super
-    base = base.eager_load(:locations) if SETTINGS[:locations_enabled]
-    base = base.eager_load(:organizations) if SETTINGS[:organizations_enabled]
-    base
+    super.eager_load(:locations, :organizations)
   end
 
   def versions_mismatched?(proxy_versions_hash)

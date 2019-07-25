@@ -160,8 +160,8 @@ module HostsHelper
         [_('Rebuild Config'), rebuild_config_hosts_path],
       ]
       actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
-      actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
-      actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
+      actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path]
+      actions <<  [_('Assign Location'), select_multiple_location_hosts_path]
       actions <<  [_('Change Owner'), select_multiple_owner_hosts_path]
       actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
       actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
@@ -277,8 +277,8 @@ module HostsHelper
     fields += [[_("PXE Loader"), host.pxe_loader]] if host.operatingsystem.present? && !host.image_build?
     fields += [[_("Host group"), link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"}))]] if host.hostgroup.present?
     fields += [[_("Boot time"), (boot_time = host&.reported_data&.boot_time) ? date_time_relative(boot_time) : _('Not reported')]]
-    fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => %{location = "#{host.location}"})) if host.location)]] if SETTINGS[:locations_enabled]
-    fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => %{organization = "#{host.organization}"})) if host.organization)]] if SETTINGS[:organizations_enabled]
+    fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => %{location = "#{host.location}"})) if host.location)]]
+    fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => %{organization = "#{host.organization}"})) if host.organization)]]
     if host.owner_type == _("User")
       fields += [[_("Owner"), (link_to(host.owner, hosts_path(:search => %{user.login = "#{host.owner.login}"})) if host.owner)]]
     else
