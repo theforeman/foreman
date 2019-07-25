@@ -40,8 +40,12 @@ module Foreman
 
       def create_plugin_role(name, permissions, description = '')
         Role.ignore_locking do
-          role = Role.create! :name => name, :origin => @plugin_id, :description => description
-          role.add_permissions!(permissions)
+          begin
+            role = Role.create! :name => name, :origin => @plugin_id, :description => description
+            role.add_permissions!(permissions)
+          rescue ActiveRecord::RecordNotUnique
+            role = Role.find_by_name(name)
+          end
           role
         end
       end
