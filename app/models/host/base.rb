@@ -180,9 +180,15 @@ module Host
       [ :model ]
     end
 
+    def primary_interface_type(parser)
+      return unless parser.parse_interfaces?
+      identifier, = parser.suggested_primary_interface(self)
+      interface_class(identifier).to_s
+    end
+
     def populate_fields_from_facts(parser, type, source_proxy)
       # we must create interface if it's missing so we can store domain
-      build_required_interfaces(:managed => false)
+      build_required_interfaces(managed: false, type: primary_interface_type(parser))
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser) if parser.parse_interfaces?
       set_reported_data(parser)
@@ -203,8 +209,9 @@ module Host
         identifier, values = parser.suggested_primary_interface(self)
         if values.present?
           self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress])
+          interface_klass = interface_class(identifier)
           # bridge interfaces are not attached to parent interface so save would not be possible
-          if interface_class(identifier) != Nic::Bridge
+          if interface_klass != Nic::Bridge
             self.primary_interface.virtual = !!values[:virtual]
             self.primary_interface.attached_to = values[:attached_to] || ''
             self.primary_interface.tag = values[:tag] || ''
@@ -446,11 +453,22 @@ module Host
     def build_required_interfaces(attrs = {})
       if self.primary_interface.nil?
         if self.interfaces.empty?
-          self.interfaces.build(attrs.merge(:primary => true, :type => 'Nic::Managed'))
+          attrs[:type] ||= 'Nic::Managed'
+          self.interfaces.build(attrs.merge(primary: true))
         else
           interface = self.interfaces.first
           interface.attributes = attrs
           interface.primary = true
+        end
+      elsif attrs[:type] && self.primary_interface.type != attrs[:type]
+        self.primary_interface.type = attrs[:type]
+        if self.primary_interface.persisted?
+          if self.primary_interface.save(validate: false)
+            self.interfaces.reload
+            self.provision_interface&.reload
+          else
+            logger.error "Unable to convert interface #{self} from #{self.primary_interface.type} to #{attrs[:type]}: #{self.primary_interface.errors.full_messages.to_sentence}"
+          end
         end
       end
       self.primary_interface.provision = true if self.provision_interface.nil?

@@ -771,6 +771,22 @@ class HostTest < ActiveSupport::TestCase
           Setting.find_by_name('ignore_facts_for_operatingsystem').default
       end
     end
+
+    describe 'a host with primary interface on a bond' do
+      let(:raw_facts) { read_json_fixture('facts/facts_with_primary_interface_bond.json').merge(_type: 'puppet') }
+      let(:hostname) { 'host01.example.com' }
+      let(:certname) { 'host01.example.com' }
+
+      setup do
+        Resolv::DNS.any_instance.stubs(:getnames).returns([])
+      end
+
+      it 'sets bond0 as primary interface' do
+        host = Host.import_host(hostname, certname)
+        assert host.import_facts(raw_facts)
+        assert_equal 'Nic::Bond', host.primary_interface.type
+      end
+    end
   end
 
   test "host is created when receiving a report if setting is true" do
