@@ -565,6 +565,7 @@ function onHostEditLoad() {
   if ($('#supports_update') && !$('#supports_update').data('supports-update'))
     disable_vm_form_fields();
   pxeLoaderCompatibilityCheck();
+  tfm.numFields.initAll();
 }
 
 $(document).on('submit', "[data-submit='progress_bar']", function() {

@@ -1,5 +1,3 @@
-<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
-
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
 <%= select_f f, :cluster, clusters, :id, :name, { },
@@ -38,13 +36,13 @@
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
 <%= f.fields_for :display, OpenStruct.new(f.object.display) do |display_f| %>
-  <%= select_f display_f, :type, compute_resource.display_types, :downcase, :upcase, 
+  <%= select_f display_f, :type, compute_resource.display_types, :downcase, :upcase,
                 { },
                 { :label_size => "col-md-2",
                   :label => _("Display Type"),
                   :class => 'display_type',
                   :disabled => f.object.status != "down" && !new_vm } %>
-  <%= select_f display_f, :keyboard_layout, compute_resource.keyboard_layouts, :downcase, :to_s, 
+  <%= select_f display_f, :keyboard_layout, compute_resource.keyboard_layouts, :downcase, :to_s,
                 { },
                 { :label_size => "col-md-2",
                   :label => _("Keyboard"),
