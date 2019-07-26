@@ -189,6 +189,20 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
         refute_includes domains, @domain2.id
       end
 
+      test 'user can view paginated domains from his organization and location with default pagination options' do
+        domains = []
+        25.times do
+          domains << FactoryBot.create(:domain, :organization_ids => [@org1.id], :location_ids => [@loc1.id])
+        end
+
+        as_user @user do
+          get :index, params: { :organization_id => @org1.id, :location_id => @loc1.id }
+        end
+        assert_response :success
+        domains = JSON.parse(response.body)['results'].map { |r| r['id'] }
+        assert_equal 20, domains.count
+      end
+
       test 'without default org and explicit parameter, user gets record from his only org' do
         as_user @user do
           get :index

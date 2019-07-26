@@ -81,10 +81,12 @@ class TaxonomixTest < ActiveSupport::TestCase
       refute_includes @dummy.class.which_organization, org3
     end
 
-    test 'does not return anything if no taxable IDs were found' do
+    test 'does not return anything if no taxable IDs were found for non-admin' do
       TaxonomixDummy.expects(:taxonomy_ids_in_taxable_taxonomy).returns({ :loc_ids => [], :org_ids => [] }).once
-      taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
-      assert_empty taxonomy_scoped_dummies
+      as_user :one do |variable|
+        taxonomy_scoped_dummies = @dummy.class.with_taxonomy_scope(@loc, @org)
+        assert_empty taxonomy_scoped_dummies
+      end
     end
 
     test 'returns only objects in the given taxonomies' do

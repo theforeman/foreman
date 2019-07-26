@@ -465,7 +465,7 @@ module ApplicationHelper
 
   def accessible_resource_records(resource, order = :name)
     klass = resource.to_s.classify.constantize
-    klass = klass.with_taxonomy_scope_override(@location, @organization) if klass.include? Taxonomix
+    klass = klass.with_taxonomy_scope_override(@location, @organization, :path_ids, [], true) if klass.include? Taxonomix
     klass.authorized.reorder(order)
   end
 

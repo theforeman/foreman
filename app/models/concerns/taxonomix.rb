@@ -110,12 +110,12 @@ module Taxonomix
     def scope_by_taxonomy_ids(scope)
       case (cached_ids = taxonomy_ids_in_taxable_taxonomy)
       when ->(hash) { hash[:loc_ids].nil? && hash[:org_ids].nil? }
-        # return everything for admin or when resource ignores taxonomies
+        # return everything for admin in Any/Any or when resource ignores taxonomies
         scope
       when ->(hash) { scope_empty?(hash) && self == User && User.current.present? }
-        # user should view self even if there are no taxonomies
+        # user should always view self even if there are no taxonomies
         scope.where(:id => User.current.id)
-      when ->(hash) { scope_empty?(hash) }
+      when ->(hash) { scope_empty?(hash) && !User.current&.admin? }
         # return nothing when there are no taxonomies for non-admin
         scope.none
       else
@@ -123,14 +123,12 @@ module Taxonomix
       end
     end
 
-    # return true for { :loc_ids => [], :org_ids => [] }
+    # return true when location or organization ids are []
     # be very careful as nil.empty? is true,
     # but { :loc_ids => nil, :org_ids => nil } means an unscoped resource
     def scope_empty?(hash_ids)
-      hash_ids[:loc_ids].respond_to?(:size) &&
-      hash_ids[:loc_ids].empty? &&
-      hash_ids[:org_ids].respond_to?(:size) &&
-      hash_ids[:org_ids].empty?
+      (hash_ids[:loc_ids].respond_to?(:size) && hash_ids[:loc_ids].empty?) ||
+      (hash_ids[:org_ids].respond_to?(:size) && hash_ids[:org_ids].empty?)
     end
 
     def apply_scope_joins(scope, ids_hash)
@@ -139,7 +137,7 @@ module Taxonomix
       scope
     end
 
-    # used to determine taxable_type in taxable_taxonomies table for STI
+    # override to determine taxable_type in taxable_taxonomies table for STI
     def taxable_type
       self
     end
