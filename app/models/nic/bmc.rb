@@ -21,7 +21,7 @@ module Nic
         :host_ip => ip,
         :url => proxy.url,
         :user => username,
-        :password => password_unredacted
+        :password => password_unredacted,
       }
       args[:bmc_provider] = provider if provider != 'IPMI'
       ProxyAPI::BMC.new(args)
