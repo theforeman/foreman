@@ -3,7 +3,7 @@ import { getSlotComponents } from '../../../../services/SlotsRegistry';
 export const selectComponentByWeight = slotId =>
   getSlotComponents(slotId)
     .sort((a, b) => b.weight - a.weight)
-    .map(c => c.component);
+    .map(c => c.component) || {};
 
 export const selectMaxComponent = slotId => selectComponentByWeight(slotId)[0];
 
