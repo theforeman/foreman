@@ -15,6 +15,6 @@ export const remove = (SlotId, fillId) => {
 };
 
 export const getSlotComponents = id =>
-  slotsRegistry[id] && Object.values(slotsRegistry[id]);
+  slotsRegistry[id] ? Object.values(slotsRegistry[id]) : [];
 
 export const getFillsFromSlot = slotId => slotsRegistry[slotId];

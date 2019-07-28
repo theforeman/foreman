@@ -1,0 +1,97 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Client Routing"
+  parameters={{
+    storyWeight: 150,
+  }}
+/>
+
+
+# Client Routing
+Foreman uses `react-router` for rendering react pages without full page reload,
+
+## Core
+In order to add a new route in foreman core, please follow these steps:
+
+1. Create a folder under `/react_app/routes` directory
+2. Create an index file and import the wanted component:
+
+```js
+import React from 'react';
+import Page1 from './page1';
+import { PAGE1_URL } from './constants';
+
+export default {
+  path: PAGE1_URL,
+  render: props => <Page1 {...props} />,
+};
+```
+3. import that index in `routes.js` file:
+```js
+// Other routes...
+import Page1 from './Page1';
+import Page2 from './Page2'
+
+export const routes = [Page1, Page2];
+```
+4. Add a route that point to this page in `routes.rb` :
+```ruby
+match 'page1' => 'react#index', :via => :get
+```
+
+## Plugins
+You can use `react-router` in your plugin as well with no boilerplate.
+
+### Register global routes file
+In the plugin registeration please add:
+``` ruby
+Foreman::Plugin.register :"<plugin-name>" do
+  register_global_js_file 'routes'
+  # some code
+end
+```
+This tells foreman core to load a `routes_index.js` file.
+
+### Register routes
+Create `routes_index.js` file under `webpack` directory:
+
+```js
+import { registerRoutes } from 'foremanReact/routes/RoutingService';
+import Routes from './Routes';
+
+registerRoutes('<plugin-name>', Routes);
+
+```
+
+### Creating the routes
+Create a `routes.js`:
+
+```js
+import React from 'react';
+import IndexPage from './IndexPage';
+import ShowPage from './ShowPage';
+
+const ForemanPluginRoutes = [
+  {
+    path: '/<plugin>/index',
+    exact: true,
+    render: props => <IndexPage {...props} />,
+  },
+  {
+    path: '/<plugin>/:id',
+    render: props => <ShowPage {...props} />,
+  },
+];
+
+export default ForemanPluginRoutes;
+
+```
+
+### Adding the routes in routes.rb
+The plugin needs to identify that a page should be loaded via react router.
+Doing so by updating the plugin's `routes.rb`:
+```ruby
+ match '/plugin_page' => '/react#index', :via => [:get]
+```
+This will use the react template in foreman core.
