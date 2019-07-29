@@ -54,6 +54,13 @@ blueprints = [
     message: N_('The %{setting} setting has been deprecated and will be removed in version %{version}'),
     expires_in: 30.days,
   },
+  {
+    group: N_('Deprecations'),
+    name: 'feature_deprecation',
+    level: 'warning',
+    message: N_('Support for %{feature} has been deprecated and will be removed in version %{version}'),
+    expires_in: 30.days,
+  },
 ]
 
 blueprints.each { |blueprint| UINotifications::Seed.new(blueprint).configure }
