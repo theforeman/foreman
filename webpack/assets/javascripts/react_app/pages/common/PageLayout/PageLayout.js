@@ -19,6 +19,7 @@ const PageLayout = ({
   breadcrumbOptions,
   toolbarButtons,
   toastNotifications,
+  beforeToolbarComponent,
   children,
 }) => {
   updateDocumentTitle(header);
@@ -43,6 +44,7 @@ const PageLayout = ({
             ? { customBreadcrumbs }
             : breadcrumbOptions && <BreadcrumbBar data={breadcrumbOptions} />}
         </div>
+        {beforeToolbarComponent}
         <Row>
           <Col className="title_filter" md={searchable ? 6 : 4}>
             {searchable && (
@@ -115,6 +117,7 @@ PageLayout.propTypes = {
   onSearch: PropTypes.func,
   onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
+  beforeToolbarComponent: PropTypes.node,
 };
 
 PageLayout.defaultProps = {
@@ -128,6 +131,7 @@ PageLayout.defaultProps = {
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
   onBookmarkClick: searchQuery =>
     changeQuery({ search: searchQuery.trim(), page: 1 }),
+  beforeToolbarComponent: null,
 };
 
 export default PageLayout;

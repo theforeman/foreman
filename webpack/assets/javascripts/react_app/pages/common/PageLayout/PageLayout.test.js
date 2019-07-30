@@ -21,6 +21,10 @@ const pageLayoutFixtures = {
     ...pageLayoutMock,
     toolbarButtons: 'toolbarButton',
   },
+  'render pageLayout w/beforeToolbarComponent': {
+    ...pageLayoutMock,
+    beforeToolbarComponent: 'beforeToolbarComponent',
+  },
 };
 
 testComponentSnapshotsWithFixtures(PageLayout, pageLayoutFixtures);

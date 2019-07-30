@@ -2,6 +2,7 @@
 
 exports[`HostWizard rendering renders LoginPage 1`] = `
 <PageLayout
+  beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
   header="Host Wizard"

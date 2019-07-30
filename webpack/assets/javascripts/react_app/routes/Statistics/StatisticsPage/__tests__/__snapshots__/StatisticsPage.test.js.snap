@@ -2,6 +2,7 @@
 
 exports[`StatisticsPage rendering render with props 1`] = `
 <PageLayout
+  beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
   header="Statistics"

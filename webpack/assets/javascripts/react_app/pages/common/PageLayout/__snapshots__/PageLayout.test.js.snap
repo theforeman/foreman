@@ -1,5 +1,98 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`render pageLayout w/beforeToolbarComponent 1`] = `
+<div
+  id="main"
+>
+  <div
+    id="react-content"
+  >
+    <div
+      id="breadcrumb"
+    >
+      <Connect(BreadcrumbBar)
+        data={
+          Object {
+            "data": Object {
+              "breadcrumbItems": Array [
+                Object {
+                  "caption": "root",
+                  "url": "/some-url",
+                },
+                Object {
+                  "caption": "child with onClick",
+                  "onClick": [MockFunction],
+                },
+                Object {
+                  "caption": "active child",
+                },
+              ],
+              "isSwitchable": false,
+              "resource": Object {
+                "nameField": "name",
+                "resourceUrl": "some/url",
+                "switcherItemUrl": "some/url/:id",
+              },
+            },
+          }
+        }
+      />
+    </div>
+    beforeToolbarComponent
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        className="title_filter"
+        componentClass="div"
+        md={6}
+      >
+        <div
+          id="search-bar"
+        >
+          <Connect(SearchBar)
+            data={
+              Object {
+                "data": Object {
+                  "autocomplete": Object {
+                    "id": "some-id",
+                    "searchQuery": null,
+                    "url": "model/auto_complete_search",
+                    "useKeyShortcuts": true,
+                  },
+                  "bookmarks": Object {
+                    "canCreate": true,
+                    "documentationUrl": "/doc/url",
+                    "url": "/api/bookmarks",
+                  },
+                  "controller": "models",
+                },
+              }
+            }
+            initialQuery=""
+            onBookmarkClick={[Function]}
+            onSearch={[Function]}
+          />
+        </div>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        id="title_action"
+        md={6}
+      >
+        <div
+          className="btn-toolbar pull-right"
+        />
+      </Col>
+    </Row>
+    body
+  </div>
+</div>
+`;
+
 exports[`render pageLayout w/search 1`] = `
 <div
   id="main"
