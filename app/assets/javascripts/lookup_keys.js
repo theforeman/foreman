@@ -181,7 +181,7 @@ function keyTypeChange(item) {
 
 function mergeOverridesChanged(item) {
   var fields = $(item).closest('.fields');
-  var keyType = fields.find("[id$='_key_type']").val();
+  var keyType = fields.find("[id$='_parameter_type']").val();
   var avoidDuplicates = fields.find("[id$='_avoid_duplicates']");
   var mergeDefault = fields.find("[id$='_merge_default']");
   changeCheckboxEnabledStatus(avoidDuplicates, keyType == 'array' && item.checked);
