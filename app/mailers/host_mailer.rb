@@ -17,7 +17,7 @@ class HostMailer < ApplicationMailer
     @hosts = host_data
     @timerange = time
     @out_of_sync = hosts.out_of_sync.sort
-    @disabled = hosts.alerts_disabled.sort
+    @disabled = disabled_hosts(hosts.alerts_disabled.sort)
 
     set_locale_for(user) do
       subject = _("Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
@@ -33,6 +33,11 @@ class HostMailer < ApplicationMailer
         format.html { render :layout => 'application_mailer' }
       end
     end
+  end
+
+  # Remove virt-who hosts from the array.
+  def disabled_hosts(hosts)
+    hosts.delete_if { |host| host['name'].start_with?('virt-who') }
   end
 
   def error_state(report, options = {})
