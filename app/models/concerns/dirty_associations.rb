@@ -21,11 +21,11 @@ module DirtyAssociations
   end
 
   def reset_dirty_cache_after_save
+    return if self.class.disable_dirty_associations_after_save
     reset_dirty_cache_state
   end
 
   def reset_dirty_cache_state
-    return if self.class.disable_dirty_associations_after_save
     self.class.dirty_associations.each do |assoc|
       send("reset_#{assoc}_dirty_cache_state")
     end
