@@ -43,7 +43,7 @@
 
         <%= select_f f, :hostgroup_id, accessible_resource(@host, :hostgroup, :title), :id, :to_label,
           { :include_blank => true},
-          { :onchange => 'hostgroup_changed(this);',
+          { :class => 'hostgroup-select',
             :data => {
               :'host-id' => @host.id,
               :'url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
@@ -56,8 +56,8 @@
             :disable_button => _(HostsAndHostgroupsHelper::INHERIT_TEXT),
             :disable_button_enabled => inherited_by_default?(:compute_resource_id, @host),
             :user_set => user_set?(:compute_resource_id) },
-          { :label => _('Deploy On'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
-            :onchange => 'computeResourceSelected(this);',
+          { :class => 'host-form-compute-resource-handle',
+            :label => _('Deploy On'), :disabled => (!@host.new_record? || @host.uuid.present?), :'data-url' => compute_resource_selected_hosts_path,
             :help_inline => :indicator } if SETTINGS[:unattended] && @host.new_record? || @host.compute_resource_id %>
 
         <% if @host.new_record? && visible_compute_profiles(@host).any? %>
@@ -70,8 +70,8 @@
               :disable_button_enabled => inherited_by_default?(:compute_profile_id, @host),
               :user_set => user_set?(:compute_profile_id)
             },
-            { :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
-              :onchange => 'computeResourceSelected(this);',
+            { :class => 'host-form-compute-resource-handle',
+              :label => _("Compute profile"), :'data-url' => compute_resource_selected_hosts_path,
               :help_inline => :indicator } if SETTINGS[:unattended] %>
         </div>
         <% end %>

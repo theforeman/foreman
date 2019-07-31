@@ -6,6 +6,20 @@ $(document).on('ContentLoad', function() {
 $(document).on('AddedClass', function(event, link) {
   load_puppet_class_parameters(link);
 });
+$(document)
+  .on('change', '.hostgroup-select', function(evt) {
+    hostgroup_changed(evt.target);
+  }).on('change', '.host-form-compute-resource-handle', function(evt) {
+    computeResourceSelected(evt.target);
+  }).on('change', '.host-taxonomy-select', function(evt) {
+    update_form(evt.target);
+  }).on('change', '.host-architecture-select', function(evt) {
+    architecture_selected(evt.target);
+  }).on('change', '.host-architecture-os-select', function(evt) {
+    os_selected(evt.target);
+  }).on('change', '.host-os-media-select', function(evt) {
+    medium_selected(evt.target);
+  });
 
 function update_nics(success_callback) {
   var data = serializeForm().replace('method=patch', 'method=post');
@@ -321,14 +335,6 @@ function set_inherited_value(hostgroup_elem) {
       disableButtonToggle(item, false);
     }
   });
-}
-
-function organization_changed(element) {
-  update_form(element);
-}
-
-function location_changed(element) {
-  update_form(element);
 }
 
 function update_form(element, options) {

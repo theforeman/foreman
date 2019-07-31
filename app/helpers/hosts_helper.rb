@@ -56,7 +56,7 @@ module HostsHelper
     select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
                     :selected => selected_taxonomy }
     html_opts = { :disabled => !@host.new_record?,
-                  :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
+                  :class => 'host-taxonomy-select',
                   :label => label,
                   :'data-host-id' => @host.id,
                   :'data-url' => process_taxonomy_hosts_path,
