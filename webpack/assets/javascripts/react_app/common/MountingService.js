@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import store from '../redux';
 import componentRegistry from '../components/componentRegistry';
+import './component-tag.scss';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
