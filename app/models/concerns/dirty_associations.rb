@@ -15,14 +15,17 @@ module DirtyAssociations
   extend ActiveSupport::Concern
 
   included do
-    def after_audit
-      reset_dirty_cache_state
-    end
-    after_save :reset_dirty_cache_state
+    after_save :reset_dirty_cache_after_save
     class_attribute :dirty_associations, default: []
+    class_attribute :disable_dirty_associations_after_save, default: false
+  end
+
+  def reset_dirty_cache_after_save
+    reset_dirty_cache_state
   end
 
   def reset_dirty_cache_state
+    return if self.class.disable_dirty_associations_after_save
     self.class.dirty_associations.each do |assoc|
       send("reset_#{assoc}_dirty_cache_state")
     end

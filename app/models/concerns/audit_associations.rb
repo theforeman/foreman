@@ -31,6 +31,10 @@ module AuditAssociations
         attributes[association] = public_send(association)
       end
     end
+
+    def after_audit
+      try(:reset_dirty_cache_state)
+    end
   end
 
   module AssociationsDefinitions
@@ -61,6 +65,7 @@ module AuditAssociations
 
     def configure_dirty_associations(associations)
       include DirtyAssociations unless included_modules.include?(DirtyAssociations)
+      self.disable_dirty_associations_after_save = true
       dirty_has_many_associations(*associations)
     end
   end
