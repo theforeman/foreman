@@ -3,7 +3,8 @@
     {:selected => item.operatingsystem_id, :include_blank => blank_or_inherit_f(f, :operatingsystem) },
     { :label => _("Operating system"),
       :help_inline => :indicator,
-      :onchange => 'os_selected(this);', :'data-url' => method_path('os_selected'), :'data-type' => controller_name.singularize,
+      :class => 'host-architecture-os-select',
+      :data => { :url => method_path('os_selected'), :type => controller_name.singularize },
       :required => !item.is_a?(Hostgroup),
       :placeholder => arch_oss.empty? ? _("No options available for selected Architecture") : nil }
   %>

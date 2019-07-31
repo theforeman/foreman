@@ -23,7 +23,8 @@
 
     <div class="tab-pane active" id="primary">
       <%= select_f(f, :parent_id, parent_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
-                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
+                      :class => 'hostgroup-select',
+                      :data => { :url => process_hostgroup_hostgroups_path },
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
       <%= textarea_f f, :description, :rows => :auto %>
