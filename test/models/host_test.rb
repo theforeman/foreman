@@ -2146,12 +2146,71 @@ class HostTest < ActiveSupport::TestCase
     end
   end
 
-  test "can search hosts by params" do
-    host = FactoryBot.create(:host, :with_parameter)
-    parameter = host.parameters.first
-    results = Host.search_for(%{params = "#{parameter.name}"})
-    assert_equal 1, results.count
-    assert_equal parameter.value, results.first.params[parameter.name]
+  context "search hosts by parameter" do
+    test "can search hosts by params" do
+      host = FactoryBot.create(:host, :with_parameter)
+      parameter = host.parameters.first
+      results = Host.search_for(%{params_name = "#{parameter.name}"})
+      assert_equal 1, results.count
+      assert_equal parameter.value, results.first.params[parameter.name]
+    end
+
+    test "search by params returns only the relevant hosts" do
+      hg = hostgroups(:common)
+      host = FactoryBot.create(:host, :hostgroup => hg)
+      host2 = FactoryBot.create(:host, :hostgroup => nil)
+      parameter = hg.group_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      assert results.include?(host)
+      refute results.include?(host2)
+    end
+
+    test "can search hosts by domain connected to their primary interface" do
+      host = FactoryBot.create(:host, :managed)
+      domain = host.domain
+      domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog", :parameter_type => 'string')
+      parameter = domain.domain_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      assert results.include?(host)
+    end
+
+    test "can search hosts by inherited params from a hostgroup" do
+      hg = hostgroups(:common)
+      host = FactoryBot.create(:host, :hostgroup => hg)
+      parameter = hg.group_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      assert results.include?(host)
+      puts results.find(host.id).params.inspect
+      assert_equal parameter.cloned_value, results.find(host.id).params[parameter.name]
+    end
+
+    test "can search hosts by inherited params from a parent hostgroup" do
+      parent_hg = hostgroups(:common)
+      hg = FactoryBot.create(:hostgroup, :parent => parent_hg)
+      host = FactoryBot.create(:host, :hostgroup => hg)
+      parameter = parent_hg.group_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      assert results.include?(host)
+      assert_equal parameter.cloned_value, results.find(host.id).params[parameter.name]
+    end
+
+    test "can search hosts with tilde operator when value is other than plain text" do
+      host = FactoryBot.create(:host, :managed)
+      domain = host.domain
+      domain.domain_parameters << DomainParameter.create(:name => "arr_param", :value => "['abc','pqr']", :parameter_type => 'array')
+      parameter = domain.domain_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} ~ "abc"})
+      assert results.include?(host)
+    end
+
+    test "can't search hosts with equal operator when value is other than plain text" do
+      host = FactoryBot.create(:host, :managed)
+      domain = host.domain
+      domain.domain_parameters << DomainParameter.create(:name => "arr_param", :value => "['abc','pqr']", :parameter_type => 'array')
+      parameter = domain.domain_parameters.first
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      refute results.include?(host)
+    end
   end
 
   test "can search hosts by current_user" do
@@ -2169,15 +2228,15 @@ class HostTest < ActiveSupport::TestCase
     host1_param = FactoryBot.create(:host_parameter, name: parameter1.name, value: "different", host: host1)
     host2_param = FactoryBot.create(:host_parameter, name: 'test_param2', value: "xxx", host: host2)
 
-    results = Host.search_for(%{params = "#{host1_param.name}"})
+    results = Host.search_for(%{params_name = "#{host1_param.name}"})
     assert results.include?(host1)
     refute results.include?(host2)
 
-    results = Host.search_for(%{params = "#{host2_param.name}"})
+    results = Host.search_for(%{params_name = "#{host2_param.name}"})
     assert results.include?(host2)
     refute results.include?(host1)
 
-    results = Host.search_for(%{params != "very_different_parameter"})
+    results = Host.search_for(%{params_name != "very_different_parameter"})
     assert results.include?(host2)
     assert results.include?(host1)
   end
