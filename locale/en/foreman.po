@@ -20,9 +20,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid " Documentation"
-msgstr ""
-
 msgid " Remove"
 msgstr ""
 
@@ -1168,6 +1165,9 @@ msgstr ""
 msgid "Boot host from specified device"
 msgstr ""
 
+msgid "Boot time"
+msgstr ""
+
 msgid "Bootable"
 msgstr ""
 
@@ -1319,6 +1319,9 @@ msgid "Certificate Name"
 msgstr ""
 
 msgid "Certificate Path"
+msgstr ""
+
+msgid "Certificate path for GCE only"
 msgstr ""
 
 msgid "Certificate that Foreman will use to encrypt websockets "
@@ -2640,6 +2643,9 @@ msgid "Email Preferences"
 msgstr ""
 
 msgid "Email address is missing"
+msgstr ""
+
+msgid "Email for GCE only"
 msgstr ""
 
 msgid "Email reply address"
@@ -6017,6 +6023,9 @@ msgstr ""
 msgid "Not relevant for snippet"
 msgstr ""
 
+msgid "Not reported"
+msgstr ""
+
 msgid "Nothing to add"
 msgstr ""
 
@@ -6813,6 +6822,9 @@ msgid "Project domain ID"
 msgstr ""
 
 msgid "Project domain name"
+msgstr ""
+
+msgid "Project id for GCE only"
 msgstr ""
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
@@ -9665,9 +9677,6 @@ msgstr ""
 msgid "Upload facts for a host, creating the host if required"
 msgstr ""
 
-msgid "Uptime"
-msgstr ""
-
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
@@ -10548,6 +10557,9 @@ msgid "filter..."
 msgstr ""
 
 msgid "for EC2 only, use '%s' for GovCloud region"
+msgstr ""
+
+msgid "for GCE only"
 msgstr ""
 
 msgid "for Libvirt and VMware only"

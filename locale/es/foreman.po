@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/foreman/foreman/language/es/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -856,6 +856,9 @@ msgstr "Asociar máquinas virtuales a hosts de Foreman"
 msgid "Associate VMs to Hosts"
 msgstr "Asociar máquinas virtuales a hosts"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr "Host asociado"
 
@@ -1263,6 +1266,15 @@ msgstr "Estableciendo caché"
 msgid "Calling methods on objects"
 msgstr "Métodos de llamada sobre objetos"
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "No se puede eliminar la cuenta de administración interna"
 
@@ -1425,8 +1437,8 @@ msgstr "Haga clic en el enlace de un recurso de cómputo para editar los  atribu
 msgid "Click to add %s"
 msgstr "Haga clic para añadir %s"
 
-msgid "Click to log in again."
-msgstr "Haga para reingresar"
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "Haga clic para eliminar %s"
@@ -1621,6 +1633,12 @@ msgstr "Configurar"
 
 msgid "Configure instance %s via SSH"
 msgstr "Configurar instancia %s vía SSH"
+
+msgid "Confirm"
+msgstr "Confirmar"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Conflicto - %s"
@@ -4352,6 +4370,9 @@ msgstr "Usuario"
 msgid "Image|Uuid"
 msgstr "Uuid"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "Importar"
 
@@ -5141,9 +5162,6 @@ msgstr "Listar combinaciones de plantillas"
 msgid "List template inputs"
 msgstr "Listar entradas de la plantilla"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "Cargar centros de datos"
 
@@ -5825,6 +5843,9 @@ msgstr "No se han definido proxis TFTP, no puede continuar"
 msgid "No VMs matched any host."
 msgstr "No se encontraron MV que coincidan con un host."
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "No hay cambios de auditoría para este período"
 
@@ -6128,6 +6149,9 @@ msgstr "Cantidad de clases"
 msgid "Number of records shown per page in Foreman"
 msgstr "Número de elementos por página mostrados en Foreman"
 
+msgid "Number of results per page to return"
+msgstr "Número de resultados por página para devolver"
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr "ID numérica o nombre de proxy HTTP"
 
@@ -6205,9 +6229,6 @@ msgstr "Uno o más de los filtros asociados son inválidos, lo que impide que se
 
 msgid "Only for BMC interfaces."
 msgstr "Solamente para interfaces BMC."
-
-msgid "Only for v3 authentication"
-msgstr ""
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6461,6 +6482,9 @@ msgstr "Plantilla PXEGrub2"
 
 msgid "PXELinux template"
 msgstr "Plantilla PXELinux "
+
+msgid "Page number, starting at 1"
+msgstr "Número de página, comenzando por 1"
 
 msgid "Param name"
 msgstr "Nombre de parámetro"
@@ -6817,10 +6841,16 @@ msgstr "Archivo de clave privada que Foreman utilizará para cifrar websockets"
 msgid "Proceed to Edit"
 msgstr "Proceder a editar"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9172,8 +9202,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr "URL para %{providers_requiring_url}"
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "URL desde donde los hosts recuperarán las plantillas durante la compilación (normalmente http dado que muchos instaladores no soportan https)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "La URL debe ser válida y el diagrama debe ser uno de %s."
@@ -9685,6 +9715,9 @@ msgstr "Subir eventos para un host, si es necesario cree el host."
 msgid "Uptime"
 msgstr "Tiempo de funcionamiento"
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9742,6 +9775,9 @@ msgstr "ID de usuario"
 
 msgid "User data template"
 msgstr "Plantilla de datos de usuario"
+
+msgid "User domain"
+msgstr ""
 
 msgid "User groups"
 msgstr "Grupos de usuarios"
@@ -10219,6 +10255,9 @@ msgstr "Está por modificar el menú PXE predeterminado en todos los servidores 
 msgid "You are about to unlock a locked template."
 msgstr "Está por desbloquear una plantilla bloqueada."
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "No tiene autorización para bloquear plantillas."
 
@@ -10285,6 +10324,9 @@ msgstr "No parece tener informes."
 msgid "You have already logged in"
 msgstr "Ya ha iniciado sesión"
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Se puede asociar uno o más sistemas operativos con este medio o configurarlo más tarde como alternativa en la página %s"
 
@@ -10305,6 +10347,9 @@ msgstr "Se debe crear al menos una organización antes de continuar."
 
 msgid "You must select at least one permission"
 msgstr "Debe seleccionar al menos un permiso"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "Probablemente deba configurar su %s primero."
@@ -10450,6 +10495,9 @@ msgstr "foros de la comunidad"
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10506,9 +10554,6 @@ msgstr "p. ej admin@internal"
 
 msgid "e.g. givenName"
 msgstr "Por ejemplo: givenName"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr "p. ej. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "p. ej. :https://identity.api.rackspacecloud.com/v2.0"
@@ -10571,6 +10616,9 @@ msgid "for Libvirt and VMware only"
 msgstr "solo para Libvirt y VMware"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10912,9 +10960,6 @@ msgstr "no admitido por este recurso de cómputo"
 msgid "not supported by this protocol"
 msgstr "no compatible con este protocolo"
 
-msgid "number of entries per request"
-msgstr "número de entradas por solicitud"
-
 msgid "oVirt/RHEV instance type"
 msgstr "Tipo de instancia oVirt/RHEV"
 
@@ -10944,9 +10989,6 @@ msgstr "Organización"
 
 msgid "organizations"
 msgstr "Organizaciones"
-
-msgid "paginate results"
-msgstr "paginar resultados"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "analizando tipo de parámetros '%s' desde una cadena en caso de que no se defina"

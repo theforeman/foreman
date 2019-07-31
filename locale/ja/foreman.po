@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -845,6 +845,9 @@ msgstr "VM の Foreman ホストへの関連付け"
 msgid "Associate VMs to Hosts"
 msgstr "VM のホストへの関連付け"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr "関連付けられているホスト"
 
@@ -1252,6 +1255,15 @@ msgstr "キャッシング"
 msgid "Calling methods on objects"
 msgstr "オブジェクトのメソッドの呼び出し"
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "内部管理者アカウントを削除できません"
 
@@ -1414,8 +1426,8 @@ msgstr "デフォルトの VM 属性を編集するためにコンピュート�
 msgid "Click to add %s"
 msgstr "クリックして %s を追加"
 
-msgid "Click to log in again."
-msgstr "クリックして再ログインします。"
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "クリックして %s を削除"
@@ -1610,6 +1622,12 @@ msgstr "設定"
 
 msgid "Configure instance %s via SSH"
 msgstr "SSH 経由でインスタンス %s を設定"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "競合 - %s"
@@ -4342,6 +4360,9 @@ msgstr "ユーザー名"
 msgid "Image|Uuid"
 msgstr "UUID"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "インポート"
 
@@ -5131,9 +5152,6 @@ msgstr "テンプレート組み合わせの一覧表示"
 msgid "List template inputs"
 msgstr "テンプレート入力を一覧表示"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "データセンターのロード"
 
@@ -5815,6 +5833,9 @@ msgstr "TFTP プロキシーが定義されていないため、続行できま�
 msgid "No VMs matched any host."
 msgstr "ホストに一致する VM はありません。"
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "この期間の監査の変更はありません"
 
@@ -6118,6 +6139,9 @@ msgstr "クラスの数"
 msgid "Number of records shown per page in Foreman"
 msgstr "Foreman でページごとに表示されるレコード数"
 
+msgid "Number of results per page to return"
+msgstr "戻されるページごとの結果数"
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr "数値 ID または HTTP プロキシー名"
 
@@ -6195,9 +6219,6 @@ msgstr "関連付けられたフィルター 1 つ以上が無効であるため
 
 msgid "Only for BMC interfaces."
 msgstr "BMC インターフェスのみ。"
-
-msgid "Only for v3 authentication"
-msgstr ""
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6451,6 +6472,9 @@ msgstr "PXEGrub2 テンプレート"
 
 msgid "PXELinux template"
 msgstr "PXELinux テンプレート"
+
+msgid "Page number, starting at 1"
+msgstr "1 から始まるページ番号"
 
 msgid "Param name"
 msgstr "パラメーター名"
@@ -6807,10 +6831,16 @@ msgstr "Foreman で websocket を暗号化するために使用する秘密キ�
 msgid "Proceed to Edit"
 msgstr "編集に進む"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9160,8 +9190,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr "%{providers_requiring_url} の URL"
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "URL ホストはビルド時にテンプレートを取得します (インストーラーの多くは https をサポートしないため、通常は http が使われます)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "URL が有効であり、スキーマが %s のいずれかである必要があります"
@@ -9673,6 +9703,9 @@ msgstr "ホストのファクトをアップロードし、必要な場合はホ
 msgid "Uptime"
 msgstr "アップタイム"
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9730,6 +9763,9 @@ msgstr "ユーザー ID"
 
 msgid "User data template"
 msgstr "ユーザーデータテンプレート"
+
+msgid "User domain"
+msgstr ""
 
 msgid "User groups"
 msgstr "ユーザーグループ"
@@ -10200,6 +10236,9 @@ msgstr "デフォルトの PXE メニューをすべての設定済み TFTP サ�
 msgid "You are about to unlock a locked template."
 msgstr "ロックされたテンプレートをロック解除します。"
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "テンプレートをロックする権限がありません。"
 
@@ -10266,6 +10305,9 @@ msgstr "レポートがないようです。"
 msgid "You have already logged in"
 msgstr "すでにログインしています"
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "さらに、1 つ以上のオペレーティングシステムをこのメディアに関連付けるか、またはこれを %s ページで後でセットアップすることができます。"
 
@@ -10286,6 +10328,9 @@ msgstr "少なくとも 1 つの組織を作成してから続行してくださ
 
 msgid "You must select at least one permission"
 msgstr "少なくとも 1 つのパーミッションを選択する必要があります"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "おそらく %s を最初に設定する必要があります。"
@@ -10431,6 +10476,9 @@ msgstr "コミュニティーフォーラム"
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10487,9 +10535,6 @@ msgstr "例: admin@internal"
 
 msgid "e.g. givenName"
 msgstr "例: givenName"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr "例: http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "例: https://identity.api.rackspacecloud.com/v2.0"
@@ -10552,6 +10597,9 @@ msgid "for Libvirt and VMware only"
 msgstr "Libvirt および VMware の場合のみ"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10893,9 +10941,6 @@ msgstr "このコンピュートリソースではサポートされていませ
 msgid "not supported by this protocol"
 msgstr "このプロトコルではサポートされていません"
 
-msgid "number of entries per request"
-msgstr "要求ごとのエントリー数"
-
 msgid "oVirt/RHEV instance type"
 msgstr "oVirt/RHEV インスタンスタイプ"
 
@@ -10925,9 +10970,6 @@ msgstr "組織"
 
 msgid "organizations"
 msgstr "組織"
-
-msgid "paginate results"
-msgstr "結果のページネーション"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "文字列からの設定タイプ '%s' の解析が定義されていません"

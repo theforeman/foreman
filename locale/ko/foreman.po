@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -832,6 +832,9 @@ msgstr "VM을 Foreman 호스트에 연결 "
 msgid "Associate VMs to Hosts"
 msgstr "VM을 호스트에 연결 "
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr ""
 
@@ -1239,6 +1242,15 @@ msgstr ""
 msgid "Calling methods on objects"
 msgstr ""
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "내부 관리 계정을 삭제할 수 없음 "
 
@@ -1401,8 +1413,8 @@ msgstr "기본값 VM 속성을 편집하기 위해 컴퓨팅 리소스 링크를
 msgid "Click to add %s"
 msgstr "클릭하여 %s 추가 "
 
-msgid "Click to log in again."
-msgstr "클릭하여 다시 로그인합니다."
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "클릭하여 %s 삭제 "
@@ -1597,6 +1609,12 @@ msgstr "설정"
 
 msgid "Configure instance %s via SSH"
 msgstr "SSH를 통해 인스턴스 %s 설정 "
+
+msgid "Confirm"
+msgstr "확인"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "충돌 - %s"
@@ -4329,6 +4347,9 @@ msgstr "사용자 이름 "
 msgid "Image|Uuid"
 msgstr "UUID"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "불러오기"
 
@@ -5112,9 +5133,6 @@ msgstr "템플릿 조합 목록 나열 "
 msgid "List template inputs"
 msgstr "템플릿 입력 나열"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "데이터 센터 로드 "
 
@@ -5796,6 +5814,9 @@ msgstr "TFTP 프록시가 지정되어 있지 않습니다, 계속 진행할 수
 msgid "No VMs matched any host."
 msgstr ""
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "이 기간의 감사 변경 사항 없음"
 
@@ -6099,6 +6120,9 @@ msgstr "클래스 수"
 msgid "Number of records shown per page in Foreman"
 msgstr "Foreman에서 페이지 당 표시되는 기록 수"
 
+msgid "Number of results per page to return"
+msgstr "반환할 페이지 당 결과 수 "
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
@@ -6173,9 +6197,6 @@ msgstr ""
 
 msgid "Only for BMC interfaces."
 msgstr "BMC 인터페이스만 해당합니다."
-
-msgid "Only for v3 authentication"
-msgstr ""
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6427,6 +6448,9 @@ msgstr ""
 
 msgid "PXELinux template"
 msgstr ""
+
+msgid "Page number, starting at 1"
+msgstr "1 부터 페이지 번호 "
 
 msgid "Param name"
 msgstr "매개 변수 이름 "
@@ -6783,10 +6807,16 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "편집 실행 "
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9131,8 +9161,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr ""
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "URL 호스트는 빌드시 템플릿을 가져옵니다 (일반적으로 https는 많은 설치 프로그램이 지원하지 않으므로 http가 사용됨)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "URL이 유효하고 스키마가 %s 중 하나여야 합니다."
@@ -9644,6 +9674,9 @@ msgstr "호스트의 팩트를 업로드하고 필요한 경우 호스트를 생
 msgid "Uptime"
 msgstr "업타임"
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9700,6 +9733,9 @@ msgid "User IDs"
 msgstr "사용자 ID"
 
 msgid "User data template"
+msgstr ""
+
+msgid "User domain"
 msgstr ""
 
 msgid "User groups"
@@ -10163,6 +10199,9 @@ msgstr "구성된 모든 TFTP 서버에 있는 기본 PXE 메뉴가 변경됩니
 msgid "You are about to unlock a locked template."
 msgstr "잠긴 템플릿을 잠금 해제합니다."
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "템플릿을 잠글 권한이 없습니다."
 
@@ -10229,6 +10268,9 @@ msgstr "보고서가 없습니다."
 msgid "You have already logged in"
 msgstr ""
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "하나 이상의 운영 체제를 이 미디어에 연결하거나 이를 %s 페이지에서 나중에 설정할 수 있습니다. "
 
@@ -10249,6 +10291,9 @@ msgstr "계속 진행하기 전 최소 하나의 조직을 생성해야 합니�
 
 msgid "You must select at least one permission"
 msgstr "최소 하나의 권한을 선택해야 합니다 "
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "%s을(를) 먼저 구성해야 합니다."
@@ -10394,6 +10439,9 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10450,9 +10498,6 @@ msgstr "예: admin@internal"
 
 msgid "e.g. givenName"
 msgstr "예: givenName"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "예: https://identity.api.rackspacecloud.com/v2.0"
@@ -10515,6 +10560,9 @@ msgid "for Libvirt and VMware only"
 msgstr "Libvirt 및 VMware만 해당"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10855,9 +10903,6 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "number of entries per request"
-msgstr "요청 당 항목 수 "
-
 msgid "oVirt/RHEV instance type"
 msgstr ""
 
@@ -10887,9 +10932,6 @@ msgstr "조직 "
 
 msgid "organizations"
 msgstr "조직 "
-
-msgid "paginate results"
-msgstr "페이지네이션 결과 "
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "문자열에서 설정 유형 '%s'의 구문 분석이 정의되어 있지 않습니다 "

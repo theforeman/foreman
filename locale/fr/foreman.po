@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-23 10:50+0000\n"
+"Last-Translator: Baptiste Agasse <baptiste.agasse@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,13 +77,13 @@ msgstr "%s Modèle"
 
 msgid "%s VM failed while processing: check logs for more details."
 msgid_plural "%s VMs failed while processing: check logs for more details."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s VM en échec pendant le traitement : consulter les journaux pour plus de détails."
+msgstr[1] "%s VMs en échec pendant le traitement : consulter les journaux pour plus de détails."
 
 msgid "%s VM was associated to a host."
 msgid_plural "%s VMs were each associated to hosts."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " %s VM associée à un hôte"
+msgstr[1] "%s VMs ont été associées à des hôtes."
 
 msgid "%s ago"
 msgstr "Il y a %s"
@@ -863,6 +863,9 @@ msgstr "Associer les VMs à des hôtes Foreman"
 msgid "Associate VMs to Hosts"
 msgstr "Associer les VM à des hôtes"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr "Hôte associé"
 
@@ -1270,6 +1273,15 @@ msgstr "Mise en cache"
 msgid "Calling methods on objects"
 msgstr "Appliquer méthodes sur objets"
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "Impossible de supprimer le compte admin interne"
 
@@ -1432,8 +1444,8 @@ msgstr "Cliquer sur le lien d'une ressource de calcul pour modifier les attribut
 msgid "Click to add %s"
 msgstr "Cliquez pour ajouter %s"
 
-msgid "Click to log in again."
-msgstr "Cliquer pour ouvrir à nouveau la session"
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "Cliquez pour supprimer %s"
@@ -1628,6 +1640,12 @@ msgstr "Configurer"
 
 msgid "Configure instance %s via SSH"
 msgstr "Configuration de l'instance %s par SSH"
+
+msgid "Confirm"
+msgstr "Confirmer"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Conflit - %s"
@@ -2107,7 +2125,7 @@ msgid "Dashboard"
 msgstr "Tableau de bord"
 
 msgid "Data are available only for the user who triggered the report and administrators"
-msgstr ""
+msgstr "Les données sont disponibles seulement pour l'utilisateur qui a déclenché le rapport et les administeurs"
 
 msgid "Data store"
 msgstr "Stockage"
@@ -2580,7 +2598,7 @@ msgid "Download generated report"
 msgstr "Télécharger le rapport généré"
 
 msgid "Downloads a generated report"
-msgstr ""
+msgstr "Télécharger un rapport généré"
 
 msgid "Duplicated inputs detected: %{duplicated_inputs}"
 msgstr "Entrées dupliquées détectés : %{duplicated_inputs}"
@@ -3493,7 +3511,7 @@ msgid "Generating a report"
 msgstr "Génération d'un rapport"
 
 msgid "Generating of report has been canceled"
-msgstr ""
+msgstr "La génération du rapport a été annulée"
 
 msgid "Generating the report took %s."
 msgstr ""
@@ -4358,6 +4376,9 @@ msgstr "Nom d'utilisateur"
 msgid "Image|Uuid"
 msgstr "UUID"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "Import"
 
@@ -5147,9 +5168,6 @@ msgstr "Lister les combinaisons de modèles"
 msgid "List template inputs"
 msgstr "Afficher les modèles de jeux de données en entrée"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "Charger les Centres de données"
 
@@ -5831,6 +5849,9 @@ msgstr "Aucun proxy TFTP n'a été défini. Impossible de continuer."
 msgid "No VMs matched any host."
 msgstr "Aucune machine virtuelle ne correspond à aucun des hôtes."
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "Aucun changent d'audit sur cette période"
 
@@ -6134,6 +6155,9 @@ msgstr "Nombre de classes"
 msgid "Number of records shown per page in Foreman"
 msgstr "Le nombre d'éléments visibles par page dans Foreman"
 
+msgid "Number of results per page to return"
+msgstr "Nombre de résultats par page à renvoyer"
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr "ID numérique ou nom du proxy HTTP"
 
@@ -6211,9 +6235,6 @@ msgstr "Un ou plusieurs des filtres associés sont incorrects. C'est pourquoi vo
 
 msgid "Only for BMC interfaces."
 msgstr "Seulement pour les interfaces BMC."
-
-msgid "Only for v3 authentication"
-msgstr "Seulement pour l'authentification v3"
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6467,6 +6488,9 @@ msgstr "Modèle PXEGrub2"
 
 msgid "PXELinux template"
 msgstr "Modèle PXELinux"
+
+msgid "Page number, starting at 1"
+msgstr "Numéro de la page, commençant par 1"
 
 msgid "Param name"
 msgstr "Nom du paramètre"
@@ -6823,10 +6847,16 @@ msgstr "Fichier de clé privée utilisée par Foreman pour encoder les websocket
 msgid "Proceed to Edit"
 msgstr "Passer à la modification"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -7207,7 +7237,7 @@ msgid "Report completed"
 msgstr ""
 
 msgid "Report data are not available, it has probably expired."
-msgstr ""
+msgstr "Les données du rapport ne sont pas disponibles, elles ont probablement expirées."
 
 msgid "Report is being rendered, it will be delivered via e-mail."
 msgstr ""
@@ -7216,7 +7246,7 @@ msgid "Report is going to be rendered at %s and it will be delivered via e-mail 
 msgstr ""
 
 msgid "Report not found, please ensure you used the correct job_id"
-msgstr ""
+msgstr "Rapport non trouvé, merci de vérifier que vous avez utilisé le bon job_id"
 
 msgid "ReportTemplate|Locked"
 msgstr "Verrouillé"
@@ -9176,8 +9206,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr "URL pour %{providers_requiring_url}"
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "L'URL de récupération de modèles des hôtes durant la phase de construction (normalement en HTTP car beaucoup de programmes d'installation ne prennent pas en charge HTTPS) "
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "L'URL doit être valide et le schéma doit être parmi ceux-ci %s"
@@ -9689,6 +9719,9 @@ msgstr "Télécharge les facts d'un hôte, créé l'hôte si besoin"
 msgid "Uptime"
 msgstr "Temps de fonctionnement"
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9746,6 +9779,9 @@ msgstr "ID des utilisateurs"
 
 msgid "User data template"
 msgstr "Modèle de donnée utilisateur"
+
+msgid "User domain"
+msgstr ""
 
 msgid "User groups"
 msgstr "Groupes utilisateur"
@@ -10223,6 +10259,9 @@ msgstr "Vous êtes en train de changer le menu PXE par défaut sur tous les serv
 msgid "You are about to unlock a locked template."
 msgstr "Vous êtes sur le point de déverrouiller un modèle verrouillé."
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "Vous n'êtes pas autorisé à verrouiller les modèles."
 
@@ -10289,6 +10328,9 @@ msgstr "Vous ne semblez pas avoir de rapport."
 msgid "You have already logged in"
 msgstr "Vous êtes déjà connecté"
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Vous pouvez aussi associer un ou plusieurs systèmes d'exploitation à ce médium ou encore, définir ces relations plus tard sur la page %s."
 
@@ -10309,6 +10351,9 @@ msgstr "Vous devez créer au moins une organisation pour continuer."
 
 msgid "You must select at least one permission"
 msgstr "Vous devez sélectionner au moins une permission"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "Vous devez probablement d'abord configurer vos %s."
@@ -10454,6 +10499,9 @@ msgstr "forums communautaires"
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10510,9 +10558,6 @@ msgstr "Ex : admin@interne"
 
 msgid "e.g. givenName"
 msgstr "Ex : givenName"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr "Par exemple, http://openstack:5000/v2.0/tokens ou http://openstack:5000/v3/auth/tokens"
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "Ex : https://identity.api.rackspacecloud.com/v2.0"
@@ -10575,7 +10620,10 @@ msgid "for Libvirt and VMware only"
 msgstr "seulement pour Libvirt et VMware"
 
 msgid "for Libvirt and oVirt only"
-msgstr ""
+msgstr "seulement pour Libvirt et oVirt"
+
+msgid "for OpenStack (v3) only"
+msgstr "seulement pour OpenStack (v3)"
 
 msgid "for OpenStack only"
 msgstr "seulement pour OpenStack"
@@ -10916,9 +10964,6 @@ msgstr "non pris en charge par cette ressource de calcul"
 msgid "not supported by this protocol"
 msgstr "non supporté par ce protocole"
 
-msgid "number of entries per request"
-msgstr "nombre d'entrées par requête"
-
 msgid "oVirt/RHEV instance type"
 msgstr "Type d'instance oVirt/RHEV"
 
@@ -10948,9 +10993,6 @@ msgstr "organisation"
 
 msgid "organizations"
 msgstr "organisations"
-
-msgid "paginate results"
-msgstr "paginer les résultats"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "l'analyse du type de settings %s depuis une chaine n'est pas défini"

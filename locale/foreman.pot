@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-18 16:22+0300\n"
-"PO-Revision-Date: 2019-07-18 16:22+0300\n"
+"POT-Creation-Date: 2019-07-31 16:16+0300\n"
+"PO-Revision-Date: 2019-07-31 16:16+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -717,92 +717,108 @@ msgstr ""
 msgid "enable caching, for VMware only"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:63
+#: ../app/controllers/api/v2/compute_resources_controller.rb:52
+msgid "Project id for GCE only"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:53
+msgid "Email for GCE only"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:54
+msgid "Certificate path for GCE only"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:55
+msgid "for GCE only"
+msgstr ""
+
+#: ../app/controllers/api/v2/compute_resources_controller.rb:67
 msgid "Create a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:80
+#: ../app/controllers/api/v2/compute_resources_controller.rb:84
 msgid "Update a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:90
+#: ../app/controllers/api/v2/compute_resources_controller.rb:94
 msgid "Delete a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:97
+#: ../app/controllers/api/v2/compute_resources_controller.rb:101
 msgid "List available images for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:103
+#: ../app/controllers/api/v2/compute_resources_controller.rb:107
 msgid "List available clusters for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:111
+#: ../app/controllers/api/v2/compute_resources_controller.rb:115
 msgid "List available flavors for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:119
+#: ../app/controllers/api/v2/compute_resources_controller.rb:123
 msgid "List available folders for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:127
+#: ../app/controllers/api/v2/compute_resources_controller.rb:131
 msgid "List available zone for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:135
+#: ../app/controllers/api/v2/compute_resources_controller.rb:139
 msgid "List available networks for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:136
+#: ../app/controllers/api/v2/compute_resources_controller.rb:140
 msgid "List available networks for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:145
+#: ../app/controllers/api/v2/compute_resources_controller.rb:149
 msgid "List resource pools for a compute resource cluster"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:154
-#: ../app/controllers/api/v2/compute_resources_controller.rb:162
+#: ../app/controllers/api/v2/compute_resources_controller.rb:158
+#: ../app/controllers/api/v2/compute_resources_controller.rb:166
 msgid "List attributes for a given storage domain"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:161
-#: ../app/controllers/api/v2/compute_resources_controller.rb:163
+#: ../app/controllers/api/v2/compute_resources_controller.rb:165
+#: ../app/controllers/api/v2/compute_resources_controller.rb:167
 msgid "List storage domains for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:178
-#: ../app/controllers/api/v2/compute_resources_controller.rb:186
+#: ../app/controllers/api/v2/compute_resources_controller.rb:182
+#: ../app/controllers/api/v2/compute_resources_controller.rb:190
 msgid "List attributes for a given storage pod"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:185
-#: ../app/controllers/api/v2/compute_resources_controller.rb:187
+#: ../app/controllers/api/v2/compute_resources_controller.rb:189
+#: ../app/controllers/api/v2/compute_resources_controller.rb:191
 msgid "List storage pods for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:202
+#: ../app/controllers/api/v2/compute_resources_controller.rb:206
 msgid "List available security groups for a compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:210
+#: ../app/controllers/api/v2/compute_resources_controller.rb:214
 msgid "Associate VMs to Hosts"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:219
+#: ../app/controllers/api/v2/compute_resources_controller.rb:223
 msgid "Associating VMs is not supported for this compute resource"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:223
+#: ../app/controllers/api/v2/compute_resources_controller.rb:227
 msgid "Refresh Compute Resource Cache"
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:227
+#: ../app/controllers/api/v2/compute_resources_controller.rb:231
 #: ../app/controllers/compute_resources_controller.rb:96
 msgid "Successfully refreshed the cache."
 msgstr ""
 
-#: ../app/controllers/api/v2/compute_resources_controller.rb:229
+#: ../app/controllers/api/v2/compute_resources_controller.rb:233
 #: ../app/controllers/compute_resources_controller.rb:101
 msgid "Failed to refresh the cache."
 msgstr ""
@@ -3804,7 +3820,7 @@ msgid "PXE"
 msgstr ""
 
 #: ../app/controllers/hosts_controller.rb:16
-#: ../app/models/compute_resources/foreman/model/vmware.rb:214
+#: ../app/models/compute_resources/foreman/model/vmware.rb:213
 msgid "BIOS"
 msgstr ""
 
@@ -4087,7 +4103,7 @@ msgstr ""
 msgid "No TFTP feature"
 msgstr ""
 
-#: ../app/controllers/smart_proxies_controller.rb:192
+#: ../app/controllers/smart_proxies_controller.rb:189
 msgid ""
 "Core and proxy versions do not match. foreman: %{foreman_version}, foreman-pro"
 "xy: %{proxy_version}"
@@ -4294,6 +4310,7 @@ msgstr ""
 #: ../app/views/fact_values/welcome.html.erb:9
 #: ../webpack/assets/javascripts/react_app/components/common/DocumentationLink/index.js:20
 #: ../webpack/assets/javascripts/react_app/components/common/EmptyState/DefaultEmptyState.js:11
+#: ../webpack/assets/javascripts/react_app/pages/AuditsPage/AuditsPage.js:20
 msgid "Documentation"
 msgstr ""
 
@@ -4939,7 +4956,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:259 ../app/views/about/index.html.erb:27
 #: ../app/views/about/index.html.erb:50 ../app/views/about/index.html.erb:77
 #: ../app/views/hosts/_bmc.html.erb:9
-#: ../app/views/smart_proxies/index.html.erb:20
+#: ../app/views/smart_proxies/index.html.erb:13
 msgid "Status"
 msgstr ""
 
@@ -5020,17 +5037,21 @@ msgid "Host group"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:279
-msgid "Uptime"
+msgid "Boot time"
+msgstr ""
+
+#: ../app/helpers/hosts_helper.rb:279
+msgid "Not reported"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:280
-#: ../app/views/hosts/_selected_hosts.html.erb:18
+#: ../app/views/hosts/_selected_hosts.html.erb:19
 #: ../app/views/hosts/select_multiple_location.html.erb:5 taxonomies.rb:10
 msgid "Location"
 msgstr ""
 
 #: ../app/helpers/hosts_helper.rb:281
-#: ../app/views/hosts/_selected_hosts.html.erb:19
+#: ../app/views/hosts/_selected_hosts.html.erb:22
 #: ../app/views/hosts/select_multiple_organization.html.erb:5
 #: ../app/views/organizations/welcome.html.erb:5 taxonomies.rb:11
 msgid "Organization"
@@ -5670,7 +5691,7 @@ msgstr ""
 #: ../app/views/realms/index.html.erb:10
 #: ../app/views/report_templates/index.html.erb:13
 #: ../app/views/roles/index.html.erb:12
-#: ../app/views/smart_proxies/index.html.erb:21
+#: ../app/views/smart_proxies/index.html.erb:14
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:10
 #: ../app/views/subnets/index.html.erb:15
 #: ../app/views/taxonomies/index.html.erb:19
@@ -6049,19 +6070,19 @@ msgstr ""
 msgid "Failed to deploy vm %{name}, fault: %{e}"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:196
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:184
 msgid "HTTPS URL is required for API access"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:214
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:202
 msgid "Datacenter was not found"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:237
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:225
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:510
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:498
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -6069,7 +6090,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:537
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:525
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -6085,46 +6106,46 @@ msgstr ""
 msgid "VMRC"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:213
+#: ../app/models/compute_resources/foreman/model/vmware.rb:212
 msgid "Automatic"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:215
+#: ../app/models/compute_resources/foreman/model/vmware.rb:214
 msgid "EFI"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:221
+#: ../app/models/compute_resources/foreman/model/vmware.rb:220
 msgid "Persistent"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:222
+#: ../app/models/compute_resources/foreman/model/vmware.rb:221
 msgid "Independent - Persistent"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:223
+#: ../app/models/compute_resources/foreman/model/vmware.rb:222
 msgid "Independent - Nonpersistent"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:410
+#: ../app/models/compute_resources/foreman/model/vmware.rb:409
 #: ../app/views/templates/_form.html.erb:32
 msgid "Default"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:491
+#: ../app/models/compute_resources/foreman/model/vmware.rb:490
 msgid ""
 "Foreman could not find a required vSphere resource. Check if Foreman has the r"
 "equired permissions and the resource exists. Reason: %s"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:568
+#: ../app/models/compute_resources/foreman/model/vmware.rb:567
 msgid "The console is not available because the VM is not powered on"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:642
+#: ../app/models/compute_resources/foreman/model/vmware.rb:641
 msgid "Could not find network %s on VMWare compute resource"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/vmware.rb:744
+#: ../app/models/compute_resources/foreman/model/vmware.rb:743
 msgid ""
 "The remote system presented a public key with hash %s but we're expecting a di"
 "fferent hash. If you are sure the remote system is authentic, go to the comput"
@@ -6676,19 +6697,19 @@ msgstr ""
 msgid "is locked for user modifications."
 msgstr ""
 
-#: ../app/models/host/base.rb:593
+#: ../app/models/host/base.rb:603
 msgid "host must have one primary interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:599
+#: ../app/models/host/base.rb:609
 msgid "managed host must have one provision interface"
 msgstr ""
 
-#: ../app/models/host/base.rb:618
+#: ../app/models/host/base.rb:628
 msgid "some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/base.rb:624
+#: ../app/models/host/base.rb:634
 msgid "cannot be enabled for an unmanaged host"
 msgstr ""
 
@@ -6716,71 +6737,71 @@ msgstr ""
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:442
+#: ../app/models/host/managed.rb:443
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:500
+#: ../app/models/host/managed.rb:501
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:501
+#: ../app/models/host/managed.rb:502
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:609
+#: ../app/models/host/managed.rb:610
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:615
+#: ../app/models/host/managed.rb:616
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:664
+#: ../app/models/host/managed.rb:665
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:665
+#: ../app/models/host/managed.rb:666
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:709
+#: ../app/models/host/managed.rb:710
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:816
+#: ../app/models/host/managed.rb:817
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:869
+#: ../app/models/host/managed.rb:870
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:894
+#: ../app/models/host/managed.rb:895
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:905
+#: ../app/models/host/managed.rb:906
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:920
+#: ../app/models/host/managed.rb:921
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:925
+#: ../app/models/host/managed.rb:926
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:930 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:931 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:986
+#: ../app/models/host/managed.rb:987
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -6944,11 +6965,11 @@ msgstr ""
 msgid "Unable to find a proxy with BMC feature"
 msgstr ""
 
-#: ../app/models/nic/bmc.rb:27 ../app/views/hosts/show.html.erb:41
+#: ../app/models/nic/bmc.rb:31 ../app/views/hosts/show.html.erb:41
 msgid "BMC"
 msgstr ""
 
-#: ../app/models/nic/bmc.rb:58
+#: ../app/models/nic/bmc.rb:62
 msgid ""
 "There is no proxy with BMC feature set up. Please register a smart proxy with "
 "this feature."
@@ -8621,7 +8642,7 @@ msgstr ""
 #: ../app/views/media/_form.html.erb:7 ../app/views/realms/_form.html.erb:6
 #: ../app/views/roles/_form.html.erb:35
 #: ../app/views/smart_proxies/_form.html.erb:6
-#: ../app/views/smart_proxies/index.html.erb:14
+#: ../app/views/smart_proxies/index.html.erb:10
 #: ../app/views/subnets/_form.html.erb:12
 #: ../app/views/taxonomies/_form.html.erb:43
 #: ../app/views/templates/_form.html.erb:17 ../app/views/users/_form.html.erb:9
@@ -8642,7 +8663,7 @@ msgstr ""
 #: ../app/views/media/_form.html.erb:10 ../app/views/realms/_form.html.erb:9
 #: ../app/views/roles/_form.html.erb:40
 #: ../app/views/smart_proxies/_form.html.erb:10
-#: ../app/views/smart_proxies/index.html.erb:17
+#: ../app/views/smart_proxies/index.html.erb:11
 #: ../app/views/subnets/_form.html.erb:15
 #: ../app/views/taxonomies/_form.html.erb:46
 #: ../app/views/templates/_form.html.erb:20
@@ -8696,7 +8717,7 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: ../app/registries/menu/loader.rb:42 ../app/views/statistics/index.html.erb:1
+#: ../app/registries/menu/loader.rb:42
 #: ../webpack/assets/javascripts/react_app/routes/Statistics/StatisticsPage/StatisticsPage.js:7
 msgid "Statistics"
 msgstr ""
@@ -9217,11 +9238,11 @@ msgstr ""
 msgid "Class Distribution"
 msgstr ""
 
-#: ../app/services/statistics.rb:17
+#: ../app/services/statistics.rb:14
 msgid "Location Distribution"
 msgstr ""
 
-#: ../app/services/statistics.rb:21
+#: ../app/services/statistics.rb:15
 msgid "Organization Distribution"
 msgstr ""
 
@@ -9365,7 +9386,7 @@ msgid "Name"
 msgstr ""
 
 #: ../app/views/about/index.html.erb:26
-#: ../app/views/smart_proxies/index.html.erb:19
+#: ../app/views/smart_proxies/index.html.erb:12
 msgid "Features"
 msgstr ""
 
@@ -11687,8 +11708,8 @@ msgstr ""
 msgid "Time in Seconds"
 msgstr ""
 
-#: ../app/views/hosts/_selected_hosts.html.erb:42
-#: ../app/views/hosts/_selected_hosts.html.erb:43
+#: ../app/views/hosts/_selected_hosts.html.erb:40
+#: ../app/views/hosts/_selected_hosts.html.erb:41
 msgid "Remember hosts selection for the next bulk action"
 msgstr ""
 
@@ -13169,11 +13190,6 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/views/smart_proxies/index.html.erb:9 model_attributes.rb:528
 msgid "SmartProxy|Name"
-msgstr ""
-
-#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
-#: ../app/views/smart_proxies/index.html.erb:11 model_attributes.rb:530
-msgid "SmartProxy|Url"
 msgstr ""
 
 #: ../app/views/smart_proxies/logs/_errors_card.html.erb:3
@@ -14866,10 +14882,6 @@ msgstr ""
 msgid "Add Controller"
 msgstr ""
 
-#: ../webpack/assets/javascripts/react_app/pages/AuditsPage/AuditsPage.js:20
-msgid " Documentation"
-msgstr ""
-
 #:
 #: ../webpack/assets/javascripts/react_app/pages/HostWizardPage/HostWizard.js:20
 msgid "Host Wizard"
@@ -16049,6 +16061,11 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: model_attributes.rb:526
 msgid "SmartProxy|Expired logs"
+msgstr ""
+
+#. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
+#: model_attributes.rb:530
+msgid "SmartProxy|Url"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Tomer Brisker <tbrisker@redhat.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -836,6 +836,9 @@ msgstr ""
 msgid "Associate VMs to Hosts"
 msgstr ""
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr ""
 
@@ -1243,6 +1246,15 @@ msgstr ""
 msgid "Calling methods on objects"
 msgstr ""
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr ""
 
@@ -1405,7 +1417,7 @@ msgstr ""
 msgid "Click to add %s"
 msgstr ""
 
-msgid "Click to log in again."
+msgid "Click to log in again"
 msgstr ""
 
 msgid "Click to remove %s"
@@ -1600,6 +1612,12 @@ msgid "Configure"
 msgstr ""
 
 msgid "Configure instance %s via SSH"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Confirm Action"
 msgstr ""
 
 msgid "Conflict - %s"
@@ -4328,6 +4346,9 @@ msgstr "Username"
 msgid "Image|Uuid"
 msgstr "UUID"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr ""
 
@@ -5111,9 +5132,6 @@ msgstr ""
 msgid "List template inputs"
 msgstr ""
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr ""
 
@@ -5795,6 +5813,9 @@ msgstr ""
 msgid "No VMs matched any host."
 msgstr ""
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr ""
 
@@ -6098,6 +6119,9 @@ msgstr ""
 msgid "Number of records shown per page in Foreman"
 msgstr ""
 
+msgid "Number of results per page to return"
+msgstr ""
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
@@ -6171,9 +6195,6 @@ msgid "One or more of the associated filters are invalid which prevented the rol
 msgstr ""
 
 msgid "Only for BMC interfaces."
-msgstr ""
-
-msgid "Only for v3 authentication"
 msgstr ""
 
 msgid ""
@@ -6425,6 +6446,9 @@ msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
+msgstr ""
+
+msgid "Page number, starting at 1"
 msgstr ""
 
 msgid "Param name"
@@ -6782,10 +6806,16 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr ""
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9125,7 +9155,7 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr ""
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
 msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
@@ -9638,6 +9668,9 @@ msgstr "Upload facts for a host, creating the host if required"
 msgid "Uptime"
 msgstr ""
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9694,6 +9727,9 @@ msgid "User IDs"
 msgstr ""
 
 msgid "User data template"
+msgstr ""
+
+msgid "User domain"
 msgstr ""
 
 msgid "User groups"
@@ -10157,6 +10193,9 @@ msgstr ""
 msgid "You are about to unlock a locked template."
 msgstr ""
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "You are not authorised to lock templates."
 
@@ -10223,6 +10262,9 @@ msgstr ""
 msgid "You have already logged in"
 msgstr ""
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr ""
 
@@ -10242,6 +10284,9 @@ msgid "You must create at least one organization before continuing."
 msgstr "You must create at least one organisation before continuing."
 
 msgid "You must select at least one permission"
+msgstr ""
+
+msgid "You now act as %s again."
 msgstr ""
 
 msgid "You probably need to configure your %s first."
@@ -10388,6 +10433,9 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10443,9 +10491,6 @@ msgid "e.g. admin@internal"
 msgstr ""
 
 msgid "e.g. givenName"
-msgstr ""
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
@@ -10509,6 +10554,9 @@ msgid "for Libvirt and VMware only"
 msgstr ""
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10850,9 +10898,6 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "number of entries per request"
-msgstr "number of entries per request"
-
 msgid "oVirt/RHEV instance type"
 msgstr ""
 
@@ -10882,9 +10927,6 @@ msgstr "organisation"
 
 msgid "organizations"
 msgstr "organisations"
-
-msgid "paginate results"
-msgstr "paginate results"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr ""

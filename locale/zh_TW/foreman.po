@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -843,6 +843,9 @@ msgstr "建立 VM 與 Foreman 主機之間的相聯性"
 msgid "Associate VMs to Hosts"
 msgstr "將 VM 與主機建立關連"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr ""
 
@@ -1250,6 +1253,15 @@ msgstr ""
 msgid "Calling methods on objects"
 msgstr ""
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "無法刪除內部管理帳號"
 
@@ -1412,8 +1424,8 @@ msgstr "點選運算資源的連結來編輯其預設 VM 屬性。"
 msgid "Click to add %s"
 msgstr "點選以新增 %s"
 
-msgid "Click to log in again."
-msgstr "點選以再次登入。"
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "點選以移除 %s"
@@ -1608,6 +1620,12 @@ msgstr "配置"
 
 msgid "Configure instance %s via SSH"
 msgstr "透過 SSH 配置事例 %s"
+
+msgid "Confirm"
+msgstr "確認"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "衝突 - %s"
@@ -4338,6 +4356,9 @@ msgstr "使用者名稱"
 msgid "Image|Uuid"
 msgstr "UUID"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "匯入"
 
@@ -5121,9 +5142,6 @@ msgstr "列出範本組合"
 msgid "List template inputs"
 msgstr "列出範本輸入"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "載入資料中心"
 
@@ -5805,6 +5823,9 @@ msgstr "尚未定義 TFTP 協定，無法繼續"
 msgid "No VMs matched any host."
 msgstr ""
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "這期間稽核沒有變更"
 
@@ -6108,6 +6129,9 @@ msgstr "類別數量："
 msgid "Number of records shown per page in Foreman"
 msgstr "Foreman 中每頁所顯示的記錄數量"
 
+msgid "Number of results per page to return"
+msgstr "每頁要傳回的結果數量"
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
@@ -6182,9 +6206,6 @@ msgstr ""
 
 msgid "Only for BMC interfaces."
 msgstr "僅適用於 BMC 介面卡。"
-
-msgid "Only for v3 authentication"
-msgstr ""
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6436,6 +6457,9 @@ msgstr ""
 
 msgid "PXELinux template"
 msgstr ""
+
+msgid "Page number, starting at 1"
+msgstr "頁數，從 1 開始"
 
 msgid "Param name"
 msgstr "參數名稱"
@@ -6792,10 +6816,16 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "繼續前往編輯"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9141,8 +9171,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr ""
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "進行組建時，主機會從而截取範本的 URL（一般會是 http 因為許多安裝程式不支援 https）"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "URL 必須是有效的，且 schema 必須是 %s 之一"
@@ -9654,6 +9684,9 @@ msgstr "上傳主機的詳情，並視需求建立主機"
 msgid "Uptime"
 msgstr "上線時間"
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9710,6 +9743,9 @@ msgid "User IDs"
 msgstr "使用者 ID"
 
 msgid "User data template"
+msgstr ""
+
+msgid "User domain"
 msgstr ""
 
 msgid "User groups"
@@ -10173,6 +10209,9 @@ msgstr "您即將在所有已配置的 TFTP 伺服器上更改預設的 PXE 選�
 msgid "You are about to unlock a locked template."
 msgstr "即將解鎖已鎖定範本。"
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "您未經許可鎖定範本。"
 
@@ -10239,6 +10278,9 @@ msgstr "您似乎沒有任何報告。"
 msgid "You have already logged in"
 msgstr ""
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "您亦可為此媒介建立與一或更多個作業系統之間的相聯性，或之後在 %s 網頁上設定它。"
 
@@ -10259,6 +10301,9 @@ msgstr "在繼續進行前，您必須建立至少一個組織。"
 
 msgid "You must select at least one permission"
 msgstr "您必須選擇至少一個權限"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "您可能必須先配置您的 %s。"
@@ -10404,6 +10449,9 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10460,9 +10508,6 @@ msgstr "例如 admin@internal"
 
 msgid "e.g. givenName"
 msgstr "例如 givenName"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "例如 https://identity.api.rackspacecloud.com/v2.0"
@@ -10525,6 +10570,9 @@ msgid "for Libvirt and VMware only"
 msgstr "僅適用於 Libvirt 和 VMware"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10866,9 +10914,6 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "number of entries per request"
-msgstr "每個請求的項目數量"
-
 msgid "oVirt/RHEV instance type"
 msgstr ""
 
@@ -10898,9 +10943,6 @@ msgstr "組織"
 
 msgid "organizations"
 msgstr "組織"
-
-msgid "paginate results"
-msgstr "編頁結果"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "未定義由字串叵析的設定類型「%s」"

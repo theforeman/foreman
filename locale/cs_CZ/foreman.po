@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-07-05 18:28+0000\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -846,6 +846,9 @@ msgstr "Přiřadit virt. stroje k Foreman hostitelům"
 msgid "Associate VMs to Hosts"
 msgstr "Přiřadit virt. stroje k hostitelům"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr ""
 
@@ -1253,6 +1256,15 @@ msgstr "Ukládání do mezipaměti"
 msgid "Calling methods on objects"
 msgstr ""
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "Vnitřní účet správce není možné smazat"
 
@@ -1415,8 +1427,8 @@ msgstr ""
 msgid "Click to add %s"
 msgstr "%s přidáte kliknutím"
 
-msgid "Click to log in again."
-msgstr "Kliknutím se znovu přihlásíte."
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "%s odeberete kliknutím"
@@ -1611,6 +1623,12 @@ msgstr "Nastavit"
 
 msgid "Configure instance %s via SSH"
 msgstr "Nastavit instanci %s prostřednictvím SSH"
+
+msgid "Confirm"
+msgstr "Potvrdit"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Střet – %s"
@@ -4338,6 +4356,9 @@ msgstr "Image|Uživatelské jméno"
 msgid "Image|Uuid"
 msgstr ""
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "Import"
 
@@ -5121,9 +5142,6 @@ msgstr ""
 msgid "List template inputs"
 msgstr "Vypsat vstupy šablony"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "Načíst datacentra"
 
@@ -5805,6 +5823,9 @@ msgstr "Nejsou určené žádné TFTP proxy, není možno pokračovat"
 msgid "No VMs matched any host."
 msgstr ""
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr ""
 
@@ -6108,6 +6129,9 @@ msgstr "Počet tříd"
 msgid "Number of records shown per page in Foreman"
 msgstr "Počet záznamů na stránku ve Foreman"
 
+msgid "Number of results per page to return"
+msgstr ""
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
@@ -6181,9 +6205,6 @@ msgid "One or more of the associated filters are invalid which prevented the rol
 msgstr ""
 
 msgid "Only for BMC interfaces."
-msgstr ""
-
-msgid "Only for v3 authentication"
 msgstr ""
 
 msgid ""
@@ -6436,6 +6457,9 @@ msgstr ""
 
 msgid "PXELinux template"
 msgstr "Šablona PXELinux"
+
+msgid "Page number, starting at 1"
+msgstr "Číslo stránky, začíná od jedničky"
 
 msgid "Param name"
 msgstr "Název parametru"
@@ -6792,10 +6816,16 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "Pokračovat na úpravu"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9137,7 +9167,7 @@ msgstr "URL adresa"
 msgid "URL for %{providers_requiring_url}"
 msgstr "URL adresa pro %{providers_requiring_url}"
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
 msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
@@ -9650,6 +9680,9 @@ msgstr ""
 msgid "Uptime"
 msgstr ""
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9707,6 +9740,9 @@ msgstr "Identifikátory uživatele"
 
 msgid "User data template"
 msgstr "Šablona uživatelských dat"
+
+msgid "User domain"
+msgstr ""
 
 msgid "User groups"
 msgstr "Skupiny uživatelů"
@@ -10169,6 +10205,9 @@ msgstr ""
 msgid "You are about to unlock a locked template."
 msgstr ""
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr ""
 
@@ -10235,6 +10274,9 @@ msgstr ""
 msgid "You have already logged in"
 msgstr "Už jste přihlášeni"
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Také k tomuto médiu můžete přiřadit jeden a více operačních systémů, případně toto můžete nastavit později na stránce %s."
 
@@ -10255,6 +10297,9 @@ msgstr "Pro pokračování je třeba vytvořit alespoň jednu organizaci."
 
 msgid "You must select at least one permission"
 msgstr "Je třeba vybrat alespoň jedno oprávnění"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr ""
@@ -10400,6 +10445,9 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10456,9 +10504,6 @@ msgstr "např. spravce@interni"
 
 msgid "e.g. givenName"
 msgstr "např. Jméno"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "např. https://identity.api.rackspacecloud.com/v2.0"
@@ -10521,6 +10566,9 @@ msgid "for Libvirt and VMware only"
 msgstr "pouze pro Libvirt a VMware"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10864,9 +10912,6 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "number of entries per request"
-msgstr "počet položek na požadavek"
-
 msgid "oVirt/RHEV instance type"
 msgstr ""
 
@@ -10896,9 +10941,6 @@ msgstr "organizace"
 
 msgid "organizations"
 msgstr "organizace"
-
-msgid "paginate results"
-msgstr "stránkovat výsledky"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr ""
