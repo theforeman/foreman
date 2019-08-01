@@ -33,7 +33,7 @@ module AuditAssociations
     end
 
     def after_audit
-      try(:reset_dirty_cache_state)
+      #try(:reset_dirty_cache_state)
     end
   end
 
@@ -65,7 +65,7 @@ module AuditAssociations
 
     def configure_dirty_associations(associations)
       include DirtyAssociations unless included_modules.include?(DirtyAssociations)
-      self.disable_dirty_associations_after_save = true
+      #self.disable_dirty_associations_after_save = true
       dirty_has_many_associations(*associations)
     end
   end
