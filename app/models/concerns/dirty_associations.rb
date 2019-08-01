@@ -17,11 +17,11 @@ module DirtyAssociations
   included do
     after_save :reset_dirty_cache_after_save
     class_attribute :dirty_associations, default: []
-    #class_attribute :disable_dirty_associations_after_save, default: false
+    # class_attribute :disable_dirty_associations_after_save, default: false
   end
 
   def reset_dirty_cache_after_save
-    #return if self.class.disable_dirty_associations_after_save
+    # return if self.class.disable_dirty_associations_after_save
     reset_dirty_cache_state
   end
 
