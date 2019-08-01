@@ -39,6 +39,6 @@ class RendererTest < ActiveSupport::TestCase
     rendered = Foreman::TemplateSnapshotService.render_template(template)
     expected = File.read(Foreman::Renderer::Source::Snapshot.snapshot_path(template))
 
-    assert_equal(rendered, expected, "Rendered template #{template.name} is different than snapshot")
+    assert_equal(expected, rendered, "Rendered template #{template.name} is different than snapshot")
   end
 end
