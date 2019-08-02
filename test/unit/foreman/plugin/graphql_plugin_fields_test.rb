@@ -33,7 +33,7 @@ class Foreman::Plugin::GraphqlPluginFieldsTest < ActiveSupport::TestCase
   describe 'graphql plugin query fields' do
     it 'adds a record field' do
       registry = Foreman::Plugin::GraphqlTypesRegistry.new.tap do |reg|
-        reg.register_plugin_query_field :moo, Class, :record_field
+        reg.register_plugin_query_field :moo, 'Class', :record_field
       end
 
       klass = Class.new(GraphqlType)
@@ -49,7 +49,7 @@ class Foreman::Plugin::GraphqlPluginFieldsTest < ActiveSupport::TestCase
 
     it 'adds a collection field' do
       registry = Foreman::Plugin::GraphqlTypesRegistry.new.tap do |reg|
-        reg.register_plugin_query_field :woof, Class, :collection_field
+        reg.register_plugin_query_field :woof, 'Class', :collection_field
       end
 
       klass = Class.new(GraphqlType)
@@ -67,7 +67,7 @@ class Foreman::Plugin::GraphqlPluginFieldsTest < ActiveSupport::TestCase
   describe 'graphql plugin mutation fields' do
     it 'adds a mutation field' do
       registry = Foreman::Plugin::GraphqlTypesRegistry.new.tap do |reg|
-        reg.register_plugin_mutation_field :quack, Class.new
+        reg.register_plugin_mutation_field :quack, 'Class'
       end
 
       klass = Class.new(GraphqlType)

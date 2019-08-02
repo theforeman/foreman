@@ -1931,8 +1931,8 @@ When you create a new graphql type in your plugin, you need to register it in yo
 
 [source, ruby]
 ....
-  register_graphql_query_field :duck, ::Types::Duck, :record_field
-  register_graphql_query_field :ducks, ::Types::Duck, :collection_field
+  register_graphql_query_field :duck, '::Types::Duck', :record_field
+  register_graphql_query_field :ducks, '::Types::Duck', :collection_field
 ....
 
 With the example above, server will know how to respond to `duck` and `ducks` queries. The first argument of `register_graphql_field` is query name, second is the type class and the third is whether the query is for a single record or a collection.
@@ -1941,7 +1941,7 @@ Similarly for mutations:
 
 [source, ruby]
 ....
-  register_graphql_mutation_field :delete_duck, ::Mutations::Ducks::Delete
+  register_graphql_mutation_field :delete_duck, '::Mutations::Ducks::Delete'
 ....
 
 where `::Mutations::Ducks::Delete` is your delete mutation class inheriting from `::Mutations::DeleteMutation`.
