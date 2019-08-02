@@ -7,9 +7,6 @@ class Foreman::Plugin::GraphqlTypesRegistryTest < ActiveSupport::TestCase
     end
   end
 
-  class TestType
-  end
-
   let(:registry) { Foreman::Plugin::GraphqlTypesRegistry.new }
   let(:type_for_testing) { Class.new }
 
@@ -62,25 +59,25 @@ class Foreman::Plugin::GraphqlTypesRegistryTest < ActiveSupport::TestCase
     end
 
     it 'registers plugin query fields' do
-      registry.register_plugin_query_field :baz, TestType, :record_field
+      registry.register_plugin_query_field :baz, 'TestType', :record_field
       assert_equal 1, registry.plugin_query_fields.size
       assert_equal :baz, registry.plugin_query_fields.first[:field_name]
       assert_equal :record_field, registry.plugin_query_fields.first[:field_type]
-      assert_equal TestType, registry.plugin_query_fields.first[:type]
+      assert_equal 'TestType', registry.plugin_query_fields.first[:type]
     end
 
     it 'raises on invalid field type' do
       err = assert_raises RuntimeError do
-        registry.register_plugin_query_field :woof, TestType, :custom_field
+        registry.register_plugin_query_field :woof, 'TestType', :custom_field
       end
       assert_equal err.message, "expected :record_field or :collection_field as a field_type, got custom_field"
     end
 
     it 'registeres plugin mutation fields' do
-      registry.register_plugin_mutation_field :boom, TestType
+      registry.register_plugin_mutation_field :boom, 'TestType'
       assert_equal 1, registry.plugin_mutation_fields.size
       assert_equal :boom, registry.plugin_mutation_fields.first[:field_name]
-      assert_equal TestType, registry.plugin_mutation_fields.first[:mutation]
+      assert_equal 'TestType', registry.plugin_mutation_fields.first[:mutation]
     end
   end
 end
