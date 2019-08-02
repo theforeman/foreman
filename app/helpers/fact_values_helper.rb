@@ -26,7 +26,7 @@ module FactValuesHelper
     if value_name != memo || value.compose
       parameters = { :parent_fact => memo }
       url = host_parent_fact_facts_path(parameters.merge({ :host_id => host_id || value.host.name }))
-      link_to(current_name, url,
+      link_to(current_name, url.gsub('%2F', '/'),
               :title => _("Show all %s children fact values") % memo)
     else
       link_to(current_name, fact_values_path(:search => "name = #{value_name}"),
