@@ -1,5 +1,5 @@
 class OrganizationParameter < Parameter
-  audited :except => [:priority], :associated_with => :organization
+  audited :except => [:priority, :searchable_value], :associated_with => :organization
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :organization, :presence => true
 

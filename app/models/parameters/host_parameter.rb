@@ -1,5 +1,5 @@
 class HostParameter < Parameter
-  audited :except => [:priority], :associated_with => :host
+  audited :except => [:priority, :searchable_value], :associated_with => :host
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :host, :presence => true
 

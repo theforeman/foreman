@@ -39,7 +39,7 @@ class Parameter < ApplicationRecord
   default_scope -> { order("parameters.name") }
 
   before_create :set_priority
-  before_save :set_cloned_value
+  before_save :set_searchable_value
 
   PRIORITY = { :common_parameter => 0,
                :organization_parameter => 10,
@@ -69,7 +69,7 @@ class Parameter < ApplicationRecord
       :value => value, :source => source, :key_type => key_type,
       :safe_value => safe_value, :parameter_type => parameter_type,
       :hidden_value? => hidden_value?,
-      :cloned_value => cloned_value
+      :searchable_value => searchable_value
     }
     options[:source_name] = source_name if source_name
     options
@@ -77,8 +77,8 @@ class Parameter < ApplicationRecord
 
   private
 
-  def set_cloned_value
-    self.cloned_value = Parameter.format_value_before_type_cast(value, key_type)
+  def set_searchable_value
+    self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
   end
 
   def set_priority

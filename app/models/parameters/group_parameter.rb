@@ -1,5 +1,5 @@
 class GroupParameter < Parameter
-  audited :except => [:priority], :associated_with => :hostgroup
+  audited :except => [:priority, :searchable_value], :associated_with => :hostgroup
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :hostgroup, :presence => true
 

@@ -1,5 +1,5 @@
 class SubnetParameter < Parameter
-  audited :except => [:priority], :associated_with => :subnet
+  audited :except => [:priority, :searchable_value], :associated_with => :subnet
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :subnet, :presence => true
 

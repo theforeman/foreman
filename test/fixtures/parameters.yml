@@ -2,14 +2,14 @@
 common:
   name: test
   value: myvalue
-  cloned_value: myvalue
+  searchable_value: myvalue
   key_type: string
   type: CommonParameter
 
 domain:
   name: parameter
   value: value1
-  cloned_value: value1
+  searchable_value: value1
   key_type: string
   type: DomainParameter
   domain: mydomain
@@ -17,7 +17,7 @@ domain:
 host:
   name: host1
   value: host1
-  cloned_value: host1
+  searchable_value: host1
   key_type: string
   type: HostParameter
   host: one
@@ -25,7 +25,7 @@ host:
 group:
   name: group1
   value: group1
-  cloned_value: group1
+  searchable_value: group1
   key_type: string
   type: GroupParameter
   hostgroup: common
@@ -33,7 +33,7 @@ group:
 os:
   name: os1
   value: os1
-  cloned_value: os1
+  searchable_value: os1
   key_type: string
   type: OsParameter
   operatingsystem: redhat
@@ -41,7 +41,7 @@ os:
 location:
   name: loc_param
   value: abc
-  cloned_value: abc
+  searchable_value: abc
   key_type: string
   type: LocationParameter
   location: location1
@@ -49,7 +49,7 @@ location:
 organization:
   name: org_param
   value: xyz
-  cloned_value: xyz
+  searchable_value: xyz
   key_type: string
   type: OrganizationParameter
   organization: organization1
@@ -57,7 +57,7 @@ organization:
 subnet:
   name: parameter
   value: subnet1
-  cloned_value: subnet1
+  searchable_value: subnet1
   key_type: string
   type: SubnetParameter
   subnet: five

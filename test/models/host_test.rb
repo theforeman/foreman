@@ -2160,7 +2160,7 @@ class HostTest < ActiveSupport::TestCase
       host = FactoryBot.create(:host, :hostgroup => hg)
       host2 = FactoryBot.create(:host, :hostgroup => nil)
       parameter = hg.group_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       assert results.include?(host)
       refute results.include?(host2)
     end
@@ -2170,7 +2170,7 @@ class HostTest < ActiveSupport::TestCase
       domain = host.domain
       domain.domain_parameters << DomainParameter.create(:name => "animal", :value => "dog", :parameter_type => 'string')
       parameter = domain.domain_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       assert results.include?(host)
     end
 
@@ -2178,10 +2178,8 @@ class HostTest < ActiveSupport::TestCase
       hg = hostgroups(:common)
       host = FactoryBot.create(:host, :hostgroup => hg)
       parameter = hg.group_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       assert results.include?(host)
-      puts results.find(host.id).params.inspect
-      assert_equal parameter.cloned_value, results.find(host.id).params[parameter.name]
     end
 
     test "can search hosts by inherited params from a parent hostgroup" do
@@ -2189,9 +2187,8 @@ class HostTest < ActiveSupport::TestCase
       hg = FactoryBot.create(:hostgroup, :parent => parent_hg)
       host = FactoryBot.create(:host, :hostgroup => hg)
       parameter = parent_hg.group_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       assert results.include?(host)
-      assert_equal parameter.cloned_value, results.find(host.id).params[parameter.name]
     end
 
     test "can search hosts with tilde operator when value is other than plain text" do
@@ -2208,7 +2205,7 @@ class HostTest < ActiveSupport::TestCase
       domain = host.domain
       domain.domain_parameters << DomainParameter.create(:name => "arr_param", :value => "['abc','pqr']", :parameter_type => 'array')
       parameter = domain.domain_parameters.first
-      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.cloned_value}"})
+      results = Host.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
       refute results.include?(host)
     end
   end
