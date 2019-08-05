@@ -12,18 +12,18 @@ module Foreman
             Template.new(name: name, template: content)
           end
 
-          def snapshot_path(template)
-            path = File.join(fetch_metadata(template.template, :model, 'undefined'),
-                             fetch_metadata(template.template, :kind, 'undefined'),
-                             template.name)
-
-            root = @overrides.try(:[], path) || SNAPSHOTS_DIRECTORY
-            File.join(root, "#{path}.snap.txt")
+          def snapshot_variants(template)
+            Dir["#{File.join(SNAPSHOTS_DIRECTORY, template_path(template))}*"]
           end
 
-          def register_override(template, override)
-            @overrides ||= {}
-            @overrides[template] = override
+          def snapshot_path(template)
+            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.snap.txt")
+          end
+
+          def template_path(template)
+            File.join(fetch_metadata(template.template, :model, 'undefined'),
+                      fetch_metadata(template.template, :kind, 'undefined'),
+                      template.name)
           end
 
           private
