@@ -132,9 +132,17 @@ module Taxonomix
     end
 
     def apply_scope_joins(scope, ids_hash)
-      scope = scope_join_by(scope, ids_hash[:loc_ids], :by_loc)
-      scope = scope_join_by(scope, ids_hash[:org_ids], :by_org)
-      scope
+      ord_values = scope.order_values.uniq
+      # ORDER BY clause should come after INTERSECT not before
+      # so remove any applied order from scope
+      scope = scope.reorder(nil) unless ord_values.empty?
+      loc_scope = scope_join_by(scope, ids_hash[:loc_ids], :locations)
+      org_scope = scope_join_by(scope, ids_hash[:org_ids], :organizations)
+      intersection = loc_scope.arel.intersect org_scope.arel
+      # apply order after the INTERSECT
+      result_scope = self.from(self.arel_table.create_table_alias(intersection, self.table_name))
+      result_scope = result_scope.order(*ord_values) unless ord_values.empty?
+      result_scope
     end
 
     # override to determine taxable_type in taxable_taxonomies table for STI
@@ -142,15 +150,9 @@ module Taxonomix
       self
     end
 
-    def scope_join_by(scope, ids, table_alias)
+    def scope_join_by(scope, ids, taxonomy_relation)
       if ids.present?
-        scope.joins("INNER JOIN
-                         (SELECT taxable_id, taxonomy_id
-                          FROM taxable_taxonomies
-                          WHERE taxonomy_id IN (#{ids.join(',')})
-                            AND taxable_taxonomies.taxable_type = '#{taxable_type}'
-                          ) #{table_alias}
-                       ON #{table_alias}.taxable_id = #{table_name}.id")
+        scope.joins(taxonomy_relation).where(:taxonomies => { :id => ids })
       else
         scope
       end

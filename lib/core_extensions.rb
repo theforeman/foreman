@@ -176,6 +176,8 @@ class ActiveModel::Errors
   end
 end
 
+# TODO: probably no longer needed as string conditions were removed from taxonomix in this commit,
+# try to remove and watch for errors
 # based on https://github.com/rails/rails/pull/36284
 # Arel::Nodes::StringJoin has no right side, so make sure it is properly applied
 # needed for Taxonomix to properly join the taxable scopes, see scope_join_by

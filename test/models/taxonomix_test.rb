@@ -334,7 +334,7 @@ class TaxonomixTest < ActiveSupport::TestCase
   context 'admin permissions' do
     test "returns only visible objects when org/loc are selected" do
       scoped_environments = Environment.
-        with_taxonomy_scope([taxonomies(:organization1)])
+        with_taxonomy_scope([], [taxonomies(:organization1)])
       assert scoped_environments.include?(*taxonomies(:organization1).environments)
       assert_not_equal Environment.unscoped.all, scoped_environments
       assert_equal taxonomies(:organization1).environments, scoped_environments
