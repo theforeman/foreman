@@ -15,10 +15,11 @@ RUN \
 
 ARG HOME=/home/foreman
 WORKDIR $HOME
-RUN groupadd -r foreman -f -g 1001 && \
+RUN groupadd -r foreman -f -g 0 && \
     useradd -u 1001 -r -g foreman -d $HOME -s /sbin/nologin \
     -c "Foreman Application User" foreman && \
-    chown -R 1001:1001 $HOME
+    chown -R 1001:0 $HOME && \
+    chmod -R g=u ${HOME}
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
@@ -43,7 +44,7 @@ ENV DATABASE_URL=sqlite3:tmp/bootstrap-db.sql
 ARG HOME=/home/foreman
 USER 1001
 WORKDIR $HOME
-COPY --chown=1001:1001 . ${HOME}/
+COPY --chown=1001:0 . ${HOME}/
 # Adding missing gems, for tzdata see https://bugzilla.redhat.com/show_bug.cgi?id=1611117
 RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb
 RUN bundle install --without "${BUNDLER_SKIPPED_GROUPS}" \
@@ -59,6 +60,12 @@ RUN \
 RUN ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && npm run analyze && rm -rf public/webpack/stats.json
 RUN rm -rf vendor/ruby/*/cache vendor/ruby/*/gems/*/node_modules
 
+USER 0
+RUN chgrp -R 0 ${HOME} && \
+    chmod -R g=u ${HOME}
+
+USER 1001
+
 FROM base
 
 ARG HOME=/home/foreman
@@ -68,12 +75,12 @@ ENV RAILS_LOG_TO_STDOUT=true
 
 USER 1001
 WORKDIR ${HOME}
-COPY --chown=1001:1001 . ${HOME}/
+COPY --chown=1001:0 . ${HOME}/
 COPY --from=builder /usr/bin/entrypoint.sh /usr/bin/entrypoint.sh
-COPY --from=builder --chown=1001:1001 ${HOME}/.bundle/config ${HOME}/.bundle/config
-COPY --from=builder --chown=1001:1001 ${HOME}/Gemfile.lock ${HOME}/Gemfile.lock
-COPY --from=builder --chown=1001:1001 ${HOME}/vendor/ruby ${HOME}/vendor/ruby
-COPY --from=builder --chown=1001:1001 ${HOME}/public ${HOME}/public
+COPY --from=builder --chown=1001:0 ${HOME}/.bundle/config ${HOME}/.bundle/config
+COPY --from=builder --chown=1001:0 ${HOME}/Gemfile.lock ${HOME}/Gemfile.lock
+COPY --from=builder --chown=1001:0 ${HOME}/vendor/ruby ${HOME}/vendor/ruby
+COPY --from=builder --chown=1001:0 ${HOME}/public ${HOME}/public
 RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb
 
 RUN date -u > BUILD_TIME
