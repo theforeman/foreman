@@ -2,7 +2,7 @@ module Foreman::Model
   class GCE < ComputeResource
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
     before_create :setup_key_pair
-    validate :check_google_key_path
+    validate :check_google_key_format_and_options
     validates :key_path, :project, :email, :presence => true
 
     delegate :machine_types, :to => :client
@@ -246,11 +246,18 @@ module Foreman::Model
       network_interfaces_list
     end
 
-    def check_google_key_path
+    def check_google_key_format_and_options
       return if key_path.blank?
-      unless File.exist?(key_path)
+      if File.exist?(key_path)
+        key_hash = JSON.parse(File.read(key_path).chomp)
+        unless key_hash.key?('client_email') && key_hash.key?('private_key')
+          errors.add(:key_path, _("Invalid Google JSON key. Please verify key includes client email & private key options"))
+        end
+      else
         errors.add(:key_path, _('Unable to access key'))
       end
+    rescue JSON::ParserError
+      errors.add(:key_path, _('Certificate key is not a valid JSON'))
     rescue => e
       Foreman::Logging.exception("Failed to access gce key path", e)
       errors.add(:key_path, e.message.to_s)
