@@ -9,7 +9,7 @@
 
 [Foreman](https://theforeman.org) is a free open source project that gives you the power to easily **automate repetitive tasks**, quickly **deploy applications**, and proactively **manage your servers lifecyle**, on-premises or in the cloud.
 
-From **provisioning** and **configuration** to **orchestration** and **monitoring**, Foreman integrates with your existing infrastructure to make operations easier.
+From **provisioning** and **configuration** to **orchestration** and **monitoring**, Foreman integrates with your existing infrastructure to make operations much easier.
 
 * Website: [theforeman.org](https://theforeman.org)
 * ServerFault tag: [Foreman](https://serverfault.com/questions/tagged/foreman)
