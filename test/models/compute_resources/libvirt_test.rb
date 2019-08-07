@@ -144,7 +144,7 @@ class Foreman::Model::LibvirtTest < ActiveSupport::TestCase
     let(:cr) { FactoryBot.build(:libvirt_cr) }
 
     describe 'images' do
-      let(:cr) { FactoryBot.create(:gce_cr, :with_images) }
+      let(:cr) { FactoryBot.create(:libvirt_cr, :with_images) }
 
       test 'adds image name' do
         vm_attrs = {

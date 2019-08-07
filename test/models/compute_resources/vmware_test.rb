@@ -843,7 +843,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     end
 
     describe 'images' do
-      let(:base_cr) { FactoryBot.create(:gce_cr, :with_images) }
+      let(:base_cr) { FactoryBot.create(:vmware_cr, :with_images) }
 
       test 'adds image name' do
         vm_attrs = {
