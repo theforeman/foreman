@@ -38,8 +38,9 @@ module Foreman
       end
 
       describe '#normalize_vm_attrs' do
+        let(:base_cr) { FactoryBot.build(:ec2_cr) }
         let(:cr) do
-          mock_cr(FactoryBot.build(:ec2_cr),
+          mock_cr(base_cr,
             :subnets => [
               stub(:subnet_id => 'sn1', :cidr_block => 'cidr blk 1'),
               stub(:subnet_id => 'sn2', :cidr_block => 'cidr blk 2'),
@@ -85,15 +86,17 @@ module Foreman
           assert_equal('cidr blk 1', normalized['subnet_name'])
         end
 
-        test 'sets image_name' do
-          cr = FactoryBot.create(:gce_cr, :with_images)
+        describe 'images' do
+          let(:base_cr) { FactoryBot.create(:ec2_cr, :with_images) }
 
-          vm_attrs = {
-            'image_id' => cr.images.last.uuid,
-          }
-          normalized = cr.normalize_vm_attrs(vm_attrs)
+          test 'sets image_name' do
+            vm_attrs = {
+              'image_id' => cr.images.last.uuid,
+            }
+            normalized = cr.normalize_vm_attrs(vm_attrs)
 
-          assert_equal(cr.images.last.name, normalized['image_name'])
+            assert_equal(cr.images.last.name, normalized['image_name'])
+          end
         end
 
         test 'maps security_groups' do

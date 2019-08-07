@@ -115,8 +115,9 @@ module Foreman
       end
 
       describe '#normalize_vm_attrs' do
+        let(:base_cr) { FactoryBot.build(:openstack_cr) }
         let(:cr) do
-          mock_cr(FactoryBot.build(:openstack_cr),
+          mock_cr(base_cr,
             :security_groups => [
               stub(:id => 'grp1', :name => 'group 1'),
               stub(:id => 'grp2', :name => 'group 2'),
@@ -271,20 +272,20 @@ module Foreman
         end
 
         describe 'images' do
-          let(:cr) { FactoryBot.create(:gce_cr, :with_images) }
+          let(:base_cr) { FactoryBot.create(:openstack_cr, :with_images) }
 
           test 'adds image name' do
             vm_attrs = {
-              'image_id' => cr.images.last.uuid,
+              'image_ref' => cr.images.last.uuid,
             }
             normalized = cr.normalize_vm_attrs(vm_attrs)
 
             assert_equal(cr.images.last.name, normalized['image_name'])
           end
 
-          test 'leaves image name empty when image_id is nil' do
+          test 'leaves image name empty when image_ref is nil' do
             vm_attrs = {
-              'image_id' => nil,
+              'image_ref' => nil,
             }
             normalized = cr.normalize_vm_attrs(vm_attrs)
 
@@ -294,7 +295,7 @@ module Foreman
 
           test "leaves image name empty when image wasn't found" do
             vm_attrs = {
-              'image_id' => 'unknown',
+              'image_ref' => 'unknown',
             }
             normalized = cr.normalize_vm_attrs(vm_attrs)
 
