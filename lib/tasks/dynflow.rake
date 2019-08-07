@@ -10,4 +10,11 @@ END_DESC
   task :executor => :environment do
     Dynflow::Rails::Daemon.new.run
   end
+
+  task :migrate => :environment do
+    world = OpenStruct.new(:config => OpenStruct.new(:queues => {}))
+    config = Dynflow::Rails::Configuration.new
+    # Persistence initialization automatically migrates the db
+    config.send(:initialize_persistence, world)
+  end
 end
