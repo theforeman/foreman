@@ -14,15 +14,33 @@
 module DirtyAssociations
   extend ActiveSupport::Concern
 
+  included do
+    after_save :reset_dirty_cache_state
+    class_attribute :dirty_associations, default: []
+  end
+
+  def reset_dirty_cache_state
+    self.class.dirty_associations.each do |assoc|
+      send("reset_#{assoc}_dirty_cache_state")
+    end
+  end
+
   module ClassMethods
     # usage:
     #   class Model
     #     dirty_has_many_associations :organizations, :locations
     def dirty_has_many_associations(*args)
+      self.dirty_associations += args
+
       extension = Module.new do
         args.each do |association|
           association_ids = association.to_s
           association_ids = association_ids.singularize + '_ids' unless association.to_s.end_with?('_ids')
+
+          define_method "reset_#{association}_dirty_cache_state" do
+            instance_variable_set("@#{association_ids}_changed", false)
+            instance_variable_set("@#{association_ids}_was", nil)
+          end
 
           # result for :organizations
           #   def organization_ids_with_change_detection=(organizations)
