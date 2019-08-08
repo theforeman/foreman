@@ -978,7 +978,32 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal host.puppetclasses.first.name, puppet_class
   end
 
+  context 'parameters type' do
+    test "should create an host parameter with parameter type" do
+      host = FactoryBot.build(:host)
+      host_params = [{:name => "foo", :value => 42, :parameter_type => 'integer'}]
+      post :create, params: { host: host.attributes.merge(parameters: host_params) }
+      assert_response :success
+    end
+
+    test "should show an host parameter with parameter type" do
+      host = FactoryBot.create(:host)
+      host.host_parameters.create!(:name => "foo", :value => 42, :parameter_type => 'integer')
+      get :show, params: { :id => host.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 42, show_response['parameters'].first['value'].to_i
+      assert_equal 'integer', show_response['parameters'].first['parameter_type']
+    end
+  end
+
   context 'hidden parameters' do
+    test "should create an host parameter with hidden_value" do
+      host = FactoryBot.build(:host)
+      host_params = [{:name => "foo", :value => "bar", :hidden_value => true}]
+      post :create, params: { host: host.attributes.merge(parameters: host_params) }
+      assert_response :success
+    end
+
     test "should show a host parameter as hidden unless show_hidden_parameters is true" do
       host = FactoryBot.create(:host)
       host.host_parameters.create!(:name => "foo", :value => "bar", :hidden_value => true)
