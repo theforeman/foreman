@@ -20,7 +20,7 @@ module SettingsHelper
     when "array"
       "[ " + setting.value.join(", ") + " ]"
     else
-      setting.value
+      setting.safe_value
     end
   rescue
     setting.value
