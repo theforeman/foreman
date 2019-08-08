@@ -100,6 +100,8 @@ module Api
           param :host_parameters_attributes, Array, :desc => N_("Host's parameters (array or indexed hash)") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true
             param :value, String, :desc => N_("Parameter value"), :required => true
+            param :parameter_type, Parameter::KEY_TYPES, :desc => N_("Type of value"), :required => true
+            param :hidden_value, :bool
           end
           param :build, :bool
           param :enabled, :bool, :desc => N_("Include this host within Foreman reporting")
