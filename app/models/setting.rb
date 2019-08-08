@@ -6,6 +6,7 @@ class Setting < ApplicationRecord
   friendly_id :name
   include ActiveModel::Validations
   include EncryptValue
+  include HiddenValue
   self.inheritance_column = 'category'
 
   TYPES = %w{integer boolean hash array string}
@@ -315,6 +316,10 @@ class Setting < ApplicationRecord
     else
       !default.nil?
     end
+  end
+
+  def hidden_value?
+    encrypted
   end
 
   private
