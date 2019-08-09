@@ -71,7 +71,7 @@ module Api
         begin
           @compute_resource = ComputeResource.new_provider(compute_resource_params)
         rescue Foreman::Exception => e
-          render_message(e.message, :status => :unprocessable_entity)
+          render_exception(e, :status => :unprocessable_entity)
           return
         end
 

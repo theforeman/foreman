@@ -292,7 +292,7 @@ Return the host's compute attributes that can be used to create a clone of this 
           render :json => { :error => _("Unknown device: available devices are %s") % valid_devices.join(', ') }, :status => :unprocessable_entity
         end
       rescue ::Foreman::Exception => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        render_exception(e, :status => :unprocessable_entity)
       end
 
       api :POST, "/hosts/facts", N_("Upload facts for a host, creating the host if required")
@@ -306,7 +306,7 @@ Return the host's compute attributes that can be used to create a clone of this 
         state = @host.import_facts(params[:facts].to_unsafe_h, detected_proxy)
         process_response state
       rescue ::Foreman::Exception => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        render_exception(e, :status => :unprocessable_entity)
       end
 
       api :PUT, "/hosts/:id/rebuild_config", N_("Rebuild orchestration config")

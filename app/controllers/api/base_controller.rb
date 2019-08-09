@@ -126,7 +126,7 @@ module Api
 
     def service_unavailable(exception = nil)
       logger.debug "service unavailable: #{exception}" if exception
-      render_message(exception.message, :status => :service_unavailable)
+      render_exception(exception, :status => :service_unavailable)
     end
 
     def process_resource_error(options = { })
@@ -159,6 +159,11 @@ module Api
     def render_message(msg, render_options = {})
       render_options[:json] = { :message => msg }
       render render_options
+    end
+
+    def render_exception(exception, render_options = {})
+      Foreman::Logging.exception(exception.to_s, exception)
+      render_message(exception.to_s, render_options)
     end
 
     def log_resource_errors(resource)

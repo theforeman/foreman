@@ -40,7 +40,7 @@ module Api
         @report = resource_class.import(params.to_unsafe_h[:report], detected_proxy.try(:id))
         process_response @report.errors.empty?
       rescue ::Foreman::Exception => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        render_exception(e, :status => :unprocessable_entity)
       end
 
       api :DELETE, "/reports/:id/", N_("Delete a report")

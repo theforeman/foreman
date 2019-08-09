@@ -85,7 +85,8 @@ module Foreman
     def exception(context_message, exception, options = {})
       options.assert_valid_keys :level, :logger
       logger_name = options[:logger] || 'app'
-      level       = options[:level] || :warn
+      level = options[:level] || :warn
+      backtrace_level = options[:backtrace_level] || :debug
       unless ::Logging::LEVELS.key?(level.to_s)
         raise "Unexpected log level #{level}, expected one of #{::Logging::LEVELS.keys}"
       end
@@ -98,9 +99,11 @@ module Foreman
       }
       extra_fields[:foreman_code] = exception.code if exception.respond_to?(:code)
       with_fields(extra_fields) do
-        self.logger(logger_name).public_send(level) do
-          ([context_message, "#{exception.class}: #{exception.message}"] + backtrace).join("\n")
-        end
+        self.logger(logger_name).public_send(level) { context_message }
+      end
+      # backtrace have its own separate level to prevent flooding logs with backtraces
+      self.logger(logger_name).public_send(backtrace_level) do
+        "Backtrace for '#{context_message}' error (#{exception.class}): #{exception.message}\n" + backtrace.join("\n")
       end
     end
 

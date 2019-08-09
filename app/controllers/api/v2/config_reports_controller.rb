@@ -41,7 +41,7 @@ module Api
         @config_report = ConfigReport.import(params.to_unsafe_h[:config_report], detected_proxy.try(:id))
         process_response @config_report.errors.empty?
       rescue ::Foreman::Exception => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        render_exception(e, :status => :unprocessable_entity)
       end
 
       api :DELETE, "/config_reports/:id/", N_("Delete a report")
