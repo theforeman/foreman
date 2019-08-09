@@ -102,7 +102,7 @@ module Api
 
         render :json => @operatingsystem.pxe_files(medium_provider)
       rescue => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        render_exception(e, :status => :unprocessable_entity)
       end
 
       private
