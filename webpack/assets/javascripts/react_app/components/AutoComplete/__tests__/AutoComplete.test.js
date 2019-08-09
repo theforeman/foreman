@@ -133,7 +133,7 @@ describe('AutoComplete', () => {
     });
 
     it('menu should be hidden if no results', () => {
-      const props = { ...getProps() };
+      const props = getProps();
       const component = mount(<AutoComplete {...props} results={[]} />);
       const mainInput = component.find('.rbt-input-main').first();
       mainInput.simulate('focus', { target: { value: '' } });
