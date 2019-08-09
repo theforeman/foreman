@@ -15,13 +15,15 @@ describe('Slot-Fill', () => {
   const integrationTestHelper = new IntegrationTestHelper(combinedReducers);
 
   it('render multiple fills', () => {
+    const FirstComponent = () => <span> Should be the first in the snap</span>;
+    const SecondComponent = () => <span> Should be the first in the snap</span>;
     const wrapper = integrationTestHelper.mount(
       <React.Fragment>
         <Fill slotId="slot-1" id="some-key-1" weight={100}>
-          <div key={1}> should be the second in the snap </div>
+          <SecondComponent key={1} />
         </Fill>
         <Fill slotId="slot-1" id="some-key-2" weight={200}>
-          <span key={2}> Should be the first in the snap</span>
+          <FirstComponent key={2} />
         </Fill>
 
         <Slot id="slot-1" multi>
@@ -40,7 +42,7 @@ describe('Slot-Fill', () => {
     const wrapper = integrationTestHelper.mount(
       <React.Fragment>
         <Fill slotId="slot-9" id="some-key-1" weight={100}>
-          <SlotComponent />
+          <SlotComponent key="key" />
         </Fill>
 
         <Slot id="slot-9" text="this prop should be taken" />
@@ -52,6 +54,10 @@ describe('Slot-Fill', () => {
   });
 
   it('Fill with no component nor overriden props should throw an error', () => {
+    // eslint-disable-next-line no-console
+    const err = console.error;
+    // eslint-disable-next-line no-console
+    console.error = jest.fn();
     expect(() => {
       integrationTestHelper.mount(
         <React.Fragment>
@@ -61,16 +67,22 @@ describe('Slot-Fill', () => {
         </React.Fragment>
       );
     }).toThrowError(new Error('Slot with override props must have a child'));
+    // eslint-disable-next-line no-console
+    console.error = err;
   });
 
   it('no multiple fills', () => {
+    const AbsentComponent = () => <div> This should not be in the snap </div>;
+    const PresentComponent = () => (
+      <span> This span should be in the snap </span>
+    );
     const wrapper = integrationTestHelper.mount(
       <React.Fragment>
         <Fill slotId="slot-2" id="some-key-1" weight={100}>
-          <div> This should not be in the snap </div>
+          <AbsentComponent key="a" />
         </Fill>
         <Fill slotId="slot-2" id="some-key-1" weight={200}>
-          <span> This span should be in the snap </span>
+          <PresentComponent key="b" />
         </Fill>
 
         <Slot id="slot-2" multi={false}>
@@ -93,7 +105,7 @@ describe('Slot-Fill', () => {
         />
 
         <Slot id="slot-3" multi={false}>
-          <SlotComponent />
+          <SlotComponent key="c" />
         </Slot>
       </React.Fragment>
     );
@@ -145,7 +157,10 @@ describe('Slot-Fill', () => {
           weight={100}
         />
         <Fill
-          overrideProps={{ text: 'This text should be in the snap' }}
+          overrideProps={{
+            text: 'This text should be in the snap',
+            key: 'textKey',
+          }}
           slotId="slot-6"
           id="some-key-2"
           weight={200}
@@ -159,7 +174,8 @@ describe('Slot-Fill', () => {
     expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
   });
 
-  it('multi slot with override props fill amd component fill', () => {
+  it('multi slot with override props fill and component fill', () => {
+    const TestComponent = () => <div> Also this should be in the snap </div>;
     const wrapper = integrationTestHelper.mount(
       <React.Fragment>
         <Fill
@@ -169,7 +185,7 @@ describe('Slot-Fill', () => {
           weight={100}
         />
         <Fill slotId="slot-10" id="some-key-2" weight={100}>
-          <div key="abc"> Also this should be in the snap </div>
+          <TestComponent key="abc" />
         </Fill>
         <Slot id="slot-10" multi>
           <SlotComponent text="Default Value" />

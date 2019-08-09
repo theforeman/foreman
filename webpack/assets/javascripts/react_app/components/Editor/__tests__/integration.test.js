@@ -1,16 +1,18 @@
 import React from 'react';
 
-import API from '../../../API';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
 import { editorOptions, serverRenderResponse } from '../Editor.fixtures';
 import Editor, { reducers } from '../index';
+import * as EditorActions from '../EditorActions';
 
 jest.mock('../../../API');
 
 describe('Editor integration test', () => {
   it('should flow', () => {
-    API.get.mockImplementation(async () => serverRenderResponse);
+    jest
+      .spyOn(EditorActions, 'fetchTemplatePreview')
+      .mockImplementation(async () => serverRenderResponse);
 
     const integrationTestHelper = new IntegrationTestHelper(reducers);
 

@@ -14,6 +14,7 @@ exports[`Slot-Fill Slot with a prop should be pass to a fill 1`] = `
 >
   <SlotComponent
     dispatch={[Function]}
+    key="key"
     text="this prop should be taken"
   >
     <div>
@@ -40,7 +41,7 @@ exports[`Slot-Fill default slot 1`] = `
 </Slot>
 `;
 
-exports[`Slot-Fill multi slot with override props fill amd component fill 1`] = `
+exports[`Slot-Fill multi slot with override props fill and component fill 1`] = `
 <Slot
   dispatch={[Function]}
   fills={
@@ -49,9 +50,7 @@ exports[`Slot-Fill multi slot with override props fill amd component fill 1`] = 
         "key": "def",
         "text": "This should be in the snap",
       },
-      <div>
-         Also this should be in the snap 
-      </div>,
+      <TestComponent />,
     ]
   }
   id="slot-10"
@@ -66,12 +65,14 @@ exports[`Slot-Fill multi slot with override props fill amd component fill 1`] = 
       This should be in the snap
     </div>
   </SlotComponent>
-  <div
+  <TestComponent
     dispatch={[Function]}
     key="abc"
   >
-     Also this should be in the snap 
-  </div>
+    <div>
+       Also this should be in the snap 
+    </div>
+  </TestComponent>
 </Slot>
 `;
 
@@ -119,19 +120,20 @@ exports[`Slot-Fill no multiple fills 1`] = `
   dispatch={[Function]}
   fills={
     Array [
-      <span>
-         This span should be in the snap 
-      </span>,
+      <PresentComponent />,
     ]
   }
   id="slot-2"
   multi={false}
 >
-  <span
+  <PresentComponent
     dispatch={[Function]}
+    key="b"
   >
-     This span should be in the snap 
-  </span>
+    <span>
+       This span should be in the snap 
+    </span>
+  </PresentComponent>
 </Slot>
 `;
 
@@ -150,6 +152,7 @@ exports[`Slot-Fill props fill 1`] = `
 >
   <SlotComponent
     dispatch={[Function]}
+    key="c"
     text="This is given by a prop"
   >
     <div>
@@ -164,29 +167,29 @@ exports[`Slot-Fill render multiple fills 1`] = `
   dispatch={[Function]}
   fills={
     Array [
-      <span>
-         Should be the first in the snap
-      </span>,
-      <div>
-         should be the second in the snap 
-      </div>,
+      <FirstComponent />,
+      <SecondComponent />,
     ]
   }
   id="slot-1"
   multi={true}
 >
-  <span
+  <FirstComponent
     dispatch={[Function]}
     key="2"
   >
-     Should be the first in the snap
-  </span>
-  <div
+    <span>
+       Should be the first in the snap
+    </span>
+  </FirstComponent>
+  <SecondComponent
     dispatch={[Function]}
     key="1"
   >
-     should be the second in the snap 
-  </div>
+    <span>
+       Should be the first in the snap
+    </span>
+  </SecondComponent>
 </Slot>
 `;
 
@@ -230,6 +233,7 @@ exports[`Slot-Fill slot with multi override props should take max weight 1`] = `
   fills={
     Array [
       Object {
+        "key": "textKey",
         "text": "This text should be in the snap",
       },
     ]
@@ -239,6 +243,7 @@ exports[`Slot-Fill slot with multi override props should take max weight 1`] = `
 >
   <SlotComponent
     dispatch={[Function]}
+    key="textKey"
     text="This text should be in the snap"
   >
     <div>

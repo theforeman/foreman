@@ -113,7 +113,7 @@ export const previewTemplate = ({ host, renderPath }) => (
     preview_host_id: id,
   };
   dispatch({ type: EDITOR_SHOW_LOADING });
-  API.post(renderPath, params)
+  fetchTemplatePreview(renderPath, params)
     .then(response => {
       if (isErrorShown) dispatch(dismissErrorToast());
       dispatch({ type: EDITOR_HIDE_LOADING });
@@ -146,6 +146,9 @@ export const previewTemplate = ({ host, renderPath }) => (
       });
     });
 };
+
+export const fetchTemplatePreview = (renderPath, params) =>
+  API.post(renderPath, params);
 
 // fetch & debounced fetch
 const fetchHosts = (
