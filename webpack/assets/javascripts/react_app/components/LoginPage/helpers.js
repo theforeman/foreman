@@ -49,4 +49,8 @@ export const defaultFormProps = {
     placeholder: __('Password'),
   },
   submitText: __('Log In'),
+  submitButtonAttributes: {
+    id: 'login_submit_btn',
+    name: 'commit',
+  },
 };
