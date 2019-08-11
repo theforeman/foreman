@@ -22,6 +22,10 @@ exports[`AutoComplete rendering renders LoginPage 1`] = `
           "placeholder": "Password",
           "type": "password",
         },
+        "submitButtonAttributes": Object {
+          "id": "login_submit_btn",
+          "name": "commit",
+        },
         "submitError": Array [
           "some-error",
         ],
