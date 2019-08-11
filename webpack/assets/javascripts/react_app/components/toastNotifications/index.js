@@ -28,8 +28,11 @@ const ToastsList = ({ messages, deleteToast }) => {
         </ToastComponent>
       );
     });
-
-  return <ToastNotificationList>{toastsList}</ToastNotificationList>;
+  return (
+    toastsList.length > 0 && (
+      <ToastNotificationList>{toastsList}</ToastNotificationList>
+    )
+  );
 };
 
 ToastsList.propTypes = {
