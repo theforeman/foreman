@@ -49,22 +49,7 @@ exports[`ToastList should render with emptyState 1`] = `
         "unsubscribe": [Function],
       }
     }
-  >
-    <ToastNotificationList
-      className=""
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-      onMouseOver={[Function]}
-    >
-      <div
-        className="toast-notifications-list-pf"
-        onFocus={[Function]}
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        onMouseOver={[Function]}
-      />
-    </ToastNotificationList>
-  </ToastsList>
+  />
 </Connect(ToastsList)>
 `;
 

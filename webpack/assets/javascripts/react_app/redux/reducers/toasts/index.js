@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
     }
 
     case TOASTS_CLEAR: {
-      return initialState;
+      return state.set('messages', {});
     }
 
     default: {
