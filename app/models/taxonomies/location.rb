@@ -19,8 +19,7 @@ class Location < Taxonomy
   scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER, :rename => 'location_id', :only_explicit => true
 
   scope :my_locations, lambda { |user = User.current|
-    conditions = user.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", user.location_and_child_ids])
-    where(conditions)
+    user.admin? ? all : where(id: user.location_and_child_ids)
   }
 
   def dup

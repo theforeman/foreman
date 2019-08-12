@@ -11,21 +11,21 @@ module AuditExtensions
     after_create :log_audit
 
     scope :untaxed, -> { by_auditable_types(untaxable) }
-    scope :taxed_only_by_location, -> { by_auditable_types(location_taxable) }
-    scope :taxed_only_by_location_in_taxonomy_scope, lambda {
-      with_taxonomy_scope(Location.current, nil, :subtree_ids, [:organization]) { taxed_only_by_location }
+    scope :taxed_only_by_location, lambda {
+      by_auditable_types(location_taxable).
+      where(id: inner_ids(Location.current, Location, :subtree_ids))
     }
-    scope :taxed_only_by_organization, -> { by_auditable_types(organization_taxable) }
-    scope :taxed_only_by_organization_in_taxonomy_scope, lambda {
-      with_taxonomy_scope(nil, Organization.current, :subtree_ids, [:location]) { taxed_only_by_organization }
+    scope :taxed_only_by_organization, lambda {
+      by_auditable_types(organization_taxable).
+      where(id: inner_ids(Organization.current, Organization, :subtree_ids))
     }
     scope :fully_taxable_auditables, -> { by_auditable_types(fully_taxable) }
     scope :fully_taxable_auditables_in_taxonomy_scope, -> { with_taxonomy_scope { fully_taxable_auditables } }
     scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
     scope :taxed_and_untaxed, lambda {
       untaxed.or(fully_taxable_auditables_in_taxonomy_scope)
-             .or(taxed_only_by_organization_in_taxonomy_scope)
-             .or(taxed_only_by_location_in_taxonomy_scope)
+             .or(taxed_only_by_organization)
+             .or(taxed_only_by_location)
     }
 
     include Authorizable
@@ -201,12 +201,8 @@ module AuditExtensions
   end
 
   def set_taxonomies
-    if SETTINGS[:locations_enabled]
-      set_taxonomy_for(:location)
-    end
-    if SETTINGS[:organizations_enabled]
-      set_taxonomy_for(:organization)
-    end
+    set_taxonomy_for(:location)
+    set_taxonomy_for(:organization)
   end
 
   def set_taxonomy_for(taxonomy)
