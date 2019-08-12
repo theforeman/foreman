@@ -151,14 +151,14 @@ namespace :db do
                 end
           DevelopmentModelClass.connection.execute(sql) if sql.present?
 
+          # reset primary key sequence
+          DevelopmentModelClass.connection.reset_pk_sequence!(table_name) if DevelopmentModelClass.connection.respond_to?(:reset_pk_sequence!)
+
           print "#{count} records converted in #{Process.clock_gettime(Process::CLOCK_MONOTONIC) - time} seconds\n"
         rescue StandardError => e
           print "Unable to convert #{table_name}, skipping: #{e}"
         end
       end
     end
-
-    desc 'Migrate MySQL (prod) to PostgreSQL (dev). Deletes ALL DATA in the development database.'
-    task :mysql2pgsql => :prod2dev
   end
 end
