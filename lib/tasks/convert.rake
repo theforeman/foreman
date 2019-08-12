@@ -66,6 +66,12 @@ namespace :db do
   namespace :convert do
     desc 'Convert/import production data to development. Deletes ALL DATA in the development database. Assumes both schemas are already migrated.'
     task :prod2dev => :environment do
+      # dynflow:migrate migrates the db configured for the current rails env
+      # In this case, we need to make sure it migrates development
+      env_bak = ::Rails.env
+      Rake::Task['dynflow:migrate'].invoke
+      ::Rails.env = env_bak
+
       module ClassWorkarounds
         def instance_method_already_implemented?(method_name)
           # Some of Dynflow tables contain columns "class" and "frozen"
