@@ -8,20 +8,12 @@ module ReactjsHelper
   # Mount react component in views
   # Params:
   # +name+:: the component name from the componentRegistry
-  # +data+:: data to pass to the component as props
-  #          available values: Hash, json-string, nil
-  # +opts[:flatten_data]+:: false = will pass the props to the component props.data
-  #                         true = will pass the props directly to the component props
-  def react_component(name, data = [], opts = {})
-    data = data.to_json if data.is_a?(Hash)
+  # +props+:: props to pass to the component
+  #          valid value types: Hash, json-string, nil
+  def react_component(name, props = {})
+    props = props.to_json if props.is_a?(Hash)
 
-    attributes = {
-      :name => name,
-      :data => { props: data },
-      'flatten-data' => opts[:flatten_data],
-    }
-
-    content_tag('react-component', '', attributes)
+    content_tag('react-component', '', :name => name, :data => { props: props })
   end
 
   def webpacked_plugins_js_for(*plugin_names)

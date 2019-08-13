@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom';
 import store from '../redux';
 import componentRegistry from '../components/componentRegistry';
-import './component-tag.scss';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
@@ -54,13 +53,9 @@ class ReactComponentElement extends HTMLElement {
   get props() {
     return this.dataset.props !== '' ? JSON.parse(this.dataset.props) : {};
   }
-  get flattenData() {
-    return this.hasAttribute('flatten-data');
-  }
   get mountPoint() {
     if (!this._mountPoint) {
-      this._mountPoint = document.createElement('span');
-      this.appendChild(this._mountPoint);
+      this._mountPoint = this;
     }
 
     return this._mountPoint;
@@ -68,12 +63,7 @@ class ReactComponentElement extends HTMLElement {
 
   connectedCallback() {
     try {
-      mountNode(
-        this.componentName,
-        this.mountPoint,
-        this.props,
-        this.flattenData
-      );
+      mountNode(this.componentName, this, this.props, true);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(
