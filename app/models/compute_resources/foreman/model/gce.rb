@@ -246,15 +246,19 @@ module Foreman::Model
       network_interfaces_list
     end
 
+    def read_key_file
+      return nil unless File.exist?(key_path)
+      JSON.parse(File.read(key_path).chomp)
+    end
+
     def check_google_key_format_and_options
       return if key_path.blank?
-      if File.exist?(key_path)
-        key_hash = JSON.parse(File.read(key_path).chomp)
-        unless key_hash.key?('client_email') && key_hash.key?('private_key')
-          errors.add(:key_path, _("Invalid Google JSON key. Please verify key includes client email & private key options"))
-        end
-      else
-        errors.add(:key_path, _('Unable to access key'))
+
+      key_data = read_key_file
+      return errors.add(:key_path, _('Unable to access key')) if key_data.blank?
+
+      unless key_data.is_a?(Hash) && key_data.key?('client_email') && key_data.key?('private_key')
+        errors.add(:key_path, _("Invalid Google JSON key. Please verify client email & private key options are present"))
       end
     rescue JSON::ParserError
       errors.add(:key_path, _('Certificate key is not a valid JSON'))

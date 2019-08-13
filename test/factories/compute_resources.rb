@@ -20,13 +20,14 @@ FactoryBot.define do
       sequence(:email) { |n| "user#{n}@example.com" }
       after(:build) do |cr|
         cr.stubs(:setup_key_pair)
-        File.stubs(:exist?).with(cr.key_path).returns(true)
-        File.stubs(:read).with(cr.key_path).returns('{
-          "type": "service_account",
-          "project_id":"dummy-project",
-          "private_key": "-----BEGIN PRIVATE KEY-----\n..\n-----END PRIVATE KEY-----\n ",
-          "client_email": "dummy@dummy-project.iam.gserviceaccount.com"
-        }')
+        cr.stubs(:read_key_file).returns(
+          {
+            'type' => 'service_account',
+            'project_id' => 'dummy-project',
+            'private_key' => '-----BEGIN PRIVATE KEY-----\n..\n-----END PRIVATE KEY-----\n ',
+            'client_email' => 'dummy@dummy-project.iam.gserviceaccount.com',
+          }
+        )
       end
     end
 

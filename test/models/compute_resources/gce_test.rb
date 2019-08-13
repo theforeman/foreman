@@ -116,4 +116,41 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       assert_equal host, as_admin { cr.associated_host(compute) }
     end
   end
+
+  describe '#check_google_key_format_and_options' do
+    let(:cr) { FactoryBot.build_stubbed(:gce_cr) }
+
+    test 'passes when valid Google JSON key includes client_email, private_key' do
+      valid_key = {
+        'type' => 'service_account',
+        'project_id' => 'dummy-project',
+        'private_key' => '-----BEGIN PRIVATE KEY-----\n..\n-----END PRIVATE KEY-----\n ',
+        'client_email' => 'dummy@dummy-project.iam.gserviceaccount.com',
+      }
+      cr.stubs(:read_key_file).returns(valid_key)
+      result = cr.send(:check_google_key_format_and_options)
+
+      assert_nil(result)
+      assert cr.valid?, "Can't create GCE compute resource with valid JSON #{valid_key}"
+    end
+
+    test 'fails when required keys are missing in Google JSON key' do
+      cr.stubs(:read_key_file).returns({ 'project_id' => 'dummy-project' })
+      cr.send(:check_google_key_format_and_options)
+
+      assert_not cr.valid?
+      assert_include cr.errors.keys, :key_path
+    end
+
+    test 'fails when Google key is not a valid JSON' do
+      raises_exception = -> { raise JSON::ParserError.new }
+      cr.stub(:read_key_file, raises_exception) do
+        cr.send(:check_google_key_format_and_options)
+
+        assert_not cr.valid?
+        assert_include cr.errors.keys, :key_path
+        assert_include cr.errors[:key_path], 'Certificate key is not a valid JSON'
+      end
+    end
+  end
 end
