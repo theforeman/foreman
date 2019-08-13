@@ -4,8 +4,8 @@ module Foreman::TelemetrySinks
       require 'statsd-instrument'
       @instances = {}
       host = opts[:host] || '127.0.0.1:8125'
-      protocol = opts[:protocol].try(:to_sym) || :statsite
-      StatsD.backend = StatsD::Instrument::Backends::UDPBackend.new(host, protocol)
+      @protocol = opts[:protocol].try(:to_sym) || :statsite
+      StatsD.backend = StatsD::Instrument::Backends::UDPBackend.new(host, @protocol)
     end
 
     def add_counter(name, description, instance_labels)
@@ -24,15 +24,27 @@ module Foreman::TelemetrySinks
     end
 
     def increment_counter(name, value, tags)
-      StatsD.increment(name_tag_mapping(name, tags), value)
+      if @protocol == :datadog
+        StatsD.increment(name, value, tags: tags_in_statsd(tags))
+      else
+        StatsD.increment(name_tag_mapping(name, tags), value)
+      end
     end
 
     def set_gauge(name, value, tags)
-      StatsD.gauge(name_tag_mapping(name, tags), value)
+      if @protocol == :datadog
+        StatsD.gauge(name, value, tags: tags_in_statsd(tags))
+      else
+        StatsD.gauge(name_tag_mapping(name, tags), value)
+      end
     end
 
     def observe_histogram(name, value, tags)
-      StatsD.measure(name_tag_mapping(name, tags), value)
+      if @protocol == :datadog
+        StatsD.measure(name, value, tags: tags_in_statsd(tags))
+      else
+        StatsD.measure(name_tag_mapping(name, tags), value)
+      end
     end
 
     private
@@ -41,6 +53,14 @@ module Foreman::TelemetrySinks
       insts = @instances[name]
       return name if insts.blank?
       (name.to_s + '.' + insts.map {|x| tags[x]}.compact.join('.')).tr('-:/ ', '____')
+    end
+
+    def tags_in_statsd(tags)
+      result = []
+      tags.each_pair do |name, value|
+        result << "#{name}:#{value.to_s.tr('-:/ ', '____')}"
+      end
+      result
     end
   end
 end
