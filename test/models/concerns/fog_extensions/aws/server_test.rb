@@ -4,7 +4,7 @@ class AwsServerTest < ActiveSupport::TestCase
   setup { Fog.mock! }
   teardown { Fog.unmock! }
 
-  let(:server) { Fog::Compute::AWS::Server.new }
+  let(:server) { Fog::AWS::Compute::Server.new }
   let(:instance_id) { "i-#{Fog::Mock.random_hex(8)}" }
 
   test "#to_s and #name return name from tags" do

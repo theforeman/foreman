@@ -45,7 +45,7 @@ module Foreman::Model
 
     def find_vm_by_uuid(uuid)
       super
-    rescue Fog::Compute::AWS::Error
+    rescue Fog::AWS::Compute::Error
       raise(ActiveRecord::RecordNotFound)
     end
 
@@ -87,7 +87,7 @@ module Foreman::Model
     def test_connection(options = {})
       super
       errors[:user].empty? && errors[:password].empty? && regions
-    rescue Fog::Compute::AWS::Error => e
+    rescue Fog::AWS::Compute::Error => e
       errors[:base] << e.message
     rescue Excon::Error::Socket => e
       errors[:base] << e.message
@@ -138,7 +138,7 @@ module Foreman::Model
       end.to_h
 
       normalized
-    rescue Fog::Compute::AWS::Error => e
+    rescue Fog::AWS::Compute::Error => e
       Foreman::Logging.exception("Unhandled EC2 error", e)
       {}
     end

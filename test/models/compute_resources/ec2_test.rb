@@ -25,7 +25,7 @@ module Foreman
         end
 
         it "raises RecordNotFound when the compute raises EC2 error" do
-          cr = mock_cr_servers(Foreman::Model::EC2.new, servers_raising_exception(Fog::Compute::AWS::Error))
+          cr = mock_cr_servers(Foreman::Model::EC2.new, servers_raising_exception(Fog::AWS::Compute::Error))
           assert_find_by_uuid_raises(ActiveRecord::RecordNotFound, cr)
         end
       end
