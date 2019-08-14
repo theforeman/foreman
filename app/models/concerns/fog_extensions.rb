@@ -9,9 +9,9 @@ Fog::Model.send(:include, FogExtensions::Model) if defined? Fog::Model
 if Foreman::Model::EC2.available?
   require 'fog/aws'
   require 'fog/aws/models/compute/flavor'
-  Fog::Compute::AWS::Flavor.send(:include, FogExtensions::AWS::Flavor)
+  Fog::AWS::Compute::Flavor.send(:include, FogExtensions::AWS::Flavor)
   require 'fog/aws/models/compute/server'
-  Fog::Compute::AWS::Server.send(:include, FogExtensions::AWS::Server)
+  Fog::AWS::Compute::Server.send(:include, FogExtensions::AWS::Server)
 end
 
 if Foreman::Model::GCE.available?
