@@ -15,10 +15,20 @@ FactoryBot.define do
 
     trait :gce do
       provider { 'GCE' }
-      key_path { Rails.root }
+      key_path { 'gce_config.json' }
       project { 'gce_project' }
       sequence(:email) { |n| "user#{n}@example.com" }
-      after(:build) { |cr| cr.stubs(:setup_key_pair) }
+      after(:build) do |cr|
+        cr.stubs(:setup_key_pair)
+        cr.stubs(:read_key_file).returns(
+          {
+            'type' => 'service_account',
+            'project_id' => 'dummy-project',
+            'private_key' => '-----BEGIN PRIVATE KEY-----\n..\n-----END PRIVATE KEY-----\n ',
+            'client_email' => 'dummy@dummy-project.iam.gserviceaccount.com',
+          }
+        )
+      end
     end
 
     trait :libvirt do
