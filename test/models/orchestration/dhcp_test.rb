@@ -451,12 +451,22 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     test 'should use boot server provided by proxy' do
       ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.13.0.1')
       assert_equal '127.13.0.1', nic.send(:boot_server)
+      assert_empty nic.errors
     end
 
     test 'should use boot server based on proxy url' do
       ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns(nil)
+      assert_equal URI.parse(host.subnet.tftp.url).host, nic.send(:boot_server)
+      assert_empty nic.errors
+    end
+
+    test 'should error out on no capabilities' do
+      Foreman::Deprecation.expects(:deprecation_warning).once
+      SmartProxy.any_instance.expects(:capabilities).with(:DHCP).returns([])
+      ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('proxy.example.com')
       Resolv::DNS.any_instance.expects(:getaddress).once.returns("127.12.0.1")
       assert_equal '127.12.0.1', nic.send(:boot_server)
+      assert_empty nic.errors
     end
   end
 end
