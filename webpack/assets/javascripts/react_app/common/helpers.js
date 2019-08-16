@@ -122,6 +122,32 @@ const propsToCase = (casingFn, errorMsg, ob) => {
 };
 
 /**
+ * Transform object keys to camel case, works for nested objects
+ */
+export const deepPropsToCamelCase = obj =>
+  deepPropsToCase(camelCase, 'propsToCamelCase only takes objects')(obj);
+
+/**
+ * Transform object keys to snake case, works for nested objects
+ */
+export const deepPropsToSnakeCase = obj =>
+  deepPropsToCase(snakeCase, 'propsToSnakeCase only takes objects')(obj);
+
+const deepPropsToCase = (casingFn, errorMsg) => obj => {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(deepPropsToCase(casingFn, errorMsg));
+  }
+  const transformed = propsToCase(casingFn, errorMsg, obj);
+  return Object.keys(transformed).reduce((memo, key) => {
+    memo[key] = deepPropsToCase(casingFn, errorMsg)(transformed[key]);
+    return memo;
+  }, {});
+};
+
+/**
  * Check if a string is a positive integer
  * @param {String} value - the string
  */
@@ -142,5 +168,7 @@ export default {
   translateArray,
   propsToCamelCase,
   propsToSnakeCase,
+  deepPropsToCamelCase,
+  deepPropsToSnakeCase,
   stringIsPositiveNumber,
 };

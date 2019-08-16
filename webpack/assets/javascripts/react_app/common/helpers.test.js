@@ -4,6 +4,8 @@ import {
   translateObject,
   propsToSnakeCase,
   propsToCamelCase,
+  deepPropsToSnakeCase,
+  deepPropsToCamelCase,
   removeLastSlashFromPath,
   stringIsPositiveNumber,
 } from './helpers';
@@ -46,6 +48,47 @@ describe('propsToCamelCase, propsToSnakeCase', () => {
 
   it('should transform keys to snake case', () => {
     expect(propsToSnakeCase(camelObj)).toEqual(snakeObj);
+  });
+});
+
+describe('deepPropsToCamelCase, deepPropsToSnakeCase', () => {
+  const snakeObj = {
+    hello_world: 'hello',
+    test_obj: [
+      { blue_moon: 'blue moon' },
+      { red_sun: 'red sun' },
+      { clear_sky: ['no clouds here'] },
+    ],
+    bat_man: null,
+    cat_man: undefined,
+    frog_man: '',
+    dog_man: 0,
+    spider_man: {
+      global_net: 'bar',
+    },
+  };
+  const camelObj = {
+    helloWorld: 'hello',
+    testObj: [
+      { blueMoon: 'blue moon' },
+      { redSun: 'red sun' },
+      { clearSky: ['no clouds here'] },
+    ],
+    batMan: null,
+    catMan: undefined,
+    frogMan: '',
+    dogMan: 0,
+    spiderMan: {
+      globalNet: 'bar',
+    },
+  };
+
+  it('should transform deep keys to camel case', () => {
+    expect(deepPropsToCamelCase(snakeObj)).toEqual(camelObj);
+  });
+
+  it('should transform deep keys to snake case', () => {
+    expect(deepPropsToSnakeCase(camelObj)).toEqual(snakeObj);
   });
 });
 
