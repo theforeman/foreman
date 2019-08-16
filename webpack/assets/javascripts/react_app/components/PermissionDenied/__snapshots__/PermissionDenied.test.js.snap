@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PermissionDenied rendering should render with custom props 1`] = `
+<div
+  className="blank-slate-pf"
+>
+  <div
+    className="blank-slate-pf-icon"
+  >
+    <Icon
+      color="#9c9c9c"
+      name="lock"
+      size="2x"
+      title="lock"
+      type="fa"
+    />
+  </div>
+  notAuthorizedMsg
+  <h1>
+    permissionDeniedMsg
+  </h1>
+  <p>
+    notAuthorizedMsg
+    <br />
+    pleaseRequestMsg
+    <br />
+  </p>
+  <ul
+    className="list-unstyled"
+  >
+    <li
+      key="unknown"
+    >
+      <strong>
+        unknown
+      </strong>
+    </li>
+  </ul>
+  <p>
+    <a
+      href="/home/dashboard"
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+      >
+        Back
+      </Button>
+    </a>
+  </p>
+</div>
+`;
+
+exports[`PermissionDenied rendering should render with default props 1`] = `
+<div
+  className="blank-slate-pf"
+>
+  <div
+    className="blank-slate-pf-icon"
+  >
+    <Icon
+      color="#9c9c9c"
+      name="lock"
+      size="2x"
+      title="lock"
+      type="fa"
+    />
+  </div>
+  You are not authorized to perform this action.
+  <h1>
+    Permission denied
+  </h1>
+  <p>
+    You are not authorized to perform this action.
+    <br />
+    Please request one of the required permissions listed below from a Foreman administrator:
+    <br />
+  </p>
+  <ul
+    className="list-unstyled"
+  >
+    <li
+      key="unknown"
+    >
+      <strong>
+        unknown
+      </strong>
+    </li>
+  </ul>
+  <p>
+    <a
+      href="/"
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+      >
+        Back
+      </Button>
+    </a>
+  </p>
+</div>
+`;
