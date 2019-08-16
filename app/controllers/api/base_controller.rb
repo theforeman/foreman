@@ -333,7 +333,7 @@ module Api
         fail_message = _('Missing one of the required permissions: %s') % missing_permissions.map(&:name).join(', ')
         Foreman::Logging.logger('permissions').info fail_message
         if options.fetch(:locals, {}).fetch(:details, nil).blank?
-          options = options.deep_merge({:locals => {:details => fail_message }})
+          options = options.deep_merge({:locals => {:details => fail_message, :missing_permissions => missing_permissions.map(&:name)}})
         end
       end
       options
