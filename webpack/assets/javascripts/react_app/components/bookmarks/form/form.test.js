@@ -1,4 +1,3 @@
-import toJson from 'enzyme-to-json';
 import { mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -37,11 +36,6 @@ describe('bookmark form', () => {
       publik: true,
       query: '',
     });
-  });
-  it('should render the entire form', () => {
-    const { wrapper } = setup();
-
-    expect(toJson(wrapper)).toMatchSnapshot();
   });
   it('should convert params for submittion correctly', () => {
     const spy = jest.spyOn(FormActions, 'submitForm');
