@@ -1,5 +1,5 @@
 import toJson from 'enzyme-to-json';
-import { render, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -91,7 +91,7 @@ describe('bookmarks loading', () => {
 
 describe('bookmarks', () => {
   it('empty state', () => {
-    expect(toJson(render(setup().component))).toMatchSnapshot();
+    expect(toJson(mount(setup().component).find('Dropdown'))).toMatchSnapshot();
   });
 
   it('should show loading spinner when loading bookmarks', () => {
@@ -100,12 +100,18 @@ describe('bookmarks', () => {
   });
 
   it('should show an error message if loading failed', () => {
-    expect(toJson(render(setup(afterError).component))).toMatchSnapshot();
+    expect(
+      toJson(
+        mount(setup(afterError).component)
+          .find('MenuItem')
+          .last()
+      )
+    ).toMatchSnapshot();
   });
 
   it('should show no bookmarks if server did not respond with any', () => {
     expect(
-      toJson(render(setup(afterSuccessNoResults).component))
+      toJson(mount(setup(afterSuccessNoResults).component).find('SafeAnchor'))
     ).toMatchSnapshot();
   });
   it('should include existing bookmarks for the current controller', () => {
