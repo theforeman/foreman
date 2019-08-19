@@ -3,6 +3,7 @@ import React from 'react';
 import ReactApp from '../ReactApp';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
+import LineChart from './common/charts/LineChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
@@ -108,6 +109,7 @@ const coreComponets = [
   { name: 'SearchBar', type: SearchBar },
   { name: 'AutoComplete', type: AutoComplete },
   { name: 'DonutChart', type: DonutChart },
+  { name: 'LineChart', type: LineChart },
   { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },

@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getLineChartConfig should get regular config 1`] = `
+Object {
+  "axis": Object {},
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "colors": Object {
+      "green": "#89A54E",
+      "red": "#AA4643",
+    },
+    "columns": Array [
+      Array [
+        "red",
+        5,
+        7,
+        9,
+      ],
+      Array [
+        "green",
+        2,
+        4,
+        6,
+      ],
+    ],
+    "onclick": [Function],
+  },
+  "id": "klm",
+  "legend": Object {
+    "show": true,
+  },
+  "onrendered": [Function],
+  "padding": null,
+  "size": Object {
+    "height": 350,
+    "width": 1000,
+  },
+}
+`;
+
+exports[`getLineChartConfig should get timeseries config 1`] = `
+Object {
+  "axis": Object {
+    "x": Object {
+      "tick": Object {
+        "format": [MockFunction],
+        "rotate": -40,
+      },
+      "type": "timeseries",
+    },
+  },
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "colors": Object {
+      "green": "#89A54E",
+      "red": "#AA4643",
+    },
+    "columns": Array [
+      Array [
+        "red",
+        5,
+        7,
+        9,
+      ],
+      Array [
+        "green",
+        2,
+        4,
+        6,
+      ],
+      Array [
+        "x",
+        1557014400000,
+        1559779200000,
+        1562457600000,
+      ],
+    ],
+    "onclick": [Function],
+    "x": "x",
+  },
+  "id": "pqr",
+  "legend": Object {
+    "show": true,
+  },
+  "onrendered": [Function],
+  "padding": Object {
+    "bottom": 70,
+    "left": 30,
+    "right": 20,
+    "top": 10,
+  },
+  "size": Object {
+    "height": 350,
+    "width": 1000,
+  },
+}
+`;

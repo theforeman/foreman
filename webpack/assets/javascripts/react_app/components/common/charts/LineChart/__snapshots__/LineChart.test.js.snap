@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line Chart should render line chart 1`] = `
+<LineChart
+  axis={Object {}}
+  className="line-chart-pf"
+  color={
+    Object {
+      "pattern": Array [],
+    }
+  }
+  data={
+    Object {
+      "colors": Object {
+        "green": "#89A54E",
+        "red": "#AA4643",
+      },
+      "columns": Array [
+        Array [
+          "red",
+          5,
+          7,
+          9,
+        ],
+        Array [
+          "green",
+          2,
+          4,
+          6,
+        ],
+      ],
+      "onclick": [Function],
+    }
+  }
+  grid={
+    Object {
+      "x": Object {
+        "show": false,
+      },
+      "y": Object {
+        "show": true,
+      },
+    }
+  }
+  id="abc"
+  legend={
+    Object {
+      "show": true,
+    }
+  }
+  onrendered={[Function]}
+  padding={null}
+  point={
+    Object {
+      "focus": Object {
+        "expand": Object {
+          "r": 5,
+        },
+      },
+      "r": 3,
+    }
+  }
+  size={
+    Object {
+      "height": 350,
+      "width": 1000,
+    }
+  }
+  title={
+    Object {
+      "type": "percent",
+    }
+  }
+  type="line"
+  unloadBeforeLoad={false}
+/>
+`;
+
+exports[`Line Chart should render line chart with timeseries 1`] = `
+<LineChart
+  axis={
+    Object {
+      "x": Object {
+        "tick": Object {
+          "format": [MockFunction],
+          "rotate": -40,
+        },
+        "type": "timeseries",
+      },
+    }
+  }
+  className="line-chart-pf"
+  color={
+    Object {
+      "pattern": Array [],
+    }
+  }
+  data={
+    Object {
+      "colors": Object {
+        "green": "#89A54E",
+        "red": "#AA4643",
+      },
+      "columns": Array [
+        Array [
+          "red",
+          5,
+          7,
+          9,
+        ],
+        Array [
+          "green",
+          2,
+          4,
+          6,
+        ],
+        Array [
+          "x",
+          1557014400000,
+          1559779200000,
+          1562457600000,
+        ],
+      ],
+      "onclick": [Function],
+      "x": "x",
+    }
+  }
+  grid={
+    Object {
+      "x": Object {
+        "show": false,
+      },
+      "y": Object {
+        "show": true,
+      },
+    }
+  }
+  id="xyz"
+  legend={
+    Object {
+      "show": true,
+    }
+  }
+  onrendered={[Function]}
+  padding={
+    Object {
+      "bottom": 70,
+      "left": 30,
+      "right": 20,
+      "top": 10,
+    }
+  }
+  point={
+    Object {
+      "focus": Object {
+        "expand": Object {
+          "r": 5,
+        },
+      },
+      "r": 3,
+    }
+  }
+  size={
+    Object {
+      "height": 350,
+      "width": 1000,
+    }
+  }
+  title={
+    Object {
+      "type": "percent",
+    }
+  }
+  type="line"
+  unloadBeforeLoad={false}
+/>
+`;
