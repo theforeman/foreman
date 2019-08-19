@@ -11,6 +11,7 @@ import addingDependencies from './docs/addingDependencies.md';
 import internationalization from './docs/internationalization.md';
 import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
+import LegacyJs from './docs/LegacyJs.md';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
@@ -57,6 +58,11 @@ storiesOf('Introduction', module)
   .add('Slot&Fill', () => (
     <Story>
       <Markdown source={SlotAndFill} />
+    </Story>
+  ))
+  .add('Legacy Javascript', () => (
+    <Story>
+      <Markdown source={LegacyJs} />
     </Story>
   ));
 
