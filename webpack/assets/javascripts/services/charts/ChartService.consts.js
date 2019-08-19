@@ -1,3 +1,5 @@
+import { intl } from '../../react_app/common/I18n';
+
 const enums = {
   SIZE: {
     LARGE: { height: 500 },
@@ -16,6 +18,13 @@ const barChartEnums = {
     LARGE: { height: 500 },
     REGULAR: { width: 350, height: 350 },
     SMALL: { height: 290 },
+  },
+  WIDTH: { ...enums.width },
+};
+
+const lineChartEnums = {
+  SIZE: {
+    REGULAR: { width: 1000, height: 350 },
   },
   WIDTH: { ...enums.width },
 };
@@ -77,4 +86,30 @@ export const barChartConfig = {
 export const smallBarChartConfig = {
   ...barChartConfig,
   size: barChartEnums.SIZE.SMALL,
+};
+
+export const lineChartConfig = {
+  ...chartConfig,
+  legend: { show: true },
+  size: lineChartEnums.SIZE.REGULAR,
+  padding: null,
+};
+
+export const timeseriesLineChartConfig = {
+  ...lineChartConfig,
+  padding: {
+    top: 10,
+    bottom: 70,
+    left: 30,
+    right: 20,
+  },
+  axis: {
+    x: {
+      type: 'timeseries',
+      tick: {
+        format: date => new Intl.DateTimeFormat(intl.locale).format(date),
+        rotate: -40,
+      },
+    },
+  },
 };

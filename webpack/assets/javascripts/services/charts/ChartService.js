@@ -6,6 +6,8 @@ import {
   donutMediumChartConfig,
   barChartConfig,
   smallBarChartConfig,
+  lineChartConfig,
+  timeseriesLineChartConfig,
 } from './ChartService.consts';
 
 const chartsSizeConfig = {
@@ -17,6 +19,10 @@ const chartsSizeConfig = {
   bar: {
     regular: barChartConfig,
     small: smallBarChartConfig,
+  },
+  line: {
+    regular: lineChartConfig,
+    timeseries: timeseriesLineChartConfig,
   },
 };
 
