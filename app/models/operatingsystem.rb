@@ -255,8 +255,18 @@ class Operatingsystem < ApplicationRecord
     return default_boot_filename if host.nil? || host.pxe_loader.nil?
     return host.foreman_url('iPXE') if host.pxe_loader == 'iPXE Embedded'
     architecture = host.arch.nil? ? '' : host.arch.bootfilename_efi
-    boot_uri = URI.parse((host.subnet&.httpboot?) ? host.subnet.httpboot.url : Setting[:unattended_url])
-    self.class.all_loaders_map(architecture, "#{boot_uri.host}:#{boot_uri.port}")[host.pxe_loader]
+    if host.subnet&.httpboot?
+      if host.pxe_loader =~ /UEFI HTTPS/
+        port = host.subnet.httpboot.setting(:HTTPBoot, 'https_port') || raise(::Foreman::Exception.new(N_("HTTPS boot requires proxy with httpboot feature and https_port exposed setting")))
+      else
+        port = host.subnet.httpboot.setting(:HTTPBoot, 'http_port') || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
+      end
+      hostname = URI.parse(host.subnet.httpboot.url).hostname
+      self.class.all_loaders_map(architecture, "#{hostname}:#{port}")[host.pxe_loader]
+    else
+      raise(::Foreman::Exception.new(N_("HTTP UEFI boot requires proxy with httpboot feature"))) if host.pxe_loader =~ /UEFI HTTP/
+      self.class.all_loaders_map(architecture)[host.pxe_loader]
+    end
   end
 
   # Does this OS family use release_name in its naming scheme
