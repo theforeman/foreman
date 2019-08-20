@@ -21,7 +21,7 @@ module.exports = {
   },
   globals: {
     __testing__: true,
-    URL_PREFIX: '/',
+    URL_PREFIX: '',
   },
   transform: {
     '^.+\\.js$': 'babel-jest',
