@@ -171,13 +171,12 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "provision interface DHCP records should not contain explicit filename attribute when PXE loader is set to None" do
-    ProxyAPI::TFTP.any_instance.expects(:bootServer).returns('192.168.1.1')
+  test "provision interface DHCP records should not contain explicit filename and next server when PXE loader is set to None" do
     subnet = FactoryBot.build(:subnet_ipv4, :dhcp, :tftp)
     h = FactoryBot.create(:host, :with_dhcp_orchestration, :with_tftp_orchestration, :subnet => subnet, :pxe_loader => 'None')
     assert_equal 1, h.provision_interface.dhcp_records.size
     assert_nil h.provision_interface.dhcp_records.first.filename
-    assert_equal '192.168.1.1', h.provision_interface.dhcp_records.first.nextServer
+    assert_nil h.provision_interface.dhcp_records.first.nextServer
   end
 
   context 'host with bond interface' do

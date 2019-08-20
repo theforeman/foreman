@@ -123,7 +123,7 @@ module Orchestration::DHCP
     }
 
     if provision?
-      dhcp_attr[:nextServer] = boot_server
+      dhcp_attr[:nextServer] = boot_server unless self.host.pxe_loader == 'None'
       filename = operatingsystem.boot_filename(self.host)
       dhcp_attr[:filename] = filename if filename.present?
       if jumpstart?
