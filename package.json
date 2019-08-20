@@ -20,7 +20,7 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^0.1.1",
+    "@theforeman/vendor": "^1.4.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
@@ -33,7 +33,7 @@
     "@storybook/addon-knobs": "~3.4.12",
     "@storybook/react": "~3.4.12",
     "@storybook/storybook-deployer": "^2.0.0",
-    "@theforeman/vendor-dev": "^0.1.1",
+    "@theforeman/vendor-dev": "^1.4.0",
     "argv-parse": "^1.0.1",
     "axios-mock-adapter": "^1.10.0",
     "babel-cli": "^6.10.1",
