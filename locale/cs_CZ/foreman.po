@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"PO-Revision-Date: 2019-08-03 09:26+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -40,8 +40,10 @@ msgstr "%s – následující hostitelé budou změněni"
 
 msgid "%s Active Feature"
 msgid_plural "%s Active Features"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s aktivní funkce"
+msgstr[1] "%s aktivní funkce"
+msgstr[2] "%s aktivních funkcí"
+msgstr[3] "%s aktivní funkce"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -267,7 +269,7 @@ msgid "%{taxonomy} stored in session with id %{id} not found"
 msgstr ""
 
 msgid "%{taxonomy} with id %{id} not found"
-msgstr ""
+msgstr "%{taxonomy} s identifikátorem %{id} nenalezeno"
 
 msgid "%{type} %{conflicts} already exists"
 msgstr ""
@@ -440,7 +442,7 @@ msgid "API Key"
 msgstr "Klíč k aplikačnímu program. rozhraní"
 
 msgid "API Resources"
-msgstr ""
+msgstr "Prostředky aplikačního programového rozhraní"
 
 msgid "API documentation"
 msgstr "Dokumentace k aplikačnímu programovému rozhraní"
@@ -674,7 +676,7 @@ msgid "Allow external network as main network"
 msgstr ""
 
 msgid "Allowed methods or members"
-msgstr ""
+msgstr "Dovolené metody nebo členové"
 
 msgid "Always show configuration status"
 msgstr ""
@@ -1138,7 +1140,7 @@ msgid "Bookmark this search"
 msgstr "Přidej hledaní jako záložku"
 
 msgid "Bookmark was successfully updated"
-msgstr ""
+msgstr "Záložka byla úspěšně zaktualizována"
 
 msgid "Bookmarks"
 msgstr "Záložky"
@@ -1254,7 +1256,7 @@ msgid "Caching"
 msgstr "Ukládání do mezipaměti"
 
 msgid "Calling methods on objects"
-msgstr ""
+msgstr "Volání metod na objektech"
 
 msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
 msgstr ""
@@ -1497,7 +1499,7 @@ msgid "Compress the report uzing gzip"
 msgstr ""
 
 msgid "Compute Profiles"
-msgstr ""
+msgstr "Výpočetní profily"
 
 msgid "Compute Resource"
 msgstr "Výpočetní prostředek"
@@ -1613,7 +1615,7 @@ msgid "Configuration rebuild failed for: %s."
 msgstr ""
 
 msgid "Configuration successfully rebuilt"
-msgstr ""
+msgstr "Nastavení úspěšně znovu vytvořena"
 
 msgid "Configuration successfully rebuilt."
 msgstr "Nastavení úspěšně sestaveno znovu."
@@ -2096,7 +2098,7 @@ msgid "DNS conflict timeout"
 msgstr ""
 
 msgid "DNS proxy ID to use within this domain"
-msgstr ""
+msgstr "Identifikátor DNS proxy, kterou použít pro tuto doménu"
 
 msgid "DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy"
 msgstr ""
@@ -2552,7 +2554,7 @@ msgid "Domain ID"
 msgstr ""
 
 msgid "Domain IDs"
-msgstr ""
+msgstr "Identifikátory domény"
 
 msgid "Domain Users is a special group in AD. Unfortunately, we cannot obtain membership information from a LDAP search and therefore sync it."
 msgstr ""
@@ -2668,7 +2670,7 @@ msgid "Empty environment"
 msgstr "Prázdné prostředí"
 
 msgid "Enable Caching"
-msgstr ""
+msgstr "Zapnout ukládání do mezipaměti"
 
 msgid "Enable Notifications"
 msgstr "Zapnout oznamování"
@@ -3026,7 +3028,7 @@ msgid ""
 msgstr ""
 
 msgid "Failed to deploy vm %{name}, fault: %{e}"
-msgstr ""
+msgstr "Nepodařilo se nasadit virt. stroj %{name}, chyba: %{e}"
 
 msgid "Failed to destroy a compute %{compute_resource} instance %{name}: %{e}"
 msgstr ""
@@ -3089,7 +3091,7 @@ msgid "Failed to redeploy %s."
 msgstr ""
 
 msgid "Failed to refresh the cache."
-msgstr ""
+msgstr "Nepodařilo se zaktualizovat mezipaměť."
 
 msgid "Failed to remove certificates for %{name}: %{e}"
 msgstr ""
@@ -3106,7 +3108,7 @@ msgid "Failed to set %{proxy_type} proxy for %{host}."
 msgstr ""
 
 msgid "Failed to set IP for %{name}: %{e}"
-msgstr ""
+msgstr "Nepodařilo se nastavit IP adresu pro %{name}: %{e}"
 
 msgid "Failed to set IPs via IPAM for %{name}: %{e}"
 msgstr ""
@@ -3572,10 +3574,10 @@ msgid "HTTP Proxy"
 msgstr "HTTP proxy"
 
 msgid "HTTP Proxy connection successful."
-msgstr ""
+msgstr "Připojení k HTTP proxy úspěšné."
 
 msgid "HTTP(S) proxy"
-msgstr ""
+msgstr "HTTP(S) proxy"
 
 msgid "HTTP(S) proxy except hosts"
 msgstr ""
@@ -5648,7 +5650,7 @@ msgid "Network"
 msgstr "Síť"
 
 msgid "Network Address"
-msgstr ""
+msgstr "Síťová adresa"
 
 msgid "Network Based"
 msgstr "Založeno na síti"
@@ -5803,7 +5805,7 @@ msgid "No BMC NIC available for host %s"
 msgstr ""
 
 msgid "No Failed Features"
-msgstr ""
+msgstr "Žádné nezdařené funkce"
 
 msgid "No Hosts are in build mode or have build errors."
 msgstr ""
@@ -5998,7 +6000,7 @@ msgid "None"
 msgstr "Žádné"
 
 msgid "None found"
-msgstr ""
+msgstr "Nenalezeno žádné"
 
 msgid "None!"
 msgstr "Žádné!"
@@ -6570,7 +6572,7 @@ msgid "Password to authenticate with - used for SSH finish step."
 msgstr "Heslo které použít pro ověření se – použito pro krok dokončení po SSH."
 
 msgid "Password to use if authentication is required."
-msgstr ""
+msgstr "Heslo které použít v případě, že je vyžadováno ověření se."
 
 msgid "Password to use to authenticate, if required"
 msgstr "Heslo které použít pro ověření se (pokud je vyžadováno)"
@@ -6766,7 +6768,7 @@ msgid "Prefix length can't be blank"
 msgstr ""
 
 msgid "Prefix length for this subnet, e.g. 24"
-msgstr ""
+msgstr "Předpona pro tuto podsíť, např. 24"
 
 msgid "Prefix length must be /64 or less to use EUI-64"
 msgstr ""
@@ -6802,7 +6804,7 @@ msgid "Primary interface's DNS name and domain define host's FQDN"
 msgstr ""
 
 msgid "Printing data"
-msgstr ""
+msgstr "Vypisování dat"
 
 msgid "Prioritize Attribute Order"
 msgstr ""
@@ -7103,7 +7105,7 @@ msgid "Refresh Cache"
 msgstr "Vytvořit mezipaměť znovu"
 
 msgid "Refresh Compute Resource Cache"
-msgstr ""
+msgstr "Zaktualizovat mezipaměť výpočetního prostředku"
 
 msgid "Refresh external user group"
 msgstr "Znovu načíst externí skupinu uživatelů"
@@ -7367,7 +7369,7 @@ msgid "Roles"
 msgstr "Role"
 
 msgid "Roles from user groups"
-msgstr ""
+msgstr "Role ze skupin uživatele"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Role|Builtin"
@@ -7919,7 +7921,7 @@ msgid "Show all %s facts with the same value"
 msgstr ""
 
 msgid "Show an HTTP Proxy"
-msgstr ""
+msgstr "Zobrazit HTTP proxy"
 
 msgid "Show an LDAP authentication source"
 msgstr "Zobrazit zdroj LDAP ověřování"
@@ -8195,7 +8197,7 @@ msgid "Storage"
 msgstr "Úložiště"
 
 msgid "Storage Pod"
-msgstr ""
+msgstr "Fond úložiště"
 
 msgid "Storage domain"
 msgstr ""
@@ -8328,7 +8330,7 @@ msgid "Successfully created %s."
 msgstr "Úspěšně vytvořeno %s."
 
 msgid "Successfully delete %s"
-msgstr ""
+msgstr "Úspěšně smazat %s"
 
 msgid "Successfully deleted %s."
 msgstr "Úspěšně smazáno %s."
@@ -8481,7 +8483,7 @@ msgid "Template Type"
 msgstr "Typ šablony"
 
 msgid "Template content changed %s"
-msgstr ""
+msgstr "Obsah šablony změněn %s"
 
 msgid "Template diff"
 msgstr ""
@@ -8880,7 +8882,7 @@ msgid "There is no proxy with BMC feature set up. Please register a smart proxy 
 msgstr ""
 
 msgid "There may be more information in the server's logs."
-msgstr ""
+msgstr "V záznamech událostí serveru (log) mohou být další podrobnosti."
 
 msgid "There was an error creating the PXE file: %s"
 msgstr ""
@@ -9567,7 +9569,7 @@ msgid "Update a user group"
 msgstr "Aktualizovat skupinu uživatelů"
 
 msgid "Update an HTTP Proxy"
-msgstr ""
+msgstr "Aktualizovat HTTP proxy"
 
 msgid "Update an LDAP authentication source"
 msgstr ""
@@ -9813,13 +9815,13 @@ msgid "Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2."
 msgstr ""
 
 msgid "Username to use if authentication is required."
-msgstr ""
+msgstr "Uživatelské jméno které použít v případě, že je vyžadováno ověření se."
 
 msgid "Username to use to authenticate, if required"
 msgstr "Uživatelské jméno které použít pro ověření se (pokud je vyžadováno)"
 
 msgid "Username used to authenticate with the HTTP Proxy"
-msgstr ""
+msgstr "Uživatelské jméno sloužící k ověření se vůči HTTP proxy"
 
 msgid "Users"
 msgstr "Uživatelé"
@@ -9974,7 +9976,7 @@ msgid "Variables"
 msgstr "Proměnné"
 
 msgid "Vendor Class"
-msgstr ""
+msgstr "Třída výrobce"
 
 msgid "Verify"
 msgstr "Ověřit"
@@ -10245,7 +10247,7 @@ msgid "You can't assign organizations to this resource"
 msgstr "Tomuto prostředku nemůžete přiřadit organizaci"
 
 msgid "You cannot delete this user while logged in as this user"
-msgstr ""
+msgstr "Když jste pomocí něho právě přihlášení, nemůžete uživatelský účet smazat"
 
 msgid "You do not have permission to %s this location parameter"
 msgstr ""
@@ -10458,7 +10460,7 @@ msgid "could not be found in %s"
 msgstr ""
 
 msgid "could not be generated"
-msgstr ""
+msgstr "nedaří se vytvořit"
 
 msgid "cycle"
 msgstr ""
@@ -10820,7 +10822,7 @@ msgid "must be comma separated"
 msgstr "je třeba, aby bylo oddělované čárkou"
 
 msgid "must be in OpenSSH public key format"
-msgstr ""
+msgstr "je třeba, aby bylo ve formátu veřejného klíče OpenSSH"
 
 msgid "must be integer"
 msgstr "je třeba, aby bylo celé číslo"
@@ -10889,7 +10891,7 @@ msgid "no random free IP could be found in our DB, enlarge subnet range"
 msgstr ""
 
 msgid "no storage pool available on hypervisor"
-msgstr ""
+msgstr "na hypervizoru není k dispozici žádný fond úložiště"
 
 msgid "no value"
 msgstr "žádná hodnota"
@@ -11021,7 +11023,7 @@ msgid "select an owner"
 msgstr "vybrat vlastníka"
 
 msgid "service configuration will be skipped."
-msgstr ""
+msgstr "nastavení služby bude přeskočeno."
 
 msgid "setting up reporting"
 msgstr ""

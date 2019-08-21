@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-31 16:16+0300\n"
-"PO-Revision-Date: 2019-07-31 16:16+0300\n"
+"POT-Creation-Date: 2019-08-21 17:45+0300\n"
+"PO-Revision-Date: 2019-08-21 17:45+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -97,23 +97,23 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:250
-#: ../app/assets/javascripts/host_edit.js:544
+#: ../app/assets/javascripts/host_edit.js:254
+#: ../app/assets/javascripts/host_edit.js:548
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:704
+#: ../app/assets/javascripts/host_edit.js:708
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:53
 #: ../app/views/hostgroups/_form.html.erb:60
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:869
+#: ../app/assets/javascripts/host_edit.js:873
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:990
+#: ../app/assets/javascripts/host_edit.js:994
 msgid "Manual configuration is needed."
 msgstr ""
 
