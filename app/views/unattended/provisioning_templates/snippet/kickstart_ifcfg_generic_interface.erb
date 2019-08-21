@@ -38,7 +38,7 @@ PEERROUTES=<%= primary %>
 DEFROUTE=<%= primary %>
 <%- if @interface.primary -%>
 <%-   if !@dhcp && @subnet -%>
-<%-     @subnet.dns_servers.each_index { |index| -%>
+<%-     @subnet.dns_servers.each_index do |index| -%>
 <%=       "DNS#{index +1}=\"#{@subnet.dns_servers[index]}\"" %>
 <%-     end -%>
 <%-   end -%>
