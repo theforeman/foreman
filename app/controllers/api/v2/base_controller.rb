@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Foreman::Controller::Authorize
 
-      rescue_from ActiveRecord::InvalidForeignKey, :with => :show_errors
+      rescue_from ActiveRecord::InvalidForeignKey, :with => :show_associated_error
 
       resource_description do
         api_version "v2"
@@ -157,10 +157,10 @@ module Api
                              :layout   => 'api/v2/layouts/error_layout')
       end
 
-      def show_errors(exception = nil)
+      def show_associated_error(exception = nil)
         if exception
           e = exception.message.scan(/\(([^)]+)\)/)
-          not_found _("Associated resource %{resource} with id %{id} not found") % {:resource => e[0][0], :id => e[1][0]}
+          not_found _("Associated resource could not be found by key %{resource} with id %{id}") % {:resource => e[0][0], :id => e[1][0]}
         end
       end
 
