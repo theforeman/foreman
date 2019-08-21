@@ -158,6 +158,10 @@ function submit_with_all_params(){
       stop_pooling = true;
       $("body").css("cursor", "auto");
       $('form input[type="submit"]').attr('disabled', false);
+      if (window.location.pathname !== tfm.tools.foremanUrl('/hosts/new')) {
+        // We got redirected to the show page, need to clear the title override
+        tfm.breadcrumbs.updateTitle();
+      }
     }
   });
   return false;
