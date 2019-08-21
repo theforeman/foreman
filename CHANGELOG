@@ -1,3 +1,21 @@
+2019-08-21	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.23.0-RC2
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+	* Fixes #26822 - correct title after host creation
+
+2019-08-21	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #27666 - pin sass-rails on Ruby < 2.4 even lower
+
+2019-08-20	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #27666 - pin sass-rails on Ruby < 2.4
+
+2019-08-14	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #27533 - use the new Red Hat logo
+
+2019-08-07	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #27528 - reporting template input search type
+
 2019-07-31	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.23.0-RC1
 	* i18n - extracting new, pulling from tx
