@@ -1,4 +1,5 @@
 import URI from 'urijs';
+import packageJson from '../../../../../package.json';
 
 /**
  * Build a url from given controller, action and id
@@ -68,4 +69,24 @@ export const changeQuery = (newQuery, navigateTo, uri = getURI()) => {
   uri.setQuery(newQuery);
   if (navigateTo) navigateTo(uri.toString());
   else window.Turbolinks.visit(uri.toString());
+};
+
+export const foremanshortVersion = () =>
+  packageJson.version
+    .split('.')
+    .slice(0, 2)
+    .join('.');
+
+export const documentationURL = (section = '', options = {}) => {
+  const shortVersion = foremanshortVersion();
+  const rootUrl =
+    options.rootUrl ||
+    `https://theforeman.org/manuals/${shortVersion}/index.html#`;
+  if (!section) return rootUrl;
+  return rootUrl + section;
+};
+
+export const exportURL = () => {
+  const href = new URI(window.location.href);
+  return `${href.pathname()}${href.search()}.csv`;
 };

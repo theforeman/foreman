@@ -1,25 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Icon } from 'patternfly-react';
 import { translate as __ } from '../../common/I18n';
 
 import PageLayout from '../common/PageLayout/PageLayout';
 import AuditsList from '../../components/AuditsList';
 import Pagination from '../../components/Pagination/Pagination';
+import { documentationURL } from '../../common/urlHelpers';
 
 const AuditsPage = ({
-  data: { searchProps, docURL, audits, pagination, searchable },
+  data: { searchProps, audits, pagination, searchable },
 }) => (
   <PageLayout
     header={__('Audits')}
     searchable={searchable}
     searchProps={searchProps}
-    toolbarButtons={
-      <Button href={docURL} className="btn-docs">
-        <Icon type="pf" name="help" />
-        {` ${__('Documentation')}`}
-      </Button>
-    }
+    documentationURL={documentationURL('4.1.4Auditing')}
   >
     <div id="audit-list">
       <AuditsList data={audits} />
@@ -45,7 +40,6 @@ AuditsPage.propTypes = {
         query: PropTypes.string,
       }),
     }),
-    docURL: PropTypes.string,
     audits: PropTypes.shape({
       audits: PropTypes.array.isRequired,
     }).isRequired,

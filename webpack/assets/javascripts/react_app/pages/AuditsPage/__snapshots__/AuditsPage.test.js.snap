@@ -5,6 +5,8 @@ exports[`AuditsPage rendering render audits page 1`] = `
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
+  documentationURL="https://theforeman.org/manuals/1.2/index.html#4.1.4Auditing"
+  exportURL=""
   header="Audits"
   onBookmarkClick={[Function]}
   onSearch={[Function]}
@@ -12,23 +14,6 @@ exports[`AuditsPage rendering render audits page 1`] = `
   searchQuery=""
   searchable={true}
   toastNotifications={null}
-  toolbarButtons={
-    <Button
-      active={false}
-      block={false}
-      bsClass="btn"
-      bsStyle="default"
-      className="btn-docs"
-      disabled={false}
-      href="/url"
-    >
-      <Icon
-        name="help"
-        type="pf"
-      />
-       Documentation
-    </Button>
-  }
 >
   <div
     id="audit-list"

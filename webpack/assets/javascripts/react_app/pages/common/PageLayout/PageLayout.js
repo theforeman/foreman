@@ -7,6 +7,10 @@ import { changeQuery } from '../../../common/urlHelpers';
 import ToastsList from '../../../components/ToastsList';
 import BreadcrumbBar from '../../../components/BreadcrumbBar';
 import SearchBar from '../../../components/SearchBar';
+import ExportButton from './components/ExportButton';
+import DocumentationButton from './components/DocumentationButton';
+import Slot from '../../../components/common/Slot';
+import Fill from '../../../components/common/Fill';
 
 const PageLayout = ({
   header,
@@ -17,9 +21,10 @@ const PageLayout = ({
   onBookmarkClick,
   customBreadcrumbs,
   breadcrumbOptions,
-  toolbarButtons,
   toastNotifications,
   beforeToolbarComponent,
+  exportURL,
+  documentationURL,
   children,
 }) => {
   updateDocumentTitle(header);
@@ -61,7 +66,29 @@ const PageLayout = ({
             )}
           </Col>
           <Col id="title_action" md={searchable ? 6 : 8}>
-            <div className="btn-toolbar pull-right">{toolbarButtons}</div>
+            <div className="btn-toolbar pull-right">
+              <Slot multi id="layout-toolbar-button" />
+              {exportURL && (
+                <Fill
+                  id="exportButton"
+                  slotId="layout-toolbar-button"
+                  weight={100}
+                  key="exportButton"
+                >
+                  <ExportButton url={exportURL} />
+                </Fill>
+              )}
+              {documentationURL && (
+                <Fill
+                  id="documentationButton"
+                  slotId="layout-toolbar-button"
+                  weight={200}
+                  key="documentationButton"
+                >
+                  <DocumentationButton url={documentationURL} />
+                </Fill>
+              )}
+            </div>
           </Col>
         </Row>
         {children}
@@ -112,12 +139,13 @@ PageLayout.propTypes = {
       })
     ),
   }),
-  toolbarButtons: PropTypes.node,
   toastNotifications: PropTypes.string,
   onSearch: PropTypes.func,
   onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
   beforeToolbarComponent: PropTypes.node,
+  exportURL: PropTypes.string,
+  documentationURL: PropTypes.string,
 };
 
 PageLayout.defaultProps = {
@@ -126,12 +154,13 @@ PageLayout.defaultProps = {
   searchQuery: '',
   toastNotifications: null,
   customBreadcrumbs: null,
-  toolbarButtons: null,
   breadcrumbOptions: null,
   onSearch: searchQuery => changeQuery({ search: searchQuery.trim(), page: 1 }),
   onBookmarkClick: searchQuery =>
     changeQuery({ search: searchQuery.trim(), page: 1 }),
   beforeToolbarComponent: null,
+  exportURL: '',
+  documentationURL: '',
 };
 
 export default PageLayout;

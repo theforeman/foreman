@@ -21,9 +21,13 @@ const pageLayoutFixtures = {
     ...pageLayoutMock,
     toolbarButtons: 'toolbarButton',
   },
-  'render pageLayout w/beforeToolbarComponent': {
+  'render pageLayout w/Export': {
     ...pageLayoutMock,
-    beforeToolbarComponent: 'beforeToolbarComponent',
+    exportURL: 'urlExport',
+  },
+  'render pageLayout w/Docs': {
+    ...pageLayoutMock,
+    documentationURL: 'documentationURL',
   },
 };
 

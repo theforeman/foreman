@@ -12,11 +12,14 @@ const auditsPageFixtures = {
     data: {
       audits: AuditsProps,
       pagination: paginationMock.data,
-      docURL: '/url',
       searchable: true,
     },
   },
 };
+
+jest.mock('../../../../../../package.json', () => ({
+  version: '1.2.3.4',
+}));
 
 describe('AuditsPage', () => {
   describe('rendering', () =>

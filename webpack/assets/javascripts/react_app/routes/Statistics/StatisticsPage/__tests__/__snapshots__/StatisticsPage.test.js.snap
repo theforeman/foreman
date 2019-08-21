@@ -5,6 +5,8 @@ exports[`StatisticsPage rendering render with props 1`] = `
   beforeToolbarComponent={null}
   breadcrumbOptions={null}
   customBreadcrumbs={null}
+  documentationURL=""
+  exportURL=""
   header="Statistics"
   onBookmarkClick={[Function]}
   onSearch={[Function]}
@@ -12,7 +14,6 @@ exports[`StatisticsPage rendering render with props 1`] = `
   searchQuery=""
   searchable={false}
   toastNotifications={null}
-  toolbarButtons={null}
 >
   <Component
     getStatisticsMeta={[Function]}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render pageLayout w/beforeToolbarComponent 1`] = `
+exports[`render pageLayout w/Docs 1`] = `
 <div
   id="main"
 >
@@ -38,7 +38,6 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
         }
       />
     </div>
-    beforeToolbarComponent
     <Row
       bsClass="row"
       componentClass="div"
@@ -85,7 +84,132 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
       >
         <div
           className="btn-toolbar pull-right"
-        />
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+          <Connect(Fill)
+            id="documentationButton"
+            key="documentationButton"
+            slotId="layout-toolbar-button"
+            weight={200}
+          >
+            <DocumentationButton
+              text="Documentation"
+              url="documentationURL"
+            />
+          </Connect(Fill)>
+        </div>
+      </Col>
+    </Row>
+    body
+  </div>
+</div>
+`;
+
+exports[`render pageLayout w/Export 1`] = `
+<div
+  id="main"
+>
+  <div
+    id="react-content"
+  >
+    <div
+      id="breadcrumb"
+    >
+      <Connect(BreadcrumbBar)
+        data={
+          Object {
+            "data": Object {
+              "breadcrumbItems": Array [
+                Object {
+                  "caption": "root",
+                  "url": "/some-url",
+                },
+                Object {
+                  "caption": "child with onClick",
+                  "onClick": [MockFunction],
+                },
+                Object {
+                  "caption": "active child",
+                },
+              ],
+              "isSwitchable": false,
+              "resource": Object {
+                "nameField": "name",
+                "resourceUrl": "some/url",
+                "switcherItemUrl": "some/url/:id",
+              },
+            },
+          }
+        }
+      />
+    </div>
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        className="title_filter"
+        componentClass="div"
+        md={6}
+      >
+        <div
+          id="search-bar"
+        >
+          <Connect(SearchBar)
+            data={
+              Object {
+                "data": Object {
+                  "autocomplete": Object {
+                    "id": "some-id",
+                    "searchQuery": null,
+                    "url": "model/auto_complete_search",
+                    "useKeyShortcuts": true,
+                  },
+                  "bookmarks": Object {
+                    "canCreate": true,
+                    "documentationUrl": "/doc/url",
+                    "url": "/api/bookmarks",
+                  },
+                  "controller": "models",
+                },
+              }
+            }
+            initialQuery=""
+            onBookmarkClick={[Function]}
+            onSearch={[Function]}
+          />
+        </div>
+      </Col>
+      <Col
+        bsClass="col"
+        componentClass="div"
+        id="title_action"
+        md={6}
+      >
+        <div
+          className="btn-toolbar pull-right"
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+          <Connect(Fill)
+            id="exportButton"
+            key="exportButton"
+            slotId="layout-toolbar-button"
+            weight={100}
+          >
+            <ExportButton
+              text="Export"
+              title="Export to CSV"
+              url="urlExport"
+            />
+          </Connect(Fill)>
+        </div>
       </Col>
     </Row>
     body
@@ -177,7 +301,12 @@ exports[`render pageLayout w/search 1`] = `
       >
         <div
           className="btn-toolbar pull-right"
-        />
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+        </div>
       </Col>
     </Row>
     body
@@ -275,7 +404,12 @@ exports[`render pageLayout w/toastNotifications 1`] = `
       >
         <div
           className="btn-toolbar pull-right"
-        />
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+        </div>
       </Col>
     </Row>
     body
@@ -368,7 +502,10 @@ exports[`render pageLayout w/toolBar 1`] = `
         <div
           className="btn-toolbar pull-right"
         >
-          toolbarButton
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
         </div>
       </Col>
     </Row>
@@ -435,7 +572,12 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
       >
         <div
           className="btn-toolbar pull-right"
-        />
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+        </div>
       </Col>
     </Row>
     body
@@ -509,7 +651,12 @@ exports[`render pageLayout without breadcrumbs 1`] = `
       >
         <div
           className="btn-toolbar pull-right"
-        />
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+        </div>
       </Col>
     </Row>
     body
@@ -573,7 +720,12 @@ exports[`render pageLayout without search 1`] = `
       >
         <div
           className="btn-toolbar pull-right"
-        />
+        >
+          <Connect(Slot)
+            id="layout-toolbar-button"
+            multi={true}
+          />
+        </div>
       </Col>
     </Row>
     body

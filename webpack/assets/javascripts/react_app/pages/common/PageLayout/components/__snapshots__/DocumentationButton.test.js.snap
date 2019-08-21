@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentationButton render with minimal props 1`] = `
+<Button
+  active={false}
+  block={false}
+  bsClass="btn"
+  bsStyle="default"
+  className="btn-docs"
+  disabled={false}
+  href="url"
+>
+  <Icon
+    name="help"
+    type="pf"
+  />
+   Documentation
+</Button>
+`;
