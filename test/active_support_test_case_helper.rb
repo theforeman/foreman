@@ -217,13 +217,7 @@ class ActiveSupport::TestCase
   def fake_rest_client_response(data)
     net_http_resp = Net::HTTPResponse.new(1.0, 200, 'OK')
     req = RestClient::Request.new(:method => 'get', :url => 'http://localhost:8443')
-    if RestClient::Response.method(:create).arity == 3 # 2.0.0+
-      RestClient::Response.create(data.to_json, net_http_resp, req)
-    elsif RestClient::Response.method(:create).arity == 4 # 1.8.x
-      RestClient::Response.create(data.to_json, net_http_resp, nil, req)
-    else
-      raise "unknown RestClient::Response.create version (#{RestClient.version}, arity #{RestClient::Response.method(:create).arity})"
-    end
+    RestClient::Response.create(data.to_json, net_http_resp, req)
   end
 
   # Minitest provides a "_" expects syntax which overrides the gettext "_" method
