@@ -124,6 +124,13 @@ class PuppetFactParser < FactParser
     map.has_key?(attribute) ? map[attribute] : attribute
   end
 
+  def suggested_primary_interface(host)
+    # facter 3.x: find 'primary' fact in 'networking' structure
+    facter3_primary = facts.try(:fetch, "networking", nil).try(:fetch, "primary", nil)
+    return [facter3_primary, interfaces[facter3_primary]] if facter3_primary
+    super
+  end
+
   def certname
     facts[:clientcert]
   end

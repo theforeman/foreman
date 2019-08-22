@@ -827,6 +827,22 @@ class HostTest < ActiveSupport::TestCase
         assert_equal 'Nic::Bond', host.primary_interface.type
       end
     end
+
+    describe 'a host with primary interface on a bridge on a vlan on a bond via facter 3' do
+      let(:raw_facts) { read_json_fixture('facts/primary_bridge_vlan_bond.json').merge(_type: 'puppet') }
+      let(:hostname) { 'server-42.example.com' }
+      let(:certname) { 'server-42.example.com' }
+
+      setup do
+        Resolv::DNS.any_instance.expects(:getnames).never
+      end
+
+      it 'sets bond0 as primary interface' do
+        host = Host.import_host(hostname, certname)
+        assert host.import_facts(raw_facts)
+        assert_equal 'br_customer', host.primary_interface.identifier
+      end
+    end
   end
 
   test "host is created when receiving a report if setting is true" do
