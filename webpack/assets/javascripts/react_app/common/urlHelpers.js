@@ -69,3 +69,8 @@ export const changeQuery = (newQuery, navigateTo, uri = getURI()) => {
   if (navigateTo) navigateTo(uri.toString());
   else window.Turbolinks.visit(uri.toString());
 };
+
+export const exportURL = () => {
+  const href = getURI();
+  return `${href.pathname()}${href.search()}.csv`;
+};

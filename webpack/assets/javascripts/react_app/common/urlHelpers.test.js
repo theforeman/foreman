@@ -7,6 +7,7 @@ import {
   getURIpage,
   getURIperPage,
   getURIsearch,
+  exportURL,
 } from './urlHelpers';
 
 const mockWindow = ({ href, visit }) => {
@@ -78,5 +79,9 @@ describe('URI query and stringify tests', () => {
     expect(getURIpage()).toMatchSnapshot('getPage');
     expect(getURIperPage()).toMatchSnapshot('getPerPage');
     expect(getURIsearch()).toMatchSnapshot('getSearchQuery');
+  });
+
+  it('exportURL should return a valid url', () => {
+    expect(exportURL()).toBe(`/?${oldQuery}.csv`);
   });
 });
