@@ -94,14 +94,13 @@ class Taxonomy < ApplicationRecord
   def self.ignore?(taxable_type)
     current_taxonomies = if self.current.nil? && User.current.present?
                            # "Any context" - all available taxonomies"
-                           User.current.public_send(self.to_s.underscore.pluralize)
+                           User.current.public_send("my_#{self.to_s.underscore.pluralize}")
                          else
-                           self.current
+                           [ self.current ]
                          end
-    Array.wrap(current_taxonomies).each do |current|
-      return true if current.ignore?(taxable_type)
+    current_taxonomies.compact.any? do |current|
+      current.ignore?(taxable_type)
     end
-    false
   end
 
   # if taxonomy e.g. organization was not set by current context (e.g. Any organization)
@@ -119,11 +118,7 @@ class Taxonomy < ApplicationRecord
   end
 
   def ignore?(taxable_type)
-    if ignore_types.empty?
-      false
-    else
-      ignore_types.include?(taxable_type.classify)
-    end
+    ignore_types.include?(taxable_type.classify)
   end
 
   def self.all_import_missing_ids
