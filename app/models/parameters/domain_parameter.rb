@@ -1,5 +1,5 @@
 class DomainParameter < Parameter
-  audited :except => [:priority], :associated_with => :domain
+  audited :except => [:priority, :searchable_value], :associated_with => :domain
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :domain, :presence => true
 

@@ -65,7 +65,8 @@ module Hostext
 
       scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_puppetclass
       scoped_search :relation => :fact_values, :on => :value, :in_key => :fact_names, :on_key => :name, :rename => :facts, :complete_value => true, :only_explicit => true, :ext_method => :search_cast_facts
-      scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params, :only_explicit => true
+      scoped_search :relation => :search_parameters, :on => :name, :complete_value => true, :rename => :params_name, :only_explicit => true
+      scoped_search :relation => :search_parameters, :on => :searchable_value, :in_key => :search_parameters, :on_key => :name, :complete_value => true, :rename => :params, :ext_method => :search_by_params, :only_explicit => true, :operators => ['= ', '~ ']
 
       scoped_search :relation => :reported_data, :on => :boot_time, :rename => 'boot_time'
 
@@ -170,6 +171,24 @@ module Hostext
         {:conditions => opts}
       end
 
+      def search_by_params(key, operator, value)
+        key_name = key.sub(/^.*\./, '')
+        condition = sanitize_sql_for_conditions(["name = ? and searchable_value #{operator} ?", key_name, value_to_sql(operator, value)])
+        p = Parameter.where(condition).reorder(:priority)
+        return {:conditions => '1 = 0'} if p.blank?
+
+        max = p.first.priority
+        condition = sanitize_sql_for_conditions(["name = ? and NOT(searchable_value #{operator} ?) and priority > ?", key_name, value_to_sql(operator, value), max])
+        n = Parameter.where(condition).reorder(:priority)
+
+        conditions = param_conditions(p)
+        negate = param_conditions(n)
+
+        conditions += " AND " unless conditions.blank? || negate.blank?
+        conditions += " NOT(#{negate})" if negate.present?
+        {:joins => :primary_interface, :conditions => conditions}
+      end
+
       def search_by_config_group(key, operator, value)
         conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
         host_ids      = Host::Managed.where(conditions).joins(:config_groups).distinct.pluck('hosts.id')
@@ -204,6 +223,29 @@ module Hostext
         {
           :conditions => "#{Host::Managed.table_name}.id in (#{in_query})",
         }
+      end
+
+      private
+
+      def param_conditions(p)
+        conditions = []
+        p.each do |param|
+          case param.class.to_s
+            when 'CommonParameter'
+              conditions << "1 = 1" # include all Global parameters
+            when 'DomainParameter'
+              conditions << "nics.domain_id = #{param.reference_id}"
+            when 'OsParameter'
+              conditions << "hosts.operatingsystem_id = #{param.reference_id}"
+            when 'GroupParameter'
+              conditions << "hosts.hostgroup_id IN (#{param.hostgroup.subtree_ids.join(', ')})"
+            when 'HostParameter'
+              conditions << "hosts.id = #{param.reference_id}"
+            when 'SubnetParameter'
+              conditions << "nics.subnet_id = #{param.reference_id} OR nics.subnet6_id = #{param.reference_id}"
+          end
+        end
+        conditions.empty? ? "" : "( #{conditions.join(' OR ')} )"
       end
     end
   end

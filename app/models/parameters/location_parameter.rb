@@ -1,5 +1,5 @@
 class LocationParameter < Parameter
-  audited :except => [:priority], :associated_with => :location
+  audited :except => [:priority, :searchable_value], :associated_with => :location
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :location, :presence => true
 

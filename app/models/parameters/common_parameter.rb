@@ -1,5 +1,5 @@
 class CommonParameter < Parameter
-  audited :except => [:priority]
+  audited :except => [:priority, :searchable_value]
   validates :name, :uniqueness => true
 
   def associated_type
