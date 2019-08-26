@@ -126,7 +126,7 @@ module Foreman #:nodoc:
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
                 :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
-                :renderer_variable_loaders
+                :renderer_variable_loaders, :host_ui_description
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -542,6 +542,10 @@ module Foreman #:nodoc:
 
     def register_graphql_mutation_field(field_name, mutation_class)
       graphql_types_registry.register_plugin_mutation_field(field_name, mutation_class)
+    end
+
+    def describe_host(&block)
+      @host_ui_description = UI.describe_host(&block)
     end
 
     private

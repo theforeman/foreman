@@ -1464,6 +1464,152 @@ host_info['parameters'] # list of foreman properties that are associated with th
 host_info['environment'] # Host's environment
 
 ----
+[[extending-host-ui]]
+=== Extending host UI
+A plugin can add fields displayed in `Properties` tab on host overview page,
+add buttons to `Details` area on host overview page, add actions to the right
+side of the title area on host overview page and add actions for multiple
+selected hosts.
+
+Adding an item to one of those lists requires adding a helper with a method that
+returns relevant items to your plugin and registering that method in plugin
+description. The methods should return a list of hashes, where each hash will
+have two predefined fields: `:priority` and either `:field`, `:action` or `:button`
+according to the desired extension point. `:priority` value would be used by the
+system to define the order of the items to show. The lower the priority, the
+higher the item will show.
+
+[[extending-host-ui-overview-fields]]
+==== Adding overview fields
+In this case, the method that will contribute overview fields will receive a host
+instance for generating the field. Here are a couple of examples of fields added
+by the core. Notice the `:priority` setting, it will determine the order in which
+the fields are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_host_overview_fields(host)
+  fields = []
+  fields << { :field => [_("Build duration"), build_duration(host)], :priority => 90 } # call to other helper method
+  fields << { :field => [_("Operating System"), link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}"))], :priority => 800 } # creating a linkable item
+  fields << { :field => [_("PXE Loader"), host.pxe_loader], :priority => 900 } # adding a simple value
+
+  fields
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    overview_fields_provider :my_plugin_host_overview_fields
+  end
+end
+----
+
+[[extending-host-ui-overview-buttons]]
+==== Adding overview details buttons
+In this case, the method that will contribute buttons will also receive a host
+instance for generating the action. Here are a couple of examples of actions added
+by the core. Notice the `:priority` setting, it will determine the order in which
+the buttons are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_host_overview_buttons(host)
+  [
+    { :button => link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => host), :title => _("Host audit entries"), :class => 'btn btn-default'), :priority => 100 },
+    { :button => link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default'), :priority => 200 },
+  ]
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    overview_buttons_provider :my_plugin_host_overview_buttons
+  end
+end
+----
+
+[[extending-host-ui-title-actions]]
+==== Adding actions to title area
+In this case, the method that will contribute actions will also receive a host
+instance for generating the action. Here are a couple of examples of actions added
+by the core. Notice the `:priority` setting, it will determine the order in which
+the actions are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_host_title_actions(host)
+  [
+    {
+      :action => button_group(
+        link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
+                                :title    => _("Edit this host"), :id => "edit-button", :class => 'btn btn-default'),
+        display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host, :permission => 'create_hosts'),
+                                :title    => _("Clone this host"), :id => "clone-button", :class => 'btn btn-default'),
+      ),
+      :priority => 100
+    },
+    {
+      :action => button_group(
+        link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
+                              :class => "btn btn-danger",
+                              :id => "delete-button",
+                              :data => { :message => delete_host_dialog(host) },
+                              :method => :delete)
+      ),
+      :priority => 300,
+    },
+  ]
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    title_actions_provider :my_plugin_host_title_actions
+  end
+end
+----
+
+[[extending-host-ui-multiple-actions]]
+==== Adding actions to multiple host select menu
+In this case, the method that will contribute actions will not receive any parameters.
+Here are a couple of examples of actions added by the core. Notice the `:priority`
+setting, it will determine the order in which the actions are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_multiple_actions
+  [
+    { :action => [_('Assign Organization'), select_multiple_organization_hosts_path], :priority => 800 },
+    { :action => [_('Assign Location'), select_multiple_location_hosts_path], :priority => 900 }
+  ]
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    multiple_actions_provider :my_plugin_multiple_actions
+  end
+end
+----
+
+
 [[settings]]
 === Settings
 
