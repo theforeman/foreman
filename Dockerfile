@@ -30,7 +30,7 @@ ENTRYPOINT ["entrypoint.sh"]
 FROM base as builder
 ENV RAILS_ENV=production
 ENV FOREMAN_APIPIE_LANGS=en
-ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter"
+ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter console"
 
 RUN \
   microdnf install redhat-rpm-config git \
@@ -59,6 +59,8 @@ RUN \
   bundle exec rake db:seed apipie:cache:index && rm tmp/bootstrap-db.sql
 RUN ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && npm run analyze && rm -rf public/webpack/stats.json
 RUN rm -rf vendor/ruby/*/cache vendor/ruby/*/gems/*/node_modules
+# Remove unnecessary gems before coping them
+RUN bundle install --without "${BUNDLER_SKIPPED_GROUPS}" assets
 
 USER 0
 RUN chgrp -R 0 ${HOME} && \
