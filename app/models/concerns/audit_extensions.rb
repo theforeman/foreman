@@ -11,14 +11,6 @@ module AuditExtensions
     after_create :log_audit
 
     scope :untaxed, -> { by_auditable_types(untaxable) }
-    scope :taxed_only_by_location, lambda {
-      by_auditable_types(location_taxable).
-      where(id: inner_ids(Location.current, Location, :subtree_ids))
-    }
-    scope :taxed_only_by_organization, lambda {
-      by_auditable_types(organization_taxable).
-      where(id: inner_ids(Organization.current, Organization, :subtree_ids))
-    }
     scope :fully_taxable_auditables, -> { by_auditable_types(fully_taxable) }
     scope :fully_taxable_auditables_in_taxonomy_scope, -> { with_taxonomy_scope { fully_taxable_auditables } }
     scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
@@ -100,6 +92,18 @@ module AuditExtensions
           rescue NameError
           end
         end.compact
+      end
+
+      def taxed_only_by_location
+        locations = Location.current || Location.my_locations.reorder(nil)
+        by_auditable_types(location_taxable).
+          where(id: TaxableTaxonomy.where(taxonomy: locations, taxable_type: 'Audited::Audit').select(:taxable_id))
+      end
+
+      def taxed_only_by_organization
+        organizations = Organization.current || Organization.my_organizations.reorder(nil)
+        by_auditable_types(organization_taxable).
+          where(id: TaxableTaxonomy.where(taxonomy: organizations, taxable_type: 'Audited::Audit').select(:taxable_id))
       end
 
       private
