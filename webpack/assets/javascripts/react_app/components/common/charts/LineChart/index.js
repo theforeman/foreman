@@ -48,6 +48,7 @@ LineChart.propTypes = {
   axisOpts: PropTypes.object,
   xAxisDataLabel: PropTypes.string,
   onclick: PropTypes.func,
+  id: PropTypes.string,
 };
 
 LineChart.defaultProps = {
@@ -59,6 +60,7 @@ LineChart.defaultProps = {
   axisOpts: {},
   xAxisDataLabel: '',
   onclick: () => {},
+  id: undefined,
 };
 
 export default LineChart;
