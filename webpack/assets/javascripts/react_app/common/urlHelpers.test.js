@@ -82,6 +82,6 @@ describe('URI query and stringify tests', () => {
   });
 
   it('exportURL should return a valid url', () => {
-    expect(exportURL()).toBe(`/?${oldQuery}.csv`);
+    expect(exportURL()).toBe(`/?${oldQuery}&format=csv`);
   });
 });

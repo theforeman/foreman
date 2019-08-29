@@ -23,7 +23,7 @@ exports[`ExportButton render without props 1`] = `
   bsStyle="default"
   className="export-csv"
   disabled={false}
-  href="/.csv"
+  href="/?format=csv"
   title="Export to CSV"
 >
   Export
