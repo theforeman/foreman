@@ -71,6 +71,7 @@ export const changeQuery = (newQuery, navigateTo, uri = getURI()) => {
 };
 
 export const exportURL = () => {
-  const href = getURI();
-  return `${href.pathname()}${href.search()}.csv`;
+  const url = getURI();
+  url.addQuery('format', 'csv');
+  return `${url.pathname()}${url.search()}`;
 };
