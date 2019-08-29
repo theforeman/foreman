@@ -1,3 +1,61 @@
+2019-08-29	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.22.1
+
+2019-08-25	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #26655 - show contnet after creating a host
+
+2019-08-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #27681 - Fix test for rest-client 2.1 support
+
+2019-08-21	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26822 - correct title after host creation
+
+2019-08-21	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #27666 - pin sass-rails on Ruby < 2.4 even lower
+
+2019-08-20	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #27666 - pin sass-rails on Ruby < 2.4
+
+2019-08-14	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #27533 - use the new Red Hat logo
+
+2019-08-07	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #27528 - reporting template input search type
+
+2019-08-06	Chris Roberts <chrobert@redhat.com>
+	* Refs #26826 - Correctly increase js heap size
+
+2019-07-30	Ori Rabin <orabin@redhat.com>
+	* Fixes #27468 - change key_type to parameter_type in js
+
+2019-07-21	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #27347 - Pin audited to < 4.9.0 (#6915)
+
+2019-07-04	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #27068 - Pin spring on Ruby < 2.4
+
+2019-07-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #24993 - Modify token value to text
+
+2019-06-12	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #26924 - Deprecate rake taks for puppet import
+
+2019-06-12	kgaikwad <kavitagaikwad103@gmail.com>
+	* Refs #26812 - add more vm's fields on vm detail page
+	* Fixes #26812,#26814 - display correct vm_details in notifications
+
+2019-06-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #27013 - Pin shoulda-matchers on Ruby 2.3
+
+2019-06-10	ftek-tofi <tom.fischer@f-tek-media.com>
+	* Fixes #26971 - Correct Fog OpenStack constant naming
+
+2019-06-06	Tuur Dutoit <me@tuurdutoit.be>
+	* Fixes #26949 - Use $version instead of $release for FreeBSD
+
+2019-06-05	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #26957 - send request id instead session to proxy
+
 2019-06-04	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.22.0
 	* i18n - extracting new, pulling from tx
