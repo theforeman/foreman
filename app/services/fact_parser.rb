@@ -52,6 +52,14 @@ class FactParser
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
+  def comment
+    facts[:foreman_comment]
+  end
+
+  def has_comment?
+    facts.key?(:foreman_comment)
+  end
+
   def hostgroup
     hostgroup_title = facts[:foreman_hostgroup]
     Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create if hostgroup_title.present?

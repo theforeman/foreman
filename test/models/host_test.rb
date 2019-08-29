@@ -759,6 +759,12 @@ class HostTest < ActiveSupport::TestCase
       assert_equal taxonomies(:location2), host.location
     end
 
+    test 'comment updated from facts when present' do
+      host = Host.import_host('host')
+      assert host.import_facts(foreman_comment: 'new comment', lsbdistrelease: '6.7', operatingsystem: 'CentOS')
+      assert_equal 'new comment', host.comment
+    end
+
     test 'operatingsystem updated from facts' do
       host = Host.import_host('host')
       assert host.import_facts(:lsbdistrelease => '6.7', :operatingsystem => 'CentOS')

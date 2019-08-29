@@ -192,6 +192,7 @@ module Host
       build_required_interfaces(managed: false, type: primary_interface_type(parser))
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser) if parser.parse_interfaces?
+      set_comment(parser) if parser.has_comment?
     end
 
     def set_non_empty_values(parser, methods)
@@ -239,6 +240,10 @@ module Host
       telemetry_increment_counter(:importer_facts_count_interfaces, changed_count, type: parser.class_name_humanized)
 
       self.interfaces.reload
+    end
+
+    def set_comment(parser)
+      self.comment = parser.comment
     end
 
     def facts_hash
