@@ -40,6 +40,10 @@ FactoryBot.define do
     trait :with_usergroup do
       usergroups { [FactoryBot.create(:usergroup)] }
     end
+
+    trait :with_ssh_key do
+      after(:create) { |user, _| FactoryBot.create(:ssh_key, user: user) }
+    end
   end
 
   factory :permission do
