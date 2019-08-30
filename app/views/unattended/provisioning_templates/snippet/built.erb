@@ -23,6 +23,10 @@ description: |
     curl_opts << "--data '#{@post_data}'"
     wget_opts << "--body-data='#{@post_data}'"
   end
+  if not host_param('http-proxy')
+    curl_opts << '--noproxy \*'
+    wget_opts << '--no-proxy'
+  end
 -%>
 <% if built_https -%>
 SSL_CA_CERT=$(mktemp)
@@ -35,9 +39,9 @@ EOF
 -%>
 <% end -%>
 if [ -x /usr/bin/curl ]; then
-  /usr/bin/curl -o /dev/null --noproxy \* <%= curl_opts.join(' ') %> --silent '<%= url %>'
+  /usr/bin/curl -o /dev/null <%= curl_opts.join(' ') %> --silent '<%= url %>'
 elif [ -x /usr/bin/wget ]; then
-  /usr/bin/wget -q -O /dev/null --no-proxy --method <%= method %> <%= wget_opts.join(' ') %> '<%= url %>'
+  /usr/bin/wget -q -O /dev/null --method <%= method %> <%= wget_opts.join(' ') %> '<%= url %>'
 else
   wget -q -O /dev/null --header 'Content-Type: text/plain' '<%= url %>'
 fi
