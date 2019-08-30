@@ -32,6 +32,8 @@ class UsergroupTest < ActiveSupport::TestCase
   should have_many(:users).dependent(:destroy)
   should_not allow_value(*invalid_name_list).for(:name)
   should allow_value(*valid_name_list).for(:name)
+  should have_many(:cached_users)
+  should have_many(:cached_usergroups)
 
   test 'should not update with multiple invalid names' do
     usergroup = FactoryBot.create(:usergroup)
@@ -401,5 +403,24 @@ class UsergroupTest < ActiveSupport::TestCase
     res = Usergroup.except_current last
     assert_equal(group.count - 1, res.count)
     refute res.include?(last)
+  end
+
+  it 'provides data for export' do
+    user = FactoryBot.create(:user, :with_usergroup, :with_ssh_key)
+    usergroup = user.usergroups.first
+
+    expected = {
+      user.login => {
+        'firstname' => user.firstname,
+        'lastname' => user.lastname,
+        'mail' => user.mail,
+        'description' => user.description,
+        'fullname' => user.fullname,
+        'name' => user.name,
+        'ssh_authorized_keys' => user.ssh_keys.map(&:to_export_hash),
+      },
+    }
+
+    assert_equal expected, usergroup.to_export
   end
 end
