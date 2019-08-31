@@ -78,7 +78,10 @@ class Parameter < ApplicationRecord
   private
 
   def set_searchable_value
-    self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
+    # has_attribute is for enabling old DB migrations to run
+    if has_attribute?(:searchable_value)
+      self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
+    end
   end
 
   def set_priority
