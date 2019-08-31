@@ -5,7 +5,7 @@ class ReportTemplateFormat
       new(id: :txt, mime_type: 'text/plain', human_name: 'Plain text'),
       new(id: :json, mime_type: 'application/json', human_name: 'JSON'),
       new(id: :yaml, mime_type: 'text/yaml', human_name: 'YAML'),
-      new(id: :html, mime_type: 'text/html', human_name: 'HTML')
+      new(id: :html, mime_type: 'text/html', human_name: 'HTML'),
     ]
   end
 

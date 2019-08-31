@@ -210,7 +210,6 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal "a\n", response.body
     end
 
-
     it "should generate report in csv format" do
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'csv' }
@@ -294,7 +293,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
         'gzip' => !!mail_to,
         'send_mail' => !!mail_to,
         'mail_to' => mail_to,
-        'format' => format
+        'format' => format,
       }
       if delay_to
         scheduler = mock('TemplateRenderJob')

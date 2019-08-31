@@ -175,7 +175,7 @@ class ReportTemplatesControllerTest < ActionController::TestCase
 
     it "schedule report with format" do
       expect_job_enque_with(nil, format: 'yaml')
-      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :format =>  'yaml' } }, session: set_session_user
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :format => 'yaml' } }, session: set_session_user
       assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
 
