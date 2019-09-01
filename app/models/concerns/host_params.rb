@@ -59,14 +59,8 @@ module HostParams
 
     def host_inherited_params_objects
       params = CommonParameter.all
-      if SETTINGS[:organizations_enabled] && organization
-        params += extract_params_from_object_ancestors(organization)
-      end
-
-      if SETTINGS[:locations_enabled] && location
-        params += extract_params_from_object_ancestors(location)
-      end
-
+      params += extract_params_from_object_ancestors(organization) if organization
+      params += extract_params_from_object_ancestors(location) if location
       params += domain.domain_parameters.authorized(:view_params) if domain
       params += subnet.subnet_parameters.authorized(:view_params) if subnet
       params += subnet6.subnet_parameters.authorized(:view_params) if subnet6

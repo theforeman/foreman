@@ -56,16 +56,6 @@ class Taxonomy < ApplicationRecord
     end
   }
 
-  def self.locations_enabled
-    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.locations_enabled is always true, settings to disable taxonomies has been removed in 1.21.')
-    true
-  end
-
-  def self.organizations_enabled
-    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.organizations_enabled is always true, settings to disable taxonomies has been removed in 1.21.')
-    true
-  end
-
   def self.no_taxonomy_scope
     as_taxonomy nil, nil do
       yield if block_given?
@@ -80,15 +70,8 @@ class Taxonomy < ApplicationRecord
     end
   end
 
-  def self.enabled?(taxonomy)
-    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.enabled? is always true, settings to disable taxonomies has been removed in 1.21.')
-    true
-  end
-
-  def self.enabled_taxonomies
-    Foreman::Deprecation.deprecation_warning('1.23', 'Taxonomy.enabled_taxonomies is always locations and organizations, settings to disable taxonomies has been removed in 1.21.')
-    true
-    %w(locations organizations)
+  def self.types
+    [Organization, Location]
   end
 
   def self.ignore?(taxable_type)

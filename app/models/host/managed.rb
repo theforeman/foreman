@@ -205,8 +205,8 @@ class Host::Managed < Host::Base
   alias_attribute :arch, :architecture
 
   validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
-  validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:organizations_enabled] }
-  validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? && SETTINGS[:locations_enabled] }
+  validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? }
+  validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? }
   validate :compute_resource_in_taxonomy, :if => Proc.new { |host| host.managed? && host.compute_resource_id.present? }
 
   if SETTINGS[:unattended]
