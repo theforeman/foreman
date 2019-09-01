@@ -233,7 +233,7 @@ module Api
 
     def assign_lone_taxonomies
       return unless resource_class_for(resource_name)
-      [Location, Organization].each do |taxonomy|
+      Taxonomy.types.each do |taxonomy|
         tax_name = taxonomy.to_s.downcase
         if resource_class.reflections.has_key? tax_name.pluralize
           tax_ids = "#{tax_name}_ids"
@@ -388,7 +388,7 @@ module Api
       return nil if parent_name.nil? || parent_class.nil?
       # for admin we don't want to add any context condition, that would fail for hosts since we'd add join to
       # taxonomy table without any condition, inner join would return no host in this case
-      return nil if User.current.admin? && [ Organization, Location ].include?(parent_class) && parent_id.blank?
+      return nil if User.current.admin? && Taxonomy.types.include?(parent_class) && parent_id.blank?
       # for taxonomies, nil is valid value which indicates, we need to search in Users all taxonomies
       return [parent_name, User.current.my_organizations] if parent_class == Organization && parent_id.blank?
       return [parent_name, User.current.my_locations] if parent_class == Location && parent_id.blank?

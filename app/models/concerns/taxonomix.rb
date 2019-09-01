@@ -195,11 +195,7 @@ module Taxonomix
   # for existing records it would block saving global objects if taxonomies were not changed
   # for new records this would allow to create global objects for non global users
   def ensure_taxonomies_not_escalated
-    taxonomies = []
-    taxonomies << Organization if SETTINGS[:organizations_enabled]
-    taxonomies << Location if SETTINGS[:locations_enabled]
-
-    taxonomies.each do |taxonomy|
+    Taxonomy.types.each do |taxonomy|
       assoc_base = taxonomy.to_s.downcase
       assoc = assoc_base.pluralize
       key = assoc_base + '_ids'
