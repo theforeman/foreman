@@ -1,3 +1,26 @@
+<%= breadcrumbs(
+    items:
+    [
+      {
+        caption: _("Compute Resouces"),
+        url: compute_resources_path
+      },
+      {
+        caption: @compute_resource.provider,
+        url: compute_resource_path(@compute_resource)
+      },
+      {
+        caption: _("VMs"),
+        url: compute_resource_vms_path(@compute_resource)
+      },
+      {
+        caption: @vm.name
+      }
+    ],
+    switchable: false
+) %>
+
+
 <div class='row'>
   <%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
 </div>
