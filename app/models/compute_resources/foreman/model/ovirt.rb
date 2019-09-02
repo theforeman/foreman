@@ -279,8 +279,8 @@ module Foreman::Model
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
 
       begin
-        create_interfaces(vm, args[:interfaces_attributes])
-        create_volumes(vm, args[:volumes_attributes])
+        create_interfaces(vm, args[:interfaces_attributes]) unless args[:interfaces_attributes].empty?
+        create_volumes(vm, args[:volumes_attributes]) unless args[:volumes_attributes].empty?
       rescue => e
         destroy_vm vm.id
         raise e
