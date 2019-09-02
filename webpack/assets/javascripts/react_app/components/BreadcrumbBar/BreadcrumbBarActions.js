@@ -35,7 +35,7 @@ export const updateBreadcrumbTitle = title => ({
 export const loadSwitcherResourcesByResource = (
   resource,
   { page = 1, searchQuery = '' } = {}
-) => dispatch => {
+) => async dispatch => {
   const { resourceUrl, nameField, switcherItemUrl } = resource;
   const options = { page, searchQuery };
   const beforeRequest = () =>
@@ -75,17 +75,20 @@ export const loadSwitcherResourcesByResource = (
     };
   };
   beforeRequest();
-
-  return API.get(
-    resourceUrl,
-    {},
-    {
-      page,
-      per_page: 10,
-      search: createSearch(nameField, searchQuery, resource.resourceFilter),
-    }
-    // eslint-disable-next-line promise/prefer-await-to-then
-  ).then(onRequestSuccess, onRequestFail);
+  try {
+    const response = await API.get(
+      resourceUrl,
+      {},
+      {
+        page,
+        per_page: 10,
+        search: createSearch(nameField, searchQuery, resource.resourceFilter),
+      }
+    );
+    return onRequestSuccess(response);
+  } catch (error) {
+    return onRequestFail(error);
+  }
 };
 
 export const createSearch = (nameField, searchQuery, resourceFilter) => {
