@@ -2,11 +2,11 @@
       items: [
       {
         caption: _("Compute Resources"),
-        url: (url_for(compute_resources_path) if authorized_for(hash_for_compute_resources_path))
+        url: (compute_resources_path if authorized_for(hash_for_compute_resources_path))
       },
       {
         caption: _(@compute_resource.to_s),
-        url: (url_for(compute_resource_path(@compute_resource)) if authorized_for(hash_for_compute_resources_path))
+        url: (compute_resource_path(@compute_resource) if authorized_for(hash_for_compute_resources_path))
       },
       {
         caption: _("Images")

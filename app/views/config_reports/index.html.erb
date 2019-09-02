@@ -2,7 +2,7 @@
     items: [
     {
       caption: _("Hosts"),
-      url: (url_for(hosts_path) if authorized_for(hash_for_hosts_path))
+      url: (hosts_path if authorized_for(hash_for_hosts_path))
     },
     {
       caption: @host.name,
@@ -10,7 +10,7 @@
     },
     {
       caption: _('Reports'),
-      url: url_for(config_reports_path(search: 'eventful=true'))
+      url: config_reports_path(search: 'eventful=true')
     },
   ]
 ) if @host %>

@@ -6,7 +6,7 @@ breadcrumbs(
   items: [
     {
       caption: _("Roles"),
-      url: (url_for(roles_path) if authorized_for(hash_for_roles_path))
+      url: (roles_path if authorized_for(hash_for_roles_path))
     },
     {
       caption: _('%s Filters') % @filter.role.name,
