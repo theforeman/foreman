@@ -4,7 +4,7 @@
     [
       {
          caption: _("Users"),
-         url: (url_for(users_path) if authorized_for(hash_for_users_path))
+         url: (users_path if authorized_for(hash_for_users_path))
       },
       {
         caption: @user.name,

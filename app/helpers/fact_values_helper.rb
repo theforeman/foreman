@@ -57,7 +57,7 @@ module FactValuesHelper
       items: [
         {
           caption: _("Facts Values"),
-          url: (url_for(fact_values_path) if authorized_for(hash_for_fact_values_path)),
+          url: (fact_values_path if authorized_for(hash_for_fact_values_path)),
         },
         {
           caption: params[:host_id],
