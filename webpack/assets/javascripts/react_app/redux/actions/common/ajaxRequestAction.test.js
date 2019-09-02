@@ -9,13 +9,15 @@ const successAction = 'SUCCESS';
 const failedAction = 'FAILURE';
 
 describe('ajaxRequestAction', () => {
-  const setup = (dispatch, actionKey, actionValue) =>
-    ajaxRequestAction({
+  const setup = async (dispatch, actionKey, actionValue) => {
+    await ajaxRequestAction({
       dispatch,
       [actionKey]: actionValue,
       requestAction,
       item,
-    }).then(() => expect(dispatch.mock.calls).toMatchSnapshot());
+    });
+    expect(dispatch.mock.calls).toMatchSnapshot();
+  };
 
   let dispatch;
   beforeEach(() => {
@@ -38,7 +40,7 @@ describe('ajaxRequestAction', () => {
           resolve({ data });
         })
     );
-    return setup(dispatch, 'successAction', successAction);
+    setup(dispatch, 'successAction', successAction);
   });
 
   it('should dispatch request and failure actions on reject', () => {
@@ -48,6 +50,6 @@ describe('ajaxRequestAction', () => {
           reject(Error('bad request'));
         })
     );
-    return setup(dispatch, 'failedAction', failedAction);
+    setup(dispatch, 'failedAction', failedAction);
   });
 });
