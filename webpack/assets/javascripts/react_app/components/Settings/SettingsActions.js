@@ -5,25 +5,20 @@ import {
   GET_SETTING_FAILURE,
 } from './SettingsConstants';
 
-export const loadSetting = settingName => dispatch => {
+export const loadSetting = settingName => async dispatch => {
   dispatch({ type: GET_SETTING_REQUEST });
-
-  return (
-    API.get(`/api/v2/settings/${settingName}`)
-      // eslint-disable-next-line promise/prefer-await-to-then
-      .then(({ data }) => {
-        dispatch({
-          type: GET_SETTING_SUCCESS,
-          response: data,
-        });
-      })
-      .catch(result => {
-        dispatch({
-          type: GET_SETTING_FAILURE,
-          result,
-        });
-      })
-  );
+  try {
+    const { data } = await API.get(`/api/v2/settings/${settingName}`);
+    return dispatch({
+      type: GET_SETTING_SUCCESS,
+      response: data,
+    });
+  } catch (error) {
+    return dispatch({
+      type: GET_SETTING_FAILURE,
+      result: error,
+    });
+  }
 };
 
 export default loadSetting;
