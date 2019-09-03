@@ -44,21 +44,22 @@ const verifyProps = (item, values) => {
 
 export const submitForm = ({ item, url, values, message, method = 'post' }) => {
   verifyProps(item, values);
-  return dispatch =>
-    API[method](url, values)
-      .then(({ data }) => {
-        dispatch({
-          type: `${item.toUpperCase()}_FORM_SUBMITTED`,
-          payload: { item, data },
-        });
-        dispatch(
-          addToast({
-            type: 'success',
-            // eslint-disable-next-line no-undef
-            message:
-              message || sprintf('%s was successfully created.', __(item)),
-          })
-        );
-      })
-      .catch(onError);
+  return async dispatch => {
+    try {
+      const { data } = await API[method](url, values);
+      dispatch({
+        type: `${item.toUpperCase()}_FORM_SUBMITTED`,
+        payload: { item, data },
+      });
+      dispatch(
+        addToast({
+          type: 'success',
+          // eslint-disable-next-line no-undef
+          message: message || sprintf('%s was successfully created.', __(item)),
+        })
+      );
+    } catch (error) {
+      onError(error);
+    }
+  };
 };
