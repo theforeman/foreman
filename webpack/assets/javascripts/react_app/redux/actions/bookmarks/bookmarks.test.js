@@ -21,27 +21,27 @@ afterEach(() => {
 });
 
 describe('bookmark actions', () => {
-  it('should handle failure to load bookmarks', () => {
+  it('should handle failure to load bookmarks', async () => {
     const { url, controller, searchRegex } = requestData;
 
     mockRequest({
       searchRegex,
       status: 422,
     });
-    return store
-      .dispatch(actions.getBookmarks(url, controller))
-      .then(() => expect(store.getActions()).toEqual(onFailureActions));
+
+    await store.dispatch(actions.getBookmarks(url, controller));
+    expect(store.getActions()).toEqual(onFailureActions);
   });
-  it('should load bookmarks', () => {
+  it('should load bookmarks', async () => {
     const { url, controller, response, searchRegex } = requestData;
 
     mockRequest({
       searchRegex,
       response,
     });
-    return store
-      .dispatch(actions.getBookmarks(url, controller))
-      .then(() => expect(store.getActions()).toEqual(onSuccessActions));
+
+    await store.dispatch(actions.getBookmarks(url, controller));
+    expect(store.getActions()).toEqual(onSuccessActions);
   });
   it('should load bookmarks with correct search url', () => {
     const { url, controller } = requestData;
