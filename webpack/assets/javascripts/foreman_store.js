@@ -1,5 +1,20 @@
 import { get } from 'lodash';
 import store from './react_app/redux';
+import actionsList from './foreman_actions';
+
+/**
+ * invoke an action
+ * @param  {String}   actionName is the name of the action registered in foreman_actionsList
+ * @param  {args} args  action's arguments
+ */
+export const dispatch = (actionName, ...args) => {
+  if (!actionsList[actionName]) {
+    throw new ReferenceError(
+      `Dispatch failed: action ${actionName} doesn't exist`
+    );
+  }
+  return store.dispatch(actionsList[actionName](...args));
+};
 
 /**
  * Observe a state from the store for changes

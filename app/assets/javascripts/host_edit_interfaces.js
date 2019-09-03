@@ -370,7 +370,7 @@ function update_fqdn() {
   var name = fqdn(host_name, domain_name);
   if (name.length > 0 && pathname === tfm.tools.foremanUrl('/hosts/new')) {
     name = __('Create Host') + ' | ' + name;
-    tfm.breadcrumbs.updateTitle(name);
+    tfm.store.dispatch('updateBreadcrumbTitle', name);
   }
 }
 
