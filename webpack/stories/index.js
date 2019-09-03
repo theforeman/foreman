@@ -12,6 +12,7 @@ import internationalization from './docs/internationalization.md';
 import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
 import LegacyJs from './docs/LegacyJs.md';
+import ForemanFrontendDiagram from './docs/foreman-frontend-infra.png';
 
 require('../assets/javascripts/bundle');
 require('../../app/assets/javascripts/application');
@@ -62,6 +63,7 @@ storiesOf('Introduction', module)
   ))
   .add('Legacy Javascript', () => (
     <Story>
+      <img src={ForemanFrontendDiagram} alt="Foreman Frontend Infrastructure" />
       <Markdown source={LegacyJs} />
     </Story>
   ));
