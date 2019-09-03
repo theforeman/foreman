@@ -69,6 +69,7 @@ namespace :db do
       # dynflow:migrate migrates the db configured for the current rails env
       # In this case, we need to make sure it migrates development
       env_bak = ::Rails.env
+      ::Rails.env = 'development'
       Rake::Task['dynflow:migrate'].invoke
       ::Rails.env = env_bak
 
