@@ -26,6 +26,7 @@ class Setting::General < Setting
       self.set('lab_features', N_("Whether or not to show a menu to access experimental lab features (requires reload of page)"), false, N_('Show Experimental Labs')),
       self.set("append_domain_name_for_hosts", N_("Foreman will append domain names when new hosts are provisioned"), true, N_("Append domain names to the host")),
       self.set('outofsync_interval', N_("Duration in minutes after servers are classed as out of sync."), 30, N_('Out of sync interval')),
+      self.set('instance_id', N_("Foreman instance ID, uniquely identifies this Foreman instance."), 'uuid', N_('Foreman UUID'), Foreman.uuid),
       self.set('default_locale', N_("Language to use for new users"), nil, N_('Default language'), nil, { :collection => Proc.new { locales } }),
       self.set('default_timezone', N_("Timezone to use for new users"), nil, N_('Default timezone'), nil, { :collection => Proc.new { timezones } }),
     ]
