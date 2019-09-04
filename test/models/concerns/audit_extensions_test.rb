@@ -299,4 +299,14 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       end
     end
   end
+
+  describe "#main_object_names" do
+    test "should contain 'Host::Base' classname along with audited_classes" do
+      host = FactoryBot.create(:host, :managed, :with_auditing)
+      audit = host.audits.last
+      assert_equal 'create', audit.action
+      assert_equal 'Host::Base', audit.auditable_type
+      assert_include Audit.main_object_names, audit.auditable_type
+    end
+  end
 end

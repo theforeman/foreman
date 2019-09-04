@@ -125,11 +125,17 @@ module AuditExtensions
 
   module ClassMethods
     def main_objects
-      audited_classes.reject { |cl| cl.audited_options.key?(:associated_with) }
+      main_classes = audited_classes.reject { |cl| cl.audited_options.key?(:associated_with) }
+      main_classes.concat(non_abstract_parents(main_classes))
     end
 
     def main_object_names
       main_objects.map(&:name)
+    end
+
+    def non_abstract_parents(classes_list)
+      parents_list = classes_list.map(&:superclass).uniq
+      parents_list.select { |cl| !cl.abstract_class? && cl.table_exists? }.compact
     end
   end
 
