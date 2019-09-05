@@ -140,14 +140,54 @@ class SmartProxyAuthApiTest < ActionController::TestCase
     assert_equal proxy, @controller.detected_proxy
   end
 
-  def test_trusted_puppet_master_hosts_by_ip_match
+  def test_trusted_puppet_master_hosts_by_ipv4_match
+    Resolv.any_instance.expects(:getnames).with('127.0.0.2').returns([])
     @request.env['REMOTE_ADDR'] = '127.0.0.2'
     Setting[:trusted_hosts] = ['127.0.0.2']
     assert @controller.send(:auth_smart_proxy)
   end
 
-  def test_trusted_puppet_master_hosts_by_ip_no_match
+  def test_trusted_puppet_master_hosts_by_ipv4_no_match
     @request.env['REMOTE_ADDR'] = '127.0.0.2'
+    refute @controller.send(:auth_smart_proxy)
+  end
+
+  def test_trusted_puppet_master_hosts_by_ipv4_subnet_match
+    Resolv.any_instance.expects(:getnames).with('10.0.0.1').returns([])
+    @request.env['REMOTE_ADDR'] = '10.0.0.1'
+    Setting[:trusted_hosts] = ['10.0.0.1/8']
+    assert @controller.send(:auth_smart_proxy)
+  end
+
+  def test_trusted_puppet_master_hosts_by_ipv4_subnet_no_match
+    Resolv.any_instance.expects(:getnames).with('10.0.0.1').returns([])
+    @request.env['REMOTE_ADDR'] = '10.0.0.1'
+    Setting[:trusted_hosts] = ['11.0.0.1/8']
+    refute @controller.send(:auth_smart_proxy)
+  end
+
+  def test_trusted_puppet_master_hosts_by_ipv6_match
+    @request.env['REMOTE_ADDR'] = '::ffff:127.0.0.1'
+    Setting[:trusted_hosts] = ['::ffff:127.0.0.1']
+    assert @controller.send(:auth_smart_proxy)
+  end
+
+  def test_trusted_puppet_master_hosts_by_ipv6_no_match
+    @request.env['REMOTE_ADDR'] = '::ffff:127.0.0.1'
+    refute @controller.send(:auth_smart_proxy)
+  end
+
+  def test_trusted_puppet_master_hosts_by_ipv6_subnet_match
+    Resolv.any_instance.expects(:getnames).with('2001:db8:beef::1').returns([])
+    @request.env['REMOTE_ADDR'] = '2001:db8:beef::1'
+    Setting[:trusted_hosts] = ['2001:db8:beef::/48']
+    assert @controller.send(:auth_smart_proxy)
+  end
+
+  def test_trusted_puppet_master_hosts_by_ipv6_subnet_no_match
+    Resolv.any_instance.expects(:getnames).with('2001:db8:beef::1').returns([])
+    @request.env['REMOTE_ADDR'] = '2001:db8:beef::1'
+    Setting[:trusted_hosts] = ['2001:db8:cafe::/48']
     refute @controller.send(:auth_smart_proxy)
   end
 end

@@ -105,10 +105,15 @@ module Foreman::Controller::SmartProxyAuth
   def detect_matching_host(allowed_hosts, request_hosts)
     allowed_hosts.product(request_hosts).each do |allowed, request|
       if request.starts_with?('*')
+        # certificate wildcard name
         rex = /\A#{Regexp.escape(request).sub('\\*', '.*')}\Z/
         return allowed if allowed =~ rex
+      elsif (allowed_ip = IPAddr.new(allowed) rescue nil) && (request_ip = IPAddr.new(request) rescue nil)
+        # IPv4, IPv6 address or subnet
+        return allowed if allowed_ip == request_ip || allowed_ip.include?(request_ip)
       else
-        return allowed if allowed == request
+        # plain hostname
+        return allowed if (allowed == request)
       end
     end
 
