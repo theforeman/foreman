@@ -31,14 +31,9 @@ class CastKeyTypesAndValuesInParameters < ActiveRecord::Migration[5.2]
 
   def save_param(param, new_value, new_key_type)
     if Parameter::KEY_TYPES.include?(new_key_type)
-      param.class.without_auditing do
-        param.value = new_value
-        param.key_type = new_key_type
-        result = param.save(:validate => false)
-        return if result
-      end
+      result = param.update_columns(value: new_value, key_type: new_key_type)
+      return if result
       say "Failed to update param(#{param.id}): #{param.inspect}"
-      say "Error: #{param.errors.full_messages.inspect}"
     else
       say "Failed to cast value #{param.value} of param(#{param.id}): #{param.inspect}"
     end
