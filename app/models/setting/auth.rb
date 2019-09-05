@@ -8,7 +8,7 @@ class Setting::Auth < Setting
       self.set('failed_login_attempts_limit', N_("Foreman will block user login after this number of failed login attempts for 5 minutes from offending IP address. Set to 0 to disable bruteforce protection"), 30, N_('Failed login attempts limit')),
       self.set('restrict_registered_smart_proxies', N_('Only known Smart Proxies may access features that use Smart Proxy authentication'), true, N_('Restrict registered smart proxies')),
       self.set('require_ssl_smart_proxies', N_('Client SSL certificates are used to identify Smart Proxies (:require_ssl should also be enabled)'), true, N_('Require SSL for smart proxies')),
-      self.set('trusted_hosts', N_('Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'), [], N_('Trusted hosts')),
+      self.set('trusted_hosts', N_('List of hostnames, IPv4, IPv6 addresses or subnets to be trusted in addition to Smart Proxies for access to fact/report importers and ENC output'), [], N_('Trusted hosts')),
       self.set('ssl_certificate', N_("SSL Certificate path that Foreman would use to communicate with its proxies"), nil, N_('SSL certificate')),
       self.set('ssl_ca_file', N_("SSL CA file that Foreman will use to communicate with its proxies"), nil, N_('SSL CA file')),
       self.set('ssl_priv_key', N_("SSL Private Key file that Foreman will use to communicate with its proxies"), nil, N_('SSL private key')),

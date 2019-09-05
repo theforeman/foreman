@@ -48,7 +48,7 @@ class Setting < ApplicationRecord
   validates :value, :regexp => true, :if => Proc.new { |s| REGEXP_ATTRS.include? s.name }
   validates :value, :array_type => true, :if => Proc.new { |s| s.settings_type == "array" }
   validates_with ValueValidator, :if => Proc.new {|s| s.respond_to?("validate_#{s.name}") }
-  validates :value, :array_hostnames => true, :if => Proc.new { |s| ARRAY_HOSTNAMES.include? s.name }
+  validates :value, :array_hostnames_ips => true, :if => Proc.new { |s| ARRAY_HOSTNAMES.include? s.name }
   validates :value, :email => true, :if => Proc.new { |s| EMAIL_ATTRS.include? s.name }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
