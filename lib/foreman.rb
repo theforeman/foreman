@@ -22,4 +22,12 @@ module Foreman
   def self.in_setup_db_rake?
     in_rake?('db:create', 'db:migrate', 'db:drop')
   end
+
+  def self.instance_id
+    Setting[:instance_id]
+  end
+
+  def self.instance_id=(value)
+    Setting[:instance_id] = value
+  end
 end

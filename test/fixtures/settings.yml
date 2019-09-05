@@ -404,3 +404,8 @@ attribute86:
   category: Setting::Provisioning
   default: 100
   description: 'Maximum structured facts'
+attribute87:
+  name: instance_id
+  category: Setting::General
+  default: '2abbbe02-4ace-4269-9e20-2753f3206cc2'
+  description: 'Foreman UUID'
