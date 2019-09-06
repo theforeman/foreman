@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal rendering renders header and footer in correct order regardless of ordering of children 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "isOpen": true,
+      "onClose": [MockFunction],
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader
+      key=".2"
+    >
+      this is the header
+    </ForemanModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".0"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".1"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering renders when header and footer are supplied 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "isOpen": true,
+      "onClose": [MockFunction],
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader
+      key=".0"
+    >
+      this is the header
+    </ForemanModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".1"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".2"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering should render 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "isOpen": true,
+      "onClose": [MockFunction],
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    />
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering should render closed 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "isOpen": false,
+      "onClose": [MockFunction],
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    />
+  </Modal>
+</ContextProvider>
+`;
