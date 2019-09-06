@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal.Footer rendering should render with default markup 1`] = `
+<ModalFooter
+  bsClass="modal-footer"
+  componentClass="div"
+  title="foo"
+>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={false}
+    onClick={[MockFunction]}
+  >
+    Close
+  </Button>
+</ModalFooter>
+`;
+
+exports[`ForemanModal.Footer rendering should render with supplied children 1`] = `
+<ModalFooter
+  bsClass="modal-footer"
+  componentClass="div"
+  title="ignored"
+>
+  <h4>
+    Modal Footer
+  </h4>
+</ModalFooter>
+`;
