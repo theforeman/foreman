@@ -146,14 +146,15 @@ function update_capabilities(capabilities) {
 var stop_pooling;
 
 function submit_with_all_params() {
-  var url = $('form').attr('action');
+  var url = $('form.hostresource-form').attr('action');
   if (url.match('hostgroups')) {
     resource = 'hostgroup';
   } else {
     resource = 'host';
   }
   capitalized_resource = resource[0].toUpperCase + resource.slice(1);
-  $('form input[type="submit"]').attr('disabled', true);
+  $('form.hostresource-form input[type="submit"]').attr('disabled', true);
+
   stop_pooling = false;
   $('body').css('cursor', 'progress');
   clear_errors();
@@ -181,7 +182,7 @@ function submit_with_all_params() {
     complete: function() {
       stop_pooling = true;
       $('body').css('cursor', 'auto');
-      $('form input[type="submit"]').attr('disabled', false);
+      $('form.hostresource-form input[type="submit"]').attr('disabled', false);
       if (window.location.pathname !== tfm.tools.foremanUrl('/hosts/new')) {
         // We got redirected to the show page, need to clear the title override
         tfm.breadcrumbs.updateTitle();
@@ -355,7 +356,7 @@ function update_form(element, options) {
       tfm.tools.hideSpinner();
     },
     success: function(response) {
-      $('form').replaceWith(response);
+      $('form.hostresource-form').replaceWith(response);
       multiSelectOnLoad();
       var host_compute_resource_id = $('#host_compute_resource_id');
       if (host_compute_resource_id.exists()) {
@@ -381,7 +382,7 @@ function update_form(element, options) {
 
 //Serializes only those input elements from form that are set explicitly
 function serializeForm() {
-  return $('form input,select,textarea')
+  return $('form.hostresource-form input,select,textarea')
     .not('.form_template *')
     .serialize();
 }
@@ -517,7 +518,7 @@ function use_image_selected(element) {
 }
 
 function reload_host_params() {
-  var host_id = $('form').data('id');
+  var host_id = $('form.hostresource-form').data('id');
   var url = $('#params-tab').data('url');
   var data = serializeForm().replace('method=patch', 'method=post');
   if (url.length > 0) {
@@ -527,7 +528,7 @@ function reload_host_params() {
 }
 
 function reload_puppetclass_params() {
-  var host_id = $('form').data('id');
+  var host_id = $('form.hostresource-form').data('id');
   var url2 = $('#params-tab').data('url2');
   var data = serializeForm().replace('method=patch', 'method=post');
   if (url2.match('hostgroups')) {
