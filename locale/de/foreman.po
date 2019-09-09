@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
-# Alexander Stoll <Alexander.Stoll@netways.de>, 2019
+# Crited <Alexander.Stoll@netways.de>, 2019
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Bernhard Suttner <bernhard.suttner@atix.de>, 2019

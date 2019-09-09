@@ -3444,6 +3444,9 @@ msgstr ""
 msgid "Function not available for %s"
 msgstr ""
 
+msgid "Further Information"
+msgstr ""
+
 msgid "GMT time"
 msgstr ""
 
@@ -8375,6 +8378,9 @@ msgid "Summary report from Foreman server at %{foreman_url}"
 msgstr ""
 
 msgid "Support"
+msgstr ""
+
+msgid "Support for %{feature} has been deprecated and will be removed in version %{version}"
 msgstr ""
 
 msgid "Supported Formats"

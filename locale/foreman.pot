@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-21 17:45+0300\n"
-"PO-Revision-Date: 2019-08-21 17:45+0300\n"
+"POT-Creation-Date: 2019-09-09 17:39+0300\n"
+"PO-Revision-Date: 2019-09-09 17:39+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -97,23 +97,23 @@ msgstr ""
 msgid "Loading virtual machine information ..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:254
-#: ../app/assets/javascripts/host_edit.js:548
+#: ../app/assets/javascripts/host_edit.js:255
+#: ../app/assets/javascripts/host_edit.js:549
 msgid "Loading parameters..."
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:708
+#: ../app/assets/javascripts/host_edit.js:709
 #: ../app/helpers/hosts_nic_helper.rb:22
 #: ../app/views/hostgroups/_form.html.erb:53
 #: ../app/views/hostgroups/_form.html.erb:60
 msgid "No subnets"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:873
+#: ../app/assets/javascripts/host_edit.js:874
 msgid "Error generating IP: %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit.js:994
+#: ../app/assets/javascripts/host_edit.js:995
 msgid "Manual configuration is needed."
 msgstr ""
 
@@ -1587,7 +1587,7 @@ msgid "Host's parameters (array or indexed hash)"
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:105
-#: ../app/views/hosts/_form.html.erb:128
+#: ../app/views/hosts/_form.html.erb:127
 msgid "Include this host within Foreman reporting"
 msgstr ""
 
@@ -1606,7 +1606,7 @@ msgid "UUID to track orchestration tasks status, GET /api/orchestration/:UUID/ta
 msgstr ""
 
 #: ../app/controllers/api/v2/hosts_controller.rb:109
-#: ../app/views/hosts/_form.html.erb:133
+#: ../app/views/hosts/_form.html.erb:132
 msgid "Additional information about this host"
 msgstr ""
 
@@ -4149,11 +4149,11 @@ msgstr ""
 msgid "iPXE default local boot template '%s' not found"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:192
+#: ../app/controllers/unattended_controller.rb:191
 msgid "Failed to get a new realm OTP. Terminating the build!"
 msgstr ""
 
-#: ../app/controllers/unattended_controller.rb:220
+#: ../app/controllers/unattended_controller.rb:219
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:58
 #: ../webpack/assets/javascripts/react_app/components/common/forms/Select.js:129
 msgid "An error occured."
@@ -4566,7 +4566,7 @@ msgstr ""
 #: ../app/views/dashboard/_hosts_in_build_mode_widget_host_list.html.erb:3
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:3
 #: ../app/views/fact_values/index.html.erb:14
-#: ../app/views/hosts/_form.html.erb:12
+#: ../app/views/hosts/_form.html.erb:11
 msgid "Host"
 msgstr ""
 
@@ -5017,7 +5017,7 @@ msgstr ""
 #: ../app/helpers/provisioning_templates_helper.rb:80
 #: ../app/views/dashboard/_new_hosts_widget_host_list.html.erb:4
 #: ../app/views/hostgroups/_form.html.erb:10
-#: ../app/views/hosts/_form.html.erb:18 ../app/views/images/_form.html.erb:5
+#: ../app/views/hosts/_form.html.erb:17 ../app/views/images/_form.html.erb:5
 #: ../app/views/images/_list.html.erb:5
 #: ../app/views/operatingsystems/_form.html.erb:4
 msgid "Operating System"
@@ -7728,7 +7728,7 @@ msgid "Host owner"
 msgstr ""
 
 #: ../app/models/setting/provisioning.rb:43
-#: ../app/views/hosts/_form.html.erb:125
+#: ../app/views/hosts/_form.html.erb:124
 msgid "Select an owner"
 msgstr ""
 
@@ -8811,7 +8811,7 @@ msgstr ""
 #: ../app/views/common_parameters/index.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:1
 #: ../app/views/common_parameters/welcome.html.erb:6
-#: ../app/views/hosts/_form.html.erb:114
+#: ../app/views/hosts/_form.html.erb:113
 msgid "Global Parameters"
 msgstr ""
 
@@ -10022,7 +10022,7 @@ msgstr ""
 #: ../app/views/compute_attributes/_form.html.erb:4
 #: ../app/views/compute_resources/show.html.erb:68
 #: ../app/views/hostgroups/_form.html.erb:39
-#: ../app/views/hosts/_form.html.erb:73 model_attributes.rb:88
+#: ../app/views/hosts/_form.html.erb:72 model_attributes.rb:88
 msgid "Compute profile"
 msgstr ""
 
@@ -11066,7 +11066,7 @@ msgstr ""
 
 #: ../app/views/domains/_form.html.erb:6
 #: ../app/views/hostgroups/_form.html.erb:12
-#: ../app/views/hosts/_form.html.erb:25
+#: ../app/views/hosts/_form.html.erb:24
 #: ../app/views/operatingsystems/_form.html.erb:11
 #: ../app/views/puppetclasses/index.html.erb:13
 #: ../app/views/subnets/_form.html.erb:9
@@ -11393,7 +11393,7 @@ msgid "Parent"
 msgstr ""
 
 #: ../app/views/hostgroups/_form.html.erb:33
-#: ../app/views/hosts/_form.html.erb:56
+#: ../app/views/hosts/_form.html.erb:55
 msgid "Bare Metal"
 msgstr ""
 
@@ -11417,7 +11417,7 @@ msgid "Password must be 8 characters or more"
 msgstr ""
 
 #: ../app/views/hostgroups/_form.html.erb:78
-#: ../app/views/hosts/_form.html.erb:108
+#: ../app/views/hosts/_form.html.erb:107
 msgid "Puppet Class Parameters"
 msgstr ""
 
@@ -11590,35 +11590,35 @@ msgstr ""
 msgid "Please correct the error(s) below and submit your changes again."
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:16
+#: ../app/views/hosts/_form.html.erb:15
 msgid "Virtual Machine"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:21
+#: ../app/views/hosts/_form.html.erb:20
 msgid "Interfaces"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:27
+#: ../app/views/hosts/_form.html.erb:26
 msgid "Additional Information"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:35
+#: ../app/views/hosts/_form.html.erb:34
 msgid "This value is used also as the host's primary interface name."
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:60
+#: ../app/views/hosts/_form.html.erb:59
 msgid "Deploy On"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:116
+#: ../app/views/hosts/_form.html.erb:115
 msgid "Host Parameters"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:125
+#: ../app/views/hosts/_form.html.erb:124
 msgid "Owned By"
 msgstr ""
 
-#: ../app/views/hosts/_form.html.erb:131
+#: ../app/views/hosts/_form.html.erb:130
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:30
 msgid "Hardware Model"
 msgstr ""
@@ -14095,6 +14095,10 @@ msgid ""
 "level (global) scope of your Puppet ENC, depending on a set of rules."
 msgstr ""
 
+#: ../config/initializers/deprecations.rb:20
+msgid "Further Information"
+msgstr ""
+
 #: ../db/seeds.d/160-mail_notifications.rb:8
 msgid "Puppet summary"
 msgstr ""
@@ -14170,12 +14174,19 @@ msgid "RSS post message goes here"
 msgstr ""
 
 #: ../db/seeds.d/170-notification_blueprints.rb:51
+#: ../db/seeds.d/170-notification_blueprints.rb:58
 msgid "Deprecations"
 msgstr ""
 
 #: ../db/seeds.d/170-notification_blueprints.rb:54
 msgid ""
 "The %{setting} setting has been deprecated and will be removed in version %{ve"
+"rsion}"
+msgstr ""
+
+#: ../db/seeds.d/170-notification_blueprints.rb:61
+msgid ""
+"Support for %{feature} has been deprecated and will be removed in version %{ve"
 "rsion}"
 msgstr ""
 
