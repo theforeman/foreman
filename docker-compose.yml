@@ -2,22 +2,22 @@ version: '3.4'
 services:
   db:
     environment:
-      - MYSQL_USER=foreman
-      - MYSQL_PASSWORD=foreman
-      - MYSQL_DATABASE=foreman
-      - MYSQL_DATADIR_ACTION=upgrade-auto
+      - POSTGRES_USER=foreman
+      - POSTGRES_PASSWORD=foreman
+      - POSTGRES_DATABASE=foreman
+      - PGDATA=/var/lib/postgresql/data/pgdata
     hostname: db.example.com
-    image: centos/mariadb-102-centos7
+    image: postgres:10
     ports:
-      - 3306
+      - 5432
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "nc -z 127.0.0.1 3306 || exit 1"]
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 5432 || exit 1"]
       interval: 30s
       timeout: 30s
       retries: 3
     volumes:
-      - db:/var/lib/mysql/data
+      - db:/var/lib/postgresql/data
 
   app: &app_base
     image: quay.io/foreman/foreman:develop
@@ -25,7 +25,7 @@ services:
     build:
       context: .
     environment:
-      - DATABASE_URL=mysql2://foreman:foreman@db:3306/foreman
+      - DATABASE_URL=postgres://foreman:foreman@db/foreman?pool=5
       - RAILS_MAX_THREADS=5
       - RAILS_ENV=production
       - FOREMAN_FQDN=foreman.example.com
