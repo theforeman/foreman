@@ -3,6 +3,17 @@ hostname: snapshothost
 fqdn: snapshothost
 manage_etc_hosts: true
 users: {}
+runcmd:
+- |
+  
+  
+  
+  
+  
+  
+  
+
+- |
 
 phone_home:
   url: http://foreman.some.host.fqdn/unattended/built
