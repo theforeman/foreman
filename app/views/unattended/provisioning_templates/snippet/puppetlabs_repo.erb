@@ -15,32 +15,33 @@ os_major  = @host.operatingsystem.major.to_i
 os_name   = @host.operatingsystem.name
 
 if os_family == 'Redhat'
-  repo_host = 'yum.puppetlabs.com'
+  repo_host = 'yum.puppet.com'
   if os_name == 'Fedora'
     repo_os = 'fedora'
   else
     repo_os = 'el'
   end
 elsif os_family == 'Suse'
-  repo_host = 'yum.puppetlabs.com'
+  repo_host = 'yum.puppet.com'
   repo_os = 'sles' # PuppetLabs repos only exist for SLES, not OpenSUSE
 elsif os_family == 'Debian'
-  repo_host = 'apt.puppetlabs.com'
+  repo_host = 'apt.puppet.com'
   repo_os = @host.operatingsystem.release_name
 elsif os_family == 'Windows'
-  repo_host = 'downloads.puppetlabs.com'
+  repo_host = 'downloads.puppet.com'
   repo_os = 'windows'
 end
 
 if host_param_true?('enable-puppetlabs-repo')
   repo_name = 'puppetlabs-release'
-elsif host_param_true?('enable-puppetlabs-pc1-repo')
-  repo_name = 'puppetlabs-release-pc1'
+  repo_subdir = ''
+elsif host_param_true?('enable-puppetlabs-puppet6-repo')
+  repo_name = 'puppetlabs-release-puppet6'
+  repo_subdir = 'puppet6/'
 elsif host_param_true?('enable-puppetlabs-puppet5-repo')
   repo_name = 'puppet5-release'
+  repo_subdir = 'puppet5/'
 end
-
-repo_subdir = host_param_true?('enable-puppetlabs-puppet5-repo') ? 'puppet5/' : ''
 -%>
 
 <% if repo_name -%>
