@@ -21,32 +21,17 @@ end
 class AuditsHelperTest < ActionView::TestCase
   include AuditsHelper
 
-  describe ":key_to_class" do
-    test "with association_name '*y' and :has_many, :key_to_class should return correct klass" do
-      audit_rec = FactoryBot.build(
-        :audit, :action => 'update', :auditable_type => 'DummyHostContent',
-        :auditable_id => "272", :version => "1",
-        :audited_changes => { "dummy_repository_ids" => [[12], [12, 3]] })
-      output = key_to_class('dummy_repository_ids', audit_rec)
-      assert_equal output, DummyRepository
+  describe ":key_to_association_class" do
+    test "with association_name '*y' and :has_many, :key_to_association_class should return correct klass" do
+      assert_equal key_to_association_class('dummy_repository_ids', DummyHostContent), DummyRepository
     end
 
-    test "with :has_many, :key_to_class should return correct klass" do
-      audit_rec = FactoryBot.build(
-        :audit, :action => 'update', :auditable_type => 'DummyHostContent',
-        :auditable_id => "272", :version => "2",
-        :audited_changes => { "dummy_org_ids" => [[1], [1, 3]] })
-      output = key_to_class('dummy_org_ids', audit_rec)
-      assert_equal output, DummyOrg
+    test "with :has_many, :key_to_association_class should return correct klass" do
+      assert_equal key_to_association_class('dummy_org_ids', DummyHostContent), DummyOrg
     end
 
-    test 'with :has_one, :key_to_class should return correct association' do
-      audit_rec = FactoryBot.build(
-        :audit, :action => 'update', :auditable_type => 'DummyHostContent',
-        :auditable_id => "272", :version => "3",
-        :audited_changes => { "dummy_environment_id" => [1, 2] })
-      output = key_to_class('dummy_environment_id', audit_rec)
-      assert_equal output, DummyEnvironment
+    test 'with :has_one, :key_to_association_class should return correct association' do
+      assert_equal key_to_association_class('dummy_environment_id', DummyHostContent), DummyEnvironment
     end
   end
 end
