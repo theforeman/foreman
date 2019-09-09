@@ -345,7 +345,7 @@ class PluginTest < ActiveSupport::TestCase
     Ping.stubs(:ping_database).returns(foreman_ping_response[:database])
     expected_result = {
       'foreman': foreman_ping_response,
-      'foo': plugin_ping_response
+      'foo': plugin_ping_response,
     }
     assert_equal expected_result, Ping.ping
   end
@@ -364,14 +364,14 @@ class PluginTest < ActiveSupport::TestCase
       'foreman': {
         version: SETTINGS[:version].full,
         api: {
-          version: Apipie.configuration.default_version
+          version: Apipie.configuration.default_version,
         },
         plugins: [Foreman::Plugin.find(:foo)],
         smart_proxies: [],
         compute_resources: [],
-        database: foreman_database_response
+        database: foreman_database_response,
       },
-      'foo': plugin_status_response
+      'foo': plugin_status_response,
     }
     assert_equal expected_result, Ping.statuses
   end

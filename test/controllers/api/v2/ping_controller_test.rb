@@ -4,8 +4,8 @@ class Api::V2::PingControllerTest < ActionController::TestCase
   test 'should get ping results' do
     response = {
       'foreman': {
-        database: true
-      }
+        database: true,
+      },
     }
     Ping.stubs(:ping).returns(response)
     get :ping
@@ -20,9 +20,9 @@ class Api::V2::PingControllerTest < ActionController::TestCase
       'foreman': {
         version: '1.20.0',
         api: {
-          version: 'v2'
-        }
-      }
+          version: 'v2',
+        },
+      },
     }
     Ping.stubs(:statuses).returns(statuses)
     get :statuses

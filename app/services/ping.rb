@@ -6,8 +6,8 @@ class Ping
     def ping
       {
         'foreman': {
-          database: ping_database
-        }
+          database: ping_database,
+        },
       }.merge(plugins_ping)
     end
 
@@ -16,12 +16,12 @@ class Ping
         'foreman': {
           version: SETTINGS[:version].full,
           api: {
-            version: Apipie.configuration.default_version
+            version: Apipie.configuration.default_version,
           },
           plugins: Foreman::Plugin.all,
           smart_proxies: statuses_smart_proxies,
-          compute_resources: statuses_compute_resources
-        }
+          compute_resources: statuses_compute_resources,
+        },
       }.merge(plugins_statuses).merge(ping) do |_key, old_val, new_val|
         old_val.merge(new_val)
       end
@@ -37,7 +37,7 @@ class Ping
       start = Time.now
       {
         active: ActiveRecord::Base.connection.active?,
-        duration_ms: duration_ms(start)
+        duration_ms: duration_ms(start),
       }
     end
 
@@ -50,7 +50,7 @@ class Ping
           name: resource.name,
           status: errors.empty? ? STATUS_OK : STATUS_FAIL,
           duration_ms: duration_ms(start),
-          errors: errors.full_messages
+          errors: errors.full_messages,
         }
       end
       results
@@ -77,7 +77,7 @@ class Ping
           duration_ms: duration_ms(start),
           version: version,
           features: features,
-          failed_features: failed_features
+          failed_features: failed_features,
         }
       end
       results
