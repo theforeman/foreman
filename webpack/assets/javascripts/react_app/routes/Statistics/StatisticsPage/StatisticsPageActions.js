@@ -1,5 +1,4 @@
 import API from '../../../API';
-import { foremanUrl } from '../../../../foreman_tools';
 
 import {
   STATISTICS_PAGE_DATA_RESOLVED,
@@ -9,7 +8,7 @@ import {
 } from '../constants';
 
 export const getStatisticsMeta = (
-  url = foremanUrl(STATISTICS_PAGE_URL)
+  url = STATISTICS_PAGE_URL
 ) => async dispatch => {
   const onFetchSuccess = ({ data }) => {
     dispatch(hideLoading());
