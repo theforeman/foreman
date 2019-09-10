@@ -1,3 +1,35 @@
+2019-09-10	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.23.0
+	* templates - sync from community-templates
+
+2019-09-09	Tomer Brisker <tbrisker@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2019-09-09	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #27764, #27798, #27391 - host form update on change
+
+2019-09-09	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #27442 - deprecation mysql warning
+
+2019-09-04	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #27534 - Override environment to development
+	* Fixes #27534 - Run dynflow db migrations as part of prod2dev
+	* Fixes #27534 - Allow migration of Dynflow data
+	* Fixes #27534 - Add rake task for migrating Dynflow tables
+
+2019-09-04	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #27589 - add sequence reset task
+	* Fixes #27206 - improve mysql migration and new task
+
+2019-08-25	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #26655 - show contnet after creating a host
+
+2019-08-25	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #26758 - unify renderer_error helper
+
+2019-08-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #27681 - Fix test for rest-client 2.1 support
+
 2019-08-21	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.23.0-RC2
 	* templates - sync from community-templates
