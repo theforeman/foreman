@@ -45,6 +45,7 @@ ARG HOME=/home/foreman
 USER 1001
 WORKDIR $HOME
 COPY --chown=1001:0 . ${HOME}/
+RUN git clean -dfx
 # Adding missing gems, for tzdata see https://bugzilla.redhat.com/show_bug.cgi?id=1611117
 RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb
 RUN bundle install --without "${BUNDLER_SKIPPED_GROUPS}" \
