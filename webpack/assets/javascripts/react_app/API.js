@@ -1,5 +1,6 @@
 import axios from 'axios';
 import './APITestSetup';
+import { foremanUrl } from '../foreman_tools';
 
 const getcsrfToken = () => {
   const token = document.querySelector('meta[name="csrf-token"]');
@@ -12,28 +13,28 @@ axios.defaults.headers.common['X-CSRF-Token'] = getcsrfToken();
 
 export default {
   get(url, headers = {}, params = {}) {
-    return axios.get(url, {
+    return axios.get(foremanUrl(url), {
       headers,
       params,
     });
   },
   put(url, data = {}, headers = {}) {
-    return axios.put(url, data, {
+    return axios.put(foremanUrl(url), data, {
       headers,
     });
   },
   post(url, data = {}, headers = {}) {
-    return axios.post(url, data, {
+    return axios.post(foremanUrl(url), data, {
       headers,
     });
   },
   delete(url, headers = {}) {
-    return axios.delete(url, {
+    return axios.delete(foremanUrl(url), {
       headers,
     });
   },
   patch(url, data = {}, headers = {}) {
-    return axios.patch(url, data, {
+    return axios.patch(foremanUrl(url), data, {
       headers,
     });
   },
