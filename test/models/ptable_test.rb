@@ -69,14 +69,6 @@ class PtableTest < ActiveSupport::TestCase
     assert !partition_table.destroy
   end
 
-  test 'when creating a new ptable class object, an audit entry needs to be added' do
-    as_admin do
-      assert_difference('Audit.count') do
-        Ptable.create! :name => "dummy", :layout => "layout"
-      end
-    end
-  end
-
   test '#preview_host_collection obeys view_hosts permission' do
     Host.expects(:authorized).with(:view_hosts).returns(Host.where(nil))
     Ptable.preview_host_collection
