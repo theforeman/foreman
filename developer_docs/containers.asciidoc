@@ -19,7 +19,7 @@ If you already have a running docker environment, feel free to skip the followin
 sudo groupadd docker
 sudo yum install docker docker-compose
 sudo usermod -aG docker $USER
-newgroup docker
+newgrp docker
 sudo service docker start
 ....
 
