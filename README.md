@@ -1,11 +1,11 @@
 ![Foreman](https://raw.githubusercontent.com/theforeman/foreman-graphics/master/logo/foreman_medium.png)
 
-[![Build Status](https://ci.theforeman.org/buildStatus/icon?job=test_develop)](https://ci.theforeman.org/job/test_develop/)
+[![Build Status](https://ci.theforeman.org/buildStatus/icon?job=foreman-develop-source-release)](https://ci.theforeman.org/job/test_foreman-develop-source-release/)
 [![Code Climate](https://codeclimate.com/github/theforeman/foreman/badges/gpa.svg)](https://codeclimate.com/github/theforeman/foreman)
 [![Coverage Status](https://coveralls.io/repos/github/theforeman/foreman/badge.svg?branch=develop)](https://coveralls.io/github/theforeman/foreman?branch=develop)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 [![Support IRC channel](https://kiwiirc.com/buttons/irc.freenode.net/theforeman.png)](https://kiwiirc.com/client/irc.freenode.net/?#theforeman)
-[![Storybook](https://github.com/storybooks/press/raw/master/badges/storybook.svg?sanitize=true)](http://theforeman.github.io/foreman)
+[![Storybook](https://raw.githubusercontent.com/storybooks/brand/master/badge/badge-storybook.svg)](http://theforeman.github.io/foreman)
 
 [Foreman](https://theforeman.org) is a free open source project that gives you the power to easily **automate repetitive tasks**, quickly **deploy applications**, and proactively **manage your servers life cycle**, on-premises or in the cloud.
 
