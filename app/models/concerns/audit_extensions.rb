@@ -135,7 +135,7 @@ module AuditExtensions
 
     def non_abstract_parents(classes_list)
       parents_list = classes_list.map(&:superclass).uniq
-      parents_list.select { |cl| !cl.abstract_class? && cl.table_exists? }.compact
+      parents_list.select { |cl| cl != ActiveRecord::Base && !cl.abstract_class? && cl.table_exists? }.compact
     end
   end
 
