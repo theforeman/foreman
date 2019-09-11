@@ -61,8 +61,8 @@ function onContentLoad(){
     // return false for actual disabled links, this is
     // required in case the link was "enabled" after the
     // function has registered.
-
-    return !this.disabled;
+    var isDisabled = $(this).attr('disabled') === 'disabled';
+    return !isDisabled;
   });
 
   // allow opening new window for selected links
