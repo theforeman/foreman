@@ -227,10 +227,14 @@ module Api
       api :PUT, "/compute_resources/:id/refresh_cache/", N_("Refresh Compute Resource Cache")
       param :id, :identifier, :required => true
       def refresh_cache
-        if @compute_resource.respond_to?(:refresh_cache) && @compute_resource.refresh_cache
-          render_message(_('Successfully refreshed the cache.'))
+        if @compute_resource.respond_to?(:refresh_cache)
+          if @compute_resource.refresh_cache
+            render_message(_('Successfully refreshed the cache.'))
+          else
+            render_message(_('Failed to refresh the cache.'), :status => :unprocessable_entity)
+          end
         else
-          render_message(_('Failed to refresh the cache.'), :status => :unprocessable_entity)
+          raise ::Foreman::Exception.new(N_("Cache refreshing is not supported for %s"), @compute_resource.provider_friendly_name)
         end
       end
 
