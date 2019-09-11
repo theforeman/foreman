@@ -205,6 +205,17 @@ class ComputeResourcesControllerTest < ActionController::TestCase
   end
 
   context 'compute resource cache' do
+    test 'should show refresh-button if supported' do
+      compute_resource = compute_resources(:vmware)
+      get :show, params: { :id => compute_resource.to_param }, session: set_session_user
+      assert_select 'a.btn[href$="/refresh_cache"]'
+    end
+
+    test 'should not show refresh-button if not supported' do
+      get :show, params: { :id => @compute_resource.to_param }, session: set_session_user
+      assert_select 'a.btn[href$="/refresh_cache"]', false
+    end
+
     test 'should refresh the cache' do
       @compute_resource = compute_resources(:vmware)
       put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
@@ -213,10 +224,9 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     end
 
     test 'should not refresh the cache if unsupported' do
-      err = assert_raise Foreman::Exception do
-        put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
-      end
-      assert_match /Not implemented for Libvirt/, err.message
+      put :refresh_cache, params: { :id => @compute_resource.to_param }, session: set_session_user
+      assert_redirected_to compute_resource_url(@compute_resource)
+      assert_match /Cache refreshing is not supported/, flash[:error]
     end
   end
 
