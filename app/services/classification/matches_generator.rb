@@ -16,11 +16,12 @@ module Classification
       possible_value_orders.each do |rule|
         match = generate_match(rule)
         matches << match.join(LookupKey::KEY_DELM)
-
-        if add_hostgroup_matches?(rule)
-          hostgroup_matches.each do |hostgroup_match|
-            match[match.index { |m| m =~ /hostgroup\s*=/ }] = hostgroup_match
-            matches << match.join(LookupKey::KEY_DELM)
+        LookupKey::MATCHERS_INHERITANCE.each do |element|
+          if add_inherited_matches?(element, rule)
+            inherited_matches(element).each do |inherited_match|
+              match[match.index { |m| m =~ /#{element}\s*=/ }] = inherited_match
+              matches << match.join(LookupKey::KEY_DELM)
+            end
           end
         end
       end
@@ -40,8 +41,8 @@ module Classification
       end
     end
 
-    def add_hostgroup_matches?(rule)
-      Array.wrap(rule).include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+    def add_inherited_matches?(element, rule)
+      Array.wrap(rule).include?(element) && Setting['matchers_inheritance']
     end
 
     # translates an element such as domain to its real value per host
@@ -65,13 +66,13 @@ module Classification
       host.host_params.include?(element)
     end
 
-    def hostgroup_matches
+    def inherited_matches(element)
       matches = []
-      if host.hostgroup
-        path = host.hostgroup.to_label
+      if host.send(element)
+        path = host.send(element).to_label
         while path.include?("/")
           path = path[0..path.rindex("/") - 1]
-          matches << "hostgroup#{LookupKey::EQ_DELM}#{path}"
+          matches << "#{element}#{LookupKey::EQ_DELM}#{path}"
         end
       end
       matches

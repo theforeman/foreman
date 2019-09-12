@@ -72,7 +72,7 @@ module Classification
         lookup_value.match.split(LookupKey::KEY_DELM).each do |match_key|
           element = match_key.split(LookupKey::EQ_DELM).first
           matcher_key += element + ','
-          if element == 'hostgroup'
+          if LookupKey::MATCHERS_INHERITANCE.include?(element)
             matcher_value = match_key.split(LookupKey::EQ_DELM).last
           end
         end
