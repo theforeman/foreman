@@ -147,7 +147,7 @@ class Hostgroup < ApplicationRecord
   end
 
   def inherited_lookup_value(key)
-    if key.path_elements.flatten.include?("hostgroup") && Setting["host_group_matchers_inheritance"]
+    if key.path_elements.flatten.include?("hostgroup") && Setting["matchers_inheritance"]
       ancestors.reverse_each do |hg|
         if (v = LookupValue.find_by(:lookup_key_id => key.id, :id => hg.lookup_values))
           return v.value, hg.to_label

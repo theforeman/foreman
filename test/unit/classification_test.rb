@@ -540,12 +540,12 @@ class ClassificationTest < ActiveSupport::TestCase
     assert enc['base'][key.key].nil?
   end
 
-  test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.build(:setting,
-                       :name => 'host_group_matchers_inheritance',
+  test "#enc should return correct merged override to host when multiple overrides for inherited hostgroups exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
                        :value => true)
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
-                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
                              :path => "organization\nhostgroup\nlocation",
                              :puppetclass => puppetclasses(:two))
 
@@ -560,17 +560,214 @@ class ClassificationTest < ActiveSupport::TestCase
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{parent_hostgroup}",
-                          :value => "parent",
+                          :value => ['parent'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['org'],
                           :omit => false
     end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal ['org', 'parent'], enc["apache"][key.key]
+  end
+
+  test "#enc should return correct merged override to host when multiple overrides for inherited organizations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :path => "location\norganization\nhostgroup",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_org = taxonomies(:organization1)
+    child_org = taxonomies(:organization2)
+    child_org.update(:parent => parent_org)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:two)], :organization => child_org, :location => taxonomies(:location1))
+
     as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{parent_org}",
+                          :value => ['parent'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => ['loc'],
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal ['loc', 'parent'], enc["apache"][key.key]
+  end
+
+  test "#enc should return correct merged override to host when multiple overrides for inherited locations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_loc = taxonomies(:location1)
+    child_loc = taxonomies(:location2)
+    child_loc.update(:parent => parent_loc)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:two)], :organization => taxonomies(:organization1), :location => child_loc)
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{parent_loc}",
+                          :value => ['parent'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['org'],
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal ['org', 'parent'], enc["apache"][key.key]
+  end
+
+  test "#enc should return correct merged override to host when multiple overrides for inherited hostgroups exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_hostgroup = FactoryBot.create(:hostgroup,
+                                          :puppetclasses => [puppetclasses(:two)],
+                                          :environment => environments(:production))
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :organization => taxonomies(:organization1),
+      :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{parent_hostgroup}",
+                          :value => ['parent'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{child_hostgroup}",
+                          :value => ['child'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['org'],
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal ['org', 'child', 'parent'], enc["apache"][key.key]
+  end
+
+  test "#enc should return correct merged override to host when multiple overrides for inherited organizations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :path => "location\norganization\nhostgroup",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_org = taxonomies(:organization1)
+    child_org = taxonomies(:organization2)
+    child_org.update(:parent => parent_org)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:two)], :organization => child_org, :location => taxonomies(:location1))
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{parent_org}",
+                          :value => ['parent'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{child_org}",
+                          :value => ['child'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => ['loc'],
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal ['loc', 'child', 'parent'], enc["apache"][key.key]
+  end
+
+  test "#enc should return correct merged override to host when multiple overrides for inherited locations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'array', :merge_overrides => true,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_loc = taxonomies(:location1)
+    child_loc = taxonomies(:location2)
+    child_loc.update(:parent => parent_loc)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:two)], :organization => taxonomies(:organization1), :location => child_loc)
+
+    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{parent_loc}",
+                          :value => ['parent'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{child_loc}",
+                          :value => ['child'],
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => ['org'],
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal ['org', 'child', 'parent'], enc["apache"][key.key]
+  end
+
+  test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_hostgroup = FactoryBot.create(:hostgroup,
+                                          :puppetclasses => [puppetclasses(:two)],
+                                          :environment => environments(:production))
+    child_hostgroup = FactoryBot.build(:hostgroup, :parent => parent_hostgroup)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :organization => taxonomies(:organization1),
+      :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
+
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "hostgroup=#{parent_hostgroup}",
+                          :value => "parent",
+                          :omit => false
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{child_hostgroup}",
                           :value => "child",
                           :omit => false
-    end
-
-    as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)}",
                           :value => "org",
@@ -579,12 +776,84 @@ class ClassificationTest < ActiveSupport::TestCase
 
     enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
 
-    assert_equal 'org', enc["apache"][key.key]
+    assert_equal value2.value, enc["apache"][key.key]
+  end
+
+  test "#enc should return correct override to host when multiple overrides for inherited organizations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "location\norganization\nhostgroup",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_org = taxonomies(:organization1)
+    child_org = taxonomies(:organization2)
+    child_org.update(:parent => parent_org)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :organization => child_org,
+      :puppetclasses => [puppetclasses(:two)], :location => taxonomies(:location1))
+
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{parent_org}",
+                          :value => "parent",
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{child_org}",
+                          :value => "child",
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => "loc",
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal value2.value, enc["apache"][key.key]
+  end
+
+  test "#enc should return correct override to host when multiple overrides for inherited locations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "organization\nlocation\nhostgroup",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_loc = taxonomies(:location1)
+    child_loc = taxonomies(:location2)
+    child_loc.update(:parent => parent_loc)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :organization => taxonomies(:organization1),
+      :puppetclasses => [puppetclasses(:two)], :location => child_loc)
+
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{parent_loc}",
+                          :value => "parent",
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{child_loc}",
+                          :value => "child",
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => "org",
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal value2.value, enc["apache"][key.key]
   end
 
   test "#enc should return correct override to host when multiple overrides for inherited hostgroups exist" do
-    FactoryBot.build(:setting,
-                       :name => 'host_group_matchers_inheritance',
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
                        :value => true)
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
                              :override => true, :key_type => 'string', :merge_overrides => false,
@@ -598,29 +867,94 @@ class ClassificationTest < ActiveSupport::TestCase
 
     host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:one)], :hostgroup => child_hostgroup)
 
-    as_admin do
+    value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{parent_hostgroup}",
                           :value => "parent",
                           :omit => false
-    end
-    as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{taxonomies(:location1)}",
+                          :value => "loc",
+                          :omit => true
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{child_hostgroup}",
                           :value => "child",
                           :omit => false
     end
 
-    as_admin do
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal value2.value, enc["apache"][key.key]
+  end
+
+  test "#enc should return correct override to host when multiple overrides for inherited organizations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "organization\nhostgroup\nlocation",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_org = taxonomies(:organization1)
+    child_org = taxonomies(:organization2)
+    child_org.update(:parent => parent_org)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:two)], :organization => child_org, :location => taxonomies(:location1))
+
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{parent_org}",
+                          :value => "parent",
+                          :omit => false
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => "loc",
                           :omit => true
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{child_org}",
+                          :value => "child",
+                          :omit => false
     end
 
     enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
 
-    assert_equal 'child', enc["apache"][key.key]
+    assert_equal value2.value, enc["apache"][key.key]
+  end
+
+  test "#enc should return correct override to host when multiple overrides for inherited locations exist" do
+    FactoryBot.create(:setting,
+                       :name => 'matchers_inheritance',
+                       :value => true)
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :omit => true,
+                             :override => true, :key_type => 'string', :merge_overrides => false,
+                             :path => "location\norganization\nhostgroup",
+                             :puppetclass => puppetclasses(:two))
+
+    parent_loc = taxonomies(:location1)
+    child_loc = taxonomies(:location2)
+    child_loc.update(:parent => parent_loc)
+
+    host = FactoryBot.create(:host, :environment => environments(:production), :puppetclasses => [puppetclasses(:two)], :organization => taxonomies(:organization1), :location => child_loc)
+
+    value2 = as_admin do
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{parent_loc}",
+                          :value => "parent",
+                          :omit => false
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "organization=#{taxonomies(:organization1)}",
+                          :value => "org",
+                          :omit => true
+      LookupValue.create! :lookup_key_id => key.id,
+                          :match => "location=#{child_loc}",
+                          :value => "child",
+                          :omit => false
+    end
+
+    enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
+
+    assert_equal value2.value, enc["apache"][key.key]
   end
 
   test 'enc should return correct values for multi-key matchers' do
@@ -629,13 +963,11 @@ class ClassificationTest < ActiveSupport::TestCase
                              :path => "organization\norganization,location\nlocation",
                              :puppetclass => puppetclasses(:one))
 
-    as_admin do
+    value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "location=#{taxonomies(:location1)}",
                           :value => 'test_incorrect',
                           :omit => false
-    end
-    value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "organization=#{taxonomies(:organization1)},location=#{taxonomies(:location1)}",
                           :value => 'test_correct',
@@ -691,7 +1023,7 @@ class ClassificationTest < ActiveSupport::TestCase
                           :value => "parent",
                           :omit => false
     end
-    as_admin do
+    value2 = as_admin do
       LookupValue.create! :lookup_key_id => key.id,
                           :match => "hostgroup=#{child_hostgroup},organization=#{taxonomies(:organization1)}",
                           :value => "child",
@@ -707,7 +1039,7 @@ class ClassificationTest < ActiveSupport::TestCase
 
     enc = HostInfoProviders::PuppetInfo.new(host).puppetclass_parameters
     key.reload
-    assert_equal 'child', enc["apache"][key.key]
+    assert_equal value2.value, enc["apache"][key.key]
   end
 
   test 'smart class parameter should accept string with erb for arrays and evaluate it properly' do

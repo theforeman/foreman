@@ -10,6 +10,7 @@ class LookupKey < ApplicationRecord
   KEY_DELM = ","
   EQ_DELM  = "="
   VALUE_REGEX = /\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
+  MATCHERS_INHERITANCE = ['hostgroup', 'organization', 'location'].freeze
 
   validates_lengths_from_database
 
