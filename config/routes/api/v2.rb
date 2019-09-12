@@ -506,6 +506,8 @@ Foreman::Application.routes.draw do
 
       get 'orchestration/(:id)/tasks', :to => 'tasks#index'
       resources :plugins, :only => [:index]
+      get 'ping', :to => 'ping#ping'
+      get 'statuses', :to => 'ping#statuses'
       put 'auth_source_ldaps/(:id)/test', :to => 'auth_source_ldaps#test'
     end
   end

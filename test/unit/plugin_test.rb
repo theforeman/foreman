@@ -335,6 +335,47 @@ class PluginTest < ActiveSupport::TestCase
     HostStatus.status_registry.delete status
   end
 
+  def test_register_ping_extension
+    foreman_ping_response = { database: { active: true, duration_ms: 0 } }
+    plugin_ping_response = { service: { active: true, duration_ms: 0 } }
+    Foreman::Plugin.register :foo do
+      name 'foo'
+      register_ping_extension { plugin_ping_response }
+    end
+    Ping.stubs(:ping_database).returns(foreman_ping_response[:database])
+    expected_result = {
+      'foreman': foreman_ping_response,
+      'foo': plugin_ping_response,
+    }
+    assert_equal expected_result, Ping.ping
+  end
+
+  def test_register_status_extension
+    foreman_database_response = { active: true, duration_ms: 0 }
+    plugin_status_response = { version: '1.0.0' }
+    Foreman::Plugin.register :foo do
+      name 'foo'
+      register_status_extension { plugin_status_response }
+    end
+    Ping.stubs(:statuses_smart_proxies).returns([])
+    Ping.stubs(:statuses_compute_resources).returns([])
+    Ping.stubs(:ping_database).returns(foreman_database_response)
+    expected_result = {
+      'foreman': {
+        version: SETTINGS[:version].full,
+        api: {
+          version: Apipie.configuration.default_version,
+        },
+        plugins: [Foreman::Plugin.find(:foo)],
+        smart_proxies: [],
+        compute_resources: [],
+        database: foreman_database_response,
+      },
+      'foo': plugin_status_response,
+    }
+    assert_equal expected_result, Ping.statuses
+  end
+
   def test_add_provision_method
     Foreman::Plugin.register :awesome_provision do
       name 'Awesome provision'
