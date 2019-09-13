@@ -21,7 +21,7 @@
              { :disabled    => !new_vm, :'data-url' => instance_type_selected_compute_resource_path(compute_resource),
                :onchange    => 'tfm.computeResource.ovirt.instanceTypeSelected(this);',
                :help_inline => :indicator,
-               :help_block  => _("oVirt/RHEV instance type"),
+               :help_block  => _("oVirt/RHEV instance type. Provided memory, sockets and cores values will be overriden by instance types values"),
                :label       => _('Instance type'), :label_size => "col-md-2" } %>
 <%= f.hidden_field :instance_type if !new_vm %>
 
@@ -38,13 +38,13 @@
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
 <%= f.fields_for :display, OpenStruct.new(f.object.display) do |display_f| %>
-  <%= select_f display_f, :type, compute_resource.display_types, :downcase, :upcase, 
+  <%= select_f display_f, :type, compute_resource.display_types, :downcase, :upcase,
                 { },
                 { :label_size => "col-md-2",
                   :label => _("Display Type"),
                   :class => 'display_type',
                   :disabled => f.object.status != "down" && !new_vm } %>
-  <%= select_f display_f, :keyboard_layout, compute_resource.keyboard_layouts, :downcase, :to_s, 
+  <%= select_f display_f, :keyboard_layout, compute_resource.keyboard_layouts, :downcase, :to_s,
                 { },
                 { :label_size => "col-md-2",
                   :label => _("Keyboard"),
