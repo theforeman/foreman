@@ -249,30 +249,31 @@ module Foreman::Model
       find_vm_by_uuid(uuid).start_with_cloudinit(:blocking => true, :user_data => user_data, :use_custom_script => true)
     end
 
-    def sanitize_inherited_vm_attributes(args, template)
-      # Cleanup memory an cores values if template and/or instance type provided when VM values are
-      # * Blank values for these attributes, because oVirt will fail if empty values are present in VM definition
-      # * Provided but identical to values present in the template or instance type
-      # Instance type values take precedence on templates values
-      if template.present?
-        cores = template.cores.to_i if template.cores.present?
-        memory = template.memory.to_i if template.memory.present?
+    def sanitize_inherited_vm_attributes(args, template, instance_type)
+      # Override memory an cores values if template and/or instance type is/are provided.
+      # Take template values if blank values for VM attributes, because oVirt will fail if empty values are present in VM definition
+      # Instance type values always take precedence on templates or vm provided values
+      if template
+        template_cores = template.cores.to_i if template.cores.present?
+        template_memory = template.memory.to_i if template.memory.present?
+        args[:cores] = template_cores if template_cores && args[:cores].blank?
+        args[:memory] = template_memory if template_memory && args[:memory].blank?
       end
-      if args[:instance_type].present?
-        instance_type = instance_type(args[:instance_type])
-        cores = instance_type.cores.to_i if instance_type.cores.present?
-        memory = instance_type.memory.to_i if instance_type.memory.present?
+      if instance_type
+        instance_type_cores = instance_type.cores.to_i if instance_type.cores.present?
+        instance_type_memory = instance_type.memory.to_i if instance_type.memory.present?
+        args[:cores] = instance_type_cores if instance_type_cores
+        args[:memory] = instance_type_memory if instance_type_memory
       end
-      args.delete(:cores) if (args[:cores].blank? && cores) || (args[:cores].to_i == cores)
-      args.delete(:memory) if (args[:memory].blank? && memory) || (args[:memory].to_i == memory)
     end
 
     def create_vm(args = {})
       args[:comment] = args[:user_data] if args[:user_data]
       args[:template] = args[:image_id] if args[:image_id]
       template = template(args[:template]) if args[:template]
+      instance_type = instance_type(args[:instance_type]) if args[:instance_type]
 
-      sanitize_inherited_vm_attributes(args, template)
+      sanitize_inherited_vm_attributes(args, template, instance_type)
       preallocate_and_clone_disks(args, template) if args[:volumes_attributes].present? && template.present?
 
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
