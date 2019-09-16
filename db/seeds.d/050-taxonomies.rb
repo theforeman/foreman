@@ -22,7 +22,11 @@ User.as_anonymous_admin do
       # Only default templates are assigned during taxonomy creation
       Template.where(default: false).each do |template|
         template.without_auditing do
-          template.send("#{taxonomy.to_s.parameterize.pluralize}=", [tax])
+          begin
+            template.send("#{taxonomy.to_s.parameterize.pluralize}=", [tax])
+          rescue
+            puts "Failed to assign template #{template.name} to #{tax_name}. Please verify the template is valid and assign manually."
+          end
         end
       end
 
