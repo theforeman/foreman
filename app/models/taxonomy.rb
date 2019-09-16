@@ -215,7 +215,7 @@ class Taxonomy < ApplicationRecord
 
   def assign_default_templates
     Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
-      self.send("#{association}=", self.send(association) + templates)
+      self.send("#{association}=", self.send(association) + templates.select(&:valid?))
     end
   end
 
