@@ -33,7 +33,9 @@ class AuditExtensionsTest < ActiveSupport::TestCase
       prov_template.template = "1111111111" * 3500
       assert prov_template.save!
     end
-    assert Audit.last.audited_changes.to_s.bytesize > 66000
+    audit_record = prov_template.audits.last
+    refute_nil audit_record
+    assert audit_record.audited_changes.to_s.bytesize > 66000
   end
 
   context "with multiple taxonomies" do
