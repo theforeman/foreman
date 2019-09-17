@@ -130,29 +130,6 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal lk.value_before_type_cast, '{"foo" => "bar"}'
   end
 
-  test "when created, an audit entry should be added" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
-    key = pc.class_params.first
-    lvalue = nil
-    assert_difference('Audit.count') do
-      lvalue = FactoryBot.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => 'test', :match => 'os=bar'
-    end
-    assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
-  end
-
-  test "when changed, an audit entry should be added" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :environments => [env])
-    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :puppetclass => pc)
-    lvalue = key.lookup_values.first
-    assert_difference('Audit.count') do
-      lvalue.value = 'new overridden value'
-      lvalue.save!
-    end
-    assert_equal "#{pc.name}::#{key.key}", lvalue.audits.last.associated_name
-  end
-
   test "shuld not cast string with erb" do
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
                             :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,

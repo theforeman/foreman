@@ -228,18 +228,6 @@ EOF
     assert_equal "-smart_variable", lookup_key.to_param
   end
 
-  test "when changed, an audit entry should be added" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
-    key = pc.class_params.first
-    assert_difference('Audit.count') do
-      key.override = true
-      key.default_value = "new default value"
-      key.save!
-    end
-    assert_equal pc.name, Audit.where(:auditable_type => 'PuppetclassLookupKey', :auditable_id => key.id).last.associated_name
-  end
-
   test "should create smart variable with the same name as class parameters" do
     env = FactoryBot.create(:environment)
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
