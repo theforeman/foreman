@@ -128,7 +128,12 @@ class AuthSourceLdap < AuthSource
     external = ldap_con.group_list(login).map(&:downcase)
     group_name_arel = ExternalUsergroup.arel_table[:name].lower
 
-    usergroup_ids = user.usergroup_ids
+    # User's external user groups localy
+    usergroup_ids = user.usergroups
+                        .joins(:external_usergroups)
+                        .where(ExternalUsergroup.arel_table[:auth_source_id].eq(id))
+                        .pluck(:id)
+    # User's external user groups as of auth_source
     usergroup_ids.concat(
       ExternalUsergroup.where(auth_source_id: id)
         .where(group_name_arel.in(external))
@@ -140,9 +145,13 @@ class AuthSourceLdap < AuthSource
     end
   end
 
+  ##
+  #  Sync group with external usergroup
   def refresh_usergroup_members(usergroup)
-    logins = usergroup.external_usergroups.where(auth_source_id: id).map(&:users)
-    logins = logins.select { |a| !!a }.flatten.map(&:downcase).uniq
+    external_groups = usergroup.external_usergroups.where(auth_source_id: id).to_a
+    # Do not sync groups which are not connected with external groups
+    return unless external_groups.any?
+    logins = external_groups.map(&:users).select { |a| !!a }.flatten.map(&:downcase).uniq
 
     user_ids = User.unscoped.where(auth_source_id: id).fetch_ids_by_list(logins)
     current_user_ids = usergroup.users.where(auth_source_id: id).pluck(:id)
