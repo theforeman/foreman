@@ -313,12 +313,9 @@ class UsergroupTest < ActiveSupport::TestCase
   end
 
   context 'audit usergroup' do
-    setup do
-      @usergroup = FactoryBot.create(:usergroup, :with_auditing)
-    end
-
     context 'child usergroups' do
       setup do
+        @usergroup = FactoryBot.create(:usergroup, :with_auditing)
         @child_usergroup = FactoryBot.create(:usergroup)
         @usergroup.usergroup_ids = [@child_usergroup.id]
         @usergroup.save
@@ -345,6 +342,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
     context 'roles' do
       setup do
+        @usergroup = FactoryBot.create(:usergroup, :with_auditing)
         @role = FactoryBot.create(:role)
         @usergroup.role_ids = [@role.id]
         @usergroup.save
@@ -371,6 +369,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
     context 'users' do
       setup do
+        @usergroup = FactoryBot.create(:usergroup, :with_auditing)
         @user = users :one # FactoryBot.create(:user)
         @usergroup.user_ids = [@user.id]
         @usergroup.save
