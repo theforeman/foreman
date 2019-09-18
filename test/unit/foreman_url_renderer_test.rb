@@ -13,7 +13,7 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
     attr_accessor :host, :template_url
   end
 
-  let(:host) { FactoryBot.build_stubbed(:host, :managed, :with_dhcp_orchestration) }
+  let(:host) { FactoryBot.build_stubbed(:host, :managed, :with_dhcp_orchestration, :with_build) }
   let(:renderer) { Renderer.new }
   let(:action) { 'provision' }
 
