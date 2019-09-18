@@ -58,7 +58,7 @@ module Foreman
       url_for :only_path => false, :controller => "/unattended", :action => 'host_template',
         :protocol => options[:protocol], :host => options[:host],
         :port => options[:port], :script_name => options[:path],
-        :token => (host.token.value unless host.try(:token).nil?),
+        :token => (host.token.value if (host.try(:build) && host.try(:token))),
         :kind => options[:action], **params
     end
 

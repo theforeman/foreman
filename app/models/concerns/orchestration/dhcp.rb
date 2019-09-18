@@ -171,8 +171,13 @@ module Orchestration::DHCP
   # do we need to update our dhcp reservations
   def dhcp_update_required?
     # IP Address / name changed, or 'rebuild' action is triggered and DHCP record on the smart proxy is not present/identical.
-    return true if ((old.ip != ip) || (old.hostname != hostname) || provision_mac_addresses_changed? || (old.subnet != subnet) || (operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(host)) ||
-                    (!old.build? && build? && !all_dhcp_records_valid?))
+    return true if ((old.ip != ip) ||
+      (old.hostname != hostname) ||
+      provision_mac_addresses_changed? ||
+      (old.subnet != subnet) ||
+      (old.operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(host)) ||
+      ((old.host.pxe_loader == "iPXE Embedded" || host.pxe_loader == "iPXE Embedded") && (old.host.build != host.build)) ||
+      (!old.build? && build? && !all_dhcp_records_valid?))
     # Handle jumpstart
     # TODO, abstract this way once interfaces are fully used
     if is_a?(Host::Base) && jumpstart?
