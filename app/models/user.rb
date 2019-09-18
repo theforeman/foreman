@@ -308,6 +308,8 @@ class User < ApplicationRecord
       User.as_anonymous_admin do
         auth_source = AuthSourceExternal.create!(:name => auth_source_name) if auth_source.nil?
         user = User.create!(attrs.merge(:auth_source => auth_source))
+        user.locations = auth_source.locations
+        user.organizations = auth_source.organizations
         if external_groups.present?
           user.usergroups = auth_source.external_usergroups.where(:name => external_groups).map(&:usergroup).uniq
         end
