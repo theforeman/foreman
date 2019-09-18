@@ -52,19 +52,22 @@ module Net::DHCP
       end
     end
 
-    # Returns an array of record objects which are conflicting with our own
+    # Returns an array of record objects which are conflicting with our own. Comparsion is done
+    # only using selected attributes: MAC, IP, hostname and network.
     def conflicts
-      conflicts = [proxy.record(network, mac), proxy.records_by_ip(network, ip)].flatten.compact.delete_if { |c| c.lease? || c == self || related_macs.include?(c.mac) }
+      conflicts = [proxy.record(network, mac), proxy.records_by_ip(network, ip)].flatten.compact.delete_if do |c|
+        c.lease? || c.eql_for_conflicts?(self) || related_macs.include?(c.mac)
+      end
       @conflicts ||= conflicts.uniq { |c| c.attrs }
     end
 
     # Verifies that a record already exists on the dhcp server
     def valid?
       logger.info "Fetching DHCP reservation #{name} for #{self}"
-      self == proxy.record(network, mac)
+      self.eql_for_conflicts?(proxy.record(network, mac))
     end
 
-    def ==(other)
+    def eql_for_conflicts?(other)
       return false unless other.present?
       to_compare = [:mac, :ip, :network]
 
@@ -74,9 +77,6 @@ module Net::DHCP
       if legacy_dhcp_api?
         to_compare << :hostname if other.attrs[:hostname].present? && attrs[:hostname].present?
       end
-
-      # Not all DHCP smart-proxy providers support TFTP filename option (e.g. libvirt).
-      to_compare << :filename if other.attrs[:filename].present? && attrs[:filename].present?
 
       logger.debug "Comparing #{attrs.values_at(*to_compare)} == #{other.attrs.values_at(*to_compare)}"
       attrs.values_at(*to_compare) == other.attrs.values_at(*to_compare)
