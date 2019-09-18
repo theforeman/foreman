@@ -1,3 +1,34 @@
+2019-09-18	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.21.4
+
+2019-09-17	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #27854 - Only assign valid templates to new taxonomy
+
+2019-09-16	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #27854 - Don't fail seed on invalid templates (#7041)
+
+2019-08-22	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #27681 - Fix test for rest-client 2.1 support
+
+2019-08-21	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #27666 - pin sass-rails on Ruby < 2.4 even lower
+
+2019-08-20	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #27666 - pin sass-rails on Ruby < 2.4
+
+2019-08-07	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #26826 - Increase js heap size for plugin asset compile
+
+2019-07-21	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #27347 - Pin audited to < 4.9.0 (#6915)
+
+2019-07-04	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #27068 - Pin spring on Ruby < 2.4
+
+2019-07-01	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #27192 - Pin scoped_search to <4.1.7
+	* Fixes #24993 - Modify token value to text
+
 2019-04-18	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.21.3
 
