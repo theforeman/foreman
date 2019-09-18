@@ -323,6 +323,17 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
   end
 
+  test "when an existing host changes its PXE loader, its dhcp records should be updated" do
+    h = as_admin do
+      FactoryBot.create(:host, :with_dhcp_orchestration, :mac => "aa:bb:cc:dd:ee:ff", :pxe_loader => "PXELinux BIOS")
+    end
+    h.pxe_loader = "PXELinux UEFI"
+    assert h.valid?
+    assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:ff", "dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
+    assert_equal :del_dhcp, h.queue.find_by_id("dhcp_remove_aa:bb:cc:dd:ee:ff").action.last
+    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
+  end
+
   test "when an existing host change its bmc ip address, its dhcp records should be updated" do
     h = nil
     as_admin do

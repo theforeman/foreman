@@ -48,21 +48,22 @@ class DhcpTest < ActiveSupport::TestCase
   test "record should be equal if one record has no hostname" do
     record1 = make_record
     record2 = make_record :hostname => "test"
-    assert_equal record1, record2
-    assert_equal record2, record1
+    assert record1.eql_for_conflicts?(record2)
+    assert record2.eql_for_conflicts?(record1)
   end
 
   test "record should be equal if one record has no filename" do
     record1 = make_record
     record2 = make_record :filename => "pxelinux.0"
-    assert_equal record1, record2
-    assert_equal record2, record1
+    assert record1.eql_for_conflicts?(record2)
+    assert record2.eql_for_conflicts?(record1)
   end
 
   test "record should not be equal if their attrs are not the same" do
     record1 = make_record :hostname => "test1"
     record2 = make_record :hostname => "test2"
-    refute_equal record1, record2
+    refute record1.eql_for_conflicts?(record2)
+    refute record2.eql_for_conflicts?(record1)
   end
 
   test "conflicts should be detected for mismatched records" do
