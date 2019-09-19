@@ -32,6 +32,8 @@
         <%= checkbox_f f, :default, :label=>_('Default'), :label_help => default_template_description %>
       <% end -%>
 
+      <%= textarea_f f, :description, :size => 'col-md-10', :rows => 3, :label => _('Description') %>
+
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
 
       <% if pxe_with_building_hosts?(@template) -%>

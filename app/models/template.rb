@@ -25,7 +25,7 @@ class Template < ApplicationRecord
 
   before_save :remove_trailing_chars
 
-  attr_exportable :name, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
+  attr_exportable :name, :description, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
 
   class Jail < Safemode::Jail
     allow :name
