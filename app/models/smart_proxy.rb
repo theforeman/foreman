@@ -166,4 +166,8 @@ class SmartProxy < ApplicationRecord
       reply
     end
   end
+
+  class Jail < ::Safemode::Jail
+    allow :name
+  end
 end
