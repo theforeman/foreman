@@ -236,6 +236,21 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
       assert_equal 42, show_response['parameters'].first['value'].to_i
       assert_equal 'integer', show_response['parameters'].first['parameter_type']
     end
+
+    test "should create a group parameter with default parameter type" do
+      hostgroup_params = [{ :name => "foo", :value => 42 }]
+      post :create, params: { hostgroup: valid_attrs.merge(parameters: hostgroup_params) }
+      assert_response :success
+    end
+
+    test "should show a group parameter with default parameter type" do
+      hostgroup = FactoryBot.create(:hostgroup)
+      hostgroup.group_parameters.create!(:name => "foo", :value => 42)
+      get :show, params: { :id => hostgroup.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 42, show_response['parameters'].first['value']
+      assert_equal 'string', show_response['parameters'].first['parameter_type']
+    end
   end
 
   context 'hidden parameters' do

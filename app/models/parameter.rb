@@ -39,7 +39,7 @@ class Parameter < ApplicationRecord
   default_scope -> { order("parameters.name") }
 
   before_create :set_priority
-  before_save :set_searchable_value
+  before_save :set_searchable_value, :set_default_key_type
 
   PRIORITY = { :common_parameter => 0,
                :organization_parameter => 10,
@@ -76,6 +76,10 @@ class Parameter < ApplicationRecord
   end
 
   private
+
+  def set_default_key_type
+    self.key_type ||= Parameter::KEY_TYPES.first
+  end
 
   def set_searchable_value
     self.searchable_value = Parameter.format_value_before_type_cast(value, key_type)
