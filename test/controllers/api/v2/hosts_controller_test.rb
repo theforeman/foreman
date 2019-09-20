@@ -994,6 +994,22 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal 42, show_response['parameters'].first['value'].to_i
       assert_equal 'integer', show_response['parameters'].first['parameter_type']
     end
+
+    test "should create an host parameter with default parameter type" do
+      host = FactoryBot.build(:host)
+      host_params = [{ :name => "foo", :value => 42 }]
+      post :create, params: { host: host.attributes.merge(parameters: host_params) }
+      assert_response :success
+    end
+
+    test "should show an host parameter with default parameter type" do
+      host = FactoryBot.create(:host)
+      host.host_parameters.create!(:name => "foo", :value => 42)
+      get :show, params: { :id => host.id }
+      show_response = ActiveSupport::JSON.decode(@response.body)
+      assert_equal 42, show_response['parameters'].first['value'].to_i
+      assert_equal 'string', show_response['parameters'].first['parameter_type']
+    end
   end
 
   context 'hidden parameters' do
