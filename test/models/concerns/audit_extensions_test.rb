@@ -25,19 +25,6 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     assert_equal "[redacted]", a.last.audited_changes["value"][1]
   end
 
-  test "audited changes field can be greater then 65K bytes" do
-    prov_template = templates(:mystring)
-    prov_template.template = "0000000000" * 3500
-    as_admin do
-      assert prov_template.save!
-      prov_template.template = "1111111111" * 3500
-      assert prov_template.save!
-    end
-    audit_record = prov_template.audits.last
-    refute_nil audit_record
-    assert audit_record.audited_changes.to_s.bytesize > 66000
-  end
-
   context "with multiple taxonomies" do
     def setup
       @loc = taxonomies(:location1)
