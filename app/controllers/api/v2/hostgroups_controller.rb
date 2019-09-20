@@ -56,7 +56,7 @@ module Api
           param :group_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true
             param :value, String, :desc => N_("Parameter value"), :required => true
-            param :parameter_type, Parameter::KEY_TYPES, :desc => N_("Type of value"), :required => true
+            param :parameter_type, Parameter::KEY_TYPES, :desc => N_("Type of value")
             param :hidden_value, :bool
           end
           Hostgroup.registered_smart_proxies.each do |name, options|
