@@ -24,7 +24,8 @@ class SmartProxy < ApplicationRecord
     :uniqueness => { :message => N_('Only one declaration of a proxy is allowed') }
 
   # There should be no problem with associating features before the proxy is saved as the whole operation is in a transaction
-  before_save :sanitize_url, :associate_features
+  before_save :sanitize_url
+  before_validation :associate_features
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :url, :complete_value => :true
