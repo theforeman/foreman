@@ -37,9 +37,9 @@ class Solaris < Operatingsystem
 
   def boot_filename(host)
     if host.jumpstart?
-      "Solaris-#{major}.#{minor}-#{release_name}-#{host.model.hardware_model}-inetboot"
+      "Solaris-#{major}.#{minor}.#{release}-#{release_name}-#{host.model.hardware_model}-inetboot"
     else
-      "Solaris-5.#{minor}-#{release_name}-pxegrub"
+      "Solaris-5.#{minor}.#{release}-#{release_name}-pxegrub"
     end
   end
 
@@ -88,7 +88,7 @@ class Solaris < Operatingsystem
       :vendor => "<#{vendor}>",
       :root_server_ip        => server_ip,                              # 192.168.216.241
       :root_server_hostname  => server_name,                            # mediahost
-      :root_path_name        => "#{ipath}/Solaris_#{minor}/Tools/Boot", # /vol/solgi_5.10/sol10_hw0910/Solaris_10/Tools/Boot
+      :root_path_name        => "#{ipath}/Solaris_#{minor}.#{release}/Tools/Boot", # /vol/solgi_5.10/sol10_hw0910/Solaris_10/Tools/Boot
       :install_server_ip     => server_ip,                              # 192.168.216.241
       :install_server_name   => server_name.split('.').first,           # mediahost
       :install_path          => ipath,                                  # /vol/solgi_5.10/sol10_hw0910

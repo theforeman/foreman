@@ -55,8 +55,9 @@ module Hostext
       scoped_search :relation => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
       scoped_search :relation => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
       scoped_search :relation => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
-      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true
-      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true
+      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true, :ext_method => :search_by_os_version
+      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true, :ext_method => :search_by_os_version
+      scoped_search :relation => :operatingsystem, :on => :release,     :complete_value => true, :rename => :os_release, :only_explicit => true, :ext_method => :search_by_os_version
       scoped_search :relation => :operatingsystem, :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
       scoped_search :relation => :primary_interface, :on => :ip, :complete_value => true
@@ -220,6 +221,12 @@ module Hostext
         {
           :conditions => "#{Host::Managed.table_name}.id in (#{in_query})",
         }
+      end
+
+      def search_by_os_version(key, operator, value)
+        condition = sanitize_sql_for_conditions(["CAST(#{key.split('_').last} AS INTEGER) #{operator} ?", value_to_sql(operator, value.to_i)])
+        operatingsystem_ids = Operatingsystem.select(:id).where(condition).pluck('operatingsystems.id').join(',')
+        {:conditions => "hosts.operatingsystem_id IN (#{operatingsystem_ids})"}
       end
 
       private

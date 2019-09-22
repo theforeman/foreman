@@ -32,8 +32,9 @@ class Operatingsystem < ApplicationRecord
 
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
+  validates :release, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
   validates :name, :presence => true, :no_whitespace => true,
-            :uniqueness => { :scope => [:major, :minor], :message => N_("Operating system version already exists")}
+            :uniqueness => { :scope => [:major, :minor, :release], :message => N_("Operating system version already exists")}
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
   validates :release_name, :presence => true, :if => Proc.new { |os| os.family == 'Debian' }
@@ -47,6 +48,7 @@ class Operatingsystem < ApplicationRecord
   scoped_search :on => :name,        :complete_value => :true
   scoped_search :on => :major,       :complete_value => :true
   scoped_search :on => :minor,       :complete_value => :true
+  scoped_search :on => :release,     :complete_value => :true
   scoped_search :on => :description, :complete_value => :true
   scoped_search :on => :type,        :complete_value => :true, :rename => "family"
   scoped_search :on => :title,       :complete_value => :true
@@ -74,7 +76,7 @@ class Operatingsystem < ApplicationRecord
                'Xenserver' => %r{XenServer}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash, :mediumpath
+    allow :name, :media_url, :major, :minor, :release, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash, :mediumpath
   end
 
   def self.title_name
@@ -154,12 +156,12 @@ class Operatingsystem < ApplicationRecord
     Parameterizable.parameterize("#{id}-#{title}")
   end
 
-  def release
-    "#{major}#{('.' + minor.to_s) if minor.present?}"
+  def version
+    "#{major}#{('.' + minor) if minor.present?}#{('.' + release) if release.present?}"
   end
 
   def fullname
-    "#{name} #{release}"
+    "#{name} #{version}"
   end
 
   def to_s
@@ -174,6 +176,7 @@ class Operatingsystem < ApplicationRecord
     cond = {:name => a[0]}
     cond[:major] = b[0] if b && b[0]
     cond[:minor] = b[1] if b && b[1]
+    cond[:release] = b[2] if b && b[2]
     self.find_by(cond)
   end
 
@@ -336,6 +339,7 @@ class Operatingsystem < ApplicationRecord
     # Need to ensure type when using major and minor as scopes for name uniqueness.
     self.major = major.to_s
     self.minor = minor.to_s
+    self.release = release.to_s
   end
 
   def downcase_release_name
