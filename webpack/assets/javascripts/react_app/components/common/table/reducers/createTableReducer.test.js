@@ -35,6 +35,16 @@ const fixtures = {
       },
     },
   },
+
+  'should handle SET_PAGINATION': {
+    action: {
+      type: ACTION_TYPES.SET_PAGINATION,
+      payload: {
+        page: 2,
+        per_page: 15,
+      },
+    },
+  },
 };
 
 describe('Table createTableReducer', () =>

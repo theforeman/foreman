@@ -9,7 +9,7 @@ import createTableActionTypes from '../actionsHelpers/actionTypeCreator';
  * @param  {String} url        the url for the data
  * @return {Function}          Redux Thunk function
  */
-const getTableItemsAction = (tableID, query, fetchUrl) => dispatch => {
+export const getTableItemsAction = (tableID, query, fetchUrl) => dispatch => {
   const url = new URI(fetchUrl);
   url.addSearch({ ...query, include_permissions: true });
 
@@ -25,4 +25,7 @@ const getTableItemsAction = (tableID, query, fetchUrl) => dispatch => {
   });
 };
 
-export default getTableItemsAction;
+export const changeTablePage = (tableID, pagination) => ({
+  type: createTableActionTypes(tableID).SET_PAGINATION,
+  payload: pagination,
+});

@@ -1,7 +1,14 @@
-import getTableItemsAction from './getTableItemsAction';
+import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
+import { getTableItemsAction, changeTablePage } from './getTableItemsAction';
 import { ajaxRequestAction } from '../../../../redux/actions/common';
 
 jest.mock('../../../../redux/actions/common');
+
+const fixtures = {
+  'should changeTablePage': () =>
+    changeTablePage('models_table', { page: 2, perPage: 5 }),
+};
+
 describe('getTableItemsAction', () => {
   it('should call ajaxRequestAction with url ', () => {
     const tableID = 'models_table';
@@ -19,4 +26,5 @@ describe('getTableItemsAction', () => {
     dispatcher(dispatch);
     expect(ajaxRequestAction).toBeCalledWith(expectedParams);
   });
+  testActionSnapshotWithFixtures(fixtures);
 });

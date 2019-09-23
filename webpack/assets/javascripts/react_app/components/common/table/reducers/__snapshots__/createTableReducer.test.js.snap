@@ -3,6 +3,10 @@
 exports[`Table createTableReducer should handle FAILURE 1`] = `
 Object {
   "error": [Error: ooops!],
+  "pagination": Object {
+    "page": 1,
+    "perPage": 20,
+  },
   "results": Array [],
   "sortBy": "",
   "sortOrder": "",
@@ -13,6 +17,24 @@ Object {
 exports[`Table createTableReducer should handle REQUEST 1`] = `
 Object {
   "error": null,
+  "pagination": Object {
+    "page": 1,
+    "perPage": 20,
+  },
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "PENDING",
+}
+`;
+
+exports[`Table createTableReducer should handle SET_PAGINATION 1`] = `
+Object {
+  "error": null,
+  "pagination": Object {
+    "page": 2,
+    "per_page": 15,
+  },
   "results": Array [],
   "sortBy": "",
   "sortOrder": "",
@@ -23,6 +45,11 @@ Object {
 exports[`Table createTableReducer should handle SUCCESS 1`] = `
 Object {
   "error": null,
+  "itemCount": undefined,
+  "pagination": Object {
+    "page": 1,
+    "perPage": 5,
+  },
   "results": Array [
     Object {
       "id": 23,
@@ -38,6 +65,10 @@ Object {
 exports[`Table createTableReducer should return initial state 1`] = `
 Object {
   "error": null,
+  "pagination": Object {
+    "page": 1,
+    "perPage": 20,
+  },
   "results": Array [],
   "sortBy": "",
   "sortOrder": "",

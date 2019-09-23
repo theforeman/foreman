@@ -14,6 +14,19 @@ const fixtures = {
     rows: rowsFixtures,
     bodyMessage: 'some body message',
   },
+
+  'renders Table with pagination': {
+    columns: columnsFixtures,
+    rows: rowsFixtures,
+    bodyMessage: 'some body message',
+    isPaginated: true,
+    itemCount: 100,
+    pagination: {
+      page: 3,
+      perPage: 7,
+    },
+    onPaginationChange: () => null,
+  },
 };
 
 describe('Table', () => testComponentSnapshotsWithFixtures(Table, fixtures));

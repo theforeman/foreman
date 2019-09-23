@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getTableItemsAction should changeTablePage 1`] = `
+Object {
+  "payload": Object {
+    "page": 2,
+    "perPage": 5,
+  },
+  "type": "MODELS_TABLE_SET_PAGINATION",
+}
+`;

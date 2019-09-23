@@ -1,1 +1,1 @@
-export { default as getTableItemsAction } from './getTableItemsAction';
+export { getTableItemsAction, changeTablePage } from './getTableItemsAction';
