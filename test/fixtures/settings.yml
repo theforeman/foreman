@@ -46,11 +46,6 @@ attributes9:
   category: Setting::Puppet
   default: production
   description: "The Setting::Puppet environment foreman would default to in case it can't auto detect it"
-attributes12:
-  name: puppet_server
-  category: Setting::Puppet
-  default: puppet
-  description: Default Setting::Puppet Server hostname
 attributes13:
   name: failed_report_email_notification
   category: Setting::Puppet
