@@ -409,7 +409,10 @@ class Host::Managed < Host::Base
   end
 
   def attributes_to_import_from_facts
-    attrs = [:architecture, :hostgroup]
+    attrs = [:architecture]
+    if Setting[:update_hostgroup_from_facts]
+      attrs << :hostgroup
+    end
     if !Setting[:ignore_facts_for_operatingsystem] || (Setting[:ignore_facts_for_operatingsystem] && operatingsystem.blank?)
       attrs << :operatingsystem
     end
