@@ -5,7 +5,6 @@ class Setting::Puppet < Setting
       self.set('puppet_out_of_sync_disabled', N_("Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval") % 'Puppet', false, N_('%s out of sync disabled') % 'Puppet'),
       self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => Proc.new {Hash[Environment.all.map {|env| [env[:name], env[:name]]}]} }),
       self.set('puppetrun', N_("Enable puppetrun support"), false, N_('Puppetrun')),
-      self.set('puppet_server', N_("Default Puppet server hostname"), "puppet", N_('Puppet server')),
       self.set('Default_variables_Lookup_Path', N_("Foreman will evaluate host smart variables in this order by default"), ["fqdn", "hostgroup", "os", "domain"], N_('Default variables lookup path')),
       self.set('Enable_Smart_Variables_in_ENC', N_("Foreman smart variables will be exposed via the ENC yaml output"), true, N_('Enable smart variables in ENC')),
       self.set('Parametrized_Classes_in_ENC', N_("Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"), true, N_('Parameterized classes in ENC')),
