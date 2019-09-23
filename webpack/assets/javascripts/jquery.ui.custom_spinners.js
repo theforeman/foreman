@@ -10,6 +10,7 @@ $(() => {
   $.widget('ui.limitedSpinner', $.ui.spinner, {
     options: {
       softMaximum: 0,
+      min: 1,
       errorTarget: null,
     },
     validate() {
@@ -114,11 +115,13 @@ export function initCounter() {
   $('input.counter_spinner').each(function() {
     const field = $(this);
     const errorMessage = field.closest('.form-group').find('.maximum-limit');
+    let min = field.data('min');
+    min = typeof min === 'number' ? min : 1;
 
     field.limitedSpinner({
       softMaximum: field.data('softMax'),
       errorTarget: errorMessage,
-      min: 1,
+      min,
     });
 
     field.change(() => {
