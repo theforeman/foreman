@@ -812,6 +812,31 @@ class HostTest < ActiveSupport::TestCase
       end
     end
 
+    test 'host hostgroup updated from facts' do
+      Setting[:update_hostgroup_from_facts] = true
+
+      raw = read_json_fixture('facts/facts.json')
+      raw['facts']['foreman_hostgroup'] = 'base'
+      hostgroup = FactoryBot.create(:hostgroup, :name => 'base')
+      host = FactoryBot.create(:host, :hostgroup => FactoryBot.create(:hostgroup, :name => 'test'))
+      assert host.import_facts(raw['facts'])
+      host.reload
+      assert_equal hostgroup, host.hostgroup
+    end
+
+    test 'host hostgroup not updated from facts' do
+      Setting[:update_hostgroup_from_facts] = false
+
+      raw = read_json_fixture('facts/facts.json')
+      raw['facts']['foreman_hostgroup'] = 'base'
+      FactoryBot.create(:hostgroup, :name => 'base')
+      hostgroup = FactoryBot.create(:hostgroup, :name => 'test')
+      host = FactoryBot.create(:host, :hostgroup => hostgroup)
+      assert host.import_facts(raw['facts'])
+      host.reload
+      assert_equal hostgroup, host.hostgroup
+    end
+
     describe 'a host with primary interface on a bond' do
       let(:raw_facts) { read_json_fixture('facts/facts_with_primary_interface_bond.json').merge(_type: 'puppet') }
       let(:hostname) { 'host01.example.com' }

@@ -421,3 +421,8 @@ attribute92:
   category: Setting::Auth
   default: 'External'
   description: 'Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'
+attribute93:
+  name: update_hostgroup_from_facts
+  category: Setting::Puppet
+  default: true
+  description: "Foreman will update a host's hostgroup from its facts"
