@@ -12,9 +12,18 @@ module Foreman
             Template.new(name: name, template: content)
           end
 
+          def snapshot_variants(template)
+            Dir["#{File.join(SNAPSHOTS_DIRECTORY, template_path(template))}*"]
+          end
+
           def snapshot_path(template)
-            File.join(SNAPSHOTS_DIRECTORY, fetch_metadata(template.template, :model, 'undefined'),
-                      fetch_metadata(template.template, :kind, 'undefined'), "#{template.name}.snap.txt")
+            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.snap.txt")
+          end
+
+          def template_path(template)
+            File.join(fetch_metadata(template.template, :model, 'undefined'),
+                      fetch_metadata(template.template, :kind, 'undefined'),
+                      template.name)
           end
 
           private

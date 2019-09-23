@@ -37,8 +37,9 @@ class RendererTest < ActiveSupport::TestCase
 
   def assert_template(template)
     rendered = Foreman::TemplateSnapshotService.render_template(template)
-    expected = File.read(Foreman::Renderer::Source::Snapshot.snapshot_path(template))
+    variants = Foreman::Renderer::Source::Snapshot.snapshot_variants(template)
+    match = variants.any? { |variant| rendered == File.read(variant) }
 
-    assert_equal(expected, rendered, "Rendered template #{template.name} is different than snapshot")
+    assert match, "Rendered template #{template.name} did not match any snapshot. Tried against #{variants.join(', ')}"
   end
 end
