@@ -8,6 +8,7 @@ module Host
     include DestroyFlag
     include InterfaceCloning
     include Hostext::Ownership
+    include Hostext::FactData
     include Foreman::TelemetryHelper
     include Facets::BaseHostExtensions
 
@@ -241,16 +242,6 @@ module Host
       self.interfaces.reload
     end
 
-    def set_reported_data(parser)
-      return unless parser.boot_timestamp
-
-      reported_data_facet.update!(boot_time: Time.at(parser.boot_timestamp)) if self.persisted?
-    end
-
-    def reported_data_facet
-      self.reported_data || self.build_reported_data
-    end
-
     def facts_hash
       hash = {}
       fact_values.includes(:fact_name).collect do |fact|
@@ -381,11 +372,6 @@ module Host
 
     def render_template(template:, **params)
       template.render(host: self, **params)
-    end
-
-    def uptime_seconds
-      boot_time = self&.reported_data&.boot_time
-      boot_time.nil? ? nil : Time.zone.now.to_i - boot_time.to_i
     end
 
     private

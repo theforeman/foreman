@@ -108,6 +108,22 @@ class FactParser
     nil
   end
 
+  # is host virtual?
+  def virtual
+  end
+
+  # host memory in MB
+  def ram
+  end
+
+  # number of CPU sockets
+  def sockets
+  end
+
+  # cores per socket
+  def cores
+  end
+
   private
 
   def find_interface_by_name(host_name)

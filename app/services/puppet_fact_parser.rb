@@ -88,7 +88,7 @@ class PuppetFactParser < FactParser
   def model
     name = facts[:productname] || facts[:model] || facts[:boardproductname]
     # if its a virtual machine and we didn't get a model name, try using that instead.
-    name ||= (facts[:is_virtual] == "true") ? facts[:virtual] : nil
+    name ||= facts[:virtual] if virtual
     Model.where(:name => name.strip).first_or_create if name.present?
   end
 
@@ -143,6 +143,26 @@ class PuppetFactParser < FactParser
     # system_uptime::seconds is Facter 3, we also fallback to Facter 2 uptime_seconds
     uptime_seconds = facts.fetch('system_uptime', {}).fetch('seconds', nil) || facts[:uptime_seconds]
     uptime_seconds.nil? ? nil : (Time.zone.now.to_i - uptime_seconds.to_i)
+  end
+
+  def virtual
+    facts['is_virtual']
+  end
+
+  def ram
+    if (value = facts.dig('memory', 'system', 'total_bytes'))
+      value / 1.megabyte
+    else
+      facts['memorysize_mb']
+    end
+  end
+
+  def sockets
+    facts.dig('processors', 'physicalcount') || facts['physicalprocessorcount']
+  end
+
+  def cores
+    facts.dig('processors', 'count') || facts['processorcount']
   end
 
   private

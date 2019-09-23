@@ -3270,7 +3270,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test 'check operatingsystem and architecture association' do
-    host = FactoryBot.build_stubbed(:host, :interfaces => [FactoryBot.build_stubbed(:nic_primary_and_provision)])
+    host = FactoryBot.build(:host, :interfaces => [FactoryBot.build(:nic_primary_and_provision)])
     assert_nil Operatingsystem.find_by_name('RedHat-test'), "operatingsystem already exist"
     host.populate_fields_from_facts(
       mock_parser(:architecture => "x86_64", :operatingsystem => 'RedHat-test', :operatingsystemrelease => '6.2'),
