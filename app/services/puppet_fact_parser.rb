@@ -4,34 +4,7 @@ class PuppetFactParser < FactParser
   def operatingsystem
     orel = os_release.dup
 
-    if os_name == "Archlinux"
-      # Archlinux is rolling release, so it has no release. We use 1.0 always
-      args = {:name => os_name, :major => "1", :minor => "0"}
-      os = Operatingsystem.find_or_initialize_by(args)
-    elsif orel.present?
-      if os_name == "Debian" && orel[/testing|unstable/i]
-        case facts[:lsbdistcodename]
-          when /wheezy/i
-            orel = "7"
-          when /jessie/i
-            orel = "8"
-          when /sid/i
-            orel = "99"
-        end
-      elsif os_name[/AIX/i]
-        majoraix, tlaix, spaix, _yearaix = orel.split("-")
-        orel = majoraix + "." + tlaix + spaix
-      elsif os_name[/JUNOS/i]
-        majorjunos, minorjunos = orel.split("R")
-        orel = majorjunos + "." + minorjunos
-      elsif os_name[/FreeBSD/i]
-        orel.gsub!(/\-RELEASE\-p[0-9]+/, '')
-      elsif os_name[/Solaris/i]
-        orel.gsub!(/_u/, '.')
-      elsif os_name[/PSBM/i]
-        majorpsbm, minorpsbm = orel.split(".")
-        orel = majorpsbm + "." + minorpsbm
-      end
+    if orel.present?
       major, minor = orel.split('.', 2)
       major = major.to_s.gsub(/\D/, '')
       minor = minor.to_s.gsub(/[^\d\.]/, '')
@@ -47,6 +20,7 @@ class PuppetFactParser < FactParser
     else
       os = Operatingsystem.find_or_initialize_by(:name => os_name)
     end
+
     if os.description.blank?
       if os_name == 'SLES'
         os.description = os_name + ' ' + orel.gsub('.', ' SP')
@@ -200,6 +174,25 @@ class PuppetFactParser < FactParser
       facts[:operatingsystemrelease]
     when /(windows)/i
       facts[:kernelrelease]
+    when /AIX/i
+      majoraix, tlaix, spaix, _yearaix = facts[:operatingsystemrelease].split("-")
+      majoraix + "." + tlaix + spaix
+    when /JUNOS/i
+      majorjunos, minorjunos = facts[:operatingsystemrelease].split("R")
+      majorjunos + "." + minorjunos
+    when /FreeBSD/i
+      facts[:operatingsystemrelease].gsub(/\-RELEASE\-p[0-9]+/, '')
+    when /Solaris/i
+      facts[:operatingsystemrelease].gsub(/_u/, '.')
+    when /PSBM/i
+      majorpsbm, minorpsbm = facts[:operatingsystemrelease].split(".")
+      majorpsbm + "." + minorpsbm
+    when /Archlinux/i
+      # Archlinux is a rolling release, so it has no releases. 1.0 is always used
+      '1.0'
+    when /Debian/i
+      return "99" if facts[:lsbdistcodename] =~ /sid/
+      facts[:lsbdistrelease] || facts[:operatingsystemrelease]
     else
       facts[:lsbdistrelease] || facts[:operatingsystemrelease]
     end
