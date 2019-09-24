@@ -23,7 +23,11 @@ describe('ModelsTable', () => {
   it('render table on sucess', () => {
     const getModelItems = jest.fn().mockReturnValue([]);
     const view = mount(
-      <ModelsTable results={results} getTableItems={getModelItems} />
+      <ModelsTable
+        results={results}
+        getTableItems={getModelItems}
+        onPaginationChange={jest.fn}
+      />
     );
     expect(getModelItems.mock.calls).toHaveLength(1);
     expect(view.find(Table)).toHaveLength(1);
@@ -36,6 +40,7 @@ describe('ModelsTable', () => {
         results={[{}]}
         error={Error('some error message')}
         status="ERROR"
+        onPaginationChange={jest.fn}
       />
     );
     expect(view.find(MessageBox)).toHaveLength(1);

@@ -15,10 +15,13 @@ const ModelsTable = ({
   error,
   status,
   results,
+  itemCount,
+  pagination,
+  onPaginationChange,
 }) => {
   useEffect(() => {
     getTableItems(getURIQuery(window.location.href));
-  }, []);
+  }, [pagination.page, pagination.perPage]);
 
   if (results.length === 0) {
     return <Spinner size="lg" loading />;
@@ -39,6 +42,10 @@ const ModelsTable = ({
       key="models-table"
       columns={createModelsTableSchema(getTableItems, sortBy, sortOrder)}
       rows={results}
+      isPaginated
+      itemCount={itemCount}
+      pagination={pagination}
+      onPaginationChange={onPaginationChange}
     />
   );
 };
@@ -50,6 +57,12 @@ ModelsTable.propTypes = {
   sortBy: PropTypes.string,
   sortOrder: PropTypes.string,
   error: PropTypes.object,
+  itemCount: PropTypes.number,
+  pagination: PropTypes.shape({
+    page: PropTypes.number,
+    perPage: PropTypes.number,
+  }),
+  onPaginationChange: PropTypes.func.isRequired,
 };
 
 ModelsTable.defaultProps = {
@@ -57,6 +70,8 @@ ModelsTable.defaultProps = {
   sortBy: '',
   sortOrder: '',
   error: null,
+  itemCount: 0,
+  pagination: {},
 };
 
 export default ModelsTable;

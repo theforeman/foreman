@@ -75,3 +75,9 @@ export const exportURL = () => {
   url.addQuery('format', 'csv');
   return `${url.pathname()}${url.search()}`;
 };
+
+export const updateURLQuery = query => {
+  const uri = getURI();
+  uri.setSearch(query);
+  window.history.pushState({ path: uri.toString() }, '', uri.toString());
+};
