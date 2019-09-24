@@ -34,9 +34,9 @@ $(function() {
 $(document).on('click', 'a[disabled="disabled"]', function(evt) {
   // this check is required in case the link was "enabled" after the
   // function has registered.
-  this.disabled = this.disabled || $(this).attr('disabled') === 'disabled';
-  if (this.disabled) evt.preventDefault();
-  return !this.disabled;
+  var disabled = this.disabled || $(this).attr('disabled') === 'disabled';
+  if (disabled) evt.preventDefault();
+  return !disabled;
 });
 
 function onContentLoad() {
