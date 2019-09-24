@@ -142,6 +142,63 @@ module Hostext
           assert_empty result
         end
       end
+
+      context "search by operatingsystem major and minor" do
+        let (:operatingsystem) { FactoryBot.create(:operatingsystem, :major => '7', :minor => '6.1810') }
+        let (:host) { FactoryBot.create(:host, :operatingsystem => operatingsystem) }
+
+        test "searching os_major returns correct host" do
+          result = Host.search_for("os_major > 5")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_major < 10")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_major = 7")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_major <= 7")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_major >= 7")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_major < 5")
+          assert_equal(0, result.count)
+          assert_empty result
+        end
+
+        test "searching os_minor returns correct host" do
+          result = Host.search_for("os_minor > 6.2")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_minor < 10")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_minor = 6.1810")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_minor <= 6.1810")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_minor >= 6.1810")
+          assert_equal(1, result.count)
+          assert_equal(host.id, result.first.id)
+
+          result = Host.search_for("os_minor < 6")
+          assert_equal(0, result.count)
+          assert_empty result
+        end
+      end
     end
   end
 end

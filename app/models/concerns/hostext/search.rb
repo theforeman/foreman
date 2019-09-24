@@ -56,8 +56,8 @@ module Hostext
       scoped_search :relation => :operatingsystem, :on => :name,        :complete_value => true, :rename => :os
       scoped_search :relation => :operatingsystem, :on => :description, :complete_value => true, :rename => :os_description
       scoped_search :relation => :operatingsystem, :on => :title,       :complete_value => true, :rename => :os_title
-      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true
-      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true
+      scoped_search :relation => :operatingsystem, :on => :major,       :complete_value => true, :rename => :os_major, :only_explicit => true, :ext_method => :search_by_os_major
+      scoped_search :relation => :operatingsystem, :on => :minor,       :complete_value => true, :rename => :os_minor, :only_explicit => true, :ext_method => :search_by_os_minor
       scoped_search :relation => :operatingsystem, :on => :id,          :complete_enabled => false, :rename => :os_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
       scoped_search :relation => :primary_interface, :on => :ip, :complete_value => true
@@ -221,6 +221,34 @@ module Hostext
         {
           :conditions => "#{Host::Managed.table_name}.id in (#{in_query})",
         }
+      end
+
+      def search_by_os_major(key, operator, value)
+        condition = sanitize_sql_for_conditions(["CAST(major AS DECIMAL) #{operator} ?", value_to_sql(operator, value.to_f)])
+        operatingsystem_ids = Operatingsystem.select(:id).where(condition).pluck('operatingsystems.id').join(',')
+        {:conditions => "hosts.operatingsystem_id IN (#{operatingsystem_ids})"}
+      end
+
+      def search_by_os_minor(key, operator, value)
+        y, z = value.split(".")
+        z ||= 0
+        operatingsystem_ids = []
+        Operatingsystem.all.find_each do |os|
+          os_y, os_z = os.minor.split('.')
+          os_z ||= 0
+          operator_addition1 = (operator.length == 1) ? "=" : ""
+          operator_addition2 = (operator == "=") ? "=" : ""
+          if os_y.to_i.public_send(operator + operator_addition1, y.to_i)
+            if os_y == y
+              if os_z.to_i.public_send(operator + operator_addition2, z.to_i)
+                operatingsystem_ids.append(os.id)
+              end
+            else
+              operatingsystem_ids.append(os.id)
+            end
+          end
+        end
+        {:conditions => "hosts.operatingsystem_id IN (#{operatingsystem_ids.join(',')})"}
       end
 
       private
