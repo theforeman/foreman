@@ -26,7 +26,12 @@ const BookmarkForm = ({
 }) => (
   <ForemanForm
     onSubmit={(values, actions) =>
-      submitForm({ url, values: { ...values, controller }, item: 'Bookmarks', message: __('Bookmark was successfully created.') })
+      submitForm({
+        url,
+        values: { ...values, controller },
+        item: 'Bookmarks',
+        message: __('Bookmark was successfully created.'),
+      })
     }
     initialValues={initialValues}
     validationSchema={bookmarkFormSchema}

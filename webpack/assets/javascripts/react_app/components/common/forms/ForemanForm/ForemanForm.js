@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
 import Form from '../Form';
+import { translate as __ } from '../../../../common/I18n';
 
 const prepareErrors = errors =>
   Object.keys(errors).reduce((memo, key) => {
