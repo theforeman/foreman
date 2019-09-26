@@ -1,6 +1,6 @@
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 
 import reducers from './reducers';
 
@@ -18,13 +18,10 @@ const useLogger = () => {
 
 if (useLogger()) middleware = [...middleware, createLogger()];
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 export const generateStore = () =>
-  createStore(
-    reducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      window.__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(...middleware)
-  );
+  createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
 
 const store = generateStore();
 
