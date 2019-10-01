@@ -33,7 +33,7 @@ class HostTest < ActiveSupport::TestCase
   test "should not save hostname with periods in shortname" do
     host = Host.new :name => "my.host", :domain => Domain.where(:name => "mydomain.net").first_or_create, :managed => true
     host.valid?
-    assert_equal "must not include periods", host.errors[:name].first
+    assert_equal "must not include periods: 'my.host'", host.errors[:name].first
   end
 
   test "existing interface can be assigned as host primary interface" do

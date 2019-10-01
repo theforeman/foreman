@@ -928,7 +928,7 @@ class Host::Managed < Host::Base
   end
 
   def short_name_periods
-    errors.add(:name, _("must not include periods")) if (managed? && shortname && shortname.include?(".") && SETTINGS[:unattended])
+    errors.add(:name, _("must not include periods: '%s'") % shortname) if (managed? && shortname && shortname.include?(".") && SETTINGS[:unattended])
   end
 
   # we need this so when attribute like build changes we trigger tftp orchestration so token is updated on tftp
