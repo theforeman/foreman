@@ -35,6 +35,7 @@ module Api
       def_param_group :provisioning_template do
         param :provisioning_template, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true, :desc => N_("template name")
+          param :description, String
           param :template, String, :required => true
           param :snippet, :bool, :allow_nil => true
           param :audit_comment, String, :allow_nil => true

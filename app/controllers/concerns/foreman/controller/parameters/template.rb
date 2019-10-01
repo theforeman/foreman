@@ -8,6 +8,7 @@ module Foreman::Controller::Parameters::Template
         :default,
         :locked,
         :name,
+        :description,
         :snippet,
         :template,
         :template_kind, :template_kind_id, :template_kind_name,

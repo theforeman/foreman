@@ -31,6 +31,7 @@ module Api
       def_param_group :ptable do
         param :ptable, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
+          param :description, String
           param :layout, String, :required => true
           param :snippet, :bool, :allow_nil => true
           param :audit_comment, String, :allow_nil => true

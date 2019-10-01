@@ -25,7 +25,7 @@ class Template < ApplicationRecord
 
   before_save :remove_trailing_chars
 
-  attr_exportable :name, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
+  attr_exportable :name, :description, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
 
   class Jail < Safemode::Jail
     allow :name
@@ -93,6 +93,7 @@ class Template < ApplicationRecord
     Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
     self.snippet = !!@importing_metadata[:snippet]
     self.default = options[:default] unless options[:default].nil?
+    self.description = @importing_metadata[:description]
     handle_lock_on_import(options)
 
     import_taxonomies(options)

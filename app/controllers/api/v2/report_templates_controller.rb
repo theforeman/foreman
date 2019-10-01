@@ -30,6 +30,7 @@ module Api
       def_param_group :report_template do
         param :report_template, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
+          param :description, String
           param :template, String, :required => true
           param :snippet, :bool, :allow_nil => true
           param :audit_comment, String, :allow_nil => true
