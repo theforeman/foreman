@@ -74,11 +74,15 @@ class Report < ApplicationRecord
   # Expire reports based on time and status
   # Defaults to expire reports older than a week regardless of the status
   # This method will IS very slow, use only from rake task.
-  def self.expire(conditions, batch_size, sleep_time)
+  def self.expire(conditions, batch_size, sleep_time, keep_records)
     timerange = conditions[:timerange] || 1.week
     status = conditions[:status]
     created = (Time.now.utc - timerange).to_formatted_s(:db)
     logger.info "Starting #{to_s.underscore.humanize.pluralize} expiration before #{created} status #{status || 'not set'} batch size #{batch_size} sleep #{sleep_time}"
+    if keep_records > 0 && ActiveRecord::Base.connection.adapter_name.downcase.starts_with?('postgresql')
+      logger.debug "Deleting logs up to last #{keep_records} records to speed up expiration process"
+      ActiveRecord::Base.connection.execute("DELETE FROM logs WHERE logs.id + #{keep_records} < (SELECT last_value FROM logs_id_seq)")
+    end
     cond = "created_at < \'#{created}\'"
     cond += " and status = #{status}" unless status.nil?
     total_count = 0

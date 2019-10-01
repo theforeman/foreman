@@ -3,14 +3,21 @@ desc <<-END_DESC
 Expire Reports automatically
 
 Available conditions:
-  * days        => number of days to keep reports (defaults to 7)
-  * status      => status of the report (if not set defaults to any status)
-  * report_type => report type (defaults to config_report), accepts either underscore / class name styles
-  * batch_size  => number of records deleted in single SQL transaction (defaults to 1k)
-  * sleep_time  => delay in seconds between batches (defaults to 0.2)
+  * days         => number of days to keep reports (defaults to 7)
+  * status       => status of the report (if not set defaults to any status)
+  * report_type  => report type (defaults to config_report), accepts either underscore / class name styles
+  * batch_size   => number of records deleted in single SQL transaction (defaults to 1k)
+  * sleep_time   => delay in seconds between batches (defaults to 0.2)
+  * keep_records => number of report lines to keep (1 mil / approx 1GB of data, set to delete faster)
+
+Option keep_records can cause contents of reports for hosts which did not check
+it for some time to be deleted. Depending on the size of the instance it's
+recommended to start with about 100 millions and check old hosts and database
+size. Then decrease the value down to reasonable 2-50 millions records.
 
   Example:
     rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
+    rake reports:expire days=7 RAILS_ENV="production" keep_records=2000000 # make sure max 2GB is used
     rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non interesting reports after one day
     rake reports:expire report_type=my_report days=3 # expires all reports of type MyReport (underscored style) from the last 3 days.
     rake reports:expire report_type=MyReport days=3 # expires all reports of type MyReport (class name style) from the last 3 days.
@@ -36,9 +43,11 @@ namespace :reports do
     batch_size = ENV['batch_size'].to_i if ENV['batch_size']
     sleep_time = 0.2
     sleep_time = ENV['sleep_time'].to_f if ENV['sleep_time']
+    keep_records = 0
+    keep_records = ENV['keep_records'].to_i if ENV['keep_records']
 
     User.as_anonymous_admin do
-      report_type.expire(conditions, batch_size, sleep_time)
+      report_type.expire(conditions, batch_size, sleep_time, keep_records)
     end
   end
 end
