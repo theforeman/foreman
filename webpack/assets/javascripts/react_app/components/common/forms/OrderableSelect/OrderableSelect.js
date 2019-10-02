@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { set } from 'lodash';
 import { TypeAheadSelect } from 'patternfly-react';
 
 import { noop } from '../../../../common/helpers';
 import { orderDragged } from './helpers';
+import { useInternalValue } from './OrderableSelectHooks';
 import OrderableToken from './components/OrderableToken';
 
 /**
  * Wraps TypeAheadSelect with an Orderable HOC.
  * Presumes to be wrapped in a DndProvider context.
+ * The value can not be changed through props once the component is rendered.
  */
 const OrderableSelect = ({
   onChange,
@@ -18,10 +20,9 @@ const OrderableSelect = ({
   options,
   ...props
 }) => {
-  const [internalValue, setInternalValue] = useState(
-    (value || defaultValue)
-      .map(v => options.find(opt => opt.value === v))
-      .filter(v => !!v)
+  const [internalValue, setInternalValue] = useInternalValue(
+    value || defaultValue,
+    options
   );
   const moveDraggedOption = (dragIndex, hoverIndex) => {
     setInternalValue(orderDragged(internalValue, dragIndex, hoverIndex));

@@ -3,55 +3,58 @@ import { DragSource, DropTarget } from 'react-dnd';
 import PropTypes from 'prop-types';
 import { set } from 'lodash';
 
-export const orderDragged = (inputArry, dragIndex, hoverIndex) => {
-  const dragedValue = inputArry[dragIndex];
-  const arry = [...inputArry];
-  arry.splice(dragIndex, 1);
-  arry.splice(hoverIndex, 0, dragedValue);
-  return arry;
+export const orderDragged = (inputArray, dragIndex, hoverIndex) => {
+  const dragedValue = inputArray[dragIndex];
+  const ordered = [...inputArray];
+  ordered.splice(dragIndex, 1);
+  ordered.splice(hoverIndex, 0, dragedValue);
+  return ordered;
+};
+
+export const makeOnHover = (getIndex, getMoveFnc) => (
+  props,
+  monitor,
+  component
+) => {
+  const dragIndex = monitor.getItem().index;
+  const hoverIndex = getIndex(props);
+
+  // Don't replace items with themselves
+  if (dragIndex === hoverIndex) return null;
+
+  // Determine rectangle on screen
+  const hoverBoundingRect = component.getNode().getBoundingClientRect();
+  // Get vertical middle
+  const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
+  // Determine mouse position
+  const clientOffset = monitor.getClientOffset();
+  // Get pixels to the top
+  const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+  // Only perform the move when the mouse has crossed half of the items width
+  // When dragging right, only move when the cursor is over 50%
+  // When dragging left, only move when the cursor is under 50%
+  // Dragging right
+  if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+    return null;
+  }
+  // Dragging left
+  if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+    return null;
+  }
+  // Time to actually perform the action
+  getMoveFnc(props)(dragIndex, hoverIndex);
+  // Note: we're mutating the monitor item here!
+  // Generally it's better to avoid mutations,
+  // but it's good here for the sake of performance
+  // to avoid expensive index searches.
+  monitor.getItem().index = hoverIndex;
+  return null;
 };
 
 const getDropTarget = (dropTypes, getIndex, getMoveFnc) =>
   DropTarget(
     dropTypes,
-    {
-      hover(props, monitor, component) {
-        const dragIndex = monitor.getItem().index;
-        const hoverIndex = getIndex(props);
-
-        // Don't replace items with themselves
-        if (dragIndex === hoverIndex) return null;
-
-        // Determine rectangle on screen
-        const hoverBoundingRect = component.getNode().getBoundingClientRect();
-        // Get vertical middle
-        const hoverMiddleX =
-          (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
-        // Determine mouse position
-        const clientOffset = monitor.getClientOffset();
-        // Get pixels to the top
-        const hoverClientX = clientOffset.x - hoverBoundingRect.left;
-        // Only perform the move when the mouse has crossed half of the items width
-        // When dragging right, only move when the cursor is over 50%
-        // When dragging left, only move when the cursor is under 50%
-        // Dragging right
-        if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
-          return null;
-        }
-        // Dragging left
-        if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
-          return null;
-        }
-        // Time to actually perform the action
-        getMoveFnc(props)(dragIndex, hoverIndex);
-        // Note: we're mutating the monitor item here!
-        // Generally it's better to avoid mutations,
-        // but it's good here for the sake of performance
-        // to avoid expensive index searches.
-        monitor.getItem().index = hoverIndex;
-        return null;
-      },
-    },
+    { hover: makeOnHover(getIndex, getMoveFnc) },
     connect => ({
       connectDropTarget: connect.dropTarget(),
     })
@@ -117,7 +120,9 @@ export const orderable = (
     styleOnDrag: { opacity: 0.6 },
   };
 
-  return getDropTarget(type, getIndex, getMoveFnc)(
-    getDragSource(type, getIndex, getItem)(Orderable)
-  );
+  return getDropTarget(
+    type,
+    getIndex,
+    getMoveFnc
+  )(getDragSource(type, getIndex, getItem)(Orderable));
 };
