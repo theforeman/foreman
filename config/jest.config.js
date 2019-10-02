@@ -18,6 +18,11 @@ module.exports = {
   unmockedModulePathPatterns: ['react', 'node_modules/'],
   moduleNameMapper: {
     '^.+\\.(png|gif|css|scss)$': 'identity-obj-proxy',
+    "^dnd-core$": "dnd-core/dist/cjs/index.js",
+    "^react-dnd$": "react-dnd/dist/cjs/index.js",
+    "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs/index.js",
+    "^react-dnd-test-backend$": "react-dnd-test-backend/dist/cjs/index.js",
+    "^react-dnd-test-utils$": "react-dnd-test-utils/dist/cjs/index.js"
   },
   globals: {
     __testing__: true,

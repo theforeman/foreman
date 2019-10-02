@@ -1,13 +1,26 @@
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { DragDropContext } from 'react-dnd';
-import TestBackend from 'react-dnd-test-backend';
 import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
+import { DndProvider } from 'react-dnd';
+import TestBackend from 'react-dnd-test-backend/dist/cjs/TestBackend';
 
 import OrderableSelect from '../OrderableSelect';
 import { yesNoOpts } from '../../__fixtures__/Form.fixtures';
 
-const WrapedInTestContext = DragDropContext(TestBackend)(OrderableSelect);
+let backend;
+let manager;
+
+const dndBackendFactory = mngr => {
+  manager = mngr;
+  backend = new TestBackend(mngr);
+  return backend;
+};
+
+const WrapedInTestContext = props => (
+  <DndProvider backend={dndBackendFactory}>
+    <OrderableSelect {...props} />
+  </DndProvider>
+);
 
 describe('OrderableSelect', () => {
   it('reorders the selected value by dragging', () => {
@@ -19,8 +32,6 @@ describe('OrderableSelect', () => {
         value={['yes', 'no', 'dnk']}
       />
     );
-    const manager = wrapper.instance().getManager();
-    const backend = manager.getBackend();
     const monitor = manager.getMonitor();
     const source = wrapper
       .find('#testOrderable-dnk')

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DragDropContextProvider } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
 import { storiesOf } from '@storybook/react';
@@ -18,7 +18,7 @@ const style = {
 const StoryTag = ({ text, isDragging, value }) => {
   const opacity = isDragging ? 0.6 : 1;
   return (
-    <span title={value} style={Object.assign({}, style, { opacity })}>
+    <span title={value} style={{ ...style, opacity }}>
       {text}
     </span>
   );
@@ -61,8 +61,8 @@ OrderAppSandbox.propTypes = {
 
 storiesOf('Components/Common', module).add('Orderable', () => (
   <Story>
-    <DragDropContextProvider backend={HTML5Backend}>
+    <DndProvider backend={HTML5Backend}>
       <OrderAppSandbox options={yesNoOpts} />
-    </DragDropContextProvider>
+    </DndProvider>
   </Story>
 ));
