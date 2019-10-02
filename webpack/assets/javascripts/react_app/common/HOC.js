@@ -10,7 +10,7 @@ export const callOnMount = callback => WrappedComponent => componentProps => {
   // fires callback onMount, [] means don't listen to any props change
   useEffect(() => {
     callback(componentProps);
-  }, []);
+  });
 
   return <WrappedComponent {...componentProps} />;
 };
@@ -20,22 +20,21 @@ export const callOnMount = callback => WrappedComponent => componentProps => {
  * assuming the component has withRouter
  * @param {Function} callback - function to run
  */
-export const callOnPopState = callback => WrappedComponent => componentProps => {
+export const callOnPopState = callback => WrappedComponent => props => {
   const didMount = useRef(false);
-
+  const {
+    history: { action },
+    location: { search },
+  } = props;
   useEffect(() => {
-    const {
-      history: { action },
-    } = componentProps;
-
     if (action === 'POP' && didMount.current) {
-      callback(componentProps);
+      callback(props);
     } else {
       didMount.current = true;
     }
-  }, [componentProps.location.search]);
+  }, [search, action, props]);
 
-  return <WrappedComponent {...componentProps} />;
+  return <WrappedComponent {...props} />;
 };
 
 /**
