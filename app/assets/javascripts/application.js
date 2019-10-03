@@ -14,7 +14,6 @@
 //= require lookup_keys
 //= require editable/bootstrap-editable
 //= require editable/rails
-//= require deprecation
 
 $(document).on('page:fetch', function() {
   tfm.tools.showSpinner();

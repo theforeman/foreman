@@ -476,10 +476,6 @@ module Foreman #:nodoc:
     end
 
     def add_controller_action_scope(controller_name, action, &block)
-      if controller_name.is_a? Class
-        Foreman::Deprecation.deprecation_warning('1.22', "Passing class to add_controller_action_scope is deprecated. Use string instead.")
-        controller_name = controller_name.name
-      end
       controller_actions = @controller_action_scopes[controller_name] || {}
       actions_list = controller_actions[action] || []
       actions_list << block

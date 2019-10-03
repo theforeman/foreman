@@ -74,7 +74,7 @@ class Operatingsystem < ApplicationRecord
                'Xenserver' => %r{XenServer}i }
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :repos, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :medium_uri, :boot_files_uri, :password_hash, :mediumpath
+    allow :name, :media_url, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
   end
 
   def self.title_name
@@ -119,24 +119,6 @@ class Operatingsystem < ApplicationRecord
     families.map do |f|
       OpenStruct.new(:name => f.constantize.new.display_family, :value => f)
     end
-  end
-
-  # DEPRECATED - This will be removed in 1.22.
-  #
-  # This method is deprecated in favor of the additional media features of
-  # medium providers.
-  #
-  # Operating system family can override this method to provide an array of
-  # hashes, each describing a repository. For example, to describe a yum repo,
-  # the following structure can be returned by the method:
-  # [{ :baseurl => "https://dl.thesource.com/get/it/here",
-  #    :name => "awesome",
-  #    :description => "awesome product repo"",
-  #    :enabled => 1,
-  #    :gpgcheck => 1
-  #  }]
-  def repos(host)
-    []
   end
 
   # The OS is usually represented as the concatenation of the OS and the revision
@@ -187,13 +169,6 @@ class Operatingsystem < ApplicationRecord
     Net::DHCP::Record
   end
 
-  # Compatibility method, don't want to break all templates that use it.
-  def medium_uri(host)
-    Foreman::Deprecation.deprecation_warning("1.22", "medium_uri is now accessible through @medium_provider.medium_uri in templates")
-    @medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
-    @medium_provider.medium_uri
-  end
-
   # sets the prefix for the tfp files based on medium unique identifier
   def pxe_prefix(medium_provider)
     unless medium_provider.is_a? MediumProviders::Provider
@@ -202,13 +177,7 @@ class Operatingsystem < ApplicationRecord
     "boot/#{medium_provider.unique_id}"
   end
 
-  def pxe_files(medium_provider, _arch = nil, host = nil)
-    # Try to maintain backwards compatibility, if medium_provider could be constructed - do it with a warning.
-    if host
-      Foreman::Deprecation.deprecation_warning("1.22", "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)")
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
-    end
-
+  def pxe_files(medium_provider)
     unless medium_provider.is_a? MediumProviders::Provider
       raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
     end
