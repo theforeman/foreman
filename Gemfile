@@ -41,7 +41,7 @@ gem 'activerecord-session_store', '>= 1.1.0', '< 2'
 gem 'sprockets', '~> 3'
 gem 'sprockets-rails', '~> 3.0'
 gem 'record_tag_helper', '~> 1.0'
-gem 'responders', '~> 2.0'
+gem 'responders', ((RUBY_VERSION < '2.4') ? '~> 2.0' : '~> 3.0')
 gem 'roadie-rails', ((RUBY_VERSION < '2.5') ? '~> 1.1' : '~> 2.0')
 gem 'x-editable-rails', '~> 1.5.5'
 gem 'deacon', '~> 1.0'
