@@ -11,7 +11,7 @@ module Foreman
 
           delegate :diskLayout, :disk_layout_source, :medium, :architecture, :ptable, :use_image, :arch,
                    :image_file, :default_image_file, to: :host, allow_nil: true
-          delegate :mediumpath, :additional_media, :supports_image, :major, :repos, :preseed_path, :preseed_server,
+          delegate :mediumpath, :additional_media, :supports_image, :major, :preseed_path, :preseed_server,
                    :xen, :kernel, :initrd, to: :operatingsystem, allow_nil: true
           delegate :name, to: :architecture, allow_nil: true, prefix: true
           delegate :content, to: :disk_layout_source, allow_nil: true, prefix: true
@@ -75,7 +75,6 @@ module Foreman
             @arch      = architecture_name
             @osver     = major.try(:to_i)
             @mediapath = mediumpath(@medium_provider) if @medium_provider
-            @repos     = repos(host)
           end
 
           def preseed_attributes

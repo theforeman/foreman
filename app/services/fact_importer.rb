@@ -189,17 +189,6 @@ class FactImporter
     normalized_facts
   end
 
-  def db_facts
-    Foreman::Deprecation.deprecation_warning("1.23", "FactImporter.db_facts will be removed, use host.fact_values instead and filter values manually")
-    query = host.fact_values
-    # filter out fact names which are being imported - this is very long and slow SQL call
-    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      # MySQL query optimizer does not appear to pick the correct index here: https://projects.theforeman.org/issues/25053
-      query = query.from("fact_values USE INDEX(index_fact_values_on_fact_name_id_and_host_id)")
-    end
-    query.where(:fact_name => fact_names.values).reorder('')
-  end
-
   def ensure_no_active_transaction
     message = 'Fact names should be added outside of global transaction.'
     if Rails.env.test?

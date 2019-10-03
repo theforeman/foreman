@@ -60,15 +60,6 @@ class Setting < ApplicationRecord
   # Filer out settings from disabled plugins
   scope :disabled_plugins, -> { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
 
-  def self.deprecated_scope(scope)
-    Foreman::Deprecation.deprecation_warning('1.23', "the Setting.#{scope} scope no longer filters anything, taxonomies cannot be disabled since 1.21.")
-    where(nil)
-  end
-  scope :default_organization, -> { deprecated_scope(:default_organization) }
-  scope :organization_fact, -> { deprecated_scope(:organization_fact) }
-  scope :default_location, -> { deprecated_scope(:default_location) }
-  scope :location_fact, -> { deprecated_scope(:location_fact) }
-
   scope :order_by, ->(attr) { except(:order).order(attr) }
 
   scoped_search :on => :name, :complete_value => :true

@@ -1,17 +1,5 @@
 # Methods added to this helper will be available to all templates in the application
 module ApplicationHelper
-  def link_to(*args)
-    return super(*args) if block_given?
-
-    html_options = args[2] || {}
-    if html_options[:confirm]
-      Foreman::Deprecation.deprecation_warning('1.24', 'passing :confirm parameter in html_options to link_to is deprecated. Please use `data: {confirm: "confirmation message?"}` instead.')
-      html_options[:data] ||= {}
-      html_options[:data][:confirm] = html_options.delete(:confirm)
-    end
-    super(args[0], args[1], html_options)
-  end
-
   def link_to_function(name, function, html_options = {})
     onclick_tag = "#{html_options[:onclick]}; " if html_options[:onclick]
     onclick = "#{onclick_tag}#{function}; return false;"

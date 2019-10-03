@@ -37,10 +37,9 @@ class SnippetRenderingTest < ActiveSupport::TestCase
     assert_equal 'A B C D', @scope.snippet_if_exists(snippet.name, :variables => { :b => 'B', :c => 'C' })
   end
 
-  test "should render a snippets with variables" do
-    Foreman::Deprecation.expects(:deprecation_warning).once
+  test "should render a snippet with variables" do
     snippet = FactoryBot.create(:provisioning_template, :snippet, :template => "A <%= @b + ' ' + @c -%> D")
-    assert_equal 'A B C D', @scope.snippets(snippet.name, :variables => { :b => 'B', :c => 'C' })
+    assert_equal 'A B C D', @scope.snippet(snippet.name, :variables => { :b => 'B', :c => 'C' })
   end
 
   test "should not raise error when snippet is not found" do

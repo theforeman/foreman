@@ -7,11 +7,6 @@ module Foreman
             snippet(name, { silent: true }, variables: options[:variables] || {})
           end
 
-          def snippets(file, options = {})
-            Foreman::Deprecation.deprecation_warning('1.22', 'The snippets template macro is deprecated. Please use snippet instead.')
-            snippet(file.gsub(/^_/, ''), options)
-          end
-
           def snippet(name, options = {}, variables: {})
             template = source.find_snippet(name)
             unless template
