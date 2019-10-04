@@ -9,7 +9,7 @@ module Foreman
     end
 
     # returns the URL for Foreman based on the required action
-    def foreman_url(action = 'provision')
+    def foreman_url(action = 'provision', params = {})
       # Get basic stuff
       config = URI.parse(Setting[:unattended_url])
       url_options = foreman_url_options_from_settings_or_request(config)
@@ -27,7 +27,7 @@ module Foreman
 
       url_options[:action] = action
       url_options[:path] = config.path
-      render_foreman_url(host, url_options)
+      render_foreman_url(host, url_options, params)
     end
 
     private
@@ -49,12 +49,12 @@ module Foreman
       }
     end
 
-    def render_foreman_url(host, options)
+    def render_foreman_url(host, options, params)
       url_for :only_path => false, :controller => "/unattended", :action => 'host_template',
         :protocol => options[:protocol], :host => options[:host],
         :port => options[:port], :script_name => options[:path],
         :token => (host.token.value unless host.try(:token).nil?),
-        :kind => options[:action]
+        :kind => options[:action], **params
     end
 
     def foreman_url_from_templates_proxy(proxy)
