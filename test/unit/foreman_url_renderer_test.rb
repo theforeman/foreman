@@ -29,6 +29,19 @@ class ForemanUrlRendererTest < ActiveSupport::TestCase
       assert_equal "#{Setting[:unattended_url]}/unattended/#{action}?token=#{token}", renderer.foreman_url(action)
     end
 
+    test "should render template_url with unattended url with a parameter" do
+      Setting[:unattended_url] = 'http://www.example.net'
+      renderer.host = host
+      assert_equal "#{Setting[:unattended_url]}/unattended/#{action}?test=987&token=#{token}", renderer.foreman_url(action, test: 987)
+    end
+
+    test "should render template_url with unattended url with a parameter without a token" do
+      host.stubs(:token).returns(nil)
+      Setting[:unattended_url] = 'http://www.example.net'
+      renderer.host = host
+      assert_equal "#{Setting[:unattended_url]}/unattended/#{action}?test=987", renderer.foreman_url(action, test: 987)
+    end
+
     test "should render template_url with template_url variable" do
       renderer.host = host
       renderer.template_url = "http://www.example.com"
