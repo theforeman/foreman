@@ -14,24 +14,24 @@ namespace :templates do
   task render: :environment do
     source_directory = ENV['DIRECTORY'].to_s
 
-    abort(Rainbow('Must provide a valid path to a directory.').red) unless File.directory?(source_directory)
+    abort 'Must provide a valid path to a directory.' unless File.directory?(source_directory)
 
     User.as_anonymous_admin do
       service = Foreman::RenderTemplatesFromFolder.new(source_directory: source_directory)
       service.render_all
       if service.errors.any?
-        puts Rainbow('Errors occured while rendering the templates.').red
+        puts 'Errors occured while rendering the templates.'
         puts ''
         service.errors.each do |template, message|
           puts " ==== #{template.name} ===="
-          puts Rainbow("(#{template.template_path})").blue
+          puts "(#{template.template_path})"
           puts " -> #{message}"
           puts ''
         end
-        abort(Rainbow("Failed to render the templates.").red)
+        abort "Failed to render the templates."
       end
 
-      puts Rainbow('Successfully rendered all templates.').green
+      puts 'Successfully rendered all templates.'
     end
   end
 end
