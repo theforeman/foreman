@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Tomer Brisker <tbrisker@redhat.com>\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -870,6 +870,9 @@ msgstr "Skojarzone maszyny wirtualne z hostami Foremana"
 msgid "Associate VMs to Hosts"
 msgstr "Skojarzone maszyny wirtualne z hostami"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr ""
 
@@ -1277,6 +1280,15 @@ msgstr ""
 msgid "Calling methods on objects"
 msgstr ""
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "Nie można usunąć wewnętrznego konta administratora"
 
@@ -1439,8 +1451,8 @@ msgstr "Kliknij na link zasobu obliczeniowego aby edytować swoje domyślne atry
 msgid "Click to add %s"
 msgstr "Kliknij, aby dodać %s"
 
-msgid "Click to log in again."
-msgstr "Kliknij, aby zalogować się ponownie."
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "Kliknij, aby usunąć %s"
@@ -1635,6 +1647,12 @@ msgstr "Konfiguracja"
 
 msgid "Configure instance %s via SSH"
 msgstr "Utwórz instancję %s dla SSH"
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Konflikt - %s"
@@ -4369,6 +4387,9 @@ msgstr "Obraz|NazwaUżytkownika"
 msgid "Image|Uuid"
 msgstr "Obraz|Uuid"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "Import"
 
@@ -5152,9 +5173,6 @@ msgstr "Połączenie listy szablonów"
 msgid "List template inputs"
 msgstr ""
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "Załaduj centra danych"
 
@@ -5836,6 +5854,9 @@ msgstr "Nie zdefiniowano proxy TFTP, nie można kontynuować"
 msgid "No VMs matched any host."
 msgstr ""
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "Nie było żadnych zmian audytu za ten okres"
 
@@ -6139,6 +6160,9 @@ msgstr "Liczba klas"
 msgid "Number of records shown per page in Foreman"
 msgstr "Liczba rekordów pokazywanych na stronę w Foreman"
 
+msgid "Number of results per page to return"
+msgstr ""
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
@@ -6213,9 +6237,6 @@ msgstr ""
 
 msgid "Only for BMC interfaces."
 msgstr "Tylko dla interfejsu BMC."
-
-msgid "Only for v3 authentication"
-msgstr ""
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6466,6 +6487,9 @@ msgid "PXEGrub2 template"
 msgstr ""
 
 msgid "PXELinux template"
+msgstr ""
+
+msgid "Page number, starting at 1"
 msgstr ""
 
 msgid "Param name"
@@ -6823,10 +6847,16 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "Przejdź do edycji"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9176,8 +9206,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr ""
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "Hosty URL mogą pobrać szablony w trakcie budowania (zwykle http nie obsługuje tak wiele instalatorów https)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "URL musi być poprawny i schemat musi być jednym z %s"
@@ -9689,6 +9719,9 @@ msgstr "Wyślij informacje dla hosta, tworząc go w razie potrzeby"
 msgid "Uptime"
 msgstr ""
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9745,6 +9778,9 @@ msgid "User IDs"
 msgstr "identyfikatory użytkowników"
 
 msgid "User data template"
+msgstr ""
+
+msgid "User domain"
 msgstr ""
 
 msgid "User groups"
@@ -10208,6 +10244,9 @@ msgstr "Zmianie ulegnie domyślne menu PXE na wszystkich skonfigurowanych serwer
 msgid "You are about to unlock a locked template."
 msgstr "Odblokowujesz zablokowany szablon"
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "Nie masz wystarczających uprawnień, aby zablokować szablony."
 
@@ -10274,6 +10313,9 @@ msgstr "Zdaje się że nie ma żadnych raportów."
 msgid "You have already logged in"
 msgstr ""
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Można też powiązać jeden lub więcej systemów operacyjnych z tego nośnika, lub ustawić to później na stronie %s."
 
@@ -10294,6 +10336,9 @@ msgstr "Musisz utworzyć przynajmniej jedną organizację przed kontynuowaniem."
 
 msgid "You must select at least one permission"
 msgstr "Musisz wybrać co najmniej jedno uprawnienie"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "Prawdopodobnie najpierw trzeba skonfigurować %s."
@@ -10439,6 +10484,9 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10495,9 +10543,6 @@ msgstr "np. admin@internal"
 
 msgid "e.g. givenName"
 msgstr "np. nadane imię"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "np. https://identity.api.rackspacecloud.com/v2.0"
@@ -10560,6 +10605,9 @@ msgid "for Libvirt and VMware only"
 msgstr "Tylko dla VMware lub Libvirt"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10905,9 +10953,6 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "number of entries per request"
-msgstr "Liczba wpisów na jedno żądanie"
-
 msgid "oVirt/RHEV instance type"
 msgstr ""
 
@@ -10937,9 +10982,6 @@ msgstr "organizacja"
 
 msgid "organizations"
 msgstr "organizacje"
-
-msgid "paginate results"
-msgstr "rezultat paginacji"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "Ustawienie parsowania typu '%s' ze stringa nie jest zdefiniowane"

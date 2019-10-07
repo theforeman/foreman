@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-06-18 20:18+0000\n"
-"Last-Translator: Lukáš Zapletal\n"
+"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"Last-Translator: Yulia <yulia.poyarkova@redhat.com>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -875,6 +875,9 @@ msgstr "Связать виртуальные машины с узлами Forem
 msgid "Associate VMs to Hosts"
 msgstr "Связать ВМ с узлами"
 
+msgid "Associated %{resource} IDs"
+msgstr ""
+
 msgid "Associated Host"
 msgstr ""
 
@@ -1282,6 +1285,15 @@ msgstr ""
 msgid "Calling methods on objects"
 msgstr ""
 
+msgid "Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication."
+msgstr ""
+
+msgid "Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication."
+msgstr ""
+
 msgid "Can't delete internal admin account"
 msgstr "Вы не можете удалить внутреннюю учетную запись администратора"
 
@@ -1444,8 +1456,8 @@ msgstr "Выберите вычислительный ресурс, чтобы �
 msgid "Click to add %s"
 msgstr "Нажмите, чтобы добавить %s"
 
-msgid "Click to log in again."
-msgstr "Нажмите, чтобы войти заново."
+msgid "Click to log in again"
+msgstr ""
 
 msgid "Click to remove %s"
 msgstr "Нажмите, чтобы удалить %s"
@@ -1640,6 +1652,12 @@ msgstr "Настройка"
 
 msgid "Configure instance %s via SSH"
 msgstr "Настроить экземпляр %s по SSH"
+
+msgid "Confirm"
+msgstr "Подтвердить"
+
+msgid "Confirm Action"
+msgstr ""
 
 msgid "Conflict - %s"
 msgstr "Конфликт - %s"
@@ -4374,6 +4392,9 @@ msgstr "Имя пользователя"
 msgid "Image|Uuid"
 msgstr "UUID"
 
+msgid "Impersonate"
+msgstr ""
+
 msgid "Import"
 msgstr "Импорт"
 
@@ -5157,9 +5178,6 @@ msgstr "Список комбинаций шаблонов"
 msgid "List template inputs"
 msgstr "Показать параметры ввода"
 
-msgid "Load"
-msgstr ""
-
 msgid "Load Datacenters"
 msgstr "Загрузить центры данных"
 
@@ -5841,6 +5859,9 @@ msgstr "Для продолжения необходимо определить 
 msgid "No VMs matched any host."
 msgstr ""
 
+msgid "No active impersonate session."
+msgstr ""
+
 msgid "No audit changes for this period"
 msgstr "Нет изменений аудита за этот период"
 
@@ -6144,6 +6165,9 @@ msgstr "Классы"
 msgid "Number of records shown per page in Foreman"
 msgstr "Число элементов на странице в Foreman"
 
+msgid "Number of results per page to return"
+msgstr "Число элементов на странице"
+
 msgid "Numerical ID or HTTP Proxy name"
 msgstr ""
 
@@ -6218,9 +6242,6 @@ msgstr ""
 
 msgid "Only for BMC interfaces."
 msgstr "Только для интерфейсов BMC."
-
-msgid "Only for v3 authentication"
-msgstr ""
 
 msgid ""
 "Only internal (non-LDAP) users can be added manually. LDAP users\n"
@@ -6472,6 +6493,9 @@ msgstr ""
 
 msgid "PXELinux template"
 msgstr "Шаблон PXELinux"
+
+msgid "Page number, starting at 1"
+msgstr "Номер страницы, начиная с 1"
 
 msgid "Param name"
 msgstr "Имя параметра"
@@ -6828,10 +6852,16 @@ msgstr ""
 msgid "Proceed to Edit"
 msgstr "Перейти к редактированию"
 
-msgid "Project (Tenant)"
+msgid "Project (Tenant) name"
 msgstr ""
 
-msgid "Project (v3) or Tenant (v2)"
+msgid "Project domain ID"
+msgstr ""
+
+msgid "Project domain name"
+msgstr ""
+
+msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
 msgid "Properties"
@@ -9183,8 +9213,8 @@ msgstr "URL"
 msgid "URL for %{providers_requiring_url}"
 msgstr ""
 
-msgid "URL hosts will retrieve templates from during build (normally http as many installers don't support https)"
-msgstr "URL-адрес, с которого узлы будут получать шаблоны во время сборки (обычно http, так как многие установщики не поддерживают https)"
+msgid "URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"
+msgstr ""
 
 msgid "URL must be valid and schema must be one of %s"
 msgstr "Укажите действительный URL и схему. Допускается использовать %s"
@@ -9696,6 +9726,9 @@ msgstr "Загрузить факты узла, требуемые для соз
 msgid "Uptime"
 msgstr "Время работы"
 
+msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
+msgstr ""
+
 msgid "Use APIv4"
 msgstr ""
 
@@ -9753,6 +9786,9 @@ msgstr "Код пользователя"
 
 msgid "User data template"
 msgstr "Шаблон пользовательских данных"
+
+msgid "User domain"
+msgstr ""
 
 msgid "User groups"
 msgstr "Группы пользователей"
@@ -10215,6 +10251,9 @@ msgstr "Вы собираетесь изменить стандартное ме
 msgid "You are about to unlock a locked template."
 msgstr "Вы пытаетесь разблокировать шаблон."
 
+msgid "You are already impersonating, click the icon in the top bar before starting a new impersonation."
+msgstr ""
+
 msgid "You are not authorized to lock templates."
 msgstr "Вы не авторизованы для блокировки шаблонов."
 
@@ -10281,6 +10320,9 @@ msgstr "Нет отчетов."
 msgid "You have already logged in"
 msgstr ""
 
+msgid "You impersonated user %s, to cancel the session, click the eye icon in the top bar."
+msgstr ""
+
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Этому носителю можно сопоставить операционные системы сразу или сделать это позднее на странице %s."
 
@@ -10301,6 +10343,9 @@ msgstr "Для продолжения необходимо создать орг
 
 msgid "You must select at least one permission"
 msgstr "Необходимо выбрать разрешение"
+
+msgid "You now act as %s again."
+msgstr ""
 
 msgid "You probably need to configure your %s first."
 msgstr "Сначала следует настроить %s."
@@ -10446,6 +10491,9 @@ msgstr ""
 msgid "compresed"
 msgstr ""
 
+msgid "console is not available at this time because the instance is powered off"
+msgstr ""
+
 msgid "contains special characters"
 msgstr ""
 
@@ -10502,9 +10550,6 @@ msgstr "например: admin@internal"
 
 msgid "e.g. givenName"
 msgstr "givenName"
-
-msgid "e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
-msgstr ""
 
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "например: https://identity.api.rackspacecloud.com/v2.0"
@@ -10567,6 +10612,9 @@ msgid "for Libvirt and VMware only"
 msgstr "только для Libvirt и VMware"
 
 msgid "for Libvirt and oVirt only"
+msgstr ""
+
+msgid "for OpenStack (v3) only"
 msgstr ""
 
 msgid "for OpenStack only"
@@ -10912,9 +10960,6 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "number of entries per request"
-msgstr "количество записей на запрос"
-
 msgid "oVirt/RHEV instance type"
 msgstr ""
 
@@ -10944,9 +10989,6 @@ msgstr "организация"
 
 msgid "organizations"
 msgstr "организации"
-
-msgid "paginate results"
-msgstr "постраничный вывод"
 
 msgid "parsing settings type '%s' from string is not defined"
 msgstr "обработка параметра типа «%s» не поддерживается"
