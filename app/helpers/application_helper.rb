@@ -53,7 +53,7 @@ module ApplicationHelper
   end
 
   def iana_timezone
-    ActiveSupport::TimeZone::MAPPING[Time.zone.try(:name)] || 'UTC'
+    Time.zone&.tzinfo&.name || 'UTC'
   end
 
   protected
