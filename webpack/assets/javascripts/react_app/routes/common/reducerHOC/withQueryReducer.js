@@ -2,6 +2,7 @@ import Immutable from 'seamless-immutable';
 
 const initialState = Immutable({
   page: 1,
+  perPage: 20,
   searchQuery: '',
   itemCount: 0,
 });

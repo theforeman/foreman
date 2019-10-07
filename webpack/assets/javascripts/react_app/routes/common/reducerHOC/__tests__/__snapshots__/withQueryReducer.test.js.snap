@@ -13,6 +13,7 @@ exports[`withQueryReducer should return the initial state 1`] = `
 Object {
   "itemCount": 0,
   "page": 1,
+  "perPage": 20,
   "searchQuery": "",
 }
 `;
