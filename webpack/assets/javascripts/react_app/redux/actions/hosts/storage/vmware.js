@@ -39,12 +39,15 @@ export const initController = (
       cluster,
     },
   });
-  dispatch(fetchDatastores(config.datastoresUrl, cluster));
-  dispatch(fetchStoragePods(config.storagePodsUrl, cluster));
+  if (cluster) {
+    dispatch(fetchDatastores(config.datastoresUrl, cluster));
+    dispatch(fetchStoragePods(config.storagePodsUrl, cluster));
+  }
 };
 
 export const changeCluster = newCluster => (dispatch, getState) => {
   const { config } = getState().hosts.storage.vmware;
+  if (newCluster === '') newCluster = null;
 
   dispatch({
     type: VMWARE_CLUSTER_CHANGE,
@@ -52,25 +55,23 @@ export const changeCluster = newCluster => (dispatch, getState) => {
       cluster: newCluster,
     },
   });
-  dispatch(fetchDatastores(config.datastoresUrl, newCluster));
-  dispatch(fetchStoragePods(config.storagePodsUrl, newCluster));
-};
-
-const fetchStorages = (url, cluster = null, key) => dispatch => {
-  if (cluster) {
-    dispatch({
-      type: API_OPERATIONS.GET,
-      key,
-      url,
-      payload: { params: { cluster_id: cluster } },
-    });
+  if (newCluster) {
+    dispatch(fetchDatastores(config.datastoresUrl, newCluster));
+    dispatch(fetchStoragePods(config.storagePodsUrl, newCluster));
   }
 };
 
-export const fetchDatastores = (url, cluster = null) =>
+const fetchStorages = (url, cluster, key) => ({
+  type: API_OPERATIONS.GET,
+  key,
+  url,
+  payload: { params: { cluster_id: cluster } },
+});
+
+export const fetchDatastores = (url, cluster) =>
   fetchStorages(url, cluster, STORAGE_VMWARE_DATASTORES);
 
-export const fetchStoragePods = (url, cluster = null) =>
+export const fetchStoragePods = (url, cluster) =>
   fetchStorages(url, cluster, STORAGE_VMWARE_STORAGEPODS);
 
 export const addController = data => ({
