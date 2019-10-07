@@ -1,13 +1,4 @@
-import {
-  VMWARE_CLUSTER_CHANGE,
-  STORAGE_VMWARE_INIT,
-  STORAGE_VMWARE_DATASTORES_REQUEST,
-  STORAGE_VMWARE_DATASTORES_SUCCESS,
-  STORAGE_VMWARE_DATASTORES_FAILURE,
-  STORAGE_VMWARE_STORAGEPODS_REQUEST,
-  STORAGE_VMWARE_STORAGEPODS_SUCCESS,
-  STORAGE_VMWARE_STORAGEPODS_FAILURE,
-} from '../../../consts';
+import { VMWARE_CLUSTER_CHANGE, STORAGE_VMWARE_INIT } from '../../../consts';
 
 import {
   defaultControllerAttributes,
@@ -56,6 +47,13 @@ export const changeClusterAction = {
   },
 };
 
+export const changeToEmptyClusterAction = {
+  type: VMWARE_CLUSTER_CHANGE,
+  payload: {
+    cluster: null,
+  },
+};
+
 export const state1 = {
   hosts: {
     storage: {
@@ -65,20 +63,4 @@ export const state1 = {
       },
     },
   },
-};
-
-export const fetchDatastoreParams = {
-  requestAction: STORAGE_VMWARE_DATASTORES_REQUEST,
-  successAction: STORAGE_VMWARE_DATASTORES_SUCCESS,
-  failedAction: STORAGE_VMWARE_DATASTORES_FAILURE,
-  url: datastoresUrl,
-  item: { params: { cluster_id: 'cluster' } },
-};
-
-export const fetchStoragePodsParams = {
-  requestAction: STORAGE_VMWARE_STORAGEPODS_REQUEST,
-  successAction: STORAGE_VMWARE_STORAGEPODS_SUCCESS,
-  failedAction: STORAGE_VMWARE_STORAGEPODS_FAILURE,
-  url: storagePodsUrl,
-  item: { params: { cluster_id: 'cluster' } },
 };
