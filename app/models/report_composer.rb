@@ -145,6 +145,7 @@ class ReportComposer
     # process values from params (including empty hash)
     template.template_inputs.each do |input|
       val = input_values[input.id.to_s].try(:[], 'value') unless input_values.nil?
+      val = input.default if val.blank?
       inputs[input.id.to_s] = InputValue.new(value: val, template_input: input)
     end
 

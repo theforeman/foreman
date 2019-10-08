@@ -12,7 +12,7 @@ class TemplateInput < ApplicationRecord
 
   attr_exportable(:name, :required, :input_type, :fact_name, :variable_name, :puppet_class_name,
                   :puppet_parameter_name, :description, :options, :advanced, :value_type,
-                  :resource_type)
+                  :resource_type, :default)
 
   belongs_to :template
 
@@ -26,6 +26,7 @@ class TemplateInput < ApplicationRecord
   validates :variable_name, :presence => { :if => :variable_template_input? }
   validates :puppet_parameter_name, :puppet_class_name, :presence => { :if => :puppet_parameter_template_input? }
   validates :value_type, inclusion: { in: VALUE_TYPE }
+  validates :default, inclusion: { in: :options_array }, if: -> { options.present? }, allow_blank: true
 
   def user_template_input?
     input_type == 'user'
