@@ -20,6 +20,7 @@
         <%= checkbox_f f, :advanced, :disabled => @template.locked? %>
         <%= textarea_f f, :options, :rows => 3, :class => 'user_input_type', :help_inline => _("A list of options the user can select from. If not provided, the user will be given a free-form field"),
                                     :disabled => @template.locked?, wrapper_class: "form-group input-options-#{f.index || f.object.id}#{' hide' if f.object.value_type != 'plain'}"  %>
+        <%= text_f f, :default, :disabled => @template.locked? %>
       </div>
       <%= textarea_f f, :description, :rows => 3, :disabled => @template.locked? %>
     <% end %>
