@@ -29,7 +29,7 @@ module Mutations
       argument :hostgroup_id, ID, loads: Types::Hostgroup
       argument :puppet_proxy_id, ID, loads: Types::SmartProxy
       argument :puppet_ca_proxy_id, ID, loads: Types::SmartProxy
-      argument :puppetclass_ids, [ID], loads: Types::Puppetclass
+      argument :puppetclass_ids, [ID], loads: Types::Puppetclass, as: :puppetclasses
       argument :compute_attributes, Types::RawJson, required: false
       argument :interfaces_attributes, [Types::InterfaceAttributesInput], required: false
 
