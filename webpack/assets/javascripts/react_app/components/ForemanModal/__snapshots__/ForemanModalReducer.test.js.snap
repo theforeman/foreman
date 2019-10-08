@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal reducer snapshots initial state 1`] = `Object {}`;
+
+exports[`ForemanModal reducer snapshots should add a modal with ADD_MODAL 1`] = `
+Object {
+  "modal3": Object {
+    "open": false,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should add an already-open modal with ADD_MODAL 1`] = `
+Object {
+  "modal4": Object {
+    "open": true,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should handle SET_MODAL_CLOSED action 1`] = `
+Object {
+  "myModal": Object {
+    "open": false,
+  },
+  "yourModal": Object {
+    "open": false,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should handle SET_MODAL_OPEN action 1`] = `
+Object {
+  "myModal": Object {
+    "open": true,
+  },
+  "yourModal": Object {
+    "open": false,
+  },
+}
+`;

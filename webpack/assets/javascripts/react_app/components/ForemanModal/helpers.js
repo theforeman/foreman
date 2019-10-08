@@ -9,10 +9,16 @@ import ForemanModalFooter from './subcomponents/ForemanModalFooter';
  */
 export const extractModalNodes = children => {
   children = React.Children.toArray(children);
-  const headerChild = children.find(child => child.type === ForemanModalHeader);
-  const footerChild = children.find(child => child.type === ForemanModalFooter);
+  const headerChild =
+    children.find(child => child.type === ForemanModalHeader) || null;
+  const footerChild =
+    children.find(child => child.type === ForemanModalFooter) || null;
   const otherChildren = children.filter(
-    child => child !== headerChild && child !== footerChild
+    child =>
+      child &&
+      // child.type !== undefined &&
+      child !== headerChild &&
+      child !== footerChild
   );
   return { headerChild, footerChild, otherChildren };
 };

@@ -45,8 +45,8 @@ export default class IntegrationTestHelper {
     return state;
   }
   /**
-   * Get a list with all dispach calls
-   * @return {Array} Dispach calls
+   * Get a list with all dispatch calls
+   * @return {Array} Dispatch calls
    */
   getDispatchCalls() {
     const isRelevantCall = call =>
@@ -55,15 +55,15 @@ export default class IntegrationTestHelper {
     return this.dispatchSpy.mock.calls.filter(isRelevantCall);
   }
   /**
-   * Get the last dispach call
-   * @return {Array} dispach call
+   * Get the last dispatch call
+   * @return {Array} dispatch call
    */
   getLastDispachCall() {
     return this.getDispatchCalls().slice(-1);
   }
   /**
-   * Take a store snapshot
-   * @param  {string} description Snapshoot description
+   * Compare the store with the stored snapshot
+   * @param  {string} description Snapshot description
    */
   takeStoreSnapshot(description) {
     expect(this.getState()).toMatchSnapshot(description);

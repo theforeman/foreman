@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal selectors returns undefined for a nonexistent modal 1`] = `undefined`;
+
+exports[`ForemanModal selectors selects entire modals state 1`] = `
+Object {
+  "myModal": Object {
+    "open": true,
+  },
+  "yourModal": Object {
+    "open": false,
+  },
+}
+`;
+
+exports[`ForemanModal selectors selects specific modal by id 1`] = `
+Object {
+  "open": true,
+}
+`;
+
+exports[`ForemanModal selectors tells you if a modal is closed by id 1`] = `false`;
+
+exports[`ForemanModal selectors tells you if a modal is open by id 1`] = `true`;

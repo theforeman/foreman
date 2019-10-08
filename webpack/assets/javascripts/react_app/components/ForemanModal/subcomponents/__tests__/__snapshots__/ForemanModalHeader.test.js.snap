@@ -23,6 +23,12 @@ exports[`ForemanModal.Header rendering should render with supplied children 1`] 
   closeLabel="Close"
   title="should not be in markup"
 >
+  <ModalTitle
+    bsClass="modal-title"
+    componentClass="h4"
+  >
+    modal title passed thru mock context :)
+  </ModalTitle>
   <h1>
     Modal Title
   </h1>

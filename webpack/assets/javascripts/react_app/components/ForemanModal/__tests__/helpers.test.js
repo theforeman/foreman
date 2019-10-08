@@ -1,6 +1,6 @@
 import React from 'react';
-import ForemanModal from './';
-import { extractModalNodes } from './helpers';
+import ForemanModal from '../';
+import { extractModalNodes } from '../helpers';
 
 const headerNode = <ForemanModal.Header />;
 const footerNode = <ForemanModal.Footer />;

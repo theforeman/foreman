@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ForemanModal rendering renders header and footer in correct order regardless of ordering of children 1`] = `
+exports[`ForemanModal rendering renders default header child when title prop is present 1`] = `
 <ContextProvider
   value={
     Object {
@@ -36,11 +36,7 @@ exports[`ForemanModal rendering renders header and footer in correct order regar
     restoreFocus={true}
     show={true}
   >
-    <ForemanModalHeader
-      key=".2"
-    >
-      this is the header
-    </ForemanModalHeader>
+    <ForemanModalHeader />
     <ModalBody
       bsClass="modal-body"
       componentClass="div"
@@ -53,6 +49,66 @@ exports[`ForemanModal rendering renders header and footer in correct order regar
     </ModalBody>
     <ForemanModalFooter
       key=".1"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering renders the supplied header child when title prop is not present 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "isOpen": true,
+      "onClose": [MockFunction],
+      "title": "",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader
+      key=".0"
+    >
+      this is the header
+    </ForemanModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".1"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".2"
     >
       this is the footer
     </ForemanModalFooter>
@@ -120,6 +176,61 @@ exports[`ForemanModal rendering renders when header and footer are supplied 1`] 
 </ContextProvider>
 `;
 
+exports[`ForemanModal rendering renders without header when neither <ForemanModal.Header> nor title prop are present 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "isOpen": true,
+      "onClose": [MockFunction],
+      "title": "",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".0"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".1"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
 exports[`ForemanModal rendering should render 1`] = `
 <ContextProvider
   value={
@@ -156,6 +267,7 @@ exports[`ForemanModal rendering should render 1`] = `
     restoreFocus={true}
     show={true}
   >
+    <ForemanModalHeader />
     <ModalBody
       bsClass="modal-body"
       componentClass="div"
@@ -200,6 +312,7 @@ exports[`ForemanModal rendering should render closed 1`] = `
     restoreFocus={true}
     show={false}
   >
+    <ForemanModalHeader />
     <ModalBody
       bsClass="modal-body"
       componentClass="div"

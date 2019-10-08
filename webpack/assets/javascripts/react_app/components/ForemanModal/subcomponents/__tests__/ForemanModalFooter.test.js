@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Button, Modal } from 'patternfly-react';
-import ForemanModalFooter from './ForemanModalFooter';
-import * as ModalContext from '../ForemanModalHooks'; // so enzyme test works
-import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
+import ForemanModalFooter from '../ForemanModalFooter';
+import * as ModalContext from '../../ForemanModalHooks'; // so enzyme test works
+import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
 
 const fixtures = {
   'should render with default markup': {

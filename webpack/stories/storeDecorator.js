@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import Store from '../assets/javascripts/react_app/redux';
+import store from '../assets/javascripts/react_app/redux';
 
 const storeDecorator = getStory => (
-  <Provider store={Store}>{getStory()}</Provider>
+  <Provider store={store}>{getStory()}</Provider>
 );
 
 export default storeDecorator;
