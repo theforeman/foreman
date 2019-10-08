@@ -1,5 +1,6 @@
 import React from 'react';
 import { configure, storiesOf } from '@storybook/react';
+import 'babel-polyfill';
 import Markdown from './components/Markdown';
 import Story from './components/Story';
 
@@ -14,9 +15,6 @@ import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
 import LegacyJs from './docs/LegacyJs.md';
 import ForemanFrontendDiagram from './docs/foreman-frontend-infra.png';
-
-require('../assets/javascripts/bundle');
-require('../../app/assets/javascripts/application');
 
 const req = require.context(
   '../assets/javascripts/react_app',
