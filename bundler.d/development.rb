@@ -9,6 +9,8 @@ group :development do
 
   gem 'pry'
 
+  gem 'rainbow', '>= 2.2.1'
+
   gem 'bullet', '>= 5.7.3'
   gem "parallel_tests"
   gem 'spring', '>= 1.0', ((RUBY_VERSION < '2.4') ? '< 2.1.0' : '< 3')
