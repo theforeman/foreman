@@ -4,12 +4,15 @@ import { mount } from 'enzyme';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 import BreadcrumbBar from '../BreadcrumbBar';
+
 import {
   breadcrumbBar,
   breadcrumbBarSwithcable,
   mockBreadcrumbItemOnClick,
   breadcrumbBarRouterLinks,
 } from '../BreadcrumbBar.fixtures';
+
+jest.mock('../../../routes');
 
 const createStubs = () => ({
   toggleSwitcher: jest.fn(),

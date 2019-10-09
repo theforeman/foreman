@@ -50,6 +50,7 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
         nameField: "name",
         resourceFilter: "",
       },
+      wrapWithReactRouter: true,
     }
   end
 
@@ -80,6 +81,7 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
         nameField: "name",
         resourceFilter: "",
       },
+      wrapWithReactRouter: true,
     }
   end
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BreadcrumbSwitcher } from 'patternfly-react';
+import { Router } from 'react-router-dom';
+import history from '../../history';
+import AppSwitcher from '../../routes';
 
 import { noop } from '../../common/helpers';
 import Breadcrumb from './components/Breadcrumb';
@@ -30,7 +33,7 @@ class BreadcrumbBar extends React.Component {
 
   render() {
     const {
-      data: { breadcrumbItems, isSwitchable, resource },
+      data: { breadcrumbItems, isSwitchable, resource, wrapWithReactRouter },
       currentPage,
       totalPages,
       resourceSwitcherItems,
@@ -58,7 +61,7 @@ class BreadcrumbBar extends React.Component {
       onSwitcherItemClick(e, href);
     };
 
-    return (
+    const bar = (
       <div className="breadcrumb-bar">
         <Breadcrumb
           title
@@ -104,6 +107,15 @@ class BreadcrumbBar extends React.Component {
         {!isTitle && <hr className="breadcrumb-line" />}
       </div>
     );
+
+    if (wrapWithReactRouter) {
+      return (
+        <Router history={history}>
+          <AppSwitcher>{bar}</AppSwitcher>
+        </Router>
+      );
+    }
+    return bar;
   }
 }
 
@@ -117,6 +129,7 @@ BreadcrumbBar.propTypes = {
       resourceFilter: PropTypes.string,
     }),
     breadcrumbItems: Breadcrumb.propTypes.items,
+    wrapWithReactRouter: PropTypes.bool,
   }),
   searchDebounceTimeout: PropTypes.number,
   searchQuery: PropTypes.string,
@@ -139,6 +152,7 @@ BreadcrumbBar.defaultProps = {
   data: {
     breadcrumbItems: [],
     isSwitchable: false,
+    wrapWithReactRouter: false,
   },
   searchQuery: '',
   currentPage: null,

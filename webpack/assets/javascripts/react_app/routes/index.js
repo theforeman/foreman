@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { routes } from './routes';
 
 let currentLocation = null;
 
-const AppSwitcher = () => (
+const AppSwitcher = props => (
   <Switch>
     {routes.map(({ render, path, ...routeProps }) => (
       <Route
@@ -27,17 +28,26 @@ const AppSwitcher = () => (
           currentLocation.pathname !== child.location.pathname
         ) {
           const useTurbolinks =
-            child.location.state &&
-            child.location.state.useTurbolinks &&
-            !window.history.state.turbolinks; // visit() already called
+            (child.location.state &&
+              child.location.state.useTurbolinks &&
+              !window.history.state.turbolinks) ||
+            !child.location.state;
 
           if (useTurbolinks) window.Turbolinks.visit(child.location.pathname);
         }
         currentLocation = child.location;
-        return null;
+        return props.children ? props.children : null;
       }}
     />
   </Switch>
 );
+
+AppSwitcher.propTypes = {
+  children: PropTypes.object,
+};
+
+AppSwitcher.defaultProps = {
+  children: null,
+};
 
 export default AppSwitcher;

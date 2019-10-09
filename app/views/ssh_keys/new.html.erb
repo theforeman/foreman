@@ -3,12 +3,12 @@
     items:
     [
       {
-         caption: _("Users"),
-         url: (users_path if authorized_for(hash_for_users_path))
+        caption: _("Users"),
+        to: (users_path if authorized_for(hash_for_users_path))
       },
       {
         caption: @user.name,
-        url: (edit_user_path(@user) if authorized_for(hash_for_edit_user_path(@user)))
+        to: (edit_user_path(@user) if authorized_for(hash_for_edit_user_path(@user)))
       },
       {
         caption: _('Add SSH Key')}

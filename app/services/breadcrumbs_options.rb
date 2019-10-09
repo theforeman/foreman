@@ -14,6 +14,7 @@ class BreadcrumbsOptions
       isSwitchable: switchable?,
       breadcrumbItems: items,
       resource: resource,
+      wrapWithReactRouter: true,
     }
   end
 
