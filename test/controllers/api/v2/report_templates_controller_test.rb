@@ -203,6 +203,60 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal '2', response.body
     end
 
+    it "should allow generating reports with headers even if data is empty" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_headers(:a); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'csv' }
+      assert_response :success
+      assert_equal "a\n", response.body
+    end
+
+    it "should generate report in csv format" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'csv' }
+      assert_response :success
+      assert_equal 'text/csv', response.content_type
+      assert_equal "a\n1\n2\n", response.body
+    end
+
+    it "should generate report in text format which fallbacks to csv if report_render is used" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'txt' }
+      assert_response :success
+      assert_equal 'text/plain', response.content_type
+      assert_equal "a\n1\n2\n", response.body
+    end
+
+    it "should generate report in yaml format" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'yaml' }
+      assert_response :success
+      assert_equal 'text/yaml', response.content_type
+      assert_equal "---\n- a: 1\n- a: 2\n", response.body
+    end
+
+    it "should generate report in json format" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'json' }
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      data = nil
+      assert_nothing_raised do
+        data = JSON.parse response.body
+      end
+      assert_equal 1, data[0]['a']
+      assert_equal 2, data[1]['a']
+    end
+
+    it "should generate report in html format, with data escaping" do
+      report_template = FactoryBot.create(:report_template, :template => '<%= report_row("<b>" => 1); report_row("<b>" => "<br>"); report_render %>')
+      post :generate, params: { id: report_template.id, report_format: 'html' }
+      assert_response :success
+      assert_equal 'text/html', response.content_type
+      assert_includes response.body, "<th>&lt;b&gt;</th>"
+      assert_includes response.body, "<td>1</td>"
+      assert_includes response.body, "<td>&lt;br&gt;</td>"
+    end
+
     it "should generate report with optional params without value" do
       report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
       input = FactoryBot.create(:template_input, :name => 'hello')
@@ -232,13 +286,14 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
 
   describe '#schedule_report' do
     let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
-    def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil)
+    def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil, format: nil)
       composer_params = {
         'template_id' => report_template.id.to_s,
         'input_values' => input_values,
         'gzip' => !!mail_to,
         'send_mail' => !!mail_to,
         'mail_to' => mail_to,
+        'format' => format,
       }
       if delay_to
         scheduler = mock('TemplateRenderJob')
@@ -278,6 +333,15 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_equal 'application/json', response.content_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
       refute JSON.parse(response.body).has_key?('data_url')
+    end
+
+    it "schedule report in specific format" do
+      expect_job_enque_with({}, format: 'csv')
+      ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
+      post :schedule_report, params: { :id => report_template.id, report_format: 'csv' }
+      assert_response :success
+      assert_equal 'application/json', response.content_type
+      assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
     end
 
     it 'schedule delayed report' do

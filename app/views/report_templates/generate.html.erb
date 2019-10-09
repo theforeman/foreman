@@ -2,7 +2,6 @@
 
 <% title _("Generate a Report") %>
 
-
 <%= form_for @composer, as: :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
 
   <%= alert(:class => 'alert-info',
@@ -26,6 +25,8 @@
       label: _('Deliver to e-mail addresses'),
       label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
   </div>
+
+  <%= select_f f, :format, ReportTemplateFormat.selectable, :id, :human_name, {}, :label => _('Output format'), :label_help => _('If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name.'), :disabled => !@composer.template.supports_format_selection? %>
 
   <%= f.fields_for :input_values do |input_values_fields| %>
     <% inputs = @template.template_inputs.select {|input| input.input_type == 'user'} %>

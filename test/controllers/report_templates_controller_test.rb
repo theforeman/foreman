@@ -123,14 +123,14 @@ class ReportTemplatesControllerTest < ActionController::TestCase
 
     # works for given host
     post :preview, params: { :preview_host_id => host.id, :template => '<%= @host.name -%>', :id => template }, session: set_session_user
-    assert_equal host.hostname.to_s, @response.body
+    assert_equal host.hostname.to_s.to_json, @response.body
 
     # without host specified it uses first one
     post :preview, params: { :template => '<%= 1+1 -%>', :id => template }, session: set_session_user
-    assert_equal '2', @response.body
+    assert_equal '2'.to_json, @response.body
 
     post :preview, params: { :template => '<%= 1+1 -%>' }, session: set_session_user
-    assert_equal '2', @response.body
+    assert_equal '2'.to_json, @response.body
 
     post :preview, params: { :template => '<%= 1+ -%>', :id => template }, session: set_session_user
     assert_includes @response.body, 'parse error on value'
@@ -143,13 +143,14 @@ class ReportTemplatesControllerTest < ActionController::TestCase
 
   describe '#schedule_report' do
     let(:job) { OpenStruct.new('provider_job_id' => 'JOB-UNIQUE-IDENTIFIER') }
-    def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil)
+    def expect_job_enque_with(input_values, mail_to: nil, delay_to: nil, format: nil)
       composer_params = {
         'template_id' => @report_template.to_param,
         'input_values' => input_values,
         'gzip' => !!mail_to,
         'send_mail' => !!mail_to,
         'mail_to' => mail_to,
+        'format' => format,
       }
       if delay_to
         scheduler = mock('TemplateRenderJob')
@@ -169,6 +170,12 @@ class ReportTemplatesControllerTest < ActionController::TestCase
     it "schedule report with parameters" do
       expect_job_enque_with({ '1' => { 'value' => 'ohai' } })
       get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :input_values => { '1' => { :value => 'ohai' } } } }, session: set_session_user
+      assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
+    end
+
+    it "schedule report with format" do
+      expect_job_enque_with(nil, format: 'yaml')
+      get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { :format => 'yaml' } }, session: set_session_user
       assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
 

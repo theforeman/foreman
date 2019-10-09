@@ -8,22 +8,37 @@ module Foreman
           @report_headers = []
         end
 
-        def report_render(format: :csv)
+        def report_render(format: report_format&.id)
           case format
-          when :csv
+          when :csv, :txt, nil
             report_render_csv
           when :yaml
             report_render_yaml
+          when :json
+            report_render_json
+          when :html
+            report_render_html
           end
         end
 
+        def report_headers(*headers)
+          @report_headers = headers.map(&:to_s)
+        end
+
         def report_row(row_data)
-          @report_headers = row_data.keys.map(&:to_s) if @report_headers.empty?
+          new_headers = row_data.keys
+          if @report_headers.size < new_headers.size
+            @report_headers |= new_headers.map(&:to_s)
+          end
           @report_data << row_data.values
         end
 
         def allowed_helpers
-          @allowed_helpers ||= super + [ :report_row, :report_render ]
+          @allowed_helpers ||= super + [ :report_row, :report_render, :report_format, :report_headers ]
+        end
+
+        def report_format
+          @params[:format]
         end
 
         private
@@ -35,6 +50,13 @@ module Foreman
           end.to_yaml
         end
 
+        def report_render_json
+          @report_data.map do |row|
+            valid_row = row.map { |cell| valid_json_type(cell) }
+            Hash[@report_headers.zip(valid_row)]
+          end.to_json
+        end
+
         def report_render_csv
           CSV.generate(headers: true, encoding: Encoding::UTF_8) do |csv|
             csv << @report_headers
@@ -42,6 +64,30 @@ module Foreman
               csv << row.map { |cell| serialize_cell(cell) }
             end
           end
+        end
+
+        def report_render_html
+          html = ""
+
+          html << "<html><head><title>#{@template_name}</title><style>#{html_style}</style></head><body><table><thead><tr>"
+          html << @report_headers.map { |header| "<th>#{ERB::Util.html_escape(header)}</th>" }.join('')
+          html << "</tr></thead><tbody>"
+
+          @report_data.each do |row|
+            html << "<tr>"
+            html << row.map { |cell| "<td>#{ERB::Util.html_escape(cell)}</td>" }.join('')
+            html << "</tr>"
+          end
+          html << "</tbody></table></body></html>"
+
+          html
+        end
+
+        def html_style
+          <<CSS
+th { background-color: black; color: white; }
+table,th,td { border-collapse: collapse; border: 1px solid black; }
+CSS
         end
 
         def serialize_cell(cell)
@@ -57,6 +103,19 @@ module Foreman
             cell
           elsif cell.is_a?(Enumerable)
             cell.map { |item| valid_yaml_type(item) }
+          else
+            cell.to_s
+          end
+        end
+
+        def valid_json_type(cell)
+          if cell.is_a?(String) || [true, false].include?(cell) || cell.is_a?(Numeric) || cell.nil?
+            cell
+          elsif cell.is_a?(Enumerable)
+            hashify = cell.is_a?(Hash)
+            cell = cell.map { |item| valid_json_type(item) }
+            cell = cell.to_h if hashify
+            cell
           else
             cell.to_s
           end
