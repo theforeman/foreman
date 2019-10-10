@@ -1,8 +1,5 @@
-import React from 'react';
-import { mount, shallow } from '@theforeman/test';
+import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
 import ModelsTable from './ModelsTable';
-import { Table } from '../common/table';
-import MessageBox from '../common/MessageBox';
 
 const results = [
   {
@@ -19,25 +16,15 @@ const results = [
   },
 ];
 
-describe('ModelsTable', () => {
-  it('render table on sucess', () => {
-    const getModelItems = jest.fn().mockReturnValue([]);
-    const view = mount(
-      <ModelsTable results={results} getTableItems={getModelItems} />
-    );
-    expect(getModelItems.mock.calls).toHaveLength(1);
-    expect(view.find(Table)).toHaveLength(1);
-  });
+const fixtures = {
+  'should render ModelsTable': {
+    getTableItems: () => {},
+    onDeleteClick: () => {},
+    results,
+  },
+};
 
-  it('render error message box on failure', () => {
-    const view = shallow(
-      <ModelsTable
-        getTableItems={jest.fn(() => [])}
-        results={[{}]}
-        error={Error('some error message')}
-        status="ERROR"
-      />
-    );
-    expect(view.find(MessageBox)).toHaveLength(1);
-  });
+describe('ModelsTable', () => {
+  describe('rendering', () =>
+    testComponentSnapshotsWithFixtures(ModelsTable, fixtures));
 });

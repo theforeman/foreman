@@ -56,8 +56,11 @@ module Menu
           if SETTINGS[:unattended]
             menu.divider                :caption => N_('Provisioning Setup')
             menu.item :architectures,   :caption => N_('Architectures')
-            menu.item :models,          :caption => N_('Hardware Models')
-            menu.item :media,           :caption => N_('Installation Media')
+            menu.item :models,
+              :caption => N_('Hardware Models'),
+              :url => '/models',
+              :url_hash => { :controller => 'api/v2/models', :action => 'index' }
+            menu.item :media, :caption => N_('Installation Media')
             menu.item :operatingsystems, :caption => N_('Operating Systems')
             menu.divider :caption => N_('Templates')
             menu.item :ptables, :caption => N_('Partition Tables'),

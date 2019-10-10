@@ -1,13 +1,6 @@
 require 'test_helper'
 
 class ModelsControllerTest < ActionController::TestCase
-  basic_pagination_per_page_test
-
-  def test_index
-    get :index, session: set_session_user
-    assert_template 'index'
-  end
-
   def test_new
     get :new, session: set_session_user
     assert_template 'new'
@@ -58,11 +51,5 @@ class ModelsControllerTest < ActionController::TestCase
     setup_user
     get :edit, params: { :id => Model.first.id }, session: set_session_user.merge(:user => users(:one).id)
     assert_equal @response.status, 403
-  end
-
-  test 'user with viewer rights should succeed in viewing models' do
-    setup_user
-    get :index, session: set_session_user
-    assert_response :success
   end
 end

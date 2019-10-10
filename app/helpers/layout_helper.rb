@@ -1,6 +1,10 @@
 module LayoutHelper
   def mount_react_app
-    mount_react_component('ReactApp', "#react-app-root", { layout: layout_data, metadata: app_metadata }.to_json)
+    mount_react_component('ReactApp', "#react-app-root", {
+      layout: layout_data,
+      metadata: app_metadata,
+      toasts: toast_notifiations_data,
+    }.to_json)
   end
 
   def fetch_menus

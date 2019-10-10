@@ -1,0 +1,26 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|withReactRoutes"
+  parameters={{
+    storyWeight: 80,
+  }}
+/>
+
+# withReactRoutes
+
+`withReactRoutes` wrapps your component with `Router` which gives you access to the react-router. This is useful for components in erb pages that need access to client routing - a good example is a button that redirects to a page in React:
+
+```js
+import { Link } from 'react-router-dom';
+
+import withReactRoutes from './react_app/common/withReactRoutes';
+
+const LinkButton = props => (
+  <Link to={props.path}>
+    <Button>{props.text}</Button>
+  </Link>
+);
+
+export default withReactRoutes(LinkButton);
+```

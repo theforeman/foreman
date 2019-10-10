@@ -37,12 +37,25 @@ export const getURIperPage = () => Number(getURI().query(true).per_page);
 export const getURIsearch = () => getURI().query(true).search || '';
 
 /**
+ * Get updated sort param
+ */
+export const getURIsort = () => {
+  const sortString = getURI().query(true).order;
+  if (!sortString) {
+    return {};
+  }
+  const [by, order] = sortString.split(' ');
+  return { by, order };
+};
+
+/**
  * Get updated URI params
  */
 export const getParams = () => ({
   page: getURIpage(),
   perPage: getURIperPage() || null,
   searchQuery: getURIsearch(),
+  sort: getURIsort(),
 });
 
 /**
@@ -52,11 +65,17 @@ export const stringifyParams = ({
   page = 1,
   perPage = 25,
   searchQuery = '',
+  sort = {},
 }) => {
   const uri = getURI();
   if (searchQuery !== '')
     uri.search({ page, per_page: perPage, search: searchQuery });
   else uri.search({ page, per_page: perPage });
+
+  if (sort.by && sort.order) {
+    uri.setSearch('order', `${sort.by} ${sort.order}`);
+  }
+
   return uri.search();
 };
 

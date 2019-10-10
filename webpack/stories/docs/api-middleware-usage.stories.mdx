@@ -104,9 +104,14 @@ export const selectError = state => selectAPIError(state, MY_SPECIAL_KEY);
 
 export const getData = url => ({
   type: API_OPERATIONS.GET,
-  key: MY_SPECIAL_KEY, // you will need to re-use this key in order to access the right API reducer later.
-  url,
-  payload: {},
+  payload: {
+    key: MY_SPECIAL_KEY, // you will need to re-use this key in order to access the right API reducer later.
+    url,
+    payload: {
+      page: 2,
+      per_page: 10,
+    },
+  }
 });
 ```
 

@@ -6,13 +6,15 @@ import { getForemanContext } from '../Root/Context/ForemanContext';
 import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
 import AppSwitcher from '../routes';
 
-const ReactApp = ({ data: { layout, metadata } }) => {
-  const ForemanContext = getForemanContext(metadata);
+const ReactApp = ({ data: { layout, metadata, toasts } }) => {
+  const contextData = { metadata, toasts };
+  const ForemanContext = getForemanContext(contextData);
+
   return (
-    <ForemanContext.Provider value={metadata}>
+    <ForemanContext.Provider value={contextData}>
       <ConnectedRouter history={history}>
         <Layout data={layout}>
-          <AppSwitcher />
+          <AppSwitcher toasts={toasts} />
         </Layout>
       </ConnectedRouter>
     </ForemanContext.Provider>
@@ -21,8 +23,9 @@ const ReactApp = ({ data: { layout, metadata } }) => {
 
 ReactApp.propTypes = {
   data: PropTypes.shape({
-    layout: LayoutPropTypes.data,
+    layout: LayoutPropTypes.data.isRequired,
     metadata: PropTypes.object.isRequired,
+    toasts: PropTypes.array.isRequired,
   }).isRequired,
 };
 

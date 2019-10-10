@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteButton should render delete button on active 1`] = `
+<Button
+  active={false}
+  block={false}
+  bsClass="btn"
+  bsStyle="default"
+  disabled={false}
+  onClick={[Function]}
+>
+  Delete
+</Button>
+`;
+
+exports[`DeleteButton should render nothing on non-active 1`] = `""`;
