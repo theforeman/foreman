@@ -4,7 +4,7 @@ module SSO
     attr_reader :current_user
 
     def available?
-      controller.api_request? && bearer_token_set? && valid_issuer?
+      ((controller.api_request? && bearer_token_set?) || http_token.present?) && valid_issuer?
     end
 
     def authenticate!
@@ -27,7 +27,8 @@ module SSO
     end
 
     def jwt_token_from_request
-      token = request.authorization.split(' ')[1]
+      token = (request.authorization.present? && request.authorization.split(' ')[1]) ||
+        http_token
       OidcJwt.new(token)
     end
 

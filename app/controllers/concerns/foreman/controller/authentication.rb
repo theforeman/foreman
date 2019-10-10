@@ -78,19 +78,23 @@ module Foreman::Controller::Authentication
       # When authenticating using SSO::OpenidConnect, upon successful authentication, we refresh the
       # :expires_at and :sso_method values in the session (in OpenidConnect#update_session).
       # Hence when we reset_session for SSO::OpenidConnect here, we do not reset the expires_at for session.
-      if session[:sso_method] == "SSO::OpenidConnect"
-        backup_session_content([:sso_method, :expires_at]) { reset_session }
-      else
-        reset_session
-      end
+      oidc_session? ? reset_oidc_session : reset_session
       session[:user] = user.id
       session[:api_authenticated_session] = true
       set_activity_time
     else
-      backup_session_content { reset_session }
+      oidc_session? ? reset_oidc_session : backup_session_content { reset_session }
       session[:user] = user.id
       update_activity_time
     end
     user.present?
+  end
+
+  def reset_oidc_session
+    backup_session_content([:sso_method, :expires_at]) { reset_session }
+  end
+
+  def oidc_session?
+    session[:sso_method] == "SSO::OpenidConnect"
   end
 end

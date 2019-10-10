@@ -21,9 +21,17 @@ class OpenidConnectTest < ActiveSupport::TestCase
   end
 
   describe '#available?' do
-    test 'returns false when not a api_request' do
+    test 'returns false when not a api_request and no oidc header is passed' do
       subject = SSO::OpenidConnect.new(non_api_controller)
       assert_equal subject.available?, false
+    end
+
+    test 'returns true when not a api_request and a oidc header is passed' do
+      token = JWT.encode(payload, nil, 'none')
+      controller = non_api_controller({'HTTP_OIDC_ACCESS_TOKEN' => token.to_s})
+      SSO::Base.any_instance.stubs(:http_token).returns(token)
+      subject = SSO::OpenidConnect.new(controller)
+      assert_equal subject.available?, true
     end
 
     test "returns true when api request contain valid JWT token" do
@@ -80,13 +88,15 @@ class OpenidConnectTest < ActiveSupport::TestCase
 
   private
 
-  def non_api_controller
+  def non_api_controller(headers = {})
     controller = Struct.new(:request) do
       def api_request?
         false
       end
     end
-    controller.new(ActionDispatch::TestRequest.new({}))
+    request = ActionDispatch::TestRequest.new({})
+    request.headers.merge! headers
+    controller.new(request)
   end
 
   def api_controller(headers = {})
