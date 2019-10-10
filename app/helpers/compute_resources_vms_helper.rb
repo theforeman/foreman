@@ -171,8 +171,15 @@ module ComputeResourcesVmsHelper
   end
 
   def vsphere_resource_pools(form, compute_resource, disabled = false)
-    resource_pools = compute_resource.available_resource_pools(:cluster_id => form.object.cluster) rescue []
-    selectable_f form, :resource_pool, resource_pools, { }, :class => "col-md-2", :label => _('Resource pool'), :disabled => disabled
+    if form.object.cluster
+      options = {}
+      resource_pools = compute_resource.available_resource_pools(:cluster_id => form.object.cluster) rescue []
+    else
+      disabled = true
+      options = { include_blank: _('Please select a cluster') }
+      resource_pools = []
+    end
+    selectable_f form, :resource_pool, resource_pools, options, :class => "col-md-2", :label => _('Resource pool'), :disabled => disabled
   end
 
   def vms_table

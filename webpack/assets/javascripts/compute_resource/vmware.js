@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import store from '../react_app/redux';
+import { translate as __ } from '../react_app/common/I18n';
 import { showSpinner, hideSpinner } from '../foreman_tools';
 import { changeCluster } from '../react_app/redux/actions/hosts/storage/vmware';
 
@@ -17,10 +18,19 @@ export function onClusterChange(item) {
 function fetchResourcePools(url, clusterId) {
   // eslint-disable-next-line camelcase
   const data = { cluster_id: clusterId };
+  const $selectbox = $('select[id$="resource_pool"]');
+
+  if (!clusterId) {
+    $selectbox.select2('destroy').empty();
+    $('<option>')
+      .text(__('Please select a cluster'))
+      .val('')
+      .appendTo($selectbox);
+    $selectbox.prop('disabled', true).select2();
+    return;
+  }
 
   showSpinner();
-  const selectbox = $('select[id$="resource_pool"]');
-
   $.ajax({
     type: 'get',
     url,
@@ -29,14 +39,17 @@ function fetchResourcePools(url, clusterId) {
       hideSpinner();
     },
     success(request) {
-      selectbox.select2('destroy').empty();
+      $selectbox
+        .select2('destroy')
+        .empty()
+        .prop('disabled', false);
       request.forEach(({ name }) => {
         $('<option>')
           .text(name)
           .val(name)
-          .appendTo(selectbox);
+          .appendTo($selectbox);
       });
-      $(selectbox).select2();
+      $selectbox.select2();
     },
   });
 }
