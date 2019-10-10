@@ -26,7 +26,7 @@
     "react-intl": "^2.8.0"
   },
   "optionalDependencies": {
-    "chromedriver": "2.46.0"
+    "chromedriver": "77.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "~3.4.12",
