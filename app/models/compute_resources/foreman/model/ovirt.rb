@@ -261,8 +261,10 @@ module Foreman::Model
       end
       if instance_type
         instance_type_cores = instance_type.cores.to_i if instance_type.cores.present?
+        instance_type_sockets = instance_type.sockets.to_i if instance_type.sockets.present?
         instance_type_memory = instance_type.memory.to_i if instance_type.memory.present?
         args[:cores] = instance_type_cores if instance_type_cores
+        args[:sockets] = instance_type_sockets if instance_type_sockets
         args[:memory] = instance_type_memory if instance_type_memory
       end
     end
