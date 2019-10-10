@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const NameCell = ({ active, id, name, controller, children }) =>
   active ? (
-    <a href={`/${controller}/${id}-${name}/edit`}>{children}</a>
+    <Link to={`/${controller}/${id}-${name}/edit`}>{children}</Link>
   ) : (
     <a href="#" className="disabled" disabled="disabled" onClick={() => {}}>
       {children}

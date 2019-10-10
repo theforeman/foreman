@@ -3,25 +3,16 @@ import PropTypes from 'prop-types';
 import { Button } from 'patternfly-react';
 import { translate as __ } from '../../../../common/I18n';
 
-// TODO(bshuster): Move the confirmation to DialogModal that uses API to
-//                 delete the item.
-const DeleteButton = ({ active, id, name, controller }) =>
+const DeleteButton = ({ active, onClick }) =>
   active ? (
-    <Button
-      bsStyle="default"
-      data-method="delete"
-      data-confirm={`${__('Delete')} ${name}?`}
-      href={`${controller}/${id}-${name}`}
-    >
+    <Button bsStyle="default" onClick={onClick}>
       {__('Delete')}
     </Button>
   ) : null;
 
 DeleteButton.propTypes = {
   active: PropTypes.bool,
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  controller: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 DeleteButton.defaultProps = {

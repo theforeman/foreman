@@ -36,7 +36,7 @@ describe('urlWithSearch', () => {
 
 describe('URI query and stringify tests', () => {
   const baseHref = 'http://some-url.com/';
-  const oldQuery = 'search=some-search&page=1&per_page=25';
+  const oldQuery = 'search=some-search&page=1&per_page=25&order=name+ASC';
   const href = `${baseHref}?${oldQuery}`;
 
   beforeEach(() => {
@@ -49,12 +49,12 @@ describe('URI query and stringify tests', () => {
 
     changeQuery(newQuery);
     expect(visit).toHaveBeenCalledWith(
-      `${baseHref}?search=some-new-search&page=1&per_page=10`
+      `${baseHref}?search=some-new-search&page=1&per_page=10&order=name+ASC`
     );
 
     changeQuery(newQuery, navigateToMock);
     expect(navigateToMock).toHaveBeenCalledWith(
-      `${baseHref}?search=some-new-search&page=1&per_page=10`
+      `${baseHref}?search=some-new-search&page=1&per_page=10&order=name+ASC`
     );
   });
 

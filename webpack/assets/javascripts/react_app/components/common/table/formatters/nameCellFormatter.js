@@ -3,7 +3,7 @@ import NameCell from '../components/NameCell';
 
 const nameCellFormatter = controllerPluralize => (
   value,
-  { rowData: { can_edit: canEdit, id, name } }
+  { rowData: { canEdit, id, name } }
 ) => (
   <NameCell
     active={canEdit}

@@ -1,12 +1,24 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import ModelsTable from './ModelsTable';
-import reducer from './ModelsTableReducer';
-import * as actions from './ModelsTableActions';
+import { MODEL_DELETE_MODAL_ID } from '../../routes/Models/constants';
+import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
 
-const mapStateToProps = state => state.models_table;
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const WrappedModelsTable = props => {
+  const { setModalOpen } = useForemanModal({ id: MODEL_DELETE_MODAL_ID });
+  const { setToDelete, ...rest } = props;
 
-export const reducers = { models_table: reducer };
+  const onDeleteClick = rowData => {
+    setToDelete(rowData);
+    setModalOpen();
+  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModelsTable);
+  return <ModelsTable {...rest} onDeleteClick={onDeleteClick} />;
+};
+
+WrappedModelsTable.propTypes = {
+  setToDelete: PropTypes.func.isRequired,
+};
+
+export default WrappedModelsTable;

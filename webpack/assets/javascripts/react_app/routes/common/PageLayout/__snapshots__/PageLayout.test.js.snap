@@ -8,6 +8,12 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
     id="react-content"
   >
     <div
+      data-notifications={null}
+      id="toast-notifications-container"
+    >
+      <Connect(ToastsList) />
+    </div>
+    <div
       id="breadcrumb"
     >
       <Connect(BreadcrumbBar)
@@ -76,6 +82,7 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
             onSearch={[Function]}
           />
         </div>
+         
       </Col>
       <Col
         bsClass="col"
@@ -100,6 +107,12 @@ exports[`render pageLayout w/search 1`] = `
   <div
     id="react-content"
   >
+    <div
+      data-notifications={null}
+      id="toast-notifications-container"
+    >
+      <Connect(ToastsList) />
+    </div>
     <div
       id="breadcrumb"
     >
@@ -168,6 +181,7 @@ exports[`render pageLayout w/search 1`] = `
             onSearch={[Function]}
           />
         </div>
+         
       </Col>
       <Col
         bsClass="col"
@@ -266,6 +280,7 @@ exports[`render pageLayout w/toastNotifications 1`] = `
             onSearch={[Function]}
           />
         </div>
+         
       </Col>
       <Col
         bsClass="col"
@@ -290,6 +305,12 @@ exports[`render pageLayout w/toolBar 1`] = `
   <div
     id="react-content"
   >
+    <div
+      data-notifications={null}
+      id="toast-notifications-container"
+    >
+      <Connect(ToastsList) />
+    </div>
     <div
       id="breadcrumb"
     >
@@ -358,6 +379,7 @@ exports[`render pageLayout w/toolBar 1`] = `
             onSearch={[Function]}
           />
         </div>
+         
       </Col>
       <Col
         bsClass="col"
@@ -384,6 +406,12 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
   <div
     id="react-content"
   >
+    <div
+      data-notifications={null}
+      id="toast-notifications-container"
+    >
+      <Connect(ToastsList) />
+    </div>
     <div
       id="breadcrumb"
     >
@@ -426,6 +454,7 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
             onSearch={[Function]}
           />
         </div>
+         
       </Col>
       <Col
         bsClass="col"
@@ -450,6 +479,12 @@ exports[`render pageLayout without breadcrumbs 1`] = `
   <div
     id="react-content"
   >
+    <div
+      data-notifications={null}
+      id="toast-notifications-container"
+    >
+      <Connect(ToastsList) />
+    </div>
     <div
       id="breadcrumb"
     >
@@ -500,6 +535,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
             onSearch={[Function]}
           />
         </div>
+         
       </Col>
       <Col
         bsClass="col"
@@ -524,6 +560,12 @@ exports[`render pageLayout without search 1`] = `
   <div
     id="react-content"
   >
+    <div
+      data-notifications={null}
+      id="toast-notifications-container"
+    >
+      <Connect(ToastsList) />
+    </div>
     <div
       id="breadcrumb"
     >
@@ -564,7 +606,9 @@ exports[`render pageLayout without search 1`] = `
         className="title_filter"
         componentClass="div"
         md={4}
-      />
+      >
+         
+      </Col>
       <Col
         bsClass="col"
         componentClass="div"

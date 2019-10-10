@@ -264,9 +264,12 @@ select {
   }
 }
 
+table.table {
+  margin-bottom: 6px;
+}
+
 table {
   clear: both;
-  margin-bottom: 6px !important;
 
   tr td:last-child {
     .btn {

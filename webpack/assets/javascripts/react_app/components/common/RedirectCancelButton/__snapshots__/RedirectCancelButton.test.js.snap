@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RedirectCancelButton renders correctly 1`] = `
+<div
+  className="component-with-mocked-routes"
+>
+  <RedirectCancelButton
+    cancelPath="/hosts"
+  />
+</div>
+`;

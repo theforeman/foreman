@@ -4,10 +4,6 @@ class ModelsController < ApplicationController
 
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
-  def index
-    @models = resource_base_search_and_page
-  end
-
   def new
     @model = Model.new
   end
@@ -15,7 +11,7 @@ class ModelsController < ApplicationController
   def create
     @model = Model.new(model_params)
     if @model.save
-      process_success
+      process_success :success_redirect => '/models'
     else
       process_error
     end
@@ -26,7 +22,7 @@ class ModelsController < ApplicationController
 
   def update
     if @model.update(model_params)
-      process_success
+      process_success :success_redirect => '/models'
     else
       process_error
     end

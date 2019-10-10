@@ -27,14 +27,12 @@ const PageLayout = ({
   return (
     <div id="main">
       <div id="react-content">
-        {toastNotifications && (
-          <div
-            id="toast-notifications-container"
-            data-notifications={toastNotifications}
-          >
-            <ToastsList />
-          </div>
-        )}
+        <div
+          id="toast-notifications-container"
+          data-notifications={toastNotifications}
+        >
+          <ToastsList />
+        </div>
         <div id="breadcrumb">
           {!breadcrumbOptions && (
             <div className="row form-group">
@@ -58,6 +56,7 @@ const PageLayout = ({
                 />
               </div>
             )}
+            &nbsp;
           </Col>
           <Col id="title_action" md={searchable ? 6 : 8}>
             <div className="btn-toolbar pull-right">

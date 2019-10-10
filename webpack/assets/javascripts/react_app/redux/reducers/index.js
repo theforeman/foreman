@@ -10,7 +10,6 @@ import { reducers as autoCompleteReducers } from '../../components/AutoComplete'
 import { reducers as layoutReducers } from '../../components/Layout';
 import { reducers as diffModalReducers } from '../../components/ConfigReports/DiffModal';
 import { reducers as editorReducers } from '../../components/Editor';
-import { reducers as modelsReducers } from '../../components/ModelsTable';
 import { reducers as templateGenerationReducers } from '../../components/TemplateGenerator';
 import { reducers as factChartReducers } from '../../components/FactCharts';
 import { reducers as statisticsPageReducers } from '../../routes/Statistics/StatisticsPage';
@@ -21,6 +20,7 @@ import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware'
 import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
+import { reducers as modelsPageReducers } from '../../routes/Models/ModelsPage';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -35,7 +35,6 @@ export function combineReducersAsync(asyncReducers) {
     ...autoCompleteReducers,
     ...diffModalReducers,
     ...editorReducers,
-    ...modelsReducers,
     ...templateGenerationReducers,
     ...factChartReducers,
     ...typeAheadSelectReducers,
@@ -46,6 +45,7 @@ export function combineReducersAsync(asyncReducers) {
     ...fillReducers,
     ...auditsPageReducers,
     ...modalReducers,
+    ...modelsPageReducers,
 
     // Middlewares
     ...intervalReducers,

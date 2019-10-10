@@ -1,6 +1,5 @@
 import { translate as __ } from '../../common/I18n';
 import {
-  sortControllerFactory,
   column,
   sortableColumn,
   headerFormatterWithProps,
@@ -10,6 +9,14 @@ import {
   deleteActionCellFormatter,
   cellFormatter,
 } from '../common/table';
+
+const sortControllerFactory = (apiCall, sortBy, sortOrder) => ({
+  apply: (by, order) => {
+    apiCall({ sort: { by, order } });
+  },
+  property: sortBy,
+  order: sortOrder,
+});
 
 /**
  * Generate a table schema to the Hardware Models page.
@@ -21,16 +28,17 @@ import {
  *                            Otherwise, 'ASC' for ascending and 'DESC' for descending
  * @return {Array}
  */
-const createModelsTableSchema = (apiCall, by, order) => {
+const createModelsTableSchema = (apiCall, by, order, onDeleteClick) => {
   const sortController = sortControllerFactory(apiCall, by, order);
+
   return [
     sortableColumn('name', __('Name'), 4, sortController, [
       nameCellFormatter('models'),
     ]),
-    sortableColumn('vendor_class', __('Vendor Class'), 3, sortController),
-    sortableColumn('hardware_model', __('Hardware Model'), 3, sortController),
+    sortableColumn('vendorClass', __('Vendor Class'), 3, sortController),
+    sortableColumn('hardwareModel', __('Hardware Model'), 3, sortController),
     column(
-      'hosts_count',
+      'hostsCount',
       __('Hosts'),
       [headerFormatterWithProps],
       [hostsCountCellFormatter('model'), cellFormatterWithProps],
@@ -41,7 +49,7 @@ const createModelsTableSchema = (apiCall, by, order) => {
       'actions',
       __('Actions'),
       [headerFormatterWithProps],
-      [deleteActionCellFormatter('models'), cellFormatter]
+      [deleteActionCellFormatter(onDeleteClick), cellFormatter]
     ),
   ];
 };

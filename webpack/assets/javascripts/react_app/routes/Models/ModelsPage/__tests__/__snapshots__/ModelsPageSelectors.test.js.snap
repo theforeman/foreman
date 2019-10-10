@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModelsPage selectors should return hasData 1`] = `false`;
+
+exports[`ModelsPage selectors should return hasError 1`] = `false`;
+
+exports[`ModelsPage selectors should return isLoading 1`] = `true`;
+
+exports[`ModelsPage selectors should return message 1`] = `
+Object {
+  "text": "This is error",
+  "type": "error",
+}
+`;
+
+exports[`ModelsPage selectors should return models 1`] = `
+Array [
+  Object {
+    "canDelete": true,
+    "canEdit": true,
+    "hostsCount": 5,
+    "id": 1,
+    "name": "my-hw-model",
+    "vendorClass": "custom",
+  },
+  Object {
+    "canDelete": false,
+    "canEdit": false,
+    "hostsCount": 4,
+    "id": 2,
+    "name": "your-hw-model",
+    "vendorClass": "B+",
+  },
+]
+`;
+
+exports[`ModelsPage selectors should return page 1`] = `1`;
+
+exports[`ModelsPage selectors should return perPage 1`] = `1`;
+
+exports[`ModelsPage selectors should return search 1`] = `"name ~ foo"`;
+
+exports[`ModelsPage selectors should return sort 1`] = `
+Object {
+  "by": "name",
+  "order": "DESC",
+}
+`;
+
+exports[`ModelsPage selectors should return subtotal 1`] = `42`;

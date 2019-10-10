@@ -1,14 +1,8 @@
 import React from 'react';
 import DeleteButton from '../components/DeleteButton';
 
-export const deleteActionCellFormatter = controllerPluralize => (
-  _,
-  { rowData: { can_delete: canDelete, name, id } }
-) => (
-  <DeleteButton
-    active={canDelete}
-    name={encodeURI(name)}
-    id={id}
-    controller={controllerPluralize}
-  />
-);
+export const deleteActionCellFormatter = onClick => (_, { rowData }) => {
+  const { canDelete } = rowData;
+
+  return <DeleteButton active={canDelete} onClick={() => onClick(rowData)} />;
+};

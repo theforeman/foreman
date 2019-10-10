@@ -1,14 +1,14 @@
 import Immutable from 'seamless-immutable';
 
-const initialState = Immutable({
+export const initialState = Immutable({
   isLoading: true,
   hasError: false,
   hasData: false,
   message: { type: 'empty', text: '' },
 });
 
-const withDataReducer = controller => (
-  state = initialState,
+const withDataReducer = (controller, additionalState = Immutable({})) => (
+  state = initialState.merge(additionalState),
   { type, payload }
 ) => {
   switch (type) {
