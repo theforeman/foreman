@@ -8,8 +8,6 @@ module Foreman::Controller::Parameters::Parameter
           :hostgroup_id,
           :domain_id,
           :operatingsystem_id,
-          :location_id,
-          :organization_id,
           :subnet_id
 
         filter.permit_by_context :hidden_value,
