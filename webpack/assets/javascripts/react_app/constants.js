@@ -7,7 +7,7 @@ export const STATUS = {
 export const getControllerSearchProps = (
   controller,
   id = 'searchBar',
-  canCreateBookmarks = true
+  canCreate = true
 ) => ({
   controller,
   autocomplete: {
@@ -18,7 +18,7 @@ export const getControllerSearchProps = (
   },
   bookmarks: {
     url: '/api/bookmarks',
-    canCreateBookmarks,
+    canCreate,
     documentationUrl: `4.1.5Searching`,
   },
 });
