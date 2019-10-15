@@ -10,6 +10,17 @@ Array [
   Array [
     Object {
       "payload": Object {
+        "itemCount": 1,
+        "page": 1,
+        "perPage": 20,
+        "searchQuery": "",
+      },
+      "type": "AUDITS_PAGE_UPDATE_QUERY",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
         "audits": Array [
           Object {
             "action": "update",
@@ -116,17 +127,6 @@ Array [
         "hasData": true,
       },
       "type": "AUDITS_PAGE_DATA_RESOLVED",
-    },
-  ],
-  Array [
-    Object {
-      "payload": Object {
-        "itemCount": 1,
-        "page": 1,
-        "perPage": 20,
-        "searchQuery": "",
-      },
-      "type": "AUDITS_PAGE_UPDATE_QUERY",
     },
   ],
 ]
@@ -152,6 +152,17 @@ Array [
   Array [
     Object {
       "payload": Object {
+        "itemCount": 1,
+        "page": 1,
+        "perPage": 20,
+        "searchQuery": "",
+      },
+      "type": "AUDITS_PAGE_UPDATE_QUERY",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
         "audits": Array [
           Object {
             "action": "update",
@@ -260,17 +271,6 @@ Array [
       "type": "AUDITS_PAGE_DATA_RESOLVED",
     },
   ],
-  Array [
-    Object {
-      "payload": Object {
-        "itemCount": 1,
-        "page": 1,
-        "perPage": 20,
-        "searchQuery": "",
-      },
-      "type": "AUDITS_PAGE_UPDATE_QUERY",
-    },
-  ],
 ]
 `;
 
@@ -284,21 +284,21 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "audits": Array [],
-        "hasData": false,
-      },
-      "type": "AUDITS_PAGE_DATA_RESOLVED",
-    },
-  ],
-  Array [
-    Object {
-      "payload": Object {
         "itemCount": 0,
         "page": 1,
         "perPage": 20,
         "searchQuery": "no-such-audit",
       },
       "type": "AUDITS_PAGE_UPDATE_QUERY",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "audits": Array [],
+        "hasData": false,
+      },
+      "type": "AUDITS_PAGE_DATA_RESOLVED",
     },
   ],
 ]

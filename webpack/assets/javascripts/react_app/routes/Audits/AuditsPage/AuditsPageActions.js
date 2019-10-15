@@ -46,19 +46,20 @@ export const fetchAudits = (
       dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
 
     dispatch({
-      type: AUDITS_PAGE_DATA_RESOLVED,
-      payload: {
-        audits,
-        hasData: itemCount > 0,
-      },
-    });
-    dispatch({
       type: AUDITS_PAGE_UPDATE_QUERY,
       payload: {
         page,
         perPage,
         searchQuery,
         itemCount,
+      },
+    });
+
+    dispatch({
+      type: AUDITS_PAGE_DATA_RESOLVED,
+      payload: {
+        audits,
+        hasData: itemCount > 0,
       },
     });
   };
