@@ -132,6 +132,22 @@ module Foreman
             host&.uptime_seconds
           end
 
+          def host_memory(host)
+            host&.ram
+          end
+
+          def host_sockets(host)
+            host&.sockets
+          end
+
+          def host_cores(cores)
+            host&.cores
+          end
+
+          def host_virtual(host)
+            host&.virtual
+          end
+
           private
 
           def validate_subnet(subnet)
