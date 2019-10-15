@@ -236,7 +236,7 @@ class Subnet < ApplicationRecord
   def validate_against_external_ipam
     return unless self.errors.full_messages.empty?
 
-    if self.ipam&.downcase == "external ipam"
+    if self.external_ipam?
       external_ipam_proxy = SmartProxy.with_features('external_ipam').first
 
       if external_ipam_proxy.nil?
@@ -248,8 +248,8 @@ class Subnet < ApplicationRecord
   end
 
   def subnet_exists_in_external_ipam
-    subnet = JSON.parse(self.external_ipam_proxy.get_subnet(self)) if self.external_ipam_proxy
-    !(!subnet.kind_of?(Array) && subnet['message'] && subnet['message'].downcase == 'no subnets found')
+    subnet = self.external_ipam_proxy.get_subnet(self) if self.external_ipam_proxy
+    !(!subnet.kind_of?(Array) && subnet['message'] && subnet['message'] == 'No subnets found')
   end
 
   def known_ips

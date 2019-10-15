@@ -16,10 +16,11 @@ module Orchestration::ExternalIPAM
   protected
 
   def set_external_ip
-    if ip_available
-      subnet.external_ipam_proxy.add_ip_to_subnet(ip, subnet)
+    if ip_available?
+      response = subnet.external_ipam_proxy.add_ip_to_subnet(ip, subnet)
+      success?(response, 'Address created')
     else
-      self.errors.add :ip, _('IP address ' + ip + ' has already been reserved in External IPAM')
+      self.errors.add :ip, _('This IP address has already been reserved in External IPAM')
       self.errors.add :interfaces, _('Some interfaces are invalid')
     end
   end
@@ -30,7 +31,8 @@ module Orchestration::ExternalIPAM
   end
 
   def remove_external_ip
-    subnet.external_ipam_proxy.delete_ip_from_subnet(ip, subnet)
+    response = subnet.external_ipam_proxy.delete_ip_from_subnet(ip, subnet)
+    success?(response, 'Address deleted')
   end
 
   def requires_update?
@@ -43,8 +45,13 @@ module Orchestration::ExternalIPAM
     !old.ip.nil? && !old.subnet_id.nil?
   end
 
-  def ip_available
-    subnet.external_ipam_proxy.ip_exists(ip, subnet)['exists'] == false
+  def ip_available?
+    response = subnet.external_ipam_proxy.ip_exists(ip, subnet)
+    success?(response, 'No addresses found')
+  end
+
+  def success?(response, message)
+    (response['message'] && response['message'] == message) ? true : false
   end
 
   private
