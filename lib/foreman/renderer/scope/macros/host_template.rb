@@ -30,14 +30,22 @@ module Foreman
             host.puppetclasses
           end
 
-          def host_param_true?(name)
+          def host_param_true?(name, default_value = false)
             check_host
-            host.params.has_key?(name) && Foreman::Cast.to_bool(host.params[name])
+            if host.params.has_key?(name)
+              Foreman::Cast.to_bool(host.params[name])
+            else
+              default_value
+            end
           end
 
-          def host_param_false?(name)
+          def host_param_false?(name, default_value = false)
             check_host
-            host.params.has_key?(name) && Foreman::Cast.to_bool(host.params[name]) == false
+            if host.params.has_key?(name)
+              Foreman::Cast.to_bool(host.params[name]) == false
+            else
+              default_value
+            end
           end
 
           def root_pass
