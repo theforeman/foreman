@@ -16,7 +16,7 @@ module Orchestration::ExternalIPAM
   protected
 
   def set_external_ip
-    if ip_available?
+    if ip_is_available?
       response = subnet.external_ipam_proxy.add_ip_to_subnet(ip, subnet)
       success?(response, 'Address created')
     else
@@ -45,7 +45,7 @@ module Orchestration::ExternalIPAM
     !old.ip.nil? && !old.subnet_id.nil?
   end
 
-  def ip_available?
+  def ip_is_available?
     response = subnet.external_ipam_proxy.ip_exists(ip, subnet)
     success?(response, 'No addresses found')
   end
