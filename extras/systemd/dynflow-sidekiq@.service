@@ -1,0 +1,16 @@
+[Unit]
+Description=Foreman jobs daemon on sidekiq
+Documentation=https://theforeman.org
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+User=foreman
+TimeoutSec=90
+Environment=RAILS_ENV=production
+Environment=DYNFLOW_SIDEKIQ_SCRIPT=/usr/share/foreman/extras/dynflow-sidekiq.rb
+WorkingDirectory=/usr/share/foreman
+ExecStart=/usr/bin/sidekiq -e ${RAILS_ENV} -r ${DYNFLOW_SIDEKIQ_SCRIPT} -C /etc/foreman/dynflow/%i.yml
+
+[Install]
+WantedBy=multi-user.target
