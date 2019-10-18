@@ -22,7 +22,7 @@ RUN groupadd -r foreman -f -g 0 && \
     chmod -R g=u ${HOME}
 
 # Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
+COPY extras/containers/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
