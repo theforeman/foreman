@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ script/",
     "foreman-js:link": "./script/npm_link_foreman_js.sh",
-    "postlint": "node ./script/npm_lint_plugins.js",
+    "postlint": "./script/npm_lint_plugins.js",
     "test": "node node_modules/.bin/jest --no-cache --config config/jest.config.js",
     "test:watch": "node node_modules/.bin/jest --watchAll --config config/jest.config.js",
     "test:current": "node node_modules/.bin/jest --watch --config config/jest.config.js",
@@ -15,7 +15,7 @@
     "storybook": "cross-env NODE_ENV=storybook start-storybook -p 6006",
     "build-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 build-storybook",
     "deploy-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
-    "postinstall": "node ./script/npm_install_plugins.js",
+    "postinstall": "./script/npm_install_plugins.js",
     "analyze": "./script/webpack-analyze",
     "create-react-component": "yo react-domain"
   },
