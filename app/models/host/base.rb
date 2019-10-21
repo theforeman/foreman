@@ -192,7 +192,6 @@ module Host
       build_required_interfaces(managed: false, type: primary_interface_type(parser))
       set_non_empty_values(parser, attributes_to_import_from_facts)
       set_interfaces(parser) if parser.parse_interfaces?
-      set_reported_data(parser)
     end
 
     def set_non_empty_values(parser, methods)

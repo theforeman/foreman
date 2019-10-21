@@ -414,6 +414,7 @@ class Host::Managed < Host::Base
 
   def populate_fields_from_facts(parser, type, source_proxy)
     super
+    set_reported_data(parser)
     update_os_from_facts if operatingsystem_id_changed?
     populate_facet_fields(parser, type, source_proxy)
   end
