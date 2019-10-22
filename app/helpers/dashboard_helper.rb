@@ -61,7 +61,6 @@ module DashboardHelper
       [_('Pending changes'), report[:pending_hosts_enabled], report_color[:pending_hosts_enabled]],
       [_('Out of sync'), report[:out_of_sync_hosts_enabled], report_color[:out_of_sync_hosts_enabled]],
       [_('No report'), report[:reports_missing], report_color[:reports_missing]],
-      [_('Notification disabled'), report[:disabled_hosts], report_color[:disabled_hosts]],
     ].to_json
   end
 
