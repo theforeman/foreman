@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API selectors should return API_operations 1`] = `
+Object {
+  "polling": Object {
+    "SOME_KEY": 1,
+  },
+}
+`;
+
+exports[`API selectors should return a polling ID 1`] = `1`;
+
+exports[`API selectors should return the polling processes wrapper 1`] = `
+Object {
+  "SOME_KEY": 1,
+}
+`;

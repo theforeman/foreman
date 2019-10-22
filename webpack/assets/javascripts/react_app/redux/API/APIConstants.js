@@ -1,1 +1,6 @@
-export const API_OPERATIONS = { GET: 'API_GET' };
+export const DEFAULT_POLLING = 5000;
+export const API_OPERATIONS = {
+  GET: 'API_GET',
+  STOP_POLLING: 'API_STOP_POLLING',
+  START_POLLING: 'API_START_POLLING',
+};

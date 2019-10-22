@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`APIMiddleware should pass the polling action to next 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      undefined,
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API actions should start polling 1`] = `
+Object {
+  "key": "SOME_KEY",
+  "payload": Object {
+    "APIRequest": [Function],
+    "polling": 3000,
+  },
+  "type": "API_START_POLLING",
+}
+`;
+
+exports[`API actions should stop polling 1`] = `
+Object {
+  "key": "SOME_KEY",
+  "type": "API_STOP_POLLING",
+}
+`;

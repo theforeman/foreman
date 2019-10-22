@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API reducer Should handle STOP_POLLING 1`] = `
+Object {
+  "polling": Object {},
+}
+`;
+
+exports[`API reducer should handle START_POLLING 1`] = `
+Object {
+  "polling": Object {
+    "SOME_KEY": 1,
+  },
+}
+`;
+
+exports[`API reducer should return the initial state 1`] = `
+Object {
+  "polling": Object {},
+}
+`;
