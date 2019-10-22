@@ -4,11 +4,12 @@ module Foreman::Model
 
     include KeyPairComputeResource
     delegate :flavors, :subnets, :to => :client
-    delegate :security_groups, :flavors, :zones, :to => :self, :prefix => 'available'
     validates :user, :password, :presence => true
 
     alias_attribute :access_key, :user
     alias_attribute :region, :url
+
+    alias_method :available_flavors, :flavors
 
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"
@@ -74,6 +75,7 @@ module Foreman::Model
       groups.reject! { |sg| sg.vpc_id != vpc } if vpc
       groups
     end
+    alias_method :available_security_groups, :security_groups
 
     def regions
       return [] if user.blank? || password.blank?
@@ -83,6 +85,7 @@ module Foreman::Model
     def zones
       @zones ||= client.describe_availability_zones.body["availabilityZoneInfo"].map { |r| r["zoneName"] if r["regionName"] == region }.compact
     end
+    alias_method :available_zones, :zones
 
     def test_connection(options = {})
       super
