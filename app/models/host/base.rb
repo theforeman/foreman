@@ -381,8 +381,10 @@ module Host
       begin
         addr = IPAddr.new(address)
       rescue IPAddr::InvalidAddressError
-        # This works around https://bugs.ruby-lang.org/issues/8464 and strips off
-        # the interface identifier if present
+        # https://tickets.puppetlabs.com/browse/FACT-1935 facter can return an
+        # address with the link local identifier. Ruby can't parse because of
+        # https://bugs.ruby-lang.org/issues/8464 so we manually strip it off
+        # if the interface identifier if present
         if address.is_a?(String) && address.include?('%')
           addr = IPAddr.new(address.split('%').first)
         else
