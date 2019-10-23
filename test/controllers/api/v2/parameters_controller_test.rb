@@ -122,6 +122,14 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should create host parameter with lone taxonomies" do
+    Location.stubs(:one?).returns(true)
+    assert_difference('@host.parameters.count') do
+      post :create, params: { :host_id => @host.to_param, :parameter => valid_attrs }
+    end
+    assert_response :created
+  end
+
   test "should create domain parameter" do
     domain = domains(:mydomain)
     assert_difference('domain.parameters.count') do
@@ -184,6 +192,15 @@ class Api::V2::ParametersControllerTest < ActionController::TestCase
   end
 
   test "should create hostgroup parameter" do
+    hostgroup = hostgroups(:common)
+    assert_difference('hostgroup.group_parameters.count') do
+      post :create, params: { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }
+    end
+    assert_response :created
+  end
+
+  test "should create hostgroup parameter with lone taxonomies" do
+    Organization.stubs(:one?).returns(true)
     hostgroup = hostgroups(:common)
     assert_difference('hostgroup.group_parameters.count') do
       post :create, params: { :hostgroup_id => hostgroup.to_param, :parameter => valid_attrs }

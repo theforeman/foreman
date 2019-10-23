@@ -228,6 +228,8 @@ module Api
 
     def assign_lone_taxonomies
       return unless resource_class_for(resource_name)
+      # parameters aren't taxable but have a relation to taxonomies because of location and organization params
+      return if resource_name == 'parameter'
       [Location, Organization].each do |taxonomy|
         tax_name = taxonomy.to_s.downcase
         if resource_class.reflections.has_key? tax_name.pluralize
