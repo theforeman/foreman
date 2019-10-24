@@ -25,6 +25,14 @@ class Api::V2::CommonParametersControllerTest < ActionController::TestCase
     assert_response :created
   end
 
+  test "should create common parameter with lone taxonomies" do
+    Location.stubs(:one?).returns(true)
+    assert_difference('CommonParameter.count') do
+      post :create, params: { :common_parameter => valid_attrs }
+    end
+    assert_response :created
+  end
+
   test "should update common_parameter" do
     put :update, params: { :id => parameters(:common).to_param, :common_parameter => valid_attrs }
     assert_response :success
