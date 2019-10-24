@@ -13,6 +13,7 @@ module Hostext
 
       scoped_search :on => :name,          :complete_value => true, :default_order => true
       scoped_search :on => :last_report,   :complete_value => true, :only_explicit => true
+      scoped_search :on => :created_at,    :complete_value => true, :only_explicit => true
       scoped_search :on => :comment,       :complete_value => true
       scoped_search :on => :enabled,       :complete_value => {:true => true, :false => false}, :rename => :'status.enabled'
       scoped_search :on => :managed,       :complete_value => {:true => true, :false => false}
