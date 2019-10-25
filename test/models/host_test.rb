@@ -1452,6 +1452,36 @@ class HostTest < ActiveSupport::TestCase
     refute_equal host.root_pass, 'eHlieGE2SlVrejYzdw=='
   end
 
+  test "should be able to generate extremely long passwords" do
+    unencrypted_password = "a" * 500
+    host = FactoryBot.create(:host, :managed)
+    host.hostgroup = nil
+    host.operatingsystem.password_hash = 'Base64-Windows'
+    host.operatingsystem.save
+    host.root_pass = unencrypted_password
+    assert host.save!
+    assert_equal 'YQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAGEAYQBhAEEAZABtAGkAbgBpAHMAdAByAGEAdABvAHIAUABhAHMAcwB3AG8AcgBkAA==', host.root_pass
+  end
+
+  test "should not reencode base64-windows passwords" do
+    unencrypted_password = "xybxa6JUkz63w"
+    host = FactoryBot.create(:host, :managed)
+    host.hostgroup = nil
+    host.operatingsystem.password_hash = 'Base64-Windows'
+    host.operatingsystem.save
+    host.root_pass = unencrypted_password
+    assert host.save!
+    assert_equal 'eAB5AGIAeABhADYASgBVAGsAegA2ADMAdwBBAGQAbQBpAG4AaQBzAHQAcgBhAHQAbwByAFAAYQBzAHMAdwBvAHIAZAA=', host.root_pass
+    host.reload
+    host.name = "whatever"
+    assert host.save!
+    assert_equal 'eAB5AGIAeABhADYASgBVAGsAegA2ADMAdwBBAGQAbQBpAG4AaQBzAHQAcgBhAHQAbwByAFAAYQBzAHMAdwBvAHIAZAA=', host.root_pass
+    # then let's check that we can change root pass
+    host.root_pass = "oh my pass"
+    assert host.save!
+    refute_equal host.root_pass, 'eAB5AGIAeABhADYASgBVAGsAegA2ADMAdwBBAGQAbQBpAG4AaQBzAHQAcgBhAHQAbwByAFAAYQBzAHMAdwBvAHIAZAA='
+  end
+
   test "should use hostgroup base64 root password without reencoding" do
     Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
     hg = FactoryBot.create(:hostgroup, :with_os, :with_domain)
@@ -1459,6 +1489,22 @@ class HostTest < ActiveSupport::TestCase
     hg.root_pass = "abcdefghi"
     hg.save!
     assert_equal "YWJjZGVmZ2hp", hg.root_pass
+
+    h = FactoryBot.create(:host, :managed, :hostgroup => hg, :operatingsystem => nil)
+    h.root_pass = nil
+    h.save!
+    assert h.root_pass.present?
+    assert_equal h.hostgroup.root_pass, h.root_pass
+    assert_equal h.hostgroup.root_pass, h.read_attribute(:root_pass), 'should copy root_pass to host unmodified'
+  end
+
+  test "should use hostgroup base64-windows root password without reencoding" do
+    Setting[:root_pass] = "$1$default$hCkak1kaJPQILNmYbUXhD0"
+    hg = FactoryBot.create(:hostgroup, :with_os, :with_domain)
+    hg.operatingsystem.update_attribute(:password_hash, 'Base64-Windows')
+    hg.root_pass = "xybxa6JUkz63w"
+    hg.save!
+    assert_equal "eAB5AGIAeABhADYASgBVAGsAegA2ADMAdwBBAGQAbQBpAG4AaQBzAHQAcgBhAHQAbwByAFAAYQBzAHMAdwBvAHIAZAA=", hg.root_pass
 
     h = FactoryBot.create(:host, :managed, :hostgroup => hg, :operatingsystem => nil)
     h.root_pass = nil
