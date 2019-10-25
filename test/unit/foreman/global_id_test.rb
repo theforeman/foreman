@@ -19,9 +19,16 @@ module Foreman
       end
     end
 
-    test 'generates id for object' do
-      model = FactoryBot.create(:model)
-      assert_equal Foreman::GlobalId.encode('Model', model.id), Foreman::GlobalId.for(model)
+    describe '.for' do
+      test 'generates id for object' do
+        model = FactoryBot.create(:model)
+        assert_equal Foreman::GlobalId.encode('Model', model.id), Foreman::GlobalId.for(model)
+      end
+
+      test 'generates id for Redhat OS' do
+        os = FactoryBot.create(:rhel7_5)
+        assert_equal Foreman::GlobalId.encode('Operatingsystem', os.id), Foreman::GlobalId.for(os)
+      end
     end
   end
 end
