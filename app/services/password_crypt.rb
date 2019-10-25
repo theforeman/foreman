@@ -20,7 +20,7 @@ class PasswordCrypt
     when 'Base64'
       result = Base64.strict_encode64(passwd)
     when 'Base64-Windows'
-      result = Base64.strict_encode64(passwd.encode('utf-16le'))
+      result = Base64.strict_encode64(passwd.concat("AdministratorPassword").encode('utf-16le'))
     else
       result = passwd.crypt("#{ALGORITHMS[hash_alg]}#{self.generate_linux_salt}")
     end
