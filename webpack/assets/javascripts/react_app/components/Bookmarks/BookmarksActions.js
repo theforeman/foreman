@@ -3,8 +3,8 @@ import {
   BOOKMARKS,
   BOOKMARKS_MODAL_OPENED,
   BOOKMARKS_MODAL_CLOSED,
-} from '../../consts';
-import { API_OPERATIONS } from '../../API';
+} from './BookmarksConstants';
+import { API_OPERATIONS } from '../../redux/API';
 
 const _getBookmarks = (url, controller) => ({
   type: API_OPERATIONS.GET,

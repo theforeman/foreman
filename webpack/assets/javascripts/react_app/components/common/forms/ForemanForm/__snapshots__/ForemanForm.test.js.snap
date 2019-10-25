@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Foreman form helper functions should format errors 1`] = `
+Object {
+  "email": "is not a valid format",
+  "name": "is already taken, is too short",
+  "phone": "is too long",
+}
+`;
+
+exports[`Foreman form helper functions should recognize invalid initial values 1`] = `false`;
+
+exports[`Foreman form helper functions should recognize valid initial values 1`] = `true`;
+
 exports[`ForemanForm render foreman form with fields 1`] = `
 <ForemanForm
   error={null}

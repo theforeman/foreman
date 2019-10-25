@@ -1,31 +1,35 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
-import React from 'react';
-
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import RadioButtonGroup from './RadioButtonGroup';
 
-describe('radio button group', () => {
-  const radios = [
-    {
-      label: 'A',
-      checked: true,
-      value: 'A',
-    },
-    {
-      label: 'B',
-      checked: false,
-      value: 'B',
-    },
-  ];
+const radios = [
+  {
+    label: 'A',
+    checked: true,
+    value: 'A',
+  },
+  {
+    label: 'B',
+    checked: false,
+    value: 'B',
+  },
+];
 
-  it('should render group of radio buttons', () => {
-    const wrapper = shallow(
-      <RadioButtonGroup
-        name="RadioButtonGroupTest"
-        controlLabel="RadioButtonGroupLabel"
-        radios={radios}
-      />
-    );
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-});
+const commonFixtures = {
+  name: "RadioButtonGroupTest",
+  controlLabel: "RadioButtonGroupLabel",
+};
+
+const fixtures = {
+  'should render group of radio buttons': {
+    radios,
+    ...commonFixtures,
+  },
+  'should render disabled radio buttons': {
+    radios,
+    ...commonFixtures,
+    disabled: true,
+  }
+};
+
+describe('radio button group', () =>
+  testComponentSnapshotsWithFixtures(RadioButtonGroup, fixtures));

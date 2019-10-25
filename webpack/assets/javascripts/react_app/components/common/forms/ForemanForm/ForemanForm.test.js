@@ -1,9 +1,9 @@
 import React from 'react';
-import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
+import { testComponentSnapshotsWithFixtures, testSelectorsSnapshotWithFixtures } from 'react-redux-test-utils';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 
-import ForemanForm from '.';
+import ForemanForm, { prepareErrors, isInitialValid } from './ForemanForm';
 import TextField from '../TextField';
 
 const fixtures = {
@@ -45,6 +45,26 @@ FormComponent.propTypes = {
   onCancel: PropTypes.func.isRequired,
 };
 
+const basicSchema = Yup.object().shape({
+  name: Yup.string().required('is required')
+});
+
+const helperFixtures = {
+  'should format errors': () =>
+    prepareErrors({
+      name: ['is already taken', 'is too short'],
+      email: ['is not a valid format'],
+      phone: ['is too long'],
+    }),
+  'should recognize valid initial values': () =>
+      isInitialValid({ validationSchema: basicSchema, initialValues: { name: 'George' } }),
+  'should recognize invalid initial values': () =>
+    isInitialValid({ validationSchema: basicSchema, initialValues: {} }),
+}
+
 describe('ForemanForm', () => {
   testComponentSnapshotsWithFixtures(FormComponent, fixtures);
 });
+
+describe('Foreman form helper functions', () =>
+  testSelectorsSnapshotWithFixtures(helperFixtures));

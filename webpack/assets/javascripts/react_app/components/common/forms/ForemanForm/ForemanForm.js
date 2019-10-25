@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import Form from '../Form';
 import { translate as __ } from '../../../../common/I18n';
 
-const prepareErrors = errors =>
+export const prepareErrors = errors =>
   Object.keys(errors).reduce((memo, key) => {
     const errorMessages = errors[key];
     memo[key] = errorMessages ? errorMessages.join(', ') : errorMessages;
     return memo;
   }, {});
 
-const isInitialValid = ({ validationSchema, initialValues }) =>
+export const isInitialValid = ({ validationSchema, initialValues }) =>
   !validationSchema ? true : validationSchema.isValidSync(initialValues);
 
 const ForemanForm = props => (
