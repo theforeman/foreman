@@ -10,6 +10,8 @@ kind: snippet
                   :subnet => @subnet,
                   :subnet6 => @subnet6,
                   :dhcp => @dhcp }) -%>
-NM_CONTROLLED=no
+<%-   if ( @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i <= 7 ) -%>
+<%=     "NM_CONTROLLED=no" %>
+<%-   end -%>
 MASTER=<%= @bond_identifier %>
 SLAVE=yes

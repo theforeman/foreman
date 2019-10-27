@@ -10,7 +10,8 @@ keyboard us
 skipx
 
 
-network --bootproto dhcp --hostname snapshothost --device=00-f0-54-1a-7e-e0
+network --bootproto dhcp --hostname snapshothost 
+
 rootpw --iscrypted xybxa6JUkz63w
 firewall --service=ssh
 authconfig --useshadow --passalgo=sha256 --kickstart

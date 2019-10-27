@@ -43,6 +43,9 @@ oses:
       }
     end
   end
+  if subnet.nic_delay.present?
+    options.push("linksleep=#{subnet.nic_delay}")
+  end
 
   # optional repository for Atomic
   if @host.operatingsystem.name.match(/Atomic/i)

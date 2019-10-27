@@ -13,4 +13,6 @@ kind: snippet
 TYPE=Bond
 BONDING_OPTS="<%= @interface.bond_options -%> mode=<%= @interface.mode -%>"
 BONDING_MASTER=yes
-NM_CONTROLLED=no
+<%-   if ( @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i <= 7 ) -%>
+<%=     "NM_CONTROLLED=no" %>
+<%-   end -%>
