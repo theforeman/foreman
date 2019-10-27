@@ -168,6 +168,25 @@ Array [
       "type": "EDITOR_SHOW_LOADING",
     },
   ],
+  Array [
+    Object {
+      "type": "EDITOR_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "errorText": "",
+        "previewResult": "Error during rendering, Return to Editor tab.",
+        "selectedHost": Object {
+          "id": "1",
+          "name": "host",
+        },
+        "showError": true,
+      },
+      "type": "EDITOR_SHOW_ERROR",
+    },
+  ],
 ]
 `;
 

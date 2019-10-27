@@ -97,7 +97,7 @@ export const revertChanges = template => dispatch => {
   });
 };
 
-export const previewTemplate = ({ host, renderPath }) => (
+export const previewTemplate = ({ host, renderPath }) => async (
   dispatch,
   getState
 ) => {
@@ -113,39 +113,37 @@ export const previewTemplate = ({ host, renderPath }) => (
     preview_host_id: id,
   };
   dispatch({ type: EDITOR_SHOW_LOADING });
-  fetchTemplatePreview(renderPath, params)
-    // eslint-disable-next-line promise/prefer-await-to-then
-    .then(response => {
-      if (isErrorShown) dispatch(dismissErrorToast());
-      dispatch({ type: EDITOR_HIDE_LOADING });
-      dispatch({
-        type: EDITOR_EXEC_PREVIEW,
-        payload: {
-          renderedEditorValue: templateValue,
-          selectedHost: {
-            id: toString(id),
-            name,
-          },
-          previewResult: response.data,
-          isSearchingHosts: false,
+  try {
+    const response = await fetchTemplatePreview(renderPath, params);
+    if (isErrorShown) dispatch(dismissErrorToast());
+    dispatch({ type: EDITOR_HIDE_LOADING });
+    dispatch({
+      type: EDITOR_EXEC_PREVIEW,
+      payload: {
+        renderedEditorValue: templateValue,
+        selectedHost: {
+          id: toString(id),
+          name,
         },
-      });
-    })
-    .catch(error => {
-      dispatch({ type: EDITOR_HIDE_LOADING });
-      dispatch({
-        type: EDITOR_SHOW_ERROR,
-        payload: {
-          showError: true,
-          errorText: __(error.response.data),
-          previewResult: __('Error during rendering, Return to Editor tab.'),
-          selectedHost: {
-            id: toString(id),
-            name,
-          },
-        },
-      });
+        previewResult: response.data,
+        isSearchingHosts: false,
+      },
     });
+  } catch (error) {
+    dispatch({ type: EDITOR_HIDE_LOADING });
+    dispatch({
+      type: EDITOR_SHOW_ERROR,
+      payload: {
+        showError: true,
+        errorText: error.response ? __(error.response.data) : '',
+        previewResult: __('Error during rendering, Return to Editor tab.'),
+        selectedHost: {
+          id: toString(id),
+          name,
+        },
+      },
+    });
+  }
 };
 
 export const fetchTemplatePreview = (renderPath, params) =>
