@@ -5,7 +5,11 @@ model: ProvisioningTemplate
 snippet: true
 %>
 echo "<%= @host.shortname %>" > /etc/hostname
+<% if @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i == 6 %>
+hostname <%= @host %>
+<% else %>
 hostname <%= @host.shortname %>
+<% end %>
 cat > /etc/hosts << EOF
 <%# simple snippet to generate /etc/hosts when provisioning image based systems -%>
 127.0.0.1   <%= @host %> <%= @host.shortname %> localhost localhost.localdomain

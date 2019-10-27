@@ -10,12 +10,6 @@ timeout=20
 echo Default PXE global template entry is set to '<%= global_setting("default_pxe_item_global", "local") %>'
 
 <%= snippet "pxegrub2_mac" %>
-
-# Only grub2 from redhat has MAC-based config loading patch, load explicitly
-configfile=/grub2/grub.cfg-01-$mac
-source "$configfile"
-
-# And if that fails render chain and discovery menu
 <%= snippet "pxegrub2_chainload" %>
 <%= snippet "pxegrub2_discovery" %>
 

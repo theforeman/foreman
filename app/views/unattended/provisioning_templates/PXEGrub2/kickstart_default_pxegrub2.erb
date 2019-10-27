@@ -10,7 +10,12 @@ oses:
 # This file was deployed via '<%= template_name %>' template
 
 <%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  is_fedora = @host.operatingsystem.name == 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
   major = @host.operatingsystem.major.to_i
+  iface = @host.provision_interface
   mac = @host.provision_interface.mac
 
   # Tell Anaconda to perform network functions with boot interface
@@ -43,6 +48,9 @@ oses:
       }
     end
   end
+  if subnet.nic_delay.present?
+    options.push("linksleep=#{subnet.nic_delay}")
+  end
 
   # optional repository for Atomic
   if @host.operatingsystem.name.match(/Atomic/i)
@@ -55,6 +63,14 @@ oses:
 
   if @host.operatingsystem.name != 'Fedora' && @host.operatingsystem.major.to_i >= 7 && host_param_true?('fips_enabled')
     options.push('fips=1')
+  end
+
+  if iface.tag.present? && iface.attached_to.present?
+    if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
+      options.push("vlanid=#{iface.tag}")
+    else
+      options.push("vlan=vlan#{iface.tag}:#{iface.attached_to}")
+    end
   end
 
   # send PXELinux "IPAPPEND 2" option along
@@ -78,6 +94,11 @@ set timeout=<%= host_param('loader_timeout') || 10 %>
 menuentry '<%= template_name %>' {
   <%= linuxcmd %> <%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
   <%= initrdcmd %> <%= @initrd %>
+}
+
+menuentry '<%= template_name %> HTTP Boot' {
+  <%= linuxcmd %> /httpboot/<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
+  <%= initrdcmd %> /httpboot/<%= @initrd %>
 }
 
 <%= snippet_if_exists(template_name + " custom menu") %>

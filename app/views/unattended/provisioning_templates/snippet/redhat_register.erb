@@ -37,7 +37,8 @@ snippet: true
 #   subscription_manager_org = <org name>       Organization name, if required
 #
 #   subscription_manager_repos = <repos>        Additional repositories to enable
-#                                               after registration
+#                                               after registration.
+#                                               Seperate multiple repositories with commas.
 #
 #   subscription_manager_override_repos_cost = <cost>  Override repository cost
 #
@@ -178,7 +179,7 @@ snippet: true
   <% if host_param('subscription_manager_repos') %>
     # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
     subscription-manager repos --list > /dev/null
-    <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(',', ' --enable')}" %>
+    <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(/,\s*/, ' --enable ')}" %>
   <% end %>
 
   <% if host_param('subscription_manager_override_repos_cost') %>

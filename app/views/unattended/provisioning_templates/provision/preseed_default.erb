@@ -13,7 +13,7 @@ oses:
   os_major = @host.operatingsystem.major.to_i
   squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
 
-  additional_packages = ['lsb-release']
+  additional_packages = ['lsb-release', 'wget']
   additional_packages << host_param('additional-packages')
   additional_packages << 'python' if ansible_enabled
   additional_packages << 'salt-minion' if salt_enabled

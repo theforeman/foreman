@@ -18,8 +18,8 @@ This template accepts the following parameters:
 - force-puppet: boolean (default=false)
 - enable-epel: boolean (default=true)
 - enable-puppetlabs-repo: boolean (default=false)
-- enable-puppetlabs-pc1-repo: boolean (default=false)
 - enable-puppetlabs-puppet5-repo: boolean (default=false)
+- enable-puppetlabs-puppet6-repo: boolean (default=false)
 - salt_master: string (default=undef)
 - ntp-server: string (default="0.fedora.pool.ntp.org")
 - bootloader-append: string (default="nofb quiet splash=quiet")
@@ -28,6 +28,10 @@ This template accepts the following parameters:
 - disable-uek: boolean (default=false)
 - use-ntp: boolean (default depends on OS release)
 - fips_enabled: boolean (default=false)
+
+Reference links:
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
 %>
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
@@ -44,7 +48,19 @@ This template accepts the following parameters:
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
   use_ntp = host_param_true?('use-ntp') || (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 7)
-%>
+  iface = @host.provision_interface
+  network_options = []
+
+  if iface.tag.present? && iface.attached_to.present?
+    if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
+      # RHEL6 and older have limited VLAN options
+      network_options.push("--vlanid=#{iface.tag}")
+    else
+      network_options.push("--device=#{iface.attached_to} --vlanid=#{iface.tag} --interfacename=vlan#{iface.tag}")
+    end
+  end
+-%>
+
 <% if (is_fedora && os_major < 29) || (rhel_compatible && os_major <= 7) -%>
 install
 <% end -%>
@@ -80,7 +96,7 @@ skipx
 <% dhcp = !@static -%>
 <% end -%>
 
-network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{subnet.dns_servers.join(',')} --mtu=#{subnet.mtu.to_s}" %> --hostname <%= @host %><%= os_major >= 6 ? " --device=#{@host.mac}" : '' -%>
+network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{subnet.dns_servers.join(',')} --mtu=#{subnet.mtu.to_s}" %> --hostname <%= @host %> <%= network_options.join(' ') %>
 
 rootpw --iscrypted <%= root_pass %>
 <% if host_param_true?('disable-firewall') -%>
@@ -235,7 +251,7 @@ fi
 <% end -%>
 
 <% if puppet_enabled %>
-<% if host_param_true?('enable-puppetlabs-pc1-repo') || host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetlabs-puppet6-repo')|| host_param_true?('enable-puppetlabs-puppet5-repo') -%>
 <%= snippet 'puppetlabs_repo' %>
 <% end -%>
 <%= snippet 'puppet_setup' %>

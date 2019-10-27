@@ -1,6 +1,8 @@
 
 echo "" > /etc/hostname
+
 hostname 
+
 cat > /etc/hosts << EOF
 127.0.0.1   snapshothost  localhost localhost.localdomain
 ::1     ip6-localhost ip6-loopback

@@ -39,7 +39,7 @@ snippet: true
   <% if os_major == 7 -%>
     /usr/sbin/sshd-keygen
   <% elsif os_major > 7 %>
-    /usr/libexec/openssh/sshd-keygen
+    /usr/libexec/openssh/sshd-keygen rsa
   <% end -%>
 <% else -%>
   freeipa_client=freeipa-client
