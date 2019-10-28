@@ -4,26 +4,6 @@ import * as actions from './index';
 jest.mock('../../../redux/API');
 
 describe('Notification Drawer actions', () => {
-  it('should start polling notifications', () => {
-    const state = { notifications: { isPolling: false } };
-    const dispatch = jest.fn();
-    const dispatcher = actions.startNotificationsPolling('url');
-
-    dispatcher(dispatch, () => state);
-
-    expect(dispatch.mock.calls).toMatchSnapshot();
-  });
-
-  it('should try polling notifications, its already polling', () => {
-    const state = { notifications: { isPolling: true } };
-    const dispatch = jest.fn();
-    const dispatcher = actions.startNotificationsPolling('url');
-
-    dispatcher(dispatch, () => state);
-
-    expect(dispatch.mock.calls).toHaveLength(0);
-  });
-
   it('should make notification group read', () => {
     API.put.mockImplementation(async () => null);
 

@@ -3,15 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { groupBy } from 'lodash';
+import { bindActionCreators } from 'redux';
 import {
   NotificationDrawerWrapper,
   NotificationDrawerPanelWrapper,
 } from 'patternfly-react';
 import * as NotificationActions from '../../redux/actions/notifications';
 import { noop, translateObject } from '../../common/helpers';
+import { APIActions } from '../../redux/API';
 
 import './notifications.scss';
 import ToggleIcon from './ToggleIcon/ToggleIcon';
+import { NOTIFICATIONS } from '../../redux/consts';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
@@ -29,6 +32,11 @@ class notificationContainer extends React.Component {
     if (isReady && isDrawerOpen) {
       toggleDrawer();
     }
+  }
+
+  componentWillUnmount() {
+    const { stopPolling } = this.props;
+    stopPolling(NOTIFICATIONS);
   }
 
   render() {
@@ -99,6 +107,7 @@ notificationContainer.propTypes = {
   markGroupAsRead: PropTypes.func,
   clearNotification: PropTypes.func,
   clearGroup: PropTypes.func,
+  stopPolling: PropTypes.func,
   translations: PropTypes.shape({
     title: PropTypes.string,
     unreadEvent: PropTypes.string,
@@ -124,6 +133,7 @@ notificationContainer.defaultProps = {
   markGroupAsRead: noop,
   clearNotification: noop,
   clearGroup: noop,
+  stopPolling: noop,
   translations: NotificationDrawerPanelWrapper.defaultProps.translations,
 };
 
@@ -132,13 +142,11 @@ const mapStateToProps = state => {
     notifications,
     isDrawerOpen,
     expandedGroup,
-    isPolling,
     hasUnreadMessages,
   } = state.notifications;
 
   return {
     isDrawerOpen,
-    isPolling,
     notifications: groupBy(notifications, n => n.group),
     expandedGroup,
     isReady: !!notifications,
@@ -146,7 +154,10 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ ...NotificationActions, ...APIActions }, dispatch);
+
 export default connect(
   mapStateToProps,
-  NotificationActions
+  mapDispatchToProps
 )(onClickOutside(notificationContainer));

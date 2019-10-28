@@ -5,9 +5,16 @@ import {
   stateWithNotifications,
   panelRequest,
   NotificationRequest,
+  notifications,
 } from './notifications.fixtures';
 
 import reducer from './index';
+import { actionTypeGenerator } from '../../API';
+import { redirectToLogin } from './helpers';
+
+jest.mock('./helpers.js', () => ({
+  redirectToLogin: jest.fn(),
+}));
 
 describe('notification reducer', () => {
   it('should return the initial state', () => {
@@ -48,5 +55,33 @@ describe('notification reducer', () => {
         payload: NotificationRequest,
       })
     ).toMatchSnapshot();
+  });
+
+  it('Should handle SUCCESS', () => {
+    const { SUCCESS } = actionTypeGenerator(types.NOTIFICATIONS);
+
+    const action = {
+      type: SUCCESS,
+      payload: {
+        notifications,
+      },
+    };
+    expect(reducer(stateWithNotifications, action)).toMatchSnapshot();
+  });
+
+  it('Should handle FAILURE', () => {
+    const { FAILURE } = actionTypeGenerator(types.NOTIFICATIONS);
+    const action = {
+      type: FAILURE,
+      payload: {
+        error: {
+          response: {
+            status: 401,
+          },
+        },
+      },
+    };
+    expect(reducer(stateWithNotifications, action)).toMatchSnapshot();
+    expect(redirectToLogin).toBeCalled();
   });
 });

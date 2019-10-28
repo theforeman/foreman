@@ -1,70 +1,54 @@
-import { mount } from 'enzyme';
+/* eslint-disable no-console */
 import React from 'react';
-import { generateStore } from '../../redux';
-import API from '../../redux/API/API';
-import { doesDocumentHasFocus } from '../../common/document';
-
-import { componentMountData, serverResponse } from './notifications.fixtures';
-
+import IntegrationTestHelper from '../../common/IntegrationTestHelper';
+import notificationReducer from '../../redux/reducers/notifications';
+import { reducers as APIReducers } from '../../redux/API/APIReducer';
+import { get } from '../../redux/API/APIRequest';
+import { componentMountData } from './notifications.fixtures';
 import Notifications from './';
+import { APIMiddleware } from '../../redux/API';
+import { registeredPollingException } from '../../redux/API/APIHelpers';
+import { NOTIFICATIONS } from '../../redux/consts';
 
-jest.mock('../../redux/API/API');
-jest.mock('../../common/document');
+jest.mock('../../redux/API/APIRequest');
 
-let failResponse = { response: { status: 200 } };
+const notificationProps = {
+  data: componentMountData,
+};
 
-function mockjqXHR() {
-  return {
-    then: callback => {
-      callback(JSON.parse(serverResponse));
-      return mockjqXHR();
-    },
-    catch: failCallback => {
-      failCallback(failResponse);
-      return mockjqXHR();
-    },
-  };
-}
+const configureIntegrationHelper = () => {
+  const reducers = { notifications: notificationReducer, ...APIReducers };
+  const middlewares = [APIMiddleware];
+  return new IntegrationTestHelper(reducers, middlewares);
+};
 
 describe('notifications', () => {
-  doesDocumentHasFocus.mockImplementation(() => true);
-
   beforeEach(() => {
     global.tfm = {
       tools: {
         activateTooltips: () => {},
       },
     };
-    API.get = mockjqXHR;
+    jest.spyOn(console, 'error');
+    console.error.mockImplementation(() => {});
   });
 
-  it('full flow', () => {
-    const wrapper = mount(
-      <Notifications data={componentMountData} store={generateStore()} />
-    );
-    wrapper.find('.fa-bell').simulate('click');
-    expect(wrapper.find('.panel-group')).toHaveLength(1);
-    wrapper.find('.panel-group .panel-heading').simulate('click');
-    expect(wrapper.find('.unread')).toHaveLength(1);
-    wrapper.find('.unread').simulate('click');
-    expect(wrapper.find('.unread')).toHaveLength(0);
-  });
-
-  it('should redirect to login when 401', () => {
-    window.location.replace = jest.fn();
-    failResponse = { response: { status: 401 } };
-
-    mount(<Notifications data={componentMountData} store={generateStore()} />);
-    expect(global.location.replace).toBeCalled();
+  afterEach(() => {
+    console.error.mockRestore();
+    get.mockRestore();
   });
 
   it('should avoid multiple polling on re-mount', () => {
-    const store = generateStore();
-    const spy = jest.spyOn(API, 'get');
-
-    mount(<Notifications data={componentMountData} store={store} />);
-    mount(<Notifications data={componentMountData} store={store} />);
-
-    expect(spy).toHaveBeenCalledTimes(1);
+    get.mockImplementation(jest.fn());
+    const integrationTestHelper = configureIntegrationHelper();
+    integrationTestHelper.mount(<Notifications {...notificationProps} />);
+    try {
+      integrationTestHelper.mount(<Notifications {...notificationProps} />);
+    } catch (error) {
+      expect(error.message).toBe(
+        registeredPollingException(NOTIFICATIONS).message
+      );
+    }
+    expect(get).toHaveBeenCalledTimes(1);
   });
 });

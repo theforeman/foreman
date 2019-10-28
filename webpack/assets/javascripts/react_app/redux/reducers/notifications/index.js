@@ -1,21 +1,22 @@
+/* eslint-disable no-case-declarations */
 import Immutable from 'seamless-immutable';
 
 import {
-  NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_CLEAR,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
-  NOTIFICATIONS_POLLING_STARTED,
+  NOTIFICATIONS,
 } from '../../consts';
 import { notificationsDrawer } from '../../../common/sessionStorage';
+import { actionTypeGenerator } from '../../API';
+import { redirectToLogin } from './helpers';
 
 const initialState = Immutable({
   isDrawerOpen: notificationsDrawer.getIsOpened(),
   expandedGroup: notificationsDrawer.getExpandedGroup(),
-  isPolling: false,
   hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false,
 });
 
@@ -32,14 +33,20 @@ const hasUnreadMessages = notifications => {
 
 export default (state = initialState, action) => {
   const { payload } = action;
+  const { SUCCESS, FAILURE } = actionTypeGenerator(NOTIFICATIONS);
 
   switch (action.type) {
-    case NOTIFICATIONS_POLLING_STARTED:
-      return state.set('isPolling', true);
-    case NOTIFICATIONS_GET_NOTIFICATIONS:
-      return state
-        .set('notifications', payload.notifications)
-        .set('hasUnreadMessages', hasUnreadMessages(payload.notifications));
+    case SUCCESS:
+      return state.merge({
+        notifications: payload.notifications,
+        hasUnreadMessages: hasUnreadMessages(payload.notifications),
+      });
+    case FAILURE:
+      const { error } = payload;
+      if (error.response && error.response.status === 401) {
+        redirectToLogin();
+      }
+      return state.merge({ error: payload.error });
     case NOTIFICATIONS_TOGGLE_DRAWER:
       return state.set('isDrawerOpen', payload.value);
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
