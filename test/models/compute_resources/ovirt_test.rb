@@ -102,9 +102,12 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
   end
 
   describe 'APIv4 support' do
+    require 'fog/ovirt/models/compute/quota'
+
     before do
       @compute_resource = FactoryBot.build(:ovirt_cr)
-      @client_mock = mock.tap { |m| m.stubs(datacenters: [])}
+      @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => "Default" })
+      @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota])}
     end
 
     it 'passes api_version properly' do
@@ -112,6 +115,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
         options[:api_version].must_equal 'v4'
       end.returns(@client_mock)
       @compute_resource.use_v4 = true
+      @compute_resource.ovirt_quota = '1'
       @compute_resource.send(:client)
     end
 
@@ -131,6 +135,98 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @compute_resource.use_v4?.must_equal true
       @compute_resource.use_v4 = '0'
       @compute_resource.use_v4?.must_equal false
+    end
+  end
+
+  describe 'quota validation and name-id substitution' do
+    require 'fog/ovirt/models/compute/quota'
+
+    before do
+      @compute_resource = FactoryBot.build(:ovirt_cr)
+      @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => 'Default' })
+      @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota])}
+    end
+
+    test 'quota validation - id entered' do
+      @compute_resource.ovirt_quota = '1'
+      assert_equal('1', @compute_resource.validate_quota(@client_mock))
+    end
+
+    test 'quota validation - name entered' do
+      @compute_resource.ovirt_quota = 'Default'
+      assert_equal('1', @compute_resource.validate_quota(@client_mock))
+    end
+
+    test 'quota validation - nothing entered' do
+      assert_equal('1', @compute_resource.validate_quota(@client_mock))
+    end
+
+    test 'quota validation - name entered' do
+      @compute_resource.ovirt_quota = 'Default2'
+      assert_raise Foreman::Exception do
+        @compute_resource.validate_quota(@client_mock)
+      end
+    end
+  end
+
+  describe 'name-id substitution for attributes: network, storage_domain and cluster' do
+    let(:cr) do
+      mock_cr(FactoryBot.build(:ovirt_cr),
+        :clusters => [
+          stub(:id => 'c1', :name => 'cluster 1'),
+          stub(:id => 'c2', :name => 'cluster 2'),
+        ],
+        :networks => [
+          stub(:id => 'net1', :name => 'network 1'),
+          stub(:id => 'net2', :name => 'network 2'),
+        ],
+        :storage_domains => [
+          stub(:id => '312f6', :name => 'domain 1'),
+          stub(:id => '382ec', :name => 'domain 2'),
+        ]
+      )
+    end
+
+    test 'cluster validation - id entered' do
+      assert_equal('c2', cr.get_ovirt_id(cr.clusters, 'c2'))
+    end
+
+    test 'cluster validation - name entered' do
+      assert_equal('c2', cr.get_ovirt_id(cr.clusters, 'cluster 2'))
+    end
+
+    test 'cluster validation - not valid' do
+      assert_raise Foreman::Exception do
+        cr.get_ovirt_id(cr.clusters, 'c3')
+      end
+    end
+
+    test 'storage domain validation - id entered' do
+      assert_equal('312f6', cr.get_ovirt_id(cr.storage_domains, '312f6'))
+    end
+
+    test 'storage domain validation - name entered' do
+      assert_equal('382ec', cr.get_ovirt_id(cr.storage_domains, 'domain 2'))
+    end
+
+    test 'storage domain validation - not valid' do
+      assert_raise Foreman::Exception do
+        cr.get_ovirt_id(cr.storage_domains, 'domain 3')
+      end
+    end
+
+    test 'network validation - id entered' do
+      assert_equal('net1', cr.get_ovirt_id(cr.networks, 'net1'))
+    end
+
+    test 'network validation - name entered' do
+      assert_equal('net2', cr.get_ovirt_id(cr.networks, 'network 2'))
+    end
+
+    test 'network validation - not valid' do
+      assert_raise Foreman::Exception do
+        cr.get_ovirt_id(cr.networks, 'network 3')
+      end
     end
   end
 
