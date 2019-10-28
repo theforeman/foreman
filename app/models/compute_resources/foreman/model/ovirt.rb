@@ -275,19 +275,29 @@ module Foreman::Model
       template = template(args[:template]) if args[:template]
       instance_type = instance_type(args[:instance_type]) if args[:instance_type]
 
+      args[:cluster] = get_ovirt_id(self.clusters, args[:cluster])
+
       sanitize_inherited_vm_attributes(args, template, instance_type)
       preallocate_and_clone_disks(args, template) if args[:volumes_attributes].present? && template.present?
 
       vm = super({ :first_boot_dev => 'network', :quota => ovirt_quota }.merge(args))
 
       begin
-        create_interfaces(vm, args[:interfaces_attributes]) unless args[:interfaces_attributes].empty?
+        create_interfaces(vm, args[:interfaces_attributes], args[:cluster]) unless args[:interfaces_attributes].empty?
         create_volumes(vm, args[:volumes_attributes]) unless args[:volumes_attributes].empty?
       rescue => e
         destroy_vm vm.id
         raise e
       end
       vm
+    end
+
+    def get_ovirt_id(argument_list, argument)
+      if argument_list.detect { |a| a.name == argument }.nil? && argument_list.detect { |a| a.id == argument }.nil?
+        raise Foreman::Exception.new("#{argument} is not valid, enter id or name")
+      else
+        argument_list.detect { |a| a.name == argument }.try(:id) || argument
+      end
     end
 
     def preallocate_and_clone_disks(args, template)
@@ -470,6 +480,14 @@ module Foreman::Model
       ]
     end
 
+    def validate_quota(client)
+      if self.attrs[:ovirt_quota_id].nil?
+        self.attrs[:ovirt_quota_id] = client.quotas.first.id
+      else
+        get_ovirt_id(client.quotas, self.attrs[:ovirt_quota_id])
+      end
+    end
+
     protected
 
     def bootstrap(args)
@@ -493,6 +511,7 @@ module Foreman::Model
         :api_version      => use_v4? ? 'v4' : 'v3'
       )
       client.datacenters
+      validate_quota(client)
       @client = client
     rescue => e
       if e.message =~ /SSL_connect.*certificate verify failed/ ||
@@ -586,16 +605,18 @@ module Foreman::Model
       "nic#{nic_name_num}"
     end
 
-    def create_interfaces(vm, attrs)
+    def create_interfaces(vm, attrs, cluster_id)
       # first remove all existing interfaces
       vm.interfaces&.each do |interface|
         # The blocking true is a work-around for ovirt bug, it should be removed.
         vm.destroy_interface(:id => interface.id, :blocking => true)
       end
       # add interfaces
+      cluster_networks = self.networks(:cluster_id => cluster_id)
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
+        interface[:network] = get_ovirt_id(cluster_networks, interface[:network])
         vm.add_interface(interface)
       end
       vm.interfaces.reload
@@ -608,6 +629,7 @@ module Foreman::Model
         if vol[:id].blank?
           set_preallocated_attributes!(vol, vol[:preallocate])
           vol[:wipe_after_delete] = to_fog_ovirt_boolean(vol[:wipe_after_delete])
+          vol[:storage_domain] = get_ovirt_id(storage_domains, vol[:storage_domain])
           # The blocking true is a work-around for ovirt bug fixed in ovirt version 5.1
           # The BZ in ovirt cause to the destruction of a host in foreman to fail in case a volume is locked
           # Here we are enforcing blocking behavior which  will  wait until the volume is added

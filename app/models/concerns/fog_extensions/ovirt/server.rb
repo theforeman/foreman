@@ -34,7 +34,8 @@ module FogExtensions
       end
 
       def select_nic(fog_nics, nic)
-        fog_nics.detect {|fn| fn.network == nic.compute_attributes['network']} # grab any nic on the same network
+        nic_network = @service.list_networks(@attributes[:cluster]).detect { |n| n.name == nic.compute_attributes['network'] }.try(:id) || nic.compute_attributes['network']
+        fog_nics.detect {|fn| fn.network == nic_network} # grab any nic on the same network
       end
     end
   end
