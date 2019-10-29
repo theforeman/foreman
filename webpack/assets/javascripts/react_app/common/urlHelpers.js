@@ -30,7 +30,7 @@ export const getURIpage = () => Number(getURI().query(true).page) || 1;
 /**
  * Get updated perPage param
  */
-export const getURIperPage = () => Number(getURI().query(true).per_page) || 20;
+export const getURIperPage = () => Number(getURI().query(true).per_page);
 /**
  * Get updated searchQuery param
  */
@@ -41,7 +41,7 @@ export const getURIsearch = () => getURI().query(true).search || '';
  */
 export const getParams = () => ({
   page: getURIpage(),
-  perPage: getURIperPage(),
+  perPage: getURIperPage() || null,
   searchQuery: getURIsearch(),
 });
 

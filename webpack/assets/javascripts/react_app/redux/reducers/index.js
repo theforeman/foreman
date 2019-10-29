@@ -3,7 +3,6 @@ import statistics from './statistics';
 import hosts from './hosts';
 import notifications from './notifications';
 import toasts from './toasts';
-import { reducers as appReducers } from '../../ReactApp';
 import { reducers as passwordStrengthReducers } from '../../components/PasswordStrength';
 import { reducers as breadcrumbBarReducers } from '../../components/BreadcrumbBar';
 import { reducers as autoCompleteReducers } from '../../components/AutoComplete';
@@ -28,7 +27,6 @@ export function combineReducersAsync(asyncReducers) {
     hosts,
     notifications,
     toasts,
-    ...appReducers,
     ...passwordStrengthReducers,
     ...breadcrumbBarReducers,
     ...layoutReducers,

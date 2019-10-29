@@ -15,10 +15,6 @@ import {
   selectAuditsHasError,
   selectAuditsIsLoadingPage,
 } from './AuditsPageSelectors';
-import {
-  selectReactAppVersion,
-  selectReactAppPerPageOptions,
-} from '../../../ReactApp/ReactAppSelectors';
 import { callOnMount, callOnPopState } from '../../../common/HOC';
 import withQueryReducer from '../../common/reducerHOC/withQueryReducer';
 import withDataReducer from '../../common/reducerHOC/withDataReducer';
@@ -33,8 +29,6 @@ const mapStateToProps = state => ({
   searchQuery: selectAuditsSearch(state),
   hasError: selectAuditsHasError(state),
   hasData: selectAuditsHasData(state),
-  version: selectReactAppVersion(state),
-  perPageOptions: selectReactAppPerPageOptions(state),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);

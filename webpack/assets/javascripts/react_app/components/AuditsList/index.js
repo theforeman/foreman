@@ -59,7 +59,6 @@ const renderResourceLink = (auditTitle, auditTitleUrl, id) => {
 
 const AuditsList = ({ data: { audits }, fetchAndPush }) => {
   const initExpanded = audits.length === 1;
-
   return (
     <ListView>
       {audits.map(

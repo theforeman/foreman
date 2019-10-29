@@ -11,7 +11,6 @@ const fixtures = {
 const getBaseProps = () => ({
   pagination: {
     page: 2,
-    perPage: 5,
     perPageOptions: [5, 10, 25],
   },
   itemCount: 52,

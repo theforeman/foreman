@@ -1,7 +1,7 @@
 import React from 'react';
 import forceSingleton from '../common/forceSingleton';
 
-import ReactApp from '../ReactApp';
+import ReactApp from '../Root/ReactApp';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
 import LineChart from './common/charts/LineChart';
@@ -80,7 +80,6 @@ const componentRegistry = {
     const factory = this.wrapperFactory();
 
     factory.with('i18n');
-
     if (store && component.store) {
       factory.with('store', store);
     }

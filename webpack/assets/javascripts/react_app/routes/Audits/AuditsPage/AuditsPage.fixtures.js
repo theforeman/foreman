@@ -41,8 +41,6 @@ export const state = {
 };
 
 export const auditsPageProps = {
-  perPageOptions: [5, 10, 20, 50],
-  docURL: '/url',
   searchProps: SearchBarProps,
   searchable: true,
   location: {},
@@ -51,5 +49,4 @@ export const auditsPageProps = {
   isLoading: false,
   hasData: true,
   searchQuery: 'search',
-  version: '1.23',
 };

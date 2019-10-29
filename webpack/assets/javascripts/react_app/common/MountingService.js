@@ -8,6 +8,7 @@ export function mount(component, selector, data, flattenData = false) {
   const reactNode = document.querySelector(selector);
   if (reactNode) {
     ReactDOM.unmountComponentAtNode(reactNode);
+
     mountNode(component, reactNode, data, flattenData);
   } else {
     // eslint-disable-next-line no-console
@@ -17,7 +18,7 @@ export function mount(component, selector, data, flattenData = false) {
   }
 }
 
-export function mountNode(component, reactNode, data, flattenData = false) {
+function mountNode(component, reactNode, data, flattenData) {
   ReactDOM.render(
     componentRegistry.markup(component, {
       data,
