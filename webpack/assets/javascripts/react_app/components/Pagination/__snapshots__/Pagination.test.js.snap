@@ -23,12 +23,12 @@ exports[`Pagination rendering from erb renders layout 1`] = `
   pagination={
     Object {
       "page": 1,
-      "perPage": 20,
+      "perPage": 5,
       "perPageOptions": Array [
         5,
         10,
-        15,
         20,
+        50,
       ],
     }
   }
@@ -64,7 +64,7 @@ exports[`Pagination rendering from js renders correctly 1`] = `
   pagination={
     Object {
       "page": 2,
-      "perPage": 5,
+      "perPage": 20,
       "perPageOptions": Array [
         5,
         10,
