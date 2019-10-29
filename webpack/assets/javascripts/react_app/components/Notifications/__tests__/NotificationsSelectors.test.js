@@ -1,15 +1,22 @@
 import { testSelectorsSnapshotWithFixtures } from 'react-redux-test-utils';
-import { selectNotifications, selectBool } from '../NotificationsSelectors';
+import {
+  selectNotifications,
+  selectIsDrawerOpen,
+  selectIsReady,
+  selectHasUnreadMessages,
+  selectExpandedGroup,
+} from '../NotificationsSelectors';
+import { stateWithNotifications } from '../Notifications.fixtures';
 
-const state = {
-  notifications: {
-    bool: false,
-  },
-};
+const state = stateWithNotifications;
 
 const fixtures = {
   'should return Notifications': () => selectNotifications(state),
-  'should return Notifications bool': () => selectBool(state),
+  'should return Notifications isDrawerOpen': () => selectIsDrawerOpen(state),
+  'should return Notifications expandedGroup': () => selectExpandedGroup(state),
+  'should return Notifications hasUnreadMessages': () =>
+    selectHasUnreadMessages(state),
+  'should return Notifications isReady': () => selectIsReady(state),
 };
 
 describe('Notifications selectors', () =>

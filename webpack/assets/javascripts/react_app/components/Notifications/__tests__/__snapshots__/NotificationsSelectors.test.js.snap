@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notifications selectors should return Notifications 1`] = `Object {}`;
+
+exports[`Notifications selectors should return Notifications expandedGroup 1`] = `undefined`;
+
+exports[`Notifications selectors should return Notifications hasUnreadMessages 1`] = `undefined`;
+
+exports[`Notifications selectors should return Notifications isDrawerOpen 1`] = `undefined`;
+
+exports[`Notifications selectors should return Notifications isReady 1`] = `true`;

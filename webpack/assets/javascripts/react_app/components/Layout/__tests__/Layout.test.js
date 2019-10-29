@@ -5,7 +5,7 @@ import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers'
 import Layout from '../Layout';
 import { layoutMock, noItemsMock, hasTaxonomiesMock } from '../Layout.fixtures';
 
-jest.mock('../../notifications', () => 'span');
+jest.mock('../../Notifications', () => 'span');
 
 const didMountStubs = () => ({
   fetchMenuItems: jest.fn(),

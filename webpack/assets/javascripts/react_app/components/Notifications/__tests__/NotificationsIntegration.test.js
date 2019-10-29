@@ -1,13 +1,54 @@
+/* eslint-disable no-console */
 import React from 'react';
-import { IntegrationTestHelper } from 'react-redux-test-utils';
+import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+import { reduxers as notificationsReducer } from '../index';
+import { reducers as APIReducers } from '../../../redux/API/APIReducer';
+import { get } from '../../../redux/API/APIRequest';
+import { componentMountData } from '../Notifications.fixtures';
+import Notifications from '../Notifications';
+import { APIMiddleware } from '../../../redux/API';
+import { registeredPollingException } from '../../../redux/API/APIHelpers';
+import { NOTIFICATIONS } from '../NotificationsConstants';
 
-import Notifications, { reducers } from '../index';
+jest.mock('../../../redux/API/APIRequest');
 
-describe('Notifications integration test', () => {
-  it('should flow', async () => {
-    const integrationTestHelper = new IntegrationTestHelper(reducers);
-    const component = integrationTestHelper.mount(<Notifications />);
-    component.update();
-    /** Create a Flow test */
+const notificationProps = {
+  data: componentMountData,
+};
+
+const configureIntegrationHelper = () => {
+  const reducers = { ...notificationsReducer, ...APIReducers };
+  const middlewares = [APIMiddleware];
+  return new IntegrationTestHelper(reducers, middlewares);
+};
+
+describe('notifications', () => {
+  beforeEach(() => {
+    global.tfm = {
+      tools: {
+        activateTooltips: () => {},
+      },
+    };
+    jest.spyOn(console, 'error');
+    console.error.mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    console.error.mockRestore();
+    get.mockRestore();
+  });
+
+  it('should avoid multiple polling on re-mount', () => {
+    get.mockImplementation(jest.fn());
+    const integrationTestHelper = configureIntegrationHelper();
+    integrationTestHelper.mount(<Notifications {...notificationProps} />);
+    try {
+      integrationTestHelper.mount(<Notifications {...notificationProps} />);
+    } catch (error) {
+      expect(error.message).toBe(
+        registeredPollingException(NOTIFICATIONS).message
+      );
+      expect(get).toHaveBeenCalledTimes(1);
+    }
   });
 });

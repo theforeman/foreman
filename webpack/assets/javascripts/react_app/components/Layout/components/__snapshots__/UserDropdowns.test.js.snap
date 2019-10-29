@@ -12,7 +12,7 @@ exports[`UserDropdown rendering render switcher w/loading 1`] = `
     className="drawer-pf-trigger dropdown notification-dropdown"
     id="notifications_container"
   >
-    <Connect(OnClickOutside(notificationContainer))
+    <Connect(OnClickOutside(Notifications))
       data={
         Object {
           "url": "",
