@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, VerticalNav, Icon, MenuItem } from 'patternfly-react';
 import { get } from 'lodash';
-import NotificationContainer from '../../notifications';
+import NotificationContainer from '../../Notifications';
 import NavDropdown from './NavDropdown';
 import NavItem from './NavItem';
 import ImpersonateIcon from './ImpersonateIcon';

@@ -3,7 +3,6 @@ import { reducer as form } from 'redux-form';
 import bookmarks from './bookmarks';
 import statistics from './statistics';
 import hosts from './hosts';
-import notifications from './notifications';
 import toasts from './toasts';
 import { reducers as appReducers } from '../../ReactApp';
 import { reducers as passwordStrengthReducers } from '../../components/PasswordStrength';
@@ -19,6 +18,7 @@ import { reducers as statisticsPageReducers } from '../../routes/Statistics/Stat
 import { reducers as fillReducers } from '../../components/common/Fill';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as APIReducers } from '../API/APIReducer';
+import { reducers as notificationsReducers } from '../../components/Notifications';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -26,7 +26,6 @@ export function combineReducersAsync(asyncReducers) {
     form,
     statistics,
     hosts,
-    notifications,
     toasts,
     ...appReducers,
     ...passwordStrengthReducers,
@@ -40,6 +39,7 @@ export function combineReducersAsync(asyncReducers) {
     ...templateGenerationReducers,
     ...factChartReducers,
     ...APIReducers,
+    ...notificationsReducers,
 
     // Pages
     ...statisticsPageReducers,

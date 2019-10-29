@@ -1,0 +1,107 @@
+@import '../../common/colors.scss';
+
+#notifications_container {
+  position: static;
+  margin-top: -1px;
+
+  .fa-bell,
+  .fa-bell-o {
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .fa-bell {
+    position: relative;
+
+    &::after {
+      width: 0;
+      height: 0;
+      border: 4px solid rgb(204, 0, 0);
+      padding: 0;
+      content: '';
+      border-radius: 50%;
+      position: absolute;
+      top: -3px;
+      right: -3px;
+    }
+  }
+
+  /*
+Changed the maximum height of the drawer to full window, this prevents double scrolling as much as possible while still keeping a dynamic height.
+Added flexbox functionality to resize the drawer if the window gets resized.
+  */
+
+  .drawer-pf {
+    max-height: calc(100vh - 58px - 20px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    .drawer-pf-title {
+      position: relative;
+    }
+
+    .panel-group {
+      display: flex;
+      flex-direction: column;
+      position: initial;
+      bottom: initial;
+      top: initial;
+      overflow-y: auto;
+
+      .blank-slate-pf-title {
+        font-size: 18px;
+      }
+
+      .panel.panel-default.expanded {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .panel-collapse.in {
+        min-height: 0;
+        overflow-y: auto;
+
+        .panel-body {
+          display: block;
+
+          .dropdown-menu-right {
+            position: absolute;
+
+            .btn-group {
+              z-index: 1;
+            }
+          }
+        }
+      }
+    }
+
+    .drawer-pf-action {
+      padding: 10px 0;
+      position: relative;
+      position: sticky;
+      position: -webkit-sticky;
+      position: -moz-sticky;
+      position: -ms-sticky;
+      position: -o-sticky;
+      bottom: 0;
+      z-index: 10;
+      background-color: $pf-color-white;
+      border-top: 1px solid $pf-border-gray;
+    }
+
+    .drawer-pf-action-link {
+      align-self: center;
+      margin: 0;
+    }
+  }
+
+  #no-notifications-container {
+    padding: 20px;
+    text-align: center;
+    background: $pf-black-200;
+    font-size: 15px;
+  }
+}

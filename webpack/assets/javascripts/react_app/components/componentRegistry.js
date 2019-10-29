@@ -6,7 +6,7 @@ import BarChart from './common/charts/BarChart';
 import LineChart from './common/charts/LineChart';
 import StatisticsChartsList from './statistics/StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
-import NotificationContainer from './notifications/';
+import NotificationContainer from './Notifications';
 import ToastsList from './ToastsList/';
 import RelativeDateTime from './common/dates/RelativeDateTime';
 import LongDateTime from './common/dates/LongDateTime';
