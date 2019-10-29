@@ -1,7 +1,7 @@
 import React from 'react';
 import { IntegrationTestHelper } from 'react-redux-test-utils';
 
-import API from '../../../../../API';
+import { API } from '../../../../../redux/API';
 
 import BookmarkForm from '../index';
 import { reducers } from '../../../index';
@@ -16,7 +16,7 @@ import {
 } from '../../../Bookmarks.fixtures';
 import { BOOKMARKS_SUCCESS } from '../../../BookmarksConstants';
 
-jest.mock('../../../../../API');
+jest.mock('../../../../../redux/API');
 
 const props = {
   url: '/api/v2/hosts',

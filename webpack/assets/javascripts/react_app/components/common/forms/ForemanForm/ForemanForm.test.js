@@ -1,5 +1,8 @@
 import React from 'react';
-import { testComponentSnapshotsWithFixtures, testSelectorsSnapshotWithFixtures } from 'react-redux-test-utils';
+import {
+  testComponentSnapshotsWithFixtures,
+  testSelectorsSnapshotWithFixtures,
+} from 'react-redux-test-utils';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 
@@ -46,7 +49,7 @@ FormComponent.propTypes = {
 };
 
 const basicSchema = Yup.object().shape({
-  name: Yup.string().required('is required')
+  name: Yup.string().required('is required'),
 });
 
 const helperFixtures = {
@@ -57,10 +60,13 @@ const helperFixtures = {
       phone: ['is too long'],
     }),
   'should recognize valid initial values': () =>
-      isInitialValid({ validationSchema: basicSchema, initialValues: { name: 'George' } }),
+    isInitialValid({
+      validationSchema: basicSchema,
+      initialValues: { name: 'George' },
+    }),
   'should recognize invalid initial values': () =>
     isInitialValid({ validationSchema: basicSchema, initialValues: {} }),
-}
+};
 
 describe('ForemanForm', () => {
   testComponentSnapshotsWithFixtures(FormComponent, fixtures);

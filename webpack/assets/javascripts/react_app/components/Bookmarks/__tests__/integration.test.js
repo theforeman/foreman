@@ -1,7 +1,8 @@
 import React from 'react';
 import { IntegrationTestHelper } from 'react-redux-test-utils';
 
-import API from '../../../API';
+import API from '../../../redux/API/API';
+import { APIMiddleware } from '../../../redux/API';
 
 import Bookmarks, { reducers } from '../index';
 import {
@@ -12,7 +13,7 @@ import {
   publik,
 } from '../Bookmarks.fixtures';
 
-jest.mock('../../../API');
+jest.mock('../../../redux/API/API');
 
 const props = {
   canCreate: true,
@@ -25,7 +26,8 @@ const props = {
 describe('Bookmarks integration test', () => {
   it('should flow', async () => {
     API.get.mockImplementation(async () => response);
-    const testHelper = new IntegrationTestHelper(reducers);
+
+    const testHelper = new IntegrationTestHelper(reducers, [APIMiddleware]);
 
     const component = testHelper.mount(<Bookmarks {...props} />);
     testHelper.takeStoreSnapshot('initial state');

@@ -15,8 +15,8 @@ const radios = [
 ];
 
 const commonFixtures = {
-  name: "RadioButtonGroupTest",
-  controlLabel: "RadioButtonGroupLabel",
+  name: 'RadioButtonGroupTest',
+  controlLabel: 'RadioButtonGroupLabel',
 };
 
 const fixtures = {
@@ -28,7 +28,7 @@ const fixtures = {
     radios,
     ...commonFixtures,
     disabled: true,
-  }
+  },
 };
 
 describe('radio button group', () =>

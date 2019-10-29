@@ -1,27 +1,25 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
-import React from 'react';
-
+import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import TextField from './TextField';
 
-describe('TextField', () => {
-  it('should default to a text field', () => {
-    const wrapper = shallow(<TextField name="name" type="text" label="Name" />);
+const commonFixture = {
+  name: 'name',
+  label: 'Name',
+};
 
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-  it('should render a text area', () => {
-    const wrapper = shallow(
-      <TextField name="name" type="textarea" label="Name" />
-    );
+const fixtures = {
+  'should default to a text field': {
+    type: 'text',
+    ...commonFixture,
+  },
+  'should render a text area': {
+    type: 'textarea',
+    ...commonFixture,
+  },
+  'should render a checkbox': {
+    type: 'checkbox',
+    ...commonFixture,
+  },
+};
 
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-  it('should render a checkbox', () => {
-    const wrapper = shallow(
-      <TextField name="name" type="checkbox" label="Name" />
-    );
-
-    expect(toJson(wrapper)).toMatchSnapshot();
-  });
-});
+describe('TextField', () =>
+  testComponentSnapshotsWithFixtures(TextField, fixtures));
