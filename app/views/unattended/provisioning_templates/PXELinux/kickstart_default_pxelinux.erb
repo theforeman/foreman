@@ -69,7 +69,7 @@ oses:
   end
 
   if @host.operatingsystem.name.match(/Atomic/i) || host_param('kickstart_liveimg')
-    options.push('inst.stage2=' + @host.operatingsystem.medium_uri(@host).to_s)
+    options.push("inst.stage2=#{medium_uri}")
   end
 
   if !is_fedora && os_major >= 7 && host_param_true?('fips_enabled')
