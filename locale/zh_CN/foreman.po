@@ -4,7 +4,7 @@
 #
 # Translators:
 # dingtim, 2013
-# Dominic Cleal <dominic@cleal.org>, 2014-2015
+# 0868a4d1af5275b3f70b0a6dac4c99a4, 2014-2015
 # June Zhang <zhangjune99@gmail.com>, 2017
 # Martin Liu <liuzh66@gmail.com>, 2015
 # Ondrej <ondpraz@gmail.com>, 2018
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"PO-Revision-Date: 2019-10-07 20:04+0000\n"
 "Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -47,6 +47,9 @@ msgid "%s Active Feature"
 msgid_plural "%s Active Features"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "%s Filters"
+msgstr ""
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -399,9 +402,6 @@ msgstr "计算配置文件用于表达特定计算资源上创建的虚拟机的
 
 msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
 msgstr "配置组提供了将多个 Puppet 类关联到一个主机或主机组的一步方法。此方法一般用于通过一个步骤添加特定的应用配置文件或堆栈。"
-
-msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
-msgstr "主机组在某些方面与继承的节点技术详细，即它是可命名或视为单元的类别的高级分组。然后可将其视为模板，并在创建新主机时进行选择，保证使用预先定义的状态配置该主机。"
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
 msgstr "用户可选择的选项列表。如未提供，则会为用户提供自由格式字段。"
@@ -1179,6 +1179,9 @@ msgstr "使用卷引导"
 msgid "Boot host from specified device"
 msgstr "使用指定设备引导主机"
 
+msgid "Boot time"
+msgstr ""
+
 msgid "Bootable"
 msgstr "可引导"
 
@@ -1247,6 +1250,9 @@ msgstr ""
 
 msgid "CPUs"
 msgstr "处理器"
+
+msgid "Cache refreshing is not supported for %s"
+msgstr ""
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
 msgstr "缓存减缓调用 VMWare 以加速页面呈现"
@@ -1331,6 +1337,12 @@ msgstr "证书名称"
 
 msgid "Certificate Path"
 msgstr "证书路径"
+
+msgid "Certificate key is not a valid JSON"
+msgstr ""
+
+msgid "Certificate path for GCE only"
+msgstr ""
 
 msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr "Foreman 将用来加密 websocket 的证书"
@@ -1499,6 +1511,9 @@ msgstr ""
 
 msgid "Compute Profiles"
 msgstr "计算配置文件"
+
+msgid "Compute Resouces"
+msgstr ""
 
 msgid "Compute Resource"
 msgstr "计算机资源"
@@ -2063,8 +2078,8 @@ msgstr "去除 %s DHCP冲突"
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr "DHCP 文件名选项（默认为 Grub2/PXELinux）"
 
-msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
-msgstr "要使用的 DHCP 文件名选项。若是非 PXE 方法（如 iPXE），请设置为“无”"
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE). Auto-suggested, use OS parameter 'pxe-loader' to override."
+msgstr ""
 
 msgid "DHCP lease conflicts have been detected"
 msgstr "探测到 DCHP 租赁冲突"
@@ -2093,14 +2108,14 @@ msgstr "要在此子网中使用的 DNS 代理 ID"
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr "要在此子网中用于管理 PTR 记录的 DNS 代理。请注意，A 和 AAAA 记录通过域 DNS 代理进行管理"
 
-msgid "DNS conflict timeout"
-msgstr "DNS 冲突超时"
-
 msgid "DNS proxy ID to use within this domain"
 msgstr "要在此域中使用的 DNS 代理 ID"
 
 msgid "DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy"
 msgstr "子网中用来管理  A 级记录的 DNS 代理服务器，注：使用域 DNS 代理服务器管理记录。"
+
+msgid "DNS timeout"
+msgstr ""
 
 msgid "Daily"
 msgstr "每日"
@@ -2146,9 +2161,6 @@ msgstr "全局模板中的默认 PXE 菜单项 - 'local', 'local_chain_hd0' 或 
 
 msgid "Default Puppet environment"
 msgstr "默认 Puppet 环境"
-
-msgid "Default Puppet server hostname"
-msgstr "默认puppet服务器名"
 
 msgid "Default VNC Keyboard"
 msgstr ""
@@ -2200,6 +2212,9 @@ msgstr "如果为空白则使用默认映象大小"
 
 msgid "Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies."
 msgstr "定义您网络中存在的 HTTP 代理服务器让您可以通过这些代理服务器执行多种操作。"
+
+msgid "Delay network activity during install for X seconds"
+msgstr ""
 
 msgid "Delete"
 msgstr "删除"
@@ -2623,6 +2638,9 @@ msgstr "编辑"
 msgid "Edit %s"
 msgstr "编辑 %s"
 
+msgid "Edit %s Resource Filter"
+msgstr ""
+
 msgid "Edit Compute profile"
 msgstr "编辑计算配置文件"
 
@@ -2652,6 +2670,9 @@ msgstr "电子邮件首选项"
 
 msgid "Email address is missing"
 msgstr "缺少电子邮件地址"
+
+msgid "Email for GCE only"
+msgstr ""
 
 msgid "Email reply address"
 msgstr "电子邮件回复地址"
@@ -2766,8 +2787,8 @@ msgstr "在仪表板中添加挂件出错。"
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr "连接到 %{proxy} 出错：%{error}。"
 
-msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings"
-msgstr "连接 '%{domain}' 域 DNS 服务器 %{servers} 时出错 - 请检查 query_local_nameservers 和 dns_conflict_timeout 设置"
+msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings"
+msgstr ""
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
 msgstr "连接系统 DNS 服务器时出错 - 请检查 /etc/resolv.conf"
@@ -2804,9 +2825,6 @@ msgstr "创建资源时出错：%s"
 
 msgid "Error while trying to update resource: %s"
 msgstr "更新资源时出错：%s"
-
-msgid "Error: Unable to load resources."
-msgstr "错误：无法加载资源。"
 
 msgid "Errors"
 msgstr "错误"
@@ -3307,6 +3325,9 @@ msgstr "Foreman API v2 是目前的默认 API 版本。"
 msgid "Foreman URL"
 msgstr "Foreman URL"
 
+msgid "Foreman UUID"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr "Foreman 允许定义参数继承层次结构，可从任意清单访问全局参数。"
 
@@ -3330,6 +3351,9 @@ msgstr "接口的 Foreman 域 ID。所管理主机中的主接口需要这个选
 
 msgid "Foreman host group matchers will be inherited by children when evaluating smart class parameters"
 msgstr "评估智能类别参数时，其下层机器会自动承担 Foreman 主机组映射程序。"
+
+msgid "Foreman instance ID, uniquely identifies this Foreman instance."
+msgstr ""
 
 msgid "Foreman now manages the build cycle for %s"
 msgstr "Foreman 现在管理 %s 的构建循环"
@@ -3453,6 +3477,9 @@ msgstr "全跟踪"
 
 msgid "Function not available for %s"
 msgstr "功能无法用于 %s"
+
+msgid "Further Information"
+msgstr "进一步的信息"
 
 msgid "GMT time"
 msgstr "GMT 时间"
@@ -3682,9 +3709,6 @@ msgstr ""
 msgid "Host Group / Environment"
 msgstr "主机组 / 环境"
 
-msgid "Host Group Configuration"
-msgstr "主机组配置"
-
 msgid "Host Group Distribution"
 msgstr "主机组分布"
 
@@ -3693,6 +3717,12 @@ msgstr "主机组参数"
 
 msgid "Host Groups"
 msgstr "主机组"
+
+msgid ""
+"Host Groups allow hosts with common configuration to be defined and grouped together.\n"
+"            Nested groups will inherit from their parent(s).\n"
+"            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
+msgstr ""
 
 msgid "Host Parameters"
 msgstr "主机参数"
@@ -4407,9 +4437,6 @@ msgstr "从 puppet 代理服务器为环境导入 puppet 类别"
 msgid "Imported IPv4 Subnets"
 msgstr "已导入 IPv4 子网"
 
-msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
-msgstr "除规定构建这个主机类型需要包含的 puppet 类别外，您还可以为主机组分配变量及置备信息，以便细化 puppet 运行时行为。"
-
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr "为了添加 SSH 密钥，必须先保存用户。此外，还需要 'create_ssh_keys' 权限。"
 
@@ -4503,6 +4530,9 @@ msgstr "配置安装媒体"
 msgid "Installed"
 msgstr "已安装"
 
+msgid "Instance %{uuid}"
+msgstr ""
+
 msgid "Instance type"
 msgstr "实例类型"
 
@@ -4547,6 +4577,9 @@ msgstr "参数中插入的 ERB"
 
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr "无效 %{assoc} 选择，必须至少选择一个，并获得 '%{perm}' 权限。"
+
+msgid "Invalid Google JSON key. Please verify client email & private key options are present"
+msgstr ""
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
 msgstr "架构 '%{arch}' 对 '%{os}' 无效"
@@ -4709,6 +4742,9 @@ msgstr "Libvirt、oVirt、OpenStack 和 Rackspace"
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr "限制重建步骤，有效步骤是 %{host_rebuild_steps}"
+
+msgid "Link Delay"
+msgstr ""
 
 msgid "List LDAP authentication sources per location"
 msgstr "按位置列出 LDAP 身份验证来源"
@@ -5118,6 +5154,9 @@ msgstr "每个机构的子网列表"
 msgid "List of table preferences for a user"
 msgstr "列出用户的表偏好"
 
+msgid "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup macro and DNS record conflict validation"
+msgstr ""
+
 msgid "List of trends counters"
 msgstr "列出趋势统计"
 
@@ -5452,13 +5491,16 @@ msgstr "映射器是属性及属性值的组合。如果它们匹配，则提供
 msgid "Max days for Trends graphs"
 msgstr "趋势图表的最大天"
 
-msgid "Max timeout for REST client requests to smart-proxy"
-msgstr "智能代理服务器 REST 客户端请求的最大超时值"
-
 msgid "Max trends"
 msgstr "最大趋势"
 
 msgid "Maximize"
+msgstr ""
+
+msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
+msgstr ""
+
+msgid "Maximum structured facts"
 msgstr ""
 
 msgid "Media"
@@ -6039,6 +6081,9 @@ msgstr "没有在 %s 中实施"
 msgid "Not relevant for snippet"
 msgstr "不相关的片段"
 
+msgid "Not reported"
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "没有要添加的内容"
 
@@ -6250,6 +6295,9 @@ msgstr "打开"
 
 msgid "Open Spice in a new window"
 msgstr "在新窗口中打开"
+
+msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
+msgstr ""
 
 msgid "Operate on child hostgroup hosts"
 msgstr "在子主机组中操作"
@@ -6840,6 +6888,9 @@ msgstr ""
 msgid "Project domain name"
 msgstr ""
 
+msgid "Project id for GCE only"
+msgstr ""
+
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
@@ -6919,9 +6970,6 @@ msgstr "要在此域中使用的代理 ID"
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
 msgstr "Proxy reference 应该为 { :relation => [:column_name, ...] }"
 
-msgid "Proxy request timeout"
-msgstr "代理服务器请求"
-
 msgid "Ptable|Locked"
 msgstr "锁定"
 
@@ -6999,9 +7047,6 @@ msgstr "Puppet 参数名称，输入类型为 puppet_parameter 时使用。"
 
 msgid "Puppet proxy ID"
 msgstr "Puppet 代理服务器 ID"
-
-msgid "Puppet server"
-msgstr "Puppet 服务器"
 
 msgid "Puppet summary"
 msgstr "Puppet 概述"
@@ -7349,7 +7394,7 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "还原"
 
-msgid "Revert Failed, ${res}"
+msgid "Revert Failed, ${err}"
 msgstr ""
 
 msgid "Revert Local Changes"
@@ -7731,6 +7776,12 @@ msgstr "设置请求不需要被代理的主机名。到本地主机的请求会
 msgid "Set parameters to defaults"
 msgstr "将参数设定为默认"
 
+msgid "Set the current location context for the request"
+msgstr ""
+
+msgid "Set the current organization context for the request"
+msgstr ""
+
 msgid "Set the order in which values are resolved."
 msgstr "设定用来解析值的顺序。"
 
@@ -8016,8 +8067,17 @@ msgstr "显示模板组合"
 msgid "Show template input details"
 msgstr "显示模板输入详情"
 
+msgid "Show the currently logged-in user"
+msgstr ""
+
 msgid "Show the last report for a host"
 msgstr "显示主机的最新报告"
+
+msgid "Shows status and version information of Foreman system and it's subcomponents"
+msgstr ""
+
+msgid "Shows status of Foreman system and it's subcomponents"
+msgstr ""
 
 msgid "Sign"
 msgstr "登入"
@@ -8057,6 +8117,9 @@ msgstr "智能代理"
 
 msgid "Smart Proxy"
 msgstr "智能代理"
+
+msgid "Smart Proxy request timeout"
+msgstr ""
 
 msgid "Smart Variables"
 msgstr "智能变量"
@@ -8391,6 +8454,9 @@ msgstr "来自 %{foreman_url} Foreman 服务器的概述报告"
 
 msgid "Support"
 msgstr "支持"
+
+msgid "Support for %{feature} has been deprecated and will be removed in version %{version}"
+msgstr ""
 
 msgid "Supported Formats"
 msgstr "支持的格式"
@@ -8798,9 +8864,6 @@ msgstr "完整 DNS 域名"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr "已找到您添加作为外部用户组的群组。但是，未从中找到与您的认证源库 DN 和过滤器匹配的用户。请验证该外部用户组是否从属于验证源过滤器"
 
-msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
-msgstr "当 puppetmaster 编译主机配置时，会在外部节点信息中包含主机组类别和主机组变量。"
-
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
 msgstr "这些密钥可用于置备模板，也可以用于由 Foreman 管理的配置管理工具。"
 
@@ -8890,9 +8953,6 @@ msgstr "这台 puppet 主服务器中未设置任何 puppet 环境。请检查 p
 msgid "There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"
 msgstr "有些附带配置重建方法的 orchestration 模块有完全相同的名称：'%s'"
 
-msgid "There are two strategies when using host groups."
-msgstr "使用主机组时有两种策略。"
-
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] ""
@@ -8924,9 +8984,6 @@ msgstr "在 libvirt 里没有找到活动的桥接口，如果它不支持列表
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr "这些方法通过安全模式渲染保证可行，确保模板不会进行有害操作。"
-
-msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
-msgstr "这两个选项都是个人决定，由您说了算（主要区别是参数/变量设置）。"
 
 msgid "Thin provision"
 msgstr "精简预配"
@@ -8979,6 +9036,12 @@ msgstr "这个角色已锁定，无法编辑。"
 msgid "This role is locked from being modified by users."
 msgstr "此角色被锁定，以防用户修改。"
 
+msgid "This service is available for unauthenticated users"
+msgstr "这个服务可用于未授权用户"
+
+msgid "This service is only available for authenticated users"
+msgstr "这个服务只可用于授权用户"
+
 msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
 msgstr "此设置在配置文件 '%{filename}' 中定义，且为只读。"
 
@@ -9027,9 +9090,6 @@ msgstr "以分钟为单位设定有效的安装令牌，0 表示禁用令牌生�
 
 msgid "Time in seconds before SSH provisioning times out"
 msgstr "SSH 置备超时的时间（以秒为单位）"
-
-msgid "Timeout for DNS conflict validation (in seconds)"
-msgstr "DNS 冲突验证超时（单位：秒）"
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr "与 %s 沟通时出现超时"
@@ -9704,9 +9764,6 @@ msgstr "升级任务|任务名"
 msgid "Upload facts for a host, creating the host if required"
 msgstr "上传主机的系统详情，如需要，请创建主机。"
 
-msgid "Uptime"
-msgstr "运行时间"
-
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
@@ -9951,6 +10008,9 @@ msgstr "VMRC"
 
 msgid "VMRC Console"
 msgstr "VMRC 控制台"
+
+msgid "VMs"
+msgstr ""
 
 msgid "VNC"
 msgstr "VNC"
@@ -10322,9 +10382,6 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "您可能还要为这个介质关联一个或者多个操作系统，也可以稍后在 %s 页面中设置。"
 
-msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
-msgstr "您可以创建代表高端主机配置的 puppet 类别，例如：<b>host-type-ldap-server</b> 类别，它包含所有其他模块所需功能，或者您也可以决定创建名为 <b>host-type-ldap-server</b> 的主机组，并在该主机组配置中添加所需类别。 "
-
 msgid "You must create a location before continuing."
 msgstr "继续操作前必须生成位置。"
 
@@ -10550,8 +10607,8 @@ msgstr "例如：名字"
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "例如：https://identity.api.rackspacecloud.com/v2.0"
 
-msgid "e.g. https://ovirt.example.com/api"
-msgstr "例如：https://ovirt.example.com/api"
+msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
+msgstr ""
 
 msgid "e.g. jpegPhoto"
 msgstr "例如：jpegPhoto"
@@ -10603,6 +10660,9 @@ msgstr "过滤..."
 
 msgid "for EC2 only, use '%s' for GovCloud region"
 msgstr "只用于 EC2，使用 '%s' 做为 GovCloud 区"
+
+msgid "for GCE only"
+msgstr ""
 
 msgid "for Libvirt and VMware only"
 msgstr "仅用于 Libvirt 和 VMware"

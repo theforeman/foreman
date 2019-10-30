@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-08-03 09:26+0000\n"
+"PO-Revision-Date: 2019-10-18 05:13+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -44,6 +44,9 @@ msgstr[0] "%s aktivní funkce"
 msgstr[1] "%s aktivní funkce"
 msgstr[2] "%s aktivních funkcí"
 msgstr[3] "%s aktivní funkce"
+
+msgid "%s Filters"
+msgstr ""
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -147,7 +150,7 @@ msgstr[2] "před %s týdny"
 msgstr[3] "před %s týdny"
 
 msgid "%s widget loading..."
-msgstr ""
+msgstr "načítání ovládacího prvku %s…"
 
 msgid "%s you had selected as your context has been deleted"
 msgstr ""
@@ -164,13 +167,13 @@ msgid "%{controller}: %{host}'s operating system %{os} has no OS family"
 msgstr ""
 
 msgid "%{controller}: %{host}'s operating system is missing"
-msgstr ""
+msgstr "%{controller}: %{host} operační systém chybí"
 
 msgid "%{controller}: provisioning token for host %{host} expired"
 msgstr ""
 
 msgid "%{controller}: unable to find a host that matches the request from %{addr}"
-msgstr ""
+msgstr "%{controller}: nedaří se nalézt stroj, který by odpovídal požadavku od %{addr}"
 
 msgid "%{cores} Cores and %{memory} memory"
 msgstr "%{cores} jader a %{memory} paměti"
@@ -403,9 +406,6 @@ msgstr ""
 msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
 msgstr ""
 
-msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
-msgstr ""
-
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
 msgstr ""
 
@@ -520,7 +520,7 @@ msgid "Add Volume"
 msgstr "Přidat svazek"
 
 msgid "Add a CD-ROM drive to the virtual machine."
-msgstr ""
+msgstr "Přidat virtuálnímu stroji jednotku optických disků."
 
 msgid "Add a Puppet class to host"
 msgstr "Přidat hostiteli Puppet třídu"
@@ -691,7 +691,7 @@ msgid "An arbitrary script, must be manually downloaded using wget/curl."
 msgstr ""
 
 msgid "An email address is required, please update your account details"
-msgstr ""
+msgstr "Je zapotřebí e-mailové adresy – aktualizujte podrobnosti svého účtu"
 
 msgid "An error happened trying to connect to LDAP, please verify the authentication source host is reachable from your Foreman host and is online."
 msgstr ""
@@ -1180,6 +1180,9 @@ msgstr "Nastartovat ze svazku"
 msgid "Boot host from specified device"
 msgstr "Spustit stroj ze zadaného zařízení"
 
+msgid "Boot time"
+msgstr ""
+
 msgid "Bootable"
 msgstr "Bootovatelné"
 
@@ -1232,7 +1235,7 @@ msgid "CA Certificate Expiry Date"
 msgstr "Datum skončení platnosti certifikátu cert. autority"
 
 msgid "CD-ROM drive"
-msgstr ""
+msgstr "Jednotka optických disků"
 
 msgid "CDROM"
 msgstr ""
@@ -1248,6 +1251,9 @@ msgstr ""
 
 msgid "CPUs"
 msgstr "Procesory"
+
+msgid "Cache refreshing is not supported for %s"
+msgstr ""
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
 msgstr ""
@@ -1319,7 +1325,7 @@ msgid "Cannot find user %s when switching context"
 msgstr ""
 
 msgid "Cannot register compute resource, wrong type supplied"
-msgstr ""
+msgstr "Není možné zaregistrovat tento výpočetní prostředek – zadán neplatný typ"
 
 msgid "Cannot resolve network type for %s"
 msgstr ""
@@ -1332,6 +1338,12 @@ msgstr "Název certifikátu"
 
 msgid "Certificate Path"
 msgstr "Popis umístění certifikátu"
+
+msgid "Certificate key is not a valid JSON"
+msgstr ""
+
+msgid "Certificate path for GCE only"
+msgstr ""
 
 msgid "Certificate that Foreman will use to encrypt websockets "
 msgstr "Certifikát který bude Foreman použit pro šifrování websoket"
@@ -1500,6 +1512,9 @@ msgstr ""
 
 msgid "Compute Profiles"
 msgstr "Výpočetní profily"
+
+msgid "Compute Resouces"
+msgstr ""
 
 msgid "Compute Resource"
 msgstr "Výpočetní prostředek"
@@ -1927,7 +1942,7 @@ msgid "Create a nested parameter for a location"
 msgstr "Vytvořit vnořený parametr pro umístění"
 
 msgid "Create a nested parameter for a subnet"
-msgstr ""
+msgstr "Vytvořit vnořený parametr pro podsíť"
 
 msgid "Create a nested parameter for an operating system"
 msgstr "Vytvořit vnořený parametr pro operační systém"
@@ -2064,7 +2079,7 @@ msgstr "Odebírání DHCP konfliktů pro %s"
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
 
-msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE). Auto-suggested, use OS parameter 'pxe-loader' to override."
 msgstr ""
 
 msgid "DHCP lease conflicts have been detected"
@@ -2094,13 +2109,13 @@ msgstr ""
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr ""
 
-msgid "DNS conflict timeout"
-msgstr ""
-
 msgid "DNS proxy ID to use within this domain"
 msgstr "Identifikátor DNS proxy, kterou použít pro tuto doménu"
 
 msgid "DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "DNS timeout"
 msgstr ""
 
 msgid "Daily"
@@ -2147,9 +2162,6 @@ msgstr ""
 
 msgid "Default Puppet environment"
 msgstr ""
-
-msgid "Default Puppet server hostname"
-msgstr "Výchozí název stroje puppet serveru"
 
 msgid "Default VNC Keyboard"
 msgstr ""
@@ -2200,6 +2212,9 @@ msgid "Defaults to image size if left blank"
 msgstr ""
 
 msgid "Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies."
+msgstr ""
+
+msgid "Delay network activity during install for X seconds"
 msgstr ""
 
 msgid "Delete"
@@ -2278,7 +2293,7 @@ msgid "Delete a nested parameter for a location"
 msgstr "Smazat vnořený parametr pro umístění"
 
 msgid "Delete a nested parameter for a subnet"
-msgstr ""
+msgstr "Smazat vnořený parametr pro podsíť"
 
 msgid "Delete a nested parameter for an operating system"
 msgstr "Smazat vnořený parametr pro operační systém"
@@ -2347,7 +2362,7 @@ msgid "Delete all nested parameters for a host group"
 msgstr "Smazat všechny vnořené parametry pro skupinu strojů"
 
 msgid "Delete all nested parameters for a subnet"
-msgstr ""
+msgstr "Smazat veškeré vnořené parametry pro podsíť"
 
 msgid "Delete all nested parameters for an operating system"
 msgstr "Smazat všechny vnořené parametry pro operační systém"
@@ -2624,6 +2639,9 @@ msgstr "Upravit"
 msgid "Edit %s"
 msgstr "Upravit %s"
 
+msgid "Edit %s Resource Filter"
+msgstr ""
+
 msgid "Edit Compute profile"
 msgstr "Upravit výpočetní profil"
 
@@ -2653,6 +2671,9 @@ msgstr "Předvolby e-mailu"
 
 msgid "Email address is missing"
 msgstr "Chybí e-mailová adresa"
+
+msgid "Email for GCE only"
+msgstr ""
 
 msgid "Email reply address"
 msgstr ""
@@ -2767,7 +2788,7 @@ msgstr ""
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr ""
 
-msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings"
+msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings"
 msgstr ""
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
@@ -2804,9 +2825,6 @@ msgid "Error while trying to create resource: %s"
 msgstr ""
 
 msgid "Error while trying to update resource: %s"
-msgstr ""
-
-msgid "Error: Unable to load resources."
 msgstr ""
 
 msgid "Errors"
@@ -3037,7 +3055,7 @@ msgid "Failed to enable %{host} for installation: %{errors}"
 msgstr "%{host} se nepodařilo uzpůsobit pro instalaci: %{errors}"
 
 msgid "Failed to fetch a free IP from proxy %{proxy}: %{message}"
-msgstr ""
+msgstr "Nepodařilo se získat volnou IP adresu z proxy %{proxy}: %{message}"
 
 msgid "Failed to fetch boot files"
 msgstr "Nepodařilo se získat zaváděcí soubory"
@@ -3303,6 +3321,9 @@ msgstr ""
 msgid "Foreman URL"
 msgstr "URL adresa Foreman"
 
+msgid "Foreman UUID"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr ""
 
@@ -3325,6 +3346,9 @@ msgid "Foreman domain ID of interface. Required for primary interfaces on manage
 msgstr ""
 
 msgid "Foreman host group matchers will be inherited by children when evaluating smart class parameters"
+msgstr ""
+
+msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
 msgid "Foreman now manages the build cycle for %s"
@@ -3448,6 +3472,9 @@ msgid "Full trace"
 msgstr ""
 
 msgid "Function not available for %s"
+msgstr ""
+
+msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -3678,9 +3705,6 @@ msgstr ""
 msgid "Host Group / Environment"
 msgstr ""
 
-msgid "Host Group Configuration"
-msgstr ""
-
 msgid "Host Group Distribution"
 msgstr ""
 
@@ -3688,6 +3712,12 @@ msgid "Host Group Parameters"
 msgstr ""
 
 msgid "Host Groups"
+msgstr ""
+
+msgid ""
+"Host Groups allow hosts with common configuration to be defined and grouped together.\n"
+"            Nested groups will inherit from their parent(s).\n"
+"            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr ""
 
 msgid "Host Parameters"
@@ -3953,7 +3983,7 @@ msgid "Hosts that had pending changes"
 msgstr "Stroje na kterých čekají nějaké změny"
 
 msgid "Hosts that had pending changes with alerts enabled"
-msgstr ""
+msgstr "Stroje, na kterých čekají na uplatnění změny a které mají zapnuté výstrahy"
 
 msgid "Hosts that had performed modifications without error"
 msgstr "Stroje které provedly úpravy bez chyb"
@@ -3965,7 +3995,7 @@ msgid "Hosts which Foreman reporting is disabled"
 msgstr ""
 
 msgid "Hosts which are not reporting"
-msgstr ""
+msgstr "Stroje, ze kterých nejsou údaje"
 
 msgid "Hosts which didn't report in the last %s"
 msgstr ""
@@ -3974,13 +4004,13 @@ msgid "Hosts which do not have recent reports from configuration management"
 msgstr ""
 
 msgid "Hosts which recently applied changes"
-msgstr ""
+msgstr "Stroje s nedávno uplatněnými změnami"
 
 msgid "Hosts which recently applied changes successfully"
-msgstr ""
+msgstr "Stroje s nedávno úspěšně uplatněnými změnami"
 
 msgid "Hosts which recently applied changes successfully with alerts enabled"
-msgstr ""
+msgstr "Stroje s nedávno úspěšně uplatněnými změnami a zapnutými výstrahami"
 
 msgid "Hosts with alerts disabled"
 msgstr "Hostitelé s vypnutými výstrahami"
@@ -3989,7 +4019,7 @@ msgid "Hosts with error state"
 msgstr "Stroje s chybovým stavem"
 
 msgid "Hosts with error state and alerts enabled"
-msgstr ""
+msgstr "Stroje s chybami a zapnutými výstrahami"
 
 msgid "Hosts with errors"
 msgstr "Stroje s chybami"
@@ -4004,10 +4034,10 @@ msgid "Hosts with notifications disabled"
 msgstr ""
 
 msgid "Hosts without changes or errors"
-msgstr ""
+msgstr "Stroje beze změn či chyb"
 
 msgid "Hosts without changes or errors, with alerts enabled"
-msgstr ""
+msgstr "Stroje beze změn či chyb a zapnutými výstrahami"
 
 msgid "Hosts without errors"
 msgstr "Stroje bez chyb"
@@ -4016,7 +4046,7 @@ msgid "Hosts without errors percent"
 msgstr ""
 
 msgid "Hosts without errors, with alerts enabled"
-msgstr ""
+msgstr "Stroje bez chyb a se zapnutými výstrahami"
 
 msgid "How values are validated"
 msgstr "Jak jsou hodnoty ověřovány"
@@ -4392,7 +4422,7 @@ msgid "Import environments from %s"
 msgstr ""
 
 msgid "Import of facts failed for host %s"
-msgstr ""
+msgstr "Import faktů pro stroj %s se nezdařil"
 
 msgid "Import puppet classes from puppet proxy"
 msgstr "Importovat puppet třídy z puppet proxy"
@@ -4402,9 +4432,6 @@ msgstr ""
 
 msgid "Imported IPv4 Subnets"
 msgstr "Importované IPv4 podsítě"
-
-msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
-msgstr ""
 
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr ""
@@ -4493,6 +4520,9 @@ msgstr "Nastavení instalačního média"
 msgid "Installed"
 msgstr "Nainstalováno"
 
+msgid "Instance %{uuid}"
+msgstr ""
+
 msgid "Instance type"
 msgstr "Typ instance"
 
@@ -4538,8 +4568,11 @@ msgstr ""
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr ""
 
-msgid "Invalid architecture '%{arch}' for '%{os}'"
+msgid "Invalid Google JSON key. Please verify client email & private key options are present"
 msgstr ""
+
+msgid "Invalid architecture '%{arch}' for '%{os}'"
+msgstr "Neplatná architektura „%{arch}“ pro „%{os}“"
 
 msgid "Invalid authenticity token"
 msgstr ""
@@ -4548,7 +4581,7 @@ msgid "Invalid log level: %s"
 msgstr "Neplatná úroveň podrobností záznamu událostí: %s"
 
 msgid "Invalid medium '%{medium}' for '%{os}'"
-msgstr ""
+msgstr "Neplatné médium „%{medium}“ pro „%{os}“"
 
 msgid "Invalid power state request: %{action}, supported actions are %{supported}"
 msgstr ""
@@ -4596,7 +4629,7 @@ msgid "Iterating"
 msgstr "Průchody"
 
 msgid "JSON VM listing is not supported for this compute resource."
-msgstr ""
+msgstr "Vypsání virt. strojů ve formátu JSON není tímto výpočetním prostředkem podporováno."
 
 msgid "JSON object of the scheduler hint"
 msgstr ""
@@ -4698,6 +4731,9 @@ msgid "Libvirt, oVirt, OpenStack and Rackspace"
 msgstr "Libvirt, oVirt, OpenStack a Rackspace"
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
+msgstr ""
+
+msgid "Link Delay"
 msgstr ""
 
 msgid "List LDAP authentication sources per location"
@@ -4866,7 +4902,7 @@ msgid "List all parameters for a location"
 msgstr "Vypsat všechny parametr pro umístění"
 
 msgid "List all parameters for a subnet"
-msgstr ""
+msgstr "Vypsat veškeré parametry pro podsíť"
 
 msgid "List all parameters for an operating system"
 msgstr "Vypsat všechny parametr pro operační systém"
@@ -5108,6 +5144,9 @@ msgstr ""
 msgid "List of table preferences for a user"
 msgstr ""
 
+msgid "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup macro and DNS record conflict validation"
+msgstr ""
+
 msgid "List of trends counters"
 msgstr ""
 
@@ -5229,7 +5268,7 @@ msgid "Locations also work nicely when used in tandem with %{organizations}."
 msgstr ""
 
 msgid "Locations are used to manage and differentiate the physical place where a system managed via Foreman is housed. For example, there might be a data center in London and one in Virginia; these are locations."
-msgstr ""
+msgstr "Umístění slouží pro správu a rozlišení fyzických míst, ve kterých se stroje spravované prostřednictvím Foreman nacházejí. Například by to mohla být datová centra v Londýně a Virginii; toto jsou umístění."
 
 msgid "Lock"
 msgstr "Zamknout"
@@ -5259,7 +5298,7 @@ msgid "Login delegation logout URL"
 msgstr ""
 
 msgid "Login page footer text"
-msgstr ""
+msgstr "Text v zápatí přihlašovací stránky"
 
 msgid "Logout"
 msgstr "Odhlásit"
@@ -5353,7 +5392,7 @@ msgid "MAC address to reuse the IP for this host"
 msgstr ""
 
 msgid "MAC-based"
-msgstr ""
+msgstr "založeno na MAC adrese"
 
 msgid "MTU"
 msgstr ""
@@ -5442,13 +5481,16 @@ msgstr ""
 msgid "Max days for Trends graphs"
 msgstr ""
 
-msgid "Max timeout for REST client requests to smart-proxy"
-msgstr ""
-
 msgid "Max trends"
 msgstr ""
 
 msgid "Maximize"
+msgstr ""
+
+msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
+msgstr ""
+
+msgid "Maximum structured facts"
 msgstr ""
 
 msgid "Media"
@@ -6029,6 +6071,9 @@ msgstr "Neimplementováno pro %s"
 msgid "Not relevant for snippet"
 msgstr ""
 
+msgid "Not reported"
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "Není co přidat"
 
@@ -6238,6 +6283,9 @@ msgstr "Otevřít"
 msgid "Open Spice in a new window"
 msgstr "Otevřít Spice v novém okně"
 
+msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
+msgstr ""
+
 msgid "Operate on child hostgroup hosts"
 msgstr ""
 
@@ -6278,7 +6326,7 @@ msgid "Operating systems"
 msgstr "Operační systémy"
 
 msgid "Operating systems API supported?"
-msgstr ""
+msgstr "Je podporováno aplikační programové rozhraní operačních systémů?"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Operatingsystem"
@@ -6392,7 +6440,7 @@ msgid "Out of sync hosts"
 msgstr "Nesesynchronizované stroje"
 
 msgid "Out of sync hosts with alerts enabled"
-msgstr ""
+msgstr "Nesesynchronizované stroje se zapnutými výstrahami"
 
 msgid "Out of sync interval"
 msgstr ""
@@ -6771,7 +6819,7 @@ msgid "Prefix length for this subnet, e.g. 24"
 msgstr "Předpona pro tuto podsíť, např. 24"
 
 msgid "Prefix length must be /64 or less to use EUI-64"
-msgstr ""
+msgstr "Pro použití EUI-64 je třeba, aby délka předpony byla /64 nebo méně"
 
 msgid "Prefix to add to all outgoing email"
 msgstr ""
@@ -6825,6 +6873,9 @@ msgid "Project domain ID"
 msgstr ""
 
 msgid "Project domain name"
+msgstr ""
+
+msgid "Project id for GCE only"
 msgstr ""
 
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
@@ -6904,9 +6955,6 @@ msgstr ""
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
 msgstr ""
 
-msgid "Proxy request timeout"
-msgstr ""
-
 msgid "Ptable|Locked"
 msgstr "Ptable|Zamčeno"
 
@@ -6984,9 +7032,6 @@ msgstr ""
 
 msgid "Puppet proxy ID"
 msgstr ""
-
-msgid "Puppet server"
-msgstr "Puppet server"
 
 msgid "Puppet summary"
 msgstr ""
@@ -7334,7 +7379,7 @@ msgstr[1] ""
 msgid "Revert"
 msgstr "Vrátit zpět"
 
-msgid "Revert Failed, ${res}"
+msgid "Revert Failed, ${err}"
 msgstr ""
 
 msgid "Revert Local Changes"
@@ -7716,6 +7761,12 @@ msgstr ""
 msgid "Set parameters to defaults"
 msgstr ""
 
+msgid "Set the current location context for the request"
+msgstr ""
+
+msgid "Set the current organization context for the request"
+msgstr ""
+
 msgid "Set the order in which values are resolved."
 msgstr ""
 
@@ -7780,7 +7831,7 @@ msgid "Should this interface be used for constructing the FQDN of the host? Each
 msgstr ""
 
 msgid "Show %s fact values for all hosts"
-msgstr ""
+msgstr "Zobrazit %s hodnot faktů pro všechny stroje"
 
 msgid "Show :a_resource"
 msgstr "Zobrazit :a_resource"
@@ -7864,7 +7915,7 @@ msgid "Show a nested parameter for a location"
 msgstr "Zobrazit vnořený parametr pro umístění"
 
 msgid "Show a nested parameter for a subnet"
-msgstr ""
+msgstr "Zobrazit vnořený parametr pro podsíť"
 
 msgid "Show a nested parameter for an operating system"
 msgstr "Zobrazit vnořený parametr pro operační systém"
@@ -7918,7 +7969,7 @@ msgid "Show all %s children fact values"
 msgstr ""
 
 msgid "Show all %s facts with the same value"
-msgstr ""
+msgstr "Zobrazit všech %s faktů se stejnou hodnotou"
 
 msgid "Show an HTTP Proxy"
 msgstr "Zobrazit HTTP proxy"
@@ -8001,7 +8052,16 @@ msgstr "Zobrazit kombinaci šablony"
 msgid "Show template input details"
 msgstr ""
 
+msgid "Show the currently logged-in user"
+msgstr ""
+
 msgid "Show the last report for a host"
+msgstr ""
+
+msgid "Shows status and version information of Foreman system and it's subcomponents"
+msgstr ""
+
+msgid "Shows status of Foreman system and it's subcomponents"
 msgstr ""
 
 msgid "Sign"
@@ -8041,6 +8101,9 @@ msgid "Smart Proxies"
 msgstr ""
 
 msgid "Smart Proxy"
+msgstr ""
+
+msgid "Smart Proxy request timeout"
 msgstr ""
 
 msgid "Smart Variables"
@@ -8318,10 +8381,10 @@ msgid "Subscribe"
 msgstr "Přihlásit se k odběru"
 
 msgid "Subscribe to all hosts"
-msgstr ""
+msgstr "Přihlásit se k odběru ze všech strojů"
 
 msgid "Subscribe to my hosts"
-msgstr ""
+msgstr "Přihlásit se k odběru z mých strojů"
 
 msgid "Success"
 msgstr "Úspěch"
@@ -8376,6 +8439,9 @@ msgstr ""
 
 msgid "Support"
 msgstr "Podpora"
+
+msgid "Support for %{feature} has been deprecated and will be removed in version %{version}"
+msgstr ""
 
 msgid "Supported Formats"
 msgstr "Podporované formáty"
@@ -8777,9 +8843,6 @@ msgstr ""
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
-msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
-msgstr ""
-
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
 msgstr ""
 
@@ -8865,9 +8928,6 @@ msgstr ""
 msgid "There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"
 msgstr ""
 
-msgid "There are two strategies when using host groups."
-msgstr ""
-
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] "Je zde"
@@ -8901,9 +8961,6 @@ msgstr ""
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr ""
-
-msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
-msgstr "Tyto dvě volby jsou na vašem rozhodnutí (hlavní rozdíl by bylo nastavení parametr/proměnné)"
 
 msgid "Thin provision"
 msgstr ""
@@ -8956,6 +9013,12 @@ msgstr "Tato role je pro úpravy uzamčena."
 msgid "This role is locked from being modified by users."
 msgstr "Tato role je uzamčena před upravováním uživateli"
 
+msgid "This service is available for unauthenticated users"
+msgstr ""
+
+msgid "This service is only available for authenticated users"
+msgstr "Tato služba je k dispozici pouze přihlášeným uživatelům"
+
 msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
 msgstr ""
 
@@ -9001,9 +9064,6 @@ msgid "Time in minutes installation tokens should be valid for, 0 to disable tok
 msgstr ""
 
 msgid "Time in seconds before SSH provisioning times out"
-msgstr ""
-
-msgid "Timeout for DNS conflict validation (in seconds)"
 msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
@@ -9230,7 +9290,7 @@ msgid "Unable to create realm entry"
 msgstr ""
 
 msgid "Unable to create the default role."
-msgstr ""
+msgstr "Nedaří se vytvořit výchozí roli."
 
 msgid "Unable to define volumes:"
 msgstr "Nedaří se definovat svazky:"
@@ -9404,7 +9464,7 @@ msgid "Unknown"
 msgstr "Neznámý"
 
 msgid "Unknown IPAM type - can't continue"
-msgstr ""
+msgstr "Neznámý IPAM typ – není možné pokračovat"
 
 msgid "Unknown Power State"
 msgstr "Neznámý stav napájení"
@@ -9446,7 +9506,7 @@ msgid "Unnamed"
 msgstr "Nenazvané"
 
 msgid "Unsupported IPAM mode for %s"
-msgstr ""
+msgstr "Nepodporovaný režim IPAM pro %s"
 
 msgid "Unsupported password hash function '%s'"
 msgstr "Nepodporovaná funkce otisku hesla „%s“"
@@ -9521,7 +9581,7 @@ msgid "Update a nested parameter for a location"
 msgstr "Aktualizovat vnořený parametr pro umístění"
 
 msgid "Update a nested parameter for a subnet"
-msgstr ""
+msgstr "Aktualizovat vnořený parametr pro podsíť"
 
 msgid "Update a nested parameter for an operating system"
 msgstr "Aktualizovat vnořený parametr pro operační systém"
@@ -9677,9 +9737,6 @@ msgid "UpgradeTask|Task name"
 msgstr "UpgradeTask|Název úlohy"
 
 msgid "Upload facts for a host, creating the host if required"
-msgstr ""
-
-msgid "Uptime"
 msgstr ""
 
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
@@ -9927,6 +9984,9 @@ msgstr ""
 msgid "VMRC Console"
 msgstr ""
 
+msgid "VMs"
+msgstr ""
+
 msgid "VNC"
 msgstr "VNC"
 
@@ -9988,7 +10048,7 @@ msgid "Version %{version}"
 msgstr "Verze %{version}"
 
 msgid "Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}"
-msgstr ""
+msgstr "Verze %{version}  %{copyright} 2009-%{year} Paul Kelly a %{author}"
 
 msgid "Very strong"
 msgstr "Velmi silné"
@@ -10282,14 +10342,11 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "Také k tomuto médiu můžete přiřadit jeden a více operačních systémů, případně toto můžete nastavit později na stránce %s."
 
-msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
-msgstr ""
-
 msgid "You must create a location before continuing."
-msgstr ""
+msgstr "Aby bylo možné pokračovat, je třeba vytvořit umístění."
 
 msgid "You must create an organization before continuing."
-msgstr ""
+msgstr "Aby bylo možné pokračovat, je třeba vytvořit organizaci."
 
 msgid "You must create at least one location before continuing."
 msgstr "Pro pokračování je třeba vytvořit alespoň jedno umístění."
@@ -10394,7 +10451,7 @@ msgid "can't be updated after host is provisioned"
 msgstr ""
 
 msgid "can't be updated after subnet is saved"
-msgstr ""
+msgstr "poté, co je podsíť uložena, není možné aktualizovat"
 
 msgid "can't contain spaces."
 msgstr "nemůže obsahovat mezery."
@@ -10418,7 +10475,7 @@ msgid "cannot be changed on an internal protected account"
 msgstr "není možné změnit na interním chráněném účtu"
 
 msgid "cannot be enabled for an unmanaged host"
-msgstr ""
+msgstr "není možné zapnout pro nespravovaný stroj"
 
 msgid "cannot be removed from an internal protected account"
 msgstr "není možné odebrat z interního chráněného účtu"
@@ -10510,8 +10567,8 @@ msgstr "např. Jméno"
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "např. https://identity.api.rackspacecloud.com/v2.0"
 
-msgid "e.g. https://ovirt.example.com/api"
-msgstr "např. https://ovirt.example.com/api"
+msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
+msgstr ""
 
 msgid "e.g. jpegPhoto"
 msgstr ""
@@ -10562,6 +10619,9 @@ msgid "filter..."
 msgstr ""
 
 msgid "for EC2 only, use '%s' for GovCloud region"
+msgstr ""
+
+msgid "for GCE only"
 msgstr ""
 
 msgid "for Libvirt and VMware only"
@@ -10756,7 +10816,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "is too long (maximum is 254 characters)"
-msgstr ""
+msgstr "je příliš dlouhé (nejvýše 254 znaků)"
 
 msgid "is unknown"
 msgstr "není známo"
@@ -10831,10 +10891,10 @@ msgid "must be of same resource type (%{types}) - Role (%{role})"
 msgstr ""
 
 msgid "must be of type Subnet::Ipv4."
-msgstr ""
+msgstr "je třeba, aby bylo typu Subnet::Ipv4."
 
 msgid "must be of type Subnet::Ipv6."
-msgstr ""
+msgstr "je třeba, aby bylo typu Subnet::Ipv6."
 
 msgid "must be one of [ %s ]"
 msgstr "Je třeba aby bylo jedno z [ %s ]"
@@ -10846,7 +10906,7 @@ msgid "must be specified if to is defined"
 msgstr ""
 
 msgid "must be true to edit the parameter"
-msgstr ""
+msgstr "aby bylo možné parametr upravovat, je třeba, aby bylo nastaveno na true (pravda)"
 
 msgid "must belong to host's operating system"
 msgstr ""
@@ -10882,7 +10942,7 @@ msgid "nil means host is bare metal"
 msgstr ""
 
 msgid "no free IP could be found in our DB"
-msgstr ""
+msgstr "v databázi se nepodařilo nalézt volnou iP adresu"
 
 msgid "no puppet proxy defined - cant continue"
 msgstr "není určena žádná puppet proxy – není možné pokračovat"
@@ -10912,7 +10972,7 @@ msgid "not supported by this compute resource"
 msgstr ""
 
 msgid "not supported by this protocol"
-msgstr ""
+msgstr "nepodporováno tímto protokolem"
 
 msgid "oVirt/RHEV instance type"
 msgstr ""
@@ -11102,7 +11162,7 @@ msgid "type of the LDAP server"
 msgstr "typ LDAP serveru"
 
 msgid "unable to find %{type} template for %{host} running %{os}"
-msgstr ""
+msgstr "nedaří se nalézt %{type} šablonu pro %{host}, na kterém je provozováno %{os}"
 
 msgid "unable to sign a non pending certificate"
 msgstr ""

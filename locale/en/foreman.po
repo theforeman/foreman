@@ -2187,6 +2187,9 @@ msgstr ""
 msgid "Default value"
 msgstr ""
 
+msgid "Default value for user input"
+msgstr ""
+
 msgid "Default value of variable"
 msgstr ""
 
@@ -3333,10 +3336,10 @@ msgstr ""
 msgid "Foreman domain ID of interface. Required for primary interfaces on managed hosts."
 msgstr ""
 
-msgid "Foreman host group matchers will be inherited by children when evaluating smart class parameters"
+msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
-msgid "Foreman instance ID, uniquely identifies this Foreman instance."
+msgid "Foreman matchers will be inherited by children when evaluating smart class parameters for hostgroups, organizations and locations"
 msgstr ""
 
 msgid "Foreman now manages the build cycle for %s"
@@ -3591,6 +3594,12 @@ msgstr ""
 msgid "HTTP Proxy connection successful."
 msgstr ""
 
+msgid "HTTP UEFI boot requires proxy with httpboot feature"
+msgstr ""
+
+msgid "HTTP boot requires proxy with httpboot feature and http_port exposed setting"
+msgstr ""
+
 msgid "HTTP(S) proxy"
 msgstr ""
 
@@ -3610,6 +3619,9 @@ msgid "HTTPBoot Proxy to use within this subnet"
 msgstr ""
 
 msgid "HTTPS URL is required for API access"
+msgstr ""
+
+msgid "HTTPS boot requires proxy with httpboot feature and https_port exposed setting"
 msgstr ""
 
 msgid "Hard disk"
@@ -3737,9 +3749,6 @@ msgid "Host group and Environment"
 msgstr ""
 
 msgid "Host group description"
-msgstr ""
-
-msgid "Host group matchers inheritance"
 msgstr ""
 
 msgid "Host group only"
@@ -4280,6 +4289,9 @@ msgid "If the Managed flag is disabled, none of the services will be configured 
 msgstr ""
 
 msgid "If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided."
+msgstr ""
+
+msgid "If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name."
 msgstr ""
 
 msgid "If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly."
@@ -5466,6 +5478,9 @@ msgstr ""
 msgid "Matcher is a combination of an attribute and its value, if they match, the value below would be provided.<br> You may use any attribute Foreman knows about, such as facts etc for example: <code> domain = example.com </code> or <code> is_virtual = true</code>."
 msgstr ""
 
+msgid "Matchers inheritance"
+msgstr ""
+
 msgid "Max days for Trends graphs"
 msgstr ""
 
@@ -5650,6 +5665,9 @@ msgid "Name"
 msgstr ""
 
 msgid "Name of media"
+msgstr ""
+
+msgid "Name of the OpenID Connect Audience that is being used for Authentication. In case of Keycloak this is the Client ID."
 msgstr ""
 
 msgid "Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)"
@@ -6191,6 +6209,18 @@ msgstr ""
 msgid "OAuth map users"
 msgstr ""
 
+msgid "OIDC Algorithm"
+msgstr ""
+
+msgid "OIDC Audience"
+msgstr ""
+
+msgid "OIDC Issuer"
+msgstr ""
+
+msgid "OIDC JWKs URL"
+msgstr ""
+
 msgid "OK"
 msgstr ""
 
@@ -6272,6 +6302,9 @@ msgid "Open Spice in a new window"
 msgstr ""
 
 msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
+msgstr ""
+
+msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an IDP"
 msgstr ""
 
 msgid "Operate on child hostgroup hosts"
@@ -6431,6 +6464,9 @@ msgid "Out of sync hosts with alerts enabled"
 msgstr ""
 
 msgid "Out of sync interval"
+msgstr ""
+
+msgid "Output format"
 msgstr ""
 
 msgid "Overridden"
@@ -7239,6 +7275,9 @@ msgid "Report completed"
 msgstr ""
 
 msgid "Report data are not available, it has probably expired."
+msgstr ""
+
+msgid "Report format, defaults to '%s'"
 msgstr ""
 
 msgid "Report is being rendered, it will be delivered via e-mail."
@@ -8766,6 +8805,9 @@ msgstr ""
 msgid "The Report Templates provides a way to create textual reports out of Foreman data. When the template is rendered, it loads data from database and renders the result. Based on the template, the output format can be csv, json, yaml or any custom textual format"
 msgstr ""
 
+msgid "The algorithm used to encode the JWT in the IDP."
+msgstr ""
+
 msgid ""
 "The authentication process currently requires an LDAP provider, such as <em>FreeIPA</em>,\n"
 "            <em>OpenLDAP</em> or <em>Microsoft's Active Directory</em>."
@@ -8829,6 +8871,9 @@ msgid "The full DNS domain name"
 msgstr ""
 
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
+msgstr ""
+
+msgid "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the IDP's."
 msgstr ""
 
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
@@ -10619,7 +10664,7 @@ msgstr ""
 msgid "for OpenStack (v3) only"
 msgstr ""
 
-msgid "for OpenStack only"
+msgid "for OpenStack and AzureRM only"
 msgstr ""
 
 msgid "for VMware"
@@ -10957,7 +11002,7 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-msgid "oVirt/RHEV instance type"
+msgid "oVirt/RHEV instance type. Provided memory, sockets and cores values will be overriden by instance types values"
 msgstr ""
 
 msgid "oVirt/RHEV template to use"
