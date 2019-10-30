@@ -429,3 +429,18 @@ attribute92:
   category: Setting::Auth
   default: 'External'
   description: 'Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'
+attribute93:
+  name: releases_tracking_enable
+  category: Setting::Notification
+  default: true
+  description: 'Whether to pull release notifications or not'
+attribute94:
+  name: releases_tracking_url
+  category: Setting::Notification
+  default: 'https://github.com/theforeman/foreman/releases.atom'
+  description: 'URL to fetch release notifications from'
+attribute95:
+  name: releases_track_rc_enable
+  category: Setting::Notification
+  default: false
+  description: 'Whether to pull rc notifications or not'

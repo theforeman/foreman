@@ -48,6 +48,20 @@ blueprints = [
     },
   },
   {
+    group: N_('Releases'),
+    name: 'releases',
+    level: 'info',
+    message: N_('New %{release_type} (v%{version}) available!'),
+    actions:
+    {
+      links:
+      [
+        title: N_('URL'),
+        external: true,
+      ],
+    },
+  },
+  {
     group: N_('Deprecations'),
     name: 'setting_deprecation',
     level: 'warning',
