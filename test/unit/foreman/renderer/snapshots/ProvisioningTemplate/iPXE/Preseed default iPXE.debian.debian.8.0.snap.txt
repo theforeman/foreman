@@ -1,0 +1,9 @@
+#!gpxe
+
+
+
+
+kernel http://example.com/some/path/linux initrd=initrd.img interface=auto url=http://foreman.some.host.fqdn/unattended/provision ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} hostname=snapshothost auto=true domain=snapshotdomain.com locale=en_US 
+initrd http://example.com/some/path/initrd.gz
+
+boot

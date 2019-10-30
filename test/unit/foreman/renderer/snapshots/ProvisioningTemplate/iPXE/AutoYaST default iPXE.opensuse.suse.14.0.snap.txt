@@ -1,0 +1,7 @@
+#!gpxe
+
+
+
+kernel http://example.com/some/path/linux initrd=initrd.img splash=silent install=http://example.com/some/path autoyast=http://foreman.some.host.fqdn/unattended/provision text-mode=1 useDHCP=1
+initrd http://example.com/some/path/initrd
+boot

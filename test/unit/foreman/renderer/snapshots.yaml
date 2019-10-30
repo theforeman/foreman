@@ -1,71 +1,260 @@
 # Edit this file and then run: rake snapshots:generate RAILS_ENV=test
 
 files:
-  - provision/alterator_default.erb
-  - cloud_init/cloud_init_default.erb
-  - PXELinux/pxelinux_global_default.erb
-  - PXEGrub/pxegrub_global_default.erb
-  - PXEGrub2/pxegrub2_global_default.erb
-  - PXELinux/pxelinux_default_local_boot.erb
-  - PXEGrub/pxegrub_default_local_boot.erb
-  - PXEGrub2/pxegrub2_default_local_boot.erb
-  - PXELinux/pxelinux_default_memdisk.erb
-  - PXELinux/pxelinux_chain_ipxe.erb
-  - PXELinux/pxelinux_chain_ipxe_undi.erb
-  - provision/alterator_default.erb
-  - finish/alterator_default_finish.erb
-  - provision/atomic_kickstart_default.erb
-  - provision/autoyast_default.erb
-  - provision/autoyast_sles_default.erb
-  - PXELinux/autoyast_default_pxelinux.erb
-  - user_data/autoyast_default_user_data.erb
-  - user_data/userdata_open_vm_tools.erb
-  - provision/coreos_provision.erb
-  - PXELinux/coreos_pxelinux.erb
-  - finish/freebsd_(mfsbsd)_finish.erb
-  - provision/freebsd_(mfsbsd)_provision.erb
-  - PXELinux/freebsd_(mfsbsd)_pxelinux.erb
-  - provision/jumpstart_default.erb
-  - provision/junos_default_slax.erb
-  - ZTP/junos_default_ztp_config.erb
-  - finish/junos_default_finish.erb
-  - provision/kickstart_default.erb
-  - finish/kickstart_default_finish.erb
-  - PXELinux/kickstart_default_pxelinux.erb
-  - PXEGrub/kickstart_default_pxegrub.erb
-  - PXEGrub2/kickstart_default_pxegrub2.erb
-  - user_data/kickstart_default_user_data.erb
-  - POAP/nx-os_default_poap_setup.erb
-  - provision/preseed_default.erb
-  - finish/preseed_default_finish.erb
-  - PXELinux/preseed_default_pxelinux.erb
-  - PXEGrub2/preseed_default_pxegrub2.erb
-  - user_data/preseed_default_user_data.erb
-  - PXELinux/rancheros_pxelinux.erb
-  - provision/rancheros_provision.erb
-  - user_data/userdata_default.erb
-  - PXELinux/waik_default_pxelinux.erb
-  - provision/xenserver_default_answerfile.erb
-  - finish/xenserver_default_finish.erb
-  - PXELinux/xenserver_default_pxelinux.erb
-  - iPXE/ipxe_intermediate_script.erb
-  - snippet/ansible_tower_callback_script.erb
-  - snippet/ansible_tower_callback_service.erb
-  - snippet/chef_client.erb
-  - snippet/coreos_cloudconfig.erb
-  - snippet/epel.erb
-  - snippet/fix_hosts.erb
-  - snippet/freeipa_register.erb
-  - snippet/preseed_networking_setup.erb
-  - snippet/puppet.conf.erb
-  - snippet/puppet_setup.erb
-  - snippet/pxegrub2_chainload.erb
-  - snippet/pxegrub2_discovery.erb
-  - snippet/pxegrub_chainload.erb
-  - snippet/pxegrub_discovery.erb
-  - snippet/pxelinux_chainload.erb
-  - snippet/pxelinux_discovery.erb
-  - snippet/rancheros_cloudconfig.erb
-  - snippet/remote_execution_ssh_keys.erb
-  - snippet/saltstack_minion.erb
-  - snippet/saltstack_setup.erb
+# global boot
+  - 
+    name: PXELinux/pxelinux_global_default.erb
+    os: []
+  - 
+    name: PXEGrub/pxegrub_global_default.erb
+    os: []
+  - 
+    name: PXEGrub2/pxegrub2_global_default.erb
+    os: []
+# local boot
+  - 
+    name: PXELinux/pxelinux_default_local_boot.erb
+    os: []
+  - 
+    name: PXEGrub/pxegrub_default_local_boot.erb
+    os: []
+  - 
+    name: PXEGrub2/pxegrub2_default_local_boot.erb
+    os: []
+# various without host
+  - 
+    name: PXELinux/pxelinux_default_memdisk.erb
+    os: []
+  - 
+    name: PXELinux/pxelinux_chain_ipxe.erb
+    os: []
+  - 
+    name: PXELinux/pxelinux_chain_ipxe_undi.erb
+    os: []
+  - 
+    name: iPXE/ipxe_intermediate_script.erb
+    os: []
+# altlinux
+  - 
+    name: provision/alterator_default.erb
+    os:
+      - ["ALTLinux", "Altlinux", 8, 0]
+  - 
+    name: finish/alterator_default_finish.erb
+    os:
+      - ["ALTLinux", "Altlinux", 8, 0]
+# common
+  - 
+    name: user_data/userdata_default.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+      - ["openSUSE", "Suse", 15, 0]
+  - 
+    name: cloud_init/cloud_init_default.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+      - ["openSUSE", "Suse", 15, 0]
+  - 
+    name: user_data/userdata_open_vm_tools.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+      - ["openSUSE", "Suse", 15, 0]
+      - ["Windows", "Windows", 10, 0]
+# kickstart
+  - 
+    name: provision/kickstart_default.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: finish/kickstart_default_finish.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: PXELinux/kickstart_default_pxelinux.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: PXEGrub/kickstart_default_pxegrub.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: PXEGrub2/kickstart_default_pxegrub2.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: iPXE/kickstart_default_ipxe.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: user_data/kickstart_default_user_data.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  - 
+    name: provision/atomic_kickstart_default.erb
+    os:
+      - ["CentOS", "Redhat", 6, 0]
+      - ["CentOS", "Redhat", 7, 0]
+      - ["CentOS", "Redhat", 8, 0]
+  -
+    name: PXELinux/kickstart_ovirt_pxelinux.erb
+    os:
+      - ["oVirt", "Redhat", 4, 0]
+  -
+    name: provision/kickstart_ovirt.erb
+    os:
+      - ["oVirt", "Redhat", 4, 0]
+# preseed
+  - 
+    name: provision/preseed_default.erb
+    os:
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+  - 
+    name: finish/preseed_default_finish.erb
+    os:
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+  - 
+    name: PXELinux/preseed_default_pxelinux.erb
+    os:
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+  - 
+    name: PXEGrub2/preseed_default_pxegrub2.erb
+    os:
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+  - 
+    name: iPXE/preseed_default_ipxe.erb
+    os:
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+  - 
+    name: user_data/preseed_default_user_data.erb
+    os:
+      - ["Debian", "Debian", 8, 0]
+      - ["Ubuntu", "Debian", 16, 04]
+# suse
+  - 
+    name: provision/autoyast_default.erb
+    os:
+      - ["openSUSE", "Suse", 13, 0]
+      - ["openSUSE", "Suse", 14, 0]
+      - ["openSUSE", "Suse", 15, 0]
+  - 
+    name: provision/autoyast_sles_default.erb
+    os:
+      - ["openSUSE", "Suse", 13, 0]
+      - ["openSUSE", "Suse", 14, 0]
+      - ["openSUSE", "Suse", 15, 0]
+  - 
+    name: PXELinux/autoyast_default_pxelinux.erb
+    os:
+      - ["openSUSE", "Suse", 13, 0]
+      - ["openSUSE", "Suse", 14, 0]
+      - ["openSUSE", "Suse", 15, 0]
+  - 
+    name: iPXE/autoyast_default_ipxe.erb
+    os:
+      - ["openSUSE", "Suse", 13, 0]
+      - ["openSUSE", "Suse", 14, 0]
+      - ["openSUSE", "Suse", 15, 0]
+  - 
+    name: user_data/autoyast_default_user_data.erb
+    os:
+      - ["openSUSE", "Suse", 13, 0]
+      - ["openSUSE", "Suse", 14, 0]
+      - ["openSUSE", "Suse", 15, 0]
+# coreos
+  - 
+    name: provision/coreos_provision.erb
+    os:
+      - ["CoreOS", "Coreos", 0, 0]
+  - 
+    name: PXELinux/coreos_pxelinux.erb
+    os:
+      - ["CoreOS", "Coreos", 0, 0]
+# windows
+  - 
+    name: PXELinux/waik_default_pxelinux.erb
+    os:
+      - ["Windows", "Windows", 10, 0]
+# rancheros
+  - 
+    name: PXELinux/rancheros_pxelinux.erb
+    os:
+      - ["RancherOS", "Rancheros", 2, 0]
+  - 
+    name: provision/rancheros_provision.erb
+    os:
+      - ["RancherOS", "Rancheros", 2, 0]
+# xen
+  - 
+    name: provision/xenserver_default_answerfile.erb
+    os:
+      - ["XenServer", "Xenserver", 7, 0]
+  - 
+    name: finish/xenserver_default_finish.erb
+    os:
+      - ["XenServer", "Xenserver", 7, 0]
+  - 
+    name: PXELinux/xenserver_default_pxelinux.erb
+    os:
+      - ["XenServer", "Xenserver", 7, 0]
+# freebsd
+  - 
+    name: finish/freebsd_(mfsbsd)_finish.erb
+    os:
+      - ["FreeBSD", "Freebsd", 0, 0]
+  - 
+    name: provision/freebsd_(mfsbsd)_provision.erb
+    os:
+      - ["FreeBSD", "Freebsd", 0, 0]
+  - 
+    name: PXELinux/freebsd_(mfsbsd)_pxelinux.erb
+    os:
+      - ["FreeBSD", "Freebsd", 0, 0]
+# junos
+  - 
+    name: provision/junos_default_slax.erb
+    os:
+      - ["Junos", "Junos", 19, 0]
+  - 
+    name: ZTP/junos_default_ztp_config.erb
+    os:
+      - ["Junos", "Junos", 19, 0]
+  - 
+    name: finish/junos_default_finish.erb
+    os:
+      - ["Junos", "Junos", 19, 0]
+# solaris
+  - 
+    name: provision/jumpstart_default.erb
+    os:
+      - ["Solaris", "Solaris", 11, 0]

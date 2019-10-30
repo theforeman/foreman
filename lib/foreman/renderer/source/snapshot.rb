@@ -16,8 +16,8 @@ module Foreman
             Dir["#{File.join(SNAPSHOTS_DIRECTORY, template_path(template))}*"]
           end
 
-          def snapshot_path(template)
-            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.snap.txt")
+          def snapshot_path(template, os_name, os_type, os_major, os_minor)
+            File.join(SNAPSHOTS_DIRECTORY, "#{template_path(template)}.#{os_name.downcase}.#{os_type.downcase}.#{os_major}.#{os_minor}.snap.txt")
           end
 
           def template_path(template)

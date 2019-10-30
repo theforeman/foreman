@@ -18,14 +18,14 @@ namespace :snapshots do
       admin = FactoryBot.create(:user, :admin, password: 'password123', auth_source: FactoryBot.create(:auth_source_ldap))
 
       User.as(admin.login) do
-        Foreman::TemplateSnapshotService.templates.each do |template|
-          snapshot_path = Foreman::Renderer::Source::Snapshot.snapshot_path(template)
-          dir = File.dirname(snapshot_path)
-          FileUtils.mkdir_p(dir) unless File.directory?(dir)
-
-          snapshot = Foreman::TemplateSnapshotService.render_template(template)
-
-          File.open(snapshot_path, 'w') { |f| f.write(snapshot) }
+        Foreman::TemplateSnapshotService.templates.each do |template, oses|
+          oses.each do |os_name, os_type, os_major, os_minor|
+            snapshot_path = Foreman::Renderer::Source::Snapshot.snapshot_path(template, os_name, os_type, os_major, os_minor)
+            dir = File.dirname(snapshot_path)
+            FileUtils.mkdir_p(dir) unless File.directory?(dir)
+            snapshot = Foreman::TemplateSnapshotService.render_template(template, os_name, os_type, os_major, os_minor)
+            File.open(snapshot_path, 'w') { |f| f.write(snapshot) }
+          end
         end
       end
     end

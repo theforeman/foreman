@@ -1,0 +1,42 @@
+
+
+
+install
+
+
+liveimg --url=http://example.com/some/path/squashfs.img
+
+network --bootproto dhcp --hostname snapshothost --device=00-f0-54-1a-7e-e0
+rootpw --iscrypted xybxa6JUkz63w
+firewall --service=ssh
+lang en_US.UTF-8
+timezone --utc UTC
+selinux --enforcing
+keyboard us
+services --enabled=sshd
+text
+reboot
+zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
+
+%post --log=/root/ks.post.log --erroronfail
+nodectl init
+
+
+
+
+
+
+
+
+
+
+
+
+
+/usr/sbin/ntpdate -sub 0.fedora.pool.ntp.org
+/usr/sbin/hwclock --systohc
+
+/usr/bin/curl http://foreman.some.host.fqdn/unattended/built
+sync
+systemctl reboot
+%end

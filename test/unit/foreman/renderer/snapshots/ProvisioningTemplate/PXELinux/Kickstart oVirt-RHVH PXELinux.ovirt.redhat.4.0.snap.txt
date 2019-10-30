@@ -1,0 +1,7 @@
+
+DEFAULT rhvh
+
+LABEL rhvh
+KERNEL 
+APPEND initrd= inst.ks=http://foreman.some.host.fqdn/unattended/provision inst.stage2=http://example.com/some/path local_boot_trigger=http://foreman.some.host.fqdn/unattended/built intel_iommu=on
+IPAPPEND 2

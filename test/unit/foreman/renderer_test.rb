@@ -14,9 +14,11 @@ class RendererTest < ActiveSupport::TestCase
       Setting[:safemode_render] = true
     end
 
-    Foreman::TemplateSnapshotService.templates.each do |template|
-      test "rendered #{template.name} template should match snapshots" do
-        assert_template(template)
+    Foreman::TemplateSnapshotService.templates.each do |template, oses|
+      oses.each do |os_name, os_type, os_major, os_minor|
+        test "rendered #{template.name} for #{os_name} #{os_major}.#{os_minor} template should match snapshots" do
+          assert_template(template, os_name, os_type, os_major, os_minor)
+        end
       end
     end
   end
@@ -26,19 +28,22 @@ class RendererTest < ActiveSupport::TestCase
       Setting[:safemode_render] = false
     end
 
-    Foreman::TemplateSnapshotService.templates.each do |template|
-      test "rendered #{template.name} template should match snapshots" do
-        assert_template(template)
+    Foreman::TemplateSnapshotService.templates.each do |template, oses|
+      oses.each do |os_name, os_type, os_major, os_minor|
+        test "rendered #{template.name} for #{os_name} #{os_major}.#{os_minor} template should match snapshots" do
+          assert_template(template, os_name, os_type, os_major, os_minor)
+        end
       end
     end
   end
 
   private
 
-  def assert_template(template)
-    rendered = Foreman::TemplateSnapshotService.render_template(template)
+  def assert_template(template, os_name, os_type, os_major, os_minor)
+    rendered = Foreman::TemplateSnapshotService.render_template(template, os_name, os_type, os_major, os_minor)
     variants = Foreman::Renderer::Source::Snapshot.snapshot_variants(template)
     match = variants.any? { |variant| rendered == File.read(variant) }
+    puts(rendered) unless match
 
     assert match, "Rendered template #{template.name} did not match any snapshot. Tried against #{variants.join(', ')}"
   end

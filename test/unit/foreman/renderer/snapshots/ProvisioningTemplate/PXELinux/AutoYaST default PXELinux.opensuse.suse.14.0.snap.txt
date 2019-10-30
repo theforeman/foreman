@@ -1,0 +1,7 @@
+
+
+DEFAULT linux
+
+LABEL linux
+    KERNEL 
+    APPEND initrd= ramdisk_size=65536 install= autoyast=http://foreman.some.host.fqdn/unattended/provision textmode=1 

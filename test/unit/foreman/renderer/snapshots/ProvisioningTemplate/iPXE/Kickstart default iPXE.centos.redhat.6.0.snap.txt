@@ -1,0 +1,7 @@
+#!gpxe
+
+kernel http://example.com/some/path/vmlinuz initrd=initrd.img ks=http://foreman.some.host.fqdn/unattended/provision inst.stage2=http://example.com/some/path  ksdevice=00-f0-54-1a-7e-e0 network kssendmac ks.sendmac inst.ks.sendmac ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}
+initrd http://example.com/some/path/initrd.img
+imgstat
+sleep 2
+boot

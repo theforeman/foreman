@@ -73,7 +73,7 @@ if host_param('kickstart_liveimg')
     if img_name.match(%r|^([\w\-\+]+)://|)
       img_name
     else
-      "#{@host.operatingsystem.medium_uri(@host)}/#{img_name}"
+      "#{medium_uri}/#{img_name}"
     end
   end
 %>
