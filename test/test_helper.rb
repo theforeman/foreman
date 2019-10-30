@@ -47,7 +47,7 @@ def valid_name_list
   [
     RFauxFactory.gen_alpha(1),
     RFauxFactory.gen_alpha(255),
-    *RFauxFactory.gen_strings(1..255, exclude: [:html]).values,
+    *RFauxFactory.gen_strings(1..255, exclude: [:html]).values.map {|x| x.truncate_bytes(255, omission: '')},
     RFauxFactory.gen_html(rand((1..230))),
   ]
 end
