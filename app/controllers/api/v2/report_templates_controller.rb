@@ -202,6 +202,15 @@ module Api
         end
       end
 
+      def parent_permission(child_permission)
+        case child_permission.to_s
+        when 'generate', 'schedule_report', 'report_data'
+          'view'
+        else
+          super
+        end
+      end
+
       def load_and_authorize_plan
         @plan = load_dynflow_plan(params[:job_id])
         return not_found(_('Report not found, please ensure you used the correct job_id')) if @plan.nil?
