@@ -22,7 +22,7 @@ gem 'apipie-rails', '>= 0.5.2', '< 0.6.0'
 gem 'rabl', '~> 0.11'
 gem 'oauth', '>= 0.5.4', '< 1'
 gem 'deep_cloneable', '>= 2.3.2', '< 3.0'
-gem 'validates_lengths_from_database', '~> 0.5'
+gem 'validates_lengths_from_database', '>= 0.5', ((RUBY_VERSION < '2.4') ? '< 0.8' : '< 1')
 gem 'friendly_id', '>= 5.2.4', '< 6'
 gem 'secure_headers', '~> 6.0'
 gem 'safemode', '>= 1.3.5', '< 2'
