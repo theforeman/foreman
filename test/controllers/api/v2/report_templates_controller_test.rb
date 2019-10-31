@@ -282,6 +282,21 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal '2 ohai', response.body
     end
+
+    it "should generate report with in organization scope" do
+      organization = Organization.first
+      location = Location.first
+      report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %>', :organization_ids => [organization.id], :location_ids => [location.id])
+
+      setup_user('generate', 'report_templates')
+      setup_user('view', 'organizations')
+      setup_user('view', 'locations')
+      users(:one).organizations << organization
+
+      post :generate, params: { id: report_template.id, organization_id: organization.id }, session: set_session_user(:one)
+      assert_response :success
+      assert_equal '2', response.body
+    end
   end
 
   describe '#schedule_report' do
