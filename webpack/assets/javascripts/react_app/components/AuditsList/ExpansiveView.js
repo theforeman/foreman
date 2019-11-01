@@ -48,11 +48,11 @@ const showAuditChanges = (
 ) => {
   const tableClasses = 'table table-bordered table-hover';
 
-  if (['added', 'removed'].includes(actionDisplayName) && details.length > 0) {
+  if (['add', 'remove'].includes(actionDisplayName) && details.length > 0) {
     return (
       <table
         className={`${tableClasses} details-row table-inline-changes ${
-          actionDisplayName === 'added' ? 'show-new' : 'show-old'
+          actionDisplayName === 'add' ? 'show-new' : 'show-old'
         }`}
       >
         <tbody>{renderListItems(details)}</tbody>
