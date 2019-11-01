@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import EmptyPage from '../routes/common/EmptyPage';
 import LoadingPage from '../routes/common/LoadingPage';
 
@@ -21,12 +21,18 @@ export const callOnMount = callback => WrappedComponent => componentProps => {
  * @param {Function} callback - function to run
  */
 export const callOnPopState = callback => WrappedComponent => componentProps => {
+  const didMount = useRef(false);
+
   useEffect(() => {
     const {
       history: { action },
     } = componentProps;
 
-    if (action === 'POP') callback(componentProps);
+    if (action === 'POP' && didMount.current) {
+      callback(componentProps);
+    } else {
+      didMount.current = true;
+    }
   }, [componentProps.location.search]);
 
   return <WrappedComponent {...componentProps} />;
