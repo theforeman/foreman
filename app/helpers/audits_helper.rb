@@ -1,4 +1,7 @@
 module AuditsHelper
+  AUDIT_ADD = 'add'
+  AUDIT_REMOVE = 'remove'
+
   # lookup the Model representing the numerical id and return its label
   def id_to_label(name, change, audit: @audit, truncate: true)
     return _("N/A") if change.nil?
@@ -81,8 +84,14 @@ module AuditsHelper
         end
       end
     elsif !main_object? audit
-      ["#{audit_action_name(audit).humanize} #{id_to_label audit.audited_changes.keys[0], audit.audited_changes.values[0], audit: audit}
-       #{(audit_action_name(audit) == 'removed') ? 'from' : 'to'} #{audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1], audit: audit)}"]
+      from = id_to_label(audit.audited_changes.keys[0], audit.audited_changes.values[0], audit: audit)
+      to = audit.associated_name || id_to_label(audit.audited_changes.keys[1], audit.audited_changes.values[1], audit: audit)
+      case audit_action_name(audit)
+      when AUDIT_ADD
+        [_("Added %{from} to %{to}") % {:from => from, :to => to}]
+      when AUDIT_REMOVE
+        [_("Removed %{from} to %{to}") % {:from => from, :to => to}]
+      end
     else
       []
     end
@@ -99,15 +108,15 @@ module AuditsHelper
   end
 
   def audit_action_name(audit)
-    return (audit.action == 'destroy') ? 'deleted' : "#{audit.action}d" if main_object? audit
+    return audit.action if main_object? audit
 
     case audit.action
       when 'create'
-        'added'
+        AUDIT_ADD
       when 'destroy'
-        'removed'
+        AUDIT_REMOVE
       else
-        'updated'
+        'update'
     end
   end
 
@@ -228,7 +237,7 @@ module AuditsHelper
   private
 
   def additional_details_if_any(audit, action_display_name)
-    %[added removed].include?(action_display_name) ? details(audit) : []
+    [AUDIT_ADD, AUDIT_REMOVE].include?(action_display_name) ? details(audit) : []
   end
 
   def main_object?(audit)
