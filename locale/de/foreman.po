@@ -17,6 +17,7 @@
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
+# Markus Bucher <bucher@atix.de>, 2019
 # Martin Zimmermann <martin.zimmermann@gmx.com>, 2018
 # Oliver Freyermuth <o.freyermuth@googlemail.com>, 2019
 # Paul Puschmann, 2013
@@ -36,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-10-07 20:04+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2019-10-31 12:52+0000\n"
+"Last-Translator: Markus Bucher <bucher@atix.de>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10468,13 +10469,13 @@ msgid "and"
 msgstr "und"
 
 msgid "array"
-msgstr "Datenfeld"
+msgstr "Array"
 
 msgid "belongs to config group"
 msgstr "gehört zur Konfigurationsgruppe"
 
 msgid "boolean"
-msgstr "Boolesch"
+msgstr "Boolean"
 
 msgid "boot device, valid devices are disk, cdrom, pxe, bios"
 msgstr "Boot Device, gültige Geräte sind Festplatte, CD-Rom, PXE, BIOS"
@@ -10927,7 +10928,7 @@ msgid "must be an array"
 msgstr "muss ein Array sein"
 
 msgid "must be boolean"
-msgstr "muss ein bool´scher Wert sein"
+msgstr "muss ein boolescher Wert sein"
 
 msgid "must be comma separated"
 msgstr "muss mit Komma getrennt sein"
@@ -11080,7 +11081,7 @@ msgid "ready?"
 msgstr "bereit?"
 
 msgid "real"
-msgstr "echt"
+msgstr "Fließkommazahl"
 
 msgid "reboot"
 msgstr "neustarten"
