@@ -1,3 +1,36 @@
+2019-11-04	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.22.2
+
+2019-11-04	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #28154 - random name/description test failure fixed
+
+2019-11-01	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28169 - pin validates_lengths_from_database on Ruby 2.3
+
+2019-10-27	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #28129 - revert param migration of type casting
+
+2019-10-10	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28031 - pin signet on Ruby 2.3
+
+2019-10-10	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #28028 - update chromedriver to match jenkins version
+
+2019-10-02	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #27402 - LDAP usergroup sync (#7045)
+
+2019-09-17	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #27854 - Only assign valid templates to new taxonomy
+
+2019-09-16	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #27854 - Don't fail seed on invalid templates (#7041)
+
+2019-09-12	laviro <1ronlavi@gmail.com>
+	* Fixes #27831 - disabled buttons are still clickable
+
+2019-09-10	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #27764, #27798, #27391 - host form update on change
+
 2019-08-29	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.22.1
 
