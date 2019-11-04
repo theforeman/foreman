@@ -1,3 +1,16 @@
+2019-11-04	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.24.0-RC2
+
+2019-11-03	Tomer Brisker <tbrisker@gmail.com>
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+
+2019-11-03	Oleh Fedorenko <ofedoren@redhat.com>
+	* Fixes #28159 - Allow host id and params in safe mode (#7143)
+
+2019-11-01	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28169 - pin validates_lengths_from_database on Ruby 2.3
+
 2019-10-31	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.24.0-RC1
 
