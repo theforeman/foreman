@@ -1,3 +1,49 @@
+2019-11-04	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.23.1
+	* templates - sync from community-templates
+
+2019-11-04	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #28154 - random name/description test failure fixed
+
+2019-11-01	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28169 - pin validates_lengths_from_database on Ruby 2.3
+
+2019-10-29	Nagoor Shaik <nagoor.s@gmail.com>
+	* Fixes #28145 - fix rake rescan_reports_origins run
+
+2019-10-27	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #28129 - revert param migration of type casting
+
+2019-10-27	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28122 - Allow creating common params with lone taxonomy
+
+2019-10-23	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #27740 - Allow creating parameters with lone taxonomies
+
+2019-10-10	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28031 - pin signet on Ruby 2.3
+
+2019-10-10	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #28028 - update chromedriver to match jenkins version
+
+2019-10-10	sjha4 <sjha4@ncsu.edu>
+	* Fixes #27941 - Set timezone based on browser timezone
+
+2019-10-02	Zachary Bedell <zbedell@nycourts.gov>
+	* fixes #27931 - 'Could not match network interface'
+
+2019-10-02	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #27402 - LDAP usergroup sync (#7045)
+
+2019-09-17	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #27854 - Only assign valid templates to new taxonomy
+
+2019-09-16	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #27854 - Don't fail seed on invalid templates (#7041)
+
+2019-09-12	laviro <1ronlavi@gmail.com>
+	* Fixes #27831 - disabled buttons are still clickable
+
 2019-09-10	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.23.0
 	* templates - sync from community-templates
