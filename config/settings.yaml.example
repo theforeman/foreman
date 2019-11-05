@@ -131,7 +131,6 @@
 #
 # :dynflow:
 #   :pool_size: 5
-#   :redis_url:
 
 #
 # Set the rails cache implementation:
