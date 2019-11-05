@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V2::TestableController < Api::V2::BaseController
   def index
-    render :plain => 'dummy', :status => :ok
+    render :json => User.current.as_json, :status => :ok
   end
 
   def create
@@ -61,10 +61,13 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
       let(:user) { as_admin { FactoryBot.create(:user, :admin) } }
 
       test '#login authenticates user with personal access token' do
+        time = Time.zone.now
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, 'password')
         get :index
+        last_login_time = user.reload.last_login_on
         assert_response :success
         assert_equal user.id, session[:user]
+        assert last_login_time.to_i >= time.to_i, 'User last login time was not updated'
       end
 
       context 'personal access tokens' do
@@ -78,10 +81,13 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
         end
 
         test '#login authenticates user with personal access token' do
+          time = Time.zone.now
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, token_value)
           get :index
+          last_login_time = user.reload.last_login_on
           assert_response :success
           assert_equal user.id, session[:user]
+          assert last_login_time.to_i >= time.to_i, 'User last login time was not updated'
         end
       end
     end
