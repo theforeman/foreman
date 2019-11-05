@@ -19,6 +19,8 @@ module Foreman
         :medium_provider,
         :medium_uri,
         :load_hosts,
+        :load_users,
+        :user_auth_source_name,
         :all_host_statuses,
         :all_host_statuses_hash,
         :host_status,

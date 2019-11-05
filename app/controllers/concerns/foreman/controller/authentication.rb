@@ -13,6 +13,7 @@ module Foreman::Controller::Authentication
 
     if user.is_a?(User)
       logger.info("Authorized user #{user.login}(#{user.to_label})")
+      user.post_successful_login
       set_current_user user
     else
       return false if api_request?

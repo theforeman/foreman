@@ -108,6 +108,14 @@ module Foreman
             host.get_status(klass)
           end
 
+          def load_users(search: '', includes: nil, preload: nil)
+            load_resource(klass: User, search: search, permission: :view_users, includes: includes, preload: preload)
+          end
+
+          def user_auth_source_name(user)
+            user.auth_source&.name
+          end
+
           def preview?
             mode == Renderer::PREVIEW_MODE
           end

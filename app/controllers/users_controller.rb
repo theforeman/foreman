@@ -139,6 +139,7 @@ class UsersController < ApplicationController
     if session[:user]
       user = User.find_by_id(session[:user])
       login_user(user)
+      user.post_successful_login
     end
   end
 
@@ -198,7 +199,6 @@ class UsersController < ApplicationController
     store_default_taxonomy(user, 'location') unless session.has_key?(:location_id)
     TopbarSweeper.expire_cache
     telemetry_increment_counter(:successful_ui_logins)
-    user.post_successful_login
     redirect_to (uri || hosts_path)
   end
 

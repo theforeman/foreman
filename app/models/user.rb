@@ -140,7 +140,7 @@ class User < ApplicationRecord
   end
 
   class Jail < ::Safemode::Jail
-    allow :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail
+    allow :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail, :last_login_on
   end
 
   # we need to allow self-editing and self-updating
@@ -272,7 +272,9 @@ class User < ApplicationRecord
     else
       user = try_to_auto_create_user(login, password)
     end
-    unless user
+    if user
+      user.post_successful_login
+    else
       logger.info "invalid user"
       User.current = nil
     end
