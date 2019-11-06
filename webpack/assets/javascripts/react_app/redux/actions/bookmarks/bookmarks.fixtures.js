@@ -1,5 +1,9 @@
 import immutable from 'seamless-immutable';
-import { BOOKMARKS_REQUEST, BOOKMARKS_SUCCESS } from '../../consts';
+import {
+  BOOKMARKS_REQUEST,
+  BOOKMARKS_SUCCESS,
+  BOOKMARKS_FAILURE,
+} from '../../consts';
 import { bookmarks } from '../../reducers/bookmarks/bookmarks.fixtures';
 
 export const initialState = immutable({
@@ -16,6 +20,13 @@ export const requestData = {
   response: { results: bookmarks },
 };
 
+const APIMiddlewareAction = {
+  key: 'BOOKMARKS',
+  payload: { controller: 'hosts' },
+  type: 'API_GET',
+  url: '/api/bookmarks?search=controller%3Dhosts&per_page=100',
+};
+
 const requestAction = {
   type: BOOKMARKS_REQUEST,
   payload: { controller: 'hosts' },
@@ -23,21 +34,23 @@ const requestAction = {
 
 export const onFailureActions = [
   requestAction,
+  APIMiddlewareAction,
   {
     payload: {
       error: new Error('Request failed with status code 422'),
       payload: { controller: 'hosts' },
     },
-    type: 'BOOKMARKS_FAILURE',
+    type: BOOKMARKS_FAILURE,
   },
 ];
 
 export const onSuccessActions = [
   requestAction,
+  APIMiddlewareAction,
   {
     payload: {
-      results: bookmarks,
       controller: 'hosts',
+      results: bookmarks,
     },
     type: BOOKMARKS_SUCCESS,
   },

@@ -5,10 +5,12 @@ Object {
   "action": Array [
     Array [
       Object {
+        "key": "BOOKMARKS",
         "payload": Object {
           "controller": "models",
         },
-        "type": "BOOKMARKS_REQUEST",
+        "type": "API_GET",
+        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
       },
     ],
   ],
