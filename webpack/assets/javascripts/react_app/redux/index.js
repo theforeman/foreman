@@ -4,9 +4,9 @@ import { applyMiddleware, createStore, compose } from 'redux';
 
 import reducers from './reducers';
 
-import { APIMiddleware } from './API';
+import { IntervalMiddleware, APIMiddleware } from './middlewares';
 
-let middleware = [thunk, APIMiddleware];
+let middleware = [thunk, APIMiddleware, IntervalMiddleware];
 
 const useLogger = () => {
   const isProduction = process.env.NODE_ENV === 'production';
