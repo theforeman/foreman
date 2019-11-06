@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API reducer Should handle STOP_INTERVAL 1`] = `Object {}`;
+
+exports[`API reducer should handle START_INTERVAL 1`] = `
+Object {
+  "SOME_KEY": 1212,
+}
+`;
+
+exports[`API reducer should return the initial state 1`] = `Object {}`;

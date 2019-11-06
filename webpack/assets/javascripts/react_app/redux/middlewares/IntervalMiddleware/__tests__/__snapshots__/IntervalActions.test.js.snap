@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API actions should start interval 1`] = `
+Object {
+  "payload": Object {
+    "args": Array [],
+    "interval": 3000,
+    "key": "SOME_KEY",
+    "method": [Function],
+  },
+  "type": "START_INTERVAL",
+}
+`;
+
+exports[`API actions should stop interval 1`] = `
+Object {
+  "payload": Object {
+    "key": "SOME_KEY",
+  },
+  "type": "STOP_INTERVAL",
+}
+`;
