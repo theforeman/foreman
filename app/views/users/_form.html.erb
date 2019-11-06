@@ -88,7 +88,7 @@
     <% end %>
 
     <div class='tab-pane' id='roles'>
-      <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
+      <%= checkbox_f f, :admin?, label: _('User|Admin') if User.current.can_change_admin_flag? %>
       <%= multiple_checkboxes f, :roles, @user, Role.for_current_user,
                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.for_current_user.pluck(:id) : false } %>
       <% usergroups = @user.cached_usergroups.includes(:roles).distinct %>
