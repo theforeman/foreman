@@ -31,6 +31,7 @@
   "devDependencies": {
     "@storybook/addon-actions": "~3.4.12",
     "@storybook/addon-knobs": "~3.4.12",
+    "@storybook/addon-storysource": "^3.4.12",
     "@storybook/react": "~3.4.12",
     "@storybook/storybook-deployer": "^2.0.0",
     "@theforeman/vendor-dev": "^1.7.0",

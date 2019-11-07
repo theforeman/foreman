@@ -40,6 +40,20 @@ module.exports = (baseConfig, env, defaultConfig) => {
       test: /(\.ttf|\.woff|\.woff2|\.eot|\.svg|\.jpg)$/,
       loaders: ['url-loader']
     },
+    {
+      test: /\.stories\.js$/,
+      loaders: [
+        {
+          loader: require.resolve('@storybook/addon-storysource/loader'),
+          options: {
+              prettierConfig: {
+                parser: "babel" //The default prettier parser
+              },
+            },
+        }
+      ],
+      enforce: 'pre',
+    },
   ]
 
   defaultConfig.resolve = {
