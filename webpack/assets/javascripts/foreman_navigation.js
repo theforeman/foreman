@@ -1,6 +1,19 @@
 import $ from 'jquery';
+import { contentSwaping } from './services/InternalAjax';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+import { deprecateObjectProperty } from './foreman_tools';
+
+export const ApplyLinks = () => {
+  const anchorTags = document.querySelectorAll('a[data-ajax-loading]');
+  anchorTags.forEach(elem => {
+    elem.onclick = () => {
+      const { text, href } = elem;
+      visit(text, href);
+      return false;
+    };
+  });
+};
 
 export const showLoading = () => {
   store.dispatch(LayoutActions.showLoading());
@@ -32,3 +45,12 @@ export function showContent(layout, unsubscribe) {
     content();
   } else if ($('#layout').length === 0) content();
 }
+
+export const visit = (url, name = null) => {
+  window.history.pushState({}, name || url, url);
+  contentSwaping(url);
+};
+
+window.Turbolinks = { visit };
+// eslint-disable-next-line no-undef
+deprecateObjectProperty(Turbolinks, 'visit', 'tfm.nav.visit');

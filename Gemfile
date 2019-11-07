@@ -30,7 +30,6 @@ gem 'fast_gettext', '~> 1.4'
 gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', '~> 5.0'
 gem 'i18n', '~> 1.1'
-gem 'turbolinks', '>= 2.5.4', '< 3'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '2.1.0'
 gem 'net-scp'
@@ -56,6 +55,9 @@ gem 'rack-cors', '~> 1.0.2', require: 'rack/cors'
 gem 'jwt', '~> 2.2.1'
 gem 'graphql', '~> 1.8.0'
 gem 'graphql-batch'
+# this one is a dependecy for x-editable-rails
+# when removing turbolinks, coffee-script is removed as well
+gem 'coffee-rails', '~> 5.0.0' 
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
   self.instance_eval(Bundler.read_file(bundle))

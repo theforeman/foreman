@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { routes } from './routes';
+import { contentSwaping } from '../../services/InternalAjax';
 
 let currentLocation = null;
 
@@ -31,7 +32,7 @@ const AppSwitcher = () => (
             child.location.state.useTurbolinks &&
             !window.history.state.turbolinks; // visit() already called
 
-          if (useTurbolinks) window.Turbolinks.visit(child.location.pathname);
+          if (useTurbolinks) contentSwaping(child.location.pathname);
         }
         currentLocation = child.location;
         return null;
@@ -39,5 +40,4 @@ const AppSwitcher = () => (
     />
   </Switch>
 );
-
 export default AppSwitcher;
