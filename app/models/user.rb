@@ -178,7 +178,12 @@ class User < ApplicationRecord
   # note that if you assign user new usergroups which change the admin flag you must save
   # the record before #admin? will reflect this
   def admin?
-    self[:admin] || cached_usergroups.any?(&:admin?)
+    self[:admin] || inherited_admin?
+  end
+
+  # checks if there inherited admin right from user groups
+  def inherited_admin?
+    cached_usergroups.any?(&:admin?)
   end
 
   def hidden?
