@@ -189,7 +189,7 @@ module Hostext
 
       def search_by_config_group(key, operator, value)
         conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
-        host_ids      = Host::Managed.where(conditions).joins(:config_groups).distinct.pluck('hosts.id')
+        host_ids = Host::Managed.where(conditions).joins(:config_groups).distinct.pluck('hosts.id')
         hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:config_groups).distinct.map(&:subtree_ids).flatten.uniq
 
         opts = ''

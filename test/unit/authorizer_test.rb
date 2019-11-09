@@ -80,8 +80,8 @@ class AuthorizerTest < ActiveSupport::TestCase
                                :search => 'name ~ noexample*')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                :search        => 'name ~ example*')
-            domain              = FactoryBot.create(:domain)
-            auth                = Authorizer.new(@user)
+            domain = FactoryBot.create(:domain)
+            auth = Authorizer.new(@user)
 
             assert_includes auth.find_collection(Domain, :permission => :view_domains), domain
             assert auth.can?(:view_domains, domain, cache)

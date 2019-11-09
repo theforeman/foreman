@@ -314,7 +314,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       lines = template.metadata.split("\n")
       assert_includes lines, '- CentOS'
       assert_includes lines, '- Fedora'
-      assert_equal 1, lines.select { |l| l == '- CentOS' }.size
+      assert_equal 1, lines.count { |l| l == '- CentOS' }
       assert_includes lines, "kind: #{template.template_kind.name}"
       assert_includes lines, "name: #{template.name}"
     end

@@ -4,9 +4,9 @@ class FactValueTest < ActiveSupport::TestCase
   def setup
     as_admin do
       @host = FactoryBot.create(:host)
-      @fact_name   = FactName.create(:name => "my_facting_name")
-      @fact_value  = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
-      @child_name  = FactName.create(:name => 'my_facting_name::child', :parent => @fact_name)
+      @fact_name = FactName.create(:name => "my_facting_name")
+      @fact_value = FactValue.create(:value => "some value", :host => @host, :fact_name => @fact_name)
+      @child_name = FactName.create(:name => 'my_facting_name::child', :parent => @fact_name)
       @child_value = FactValue.create(:value => 'child value', :host => @host, :fact_name => @child_name)
       [@fact_name, @fact_value, @child_name, @child_value].map(&:save)
     end

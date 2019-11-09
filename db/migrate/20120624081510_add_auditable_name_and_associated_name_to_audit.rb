@@ -8,7 +8,7 @@ class AddAuditableNameAndAssociatedNameToAudit < ActiveRecord::Migration[4.2]
     Audit.includes(:user, :auditable, :associated).find_in_batches do |audits|
       audits.each do |audit|
         attr = {}
-        auditable_name  ||= audit.auditable.try(:to_label)  rescue nil
+        auditable_name ||= audit.auditable.try(:to_label) rescue nil
         associated_name ||= audit.associated.try(:to_label) rescue nil
         attr[:auditable_name] = auditable_name if auditable_name
         attr[:associated_name] = associated_name if associated_name

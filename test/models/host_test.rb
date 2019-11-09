@@ -2621,7 +2621,7 @@ class HostTest < ActiveSupport::TestCase
       end
     end
     Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
-    test_host    = Host::Test.create(:name => 'testhost', :interfaces => [FactoryBot.build(:nic_primary_and_provision)])
+    test_host = Host::Test.create(:name => 'testhost', :interfaces => [FactoryBot.build(:nic_primary_and_provision)])
     managed_host = test_host.to_managed!
     assert_empty Token.where(:host_id => managed_host.id)
   end
@@ -2799,8 +2799,8 @@ class HostTest < ActiveSupport::TestCase
     # one class in the right env, one in a different env
     pclass1 = FactoryBot.create(:puppetclass, :environments => [environments(:testing), environments(:production)])
     pclass2 = FactoryBot.create(:puppetclass, :environments => [environments(:production)])
-    hostgroup        = FactoryBot.create(:hostgroup, :puppetclasses => [pclass1, pclass2], :environment => environments(:testing))
-    host             = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => environments(:production))
+    hostgroup = FactoryBot.create(:hostgroup, :puppetclasses => [pclass1, pclass2], :environment => environments(:testing))
+    host = FactoryBot.create(:host, :hostgroup => hostgroup, :environment => environments(:production))
     assert host.hostgroup
     refute_empty host.parent_classes
     refute_equal host.environment, host.hostgroup.environment
