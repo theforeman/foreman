@@ -8,9 +8,9 @@ module FogExtensions
         @identity = attrs[:identity]
         @cpus     = attrs[:cpus]
         @corespersocket = attrs[:corespersocket]
-        @memory   = attrs[:memory].megabytes
-        @state    = attrs[:state]
-        @path     = attrs[:path]
+        @memory = attrs[:memory].megabytes
+        @state = attrs[:state]
+        @path = attrs[:path]
         @operatingsystem = attrs[:operatingsystem]
         @hypervisor = attrs[:hypervisor]
       end

@@ -378,7 +378,7 @@ class UserTest < ActiveSupport::TestCase
   test "user cannot assign role he has not assigned himself" do
     extra_role = Role.where(:name => "foobar").first_or_create
     setup_user "edit"
-    record          = users(:one)
+    record = users(:one)
     record.role_ids = [extra_role.id]
     refute record.save
     refute record.valid?

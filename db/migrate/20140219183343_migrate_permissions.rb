@@ -158,7 +158,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
       user.roles = clones = user.roles.map { |r| clone_role(r, user) }
       say "... done"
 
-      filters                     = Hash.new { |h, k| h[k] = '' }
+      filters = Hash.new { |h, k| h[k] = '' }
 
       # compute resources
       filters[:compute_resources] = search = user.compute_resources.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')

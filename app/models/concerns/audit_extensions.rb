@@ -206,7 +206,7 @@ module AuditExtensions
     # updated version that hasn't been saved yet.
     previous_state = auditable.class.find_by(id: auditable_id) if auditable
     previous_state ||= auditable
-    self.auditable_name  ||= previous_state.try(:to_label)
+    self.auditable_name ||= previous_state.try(:to_label)
     self.associated_name ||= self.associated.try(:to_label)
   end
 

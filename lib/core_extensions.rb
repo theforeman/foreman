@@ -64,7 +64,7 @@ class ActiveRecord::Base
 
     def initialize(base, source, target)
       @source, @target = source, target
-      @base  = base.map { |record| [record.send(@source), record.send(@target)] }
+      @base = base.map { |record| [record.send(@source), record.send(@target)] }
       @nodes = @base.flatten.uniq
       @graph = Hash.new { |h, k| h[k] = [] }
       @base.each { |s, t| @graph[s] << t }

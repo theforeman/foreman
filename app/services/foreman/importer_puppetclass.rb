@@ -3,7 +3,7 @@ class Foreman::ImporterPuppetclass
 
   def initialize(opts = { })
     @name = opts["name"] || raise("must provide a puppet class name")
-    @module     = opts["module"]
+    @module = opts["module"]
     @parameters = opts["params"] || { }
   end
 

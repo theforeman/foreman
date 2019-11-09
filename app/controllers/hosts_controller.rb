@@ -693,7 +693,7 @@ class HostsController < ApplicationController
       not_found
       return false
     end
-    @host   = resource_base.friendly.find(id)
+    @host = resource_base.friendly.find(id)
     @host ||= resource_base.find_by_mac params[:host][:mac].to_s if params[:host] && params[:host][:mac]
 
     unless @host

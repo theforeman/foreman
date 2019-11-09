@@ -44,7 +44,7 @@ module HostsAndHostgroupsHelper
   def multiple_filter(hosts)
     return unless multiple_with_filter?
     host_count = hosts.size
-    no_filter   = n_("Reminder: <strong> One host is selected </strong>",
+    no_filter = n_("Reminder: <strong> One host is selected </strong>",
                      "Reminder: <strong> All %{count} hosts are selected </strong>", host_count).html_safe % {count: host_count}
     with_filter = n_("Reminder: <strong> One host is selected </strong> for query filter %{query}",
                      "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}", host_count).html_safe % {count: host_count, query: h(params[:search]) }

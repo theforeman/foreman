@@ -33,7 +33,7 @@ module Types
             resolve: (proc do |object|
                         reflection = object.class.reflect_on_association(name)
                         foreign_key ||= reflection.foreign_key
-                        target_class = (reflection&.polymorphic?) ? object.public_send(reflection.foreign_type).constantize : type.model_class
+                        target_class = reflection&.polymorphic? ? object.public_send(reflection.foreign_type).constantize : type.model_class
                         RecordLoader.for(target_class).load(object.send(foreign_key))
                       end),
           **kwargs.except(:resolver, :foreign_key)

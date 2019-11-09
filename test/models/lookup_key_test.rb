@@ -57,7 +57,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     @host3.environment = environments(:testing)
 
     default = "default"
-    key    = ""
+    key = ""
     value1 = ""
     value2 = ""
     puppetclass = Puppetclass.first
@@ -88,7 +88,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     @host2.hostgroup = hostgroups(:unusual)
 
     default = "default"
-    key    = ""
+    key = ""
     value1 = ""
     value2 = ""
     puppetclass = Puppetclass.first

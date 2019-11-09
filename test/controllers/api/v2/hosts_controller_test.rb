@@ -162,7 +162,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:hosts)
     hosts = ActiveSupport::JSON.decode(@response.body)
     parameters = hosts['results'].map { |host| host['parameters'] }.flatten
-    parameter = parameters.select { |param| param['name'] == 'foo' }.first
+    parameter = parameters.find { |param| param['name'] == 'foo' }
     refute parameters.empty?
     assert_equal parameter['value'], 'bar'
   end
@@ -177,8 +177,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:hosts)
     hosts = ActiveSupport::JSON.decode(@response.body)
     parameters = hosts['results'].map { |host| host['all_parameters'] }.flatten
-    parameter = parameters.select { |param| param['name'] == 'foo' }.first
-    inherited_parameter = parameters.select { |param| param['name'] == 'foobar' }.first
+    parameter = parameters.find { |param| param['name'] == 'foo' }
+    inherited_parameter = parameters.find { |param| param['name'] == 'foobar' }
     refute parameters.empty?
     assert_equal parameter['value'], 'bar'
     assert_equal inherited_parameter['value'], 'baz'
