@@ -1,4 +1,6 @@
-import 'babel-polyfill';
+import 'core-js/shim';
+import 'regenerator-runtime/runtime';
+
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
 import i18n from './react_app/common/I18n';
@@ -29,9 +31,7 @@ import './bundle_novnc';
 // Set the public path for dynamic imports
 if (process.env.NODE_ENV !== 'production') {
   /* eslint-disable-next-line */
-  __webpack_public_path__ = `${window.location.protocol}//${
-    window.location.hostname
-  }:3808/webpack/`;
+  __webpack_public_path__ = `${window.location.protocol}//${window.location.hostname}:3808/webpack/`;
 }
 
 window.tfm = Object.assign(window.tfm || {}, {

@@ -15,11 +15,11 @@ import {
 
 jest.mock('../../../../API');
 
-const runWithGetState = (state, action, ...params) => dispatch => {
+const runWithGetState = (state, action, ...params) => async dispatch => {
   const getState = () => ({
     auditsPage: state,
   });
-  action(...params)(dispatch, getState);
+  await action(...params)(dispatch, getState);
 };
 
 const runFetchAuditsAPI = (state, resourceMock, serverMock) => {
@@ -44,7 +44,12 @@ const fixtures = {
 
   'should fetch Audits and fail': () =>
     runFetchAuditsAPI(stateMock.auditsPage, getMock, async () => {
-      throw new Error('some-error');
+      const error = new Error('some-error');
+      error.response = {
+        status: 'some-status',
+        statusText: 'some status text',
+      };
+      throw error;
     }),
 
   'should fetchAndPush': () =>
