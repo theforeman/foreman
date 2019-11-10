@@ -26,11 +26,11 @@ import {
 
 jest.mock('../../../redux/API');
 
-const runWithGetState = (state, params, action) => dispatch => {
+const runWithGetState = (state, params, action) => async dispatch => {
   const getState = () => ({
     editor: state,
   });
-  action(params)(dispatch, getState);
+  await action(params)(dispatch, getState);
 };
 
 const runRenderTemplate = (state, serverMock) => {

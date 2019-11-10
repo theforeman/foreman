@@ -139,6 +139,17 @@ Array [
       "type": "AUDITS_PAGE_SHOW_LOADING",
     },
   ],
+  Array [
+    Object {
+      "payload": Object {
+        "message": Object {
+          "text": "some-status some status text",
+          "type": "error",
+        },
+      },
+      "type": "AUDITS_PAGE_DATA_FAILED",
+    },
+  ],
 ]
 `;
 
