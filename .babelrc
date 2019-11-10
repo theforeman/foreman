@@ -1,13 +1,10 @@
 {
-  "presets": [
-    "env",
-    "react"
-  ],
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
   "plugins": [
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-object-assign",
-    "syntax-dynamic-import"
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-object-assign",
+    "@babel/plugin-syntax-dynamic-import"
   ],
   "env": {
     "test": {

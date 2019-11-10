@@ -1,6 +1,8 @@
+import 'core-js/shim';
+import 'regenerator-runtime/runtime';
+
 import React from 'react';
 import { configure, storiesOf } from '@storybook/react';
-import 'babel-polyfill';
 import Markdown from './components/Markdown';
 import Story from './components/Story';
 
