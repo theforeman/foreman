@@ -88,7 +88,8 @@
     <% end %>
 
     <div class='tab-pane' id='roles'>
-      <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
+      <% caption = @user.inherited_admin? ? "#{_('Admin rights are currently inherited from')} #{_('Usergroup')}" : '' %>
+      <%= checkbox_f f, :admin, help_block: caption if User.current.can_change_admin_flag? %>
       <%= multiple_checkboxes f, :roles, @user, Role.for_current_user,
                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.for_current_user.pluck(:id) : false } %>
       <% usergroups = @user.cached_usergroups.includes(:roles).distinct %>
