@@ -55,7 +55,7 @@ module Api
             param :name, String, :desc => N_("Name of the parameter"), :required => true
             param :value, String, :desc => N_("Parameter value"), :required => true
           end
-          param :password_hash, String, :desc => N_('Root password hash function to use, one of MD5, SHA256, SHA512, Base64')
+          param :password_hash, PasswordCrypt::ALGORITHMS.keys, :desc => N_('Root password hash function to use')
           param :architecture_ids, Array, :desc => N_("IDs of associated architectures")
           param :config_template_ids, Array, :desc => N_("IDs of associated provisioning templates") # FIXME: deprecated
           param :provisioning_template_ids, Array, :desc => N_("IDs of associated provisioning templates")
