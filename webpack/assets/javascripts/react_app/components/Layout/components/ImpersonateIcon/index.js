@@ -7,7 +7,4 @@ import * as ImpersonateIconActions from './ImpersonateIconActions';
 const mapDispatchToProps = dispatch =>
   bindActionCreators(ImpersonateIconActions, dispatch);
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ImpersonateIcon);
+export default connect(null, mapDispatchToProps)(ImpersonateIcon);

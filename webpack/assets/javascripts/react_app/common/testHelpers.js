@@ -55,9 +55,11 @@ export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
  * @param  {Object}         fixtures  key=fixture description, value=props to apply
  */
 export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
-  shallowRenderComponentWithFixtures(Component, fixtures).forEach(
-    ({ description, component }) =>
-      it(description, () => expect(toJson(component)).toMatchSnapshot())
+  shallowRenderComponentWithFixtures(
+    Component,
+    fixtures
+  ).forEach(({ description, component }) =>
+    it(description, () => expect(toJson(component)).toMatchSnapshot())
   );
 
 const resolveDispatch = async (action, depth) => {

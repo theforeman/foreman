@@ -21,7 +21,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 export const reducers = { autocomplete: reducer };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AutoComplete);
+export default connect(mapStateToProps, mapDispatchToProps)(AutoComplete);

@@ -74,11 +74,17 @@ export const failure = {
 };
 
 export const API = {
-  '': [{ label: 'name', category: '' }, { label: 'id', category: '' }],
+  '': [
+    { label: 'name', category: '' },
+    { label: 'id', category: '' },
+  ],
   n: [{ label: 'name', category: '' }],
   na: [{ label: 'name', category: '' }],
   nam: [{ label: 'name', category: '' }],
-  name: [{ label: 'name =', category: '' }, { label: 'name ~', category: '' }],
+  name: [
+    { label: 'name =', category: '' },
+    { label: 'name ~', category: '' },
+  ],
   'name+': [
     { label: 'name =', category: '' },
     { label: 'name ~', category: '' },

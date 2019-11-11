@@ -33,7 +33,10 @@ class MonthView extends React.Component {
     const { weekStartsOn } = this.props;
     const monthStart = getMonthStart(new Date(date));
     const offset = monthStart.getDay() - weekStartsOn;
-    return chunk(times(35, i => addDays(monthStart, i - offset)), 7);
+    return chunk(
+      times(35, i => addDays(monthStart, i - offset)),
+      7
+    );
   };
 
   getPrevMonth = () => {

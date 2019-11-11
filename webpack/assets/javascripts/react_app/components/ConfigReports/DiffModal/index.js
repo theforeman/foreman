@@ -21,7 +21,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export const reducers = { diffModal: reducer };
 
 // export connected component
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DiffModal);
+export default connect(mapStateToProps, mapDispatchToProps)(DiffModal);

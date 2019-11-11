@@ -18,10 +18,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export const reducers = { app: reducer };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   callOnMount(({ initializeMetadata, data: { metadata } }) =>
     initializeMetadata(metadata)
   )
