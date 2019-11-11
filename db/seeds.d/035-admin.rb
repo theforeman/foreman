@@ -42,11 +42,13 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_API_ADMIN).present?
 end
 
 # First real admin user account
-unless User.unscoped.only_admin.except_hidden.present?
+admin_login = ENV['SEED_ADMIN_USER'].presence || 'admin'
+if User.unscoped.find_by_login(admin_login).present?
+  puts "User with login #{admin_login} already exists, not seeding as admin."
+elsif User.unscoped.only_admin.except_hidden.none?
   User.without_auditing do
     User.as_anonymous_admin do
-      admin_user = ENV['SEED_ADMIN_USER'].presence || 'admin'
-      user = User.new(:login     => admin_user,
+      user = User.new(:login     => admin_login,
                       :firstname => ENV['SEED_ADMIN_FIRST_NAME'] || "Admin",
                       :lastname  => ENV['SEED_ADMIN_LAST_NAME'] || "User",
                       :mail      => (ENV['SEED_ADMIN_EMAIL'] || Setting[:administrator]).try(:dup))
@@ -64,4 +66,6 @@ unless User.unscoped.only_admin.except_hidden.present?
       raise "Unable to create admin user: #{format_errors user}" unless user.save
     end
   end
+else
+  puts "An admin user already exists, not seeding a new one."
 end
