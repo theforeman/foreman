@@ -605,8 +605,10 @@ module Foreman::Model
         if vol[:id].blank?
           set_preallocated_attributes!(vol, vol[:preallocate])
           vol[:wipe_after_delete] = to_fog_ovirt_boolean(vol[:wipe_after_delete])
-          # The blocking true is a work-around for ovirt bug fixed in ovirt version 3.1.
-          vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 3.1}.merge(vol))
+          # The blocking true is a work-around for ovirt bug fixed in ovirt version 5.1
+          # The BZ in ovirt cause to the destruction of a host in foreman to fail in case a volume is locked
+          # Here we are enforcing blocking behavior which  will  wait until the volume is added
+          vm.add_volume({:bootable => 'false', :quota => ovirt_quota, :blocking => api_version.to_f < 5.1}.merge(vol))
         end
       end
       vm.volumes.reload
