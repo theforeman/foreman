@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`NavDropdown rendering render NavDropdown 1`] = `
-<Uncontrolled(Dropdown)
+<ForwardRef
   className=""
   componentClass="li"
   id="account_menu"
@@ -11,5 +11,5 @@ exports[`NavDropdown rendering render NavDropdown 1`] = `
   >
     TEST
   </li>
-</Uncontrolled(Dropdown)>
+</ForwardRef>
 `;
