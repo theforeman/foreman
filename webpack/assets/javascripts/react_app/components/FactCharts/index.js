@@ -19,7 +19,4 @@ const mapStateToProps = (state, ownProps) => ({
 // export reducers
 export const reducers = { factChart: reducer };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(FactChart);
+export default connect(mapStateToProps, actions)(FactChart);

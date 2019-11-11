@@ -72,10 +72,7 @@ CustomSelectWithContext.propTypes = {
 };
 
 const storyForm = reduxForm({ form: formName })(StoryForm);
-const ConnectedForm = connect(
-  null,
-  () => {}
-)(storyForm);
+const ConnectedForm = connect(null, () => {})(storyForm);
 
 storiesOf('Components/Form', module)
   .addDecorator(storeDecorator)

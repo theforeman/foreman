@@ -13,7 +13,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export const reducers = { extendable: reducer };
 
 // export connected component
-export default connect(
-  null,
-  mapDispatchToProps
-)(Fill);
+export default connect(null, mapDispatchToProps)(Fill);

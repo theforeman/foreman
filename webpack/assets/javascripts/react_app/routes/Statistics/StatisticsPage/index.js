@@ -31,9 +31,6 @@ export const reducers = { statisticsPage: withDataReducer('STATISTICS_PAGE') };
 
 // export connected component
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   callOnMount(({ getStatisticsMeta }) => getStatisticsMeta())
 )(StatisticsPage);

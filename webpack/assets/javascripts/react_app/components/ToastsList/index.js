@@ -6,7 +6,4 @@ const mapStateToProps = state => ({
   messages: state.toasts.messages,
 });
 
-export default connect(
-  mapStateToProps,
-  ToastActions
-)(ToastsList);
+export default connect(mapStateToProps, ToastActions)(ToastsList);

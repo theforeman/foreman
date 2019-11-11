@@ -29,7 +29,12 @@ const initialState = Immutable({
 const availableControllerKeys = [1000, 1001, 1002, 1003, 1004];
 
 const getAvailableKey = controllers =>
-  head(difference(availableControllerKeys, controllers.map(c => c.key)));
+  head(
+    difference(
+      availableControllerKeys,
+      controllers.map(c => c.key)
+    )
+  );
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {

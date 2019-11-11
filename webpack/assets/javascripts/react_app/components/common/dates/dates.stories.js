@@ -36,7 +36,10 @@ storiesOf('Components/Common', module)
       timezoneOptions[1]
     );
 
-    const DatesStorybook = i18nProviderWrapperFactory(now, timezone)(() => (
+    const DatesStorybook = i18nProviderWrapperFactory(
+      now,
+      timezone
+    )(() => (
       <Story>
         <Text>
           <h1>Dates</h1>

@@ -217,7 +217,4 @@ const mapStateToProps = state =>
     'storagePodsError',
   ]);
 
-export default connect(
-  mapStateToProps,
-  VmWareActions
-)(StorageContainer);
+export default connect(mapStateToProps, VmWareActions)(StorageContainer);
