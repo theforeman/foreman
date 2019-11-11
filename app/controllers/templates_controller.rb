@@ -144,7 +144,7 @@ class TemplatesController < ApplicationController
     @history = Audit.descending
                     .where(:auditable_id => @template.id,
                            :auditable_type => @template.class.base_class.name,
-                           :action => 'update')
+                           :action => %w(update create))
                     .select { |audit| audit_template? audit }
   end
 

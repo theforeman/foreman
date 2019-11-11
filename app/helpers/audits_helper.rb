@@ -269,7 +269,12 @@ module AuditsHelper
     css_class_name = css_class_by_action(audit.action == 'destroy')
     audit.audited_changes.map do |name, change|
       next if change.nil? || change.to_s.empty?
-      next if name == 'template'
+      # update data for created template for better view
+      if name == 'template' && audit.action == 'create'
+        audit.audited_changes['template'] = ['', audit.audited_changes['template']]
+      else
+        next
+      end
       rec = { :name => name.humanize }
       if audit.action == 'update'
         rec[:change] = change.map.with_index do |v, i|
