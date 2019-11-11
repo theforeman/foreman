@@ -40,7 +40,7 @@ module Api
           param :gateway, String, :desc => N_("Subnet gateway")
           param :dns_primary, String, :desc => N_("Primary DNS for this subnet")
           param :dns_secondary, String, :desc => N_("Secondary DNS for this subnet")
-          param :ipam, String, :desc => N_('IP Address auto suggestion mode for this subnet, valid values are "DHCP", "Internal DB", "None"')
+          param :ipam, IPAM::MODES.values, :desc => N_('IP Address auto suggestion mode for this subnet.')
           param :from, String, :desc => N_("Starting IP Address for IP auto suggestion")
           param :to, String, :desc => N_("Ending IP Address for IP auto suggestion")
           param :vlanid, String, :desc => N_("VLAN ID for this subnet")
@@ -49,7 +49,7 @@ module Api
           Subnet.registered_smart_proxies.each do |name, options|
             param :"#{name}_id", :number, :desc => options[:api_description]
           end
-          param :boot_mode, String, :desc => N_('Default boot mode for interfaces assigned to this subnet, valid values are "Static", "DHCP"')
+          param :boot_mode, Subnet::BOOT_MODES.values, :desc => N_('Default boot mode for interfaces assigned to this subnet.')
           param :subnet_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
           param_group :taxonomies, ::Api::V2::BaseController
         end
