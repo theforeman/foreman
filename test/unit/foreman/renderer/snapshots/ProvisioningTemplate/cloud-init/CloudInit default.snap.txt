@@ -12,9 +12,7 @@ runcmd:
   
   
   
-
 - |
-
 phone_home:
   url: http://foreman.some.host.fqdn/unattended/built
   post: []

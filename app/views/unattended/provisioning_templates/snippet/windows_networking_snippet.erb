@@ -1,0 +1,71 @@
+<%#
+name: Windows network
+model: ProvisioningTemplate
+snippet: true
+kind: snippet
+-%>
+@echo off
+setlocal enableDelayedExpansion
+
+for /f "delims=" %%a in ('ipconfig /all') do (
+    set line=%%a
+    if not "!line:~0,1!"==" " if not "!line:adapter=!"=="!line!" (
+        set name=!line:*adapter =!
+        set name=!name::=!
+    )
+
+    for /f "tokens=1,2,*" %%b in ("%%a") do (
+        if "%%b %%c"=="Physical Address." (
+            set mac=%%d
+            set mac=!mac:*: =!
+            set mac=!mac:-=:!
+            call :tolower mac
+
+<% @host.managed_interfaces.each do |interface| -%>
+            if "<%= interface.mac %>"=="!mac!" (
+                <% if !interface.identifier.empty? %>
+                    netsh interface set interface name="!name!" newname="<%= interface.identifier %>"
+                    <% if (interface.subnet.nil? ? false : !interface.subnet.dhcp_boot_mode?) %>
+                    netsh interface ip set address "<%= interface.identifier %>" static <%= interface.ip %> <%= interface.subnet.mask %> <%= interface.subnet.gateway %>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_primary.present?) %>
+                        netsh interface ip add dnsserver "<%= interface.identifier %>" address="<%= interface.subnet.dns_primary %>" index=1
+                        <% end %>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_secondary.present?) %>
+                        netsh interface ip add dnsserver "<%= interface.identifier %>" address="<%= interface.subnet.dns_secondary %>" index=2
+                        <% end %>
+                    <% end %>
+                    <% if interface.subnet6 %>
+                    netsh interface ipv6 add address "<%= interface.identifier %>" <%= interface.ip6 %>/<%= interface.subnet6.cidr %>
+                    <% if interface.subnet6.gateway %>
+                    netsh interface ipv6 add route ::/0 "<%= interface.identifier %>" <%= interface.subnet6.gateway %>
+                    <% end %>
+                    <% end %>
+                <% else %>
+                    <% if !(interface.subnet.nil? ? false : interface.subnet.dhcp_boot_mode?) %>
+                    netsh interface ip set address "!name!" static <%= interface.ip %> <%= interface.subnet.mask %> <%= interface.subnet.gateway %>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_primary.present?) %>
+                        netsh interface ip add dnsserver "!name!" address="<%= interface.subnet.dns_primary %>" index=1
+                        <% end %>
+                        <% if (interface.subnet.nil? ? false : interface.subnet.dns_secondary.present?) %>
+                        netsh interface ip add dnsserver "!name!" address="<%= interface.subnet.dns_secondary %>" index=2
+                        <% end %>
+                    <% end %>
+                    <% if interface.subnet6 %>
+                    netsh interface ipv6 add address "!name!" <%= interface.ip6 %>/<%= interface.subnet6.cidr %>
+                    <% if interface.subnet6.gateway %>
+                    netsh interface ipv6 add route ::/0 "!name!" <%= interface.subnet6.gateway %>
+                    <% end %>
+                    <% end %>
+                <% end %>
+            )
+<% end -%>
+        )
+    )
+)
+call :done
+
+:tolower
+for %%L IN (a b c d e f g h i j k l m n o p q r s t u v w x y z) DO SET %1=!%1:%%L=%%L!
+goto :EOF
+
+:done
