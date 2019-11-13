@@ -267,6 +267,10 @@ module AuditsHelper
 
   def rebuild_audit_changes(audit)
     css_class_name = css_class_by_action(audit.action == 'destroy')
+    # update data for created template for better view
+    if audit.action == 'create' && (change = audit.audited_changes['template']).present?
+      audit.audited_changes['template'] = ['', change]
+    end
     audit.audited_changes.map do |name, change|
       next if change.nil? || change.to_s.empty?
       next if name == 'template'
