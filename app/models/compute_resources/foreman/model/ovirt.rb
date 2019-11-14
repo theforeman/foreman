@@ -121,8 +121,9 @@ module Foreman::Model
     end
 
     def use_v4
-      self.attrs[:ovirt_use_v4] || false
+      self.attrs.fetch(:ovirt_use_v4, true)
     end
+
     alias_method :use_v4?, :use_v4
 
     def ovirt_quota=(ovirt_quota_id)

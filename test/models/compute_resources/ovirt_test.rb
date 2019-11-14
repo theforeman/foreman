@@ -119,9 +119,9 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @compute_resource.send(:client)
     end
 
-    it 'passes api_version v3 by default' do
+    it 'passes api_version v4 by default' do
       Fog::Compute.expects(:new).with do |options|
-        options[:api_version].must_equal 'v3'
+        options[:api_version].must_equal 'v4'
       end.returns(@client_mock)
       @compute_resource.send(:client)
     end
