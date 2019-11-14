@@ -1,4 +1,3 @@
-import { translate as __ } from '../../../../common/I18n';
 /**
  * Generate a column for a patternfly-3 table.
  * See more in http://patternfly-react.surge.sh/patternfly-3/
@@ -25,7 +24,7 @@ export const column = (
 ) => ({
   property,
   header: {
-    label: __(label),
+    label,
     props: headProps,
     formatters: headFormat,
   },
