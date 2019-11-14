@@ -134,17 +134,8 @@ module.exports = env => {
           exclude: /node_modules(?!\/(@novnc|unidiff))/,
           loader: 'babel-loader',
           options: {
-            'presets': [
-              path.join(__dirname, '..', 'node_modules/@babel/preset-react'),
-              path.join(__dirname, '..', 'node_modules/@babel/preset-env')
-            ],
-            'plugins': [
-              path.join(__dirname, '..', 'node_modules/@babel/plugin-proposal-class-properties'),
-              path.join(__dirname, '..', 'node_modules/@babel/plugin-proposal-object-rest-spread'),
-              path.join(__dirname, '..', 'node_modules/@babel/plugin-transform-object-assign'),
-              path.join(__dirname, '..', 'node_modules/@babel/plugin-syntax-dynamic-import')
-            ]
-          }
+            presets: [require.resolve('@theforeman/builder/babel')]
+          },
         },
         {
           test: /\.css$/,
