@@ -1,6 +1,5 @@
 import 'core-js/shim';
 import 'regenerator-runtime/runtime';
-
 import React from 'react';
 import { configure, storiesOf } from '@storybook/react';
 import Markdown from './components/Markdown';
