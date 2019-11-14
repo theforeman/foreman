@@ -21,8 +21,16 @@ const requestAction = {
   payload: { controller: 'hosts' },
 };
 
+const apiAction = {
+  key: 'BOOKMARKS',
+  payload: { controller: 'hosts' },
+  type: 'API_GET',
+  url: '/api/bookmarks?search=controller%3Dhosts&per_page=100',
+};
+
 export const onFailureActions = [
   requestAction,
+  apiAction,
   {
     payload: {
       error: new Error('Request failed with status code 422'),
@@ -34,6 +42,7 @@ export const onFailureActions = [
 
 export const onSuccessActions = [
   requestAction,
+  apiAction,
   {
     payload: {
       results: bookmarks,

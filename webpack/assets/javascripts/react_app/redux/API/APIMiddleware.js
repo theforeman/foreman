@@ -5,7 +5,7 @@ export const APIMiddleware = store => next => action => {
   const { type, key, payload = {}, url, actionTypes = {} } = action;
   if (type === API_OPERATIONS.GET) {
     get(payload, url, store, actionTypeGenerator(key, actionTypes));
-  } else {
-    next(action);
   }
+
+  return next(action);
 };
