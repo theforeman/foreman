@@ -29,8 +29,20 @@ export const onSuccessActions = [
     type: 'STATISTICS_DATA_REQUEST',
   },
   {
+    key: 'STATISTICS_DATA',
+    payload: payloads.operatingsystem,
+    type: 'API_GET',
+    url: 'statistics/operatingsystem',
+  },
+  {
     payload: payloads.architecture,
     type: 'STATISTICS_DATA_REQUEST',
+  },
+  {
+    key: 'STATISTICS_DATA',
+    payload: payloads.architecture,
+    type: 'API_GET',
+    url: 'statistics/architecture',
   },
   {
     payload: {
@@ -54,8 +66,20 @@ export const onFailureActions = [
     type: 'STATISTICS_DATA_REQUEST',
   },
   {
+    key: 'STATISTICS_DATA',
+    payload: payloads.operatingsystem,
+    type: 'API_GET',
+    url: 'statistics/operatingsystem',
+  },
+  {
     payload: payloads.architecture,
     type: 'STATISTICS_DATA_REQUEST',
+  },
+  {
+    key: 'STATISTICS_DATA',
+    payload: payloads.architecture,
+    type: 'API_GET',
+    url: 'statistics/architecture',
   },
   {
     payload: {
