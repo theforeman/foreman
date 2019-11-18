@@ -1,4 +1,12 @@
 class Setting::Puppet < Setting
+  def self.update_subnets_from_facts_types
+    {
+      'all' => _('All'),
+      'provisioning' => _('Provisioning only'),
+      'none' => _('None'),
+    }
+  end
+
   def self.default_settings
     [
       self.set('puppet_interval', N_("Duration in minutes after servers reporting via Puppet are classed as out of sync."), 35, N_('Puppet interval')),
@@ -12,7 +20,7 @@ class Setting::Puppet < Setting
       self.set('enc_environment', N_("Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"), true, N_('ENC environment')),
       self.set('use_uuid_for_certificates', N_("Foreman will use random UUIDs for certificate signing instead of hostnames"), false, N_('Use UUID for certificates')),
       self.set('update_environment_from_facts', N_("Foreman will update a host's environment from its facts"), false, N_('Update environment from facts')),
-      self.set('update_subnets_from_facts', N_("Foreman will update a host's subnet from its facts"), false, N_('Update subnets from facts')),
+      self.set('update_subnets_from_facts', N_("Foreman will update a host's subnet from its facts"), 'none', N_('Update subnets from facts'), nil, { :collection => Proc.new { self.update_subnets_from_facts_types } }),
       self.set('matchers_inheritance', N_("Foreman matchers will be inherited by children when evaluating smart class parameters for hostgroups, organizations and locations"), true, N_('Matchers inheritance')),
       self.set('create_new_host_when_facts_are_uploaded', N_("Foreman will create the host when new facts are received"), true, N_('Create new host when facts are uploaded')),
       self.set('create_new_host_when_report_is_uploaded', N_("Foreman will create the host when a report is received"), true, N_('Create new host when report is uploaded')),

@@ -519,6 +519,13 @@ module Host
       bond.errors.full_messages.each { |message| logger.warn " #{message}" }
     end
 
+    def update_subnet_from_facts(iface, keep_subnet)
+      return if Setting[:update_subnets_from_facts] == 'none' || keep_subnet
+      return if Setting[:update_subnets_from_facts] == 'provision' && !iface.provision
+      iface.subnet = Subnet.subnet_for(iface.ip) if iface.ip_changed? && !iface.matches_subnet?(:ip, :subnet)
+      iface.subnet6 = Subnet.subnet_for(iface.ip6) if iface.ip6_changed? && !iface.matches_subnet?(:ip6, :subnet6)
+    end
+
     def set_interface(attributes, name, iface)
       # update bond.attached_interfaces when interface is in the list and identifier has changed
       update_bonds(iface, name, attributes) if iface.identifier != name && !iface.virtual? && iface.persisted?
@@ -526,12 +533,8 @@ module Host
       iface.mac = attributes.delete(:macaddress)
       iface.ip = parse_ip_address(attributes.delete(:ipaddress))
       iface.ip6 = parse_ip_address(attributes.delete(:ipaddress6))
-      keep_subnet = attributes.delete(:keep_subnet)
 
-      if Setting[:update_subnets_from_facts] && !keep_subnet
-        iface.subnet = Subnet.subnet_for(iface.ip) if iface.ip_changed? && !iface.matches_subnet?(:ip, :subnet)
-        iface.subnet6 = Subnet.subnet_for(iface.ip6) if iface.ip6_changed? && !iface.matches_subnet?(:ip6, :subnet6)
-      end
+      update_subnet_from_facts(iface, attributes.delete(:keep_subnet))
 
       iface.virtual = attributes.delete(:virtual) || false
       iface.tag = attributes.delete(:tag) || ''
