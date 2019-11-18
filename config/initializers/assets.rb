@@ -18,36 +18,9 @@ Foreman::Application.configure do |app|
   # Rails.application.config.assets.precompile += %w( search.js )
 
   #  config.assets.precompile += %w()
-  javascript = %w(compute_resource
-                  compute_resources/libvirt/nic_info
-                  compute_resources/ovirt/nic_info
-                  compute_resources/ovirt/display
-                  compute_resources/vmware/nic_info
-                  host_edit
-                  host_edit_interfaces
-                  hosts
-                  reports
-                  charts
-                  taxonomy_edit
-                  gettext/all
-                  filters
-                  subnets
-                  proxy_status
-                  about
-                  parameter_override)
-
-  javascript += FastGettext.default_available_locales.map { |loc| "locale/#{loc}/app" }
-
-  stylesheets = %w(unimported/email.css)
-
-  images = %w(editable/clear.png patternfly/bg-modal-about-pf.png)
-
-  # Add the fonts path
-  config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
 
   # Precompile additional assets
-  config.assets.precompile << /\.(?:svg|eot|woff|woff2|gif|ttf)$/
-  config.assets.precompile += javascript.map { |js| js + '.js' } + stylesheets + images
+  config.assets.precompile += FastGettext.default_available_locales.map { |loc| "locale/#{loc}/app.js" }
 
   # Adds plugin assets to the application digests hash if a manifest file exists for a plugin
   config.after_initialize do
