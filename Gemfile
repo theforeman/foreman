@@ -39,7 +39,7 @@ gem 'net-ssh', '4.2.0'
 gem 'net-ldap', '>= 0.16.0'
 gem 'net-ping', :require => false
 gem 'activerecord-session_store', '>= 1.1.0', '< 2'
-gem 'sprockets', '~> 3'
+gem 'sprockets', '~> 4.0'
 gem 'sprockets-rails', '~> 3.0'
 gem 'record_tag_helper', '~> 1.0'
 gem 'responders', '~> 3.0'
