@@ -494,7 +494,8 @@ module Foreman::Model
       @client = client
     rescue => e
       if e.message =~ /SSL_connect.*certificate verify failed/ ||
-          e.message =~ /Peer certificate cannot be authenticated with given CA certificates/
+          e.message =~ /Peer certificate cannot be authenticated with given CA certificates/ ||
+           e.message =~ /SSL peer certificate or SSH remote key was not OK/
         raise Foreman::FingerprintException.new(
           N_("The remote system presented a public key signed by an unidentified certificate authority. If you are sure the remote system is authentic, go to the compute resource edit page, press the 'Test Connection' or 'Load Datacenters' button and submit"),
           ca_cert
