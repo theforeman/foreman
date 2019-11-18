@@ -17,24 +17,22 @@ import {
   ownComponentFieldProps,
 } from './FormField.fixtures';
 
-const StoryForm = () => {
-  return (
-    <Formik
-      onSubmit={(values, actions) => {}}
-      initialValues={{ hamburger: 'yes' }}
-    >
-      {formikProps => (
-        <Form>
-          <RadioButtonGroup
-            name="hamburger"
-            controlLabel="Would you like a hamburger?"
-            radios={yesNoOpts}
-          />
-        </Form>
-      )}
-    </Formik>
-  );
-};
+const StoryForm = () => (
+  <Formik
+    onSubmit={(values, actions) => {}}
+    initialValues={{ hamburger: 'yes' }}
+  >
+    {formikProps => (
+      <Form>
+        <RadioButtonGroup
+          name="hamburger"
+          controlLabel="Would you like a hamburger?"
+          radios={yesNoOpts}
+        />
+      </Form>
+    )}
+  </Formik>
+);
 
 function CustomSelect(props) {
   return (

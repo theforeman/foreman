@@ -18,7 +18,4 @@ const mapStateToProps = (state, { controller }) => ({
 
 export const reducers = { bookmarks: reducer };
 
-export default connect(
-  mapStateToProps,
-  BookmarksActions
-)(Bookmarks);
+export default connect(mapStateToProps, BookmarksActions)(Bookmarks);
