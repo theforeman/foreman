@@ -6,7 +6,7 @@ import { componentMountData, serverResponse } from './notifications.fixtures';
 import Notifications from './';
 import { API, APIMiddleware } from '../../redux/API';
 import { NOTIFICATIONS } from '../../redux/consts';
-import { IntervalMiddleware } from '../../redux/middlewares';
+import { IntervalMiddleware } from '../../redux/middlewares/IntervalMiddleware';
 import { registeredIntervalException } from '../../redux/middlewares/IntervalMiddleware/IntervalHelpers';
 import { DEFAULT_INTERVAL } from '../../redux/actions/notifications/constants';
 

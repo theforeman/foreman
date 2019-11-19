@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import history from '../history';
 import { getForemanContext } from '../Root/Context/ForemanContext';
 import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
@@ -10,11 +10,11 @@ const ReactApp = ({ data: { layout, metadata } }) => {
   const ForemanContext = getForemanContext(metadata);
   return (
     <ForemanContext.Provider value={metadata}>
-      <Router history={history}>
+      <ConnectedRouter history={history}>
         <Layout data={layout}>
           <AppSwitcher />
         </Layout>
-      </Router>
+      </ConnectedRouter>
     </ForemanContext.Provider>
   );
 };

@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
+import history from '../../history';
 import hosts from './hosts';
 import notifications from './notifications';
 import toasts from './toasts';
@@ -38,6 +40,7 @@ export function combineReducersAsync(asyncReducers) {
     ...factChartReducers,
     ...typeAheadSelectReducers,
 
+    router: connectRouter(history),
     // Pages
     ...statisticsPageReducers,
     ...fillReducers,
