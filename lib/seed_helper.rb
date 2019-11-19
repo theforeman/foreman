@@ -169,7 +169,7 @@ class SeedHelper
         if plugin.nil?
           logger.info("Template #{template_name} requires plugin #{r['plugin']}, skipping import.")
           return false
-        elsif r['version'] && (Gem::Version.new(plugin.version) < Gem::Version.new(r['version']))
+        elsif r['version'] && (Gem::Version.new(plugin.version).release < Gem::Version.new(r['version']))
           logger.info("Template #{template_name} requires plugin #{r['plugin']} >= #{r['version']}, skipping import.")
           return false
         end

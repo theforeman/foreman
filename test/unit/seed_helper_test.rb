@@ -152,6 +152,17 @@ class SeedHelperTest < ActiveSupport::TestCase
       assert_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
     end
 
+    it 'accepts prereleases to satisty version condition ' do
+      requirements = {
+        'require' => [{
+          'plugin' => 'some_plugin',
+          'version' => '2.0.1',
+        }],
+      }
+      Foreman::Plugin.expects(:find).with('some_plugin').returns(mock(:version => '2.0.1.rc2'))
+      refute_nil SeedHelper.import_raw_template(get_template(metadata.merge(requirements)))
+    end
+
     it 'imports the template and sets taxonomies' do
       orgs = [taxonomies(:organization1), taxonomies(:organization2)]
       locs = [taxonomies(:location1), taxonomies(:location2)]
