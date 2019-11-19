@@ -1,6 +1,9 @@
 import $ from 'jquery';
+import { push } from 'connected-react-router';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+
+export const pushUrl = url => store.dispatch(push(url));
 
 export const showLoading = () => {
   store.dispatch(LayoutActions.showLoading());

@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import history from '../history';
 
 import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
 import AppSwitcher from '../routes';
 
 const ReactApp = ({ data: { layout } }) => (
-  <Router history={history}>
+  <ConnectedRouter history={history}>
     <Layout data={layout}>
       <AppSwitcher />
     </Layout>
-  </Router>
+  </ConnectedRouter>
 );
 
 ReactApp.propTypes = {
