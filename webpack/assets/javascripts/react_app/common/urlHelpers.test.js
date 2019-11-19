@@ -10,6 +10,7 @@ import {
   getURIperPage,
   getURIsearch,
   exportURL,
+  urlWithQueryParams,
 } from './urlHelpers';
 
 describe('urlBuilder', () => {
@@ -78,5 +79,9 @@ describe('URI query and stringify tests', () => {
 
   it('exportURL should return a valid url', () => {
     expect(exportURL()).toBe(`/?${oldQuery}&format=csv`);
+  });
+  it('build url with queryString', () => {
+    const url = urlWithQueryParams('/hosts', { per_page: 4, page: 2 });
+    expect(url).toBe('/hosts?per_page=4&page=2');
   });
 });

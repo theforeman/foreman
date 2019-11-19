@@ -3,6 +3,21 @@ import URI from 'urijs';
 import { visit } from '../../foreman_navigation';
 
 /**
+ * Build a url with query params
+ * @param {String} url - the base url i.e `/hosts`
+ * @param {Object} searchQuery - the query params, i.e {'per_page': 4, 'page': 2}
+ */
+export const urlWithQueryParams = (url, queryParams) => {
+  const searchParams = new URLSearchParams('');
+
+  queryParams &&
+    Object.entries(queryParams).forEach(([param, value]) =>
+      searchParams.append(param, value)
+    );
+  return `${url}?${searchParams.toString()}`;
+};
+
+/**
  * Build a url from given controller, action and id
  * @param {String} controller - the controller
  * @param {String} action - the action

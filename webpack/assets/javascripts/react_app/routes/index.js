@@ -3,11 +3,11 @@ import { Switch, Route } from 'react-router-dom';
 import { routes } from './routes';
 import { visit } from '../../foreman_navigation';
 
-let currentPath = window.location.pathname;
+let currentPath = window.location.href;
 
 const AppSwitcher = () => {
-  const updateCurrentPath = () => {
-    currentPath = window.location.pathname;
+  const updateCurrentPath = nextPath => {
+    currentPath = nextPath;
   };
 
   const handleRailsContainer = () => {
@@ -22,9 +22,9 @@ const AppSwitcher = () => {
   };
 
   const handleFallbackRoute = () => {
-    const nextPath = window.location.pathname;
+    const nextPath = window.location.href;
     if (currentPath !== nextPath) {
-      updateCurrentPath();
+      updateCurrentPath(nextPath);
       visit(nextPath);
     }
     return null;

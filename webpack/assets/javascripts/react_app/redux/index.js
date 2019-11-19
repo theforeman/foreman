@@ -1,13 +1,20 @@
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
+import { routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, createStore, compose } from 'redux';
 import forceSingleton from '../common/forceSingleton';
 
+import history from '../history';
 import reducers from './reducers';
 
 import { IntervalMiddleware, APIMiddleware } from './middlewares';
 
-let middleware = [thunk, IntervalMiddleware, APIMiddleware];
+let middleware = [
+  thunk,
+  IntervalMiddleware,
+  APIMiddleware,
+  routerMiddleware(history),
+];
 
 const logReduxToConsole = () => {
   const isProduction = process.env.NODE_ENV === 'production';

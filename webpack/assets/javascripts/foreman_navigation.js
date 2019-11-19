@@ -1,9 +1,11 @@
 /* eslint-disable jquery/no-show */
 
 import $ from 'jquery';
+import { push } from 'connected-react-router';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
 import { deprecate } from './react_app/common/DeprecationService';
+import { urlWithQueryParams } from './react_app/common/urlHelpers';
 
 window.Turbolinks = {
   visit: url => {
@@ -22,6 +24,17 @@ export const visit = url => {
 
 export const reloadPage = () => {
   window.location.reload();
+};
+
+/**
+ * Build a url with query params
+ * @param {String} url - the base url i.e `/hosts`
+ * @param {Object} searchQuery - the query params, i.e {'per_page': 4, 'page': 2}
+ */
+export const pushUrl = (url, queryParams) => {
+  const newUrl = urlWithQueryParams(url, queryParams);
+
+  return store.dispatch(push(newUrl));
 };
 
 export const showLoading = () => {
