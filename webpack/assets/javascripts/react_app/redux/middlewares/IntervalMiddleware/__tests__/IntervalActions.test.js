@@ -1,10 +1,10 @@
 import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
-import { startInterval, stopInterval } from '../IntervalActions';
-import { key, callback, interval } from '../IntervalFixtures';
+import { stopInterval, startIntervalAction } from '../IntervalActions';
+import { key, intervalID } from '../IntervalFixtures';
 
 const fixtures = {
-  'should start interval': () => startInterval(key, callback, interval),
+  'should start interval': () => startIntervalAction(key, intervalID),
   'should stop interval': () => stopInterval(key),
 };
 
-describe('API actions', () => testActionSnapshotWithFixtures(fixtures));
+describe('Interval actions', () => testActionSnapshotWithFixtures(fixtures));

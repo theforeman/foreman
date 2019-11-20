@@ -1,17 +1,29 @@
 # Interval Middleware
 
-To start an interval, you should trigger a "startInterval" action from IntervalMiddlware.
-"startInterval" is defined in 'webpack/assets/javascripts/react_app/redux/middlewares/IntervalMiddleware'
-or 'foremanReact/redux/middlewares/IntervalMiddleware' for plugins:
+To start an interval, you should add 'interval' and a unique 'key' into you action, for example:
 
 ```js
 // MyComponent/MyComponentActions.js
-....
-import { startInterval } from '../../redux/middlewares/IntervalMiddleware';
 ...
+dispatch({
+  type: API_OPERATIONS.GET,
+  key: MY_SPECIAL_KEY, // use a special key which will be used later to clear the interval.
+  interval: 3000 // or 'true' which will use the default interval milisec.
+  url,
+  payload: data,
+});
+```
 
-// use a special key which will be stored to clear the interval.
-export const startPolling = () => startInterval(key, callback, interval);
+it could be also a simple action such as:
+```js
+  const sendMail = () => ({
+    type: SEND_MAIL,
+    key: MY_SPECIAL_MAIL_KEY,
+    interval: 10000000,
+    payload: {
+      ...
+    }
+  })
 ```
 
 There are several ways to stop the interval:
@@ -26,15 +38,15 @@ import { stopInterval } from '../../redux/middlewares/IntervalMiddleware';
 ...
 
 // use the same key you used to start the interval.
-export const stopPolling = () => stopInterval(key);
+export const stopAPIInterval = () => stopInterval(key);
 ```
 
 Then it will be available in your component:
 ```js
 // MyComponent/MyComponent.js
-handlePolling = () => {
+handleInterval = () => {
   // use the same key you used to start the interval.
-  this.props.stopPolling(key) 
+  this.props.stopAPIInterval(key) 
 }
 ```
 
@@ -69,4 +81,13 @@ handlePolling = () => {
   // use the same key you used to start the interval.
   dispatch(stopInterval(key))
 }
+```
+
+or you can generate your own action with the same type as STOP_INTERVAL,
+don't forget to pass the unique 'key' in the payload, and we will catch it already - though this is less recommended.
+```js
+export const stopInterval = key => ({
+  type: STOP_INTERVAL,
+  key,
+});
 ```

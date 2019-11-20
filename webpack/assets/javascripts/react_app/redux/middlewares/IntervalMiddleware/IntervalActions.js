@@ -2,17 +2,11 @@ import { STOP_INTERVAL, START_INTERVAL } from './IntervalConstants';
 
 export const stopInterval = key => ({
   type: STOP_INTERVAL,
-  payload: {
-    key,
-  },
+  key,
 });
 
-export const startInterval = (key, callback, interval, ...intervalArgs) => ({
+export const startIntervalAction = (key, intervalID) => ({
   type: START_INTERVAL,
-  payload: {
-    key,
-    callback,
-    interval,
-    args: [...intervalArgs],
-  },
+  key,
+  intervalID,
 });

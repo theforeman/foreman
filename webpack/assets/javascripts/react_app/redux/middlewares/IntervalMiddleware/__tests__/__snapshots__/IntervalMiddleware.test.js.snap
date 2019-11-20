@@ -1,48 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Interval Middleware should handle START_INTERVAL action 1`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      Object {
-        "payload": Object {
-          "args": Array [],
-          "callback": [MockFunction] {
-            "calls": Array [
-              Array [],
-            ],
-            "results": Array [
-              Object {
-                "isThrow": false,
-                "value": undefined,
-              },
-            ],
-          },
-          "interval": 3000,
-          "intervalID": 2,
-          "key": "SOME_KEY",
-        },
-        "type": "START_INTERVAL",
-      },
-    ],
-  ],
-  "results": Array [
-    Object {
-      "isThrow": false,
-      "value": undefined,
-    },
-  ],
-}
-`;
-
 exports[`Interval Middleware should handle STOP_INTERVAL action 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "payload": Object {
-          "key": "SOME_KEY",
-        },
+        "key": "SOME_KEY",
         "type": "STOP_INTERVAL",
       },
     ],
@@ -56,29 +19,46 @@ exports[`Interval Middleware should handle STOP_INTERVAL action 1`] = `
 }
 `;
 
+exports[`Interval Middleware should handle an action with "interval" key 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "key": "SOME_KEY",
+        "payload": Object {
+          "test": true,
+        },
+        "type": "SOME_TYPE",
+      },
+    ],
+    Array [
+      Object {
+        "intervalID": 2,
+        "key": "SOME_KEY",
+        "type": "START_INTERVAL",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`;
+
 exports[`Interval Middleware should pass action to next 1`] = `
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "payload": Object {
-          "args": Array [],
-          "callback": [MockFunction] {
-            "calls": Array [
-              Array [],
-            ],
-            "results": Array [
-              Object {
-                "isThrow": false,
-                "value": undefined,
-              },
-            ],
-          },
-          "interval": 3000,
-          "intervalID": 11,
-          "key": "SOME_KEY",
-        },
-        "type": "START_INTERVAL",
+        "key": "SOME_KEY",
+        "type": "STOP_INTERVAL",
       },
     ],
   ],

@@ -1,42 +1,44 @@
-/* eslint-disable no-case-declarations */
-import {
-  START_INTERVAL,
-  STOP_INTERVAL,
-  DEFAULT_INTERVAL,
-} from './IntervalConstants';
-import { selectIsIntervalExists } from './IntervalSelectors';
-import { amendActionsPayload } from '../common/helpers';
+import { omit } from 'lodash';
+import { STOP_INTERVAL, DEFAULT_INTERVAL } from './IntervalConstants';
+import { selectDoesIntervalExist, selectIntervalID } from './IntervalSelectors';
 import {
   registeredIntervalException,
   unregisteredIntervalException,
 } from './IntervalHelpers';
+import { startIntervalAction } from './IntervalActions';
 
 export const IntervalMiddleware = store => next => action => {
-  const { type, payload: { key, callback, interval, args = [] } = {} } = action;
+  const { type, key, interval } = action;
   const state = store.getState();
+  /**
+    for the action to run multiple times
+    without getting into an endless loop in this middleware.
+  */
 
-  switch (type) {
-    case START_INTERVAL:
-      if (selectIsIntervalExists(state, key)) {
-        throw registeredIntervalException(key);
-      }
+  const modifiedAction = omit(action, ['interval']);
+  const dispatchModifiedAction = () => store.dispatch(modifiedAction);
 
-      callback(); // force the callback to run for the first time.
-      const intervalMiliSec =
-        typeof interval === 'number' ? interval : DEFAULT_INTERVAL;
-      const intervalID = setInterval(callback, intervalMiliSec, ...args);
-      return next(amendActionsPayload(action, { intervalID }));
+  if (interval) {
+    if (selectDoesIntervalExist(state, key)) {
+      throw registeredIntervalException(key);
+    }
 
-    case STOP_INTERVAL:
-      if (!selectIsIntervalExists(state, key)) {
-        throw unregisteredIntervalException(key);
-      }
-      clearInterval(intervalID);
-      return next(action);
-
-    default:
-      return next(action);
+    dispatchModifiedAction(); // force the action to run for the first time.
+    const intervalMiliSec =
+      typeof interval === 'number' ? interval : DEFAULT_INTERVAL;
+    const intervalID = setInterval(dispatchModifiedAction, intervalMiliSec);
+    return store.dispatch(startIntervalAction(key, intervalID));
   }
+
+  if (type === STOP_INTERVAL) {
+    if (!selectDoesIntervalExist(state, key)) {
+      throw unregisteredIntervalException(key);
+    }
+    const intervalID = selectIntervalID(state, key);
+    clearInterval(intervalID);
+  }
+
+  return next(action);
 };
 
 export default IntervalMiddleware;

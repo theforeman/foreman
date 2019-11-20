@@ -2,7 +2,7 @@ import { testSelectorsSnapshotWithFixtures } from '../../../../common/testHelper
 import {
   selectIntervals,
   selectIntervalID,
-  selectIsIntervalExists,
+  selectDoesIntervalExist,
 } from '../IntervalSelectors';
 import { key, stateWithKey } from '../IntervalFixtures';
 
@@ -14,7 +14,7 @@ const fixtures = {
   'should return the intervals wrapper': () => selectIntervals(state),
   'should return the interval ID': () => selectIntervalID(state, key),
   'should return if interval exists for a specific key': () =>
-    selectIsIntervalExists(state, key),
+    selectDoesIntervalExist(state, key),
 };
 
 describe('intervals selectors', () =>

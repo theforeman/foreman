@@ -4,7 +4,7 @@ import { START_INTERVAL, STOP_INTERVAL } from './IntervalConstants';
 const initialState = Immutable({});
 
 export const reducer = (state = initialState, action) => {
-  const { type, payload: { key, intervalID } = {} } = action;
+  const { type, key, intervalID } = action;
   switch (type) {
     case START_INTERVAL:
       return state.merge({ [key]: intervalID });

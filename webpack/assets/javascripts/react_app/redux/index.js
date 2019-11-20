@@ -6,7 +6,7 @@ import reducers from './reducers';
 
 import { IntervalMiddleware, APIMiddleware } from './middlewares';
 
-let middleware = [thunk, APIMiddleware, IntervalMiddleware];
+let middleware = [thunk, IntervalMiddleware, APIMiddleware];
 
 const useLogger = () => {
   const isProduction = process.env.NODE_ENV === 'production';

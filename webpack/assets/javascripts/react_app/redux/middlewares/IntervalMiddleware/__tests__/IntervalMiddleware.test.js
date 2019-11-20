@@ -1,81 +1,69 @@
-import { START_INTERVAL, STOP_INTERVAL } from '../IntervalConstants';
 import { IntervalMiddleware } from '../IntervalMiddleware';
 import {
   key,
-  interval,
-  args,
-  fakeStore,
-  fakeStoreWithKey,
+  initialState,
+  stateWithKey,
+  actionWithInterval,
 } from '../IntervalFixtures';
 import {
   registeredIntervalException,
   unregisteredIntervalException,
 } from '../IntervalHelpers';
+import { stopInterval } from '../IntervalActions';
 
 describe('Interval Middleware', () => {
-  it('should handle START_INTERVAL action', () => {
-    const fakeNext = jest.fn();
-    const callback = jest.fn();
-    const action = {
-      type: START_INTERVAL,
-      payload: {
-        key,
-        callback,
-        interval,
-        args,
-      },
-    };
+  const getFakeStore = () => ({
+    getState: () => ({
+      intervals: initialState,
+    }),
+    dispatch: jest.fn(),
+  });
 
-    IntervalMiddleware(fakeStore)(fakeNext)(action);
-    expect(callback).toBeCalled();
-    expect(fakeNext).toMatchSnapshot();
+  const getFakeStoreWithKey = () => ({
+    getState: () => ({
+      intervals: stateWithKey,
+    }),
+    dispatch: jest.fn(),
+  });
+
+  it('should handle an action with "interval" key', () => {
+    const fakeStore = getFakeStore();
+    const fakeNext = jest.fn();
+
+    IntervalMiddleware(fakeStore)(fakeNext)(actionWithInterval);
+    expect(fakeStore.dispatch).toMatchSnapshot();
+    expect(fakeNext).not.toBeCalled();
   });
 
   it('should handle START_INTERVAL action when key already exists', () => {
+    const fakeStore = getFakeStoreWithKey();
     const fakeNext = jest.fn();
-    const callback = jest.fn();
-    const action = {
-      type: START_INTERVAL,
-      payload: {
-        key,
-        callback,
-        interval,
-        args,
-      },
-    };
+
     try {
-      IntervalMiddleware(fakeStoreWithKey)(fakeNext)(action);
+      IntervalMiddleware(fakeStore)(fakeNext)(actionWithInterval);
     } catch (error) {
       expect(error.message).toBe(registeredIntervalException(key).message);
     }
-    expect(callback).not.toBeCalled();
+    expect(fakeStore.dispatch).not.toBeCalled();
     expect(fakeNext).not.toBeCalled();
   });
 
   it('should handle STOP_INTERVAL action', () => {
+    const fakeStore = getFakeStoreWithKey();
     const fakeNext = jest.fn();
-    const action = {
-      type: STOP_INTERVAL,
-      payload: {
-        key,
-      },
-    };
+    const stopAction = stopInterval(key);
 
-    IntervalMiddleware(fakeStoreWithKey)(fakeNext)(action);
+    IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
     expect(fakeNext).toMatchSnapshot();
   });
 
   it('should handle STOP_INTERVAL action when key does not exist', () => {
+    const fakeStore = getFakeStore();
     const fakeNext = jest.fn();
-    const action = {
-      type: STOP_INTERVAL,
-      payload: {
-        key,
-      },
-    };
+    const stopAction = stopInterval(key);
 
     try {
-      IntervalMiddleware(fakeStore)(fakeNext)(action);
+      IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
     } catch (error) {
       expect(error.message).toBe(unregisteredIntervalException(key).message);
     }
@@ -83,19 +71,11 @@ describe('Interval Middleware', () => {
   });
 
   it('should pass action to next', () => {
+    const fakeStore = getFakeStoreWithKey();
     const fakeNext = jest.fn();
-    const callback = jest.fn();
-    const action = {
-      type: START_INTERVAL,
-      payload: {
-        key,
-        callback,
-        interval,
-        args,
-      },
-    };
+    const stopAction = stopInterval(key);
 
-    IntervalMiddleware(fakeStore)(fakeNext)(action);
+    IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
     expect(fakeNext).toMatchSnapshot();
   });
 });
