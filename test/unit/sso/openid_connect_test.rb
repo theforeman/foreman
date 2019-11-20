@@ -41,7 +41,7 @@ class OpenidConnectTest < ActiveSupport::TestCase
       assert_equal subject.available?, true
     end
 
-    test "returns true when api request contain invalid JWT token" do
+    test "returns false when api request contain invalid JWT token" do
       invalid_payload = payload
       invalid_payload['iss'] = "random_value"
       token = JWT.encode(invalid_payload, nil, 'none')
