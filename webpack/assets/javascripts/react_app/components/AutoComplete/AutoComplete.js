@@ -178,6 +178,7 @@ class AutoComplete extends React.Component {
       id,
       error,
       name,
+      value,
       searchQuery,
       inputProps,
       placeholder,
@@ -195,7 +196,7 @@ class AutoComplete extends React.Component {
         <TypeAheadSelect
           id={id}
           ref={this._typeahead}
-          defaultInputValue={searchQuery}
+          defaultInputValue={value || searchQuery}
           options={options}
           onInputChange={this.handleInputChange}
           onChange={this.handleResultsChange}
@@ -230,6 +231,7 @@ AutoComplete.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   url: PropTypes.string.isRequired,
   name: PropTypes.string,
+  value: PropTypes.string,
   results: PropTypes.array,
   searchQuery: PropTypes.string,
   inputProps: PropTypes.object,
@@ -249,6 +251,7 @@ AutoComplete.propTypes = {
 
 AutoComplete.defaultProps = {
   name: null,
+  value: null,
   results: [],
   searchQuery: '',
   inputProps: {},

@@ -416,7 +416,7 @@ module FormHelper
   def react_form_input(type, f, attr, options = {})
     options[:label] ||= get_attr_label(f, attr)
     options[:error] ||= get_attr_error(f, attr)
-    options[:error] = options[:error].to_sentence if options[:error]
+    options[:error] = options[:error]&.to_sentence
     options[:required] = is_required?(f, attr) unless options.key?(:required)
 
     Tags::ReactInput.new(f.object_name, attr, self, options.merge(type: type, object: f.object)).render

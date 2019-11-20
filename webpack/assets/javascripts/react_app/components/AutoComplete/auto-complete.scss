@@ -1,9 +1,11 @@
 @import "~@theforeman/vendor/scss/variables";
 
 .foreman-autocomplete {
+  position: relative;
+
   .autocomplete-aux {
     position: absolute;
-    right: 25px;
+    right: 4px;
     top: 4px;
     z-index: 10;
 

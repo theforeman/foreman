@@ -1,10 +1,23 @@
 module Tags
   class ReactInput < ActionView::Helpers::Tags::Base
+    def initialize(*attr)
+      super
+      @only_input = @options.delete(:only_input)
+    end
+
+    def only_input?
+      !!@only_input
+    end
+
+    def component_name
+      only_input? ? 'InputFactory' : 'FormField'
+    end
+
     def render
       options = @options.stringify_keys
       options['value'] = options.fetch('value') { value_before_type_cast }
       add_default_name_and_id(options)
-      @template_object.react_component('FormField', reactify_options(options))
+      @template_object.react_component(component_name, reactify_options(options))
     end
 
     private
