@@ -1,4 +1,4 @@
-//= require jquery.ui.spinner
+//= require jquery-ui/widgets/spinner
 //= require bootstrap
 //= require patternfly
 //= require vendor

@@ -1,8 +1,8 @@
-@import 'jquery.ui.theme';
-@import 'jquery.ui.core';
-@import 'jquery.ui.menu';
+@import 'jquery-ui/theme';
+@import 'jquery-ui/core';
+@import 'jquery-ui/menu';
 //we need to import all the above because we are using jquery-ui-rails and it uses sprockets require instaed of sass import.
-@import 'jquery.ui.spinner';
+@import 'jquery-ui/spinner';
 @import 'jquery.ui.spinner_custom';
 @import 'patternfly-sprockets';
 @import 'colors';
