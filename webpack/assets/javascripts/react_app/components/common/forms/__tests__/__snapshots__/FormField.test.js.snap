@@ -1,52 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormField register own component renders registered component 1`] = `
-<FormGroup
-  bsClass="form-group"
-  controlId="own-field"
-  disabled={false}
-  validationState={null}
->
-  <ControlLabel
-    bsClass="control-label"
-    className="col-md-2"
-    srOnly={false}
-  >
-    ownField
-  </ControlLabel>
-  <Col
-    bsClass="col"
-    className="col-md-4"
-    componentClass="div"
-  >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "group[ownfield]",
-          "onChange": [Function],
-          "required": false,
-          "value": undefined,
-        }
-      }
-    >
-      <InputFactory
-        type="ownInput"
-      />
-    </ContextProvider>
-  </Col>
-  <InlineMessage
-    error={null}
-    helpInline={null}
-  />
-</FormGroup>
-`;
-
 exports[`FormField rendering renders AutoComplete 1`] = `
 <FormGroup
   bsClass="form-group"
-  controlId="form-search"
+  controlId={null}
   disabled={false}
   validationState={null}
 >
@@ -60,26 +17,24 @@ exports[`FormField rendering renders AutoComplete 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
+    <InputFactory
+      className=""
+      disabled={false}
+      formAutocompleteDataProps={
         Object {
-          "className": "",
           "controller": "bookmarks",
           "disabled": false,
+          "id": "form-search",
           "name": "Filter[search]",
-          "onChange": [Function],
-          "required": false,
           "searchQuery": "",
           "url": "bookmarks/auto_complete",
           "useKeyShortcuts": false,
-          "value": undefined,
         }
       }
-    >
-      <InputFactory
-        type="text"
-      />
-    </ContextProvider>
+      onChange={[Function]}
+      required={false}
+      type="autocomplete"
+    />
   </Col>
   <InlineMessage
     error={null}
@@ -105,22 +60,14 @@ exports[`FormField rendering renders Date input 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "a",
-          "onChange": [Function],
-          "required": false,
-          "value": undefined,
-        }
-      }
-    >
-      <InputFactory
-        type="date"
-      />
-    </ContextProvider>
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="date"
+    />
   </Col>
   <InlineMessage
     error={null}
@@ -148,22 +95,15 @@ exports[`FormField rendering renders DateTime complex options and error 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "group[datetime]",
-          "onChange": [Function],
-          "required": false,
-          "value": 1991-01-01T01:12:01.000Z,
-        }
-      }
-    >
-      <InputFactory
-        type="dateTime"
-      />
-    </ContextProvider>
+    <InputFactory
+      className=""
+      disabled={false}
+      name="group[datetime]"
+      onChange={[Function]}
+      required={false}
+      type="dateTime"
+      value={1991-01-01T01:12:01.000Z}
+    />
   </Col>
   <InlineMessage
     error="can not be in the past"
@@ -189,22 +129,14 @@ exports[`FormField rendering renders DateTime input 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "a",
-          "onChange": [Function],
-          "required": false,
-          "value": undefined,
-        }
-      }
-    >
-      <InputFactory
-        type="dateTime"
-      />
-    </ContextProvider>
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="dateTime"
+    />
   </Col>
   <InlineMessage
     error={null}
@@ -230,22 +162,14 @@ exports[`FormField rendering renders Time input 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "a",
-          "onChange": [Function],
-          "required": false,
-          "value": undefined,
-        }
-      }
-    >
-      <InputFactory
-        type="time"
-      />
-    </ContextProvider>
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="time"
+    />
   </Col>
   <InlineMessage
     error={null}
@@ -283,22 +207,14 @@ exports[`FormField rendering renders text complex options and help 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "group[textfield]",
-          "onChange": [Function],
-          "required": false,
-          "value": undefined,
-        }
-      }
-    >
-      <InputFactory
-        type="text"
-      />
-    </ContextProvider>
+    <InputFactory
+      className=""
+      disabled={false}
+      name="group[textfield]"
+      onChange={[Function]}
+      required={false}
+      type="text"
+    />
   </Col>
   <InlineMessage
     error={null}
@@ -324,22 +240,14 @@ exports[`FormField rendering renders text input 1`] = `
     className="col-md-4"
     componentClass="div"
   >
-    <ContextProvider
-      value={
-        Object {
-          "className": "",
-          "disabled": false,
-          "name": "a",
-          "onChange": [Function],
-          "required": false,
-          "value": undefined,
-        }
-      }
-    >
-      <InputFactory
-        type="text"
-      />
-    </ContextProvider>
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="text"
+    />
   </Col>
   <InlineMessage
     error={null}

@@ -13,6 +13,7 @@ import LongDateTime from './common/dates/LongDateTime';
 import ShortDateTime from './common/dates/ShortDateTime';
 import IsoDate from './common/dates/IsoDate';
 import FormField from './common/forms/FormField';
+import InputFactory from './common/forms/InputFactory';
 import StorageContainer from './hosts/storage/vmware/';
 import PasswordStrength from './PasswordStrength';
 import BreadcrumbBar from './BreadcrumbBar';
@@ -152,6 +153,7 @@ const coreComponets = [
     store: false,
   },
   { name: 'FormField', type: FormField },
+  { name: 'InputFactory', type: InputFactory },
   { name: 'ModelsTable', type: ModelsTable },
   { name: 'Editor', type: Editor },
 

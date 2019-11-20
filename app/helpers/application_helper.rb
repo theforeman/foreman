@@ -180,6 +180,19 @@ module ApplicationHelper
     controller.respond_to?(:auto_complete_controller_name) ? controller.auto_complete_controller_name : controller_name
   end
 
+  def auto_complete_search(name, val, options = {})
+    Foreman::Deprecation.deprecation_warning('1.27', 'use #auto_complete_f, possibly with #form_with if you need to avoid of object scope')
+    options.merge!(
+      {
+        url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{name}",
+        controller: options[:path] || auto_complete_controller_name,
+        search_query: '',
+        use_key_shortcuts: options[:use_key_shortcuts] || false,
+      }
+    )
+    Tags::ReactInput.new(nil, name, self, options.merge(value: val, type: 'autocomplete', only_input: true)).render
+  end
+
   def sort(field, permitted: [], **kwargs)
     kwargs[:url_options] ||= current_url_params(permitted: permitted)
     super(field, kwargs)

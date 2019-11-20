@@ -1,48 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {
   Col,
   FormGroup,
-  FormControl,
   ControlLabel,
   HelpBlock,
   FieldLevelHelp,
 } from 'patternfly-react';
+import InputFactory from './InputFactory';
 import { noop } from '../../../common/helpers';
-
-import AutoComplete from '../../AutoComplete';
-import DateTimePicker from '../DateTimePicker/DateTimePicker';
-import DatePicker from '../DateTimePicker/DatePicker';
-import TimePicker from '../DateTimePicker/TimePicker';
-import OrderableSelect from './OrderableSelect';
-
-const inputComponents = {
-  date: DatePicker,
-  dateTime: DateTimePicker,
-  time: TimePicker,
-  autocomplete: AutoComplete,
-  orderableSelect: OrderableSelect,
-};
-
-export const registerInputComponent = (name, Component) => {
-  inputComponents[name] = Component;
-};
-export const ControlContext = React.createContext();
-
-const InputFactory = ({ type }) => {
-  const controlProps = useContext(ControlContext);
-
-  if (inputComponents[type]) {
-    return (
-      <FormControl componentClass={inputComponents[type]} {...controlProps} />
-    );
-  }
-  return <FormControl type={type} {...controlProps} />;
-};
-InputFactory.propTypes = {
-  type: PropTypes.string.isRequired,
-};
 
 const InlineMessage = ({ error, helpInline }) => {
   if (!error && !helpInline) {
@@ -113,9 +80,7 @@ const FormField = ({
         )}
       </ControlLabel>
       <Col className={inputSizeClass}>
-        <ControlContext.Provider value={controlProps}>
-          {children || <InputFactory type={type} />}
-        </ControlContext.Provider>
+        {children || <InputFactory type={type} {...controlProps} />}
       </Col>
       <InlineMessage error={error} helpInline={helpInline} />
     </FormGroup>
