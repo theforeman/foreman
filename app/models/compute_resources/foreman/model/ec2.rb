@@ -50,11 +50,42 @@ module Foreman::Model
       raise(ActiveRecord::RecordNotFound)
     end
 
-    def create_vm(args = { })
-      args = vm_instance_defaults.merge(args.to_h.symbolize_keys).deep_symbolize_keys
+    # Tag Example - <Fog::AWS::Compute::Tag key=nil, value=nil, resource_id=nil, resource_type=nil #>
+    def new_tag(attrs = {})
+      client.tags.new(attrs)
+    end
+
+    def parse_tags(args)
+      # Merge AWS EC2 tags
+      tags = {}
       if (name = args[:name])
-        args[:tags] = {:Name => name}
+        tags = {:Name => name}
       end
+
+      nested_attrs = args.delete(:tags_attributes)
+      args[:tags] = nested_attributes_for(:tags, nested_attrs.deep_symbolize_keys) if nested_attrs
+
+      if args[:tags].present?
+        # Validation, must be [{"key": "tags_name", "value": "tag_value"}]
+        if !args[:tags].is_a?(Array) || !args[:tags].all? { |item| item.is_a?(Hash) && item.has_key?(:key) && item.has_key?(:value) }
+          raise Foreman::Exception.new(N_("Invalid tags, must be an array of maps with key and value properties"))
+        end
+        args[:tags].each_with_index do |tag, i|
+          # Validation against AWS rules
+          # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html
+          next if tag[:key] =~ /^aws:/
+          next unless tag[:key] =~ /^[\p{L}\p{N} +-=._:\/@]{1,128}$/
+          next unless tag[:value] =~ /^[\p{L}\p{N} +-=._:\/@]{1,256}$/
+          tags[tag[:key]] = tag[:value]
+        end
+      end
+      Foreman::Logging.logger('app').info "AWS machine #{args[:name]} will be created with tags #{tags}"
+      tags
+    end
+
+    def create_vm(args = { })
+      args[:tags] = parse_tags(args)
+      args = vm_instance_defaults.merge(args.to_h.symbolize_keys).deep_symbolize_keys
       if (image_id = args[:image_id])
         image = images.find_by_uuid(image_id.to_s)
         iam_hash = image.iam_role.present? ? {:iam_instance_profile_name => image.iam_role} : {}

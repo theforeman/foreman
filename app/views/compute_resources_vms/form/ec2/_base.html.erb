@@ -31,3 +31,29 @@ images = possible_images(compute_resource, arch, os)
 
   <%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP"), :label_size => "col-md-2" } %>
 </div>
+
+<% if controller_name != "compute_attributes" %>
+  <div class="row">
+    <% tag = compute_resource.new_tag %>
+    <%= label_tag(:tags, _("Tags"), :class => 'col-md-2 control-label') %>
+    <div class="col-md-6">
+      <table id="ec2_tags" class="<%= table_css_classes %>">
+        <thead>
+          <th><%= _('Key') %></th>
+          <th><%= _('Value') %></th>
+          <% if new_vm %>
+            <th><%= _('Actions') %></th>
+          <% end %>
+        </thead>
+        <tbody>
+          <%= f.fields_for :tags, f.object.load_tags do |fields| %>
+            <%= render "compute_resources_vms/form/ec2/ec2_tag", f: fields, new_vm: new_vm %>
+          <% end %>
+        </tbody>
+      </table>
+      <% if new_vm %>
+       <%= link_to_add_fields('+ ' + _("Add tag"), f, :tags, "compute_resources_vms/form/ec2/ec2_tag", { :target => '#ec2_tags tbody', object: [tag], locals: { new_vm: new_vm } }) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
