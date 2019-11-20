@@ -10,6 +10,8 @@ if Foreman::Model::EC2.available?
   require 'fog/aws'
   require 'fog/aws/models/compute/flavor'
   Fog::AWS::Compute::Flavor.include FogExtensions::AWS::Flavor
+  require 'fog/aws/models/compute/tag'
+  Fog::AWS::Compute::Tag.include FogExtensions::AWS::Tag
   require 'fog/aws/models/compute/server'
   Fog::AWS::Compute::Server.include FogExtensions::AWS::Server
 end

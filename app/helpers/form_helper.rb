@@ -337,7 +337,8 @@ module FormHelper
 
   def link_to_remove_fields(name, f, options = {})
     options[:title] ||= _("Remove Parameter")
-    f.hidden_field(:_destroy) + link_to_function(icon_text('remove', name, :kind => 'pficon'), "remove_fields(this)", options)
+    method_name = f.object.respond_to?(:_destroy) ? :_destroy : :_delete
+    f.hidden_field(method_name) + link_to_function(icon_text('remove', name, :kind => 'pficon'), "remove_fields(this)", options)
   end
 
   # Creates a link to a javascript function that creates field entries for the association on the web page
@@ -346,7 +347,7 @@ module FormHelper
   # +association : The field are created to allow entry into this association
   # +partial+    : String containing an optional partial into which we render
   def link_to_add_fields(name, f, association, partial = nil, options = {})
-    new_object = f.object.class.reflect_on_association(association).klass.new
+    new_object = options.delete(:object) || f.object.class.reflect_on_association(association).klass.new
     locals_option = options.delete(:locals) || {}
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial),
