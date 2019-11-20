@@ -38,7 +38,16 @@ module SSO
 
     def valid_issuer?
       payload = jwt_token.decoded_payload
-      payload.key?('iss') && (payload['iss'] == Setting['oidc_issuer'])
+      unless payload.key?('iss') && (payload['iss'] == Setting['oidc_issuer'])
+        logger = Foreman::Logging.logger('app')
+        logger.error "Invalid OIDC issuer received in JWT."
+        logger.debug "Received invalid OIDC issuer '#{payload['iss']}'"
+        return false
+      end
+      true
+    rescue JWT::DecodeError => e
+      Foreman::Logging.exception('Failed to decode JWT', e)
+      false
     end
 
     def update_session(payload)
