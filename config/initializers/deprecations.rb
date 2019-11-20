@@ -6,7 +6,7 @@ Foreman::Application.configure do |app|
     next unless ActiveRecord::Base.connection.adapter_name.downcase.starts_with?('mysql')
     blueprint = NotificationBlueprint.find_by_name('feature_deprecation')
     next unless blueprint
-    message = UINotifications::StringParser.new(blueprint.message, {feature: 'MySQL as a backend database', version: '1.25'}).to_s
+    message = UINotifications::StringParser.new(blueprint.message, {feature: 'MySQL as a backend database', version: '2.0'}).to_s
     next if blueprint.notifications.where(message: message).any?
     Notification.create!(
       audience: Notification::AUDIENCE_ADMIN,
@@ -33,7 +33,7 @@ Foreman::Application.configure do |app|
     next unless ActiveRecord::Base.connection.adapter_name.downcase.starts_with?('sqlite')
     blueprint = NotificationBlueprint.find_by_name('feature_deprecation')
     next unless blueprint
-    message = UINotifications::StringParser.new(blueprint.message, {feature: 'SQLite as a production database', version: '1.25'}).to_s
+    message = UINotifications::StringParser.new(blueprint.message, {feature: 'SQLite as a production database', version: '2.0'}).to_s
     next if blueprint.notifications.where(message: message).any?
     Notification.create!(
       audience: Notification::AUDIENCE_ADMIN,
