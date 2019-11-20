@@ -696,5 +696,34 @@ module Foreman::Model
       end
       vm_attrs
     end
+
+    def get_template_volumes(vm_attrs)
+      return {} unless vm_attrs[:template]
+      template = template(vm_attrs[:template])
+      return {} unless template
+      return {} if template.volumes.nil?
+      template.volumes.index_by(&:name)
+    end
+
+    def volume_to_attributes(volume, template_volumes)
+      {
+        size_gb: (volume.size.to_i / 1.gigabyte),
+        storage_domain: volume.storage_domain,
+        preallocate: (volume.sparse == 'true') ? '0' : '1',
+        wipe_after_delete: volume.wipe_after_delete,
+        interface: volume.interface,
+        bootable: volume.bootable,
+        id: template_volumes.fetch(volume.name, nil)&.id,
+      }
+    end
+
+    def set_vm_volumes_attributes(vm, vm_attrs)
+      template_volumes = get_template_volumes(vm_attrs)
+      vm_volumes = vm.volumes || []
+      vm_attrs[:volumes_attributes] = vm_volumes.each_with_index.each_with_object({}) do |(volume, index), volumes|
+        volumes[index.to_s] = volume_to_attributes(volume, template_volumes)
+      end
+      vm_attrs
+    end
   end
 end

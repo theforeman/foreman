@@ -263,45 +263,33 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
   describe "vm_compute_attributes_for" do
     before do
-      plain_attrs = {
+      @plain_attrs = {
         :id => 'abc',
         :cpus => 5,
+
       }
       @vm = mock()
-      @vm.stubs(:attributes).returns(plain_attrs)
+      @vm.stubs(:attributes).returns(@plain_attrs)
 
       @cr = compute_resources(:ovirt)
       @cr.stubs(:find_vm_by_uuid).returns(@vm)
-
-      vol1 = mock()
-      vol1.stubs(:attributes).returns({:vol => 1})
-      vol2 = mock()
-      vol2.stubs(:attributes).returns({:vol => 2})
-
-      @volumes = [
-        vol1,
-        vol2,
-      ]
     end
 
     test "returns vm attributes without id" do
-      @vm.stubs(:volumes).returns(@volumes)
+      require 'fog/ovirt/models/compute/volume'
 
-      expected_attrs = {
-        :cpus => 5,
-        :volumes_attributes => {
-          "0" => { :vol => 1 },
-          "1" => { :vol => 2 },
-        },
-      }
-      attrs = @cr.vm_compute_attributes_for('abc')
+      volume1 = Fog::Ovirt::Compute::Volume.new(:storage_domain => '', :size_gb => '1', :bootable => 'false',
+                                             :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk1')
+      volume2 = Fog::Ovirt::Compute::Volume.new(:storage_domain => '', :size_gb => '1', :bootable => 'false',
+                                             :sparse => 'true', :wipe_after_delete => 'true', :name => 'disk2')
 
-      assert_equal expected_attrs, attrs
-    end
+      @vm.stubs(:volumes).returns([volume1, volume2])
 
-    test "returns correct vm attributes when vm does not respond to volumes" do
-      expected_attrs = {
-        :cpus => 5,
+      expected_attrs = {:cpus => 5, :volumes_attributes => {
+        "0" => {:size_gb => 1, :storage_domain => "", :preallocate => "0", :wipe_after_delete => "true",
+              :interface => nil, :bootable => "false", :id => nil},
+          "1" => {:size_gb => 1, :storage_domain => "", :preallocate => "0", :wipe_after_delete => "true",
+                :interface => nil, :bootable => "false", :id => nil}}
       }
       attrs = @cr.vm_compute_attributes_for('abc')
 
@@ -310,6 +298,7 @@ class ComputeResourceTest < ActiveSupport::TestCase
 
     test "returns correct vm attributes when vm volumes are nil" do
       @vm.stubs(:volumes).returns(nil)
+      @vm.stubs(:attributes).returns(@plain_attrs.merge({:volumes_attributes => nil}))
 
       expected_attrs = {
         :cpus => 5,
