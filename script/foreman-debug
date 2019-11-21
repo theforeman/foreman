@@ -354,6 +354,12 @@ add_files /var/log/foreman/production.log
 add_files /var/log/foreman/dynflow_executor.output*
 add_files /var/log/foreman-proxy-certs-generate.*log
 
+# Dynflow Sidekiq
+add_files /etc/foreman/dynflow/*
+add_cmd "systemctl list-units dynflow*" "dynflow_units"
+add_cmd "journalctl -u dynflow-sidekiq@*" "dynflow_sidekiq_logs"
+add_cmd 'systemctl status "system-dynflow\x2dsidekiq.slice"' "dynflow_sidekiq_status"
+
 # exclude *key.pem files and encryption_key.rb
 add_files /etc/foreman/*.{yml,yaml,conf} /etc/foreman/plugins/*.yaml
 
