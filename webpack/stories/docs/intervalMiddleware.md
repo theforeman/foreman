@@ -20,9 +20,7 @@ it could be also a simple action such as:
     type: SEND_MAIL,
     key: MY_SPECIAL_MAIL_KEY,
     interval: 10000000,
-    payload: {
-      ...
-    }
+    payload: data,
   })
 ```
 
@@ -44,7 +42,7 @@ export const stopAPIInterval = () => stopInterval(key);
 Then it will be available in your component:
 ```js
 // MyComponent/MyComponent.js
-handleInterval = () => {
+componentWillUnmount() {
   // use the same key you used to start the interval.
   this.props.stopAPIInterval(key) 
 }
@@ -62,7 +60,7 @@ const mapDispatchToProps = dispatch => bindActionCreators( { ...actions, stopInt
 Then it will be available in your component:
 ```js
 // MyComponent/MyComponent.js
-handlePolling = () => {
+cleanUpPolling = () => {
   const { stopInterval } = this.props;
   // use the same key you used to start the interval.
   stopInterval(key) 
@@ -76,18 +74,21 @@ import { useDispatch } from 'react-redux'
 import { stopInterval } from "../../redux/middlewares/IntervalMiddleware";
 // import { stopInterval } from "foremanReact/redux/middlewares/IntervalMiddleware"; in plugins
 ...
-handlePolling = () => {
+cleanUpPolling = () => {
   const dispatch = useDispatch()
   // use the same key you used to start the interval.
   dispatch(stopInterval(key))
 }
 ```
 
-or you can generate your own action with the same type as STOP_INTERVAL,
-don't forget to pass the unique 'key' in the payload, and we will catch it already - though this is less recommended.
+Components that use Hooks such as "useEffect", should call for cleanup same as in "componentWillUnmount":
 ```js
-export const stopInterval = key => ({
-  type: STOP_INTERVAL,
-  key,
-});
+// MyComponent/MyComponent.js
+...
+useEffect(() => {
+  ... // start polling
+ return cleanUpPolling;
+}, []);
 ```
+
+You can change the "DEFAULT_INTERVAL" from the console by setting DEFAULT_INTERVAL=5000.

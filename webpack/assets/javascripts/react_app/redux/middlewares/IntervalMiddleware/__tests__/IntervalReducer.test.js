@@ -8,12 +8,12 @@ import {
   stateWithKey,
   initialState,
 } from '../IntervalFixtures';
-import { startIntervalAction, stopInterval } from '../IntervalActions';
+import { startInterval, stopInterval } from '../IntervalActions';
 
 const fixtures = {
   'should return the initial state': initialState,
   'should handle START_INTERVAL': {
-    action: startIntervalAction(key, intervalID),
+    action: startInterval(key, intervalID),
   },
 };
 

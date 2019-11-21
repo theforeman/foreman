@@ -5,7 +5,8 @@ import {
   registeredIntervalException,
   unregisteredIntervalException,
 } from './IntervalHelpers';
-import { startIntervalAction } from './IntervalActions';
+import { startInterval as startIntervalAction } from './IntervalActions';
+import { whenDocumentIsVisible } from '../common/helpers';
 
 export const IntervalMiddleware = store => next => action => {
   const { type, key, interval } = action;
@@ -24,9 +25,12 @@ export const IntervalMiddleware = store => next => action => {
     }
 
     dispatchModifiedAction(); // force the action to run for the first time.
-    const intervalMiliSec =
-      typeof interval === 'number' ? interval : DEFAULT_INTERVAL;
-    const intervalID = setInterval(dispatchModifiedAction, intervalMiliSec);
+    const delay =
+      typeof interval === 'number'
+        ? interval
+        : process.env.DEFAULT_INTERVAL || DEFAULT_INTERVAL;
+    const intervalFunc = () => whenDocumentIsVisible(dispatchModifiedAction);
+    const intervalID = setInterval(intervalFunc, delay);
     return store.dispatch(startIntervalAction(key, intervalID));
   }
 

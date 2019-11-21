@@ -1,9 +1,9 @@
 import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
-import { stopInterval, startIntervalAction } from '../IntervalActions';
+import { stopInterval, startInterval } from '../IntervalActions';
 import { key, intervalID } from '../IntervalFixtures';
 
 const fixtures = {
-  'should start interval': () => startIntervalAction(key, intervalID),
+  'should start interval': () => startInterval(key, intervalID),
   'should stop interval': () => stopInterval(key),
 };
 

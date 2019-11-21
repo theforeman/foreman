@@ -5,7 +5,7 @@ export const stopInterval = key => ({
   key,
 });
 
-export const startIntervalAction = (key, intervalID) => ({
+export const startInterval = (key, intervalID) => ({
   type: START_INTERVAL,
   key,
   intervalID,
