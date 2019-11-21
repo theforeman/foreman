@@ -20,6 +20,10 @@ module SSO
       self.user = User.current.presence || authenticate!
     end
 
+    def logout_url
+      Setting['login_delegation_logout_url']
+    end
+
     private
 
     def jwt_token
@@ -44,6 +48,7 @@ module SSO
     def update_session(payload)
       session[:sso_method] = self.class.to_s
       session[:expires_at] = payload['exp']
+      session[:logout_url] = logout_url
     end
 
     def find_or_create_user_from_jwt(payload)
