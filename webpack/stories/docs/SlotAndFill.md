@@ -3,9 +3,11 @@
 Slot & Fill allows plugins to extend foreman core functionality in the UI
 
 ## Current Slots List
-| Name               | Id               | Path  |
-| ------------------ |:----------------:| -----:|
-| **About-footer**   | aboutFooterSlot  | *views/about/index.html.erb*
+| Name                | Id               | Path  |
+| ------------------- |:----------------:| -----:|
+| **About-footer**    | aboutFooterSlot  | *views/about/index.html.erb*
+| **Host params**     | HostgroupParams  | *views/hostgroups/_form.html.erb*
+| **Hostgroup params**| HostParams       | *views/hosts/_form.html.erb*
 
 ## Components
 

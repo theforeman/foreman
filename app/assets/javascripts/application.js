@@ -60,6 +60,11 @@ function onContentLoad() {
 
   // highlight tabs with errors
   tfm.tools.highlightTabErrors();
+  // observe store for resource errors
+  tfm.store.observeStore('resourceErrors.rerunAt', function(items, unsubscribe) {
+    console.log('CALLBACK!');
+    tfm.tools.highlightTabErrors();
+  });
 
   // allow opening new window for selected links
   $('a[rel="external"]').attr('target', '_blank');

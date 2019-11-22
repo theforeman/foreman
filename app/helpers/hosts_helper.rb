@@ -425,7 +425,7 @@ module HostsHelper
         :id => item.id,
         :lookup_key_id => item.lookup_key_id,
         :value => item.value,
-        :errors => item.errors.to_hash
+        :errors => item.errors.to_hash,
       }
     end
 

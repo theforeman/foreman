@@ -3,10 +3,12 @@ import { deepPropsToCamelCase } from '../../common/helpers';
 
 import {
   RESOURCE_ERRORS_RESOLVE,
+  RESOURCE_ERRORS_RERUN,
 } from './ResourceErrorsConstants';
 
 export const initialState = Immutable({
   resolved: false,
+  rerunAt: null,
   resources: {},
 });
 
@@ -18,6 +20,11 @@ const resourceErrors = (state = initialState, action) => {
       return state.merge({
         resolved: true,
         resources: payload.resourceErrors,
+      });
+    }
+    case RESOURCE_ERRORS_RERUN: {
+      return state.merge({
+        rerunAt: payload.rerunAt,
       });
     }
     default: {
