@@ -1,4 +1,6 @@
-<%= select_f f, :machine_type, compute_resource.machine_types, :name, :name, {}, :label => _('Machine type'), :label_size => "col-md-2" %>
+<%= select_f f, :machine_type, compute_resource.machine_types, :name, :name,
+			{ :selected => f.object.pretty_machine_type },
+			{ :label => _('Machine type'), :label_size => "col-md-2" } %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)

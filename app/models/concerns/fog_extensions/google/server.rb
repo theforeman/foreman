@@ -25,7 +25,7 @@ module FogExtensions
       end
 
       def pretty_machine_type
-        machine_type.split('/')[-1]
+        machine_type.split('/')[-1] if machine_type
       end
 
       def pretty_image_name
