@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+// eslint bug - https://github.com/eslint/eslint/issues/12117
+
 import { isEmpty } from 'lodash';
 import {
   changeOrganization,
