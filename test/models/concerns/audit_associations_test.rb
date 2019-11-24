@@ -20,11 +20,14 @@ class AuditAssociationsTest < ActiveSupport::TestCase
     @user.save!
     assert_empty @user.audits.last.audited_changes['role_ids']
 
+    # Ensure the default role is loaded when creating the audit, Rails 5.2.1 workaround (https://projects.theforeman.org/issues/25602)
+    @user.reload
+
     @user.role_ids = [role.id]
     @user.save!
 
     audit = @user.audits.last
-    assert_equal [[], [role.id]], audit.audited_changes['role_ids']
+    assert_equal [[Role.default.id], [role.id]], audit.audited_changes['role_ids']
     assert_equal 'update', audit.action
   end
 

@@ -1227,6 +1227,9 @@ class UserTest < ActiveSupport::TestCase
     end
 
     test 'should audit when a role is assigned to a user' do
+      # Ensure the default role is loaded when creating the audit, Rails 5.2.1 workaround (https://projects.theforeman.org/issues/25602)
+      @user.reload
+
       @user.role_ids = [@role.id]
       @user.save
 
@@ -1234,7 +1237,7 @@ class UserTest < ActiveSupport::TestCase
       audited_changes = recent_audit.audited_changes['role_ids']
 
       assert audited_changes, 'No audits found for user-roles'
-      assert_empty audited_changes.first
+      assert_equal [Role.default.id], audited_changes.first
       assert_equal [@role.id], audited_changes.last
     end
 
