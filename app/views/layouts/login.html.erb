@@ -1,8 +1,6 @@
 <%= content_for(:content) do %>
   <%= notifications %>
-  <div class="login-page" >
-    <%= yield %>
-  </div>
+  <%= yield %>
 <% end %>
 
 <%= render :template => 'layouts/base' %>

@@ -11,39 +11,38 @@ $background_image: linear-gradient(
   #041a33
 );
 
-.login-page {
+#login-page {
   height: 100%;
-  overflow: hidden;
-
-  .login-pf-header {
-    margin-bottom: 0 !important; // conflicts with patternfly-sass gem.
-
-    h1 {
-      font-weight: 500;
-    }
-  }
 
   .login-pf {
     background-image: $background_image;
-  }
 
-  .login-pf-caption {
-    color: white;
+    .login-pf-header {
+      margin-bottom: 0 !important; // conflicts with patternfly-sass gem.
 
-    h1 {
-      font-weight: $caption_font_weight;
+      h1 {
+        font-weight: 500;
+      }
     }
-  }
 
-  // patternfly_and_overrides.scss sets all spinners in the app to left.
-  .spinner {
-    float: none;
-  }
+    .login-pf-caption {
+      color: white;
 
-  // patternfly_and_overrides.scss adjusts all inputs glyphicons.
-  .form-control + .glyphicon {
-    position: absolute;
-    padding: 0;
-    right: 0;
+      h1 {
+        font-weight: $caption_font_weight;
+      }
+    }
+
+    // patternfly_and_overrides.scss sets all spinners in the app to left.
+    .spinner {
+      float: none;
+    }
+
+    // patternfly_and_overrides.scss adjusts all inputs glyphicons.
+    .form-control + .glyphicon {
+      position: absolute;
+      padding: 0;
+      right: 0;
+    }
   }
 }
