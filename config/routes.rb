@@ -339,11 +339,14 @@ Foreman::Application.routes.draw do
 
   resources :permissions, :only => [:index]
 
-  resources :auth_source_ldaps, :except => [:show] do
+  resources :auth_source_ldaps, :except => [:show, :index] do
     collection do
       put 'test_connection'
     end
   end
+
+  resources :auth_sources, :only => [:show, :index]
+  resources :auth_source_externals, :only => [:update, :edit]
 
   put 'users/(:id)/test_mail', :to => 'users#test_mail', :as => 'test_mail_user'
 

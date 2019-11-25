@@ -47,5 +47,5 @@
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @auth_source_ldap %>
 </div>
 
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel f, false, :cancel_path => auth_sources_path %>
 <% end %>
