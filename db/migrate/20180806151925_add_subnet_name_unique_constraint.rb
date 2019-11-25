@@ -5,8 +5,7 @@ class AddSubnetNameUniqueConstraint < ActiveRecord::Migration[5.1]
       deduplicator.run
     end
 
-    # we need to specify the length to make MySQL happy
-    add_index :subnets, :name, :unique => true, length: { name: 255 }
+    add_index :subnets, :name, :unique => true
   end
 
   def down

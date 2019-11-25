@@ -3,8 +3,6 @@ class AddKeys < ActiveRecord::Migration[4.2]
     # turn off Foreign Key checks
     if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
       execute "SET CONSTRAINTS ALL DEFERRED;"
-    elsif ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      execute "SET FOREIGN_KEY_CHECKS=0;"
     end
     add_foreign_key "architectures_operatingsystems", "architectures", :name => "architectures_operatingsystems_architecture_id_fk"
     add_foreign_key "architectures_operatingsystems", "operatingsystems", :name => "architectures_operatingsystems_operatingsystem_id_fk"
@@ -92,9 +90,5 @@ class AddKeys < ActiveRecord::Migration[4.2]
     add_foreign_key "user_roles", "users", :name => "user_roles_user_id_fk"
     add_foreign_key "usergroup_members", "usergroups", :name => "usergroup_members_usergroup_id_fk"
     add_foreign_key "users", "auth_sources", :name => "users_auth_source_id_fk"
-    # turn on Foreign Key checks in MySQL only
-    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      execute "SET FOREIGN_KEY_CHECKS=1;"
-    end
   end
 end
