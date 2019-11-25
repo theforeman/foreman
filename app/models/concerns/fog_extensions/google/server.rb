@@ -7,8 +7,6 @@ module FogExtensions
       EXTERNAL_NAT_NAME = "External NAT".freeze
       EXTERNAL_NAT_TYPE = "ONE_TO_ONE_NAT".freeze
 
-      delegate :flavors, :to => :service
-
       attribute :network
       attribute :associate_external_ip
 

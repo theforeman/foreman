@@ -16,6 +16,8 @@ end
 
 if Foreman::Model::GCE.available?
   require 'fog/google'
+  require 'fog/compute/google/models/machine_type'
+  Fog::Compute::Google::MachineType.send(:prepend, FogExtensions::Google::MachineType)
   require 'fog/compute/google/models/server'
   Fog::Compute::Google::Server.send(:include, FogExtensions::Google::Server)
 end
