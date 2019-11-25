@@ -1,6 +1,6 @@
 module FogExtensions
   module Google
-    module Flavor
+    module MachineType
       extend ActiveSupport::Concern
 
       def id
