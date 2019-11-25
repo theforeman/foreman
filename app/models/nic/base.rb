@@ -40,10 +40,10 @@ module Nic
     validate :validate_updating_types
 
     # Validate that subnet's taxonomies are defined for nic's host
-    validates :subnet, :belongs_to_host_taxonomy => {:taxonomy => :location }
-    validates :subnet6, :belongs_to_host_taxonomy => {:taxonomy => :location }
-    validates :subnet, :belongs_to_host_taxonomy => {:taxonomy => :organization }
-    validates :subnet6, :belongs_to_host_taxonomy => {:taxonomy => :organization }
+    validates :subnet, :belongs_to_host_taxonomy => { :taxonomy => :location }
+    validates :subnet6, :belongs_to_host_taxonomy => { :taxonomy => :location }
+    validates :subnet, :belongs_to_host_taxonomy => { :taxonomy => :organization }
+    validates :subnet6, :belongs_to_host_taxonomy => { :taxonomy => :organization }
 
     scope :bmc, -> { where(:type => "Nic::BMC") }
     scope :bonds, -> { where(:type => "Nic::Bond") }
