@@ -48,12 +48,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
   end
 
   test "should create os with description" do
-    if ActiveRecord::Base.connection.adapter_name.downcase =~ /mysql/
-      # UTF is known to be problematic on MySQL < 5.7
-      description = RFauxFactory.gen_alpha(255)
-    else
-      description = RFauxFactory.gen_utf8(255)
-    end
+    description = RFauxFactory.gen_utf8(255)
     os_params = minimum_required_os_params.merge(:description => description)
     assert_difference('Operatingsystem.count') do
       post :create, params: { :operatingsystem => os_params }

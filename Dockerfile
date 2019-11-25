@@ -8,7 +8,7 @@ ENV FOREMAN_DOMAIN=example.com
 RUN \
   echo -e "[nodejs]\nname=nodejs\nstream=${NODEJS_VERSION}\nprofiles=\nstate=enabled\n" > /etc/dnf/modules.d/nodejs.module && \
   echo -e "[ruby]\nname=ruby\nstream=${RUBY_VERSION}\nprofiles=\nstate=enabled\n" > /etc/dnf/modules.d/ruby.module && \
-  microdnf install mysql-libs mariadb-connector-c postgresql-libs ruby{,gems} rubygem-{rake,bundler} npm nc hostname \
+  microdnf install postgresql-libs ruby{,gems} rubygem-{rake,bundler} npm nc hostname \
   # needed for VNC/SPICE websockets
   python2-numpy && \
   microdnf clean all
@@ -36,7 +36,7 @@ RUN \
   microdnf install redhat-rpm-config git \
     gcc-c++ make bzip2 gettext tar \
     libxml2-devel libcurl-devel ruby-devel \
-    mysql-devel postgresql-devel libsq3-devel && \
+    postgresql-devel libsq3-devel && \
   microdnf clean all
 
 ENV DATABASE_URL=sqlite3:tmp/bootstrap-db.sql

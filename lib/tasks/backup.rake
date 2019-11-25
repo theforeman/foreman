@@ -11,7 +11,7 @@ Available conditions:
   * destination => path to dump output file (defaults to #{File.expand_path('../../db', __dir__)}/foreman.EPOCH.sql)
   * tables => optional comma separated list of tables (you can use regex to match multiple)
               Specifies the list of tables to include in the dump.
-              This option works for postgres and mysql only.
+              This option works for postgres only.
   Example:
     rake db:dump destination=/mydir/dumps/foreman.sql RAILS_ENV=production # puts production dump in /mydir/dumps/foreman.sql
     rake db:dump tables="hostgro.*"# will match ["hostgroup_classes", "hostgroups"]
@@ -43,8 +43,6 @@ END_DESC
     end
     puts "Your backup is going to be created in: #{backup_name}"
     case config['adapter']
-    when 'mysql', 'mysql2'
-      mysql_dump(backup_name, config, tables)
     when 'postgresql'
       postgres_dump(backup_name, config, tables)
     when 'sqlite3'
@@ -54,16 +52,6 @@ END_DESC
     end
 
     puts "Completed."
-  end
-
-  def mysql_dump(name, config, tables = [])
-    cmd = "mysqldump --opt #{config['database']} -u #{config['username']} "
-    cmd += " -p#{config['password']} " if config['password'].present?
-    cmd += " -h #{config['host']} "    if config['host'].present?
-    cmd += " -P #{config['port']} "    if config['port'].present?
-    cmd += " #{tables.join(' ')} " if tables.present?
-    cmd += " > #{name}"
-    system(cmd)
   end
 
   def postgres_dump(name, config, tables = [])
@@ -118,8 +106,6 @@ END_DESC
     input = STDIN.gets.chomp
     abort("Bye!") unless input.downcase == "y"
     case config['adapter']
-    when 'mysql', 'mysql2'
-      mysql_import(ENV['file'], config)
     when 'postgresql'
       postgres_import(ENV['file'], config)
     when 'sqlite3'
@@ -129,15 +115,6 @@ END_DESC
     end
 
     puts "Completed."
-  end
-
-  def mysql_import(file, config)
-    cmd = "mysql #{config['database']} -u #{config['username']} "
-    cmd += " -p#{config['password']} " if config['password'].present?
-    cmd += " -h #{config['host']} "    if config['host'].present?
-    cmd += " -P #{config['port']} "    if config['port'].present?
-    cmd += " < #{file}"
-    system(cmd)
   end
 
   def postgres_import(file, config)

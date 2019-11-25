@@ -3,12 +3,7 @@ class CreateSources < ActiveRecord::Migration[4.2]
     create_table :sources do |t|
       t.text :value
     end
-    if ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql" || ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
-      execute "ALTER TABLE sources ENGINE = MYISAM"
-      execute "ALTER TABLE sources ADD FULLTEXT (value)"
-    else
-      add_index :sources, :value
-    end
+    add_index :sources, :value
   end
 
   def down
