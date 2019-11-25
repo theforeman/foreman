@@ -30,7 +30,8 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :authentication_providers do |map|
     ajax_actions = [:test_connection]
-    map.permission :view_authenticators, {:auth_source_ldaps => [:index, :show, :welcome],
+    map.permission :view_authenticators, {:auth_sources => [:index, :show, :welcome],
+                                             :auth_source_ldaps => [:welcome],
                                              :"api/v2/auth_source_ldaps" => [:index, :show],
                                              :"api/v2/auth_sources" => [:index, :show],
                                              :"api/v2/auth_source_internals" => [:index, :show],
@@ -40,6 +41,7 @@ Foreman::AccessControl.map do |permission_set|
                                              :"api/v2/auth_source_ldaps" => [:create],
     }
     map.permission :edit_authenticators, {:auth_source_ldaps => [:edit, :update].push(*ajax_actions),
+                                             :auth_source_externals => [:edit, :update],
                                              :"api/v2/auth_source_ldaps" => [:update, :test],
                                              :"api/v2/auth_source_externals" => [:update],
     }

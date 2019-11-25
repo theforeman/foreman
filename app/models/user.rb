@@ -124,6 +124,8 @@ class User < ApplicationRecord
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
   scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :relation => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
+  scoped_search :relation => :auth_source, :on => :type, :rename => :auth_source_type, :complete_value => true
+  scoped_search :relation => :auth_source, :on => :name, :rename => :auth_source, :complete_value => true
 
   default_scope lambda {
     with_taxonomy_scope do

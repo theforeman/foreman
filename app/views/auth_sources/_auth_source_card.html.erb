@@ -1,0 +1,21 @@
+<div class="col-xs-12 col-sm-3 col-md-2">
+  <div class="card-pf card-pf-view card-pf-view-xs card-pf-view-select card-pf-view-single-select">
+    <div class="card-pf-body">
+      <% if auth_source.type == 'AuthSourceLdap' %>
+        <%= render :partial => 'auth_source_ldaps/ldap_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
+      <% end %>
+      <% if auth_source.type == 'AuthSourceExternal' %>
+        <%= render :partial => 'auth_source_externals/external_card_kebab', :locals => {:auth_source => auth_source, :users => users} %>
+      <% end %>
+      <h2 class="card-pf-title text-center">
+        <%= type_of_auth_source(auth_source) %>
+      </h2>
+      <div class="card-pf-items text-center">
+        <div class="card-pf-item">
+          <span class="pficon pficon-users"></span>
+          <span class="card-pf-item-text"><%= link_to_if_authorized(number_of_users_counter(users, auth_source.type), hash_for_users_path(:search => "auth_source_type = #{auth_source.type}")) %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
