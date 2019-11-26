@@ -35,7 +35,9 @@ describe('powerStatus reducer', () => {
       state: stateBeforeResponse,
       action: {
         type: types.HOST_POWER_STATUS_FAILURE,
-        payload: { error, item: { id: request.id } },
+        payload: {
+          error,
+        },
       },
     },
   };

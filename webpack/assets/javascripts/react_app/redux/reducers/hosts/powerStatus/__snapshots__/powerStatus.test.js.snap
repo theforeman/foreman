@@ -4,6 +4,10 @@ exports[`powerStatus reducer should handle HOST_POWER_STATUS_FAILURE 1`] = `
 Object {
   "2": Object {
     "error": "some error happened",
+    "id": "2",
+    "state": "na",
+    "statusText": "Failed to fetch power status",
+    "title": "N/A",
   },
 }
 `;
