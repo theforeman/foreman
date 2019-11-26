@@ -1,3 +1,45 @@
+2019-11-26	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.24.0-RC3
+	* i18n - extracting new, pulling from tx
+
+2019-11-26	Marek Hulan <mhulan@redhat.com>
+	* Fixes #28308 - ignore prerelease tags in dependencies
+
+2019-11-25	laviro <1ronlavi@gmail.com>
+	* Fixes #28340 - Fix Login Page styles
+
+2019-11-25	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28279 - Deprecate Smart Variables
+
+2019-11-25	Ian Ballou <ianballou67@gmail.com>
+	* Fixes #28205 - manifest action progress not tracked in Katello
+
+2019-11-25	Rahul Bajaj <rahulrb0509@gmail.com>
+	* Fixes #28086 - log error on invalid oidc issuer
+
+2019-11-25	yifatmakias <ymakias@redhat.com>
+	* Fixes #28280 - fixed ssl cert compute in ovirt cr create
+
+2019-11-20	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28316 - update deprecations for foreman 2.0
+	* Fixes #28248 - Notify about SQLite production usage deprecation
+
+2019-11-20	laviro <1ronlavi@gmail.com>
+	* Fixes #28274 - refactor fallback route
+
+2019-11-20	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #28295 - fact cleaner map error fixed
+
+2019-11-11	Evgeni Golov <evgeni@golov.de>
+	* Fixes #28235 - validate password hash options in OS controller
+	* Fixes #28232 - ensure validator for IPAM lists all ipam types
+
+2019-11-11	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #28057 - Remove disabled hosts from config chart
+
+2019-11-06	Marek Hulan <mhulan@redhat.com>
+	* Fixes #28167 - fix parent permission for reports
+
 2019-11-04	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.24.0-RC2
 
