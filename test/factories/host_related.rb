@@ -338,7 +338,7 @@ FactoryBot.define do
         overrides[:locations] = [location] unless location.nil?
         overrides[:organizations] = [organization] unless organization.nil?
         FactoryBot.create(
-          :subnet_ipv4,
+          :subnet_ipv4_with_bmc,
           overrides
         )
       end

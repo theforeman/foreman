@@ -88,6 +88,9 @@ module Foreman
   class MaintenanceException < Foreman::Exception
   end
 
+  class BMCFeatureException < Foreman::Exception
+  end
+
   class PermissionMissingException < Foreman::Exception
   end
 

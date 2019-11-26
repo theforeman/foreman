@@ -76,6 +76,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :type => 'bmc',
       :provider => 'IPMI',
       :mac => '00:11:22:33:44:01',
+      :subnet_id => subnets(:one).id,
     }, {
       :mac => '00:11:22:33:44:02',
       :_destroy => 1,
@@ -830,7 +831,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
   test 'non-admin user with power_host permission can boot a vm' do
     @bmchost = FactoryBot.create(:host, :managed)
-    FactoryBot.create(:nic_bmc, :host => @bmchost)
+    FactoryBot.create(:nic_bmc, :host => @bmchost, :subnet => subnets(:one))
     ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
     role = FactoryBot.create(:role, :name => 'power_hosts')
     role.add_permissions!(['power_hosts'])
@@ -849,7 +850,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     def initialize_proxy_ops
       User.current = users(:apiadmin)
       @bmchost = FactoryBot.create(:host, :managed)
-      FactoryBot.create(:nic_bmc, :host => @bmchost)
+      @bmc_nic = FactoryBot.create(:nic_bmc, :host => @bmchost, :subnet => subnets(:one))
     end
 
     test "power call to interface" do
@@ -1435,7 +1436,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
     test 'shows power status for bmc hosts' do
       bmchost = FactoryBot.create(:host, :managed)
-      FactoryBot.create(:nic_bmc, :host => bmchost)
+      FactoryBot.create(:nic_bmc, :host => bmchost, :subnet => subnets(:one))
       ProxyAPI::BMC.any_instance.stubs(:power).with(:action => 'status').returns("on")
 
       expected_resp = {

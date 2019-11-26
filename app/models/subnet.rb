@@ -78,6 +78,12 @@ class Subnet < ApplicationRecord
     :api_description => N_('Template HTTP(S) Proxy ID to use within this subnet'),
     :description => N_('Template HTTP(S) Proxy to use within this subnet to allow access templating endpoint from isolated networks')
 
+  belongs_to_proxy :bmc,
+    :feature => N_('BMC'),
+    :label => N_('BMC Proxy'),
+    :api_description => N_('BMC Proxy ID to use within this subnet'),
+    :description => N_('BMC Proxy to use within this subnet for management access')
+
   has_many :hostgroups
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :subnet
   has_many :domains, :through => :subnet_domains
@@ -246,6 +252,10 @@ class Subnet < ApplicationRecord
 
   def template_proxy(attrs = {})
     @template_proxy ||= ProxyAPI::Template.new({:url => template.url}.merge(attrs)) if template?
+  end
+
+  def bmc?
+    !!(bmc && bmc.url && bmc.url.present?)
   end
 
   def external_ipam?

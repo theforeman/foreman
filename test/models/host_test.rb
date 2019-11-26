@@ -1855,8 +1855,8 @@ class HostTest < ActiveSupport::TestCase
     end
     h = FactoryBot.create(:host, :managed)
     assert h.interfaces.create :mac => "cabbccddeeff", :host => h, :type => 'Nic::BMC',
-      :provider => "IPMI", :username => "root", :password => "secret", :ip => "10.35.19.35",
-      :identifier => 'eth2'
+      :provider => "IPMI", :username => "root", :password => "secret", :ip => "2.3.4.5",
+      :identifier => 'eth2', :subnet => subnets(:one)
     as_user :one do
       h.update!("interfaces_attributes" => {"0" => {"mac" => "00:52:10:1e:45:16"}})
       assert_empty h.errors

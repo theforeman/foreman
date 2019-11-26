@@ -48,19 +48,16 @@ module Nic
     end
 
     def bmc_proxy
-      if subnet.present?
-        proxy = subnet.proxies.find { |subnet_proxy| subnet_proxy.has_feature?('BMC') }
-      end
-      proxy ||= SmartProxy.unscoped.with_features("BMC").first
-      proxy
+      subnet&.bmc || \
+        raise(::Foreman::BMCFeatureException.new(N_('There is no proxy with BMC feature set up. Associate a BMC feature with a subnet.')))
     end
 
     def validate_bmc_proxy
       return true unless managed?
       return true if host && !host_managed?
-      unless bmc_proxy
-        errors.add(:type, N_('There is no proxy with BMC feature set up. Please register a smart proxy with this feature.'))
-      end
+      bmc_proxy
+    rescue ::Foreman::BMCFeatureException => e
+      errors.add(:type, e.message)
     end
   end
 

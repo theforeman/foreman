@@ -30,6 +30,10 @@ FactoryBot.define do
       association :dns, :factory => :dns_smart_proxy
     end
 
+    trait :bmc do
+      association :bmc, :factory => :bmc_smart_proxy
+    end
+
     trait :template do
       association :template, :factory => :template_smart_proxy
     end
@@ -58,6 +62,7 @@ FactoryBot.define do
       mask { '255.255.255.0' }
 
       factory :subnet_ipv4_with_domains, :traits => [:with_domains]
+      factory :subnet_ipv4_with_bmc, :traits => [:bmc]
 
       trait :ipam_dhcp do
         ipam { "DHCP" }
