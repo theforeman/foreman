@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-03 15:22+0200\n"
-"PO-Revision-Date: 2019-11-03 15:22+0200\n"
+"POT-Creation-Date: 2019-11-26 10:44+0200\n"
+"PO-Revision-Date: 2019-11-26 10:44+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -2127,7 +2127,7 @@ msgid "Show an operating system"
 msgstr ""
 
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:58
-msgid "Root password hash function to use, one of MD5, SHA256, SHA512, Base64"
+msgid "Root password hash function to use"
 msgstr ""
 
 #: ../app/controllers/api/v2/operatingsystems_controller.rb:59
@@ -2749,11 +2749,11 @@ msgstr ""
 msgid "Report data are not available, it has probably expired."
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:207
+#: ../app/controllers/api/v2/report_templates_controller.rb:216
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:213
+#: ../app/controllers/api/v2/report_templates_controller.rb:222
 msgid ""
 "Data are available only for the user who triggered the report and administrato"
 "rs"
@@ -3052,9 +3052,7 @@ msgid "Secondary DNS for this subnet"
 msgstr ""
 
 #: ../app/controllers/api/v2/subnets_controller.rb:43
-msgid ""
-"IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", \"Int"
-"ernal DB\", \"None\""
+msgid "IP Address auto suggestion mode for this subnet."
 msgstr ""
 
 #: ../app/controllers/api/v2/subnets_controller.rb:44
@@ -3080,9 +3078,7 @@ msgid "Domains in which this subnet is part"
 msgstr ""
 
 #: ../app/controllers/api/v2/subnets_controller.rb:52
-msgid ""
-"Default boot mode for interfaces assigned to this subnet, valid values are \"St"
-"atic\", \"DHCP\""
+msgid "Default boot mode for interfaces assigned to this subnet."
 msgstr ""
 
 #: ../app/controllers/api/v2/subnets_controller.rb:58
@@ -4675,90 +4671,86 @@ msgstr ""
 msgid "No report"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:64
-msgid "Notification disabled"
-msgstr ""
-
 #. TRANSLATORS: initial character of Applied
-#: ../app/helpers/dashboard_helper.rb:90
+#: ../app/helpers/dashboard_helper.rb:89
 msgid "Applied|A"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:90 ../app/helpers/hosts_helper.rb:199
+#: ../app/helpers/dashboard_helper.rb:89 ../app/helpers/hosts_helper.rb:199
 #: ../app/views/config_reports/_list.html.erb:9
 msgid "Applied"
 msgstr ""
 
 #. TRANSLATORS: initial character of Restarted
-#: ../app/helpers/dashboard_helper.rb:92
+#: ../app/helpers/dashboard_helper.rb:91
 msgid "Restarted|R"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:92 ../app/helpers/hosts_helper.rb:203
+#: ../app/helpers/dashboard_helper.rb:91 ../app/helpers/hosts_helper.rb:203
 #: ../app/views/config_reports/_list.html.erb:10
 msgid "Restarted"
 msgstr ""
 
 #. TRANSLATORS: initial character of Failed
-#: ../app/helpers/dashboard_helper.rb:94
+#: ../app/helpers/dashboard_helper.rb:93
 msgid "Failed|F"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:94 ../app/helpers/hosts_helper.rb:200
+#: ../app/helpers/dashboard_helper.rb:93 ../app/helpers/hosts_helper.rb:200
 #: ../app/models/config_report.rb:79
 #: ../app/views/config_reports/_list.html.erb:11
 msgid "Failed"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
-#: ../app/helpers/dashboard_helper.rb:96
+#: ../app/helpers/dashboard_helper.rb:95
 msgid "Failed Restarts|FR"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:96
+#: ../app/helpers/dashboard_helper.rb:95
 msgid "Failed Restarts"
 msgstr ""
 
 #. TRANSLATORS: initial character of Skipped
-#: ../app/helpers/dashboard_helper.rb:98
+#: ../app/helpers/dashboard_helper.rb:97
 msgid "Skipped|S"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:98 ../app/helpers/hosts_helper.rb:202
+#: ../app/helpers/dashboard_helper.rb:97 ../app/helpers/hosts_helper.rb:202
 #: ../app/views/config_reports/_list.html.erb:13
 msgid "Skipped"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
-#: ../app/helpers/dashboard_helper.rb:100
+#: ../app/helpers/dashboard_helper.rb:99
 msgid "Pending|P"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:100
+#: ../app/helpers/dashboard_helper.rb:99
 #: ../app/models/host_status/configuration_status.rb:77
 #: ../app/views/config_reports/_list.html.erb:14
 msgid "Pending"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:123
+#: ../app/helpers/dashboard_helper.rb:122
 msgid "Auto refresh on"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:125
+#: ../app/helpers/dashboard_helper.rb:124
 msgid "Auto refresh off"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:167
+#: ../app/helpers/dashboard_helper.rb:166
 #: ../app/models/host_status/build_status.rb:17
 msgid "Token expired"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:172
+#: ../app/helpers/dashboard_helper.rb:171
 #: ../app/helpers/host_description_helper.rb:64
 msgid "Build errors"
 msgstr ""
 
-#: ../app/helpers/dashboard_helper.rb:177
+#: ../app/helpers/dashboard_helper.rb:176
 msgid "Build in progress"
 msgstr ""
 
@@ -6147,7 +6139,7 @@ msgstr ""
 msgid "Cluster ID is required to list available networks"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:499
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:500
 msgid ""
 "The remote system presented a public key signed by an unidentified certificate"
 " authority. If you are sure the remote system is authentic, go to the compute "
@@ -6155,7 +6147,7 @@ msgid ""
 "nd submit"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/ovirt.rb:526
+#: ../app/models/compute_resources/foreman/model/ovirt.rb:527
 msgid "Failed to create X509 certificate, error: %s"
 msgstr ""
 
@@ -14242,6 +14234,8 @@ msgid ""
 msgstr ""
 
 #: ../config/initializers/deprecations.rb:20
+#: ../config/initializers/deprecations.rb:47
+#: ../config/initializers/deprecations.rb:73
 msgid "Further Information"
 msgstr ""
 

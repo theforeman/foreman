@@ -2157,7 +2157,7 @@ msgstr ""
 msgid "Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates"
 msgstr ""
 
-msgid "Default boot mode for interfaces assigned to this subnet, valid values are \"Static\", \"DHCP\""
+msgid "Default boot mode for interfaces assigned to this subnet."
 msgstr ""
 
 msgid "Default encrypted root password on provisioned hosts"
@@ -4200,7 +4200,7 @@ msgstr ""
 msgid "IP Address Management"
 msgstr ""
 
-msgid "IP Address auto suggestion mode for this subnet, valid values are \"DHCP\", \"Internal DB\", \"None\""
+msgid "IP Address auto suggestion mode for this subnet."
 msgstr ""
 
 msgid "IP address auto-suggest"
@@ -6100,9 +6100,6 @@ msgstr ""
 msgid "Notification blueprint"
 msgstr ""
 
-msgid "Notification disabled"
-msgstr ""
-
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Notification recipient"
 msgstr ""
@@ -7468,7 +7465,7 @@ msgstr ""
 msgid "Root password"
 msgstr ""
 
-msgid "Root password hash function to use, one of MD5, SHA256, SHA512, Base64"
+msgid "Root password hash function to use"
 msgstr ""
 
 msgid "Root password on provisioned hosts"
