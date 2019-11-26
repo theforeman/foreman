@@ -1451,7 +1451,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       Host.any_instance.stubs(:supports_power?).returns(true)
       Host.any_instance.stubs(:power).raises(::Foreman::Exception.new(N_("Unknown power management support - can't continue")))
       get :power_status, params: { :id => host.id }, session: set_session_user, xhr: true
-      assert_response :success
+      assert_response :internal_server_error
       response = JSON.parse @response.body
       assert_equal(expected_resp.sort, response.sort)
     end
