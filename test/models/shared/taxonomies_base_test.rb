@@ -155,7 +155,7 @@ module TaxonomiesBaseTest
       assert_equal selected_ids[:domain_ids], [domains(:mydomain).id, domains(:yourdomain).id]
       assert_equal selected_ids[:medium_ids], [media(:one).id]
       assert_equal selected_ids[:user_ids], [users(:one).id, users(:scoped).id]
-      assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
+      assert_equal selected_ids[:smart_proxy_ids].sort, [smart_proxies(:bmc).id, smart_proxies(:puppetmaster).id, smart_proxies(:one).id, smart_proxies(:two).id, smart_proxies(:three).id, smart_proxies(:realm).id].sort
       assert_equal selected_ids[:provisioning_template_ids], [templates(:mystring2).id]
       assert_equal selected_ids[:compute_resource_ids], [compute_resources(:one).id, compute_resources(:mycompute).id]
     end

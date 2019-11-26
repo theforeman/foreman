@@ -3,19 +3,19 @@ require 'test_helper'
 class BMCTest < ActiveSupport::TestCase
   test 'lowercase IPMI provider string gets set to uppercase' do
     host = FactoryBot.build_stubbed(:host, :managed)
-    assert FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'IPMI').valid?
+    assert FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'IPMI', :subnet => subnets(:one)).valid?
   end
 
   test 'BMC IPMI availability' do
     host = FactoryBot.build_stubbed(:host, :managed)
-    nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'IPMI', :username => "user", :password => "pass")
+    nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'IPMI', :username => "user", :password => "pass", :subnet => subnets(:one))
     host.expects(:bmc_nic).returns(nic)
     assert host.bmc_available?
   end
 
   test 'BMC SSH availability' do
     host = FactoryBot.build_stubbed(:host, :managed)
-    nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'SSH')
+    nic = FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => 'SSH', :subnet => subnets(:one))
     host.expects(:bmc_nic).returns(nic)
     assert host.bmc_available?
   end
@@ -23,14 +23,14 @@ class BMCTest < ActiveSupport::TestCase
   test 'upcasing provider does not fail if provider is not present' do
     host = FactoryBot.build_stubbed(:host, :managed)
     assert_nothing_raised do
-      FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => nil).valid?
+      FactoryBot.build_stubbed(:nic_bmc, :host => host, :provider => nil, :subnet => subnets(:one)).valid?
     end
   end
 
   context "bmc password encryption" do
     def setup
       host = FactoryBot.build(:host, :managed)
-      @bmc_nic = FactoryBot.build(:nic_bmc, :with_subnet, :host => host)
+      @bmc_nic = FactoryBot.build(:nic_bmc, :with_subnet, :host => host, :subnet => subnets(:one))
       @bmc_nic.expects(:encryption_key).at_least_once.returns('25d224dd383e92a7e0c82b8bf7c985e815f34cf5')
       @bmc_nic.expects(:validate_bmc_proxy).at_least_once.returns(true)
       @bmc_nic.save
@@ -47,14 +47,14 @@ class BMCTest < ActiveSupport::TestCase
   end
 
   test 'BMC password is provided in #password' do
-    bmc_nic = FactoryBot.build_stubbed(:nic_bmc, :provider => 'IPMI', :password => 'secret')
+    bmc_nic = FactoryBot.build_stubbed(:nic_bmc, :provider => 'IPMI', :password => 'secret', :subnet => subnets(:one))
     assert_equal 'secret', bmc_nic.password
   end
 
   context 'with bmc_credentials_accessible => false' do
     setup do
       Setting[:bmc_credentials_accessible] = false
-      @bmc_nic = FactoryBot.build_stubbed(:nic_bmc, :provider => 'IPMI', :password => 'secret')
+      @bmc_nic = FactoryBot.build_stubbed(:nic_bmc, :provider => 'IPMI', :password => 'secret', :subnet => subnets(:one))
     end
 
     test 'BMC password is redacted in ENC output' do
@@ -80,28 +80,28 @@ class BMCTest < ActiveSupport::TestCase
 
     test 'requires BMC proxy without subnet' do
       host = FactoryBot.build_stubbed(:host, :managed)
-      bmc_nic = FactoryBot.build(:nic_bmc, :host => host)
+      bmc_nic = FactoryBot.build(:nic_bmc, :host => host, :subnet => subnets(:one))
       host.interfaces << bmc_nic
-      refute_with_errors bmc_nic.valid?, bmc_nic, :type, /no proxy/
+      refute_with_errors bmc_nic.valid?, bmc_nic, :type, /There is no proxy with BMC/
     end
 
     test 'requires BMC proxy in the same subnet' do
       host = FactoryBot.build_stubbed(:host, :managed)
-      bmc_nic = FactoryBot.build(:nic_bmc, :with_subnet, :host => host)
+      bmc_nic = FactoryBot.build(:nic_bmc, :with_subnet, :host => host, :subnet => subnets(:one))
       host.interfaces << bmc_nic
-      refute_with_errors bmc_nic.valid?, bmc_nic, :type, /no proxy/
+      refute_with_errors bmc_nic.valid?, bmc_nic, :type, /There is no proxy with BMC/
     end
 
     test 'BMC proxy not required, if NIC is not managed' do
       host = FactoryBot.build(:host, :managed)
-      bmc_nic = FactoryBot.build(:nic_bmc, :managed => false)
+      bmc_nic = FactoryBot.build(:nic_bmc, :managed => false, :subnet => subnets(:one))
       host.interfaces << bmc_nic
       assert bmc_nic.valid?
     end
 
     test 'BMC proxy not required, if host is not managed' do
       host = FactoryBot.build(:host, :managed => false)
-      bmc_nic = FactoryBot.build(:nic_bmc, :host => host)
+      bmc_nic = FactoryBot.build(:nic_bmc, :host => host, :subnet => subnets(:one))
       host.interfaces << bmc_nic
       assert bmc_nic.valid?
     end

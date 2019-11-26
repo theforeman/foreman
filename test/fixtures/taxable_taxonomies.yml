@@ -203,3 +203,13 @@ puppetmaster_organization2:
   taxonomy: organization2
   taxable: puppetmaster
   taxable_type: "SmartProxy"
+
+bmc_organization:
+  taxonomy: organization1
+  taxable: bmc
+  taxable_type: "SmartProxy"
+
+bmc_location1:
+  taxonomy: location1
+  taxable: bmc
+  taxable_type: "SmartProxy"
