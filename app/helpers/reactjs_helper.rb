@@ -16,34 +16,36 @@ module ReactjsHelper
     content_tag('react-component', '', :name => name, :data => { props: props })
   end
 
-  def webpacked_plugins_js_for(*plugin_names)
-    js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
-  end
+  # def webpacked_plugins_js_for(*plugin_names)
+  #   js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
+  # end
 
   def webpacked_plugins_with_global_js
     js_tags_for_global_files(Foreman::Plugin.with_global_js.map { |plugin| { id: plugin.id, files: plugin.global_js_files } }).join.html_safe
   end
+  
+  # def webpacked_plugins_css_for(*plugin_names)
+  #   css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
+  # end
 
-  def webpacked_plugins_css_for(*plugin_names)
-    css_tags_for(select_requested_plugins(plugin_names)).join.html_safe
-  end
+  # def select_requested_plugins(plugin_names)
+  #   available_plugins = Foreman::Plugin.with_webpack.map(&:id)
+  #   logger.error { Foreman::Plugin.all }
+  #   logger.error { available_plugins }
+  #   missing_plugins = plugin_names - available_plugins
+  #   if missing_plugins.any?
+  #     logger.error { "Failed to include webpack assets for plugins: #{missing_plugins}" }
+  #     raise ::Foreman::Exception.new("Failed to include webpack assets for plugins: #{missing_plugins}") if Rails.env.development?
+  #   end
+  #   plugin_names & available_plugins
+  # end
 
-  def select_requested_plugins(plugin_names)
-    available_plugins = Foreman::Plugin.with_webpack.map(&:id)
-    missing_plugins = plugin_names - available_plugins
-    if missing_plugins.any?
-      logger.error { "Failed to include webpack assets for plugins: #{missing_plugins}" }
-      raise ::Foreman::Exception.new("Failed to include webpack assets for plugins: #{missing_plugins}") if Rails.env.development?
-    end
-    plugin_names & available_plugins
-  end
-
-  def js_tags_for(requested_plugins)
-    requested_plugins.map do |plugin|
-      javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'))
-    end
-  end
-
+  # def js_tags_for(requested_plugins)
+  #   requested_plugins.map do |plugin|
+  #     javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'))
+  #   end
+  # end
+  # 
   def js_tags_for_global_files(requested_plugins)
     requested_plugins.map do |plugin|
       plugin[:files].map do |file|
@@ -51,10 +53,10 @@ module ReactjsHelper
       end
     end
   end
-
-  def css_tags_for(requested_plugins)
-    requested_plugins.map do |plugin|
-      stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
-    end
-  end
+  # 
+  # def css_tags_for(requested_plugins)
+  #   requested_plugins.map do |plugin|
+  #     stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
+  #   end
+  # end
 end

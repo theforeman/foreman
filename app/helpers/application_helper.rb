@@ -1,5 +1,7 @@
 # Methods added to this helper will be available to all templates in the application
 module ApplicationHelper
+  include Foreman::Builder::Helper
+  
   def link_to_function(name, function, html_options = {})
     onclick_tag = "#{html_options[:onclick]}; " if html_options[:onclick]
     onclick = "#{onclick_tag}#{function}; return false;"
@@ -453,7 +455,10 @@ module ApplicationHelper
 
   def webpack_dev_server
     return unless Rails.configuration.webpack.dev_server.enabled
-    javascript_include_tag "#{@dev_server}/webpack-dev-server.js"
+    # port = Rails.configuration.webpack.dev_server.port
+    # dev_server = "#{request.protocol}#{request.host}:#{port}"
+    
+    javascript_include_tag "/webpack-dev-server.js"
   end
 
   def accessible_resource_records(resource, order = :name)

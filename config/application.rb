@@ -77,6 +77,20 @@ module Foreman
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
       config.paths['config/routes.rb'] << route_file
     end
+    
+    config.webpack = ActiveSupport::OrderedOptions.new
+    config.webpack.dev_server = ActiveSupport::OrderedOptions.new
+    
+    config.webpack.dev_server.host = proc { respond_to?(:request) ? request.host : 'localhost' }
+    config.webpack.dev_server.port = 3808
+    
+    config.webpack.dev_server.https = false
+    config.webpack.dev_server.https_verify_peer = false
+    config.webpack.dev_server.enabled = ::Rails.env.development? || ::Rails.env.test?
+
+    config.webpack.output_dir = "public/webpack"
+    config.webpack.public_path = "webpack"
+    config.webpack.manifest_filename = "manifest.json"
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -246,7 +260,7 @@ module Foreman
 
     if config.public_file_server.enabled
       ::Rails::Engine.subclasses.map(&:instance).each do |engine|
-        if File.exist?("#{engine.root}/public/assets")
+        if File.exist?("#{engine.root}/public")
           config.middleware.use ::ActionDispatch::Static, "#{engine.root}/public"
         end
       end

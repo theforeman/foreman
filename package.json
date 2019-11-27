@@ -5,6 +5,8 @@
   "description": "Foreman isn't really a node module, these are just dependencies needed to build the webpack bundle. 'dependencies' are the asset libraries in use and 'devDependencies' are used for the build process.",
   "private": true,
   "scripts": {
+    "build": "tfm-build --mode=production --config=config/tfm-builder.config.js",
+    "dev": "tfm-dev-server --config=config/tfm-dev-server.config.js",
     "lint": "tfm-lint",
     "foreman-js:link": "./script/npm_link_foreman_js.sh",
     "postlint": "./script/npm_lint_plugins.js",
@@ -15,51 +17,32 @@
     "stories": "tfm-stories",
     "build-storybook": "tfm-build-stories",
     "deploy-storybook": "cross-env NODE_ENV=storybook NODE_OPTIONS=--max_old_space_size=8192 storybook-to-ghpages",
-    "postinstall": "./script/npm-fix-foreman-stories.sh && ./script/npm_install_plugins.js",
-    "analyze": "./script/webpack-analyze",
+    "postinstall": "./script/npm_install_plugins.js",
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^4.0.7"
+    "@theforeman/vendor": "../foreman-js/packages/vendor"
   },
   "optionalDependencies": {
     "chromedriver": "79.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^4.0.7",
-    "@theforeman/eslint-plugin-foreman": "^4.0.7",
-    "@theforeman/stories": "^4.0.7",
-    "@theforeman/test": "^4.0.7",
-    "@theforeman/vendor-dev": "^4.0.7",
-    "argv-parse": "^1.0.1",
+    "@theforeman/builder": "../foreman-js/packages/builder",
+    "@theforeman/eslint-plugin-foreman": "../foreman-js/packages/eslint-plugin-foreman",
+    "@theforeman/stories": "../foreman-js/packages/stories",
+    "@theforeman/test": "../foreman-js/packages/test",
+    "@theforeman/vendor-core": "../foreman-js/packages/vendor-core",
+    "@theforeman/vendor-dev": "../foreman-js/packages/vendor-dev",
     "babel-eslint": "^10.0.0",
-    "babel-loader": "^8.0.0",
-    "compression-webpack-plugin": "~1.1.11",
     "cross-env": "^5.2.0",
-    "css-loader": "^0.23.1",
-    "dotenv": "^5.0.0",
     "eslint": "^6.7.2",
-    "expose-loader": "~0.6.0",
-    "extract-text-webpack-plugin": "^3.0.0",
-    "file-loader": "^0.9.0",
-    "highlight.js": "~9.14.0",
-    "node-sass": "^4.5.0",
     "prettier": "^1.19.1",
-    "raw-loader": "^0.5.1",
     "react-dnd-test-backend": "^9.4.0",
     "react-dnd-test-utils": "^9.4.0",
     "react-remarkable": "^1.1.3",
     "redux-mock-store": "^1.2.2",
-    "sass-loader": "~6.0.6",
-    "style-loader": "^0.13.1",
     "stylelint": "^9.3.0",
-    "stylelint-config-standard": "^18.0.0",
-    "uglifyjs-webpack-plugin": "^1.2.2",
-    "url-loader": "^1.0.1",
-    "webpack": "^3.4.1",
-    "webpack-bundle-analyzer": ">=3.3.2",
-    "webpack-dev-server": "^2.5.1",
-    "webpack-stats-plugin": "^0.1.5"
+    "stylelint-config-standard": "^18.0.0"
   }
 }

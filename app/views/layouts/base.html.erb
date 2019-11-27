@@ -10,8 +10,8 @@
 
     <%= favicon_link_tag "favicon.ico"%>
 
-    <%= stylesheet_link_tag *webpack_asset_paths('foreman-vendor', :extension => 'css') %>
-    <%= stylesheet_link_tag *webpack_asset_paths('bundle', :extension => 'css') %>
+    <%= builded_css_for 'foreman-vendor' %>
+    <%= builded_css_for 'bundle' %>
     <%= stylesheet_link_tag 'application' %>
     <%= yield(:stylesheets) %>
 
@@ -31,8 +31,8 @@
       <% end %>
     </script>
     <%= javascript_include_tag "locale/#{FastGettext.locale}/app" %>
-    <%= javascript_include_tag *webpack_asset_paths('foreman-vendor', :extension => 'js') %>
-    <%= javascript_include_tag *webpack_asset_paths('bundle', :extension => 'js') %>
+    <%= builded_js_for 'foreman-vendor' %>
+    <%= builded_js_for 'bundle' %>
     <%= javascript_include_tag 'application' %>
     <%= webpacked_plugins_with_global_js %>
     <%= webpack_dev_server %>
