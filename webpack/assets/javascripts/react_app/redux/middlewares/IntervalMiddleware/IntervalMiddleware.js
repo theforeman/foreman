@@ -10,19 +10,15 @@ import { whenDocumentIsVisible } from '../common/helpers';
 
 export const IntervalMiddleware = store => next => action => {
   const { type, key, interval } = action;
-  const state = store.getState();
-  /**
-    for the action to run multiple times
-    without getting into an endless loop in this middleware.
-  */
-
-  const modifiedAction = omit(action, ['interval']);
-  const dispatchModifiedAction = () => store.dispatch(modifiedAction);
 
   if (interval) {
-    if (selectDoesIntervalExist(state, key)) {
+    if (selectDoesIntervalExist(store.getState(), key)) {
       throw registeredIntervalException(key);
     }
+
+    // To avoid the action from getting into an endless loop in this middleware.
+    const modifiedAction = omit(action, ['interval']);
+    const dispatchModifiedAction = () => store.dispatch(modifiedAction);
 
     dispatchModifiedAction(); // force the action to run for the first time.
     const delay =
@@ -35,9 +31,12 @@ export const IntervalMiddleware = store => next => action => {
   }
 
   if (type === STOP_INTERVAL) {
+    const state = store.getState();
+
     if (!selectDoesIntervalExist(state, key)) {
       throw unregisteredIntervalException(key);
     }
+
     const intervalID = selectIntervalID(state, key);
     clearInterval(intervalID);
   }
