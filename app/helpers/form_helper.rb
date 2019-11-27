@@ -223,7 +223,7 @@ module FormHelper
       {
         url: options[:full_path] || (options[:path] || send("#{auto_complete_controller_name}_path")) + "/auto_complete_#{attr}",
         controller: options[:path] || auto_complete_controller_name,
-        search_query: f.object&.search || '',
+        search_query: options[:search_query] || f.object&.search || '',
         use_key_shortcuts: options[:use_key_shortcuts] || false,
       }
     )
