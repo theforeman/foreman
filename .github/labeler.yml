@@ -1,0 +1,4 @@
+UI:
+  - webpack/**/*
+Legacy JS:
+  - app/assets/javascripts/**/*
