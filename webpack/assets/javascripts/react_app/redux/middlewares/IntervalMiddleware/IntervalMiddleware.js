@@ -1,9 +1,10 @@
 import { omit } from 'lodash';
-import { STOP_INTERVAL, DEFAULT_INTERVAL } from './IntervalConstants';
+import { STOP_INTERVAL } from './IntervalConstants';
 import { selectDoesIntervalExist, selectIntervalID } from './IntervalSelectors';
 import {
   registeredIntervalException,
   unregisteredIntervalException,
+  getDefaultInterval,
 } from './IntervalHelpers';
 import { startInterval as startIntervalAction } from './IntervalActions';
 import { whenDocumentIsVisible } from '../common/helpers';
@@ -22,9 +23,7 @@ export const IntervalMiddleware = store => next => action => {
 
     dispatchModifiedAction(); // force the action to run for the first time.
     const delay =
-      typeof interval === 'number'
-        ? interval
-        : process.env.DEFAULT_INTERVAL || DEFAULT_INTERVAL;
+      typeof interval === 'number' ? interval : getDefaultInterval();
     const intervalFunc = () => whenDocumentIsVisible(dispatchModifiedAction);
     const intervalID = setInterval(intervalFunc, delay);
     return store.dispatch(startIntervalAction(key, intervalID));
