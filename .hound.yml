@@ -3,6 +3,7 @@ scss:
 
 stylelint:
   enabled: true
+  config_file: .stylelintrc
 
 rubocop:
   config_file: .rubocop.yml

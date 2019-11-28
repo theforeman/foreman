@@ -93,14 +93,24 @@ Linter (code style checking) can be executed with `npm run lint`. You can run it
 
 If you want your component to be available for mounting into erb templates, you have to add them to [the component registry](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js#L60-L71).
 
-Then it will be possible to mount it with `mount_react_component` helper:
+Then it will be possible to mount it with `react_component` helper:
 ```ruby
-mount_react_component(component_name, html_node_selector, json_data)
+react_component(component_name, props)
 ```
 
 **Example:**
 ```erb
-<%= mount_react_component('PowerStatus', '#power', {:id => host.id, :url => power_host_path(host.id)}.to_json) %>
+<%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id)) %>
+```
+Will render following HTML:
+```html
+<react-component
+  name="PowerStatus"
+  data-props="<%= {
+    id: host.id,
+    url: power_host_path(host.id)
+  }.to_json %>"
+></react-component>
 ```
 
 ## Before you start writing a new component

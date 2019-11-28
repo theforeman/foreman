@@ -5,6 +5,17 @@ module ReactjsHelper
     end
   end
 
+  # Mount react component in views
+  # Params:
+  # +name+:: the component name from the componentRegistry
+  # +props+:: props to pass to the component
+  #          valid value types: Hash, json-string, nil
+  def react_component(name, props = {})
+    props = props.to_json if props.is_a?(Hash)
+
+    content_tag('react-component', '', :name => name, :data => { props: props })
+  end
+
   def webpacked_plugins_js_for(*plugin_names)
     js_tags_for(select_requested_plugins(plugin_names)).join.html_safe
   end

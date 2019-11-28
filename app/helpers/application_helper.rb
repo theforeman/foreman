@@ -52,10 +52,9 @@ module ApplicationHelper
   end
 
   def mount_date_component(component, time, seconds)
-    date_id = generate_date_id
+    data = { date: time.try(:iso8601), defaultValue: _('N/A'), seconds: seconds }
 
-    content_tag(:span, '', :id => date_id).html_safe +
-    mount_react_component(component, "##{date_id}", { date: time.try(:iso8601), defaultValue: _('N/A'), seconds: seconds }.to_json, { :flatten_data => true })
+    react_component(component, data: data)
   end
 
   def contract(model)
