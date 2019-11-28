@@ -34,8 +34,9 @@
 #   values: true, false
 #
 # :layout:
-#   Formatter, one of 'pattern', 'multiline_pattern' or 'json'. The multiline pattern prepends
-#   '|' characters on all additional lines for better readability.
+#   Formatter, one of 'pattern', 'multiline_pattern', 'multiline_request_pattern' or 'json'. The multiline pattern prepends
+#   '|' characters on all additional lines for better readability. The multiline request pattern also adds request id to
+#   all additional line for better log searching.
 #
 # :json_items:
 #   Items to include in JSON. Only applies when 'json' layout is set. Possible items are
@@ -82,7 +83,7 @@
   :log_trace: false
   :level: info
   :type: file
-  :layout: multiline_pattern
+  :layout: multiline_request_pattern
   :json_items:
     - logger
     - timestamp

@@ -1,21 +1,21 @@
 <%= alert :header => _("Oops, we're sorry but something went wrong"), :class => 'alert-danger',
   :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
-  :text => h(exception.message),
+  :text => h(exception_message),
   :close => false %>
 
 <div class="pull-right">
   <%= documentation_button("7.3GettingHelp")%>
 </div>
+
 <p id="message">
   <%= _("If you feel this is an error with Foreman itself, please open a new issue with") %>
-  <%= link_to _("Foreman ticketing system"), "http://theforeman.org/projects/foreman/issues", :rel => "external" %>,
-  <%= _("You would probably need to attach the") %>
-  <%= link_to_function(_("Full trace"), "$('#backtrace').toggle()")%>
-  <%= _(", relevant log entries, and it is highly recommended to also attach the foreman-debug output.") %>
+  <%= link_to _("Foreman ticketing system"), "https://projects.theforeman.org/projects/foreman/issues", :rel => "external" %>,
+  <% if Foreman::Logging.config[:type] == "file" %>
+    <%= _("Please include in your report the full error log that can be acquired by running: ") %>
+    <strong> foreman-rake errors:fetch_log request_id=<%= request_id %></strong>
+  <% else %>
+    <%= _('Search your logs for request-id') %> <%= request_id %>.
+    <%= _('When using external logging, search for request UUID') %> <%= full_request_id %>
+  <% end %>
+    <%= _(" and it is highly recommended to also attach the foreman-debug output.") %>
 </p>
-
-<div id="backtrace" class="alert alert-block alert-danger base in fade hide">
-  <em><%= exception.class %></em><br>
-  <strong><%= exception.message %></strong><br>
-  <%= exception.backtrace.join("<br>").html_safe %>
-</div>

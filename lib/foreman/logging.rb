@@ -86,7 +86,7 @@ module Foreman
       options.assert_valid_keys :level, :logger
       logger_name = options[:logger] || 'app'
       level = options[:level] || :warn
-      backtrace_level = options[:backtrace_level] || :debug
+      backtrace_level = options[:backtrace_level] || :info
       unless ::Logging::LEVELS.key?(level.to_s)
         raise "Unexpected log level #{level}, expected one of #{::Logging::LEVELS.keys}"
       end
@@ -219,6 +219,9 @@ module Foreman
       when 'multiline_pattern'
         pattern += "  Log trace: %F:%L method: %M\n" if @config[:log_trace]
         MultilinePatternLayout.new(:pattern => pattern, :color_scheme => colorize ? 'bright' : nil)
+      when 'multiline_request_pattern'
+        pattern += "  Log trace: %F:%L method: %M\n" if @config[:log_trace]
+        MultilineRequestPatternLayout.new(:pattern => pattern, :color_scheme => colorize ? 'bright' : nil)
       end
     end
 
@@ -251,6 +254,12 @@ module Foreman
       # all new lines will be indented
       def indent_lines(string)
         string.gsub("\n", "\n | ")
+      end
+    end
+
+    class MultilineRequestPatternLayout < MultilinePatternLayout
+      def indent_lines(string)
+        string.gsub("\n", "\n #{::Logging.mdc['request'].split('-').first} | ")
       end
     end
   end
