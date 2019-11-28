@@ -348,8 +348,10 @@ class ApplicationController < ActionController::Base
     if exception.try(:cause).is_a?(ActiveRecord::SubclassNotFound)
       sti_clean_up(exception.cause)
     else
-      Foreman::Logging.exception("Action failed", exception)
-      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
+      ex_message = exception.message
+      Foreman::Logging.exception(ex_message, exception)
+      full_request_id = request.request_id
+      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception_message => ex_message, request_id: full_request_id.split('-').first, full_request_id: full_request_id}
     end
   end
 
