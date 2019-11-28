@@ -31,32 +31,6 @@ Array [
 
 exports[`Fact Chart Selector should return factChart object 1`] = `
 Object {
-  "chartData": Array [
-    Array [
-      "Fedora 21 extra extra extra extra extra extra extra extra extra extra long label",
-      3,
-    ],
-    Array [
-      "Ubuntu 14.04",
-      4,
-    ],
-    Array [
-      "Centos 7 extra extra long label",
-      2,
-    ],
-    Array [
-      "Debian 8",
-      1,
-    ],
-    Array [
-      "Fedora 27",
-      2,
-    ],
-    Array [
-      "Fedora 26",
-      1,
-    ],
-  ],
   "modalToDisplay": Object {
     "1": true,
   },

@@ -40,7 +40,6 @@ class FactChart extends React.Component {
       data: { id, title, search },
       modalToDisplay,
     } = this.props;
-
     const handleChartClick =
       search && search.match(/=$/) ? null : navigateToSearch.bind(null, search);
 
@@ -53,7 +52,7 @@ class FactChart extends React.Component {
     const chart = <DonutChart {...chartProps} config="large" />;
 
     const requestErrorMsg =
-      factChart.loaderStatus === STATUS.ERROR
+      factChart.status === STATUS.ERROR
         ? __('Request Failed')
         : __('No data available');
 
@@ -95,9 +94,7 @@ class FactChart extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <div id="factChartModalBody">
-                <Loader status={factChart.loaderStatus}>
-                  {[chart, error]}
-                </Loader>
+                <Loader status={factChart.status}>{[chart, error]}</Loader>
               </div>
             </Modal.Body>
           </Modal>
@@ -116,7 +113,7 @@ FactChart.propTypes = {
   }).isRequired,
   factChart: PropTypes.shape({
     chartData: PropTypes.arrayOf(PropTypes.array),
-    loaderStatus: PropTypes.string,
+    status: PropTypes.string,
     modalToDisplay: PropTypes.object,
     title: PropTypes.string,
   }),

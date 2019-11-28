@@ -5,34 +5,34 @@ import {
   FACT_CHART_MODAL_OPEN,
 } from './FactChartConstants';
 
-import { actionTypeGenerator } from '../../redux/API';
+import { createAPIReducer } from '../../redux/API';
 
 const initialState = Immutable({
   modalToDisplay: {},
+  title: '',
+});
+
+const APIstate = Immutable({
   chartData: [],
-  loaderStatus: '',
+});
+
+const onSuccess = (state, payload) =>
+  state.set('chartData', payload.values).set('status', 'RESOLVED');
+
+export const apiReducer = createAPIReducer({
+  key: FACT_CHART,
+  initialState: APIstate,
+  onSuccess,
 });
 
 export default (state = initialState, action) => {
-  const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(FACT_CHART);
   switch (action.type) {
-    case REQUEST:
-      return state.set('loaderStatus', 'PENDING');
-    case SUCCESS:
-      return state
-        .set('chartData', action.payload.values)
-        .set('loaderStatus', 'RESOLVED');
-    case FAILURE:
-      return state.set('loaderStatus', 'ERROR');
     case FACT_CHART_MODAL_OPEN:
       return state
         .set('title', action.payload.title)
         .set('modalToDisplay', { [action.payload.id]: true });
     case FACT_CHART_MODAL_CLOSE:
-      return state
-        .set('modalToDisplay', {})
-        .set('loaderStatus', '')
-        .set('chartData', []);
+      return state.set('modalToDisplay', {});
     default:
       return state;
   }

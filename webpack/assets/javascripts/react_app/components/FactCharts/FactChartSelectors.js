@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect';
 
-export const selectFactChartData = state => selectFactChart(state).chartData;
+export const selectFactChartAPI = state => state.factChartAPI;
+
+export const selectFactChartData = state => selectFactChartAPI(state).chartData;
 
 const hostCounter = (accumulator, currentValue) => accumulator + currentValue;
 

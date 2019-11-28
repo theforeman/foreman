@@ -2,65 +2,14 @@
 
 exports[`FactChart reducer initial state 1`] = `
 Object {
-  "chartData": Array [],
-  "loaderStatus": "",
   "modalToDisplay": Object {},
-}
-`;
-
-exports[`FactChart reducer should handle FACT_CHART_ERROR action 1`] = `
-Object {
-  "chartData": Array [],
-  "loaderStatus": "ERROR",
-  "modalToDisplay": Object {},
-}
-`;
-
-exports[`FactChart reducer should handle FACT_CHART_REQUEST action 1`] = `
-Object {
-  "chartData": Array [],
-  "loaderStatus": "PENDING",
-  "modalToDisplay": Object {},
-}
-`;
-
-exports[`FactChart reducer should handle FACT_CHART_SUCCESS action 1`] = `
-Object {
-  "chartData": Array [
-    Array [
-      "Fedora 21 extra extra extra extra extra extra extra extra extra extra long label",
-      3,
-    ],
-    Array [
-      "Ubuntu 14.04",
-      4,
-    ],
-    Array [
-      "Centos 7 extra extra long label",
-      2,
-    ],
-    Array [
-      "Debian 8",
-      1,
-    ],
-    Array [
-      "Fedora 27",
-      2,
-    ],
-    Array [
-      "Fedora 26",
-      1,
-    ],
-  ],
-  "loaderStatus": "RESOLVED",
-  "modalToDisplay": Object {},
+  "title": "",
 }
 `;
 
 exports[`FactChart reducer should not display modal 1`] = `
 Object {
-  "chartData": Array [],
-  "loaderStatus": "",
   "modalToDisplay": Object {},
+  "title": "",
 }
 `;

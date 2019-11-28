@@ -8,7 +8,8 @@ import { chartDataValues } from '../FactChart.fixtures';
 
 describe('Fact Chart Selector', () => {
   const factChartState = {
-    factChart: { chartData: chartDataValues, modalToDisplay: { 1: true } },
+    factChart: { modalToDisplay: { 1: true } },
+    factChartAPI: { chartData: chartDataValues },
   };
 
   it('should count hosts', () => {

@@ -7,7 +7,7 @@ export const chartDataValues = mockStoryData.data.columns;
 export const initialState = Immutable({
   modalToDisplay: {},
   chartData: [],
-  loaderStatus: '',
+  status: '',
 });
 
 export const modalOpenState = initialState.setIn(['modalToDisplay'], {
@@ -17,15 +17,15 @@ export const modalOpenState = initialState.setIn(['modalToDisplay'], {
 export const modalSuccessState = Immutable.merge(initialState, {
   modalToDisplay: { 1: true },
   chartData: chartDataValues,
-  loaderStatus: STATUS.RESOLVED,
+  status: STATUS.RESOLVED,
 });
 
 export const modalLoadingState = Immutable.merge(initialState, {
   modalToDisplay: { 1: true },
-  loaderStatus: STATUS.PENDING,
+  status: STATUS.PENDING,
 });
 
 export const modalErrorState = Immutable.merge(initialState, {
   modalToDisplay: { 1: true },
-  loaderStatus: STATUS.ERROR,
+  status: STATUS.ERROR,
 });

@@ -12,8 +12,6 @@ exports[`factCharts should render closed 1`] = `
   factChart={
     Object {
       "chartData": Array [],
-      "loaderStatus": "",
-      "modalToDisplay": Object {},
     }
   }
   getChartData={[Function]}
@@ -64,8 +62,6 @@ exports[`factCharts should render open 1`] = `
   factChart={
     Object {
       "chartData": Array [],
-      "loaderStatus": "",
-      "modalToDisplay": Object {},
     }
   }
   getChartData={[Function]}
