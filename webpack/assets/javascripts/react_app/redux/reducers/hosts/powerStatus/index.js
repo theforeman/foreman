@@ -1,28 +1,16 @@
-import Immutable from 'seamless-immutable';
-import {
-  HOST_POWER_STATUS_REQUEST,
-  HOST_POWER_STATUS_SUCCESS,
-  HOST_POWER_STATUS_FAILURE,
-} from '../../../consts';
+import { HOST_POWER_STATUS } from '../../../consts';
+import { createAPIReducer } from '../../../API';
 
-const initialState = Immutable({});
-
-export default (state = initialState, action) => {
-  const { payload } = action;
-
-  switch (action.type) {
-    case HOST_POWER_STATUS_REQUEST:
-    case HOST_POWER_STATUS_SUCCESS:
-      return state.set(payload.id, payload);
-    case HOST_POWER_STATUS_FAILURE: {
-      const {
-        message: errorMessage,
-        response: { data },
-      } = payload.error;
-
-      return state.set(data.id, { error: errorMessage, ...data });
-    }
-    default:
-      return state;
-  }
+const onFailure = (state, payload) => {
+  const {
+    message: errorMessage,
+    response: { data },
+  } = payload.error;
+  return state.set(data.id, { error: errorMessage, ...data });
 };
+
+export default createAPIReducer({
+  key: HOST_POWER_STATUS,
+  managedByID: true,
+  onFailure,
+});

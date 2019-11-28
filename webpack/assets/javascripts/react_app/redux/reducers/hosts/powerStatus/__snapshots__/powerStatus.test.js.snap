@@ -15,8 +15,8 @@ Object {
 exports[`powerStatus reducer should handle HOST_POWER_STATUS_REQUEST 1`] = `
 Object {
   "2": Object {
-    "id": "2",
-    "url": "test",
+    "error": null,
+    "status": "PENDING",
   },
 }
 `;
@@ -25,9 +25,17 @@ exports[`powerStatus reducer should handle HOST_POWER_STATUS_SUCCESS 1`] = `
 Object {
   "2": Object {
     "data": "data",
+    "error": null,
     "id": "2",
+    "status": "RESOLVED",
+    "url": "test",
   },
 }
 `;
 
-exports[`powerStatus reducer should return the initial state 1`] = `Object {}`;
+exports[`powerStatus reducer should return the initial state 1`] = `
+Object {
+  "error": null,
+  "status": "PENDING",
+}
+`;
