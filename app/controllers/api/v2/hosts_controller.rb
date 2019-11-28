@@ -279,7 +279,7 @@ Return the host's compute attributes that can be used to create a clone of this 
           statusText: _("Failed to fetch power status: %s") % e,
         }
 
-        render json: resp.merge(PowerManager::PowerStatus::HOST_POWER[:na]), status: :internal_server_error
+        render json: resp.merge(PowerManager::PowerStatus::HOST_POWER[:na])
       end
 
       api :PUT, "/hosts/:id/boot", N_("Boot host from specified device")
