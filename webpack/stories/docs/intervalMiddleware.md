@@ -1,6 +1,10 @@
 # Interval Middleware
+This middleware will run an action for every given interval miliseconds,
+and will manage all running intervals in the Redux store so we could clear the interval later.
 
-To start an interval, you should add 'interval' and a unique 'key' into you action, for example:
+## How to start
+
+To start an interval, you should add `interval` and a unique `key` into you action, for example:
 
 ```js
 // MyComponent/MyComponentActions.js
@@ -24,11 +28,13 @@ it could be also a simple action such as:
   })
 ```
 
+## How to stop
+
 There are several ways to stop the interval:
 
-We will need to use the "stopInterval" Action from IntervalMiddlware.
-"stopInterval" is defined in 'webpack/assets/javascripts/react_app/redux/middlewares/IntervalMiddleware'
-or 'foremanReact/redux/middlewares/IntervalMiddleware' for plugins
+We will need to use the `stopInterval` Action from IntervalMiddlware.
+`stopInterval` is defined in `webpack/assets/javascripts/react_app/redux/middlewares/IntervalMiddleware`
+or `foremanReact/redux/middlewares/IntervalMiddleware` for plugins
 ```js
 // MyComponent/MyComponentActions.js
 ....
@@ -48,7 +54,7 @@ componentWillUnmount() {
 }
 ```
 
-Another option is to add the action to redux "connect" in the index file through "mapDispatchToProps":
+Another option is to add the action to redux `connect` in the index file through `mapDispatchToProps`:
 ```js
 // MyComponent/index.js
 import { stopInterval } from "../../redux/middlewares/IntervalMiddleware";
@@ -67,7 +73,7 @@ cleanUpPolling = () => {
 }
 ```
 
-You could also call it with "useDispatch" hook:
+You could also call it with `useDispatch` hook:
 ```js
 // MyComponent/MyComponent.js
 import { useDispatch } from 'react-redux'
@@ -81,7 +87,7 @@ cleanUpPolling = () => {
 }
 ```
 
-Components that use Hooks such as "useEffect", should call for cleanup same as in "componentWillUnmount":
+Components that use Hooks such as `useEffect`, should call for cleanup same as in `componentWillUnmount`:
 ```js
 // MyComponent/MyComponent.js
 ...
@@ -91,4 +97,4 @@ useEffect(() => {
 }, []);
 ```
 
-You can change the "DEFAULT_INTERVAL" from the console by setting DEFAULT_INTERVAL=5000.
+You can change the `DEFAULT_INTERVAL` from the console by setting DEFAULT_INTERVAL=5000.
