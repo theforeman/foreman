@@ -1,4 +1,7 @@
+/* eslint-disable jquery/no-toggle */
+/* eslint-disable jquery/no-each */
 /* eslint-disable func-names */
+
 import $ from 'jquery';
 
 export function initAdvancedFields() {

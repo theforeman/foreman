@@ -1,3 +1,6 @@
+/* eslint-disable jquery/no-data */
+/* eslint-disable jquery/no-attr */
+
 import RFB from '@novnc/novnc/core/rfb';
 import $ from 'jquery';
 import { sprintf, translate as __ } from './react_app/common/I18n';

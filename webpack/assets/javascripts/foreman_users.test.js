@@ -1,3 +1,9 @@
+/* eslint-disable jquery/no-filter */
+/* eslint-disable jquery/no-sizzle */
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-text */
+/* eslint-disable jquery/no-css */
+
 import $ from 'jquery';
 import * as users from './foreman_users';
 

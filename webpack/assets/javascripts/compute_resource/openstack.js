@@ -1,3 +1,9 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-attr */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-html */
+/* eslint-disable jquery/no-class */
+
 import $ from 'jquery';
 import { showSpinner, hideSpinner } from '../foreman_tools';
 import { sprintf, translate as __ } from '../react_app/common/I18n';
@@ -21,9 +27,7 @@ export function schedulerHintFilterSelected(item) {
         hideSpinner();
       },
       error(jqXHR, status, error) {
-        // eslint-disable-next-line function-paren-newline
         $('#scheduler_hint_wrapper').html(
-          // eslint-disable-next-line no-undef
           sprintf(
             __('Error loading scheduler hint filters information: %s'),
             error

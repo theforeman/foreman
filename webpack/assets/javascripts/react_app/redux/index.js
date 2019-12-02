@@ -8,7 +8,7 @@ import { IntervalMiddleware, APIMiddleware } from './middlewares';
 
 let middleware = [thunk, IntervalMiddleware, APIMiddleware];
 
-const useLogger = () => {
+const logReduxToConsole = () => {
   const isProduction = process.env.NODE_ENV === 'production';
   const isLogger = process.env.REDUX_LOGGER;
 
@@ -18,7 +18,7 @@ const useLogger = () => {
   return isProduction && isLogger;
 };
 
-if (useLogger()) middleware = [...middleware, createLogger()];
+if (logReduxToConsole()) middleware = [...middleware, createLogger()];
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

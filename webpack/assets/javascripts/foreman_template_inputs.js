@@ -1,4 +1,12 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-trigger */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-toggle */
+/* eslint-disable jquery/no-find */
+/* eslint-disable jquery/no-closest */
+/* eslint-disable jquery/no-is */
 /* eslint-disable func-names */
+
 import $ from 'jquery';
 
 import store from './react_app/redux';

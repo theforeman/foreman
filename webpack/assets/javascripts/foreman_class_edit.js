@@ -1,3 +1,18 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-fade */
+/* eslint-disable jquery/no-sizzle */
+/* eslint-disable jquery/no-attr */
+/* eslint-disable jquery/no-trigger */
+/* eslint-disable jquery/no-show */
+/* eslint-disable jquery/no-class */
+/* eslint-disable jquery/no-find */
+/* eslint-disable jquery/no-parent */
+/* eslint-disable jquery/no-clone */
+/* eslint-disable jquery/no-hide */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-in-array */
+/* eslint-disable jquery/no-closest */
+
 import $ from 'jquery';
 import { sprintf, translate as __ } from './react_app/common/I18n';
 

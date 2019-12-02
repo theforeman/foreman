@@ -1,3 +1,18 @@
+/* eslint-disable jquery/no-data */
+/* eslint-disable jquery/no-find */
+/* eslint-disable jquery/no-closest */
+/* eslint-disable jquery/no-hide */
+/* eslint-disable jquery/no-serialize */
+/* eslint-disable jquery/no-html */
+/* eslint-disable jquery/no-show */
+/* eslint-disable jquery/no-prop */
+/* eslint-disable jquery/no-class */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-attr */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-filter */
+
 import $ from 'jquery';
 import { activateDatatables } from './foreman_tools';
 import { notify } from './foreman_toast_notifications';

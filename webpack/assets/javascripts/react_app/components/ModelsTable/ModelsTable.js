@@ -18,7 +18,7 @@ const ModelsTable = ({
 }) => {
   useEffect(() => {
     getTableItems(getURIQuery(window.location.href));
-  }, []);
+  }, [getTableItems]);
 
   if (results.length === 0) {
     return <Spinner size="lg" loading />;

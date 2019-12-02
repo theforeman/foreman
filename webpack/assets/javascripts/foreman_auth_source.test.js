@@ -1,3 +1,5 @@
+/* eslint-disable jquery/no-val */
+
 import $ from 'jquery';
 import { changeLdapPort } from './foreman_auth_source';
 

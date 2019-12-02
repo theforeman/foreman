@@ -1,3 +1,9 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-find */
+/* eslint-disable jquery/no-text */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-each */
+
 import $ from 'jquery';
 import URI from 'urijs';
 import { translate as __ } from './react_app/common/I18n';

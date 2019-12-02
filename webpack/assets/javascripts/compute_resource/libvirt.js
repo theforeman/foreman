@@ -1,3 +1,10 @@
+/* eslint-disable jquery/no-closest */
+/* eslint-disable jquery/no-attr */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-find */
+/* eslint-disable jquery/no-parent */
+
 import $ from 'jquery';
 import { showSpinner } from '../foreman_tools';
 

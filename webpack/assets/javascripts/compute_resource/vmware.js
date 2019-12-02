@@ -1,3 +1,10 @@
+/* eslint-disable jquery/no-prop */
+/* eslint-disable jquery/no-data */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-text */
+
 import $ from 'jquery';
 import store from '../react_app/redux';
 import { translate as __ } from '../react_app/common/I18n';
