@@ -1,3 +1,5 @@
+/* eslint-disable jquery/no-val */
+
 import $ from 'jquery';
 
 export function autofillSshKeyName() {

@@ -1,3 +1,6 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-attr */
+
 import $ from 'jquery';
 
 export function trendTypeSelected({ value }) {

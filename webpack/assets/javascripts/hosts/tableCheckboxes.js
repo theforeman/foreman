@@ -1,3 +1,18 @@
+/* eslint-disable jquery/no-param */
+/* eslint-disable jquery/no-load */
+/* eslint-disable jquery/no-hide */
+/* eslint-disable jquery/no-show */
+/* eslint-disable jquery/no-find */
+/* eslint-disable jquery/no-text */
+/* eslint-disable jquery/no-data */
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-attr */
+/* eslint-disable jquery/no-is */
+/* eslint-disable jquery/no-html */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-submit */
+/* eslint-disable jquery/no-in-array */
+
 import $ from 'jquery';
 
 import {

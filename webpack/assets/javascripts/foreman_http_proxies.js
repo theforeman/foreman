@@ -1,3 +1,9 @@
+/* eslint-disable jquery/no-serialize */
+/* eslint-disable jquery/no-show */
+/* eslint-disable jquery/no-class */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-hide */
+
 import $ from 'jquery';
 import { notify, clear } from './foreman_toast_notifications';
 

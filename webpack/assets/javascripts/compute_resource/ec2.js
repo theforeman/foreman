@@ -1,3 +1,6 @@
+/* eslint-disable jquery/no-text */
+/* eslint-disable jquery/no-val */
+
 import $ from 'jquery';
 
 export function vpcSelected({ value }) {

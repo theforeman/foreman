@@ -1,3 +1,8 @@
+/* eslint-disable jquery/no-data */
+/* eslint-disable jquery/no-attr */
+/* eslint-disable jquery/no-class */
+/* eslint-disable jquery/no-text */
+
 import $ from 'jquery';
 import {
   SpiceMainConn,

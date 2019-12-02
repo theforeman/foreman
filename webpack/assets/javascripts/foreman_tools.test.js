@@ -1,3 +1,10 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-submit */
+/* eslint-disable jquery/no-deferred */
+/* eslint-disable jquery/no-trigger */
+/* eslint-disable jquery/no-text */
+/* eslint-disable jquery/no-data */
+
 import $ from 'jquery';
 import 'select2';
 import * as tools from './foreman_tools';

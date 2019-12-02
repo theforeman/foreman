@@ -1,3 +1,5 @@
+/* eslint-disable jquery/no-show */
+
 import $ from 'jquery';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';

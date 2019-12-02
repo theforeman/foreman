@@ -1,3 +1,5 @@
+/* eslint-disable jquery/no-toggle */
+
 import $ from 'jquery';
 
 export function nfsVisibility(osFamily, nfsRequired) {

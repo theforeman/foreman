@@ -1,3 +1,5 @@
+/* eslint-disable jquery/no-val */
+
 import $ from 'jquery';
 import { autofillSshKeyName } from './foreman_ssh_keys';
 

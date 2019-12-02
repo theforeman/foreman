@@ -1,3 +1,9 @@
+/* eslint-disable jquery/no-class */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-data */
+/* eslint-disable jquery/no-parents */
+
 import $ from 'jquery';
 import { doesDocumentHasFocus } from '../react_app/common/document';
 import { notify } from '../foreman_toast_notifications';

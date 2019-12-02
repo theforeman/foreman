@@ -1,3 +1,5 @@
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-ready */
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
 

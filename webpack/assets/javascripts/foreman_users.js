@@ -1,3 +1,10 @@
+/* eslint-disable jquery/no-toggle */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-hide */
+/* eslint-disable jquery/no-show */
+/* eslint-disable jquery/no-html */
+/* eslint-disable jquery/no-closest */
+
 import $ from 'jquery';
 import { escape } from 'lodash';
 import { notify } from './foreman_toast_notifications';

@@ -1,3 +1,15 @@
+/* eslint-disable jquery/no-val */
+/* eslint-disable jquery/no-toggle */
+/* eslint-disable jquery/no-closest */
+/* eslint-disable jquery/no-ready */
+/* eslint-disable jquery/no-each */
+/* eslint-disable jquery/no-is */
+/* eslint-disable jquery/no-show */
+/* eslint-disable jquery/no-class */
+/* eslint-disable jquery/no-serialize */
+/* eslint-disable jquery/no-ajax */
+/* eslint-disable jquery/no-hide */
+
 import $ from 'jquery';
 import { notify } from './foreman_toast_notifications';
 
