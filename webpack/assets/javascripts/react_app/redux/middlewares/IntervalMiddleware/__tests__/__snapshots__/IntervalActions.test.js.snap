@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Interval actions should start interval 1`] = `
+Object {
+  "intervalID": 1212,
+  "key": "SOME_KEY",
+  "type": "START_INTERVAL",
+}
+`;
+
+exports[`Interval actions should stop interval 1`] = `
+Object {
+  "key": "SOME_KEY",
+  "type": "STOP_INTERVAL",
+}
+`;
