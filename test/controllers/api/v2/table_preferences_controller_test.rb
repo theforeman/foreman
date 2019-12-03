@@ -73,4 +73,12 @@ class Api::V2::TablePreferencesControllerTest < ActionController::TestCase
     assert_equal(1, columns.size)
     assert_equal(resource2, columns.first.name)
   end
+
+  def test_should_get_index_non_admin_user
+    setup_user 'view', 'table_preferences'
+    get :index, params: {user_id: User.current.id}
+    assert_response :success
+    columns = ActiveSupport::JSON.decode(@response.body)["results"]
+    assert_equal(columns.length, 0)
+  end
 end
