@@ -12,7 +12,7 @@ exports[`Interval Middleware should handle STOP_INTERVAL action 1`] = `
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -41,11 +41,11 @@ exports[`Interval Middleware should handle an action with "interval" key 1`] = `
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
@@ -64,7 +64,7 @@ exports[`Interval Middleware should pass action to next 1`] = `
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],
