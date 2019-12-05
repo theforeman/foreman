@@ -20,7 +20,7 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^3.3.2",
+    "@theforeman/vendor": "^3.5.2",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
@@ -35,9 +35,9 @@
     "@storybook/addon-storysource": "^3.4.12",
     "@storybook/react": "~3.4.12",
     "@storybook/storybook-deployer": "^2.0.0",
-    "@theforeman/builder": "^3.3.2",
-    "@theforeman/env": "^3.3.2",
-    "@theforeman/vendor-dev": "^3.3.2",
+    "@theforeman/builder": "^3.5.2",
+    "@theforeman/env": "^3.5.2",
+    "@theforeman/vendor-dev": "^3.5.2",
     "argv-parse": "^1.0.1",
     "axios-mock-adapter": "^1.10.0",
     "babel-eslint": "^10.0.0",
