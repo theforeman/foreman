@@ -29,12 +29,6 @@ import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
 import './bundle_novnc';
 
-// Set the public path for dynamic imports
-if (process.env.NODE_ENV !== 'production') {
-  /* eslint-disable-next-line */
-  __webpack_public_path__ = `${window.location.protocol}//${window.location.hostname}:3808/webpack/`;
-}
-
 window.tfm = Object.assign(window.tfm || {}, {
   authSource,
   tools,

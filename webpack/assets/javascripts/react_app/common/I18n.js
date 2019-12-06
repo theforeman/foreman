@@ -1,5 +1,10 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
+import {
+  loadVendorIntl,
+  loadVendorIntlLocale,
+  loadReactIntlLocale,
+} from 'vendor-intl';
 
 class IntlLoader {
   constructor(locale, timezone) {
@@ -12,20 +17,18 @@ class IntlLoader {
 
   async init() {
     await this.fetchIntl();
-    addLocaleData(
-      await import(
-        /* webpackChunkName: 'react-intl/locale/[request]' */ `react-intl/locale-data/${this.locale}`
-      )
-    );
+    const { default: localeData } = await loadReactIntlLocale(this.locale);
+
+    addLocaleData(localeData);
     return true;
   }
 
   async fetchIntl() {
     if (this.fallbackIntl) {
-      global.Intl = await import(/* webpackChunkName: "intl" */ 'intl');
-      await import(
-        /* webpackChunkName: 'intl/locale/[request]' */ `intl/locale-data/jsonp/${this.locale}`
-      );
+      const { default: Intl } = await loadVendorIntl();
+
+      global.Intl = Intl;
+      await loadVendorIntlLocale(this.locale);
     }
   }
 }
