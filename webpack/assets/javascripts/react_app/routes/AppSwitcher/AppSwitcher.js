@@ -1,11 +1,25 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Switch, Route, matchPath } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import URI from 'urijs';
-import { routes } from './routes';
+import { routes } from '../routes';
 
 let currentPath = null;
 
-const AppSwitcher = () => {
+const AppSwitcher = ({ location }) => {
+  useEffect(() => {
+    const nextPath = getURIPath();
+    if (currentPath !== nextPath) {
+      updateCurrentPath();
+      if (!isRegisteredRoute(nextPath)) {
+        handleTurbolinksVisit(location, nextPath);
+      }
+    }
+  }, [location]);
+
+  const isRegisteredRoute = nextPath =>
+    routes.includes(({ path }) => matchPath(nextPath, path));
+
   const updateCurrentPath = () => {
     currentPath = getURIPath();
   };
@@ -25,8 +39,10 @@ const AppSwitcher = () => {
     if (railsContainer) railsContainer.remove();
   };
 
-  const handleTurbolinksVisit = (location, nextPath) => {
-    const { state: { useTurbolinks } = {} } = location;
+  const handleTurbolinksVisit = (
+    { state: { useTurbolinks } = {} },
+    nextPath
+  ) => {
     /**
       Couldn't use routeProps history because it's different than 
       the window.history and sometimes doesn't contain the turbolinks object.
@@ -43,15 +59,6 @@ const AppSwitcher = () => {
     return <Component {...props} />;
   };
 
-  const handleFallbackRoute = ({ location }) => {
-    const nextPath = getURIPath();
-    if (currentPath !== nextPath) {
-      updateCurrentPath();
-      handleTurbolinksVisit(location, nextPath);
-    }
-    return null;
-  };
-
   return (
     <Switch>
       {routes.map(({ render: Component, path, ...routeProps }) => (
@@ -62,9 +69,21 @@ const AppSwitcher = () => {
           render={props => handleRoute(Component, props)}
         />
       ))}
-      <Route render={handleFallbackRoute} />
     </Switch>
   );
+};
+
+AppSwitcher.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+    search: PropTypes.string,
+    hash: PropTypes.string,
+    query: PropTypes.object,
+  }),
+};
+
+AppSwitcher.defaultProps = {
+  location: {},
 };
 
 export default AppSwitcher;

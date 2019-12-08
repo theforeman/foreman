@@ -4,7 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import history from '../history';
 
 import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
-import AppSwitcher from '../routes';
+import AppSwitcher from '../routes/AppSwitcher';
 
 const ReactApp = ({ data: { layout } }) => (
   <ConnectedRouter history={history}>
