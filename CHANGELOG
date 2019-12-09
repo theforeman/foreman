@@ -1,3 +1,17 @@
+2019-12-09	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.24.0
+	* templates - sync from community-templates
+	* i18n - extracting new, pulling from tx
+
+2019-12-04	Evgeni Golov <evgeni@golov.de>
+	* Fixes #28406 - pin mocha to < 1.10
+
+2019-12-04	Dominik Matoulek <domitea@users.noreply.github.com>
+	* Fixes #28359 - Added Provisioning Template to auditable_types (#7221)
+
+2019-11-26	Sergei Petrosian <spetrosi@redhat.com>
+	* Fixes #28334 - change documentation button for domains
+
 2019-11-26	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.24.0-RC3
 	* i18n - extracting new, pulling from tx
