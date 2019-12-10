@@ -38,7 +38,7 @@ exports[`AutoComplete rendering renders LoginPage 1`] = `
         },
         "validate": true,
       },
-      "title": "Log Into Your Account",
+      "title": "Log in to your account",
     }
   }
   container={
