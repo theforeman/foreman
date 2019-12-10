@@ -115,7 +115,6 @@ Array [
         "id": "menu_item_dashboard",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Dashboard",
       },
       Object {
@@ -124,7 +123,6 @@ Array [
         "id": "menu_item_facts",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Facts",
       },
     ],
@@ -140,7 +138,6 @@ Array [
         "id": "menu_item_all_hosts",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "All Hosts",
       },
       Object {
@@ -149,7 +146,6 @@ Array [
         "id": "menu_item_architectures",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Architectures",
       },
     ],
@@ -165,7 +161,6 @@ Array [
         "id": "menu_item_environments",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Environments",
       },
       Object {
@@ -174,7 +169,6 @@ Array [
         "id": "menu_item_architectures",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Architectures",
       },
     ],
@@ -190,7 +184,6 @@ Array [
         "id": "menu_item_domains",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Domains",
       },
       Object {
@@ -199,7 +192,6 @@ Array [
         "id": "menu_item_realms",
         "isDivider": false,
         "onClick": [Function],
-        "preventHref": true,
         "title": "Realms",
       },
     ],

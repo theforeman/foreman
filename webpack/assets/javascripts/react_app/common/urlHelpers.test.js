@@ -1,3 +1,5 @@
+import { mockWindowLocation } from './testHelpers';
+import { visit } from '../../foreman_navigation';
 import {
   urlBuilder,
   urlWithSearch,
@@ -9,17 +11,6 @@ import {
   getURIsearch,
   exportURL,
 } from './urlHelpers';
-
-const mockWindow = ({ href, visit }) => {
-  const windowLocation = JSON.stringify(window.location);
-  delete window.location;
-  Object.defineProperty(window, 'location', {
-    value: JSON.parse(windowLocation),
-  });
-
-  window.location.href = href;
-  window.Turbolinks = { visit };
-};
 
 describe('urlBuilder', () => {
   const controller = 'testController';
@@ -44,23 +35,27 @@ describe('urlWithSearch', () => {
 });
 
 describe('URI query and stringify tests', () => {
-  const visit = jest.fn();
   const baseHref = 'http://some-url.com/';
   const oldQuery = 'search=some-search&page=1&per_page=25';
   const href = `${baseHref}?${oldQuery}`;
 
+  beforeEach(() => {
+    mockWindowLocation({ href });
+  });
+
   it('should resolve change-query', () => {
-    mockWindow({ href, visit });
     const navigateToMock = jest.fn();
     const newQuery = { search: 'some-new-search', per_page: 10 };
 
     changeQuery(newQuery);
-    expect(visit).toBeCalledWith(
+    expect(visit).toHaveBeenCalledWith(
       `${baseHref}?search=some-new-search&page=1&per_page=10`
     );
 
     changeQuery(newQuery, navigateToMock);
-    expect(navigateToMock).toHaveBeenCalled();
+    expect(navigateToMock).toHaveBeenCalledWith(
+      `${baseHref}?search=some-new-search&page=1&per_page=10`
+    );
   });
 
   it('should return stringified params', () => {
@@ -76,9 +71,9 @@ describe('URI query and stringify tests', () => {
 
   it('should test params functions', () => {
     expect(getParams()).toMatchSnapshot('getParams');
-    expect(getURIpage()).toMatchSnapshot('getPage');
-    expect(getURIperPage()).toMatchSnapshot('getPerPage');
-    expect(getURIsearch()).toMatchSnapshot('getSearchQuery');
+    expect(getURIpage()).toEqual(1);
+    expect(getURIperPage()).toEqual(25);
+    expect(getURIsearch()).toEqual('some-search');
   });
 
   it('exportURL should return a valid url', () => {

@@ -1,5 +1,7 @@
 import URI from 'urijs';
 
+import { visit } from '../../foreman_navigation';
+
 /**
  * Build a url from given controller, action and id
  * @param {String} controller - the controller
@@ -67,7 +69,7 @@ export const stringifyParams = ({
 export const changeQuery = (newQuery, navigateTo, uri = getURI()) => {
   uri.setQuery(newQuery);
   if (navigateTo) navigateTo(uri.toString());
-  else window.Turbolinks.visit(uri.toString());
+  else visit(uri.toString());
 };
 
 export const exportURL = () => {
