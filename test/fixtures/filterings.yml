@@ -371,6 +371,9 @@ viewer_24_0:
 default_role_1_0:
   filter: default_role_1
   permission: view_tasks
+default_role_2_0:
+  filter: default_role_1
+  permission: user_menu
 destroy_hosts_1_0:
   filter: destroy_hosts_1
   permission: destroy_hosts

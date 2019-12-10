@@ -299,6 +299,9 @@ Foreman::Application.routes.draw do
       get 'auto_complete_search'
     end
   end
+
+  get 'menu', :to => 'user_menus#menu'
+
   resources :users, :except => [:show] do
     collection do
       get 'login'

@@ -118,11 +118,6 @@ module Api
         end
       end
 
-      api :GET, "/menu", N_("Get menu items for current user")
-      def menu
-        render :json => UserMenu.new.generate
-      end
-
       private
 
       def find_resource

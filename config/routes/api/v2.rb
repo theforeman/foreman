@@ -199,7 +199,6 @@ Foreman::Application.routes.draw do
       get '/', :to => 'home#index'
       get 'status', :to => 'home#status', :as => "v2_status"
       get 'current_user', to: 'users#show_current', as: "current_user"
-      get 'menu', :to => 'users#menu'
 
       post :reports, :to => 'config_reports#create'
 
