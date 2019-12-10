@@ -472,6 +472,10 @@ module Foreman::Model
 
     def create_vm(args = { })
       vm = nil
+      cluster_id = self.available_clusters.detect { |c| c.name == args['cluster'] }.try(:id)
+      if cluster_id.nil?
+        raise Foreman::Exception.new("Cluster is not valid")
+      end
       test_connection
       return unless errors.empty?
 
