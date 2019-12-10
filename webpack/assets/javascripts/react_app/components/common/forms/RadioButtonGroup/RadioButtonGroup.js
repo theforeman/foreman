@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field } from 'formik';
 
 import CommonForm from '../CommonForm';
 import RadioButton from './RadioButton';
@@ -20,11 +20,17 @@ const RadioButtonGroup = ({
   >
     {radios.map((item, index) => (
       <Field
-        name={name}
-        component={RadioButton}
-        item={item}
-        disabled={disabled}
         key={index}
+        name={name}
+        render={({ field }) => (
+          <RadioButton
+            input={field}
+            disabled={disabled}
+            item={item}
+            name={name}
+            checked={field.value === item.value}
+          />
+        )}
       />
     ))}
   </CommonForm>

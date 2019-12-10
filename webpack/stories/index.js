@@ -17,6 +17,7 @@ import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
 import LegacyJs from './docs/LegacyJs.md';
 import ForemanFrontendDiagram from './docs/foreman-frontend-infra.png';
+import creatingForm from './docs/creatingForm.md';
 
 const req = require.context(
   '../assets/javascripts/react_app',
@@ -76,6 +77,11 @@ storiesOf('Introduction', module)
   .add('Interval Middleware', () => (
     <Story>
       <Markdown source={intervalMiddleware} />
+    </Story>
+  ))
+  .add('Creating a form', () => (
+    <Story>
+      <Markdown source={creatingForm} />
     </Story>
   ));
 

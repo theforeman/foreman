@@ -21,17 +21,13 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
     >
       Search
     </SearchButton>
-    <Connect(BookmarkContainer)
-      data={
-        Object {
-          "canCreate": true,
-          "controller": "models",
-          "documentationUrl": "/doc/url",
-          "searchQuery": "",
-          "url": "/api/bookmarks",
-        }
-      }
+    <Connect(Bookmarks)
+      canCreate={true}
+      controller="models"
+      documentationUrl="/doc/url"
       onBookmarkClick={[Function]}
+      searchQuery=""
+      url="/api/bookmarks"
     />
   </div>
 </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import AutoComplete from '../AutoComplete';
-import Bookmarks from '../bookmarks';
+import Bookmarks from '../Bookmarks';
 import { changeQuery } from '../../common/urlHelpers';
 import './search-bar.scss';
 
@@ -15,8 +15,10 @@ const SearchBar = ({
 }) => {
   const bookmarksComponent = !isEmpty(bookmarks) ? (
     <Bookmarks
-      data={{ ...bookmarks, controller, searchQuery }}
       onBookmarkClick={onBookmarkClick}
+      controller={controller}
+      searchQuery={searchQuery}
+      {...bookmarks}
     />
   ) : null;
   return (

@@ -5,7 +5,7 @@ import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { SearchBarProps } from '../SearchBar.fixtures';
 import SearchBar from '../index';
 import { reducers } from '../../AutoComplete';
-import bookmarksReducer from '../../../redux/reducers/bookmarks';
+import bookmarksReducer from '../../Bookmarks/BookmarksReducer';
 import { APIMiddleware } from '../../../redux/API';
 
 jest.mock('../../../redux/API/API');
@@ -58,11 +58,6 @@ describe('SearchBar integration test', () => {
       'in bookmarks dropdown: click on "bookmark this page"'
     );
     // modal should open, lets check its query value
-    expect(
-      wrapper
-        .find('ConnectedField')
-        .at(1)
-        .props().initial
-    ).toBe(label);
+    expect(wrapper.find('textarea[name="query"]').props().value).toBe(label);
   });
 });

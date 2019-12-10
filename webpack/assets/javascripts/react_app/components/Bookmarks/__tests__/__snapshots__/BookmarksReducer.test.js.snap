@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookmarksReducer should hide modal 1`] = `
+Object {
+  "architectures": Object {
+    "errors": null,
+    "results": Array [],
+    "status": "RESOLVED",
+  },
+  "currentQuery": "",
+  "showModal": false,
+}
+`;
+
+exports[`BookmarksReducer should return initial state 1`] = `
+Object {
+  "architectures": Object {
+    "errors": null,
+    "results": Array [],
+    "status": "PENDING",
+  },
+  "currentQuery": "",
+  "showModal": false,
+}
+`;
+
+exports[`BookmarksReducer should show errors 1`] = `
+Object {
+  "architectures": Object {
+    "errors": "This is error",
+    "results": Array [],
+    "status": "ERROR",
+  },
+  "currentQuery": "",
+  "showModal": false,
+}
+`;
+
+exports[`BookmarksReducer should show modal 1`] = `
+Object {
+  "architectures": Object {
+    "errors": null,
+    "results": Array [],
+    "status": "RESOLVED",
+  },
+  "currentQuery": "this is a query",
+  "showModal": true,
+}
+`;
+
+exports[`BookmarksReducer should start loading on bookmarks request 1`] = `
+Object {
+  "architectures": Object {
+    "errors": null,
+    "results": Array [],
+    "status": "PENDING",
+  },
+  "currentQuery": "",
+  "showModal": false,
+}
+`;
+
+exports[`BookmarksReducer should stop loading on bookmarks success 1`] = `
+Object {
+  "architectures": Object {
+    "errors": null,
+    "results": Array [
+      Object {
+        "controller": "architectures",
+        "name": "my bookmark",
+        "query": "name ~ random",
+      },
+    ],
+    "status": "RESOLVED",
+  },
+  "currentQuery": "",
+  "showModal": false,
+}
+`;
+
+exports[`BookmarksReducer should update after form submission 1`] = `
+Object {
+  "architectures": Object {
+    "errors": null,
+    "results": Array [
+      Object {
+        "controller": "architectures",
+        "id": 42,
+        "name": "new bookmark",
+        "public": true,
+        "query": "random query",
+      },
+    ],
+    "status": "RESOLVED",
+  },
+  "currentQuery": "",
+  "showModal": false,
+}
+`;
