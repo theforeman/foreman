@@ -84,14 +84,14 @@ export const onFailureActions = [
   {
     payload: {
       error: new Error('Request failed with status code 422'),
-      payload: payloads.operatingsystem,
+      ...payloads.operatingsystem,
     },
     type: 'STATISTICS_DATA_FAILURE',
   },
   {
     payload: {
       error: new Error('Request failed with status code 422'),
-      payload: payloads.architecture,
+      ...payloads.architecture,
     },
     type: 'STATISTICS_DATA_FAILURE',
   },
