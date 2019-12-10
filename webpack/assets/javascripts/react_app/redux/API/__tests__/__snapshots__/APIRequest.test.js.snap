@@ -15,10 +15,8 @@ Array [
     Object {
       "payload": Object {
         "error": [Error: bad request],
-        "payload": Object {
-          "id": "myid",
-          "name": "test",
-        },
+        "id": "myid",
+        "name": "test",
       },
       "type": "TEST_FAILURE",
     },

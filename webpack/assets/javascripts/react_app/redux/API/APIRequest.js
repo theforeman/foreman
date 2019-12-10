@@ -18,7 +18,7 @@ export const get = async (payload, url, store, actionTypes) => {
   } catch (error) {
     store.dispatch({
       type: actionTypes.FAILURE,
-      payload: { error, payload },
+      payload: { ...payload, error },
     });
   }
 };

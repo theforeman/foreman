@@ -26,7 +26,7 @@ export const onFailureActions = [
   {
     payload: {
       error: new Error('Request failed with status code 500'),
-      payload: { id: 0 },
+      id: 0,
     },
     type: 'HOST_POWER_STATUS_FAILURE',
   },
