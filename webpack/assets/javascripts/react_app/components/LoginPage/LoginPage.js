@@ -26,7 +26,7 @@ const LoginPage = ({
         caption: <LoginPageCaption version={version} caption={caption} />,
       }}
       card={{
-        title: __('Log Into Your Account'),
+        title: __('Log in to your account'),
         form: {
           ...defaultFormProps,
           submitError: submitErrors,
