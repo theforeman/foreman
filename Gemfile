@@ -34,7 +34,6 @@ gem 'fast_gettext', '~> 1.4'
 gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', ((SETTINGS[:rails] == '5.2') ? '~> 5.0' : '~> 6.0')
 gem 'i18n', '~> 1.1'
-gem 'turbolinks', '>= 2.5.4', '< 3'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '2.1.0'
 gem 'net-scp'

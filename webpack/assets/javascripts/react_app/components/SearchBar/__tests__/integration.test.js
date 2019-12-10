@@ -7,12 +7,10 @@ import SearchBar from '../index';
 import { reducers } from '../../AutoComplete';
 import bookmarksReducer from '../../Bookmarks/BookmarksReducer';
 import { APIMiddleware } from '../../../redux/API';
+import { visit } from '../../../../foreman_navigation';
 
 jest.mock('../../../redux/API/API');
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
-global.Turbolinks = {
-  visit: jest.fn(),
-};
 
 const combinedReducers = { ...reducers, bookmarks: bookmarksReducer };
 
@@ -35,11 +33,10 @@ describe('SearchBar integration test', () => {
       .find('.autocomplete-search-btn')
       .first()
       .simulate('click');
-    // expect it to call Turbolinks.
-    expect(global.Turbolinks.visit.mock.calls).toHaveLength(1);
+    expect(visit).toHaveBeenCalledTimes(1);
     const event = new KeyboardEvent('keypress', { charCode: KEYCODES.ENTER });
     global.dispatchEvent(event);
-    expect(global.Turbolinks.visit.mock.calls).toHaveLength(2);
+    expect(visit).toHaveBeenCalledTimes(2);
     // bookmark this page:
     // click on bookmark button
     wrapper

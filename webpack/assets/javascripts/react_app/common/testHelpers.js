@@ -27,6 +27,20 @@ export default {
   },
 };
 
+export const mockWindowLocation = ({ href }) => {
+  let currentHref = href;
+  delete global.window.location;
+  global.window.location = { reload: jest.fn() };
+  Object.defineProperty(global.window.location, 'href', {
+    configurable: true,
+    get: () => currentHref,
+    set: newValue => {
+      currentHref = newValue;
+    },
+  });
+  return jest.spyOn(global.window.location, 'href', 'set');
+};
+
 // a helper method for invoking a class method (for unit tests)
 // obj = a class
 // func = a tested function

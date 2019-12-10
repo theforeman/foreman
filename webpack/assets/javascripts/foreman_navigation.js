@@ -3,6 +3,26 @@
 import $ from 'jquery';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+import { deprecate } from './react_app/common/DeprecationService';
+
+window.Turbolinks = {
+  visit: url => {
+    deprecate(
+      'Turbolinks.visit',
+      'react router or visit(<url>) method, or legacy tfm.nav.visit(<url>)',
+      '2.1'
+    );
+    visit(url);
+  },
+};
+
+export const visit = url => {
+  window.location.href = url;
+};
+
+export const reloadPage = () => {
+  window.location.reload();
+};
 
 export const showLoading = () => {
   store.dispatch(LayoutActions.showLoading());

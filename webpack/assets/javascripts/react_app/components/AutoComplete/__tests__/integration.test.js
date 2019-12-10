@@ -15,9 +15,6 @@ jest.mock('lodash', () => ({
 }));
 jest.mock('../../../redux/API');
 jest.mock('uuid', () => jest.fn(fn => '1234'));
-global.Turbolinks = {
-  visit: jest.fn(),
-};
 
 const combinedReducers = { ...reducers };
 

@@ -7,6 +7,7 @@
 
 import $ from 'jquery';
 import 'select2';
+import { visit } from './foreman_navigation';
 import * as tools from './foreman_tools';
 
 jest.unmock('jquery');
@@ -99,10 +100,6 @@ describe('initTypeAheadSelect', () => {
 
 describe('updateTableTest', () => {
   beforeEach(() => {
-    global.Turbolinks = {
-      visit: jest.fn(),
-    };
-
     global.tfm = {
       tools,
     };
@@ -161,7 +158,7 @@ describe('updateTableTest', () => {
       .trim();
 
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+    expect(visit).toHaveBeenCalledWith(
       `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
     );
   });
@@ -173,7 +170,7 @@ describe('updateTableTest', () => {
 
     $('#cur_page_num').val('4');
     $('#pagination').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+    expect(visit).toHaveBeenCalledWith(
       `http://localhost/?page=4&per_page=${PerPage}`
     );
   });
@@ -183,7 +180,7 @@ describe('updateTableTest', () => {
       .text()
       .trim();
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+    expect(visit).toHaveBeenCalledWith(
       `http://localhost/?page=1&search=name+%3D+y&per_page=${PerPage}`
     );
   });
@@ -196,7 +193,7 @@ describe('updateTableTest', () => {
     window.history.pushState({}, 'Test Title', '/?page=4');
     $('.autocomplete-input').val('test');
     $('#search-form').submit();
-    expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+    expect(visit).toHaveBeenCalledWith(
       `http://localhost/?page=1&search=test&per_page=${PerPage}`
     );
   });
@@ -208,7 +205,7 @@ describe('updateTableTest', () => {
         .trim();
       $('.autocomplete-input').val(searchValue);
       $('#search-form').submit();
-      return expect(global.Turbolinks.visit).toHaveBeenLastCalledWith(
+      return expect(visit).toHaveBeenCalledWith(
         `http://localhost/?page=1&search=&per_page=${PerPage}`
       );
     });

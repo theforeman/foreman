@@ -8,6 +8,7 @@ import $ from 'jquery';
 import { doesDocumentHasFocus } from '../react_app/common/document';
 import { notify } from '../foreman_toast_notifications';
 import { activateTooltips, foremanUrl } from '../foreman_tools';
+import { reloadPage } from '../foreman_navigation';
 import { translate as __ } from '../react_app/common/I18n';
 import './index.scss';
 
@@ -30,7 +31,7 @@ function autoRefresh() {
       const hasFocus = doesDocumentHasFocus();
 
       if (autoRefreshIsOn && hasFocus) {
-        window.Turbolinks.visit(window.location.href);
+        reloadPage();
       }
     }, 60000);
   }
@@ -89,7 +90,7 @@ export function addWidget(name) {
         message: __('Widget added to dashboard.'),
         type: 'success',
       });
-      window.Turbolinks.visit(window.location.href);
+      reloadPage();
     },
     error() {
       notify({

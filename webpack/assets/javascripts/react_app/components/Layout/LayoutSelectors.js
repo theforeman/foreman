@@ -30,7 +30,6 @@ const childToMenuItem = (child, currentLocation, currentOrganization) => ({
       ? 'mobile-active'
       : '',
   href: child.url || '#',
-  preventHref: child.turbolinks,
   onClick: child.onClick || noop,
 });
 

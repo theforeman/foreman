@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import URI from 'urijs';
 import { routes } from './routes';
+import { visit } from '../../foreman_navigation';
 
 let currentPath = null;
 
@@ -12,7 +13,7 @@ const AppSwitcher = () => {
 
   const getURIPath = () => {
     /**
-      we decided to use URIjs to get the full path because 
+      we decided to use URIjs to get the full path because
       turbolinks interpolates the window.location and sometimes instead of the full path,
       e.g.: "/architectures/edit" we will get only "/architectures".
      */
@@ -25,18 +26,6 @@ const AppSwitcher = () => {
     if (railsContainer) railsContainer.remove();
   };
 
-  const handleTurbolinksVisit = (location, nextPath) => {
-    const { state: { useTurbolinks } = {} } = location;
-    /**
-      Couldn't use routeProps history because it's different than 
-      the window.history and sometimes doesn't contain the turbolinks object.
-    */
-    const turbolinksVisitCalled = !window.history.state.turbolinks;
-    if (useTurbolinks && turbolinksVisitCalled) {
-      window.Turbolinks.visit(nextPath);
-    }
-  };
-
   const handleRoute = (Component, props) => {
     handleRailsContainer();
     updateCurrentPath();
@@ -47,7 +36,7 @@ const AppSwitcher = () => {
     const nextPath = getURIPath();
     if (currentPath !== nextPath) {
       updateCurrentPath();
-      handleTurbolinksVisit(location, nextPath);
+      visit(nextPath);
     }
     return null;
   };

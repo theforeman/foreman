@@ -7,8 +7,9 @@
 import $ from 'jquery';
 import URI from 'urijs';
 import { translate as __ } from './react_app/common/I18n';
+import { deprecate } from './react_app/common/DeprecationService';
 
-import { showLoading, hideLoading } from './foreman_navigation';
+import { showLoading, hideLoading, visit } from './foreman_navigation';
 
 export * from './react_app/common/DeprecationService';
 
@@ -69,9 +70,6 @@ export function activateTooltips(elParam = 'body') {
   el.find('*[title]')
     .not('*[rel],.fa,.pficon')
     .tooltip({ container: 'body' });
-  $(document).on('page:restore', () => {
-    $('.tooltip.in').remove();
-  });
 }
 
 export function initTypeAheadSelect(input) {
@@ -108,6 +106,7 @@ export function initTypeAheadSelect(input) {
 
 // handle table updates via turoblinks
 export function updateTable(element) {
+  deprecate('updateTable', 'react Table component', '2.1');
   const uri = new URI(window.location.href);
 
   const values = {};
@@ -128,12 +127,12 @@ export function updateTable(element) {
     .text()
     .trim();
   uri.setSearch(values);
-  /* eslint-disable no-undef */
-  Turbolinks.visit(uri.toString());
+
+  visit(uri.toString());
   return false;
 }
 
 // generates an absolute, needed in case of running Foreman from a subpath
 export function foremanUrl(path) {
-  return URL_PREFIX + path;
+  return window.URL_PREFIX + path;
 }
