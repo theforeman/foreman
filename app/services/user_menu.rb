@@ -1,10 +1,16 @@
 class UserMenu
-  def generate
-    menus = [
+  def menus
+    menus_array = [
       Menu::Manager.to_hash(:top_menu),
       Menu::Manager.to_hash(:side_menu),
       Menu::Manager.to_hash(:admin_menu),
     ]
+    menus_array << Menu::Manager.to_hash(:labs_menu) if Setting[:lab_features]
+    menus_array << Menu::Manager.to_hash(:devel_menu) if Rails.env.development?
+    menus_array
+  end
+
+  def generate
     menus.each_with_object([]) { |menu, memo| memo.concat submenu_items(menu) }
   end
 

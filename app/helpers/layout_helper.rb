@@ -4,10 +4,7 @@ module LayoutHelper
   end
 
   def fetch_menus
-    menus_array = [ Menu::Manager.to_hash(:top_menu), Menu::Manager.to_hash(:admin_menu), Menu::Manager.to_hash(:side_menu) ]
-    menus_array << Menu::Manager.to_hash(:labs_menu) if Setting[:lab_features]
-    menus_array << Menu::Manager.to_hash(:devel_menu) if Rails.env.development?
-    menus_array.flatten
+    UserMenu.new.menus.flatten
   end
 
   def taxonomies_booleans
