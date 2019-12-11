@@ -92,6 +92,10 @@ class SmartProxy < ApplicationRecord
     self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:capabilities)
   end
 
+  def has_capability?(feature, capability)
+    capabilities(feature)&.include?(capability.to_s)
+  end
+
   def setting(feature, setting)
     self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:settings).try(:[], setting)
   end

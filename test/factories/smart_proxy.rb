@@ -6,7 +6,13 @@ FactoryBot.define do
     locations { [Location.find_by_name('Location 1')] }
 
     before(:create, :build, :build_stubbed) do
-      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(Hash[Feature.name_map.keys.collect {|f| [f, {'state' => 'running'}]}])
+      default_features = {
+        "dhcp" => {
+          "capabilities" => ["dhcp_filename_hostname", "dhcp_filename_ipv4"],
+        },
+      }
+      result = Hash[Feature.name_map.keys.collect {|f| [f, {'state' => 'running'}.merge(default_features[f] || {})]}]
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(result)
     end
 
     after(:create) do |proxy|
@@ -27,7 +33,7 @@ FactoryBot.define do
 
     factory :dhcp_smart_proxy do
       after(:build) do |smart_proxy, _evaluator|
-        smart_proxy.smart_proxy_features << FactoryBot.build(:smart_proxy_feature, :dhcp, :smart_proxy => smart_proxy)
+        smart_proxy.smart_proxy_features << FactoryBot.build(:smart_proxy_feature, :dhcp, :smart_proxy => smart_proxy, :capabilities => ["dhcp_filename_ipv4"])
       end
     end
 

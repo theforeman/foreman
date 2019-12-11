@@ -423,6 +423,10 @@ FactoryBot.define do
       subnet { FactoryBot.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]) }
     end
 
+    trait :with_tftp_and_dhcp_subnet do
+      subnet { FactoryBot.build(:subnet_ipv4, :tftp, :dhcp, locations: [location], organizations: [organization]) }
+    end
+
     trait :with_tftp_and_httpboot_subnet do
       subnet { FactoryBot.build(:subnet_ipv4, :tftp, :httpboot, locations: [location], organizations: [organization]) }
     end
@@ -451,7 +455,7 @@ FactoryBot.define do
 
     trait :with_tftp_orchestration do
       managed
-      with_tftp_subnet
+      with_tftp_and_dhcp_subnet
       interfaces do
         [FactoryBot.build(:nic_managed, :primary => true,
                                          :provision => true,
