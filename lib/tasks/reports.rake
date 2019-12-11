@@ -4,16 +4,14 @@ desc <<~END_DESC
 
   Available conditions:
     * days        => number of days to keep reports (defaults to 7)
-    * status      => status of the report (if not set defaults to any status)
-    * report_type => report type (defaults to config_report), accepts either underscore / class name styles
-    * batch_size  => number of records deleted in single SQL transaction (defaults to 1k)
+    * batch_size  => number of records deleted in single SQL transaction (defaults to 100k)
     * sleep_time  => delay in seconds between batches (defaults to 0.2)
 
+    Previously, it was possible to expire reports of particular type or status. This
+    was very slow and was removed. Report expiration must be done for all types and statuses.
+
     Example:
-      rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
-      rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non interesting reports after one day
-      rake reports:expire report_type=my_report days=3 # expires all reports of type MyReport (underscored style) from the last 3 days.
-      rake reports:expire report_type=MyReport days=3 # expires all reports of type MyReport (class name style) from the last 3 days.
+      rake reports:expire days=14
 
 END_DESC
 
@@ -31,14 +29,13 @@ namespace :reports do
   task :expire => :environment do
     conditions = {}
     conditions[:timerange] = ENV['days'].to_i.days if ENV['days']
-    conditions[:status] = ENV['status'].to_i if ENV['status']
-    batch_size = 1000
+    batch_size = 100_000
     batch_size = ENV['batch_size'].to_i if ENV['batch_size']
     sleep_time = 0.2
     sleep_time = ENV['sleep_time'].to_f if ENV['sleep_time']
 
     User.as_anonymous_admin do
-      report_type.expire(conditions, batch_size, sleep_time)
+      Report.expire(conditions, batch_size, sleep_time)
     end
   end
 end

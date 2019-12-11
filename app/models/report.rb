@@ -71,6 +71,20 @@ class Report < ApplicationRecord
     self.created_at <=> other.created_at
   end
 
+  def self.with_logging(model)
+    start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    count = yield
+    end_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    if count
+      rate = (count / (end_time - start_time)).to_i rescue 0
+    else
+      count, rate = 0, 0
+    end
+    Foreman::Logging.with_fields(expired_logs: count, expired_total: count, expire_rate: rate) do
+      logger.info "Expired #{count} #{model} at rate #{rate} #{model}/sec"
+    end
+  end
+
   # Expire reports based on time and status
   # Defaults to expire reports older than a week regardless of the status
   # This method will IS very slow, use only from rake task.
@@ -82,35 +96,46 @@ class Report < ApplicationRecord
     cond = "created_at < \'#{created}\'"
     cond += " and status = #{status}" unless status.nil?
     total_count = 0
-    report_ids = []
-    start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    # find the first (oldest) report to be deleted
+    report_id_max = where(cond).reorder('').maximum(:id)
+    return unless report_id_max
+    # delete log entries in batches
     loop do
+      deleted = nil
       Report.transaction do
-        batch_start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        report_ids = where(cond).reorder('').limit(batch_size).pluck(:id)
-        if report_ids.count > 0
-          log_count = Log.unscoped.where(:report_id => report_ids).reorder('').delete_all
-          count = where(:id => report_ids).reorder('').delete_all
-          total_count += count
-          rate = (count / (Process.clock_gettime(Process::CLOCK_MONOTONIC) - batch_start_time)).to_i
-          Foreman::Logging.with_fields(expired_logs: log_count, expired_total: count, expire_rate: rate) do
-            logger.info "Expired #{count} reports and #{log_count} logs at rate #{rate} reports/sec"
-          end
+        with_logging("logs") do
+          report_id_min = report_id_max - batch_size
+          report_id_min = 0 if report_id_min < 0
+          deleted = Log.unscoped.where("report_id <= #{report_id_max} AND report_id >= #{report_id_min}").reorder('').delete_all
+          total_count += deleted
+          deleted
         end
       end
-      # Delete orphan messages/sources when no reports are left
-      if report_ids.blank?
-        message_count = Message.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
-        source_count = Source.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
-        Foreman::Logging.with_fields(deleted_messages: message_count, expired_sources: source_count) do
-          logger.info "Expired #{message_count} messages and #{source_count} sources"
-        end
-        break
-      end
+      break if deleted.nil? || deleted < 1
       sleep sleep_time
     end
-    duration = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) / 60).to_i
-    logger.info "Total expired reports #{total_count} in #{duration} min(s)"
+    # delete report entries in batches
+    loop do
+      deleted = nil
+      Report.transaction do
+        with_logging("reports") do
+          report_id_min = report_id_max - batch_size
+          report_id_min = 0 if report_id_min < 0
+          deleted = self.unscoped.where("id <= #{report_id_max} AND id >= #{report_id_min}").reorder('').delete_all
+          total_count += deleted
+          deleted
+        end
+      end
+      break if deleted.nil? || deleted < 1
+      sleep sleep_time
+    end
+    # Delete orphan messages/sources when no reports are left - this is not efficient but we are getting rid of this soon
+    with_logging("messages") do
+      Message.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
+    end
+    with_logging("sources") do
+      Source.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
+    end
     total_count
   end
 

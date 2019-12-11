@@ -9,8 +9,9 @@ class ReportTest < ActiveSupport::TestCase
     report_count = 3
     Message.delete_all
     Source.delete_all
-    FactoryBot.create_list(:report, report_count, :with_logs)
+    # old reports must be created first (so database ID sequence is correct)
     FactoryBot.create_list(:report, report_count, :with_logs, :old_report)
+    FactoryBot.create_list(:report, report_count, :with_logs)
     assert_equal report_count * 2, Report.count
     assert_difference('Report.count', -1 * report_count) do
       assert_difference(['Log.count', 'Message.count', 'Source.count'], -1 * report_count * 5) do
@@ -23,8 +24,9 @@ class ReportTest < ActiveSupport::TestCase
     report_count = 3
     Message.delete_all
     Source.delete_all
-    FactoryBot.create_list(:report, report_count, :with_logs)
+    # old reports must be created first (so database ID sequence is correct)
     FactoryBot.create_list(:report, report_count, :with_logs, :old_report)
+    FactoryBot.create_list(:report, report_count, :with_logs)
     assert_equal report_count * 2, Report.count
     assert_difference('Report.count', -1 * report_count) do
       assert_difference(['Log.count', 'Message.count', 'Source.count'], -1 * report_count * 5) do
