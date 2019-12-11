@@ -35,7 +35,7 @@ describe('statistics reducer', () => {
       prev: stateBeforeResponse,
       action: {
         type: types.STATISTICS_DATA_FAILURE,
-        payload: { error, item: request },
+        payload: { error, ...request },
       },
     },
   };

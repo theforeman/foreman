@@ -78,7 +78,7 @@ const fixtures = {
       type: BOOKMARKS_FAILURE,
       payload: {
         error: 'This is error',
-        item: { controller: 'architectures' },
+        controller: 'architectures',
       },
     },
   },

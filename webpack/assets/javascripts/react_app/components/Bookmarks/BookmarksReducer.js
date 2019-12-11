@@ -54,8 +54,8 @@ export default (state = initialState, action) => {
       return state.set('showModal', false);
     case BOOKMARKS_FAILURE:
       return state
-        .setIn([payload.item.controller, 'errors'], payload.error)
-        .setIn([payload.item.controller, 'status'], STATUS.ERROR);
+        .setIn([payload.controller, 'errors'], payload.error)
+        .setIn([payload.controller, 'status'], STATUS.ERROR);
     default:
       return state;
   }
