@@ -1,4 +1,3 @@
-import toJson from 'enzyme-to-json';
 import { shallowRenderComponentWithFixtures } from '../../../common/testHelpers';
 import ShowTaxonomyInline from '../ShowTaxonomyInline';
 import { TaxonomyProps } from './AuditsList.fixtures';
@@ -19,7 +18,7 @@ describe('ShowTaxonomyInline', () => {
     );
     components.forEach(({ description, component }) => {
       it(description, () => {
-        expect(toJson(component)).toMatchSnapshot();
+        expect(component).toMatchSnapshot();
       });
     });
   });

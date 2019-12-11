@@ -1,4 +1,3 @@
-import toJson from 'enzyme-to-json';
 import React from 'react';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 
@@ -33,7 +32,7 @@ describe('Slot-Fill', () => {
     );
 
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
     integrationTestHelper.takeStoreSnapshot();
     integrationTestHelper.takeActionsSnapshot();
   });
@@ -50,7 +49,7 @@ describe('Slot-Fill', () => {
     );
 
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
 
   it('Fill with no component nor overriden props should throw an error', () => {
@@ -92,7 +91,7 @@ describe('Slot-Fill', () => {
     );
 
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
   it('props fill', () => {
     const wrapper = integrationTestHelper.mount(
@@ -111,7 +110,7 @@ describe('Slot-Fill', () => {
     );
 
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
   it('default slot', () => {
     const wrapper = integrationTestHelper.mount(
@@ -121,7 +120,7 @@ describe('Slot-Fill', () => {
     );
 
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
   it('multiple slot with override props', () => {
     const wrapper = integrationTestHelper.mount(
@@ -144,7 +143,7 @@ describe('Slot-Fill', () => {
       </React.Fragment>
     );
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
 
   it('slot with multi override props should take max weight', () => {
@@ -171,7 +170,7 @@ describe('Slot-Fill', () => {
       </React.Fragment>
     );
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
 
   it('multi slot with override props fill and component fill', () => {
@@ -193,6 +192,6 @@ describe('Slot-Fill', () => {
       </React.Fragment>
     );
     wrapper.update();
-    expect(toJson(wrapper.find('Slot'))).toMatchSnapshot();
+    expect(wrapper.find('Slot')).toMatchSnapshot();
   });
 });

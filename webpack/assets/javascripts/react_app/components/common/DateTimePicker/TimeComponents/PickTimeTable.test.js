@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import PickTimeTable from './PickTimeTable';
 import { MINUTE, HOUR } from './TimeConstants';
 
@@ -10,7 +9,7 @@ test('PickTimeTable is working properly for Minute', () => {
   const component = shallow(
     <PickTimeTable time={time} type={MINUTE} setSelected={setSelected} />
   );
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component
     .find('.minute')
     .first()
@@ -24,7 +23,7 @@ test('PickTimeTable is working properly for Hour', () => {
   const component = shallow(
     <PickTimeTable time={time} type={HOUR} setSelected={setSelected} />
   );
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component
     .find('.hour')
     .first()

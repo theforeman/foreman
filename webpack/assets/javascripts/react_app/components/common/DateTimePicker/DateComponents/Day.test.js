@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import Day from './Day';
 
 test('Day is working properly', () => {
@@ -16,5 +15,5 @@ test('Day is working properly', () => {
     />
   );
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });

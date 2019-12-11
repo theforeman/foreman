@@ -1,4 +1,3 @@
-import toJson from 'enzyme-to-json';
 import { shallowRenderComponentWithFixtures } from '../../../common/testHelpers';
 import ActionLinks from '../ActionLinks';
 
@@ -17,7 +16,7 @@ describe('ActionLinks', () => {
     components.forEach(({ description, component }) => {
       it(description, () => {
         expect(component.find('a')).toHaveLength(1);
-        expect(toJson(component)).toMatchSnapshot();
+        expect(component).toMatchSnapshot();
       });
     });
   });

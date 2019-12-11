@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from '@theforeman/test';
 import ModelsTable from './ModelsTable';
 import { Table } from '../common/table';
 import MessageBox from '../common/MessageBox';

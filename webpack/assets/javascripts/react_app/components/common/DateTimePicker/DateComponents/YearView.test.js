@@ -1,20 +1,19 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import YearView from './YearView';
 
 test('YearView is working properly', () => {
   const date = new Date('2/21/2019 , 2:22:31 PM');
   const component = shallow(<YearView date={date} />);
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 
 test('Edit month YearView', () => {
   const date = new Date('2/21/2019 , 2:22:31 PM');
   const setSelected = jest.fn();
   const component = shallow(<YearView date={date} setSelected={setSelected} />);
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component
     .find('.month')
     .first()
@@ -26,7 +25,7 @@ test('Edit year and month YearView', () => {
   const date = new Date('2/21/2019 , 2:22:31 PM');
   const setSelected = jest.fn();
   const component = shallow(<YearView date={date} setSelected={setSelected} />);
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component
     .find('.next')
     .first()

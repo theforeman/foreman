@@ -1,5 +1,7 @@
 language: node_js
 node_js:
   - '10'
-  - '12.13.0' # Pinned due to a bug: moudle loading error (jest) 
+  - '12'
+cache:
+  npm: false  
 script: ./script/travis_run_js_tests.sh

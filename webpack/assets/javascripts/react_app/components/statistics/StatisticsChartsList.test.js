@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -19,7 +18,7 @@ describe('StatisticsChartsList', () => {
       <StatisticsChartsList store={store} data={statisticsData} />
     );
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render two panels for fixtures data', () => {

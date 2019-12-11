@@ -1,5 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import FactChart from '..';
 import Store from '../../../redux';
@@ -9,7 +8,7 @@ describe('factCharts', () => {
     const wrapper = shallow(
       <FactChart data={{ id: 1, title: 'test title' }} store={Store} />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render open', () => {
@@ -20,6 +19,6 @@ describe('factCharts', () => {
         store={Store}
       />
     );
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

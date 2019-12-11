@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount } from '@theforeman/test';
 
 import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
 import DiffModal from '../DiffModal';

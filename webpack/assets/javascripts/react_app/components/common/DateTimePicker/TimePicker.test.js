@@ -1,18 +1,17 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow, mount } from '@theforeman/test';
 import TimePicker from './TimePicker';
 
 test('TimePicker is working properly', () => {
   const component = shallow(<TimePicker value="2/2/2   5:22:31 PM" />);
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 
 test('TimePicker is working properly with time only', () => {
   const component = shallow(<TimePicker value="5:22:31 PM  " />);
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 
 test('Edit form of TimePicker', () => {
@@ -20,6 +19,6 @@ test('Edit form of TimePicker', () => {
   component
     .find('input')
     .simulate('change', { target: { value: '2:42 PM  ' } });
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   expect(component.state().value).toEqual(new Date('1/1/1 2:42:00 PM  '));
 });

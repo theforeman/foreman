@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 
 import AlertBody from './AlertBody';
@@ -8,7 +7,7 @@ describe('AlertBody', () => {
   const testAlertBodyRenderer = component => {
     const wrapper = shallow(component);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   };
 
   it('should render with title and message', () =>

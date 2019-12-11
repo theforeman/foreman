@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { mount } from '@theforeman/test';
 import React from 'react';
 import { generateStore } from '../../redux';
 import API from '../../redux/API/API';

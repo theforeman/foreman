@@ -1,7 +1,6 @@
 /* eslint-disable promise/prefer-await-to-then */
 // Configure Enzyme
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { mount } from '@theforeman/test';
 import React from 'react';
 import RelativeDateTime from './RelativeDateTime';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';
@@ -19,7 +18,7 @@ describe('RelativeDateTime', () => {
 
     intl.ready.then(() => {
       wrapper.update();
-      expect(toJson(wrapper.find('RelativeDateTime'))).toMatchSnapshot();
+      expect(wrapper.find('RelativeDateTime')).toMatchSnapshot();
     });
   });
 
@@ -30,7 +29,7 @@ describe('RelativeDateTime', () => {
 
     intl.ready.then(() => {
       wrapper.update();
-      expect(toJson(wrapper.find('RelativeDateTime'))).toMatchSnapshot();
+      expect(wrapper.find('RelativeDateTime')).toMatchSnapshot();
     });
   });
 });

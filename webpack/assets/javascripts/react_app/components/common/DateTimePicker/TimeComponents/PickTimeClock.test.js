@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow, mount } from '@theforeman/test';
 import PickTimeClock from './PickTimeClock';
 import { MINUTE, HOUR } from './TimeConstants';
 
@@ -8,7 +7,7 @@ test('PickTimeClock is working properly', () => {
   const time = new Date('2/21/2019 , 2:22:31 PM');
   const component = shallow(<PickTimeClock time={time} />);
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 
 test('Edit minutes of PickTimeClock', () => {
@@ -17,7 +16,7 @@ test('Edit minutes of PickTimeClock', () => {
   const component = mount(
     <PickTimeClock time={time} setSelected={setSelected} />
   );
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component.find('.increment-min').simulate('click');
   expect(setSelected).toBeCalledWith(new Date('2/21/2019 , 2:23:31 PM'));
   component.find('.decrement-min').simulate('click');
@@ -31,7 +30,7 @@ test('Edit hours of PickTimeClock', () => {
   const component = mount(
     <PickTimeClock time={time} setSelected={setSelected} />
   );
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component.find('.increment-hour').simulate('click');
   expect(setSelected).toBeCalledWith(new Date('2/21/2019 , 3:22:31 PM'));
   component.find('.decrement-hour').simulate('click');
@@ -45,7 +44,7 @@ test('Toggle hours of PickTimeClock', () => {
   expect(component.state().ampm).toEqual('PM');
   component.find('.ampm-toggle').simulate('click');
   expect(component.state().ampm).toEqual('AM');
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component.find('.ampm-toggle').simulate('click');
   expect(component.state().ampm).toEqual('PM');
 });

@@ -1,5 +1,5 @@
 import 'select2';
-import { mount } from 'enzyme';
+import { mount } from '@theforeman/test';
 import React from 'react';
 
 import Select from './Select';

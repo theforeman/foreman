@@ -1,5 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import componentRegistry from '../../componentRegistry';
 import ComponentWrapper from './ComponentWrapper';
@@ -16,7 +15,7 @@ describe('ComponentWrapper', () => {
       <ComponentWrapper data={{ component: 'AwesomeComponent' }} />
     );
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should not render unregistered component', () => {

@@ -1,4 +1,4 @@
-import { testActionSnapshotWithFixtures } from 'react-redux-test-utils';
+import { testActionSnapshotWithFixtures } from '@theforeman/test';
 
 import { getLineChartConfig } from './LineChartService';
 import {

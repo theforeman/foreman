@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 
 import AlertLink from './AlertLink';
@@ -8,7 +7,7 @@ describe('AlertLink', () => {
   it('should render with href', () => {
     const wrapper = shallow(<AlertLink href="#">some link</AlertLink>);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('should render with onClick', () => {
@@ -17,7 +16,7 @@ describe('AlertLink', () => {
       <AlertLink onClick={handleClick}>some link</AlertLink>
     );
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
 
     wrapper.find('a').simulate('click');
 
