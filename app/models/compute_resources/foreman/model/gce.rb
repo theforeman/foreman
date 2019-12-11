@@ -101,7 +101,11 @@ module Foreman::Model
 
       if args[:volumes].present?
         if args[:image_id].to_i > 0
-          args[:volumes].first[:source_image] = client.images.find { |i| i.id == args[:image_id].to_i }.name
+          image = client.images.find { |i| i.id == args[:image_id].to_i }
+          if image.nil?
+            raise ::Foreman::Exception.new(N_("selected image does not exist"))
+          end
+          args[:volumes].first[:source_image] = image.name
         end
         args[:disks] = []
         args[:volumes].each_with_index do |vol_args, i|
