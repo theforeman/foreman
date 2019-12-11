@@ -82,8 +82,12 @@ module Foreman::Model
         args[collection] = nested_attributes_for(collection, nested_attrs.deep_symbolize_keys) if nested_attrs
       end
 
-      # Dots are not allowed in names
-      args[:name] = args[:name].parameterize if args[:name].present?
+      if args[:name].present?
+        # With google-api-client >= 0.27.3, this will trigger custom hostname in GCP
+        args[:hostname] = args[:name]
+        # Dots are not allowed in names
+        args[:name] = args[:name].parameterize
+      end
 
       # GCE network interfaces cannot be defined though Foreman yet
       if args[:network]
