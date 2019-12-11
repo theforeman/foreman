@@ -1,4 +1,4 @@
-import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
+import { testReducerSnapshotWithFixtures } from '@theforeman/test';
 import Immutable from 'seamless-immutable';
 
 import reducer, { initialState } from '../BookmarksReducer';

@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import { DecadeViewTable } from './DecadeViewTable';
 
 test('DecadeViewTable is working properly', () => {
@@ -24,5 +23,5 @@ test('DecadeViewTable is working properly', () => {
     />
   );
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });

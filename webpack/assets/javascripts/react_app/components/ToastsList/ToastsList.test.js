@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { mount } from 'enzyme';
+import { mount } from '@theforeman/test';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -23,7 +22,7 @@ describe('ToastList', () => {
       const store = mockStore(state);
       const box = mount(<ToastList store={store} />);
 
-      expect(toJson(box)).toMatchSnapshot();
+      expect(box).toMatchSnapshot();
     });
   };
 

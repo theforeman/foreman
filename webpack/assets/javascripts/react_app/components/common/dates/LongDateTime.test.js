@@ -1,7 +1,6 @@
 /* eslint-disable promise/prefer-await-to-then */
 // Configure Enzyme
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { mount } from '@theforeman/test';
 import React from 'react';
 import LongDateTime from './LongDateTime';
 import { i18nProviderWrapperFactory } from '../../../common/i18nProviderWrapperFactory';
@@ -19,7 +18,7 @@ describe('LongDateTime', () => {
 
     intl.ready.then(() => {
       wrapper.update();
-      expect(toJson(wrapper.find('LongDateTime'))).toMatchSnapshot();
+      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
     });
   });
 
@@ -34,7 +33,7 @@ describe('LongDateTime', () => {
 
     intl.ready.then(() => {
       wrapper.update();
-      expect(toJson(wrapper.find('LongDateTime'))).toMatchSnapshot();
+      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
     });
   });
 
@@ -45,7 +44,7 @@ describe('LongDateTime', () => {
 
     intl.ready.then(() => {
       wrapper.update();
-      expect(toJson(wrapper.find('LongDateTime'))).toMatchSnapshot();
+      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
     });
   });
 
@@ -56,7 +55,7 @@ describe('LongDateTime', () => {
 
     intl.ready.then(() => {
       wrapper.update();
-      expect(toJson(wrapper.find('LongDateTime'))).toMatchSnapshot();
+      expect(wrapper.find('LongDateTime')).toMatchSnapshot();
     });
   });
 });

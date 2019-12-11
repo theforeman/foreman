@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+import { MockAdapter } from '@theforeman/test';
 import Store from '../../redux';
 import { AutoCompleteProps, API } from './AutoComplete.fixtures';
 import Story from '../../../../../stories/components/Story';

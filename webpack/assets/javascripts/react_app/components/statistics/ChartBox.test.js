@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import ChartBox from './ChartBox';
 import { classFunctionUnitTest } from '../../common/testHelpers';
@@ -25,13 +24,13 @@ describe('ChartBox', () => {
   it('pending', () => {
     const box = setup({ status: 'PENDING' });
 
-    expect(toJson(box)).toMatchSnapshot();
+    expect(box).toMatchSnapshot();
   });
 
   it('error', () => {
     const box = setup({ status: 'ERROR' });
 
-    expect(toJson(box)).toMatchSnapshot();
+    expect(box).toMatchSnapshot();
   });
 
   it('resolved', () => {
@@ -40,7 +39,7 @@ describe('ChartBox', () => {
       status: 'RESOLVED',
     });
 
-    expect(toJson(box)).toMatchSnapshot();
+    expect(box).toMatchSnapshot();
   });
 
   it('render modal', () => {

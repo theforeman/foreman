@@ -1,17 +1,16 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow, mount } from '@theforeman/test';
 import DatePicker from './DatePicker';
 
 test('DatePicker is working properly', () => {
   const component = shallow(<DatePicker value="2/21/2019 , 2:22:31 PM" />);
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 
 test('Edit form of DatePicker', () => {
   const component = mount(<DatePicker value="2/21/2019  " />);
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
   component
     .find('input')
     .simulate('change', { target: { value: '2/22/2019  ' } });

@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount } from '@theforeman/test';
 import React from 'react';
 
 import { STATUS } from '../../../constants';
@@ -21,7 +20,7 @@ const testLoaderSnapshot = (props = {}) => {
     </Loader>
   );
 
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 };
 
 describe('Loader', () => {
@@ -35,7 +34,7 @@ describe('Loader', () => {
     it('default case', () => {
       const wrapper = mount(<Loader />);
 
-      expect(toJson(wrapper)).toMatchSnapshot();
+      expect(wrapper).toMatchSnapshot();
     });
   });
 });

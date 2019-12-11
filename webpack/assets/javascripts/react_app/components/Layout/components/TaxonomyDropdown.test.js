@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import TaxonomyDropdown from './TaxonomyDropdown';

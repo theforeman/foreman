@@ -1,6 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 
 jest.useFakeTimers();
 
@@ -59,7 +58,7 @@ export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>
     Component,
     fixtures
   ).forEach(({ description, component }) =>
-    it(description, () => expect(toJson(component)).toMatchSnapshot())
+    it(description, () => expect(component).toMatchSnapshot())
   );
 
 const resolveDispatch = async (action, depth) => {

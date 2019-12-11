@@ -1,5 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import BarChart from './';
 import * as chartService from '../../../../../services/charts/BarChartService';
@@ -16,13 +15,13 @@ describe('renders BarChart', () => {
     chartService.getBarChartConfig = jest.fn(() => barChartConfig);
     const wrapper = shallow(<BarChart data={barChartData.data} />);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('render empty state', () => {
     chartService.getBarChartConfig = jest.fn(() => barChartConfigWithEmptyData);
     const wrapper = shallow(<BarChart data={emptyData} />);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

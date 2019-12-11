@@ -2,7 +2,7 @@ import React from 'react';
 import {
   testComponentSnapshotsWithFixtures,
   testSelectorsSnapshotWithFixtures,
-} from 'react-redux-test-utils';
+} from '@theforeman/test';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 

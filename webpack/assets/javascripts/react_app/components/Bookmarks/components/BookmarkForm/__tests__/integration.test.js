@@ -1,5 +1,5 @@
 import React from 'react';
-import { IntegrationTestHelper } from 'react-redux-test-utils';
+import { IntegrationTestHelper } from '@theforeman/test';
 
 import { API } from '../../../../../redux/API';
 

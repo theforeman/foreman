@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { mount, shallow } from 'enzyme';
+import { shallow, mount } from '@theforeman/test';
 import React from 'react';
 import SearchInput from './';
 
@@ -9,7 +8,7 @@ describe('Search Input', () => {
   it('should render', () => {
     const wrapper = shallow(<SearchInput searchValue="val" timeout={300} />);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('shouldnt gain focus', () => {

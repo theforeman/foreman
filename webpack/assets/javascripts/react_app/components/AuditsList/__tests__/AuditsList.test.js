@@ -1,4 +1,3 @@
-import toJson from 'enzyme-to-json';
 import { shallowRenderComponentWithFixtures } from '../../../common/testHelpers';
 import AuditsList from '../../AuditsList';
 
@@ -16,7 +15,7 @@ describe('AuditsList', () => {
     );
     components.forEach(({ description, component }) => {
       it(description, () => {
-        expect(toJson(component)).toMatchSnapshot();
+        expect(component).toMatchSnapshot();
       });
     });
   });

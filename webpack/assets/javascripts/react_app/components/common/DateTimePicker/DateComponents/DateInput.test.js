@@ -1,12 +1,11 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow, mount } from '@theforeman/test';
 import DateInput from './DateInput';
 
 test('DateInput is working properly', () => {
   const component = shallow(<DateInput date="1/21/2019 , 2:22:31 PM" />);
 
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 
 test('DateInput changes selected on click', () => {
@@ -27,7 +26,7 @@ test('DateInput toggles view to years', () => {
     .find('.picker-switch')
     .first()
     .simulate('click');
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });
 test('DateInput toggles view to decades', () => {
   const component = mount(<DateInput date="1/21/2019 , 2:22:31 PM" />);
@@ -39,5 +38,5 @@ test('DateInput toggles view to decades', () => {
     .find('.picker-switch')
     .first()
     .simulate('click');
-  expect(toJson(component.render())).toMatchSnapshot();
+  expect(component.render()).toMatchSnapshot();
 });

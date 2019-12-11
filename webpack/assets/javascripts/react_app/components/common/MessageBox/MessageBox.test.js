@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 
 import MessageBox from './index';
@@ -9,7 +8,7 @@ jest.unmock('./index');
 const testMessageBoxSnapshot = props => {
   const wrapper = shallow(<MessageBox {...props} />);
 
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(wrapper).toMatchSnapshot();
 };
 
 describe('MessageBox', () => {

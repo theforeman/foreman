@@ -1,5 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import ConfigReports from './ConfigReports';
 
@@ -13,6 +12,6 @@ describe('ComponentWrapper', () => {
   it('should render config reports', () => {
     const wrapper = shallow(<ConfigReports data={mockData} />);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

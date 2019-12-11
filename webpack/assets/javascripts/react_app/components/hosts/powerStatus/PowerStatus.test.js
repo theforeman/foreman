@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -31,7 +30,7 @@ describe('PowerStatus', () => {
 
     const error = box.render();
 
-    expect(toJson(error)).toMatchSnapshot();
+    expect(error).toMatchSnapshot();
   });
 
   it('resolvedWithOn', () => {
@@ -43,7 +42,7 @@ describe('PowerStatus', () => {
 
     const resolvedOnBoxRendered = resolvedOnBox.render();
 
-    expect(toJson(resolvedOnBoxRendered)).toMatchSnapshot();
+    expect(resolvedOnBoxRendered).toMatchSnapshot();
   });
 
   it('resolvedWithOff', () => {
@@ -55,6 +54,6 @@ describe('PowerStatus', () => {
 
     const resolvedOffBoxRendered = resolvedOnBox.render();
 
-    expect(toJson(resolvedOffBoxRendered)).toMatchSnapshot();
+    expect(resolvedOffBoxRendered).toMatchSnapshot();
   });
 });

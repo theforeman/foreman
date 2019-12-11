@@ -1,5 +1,4 @@
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import { shallow } from '@theforeman/test';
 import React from 'react';
 
 import { props } from './controller.fixtures';
@@ -13,6 +12,6 @@ describe('StorageContainer', () => {
   });
 
   it('should render controller', () => {
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });
