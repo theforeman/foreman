@@ -15,6 +15,20 @@ blueprints = [
   },
   {
     group: N_('Hosts'),
+    name: 'host_build_failed',
+    message: N_('%{subject} provisioning has failed!'),
+    level: 'error',
+    actions:
+    {
+      links:
+      [
+        path_method: :host_path,
+        title: N_('Details'),
+      ],
+    },
+  },
+  {
+    group: N_('Hosts'),
     name: 'host_destroyed',
     message: N_('%{subject} has been deleted successfully'),
     level: 'info',

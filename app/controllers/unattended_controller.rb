@@ -36,6 +36,7 @@ class UnattendedController < ApplicationController
     return if preview? || !@host.build
 
     logger.warn "#{controller_name}: #{@host.name} build failed!"
+    ::UINotifications::Hosts::BuildFailed.deliver!(@host)
     @host.build_errors = request.body.read(MAX_BUILT_BODY)&.encode('utf-8', invalid: :replace, undef: :replace, replace: '_')
     body_length = @host.build_errors.try(:size) || 0
     @host.build_errors += "\n\nOutput trimmed\n" if body_length >= MAX_BUILT_BODY

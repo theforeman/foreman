@@ -1,10 +1,10 @@
 module UINotifications
   module Hosts
-    class BuildCompleted < BuildBase
+    class BuildFailed < BuildBase
       private
 
       def blueprint_name
-        'host_build_completed'
+        'host_build_failed'
       end
     end
   end
