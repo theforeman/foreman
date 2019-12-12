@@ -5276,7 +5276,7 @@ msgstr "Zamknout"
 msgid "Log In"
 msgstr "Přihlásit"
 
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 msgid "Log Out"

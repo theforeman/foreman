@@ -5274,7 +5274,7 @@ msgstr "鎖定"
 msgid "Log In"
 msgstr "登入"
 
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 msgid "Log Out"
