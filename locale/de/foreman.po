@@ -5273,7 +5273,7 @@ msgstr "Sperren"
 msgid "Log In"
 msgstr "Anmelden"
 
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 msgid "Log Out"
