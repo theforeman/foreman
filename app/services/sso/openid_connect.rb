@@ -20,6 +20,11 @@ module SSO
       self.user = User.current.presence || authenticate!
     end
 
+    def logout_url
+      return Setting['login_delegation_logout_url'] if Setting['login_delegation_logout_url'].present?
+      controller.extlogout_users_path
+    end
+
     private
 
     def jwt_token
