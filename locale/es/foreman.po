@@ -5255,7 +5255,7 @@ msgstr "Bloqueo"
 msgid "Log In"
 msgstr "Iniciar sesión"
 
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 msgid "Log Out"

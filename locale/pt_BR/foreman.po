@@ -5260,7 +5260,7 @@ msgstr "Bloquear"
 msgid "Log In"
 msgstr "Fazer login"
 
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 msgid "Log Out"
