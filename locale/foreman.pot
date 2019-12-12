@@ -14871,7 +14871,7 @@ msgid "Confirm Action"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/LoginPage.js:29
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/LoginPage/helpers.js:49

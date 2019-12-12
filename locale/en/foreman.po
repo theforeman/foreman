@@ -5276,7 +5276,7 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-msgid "Log Into Your Account"
+msgid "Log in to your account"
 msgstr ""
 
 msgid "Log Out"
