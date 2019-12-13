@@ -24,7 +24,11 @@ Object {
         "results": Array [],
         "status": "PENDING",
       },
-      "showModal": false,
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "open": false,
+      },
     },
   },
 }
@@ -93,7 +97,11 @@ Object {
         ],
         "status": "RESOLVED",
       },
-      "showModal": false,
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "open": false,
+      },
     },
   },
 }
@@ -135,6 +143,11 @@ Object {
     },
     "showModal": false,
   },
+  "foremanModals": Object {
+    "bookmarksModal": Object {
+      "open": false,
+    },
+  },
 }
 `;
 
@@ -142,7 +155,11 @@ exports[`Bookmarks integration test should flow: initial state 1`] = `
 Object {
   "bookmarks": Object {
     "currentQuery": "",
-    "showModal": false,
+  },
+  "foremanModals": Object {
+    "bookmarksModal": Object {
+      "open": false,
+    },
   },
 }
 `;
@@ -153,9 +170,9 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "query": "",
+          "id": "bookmarksModal",
         },
-        "type": "BOOKMARKS_MODAL_OPENED",
+        "type": "SET_MODAL_OPEN",
       },
     ],
   ],
@@ -186,7 +203,11 @@ Object {
         ],
         "status": "RESOLVED",
       },
-      "showModal": true,
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "open": true,
+      },
     },
   },
 }

@@ -27,9 +27,11 @@ const basicSchema = Yup.object().shape({
 const helperFixtures = {
   'should format errors': () =>
     prepareErrors({
-      name: ['is already taken', 'is too short'],
-      email: ['is not a valid format'],
-      phone: ['is too long'],
+      errors: {
+        name: ['is already taken', 'is too short'],
+        email: ['is not a valid format'],
+        phone: ['is too long'],
+      },
     }),
   'should recognize valid initial values': () =>
     isInitialValid({

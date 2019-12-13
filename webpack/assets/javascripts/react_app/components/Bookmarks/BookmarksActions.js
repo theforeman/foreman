@@ -1,10 +1,6 @@
 import URI from 'urijs';
-import {
-  BOOKMARKS,
-  BOOKMARKS_MODAL_OPENED,
-  BOOKMARKS_MODAL_CLOSED,
-} from './BookmarksConstants';
 import { get } from '../../redux/API';
+import { BOOKMARKS, BOOKMARKS_SET_QUERY } from './BookmarksConstants';
 
 const _getBookmarks = (url, controller) =>
   get({
@@ -22,13 +18,9 @@ export const getBookmarks = (url, controller) => {
   return _getBookmarks(uri.toString(), controller);
 };
 
-export const modalOpened = query => ({
-  type: BOOKMARKS_MODAL_OPENED,
+export const setQuery = query => ({
+  type: BOOKMARKS_SET_QUERY,
   payload: {
     query,
   },
-});
-
-export const modalClosed = () => ({
-  type: BOOKMARKS_MODAL_CLOSED,
 });

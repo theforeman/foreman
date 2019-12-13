@@ -2,8 +2,6 @@
 
 exports[`BookmarksSelectors should return error 1`] = `"my errors"`;
 
-exports[`BookmarksSelectors should return if modal shown 1`] = `false`;
-
 exports[`BookmarksSelectors should return results 1`] = `
 Array [
   Object {

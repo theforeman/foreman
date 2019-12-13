@@ -23,7 +23,7 @@ const ForemanForm = props => (
     onSubmit={(values, actions) =>
       props.onSubmit(values, actions).catch(exception => {
         actions.setSubmitting(false);
-        actions.setErrors(prepareErrors(exception.errors));
+        actions.setErrors(prepareErrors(exception));
       })
     }
     initialValues={props.initialValues}
