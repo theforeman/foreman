@@ -7,7 +7,7 @@ module Foreman
     extend Forwardable
     attr_accessor :prefix, :sinks
 
-    DEFAULT_BUCKETS = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10].freeze
+    DEFAULT_BUCKETS = [1, 5, 20, 50, 100, 250, 500, 2000].freeze
 
     def initialize
       @sinks = []

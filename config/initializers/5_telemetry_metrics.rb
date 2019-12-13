@@ -7,7 +7,7 @@
 # Plugins can add own metrics through add_counter_telemetry, add_gauge_telemetry and add_histogram_telemetry.
 #
 telemetry = Foreman::Telemetry.instance
-telemetry.add_counter(:http_requests, 'A counter of HTTP requests made', [:controller, :action])
+telemetry.add_counter(:http_requests, 'A counter of HTTP requests made', [:controller, :action, :status])
 telemetry.add_histogram(:http_request_total_duration, 'Total duration of controller action', [:controller, :action])
 telemetry.add_histogram(:http_request_db_duration, 'Time spent in database for a request', [:controller, :action])
 telemetry.add_histogram(:http_request_view_duration, 'Time spent in view for a request', [:controller, :action])
