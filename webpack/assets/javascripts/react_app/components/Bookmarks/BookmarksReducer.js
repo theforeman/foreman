@@ -3,14 +3,12 @@ import {
   BOOKMARKS_REQUEST,
   BOOKMARKS_SUCCESS,
   BOOKMARKS_FAILURE,
-  BOOKMARKS_MODAL_OPENED,
-  BOOKMARKS_MODAL_CLOSED,
+  BOOKMARKS_SET_QUERY,
   BOOKMARKS_FORM_SUBMITTED,
 } from './BookmarksConstants';
 import { STATUS } from '../../constants';
 
 export const initialState = Immutable({
-  showModal: false,
   currentQuery: '',
 });
 
@@ -37,8 +35,8 @@ export default (state = initialState, { type, payload, response }) => {
       return state
         .setIn([payload.controller, 'results'], response.results)
         .setIn([payload.controller, 'status'], STATUS.RESOLVED);
-    case BOOKMARKS_MODAL_OPENED:
-      return state.set('currentQuery', payload.query).set('showModal', true);
+    case BOOKMARKS_SET_QUERY:
+      return state.set('currentQuery', payload.query);
     case BOOKMARKS_FORM_SUBMITTED:
       return state
         .setIn(
@@ -48,8 +46,6 @@ export default (state = initialState, { type, payload, response }) => {
           )
         )
         .set('showModal', false);
-    case BOOKMARKS_MODAL_CLOSED:
-      return state.set('showModal', false);
     case BOOKMARKS_FAILURE:
       return state
         .setIn([payload.controller, 'errors'], response)

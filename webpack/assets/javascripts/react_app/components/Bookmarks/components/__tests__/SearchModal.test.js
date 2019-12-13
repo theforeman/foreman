@@ -1,19 +1,16 @@
 import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
 
-import SearchModal from '../SearchModal';
+import SearchModal from '../SearchModal/SearchModal';
 
 const props = {
   controller: 'hosts',
-  show: true,
   url: '/api/bookmarks',
-  onHide: () => {},
+  title: 'Create Bookmark',
+  onEnter: jest.fn(),
+  setModalClosed: jest.fn(),
 };
 
 const fixtures = {
-  'should not show search modal': {
-    ...props,
-    show: false,
-  },
   'should show search modal': {
     ...props,
   },

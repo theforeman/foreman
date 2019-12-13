@@ -7,6 +7,7 @@ const props = {
   onCancel: () => {},
   submitForm: () => {},
   initialValues: { public: true, query: 'my query', name: 'my bookmark' },
+  setModalClosed: jest.fn(),
 };
 
 const fixtures = {

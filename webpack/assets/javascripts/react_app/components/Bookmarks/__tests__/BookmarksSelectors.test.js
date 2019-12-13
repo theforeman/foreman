@@ -1,7 +1,6 @@
 import { testSelectorsSnapshotWithFixtures } from '@theforeman/test';
 
 import {
-  selectBookmarksShowModal,
   selectBookmarksStatus,
   selectBookmarksResults,
   selectBookmarksErrors,
@@ -15,7 +14,6 @@ const controller = 'hosts';
 
 const stateFactory = () => ({
   bookmarks: {
-    showModal: false,
     currentQuery: 'my query',
     [controller]: {
       results: bookmarks,
@@ -26,8 +24,6 @@ const stateFactory = () => ({
 });
 
 const fixtures = {
-  'should return if modal shown': () =>
-    selectBookmarksShowModal(stateFactory()),
   'should return status': () =>
     selectBookmarksStatus(stateFactory(), controller),
   'should return results': () =>

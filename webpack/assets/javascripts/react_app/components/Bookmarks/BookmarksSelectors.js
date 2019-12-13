@@ -1,8 +1,5 @@
 const selectBookmarkState = state => state.bookmarks;
 
-export const selectBookmarksShowModal = state =>
-  selectBookmarkState(state).showModal;
-
 const selectBookmarksSubState = (state, controller) =>
   selectBookmarkState(state)[controller];
 

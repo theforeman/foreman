@@ -6,13 +6,18 @@ import { SearchBarProps } from '../SearchBar.fixtures';
 import SearchBar from '../index';
 import { reducers } from '../../AutoComplete';
 import bookmarksReducer from '../../Bookmarks/BookmarksReducer';
+import foremanModalsReducer from '../../ForemanModal/ForemanModalReducer';
 import { APIMiddleware } from '../../../redux/API';
 import { visit } from '../../../../foreman_navigation';
 
 jest.mock('../../../redux/API/API');
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
 
-const combinedReducers = { ...reducers, bookmarks: bookmarksReducer };
+const combinedReducers = {
+  ...reducers,
+  bookmarks: bookmarksReducer,
+  foremanModals: foremanModalsReducer,
+};
 
 describe('SearchBar integration test', () => {
   it('should flow', async () => {
@@ -51,7 +56,7 @@ describe('SearchBar integration test', () => {
       .find('a[id="newBookmark"]')
       .first()
       .simulate('click');
-    integrationTestHelper.takeStoreAndLastActionSnapshot(
+    integrationTestHelper.takeActionsSnapshot(
       'in bookmarks dropdown: click on "bookmark this page"'
     );
     // modal should open, lets check its query value

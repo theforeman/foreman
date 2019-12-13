@@ -23,31 +23,37 @@ const BookmarkForm = ({
   controller,
   onCancel,
   initialValues,
-}) => (
-  <ForemanForm
-    onSubmit={(values, actions) =>
-      submitForm({
-        url,
-        values: { ...values, controller },
-        item: 'Bookmarks',
-        message: __('Bookmark was successfully created.'),
-      })
-    }
-    initialValues={initialValues}
-    validationSchema={bookmarkFormSchema}
-    onCancel={onCancel}
-  >
-    <TextField name="name" type="text" required="true" label={__('Name')} />
-    <TextField
-      name="query"
-      type="textarea"
-      required="true"
-      label={__('Query')}
-      inputClassName="col-md-8"
-    />
-    <TextField name="public" type="checkbox" label={__('Public')} />
-  </ForemanForm>
-);
+  setModalClosed,
+}) => {
+  const handleSubmit = async (values, actions) => {
+    await submitForm({
+      url,
+      values: { ...values, controller },
+      item: 'Bookmarks',
+      message: __('Bookmark was successfully created.'),
+    });
+    setModalClosed();
+  };
+
+  return (
+    <ForemanForm
+      onSubmit={(values, actions) => handleSubmit(values, actions)}
+      initialValues={initialValues}
+      validationSchema={bookmarkFormSchema}
+      onCancel={onCancel}
+    >
+      <TextField name="name" type="text" required="true" label={__('Name')} />
+      <TextField
+        name="query"
+        type="textarea"
+        required="true"
+        label={__('Query')}
+        inputClassName="col-md-8"
+      />
+      <TextField name="public" type="checkbox" label={__('Public')} />
+    </ForemanForm>
+  );
+};
 
 BookmarkForm.propTypes = {
   onCancel: PropTypes.func,
@@ -55,6 +61,7 @@ BookmarkForm.propTypes = {
   controller: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
   url: PropTypes.string.isRequired,
+  setModalClosed: PropTypes.func.isRequired,
 };
 
 BookmarkForm.defaultProps = {

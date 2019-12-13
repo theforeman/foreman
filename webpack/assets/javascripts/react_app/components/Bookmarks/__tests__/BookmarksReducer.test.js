@@ -8,8 +8,7 @@ import {
   BOOKMARKS_REQUEST,
   BOOKMARKS_SUCCESS,
   BOOKMARKS_FAILURE,
-  BOOKMARKS_MODAL_OPENED,
-  BOOKMARKS_MODAL_CLOSED,
+  BOOKMARKS_SET_QUERY,
   BOOKMARKS_FORM_SUBMITTED,
 } from '../BookmarksConstants';
 
@@ -59,19 +58,13 @@ const fixtures = {
       },
     },
   },
-  'should show modal': {
+  'should set search query': {
     state: stateFactory({ status: STATUS.RESOLVED }),
     action: {
-      type: BOOKMARKS_MODAL_OPENED,
+      type: BOOKMARKS_SET_QUERY,
       payload: {
         query,
       },
-    },
-  },
-  'should hide modal': {
-    state: stateFactory({ status: STATUS.RESOLVED }),
-    action: {
-      type: BOOKMARKS_MODAL_CLOSED,
     },
   },
   'should show errors': {
