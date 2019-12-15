@@ -1,12 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import immutable from 'seamless-immutable';
-import {
-  failedRequestData,
-  successRequestData,
-  onFailureActions,
-  onSuccessActions,
-} from './statistics.fixtures';
+import { failedRequestData, successRequestData } from './statistics.fixtures';
 
 import API from '../../API/API';
 import { APIMiddleware } from '../../API';
@@ -33,7 +28,7 @@ describe('statistics actions', () => {
 
     store.dispatch(actions.getStatisticsData(failedRequestData));
     await IntegrationTestHelper.flushAllPromises();
-    expect(store.getActions()).toEqual(onFailureActions);
+    expect(store.getActions()).toMatchSnapshot();
   });
   it('creates STATISTICS_DATA_REQUEST and ends with success', async () => {
     API.get
@@ -62,6 +57,6 @@ describe('statistics actions', () => {
 
     store.dispatch(actions.getStatisticsData(successRequestData));
     await IntegrationTestHelper.flushAllPromises();
-    expect(store.getActions()).toEqual(onSuccessActions);
+    expect(store.getActions()).toMatchSnapshot();
   });
 });

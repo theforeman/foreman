@@ -2,11 +2,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import immutable from 'seamless-immutable';
-import {
-  requestData,
-  onFailureActions,
-  onSuccessActions,
-} from './powerStatus.fixtures';
+import { requestData } from './powerStatus.fixtures';
 import * as actions from './index';
 import { APIMiddleware } from '../../../API';
 import IntegrationTestHelper from '../../../../common/IntegrationTestHelper';
@@ -33,7 +29,7 @@ describe('hosts actions', () => {
     );
     store.dispatch(actions.getHostPowerState(requestData.failRequest));
     await IntegrationTestHelper.flushAllPromises();
-    expect(store.getActions()).toEqual(onFailureActions);
+    expect(store.getActions()).toMatchSnapshot();
   });
   it('creates HOST_POWER_STATUS_REQUEST and responds with success', async () => {
     API.get.mockImplementationOnce(
@@ -51,6 +47,6 @@ describe('hosts actions', () => {
     );
     store.dispatch(actions.getHostPowerState(requestData.successRequest));
     await IntegrationTestHelper.flushAllPromises();
-    expect(store.getActions()).toEqual(onSuccessActions);
+    expect(store.getActions()).toMatchSnapshot();
   });
 });
