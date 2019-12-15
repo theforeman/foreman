@@ -23,6 +23,21 @@ describe('ShortDateTime', () => {
     });
   });
 
+  it('formats date with relative tooltip', () => {
+    const wrapper = mount(
+      <IntlDate
+        date={date}
+        defaultValue="Default value"
+        showRelativeTimeTooltip
+      />
+    );
+
+    intl.ready.then(() => {
+      wrapper.update();
+      expect(toJson(wrapper.find('ShortDateTime'))).toMatchSnapshot();
+    });
+  });
+
   it('formats date with seconds', () => {
     const wrapper = mount(
       <IntlDate date={date} seconds defaultValue="Default value" />

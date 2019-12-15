@@ -7,7 +7,9 @@ const LongDateTime = (props, context) => {
   const { date, defaultValue } = props;
   if (date) {
     const isoDate = isoCompatibleDate(date);
-    const title = context.intl.formatRelative(isoDate);
+    const title = props.showRelativeTimeTooltip
+      ? context.intl.formatRelative(isoDate)
+      : undefined;
     const seconds = props.seconds ? '2-digit' : undefined;
 
     return (
@@ -35,12 +37,14 @@ LongDateTime.propTypes = {
   date: PropTypes.any,
   defaultValue: PropTypes.string,
   seconds: PropTypes.bool,
+  showRelativeTimeTooltip: PropTypes.bool,
 };
 
 LongDateTime.defaultProps = {
   date: null,
   defaultValue: '',
   seconds: false,
+  showRelativeTimeTooltip: false,
 };
 
 export default LongDateTime;

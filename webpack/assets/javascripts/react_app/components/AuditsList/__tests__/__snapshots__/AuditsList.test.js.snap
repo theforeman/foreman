@@ -13,6 +13,7 @@ exports[`AuditsList rendering render resources list 1`] = `
           date="2018-08-13 00:34:55 -1100"
           defaultValue="N/A"
           seconds={false}
+          showRelativeTimeTooltip={true}
         />
       </span>
     }

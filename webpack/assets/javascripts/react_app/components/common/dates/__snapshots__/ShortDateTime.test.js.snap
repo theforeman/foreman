@@ -5,6 +5,30 @@ exports[`ShortDateTime formats date 1`] = `
   date={2017-10-13T11:54:55.000Z}
   defaultValue="Default value"
   seconds={false}
+  showRelativeTimeTooltip={false}
+>
+  <span>
+    <FormattedDate
+      day="2-digit"
+      hour="2-digit"
+      minute="2-digit"
+      month="short"
+      value={2017-10-13T11:54:55.000Z}
+    >
+      <span>
+        Oct 13, 11:54 AM
+      </span>
+    </FormattedDate>
+  </span>
+</ShortDateTime>
+`;
+
+exports[`ShortDateTime formats date with relative tooltip 1`] = `
+<ShortDateTime
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
+  seconds={false}
+  showRelativeTimeTooltip={true}
 >
   <span
     title="15 days ago"
@@ -29,10 +53,9 @@ exports[`ShortDateTime formats date with seconds 1`] = `
   date={2017-10-13T11:54:55.000Z}
   defaultValue="Default value"
   seconds={true}
+  showRelativeTimeTooltip={false}
 >
-  <span
-    title="15 days ago"
-  >
+  <span>
     <FormattedDate
       day="2-digit"
       hour="2-digit"
@@ -54,6 +77,7 @@ exports[`ShortDateTime renders default value 1`] = `
   date={null}
   defaultValue="Default value"
   seconds={false}
+  showRelativeTimeTooltip={false}
 >
   <span>
     Default value
