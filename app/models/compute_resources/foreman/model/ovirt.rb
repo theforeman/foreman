@@ -273,7 +273,7 @@ module Foreman::Model
       args[:comment] = args[:user_data] if args[:user_data]
       args[:template] = args[:image_id] if args[:image_id]
       template = template(args[:template]) if args[:template]
-      instance_type = instance_type(args[:instance_type]) if args[:instance_type]
+      instance_type = instance_type(args[:instance_type]) unless args[:instance_type].empty?
 
       args[:cluster] = get_ovirt_id(self.clusters, args[:cluster])
 
