@@ -5,7 +5,7 @@ module DashboardHelper
 
   def dashboard_actions
     [
-      _("Generated at %s") % date_time_absolute(Time.zone.now),
+      content_tag(:span, (_("Generated at %s") % date_time_absolute(Time.zone.now)).html_safe),
       select_action_button(
         _('Manage'), {},
         link_to_function(_('Save positions'), "tfm.dashboard.savePosition('#{save_positions_widgets_path}')"),
