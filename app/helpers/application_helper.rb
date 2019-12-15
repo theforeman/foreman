@@ -15,21 +15,22 @@ module ApplicationHelper
   end
 
   # this helper should be used to print date time in absolute form
-  # it will also define a title with relative time information
+  # It will also define a title with relative time information,
+  # unless you pass show_relative_time_tooltip = false.
   # it supports two formats :short and :long
   # example of long is February 12, 2021 17:13
   # example of short is Aug 31, 12:52
-  def date_time_absolute(time, format = :short, seconds = false)
+  def date_time_absolute(time, format = :short, seconds = false, show_relative_time_tooltip = true)
     raise ArgumentError, "unsupported format '#{format}', use :long or :short" unless %w(long short).include?(format.to_s)
 
     component = (format == :short) ? 'ShortDateTime' : 'LongDateTime'
-    mount_date_component(component, time, seconds)
+    mount_date_component(component, time, seconds, show_relative_time_tooltip)
   end
 
   # this helper should be used to print date time in relative form, e.g. "10 days ago",
   # it will also define a title with absolute time information
   def date_time_relative(time)
-    mount_date_component('RelativeDateTime', time, false)
+    mount_date_component('RelativeDateTime', time, false, false)
   end
 
   def date_time_absolute_value(time, format = :short)
@@ -51,8 +52,8 @@ module ApplicationHelper
     "datetime_#{timestamp}"
   end
 
-  def mount_date_component(component, time, seconds)
-    data = { date: time.try(:iso8601), defaultValue: _('N/A'), seconds: seconds }
+  def mount_date_component(component, time, seconds, show_relative_time_tooltip)
+    data = { date: time.try(:iso8601), defaultValue: _('N/A'), seconds: seconds, showRelativeTimeTooltip: show_relative_time_tooltip}
 
     react_component(component, data)
   end

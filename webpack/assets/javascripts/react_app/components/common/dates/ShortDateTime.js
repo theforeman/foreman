@@ -7,9 +7,10 @@ const ShortDateTime = (props, context) => {
   const { date, defaultValue, seconds } = props;
   if (date) {
     const isoDate = isoCompatibleDate(date);
-    const title = context.intl.formatRelative(isoDate);
+    const title = props.showRelativeTimeTooltip
+      ? context.intl.formatRelative(isoDate)
+      : undefined;
     const secondsFormat = seconds ? '2-digit' : undefined;
-
     return (
       <span title={title}>
         <FormattedDate
@@ -34,12 +35,14 @@ ShortDateTime.propTypes = {
   date: PropTypes.any,
   defaultValue: PropTypes.string,
   seconds: PropTypes.bool,
+  showRelativeTimeTooltip: PropTypes.bool,
 };
 
 ShortDateTime.defaultProps = {
   date: null,
   defaultValue: '',
   seconds: false,
+  showRelativeTimeTooltip: false,
 };
 
 export default ShortDateTime;

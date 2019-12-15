@@ -20,6 +20,7 @@ storiesOf('Components/Common', module)
       date('Date and time in your time zone', defaultValue)
     );
     const showSeconds = boolean('Show seconds');
+    const showRelativeTimeTooltip = boolean('Show relative time');
 
     const timezoneOptions = [
       'America/Phoenix',
@@ -54,30 +55,38 @@ storiesOf('Components/Common', module)
             <IsoDate date={dateToShow} defaultValue="N/A" />
           </pre>
           <h3>LongDateTime</h3>
-          Renders full date with time, seconds can be displyed optionally:
+          Renders full date with time. Relative time tooltip and seconds can be
+          displyed optionally :
           <pre>
             <LongDateTime
               date={dateToShow}
               defaultValue="N/A"
               seconds={showSeconds}
+              showRelativeTimeTooltip={showRelativeTimeTooltip}
             />
           </pre>
-          There&apos;s an erb helper alernative for rendering the same format:
+          There&apos;s an erb helper alernative for rendering the same format
+          with relative time tooltip true as a default:
           <Code lang="ruby">
-            date_time_absolute(time, :short, seconds = false)
+            date_time_absolute(time, :short, seconds = false,
+            show_relative_time_tooltip = true)
           </Code>
           <h3>ShortDateTime</h3>
-          Renders shortened date with time, seconds can be displyed optionally:
+          Renders shortened date with time. Relative time tooltip and seconds
+          can be displyed optionally :
           <pre>
             <ShortDateTime
               date={dateToShow}
               defaultValue="N/A"
               seconds={showSeconds}
+              showRelativeTimeTooltip={showRelativeTimeTooltip}
             />
           </pre>
-          There&apos;s an erb helper alernative for rendering the same format:
+          There&apos;s an erb helper alernative for rendering the same format
+          with relative time tooltip true as a default:
           <Code lang="ruby">
-            date_time_absolute(time, :long, seconds = false)
+            date_time_absolute(time, :long, seconds = false,
+            show_relative_time_tooltip = true)
           </Code>
           <h3>RelativeDateTime</h3>
           Renders relative date with long date in a tooltop:
