@@ -266,7 +266,7 @@ module Foreman
     config.to_prepare do
       # AuditExtensions contain code from app/ so can only be loaded after initializing is done
       # otherwise rails auto-reloader won't be able to reload Taxonomies which are linked there
-      Audit.send(:include, AuditExtensions)
+      Audit.include AuditExtensions
 
       ApplicationController.descendants.each do |child|
         # reinclude the helper module in case some plugin extended some in the to_prepare phase,
@@ -344,7 +344,7 @@ module Foreman
     end
 
     def setup_auditing
-      Audit.send(:include, AuditSearch)
+      Audit.include AuditSearch
     end
   end
 
