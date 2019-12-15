@@ -54,7 +54,7 @@ module ApplicationHelper
   def mount_date_component(component, time, seconds)
     data = { date: time.try(:iso8601), defaultValue: _('N/A'), seconds: seconds }
 
-    react_component(component, data: data)
+    react_component(component, data)
   end
 
   def contract(model)
