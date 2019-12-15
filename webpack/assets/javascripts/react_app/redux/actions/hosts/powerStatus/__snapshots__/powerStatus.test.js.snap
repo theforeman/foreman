@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hosts actions creates HOST_POWER_STATUS_REQUEST and fails when host not found 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "id": 0,
+    },
+    "type": "HOST_POWER_STATUS_REQUEST",
+  },
+  Object {
+    "key": "HOST_POWER_STATUS",
+    "payload": Object {
+      "id": 0,
+    },
+    "type": "API_GET",
+    "url": "/hosts/0/power",
+  },
+  Object {
+    "payload": Object {
+      "error": [Error: Request failed with status code 500],
+      "id": 0,
+    },
+    "type": "HOST_POWER_STATUS_FAILURE",
+  },
+]
+`;
+
+exports[`hosts actions creates HOST_POWER_STATUS_REQUEST and responds with success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "id": 1,
+    },
+    "type": "HOST_POWER_STATUS_REQUEST",
+  },
+  Object {
+    "key": "HOST_POWER_STATUS",
+    "payload": Object {
+      "id": 1,
+    },
+    "type": "API_GET",
+    "url": "/hosts/1/power",
+  },
+  Object {
+    "payload": Object {
+      "id": 1,
+      "state": "na",
+      "title": "N/A",
+    },
+    "type": "HOST_POWER_STATUS_SUCCESS",
+  },
+]
+`;

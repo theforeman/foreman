@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`statistics actions creates STATISTICS_DATA_REQUEST and ends with success 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "type": "STATISTICS_DATA_REQUEST",
+  },
+  Object {
+    "key": "STATISTICS_DATA",
+    "payload": Object {
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "type": "API_GET",
+    "url": "statistics/operatingsystem",
+  },
+  Object {
+    "payload": Object {
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "type": "STATISTICS_DATA_REQUEST",
+  },
+  Object {
+    "key": "STATISTICS_DATA",
+    "payload": Object {
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "type": "API_GET",
+    "url": "statistics/architecture",
+  },
+  Object {
+    "payload": Object {
+      "data": Array [
+        Array [
+          "centOS 7.1",
+          6,
+        ],
+      ],
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "type": "STATISTICS_DATA_SUCCESS",
+  },
+  Object {
+    "payload": Object {
+      "data": Array [
+        Array [
+          "x86_64",
+          6,
+        ],
+      ],
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "type": "STATISTICS_DATA_SUCCESS",
+  },
+]
+`;
+
+exports[`statistics actions creates STATISTICS_DATA_REQUEST and then fails with 422 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "type": "STATISTICS_DATA_REQUEST",
+  },
+  Object {
+    "key": "STATISTICS_DATA",
+    "payload": Object {
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "type": "API_GET",
+    "url": "statistics/operatingsystem",
+  },
+  Object {
+    "payload": Object {
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "type": "STATISTICS_DATA_REQUEST",
+  },
+  Object {
+    "key": "STATISTICS_DATA",
+    "payload": Object {
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "type": "API_GET",
+    "url": "statistics/architecture",
+  },
+  Object {
+    "payload": Object {
+      "error": [Error: Request failed with status code 422],
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "type": "STATISTICS_DATA_FAILURE",
+  },
+  Object {
+    "payload": Object {
+      "error": [Error: Request failed with status code 422],
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "type": "STATISTICS_DATA_FAILURE",
+  },
+]
+`;
