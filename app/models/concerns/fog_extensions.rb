@@ -2,51 +2,51 @@ module FogExtensions
 end
 
 require 'concerns/fog_extensions/model'
-Fog::Model.send(:include, FogExtensions::Model) if defined? Fog::Model
+Fog::Model.include FogExtensions::Model if defined? Fog::Model
 
 # Fog is required by bundler, and depending on the group configuration,
 # different providers will be available.
 if Foreman::Model::EC2.available?
   require 'fog/aws'
   require 'fog/aws/models/compute/flavor'
-  Fog::AWS::Compute::Flavor.send(:include, FogExtensions::AWS::Flavor)
+  Fog::AWS::Compute::Flavor.include FogExtensions::AWS::Flavor
   require 'fog/aws/models/compute/server'
-  Fog::AWS::Compute::Server.send(:include, FogExtensions::AWS::Server)
+  Fog::AWS::Compute::Server.include FogExtensions::AWS::Server
 end
 
 if Foreman::Model::GCE.available?
   require 'fog/google'
   require 'fog/compute/google/models/machine_type'
-  Fog::Compute::Google::MachineType.send(:prepend, FogExtensions::Google::MachineType)
+  Fog::Compute::Google::MachineType.prepend FogExtensions::Google::MachineType
   require 'fog/compute/google/models/server'
-  Fog::Compute::Google::Server.send(:include, FogExtensions::Google::Server)
+  Fog::Compute::Google::Server.include FogExtensions::Google::Server
 end
 
 if Foreman::Model::Libvirt.available?
   require 'fog/libvirt'
   require 'fog/libvirt/compute'
   require 'fog/libvirt/models/compute/server'
-  Fog::Libvirt::Compute::Server.send(:include, FogExtensions::Libvirt::Server)
+  Fog::Libvirt::Compute::Server.include FogExtensions::Libvirt::Server
 end
 
 if Foreman::Model::Ovirt.available?
   require 'fog/ovirt'
   require 'fog/ovirt/models/compute/server'
-  Fog::Ovirt::Compute::Server.send(:include, FogExtensions::Ovirt::Server)
+  Fog::Ovirt::Compute::Server.include FogExtensions::Ovirt::Server
   require 'fog/ovirt/models/compute/template'
-  Fog::Ovirt::Compute::Template.send(:include, FogExtensions::Ovirt::Template)
+  Fog::Ovirt::Compute::Template.include FogExtensions::Ovirt::Template
 
   require 'fog/ovirt/models/compute/volume'
-  Fog::Ovirt::Compute::Volume.send(:include, FogExtensions::Ovirt::Volume)
+  Fog::Ovirt::Compute::Volume.include FogExtensions::Ovirt::Volume
 end
 
 if Foreman::Model::Openstack.available?
   require 'fog/openstack'
   require 'fog/openstack/compute/models/server'
   require 'fog/openstack/compute/models/flavor'
-  Fog::OpenStack::Compute::Real.send(:include, FogExtensions::Openstack::Core)
-  Fog::OpenStack::Compute::Server.send(:prepend, FogExtensions::Openstack::Server)
-  Fog::OpenStack::Compute::Flavor.send(:include, FogExtensions::Openstack::Flavor)
+  Fog::OpenStack::Compute::Real.include FogExtensions::Openstack::Core
+  Fog::OpenStack::Compute::Server.prepend FogExtensions::Openstack::Server
+  Fog::OpenStack::Compute::Flavor.include FogExtensions::Openstack::Flavor
 end
 
 if Foreman::Model::Vmware.available?
@@ -54,14 +54,14 @@ if Foreman::Model::Vmware.available?
   require 'fog/vsphere/models/compute/cluster'
   require 'fog/vsphere/models/compute/network'
   require 'fog/vsphere/models/compute/server'
-  Fog::Vsphere::Compute::Server.send(:include, FogExtensions::Vsphere::Server)
+  Fog::Vsphere::Compute::Server.include FogExtensions::Vsphere::Server
 
   require 'fog/vsphere/models/compute/folder'
-  Fog::Vsphere::Compute::Folder.send(:include, FogExtensions::Vsphere::Folder)
+  Fog::Vsphere::Compute::Folder.include FogExtensions::Vsphere::Folder
 end
 
 if Foreman::Model::Rackspace.available?
   require 'fog/rackspace'
   require 'fog/rackspace/models/compute_v2/server'
-  Fog::Compute::RackspaceV2::Server.send(:include, FogExtensions::RackspaceV2::Server)
+  Fog::Compute::RackspaceV2::Server.include FogExtensions::RackspaceV2::Server
 end

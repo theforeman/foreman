@@ -118,11 +118,6 @@ Lint/NonLocalExitFromIterator:
 Lint/ParenthesesAsGroupedExpression:
   Enabled: false
 
-# Offense count: 19
-# Cop supports --auto-correct.
-Lint/SendWithMixinArgument:
-  Enabled: false
-
 # Offense count: 3
 Lint/ShadowingOuterLocalVariable:
   Enabled: false

@@ -64,7 +64,7 @@ module Foreman
     end
   end
 end
-Rabl::Engine.send(:prepend, Foreman::RablEngineExt)
+Rabl::Engine.prepend Foreman::RablEngineExt
 Rabl.register!
 ActionView::Template::Handlers::Rabl.singleton_class.send(:prepend, Foreman::RablTemplateHandlerExt)
 
