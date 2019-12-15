@@ -20,11 +20,6 @@ Layout/AlignArguments:
 Layout/CaseIndentation:
   Enabled: false
 
-# Offense count: 13
-# Cop supports --auto-correct.
-Layout/ClosingHeredocIndentation:
-  Enabled: false
-
 # Offense count: 646
 # Cop supports --auto-correct.
 Layout/EmptyLineAfterGuardClause:
