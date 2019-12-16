@@ -33,7 +33,7 @@
     "@storybook/addon-actions": "~3.4.12",
     "@storybook/addon-knobs": "~3.4.12",
     "@storybook/addon-storysource": "^3.4.12",
-    "@storybook/react": "~3.4.12",
+    "@storybook/react": "3.4.10",
     "@storybook/storybook-deployer": "^2.0.0",
     "@theforeman/builder": "^3.5.2",
     "@theforeman/env": "^3.5.2",
