@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { storiesOf } from '@storybook/react';
 import { Grid, Row } from 'patternfly-react';
 import { Formik } from 'formik';
 import RadioButtonGroup from './RadioButtonGroup';
-import FormField, { registerInputComponent, ControlContext } from './FormField';
+import FormField from './FormField';
+import { registerInputComponent } from './InputFactory';
 import Form from './Form';
 import OrderableSelect from './OrderableSelect';
 import storeDecorator from '../../../../../../stories/storeDecorator';
@@ -47,18 +48,6 @@ CustomSelect.propTypes = {
 };
 registerInputComponent('ownInput', CustomSelect);
 
-function CustomSelectWithContext(props) {
-  const controlProps = useContext(ControlContext);
-  return (
-    <select id={controlProps.id} name={controlProps.name}>
-      <option>{props.firstOption}</option>
-    </select>
-  );
-}
-CustomSelectWithContext.propTypes = {
-  firstOption: PropTypes.string.isRequired,
-};
-
 storiesOf('Components/Form', module)
   .addDecorator(storeDecorator)
   .add('Radio Button Group', () => (
@@ -77,14 +66,6 @@ storiesOf('Components/Form', module)
         </Row>
         <Row>
           <FormField {...ownComponentFieldProps} />
-        </Row>
-        <Row>
-          <FormField
-            {...ownComponentFieldProps}
-            label="Customly rendered field"
-          >
-            <CustomSelectWithContext firstOption="CustomlyRenderedInput" />
-          </FormField>
         </Row>
       </Grid>
     </Story>
