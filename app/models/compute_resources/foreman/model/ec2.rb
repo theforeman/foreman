@@ -55,9 +55,14 @@ module Foreman::Model
       if (name = args[:name])
         args[:tags] = {:Name => name}
       end
+
       if (image_id = args[:image_id])
         image = images.find_by_uuid(image_id.to_s)
         iam_hash = image.iam_role.present? ? {:iam_instance_profile_name => image.iam_role} : {}
+        # Extract root device name and default size from AMI definition
+        # Can be used to override root size
+        # root_device_definition["Ebs.VolumeSize"] = 100
+        iam_hash[:block_device_mapping] = block_device_mapping_from_ami(image.uuid)
         args.merge!(iam_hash)
       end
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
@@ -86,6 +91,17 @@ module Foreman::Model
       @zones ||= client.describe_availability_zones.body["availabilityZoneInfo"].map { |r| r["zoneName"] if r["regionName"] == region }.compact
     end
     alias_method :available_zones, :zones
+
+    def block_device_mapping_from_ami(ami_id)
+      ami_desc = client.describe_images('image-id' => ami_id).body["imagesSet"][0]
+      return [] unless ami_desc["rootDeviceType"].eql?('ebs')
+
+      root_device_name = ami_desc["rootDeviceName"]
+      root_device_definition = ami_desc["blockDeviceMapping"].find { |x| x["deviceName"] == root_device_name }
+      return [] unless root_device_definition
+
+      [{:DeviceName => root_device_name, 'Ebs.VolumeSize' => root_device_definition["volumeSize"]}]
+    end
 
     def test_connection(options = {})
       super
