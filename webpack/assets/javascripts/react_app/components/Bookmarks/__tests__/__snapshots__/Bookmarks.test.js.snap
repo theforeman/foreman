@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
-<Uncontrolled(Dropdown)
+<ForwardRef
   id="architectures"
   onClick={[Function]}
   pullRight={true}
@@ -61,11 +61,11 @@ exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
       text="my-bookmark"
     />
   </DropdownMenu>
-</Uncontrolled(Dropdown)>
+</ForwardRef>
 `;
 
 exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
-<Uncontrolled(Dropdown)
+<ForwardRef
   id="architectures"
   onClick={[Function]}
   pullRight={true}
@@ -130,11 +130,11 @@ exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
       />
     </li>
   </DropdownMenu>
-</Uncontrolled(Dropdown)>
+</ForwardRef>
 `;
 
 exports[`Bookmarks should render when no bookmarks loaded 1`] = `
-<Uncontrolled(Dropdown)
+<ForwardRef
   id="architectures"
   onClick={[Function]}
   pullRight={true}
@@ -197,11 +197,11 @@ exports[`Bookmarks should render when no bookmarks loaded 1`] = `
       None found
     </MenuItem>
   </DropdownMenu>
-</Uncontrolled(Dropdown)>
+</ForwardRef>
 `;
 
 exports[`Bookmarks should show error 1`] = `
-<Uncontrolled(Dropdown)
+<ForwardRef
   id="architectures"
   onClick={[Function]}
   pullRight={true}
@@ -266,5 +266,5 @@ exports[`Bookmarks should show error 1`] = `
       </EllipisWithTooltip>
     </MenuItem>
   </DropdownMenu>
-</Uncontrolled(Dropdown)>
+</ForwardRef>
 `;

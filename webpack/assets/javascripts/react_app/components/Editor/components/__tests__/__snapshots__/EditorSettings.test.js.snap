@@ -18,7 +18,7 @@ exports[`EditorSettings renders EditorSettings 1`] = `
         >
           Syntax
         </div>
-        <Uncontrolled(Dropdown)
+        <ForwardRef
           disabled={false}
           id="mode-dropdown"
         >
@@ -100,7 +100,7 @@ exports[`EditorSettings renders EditorSettings 1`] = `
               Yaml
             </MenuItem>
           </DropdownMenu>
-        </Uncontrolled(Dropdown)>
+        </ForwardRef>
       </div>
       <div
         className="cog-popover-dropdown"
@@ -110,7 +110,7 @@ exports[`EditorSettings renders EditorSettings 1`] = `
         >
           Keybind
         </div>
-        <Uncontrolled(Dropdown)
+        <ForwardRef
           disabled={false}
           id="keybindings-dropdown"
         >
@@ -156,7 +156,7 @@ exports[`EditorSettings renders EditorSettings 1`] = `
               Vim
             </MenuItem>
           </DropdownMenu>
-        </Uncontrolled(Dropdown)>
+        </ForwardRef>
       </div>
       <div
         className="cog-popover-dropdown"
@@ -166,7 +166,7 @@ exports[`EditorSettings renders EditorSettings 1`] = `
         >
           Theme
         </div>
-        <Uncontrolled(Dropdown)
+        <ForwardRef
           id="themes-dropdown"
         >
           <DropdownToggle
@@ -202,7 +202,7 @@ exports[`EditorSettings renders EditorSettings 1`] = `
               Monokai
             </MenuItem>
           </DropdownMenu>
-        </Uncontrolled(Dropdown)>
+        </ForwardRef>
       </div>
     </Popover>
   }
@@ -250,7 +250,7 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
         >
           Syntax
         </div>
-        <Uncontrolled(Dropdown)
+        <ForwardRef
           disabled={true}
           id="mode-dropdown"
         >
@@ -332,7 +332,7 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
               Yaml
             </MenuItem>
           </DropdownMenu>
-        </Uncontrolled(Dropdown)>
+        </ForwardRef>
       </div>
       <div
         className="cog-popover-dropdown"
@@ -342,7 +342,7 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
         >
           Keybind
         </div>
-        <Uncontrolled(Dropdown)
+        <ForwardRef
           disabled={true}
           id="keybindings-dropdown"
         >
@@ -388,7 +388,7 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
               Vim
             </MenuItem>
           </DropdownMenu>
-        </Uncontrolled(Dropdown)>
+        </ForwardRef>
       </div>
       <div
         className="cog-popover-dropdown"
@@ -398,7 +398,7 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
         >
           Theme
         </div>
-        <Uncontrolled(Dropdown)
+        <ForwardRef
           id="themes-dropdown"
         >
           <DropdownToggle
@@ -434,7 +434,7 @@ exports[`EditorSettings renders EditorSettings w/preview 1`] = `
               Monokai
             </MenuItem>
           </DropdownMenu>
-        </Uncontrolled(Dropdown)>
+        </ForwardRef>
       </div>
     </Popover>
   }
