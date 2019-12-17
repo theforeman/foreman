@@ -286,6 +286,7 @@ Foreman::Application.routes.draw do
         resources :compute_resources, :except => [:new, :edit] do
           resources :images, :except => [:new, :edit]
           get :available_images, :on => :member
+          get :available_virtual_machines, :on => :member
           get :available_clusters, :on => :member
           get :available_folders, :on => :member
           get :available_flavors, :on => :member
@@ -296,6 +297,7 @@ Foreman::Application.routes.draw do
           get 'available_storage_domains/(:storage_domain)', :to => 'compute_resources#available_storage_domains', :on => :member
           get :available_storage_pods, :on => :member
           get 'storage_pods/(:storage_pod_id)', :to => 'compute_resources#storage_pod', :on => :member
+          get 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#show_vm', :on => :member
           get 'available_storage_pods/(:storage_pod)', :to => 'compute_resources#available_storage_pods', :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
           get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
@@ -304,6 +306,8 @@ Foreman::Application.routes.draw do
           get :available_zones, :on => :member
           put :associate, :on => :member
           put :refresh_cache, :on => :member
+          put 'available_virtual_machines/(:vm_id)/power', :to => 'compute_resources#power_vm', :on => :member
+          delete 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#destroy_vm', :on => :member
           resources :locations, :only => [:index, :show]
           resources :organizations, :only => [:index, :show]
           resources :compute_attributes, :only => [:index, :show, :create, :update]

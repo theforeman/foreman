@@ -7,9 +7,9 @@ module Api
       wrap_parameters ComputeResource, :include => compute_resource_params_filter.accessible_attributes(parameter_filter_context)
 
       before_action :find_resource, :only => [:show, :update, :destroy, :available_images, :associate,
-                                              :available_clusters, :available_flavors, :available_folders,
+                                              :available_virtual_machines, :available_clusters, :available_flavors, :available_folders,
                                               :available_networks, :available_resource_pools, :available_security_groups, :available_storage_domains,
-                                              :available_zones, :available_storage_pods, :storage_domain, :storage_pod, :refresh_cache]
+                                              :available_zones, :available_storage_pods, :storage_domain, :storage_pod, :refresh_cache, :power_vm, :show_vm, :destroy_vm]
 
       api :GET, "/compute_resources/", N_("List all compute resources")
       param_group :taxonomy_scope, ::Api::V2::BaseController
@@ -238,11 +238,45 @@ module Api
         end
       end
 
+      api :GET, "/compute_resources/:id/available_virtual_machines/", N_("List available virtual machines for a compute resource")
+      param :id, :identifier, :required => true
+      def available_virtual_machines
+        @available_virtual_machines = @compute_resource.vms
+      end
+
+      api :GET, "/compute_resources/:id/available_virtual_machines/:vm_id", N_("Show a virtual machine")
+      param :id, :identifier, :required => true
+      param :vm_id, :identifier, :required => true
+      def show_vm
+        @vm = @compute_resource.vms.find { |vm| vm.id = params[:vm_id] }
+        render :json => { :data => @vm.attributes }
+      end
+
+      api :PUT, "/compute_resources/:id/available_virtual_machines/:vm_id/power", N_("Power a Virtual Machine")
+      param :id, :identifier, :required => true
+      param :vm_id, :identifier, :required => true
+      def power_vm
+        @vm = @compute_resource.vms.find { |vm| vm.id = params[:vm_id] }
+        action = @vm.ready? ? :stop : :start
+        if @vm.send(action)
+          render_message(_('%{vm} is now %{vm_state}') % {:vm => @vm, :vm_state => @vm.state.capitalize})
+        else
+          render_message(_('failed to %{action} %{vm}') % {:action => _(action), :vm => @vm})
+        end
+      end
+
+      api :DELETE, "/compute_resources/:id/available_virtual_machines/:vm_id", N_("Delete a Virtual Machine")
+      param :id, :identifier, :required => true
+      param :vm_id, :identifier, :required => true
+      def destroy_vm
+        process_response @compute_resource.destroy_vm params[:vm_id]
+      end
+
       private
 
       def action_permission
         case params[:action]
-          when 'available_images', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache'
+          when 'available_images', 'available_virtual_machines', 'available_clusters', 'available_flavors', 'available_folders', 'available_networks', 'available_resource_pools', 'available_security_groups', 'available_storage_domains', 'storage_domain', 'available_zones', 'associate', 'available_storage_pods', 'storage_pod', 'refresh_cache', 'show_vm', 'power_vm', 'destroy_vm'
             :view
           else
             super

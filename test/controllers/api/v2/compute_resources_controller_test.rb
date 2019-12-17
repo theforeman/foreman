@@ -111,6 +111,19 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     assert_not_empty available_images
   end
 
+  test "should get available virtual machines" do
+    vm = Object.new
+    vm.stubs(:name).returns('some_vm')
+    vm.stubs(:id).returns('123456')
+
+    Foreman::Model::EC2.any_instance.stubs(:available_virtual_machines).returns([vm])
+
+    get :available_virtual_machines, params: { :id => compute_resources(:ovirt).to_param }
+    assert_response :success
+    available_virtual_machines = ActiveSupport::JSON.decode(@response.body)
+    assert_not_empty available_virtual_machines
+  end
+
   test "should get available networks" do
     network = Object.new
     network.stubs(:name).returns('test_network')
