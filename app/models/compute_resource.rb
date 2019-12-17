@@ -267,6 +267,10 @@ class ComputeResource < ApplicationRecord
     []
   end
 
+  def available_virtual_machines
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   def available_networks(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
