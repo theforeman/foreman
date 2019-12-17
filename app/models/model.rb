@@ -4,11 +4,11 @@ class Model < ApplicationRecord
   extend FriendlyId
   friendly_id :name
   include Parameterizable::ByIdName
-  include ::Foreman::EventSubscribers::Observable
+  include ::Foreman::ObservableModel
 
-  notify_event_observers on: :create, with: :created
-  notify_event_observers on: :update, with: :updated
-  notify_event_observers on: :destroy, with: :destroyed do |model|
+  set_hook :model_created, on: :create
+  set_hook :model_updated, on: :update
+  set_hook :model_destroyed, on: :destroy do |model|
     { id: model.id, name: model.name }
   end
 

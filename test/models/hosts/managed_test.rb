@@ -122,5 +122,87 @@ module Host
         assert_equal 'boot/Solaris-10.8-x86.miniroot', host.miniroot
       end
     end
+
+    describe 'hooks' do
+      let(:host) { FactoryBot.create(:host, :managed) }
+      let(:event_context) { ::Logging.mdc.context.symbolize_keys }
+      let(:callback) { -> {} }
+
+      test 'hooks are defined' do
+        expected = [
+          'host_created.event.foreman',
+          'host_updated.event.foreman',
+          'host_destroyed.event.foreman',
+          'build_entered.event.foreman',
+          'build_exited.event.foreman',
+        ]
+
+        assert_same_elements expected, Host::Managed.event_subscription_hooks
+      end
+
+      describe 'build_entered hook' do
+        let(:host) { FactoryBot.create(:host, :managed, build: false) }
+
+        test '"build_entered.event.foreman" event is sent when build set to true' do
+          host.update!(build: false)
+
+          ActiveSupport::Notifications.subscribed(callback, 'build_entered.event.foreman') do
+            callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
+              payload == { id: host.id, hostname: host.hostname }.merge(context: event_context)
+            end
+
+            host.setBuild
+          end
+        end
+      end
+
+      describe 'build_exited hook' do
+        let(:host) { FactoryBot.create(:host, :managed, build: true) }
+
+        test '"build_exited.event.foreman" event is sent when build set to false' do
+          ActiveSupport::Notifications.subscribed(callback, 'build_exited.event.foreman') do
+            callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
+              payload == { id: host.id, hostname: host.hostname }.merge(context: event_context)
+            end
+
+            host.built
+          end
+        end
+      end
+    end
+
+    describe 'AR hooks' do
+      let(:host) { FactoryBot.build(:host, :managed) }
+
+      test 'call #build_hooks on commit' do
+        host.expects(:build_hooks)
+
+        host.run_callbacks(:commit)
+      end
+
+      describe '#build_hooks' do
+        context 'when build mode is enabled' do
+          it 'runs :build callbacks' do
+            host.stubs(:build?).returns(true)
+            host.stubs(:previous_changes).returns({ 'build' => [false, true] })
+
+            host.expects(:run_callbacks).with(:build)
+
+            host.build_hooks
+          end
+        end
+
+        context 'when build mode is disabled' do
+          it 'runs :provision callbacks' do
+            host.stubs(:build?).returns(false)
+            host.stubs(:previous_changes).returns({ 'build' => [true, false] })
+
+            host.expects(:run_callbacks).with(:provision)
+
+            host.build_hooks
+          end
+        end
+      end
+    end
   end
 end

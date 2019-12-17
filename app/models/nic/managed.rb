@@ -59,14 +59,6 @@ module Nic
       end
     end
 
-    def hostname
-      if domain.present? && name.present?
-        "#{shortname}.#{domain.name}"
-      else
-        name
-      end
-    end
-
     def self.humanized_name
       N_('Interface')
     end

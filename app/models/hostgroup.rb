@@ -5,6 +5,7 @@ class Hostgroup < ApplicationRecord
   friendly_id :title
   include Taxonomix
   include HostCommon
+  include Foreman::ObservableModel
 
   include NestedAncestryCommon
   include NestedAncestryCommon::Search
@@ -46,6 +47,10 @@ class Hostgroup < ApplicationRecord
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader
+
+  set_crud_hooks :hostgroup do |hostgroup|
+    { id: hostgroup.id, name: hostgroup.name }
+  end
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here

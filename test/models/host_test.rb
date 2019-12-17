@@ -474,7 +474,7 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should populate primary interface attributes even without existing interface" do
-    host = FactoryBot.create(:host, :managed => false)
+    host = FactoryBot.build(:host, :managed => false)
     host.interfaces = []
     host.populate_fields_from_facts(
       mock_parser(:domain => 'example.com',
