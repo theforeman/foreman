@@ -77,7 +77,7 @@ Foreman::AccessControl.map do |permission_set|
     ajax_actions = [:test_connection]
     map.permission :view_compute_resources, {:compute_resources => [:index, :show, :auto_complete_search, :ping, :available_images, :refresh_cache, :welcome],
                                                 :"api/v2/compute_resources" => [:index, :show, :available_images, :available_clusters, :available_folders,
-                                                                                :available_flavors, :available_networks, :available_resource_pools,
+                                                                                :available_flavors, :available_networks, :available_resource_pools, :available_virtual_machines, :show_vm,
                                                                                 :available_security_groups, :available_storage_domains, :available_zones,
                                                                                 :available_storage_pods, :storage_pod, :storage_domain, :refresh_cache],
     }
@@ -91,6 +91,10 @@ Foreman::AccessControl.map do |permission_set|
     }
     map.permission :destroy_compute_resources, {:compute_resources => [:destroy],
                                                 :"api/v2/compute_resources" => [:destroy],
+    }
+    map.permission :power_vm_compute_resources, {:"api/v2/compute_resources" => [:power_vm],
+    }
+    map.permission :destroy_vm_compute_resources, {:"api/v2/compute_resources" => [:destroy_vm],
     }
   end
 
