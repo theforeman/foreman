@@ -2,7 +2,7 @@
 require 'prometheus/client'
 require 'prometheus/client/data_stores/direct_file_store'
 PROMETHEUS_STORE_DIR = File.join(Rails.root, 'tmp', 'prometheus')
-Dir.mkdir(PROMETHEUS_STORE_DIR) unless Dir.exist?(PROMETHEUS_STORE_DIR)
+FileUtils.mkdir_p(PROMETHEUS_STORE_DIR)
 Prometheus::Client.config.data_store =
   Prometheus::Client::DataStores::DirectFileStore.new(dir: PROMETHEUS_STORE_DIR)
 
