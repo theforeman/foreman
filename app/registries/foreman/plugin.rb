@@ -21,7 +21,6 @@ require_dependency 'foreman/plugin/rbac_support'
 require_dependency 'foreman/plugin/report_scanner_registry'
 require_dependency 'foreman/plugin/report_origin_registry'
 require_dependency 'foreman/plugin/medium_providers_registry'
-require_dependency 'foreman/plugin/event_observers_registry'
 
 module Foreman #:nodoc:
   class PluginNotFound < Foreman::Exception; end
@@ -44,13 +43,12 @@ module Foreman #:nodoc:
     @report_origin_registry = Plugin::ReportOriginRegistry.new
     @medium_providers = Plugin::MediumProvidersRegistry.new
     @graphql_types_registry = Plugin::GraphqlTypesRegistry.new
-    @event_observers_registry = Plugin::EventObserversRegistry.new
 
     class << self
       attr_reader   :registered_plugins
       attr_accessor :tests_to_skip, :report_scanner_registry,
         :report_origin_registry, :medium_providers,
-        :graphql_types_registry, :event_observers_registry
+        :graphql_types_registry
       private :new
 
       def def_field(*names)
@@ -556,10 +554,7 @@ module Foreman #:nodoc:
       @host_ui_description = UI.describe_host(&block)
     end
 
-    delegate :event_observers_registry, to: :class
-    delegate :event_observers, to: :event_observers_registry
-    delegate :register_event_observer, to: :event_observers_registry
-    delegate :unregister_event_observer, to: :event_observers_registry
+    delegate :subscribe, to: ActiveSupport::Notifications
 
     private
 

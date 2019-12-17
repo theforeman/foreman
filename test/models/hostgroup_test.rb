@@ -27,6 +27,16 @@ class HostgroupTest < ActiveSupport::TestCase
   should validate_length_of(:root_pass).is_at_least(8).
     with_message('should be 8 characters or more')
 
+  test 'hooks are defined' do
+    expected = [
+      'hostgroup_created.event.foreman',
+      'hostgroup_updated.event.foreman',
+      'hostgroup_destroyed.event.foreman',
+    ]
+
+    assert_same_elements expected, Hostgroup.event_subscription_hooks
+  end
+
   test "name strips leading and trailing white spaces" do
     host_group = Hostgroup.new :name => " all    hosts in the     world    "
     assert host_group.save

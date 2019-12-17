@@ -16,6 +16,7 @@ class Host::Managed < Host::Base
   include HostInfoExtensions
   include HostParams
   include Facets::ManagedHostExtensions
+  include Foreman::ObservableModel
 
   has_many :host_classes, :foreign_key => :host_id
   has_many :puppetclasses, :through => :host_classes, :dependent => :destroy
@@ -37,6 +38,18 @@ class Host::Managed < Host::Base
       output = [current_user_result] + output
     end
     output
+  end
+
+  set_crud_hooks :host do |h|
+    { id: h.id, hostname: h.hostname }
+  end
+
+  set_hook :build_entered, if: -> { saved_change_to_build? && build? } do |h|
+    { id: h.id, hostname: h.hostname }
+  end
+
+  set_hook :build_exited, if: -> { saved_change_to_build? && !build? } do |h|
+    { id: h.id, hostname: h.hostname }
   end
 
   # Define custom hook that can be called in model by magic methods (before, after, around)

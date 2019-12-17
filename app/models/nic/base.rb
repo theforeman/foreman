@@ -122,6 +122,14 @@ module Nic
       result
     end
 
+    def hostname
+      if domain.present? && name.present?
+        "#{shortname}.#{domain.name}"
+      else
+        name
+      end
+    end
+
     def shortname
       if domain
         name.to_s.chomp("." + domain.name)
