@@ -55,7 +55,7 @@ user-setup-udeb passwd/make-user boolean false
 tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
 
 # Install some base packages
-d-i pkgsel/include string lsb-release python
+d-i pkgsel/include string lsb-release wget python
 d-i pkgsel/update-policy select unattended-upgrades
 d-i pkgsel/upgrade select none
 
