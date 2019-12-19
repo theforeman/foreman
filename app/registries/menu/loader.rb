@@ -74,7 +74,6 @@ module Menu
           menu.item :environments,      :caption => N_('Environments')
           menu.item :puppetclasses,     :caption => N_('Classes')
           menu.item :config_groups,     :caption => N_('Config Groups')
-          menu.item :variable_lookup_keys, :caption => N_('Smart Variables')
           menu.item :puppetclass_lookup_keys, :caption => N_('Smart Class Parameters')
         end
 
