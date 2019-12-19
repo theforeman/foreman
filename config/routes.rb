@@ -43,7 +43,6 @@ Foreman::Application.routes.draw do
     'subnets',
     'trends',
     'usergroups',
-    'variable_lookup_keys',
   ]
 
   welcoming_controllers.each do |welcoming_controller|
@@ -156,13 +155,6 @@ Foreman::Application.routes.draw do
         collection do
           get 'auto_complete_search'
         end
-      end
-    end
-
-    resources :variable_lookup_keys, :except => [:show] do
-      resources :lookup_values, :only => [:index, :create, :update, :destroy]
-      collection do
-        get 'auto_complete_search'
       end
     end
 
