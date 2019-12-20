@@ -46,7 +46,7 @@ truststorePass
 storepass
 )
 FILTER_WORDS_STR=$(IFS=$'|'; echo "${FILTER_WORDS[*]}")
-FILTER="s/($FILTER_WORDS_STR)(\"?\s*[:=]\s*)\S+/\1\2+FILTERED+/g"
+FILTER="s/($FILTER_WORDS_STR)(\"?\s*[:=]?\s*)\S+/\1\2+FILTERED+/g"
 
 error() {
   echo "$*" >&2
