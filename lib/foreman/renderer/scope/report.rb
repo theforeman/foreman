@@ -84,10 +84,10 @@ module Foreman
         end
 
         def html_style
-          <<CSS
-th { background-color: black; color: white; }
-table,th,td { border-collapse: collapse; border: 1px solid black; }
-CSS
+          <<~CSS
+            th { background-color: black; color: white; }
+            table,th,td { border-collapse: collapse; border: 1px solid black; }
+          CSS
         end
 
         def serialize_cell(cell)

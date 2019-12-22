@@ -25,13 +25,6 @@ Layout/CaseIndentation:
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
-# Offense count: 38
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: squiggly, active_support, powerpack, unindent
-Layout/IndentHeredoc:
-  Enabled: false
-
 # Offense count: 190
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

@@ -7,18 +7,18 @@ namespace :parameters do
     end
   end
 
-  desc <<-END_DESC
-Auto detect the key type & update formatted value in parameters.
+  desc <<~END_DESC
+    Auto detect the key type & update formatted value in parameters.
 
-Foreman will make auto detect key type based on the formatted value.
-This formatted value is nothing but parsed from string value of an existing parameters.
-It will update type and value with formatted value to parameters.
+    Foreman will make auto detect key type based on the formatted value.
+    This formatted value is nothing but parsed from string value of an existing parameters.
+    It will update type and value with formatted value to parameters.
 
-Sample examples:
-  if value == "123" then set type "integer" with value 123.
+    Sample examples:
+      if value == "123" then set type "integer" with value 123.
 
-Example:
-    rake db:cast_key_types_and_values
+    Example:
+        rake db:cast_key_types_and_values
 
   END_DESC
   task :cast_key_types_and_values => :environment do

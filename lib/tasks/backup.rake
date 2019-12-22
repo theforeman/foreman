@@ -1,22 +1,22 @@
 require "fileutils"
 
 namespace :db do
-  desc <<-END_DESC
-Make a dump of your database
+  desc <<~END_DESC
+    Make a dump of your database
 
-Foreman will make a dump of your database at the provided location, or it will put it in #{File.expand_path('../../db', __dir__)} if no destination file is provided.
-A valid config/database.yml file with the database details is needed to perform this operation.
+    Foreman will make a dump of your database at the provided location, or it will put it in #{File.expand_path('../../db', __dir__)} if no destination file is provided.
+    A valid config/database.yml file with the database details is needed to perform this operation.
 
-Available conditions:
-  * destination => path to dump output file (defaults to #{File.expand_path('../../db', __dir__)}/foreman.EPOCH.sql)
-  * tables => optional comma separated list of tables (you can use regex to match multiple)
-              Specifies the list of tables to include in the dump.
-              This option works for postgres only.
-  Example:
-    rake db:dump destination=/mydir/dumps/foreman.sql RAILS_ENV=production # puts production dump in /mydir/dumps/foreman.sql
-    rake db:dump tables="hostgro.*"# will match ["hostgroup_classes", "hostgroups"]
+    Available conditions:
+      * destination => path to dump output file (defaults to #{File.expand_path('../../db', __dir__)}/foreman.EPOCH.sql)
+      * tables => optional comma separated list of tables (you can use regex to match multiple)
+                  Specifies the list of tables to include in the dump.
+                  This option works for postgres only.
+      Example:
+        rake db:dump destination=/mydir/dumps/foreman.sql RAILS_ENV=production # puts production dump in /mydir/dumps/foreman.sql
+        rake db:dump tables="hostgro.*"# will match ["hostgroup_classes", "hostgroups"]
 
-END_DESC
+  END_DESC
 
   task :dump => :environment do
     config      = Rails.configuration.database_configuration[Rails.env]
@@ -79,18 +79,18 @@ END_DESC
     end.flatten
   end
 
-  desc <<-END_DESC
-Import a database dump
+  desc <<~END_DESC
+    Import a database dump
 
-Foreman will import a database from the provided location.
-A valid config/database.yml file with the database details is needed to perform this operation.
+    Foreman will import a database from the provided location.
+    A valid config/database.yml file with the database details is needed to perform this operation.
 
-Available conditions:
-  * file => database dump file path
+    Available conditions:
+      * file => database dump file path
 
-  Example:
-    rake db:import_dump file=/mydir/dumps/foreman.db RAILS_ENV=production # imports /mydir/dumps/foreman.db as the production db
-END_DESC
+      Example:
+        rake db:import_dump file=/mydir/dumps/foreman.db RAILS_ENV=production # imports /mydir/dumps/foreman.db as the production db
+  END_DESC
 
   task :import_dump => :environment do
     unless ENV['file']

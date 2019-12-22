@@ -1,10 +1,10 @@
 # TRANSLATORS: do not translate
-desc <<-EOT
-When Foreman imports a new host by reading its facts it will create the host and
-set its model to a value based upon the facts. This can result in a multiplicity
-of similarly named models. These may be condensed donw into a few basic models
-by comparing the names against a list of model types and regular expressions that
-can be found in the config/model.mappings file.
+desc <<~EOT
+  When Foreman imports a new host by reading its facts it will create the host and
+  set its model to a value based upon the facts. This can result in a multiplicity
+  of similarly named models. These may be condensed donw into a few basic models
+  by comparing the names against a list of model types and regular expressions that
+  can be found in the config/model.mappings file.
 EOT
 namespace :models  do
   desc 'Reduce the many vendor supplied model names to a few sensible model definitions'

@@ -1,19 +1,19 @@
 # TRANSLATORS: do not translate
-desc <<-END_DESC
-Expire Reports automatically
+desc <<~END_DESC
+  Expire Reports automatically
 
-Available conditions:
-  * days        => number of days to keep reports (defaults to 7)
-  * status      => status of the report (if not set defaults to any status)
-  * report_type => report type (defaults to config_report), accepts either underscore / class name styles
-  * batch_size  => number of records deleted in single SQL transaction (defaults to 1k)
-  * sleep_time  => delay in seconds between batches (defaults to 0.2)
+  Available conditions:
+    * days        => number of days to keep reports (defaults to 7)
+    * status      => status of the report (if not set defaults to any status)
+    * report_type => report type (defaults to config_report), accepts either underscore / class name styles
+    * batch_size  => number of records deleted in single SQL transaction (defaults to 1k)
+    * sleep_time  => delay in seconds between batches (defaults to 0.2)
 
-  Example:
-    rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
-    rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non interesting reports after one day
-    rake reports:expire report_type=my_report days=3 # expires all reports of type MyReport (underscored style) from the last 3 days.
-    rake reports:expire report_type=MyReport days=3 # expires all reports of type MyReport (class name style) from the last 3 days.
+    Example:
+      rake reports:expire days=7 RAILS_ENV="production" # expires all reports regardless of their status
+      rake reports:expire days=1 status=0 RAILS_ENV="production" # expires all non interesting reports after one day
+      rake reports:expire report_type=my_report days=3 # expires all reports of type MyReport (underscored style) from the last 3 days.
+      rake reports:expire report_type=MyReport days=3 # expires all reports of type MyReport (class name style) from the last 3 days.
 
 END_DESC
 
@@ -43,31 +43,31 @@ namespace :reports do
   end
 end
 # TRANSLATORS: do not translate
-desc <<-END_DESC
-Send an email notifications such as summarising hosts Puppet reports (and lack of it), audits summaries, built hosts summary etc.
+desc <<~END_DESC
+  Send an email notifications such as summarising hosts Puppet reports (and lack of it), audits summaries, built hosts summary etc.
 
-Users can configure the frequency they desire to receive mail notifications under
-My account -> Mail Preferences -> Notifications, and this task will send emails to
-users according to their preferences.
-e.g: rake reports:daily sends reports to users who want daily notifications.
+  Users can configure the frequency they desire to receive mail notifications under
+  My account -> Mail Preferences -> Notifications, and this task will send emails to
+  users according to their preferences.
+  e.g: rake reports:daily sends reports to users who want daily notifications.
 
-Available conditions:
-  * days             => number of days to scan backwards (defaults to 1)
-  * hours            => number of hours to scan backwards (defaults to disabled)
-  * environment      => Report only for hosts which belongs to a certian environment
-  * fact=name:value  => Report only for hosts which have a certian fact name and a value
-  * email            => override default email addresses
+  Available conditions:
+    * days             => number of days to scan backwards (defaults to 1)
+    * hours            => number of hours to scan backwards (defaults to disabled)
+    * environment      => Report only for hosts which belongs to a certian environment
+    * fact=name:value  => Report only for hosts which have a certian fact name and a value
+    * email            => override default email addresses
 
-  Example:
-    # Sends out a monthly summary email only for hosts that belong in the 'production' environment
-    rake reports:monthly environment=production RAILS_ENV="production"
+    Example:
+      # Sends out a monthly summary email only for hosts that belong in the 'production' environment
+      rake reports:monthly environment=production RAILS_ENV="production"
 
-    # Sends out a weekly summary email only for hosts matching a certain fact name and value
-    rake reports:weekly fact=domain:theforeman.org RAILS_ENV="production"
+      # Sends out a weekly summary email only for hosts matching a certain fact name and value
+      rake reports:weekly fact=domain:theforeman.org RAILS_ENV="production"
 
-    # Sends out a weekly summary email containing only hosts that belong in the 'testing'
-    # environment to an email address 'testuser@domain'
-    rake reports:weekly environment=testing email=testuser@domain RAILS_ENV="production"
+      # Sends out a weekly summary email containing only hosts that belong in the 'testing'
+      # environment to an email address 'testuser@domain'
+      rake reports:weekly environment=testing email=testuser@domain RAILS_ENV="production"
 END_DESC
 namespace :reports do
   def mail_options

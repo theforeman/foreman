@@ -1,12 +1,12 @@
 namespace :interfaces do
-  desc <<-END_DESC
-Removes old interfaces that match ignored interfaces pattern setting.
+  desc <<~END_DESC
+    Removes old interfaces that match ignored interfaces pattern setting.
 
-This is useful when you change the ignored pattern setting.
+    This is useful when you change the ignored pattern setting.
 
-Examples:
-  # foreman-rake interfaces:clean
-END_DESC
+    Examples:
+      # foreman-rake interfaces:clean
+  END_DESC
 
   task :clean => :environment do
     puts 'Starting ingnored interfaces clean up...'

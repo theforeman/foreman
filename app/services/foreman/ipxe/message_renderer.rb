@@ -11,9 +11,9 @@ module Foreman
 
       def to_s
         <<~MESSAGE
-        #!ipxe
-        echo #{message}
-        shell
+          #!ipxe
+          echo #{message}
+          shell
         MESSAGE
       end
     end

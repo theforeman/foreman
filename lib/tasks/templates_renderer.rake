@@ -1,12 +1,12 @@
 # TRANSLATORS: do not translate
-desc <<-END_DESC
-Render templates from a directory
+desc <<~END_DESC
+  Render templates from a directory
 
-Available conditions:
-  * DIRECTORY        => Path to the folder where the templates are stored
+  Available conditions:
+    * DIRECTORY        => Path to the folder where the templates are stored
 
-  Example:
-    rake templates:render DIRECTORY=/tmp/community-templates/provisioning_templates
+    Example:
+      rake templates:render DIRECTORY=/tmp/community-templates/provisioning_templates
 
 END_DESC
 

@@ -4,26 +4,26 @@ require "csv"
 # '/usr/share/foreman/db/schema.rb' to find out table and column names.
 
 # TRANSLATORS: do not translate
-desc <<-END_DESC
-Database exporting
+desc <<~END_DESC
+  Database exporting
 
-This task converts data from the internal database to CSV format. Several export templates
-are provided defined in
+  This task converts data from the internal database to CSV format. Several export templates
+  are provided defined in
 
-    /usr/share/foreman/lib/tasks/exports.rake
+      /usr/share/foreman/lib/tasks/exports.rake
 
-It is possible to define own templates via simple DSL and ActiveRecord API in:
+  It is possible to define own templates via simple DSL and ActiveRecord API in:
 
-    /etc/foreman/exporters.rb.conf
+      /etc/foreman/exporters.rb.conf
 
-Available conditions:
-  * output => output directory
-  * templates => particular templates to be exported (all by default)
-  * header => generate column names (CSV only)
+  Available conditions:
+    * output => output directory
+    * templates => particular templates to be exported (all by default)
+    * header => generate column names (CSV only)
 
-  Example:
-    rake exports:csv ouput=/tmp/export header=1
-    rake exports:csv templates=managed_hosts_provisioning_summary,other_template ouput=/tmp/export
+    Example:
+      rake exports:csv ouput=/tmp/export header=1
+      rake exports:csv templates=managed_hosts_provisioning_summary,other_template ouput=/tmp/export
 END_DESC
 
 $exporters = {}

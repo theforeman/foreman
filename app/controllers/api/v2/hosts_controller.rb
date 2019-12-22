@@ -181,16 +181,16 @@ module Api
 
       api :GET, "/hosts/:id/status", N_("Get configuration status of host")
       param :id, :identifier_dottable, :required => true
-      description <<-EOS
-Return value may either be one of the following:
+      description <<~EOS
+        Return value may either be one of the following:
 
-* Alerts disabled
-* No reports
-* Error
-* Out of sync
-* Active
-* Pending
-* No changes
+        * Alerts disabled
+        * No reports
+        * Error
+        * Out of sync
+        * Active
+        * Pending
+        * No changes
       EOS
 
       def status
@@ -200,12 +200,12 @@ Return value may either be one of the following:
 
       api :GET, "/hosts/:id/status/:type", N_("Get status of host")
       param :id, :identifier_dottable, :required => true
-      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(<<-EOS
-status type, can be one of
-* global
-* configuration
-* build
-EOS
+      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(<<~EOS
+        status type, can be one of
+        * global
+        * configuration
+        * build
+      EOS
   # rubocop:disable Layout/ClosingParenthesisIndentation
 )
       # rubocop:enable Layout/ClosingParenthesisIndentation
@@ -221,8 +221,8 @@ EOS
 
       api :GET, "/hosts/:id/vm_compute_attributes", N_("Get vm attributes of host")
       param :id, :identifier_dottable, :required => true
-      description <<-EOS
-Return the host's compute attributes that can be used to create a clone of this VM
+      description <<~EOS
+        Return the host's compute attributes that can be used to create a clone of this VM
       EOS
 
       def vm_compute_attributes

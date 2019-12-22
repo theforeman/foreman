@@ -195,12 +195,12 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
     Setting[:unattended_url] = "http://ahost.com:3000"
 
     template = h.send(:generate_pxe_template, :PXELinux).to_s.tr! '~', "\n"
-    expected = <<-EXPECTED
-default linux
-label linux
-kernel boot/centos-5-4-0hJnFEYDTkXX-vmlinuz
-append initrd=boot/centos-5-4-0hJnFEYDTkXX-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac
-EXPECTED
+    expected = <<~EXPECTED
+      default linux
+      label linux
+      kernel boot/centos-5-4-0hJnFEYDTkXX-vmlinuz
+      append initrd=boot/centos-5-4-0hJnFEYDTkXX-initrd.img ks=http://ahost.com:3000/unattended/kickstart ksdevice=bootif network kssendmac
+    EXPECTED
     assert_equal expected.strip, template
     assert h.build
   end
@@ -217,19 +217,19 @@ EXPECTED
     assert !h.build
 
     template = h.send(:generate_pxe_template, :PXELinux).to_s.tr! '~', "\n"
-    expected = <<-EXPECTED
-DEFAULT menu
-PROMPT 0
-MENU TITLE PXE Menu
-TIMEOUT 200
-TOTALTIMEOUT 6000
-ONTIMEOUT local
+    expected = <<~EXPECTED
+      DEFAULT menu
+      PROMPT 0
+      MENU TITLE PXE Menu
+      TIMEOUT 200
+      TOTALTIMEOUT 6000
+      ONTIMEOUT local
 
-LABEL local
-MENU LABEL (local)
-MENU DEFAULT
-LOCALBOOT 0
-EXPECTED
+      LABEL local
+      MENU LABEL (local)
+      MENU DEFAULT
+      LOCALBOOT 0
+    EXPECTED
     assert_equal template, expected.strip
   end
 
@@ -369,12 +369,12 @@ EXPECTED
     h.location.update_attribute :ignore_types, h.location.ignore_types + ['ProvisioningTemplate']
 
     template = h.send(:generate_pxe_template, :PXELinux).to_s.tr! '~', "\n"
-    expected = <<-EXPECTED
-DEFAULT linux
-LABEL linux
-KERNEL boot/opensuse-kAwuzwT2nvld-linux
-APPEND initrd=boot/opensuse-kAwuzwT2nvld-initrd ramdisk_size=65536 install=http://download.opensuse.org/distribution/12.3/repo/oss autoyast=http://ahost.com:3000/unattended/provision textmode=1
-EXPECTED
+    expected = <<~EXPECTED
+      DEFAULT linux
+      LABEL linux
+      KERNEL boot/opensuse-kAwuzwT2nvld-linux
+      APPEND initrd=boot/opensuse-kAwuzwT2nvld-initrd ramdisk_size=65536 install=http://download.opensuse.org/distribution/12.3/repo/oss autoyast=http://ahost.com:3000/unattended/provision textmode=1
+    EXPECTED
     assert_equal expected.strip, template
     assert h.build
   end
