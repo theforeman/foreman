@@ -26,11 +26,11 @@ task :config => :environment do
 
     def parser
       OptionParser.new do |opt|
-        opt.banner = <<BANNER
-Get or set the Foremen settings.
+        opt.banner = <<~BANNER
+          Get or set the Foremen settings.
 
-Options:
-BANNER
+          Options:
+        BANNER
         opt.on("-k",
                "--key KEY",
                "If not specified, all keys are displayed") do |val|

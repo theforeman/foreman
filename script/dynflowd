@@ -37,25 +37,25 @@ class ArgvParser
   end
 
   def banner(file)
-    banner = <<BANNER
-Run Dynflow executor for Foreman tasks.
+    banner = <<~BANNER
+      Run Dynflow executor for Foreman tasks.
 
-Usage: #{File.basename(file)} [options] ACTION"
+      Usage: #{File.basename(file)} [options] ACTION"
 
-ACTION can be one of:
+      ACTION can be one of:
 
-* start   - start the executor on background. It creates these files
-          in tmp/pid directory:
+      * start   - start the executor on background. It creates these files
+                in tmp/pid directory:
 
-            * dynflow_executor_monitor.pid - pid of monitor ensuring
-                                             the executor keeps running
-            * dynflow_executor.pid         - pid of the executor itself
-            * dynflow_executor.output      - stdout of the executor
-* stop    - stops the running executor
-* restart - restarts the running executor
-* run     - run the executor in foreground
+                  * dynflow_executor_monitor.pid - pid of monitor ensuring
+                                                   the executor keeps running
+                  * dynflow_executor.pid         - pid of the executor itself
+                  * dynflow_executor.output      - stdout of the executor
+      * stop    - stops the running executor
+      * restart - restarts the running executor
+      * run     - run the executor in foreground
 
-BANNER
+    BANNER
     banner
   end
 end

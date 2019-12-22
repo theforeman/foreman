@@ -255,12 +255,12 @@ class LookupValueTest < ActiveSupport::TestCase
                              :with_override, :path => "hostgroup\ncomment",
                              :key_type => 'string',
                              :puppetclass => puppetclasses(:one))
-    text = <<EOF
+    text = <<~EOF
 
-this is a multiline value
-with leading and trailing whitespace
+      this is a multiline value
+      with leading and trailing whitespace
 
-EOF
+    EOF
     value = LookupValue.new(:value => text, :match => "hostgroup=Common", :lookup_key_id => key.id)
     assert value.save!
     assert_equal value.value, text

@@ -199,12 +199,12 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
 
     test "white space isn't stripped" do
-      val = <<EOF
+      val = <<~EOF
 
-this is a multiline value
-with leading and trailing whitespace
+        this is a multiline value
+        with leading and trailing whitespace
 
-EOF
+      EOF
       param = FactoryBot.build_stubbed(:puppetclass_lookup_key, :as_smart_class_param,
                                 :override => true, :key_type => 'string',
                                 :default_value => val, :puppetclass => puppetclasses(:one))

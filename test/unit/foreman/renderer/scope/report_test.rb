@@ -14,11 +14,11 @@ class ReportScopeTest < ActiveSupport::TestCase
       assert_equal expected_csv, @scope.report_render(format: :csv)
 
       expected_yaml = <<~OUT
-      ---
-      - Col1: Val1
-        Col2: Val2
-      - Col1: Val3
-        Col2: Val4
+        ---
+        - Col1: Val1
+          Col2: Val2
+        - Col1: Val3
+          Col2: Val4
       OUT
       assert_equal expected_yaml, @scope.report_render(format: :yaml)
     end
@@ -28,7 +28,7 @@ class ReportScopeTest < ActiveSupport::TestCase
       assert_equal expected_csv, @scope.report_render(format: :csv)
 
       expected_yaml = <<~OUT
-      --- []
+        --- []
       OUT
       assert_equal expected_yaml, @scope.report_render(format: :yaml)
     end
@@ -46,15 +46,15 @@ class ReportScopeTest < ActiveSupport::TestCase
       assert_equal expected_csv, @scope.report_render(format: :csv)
 
       expected_yaml = <<~OUT + "  Nil: \n"
-      ---
-      - List:
-        - Val1
-        - 1
-        - true
-        String: Text
-        Number: 1
-        Bool: false
-        Empty: ''
+        ---
+        - List:
+          - Val1
+          - 1
+          - true
+          String: Text
+          Number: 1
+          Bool: false
+          Empty: ''
       OUT
       assert_equal expected_yaml, @scope.report_render(format: :yaml)
     end

@@ -5,14 +5,14 @@ require File.expand_path('../../config/environment', __dir__)
 unless Rails.env.production? && !Rails.configuration.database_configuration["production"]["migrate"]
   puts "Rais must be in production and database must have migrations turned off!"
   puts "Please add similar configuration to your config/database.yaml:"
-  puts <<EOS
-production:
-  adapter: sqlite3
-  database: ":memory:"
-  migrate: false
-  pool: 1
-  timeout: 1000
-EOS
+  puts <<~EOS
+    production:
+      adapter: sqlite3
+      database: ":memory:"
+      migrate: false
+      pool: 1
+      timeout: 1000
+  EOS
   exit 1
 end
 

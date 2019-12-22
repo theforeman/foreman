@@ -1,14 +1,14 @@
 # TRANSLATORS: do not translate
-desc <<-END_DESC
-Expire or anonymize old audits automatically
+desc <<~END_DESC
+  Expire or anonymize old audits automatically
 
-Available conditions:
-  * days        => number of days to keep audits (defaults to 90)
+  Available conditions:
+    * days        => number of days to keep audits (defaults to 90)
 
-  Example:
-    rake audits:expire # expires all audits older then 90 days
-    rake audits:expire days=7 # expires all audits older then 7 days
-    rake audits:anonymize days=7 # anonymizes all audits older then 7 days
+    Example:
+      rake audits:expire # expires all audits older then 90 days
+      rake audits:expire days=7 # expires all audits older then 7 days
+      rake audits:anonymize days=7 # anonymizes all audits older then 7 days
 
 END_DESC
 

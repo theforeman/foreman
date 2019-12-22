@@ -119,15 +119,15 @@ data"
 
   context "importing" do
     setup do
-      @snippet_text = <<EOS
-<%#
-kind: snippet
-name: epel
-model: ProvisioningTemplate
-snippet: true
--%>
-rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-EOS
+      @snippet_text = <<~EOS
+        <%#
+        kind: snippet
+        name: epel
+        model: ProvisioningTemplate
+        snippet: true
+        -%>
+        rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+      EOS
       @template = Template.new
     end
 

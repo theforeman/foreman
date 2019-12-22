@@ -9,12 +9,12 @@ class SafeModeRendererTest < ActiveSupport::TestCase
   end
 
   test "should raise renderer syntax error on syntax error" do
-    template_content = <<EOS
-line 1: ok
-line 2: ok
-line 3: <%= 1 + %>
-line 4: ok
-EOS
+    template_content = <<~EOS
+      line 1: ok
+      line 2: ok
+      line 3: <%= 1 + %>
+      line 4: ok
+    EOS
 
     source = OpenStruct.new(name: 'my_template', content: template_content)
 
