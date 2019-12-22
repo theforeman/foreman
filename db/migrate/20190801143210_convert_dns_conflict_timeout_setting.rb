@@ -24,8 +24,8 @@ class ConvertDnsConflictTimeoutSetting < ActiveRecord::Migration[5.2]
 
   def up
     Setting.without_auditing do
-      old_setting = FakeSetting.find_by_name("dns_conflict_timeout")
-      new_setting = FakeSetting.find_by_name("dns_timeout")
+      old_setting = FakeSetting.find_by(name: "dns_conflict_timeout")
+      new_setting = FakeSetting.find_by(name: "dns_timeout")
       return if old_setting.nil? || new_setting.nil?
       # only migrate the value if it was redefined (default was 3)
       if old_setting.value != 3

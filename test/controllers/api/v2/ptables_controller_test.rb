@@ -245,6 +245,6 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     ptable = FactoryBot.create(:ptable, :template => 'a')
     post :import, params: { :ptable => { :name => ptable.name, :template => 'b'} }
     assert_response :success
-    assert_equal 'b', Ptable.unscoped.find_by_name(ptable.name).template
+    assert_equal 'b', Ptable.unscoped.find_by(name: ptable.name).template
   end
 end

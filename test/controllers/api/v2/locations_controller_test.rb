@@ -76,7 +76,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     loc2 = FactoryBot.create(:location)
     user = FactoryBot.create(:user)
     user.locations = [ loc1 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:destroy_locations) ])
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by(name: :destroy_locations) ])
     user.roles << filter.role
     as_user user do
       delete :destroy, params: { :id => loc2 }
@@ -371,7 +371,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     location = FactoryBot.create(:location)
     new_location_name = RFauxFactory.gen_alphanumeric
     post :update, params: {:id => location.id, :location => {:name => new_location_name} }, session: set_session_user
-    updated_location = Location.find_by_id(location.id)
+    updated_location = Location.find_by(id: location.id)
     assert_equal new_location_name, updated_location.name
   end
 
@@ -379,21 +379,21 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     location = FactoryBot.create(:location)
     description = RFauxFactory.gen_utf8(300)
     post :update, params: {:id => location.id, :location => {:description => description} }, session: set_session_user
-    updated_location = Location.find_by_id(location.id)
+    updated_location = Location.find_by(id: location.id)
     assert_equal description, updated_location.description
   end
 
   test "should not update with invalid name" do
     location = FactoryBot.create(:location)
     post :update, params: {:id => location.id, :location => {:name => ''} }, session: set_session_user
-    updated_location = Location.find_by_id(location.id)
+    updated_location = Location.find_by(id: location.id)
     assert_response :unprocessable_entity
     assert_include @response.body, "Name can't be blank"
     assert_equal location.name, updated_location.name
   end
 
   test "org admin should not create locations by default" do
-    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by_name('Organization admin')]
+    user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one), :roles => [Role.find_by(name: 'Organization admin')]
     as_user user do
       post :create, params: { :location => { :name => 'loc1'} }
     end

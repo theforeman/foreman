@@ -11,7 +11,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
 
   def setup_os_user
     @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by(name: 'Viewer')]
   end
 
   context 'template rendering' do

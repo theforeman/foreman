@@ -63,7 +63,7 @@ class ReportTemplatesControllerTest < ActionController::TestCase
 
   def setup_view_user
     @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by(name: 'Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a report template' do
@@ -91,10 +91,10 @@ class ReportTemplatesControllerTest < ActionController::TestCase
   end
 
   def setup_edit_user
-    @user = User.find_by_login("one")
+    @user = User.find_by(login: "one")
     role = FactoryBot.build(:role)
     role.add_permissions!([:view_locations, :assign_locations, :edit_locations, :view_organizations, :assign_organizations, :edit_organizations, :view_report_templates, :edit_report_templates, :destroy_report_templates, :create_report_templates])
-    @user.roles = [Role.default, Role.find_by_name('Viewer'), role]
+    @user.roles = [Role.default, Role.find_by(name: 'Viewer'), role]
   end
 
   test 'user with editing rights should succeed in editing a report template' do

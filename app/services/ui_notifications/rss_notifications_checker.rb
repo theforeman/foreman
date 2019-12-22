@@ -68,11 +68,11 @@ module UINotifications
     private
 
     def rss_notification_blueprint
-      NotificationBlueprint.unscoped.find_by_name('rss_post')
+      NotificationBlueprint.unscoped.find_by(name: 'rss_post')
     end
 
     def notification_already_exists?(item)
-      !!Notification.unscoped.find_by_message(item.title)
+      !!Notification.unscoped.find_by(message: item.title)
     end
 
     def load_rss_feed

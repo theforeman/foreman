@@ -56,7 +56,7 @@ class BookmarkTest < ActiveSupport::TestCase
     assert_difference('Bookmark.count') do
       Bookmark.create({:name => "private", :query => "bar", :public => false, :controller => "hosts"})
     end
-    assert_equal Bookmark.my_bookmarks.include?(Bookmark.find_by_name("private")), true
+    assert_equal Bookmark.my_bookmarks.include?(Bookmark.find_by(name: "private")), true
   end
 
   test "my bookmarks should be able to create two bookmarks with same name under different controllers" do

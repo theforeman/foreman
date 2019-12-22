@@ -45,27 +45,27 @@ class RenameSeededTemplates < ActiveRecord::Migration[4.2]
 
   def up
     CONFIG_RENAMES.each do |old, new|
-      FakeConfigTemplate.find_by_name(old).try(:update_attributes, :name => new)
+      FakeConfigTemplate.find_by(name: old).try(:update_attributes, :name => new)
     end
     PTABLE_RENAMES.each do |old, new|
-      FakePtable.find_by_name(old).try(:update_attributes, :name => new)
+      FakePtable.find_by(name: old).try(:update_attributes, :name => new)
     end
     MEDIA_RENAMES.each do |old, new|
-      Medium.find_by_name(old).try(:update_attributes, :name => new)
+      Medium.find_by(name: old).try(:update_attributes, :name => new)
     end
-    TemplateKind.find_by_name('gPXE').try(:update_attributes, :name => 'iPXE')
+    TemplateKind.find_by(name: 'gPXE').try(:update_attributes, :name => 'iPXE')
   end
 
   def down
     CONFIG_RENAMES.each do |old, new|
-      FakeConfigTemplate.find_by_name(new).try(:update_attributes, :name => old)
+      FakeConfigTemplate.find_by(name: new).try(:update_attributes, :name => old)
     end
     PTABLE_RENAMES.each do |old, new|
-      FakePtable.find_by_name(new).try(:update_attributes, :name => old)
+      FakePtable.find_by(name: new).try(:update_attributes, :name => old)
     end
     MEDIA_RENAMES.each do |old, new|
-      Medium.find_by_name(new).try(:update_attributes, :name => old)
+      Medium.find_by(name: new).try(:update_attributes, :name => old)
     end
-    TemplateKind.find_by_name('iPXE').try(:update_attributes, :name => 'gPXE')
+    TemplateKind.find_by(name: 'iPXE').try(:update_attributes, :name => 'gPXE')
   end
 end

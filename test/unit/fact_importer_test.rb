@@ -49,7 +49,7 @@ class FactImporterTest < ActiveSupport::TestCase
 
       test 'facts created have the origin attribute set' do
         custom_import('foo' => 'bar')
-        imported_fact = FactName.find_by_name('foo').fact_values.first
+        imported_fact = FactName.find_by(name: 'foo').fact_values.first
         assert_equal 'N/A', imported_fact.origin
       end
     end
@@ -117,7 +117,7 @@ class FactImporterTest < ActiveSupport::TestCase
       assert_equal '2.6.9', value('kernelversion')
       assert_equal '4242', value('vda_size')
       assert_equal '{"key"=>"value"}', value('structured')
-      refute FactName.find_by_name('structured').compose?
+      refute FactName.find_by(name: 'structured').compose?
     end
 
     test 'importer adds new facts' do

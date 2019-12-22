@@ -90,7 +90,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_settings_with_the_same_value_as_default_should_not_save_the_value
     assert Setting.create(:name => "foo", :value => "bar", :default => "bar", :description => "x")
-    s = Setting.find_by_name "foo"
+    s = Setting.find_by name: "foo"
     assert_nil s.read_attribute(:value)
     assert_equal "bar", Setting[:foo]
   end
@@ -110,7 +110,7 @@ class SettingTest < ActiveSupport::TestCase
     assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
 
     Setting[:foo] = 3
-    setting = Setting.find_by_name("foo")
+    setting = Setting.find_by(name: "foo")
 
     assert_equal 3, Setting["foo"]
     assert_equal 3, setting.value
@@ -153,7 +153,7 @@ class SettingTest < ActiveSupport::TestCase
 
   def test_create_exclamation_updates_description
     Setting.create!(:name => 'administrator', :description => 'Test', :default => 'root@localhost.com')
-    s = Setting.find_by_name 'administrator'
+    s = Setting.find_by name: 'administrator'
     assert_equal 'Test', s.description
   end
 
@@ -201,7 +201,7 @@ class SettingTest < ActiveSupport::TestCase
     Setting.create!(:name => setting_name, :value => "bar", :default => "default", :description => "foo")
     SETTINGS[setting_name.to_sym] = "no-bar"
 
-    persisted = Setting.find_by_name(setting_name)
+    persisted = Setting.find_by(name: setting_name)
     assert persisted.readonly?
   end
 
@@ -314,7 +314,7 @@ class SettingTest < ActiveSupport::TestCase
   test "trusted_hosts must have comma separated values" do
     attrs = { :name => "trusted_hosts", :default => [], :description => "desc" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("trusted_hosts")
+    setting = Setting.find_by(name: "trusted_hosts")
     setting.value = ["localhost", "remotehost"]
     assert setting.save
     setting.value = ["localhost remotehost"]
@@ -325,7 +325,7 @@ class SettingTest < ActiveSupport::TestCase
   test "foreman_url must have valid formant" do
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("foreman_url")
+    setting = Setting.find_by(name: "foreman_url")
     setting.value = "##"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
@@ -334,7 +334,7 @@ class SettingTest < ActiveSupport::TestCase
   test "foreman_url must have proper format" do
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("foreman_url")
+    setting = Setting.find_by(name: "foreman_url")
     setting.value = "random_string"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
@@ -351,7 +351,7 @@ class SettingTest < ActiveSupport::TestCase
   test "unattended_url must have a valid format" do
     attrs = { :name => "unattended_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("unattended_url")
+    setting = Setting.find_by(name: "unattended_url")
     setting.value = "##"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
@@ -360,7 +360,7 @@ class SettingTest < ActiveSupport::TestCase
   test "unattended_url must have proper format" do
     attrs = { :name => "foreman_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("foreman_url")
+    setting = Setting.find_by(name: "foreman_url")
     setting.value = "random_string"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
@@ -369,7 +369,7 @@ class SettingTest < ActiveSupport::TestCase
   test "login_delegation_logout_url must have proper format or be blank" do
     attrs = { :name => "login_delegation_logout_url", :default => nil, :description => "desc" }
     assert Setting.create!(attrs)
-    setting = Setting.find_by_name("login_delegation_logout_url")
+    setting = Setting.find_by(name: "login_delegation_logout_url")
     setting.value = "http://somepage.org"
     assert setting.save
     setting.value = nil
@@ -382,7 +382,7 @@ class SettingTest < ActiveSupport::TestCase
   test "libvirt_default_console_address must have proper IP format" do
     attrs = { :name => "libvirt_default_console_address", :default => "127.0.0.1", :description => "desc" }
     assert Setting.create!(attrs)
-    setting = Setting.find_by_name("libvirt_default_console_address")
+    setting = Setting.find_by(name: "libvirt_default_console_address")
     setting.value = "192.168.100.122"
     assert setting.save
     setting.value = "396.158.147.569"
@@ -393,7 +393,7 @@ class SettingTest < ActiveSupport::TestCase
   test "remote_addr must have a proper IP regexp format" do
     attrs = { :name => "remote_addr", :default => "127.0.0.1", :description => "desc" }
     assert Setting.create!(attrs)
-    setting = Setting.find_by_name("remote_addr")
+    setting = Setting.find_by(name: "remote_addr")
     setting.value = "192.168.100.122|127.0.0.1"
     assert setting.save
     setting.value = "\\"
@@ -517,7 +517,7 @@ class SettingTest < ActiveSupport::TestCase
   def check_frozen_change(attr_name, value)
     attrs = { :name => "foo", :default => 5, :description => "test foo" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("foo")
+    setting = Setting.find_by(name: "foo")
 
     setting.send("#{attr_name}=", value)
     assert !setting.save, "Setting allowed to save new value for frozen attribute '#{attr_name}'"
@@ -558,12 +558,12 @@ class SettingTest < ActiveSupport::TestCase
 
   def check_correct_type_for(type, value)
     assert Setting.create(:name => "foo", :default => value, :description => "test foo")
-    assert_equal type, Setting.find_by_name("foo").try(:settings_type)
+    assert_equal type, Setting.find_by(name: "foo").try(:settings_type)
   end
 
   def check_properties_saved_and_loaded_ok(options = {})
     assert Setting.where(:name => options[:name]).first || Setting.create(options)
-    s = Setting.find_by_name options[:name]
+    s = Setting.find_by name: options[:name]
     assert_equal options[:value], s.value
     assert_equal options[:default], s.default
   end
@@ -594,14 +594,14 @@ class SettingTest < ActiveSupport::TestCase
 
   test 'bmc_credentials_accessible may not be disabled with safemode_render disabled' do
     Setting[:safemode_render] = false
-    bmc = Setting.find_by_name('bmc_credentials_accessible')
+    bmc = Setting.find_by(name: 'bmc_credentials_accessible')
     bmc.value = false
     refute_valid bmc, :base, 'Unable to disable bmc_credentials_accessible when safemode_render is disabled'
   end
 
   test 'safemode_render may not be disabled with bmc_credentials_accessible disabled' do
     Setting[:bmc_credentials_accessible] = false
-    bmc = Setting.find_by_name('safemode_render')
+    bmc = Setting.find_by(name: 'safemode_render')
     bmc.value = false
     refute_valid bmc, :base, 'Unable to disable safemode_render when bmc_credentials_accessible is disabled'
   end
@@ -675,7 +675,7 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "should update login page footer text with multiple valid long values" do
-    setting = Setting.find_by_name("login_text")
+    setting = Setting.find_by(name: "login_text")
     RFauxFactory.gen_strings(1000).values.each do |value|
       setting.value = value
       assert setting.valid?, "Can't update discovery_prefix setting with valid value #{value}"

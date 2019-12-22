@@ -4,7 +4,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   def setup
     @auth_source_ldap = FactoryBot.create(:auth_source_ldap)
     User.current = users(:admin)
-    User.unscoped.find_by_login('test').update_column(:auth_source_id, @auth_source_ldap.id)
+    User.unscoped.find_by(login: 'test').update_column(:auth_source_id, @auth_source_ldap.id)
   end
 
   should validate_presence_of(:name)
@@ -94,7 +94,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     test 'update_usergroups add user to a group' do
       LdapFluff.any_instance.expects(:user_list).with('ipausers').returns(['test'])
-      ldap_user = User.unscoped.find_by_login('test')
+      ldap_user = User.unscoped.find_by(login: 'test')
       @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
       external = FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
       @auth_source_ldap.send(:update_usergroups, 'test')
@@ -103,7 +103,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     test 'update_usergroups removes user from a group' do
       LdapFluff.any_instance.expects(:user_list).with('ipausers2').returns([])
-      ldap_user = User.unscoped.find_by_login('test')
+      ldap_user = User.unscoped.find_by(login: 'test')
       @auth_source_ldap.expects(:valid_group?).with('ipausers2').returns(true)
       external = FactoryBot.create(:external_usergroup, :name => 'ipausers2', :auth_source => @auth_source_ldap)
       ldap_user.usergroup_ids = [external.usergroup_id]
@@ -123,7 +123,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     test 'update_usergroups does not remove user from a group if belongs to one of two mapped external groups' do
       LdapFluff.any_instance.expects(:user_list).with('ipausers').returns(['test'])
       LdapFluff.any_instance.expects(:user_list).with('ipausers2').returns([])
-      ldap_user = User.unscoped.find_by_login('test')
+      ldap_user = User.unscoped.find_by(login: 'test')
       @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
       @auth_source_ldap.expects(:valid_group?).with('ipausers2').returns(true)
       external = FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)

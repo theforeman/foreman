@@ -31,14 +31,14 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
   test_attributes :pid => 'fb8b0bf1-b475-435a-926b-861aa18d31f1'
   test "should update login page footer text with long value" do
     value = RFauxFactory.gen_alpha 1000
-    setting = Setting.find_by_name("login_text")
+    setting = Setting.find_by(name: "login_text")
     put :update, params: { :id => setting.id, :setting => { :value => value } }
     assert_equal JSON.parse(@response.body)['value'], value, "Can't update login_text setting with valid value #{value}"
   end
 
   test_attributes :pid => '7a56f194-8bde-4dbf-9993-62eb6ab10733'
   test "should update login page footer text with empty value" do
-    setting = Setting.find_by_name("login_text")
+    setting = Setting.find_by(name: "login_text")
     put :update, params: { :id => setting.id, :setting => { :value => "" } }
     assert_equal JSON.parse(@response.body)['value'], "", "Can't update login_text setting with empty value"
   end
@@ -72,7 +72,7 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
 
   def user_one_as_system_admin
     user = users(:one)
-    user.roles = [Role.default, Role.find_by_name('System admin')]
+    user.roles = [Role.default, Role.find_by(name: 'System admin')]
     user
   end
 end

@@ -16,7 +16,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
   context 'on vmware' do
     let(:compute_resource) do
       cr = FactoryBot.create(:compute_resource, :vmware, :uuid => 'Solutions')
-      ComputeResource.find_by_id(cr.id)
+      ComputeResource.find_by(id: cr.id)
     end
     let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
 
@@ -59,7 +59,7 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
     context 'without existing domain' do
       test 'creates the domain' do
         assert_equal 'dhcp75-197', host.name
-        domain = Domain.find_by_name('virt.bos.redhat.com')
+        domain = Domain.find_by(name: 'virt.bos.redhat.com')
         assert_kind_of Domain, domain
         assert_equal domain, host.domain
       end

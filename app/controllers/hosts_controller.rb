@@ -142,11 +142,11 @@ class HostsController < ApplicationController
   def compute_resource_selected
     return not_found unless params[:host]
     Taxonomy.as_taxonomy @organization, @location do
-      hostgroup = Hostgroup.find_by_id(params[:host][:hostgroup_id])
+      hostgroup = Hostgroup.find_by(id: params[:host][:hostgroup_id])
       compute_resource_id = params[:host][:compute_resource_id] || hostgroup.try(:inherited_compute_resource_id)
       return not_found if compute_resource_id.blank?
       compute_profile_id = params[:host][:compute_profile_id] || hostgroup.try(:inherited_compute_profile_id)
-      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by_id(compute_resource_id)
+      compute_resource = ComputeResource.authorized(:view_compute_resources).find_by(id: compute_resource_id)
       return not_found if compute_resource.blank?
       render :partial => "compute", :locals => { :compute_resource => compute_resource,
                                                  :vm_attrs         => compute_resource.compute_profile_attributes_for(compute_profile_id) }
@@ -184,7 +184,7 @@ class HostsController < ApplicationController
 
   def externalNodes
     certname = params[:name].to_s
-    @host ||= resource_base.find_by_certname certname
+    @host ||= resource_base.find_by certname: certname
     @host ||= resource_base.friendly.find certname
     unless @host
       not_found
@@ -403,7 +403,7 @@ class HostsController < ApplicationController
       redirect_to(select_multiple_hostgroup_hosts_path)
       return
     end
-    hg = Hostgroup.find_by_id(id)
+    hg = Hostgroup.find_by(id: id)
     # update the hosts
     @hosts.each do |host|
       host.hostgroup = hg
@@ -659,7 +659,7 @@ class HostsController < ApplicationController
   define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy
 
   def refresh_host
-    @host = Host::Base.authorized(:view_hosts, Host).find_by_id(params[:host_id] || params.dig(:host, :id))
+    @host = Host::Base.authorized(:view_hosts, Host).find_by(id: params[:host_id] || params.dig(:host, :id))
     @host ||= Host.new(host_params)
 
     unless @host.is_a?(Host::Managed)
@@ -694,7 +694,7 @@ class HostsController < ApplicationController
       return false
     end
     @host = resource_base.friendly.find(id)
-    @host ||= resource_base.find_by_mac params[:host][:mac].to_s if params[:host] && params[:host][:mac]
+    @host ||= resource_base.find_by mac: params[:host][:mac].to_s if params[:host] && params[:host][:mac]
 
     unless @host
       not_found
@@ -789,7 +789,7 @@ class HostsController < ApplicationController
       return false
     end
 
-    if proxy_id.present? && !SmartProxy.find_by_id(proxy_id)
+    if proxy_id.present? && !SmartProxy.find_by(id: proxy_id)
       error _('Invalid proxy selected!')
       redirect_to(redirect_path)
       return false
@@ -799,7 +799,7 @@ class HostsController < ApplicationController
   def update_multiple_proxy(proxy_type, host_update_method)
     proxy_id = params[:proxy][:proxy_id]
     if proxy_id
-      proxy = SmartProxy.find_by_id(proxy_id)
+      proxy = SmartProxy.find_by(id: proxy_id)
     else
       proxy = nil
     end

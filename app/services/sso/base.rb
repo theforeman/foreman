@@ -43,7 +43,7 @@ module SSO
     end
 
     def current_user
-      User.unscoped.except_hidden.find_by_login(self.user)
+      User.unscoped.except_hidden.find_by(login: self.user)
     end
 
     def http_token

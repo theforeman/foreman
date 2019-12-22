@@ -46,7 +46,7 @@ def consolidate(mappings, dryrun)
       next
     end
     matcher = %r{#{rex}}
-    if (model = Model.find_by_name(mapping["name"]))
+    if (model = Model.find_by(name: mapping["name"]))
       puts "Using existing model for #{mapping['name']}"
       model.update! mapping unless dryrun
     elsif (model = Model.new(mapping))

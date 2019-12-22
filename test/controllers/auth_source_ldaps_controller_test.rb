@@ -64,7 +64,7 @@ class AuthSourceLdapsControllerTest < ActionController::TestCase
 
     setup do
       @request.session[:user] = users(:one).id
-      users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+      users(:one).roles       = [Role.default, Role.find_by(name: 'Viewer')]
     end
 
     test 'should fail to edit authentication source' do

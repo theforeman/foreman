@@ -226,7 +226,7 @@ module Nic
     end
 
     def valid_domain
-      unless Domain.find_by_id(domain_id)
+      unless Domain.find_by(id: domain_id)
         self.errors.add(:domain_id, _("can't find domain with this id"))
       end
     end

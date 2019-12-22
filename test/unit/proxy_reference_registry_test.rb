@@ -27,7 +27,7 @@ class ProxyReferenceRegistryTest < ActiveSupport::TestCase
       smart_proxy_reference :hosts => [:my_test_again]
     end
     begin
-      assert_equal [:my_test, :my_test_again], ProxyReferenceRegistry.find_by_relation(:hosts).columns.sort
+      assert_equal [:my_test, :my_test_again], ProxyReferenceRegistry.find_by(relation: :hosts).columns.sort
     ensure
       Foreman::Plugin.unregister :test_first_entry_from_plugin
       Foreman::Plugin.unregister :test_second_entry_from_plugin

@@ -242,8 +242,8 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
                            {@pc.name => {'obsolete' => [lks.first.key]}})
       get_an_instance.send(:update_classes_in_foreman, @envs.last.name,
                            {@pc.name => {'obsolete' => [lks.first.key]}})
-      refute PuppetclassLookupKey.find_by_id(lks.first.id)
-      refute LookupValue.find_by_id(lval.id)
+      refute PuppetclassLookupKey.find_by(id: lks.first.id)
+      refute LookupValue.find_by(id: lval.id)
       assert_equal @envs.to_a.sort, lks.last.environments.to_a.sort
     end
   end

@@ -46,8 +46,8 @@ class UnattendedController < ApplicationController
   def hostgroup_template
     return head(:not_found) unless (params.has_key?("id") && params.has_key?(:hostgroup))
 
-    template = ProvisioningTemplate.find_by_name(params['id'].to_s)
-    @host = Hostgroup.find_by_title(params['hostgroup'].to_s)
+    template = ProvisioningTemplate.find_by(name: params['id'].to_s)
+    @host = Hostgroup.find_by(title: params['hostgroup'].to_s)
     return head(:not_found) unless template && @host
 
     safe_render(template)

@@ -92,7 +92,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id, :user => valid_attrs }
     assert_response :success
 
-    mod_user = User.unscoped.find_by_id(user.id)
+    mod_user = User.unscoped.find_by(id: user.id)
     assert mod_user.mail == "john@example.com"
   end
 
@@ -101,7 +101,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id, :user => { :admin => true } }
 
     assert_response :success
-    assert User.unscoped.find_by_id(user.id).admin?
+    assert User.unscoped.find_by(id: user.id).admin?
   end
 
   test "should not remove the default role" do
@@ -112,7 +112,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id, :user => { :mail => "bar@foo.com" } }
     assert_response :success
 
-    mod_user = User.unscoped.find_by_id(user.id)
+    mod_user = User.unscoped.find_by(id: user.id)
 
     assert mod_user.roles = [roles(:default_role)]
   end
@@ -125,7 +125,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "dummy" } }
     assert_response :success
 
-    mod_user = User.unscoped.find_by_id(user.id)
+    mod_user = User.unscoped.find_by(id: user.id)
     assert mod_user.matching_password?("dummy")
   end
 
@@ -137,7 +137,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
     put :update, params: { :id => user.id, :user => { :login => "johnsmith", :password => "dummy", :password_confirmation => "DUMMY" } }
     assert_response :unprocessable_entity
 
-    mod_user = User.unscoped.find_by_id(user.id)
+    mod_user = User.unscoped.find_by(id: user.id)
     assert mod_user.matching_password?("changeme")
   end
 
@@ -166,7 +166,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   end
 
   def user_one_as_anonymous_viewer
-    users(:one).roles = [Role.default, Role.find_by_name('Viewer')]
+    users(:one).roles = [Role.default, Role.find_by(name: 'Viewer')]
   end
 
   test 'user with viewer rights should fail to edit a user' do
@@ -199,7 +199,7 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
         :admin => true, :login => 'new_admin', :auth_source_id => auth_sources(:one).id },
       }
       assert_response :created
-      assert User.unscoped.find_by_login('new_admin').admin?
+      assert User.unscoped.find_by(login: 'new_admin').admin?
     end
   end
 
@@ -392,21 +392,21 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
   end
 
   test "should create with roles" do
-    roles = [Role.find_by_name('Manager'), Role.find_by_name('View hosts')]
+    roles = [Role.find_by(name: 'Manager'), Role.find_by(name: 'View hosts')]
     post :create, params: { :user => min_valid_attrs.clone.update(:role_ids => roles.map { |role| role.id }) }
     assert_response :success
     assert_equal JSON.parse(@response.body)['roles'].map { |role| role["id"] }, roles.map { |role| role.id }, "Can't create user with valid roles #{roles}"
   end
 
   test "should update with roles" do
-    roles = [Role.find_by_name('Manager'), Role.find_by_name('View hosts')]
+    roles = [Role.find_by(name: 'Manager'), Role.find_by(name: 'View hosts')]
     put :update, params: { :id => users(:two).id, :user => {:role_ids => roles.map { |role| role.id } } }
     assert_response :success
     assert_equal JSON.parse(@response.body)['roles'].map { |role| role["id"] }, roles.map { |role| role.id }, "Can't update user with valid roles #{roles}"
   end
 
   test "should create user with escalated roles as system admin" do
-    roles = [Role.find_by_name('Manager')]
+    roles = [Role.find_by(name: 'Manager')]
     org = FactoryBot.create(:organization)
     loc = FactoryBot.create(:location)
     system_admin = FactoryBot.create :user, :login => 'ca',

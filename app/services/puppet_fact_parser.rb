@@ -32,7 +32,7 @@ class PuppetFactParser < FactParser
 
     if os.new_record?
       os.save!
-      Operatingsystem.find_by_id(os.id) # complete reload to be an instance of the STI subclass
+      Operatingsystem.find_by(id: os.id) # complete reload to be an instance of the STI subclass
     else
       os.save!
       os

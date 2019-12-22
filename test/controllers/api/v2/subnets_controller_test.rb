@@ -30,7 +30,7 @@ class Api::V2::SubnetsControllerTest < ActionController::TestCase
     assert_difference('Subnet.unscoped.count') do
       post :create, params: { :subnet => valid_v4_attrs.reject {|k, v| k == :network_type} }
     end
-    subnet = Subnet.unscoped.find_by_name(valid_v4_attrs[:name])
+    subnet = Subnet.unscoped.find_by(name: valid_v4_attrs[:name])
     assert_equal valid_v4_attrs[:network_type], subnet.network_type
     assert_response :created
   end

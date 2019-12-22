@@ -93,7 +93,7 @@ class LookupValue < ApplicationRecord
     md = ensure_matcher(/hostgroup=(.*)/)
     return md if md == true || md == false
     hostgroup = md[1].split(LookupKey::KEY_DELM)[0]
-    return true if Hostgroup.unscoped.find_by_name(hostgroup) || Hostgroup.unscoped.find_by_title(hostgroup) || host_or_hostgroup.try(:new_record?)
+    return true if Hostgroup.unscoped.find_by(name: hostgroup) || Hostgroup.unscoped.find_by(title: hostgroup) || host_or_hostgroup.try(:new_record?)
     errors.add(:match, _("%{match} does not match an existing host group") % { :match => "hostgroup=#{hostgroup}" })
 
     false

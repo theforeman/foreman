@@ -215,15 +215,15 @@ class User < ApplicationRecord
   end
 
   def self.anonymous_admin
-    unscoped.find_by_login(ANONYMOUS_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_ADMIN))
+    unscoped.find_by(login: ANONYMOUS_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_ADMIN))
   end
 
   def self.anonymous_api_admin
-    unscoped.find_by_login(ANONYMOUS_API_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_API_ADMIN))
+    unscoped.find_by(login: ANONYMOUS_API_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_API_ADMIN))
   end
 
   def self.anonymous_console_admin
-    unscoped.find_by_login(ANONYMOUS_CONSOLE_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_CONSOLE_ADMIN))
+    unscoped.find_by(login: ANONYMOUS_CONSOLE_ADMIN) || raise(Foreman::Exception.new(N_("Anonymous admin user %s is missing, run foreman-rake db:seed"), ANONYMOUS_CONSOLE_ADMIN))
   end
 
   # Tries to find the user in the DB and then authenticate against their authentication source
@@ -235,7 +235,7 @@ class User < ApplicationRecord
     return nil if password.to_s.empty?
 
     # user is already in local database
-    if (user = unscoped.find_by_login(login))
+    if (user = unscoped.find_by(login: login))
       # user has an authentication method and the authentication was successful
       if api_request && user.authenticate_by_personal_access_token(password)
         logger.debug("Authenticated user #{user.login} with a Personal Access Token.")
@@ -292,10 +292,10 @@ class User < ApplicationRecord
 
   def self.find_or_create_external_user(attrs, auth_source_name)
     external_groups = attrs.delete(:groups)
-    auth_source = AuthSource.find_by_name(auth_source_name.to_s)
+    auth_source = AuthSource.find_by(name: auth_source_name.to_s)
 
     # existing user, we'll update them
-    if (user = unscoped.find_by_login(attrs[:login]))
+    if (user = unscoped.find_by(login: attrs[:login]))
       # we know this auth source and it's user's auth source, we'll update user attributes
       if auth_source && (user.auth_source_id == auth_source.id)
         auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
@@ -327,7 +327,7 @@ class User < ApplicationRecord
   end
 
   def self.find_by_login(login)
-    find_by_lower_login(login.to_s.downcase)
+    find_by(lower_login: login.to_s.downcase)
   end
 
   def set_lower_login

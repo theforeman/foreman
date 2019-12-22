@@ -6,7 +6,7 @@ module Foreman
           include Foreman::Renderer::Errors
 
           def input(name)
-            input = template.template_inputs&.find_by_name(name)
+            input = template.template_inputs&.find_by(name: name)
             if input
               preview? ? input.preview(self) : input.value(self)
             else

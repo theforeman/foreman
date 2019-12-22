@@ -61,7 +61,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     delete :destroy, params: { :id => domain.to_param }
     domain = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    refute Domain.find_by_id(domain['id'])
+    refute Domain.find_by(id: domain['id'])
   end
 
   context "taxonomy scope" do

@@ -30,7 +30,7 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "should create usergroup with role" do
-    role = Role.find_by_name('Manager')
+    role = Role.find_by(name: 'Manager')
     post :create, params: { :usergroup => valid_attrs.clone.update(:role_ids => [role.id])}
     assert_response :created
     assert_equal 1, JSON.parse(@response.body)["roles"].length
@@ -39,9 +39,9 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
 
   test "should create usergroup with roles" do
     roles = [
-      Role.find_by_name('Manager'),
-      Role.find_by_name('View hosts'),
-      Role.find_by_name('Edit hosts'),
+      Role.find_by(name: 'Manager'),
+      Role.find_by(name: 'View hosts'),
+      Role.find_by(name: 'Edit hosts'),
     ]
     post :create, params: { :usergroup => valid_attrs.clone.update(:role_ids => roles.map { |role| role.id })}
     assert_response :created
@@ -50,7 +50,7 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "should create usergroup with user" do
-    user = User.find_by_login('one')
+    user = User.find_by(login: 'one')
     post :create, params: { :usergroup => valid_attrs.clone.update(:user_ids => [user.id])}
     assert_response :created
     assert_equal 1, JSON.parse(@response.body)["users"].length
@@ -59,9 +59,9 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
 
   test "should create usergroup with users" do
     users = [
-      User.find_by_login('one'),
-      User.find_by_login('two'),
-      User.find_by_login('test'),
+      User.find_by(login: 'one'),
+      User.find_by(login: 'two'),
+      User.find_by(login: 'test'),
     ]
     post :create, params: { :usergroup => valid_attrs.clone.update(:user_ids => users.map { |user| user.id })}
     assert_response :created
@@ -82,14 +82,14 @@ class Api::V2::UsergroupsControllerTest < ActionController::TestCase
   end
 
   test "should update usergroup with role" do
-    role = Role.find_by_name('Manager')
+    role = Role.find_by(name: 'Manager')
     put :update, params: { :id => @usergroup.to_param, :usergroup => valid_attrs.clone.update(:role_ids => [role.id]) }
     assert_response :success
     assert_equal role.name, JSON.parse(@response.body)["roles"][0]["name"], "Can't update usergroup with role #{role}"
   end
 
   test "should update usergroup with user" do
-    user = User.find_by_login('one')
+    user = User.find_by(login: 'one')
     put :update, params: { :id => @usergroup.to_param, :usergroup => valid_attrs.clone.update(:user_ids => [user.id]) }
     assert_response :success
     assert_equal JSON.parse(@response.body)["users"][0]["login"], user.login, "Can't update usergroup with user #{user}"

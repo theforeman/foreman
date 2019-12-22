@@ -130,10 +130,10 @@ class PxeLoaderSupportTest < ActiveSupport::TestCase
 
   describe "preferred loader" do
     setup do
-      @template_pxelinux = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXELinux))
-      @template_pxegrub = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub))
-      @template_pxegrub2 = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:PXEGrub2))
-      @template_ipxe = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name(:iPXE))
+      @template_pxelinux = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: :PXELinux))
+      @template_pxegrub = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: :PXEGrub))
+      @template_pxegrub2 = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: :PXEGrub2))
+      @template_ipxe = FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: :iPXE))
     end
 
     test "is none for zero template kinds and templates" do

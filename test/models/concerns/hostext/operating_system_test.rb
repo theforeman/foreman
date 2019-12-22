@@ -6,25 +6,25 @@ module Hostext
       setup do
         @host = Host.create(:name => "host.mydomain.net", :mac => "aabbccddeaff",
                             :ip => "2.3.04.03",           :medium => media(:one),
-                            :subnet => subnets(:one), :hostgroup => Hostgroup.find_by_name("Common"),
+                            :subnet => subnets(:one), :hostgroup => Hostgroup.find_by(name: "Common"),
                             :architecture => Architecture.find_by(name: 'x86_64'), :disk => "aaa",
-                            :environment => Environment.find_by_name("production"))
+                            :environment => Environment.find_by(name: "production"))
       end
 
       test "retrieves iPXE template if associated to the correct env and host group" do
-        assert_equal ProvisioningTemplate.find_by_name("MyString"), @host.provisioning_template({:kind => "iPXE"})
+        assert_equal ProvisioningTemplate.find_by(name: "MyString"), @host.provisioning_template({:kind => "iPXE"})
       end
 
       test "retrieves provision template if associated to the correct host group only" do
-        assert_equal ProvisioningTemplate.find_by_name("MyString2"), @host.provisioning_template({:kind => "provision"})
+        assert_equal ProvisioningTemplate.find_by(name: "MyString2"), @host.provisioning_template({:kind => "provision"})
       end
 
       test "retrieves script template if associated to the correct OS only" do
-        assert_equal ProvisioningTemplate.find_by_name("MyScript"), @host.provisioning_template({:kind => "script"})
+        assert_equal ProvisioningTemplate.find_by(name: "MyScript"), @host.provisioning_template({:kind => "script"})
       end
 
       test "retrieves finish template if associated to the correct environment only" do
-        assert_equal ProvisioningTemplate.find_by_name("MyFinish"), @host.provisioning_template({:kind => "finish"})
+        assert_equal ProvisioningTemplate.find_by(name: "MyFinish"), @host.provisioning_template({:kind => "finish"})
       end
 
       test "available_template_kinds finds templates for a PXE host" do

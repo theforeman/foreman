@@ -31,7 +31,7 @@ class CreateHostStatus < ActiveRecord::Migration[4.2]
     remove_index :host_status, :host_id
 
     Host.includes(:host_statuses).find_each do |host|
-      config_status = host.host_statuses.find_by_type("HostStatus::ConfigurationStatus")
+      config_status = host.host_statuses.find_by(type: "HostStatus::ConfigurationStatus")
       unless config_status.nil?
         host.puppet_status = config_status.status
         host.save

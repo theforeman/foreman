@@ -17,7 +17,7 @@ class MailNotificationTest < ActiveSupport::TestCase
   test "user with mail disabled doesn't get mail" do
     user = FactoryBot.create(:user, :with_mail, :mail_enabled => false)
     user.mail_notifications << MailNotification[:config_summary]
-    notification = user.user_mail_notifications.find_by_mail_notification_id(MailNotification[:config_summary])
+    notification = user.user_mail_notifications.find_by(mail_notification_id: MailNotification[:config_summary])
 
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       notification.deliver

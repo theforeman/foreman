@@ -23,7 +23,7 @@ module Foreman
 
       def find_host_by_spoof
         host = Host.authorized('view_hosts').joins(:primary_interface).where("#{Nic::Base.table_name}.ip" => query_params['spoof']).first if query_params['spoof'].present?
-        host ||= Host.authorized('view_hosts').find_by_name(query_params['hostname']) if query_params['hostname'].present?
+        host ||= Host.authorized('view_hosts').find_by(name: query_params['hostname']) if query_params['hostname'].present?
         @spoof = host.present?
         host
       end

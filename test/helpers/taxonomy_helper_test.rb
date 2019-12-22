@@ -19,7 +19,7 @@ class TaxonomyHelperTest < ActionView::TestCase
 
     it "resource symbol should be constantized" do
       user = FactoryBot.create(:user)
-      filter = FactoryBot.create(:filter, :on_name_all, :permissions => [Permission.find_by_name(:view_domains)])
+      filter = FactoryBot.create(:filter, :on_name_all, :permissions => [Permission.find_by(name: :view_domains)])
       user.roles << filter.role
       as_user user do
         form_for(taxonomies(:organization1)) do |f|

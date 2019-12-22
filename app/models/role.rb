@@ -96,7 +96,7 @@ class Role < ApplicationRecord
     # Return the builtin 'Default role' role. If the role doesn't exist,
     # it will be created on the fly.
     def default
-      default_role = find_by_builtin(BUILTIN_DEFAULT_ROLE)
+      default_role = find_by(builtin: BUILTIN_DEFAULT_ROLE)
       if default_role.nil?
         Role.without_auditing do
           Role.skip_permission_check do

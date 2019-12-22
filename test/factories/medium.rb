@@ -3,8 +3,8 @@ FactoryBot.define do
     sequence(:name) {|n| "medium#{n}" }
     sequence(:path) {|n| "http://www.example.com/path#{n}" }
     os_family { 'Redhat' }
-    organizations { [Organization.find_by_name('Organization 1')] }
-    locations { [Location.find_by_name('Location 1')] }
+    organizations { [Organization.find_by(name: 'Organization 1')] }
+    locations { [Location.find_by(name: 'Location 1')] }
 
     trait :coreos do
       sequence(:name) { |n| "CoreOS Mirror #{n}"}

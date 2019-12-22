@@ -189,7 +189,7 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       @ev2 = FactoryBot.create(:environment, :name => "env2")
       @ev3 = FactoryBot.create(:environment, :name => "env3")
 
-      @tk = TemplateKind.find_by_name('provision')
+      @tk = TemplateKind.find_by(name: 'provision')
 
       # Most specific template association
       @ct1 = FactoryBot.create(:provisioning_template, :name => "ct1", :template_kind => @tk, :operatingsystems => [@os1])

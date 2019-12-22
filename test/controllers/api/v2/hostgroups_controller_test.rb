@@ -6,8 +6,8 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
 
   def basic_attrs
     {
-      :architecture_id     => Architecture.find_by_name('x86_64').id,
-      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
+      :architecture_id     => Architecture.find_by(name: 'x86_64').id,
+      :operatingsystem_id  => Operatingsystem.find_by(name: 'Redhat').id,
     }
   end
 
@@ -203,7 +203,7 @@ class Api::V2::HostgroupsControllerTest < ActionController::TestCase
     put :update, params: { :id => hostgroups(:db).to_param, :hostgroup => {:parent_id => hostgroups(:common).id} }
     assert_response :success
     assert_equal hostgroups(:common).id.to_s,
-      Hostgroup.unscoped.find_by_name("db").ancestry
+      Hostgroup.unscoped.find_by(name: "db").ancestry
   end
 
   test "user without view_params permission can't see hostgroup parameters" do

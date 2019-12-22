@@ -50,7 +50,7 @@ class Api::V2::RealmsControllerTest < ActionController::TestCase
     delete :destroy, params: { :id => realm.to_param }
     realm = ActiveSupport::JSON.decode(@response.body)
     assert_response :ok
-    refute Realm.unscoped.find_by_id(realm['id'])
+    refute Realm.unscoped.find_by(id: realm['id'])
   end
 
   context 'taxonomy scope' do

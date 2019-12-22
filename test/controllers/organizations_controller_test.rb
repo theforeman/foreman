@@ -23,7 +23,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     org2 = FactoryBot.create(:organization)
     user = FactoryBot.create(:user, :mail => 'a@b.c')
     user.organizations = [ org1 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by(name: :view_organizations) ])
     user.roles << filter.role
     as_user user do
       get :index, session: set_session_user.merge(:user => User.current.id)
@@ -37,7 +37,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     organization = taxonomies(:organization2)
 
     post :update, params: { :commit => "Submit", :id => organization.id, :organization => {:name => "New Name"} }, session: set_session_user
-    updated_organization = Organization.find_by_id(organization.id)
+    updated_organization = Organization.find_by(id: organization.id)
 
     assert_equal "New Name", updated_organization.name
     assert_redirected_to organizations_path
@@ -226,10 +226,10 @@ class OrganizationsControllerTest < ActionController::TestCase
   test 'should allow empty array as param value of array field while updating organization' do
     organization = taxonomies(:organization2)
     organization.update(:smart_proxy_ids => [ smart_proxies(:one).id ])
-    saved_organization = Organization.find_by_id(organization.id)
+    saved_organization = Organization.find_by(id: organization.id)
     assert_equal 1, saved_organization.smart_proxy_ids.count
     put :update, params: { :id => organization.id, :organization => {:smart_proxy_ids => [""]} }, session: set_session_user
-    updated_organization = Organization.find_by_id(organization.id)
+    updated_organization = Organization.find_by(id: organization.id)
     assert_equal 0, updated_organization.smart_proxy_ids.count
   end
 

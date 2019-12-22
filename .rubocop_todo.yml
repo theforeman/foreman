@@ -216,13 +216,6 @@ Rails/CreateTableWithTimestamps:
 Rails/Date:
   Enabled: false
 
-# Offense count: 531
-# Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
-# Whitelist: find_by_sql
-Rails/DynamicFindBy:
-  Enabled: false
-
 # Offense count: 32
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: slashes, arguments

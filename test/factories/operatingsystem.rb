@@ -20,21 +20,21 @@ FactoryBot.define do
 
     trait :with_provision do
       provisioning_templates do
-        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('provision'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: 'provision'))]
       end
       with_os_defaults
     end
 
     trait :with_pxelinux do
       provisioning_templates do
-        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXELinux'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: 'PXELinux'))]
       end
       with_os_defaults
     end
 
     trait :with_grub do
       provisioning_templates do
-        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by_name('PXEGrub'))]
+        [FactoryBot.create(:provisioning_template, :template_kind => TemplateKind.find_by(name: 'PXEGrub'))]
       end
       with_os_defaults
     end

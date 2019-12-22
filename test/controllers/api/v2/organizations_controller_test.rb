@@ -12,7 +12,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     org2 = FactoryBot.create(:organization)
     user = FactoryBot.create(:user)
     user.organizations = [ org1 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by(name: :view_organizations) ])
     user.roles << filter.role
     as_user user do
       get :index
@@ -31,7 +31,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     user = FactoryBot.create(:user)
     user.organizations = [ org1, org2 ]
     user.locations = [ loc1, loc2 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by(name: :view_organizations) ])
     user.roles << filter.role
     as_user user do
       get :index, params: { :organization_id => org1.id, :location_ids => loc1.id }
@@ -188,7 +188,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
     load File.join(Rails.root, '/db/seeds.d/030-permissions.rb')
     load File.join(Rails.root, '/db/seeds.d/040-roles.rb')
-    default_org_admin_role = Role.find_by_name('Organization admin')
+    default_org_admin_role = Role.find_by(name: 'Organization admin')
     refute_empty default_org_admin_role.permissions
     org_admin_role = default_org_admin_role.clone(:name => 'new_org_admin', :organizations => [org])
     org_admin_role.save!

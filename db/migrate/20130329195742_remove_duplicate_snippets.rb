@@ -15,10 +15,10 @@ class RemoveDuplicateSnippets < ActiveRecord::Migration[4.2]
 
   def down
     TemplateKind.all.each do |k|
-      t = FakeConfigTemplate.find_by_name(:http_proxy).clone
+      t = FakeConfigTemplate.find_by(name: :http_proxy).clone
       t.name = "HTTP proxy"
       t.save(:validate => false)
     end
-    FakeConfigTemplate.find_by_name(:epel).clone.save(:validate => false)
+    FakeConfigTemplate.find_by(name: :epel).clone.save(:validate => false)
   end
 end

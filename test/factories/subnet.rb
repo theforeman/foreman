@@ -6,8 +6,8 @@ FactoryBot.define do
   factory :subnet do
     sequence(:name) {|n| "subnet#{n}" }
     ipam { "None" }
-    organizations { [Organization.find_by_name('Organization 1')] }
-    locations { [Location.find_by_name('Location 1')] }
+    organizations { [Organization.find_by(name: 'Organization 1')] }
+    locations { [Location.find_by(name: 'Location 1')] }
 
     trait :tftp do
       association :tftp, :factory => :template_smart_proxy

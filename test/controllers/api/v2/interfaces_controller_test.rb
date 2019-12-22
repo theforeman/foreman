@@ -80,7 +80,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
 
   test "username and password are set on POST (create)" do
     post :create, params: { :host_id => @host.to_param, :interface => valid_attrs }
-    assert_equal valid_attrs['password'], Nic::BMC.find_by_host_id(@host.id).password
+    assert_equal valid_attrs['password'], Nic::BMC.find_by(host_id: @host.id).password
   end
 
   test "update a host interface" do
@@ -88,7 +88,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
                    :id => @nic.to_param,
                    :interface => valid_attrs.except('type') }
     assert_response :success
-    assert_equal valid_attrs['ip'], Host.find_by_name(@host.name).interfaces.where(:id => @nic.to_param).first.ip
+    assert_equal valid_attrs['ip'], Host.find_by(name: @host.name).interfaces.where(:id => @nic.to_param).first.ip
   end
 
   test_attributes :pid => 'c5034b04-097e-47a4-908b-ee78de1699a4'
@@ -118,7 +118,7 @@ class Api::V2::InterfacesControllerTest < ActionController::TestCase
   test "destroy interface and check that host still exists" do
     delete :destroy, params: { :host_id => @host.to_param, :id => @nic.to_param }
     assert_response :success
-    assert_not_nil Host.find_by_name(@host.name)
+    assert_not_nil Host.find_by(name: @host.name)
   end
 
   test_attributes :pid => '716a9dfd-0f31-45aa-a6d1-42add032a15c'

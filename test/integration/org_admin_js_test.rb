@@ -14,7 +14,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
     # TODO would be better as part of test setup, it's slow
     load File.join(Rails.root, '/db/seeds.d/030-permissions.rb')
     load File.join(Rails.root, '/db/seeds.d/040-roles.rb')
-    @org_admin = Role.find_by_name('Organization admin')
+    @org_admin = Role.find_by(name: 'Organization admin')
 
     @org_admin_of_org1 = clone_role(@org_admin, @org1)
   end
@@ -95,7 +95,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
       ensure_selected_option_of_multiselect(@org1.name, select_id: 'domain_organization_ids')
       page.click_button 'Submit'
 
-      created_domain = Domain.unscoped.find_by_name(domain.name)
+      created_domain = Domain.unscoped.find_by(name: domain.name)
       # sets the only organization anyway
       assert_equal [ @org1 ], created_domain.organizations
     end

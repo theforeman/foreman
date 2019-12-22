@@ -18,7 +18,7 @@ end
 
 class MigrateWebsocketsSetting < ActiveRecord::Migration[4.2]
   def up
-    return unless (encrypt = FakeSetting.find_by_name("websockets_encrypt"))
+    return unless (encrypt = FakeSetting.find_by(name: "websockets_encrypt"))
     encrypt.settings_type = "boolean"
     if encrypt.value == "auto"
       encrypt.value = if Setting[:websockets_ssl_key].present? && Setting[:websockets_ssl_cert].present?
@@ -36,7 +36,7 @@ class MigrateWebsocketsSetting < ActiveRecord::Migration[4.2]
 
   def down
     # delete and reset on next app server start
-    encrypt = FakeSetting.find_by_name("websockets_encrypt")
+    encrypt = FakeSetting.find_by(name: "websockets_encrypt")
     Rails.cache.delete(encrypt.name.to_s)
     encrypt.delete
   end

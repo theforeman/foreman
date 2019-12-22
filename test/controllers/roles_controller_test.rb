@@ -32,7 +32,7 @@ class RolesControllerTest < ActionController::TestCase
     post :create, params: { :role => {:name => 'test role'} }, session: set_session_user
 
     assert_redirected_to roles_path
-    assert Role.find_by_name('test role')
+    assert Role.find_by(name: 'test role')
   end
 
   test 'put edit updates role' do
@@ -50,7 +50,7 @@ class RolesControllerTest < ActionController::TestCase
 
     delete :destroy, params: { :id => role }, session: set_session_user
     assert_redirected_to roles_path
-    assert_nil Role.find_by_id(role.id)
+    assert_nil Role.find_by(id: role.id)
   end
 
   test 'builtin roles cannot be destroyed' do
@@ -58,7 +58,7 @@ class RolesControllerTest < ActionController::TestCase
     delete :destroy, params: { :id => roles(:default_role) }, session: set_session_user
     assert_redirected_to roles_path
     assert_equal "Cannot delete built-in role", flash[:error]
-    assert_not_nil Role.find_by_id(roles(:default_role).id)
+    assert_not_nil Role.find_by(id: roles(:default_role).id)
   end
 
   context "with taxonomies" do
@@ -98,7 +98,7 @@ class RolesControllerTest < ActionController::TestCase
       post :create, params: params, session: set_session_user
 
       assert_response :redirect
-      filter = Role.find_by_name('clonedrole').filters.first
+      filter = Role.find_by(name: 'clonedrole').filters.first
       assert_equal [ @org2 ], filter.organizations.all
     end
   end
@@ -121,7 +121,7 @@ class RolesControllerTest < ActionController::TestCase
       post :create, params: params, session: set_session_user
       assert_redirected_to roles_url
 
-      cloned_role = Role.find_by_name('clonedrole')
+      cloned_role = Role.find_by(name: 'clonedrole')
       assert_not_nil cloned_role
       assert_equal @role.permissions, cloned_role.permissions
       assert_equal cloned_role.builtin, 0

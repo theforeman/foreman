@@ -107,7 +107,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
 
   ["Redhat", "Ubuntu", "OpenSuse", "Solaris"].each do |osname|
     test "pxe_kernel_options returns kernelcmd option for #{osname}" do
-      host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by_name(osname))
+      host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by(name: osname))
       host.params['kernelcmd'] = 'one two'
       @scope.instance_variable_set('@host', host)
       assert_equal 'one two', @scope.pxe_kernel_options
@@ -115,7 +115,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
   end
 
   test "pxe_kernel_options returns blacklist option for Red Hat" do
-    host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by_name('Redhat'))
+    host = FactoryBot.build_stubbed(:host, :operatingsystem => Operatingsystem.find_by(name: 'Redhat'))
     host.params['blacklist'] = 'dirty_driver, badbad_driver'
     @scope.instance_variable_set('@host', host)
     assert_equal 'modprobe.blacklist=dirty_driver,badbad_driver', @scope.pxe_kernel_options

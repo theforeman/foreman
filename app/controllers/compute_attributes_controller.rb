@@ -18,7 +18,7 @@ class ComputeAttributesController < ApplicationController
   end
 
   def edit
-    @set = ComputeAttribute.find_by_id(params[:id])
+    @set = ComputeAttribute.find_by(id: params[:id])
   end
 
   def update

@@ -6,7 +6,7 @@ class AuthorizableTest < ActiveSupport::TestCase
     user_role = FactoryBot.create(:user_user_role)
     @user = user_role.owner
     role = user_role.role
-    permission = Permission.find_by_name('create_domains')
+    permission = Permission.find_by(name: 'create_domains')
     role.filters << FactoryBot.create(:filter, :on_name_starting_with_a, :role => role, :permissions => [ permission ])
   end
 

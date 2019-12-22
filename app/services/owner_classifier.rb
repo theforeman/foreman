@@ -5,6 +5,6 @@ class OwnerClassifier
 
   def user_or_usergroup
     return nil unless @id_and_type =~ /^\d+-(Users|Usergroups)$/
-    @id_and_type.include?('Users') ? User.find_by_id(@id_and_type.to_i) : Usergroup.find_by_id(@id_and_type.to_i)
+    @id_and_type.include?('Users') ? User.find_by(id: @id_and_type.to_i) : Usergroup.find_by(id: @id_and_type.to_i)
   end
 end

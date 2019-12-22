@@ -192,7 +192,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     report_template = FactoryBot.create(:report_template, :template => 'a')
     post :import, params: { :report_template => { :name => report_template.name, :template => 'b'} }
     assert_response :success
-    assert_equal 'b', ReportTemplate.unscoped.find_by_name(report_template.name).template
+    assert_equal 'b', ReportTemplate.unscoped.find_by(name: report_template.name).template
   end
 
   describe '#generate' do

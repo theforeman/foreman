@@ -36,7 +36,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
   test "should update compute resource" do
     put :update, params: { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
     assert_equal "new_description",
-      ComputeResource.unscoped.find_by_name('mycompute').description
+      ComputeResource.unscoped.find_by(name: 'mycompute').description
     assert_response :success
   end
 
@@ -68,7 +68,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     setup_user 'edit', 'compute_resources', "id = #{compute_resources(:mycompute).id}"
     put :update, params: { :id => compute_resources(:mycompute).to_param, :compute_resource => { :description => "new_description" } }
     assert_equal "new_description",
-      ComputeResource.unscoped.find_by_name('mycompute').description
+      ComputeResource.unscoped.find_by(name: 'mycompute').description
     assert_response :success
   end
 

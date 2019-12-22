@@ -47,7 +47,7 @@ module LayoutHelper
   end
 
   def fetch_user
-    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by_id(session[:impersonated_by]) }
+    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by(id: session[:impersonated_by]) }
   end
 
   def layout_data

@@ -81,6 +81,6 @@ class Api::V2::FactValuesControllerTest < ActionController::TestCase
 
   def setup_user
     @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by(name: 'Viewer')]
   end
 end

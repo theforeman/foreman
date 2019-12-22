@@ -27,7 +27,7 @@ class MakeTemplatesDefault < ActiveRecord::Migration[4.2]
                  "Junos default SLAX", "Junos default ZTP config"]
 
     templates.each do |template|
-      if (template = FakeConfigTemplate.find_by_name(template))
+      if (template = FakeConfigTemplate.find_by(name: template))
         template.update_attribute(:default, flag)
       end
     end

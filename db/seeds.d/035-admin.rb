@@ -1,11 +1,11 @@
 # Users
 
-src_internal = AuthSourceInternal.find_by_type "AuthSourceInternal"
-src_hidden = AuthSourceHidden.find_by_type "AuthSourceHidden"
+src_internal = AuthSourceInternal.find_by type: "AuthSourceInternal"
+src_hidden = AuthSourceHidden.find_by type: "AuthSourceHidden"
 
 # Anonymous Admin is used for system actions like automatic user creation,
 # maintenance tasks etc.
-unless User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).present?
+unless User.unscoped.find_by(login: User::ANONYMOUS_ADMIN).present?
   User.without_auditing do
     user = User.new(:login => User::ANONYMOUS_ADMIN, :firstname => "Anonymous", :lastname => "Admin")
     user.admin = true
@@ -17,7 +17,7 @@ unless User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).present?
 end
 
 # Anonymous Console Admin is used for console commands etc.
-unless User.unscoped.find_by_login(User::ANONYMOUS_CONSOLE_ADMIN).present?
+unless User.unscoped.find_by(login: User::ANONYMOUS_CONSOLE_ADMIN).present?
   User.without_auditing do
     user = User.new(:login => User::ANONYMOUS_CONSOLE_ADMIN, :firstname => "Console", :lastname => "Admin")
     user.admin = true
@@ -30,7 +30,7 @@ end
 
 # Anonymous API user is used for API access when oauth_map_users is disabled
 # It should be removed and replaced by per-user OAuth tokens (#1301)
-unless User.unscoped.find_by_login(User::ANONYMOUS_API_ADMIN).present?
+unless User.unscoped.find_by(login: User::ANONYMOUS_API_ADMIN).present?
   User.without_auditing do
     user = User.new(:login => User::ANONYMOUS_API_ADMIN, :firstname => "API", :lastname => "Admin")
     user.admin = true
@@ -43,7 +43,7 @@ end
 
 # First real admin user account
 admin_login = ENV['SEED_ADMIN_USER'].presence || 'admin'
-if User.unscoped.find_by_login(admin_login).present?
+if User.unscoped.find_by(login: admin_login).present?
   puts "User with login #{admin_login} already exists, not seeding as admin."
 elsif User.unscoped.only_admin.except_hidden.none?
   User.without_auditing do

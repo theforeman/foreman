@@ -97,7 +97,7 @@ module Api
       end
 
       def verify_proxy_id(id)
-        id.nil? || SmartProxy.authorized(:view_smart_proxies).find_by_id(id).present?
+        id.nil? || SmartProxy.authorized(:view_smart_proxies).find_by(id: id).present?
       end
     end
   end

@@ -192,7 +192,7 @@ class PuppetClassImporter
 
   def db_classes(environment)
     return @foreman_classes[environment] if @foreman_classes[environment]
-    return [] unless (env = Environment.find_by_name(environment))
+    return [] unless (env = Environment.find_by(name: environment))
     @foreman_classes[environment] = env.puppetclasses.includes(:lookup_keys, :class_params)
   end
 
@@ -281,7 +281,7 @@ class PuppetClassImporter
 
   def update_parameter(db_class, changed_params)
     changed_params["updated"].each do |param_name, value|
-      key = db_class.class_params.find_by_key param_name
+      key = db_class.class_params.find_by key: param_name
       if key.override == false
         key.default_value = value
         key.key_type = nil
@@ -293,7 +293,7 @@ class PuppetClassImporter
 
   def remove_parameter(env, db_class, changed_params)
     changed_params["obsolete"].each do |param_name, value|
-      key        = db_class.class_params.find_by_key param_name
+      key        = db_class.class_params.find_by key: param_name
       key_in_env = EnvironmentClass.key_in_environment(env, db_class, key)
 
       if key && key_in_env

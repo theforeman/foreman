@@ -98,7 +98,7 @@ module RenderersSharedTests
     test "global_setting helper default does not work with boolean" do
       source = OpenStruct.new(content: '<%= global_setting("update_ip_from_built_request", "FAIL").to_s %>')
       Setting[:update_ip_from_built_request] = false
-      assert_equal "boolean", Setting.find_by_name("update_ip_from_built_request").settings_type
+      assert_equal "boolean", Setting.find_by(name: "update_ip_from_built_request").settings_type
       assert_equal 'false', renderer.render(source, @scope)
     end
 

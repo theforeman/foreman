@@ -349,7 +349,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def compute_profile_for(id)
-    compute_attributes.find_by_compute_profile_id(id)
+    compute_attributes.find_by(compute_profile_id: id)
   end
 
   def compute_profile_attributes_for(id)

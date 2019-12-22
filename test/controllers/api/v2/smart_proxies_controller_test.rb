@@ -279,8 +279,8 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
 
   test "no changes on import_puppetclasses" do
     setup_import_classes
-    Puppetclass.find_by_name('b').destroy
-    Puppetclass.find_by_name('c').destroy
+    Puppetclass.find_by(name: 'b').destroy
+    Puppetclass.find_by(name: 'c').destroy
     assert_difference('Environment.unscoped.count', 0) do
       post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id }, session: set_session_user
     end
@@ -293,7 +293,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       env_name = 'env1'
-      assert Environment.find_by_name(env_name).destroy
+      assert Environment.find_by(name: env_name).destroy
       assert_difference('Environment.unscoped.count', 1) do
         post :import_puppetclasses, params: { :id => smart_proxies(:puppetmaster).id, :environment_id => env_name }, session: set_session_user
       end

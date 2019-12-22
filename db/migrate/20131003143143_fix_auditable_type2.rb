@@ -2,7 +2,7 @@ class FixAuditableType2 < ActiveRecord::Migration[4.2]
   def up
     # Taxonomy
     Audit.where(:auditable_type => 'Taxonomy').each do |audit|
-      taxonomy_type = Taxonomy.find_by_id(audit.auditable_id).try(:type)
+      taxonomy_type = Taxonomy.find_by(id: audit.auditable_id).try(:type)
       audit.update_attribute(:auditable_type, taxonomy_type) if taxonomy_type
     end
 
@@ -16,7 +16,7 @@ class FixAuditableType2 < ActiveRecord::Migration[4.2]
 
     # ComputeResource
     Audit.where(:auditable_type => 'ComputeResource').each do |audit|
-      cr_type = ComputeResource.find_by_id(audit.auditable_id).try(:type)
+      cr_type = ComputeResource.find_by(id: audit.auditable_id).try(:type)
       audit.update_attribute(:auditable_type, cr_type) if cr_type
     end
   end

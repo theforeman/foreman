@@ -62,7 +62,7 @@ module NestedAncestryCommon
               klass = "SmartProxy" if ["puppet_proxy", "puppet_ca_proxy"].include?(md[1])
               klass = 'Subnet::Ipv4' if md[1] == 'subnet'
               klass = 'Subnet::Ipv6' if md[1] == 'subnet6'
-              klass.classify.constantize.find_by_id(send("inherited_#{field}"))
+              klass.classify.constantize.find_by(id: send("inherited_#{field}"))
             else
               # () is required. Otherwise, get RuntimeError: implicit argument passing of super from method defined by define_method() is not supported. Specify all arguments explicitly.
               super()

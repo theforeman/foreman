@@ -104,10 +104,10 @@ class ActiveSupport::TestCase
 
   def setup_users
     User.current = users :admin
-    user = User.find_by_login("one")
+    user = User.find_by(login: "one")
     @request.session[:user] = user.id
     @request.session[:expires_at] = 5.minutes.from_now.to_i
-    user.roles = [Role.default, Role.find_by_name('Viewer')]
+    user.roles = [Role.default, Role.find_by(name: 'Viewer')]
     user.save!
   end
 
@@ -115,7 +115,7 @@ class ActiveSupport::TestCase
   def setup_user(operation, type = "", search = nil, user = :one)
     @one = user.is_a?(User) ? user : users(user)
     as_admin do
-      permission = Permission.find_by_name("#{operation}_#{type}") ||
+      permission = Permission.find_by(name: "#{operation}_#{type}") ||
         FactoryBot.build(:permission, :name => "#{operation}_#{type}")
       filter = FactoryBot.build(:filter, :search => search)
       filter.permissions = [ permission ]

@@ -37,7 +37,7 @@ module Foreman::Controller::TaxonomiesController
 
   def nest
     @taxonomy           = taxonomy_class.new
-    @taxonomy.parent_id = params[:id].to_i if resource_scope.find_by_id(params[:id])
+    @taxonomy.parent_id = params[:id].to_i if resource_scope.find_by(id: params[:id])
     render 'taxonomies/new'
   end
 
@@ -121,7 +121,7 @@ module Foreman::Controller::TaxonomiesController
   end
 
   def import_mismatches
-    @taxonomy = Taxonomy.find_by_id(params[:id])
+    @taxonomy = Taxonomy.find_by(id: params[:id])
     if @taxonomy
       @mismatches = @taxonomy.import_missing_ids
       redirect_to send("edit_#{taxonomy_single}_path", @taxonomy), :success => _("All mismatches between hosts and %s have been fixed") % CGI.escapeHTML(@taxonomy.name)

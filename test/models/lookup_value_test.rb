@@ -39,7 +39,7 @@ class LookupValueTest < ActiveSupport::TestCase
     # Host.authorized(:view_hosts, Host) returns only hosts(:one)
     user = users(:one)
     role = FactoryBot.create(:role, :name => 'user_view_host_by_ip')
-    FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "name = #{@host1.name}")
+    FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by(name: :view_hosts)], :search => "name = #{@host1.name}")
     # Todo, restore the ip test variant once our scoped-search works with host.ip again
     # FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
     user.roles << [ role ]

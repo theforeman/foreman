@@ -122,7 +122,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
         permissions.each do |permission|
           filtering            = FakeFiltering.new
           filtering.filter     = filter
-          filtering.permission = FakePermission.find_by_name(permission.name)
+          filtering.permission = FakePermission.find_by(name: permission.name)
           filtering.save!
           say "... with permission '#{permission.name}'"
         end

@@ -6,13 +6,13 @@ class AddReleasenameToOs < ActiveRecord::Migration[4.2]
 
     Operatingsystem.reset_column_information
 
-    if (os = Operatingsystem.find_by_name_and_major_and_minor("Ubuntu", "9", "04"))
+    if (os = Operatingsystem.find_by(name: "Ubuntu", major: "9", minor: "04"))
       os.update :release_name => "jaunty", :family_id => 0
     end
-    if (os = Operatingsystem.find_by_name_and_major_and_minor("Ubuntu", "9", "10"))
+    if (os = Operatingsystem.find_by(name: "Ubuntu", major: "9", minor: "10"))
       os.update :release_name => "karmic", :family_id => 0
     end
-    if (os = Operatingsystem.find_by_name_and_major_and_minor("Ubuntu", "10", "04"))
+    if (os = Operatingsystem.find_by(name: "Ubuntu", major: "10", minor: "04"))
       os.update :release_name => "lucid",  :family_id => 0
     end
   end

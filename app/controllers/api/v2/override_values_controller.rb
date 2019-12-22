@@ -87,14 +87,14 @@ module Api
       end
 
       def find_override_value
-        @override_value = LookupValue.find_by_id(params[:id])
+        @override_value = LookupValue.find_by(id: params[:id])
         if @smart
           @override_value ||= @smart.lookup_values.friendly.find(params[:id])
         end
       end
 
       def return_if_override_mismatch
-        if (@override_values && @override_value && !@override_values.find_by_id(@override_value.id)) || (@override_values && !@override_value) || !@override_values
+        if (@override_values && @override_value && !@override_values.find_by(id: @override_value.id)) || (@override_values && !@override_value) || !@override_values
           not_found "Override value not found by id '#{params[:id]}'"
         end
       end

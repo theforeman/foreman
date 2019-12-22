@@ -6,8 +6,8 @@ FactoryBot.define do
   factory :domain do
     sequence(:name) {|n| "example#{n}.com" }
     fullname { |n| n.name }
-    organizations { [Organization.find_by_name('Organization 1')] }
-    locations { [Location.find_by_name('Location 1')] }
+    organizations { [Organization.find_by(name: 'Organization 1')] }
+    locations { [Location.find_by(name: 'Location 1')] }
 
     trait :with_parameter do
       after(:create) do |domain, evaluator|

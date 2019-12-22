@@ -70,7 +70,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       return
     end
 
-    ev = Environment.find_by_id(id)
+    ev = Environment.find_by(id: id)
 
     # update the hosts
     @hosts.each do |host|
@@ -101,7 +101,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     if id == 'inherit' && host.hostgroup.present?
       host.hostgroup.environment
     else
-      Environment.find_by_id(id)
+      Environment.find_by(id: id)
     end
   end
 
@@ -120,7 +120,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       return false
     end
 
-    if proxy_id.present? && !SmartProxy.find_by_id(proxy_id)
+    if proxy_id.present? && !SmartProxy.find_by(id: proxy_id)
       error _('Invalid proxy selected!')
       redirect_to(redirect_path)
       return false
@@ -130,7 +130,7 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   def update_multiple_proxy(proxy_type, host_update_method)
     proxy_id = params[:proxy][:proxy_id]
     if proxy_id
-      proxy = SmartProxy.find_by_id(proxy_id)
+      proxy = SmartProxy.find_by(id: proxy_id)
     else
       proxy = nil
     end

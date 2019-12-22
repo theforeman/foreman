@@ -33,8 +33,8 @@ module Foreman::Controller::HostFormCommon
 
   def taxonomy_scope
     if params[:host]
-      @organization = Organization.find_by_id(params[:host][:organization_id])
-      @location = Location.find_by_id(params[:host][:location_id])
+      @organization = Organization.find_by(id: params[:host][:organization_id])
+      @location = Location.find_by(id: params[:host][:location_id])
     end
 
     if @host
@@ -42,8 +42,8 @@ module Foreman::Controller::HostFormCommon
       @location     ||= @host.location
     end
 
-    @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
-    @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
+    @organization ||= Organization.find_by(id: params[:organization_id]) if params[:organization_id]
+    @location     ||= Location.find_by(id: params[:location_id])         if params[:location_id]
 
     @organization ||= Organization.current
     @location     ||= Location.current

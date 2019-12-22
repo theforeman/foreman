@@ -25,7 +25,7 @@ class LocationsControllerTest < ActionController::TestCase
       post :update, params: { :commit => "Submit", :id => location.id, :location => {:name => "New Name"} }, session: set_session_user
     end
 
-    updated_location = Location.find_by_id(location.id)
+    updated_location = Location.find_by(id: location.id)
 
     assert_equal "New Name", updated_location.name
     assert_redirected_to locations_path
@@ -222,10 +222,10 @@ class LocationsControllerTest < ActionController::TestCase
   test 'should allow empty array as param value of array field while updating location' do
     location = taxonomies(:location2)
     location.update(:organization_ids => [taxonomies(:organization2).id])
-    saved_location = Location.find_by_id(location.id)
+    saved_location = Location.find_by(id: location.id)
     assert_equal 1, saved_location.organization_ids.count
     put :update, params: { :id => location.id, :location => {:organization_ids => [""]} }, session: set_session_user
-    updated_location = Location.find_by_id(location.id)
+    updated_location = Location.find_by(id: location.id)
     assert_equal 0, updated_location.organization_ids.count
   end
 

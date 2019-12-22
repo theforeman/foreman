@@ -6,7 +6,7 @@ class MigrateHypervisorsToComputeResources < ActiveRecord::Migration[4.2]
 
     Hypervisor.all.each do |hypervisor|
       # check if we have the same compute resource already, if we do, skip it.
-      next if Foreman::Model::Libvirt.find_by_url hypervisor.uri
+      next if Foreman::Model::Libvirt.find_by url: hypervisor.uri
 
       Foreman::Model::Libvirt.create :name        => hypervisor.name,
                                      :url         => hypervisor.uri,

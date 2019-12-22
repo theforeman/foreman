@@ -138,7 +138,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     snippet = FactoryBot.create(:provisioning_template, :snippet)
     post :import, params: { :provisioning_template => { :name => snippet.name, :template => "<%#\nsnippet: true\n-%>\nbbbb"} }
     assert_response :success
-    assert_match 'bbbb', ProvisioningTemplate.unscoped.find_by_name(snippet.name).template
+    assert_match 'bbbb', ProvisioningTemplate.unscoped.find_by(name: snippet.name).template
   end
 
   test "should override taxonomies when importing a template" do

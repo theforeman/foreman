@@ -1,7 +1,7 @@
 desc 'Fix user groups and authorization cache by removing all cached records and recreating them'
 task :fix_db_cache => :environment do
   puts 'Recreating cache'
-  if User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).present?
+  if User.unscoped.find_by(login: User::ANONYMOUS_ADMIN).present?
     User.as_anonymous_admin do
       CacheManager.recache!
     end

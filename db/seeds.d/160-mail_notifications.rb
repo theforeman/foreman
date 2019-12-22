@@ -65,7 +65,7 @@ notifications = [
 ]
 
 notifications.each do |notification|
-  if (mail = MailNotification.find_by_name(notification[:name]))
+  if (mail = MailNotification.find_by(name: notification[:name]))
     mail.attributes = notification
     mail.save! if mail.changed?
   else

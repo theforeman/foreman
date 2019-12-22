@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TemplateKindTest < ActiveSupport::TestCase
   test '#to_s returns English string for default template kinds' do
-    assert_equal 'iPXE template', TemplateKind.find_by_name('iPXE').to_s
+    assert_equal 'iPXE template', TemplateKind.find_by(name: 'iPXE').to_s
   end
 
   test '#to_s returns English string from plugin registration' do

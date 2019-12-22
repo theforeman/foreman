@@ -264,8 +264,8 @@ class RoleTest < ActiveSupport::TestCase
       assert @role.filters.all?(&:unlimited?)
       permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
       assert_equal 2, @role.filters.size
-      assert_includes permissions, Permission.find_by_name(@permission1.name)
-      assert_includes permissions, Permission.find_by_name(@permission2.name)
+      assert_includes permissions, Permission.find_by(name: @permission1.name)
+      assert_includes permissions, Permission.find_by(name: @permission2.name)
       # not saved yet
       assert_empty @role.permissions
     end
@@ -281,7 +281,7 @@ class RoleTest < ActiveSupport::TestCase
       permissions = @role.filters.map { |f| f.filterings.map(&:permission) }.flatten
 
       assert_equal 1, @role.filters.size
-      assert_includes permissions, Permission.find_by_name(@permission1.name)
+      assert_includes permissions, Permission.find_by(name: @permission1.name)
     end
 
     it "sets search filter to all filters" do
@@ -305,8 +305,8 @@ class RoleTest < ActiveSupport::TestCase
 
       permissions = @role.permissions
       assert_equal 2, @role.filters.size
-      assert_includes permissions, Permission.find_by_name(@permission1.name)
-      assert_includes permissions, Permission.find_by_name(@permission2.name)
+      assert_includes permissions, Permission.find_by(name: @permission1.name)
+      assert_includes permissions, Permission.find_by(name: @permission2.name)
     end
 
     it "should add permission to an existing filter" do
@@ -477,7 +477,7 @@ class RoleTest < ActiveSupport::TestCase
 
   describe "#for_current_user" do
     setup do
-      @roles = [Role.find_by_name('Manager')]
+      @roles = [Role.find_by(name: 'Manager')]
       @user = FactoryBot.create(:user, :admin => false)
       @role = FactoryBot.create(:role)
 

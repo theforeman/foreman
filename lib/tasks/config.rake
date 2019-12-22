@@ -91,7 +91,7 @@ BANNER
 
     # just a single key was passed: print the value
     def run_single_key
-      setting = Setting.find_by_name(@key)
+      setting = Setting.find_by(name: @key)
       puts format_value(setting.settings_type, setting.value)
     end
 
@@ -99,7 +99,7 @@ BANNER
     def run_key_values
       @keys.each do |key|
         value = @key_values[key]
-        setting = Setting.find_by_name(key)
+        setting = Setting.find_by(name: key)
         if value == :unset
           setting.value = nil
         elsif complex_type?(setting.settings_type)

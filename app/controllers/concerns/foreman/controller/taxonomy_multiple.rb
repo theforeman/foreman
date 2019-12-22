@@ -35,7 +35,7 @@ module Foreman::Controller::TaxonomyMultiple
       return
     end
 
-    taxonomy = Taxonomy.find_by_id(id)
+    taxonomy = Taxonomy.find_by(id: id)
 
     if params[type][:optimistic_import] == 'yes'
       @hosts.update_all("#{type}_id".to_sym => taxonomy.id)

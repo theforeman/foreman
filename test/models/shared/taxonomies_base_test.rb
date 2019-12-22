@@ -83,7 +83,7 @@ module TaxonomiesBaseTest
       FactoryBot.create(:os_default_template,
                          :provisioning_template  => templates(:mystring2),
                          :operatingsystem  => operatingsystems(:centos5_3),
-                         :template_kind    => TemplateKind.find_by_name('provision'))
+                         :template_kind    => TemplateKind.find_by(name: 'provision'))
       # run used_ids method
       used_ids = taxonomy.used_ids
       # get results from Host object
@@ -299,7 +299,7 @@ module TaxonomiesBaseTest
       FactoryBot.build(:os_default_template,
                          :provisioning_template => templates(:mystring2),
                          :operatingsystem  => operatingsystems(:centos5_3),
-                         :template_kind    => TemplateKind.find_by_name('provision'))
+                         :template_kind    => TemplateKind.find_by(name: 'provision'))
 
       # check that inherited_ids of taxonomy matches selected_ids of parent
       taxonomy.inherited_ids.each do |k, v|

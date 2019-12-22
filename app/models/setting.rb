@@ -189,7 +189,7 @@ class Setting < ApplicationRecord
     opts ||= { name: new.name }
     opts.symbolize_keys!
 
-    s = Setting.find_by_name(opts[:name].to_s)
+    s = Setting.find_by(name: opts[:name].to_s)
     return create_existing(s, opts) if s
 
     column_check(opts)

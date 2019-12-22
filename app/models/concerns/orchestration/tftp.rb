@@ -72,7 +72,7 @@ module Orchestration::TFTP
     template_name = host.local_boot_template_name(kind)
     # Safely return in case there's no template configured for the specified kind
     return unless template_name.present?
-    template = ProvisioningTemplate.find_by_name(template_name)
+    template = ProvisioningTemplate.find_by(name: template_name)
     raise Foreman::Exception.new(N_("Template '%s' was not found"), template_name) unless template
     host.render_template(template: template)
   rescue => e

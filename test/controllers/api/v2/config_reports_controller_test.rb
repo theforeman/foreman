@@ -167,7 +167,7 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       delete :destroy, params: { :id => report.to_param }
     end
     assert_response :success
-    refute Report.unscoped.find_by_id(report.id)
+    refute Report.unscoped.find_by(id: report.id)
   end
 
   test "should get reports for given host only" do

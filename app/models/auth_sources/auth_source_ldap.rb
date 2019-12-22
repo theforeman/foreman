@@ -124,7 +124,7 @@ class AuthSourceLdap < AuthSource
     end
 
     logger.debug "Updating user groups for user #{login}"
-    user = User.unscoped.find_by_login(login)
+    user = User.unscoped.find_by(login: login)
     external = ldap_con.group_list(login).map(&:downcase)
     group_name_arel = ExternalUsergroup.arel_table[:name].lower
 

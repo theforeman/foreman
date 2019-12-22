@@ -54,7 +54,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
         context 'with subject (e.g: Domain)' do
           test "unlimited filter" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission])
             domain     = FactoryBot.create(:domain)
             auth       = Authorizer.new(@user)
@@ -64,7 +64,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "matching limited filter" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                :search => 'name ~ example*')
             domain     = FactoryBot.create(:domain)
@@ -75,7 +75,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "matching and not matching limited filter" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                :search => 'name ~ noexample*')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
@@ -88,7 +88,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "not matching limited filter" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                :search        => 'name ~ noexample*')
             domain     = FactoryBot.create(:domain)
@@ -99,7 +99,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "filters records by matching limited filter" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
                                :role => @role, :permissions => [permission])
             domain1    = FactoryBot.create(:domain)
@@ -114,8 +114,8 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "filters records by matching limited filter and permission" do
-            permission1 = Permission.find_by_name('view_domains')
-            permission2 = Permission.find_by_name('edit_domains')
+            permission1 = Permission.find_by(name: 'view_domains')
+            permission2 = Permission.find_by(name: 'edit_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
                                :role => @role, :permissions => [permission1])
             FactoryBot.create(:filter, :on_name_starting_with_b,
@@ -154,7 +154,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "for user without filter" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission])
             domain     = FactoryBot.create(:domain)
             auth       = Authorizer.new(FactoryBot.create(:user))
@@ -166,12 +166,12 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "caches results per permission and class" do
-            permission1 = Permission.find_by_name('view_domains')
+            permission1 = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
                                :role => @role, :permissions => [permission1])
             domain1     = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
             domain2     = FactoryBot.create(:domain, :name => 'x-domain.not-to-be-found.com')
-            permission2 = Permission.find_by_name('view_architectures')
+            permission2 = Permission.find_by(name: 'view_architectures')
             architecture = FactoryBot.create(:architecture)
             FactoryBot.create(:filter, :role => @role, :permissions => [permission2])
 
@@ -196,7 +196,7 @@ class AuthorizerTest < ActiveSupport::TestCase
 
           test "empty base collection set" do
             domain     = FactoryBot.create(:domain)
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission])
             auth = Authorizer.new(@user, :collection => [])
 
@@ -204,7 +204,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "excluding base collection set" do
-            permission = Permission.find_by_name('view_domains')
+            permission = Permission.find_by(name: 'view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
                                :role => @role, :permissions => [permission])
             domain1    = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
@@ -216,7 +216,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           end
 
           test "with Subnet subclasses" do
-            permission = Permission.find_by_name('edit_subnets')
+            permission = Permission.find_by(name: 'edit_subnets')
             FactoryBot.create(:filter, :role => @role, :permissions => [permission])
             subnet     = FactoryBot.create(:subnet_ipv4)
             auth       = Authorizer.new(@user)
@@ -277,7 +277,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   test "#find_collection(Host, :permission => :view_hosts) with scoped_search join returns r/w resources" do
     host       = FactoryBot.create(:host, :with_facts)
     fact       = host.fact_values.first
-    permission = Permission.find_by_name('view_hosts')
+    permission = Permission.find_by(name: 'view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                 :search => "facts.#{fact.name} = #{fact.value}")
     auth = Authorizer.new(@user)
@@ -297,7 +297,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching unlimited filter" do
-    permission = Permission.find_by_name('view_hosts')
+    permission = Permission.find_by(name: 'view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
     host       = FactoryBot.create(:host)
     report     = FactoryBot.create(:config_report, :host => host)
@@ -307,7 +307,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching limited filter" do
-    permission = Permission.find_by_name('view_hosts')
+    permission = Permission.find_by(name: 'view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                 :search => 'hostgroup ~ hostgroup*')
     host       = FactoryBot.create(:host, :with_hostgroup)
@@ -318,7 +318,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report) for matching limited filter with base collection set" do
-    permission = Permission.find_by_name('view_hosts')
+    permission = Permission.find_by(name: 'view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission],
                                 :search => 'hostgroup ~ hostgroup*')
     (host1, host2) = FactoryBot.create_pair(:host, :with_hostgroup)
@@ -332,7 +332,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   test "#find_collection(Host, :permission => :view_hosts, :joined_on: Report, :where => ..) applies where clause" do
-    permission = Permission.find_by_name('view_hosts')
+    permission = Permission.find_by(name: 'view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true)
     hosts      = FactoryBot.create_pair(:host)
     report1    = FactoryBot.create(:config_report, :host => hosts.first)
@@ -346,7 +346,7 @@ class AuthorizerTest < ActiveSupport::TestCase
   end
 
   test "#find_collection(Host::Base) works with taxonomies thanks to class name sanitization" do
-    permission = Permission.find_by_name('view_hosts')
+    permission = Permission.find_by(name: 'view_hosts')
     FactoryBot.create(:filter, :role => @role, :permissions => [permission], :unlimited => true, :organization_ids => [taxonomies(:organization1).id])
     auth = Authorizer.new(@user)
 

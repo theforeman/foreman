@@ -29,9 +29,9 @@ end
 
 def test_roles
   [
-    Role.find_by_name('Manager'),
-    Role.find_by_name('View hosts'),
-    Role.find_by_name('Edit hosts'),
+    Role.find_by(name: 'Manager'),
+    Role.find_by(name: 'View hosts'),
+    Role.find_by(name: 'Edit hosts'),
   ]
 end
 
@@ -116,7 +116,7 @@ class UserTest < ActiveSupport::TestCase
       chosen_roles = test_roles[0..index - 1]
       user = FactoryBot.create :user, :roles => chosen_roles
       assert_equal chosen_roles.length + 1, user.roles.length
-      assert_equal chosen_roles.push(Role.find_by_name('Default role')).sort, user.roles.sort
+      assert_equal chosen_roles.push(Role.find_by(name: 'Default role')).sort, user.roles.sort
     end
   end
 
@@ -332,7 +332,7 @@ class UserTest < ActiveSupport::TestCase
     setup_user "create"
     record = nil
     as_admin do
-      create_role = Role.find_by_name 'create_users'
+      create_role = Role.find_by name: 'create_users'
       extra_role = Role.where(:name => "foobar").first_or_create
       record = User.new :login => "dummy", :mail => "j@j.com", :auth_source_id => AuthSourceInternal.first.id,
                         :role_ids => [extra_role.id, create_role.id].map(&:to_s),
@@ -347,7 +347,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "non-admin user can delegate roles he has assigned already" do
     setup_user "create"
-    create_role          = Role.find_by_name 'create_users'
+    create_role          = Role.find_by name: 'create_users'
     record               = User.new(:login => "dummy", :mail => "j@j.com",
                                     :auth_source_id => AuthSourceInternal.first.id,
                                     :role_ids => [create_role.id.to_s],
@@ -386,9 +386,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "user can assign role he has assigned himself" do
-    users(:one).roles << Role.find_by_name('Manager')
+    users(:one).roles << Role.find_by(name: 'Manager')
     setup_user "edit"
-    edit_role       = Role.find_by_name 'edit_users'
+    edit_role       = Role.find_by name: 'edit_users'
     record          = users(:one)
     record.role_ids = [edit_role.id]
     assert record.valid?
@@ -434,7 +434,7 @@ class UserTest < ActiveSupport::TestCase
 
   context "audits for password change" do
     setup do
-      @user = User.find_by_id(FactoryBot.create(:user)) # to clear the value of user.password
+      @user = User.find_by(id: FactoryBot.create(:user)) # to clear the value of user.password
     end
 
     test "audit of password change should be saved redacted" do
@@ -640,7 +640,7 @@ class UserTest < ActiveSupport::TestCase
     user = FactoryBot.build(:user)
     user.organizations = [org1, org2]
     user.locations = [loc1]
-    user.roles << Role.find_by_name('Manager')
+    user.roles << Role.find_by(name: 'Manager')
     user.save
     Organization.expects(:authorized).with('assign_organizations', Organization).returns(Organization.where(:id => [org1, org2])).times(4)
     Location.expects(:authorized).with('assign_locations', Location).returns(Location.where(:id => [loc1])).times(4)
@@ -695,7 +695,7 @@ class UserTest < ActiveSupport::TestCase
         assert_difference('User.count', 0) do
           login = users(:one).login
           assert_equal User.find_or_create_external_user({:login => login}, nil),
-            User.find_by_login(login)
+            User.find_by(login: login)
         end
       end
 
@@ -711,9 +711,9 @@ class UserTest < ActiveSupport::TestCase
           assert_difference('AuthSource.count', 1) do
             user = User.find_or_create_external_user({:login => not_existing_user_login},
               not_existing_auth_source)
-            assert_equal user, User.find_by_login(not_existing_user_login)
+            assert_equal user, User.find_by(login: not_existing_user_login)
 
-            new_source = AuthSourceExternal.find_by_name(not_existing_auth_source)
+            new_source = AuthSourceExternal.find_by(name: not_existing_auth_source)
             assert_equal new_source.name, user.auth_source.name
           end
         end
@@ -730,7 +730,7 @@ class UserTest < ActiveSupport::TestCase
           assert_difference('AuthSource.count', 0) do
             assert_equal User.find_or_create_external_user(
               {:login => not_existing_user_login}, @apache_source.name),
-              User.find_by_login(not_existing_user_login)
+              User.find_by(login: not_existing_user_login)
           end
         end
       end
@@ -771,7 +771,7 @@ class UserTest < ActiveSupport::TestCase
       ldap_attrs = { :firstname => "Foo", :lastname => "Bar", :mail => "baz@qux.com",
                      :login => 'FoOBaR' }
       AuthSourceLdap.any_instance.stubs(:authenticate).returns(ldap_attrs)
-      @ldap_server = AuthSource.find_by_name("ldap-server")
+      @ldap_server = AuthSource.find_by(name: "ldap-server")
     end
 
     context 'success' do
@@ -873,7 +873,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "return location and child ids for non-admin user" do
-    users(:one).roles << Role.find_by_name('Manager')
+    users(:one).roles << Role.find_by(name: 'Manager')
     as_user :one do
       # User 'one' contains location1 already
       in_taxonomy :location1 do
@@ -884,7 +884,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "return organization and child ids for non-admin user" do
-    users(:one).roles << Role.find_by_name('Manager')
+    users(:one).roles << Role.find_by(name: 'Manager')
     as_user :one do
       # User 'one' contains organization1 already
       in_taxonomy :organization1 do
@@ -940,8 +940,8 @@ class UserTest < ActiveSupport::TestCase
     Organization.create(:parent => Organization.first, :name => 'inherited_org')
     users(:one).update_attribute(:locations, [Location.first])
     users(:one).update_attribute(:organizations, [Organization.first])
-    users(:one).default_location     = Location.find_by_name('inherited_loc')
-    users(:one).default_organization = Organization.find_by_name('inherited_org')
+    users(:one).default_location     = Location.find_by(name: 'inherited_loc')
+    users(:one).default_organization = Organization.find_by(name: 'inherited_org')
 
     assert users(:one).valid?
   end

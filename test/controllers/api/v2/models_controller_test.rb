@@ -82,10 +82,10 @@ class Api::V2::ModelsControllerTest < ActionController::TestCase
 
   test "should show false in can_delete if user is unauthorized" do
     role = Role.create!(:name => "delete_KVM_models")
-    role.users = [User.find_by_login("one")]
+    role.users = [User.find_by(login: "one")]
     assert role.save
-    Filter.create!(:search => "name = KVM", :role => role, :permissions => [Permission.find_by_name("destroy_models")])
-    Filter.create!(:role => role, :permissions => [Permission.find_by_name("view_models")])
+    Filter.create!(:search => "name = KVM", :role => role, :permissions => [Permission.find_by(name: "destroy_models")])
+    Filter.create!(:role => role, :permissions => [Permission.find_by(name: "view_models")])
     as_user("one") do
       get :index, params: { :include_permissions => true }
       resp = ActiveSupport::JSON.decode(@response.body)

@@ -233,7 +233,7 @@ class Api::V2::RolesControllerTest < ActionController::TestCase
     # Note: org admin role has no default permissions in unit-tests, for real functionality we have to load them before.
     load File.join(Rails.root, '/db/seeds.d/030-permissions.rb')
     load File.join(Rails.root, '/db/seeds.d/040-roles.rb')
-    default_org_admin_role = Role.find_by_name('Organization admin')
+    default_org_admin_role = Role.find_by(name: 'Organization admin')
     refute_empty default_org_admin_role.permissions
     org_admin_role = default_org_admin_role.clone(:name => 'new_org_admin', :organizations => [org])
     org_admin_role.save!

@@ -68,8 +68,8 @@ class ReportImporter
 
   def host
     hostname = name.downcase
-    @host ||= Host::Base.find_by_certname(hostname) ||
-      Host::Base.find_by_name(hostname) ||
+    @host ||= Host::Base.find_by(certname: hostname) ||
+      Host::Base.find_by(name: hostname) ||
       Host::Managed.new(:name => hostname)
   end
 

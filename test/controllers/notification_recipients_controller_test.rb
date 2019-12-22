@@ -38,7 +38,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     notice_id = first_notification
     assert NotificationRecipient.find(notice_id)
     delete :destroy, params: { :id => notice_id }
-    refute NotificationRecipient.find_by_id(notice_id)
+    refute NotificationRecipient.find_by(id: notice_id)
     assert_response :success
   end
 
@@ -46,7 +46,7 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
     get :index, params: { :format => 'json' }, session: set_session_user
     notice_id = 1
     refute response['notifications'].map {|n| n['id']}.include?(notice_id)
-    refute NotificationRecipient.find_by_id(notice_id)
+    refute NotificationRecipient.find_by(id: notice_id)
     delete :destroy, params: { :id => notice_id }
     assert_response :not_found
   end

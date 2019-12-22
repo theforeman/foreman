@@ -334,7 +334,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       get :built
       assert_response :created
-      nic = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      nic = Nic::Base.primary.find_by(ip: @ub_host.ip)
       refute nic.build
     end
 
@@ -342,7 +342,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       post :built
       assert_response :created
-      nic = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      nic = Nic::Base.primary.find_by(ip: @ub_host.ip)
       refute nic.build
     end
 
@@ -350,7 +350,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       post :failed
       assert_response :created
-      nic = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      nic = Nic::Base.primary.find_by(ip: @ub_host.ip)
       refute nic.build
     end
 
@@ -358,7 +358,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @request.env["REMOTE_ADDR"] = @ub_host.ip
       post :failed, body: (' ' * 65537)
       assert_response :created
-      host = Nic::Base.primary.find_by_ip(@ub_host.ip).host
+      host = Nic::Base.primary.find_by(ip: @ub_host.ip).host
       refute host.build
       assert_match(/Output trimmed/, host.build_errors)
     end
@@ -368,7 +368,7 @@ class UnattendedControllerTest < ActionController::TestCase
       @ub_host.create_token(:value => "expired_token", :expires => Time.now.utc - 1.minute)
       get :built, params: {'token' => @ub_host.token.value }
       assert_response :created
-      host = Nic::Base.primary.find_by_ip(@ub_host.ip)
+      host = Nic::Base.primary.find_by(ip: @ub_host.ip)
       assert_equal host.build, false
     end
 

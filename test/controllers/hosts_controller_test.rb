@@ -502,7 +502,7 @@ class HostsControllerTest < ActionController::TestCase
     host_names = hosts.map(&:name)
     # check that we have hosts and their hostgroup is empty
     host_names.each do |name|
-      host = Host.find_by_name name
+      host = Host.find_by name: name
       assert_not_nil host
       assert_nil host.hostgroup
     end
@@ -513,7 +513,7 @@ class HostsControllerTest < ActionController::TestCase
 
     host_names.each do |name|
       as_admin do
-        host = Host.unscoped.find_by_name(name)
+        host = Host.unscoped.find_by(name: name)
         assert_not_nil host
         assert_equal host.hostgroup, hostgroup
       end

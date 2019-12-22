@@ -85,7 +85,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should handle disk environment containing additional classes" do
     setup_import_classes
-    Environment.find_by_name("env1").puppetclasses.delete(Puppetclass.find_by_name("a"))
+    Environment.find_by(name: "env1").puppetclasses.delete(Puppetclass.find_by(name: "a"))
     #    db_tree   of {"env1" => ["b", "c"],     "env2" => ["a", "b", "c"]}
     #    disk_tree of {"env1" => ["a", "b", "c"],"env2" => ["a", "b", "c"]}
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
@@ -100,13 +100,13 @@ class EnvironmentsControllerTest < ActionController::TestCase
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
     assert_equal ["a", "b", "c"],
-      Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
+      Environment.unscoped.find_by(name: "env1").puppetclasses.map(&:name).sort
   end
 
   test "should handle disk environment containing less classes" do
     setup_import_classes
     as_admin {Puppetclass.create(:name => "d")}
-    Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
+    Environment.find_by(name: "env1").puppetclasses << Puppetclass.find_by(name: "d")
     # db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     # disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster) }, session: set_session_user
@@ -120,7 +120,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
       }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
-    envs = Environment.unscoped.find_by_name("env1").puppetclasses.map(&:name).sort
+    envs = Environment.unscoped.find_by(name: "env1").puppetclasses.map(&:name).sort
     assert_equal ["a", "b", "c"], envs
   end
   test "should handle disk environment containing less environments" do
@@ -139,7 +139,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
       }, session: set_session_user
     assert_redirected_to environments_url
     assert_equal "Successfully updated environments and Puppet classes from the on-disk Puppet installation", flash[:success]
-    assert_equal [], Environment.unscoped.find_by_name("env3").puppetclasses.map(&:name).sort
+    assert_equal [], Environment.unscoped.find_by(name: "env3").puppetclasses.map(&:name).sort
   end
 
   test "should fail to remove active environments" do
@@ -147,11 +147,11 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       host = FactoryBot.create(:host)
-      Environment.find_by_name("env1").puppetclasses += [puppetclasses(:one)]
-      host.environment_id = Environment.find_by_name("env1").id
+      Environment.find_by(name: "env1").puppetclasses += [puppetclasses(:one)]
+      host.environment_id = Environment.find_by(name: "env1").id
       assert host.save!
       assert host.errors.empty?
-      assert Environment.find_by_name("env1").hosts.count > 0
+      assert Environment.find_by(name: "env1").hosts.count > 0
     end
 
     # assert_template "puppetclasses_or_envs_changed". This assertion will fail. And it should fail. See above.
@@ -161,9 +161,9 @@ class EnvironmentsControllerTest < ActionController::TestCase
         {"env1" => '["a","b","c","_destroy_"]'},
        },
      }, session: set_session_user
-    assert Environment.unscoped.find_by_name("env1").hosts.count > 0
+    assert Environment.unscoped.find_by(name: "env1").hosts.count > 0
     # assert flash[:error] =~ /^Failed to update the environments and puppetclasses from the on-disk puppet installation/
-    assert Environment.unscoped.find_by_name("env1")
+    assert Environment.unscoped.find_by(name: "env1")
   end
 
   test "should obey config/ignored_environments.yml" do
@@ -171,7 +171,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
     setup_import_classes
     as_admin do
       Environment.create :name => "env3"
-      Environment.find_by_name("env2").destroy
+      Environment.find_by(name: "env2").destroy
     end
     # db_tree   of {"env1" => ["a", "b", "c"], "env3" => []}
     # disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
@@ -204,7 +204,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   def setup_user
     @request.session[:user] = users(:one).id
-    users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+    users(:one).roles       = [Role.default, Role.find_by(name: 'Viewer')]
   end
 
   test 'user with viewer rights should fail to edit an environment' do

@@ -30,7 +30,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test "user can edit global parameters limited by filter on name" do
-      @filter.permissions << Permission.find_by_name('edit_params')
+      @filter.permissions << Permission.find_by(name: 'edit_params')
       visit common_parameters_path
       assert page.has_no_text?('Delete')
       assert page.has_content?(@visible_global_parameter.name)
@@ -44,7 +44,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test "user can delete global parameters limited by filter on name" do
-      @filter.permissions << Permission.find_by_name('destroy_params')
+      @filter.permissions << Permission.find_by(name: 'destroy_params')
       visit common_parameters_path
       assert page.has_content?(@visible_global_parameter.name)
       assert page.has_no_content?(@invisible_global_parameter.name)
@@ -79,7 +79,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test "user can edit domain parameters limited by filter on name or domain" do
-      @filter.permissions << Permission.find_by_name('edit_params')
+      @filter.permissions << Permission.find_by(name: 'edit_params')
 
       visit edit_domain_path(@domain1)
       refute_visible_parameter(@invisible_domain_parameter)
@@ -89,7 +89,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test "user can destroy only domain parameters limited by filter on name or domain" do
-      @filter.permissions << Permission.find_by_name('destroy_params')
+      @filter.permissions << Permission.find_by(name: 'destroy_params')
       assert_domain_parameter_can_be_deleted(@domain1, @visible_domain_parameter)
       assert_domain_parameter_can_be_deleted(@domain2, @domain_visible_domain_parameter)
     end

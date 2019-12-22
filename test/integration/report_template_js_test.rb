@@ -33,7 +33,7 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
 
     find('input[name="commit"]').click
 
-    template = ReportTemplate.find_by_name('A testing report')
+    template = ReportTemplate.find_by(name: 'A testing report')
     visit generate_report_template_path(template)
 
     assert_equal template.template, template_text

@@ -276,7 +276,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.new_record?
     assert h.valid?
     assert_equal ["dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
-    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
+    assert_equal :set_dhcp, h.queue.find_by(id: "dhcp_create_aa:bb:cc:dd:ee:ff").action.last
   end
 
   test "new host with multiple validations should create a single dhcp reservation" do
@@ -285,7 +285,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     assert h.valid?
     assert h.valid?
     assert_equal ["dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
-    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
+    assert_equal :set_dhcp, h.queue.find_by(id: "dhcp_create_aa:bb:cc:dd:ee:ff").action.last
   end
 
   test "queue_dhcp doesn't fail when mac address is blank but provided by compute resource" do
@@ -308,8 +308,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
                                  :subnet_id => h.subnet_id, :provider => 'IPMI', :type => 'Nic::BMC', :domain_id => h.domain_id}]
     assert h.valid?
     assert_equal ["dhcp_create_aa:bb:cc:dd:ee:f1", "dhcp_create_aa:bb:cd:cd:ee:ee"], h.queue.task_ids
-    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:f1").action.last
-    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cd:cd:ee:ee").action.last
+    assert_equal :set_dhcp, h.queue.find_by(id: "dhcp_create_aa:bb:cc:dd:ee:f1").action.last
+    assert_equal :set_dhcp, h.queue.find_by(id: "dhcp_create_aa:bb:cd:cd:ee:ee").action.last
   end
 
   test "when an existing host changes its ip address, its dhcp records should be updated" do
@@ -319,8 +319,8 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     h.ip = h.ip.succ
     assert h.valid?
     assert_equal ["dhcp_remove_aa:bb:cc:dd:ee:ff", "dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
-    assert_equal :del_dhcp, h.queue.find_by_id("dhcp_remove_aa:bb:cc:dd:ee:ff").action.last
-    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_aa:bb:cc:dd:ee:ff").action.last
+    assert_equal :del_dhcp, h.queue.find_by(id: "dhcp_remove_aa:bb:cc:dd:ee:ff").action.last
+    assert_equal :set_dhcp, h.queue.find_by(id: "dhcp_create_aa:bb:cc:dd:ee:ff").action.last
   end
 
   test "when an existing host change its bmc ip address, its dhcp records should be updated" do
@@ -336,10 +336,10 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     new_ip = bmc.ip = bmc.ip.succ
     assert bmc.valid?
     assert_equal ["dhcp_remove_da:aa:aa:ab:db:bb", "dhcp_create_da:aa:aa:ab:db:bb", "dhcp_create_aa:bb:cc:dd:ee:ff"], h.queue.task_ids
-    assert_equal :del_dhcp, h.queue.find_by_id("dhcp_remove_da:aa:aa:ab:db:bb").action.last
-    assert_equal old_ip, h.queue.find_by_id("dhcp_remove_da:aa:aa:ab:db:bb").action.first.ip
-    assert_equal :set_dhcp, h.queue.find_by_id("dhcp_create_da:aa:aa:ab:db:bb").action.last
-    assert_equal new_ip, h.queue.find_by_id("dhcp_create_da:aa:aa:ab:db:bb").action.first.ip
+    assert_equal :del_dhcp, h.queue.find_by(id: "dhcp_remove_da:aa:aa:ab:db:bb").action.last
+    assert_equal old_ip, h.queue.find_by(id: "dhcp_remove_da:aa:aa:ab:db:bb").action.first.ip
+    assert_equal :set_dhcp, h.queue.find_by(id: "dhcp_create_da:aa:aa:ab:db:bb").action.last
+    assert_equal new_ip, h.queue.find_by(id: "dhcp_create_da:aa:aa:ab:db:bb").action.first.ip
   end
 
   test "when an existing host changes its mac address, its dhcp records should be updated" do

@@ -4,6 +4,6 @@ class AddTemplatesToFeatures < ActiveRecord::Migration[4.2]
   end
 
   def down
-    Feature.find_by_name('Templates').destroy
+    Feature.find_by(name: 'Templates').destroy
   end
 end

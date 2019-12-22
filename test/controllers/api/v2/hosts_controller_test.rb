@@ -11,7 +11,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     as_admin do
       @host = FactoryBot.create(:host)
       @ptable = FactoryBot.create(:ptable)
-      @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
+      @ptable.operatingsystems = [ Operatingsystem.find_by(name: 'Redhat') ]
       Host::Managed.any_instance.stubs(:vm_exists?).returns(true)
     end
   end
@@ -22,8 +22,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :domain_id           => domains(:mydomain).id,
       :ptable_id           => @ptable.id,
       :medium_id           => media(:one).id,
-      :architecture_id     => Architecture.find_by_name('x86_64').id,
-      :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
+      :architecture_id     => Architecture.find_by(name: 'x86_64').id,
+      :operatingsystem_id  => Operatingsystem.find_by(name: 'Redhat').id,
       :puppet_proxy_id     => smart_proxies(:puppetmaster).id,
       :compute_resource_id => compute_resources(:one).id,
       :root_pass           => "xybxa6JUkz63w",
@@ -311,9 +311,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal 2, last_record.interfaces.count
 
-    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
-    assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
+    assert last_record.interfaces.find_by(mac: '00:11:22:33:44:00').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by(mac: '00:11:22:33:44:00').class
+    assert_equal Nic::BMC,     last_record.interfaces.find_by(mac: '00:11:22:33:44:01').class
   end
 
   test "should create interfaces sent in a hash" do
@@ -326,9 +326,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal 2, last_record.interfaces.count
 
-    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
-    assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
+    assert last_record.interfaces.find_by(mac: '00:11:22:33:44:00').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by(mac: '00:11:22:33:44:00').class
+    assert_equal Nic::BMC,     last_record.interfaces.find_by(mac: '00:11:22:33:44:01').class
   end
 
   test "should fail with unknown interface type" do
@@ -353,9 +353,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal compute_attrs.vm_interfaces.count,
         last_record.interfaces.count
       assert_equal expected_compute_attributes(compute_attrs, 0),
-        last_record.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
+        last_record.interfaces.find_by(mac: '00:11:22:33:44:00').compute_attributes
       assert_equal expected_compute_attributes(compute_attrs, 1),
-        last_record.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
+        last_record.interfaces.find_by(mac: '00:11:22:33:44:01').compute_attributes
     end
   end
 
@@ -440,8 +440,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     as_admin do
       @host.interfaces.reload
       assert_equal compute_attrs.vm_interfaces.count, @host.interfaces.count
-      assert_equal expected_compute_attributes(compute_attrs, 0), @host.interfaces.find_by_primary(true).compute_attributes
-      assert_equal expected_compute_attributes(compute_attrs, 1), @host.interfaces.find_by_primary(false).compute_attributes
+      assert_equal expected_compute_attributes(compute_attrs, 0), @host.interfaces.find_by(primary: true).compute_attributes
+      assert_equal expected_compute_attributes(compute_attrs, 1), @host.interfaces.find_by(primary: false).compute_attributes
     end
   end
 
@@ -639,7 +639,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         Setting[:default_organization] = org.title
         post :facts, params: { :name => hostname, :facts => facts }
         assert_response :success
-        host = Host.find_by_name(hostname)
+        host = Host.find_by(name: hostname)
         assert_equal loc, host.location
         assert_equal org, host.organization
       end
@@ -653,7 +653,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         facts['foreman_organization'] = org.title
         post :facts, params: { :name => hostname, :facts => facts }
         assert_response :success
-        host = Host.find_by_name(hostname)
+        host = Host.find_by(name: hostname)
         assert_equal loc, host.location
         assert_equal org, host.organization
       end
@@ -665,7 +665,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         facts['domain'] = domain_name
         post :facts, params: { :name => hostname, :facts => facts }
         assert_response :success
-        domain = Domain.unscoped.find_by_name(domain_name)
+        domain = Domain.unscoped.find_by(name: domain_name)
         assert_equal [loc], domain.locations
         assert_equal [org], domain.organizations
       end
@@ -1074,7 +1074,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         :location_ids => [ basic_attrs[:location_id] ],
         :organization_ids => [ basic_attrs[:organization_id] ]
       )
-      ComputeResource.find_by_id(cr.id)
+      ComputeResource.find_by(id: cr.id)
     end
     let(:uuid) { '5032c8a5-9c5e-ba7a-3804-832a03e16381' }
     let(:import_attrs) { basic_attrs.except(:name, :domain_id, :compute_resource_id) }
@@ -1096,7 +1096,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       body = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil body['id']
       as_admin do
-        host = Host.find_by_id(body['id'])
+        host = Host.find_by(id: body['id'])
         assert_equal 'dhcp75-197.virt.bos.redhat.com', host.name
         assert_equal domain, host.domain
         assert_equal '00:50:56:a9:00:28', host.mac
@@ -1129,8 +1129,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     end
     assert_response :created
     assert_equal 2, last_record.interfaces.count
-    assert_equal '192.168.2.10', last_record.interfaces.find_by_mac('00:11:22:33:44:00').ip
-    assert_equal '192.168.3.10', last_record.interfaces.find_by_mac('00:11:22:33:44:01').ip
+    assert_equal '192.168.2.10', last_record.interfaces.find_by(mac: '00:11:22:33:44:00').ip
+    assert_equal '192.168.3.10', last_record.interfaces.find_by(mac: '00:11:22:33:44:01').ip
   end
 
   test "should not create host only with user owner type" do
@@ -1322,7 +1322,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should update with puppet class" do
     environment = environments(:testing)
     set_environment_taxonomies(@host, environment)
-    puppetclass = Puppetclass.find_by_name('git')
+    puppetclass = Puppetclass.find_by(name: 'git')
     put :update, params: { :id => @host.id, :host => valid_attrs.merge(:environment_id => environment.id, :puppetclass_ids => [puppetclass.id]) }
     assert_response :success
     response = JSON.parse(@response.body)
@@ -1341,7 +1341,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   # to test the API response metadata is returned correctly
   describe 'should create correct subtotals' do
     before do
-      @empty_org = Organization.find_by_name("Empty Organization")
+      @empty_org = Organization.find_by(name: "Empty Organization")
       as_admin do
         FactoryBot.create_list(:host, 10, organization: @empty_org)
       end

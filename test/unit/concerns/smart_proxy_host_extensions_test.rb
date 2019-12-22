@@ -17,12 +17,12 @@ class SmartProxyHostExtensionsTest < ActiveSupport::TestCase
   end
 
   test "should have test_reference" do
-    assert ProxyReferenceRegistry.find_by_relation(:test_reference)
+    assert ProxyReferenceRegistry.find_by(relation: :test_reference)
   end
 
   test "should join references" do
     assert_equal 1, ProxyReferenceRegistry.smart_proxy_references.length
-    assert_equal [:another_test, :test], ProxyReferenceRegistry.find_by_relation(:test_reference).columns.sort
+    assert_equal [:another_test, :test], ProxyReferenceRegistry.find_by(relation: :test_reference).columns.sort
   end
 
   test "should not overwrite references" do

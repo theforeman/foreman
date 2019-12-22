@@ -23,22 +23,22 @@ class QueueTest < ActiveSupport::TestCase
 
   test 'a task can be searched by name' do
     @queue.create(name: "t1", id: "i1", action: [:blah])
-    assert_nil @queue.find_by_name("")
-    assert @queue.find_by_name("t1")
-    assert_equal "t1", @queue.find_by_name("t1").name
+    assert_nil @queue.find_by(name: "")
+    assert @queue.find_by(name: "t1")
+    assert_equal "t1", @queue.find_by(name: "t1").name
   end
 
   test 'a task can be searched by id' do
     @queue.create(name: "t1", id: "i1", action: [:blah])
-    assert_nil @queue.find_by_id("")
-    assert @queue.find_by_id("i1")
-    assert_equal "t1", @queue.find_by_id("i1").name
+    assert_nil @queue.find_by(id: "")
+    assert @queue.find_by(id: "i1")
+    assert_equal "t1", @queue.find_by(id: "i1").name
   end
 
   test 'a task can be searched by id as symbol' do
     @queue.create(name: "t1", id: :i1, action: [:blah])
-    assert_equal "t1", @queue.find_by_id("i1").name
-    assert_equal "t1", @queue.find_by_id(:i1).name
+    assert_equal "t1", @queue.find_by(id: "i1").name
+    assert_equal "t1", @queue.find_by(id: :i1).name
   end
 
   test 'two tasks with same id are not added' do

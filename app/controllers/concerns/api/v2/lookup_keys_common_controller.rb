@@ -49,10 +49,10 @@ module Api::V2::LookupKeysCommonController
 
   def find_smart_variable
     id = params.key?('smart_variable_id') ? params['smart_variable_id'] : params['id']
-    @smart_variable = VariableLookupKey.authorized(:view_external_variables).smart_variables.find_by_id(id.to_i) if id.to_i > 0
+    @smart_variable = VariableLookupKey.authorized(:view_external_variables).smart_variables.find_by(id: id.to_i) if id.to_i > 0
     @smart_variable ||= begin
                           puppet_cond = { :puppetclass_id => @puppetclass.id } if @puppetclass
-                          VariableLookupKey.authorized(:view_external_variables).smart_variables.where(puppet_cond).find_by_key(id.to_s)
+                          VariableLookupKey.authorized(:view_external_variables).smart_variables.where(puppet_cond).find_by(key: id.to_s)
                         end
     @smart_variable
   end
@@ -71,7 +71,7 @@ module Api::V2::LookupKeysCommonController
 
   def find_smart_class_parameter
     id = params.key?('smart_class_parameter_id') ? params['smart_class_parameter_id'] : params['id']
-    @smart_class_parameter = PuppetclassLookupKey.authorized(:view_external_parameters).smart_class_parameters.find_by_id(id.to_i) if id.to_i > 0
+    @smart_class_parameter = PuppetclassLookupKey.authorized(:view_external_parameters).smart_class_parameters.find_by(id: id.to_i) if id.to_i > 0
     @smart_class_parameter ||= begin
                                  puppet_cond = { 'environment_classes.puppetclass_id' => @puppetclass.id } if @puppetclass
                                  env_cond = { 'environment_classes.environment_id' => @environment.id } if @environment
@@ -118,7 +118,7 @@ module Api::V2::LookupKeysCommonController
   end
 
   def return_if_smart_mismatch
-    if (@smarts && @smart && !@smarts.find_by_id(@smart.id)) || (@smarts && !@smart)
+    if (@smarts && @smart && !@smarts.find_by(id: @smart.id)) || (@smarts && !@smart)
       obj = smart_variable_id? ? "Smart variable" : "Smart class parameter"
       id = if smart_variable_id?
              params.key?('smart_variable_id') ? params['smart_variable_id'] : params['id']

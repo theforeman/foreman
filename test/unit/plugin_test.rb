@@ -549,7 +549,7 @@ class PluginTest < ActiveSupport::TestCase
     Foreman::Plugin.register :test_add_smart_proxy_reference do
       smart_proxy_reference :hosts => [:test]
     end
-    assert_equal [:test], ProxyReferenceRegistry.find_by_relation(:hosts).columns
+    assert_equal [:test], ProxyReferenceRegistry.find_by(relation: :hosts).columns
   ensure
     ProxyReferenceRegistry.references = refs
   end

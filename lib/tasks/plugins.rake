@@ -9,7 +9,7 @@ namespace :plugin do
   task :validate_roles => :environment do
     Foreman::Plugin.all.each do |plugin|
       plugin.default_roles.each do |role, expected_perms|
-        actual_perms = Role.find_by_name(role).permissions.collect(&:name).collect(&:to_sym)
+        actual_perms = Role.find_by(name: role).permissions.collect(&:name).collect(&:to_sym)
         missing = actual_perms - expected_perms
         puts "Role '#{role}' is missing permissions #{missing.inspect}" unless missing.empty?
       end

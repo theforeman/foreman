@@ -95,7 +95,7 @@ class TaxHost
     missing_ids.each do |row|
       # no object for table locations_organizations, so use method *_ids = [array id's] to create relationship
       if %w[Location Organization].include?(row[:taxable_type])
-        if (tax = Taxonomy.find_by_id(row[:taxonomy_id]))
+        if (tax = Taxonomy.find_by(id: row[:taxonomy_id]))
           tax.send("#{opposite_taxonomy_type}_ids=".to_sym, [row[:taxable_id]] + tax.send("#{opposite_taxonomy_type}_ids"))
         end
       else

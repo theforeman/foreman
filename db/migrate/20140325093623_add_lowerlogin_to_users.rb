@@ -6,9 +6,9 @@ class AddLowerloginToUsers < ActiveRecord::Migration[4.2]
     User.reset_column_information
 
     User.unscoped.order("last_login_on DESC").each do |user|
-      if User.find_by_login(user.login.downcase)
+      if User.find_by(login: user.login.downcase)
         dupe = 1
-        dupe += 1 while User.find_by_login(new_login = "#{user.login}#{dupe}")
+        dupe += 1 while User.find_by(login: new_login = "#{user.login}#{dupe}")
         say "Renaming duplicate user #{user.login} to #{new_login}"
         user.login = new_login
       else

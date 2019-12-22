@@ -50,7 +50,7 @@ class PuppetclassesControllerTest < ActionController::TestCase
   def setup_user(operation = nil, type = "", search = nil, user = :one)
     if operation.nil?
       @request.session[:user] = users(:one).id
-      users(:one).roles       = [Role.default, Role.find_by_name('Viewer')]
+      users(:one).roles       = [Role.default, Role.find_by(name: 'Viewer')]
     else
       super
     end

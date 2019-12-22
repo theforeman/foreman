@@ -23,7 +23,7 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
    ["OpenSuse", "http://download.opensuse.org/distribution/12.3/repo/oss"],
    ["Solaris", "http://brsla01/vol/solgi_5.10/sol10_hw0910_sparc"]].each do |osname, expected_uri|
     test "generates URI for #{osname}" do
-      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by_name(osname))
+      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by(name: osname))
       assert_equal expected_uri, MediumProviders::Default.new(host).medium_uri.to_s
     end
   end
@@ -33,7 +33,7 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
    ["OpenSuse", "http://download.opensuse.org/distribution/12.3/repo/oss/boot/x86_64/loader"],
    ["Solaris", "http://brsla01/vol/solgi_5.10/sol10_hw0910_sparc/Solaris_10/Tools/Boot"]].each do |osname, expected_uri|
     test "generates unique ID based on base and pxedir for #{osname}" do
-      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by_name(osname))
+      host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by(name: osname))
       medium_uri_with_path = MediumProviders::Default.new(host).medium_uri(host.operatingsystem.pxedir).to_s
       assert_equal expected_uri, medium_uri_with_path
       digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri_with_path), padding: false)

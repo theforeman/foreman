@@ -218,7 +218,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
       provisioning_template = {
         :name => 'foo',
         :template => '#nocontent',
-        :template_kind_id => TemplateKind.find_by_name('iPXE').id,
+        :template_kind_id => TemplateKind.find_by(name: 'iPXE').id,
         :template_combinations_attributes => { '3923' => template_combination },
       }
       assert_difference('TemplateCombination.unscoped.count', 1) do

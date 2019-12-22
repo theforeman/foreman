@@ -1,7 +1,7 @@
 class ActuallyRenameSmartProxyAuthRelatedSettings < ActiveRecord::Migration[4.2]
   def up
     %w(restrict_registered require_ssl).each do |setting|
-      if (old = Setting.find_by_name("#{setting}_puppetmasters"))
+      if (old = Setting.find_by(name: "#{setting}_puppetmasters"))
         Setting["#{setting}_smart_proxies"] = old.value
         old.delete
       end

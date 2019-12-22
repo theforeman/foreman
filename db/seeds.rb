@@ -29,7 +29,7 @@ end
 foreman_seeds.each do |seed|
   puts "Seeding #{seed}" unless Rails.env.test?
 
-  admin = User.unscoped.find_by_login(User::ANONYMOUS_ADMIN)
+  admin = User.unscoped.find_by(login: User::ANONYMOUS_ADMIN)
   # anonymous admin does not exist until some of seed step creates it, therefore we use it only when it exists
   if admin.present?
     User.as_anonymous_admin do

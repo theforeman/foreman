@@ -116,8 +116,8 @@ module Host
       hostname.try(:downcase!)
       certname.try(:downcase!)
 
-      host = Host.find_by_certname(certname) if certname.present?
-      host ||= Host.find_by_name(hostname)
+      host = Host.find_by(certname: certname) if certname.present?
+      host ||= Host.find_by(name: hostname)
       host ||= self.new(:name => hostname) # if no host was found, build a new one
 
       # if we were given a certname but found the Host by hostname we should update the certname
@@ -263,9 +263,9 @@ module Host
         taxonomy_fact = Setting["#{taxonomy}_fact"]
 
         if taxonomy_fact.present? && facts.key?(taxonomy_fact)
-          taxonomy_from_fact = taxonomy_class.find_by_title(facts[taxonomy_fact].to_s)
+          taxonomy_from_fact = taxonomy_class.find_by(title: facts[taxonomy_fact].to_s)
         else
-          default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
+          default_taxonomy = taxonomy_class.find_by(title: Setting["default_#{taxonomy}"])
         end
 
         if self.send(taxonomy).present?
@@ -480,7 +480,9 @@ module Host
 
           mac_based = base.where(:mac => macaddress)
           if attributes[:virtual]
+            # rubocop:disable Rails/DynamicFindBy
             mac_based.virtual.where(:identifier => name) || find_by_attached_mac(base, mac_based, identifier, attributes)
+            # rubocop:enable Rails/DynamicFindBy
           elsif mac_based.physical.any?
             mac_based.physical
           elsif !self.managed

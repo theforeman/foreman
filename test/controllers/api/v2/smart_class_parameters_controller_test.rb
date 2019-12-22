@@ -232,7 +232,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     put :update, params: { :id => lookup_key.id, :smart_class_parameter => { :override => true, :parameter_type => "string", :default_value => RFauxFactory.gen_alpha, :merge_default => true } }
     assert_response :internal_server_error, 'Can set merge default if merge overrides is not set'
     assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Merge default can only be set when merge overrides is set'
-    lookup_key = LookupKey.unscoped.find_by_id(lookup_keys(:five).id)
+    lookup_key = LookupKey.unscoped.find_by(id: lookup_keys(:five).id)
     assert_equal lookup_key.reload.merge_default, false
   end
 
@@ -252,7 +252,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     put :update, params: { :id => lookup_key.id, :smart_class_parameter => { :override => true, :parameter_type => "boolean", :default_value => default_value } }
     assert_response :internal_server_error, 'Can set invalid parameter type / default value'
     assert_includes JSON.parse(response.body)['error']['message'], 'Validation failed: Default value is invalid'
-    lookup_key = LookupKey.unscoped.find_by_id(lookup_key.id)
+    lookup_key = LookupKey.unscoped.find_by(id: lookup_key.id)
     assert_not_equal lookup_key.reload.default_value, default_value
   end
 
@@ -348,7 +348,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     hostgroup.puppetclasses << puppetclass
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :default_value => 'list', :puppetclass => puppetclasses(:two))
     FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :value => match_value, :match => match)
-    lookup_key = LookupKey.unscoped.find_by_id(lookup_key.id)
+    lookup_key = LookupKey.unscoped.find_by(id: lookup_key.id)
     assert_equal lookup_key.override_values.first.match, match
     assert_equal lookup_key.override_values.first.value, match_value
     hostgroup.destroy

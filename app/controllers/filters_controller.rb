@@ -64,7 +64,7 @@ class FiltersController < ApplicationController
   end
 
   def find_role
-    @role = Role.find_by_id(role_id)
+    @role = Role.find_by(id: role_id)
   end
 
   def resource_base
@@ -84,7 +84,7 @@ class FiltersController < ApplicationController
     params[:search] ||= ""
     params.keys.each do |param|
       if param =~ /role_id$/
-        if (role = Role.find_by_id(params[param])).present?
+        if (role = Role.find_by(id: params[param])).present?
           query = "role_id = #{role.id}"
           params[:search] += query unless params[:search].include? query
         end

@@ -43,7 +43,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   describe 'accessible resources' do
     setup do
-      permission = Permission.find_by_name('view_domains')
+      permission = Permission.find_by(name: 'view_domains')
       filter = FactoryBot.create(:filter, :on_name_starting_with_a,
                                   :permissions => [permission])
       @user = FactoryBot.create(:user)
@@ -72,7 +72,7 @@ class ApplicationHelperTest < ActionView::TestCase
     end
 
     test "accessible_related_resource shows only authorized related records" do
-      permission = Permission.find_by_name('view_subnets')
+      permission = Permission.find_by(name: 'view_subnets')
       filter = FactoryBot.create(:filter, :on_name_starting_with_a,
                                   :permissions => [permission])
       @user.roles << filter.role

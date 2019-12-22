@@ -60,13 +60,13 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   test "should find by fullname string" do
     str = "Redhat 6.1"
-    os = Operatingsystem.find_by_to_label(str)
+    os = Operatingsystem.find_by(to_label: str)
     assert_equal str, os.fullname
   end
 
   test "should find by fullname if description does not exist" do
     str = "centos 5.3"
-    os = Operatingsystem.find_by_to_label(str)
+    os = Operatingsystem.find_by(to_label: str)
     assert_equal str, os.to_label
   end
 

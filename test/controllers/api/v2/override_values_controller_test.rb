@@ -360,7 +360,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
       post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :value => value, :omit => true} }
     end
     assert_response :success
-    lookup_key = LookupKey.unscoped.find_by_id(lookup_key.id)
+    lookup_key = LookupKey.unscoped.find_by(id: lookup_key.id)
     assert_equal lookup_key.override_values.first.match, 'os=string'
     assert_equal lookup_key.override_values.first.value, value
     assert_equal lookup_key.override_values.first.omit, true
@@ -428,7 +428,7 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_difference('LookupValue.count') do
       post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'is_virtual=true', :value => value } }
     end
-    lookup_key = LookupKey.unscoped.find_by_id(lookup_key.id)
+    lookup_key = LookupKey.unscoped.find_by(id: lookup_key.id)
     assert_equal lookup_key.override_values.first.match, 'is_virtual=true'
     assert_equal lookup_key.override_values.first.value, value
   end

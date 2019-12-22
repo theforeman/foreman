@@ -73,7 +73,7 @@ class SeedsTest < ActiveSupport::TestCase
       seed('030-auth_sources.rb', '035-admin.rb')
     end
     [User::ANONYMOUS_ADMIN, User::ANONYMOUS_API_ADMIN, User::ANONYMOUS_CONSOLE_ADMIN].each do |login|
-      user = User.unscoped.find_by_login(login)
+      user = User.unscoped.find_by(login: login)
       assert user.present?, "cannot find user #{login}"
       assert user.password_hash.blank?
       assert user.password_salt.blank?
@@ -88,7 +88,7 @@ class SeedsTest < ActiveSupport::TestCase
       assert_difference 'User.unscoped.where(:login => "admin").count', 1 do
         seed('030-auth_sources.rb', '035-admin.rb')
       end
-      user = User.unscoped.find_by_login('admin')
+      user = User.unscoped.find_by(login: 'admin')
       assert user.password_hash.present?
       assert user.password_salt.present?
       assert user.admin?
@@ -105,7 +105,7 @@ class SeedsTest < ActiveSupport::TestCase
           seed
         end
       end
-      user = User.unscoped.find_by_login('seed_test')
+      user = User.unscoped.find_by(login: 'seed_test')
       assert user.matching_password? 'seed_secret'
       assert user.admin?
       refute user.hidden?
@@ -121,9 +121,9 @@ class SeedsTest < ActiveSupport::TestCase
 
   test "does update template that was not modified by user" do
     seed('070-provisioning_templates.rb')
-    ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by_name('Kickstart default').update(:template => 'test') }
+    ProvisioningTemplate.without_auditing { ProvisioningTemplate.unscoped.find_by(name: 'Kickstart default').update(:template => 'test') }
     seed('070-provisioning_templates.rb')
-    refute_equal ProvisioningTemplate.unscoped.find_by_name('Kickstart default').template, 'test'
+    refute_equal ProvisioningTemplate.unscoped.find_by(name: 'Kickstart default').template, 'test'
   end
 
   test "doesn't add a template back that was deleted" do
@@ -133,19 +133,19 @@ class SeedsTest < ActiveSupport::TestCase
     end
     assert SeedHelper.audit_modified?(ProvisioningTemplate, 'Kickstart default')
     seed('070-provisioning_templates.rb')
-    refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
+    refute ProvisioningTemplate.unscoped.find_by(name: 'Kickstart default')
   end
 
   test "doesn't add a template back that was renamed" do
     seed('070-provisioning_templates.rb')
     with_auditing(ProvisioningTemplate) do
-      tmpl = ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
+      tmpl = ProvisioningTemplate.unscoped.find_by(name: 'Kickstart default')
       tmpl.name = 'test'
       tmpl.save!
     end
     assert SeedHelper.audit_modified?(ProvisioningTemplate, 'Kickstart default')
     seed('070-provisioning_templates.rb')
-    refute ProvisioningTemplate.unscoped.find_by_name('Kickstart default')
+    refute ProvisioningTemplate.unscoped.find_by(name: 'Kickstart default')
   end
 
   test "no audits are recorded" do
@@ -158,7 +158,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
-    assert Organization.unscoped.find_by_name('seed_test')
+    assert Organization.unscoped.find_by(name: 'seed_test')
   end
 
   test "don't seed organization when an org already exists" do
@@ -166,7 +166,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_ORGANIZATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
-    refute Organization.unscoped.find_by_name('seed_test')
+    refute Organization.unscoped.find_by(name: 'seed_test')
   end
 
   test "seed location when environment SEED_LOCATION specified" do
@@ -174,7 +174,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_LOCATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
-    assert Location.unscoped.find_by_name('seed_test')
+    assert Location.unscoped.find_by(name: 'seed_test')
   end
 
   test "don't seed location when a location already exists" do
@@ -182,7 +182,7 @@ class SeedsTest < ActiveSupport::TestCase
     with_env('SEED_LOCATION' => 'seed_test') do
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
-    refute Location.unscoped.find_by_name('seed_test')
+    refute Location.unscoped.find_by(name: 'seed_test')
   end
 
   test "seeded organization contains seeded location" do
@@ -196,8 +196,8 @@ class SeedsTest < ActiveSupport::TestCase
       seed('030-auth_sources.rb', '035-admin.rb', '050-taxonomies.rb')
     end
 
-    org = Organization.unscoped.find_by_name(org_name)
-    loc = Location.unscoped.find_by_name(loc_name)
+    org = Organization.unscoped.find_by(name: org_name)
+    loc = Location.unscoped.find_by(name: loc_name)
 
     assert org.locations.include?(loc)
   end
@@ -216,12 +216,12 @@ class SeedsTest < ActiveSupport::TestCase
   test "viewer role contains all view permissions except for settings" do
     seed('020-permissions_list.rb', '030-permissions.rb', '020-roles_list.rb', '040-roles.rb')
     view_permissions = Permission.all.select { |permission| permission.name.match(/view/) && permission.name != 'view_settings' }
-    assert_equal [], view_permissions - Role.unscoped.find_by_name('Viewer').permissions
+    assert_equal [], view_permissions - Role.unscoped.find_by(name: 'Viewer').permissions
   end
 
   test "adds description to template kind" do
     seed('070-provisioning_templates.rb')
-    tmpl_kind = TemplateKind.unscoped.find_by_name('iPXE')
+    tmpl_kind = TemplateKind.unscoped.find_by(name: 'iPXE')
     assert_equal "Used in iPXE environments.", tmpl_kind.description
   end
 end

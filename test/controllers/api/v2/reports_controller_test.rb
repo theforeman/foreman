@@ -149,7 +149,7 @@ class Api::V2::ReportsControllerTest < ActionController::TestCase
       delete :destroy, params: { :id => report.to_param }
     end
     assert_response :success
-    refute Report.find_by_id(report.id)
+    refute Report.find_by(id: report.id)
   end
 
   test "should get reports for given host only" do
