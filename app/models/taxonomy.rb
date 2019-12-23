@@ -204,12 +204,10 @@ class Taxonomy < ApplicationRecord
     :to => :tax_host
 
   def assign_default_templates
-    # Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
-    #  self.send("#{association}=", self.send(association) + templates.select(&:valid?))
-    Template.where(:default => true).select(&:valid?).find_each do |template|
-      classify_template_str = template.class.to_s
-      unless self.ignore_types.include?(classify_template_str)
-        self.send(classify_template_str.underscore.pluralize.to_s) << template
+    Template.where(:default => true).select(&:valid?).each do |template|
+      template_class_string = template.class.to_s
+      unless self.ignore_types.include?(template_class_string)
+        self.send(template_class_string.underscore.pluralize.to_s) << template
       end
     end
   end

@@ -212,10 +212,11 @@ module Taxonomix
   end
 
   def add_taxonomies_with_ignore_type_enabled
-    Taxonomy.enabled_taxonomies.each do |taxonomy_pluralize_str|
-      taxonomy_class_name = taxonomy_pluralize_str.classify
+    ['location', 'organization'].map(&:classify).each do |taxonomy_class_name|
       obj_ids = taxonomy_class_name.constantize.taxonomy_ids_by_ignore_type(self.class.to_s)
-      assign_taxonomy_ids(taxonomy_class_name, obj_ids) if obj_ids.present?
+      if obj_ids.present?
+        assign_taxonomy_ids(taxonomy_class_name, obj_ids)
+      end
     end
   end
 
@@ -223,6 +224,7 @@ module Taxonomix
     taxonomy_ids_meth = taxonomy_class_name.underscore + '_ids'
     existing_obj_ids = self.send(taxonomy_ids_meth)
     return if (taxonomy_ids_by_ignore_type - existing_obj_ids).blank?
+
     taxonomy_ids_by_ignore_type.concat(existing_obj_ids).uniq!
     self.send("#{taxonomy_ids_meth}=", taxonomy_ids_by_ignore_type)
   end
