@@ -124,6 +124,3 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
-
-Layout/ClosingHeredocIndentation:
-  Enabled: false
