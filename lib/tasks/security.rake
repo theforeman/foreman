@@ -15,7 +15,7 @@ namespace :security do
 
 # You can use `rake security:generate_token` to regenerate this file.
 
-Foreman::Application.config.secret_token = '#{secure_token}'
+Foreman::Application.config.secret_key_base = '#{secure_token}'
 ")
     end
   end

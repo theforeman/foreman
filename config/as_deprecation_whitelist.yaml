@@ -1,10 +1,4 @@
 ---
-# https://projects.theforeman.org/issues/7570
-- message: You didn't set `secret_key_base`. Read the upgrade documentation to learn
-    more about this new config option.
-- message: "`secrets.secret_token` is deprecated in favor of `secret_key_base` and
-    will be removed in Rails 6.0."
-
 # https://projects.theforeman.org/issues/23300
 - message: 'Dangerous query method (method whose arguments are used as raw SQL) called
     with non-attribute argument(s):'
