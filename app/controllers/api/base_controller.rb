@@ -393,9 +393,10 @@ module Api
 
     def parent_resource_details
       parent_name, parent_class, parent_id = nil
-      params.each do |param, value|
+      params.select { |param| param.ends_with?('_id') }.each do |param, value|
         parent_id = value
-        parent_name, parent_class = extract_resource_from_param(param)
+        parent_name = param.delete_suffix('_id')
+        parent_class = resource_class_for(resource_name(parent_name))
         break if parent_class
       end
 
@@ -408,51 +409,31 @@ module Api
       return [parent_name, User.current.my_locations] if parent_class == Location && parent_id.blank?
 
       parent_scope = scope_for(parent_class, :permission => "#{parent_permission(action_permission)}_#{parent_name.pluralize}")
-      parent_scope = select_by_resource_id_scope(parent_scope, parent_class, parent_id)
+      parent_scope = scope_by_resource_id(parent_scope, parent_id)
       [parent_name, parent_scope]
     end
 
-    def extract_resource_from_param(param)
-      md = param.match(/(\w+)_id$/)
-      md ? [md[1], resource_class_for(resource_name(md[1]))] : nil
-    end
+    # This method adds a scope by resource id, taking into account possibility of parametrization or friendly find
+    def scope_by_resource_id(base_scope, resource_id)
+      # If resource id is nil or empty string, return empty scope
+      return base_scope.none if resource_id.blank?
 
-    # This method adds a condition to the base_scope in form:
-    # "resource_class.id = resource_id [ OR resource_class.friendly_id_column = resource_id ]"
-    # the optional part will be added if the resource class supports friendly_id
-    # it will also add "ORDER BY" query in order to prioritize
-    # records with friendly_id_column hit rather than those that have filtered because of
-    # id column filtering
-    # Should be replaced after moving to friendly_id version >= 5.0
-    def select_by_resource_id_scope(base_scope, resource_class, resource_id)
-      arel = resource_class.arel_table
-      arel_query = arel[:id].eq(resource_id)
-      arel_query.to_sql
-      begin
-        query_field = resource_class.friendly_id_config.query_field
-      rescue NoMethodError
-        # FriendlyId is not supported (didn't find a better way to test it)
-        # The problem is in Host <-> Host::Managed hack. #responds_to? query_field
-        # will return false values.
-        query_field = nil
+      # The id is an integer - no need to check more complex options, just scope by it
+      return base_scope.where(id: resource_id) if resource_id.integer?
+
+      # The class is parameterizable and the id is in '123-myname' format, extract the id from it
+      if base_scope.klass.respond_to?(:to_param) && resource_id.start_with?(/\d+-/)
+        return base_scope.where(id: resource_id.to_i)
       end
 
-      if query_field
-        friendly_field_query = arel[query_field].eq(resource_id)
-        arel_query = arel_query.or(friendly_field_query)
+      # The class supports friendly id and the id is in 'friendly_id' format, use the friendly field for search
+      if base_scope.klass.respond_to?(:friendly) && resource_id.friendly_id?
+        field = base_scope.klass.friendly_id_config.query_field
+        return base_scope.where(field => resource_id)
       end
 
-      filtered_scope = base_scope.where(arel_query)
-
-      filtered_scope = prioritize_friendly_name_records(filtered_scope, friendly_field_query) if query_field
-
-      filtered_scope
-    end
-
-    # Prefer records that matched the friendly column upon those matched the ID column
-    def prioritize_friendly_name_records(base_scope, friendly_field_query)
-      field_query = friendly_field_query.to_sql
-      base_scope.order("CASE WHEN #{field_query} THEN 1 ELSE 0 END")
+      # The parameter doesn't match any supported format, return empty scope
+      base_scope.none
     end
 
     def parameter_filter_context

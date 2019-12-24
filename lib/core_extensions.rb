@@ -190,11 +190,25 @@ class String
       end
     end
   end
+
+  def integer?
+    self.to_i.to_s == self
+  end
 end
 
 class Object
   def contains_erb?
     false
+  end
+
+  def integer?
+    false
+  end
+end
+
+class Integer
+  def integer?
+    true
   end
 end
 
