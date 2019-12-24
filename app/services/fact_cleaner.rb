@@ -32,25 +32,27 @@ class FactCleaner
 
   def delete_orphaned_facts
     logger.debug "Cleaning leaf orphaned facts"
-    leaf_ids = []
-    FactName.leaves.includes(:fact_values).reorder(nil).find_in_batches(:batch_size => @batch_size) do |batch|
+    FactName.leaves.preload(:fact_values).reorder(nil).find_in_batches(:batch_size => @batch_size) do |batch|
       fact_name_ids = batch.select { |fact| fact.fact_values.empty? }
-      @deleted_count += delete_facts_names_values(fact_name_ids)
-      leaf_ids += fact_name_ids
+      @deleted_count += log_removed(FactName.unscoped.where(:id => fact_name_ids).delete_all, "fact name")
     end
 
     logger.debug "Cleaning compose orphaned facts"
-    FactName.composes.reorder(nil).find_in_batches(:batch_size => @batch_size) do |batch|
-      fact_name_ids = batch.select { |compose| compose.descendants.all? { |fact| leaf_ids.include?(fact.id) } }.map(&:id)
-      @deleted_count += delete_facts_names_values(fact_name_ids)
+    live_ancestors = Set.new
+    FactName.leaves.reorder(nil).select(FactName.ancestry_base_class.ancestry_column, :id).find_each(:batch_size => @batch_size) do |leaf|
+      live_ancestors.merge(leaf.ancestor_ids)
+    end
+    FactName.composes.reorder(nil).where.not(id: live_ancestors).select(:id).find_in_batches(:batch_size => @batch_size) do |batch|
+      fact_name_ids = batch.map(&:id)
+      @deleted_count += log_removed(FactName.unscoped.where(:id => fact_name_ids).delete_all, "fact name")
     end
   end
 
   def delete_excluded_facts
     excluded_facts_regex = FactImporter.excluded_facts_regex
-    logger.debug "Cleaning facts mathing excluded pattern: #{excluded_facts_regex}"
+    logger.debug "Cleaning facts matching excluded pattern: #{excluded_facts_regex}"
 
-    FactName.unscoped.reorder(nil).find_in_batches(:batch_size => @batch_size) do |names_batch|
+    FactName.unscoped.reorder(nil).select(:id, :name).find_in_batches(:batch_size => @batch_size) do |names_batch|
       fact_name_ids = names_batch.select { |fact_name| fact_name.name.match(excluded_facts_regex) }.map(&:id)
       @deleted_count += delete_facts_names_values(fact_name_ids)
     end
