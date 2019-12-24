@@ -32,7 +32,7 @@
 :hsts_enabled: true
 
 # Ruby on Rails version (available: 5.2, 6.0)
-# Defaults to 5.2 on Ruby 2.5, or 6.0 on Ruby 2.6+
+# Defaults to 5.2 on Ruby 2.4, or 6.0 on Ruby 2.5+
 #:rails: 5.2
 
 # Local administrative settings for application domain, fqdn, foreman URL,
