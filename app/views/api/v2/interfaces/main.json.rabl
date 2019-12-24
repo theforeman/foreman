@@ -6,5 +6,7 @@ attributes :subnet_id, :subnet_name, :subnet6_id, :subnet6_name, :domain_id, :do
            :managed, :identifier
 
 node do |interface|
-  partial("api/v2/interfaces/types/#{interface.type_name.downcase}.json", :object => interface)
+  unless interface.type.nil?
+    partial("api/v2/interfaces/types/#{interface.type_name.downcase}.json", :object => interface)
+  end
 end
