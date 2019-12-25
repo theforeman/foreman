@@ -14,9 +14,7 @@ module Api
       before_action :rename_use_puppet_default, :only => [:create, :update]
       before_action :cast_value, :only => [:create, :update]
 
-      api :GET, "/smart_variables/:smart_variable_id/override_values", N_("List of override values for a specific smart variable")
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("List of override values for a specific smart class parameter")
-      param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
       param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :pagination, ::Api::V2::BaseController
@@ -24,9 +22,7 @@ module Api
       def index
       end
 
-      api :GET, "/smart_variables/:smart_variable_id/override_values/:id", N_("Show an override value for a specific smart variable")
       api :GET, "/smart_class_parameters/:smart_class_parameter_id/override_values/:id", N_("Show an override value for a specific smart class parameter")
-      param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
       param :id, :identifier, :required => true
       param :show_hidden, :bool, :desc => N_("Display hidden values")
@@ -43,9 +39,7 @@ module Api
         end
       end
 
-      api :POST, "/smart_variables/:smart_variable_id/override_values", N_("Create an override value for a specific smart variable")
       api :POST, "/smart_class_parameters/:smart_class_parameter_id/override_values", N_("Create an override value for a specific smart class parameter")
-      param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
       param_group :override_value, :as => :create
 
@@ -55,9 +49,7 @@ module Api
         process_response @override_value
       end
 
-      api :PUT, "/smart_variables/:smart_variable_id/override_values/:id", N_("Update an override value for a specific smart variable")
       api :PUT, "/smart_class_parameters/:smart_class_parameter_id/override_values/:id", N_("Update an override value for a specific smart class parameter")
-      param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
       param_group :override_value
 
@@ -66,9 +58,7 @@ module Api
         render 'api/v2/override_values/show'
       end
 
-      api :DELETE, "/smart_variables/:smart_variable_id/override_values/:id", N_("Delete an override value for a specific smart variable")
       api :DELETE, "/smart_class_parameters/:smart_class_parameter_id/override_values/:id", N_("Delete an override value for a specific smart class parameter")
-      param :smart_variable_id, :identifier, :required => false
       param :smart_class_parameter_id, :identifier, :required => false
       param :id, :identifier, :required => true
 
