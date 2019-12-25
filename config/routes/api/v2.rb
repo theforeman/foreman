@@ -104,9 +104,6 @@ Foreman::Application.routes.draw do
           end
         end
         constraints(:id => /[^\/]+/) do
-          resources :smart_variables, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
-          end
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
             resources :override_values, :except => [:new, :edit]
           end
@@ -375,18 +372,12 @@ Foreman::Application.routes.draw do
           resources :config_reports, :only => [:index, :show] do
             get :last, :on => :collection
           end
-          resources :smart_variables, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
-          end
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
             resources :override_values, :except => [:new, :edit]
           end
         end
 
         resources :puppetclasses, :except => [:new, :edit] do
-          resources :smart_variables, :except => [:new, :edit] do
-            resources :override_values, :except => [:new, :edit]
-          end
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
             resources :override_values, :except => [:new, :edit, :destroy]
           end
@@ -397,10 +388,6 @@ Foreman::Application.routes.draw do
           end
           resources :hostgroups, :only => [:index, :show]
           resources :environments, :only => [:index, :show]
-        end
-
-        resources :smart_variables, :except => [:new, :edit] do
-          resources :override_values, :except => [:new, :edit]
         end
 
         resources :smart_class_parameters, :except => [:new, :edit, :create, :destroy] do
