@@ -1,11 +1,17 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { text, select, boolean, withKnobs } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
+import {
+  storiesOf,
+  text,
+  select,
+  boolean,
+  withKnobs,
+  action,
+} from '@theforeman/stories';
+
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import Story from '../../../../../../stories/components/Story';
 
-storiesOf('Components/Empty State Pattern', module)
+storiesOf('Components|Empty State Pattern', module)
   .addDecorator(withKnobs)
   .add('Default', () => (
     <Story>

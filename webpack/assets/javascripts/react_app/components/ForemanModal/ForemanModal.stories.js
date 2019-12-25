@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button } from 'patternfly-react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import storeDecorator from '../../../../../stories/storeDecorator';
 import ForemanModal from '.';
 import { useForemanModal } from './ForemanModalHooks';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With default header & footer', () =>
     // using createElement here so that hooks work in stories
@@ -27,7 +27,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With no children', () =>
     // using createElement here so that hooks work in stories
@@ -44,7 +44,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With custom header & footer', () =>
     React.createElement(() => {
@@ -68,7 +68,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With unordered header & footer', () =>
     React.createElement(() => {
@@ -93,7 +93,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With no close button', () =>
     React.createElement(() => {
@@ -115,7 +115,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With no footer', () =>
     React.createElement(() => {
@@ -134,7 +134,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With no header', () =>
     React.createElement(() => {
@@ -155,7 +155,7 @@ storiesOf('Components/ForemanModal/Props & Children', module)
     })
   );
 
-storiesOf('Components/ForemanModal/Props & Children', module)
+storiesOf('Components|ForemanModal/Props & Children', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With props passed down via spread syntax', () =>
     React.createElement(() => {

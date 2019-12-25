@@ -1,13 +1,25 @@
-# Adding components
+import { Meta } from '@theforeman/stories';
 
- ## Component Generator
+<Meta
+  title="Introduction|Adding new components"
+  parameters={{
+    storyWeight: 20,
+  }}
+/>
+
+# Adding new components
+
+## Component Generator
+
 We are using `generator-react-domain` to help you generate your component easily.
+
 ```sh
 npm i -g yo generator-react-domain       # install the generator globally
 
 npm run create-react-component            # create a component.
 npm run create-react-component -- --redux # create a connected component
 ```
+
 This generator will create all folders and files for you with prewritten templates.
 
 ## Where to put them
@@ -39,12 +51,12 @@ An example of such stories is [BreadcrumbBar.stories.js](https://github.com/thef
 
 On top of the basic storybook Foreman uses [knobs addon](https://github.com/storybooks/storybook/tree/master/addons/knobs#available-knobs) that enables switching values of component's properties and [actions addon](https://github.com/storybooks/storybook/tree/master/addons/actions#getting-started) for logging of callbacks. It's worth checking their docs as the usage is simple and they can provide nice user experience.
 
-
 ### Running storybook
 
 Starting the storybook server is as easy as `npm run storybook`. By default the server is started on `localhost:6006`.
 
 If some extra configuration is needed, you can start the storybook's executable directly. For example:
+
 ```bash
 # Starting storybook on https with Katello certs
 ./node_modules/.bin/start-storybook \
@@ -75,9 +87,10 @@ Tests must be placed in `__tests__` subfolder of the main component's folder. Te
 In most cases (when the component doesn't provide any user interaction callbacks) it's enough to test how the component is rendered with various supported properties. Foreman uses [enzyme](https://github.com/airbnb/enzyme) for that.
 
 There are 3 ways how a component can be rendered in enzyme:
-  - **shallow** - render subcomponents as names, **preferred alternative**, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md)
-  - **mount** - full rendering API, useful when you need to interact with dom, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md)
-  - **render** - static rendering, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/render.md)
+
+- **shallow** - render subcomponents as names, **preferred alternative**, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md)
+- **mount** - full rendering API, useful when you need to interact with dom, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md)
+- **render** - static rendering, more details in [docs](https://github.com/airbnb/enzyme/blob/master/docs/api/render.md)
 
 ### Running the tests
 
@@ -88,21 +101,24 @@ This is useful especially for debugging because it doesn't hide console output.
 
 Linter (code style checking) can be executed with `npm run lint`. You can run it with parameter `--fix` to let it automatically fix the discovered issues. You need to pass the parameter to eslint, so run the command like this `npm run lint -- --fix`.
 
-
 ## Making it available from erb
 
 If you want your component to be available for mounting into erb templates, you have to add them to [the component registry](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js#L60-L71).
 
 Then it will be possible to mount it with `react_component` helper:
+
 ```ruby
 react_component(component_name, props)
 ```
 
 **Example:**
+
 ```erb
 <%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id)) %>
 ```
+
 Will render following HTML:
+
 ```html
 <react-component
   name="PowerStatus"

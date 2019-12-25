@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import Store from '../../../../../redux';
 import StorageContainer from '../index';
 import * as VMWareData from './StorageContainer.fixtures';
@@ -18,7 +18,7 @@ const initializeMocks = () => {
   });
 };
 
-storiesOf('Page chunks/Host VMWare Storage', module)
+storiesOf('Page chunks|Host VMWare Storage', module)
   .add('default state for new host', () => {
     initializeMocks();
     return (

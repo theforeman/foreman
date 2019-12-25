@@ -1,11 +1,11 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import BookmarkForm from './components/BookmarkForm';
 import BookmarkModal from './components/SearchModal';
 import storeDecorator from '../../../../../stories/storeDecorator';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Page chunks/Bookmarks', module)
+storiesOf('Page chunks|Bookmarks', module)
   .addDecorator(storeDecorator)
   .add('Form', () => (
     <Story>

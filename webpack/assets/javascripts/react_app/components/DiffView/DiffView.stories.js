@@ -1,10 +1,10 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { text, withKnobs } from '@storybook/addon-knobs';
+import { storiesOf, text, withKnobs } from '@theforeman/stories';
+
 import DiffContainer from './DiffContainer';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/Diff', module)
+storiesOf('Components|Diff', module)
   .addDecorator(withKnobs)
   .add('DiffView', () => (
     <Story narrow>

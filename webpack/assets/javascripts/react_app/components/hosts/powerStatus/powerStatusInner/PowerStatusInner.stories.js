@@ -1,9 +1,9 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import PowerStatusInner from './index';
 import Story from '../../../../../../../stories/components/Story';
 
-storiesOf('Components/Power Status', module)
+storiesOf('Components|Power Status', module)
   .add('Loading', () => (
     <Story>
       <PowerStatusInner />

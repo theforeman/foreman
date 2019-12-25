@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import {
   Form,
   FormGroup,
@@ -18,7 +18,7 @@ import { addToast } from '../../redux/actions/toasts';
 import ToastsList from './index';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/Toast Notifications', module).add('Toaster', () => {
+storiesOf('Components|Toast Notifications', module).add('Toaster', () => {
   const inputRefs = {};
 
   const dispatchAddToast = () => {

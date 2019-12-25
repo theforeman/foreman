@@ -1,4 +1,14 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Interval Middleware"
+  parameters={{
+    storyWeight: 110,
+  }}
+/>
+
 # Interval Middleware
+
 This middleware will run an action for every given interval miliseconds,
 and will manage all running intervals in the Redux store so we could clear the interval later.
 
@@ -19,13 +29,14 @@ dispatch({
 ```
 
 it could be also a simple action such as:
+
 ```js
-  const sendMail = () => ({
-    type: SEND_MAIL,
-    key: MY_SPECIAL_MAIL_KEY,
-    interval: 10000000,
-    payload: data,
-  })
+const sendMail = () => ({
+  type: SEND_MAIL,
+  key: MY_SPECIAL_MAIL_KEY,
+  interval: 10000000,
+  payload: data,
+});
 ```
 
 ## How to stop
@@ -35,6 +46,7 @@ There are several ways to stop the interval:
 We will need to use the `stopInterval` Action from IntervalMiddlware.
 `stopInterval` is defined in `webpack/assets/javascripts/react_app/redux/middlewares/IntervalMiddleware`
 or `foremanReact/redux/middlewares/IntervalMiddleware` for plugins
+
 ```js
 // MyComponent/MyComponentActions.js
 ....
@@ -46,15 +58,17 @@ export const stopAPIInterval = () => stopInterval(key);
 ```
 
 Then it will be available in your component:
+
 ```js
 // MyComponent/MyComponent.js
 componentWillUnmount() {
   // use the same key you used to start the interval.
-  this.props.stopAPIInterval(key) 
+  this.props.stopAPIInterval(key)
 }
 ```
 
 Another option is to add the action to redux `connect` in the index file through `mapDispatchToProps`:
+
 ```js
 // MyComponent/index.js
 import { stopInterval } from "../../redux/middlewares/IntervalMiddleware";
@@ -64,16 +78,18 @@ const mapDispatchToProps = dispatch => bindActionCreators( { ...actions, stopInt
 ```
 
 Then it will be available in your component:
+
 ```js
 // MyComponent/MyComponent.js
 cleanUpPolling = () => {
   const { stopInterval } = this.props;
   // use the same key you used to start the interval.
-  stopInterval(key) 
-}
+  stopInterval(key);
+};
 ```
 
 You could also call it with `useDispatch` hook:
+
 ```js
 // MyComponent/MyComponent.js
 import { useDispatch } from 'react-redux'
@@ -88,6 +104,7 @@ cleanUpPolling = () => {
 ```
 
 Components that use Hooks such as `useEffect`, should call for cleanup same as in `componentWillUnmount`:
+
 ```js
 // MyComponent/MyComponent.js
 ...

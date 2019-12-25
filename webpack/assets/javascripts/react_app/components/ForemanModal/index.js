@@ -25,7 +25,7 @@ const ConnectedForemanModal = props => {
   useEffect(() => {
     if (modalAlreadyExists) return; // don't add modal if it already exists
     dispatch(addModal({ id, open: false }));
-  }, [modalAlreadyExists, id]);
+  }, [modalAlreadyExists, id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ForemanModal

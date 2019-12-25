@@ -1,3 +1,12 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|API Middleware"
+  parameters={{
+    storyWeight: 90,
+  }}
+/>
+
 # API Middleware
 
 Instead of each component handling API calls in the same way we have the API Middleware that will handle it instead.
@@ -18,7 +27,7 @@ const someAction = url =>
     url,
     params: {}, // some params you will want to pass to the API request.
     headers: {}, // some headers you will want to pass to the API request.
-  })
+  });
 ```
 
 or
@@ -30,7 +39,8 @@ dispatch(
     url,
     params: {}, // some params you will want to pass to the API request.
     headers: {}, // some headers you will want to pass to the API request.
-  }));
+  })
+);
 ```
 
 Then there will be called 2 actions: **MY_SPECIAL_KEY_REQUEST** and **MY_SPECIAL_KEY_SUCCESS/ MY_SPECIAL_KEY_FAILURE**:
@@ -51,7 +61,7 @@ dispatch(
     headers: {}, // some headers you will want to pass to the API request.
     actionTypes: {
       REQUEST: 'CUSTOM_REQUEST',
-      SUCCESS: 'CUSTOM_SUCCESS', 
+      SUCCESS: 'CUSTOM_SUCCESS',
       FAILURE: 'CUSTOM_FAILURE',
     },
   })
