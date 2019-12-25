@@ -63,14 +63,7 @@ class OpenidConnectTest < ActiveSupport::TestCase
       SSO::OpenidConnect.new api_controller({:authorization => "Bearer #{token}"})
     end
 
-    test "it returns nil for Ruby < 2.4.0" do
-      skip if RUBY_VERSION >= '2.4'
-      User.current = nil
-      assert_equal subject.authenticated?, nil
-    end
-
     test "it authenticates and sets user when currect user does not exists" do
-      skip "SSO feature is not available for Ruby < 2.4.0" unless RUBY_VERSION >= '2.4'
       User.current = nil
       OidcJwt.any_instance.stubs(:decode).returns(decoded_payload)
       assert_equal subject.authenticated?, decoded_payload['preferred_username']
