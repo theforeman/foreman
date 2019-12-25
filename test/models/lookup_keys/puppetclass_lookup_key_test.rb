@@ -3,7 +3,7 @@ require 'test_helper'
 class PuppetclassLookupKeyTest < ActiveSupport::TestCase
   test "should not update default value unless override is true" do
     lookup_key = FactoryBot.create(:puppetclass_lookup_key,
-                                    :default_value => "test123")
+      :default_value => "test123")
     refute lookup_key.override
     lookup_key.default_value = '33333'
     refute lookup_key.valid?

@@ -6,11 +6,11 @@ module Taxonomix
   included do
     has_many TAXONOMY_JOIN_TABLE, :dependent => :destroy, :as => :taxable
     has_many :locations, -> { where(:type => 'Location') },
-             :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
-             :validate => false
+      :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
+      :validate => false
     has_many :organizations, -> { where(:type => 'Organization') },
-             :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
-             :validate => false
+      :through => TAXONOMY_JOIN_TABLE, :source => :taxonomy,
+      :validate => false
     after_initialize :set_current_taxonomy
 
     scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true

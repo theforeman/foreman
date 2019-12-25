@@ -30,14 +30,14 @@ module HostsAndHostgroupsHelper
     realms = accessible_resource(f.object, :realm)
     return unless realms.present?
     select_f(f, :realm_id,
-                realms,
-                :id, :to_label,
-                { :include_blank => true,
-                  :disable_button => can_override ? _(INHERIT_TEXT) : nil,
-                  :disable_button_enabled => override && !explicit_value?(:realm_id),
-                  :user_set => user_set?(:realm_id),
-                },
-                { :help_inline => :indicator }
+      realms,
+      :id, :to_label,
+      { :include_blank => true,
+        :disable_button => can_override ? _(INHERIT_TEXT) : nil,
+        :disable_button_enabled => override && !explicit_value?(:realm_id),
+        :user_set => user_set?(:realm_id),
+      },
+      { :help_inline => :indicator }
     ).html_safe
   end
 
@@ -45,9 +45,9 @@ module HostsAndHostgroupsHelper
     return unless multiple_with_filter?
     host_count = hosts.size
     no_filter = n_("Reminder: <strong> One host is selected </strong>",
-                     "Reminder: <strong> All %{count} hosts are selected </strong>", host_count).html_safe % {count: host_count}
+      "Reminder: <strong> All %{count} hosts are selected </strong>", host_count).html_safe % {count: host_count}
     with_filter = n_("Reminder: <strong> One host is selected </strong> for query filter %{query}",
-                     "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}", host_count).html_safe % {count: host_count, query: h(params[:search]) }
+      "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}", host_count).html_safe % {count: host_count, query: h(params[:search]) }
     params[:search].blank? ? no_filter : with_filter
   end
 end

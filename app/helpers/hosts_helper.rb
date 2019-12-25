@@ -61,7 +61,7 @@ module HostsHelper
     html_opts[:label_help] = (_("%s can be changed using bulk action on the All Hosts page") % taxonomy) unless @host.new_record?
 
     select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
-            select_opts, html_opts
+      select_opts, html_opts
   end
 
   def flags_for_nic(nic)
@@ -74,8 +74,8 @@ module HostsHelper
   def last_report_column(record)
     time = record.last_report? ? date_time_relative_value(record.last_report) : ""
     link_to_if_authorized(time,
-                          hash_for_host_config_report_path(:host_id => record.to_param, :id => "last"),
-                          last_report_tooltip(record))
+      hash_for_host_config_report_path(:host_id => record.to_param, :id => "last"),
+      last_report_tooltip(record))
   end
 
   def last_report_tooltip(record)
@@ -216,7 +216,7 @@ module HostsHelper
     form_tag @host, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Found %{count} reports from the last %{days} days") %
         { :days => select(nil, 'range', 1..number_of_days,
-                    {:selected => @range}, {:style => "float:none; width: #{width}em;", :onchange => "$('#days_filter').submit();$(this).disabled();"}),
+          {:selected => @range}, {:style => "float:none; width: #{width}em;", :onchange => "$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end
@@ -364,16 +364,16 @@ module HostsHelper
 
   def review_build_button(form, status)
     form.submit(_("Build"),
-                :class => "btn btn-#{status} submit",
-                :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
-               )
+      :class => "btn btn-#{status} submit",
+      :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
+    )
   end
 
   def build_error_link(type, id)
     case type
       when :templates
         link_to_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => id).merge(:auth_object => id),
-                              :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type))
+          :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type))
     end
   end
 

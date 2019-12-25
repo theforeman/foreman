@@ -101,7 +101,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           test "filters records by matching limited filter" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
-                               :role => @role, :permissions => [permission])
+              :role => @role, :permissions => [permission])
             domain1    = FactoryBot.create(:domain)
             domain2    = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
             auth       = Authorizer.new(@user)
@@ -117,9 +117,9 @@ class AuthorizerTest < ActiveSupport::TestCase
             permission1 = Permission.find_by_name('view_domains')
             permission2 = Permission.find_by_name('edit_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
-                               :role => @role, :permissions => [permission1])
+              :role => @role, :permissions => [permission1])
             FactoryBot.create(:filter, :on_name_starting_with_b,
-                               :role => @role, :permissions => [permission2])
+              :role => @role, :permissions => [permission2])
             domain1     = FactoryBot.create(:domain)
             domain2     = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
             domain3     = FactoryBot.create(:domain, :name => 'another-domain.to-be-found.com')
@@ -168,7 +168,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           test "caches results per permission and class" do
             permission1 = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
-                               :role => @role, :permissions => [permission1])
+              :role => @role, :permissions => [permission1])
             domain1     = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
             domain2     = FactoryBot.create(:domain, :name => 'x-domain.not-to-be-found.com')
             permission2 = Permission.find_by_name('view_architectures')
@@ -206,7 +206,7 @@ class AuthorizerTest < ActiveSupport::TestCase
           test "excluding base collection set" do
             permission = Permission.find_by_name('view_domains')
             FactoryBot.create(:filter, :on_name_starting_with_a,
-                               :role => @role, :permissions => [permission])
+              :role => @role, :permissions => [permission])
             domain1    = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
             domain2    = FactoryBot.create(:domain, :name => 'another-domain.to-be-found.com')
             auth       = Authorizer.new(@user, :collection => [domain2])

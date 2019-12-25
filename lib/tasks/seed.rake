@@ -30,9 +30,9 @@ namespace :seed do
           locations = []
           generate(Domain, get_desired(5)) do |count, generator|
             create(:domain,
-                   :name => build_domain(names, generator),
-                   :organizations => [organization],
-                   :locations => locations)
+              :name => build_domain(names, generator),
+              :organizations => [organization],
+              :locations => locations)
           end
         end
       end
@@ -52,12 +52,12 @@ namespace :seed do
           domains = Domain.all
 
           create(:host,
-                 :hostname => generator.next_random_name,
-                 :domain => domains.sample,
-                 :operatingsystem => os,
-                 :architecture => os.architectures.sample,
-                 :organization => Organization.current,
-                 :owner => owner)
+            :hostname => generator.next_random_name,
+            :domain => domains.sample,
+            :operatingsystem => os,
+            :architecture => os.architectures.sample,
+            :organization => Organization.current,
+            :owner => owner)
         end
       end
     end

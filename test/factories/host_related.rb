@@ -289,10 +289,10 @@ FactoryBot.define do
       end
       interfaces do
         [FactoryBot.build(:nic_managed,
-                           :primary => true,
-                           :provision => true,
-                           :domain => FactoryBot.build(:domain),
-                           :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :primary => true,
+          :provision => true,
+          :domain => FactoryBot.build(:domain),
+          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
       end
     end
 
@@ -308,11 +308,11 @@ FactoryBot.define do
       end
       interfaces do
         [FactoryBot.build(:nic_managed,
-                           :primary => true,
-                           :provision => true,
-                           :domain => FactoryBot.build(:domain),
-                           :ip => subnet.network.sub(/0\Z/, '1'),
-                           :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :primary => true,
+          :provision => true,
+          :domain => FactoryBot.build(:domain),
+          :ip => subnet.network.sub(/0\Z/, '1'),
+          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
       end
     end
 
@@ -363,7 +363,7 @@ FactoryBot.define do
       domain do
         FactoryBot.create(:domain,
           :dns => FactoryBot.create(:smart_proxy,
-                    :features => [FactoryBot.create(:feature, :dns)])
+            :features => [FactoryBot.create(:feature, :dns)])
         )
       end
       interfaces do
@@ -393,16 +393,16 @@ FactoryBot.define do
       end
       domain do
         FactoryBot.create(:domain,
-                           :dns => FactoryBot.create(:smart_proxy,
-                           :features => [FactoryBot.create(:feature, :dns)])
+          :dns => FactoryBot.create(:smart_proxy,
+            :features => [FactoryBot.create(:feature, :dns)])
         )
       end
       interfaces do
         [FactoryBot.build(:nic_managed, :without_ipv4,
-                           :primary => true,
-                           :provision => true,
-                           :domain => FactoryBot.build(:domain),
-                           :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :primary => true,
+          :provision => true,
+          :domain => FactoryBot.build(:domain),
+          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
       end
     end
 
@@ -411,11 +411,11 @@ FactoryBot.define do
       with_ipv6_dns_orchestration
       interfaces do
         [FactoryBot.build(:nic_managed,
-                           :primary => true,
-                           :provision => true,
-                           :domain => FactoryBot.build(:domain),
-                           :ip => subnet.network.sub(/0\Z/, '1'),
-                           :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
+          :primary => true,
+          :provision => true,
+          :domain => FactoryBot.build(:domain),
+          :ip => subnet.network.sub(/0\Z/, '1'),
+          :ip6 => IPAddr.new(subnet6.ipaddr.to_i + 1, subnet6.family).to_s)]
       end
     end
 
@@ -438,14 +438,14 @@ FactoryBot.define do
     trait :with_separate_provision_interface do
       interfaces do
         [FactoryBot.build(:nic_managed,
-                           :primary => true,
-                           :provision => false,
-                           :domain => FactoryBot.build(:domain)),
+          :primary => true,
+          :provision => false,
+          :domain => FactoryBot.build(:domain)),
          FactoryBot.build(:nic_managed,
-                           :primary => false,
-                           :provision => true,
-                           :domain => FactoryBot.build(:domain),
-                           :subnet => FactoryBot.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]))]
+           :primary => false,
+           :provision => true,
+           :domain => FactoryBot.build(:domain),
+           :subnet => FactoryBot.build(:subnet_ipv4, :tftp, locations: [location], organizations: [organization]))]
       end
     end
 

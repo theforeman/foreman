@@ -41,7 +41,7 @@ module TaxonomiesBaseTest
     test 'taxonomy is valid if ignore all types' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       taxonomy.public_send(:"#{opposite_taxonomy}_ids=",
-                           [taxonomies(:"#{opposite_taxonomy}1").id])
+        [taxonomies(:"#{opposite_taxonomy}1").id])
       taxonomy.ignore_types = ["Domain", "Hostgroup", "Environment",
                                "User", "Medium", "Subnet", "SmartProxy",
                                "ProvisioningTemplate", "ComputeResource",
@@ -62,28 +62,28 @@ module TaxonomiesBaseTest
     test 'it should return array of used ids by hosts' do
       taxonomy = taxonomies(:"#{taxonomy_name}1")
       subnet = FactoryBot.build(:subnet_ipv4,
-                                  :"#{opposite_taxonomy}_ids" => [],
-                                  :"#{taxonomy_name.pluralize}" => [taxonomy])
+        :"#{opposite_taxonomy}_ids" => [],
+        :"#{taxonomy_name.pluralize}" => [taxonomy])
       domain = FactoryBot.build(:domain)
       cr_one = compute_resources(:one)
       cr_one.update(:"#{taxonomy_name.pluralize}" => [taxonomy],
                     :"#{opposite_taxonomy.pluralize}" => [])
       FactoryBot.create(:host,
-                         :compute_resource => cr_one,
-                         :domain           => domain,
-                         :environment      => environments(:production),
-                         :medium           => media(:one),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :owner            => users(:scoped),
-                         :puppet_proxy     => smart_proxies(:puppetmaster),
-                         :realm            => realms(:myrealm),
-                         :subnet           => subnet,
-                         :"#{taxonomy_name}" => taxonomy,
-                         :"#{opposite_taxonomy}" => nil)
+        :compute_resource => cr_one,
+        :domain           => domain,
+        :environment      => environments(:production),
+        :medium           => media(:one),
+        :operatingsystem  => operatingsystems(:centos5_3),
+        :owner            => users(:scoped),
+        :puppet_proxy     => smart_proxies(:puppetmaster),
+        :realm            => realms(:myrealm),
+        :subnet           => subnet,
+        :"#{taxonomy_name}" => taxonomy,
+        :"#{opposite_taxonomy}" => nil)
       FactoryBot.create(:os_default_template,
-                         :provisioning_template  => templates(:mystring2),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :template_kind    => TemplateKind.find_by_name('provision'))
+        :provisioning_template  => templates(:mystring2),
+        :operatingsystem  => operatingsystems(:centos5_3),
+        :template_kind    => TemplateKind.find_by_name('provision'))
       # run used_ids method
       used_ids = taxonomy.used_ids
       # get results from Host object
@@ -228,7 +228,7 @@ module TaxonomiesBaseTest
       as_admin do
         assert_equal expected.sort,
           taxonomy_class.public_send(:"my_#{taxonomy_name.pluralize}",
-                                     users(:one)).sort
+            users(:one)).sort
       end
     end
 
@@ -282,24 +282,24 @@ module TaxonomiesBaseTest
 
       taxonomy = taxonomy_class.create :name => "rack1", :parent_id => parent.id
       FactoryBot.build(:host,
-                         :compute_resource => compute_resources(:one),
-                         :domain           => domain1,
-                         :environment      => environments(:production),
-                         :"#{taxonomy_name}" => parent,
-                         :organization     => taxonomies(:organization1),
-                         :medium           => media(:one),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :owner            => users(:scoped),
-                         :puppet_proxy     => smart_proxies(:puppetmaster),
-                         :realm            => realms(:myrealm),
-                         :subnet           => subnet)
+        :compute_resource => compute_resources(:one),
+        :domain           => domain1,
+        :environment      => environments(:production),
+        :"#{taxonomy_name}" => parent,
+        :organization     => taxonomies(:organization1),
+        :medium           => media(:one),
+        :operatingsystem  => operatingsystems(:centos5_3),
+        :owner            => users(:scoped),
+        :puppet_proxy     => smart_proxies(:puppetmaster),
+        :realm            => realms(:myrealm),
+        :subnet           => subnet)
       FactoryBot.build(:host,
-                         :"#{taxonomy_name}" => parent,
-                         :domain => domain2)
+        :"#{taxonomy_name}" => parent,
+        :domain => domain2)
       FactoryBot.build(:os_default_template,
-                         :provisioning_template => templates(:mystring2),
-                         :operatingsystem  => operatingsystems(:centos5_3),
-                         :template_kind    => TemplateKind.find_by_name('provision'))
+        :provisioning_template => templates(:mystring2),
+        :operatingsystem  => operatingsystems(:centos5_3),
+        :template_kind    => TemplateKind.find_by_name('provision'))
 
       # check that inherited_ids of taxonomy matches selected_ids of parent
       taxonomy.inherited_ids.each do |k, v|

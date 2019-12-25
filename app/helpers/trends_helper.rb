@@ -12,7 +12,7 @@ module TrendsHelper
     form_tag @trend, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Trend of the last %s days.") %
                           select(nil, 'range', 1..Setting[:max_trend], {:selected => range},
-                                 {:onchange => "$('#days_filter').submit();$(this).attr('disabled','disabled');;"})).html_safe)
+                            {:onchange => "$('#days_filter').submit();$(this).attr('disabled','disabled');;"})).html_safe)
     end
   end
 

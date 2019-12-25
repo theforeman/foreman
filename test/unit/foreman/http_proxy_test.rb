@@ -59,7 +59,7 @@ class HTTPProxyTest < ActiveSupport::TestCase
 
       test 'when a proxy is already set' do
         refute adapter.proxy_http_request?('http://otherproxy:3128',
-                                           request_host, schema)
+          request_host, schema)
       end
 
       test 'when no request_host is set' do

@@ -983,11 +983,11 @@ class HostTest < ActiveSupport::TestCase
     test "assign a host to environment with incorrect taxonomies" do
       @host = FactoryBot.build(:host, :managed => false)
       env_with_tax = FactoryBot.create(:environment,
-                                       :organizations => [@host.organization],
-                                       :locations => [@host.location])
+        :organizations => [@host.organization],
+        :locations => [@host.location])
       env_with_other_tax = FactoryBot.create(:environment,
-                                       :organizations => [FactoryBot.create(:organization)],
-                                       :locations => [FactoryBot.create(:location)])
+        :organizations => [FactoryBot.create(:organization)],
+        :locations => [FactoryBot.create(:location)])
       @host.environment = env_with_tax
       assert @host.valid?
 
@@ -1928,10 +1928,10 @@ class HostTest < ActiveSupport::TestCase
 
     test "#set_interfaces updates existing physical interface when subnet does not match ip and new subnet is unknown" do
       host = FactoryBot.create(:host,
-                                :managed,
-                                :mac => '00:00:00:11:22:33',
-                                :ip => '10.10.0.1',
-                                :subnet => subnet
+        :managed,
+        :mac => '00:00:00:11:22:33',
+        :ip => '10.10.0.1',
+        :subnet => subnet
       )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false},
       }.with_indifferent_access
@@ -1948,10 +1948,10 @@ class HostTest < ActiveSupport::TestCase
     test "#set_interfaces updates existing physical interface when subnet does not match ip and new subnet is known" do
       subnet2 = FactoryBot.create(:subnet_ipv4, :dhcp, :network => '10.10.20.0')
       host = FactoryBot.create(:host,
-                                :managed,
-                                :mac => '00:00:00:11:22:33',
-                                :ip => '10.10.0.1',
-                                :subnet => subnet
+        :managed,
+        :mac => '00:00:00:11:22:33',
+        :ip => '10.10.0.1',
+        :subnet => subnet
       )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false},
       }.with_indifferent_access
@@ -1968,10 +1968,10 @@ class HostTest < ActiveSupport::TestCase
     test "#set_interfaces does not update subnet when keep_subnet attribute is present" do
       FactoryBot.create(:subnet_ipv4, :dhcp, :network => '10.10.20.0')
       host = FactoryBot.create(:host,
-                                :managed,
-                                :mac => '00:00:00:11:22:33',
-                                :ip => '10.10.0.1',
-                                :subnet => subnet
+        :managed,
+        :mac => '00:00:00:11:22:33',
+        :ip => '10.10.0.1',
+        :subnet => subnet
       )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.20.2', :virtual => false, :keep_subnet => true},
       }.with_indifferent_access
@@ -1986,12 +1986,12 @@ class HostTest < ActiveSupport::TestCase
     test "#set_interfaces updates existing physical interface when subnet6 is set but facts report no ipv6 addr" do
       subnet6 = FactoryBot.create(:subnet_ipv6, :network => '2001:db8::')
       host = FactoryBot.create(:host,
-                                :managed,
-                                :mac => '00:00:00:11:22:33',
-                                :ip => '10.10.0.1',
-                                :ip6 => '2001:db8::10',
-                                :subnet => subnet,
-                                :subnet6 => subnet6
+        :managed,
+        :mac => '00:00:00:11:22:33',
+        :ip => '10.10.0.1',
+        :ip6 => '2001:db8::10',
+        :subnet => subnet,
+        :subnet6 => subnet6
       )
       hash = { :eth0 => {:macaddress => '00:00:00:11:22:33', :ipaddress => '10.10.0.1', :virtual => false},
       }.with_indifferent_access
@@ -2451,8 +2451,8 @@ class HostTest < ActiveSupport::TestCase
   test "CRs without IP attribute don't require an IP" do
     Setting[:token_duration] = 30 # enable tokens so that we only test the CR
     host = FactoryBot.build_stubbed(:host, :managed,
-                        :compute_resource => compute_resources(:one),
-                        :compute_attributes => {:fake => "data"})
+      :compute_resource => compute_resources(:one),
+      :compute_attributes => {:fake => "data"})
     refute host.require_ip4_validation?
     refute host.require_ip6_validation?
   end
@@ -2497,15 +2497,15 @@ class HostTest < ActiveSupport::TestCase
   test "hosts with a DNS-enabled Domain on CR providing a IPv4 address do not require any kind of address" do
     Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
     proxy = FactoryBot.create(:smart_proxy,
-                               :features => [FactoryBot.create(:feature, :dns)])
+      :features => [FactoryBot.create(:feature, :dns)])
     domain = FactoryBot.create(:domain,
-                                :dns => proxy)
+      :dns => proxy)
     host = FactoryBot.build_stubbed(:host,
-                             :managed,
-                             :on_compute_resource,
-                             :with_compute_profile,
-                             :ip => nil,
-                             :domain => domain)
+      :managed,
+      :on_compute_resource,
+      :with_compute_profile,
+      :ip => nil,
+      :domain => domain)
     host.compute_resource.stubs(:provided_attributes).returns({:ip => :ip})
     refute host.require_ip4_validation?
     refute host.require_ip6_validation?
@@ -2528,8 +2528,8 @@ class HostTest < ActiveSupport::TestCase
   test "hosts with a DNS-enabled IPv6 Subnet require an IPv6 but don't require an IPv4 address" do
     Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
     host = FactoryBot.build_stubbed(:host, :managed,
-                             :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil),
-                             :subnet6 => FactoryBot.build_stubbed(:subnet_ipv6, :dns))
+      :subnet => FactoryBot.build_stubbed(:subnet_ipv4, :dhcp => nil, :dns => nil),
+      :subnet6 => FactoryBot.build_stubbed(:subnet_ipv6, :dns))
     refute host.require_ip4_validation?
     assert host.require_ip6_validation?
   end
@@ -2538,11 +2538,11 @@ class HostTest < ActiveSupport::TestCase
     Setting[:token_duration] = 30 # enable tokens so that we only test the subnet
     subnet6 = FactoryBot.build_stubbed(:subnet_ipv6, :dns, :ipam => IPAM::MODES[:eui64])
     host = FactoryBot.build_stubbed(:host,
-                             :on_compute_resource,
-                             :with_compute_profile,
-                             :with_ipv6_dns_orchestration,
-                             :ip6 => nil,
-                             :subnet6 => subnet6)
+      :on_compute_resource,
+      :with_compute_profile,
+      :with_ipv6_dns_orchestration,
+      :ip6 => nil,
+      :subnet6 => subnet6)
     host.compute_resource.stubs(:provided_attributes).returns({:mac => :mac})
     assert_nil host.ip
     assert_nil host.ip6
@@ -2752,10 +2752,10 @@ class HostTest < ActiveSupport::TestCase
     group1 = config_groups(:one)
     group2 = config_groups(:two)
     host = FactoryBot.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :environment => environments(:production),
-                              :config_groups => [group1, group2])
+      :location => taxonomies(:location1),
+      :organization => taxonomies(:organization1),
+      :environment => environments(:production),
+      :config_groups => [group1, group2])
     group_classes = host.classes_in_groups
     # four classes in config groups, all are in same environment
     assert_equal 4, (group1.puppetclasses + group2.puppetclasses).uniq.count
@@ -2764,11 +2764,11 @@ class HostTest < ActiveSupport::TestCase
 
   test "should return all classes for environment only" do
     host = FactoryBot.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :environment => environments(:production),
-                              :config_groups => [config_groups(:one), config_groups(:two)],
-                              :puppetclasses => [puppetclasses(:one)])
+      :location => taxonomies(:location1),
+      :organization => taxonomies(:organization1),
+      :environment => environments(:production),
+      :config_groups => [config_groups(:one), config_groups(:two)],
+      :puppetclasses => [puppetclasses(:one)])
     all_classes = host.classes
     # four classes in config groups plus one manually added
     assert_equal 5, all_classes.count
@@ -2779,10 +2779,10 @@ class HostTest < ActiveSupport::TestCase
   test "search hostgroups by config group" do
     config_group = config_groups(:one)
     host = FactoryBot.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :environment => environments(:production),
-                              :config_groups => [config_groups(:one)])
+      :location => taxonomies(:location1),
+      :organization => taxonomies(:organization1),
+      :environment => environments(:production),
+      :config_groups => [config_groups(:one)])
     hosts = Host::Managed.search_for("config_group = #{config_group.name}")
     assert_equal [host.name], hosts.map(&:name)
   end
@@ -3618,9 +3618,9 @@ class HostTest < ActiveSupport::TestCase
 
   test 'should display inherited parameters' do
     host = FactoryBot.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :domain => domains(:mydomain))
+      :location => taxonomies(:location1),
+      :organization => taxonomies(:organization1),
+      :domain => domains(:mydomain))
     location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
     host.location.location_parameters = [location_parameter]
     assert(host.host_inherited_params_objects.include?(location_parameter), 'Taxonomy parameters should be included')
@@ -3628,9 +3628,9 @@ class HostTest < ActiveSupport::TestCase
 
   test '#host_params_objects should display all parameters with overrides' do
     host = FactoryBot.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :domain => domains(:mydomain))
+      :location => taxonomies(:location1),
+      :organization => taxonomies(:organization1),
+      :domain => domains(:mydomain))
     location_parameter = LocationParameter.new(:name => 'location', :value => 'parameter')
     host.location.location_parameters = [location_parameter]
     host_location_override = HostParameter.new(:name => 'location', :value => 'the moon')
@@ -3641,9 +3641,9 @@ class HostTest < ActiveSupport::TestCase
 
   test 'host_params_objects should display parameters in the right order' do
     host = FactoryBot.create(:host,
-                              :location => taxonomies(:location1),
-                              :organization => taxonomies(:organization1),
-                              :domain => domains(:mydomain))
+      :location => taxonomies(:location1),
+      :organization => taxonomies(:organization1),
+      :domain => domains(:mydomain))
     domain_parameter = DomainParameter.new(:name => 'domain', :value => 'here.there')
     host.domain.domain_parameters = [domain_parameter]
     assert_equal(domain_parameter, host.host_params_objects.first, 'with no hostgroup, DomainParameter should be first parameter')
@@ -3653,9 +3653,9 @@ class HostTest < ActiveSupport::TestCase
   context 'compute resources' do
     setup do
       @group1 = FactoryBot.create(:hostgroup, :with_domain, :with_os,
-                                  :compute_profile => compute_profiles(:one), :compute_resource => compute_resources(:ec2))
+        :compute_profile => compute_profiles(:one), :compute_resource => compute_resources(:ec2))
       @group2 = FactoryBot.create(:hostgroup, :with_domain, :with_os,
-                                  :compute_profile => compute_profiles(:two), :compute_resource => compute_resources(:one))
+        :compute_profile => compute_profiles(:two), :compute_resource => compute_resources(:one))
     end
 
     test 'set_hostgroup_defaults doesnt touch compute attributes' do
@@ -3831,8 +3831,8 @@ class HostTest < ActiveSupport::TestCase
     test 'returns IDs for proxies associated with host services' do
       # IDs are fake, just to prove host.smart_proxy_ids gathers them
       host = FactoryBot.build(:host, :with_subnet, :with_realm,
-                               :puppet_proxy_id => 1,
-                               :puppet_ca_proxy_id => 1)
+        :puppet_proxy_id => 1,
+        :puppet_ca_proxy_id => 1)
       host.realm = FactoryBot.build_stubbed(:realm, :realm_proxy_id => 1)
       host.subnet.tftp_id = 2
       host.subnet.dhcp_id = 3
@@ -3846,7 +3846,7 @@ class HostTest < ActiveSupport::TestCase
         @host = FactoryBot.build_stubbed(:host)
         @host.hostgroup = @hostgroup
         @host.send(:assign_hostgroup_attributes,
-                   [:puppet_ca_proxy_id, :puppet_proxy_id])
+          [:puppet_ca_proxy_id, :puppet_proxy_id])
       end
 
       test 'returns IDs for proxies used by services inherited from hostgroup' do
@@ -3854,7 +3854,7 @@ class HostTest < ActiveSupport::TestCase
         assert_equal [@hostgroup.puppet_ca_proxy_id,
                       @hostgroup.puppet_proxy_id,
                       @host.realm.realm_proxy_id].sort,
-                      @host.smart_proxy_ids.sort
+          @host.smart_proxy_ids.sort
       end
 
       test 'does not return IDs for services not inherited from the hostgroup' do
@@ -3862,7 +3862,7 @@ class HostTest < ActiveSupport::TestCase
         @host.puppet_proxy_id = nil
         assert_equal [@hostgroup.puppet_ca_proxy_id,
                       @host.realm.realm_proxy_id].sort,
-                      @host.smart_proxy_ids.sort
+          @host.smart_proxy_ids.sort
       end
     end
   end
@@ -3972,19 +3972,19 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :name => 'test-host')
     FactoryBot.create(:nic_managed, :mac => mac, :identifier => 'ens1', :host => host)
     FactoryBot.create(:nic_managed,
-                      :mac => mac,
-                      :identifier => 'ens1.101',
-                      :virtual => true,
-                      :attached_to => 'ens1',
-                      :tag => '101',
-                      :host => host)
+      :mac => mac,
+      :identifier => 'ens1.101',
+      :virtual => true,
+      :attached_to => 'ens1',
+      :tag => '101',
+      :host => host)
     FactoryBot.create(:nic_managed,
-                      :mac => mac,
-                      :identifier => 'ens1.102',
-                      :virtual => true,
-                      :attached_to => 'ens1',
-                      :tag => '102',
-                      :host => host)
+      :mac => mac,
+      :identifier => 'ens1.102',
+      :virtual => true,
+      :attached_to => 'ens1',
+      :tag => '102',
+      :host => host)
     res = host.send(:find_by_attached_mac, host.interfaces, host.interfaces.where(:mac => mac), 'ens1', { :tag => '102' })
     assert_equal 'ens1.102', res.first.identifier
   end

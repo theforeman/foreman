@@ -80,13 +80,13 @@ class BondTest < ActiveSupport::TestCase
       attached_devices = ['eth0', 'eth1', 'eth2']
       host = FactoryBot.create(:host)
       bond = FactoryBot.build(:nic_bond,
-                                :identifier => 'bond',
-                                :attached_devices => attached_devices.join(','))
+        :identifier => 'bond',
+        :attached_devices => attached_devices.join(','))
       host.interfaces << bond
       attached_devices.each_with_index do |device, i|
         host.interfaces << FactoryBot.build(:nic_managed,
-                                              :identifier => device,
-                                              :mac => "00:53:67:ab:dd:0#{i}"
+          :identifier => device,
+          :mac => "00:53:67:ab:dd:0#{i}"
         )
       end
       assert_equal ['00:53:67:ab:dd:00', '00:53:67:ab:dd:01', '00:53:67:ab:dd:02'], bond.children_mac_addresses

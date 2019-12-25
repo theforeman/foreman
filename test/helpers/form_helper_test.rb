@@ -18,14 +18,14 @@ class FormHelperTest < ActionView::TestCase
   describe '#orderable_select_f' do
     it 'accepts array of choices' do
       choices_matcher = has_entry(options: all_of(includes(has_entries(label: 'one', value: 1)),
-                                                  includes(has_entries(label: 'two', value: 2))))
+        includes(has_entries(label: 'two', value: 2))))
       expects(:react_form_input).with('orderableSelect', 'f', 'attr', has_entry(input_props: choices_matcher))
       orderable_select_f('f', 'attr', [['one', 1], ['two', 2]])
     end
 
     it 'accepts hash of choices' do
       choices_matcher = has_entry(options: all_of(includes(has_entries(label: 'one', value: 1)),
-                                                  includes(has_entries(label: 'two', value: 2))))
+        includes(has_entries(label: 'two', value: 2))))
       expects(:react_form_input).with('orderableSelect', 'f', 'attr', has_entry(input_props: choices_matcher))
       orderable_select_f('f', 'attr', { 1 => 'one', 2 => 'two'})
     end
@@ -100,7 +100,7 @@ class FormHelperTest < ActionView::TestCase
 
   test 'multiple_checkboxes produces right output for taxonomy relations' do
     user = FactoryBot.build_stubbed(:user,
-                             :organizations => [taxonomies(:organization1)])
+      :organizations => [taxonomies(:organization1)])
     form_for Filter.new do |f|
       assert_match(/input name=\"filter\[organization_ids\]\[\].*/,
         multiple_checkboxes(f, :organizations, f.object, user.organizations))

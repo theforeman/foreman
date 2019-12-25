@@ -40,7 +40,7 @@ module Api::V2::LookupKeysCommonController
       scope = model.authorized(:"view_#{model_string.pluralize}")
       begin
         instance_variable_set("@#{model_string}",
-                              resource_finder(scope, params["#{model_string}_id"]))
+          resource_finder(scope, params["#{model_string}_id"]))
       rescue ActiveRecord::RecordNotFound
         model_not_found(model_string)
       end

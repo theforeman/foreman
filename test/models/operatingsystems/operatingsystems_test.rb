@@ -8,9 +8,9 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "os label for #{os}" do
       stub_os = FactoryBot.build_stubbed(config['os'],
-                                  :architectures => [architectures((config['arch']))],
-                                  :ptables => [FactoryBot.create(:ptable)],
-                                  :media => [FactoryBot.build_stubbed(:medium)])
+        :architectures => [architectures((config['arch']))],
+        :ptables => [FactoryBot.create(:ptable)],
+        :media => [FactoryBot.build_stubbed(:medium)])
       assert_equal(config['expected'], stub_os.to_label)
     end
   end
@@ -22,9 +22,9 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   each do |os, config|
     test "pxedir  for #{os}" do
       stub_os = FactoryBot.build_stubbed(config['os'],
-                             :architectures => [architectures((config['arch']))],
-                             :ptables => [FactoryBot.create(:ptable)],
-                             :media => [FactoryBot.build_stubbed(:medium)])
+        :architectures => [architectures((config['arch']))],
+        :ptables => [FactoryBot.create(:ptable)],
+        :media => [FactoryBot.build_stubbed(:medium)])
 
       assert_equal(config['expected'], stub_os.pxedir)
     end
@@ -38,12 +38,12 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     test "kernel location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
       host = FactoryBot.build_stubbed(:host,
-                               :operatingsystem => FactoryBot.build_stubbed(config['os'],
-                                                                     :architectures => [arch],
-                                                                     :ptables => [FactoryBot.create(:ptable)],
-                                                                     :media => [media(config['medium'])]),
-                               :architecture => arch,
-                               :medium => media(config['medium']))
+        :operatingsystem => FactoryBot.build_stubbed(config['os'],
+          :architectures => [arch],
+          :ptables => [FactoryBot.create(:ptable)],
+          :media => [media(config['medium'])]),
+        :architecture => arch,
+        :medium => media(config['medium']))
       medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
 
       assert_equal(config['expected'], host.operatingsystem.kernel(medium_provider))
@@ -58,12 +58,12 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     test "initrd location for #{config['arch']} #{os}" do
       arch = architectures(config['arch'])
       host = FactoryBot.build_stubbed(:host,
-                               :operatingsystem => FactoryBot.build_stubbed(config['os'],
-                                                                     :architectures => [arch],
-                                                                     :ptables => [FactoryBot.create(:ptable)],
-                                                                     :media => [media(config['medium'])]),
-                               :architecture => arch,
-                               :medium => media(config['medium']))
+        :operatingsystem => FactoryBot.build_stubbed(config['os'],
+          :architectures => [arch],
+          :ptables => [FactoryBot.create(:ptable)],
+          :media => [media(config['medium'])]),
+        :architecture => arch,
+        :medium => media(config['medium']))
 
       medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
       assert_equal(config['expected'], host.operatingsystem.initrd(medium_provider))
@@ -78,12 +78,12 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     test "pxe prefix for #{os}" do
       arch = architectures(config['arch'])
       host = FactoryBot.build_stubbed(:host,
-                               :operatingsystem => FactoryBot.build_stubbed(config['os'],
-                                                                     :architectures => [arch],
-                                                                     :ptables => [FactoryBot.create(:ptable)],
-                                                                     :media => [media(config['medium'])]),
-                               :architecture => arch,
-                               :medium => media(config['medium']))
+        :operatingsystem => FactoryBot.build_stubbed(config['os'],
+          :architectures => [arch],
+          :ptables => [FactoryBot.create(:ptable)],
+          :media => [media(config['medium'])]),
+        :architecture => arch,
+        :medium => media(config['medium']))
       medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
       assert_equal(config['expected'], host.operatingsystem.pxe_prefix(medium_provider))
     end
@@ -107,13 +107,13 @@ class OperatingsystemsTest < ActiveSupport::TestCase
 
       arch = architectures(config['arch'])
       operatingsystem = FactoryBot.build(config['os'],
-                                          :architectures => [arch],
-                                          :ptables => [FactoryBot.create(:ptable)],
-                                          :media => [medium])
+        :architectures => [arch],
+        :ptables => [FactoryBot.create(:ptable)],
+        :media => [medium])
       host = FactoryBot.build(:host,
-                               :operatingsystem => operatingsystem,
-                               :architecture    => arch,
-                               :medium          => medium)
+        :operatingsystem => operatingsystem,
+        :architecture    => arch,
+        :medium          => medium)
 
       host.medium.operatingsystems << host.operatingsystem
       host.arch.operatingsystems << host.operatingsystem

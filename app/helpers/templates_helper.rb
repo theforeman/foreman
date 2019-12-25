@@ -35,7 +35,7 @@ module TemplatesHelper
     warning_text = _("This template is locked. You may only change the\
                      associations. Please %s it to customize.") %
                     link_to(_('clone'),
-                            template_hash_for_member(template, 'clone_template'))
+                      template_hash_for_member(template, 'clone_template'))
 
     alert(:class => 'alert-warning', :text => warning_text.html_safe)
   end

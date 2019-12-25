@@ -14,17 +14,17 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :architectures do |map|
     map.permission :view_architectures,
-                   :architectures => [:index, :show, :auto_complete_search, :welcome],
-                   :"api/v2/architectures" => [:index, :show]
+      :architectures => [:index, :show, :auto_complete_search, :welcome],
+      :"api/v2/architectures" => [:index, :show]
     map.permission :create_architectures,
-                   :architectures => [:new, :create],
-                   :"api/v2/architectures" => [:create]
+      :architectures => [:new, :create],
+      :"api/v2/architectures" => [:create]
     map.permission :edit_architectures,
-                   :architectures => [:edit, :update],
-                   :"api/v2/architectures" => [:update]
+      :architectures => [:edit, :update],
+      :"api/v2/architectures" => [:update]
     map.permission :destroy_architectures,
-                   :architectures => [:destroy],
-                   :"api/v2/architectures" => [:destroy]
+      :architectures => [:destroy],
+      :"api/v2/architectures" => [:destroy]
   end
 
   permission_set.security_block :authentication_providers do |map|
@@ -49,17 +49,17 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :bookmarks do |map|
     map.permission :view_bookmarks,
-                   :bookmarks => [:index, :show, :auto_complete_search, :welcome],
-                   :"api/v2/bookmarks" => [:index, :show]
+      :bookmarks => [:index, :show, :auto_complete_search, :welcome],
+      :"api/v2/bookmarks" => [:index, :show]
     map.permission :create_bookmarks,
-                   :bookmarks => [:new, :create],
-                   :"api/v2/bookmarks" => [:new, :create]
+      :bookmarks => [:new, :create],
+      :"api/v2/bookmarks" => [:new, :create]
     map.permission :edit_bookmarks,
-                   :bookmarks => [:edit, :update],
-                   :"api/v2/bookmarks" => [:edit, :update]
+      :bookmarks => [:edit, :update],
+      :"api/v2/bookmarks" => [:edit, :update]
     map.permission :destroy_bookmarks,
-                   :bookmarks => [:destroy],
-                   :"api/v2/bookmarks" => [:destroy]
+      :bookmarks => [:destroy],
+      :"api/v2/bookmarks" => [:destroy]
   end
 
   permission_set.security_block :compute_profiles do |map|
@@ -645,17 +645,17 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :users do |map|
     map.permission :view_users,
-                   :users => [:index, :show, :auto_complete_search, :test_mail],
-                   :"api/v2/users" => [:index, :show]
+      :users => [:index, :show, :auto_complete_search, :test_mail],
+      :"api/v2/users" => [:index, :show]
     map.permission :create_users,
-                   :users => [:new, :create],
-                   :"api/v2/users" => [:create]
+      :users => [:new, :create],
+      :"api/v2/users" => [:create]
     map.permission :edit_users,
-                   :users => [:edit, :update],
-                   :"api/v2/users" => [:update]
+      :users => [:edit, :update],
+      :"api/v2/users" => [:update]
     map.permission :destroy_users,
-                   :users => [:destroy],
-                   :"api/v2/users" => [:destroy]
+      :users => [:destroy],
+      :"api/v2/users" => [:destroy]
   end
 
   permission_set.security_block :dashboard do |map|
@@ -726,22 +726,22 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :ssh_keys do |map|
     map.permission :view_ssh_keys,
-                   :"api/v2/ssh_keys" => [:index, :show]
+      :"api/v2/ssh_keys" => [:index, :show]
     map.permission :create_ssh_keys,
-                   :ssh_keys => [:new, :create],
-                   :"api/v2/ssh_keys" => [:create]
+      :ssh_keys => [:new, :create],
+      :"api/v2/ssh_keys" => [:create]
     map.permission :destroy_ssh_keys,
-                   :ssh_keys => [:destroy],
-                   :"api/v2/ssh_keys" => [:destroy]
+      :ssh_keys => [:destroy],
+      :"api/v2/ssh_keys" => [:destroy]
   end
 
   permission_set.security_block :personal_access_tokens do |map|
     map.permission :view_personal_access_tokens,
-                   :"api/v2/personal_access_tokens" => [:index, :show]
+      :"api/v2/personal_access_tokens" => [:index, :show]
     map.permission :create_personal_access_tokens,
-                   :"api/v2/personal_access_tokens" => [:create]
+      :"api/v2/personal_access_tokens" => [:create]
     map.permission :revoke_personal_access_tokens,
-                   :"api/v2/personal_access_tokens" => [:destroy]
+      :"api/v2/personal_access_tokens" => [:destroy]
   end
 
   permission_set.security_block :settings do |map|

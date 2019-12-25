@@ -4,7 +4,7 @@ module ComputeResourcesVmsHelper
       if vm
         html_opts = vm.ready? ? {:data => {:confirm => _('Are you sure?')}, :class => "btn btn-danger"} : {:class => "btn btn-success"}
         link_to_if_authorized _("Power%s") % state(vm.ready?), hash_for_power_host_path(:power_action => vm.ready? ? :stop : :start).merge(:auth_object => host, :permission => 'power_hosts'),
-        html_opts.merge(:method => :put)
+          html_opts.merge(:method => :put)
       else
         link_to(_("Unknown Power State"), '#', :disabled => true, :class => "btn btn-warning")
       end
@@ -14,7 +14,7 @@ module ComputeResourcesVmsHelper
   def vm_console(host, vm)
     if vm&.ready?
       link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
-                            { :class => "btn btn-info" })
+        { :class => "btn btn-info" })
     else
       link_to(_("Console"), '#', {:disabled => true, :class => "btn btn-info"})
     end
@@ -212,8 +212,8 @@ module ComputeResourcesVmsHelper
         number_to_human_size(vm.memory),
         "<span #{vm_power_class(vm.ready?)}>#{vm_state(vm)}</span>",
         action_buttons(vm_power_action(vm, authorizer),
-                       vm_import_action(vm),
-                       display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer))),
+          vm_import_action(vm),
+          display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.id).merge(:auth_object => @compute_resource, :authorizer => authorizer))),
       ]
     end
     JSON.fast_generate(data).html_safe
@@ -274,9 +274,9 @@ module ComputeResourcesVmsHelper
       ).merge(
         :auth_object => @compute_resource,
         :permission => 'edit_compute_resources'),
-        :title => _("Associate VM to a Foreman host"),
-        :method => :put,
-        :class => "btn btn-default"
+      :title => _("Associate VM to a Foreman host"),
+      :method => :put,
+      :class => "btn btn-default"
     )
   end
 

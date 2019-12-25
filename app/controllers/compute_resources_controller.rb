@@ -58,8 +58,8 @@ class ComputeResourcesController < ApplicationController
       end
       if associator.fail_count > 0
         messages << n_('%s VM failed while processing: check logs for more details.',
-                       '%s VMs failed while processing: check logs for more details.',
-                       associator.fail_count) % associator.fail_count
+          '%s VMs failed while processing: check logs for more details.',
+          associator.fail_count) % associator.fail_count
         process_error(:error_msg => messages.join(' '))
       else
         process_success(:success_msg => messages.join(' '))

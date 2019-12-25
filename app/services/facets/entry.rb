@@ -28,13 +28,13 @@ module Facets
       :compatibility_properties, :dependent, to: :host_configuration
     # writers
     delegate :add_helper,
-             :add_tabs,
-             :extend_model,
-             :api_view,
-             :api_docs,
-             :template_compatibility_properties,
-             :set_dependent_action,
-             to: :host_configuration
+      :add_tabs,
+      :extend_model,
+      :api_view,
+      :api_docs,
+      :template_compatibility_properties,
+      :set_dependent_action,
+      to: :host_configuration
 
     def initialize(facet_model = nil, facet_name = nil)
       fail 'Either facet_name or facet_model should be not nil' if facet_name.nil? && facet_model.nil?

@@ -74,10 +74,10 @@ class SubnetTest < ActiveSupport::TestCase
 
   test "when to_label is applied should show the domain, the mask and network" do
     subnet = FactoryBot.create(:subnet_ipv4,
-                                :with_domains,
-                                :name => 'valid',
-                                :network => '123.123.123.0',
-                                :mask => '255.255.255.0'
+      :with_domains,
+      :name => 'valid',
+      :network => '123.123.123.0',
+      :mask => '255.255.255.0'
     )
 
     assert_equal "valid (123.123.123.0/24)", subnet.to_label
@@ -139,7 +139,7 @@ class SubnetTest < ActiveSupport::TestCase
     assert_equal({key.id => {key.key => {:value => value.value,
                                          :element => 'subnet',
                                          :element_name => subnet.name}}},
-                 smart_variables)
+      smart_variables)
   end
 
   test "should have MTU set to 1500 by default" do

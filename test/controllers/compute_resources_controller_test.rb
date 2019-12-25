@@ -234,9 +234,9 @@ class ComputeResourcesControllerTest < ActionController::TestCase
     setup do
       @controller.prepend_view_path File.expand_path('../static_fixtures', __dir__)
       Pagelets::Manager.add_pagelet('compute_resources/show', :main_tabs,
-                                    :name => 'TestTab',
-                                    :id => 'my-special-id',
-                                    :partial => 'views/test')
+        :name => 'TestTab',
+        :id => 'my-special-id',
+        :partial => 'views/test')
     end
 
     test '#new renders a pagelet tab' do

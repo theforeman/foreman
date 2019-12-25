@@ -22,11 +22,11 @@ class AuthSource < ApplicationRecord
 
   has_many Taxonomix::TAXONOMY_JOIN_TABLE, :dependent => :destroy, :as => :taxable
   has_many :locations, -> { where(:type => 'Location') },
-           :through => Taxonomix::TAXONOMY_JOIN_TABLE, :source => :taxonomy,
-           :validate => false
+    :through => Taxonomix::TAXONOMY_JOIN_TABLE, :source => :taxonomy,
+    :validate => false
   has_many :organizations, -> { where(:type => 'Organization') },
-           :through => Taxonomix::TAXONOMY_JOIN_TABLE, :source => :taxonomy,
-           :validate => false
+    :through => Taxonomix::TAXONOMY_JOIN_TABLE, :source => :taxonomy,
+    :validate => false
 
   scoped_search :relation => :locations, :on => :name, :rename => :location, :complete_value => true, :only_explicit => true
   scoped_search :relation => :locations, :on => :id, :rename => :location_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

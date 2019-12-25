@@ -88,7 +88,7 @@ module ApplicationHelper
 
   def add_link_to_function(text, options)
     link_to_function(text, "tfm.classEditor.addPuppetClass(this)",
-        options.merge(:'data-original-title' => _("Click to add %s") % options[:"data-class-name"]))
+      options.merge(:'data-original-title' => _("Click to add %s") % options[:"data-class-name"]))
   end
 
   # Display a link if user is authorized, otherwise a string
@@ -226,28 +226,28 @@ module ApplicationHelper
     header = content_tag(:h4, options[:show_title] ? title : '', :class => 'ca pie-title', :'data-original-title' => _("Expand the chart"), :rel => 'twipsy')
     link_to_function(header, "expand_chart(this)") +
         content_tag(:div, nil,
-                    { :id    => name,
-                      :class => 'statistics-pie',
-                      :data  => {
-                        :title  => title,
-                        :series => data,
-                        :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#",
-                      },
-                    }.merge(options))
+          { :id    => name,
+            :class => 'statistics-pie',
+            :data  => {
+              :title  => title,
+              :series => data,
+              :url    => options[:search] ? "#{request.script_name}/hosts?search=#{URI.encode(options.delete(:search))}" : "#",
+            },
+          }.merge(options))
   end
 
   def flot_chart(name, xaxis_label, yaxis_label, data, options = {})
     data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
     content_tag(:div, nil,
-                { :id    => name,
-                  :class => 'statistics-chart',
-                  :data  => {
-                    :'legend-options' => options.delete(:legend),
-                    :'xaxis-label'    => xaxis_label,
-                    :'yaxis-label'    => yaxis_label,
-                    :series => data,
-                  },
-                }.merge(options))
+      { :id    => name,
+        :class => 'statistics-chart',
+        :data  => {
+          :'legend-options' => options.delete(:legend),
+          :'xaxis-label'    => xaxis_label,
+          :'yaxis-label'    => yaxis_label,
+          :series => data,
+        },
+      }.merge(options))
   end
 
   def flot_bar_chart(name, xaxis_label, yaxis_label, data, options = {})
@@ -268,14 +268,14 @@ module ApplicationHelper
     end
 
     content_tag(:div, nil,
-                { :id   => name,
-                  :data => {
-                    :'xaxis-label' => xaxis_label,
-                    :'yaxis-label' => yaxis_label,
-                    :chart   => data,
-                    :ticks   => ticks,
-                  },
-                }.merge(options))
+      { :id   => name,
+        :data => {
+          :'xaxis-label' => xaxis_label,
+          :'yaxis-label' => yaxis_label,
+          :chart   => data,
+          :ticks   => ticks,
+        },
+      }.merge(options))
   end
 
   def select_action_button(title, options = {}, *args)
@@ -294,8 +294,8 @@ module ApplicationHelper
         button_classes << 'dropdown-toggle'
         title = (title + " " + content_tag(:span, '', :class => 'caret'))
         button = link_to(title.html_safe, '#',
-                         :class => button_classes,
-                         :'data-toggle' => 'dropdown')
+          :class => button_classes,
+          :'data-toggle' => 'dropdown')
         dropdown_list = content_tag(:ul, :class => "dropdown-menu pull-right") do
           args.map { |option| content_tag(:li, option) }.join(" ").html_safe
         end

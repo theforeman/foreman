@@ -762,10 +762,10 @@ class HostsControllerTest < ActionController::TestCase
     hg = FactoryBot.build(:hostgroup, :name => "<script>alert('hacked')</script>")
     host = FactoryBot.create(:host, :with_puppetclass, :hostgroup => hg)
     FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                                :override => true, :key_type => 'string',
-                                :default_value => "<script>alert('hacked!');</script>",
-                                :description => "<script>alert('hacked!');</script>",
-                                :puppetclass => host.puppetclasses.first)
+      :override => true, :key_type => 'string',
+      :default_value => "<script>alert('hacked!');</script>",
+      :description => "<script>alert('hacked!');</script>",
+      :puppetclass => host.puppetclasses.first)
     FactoryBot.create(:hostgroup_parameter, :hostgroup => hg)
     get :edit, params: { :id => host.name }, session: set_session_user
     refute response.body.include?("<script>alert(")
@@ -865,8 +865,8 @@ class HostsControllerTest < ActionController::TestCase
       assert !@host1.build
       assert !@host2.build
       multiple_hosts_submit_request('build', [@host1.id, @host2.id],
-                                    'The selected hosts will execute a build operation on next reboot',
-                                    {:host => { :build => 0 }})
+        'The selected hosts will execute a build operation on next reboot',
+        {:host => { :build => 0 }})
       assert Host.find(@host1.id).build
       assert Host.find(@host2.id).build
     end
@@ -880,8 +880,8 @@ class HostsControllerTest < ActionController::TestCase
       assert !@host1.build
       assert !@host2.build
       multiple_hosts_submit_request('build', [@host1.id, @host2.id],
-                                    'The selected hosts were enabled for reboot and rebuild',
-                                    {:host => { :build => 1 }})
+        'The selected hosts were enabled for reboot and rebuild',
+        {:host => { :build => 1 }})
       assert Host.find(@host1.id).build
       assert Host.find(@host2.id).build
     end
@@ -1801,9 +1801,9 @@ class HostsControllerTest < ActionController::TestCase
     setup do
       @controller.prepend_view_path File.expand_path('../static_fixtures', __dir__)
       Pagelets::Manager.add_pagelet('hosts/show', :main_tabs,
-                                    :name => 'TestTab',
-                                    :id => 'my-special-id',
-                                    :partial => 'views/test')
+        :name => 'TestTab',
+        :id => 'my-special-id',
+        :partial => 'views/test')
     end
 
     test '#show renders a pagelet tab' do

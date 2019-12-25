@@ -86,8 +86,8 @@ module FormHelper
         hidden_fields += f.hidden_field(attr_ids, :multiple => true, :value => unauthorized_value, :id => '')
       end
       hidden_fields + f.collection_select(attr_ids, authorized.sort_by { |a| a.to_s },
-                                          :id, options.delete(:object_label_method) || :to_label, options.merge(:selected => selected_ids),
-                                          html_options.merge(:multiple => true))
+        :id, options.delete(:object_label_method) || :to_label, options.merge(:selected => selected_ids),
+        html_options.merge(:multiple => true))
     end
   end
 
@@ -250,8 +250,8 @@ module FormHelper
   def soft_limit_warning_block
     content_tag(:span, :class => 'maximum-limit hidden') do
       icon_text('warning-triangle-o',
-                content_tag(:span, ' ' + _('Specified value is higher than recommended maximum'), :class => 'error-message'),
-                :kind => 'pficon')
+        content_tag(:span, ' ' + _('Specified value is higher than recommended maximum'), :class => 'error-message'),
+        :kind => 'pficon')
     end
   end
 
@@ -312,7 +312,7 @@ module FormHelper
         ""
       when :indicator
         content_tag(:span, content_tag(:div, '', :class => 'hide spinner spinner-xs'),
-                    :class => 'help-block').html_safe
+          :class => 'help-block').html_safe
       else
         content_tag(:span, help_inline, :class => "help-block help-inline")
     end
@@ -361,7 +361,7 @@ module FormHelper
     locals_option = options.delete(:locals) || {}
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render((partial.nil? ? association.to_s.singularize + "_fields" : partial),
-             { :f => builder }.merge(locals_option))
+        { :f => builder }.merge(locals_option))
     end
     options[:class] = link_to_add_fields_classes(options)
     link_to_function(name, "add_fields('#{options[:target]}', '#{association}', '#{escape_javascript(fields)}')".html_safe, options)

@@ -19,8 +19,8 @@ module KeyTypesHelper
     method_for_select_f = only_inline_select ? 'selectable_f_inline' : 'selectable_f'
 
     send(method_for_select_f, f, :parameter_type,
-         options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e), e] }, f.object.parameter_type), {},
-         common_extra_options.merge(options))
+      options_for_select(LookupKey::KEY_TYPES.map { |e| [_(e), e] }, f.object.parameter_type), {},
+      common_extra_options.merge(options))
   end
 
   def lookup_keys_table?(f)

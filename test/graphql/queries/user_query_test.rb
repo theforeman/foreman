@@ -60,12 +60,12 @@ module Queries
     let(:organization) { FactoryBot.create(:organization) }
     let(:user) do
       FactoryBot.create(:user, :with_mail, :with_usergroup,
-                        locations: [location_object],
-                        default_location: location_object,
-                        organizations: [organization],
-                        default_organization: organization,
-                        locale: 'en',
-                        timezone: 'Berlin')
+        locations: [location_object],
+        default_location: location_object,
+        organizations: [organization],
+        default_organization: organization,
+        locale: 'en',
+        timezone: 'Berlin')
     end
 
     let(:global_id) { Foreman::GlobalId.for(user) }

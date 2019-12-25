@@ -45,7 +45,7 @@ class ApplicationHelperTest < ActionView::TestCase
     setup do
       permission = Permission.find_by_name('view_domains')
       filter = FactoryBot.create(:filter, :on_name_starting_with_a,
-                                  :permissions => [permission])
+        :permissions => [permission])
       @user = FactoryBot.create(:user)
       @user.update_attribute :roles, [filter.role]
       @domain1 = FactoryBot.create(:domain, :name => 'a-domain.to-be-found.com')
@@ -74,7 +74,7 @@ class ApplicationHelperTest < ActionView::TestCase
     test "accessible_related_resource shows only authorized related records" do
       permission = Permission.find_by_name('view_subnets')
       filter = FactoryBot.create(:filter, :on_name_starting_with_a,
-                                  :permissions => [permission])
+        :permissions => [permission])
       @user.roles << filter.role
       subnet1 = FactoryBot.create(:subnet_ipv4, :name => 'a subnet', :domains => [@domain1])
       subnet2 = FactoryBot.create(:subnet_ipv4, :name => 'some other subnet', :domains => [@domain1])
@@ -91,7 +91,7 @@ class ApplicationHelperTest < ActionView::TestCase
   describe 'link_to generate valid links and anchors' do
     test 'test if having a javascript as a path crashes link_to' do
       assert_equal(link_to('link', 'javascript:foo()', class: 'btn'),
-                   '<a class="btn" href="javascript:foo()">link</a>')
+        '<a class="btn" href="javascript:foo()">link</a>')
     end
   end
 end

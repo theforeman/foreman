@@ -141,23 +141,23 @@ class TFTPOrchestrationTest < ActiveSupport::TestCase
                           :mac => nil,
                           :ip => subnet.network.sub(/0\Z/, '2')),
         FactoryBot.build(:nic_interface,
-                          :identifier => 'eth0',
-                          :mac => '00:53:67:ab:dd:00'
+          :identifier => 'eth0',
+          :mac => '00:53:67:ab:dd:00'
         ),
         FactoryBot.build(:nic_interface,
-                          :identifier => 'eth1',
-                          :mac => '00:53:67:ab:dd:01'
+          :identifier => 'eth1',
+          :mac => '00:53:67:ab:dd:01'
         ),
       ]
     end
     let(:host) do
       FactoryBot.create(:host,
-                         :with_tftp_orchestration,
-                         :subnet => subnet,
-                         :interfaces => interfaces,
-                         :build => true,
-                         :location => subnet.locations.first,
-                         :organization => subnet.organizations.first)
+        :with_tftp_orchestration,
+        :subnet => subnet,
+        :interfaces => interfaces,
+        :build => true,
+        :location => subnet.locations.first,
+        :organization => subnet.organizations.first)
     end
 
     test '#setTFTP should provision tftp for all bond child macs' do

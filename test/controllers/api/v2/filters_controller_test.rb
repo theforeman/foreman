@@ -83,12 +83,12 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     test "should disable filter override" do
       role = FactoryBot.create(:role, :name => 'New Role', :locations => [@loc], :organizations => [@org])
       filter = FactoryBot.create(:filter,
-                                 :role_id => role.id,
-                                 :permission_ids => [permissions(:view_domains).id],
-                                 :override => true,
-                                 :locations => [taxonomies(:location2)],
-                                 :organizations => [taxonomies(:organization2)]
-                                )
+        :role_id => role.id,
+        :permission_ids => [permissions(:view_domains).id],
+        :override => true,
+        :locations => [taxonomies(:location2)],
+        :organizations => [taxonomies(:organization2)]
+      )
       put :update, params: { :id => filter.to_param, :filter => { :override => false } }
       assert_response :success
       filter.reload

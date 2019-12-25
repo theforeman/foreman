@@ -44,7 +44,7 @@ class Taxonomy < ApplicationRecord
   end
 
   delegate :import_missing_ids, :inherited_ids, :used_and_selected_or_inherited_ids, :selected_or_inherited_ids,
-           :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
+    :non_inherited_ids, :used_or_inherited_ids, :used_ids, :to => :tax_host
 
   default_scope -> { order(:title) }
 
@@ -211,7 +211,7 @@ class Taxonomy < ApplicationRecord
   private
 
   delegate :need_to_be_selected_ids, :selected_ids, :used_and_selected_ids, :mismatches, :missing_ids, :check_for_orphans,
-           :to => :tax_host
+    :to => :tax_host
 
   def assign_default_templates
     Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|

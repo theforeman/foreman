@@ -185,7 +185,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     lk = FactoryBot.build(:puppetclass_lookup_key, :as_smart_class_param, :default_value => 'first', :puppetclass => pc)
 
     updated = get_an_instance.send(:update_classes_in_foreman, env.name,
-                                  {pc.name => {'updated' => [lk.key]}})
+      {pc.name => {'updated' => [lk.key]}})
     assert_not_nil updated
   end
 
@@ -194,7 +194,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     pc = FactoryBot.create(:puppetclass, :environments => [env])
 
     get_an_instance.send(:update_classes_in_foreman, env.name,
-                        {pc.name => {'new' => {'test_nil_param' => nil}}})
+      {pc.name => {'new' => {'test_nil_param' => nil}}})
     lk = PuppetclassLookupKey.where(:key => 'test_nil_param').first
     refute lk.override
     refute lk.required
@@ -205,11 +205,11 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     pc = FactoryBot.create(:puppetclass, :environments => envs)
 
     get_an_instance.send(:update_classes_in_foreman, envs.first.name,
-                         {pc.name => {'new' => {'2_env_param' => 'first'}}})
+      {pc.name => {'new' => {'2_env_param' => 'first'}}})
     assert_equal 'first', PuppetclassLookupKey.where(:key => '2_env_param').first.default_value
 
     get_an_instance.send(:update_classes_in_foreman, envs.last.name,
-                        {pc.name => {'updated' => {'2_env_param' => 'last'}}})
+      {pc.name => {'updated' => {'2_env_param' => 'last'}}})
     assert_equal 'last', PuppetclassLookupKey.where(:key => '2_env_param').first.default_value
   end
 
@@ -222,7 +222,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     test 'from one environment' do
       lks = FactoryBot.create_list(:puppetclass_lookup_key, 2, :as_smart_class_param, :puppetclass => @pc)
       get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
-                           {@pc.name => {'obsolete' => [lks.first.key]}})
+        {@pc.name => {'obsolete' => [lks.first.key]}})
       assert_equal [@envs.last], lks.first.environments
       assert_equal @envs.to_a.sort, lks.last.environments.to_a.sort
     end
@@ -230,7 +230,7 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
     test 'when overridden' do
       lks = FactoryBot.create_list(:puppetclass_lookup_key, 2, :as_smart_class_param, :with_override, :puppetclass => @pc)
       get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
-                           {@pc.name => {'obsolete' => [lks.first.key]}})
+        {@pc.name => {'obsolete' => [lks.first.key]}})
       assert_equal [@envs.last], lks.first.environments
       assert_equal @envs.to_a.sort, lks.last.environments.sort
     end
@@ -239,9 +239,9 @@ class PuppetClassImporterTest < ActiveSupport::TestCase
       lks = FactoryBot.create_list(:puppetclass_lookup_key, 2, :as_smart_class_param, :with_override, :puppetclass => @pc)
       lval = lks.first.lookup_values.first
       get_an_instance.send(:update_classes_in_foreman, @envs.first.name,
-                           {@pc.name => {'obsolete' => [lks.first.key]}})
+        {@pc.name => {'obsolete' => [lks.first.key]}})
       get_an_instance.send(:update_classes_in_foreman, @envs.last.name,
-                           {@pc.name => {'obsolete' => [lks.first.key]}})
+        {@pc.name => {'obsolete' => [lks.first.key]}})
       refute PuppetclassLookupKey.find_by_id(lks.first.id)
       refute LookupValue.find_by_id(lval.id)
       assert_equal @envs.to_a.sort, lks.last.environments.to_a.sort

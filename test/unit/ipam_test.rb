@@ -104,9 +104,9 @@ class IPAMTest < ActiveSupport::TestCase
   context 'EUI-64 IPAM' do
     test "should calculate unused IP via eui-64" do
       subnet = FactoryBot.build_stubbed(:subnet_ipv6,
-                                 :network => '2001:db8::',
-                                 :mask => 'ffff:ffff:ffff:ffff::',
-                                 :ipam => IPAM::MODES[:eui64])
+        :network => '2001:db8::',
+        :mask => 'ffff:ffff:ffff:ffff::',
+        :ipam => IPAM::MODES[:eui64])
       ipam = IPAM::Eui64.new(:subnet => subnet, :mac => '00:11:22:33:44:55')
       assert_equal '2001:db8::211:22ff:fe33:4455', ipam.suggest_ip
     end

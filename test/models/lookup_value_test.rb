@@ -132,8 +132,8 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "shuld not cast string with erb" do
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                            :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
-                            :default_value => [1, 2, 3], :puppetclass => puppetclasses(:one))
+      :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
+      :default_value => [1, 2, 3], :puppetclass => puppetclasses(:one))
 
     lv = LookupValue.new(:value => "<%= [4,5,6] %>", :match => "hostgroup=Common", :lookup_key => key)
     # does not cast on save (validate_and_cast_value)
@@ -213,8 +213,8 @@ class LookupValueTest < ActiveSupport::TestCase
   context "when key is a boolean and default_value is a string" do
     def setup
       @key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                                :override => true, :key_type => 'boolean',
-                                :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
+        :override => true, :key_type => 'boolean',
+        :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
       @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :omit => true)
     end
 
@@ -231,7 +231,7 @@ class LookupValueTest < ActiveSupport::TestCase
   context "when key type is puppetclass lookup and value is empty" do
     def setup
       @key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                                :with_override, :with_omit, :path => "hostgroup\ncomment",
+        :with_override, :with_omit, :path => "hostgroup\ncomment",
                                 :key_type => 'string',
                                 :puppetclass => puppetclasses(:one))
       @value = FactoryBot.build_stubbed(:lookup_value, :value => "",
@@ -252,7 +252,7 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "should allow white space in value" do
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                             :with_override, :path => "hostgroup\ncomment",
+      :with_override, :path => "hostgroup\ncomment",
                              :key_type => 'string',
                              :puppetclass => puppetclasses(:one))
     text = <<~EOF
@@ -313,8 +313,8 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "should save matcher types as lowercase" do
     key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                            :override => true, :key_type => 'string', :path => "HOSTGROUP\nFQDN",
-                            :default_value => "test123", :puppetclass => puppetclasses(:one))
+      :override => true, :key_type => 'string', :path => "HOSTGROUP\nFQDN",
+      :default_value => "test123", :puppetclass => puppetclasses(:one))
 
     lv = LookupValue.new(:value => "lookup_value_lower_test", :match => "HOSTGROUP=Common", :lookup_key => key)
     assert lv.save!

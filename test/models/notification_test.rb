@@ -17,8 +17,8 @@ class NotificationTest < ActiveSupport::TestCase
       :message => 'this test just executed successfully'
     )
     notice = FactoryBot.create(:notification,
-                                :audience => 'global',
-                                :notification_blueprint => blueprint)
+      :audience => 'global',
+      :notification_blueprint => blueprint)
     assert notice.valid?
     assert_equal blueprint.message, notice.message
     assert_equal User.all, notice.recipients
@@ -37,15 +37,15 @@ class NotificationTest < ActiveSupport::TestCase
       :expires_in => 5.minutes
     )
     notice = FactoryBot.create(:notification,
-                                :audience => Notification::AUDIENCE_ADMIN,
-                                :notification_blueprint => blueprint)
+      :audience => Notification::AUDIENCE_ADMIN,
+      :notification_blueprint => blueprint)
     assert_includes Notification.active, notice
   end
 
   test 'user notifications should subscribe only to itself' do
     notification = FactoryBot.create(:notification,
-                                      :subject => User.current,
-                                      :audience => Notification::AUDIENCE_USER)
+      :subject => User.current,
+      :audience => Notification::AUDIENCE_USER)
     assert_equal [User.current.id], notification.subscriber_ids
   end
 
@@ -53,7 +53,7 @@ class NotificationTest < ActiveSupport::TestCase
     group = FactoryBot.create(:usergroup)
     group.users = FactoryBot.create_list(:user, 25)
     notification = FactoryBot.build_stubbed(:notification,
-                                     :audience => Notification::AUDIENCE_USERGROUP)
+      :audience => Notification::AUDIENCE_USERGROUP)
     notification.subject = group
     assert group.all_users.any?
     assert_equal group.all_users.map(&:id).sort,
@@ -64,7 +64,7 @@ class NotificationTest < ActiveSupport::TestCase
     org = FactoryBot.create(:organization)
     org.users = FactoryBot.create_list(:user, 25)
     notification = FactoryBot.build_stubbed(:notification,
-                                     :audience => Notification::AUDIENCE_SUBJECT)
+      :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = org
     assert org.user_ids.any?
     assert_equal org.user_ids.sort, notification.subscriber_ids.sort
@@ -74,7 +74,7 @@ class NotificationTest < ActiveSupport::TestCase
     loc = FactoryBot.create(:location)
     loc.users = FactoryBot.create_list(:user, 25)
     notification = FactoryBot.build_stubbed(:notification,
-                                     :audience => Notification::AUDIENCE_SUBJECT)
+      :audience => Notification::AUDIENCE_SUBJECT)
     notification.subject = loc
     assert loc.user_ids.any?
     assert_equal loc.user_ids.sort, notification.subscriber_ids.sort
@@ -82,7 +82,7 @@ class NotificationTest < ActiveSupport::TestCase
 
   test 'Global notifications should subscribe to all users' do
     notification = FactoryBot.build_stubbed(:notification,
-                                     :audience => Notification::AUDIENCE_GLOBAL)
+      :audience => Notification::AUDIENCE_GLOBAL)
     assert User.count > 0
     assert_equal User.reorder('').pluck(:id).sort,
       notification.subscriber_ids.sort
@@ -90,7 +90,7 @@ class NotificationTest < ActiveSupport::TestCase
 
   test 'Admin notifications should subscribe to all admin users except hidden' do
     notification = FactoryBot.build_stubbed(:notification,
-                                     :audience => Notification::AUDIENCE_ADMIN)
+      :audience => Notification::AUDIENCE_ADMIN)
     admin = FactoryBot.create(:user, :admin)
 
     subscriber_ids = notification.subscriber_ids

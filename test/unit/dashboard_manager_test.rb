@@ -67,6 +67,6 @@ class DashboardManagerTest < ActiveSupport::TestCase
     Dashboard::Manager.reset_user_to_default(user)
     user.widgets.reload
     assert_equal Dashboard::Manager.default_widgets.count,
-                 user.widgets.count
+      user.widgets.count
   end
 end

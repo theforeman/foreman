@@ -52,7 +52,7 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
 
   test "DHCP record contains jumpstart attributes" do
     h = FactoryBot.build_stubbed(:host, :with_dhcp_orchestration,
-                          :model => FactoryBot.create(:model, :vendor_class => 'Sun-Fire-V210'))
+      :model => FactoryBot.create(:model, :vendor_class => 'Sun-Fire-V210'))
     h.expects(:jumpstart?).at_least_once.returns(true)
     h.os.expects(:dhcp_record_type).at_least_once.returns(Net::DHCP::SparcRecord)
     h.os.expects(:jumpstart_params).at_least_once.with(h, h.model.vendor_class).returns(:vendor => '<Sun-Fire-V210>')
@@ -196,24 +196,24 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
                           :mac => '00:53:67:ab:dd:00',
                           :ip => subnet.network.sub(/0\Z/, '2')),
         FactoryBot.build(:nic_interface,
-                          :identifier => 'eth0',
-                          :mac => '00:53:67:ab:dd:00'
+          :identifier => 'eth0',
+          :mac => '00:53:67:ab:dd:00'
         ),
         FactoryBot.build(:nic_interface,
-                          :identifier => 'eth1',
-                          :mac => '00:53:67:ab:dd:01'
+          :identifier => 'eth1',
+          :mac => '00:53:67:ab:dd:01'
         ),
       ]
     end
     let(:host) do
       as_admin do
         FactoryBot.create(:host,
-                           :with_dhcp_orchestration,
-                           :subnet => subnet,
-                           :interfaces => interfaces,
-                           :build => true,
-                           :location => subnet.locations.first,
-                           :organization => subnet.organizations.first)
+          :with_dhcp_orchestration,
+          :subnet => subnet,
+          :interfaces => interfaces,
+          :build => true,
+          :location => subnet.locations.first,
+          :organization => subnet.organizations.first)
       end
     end
 

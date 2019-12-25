@@ -64,19 +64,19 @@ class MenuManagerTest < ActiveSupport::TestCase
     Menu::Manager.map :nested_menu do |menu|
       menu.sub_menu :sub_menu_one, :caption => 'User', :icon => 'fa-icon' do
         menu.item :item_one,
-                  caption: 'Item',
-                  url: 'some url'
+          caption: 'Item',
+          url: 'some url'
         menu.item :item_two,
-                  caption: 'Item 2',
-                  url: 'some url'
+          caption: 'Item 2',
+          url: 'some url'
         menu.item :test_item,
-                  caption: 'Test Items',
-                  url: 'some url'
+          caption: 'Test Items',
+          url: 'some url'
       end
       menu.sub_menu :sub_menu_two, :caption => 'User', :icon => 'fa-icon' do
         menu.item :item_three,
-                  caption: 'Item 3',
-                  url: 'some url'
+          caption: 'Item 3',
+          url: 'some url'
       end
     end
   end

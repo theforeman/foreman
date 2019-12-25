@@ -16,11 +16,11 @@ class PageletsHelperTest < ActionView::TestCase
 
   test "should find pagelets for page and mountpoint" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "Name",
-                                               :partial => "test")
+      :name => "Name",
+      :partial => "test")
     Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
-                                                       :name => "My name",
-                                                       :partial => "test")
+      :name => "My name",
+      :partial => "test")
     pagelets = pagelets_for(:main_tabs)
     assert pagelets.any? { |p| p.name == "Name" }
     refute pagelets.any? { |p| p.name == "My name"}
@@ -28,13 +28,13 @@ class PageletsHelperTest < ActionView::TestCase
 
   test "should show appropriate tab headers" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "Visible",
-                                               :partial => "test",
-                                               :onlyif => Proc.new { true })
+      :name => "Visible",
+      :partial => "test",
+      :onlyif => Proc.new { true })
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "Hidden",
-                                               :partial => "test",
-                                               :onlyif => Proc.new { false })
+      :name => "Hidden",
+      :partial => "test",
+      :onlyif => Proc.new { false })
     result = render_tab_header_for :main_tabs
     assert result.match /Visible/
     refute result.match /Hidden/
@@ -42,17 +42,17 @@ class PageletsHelperTest < ActionView::TestCase
 
   test "show page renders basic pagelets" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "TestTab",
-                                               :partial => "test")
+      :name => "TestTab",
+      :partial => "test")
     result = render_tab_content_for :main_tabs
     assert result.match /This is test partial/
   end
 
   test "show page renders correct id for pagelet" do
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "TestTab",
-                                               :partial => "test",
-                                               :id => "my-special-id")
+      :name => "TestTab",
+      :partial => "test",
+      :id => "my-special-id")
     result = render_tab_content_for :main_tabs
     assert result.match /id='my-special-id'/
   end
@@ -61,11 +61,11 @@ class PageletsHelperTest < ActionView::TestCase
     self.stubs(:virtual_path).returns("tests/_form")
 
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "TestTab",
-                                               :partial => "test")
+      :name => "TestTab",
+      :partial => "test")
     Pagelets::Manager.add_pagelet("tests/_form", :main_tabs,
-                                                 :name => "VirtualPathTab",
-                                                 :partial => "test")
+      :name => "VirtualPathTab",
+      :partial => "test")
     pagelets = pagelets_for(:main_tabs)
     assert pagelets.any? { |p| p.name == "VirtualPathTab" }
     assert_equal 2, pagelets.count
@@ -75,12 +75,12 @@ class PageletsHelperTest < ActionView::TestCase
     self.stubs(:virtual_path).returns("tests/_form")
 
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "TestTab",
-                                               :partial => "test")
+      :name => "TestTab",
+      :partial => "test")
     Pagelets::Manager.add_pagelet("tests/_form", :main_tabs,
-                                                 :name => "VirtualPathTab",
-                                                 :partial => "test",
-                                                 :priority => 50)
+      :name => "VirtualPathTab",
+      :partial => "test",
+      :priority => 50)
     pagelets = pagelets_for(:main_tabs)
     assert_equal "VirtualPathTab", pagelets.first.name
   end
@@ -89,8 +89,8 @@ class PageletsHelperTest < ActionView::TestCase
     self.stubs(:virtual_path).returns("test/test")
 
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
-                                               :name => "TestTab",
-                                               :partial => "test")
+      :name => "TestTab",
+      :partial => "test")
     assert_equal 1, pagelets_for(:main_tabs).length
   end
 end

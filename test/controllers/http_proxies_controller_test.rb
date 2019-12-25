@@ -45,11 +45,11 @@ class HttpProxiesControllerTest < ActionController::TestCase
     organization_id = taxonomies(:organization1).id
 
     put :update,
-        params: {
-          :id => @model.id,
-          :http_proxy => { :location_ids => [location_id], :organization_ids => [organization_id] },
-        },
-        session: set_session_user
+      params: {
+        :id => @model.id,
+        :http_proxy => { :location_ids => [location_id], :organization_ids => [organization_id] },
+      },
+      session: set_session_user
 
     assert_response :found
     assert_includes @model.reload.locations.pluck(:id), location_id

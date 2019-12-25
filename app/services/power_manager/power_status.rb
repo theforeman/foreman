@@ -32,7 +32,7 @@ module PowerManager
       logger.debug("Failed to retrieve power status for #{host} within #{timeout} seconds.")
 
       result[:statusText] = n_("Failed to retrieve power status for %{host} within %{timeout} second.",
-                               "Failed to retrieve power status for %{host} within %{timeout} seconds.", timeout) %
+        "Failed to retrieve power status for %{host} within %{timeout} seconds.", timeout) %
                               {host: host, timeout: timeout}
       result
     end

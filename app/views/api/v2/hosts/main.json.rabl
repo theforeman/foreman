@@ -9,14 +9,14 @@ extends "api/v2/smart_proxies/children_nodes"
 @object.configuration_status_label(:last_reports => @last_reports)
 
 attributes :ip, :ip6, :environment_id, :environment_name, :last_report, :mac, :realm_id, :realm_name,
-           :sp_mac, :sp_ip, :sp_name, :domain_id, :domain_name, :architecture_id, :architecture_name, :operatingsystem_id, :operatingsystem_name,
-           :subnet_id, :subnet_name, :subnet6_id, :subnet6_name, :sp_subnet_id, :ptable_id, :ptable_name, :medium_id, :medium_name, :pxe_loader,
-           :build, :comment, :disk, :installed_at, :model_id, :hostgroup_id, :owner_id, :owner_name, :owner_type,
-           :enabled, :managed, :use_image, :image_file, :uuid,
-           :compute_resource_id, :compute_resource_name,
-           :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
-           :certname, :image_id, :image_name, :created_at, :updated_at,
-           :last_compile, :global_status, :global_status_label, :uptime_seconds
+  :sp_mac, :sp_ip, :sp_name, :domain_id, :domain_name, :architecture_id, :architecture_name, :operatingsystem_id, :operatingsystem_name,
+  :subnet_id, :subnet_name, :subnet6_id, :subnet6_name, :sp_subnet_id, :ptable_id, :ptable_name, :medium_id, :medium_name, :pxe_loader,
+  :build, :comment, :disk, :installed_at, :model_id, :hostgroup_id, :owner_id, :owner_name, :owner_type,
+  :enabled, :managed, :use_image, :image_file, :uuid,
+  :compute_resource_id, :compute_resource_name,
+  :compute_profile_id, :compute_profile_name, :capabilities, :provision_method,
+  :certname, :image_id, :image_name, :created_at, :updated_at,
+  :last_compile, :global_status, :global_status_label, :uptime_seconds
 attributes :organization_id, :organization_name
 attributes :location_id, :location_name
 

@@ -16,11 +16,11 @@ module Nic
     before_destroy :not_required_interface
 
     validate :mac_uniqueness,
-             :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
+      :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
               :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?)}
     validate :validate_mac_is_unicast,
-              :if => Proc.new { |nic| nic.managed? && !nic.virtual? }
+      :if => Proc.new { |nic| nic.managed? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
     validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
@@ -79,9 +79,9 @@ module Nic
 
     class Jail < ::Safemode::Jail
       allow :managed?, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
-            :link, :tag, :domain, :vlanid, :mtu, :bond_options, :attached_devices, :mode,
-            :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
-            :children_mac_addresses, :nic_delay, :fqdn, :shortname
+        :link, :tag, :domain, :vlanid, :mtu, :bond_options, :attached_devices, :mode,
+        :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
+        :children_mac_addresses, :nic_delay, :fqdn, :shortname
     end
 
     # include STI inheritance column in audits

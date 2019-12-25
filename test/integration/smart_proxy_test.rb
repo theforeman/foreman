@@ -61,13 +61,13 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
 
     test 'show page passes subject into pagelets' do
       Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
-                                                          :name => "VisibleTab",
-                                                          :partial => "/test",
-                                                          :onlyif => Proc.new { |subject| subject.has_feature? "DHCP" })
+        :name => "VisibleTab",
+        :partial => "/test",
+        :onlyif => Proc.new { |subject| subject.has_feature? "DHCP" })
       Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
-                                                          :name => "HiddenTab",
-                                                          :partial => "/test",
-                                                          :onlyif => Proc.new { |subject| subject.has_feature? "TFTP" })
+        :name => "HiddenTab",
+        :partial => "/test",
+        :onlyif => Proc.new { |subject| subject.has_feature? "TFTP" })
       proxy = smart_proxies(:one)
       visit smart_proxy_path(proxy)
       assert page.has_link?("VisibleTab")

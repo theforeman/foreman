@@ -108,9 +108,9 @@ module PuppetRelatedHelper
     if host.try(:puppet_proxy)
       [{ :action => button_group(
         link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
-                              :disabled => !Setting[:puppetrun],
-                              :class => 'btn btn-default',
-                              :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))),
+          :disabled => !Setting[:puppetrun],
+          :class => 'btn btn-default',
+          :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))),
          :priority => 250 }]
     else
       []

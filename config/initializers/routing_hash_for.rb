@@ -16,11 +16,11 @@ module ActionDispatch
               inner_options = nil
               inner_options = args.pop if args.last.is_a? Hash
               helper.send(:handle_positional_args,
-                          {},
-                          inner_options || {},
-                          args,
-                          opts.merge(:use_route => route_key),
-                          route.segment_keys.uniq)
+                {},
+                inner_options || {},
+                args,
+                opts.merge(:use_route => route_key),
+                route.segment_keys.uniq)
             end
           end
         end

@@ -154,8 +154,8 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
-               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
-               failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
+        "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
+        failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
     redirect_back_or_to hosts_path
   end
@@ -169,8 +169,8 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
-               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
-               errors.count) % {:proxy_type => proxy_type, :host_names => errors.map {|h, err| "#{h} (#{err})"}.to_sentence}
+        "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
+        errors.count) % {:proxy_type => proxy_type, :host_names => errors.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
   end
 

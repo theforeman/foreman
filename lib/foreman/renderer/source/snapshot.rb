@@ -22,8 +22,8 @@ module Foreman
 
           def template_path(template)
             File.join(fetch_metadata(template.template, :model, 'undefined'),
-                      fetch_metadata(template.template, :kind, 'undefined'),
-                      template.name)
+              fetch_metadata(template.template, :kind, 'undefined'),
+              template.name)
           end
 
           private

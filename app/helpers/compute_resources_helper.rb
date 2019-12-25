@@ -90,11 +90,11 @@ module ComputeResourcesHelper
     btn_class = success ? 'btn-success' : 'btn-default'
     spinner_class = success ? 'spinner-inverse' : nil
     spinner_button_f(f, caption, "tfm.computeResource.testConnection(this)",
-                     :id => 'test_connection_button',
-                     :spinner_id => 'test_connection_indicator',
-                     :class => btn_class,
-                     :spinner_class => spinner_class,
-                     :'data-url' => test_connection_compute_resources_path)
+      :id => 'test_connection_button',
+      :spinner_id => 'test_connection_indicator',
+      :class => btn_class,
+      :spinner_class => spinner_class,
+      :'data-url' => test_connection_compute_resources_path)
   end
 
   def load_button_f(f, success, failure_caption)
@@ -108,8 +108,8 @@ module ComputeResourcesHelper
 
   def http_proxy_field(f)
     select_f(f, :http_proxy_id, HttpProxy.all, :id, :name,
-                           {:include_blank => true },
-                           { :label => _("HTTP Proxy") }
+      {:include_blank => true },
+      { :label => _("HTTP Proxy") }
     )
   end
 end

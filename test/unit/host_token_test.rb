@@ -24,11 +24,11 @@ class HostTokenTest < ActiveSupport::TestCase
       org = FactoryBot.create :organization
       loc = FactoryBot.create :location
       template = FactoryBot.build :provisioning_template,
-                                    :template_kind_name => 'PXELinux',
-                                    :template => "<%= foreman_url('provision') %>",
-                                    :organizations => [org], :locations => [loc]
+        :template_kind_name => 'PXELinux',
+        :template => "<%= foreman_url('provision') %>",
+        :organizations => [org], :locations => [loc]
       os = FactoryBot.create(:debian7_0, :with_associations, :with_os_defaults,
-                              :provisioning_templates => [template])
+        :provisioning_templates => [template])
       FactoryBot.create :host, :managed, :build => true, :operatingsystem => os,
                                 :organization => org, :location => loc
     end
