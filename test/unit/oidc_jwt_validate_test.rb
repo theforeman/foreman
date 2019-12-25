@@ -6,7 +6,6 @@ require 'jwt'
 class OidcJwtValidateTest < ActiveSupport::TestCase
   context '#decoded_payload?' do
     def setup
-      skip "SSO feature is not available for Ruby < 2.4.0" unless RUBY_VERSION >= '2.4'
       @jwk ||= JWT::JWK.new(OpenSSL::PKey::RSA.new(2048))
       exp = Time.now.to_i + 4 * 3600
       payload, headers = { "name": "jwt token", "iat": 1557224758, "exp": exp, "typ": "Bearer", "aud": "rest-client", "iss": "127.0.0.1"}, { kid: @jwk.kid }
