@@ -1,6 +1,12 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { date, boolean, select, withKnobs } from '@storybook/addon-knobs';
+import {
+  storiesOf,
+  date,
+  boolean,
+  select,
+  withKnobs,
+} from '@theforeman/stories';
+
 import IsoDate from './IsoDate';
 import LongDateTime from './LongDateTime';
 import RelativeDateTime from './RelativeDateTime';
@@ -10,7 +16,7 @@ import Code from '../../../../../../stories/components/Code';
 import Story from '../../../../../../stories/components/Story';
 import Text from '../../../../../../stories/components/Text';
 
-storiesOf('Components/Common', module)
+storiesOf('Components|Common', module)
   .addDecorator(withKnobs)
   .add('Dates', () => {
     const now = new Date();

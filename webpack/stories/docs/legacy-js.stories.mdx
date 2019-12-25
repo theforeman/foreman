@@ -1,3 +1,13 @@
+import { Meta } from '@theforeman/stories';
+import ForemanFrontendDiagram from './images/foreman-frontend-infra.png';
+
+<Meta
+  title="Introduction|Legacy JS"
+  parameters={{
+    storyWeight: 80,
+  }}
+/>
+
 # Legacy JS
 
 Foreman's legacy javascript is based on ruby on rails assets pipeline and located in `assets/javascripts`
@@ -7,12 +17,15 @@ New features are most welcome on Webpack, but you can still get data directly fr
 > ⚠️ **Warning**: Do not alter the state manually, only via actions
 > ⚠️ **Warning**: Avoid changing the actual DOM with react
 
+<img src={ForemanFrontendDiagram} alt="Foreman Frontend Infrastructure" />
+
 ### Access webpack's javascript
+
 In order to access new js logic in old js files, we created a global object -`tfm`, which contains a set of functions and located in `/webpack/assets/javascripts/bundle.js`
 Please use this object instead of using the `window` object directly.
 
-
 ### How to invoke an action
+
 Import the desired action in `/foreman_actions` file
 dispatch the action in a legacy js file:
 
@@ -25,9 +38,11 @@ tfm.store.dispatch('actionName', arg1, arg2);
 With `observeStore` you can listen for changes in the store:
 
 ```javascript
- tfm.store.observeStore('notifications.items', tfm.doSomething);
- ```
+tfm.store.observeStore('notifications.items', tfm.doSomething);
+```
+
 `observeStore` accepts two parameters:
+
 1. the part of the store to be observed.
 2. a function to run when a change is detected.
 
@@ -35,13 +50,13 @@ With `observeStore` you can listen for changes in the store:
 const doSomething = (items, unsubscribe) => {
   if (items.length) {
     doSomething();
-  }
-  else {
+  } else {
     unsubscribe();
   }
-}
-
+};
 ```
+
 This function has two parameters as well:
+
 1. the observed store.
 2. an unsubscribe function to stop the observation (optional).

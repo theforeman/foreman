@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import FactChart from '.';
@@ -15,7 +15,7 @@ const mockStore = configureMockStore([thunk]);
 
 const dataProp = { id: 1, title: 'test title' };
 
-storiesOf('Page chunks/FactChartModal', module)
+storiesOf('Page chunks|FactChartModal', module)
   .add('ModalClosed', () => (
     <Story>
       <FactChart

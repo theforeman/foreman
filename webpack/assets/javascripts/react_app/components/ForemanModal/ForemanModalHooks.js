@@ -20,7 +20,7 @@ export const useForemanModal = ({ id, open = false }) => {
 
   useEffect(() => {
     if (initialModalState === true) boundSetModalOpen();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     modalOpen,

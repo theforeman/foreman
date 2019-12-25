@@ -1,11 +1,16 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { boolean, number, withKnobs } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
+import {
+  storiesOf,
+  boolean,
+  number,
+  withKnobs,
+  action,
+} from '@theforeman/stories';
+
 import BreadcrumbBar from './BreadcrumbBar';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/BreadcrumbBar', module)
+storiesOf('Components|BreadcrumbBar', module)
   .addDecorator(withKnobs)
   .add('With open switcher', () => (
     <Story>

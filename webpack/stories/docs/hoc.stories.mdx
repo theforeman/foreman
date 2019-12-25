@@ -1,0 +1,91 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|HOCs"
+  parameters={{
+    storyWeight: 30,
+  }}
+/>
+
+# Higher Order Components
+
+A higher-order component (HOC) is an advanced technique in React for reusing component logic. We have created several HOCs which makes it easier to write, read and maintain new code.
+
+## `withRenderHandler({ Component, LoadingComponent, ErrorComponent, EmptyComponent})`
+
+This HOC help us get rid of conditional rendering inside a component.
+It renders the right component based on its state
+
+the following root Component props are required
+`{ isLoading, hasData, hasError }`
+
+If the default Error and Empty Components are used
+the following props are also required:
+`{ message: { type, text }}`
+
+Here we can see all the optional states and their chosen view.
+
+| isLoading | hasData | hasError | VIEW          | Comments                                                                                                                                           |
+| --------- | ------- | -------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TRUE💚    | FALSE🔴 | FALSE🔴  | **Loading**   | Initial Loading **OR** after Message                                                                                                               |
+| FALSE🔴   | TRUE💚  | FALSE🔴  | **Component** | Show Data                                                                                                                                          |
+| TRUE💚    | TRUE💚  | FALSE🔴  | **Component** | Outdated data exists, should not show loading to avoid flickering so we still show the component with the outdated data until the new data arrives |
+| FALSE🔴   | FALSE🔴 | FALSE🔴  | **Empty**     | query returned 0 results, this is not an error, and we display a message                                                                           |
+| FALSE🔴   | FALSE🔴 | TRUE💚   | **Error**     | query failed, and we display a message                                                                                                             |
+
+### Example
+
+```js
+// before
+const Statistics = ({ isLoading, hasError, hasData, statisticsMeta }) => {
+  if (isLoading && !hasData) return <StatisticsLoadingPage />;
+
+  if (hasError) return <StatisticsErrorPage />;
+
+  if (hasData) return <StatisticsChartsList data={statisticsMeta} />;
+
+  return StatisticsEmptyPage;
+};
+
+export default Statistics;
+```
+
+```js
+// after
+const Statistics = ({ statisticsMeta }) => (
+  <StatisticsChartsList data={statisticsMeta} />
+);
+
+export default withRenderHandler({
+  Component: Statistics,
+  // Empty, Error, and Loading has a default Component if not received
+});
+```
+
+## `callOnMount(callback(props))`
+
+This HOC runs a function on the initial mount of the component using useEffect
+
+### Example
+
+```js
+// export connected component
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  callOnMount(({ getStatisticsMeta }) => getStatisticsMeta())
+)(StatisticsPage);
+```
+
+## `callOnPopState(callback(props))`
+
+This HOC runs a function onPopState if search query has changed, assuming the Page is wrapped withRouter
+
+### Example
+
+```js
+// export connected component
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  callOnPopState(({ getStatisticsOnPop }) => getStatisticsOnPop())
+)(StatisticsPage);
+```

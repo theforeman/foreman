@@ -1,29 +1,22 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { Grid, Row, Col } from 'patternfly-react';
 import DateTimePicker from './DateTimePicker';
-import Story from '../../../../../../stories/components/Story';
 
-storiesOf('Components/DateTimePicker', module).add('DateTimePicker', () => (
-  <Story>
-    <div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <label>Date Time picker</label>
-      <div className="row">
-        <div className="col-md-5">
-          <DateTimePicker />
-        </div>
-      </div>
-    </div>
-  </Story>
-));
+export default {
+  title: 'Components|DateTimePicker',
+  component: DateTimePicker,
+  parameters: {
+    centered: { disable: true },
+  },
+};
+
+export const useDateTimePicker = () => (
+  <Grid fluid style={{ paddingTop: '300px' }}>
+    <Row>
+      <Col mdOffset={1} md={5}>
+        <label>Date Time picker</label>
+        <DateTimePicker />
+      </Col>
+    </Row>
+  </Grid>
+);

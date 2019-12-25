@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import { Grid, Row } from 'patternfly-react';
 import { Formik } from 'formik';
 import RadioButtonGroup from './RadioButtonGroup';
@@ -48,7 +48,7 @@ CustomSelect.propTypes = {
 };
 registerInputComponent('ownInput', CustomSelect);
 
-storiesOf('Components/Form', module)
+storiesOf('Components|Form', module)
   .addDecorator(storeDecorator)
   .add('Radio Button Group', () => (
     <Story>

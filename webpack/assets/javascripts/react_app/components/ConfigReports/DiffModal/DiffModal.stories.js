@@ -1,11 +1,16 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { boolean, withKnobs, select } from '@storybook/addon-knobs';
-import { action } from '@storybook/addon-actions';
+import {
+  storiesOf,
+  boolean,
+  withKnobs,
+  select,
+  action,
+} from '@theforeman/stories';
+
 import DiffModal from './DiffModal';
 import Story from '../../../../../../stories/components/Story';
 
-storiesOf('Components/Diff', module)
+storiesOf('Components|Diff', module)
   .addDecorator(withKnobs)
   .add('DiffModal', () => (
     <Story>

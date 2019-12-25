@@ -1,10 +1,10 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import ChartBox from './ChartBox';
 import mockStoryData from './ChartBox.fixtures';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components/Charts', module)
+storiesOf('Components|Charts', module)
   .add('Loading', () => (
     <Story narrow>
       <ChartBox

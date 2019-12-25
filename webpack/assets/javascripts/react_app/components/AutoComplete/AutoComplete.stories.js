@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import axios from 'axios';
 import { MockAdapter } from '@theforeman/test';
 import Store from '../../redux';
@@ -8,7 +8,7 @@ import { AutoCompleteProps, API } from './AutoComplete.fixtures';
 import Story from '../../../../../stories/components/Story';
 import AutoComplete from './index';
 
-storiesOf('Components/AutoComplete', module).add(
+storiesOf('Components|AutoComplete', module).add(
   'AutoComplete with mocked data',
   () => {
     const someAutoCompletePath = /^models\/auto_complete_search.*/;

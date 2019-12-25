@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'patternfly-react';
 import { useDispatch, connect } from 'react-redux';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '@theforeman/stories';
 import {
   setModalOpen as setModalOpenAction,
   setModalClosed as setModalClosedAction,
@@ -14,7 +14,7 @@ import { useForemanModal } from './ForemanModalHooks';
 import Story from '../../../../../stories/components/Story';
 
 // eslint-disable react/jsx-curly-brace-presence
-storiesOf('Components/ForemanModal/ForemanModal Usage', module)
+storiesOf('Components|ForemanModal/ForemanModal Usage', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('ForemanModal Basics', () =>
     // using createElement here so that hooks work in stories
@@ -68,7 +68,7 @@ storiesOf('Components/ForemanModal/ForemanModal Usage', module)
     })
   );
 
-storiesOf('Components/ForemanModal/ForemanModal Usage', module)
+storiesOf('Components|ForemanModal/ForemanModal Usage', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With useForemanModal Hook', () =>
     // using createElement here so that hooks work in stories
@@ -100,7 +100,7 @@ storiesOf('Components/ForemanModal/ForemanModal Usage', module)
     })
   );
 
-storiesOf('Components/ForemanModal/ForemanModal Usage', module)
+storiesOf('Components|ForemanModal/ForemanModal Usage', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With react-redux hooks', () =>
     // using createElement here so that hooks work in stories
@@ -173,7 +173,7 @@ storiesOf('Components/ForemanModal/ForemanModal Usage', module)
     })
   );
 
-storiesOf('Components/ForemanModal/ForemanModal Usage', module)
+storiesOf('Components|ForemanModal/ForemanModal Usage', module)
   .addDecorator(storeDecorator) // add Redux store to story
   .add('With connected component', () => {
     const FmContainer = ({ setModalOpen, setModalClosed, modalOpen }) => (
