@@ -6,5 +6,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'sass-rails', '~> 5.0'
   # this one is a dependecy for x-editable-rails
-  gem 'coffee-rails', '~> 5.0.0'
+  case SETTINGS[:rails]
+  when '5.2'
+    gem 'coffee-rails', '~> 4.2.2'
+  when '6.0'
+    gem 'coffee-rails', '~> 5.0.0'
+  end
 end
