@@ -97,26 +97,7 @@ function add_child_node(item) {
   var new_id = new Date().getTime();
   content = fix_template_names(content, assoc, new_id);
   var field = '';
-  if (assoc == 'lookup_keys') {
-    $(
-      '#smart_vars .smart-var-tabs .active, #smart_vars .stacked-content .active'
-    ).removeClass('active');
-    var pill =
-      "<li class='active'><a data-toggle='pill' href='#new_" +
-      new_id +
-      "' id='pill_new_" +
-      new_id +
-      "'><div class='clip'>" +
-      __('new') +
-      "</div><span class='close pull-right'>&times;</span></a></li>";
-    $('#smart_vars .smart-var-tabs').prepend(pill);
-    field = $('#smart_vars .stacked-content').prepend(
-      $(content)
-        .addClass('active')
-        .prop('id', 'new_' + new_id)
-    );
-    $('#smart_vars .smart-var-tabs li.active a').show('highlight', 500);
-  } else if (assoc == 'lookup_values') {
+  if (assoc == 'lookup_values') {
     field = $(item)
       .parent()
       .find('tbody')
@@ -148,28 +129,6 @@ function remove_child_node(item) {
   $(item)
     .closest('.fields')
     .hide();
-  if (
-    $(item)
-      .parent()
-      .hasClass('fields')
-  ) {
-    var pill_id = '#pill_' + $(item).closest('.fields')[0].id;
-    var pill = $(pill_id);
-    var undo_link = $("<a href='#'>" + pill.html() + '</a>').attr(
-      'data-pill',
-      pill_id
-    );
-
-    pill.parent().hide();
-    undo_link.on('click', function() {
-      undo_remove_child_node(this);
-    });
-    undo_link.find('span').remove();
-    $('.lookup-keys-container:visible')
-      .find('.undo-smart-vars')
-      .append(undo_link)
-      .show();
-  }
   $(item)
     .closest('form')
     .trigger('nested:fieldRemoved');
@@ -183,34 +142,6 @@ function delete_child_node(item) {
   $(item)
     .closest('form')
     .trigger('nested:fieldRemoved');
-  return false;
-}
-
-function undo_remove_child_node(item) {
-  var container = $('.lookup-keys-container:visible');
-  var link = container.find($(item).attr('data-pill'));
-  var fields = container.find(link.attr('href'));
-
-  var hidden_field = fields.find('input[type=hidden]').first()[0];
-  if (hidden_field) {
-    hidden_field.value = '0';
-  }
-
-  container.find('.smart-var-tabs li.active').removeClass('active');
-  container
-    .find('.fields.active')
-    .hide()
-    .removeClass('active');
-  fields.show().addClass('active');
-  link
-    .parent()
-    .show()
-    .addClass('active');
-
-  $(item).remove();
-  if (container.find('.undo-smart-vars a').length == 0) {
-    container.find('.undo-smart-vars').hide();
-  }
   return false;
 }
 
