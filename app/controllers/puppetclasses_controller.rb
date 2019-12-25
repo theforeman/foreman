@@ -90,8 +90,4 @@ class PuppetclassesController < ApplicationController
         super
     end
   end
-
-  def resource_scope
-    super.includes(:lookup_keys => [:lookup_values])
-  end
 end
