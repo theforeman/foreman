@@ -175,8 +175,8 @@ class NotificationRecipientsControllerTest < ActionController::TestCase
 
   def add_notification(group = 'Testing')
     type = FactoryBot.create(:notification_blueprint,
-                              :group => group,
-                              :message => 'this test just executed successfully')
+      :group => group,
+      :message => 'this test just executed successfully')
     FactoryBot.create(:notification, :notification_blueprint => type, :audience => 'global')
   end
 

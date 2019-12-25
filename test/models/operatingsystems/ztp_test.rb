@@ -6,7 +6,7 @@ class ZTPTest < ActiveSupport::TestCase
   test "Huawei ZTP parameter generation" do
     h = FactoryBot.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
           :interfaces => [ FactoryBot.build(:nic_primary_and_provision,
-                                             :ip => '2.3.4.10') ],
+            :ip => '2.3.4.10') ],
           :architecture => architectures(:ASIC),
           :operatingsystem => operatingsystems(:vrp5),
           :pxe_loader => 'None',

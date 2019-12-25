@@ -29,7 +29,7 @@ namespace :db do
       encryptable_resource.encryptable_fields.each do |field|
         str = encryptable_resource.read_attribute(field.to_sym)
         encryptable_resource.update_column(field.to_sym,
-                                       encryptable_resource.send("#{action}_field", str))
+          encryptable_resource.send("#{action}_field", str))
       end
     end
   end

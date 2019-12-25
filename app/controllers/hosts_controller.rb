@@ -475,8 +475,8 @@ class HostsController < ApplicationController
     all_fails.each_pair do |key, values|
       unless values.empty?
         message << ((n_("%{config_type} rebuild failed for host: %{host_names}.",
-                        "%{config_type} rebuild failed for hosts: %{host_names}.",
-                         values.count) % {:config_type => _(key), :host_names => values.to_sentence})) + " "
+          "%{config_type} rebuild failed for hosts: %{host_names}.",
+          values.count) % {:config_type => _(key), :host_names => values.to_sentence})) + " "
       end
     end
 
@@ -821,8 +821,8 @@ class HostsController < ApplicationController
       end
     else
       error n_("The %{proxy_type} proxy could not be set for host: %{host_names}.",
-               "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
-               failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
+        "The %{proxy_type} puppet ca proxy could not be set for hosts: %{host_names}",
+        failed_hosts.count) % {:proxy_type => proxy_type, :host_names => failed_hosts.map {|h, err| "#{h} (#{err})"}.to_sentence}
     end
     redirect_back_or_to hosts_path
   end

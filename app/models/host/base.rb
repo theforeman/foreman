@@ -90,15 +90,15 @@ module Host
     end
 
     delegate :ip, :ip6, :mac,
-             :subnet, :subnet_id, :subnet_name,
-             :subnet6, :subnet6_id, :subnet6_name,
-             :domain, :domain_id, :domain_name,
-             :hostname, :fqdn, :shortname,
-             :to => :primary_interface, :allow_nil => true
+      :subnet, :subnet_id, :subnet_name,
+      :subnet6, :subnet6_id, :subnet6_name,
+      :domain, :domain_id, :domain_name,
+      :hostname, :fqdn, :shortname,
+      :to => :primary_interface, :allow_nil => true
     delegate :name=, :ip=, :ip6=, :mac=,
-             :subnet=, :subnet_id=, :subnet_name=,
-             :subnet6=, :subnet6_id=, :subnet6_name=,
-             :domain=, :domain_id=, :domain_name=, :to => :primary_interface
+      :subnet=, :subnet_id=, :subnet_name=,
+      :subnet6=, :subnet6_id=, :subnet6_name=,
+      :domain=, :domain_id=, :domain_name=, :to => :primary_interface
 
     attr_writer :updated_virtuals
     def updated_virtuals

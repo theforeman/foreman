@@ -56,7 +56,7 @@ class ReportTest < ActiveSupport::TestCase
 
     test 'returns visible reports for filtered user' do
       setup_user('view', 'hosts',
-                 "hostgroup_id = #{@target_host.hostgroup_id}")
+        "hostgroup_id = #{@target_host.hostgroup_id}")
       assert_equal @target_reports.map(&:id).sort, Report.my_reports.map(&:id).sort
     end
 

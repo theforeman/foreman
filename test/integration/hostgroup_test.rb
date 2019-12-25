@@ -40,8 +40,8 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   test 'edit shows errors on invalid lookup values' do
     group = FactoryBot.create(:hostgroup, :with_puppetclass)
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                    :key_type => 'integer', :default_value => true, :path => "hostgroup\ncomment",
-                                    :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => false})
+      :key_type => 'integer', :default_value => true, :path => "hostgroup\ncomment",
+      :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => false})
 
     visit edit_hostgroup_path(group)
     assert page.has_link?('Parameters', :href => '#params')

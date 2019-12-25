@@ -18,8 +18,8 @@ class LookupKey < ApplicationRecord
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values,
-                                :reject_if => :reject_invalid_lookup_values,
-                                :allow_destroy => true
+    :reject_if => :reject_invalid_lookup_values,
+    :allow_destroy => true
 
   alias_attribute :value, :default_value
 

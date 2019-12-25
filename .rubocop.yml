@@ -127,3 +127,7 @@ Style/TrailingCommaInHashLiteral:
 
 Style/NumericPredicate:
   Enabled: false
+
+Layout/AlignArguments:
+  EnforcedStyle: with_fixed_indentation
+  IndentationWidth: 2

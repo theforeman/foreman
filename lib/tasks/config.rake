@@ -32,20 +32,20 @@ task :config => :environment do
           Options:
         BANNER
         opt.on("-k",
-               "--key KEY",
-               "If not specified, all keys are displayed") do |val|
+          "--key KEY",
+          "If not specified, all keys are displayed") do |val|
           @key = val
         end
 
         opt.on("-v",
-               "--value VALUE",
-               "Set the value. The key must be specified. Complex values (hashes, arrays) are expected to be JSON encoded.") do |val|
+          "--value VALUE",
+          "Set the value. The key must be specified. Complex values (hashes, arrays) are expected to be JSON encoded.") do |val|
           set_options_key_value(val)
         end
 
         opt.on("-u",
-               "--unset",
-               "Unset the key. The key must be specified") do
+          "--unset",
+          "Unset the key. The key must be specified") do
           set_options_key_value(:unset)
         end
 
@@ -55,8 +55,8 @@ task :config => :environment do
         end
 
         opt.on("-n",
-               "--dry-run",
-               "Don't change thd configuration. Success if no change is needed.") do
+          "--dry-run",
+          "Don't change thd configuration. Success if no change is needed.") do
           @dry = true
         end
       end

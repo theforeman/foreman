@@ -12,12 +12,12 @@ module Menu
       Manager.map :side_menu do |menu|
         menu.sub_menu :user_menu, :caption => N_('User'), :icon => 'fa fa-user' do
           menu.item :my_account,
-                    :caption => N_('My Account'),
-                    :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
+            :caption => N_('My Account'),
+            :url_hash => {:controller => '/users', :action => 'edit', :id => Proc.new { User.current.id }}
           menu.item :logout,
-                    :caption => N_('Log Out'),
-                    :html => {:'data-method' => :post},
-                    :url_hash => {:controller => '/users', :action => 'logout'}
+            :caption => N_('Log Out'),
+            :html => {:'data-method' => :post},
+            :url_hash => {:controller => '/users', :action => 'logout'}
         end
       end
 
@@ -93,8 +93,8 @@ module Menu
       Manager.map :labs_menu do |menu|
         menu.sub_menu :lab_features_menu, :caption => N_('Lab Features'), :icon => 'fa fa-flask' do
           menu.item :host_wizard,
-          :caption => 'Host Wizard',
-          :url => '/host_wizard'
+            :caption => 'Host Wizard',
+            :url => '/host_wizard'
         end
       end
 
@@ -102,11 +102,11 @@ module Menu
         Manager.map :devel_menu do |menu|
           menu.sub_menu :devel_tools, :caption => 'Toolbox', :icon => 'pficon pficon-maintenance' do
             menu.item :graphiql,
-                      :caption => 'GraphiQL',
-                      :url => '/graphiql',
-                      :engine => ::GraphiQL::Rails::Engine,
-                      :url_hash => { :controller => 'graphiql/rails/editors',
-                                     :action => 'show' }
+              :caption => 'GraphiQL',
+              :url => '/graphiql',
+              :engine => ::GraphiQL::Rails::Engine,
+              :url_hash => { :controller => 'graphiql/rails/editors',
+                             :action => 'show' }
           end
         end
       end

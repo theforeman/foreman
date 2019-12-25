@@ -169,7 +169,7 @@ class FactValueTest < ActiveSupport::TestCase
       context 'limited view permissions' do
         setup do
           setup_user('view', 'hosts',
-                     "hostgroup_id = #{target_host.hostgroup_id}")
+            "hostgroup_id = #{target_host.hostgroup_id}")
 
           as_admin do
             target_host.location = @locs.last

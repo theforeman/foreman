@@ -144,7 +144,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
       @virtual = FactoryBot.build(:nic_base, :virtual => true)
 
       @host = FactoryBot.build(:host,
-                                :compute_resource => @cr)
+        :compute_resource => @cr)
       @host.interfaces = [ @virtual, @physical ]
       @host.vm = mock("vm")
       @host.vm.stubs(:interfaces).returns([])
@@ -233,9 +233,9 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
   describe 'host on compute resource' do
     let(:host) do
       FactoryBot.build(:host,
-                        :managed,
-                        :on_compute_resource,
-                        :with_compute_profile)
+        :managed,
+        :on_compute_resource,
+        :with_compute_profile)
     end
 
     test 'should queue compute orchestration' do
@@ -254,23 +254,23 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
     let(:tax_location) { FactoryBot.create(:location) }
     let(:subnet6) do
       FactoryBot.build(:subnet_ipv6,
-                        :network => '2001:db8::',
-                        :mask => 'ffff:ffff:ffff:ffff::',
-                        :dns => FactoryBot.create(:dns_smart_proxy),
-                        :organizations => [tax_organization],
-                        :locations => [tax_location],
-                        :ipam => IPAM::MODES[:eui64])
+        :network => '2001:db8::',
+        :mask => 'ffff:ffff:ffff:ffff::',
+        :dns => FactoryBot.create(:dns_smart_proxy),
+        :organizations => [tax_organization],
+        :locations => [tax_location],
+        :ipam => IPAM::MODES[:eui64])
     end
 
     let(:host) do
       FactoryBot.build(:host,
-                        :managed,
-                        :on_compute_resource,
-                        :with_compute_profile,
-                        :subnet6 => subnet6,
-                        :organization => tax_organization,
-                        :location => tax_location,
-                        :mac => nil)
+        :managed,
+        :on_compute_resource,
+        :with_compute_profile,
+        :subnet6 => subnet6,
+        :organization => tax_organization,
+        :location => tax_location,
+        :mac => nil)
     end
 
     test 'host gets an ip address from ipam' do

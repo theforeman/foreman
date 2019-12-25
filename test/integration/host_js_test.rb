@@ -95,8 +95,8 @@ class HostJSTest < IntegrationTestWithJavascript
     test 'class parameters and overrides are displayed correctly for strings' do
       host = FactoryBot.create(:host, :with_puppetclass)
       FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'string', :default_value => true, :path => "fqdn",
-                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+        :key_type => 'string', :default_value => true, :path => "fqdn",
+        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
@@ -126,8 +126,8 @@ class HostJSTest < IntegrationTestWithJavascript
     test 'can override puppetclass lookup values' do
       host = FactoryBot.create(:host, :with_puppetclass)
       FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'string', :default_value => "true", :path => "fqdn",
-                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => "false"})
+        :key_type => 'string', :default_value => "true", :path => "fqdn",
+        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => "false"})
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -338,11 +338,11 @@ class HostJSTest < IntegrationTestWithJavascript
       user = FactoryBot.create(:user, :with_mail)
       user.roles << role
       FactoryBot.create(:filter,
-                         :permissions => Permission.where(:name => ['create_hosts']),
-                         :role => role)
+        :permissions => Permission.where(:name => ['create_hosts']),
+        :role => role)
       FactoryBot.create(:filter,
-                         :permissions => Permission.where(:name => ['create_params', 'view_params']),
-                         :role => role)
+        :permissions => Permission.where(:name => ['create_params', 'view_params']),
+        :role => role)
 
       FactoryBot.create(:common_parameter, :name => "a_parameter")
 
@@ -350,8 +350,8 @@ class HostJSTest < IntegrationTestWithJavascript
 
       host = FactoryBot.create(:host, :with_puppetclass)
       FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                         :key_type => 'string', :default_value => true, :path => "fqdn",
-                         :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+        :key_type => 'string', :default_value => true, :path => "fqdn",
+        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
       visit new_host_path
       assert page.has_link?('Parameters', :href => '#params')
@@ -435,7 +435,7 @@ class HostJSTest < IntegrationTestWithJavascript
     test 'user without edit_params permission can save host with params' do
       host = FactoryBot.create(:host, :with_puppetclass)
       FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                         :with_override, :key_type => 'string',
+        :with_override, :key_type => 'string',
                          :default_value => 'string1', :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'string2' })
@@ -456,8 +456,8 @@ class HostJSTest < IntegrationTestWithJavascript
     test 'shows errors on invalid lookup values' do
       host = FactoryBot.create(:host, :with_puppetclass)
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
-                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
+        :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
+        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
 
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
@@ -499,8 +499,8 @@ class HostJSTest < IntegrationTestWithJavascript
     test 'class parameters and overrides are displayed correctly for booleans' do
       host = FactoryBot.create(:host, :with_puppetclass)
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :key_type => 'boolean', :default_value => 'false', :path => "fqdn",
-                                      :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'false'})
+        :key_type => 'boolean', :default_value => 'false', :path => "fqdn",
+        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'false'})
       visit edit_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
@@ -748,14 +748,14 @@ class HostJSTest < IntegrationTestWithJavascript
 
   def subnet_and_domain_are_selected(modal, domain)
     modal.assert_selector("#interfaceModal #s2id_host_interfaces_attributes_0_domain_id .select2-chosen",
-                          text: domain.name)
+      text: domain.name)
     modal.assert_selector('#interfaceModal #host_interfaces_attributes_0_subnet_id option',
-                          visible: false,
-                          count: domain.subnets.count + 1) # plus one empty
+      visible: false,
+      count: domain.subnets.count + 1) # plus one empty
     domain.subnets.each do |subnet|
       modal.assert_selector('#interfaceModal #host_interfaces_attributes_0_subnet_id option',
-                            visible: false,
-                            text: subnet.to_label)
+        visible: false,
+        text: subnet.to_label)
     end
   end
 end

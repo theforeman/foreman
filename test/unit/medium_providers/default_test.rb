@@ -46,9 +46,9 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
     additional_media = [{'name' => 'EPEL', 'url' => 'http://yum.example.com/epel'}]
     host = FactoryBot.build_stubbed(:host, :managed, :redhat)
     FactoryBot.create(:host_parameter,
-                      host: host,
-                      name: 'additional_media',
-                      value: additional_media.to_json)
+      host: host,
+      name: 'additional_media',
+      value: additional_media.to_json)
 
     assert_equal MediumProviders::Default.new(host).additional_media, additional_media
   end

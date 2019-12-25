@@ -27,18 +27,18 @@ module FactValuesHelper
       parameters = { :parent_fact => memo }
       url = host_parent_fact_facts_path(parameters.merge({ :host_id => host_id || value.host.name }))
       link_to(current_name, url,
-              :title => _("Show all %s children fact values") % memo)
+        :title => _("Show all %s children fact values") % memo)
     else
       link_to(current_name, fact_values_path(:search => "name = #{value_name}"),
-              :title => _("Show %s fact values for all hosts") % value_name)
+        :title => _("Show %s fact values for all hosts") % value_name)
     end
   end
 
   def show_full_fact_value(fact_value)
     content_tag(:div, :class => 'replace-hidden-value') do
       link_to_function(icon_text('plus', '', :class => 'small'), 'replace_value_control(this)',
-                       :title => _('Show full value'),
-                       :class => 'replace-hidden-value pull-right') +
+        :title => _('Show full value'),
+        :class => 'replace-hidden-value pull-right') +
           content_tag(:span, :class => 'full-value') do
             fact_value
           end

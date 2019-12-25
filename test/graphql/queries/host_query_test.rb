@@ -99,18 +99,18 @@ module Queries
     let(:owner) { FactoryBot.create(:user) }
     let(:host) do
       FactoryBot.create(:host, :managed,
-                        :dualstack,
-                        :with_environment,
-                        :with_model,
-                        :with_facts,
-                        :with_puppet,
-                        :with_puppet_ca,
-                        :on_compute_resource,
-                        :with_compute_profile,
-                        hostgroup: hostgroup,
-                        uuid: Foreman.uuid,
-                        owner: owner,
-                        last_report: Time.now)
+        :dualstack,
+        :with_environment,
+        :with_model,
+        :with_facts,
+        :with_puppet,
+        :with_puppet_ca,
+        :on_compute_resource,
+        :with_compute_profile,
+        hostgroup: hostgroup,
+        uuid: Foreman.uuid,
+        owner: owner,
+        last_report: Time.now)
     end
     let(:global_id) { Foreman::GlobalId.encode('Host', host.id) }
     let(:variables) { { id: global_id } }

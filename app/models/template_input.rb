@@ -11,8 +11,8 @@ class TemplateInput < ApplicationRecord
   VALUE_TYPE = ['plain', 'search', 'date']
 
   attr_exportable(:name, :required, :input_type, :fact_name, :variable_name, :puppet_class_name,
-                  :puppet_parameter_name, :description, :options, :advanced, :value_type,
-                  :resource_type, :default)
+    :puppet_parameter_name, :description, :options, :advanced, :value_type,
+    :resource_type, :default)
 
   belongs_to :template
 

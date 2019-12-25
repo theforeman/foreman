@@ -34,13 +34,13 @@ module LookupKeysHelper
 
   def validator_type_selector(f)
     selectable_f f, :validator_type, options_for_select(LookupKey::VALIDATOR_TYPES.map { |e| [_(e), e] }, f.object.validator_type), {:include_blank => _("None")},
-               { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
-                 :onchange => 'validatorTypeSelected(this)',
-                 :label_help => _("<dl>" +
-                   "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
-                   "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
-                   "</dl>").html_safe,
-                 :label_help_options => { :title => _("Validation types") } }
+      { :disabled => (f.object.puppet? && !f.object.override), :size => "col-md-8", :class => "without_select2",
+        :onchange => 'validatorTypeSelected(this)',
+        :label_help => _("<dl>" +
+          "<dt>List</dt> <dd>A list of the allowed values, specified in the Validator rule field.</dd>" +
+          "<dt>Regexp</dt> <dd>Validates the input with the regular expression in the Validator rule field.</dd>" +
+          "</dl>").html_safe,
+        :label_help_options => { :title => _("Validation types") } }
   end
 
   def overridable_lookup_keys(klass, obj)
@@ -87,10 +87,10 @@ module LookupKeysHelper
   def diagnostic_popover(lookup_key, matcher, inherited_value, warnings)
     description = lookup_key_description(lookup_key, matcher, inherited_value)
     popover('', description.prepend(warnings[:text]),
-            :data => { :placement => 'top' },
-            :title => _("Original value info"),
-            :icon => "info-circle",
-            :kind => "fa")
+      :data => { :placement => 'top' },
+      :title => _("Original value info"),
+      :icon => "info-circle",
+      :kind => "fa")
   end
 
   def lookup_key_description(lookup_key, matcher, inherited_value)
@@ -117,13 +117,13 @@ module LookupKeysHelper
   def override_toggle(overridden)
     return unless can_edit_params?
     link_to_function(icon_text('pencil-square-o', '', :kind => 'fa'), "override_class_param(this)",
-                     :title => _("Override this value"),
-                     :'data-tag' => 'override',
-                     :class => "btn btn-default btn-md btn-override #{'hide' if overridden}") +
+      :title => _("Override this value"),
+      :'data-tag' => 'override',
+      :class => "btn btn-default btn-md btn-override #{'hide' if overridden}") +
       link_to_function(icon_text('times', '', :kind => 'fa'), "override_class_param(this)",
-                       :title => _("Remove this override"),
-                      :'data-tag' => 'remove',
-                      :class => "btn btn-default btn-md btn-override #{'hide' unless overridden}")
+        :title => _("Remove this override"),
+       :'data-tag' => 'remove',
+       :class => "btn btn-default btn-md btn-override #{'hide' unless overridden}")
   end
 
   def hidden_toggle(hidden, hide_icon = 'eye-slash', unhide_icon = 'eye', strikethrough = false)
@@ -132,11 +132,11 @@ module LookupKeysHelper
       link_to_function(icon_text(hide_icon, '', :kind => 'fa'), "", :class => "btn btn-default btn-md btn-hide", :disabled => "disabled", :rel => "twipsy", :title => _("This value is not hidden"))
     else
       link_to_function(icon_text(unhide_icon, '', :kind => 'fa'), "input_group_hidden(this)",
-                       :title => _("Unhide this value"),
-                       :class => "btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
+        :title => _("Unhide this value"),
+        :class => "btn btn-default btn-md btn-hide #{'hide' unless hidden}") +
           link_to_function(icon_text(hide_icon, "", :class => ('btn-strike' if strikethrough).to_s, :kind => 'fa'), "input_group_hidden(this)",
-                           :title => _("Hide this value"),
-                           :class => "btn btn-default btn-md btn-hide #{'hide' if hidden}")
+            :title => _("Hide this value"),
+            :class => "btn btn-default btn-md btn-hide #{'hide' if hidden}")
     end
   end
 
@@ -147,12 +147,12 @@ module LookupKeysHelper
   def omit_check_box(lookup_key, lookup_value, disabled)
     return unless lookup_key.type == "PuppetclassLookupKey"
     check_box(lookup_value_name_prefix(lookup_key.id), :omit,
-              :value    => lookup_value.id,
-              :disabled => disabled || !can_edit_params?,
-              :onchange => "toggleOmitValue(this, 'value')",
-              :hidden   => disabled,
-              :title    => _('Omit from classification output'),
-              :checked  => lookup_value.omit)
+      :value    => lookup_value.id,
+      :disabled => disabled || !can_edit_params?,
+      :onchange => "toggleOmitValue(this, 'value')",
+      :hidden   => disabled,
+      :title    => _('Omit from classification output'),
+      :checked  => lookup_value.omit)
   end
 
   def hidden_lookup_value_fields(lookup_key, lookup_value, disabled)

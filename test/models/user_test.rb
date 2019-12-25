@@ -797,9 +797,9 @@ class UserTest < ActiveSupport::TestCase
         @ldap_server.locations = [taxonomies(:location1)]
         created_user = User.try_to_auto_create_user('foobar', 'fakepass')
         assert_equal @ldap_server.organizations.to_a,
-                     created_user.organizations.to_a
+          created_user.organizations.to_a
         assert_equal @ldap_server.locations.to_a,
-                     created_user.locations.to_a
+          created_user.locations.to_a
       end
     end
 

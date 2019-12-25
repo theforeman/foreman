@@ -298,9 +298,9 @@ class HostgroupsControllerTest < ActionController::TestCase
     setup do
       @controller.prepend_view_path File.expand_path('../static_fixtures', __dir__)
       Pagelets::Manager.add_pagelet('hostgroups/_form', :main_tabs,
-                                    :name => 'TestTab',
-                                    :id => 'my-special-id',
-                                    :partial => 'views/test')
+        :name => 'TestTab',
+        :id => 'my-special-id',
+        :partial => 'views/test')
     end
 
     test '#new renders a pagelet tab' do

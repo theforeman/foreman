@@ -32,7 +32,7 @@ module DashboardHelper
     return link_to(_('Nothing to add'), '#') unless removed_widgets.present?
     removed_widgets.sort_by {|w| w[:name] }.each do |removed_widget|
       concat(link_to_function(_(removed_widget[:name]),
-                              "tfm.dashboard.addWidget('#{removed_widget[:name]}')"))
+        "tfm.dashboard.addWidget('#{removed_widget[:name]}')"))
     end
   end
 
@@ -124,8 +124,8 @@ module DashboardHelper
       tooltip = _("Auto refresh off")
     end
     link_to(icon_text("refresh"),
-            {:auto_refresh => ((on == "on") ? "0" : "1")},
-            { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group btn-default"})
+      {:auto_refresh => ((on == "on") ? "0" : "1")},
+      { :'data-original-title' => tooltip, :rel => 'twipsy', :class => "#{on} auto-refresh btn btn-group btn-default"})
   end
 
   def widget_class_name(widget)

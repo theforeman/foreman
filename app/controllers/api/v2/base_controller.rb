@@ -49,7 +49,7 @@ module Api
       layout 'api/v2/layouts/index_layout', :only => :index
 
       helper_method :root_node_name, :metadata_total, :metadata_subtotal, :metadata_search,
-                    :metadata_order, :metadata_by, :metadata_page, :metadata_per_page
+        :metadata_order, :metadata_by, :metadata_page, :metadata_per_page
       def root_node_name
         @root_node_name ||= if Rabl.configuration.use_controller_name_as_json_root
                               controller_name.split('/').last

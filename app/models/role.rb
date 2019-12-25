@@ -66,9 +66,9 @@ class Role < ApplicationRecord
   taxonomy_join_table = :taxable_taxonomies
   has_many taxonomy_join_table.to_sym, :dependent => :destroy, :as => :taxable
   has_many :locations, -> { where(:type => 'Location') },
-           :through => taxonomy_join_table, :source => :taxonomy, :validate => false
+    :through => taxonomy_join_table, :source => :taxonomy, :validate => false
   has_many :organizations, -> { where(:type => 'Organization') },
-           :through => taxonomy_join_table, :source => :taxonomy, :validate => false
+    :through => taxonomy_join_table, :source => :taxonomy, :validate => false
 
   validates :name, :presence => true, :uniqueness => true
   validates :builtin, :inclusion => { :in => 0..2 }
@@ -333,7 +333,7 @@ class Role < ApplicationRecord
     collection = Permission.where(:name => perms).all
     if collection.size != perms.size
       raise ::Foreman::PermissionMissingException.new(N_("some permissions were not found: %s"),
-                                                      not_found_permissions(collection.pluck(:name), perms))
+        not_found_permissions(collection.pluck(:name), perms))
     end
     collection
   end

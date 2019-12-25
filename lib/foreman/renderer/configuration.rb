@@ -97,7 +97,7 @@ module Foreman
       end
 
       attr_accessor :allowed_variables, :allowed_global_settings,
-                    :allowed_generic_helpers, :allowed_host_helpers
+        :allowed_generic_helpers, :allowed_host_helpers
 
       def allowed_helpers
         allowed_generic_helpers + allowed_host_helpers

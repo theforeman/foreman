@@ -11,9 +11,9 @@ FactoryBot.define do
       after(:create) do |os, evaluator|
         os.provisioning_templates.each do |tmpl|
           FactoryBot.create(:os_default_template,
-                             :operatingsystem => os,
-                             :provisioning_template => tmpl,
-                             :template_kind => tmpl.template_kind)
+            :operatingsystem => os,
+            :provisioning_template => tmpl,
+            :template_kind => tmpl.template_kind)
         end
       end
     end

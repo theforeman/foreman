@@ -5,7 +5,7 @@
 module FindCommon
   def find_resource
     instance_variable_set("@#{resource_name}",
-                          resource_finder(resource_scope, params[:id]))
+      resource_finder(resource_scope, params[:id]))
   end
 
   def resource_finder(scope, id)

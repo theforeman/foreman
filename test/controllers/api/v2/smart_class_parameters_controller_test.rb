@@ -12,9 +12,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
   test "should get same smart class parameters in multiple environments once" do
     @env_class = FactoryBot.create(:environment_class,
-                               :puppetclass => puppetclasses(:one),
-                               :environment => environments(:testing),
-                               :puppetclass_lookup_key => lookup_keys(:complex))
+      :puppetclass => puppetclasses(:one),
+      :environment => environments(:testing),
+      :puppetclass_lookup_key => lookup_keys(:complex))
     get :index
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
@@ -25,8 +25,8 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
   test "should get smart class parameters for a specific host" do
     @host = FactoryBot.create(:host,
-                               :puppetclasses => [puppetclasses(:one)],
-                               :environment => environments(:production))
+      :puppetclasses => [puppetclasses(:one)],
+      :environment => environments(:production))
     get :index, params: { :host_id => @host.to_param }
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)
@@ -98,9 +98,9 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
 
   test "should get same smart class parameters in multiple environments once for a specific puppetclass" do
     @env_class = FactoryBot.create(:environment_class,
-                               :puppetclass => puppetclasses(:one),
-                               :environment => environments(:testing),
-                               :puppetclass_lookup_key => lookup_keys(:complex))
+      :puppetclass => puppetclasses(:one),
+      :environment => environments(:testing),
+      :puppetclass_lookup_key => lookup_keys(:complex))
     get :index, params: { :puppetclass_id => puppetclasses(:one).id }
     assert_response :success
     assert_not_nil assigns(:smart_class_parameters)

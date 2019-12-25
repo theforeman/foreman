@@ -469,9 +469,9 @@ data"
         org = FactoryBot.create(:organization, :name => 'TemplateOrg')
         loc = FactoryBot.create(:location, :name => 'TemplateLoc')
         provisioning_template = FactoryBot.create(:provisioning_template,
-                                                  :name => 'exported_template',
-                                                  :organizations => [org],
-                                                  :locations => [loc])
+          :name => 'exported_template',
+          :organizations => [org],
+          :locations => [loc])
         assert_equal org.title, provisioning_template.to_export["organizations"].first
         assert_equal loc.title, provisioning_template.to_export["locations"].first
       end

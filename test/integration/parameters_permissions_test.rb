@@ -4,9 +4,9 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     role = FactoryBot.create(:role)
     @filter = FactoryBot.create(:filter,
-                                 :permissions => Permission.where(:name => ['view_params']),
-                                 :search => 'name ~ a* or domain_name ~ example*com',
-                                 :role => role)
+      :permissions => Permission.where(:name => ['view_params']),
+      :search => 'name ~ a* or domain_name ~ example*com',
+      :role => role)
     domain_filter = FactoryBot.create(:filter, :permissions => Permission.where(:name => ['edit_domains', 'view_domains']))
 
     role.filters = [ @filter, domain_filter ]

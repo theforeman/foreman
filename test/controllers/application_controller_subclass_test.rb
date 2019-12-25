@@ -8,7 +8,7 @@ class ::TestableResourcesController < ::ApplicationController
   def index
     if params[:exception].present?
       raise ProxyAPI::ProxyException.new('url', StandardError.new('noo'),
-                                         params[:exception])
+        params[:exception])
     end
     render :plain => Time.zone.name, :status => :ok
   end

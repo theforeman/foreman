@@ -10,7 +10,7 @@ module HostOrchestrationStubs
 
   def wait_for_orchestration_requests
     has_no_selector?("#host-progress",
-                     :visible => :all,
-                     :wait => 2 * Capybara.default_max_wait_time)
+      :visible => :all,
+      :wait => 2 * Capybara.default_max_wait_time)
   end
 end

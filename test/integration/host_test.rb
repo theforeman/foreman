@@ -50,7 +50,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'correctly show hash type overrides' do
       host = FactoryBot.create(:host, :with_puppetclass)
       FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-                         :with_override, :key_type => 'hash',
+        :with_override, :key_type => 'hash',
                          :default_value => 'a: b', :path => "fqdn\ncomment",
                          :puppetclass => host.puppetclasses.first,
                          :overrides => { host.lookup_value_matcher => 'a: c' })
@@ -81,7 +81,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     test 'clones lookup values' do
       host = FactoryBot.create(:host, :with_puppetclass)
       lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-                                      :puppetclass => host.puppetclasses.first, :path => "fqdn\ncomment")
+        :puppetclass => host.puppetclasses.first, :path => "fqdn\ncomment")
       lookup_value = LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => lookup_key.id)
 
       visit clone_host_path(host)

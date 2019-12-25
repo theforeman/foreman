@@ -67,8 +67,8 @@ class BreadcrumbsOptionsTest < ActiveSupport::TestCase
     custom_switcher_item_url = '/customPage/:id'
 
     options = BreadcrumbsOptions.new(@page_header, @controller, @action_name,
-                                   { items: custom_items, switcher_item_url: custom_switcher_item_url,
-                                     resource_url: custom_resource_url })
+      { items: custom_items, switcher_item_url: custom_switcher_item_url,
+        resource_url: custom_resource_url })
 
     assert_equal options.bar_props, {
       isSwitchable: true,

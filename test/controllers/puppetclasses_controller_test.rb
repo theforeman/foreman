@@ -216,8 +216,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'user with edit_puppetclasses permission should succeed in overriding all parameters' do
     env = FactoryBot.create(:environment,
-                             :organizations => [users(:one).organizations.first],
-                             :locations => [users(:one).locations.first])
+      :organizations => [users(:one).organizations.first],
+      :locations => [users(:one).locations.first])
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     setup_user "edit", "puppetclasses"
     refute pc.class_params.first.override
@@ -228,8 +228,8 @@ class PuppetclassesControllerTest < ActionController::TestCase
 
   test 'user without edit_puppetclasses permission should fail in overriding all parameters' do
     env = FactoryBot.create(:environment,
-                             :organizations => [users(:one).organizations.first],
-                             :locations => [users(:one).locations.first])
+      :organizations => [users(:one).organizations.first],
+      :locations => [users(:one).locations.first])
     pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
     setup_user "view", "puppetclasses"
     refute pc.class_params.first.override

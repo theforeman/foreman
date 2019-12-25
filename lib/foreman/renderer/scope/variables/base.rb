@@ -10,9 +10,9 @@ module Foreman
           private
 
           delegate :diskLayout, :disk_layout_source, :medium, :architecture, :ptable, :use_image, :arch,
-                   :image_file, :default_image_file, to: :host, allow_nil: true
+            :image_file, :default_image_file, to: :host, allow_nil: true
           delegate :mediumpath, :additional_media, :supports_image, :major, :preseed_path, :preseed_server,
-                   :xen, :kernel, :initrd, to: :operatingsystem, allow_nil: true
+            :xen, :kernel, :initrd, to: :operatingsystem, allow_nil: true
           delegate :name, to: :architecture, allow_nil: true, prefix: true
           delegate :content, to: :disk_layout_source, allow_nil: true, prefix: true
 

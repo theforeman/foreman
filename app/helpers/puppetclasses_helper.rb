@@ -13,6 +13,6 @@ module PuppetclassesHelper
                     {}
                   end
     link_to_function(icon_text('plus', list.first, css_options),
-                     "tfm.classEditor.expandClassList($(this), '#pc_#{list.first}')")
+      "tfm.classEditor.expandClassList($(this), '#pc_#{list.first}')")
   end
 end
