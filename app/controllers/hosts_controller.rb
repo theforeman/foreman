@@ -442,12 +442,10 @@ class HostsController < ApplicationController
   def update_multiple_power_state
     action = params[:power][:action]
     @hosts.each do |host|
-      begin
-        host.power.send(action.to_sym) if host.supports_power?
-      rescue => error
-        message = _('Failed to set power state for %s.') % host
-        Foreman::Logging.exception(message, error)
-      end
+      host.power.send(action.to_sym) if host.supports_power?
+    rescue => error
+      message = _('Failed to set power state for %s.') % host
+      Foreman::Logging.exception(message, error)
     end
 
     success _('The power state of the selected hosts will be set to %s') % _(action)
@@ -807,14 +805,12 @@ class HostsController < ApplicationController
     failed_hosts = {}
 
     @hosts.each do |host|
-      begin
-        host.send(host_update_method, proxy)
-        host.save!
-      rescue => error
-        failed_hosts[host.name] = error
-        message = _('Failed to set %{proxy_type} proxy for %{host}.') % {:host => host, :proxy_type => proxy_type}
-        Foreman::Logging.exception(message, error)
-      end
+      host.send(host_update_method, proxy)
+      host.save!
+    rescue => error
+      failed_hosts[host.name] = error
+      message = _('Failed to set %{proxy_type} proxy for %{host}.') % {:host => host, :proxy_type => proxy_type}
+      Foreman::Logging.exception(message, error)
     end
 
     if failed_hosts.empty?

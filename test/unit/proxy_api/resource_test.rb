@@ -10,21 +10,17 @@ class ProxyApiResourceTest < ActiveSupport::TestCase
   end
 
   test "connect_params sets x_request_id to logger request ID" do
-    begin
-      ::Logging.mdc['request'] = '850ca7f1-c6de-481f-86a9-dc379a04b445'
-      assert_equal '850ca7f1-c6de-481f-86a9-dc379a04b445', ProxyAPI::Resource.new({}).send(:connect_params)[:headers][:x_request_id]
-    ensure
-      ::Logging.mdc.delete('request')
-    end
+    ::Logging.mdc['request'] = '850ca7f1-c6de-481f-86a9-dc379a04b445'
+    assert_equal '850ca7f1-c6de-481f-86a9-dc379a04b445', ProxyAPI::Resource.new({}).send(:connect_params)[:headers][:x_request_id]
+  ensure
+    ::Logging.mdc.delete('request')
   end
 
   test "connect_params sets x_request_id to logger safe session ID" do
-    begin
-      ::Logging.mdc['session'] = '850ca7f1-c6de-481f-86a9-dc379a04b446'
-      assert_equal '850ca7f1-c6de-481f-86a9-dc379a04b446', ProxyAPI::Resource.new({}).send(:connect_params)[:headers][:x_session_id]
-    ensure
-      ::Logging.mdc.delete('session')
-    end
+    ::Logging.mdc['session'] = '850ca7f1-c6de-481f-86a9-dc379a04b446'
+    assert_equal '850ca7f1-c6de-481f-86a9-dc379a04b446', ProxyAPI::Resource.new({}).send(:connect_params)[:headers][:x_session_id]
+  ensure
+    ::Logging.mdc.delete('session')
   end
 
   test "with_logger sets RestClient.log" do

@@ -105,11 +105,9 @@ class FactImporter
       ensure_no_active_transaction
 
       ActiveRecord::Base.transaction(:requires_new => true) do
-        begin
-          save_name_record(name_record)
-        rescue ActiveRecord::RecordNotUnique
-          name_record = nil
-        end
+        save_name_record(name_record)
+      rescue ActiveRecord::RecordNotUnique
+        name_record = nil
       end
 
       # if the record could not be saved in the previous transaction,

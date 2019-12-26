@@ -302,13 +302,11 @@ module Orchestration::Compute
   def ssh_open?(ip)
     begin
       Timeout.timeout(1) do
-        begin
-          s = TCPSocket.new(ip, 22)
-          s.close
-          return true
-        rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH
-          return false
-        end
+        s = TCPSocket.new(ip, 22)
+        s.close
+        return true
+      rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ENETUNREACH
+        return false
       end
     rescue Timeout::Error
     end

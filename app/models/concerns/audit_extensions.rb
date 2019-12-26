@@ -87,10 +87,8 @@ module AuditExtensions
 
       def known_auditable_types
         unscoped.distinct.pluck(:auditable_type).map do |auditable_type|
-          begin
-            auditable_type.constantize
-          rescue NameError
-          end
+          auditable_type.constantize
+        rescue NameError
         end.compact
       end
 

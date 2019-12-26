@@ -169,14 +169,12 @@ class ProvisioningTemplate < Template
         end
         return [:unprocessable_entity, error_msgs.join(', ')] unless error_msgs.empty?
         proxies.each do |proxy|
-          begin
-            tftp = ProxyAPI::TFTP.new(:url => proxy.url)
-            tftp.create_default(kind, {:menu => menu})
-            fetch_boot_files_combo(tftp)
-          rescue => exception
-            Foreman::Logging.exception("Cannot deploy rendered template '#{global_template_name}' to '#{proxy}'", exception)
-            error_msgs << "#{proxy}: #{exception.message} (#{kind})"
-          end
+          tftp = ProxyAPI::TFTP.new(:url => proxy.url)
+          tftp.create_default(kind, {:menu => menu})
+          fetch_boot_files_combo(tftp)
+        rescue => exception
+          Foreman::Logging.exception("Cannot deploy rendered template '#{global_template_name}' to '#{proxy}'", exception)
+          error_msgs << "#{proxy}: #{exception.message} (#{kind})"
         end
       end
       used_templates << global_template_name

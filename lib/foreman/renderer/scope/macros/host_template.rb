@@ -9,11 +9,9 @@ module Foreman
             check_host
             return enc if path.compact.empty?
             path.reduce(enc) do |e, step|
-              begin
-                e.fetch(step)
-              rescue KeyError
-                raise HostENCParamUndefined.new(name: path, step: step, host: host)
-              end
+              e.fetch(step)
+            rescue KeyError
+              raise HostENCParamUndefined.new(name: path, step: step, host: host)
             end
           end
 

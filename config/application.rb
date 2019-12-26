@@ -40,11 +40,9 @@ else
       optional_bundler_groups += %w[ec2 fog gce libvirt openstack ovirt rackspace vmware]
     end
     optional_bundler_groups.each do |group|
-      begin
-        Bundler.require(group)
-      rescue LoadError
-        # ignoring intentionally
-      end
+      Bundler.require(group)
+    rescue LoadError
+      # ignoring intentionally
     end
   end
 end

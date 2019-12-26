@@ -18,19 +18,17 @@ class CreateNics < ActiveRecord::Migration[4.2]
     add_index :nics, [:type, :id], :name => 'index_by_type_and_id'
 
     Host.unscoped.where(["sp_mac <> ? and sp_ip <> ?", "", ""]).each do |host|
-      begin
-        nic = Nic::BMC.new(:host_id   => host.id, :host => host,
-                           :mac       => host.read_attribute(:sp_mac),
-                           :ip        => host.read_attribute(:sp_ip),
-                           :subnet_id => host.read_attribute(:sp_subnet_id),
-                           :provider  => Nic::BMC::PROVIDERS.first,
-                           :name      => host.read_attribute(:sp_name))
-        # it makes no sense to fire validations here, as that would also trigger
-        # the queue, potentially adding new dhcp records
-        # since the data is already coming from the DB,
-        # we assume it has been validated before.
-        nic.save(:validate => false)
-      end
+      nic = Nic::BMC.new(:host_id   => host.id, :host => host,
+                         :mac       => host.read_attribute(:sp_mac),
+                         :ip        => host.read_attribute(:sp_ip),
+                         :subnet_id => host.read_attribute(:sp_subnet_id),
+                         :provider  => Nic::BMC::PROVIDERS.first,
+                         :name      => host.read_attribute(:sp_name))
+      # it makes no sense to fire validations here, as that would also trigger
+      # the queue, potentially adding new dhcp records
+      # since the data is already coming from the DB,
+      # we assume it has been validated before.
+      nic.save(:validate => false)
     end
 
     remove_columns :hosts, :sp_mac, :sp_ip, :sp_name, :sp_subnet_id
