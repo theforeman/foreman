@@ -186,14 +186,12 @@ module Orchestration
     # handle errors
     # we try to undo all completed operations and trigger a DB rollback
     (q.completed + q.running).sort.reverse_each do |task|
-      begin
-        task.status = "rollbacked"
-        update_cache
-        execute({:action => task.action, :rollback => true})
-      rescue => e
-        # if the operation failed, we can just report upon it
-        failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }, e
-      end
+      task.status = "rollbacked"
+      update_cache
+      execute({:action => task.action, :rollback => true})
+    rescue => e
+      # if the operation failed, we can just report upon it
+      failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }, e
     end
   end
 

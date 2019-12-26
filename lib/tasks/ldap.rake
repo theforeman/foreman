@@ -6,11 +6,9 @@ namespace :ldap do
     END_DESC
     User.as_anonymous_admin do
       ExternalUsergroup.all.each do |eu|
-        begin
-          eu.refresh
-        rescue => error
-          puts "User group #{eu} could not be refreshed - LDAP source #{eu.auth_source} not available: #{error}"
-        end
+        eu.refresh
+      rescue => error
+        puts "User group #{eu} could not be refreshed - LDAP source #{eu.auth_source} not available: #{error}"
       end
     end
   end

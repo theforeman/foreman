@@ -74,11 +74,9 @@ module Resolvers
 
       def search_and_sort_filter(search:, sort_by:, sort_direction:)
         lambda do |scope|
-          begin
-            scope.search_for(*search_options(search: search, sort_by: sort_by, sort_direction: sort_direction))
-          rescue ScopedSearch::QueryNotSupported => error
-            raise GraphQL::ExecutionError.new(error.message)
-          end
+          scope.search_for(*search_options(search: search, sort_by: sort_by, sort_direction: sort_direction))
+        rescue ScopedSearch::QueryNotSupported => error
+          raise GraphQL::ExecutionError.new(error.message)
         end
       end
 

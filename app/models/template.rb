@@ -14,11 +14,9 @@ class Template < ApplicationRecord
   validate :template_changes, :if => ->(template) { (template.locked? || template.locked_changed?) && template.persisted? && !Foreman.in_rake? }
   validate :inputs_unchanged_when_locked, :if => ->(template) { (template.locked? || template.locked_changed?) && template.persisted? && !Foreman.in_rake? }
   validate do
-    begin
-      validate_unique_inputs!
-    rescue Foreman::Exception => e
-      errors.add :base, e.message
-    end
+    validate_unique_inputs!
+  rescue Foreman::Exception => e
+    errors.add :base, e.message
   end
 
   before_destroy :check_if_template_is_locked

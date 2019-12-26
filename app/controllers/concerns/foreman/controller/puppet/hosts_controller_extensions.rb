@@ -138,14 +138,12 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     failed_hosts = {}
 
     @hosts.each do |host|
-      begin
-        host.send(host_update_method, proxy)
-        host.save!
-      rescue => error
-        failed_hosts[host.name] = error
-        message = _('Failed to set %{proxy_type} proxy for %{host}.') % {:host => host, :proxy_type => proxy_type}
-        Foreman::Logging.exception(message, error)
-      end
+      host.send(host_update_method, proxy)
+      host.save!
+    rescue => error
+      failed_hosts[host.name] = error
+      message = _('Failed to set %{proxy_type} proxy for %{host}.') % {:host => host, :proxy_type => proxy_type}
+      Foreman::Logging.exception(message, error)
     end
 
     if failed_hosts.empty?

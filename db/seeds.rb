@@ -14,12 +14,10 @@ end
 foreman_seeds = Dir.glob(Rails.root + 'db/seeds.d/*.rb')
 
 Foreman::Plugin.registered_plugins.each do |name, plugin|
-  begin
-    engine = (name.to_s.tr('-', '_').camelize + '::Engine').constantize
-    foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
-  rescue NameError => e
-    Foreman::Logging.exception("Failed to register plugin #{name}", e)
-  end
+  engine = (name.to_s.tr('-', '_').camelize + '::Engine').constantize
+  foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
+rescue NameError => e
+  Foreman::Logging.exception("Failed to register plugin #{name}", e)
 end
 
 foreman_seeds = foreman_seeds.sort do |a, b|

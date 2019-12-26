@@ -118,11 +118,9 @@ module Foreman::Model
 
     def storage_pod(name)
       cache.cache(:"storage_pod-#{name}") do
-        begin
-          dc.storage_pods.get(name)
-        rescue RbVmomi::VIM::InvalidArgument
-          {} # Return an empty storage pod hash if vsphere does not support the feature
-        end
+        dc.storage_pods.get(name)
+      rescue RbVmomi::VIM::InvalidArgument
+        {} # Return an empty storage pod hash if vsphere does not support the feature
       end
     end
 
@@ -134,11 +132,9 @@ module Foreman::Model
     # * +:cluster_id+ - Limits the datastores in response to the ones available to defined cluster
     def storage_pods(opts = {})
       cache.cache(cachekey_with_cluster(:storage_pods, opts[:cluster_id])) do
-        begin
-          name_sort(dc.storage_pods.all(cluster: opts[:cluster_id]))
-        rescue RbVmomi::VIM::InvalidArgument
-          [] # Return an empty set of storage pods if vsphere does not support the feature
-        end
+        name_sort(dc.storage_pods.all(cluster: opts[:cluster_id]))
+      rescue RbVmomi::VIM::InvalidArgument
+        [] # Return an empty set of storage pods if vsphere does not support the feature
       end
     end
 

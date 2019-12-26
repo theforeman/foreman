@@ -221,20 +221,18 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     end
 
     test 'store_avatar can save 8bit ascii files' do
-      begin
-        auth = AuthSourceLdap.new
-        file = File.open("#{temp_dir}/out.txt", 'wb+')
-        file_string = File.open(file, 'rb') {|f| f.read} # set the file_string to binary
-        file_string += 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg=='
-        avatar_hash = Digest::SHA1.hexdigest(file_string)
-        assert_equal(Encoding::ASCII_8BIT, file_string.encoding)
-        assert_nothing_raised do
-          auth.send(:store_avatar, file_string)
-        end
-        assert(File.exist?("#{temp_dir}/#{avatar_hash}.jpg"))
-      ensure
-        FileUtils.remove_entry temp_dir
+      auth = AuthSourceLdap.new
+      file = File.open("#{temp_dir}/out.txt", 'wb+')
+      file_string = File.open(file, 'rb') {|f| f.read} # set the file_string to binary
+      file_string += 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg=='
+      avatar_hash = Digest::SHA1.hexdigest(file_string)
+      assert_equal(Encoding::ASCII_8BIT, file_string.encoding)
+      assert_nothing_raised do
+        auth.send(:store_avatar, file_string)
       end
+      assert(File.exist?("#{temp_dir}/#{avatar_hash}.jpg"))
+    ensure
+      FileUtils.remove_entry temp_dir
     end
   end
 
