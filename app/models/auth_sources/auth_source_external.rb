@@ -14,4 +14,8 @@ class AuthSourceExternal < AuthSource
   def valid_user?(name)
     name.present?
   end
+
+  def supports_refresh?
+    false
+  end
 end
