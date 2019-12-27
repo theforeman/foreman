@@ -56,11 +56,14 @@ module SSO
     end
 
     def find_or_create_user_from_jwt(payload)
+      attrs = { login: payload['preferred_username'],
+                mail: payload['email'],
+                firstname: payload['given_name'],
+                lastname: payload['family_name'],
+              }
+      attrs[:groups] = payload['groups'] if payload['groups'].present?
       User.find_or_create_external_user(
-        { login: payload['preferred_username'],
-          mail: payload['email'],
-          firstname: payload['given_name'],
-          lastname: payload['family_name']},
+        attrs,
         Setting['authorize_login_delegation_auth_source_user_autocreate']
       )
     end
