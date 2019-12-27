@@ -84,6 +84,20 @@ class OpenidConnectTest < ActiveSupport::TestCase
         assert_equal users(:one), subject.authenticated?
       end
     end
+
+    test "it accepts group parameter in payload and authenticates the user" do
+      oidc_source = AuthSourceExternal.where(:name => 'External').first_or_create
+      external = FactoryBot.create(:external_usergroup, :auth_source => oidc_source)
+      usergroup = FactoryBot.create(:usergroup, :admin => true)
+      external.update(:usergroup => usergroup, :name => usergroup.name)
+
+      User.current = nil
+      payload['groups'] = [usergroup.name]
+      OidcJwt.any_instance.stubs(:decode).returns(payload.with_indifferent_access)
+      assert subject.authenticated?
+
+      assert_equal payload['groups'].first, subject.current_user.usergroups.first.name
+    end
   end
 
   private
