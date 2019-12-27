@@ -48,7 +48,8 @@
                 <td><%= display_link_if_authorized(_('Refresh'),
                                                          hash_for_refresh_external_usergroup_path(:id => usergroup),
                                                          :method => :put, :id => usergroup.id,
-                                                         :class => "btn btn-default", :title => _('Synchronize group from authentication source')) %>
+                                                         :class => "btn btn-default", :title => usergroup.supports_refresh? ? _('Synchronize group from authentication source') : _("Synchronization is not available for #{usergroup.auth_source.name} auth source"),
+                                                         :disabled => !usergroup.supports_refresh?) %>
                 </td>
               </tr>
             <% end %>

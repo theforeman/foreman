@@ -5,6 +5,8 @@ class ExternalUsergroup < ApplicationRecord
   belongs_to :usergroup, :inverse_of => :external_usergroups
   belongs_to :auth_source
 
+  delegate :supports_refresh?, :to => :auth_source
+
   validates_lengths_from_database
   validates :name, :uniqueness => { :scope => :auth_source_id }
   validates :name, :auth_source, :usergroup, :presence => true
