@@ -105,4 +105,8 @@ class AuthSource < ApplicationRecord
     end
     nil
   end
+
+  def supports_refresh?
+    true
+  end
 end
