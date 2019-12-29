@@ -85,26 +85,6 @@ class Api::V2::OverrideValuesControllerTest < ActionController::TestCase
     assert_equal lookup_key.override_values.first.omit, true
   end
 
-  test "should create override value without when use_puppet_default is true (compatibility test)" do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
-
-    assert_difference('LookupValue.count', 1) do
-      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => true} }
-    end
-    assert_response :success
-  end
-
-  test "should create override value when use_puppet_default is false (compatibility test)" do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two), :omit => true)
-
-    assert_difference('LookupValue.count', 1) do
-      post :create, params: { :smart_class_parameter_id => lookup_key.id, :override_value =>  { :match => 'os=string', :use_puppet_default => false, :value => 'test_val'} }
-    end
-    assert_response :success
-  end
-
   test "should not create override value without when omit is false" do
     lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :override => true, :puppetclass => puppetclasses(:two))
 

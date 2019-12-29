@@ -18,9 +18,6 @@ node do
   partial("api/v2/common/show_hidden", :locals => { :value => :default_value }, :object => @object)
 end
 
-# compatibility
-attribute :omit => :use_puppet_default
-
 node :puppetclass_name do |lk|
   lk.param_class.name
 end
