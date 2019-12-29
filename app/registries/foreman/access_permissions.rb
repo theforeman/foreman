@@ -104,35 +104,29 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :provisioning_templates do |map|
     map.permission :view_provisioning_templates,    {:provisioning_templates => [:index, :show, :revision, :auto_complete_search, :preview, :export, :welcome],
-                                        :"api/v2/config_templates" => [:index, :show, :revision],
                                         :"api/v2/provisioning_templates" => [:index, :show, :revision, :export],
                                         :"api/v2/template_combinations" => [:index, :show],
                                         :"api/v2/template_kinds" => [:index],
                                         :'api/v2/template_inputs' => [:index, :show],
                                       }
     map.permission :create_provisioning_templates,  {:provisioning_templates => [:new, :create, :clone_template],
-                                        :"api/v2/config_templates" => [:create, :clone],
                                         :"api/v2/provisioning_templates" => [:create, :clone, :import],
                                         :"api/v2/template_combinations" => [:create],
                                       }
     map.permission :edit_provisioning_templates,    {:provisioning_templates => [:edit, :update],
-                                        :"api/v2/config_templates" => [:update],
                                         :"api/v2/provisioning_templates" => [:update, :import],
                                         :"api/v2/template_combinations" => [:update],
                                         :'api/v2/template_inputs' => [:create, :update, :destroy],
                                       }
     map.permission :destroy_provisioning_templates, {:provisioning_templates => [:destroy],
-                                        :"api/v2/config_templates" => [:destroy],
                                         :"api/v2/provisioning_templates" => [:destroy],
                                         :"api/v2/template_combinations" => [:destroy],
                                       }
     map.permission :deploy_provisioning_templates,  {:provisioning_templates => [:build_pxe_default],
-                                        :"api/v2/config_templates" => [:build_pxe_default],
                                         :"api/v2/provisioning_templates" => [:build_pxe_default],
                                       }
 
     map.permission :lock_provisioning_templates,    {:provisioning_templates => [:lock, :unlock],
-                                        :"api/v2/config_templates" => [:lock, :unlock],
                                         :"api/v2/provisioning_templates" => [:lock, :unlock],
                                       }
   end

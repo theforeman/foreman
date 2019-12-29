@@ -30,10 +30,6 @@ child :media do
   extends "api/v2/media/base"
 end
 
-child :provisioning_templates => :config_templates do
-  extends "api/v2/config_templates/base"
-end
-
 child :ptables => :ptables do
   extends "api/v2/ptables/main"
 end

@@ -18,10 +18,6 @@ child :ptables => :ptables do
   extends "api/v2/ptables/base"
 end
 
-child :provisioning_templates => :config_templates do
-  extends "api/v2/config_templates/base"
-end
-
 child :provisioning_templates => :provisioning_templates do
   extends "api/v2/provisioning_templates/base"
 end

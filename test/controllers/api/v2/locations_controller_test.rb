@@ -18,7 +18,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
     # assert child nodes are included in response'
-    NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media", "config_templates",
+    NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media",
              "provisioning_templates", "domains", "ptables", "realms", "environments", "hostgroups",
              "organizations", "parameters"].sort
     NODES.each do |node|
