@@ -460,12 +460,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should show status hosts" do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/status route is deprecated}))
-    get :status, params: { :id => @host.to_param }
-    assert_response :success
-  end
-
   test "should show specific status hosts" do
     get :get_status, params: { :id => @host.to_param, :type => 'global' }
     assert_response :success
@@ -504,10 +498,9 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   test "should allow show status for restricted user who owns the hosts" do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with(regexp_matches(%r{/status route is deprecated}))
     host = FactoryBot.create(:host, :owner => users(:scoped), :organization => taxonomies(:organization1), :location => taxonomies(:location1))
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:scoped).id}", :scoped
-    get :status, params: { :id => host.to_param }
+    get :get_status, params: { :id => host.to_param, :type => 'configuration' }
     assert_response :success
   end
 
@@ -542,7 +535,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should not show status of hosts out of users hosts scope" do
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
-    get :status, params: { :id => @host.to_param }
+    get :get_status, params: { :id => @host.to_param, :type => 'configuration' }
     assert_response :not_found
   end
 
