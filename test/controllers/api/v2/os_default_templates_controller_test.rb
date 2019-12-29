@@ -36,7 +36,7 @@ class Api::V2::OsDefaultTemplatesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:os_default_template)
     response = ActiveSupport::JSON.decode(@response.body)
     assert !response.empty?
-    assert_equal templates(:pxe_local_default).id, response['config_template_id']
+    assert_equal templates(:pxe_local_default).id, response['provisioning_template_id']
   end
 
   test 'should destroy os_default_template for os' do

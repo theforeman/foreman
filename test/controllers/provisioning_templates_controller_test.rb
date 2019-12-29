@@ -79,18 +79,18 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   end
 
   test "destroy should fail with assoicated hosts" do
-    config_template = templates(:pxekickstart)
-    delete :destroy, params: { :id => config_template.to_param }, session: set_session_user
+    provisioning_template = templates(:pxekickstart)
+    delete :destroy, params: { :id => provisioning_template.to_param }, session: set_session_user
     assert_redirected_to provisioning_templates_url
-    assert ProvisioningTemplate.unscoped.exists?(config_template.id)
+    assert ProvisioningTemplate.unscoped.exists?(provisioning_template.id)
   end
 
   test "destroy" do
-    config_template = templates(:pxekickstart)
-    config_template.os_default_templates.clear
-    delete :destroy, params: { :id => config_template.to_param }, session: set_session_user
+    provisioning_template = templates(:pxekickstart)
+    provisioning_template.os_default_templates.clear
+    delete :destroy, params: { :id => provisioning_template.to_param }, session: set_session_user
     assert_redirected_to provisioning_templates_url
-    assert !ProvisioningTemplate.unscoped.exists?(config_template.id)
+    assert !ProvisioningTemplate.unscoped.exists?(provisioning_template.id)
   end
 
   test "audit comment" do

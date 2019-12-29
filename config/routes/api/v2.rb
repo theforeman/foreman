@@ -39,19 +39,6 @@ Foreman::Application.routes.draw do
 
       resources :common_parameters, :except => [:new, :edit]
 
-      resources :config_templates, :except => [:new, :edit] do
-        resources :locations, :only => [:index, :show]
-        resources :organizations, :only => [:index, :show]
-        post :clone, :on => :member
-        collection do
-          post 'build_pxe_default'
-          get 'build_pxe_default' # Keeping get variant for backward compatibility, see #6976 for details
-          get 'revision'
-        end
-        resources :template_combinations, :only => [:index, :create, :update, :show]
-        resources :operatingsystems, :except => [:new, :edit]
-        resources :os_default_templates, :except => [:new, :edit]
-      end
       resources :provisioning_templates, :except => [:new, :edit] do
         resources :locations, :only => [:index, :show]
         resources :organizations, :only => [:index, :show]
@@ -133,7 +120,6 @@ Foreman::Application.routes.draw do
           resources :os_default_templates, :except => [:new, :edit]
           resources :ptables, :except => [:new, :edit]
           resources :architectures, :except => [:new, :edit]
-          resources :config_templates, :except => [:new, :edit]
           resources :provisioning_templates, :except => [:new, :edit]
           resources :images, :except => [:new, :edit]
           resources :media, :only => [:index, :show]
@@ -145,7 +131,6 @@ Foreman::Application.routes.draw do
         resources :ptables, :except => [:new, :edit]
         resources :architectures, :except => [:new, :edit]
         resources :puppetclasses, :except => [:new, :edit]
-        resources :config_templates, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
       end
 
@@ -408,7 +393,6 @@ Foreman::Application.routes.draw do
         resources :hostgroups, :only => [:index, :show]
         resources :environments, :only => [:index, :show]
         resources :users, :only => [:index, :show]
-        resources :config_templates, :only => [:index, :show]
         resources :provisioning_templates, :only => [:index, :show]
         resources :ptables, :only => [:index, :show]
         resources :compute_resources, :only => [:index, :show]
@@ -433,7 +417,6 @@ Foreman::Application.routes.draw do
           resources :hostgroups, :only => [:index, :show]
           resources :environments, :only => [:index, :show]
           resources :users, :only => [:index, :show]
-          resources :config_templates, :only => [:index, :show]
           resources :provisioning_templates, :only => [:index, :show]
           resources :ptables, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]
@@ -455,7 +438,6 @@ Foreman::Application.routes.draw do
         resources :hostgroups, :only => [:index, :show]
         resources :environments, :only => [:index, :show]
         resources :users, :only => [:index, :show]
-        resources :config_templates, :only => [:index, :show]
         resources :provisioning_templates, :only => [:index, :show]
         resources :ptables, :only => [:index, :show]
         resources :compute_resources, :only => [:index, :show]
@@ -480,7 +462,6 @@ Foreman::Application.routes.draw do
           resources :hostgroups, :only => [:index, :show]
           resources :environments, :only => [:index, :show]
           resources :users, :only => [:index, :show]
-          resources :config_templates, :only => [:index, :show]
           resources :provisioning_templates, :only => [:index, :show]
           resources :ptables, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]

@@ -7,7 +7,6 @@ module Foreman::Controller::Parameters::Taxonomy
       filter.permit :description,
         :name,
         :title,
-        :config_template_ids => [], :config_template_names => [],
         :compute_resource_ids => [], :compute_resource_names => [],
         :domain_ids => [], :domain_names => [],
         :environment_ids => [], :environment_names => [],
