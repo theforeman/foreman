@@ -187,27 +187,6 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     refute_equal orig_parameter_type, lookup_key.parameter_type
   end
 
-  test "should update smart class parameter with use_puppet_default (compatibility test)" do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
-    orig_value = lookup_keys(:five).omit
-    refute lookup_keys(:five).omit # check that the initial value is false
-    put :update, params: { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "true" } }
-    assert_response :success
-    new_value = lookup_keys(:five).reload.omit
-    refute_equal orig_value, new_value
-  end
-
-  test "should update smart class parameter with use_puppet_default (compatibility test)" do
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('"use_puppet_default" was renamed to "omit"')
-    key = lookup_keys(:five)
-    key.omit = true
-    key.save!
-    put :update, params: { :id => lookup_keys(:five).to_param, :smart_class_parameter => { :use_puppet_default => "false" } }
-    assert_response :success
-    new_value = lookup_keys(:five).reload.omit
-    refute new_value
-  end
-
   test_attributes :pid => '11d75f6d-7105-4ee8-b147-b8329cae4156'
   test "should not set avoid duplicates for non supported types" do
     lookup_key = lookup_keys(:five)
