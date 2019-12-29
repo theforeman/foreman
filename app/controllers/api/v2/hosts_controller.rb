@@ -179,36 +179,17 @@ module Api
         render :json => { :data => @host.info }
       end
 
-      api :GET, "/hosts/:id/status", N_("Get configuration status of host")
-      param :id, :identifier_dottable, :required => true
-      description <<~EOS
-        Return value may either be one of the following:
-
-        * Alerts disabled
-        * No reports
-        * Error
-        * Out of sync
-        * Active
-        * Pending
-        * No changes
-      EOS
-
-      def status
-        Foreman::Deprecation.api_deprecation_warning('The /status route is deprecated, please use the new /status/configuration instead')
-        render :json => { :status => @host.get_status(HostStatus::ConfigurationStatus).to_label }.to_json if @host
-      end
-
       api :GET, "/hosts/:id/status/:type", N_("Get status of host")
       param :id, :identifier_dottable, :required => true
-      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(<<~EOS
-        status type, can be one of
-        * global
-        * configuration
-        * build
-      EOS
-  # rubocop:disable Layout/ClosingParenthesisIndentation
-)
-      # rubocop:enable Layout/ClosingParenthesisIndentation
+      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(
+        <<~EOS
+          status type, can be one of
+          * global
+          * configuration
+          * build
+        EOS
+      )
+
       description N_('Returns string representing a host status of a given type')
       def get_status
         case params[:type]
