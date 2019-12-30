@@ -6,6 +6,7 @@ module Api
 
       before_action :find_resource, :only => %w{show destroy}
       before_action :setup_search_options, :only => [:index, :last]
+      before_action :compatibility, :only => :create
 
       add_smart_proxy_filters :create, :features => Proc.new { ConfigReportImporter.authorized_smart_proxy_features }
 
@@ -82,6 +83,13 @@ module Api
           else
             super
         end
+      end
+
+      # This is needed for backwards compatibility with Ansible and Chef report callbacks
+      def compatibility
+        return unless params[:report].present?
+        Foreman::Deprecation.api_deprecation_warning("The report parameter was renamed to config_reports and the API endpoint has changed from /reports to /config_reports. Please use the new API.")
+        params[:config_report] = params.delete(:report)
       end
     end
   end
