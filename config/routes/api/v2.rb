@@ -153,10 +153,6 @@ Foreman::Application.routes.draw do
         resources :operatingsystems, :except => [:new, :edit]
       end
 
-      resources :reports, :only => [:index, :show, :destroy] do
-        get :last, :on => :collection
-      end
-
       resources :report_templates, :except => [:new, :edit] do
         resources :locations, :only => [:index, :show]
         resources :organizations, :only => [:index, :show]
@@ -204,7 +200,7 @@ Foreman::Application.routes.draw do
       get 'status', :to => 'home#status', :as => "v2_status"
       get 'current_user', to: 'users#show_current', as: "current_user"
 
-      resources :reports, :only => [:create]
+      post :reports, :to => 'config_reports#create'
 
       resources :config_reports, :only => [:create]
 
@@ -349,9 +345,6 @@ Foreman::Application.routes.draw do
             end
           end
           resources :puppetclasses, :except => [:new, :edit]
-          resources :reports, :only => [:index, :show] do
-            get :last, :on => :collection
-          end
 
           resources :config_reports, :only => [:index, :show] do
             get :last, :on => :collection
