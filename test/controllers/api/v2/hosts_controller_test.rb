@@ -283,8 +283,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should create host with host_parameters_attributes" do
     disable_orchestration
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
-    attrs = [{"name" => "compute_resource_id", "value" => "1", "nested" => "true"}]
+    attrs = [{"name" => "compute_resource_id", "value" => "1"}]
     assert_difference('Host.count') do
       post :create, params: { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
     end
@@ -296,9 +295,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
 
   test "should create host with host_parameters_attributes sent in a hash" do
     disable_orchestration
-    Foreman::Deprecation.expects(:api_deprecation_warning).with('Field host_parameters_attributes.nested ignored')
     assert_difference('Host.count') do
-      attrs = {"0" => {"name" => "compute_resource_id", "value" => "1", "nested" => "true"}}
+      attrs = {"0" => {"name" => "compute_resource_id", "value" => "1"}}
       post :create, params: { :host => valid_attrs.merge(:host_parameters_attributes => attrs) }
     end
     assert_response :created
