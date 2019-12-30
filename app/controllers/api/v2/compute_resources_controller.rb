@@ -34,7 +34,6 @@ module Api
           param :description, String
           param :user, String, :desc => N_("Username for oVirt, EC2, VMware, OpenStack. Access Key for EC2.")
           param :password, String, :desc => N_("Password for oVirt, EC2, VMware, OpenStack. Secret key for EC2")
-          param :uuid, String, :desc => N_("Deprecated, please use datacenter") # FIXME: deprecated
           param :datacenter, String, :desc => N_("for oVirt, VMware Datacenter")
           param :use_v4, :bool, :desc => N_("for oVirt only")
           param :ovirt_quota, String, :desc => N_("for oVirt only, ID or Name of quota to use")
