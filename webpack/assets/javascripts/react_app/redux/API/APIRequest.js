@@ -13,12 +13,14 @@ export const get = async (payload, url, store, actionTypes) => {
     );
     store.dispatch({
       type: actionTypes.SUCCESS,
-      payload: { ...payload, ...data },
+      payload,
+      response: data,
     });
   } catch (error) {
     store.dispatch({
       type: actionTypes.FAILURE,
-      payload: { ...payload, error },
+      payload,
+      response: error,
     });
   }
 };

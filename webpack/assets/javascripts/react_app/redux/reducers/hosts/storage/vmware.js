@@ -36,7 +36,7 @@ const getAvailableKey = controllers =>
     )
   );
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, { type, payload, response }) => {
   switch (type) {
     case VMWARE_CLUSTER_CHANGE:
       return state.set('cluster', payload.cluster);
@@ -123,10 +123,10 @@ export default (state = initialState, { type, payload }) => {
       });
     case STORAGE_VMWARE_DATASTORES_SUCCESS:
       return state
-        .set('datastores', payload.results)
+        .set('datastores', response.results)
         .set('datastoresLoading', false);
     case STORAGE_VMWARE_DATASTORES_FAILURE:
-      return state.set('datastoresError', payload.error.message);
+      return state.set('datastoresError', response.message);
     case STORAGE_VMWARE_STORAGEPODS_REQUEST:
       return state.merge({
         storagePodsError: undefined,
@@ -135,11 +135,11 @@ export default (state = initialState, { type, payload }) => {
       });
     case STORAGE_VMWARE_STORAGEPODS_SUCCESS:
       return state.merge({
-        storagePods: payload.results,
+        storagePods: response.results,
         storagePodsLoading: false,
       });
     case STORAGE_VMWARE_STORAGEPODS_FAILURE:
-      return state.set('storagePodsError', payload.error.message);
+      return state.set('storagePodsError', response.message);
     default:
       return state;
   }

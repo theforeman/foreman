@@ -28,16 +28,16 @@ describe('powerStatus reducer', () => {
       state: stateBeforeResponse,
       action: {
         type: types.HOST_POWER_STATUS_SUCCESS,
-        payload: response,
+        payload: request,
+        response,
       },
     },
     'should handle HOST_POWER_STATUS_FAILURE': {
       state: stateBeforeResponse,
       action: {
         type: types.HOST_POWER_STATUS_FAILURE,
-        payload: {
-          error,
-        },
+        payload: request,
+        response: error,
       },
     },
   };

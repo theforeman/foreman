@@ -15,7 +15,8 @@ const fixtures = {
   'should handle FACT_CHART_SUCCESS action': {
     action: {
       type: SUCCESS,
-      payload: { values: chartDataValues },
+      payload: { id: 1 },
+      response: { values: chartDataValues },
     },
   },
   'should handle FACT_CHART_ERROR action': {

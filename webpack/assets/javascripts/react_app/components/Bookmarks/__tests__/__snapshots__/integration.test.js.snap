@@ -35,6 +35,8 @@ Object {
       Object {
         "payload": Object {
           "controller": "hosts",
+        },
+        "response": Object {
           "results": Array [
             Object {
               "controller": "hosts",

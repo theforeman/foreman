@@ -18,8 +18,12 @@ const fixtures = {
     action: {
       type: ACTION_TYPES.SUCCESS,
       payload: {
-        search: 'name=model',
+        url: 'some_url',
+        tableID: 'some_ID',
+      },
+      response: {
         results: [{ id: 23, name: 'model' }],
+        search: 'name=model',
         page: 1,
         per_page: 5,
         total: 20,
@@ -31,8 +35,10 @@ const fixtures = {
     action: {
       type: ACTION_TYPES.FAILURE,
       payload: {
-        error: new Error('ooops!'),
+        url: 'some_url',
+        tableID: 'some_ID',
       },
+      response: new Error('ooops!'),
     },
   },
 };

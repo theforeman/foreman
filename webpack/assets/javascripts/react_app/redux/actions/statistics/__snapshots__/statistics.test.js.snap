@@ -44,6 +44,12 @@ Array [
   },
   Object {
     "payload": Object {
+      "id": "operatingsystem",
+      "search": "/hosts?search=os_title=~VAL~",
+      "title": "OS Distribution",
+      "url": "statistics/operatingsystem",
+    },
+    "response": Object {
       "data": Array [
         Array [
           "centOS 7.1",
@@ -51,14 +57,17 @@ Array [
         ],
       ],
       "id": "operatingsystem",
-      "search": "/hosts?search=os_title=~VAL~",
-      "title": "OS Distribution",
-      "url": "statistics/operatingsystem",
     },
     "type": "STATISTICS_DATA_SUCCESS",
   },
   Object {
     "payload": Object {
+      "id": "architecture",
+      "search": "/hosts?search=facts.architecture=~VAL~",
+      "title": "Architecture Distribution",
+      "url": "statistics/architecture",
+    },
+    "response": Object {
       "data": Array [
         Array [
           "x86_64",
@@ -66,9 +75,6 @@ Array [
         ],
       ],
       "id": "architecture",
-      "search": "/hosts?search=facts.architecture=~VAL~",
-      "title": "Architecture Distribution",
-      "url": "statistics/architecture",
     },
     "type": "STATISTICS_DATA_SUCCESS",
   },
@@ -119,22 +125,22 @@ Array [
   },
   Object {
     "payload": Object {
-      "error": [Error: Request failed with status code 422],
       "id": "operatingsystem",
       "search": "/hosts?search=os_title=~VAL~",
       "title": "OS Distribution",
       "url": "statistics/operatingsystem",
     },
+    "response": [Error: Request failed with status code 422],
     "type": "STATISTICS_DATA_FAILURE",
   },
   Object {
     "payload": Object {
-      "error": [Error: Request failed with status code 422],
       "id": "architecture",
       "search": "/hosts?search=facts.architecture=~VAL~",
       "title": "Architecture Distribution",
       "url": "statistics/architecture",
     },
+    "response": [Error: Request failed with status code 422],
     "type": "STATISTICS_DATA_FAILURE",
   },
 ]

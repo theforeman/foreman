@@ -13,6 +13,7 @@ import {
   publik,
   item,
   submitResponse,
+  controller,
 } from '../../../Bookmarks.fixtures';
 import { BOOKMARKS_SUCCESS } from '../../../BookmarksConstants';
 
@@ -28,7 +29,11 @@ describe('Bookmark form integration test', () => {
     const testHelper = new IntegrationTestHelper(reducers);
     testHelper.store.dispatch({
       type: BOOKMARKS_SUCCESS,
-      payload: { ...response.data, item },
+      payload: {
+        controller,
+        item,
+      },
+      response: response.data,
     });
 
     const component = testHelper.mount(<BookmarkForm {...props} />);

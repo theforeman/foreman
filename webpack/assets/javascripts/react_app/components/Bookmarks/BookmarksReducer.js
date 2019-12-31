@@ -25,10 +25,8 @@ const sortByName = (a, b) => {
   return 0;
 };
 
-export default (state = initialState, action) => {
-  const { payload } = action;
-
-  switch (action.type) {
+export default (state = initialState, { type, payload, response }) => {
+  switch (type) {
     case BOOKMARKS_REQUEST:
       return state.set(payload.controller, {
         results: [],
@@ -37,7 +35,7 @@ export default (state = initialState, action) => {
       });
     case BOOKMARKS_SUCCESS:
       return state
-        .setIn([payload.controller, 'results'], payload.results)
+        .setIn([payload.controller, 'results'], response.results)
         .setIn([payload.controller, 'status'], STATUS.RESOLVED);
     case BOOKMARKS_MODAL_OPENED:
       return state.set('currentQuery', payload.query).set('showModal', true);
@@ -54,7 +52,7 @@ export default (state = initialState, action) => {
       return state.set('showModal', false);
     case BOOKMARKS_FAILURE:
       return state
-        .setIn([payload.controller, 'errors'], payload.error)
+        .setIn([payload.controller, 'errors'], response)
         .setIn([payload.controller, 'status'], STATUS.ERROR);
     default:
       return state;

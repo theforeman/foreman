@@ -1,8 +1,9 @@
+export const controller = 'hosts';
 /* eslint-disable camelcase */
 export const bookmarks = [
   {
     name: '1111',
-    controller: 'hosts',
+    controller,
     query: 'abc',
     public: true,
     id: 52,
@@ -11,7 +12,7 @@ export const bookmarks = [
   },
   {
     name: '1122',
-    controller: 'hosts',
+    controller,
     query: 'abc',
     public: true,
     id: 54,
@@ -22,7 +23,6 @@ export const bookmarks = [
 
 export const response = {
   data: {
-    controller: 'hosts',
     results: bookmarks,
   },
 };
@@ -36,7 +36,7 @@ export const submitResponse = {
   data: {
     name,
     query: search,
-    controller: 'hosts',
+    controller,
     public: publik,
   },
   item,
