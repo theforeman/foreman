@@ -71,7 +71,7 @@ class AuthSourceLdap < AuthSource
       return
     end
 
-    attrs.each { |k, v| attrs[k] = v.force_encoding('UTF-8') }
+    attrs.each { |k, v| attrs[k] = v.force_encoding('UTF-8') unless v == ''}
 
     logger.debug "Retrieved LDAP Attributes for #{login}: #{attrs}"
 
