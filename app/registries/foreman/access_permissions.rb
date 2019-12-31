@@ -305,7 +305,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :runtime, :resources, :templates, :overview, :nics, :get_power_state, :preview_host_collection, :welcome],
                                     :dashboard => [:OutOfSync, :errors, :active],
                                     :unattended => [:host_template, :hostgroup_template],
-                                     :"api/v2/hosts" => [:index, :show, :status, :get_status, :vm_compute_attributes, :template, :enc],
+                                     :"api/v2/hosts" => [:index, :show, :get_status, :vm_compute_attributes, :template, :enc],
                                      :"api/v2/interfaces" => [:index, :show],
                                      :locations =>  [:mismatches],
                                      :organizations =>  [:mismatches],
