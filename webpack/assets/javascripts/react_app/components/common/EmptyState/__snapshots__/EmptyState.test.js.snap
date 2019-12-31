@@ -26,56 +26,40 @@ exports[`Default Empty State icon, header, description and main action are manda
 `;
 
 exports[`Default Empty State should render documentation when given a url 1`] = `
-<div
-  className="blank-slate-pf"
->
-  <div
-    className="blank-slate-pf-icon"
-  >
-    <span
-      aria-hidden="true"
-      className="pficon pficon-add-circle-o"
+<EmptyStatePattern
+  action={
+    <PrimaryActionButton
+      action={
+        Object {
+          "title": "action-title",
+          "url": "action-url",
+        }
+      }
     />
-  </div>
-  <h4
-    className="h1 blank-slate-pf-title"
-  >
-    Printers
-  </h4>
-  <p
-    className="blank-slate-pf-info"
-  >
-    Printers print a file from the computer
-  </p>
-  <p
-    className="blank-slate-pf-helpLink"
-  >
-    For more information please see
-     
-    <a
-      href="doc-url"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      Documentation
-    </a>
-  </p>
-  <div
-    className="blank-slate-pf-main-action"
-  >
-    <a
-      className="btn btn-lg btn-primary"
-      href="action-url"
-      onClick={[Function]}
-      onKeyDown={[Function]}
-    >
-      action-title
-    </a>
-  </div>
-  <div
-    className="blank-slate-pf-secondary-action"
-  />
-</div>
+  }
+  description="Printers print a file from the computer"
+  documentation={
+    <React.Fragment>
+      For more information please see
+       
+      <a
+        href="doc-url"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Documentation
+      </a>
+    </React.Fragment>
+  }
+  header="Printers"
+  icon="add-circle-o"
+  iconType="pf"
+  secondaryActions={
+    <SecondaryActionButtons
+      actions={Array []}
+    />
+  }
+/>
 `;
 
 exports[`Default Empty State should render secondary actions 1`] = `
