@@ -14,10 +14,10 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "error": [Error: bad request],
         "id": "myid",
         "name": "test",
       },
+      "response": [Error: bad request],
       "type": "TEST_FAILURE",
     },
   ],
@@ -40,6 +40,8 @@ Array [
       "payload": Object {
         "id": "myid",
         "name": "test",
+      },
+      "response": Object {
         "results": Array [
           1,
         ],

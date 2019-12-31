@@ -10,23 +10,26 @@ const initState = Immutable({
   status: STATUS.PENDING,
 });
 
-const createTableReducer = tableID => (state = initState, action) => {
+const createTableReducer = tableID => (
+  state = initState,
+  { type, payload, response }
+) => {
   const { REQUEST, FAILURE, SUCCESS } = createTableActionTypes(tableID);
 
-  switch (action.type) {
+  switch (type) {
     case REQUEST:
       return state.set('status', STATUS.PENDING);
     case SUCCESS:
       return Immutable.merge(state, {
         error: null,
         status: STATUS.RESOLVED,
-        results: action.payload.results,
-        sortBy: action.payload.sort.by,
-        sortOrder: action.payload.sort.order,
+        results: response.results,
+        sortBy: response.sort.by,
+        sortOrder: response.sort.order,
       });
     case FAILURE:
       return Immutable.merge(state, {
-        error: action.payload.error,
+        error: response,
         status: STATUS.ERROR,
         results: [],
       });

@@ -18,9 +18,9 @@ Array [
   },
   Object {
     "payload": Object {
-      "error": [Error: Request failed with status code 500],
       "id": 0,
     },
+    "response": [Error: Request failed with status code 500],
     "type": "HOST_POWER_STATUS_FAILURE",
   },
 ]
@@ -44,6 +44,9 @@ Array [
   },
   Object {
     "payload": Object {
+      "id": 1,
+    },
+    "response": Object {
       "id": 1,
       "state": "na",
       "title": "N/A",

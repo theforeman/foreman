@@ -52,8 +52,10 @@ const fixtures = {
     action: {
       type: BOOKMARKS_SUCCESS,
       payload: {
-        results: [bookmarkItem],
         controller: 'architectures',
+      },
+      response: {
+        results: [bookmarkItem],
       },
     },
   },
@@ -77,9 +79,9 @@ const fixtures = {
     action: {
       type: BOOKMARKS_FAILURE,
       payload: {
-        error: 'This is error',
         controller: 'architectures',
       },
+      response: 'This is error',
     },
   },
   'should update after form submission': {

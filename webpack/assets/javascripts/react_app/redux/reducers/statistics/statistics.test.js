@@ -28,14 +28,16 @@ describe('statistics reducer', () => {
       prev: stateBeforeResponse,
       action: {
         type: types.STATISTICS_DATA_SUCCESS,
-        payload: response,
+        payload: request,
+        response,
       },
     },
     'should handle STATISTICS_DATA_FAILURE': {
       prev: stateBeforeResponse,
       action: {
         type: types.STATISTICS_DATA_FAILURE,
-        payload: { error, ...request },
+        payload: request,
+        response: error,
       },
     },
   };

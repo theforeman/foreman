@@ -13,21 +13,21 @@ const initialState = Immutable({
   loaderStatus: '',
 });
 
-export default (state = initialState, action) => {
+export default (state = initialState, { type, payload, response }) => {
   const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(FACT_CHART);
-  switch (action.type) {
+  switch (type) {
     case REQUEST:
       return state.set('loaderStatus', 'PENDING');
     case SUCCESS:
       return state
-        .set('chartData', action.payload.values)
+        .set('chartData', response.values)
         .set('loaderStatus', 'RESOLVED');
     case FAILURE:
       return state.set('loaderStatus', 'ERROR');
     case FACT_CHART_MODAL_OPEN:
       return state
-        .set('title', action.payload.title)
-        .set('modalToDisplay', { [action.payload.id]: true });
+        .set('title', payload.title)
+        .set('modalToDisplay', { [payload.id]: true });
     case FACT_CHART_MODAL_CLOSE:
       return state
         .set('modalToDisplay', {})
