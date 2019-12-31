@@ -1,11 +1,16 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import PrimaryActionButton from './EmptyStatePrimaryActionButton';
 import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
 const defaultEmptyStateFixtures = {
+  'should render documentation when given a url': {
+    header: 'Printers',
+    description: 'Printers print a file from the computer',
+    action: { title: 'action-title', url: 'action-url' },
+    documentation: { url: 'doc-url' },
+  },
   'icon, header, description and main action are mandatory': {
     header: 'header1',
     description: 'description1',
@@ -24,22 +29,6 @@ const defaultEmptyStateFixtures = {
 };
 
 describe('Default Empty State', () => {
-  // React.Fragment is rendered as <Unknown>:
-  // https://github.com/facebook/jest/pull/5816
-  // To fix this, I am using TestRenderer.create.
-  // TODO: when jest-cli is upgraded to 23.0.0 move this to fixtures above.
-  it('should render documentation when given a url', () => {
-    expect(
-      TestRenderer.create(
-        <DefaultEmptyState
-          header="Printers"
-          description="Printers print a file from the computer"
-          action={{ title: 'action-title', url: 'action-url' }}
-          documentation={{ url: 'doc-url' }}
-        />
-      )
-    ).toMatchSnapshot();
-  });
   testComponentSnapshotsWithFixtures(
     DefaultEmptyState,
     defaultEmptyStateFixtures
