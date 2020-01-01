@@ -76,7 +76,7 @@ module HostDescriptionHelper
     fields << { :field => [_("Boot time"), (boot_time = host&.reported_data&.boot_time) ? date_time_relative(boot_time) : _('Not reported')], :priority => 1100 }
     fields << { :field => [_("Location"), link_to(host.location.title, hosts_path(:search => "location = #{host.location}"))], :priority => 1200 }
     fields << { :field => [_("Organization"), link_to(host.organization.title, hosts_path(:search => "organization = #{host.organization}"))], :priority => 1300 }
-    if host.owner_type == _("User")
+    if host.owner_type == "User"
       fields << { :field => [_("Owner"), (link_to(host.owner, hosts_path(:search => %{user.login = "#{host.owner.login}"})) if host.owner)], :priority => 1400 }
     else
       fields << { :field => [_("Owner"), host.owner], :priority => 1400 }
