@@ -8,6 +8,11 @@ group :development do
   gem 'immigrant', '~> 0.1'
 
   gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
+  gem 'pry-stack_explorer'
+  gem 'pry-remote'
 
   gem 'rainbow', '>= 2.2.1'
 
