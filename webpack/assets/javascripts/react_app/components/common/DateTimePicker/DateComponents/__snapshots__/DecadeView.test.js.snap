@@ -21,7 +21,7 @@ exports[`DecadeView is working properly 1`] = `
           colspan="5"
           data-action="pickerSwitch"
         >
-          2010-2021
+          2020-2031
         </th>
         <th
           class="next"
@@ -38,57 +38,7 @@ exports[`DecadeView is working properly 1`] = `
           colspan="7"
         >
           <span
-            class="year "
-          >
-            2010
-          </span>
-          <span
-            class="year "
-          >
-            2011
-          </span>
-          <span
-            class="year "
-          >
-            2012
-          </span>
-          <span
-            class="year "
-          >
-            2013
-          </span>
-          <span
-            class="year "
-          >
-            2014
-          </span>
-          <span
-            class="year "
-          >
-            2015
-          </span>
-          <span
-            class="year "
-          >
-            2016
-          </span>
-          <span
-            class="year "
-          >
-            2017
-          </span>
-          <span
-            class="year "
-          >
-            2018
-          </span>
-          <span
             class="year active"
-          >
-            2019
-          </span>
-          <span
-            class="year "
           >
             2020
           </span>
@@ -96,6 +46,56 @@ exports[`DecadeView is working properly 1`] = `
             class="year "
           >
             2021
+          </span>
+          <span
+            class="year "
+          >
+            2022
+          </span>
+          <span
+            class="year "
+          >
+            2023
+          </span>
+          <span
+            class="year "
+          >
+            2024
+          </span>
+          <span
+            class="year "
+          >
+            2025
+          </span>
+          <span
+            class="year "
+          >
+            2026
+          </span>
+          <span
+            class="year "
+          >
+            2027
+          </span>
+          <span
+            class="year "
+          >
+            2028
+          </span>
+          <span
+            class="year "
+          >
+            2029
+          </span>
+          <span
+            class="year "
+          >
+            2030
+          </span>
+          <span
+            class="year "
+          >
+            2031
           </span>
         </td>
       </tr>
