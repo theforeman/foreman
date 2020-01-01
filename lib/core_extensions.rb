@@ -38,16 +38,17 @@ class ActiveRecord::Base
 
     def before_destroy(record)
       klasses.each do |klass, klass_name = klass|
-        record.association(klass.to_sym).association_scope.each do |what|
-          error_message = _("%{record} is used by %{what}")
-          unless what.is_a? String
-            authorized_associations = AssociationAuthorizer.authorized_associations(record.class.reflect_on_association(klass.to_sym).klass, klass_name, false)
-            if !authorized_associations.respond_to?(:to_a) || authorized_associations.to_a.include?(what)
-              what = what.to_label
-            else
-              what = _(what.class.name)
-              error_message = _("%{record} is being used by a hidden %{what} resource")
-            end
+        association = record.association(klass.to_sym)
+        association_scope = ActiveRecord::Associations::AssociationScope.scope(association)
+        next if association_scope.empty?
+        authorized_associations = AssociationAuthorizer.authorized_associations(association.klass, klass_name, false).all.pluck(:id)
+        association_scope.find_each do |what|
+          if authorized_associations.include?(what.id)
+            what = what.to_label
+            error_message = _("%{record} is used by %{what}")
+          else
+            what = _(what.class.name)
+            error_message = _("%{record} is being used by a hidden %{what} resource")
           end
           record.errors.add :base, error_message % { :record => record, :what => what }
         end
