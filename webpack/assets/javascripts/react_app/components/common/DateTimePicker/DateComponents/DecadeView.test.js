@@ -4,7 +4,8 @@ import toJson from 'enzyme-to-json';
 import DecadeView from './DecadeView';
 
 test('DecadeView is working properly', () => {
-  const component = shallow(<DecadeView />);
+  const date = new Date('1/1/2020 , 2:22:31 PM');
+  const component = shallow(<DecadeView date={date} />);
 
   expect(toJson(component.render())).toMatchSnapshot();
 });
