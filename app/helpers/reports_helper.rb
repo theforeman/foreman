@@ -1,9 +1,9 @@
+
 require 'ostruct'
 module ReportsHelper
   def reported_at_column(record)
-    link_to config_report_path(record) do
-      date_time_relative(record.reported_at)
-    end
+    word = record.reported_at.getlocal > Time.now ? " ahead" : " ago"
+    link_to(time_ago_in_words(record.reported_at.getlocal) + word, report_path(record))
   end
 
   def report_event_column(event, style = "")
