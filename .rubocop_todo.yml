@@ -405,13 +405,6 @@ Style/NumericLiteralPrefix:
 Style/NumericLiterals:
   MinDigits: 15
 
-# Offense count: 66
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle, IgnoredMethods.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Enabled: false
-
 # Offense count: 198
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredDelimiters.
