@@ -2,3 +2,63 @@
 # https://projects.theforeman.org/issues/23300
 - message: 'Dangerous query method (method whose arguments are used as raw SQL) called
     with non-attribute argument(s):'
+- message: ActionDispatch::Http::ParameterFilter is deprecated and will be removed
+    from Rails 6.1. Use ActiveSupport::ParameterFilter instead.
+- message: Class level methods will no longer inherit scoping from `all_hosts` in
+    Rails 6.1. To continue using the scoped relation, pass it into the block directly.
+    To instead access the full set of models, as Rails 6.1 will, use `ConfigManagementError.unscoped`,
+    or `ConfigManagementError.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create!` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Puppetclass.unscoped`,
+    or `Puppetclass.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create!` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Puppetclass.unscoped`,
+    or `Puppetclass.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Architecture.unscoped`,
+    or `Architecture.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `AuthSourceExternal.unscoped`,
+    or `AuthSourceExternal.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Domain.unscoped`,
+    or `Domain.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Environment.unscoped`,
+    or `Environment.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Model.unscoped`,
+    or `Model.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Role.unscoped`,
+    or `Role.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `create` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Usergroup.unscoped`,
+    or `Usergroup.default_scoped` if a model has default scopes.
+- message: Class level methods will no longer inherit scoping from `my_bookmarks`
+    in Rails 6.1. To continue using the scoped relation, pass it into the block directly.
+    To instead access the full set of models, as Rails 6.1 will, use `Bookmark.unscoped`,
+    or `Bookmark.default_scoped` if a model has default scopes.
+- message: Controller-level `force_ssl` is deprecated and will be removed from Rails
+    6.1. Please enable `config.force_ssl` in your environment configuration to enable
+    the ActionDispatch::SSL middleware to more fully enforce that your application
+    communicate over HTTPS. If needed, you can use `config.ssl_options` to exempt
+    matching endpoints from being redirected to HTTPS.
+- message: NOT conditions will no longer behave as NOR in Rails 6.1. To continue using
+    NOR conditions, NOT each conditions manually (`.where.not(:compute_resource_id
+    => ...).where.not(:uuid => ...)`).
+- message: Rails 6.1 will return Content-Type header without modification. If you
+    want just the MIME type, please use `#media_type` instead.
+- message: "`.represent_boolean_as_integer=` is now always true, so setting this is
+    deprecated and will be removed in Rails 6.1."
+- message: "`Module#parent` has been renamed to `module_parent`. `parent` is deprecated
+    and will be removed in Rails 6.1."
