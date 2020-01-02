@@ -4,9 +4,9 @@ Rake::Task['webpack:compile'].clear
 namespace :webpack do
   # TODO: remove after migrating away from webpack-rails (after setting the
   # max_old_space_size) in other tool.
-  desc <<-EOF.strip_heredoc
-  Compile webpack bundles: overriding the rake task from webpack-rails to be
-  able to set the max_old_space_size option.
+  desc <<~EOF
+    Compile webpack bundles: overriding the rake task from webpack-rails to be
+    able to set the max_old_space_size option.
   EOF
   task compile: :environment do
     ENV["TARGET"] = 'production' # TODO: Deprecated, use NODE_ENV instead
