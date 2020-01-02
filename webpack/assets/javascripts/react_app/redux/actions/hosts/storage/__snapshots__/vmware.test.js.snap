@@ -2,26 +2,30 @@
 
 exports[`vmware storage hosts actions fetchDatastores makes the ajax request to the right url 1`] = `
 Object {
-  "key": "STORAGE_VMWARE_DATASTORES",
   "payload": Object {
-    "params": Object {
-      "cluster_id": "cluster",
+    "key": "STORAGE_VMWARE_DATASTORES",
+    "payload": Object {
+      "params": Object {
+        "cluster_id": "cluster",
+      },
     },
+    "url": "test.com/datastores",
   },
   "type": "API_GET",
-  "url": "test.com/datastores",
 }
 `;
 
 exports[`vmware storage hosts actions fetchStoragePods makes the ajax request to the right url 1`] = `
 Object {
-  "key": "STORAGE_VMWARE_STORAGEPODS",
   "payload": Object {
-    "params": Object {
-      "cluster_id": "cluster",
+    "key": "STORAGE_VMWARE_STORAGEPODS",
+    "payload": Object {
+      "params": Object {
+        "cluster_id": "cluster",
+      },
     },
+    "url": "test.com/storage_pods",
   },
   "type": "API_GET",
-  "url": "test.com/storage_pods",
 }
 `;

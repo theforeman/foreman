@@ -9,12 +9,14 @@ Array [
     "type": "HOST_POWER_STATUS_REQUEST",
   },
   Object {
-    "key": "HOST_POWER_STATUS",
     "payload": Object {
-      "id": 0,
+      "key": "HOST_POWER_STATUS",
+      "payload": Object {
+        "id": 0,
+      },
+      "url": "/hosts/0/power",
     },
     "type": "API_GET",
-    "url": "/hosts/0/power",
   },
   Object {
     "payload": Object {
@@ -35,12 +37,14 @@ Array [
     "type": "HOST_POWER_STATUS_REQUEST",
   },
   Object {
-    "key": "HOST_POWER_STATUS",
     "payload": Object {
-      "id": 1,
+      "key": "HOST_POWER_STATUS",
+      "payload": Object {
+        "id": 1,
+      },
+      "url": "/hosts/1/power",
     },
     "type": "API_GET",
-    "url": "/hosts/1/power",
   },
   Object {
     "payload": Object {

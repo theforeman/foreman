@@ -4,14 +4,14 @@ import {
   BOOKMARKS_MODAL_OPENED,
   BOOKMARKS_MODAL_CLOSED,
 } from './BookmarksConstants';
-import { API_OPERATIONS } from '../../redux/API';
+import { get } from '../../redux/API';
 
-const _getBookmarks = (url, controller) => ({
-  type: API_OPERATIONS.GET,
-  key: BOOKMARKS,
-  url,
-  payload: { controller },
-});
+const _getBookmarks = (url, controller) =>
+  get({
+    key: BOOKMARKS,
+    url,
+    payload: { controller },
+  });
 
 export const getBookmarks = (url, controller) => {
   const uri = new URI(url);

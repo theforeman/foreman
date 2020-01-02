@@ -10,7 +10,7 @@ import {
   STORAGE_VMWARE_DATASTORES,
   STORAGE_VMWARE_STORAGEPODS,
 } from '../../../consts';
-import { API_OPERATIONS } from '../../../API';
+import { get } from '../../../API';
 import {
   defaultControllerAttributes,
   getDefaultDiskAttributes,
@@ -61,12 +61,12 @@ export const changeCluster = newCluster => (dispatch, getState) => {
   }
 };
 
-const fetchStorages = (url, cluster, key) => ({
-  type: API_OPERATIONS.GET,
-  key,
-  url,
-  payload: { params: { cluster_id: cluster } },
-});
+const fetchStorages = (url, cluster, key) =>
+  get({
+    key,
+    url,
+    payload: { params: { cluster_id: cluster } },
+  });
 
 export const fetchDatastores = (url, cluster) =>
   fetchStorages(url, cluster, STORAGE_VMWARE_DATASTORES);

@@ -12,15 +12,17 @@ Array [
     "type": "STATISTICS_DATA_REQUEST",
   },
   Object {
-    "key": "STATISTICS_DATA",
     "payload": Object {
-      "id": "operatingsystem",
-      "search": "/hosts?search=os_title=~VAL~",
-      "title": "OS Distribution",
+      "key": "STATISTICS_DATA",
+      "payload": Object {
+        "id": "operatingsystem",
+        "search": "/hosts?search=os_title=~VAL~",
+        "title": "OS Distribution",
+        "url": "statistics/operatingsystem",
+      },
       "url": "statistics/operatingsystem",
     },
     "type": "API_GET",
-    "url": "statistics/operatingsystem",
   },
   Object {
     "payload": Object {
@@ -32,15 +34,17 @@ Array [
     "type": "STATISTICS_DATA_REQUEST",
   },
   Object {
-    "key": "STATISTICS_DATA",
     "payload": Object {
-      "id": "architecture",
-      "search": "/hosts?search=facts.architecture=~VAL~",
-      "title": "Architecture Distribution",
+      "key": "STATISTICS_DATA",
+      "payload": Object {
+        "id": "architecture",
+        "search": "/hosts?search=facts.architecture=~VAL~",
+        "title": "Architecture Distribution",
+        "url": "statistics/architecture",
+      },
       "url": "statistics/architecture",
     },
     "type": "API_GET",
-    "url": "statistics/architecture",
   },
   Object {
     "payload": Object {
@@ -93,15 +97,17 @@ Array [
     "type": "STATISTICS_DATA_REQUEST",
   },
   Object {
-    "key": "STATISTICS_DATA",
     "payload": Object {
-      "id": "operatingsystem",
-      "search": "/hosts?search=os_title=~VAL~",
-      "title": "OS Distribution",
+      "key": "STATISTICS_DATA",
+      "payload": Object {
+        "id": "operatingsystem",
+        "search": "/hosts?search=os_title=~VAL~",
+        "title": "OS Distribution",
+        "url": "statistics/operatingsystem",
+      },
       "url": "statistics/operatingsystem",
     },
     "type": "API_GET",
-    "url": "statistics/operatingsystem",
   },
   Object {
     "payload": Object {
@@ -113,15 +119,17 @@ Array [
     "type": "STATISTICS_DATA_REQUEST",
   },
   Object {
-    "key": "STATISTICS_DATA",
     "payload": Object {
-      "id": "architecture",
-      "search": "/hosts?search=facts.architecture=~VAL~",
-      "title": "Architecture Distribution",
+      "key": "STATISTICS_DATA",
+      "payload": Object {
+        "id": "architecture",
+        "search": "/hosts?search=facts.architecture=~VAL~",
+        "title": "Architecture Distribution",
+        "url": "statistics/architecture",
+      },
       "url": "statistics/architecture",
     },
     "type": "API_GET",
-    "url": "statistics/architecture",
   },
   Object {
     "payload": Object {

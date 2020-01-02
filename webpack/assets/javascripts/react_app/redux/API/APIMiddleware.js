@@ -1,10 +1,10 @@
-import { API_OPERATIONS, actionTypeGenerator } from './';
+import { API_OPERATIONS } from './';
 import { get } from './APIRequest';
 
 export const APIMiddleware = store => next => action => {
-  const { type, key, payload = {}, url, actionTypes = {} } = action;
+  const { type, payload } = action;
   if (type === API_OPERATIONS.GET) {
-    get(payload, url, store, actionTypeGenerator(key, actionTypes));
+    get(payload, store);
   }
 
   return next(action);
