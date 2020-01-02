@@ -194,13 +194,18 @@ module.exports = env => {
         /react-intl\/locale-data/,
         supportedLanguagesRE
       ),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: Infinity,
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'foreman-react',
+        chunks: ['bundle', ...Object.keys(pluginEntries)],
+        minChunks: (module) =>
+        module.resource && (/(foremanReact|react_app)/).test(module.resource),
+      }),
     ]
   };
-
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: Infinity,
-  }))
 
   if (production) {
     config.plugins.push(
