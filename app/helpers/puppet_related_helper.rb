@@ -62,12 +62,10 @@ module PuppetRelatedHelper
 
   def interesting_puppetclasses(obj)
     classes = obj.all_puppetclasses
-    classes_ids = classes.reorder("").pluck("puppetclasses.id")
-    smart_vars = VariableLookupKey.reorder("").where(:puppetclass_id => classes_ids).distinct.pluck(:puppetclass_id)
-    class_vars = PuppetclassLookupKey.reorder("").joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes_ids }).distinct.pluck("environment_classes.puppetclass_id")
-    klasses    = (smart_vars + class_vars).uniq
+    classes_ids = classes.reorder(nil).pluck("puppetclasses.id")
+    class_vars = PuppetclassLookupKey.reorder(nil).joins(:environment_classes).where(:environment_classes => { :puppetclass_id => classes_ids }).distinct.pluck("environment_classes.puppetclass_id")
 
-    classes.where(:id => klasses)
+    classes.where(:id => class_vars)
   end
 
   def puppetclasses_tab(puppetclasses_receiver)

@@ -44,7 +44,7 @@ module LookupKeysHelper
   end
 
   def overridable_lookup_keys(klass, obj)
-    klass.class_params.override.where(:environment_classes => {:environment_id => obj.environment}) + klass.lookup_keys
+    klass.class_params.override.where(:environment_classes => {:environment_id => obj.environment})
   end
 
   def can_edit_params?
