@@ -1,19 +1,13 @@
 import { get } from '../APIRequest';
 import { API } from '../';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+import { action } from '../APIFixtures';
 
 const data = { results: [1] };
-const payload = { name: 'test', id: 'myid' };
 jest.mock('../');
 
 describe('API get', () => {
   const store = { dispatch: jest.fn() };
-  const url = 'test/subtest';
-  const actionTypes = {
-    REQUEST: 'TEST_REQUEST',
-    SUCCESS: 'TEST_SUCCESS',
-    FAILURE: 'TEST_FAILURE',
-  };
   beforeEach(() => {
     store.dispatch = jest.fn();
   });
@@ -25,7 +19,7 @@ describe('API get', () => {
           resolve({ data });
         })
     );
-    get(payload, url, store, actionTypes);
+    get(action.payload, store);
     await IntegrationTestHelper.flushAllPromises();
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
@@ -37,7 +31,7 @@ describe('API get', () => {
           reject(Error('bad request'));
         })
     );
-    get(payload, url, store, actionTypes);
+    get(action.payload, store);
     await IntegrationTestHelper.flushAllPromises();
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });

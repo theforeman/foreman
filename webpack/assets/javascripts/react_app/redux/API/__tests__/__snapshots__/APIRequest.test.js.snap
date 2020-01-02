@@ -5,20 +5,18 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "id": "myid",
-        "name": "test",
+        "id": 2,
       },
-      "type": "TEST_REQUEST",
+      "type": "CUSTOM_REQUEST",
     },
   ],
   Array [
     Object {
       "payload": Object {
-        "id": "myid",
-        "name": "test",
+        "id": 2,
       },
       "response": [Error: bad request],
-      "type": "TEST_FAILURE",
+      "type": "CUSTOM_FAILURE",
     },
   ],
 ]
@@ -29,24 +27,22 @@ Array [
   Array [
     Object {
       "payload": Object {
-        "id": "myid",
-        "name": "test",
+        "id": 2,
       },
-      "type": "TEST_REQUEST",
+      "type": "CUSTOM_REQUEST",
     },
   ],
   Array [
     Object {
       "payload": Object {
-        "id": "myid",
-        "name": "test",
+        "id": 2,
       },
       "response": Object {
         "results": Array [
           1,
         ],
       },
-      "type": "TEST_SUCCESS",
+      "type": "CUSTOM_SUCCESS",
     },
   ],
 ]

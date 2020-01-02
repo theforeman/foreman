@@ -5,12 +5,14 @@ Object {
   "action": Array [
     Array [
       Object {
-        "key": "BOOKMARKS",
         "payload": Object {
-          "controller": "hosts",
+          "key": "BOOKMARKS",
+          "payload": Object {
+            "controller": "hosts",
+          },
+          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=100",
         },
         "type": "API_GET",
-        "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=100",
       },
     ],
   ],

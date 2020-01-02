@@ -1,5 +1,5 @@
 import URI from 'urijs';
-import { API_OPERATIONS } from './../../../../redux/API';
+import { get } from './../../../../redux/API';
 /**
  * An async Redux action that fetches and stores table data in Redux.
  * @param  {String} tableID    the table ID for Redux
@@ -11,12 +11,11 @@ const getTableItemsAction = (tableID, query, fetchUrl) => {
   const url = new URI(fetchUrl);
   url.addSearch({ ...query, include_permissions: true });
 
-  return {
-    type: API_OPERATIONS.GET,
+  return get({
     key: tableID.toUpperCase(),
     url: url.toString(),
     payload: { tableID, url: url.toString() },
-  };
+  });
 };
 
 export default getTableItemsAction;
