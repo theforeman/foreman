@@ -17,9 +17,18 @@ FactoryBot.define do
       provider { 'GCE' }
       key_path { 'gce_config.json' }
       project { 'gce_project' }
+      zone { 'us-west1-a' }
       sequence(:email) { |n| "user#{n}@example.com" }
+      after(:stub) do |cr|
+        cr.stubs(:zones).returns(
+          ['us-west1-b', 'us-west1-c', 'us-west1-a', 'us-east1-b', 'us-east1-c', 'us-east1-d']
+        )
+      end
       after(:build) do |cr|
         cr.stubs(:setup_key_pair)
+        cr.stubs(:zones).returns(
+          ['us-west1-b', 'us-west1-c', 'us-west1-a', 'us-east1-b', 'us-east1-c', 'us-east1-d']
+        )
         cr.stubs(:read_key_file).returns(
           {
             'type' => 'service_account',
