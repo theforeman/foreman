@@ -153,4 +153,13 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       end
     end
   end
+
+  test 'fails when provided zone is not a valid on GCE' do
+    cr = FactoryBot.build(:gce_cr, :zone => 'xyz')
+    cr.send(:validate_zone)
+
+    assert_not cr.valid?
+    assert_include cr.errors.keys, :zone
+    assert_include cr.errors[:zone], 'is not valid'
+  end
 end

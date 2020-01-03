@@ -2,8 +2,8 @@ module Foreman::Model
   class GCE < ComputeResource
     has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
     before_create :setup_key_pair
-    validate :check_google_key_format_and_options
-    validates :key_path, :project, :email, :presence => true
+    validates :key_path, :project, :email, :zone, :presence => true
+    validate :ensure_attributes_and_values
 
     delegate :machine_types, :to => :client
     alias_method :available_flavors, :machine_types
@@ -256,6 +256,11 @@ module Foreman::Model
       network_interfaces_list
     end
 
+    def ensure_attributes_and_values
+      check_google_key_format_and_options
+      validate_zone
+    end
+
     def read_key_file
       return nil unless File.exist?(key_path)
       JSON.parse(File.read(key_path).chomp)
@@ -275,6 +280,13 @@ module Foreman::Model
     rescue => e
       Foreman::Logging.exception("Failed to access gce key path", e)
       errors.add(:key_path, e.message.to_s)
+    end
+
+    def validate_zone
+      errors.add(:zone, 'is not valid') if zone && !zones.include?(zone.to_s.downcase)
+    rescue => e
+      Foreman::Logging.exception("Failed to connect", e)
+      errors[:base] << e.message
     end
 
     def vm_instance_defaults
