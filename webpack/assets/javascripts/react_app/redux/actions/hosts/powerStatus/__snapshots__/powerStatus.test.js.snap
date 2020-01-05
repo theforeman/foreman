@@ -6,6 +6,7 @@ Array [
     "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 0,
+      "url": "/hosts/0/power",
     },
     "type": "HOST_POWER_STATUS_REQUEST",
   },
@@ -23,6 +24,7 @@ Array [
     "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 0,
+      "url": "/hosts/0/power",
     },
     "response": [Error: Request failed with status code 500],
     "type": "HOST_POWER_STATUS_FAILURE",
@@ -36,6 +38,7 @@ Array [
     "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 1,
+      "url": "/hosts/1/power",
     },
     "type": "HOST_POWER_STATUS_REQUEST",
   },
@@ -53,6 +56,7 @@ Array [
     "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 1,
+      "url": "/hosts/1/power",
     },
     "response": Object {
       "id": 1,
