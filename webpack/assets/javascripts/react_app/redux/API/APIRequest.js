@@ -6,24 +6,25 @@ export const get = async (
   { dispatch }
 ) => {
   const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(key, actionTypes);
+  const modifiedPayload = { ...payload, url };
   dispatch({
     type: REQUEST,
     key,
-    payload,
+    payload: modifiedPayload,
   });
   try {
     const { data } = await API.get(url, headers, params);
     dispatch({
       type: SUCCESS,
       key,
-      payload,
+      payload: modifiedPayload,
       response: data,
     });
   } catch (error) {
     dispatch({
       type: FAILURE,
       key,
-      payload,
+      payload: modifiedPayload,
       response: error,
     });
   }

@@ -7,6 +7,7 @@ Array [
       "key": "SOME_KEY",
       "payload": Object {
         "id": 2,
+        "url": "some/url",
       },
       "type": "SOME_KEY_REQUEST",
     },
@@ -16,6 +17,7 @@ Array [
       "key": "SOME_KEY",
       "payload": Object {
         "id": 2,
+        "url": "some/url",
       },
       "response": [Error: bad request],
       "type": "SOME_KEY_FAILURE",
@@ -31,6 +33,7 @@ Array [
       "key": "SOME_KEY",
       "payload": Object {
         "id": 2,
+        "url": "some/url",
       },
       "type": "SOME_KEY_REQUEST",
     },
@@ -40,6 +43,7 @@ Array [
       "key": "SOME_KEY",
       "payload": Object {
         "id": 2,
+        "url": "some/url",
       },
       "response": Object {
         "results": Array [
