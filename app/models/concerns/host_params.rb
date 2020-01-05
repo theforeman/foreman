@@ -8,7 +8,7 @@ module HostParams
     include ParameterValidators
 
     def params
-      host_params.update(HostInfoProviders::PuppetInfo.new(self).smart_variables)
+      host_params
     end
 
     def clear_host_parameters_cache!

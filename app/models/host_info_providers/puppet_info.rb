@@ -3,10 +3,6 @@ module HostInfoProviders
     def host_info
       # Static parameters
       param = puppet_static_info
-
-      # Parse ERB values contained in the parameters
-      param = ParameterSafeRender.new(host).render(param)
-
       info_hash = {}
       info_hash['classes'] = classes_info_hash
       info_hash['parameters'] = param
@@ -27,27 +23,8 @@ module HostInfoProviders
       klasses
     end
 
-    def smart_variables
-      return {} unless Setting["Enable_Smart_Variables_in_ENC"]
-
-      keys = VariableLookupKey.global_parameters_for_class(host.puppetclass_ids)
-      values = keys.values_hash(host)
-
-      parameters = {}
-      keys.each do |key|
-        parameters[key.to_s] = values[key]
-      end
-      parameters
-    end
-
     def inherited_puppetclass_parameters
       keys = PuppetclassLookupKey.includes(:environment_classes).parameters_for_class(host.puppetclass_ids, host.environment_id)
-
-      keys.inherited_values(host).raw
-    end
-
-    def inherited_smart_variables
-      keys = VariableLookupKey.global_parameters_for_class(host.puppetclass_ids)
 
       keys.inherited_values(host).raw
     end
@@ -63,7 +40,7 @@ module HostInfoProviders
 
       params.merge! networking_params if Setting[:ignore_puppet_facts_for_provisioning]
 
-      params.update(smart_variables)
+      params
     end
 
     def ca_defined?

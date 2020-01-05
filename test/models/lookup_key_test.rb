@@ -83,34 +83,6 @@ class LookupKeyTest < ActiveSupport::TestCase
     refute key.overridden?(@host1)
   end
 
-  def test_parameters_multiple_paths
-    @host1.hostgroup = hostgroups(:common)
-    @host2.hostgroup = hostgroups(:unusual)
-
-    default = "default"
-    key = ""
-    value1 = ""
-    value2 = ""
-    puppetclass = Puppetclass.first
-
-    as_admin do
-      key    = VariableLookupKey.create!(:key => "dns", :path => "environment,hostgroup \n hostgroup", :puppetclass => puppetclass,
-                                 :default_value => default, :override => true)
-      value1 = LookupValue.create!(:value => "v1", :match => "hostgroup=Common", :lookup_key => key)
-      value2 = LookupValue.create!(:value => "v2", :match => "hostgroup=Unusual", :lookup_key => key)
-
-      @host1.puppetclasses << puppetclass
-      @host2.puppetclasses << puppetclass
-      @host3.puppetclasses << puppetclass
-    end
-
-    key.reload
-
-    assert_equal value1.value, HostInfoProviders::PuppetInfo.new(@host1).smart_variables['dns']
-    assert_equal value2.value, HostInfoProviders::PuppetInfo.new(@host2).smart_variables['dns']
-    assert_equal default, HostInfoProviders::PuppetInfo.new(@host3).smart_variables['dns']
-  end
-
   test 'default_value value should not be casted if override is false' do
     param = FactoryBot.build(:puppetclass_lookup_key, :as_smart_class_param,
                               :override => false, :key_type => 'boolean',

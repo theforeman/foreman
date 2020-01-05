@@ -42,11 +42,7 @@ module HostsHelper
 
   def value_hash_cache(host)
     @value_hash_cache ||= {}
-    @value_hash_cache[host.id] ||= begin
-      info = HostInfoProviders::PuppetInfo.new(host)
-      info.inherited_puppetclass_parameters.
-        merge(info.inherited_smart_variables)
-    end
+    @value_hash_cache[host.id] ||= HostInfoProviders::PuppetInfo.new(host).inherited_puppetclass_parameters
   end
 
   def host_taxonomy_select(f, taxonomy)
