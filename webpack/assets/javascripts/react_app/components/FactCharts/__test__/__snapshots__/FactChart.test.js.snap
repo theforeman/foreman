@@ -5,6 +5,7 @@ exports[`factCharts should render closed 1`] = `
   value={null}
 >
   <FactChart
+    chartData={Array []}
     closeModal={[Function]}
     data={
       Object {
@@ -12,17 +13,11 @@ exports[`factCharts should render closed 1`] = `
         "title": "test title",
       }
     }
-    factChart={
-      Object {
-        "chartData": Array [],
-        "loaderStatus": "",
-        "modalToDisplay": Object {},
-      }
-    }
     getChartData={[Function]}
     hostsCount={0}
     modalToDisplay={false}
     showModal={[Function]}
+    status="PENDING"
     store={
       Object {
         "dispatch": [Function],
@@ -41,6 +36,7 @@ exports[`factCharts should render open 1`] = `
   value={null}
 >
   <FactChart
+    chartData={Array []}
     closeModal={[Function]}
     data={
       Object {
@@ -48,17 +44,11 @@ exports[`factCharts should render open 1`] = `
         "title": "test title",
       }
     }
-    factChart={
-      Object {
-        "chartData": Array [],
-        "loaderStatus": "",
-        "modalToDisplay": Object {},
-      }
-    }
     getChartData={[Function]}
     hostsCount={0}
     modalToDisplay={false}
     showModal={[Function]}
+    status="PENDING"
     store={
       Object {
         "dispatch": [Function],

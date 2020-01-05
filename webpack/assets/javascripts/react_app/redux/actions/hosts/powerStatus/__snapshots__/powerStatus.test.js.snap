@@ -3,6 +3,7 @@
 exports[`hosts actions creates HOST_POWER_STATUS_REQUEST and fails when host not found 1`] = `
 Array [
   Object {
+    "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 0,
     },
@@ -19,6 +20,7 @@ Array [
     "type": "API_GET",
   },
   Object {
+    "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 0,
     },
@@ -31,6 +33,7 @@ Array [
 exports[`hosts actions creates HOST_POWER_STATUS_REQUEST and responds with success 1`] = `
 Array [
   Object {
+    "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 1,
     },
@@ -47,6 +50,7 @@ Array [
     "type": "API_GET",
   },
   Object {
+    "key": "HOST_POWER_STATUS",
     "payload": Object {
       "id": 1,
     },

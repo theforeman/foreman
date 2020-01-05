@@ -57,3 +57,24 @@ dispatch(
   })
 );
 ```
+
+## Main API Reducer
+
+The API will manage the request lifecycle in the redux store > API > the provided key, e.g:
+```js
+{
+  API: {
+    MY_COMPONENT_KEY: { // this is the key you provided in the API action.
+      status: 'RESOLVED',
+      payload, // the payload you passed to the API action
+      response, // the API response. it will store data on success or error on failure.
+    }
+  }
+}
+```
+it will manage the request statuses, errors and responses.
+
+### Access the API store
+
+We provided you the `selectAPIByKey` in '/APISelectors.js' which will return the key substate,
+there are also `selectAPIStatus`, `selectAPIPayload`, `selectAPIResponse`, `selectAPIError` and `selectAPIErrorMessage`.

@@ -3,12 +3,21 @@ import {
   selectFactChart,
   selectDisplayModal,
   selectFactChartData,
+  selectFactChartStatus,
 } from '../FactChartSelectors';
 import { chartDataValues } from '../FactChart.fixtures';
+import { FACT_CHART } from '../FactChartConstants';
+import { STATUS } from '../../../constants';
 
 describe('Fact Chart Selector', () => {
   const factChartState = {
-    factChart: { chartData: chartDataValues, modalToDisplay: { 1: true } },
+    factChart: { modalToDisplay: { 1: true } },
+    API: {
+      [FACT_CHART]: {
+        response: { values: chartDataValues },
+        status: STATUS.PENDING,
+      },
+    },
   };
 
   it('should count hosts', () => {
@@ -30,6 +39,12 @@ describe('Fact Chart Selector', () => {
 
   it('should return factChart data', () => {
     const data = selectFactChartData(factChartState);
+
+    expect(data).toMatchSnapshot();
+  });
+
+  it('should return factChart status', () => {
+    const data = selectFactChartStatus(factChartState);
 
     expect(data).toMatchSnapshot();
   });

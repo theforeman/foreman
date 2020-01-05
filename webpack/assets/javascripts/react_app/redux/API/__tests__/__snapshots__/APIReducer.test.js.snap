@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API reducer should handle API failure action 1`] = `
+Object {
+  "SOME_KEY": Object {
+    "payload": Object {
+      "id": 2,
+    },
+    "response": [Error: some_error],
+    "status": "ERROR",
+  },
+}
+`;
+
+exports[`API reducer should handle API request action 1`] = `
+Object {
+  "SOME_KEY": Object {
+    "payload": Object {
+      "id": 2,
+    },
+    "response": null,
+    "status": "PENDING",
+  },
+}
+`;
+
+exports[`API reducer should handle API success action 1`] = `
+Object {
+  "SOME_KEY": Object {
+    "payload": Object {
+      "id": 2,
+    },
+    "response": Object {
+      "results": Array [
+        1,
+      ],
+    },
+    "status": "RESOLVED",
+  },
+}
+`;
+
+exports[`API reducer should return the initial state 1`] = `Object {}`;

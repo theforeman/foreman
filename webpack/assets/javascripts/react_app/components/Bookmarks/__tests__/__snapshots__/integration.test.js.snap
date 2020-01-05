@@ -35,6 +35,7 @@ Object {
   "action": Array [
     Array [
       Object {
+        "key": "BOOKMARKS",
         "payload": Object {
           "controller": "hosts",
         },

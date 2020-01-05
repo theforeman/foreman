@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import {
   selectHostCount,
-  selectFactChart,
   selectDisplayModal,
+  selectFactChartStatus,
+  selectFactChartData,
 } from './FactChartSelectors';
 
 import * as actions from './FactChartActions';
@@ -11,9 +12,10 @@ import reducer from './FactChartReducer';
 import FactChart from './FactChart';
 
 const mapStateToProps = (state, ownProps) => ({
-  factChart: selectFactChart(state),
   hostsCount: selectHostCount(state),
   modalToDisplay: selectDisplayModal(state, ownProps.data.id),
+  status: selectFactChartStatus(state),
+  chartData: selectFactChartData(state),
 });
 
 // export reducers

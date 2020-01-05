@@ -19,6 +19,7 @@ import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware';
 import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 import { reducers as modalReducers } from '../../components/ForemanModal';
+import { reducers as apiReducer } from '../API';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -38,13 +39,16 @@ export function combineReducersAsync(asyncReducers) {
     ...modelsReducers,
     ...templateGenerationReducers,
     ...factChartReducers,
-    ...intervalReducers,
 
     // Pages
     ...statisticsPageReducers,
     ...fillReducers,
     ...auditsPageReducers,
     ...modalReducers,
+
+    // Middlewares
+    ...intervalReducers,
+    ...apiReducer,
   });
 }
 
