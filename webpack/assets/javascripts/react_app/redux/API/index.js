@@ -1,3 +1,7 @@
+import apiReducer from './APIReducer';
+
+export const reducers = { API: apiReducer };
+
 export { actionTypeGenerator } from './APIActionTypeGenerator';
 export { API_OPERATIONS } from './APIConstants';
 export { APIMiddleware } from './APIMiddleware';

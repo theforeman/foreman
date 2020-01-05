@@ -4,9 +4,9 @@ exports[`API actions should call the API get action 1`] = `
 Object {
   "payload": Object {
     "actionTypes": Object {
-      "FAILURE": "CUSTOM_FAILURE",
-      "REQUEST": "CUSTOM_REQUEST",
-      "SUCCESS": "CUSTOM_SUCCESS",
+      "FAILURE": "SOME_KEY_FAILURE",
+      "REQUEST": "SOME_KEY_REQUEST",
+      "SUCCESS": "SOME_KEY_SUCCESS",
     },
     "headers": Object {},
     "key": "SOME_KEY",

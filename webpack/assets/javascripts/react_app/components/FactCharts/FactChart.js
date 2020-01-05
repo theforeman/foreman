@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, OverlayTrigger, Tooltip } from 'patternfly-react';
 import PropTypes from 'prop-types';
-import { bindMethods, noop } from '../../common/helpers';
+import { noop } from '../../common/helpers';
 import DonutChart from '../common/charts/DonutChart';
 import Loader from '../common/Loader';
 import MessageBox from '../common/MessageBox';
@@ -14,12 +14,7 @@ import {
 } from '../../../react_app/common/I18n';
 
 class FactChart extends React.Component {
-  constructor(props) {
-    super(props);
-    bindMethods(this, ['openModal', 'closeModal']);
-  }
-
-  openModal() {
+  openModal = () => {
     const {
       showModal,
       getChartData,
@@ -27,25 +22,23 @@ class FactChart extends React.Component {
     } = this.props;
     getChartData(path, id);
     showModal(id, title);
-  }
-
-  closeModal() {
-    this.props.closeModal();
-  }
+  };
 
   render() {
     const {
-      factChart,
       hostsCount,
       data: { id, title, search },
       modalToDisplay,
+      status,
+      chartData,
+      closeModal,
     } = this.props;
 
     const handleChartClick =
       search && search.match(/=$/) ? null : navigateToSearch.bind(null, search);
 
     const chartProps = {
-      data: factChart.chartData ? factChart.chartData : null,
+      data: chartData,
       key: `chart-${id}`,
       onclick: handleChartClick,
     };
@@ -53,9 +46,7 @@ class FactChart extends React.Component {
     const chart = <DonutChart {...chartProps} config="large" />;
 
     const requestErrorMsg =
-      factChart.loaderStatus === STATUS.ERROR
-        ? __('Request Failed')
-        : __('No data available');
+      status === STATUS.ERROR ? __('Request Failed') : __('No data available');
 
     const error = modalToDisplay ? (
       <MessageBox
@@ -79,7 +70,7 @@ class FactChart extends React.Component {
           <Button onClick={this.openModal}>{__('View Chart')}</Button>
         </OverlayTrigger>
         {modalToDisplay && (
-          <Modal show onHide={this.closeModal}>
+          <Modal show onHide={closeModal}>
             <Modal.Header closeButton>
               <Modal.Title>
                 <b>{sprintf(__('Fact distribution chart - %s '), title)}</b>
@@ -95,9 +86,7 @@ class FactChart extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <div id="factChartModalBody">
-                <Loader status={factChart.loaderStatus}>
-                  {[chart, error]}
-                </Loader>
+                <Loader status={status}>{[chart, error]}</Loader>
               </div>
             </Modal.Body>
           </Modal>
@@ -114,26 +103,23 @@ FactChart.propTypes = {
     search: PropTypes.string,
     path: PropTypes.string,
   }).isRequired,
-  factChart: PropTypes.shape({
-    chartData: PropTypes.arrayOf(PropTypes.array),
-    loaderStatus: PropTypes.string,
-    modalToDisplay: PropTypes.object,
-    title: PropTypes.string,
-  }),
   modalToDisplay: PropTypes.bool,
   hostsCount: PropTypes.number,
   getChartData: PropTypes.func,
   showModal: PropTypes.func,
   closeModal: PropTypes.func,
+  status: PropTypes.string,
+  chartData: PropTypes.arrayOf(PropTypes.array),
 };
 
 FactChart.defaultProps = {
-  factChart: {},
   modalToDisplay: false,
   hostsCount: 0,
   getChartData: noop,
   showModal: noop,
   closeModal: noop,
+  status: null,
+  chartData: null,
 };
 
 export default FactChart;

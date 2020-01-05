@@ -12,6 +12,7 @@ import hoc from './docs/hoc.md';
 import addingDependencies from './docs/addingDependencies.md';
 import internationalization from './docs/internationalization.md';
 import APIMiddleware from './docs/APIMiddleware.md';
+import APIMiddlewareUsage from './docs/APIMiddlewareUsage.md';
 import intervalMiddleware from './docs/intervalMiddleware.md';
 import plugins from './docs/plugins.md';
 import SlotAndFill from './docs/SlotAndFill.md';
@@ -69,11 +70,6 @@ storiesOf('Introduction', module)
       <Markdown source={LegacyJs} />
     </Story>
   ))
-  .add('API Middleware', () => (
-    <Story>
-      <Markdown source={APIMiddleware} />
-    </Story>
-  ))
   .add('Interval Middleware', () => (
     <Story>
       <Markdown source={intervalMiddleware} />
@@ -82,6 +78,18 @@ storiesOf('Introduction', module)
   .add('Creating a form', () => (
     <Story>
       <Markdown source={creatingForm} />
+    </Story>
+  ));
+
+storiesOf('Introduction/API middleware', module)
+  .add('API Middleware', () => (
+    <Story>
+      <Markdown source={APIMiddleware} />
+    </Story>
+  ))
+  .add('Simple Usage', () => (
+    <Story>
+      <Markdown source={APIMiddlewareUsage} />
     </Story>
   ));
 

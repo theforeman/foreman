@@ -3,6 +3,7 @@
 exports[`statistics actions creates STATISTICS_DATA_REQUEST and ends with success 1`] = `
 Array [
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "operatingsystem",
       "search": "/hosts?search=os_title=~VAL~",
@@ -25,6 +26,7 @@ Array [
     "type": "API_GET",
   },
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "architecture",
       "search": "/hosts?search=facts.architecture=~VAL~",
@@ -47,6 +49,7 @@ Array [
     "type": "API_GET",
   },
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "operatingsystem",
       "search": "/hosts?search=os_title=~VAL~",
@@ -65,6 +68,7 @@ Array [
     "type": "STATISTICS_DATA_SUCCESS",
   },
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "architecture",
       "search": "/hosts?search=facts.architecture=~VAL~",
@@ -88,6 +92,7 @@ Array [
 exports[`statistics actions creates STATISTICS_DATA_REQUEST and then fails with 422 1`] = `
 Array [
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "operatingsystem",
       "search": "/hosts?search=os_title=~VAL~",
@@ -110,6 +115,7 @@ Array [
     "type": "API_GET",
   },
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "architecture",
       "search": "/hosts?search=facts.architecture=~VAL~",
@@ -132,6 +138,7 @@ Array [
     "type": "API_GET",
   },
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "operatingsystem",
       "search": "/hosts?search=os_title=~VAL~",
@@ -142,6 +149,7 @@ Array [
     "type": "STATISTICS_DATA_FAILURE",
   },
   Object {
+    "key": "STATISTICS_DATA",
     "payload": Object {
       "id": "architecture",
       "search": "/hosts?search=facts.architecture=~VAL~",

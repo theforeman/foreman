@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API selectors should return the API substate by key 1`] = `
+Object {
+  "payload": Object {
+    "id": 2,
+  },
+  "response": Object {
+    "results": Array [
+      1,
+    ],
+  },
+  "status": "RESOLVED",
+}
+`;
+
+exports[`API selectors should return the API substate error 1`] = `[Error: some_error]`;
+
+exports[`API selectors should return the API substate error message 1`] = `"some_error"`;
+
+exports[`API selectors should return the API substate payload 1`] = `
+Object {
+  "id": 2,
+}
+`;
+
+exports[`API selectors should return the API substate response 1`] = `
+Object {
+  "results": Array [
+    1,
+  ],
+}
+`;
+
+exports[`API selectors should return the API substate status 1`] = `"RESOLVED"`;
+
+exports[`API selectors should return the API wrapper 1`] = `
+Object {
+  "SOME_KEY": Object {
+    "payload": Object {
+      "id": 2,
+    },
+    "response": Object {
+      "results": Array [
+        1,
+      ],
+    },
+    "status": "RESOLVED",
+  },
+}
+`;
