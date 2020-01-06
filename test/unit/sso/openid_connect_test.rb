@@ -50,6 +50,13 @@ class OpenidConnectTest < ActiveSupport::TestCase
       assert_equal subject.available?, false
     end
 
+    test "returns false when api request contain nil JWT token" do
+      token = JWT.encode(nil, nil, 'none')
+      controller = api_controller({:authorization => "Bearer #{token}"})
+      subject = SSO::OpenidConnect.new(controller)
+      assert_equal subject.available?, false
+    end
+
     test "returns false if api request does not contain JWT token" do
       controller = api_controller()
       subject = SSO::OpenidConnect.new(controller)

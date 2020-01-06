@@ -14,6 +14,19 @@ class JwtTest < ActiveSupport::TestCase
       assert sso.available?
     end
 
+    test 'jwt not available when bearer token not present' do
+      controller = get_controller(true, nil)
+      sso = SSO::Jwt.new(controller)
+      assert_equal false, sso.available?
+    end
+
+    test 'jwt not available when token has a issuer' do
+      token_with_issuer = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo5ODAxOTA5NjIsImlhdCI6MTU3OTM0MDc4NywiaXNzIjoiaHR0cHM6Ly9zc28uZXhhbXBsZS5jb20iLCJqdGkiOiJkMzdhZGVkNjM3ZWVmY2E0MmEwNDg0YzRlMDM0OTlhNTBmZGQzMmQwYWQ5NjU5ZDJiNjU5Mzg5ZjY0ZjkxOTdhIn0.oZcgfeTN6oKYJ8-1YxfumOA_8WSCOrmfPvxBygMluHM"
+      controller = get_controller(true, token_with_issuer)
+      sso = SSO::Jwt.new(controller)
+      assert_equal false, sso.available?
+    end
+
     test 'does not reauthenticate if user.current is set' do
       as_user(:one) do
         sso.expects(:authenticate!).never

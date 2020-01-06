@@ -42,9 +42,13 @@ module SSO
     end
 
     def valid_issuer?
+      logger = Foreman::Logging.logger('app')
       payload = jwt_token.decoded_payload
+      if payload.nil?
+        logger.error "Invalid JWT received, please check connectivity with the OpenID Provider"
+        return false
+      end
       unless payload.key?('iss') && (payload['iss'] == Setting['oidc_issuer'])
-        logger = Foreman::Logging.logger('app')
         logger.error "Invalid OIDC issuer received in JWT."
         logger.debug "Received invalid OIDC issuer '#{payload['iss']}'"
         return false
