@@ -15,7 +15,7 @@ module Api
       end
 
       api :GET, '/http_proxies/:id/', N_('Show an HTTP Proxy')
-      param :id, :identifier, :required => true, :desc => N_('Numerical ID or HTTP Proxy name')
+      param :id, :identifier, :required => true, :desc => N_('Identifier of the HTTP Proxy')
       def show
       end
 
