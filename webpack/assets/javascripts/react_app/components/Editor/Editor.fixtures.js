@@ -6,7 +6,10 @@ export const editor = {
   value: 'value',
   previewValue: 'preview',
   renderedEditorValue: 'renderedEditorValue',
-  hosts: [{ id: '1', name: 'host1' }, { id: '2', name: 'host2' }],
+  hosts: [
+    { id: '1', name: 'host1' },
+    { id: '2', name: 'host2' },
+  ],
   filteredHosts: [],
   previewResult: 'previewResult',
   mode: 'Ruby',
@@ -75,4 +78,7 @@ export const serverRenderResponse = {
   data: ['< renderedData />'],
 };
 
-export const hosts = [{ id: '1', name: 'host1' }, { id: '2', name: 'host2' }];
+export const hosts = [
+  { id: '1', name: 'host1' },
+  { id: '2', name: 'host2' },
+];

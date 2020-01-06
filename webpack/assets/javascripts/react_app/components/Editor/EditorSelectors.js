@@ -34,9 +34,8 @@ export const selectSearchQuery = state => selectEditor(state).searchQuery;
 export const selectIsFetchingHosts = state =>
   selectEditor(state).isFetchingHosts;
 
-export const navHostsSelector = createSelector(
-  selectHosts,
-  hosts => navHosts(hosts)
+export const navHostsSelector = createSelector(selectHosts, hosts =>
+  navHosts(hosts)
 );
 
 export const navFilteredHostsSelector = createSelector(

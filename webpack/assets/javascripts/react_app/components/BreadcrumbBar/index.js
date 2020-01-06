@@ -40,7 +40,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 export const reducers = { breadcrumbBar: reducer };
 
 // export connected component
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BreadcrumbBar);
+export default connect(mapStateToProps, mapDispatchToProps)(BreadcrumbBar);

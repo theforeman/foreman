@@ -18,7 +18,4 @@ const mapStateToProps = state => selectGeneratingProps(state);
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 // export connected component
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TemplateGenerator);
+export default connect(mapStateToProps, mapDispatchToProps)(TemplateGenerator);

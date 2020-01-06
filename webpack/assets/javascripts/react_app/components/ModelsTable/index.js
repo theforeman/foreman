@@ -9,7 +9,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 export const reducers = { models_table: reducer };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ModelsTable);
+export default connect(mapStateToProps, mapDispatchToProps)(ModelsTable);

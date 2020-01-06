@@ -1,4 +1,7 @@
-export default [['column1', 100], ['column2', 50]];
+export default [
+  ['column1', 100],
+  ['column2', 50],
+];
 
 export const mockStoryData = {
   donut: {

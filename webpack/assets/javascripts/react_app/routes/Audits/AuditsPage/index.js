@@ -47,10 +47,7 @@ export const reducers = {
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   callOnMount(({ initializeAudits }) => initializeAudits()),
   callOnPopState(({ initializeAudits }) => initializeAudits())
 )(AuditsPage);

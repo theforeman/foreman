@@ -50,14 +50,12 @@ const PageLayout = ({
           <Col className="title_filter" md={searchable ? 6 : 4}>
             {searchable && (
               <div id="search-bar">
-                {
-                  <SearchBar
-                    data={searchProps}
-                    initialQuery={searchQuery}
-                    onSearch={onSearch}
-                    onBookmarkClick={onBookmarkClick}
-                  />
-                }
+                <SearchBar
+                  data={searchProps}
+                  initialQuery={searchQuery}
+                  onSearch={onSearch}
+                  onBookmarkClick={onBookmarkClick}
+                />
               </div>
             )}
           </Col>
