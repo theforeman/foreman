@@ -159,6 +159,13 @@ class SmartProxiesControllerTest < ActionController::TestCase
   test "smart proxy version with previous y warns" do
     foreman_version = Foreman::Version.new
     foreman_x, foreman_y, foreman_z = foreman_version.major.to_i, foreman_version.minor.to_i, foreman_version.build.to_i
+
+    # fix for 1.25 => 2.0 rename
+    if foreman_y == 0
+      foreman_x -= 1
+      foreman_y = 25
+    end
+
     expected_response = {'version' => "#{foreman_x}.#{foreman_y - 1}.#{foreman_z}", 'modules' => {'dns' => '1.11'}}
     ProxyStatus::Version.any_instance.stubs(:version).returns(expected_response)
     get :ping, params: { :id => smart_proxies(:one).to_param }, session: set_session_user
@@ -171,6 +178,17 @@ class SmartProxiesControllerTest < ActionController::TestCase
     foreman_version = Foreman::Version.new
     foreman_x, foreman_y, foreman_z = foreman_version.major.to_i, foreman_version.minor.to_i, foreman_version.build.to_i
     expected_response = {'version' => "#{foreman_x}.#{foreman_y + 2}.#{foreman_z}", 'modules' => {'dns' => '1.11'}}
+    ProxyStatus::Version.any_instance.stubs(:version).returns(expected_response)
+    get :ping, params: { :id => smart_proxies(:one).to_param }, session: set_session_user
+    assert_response :success
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_match(/versions do not match/, show_response['message']['warning']['message'])
+  end
+
+  test "smart proxy version with different x warns" do
+    foreman_version = Foreman::Version.new
+    foreman_x, foreman_y, foreman_z = foreman_version.major.to_i, foreman_version.minor.to_i, foreman_version.build.to_i
+    expected_response = {'version' => "#{foreman_x - 1}.#{foreman_y}.#{foreman_z}", 'modules' => {'dns' => '1.11'}}
     ProxyStatus::Version.any_instance.stubs(:version).returns(expected_response)
     get :ping, params: { :id => smart_proxies(:one).to_param }, session: set_session_user
     assert_response :success
