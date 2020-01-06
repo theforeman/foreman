@@ -37,7 +37,7 @@ module SSO
     end
 
     def no_issuer?
-      !jwt_token.decoded_payload.key?('iss')
+      jwt_token.decoded_payload.present? && !jwt_token.decoded_payload.key?('iss')
     end
   end
 end

@@ -30,9 +30,13 @@ class JwtTokenTest < ActiveSupport::TestCase
   test 'decoding invalid token' do
     jwt_token = JwtToken.new('inVaLiD.inVaLiD.inVaLiD')
 
-    assert_raises JWT::DecodeError do
-      jwt_token.decode
-    end
+    assert_nil jwt_token.decode
+  end
+
+  test 'decoding a nil token' do
+    jwt_token = JwtToken.new(nil)
+
+    assert_nil jwt_token.decode
   end
 
   test 'decoding empty token' do
@@ -44,9 +48,7 @@ class JwtTokenTest < ActiveSupport::TestCase
   test 'decoding garbage token' do
     jwt_token = JwtToken.new('fjdfhjjkdsjfdjksn')
 
-    assert_raises JWT::DecodeError do
-      jwt_token.decode
-    end
+    assert_nil jwt_token.decode
   end
 
   test 'decoding with invalid secret' do

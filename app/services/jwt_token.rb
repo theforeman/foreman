@@ -34,8 +34,21 @@ class JwtToken < Struct.new(:token)
   end
 
   # This method does not verify if the token signature is valid
+  # defined? keyword checks if expression is currently defined. It
+  # therefore, helps to memoize the nil JWT values.
   def decoded_payload
-    @decoded_payload ||= JWT.decode(token, nil, false).first
+    return @decoded_payload if defined?(@decoded_payload)
+    @decoded_payload = JWT.decode(token, nil, false).first
+
+    unless @decoded_payload.is_a?(Hash)
+      logger.error "Invalid decoded JWT format."
+      logger.debug "Received payload: #{@decoded_payload}"
+      @decoded_payload = nil
+    end
+    @decoded_payload
+  rescue JWT::DecodeError => e
+    Foreman::Logging.exception('Failed to decode JWT', e)
+    @decoded_payload = nil
   end
 
   private
@@ -46,6 +59,6 @@ class JwtToken < Struct.new(:token)
   end
 
   def user_id
-    @user_id ||= decoded_payload['user_id']
+    @user_id ||= decoded_payload.try(:[], 'user_id')
   end
 end
