@@ -13,113 +13,99 @@ import {
   translate as __,
 } from '../../../react_app/common/I18n';
 
-class FactChart extends React.Component {
-  openModal = () => {
-    const {
-      showModal,
-      getChartData,
-      data: { id, path, title },
-    } = this.props;
-    getChartData(path, id);
-    showModal(id, title);
+const FactChart = ({
+  hostsCount,
+  modalToDisplay,
+  status,
+  chartData,
+  closeModal,
+  openModal,
+  search,
+  id,
+  title,
+}) => {
+  const handleChartClick =
+    search && search.match(/=$/) ? null : navigateToSearch.bind(null, search);
+
+  const chartProps = {
+    data: chartData,
+    key: `chart-${id}`,
+    onclick: handleChartClick,
   };
 
-  render() {
-    const {
-      hostsCount,
-      data: { id, title, search },
-      modalToDisplay,
-      status,
-      chartData,
-      closeModal,
-    } = this.props;
+  const chart = <DonutChart {...chartProps} config="large" />;
 
-    const handleChartClick =
-      search && search.match(/=$/) ? null : navigateToSearch.bind(null, search);
+  const requestErrorMsg =
+    status === STATUS.ERROR ? __('Request Failed') : __('No data available');
 
-    const chartProps = {
-      data: chartData,
-      key: `chart-${id}`,
-      onclick: handleChartClick,
-    };
+  const error = modalToDisplay ? (
+    <MessageBox
+      msg={requestErrorMsg}
+      icontype="error-circle-o"
+      key={`message-${id}`}
+    />
+  ) : (
+    false
+  );
 
-    const chart = <DonutChart {...chartProps} config="large" />;
+  const tooltip = (
+    <Tooltip id={`viewChartTooltip-${id}`}>
+      {__('Show distribution chart')}
+    </Tooltip>
+  );
 
-    const requestErrorMsg =
-      status === STATUS.ERROR ? __('Request Failed') : __('No data available');
-
-    const error = modalToDisplay ? (
-      <MessageBox
-        msg={requestErrorMsg}
-        icontype="error-circle-o"
-        key={`message-${id}`}
-      />
-    ) : (
-      false
-    );
-
-    const tooltip = (
-      <Tooltip id={`viewChartTooltip-${id}`}>
-        {__('Show distribution chart')}
-      </Tooltip>
-    );
-
-    return (
-      <div>
-        <OverlayTrigger placement="top" overlay={tooltip}>
-          <Button onClick={this.openModal}>{__('View Chart')}</Button>
-        </OverlayTrigger>
-        {modalToDisplay && (
-          <Modal show onHide={closeModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>
-                <b>{sprintf(__('Fact distribution chart - %s '), title)}</b>
-                {hostsCount && (
-                  <small>
-                    {sprintf(
-                      n__('(%s host)', '(%s hosts)', hostsCount),
-                      hostsCount
-                    )}
-                  </small>
-                )}
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div id="factChartModalBody">
-                <Loader status={status}>{[chart, error]}</Loader>
-              </div>
-            </Modal.Body>
-          </Modal>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <OverlayTrigger placement="top" overlay={tooltip}>
+        <Button onClick={openModal}>{__('View Chart')}</Button>
+      </OverlayTrigger>
+      {modalToDisplay && (
+        <Modal show onHide={closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <b>{sprintf(__('Fact distribution chart - %s '), title)}</b>
+              {hostsCount && (
+                <small>
+                  {sprintf(
+                    n__('(%s host)', '(%s hosts)', hostsCount),
+                    hostsCount
+                  )}
+                </small>
+              )}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div id="factChartModalBody">
+              <Loader status={status}>{[chart, error]}</Loader>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
+    </div>
+  );
+};
 
 FactChart.propTypes = {
-  data: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string,
-    search: PropTypes.string,
-    path: PropTypes.string,
-  }).isRequired,
   modalToDisplay: PropTypes.bool,
   hostsCount: PropTypes.number,
-  getChartData: PropTypes.func,
-  showModal: PropTypes.func,
+  openModal: PropTypes.func,
   closeModal: PropTypes.func,
   status: PropTypes.string,
   chartData: PropTypes.arrayOf(PropTypes.array),
+  search: PropTypes.string,
+  title: PropTypes.string,
+  id: PropTypes.number.isRequired,
 };
 
 FactChart.defaultProps = {
   modalToDisplay: false,
   hostsCount: 0,
-  getChartData: noop,
-  showModal: noop,
+  openModal: noop,
   closeModal: noop,
   status: null,
   chartData: null,
+  search: null,
+  title: '',
 };
 
 export default FactChart;

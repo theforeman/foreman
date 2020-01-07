@@ -1,13 +1,12 @@
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
-import { getChartData, showModal, closeModal } from '../FactChartActions';
+import { openModal, closeModal } from '../FactChartActions';
+import { key, url, id, title } from '../FactChart.fixtures';
 
 jest.unmock('../FactChartActions');
 
 const fixtures = {
-  'getChartData should return api get with url and id': () =>
-    getChartData('url', 1),
-  'should open modal': () => showModal(1, 'test title'),
-  'should close modal': () => closeModal(1),
+  'should open modal': () => openModal({ apiKey: key, apiUrl: url, id, title }),
+  'should close modal': () => closeModal(id),
 };
 
 describe('FactCharts actions', () => testActionSnapshotWithFixtures(fixtures));

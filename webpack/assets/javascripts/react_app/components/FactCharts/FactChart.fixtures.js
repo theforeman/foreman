@@ -1,31 +1,51 @@
 import Immutable from 'seamless-immutable';
 import { STATUS } from '../../constants';
-import { mockStoryData } from '../common/charts/DonutChart/DonutChart.fixtures';
+import { noop } from '../../common/helpers';
+import { FACT_CHART } from './FactChartConstants';
 
-export const chartDataValues = mockStoryData.data.columns;
+export const id = 1;
+export const url = 'some/url';
+export const key = `${FACT_CHART}_${id}`;
+export const title = 'some_title';
+export const search = 'some-search';
+export const status = STATUS.RESOLVED;
+export const hostsCount = 100;
+export const modalToDisplay = { 1: true };
+export const openModal = noop;
+export const closeModal = noop;
+export const chartData = [
+  ['Debian 8', 1],
+  ['Fedora 27', 2],
+  ['Fedora 26', 1],
+];
 
 export const initialState = Immutable({
   modalToDisplay: {},
-  chartData: [],
-  loaderStatus: '',
 });
 
-export const modalOpenState = initialState.setIn(['modalToDisplay'], {
-  1: true,
-});
+export const modalOpenState = initialState.merge({ modalToDisplay });
 
 export const modalSuccessState = Immutable.merge(initialState, {
-  modalToDisplay: { 1: true },
-  chartData: chartDataValues,
-  loaderStatus: STATUS.RESOLVED,
+  modalToDisplay,
+  chartData,
 });
 
 export const modalLoadingState = Immutable.merge(initialState, {
-  modalToDisplay: { 1: true },
-  loaderStatus: STATUS.PENDING,
+  modalToDisplay,
 });
 
 export const modalErrorState = Immutable.merge(initialState, {
-  modalToDisplay: { 1: true },
-  loaderStatus: STATUS.ERROR,
+  modalToDisplay,
 });
+
+export const props = {
+  id,
+  title,
+  search,
+  status,
+  hostsCount,
+  chartData,
+  modalToDisplay: true,
+  openModal,
+  closeModal,
+};

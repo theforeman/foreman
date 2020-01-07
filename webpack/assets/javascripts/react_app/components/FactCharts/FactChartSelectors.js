@@ -3,13 +3,12 @@ import {
   selectAPIStatus,
   selectAPIResponse,
 } from '../../redux/API/APISelectors';
-import { FACT_CHART } from './FactChartConstants';
 
-export const selectFactChartData = state =>
-  selectAPIResponse(state, FACT_CHART).values || [];
+export const selectFactChartData = (state, key) =>
+  selectAPIResponse(state, key).values || [];
 
-export const selectFactChartStatus = state =>
-  selectAPIStatus(state, FACT_CHART);
+export const selectFactChartStatus = (state, key) =>
+  selectAPIStatus(state, key);
 
 const hostCounter = (accumulator, currentValue) => accumulator + currentValue;
 

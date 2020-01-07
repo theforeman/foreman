@@ -1,3 +1,5 @@
+import { STATUS } from '../../../constants';
+import { chartData, modalToDisplay, id, key } from '../FactChart.fixtures';
 import {
   selectHostCount,
   selectFactChart,
@@ -5,24 +7,21 @@ import {
   selectFactChartData,
   selectFactChartStatus,
 } from '../FactChartSelectors';
-import { chartDataValues } from '../FactChart.fixtures';
-import { FACT_CHART } from '../FactChartConstants';
-import { STATUS } from '../../../constants';
 
 describe('Fact Chart Selector', () => {
   const factChartState = {
-    factChart: { modalToDisplay: { 1: true } },
+    factChart: { modalToDisplay },
     API: {
-      [FACT_CHART]: {
-        response: { values: chartDataValues },
+      [key]: {
+        response: { values: chartData },
         status: STATUS.PENDING,
       },
     },
   };
 
   it('should count hosts', () => {
-    const selected = selectHostCount(factChartState);
-    expect(selected).toEqual(13);
+    const selected = selectHostCount(factChartState, key);
+    expect(selected).toMatchSnapshot();
   });
 
   it('should return factChart object', () => {
@@ -32,19 +31,19 @@ describe('Fact Chart Selector', () => {
   });
 
   it('should return true for rendering modal', () => {
-    const chart = selectDisplayModal(factChartState, 1);
+    const chart = selectDisplayModal(factChartState, id);
 
     expect(chart).toMatchSnapshot();
   });
 
   it('should return factChart data', () => {
-    const data = selectFactChartData(factChartState);
+    const data = selectFactChartData(factChartState, key);
 
     expect(data).toMatchSnapshot();
   });
 
   it('should return factChart status', () => {
-    const data = selectFactChartStatus(factChartState);
+    const data = selectFactChartStatus(factChartState, key);
 
     expect(data).toMatchSnapshot();
   });
