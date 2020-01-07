@@ -1,19 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Fact Chart Selector should count hosts 1`] = `4`;
+
 exports[`Fact Chart Selector should return factChart data 1`] = `
 Array [
-  Array [
-    "Fedora 21 extra extra extra extra extra extra extra extra extra extra long label",
-    3,
-  ],
-  Array [
-    "Ubuntu 14.04",
-    4,
-  ],
-  Array [
-    "Centos 7 extra extra long label",
-    2,
-  ],
   Array [
     "Debian 8",
     1,
