@@ -10,31 +10,5 @@ def format_errors(model = nil)
   SeedHelper.format_errors(model)
 end
 
-# now we load all seed files
-foreman_seeds = Dir.glob(Rails.root + 'db/seeds.d/*.rb')
-
-Foreman::Plugin.registered_plugins.each do |name, plugin|
-  engine = (name.to_s.tr('-', '_').camelize + '::Engine').constantize
-  foreman_seeds += Dir.glob(engine.root + 'db/seeds.d/*.rb')
-rescue NameError => e
-  Foreman::Logging.exception("Failed to register plugin #{name}", e)
-end
-
-foreman_seeds = foreman_seeds.sort do |a, b|
-  a.split('/').last <=> b.split('/').last
-end
-
-foreman_seeds.each do |seed|
-  puts "Seeding #{seed}" unless Rails.env.test?
-
-  admin = User.unscoped.find_by_login(User::ANONYMOUS_ADMIN)
-  # anonymous admin does not exist until some of seed step creates it, therefore we use it only when it exists
-  if admin.present?
-    User.as_anonymous_admin do
-      load seed
-    end
-  else
-    load seed
-  end
-end
-puts "All seed files executed" unless Rails.env.test?
+seeder = ForemanSeeder.new
+seeder.execute
