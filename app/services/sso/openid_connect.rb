@@ -4,21 +4,40 @@ module SSO
     attr_reader :current_user
 
     def available?
+      if session.present? && (session[:sso_method] == "SSO::OpenidConnect")
+        session.delete(:sso_method) unless session[:user]
+        return true
+      end
       ((controller.api_request? && bearer_token_set?) || http_token.present?) && valid_issuer?
     end
 
-    def authenticate!
-      payload = jwt_token.decode
-      return nil if payload.nil?
-      user = find_or_create_user_from_jwt(payload)
+    def authenticated?
+      return false unless (payload = jwt_token.decode)
+      return false unless (user = find_or_create_user_from_jwt(payload))
+
       @current_user = user
       update_session(payload)
-      user&.login
+      true
     end
 
-    def authenticated?
-      self.user = User.current.presence || authenticate!
+    def authenticate!
+      self.has_rendered = true
+      controller.redirect_to login_url
     end
+
+    def support_login?
+      request.fullpath != controller.main_app.extlogin_users_path
+    end
+
+    def support_expiration?
+      true
+    end
+
+    def expiration_url
+      redirect_uri = "#{controller.main_app.extlogin_users_path}/redirect_uri"
+      "#{redirect_uri}?logout=#{CGI.escape(request.base_url + controller.main_app.extlogin_users_path)}"
+    end
+    alias_method :login_url, :expiration_url
 
     def logout_url
       return Setting['login_delegation_logout_url'] if Setting['login_delegation_logout_url'].present?

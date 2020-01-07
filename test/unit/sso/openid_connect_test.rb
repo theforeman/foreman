@@ -21,6 +21,22 @@ class OpenidConnectTest < ActiveSupport::TestCase
   end
 
   describe '#available?' do
+    test 'returns true if its a OpenID Connect session' do
+      controller_with_session =
+        api_controller({:sso_method => 'SSO::OpenidConnect'})
+      subject = SSO::OpenidConnect.new(controller_with_session)
+      assert_equal subject.available?, true
+    end
+
+    test 'if its OpenIDConnect session,' \
+    'it deletes :sso_method key from session and returns true' do
+      controller_with_session =
+        api_controller({:sso_method => 'SSO::OpenidConnect'})
+      subject = SSO::OpenidConnect.new(controller_with_session)
+      assert_equal subject.available?, true
+      assert_nil controller_with_session.session[:sso_method]
+    end
+
     test 'returns false when not a api_request and no oidc header is passed' do
       subject = SSO::OpenidConnect.new(non_api_controller)
       assert_equal subject.available?, false
@@ -28,7 +44,7 @@ class OpenidConnectTest < ActiveSupport::TestCase
 
     test 'returns true when not a api_request and a oidc header is passed' do
       token = JWT.encode(payload, nil, 'none')
-      controller = non_api_controller({'HTTP_OIDC_ACCESS_TOKEN' => token.to_s})
+      controller = non_api_controller(nil, {'HTTP_OIDC_ACCESS_TOKEN' => token.to_s})
       SSO::Base.any_instance.stubs(:http_token).returns(token)
       subject = SSO::OpenidConnect.new(controller)
       assert_equal subject.available?, true
@@ -36,23 +52,23 @@ class OpenidConnectTest < ActiveSupport::TestCase
 
     test "returns true when api request contain valid JWT token" do
       token = JWT.encode(payload, nil, 'none')
-      controller = api_controller({:authorization => "Bearer #{token}"})
+      controller = api_controller(nil, {:authorization => "Bearer #{token}"})
       subject = SSO::OpenidConnect.new(controller)
       assert_equal subject.available?, true
     end
 
-    test "returns false when api request contain invalid JWT token" do
+    test "returns false when api request contain invalid JWT issuer" do
       invalid_payload = payload
       invalid_payload['iss'] = "random_value"
       token = JWT.encode(invalid_payload, nil, 'none')
-      controller = api_controller({:authorization => "Bearer #{token}"})
+      controller = api_controller(nil, {:authorization => "Bearer #{token}"})
       subject = SSO::OpenidConnect.new(controller)
       assert_equal subject.available?, false
     end
 
     test "returns false when api request contain nil JWT token" do
       token = JWT.encode(nil, nil, 'none')
-      controller = api_controller({:authorization => "Bearer #{token}"})
+      controller = api_controller(nil, {:authorization => "Bearer #{token}"})
       subject = SSO::OpenidConnect.new(controller)
       assert_equal subject.available?, false
     end
@@ -67,22 +83,15 @@ class OpenidConnectTest < ActiveSupport::TestCase
   describe "#authenticated?" do
     let(:subject) do
       token = JWT.encode(payload, nil, 'none')
-      SSO::OpenidConnect.new api_controller({:authorization => "Bearer #{token}"})
+      SSO::OpenidConnect.new api_controller({}, {:authorization => "Bearer #{token}"})
     end
 
     test "it authenticates and sets user when currect user does not exists" do
       User.current = nil
       OidcJwt.any_instance.stubs(:decode).returns(decoded_payload)
-      assert_equal subject.authenticated?, decoded_payload['preferred_username']
+      assert_equal subject.authenticated?, true
       assert subject.current_user.is_a?(User)
       assert_equal subject.current_user.login, decoded_payload['preferred_username']
-    end
-
-    test "it sets user to current_user when currrent_user exists" do
-      as_user(:one) do
-        subject.expects(:authenticate!).never
-        assert_equal users(:one), subject.authenticated?
-      end
     end
 
     test "it accepts group parameter in payload and authenticates the user" do
@@ -102,18 +111,18 @@ class OpenidConnectTest < ActiveSupport::TestCase
 
   private
 
-  def non_api_controller(headers = {})
-    controller = Struct.new(:request) do
+  def non_api_controller(session = {}, headers = {})
+    controller = Struct.new(:request, :session) do
       def api_request?
         false
       end
     end
     request = ActionDispatch::TestRequest.new({})
     request.headers.merge! headers
-    controller.new(request)
+    controller.new(request, session)
   end
 
-  def api_controller(headers = {})
+  def api_controller(session = {}, headers = {})
     controller = Struct.new(:request, :session) do
       def api_request?
         true
@@ -121,7 +130,6 @@ class OpenidConnectTest < ActiveSupport::TestCase
     end
     request = ActionDispatch::TestRequest.new({})
     request.headers.merge! headers
-    session = {}
     controller.new(request, session)
   end
 end
