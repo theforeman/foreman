@@ -1,3 +1,70 @@
+2020-01-08	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.24.1
+
+2020-01-08	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #27585 - default dns timeout value is nil
+
+2020-01-08	UXabre <arend.lapere@gmail.com>
+	* Fixes #26608 - suffixed "AdministratorPassword" for windows
+
+2020-01-07	Rahul Bajaj <rahulrb0509@gmail.com>
+	* Fixes #28324 - Fix logout URL for OpenID connect users
+
+2020-01-07	James Jeffers <jdjeffers@gmail.com>
+	* Fixes #28651 - changes http proxy id description
+
+2020-01-06	Michael Moll <kvedulv@kvedulv.de>
+	* fix eslint/prettier
+	* Refs #28028 - update chromedriver to match jenkins version
+
+2020-01-06	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #28606 - fix DecadeView test
+
+2020-01-06	Avi Sharvit <sharvita@gmail.com>
+	* Fixes #28604 - update DecadeView snapshots to 2020
+
+2020-01-06	laviro <1ronlavi@gmail.com>
+	* Refs #28391 - snapshots update PF 2.39.10
+
+2020-01-06	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #28124 - validate zone name in GCE along with key path
+
+2020-01-05	Brad Buckingham <bbuckingham@redhat.com>
+	* Fixes #28566 - add organizations and locations to http proxy show api
+
+2020-01-05	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #12712 - Fix owner link from host info page
+
+2019-12-31	Rahul Bajaj <rahulrb0509@gmail.com>
+	* Fixes #26314 - disable refresh button for external auth sources
+	* Fixes #28580 - enable assignment of external users(via oidc) to usergroup
+	* Fixes #28520 - rake task for creation of external auth source
+
+2019-12-29	Lukas Zapletal <lzap+git@redhat.com>
+	* Refs #28506 - fixed telemetry boot require
+	* Fixes #28553 - improved password filtering in debug
+
+2019-12-29	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #28506 - fix upgraded prometheus
+
+2019-12-29	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28547 - Don't assign lone taxonomies to reports
+	* Fixes #28563 - Be defensive about interface type in API
+
+2019-12-18	laviro <1ronlavi@gmail.com>
+	* Refs #28468 - fix login page title locales
+	* Fixes #28468 - Misspelling on login page
+
+2019-12-17	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28424 - Restore icon for puppet reports
+
+2019-12-17	Adam Cecile <acecile@letz-it.lu>
+	* Fixes #28480 - Raise exception for non-existing image in GCE
+
+2019-12-17	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #28136 - add available_*(zones,flavors,networks) for GCE
+	* Fixes #28130 - show selected machine_type on GCE host edit form
+
 2019-12-09	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.24.0
 	* templates - sync from community-templates
