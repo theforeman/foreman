@@ -51,13 +51,13 @@ class MenuManagerTest < ActiveSupport::TestCase
       :name => "User",
       :icon => "fa-icon",
       :children =>
-        [{:type => :item, :exact => false, :turbolinks => true, :html_options => {}, :name => "Item", :url => "some url"},
-         {:type => :item, :exact => false, :turbolinks => true, :html_options => {}, :name => "Item 2", :url => "some url"},
-         {:type => :item, :exact => false, :turbolinks => true, :html_options => {}, :name => "Test Items", :url => "some url"}]},
+        [{:type => :item, :exact => false, :html_options => {}, :name => "Item", :url => "some url"},
+         {:type => :item, :exact => false, :html_options => {}, :name => "Item 2", :url => "some url"},
+         {:type => :item, :exact => false, :html_options => {}, :name => "Test Items", :url => "some url"}]},
      {:type => :sub_menu,
       :name => "User",
       :icon => "fa-icon",
-      :children => [{:type => :item, :exact => false, :turbolinks => true, :html_options => {}, :name => "Item 3", :url => "some url"}]}]
+      :children => [{:type => :item, :exact => false, :html_options => {}, :name => "Item 3", :url => "some url"}]}]
   end
 
   def create_nested_menu

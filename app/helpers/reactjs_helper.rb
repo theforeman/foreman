@@ -40,21 +40,21 @@ module ReactjsHelper
 
   def js_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
-      javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'), "data-turbolinks-track" => true)
+      javascript_include_tag(*webpack_asset_paths(plugin.to_s, :extension => 'js'))
     end
   end
 
   def js_tags_for_global_files(requested_plugins)
     requested_plugins.map do |plugin|
       plugin[:files].map do |file|
-        javascript_include_tag(*webpack_asset_paths(plugin[:id].to_s + ":#{file}", :extension => 'js'), "data-turbolinks-track" => true, :defer => "defer")
+        javascript_include_tag(*webpack_asset_paths(plugin[:id].to_s + ":#{file}", :extension => 'js'), :defer => "defer")
       end
     end
   end
 
   def css_tags_for(requested_plugins)
     requested_plugins.map do |plugin|
-      stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'), "data-turbolinks-track" => true)
+      stylesheet_link_tag(*webpack_asset_paths(plugin.to_s, :extension => 'css'))
     end
   end
 end

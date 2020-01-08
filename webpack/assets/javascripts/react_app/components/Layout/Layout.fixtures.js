@@ -67,13 +67,11 @@ const monitorChildren = [
     type: 'item',
     name: 'Dashboard',
     url: '/',
-    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Facts',
     url: '/fact_values',
-    turbolinks: true,
   },
 ];
 
@@ -82,13 +80,11 @@ const hostsChildren = [
     type: 'item',
     name: 'All Hosts',
     url: '/hosts/new',
-    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Architectures',
     url: '/architectures',
-    turbolinks: true,
   },
 ];
 
@@ -97,13 +93,11 @@ const userChildren = [
     type: 'item',
     name: 'Environments',
     url: '/environments',
-    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Architectures',
     url: '/architectures',
-    turbolinks: true,
   },
 ];
 
@@ -112,13 +106,11 @@ const infrastructureChildren = [
     type: 'item',
     name: 'Domains',
     url: '/domains',
-    turbolinks: true,
   },
   {
     type: 'item',
     name: 'Realms',
     url: '/realms',
-    turbolinks: true,
   },
 ];
 
@@ -126,7 +118,6 @@ const namelessChildren = [
   {
     type: 'item',
     url: '/nameless',
-    turbolinks: true,
   },
   {
     type: 'divider',

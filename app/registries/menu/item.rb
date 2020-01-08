@@ -1,6 +1,6 @@
 module Menu
   class Item < Node
-    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options, :turbolinks
+    attr_reader :name, :condition, :parent, :child_menus, :last, :html_options
 
     def initialize(name, options)
       raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -18,13 +18,12 @@ module Menu
       @child_menus = options[:children]
       @last = options[:last] || false
       @context =  options[:engine] || Rails.application
-      @turbolinks = options.fetch(:turbolinks, true)
       @exact = options[:exact] || false
       super @name.to_sym
     end
 
     def to_hash
-      {type: :item, exact: @exact, turbolinks: @turbolinks, html_options: @html_options, name: @caption || @name, url: url} if authorized?
+      {type: :item, exact: @exact, html_options: @html_options, name: @caption || @name, url: url} if authorized?
     end
 
     def url
