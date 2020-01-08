@@ -39,7 +39,8 @@ Object {
     },
     "foremanModals": Object {
       "bookmarksModal": Object {
-        "open": false,
+        "isOpen": false,
+        "isSubmitting": false,
       },
     },
   },
@@ -68,7 +69,8 @@ Array [
     Object {
       "payload": Object {
         "id": "bookmarksModal",
-        "open": false,
+        "isOpen": false,
+        "isSubmitting": false,
       },
       "type": "ADD_MODAL",
     },

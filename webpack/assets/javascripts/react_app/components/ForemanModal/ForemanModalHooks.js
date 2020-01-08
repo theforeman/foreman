@@ -10,9 +10,9 @@ export const useModalContext = () => useContext(ModalContext);
 // Use in any ForemanModal.  Handles Redux actions for creating, opening, and closing the modal.
 // Make sure the id passed in matches the id prop of your <ForemanModal />.
 // Returns a variable that tells you the state and a function to toggle it.
-export const useForemanModal = ({ id, open = false }) => {
+export const useForemanModal = ({ id, isOpen = false }) => {
   if (!id) throw new Error('useForemanModal: ID is required');
-  const initialModalState = open;
+  const initialModalState = isOpen;
   const modalOpen = useSelector(state => selectIsModalOpen(state, id)) || false;
   const dispatch = useDispatch();
   const boundSetModalClosed = () => dispatch(setModalClosed({ id }));

@@ -4,7 +4,8 @@ exports[`ForemanModal actions creates the modal 1`] = `
 Object {
   "payload": Object {
     "id": "testModal",
-    "open": false,
+    "isOpen": false,
+    "isSubmitting": false,
   },
   "type": "ADD_MODAL",
 }

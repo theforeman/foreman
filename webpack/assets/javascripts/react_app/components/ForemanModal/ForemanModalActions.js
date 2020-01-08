@@ -2,49 +2,46 @@ import {
   ADD_MODAL,
   SET_MODAL_OPEN,
   SET_MODAL_CLOSED,
+  SET_MODAL_START_SUBMITTING,
+  SET_MODAL_STOP_SUBMITTING,
 } from './ForemanModalConstants';
-import { selectModalStateById } from './ForemanModalSelectors';
+import { selectModalExists } from './ForemanModalSelectors';
 
-export const addModal = ({ id, open = false }) => (dispatch, getState) => {
-  const modalAlreadyExists = selectModalStateById(getState(), id);
-  if (modalAlreadyExists) {
+export const addModal = ({ id, isOpen = false, isSubmitting = false }) => (
+  dispatch,
+  getState
+) => {
+  if (selectModalExists(getState(), id)) {
     throw new Error(`ForemanModal with ID ${id} already exists`);
   }
   return dispatch({
     type: ADD_MODAL,
-    payload: { id, open },
+    payload: { id, isOpen, isSubmitting },
   });
 };
 
-export const setModalOpen = ({ id }) => (dispatch, getState) => {
-  const modalExists = selectModalStateById(getState(), id);
-  if (!modalExists) {
+const modalAction = actionType => ({ id }) => (dispatch, getState) => {
+  if (!selectModalExists(getState(), id)) {
     throw new Error(
-      `SET_MODAL_OPEN error: Modal with id '${id}' does not exist`
+      `${actionType} error: Modal with id '${id}' does not exist`
     );
   }
   return dispatch({
-    type: SET_MODAL_OPEN,
+    type: actionType,
     payload: { id },
   });
 };
 
-export const setModalClosed = ({ id }) => (dispatch, getState) => {
-  const modalExists = selectModalStateById(getState(), id);
-  if (!modalExists) {
-    throw new Error(
-      `SET_MODAL_CLOSED error: Modal with id '${id}' does not exist`
-    );
-  }
-  return dispatch({
-    type: SET_MODAL_CLOSED,
-    payload: { id },
-  });
-};
+export const setModalStartSubmitting = modalAction(SET_MODAL_START_SUBMITTING);
+export const setModalStopSubmitting = modalAction(SET_MODAL_STOP_SUBMITTING);
+export const setModalOpen = modalAction(SET_MODAL_OPEN);
+export const setModalClosed = modalAction(SET_MODAL_CLOSED);
 
 // Pass in the ForemanModal id here and get bound action creators with the id already plugged in.
 export const bindForemanModalActionsToId = ({ id }) => ({
   addModal: () => addModal({ id }),
   setModalOpen: () => setModalOpen({ id }),
   setModalClosed: () => setModalClosed({ id }),
+  setModalStartSubmitting: () => setModalStartSubmitting({ id }),
+  setModalStopSubmitting: () => setModalStopSubmitting({ id }),
 });
