@@ -87,11 +87,11 @@ module LayoutHelper
   end
 
   def stylesheet(*args)
-    content_for(:stylesheets) { stylesheet_link_tag(*args.push("data-turbolinks-track" => true)) }
+    content_for(:stylesheets) { stylesheet_link_tag(*args) }
   end
 
   def javascript(*args)
-    content_for(:javascripts) { javascript_include_tag(*args.push("data-turbolinks-track" => true)) }
+    content_for(:javascripts) { javascript_include_tag(*args) }
   end
 
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
