@@ -8,8 +8,8 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({
   foremanModals: {
-    modal1: { open: true },
-    modal2: { open: false },
+    modal1: { isOpen: true },
+    modal2: { isOpen: false },
   },
 });
 

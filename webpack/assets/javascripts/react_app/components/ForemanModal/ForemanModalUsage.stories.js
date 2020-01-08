@@ -222,3 +222,73 @@ export const withConnectedComponent = () => {
 withConnectedComponent.story = {
   name: 'With connected component',
 };
+
+export const asConfirmationDialog = () =>
+  React.createElement(() => {
+    const dispatch = useDispatch();
+    return (
+      <Story>
+        <Button
+          bsStyle="primary"
+          onClick={() =>
+            dispatch(setModalOpenAction({ id: 'confirmationModal' }))
+          }
+        >
+          Show Modal
+        </Button>
+        <ForemanModal
+          id="confirmationModal"
+          title="As a confirmation dialog"
+          submitProps={{
+            url: '/api/internets/1',
+            message: 'Internet was successfully deleted',
+            onSuccess: () => {},
+          }}
+        >
+          You have requested to delete the Internet. Are you sure?
+          <ForemanModal.Footer />
+        </ForemanModal>
+      </Story>
+    );
+  });
+
+asConfirmationDialog.story = {
+  name: 'As a confirmation dialog',
+};
+
+export const asConfirmationDialogWithCustomizedButtons = () =>
+  React.createElement(() => {
+    const dispatch = useDispatch();
+    return (
+      <Story>
+        <Button
+          bsStyle="primary"
+          onClick={() =>
+            dispatch(setModalOpenAction({ id: 'confirmationButtonsModal' }))
+          }
+        >
+          Show Modal
+        </Button>
+        <ForemanModal
+          id="confirmationButtonsModal"
+          title="With customized button text"
+          submitProps={{
+            url: '/api/question',
+            message: 'Thank you for your input',
+            method: 'post',
+            onSuccess: () => {},
+            submitBtnProps: {
+              btnText: 'Agree',
+              bsStyle: 'default',
+            },
+            cancelBtnProps: {
+              btnText: 'Disagree',
+              bsStyle: 'danger',
+            },
+          }}
+        >
+          One does not simply walk into Mordor.
+        </ForemanModal>
+      </Story>
+    );
+  });

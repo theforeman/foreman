@@ -5,11 +5,13 @@ import {
   SET_MODAL_OPEN,
   SET_MODAL_CLOSED,
   ADD_MODAL,
+  SET_MODAL_START_SUBMITTING,
+  SET_MODAL_STOP_SUBMITTING,
 } from './ForemanModalConstants';
 
 const modalsState = Immutable({
-  myModal: { open: true },
-  yourModal: { open: false },
+  myModal: { isOpen: true, isSubmitting: true },
+  yourModal: { isOpen: false, isSubmitting: false },
 });
 
 const fixtures = {
@@ -26,7 +28,15 @@ const fixtures = {
     action: { type: ADD_MODAL, payload: { id: 'modal3' } },
   },
   'should add an already-open modal with ADD_MODAL': {
-    action: { type: ADD_MODAL, payload: { id: 'modal4', open: true } },
+    action: { type: ADD_MODAL, payload: { id: 'modal4', isOpen: true } },
+  },
+  'should handle SET_MODAL_START_SUBMITTING action': {
+    state: modalsState,
+    action: { type: SET_MODAL_START_SUBMITTING, payload: { id: 'yourModal' } },
+  },
+  'should handle SET_MODAL_STOP_SUBMITTING action': {
+    state: modalsState,
+    action: { type: SET_MODAL_STOP_SUBMITTING, payload: { id: 'myModal' } },
   },
 };
 
@@ -44,7 +54,7 @@ describe('ForemanModal reducer', () => {
       expect(
         reducer(modalsState, {
           type: ADD_MODAL,
-          payload: { id: 'myModal', open: false }, // try to add an already existing modal with a different open state
+          payload: { id: 'myModal', isOpen: false }, // try to add an already existing modal with a different open state
         })
       ).toEqual(modalsState);
     });

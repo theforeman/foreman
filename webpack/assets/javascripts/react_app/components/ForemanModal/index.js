@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectIsModalOpen,
-  selectModalStateById,
+  selectIsModalSubmitting,
+  selectModalExists,
 } from './ForemanModalSelectors';
 import { setModalClosed, addModal } from './ForemanModalActions';
 import ForemanModal from './ForemanModal';
@@ -16,16 +17,17 @@ export const reducers = { foremanModals: reducer };
 const ConnectedForemanModal = props => {
   const { id, title } = props;
   const isOpen = useSelector(state => selectIsModalOpen(state, id));
+  const isSubmitting = useSelector(state => selectIsModalSubmitting(state, id));
   const dispatch = useDispatch();
   const onClose = () => dispatch(setModalClosed({ id }));
-  const modalAlreadyExists = useSelector(state =>
-    selectModalStateById(state, id)
-  );
+  const onLoad = () =>
+    dispatch(addModal({ id, isOpen: false, isSubmitting: false }));
+  const modalExists = useSelector(state => selectModalExists(state, id));
 
   useEffect(() => {
-    if (modalAlreadyExists) return; // don't add modal if it already exists
-    dispatch(addModal({ id, open: false }));
-  }, [modalAlreadyExists, id]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (modalExists) return; // don't add modal if it already exists
+    onLoad();
+  }, [modalExists]);
 
   return (
     <ForemanModal
@@ -33,6 +35,7 @@ const ConnectedForemanModal = props => {
       id={id}
       title={title}
       isOpen={isOpen}
+      isSubmitting={isSubmitting}
       onClose={onClose}
     />
   );

@@ -4,8 +4,11 @@ exports[`ForemanModal rendering renders default header child when title prop is 
 <ContextProvider
   value={
     Object {
+      "id": "defaultHeaderChild",
       "isOpen": true,
+      "isSubmitting": false,
       "onClose": [MockFunction],
+      "submitProps": Object {},
       "title": "Test modal",
     }
   }
@@ -60,8 +63,11 @@ exports[`ForemanModal rendering renders the supplied header child when title pro
 <ContextProvider
   value={
     Object {
+      "id": "customHeaderChild",
       "isOpen": true,
+      "isSubmitting": false,
       "onClose": [MockFunction],
+      "submitProps": Object {},
       "title": "",
     }
   }
@@ -120,8 +126,11 @@ exports[`ForemanModal rendering renders when header and footer are supplied 1`] 
 <ContextProvider
   value={
     Object {
+      "id": "withSuppliedChildren",
       "isOpen": true,
+      "isSubmitting": false,
       "onClose": [MockFunction],
+      "submitProps": Object {},
       "title": "Test modal",
     }
   }
@@ -180,8 +189,11 @@ exports[`ForemanModal rendering renders without header when neither <ForemanModa
 <ContextProvider
   value={
     Object {
+      "id": "noHeader",
       "isOpen": true,
+      "isSubmitting": false,
       "onClose": [MockFunction],
+      "submitProps": Object {},
       "title": "",
     }
   }
@@ -235,8 +247,11 @@ exports[`ForemanModal rendering should render 1`] = `
 <ContextProvider
   value={
     Object {
+      "id": "render",
       "isOpen": true,
+      "isSubmitting": false,
       "onClose": [MockFunction],
+      "submitProps": Object {},
       "title": "Test modal",
     }
   }
@@ -280,8 +295,11 @@ exports[`ForemanModal rendering should render closed 1`] = `
 <ContextProvider
   value={
     Object {
+      "id": "closed",
       "isOpen": false,
+      "isSubmitting": false,
       "onClose": [MockFunction],
+      "submitProps": Object {},
       "title": "Test modal",
     }
   }

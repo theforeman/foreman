@@ -3,12 +3,13 @@ import {
   selectForemanModalsState,
   selectModalStateById,
   selectIsModalOpen,
+  selectIsModalSubmitting,
 } from './ForemanModalSelectors';
 
 const state = {
   foremanModals: {
-    myModal: { open: true },
-    yourModal: { open: false },
+    myModal: { isOpen: true, isSubmitting: true },
+    yourModal: { isOpen: false, isSubmitting: false },
   },
 };
 
@@ -21,6 +22,8 @@ const fixtures = {
     selectIsModalOpen(state, 'yourModal'),
   'returns undefined for a nonexistent modal': () =>
     selectIsModalOpen(state, 'noModal'),
+  'tells you if a modal is submitting': () =>
+    selectIsModalSubmitting(state, 'myModal'),
 };
 
 describe('ForemanModal selectors', () => {
