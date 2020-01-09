@@ -2,7 +2,7 @@ group :development do
   gem 'maruku', '~> 0.7'
 
   # for generating i18n files
-  gem 'gettext', '>= 3.2.1', '< 4.0.0', :require => false
+  gem 'gettext', '>= 3.2.1', ((RUBY_VERSION < '2.5') ? '< 3.3.0' : '< 4.0.0'), :require => false
 
   # for generating foreign key migrations
   gem 'immigrant', '~> 0.1'
