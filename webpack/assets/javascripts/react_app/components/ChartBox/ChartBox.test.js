@@ -1,10 +1,10 @@
 import { shallow } from '@theforeman/test';
 import React from 'react';
-import ChartBox from './ChartBox';
+import ChartBox from './';
 import { classFunctionUnitTest } from '../../common/testHelpers';
 
 jest.unmock('../../../services/charts/DonutChartService');
-jest.unmock('./ChartBox');
+jest.unmock('./');
 
 describe('ChartBox', () => {
   const setup = ({ status, chart = { id: '2' } }) =>

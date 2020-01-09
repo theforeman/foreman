@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRenderHandler } from '../../../../common/HOC';
-import StatisticsChartsList from '../../../../components/statistics/StatisticsChartsList';
+import StatisticsChartsList from '../../../../components/StatisticsChartsList';
 
 const Statistics = ({ statisticsMeta }) => (
   <StatisticsChartsList data={statisticsMeta} />

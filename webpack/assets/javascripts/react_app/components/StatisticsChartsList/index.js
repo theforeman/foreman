@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import ChartBox from './ChartBox';
+import ChartBox from '../ChartBox';
 import * as StatisticsChartActions from '../../redux/actions/statistics';
 import { STATUS } from '../../constants';
 import './StatisticsChartsListStyles.scss';
-import { translate as __ } from '../../../react_app/common/I18n';
+import { translate as __ } from '../../common/I18n';
 import { noop } from '../../common/helpers';
 
 const getStatusFromChart = chart => {

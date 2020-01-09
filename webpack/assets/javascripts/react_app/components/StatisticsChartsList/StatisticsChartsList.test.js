@@ -4,7 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import immutable from 'seamless-immutable';
 
-import StatisticsChartsList from './StatisticsChartsList';
+import StatisticsChartsList from './';
 import { statisticsData } from './StatisticsChartsList.fixtures';
 
 const mockStore = configureMockStore([thunk]);

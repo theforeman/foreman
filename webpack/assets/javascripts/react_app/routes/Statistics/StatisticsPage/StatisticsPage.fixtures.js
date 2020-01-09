@@ -1,4 +1,4 @@
-import { statisticsData } from '../../../components/statistics/StatisticsChartsList.fixtures';
+import { statisticsData } from '../../../components/StatisticsChartsList/StatisticsChartsList.fixtures';
 import { noop } from '../../../common/helpers';
 
 export const statisticsProps = {
