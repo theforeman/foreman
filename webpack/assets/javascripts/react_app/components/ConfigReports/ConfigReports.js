@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'patternfly-react';
 import classNames from 'classnames';
-import ChartBox from '../statistics/ChartBox';
+import ChartBox from '../ChartBox';
 import { translate as __ } from '../../common/I18n';
 import { STATUS } from '../../constants';
 
