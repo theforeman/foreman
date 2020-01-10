@@ -1,12 +1,19 @@
 import React from 'react';
-import { storiesOf } from '@theforeman/stories';
 import Story from '../../../../../../../../stories/components/Story';
 import ExportButton from './ExportButton';
 
-storiesOf('Components|ExportButton', module).add('Default', () => (
+export default {
+  title: 'Components|ExportButton',
+};
+
+export const defaultStory = () => (
   <Story>
     <ul>
       <ExportButton url="/" />
     </ul>
   </Story>
-));
+);
+
+defaultStory.story = {
+  name: 'Default',
+};

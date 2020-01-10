@@ -1,10 +1,17 @@
 import React from 'react';
-import { storiesOf } from '@theforeman/stories';
 import Story from '../../../../../stories/components/Story';
 import MockPagination from './PaginationWrapper.fixtures';
 
-storiesOf('Components|Pagination', module).add('Show paginated items', () => (
+export default {
+  title: 'Components|Pagination',
+};
+
+export const showPaginatedItems = () => (
   <Story narrow>
     <MockPagination />
   </Story>
-));
+);
+
+showPaginatedItems.story = {
+  name: 'Show paginated items',
+};

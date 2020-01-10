@@ -1,6 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { storiesOf } from '@theforeman/stories';
 import {
   Form,
   FormGroup,
@@ -18,7 +17,11 @@ import { addToast } from '../../redux/actions/toasts';
 import ToastsList from './index';
 import Story from '../../../../../stories/components/Story';
 
-storiesOf('Components|Toast Notifications', module).add('Toaster', () => {
+export default {
+  title: 'Components|Toast Notifications',
+};
+
+export const toaster = () => {
   const inputRefs = {};
 
   const dispatchAddToast = () => {
@@ -100,4 +103,4 @@ storiesOf('Components|Toast Notifications', module).add('Toaster', () => {
       </Story>
     </Provider>
   );
-});
+};

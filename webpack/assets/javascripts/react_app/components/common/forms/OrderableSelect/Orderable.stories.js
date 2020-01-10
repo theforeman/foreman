@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PropTypes from 'prop-types';
-import { storiesOf } from '@theforeman/stories';
 
 import Story from '../../../../../../../stories/components/Story';
 import { orderable, orderDragged } from './helpers';
@@ -59,10 +58,18 @@ OrderAppSandbox.propTypes = {
   options: PropTypes.object.isRequired,
 };
 
-storiesOf('Components|Common', module).add('Orderable', () => (
+export default {
+  title: 'Components|Common|Orderable',
+};
+
+export const orderableStory = () => (
   <Story>
     <DndProvider backend={HTML5Backend}>
       <OrderAppSandbox options={yesNoOpts} />
     </DndProvider>
   </Story>
-));
+);
+
+orderableStory.story = {
+  name: 'Orderable',
+};
