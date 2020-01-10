@@ -12,6 +12,7 @@ module Api
       api :GET, '/templates/:template_id/template_inputs', N_('List template inputs')
       param :template_id, :identifier, :required => true
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(TemplateInput)
       def index
         @template_inputs = nested_obj.template_inputs.search_for(*search_options).paginate(paginate_options)
       end

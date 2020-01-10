@@ -9,6 +9,7 @@ module Api
       api :GET, "/users/:user_id/personal_access_tokens", N_("List all Personal Access Tokens for a user")
       param :user_id, String, :desc => N_("ID of the user"), :required => true
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(PersonalAccessToken)
 
       def index
         @personal_access_tokens = resource_scope_for_index

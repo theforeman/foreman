@@ -8,6 +8,7 @@ module Api
       api :GET, '/organizations/:organization_id/auth_sources/', N_('List all authentication sources per organization')
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(AuthSource)
 
       def index
         @auth_sources = resource_scope_for_index.except_hidden
