@@ -1,36 +1,58 @@
 import React from 'react';
-import { storiesOf } from '@theforeman/stories';
 import PowerStatusInner from './index';
 import Story from '../../../../../../../stories/components/Story';
 
-storiesOf('Components|Power Status', module)
-  .add('Loading', () => (
-    <Story>
-      <PowerStatusInner />
-    </Story>
-  ))
-  .add('ON', () => (
-    <Story>
-      <PowerStatusInner state="on" title="on" statusText="On" />
-    </Story>
-  ))
-  .add('OFF', () => (
-    <Story>
-      <PowerStatusInner state="off" title="off" statusText="Off" />
-    </Story>
-  ))
-  .add('N/A', () => (
-    <Story>
-      <PowerStatusInner state="na" statusText="No power support" title="N/A" />
-    </Story>
-  ))
-  .add('Error', () => (
-    <Story>
-      <PowerStatusInner
-        state="na"
-        statusText="Exception error some where"
-        error="someError"
-        title="N/A"
-      />
-    </Story>
-  ));
+export default {
+  title: 'Components|Power Status',
+};
+
+export const loading = () => (
+  <Story>
+    <PowerStatusInner />
+  </Story>
+);
+
+export const on = () => (
+  <Story>
+    <PowerStatusInner state="on" title="on" statusText="On" />
+  </Story>
+);
+
+on.story = {
+  name: 'ON',
+};
+
+export const off = () => (
+  <Story>
+    <PowerStatusInner state="off" title="off" statusText="Off" />
+  </Story>
+);
+
+off.story = {
+  name: 'OFF',
+};
+
+export const nA = () => (
+  <Story>
+    <PowerStatusInner state="na" statusText="No power support" title="N/A" />
+  </Story>
+);
+
+nA.story = {
+  name: 'N/A',
+};
+
+export const errorStory = () => (
+  <Story>
+    <PowerStatusInner
+      state="na"
+      statusText="Exception error some where"
+      error="someError"
+      title="N/A"
+    />
+  </Story>
+);
+
+errorStory.story = {
+  name: 'Error',
+};

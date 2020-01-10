@@ -1,6 +1,5 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { storiesOf } from '@theforeman/stories';
 import PropTypes from 'prop-types';
 
 import ForemanForm from '.';
@@ -70,8 +69,12 @@ FormComponent.propTypes = {
   onCancel: PropTypes.func.isRequired,
 };
 
-storiesOf('Components|Form', module).add('Basic Foreman Form', () => (
+export default {
+  title: 'Components|Foreman Form',
+};
+
+export const basicForemanForm = () => (
   <Story>
     <FormComponent {...fixtures} />
   </Story>
-));
+);

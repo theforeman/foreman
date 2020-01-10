@@ -1,13 +1,21 @@
 import React from 'react';
-import { storiesOf, action } from '@theforeman/stories';
+import { action } from '@theforeman/stories';
 
 import Story from '../../../../../../stories/components/Story';
 import DocumentationLink from './index';
 
-storiesOf('Components|DocumentationLink', module).add('Default', () => (
+export default {
+  title: 'Components|DocumentationLink',
+};
+
+export const defaultStory = () => (
   <Story>
     <ul>
       <DocumentationLink handleClick={action('Link was clicked')} href="#" />
     </ul>
   </Story>
-));
+);
+
+defaultStory.story = {
+  name: 'Default',
+};

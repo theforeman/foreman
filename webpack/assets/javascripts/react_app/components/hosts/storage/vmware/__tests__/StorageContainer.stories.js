@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@theforeman/stories';
 import Store from '../../../../../redux';
 import StorageContainer from '../index';
 import * as VMWareData from './StorageContainer.fixtures';
@@ -18,36 +17,58 @@ const initializeMocks = () => {
   });
 };
 
-storiesOf('Page chunks|Host VMWare Storage', module)
-  .add('default state for new host', () => {
-    initializeMocks();
-    return (
-      <Story>
-        <StorageContainer store={Store} data={VMWareData.state1} />
-      </Story>
-    );
-  })
-  .add('multiple controllers', () => {
-    initializeMocks();
-    return (
-      <Story>
-        <StorageContainer store={Store} data={VMWareData.state2} />
-      </Story>
-    );
-  })
-  .add('on clone', () => {
-    initializeMocks();
-    return (
-      <Story>
-        <StorageContainer store={Store} data={VMWareData.clone} />
-      </Story>
-    );
-  })
-  .add('without any controllers', () => {
-    initializeMocks();
-    return (
-      <Story>
-        <StorageContainer store={Store} data={VMWareData.emptyState} />
-      </Story>
-    );
-  });
+export default {
+  title: 'Page chunks|Host VMWare Storage',
+};
+
+export const defaultStateForNewHost = () => {
+  initializeMocks();
+  return (
+    <Story>
+      <StorageContainer store={Store} data={VMWareData.state1} />
+    </Story>
+  );
+};
+
+defaultStateForNewHost.story = {
+  name: 'default state for new host',
+};
+
+export const multipleControllers = () => {
+  initializeMocks();
+  return (
+    <Story>
+      <StorageContainer store={Store} data={VMWareData.state2} />
+    </Story>
+  );
+};
+
+multipleControllers.story = {
+  name: 'multiple controllers',
+};
+
+export const onClone = () => {
+  initializeMocks();
+  return (
+    <Story>
+      <StorageContainer store={Store} data={VMWareData.clone} />
+    </Story>
+  );
+};
+
+onClone.story = {
+  name: 'on clone',
+};
+
+export const withoutAnyControllers = () => {
+  initializeMocks();
+  return (
+    <Story>
+      <StorageContainer store={Store} data={VMWareData.emptyState} />
+    </Story>
+  );
+};
+
+withoutAnyControllers.story = {
+  name: 'without any controllers',
+};

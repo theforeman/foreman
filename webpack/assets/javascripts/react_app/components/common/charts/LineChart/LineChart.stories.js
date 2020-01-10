@@ -1,19 +1,25 @@
 import React from 'react';
 
-import { storiesOf } from '@theforeman/stories';
-
 import LineChart from './index';
 import { data, timeseriesData } from './LineChart.fixtures';
 import Story from '../../../../../../../stories/components/Story';
 
-storiesOf('Components|Charts', module)
-  .add('Line Chart', () => (
-    <Story>
-      <LineChart data={data} />
-    </Story>
-  ))
-  .add('Line Chart timeseries', () => (
-    <Story>
-      <LineChart data={timeseriesData} config="timeseries" xAxisDataLabel="x" />
-    </Story>
-  ));
+export default {
+  title: 'Components|Charts|LineChart',
+};
+
+export const lineChart = () => (
+  <Story>
+    <LineChart data={data} />
+  </Story>
+);
+
+export const lineChartTimeseries = () => (
+  <Story>
+    <LineChart data={timeseriesData} config="timeseries" xAxisDataLabel="x" />
+  </Story>
+);
+
+lineChartTimeseries.story = {
+  name: 'Line Chart timeseries',
+};

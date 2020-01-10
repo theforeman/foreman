@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { storiesOf } from '@theforeman/stories';
 import { Grid, Row } from 'patternfly-react';
 import { Formik } from 'formik';
 import RadioButtonGroup from './RadioButtonGroup';
@@ -48,34 +47,47 @@ CustomSelect.propTypes = {
 };
 registerInputComponent('ownInput', CustomSelect);
 
-storiesOf('Components|Form', module)
-  .addDecorator(storeDecorator)
-  .add('Radio Button Group', () => (
-    <Story>
-      <StoryForm />
-    </Story>
-  ))
-  .add('FormField', () => (
-    <Story>
-      <Grid>
-        <Row>
-          <FormField {...textFieldWithHelpProps} />
-        </Row>
-        <Row>
-          <FormField {...dateTimeWithErrorProps} />
-        </Row>
-        <Row>
-          <FormField {...ownComponentFieldProps} />
-        </Row>
-      </Grid>
-    </Story>
-  ))
-  .add('OrderableSelect', () => (
-    <Story>
-      <OrderableSelect
-        name="orderable[select][]"
-        options={yesNoOpts}
-        id="orderable_select"
-      />
-    </Story>
-  ));
+export default {
+  title: 'Components|Form',
+  decorators: [storeDecorator],
+};
+
+export const radioButtonGroup = () => (
+  <Story>
+    <StoryForm />
+  </Story>
+);
+
+export const formField = () => (
+  <Story>
+    <Grid>
+      <Row>
+        <FormField {...textFieldWithHelpProps} />
+      </Row>
+      <Row>
+        <FormField {...dateTimeWithErrorProps} />
+      </Row>
+      <Row>
+        <FormField {...ownComponentFieldProps} />
+      </Row>
+    </Grid>
+  </Story>
+);
+
+formField.story = {
+  name: 'FormField',
+};
+
+export const orderableSelect = () => (
+  <Story>
+    <OrderableSelect
+      name="orderable[select][]"
+      options={yesNoOpts}
+      id="orderable_select"
+    />
+  </Story>
+);
+
+orderableSelect.story = {
+  name: 'OrderableSelect',
+};
