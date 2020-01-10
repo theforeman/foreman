@@ -130,4 +130,8 @@ module Api::V2::TaxonomiesController
   def resource_params
     public_send("#{taxonomy_single}_params".to_sym)
   end
+
+  update_api(:index) do
+    add_scoped_search_description_for(controller_name.classify.constantize)
+  end
 end

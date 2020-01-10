@@ -12,6 +12,7 @@ module Api
         N_('List external authentication sources per organization')
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(AuthSourceExternal)
 
       def index
         @auth_source_externals = resource_scope_for_index
