@@ -72,4 +72,12 @@ module OperatingsystemsHelper
     result = type.where(:os_family => obj.family)
     result.empty? ? type : result
   end
+
+  def os_default_templates_for_form(os)
+    if os.os_default_templates.any?(&:new_record?)
+      os.os_default_templates.sort_by { |o| o.template_kind.name.downcase }
+    else
+      os.os_default_templates.joins(:template_kind).order('LOWER(template_kinds.name)')
+    end
+  end
 end
