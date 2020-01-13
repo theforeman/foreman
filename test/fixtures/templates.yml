@@ -50,7 +50,7 @@ pxeautoyast:
 pxe_menu:
   name: PXE Default Menu
   template: "FOO"
-  template_kind: PXELinux
+  template_kind: pxelinux
   operatingsystems: centos5_3
   locked: false
   type: ProvisioningTemplate
