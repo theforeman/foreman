@@ -11,7 +11,6 @@
       <th class="col-md-2"><%= _('Host Groups') %></th>
       <th class="col-md-1"><%= _('Hosts') %></th>
       <th class="col-md-1"><%= _('Parameters') %></th>
-      <th class="col-md-1"><%= _('Variables') %></th>
       <th class="col-md-1"><%= _("Actions") %></th>
     </tr>
   </thead>
@@ -25,7 +24,6 @@
         <td class=""><%= puppetclass.all_hostgroups(false).map {|hg| link_to_if_authorized trunc_with_tooltip(hg, 24), hash_for_edit_hostgroup_path(:id=>hg).merge(:auth_object => hg, :authorizer => @hostgroups_authorizer)}.to_sentence.html_safe %></td>
         <td><%= link_to puppetclass.hosts_count, hosts_path(:search => "class = #{puppetclass.name}")%></td>
         <td><%= puppetclass.class_params.size %> </td>
-        <td><%= puppetclass.smart_variables.size %> </td>
         <td>
           <%
           links = [display_delete_if_authorized(hash_for_puppetclass_path(:id => puppetclass).merge(:auth_object => puppetclass, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % puppetclass.name }, :action => :delete)]
