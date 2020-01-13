@@ -102,6 +102,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the root" do
     setup_admins_scenario
 
+    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).once
+
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
     basic.roles << basic_role
@@ -120,6 +122,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "add new memership to the middle of chain" do
     setup_admins_scenario
 
+    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).once
+
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
     basic.roles << basic_role
@@ -137,6 +141,8 @@ class UsergroupMemberTest < ActiveSupport::TestCase
 
   test "add new memership to the leaf" do
     setup_admins_scenario
+
+    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).once
 
     basic      = FactoryBot.create :usergroup, :name => 'um_basic'
     basic_role = FactoryBot.create :role, :name => 'um_basic_role'
@@ -196,6 +202,20 @@ class UsergroupMemberTest < ActiveSupport::TestCase
     assert_includes @admin_user.cached_usergroups, @semiadmins
     assert_includes @admin_user.cached_usergroups, @admins
     assert_includes @semiadmin_user.cached_usergroups, @semiadmins
+  end
+
+  test "add new user memership" do
+    ActiveRecord::Base::EnsureNoCycle.any_instance.expects(:ensure).never
+
+    test_user1 = FactoryBot.create(:user, :login => 'test_user1')
+    basic      = FactoryBot.create :usergroup, :name => 'um_basic'
+    basic_role = FactoryBot.create :role, :name => 'um_basic_role'
+    basic.roles << basic_role
+    basic.users << test_user1
+    test_user1.reload
+
+    assert_includes test_user1.cached_user_roles.map(&:role), basic_role
+    assert_includes test_user1.cached_usergroups, basic
   end
 
   test "user is in two joined groups, second membership is removed" do

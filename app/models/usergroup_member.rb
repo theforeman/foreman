@@ -40,8 +40,10 @@ class UsergroupMember < ApplicationRecord
   end
 
   def ensure_no_cycle
-    current = UsergroupMember.usergroup_memberships
-    EnsureNoCycle.new(current, :usergroup_id, :member_id).ensure(self)
+    if self.member_type != 'User'
+      current = UsergroupMember.usergroup_memberships
+      EnsureNoCycle.new(current, :usergroup_id, :member_id).ensure(self)
+    end
   end
 
   def add_new_cache
