@@ -178,6 +178,7 @@ Array [
       "payload": Object {
         "errorText": "",
         "previewResult": "Error during rendering, Return to Editor tab.",
+        "renderedEditorValue": "value",
         "selectedHost": Object {
           "id": "1",
           "name": "host",

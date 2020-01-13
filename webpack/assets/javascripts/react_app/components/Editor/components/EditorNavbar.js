@@ -103,8 +103,7 @@ const EditorNavbar = ({
           />
           {selectedView === 'preview' &&
             previewResult !== '' &&
-            renderedEditorValue !== value &&
-            !showError && (
+            renderedEditorValue !== value && (
               <div id="outdated-preview-alert">
                 <Alert type="warning">
                   {__('Preview is outdated.')}
