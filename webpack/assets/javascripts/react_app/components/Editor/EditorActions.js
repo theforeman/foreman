@@ -134,6 +134,7 @@ export const previewTemplate = ({ host, renderPath }) => async (
     dispatch({
       type: EDITOR_SHOW_ERROR,
       payload: {
+        renderedEditorValue: templateValue,
         showError: true,
         errorText: error.response ? __(error.response.data) : '',
         previewResult: __('Error during rendering, Return to Editor tab.'),
