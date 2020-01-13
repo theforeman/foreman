@@ -147,6 +147,9 @@ function update_capabilities(capabilities) {
   } else if (capabilities.length > 0) {
     $('#manage_network_build').hide();
     $('#host_provision_method_' + capabilities[0]).click();
+    if (capabilities[0].toLowerCase() === 'image') {
+      image_provision_method_selected();
+    }
   }
 
   if (capabilities.length >= 2) {
