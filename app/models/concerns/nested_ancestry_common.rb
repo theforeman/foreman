@@ -37,8 +37,10 @@ module NestedAncestryCommon
   end
 
   module ClassMethods
-    def nested_attribute_for(*opts)
-      opts.each do |field|
+    attr_reader :nested_attribute_fields
+    def nested_attribute_for(*fields)
+      @nested_attribute_fields = fields
+      @nested_attribute_fields.each do |field|
         # Example method
         # def inherited_compute_profile_id
         #   read_attribute(:compute_profile_id) || nested_compute_profile_id
