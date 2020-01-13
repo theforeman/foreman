@@ -33,7 +33,7 @@ export const callOnPopState = callback => WrappedComponent => props => {
     } else {
       didMount.current = true;
     }
-  }, [search, action, props]);
+  }, [search, action]);
 
   return <WrappedComponent {...props} />;
 };
