@@ -5,6 +5,7 @@ module Foreman
         module Base
           include Foreman::Renderer::Errors
           include ::Foreman::ForemanUrlRenderer
+          include ActiveSupport::NumberHelper
 
           attr_reader :template_name, :medium_provider
 
