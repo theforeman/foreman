@@ -194,6 +194,17 @@ module RenderersSharedTests
       assert_equal("id true", renderer.render(source, @scope))
     end
 
+    test "should compare versions correctly" do
+      source = OpenStruct.new(content: '<%= gem_version_compare("10.2.3", "2.0.1") %>')
+      assert_equal(renderer.render(source, @scope), '1')
+
+      source = OpenStruct.new(content: '<%= gem_version_compare("1.2.3", "1.2.3") %>')
+      assert_equal(renderer.render(source, @scope), '0')
+
+      source = OpenStruct.new(content: '<%= gem_version_compare("1.2.3", "1.2.4") %>')
+      assert_equal(renderer.render(source, @scope), '-1')
+    end
+
     context 'renderer for template with user input used' do
       let(:template) { FactoryBot.build(:provisioning_template, :template => 'service restart <%= input("service_name") -%>') }
       let(:source) { Foreman::Renderer::Source::Database.new(template) }

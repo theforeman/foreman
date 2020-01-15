@@ -149,6 +149,10 @@ module Foreman
             host&.virtual
           end
 
+          def gem_version_compare(first, second)
+            Gem::Version.new(first.to_s) <=> Gem::Version.new(second.to_s)
+          end
+
           private
 
           def validate_subnet(subnet)
