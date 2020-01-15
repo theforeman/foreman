@@ -35,7 +35,7 @@ class SshKey < ApplicationRecord
   delegate :login, to: :user, prefix: true
 
   class Jail < ::Safemode::Jail
-    allow :name, :user, :key, :to_export, :fingerprint, :length, :ssh_key, :type, :comment
+    allow :id, :name, :user, :key, :to_export, :fingerprint, :length, :ssh_key, :type, :comment
   end
 
   def to_export

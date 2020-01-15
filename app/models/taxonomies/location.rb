@@ -22,6 +22,10 @@ class Location < Taxonomy
     user.admin? ? all : where(id: user.location_and_child_ids)
   }
 
+  class Jail < ::Safemode::Jail
+    allow :id, :name, :title, :created_at, :updated_at, :description
+  end
+
   def dup
     new = super
     new.organizations = organizations

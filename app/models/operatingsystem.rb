@@ -76,7 +76,7 @@ class Operatingsystem < ApplicationRecord
   graphql_type '::Types::Operatingsystem'
 
   class Jail < Safemode::Jail
-    allow :name, :media_url, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
+    allow :id, :name, :media_url, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
   end
 
   def self.title_name

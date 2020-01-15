@@ -95,18 +95,21 @@ module Foreman
         :update_ip_from_built_request,
       ]
 
+      DEFAULT_ALLOWED_LOADERS = Foreman::Renderer::Scope::Macros::Loaders::LOADERS.map(&:first)
+
       def initialize
         @allowed_variables = DEFAULT_ALLOWED_VARIABLES
         @allowed_global_settings = DEFAULT_ALLOWED_GLOBAL_SETTINGS
         @allowed_generic_helpers = DEFAULT_ALLOWED_GENERIC_HELPERS
         @allowed_host_helpers = DEFAULT_ALLOWED_HOST_HELPERS
+        @allowed_loaders = DEFAULT_ALLOWED_LOADERS
       end
 
       attr_accessor :allowed_variables, :allowed_global_settings,
-        :allowed_generic_helpers, :allowed_host_helpers
+        :allowed_generic_helpers, :allowed_host_helpers, :allowed_loaders
 
       def allowed_helpers
-        allowed_generic_helpers + allowed_host_helpers
+        allowed_generic_helpers + allowed_host_helpers + allowed_loaders
       end
     end
   end

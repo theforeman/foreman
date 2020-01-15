@@ -48,7 +48,7 @@ class Domain < ApplicationRecord
   }
 
   class Jail < Safemode::Jail
-    allow :name, :fullname
+    allow :id, :name, :fullname
   end
 
   # return the primary name server for our domain based on DNS lookup
