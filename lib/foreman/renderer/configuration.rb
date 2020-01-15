@@ -37,7 +37,8 @@ module Foreman
         :number_to_percentage,
         :number_with_delimiter,
         :number_with_precision,
-        :number_to_human_size
+        :number_to_human_size,
+        :gem_version_compare
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
