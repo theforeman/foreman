@@ -147,9 +147,9 @@ class ActionDispatch::IntegrationTest
   # Works only with css locator
   def fill_in_editor_field(css_locator, text)
     # the input is not visible for chrome driver
-    find("#{css_locator} .ace_editor").click
-    has_css?("#{css_locator} .ace_editor")
-    find("#{css_locator} .ace_text-input", visible: :all).set text
+    find("#{css_locator} .ace_editor.ace_input").click
+    has_css?("#{css_locator} .ace_editor.ace_input")
+    find("#{css_locator} .ace_input .ace_text-input", visible: :all).set text
     # wait for the debounce
     has_editor_display?(css_locator, text)
   end
