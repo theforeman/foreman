@@ -143,7 +143,7 @@ class User < ApplicationRecord
   end
 
   class Jail < ::Safemode::Jail
-    allow :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail, :last_login_on
+    allow :id, :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail, :last_login_on
   end
 
   # we need to allow self-editing and self-updating

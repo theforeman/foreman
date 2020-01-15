@@ -107,7 +107,7 @@ class Subnet < ApplicationRecord
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 
   class Jail < ::Safemode::Jail
-    allow :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :dns_servers,
+    allow :id, :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :dns_servers,
       :vlanid, :mtu, :nic_delay, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?
   end
 

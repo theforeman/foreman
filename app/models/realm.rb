@@ -35,6 +35,6 @@ class Realm < ApplicationRecord
   }
 
   class Jail < ::Safemode::Jail
-    allow :name, :realm_type
+    allow :id, :name, :realm_type
   end
 end

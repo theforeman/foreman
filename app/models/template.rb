@@ -26,7 +26,7 @@ class Template < ApplicationRecord
   attr_exportable :name, :description, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
 
   class Jail < Safemode::Jail
-    allow :name
+    allow :id, :name
   end
 
   def skip_strip_attrs
