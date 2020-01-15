@@ -48,16 +48,11 @@ class Template < ApplicationRecord
   end
 
   def metadata
-    "<%#\n#{to_export(false).to_yaml.sub(/\A---$/, '').strip}\n%>\n"
+    "<%#\n#{to_export(false).to_yaml.sub(/\A---$/, '').strip}\n-%>\n"
   end
 
   def to_erb
-    if self.template.start_with?('<%#')
-      metadata + template_without_metadata
-    else
-      lines = template_without_metadata.split("\n")
-      [ lines[0], metadata.chomp, lines[1..-1] ].flatten.join("\n")
-    end
+    metadata + template_without_metadata
   end
 
   def template_without_metadata

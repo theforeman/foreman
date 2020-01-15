@@ -108,13 +108,6 @@ data"
         assert_equal "METADATA\ndata", @template.to_erb
       end
     end
-
-    test "it keeps data that present before original metadata" do
-      @template.template = "<?xml ...>\n" + @template.template
-      @template.stub(:metadata, "METADATA") do
-        assert_equal "<?xml ...>\nMETADATA\ndata", @template.to_erb
-      end
-    end
   end
 
   context "importing" do
