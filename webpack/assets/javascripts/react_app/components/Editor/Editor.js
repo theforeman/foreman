@@ -93,6 +93,21 @@ class Editor extends React.Component {
       toggleRenderView,
       value,
     } = this.props;
+
+    const editorViewProps = {
+      value: isRendering ? previewResult : value,
+      mode: isRendering ? 'Text' : mode,
+      theme,
+      keyBinding,
+      onChange: isRendering ? noop : changeEditorValue,
+      readOnly: readOnly || isRendering,
+      isMasked,
+    };
+    const editorNameTab = {
+      input: `${editorName}Code`,
+      preview: `${editorName}Preview`,
+    };
+
     return (
       <div id="editor-container">
         <ToastNotification
@@ -147,16 +162,18 @@ class Editor extends React.Component {
           fetchAndPreview={fetchAndPreview}
         />
         <EditorView
-          key="editorView"
-          value={isRendering ? previewResult : value}
-          name={editorName}
-          mode={isRendering ? 'Text' : mode}
-          theme={theme}
-          keyBinding={keyBinding}
-          onChange={isRendering ? noop : changeEditorValue}
-          readOnly={readOnly || isRendering}
-          className={selectedView !== 'diff' ? 'ace_editor_form' : 'hidden'}
-          isMasked={isMasked}
+          {...editorViewProps}
+          key="editorPreview"
+          name={editorNameTab.preview}
+          isSelected={selectedView === 'preview'}
+          className="ace_editor_form ace_preview"
+        />
+        <EditorView
+          {...editorViewProps}
+          key="editorCode"
+          name={editorNameTab.input}
+          isSelected={selectedView === 'input'}
+          className="ace_editor_form ace_input"
         />
         <div
           id="diff-table"

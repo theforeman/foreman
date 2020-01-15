@@ -137,6 +137,7 @@ exports[`EditorModal should render renders EditorModal editor 1`] = `
     <EditorView
       className="editor ace_editor_modal"
       isMasked={false}
+      isSelected={true}
       keyBinding="Default"
       mode="Ruby"
       name="editor"

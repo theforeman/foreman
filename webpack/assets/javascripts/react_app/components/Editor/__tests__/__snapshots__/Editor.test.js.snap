@@ -91,12 +91,26 @@ exports[`Editor rendering renders editor 1`] = `
     value="value"
   />
   <EditorView
-    className="ace_editor_form"
+    className="ace_editor_form ace_preview"
     isMasked={false}
-    key="editorView"
+    isSelected={false}
+    key="editorPreview"
     keyBinding="Default"
     mode="Ruby"
-    name="editor"
+    name="editorPreview"
+    onChange={[Function]}
+    readOnly={false}
+    theme="Monokai"
+    value="value"
+  />
+  <EditorView
+    className="ace_editor_form ace_input"
+    isMasked={false}
+    isSelected={true}
+    key="editorCode"
+    keyBinding="Default"
+    mode="Ruby"
+    name="editorCode"
     onChange={[Function]}
     readOnly={false}
     theme="Monokai"
