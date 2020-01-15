@@ -31,7 +31,13 @@ module Foreman
         :rand_name,
         :mac_name,
         :host_kernel_release,
-        :host_uptime_seconds
+        :host_uptime_seconds,
+        :number_to_currency,
+        :number_to_human,
+        :number_to_percentage,
+        :number_with_delimiter,
+        :number_with_precision,
+        :number_to_human_size
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [
