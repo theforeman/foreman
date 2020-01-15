@@ -421,38 +421,6 @@ module Api
       [parent_name, parent_scope]
     end
 
-    # This method adds a scope by resource id, taking into account possibility of parametrization or friendly find
-    def scope_by_resource_id(base_scope, resource_id)
-      # If resource id is nil or empty string, return empty scope
-      return base_scope.none if resource_id.blank?
-
-      if resource_id.is_a? String
-        # The class is parameterizable and the id is in '123-myname' format, extract the id from it
-        if base_scope.klass.respond_to?(:to_param) && resource_id.start_with?(/\d+-/)
-          return base_scope.where(id: resource_id.to_i)
-        end
-
-        # The class supports friendly id and the id is in a 'friendly_id' format, prefer the friendly field for search
-        if base_scope.klass.respond_to?(:friendly)
-          field = base_scope.klass.friendly_id_config.query_field
-          friendly_scope = base_scope.where(field => resource_id)
-          # the id could be a regular friendly id - e.g. 'name', or it could be a resource with a numeric name,
-          # e.g. '123' - in that case we want to return the friendly scope.
-          # if the id is numeric and there is no matching resources, fall back to numeric find
-          if resource_id.friendly_id? ||
-            (resource_id.integer? && friendly_scope.any?)
-            return friendly_scope
-          end
-        end
-      end
-
-      # The id is an integer (or an integer-like string), scope by it
-      return base_scope.where(id: resource_id) if resource_id.integer?
-
-      # The parameter doesn't match any supported format, return empty scope
-      base_scope.none
-    end
-
     def parameter_filter_context
       Foreman::ParameterFilter::Context.new(:api, controller_name, params[:action])
     end
