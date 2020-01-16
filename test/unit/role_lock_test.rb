@@ -135,7 +135,7 @@ class RoleLockTest < ActiveSupport::TestCase
     assert_empty role.description
 
     @role_lock.register_role name, @permissions, registry, 'new description'
-    role.reload
+    role = Role.find(registry.role_ids.first)
     assert_equal 'new description', role.description
   end
 end
