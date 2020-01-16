@@ -9,17 +9,15 @@ module Foreman
 
       def register_role(name, permissions, role_registry, description = '')
         User.as_anonymous_admin do
-          Role.transaction do
-            role = process_role name, permissions, description
-            role_registry.role_ids << role.id
-          end
+          role = process_role name, permissions, description
+          role_registry.role_ids << role.id
         end
       end
 
       def process_role(name, permissions, description = '')
         role = Role.find_by :name => name
         if role
-          role.update_attribute(:description, description) if role.description != description
+          role.update_column(:description, description) if role.description != description
 
           if role&.origin && role.permission_diff(permissions).present?
             return update_plugin_role_permissions role, permissions
