@@ -39,8 +39,8 @@ module Api
           param :use_v4, :bool, :desc => N_("for oVirt only")
           param :ovirt_quota, String, :desc => N_("for oVirt only, ID of quota to use")
           param :public_key, String, :desc => N_("for oVirt only")
-          param :region, String, :desc => N_("for EC2 only, use '%s' for GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION
-          param :tenant, String, :desc => N_("for OpenStack and AzureRM only")
+          param :region, String, :desc => N_("for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud region") % Foreman::Model::EC2::GOV_CLOUD_REGION
+          param :tenant, String, :desc => N_("for OpenStack and AzureRm only")
           param :domain, String, :desc => N_("for OpenStack (v3) only")
           param :project_domain_name, String, :desc => N_("for OpenStack (v3) only")
           param :project_domain_id, String, :desc => N_("for OpenStack (v3) only")
