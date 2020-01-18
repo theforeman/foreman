@@ -46,6 +46,11 @@ class FactCleaner
       fact_name_ids = batch.map(&:id)
       @deleted_count += log_removed(FactName.unscoped.where(:id => fact_name_ids).delete_all, "fact name")
     end
+
+    logger.debug "Cleaning up orphaned fact values"
+    FactValue.where.not(:fact_name => FactName.reorder(nil)).in_batches(:of => @batch_size) do |batch|
+      log_removed(batch.delete_all, "orphaned fact value")
+    end
   end
 
   def delete_excluded_facts
