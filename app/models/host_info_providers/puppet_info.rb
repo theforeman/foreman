@@ -61,7 +61,7 @@ module HostInfoProviders
 
     def classes_info_hash
       return [] if host.environment.nil?
-      return puppetclass_parameters if Setting[:Parametrized_Classes_in_ENC] && Setting[:Enable_Smart_Variables_in_ENC]
+      return puppetclass_parameters if Setting[:Parametrized_Classes_in_ENC]
       host.puppetclasses_names
     end
 

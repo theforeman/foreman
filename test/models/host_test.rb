@@ -1132,7 +1132,6 @@ class HostTest < ActiveSupport::TestCase
 
   test "should import from external nodes output" do
     Setting[:Parametrized_Classes_in_ENC] = true
-    Setting[:Enable_Smart_Variables_in_ENC] = true
     # create a dummy node
     Parameter.destroy_all
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
@@ -1204,7 +1203,6 @@ class HostTest < ActiveSupport::TestCase
     host.importNode("environment" => "production", "classes" => ["apache", "base"], "parameters" => {})
 
     Setting[:Parametrized_Classes_in_ENC] = true
-    Setting[:Enable_Smart_Variables_in_ENC] = true
     assert_equal ['apache', 'base'], host.info['classes'].keys
   end
 
@@ -2910,7 +2908,6 @@ class HostTest < ActiveSupport::TestCase
 
   test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
     Setting[:Parametrized_Classes_in_ENC] = true
-    Setting[:Enable_Smart_Variables_in_ENC] = true
     host = FactoryBot.build_stubbed(:host, :with_environment)
     classes = {'myclass' => {'myparam' => 'myvalue'}}
     HostInfoProviders::PuppetInfo.any_instance.expects(:puppetclass_parameters).returns(classes)
