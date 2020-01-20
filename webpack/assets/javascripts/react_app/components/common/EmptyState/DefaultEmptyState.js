@@ -5,30 +5,29 @@ import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';
 import { defaultEmptyStatePropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
 
-const documentationBlock = ({
-  url,
-  label = __('For more information please see'),
-  buttonLabel = __('Documentation'),
-}) =>
-  url && (
-    <React.Fragment>
-      {label}{' '}
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        {buttonLabel}
-      </a>
-    </React.Fragment>
-  );
-
 const DefaultEmptyState = props => {
   const {
     icon,
     iconType,
     header,
     description,
-    documentation,
+    documentation: {
+      url,
+      label = __('For more information please see'),
+      buttonLabel = __('Documentation'),
+    } = {},
     action,
     secondaryActions,
   } = props;
+
+  const documentationBlock = url ? (
+    <React.Fragment>
+      {label}{' '}
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        {buttonLabel}
+      </a>
+    </React.Fragment>
+  ) : null;
 
   return (
     <EmptyStatePattern
@@ -36,7 +35,7 @@ const DefaultEmptyState = props => {
       iconType={iconType}
       header={header}
       description={description}
-      documentation={documentation ? documentationBlock(documentation) : null}
+      documentation={documentationBlock}
       action={action ? <PrimaryActionButton action={action} /> : null}
       secondaryActions={<SecondaryActionButtons actions={secondaryActions} />}
     />
