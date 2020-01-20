@@ -6,39 +6,17 @@ import SearchModal from './components/SearchModal';
 import Bookmark from './components/Bookmark';
 import DocumentationUrl from '../common/DocumentationLink';
 import { STATUS } from '../../constants';
-import { bindMethods, noop } from '../../common/helpers';
+import { noop } from '../../common/helpers';
 import { sprintf, translate as __ } from '../../../react_app/common/I18n';
 
 class Bookmarks extends React.Component {
-  constructor(props) {
-    super(props);
-    bindMethods(this, ['handleNewBookmarkClick', 'loadBookmarks']);
-  }
-
-  loadBookmarks() {
+  loadBookmarks = () => {
     const { bookmarks, status, url, controller, getBookmarks } = this.props;
 
     if (bookmarks.length === 0 && status !== STATUS.PENDING) {
       getBookmarks(url, controller);
     }
-  }
-
-  handleNewBookmarkClick() {
-    const {
-      isModalOpen,
-      setModalClosed,
-      setModalOpen,
-      setQuery,
-      searchQuery,
-    } = this.props;
-
-    if (isModalOpen) {
-      setModalClosed();
-    } else {
-      setQuery(searchQuery);
-      setModalOpen();
-    }
-  }
+  };
 
   render() {
     const {
@@ -50,6 +28,7 @@ class Bookmarks extends React.Component {
       status,
       documentationUrl,
       onBookmarkClick,
+      setModalOpen,
     } = this.props;
 
     return (
@@ -64,7 +43,7 @@ class Bookmarks extends React.Component {
               <MenuItem
                 key="newBookmark"
                 id="newBookmark"
-                onClick={this.handleNewBookmarkClick}
+                onClick={setModalOpen}
               >
                 {__('Bookmark this search')}
               </MenuItem>
@@ -105,28 +84,22 @@ Bookmarks.propTypes = {
   controller: PropTypes.string.isRequired,
   onBookmarkClick: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
-  searchQuery: PropTypes.string,
   canCreate: PropTypes.bool,
   bookmarks: PropTypes.array,
   errors: PropTypes.string,
   status: PropTypes.string,
   documentationUrl: PropTypes.string,
   getBookmarks: PropTypes.func,
-  isModalOpen: PropTypes.bool,
   setModalOpen: PropTypes.func.isRequired,
-  setModalClosed: PropTypes.func.isRequired,
-  setQuery: PropTypes.func.isRequired,
 };
 
 Bookmarks.defaultProps = {
-  searchQuery: '',
   canCreate: false,
   bookmarks: [],
   errors: '',
   status: null,
   documentationUrl: '',
   getBookmarks: noop,
-  isModalOpen: false,
 };
 
 export default Bookmarks;

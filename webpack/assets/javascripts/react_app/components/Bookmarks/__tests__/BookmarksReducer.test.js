@@ -8,7 +8,6 @@ import {
   BOOKMARKS_REQUEST,
   BOOKMARKS_SUCCESS,
   BOOKMARKS_FAILURE,
-  BOOKMARKS_SET_QUERY,
   BOOKMARKS_FORM_SUBMITTED,
 } from '../BookmarksConstants';
 
@@ -27,7 +26,6 @@ const bookmarkItem = {
   query: 'name ~ random',
   controller: 'architectures',
 };
-const query = 'this is a query';
 
 const fixtures = {
   'should return initial state': {
@@ -55,15 +53,6 @@ const fixtures = {
       },
       response: {
         results: [bookmarkItem],
-      },
-    },
-  },
-  'should set search query': {
-    state: stateFactory({ status: STATUS.RESOLVED }),
-    action: {
-      type: BOOKMARKS_SET_QUERY,
-      payload: {
-        query,
       },
     },
   },

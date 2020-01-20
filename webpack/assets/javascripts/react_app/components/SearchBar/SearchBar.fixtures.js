@@ -3,7 +3,7 @@ export const SearchBarProps = {
     autocomplete: {
       searchQuery: null,
       url: 'model/auto_complete_search',
-      id: 'some-id',
+      id: 'searchBar',
       useKeyShortcuts: true,
     },
     bookmarks: {
