@@ -354,5 +354,15 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
         assert_includes @template.errors.keys, :template_kind_id
       end
     end
+
+    describe 'import_without_save' do
+      test 'it correctly imports provisioning template with :associate => "never"' do
+        text = File.read(Foreman::Application.root.join('test', 'static_fixtures', 'templates', 'provision', 'one.erb'))
+        template = ProvisioningTemplate.import_without_save('not_associated_templates', text, { :associate => 'never' })
+        assert template.template_kind
+        assert_empty template.operatingsystems
+        assert template.valid?
+      end
+    end
   end
 end

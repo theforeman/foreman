@@ -244,7 +244,7 @@ class ProvisioningTemplate < Template
     super
     self.template_kind = nil if self.snippet
 
-    if @importing_metadata.key?('kind') && !self.snippet && associate_metadata_on_import?(options)
+    if @importing_metadata.key?('kind') && !self.snippet
       kind = TemplateKind.find_by_name @importing_metadata['kind']
       if kind.nil?
         errors.add :template_kind_id, _('specified template "%s" kind was not found') % @importing_metadata['kind']
