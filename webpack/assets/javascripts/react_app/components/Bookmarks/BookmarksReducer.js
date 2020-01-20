@@ -3,7 +3,6 @@ import {
   BOOKMARKS_REQUEST,
   BOOKMARKS_SUCCESS,
   BOOKMARKS_FAILURE,
-  BOOKMARKS_SET_QUERY,
   BOOKMARKS_FORM_SUBMITTED,
 } from './BookmarksConstants';
 import { STATUS } from '../../constants';
@@ -35,8 +34,6 @@ export default (state = initialState, { type, payload, response }) => {
       return state
         .setIn([payload.controller, 'results'], response.results)
         .setIn([payload.controller, 'status'], STATUS.RESOLVED);
-    case BOOKMARKS_SET_QUERY:
-      return state.set('currentQuery', payload.query);
     case BOOKMARKS_FORM_SUBMITTED:
       return state
         .setIn(

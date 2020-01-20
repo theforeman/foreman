@@ -1,6 +1,6 @@
 import URI from 'urijs';
 import { get } from '../../redux/API';
-import { BOOKMARKS, BOOKMARKS_SET_QUERY } from './BookmarksConstants';
+import { BOOKMARKS } from './BookmarksConstants';
 
 const _getBookmarks = (url, controller) =>
   get({
@@ -17,10 +17,3 @@ export const getBookmarks = (url, controller) => {
 
   return _getBookmarks(uri.toString(), controller);
 };
-
-export const setQuery = query => ({
-  type: BOOKMARKS_SET_QUERY,
-  payload: {
-    query,
-  },
-});

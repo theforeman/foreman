@@ -7,7 +7,7 @@ exports[`AutoComplete rendering renders AutoComplete 1`] = `
   <Connect(AutoComplete)
     controller="models"
     handleSearch={[Function]}
-    id="some-id"
+    id="searchBar"
     searchQuery=""
     url="model/auto_complete_search"
     useKeyShortcuts={true}

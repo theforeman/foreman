@@ -11,17 +11,6 @@ Object {
 }
 `;
 
-exports[`BookmarksReducer should set search query 1`] = `
-Object {
-  "architectures": Object {
-    "errors": null,
-    "results": Array [],
-    "status": "RESOLVED",
-  },
-  "currentQuery": "this is a query",
-}
-`;
-
 exports[`BookmarksReducer should show errors 1`] = `
 Object {
   "architectures": Object {

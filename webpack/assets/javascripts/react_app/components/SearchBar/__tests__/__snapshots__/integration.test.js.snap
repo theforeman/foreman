@@ -18,7 +18,7 @@ Object {
   ],
   "state": Object {
     "autocomplete": Object {
-      "some-id": Object {
+      "searchBar": Object {
         "controller": "models",
         "disabled": false,
         "error": null,
@@ -55,7 +55,7 @@ Array [
         "controller": "models",
         "disabled": false,
         "error": null,
-        "id": "some-id",
+        "id": "searchBar",
         "isErrorVisible": false,
         "searchQuery": "",
         "status": "RESOLVED",
@@ -79,7 +79,7 @@ Array [
       "payload": Object {
         "controller": "models",
         "error": null,
-        "id": "some-id",
+        "id": "searchBar",
         "searchQuery": "result",
         "status": "PENDING",
         "trigger": "INPUT_CHANGE",
@@ -108,14 +108,6 @@ Array [
         "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
       },
       "type": "API_GET",
-    },
-  ],
-  Array [
-    Object {
-      "payload": Object {
-        "query": "result",
-      },
-      "type": "BOOKMARKS_SET_QUERY",
     },
   ],
   Array [

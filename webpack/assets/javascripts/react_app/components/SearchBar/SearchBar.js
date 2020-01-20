@@ -6,21 +6,15 @@ import Bookmarks from '../Bookmarks';
 import { changeQuery } from '../../common/urlHelpers';
 import './search-bar.scss';
 
-const SearchBar = ({
-  data: { autocomplete, controller, bookmarks },
-  searchQuery,
-  onSearch,
-  initialQuery,
-  onBookmarkClick,
-}) => {
-  const bookmarksComponent = !isEmpty(bookmarks) ? (
-    <Bookmarks
-      onBookmarkClick={onBookmarkClick}
-      controller={controller}
-      searchQuery={searchQuery}
-      {...bookmarks}
-    />
-  ) : null;
+const SearchBar = props => {
+  const {
+    data: { autocomplete, controller, bookmarks },
+    searchQuery,
+    onSearch,
+    initialQuery,
+    onBookmarkClick,
+  } = props;
+
   return (
     <div className="search-bar input-group">
       <AutoComplete
@@ -33,7 +27,14 @@ const SearchBar = ({
       />
       <div className="input-group-btn">
         <AutoComplete.SearchButton onClick={() => onSearch(searchQuery)} />
-        {bookmarksComponent}
+        {!isEmpty(bookmarks) && (
+          <Bookmarks
+            onBookmarkClick={onBookmarkClick}
+            controller={controller}
+            searchQuery={searchQuery}
+            {...bookmarks}
+          />
+        )}
       </div>
     </div>
   );
