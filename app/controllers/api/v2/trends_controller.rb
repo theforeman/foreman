@@ -11,7 +11,7 @@ module Api
       end
 
       api :GET, "/trends/:id/", N_("Show a trend")
-      param :trend_id, :identifier, :required => true
+      param :id, :identifier, :required => true
       def show
       end
 
