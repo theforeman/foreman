@@ -17,13 +17,12 @@ describe('Component registry', () => {
     expect(comp.data).toBeTruthy();
   });
 
-  it('should not register a component twice', () => {
+  it('should not error when register same component twice', () => {
     const name = 'TwiceComponent';
 
     componentRegistry.register({ name, type: FakeComponent });
-    expect(() =>
-      componentRegistry.register({ name, type: FakeComponent })
-    ).toThrow('Component name already taken: TwiceComponent');
+    componentRegistry.register({ name, type: FakeComponent });
+    expect(componentRegistry.getComponent(name)).toBeTruthy();
   });
 
   it('should not register a component without a name', () => {
