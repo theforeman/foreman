@@ -1,3 +1,19 @@
+2020-01-21	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.24.2
+	* Fixes #28564 - improve performance of orphaned facts cleanup
+
+2020-01-21	Hao Yu <hyu@redhat.com>
+	* Fixes #28514 - Skip cycle validation for user type membership
+
+2020-01-21	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #28405 - Missing permissions to Table Preferences
+
+2020-01-13	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28727 - Correct dns_timeout setting value
+
+2020-01-09	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #28710 - Pin gettext on Ruby 2.3
+
 2020-01-08	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.24.1
 
