@@ -36,18 +36,22 @@ import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
 
+window.tfm_component_registry = window.tfm_component_registry || {};
+
 const componentRegistry = {
-  registry: {},
+  registry: window.tfm_component_registry,
 
   register({ name = null, type = null, store = true, data = true }) {
     if (!name || !type) {
       throw new Error('Component name or type is missing');
     }
     if (this.registry[name]) {
-      throw new Error(`Component name already taken: ${name}`);
+      // eslint-disable-next-line no-console
+      console.warn(`Component name already taken: ${name}`);
+    } else {
+      this.registry[name] = { type, store, data };
     }
 
-    this.registry[name] = { type, store, data };
     return this.registry;
   },
 
