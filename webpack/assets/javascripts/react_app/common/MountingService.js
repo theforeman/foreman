@@ -71,4 +71,6 @@ class ReactComponentElement extends HTMLElement {
   }
 }
 
-window.customElements.define('react-component', ReactComponentElement);
+if (!window.customElements.get('react-component')) {
+  window.customElements.define('react-component', ReactComponentElement);
+}
