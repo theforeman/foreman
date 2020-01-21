@@ -9,7 +9,7 @@ group :development do
 
   gem 'pry'
   gem 'pry-rails'
-  gem 'pry-byebug'
+  gem 'pry-byebug', '< 3.7.0'
   gem 'pry-doc'
   gem 'pry-stack_explorer'
   gem 'pry-remote'
