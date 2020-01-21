@@ -40,7 +40,7 @@ const PasswordStrength = ({
             __('Strong'),
             __('Very strong'),
           ]}
-          inputProps={{ name, id, className }}
+          inputProps={{ name, id, className, autoComplete: 'new-password' }}
         />
       </CommonForm>
       {verify && (
