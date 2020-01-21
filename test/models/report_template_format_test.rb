@@ -41,7 +41,7 @@ class ReportTemplateFormatTest < ActiveSupport::TestCase
   end
 
   test "#extension" do
-    assert_equal 'text', ReportTemplateFormat.find(:txt).extension
+    assert_equal 'txt', ReportTemplateFormat.find(:txt).extension
     assert_equal 'yaml', ReportTemplateFormat.find(:yaml).extension
     assert_equal 'csv', ReportTemplateFormat.find(:csv).extension
     assert_equal 'json', ReportTemplateFormat.find(:json).extension
