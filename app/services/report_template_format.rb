@@ -39,6 +39,7 @@ class ReportTemplateFormat
   end
 
   def extension
-    Mime::Type.lookup(@mime_type).symbol.to_s
+    suggested = Mime::Type.lookup(@mime_type).symbol.to_s
+    (suggested == 'text') ? 'txt' : suggested
   end
 end
