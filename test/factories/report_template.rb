@@ -12,5 +12,9 @@ FactoryBot.define do
     trait :snippet do
       snippet { true }
     end
+
+    trait :with_report_render do
+      template { "<%= report_render -%>"}
+    end
   end
 end
