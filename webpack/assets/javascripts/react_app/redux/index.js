@@ -25,6 +25,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const generateStore = () =>
   createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
 
-const store = generateStore();
+window.tfm_redux_store = window.tfm_redux_store || generateStore();
+
+const store = window.tfm_redux_store;
 
 export default store;
