@@ -35,6 +35,16 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     assert_equal 389, other_auth_source_ldap.port
   end
 
+  test "after initialize should set default ldap attributes" do
+    auth_source_ldap = AuthSourceLdap.new
+
+    assert_equal 'uid', auth_source_ldap.attr_login
+    assert_equal 'givenName', auth_source_ldap.attr_firstname
+    assert_equal 'sn', auth_source_ldap.attr_lastname
+    assert_equal 'mail', auth_source_ldap.attr_mail
+    assert_equal 'jpegPhoto', auth_source_ldap.attr_photo
+  end
+
   test "should strip the ldap attributes before validate" do
     @auth_source_ldap.attr_login = "following spaces    "
     @auth_source_ldap.attr_firstname = "following spaces    "
