@@ -36,11 +36,11 @@ module Api
           param :account, String
           param :base_dn, String
           param :account_password, String, :desc => N_("required if onthefly_register is true")
-          param :attr_login, String, :desc => N_("required if onthefly_register is true")
-          param :attr_firstname, String, :desc => N_("required if onthefly_register is true")
-          param :attr_lastname, String, :desc => N_("required if onthefly_register is true")
-          param :attr_mail, String, :desc => N_("required if onthefly_register is true")
-          param :attr_photo, String
+          param :attr_login, String, :desc => N_("required if onthefly_register is true"), :default_value => 'uid'
+          param :attr_firstname, String, :desc => N_("required if onthefly_register is true"), :default_value => 'givenName'
+          param :attr_lastname, String, :desc => N_("required if onthefly_register is true"), :default_value => 'sn'
+          param :attr_mail, String, :desc => N_("required if onthefly_register is true"), :default_value => 'mail'
+          param :attr_photo, String, :default_value => 'jpegPhoto'
           param :onthefly_register, :bool
           param :usergroup_sync, :bool, :desc => N_("sync external user groups on login")
           param :tls, :bool
