@@ -17,7 +17,7 @@ class Freebsd < Operatingsystem
     "memdisk"
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "boot/$arch/images"
   end
 

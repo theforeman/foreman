@@ -11,7 +11,7 @@ class Coreos < Operatingsystem
     end.to_s
   end
 
-  def pxedir
+  def pxedir(architecture = nil)
     '$arch-usr/$version'
   end
 

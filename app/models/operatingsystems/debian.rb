@@ -1,7 +1,7 @@
 class Debian < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'
   end
 

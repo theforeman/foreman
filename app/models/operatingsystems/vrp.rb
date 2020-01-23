@@ -22,7 +22,7 @@ class VRP < Operatingsystem
     ["ZTP"]
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "boot/$arch/images"
   end
 

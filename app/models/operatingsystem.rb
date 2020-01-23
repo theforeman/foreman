@@ -188,7 +188,7 @@ class Operatingsystem < ApplicationRecord
     end
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     ""
   end
 
@@ -288,7 +288,7 @@ class Operatingsystem < ApplicationRecord
 
   def boot_file_sources(medium_provider, &block)
     @boot_file_sources ||= self.family.constantize::PXEFILES.transform_values do |img|
-      "#{medium_provider.medium_uri(pxedir, &block)}/#{img}"
+      "#{medium_provider.medium_uri(pxedir(medium_provider), &block)}/#{img}"
     end
   end
 

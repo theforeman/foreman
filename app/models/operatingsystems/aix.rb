@@ -5,7 +5,7 @@ class AIX < Operatingsystem
     "nim"
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "boot/$arch/loader"
   end
 
