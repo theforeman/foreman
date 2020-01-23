@@ -205,6 +205,11 @@ class AuthSourceLdap < AuthSource
 
   def set_defaults
     self.port ||= DEFAULT_PORTS[:ldap]
+    self.attr_login ||= 'uid'
+    self.attr_firstname ||= 'givenName'
+    self.attr_lastname ||= 'sn'
+    self.attr_mail ||= 'mail'
+    self.attr_photo ||= 'jpegPhoto'
   end
 
   def required_ldap_attributes
