@@ -10,7 +10,7 @@ module Foreman
           def snippet(name, options = {}, variables: {})
             template = source.find_snippet(name)
             unless template
-              raise "The specified snippet '#{name}' does not exist, or is not a snippet." unless options[:silent]
+              raise "The specified snippet '#{name}' does not exist in context org=#{Organization.current}/loc=#{Location.current}, or is not a snippet." unless options[:silent]
               return
             end
 

@@ -6,10 +6,12 @@ module Foreman
       private
 
       def render_template(template:, type:)
-        return safe_render(template) if template
+        Taxonomy.as_taxonomy(@host&.organization, @host&.location) do
+          return safe_render(template) if template
 
-        error_message = N_("unable to find %{type} template for %{host} running %{os}")
-        render_error(error_message, type: type, host: @host.name, os: @host.operatingsystem, status: :not_found)
+          error_message = N_("unable to find %{type} template for %{host} running %{os}")
+          render_error(error_message, type: type, host: @host.name, os: @host.operatingsystem, status: :not_found)
+        end
       end
 
       def safe_render(template)
