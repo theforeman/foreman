@@ -210,19 +210,6 @@ Array [
 ]
 `;
 
-exports[`Notification Drawer actions should start polling notifications 1`] = `
-Array [
-  Array [
-    Object {
-      "type": "NOTIFICATIONS_POLLING_STARTED",
-    },
-  ],
-  Array [
-    [Function],
-  ],
-]
-`;
-
 exports[`Notification Drawer actions should toggle closed drawer 1`] = `
 Array [
   Array [

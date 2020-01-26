@@ -1,70 +1,74 @@
-import { mount } from '@theforeman/test';
 import React from 'react';
-import { generateStore } from '../../redux';
-import API from '../../redux/API/API';
-import { doesDocumentHasFocus } from '../../common/document';
-
+import thunk from 'redux-thunk';
+import IntegrationTestHelper from '../../common/IntegrationTestHelper';
+import notificationReducer from '../../redux/reducers/notifications';
 import { componentMountData, serverResponse } from './notifications.fixtures';
-
 import Notifications from './';
+import API from '../../redux/API/API';
+import { APIMiddleware } from '../../redux/API';
+import { NOTIFICATIONS } from '../../redux/consts';
+import { IntervalMiddleware } from '../../redux/middlewares';
+import { registeredIntervalException } from '../../redux/middlewares/IntervalMiddleware/IntervalHelpers';
+import { DEFAULT_INTERVAL } from '../../redux/actions/notifications/constants';
 
+jest.useFakeTimers();
 jest.mock('../../redux/API/API');
-jest.mock('../../common/document');
+jest.mock('../../redux/actions/notifications/constants', () => ({
+  DEFAULT_INTERVAL: 1,
+}));
 
-let failResponse = { response: { status: 200 } };
+const notificationProps = {
+  data: componentMountData,
+};
 
-function mockjqXHR() {
-  return {
-    then: callback => {
-      callback(JSON.parse(serverResponse));
-      return mockjqXHR();
-    },
-    catch: failCallback => {
-      failCallback(failResponse);
-      return mockjqXHR();
-    },
-  };
-}
+const configureIntegrationHelper = () => {
+  const reducers = { notifications: notificationReducer };
+  const middlewares = [thunk, IntervalMiddleware, APIMiddleware];
+  return new IntegrationTestHelper(reducers, middlewares);
+};
 
 describe('notifications', () => {
-  doesDocumentHasFocus.mockImplementation(() => true);
-
   beforeEach(() => {
     global.tfm = {
       tools: {
         activateTooltips: () => {},
       },
     };
-    API.get = mockjqXHR;
   });
 
   it('full flow', () => {
-    const wrapper = mount(
-      <Notifications data={componentMountData} store={generateStore()} />
+    API.get.mockImplementation(async () => serverResponse);
+
+    const testHelper = configureIntegrationHelper();
+    const wrapper = testHelper.mount(<Notifications {...notificationProps} />);
+    expect(setInterval).toHaveBeenCalledTimes(1);
+    expect(setInterval).toHaveBeenLastCalledWith(
+      expect.any(Function),
+      DEFAULT_INTERVAL
     );
-    wrapper.find('.fa-bell').simulate('click');
-    expect(wrapper.find('.panel-group')).toHaveLength(1);
-    wrapper.find('.panel-group .panel-heading').simulate('click');
-    expect(wrapper.find('.unread')).toHaveLength(1);
-    wrapper.find('.unread').simulate('click');
-    expect(wrapper.find('.unread')).toHaveLength(0);
-  });
-
-  it('should redirect to login when 401', () => {
-    window.location.replace = jest.fn();
-    failResponse = { response: { status: 401 } };
-
-    mount(<Notifications data={componentMountData} store={generateStore()} />);
-    expect(global.location.replace).toBeCalled();
+    /** this is a workaround to wait for the component
+     * to get updated with the notification data.
+     * I tried to use all of jest`s timer-mocking-functions with no success,
+     * found no regression in test time duration */
+    setTimeout(() => {
+      wrapper.find('.fa-bell').simulate('click');
+      expect(wrapper.find('.panel-group')).toHaveLength(1);
+      wrapper.find('.panel-group .panel-heading').simulate('click');
+      expect(wrapper.find('.unread')).toHaveLength(1);
+      wrapper.find('.unread').simulate('click');
+      expect(wrapper.find('.unread')).toHaveLength(0);
+    }, DEFAULT_INTERVAL);
   });
 
   it('should avoid multiple polling on re-mount', () => {
-    const store = generateStore();
-    const spy = jest.spyOn(API, 'get');
-
-    mount(<Notifications data={componentMountData} store={store} />);
-    mount(<Notifications data={componentMountData} store={store} />);
-
-    expect(spy).toHaveBeenCalledTimes(1);
+    const testHelper = configureIntegrationHelper();
+    testHelper.mount(<Notifications {...notificationProps} />);
+    try {
+      testHelper.mount(<Notifications {...notificationProps} />);
+    } catch (error) {
+      expect(error.message).toBe(
+        registeredIntervalException(NOTIFICATIONS).message
+      );
+    }
   });
 });
