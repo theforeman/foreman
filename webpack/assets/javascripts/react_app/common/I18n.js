@@ -1,5 +1,6 @@
 import Jed from 'jed';
 import { addLocaleData } from 'react-intl';
+import forceSingleton from './forceSingleton';
 
 class IntlLoader {
   constructor(locale, timezone) {
@@ -34,7 +35,10 @@ const [htmlElemnt] = document.getElementsByTagName('html');
 const langAttr = htmlElemnt.getAttribute('lang') || 'en';
 const timezoneAttr = htmlElemnt.getAttribute('data-timezone') || 'UTC';
 
-export const intl = new IntlLoader(langAttr, timezoneAttr);
+export const intl = forceSingleton(
+  'Intl',
+  () => new IntlLoader(langAttr, timezoneAttr)
+);
 
 const cheveronPrefix = () => (window.I18N_MARK ? '\u00BB' : '');
 const cheveronSuffix = () => (window.I18N_MARK ? '\u00AB' : '');
@@ -56,7 +60,7 @@ const getLocaleData = () => {
   return locales[locale];
 };
 
-export const jed = new Jed(getLocaleData());
+export const jed = forceSingleton('Jed', () => new Jed(getLocaleData()));
 
 export const translate = (...args) =>
   `${cheveronPrefix()}${jed.gettext(...args)}${cheveronSuffix()}`;

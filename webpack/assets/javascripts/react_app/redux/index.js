@@ -1,6 +1,7 @@
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, compose } from 'redux';
+import forceSingleton from '../common/forceSingleton';
 
 import reducers from './reducers';
 
@@ -25,8 +26,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const generateStore = () =>
   createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
 
-window.tfm_redux_store = window.tfm_redux_store || generateStore();
-
-const store = window.tfm_redux_store;
+const store = forceSingleton('redux_store', generateStore);
 
 export default store;

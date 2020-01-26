@@ -1,4 +1,5 @@
 import React from 'react';
+import forceSingleton from '../common/forceSingleton';
 
 import ReactApp from '../ReactApp';
 import DonutChart from './common/charts/DonutChart';
@@ -36,10 +37,8 @@ import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
 
-window.tfm_component_registry = window.tfm_component_registry || {};
-
 const componentRegistry = {
-  registry: window.tfm_component_registry,
+  registry: forceSingleton('component_registry', () => ({})),
 
   register({ name = null, type = null, store = true, data = true }) {
     if (!name || !type) {
