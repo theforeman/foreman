@@ -1,21 +1,20 @@
 import Immutable from 'seamless-immutable';
 
 import {
-  NOTIFICATIONS_GET_NOTIFICATIONS,
   NOTIFICATIONS_TOGGLE_DRAWER,
   NOTIFICATIONS_SET_EXPANDED_GROUP,
   NOTIFICATIONS_MARK_AS_CLEAR,
   NOTIFICATIONS_MARK_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
-  NOTIFICATIONS_POLLING_STARTED,
+  NOTIFICATIONS,
 } from '../../consts';
 import { notificationsDrawer } from '../../../common/sessionStorage';
+import { actionTypeGenerator } from '../../API';
 
 const initialState = Immutable({
   isDrawerOpen: notificationsDrawer.getIsOpened(),
   expandedGroup: notificationsDrawer.getExpandedGroup(),
-  isPolling: false,
   hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false,
 });
 
@@ -30,16 +29,18 @@ const hasUnreadMessages = notifications => {
   return result;
 };
 
-export default (state = initialState, action) => {
-  const { payload } = action;
+const { SUCCESS, FAILURE } = actionTypeGenerator(NOTIFICATIONS);
 
-  switch (action.type) {
-    case NOTIFICATIONS_POLLING_STARTED:
-      return state.set('isPolling', true);
-    case NOTIFICATIONS_GET_NOTIFICATIONS:
-      return state
-        .set('notifications', payload.notifications)
-        .set('hasUnreadMessages', hasUnreadMessages(payload.notifications));
+export default (state = initialState, { type, payload, response }) => {
+  switch (type) {
+    case SUCCESS:
+      return state.merge({
+        notifications: response.notifications,
+        hasUnreadMessages: hasUnreadMessages(response.notifications),
+      });
+    case FAILURE: {
+      return state.set('error', response);
+    }
     case NOTIFICATIONS_TOGGLE_DRAWER:
       return state.set('isDrawerOpen', payload.value);
     case NOTIFICATIONS_SET_EXPANDED_GROUP:
@@ -49,36 +50,40 @@ export default (state = initialState, action) => {
         n.id === payload.id ? { ...n, seen: true } : n
       );
 
-      return state
-        .set('notifications', notifications)
-        .set('hasUnreadMessages', hasUnreadMessages(notifications));
+      return state.merge({
+        notifications,
+        hasUnreadMessages: hasUnreadMessages(notifications),
+      });
     }
     case NOTIFICATIONS_MARK_AS_CLEAR: {
       const notifications = state.notifications.filter(
         n => n.id !== payload.id
       );
 
-      return state
-        .set('notifications', notifications)
-        .set('hasUnreadMessages', hasUnreadMessages(notifications));
+      return state.merge({
+        notifications,
+        hasUnreadMessages: hasUnreadMessages(notifications),
+      });
     }
     case NOTIFICATIONS_MARK_GROUP_AS_READ: {
       const notifications = state.notifications.map(n =>
         n.group === payload.group ? { ...n, seen: true } : n
       );
 
-      return state
-        .set('notifications', notifications)
-        .set('hasUnreadMessages', hasUnreadMessages(notifications));
+      return state.merge({
+        notifications,
+        hasUnreadMessages: hasUnreadMessages(notifications),
+      });
     }
     case NOTIFICATIONS_MARK_GROUP_AS_CLEARED: {
       const notifications = state.notifications.filter(
         n => n.group !== payload.group
       );
 
-      return state
-        .set('notifications', notifications)
-        .set('hasUnreadMessages', hasUnreadMessages(notifications));
+      return state.merge({
+        notifications,
+        hasUnreadMessages: hasUnreadMessages(notifications),
+      });
     }
     default:
       return state;

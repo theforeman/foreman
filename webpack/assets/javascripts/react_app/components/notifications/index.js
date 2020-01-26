@@ -12,6 +12,7 @@ import { noop, translateObject } from '../../common/helpers';
 
 import './notifications.scss';
 import ToggleIcon from './ToggleIcon/ToggleIcon';
+import { redirectToLogin } from './helpers';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
@@ -29,6 +30,21 @@ class notificationContainer extends React.Component {
     if (isReady && isDrawerOpen) {
       toggleDrawer();
     }
+  }
+
+  componentDidUpdate() {
+    const { error } = this.props;
+    if (error) {
+      const { response: { status } = {} } = error;
+      if (status === 401) {
+        redirectToLogin();
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    const { stopNotificationsPolling } = this.props;
+    stopNotificationsPolling();
   }
 
   render() {
@@ -99,6 +115,7 @@ notificationContainer.propTypes = {
   markGroupAsRead: PropTypes.func,
   clearNotification: PropTypes.func,
   clearGroup: PropTypes.func,
+  stopNotificationsPolling: PropTypes.func,
   translations: PropTypes.shape({
     title: PropTypes.string,
     unreadEvent: PropTypes.string,
@@ -108,6 +125,13 @@ notificationContainer.propTypes = {
     clearAll: PropTypes.string,
     deleteNotification: PropTypes.string,
   }),
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      message: PropTypes.string,
+      response: PropTypes.object,
+    }),
+  ]),
 };
 
 notificationContainer.defaultProps = {
@@ -124,6 +148,8 @@ notificationContainer.defaultProps = {
   markGroupAsRead: noop,
   clearNotification: noop,
   clearGroup: noop,
+  stopNotificationsPolling: noop,
+  error: null,
   translations: NotificationDrawerPanelWrapper.defaultProps.translations,
 };
 
@@ -132,17 +158,17 @@ const mapStateToProps = state => {
     notifications,
     isDrawerOpen,
     expandedGroup,
-    isPolling,
     hasUnreadMessages,
+    error,
   } = state.notifications;
 
   return {
     isDrawerOpen,
-    isPolling,
     notifications: groupBy(notifications, n => n.group),
     expandedGroup,
     isReady: !!notifications,
     hasUnreadMessages,
+    error,
   };
 };
 

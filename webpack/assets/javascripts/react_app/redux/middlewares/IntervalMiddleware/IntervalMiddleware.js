@@ -10,11 +10,12 @@ import { startInterval as startIntervalAction } from './IntervalActions';
 import { whenDocumentIsVisible } from '../common/helpers';
 
 export const IntervalMiddleware = store => next => action => {
-  const { type, key, interval } = action;
+  const { type, key, interval, payload = {} } = action;
+  const intervalKey = key || payload.key;
 
   if (interval) {
-    if (selectDoesIntervalExist(store.getState(), key)) {
-      throw registeredIntervalException(key);
+    if (selectDoesIntervalExist(store.getState(), intervalKey)) {
+      throw registeredIntervalException(intervalKey);
     }
 
     // To avoid the action from getting into an endless loop in this middleware.
@@ -26,17 +27,17 @@ export const IntervalMiddleware = store => next => action => {
       typeof interval === 'number' ? interval : getDefaultInterval();
     const intervalFunc = () => whenDocumentIsVisible(dispatchModifiedAction);
     const intervalID = setInterval(intervalFunc, delay);
-    return store.dispatch(startIntervalAction(key, intervalID));
+    return store.dispatch(startIntervalAction(intervalKey, intervalID));
   }
 
   if (type === STOP_INTERVAL) {
     const state = store.getState();
 
-    if (!selectDoesIntervalExist(state, key)) {
-      throw unregisteredIntervalException(key);
+    if (!selectDoesIntervalExist(state, intervalKey)) {
+      throw unregisteredIntervalException(intervalKey);
     }
 
-    const intervalID = selectIntervalID(state, key);
+    const intervalID = selectIntervalID(state, intervalKey);
     clearInterval(intervalID);
   }
 
