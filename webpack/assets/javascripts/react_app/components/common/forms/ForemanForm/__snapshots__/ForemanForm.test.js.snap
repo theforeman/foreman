@@ -2,9 +2,18 @@
 
 exports[`Foreman form helper functions should format errors 1`] = `
 Object {
-  "email": "is not a valid format",
-  "name": "is already taken, is too short",
-  "phone": "is too long",
+  "errors": Object {
+    "email": Array [
+      "is not a valid format",
+    ],
+    "name": Array [
+      "is already taken",
+      "is too short",
+    ],
+    "phone": Array [
+      "is too long",
+    ],
+  },
 }
 `;
 

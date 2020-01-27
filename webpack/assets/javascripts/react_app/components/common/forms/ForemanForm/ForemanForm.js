@@ -23,7 +23,7 @@ const ForemanForm = props => (
     onSubmit={(values, actions) =>
       props.onSubmit(values, actions).catch(exception => {
         actions.setSubmitting(false);
-        actions.setErrors(prepareErrors(exception));
+        actions.setErrors(prepareErrors(exception.errors));
       })
     }
     initialValues={props.initialValues}
@@ -34,7 +34,6 @@ const ForemanForm = props => (
       const disabled = formProps.isSubmitting || !formProps.isValid;
 
       const submissionError = formProps.errors._error;
-
       return (
         <Form
           onSubmit={formProps.handleSubmit}

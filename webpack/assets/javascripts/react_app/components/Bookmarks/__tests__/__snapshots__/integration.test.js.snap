@@ -18,7 +18,6 @@ Object {
   ],
   "state": Object {
     "bookmarks": Object {
-      "currentQuery": "",
       "hosts": Object {
         "errors": null,
         "results": Array [],
@@ -72,7 +71,6 @@ Object {
   ],
   "state": Object {
     "bookmarks": Object {
-      "currentQuery": "",
       "hosts": Object {
         "errors": null,
         "results": Array [
@@ -110,7 +108,6 @@ Object {
 exports[`Bookmarks integration test should flow: form submitted 1`] = `
 Object {
   "bookmarks": Object {
-    "currentQuery": "",
     "hosts": Object {
       "errors": null,
       "results": Array [
@@ -141,7 +138,6 @@ Object {
       ],
       "status": "RESOLVED",
     },
-    "showModal": false,
   },
   "foremanModals": Object {
     "bookmarksModal": Object {
@@ -153,9 +149,7 @@ Object {
 
 exports[`Bookmarks integration test should flow: initial state 1`] = `
 Object {
-  "bookmarks": Object {
-    "currentQuery": "",
-  },
+  "bookmarks": Object {},
   "foremanModals": Object {
     "bookmarksModal": Object {
       "open": false,
@@ -178,7 +172,6 @@ Object {
   ],
   "state": Object {
     "bookmarks": Object {
-      "currentQuery": "",
       "hosts": Object {
         "errors": null,
         "results": Array [

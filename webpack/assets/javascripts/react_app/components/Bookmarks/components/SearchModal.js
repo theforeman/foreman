@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ForemanModal from '../../../ForemanModal';
-import { BOOKMARKS_MODAL } from '../../BookmarksConstants';
-import { translate as __ } from '../../../../common/I18n';
-import { noop } from '../../../../common/helpers';
-import BookmarkForm from '../BookmarkForm';
+import ForemanModal from '../../ForemanModal';
+import { BOOKMARKS_MODAL } from '../BookmarksConstants';
+import { translate as __ } from '../../../common/I18n';
+import { noop } from '../../../common/helpers';
+import BookmarkForm from './BookmarkForm';
 
 const SearchModal = ({ setModalClosed, onEnter, title, controller, url }) => (
   <ForemanModal

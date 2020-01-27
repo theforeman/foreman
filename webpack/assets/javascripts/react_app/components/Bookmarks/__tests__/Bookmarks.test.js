@@ -14,7 +14,6 @@ const commonFixture = {
   bookmarks: [],
   setModalOpen: jest.fn(),
   setModalClosed: jest.fn(),
-  setQuery: jest.fn(),
 };
 
 const fixtures = {

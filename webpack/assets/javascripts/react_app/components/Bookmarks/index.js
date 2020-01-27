@@ -18,9 +18,11 @@ const mapStateToProps = (state, { controller }) => ({
   isModalOpen: selectIsModalOpen(state, BOOKMARKS_MODAL),
 });
 
+const boundModalActions = bindForemanModalActionsToId({ id: BOOKMARKS_MODAL });
+
 const mapDispatchToProps = {
   ...bookmarksActions,
-  ...bindForemanModalActionsToId({ id: BOOKMARKS_MODAL }), // gives us setModalOpen and setModalClosed
+  ...boundModalActions, // gives us setModalOpen and setModalClosed
 };
 
 export const reducers = { bookmarks: reducer };

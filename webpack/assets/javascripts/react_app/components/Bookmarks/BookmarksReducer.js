@@ -7,9 +7,7 @@ import {
 } from './BookmarksConstants';
 import { STATUS } from '../../constants';
 
-export const initialState = Immutable({
-  currentQuery: '',
-});
+export const initialState = Immutable({});
 
 const sortByName = (a, b) => {
   if (a.name < b.name) {
@@ -35,14 +33,12 @@ export default (state = initialState, { type, payload, response }) => {
         .setIn([payload.controller, 'results'], response.results)
         .setIn([payload.controller, 'status'], STATUS.RESOLVED);
     case BOOKMARKS_FORM_SUBMITTED:
-      return state
-        .setIn(
-          [payload.data.controller, 'results'],
-          [...state[payload.data.controller].results, payload.data].sort(
-            sortByName
-          )
+      return state.setIn(
+        [payload.data.controller, 'results'],
+        [...state[payload.data.controller].results, payload.data].sort(
+          sortByName
         )
-        .set('showModal', false);
+      );
     case BOOKMARKS_FAILURE:
       return state
         .setIn([payload.controller, 'errors'], response)

@@ -2,9 +2,10 @@
 
 exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
 <Fragment>
-  <ConnectedSearchModal
+  <SearchModal
     controller="architectures"
     onEnter={[Function]}
+    setModalClosed={[MockFunction]}
     title="Create Bookmark"
     url="/api/v2/architectures"
   />
@@ -74,9 +75,10 @@ exports[`Bookmarks should render bookmarks dropdown when loaded 1`] = `
 
 exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
 <Fragment>
-  <ConnectedSearchModal
+  <SearchModal
     controller="architectures"
     onEnter={[Function]}
+    setModalClosed={[MockFunction]}
     title="Create Bookmark"
     url="/api/v2/architectures"
   />
@@ -151,9 +153,10 @@ exports[`Bookmarks should render bookmarks dropdown when loading 1`] = `
 
 exports[`Bookmarks should render when no bookmarks loaded 1`] = `
 <Fragment>
-  <ConnectedSearchModal
+  <SearchModal
     controller="architectures"
     onEnter={[Function]}
+    setModalClosed={[MockFunction]}
     title="Create Bookmark"
     url="/api/v2/architectures"
   />
@@ -226,9 +229,10 @@ exports[`Bookmarks should render when no bookmarks loaded 1`] = `
 
 exports[`Bookmarks should show error 1`] = `
 <Fragment>
-  <ConnectedSearchModal
+  <SearchModal
     controller="architectures"
     onEnter={[Function]}
+    setModalClosed={[MockFunction]}
     title="Create Bookmark"
     url="/api/v2/architectures"
   />

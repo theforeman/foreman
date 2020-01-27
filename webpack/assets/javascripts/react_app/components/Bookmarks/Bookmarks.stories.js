@@ -3,7 +3,7 @@ import { Button } from 'patternfly-react';
 import BookmarkForm from './components/BookmarkForm';
 import { BOOKMARKS_MODAL } from './BookmarksConstants';
 import { useForemanModal } from '../ForemanModal/ForemanModalHooks';
-import BookmarkModal from './components/SearchModal/index';
+import BookmarkModal from './components/SearchModal';
 import storeDecorator from '../../../../../stories/storeDecorator';
 import Story from '../../../../../stories/components/Story';
 
