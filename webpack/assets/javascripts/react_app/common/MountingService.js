@@ -4,6 +4,8 @@ import componentRegistry from '../components/componentRegistry';
 
 export { default as registerReducer } from '../redux/reducers/registerReducer';
 
+const mountedNodes = [];
+
 export function mount(component, selector, data, flattenData = false) {
   const reactNode = document.querySelector(selector);
   if (reactNode) {
@@ -17,6 +19,14 @@ export function mount(component, selector, data, flattenData = false) {
   }
 }
 
+export function umountAllComponents() {
+  let node = mountedNodes.shift();
+  while (node) {
+    ReactDOM.unmountComponentAtNode(node);
+    node = mountedNodes.shift();
+  }
+}
+
 export function mountNode(component, reactNode, data, flattenData = false) {
   ReactDOM.render(
     componentRegistry.markup(component, {
@@ -26,6 +36,7 @@ export function mountNode(component, reactNode, data, flattenData = false) {
     }),
     reactNode
   );
+  if (component !== 'ReactApp') mountedNodes.push(reactNode);
 }
 
 /**

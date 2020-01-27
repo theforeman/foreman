@@ -27,7 +27,9 @@ class BreadcrumbBar extends React.Component {
       loadSwitcherResourcesByResource(resource);
     }
   }
-
+  componentWillUnmount() {
+    this.props.initBreadcrumbsBar();
+  }
   render() {
     const {
       data: { breadcrumbItems, isSwitchable, resource },
@@ -133,6 +135,7 @@ BreadcrumbBar.propTypes = {
   loadSwitcherResourcesByResource: PropTypes.func,
   onSwitcherItemClick: PropTypes.func,
   removeSearchQuery: PropTypes.func,
+  initBreadcrumbsBar: PropTypes.func,
 };
 
 BreadcrumbBar.defaultProps = {
@@ -155,6 +158,7 @@ BreadcrumbBar.defaultProps = {
   loadSwitcherResourcesByResource: noop,
   onSwitcherItemClick: noop,
   removeSearchQuery: noop,
+  initBreadcrumbsBar: noop,
 };
 
 export default BreadcrumbBar;

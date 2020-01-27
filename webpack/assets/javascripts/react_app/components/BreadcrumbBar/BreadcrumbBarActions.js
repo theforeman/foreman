@@ -10,6 +10,7 @@ import {
   BREADCRUMB_BAR_RESOURCES_FAILURE,
   BREADCRUMB_BAR_CLEAR_SEARCH,
   BREADCRUMB_BAR_UPDATE_TITLE,
+  BREADCRUMB_BAR_INIT,
 } from './BreadcrumbBarConstants';
 
 export const toggleSwitcher = () => ({
@@ -26,6 +27,8 @@ export const removeSearchQuery = resource => dispatch => {
   });
   loadSwitcherResourcesByResource(resource)(dispatch);
 };
+
+export const initBreadcrumbsBar = () => ({ type: BREADCRUMB_BAR_INIT });
 
 export const updateBreadcrumbTitle = title => ({
   type: BREADCRUMB_BAR_UPDATE_TITLE,

@@ -26,8 +26,7 @@ $(document).on('click', 'a[disabled="disabled"]', function(evt) {
 });
 
 function onContentLoad() {
-  tfm.store.observeStore('layout', tfm.nav.showContent);
-
+  tfm.nav.initClicks();
   if ($('input[focus_on_load=true]').length > 0) {
     $('input[focus_on_load]')
       .first()

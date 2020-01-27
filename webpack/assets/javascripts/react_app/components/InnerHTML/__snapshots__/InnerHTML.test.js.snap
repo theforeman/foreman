@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuditsPage rendering 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(Symbol.observable): [Function],
+    }
+  }
+>
+  <DangerouslyInnerHTML
+    html="<script>tfm.test() </script><div id='test'> <span> Hello World </span> </div> "
+  >
+    <div
+      id="main"
+      style={
+        Object {
+          "display": "inherit",
+        }
+      }
+    />
+  </DangerouslyInnerHTML>
+</Provider>
+`;

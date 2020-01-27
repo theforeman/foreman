@@ -1,33 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { routes } from './routes';
-import { visit } from '../../foreman_navigation';
-
-let currentPath = window.location.href;
+import Legacy from '../components/Legacy';
 
 const AppSwitcher = () => {
-  const updateCurrentPath = nextPath => {
-    currentPath = nextPath;
-  };
-
   const handleRailsContainer = () => {
     const railsContainer = document.getElementById('rails-app-content');
     if (railsContainer) railsContainer.remove();
   };
 
-  const handleRoute = (Component, props) => {
+  const handleReactRoute = (Component, props) => {
     handleRailsContainer();
-    updateCurrentPath();
     return <Component {...props} />;
-  };
-
-  const handleFallbackRoute = () => {
-    const nextPath = window.location.href;
-    if (currentPath !== nextPath) {
-      updateCurrentPath(nextPath);
-      visit(nextPath);
-    }
-    return null;
   };
 
   return (
@@ -37,10 +21,10 @@ const AppSwitcher = () => {
           path={path}
           key={path}
           {...routeProps}
-          render={props => handleRoute(Component, props)}
+          render={props => handleReactRoute(Component, props)}
         />
       ))}
-      <Route render={handleFallbackRoute} />
+      <Route render={props => <Legacy {...props} />} />
     </Switch>
   );
 };

@@ -8,6 +8,7 @@ import {
   BREADCRUMB_BAR_RESOURCES_FAILURE,
   BREADCRUMB_BAR_CLEAR_SEARCH,
   BREADCRUMB_BAR_UPDATE_TITLE,
+  BREADCRUMB_BAR_INIT,
 } from './BreadcrumbBarConstants';
 
 const initialState = Immutable({
@@ -26,6 +27,9 @@ export default (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
+    case BREADCRUMB_BAR_INIT:
+      return state.merge(initialState);
+
     case BREADCRUMB_BAR_CLEAR_SEARCH:
       return state.set('searchQuery', '');
 

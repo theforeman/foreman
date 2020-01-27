@@ -4,8 +4,24 @@ import $ from 'jquery';
 import { push } from 'connected-react-router';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
+import * as AppActions from './react_app/ReactApp/ReactAppActions';
 import { deprecate } from './react_app/common/DeprecationService';
 import { urlWithQueryParams } from './react_app/common/urlHelpers';
+import { inBlackList } from './react_app/components/Legacy/BackList';
+
+export const initClicks = () => {
+  $('#content')
+    .off()
+    // eslint-disable-next-line func-names
+    .on('click', 'a', function(e) {
+      const href = this.getAttribute('href');
+      if (inBlackList(href)) return;
+      e.preventDefault();
+      if (this.getAttribute('href').startsWith('/')) {
+        pushUrl(this.getAttribute('href'));
+      }
+    });
+};
 
 window.Turbolinks = {
   visit: url => {
@@ -31,10 +47,14 @@ export const reloadPage = () => {
  * @param {String} url - the base url i.e `/hosts`
  * @param {Object} searchQuery - the query params, i.e {'per_page': 4, 'page': 2}
  */
+
 export const pushUrl = (url, queryParams) => {
   const newUrl = urlWithQueryParams(url, queryParams);
-
   return store.dispatch(push(newUrl));
+};
+
+export const updateLegacyLoading = status => {
+  store.dispatch(AppActions.updateLegacyLoading(status));
 };
 
 export const showLoading = () => {

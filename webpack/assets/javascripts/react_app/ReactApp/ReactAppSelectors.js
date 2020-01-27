@@ -5,3 +5,4 @@ export const selectReactAppVersion = state =>
   selectReactAppMetadata(state).version;
 export const selectReactAppPerPageOptions = state =>
   selectReactAppMetadata(state).perPageOptions;
+export const selectReferer = state => selectReactApp(state).referer;
