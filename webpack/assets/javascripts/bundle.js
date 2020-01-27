@@ -1,6 +1,7 @@
 import 'core-js/shim';
 import 'regenerator-runtime/runtime';
 
+import helpers from './react_app/common/helpers';
 import compute from './foreman_compute_resource';
 import componentRegistry from './react_app/components/componentRegistry';
 import i18n from './react_app/common/I18n';
@@ -62,4 +63,8 @@ window.tfm = Object.assign(window.tfm || {}, {
   componentRegistry,
   store,
   autocomplete,
+  // The `helpers` imported here and lives in the window object
+  // to make sure webpack include it when doing treeShaking.
+  // If you need to use an helper method, import it from foremanReact/common/helpers
+  helpers,
 });
