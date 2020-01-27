@@ -14,7 +14,6 @@ ssldir = \$vardir/ssl
 [agent]
 pluginsync      = true
 report          = true
-ignoreschedules = true
 ca_server       = 
 certname        = snapshothost
 environment     = 

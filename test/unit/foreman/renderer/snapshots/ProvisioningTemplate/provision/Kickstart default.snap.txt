@@ -4,6 +4,7 @@
 
 
 
+
 lang en_US.UTF-8
 selinux --enforcing
 keyboard us
@@ -20,7 +21,6 @@ timezone --utc UTC
 
 
 
-
 bootloader --location=mbr --append="nofb quiet splash=quiet" 
 
 zerombr\nclearpart --all    --initlabel\npart /boot --fstype ext3 --size=100 --asprimary\npart /     --f   stype ext3 --size=1024 --grow\npart swap  --recommended
@@ -33,6 +33,7 @@ reboot
 yum
 dhclient
 chrony
+-ntp
 wget
 @Core
 redhat-lsb-core

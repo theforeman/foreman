@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <%#
 kind: provision
 name: AutoYaST SLES default
@@ -20,6 +19,7 @@ oses:
   primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
   primary_interface_subnet = @host.primary_interface.subnet
 -%>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE profile>
 <profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
   <general>
