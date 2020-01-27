@@ -1,6 +1,6 @@
 import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
 
-import SearchModal from '../SearchModal/SearchModal';
+import SearchModal from '../SearchModal';
 
 const props = {
   controller: 'hosts',

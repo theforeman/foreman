@@ -7,7 +7,6 @@ Object {
     "results": Array [],
     "status": "PENDING",
   },
-  "currentQuery": "",
 }
 `;
 
@@ -18,7 +17,6 @@ Object {
     "results": Array [],
     "status": "ERROR",
   },
-  "currentQuery": "",
 }
 `;
 
@@ -29,7 +27,6 @@ Object {
     "results": Array [],
     "status": "PENDING",
   },
-  "currentQuery": "",
 }
 `;
 
@@ -46,7 +43,6 @@ Object {
     ],
     "status": "RESOLVED",
   },
-  "currentQuery": "",
 }
 `;
 
@@ -65,7 +61,5 @@ Object {
     ],
     "status": "RESOLVED",
   },
-  "currentQuery": "",
-  "showModal": false,
 }
 `;
