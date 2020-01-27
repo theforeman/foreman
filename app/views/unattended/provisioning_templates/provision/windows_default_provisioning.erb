@@ -12,12 +12,14 @@ params:
 - systemUILanguage: en-US
 - systemTimeZone: GMT Standard Time #see https://msdn.microsoft.com/en-us/library/ms912391(v=winembedded.11).aspx
 - wimImageName = Windows 8.1 Pro # Image name seems only necessary if the WIM contains more than one image
-%><%
+-%>
+<%
   system_locale = host_param('systemLocale') ? host_param('systemLocale') : 'en-US'
   system_ui_lang = host_param('systemUILanguage') ? host_param('systemUILanguage') : 'en-US'
   setup_ui_lang = 'en-US'
   system_timezone = host_param('systemTimeZone') ? host_param('systemTimeZone') : 'GMT Standard Time'
-%><?xml version="1.0" encoding="utf-8"?>
+-%>
+<?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <servicing></servicing>
     <settings pass="offlineServicing">

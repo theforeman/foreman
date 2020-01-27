@@ -10,17 +10,13 @@ to be named eth0, eth1, etc.. If you want to enable the new persistent naming
 scheme and get inteface names like ens3, add net.ifnames=1 to the linuxefi line
 below. This will not be fixed until RHEL8 due to prevent breaking changes for
 existing systems. See RHBZ#1259015 for more details.
-
-Another bug in RHEL 7.4 is affecting $net_default_mac with a trailing slash, in
-the global template we have a regexp module creating corrected variable $mac
-which is used here. See RHBZ#1487107 for more info.
 -%>
 <%
   ["efi", ""].each do |suffix|
     ["/httpboot/", ""].each do |prefix|
 %>
 menuentry 'Foreman Discovery Image <%= prefix.tr('/','') %> <%= suffix %>' --id discovery<%= suffix %><%= prefix.tr('/','') %> {
-  linux<%= suffix %> <%= prefix %>boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-$mac
+  linux<%= suffix %> <%= prefix %>boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-$net_default_mac
   initrd<%= suffix %> <%= prefix %>boot/fdi-image/initrd0.img
 }
 <%

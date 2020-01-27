@@ -14,28 +14,51 @@ params:
   proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port') || 3128}" : nil
   proxy_string = proxy_uri ? "-e http_proxy=#{proxy_uri}" : ''
 %>
+@setlocal enableextensions enabledelayedexpansion
 @echo off
-set WGET=x:\wimaging\deploy\wget64.exe
+set WGET=wget64.exe
 
 <%= @host.diskLayout %>
 
 echo Started downloading main WIM
-%WGET% <%= proxy_string %> <%= medium_uri %>/sources/install.wim -O C:\install.wim
 
+%WGET% <%= proxy_string %> "<%= medium_uri %>/sources/images.ini" -O X:\images.ini
+if %ERRORLEVEL% == 0 goto :lookup_image
+
+echo WARNING: Couldn't download the images.ini, falling back to legacy mode!
+%WGET% <%= proxy_string %> "<%= medium_uri %>/sources/install.wim" -O C:\install.wim
+goto :install
+
+:lookup_image
+set file=X:\images.ini
+set key=<%= host_param('wimImageName') %>
+for /f "usebackq delims=" %%a in ("!file!") do (
+	set ln=%%a
+        for /f "tokens=1,2 delims==" %%b in ("!ln!") do (
+            set currkey=%%b
+            set currval=%%c
+            if "x!key!"=="x!currkey!" (
+                %WGET% <%= proxy_string %> "<%= medium_uri %>/sources/!currval!" -O C:\install.wim
+            )
+        )
+    )
+)
+
+:install
 echo Writing install image to partition while downloading additional files
 
 (
-   start cmd /C "echo Write the install image to the partition
-                dism.exe /apply-image /imagefile:C:\install.wim /name:"<%= host_param('wimImageName') %>" /ApplyDir:C:\
+   start /min cmd /C "echo Write the install image to the partition
+                dism.exe /apply-image /imagefile:C:\install.wim /Name:"<%= host_param('wimImageName') %>" /ApplyDir:C:\
                 echo removing install.wim
                 del /q /s C:\install.wim"
-   start cmd /C "echo Downloading the drivers
+   start /min cmd /C "echo Downloading the drivers
                 md c:\drivers
                 %WGET% <%= proxy_string %> -P c:\drivers -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/drivers/"
-   start cmd /C "echo Downloading additional updates
+   start /min cmd /C "echo Downloading additional updates
                 md c:\updates
                 %WGET% <%= proxy_string %> -P c:\updates\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/updates/"
-   start cmd /C "echo Downloading finsh script and activating SetupComplete.cmd
+   start /min cmd /C "echo Downloading finsh script and activating SetupComplete.cmd
                 md c:\deploy
                 %WGET% --no-verbose <%= foreman_url("finish") -%> -O C:\deploy\foreman-finish.bat"
 ) | pause
@@ -50,7 +73,7 @@ IF not exist %PantherDirectory% (mkdir %PantherDirectory%)
 echo Finalizing installation...
 
 echo Downloading custom theme
-%WGET%  -P c:\Windows\Web\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/theme/
+%WGET%  -P C:\Windows\Web\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/theme/
 
 echo Stage the Unattend.xml file for dism to apply
 echo Downloading unattend.xml
@@ -59,9 +82,9 @@ echo Apply Unattend.xml
 dism.exe /Image:C:\ /Apply-Unattend:C:\Windows\Panther\unattend.xml /ScratchDir:C:\MININT\Scratch/
 
 echo copy tools
-copy x:\wimaging\deploy\wget64.exe C:\deploy\
-copy x:\wimaging\deploy\wget64.exe C:\Windows\wget.exe
-copy x:\wimaging\deploy\sdelete.exe C:\Windows\
+copy x:\windows\system32\wget64.exe C:\deploy\
+copy x:\windows\system32\wget64.exe C:\Windows\wget.exe
+copy x:\windows\system32\sdelete.exe C:\Windows\
 IF not exist C:\Windows\Setup\Scripts (md C:\Windows\Setup\Scripts)
 echo call C:\deploy\foreman-finish.bat ^> c:\foreman.log 2^>^&1 > C:\Windows\Setup\Scripts\SetupComplete.cmd
 
