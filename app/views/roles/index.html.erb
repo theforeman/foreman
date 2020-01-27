@@ -8,8 +8,8 @@
     <tr>
       <th class="col-md-2"><%= sort :name, :as => s_("Role|Name") %></th>
       <th class="col-md-8"><%= sort :description, :as => s_("Role|Description") %></th>
-      <th class="table-locked-col"><%= sort :locked, :as => s_("Role|Locked"), :default => "DESC" %></th>
-      <th class="table-actions-col"><%= _('Actions') %></th>
+      <th class="col-md-1"><%= sort :locked, :as => s_("Role|Locked"), :default => "DESC" %></th>
+      <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
