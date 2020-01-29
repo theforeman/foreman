@@ -131,3 +131,6 @@ Style/NumericPredicate:
 Layout/AlignArguments:
   EnforcedStyle: with_fixed_indentation
   IndentationWidth: 2
+
+Performance/RegexpMatch:
+  Enabled: false
