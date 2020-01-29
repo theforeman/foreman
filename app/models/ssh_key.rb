@@ -6,7 +6,7 @@ class SshKey < ApplicationRecord
   include Parameterizable::ByIdName
 
   belongs_to :user
-  before_validation :generate_fingerprint, on: :create
+  before_validation :generate_fingerprint
   before_validation :calculate_length
 
   scoped_search :on => :name
