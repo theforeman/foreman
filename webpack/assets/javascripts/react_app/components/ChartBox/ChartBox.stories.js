@@ -1,5 +1,5 @@
 import React from 'react';
-import ChartBox from './';
+import ChartBox from './ChartBox';
 import mockStoryData from './ChartBox.fixtures';
 import Story from '../../../../../stories/components/Story';
 

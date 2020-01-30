@@ -1,6 +1,6 @@
 import { shallow } from '@theforeman/test';
 import React from 'react';
-import ChartBox from './';
+import ChartBox from './ChartBox';
 import { classFunctionUnitTest } from '../../common/testHelpers';
 
 jest.unmock('../../../services/charts/DonutChartService');

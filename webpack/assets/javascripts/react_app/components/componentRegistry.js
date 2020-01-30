@@ -25,7 +25,7 @@ import SearchBar from './SearchBar';
 import Layout from './Layout';
 import EmptyState from './common/EmptyState';
 import ComponentWrapper from './common/ComponentWrapper/ComponentWrapper';
-import ChartBox from './ChartBox';
+import ChartBox from './ChartBox/ChartBox';
 import ConfigReports from './ConfigReports/ConfigReports';
 import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';

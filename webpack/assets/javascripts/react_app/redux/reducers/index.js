@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import statistics from './statistics';
 import hosts from './hosts';
 import notifications from './notifications';
 import toasts from './toasts';
@@ -25,7 +24,6 @@ import { reducers as apiReducer } from '../API';
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
     ...bookmarksReducers,
-    statistics,
     hosts,
     notifications,
     toasts,
