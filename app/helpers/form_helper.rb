@@ -402,6 +402,10 @@ module FormHelper
     end
   end
 
+  def date_local_f(f, attr, options = {})
+    react_form_input('date', f, attr, options)
+  end
+
   def datetime_local_f(f, attr, options = {})
     react_form_input('dateTime', f, attr, options)
   end
