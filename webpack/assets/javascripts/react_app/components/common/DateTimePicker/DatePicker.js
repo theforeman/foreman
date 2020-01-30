@@ -12,7 +12,7 @@ import TodayButton from './DateComponents/TodayButton';
 
 class DatePicker extends React.Component {
   state = {
-    value: new Date(this.props.value),
+    value: this.props.value == null ? new Date() : new Date(this.props.value),
   };
   formatDate = () => {
     const { locale } = this.props;
@@ -27,32 +27,32 @@ class DatePicker extends React.Component {
     }
   };
   render() {
-    const { locale, weekStartsOn } = this.props;
+    const { locale, weekStartsOn, name, placement } = this.props;
     const popover = (
       <Popover
         id="popover-date-picker"
         className="bootstrap-datepicker-widget dropdown-menu usetwentyfour"
       >
-        <ul className="list-unstyled">
-          <li>
+        <div className="container">
+          <div className="row">
             <DateInput
               date={this.state.value}
               setSelected={this.setSelected}
               locale={locale}
               weekStartsOn={weekStartsOn}
             />
-          </li>
-          <li className="picker-switch accordion-toggle">
+          </div>
+          <div className="row pull-right">
             <TodayButton setSelected={this.setSelected} />
-          </li>
-        </ul>
+          </div>
+        </div>
       </Popover>
     );
     return (
       <div>
         <OverlayTrigger
           trigger="click"
-          placement="top"
+          placement={placement}
           overlay={popover}
           rootClose
         >
@@ -61,6 +61,7 @@ class DatePicker extends React.Component {
               aria-label="date-time-picker-input"
               type="text"
               value={this.formatDate()}
+              name={name}
               onChange={e => this.setSelected(e.target.value)}
             />
             <InputGroup.Addon className="date-picker-pf">
@@ -75,12 +76,16 @@ class DatePicker extends React.Component {
 
 DatePicker.propTypes = {
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+  name: PropTypes.string,
   locale: PropTypes.string,
   weekStartsOn: PropTypes.number,
+  placement: OverlayTrigger.propTypes.placement,
 };
 DatePicker.defaultProps = {
   value: new Date(),
+  name: null,
   locale: 'en-US',
   weekStartsOn: 1,
+  placement: 'top',
 };
 export default DatePicker;
