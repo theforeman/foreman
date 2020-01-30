@@ -38,9 +38,15 @@ module UsersHelper
         :data => { :no_turbolink => true })
     end
 
-    action_buttons(*([display_delete_if_authorized(
+    delete_btn = display_delete_if_authorized(
       hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer),
-      :data => { :confirm => _("Delete %s?") % user.name }) ] + additional_actions))
+      :data => { :confirm => _("Delete %s?") % user.name })
+
+    action_buttons(*([display_delete_unless_impersonator(delete_btn, user)] + additional_actions))
+  end
+
+  def display_delete_unless_impersonator(link, user)
+    (user.id == session[:impersonated_by]) ? "" : link
   end
 
   def mail_notification_query_builder(mail_notification, f)
