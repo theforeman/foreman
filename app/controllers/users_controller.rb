@@ -70,12 +70,12 @@ class UsersController < ApplicationController
       User.impersonator = User.current
       user = User.find_by_id(params[:id])
       session[:user] = user.id
-      success _("You impersonated user %s, to cancel the session, click the eye icon in the top bar.") % user.name
+      success _("You impersonated user %s, to cancel the session, click the impersonation icon in the top bar.") % user.name
       Audit.create :auditable_type => 'User', :auditable_id => user.id, :user_id => User.current.id, :action => 'impersonate', :audited_changes => {}
       logger.info "User #{User.current.name} impersonated #{user.name}"
       redirect_to hosts_path
     else
-      info _("You are already impersonating, click the icon in the top bar before starting a new impersonation.")
+      info _("You are already impersonating, click the impersonation icon in the top bar before starting a new impersonation.")
       redirect_to users_path
     end
   end
