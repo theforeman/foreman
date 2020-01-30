@@ -57,6 +57,13 @@ class UsersController < ApplicationController
       redirect_back(fallback_location: users_path)
       return
     end
+
+    if session[:impersonated_by] == @user.id
+      warning _("You must stop impersonation before deleting a user that has active impersonation session.")
+      redirect_back(fallback_location: users_path)
+      return
+    end
+
     if @user.destroy
       process_success
     else
