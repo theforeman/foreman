@@ -120,6 +120,43 @@ exports[`Layout rendering renders layout 1`] = `
             },
           ],
           "current_org": "org1",
+          "many_organizations": Array [
+            Object {
+              "href": "/organizations/1-org1/select",
+              "id": 1,
+              "title": "org1",
+            },
+            Object {
+              "href": "/organizations/2-org2/select",
+              "id": 2,
+              "title": "org2",
+            },
+            Object {
+              "href": "/organizations/3-org3/select",
+              "id": 3,
+              "title": "org3",
+            },
+            Object {
+              "href": "/organizations/4-org4/select",
+              "id": 4,
+              "title": "org4",
+            },
+            Object {
+              "href": "/organizations/5-org5/select",
+              "id": 5,
+              "title": "org5",
+            },
+            Object {
+              "href": "/organizations/6-org6/select",
+              "id": 6,
+              "title": "org6",
+            },
+            Object {
+              "href": "/organizations/7-org7/select",
+              "id": 7,
+              "title": "org7",
+            },
+          ],
         },
         "root": "/",
         "stop_impersonation_url": "/users/stop_impersonation",
