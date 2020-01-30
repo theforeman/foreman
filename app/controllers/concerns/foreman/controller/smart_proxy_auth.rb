@@ -6,7 +6,7 @@ module Foreman::Controller::SmartProxyAuth
 
   module ClassMethods
     def add_smart_proxy_filters(actions, options = {})
-      skip_before_action :require_login, :only => actions, :raise => false
+      skip_before_action :require_login, :check_user_enabled, :only => actions, :raise => false
       skip_before_action :authorize, :only => actions
       skip_before_action :verify_authenticity_token, :only => actions
       skip_before_action :set_taxonomy, :only => actions, :raise => false

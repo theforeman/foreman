@@ -4,7 +4,7 @@ class UserdataController < ApplicationController
 
   layout false
 
-  skip_before_action :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, :verify_authenticity_token
+  skip_before_action :require_login, :check_user_enabled, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, :verify_authenticity_token
 
   before_action :set_admin_user
   before_action :skip_secure_headers

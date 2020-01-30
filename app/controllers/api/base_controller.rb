@@ -193,6 +193,11 @@ module Api
         return false
       end
 
+      if User.current&.disabled?
+        render_error('custom_error', status: :unauthorized, locals: {message: _('User account is disabled, please contact your administrator')})
+        return false
+      end
+
       unless authorized
         deny_access
         return false

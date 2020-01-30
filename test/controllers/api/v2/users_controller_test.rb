@@ -420,4 +420,19 @@ class Api::V2::UsersControllerTest < ActionController::TestCase
       assert_response :success
     end
   end
+
+  test "should disable another user" do
+    as_admin do
+      put :update, params: { :id => users(:one).id, :disabled => true }
+    end
+    assert_response :success
+    assert_equal JSON.parse(@response.body)['disabled'], true, 'User is not disabled'
+  end
+
+  test "user can't disable himself" do
+    as_user :two do
+      put :update, params: { :id => users(:two).id, :disabled => true }
+    end
+    assert_response :unprocessable_entity
+  end
 end

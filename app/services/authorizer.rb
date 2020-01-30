@@ -11,7 +11,7 @@ class Authorizer
   end
 
   def can?(permission, subject = nil, cache = true)
-    return false if user.nil?
+    return false if user.nil? || user.disabled?
     return true if user.admin?
 
     if subject.nil?

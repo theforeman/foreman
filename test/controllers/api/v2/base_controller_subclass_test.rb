@@ -109,6 +109,16 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
         assert_equal user.id, session[:user]
       end
     end
+
+    context 'disabled user cannot be authenticated' do
+      let(:user) { as_admin { FactoryBot.create(:user, :admin, disabled: true, password: 'password') } }
+
+      test '#login authenticates user with basic auth' do
+        request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, 'password')
+        get :index
+        assert_response :unauthorized
+      end
+    end
   end
 
   test "should have server error message" do

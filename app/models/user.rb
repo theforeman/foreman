@@ -78,6 +78,7 @@ class User < ApplicationRecord
   }
   scope :visible,         -> { except_hidden }
   scope :completer_scope, ->(opts) { visible }
+  scope :enabled, -> { where(disabled: false) }
 
   validates :mail, :email => true, :allow_blank => true
   validates :mail, :presence => true, :on => :update,
@@ -104,7 +105,7 @@ class User < ApplicationRecord
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
     :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
     :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin,
-    :check_permissions_for_changing_login
+    :check_permissions_for_changing_login, :ensure_not_disabling_itself
   before_validation :verify_current_password, :if => proc { |user| user == User.current },
                     :unless => proc { |user| user.password.empty? }
   before_validation :prepare_password, :normalize_mail
@@ -122,6 +123,7 @@ class User < ApplicationRecord
   scoped_search :on => :description, :complete_value => false
   scoped_search :on => :admin, :complete_value => { :true => true, :false => false }, :ext_method => :search_by_admin
   scoped_search :on => :last_login_on, :complete_value => :true, :only_explicit => true
+  scoped_search :on => :disabled, :complete_value => { :true => true, :false => false }
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true
   scoped_search :relation => :roles, :on => :id, :rename => :role_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :relation => :cached_usergroups, :on => :name, :rename => :usergroup, :complete_value => true
@@ -143,7 +145,7 @@ class User < ApplicationRecord
   end
 
   class Jail < ::Safemode::Jail
-    allow :id, :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail, :last_login_on
+    allow :id, :login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail, :last_login_on, :disabled
   end
 
   # we need to allow self-editing and self-updating
@@ -405,6 +407,7 @@ class User < ApplicationRecord
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
+    return false if disabled?
     return true if admin?
     if action.is_a?(Hash) || action.is_a?(ActionController::Parameters)
       action = Foreman::AccessControl.normalize_path_hash(action)
@@ -750,6 +753,12 @@ class User < ApplicationRecord
       elsif !(User.current.can?(:edit_users, self) || (id == User.current.id))
         errors.add :login, _("You do not have permission to edit the login")
       end
+    end
+  end
+
+  def ensure_not_disabling_itself
+    if disabled? && self == User.current
+      errors.add :disabled, _('It is not possible to disable yourself')
     end
   end
 end

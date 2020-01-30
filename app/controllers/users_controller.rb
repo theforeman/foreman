@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   include Foreman::TelemetryHelper
 
   skip_before_action :require_mail, :only => [:edit, :update, :logout, :stop_impersonation]
-  skip_before_action :require_login, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
+  skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
   before_action      :require_admin, :only => :impersonate
   after_action       :update_activity_time, :only => :login
@@ -127,6 +127,9 @@ class UsersController < ApplicationController
         count_login_failure
         telemetry_increment_counter(:failed_ui_logins)
         redirect_to login_users_path
+      elsif user.disabled?
+        inline_error _("User account is disabled, please contact your administrator")
+        redirect_to login_users_path
       else
         # valid user
         # If any of the user attributes provided by external auth source are invalid then throw a flash message to user on successful login.
@@ -214,7 +217,7 @@ class UsersController < ApplicationController
   end
 
   def verify_active_session
-    if !request.post? && params[:status].blank? && User.unscoped.exists?(session[:user].presence)
+    if !request.post? && params[:status].blank? && User.unscoped.enabled.exists?(session[:user].presence)
       warning _("You have already logged in")
       redirect_back_or_to hosts_path
       nil

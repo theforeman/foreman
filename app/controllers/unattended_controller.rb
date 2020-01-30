@@ -5,7 +5,7 @@ class UnattendedController < ApplicationController
   layout false
 
   # We don't require any of these methods for provisioning
-  skip_before_action :require_login, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, unless: -> { preview? }
+  skip_before_action :require_login, :check_user_enabled, :session_expiry, :update_activity_time, :set_taxonomy, :authorize, unless: -> { preview? }
 
   # Allow HTTP POST methods without CSRF
   skip_before_action :verify_authenticity_token
