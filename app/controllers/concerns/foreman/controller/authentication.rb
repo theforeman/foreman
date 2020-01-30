@@ -23,9 +23,19 @@ module Foreman::Controller::Authentication
       if session[:user] && !User.current
         backup_session_content { reset_session }
         warning _('Your session has expired, please login again')
+      elsif User.current&.disabled?
+        warning _('User account is disabled, please contact your administrator')
       end
       return if @available_sso.has_rendered
       redirect_to @available_sso.login_url
+    end
+  end
+
+  def check_user_enabled
+    if User.current&.disabled?
+      backup_session_content { reset_session }
+      inline_warning _('User account is disabled, please contact your administrator')
+      redirect_to main_app.login_users_path
     end
   end
 

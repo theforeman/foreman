@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  skip_before_action :require_login, :only => [:status]
+  skip_before_action :require_login, :check_user_enabled, :only => [:status]
   skip_before_action :authorize, :set_taxonomy, :only => [:status]
   skip_before_action :session_expiry, :update_activity_time, :only => :status
 

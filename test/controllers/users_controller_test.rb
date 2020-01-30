@@ -211,6 +211,12 @@ class UsersControllerTest < ActionController::TestCase
     assert User.unscoped.find_by_login(user.login).mail.present?
   end
 
+  test 'should redirect disabled user to login page' do
+    users(:one).update(disabled: true)
+    get :index, session: set_session_user(:one)
+    assert_redirected_to '/users/login'
+  end
+
   test "should login external user" do
     Setting['authorize_login_delegation'] = true
     Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
@@ -232,6 +238,15 @@ class UsersControllerTest < ActionController::TestCase
     get :extlogin
     post :logout
     assert_redirected_to '/users/extlogout'
+  end
+
+  test "should redirect disabled external user to login page" do
+    Setting['authorize_login_delegation'] = true
+    Setting['authorize_login_delegation_auth_source_user_autocreate'] = 'apache'
+    users(:external).update(disabled: true)
+    @request.env['REMOTE_USER'] = users(:external).login
+    get :extlogin, session: {:user => users(:external).id }
+    assert_redirected_to '/users/login'
   end
 
   test "should login external user preserving uri" do

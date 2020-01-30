@@ -50,6 +50,7 @@ module Api
         param :lastname, String, :required => false
         param :mail, String, :required => true
         param :description, String, :required => false
+        param :disabled, :bool, :required => false
         param :admin, :bool, :required => false, :desc => N_("is an admin account")
         param :password, String, :desc => N_("Required unless user is in an external authentication source")
         param :default_location_id, Integer

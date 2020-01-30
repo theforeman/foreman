@@ -26,6 +26,9 @@
       <%= text_f f, :firstname %>
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
+      <% unless @user == User.current %>
+        <%= checkbox_f f, :disabled %>
+      <% end %>
       <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
 
       <%= selectable_f(f, :locale, FastGettext.human_available_locales,
