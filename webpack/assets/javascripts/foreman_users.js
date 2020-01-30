@@ -7,7 +7,6 @@
 
 import $ from 'jquery';
 import { escape } from 'lodash';
-import { notify } from './foreman_toast_notifications';
 
 export function initInheritedRoles() {
   $('#inherited-roles .dropdown-menu a')
@@ -36,31 +35,6 @@ export function taxonomyAdded(taxonomies, type) {
   defaults.innerHTML = selected
     .map(opt => `<option value='${opt[0]}'>${escape(opt[1])}</option>`)
     .join('');
-}
-
-/* eslint-disable no-undef */
-export function testMail(item, url, param = {}) {
-  const button = $(item);
-  const spinner = $('#test_indicator');
-
-  button.addClass('disabled');
-  spinner.show();
-
-  $.ajax({
-    url,
-    type: 'put',
-    data: param,
-    success: ({ message }) => notify({ message, type: 'success' }),
-    error: ({ responseText }) =>
-      notify({
-        message: JSON.parse(responseText).message,
-        type: 'danger',
-      }),
-    complete: () => {
-      spinner.hide();
-      button.removeClass('disabled');
-    },
-  });
 }
 
 export function authSourceSelected(param) {

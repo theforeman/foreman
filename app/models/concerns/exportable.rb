@@ -15,8 +15,8 @@ module Exportable
     return unless self.class.exportable_attributes.present?
 
     self.class.exportable_attributes.keys.inject({}) do |hash, attribute|
-      value = export_attr(self.class.exportable_attributes[attribute], include_blank)
 
+      value = export_attr(self.class.exportable_attributes[attribute], include_blank)
       # Rails considers false blank, but if a boolean value is explicitly set false, we want to ensure we export it.
       if include_blank || value.present? || value == false
         hash.update(attribute => value)

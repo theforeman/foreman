@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingValueField should render for array setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <InputField
+        componentClass="textarea"
+        disabled={false}
+        field={Object {}}
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for boolean setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <SettingValueBoolean
+        field={Object {}}
+        setting={
+          Object {
+            "category": "Setting::Puppet",
+            "categoryName": "Puppet",
+            "configFile": "settings.yaml",
+            "createdAt": "2019-11-06 09:42:45 +0100",
+            "default": false,
+            "description": "All hosts will show a configuration status even when a Puppet smart proxy is not assigned",
+            "fullName": "Always show configuration status",
+            "id": 132,
+            "name": "always_show_configuration_status",
+            "readonly": false,
+            "selectValues": null,
+            "settingsType": "boolean",
+            "updatedAt": "2019-11-06 09:42:45 +0100",
+            "value": false,
+          }
+        }
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for setting with grouped selection 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <SettingValueArraySelect
+        field={Object {}}
+        setting={
+          Object {
+            "category": "Setting::Provisioning",
+            "categoryName": "Provisioning",
+            "configFile": "settings.yaml",
+            "createdAt": "2019-11-06 09:42:45 +0100",
+            "default": null,
+            "description": "Default owner on provisioned hosts, if empty Foreman will use current user",
+            "fullName": "Host owner",
+            "id": 85,
+            "name": "host_owner",
+            "readonly": false,
+            "selectValues": Object {
+              "collection": Array [
+                Object {
+                  "label": "Select an owner",
+                  "value": null,
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "label": "canned_admin",
+                      "value": "13-Users",
+                    },
+                    Object {
+                      "label": "user",
+                      "value": "19-Users",
+                    },
+                    Object {
+                      "label": "viewer",
+                      "value": "27-Users",
+                    },
+                    Object {
+                      "label": "admin",
+                      "value": "4-Users",
+                    },
+                  ],
+                  "groupLabel": "User",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "label": "basic broup",
+                      "value": "1-Usergroups",
+                    },
+                    Object {
+                      "label": "view hosts group",
+                      "value": "2-Usergroups",
+                    },
+                  ],
+                  "groupLabel": "Usergroup",
+                },
+              ],
+              "kind": "array",
+            },
+            "updatedAt": "2019-11-06 09:42:45 +0100",
+          }
+        }
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for setting with simple selection 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <SettingValueHashSelect
+        field={Object {}}
+        setting={
+          Object {
+            "category": "Setting::Provisioning",
+            "categoryName": "Provisioning",
+            "configFile": "settings.yaml",
+            "createdAt": "2018-11-06 09:42:45 +0100",
+            "default": "PXELinux global default",
+            "description": "Global default PXELinux template. This template gets deployed to all configured TFTP servers. It will not be affected by upgrades.",
+            "fullName": "Global default PXELinux template",
+            "id": 105,
+            "name": "global_PXELinux",
+            "readonly": false,
+            "selectValues": Object {
+              "collection": Object {
+                "coreOsPxeLinux": "CoreOS PXELinux",
+                "freeBsdMfsBsdPxeLinux": "FreeBSD (mfsBSD) PXELinux",
+                "kickstartDefaultPxeLinux": "Kickstart default PXELinux",
+                "kickstartOVirtRhvhPxeLinux": "Kickstart oVirt-RHVH PXELinux",
+                "preseedDefaultPxeLinux": "Preseed default PXELinux",
+                "pxeLinuxChainIPxe": "PXELinux chain iPXE",
+                "pxeLinuxChainIPxeUndi": "PXELinux chain iPXE UNDI",
+                "pxeLinuxDefaultLocalBoot": "PXELinux default local boot",
+                "pxeLinuxDefaultMemdisk": "PXELinux default memdisk",
+                "pxeLinuxGlobalDefault": "PXELinux global default",
+                "rancherOsPxeLinux": "RancherOS PXELinux",
+                "templatesAFakePxelinux": "[templates] A fake pxelinux",
+                "testDefault": "TEST default",
+                "waikDefaultPxeLinux": "WAIK default PXELinux",
+                "windowsDefaultPxeLinux": "Windows default PXELinux",
+                "xenServerDefaultPxeLinux": "XenServer default PXELinux",
+              },
+              "kind": "hash",
+            },
+          }
+        }
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
+exports[`SettingValueField should render for string setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <InputField
+        componentClass="input"
+        disabled={false}
+        field={Object {}}
+      />
+    </Col>
+  </FormGroup>
+</Fragment>
+`;

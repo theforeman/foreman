@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingCell should render editable setting 1`] = `
+<Component
+  className="editable"
+  onEditClick={[Function]}
+  setting={
+    Object {
+      "fullName": "Editable setting",
+      "name": "editable_setting",
+      "onEditClick": [Function],
+    }
+  }
+  tooltipId="editable_setting"
+  tooltipText="Editable setting (Default: Not set)"
+/>
+`;
+
+exports[`SettingCell should render readonly setting 1`] = `
+<Component
+  onEditClick={[Function]}
+  setting={
+    Object {
+      "configFile": "settings.yaml",
+      "name": "readonly_setting",
+      "readonly": true,
+    }
+  }
+  tooltipId="readonly_setting"
+  tooltipText="This setting is defined in the configuration file %s and is read-only."
+/>
+`;

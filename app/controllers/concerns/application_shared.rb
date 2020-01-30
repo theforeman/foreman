@@ -9,6 +9,10 @@ module ApplicationShared
   include Foreman::ThreadSession::Cleaner
   include FindCommon
 
+  def model_of_controller
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').constantize
+  end
+
   def current_permission
     [action_permission, controller_permission].join('_')
   end

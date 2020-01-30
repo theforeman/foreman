@@ -1,14 +1,17 @@
 import React from 'react';
 import { Table as PfTable } from 'patternfly-react';
 
-export const withProps = Component => (
+export const withProps = fieldType => Component => (
   value,
   {
     column: {
-      header: { props },
+      [fieldType]: { props },
     },
   }
 ) => <Component {...props}>{value}</Component>;
 
-export const headerFormatterWithProps = withProps(PfTable.Heading);
-export const cellFormatterWithProps = withProps(PfTable.Cell);
+export const withHeaderProps = withProps('header');
+export const withCellProps = withProps('cell');
+
+export const headerFormatterWithProps = withHeaderProps(PfTable.Heading);
+export const cellFormatterWithProps = withCellProps(PfTable.Cell);

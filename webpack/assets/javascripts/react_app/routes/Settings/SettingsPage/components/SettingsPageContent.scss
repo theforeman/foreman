@@ -1,0 +1,17 @@
+#settings-page-content {
+  padding-top: 15px;
+
+  .test-email-row {
+    margin-bottom: 1.5em;
+  }
+
+  .editable {
+    background: url('../../../../../../images/edit.png') no-repeat scroll 98% 3px transparent;
+    cursor: pointer;
+    padding: 3px 26px 4px 4px;
+
+    &:hover {
+      background: url('../../../../../../images/edit-hover.png') no-repeat scroll 98% 3px #f2f2f2;
+    }
+  }
+}

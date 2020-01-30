@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestEmailReducer should return email loading 1`] = `
+Object {
+  "loading": true,
+}
+`;
+
+exports[`TestEmailReducer should return email stopped loading 1`] = `
+Object {
+  "loading": false,
+}
+`;
+
+exports[`TestEmailReducer should return initial state 1`] = `
+Object {
+  "loading": false,
+}
+`;

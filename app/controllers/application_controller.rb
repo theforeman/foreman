@@ -156,10 +156,6 @@ class ApplicationController < ActionController::Base
     User.current = User.anonymous_api_admin
   end
 
-  def model_of_controller
-    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').constantize
-  end
-
   def controller_permission
     controller_name
   end

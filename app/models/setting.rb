@@ -73,11 +73,6 @@ class Setting < ApplicationRecord
     disabled_plugins.order_by(:full_name)
   end
 
-  def self.stick_general_first
-    sticky_setting = 'Setting::General'
-    (where(:category => sticky_setting) + where.not(:category => sticky_setting)).group_by(&:category)
-  end
-
   # can't use our own settings
   def self.per_page
     20
@@ -283,13 +278,18 @@ class Setting < ApplicationRecord
     true
   end
 
+  def collection_method
+    "#{name}_collection".to_sym
+  end
+
+  def select_values
+    self.class.respond_to?(collection_method) ? self.class.send(collection_method) : nil
+  end
+
   def self.set(name, description, default, full_name = nil, value = nil, options = {})
     if options.has_key? :collection
-      SettingsHelper.module_eval do
-        define_method("#{name}_collection".to_sym) do
-          collection = options[:collection].call
-          collection.is_a?(Hash) ? collection : editable_select_optgroup(collection, :include_blank => options[:include_blank])
-        end
+      define_singleton_method("#{name}_collection".to_sym) do
+        SettingValueSelection.new options[:collection].call, options
       end
     end
     options[:encrypted] ||= false

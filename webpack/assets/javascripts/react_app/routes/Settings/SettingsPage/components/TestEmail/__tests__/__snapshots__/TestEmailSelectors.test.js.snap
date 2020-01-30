@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestEmailSelectors should select email state 1`] = `
+Object {
+  "loading": true,
+}
+`;
+
+exports[`TestEmailSelectors should select if email is being delivered 1`] = `true`;

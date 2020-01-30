@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingUpdateModal should render 1`] = `
+<ConnectedForemanModal
+  enforceFocus={true}
+  id="SETTINGS_MODAL"
+  title="Update value for %s setting"
+>
+  <div>
+    <WrappedSettingForm
+      setModalClosed={[Function]}
+      setting={
+        Object {
+          "fullName": "test setting",
+        }
+      }
+    />
+  </div>
+</ConnectedForemanModal>
+`;

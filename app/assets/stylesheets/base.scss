@@ -131,20 +131,6 @@ a.config_group_name {
   width: 650px;
 }
 
-.editable {
-  background: image-url('edit.png') no-repeat scroll 98% 6px transparent;
-  cursor: pointer;
-  padding: 4px 26px 4px 0;
-
-  &:hover {
-    background: image-url('edit-hover.png') no-repeat scroll 98% 6px #f2f2f2;
-  }
-}
-
-.editable-click {
-  border-bottom: 0;
-}
-
 .tab-error {
   color: #b94a48 !important;
 }

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorPage should render 1`] = `
+<EmptyStatePattern
+  description="Unknown error"
+  header="500"
+  icon="error-circle-o"
+  iconType="pf"
+/>
+`;

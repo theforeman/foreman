@@ -16,18 +16,16 @@ const Table = ({ columns, rows, bodyMessage, children, ...props }) => {
   ];
 
   return (
-    <div>
-      <PfTable.PfProvider
-        columns={columns}
-        className="table-fixed"
-        striped
-        bordered
-        hover
-        {...props}
-      >
-        {body}
-      </PfTable.PfProvider>
-    </div>
+    <PfTable.PfProvider
+      columns={columns}
+      className="table-fixed"
+      striped
+      bordered
+      hover
+      {...props}
+    >
+      {body}
+    </PfTable.PfProvider>
   );
 };
 

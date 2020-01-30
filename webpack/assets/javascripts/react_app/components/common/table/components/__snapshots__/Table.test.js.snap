@@ -1,10 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Table renders Table with body 1`] = `
-<div>
-  <TablePfProvider
-    bordered={true}
-    className="table-fixed"
+<TablePfProvider
+  bordered={true}
+  className="table-fixed"
+  columns={
+    Array [
+      Object {
+        "header": Object {
+          "label": "ID",
+        },
+        "property": "id",
+      },
+      Object {
+        "header": Object {
+          "label": "Data",
+        },
+        "property": "data",
+      },
+    ]
+  }
+  components={Object {}}
+  condensed={false}
+  dataTable={false}
+  hover={true}
+  inlineEdit={false}
+  striped={true}
+>
+  <Header
+    key="header"
+  />
+  <TableBody
     columns={
       Array [
         Object {
@@ -21,82 +47,52 @@ exports[`Table renders Table with body 1`] = `
         },
       ]
     }
-    components={Object {}}
-    condensed={false}
-    dataTable={false}
-    hover={true}
-    inlineEdit={false}
-    striped={true}
-  >
-    <Header
-      key="header"
-    />
-    <TableBody
-      columns={
-        Array [
-          Object {
-            "header": Object {
-              "label": "ID",
-            },
-            "property": "id",
-          },
-          Object {
-            "header": Object {
-              "label": "Data",
-            },
-            "property": "data",
-          },
-        ]
-      }
-      key="body"
-      message="some body message"
-      rowKey="id"
-      rows={
-        Array [
-          Object {
-            "data": "data-1",
-            "id": 1,
-          },
-          Object {
-            "data": "data-2",
-            "id": 2,
-          },
-        ]
-      }
-    />
-  </TablePfProvider>
-</div>
+    key="body"
+    message="some body message"
+    rowKey="id"
+    rows={
+      Array [
+        Object {
+          "data": "data-1",
+          "id": 1,
+        },
+        Object {
+          "data": "data-2",
+          "id": 2,
+        },
+      ]
+    }
+  />
+</TablePfProvider>
 `;
 
 exports[`Table renders Table with children 1`] = `
-<div>
-  <TablePfProvider
-    bordered={true}
-    className="table-fixed"
-    columns={
-      Array [
-        Object {
-          "header": Object {
-            "label": "ID",
-          },
-          "property": "id",
+<TablePfProvider
+  bordered={true}
+  className="table-fixed"
+  columns={
+    Array [
+      Object {
+        "header": Object {
+          "label": "ID",
         },
-        Object {
-          "header": Object {
-            "label": "Data",
-          },
-          "property": "data",
+        "property": "id",
+      },
+      Object {
+        "header": Object {
+          "label": "Data",
         },
-      ]
-    }
-    components={Object {}}
-    condensed={false}
-    dataTable={false}
-    hover={true}
-    inlineEdit={false}
-    striped={true}
-  >
-    some children
-  </TablePfProvider>
-</div>
+        "property": "data",
+      },
+    ]
+  }
+  components={Object {}}
+  condensed={false}
+  dataTable={false}
+  hover={true}
+  inlineEdit={false}
+  striped={true}
+>
+  some children
+</TablePfProvider>
 `;

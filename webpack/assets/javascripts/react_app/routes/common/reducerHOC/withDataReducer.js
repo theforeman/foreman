@@ -7,10 +7,13 @@ const initialState = Immutable({
   message: { type: 'empty', text: '' },
 });
 
-const withDataReducer = controller => (
-  state = initialState,
-  { type, payload }
-) => {
+const additionalReducer = (state, type, payload) => state;
+
+const withDataReducer = (
+  controller,
+  extendState = Immutable({}),
+  extendReducer = additionalReducer
+) => (state = initialState.merge(extendState), { type, payload }) => {
   switch (type) {
     case `${controller}_DATA_RESOLVED`:
       return state.merge({ ...payload, isLoading: false });
@@ -28,7 +31,7 @@ const withDataReducer = controller => (
       return state.set('isLoading', false);
 
     default:
-      return state;
+      return extendReducer(state, type, payload);
   }
 };
 

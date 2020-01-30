@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsPage should render 1`] = `
+<PageLayout
+  beforeToolbarComponent={null}
+  breadcrumbOptions={null}
+  customBreadcrumbs={null}
+  header="Settings"
+  isLoading={false}
+  onBookmarkClick={[Function]}
+  onSearch={[Function]}
+  searchProps={
+    Object {
+      "autocomplete": Object {
+        "id": "searchBar",
+        "searchQuery": "",
+        "url": "settings/auto_complete_search",
+        "useKeyShortcuts": true,
+      },
+      "bookmarks": Object {
+        "canCreate": true,
+        "documentationUrl": "4.1.5Searching",
+        "url": "/api/bookmarks",
+      },
+      "controller": "settings",
+    }
+  }
+  searchQuery=""
+  searchable={true}
+  toastNotifications={null}
+  toolbarButtons={null}
+>
+  <Component
+    errorMsg={Object {}}
+    groupedSettings={Object {}}
+    hasData={false}
+    hasError={false}
+    isLoading={true}
+  />
+</PageLayout>
+`;

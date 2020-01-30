@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestEmail should render 1`] = `
+<Row
+  bsClass="row"
+  className="test-email-row"
+  componentClass="div"
+>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={12}
+  >
+    <div
+      className="btn-toolbar pull-right"
+    >
+      <div
+        id="toolbar-spinner"
+      >
+        <Spinner
+          className=""
+          inline={false}
+          inverse={false}
+          loading={false}
+          size="sm"
+        />
+      </div>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="success"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Test Email
+      </Button>
+    </div>
+  </Col>
+</Row>
+`;
+
+exports[`TestEmail should render when loading 1`] = `
+<Row
+  bsClass="row"
+  className="test-email-row"
+  componentClass="div"
+>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={12}
+  >
+    <div
+      className="btn-toolbar pull-right"
+    >
+      <div
+        id="toolbar-spinner"
+      >
+        <Spinner
+          className=""
+          inline={false}
+          inverse={false}
+          loading={true}
+          size="sm"
+        />
+      </div>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="success"
+        disabled={true}
+        onClick={[Function]}
+      >
+        Test Email
+      </Button>
+    </div>
+  </Col>
+</Row>
+`;

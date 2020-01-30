@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTableHelpers format array value to string 1`] = `"[ foo, bar ]"`;
+
+exports[`SettingsTableHelpers format boolean value to string 1`] = `"Yes"`;
+
+exports[`SettingsTableHelpers format default array value to string 1`] = `"[  ]"`;
+
+exports[`SettingsTableHelpers format default boolean value to string 1`] = `"No"`;
+
+exports[`SettingsTableHelpers format default empty value to string 1`] = `"Empty"`;
+
+exports[`SettingsTableHelpers format default text value 1`] = `"Empty"`;
+
+exports[`SettingsTableHelpers format empty value to string 1`] = `"Empty"`;
+
+exports[`SettingsTableHelpers format text value 1`] = `"text value"`;
+
+exports[`SettingsTableHelpers should return markup in strong 1`] = `
+<strong>
+  Foo
+</strong>
+`;
+
+exports[`withTooltip should render a component with tooltip 1`] = `
+<OverlayTrigger
+  defaultOverlayShown={false}
+  overlay={
+    <Tooltip
+      bsClass="tooltip"
+      id="tooltip"
+      placement="right"
+    >
+      This is tooltip
+    </Tooltip>
+  }
+  placement="top"
+  rootClose={false}
+  trigger={
+    Array [
+      "hover",
+      "focus",
+    ]
+  }
+>
+  <span>
+    <Component />
+  </span>
+</OverlayTrigger>
+`;

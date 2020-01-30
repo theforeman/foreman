@@ -208,18 +208,6 @@ module ApplicationHelper
     send("#{method}_#{controller}_path")
   end
 
-  def edit_textfield(object, property, options = {})
-    edit_inline(object, property, options)
-  end
-
-  def edit_textarea(object, property, options = {})
-    edit_inline(object, property, options.merge({:type => "textarea"}))
-  end
-
-  def edit_select(object, property, options = {})
-    edit_inline(object, property, options.merge({:type => "select"}))
-  end
-
   def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
     data.map { |element| element[:label] = truncate(element[:label], :length => 16) }
@@ -378,37 +366,7 @@ module ApplicationHelper
     prev_controller_url
   end
 
-  # creates a data set for editable select-optgroup. each element in the 'groups' array is a hash represents a group with its children.
-  # e.g - {:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'}
-  # :name -> group's name, :scope -> scoped method (e.g 'all' or another predefined scope),
-  # :value_method -> value in params, and text_method -> the shown text in the select element.
-
-  def editable_select_optgroup(groups, options = {})
-    select = []
-    select.push(nil => options[:include_blank]) if options[:include_blank].present?
-    groups.each do |group|
-      klass = group[:class].classify.constantize
-      scope = group[:scope]
-      children = Hash[klass.send(scope).map { |obj| [obj.send(group[:value_method]), obj.send(group[:text_method])] }]
-      select.push(:text => group[:name], :children => children)
-    end
-    select
-  end
-
   private
-
-  def edit_inline(object, property, options = {})
-    helper     = options[:helper]
-    value      = helper.nil? ? object.send(property) : send(helper, object)
-    klass      = options[:class]
-    update_url = options[:update_url] || url_for(object)
-    type       = options[:type]
-    title      = options[:title]
-    placeholder = options[:placeholder]
-    select_values = [true, false].include?(value) ? [_('Yes'), _('No')] : options[:select_values]
-
-    editable(object, property, {:type => type, :title => title, :value => value, :class => klass, :source => select_values, :url => update_url, :placeholder => placeholder}.compact)
-  end
 
   def documentation_url(section = "", options = {})
     external_link_url(options.merge(type: 'manual', section: section))
@@ -517,7 +475,7 @@ module ApplicationHelper
   end
 
   def app_metadata
-    { UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url }
+    { UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url, currentUser: { id: User.current.id } }
   end
 
   def ui_settings

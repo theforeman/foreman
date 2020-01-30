@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingCellInner should render setting with changed default 1`] = `
+<strong>
+  <span
+    className=""
+    onClick={[Function]}
+  >
+    foo
+  </span>
+</strong>
+`;
+
+exports[`SettingCellInner should render setting with default value  1`] = `
+<span
+  className=""
+  onClick={[Function]}
+>
+  foo
+</span>
+`;
+
+exports[`SettingCellInner should render setting with empty value 1`] = `
+<span
+  className="editable-empty"
+  onClick={[Function]}
+>
+  Empty
+</span>
+`;
