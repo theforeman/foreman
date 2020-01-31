@@ -19,7 +19,7 @@ module Foreman
     end
 
     def log_bruteforce
-      logger.warn("Brute-force attempt blocked from IP: #{request.ip}")
+      Rails.logger.warn("Brute-force attempt blocked from IP: #{request_ip}")
     end
 
     private
