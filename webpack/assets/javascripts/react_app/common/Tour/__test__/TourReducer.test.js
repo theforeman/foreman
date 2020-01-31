@@ -1,7 +1,7 @@
 import {
   TOUR_UPDATE_STATUS,
   TOUR_GET_STATUSES,
-  TOUR_START_RUNNIG,
+  TOUR_START_RUNNING,
   TOUR_STOP_RUNNING,
   TOUR_REGISTER,
 } from '../TourConstants';
@@ -18,9 +18,9 @@ const fixtures = {
       payload: { id: 'Tour_1' },
     },
   },
-  'should handle TOUR_START_RUNNIG': {
+  'should handle TOUR_START_RUNNING': {
     action: {
-      type: TOUR_START_RUNNIG,
+      type: TOUR_START_RUNNING,
       payload: { id: 'Tour_1' },
     },
   },

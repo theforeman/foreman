@@ -34,7 +34,7 @@ Object {
   "payload": Object {
     "id": "breadcrumbsTour",
   },
-  "type": "TOUR_START_RUNNIG",
+  "type": "TOUR_START_RUNNING",
 }
 `;
 

@@ -5,16 +5,16 @@ import { translate as __ } from '../../common/I18n';
 const tourConfig = [
   {
     selector: '[data-tut="breadcrumbs_bar"]',
-    content: __('Welcome the new Breadcrumbs bar navigation !'),
+    content: __('Here is the new Breadcumb Bar.'),
   },
   {
     selector: '[data-tut="switcher"]',
-    content: __('Easy way to naviage back'),
+    content: __('It offers an easy way to navigate up a level.'),
   },
   {
     selector: '[data-tut="resource-switcher"]',
     content: __(
-      'Switching to another resource is now super fast, with the new Resource Switcher!'
+      'The Breadcrumb Bar Switcher can be used to easily switch to another resource of the same time.'
     ),
   },
 ];

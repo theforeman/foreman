@@ -12,7 +12,7 @@ Object {
 }
 `;
 
-exports[`Tour reducer should handle TOUR_START_RUNNIG 1`] = `
+exports[`Tour reducer should handle TOUR_START_RUNNING 1`] = `
 Object {
   "Tour_1": Object {
     "running": true,

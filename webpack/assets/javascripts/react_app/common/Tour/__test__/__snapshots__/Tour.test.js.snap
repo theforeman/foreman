@@ -53,7 +53,7 @@ exports[`WithTour rendering renders breadcrumb-bar 1`] = `
         ],
         "results": Array [
           Object {
-            "isThrow": false,
+            "type": "return",
             "value": undefined,
           },
         ],

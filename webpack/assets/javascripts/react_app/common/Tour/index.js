@@ -22,10 +22,7 @@ const withTour = (WrappedComponent, steps, id) => {
     isLoading: selectLoadingState(state),
   });
   const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(tour);
+  return connect(mapStateToProps, mapDispatchToProps)(tour);
 };
 
 // export reducers

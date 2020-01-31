@@ -1,12 +1,12 @@
 # Tour
 
 ## React Components
-In order to create a tour of your react component, please add a `<YourComponent>Tour.js` file in the component's library
+In order to create a tour of your React component, please add a `<YourComponent>.tour.js` file in the component's library
 
 ### Example
 ```js
 import withTour from '../../common/Tour';
-import <YourComponent> from './<your component>';
+import YourComponent from '.';
 
 const steps = [
   {

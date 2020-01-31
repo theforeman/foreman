@@ -3,7 +3,7 @@ import Immutable from 'seamless-immutable';
 import {
   TOUR_UPDATE_STATUS,
   TOUR_GET_STATUSES,
-  TOUR_START_RUNNIG,
+  TOUR_START_RUNNING,
   TOUR_STOP_RUNNING,
   TOUR_REGISTER,
   TOURS_REQUESTS,
@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
     case TOUR_GET_STATUSES:
       return state.merge({ ...payload, loadingTour: false });
 
-    case TOUR_START_RUNNIG:
+    case TOUR_START_RUNNING:
       return state.setIn([payload.id, 'running'], true);
 
     case TOUR_STOP_RUNNING:

@@ -3,7 +3,7 @@ import API from '../../API';
 import {
   TOUR_UPDATE_STATUS,
   TOUR_GET_STATUSES,
-  TOUR_START_RUNNIG,
+  TOUR_START_RUNNING,
   TOUR_STOP_RUNNING,
   TOUR_REGISTER,
   TOURS_REQUESTS,
@@ -32,7 +32,7 @@ export const getTours = () => dispatch => {
 };
 
 export const startRunning = id => ({
-  type: TOUR_START_RUNNIG,
+  type: TOUR_START_RUNNING,
   payload: { id },
 });
 
