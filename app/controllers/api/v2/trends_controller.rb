@@ -5,6 +5,11 @@ module Api
 
       before_action :find_resource, :only => [:show, :destroy]
 
+      TRENDABLE_TYPES = [
+        'Environment', 'Operatingsystem', 'Model', 'FactName', 'Hostgroup',
+        'ComputeResource'
+      ].freeze
+
       api :GET, "/trends/", N_("List of trends counters")
       def index
         @trends = resource_scope_for_index
@@ -16,7 +21,7 @@ module Api
       end
 
       api :POST, "/trends/", N_("Create a trend counter")
-      param :trendable_type, String, :required => true
+      param :trendable_type, TRENDABLE_TYPES, :required => true
       param :fact_name, String, :required => false
       param :name, String, :required => false
       def create
