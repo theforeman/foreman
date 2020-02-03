@@ -5,9 +5,6 @@ module Foreman::Model
     validates :key_path, :project, :email, :zone, :presence => true
     validate :ensure_attributes_and_values
 
-    delegate :machine_types, :to => :client
-    alias_method :available_flavors, :machine_types
-
     def self.available?
       Fog::Compute.providers.include?(:google)
     end
@@ -60,6 +57,11 @@ module Foreman::Model
     def available_networks(cluster_id = nil)
       client.list_networks.items
     end
+
+    def machine_types
+      client.list_machine_types(zone).items
+    end
+    alias_method :available_flavors, :machine_types
 
     def disks
       client.list_disks(zone).items.map(&:name)
