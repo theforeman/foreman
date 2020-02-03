@@ -35,6 +35,7 @@
     "@theforeman/stories": "^4.0.7",
     "@theforeman/test": "^4.0.7",
     "@theforeman/vendor-dev": "^4.0.7",
+    "@storybook/storybook-deployer": "^2.8.1",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
