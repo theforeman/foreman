@@ -52,6 +52,7 @@ module Api
           param :subnet6_id, :number, :desc => N_('Subnet IPv6 ID')
           param :domain_id, :number, :desc => N_('Domain ID')
           param :realm_id, :number, :desc => N_('Realm ID')
+          param :puppetclass_ids, Array
           param :config_group_ids, Array, :desc => N_("IDs of associated config groups")
           param :group_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters") do
             param :name, String, :desc => N_("Name of the parameter"), :required => true
