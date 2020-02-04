@@ -9,6 +9,8 @@ class Setting < ApplicationRecord
   include HiddenValue
   self.inheritance_column = 'category'
 
+  graphql_type '::Types::Setting'
+
   TYPES = %w{integer boolean hash array string}
   FROZEN_ATTRS = %w{name category full_name}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page max_trend outofsync_interval}

@@ -88,5 +88,8 @@ module Types
 
     record_field :bookmark, Types::Bookmark
     collection_field :bookmarks, Types::Bookmark
+
+    record_field :setting, Types::Setting
+    collection_field :settings, Types::Setting
   end
 end

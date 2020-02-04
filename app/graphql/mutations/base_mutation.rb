@@ -30,6 +30,22 @@ module Mutations
 
     def authorize!(resource, action)
       user = context[:current_user]
+      if resource.class.included_modules.include?(Authorizable)
+        authorize_if_authorizable user, resource, action
+      else
+        authorize_if_admin user, resource, action
+      end
+    end
+
+    def authorize_if_admin(user, resource, action)
+      unless user.admin?
+        raise GraphQL::ExecutionError.new(
+          _('Unauthorized. Only admin is allowed to perform %{action} on %{resource}') % { :action => action, :resource => resource.class }
+        )
+      end
+    end
+
+    def authorize_if_authorizable(user, resource, action)
       authorizer = Authorizer.new(user)
       permission_name = resource.permission_name(action)
 

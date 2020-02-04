@@ -280,6 +280,8 @@ attributes64:
   category: Setting::Provisioning
   default: "false"
   description: 'Allow access to unattended URLs without build mode being used'
+  full_name: 'Access unattended without build'
+  settings_type: 'boolean'
 attributes65:
   name: update_subnets_from_facts
   category: Setting::Puppet

@@ -22,6 +22,8 @@ module Types
     field :update_bookmark, mutation: Mutations::Bookmarks::Update
     field :delete_bookmark, mutation: Mutations::Bookmarks::Delete
 
+    field :update_setting, mutation: Mutations::Settings::Update
+
     include ::Foreman::Plugin::GraphqlPluginFields
     realize_plugin_mutation_extensions
   end
