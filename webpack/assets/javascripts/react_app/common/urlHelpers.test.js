@@ -10,6 +10,7 @@ import {
   getURIperPage,
   getURIsearch,
   exportURL,
+  updateURLQuery,
 } from './urlHelpers';
 
 describe('urlBuilder', () => {
@@ -32,6 +33,16 @@ describe('urlWithSearch', () => {
   it('builds url with search', () => {
     expect(urlWithSearch(base, query)).toBe('/testBase?search=query=test');
   });
+});
+
+describe('updateURLQuery', () => {
+  const history = {
+    push: jest.fn(),
+    location: { search: '?a=1&b=c' },
+  };
+  const query = { query: 'test', b: 'd' };
+  updateURLQuery(query, history);
+  expect(history.push).toHaveBeenCalledWith('?a=1&b=d&query=test');
 });
 
 describe('URI query and stringify tests', () => {

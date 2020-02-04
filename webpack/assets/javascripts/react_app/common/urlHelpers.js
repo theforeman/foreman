@@ -77,3 +77,14 @@ export const exportURL = () => {
   url.addQuery('format', 'csv');
   return `${url.pathname()}${url.search()}`;
 };
+
+/**
+ * merge current url with a new query
+ * @param {Object} query  - Query Object
+ * @param {Object} history  - React Router history object
+ */
+export const updateURLQuery = (query, history) => {
+  const uri = new URI(history.location.search);
+  uri.setSearch(query);
+  history.push(uri.search());
+};
