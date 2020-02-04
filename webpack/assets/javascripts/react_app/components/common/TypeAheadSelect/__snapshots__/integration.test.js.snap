@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeAheadSelect integration test flows: after initialUpdate 1`] = `
+Object {
+  "typeAheadSelect": Object {
+    "test_type_ahead_select": Object {
+      "options": Array [
+        "option1",
+        "option2",
+      ],
+      "selected": Array [
+        "option2",
+      ],
+    },
+  },
+}
+`;
+
+exports[`TypeAheadSelect integration test flows: initial state 1`] = `
+Object {
+  "typeAheadSelect": Object {},
+}
+`;
+
+exports[`TypeAheadSelect integration test flows: updated options and selections 1`] = `
+Object {
+  "typeAheadSelect": Object {
+    "test_type_ahead_select": Object {
+      "options": Array [
+        "Walrus",
+        "Bear",
+      ],
+      "selected": Array [
+        "Bear",
+      ],
+    },
+  },
+}
+`;

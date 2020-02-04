@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeAheadSelectSelectors with empty state returns an empty array of options 1`] = `Array []`;
+
+exports[`TypeAheadSelectSelectors with empty state returns an nothing 1`] = `undefined`;
+
+exports[`TypeAheadSelectSelectors with empty state returns false 1`] = `false`;
+
+exports[`TypeAheadSelectSelectors with state returns options array from state 1`] = `
+Array [
+  "option1",
+  "option2",
+]
+`;
+
+exports[`TypeAheadSelectSelectors with state returns selections array from state 1`] = `
+Array [
+  "option2",
+]
+`;
+
+exports[`TypeAheadSelectSelectors with state returns true 1`] = `true`;

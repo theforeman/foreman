@@ -27,6 +27,7 @@ import * as classEditor from './foreman_class_edit';
 import * as dashboard from './dashboard';
 import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
+import * as typeAheadSelect from './foreman_type_ahead_select';
 import './bundle_novnc';
 
 // Set the public path for dynamic imports
@@ -62,4 +63,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   componentRegistry,
   store,
   autocomplete,
+  typeAheadSelect,
 });
