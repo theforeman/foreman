@@ -36,6 +36,7 @@ import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
+import TypeAheadSelect from './common/TypeAheadSelect';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -130,6 +131,7 @@ const coreComponets = [
   { name: 'TemplateInput', type: TemplateInput },
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
+  { name: 'TypeAheadSelect', type: TypeAheadSelect },
 
   {
     name: 'RelativeDateTime',

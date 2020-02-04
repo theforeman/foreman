@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeAheadSelectActions initializes defaults 1`] = `
+Object {
+  "payload": Object {
+    "id": "test_type_ahead_select",
+    "options": Array [
+      "option1",
+      "option2",
+    ],
+    "selected": Array [
+      "option2",
+    ],
+  },
+  "type": "TYPEAHEAD_INIT",
+}
+`;
+
+exports[`TypeAheadSelectActions updates options 1`] = `
+Object {
+  "payload": Object {
+    "id": "test_type_ahead_select",
+    "options": Array [
+      "option1",
+      "option2",
+    ],
+  },
+  "type": "TYPEAHEAD_UPDATE_OPTIONS",
+}
+`;
+
+exports[`TypeAheadSelectActions updates selections 1`] = `
+Object {
+  "payload": Object {
+    "id": "test_type_ahead_select",
+    "selected": Array [
+      "option2",
+    ],
+  },
+  "type": "TYPEAHEAD_UPDATE_SELECTED",
+}
+`;

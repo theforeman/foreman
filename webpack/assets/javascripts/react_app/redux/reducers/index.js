@@ -15,6 +15,7 @@ import { reducers as templateGenerationReducers } from '../../components/Templat
 import { reducers as factChartReducers } from '../../components/FactCharts';
 import { reducers as statisticsPageReducers } from '../../routes/Statistics/StatisticsPage';
 import { reducers as fillReducers } from '../../components/common/Fill';
+import { reducers as typeAheadSelectReducers } from '../../components/common/TypeAheadSelect';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
 import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware';
 import { reducers as bookmarksReducers } from '../../components/Bookmarks';
@@ -39,6 +40,7 @@ export function combineReducersAsync(asyncReducers) {
     ...modelsReducers,
     ...templateGenerationReducers,
     ...factChartReducers,
+    ...typeAheadSelectReducers,
 
     // Pages
     ...statisticsPageReducers,
