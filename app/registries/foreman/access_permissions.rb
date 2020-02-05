@@ -334,7 +334,7 @@ Foreman::AccessControl.map do |permission_set|
                                                :update_multiple_hostgroup, :update_multiple_parameters, :toggle_manage,
                                                :select_multiple_organization, :update_multiple_organization,
                                                :disassociate, :multiple_disassociate, :update_multiple_disassociate,
-                                               :select_multiple_owner, :update_multiple_owner,
+                                               :select_multiple_owner, :update_multiple_owner, :forget_status,
                                                :select_multiple_power_state, :update_multiple_power_state,
                                                :select_multiple_puppet_proxy, :update_multiple_puppet_proxy,
                                                :select_multiple_puppet_ca_proxy, :update_multiple_puppet_ca_proxy,
@@ -344,7 +344,7 @@ Foreman::AccessControl.map do |permission_set|
                                     :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :interfaces => [:new, :random_name],
-                                    :"api/v2/hosts" => [:update, :disassociate],
+                                    :"api/v2/hosts" => [:update, :disassociate, :forget_status],
                                     :"api/v2/interfaces" => [:create, :update, :destroy],
                                     :"api/v2/compute_resources" => [:associate],
                                   }
@@ -363,6 +363,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :console_hosts, {:hosts => [:console] }
     map.permission :ipmi_boot_hosts, { :hosts          => [:ipmi_boot],
                                        :"api/v2/hosts" => [:boot] }
+    map.permission :forget_status_hosts, { :hosts => [:forget_status] }
     map.permission :puppetrun_hosts, {:hosts => [:puppetrun, :multiple_puppetrun, :update_multiple_puppetrun],
                                       :"api/v2/hosts" => [:puppetrun] }
   end

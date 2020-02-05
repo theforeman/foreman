@@ -334,6 +334,7 @@ Foreman::Application.routes.draw do
           get :vm_compute_attributes, :on => :member
           get 'template/:kind', :on => :member, :action => :template
           put :disassociate, :on => :member
+          delete 'status/:type', :on => :member, :action => :forget_status
           put :boot, :on => :member
           get :power, :on => :member, :action => :power_status
           put :power, :on => :member

@@ -1318,6 +1318,13 @@ class HostsControllerTest < ActionController::TestCase
     assert_not_nil flash[:error]
   end
 
+  test "#forget_status deletes a sub-status" do
+    host = FactoryBot.create(:host)
+    status = ::HostStatus::BuildStatus.create!(host_id: host.id)
+    post :forget_status, params: {:id => host.id, :status => status.id}, session: set_session_user
+    refute host.host_statuses.include?(status)
+  end
+
   test "#disassociate shows error when used on non-CR host" do
     host = FactoryBot.create(:host)
     @request.env["HTTP_REFERER"] = hosts_path
