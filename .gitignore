@@ -51,3 +51,6 @@ npm-debug.log
 .yo-rc.json
 .vendor/
 .solargraph.yml
+.storybook-dist/
+.storybooks/
+.storybook-dist/sb_dll/storybook_ui_dll.js
