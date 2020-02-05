@@ -4,7 +4,6 @@ module Mutations
       graphql_name 'UpdateModelMutation'
       description 'Updates existing hardware model.'
 
-      argument :id, ID, required: true
       argument :name, String
       argument :info, String
       argument :vendor_class, String
