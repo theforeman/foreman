@@ -395,11 +395,6 @@ class Host::Managed < Host::Base
     hostgroup.all_config_groups
   end
 
-  # returns the list of puppetclasses a host is in.
-  def puppetclasses_names
-    all_puppetclasses.collect {|c| c.name}
-  end
-
   def attributes_to_import_from_facts
     attrs = [:architecture, :hostgroup]
     if !Setting[:ignore_facts_for_operatingsystem] || (Setting[:ignore_facts_for_operatingsystem] && operatingsystem.blank?)

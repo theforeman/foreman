@@ -965,8 +965,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     get :enc, params: { :id => host.to_param }
     assert_response :success
     response = ActiveSupport::JSON.decode(@response.body)
-    puppet_class = response['data']['classes'].first rescue nil
-    assert_equal host.puppetclasses.first.name, puppet_class
+    puppet_class = response['data']['classes'].keys rescue nil
+    assert_equal host.puppetclasses.map(&:name), puppet_class
   end
 
   context 'parameters type' do
