@@ -1131,7 +1131,6 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "should import from external nodes output" do
-    Setting[:Parametrized_Classes_in_ENC] = true
     # create a dummy node
     Parameter.destroy_all
     host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
@@ -1202,7 +1201,6 @@ class HostTest < ActiveSupport::TestCase
     host = FactoryBot.create(:host, :environment => environments(:production))
     host.importNode("environment" => "production", "classes" => ["apache", "base"], "parameters" => {})
 
-    Setting[:Parametrized_Classes_in_ENC] = true
     assert_equal ['apache', 'base'], host.info['classes'].keys
   end
 
@@ -2874,17 +2872,6 @@ class HostTest < ActiveSupport::TestCase
     refute_nil enc['parameters']['root_pw']
   end
 
-  test "#info ENC YAML uses all_puppetclasses for non-parameterized output" do
-    Setting[:Parametrized_Classes_in_ENC] = false
-    myclass = mock('myclass')
-    myclass.expects(:name).returns('myclass')
-    host = FactoryBot.build_stubbed(:host, :with_environment)
-    host.expects(:all_puppetclasses).returns([myclass])
-    enc = host.info
-    assert_kind_of Hash, enc
-    assert_equal ['myclass'], enc['classes']
-  end
-
   test "#info ENC YAML omits environment if not set" do
     host = FactoryBot.build_stubbed(:host)
     host.environment = nil
@@ -2907,7 +2894,6 @@ class HostTest < ActiveSupport::TestCase
   end
 
   test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
-    Setting[:Parametrized_Classes_in_ENC] = true
     host = FactoryBot.build_stubbed(:host, :with_environment)
     classes = {'myclass' => {'myparam' => 'myvalue'}}
     HostInfoProviders::PuppetInfo.any_instance.expects(:puppetclass_parameters).returns(classes)
