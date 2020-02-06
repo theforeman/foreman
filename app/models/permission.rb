@@ -33,6 +33,7 @@ class Permission < ApplicationRecord
     return 'Subnet' if klass <= Subnet
     return 'Parameter' if klass <= Parameter
     return 'AuthSource' if klass <= AuthSource
+    return 'Setting' if klass <= Setting
 
     case (name = klass.to_s)
     when 'Audited::Audit'

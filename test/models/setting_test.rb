@@ -667,11 +667,21 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test 'orders settings alphabetically' do
-    FactoryBot.create(:setting, :name => 'b_foo', :default => 'whatever', :value => 'whatever',  :full_name => 'B Foo Name')
-    FactoryBot.create(:setting, :name => 'a_foo', :default => 'whatever', :value => 'whatever',  :full_name => 'A Foo Name')
-    FactoryBot.create(:setting, :name => 'c_foo', :default => 'whatever', :value => 'whatever',  :full_name => 'C Foo Name')
-    settings = Setting.live_descendants.map(&:full_name).compact
-    assert_equal settings.sort, settings
+    a_name = 'a_foo'
+    b_name = 'b_foo'
+    c_name = 'c_foo'
+    FactoryBot.create(:setting, :name => b_name, :default => 'whatever', :value => 'whatever',  :full_name => 'B Foo Name')
+    FactoryBot.create(:setting, :name => a_name, :default => 'whatever', :value => 'whatever',  :full_name => 'A Foo Name')
+    FactoryBot.create(:setting, :name => c_name, :default => 'whatever', :value => 'whatever',  :full_name => 'C Foo Name')
+    settings = Setting.live_descendants.select(&:full_name)
+    a_foo = settings.index { |item| item.name == a_name }
+    b_foo = settings.index { |item| item.name == b_name }
+    c_foo = settings.index { |item| item.name == c_name }
+    assert a_foo
+    assert b_foo
+    assert c_foo
+    assert a_foo < b_foo
+    assert b_foo < c_foo
   end
 
   test "should update login page footer text with multiple valid long values" do
