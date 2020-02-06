@@ -7,6 +7,7 @@ class Setting < ApplicationRecord
   include ActiveModel::Validations
   include EncryptValue
   include HiddenValue
+  include PermissionName
   self.inheritance_column = 'category'
 
   graphql_type '::Types::Setting'
