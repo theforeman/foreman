@@ -7,7 +7,7 @@ class HostMailer < ApplicationMailer
   def summary(options = {})
     raise ::Foreman::Exception.new(N_("Must specify a valid user with email enabled")) unless (user = User.find(options[:user]))
     hosts = User.as user do
-        Host::Managed.authorized_as(user, :view_hosts, Host)
+      Host::Managed.authorized_as(user, :view_hosts, Host)
     end
     time = options[:time] || 1.day.ago
     host_data = ConfigReport.summarise(time, hosts.all).sort
