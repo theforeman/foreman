@@ -119,7 +119,15 @@ class ReportImporter
 
       owners = host.owner.present? ? host.owner.recipients_for(:config_error_state) : []
       users = ConfigManagementError.all_hosts.flat_map(&:users)
-      users.select { |user| Host.authorized_as(user, :view_hosts).find(host.id).present? }
+      users.select { |user|
+        begin
+          User.as user do
+            Host.authorized_as(user, :view_hosts).find(host.id).present?
+          end
+        rescue ActiveRecord::RecordNotFound => e
+          nil
+        end
+      }
       owners.concat users
       if owners.present?
         logger.debug { "sending alert to #{owners.map(&:login).join(',')}" }
