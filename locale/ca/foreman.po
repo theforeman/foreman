@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-07-18 13:27+0000\n"
+"PO-Revision-Date: 2019-10-07 20:04+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
@@ -42,6 +42,9 @@ msgid "%s Active Feature"
 msgid_plural "%s Active Features"
 msgstr[0] "%s característica activa"
 msgstr[1] "%s característiques actives"
+
+msgid "%s Filters"
+msgstr ""
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -390,9 +393,6 @@ msgstr ""
 
 msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
 msgstr ""
-
-msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
-msgstr "Un grup d'amfitrions és en certa manera similar a una declaració d'herència de nodes, ja que és un alt nivell d'agrupació de les classes que es poden anomenar i tractar com una unitat. Això es tracta després com una plantilla i es pot seleccionar durant la creació d'un nou amfitrió, i assegura que l'amfitrió es configura en un dels seus estats predefinits."
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
 msgstr ""
@@ -1170,6 +1170,9 @@ msgstr "Arrenca des del volum"
 msgid "Boot host from specified device"
 msgstr ""
 
+msgid "Boot time"
+msgstr ""
+
 msgid "Bootable"
 msgstr ""
 
@@ -1238,6 +1241,9 @@ msgstr ""
 
 msgid "CPUs"
 msgstr "Nombre de CPU"
+
+msgid "Cache refreshing is not supported for %s"
+msgstr ""
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
 msgstr ""
@@ -1321,6 +1327,12 @@ msgid "Certificate Name"
 msgstr "Nom del certificat"
 
 msgid "Certificate Path"
+msgstr ""
+
+msgid "Certificate key is not a valid JSON"
+msgstr ""
+
+msgid "Certificate path for GCE only"
 msgstr ""
 
 msgid "Certificate that Foreman will use to encrypt websockets "
@@ -1490,6 +1502,9 @@ msgstr ""
 
 msgid "Compute Profiles"
 msgstr "Perfils computacionals"
+
+msgid "Compute Resouces"
+msgstr ""
 
 msgid "Compute Resource"
 msgstr "Recurs computacional"
@@ -2054,7 +2069,7 @@ msgstr ""
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr ""
 
-msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE). Auto-suggested, use OS parameter 'pxe-loader' to override."
 msgstr ""
 
 msgid "DHCP lease conflicts have been detected"
@@ -2084,14 +2099,14 @@ msgstr ""
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr ""
 
-msgid "DNS conflict timeout"
-msgstr "Temps d'expiració de conflicte DNS"
-
 msgid "DNS proxy ID to use within this domain"
 msgstr ""
 
 msgid "DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy"
 msgstr "Servidor intermediari de DNS per utilitzar dins d'aquesta subxarxa per a la gestió dels registres A, tingueu en compte que els registres PTR es gestionen a través del servidor intermediari de DNS de la subxarxa"
+
+msgid "DNS timeout"
+msgstr ""
 
 msgid "Daily"
 msgstr "Diàriament"
@@ -2137,9 +2152,6 @@ msgstr ""
 
 msgid "Default Puppet environment"
 msgstr "Entorn de Puppet per defecte"
-
-msgid "Default Puppet server hostname"
-msgstr "El nom d'amfitrió del servidor de Puppet per defecte"
 
 msgid "Default VNC Keyboard"
 msgstr ""
@@ -2191,6 +2203,9 @@ msgstr ""
 
 msgid "Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies."
 msgstr "Si definiu els servidors intermediaris HTTP que existeixen a la vostra xarxa podreu realitzar diverses accions a través d'aquests servidors intermediaris."
+
+msgid "Delay network activity during install for X seconds"
+msgstr ""
 
 msgid "Delete"
 msgstr "Suprimeix"
@@ -2614,6 +2629,9 @@ msgstr "Edita"
 msgid "Edit %s"
 msgstr "Edita %s"
 
+msgid "Edit %s Resource Filter"
+msgstr ""
+
 msgid "Edit Compute profile"
 msgstr "Edita el perfil computacional"
 
@@ -2643,6 +2661,9 @@ msgstr "Preferències de correu electrònic"
 
 msgid "Email address is missing"
 msgstr "Falta l'adreça de correu electrònic"
+
+msgid "Email for GCE only"
+msgstr ""
 
 msgid "Email reply address"
 msgstr "Adreça de correu electrònic de resposta"
@@ -2757,7 +2778,7 @@ msgstr "S'ha produït un error en afegir l'estri al tauler."
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr "S'ha produït un error en connectar a %{proxy}: %{error}."
 
-msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings"
+msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings"
 msgstr ""
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
@@ -2794,9 +2815,6 @@ msgid "Error while trying to create resource: %s"
 msgstr ""
 
 msgid "Error while trying to update resource: %s"
-msgstr ""
-
-msgid "Error: Unable to load resources."
 msgstr ""
 
 msgid "Errors"
@@ -3296,6 +3314,9 @@ msgstr "La versió 2 de l'API de Foreman és la versió per defecte de l'API."
 msgid "Foreman URL"
 msgstr "URL de Foreman"
 
+msgid "Foreman UUID"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr ""
 
@@ -3319,6 +3340,9 @@ msgstr ""
 
 msgid "Foreman host group matchers will be inherited by children when evaluating smart class parameters"
 msgstr "Els classificadors de grup d'amfitrions de Foreman seran heretats pels descendents en l'avaluació dels paràmetres de les classes intel·ligents"
+
+msgid "Foreman instance ID, uniquely identifies this Foreman instance."
+msgstr ""
 
 msgid "Foreman now manages the build cycle for %s"
 msgstr "Foreman ara gestiona el cicle de construcció per a %s"
@@ -3441,6 +3465,9 @@ msgid "Full trace"
 msgstr "Traça completa"
 
 msgid "Function not available for %s"
+msgstr ""
+
+msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -3671,9 +3698,6 @@ msgstr ""
 msgid "Host Group / Environment"
 msgstr "Grup d'amfitrions / entorn"
 
-msgid "Host Group Configuration"
-msgstr "Configuració del grup d'amfitrions"
-
 msgid "Host Group Distribution"
 msgstr ""
 
@@ -3682,6 +3706,12 @@ msgstr "Paràmetres del grup d'amfitrions"
 
 msgid "Host Groups"
 msgstr "Grups d'amfitrions"
+
+msgid ""
+"Host Groups allow hosts with common configuration to be defined and grouped together.\n"
+"            Nested groups will inherit from their parent(s).\n"
+"            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
+msgstr ""
 
 msgid "Host Parameters"
 msgstr "Paràmetres de l'amfitrió"
@@ -4396,9 +4426,6 @@ msgstr ""
 msgid "Imported IPv4 Subnets"
 msgstr "Subxarxes IPv4 importades"
 
-msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
-msgstr "A part de definir quines classes de puppet queden incloses en la construcció d'aquest tipus d'amfitrió, també podeu assignar variables i la informació d'aprovisionament a un grup d'amfitrions per perfeccionar el comportament del temps d'execució de puppet."
-
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr "Per afegir la clau SSH, primer s'ha de desar l'usuari. També es requereix el permís 'create_ssh_keys'."
 
@@ -4486,6 +4513,9 @@ msgstr "Configuració del mitjà d'instal·lació"
 msgid "Installed"
 msgstr "Instal·lat"
 
+msgid "Instance %{uuid}"
+msgstr ""
+
 msgid "Instance type"
 msgstr ""
 
@@ -4529,6 +4559,9 @@ msgid "Interpolate ERB in parameters"
 msgstr "Interpola ERB als paràmetres"
 
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
+msgstr ""
+
+msgid "Invalid Google JSON key. Please verify client email & private key options are present"
 msgstr ""
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
@@ -4691,6 +4724,9 @@ msgid "Libvirt, oVirt, OpenStack and Rackspace"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
+msgstr ""
+
+msgid "Link Delay"
 msgstr ""
 
 msgid "List LDAP authentication sources per location"
@@ -5101,6 +5137,9 @@ msgstr "Llista de les subxarxes per organització"
 msgid "List of table preferences for a user"
 msgstr ""
 
+msgid "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup macro and DNS record conflict validation"
+msgstr ""
+
 msgid "List of trends counters"
 msgstr ""
 
@@ -5437,13 +5476,16 @@ msgstr ""
 msgid "Max days for Trends graphs"
 msgstr "Nombre màxim de dies per als gràfics de les tendències"
 
-msgid "Max timeout for REST client requests to smart-proxy"
-msgstr "El temps d'expiració màxim per a les peticions de client REST al servidor intermediari intel·ligent"
-
 msgid "Max trends"
 msgstr "Tendències màx."
 
 msgid "Maximize"
+msgstr ""
+
+msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
+msgstr ""
+
+msgid "Maximum structured facts"
 msgstr ""
 
 msgid "Media"
@@ -6024,6 +6066,9 @@ msgstr "No està implementat per %s"
 msgid "Not relevant for snippet"
 msgstr "No és rellevant per al fragment"
 
+msgid "Not reported"
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "Res a afegir"
 
@@ -6232,6 +6277,9 @@ msgstr ""
 
 msgid "Open Spice in a new window"
 msgstr "Obre Spice en una finestra nova"
+
+msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
+msgstr ""
 
 msgid "Operate on child hostgroup hosts"
 msgstr ""
@@ -6822,6 +6870,9 @@ msgstr ""
 msgid "Project domain name"
 msgstr ""
 
+msgid "Project id for GCE only"
+msgstr ""
+
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
@@ -6898,9 +6949,6 @@ msgstr ""
 
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
 msgstr ""
-
-msgid "Proxy request timeout"
-msgstr "Temps d'expiració de sol·licitud de servidor intermediari"
 
 msgid "Ptable|Locked"
 msgstr "Bloquejada"
@@ -6979,9 +7027,6 @@ msgstr ""
 
 msgid "Puppet proxy ID"
 msgstr "ID de servidor intermediari de Puppet"
-
-msgid "Puppet server"
-msgstr "Servidor de Puppet"
 
 msgid "Puppet summary"
 msgstr ""
@@ -7329,7 +7374,7 @@ msgstr[1] "Registres del DNS IPv6 invers"
 msgid "Revert"
 msgstr "Reverteix"
 
-msgid "Revert Failed, ${res}"
+msgid "Revert Failed, ${err}"
 msgstr ""
 
 msgid "Revert Local Changes"
@@ -7711,6 +7756,12 @@ msgstr ""
 msgid "Set parameters to defaults"
 msgstr "Estableix els paràmetres als valors per defecte"
 
+msgid "Set the current location context for the request"
+msgstr ""
+
+msgid "Set the current organization context for the request"
+msgstr ""
+
 msgid "Set the order in which values are resolved."
 msgstr ""
 
@@ -7996,8 +8047,17 @@ msgstr "Mostra una combinació de plantilles"
 msgid "Show template input details"
 msgstr ""
 
+msgid "Show the currently logged-in user"
+msgstr ""
+
 msgid "Show the last report for a host"
 msgstr "Mostra l'últim informe per un amfitrió"
+
+msgid "Shows status and version information of Foreman system and it's subcomponents"
+msgstr ""
+
+msgid "Shows status of Foreman system and it's subcomponents"
+msgstr ""
 
 msgid "Sign"
 msgstr "Signa"
@@ -8037,6 +8097,9 @@ msgstr "Servidors intermediaris intel·ligents"
 
 msgid "Smart Proxy"
 msgstr "Servidor intermediari intel·ligent"
+
+msgid "Smart Proxy request timeout"
+msgstr ""
 
 msgid "Smart Variables"
 msgstr "Variables intel·ligents"
@@ -8371,6 +8434,9 @@ msgstr ""
 
 msgid "Support"
 msgstr "Suport"
+
+msgid "Support for %{feature} has been deprecated and will be removed in version %{version}"
+msgstr ""
 
 msgid "Supported Formats"
 msgstr "Formats compatibles"
@@ -8774,9 +8840,6 @@ msgstr "Tot el nom de domini DNS"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
-msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
-msgstr "Les classes del grup d'amfitrions i les variables del grup d'amfitrions s'inclouen en la informació del node extern quan el puppetmaster compila la configuració de l'amfitrió."
-
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
 msgstr "Les claus es poden utilitzar en plantilles d'aprovisionament i també poden estar disponibles per a les eines de gestió de configuració gestionades per Foreman."
 
@@ -8867,9 +8930,6 @@ msgstr ""
 msgid "There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"
 msgstr ""
 
-msgid "There are two strategies when using host groups."
-msgstr "Hi ha dues estratègies quan s'utilitzen els grups d'amfitrions."
-
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] "Hi ha"
@@ -8901,9 +8961,6 @@ msgstr ""
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
 msgstr ""
-
-msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
-msgstr "Decantar-se per una d'aquestes dues opcions és una decisió personal (on la principal diferència recauria en els ajusts dels paràmetres i les variables)."
 
 msgid "Thin provision"
 msgstr ""
@@ -8956,6 +9013,12 @@ msgstr "Aquest rol està bloquejat per a l'edició."
 msgid "This role is locked from being modified by users."
 msgstr ""
 
+msgid "This service is available for unauthenticated users"
+msgstr "Aquest servei està disponible per a usuaris no autenticats"
+
+msgid "This service is only available for authenticated users"
+msgstr ""
+
 msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
 msgstr ""
 
@@ -9002,9 +9065,6 @@ msgstr ""
 
 msgid "Time in seconds before SSH provisioning times out"
 msgstr ""
-
-msgid "Timeout for DNS conflict validation (in seconds)"
-msgstr "El temps d'expiració per a la validació de conflicte DNS (en segons)"
 
 msgid "Timeout has occurred while communicating with %s"
 msgstr ""
@@ -9679,9 +9739,6 @@ msgstr ""
 msgid "Upload facts for a host, creating the host if required"
 msgstr "Puja els objectes d'interès per a un amfitrió, creant el nou amfitrió si fos necessari"
 
-msgid "Uptime"
-msgstr ""
-
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
@@ -9925,6 +9982,9 @@ msgid "VMRC"
 msgstr ""
 
 msgid "VMRC Console"
+msgstr ""
+
+msgid "VMs"
 msgstr ""
 
 msgid "VNC"
@@ -10282,9 +10342,6 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr "També podeu associar un o més sistemes operatius amb aquest mitjà o bé configurar-ho més endavant a la pàgina dels %s."
 
-msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
-msgstr "Podeu crear classes de puppet que representin configuracions d'amfitrió d'alt nivell, per exemple, una classe <b>host-type-ldap-server</b>, que inclou tota la funcionalitat requerida des d'altres mòduls o podeu optar per la creació d'un grup d'amfitrions anomenat <b>host-type-ldap-server</b> i afegir les classes necessàries dins de la configuració del grup d'amfitrions."
-
 msgid "You must create a location before continuing."
 msgstr ""
 
@@ -10510,8 +10567,8 @@ msgstr "p. ex. givenName"
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr "p. ex. https://identity.api.rackspacecloud.com/v2.0"
 
-msgid "e.g. https://ovirt.example.com/api"
-msgstr "p. ex. https://ovirt.example.com/api"
+msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
+msgstr ""
 
 msgid "e.g. jpegPhoto"
 msgstr "p. ex. jpegPhoto"
@@ -10562,6 +10619,9 @@ msgid "filter..."
 msgstr ""
 
 msgid "for EC2 only, use '%s' for GovCloud region"
+msgstr ""
+
+msgid "for GCE only"
 msgstr ""
 
 msgid "for Libvirt and VMware only"

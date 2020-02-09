@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2019-07-18 13:27+0000\n"
-"Last-Translator: Tomer Brisker <tbrisker@redhat.com>\n"
+"PO-Revision-Date: 2019-10-07 20:04+0000\n"
+"Last-Translator: Lukáš Zapletal\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/foreman/foreman/l"
 "anguage/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,9 @@ msgid "%s Active Feature"
 msgid_plural "%s Active Features"
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "%s Filters"
+msgstr ""
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -396,9 +399,6 @@ msgstr ""
 
 msgid "A config group provides a one-step method of associating many Puppet classes to either a host or host group. Typically this would be used to add a particular application profile or stack in one step."
 msgstr ""
-
-msgid "A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
-msgstr "Een host groep is in sommige opzichten gelijk aan een geërfde node declaratie, in die zin dat het een high-level groepering van classes betreft en kan worden behandeld als een eenheid. Deze groepering wordt dan behandeld als een template en is selecteerbaar gedurende het aanmaken van een nieuwe host en verzekert dat de host is geconfigureerd in een voorgedefinieerde staat."
 
 msgid "A list of options the user can select from. If not provided, the user will be given a free-form field"
 msgstr ""
@@ -1174,6 +1174,9 @@ msgstr ""
 msgid "Boot host from specified device"
 msgstr "Start host van gespecificeerd apparaat"
 
+msgid "Boot time"
+msgstr ""
+
 msgid "Bootable"
 msgstr "Opstartbaar"
 
@@ -1242,6 +1245,9 @@ msgstr ""
 
 msgid "CPUs"
 msgstr "CPUs"
+
+msgid "Cache refreshing is not supported for %s"
+msgstr ""
 
 msgid "Cache slow calls to VMWare to speed up page rendering"
 msgstr ""
@@ -1325,6 +1331,12 @@ msgid "Certificate Name"
 msgstr "Naam Certificaat"
 
 msgid "Certificate Path"
+msgstr ""
+
+msgid "Certificate key is not a valid JSON"
+msgstr ""
+
+msgid "Certificate path for GCE only"
 msgstr ""
 
 msgid "Certificate that Foreman will use to encrypt websockets "
@@ -1493,6 +1505,9 @@ msgid "Compress the report uzing gzip"
 msgstr ""
 
 msgid "Compute Profiles"
+msgstr ""
+
+msgid "Compute Resouces"
 msgstr ""
 
 msgid "Compute Resource"
@@ -2058,7 +2073,7 @@ msgstr ""
 msgid "DHCP filename option (Grub2/PXELinux by default)"
 msgstr "DHCP Filenaam optie (Grub2/PXELinux is standaard)"
 
-msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE)"
+msgid "DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE). Auto-suggested, use OS parameter 'pxe-loader' to override."
 msgstr ""
 
 msgid "DHCP lease conflicts have been detected"
@@ -2088,13 +2103,13 @@ msgstr ""
 msgid "DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy"
 msgstr ""
 
-msgid "DNS conflict timeout"
-msgstr ""
-
 msgid "DNS proxy ID to use within this domain"
 msgstr ""
 
 msgid "DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy"
+msgstr ""
+
+msgid "DNS timeout"
 msgstr ""
 
 msgid "Daily"
@@ -2140,9 +2155,6 @@ msgid "Default PXE menu item in local template - 'local', 'local_chain_hd0' or c
 msgstr ""
 
 msgid "Default Puppet environment"
-msgstr ""
-
-msgid "Default Puppet server hostname"
 msgstr ""
 
 msgid "Default VNC Keyboard"
@@ -2194,6 +2206,9 @@ msgid "Defaults to image size if left blank"
 msgstr ""
 
 msgid "Defining HTTP Proxies that exist on your network allows you to perform various actions through those proxies."
+msgstr ""
+
+msgid "Delay network activity during install for X seconds"
 msgstr ""
 
 msgid "Delete"
@@ -2618,6 +2633,9 @@ msgstr "Bewerken"
 msgid "Edit %s"
 msgstr "Bewerken %s"
 
+msgid "Edit %s Resource Filter"
+msgstr ""
+
 msgid "Edit Compute profile"
 msgstr "Bewerk Compute profiel"
 
@@ -2647,6 +2665,9 @@ msgstr ""
 
 msgid "Email address is missing"
 msgstr "Het Email adres is niet ingevuld"
+
+msgid "Email for GCE only"
+msgstr ""
 
 msgid "Email reply address"
 msgstr ""
@@ -2761,7 +2782,7 @@ msgstr "Fout bij het toevoegen van het widget aan het dashboard"
 msgid "Error connecting to %{proxy}: %{error}."
 msgstr ""
 
-msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_conflict_timeout settings"
+msgid "Error connecting to '%{domain}' domain DNS servers: %{servers} - check query_local_nameservers and dns_timeout settings"
 msgstr ""
 
 msgid "Error connecting to system DNS server(s) - check /etc/resolv.conf"
@@ -2799,9 +2820,6 @@ msgstr "Fout tijdens het creëren van hulpbron: %s"
 
 msgid "Error while trying to update resource: %s"
 msgstr "Fout tijdens het bijwerken van hulpbron: %s"
-
-msgid "Error: Unable to load resources."
-msgstr ""
 
 msgid "Errors"
 msgstr "Fouten."
@@ -3297,6 +3315,9 @@ msgstr "Foreman API v2 is op dit moment de standaard API versie."
 msgid "Foreman URL"
 msgstr ""
 
+msgid "Foreman UUID"
+msgstr ""
+
 msgid "Foreman allows to define a hierarchy of parameter inheritance, where global parameters accessible from any manifest."
 msgstr ""
 
@@ -3319,6 +3340,9 @@ msgid "Foreman domain ID of interface. Required for primary interfaces on manage
 msgstr "Foreman domein ID of interface. Verplicht voor de primaire interface op managed hosts."
 
 msgid "Foreman host group matchers will be inherited by children when evaluating smart class parameters"
+msgstr ""
+
+msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
 msgid "Foreman now manages the build cycle for %s"
@@ -3442,6 +3466,9 @@ msgid "Full trace"
 msgstr ""
 
 msgid "Function not available for %s"
+msgstr ""
+
+msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -3672,9 +3699,6 @@ msgstr ""
 msgid "Host Group / Environment"
 msgstr ""
 
-msgid "Host Group Configuration"
-msgstr ""
-
 msgid "Host Group Distribution"
 msgstr ""
 
@@ -3682,6 +3706,12 @@ msgid "Host Group Parameters"
 msgstr ""
 
 msgid "Host Groups"
+msgstr ""
+
+msgid ""
+"Host Groups allow hosts with common configuration to be defined and grouped together.\n"
+"            Nested groups will inherit from their parent(s).\n"
+"            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states."
 msgstr ""
 
 msgid "Host Parameters"
@@ -4397,9 +4427,6 @@ msgstr "Importeer puppet classes van de puppet proxy voor een omgeving"
 msgid "Imported IPv4 Subnets"
 msgstr "IPv5 subnetten geimporteerd"
 
-msgid "In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime."
-msgstr "Naast het definiëren welke puppet classes worden meegenomen met het bouwen van dit type host, is het tevens mogelijk om variabelen en uitrolinformatie toe te kennen aan een host groep om het gedrag van de puppet runs verder te verfijnen"
-
 msgid "In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too."
 msgstr ""
 
@@ -4487,6 +4514,9 @@ msgstr ""
 msgid "Installed"
 msgstr ""
 
+msgid "Instance %{uuid}"
+msgstr ""
+
 msgid "Instance type"
 msgstr ""
 
@@ -4530,6 +4560,9 @@ msgid "Interpolate ERB in parameters"
 msgstr ""
 
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
+msgstr ""
+
+msgid "Invalid Google JSON key. Please verify client email & private key options are present"
 msgstr ""
 
 msgid "Invalid architecture '%{arch}' for '%{os}'"
@@ -4693,6 +4726,9 @@ msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr "Limiteer de herbouw stappen, valide stappen zijn %{host_rebuild_steps}"
+
+msgid "Link Delay"
+msgstr ""
 
 msgid "List LDAP authentication sources per location"
 msgstr "Bekijk LDAP authenticatie bronnen per locatie"
@@ -5102,6 +5138,9 @@ msgstr "Lijst van subnets voor een organisatie"
 msgid "List of table preferences for a user"
 msgstr ""
 
+msgid "List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup macro and DNS record conflict validation"
+msgstr ""
+
 msgid "List of trends counters"
 msgstr ""
 
@@ -5436,13 +5475,16 @@ msgstr ""
 msgid "Max days for Trends graphs"
 msgstr ""
 
-msgid "Max timeout for REST client requests to smart-proxy"
-msgstr ""
-
 msgid "Max trends"
 msgstr ""
 
 msgid "Maximize"
+msgstr ""
+
+msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
+msgstr ""
+
+msgid "Maximum structured facts"
 msgstr ""
 
 msgid "Media"
@@ -6023,6 +6065,9 @@ msgstr ""
 msgid "Not relevant for snippet"
 msgstr ""
 
+msgid "Not reported"
+msgstr ""
+
 msgid "Nothing to add"
 msgstr "Niets toe te voegen"
 
@@ -6230,6 +6275,9 @@ msgid "Open"
 msgstr ""
 
 msgid "Open Spice in a new window"
+msgstr ""
+
+msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"
 msgstr ""
 
 msgid "Operate on child hostgroup hosts"
@@ -6821,6 +6869,9 @@ msgstr ""
 msgid "Project domain name"
 msgstr ""
 
+msgid "Project id for GCE only"
+msgstr ""
+
 msgid "Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file."
 msgstr ""
 
@@ -6896,9 +6947,6 @@ msgid "Proxy ID to use within this realm"
 msgstr ""
 
 msgid "Proxy reference should be { :relation => [:column_name, ...] }"
-msgstr ""
-
-msgid "Proxy request timeout"
 msgstr ""
 
 msgid "Ptable|Locked"
@@ -6977,9 +7025,6 @@ msgid "Puppet parameter name, used when input type is puppet_parameter"
 msgstr ""
 
 msgid "Puppet proxy ID"
-msgstr ""
-
-msgid "Puppet server"
 msgstr ""
 
 msgid "Puppet summary"
@@ -7328,7 +7373,7 @@ msgstr[1] ""
 msgid "Revert"
 msgstr ""
 
-msgid "Revert Failed, ${res}"
+msgid "Revert Failed, ${err}"
 msgstr ""
 
 msgid "Revert Local Changes"
@@ -7710,6 +7755,12 @@ msgstr ""
 msgid "Set parameters to defaults"
 msgstr ""
 
+msgid "Set the current location context for the request"
+msgstr ""
+
+msgid "Set the current organization context for the request"
+msgstr ""
+
 msgid "Set the order in which values are resolved."
 msgstr ""
 
@@ -7995,8 +8046,17 @@ msgstr "Toon template combinatie"
 msgid "Show template input details"
 msgstr ""
 
+msgid "Show the currently logged-in user"
+msgstr ""
+
 msgid "Show the last report for a host"
 msgstr "Bekijk het laatste rapport voor een host"
+
+msgid "Shows status and version information of Foreman system and it's subcomponents"
+msgstr ""
+
+msgid "Shows status of Foreman system and it's subcomponents"
+msgstr ""
 
 msgid "Sign"
 msgstr ""
@@ -8035,6 +8095,9 @@ msgid "Smart Proxies"
 msgstr ""
 
 msgid "Smart Proxy"
+msgstr ""
+
+msgid "Smart Proxy request timeout"
 msgstr ""
 
 msgid "Smart Variables"
@@ -8369,6 +8432,9 @@ msgid "Summary report from Foreman server at %{foreman_url}"
 msgstr ""
 
 msgid "Support"
+msgstr ""
+
+msgid "Support for %{feature} has been deprecated and will be removed in version %{version}"
 msgstr ""
 
 msgid "Supported Formats"
@@ -8771,9 +8837,6 @@ msgstr "De volledige DNS domein naam"
 msgid "The groups you added as external user groups were found. However, no users inside of them that match with your authentication source base DN and filter were found. Please verify the external user groups belong in the authentication source filter"
 msgstr ""
 
-msgid "The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration."
-msgstr ""
-
 msgid "The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman."
 msgstr ""
 
@@ -8859,9 +8922,6 @@ msgstr ""
 msgid "There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"
 msgstr ""
 
-msgid "There are two strategies when using host groups."
-msgstr ""
-
 msgid "There is"
 msgid_plural "There are"
 msgstr[0] ""
@@ -8892,9 +8952,6 @@ msgid "There was no active bridge interface found in libvirt, if it does not sup
 msgstr ""
 
 msgid "These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful."
-msgstr ""
-
-msgid "These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings)."
 msgstr ""
 
 msgid "Thin provision"
@@ -8948,6 +9005,12 @@ msgstr ""
 msgid "This role is locked from being modified by users."
 msgstr ""
 
+msgid "This service is available for unauthenticated users"
+msgstr ""
+
+msgid "This service is only available for authenticated users"
+msgstr ""
+
 msgid "This setting is defined in the configuration file '%{filename}' and is read-only."
 msgstr ""
 
@@ -8993,9 +9056,6 @@ msgid "Time in minutes installation tokens should be valid for, 0 to disable tok
 msgstr ""
 
 msgid "Time in seconds before SSH provisioning times out"
-msgstr ""
-
-msgid "Timeout for DNS conflict validation (in seconds)"
 msgstr ""
 
 msgid "Timeout has occurred while communicating with %s"
@@ -9671,9 +9731,6 @@ msgstr ""
 msgid "Upload facts for a host, creating the host if required"
 msgstr "Upload feiten voor een host, creeer de host waar nodig"
 
-msgid "Uptime"
-msgstr ""
-
 msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"
 msgstr ""
 
@@ -9917,6 +9974,9 @@ msgid "VMRC"
 msgstr ""
 
 msgid "VMRC Console"
+msgstr ""
+
+msgid "VMs"
 msgstr ""
 
 msgid "VNC"
@@ -10274,9 +10334,6 @@ msgstr ""
 msgid "You may also associate one or more operating systems with this medium or alternatively set this up later on the %s page."
 msgstr ""
 
-msgid "You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration."
-msgstr ""
-
 msgid "You must create a location before continuing."
 msgstr ""
 
@@ -10502,7 +10559,7 @@ msgstr ""
 msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
-msgid "e.g. https://ovirt.example.com/api"
+msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""
 
 msgid "e.g. jpegPhoto"
@@ -10555,6 +10612,9 @@ msgstr ""
 
 msgid "for EC2 only, use '%s' for GovCloud region"
 msgstr "Enkel voor EC2, gebruik '%s' voor  GovCloud regio"
+
+msgid "for GCE only"
+msgstr ""
 
 msgid "for Libvirt and VMware only"
 msgstr "alleen voor Libvirt en VMware"
