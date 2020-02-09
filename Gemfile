@@ -26,6 +26,9 @@ gem 'validates_lengths_from_database', '>= 0.5', ((RUBY_VERSION < '2.4') ? '< 0.
 gem 'friendly_id', '>= 5.2.4', '< 6'
 gem 'secure_headers', '~> 6.3'
 gem 'safemode', '>= 1.3.5', '< 2'
+if RUBY_VERSION < '2.4'
+  gem 'sexp_processor', '< 4.14'
+end
 gem 'fast_gettext', '~> 1.4'
 gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', '~> 5.0'
