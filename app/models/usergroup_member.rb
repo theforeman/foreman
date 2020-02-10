@@ -96,7 +96,7 @@ class UsergroupMember < ApplicationRecord
 
   def recache_memberships
     memberships = find_all_affected_memberships
-    memberships = memberships.without(self) if self.destroyed?
+    memberships = memberships.reject(&:destroyed?)
     memberships.each(&:save!)
   end
 
