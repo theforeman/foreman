@@ -1,51 +1,23 @@
-import React from 'react';
 import {
   testComponentSnapshotsWithFixtures,
   testSelectorsSnapshotWithFixtures,
 } from '@theforeman/test';
 import * as Yup from 'yup';
-import PropTypes from 'prop-types';
 
-import ForemanForm, { prepareErrors, isInitialValid } from './ForemanForm';
-import TextField from '../TextField';
+import { prepareErrors, isInitialValid } from './ForemanForm';
+import {
+  initialValues,
+  FormComponent,
+  validationSchema,
+} from './ForemanForm.fixtures';
 
 const fixtures = {
   'render foreman form with fields': {
     submitForm: () => {},
-    initialValues: {
-      name: 'Charles',
-      surname: 'Lindbergh',
-    },
-    validationSchema: Yup.object().shape({
-      name: Yup.string().required('is required'),
-      surname: Yup.string().min([3, 'is too short']),
-    }),
+    initValues: initialValues,
+    schema: validationSchema,
     onCancel: () => {},
   },
-};
-
-const FormComponent = ({
-  submitForm,
-  initialValues,
-  validationSchema,
-  onCancel,
-}) => (
-  <ForemanForm
-    onSubmit={(values, actions) => submitForm(values)}
-    initialValues={initialValues}
-    validationSchema={validationSchema}
-    onCancel={onCancel}
-  >
-    <TextField name="name" type="text" required="true" label="name" />
-    <TextField name="surname" type="text" label="surname" />
-  </ForemanForm>
-);
-
-FormComponent.propTypes = {
-  submitForm: PropTypes.func.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  validationSchema: PropTypes.object.isRequired,
-  onCancel: PropTypes.func.isRequired,
 };
 
 const basicSchema = Yup.object().shape({

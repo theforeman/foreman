@@ -22,7 +22,7 @@ const fieldErrors = ({ error }) => {
   return new SubmissionError(errors);
 };
 
-const onError = error => {
+export const onError = error => {
   if (error.response.status === 422) {
     // Handle invalid form data
     throw fieldErrors(error.response.data);

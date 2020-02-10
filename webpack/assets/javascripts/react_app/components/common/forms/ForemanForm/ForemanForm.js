@@ -7,7 +7,11 @@ import { translate as __ } from '../../../../common/I18n';
 export const prepareErrors = errors =>
   Object.keys(errors).reduce((memo, key) => {
     const errorMessages = errors[key];
-    memo[key] = errorMessages ? errorMessages.join(', ') : errorMessages;
+
+    memo[key] =
+      errorMessages && errorMessages.join
+        ? errorMessages.join(', ')
+        : errorMessages;
     return memo;
   }, {});
 
@@ -27,17 +31,18 @@ const ForemanForm = props => (
     isInitialValid={isInitialValid}
   >
     {formProps => {
-      const disabled =
-        formProps.isSubmitting || (!formProps.isValid && !props.error);
+      const disabled = formProps.isSubmitting || !formProps.isValid;
+
+      const submissionError = formProps.errors._error;
 
       return (
         <Form
           onSubmit={formProps.handleSubmit}
           onCancel={props.onCancel}
           disabled={disabled}
-          error={props.error}
+          error={submissionError}
           errorTitle={
-            props.error && props.error.severity === 'danger'
+            submissionError && submissionError.severity === 'danger'
               ? __('Error! ')
               : __('Warning! ')
           }
@@ -64,13 +69,11 @@ ForemanForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   validationSchema: PropTypes.object,
   children: PropTypes.array,
-  error: PropTypes.object,
 };
 
 ForemanForm.defaultProps = {
   validationSchema: undefined,
   children: [],
-  error: null,
 };
 
 export default ForemanForm;

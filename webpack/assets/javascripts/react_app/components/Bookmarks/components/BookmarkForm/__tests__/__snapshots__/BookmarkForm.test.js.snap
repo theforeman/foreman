@@ -2,7 +2,6 @@
 
 exports[`BookmarkForm should render bookmarks form with initial values 1`] = `
 <ForemanForm
-  error={null}
   initialValues={
     Object {
       "name": "my bookmark",
