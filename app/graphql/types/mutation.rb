@@ -10,6 +10,10 @@ module Types
 
     field :create_host, mutation: Mutations::Hosts::Create
 
+    field :create_operatingsystem, mutation: Mutations::Operatingsystems::Create
+    field :update_operatingsystem, mutation: Mutations::Operatingsystems::Update
+    field :delete_operatingsystem, mutation: Mutations::Operatingsystems::Delete
+
     field :create_medium, mutation: Mutations::Media::Create
     field :update_medium, mutation: Mutations::Media::Update
     field :delete_medium, mutation: Mutations::Media::Delete
