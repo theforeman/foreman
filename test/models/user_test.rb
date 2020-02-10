@@ -1107,6 +1107,15 @@ class UserTest < ActiveSupport::TestCase
     assert jwt_secret.persisted?
   end
 
+  describe '#destroy' do
+    it 'works for user with two groups' do
+      user = users(:one)
+      FactoryBot.create_list(:user_usergroup_member, 2, member: user)
+      user.reload.destroy
+      assert user.destroyed?
+    end
+  end
+
   context 'Jail' do
     test 'should allow methods' do
       allowed = [:login, :ssh_keys, :ssh_authorized_keys, :description, :firstname, :lastname, :mail]
