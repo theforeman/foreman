@@ -10,3 +10,6 @@ s390:
 
 ASIC:
   name: ASIC
+
+ppc64:
+  name: ppc64

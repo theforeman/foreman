@@ -16,17 +16,25 @@ class OperatingsystemsTest < ActiveSupport::TestCase
   end
 
   { :coreos      => { 'os' => :coreos,      'arch' => :x86_64, 'expected' => '$arch-usr/$version' },
+    :redhat      => { 'os' => :rhel7_5,     'arch' => :x86_64, 'expected' => 'images/pxeboot' },
+    :redhat_ppc  => { 'os' => :rhel7_5,     'arch' => :ppc64, 'expected' => 'ppc/ppc64' },
     :debian7_0   => { 'os' => :debian7_0,   'arch' => :x86_64, 'expected' => 'dists/$release/main/installer-$arch/current/images/netboot/debian-installer/$arch' },
     :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'expected' => 'dists/$release/main/installer-$arch/current/images/netboot/ubuntu-installer/$arch' },
     :suse        => { 'os' => :suse,        'arch' => :x86_64, 'expected' => 'boot/$arch/loader' } }.
   each do |os, config|
-    test "pxedir  for #{os}" do
-      stub_os = FactoryBot.build_stubbed(config['os'],
-        :architectures => [architectures((config['arch']))],
+    test "pxedir for #{os}" do
+      arch = architectures(config['arch'])
+      operatingsystem = FactoryBot.build_stubbed(config['os'],
+        :architectures => [arch],
         :ptables => [FactoryBot.create(:ptable)],
-        :media => [FactoryBot.build_stubbed(:medium)])
+        :media => [media(:unused)])
+      host = FactoryBot.build_stubbed(:host,
+        :operatingsystem => operatingsystem,
+        :architecture => arch,
+        :medium => media(:unused))
+      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
 
-      assert_equal(config['expected'], stub_os.pxedir)
+      assert_equal(config['expected'], operatingsystem.pxedir(medium_provider))
     end
   end
 

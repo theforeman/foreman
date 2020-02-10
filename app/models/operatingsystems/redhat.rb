@@ -25,8 +25,12 @@ class Redhat < Operatingsystem
     "kickstart"
   end
 
-  def pxedir
-    "images/pxeboot"
+  def pxedir(medium_provider = nil)
+    if medium_provider.try(:architecture).try(:name) =~ /^ppc64/
+      "ppc/ppc64"
+    else
+      "images/pxeboot"
+    end
   end
 
   def display_family

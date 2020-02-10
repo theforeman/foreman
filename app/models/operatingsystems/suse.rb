@@ -5,7 +5,7 @@ class Suse < Operatingsystem
     "yast"
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "boot/$arch/loader"
   end
 

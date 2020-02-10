@@ -31,7 +31,7 @@ class Solaris < Operatingsystem
     ["PXEGrub"]
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "Solaris_$minor/Tools/Boot"
   end
 

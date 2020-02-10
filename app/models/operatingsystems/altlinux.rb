@@ -11,7 +11,7 @@ class Altlinux < Operatingsystem
     "alterator"
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "boot"
   end
 
