@@ -36,7 +36,7 @@ class DefaultMediumProviderTest < ActiveSupport::TestCase
       host = FactoryBot.build_stubbed(:host, :managed, :operatingsystem => Operatingsystem.find_by_name(osname))
       medium_uri_with_path = MediumProviders::Default.new(host).medium_uri(host.operatingsystem.pxedir).to_s
       assert_equal expected_uri, medium_uri_with_path
-      digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri_with_path), padding: false)
+      digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri_with_path + host.operatingsystem.major + host.operatingsystem.minor), padding: false)
       expected_id = "#{host.medium.name.parameterize}-#{digest.gsub(/[-_]/, '')[1..12]}"
       assert_equal expected_id, MediumProviders::Default.new(host).unique_id.to_s
     end

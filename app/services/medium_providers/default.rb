@@ -26,7 +26,7 @@ module MediumProviders
 
     def unique_id
       @unique_id ||= begin
-        digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri(entity.operatingsystem.pxedir(self)).to_s), padding: false)
+        digest = Base64.urlsafe_encode64(Digest::SHA1.digest(medium_uri(entity.operatingsystem.pxedir(self)).to_s + entity.operatingsystem.major + entity.operatingsystem.minor), padding: false)
         # return first 12 characters of encoded digest stripped down of non-alphanums for better readability
         "#{entity.medium.name.parameterize}-#{digest.gsub(/[-_]/, '')[1..12]}"
       end

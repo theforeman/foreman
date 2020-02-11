@@ -288,9 +288,9 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
         global_template_name = ProvisioningTemplate.global_template_name_for(kind)
         default_template = ProvisioningTemplate.find_global_default_template(global_template_name, kind)
         expected = {}
-        expected["PXELinux"] = [/combo_medium-8X6BsGonIA0A-(vmlinuz|initrd.img)/, /LABEL hg1 - ct[12]/, /LABEL hg2 - ct[23]/]
-        expected["PXEGrub"] = [/combo_medium-8X6BsGonIA0A-(vmlinuz|initrd.img)/, /title hg1 - ct[12]/, /title hg2 - ct[23]/]
-        expected["PXEGrub2"] = [/combo_medium-8X6BsGonIA0A-(vmlinuz|initrd.img)/, /hg1 - ct[12]/, /hg2 - ct[23]/]
+        expected["PXELinux"] = [/combo_medium-[A-Za-z0-9_=]+-(vmlinuz|initrd.img)/, /LABEL hg1 - ct[12]/, /LABEL hg2 - ct[23]/]
+        expected["PXEGrub"] = [/combo_medium-[A-Za-z0-9_=]+-(vmlinuz|initrd.img)/, /title hg1 - ct[12]/, /title hg2 - ct[23]/]
+        expected["PXEGrub2"] = [/combo_medium-[A-Za-z0-9_=]+-(vmlinuz|initrd.img)/, /hg1 - ct[12]/, /hg2 - ct[23]/]
         expected[kind].each do |match|
           assert_match match, default_template.render(variables: { profiles: ProvisioningTemplate.pxe_default_combos })
         end
