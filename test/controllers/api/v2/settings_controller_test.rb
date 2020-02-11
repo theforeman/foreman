@@ -21,11 +21,32 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert_response 422
   end
 
-  test "should parse string values" do
+  test "should parse string values to integers" do
     setting_id = Setting.where(:settings_type => 'integer').first.id
     put :update, params: { :id => setting_id, :setting => { :value => "100" } }
     assert_response :success
     assert_equal 100, Setting.find(setting_id).value
+  end
+
+  test "should accept integer values" do
+    setting_id = Setting.where(:settings_type => 'integer').first.id
+    put :update, params: { :id => setting_id, :setting => { :value => 120 } }
+    assert_response :success
+    assert_equal 120, Setting.find(setting_id).value
+  end
+
+  test "should parse string values to ararys" do
+    setting_id = Setting.where(:settings_type => 'array').first.id
+    put :update, params: { :id => setting_id, :setting => { :value => "['baz','foo']" } }
+    assert_response :success
+    assert_equal ['baz', 'foo'], Setting.find(setting_id).value
+  end
+
+  test "should accept array values" do
+    setting_id = Setting.where(:settings_type => 'array').first.id
+    put :update, params: { :id => setting_id, :setting => { :value => ['foo', 'bar'] } }
+    assert_response :success
+    assert_equal ['foo', 'bar'], Setting.find(setting_id).value
   end
 
   test_attributes :pid => 'fb8b0bf1-b475-435a-926b-861aa18d31f1'
