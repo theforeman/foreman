@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
   rescue_from Foreman::MaintenanceException, :with => :service_unavailable
+  rescue_from ActiveRecord::SubclassNotFound, :with => :sti_clean_up
 
   # standard layout to all controllers
   helper 'layout'
@@ -118,6 +119,24 @@ class ApplicationController < ActionController::Base
       format.any { head :service_unavailable }
     end
     true
+  end
+
+  def sti_clean_up(e)
+    @unknown_class_name = e.message.match(/subclass: '(.*)'\./)[1]
+    @parent_class = e.message.match(/overwrite (.*)\.inheritance_column/)[1].constantize
+    if params[:confirm_data_deletion] == 'yes'
+      begin
+        @parent_class.where(@parent_class.inheritance_column => @unknown_class_name).delete_all
+      rescue ActiveRecord::InvalidForeignKey => e
+        Foreman::Logging.exception("Error during STI data cleanup", e)
+        render 'common/class_clean_up_failed'
+        return
+      end
+      flash[:success] = _('Data has been cleaned up')
+      redirect_back fallback_location: root_path
+    else
+      render 'common/confirm_class_clean_up'
+    end
   end
 
   def smart_proxy_exception(exception = nil)
@@ -321,8 +340,12 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
-    Foreman::Logging.exception("Action failed", exception)
-    render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
+    if exception.try(:cause).is_a?(ActiveRecord::SubclassNotFound)
+      sti_clean_up(exception.cause)
+    else
+      Foreman::Logging.exception("Action failed", exception)
+      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
+    end
   end
 
   def check_empty_taxonomy
