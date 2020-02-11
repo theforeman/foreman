@@ -90,6 +90,15 @@ FactoryBot.define do
       title { 'Debian Wheezy' }
     end
 
+    factory :debian7_1, class: Debian do
+      sequence(:name) { 'Debian' }
+      major { '7' }
+      minor { '1' }
+      type { 'Debian' }
+      release_name { 'wheezy' }
+      title { 'Debian Wheezy' }
+    end
+
     factory :suse, class: Suse do
       sequence(:name) { 'OpenSuse' }
       major { '11' }
