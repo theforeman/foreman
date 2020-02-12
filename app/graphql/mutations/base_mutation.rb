@@ -33,11 +33,12 @@ module Mutations
       authorizer = Authorizer.new(user)
       permission_name = resource.permission_name(action)
 
-      unless authorizer.can?(permission_name, resource)
-        raise GraphQL::ExecutionError.new(
-          _('Unauthorized. You do not have the required permission %s.') % permission_name
-        )
-      end
+      return if action == :create && authorizer.can?(permission_name)
+      return if action != :create && authorizer.can?(permission_name, resource)
+
+      raise GraphQL::ExecutionError.new(
+        _('Unauthorized. You do not have the required permission %s.') % permission_name
+      )
     end
 
     def validate_object(resource)

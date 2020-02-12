@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Mutations
   module Models
-    class UpdateMutationTest < ActiveSupport::TestCase
+    class UpdateMutationTest < GraphQLQueryTestCase
       let(:model) { FactoryBot.create(:model) }
       let(:model_id) { Foreman::GlobalId.for(model) }
       let(:variables) do
@@ -47,35 +47,47 @@ module Mutations
       end
 
       context 'with admin user' do
-        let(:user) { FactoryBot.create(:user, :admin) }
+        let(:context_user) { FactoryBot.create(:user, :admin) }
 
-        test 'updates a model' do
-          context = { current_user: user }
-
+        test 'update a model' do
           model
 
-          assert_difference('::Model.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+          assert_difference(-> {::Model.count}, 0) do
             assert_empty result['errors']
             assert_empty result['data']['updateModel']['errors']
           end
-          assert_equal user.id, Audit.last.user_id
+          assert_equal context_user.id, Audit.last.user_id
+          model.reload
+          assert_equal 'SUN T2000', model.name
+        end
+      end
+
+      context 'with edit permission' do
+        let(:context_user) do
+          setup_user('edit', 'models') do |user|
+            user.roles << Role.find_by(name: 'Viewer')
+          end
+        end
+
+        test 'update a model' do
+          model
+
+          assert_difference(-> {::Model.count}, 0) do
+            assert_empty result['errors']
+          end
+          assert_equal context_user.id, Audit.last.user_id
           model.reload
           assert_equal 'SUN T2000', model.name
         end
       end
 
       context 'with user with view permissions' do
-        setup do
-          model
-          @user = setup_user 'view', 'models'
-        end
+        let(:context_user) { setup_user('view', 'models') }
 
         test 'cannot update a model' do
-          context = { current_user: @user }
+          model
 
-          assert_difference('Model.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+          assert_difference(-> {::Model.count}, 0) do
             assert_not_empty result['errors']
           end
         end
