@@ -368,6 +368,9 @@ viewer_23_0:
 viewer_24_0:
   filter: viewer_24
   permission: view_external_parameters
+viewer_25_0:
+  filter: viewer_25
+  permission: view_subnets
 default_role_1_0:
   filter: default_role_1
   permission: view_tasks
