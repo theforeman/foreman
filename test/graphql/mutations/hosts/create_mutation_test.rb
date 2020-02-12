@@ -11,18 +11,18 @@ module Mutations
       let(:architecture_id) { Foreman::GlobalId.for(architecture) }
       let(:subnet) { FactoryBot.create(:subnet_ipv4, network: '192.0.2.0', locations: [tax_location], organizations: [organization]) }
       let(:subnet_id) { Foreman::GlobalId.for(subnet) }
-      let(:operatingsystem) { FactoryBot.create(:operatingsystem, :with_media, :with_ptables, architectures: [architecture]) }
+      let(:medium) { FactoryBot.create(:medium, locations: [tax_location], organizations: [organization]) }
+      let(:medium_id) { Foreman::GlobalId.for(medium) }
+      let(:ptable) { FactoryBot.create(:ptable, locations: [tax_location], organizations: [organization]) }
+      let(:ptable_id) { Foreman::GlobalId.for(ptable) }
+      let(:operatingsystem) { FactoryBot.create(:operatingsystem, media: [medium], ptables: [ptable], architectures: [architecture]) }
       let(:operatingsystem_id) { Foreman::GlobalId.for(operatingsystem) }
       let(:compute_resource) { FactoryBot.create(:compute_resource, :vmware, locations: [tax_location], organizations: [organization]) }
       let(:compute_resource_id) { Foreman::GlobalId.encode('ComputeResource', compute_resource.id) }
       let(:compute_profile) { FactoryBot.create(:compute_profile, :with_compute_attribute, compute_resource: compute_resource) }
       let(:compute_profile_id) { Foreman::GlobalId.for(compute_profile) }
-      let(:domain) { FactoryBot.create(:domain, subnets: [subnet]) }
+      let(:domain) { FactoryBot.create(:domain, subnets: [subnet], locations: [tax_location], organizations: [organization]) }
       let(:domain_id) { Foreman::GlobalId.for(domain) }
-      let(:medium) { operatingsystem.media.first }
-      let(:medium_id) { Foreman::GlobalId.for(medium) }
-      let(:ptable) { operatingsystem.ptables.first }
-      let(:ptable_id) { Foreman::GlobalId.for(ptable) }
       let(:owner) { FactoryBot.create(:user, locations: [tax_location], organizations: [organization]) }
       let(:owner_id) { Foreman::GlobalId.for(owner) }
       let(:puppetclass) { FactoryBot.create(:puppetclass) }
@@ -286,15 +286,61 @@ module Mutations
         end
       end
 
+      context 'with create permission' do
+        let(:context_user) do
+          setup_user('create', 'hosts') do |user|
+            user.roles << Role.find_by(name: 'Viewer')
+          end
+        end
+        let(:data) { result['data']['createHost']['host'] }
+
+        before do
+          Location.current = tax_location
+          Organization.current = organization
+        end
+
+        it 'creates a bare metal host' do
+          assert_difference(-> {Host.count}, +1) do
+            assert_empty result['errors']
+            assert_empty result['data']['createHost']['errors']
+            assert_not_nil data
+
+            assert_equal "#{hostname}.#{domain.name}", data['name']
+            assert_equal ip, data['ip']
+            assert_equal mac, data['mac']
+            assert_equal true, data['build']
+            assert_equal true, data['managed']
+            assert_equal location_id, data['location']['id']
+            assert_equal organization_id, data['organization']['id']
+            assert_equal operatingsystem_id, data['operatingsystem']['id']
+            assert_equal subnet_id, data['subnet']['id']
+            assert_equal domain_id, data['domain']['id']
+            assert_equal medium_id, data['medium']['id']
+            assert_equal ptable_id, data['ptable']['id']
+            assert_equal owner_id, data['owner']['id']
+          end
+          assert_equal context_user.id, Audit.last.user_id
+        end
+      end
+
       context 'with view only permissions' do
-        let(:context_user) { setup_user 'view', 'hosts' }
+        let(:context_user) do
+          setup_user('show', 'hosts') do |user|
+            user.roles << Role.find_by(name: 'Viewer')
+          end
+        end
+
+        before do
+          Location.current = tax_location
+          Organization.current = organization
+        end
 
         test 'cannot create a host' do
-          variables
-          context_user
+          expected_error = 'Unauthorized. You do not have the required permission create_hosts.'
 
-          assert_difference('Host.count', 0) do
+          assert_difference(-> {Host.count}, 0) do
             assert_not_empty result['errors']
+            assert_includes result['errors'].map { |e| e['message'] }, expected_error
           end
         end
       end
