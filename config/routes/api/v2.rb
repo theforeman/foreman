@@ -396,6 +396,7 @@ Foreman::Application.routes.draw do
         resources :smart_proxies, :only => [:index, :show]
         resources :filters, :only => [:index, :show]
         resources :hosts, :except => [:new, :edit]
+        resources :report_templates, :only => [:index, :show]
         resources :parameters, :except => [:new, :edit] do
           collection do
             delete '/', :action => :reset
@@ -420,6 +421,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
+          resources :report_templates, :only => [:index, :show]
         end
       end
 
@@ -441,6 +443,7 @@ Foreman::Application.routes.draw do
         resources :smart_proxies, :only => [:index, :show]
         resources :filters, :only => [:index, :show]
         resources :hosts, :except => [:new, :edit]
+        resources :report_templates, :only => [:index, :show]
         resources :parameters, :except => [:new, :edit] do
           collection do
             delete '/', :action => :reset
@@ -465,6 +468,7 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
+          resources :report_templates, :only => [:index, :show]
         end
       end
 
