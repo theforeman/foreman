@@ -2,7 +2,7 @@ require 'test_helper'
 
 module Mutations
   module Models
-    class CreateMutationTest < ActiveSupport::TestCase
+    class CreateMutationTest < GraphQLQueryTestCase
       let(:variables) do
         {
           name: 'SUN T2000',
@@ -42,31 +42,37 @@ module Mutations
       end
 
       context 'with admin user' do
-        let(:user) { FactoryBot.create(:user, :admin) }
+        let(:context_user) { FactoryBot.create(:user, :admin) }
 
         test 'create a model' do
-          context = { current_user: user }
-
-          assert_difference('Model.count', +1) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+          assert_difference(-> {::Model.count}, +1) do
             assert_empty result['errors']
             assert_empty result['data']['createModel']['errors']
           end
-          assert_equal user.id, Audit.last.user_id
+          assert_equal context_user.id, Audit.last.user_id
+        end
+      end
+
+      context 'with create permission' do
+        let(:context_user) { setup_user('create', 'models') }
+
+        test 'create a model' do
+          assert_difference(-> {::Model.count}, +1) do
+            assert_empty result['errors']
+          end
+          assert_equal context_user.id, Audit.last.user_id
         end
       end
 
       context 'with user with view permissions' do
-        setup do
-          @user = setup_user 'view', 'models'
-        end
+        let(:context_user) { setup_user('view', 'models') }
 
         test 'cannot create a model' do
-          context = { current_user: @user }
+          expected_error = 'Unauthorized. You do not have the required permission create_models.'
 
-          assert_difference('::Model.count', 0) do
-            result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
+          assert_difference(-> {::Model.count}, 0) do
             assert_not_empty result['errors']
+            assert_includes result['errors'].map { |e| e['message'] }, expected_error
           end
         end
       end
