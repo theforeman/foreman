@@ -1,0 +1,39 @@
+name: Remove Storybook after PR is merged or closed
+
+on:
+  pull_request:
+    paths:
+      - '**[Ss]tories**'
+    types: [closed]
+
+jobs:
+  remove_storybook:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+    - name: Remove files from storybooks/:pr_num/
+      run: |
+        mkdir -p storybooks/${{ github.event.pull_request.number }}
+        rm -rf storybooks/${{ github.event.pull_request.number }}
+        git status
+    - name: Tell Github not to use jekyll
+      run: touch .nojekyll
+    - name: Commit changes
+      continue-on-error: true
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Foreman Storybook Bot"
+        echo 'git add .'
+        git add .
+        git status
+        git commit -m "Remove storybooks/${{ github.event.pull_request.number }} after PR #${{ github.event.pull_request.number }} closed"
+    - name: Deploy to gh-pages branch
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: false
+        branch: gh-pages

@@ -1,0 +1,61 @@
+name: Deploy Main Storybook
+
+on:
+  pull_request:
+    paths:
+      - '**[Ss]tories**'
+    types: [closed]
+
+jobs:
+  deploy_main_storybook:
+
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: false
+    - name: Fetch all branches
+      run: 'git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*'
+    - name: Run npm install
+      run: npm install
+    - name: Build Storybook in temporary folder
+      run: npm run build-storybook -- --output-dir=tmp/storybooks/main
+    - name: Checkout gh-pages
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Foreman Storybook Bot"
+        git checkout gh-pages
+    - name: Move files to storybooks/main
+      run: |
+        mkdir -p storybooks/main
+        rm -rf storybooks/main/*
+        mv tmp/storybooks/main/* storybooks/main
+        ls storybooks/main
+        git status
+    - name: Tell Github not to use jekyll
+      run: touch .nojekyll
+    - name: Update gh-pages branch
+      run: git pull --rebase origin gh-pages
+    - name: Commit files
+      continue-on-error: true
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Foreman Storybook Bot"
+        echo 'git add .'
+        git add .
+        git status
+        git commit -m "Update storybooks/main after PR #${{ github.event.pull_request.number }} merged"
+    - name: Deploy Storybook to gh-pages branch
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: false
+        branch: gh-pages
+    - name: Comment PR with new Storybook location
+      if: success()
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        message: "PR merged succesfully; Main [Storybook](https://${{ github.event.pull_request.base.repo.owner.login }}.github.io/foreman/storybooks/main/) deployed to the `gh-pages` branch."
+        GITHUB_TOKEN: ${{ github.token }}

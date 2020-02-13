@@ -1,0 +1,62 @@
+name: Deploy Storybook
+
+on:
+  pull_request:
+    paths:
+      - '**[Ss]tories**'
+
+jobs:
+  deploy_storybook:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: false
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: Fetch all branches
+      run: 'git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*'
+    - name: Run npm install
+      run: npm install
+    - name: Build Storybook in temporary folder
+      run: npm run build-storybook -- --output-dir=tmp/storybooks/${{ github.event.pull_request.number }}
+    - name: Checkout gh-pages
+      run: |
+        git checkout gh-pages
+        ls tmp/storybooks/${{ github.event.pull_request.number }}
+    - name: Move files to storybooks/${{ github.event.pull_request.number }}
+      run: |
+        mkdir -p storybooks/${{ github.event.pull_request.number }}
+        rm -rf storybooks/${{ github.event.pull_request.number }}/*
+        mv tmp/storybooks/${{ github.event.pull_request.number }}/* storybooks/${{ github.event.pull_request.number }}
+        ls storybooks/${{ github.event.pull_request.number }}
+        git status
+    - name: Tell Github not to use jekyll
+      run: touch .nojekyll
+    - name: Update gh-pages branch
+      run: git pull --rebase origin gh-pages
+    - name: Commit files
+      continue-on-error: true
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Foreman Storybook Bot"
+        echo 'git add .'
+        git add .
+        git status
+        git commit -m "Storybook build for PR #${{ github.event.pull_request.number }}"
+    - name: Deploy Storybook to gh-pages branch
+      if: success()
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: false
+        branch: gh-pages
+    - name: Comment PR with new Storybook location
+      if: success()
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        message: "Deployed the [Storybook](https://${{ github.event.pull_request.base.repo.owner.login }}.github.io/foreman/storybooks/${{ github.event.pull_request.number }}/) for this PR to the `gh-pages` branch."
+        GITHUB_TOKEN: ${{ github.token }}

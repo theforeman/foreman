@@ -1,0 +1,21 @@
+name: Storybook Reminder
+
+on:
+  pull_request:
+    paths:
+      - '**/react_app/**js'
+      - '!**.stories.js'
+    types: opened
+
+jobs:
+  storybook_reminder:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: thollander/actions-comment-pull-request@master
+      name: Comment PR with Storybook reminder
+    # if the list of changed files contains react_app, comment the PR
+      with:
+        message: If you've added or modified React components, don't forget to update the Storybook!
+        GITHUB_TOKEN: ${{ github.token }}
