@@ -36,7 +36,8 @@ module Api
           param :description, String, :desc => N_("Subnet description")
           param :network_type, Subnet::SUBNET_TYPES.values, :desc => N_('Type or protocol, IPv4 or IPv6, defaults to IPv4')
           param :network, String, :desc => N_("Subnet network"), :required => true
-          param :mask, String, :desc => N_("Netmask for this subnet"), :required => true
+          param :cidr, String, :desc => N_("Network prefix in CIDR notation")
+          param :mask, String, :desc => N_("Netmask for this subnet")
           param :gateway, String, :desc => N_("Subnet gateway")
           param :dns_primary, String, :desc => N_("Primary DNS for this subnet")
           param :dns_secondary, String, :desc => N_("Secondary DNS for this subnet")
