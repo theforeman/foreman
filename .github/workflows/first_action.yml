@@ -3,7 +3,7 @@ name: First test action
 on: [push]
 
 jobs:
-  build:
+  hello-world:
 
     runs-on: ubuntu-latest
 
