@@ -1,7 +1,7 @@
 name: PR action
 
 on: pull_request
-  types: [opened]
+  types: opened
 
 jobs:
   test_pr_action:
