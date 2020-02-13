@@ -1,9 +1,8 @@
 name: PR action
 
 on:
-  push:
   pull_request:
-    types: opened
+    # types: opened
 
 jobs:
   test_pr_action:
