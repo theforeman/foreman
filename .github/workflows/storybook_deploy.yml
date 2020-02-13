@@ -3,7 +3,7 @@ name: Deploy Storybook
 on:
   pull_request:
     paths:
-      - '**.stories.js'
+      - '**[Ss]tories**'
 
 jobs:
   deploy_storybook:
@@ -31,7 +31,7 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        force: true
+        force: false
         branch: gh-pages
     - name: Comment PR with new Storybook location
       if: success()
