@@ -1,0 +1,16 @@
+name: PR action
+
+on: [pull_request]
+  types: [opened]
+
+jobs:
+  test_pr_action:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a multi-line script
+      run: |
+        echo {{ github.event }}
+        echo end of github event
