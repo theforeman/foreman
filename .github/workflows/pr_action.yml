@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Display event
-      run: echo github event
+      run: echo {{github.event}}
