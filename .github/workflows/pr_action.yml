@@ -10,7 +10,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run a multi-line script
-      run: |
-        echo {{ github.event }}
-        echo end of github event
+    - name: Display event
+      run: echo github event
