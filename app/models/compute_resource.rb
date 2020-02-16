@@ -183,6 +183,9 @@ class ComputeResource < ApplicationRecord
 
   def find_vm_by_uuid(uuid)
     client.servers.get(uuid) || raise(ActiveRecord::RecordNotFound)
+  rescue StandardError => e
+    Foreman::Logging.exception('Virtual machine was not found', e)
+    raise(ActiveRecord::RecordNotFound)
   end
 
   def start_vm(uuid)
