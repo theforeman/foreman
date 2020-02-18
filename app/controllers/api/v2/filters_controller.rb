@@ -36,7 +36,7 @@ module Api
       param_group :filter, :as => :create
 
       def create
-        @filter = nested_obj ? nested_obj.filters.build(filter_params) : Filter.new(filter_params)
+        @filter = nested_obj.respond_to?(:filters) ? nested_obj.filters.build(filter_params) : Filter.new(filter_params)
         process_response @filter.save
       end
 

@@ -27,6 +27,18 @@ class Api::V2::FiltersControllerTest < ActionController::TestCase
     assert_equal show_response["permissions"].first["name"], "view_architectures"
   end
 
+  test "should create filter with scoped organization" do
+    role = FactoryBot.create(:role, :organization_ids => [taxonomies(:organization1).id], :name => "role_test")
+
+    filter = { :role_id => role.id, :permission_ids => [permissions(:view_architectures).id]}
+    assert_difference('Filter.count') do
+      post :create, params: { :filter => filter, :organization_id => taxonomies(:organization1).id}
+    end
+    assert_response :created
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert_equal show_response["permissions"].first["name"], "view_architectures"
+  end
+
   test "should create non-overridable filter" do
     role = FactoryBot.create(:role, :name => 'New Role')
     assert_difference('Filter.count') do
