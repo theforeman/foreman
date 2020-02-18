@@ -3427,9 +3427,6 @@ msgstr ""
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
-msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
-msgstr ""
-
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr ""
 
@@ -3458,9 +3455,6 @@ msgid "Full trace"
 msgstr ""
 
 msgid "Function not available for %s"
-msgstr ""
-
-msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -6535,9 +6529,6 @@ msgid "Parameter value"
 msgstr ""
 
 msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
-msgstr ""
-
-msgid "Parameterized classes in ENC"
 msgstr ""
 
 msgid "Parameters"
@@ -10340,6 +10331,9 @@ msgstr ""
 msgid "You must select at least one permission"
 msgstr ""
 
+msgid "You must stop impersonation before deleting a user that has active impersonation session."
+msgstr ""
+
 msgid "You now act as %s again."
 msgstr ""
 
@@ -10575,6 +10569,9 @@ msgid "enable caching, for VMware only"
 msgstr ""
 
 msgid "environment id"
+msgstr ""
+
+msgid "expected a value of type %s"
 msgstr ""
 
 msgid "expecting %s used by hosts or inherited (check mismatches report)."

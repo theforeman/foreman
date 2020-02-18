@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-09 15:07+0200\n"
-"PO-Revision-Date: 2020-02-09 15:07+0200\n"
+"POT-Creation-Date: 2020-02-18 12:10+0200\n"
+"PO-Revision-Date: 2020-02-18 12:10+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -2762,8 +2762,12 @@ msgstr ""
 msgid "Update a setting"
 msgstr ""
 
-#: ../app/controllers/api/v2/settings_controller.rb:29
+#: ../app/controllers/api/v2/settings_controller.rb:34
 msgid "No setting value provided."
+msgstr ""
+
+#: ../app/controllers/api/v2/settings_controller.rb:41
+msgid "expected a value of type %s"
 msgstr ""
 
 #: ../app/controllers/api/v2/smart_class_parameters_controller.rb:10
@@ -3690,7 +3694,7 @@ msgstr ""
 
 #:
 #: ../app/controllers/concerns/foreman/controller/puppet/hosts_controller_extensions.rb:181
-#: ../app/models/concerns/host_common.rb:11 ../app/models/setting/puppet.rb:35
+#: ../app/models/concerns/host_common.rb:11 ../app/models/setting/puppet.rb:34
 #: ../app/registries/menu/loader.rb:73
 msgid "Puppet"
 msgstr ""
@@ -4107,57 +4111,63 @@ msgstr ""
 msgid "You cannot delete this user while logged in as this user"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:73
+#: ../app/controllers/users_controller.rb:62
+msgid ""
+"You must stop impersonation before deleting a user that has active impersonati"
+"on session."
+msgstr ""
+
+#: ../app/controllers/users_controller.rb:80
 msgid ""
 "You impersonated user %s, to cancel the session, click the impersonation icon "
 "in the top bar."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:78
+#: ../app/controllers/users_controller.rb:85
 msgid ""
 "You are already impersonating, click the impersonation icon in the top bar bef"
 "ore starting a new impersonation."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:89
+#: ../app/controllers/users_controller.rb:96
 msgid "You now act as %s again."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:91
+#: ../app/controllers/users_controller.rb:98
 msgid "No active impersonate session."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:101
+#: ../app/controllers/users_controller.rb:108
 #: ../app/graphql/mutations/sign_in_user.rb:22
 #: ../app/views/api/v2/errors/bruteforce_attempt.json.rabl:3
 msgid "Too many tries, please try again in a few minutes."
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:118
+#: ../app/controllers/users_controller.rb:125
 msgid "Incorrect username or password"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:126
+#: ../app/controllers/users_controller.rb:133
 msgid "Some imported user account details cannot be saved: %s"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:162
+#: ../app/controllers/users_controller.rb:169
 msgid "Logged out - See you soon"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:175
+#: ../app/controllers/users_controller.rb:182
 msgid "Email address is missing"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:181
+#: ../app/controllers/users_controller.rb:188
 msgid "Unable to send email, check server logs for more information"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:184
+#: ../app/controllers/users_controller.rb:191
 msgid "Email was sent successfully"
 msgstr ""
 
-#: ../app/controllers/users_controller.rb:211
+#: ../app/controllers/users_controller.rb:218
 msgid "You have already logged in"
 msgstr ""
 
@@ -5961,25 +5971,25 @@ msgstr ""
 msgid "cannot be changed"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:106
+#: ../app/models/compute_resources/foreman/model/gce.rb:108
 msgid "selected image does not exist"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:216
+#: ../app/models/compute_resources/foreman/model/gce.rb:218
 msgid "console is not available at this time because the instance is powered off"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:273
+#: ../app/models/compute_resources/foreman/model/gce.rb:275
 msgid "Unable to access key"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:276
+#: ../app/models/compute_resources/foreman/model/gce.rb:278
 msgid ""
 "Invalid Google JSON key. Please verify client email & private key options are "
 "present"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:279
+#: ../app/models/compute_resources/foreman/model/gce.rb:281
 msgid "Certificate key is not a valid JSON"
 msgstr ""
 
@@ -6727,71 +6737,71 @@ msgstr ""
 msgid "must belong to host's operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:458
+#: ../app/models/host/managed.rb:453
 msgid ""
 "Failed to import %{klass} for %{name}: doesn't exists in our database - ignori"
 "ng"
 msgstr ""
 
-#: ../app/models/host/managed.rb:514
+#: ../app/models/host/managed.rb:509
 msgid "Network Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:515
+#: ../app/models/host/managed.rb:510
 msgid "Image Based"
 msgstr ""
 
-#: ../app/models/host/managed.rb:623
+#: ../app/models/host/managed.rb:618
 msgid "no puppet proxy defined - cant continue"
 msgstr ""
 
-#: ../app/models/host/managed.rb:629
+#: ../app/models/host/managed.rb:624
 msgid "failed to execute puppetrun: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:678
+#: ../app/models/host/managed.rb:673
 msgid "An interface marked as provision is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:679
+#: ../app/models/host/managed.rb:674
 msgid "An interface marked as primary is missing"
 msgstr ""
 
-#: ../app/models/host/managed.rb:723
+#: ../app/models/host/managed.rb:718
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:830
+#: ../app/models/host/managed.rb:825
 msgid ""
 "There are orchestration modules with methods for configuration rebuild that ha"
 "ve identical name: '%s'"
 msgstr ""
 
-#: ../app/models/host/managed.rb:883
+#: ../app/models/host/managed.rb:878
 msgid "Some interfaces are invalid"
 msgstr ""
 
-#: ../app/models/host/managed.rb:908
+#: ../app/models/host/managed.rb:903
 msgid "%{value} does not belong to %{os} operating system"
 msgstr ""
 
-#: ../app/models/host/managed.rb:919
+#: ../app/models/host/managed.rb:914
 msgid "%{e} does not belong to the %{environment} environment"
 msgstr ""
 
-#: ../app/models/host/managed.rb:934
+#: ../app/models/host/managed.rb:929
 msgid "is an unsupported provisioning method, available: %s"
 msgstr ""
 
-#: ../app/models/host/managed.rb:939
+#: ../app/models/host/managed.rb:934
 msgid "can't be updated after host is provisioned"
 msgstr ""
 
-#: ../app/models/host/managed.rb:944 ../app/models/nic/interface.rb:138
+#: ../app/models/host/managed.rb:939 ../app/models/nic/interface.rb:138
 msgid "must not include periods"
 msgstr ""
 
-#: ../app/models/host/managed.rb:1000
+#: ../app/models/host/managed.rb:995
 msgid ""
 "with id %{object_id} doesn't exist or is not assigned to proper organization a"
 "nd/or location"
@@ -8080,130 +8090,122 @@ msgid "Default variables lookup path"
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:17
-msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
-msgstr ""
-
-#: ../app/models/setting/puppet.rb:17
-msgid "Parameterized classes in ENC"
-msgstr ""
-
-#: ../app/models/setting/puppet.rb:18
 msgid "Foreman will parse ERB in parameters value in the ENC output"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:18
+#: ../app/models/setting/puppet.rb:17
 msgid "Interpolate ERB in parameters"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:19
+#: ../app/models/setting/puppet.rb:18
 msgid ""
 "Foreman will explicitly set the puppet environment in the ENC yaml output. Thi"
 "s will avoid conflicts between the environment in puppet.conf and the environm"
 "ent set in Foreman"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:19
+#: ../app/models/setting/puppet.rb:18
 msgid "ENC environment"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:20
+#: ../app/models/setting/puppet.rb:19
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:20
+#: ../app/models/setting/puppet.rb:19
 msgid "Use UUID for certificates"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:21
+#: ../app/models/setting/puppet.rb:20
 msgid "Foreman will update a host's environment from its facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:21
+#: ../app/models/setting/puppet.rb:20
 msgid "Update environment from facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:22
+#: ../app/models/setting/puppet.rb:21
 msgid "Foreman will update a host's subnet from its facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:22
+#: ../app/models/setting/puppet.rb:21
 msgid "Update subnets from facts"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:23
+#: ../app/models/setting/puppet.rb:22
 msgid ""
 "Foreman matchers will be inherited by children when evaluating smart class par"
 "ameters for hostgroups, organizations and locations"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:23
+#: ../app/models/setting/puppet.rb:22
 msgid "Matchers inheritance"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:24
+#: ../app/models/setting/puppet.rb:23
 msgid "Foreman will create the host when new facts are received"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:24
+#: ../app/models/setting/puppet.rb:23
 msgid "Create new host when facts are uploaded"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:25
+#: ../app/models/setting/puppet.rb:24
 msgid "Foreman will create the host when a report is received"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:25
+#: ../app/models/setting/puppet.rb:24
 msgid "Create new host when report is uploaded"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:26
+#: ../app/models/setting/puppet.rb:25
 msgid ""
 "Hosts created after a puppet run will be placed in the location this fact dict"
 "ates. The content of this fact should be the full label of the location."
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:26
+#: ../app/models/setting/puppet.rb:25
 msgid "Location fact"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:27
+#: ../app/models/setting/puppet.rb:26
 msgid ""
 "Hosts created after a puppet run will be placed in the organization this fact "
 "dictates. The content of this fact should be the full label of the organizatio"
 "n."
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:27
+#: ../app/models/setting/puppet.rb:26
 msgid "Organization fact"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:28
+#: ../app/models/setting/puppet.rb:27
 msgid ""
 "Hosts created after a puppet run that did not send a location fact will be pla"
 "ced in this location"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:28
+#: ../app/models/setting/puppet.rb:27
 msgid "Default location"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:29
+#: ../app/models/setting/puppet.rb:28
 msgid ""
 "Hosts created after a puppet run that did not send a organization fact will be"
 " placed in this organization"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:29
+#: ../app/models/setting/puppet.rb:28
 msgid "Default organization"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:30
+#: ../app/models/setting/puppet.rb:29
 msgid ""
 "All hosts will show a configuration status even when a Puppet smart proxy is n"
 "ot assigned"
 msgstr ""
 
-#: ../app/models/setting/puppet.rb:30
+#: ../app/models/setting/puppet.rb:29
 msgid "Always show configuration status"
 msgstr ""
 
@@ -14098,12 +14100,6 @@ msgstr ""
 msgid "Are you sure you want to log out?"
 msgstr ""
 
-#: ../config/initializers/deprecations.rb:20
-#: ../config/initializers/deprecations.rb:47
-#: ../config/initializers/deprecations.rb:73
-msgid "Further Information"
-msgstr ""
-
 #: ../db/seeds.d/160-mail_notifications.rb:8
 msgid "Puppet summary"
 msgstr ""
@@ -14848,12 +14844,12 @@ msgid "filter..."
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:41
+#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:46
 msgid "Error! "
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:42
+#: ../webpack/assets/javascripts/react_app/components/common/forms/ForemanForm/ForemanForm.js:47
 msgid "Warning! "
 msgstr ""
 
