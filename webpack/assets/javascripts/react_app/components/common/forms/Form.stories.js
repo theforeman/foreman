@@ -15,7 +15,7 @@ import {
   textFieldWithHelpProps,
   dateTimeWithErrorProps,
   ownComponentFieldProps,
-} from './FormField.fixtures'; // hi
+} from './FormField.fixtures';
 
 const StoryForm = () => (
   <Formik
