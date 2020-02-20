@@ -31,7 +31,7 @@ const AppSwitcher = () => {
       Couldn't use routeProps history because it's different than 
       the window.history and sometimes doesn't contain the turbolinks object.
     */
-    const turbolinksVisitCalled = !window.history.state.turbolinks;
+    const turbolinksVisitCalled = window.history.state && !window.history.state.turbolinks;
     if (useTurbolinks && turbolinksVisitCalled) {
       window.Turbolinks.visit(nextPath);
     }
