@@ -1,7 +1,7 @@
 
 <!---
 
-Thank you for contributing to The Foreman, please read the
+Thank you for contributing to The Foreman! please read the
 [following guide](https://www.theforeman.org/contribute.html), in short:
 
 * [Create an issue](https://projects.theforeman.org/projects/foreman/issues)
