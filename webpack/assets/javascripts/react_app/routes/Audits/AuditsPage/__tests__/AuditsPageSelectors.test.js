@@ -8,8 +8,9 @@ import {
   selectAuditsHasData,
   selectAuditsHasError,
   selectAuditsSearch,
+  selectAuditDocumentationUrl,
 } from '../AuditsPageSelectors';
-import { state } from '../AuditsPage.fixtures';
+import { state, getStateWithDocumentationUrl } from '../AuditsPage.fixtures';
 
 const fixtures = {
   'should return Audits array': () => selectAudits(state),
@@ -20,6 +21,10 @@ const fixtures = {
   'should return Audits hasData bool': () => selectAuditsHasData(state),
   'should return Audits message': () => selectAuditsMessage(state),
   'should return Audits Search Value': () => selectAuditsSearch(state),
+  'should return Audits default documentation url': () =>
+    selectAuditDocumentationUrl(state),
+  'should return Audits overridden documentation url ': () =>
+    selectAuditDocumentationUrl(getStateWithDocumentationUrl()),
 };
 
 describe('AuditsPage selectors', () =>

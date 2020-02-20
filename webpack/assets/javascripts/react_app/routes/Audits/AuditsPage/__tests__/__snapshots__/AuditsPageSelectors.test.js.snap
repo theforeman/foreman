@@ -108,13 +108,17 @@ Array [
 ]
 `;
 
-exports[`AuditsPage selectors should return Audits array count 1`] = `0`;
+exports[`AuditsPage selectors should return Audits array count 1`] = `1`;
+
+exports[`AuditsPage selectors should return Audits default documentation url 1`] = `"https://theforeman.org/manuals/2.1/index.html#4.1.4Auditing"`;
 
 exports[`AuditsPage selectors should return Audits hasData bool 1`] = `true`;
 
 exports[`AuditsPage selectors should return Audits hasError bool 1`] = `false`;
 
 exports[`AuditsPage selectors should return Audits message 1`] = `""`;
+
+exports[`AuditsPage selectors should return Audits overridden documentation url  1`] = `"/test"`;
 
 exports[`AuditsPage selectors should return selected page 1`] = `1`;
 

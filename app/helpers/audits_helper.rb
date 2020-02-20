@@ -234,6 +234,13 @@ module AuditsHelper
     end
   end
 
+  def audits_metadata(audits)
+    {
+      :audits => construct_additional_info(audits),
+      :itemCount => audits.count,
+    }
+  end
+
   private
 
   def additional_details_if_any(audit, action_display_name)

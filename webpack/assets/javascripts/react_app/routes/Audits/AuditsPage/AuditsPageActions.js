@@ -41,7 +41,7 @@ export const fetchAudits = (
       type: AUDITS_PAGE_CLEAR_ERROR,
     });
 
-  const onRequestSuccess = ({ data: { audits, itemCount } }) => {
+  const onRequestSuccess = ({ data }) => {
     if (selectAuditsIsLoadingPage(getState()))
       dispatch({ type: AUDITS_PAGE_HIDE_LOADING });
 
@@ -51,16 +51,12 @@ export const fetchAudits = (
         page,
         perPage,
         searchQuery,
-        itemCount,
       },
     });
 
     dispatch({
       type: AUDITS_PAGE_DATA_RESOLVED,
-      payload: {
-        audits,
-        hasData: itemCount > 0,
-      },
+      payload: data,
     });
   };
   const onRequestFail = error => {

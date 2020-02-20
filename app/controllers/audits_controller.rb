@@ -5,10 +5,7 @@ class AuditsController < ApplicationController
 
   def index
     @audits = resource_base_search_and_page.preload(:user)
-    render :json => {
-      :audits => helpers.construct_additional_info(@audits),
-      :itemCount => @audits.count,
-    }
+    render :json => helpers.audits_metadata(@audits)
   end
 
   private

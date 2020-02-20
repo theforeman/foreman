@@ -36,7 +36,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/1.23/index.html#4.1.4Auditing"
+      href="/url"
     >
       <Icon
         name="help"
@@ -47,7 +47,6 @@ exports[`AuditsPage rendering render audits page 1`] = `
   }
 >
   <Component
-    docURL="/url"
     fetchAndPush={[Function]}
     hasData={true}
     initializeAudits={[Function]}
@@ -80,6 +79,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
       }
     }
     searchable={true}
+    version="1.23"
   />
 </PageLayout>
 `;
@@ -120,7 +120,7 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/1.23/index.html#4.1.4Auditing"
+      href="/url"
     >
       <Icon
         name="help"
@@ -131,7 +131,6 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
   }
 >
   <Component
-    docURL="/url"
     fetchAndPush={[Function]}
     hasData={true}
     hasError={true}
@@ -166,6 +165,7 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
       }
     }
     searchable={true}
+    version="1.23"
   />
 </PageLayout>
 `;
@@ -206,7 +206,7 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/1.23/index.html#4.1.4Auditing"
+      href="/url"
     >
       <Icon
         name="help"
@@ -217,7 +217,6 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
   }
 >
   <Component
-    docURL="/url"
     fetchAndPush={[Function]}
     hasData={true}
     hasError={true}
@@ -252,6 +251,7 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
       }
     }
     searchable={true}
+    version="1.23"
   />
 </PageLayout>
 `;
@@ -292,7 +292,7 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/1.23/index.html#4.1.4Auditing"
+      href="/url"
     >
       <Icon
         name="help"
@@ -304,7 +304,6 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
 >
   <Component
     audits={Array []}
-    docURL="/url"
     fetchAndPush={[Function]}
     hasData={true}
     hasError={false}
@@ -338,6 +337,7 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
       }
     }
     searchable={true}
+    version="1.23"
   />
 </PageLayout>
 `;

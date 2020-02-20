@@ -22,6 +22,14 @@ export const getMock = {
   searchQuery: '',
 };
 
+const appMetadataState = {
+  app: {
+    metadata: {
+      version: '2.1',
+    },
+  },
+};
+
 export const state = {
   auditsPage: {
     data: {
@@ -29,20 +37,26 @@ export const state = {
       message: '',
       isLoading: false,
       hasError: false,
-      hasData: true,
+      itemCount: AuditsProps.audits.length,
     },
     query: {
       page: 1,
       perPage: 20,
-      itemCount: 0,
       searchQuery: '',
     },
   },
+  ...appMetadataState,
+};
+
+export const getStateWithDocumentationUrl = () => {
+  const modifiedState = { ...state };
+  modifiedState.auditsPage.data.documentationUrl = '/test';
+  return modifiedState;
 };
 
 export const auditsPageProps = {
   perPageOptions: [5, 10, 20, 50],
-  docURL: '/url',
+  documentationUrl: '/url',
   searchProps: SearchBarProps,
   searchable: true,
   location: {},
