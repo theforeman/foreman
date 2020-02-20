@@ -110,6 +110,7 @@ class User < ApplicationRecord
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
   before_save       :normalize_timezone
+  before_save :invalidate_cache
 
   after_create :welcome_mail
   after_create :set_default_widgets
@@ -492,10 +493,18 @@ class User < ApplicationRecord
   end
 
   def taxonomy_and_child_ids(taxonomies)
-    top_level = send(taxonomies) + taxonomies.to_s.classify.constantize.unscoped.select { |tax| tax.ignore?('user') }
-    top_level.each_with_object([]) do |taxonomy, ids|
-      ids.concat taxonomy.subtree_ids
-    end.uniq
+    delay = Rails.env.test? ? 0 : 2.minutes
+    Rails.cache.fetch("user/#{id}/taxonomy_and_child_ids/#{taxonomies}", expires_in: delay) do
+      top_level = send(taxonomies) + taxonomies.to_s.classify.constantize.unscoped.select { |tax| tax.ignore?('user') }
+      top_level.each_with_object([]) do |taxonomy, ids|
+        ids.concat taxonomy.subtree_ids
+      end.uniq
+    end
+  end
+
+  def invalidate_cache
+    Rails.cache.delete("user/#{id}/taxonomy_and_child_ids/organizations")
+    Rails.cache.delete("user/#{id}/taxonomy_and_child_ids/locations")
   end
 
   def location_and_child_ids
