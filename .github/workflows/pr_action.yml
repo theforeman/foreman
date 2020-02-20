@@ -3,7 +3,7 @@ name: PR action
 on:
   pull_request:
     paths:
-      - '.github/workflows/**.yml'
+      - '**.stories.js'
     # types: opened
 
 jobs:
