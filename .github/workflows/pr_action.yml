@@ -2,8 +2,8 @@ name: PR action
 
 on:
   pull_request:
-    paths:
-      - '**.stories.js'
+    # paths:
+      # - '**.stories.js'
     # types: opened
 
 jobs:
