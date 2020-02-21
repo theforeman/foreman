@@ -16,6 +16,7 @@ module Tags
       react_opts['inputSizeClass'] = options.delete('size') if options.key?('size')
       react_opts['labelSizeClass'] = options.delete('label_size') if options.key?('label_size')
       options.each { |k, v| react_opts[k.camelize(:lower)] = v }
+      react_opts['inputProps']['name'] = options['name'] if options['name'] && react_opts['inputProps']
       react_opts
     end
   end

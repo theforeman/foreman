@@ -50,7 +50,14 @@ class DateTimePicker extends React.Component {
   };
 
   render() {
-    const { locale, weekStartsOn, inputProps, id, placement } = this.props;
+    const {
+      locale,
+      weekStartsOn,
+      inputProps,
+      id,
+      placement,
+      name,
+    } = this.props;
     const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
     const popover = (
       <Popover
@@ -85,6 +92,7 @@ class DateTimePicker extends React.Component {
             aria-label="date-picker-input"
             type="text"
             className="date-time-input"
+            name={name}
             value={hiddenValue ? '' : this.formatDate()}
             onChange={e => this.setSelected(e.target.value)}
           />
@@ -124,6 +132,7 @@ DateTimePicker.propTypes = {
   id: PropTypes.string,
   hiddenValue: PropTypes.bool,
   placement: OverlayTrigger.propTypes.placement,
+  name: PropTypes.string,
 };
 DateTimePicker.defaultProps = {
   value: new Date(),
@@ -133,5 +142,6 @@ DateTimePicker.defaultProps = {
   id: 'datetime-picker-popover',
   hiddenValue: true,
   placement: 'top',
+  name: undefined,
 };
 export default DateTimePicker;
