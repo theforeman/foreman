@@ -77,4 +77,11 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
     assert select.text ''
     assert select[:class].include?('select2-container-disabled'), true
   end
+
+  test "should have correct generate_at field" do
+    template = FactoryBot.create(:report_template)
+    visit generate_report_template_path(template)
+
+    assert_equal 'report_template_report[generate_at]', find('#report_template_report_generate_at')['name']
+  end
 end
