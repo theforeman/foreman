@@ -18,7 +18,7 @@ jobs:
     - name: Run npm install
       run: npm install
     - name: Build Storybook
-      run: npm run build-stories --output=.storybook-dist
+      run: npm run build-storybook --output=.storybook-dist
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
@@ -30,4 +30,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         force: true
         branch: gh-pages
-        
