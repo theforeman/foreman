@@ -3,16 +3,10 @@ import BookmarkForm from './BookmarkForm';
 import { submitForm } from '../../../../redux/actions/common/forms';
 import { selectAutocompleteSearchQuery } from '../../../AutoComplete/AutoCompleteSelectors';
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, { controller }) => ({
   initialValues: {
     public: true,
-    query:
-      selectAutocompleteSearchQuery(
-        { autocomplete: { id: 'searchBar' }, ...state },
-        'searchBar',
-        ownProps
-      ) || '',
-    name: '',
+    query: selectAutocompleteSearchQuery(state, 'searchBar', { controller }),
   },
 });
 

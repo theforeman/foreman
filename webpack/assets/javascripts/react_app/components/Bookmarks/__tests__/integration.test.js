@@ -5,6 +5,7 @@ import API from '../../../redux/API/API';
 import { APIMiddleware } from '../../../redux/API';
 
 import Bookmarks, { reducers as bookmarksReducer } from '../index';
+import { reducers as autocompleteReducer } from '../../AutoComplete/index';
 import foremanModalsReducer from '../../ForemanModal/ForemanModalReducer';
 import {
   response,
@@ -17,6 +18,7 @@ import {
 const reducers = {
   foremanModals: foremanModalsReducer,
   ...bookmarksReducer,
+  ...autocompleteReducer,
 };
 
 jest.mock('../../../redux/API/API');

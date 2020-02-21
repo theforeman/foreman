@@ -17,6 +17,7 @@ Object {
     ],
   ],
   "state": Object {
+    "autocomplete": Object {},
     "bookmarks": Object {
       "hosts": Object {
         "errors": null,
@@ -70,6 +71,7 @@ Object {
     ],
   ],
   "state": Object {
+    "autocomplete": Object {},
     "bookmarks": Object {
       "hosts": Object {
         "errors": null,
@@ -107,6 +109,7 @@ Object {
 
 exports[`Bookmarks integration test should flow: form submitted 1`] = `
 Object {
+  "autocomplete": Object {},
   "bookmarks": Object {
     "hosts": Object {
       "errors": null,
@@ -149,6 +152,7 @@ Object {
 
 exports[`Bookmarks integration test should flow: initial state 1`] = `
 Object {
+  "autocomplete": Object {},
   "bookmarks": Object {},
   "foremanModals": Object {
     "bookmarksModal": Object {
@@ -171,6 +175,7 @@ Object {
     ],
   ],
   "state": Object {
+    "autocomplete": Object {},
     "bookmarks": Object {
       "hosts": Object {
         "errors": null,
