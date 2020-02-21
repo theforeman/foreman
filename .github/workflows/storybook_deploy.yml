@@ -1,0 +1,21 @@
+name: Deploy Storybook Test
+
+on:
+  pull_request:
+    # paths:
+      # - '**.stories.js'
+    # types: opened
+
+jobs:
+  test_pr_action:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: false
+    - name: Run npm install
+      run: npm install
+    - name: Deploy Storybook
+      run: npm run deploy-storybook -- --remote=jeremylenz --source-branch=storybook-deploy
