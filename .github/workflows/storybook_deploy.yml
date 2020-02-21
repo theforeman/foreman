@@ -23,7 +23,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
-        git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}" -a
+        git add .storybook-dist/*
+        git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
     - name: Deploy Storybook
       uses: ad-m/github-push-action@master
       with:
