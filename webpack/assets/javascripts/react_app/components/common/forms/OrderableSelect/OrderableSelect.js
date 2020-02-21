@@ -19,6 +19,7 @@ const OrderableSelect = ({
   defaultValue,
   value,
   options,
+  name,
   ...props
 }) => {
   const [internalValue, setInternalValue] = useInternalValue(
@@ -29,7 +30,7 @@ const OrderableSelect = ({
     setInternalValue(orderDragged(internalValue, dragIndex, hoverIndex));
   };
 
-  // hack the form-control, which in TypeAhead so it will be duplicated
+  // hack the form-control, which is already in TypeAhead so it would be duplicated
   const classesWithoutFormControl =
     className &&
     className
@@ -51,6 +52,7 @@ const OrderableSelect = ({
             moveDraggedOption={moveDraggedOption}
             {...tokenProps}
           />
+          {name && <input type="hidden" name={name} value={option.value} />}
         </div>
       )}
       {...props}
@@ -68,6 +70,7 @@ const OrderableSelect = ({
 OrderableSelect.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   id: PropTypes.string.isRequired,
+  name: PropTypes.string,
   onChange: PropTypes.func,
   defaultValue: PropTypes.array,
   value: PropTypes.array,
@@ -78,6 +81,7 @@ OrderableSelect.defaultProps = {
   onChange: noop,
   defaultValue: [],
   value: null,
+  name: null,
   className: '',
 };
 
