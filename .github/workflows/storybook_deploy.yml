@@ -24,7 +24,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GH Pages Storybook Bot"
         git commit -m "Storybook build" -a
-    - name: Push changes
+    - name: Deploy Storybook
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
