@@ -17,7 +17,7 @@ const TextField = ({
     validate={validate}
     render={({ field, form: { touched, errors } }) => (
       <TextFieldInner
-        input={field}
+        input={{ ...field, value: field.value || '' }}
         meta={{ touched: touched[name], error: errors[name] }}
         name={name}
         type={type}
