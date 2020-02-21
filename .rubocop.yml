@@ -2,9 +2,7 @@ require:
   - rubocop-performance
   - rubocop-rails
 
-# TODO: remove this file by either moving cops here or fixing code
-inherit_from:
-  - .rubocop_todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -14,32 +12,24 @@ AllCops:
     - 'node_modules/**/*'
     - 'vendor/**/*'
 
-Rails:
-  Enabled: true
-
-# Don't prefer is_a? over kind_of?
-Style/ClassCheck:
+Bundler/OrderedGems:
   Enabled: false
 
-# Don't enforce certain methods, e.g. detect over find
-Style/CollectionMethods:
+Layout/AlignArguments:
+  EnforcedStyle: with_fixed_indentation
+  IndentationWidth: 2
+
+Layout/AlignHash:
   Enabled: false
 
-# Don't enforce documentation
-Style/Documentation:
+Layout/AlignParameters:
   Enabled: false
 
-# Support both ruby19 and hash_rockets
-Style/HashSyntax:
+Layout/DotPosition:
   Enabled: false
 
-# Both double and single quotes are OK
-Style/StringLiterals:
-  Enabled: false
-
-# Don't enforce frozen string literals
-Style/FrozenStringLiteralComment:
-  Enabled: false
+Layout/IndentFirstArgument:
+  EnforcedStyle: consistent
 
 Metrics:
   Enabled: false
@@ -53,71 +43,85 @@ Performance/RedundantMatch:
 Performance/RedundantMerge:
   Enabled: true
 
+Performance/RegexpMatch:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
 Rails/Blank:
   UnlessPresent: false
 
-#Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
-Style/WordArray:
+# Won't work with sqlite
+Rails/BulkChangeTable:
   Enabled: false
 
-Style/AndOr:
-  EnforcedStyle: conditionals
-
-Style/TernaryParentheses:
-  EnforcedStyle: require_parentheses_when_complex
-
-Style/InverseMethods:
-  Enabled: false
-
-Layout/IndentFirstArgument:
-  EnforcedStyle: consistent
-
-Bundler/OrderedGems:
+Rails/RefuteMethods:
   Enabled: false
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
-Layout/DotPosition:
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+# Don't prefer is_a? over kind_of?
+Style/ClassCheck:
   Enabled: false
 
-Style/IfUnlessModifier:
+# Don't enforce certain methods, e.g. detect over find
+Style/CollectionMethods:
   Enabled: false
 
 Style/ConditionalAssignment:
   Enabled: false
 
+# Don't enforce documentation
+Style/Documentation:
+  Enabled: false
+
 Style/EmptyMethod:
   EnforcedStyle: expanded
 
-Style/ParenthesesAroundCondition:
+# Don't enforce frozen string literals
+Style/FrozenStringLiteralComment:
   Enabled: false
 
-Layout/AlignHash:
+# Support both, Ruby 1.9 hashmap and hash-rocket syntax
+Style/HashSyntax:
   Enabled: false
 
-Layout/AlignParameters:
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/InverseMethods:
   Enabled: false
 
 # disabled until we can configure "+" as concat sign
 Style/LineEndConcatenation:
   Enabled: false
 
+Style/MultipleComparison:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
 Style/ParallelAssignment:
+  Enabled: false
+
+Style/ParenthesesAroundCondition:
   Enabled: false
 
 Style/PreferredHashMethods:
   Enabled: false
 
-# Won't work with sqlite
-Rails/BulkChangeTable:
+# Both double and single quotes are OK
+Style/StringLiterals:
   Enabled: false
 
-Style/MultipleComparison:
-  Enabled: false
-
-Rails/RefuteMethods:
-  Enabled: false
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
 
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
@@ -125,12 +129,6 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 
-Style/NumericPredicate:
-  Enabled: false
-
-Layout/AlignArguments:
-  EnforcedStyle: with_fixed_indentation
-  IndentationWidth: 2
-
-Performance/RegexpMatch:
+#Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
+Style/WordArray:
   Enabled: false
