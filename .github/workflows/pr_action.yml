@@ -1,7 +1,7 @@
 name: PR action
 
 on:
-  pull_request:
+  # pull_request:
     # paths:
       # - '**.stories.js'
     # types: opened
