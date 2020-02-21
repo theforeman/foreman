@@ -63,4 +63,22 @@ describe('OrderableSelect', () => {
     expect(selected[1].value).toBe('dnk');
     expect(selected[2].value).toBe('no');
   });
+
+  it('renders inputs if name given', () => {
+    const value = ['yes', 'no', 'dnk'];
+    const wrapper = mount(
+      <WrapedInTestContext
+        id="testOrderable"
+        options={yesNoOpts}
+        value={value}
+        name="uncertain_select[]"
+      />
+    );
+    const inputs = wrapper.find('input[type="hidden"]');
+    expect(inputs).toHaveLength(3);
+    inputs.forEach((input, idx) => {
+      expect(input.prop('value')).toBe(value[idx]);
+      expect(input.prop('name')).toBe('uncertain_select[]');
+    });
+  });
 });
