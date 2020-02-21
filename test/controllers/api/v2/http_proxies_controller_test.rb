@@ -4,6 +4,10 @@ module Api
   module V2
     class HttpProxiesControllerTest < ActionController::TestCase
       let(:model) { FactoryBot.create(:http_proxy) }
+      let (:myhttpproxy) { http_proxies(:myhttpproxy) }
+      let (:yourhttpproxy) { http_proxies(:yourhttpproxy) }
+      let (:loc) { FactoryBot.create(:location, http_proxies: [myhttpproxy, yourhttpproxy]) }
+      let (:org) { FactoryBot.create(:organization, http_proxies: [myhttpproxy]) }
 
       def test_index
         get :index, session: set_session_user
@@ -38,6 +42,13 @@ module Api
 
         assert_response :success
         assert_equal new_url, model.reload.url
+      end
+
+      def test_search_by_location
+        get :index, params: { :location_id => loc.id }
+        assert_response :success
+        assert_equal loc.http_proxies.length, assigns(:http_proxies).length
+        assert_same_elements assigns(:http_proxies), loc.http_proxies
       end
     end
   end

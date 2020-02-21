@@ -20,6 +20,7 @@ class Taxonomy < ApplicationRecord
   has_many :ptables, -> { where(:type => 'Ptable') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Ptable'
   has_many :report_templates, -> { where(:type => 'ReportTemplate') }, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'ReportTemplate'
   has_many :domains, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Domain'
+  has_many :http_proxies, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'HttpProxy'
   has_many :realms, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Realm'
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
   has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
