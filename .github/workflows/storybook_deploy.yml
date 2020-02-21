@@ -17,5 +17,17 @@ jobs:
         clean: false
     - name: Run npm install
       run: npm install
-    - name: Deploy Storybook
-      run: npm run deploy-storybook -- --ci --host-token-env-variable=GITHUB_TOKEN
+    - name: Build Storybook
+      run: npm run build-stories --output=.storybook-dist
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Storybook build" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
+        branch: gh-pages
+        
