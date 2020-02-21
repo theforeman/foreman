@@ -7,7 +7,7 @@ on:
     # types: opened
 
 jobs:
-  test_pr_action:
+  deploy_storybook:
 
     runs-on: ubuntu-latest
 
@@ -18,4 +18,4 @@ jobs:
     - name: Run npm install
       run: npm install
     - name: Deploy Storybook
-      run: npm run deploy-storybook -- --remote=jeremylenz --source-branch=storybook-deploy
+      run: npm run deploy-storybook -- --ci --host-token-env-variable=GITHUB_TOKEN --source-branch=storybook-deploy
