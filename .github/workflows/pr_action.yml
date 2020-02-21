@@ -1,7 +1,7 @@
 name: PR action
 
 on:
-  # pull_request:
+  pull_request:
     # paths:
       # - '**.stories.js'
     # types: opened
@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Display event
-      run: echo "${{ toJSON(github['event']) }}"
+      run: echo "${{ toJSON(github['event']['pull_request']) }}"

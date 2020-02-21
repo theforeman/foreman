@@ -18,11 +18,11 @@ jobs:
     - name: Run npm install
       run: npm install
     - name: Build Storybook
-      run: npm run build-storybook --output=.storybook-dist
+      run: npm run build-storybook --output=.
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --local user.name "GH Pages Storybook Bot"
         git commit -m "Storybook build" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
