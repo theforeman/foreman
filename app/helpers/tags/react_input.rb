@@ -27,6 +27,7 @@ module Tags
       react_opts['inputSizeClass'] = options.delete('size') if options.key?('size')
       react_opts['labelSizeClass'] = options.delete('label_size') if options.key?('label_size')
       react_opts.merge! deep_camelize_keys(options)
+      react_opts['inputProps']['name'] = options['name'] if options['name'] && react_opts['inputProps']
       react_opts
     end
 
