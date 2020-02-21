@@ -27,5 +27,15 @@ class TaxonomyHelperTest < ActionView::TestCase
         end
       end
     end
+
+    it "with dual list" do
+      as_admin do
+        form = form_for(taxonomies(:organization1)) do |f|
+          all_checkbox(f, :domains, true)
+        end
+        html = Nokogiri::HTML(form)
+        assert html.css("input.ignore_types.dual_list").any?
+      end
+    end
   end
 end

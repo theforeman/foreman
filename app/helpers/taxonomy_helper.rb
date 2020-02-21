@@ -115,18 +115,19 @@ module TaxonomyHelper
     multiple_selects f, label.downcase.singularize + '_ids', taxonomy.authorized("assign_#{label.downcase}", taxonomy), selected_ids, options, options_html
   end
 
-  def all_checkbox(f, resource)
+  def all_checkbox(f, resource, dual_list = false)
     return ''.html_safe unless User.current.admin? || User.current.filters.joins(:permissions).where({:'permissions.name' => "view_#{resource}",
-                                                       :search => nil,
-                                                       :taxonomy_search => nil}).present?
-    checkbox_f(f, :ignore_types,
-      {:label => translated_label(resource, :all),
-       :multiple => true,
-       :onchange => 'ignore_checked(this)'},
-      resource.to_s.classify)
+                                                                                                      :search => nil,
+                                                                                                      :taxonomy_search => nil}).present?
+    checkbox_f(f, :ignore_types, { :label => translated_label(resource, :all),
+     :multiple => true,
+     :onchange => "ignore_checked(this, #{dual_list})",
+     :class => (dual_list ? 'ignore_types dual_list' : 'ignore_types')}, resource.to_s.classify)
   end
 
-  def show_resource_if_allowed(f, taxonomy, resource_options)
+  def show_resource_if_allowed(f, taxonomy, resource_options, options = {})
+    dual_list = options.delete(:dual_list) == true
+
     if resource_options.is_a? Hash
       resource = resource_options[:resource]
       association = resource_options[:association]
@@ -138,13 +139,22 @@ module TaxonomyHelper
     ids = "#{association.where(nil).klass.to_s.underscore.singularize}_ids".to_sym
 
     content_tag(:div, :id => resource, :class => "tab-pane") do
-      all_checkbox(f, resource) +
-      multiple_selects(f, association.where(nil).klass.to_s.underscore.pluralize.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
-        {:disabled => taxonomy.used_and_selected_or_inherited_ids[ids],
-         :label => translated_label(resource, :select)},
-        {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json,
-         'data-inheriteds' => taxonomy.inherited_ids[ids].to_json,
-         'data-useds' => taxonomy.used_ids[ids].to_json })
+      attr = association.where(nil).klass.to_s.underscore.pluralize.to_sym
+      selected_ids = taxonomy.selected_or_inherited_ids[ids]
+      opts = options.merge({:disabled => taxonomy.used_and_selected_or_inherited_ids[ids], :label => translated_label(resource, :select)})
+      html_opts = {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json, 'data-inheriteds' => taxonomy.inherited_ids[ids].to_json,
+                   'data-useds' => taxonomy.used_ids[ids].to_json,
+                   'disabled' => (taxonomy.ignore_types.any? resource.to_s.singularize.capitalize)
+      }
+      result = all_checkbox(f, resource, dual_list)
+
+      if dual_list
+        result += dual_list(f, attr, association, selected_ids, opts, html_opts)
+      else
+        result += multiple_selects(f, attr, association, selected_ids, opts, html_opts)
+      end
+
+      result.html_safe
     end
   end
 

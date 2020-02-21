@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DualList rendering renders DualList 1`] = `
+<div
+  className="dual-list "
+  id="123"
+>
+  <DualListControlled
+    allowHiddenInputs={true}
+    left={
+      Object {
+        "inputProps": Object {},
+        "items": Array [
+          Object {
+            "label": "location_01",
+            "value": "1",
+          },
+          Object {
+            "label": "location_02",
+            "value": "2",
+          },
+          Object {
+            "label": "location_03",
+            "value": "3",
+          },
+          Object {
+            "label": "location_04",
+            "value": "4",
+          },
+        ],
+      }
+    }
+    onChange={[Function]}
+    onComponentInit={[Function]}
+    onFilterChange={[Function]}
+    onItemChange={[Function]}
+    onMainCheckboxChange={[Function]}
+    onSortClick={[Function]}
+    right={
+      Object {
+        "inputProps": Object {},
+        "items": Array [],
+      }
+    }
+  />
+  <div
+    className="dual_list_error"
+  />
+</div>
+`;

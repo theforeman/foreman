@@ -68,12 +68,12 @@
       <%= show_resource_if_allowed(f, taxonomy, :smart_proxies) %>
 
       <% if SETTINGS[:unattended] %>
-        <%= show_resource_if_allowed(f, taxonomy, :subnets) %>
+        <%= show_resource_if_allowed(f, taxonomy, :subnets, { dual_list: true }) %>
         <%= show_resource_if_allowed(f, taxonomy, :compute_resources) %>
         <%= show_resource_if_allowed(f, taxonomy, :media) %>
         <%= show_resource_if_allowed(f, taxonomy, :provisioning_templates) %>
         <%= show_resource_if_allowed(f, taxonomy, :ptables) %>
-        <%= show_resource_if_allowed(f, taxonomy, :domains) %>
+        <%= show_resource_if_allowed(f, taxonomy, :domains, { dual_list: true }) %>
         <%= show_resource_if_allowed(f, taxonomy, :realms) %>
       <% end %>
 

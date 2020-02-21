@@ -19,7 +19,7 @@ function multiSelectOnLoad(){
 }
 
 function multiSelectToolTips(){
-  $('select[multiple]').each(function(i,item){
+  $('select[multiple]:not(.without_jquery_multiselect)').each(function(i,item){
     var mismatches = $(item).attr('data-mismatches');
     var inheriteds = $(item).attr('data-inheriteds');
     var descendants = $(item).attr('data-descendants');

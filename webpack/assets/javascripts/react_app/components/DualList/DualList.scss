@@ -1,0 +1,9 @@
+.dual-list.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+
+  .dual-list-pf-item {
+    background: #f5f5f5;
+    color: #8b8d8f;
+  }
+}
