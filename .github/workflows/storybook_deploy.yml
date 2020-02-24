@@ -27,7 +27,7 @@ jobs:
         git config --local user.name "Foreman Storybook Bot"
         git add .
         git status
-        git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
+        git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}, commit ${{ github['sha'] }}"
     - name: Deploy Storybook to gh-pages branch
       uses: ad-m/github-push-action@master
       with:
