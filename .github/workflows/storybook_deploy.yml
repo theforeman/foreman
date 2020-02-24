@@ -2,8 +2,8 @@ name: Deploy Storybook Test
 
 on:
   pull_request:
-    # paths:
-      # - '**.stories.js'
+    paths:
+      - '**.stories.js'
     # types: opened
 
 jobs:
@@ -17,8 +17,6 @@ jobs:
         clean: false
     - name: Run npm install
       run: npm install
-    - name: Log working directory
-      run: pwd
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=.storybook-dist/${{ github['event']['pull_request']['number'] }}
     - name: Move files
@@ -37,3 +35,9 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         force: true
         branch: gh-pages
+    - name: Comment PR with new Storybook location
+      if: success()
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        message: See the Storybook for this PR: jeremylenz.github.io/foreman/.storybook-dist/${{ github['event']['pull_request']['number'] }}
+        GITHUB_TOKEN: ${{ github.token }}

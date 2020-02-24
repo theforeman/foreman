@@ -3,7 +3,7 @@ name: Storybook Reminder
 on:
   pull_request:
     paths:
-      - '**.js'
+      - 'webpack/assets/javascripts/react_app/components'
       # - '**.stories.js'
     # types: opened
 
@@ -17,5 +17,5 @@ jobs:
       name: Checkout
     - uses: thollander/actions-comment-pull-request@master
       with:
-        message: Test comment
+        message: Looks like some React files have changed.  If you've added or modified React components, don't forget to update the Storybook!
         GITHUB_TOKEN: ${{ github.token }}
