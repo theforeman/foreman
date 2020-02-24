@@ -37,7 +37,6 @@ jobs:
         branch: gh-pages
     - name: Comment PR with new Storybook location
       uses: thollander/actions-comment-pull-request@master
-      # if: success()
       with:
         message: 'See the Storybook for this PR: jeremylenz.github.io/foreman/.storybook-dist/${{ github['event']['pull_request']['number'] }}'
         GITHUB_TOKEN: ${{ github.token }}
