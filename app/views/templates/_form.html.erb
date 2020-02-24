@@ -60,7 +60,8 @@
       <%= textarea_f f, :description, :size => 'col-md-10', :rows => 3, :label => _('Description'), :disabled => @template.locked? %>
 
       <%= textarea_f f, :audit_comment, :size => "col-md-10", :rows => 3, :label => _("Audit Comment"),
-                     :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
+                     :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes"),
+                     :disabled => @template.locked? %>
     </div>
 
     <div class="tab-pane" id="template_inputs">
