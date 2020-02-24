@@ -26,13 +26,14 @@ jobs:
         git add .
         git status
         git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
-    - name: Deploy Storybook
+    - name: Deploy Storybook to gh-pages branch
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         force: true
         branch: gh-pages
     - name: Comment PR with new Storybook location
+      if: success()
       uses: thollander/actions-comment-pull-request@master
       with:
         message: "See the Storybook for this PR: jeremylenz.github.io/foreman/.storybooks/${{ github['event']['pull_request']['number'] }}"
