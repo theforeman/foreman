@@ -18,7 +18,7 @@ jobs:
     - name: Run npm install
       run: npm install
     - name: Build Storybook
-      run: npm run build-storybook -- --output-dir=.storybooks/${{ github['event']['pull_request']['number'] }}
+      run: npm run build-storybook -- --output-dir=storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
     - name: Commit files
@@ -38,5 +38,5 @@ jobs:
       if: success()
       uses: thollander/actions-comment-pull-request@master
       with:
-        message: "See the Storybook for this PR: jeremylenz.github.io/foreman/.storybooks/${{ github['event']['pull_request']['number'] }}"
+        message: "Deployed the [Storybook](jeremylenz.github.io/foreman/storybooks/${{ github['event']['pull_request']['number'] }}) for this PR to the `gh-pages` branch."
         GITHUB_TOKEN: ${{ github.token }}
