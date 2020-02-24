@@ -18,4 +18,4 @@ jobs:
     - uses: thollander/actions-comment-pull-request@master
       with:
         message: Test comment
-        # GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ github.token }}
