@@ -1,10 +1,14 @@
 html {
   height: 100%;
+  width: 100%;
+  display: table;
   overflow: auto;
 }
 
 body {
   height: 100%;
+  width: 100%;
+  display: table-cell;
 }
 
 .react-container {
