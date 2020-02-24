@@ -17,12 +17,14 @@ $(function() {
 
 // Prevents all links with the disabled attribute set to "disabled"
 // from being clicked.
-$(document).on('click', 'a[disabled="disabled"]', function(evt) {
-  // this check is required in case the link was "enabled" after the
-  // function has registered.
-  var disabled = this.disabled || $(this).attr('disabled') === 'disabled';
-  if (disabled) evt.preventDefault();
+var handleDisabledClick = function(event, element){
+  var disabled = element.disabled || $(element).attr('disabled') === 'disabled';
+  if (disabled) event.preventDefault();
   return !disabled;
+}
+
+$(document).on('click', 'a[disabled="disabled"]', function(event) {
+  return handleDisabledClick(event, this);
 });
 
 function onContentLoad() {
@@ -53,6 +55,10 @@ function onContentLoad() {
   $('a[rel="popover"]').popover();
   tfm.tools.activateTooltips();
   tfm.tools.activateDatatables();
+
+  $('a[disabled="disabled"]').click(function(event) {
+    return handleDisabledClick(event, this);
+  });
 
   // allow opening new window for selected links
   $('a[rel="external"]').attr('target', '_blank');
