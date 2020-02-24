@@ -1,17 +1,21 @@
-name: PR action
+name: Storybook Reminder
 
 on:
   pull_request:
-    # paths:
+    paths:
+      - '**.js'
       # - '**.stories.js'
     # types: opened
 
 jobs:
-  test_pr_action:
+  storybook_comment:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Display event
-      run: echo "${{ toJSON(github['event']['pull_request']['number']) }}"
+      name: Checkout
+    - uses: thollander/actions-comment-pull-request@master
+      with:
+        message: Test comment
+        # GITHUB_TOKEN: ${{ github.token }}
