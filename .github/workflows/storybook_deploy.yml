@@ -18,7 +18,7 @@ jobs:
     - name: Run npm install
       run: npm install
     - name: Build Storybook
-      run: npm run build-storybook -- --output-dir=.
+      run: npm run build-storybook -- --output-dir=${{ github.workspace }}
       # run: npm run build-storybook -- --output-dir=.storybook-dist/${{ github['event']['pull_request']['number'] }}
     - name: Commit files
       run: |
