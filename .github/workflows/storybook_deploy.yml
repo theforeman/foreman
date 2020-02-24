@@ -38,5 +38,5 @@ jobs:
     - name: Comment PR with new Storybook location
       uses: thollander/actions-comment-pull-request@master
       with:
-        message: 'See the Storybook for this PR: jeremylenz.github.io/foreman/.storybook-dist/${{ github['event']['pull_request']['number'] }}'
+        message: "See the Storybook for this PR: jeremylenz.github.io/foreman/.storybook-dist/${{ github['event']['pull_request']['number'] }}"
         GITHUB_TOKEN: ${{ github.token }}
