@@ -2,8 +2,8 @@ name: Deploy Storybook Test
 
 on:
   pull_request:
-    paths:
-      - '**.stories.js'
+    # paths:
+      # - '**.stories.js'
     # types: opened
 
 jobs:
@@ -19,9 +19,6 @@ jobs:
       run: npm install
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=.storybooks/${{ github['event']['pull_request']['number'] }}
-    - name: Move files
-      run: |
-        mv .storybooks/${{ github['event']['pull_request']['number'] }}/* .
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
