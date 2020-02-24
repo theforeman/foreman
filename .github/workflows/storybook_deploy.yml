@@ -19,6 +19,8 @@ jobs:
       run: npm install
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=.storybooks/${{ github['event']['pull_request']['number'] }}
+    - name: Tell Github not to use jekyll
+      run: touch .nojekyll
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
