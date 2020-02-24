@@ -30,6 +30,18 @@ $(function() {
   $(document).trigger('ContentLoad');
 });
 
+// Prevents all links with the disabled attribute set to "disabled"
+// from being clicked.
+var handleDisabledClick = function(event, element){
+  var disabled = element.disabled || $(element).attr('disabled') === 'disabled';
+  if (disabled) event.preventDefault();
+  return !disabled;
+}
+
+$(document).on('click', 'a[disabled="disabled"]', function(event) {
+  return handleDisabledClick(event, this);
+});
+
 function onContentLoad(){
   tfm.store.observeStore('layout', tfm.nav.showContent);
   uninitialized_autocompletes = $.grep($('.autocomplete-input'), function(i){ return !$(i).next().hasClass('autocomplete-clear'); });
@@ -55,14 +67,8 @@ function onContentLoad(){
   tfm.tools.activateTooltips();
   tfm.tools.activateDatatables();
 
-  // Prevents all links with the disabled attribute set to "disabled"
-  // from being clicked.
-  $('a[disabled="disabled"]').click(function() {
-    // return false for actual disabled links, this is
-    // required in case the link was "enabled" after the
-    // function has registered.
-    var isDisabled = $(this).attr('disabled') === 'disabled';
-    return !isDisabled;
+  $('a[disabled="disabled"]').click(function(event) {
+    return handleDisabledClick(event, this);
   });
 
   // allow opening new window for selected links
