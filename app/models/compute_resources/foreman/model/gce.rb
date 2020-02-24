@@ -154,7 +154,18 @@ module Foreman::Model
     end
 
     def available_images
-      client.images
+      images_list = client.images.current
+      if image_families_to_filter.present?
+        images_list.select! {|img| img.family.match(/#{image_families_to_filter.join("|")}/)}
+      end
+      images_list
+    end
+
+    # Includes the ability to override the images list from Google Compute Engine
+    # override this method to filter list by adding image family names
+    # Example - ['rhel', 'centos']
+    def image_families_to_filter
+      []
     end
 
     def self.model_name
@@ -230,7 +241,8 @@ module Foreman::Model
         :provider => 'google',
         :google_project => project,
         :google_client_email => email,
-        :google_json_key_location => key_path
+        :google_json_key_location => key_path,
+        :google_extra_global_projects => ['rhel-sap-cloud']
       )
     end
 
