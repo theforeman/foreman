@@ -20,14 +20,19 @@ jobs:
     - name: Log working directory
       run: pwd
     - name: Build Storybook
-      run: npm run build-storybook -- --output-dir=${{ github.workspace }}/.storybook-dist/${{ github['event']['pull_request']['number'] }}
-      # run: npm run build-storybook -- --output-dir=.storybook-dist/${{ github['event']['pull_request']['number'] }}
+      run: npm run build-storybook -- --output-dir=.storybook-dist/${{ github['event']['pull_request']['number'] }}
+    - name: Move files
+      run: |
+        mv .storybook-dist/${{ github['event']['pull_request']['number'] }}/* .
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
-        git add .storybook-dist/*
-        git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
+        git status
+        git add .
+        git status
+      # git add .storybook-dist/*
+      # git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
     - name: Deploy Storybook
       uses: ad-m/github-push-action@master
       with:
