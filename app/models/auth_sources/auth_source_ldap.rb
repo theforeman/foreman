@@ -265,9 +265,9 @@ class AuthSourceLdap < AuthSource
 
   def validate_ldap_filter
     Net::LDAP::Filter.construct(ldap_filter)
-  # rubocop:disable Lint/ShadowedException, Lint/UnneededCopDisableDirective
+  # rubocop:disable Lint/ShadowedException, Lint/RedundantCopDisableDirective
   rescue Net::LDAP::Error, Net::LDAP::LdapError, Net::LDAP::FilterSyntaxInvalidError => e
-    # rubocop:enable Lint/ShadowedException, Lint/UnneededCopDisableDirective
+    # rubocop:enable Lint/ShadowedException, Lint/RedundantCopDisableDirective
     message = _("invalid LDAP filter syntax")
     Foreman::Logging.exception(message, e)
     errors.add(:ldap_filter, message)

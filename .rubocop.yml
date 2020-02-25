@@ -15,21 +15,24 @@ AllCops:
 Bundler/OrderedGems:
   Enabled: false
 
-Layout/AlignArguments:
+Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
   IndentationWidth: 2
-
-Layout/AlignHash:
-  Enabled: false
-
-Layout/AlignParameters:
-  Enabled: false
 
 Layout/DotPosition:
   Enabled: false
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+Layout/ParameterAlignment:
+  Enabled: false
 
 Metrics:
   Enabled: false
