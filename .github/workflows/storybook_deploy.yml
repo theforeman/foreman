@@ -1,4 +1,4 @@
-name: Deploy Storybook Test
+name: Deploy Storybook
 
 on:
   pull_request:
