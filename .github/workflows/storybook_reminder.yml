@@ -18,8 +18,8 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         paths: 'webpack/assets/javascripts/react_app/**.js'
-    - uses: actions/checkout@v2
-      name: Checkout
+    # - uses: actions/checkout@v2
+    #   name: Checkout
     - uses: thollander/actions-comment-pull-request@master
       name: Comment PR with Storybook reminder
       if: steps.modified.outputs.modified
