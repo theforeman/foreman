@@ -21,7 +21,7 @@ namespace :reports do
   def report_type
     return ConfigReport if ENV['report_type'].blank?
     begin
-      return ENV['report_type'].camelize.constantize
+      ENV['report_type'].camelize.constantize
     rescue NameError => e
       puts "Could not find a report of type #{ENV['report_type']}, please check spelling / underscore errors"
       raise e

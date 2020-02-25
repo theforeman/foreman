@@ -28,7 +28,7 @@ module SSO
         end
       else
         Rails.logger.warn "OAuth signature verification failed."
-        return nil
+        nil
       end
     end
 

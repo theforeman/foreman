@@ -217,7 +217,7 @@ module Orchestration
     end
     if obj.respond_to?(met, true)
       param.nil? || (return obj.send(met, param))
-      return obj.send(met)
+      obj.send(met)
     else
       failure _("invalid method %s") % met
       raise ::Foreman::Exception.new(N_("invalid method %s"), met)

@@ -393,7 +393,7 @@ class HostsController < ApplicationController
     if @skipped_parameters.empty?
       success _('Updated all hosts!')
       redirect_to(hosts_path)
-      return
+      nil
     else
       success _("%s Parameters updated, see below for more information") % counter
     end
@@ -796,7 +796,7 @@ class HostsController < ApplicationController
     if proxy_id.present? && !SmartProxy.find_by_id(proxy_id)
       error _('Invalid proxy selected!')
       redirect_to(redirect_path)
-      return false
+      false
     end
   end
 

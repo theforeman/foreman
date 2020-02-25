@@ -43,16 +43,16 @@ module HostStatus
 
       if error?
         # error
-        return HostStatus::Global::ERROR
+        HostStatus::Global::ERROR
       elsif out_of_sync?
         # out of sync
-        return HostStatus::Global::WARN
+        HostStatus::Global::WARN
       elsif no_reports? && (host.configuration? || Setting[:always_show_configuration_status])
         # no reports and configuration is set
-        return HostStatus::Global::WARN
+        HostStatus::Global::WARN
       else
         # active, pending, no changes, no reports (or host not setup for configuration)
-        return HostStatus::Global::OK
+        HostStatus::Global::OK
       end
     end
 
