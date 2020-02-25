@@ -13,16 +13,17 @@ jobs:
 
     steps:
     - name: Look at paths modified
-      uses: pheel/path-watcher-action@v1
-      id: modified
+    - name: Get Changed Files
+      id: get_changed
+      uses: lots0logs/gh-action-get-changed-files@2.0.6
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        paths: 'webpack/assets/javascripts/react_app/**.js'
     # - uses: actions/checkout@v2
     #   name: Checkout
     - uses: thollander/actions-comment-pull-request@master
       name: Comment PR with Storybook reminder
-      if: steps.modified.outputs.modified
+    # if the list of changed files contains react_app, comment the PR
+      if: contains(join(steps.get_changed.outputs.all), 'react_app')
       with:
         message: Looks like some React files have changed.  If you've added or modified React components, don't forget to update the Storybook!
         GITHUB_TOKEN: ${{ github.token }}
