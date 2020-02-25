@@ -2,7 +2,7 @@ name: Storybook Reminder
 
 on:
   pull_request:
-    exclude_paths:
+    paths-ignore:
       - '**.stories.js'
     # types: opened
 
