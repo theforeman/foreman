@@ -2,9 +2,8 @@ name: Storybook Reminder
 
 on:
   pull_request:
-    paths:
-      - 'webpack/assets/javascripts/react_app/**.js'
-      - '!**.stories.js'
+    exclude_paths:
+      - '**.stories.js'
     # types: opened
 
 jobs:
@@ -15,7 +14,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       name: Checkout
+    - name: Look at paths modified
+      uses: pheel/path-watcher-action@v1
+      id: modified
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        paths: 'webpack/assets/javascripts/react_app/**.js'
     - uses: thollander/actions-comment-pull-request@master
+      name: Comment PR with Storybook reminder
+      if: steps.modified.outputs.modified
       with:
         message: Looks like some React files have changed.  If you've added or modified React components, don't forget to update the Storybook!
         GITHUB_TOKEN: ${{ github.token }}
