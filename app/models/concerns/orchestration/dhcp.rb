@@ -90,7 +90,7 @@ module Orchestration::DHCP
     # only smart proxies with V2 API are supported
     if subnet.dhcp.has_capability?(:DHCP, :dhcp_filename_hostname)
       # we no longer convert the boot server to IPv4 - smart proxy modules are required to do so if they don't support hostname
-      return bs
+      bs
     else
       begin
         Foreman::Deprecation.deprecation_warning('1.25', "DHCP proxy does not report dhcp_filename_* capability and reverse DNS search in Foreman will be removed.")
@@ -151,7 +151,7 @@ module Orchestration::DHCP
   end
 
   def queue_dhcp
-    return log_orchestration_errors unless (dhcp? || (old&.dhcp?)) && orchestration_errors?
+    return log_orchestration_errors unless (dhcp? || old&.dhcp?) && orchestration_errors?
     queue_remove_dhcp_conflicts
     new_record? ? queue_dhcp_create : queue_dhcp_update
   end

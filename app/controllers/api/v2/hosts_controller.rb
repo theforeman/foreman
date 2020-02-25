@@ -405,7 +405,7 @@ module Api
         return Host::Managed if params[:type].blank?
         if params[:type].constantize.new.is_a?(Host::Base)
           logger.debug "Creating host of type: #{params[:type]}"
-          return params[:type].constantize
+          params[:type].constantize
         else
           raise ::Foreman::Exception.new(N_("Invalid type for host creation via facts: %s"), params[:type])
         end

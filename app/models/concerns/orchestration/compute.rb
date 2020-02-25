@@ -253,7 +253,7 @@ module Orchestration::Compute
         self.image = img
       else
         failure(_("Selected image does not belong to %s") % compute_resource)
-        return false
+        false
       end
     else
       # don't send the image information to the compute resource unless using the image provisioning method

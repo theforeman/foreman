@@ -54,7 +54,7 @@ module Classification
       return host.host_params[element] if is_parameter?(element)
       # fact attribute
       if (fn = fact_name(element))
-        return fact_value(fn)
+        fact_value(fn)
       end
     end
 
