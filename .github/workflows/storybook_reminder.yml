@@ -3,8 +3,8 @@ name: Storybook Reminder
 on:
   pull_request:
     paths:
-      - 'webpack/assets/javascripts/react_app/*'
-      - '!**.stories.js'
+      - 'webpack/assets/javascripts/react_app/**.js'
+      - '!**[Ss]tories.js'
     # types: opened
 
 jobs:
