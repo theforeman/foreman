@@ -2,9 +2,9 @@ name: Deploy Storybook
 
 on:
   pull_request:
-    # paths:
-      # - '**.stories.js'
-    # types: opened
+    paths:
+      - '**.stories.js'
+    types: opened
 
 jobs:
   deploy_storybook:
