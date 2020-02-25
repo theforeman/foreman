@@ -22,7 +22,7 @@ jobs:
         paths: 'webpack/assets/javascripts/react_app/**.js'
     - uses: thollander/actions-comment-pull-request@master
       name: Comment PR with Storybook reminder
-      if: steps.modified.outputs.modified
+      if: steps['Look at paths modified']['outputs']['modified']
       with:
         message: Looks like some React files have changed.  If you've added or modified React components, don't forget to update the Storybook!
         GITHUB_TOKEN: ${{ github.token }}
