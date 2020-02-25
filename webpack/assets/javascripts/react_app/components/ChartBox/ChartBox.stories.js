@@ -6,7 +6,7 @@ import Story from '../../../../../stories/components/Story';
 export default {
   title: 'Components|Charts|ChartBox',
   component: ChartBox,
-}; // hi
+};
 
 export const Loading = () => (
   <Story narrow>
