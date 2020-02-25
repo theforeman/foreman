@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Look at paths modified
     - name: Get Changed Files
       id: get_changed
       uses: lots0logs/gh-action-get-changed-files@2.0.6
