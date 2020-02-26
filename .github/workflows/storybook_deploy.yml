@@ -24,17 +24,15 @@ jobs:
       run: |
         git checkout gh-pages
         ls tmp/storybooks/${{ github['event']['pull_request']['number'] }}
-    - name: Move files to storybooks/:pr_num/
+    - name: Tell Github not to use jekyll
+      run: touch .nojekyll
+    - name: Move and commit files
       run: |
         mkdir -p storybooks/${{ github['event']['pull_request']['number'] }}
         rm -r storybooks/${{ github['event']['pull_request']['number'] }}/*
         mv tmp/storybooks/${{ github['event']['pull_request']['number'] }}/* storybooks/${{ github['event']['pull_request']['number'] }}
         ls storybooks/${{ github.event.pull_request.number }}
         git status
-    - name: Tell Github not to use jekyll
-      run: touch .nojekyll
-    - name: Commit files
-      run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
         git status
