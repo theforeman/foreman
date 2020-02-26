@@ -27,7 +27,7 @@ jobs:
         git checkout gh-pages
     - name: Move files to storybooks/:pr_num/
       run: |
-        mkdir storybooks/${{ github['event']['pull_request']['number'] }}
+        mkdir -p storybooks/${{ github['event']['pull_request']['number'] }}
         mv tmp/storybooks/${{ github['event']['pull_request']['number'] }}/* storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
