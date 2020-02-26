@@ -640,6 +640,16 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_response :unprocessable_entity
     end
 
+    test "when :enable_facts_storage is disabled" do
+      Setting[:enable_facts_storage] = false
+      User.current = nil
+      fact_count = FactValue.count
+
+      post :facts, params: { :name => hostname, :facts => facts }, session: set_session_user
+      assert_response :method_not_allowed
+      assert_equal fact_count, FactValue.count
+    end
+
     context 'taxonomy handling in fact import' do
       let (:loc) { FactoryBot.create(:location) }
       let (:org) { FactoryBot.create(:organization) }

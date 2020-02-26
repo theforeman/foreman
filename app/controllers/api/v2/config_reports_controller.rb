@@ -39,6 +39,12 @@ module Api
       param_group :config_report, :as => :create
 
       def create
+        unless Setting[:enable_reports_storage]
+          render_error 'custom_error', :status => :method_not_allowed,
+                       :locals => { :message => _("Storing reports is disabled, please enable \"Store Reports\" feature in Administer > Settings > General.") }
+          return
+        end
+
         @config_report = ConfigReport.import(params.to_unsafe_h[:config_report], detected_proxy.try(:id))
         process_response @config_report.errors.empty?
       rescue ::Foreman::Exception => e

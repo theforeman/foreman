@@ -29,6 +29,8 @@ class Setting::General < Setting
       self.set('instance_id', N_("Foreman instance ID, uniquely identifies this Foreman instance."), 'uuid', N_('Foreman UUID'), Foreman.uuid),
       self.set('default_locale', N_("Language to use for new users"), nil, N_('Default language'), nil, { :collection => Proc.new { locales } }),
       self.set('default_timezone', N_("Timezone to use for new users"), nil, N_('Default timezone'), nil, { :collection => Proc.new { timezones } }),
+      self.set('enable_facts_storage', N_("Store Fact Values"), true, N_('Store fact values in the database including historical records')),
+      self.set('enable_reports_storage', N_("Store Reports"), true, N_('Store reports in the database including historical records')),
     ]
   end
 

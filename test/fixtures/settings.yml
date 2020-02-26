@@ -426,3 +426,13 @@ attribute93:
   category: Setting::Puppet
   default: true
   description: "Foreman will update a host's hostgroup from its facts"
+attribute94:
+  name: enable_facts_storage
+  category: Setting::General
+  default: false
+  description: 'Store fact values in the database including historical records'
+attribute95:
+  name: enable_reports_storage
+  category: Setting::General
+  default: false
+  description: 'Store reports in the database including historical records'

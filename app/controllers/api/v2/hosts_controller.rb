@@ -300,8 +300,13 @@ module Api
       param :facts, Hash,      :required => true, :desc => N_("hash containing the facts for the host")
       param :certname, String, :desc => N_("optional: certname of the host")
       param :type, String,     :desc => N_("optional: the STI type of host to create")
-
       def facts
+        unless Setting[:enable_facts_storage]
+          render_error 'custom_error', :status => :method_not_allowed,
+                       :locals => { :message => _("Storing facts is disabled, please enable \"Store Fact Values\" feature in Administer > Settings > General.") }
+          return
+        end
+
         @host = detect_host_type.import_host params[:name], params[:certname]
         state = @host.import_facts(params[:facts].to_unsafe_h, detected_proxy)
         process_response state

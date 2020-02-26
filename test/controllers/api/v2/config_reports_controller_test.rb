@@ -119,6 +119,16 @@ class Api::V2::ConfigReportsControllerTest < ActionController::TestCase
       post :create, params: { :config_report => create_a_puppet_transaction_report }
       assert_response :created
     end
+
+    test "when :enable_reports_storage is disabled" do
+      Setting[:enable_reports_storage] = false
+      User.current = nil
+      reports_count = ConfigReport.count
+
+      post :create, params: { :config_report => create_a_puppet_transaction_report }, session: set_session_user
+      assert_response :method_not_allowed
+      assert_equal reports_count, ConfigReport.count
+    end
   end
 
   test "should get index" do
