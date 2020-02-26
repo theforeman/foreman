@@ -14,7 +14,7 @@ const storeProviderWrapperFactory = store => WrappedComponent => {
   )})`;
 
   return StoreProvider;
-}; // hi 1
+};
 
 const dataProviderWrapperFactory = (
   data,
