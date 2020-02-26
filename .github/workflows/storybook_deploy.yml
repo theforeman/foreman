@@ -46,5 +46,5 @@ jobs:
       if: success()
       uses: thollander/actions-comment-pull-request@master
       with:
-        message: "Deployed the [Storybook](https://${{ github.event.pull_request.repo.owner.login }}.github.io/foreman/storybooks/${{ github['event']['pull_request']['number'] }}) for this PR to the `gh-pages` branch."
+        message: "Deployed the [Storybook](https://${{ github.event.pull_request.head.repo.owner.login }}.github.io/foreman/storybooks/${{ github['event']['pull_request']['number'] }}) for this PR to the `gh-pages` branch."
         GITHUB_TOKEN: ${{ github.token }}
