@@ -20,6 +20,8 @@ jobs:
       run: npm install
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=storybooks/${{ github['event']['pull_request']['number'] }}
+    - name: Stash files
+      run: git stash
     - name: Checkout gh-pages
       run: |
         git config --local user.email "action@github.com"
@@ -27,6 +29,8 @@ jobs:
         git checkout gh-pages
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
+    - name: Unstash files
+      run: git stash pop
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
