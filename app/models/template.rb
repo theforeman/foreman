@@ -217,7 +217,7 @@ class Template < ApplicationRecord
   def import_oses(options)
     if @importing_metadata.key?('oses') && associate_metadata_on_import?(options)
       oses = Operatingsystem.authorized(:view_operatingsystems).all.select do |existing_os|
-        @importing_metadata['oses'].any? {|imported_os| existing_os.to_label =~ /\A#{imported_os}/}
+        @importing_metadata['oses'].any? { |imported_os| existing_os.to_label =~ /\A#{imported_os}/ }
       end
       self.operatingsystem_ids = oses.map(&:id)
     end

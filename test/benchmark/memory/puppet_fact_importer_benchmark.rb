@@ -15,9 +15,9 @@ class StructuredFactImporter
 end
 
 def generate_facts(total, unique_names = 0, structured_names = 0)
-  facts = Hash[(1..total).map {|i| ["fact_#{i}", "value_#{i}"]}]
-  (total..total + unique_names).map {|i| facts["fact_#{i}_#{Foreman.uuid}"] = "value_#{i}"}
-  (total..total + structured_names).map {|i| facts[(["f#{i}"] * (i % 10)).join('::') + i.to_s] = "value_#{i}"}
+  facts = Hash[(1..total).map { |i| ["fact_#{i}", "value_#{i}"] }]
+  (total..total + unique_names).map { |i| facts["fact_#{i}_#{Foreman.uuid}"] = "value_#{i}" }
+  (total..total + structured_names).map { |i| facts[(["f#{i}"] * (i % 10)).join('::') + i.to_s] = "value_#{i}" }
   facts
 end
 

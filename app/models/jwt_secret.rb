@@ -8,7 +8,7 @@ class JwtSecret < ApplicationRecord
   validates :token, uniqueness: true
   validates :user, presence: true
 
-  before_save :generate_token, on: :create, prepend: true, :unless => Proc.new {|j| j.token.present?}
+  before_save :generate_token, on: :create, prepend: true, :unless => Proc.new { |j| j.token.present? }
 
   private
 

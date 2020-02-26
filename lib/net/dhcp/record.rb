@@ -55,7 +55,7 @@ module Net::DHCP
     # Returns an array of record objects which are conflicting with our own
     def conflicts
       conflicts = [proxy.record(network, mac), proxy.records_by_ip(network, ip)].flatten.compact.delete_if { |c| c.lease? || c == self || related_macs.include?(c.mac) }
-      @conflicts ||= conflicts.uniq {|c| c.attrs}
+      @conflicts ||= conflicts.uniq { |c| c.attrs }
     end
 
     # Verifies that a record already exists on the dhcp server

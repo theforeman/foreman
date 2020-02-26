@@ -52,7 +52,7 @@ module Mutations
         test 'update a model' do
           model
 
-          assert_difference(-> {::Model.count}, 0) do
+          assert_difference(-> { ::Model.count }, 0) do
             assert_empty result['errors']
             assert_empty result['data']['updateModel']['errors']
           end
@@ -72,7 +72,7 @@ module Mutations
         test 'update a model' do
           model
 
-          assert_difference(-> {::Model.count}, 0) do
+          assert_difference(-> { ::Model.count }, 0) do
             assert_empty result['errors']
           end
           assert_equal context_user.id, Audit.last.user_id
@@ -87,7 +87,7 @@ module Mutations
         test 'cannot update a model' do
           model
 
-          assert_difference(-> {::Model.count}, 0) do
+          assert_difference(-> { ::Model.count }, 0) do
             assert_not_empty result['errors']
           end
         end

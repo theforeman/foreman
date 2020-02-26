@@ -7,7 +7,7 @@ class HostBuildStatus
     @host   = host
     @errors = {}
     @state  = true # default to true state
-    VALIDATION_TYPES.each {|type| @errors[type] = []}
+    VALIDATION_TYPES.each { |type| @errors[type] = [] }
   end
 
   def check_all_statuses

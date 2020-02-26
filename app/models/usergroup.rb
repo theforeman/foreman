@@ -33,7 +33,7 @@ class Usergroup < ApplicationRecord
   # The text item to see in a select dropdown menu
   alias_attribute :select_title, :to_s
   default_scope -> { order('usergroups.name') }
-  scope :visible, -> { }
+  scope :visible, -> {}
   scope :except_current, ->(current) { where.not(:id => current.id) }
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :roles, :on => :name, :rename => :role, :complete_value => true

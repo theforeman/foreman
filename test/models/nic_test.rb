@@ -282,7 +282,7 @@ class NicTest < ActiveSupport::TestCase
     end
 
     test '.proxy raises exception if BMC SmartProxy cannot be found' do
-      SmartProxy.with_features('BMC').map {|sp| sp.features = []}
+      SmartProxy.with_features('BMC').map { |sp| sp.features = [] }
 
       assert_raise Foreman::Exception do
         @interface.reload.proxy

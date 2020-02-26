@@ -29,7 +29,7 @@ class CertificateExtract
   end
 
   def subject_alt_name_extension
-    @certificate.extensions.find {|e| e.oid == "subjectAltName"}
+    @certificate.extensions.find { |e| e.oid == "subjectAltName" }
   end
 
   private

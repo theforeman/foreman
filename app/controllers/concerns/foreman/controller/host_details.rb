@@ -21,7 +21,7 @@ module Foreman::Controller::HostDetails
 
   def domain_selected
     respond_to do |format|
-      format.html {assign_parameter "domain", "common/"}
+      format.html { assign_parameter "domain", "common/" }
       format.json do
         taxonomy_scope
         Taxonomy.as_taxonomy @organization, @location do

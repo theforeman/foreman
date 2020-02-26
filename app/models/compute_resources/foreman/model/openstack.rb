@@ -132,7 +132,7 @@ module Foreman::Model
     end
 
     def possible_scheduler_hints
-      SEARCHABLE_ACTIONS.collect {|x| x.to_s.camelize }
+      SEARCHABLE_ACTIONS.collect { |x| x.to_s.camelize }
     end
 
     def get_server_groups(policy)
@@ -160,7 +160,7 @@ module Foreman::Model
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
-      args[:nics].map! {|nic| nic.is_a?(String) ? { 'net_id' => nic } : nic }
+      args[:nics].map! { |nic| nic.is_a?(String) ? { 'net_id' => nic } : nic }
       args[:security_groups].delete_if(&:blank?) if args[:security_groups].present?
       format_scheduler_hint_filter(args) if args[:scheduler_hint_filter].present?
       vm = super(args)
@@ -217,7 +217,7 @@ module Foreman::Model
     end
 
     def zones
-      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map) {|i| i["zoneName"]} || [])
+      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map) { |i| i["zoneName"] } || [])
     end
 
     def normalize_vm_attrs(vm_attrs)

@@ -107,7 +107,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     before do
       @compute_resource = FactoryBot.build(:ovirt_cr)
       @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => "Default" })
-      @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota])}
+      @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota]) }
     end
 
     it 'passes api_version properly' do
@@ -144,7 +144,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     before do
       @compute_resource = FactoryBot.build(:ovirt_cr)
       @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => 'Default' })
-      @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota])}
+      @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota]) }
     end
 
     test 'quota validation - id entered' do

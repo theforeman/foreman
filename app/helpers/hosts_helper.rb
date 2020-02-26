@@ -389,7 +389,7 @@ module HostsHelper
       :proxy_id,
       [[_("Select desired %s proxy") % _(proxy_feature), "disabled"]] +
       [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
-      SmartProxy.with_features(proxy_feature).map {|p| [p.name, p.id]},
+      SmartProxy.with_features(proxy_feature).map { |p| [p.name, p.id] },
       {},
       {:label => _(proxy_feature), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" }
   end

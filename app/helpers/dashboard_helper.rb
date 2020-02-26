@@ -30,7 +30,7 @@ module DashboardHelper
 
   def widgets_to_add
     return link_to(_('Nothing to add'), '#') unless removed_widgets.present?
-    removed_widgets.sort_by {|w| w[:name] }.each do |removed_widget|
+    removed_widgets.sort_by { |w| w[:name] }.each do |removed_widget|
       concat(link_to_function(_(removed_widget[:name]),
         "tfm.dashboard.addWidget('#{removed_widget[:name]}')"))
     end

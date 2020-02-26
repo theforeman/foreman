@@ -45,7 +45,7 @@ module Foreman
       # Returns the permission of given name or nil if it wasn't found
       # Argument should be a symbol
       def permission(name)
-        permissions.detect {|p| p.name == name}
+        permissions.detect { |p| p.name == name }
       end
 
       # Removes the permission object given from the control list
@@ -60,15 +60,15 @@ module Foreman
       end
 
       def public_permissions
-        @public_permissions ||= @permissions.select {|p| p.public?}
+        @public_permissions ||= @permissions.select { |p| p.public? }
       end
 
       def members_only_permissions
-        @members_only_permissions ||= @permissions.select {|p| p.require_member?}
+        @members_only_permissions ||= @permissions.select { |p| p.require_member? }
       end
 
       def loggedin_only_permissions
-        @loggedin_only_permissions ||= @permissions.select {|p| p.require_loggedin?}
+        @loggedin_only_permissions ||= @permissions.select { |p| p.require_loggedin? }
       end
 
       def available_security_blocks
@@ -76,7 +76,7 @@ module Foreman
       end
 
       def blocks_permissions(modules)
-        @permissions.select {|p| p.security_block.nil? || modules.include?(p.security_block.to_s)}
+        @permissions.select { |p| p.security_block.nil? || modules.include?(p.security_block.to_s) }
       end
     end
 
@@ -115,7 +115,7 @@ module Foreman
         @engine = options[:engine]
         hash.each do |controller, actions|
           if actions.is_a? Array
-            @actions << actions.collect {|action| "#{controller}/#{action}"}
+            @actions << actions.collect { |action| "#{controller}/#{action}" }
           else
             @actions << "#{controller}/#{actions}"
           end

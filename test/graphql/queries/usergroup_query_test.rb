@@ -30,7 +30,7 @@ module Queries
     let(:usergroup) { user.usergroups.first }
 
     let(:global_id) { Foreman::GlobalId.for(usergroup) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['usergroup'] }
 
     test 'fetching usergroup attributes' do

@@ -26,7 +26,7 @@ class UserRole < ApplicationRecord
   validates :role_id, :presence => true
   validates :owner_id, :uniqueness => {:scope => [:role_id, :owner_type],
                                        :message => N_("has this role already")},
-                                       :unless => -> {owner.blank?}
+                                       :unless => -> { owner.blank? }
 
   # if we trigger cache clean up by deleting the user, the owner relation target
   # does not work since taxable_taxonomy record is already deleted, in this case

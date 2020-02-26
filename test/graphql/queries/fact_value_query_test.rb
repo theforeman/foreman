@@ -26,7 +26,7 @@ module Queries
     let(:fact_value) { FactoryBot.create(:fact_value) }
 
     let(:global_id) { Foreman::GlobalId.for(fact_value) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['factValue'] }
 
     test 'fetching fact value attributes' do

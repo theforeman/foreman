@@ -95,8 +95,8 @@ module TaxonomiesBaseTest
       medium_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:medium_id).compact
       compute_resource_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).distinct.pluck(:compute_resource_id).compact
       user_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).where(:owner_type => 'User').distinct.pluck(:owner_id).compact
-      smart_proxy_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).map {|host| host.smart_proxies.map(&:id)}.flatten.compact.uniq
-      provisioning_template_ids = Host.where("#{taxonomy_name}_id = #{taxonomy.id} and operatingsystem_id > 0").map {|host| host.provisioning_template.try(:id)}.compact.uniq
+      smart_proxy_ids = Host.where(:"#{taxonomy_name}_id" => taxonomy.id).map { |host| host.smart_proxies.map(&:id) }.flatten.compact.uniq
+      provisioning_template_ids = Host.where("#{taxonomy_name}_id = #{taxonomy.id} and operatingsystem_id > 0").map { |host| host.provisioning_template.try(:id) }.compact.uniq
       # match to above retrieved data
       assert_equal used_ids[:environment_ids], environment_ids
       assert_equal used_ids[:hostgroup_ids], hostgroup_ids

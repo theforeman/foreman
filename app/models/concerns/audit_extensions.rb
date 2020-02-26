@@ -6,8 +6,8 @@ module AuditExtensions
 
   included do
     before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name, :set_taxonomies
-    before_save :filter_encrypted, :if => Proc.new {|audit| audit.audited_changes.present?}
-    before_save :filter_passwords, :if => Proc.new {|audit| audit.audited_changes.try(:has_key?, 'password')}
+    before_save :filter_encrypted, :if => Proc.new { |audit| audit.audited_changes.present? }
+    before_save :filter_passwords, :if => Proc.new { |audit| audit.audited_changes.try(:has_key?, 'password') }
     after_create :log_audit
 
     scope :untaxed, -> { by_auditable_types(untaxable) }
@@ -169,7 +169,7 @@ module AuditExtensions
     self.audited_changes.each do |name, change|
       next if change.nil? || change.to_s.empty?
       if change.is_a? Array
-        change.map! {|c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? REDACTED : c}
+        change.map! { |c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? REDACTED : c }
       else
         audited_changes[name] = REDACTED if change.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX)
       end

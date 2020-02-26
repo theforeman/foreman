@@ -229,7 +229,7 @@ class HostsControllerTest < ActionController::TestCase
     Resolv.any_instance.stubs(:getnames).returns(['else.where'])
     get :externalNodes, params: { :name => @host.name }, session: set_session_user
     assert_response :success
-    as_admin { @enc = @host.info.to_yaml}
+    as_admin { @enc = @host.info.to_yaml }
     assert_equal "<pre>#{ERB::Util.html_escape(@enc)}</pre>", response.body
   end
 
@@ -1440,7 +1440,7 @@ class HostsControllerTest < ActionController::TestCase
     def test_submit_multiple_rebuild_config_optimistic
       @request.env['HTTP_REFERER'] = hosts_path
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => true, "DHCP" => true, "DNS" => true})
-      h = as_admin {FactoryBot.create(:host)}
+      h = as_admin { FactoryBot.create(:host) }
 
       post :submit_rebuild_config, params: { :host_ids => [h.id] }, session: set_session_user
 
@@ -1452,7 +1452,7 @@ class HostsControllerTest < ActionController::TestCase
     def test_submit_multiple_rebuild_config_pessimistic
       @request.env['HTTP_REFERER'] = hosts_path
       Host.any_instance.expects(:recreate_config).returns({"TFTP" => false, "DHCP" => false, "DNS" => false})
-      h = as_admin {FactoryBot.create(:host)}
+      h = as_admin { FactoryBot.create(:host) }
 
       post :submit_rebuild_config, params: { :host_ids => [h.id] }, session: set_session_user
 

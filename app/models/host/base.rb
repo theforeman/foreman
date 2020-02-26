@@ -358,7 +358,7 @@ module Host
     # method is public because it's used when we run orchestration from interface side
     def setup_clone
       return if new_record?
-      @old = super { |clone| clone.interfaces = self.interfaces.map {|i| setup_object_clone(i) } }
+      @old = super { |clone| clone.interfaces = self.interfaces.map { |i| setup_object_clone(i) } }
     end
 
     def skip_orchestration?

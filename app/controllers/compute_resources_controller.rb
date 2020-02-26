@@ -119,7 +119,7 @@ class ComputeResourcesController < ApplicationController
 
   def ping
     respond_to do |format|
-      format.json {render :json => errors_hash(@compute_resource.ping)}
+      format.json { render :json => errors_hash(@compute_resource.ping) }
     end
   end
 

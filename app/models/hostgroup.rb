@@ -193,9 +193,9 @@ class Hostgroup < ApplicationRecord
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.where(nil).find_each {|p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.where(nil).find_each { |p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
-    operatingsystem&.os_parameters&.each {|p| parameters.update Hash[p.name => p.value] }
+    operatingsystem&.os_parameters&.each { |p| parameters.update Hash[p.name => p.value] }
     # read group parameters only if a host belongs to a group
     parameters.update self.parameters if hostgroup
     parameters
@@ -240,7 +240,7 @@ class Hostgroup < ApplicationRecord
 
   def children_hosts_count
     counter = HostCounter.new(:hostgroup)
-    subtree_ids.map {|child_id| counter.fetch(child_id, 0)}.sum
+    subtree_ids.map { |child_id| counter.fetch(child_id, 0) }.sum
   end
 
   # rebuilds orchestration configuration for hostgroup's hosts

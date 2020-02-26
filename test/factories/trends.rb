@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :trend do
-    sequence(:name) {|n| "trend#{n}" }
+    sequence(:name) { |n| "trend#{n}" }
     sequence(:trendable_id)
 
     trait :value do # trend for one value of a fact
@@ -32,7 +32,7 @@ FactoryBot.define do
 
     factory :trend_os do
       trendable_type { 'Operatingsystem' }
-      sequence(:name) {|n| "OS#{n}" }
+      sequence(:name) { |n| "OS#{n}" }
 
       before(:create) do |trend, evaluator|
         if evaluator.with_values && trend.name.present?

@@ -6,17 +6,17 @@ class EnvironmentClass < ApplicationRecord
   validates :puppetclass_id, :environment_id, :presence => true
   after_destroy :delete_orphaned_lookup_keys
 
-  scope :parameters_for_class, lambda {|puppetclasses_ids, environment_id|
+  scope :parameters_for_class, lambda { |puppetclasses_ids, environment_id|
     all_parameters_for_class(puppetclasses_ids, environment_id).where(:puppetclass_lookup_keys => {:override => true})
   }
 
-  scope :all_parameters_for_class, lambda {|puppetclasses_ids, environment_id|
+  scope :all_parameters_for_class, lambda { |puppetclasses_ids, environment_id|
     where(:puppetclass_id => puppetclasses_ids, :environment_id => environment_id).
       where('puppetclass_lookup_key_id is NOT NULL').
       includes(:puppetclass_lookup_key)
   }
 
-  scope :used_by_other_environment_classes, lambda {|puppetclass_lookup_key_id, this_environment_class_id|
+  scope :used_by_other_environment_classes, lambda { |puppetclass_lookup_key_id, this_environment_class_id|
     where(:puppetclass_lookup_key_id => puppetclass_lookup_key_id).
       where("id != #{this_environment_class_id}")
   }

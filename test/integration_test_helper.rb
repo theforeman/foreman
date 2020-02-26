@@ -248,7 +248,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def notifications_data
-    JSON.parse(page.find(:css, "div#toast-notifications-container")['data-notifications']).map { |n| Hash[n]}
+    JSON.parse(page.find(:css, "div#toast-notifications-container")['data-notifications']).map { |n| Hash[n] }
   end
 
   setup :start_database_cleaner, :login_admin

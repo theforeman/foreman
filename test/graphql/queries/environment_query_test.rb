@@ -45,7 +45,7 @@ module Queries
     let(:environment) { puppetclass.environments.first }
 
     let(:global_id) { Foreman::GlobalId.for(environment) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['environment'] }
 
     test 'fetching environment attributes' do

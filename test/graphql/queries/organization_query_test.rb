@@ -38,7 +38,7 @@ module Queries
     let(:organization) { FactoryBot.create(:organization, environments: [environment]) }
 
     let(:global_id) { Foreman::GlobalId.for(organization) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['organization'] }
 
     setup do

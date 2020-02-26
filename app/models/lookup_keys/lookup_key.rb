@@ -136,7 +136,7 @@ class LookupKey < ApplicationRecord
 
   def sorted_values
     prio = path.downcase.split
-    lookup_values.sort_by {|val| [prio.index(val.path), val.match]}
+    lookup_values.sort_by { |val| [prio.index(val.path), val.match] }
   end
 
   private

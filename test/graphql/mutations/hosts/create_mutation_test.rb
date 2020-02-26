@@ -153,7 +153,7 @@ module Mutations
 
         context 'with bare metal parameters' do
           it 'creates a bare metal host' do
-            assert_difference(-> {Host.count}, +1) do
+            assert_difference(-> { Host.count }, +1) do
               assert_empty result['errors']
               assert_empty result['data']['createHost']['errors']
               assert_not_nil data
@@ -204,7 +204,7 @@ module Mutations
             end
 
             it 'creates a host on a compute resource' do
-              assert_difference(-> {Host.count}, +1) do
+              assert_difference(-> { Host.count }, +1) do
                 assert_empty result['errors']
                 assert_empty result['data']['createHost']['errors']
                 assert_not_nil data
@@ -225,7 +225,7 @@ module Mutations
 
             it 'creates a host with a compute profile' do
               Foreman::Model::Vmware.any_instance.expects(:parse_args).with(compute_profile.compute_attributes.first.vm_attrs).returns({})
-              assert_difference(-> {Host.count}, +1) do
+              assert_difference(-> { Host.count }, +1) do
                 assert_empty result['errors']
                 assert_empty result['data']['createHost']['errors']
                 assert_not_nil data
@@ -266,7 +266,7 @@ module Mutations
             end
 
             it 'creates a host with a bonded interface' do
-              assert_difference(-> {Host.count}, +1) do
+              assert_difference(-> { Host.count }, +1) do
                 assert_empty result['errors']
                 assert_empty result['data']['createHost']['errors']
                 assert_not_nil data
@@ -300,7 +300,7 @@ module Mutations
         end
 
         it 'creates a bare metal host' do
-          assert_difference(-> {Host.count}, +1) do
+          assert_difference(-> { Host.count }, +1) do
             assert_empty result['errors']
             assert_empty result['data']['createHost']['errors']
             assert_not_nil data
@@ -338,7 +338,7 @@ module Mutations
         test 'cannot create a host' do
           expected_error = 'Unauthorized. You do not have the required permission create_hosts.'
 
-          assert_difference(-> {Host.count}, 0) do
+          assert_difference(-> { Host.count }, 0) do
             assert_not_empty result['errors']
             assert_includes result['errors'].map { |e| e['message'] }, expected_error
           end

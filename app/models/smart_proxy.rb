@@ -159,7 +159,7 @@ class SmartProxy < ApplicationRecord
   def get_features
     begin
       reply = ProxyAPI::V2::Features.new(:url => url).features.with_indifferent_access
-      reply.reject! {|name| reply[name]['state'] != 'running'}
+      reply.reject! { |name| reply[name]['state'] != 'running' }
     rescue NotImplementedError
       reply = ProxyAPI::Features.new(:url => url).features
     end

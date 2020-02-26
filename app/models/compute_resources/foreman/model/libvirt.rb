@@ -265,7 +265,7 @@ module Foreman::Model
     end
 
     def create_volumes(args)
-      args[:volumes].each {|vol| validate_volume_capacity(vol)}
+      args[:volumes].each { |vol| validate_volume_capacity(vol) }
 
       # if using image creation, the first volume needs a backing disk set
       if args[:backing_id].present?

@@ -4,7 +4,7 @@ FactoryBot.define do
   end
 
   factory :subnet do
-    sequence(:name) {|n| "subnet#{n}" }
+    sequence(:name) { |n| "subnet#{n}" }
     ipam { "None" }
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }

@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :usergroup do
-    sequence(:name) {|n| "usergroup#{n}" }
+    sequence(:name) { |n| "usergroup#{n}" }
   end
 
   factory :external_usergroup do
-    sequence(:name) {|n| "external_usergroup#{n}" }
+    sequence(:name) { |n| "external_usergroup#{n}" }
     usergroup { FactoryBot.create :usergroup }
     auth_source { FactoryBot.create :auth_source_ldap }
   end
@@ -12,7 +12,7 @@ FactoryBot.define do
   factory :user do
     auth_source { AuthSourceInternal.first }
     password { 'password' }
-    sequence(:login) {|n| "user#{n}" }
+    sequence(:login) { |n| "user#{n}" }
     organizations { [ Organization.find_or_initialize_by(name: 'Organization 1') ] }
     locations { [ Location.find_or_initialize_by(name: 'Location 1') ] }
 
@@ -21,7 +21,7 @@ FactoryBot.define do
     end
 
     trait :with_mail do
-      sequence(:mail) {|n| "email#{n}@example.com" }
+      sequence(:mail) { |n| "email#{n}@example.com" }
     end
 
     trait :with_utf8_mail do
@@ -29,7 +29,7 @@ FactoryBot.define do
     end
 
     trait :with_mail_notification do
-      sequence(:mail) {|n| "email#{n}@example.com" }
+      sequence(:mail) { |n| "email#{n}@example.com" }
       mail_notifications { [FactoryBot.create(:mail_notification)] }
     end
 
@@ -47,7 +47,7 @@ FactoryBot.define do
   end
 
   factory :permission do
-    sequence(:name) {|n| "view_#{n}" }
+    sequence(:name) { |n| "view_#{n}" }
     resource_type { nil }
 
     trait :host do
@@ -68,7 +68,7 @@ FactoryBot.define do
   end
 
   factory :role do
-    sequence(:name) {|n| "role #{n}" }
+    sequence(:name) { |n| "role #{n}" }
     locations { [] }
     organizations { [] }
     builtin { 0 }
@@ -117,7 +117,7 @@ FactoryBot.define do
   end
 
   factory :widget do
-    sequence(:name) {|n| "Status Table #{n}" }
+    sequence(:name) { |n| "Status Table #{n}" }
     template { 'status_widget' }
   end
 

@@ -190,7 +190,7 @@ class Host::Managed < Host::Base
     with_config_status.where(HostStatus::ConfigurationStatus.is_not('pending').to_s)
   }
 
-  scope :successful, -> { without_changes.without_error.without_pending_changes}
+  scope :successful, -> { without_changes.without_error.without_pending_changes }
 
   scope :alerts_disabled, -> { where(:enabled => false) }
 
@@ -244,13 +244,13 @@ class Host::Managed < Host::Base
     include HostTemplateHelpers
     delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
-    validates :architecture_id, :presence => true, :if => Proc.new {|host| host.managed}
+    validates :architecture_id, :presence => true, :if => Proc.new { |host| host.managed }
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
                           :if => Proc.new { |host| host.managed && !host.image_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
                           :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
-    validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new {|host| host.managed?}
+    validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new { |host| host.managed? }
     validates :medium_id, :presence => true,
                           :if => Proc.new { |host| host.validate_media? }
     validates :medium_id, :inclusion => {:in => Proc.new { |host| host.operatingsystem.medium_ids },
@@ -278,7 +278,7 @@ class Host::Managed < Host::Base
 
   before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations
-  before_validation :set_certname, :if => Proc.new {|h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+  before_validation :set_certname, :if => Proc.new { |h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
   after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
 
@@ -377,7 +377,7 @@ class Host::Managed < Host::Base
 
   # reports methods
   def error_count
-    %w[failed failed_restarts].sum {|f| status f}
+    %w[failed failed_restarts].sum { |f| status f }
   end
 
   def no_report
@@ -487,7 +487,7 @@ class Host::Managed < Host::Base
     data = group("#{Host.table_name}.#{association}_id").reorder('').count
     associations = association.to_s.camelize.constantize.where(:id => data.keys).all
     data.each do |k, v|
-      output << {:label => associations.detect {|a| a.id == k }.to_label, :data => v } unless v == 0
+      output << {:label => associations.detect { |a| a.id == k }.to_label, :data => v } unless v == 0
     rescue
       logger.info "skipped #{k} as it has has no label"
     end
@@ -501,7 +501,7 @@ class Host::Managed < Host::Base
   def self.count_habtm(association)
     counter = Host::Managed.joins(association.tableize.to_sym).group("#{association.tableize.to_sym}.id").reorder('').count
     # Puppetclass.find(counter.keys.compact)...
-    association.camelize.constantize.find(counter.keys.compact).map {|i| {:label => i.to_label, :data => counter[i.id]}}
+    association.camelize.constantize.find(counter.keys.compact).map { |i| {:label => i.to_label, :data => counter[i.id]} }
   end
 
   def self.provision_methods
@@ -972,7 +972,7 @@ class Host::Managed < Host::Base
   def extract_params_from_object_ancestors(object)
     params = []
     object_parameters_symbol = "#{object.class.to_s.downcase}_parameters".to_sym
-    object.class.sort_by_ancestry(object.ancestors).each {|o| params += o.send(object_parameters_symbol).authorized(:view_params)}
+    object.class.sort_by_ancestry(object.ancestors).each { |o| params += o.send(object_parameters_symbol).authorized(:view_params) }
     params += object.send(object_parameters_symbol).authorized(:view_params)
     params
   end

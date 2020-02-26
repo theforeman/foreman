@@ -11,7 +11,7 @@ class Setting::Puppet < Setting
     [
       self.set('puppet_interval', N_("Duration in minutes after servers reporting via Puppet are classed as out of sync."), 35, N_('Puppet interval')),
       self.set('puppet_out_of_sync_disabled', N_("Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval") % 'Puppet', false, N_('%s out of sync disabled') % 'Puppet'),
-      self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => Proc.new {Hash[Environment.all.map {|env| [env[:name], env[:name]]}]} }),
+      self.set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => Proc.new { Hash[Environment.all.map { |env| [env[:name], env[:name]] }] } }),
       self.set('puppetrun', N_("Enable puppetrun support"), false, N_('Puppetrun')),
       self.set('Default_variables_Lookup_Path', N_("Foreman will evaluate host smart variables in this order by default"), ["fqdn", "hostgroup", "os", "domain"], N_('Default variables lookup path')),
       self.set('interpolate_erb_in_parameters', N_("Foreman will parse ERB in parameters value in the ENC output"), true, N_('Interpolate ERB in parameters')),
@@ -24,8 +24,8 @@ class Setting::Puppet < Setting
       self.set('create_new_host_when_report_is_uploaded', N_("Foreman will create the host when a report is received"), true, N_('Create new host when report is uploaded')),
       self.set('location_fact', N_("Hosts created after a puppet run will be placed in the location this fact dictates. The content of this fact should be the full label of the location."), 'foreman_location', N_('Location fact')),
       self.set('organization_fact', N_("Hosts created after a puppet run will be placed in the organization this fact dictates. The content of this fact should be the full label of the organization."), 'foreman_organization', N_('Organization fact')),
-      self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), '', N_('Default location'), nil, { :collection => Proc.new {Hash[Location.all.map {|loc| [loc[:title], loc[:title]]}]} }),
-      self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), '', N_('Default organization'), nil, {:collection => Proc.new {Hash[Organization.all.map {|org| [org[:title], org[:title]]}]} }),
+      self.set('default_location', N_("Hosts created after a puppet run that did not send a location fact will be placed in this location"), '', N_('Default location'), nil, { :collection => Proc.new { Hash[Location.all.map { |loc| [loc[:title], loc[:title]] }] } }),
+      self.set('default_organization', N_("Hosts created after a puppet run that did not send a organization fact will be placed in this organization"), '', N_('Default organization'), nil, {:collection => Proc.new { Hash[Organization.all.map { |org| [org[:title], org[:title]] }] } }),
       self.set('always_show_configuration_status', N_("All hosts will show a configuration status even when a Puppet smart proxy is not assigned"), false, N_('Always show configuration status')),
     ]
   end

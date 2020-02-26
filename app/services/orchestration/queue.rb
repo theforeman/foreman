@@ -32,12 +32,12 @@ module Orchestration
     end
 
     def find_by_name(name)
-      items.detect {|task| task.name == name}
+      items.detect { |task| task.name == name }
     end
 
     def find_by_id(id)
       string_id = id.to_s
-      items.detect {|task| task.id == string_id}
+      items.detect { |task| task.id == string_id }
     end
 
     def all
@@ -55,7 +55,7 @@ module Orchestration
 
     STATUS.each do |s|
       define_method s do
-        all.delete_if {|t| t.status != s}.sort
+        all.delete_if { |t| t.status != s }.sort
       end
     end
 

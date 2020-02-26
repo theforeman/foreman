@@ -45,7 +45,7 @@ module Mutations
         let(:context_user) { FactoryBot.create(:user, :admin) }
 
         test 'create a model' do
-          assert_difference(-> {::Model.count}, +1) do
+          assert_difference(-> { ::Model.count }, +1) do
             assert_empty result['errors']
             assert_empty result['data']['createModel']['errors']
           end
@@ -57,7 +57,7 @@ module Mutations
         let(:context_user) { setup_user('create', 'models') }
 
         test 'create a model' do
-          assert_difference(-> {::Model.count}, +1) do
+          assert_difference(-> { ::Model.count }, +1) do
             assert_empty result['errors']
           end
           assert_equal context_user.id, Audit.last.user_id
@@ -70,7 +70,7 @@ module Mutations
         test 'cannot create a model' do
           expected_error = 'Unauthorized. You do not have the required permission create_models.'
 
-          assert_difference(-> {::Model.count}, 0) do
+          assert_difference(-> { ::Model.count }, 0) do
             assert_not_empty result['errors']
             assert_includes result['errors'].map { |e| e['message'] }, expected_error
           end

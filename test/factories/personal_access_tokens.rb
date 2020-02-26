@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :personal_access_token do
-    sequence(:name) {|n| "Personal Access Token #{n}" }
+    sequence(:name) { |n| "Personal Access Token #{n}" }
     revoked { false }
     sequence(:token) do |n|
       hasher = Foreman::PasswordHash.new

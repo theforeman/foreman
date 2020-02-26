@@ -192,9 +192,9 @@ module FormHelper
 
   def file_field_f(f, attr, options = {})
     if options[:file_name]
-      html =  content_tag(:b) {options.delete(:file_name)}
+      html =  content_tag(:b) { options.delete(:file_name) }
       html += content_tag(:hr)
-      html += content_tag(:div, :style => "margin-bottom: 10px") {_("Choose a new file:")}
+      html += content_tag(:div, :style => "margin-bottom: 10px") { _("Choose a new file:") }
     end
     field(f, attr, options) do
       (html || " ") + (f.file_field attr, options)

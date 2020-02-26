@@ -40,7 +40,7 @@ module ScopesPerAction
     end
 
     def scopes_per_action_from_plugins
-      Foreman::Plugin.all.map {|plugin| plugin.action_scopes_hash_for(self) }.inject({}) do |memo, actions_hash|
+      Foreman::Plugin.all.map { |plugin| plugin.action_scopes_hash_for(self) }.inject({}) do |memo, actions_hash|
         memo.merge(actions_hash) { |k, left_v, right_v| left_v + right_v }
       end
     end

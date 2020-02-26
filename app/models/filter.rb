@@ -175,7 +175,7 @@ class Filter < ApplicationRecord
     if self.organizations.empty? && self.locations.empty?
       self.taxonomy_search = nil
     else
-      taxonomies = [orgs, locs].reject {|t| t.blank? }
+      taxonomies = [orgs, locs].reject { |t| t.blank? }
       self.taxonomy_search = taxonomies.join(' and ')
     end
   end

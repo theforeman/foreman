@@ -45,7 +45,7 @@ module Queries
     let(:puppetclass) { FactoryBot.create(:puppetclass) }
 
     let(:global_id) { Foreman::GlobalId.for(puppetclass) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['puppetclass'] }
 
     setup do

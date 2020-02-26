@@ -55,7 +55,7 @@ module Queries
     let(:ptable) { FactoryBot.create(:ptable, hosts: hosts, operatingsystems: [operatingsystem]) }
 
     let(:global_id) { Foreman::GlobalId.for(ptable) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['ptable'] }
 
     test 'fetching ptable attributes' do

@@ -97,16 +97,16 @@ class User < ApplicationRecord
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
                     :format => {:with => /\A[[:alnum:]_\-@\.\\$#+]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
-  validates :password_hash, :presence => true, :if => Proc.new {|user| user.manage_password?}
-  validates :password, :confirmation => true, :if => Proc.new {|user| user.manage_password?},
-                       :unless => Proc.new {|user| user.password.empty?}
+  validates :password_hash, :presence => true, :if => Proc.new { |user| user.manage_password? }
+  validates :password, :confirmation => true, :if => Proc.new { |user| user.manage_password? },
+                       :unless => Proc.new { |user| user.password.empty? }
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
     :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
     :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin,
     :check_permissions_for_changing_login
-  before_validation :verify_current_password, :if => Proc.new {|user| user == User.current},
-                    :unless => Proc.new {|user| user.password.empty?}
+  before_validation :verify_current_password, :if => Proc.new { |user| user == User.current },
+                    :unless => Proc.new { |user| user.password.empty? }
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
   before_save       :normalize_timezone
@@ -364,7 +364,7 @@ class User < ApplicationRecord
   end
 
   def indirect_hosts
-    my_usergroups.map {|g| g.hosts}.flatten.uniq
+    my_usergroups.map { |g| g.hosts }.flatten.uniq
   end
 
   def hosts
@@ -403,7 +403,7 @@ class User < ApplicationRecord
       action = Foreman::AccessControl.normalize_path_hash(action)
       return true if editing_self?(action)
     end
-    cached_roles.detect {|role| role.allowed_to?(action)}.present?
+    cached_roles.detect { |role| role.allowed_to?(action) }.present?
   end
 
   def logged?
@@ -492,7 +492,7 @@ class User < ApplicationRecord
   end
 
   def taxonomy_and_child_ids(taxonomies)
-    top_level = send(taxonomies) + taxonomies.to_s.classify.constantize.unscoped.select {|tax| tax.ignore?('user')}
+    top_level = send(taxonomies) + taxonomies.to_s.classify.constantize.unscoped.select { |tax| tax.ignore?('user') }
     top_level.each_with_object([]) do |taxonomy, ids|
       ids.concat taxonomy.subtree_ids
     end.uniq

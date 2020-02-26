@@ -4,7 +4,7 @@ FactoryBot.define do
   end
 
   factory :domain do
-    sequence(:name) {|n| "example#{n}.com" }
+    sequence(:name) { |n| "example#{n}.com" }
     fullname { |n| n.name }
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }

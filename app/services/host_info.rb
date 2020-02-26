@@ -10,7 +10,7 @@ module HostInfo
     end
 
     def entries_from_plugins
-      Foreman::Plugin.all.map {|plugin| plugin.info_providers}.compact.flatten
+      Foreman::Plugin.all.map { |plugin| plugin.info_providers }.compact.flatten
     end
 
     def local_entries

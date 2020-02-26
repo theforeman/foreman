@@ -57,7 +57,7 @@ module Queries
     let(:compute_resource) { FactoryBot.create(:vmware_cr, uuid: 'Solutions', hosts: hosts) }
 
     let(:global_id) { Foreman::GlobalId.encode('ComputeResource', compute_resource.id) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['computeResource'] }
 
     setup do

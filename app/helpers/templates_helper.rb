@@ -15,7 +15,7 @@ module TemplatesHelper
 
   def safemode_methods
     @@safemode_methods ||= begin
-      objects = ObjectSpace.each_object(Class).select {|x| x < Safemode::Jail }
+      objects = ObjectSpace.each_object(Class).select { |x| x < Safemode::Jail }
       objects_with_methods = objects.map do |obj|
         [obj.name.gsub(/::Jail$/, ''), obj.allowed_methods.sort.join(' ')]
       end
@@ -28,7 +28,7 @@ module TemplatesHelper
   end
 
   def safemode_variables
-    @@safemode_variables ||= Foreman::Renderer.config.allowed_variables.sort.map {|x| "@#{x}"}.join(' ')
+    @@safemode_variables ||= Foreman::Renderer.config.allowed_variables.sort.map { |x| "@#{x}" }.join(' ')
   end
 
   def locked_warning(template)

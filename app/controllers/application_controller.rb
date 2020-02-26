@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   before_action :require_login
   before_action :set_gettext_locale_db, :set_gettext_locale
-  before_action :session_expiry, :update_activity_time, :unless => proc {|c| c.remote_user_provided? || c.api_request? }
+  before_action :session_expiry, :update_activity_time, :unless => proc { |c| c.remote_user_provided? || c.api_request? }
   before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_action :authorize
   before_action :welcome, :only => :index, :unless => :api_request?
@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
     logger.debug "not found: #{exception}" if exception
     respond_to do |format|
       format.html { render "common/404", :status => :not_found }
-      format.any { head :not_found}
+      format.any { head :not_found }
     end
     true
   end
@@ -287,7 +287,7 @@ class ApplicationController < ActionController::Base
     end
 
     logger.error "Failed to save: #{hash[:object].errors.full_messages.join(', ')}" if hash[:object].respond_to?(:errors)
-    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map {|e| _("Conflict - %s") % e}].flatten
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map { |e| _("Conflict - %s") % e }].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]
       error(hash[:error_msg], true) unless hash[:error_msg].empty?

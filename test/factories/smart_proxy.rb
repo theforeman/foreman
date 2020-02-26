@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :smart_proxy do
-    sequence(:name) {|n| "proxy#{n}" }
-    sequence(:url) {|n| "https://somewhere#{n}.net:8443" }
+    sequence(:name) { |n| "proxy#{n}" }
+    sequence(:url) { |n| "https://somewhere#{n}.net:8443" }
     organizations { [Organization.find_by_name('Organization 1')] }
     locations { [Location.find_by_name('Location 1')] }
 
@@ -11,7 +11,7 @@ FactoryBot.define do
           "capabilities" => ["dhcp_filename_hostname", "dhcp_filename_ipv4"],
         },
       }
-      result = Hash[Feature.name_map.keys.collect {|f| [f, {'state' => 'running'}.merge(default_features[f] || {})]}]
+      result = Hash[Feature.name_map.keys.collect { |f| [f, {'state' => 'running'}.merge(default_features[f] || {})] }]
       ProxyAPI::V2::Features.any_instance.stubs(:features).returns(result)
     end
 

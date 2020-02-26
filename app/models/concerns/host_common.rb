@@ -53,7 +53,7 @@ module HostCommon
 
         id = attr.delete(:id)
         if id.present?
-          lookup_value = self.lookup_values.to_a.find {|i| i.id.to_i == id.to_i }
+          lookup_value = self.lookup_values.to_a.find { |i| i.id.to_i == id.to_i }
           if lookup_value
             mark_for_destruction = Foreman::Cast.to_bool(attr.delete(:_destroy))
             lookup_value.attributes = attr

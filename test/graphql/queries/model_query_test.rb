@@ -32,7 +32,7 @@ module Queries
     let(:model) { host.model }
 
     let(:global_id) { Foreman::GlobalId.for(model) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['model'] }
 
     setup do

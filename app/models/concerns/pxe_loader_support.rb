@@ -64,7 +64,7 @@ module PxeLoaderSupport
 
   # Finds template kind for given loader filename or name or nil for "None" or ""
   def pxe_loader_kind(host)
-    PXE_KINDS.find {|k, v| v.match(host.pxe_loader)}.try(:first).try(:to_sym)
+    PXE_KINDS.find { |k, v| v.match(host.pxe_loader) }.try(:first).try(:to_sym)
   end
 
   # Suggested PXE loader when template kind is available (PXEGrub2, then PXELinux, then PXEGrub in this order)

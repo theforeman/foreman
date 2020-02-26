@@ -296,7 +296,7 @@ module Orchestration::Compute
 
   def filter_ip_addresses(addresses, type)
     check_method = (type == :ip6) ? :ipv6? : :ipv4?
-    addresses.map {|ip| IPAddr.new(ip) rescue nil}.compact.select(&check_method).map(&:to_s)
+    addresses.map { |ip| IPAddr.new(ip) rescue nil }.compact.select(&check_method).map(&:to_s)
   end
 
   def ssh_open?(ip)

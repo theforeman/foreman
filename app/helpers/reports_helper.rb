@@ -12,10 +12,10 @@ module ReportsHelper
   end
 
   def reports_since(builder)
-    choices = [30, 60, 90].map {|i| OpenStruct.new :name => n_("%s minute ago", "%s minutes ago", i) % i, :value => i.minutes.ago }
-    choices += (1..7).map {|i| OpenStruct.new :name => n_("%s day ago", "%s days ago", i) % i, :value => i.days.ago }
-    choices += (1..3).map {|i| OpenStruct.new :name => n_("%s week ago", "%s weeks ago", i) % i, :value => i.week.ago }
-    choices += (1..3).map {|i| OpenStruct.new :name => n_("%s month ago", "%s months ago", i) % i, :value => i.month.ago }
+    choices = [30, 60, 90].map { |i| OpenStruct.new :name => n_("%s minute ago", "%s minutes ago", i) % i, :value => i.minutes.ago }
+    choices += (1..7).map { |i| OpenStruct.new :name => n_("%s day ago", "%s days ago", i) % i, :value => i.days.ago }
+    choices += (1..3).map { |i| OpenStruct.new :name => n_("%s week ago", "%s weeks ago", i) % i, :value => i.week.ago }
+    choices += (1..3).map { |i| OpenStruct.new :name => n_("%s month ago", "%s months ago", i) % i, :value => i.month.ago }
     choices += [OpenStruct.new(:name => _("All Reports"), :value => Report.first(:select => "created_at").created_at)]
     builder.collection_select :reported_at_gt, choices, :value, :name, {:include_blank => _("Select a period")}
   end

@@ -1,10 +1,10 @@
 module AuthSourcesHelper
   def number_of_users_counter(users, auth_source_type)
-    users.count {|user| user.auth_source.type == auth_source_type}
+    users.count { |user| user.auth_source.type == auth_source_type }
   end
 
   def ldap_present(auth_sources)
-    auth_source = auth_sources.detect {|auth_src| auth_src.type == 'AuthSourceLdap'}
+    auth_source = auth_sources.detect { |auth_src| auth_src.type == 'AuthSourceLdap' }
     auth_source = AuthSourceLdap.new if auth_source.nil?
     auth_source
   end

@@ -241,7 +241,7 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.save
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([])
-      @usergroup.external_usergroups.find { |eu| eu.name == 'aname'}.refresh
+      @usergroup.external_usergroups.find { |eu| eu.name == 'aname' }.refresh
 
       refute_includes @usergroup.users, users(:one)
     end
@@ -261,7 +261,7 @@ class UsergroupTest < ActiveSupport::TestCase
       @usergroup.save
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').returns([users(:one).login])
-      @usergroup.external_usergroups.find { |eu| eu.name == 'aname'}.refresh
+      @usergroup.external_usergroups.find { |eu| eu.name == 'aname' }.refresh
       assert_includes @usergroup.reload.users, users(:one)
     end
 
@@ -278,7 +278,7 @@ class UsergroupTest < ActiveSupport::TestCase
 
       AuthSourceLdap.any_instance.expects(:users_in_group).with('aname').
         returns(['external_user'])
-      @usergroup.external_usergroups.detect { |eu| eu.name == 'aname'}.refresh
+      @usergroup.external_usergroups.detect { |eu| eu.name == 'aname' }.refresh
       assert_includes @usergroup.users, internal_user
       assert_includes @usergroup.users, external_user
     end
