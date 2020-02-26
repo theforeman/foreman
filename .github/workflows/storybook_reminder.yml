@@ -16,7 +16,6 @@ jobs:
     - uses: thollander/actions-comment-pull-request@master
       name: Comment PR with Storybook reminder
     # if the list of changed files contains react_app, comment the PR
-      if: contains(join(steps.get_changed.outputs.all), 'react_app')
       with:
         message: If you've added or modified React components, don't forget to update the Storybook!
         GITHUB_TOKEN: ${{ github.token }}
