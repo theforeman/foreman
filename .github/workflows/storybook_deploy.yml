@@ -34,6 +34,7 @@ jobs:
         ls storybooks/${{ github.event.pull_request.number }}
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
+        git update-index --replace --really-refresh --verbose -q
         echo 'exclude-standard'
         git ls-files --others --directory --exclude-standard
         echo 'ls-files'
