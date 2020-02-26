@@ -30,6 +30,7 @@ jobs:
         rm -r storybooks/${{ github['event']['pull_request']['number'] }}/*
         mv tmp/storybooks/${{ github['event']['pull_request']['number'] }}/* storybooks/${{ github['event']['pull_request']['number'] }}
         ls storybooks/${{ github.event.pull_request.number }}
+        git status
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
     - name: Commit files
