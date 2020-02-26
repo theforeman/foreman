@@ -26,7 +26,9 @@ jobs:
         git config --local user.name "Foreman Storybook Bot"
         git checkout gh-pages
     - name: Move files to storybooks/:pr_num/
-      run: mv -r tmp/storybooks/${{ github['event']['pull_request']['number'] }} storybooks/${{ github['event']['pull_request']['number'] }}
+      run: |
+        mkdir storybooks/${{ github['event']['pull_request']['number'] }}
+        mv tmp/storybooks/${{ github['event']['pull_request']['number'] }}/* storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
     - name: Commit files
