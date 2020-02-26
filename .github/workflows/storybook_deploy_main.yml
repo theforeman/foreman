@@ -1,0 +1,50 @@
+name: Deploy Storybook
+
+on:
+  pull_request:
+    paths:
+      - '**[Ss]tories**'
+    types: [closed]
+
+jobs:
+  deploy_main_storybook:
+
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: false
+    - name: Fetch all branches
+      run: 'git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*'
+    - name: Run npm install
+      run: npm install
+    - name: Build Storybook
+      run: npm run build-storybook -- --output-dir=storybooks/main
+    - name: Checkout gh-pages
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Foreman Storybook Bot"
+        git checkout gh-pages
+    - name: Tell Github not to use jekyll
+      run: touch .nojekyll
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Foreman Storybook Bot"
+        git add .
+        git status
+        git commit -m "Update storybooks/master after PR #${{ github['event']['pull_request']['number'] }} merged"
+    - name: Deploy Storybook to gh-pages branch
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: false
+        branch: gh-pages
+    - name: Comment PR with new Storybook location
+      if: success()
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        message: "PR merged succesfully; [Storybook](https://jeremylenz.github.io/foreman/storybooks/main) deployed to the `gh-pages` branch."
+        GITHUB_TOKEN: ${{ github.token }}
