@@ -22,8 +22,6 @@ jobs:
       run: npm run build-storybook -- --output-dir=tmp/storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Checkout gh-pages
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "Foreman Storybook Bot"
         git checkout gh-pages
     - name: Move files to storybooks/:pr_num/
       run: |
@@ -36,6 +34,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
+        git status
+        echo 'git add .'
         git add .
         git status
         git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
