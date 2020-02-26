@@ -32,9 +32,12 @@ jobs:
         rm -r storybooks/${{ github['event']['pull_request']['number'] }}/*
         mv tmp/storybooks/${{ github['event']['pull_request']['number'] }}/* storybooks/${{ github['event']['pull_request']['number'] }}
         ls storybooks/${{ github.event.pull_request.number }}
-        git status
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
+        echo 'exclude-standard'
+        git ls-files --others --directory --exclude-standard
+        echo 'ls-files'
+        git ls-files --others --directory
         git status
         echo 'git add .'
         git add storybooks/${{ github.event.pull_request.number }}
