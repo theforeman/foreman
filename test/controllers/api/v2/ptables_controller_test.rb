@@ -82,7 +82,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     assert_response :created
     response = JSON.parse(@response.body)
     assert response.key?('organizations')
-    organization_ids = response['organizations'].map { |org| org['id']}
+    organization_ids = response['organizations'].map { |org| org['id'] }
     assert_equal organization_ids.length, 1
     assert_include organization_ids, organization_id
   end

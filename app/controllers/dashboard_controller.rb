@@ -43,7 +43,7 @@ class DashboardController < ApplicationController
       logger.warn "#{User.current} attempted to remove widget id #{params[:id]} and failed."
     end
     respond_to do |format|
-      format.json {render :json => params[:id], :status => status}
+      format.json { render :json => params[:id], :status => status }
     end
   end
 

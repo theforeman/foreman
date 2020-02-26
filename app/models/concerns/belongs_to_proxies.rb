@@ -29,7 +29,7 @@ module BelongsToProxies
     private
 
     def my_smart_proxies_from_plugins
-      Foreman::Plugin.all.map {|plugin| plugin.smart_proxies(self) }.inject({}, :merge)
+      Foreman::Plugin.all.map { |plugin| plugin.smart_proxies(self) }.inject({}, :merge)
     end
   end
 end

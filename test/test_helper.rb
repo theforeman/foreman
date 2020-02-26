@@ -47,7 +47,7 @@ def valid_name_list
   [
     RFauxFactory.gen_alpha(1),
     RFauxFactory.gen_alpha(255),
-    *RFauxFactory.gen_strings(1..255, exclude: [:html]).values.map {|x| x.truncate_bytes(255, omission: '')},
+    *RFauxFactory.gen_strings(1..255, exclude: [:html]).values.map { |x| x.truncate_bytes(255, omission: '') },
     RFauxFactory.gen_html(rand((1..230))),
   ]
 end
@@ -156,7 +156,7 @@ end
 class GraphQLQueryTestCase < ActiveSupport::TestCase
   let(:variables) { {} }
   let(:context_user) { FactoryBot.create(:user, :admin) }
-  let(:context) {{ current_user: context_user }}
+  let(:context) { { current_user: context_user } }
   let(:result) { ForemanGraphqlSchema.execute(query, variables: variables, context: context) }
 
   def assert_record(expected, actual, type_name: nil)

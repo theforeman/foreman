@@ -34,7 +34,7 @@ class HostgroupsController < ApplicationController
     @hostgroup.locations = @parent.locations
     @hostgroup.organizations = @parent.organizations
     # Clone any parameters as well
-    @hostgroup.group_parameters.each {|param| @parent.group_parameters << param.dup}
+    @hostgroup.group_parameters.each { |param| @parent.group_parameters << param.dup }
     render :action => :new
   end
 

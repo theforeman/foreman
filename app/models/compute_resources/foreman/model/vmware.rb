@@ -144,7 +144,7 @@ module Foreman::Model
 
     def folders
       cache.cache(:folders) do
-        dc.vm_folders.sort_by {|f| [f.path, f.name]}
+        dc.vm_folders.sort_by { |f| [f.path, f.name] }
       end
     end
 

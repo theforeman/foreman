@@ -52,7 +52,7 @@ module Foreman::TelemetrySinks
     def name_tag_mapping(name, tags)
       insts = @instances[name]
       return name if insts.blank?
-      (name.to_s + '.' + insts.map {|x| tags[x]}.compact.join('.')).tr('-:/ ', '____')
+      (name.to_s + '.' + insts.map { |x| tags[x] }.compact.join('.')).tr('-:/ ', '____')
     end
 
     def tags_in_statsd(tags)

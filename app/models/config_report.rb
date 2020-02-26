@@ -64,7 +64,7 @@ class ConfigReport < Report
     hosts.flatten.each do |host|
       # set default of 0 per metric
       metrics = {}
-      METRIC.each {|m| metrics[m] = 0 }
+      METRIC.each { |m| metrics[m] = 0 }
       host.reports.recent(time).select(:status).each do |r|
         metrics.each_key do |m|
           metrics[m] += r.status_of(m)

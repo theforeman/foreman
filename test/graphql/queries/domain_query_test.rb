@@ -42,7 +42,7 @@ module Queries
     let(:domain) { FactoryBot.create(:domain, hosts: hosts, subnets: [expected_subnet, unexpected_subnet]) }
 
     let(:global_id) { Foreman::GlobalId.for(domain) }
-    let(:variables) {{ id: global_id, subnetsLocation: subnet_location.name }}
+    let(:variables) { { id: global_id, subnetsLocation: subnet_location.name } }
     let(:data) { result['data']['domain'] }
 
     test 'fetching domain attributes' do

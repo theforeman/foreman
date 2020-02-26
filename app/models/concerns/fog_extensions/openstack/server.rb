@@ -28,7 +28,7 @@ module FogExtensions
       end
 
       def tenant
-        service.tenants.detect {|t| t.id == tenant_id }
+        service.tenants.detect { |t| t.id == tenant_id }
       end
 
       def flavor_with_object

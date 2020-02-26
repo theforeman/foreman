@@ -404,10 +404,10 @@ class DhcpOrchestrationTest < ActiveSupport::TestCase
     bmc.mac = next_mac(bmc.mac)
     assert h.valid?
     assert bmc.valid?
-    assert_equal 2, h.queue.items.count {|x| x.action == [h.primary_interface, :set_dhcp]}
-    assert_equal 1, h.queue.items.count {|x| x.action.last == :del_dhcp}
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [bmc, :set_dhcp]}
-    assert_equal 1, bmc.queue.items.count {|x| x.action == [bmc.old, :del_dhcp]}
+    assert_equal 2, h.queue.items.count { |x| x.action == [h.primary_interface, :set_dhcp] }
+    assert_equal 1, h.queue.items.count { |x| x.action.last == :del_dhcp }
+    assert_equal 1, bmc.queue.items.count { |x| x.action == [bmc, :set_dhcp] }
+    assert_equal 1, bmc.queue.items.count { |x| x.action == [bmc.old, :del_dhcp] }
   end
 
   test "new host with dhcp and no operating system should show correct validation on save" do

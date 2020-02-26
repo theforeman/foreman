@@ -34,7 +34,7 @@ module Foreman
     # Lists all extension templates that are defined in plugins
     def template_extensions_from_plugins
       return [] unless @_options[:template]
-      Foreman::Plugin.all.flat_map {|plugin| plugin.rabl_template_extensions(@_options[:template]) }
+      Foreman::Plugin.all.flat_map { |plugin| plugin.rabl_template_extensions(@_options[:template]) }
     end
 
     # extends the current template with templates defined in plugins

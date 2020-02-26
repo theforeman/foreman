@@ -222,7 +222,7 @@ module ApplicationHelper
 
   def flot_pie_chart(name, title, data, options = {})
     data = data.map { |k, v| {:label => k.to_s.humanize, :data => v} } if data.is_a?(Hash)
-    data.map {|element| element[:label] = truncate(element[:label], :length => 16)}
+    data.map { |element| element[:label] = truncate(element[:label], :length => 16) }
     header = content_tag(:h4, options[:show_title] ? title : '', :class => 'ca pie-title', :'data-original-title' => _("Expand the chart"), :rel => 'twipsy')
     link_to_function(header, "expand_chart(this)") +
         content_tag(:div, nil,
@@ -319,7 +319,7 @@ module ApplicationHelper
     content_tag(:div, :class => "btn-group") do
       primary + link_to(content_tag(:span, '', :class => 'caret'), '#', :class => "btn btn-default #{'btn-sm' if primary =~ /btn-sm/} dropdown-toggle", :'data-toggle' => 'dropdown') +
       content_tag(:ul, :class => "dropdown-menu pull-right") do
-        args.map {|option| content_tag(:li, option)}.join(" ").html_safe
+        args.map { |option| content_tag(:li, option) }.join(" ").html_safe
       end
     end
   end
@@ -369,7 +369,7 @@ module ApplicationHelper
 
   def generate_links_for(sub_model)
     return _("None found") if sub_model.to_a.empty?
-    sub_model.map {|model| link_to(model.to_label, { :controller => model.class.model_name.plural.downcase, :action => :index, :search => "name = \"#{model.name}\"" })}.to_sentence
+    sub_model.map { |model| link_to(model.to_label, { :controller => model.class.model_name.plural.downcase, :action => :index, :search => "name = \"#{model.name}\"" }) }.to_sentence
   end
 
   def resource_prev_url_with_search_filters
@@ -389,7 +389,7 @@ module ApplicationHelper
     groups.each do |group|
       klass = group[:class].classify.constantize
       scope = group[:scope]
-      children = Hash[klass.send(scope).map {|obj| [obj.send(group[:value_method]), obj.send(group[:text_method])]}]
+      children = Hash[klass.send(scope).map { |obj| [obj.send(group[:value_method]), obj.send(group[:text_method])] }]
       select.push(:text => group[:name], :children => children)
     end
     select

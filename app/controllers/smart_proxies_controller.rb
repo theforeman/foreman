@@ -107,7 +107,7 @@ class SmartProxiesController < ApplicationController
 
   def failed_modules
     modules = @smart_proxy.statuses[:logs].logs.failed_modules || {}
-    name_map = Feature.name_map.each_with_object({}) {|(k, v), h| h[k] = v.name }
+    name_map = Feature.name_map.each_with_object({}) { |(k, v), h| h[k] = v.name }
     render :partial => 'smart_proxies/logs/failed_modules', :locals => {:modules => modules, :name_map => name_map}
   rescue Foreman::Exception => exception
     process_ajax_error exception

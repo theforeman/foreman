@@ -21,7 +21,7 @@ class StructuredFactImporter < FactImporter
     # Remove flat facts exceeding the limit
     flat_counts.each_pair do |string, count|
       if count > max
-        facts.delete_if {|k, v| k.to_s.start_with?(string) && (dropped += 1)}
+        facts.delete_if { |k, v| k.to_s.start_with?(string) && (dropped += 1) }
       end
     end
 

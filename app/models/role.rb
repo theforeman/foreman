@@ -221,7 +221,7 @@ class Role < ApplicationRecord
                                :include => [:locations, :organizations, { :filters => :permissions }])
     new_role.attributes = role_params
     new_role.cloned_from_id = self.id
-    new_role.filters = new_role.filters.select {|f| f.filterings.present? }
+    new_role.filters = new_role.filters.select { |f| f.filterings.present? }
     new_role
   end
 

@@ -93,8 +93,8 @@ class FactValue < ApplicationRecord
 
     hash = {}
     facts.each do |fact|
-      hash[hosts.detect {|h| h.id == fact.host_id}.to_s] ||= {}
-      hash[hosts.detect {|h| h.id == fact.host_id}.to_s].update({fact.name.to_s => fact.value})
+      hash[hosts.detect { |h| h.id == fact.host_id }.to_s] ||= {}
+      hash[hosts.detect { |h| h.id == fact.host_id }.to_s].update({fact.name.to_s => fact.value})
     end
     hash
   end

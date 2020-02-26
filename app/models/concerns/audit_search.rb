@@ -72,7 +72,7 @@ module AuditSearch
     end
 
     def find_complete_keytype_array(auditable_type)
-      auditable_type_complete_values.find {|key, type_name| type_name == auditable_type}
+      auditable_type_complete_values.find { |key, type_name| type_name == auditable_type }
     end
 
     private

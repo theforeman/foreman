@@ -49,7 +49,7 @@ class DropElementsFromVmAttrsHash < ActiveRecord::Migration[5.1]
 
   def drop_elements(h)
     h = h['elements'] if h.key? 'elements'
-    h.transform_values! { |v| v.is_a?(Hash) ? drop_elements(v) : v}
+    h.transform_values! { |v| v.is_a?(Hash) ? drop_elements(v) : v }
   end
 
   class FakeNic < ApplicationRecord

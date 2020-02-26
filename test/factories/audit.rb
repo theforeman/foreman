@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :audit do
-    sequence(:version) {|n| n.to_s }
+    sequence(:version) { |n| n.to_s }
     auditable_type { "test" }
     action { "update" }
 

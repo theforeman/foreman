@@ -29,7 +29,7 @@ module Queries
     let(:personal_access_token) { FactoryBot.create(:personal_access_token) }
 
     let(:global_id) { Foreman::GlobalId.for(personal_access_token) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['personalAccessToken'] }
 
     test 'fetching personalAccessToken attributes' do

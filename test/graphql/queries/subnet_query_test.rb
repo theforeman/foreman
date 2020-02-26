@@ -44,7 +44,7 @@ module Queries
     let(:subnet) { FactoryBot.create(:subnet_ipv4, domains: domains) }
 
     let(:global_id) { Foreman::GlobalId.encode('Subnet', subnet.id) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['subnet'] }
 
     test 'fetching subnet attributes' do

@@ -507,7 +507,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     end
 
     test "should create libvirt compute resource with locs" do
-      locs = Array.new(3) {FactoryBot.create(:location, :organization_ids => [@organization.id])}
+      locs = Array.new(3) { FactoryBot.create(:location, :organization_ids => [@organization.id]) }
       libvirt_with_locs = @valid_libvirt_with_org_loc.clone.update(:location_ids => locs.map { |loc| loc.id })
       post :create, params: { :compute_resource => libvirt_with_locs }
       assert_response :created
@@ -523,7 +523,7 @@ class Api::V2::ComputeResourcesControllerTest < ActionController::TestCase
     end
 
     test "should update libvirt compute resource with locs" do
-      new_locations = Array.new(3) {FactoryBot.create(:location, :organization_ids => [@organization.id])}
+      new_locations = Array.new(3) { FactoryBot.create(:location, :organization_ids => [@organization.id]) }
       put :update, params: { :id => compute_resources(:mycompute).id, :compute_resource => {:location_ids => new_locations.map { |loc| loc.id } } }
       assert_response :success
       assert_equal JSON.parse(@response.body)['locations'].map { |loc| loc['name'] }, new_locations.map { |loc| loc.name }, "Can't update libvirt compute resource with locs #{new_locations}"

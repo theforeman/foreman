@@ -24,7 +24,7 @@ module Queries
     let(:compute_attribute) { compute_resource.compute_attributes.first }
 
     let(:global_id) { Foreman::GlobalId.for(compute_attribute) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['computeAttribute'] }
 
     setup do

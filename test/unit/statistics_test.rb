@@ -10,22 +10,22 @@ class StatisticsTest < ActiveSupport::TestCase
   end
 
   test 'it should include an Operating System stat' do
-    os = Statistics.charts(nil, nil).detect {|s| s.id == 'operatingsystem'}
+    os = Statistics.charts(nil, nil).detect { |s| s.id == 'operatingsystem' }
     assert_equal "operatingsystem", os.id
     data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
   end
 
   test 'it should set taxonomies as API paramaters according to current context' do
-    os = Statistics.charts(taxonomies(:empty_organization).id, nil).detect {|s| s.id == 'operatingsystem'}
+    os = Statistics.charts(taxonomies(:empty_organization).id, nil).detect { |s| s.id == 'operatingsystem' }
     data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem?organization_id=#{taxonomies(:empty_organization).id}", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
 
-    os = Statistics.charts(nil, taxonomies(:location1).id).detect {|s| s.id == 'operatingsystem'}
+    os = Statistics.charts(nil, taxonomies(:location1).id).detect { |s| s.id == 'operatingsystem' }
     data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
 
-    os = Statistics.charts(taxonomies(:empty_organization).id, taxonomies(:location1).id).detect {|s| s.id == 'operatingsystem'}
+    os = Statistics.charts(taxonomies(:empty_organization).id, taxonomies(:location1).id).detect { |s| s.id == 'operatingsystem' }
     data = { :id => "operatingsystem", :title => "OS Distribution", :url => "/statistics/operatingsystem?location_id=#{taxonomies(:location1).id}&organization_id=#{taxonomies(:empty_organization).id}", :search => "/hosts?search=os_title=~VAL~" }
     assert_equal data, os.metadata
   end

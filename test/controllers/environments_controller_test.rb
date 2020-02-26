@@ -105,7 +105,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
 
   test "should handle disk environment containing less classes" do
     setup_import_classes
-    as_admin {Puppetclass.create(:name => "d")}
+    as_admin { Puppetclass.create(:name => "d") }
     Environment.find_by_name("env1").puppetclasses << Puppetclass.find_by_name("d")
     # db_tree   of {"env1" => ["a", "b", "c", "d"], "env2" => ["a", "b", "c"]}
     # disk_tree of {"env1" => ["a", "b", "c"],      "env2" => ["a", "b", "c"]}
@@ -125,7 +125,7 @@ class EnvironmentsControllerTest < ActionController::TestCase
   end
   test "should handle disk environment containing less environments" do
     setup_import_classes
-    as_admin {Environment.create(:name => "env3")}
+    as_admin { Environment.create(:name => "env3") }
     # db_tree   of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"], "env3" => []}
     # disk_tree of {"env1" => ["a", "b", "c"], "env2" => ["a", "b", "c"]}
     get :import_environments, params: { :proxy => smart_proxies(:puppetmaster).id }, session: set_session_user

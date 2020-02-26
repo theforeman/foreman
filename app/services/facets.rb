@@ -61,11 +61,11 @@ module Facets
     private
 
     def configuration
-      @configuration ||= Hash[entries_from_plugins.map { |entry| [entry.name, entry]}]
+      @configuration ||= Hash[entries_from_plugins.map { |entry| [entry.name, entry] }]
     end
 
     def entries_from_plugins
-      Foreman::Plugin.all.map {|plugin| plugin.facets}.compact.flatten
+      Foreman::Plugin.all.map { |plugin| plugin.facets }.compact.flatten
     end
 
     def entry_created_callbacks

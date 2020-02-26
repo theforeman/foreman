@@ -61,7 +61,7 @@ module HostInfoProviders
     end
 
     def all_subnets
-      host.interfaces.map { |i| [i.subnet, i.subnet6]}.flatten.compact
+      host.interfaces.map { |i| [i.subnet, i.subnet6] }.flatten.compact
     end
   end
 end

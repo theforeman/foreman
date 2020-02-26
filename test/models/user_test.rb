@@ -1185,11 +1185,11 @@ class UserTest < ActiveSupport::TestCase
 
   context 'update login' do
     let(:auth_source_ldap) { FactoryBot.create(:auth_source_ldap) }
-    let (:user_login) { FactoryBot.create(:user, :locations => [Location.first], :organizations => [Organization.first])}
-    let (:external_user) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations)}
+    let (:user_login) { FactoryBot.create(:user, :locations => [Location.first], :organizations => [Organization.first]) }
+    let (:external_user) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations) }
     let (:external_user_manager) { FactoryBot.create(:user, :auth_source => auth_source_ldap, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)]) }
-    let (:internal_user) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :mail => "foo@bar.com",  :current_password => "password")}
-    let (:internal_user_manager) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)])}
+    let (:internal_user) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :mail => "foo@bar.com",  :current_password => "password") }
+    let (:internal_user_manager) { FactoryBot.create(:user, :locations => user_login.locations, :organizations => user_login.organizations, :roles => [roles(:manager)]) }
 
     test 'Internal user can update his own login' do
       as_user internal_user do

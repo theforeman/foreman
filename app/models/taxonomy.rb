@@ -29,7 +29,7 @@ class Taxonomy < ApplicationRecord
 
   has_many :puppetclasses, :through => :environments
 
-  validate :check_for_orphans, :unless => Proc.new {|t| t.new_record?}
+  validate :check_for_orphans, :unless => Proc.new { |t| t.new_record? }
   # the condition for parent_id != 0 is required because of our tests, should validate macros fill in attribute with values and it set 0 to this one
   # which would lead to an error when we ask for parent object
   validate :parent_id_does_not_escalate, :if => Proc.new { |t| t.ancestry_changed? && t.parent_id != 0 && t.parent.present? }
@@ -49,7 +49,7 @@ class Taxonomy < ApplicationRecord
 
   default_scope -> { order(:title) }
 
-  scope :completer_scope, lambda {|opts|
+  scope :completer_scope, lambda { |opts|
     if opts[:controller] == 'organizations'
       Organization.completer_scope opts
     elsif opts[:controller] == 'locations'
@@ -194,7 +194,7 @@ class Taxonomy < ApplicationRecord
   end
 
   def params_objects
-    (self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq {|param| param.name}
+    (self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq { |param| param.name }
   end
 
   def notification_recipients_ids

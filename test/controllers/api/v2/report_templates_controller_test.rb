@@ -15,7 +15,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:report_templates)
     report_templates = ActiveSupport::JSON.decode(@response.body)
     assert !report_templates.empty?
-    template = report_templates['results'].find { |h| h['id'] == @report_template.id}
+    template = report_templates['results'].find { |h| h['id'] == @report_template.id }
     assert_equal @report_template.name, template['name']
   end
 
@@ -69,7 +69,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     assert_response :created
     response = JSON.parse(@response.body)
     assert response.key?('organizations')
-    organization_ids = response['organizations'].map { |org| org['id']}
+    organization_ids = response['organizations'].map { |org| org['id'] }
     assert_equal organization_ids.length, 1
     assert_include organization_ids, organization_id
   end

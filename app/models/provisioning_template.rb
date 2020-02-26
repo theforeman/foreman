@@ -19,7 +19,7 @@ class ProvisioningTemplate < Template
   self.table_name = 'templates'
 
   validates :name, :uniqueness => true
-  validates :template_kind_id, :presence => true, :unless => Proc.new {|t| t.snippet }
+  validates :template_kind_id, :presence => true, :unless => Proc.new { |t| t.snippet }
 
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   has_many :template_combinations, :dependent => :destroy

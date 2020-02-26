@@ -29,7 +29,7 @@ module Mutations
 
         test 'delete a model' do
           model
-          assert_difference(-> {::Model.count}, -1) do
+          assert_difference(-> { ::Model.count }, -1) do
             assert_empty result['errors']
             assert_empty result['data']['deleteModel']['errors']
             assert_equal model_id, result['data']['deleteModel']['id']
@@ -47,7 +47,7 @@ module Mutations
 
         test 'delete a model' do
           model
-          assert_difference(-> {::Model.count}, -1) do
+          assert_difference(-> { ::Model.count }, -1) do
             assert_empty result['errors']
           end
           assert_equal context_user.id, Audit.last.user_id
@@ -59,7 +59,7 @@ module Mutations
 
         test 'cannot delete a model' do
           model
-          assert_difference(-> {::Model.count}, 0) do
+          assert_difference(-> { ::Model.count }, 0) do
             assert_not_empty result['errors']
             assert_includes result['errors'].map { |error| error['message'] }.to_sentence, 'Unauthorized.'
           end

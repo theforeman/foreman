@@ -109,7 +109,7 @@ class ComputeResourcesVmsControllerTest < ActionController::TestCase
     # Create the new vm first
     test_should_create_vm "tobedeleted_test"
     # Find it
-    @compute_resource.vms.each {|vm| @new_vm = vm if vm.name == "tobedeleted_test"}
+    @compute_resource.vms.each { |vm| @new_vm = vm if vm.name == "tobedeleted_test" }
     setup_user "destroy"
     assert_difference('@compute_resource.vms.count', -1) do
       delete :destroy, params: { :id => @new_vm.uuid, :compute_resource_id => @compute_resource.to_param }, session: set_session_user

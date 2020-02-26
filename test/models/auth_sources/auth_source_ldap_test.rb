@@ -202,13 +202,13 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   test "test connection succeed" do
     setup_ldap_stubs
     LdapFluff.any_instance.stubs(:test).returns(true)
-    assert_nothing_raised {@auth_source_ldap.send(:test_connection)}
+    assert_nothing_raised { @auth_source_ldap.send(:test_connection) }
   end
 
   test "test connection failed" do
     setup_ldap_stubs
     LdapFluff.any_instance.stubs(:test).raises(StandardError, 'Exception message')
-    assert_raise(Foreman::WrappedException) {@auth_source_ldap.send(:test_connection)}
+    assert_raise(Foreman::WrappedException) { @auth_source_ldap.send(:test_connection) }
   end
 
   context 'account_password encryption' do
@@ -224,7 +224,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
   end
 
   context 'save external avatar' do
-    let(:temp_dir) {Dir.mktmpdir}
+    let(:temp_dir) { Dir.mktmpdir }
 
     setup do
       AuthSourceLdap.any_instance.stubs(:avatar_path).returns(temp_dir)
@@ -233,7 +233,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
     test 'store_avatar can save 8bit ascii files' do
       auth = AuthSourceLdap.new
       file = File.open("#{temp_dir}/out.txt", 'wb+')
-      file_string = File.open(file, 'rb') {|f| f.read} # set the file_string to binary
+      file_string = File.open(file, 'rb') { |f| f.read } # set the file_string to binary
       file_string += 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVQYV2P4DwABAQEAWk1v8QAAAABJRU5ErkJggg=='
       avatar_hash = Digest::SHA1.hexdigest(file_string)
       assert_equal(Encoding::ASCII_8BIT, file_string.encoding)

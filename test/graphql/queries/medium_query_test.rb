@@ -54,7 +54,7 @@ module Queries
     let(:medium) { FactoryBot.create(:medium, :with_operatingsystem) }
 
     let(:global_id) { Foreman::GlobalId.for(medium) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['medium'] }
 
     setup do

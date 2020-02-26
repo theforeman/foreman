@@ -100,14 +100,14 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
 
     test 'filters out too big subtrees' do
       input = {:a => 1, :b => {}}
-      (1..101).each {|i| input[:b][:"c_#{i}"] = :test}
+      (1..101).each { |i| input[:b][:"c_#{i}"] = :test }
       importer = StructuredFactImporter.new(nil, input)
       assert_equal({"a" => "1", "foreman::dropped_subtree_facts" => "100", "foreman" => nil}, importer.send(:facts))
     end
 
     test 'does not filter out "small" subtrees' do
       input = {:a => 1, :b => {}}
-      (1..3).each {|i| input[:b][:"c_#{i}"] = :test}
+      (1..3).each { |i| input[:b][:"c_#{i}"] = :test }
       importer = StructuredFactImporter.new(nil, input)
       assert_equal({"a" => "1", "b::c_1" => "test", "b::c_2" => "test", "b::c_3" => "test", "b" => nil}, importer.send(:facts))
     end
@@ -120,14 +120,14 @@ class StructuredFactImporterTest < ActiveSupport::TestCase
 
     test 'filters out flat facts prefixed with blockdevice_' do
       input = {:a => 1}
-      (1..101).each {|i| input[:"blockdevice_#{i}"] = :test}
+      (1..101).each { |i| input[:"blockdevice_#{i}"] = :test }
       importer = StructuredFactImporter.new(nil, input)
       assert_equal({"a" => "1", "foreman::dropped_subtree_facts" => "100", "foreman" => nil}, importer.send(:facts))
     end
 
     test 'filters out flat facts prefixed with macaddress_' do
       input = {:a => 1}
-      (1..101).each {|i| input[:"macaddress_#{i}"] = :test}
+      (1..101).each { |i| input[:"macaddress_#{i}"] = :test }
       importer = StructuredFactImporter.new(nil, input)
       assert_equal({"a" => "1", "foreman::dropped_subtree_facts" => "100", "foreman" => nil}, importer.send(:facts))
     end

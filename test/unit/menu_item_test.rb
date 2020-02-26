@@ -20,7 +20,7 @@ require 'test_helper'
 module MenuItemTestHelper
   # Helpers
   def get_menu_item(menu_name, item_name)
-    Menu::Manager.items(menu_name).find {|item| item.name == item_name.to_sym}
+    Menu::Manager.items(menu_name).find { |item| item.name == item_name.to_sym }
   end
 end
 

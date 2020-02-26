@@ -26,7 +26,7 @@ class Api::V2::PuppetclassesControllerTest < ActionController::TestCase
       FactoryBot.create(:environment, :locations => [default_location], :organizations => [default_organization])
     end
     let(:example_puppetclass) { FactoryBot.create(:puppetclass, :environments => [example_environment]) }
-    let(:eager_load) { [default_organization, default_location, example_environment, example_puppetclass]}
+    let(:eager_load) { [default_organization, default_location, example_environment, example_puppetclass] }
     setup do
       eager_load
     end

@@ -8,7 +8,7 @@ class PuppetclassLookupKeysController < LookupKeysController
     environment_classes = EnvironmentClass.where(puppetclass_lookup_key_id: @lookup_keys.map(&:id)).select(:puppetclass_id, :puppetclass_lookup_key_id).distinct.preload(:puppetclass)
     puppetclass_ids = environment_classes.map(&:puppetclass_id).uniq
     @puppetclass_authorizer = Authorizer.new(User.current, :collection => puppetclass_ids)
-    @lookup_keys_to_class = Hash[environment_classes.map { |environment_class| [environment_class.puppetclass_lookup_key_id, environment_class.puppetclass]}]
+    @lookup_keys_to_class = Hash[environment_classes.map { |environment_class| [environment_class.puppetclass_lookup_key_id, environment_class.puppetclass] }]
   end
 
   private

@@ -15,7 +15,7 @@ class ForemanTrend < Trend
   end
 
   def self.create_values(trendable_type)
-    trendable_type.constantize.all.map { |t| t.trends.create(:fact_value => t.to_label)}
+    trendable_type.constantize.all.map { |t| t.trends.create(:fact_value => t.to_label) }
   end
 
   def destroy_values

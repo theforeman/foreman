@@ -29,7 +29,7 @@ module Menu
 
     def children
       if block_given?
-        @children.each {|child| yield child}
+        @children.each { |child| yield child }
       else
         @children
       end
@@ -37,7 +37,7 @@ module Menu
 
     # Returns the number of descendants + 1
     def size
-      @children.inject(1) {|sum, node| sum + node.size}
+      @children.inject(1) { |sum, node| sum + node.size }
     end
 
     def each(&block)
@@ -52,7 +52,7 @@ module Menu
 
     # Adds a child at given position
     def add_at(child, position)
-      if child.is_a?(Menu::Item) && find {|node| node.name == child.name}
+      if child.is_a?(Menu::Item) && find { |node| node.name == child.name }
         Rails.logger.error "Child already exists #{child.name}"
         return
       end

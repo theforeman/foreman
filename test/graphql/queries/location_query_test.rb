@@ -47,7 +47,7 @@ module Queries
     let(:location_object) { FactoryBot.create(:location, hosts: hosts, environments: [environment]) }
 
     let(:global_id) { Foreman::GlobalId.for(location_object) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['location'] }
 
     setup do

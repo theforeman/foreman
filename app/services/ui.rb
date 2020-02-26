@@ -20,7 +20,7 @@ module UI
     private
 
     def host_descriptions_from_plugins
-      Foreman::Plugin.all.map {|plugin| plugin.host_ui_description}.compact
+      Foreman::Plugin.all.map { |plugin| plugin.host_ui_description }.compact
     end
   end
 end

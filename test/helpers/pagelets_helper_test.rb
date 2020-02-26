@@ -23,7 +23,7 @@ class PageletsHelperTest < ActionView::TestCase
       :partial => "test")
     pagelets = pagelets_for(:main_tabs)
     assert pagelets.any? { |p| p.name == "Name" }
-    refute pagelets.any? { |p| p.name == "My name"}
+    refute pagelets.any? { |p| p.name == "My name" }
   end
 
   test "should show appropriate tab headers" do

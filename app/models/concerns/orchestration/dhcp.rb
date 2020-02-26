@@ -20,7 +20,7 @@ module Orchestration::DHCP
   end
 
   def generate_dhcp_task_id(action, interface = self)
-    id = [interface.mac, interface.ip, interface.identifier, interface.id].find {|x| x&.present?}
+    id = [interface.mac, interface.ip, interface.identifier, interface.id].find { |x| x&.present? }
     "dhcp_#{action}_#{id}"
   end
 
@@ -207,7 +207,7 @@ module Orchestration::DHCP
     return false unless dhcp?
 
     if dhcp_records.any? && dhcp_records.any? { |record| record.conflicting? } && !overwrite?
-      failure(_("DHCP records %s already exists") % dhcp_records.map {|record| record.conflicts}.flatten.to_sentence, nil, :conflict) # compact?
+      failure(_("DHCP records %s already exists") % dhcp_records.map { |record| record.conflicts }.flatten.to_sentence, nil, :conflict) # compact?
       return true
     end
     false

@@ -9,7 +9,7 @@ class Bookmark < ApplicationRecord
 
   belongs_to :owner, :polymorphic => true
 
-  validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new {|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
+  validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new { |b| Bookmark.my_bookmarks.where(:name => b.name).empty? }
   validates :name, :query, :presence => true
   validates :controller, :presence => true, :no_whitespace => true, :bookmark_controller => true
   validates :public, inclusion: { in: [true, false] }

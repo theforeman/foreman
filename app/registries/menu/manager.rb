@@ -115,11 +115,11 @@ module Menu
 
       # Checks if a menu item exists
       def exists?(name)
-        @menu_items.any? {|node| node.name == name}
+        @menu_items.any? { |node| node.name == name }
       end
 
       def find(name)
-        @menu_items.find {|node| node.name == name}
+        @menu_items.find { |node| node.name == name }
       end
 
       def position_of(name)

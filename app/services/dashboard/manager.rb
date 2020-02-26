@@ -70,7 +70,7 @@ module Dashboard
           {template: 'reports_widget', sizex: 6, sizey: 1, name: N_('Latest Events')},
           {template: 'new_hosts_widget', sizex: 8, sizey: 1, name: N_('New Hosts')},
           {template: 'hosts_in_build_mode_widget', sizex: 8, sizey: 1, name: N_('Hosts in build mode')},
-        ].flatten.sort_by {|widget| widget['name'] }
+        ].flatten.sort_by { |widget| widget['name'] }
       end
 
       def registered_report_orgins

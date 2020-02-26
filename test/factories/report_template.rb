@@ -14,7 +14,7 @@ FactoryBot.define do
     end
 
     trait :with_report_render do
-      template { "<%= report_render -%>"}
+      template { "<%= report_render -%>" }
     end
   end
 end

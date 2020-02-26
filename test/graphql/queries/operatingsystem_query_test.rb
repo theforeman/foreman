@@ -42,7 +42,7 @@ module Queries
     let(:operatingsystem) { FactoryBot.create(:operatingsystem, family: 'Redhat', hosts: hosts, media: [medium]) }
 
     let(:global_id) { Foreman::GlobalId.for(operatingsystem) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['operatingsystem'] }
 
     test 'fetching operatingsystem attributes' do

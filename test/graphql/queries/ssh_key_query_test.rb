@@ -28,7 +28,7 @@ module Queries
     let(:ssh_key) { FactoryBot.create(:ssh_key) }
 
     let(:global_id) { Foreman::GlobalId.for(ssh_key) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['sshKey'] }
 
     test 'fetching ssh_key attributes' do

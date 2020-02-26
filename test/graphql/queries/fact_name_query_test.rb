@@ -38,7 +38,7 @@ module Queries
     let(:fact_name) { fact_value.fact_name }
 
     let(:global_id) { Foreman::GlobalId.for(fact_name) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['factName'] }
 
     test 'fetching fact name attributes' do

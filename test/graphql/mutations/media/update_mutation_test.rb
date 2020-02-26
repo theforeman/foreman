@@ -109,7 +109,7 @@ module Mutations
               variables: variables.reject { |key, value| key == :name || key == :path },
               context: context)
             assert_equal 2, result['errors'].count
-            errors = result['errors'].map {|hash| hash['message']}
+            errors = result['errors'].map { |hash| hash['message'] }
             ["Variable name of type String! was provided invalid value", "Variable path of type String! was provided invalid value"].each do |msg|
               assert errors.include? msg
             end

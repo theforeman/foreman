@@ -21,11 +21,11 @@ class Queries::CurrentUserQueryTest < GraphQLQueryTestCase
   end
   let(:user) { FactoryBot.create(:user, :with_usergroup) }
   let(:global_id) { Foreman::GlobalId.for(user) }
-  let(:variables) {{}}
+  let(:variables) { {} }
   let(:data) { result['data']['currentUser'] }
 
   context 'with logged in user' do
-    let(:context) {{ current_user: user }}
+    let(:context) { { current_user: user } }
     test 'fetching current user attributes' do
       assert_empty result['errors']
 
@@ -37,7 +37,7 @@ class Queries::CurrentUserQueryTest < GraphQLQueryTestCase
   end
 
   context 'without logged in user' do
-    let(:context) {{ current_user: nil }}
+    let(:context) { { current_user: nil } }
 
     test 'currentUser returns nil' do
       assert_empty result['errors']

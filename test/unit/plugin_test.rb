@@ -84,7 +84,7 @@ class PluginTest < ActiveSupport::TestCase
         menu :project_menu, :foo_menu_item, :url_hash => url_hash, :caption => 'Foo'
       end
     end
-    menu_item = Menu::Manager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
+    menu_item = Menu::Manager.items(:project_menu).detect { |i| i.name == :foo_menu_item }
     assert_not_nil menu_item
     assert_equal 'Foo', menu_item.caption
     assert_equal url_hash, menu_item.url_hash
@@ -97,7 +97,7 @@ class PluginTest < ActiveSupport::TestCase
         delete_menu_item :project_menu, :foo_menu_item
       end
     end
-    assert_nil Menu::Manager.items(:project_menu).detect {|i| i.name == :foo_menu_item}
+    assert_nil Menu::Manager.items(:project_menu).detect { |i| i.name == :foo_menu_item }
   end
 
   def test_requires_foreman_2_part

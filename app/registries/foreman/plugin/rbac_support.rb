@@ -38,7 +38,7 @@ module Foreman
       end
 
       def check_role_name_before_extending(role_name)
-        msg = "Invalid role name, only '#{AUTO_EXTENDED_ROLES.map {|r| "'#{r}'"}.join(', ')}' is allowed to be extended from a plugin"
+        msg = "Invalid role name, only '#{AUTO_EXTENDED_ROLES.map { |r| "'#{r}'" }.join(', ')}' is allowed to be extended from a plugin"
         raise Foreman::Exception.new msg unless AUTO_EXTENDED_ROLES.include?(role_name)
       end
 

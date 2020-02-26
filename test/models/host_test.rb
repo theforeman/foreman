@@ -2068,7 +2068,7 @@ class HostTest < ActiveSupport::TestCase
     test "deleting an host with an expired token does not cause a Foreign Key error" do
       h = FactoryBot.create(:host, :managed)
       h.create_token(:value => "aaaaaa", :expires => 5.minutes.ago)
-      assert_nothing_raised {h.reload.destroy}
+      assert_nothing_raised { h.reload.destroy }
     end
 
     test "token_expired? should be true if expiration date is in the past" do
@@ -2905,8 +2905,8 @@ class HostTest < ActiveSupport::TestCase
   test '#info ENC YAML contains ipv4 and ipv6 subnets' do
     host = FactoryBot.build(:host, :with_subnet, :with_ipv6_subnet)
     enc = host.info
-    assert enc['parameters']['foreman_subnets'].any? {|s| s['network_type'] == 'IPv4'}
-    assert enc['parameters']['foreman_subnets'].any? {|s| s['network_type'] == 'IPv6'}
+    assert enc['parameters']['foreman_subnets'].any? { |s| s['network_type'] == 'IPv4' }
+    assert enc['parameters']['foreman_subnets'].any? { |s| s['network_type'] == 'IPv6' }
   end
 
   test '#info ENC YAML contains ipv4 and ipv6 address of host' do

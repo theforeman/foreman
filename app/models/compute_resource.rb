@@ -371,7 +371,7 @@ class ComputeResource < ApplicationRecord
 
   def vm_compute_attributes(vm)
     vm_attrs = vm.attributes rescue {}
-    vm_attrs = vm_attrs.reject {|k, v| k == :id }
+    vm_attrs = vm_attrs.reject { |k, v| k == :id }
 
     vm_attrs = set_vm_volumes_attributes(vm, vm_attrs)
     vm_attrs = set_vm_interfaces_attributes(vm, vm_attrs)

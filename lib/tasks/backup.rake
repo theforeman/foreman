@@ -58,7 +58,7 @@ namespace :db do
     cmd = "pg_dump -Fc #{config['database']} -U #{config['username']} "
     cmd += " -h #{config['host']} "    if config['host'].present?
     cmd += " -p #{config['port']} "    if config['port'].present?
-    cmd += " " + (tables.map {|t| "-t #{t}"}).join(" ") + " " if tables.present?
+    cmd += " " + (tables.map { |t| "-t #{t}" }).join(" ") + " " if tables.present?
     cmd += " > #{name}"
     system({'PGPASSWORD' => config['password']}, cmd)
   end

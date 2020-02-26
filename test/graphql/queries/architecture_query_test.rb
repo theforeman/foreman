@@ -29,7 +29,7 @@ module Queries
     let(:architecture) { FactoryBot.create(:architecture, hosts: hosts) }
 
     let(:global_id) { Foreman::GlobalId.for(architecture) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['architecture'] }
 
     test 'fetching architecture attributes' do

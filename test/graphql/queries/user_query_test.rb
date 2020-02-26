@@ -69,7 +69,7 @@ module Queries
     end
 
     let(:global_id) { Foreman::GlobalId.for(user) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['user'] }
 
     setup do

@@ -30,7 +30,7 @@ module Queries
     let(:smart_proxy) { FactoryBot.create(:smart_proxy, hosts: hosts) }
 
     let(:global_id) { Foreman::GlobalId.for(smart_proxy) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['smartProxy'] }
 
     test 'fetching smart proxy attributes' do

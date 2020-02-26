@@ -79,7 +79,7 @@ class Subnet < ApplicationRecord
   validates :network, :mask, :name, :cidr, :presence => true
   validates_associated :subnet_domains
   validates :boot_mode, :inclusion => BOOT_MODES.values
-  validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map {|m| IPAM::MODES[m]} }, :message => N_('not supported by this protocol')}
+  validates :ipam, :inclusion => {:in => Proc.new { |subnet| subnet.supported_ipam_modes.map { |m| IPAM::MODES[m] } }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => Proc.new { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name, :length => {:maximum => 255}, :uniqueness => true
   validates :vlanid, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 4096}, :allow_blank => true
@@ -211,7 +211,7 @@ class Subnet < ApplicationRecord
   end
 
   def unused_ip(mac = nil, excluded_ips = [])
-    unless supported_ipam_modes.map {|m| IPAM::MODES[m]}.include?(self.ipam)
+    unless supported_ipam_modes.map { |m| IPAM::MODES[m] }.include?(self.ipam)
       raise ::Foreman::Exception.new(N_("Unsupported IPAM mode for %s"), self.class.name)
     end
 
@@ -291,7 +291,7 @@ class Subnet < ApplicationRecord
     end
 
     def supported_ipam_modes_with_translations
-      supported_ipam_modes.map {|mode| [_(IPAM::MODES[mode]), IPAM::MODES[mode]]}
+      supported_ipam_modes.map { |mode| [_(IPAM::MODES[mode]), IPAM::MODES[mode]] }
     end
 
     # Given an IP returns the subnet that contains that IP preferring highest CIDR prefix
@@ -300,7 +300,7 @@ class Subnet < ApplicationRecord
     def subnet_for(ip)
       return unless ip.present?
       ip = IPAddr.new(ip)
-      Subnet.unscoped.all.select {|s| s.family == ip.family && s.contains?(ip)}.max_by(&:cidr)
+      Subnet.unscoped.all.select { |s| s.family == ip.family && s.contains?(ip) }.max_by(&:cidr)
     end
 
     # This casts Subnet to Subnet::Ipv4 if no type is set

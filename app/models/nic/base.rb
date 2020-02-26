@@ -18,7 +18,7 @@ module Nic
     validate :mac_uniqueness,
       :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
-              :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?)}
+              :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?) }
     validate :validate_mac_is_unicast,
       :if => Proc.new { |nic| nic.managed? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FactValuesControllerTest < ActionController::TestCase
   let(:host) { FactoryBot.create(:host) }
-  let(:fact_name) { FactoryBot.create(:fact_name)}
+  let(:fact_name) { FactoryBot.create(:fact_name) }
   let(:fact_value) do
     FactoryBot.create(:fact_value, :fact_name => fact_name, :host => host)
   end
