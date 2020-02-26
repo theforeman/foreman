@@ -21,7 +21,9 @@ jobs:
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Stash files
-      run: git stash
+      run: |
+        git add .
+        git stash
     - name: Checkout gh-pages
       run: |
         git config --local user.email "action@github.com"
