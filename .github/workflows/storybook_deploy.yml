@@ -18,21 +18,17 @@ jobs:
       run: 'git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*'
     - name: Run npm install
       run: npm install
-    - name: Build Storybook
-      run: npm run build-storybook -- --output-dir=storybooks/${{ github['event']['pull_request']['number'] }}
-    - name: Stash files
-      run: |
-        git add .
-        git stash
+    - name: Build Storybook in temporary folder
+      run: npm run build-storybook -- --output-dir=tmp/storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Checkout gh-pages
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
         git checkout gh-pages
+    - name: Move files to storybooks/:pr_num/
+      run: mv -r tmp/storybooks/${{ github['event']['pull_request']['number'] }} storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
-    - name: Unstash files
-      run: git stash pop
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
