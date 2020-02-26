@@ -178,7 +178,7 @@ class Template < ApplicationRecord
   def validate_unique_inputs!
     duplicated_inputs = template_inputs.group_by(&:name).values.select { |values| values.size > 1 }.map(&:first)
     unless duplicated_inputs.empty?
-      raise NonUniqueInputsError.new(N_('Duplicated inputs detected: %{duplicated_inputs}'), :duplicated_inputs => duplicated_inputs.map(&:name))
+      raise Foreman::Exception.new(N_('Duplicated inputs detected: %{duplicated_inputs}'), :duplicated_inputs => duplicated_inputs.map(&:name))
     end
   end
 
