@@ -23,11 +23,13 @@ jobs:
     - name: Checkout gh-pages
       run: |
         git checkout gh-pages
+        ls tmp/storybooks/${{ github['event']['pull_request']['number'] }}
     - name: Move files to storybooks/:pr_num/
       run: |
         mkdir -p storybooks/${{ github['event']['pull_request']['number'] }}
         rm -r storybooks/${{ github['event']['pull_request']['number'] }}/*
         mv tmp/storybooks/${{ github['event']['pull_request']['number'] }}/* storybooks/${{ github['event']['pull_request']['number'] }}
+        ls storybooks/${{ github.event.pull_request.number }}
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
     - name: Commit files
