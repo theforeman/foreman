@@ -155,8 +155,9 @@ module Foreman::Model
 
     def available_images
       images_list = client.images.current
-      if image_families_to_filter.present?
-        images_list.select! {|img| img.family.match(/#{image_families_to_filter.join("|")}/)}
+      if image_families_to_filter.any?
+        regexp = Setting.convert_array_to_regexp(image_families_to_filter, prefix: '', suffix: '')
+        images_list.select! {|img| img.family&.match(regexp)}
       end
       images_list
     end
