@@ -1,3 +1,7 @@
+<%= alert :header => '', :class => 'alert-warning', :close => false,
+          :text => _("Please note that these HTTP proxy configurations are only used for requests
+                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level.") %>
+
 <%= form_for @http_proxy, :url => (@http_proxy.new_record? ? http_proxies_path : http_proxy_path(:id => @http_proxy)) do |f| %>
   <%= base_errors_for @http_proxy %>
   <ul class="nav nav-tabs" data-tabs="tabs">
