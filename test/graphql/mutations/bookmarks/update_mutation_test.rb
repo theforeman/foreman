@@ -72,6 +72,7 @@ module Mutations
 
       context 'as user with view permissions' do
         setup do
+          variables
           @user = setup_user 'view', 'bookmarks'
         end
 

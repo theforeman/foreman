@@ -22,7 +22,7 @@ module Queries
 
     let(:setting) { Setting.find_by :name => 'access_unattended_without_build' }
     let(:global_id) { Foreman::GlobalId.for(setting) }
-    let(:variables) {{ id: global_id }}
+    let(:variables) { { id: global_id } }
     let(:data) { result['data']['setting'] }
 
     test 'fetching a setting' do

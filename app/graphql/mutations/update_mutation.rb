@@ -8,9 +8,13 @@ module Mutations
       object = load_object_by(id: params[:id])
       authorize!(object, :edit)
 
-      object.assign_attributes(params.except(:id))
+      assign_attributes object, params.except(:id)
 
       save_object(object)
+    end
+
+    def assign_attributes(object, attributes)
+      object.assign_attributes(attributes)
     end
   end
 end
