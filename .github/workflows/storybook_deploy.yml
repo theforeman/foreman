@@ -39,7 +39,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
         echo 'git add .'
-        git add storybooks/${{ github.event.pull_request.number }}
+        git add .
         git status
         git commit -m "Storybook build for PR #${{ github['event']['pull_request']['number'] }}"
     - name: Deploy Storybook to gh-pages branch
