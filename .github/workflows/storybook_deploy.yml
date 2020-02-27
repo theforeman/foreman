@@ -34,6 +34,7 @@ jobs:
     - name: Tell Github not to use jekyll
       run: touch .nojekyll
     - name: Commit files
+      id: commit_files
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
@@ -55,3 +56,6 @@ jobs:
       with:
         message: "Deployed the [Storybook](https://${{ github.event.pull_request.head.repo.owner.login }}.github.io/foreman/storybooks/${{ github['event']['pull_request']['number'] }}) for this PR to the `gh-pages` branch."
         GITHUB_TOKEN: ${{ github.token }}
+    - name: Log outputs
+      run: "echo ${{ steps.commit_files.outputs }}"
+  
