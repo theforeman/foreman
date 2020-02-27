@@ -18,7 +18,7 @@ jobs:
     - name: Remove files from storybooks/:pr_num/
       run: |
         mkdir -p storybooks/${{ github.event.pull_request.number }}
-        rm -r storybooks/${{ github.event.pull_request.number }}/*
+        rm -rf storybooks/${{ github.event.pull_request.number }}/*
         git status
     - name: Tell Github not to use jekyll
       run: touch .nojekyll

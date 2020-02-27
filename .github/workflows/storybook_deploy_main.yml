@@ -30,7 +30,7 @@ jobs:
     - name: Move files to storybooks/:pr_num/
       run: |
         mkdir -p storybooks/main
-        rm -r storybooks/main/*
+        rm -rf storybooks/main/*
         mv tmp/storybooks/main/* storybooks/main
         ls storybooks/main
         git status
