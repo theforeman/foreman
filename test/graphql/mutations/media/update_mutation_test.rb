@@ -130,7 +130,11 @@ module Mutations
 
       context 'with user with view permissions' do
         setup do
-          @user = setup_user 'view', 'media'
+          variables
+          view_role = roles(:viewer)
+          user = users(:one)
+          user.roles << view_role
+          @user = user
         end
 
         test 'cannot update a medium' do
@@ -138,7 +142,7 @@ module Mutations
 
           assert_difference('Medium.count', 0) do
             result = ForemanGraphqlSchema.execute(query, variables: variables, context: context)
-            assert_not_empty result['errors']
+            assert_equal "Unauthorized. You do not have the required permission edit_media.", result['errors'].first['message']
           end
         end
       end

@@ -5,6 +5,7 @@ module Types
     global_id_field :id
     timestamps
     field :name, String
+    # https://github.com/graphql/graphql-spec/issues/215
     field :value, String
     field :description, String
     field :category, String

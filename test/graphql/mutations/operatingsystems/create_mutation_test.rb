@@ -93,6 +93,7 @@ module Mutations
 
       context 'with user with view permissions' do
         setup do
+          variables
           @user = setup_user 'view', 'operatingsystems'
         end
 
