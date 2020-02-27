@@ -20,14 +20,14 @@ jobs:
       run: 'git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*'
     - name: Run npm install
       run: npm install
-    - name: Build Storybook
-      run: npm run build-storybook -- --output-dir=storybooks/main
+    - name: Build Storybook in temporary folder
+      run: npm run build-storybook -- --output-dir=tmp/storybooks/main
     - name: Checkout gh-pages
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "Foreman Storybook Bot"
         git checkout gh-pages
-    - name: Move files to storybooks/:pr_num/
+    - name: Move files to storybooks/main
       run: |
         mkdir -p storybooks/main
         rm -rf storybooks/main/*

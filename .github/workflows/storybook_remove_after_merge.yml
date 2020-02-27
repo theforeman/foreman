@@ -7,7 +7,7 @@ on:
     types: [closed]
 
 jobs:
-  deploy_main_storybook:
+  remove_storybook:
 
     runs-on: ubuntu-latest
 
