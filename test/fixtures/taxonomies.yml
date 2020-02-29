@@ -13,13 +13,16 @@ organization1:
   name: "Organization 1"
   type: "Organization"
   title: "Organization 1"
+  label: "Organization_1"
 
 organization2:
   name: "Organization 2"
   type: "Organization"
   title: "Organization 2"
+  label: "Organization_2"
 
 empty_organization:
   name: "Empty Organization"
   type: "Organization"
   title: "Empty Organization"
+  label: "Empty_Organization"
