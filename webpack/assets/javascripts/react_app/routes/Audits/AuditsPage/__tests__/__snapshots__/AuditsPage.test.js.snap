@@ -36,7 +36,7 @@ exports[`AuditsPage rendering render audits page 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/mocked_version/index.html#4.1.4Auditing"
+      href="/links/manual/4.1.4Auditing"
     >
       <Icon
         name="help"
@@ -111,7 +111,7 @@ exports[`AuditsPage rendering render audits page w/empty audits 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/mocked_version/index.html#4.1.4Auditing"
+      href="/links/manual/4.1.4Auditing"
     >
       <Icon
         name="help"
@@ -188,7 +188,7 @@ exports[`AuditsPage rendering render audits page w/error 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/mocked_version/index.html#4.1.4Auditing"
+      href="/links/manual/4.1.4Auditing"
     >
       <Icon
         name="help"
@@ -265,7 +265,7 @@ exports[`AuditsPage rendering render loading audits page 1`] = `
       bsStyle="default"
       className="btn-docs"
       disabled={false}
-      href="https://theforeman.org/manuals/mocked_version/index.html#4.1.4Auditing"
+      href="/links/manual/4.1.4Auditing"
     >
       <Icon
         name="help"

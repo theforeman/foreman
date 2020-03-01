@@ -592,4 +592,6 @@ Foreman::Application.routes.draw do
   end
 
   match 'host_wizard' => 'react#index', :via => :get
+
+  get 'links/:type(/:section)' => 'links#show', as: 'external_link'
 end
