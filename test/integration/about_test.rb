@@ -19,9 +19,9 @@ class AboutIntegrationTest < IntegrationTestWithJavascript
     assert_selector 'h4', text: 'System Information'
     assert_link 'Smart Proxies', href: '#smart_proxies'
     assert_link 'Compute Resources', href: '#compute_resources'
-    assert_link 'community forums', href: 'https://community.theforeman.org'
-    assert_link 'issue tracker', href: 'http://projects.theforeman.org/projects/foreman/issues'
-    assert_link 'Wiki', href: 'http://projects.theforeman.org'
+    assert_link 'community forums', href: /forums/
+    assert_link 'issue tracker', href: /issues/
+    assert_link 'Wiki', href: /wiki/
     assert_link 'Ohad Levy', href: 'mailto:ohadlevy@gmail.com'
     assert_content 'Version'
   end

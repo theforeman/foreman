@@ -411,12 +411,7 @@ module ApplicationHelper
   end
 
   def documentation_url(section = "", options = {})
-    root_url = options[:root_url] || "https://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#"
-    if section.empty?
-      "https://theforeman.org/documentation.html##{SETTINGS[:version].short}"
-    else
-      root_url + section
-    end
+    external_link_url(options.merge(type: 'manual', section: section))
   end
 
   def options_for_puppetclass_selection(klass, type)

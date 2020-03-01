@@ -5,7 +5,7 @@
   </div>
   <h1><%= _('VMRC Console') %></h1>
   <p><%= _('To launch the VMRC console, you need the VMRC software installed.') %></p>
-  <p><%= link_to(_('Download VMRC'), 'https://www.vmware.com/go/download-vmrc', :target => '_blank', :rel => 'noopener noreferrer') %></p>
+  <p><%= link_to(_('Download VMRC'), external_link_path(type: 'vmrc'), :target => '_blank', :rel => 'noopener noreferrer') %></p>
   <div class="blank-slate-pf-main-action">
     <%= link_to(_('Launch Console'),
                 @console[:console_url],

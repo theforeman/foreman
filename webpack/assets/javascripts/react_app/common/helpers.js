@@ -1,6 +1,7 @@
 import { snakeCase, camelCase, debounce } from 'lodash';
 import URI from 'urijs';
 import { translate as __ } from './I18n';
+import { foremanUrl } from '../../foreman_tools';
 
 /**
  * Our API returns non-ISO8601 dates
@@ -158,10 +159,9 @@ export const stringIsPositiveNumber = value => {
 
 /**
  * Get manual url based on version
- * @param {String} version - foreman short version
+ * @param {String} section - section id for foreman documetation
  */
-export const getManualURL = version =>
-  `https://theforeman.org/manuals/${version}/index.html`;
+export const getManualURL = section => foremanUrl(`/links/manual/${section}`);
 
 /**
  * Transform the Date object to date string accepted in the server

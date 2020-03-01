@@ -11,6 +11,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :api_status, { :"api/v2/home" => [:status]}, :public => true
     map.permission :about_index, { :about => [:index] }, :public => true
     map.permission :user_menu, { :user_menus => [:menu] }, :public => true
+    map.permission :links, { :links => [:show] }, :public => true
   end
 
   permission_set.security_block :architectures do |map|

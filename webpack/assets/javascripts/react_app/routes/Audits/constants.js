@@ -10,5 +10,4 @@ export const AUDITS_PAGE_CLEAR_ERROR = 'AUDITS_PAGE_CLEAR_ERROR';
 
 export const AUDITS_PATH = '/audits';
 export const AUDITS_SEARCH_PROPS = getControllerSearchProps('audits');
-export const AUDITS_MANUAL_URL = version =>
-  `${getManualURL(version)}#4.1.4Auditing`;
+export const AUDITS_MANUAL_URL = () => getManualURL('4.1.4Auditing');

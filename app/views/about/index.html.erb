@@ -127,14 +127,14 @@
         <li><%= link_to _('API Resources'), apipie_apipie_path, :title => _('Automate Foreman via a simple and powerful API') %></li>
         <li><%= link_to _('Templates DSL'), apipie_dsl_apipie_dsl_path, :title => _('Get DSL reference for templates writing') %></li>
         <li><%= link_to _('Manual'), documentation_url, :rel => "external" %></li>
-        <li><%= link_to _('Wiki'), "http://projects.theforeman.org", :rel => "external" %></li>
+        <li><%= link_to _('Wiki'), external_link_path(type: 'wiki'), :rel => "external" %></li>
       </ul>
       <h6><%= _("IRC") %></h6>
-      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", "http://www.freenode.net", :rel => "external")}).html_safe  %></p>
+      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", external_link_path(type: 'chat'), :rel => "external")}).html_safe  %></p>
       <h6><%= _("Forums") %></h6>
-      <p><%= (_("You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman.") % {:community_forums => link_to( _('community forums'), "https://community.theforeman.org", :rel => "external")}).html_safe %></p>
+      <p><%= (_("You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman.") % {:community_forums => link_to( _('community forums'), external_link_path(type: 'forums'), :rel => "external")}).html_safe %></p>
       <h6><%= _("Issue tracker") %></h6>
-      <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %></p>
+      <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), external_link_path(type: 'issues'), :rel => "external" %></p>
     </div>
     <div class="stats-well" id="copyright-div">
       <h4><%= _("System Information") %> </h4>

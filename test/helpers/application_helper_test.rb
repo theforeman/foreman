@@ -15,14 +15,14 @@ class ApplicationHelperTest < ActionView::TestCase
     test '#documentation_url returns global url if no section specified' do
       url = documentation_url
 
-      assert_match /documentation.html/, url
+      assert_match /manual/, url
     end
 
     test '#documentation_url returns foreman docs url with a given section' do
       url = documentation_url '1.1TestSection'
 
       assert_match /TestSection/, url
-      assert_match /manuals/, url
+      assert_match /manual/, url
     end
 
     test '#documentation_url receives a root_url option' do
