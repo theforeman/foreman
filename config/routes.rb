@@ -135,7 +135,6 @@ Foreman::Application.routes.draw do
 
       constraints(:host_id => /[^\/]+/) do
         resources :config_reports, :only => [:index, :show]
-        resources :audits, :only => :index
         resources :facts, :only => :index, :controller => :fact_values
         resources :puppetclasses, :only => :index
 
