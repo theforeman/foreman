@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: test GITHUB_TOKEN
+      run: echo "${{ secrets.GITHUB_TOKEN }}"
     - uses: actions/checkout@v2
       with:
         clean: false
