@@ -91,6 +91,16 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal first_os, second_os
     end
 
+    test "should set os.release_name to the lsbdistcodename fact on Debian facter v3" do
+      @importer = PuppetFactParser.new(debian_facts_v3)
+      assert_equal 'Debian', os.name
+      assert_equal 'Debian 10', os.title
+      assert_equal 'Debian 10', os.description
+      assert_equal '10', os.major
+      assert_equal '3', os.minor
+      assert_equal 'buster', os.release_name
+    end
+
     test "should not set os.release_name to the lsbdistcodename on non-Debian OS" do
       assert_not_equal 'Santiago', os.release_name
     end
@@ -429,6 +439,10 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def debian_facts
     read_json_fixture('facts/facts_debian.json')['facts']
+  end
+
+  def debian_facts_v3
+    read_json_fixture('facts/facts_v3_debian.json')
   end
 
   def rhel_7_workstation_facts
