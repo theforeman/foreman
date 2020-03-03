@@ -92,9 +92,17 @@ end
 class ActiveSupport::TestCase
   extend Robottelo::Reporter::TestAttributes
   prepend TestCaseRailsLoggerExtensions
+  setup :setup_dns_stubs
 
   class << self
     alias_method :test, :it
+  end
+
+  def setup_dns_stubs
+    Resolv::DNS.any_instance.stubs(:getname).raises(Resolv::ResolvError, "DNS must be stub: Resolv::DNS.any_instance.stubs(:getname).returns('example.com')")
+    Resolv::DNS.any_instance.stubs(:getnames).raises(Resolv::ResolvError, "DNS must be stub: Resolv::DNS.any_instance.stubs(:getnames).returns(['example.com'])")
+    Resolv::DNS.any_instance.stubs(:getaddress).raises(Resolv::ResolvError, "DNS must be stub: Resolv::DNS.any_instance.stubs(:getaddress).returns('127.0.0.15')")
+    Resolv::DNS.any_instance.stubs(:getaddresses).raises(Resolv::ResolvError, "DNS must be stub: Resolv::DNS.any_instance.stubs(:getaddresses).returns(['127.0.0.15'])")
   end
 end
 
