@@ -16,7 +16,11 @@ exports[`ChartBox error 1`] = `
     <CardTitle
       className="pointer panel-title"
     >
-      some title
+      <EllipisWithTooltip>
+         
+        some title
+         
+      </EllipisWithTooltip>
     </CardTitle>
   </CardHeading>
   <CardBody
@@ -64,7 +68,11 @@ exports[`ChartBox pending 1`] = `
     <CardTitle
       className="pointer panel-title"
     >
-      some title
+      <EllipisWithTooltip>
+         
+        some title
+         
+      </EllipisWithTooltip>
     </CardTitle>
   </CardHeading>
   <CardBody
@@ -116,7 +124,11 @@ exports[`ChartBox resolved 1`] = `
       onClick={[Function]}
       title="sone tooltip"
     >
-      some title
+      <EllipisWithTooltip>
+         
+        some title
+         
+      </EllipisWithTooltip>
     </CardTitle>
   </CardHeading>
   <CardBody
