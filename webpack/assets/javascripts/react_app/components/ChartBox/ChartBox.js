@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Modal } from 'patternfly-react';
 import { isEqual } from 'lodash';
 import classNames from 'classnames';
+import ElipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import DonutChart from '../common/charts/DonutChart';
 import BarChart from '../common/charts/BarChart';
 import { navigateToSearch } from '../../../services/charts/DonutChartService';
@@ -88,7 +89,7 @@ class ChartBox extends React.Component {
       >
         <Card.Heading>
           <Card.Title className="pointer panel-title" {...headerProps}>
-            {title}
+            <ElipsisWithTooltip> {title} </ElipsisWithTooltip>
           </Card.Title>
         </Card.Heading>
         <Card.Body>
