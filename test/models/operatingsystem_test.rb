@@ -168,31 +168,31 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
   describe "descriptions" do
     test "Redhat LSB description should be correctly shortened" do
-      assert_equal 'RHEL 6.4', Redhat.shorten_description("Red Hat Enterprise Linux release 6.4 (Santiago)")
+      assert_equal 'RHEL 6.4', Redhat.new.shorten_description("Red Hat Enterprise Linux release 6.4 (Santiago)")
     end
 
     test "Fedora LSB description should be correctly shortened" do
-      assert_equal 'Fedora 19', Redhat.shorten_description("Fedora release 19 (Schrodinger's Cat)")
+      assert_equal 'Fedora 19', Redhat.new.shorten_description("Fedora release 19 (Schrodinger's Cat)")
     end
 
     test "Debian LSB description should be correctly shortened" do
-      assert_equal 'Debian 7.1', Debian.shorten_description("Debian GNU/Linux 7.1 (wheezy)")
+      assert_equal 'Debian 7.1', Debian.new.shorten_description("Debian GNU/Linux 7.1 (wheezy)")
     end
 
     test "Ubuntu LSB is unaltered" do
-      assert_equal 'Ubuntu 12.04.3 LTS', Debian.shorten_description("Ubuntu 12.04.3 LTS")
+      assert_equal 'Ubuntu 12.04.3 LTS', Debian.new.shorten_description("Ubuntu 12.04.3 LTS")
     end
 
     test "SLES LSB description should be correctly shortened" do
-      assert_equal 'SLES 11', Suse.shorten_description("SUSE Linux Enterprise Server 11 (x86_64)")
+      assert_equal 'SLES 11', Suse.new.shorten_description("SUSE Linux Enterprise Server 11 (x86_64)")
     end
 
     test "openSUSE LSB description should be correctly shortened" do
-      assert_equal 'openSUSE 11.4', Suse.shorten_description("openSUSE 11.4 (x86_64)")
+      assert_equal 'openSUSE 11.4', Suse.new.shorten_description("openSUSE 11.4 (x86_64)")
     end
 
     test "OSes without a shorten_description method fall back to description" do
-      assert_equal 'Arch Linux', Archlinux.shorten_description("Arch Linux")
+      assert_equal 'Arch Linux', Archlinux.new.shorten_description("Arch Linux")
     end
   end
 

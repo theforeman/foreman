@@ -17,7 +17,7 @@ class Suse < Operatingsystem
     "SUSE"
   end
 
-  def self.shorten_description(description)
+  def shorten_description(description)
     return "" if description.blank?
     s = description.dup
     s.gsub!('SUSE Linux Enterprise Server', 'SLES')

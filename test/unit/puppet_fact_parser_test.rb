@@ -94,8 +94,8 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     test "should set os.release_name to the lsbdistcodename fact on Debian facter v3" do
       @importer = PuppetFactParser.new(debian_facts_v3)
       assert_equal 'Debian', os.name
-      assert_equal 'Debian 10', os.title
-      assert_equal 'Debian 10', os.description
+      assert_equal 'Debian 10.3', os.title
+      assert_equal 'Debian 10.3', os.description
       assert_equal '10', os.major
       assert_equal '3', os.minor
       assert_equal 'buster', os.release_name

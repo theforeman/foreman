@@ -26,7 +26,8 @@ class PuppetFactParser < FactParser
         os.description = os_name + ' ' + orel.gsub('.', ' SP')
       elsif facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription]
         family = os.deduce_family || 'Operatingsystem'
-        os.description = family.constantize.shorten_description(facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription])
+        os = os.becomes(family.constantize)
+        os.description = os.shorten_description(facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription])
       end
     end
 
