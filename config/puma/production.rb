@@ -12,3 +12,8 @@ threads ENV.fetch('FOREMAN_PUMA_THREADS_MIN', 0).to_i, ENV.fetch('FOREMAN_PUMA_T
 # The default is "0" for puma. Recommending "2" for foreman
 #
 workers ENV.fetch('FOREMAN_PUMA_WORKERS', 2).to_i
+
+on_worker_boot do
+  dynflow = ::Rails.application.dynflow
+  dynflow.initialize! unless dynflow.config.lazy_initialization
+end
