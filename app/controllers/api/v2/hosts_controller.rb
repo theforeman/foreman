@@ -197,6 +197,26 @@ module Api
         end
       end
 
+      api :DELETE, "/hosts/:id/status/:type", N_("Clear sub-status of host")
+      param :id, :identifier_dottable, :required => true
+      param :type, HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(
+        <<~EOS
+          status type
+        EOS
+      )
+
+      description N_('Clears a host sub-status of a given type')
+      def forget_status
+        status = @host.get_status(HostStatus.find_status_by_humanized_name(params[:type]))
+        if params[:type] == 'global'
+          render :json => { :error => _("Cannot delete global status.") }, :status => :unprocessable_entity
+        elsif status.type.empty? || status.id.nil?
+          render :json => { :error => _("Status %s does not exist.") % params[:type] }, :status => :unprocessable_entity
+        else
+          process_response status.delete
+        end
+      end
+
       api :GET, "/hosts/:id/vm_compute_attributes", N_("Get vm attributes of host")
       param :id, :identifier_dottable, :required => true
       description <<~EOS
@@ -354,7 +374,7 @@ module Api
             :ipmi_boot
           when 'console'
             :console
-          when 'disassociate'
+          when 'disassociate', 'forget_status'
             :edit
           when 'vm_compute_attributes', 'get_status', 'template', 'enc'
             :view

@@ -27,7 +27,7 @@ class HostsController < ApplicationController
   before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
-                                          :toggle_manage, :pxe_config, :disassociate, :build_errors]
+                                          :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status]
 
   before_action :taxonomy_scope, :only => [:new, :edit] + AJAX_REQUESTS
   before_action :set_host_type, :only => [:update]
@@ -310,6 +310,12 @@ class HostsController < ApplicationController
     render :partial => 'nics'
   rescue ActionView::Template::Error => exception
     process_ajax_error exception, 'fetch interfaces information'
+  end
+
+  def forget_status
+    status = @host.host_statuses.find(params[:status])
+    status.delete
+    redirect_to host_path(@host)
   end
 
   def ipmi_boot
@@ -651,7 +657,7 @@ class HostsController < ApplicationController
     'update_multiple_organization', 'select_multiple_organization',
     'update_multiple_location', 'select_multiple_location',
     'disassociate', 'update_multiple_disassociate', 'multiple_disassociate',
-    'select_multiple_owner', 'update_multiple_owner',
+    'select_multiple_owner', 'update_multiple_owner', 'forget_status',
     'select_multiple_power_state', 'update_multiple_power_state', 'random_name'
   ], :edit
   define_action_permission ['multiple_destroy', 'submit_multiple_destroy'], :destroy

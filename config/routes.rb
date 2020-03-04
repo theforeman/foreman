@@ -71,6 +71,7 @@ Foreman::Application.routes.draw do
         get 'resources'
         get 'templates'
         get 'nics'
+        post 'forget_status'
         put 'ipmi_boot'
         put 'disassociate'
       end

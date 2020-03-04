@@ -531,6 +531,25 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  test "should delete a sub-status" do
+    host = FactoryBot.create(:host)
+    status = ::HostStatus::BuildStatus.create!(host_id: host.id)
+    delete :forget_status, params: { :id => host.to_param, :type => 'build' }
+    refute host.host_statuses.include?(status)
+  end
+
+  test "should not try to delete global status" do
+    host = FactoryBot.create(:host)
+    delete :forget_status, params: { :id => host.to_param, :type => 'global' }
+    assert JSON.parse(@response.body) == {"error" => "Cannot delete global status."}
+  end
+
+  test "should not try to delete nonexistent status" do
+    host = FactoryBot.create(:host)
+    delete :forget_status, params: { :id => host.to_param, :type => 'doesnt_exist' }
+    assert JSON.parse(@response.body) == {"error" => "Status doesnt_exist does not exist."}
+  end
+
   test "should not show status of hosts out of users hosts scope" do
     setup_user 'view', 'hosts', "owner_type = User and owner_id = #{users(:restricted).id}", :restricted
     get :get_status, params: { :id => @host.to_param, :type => 'configuration' }
