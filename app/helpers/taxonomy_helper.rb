@@ -141,17 +141,26 @@ module TaxonomyHelper
     content_tag(:div, :id => resource, :class => "tab-pane") do
       attr = association.where(nil).klass.to_s.underscore.pluralize.to_sym
       selected_ids = taxonomy.selected_or_inherited_ids[ids]
-      opts = options.merge({:disabled => taxonomy.used_and_selected_or_inherited_ids[ids], :label => translated_label(resource, :select)})
-      html_opts = {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json, 'data-inheriteds' => taxonomy.inherited_ids[ids].to_json,
-                   'data-useds' => taxonomy.used_ids[ids].to_json,
-                   'disabled' => (taxonomy.ignore_types.any? resource.to_s.singularize.capitalize)
-      }
+      options[:label] = translated_label(resource, :select)
+      mismatches = taxonomy.need_to_by_selected_ids[ids]
+      inheriteds = ...
+      useds = ....
       result = all_checkbox(f, resource, dual_list)
 
       if dual_list
-        result += dual_list(f, attr, association, selected_ids, opts, html_opts)
+        opts = options.merge({
+                       disabled: (taxonomy.ignore_types.any? resource.to_s.singularize.capitalize),
+                       used: used,
+                       inheriteds: inheriteds,
+                       mismatches: mismatches
+        })
+        result += dual_list(f, attr, association, selected_ids, opts)
       else
-        result += multiple_selects(f, attr, association, selected_ids, opts, html_opts)
+        html_opts = {'data-mismatches' => mismatches.to_json, 'data-inheriteds' => inheriteds.to_json,
+                   'data-useds' => useds.to_json,
+                   'disabled' => (taxonomy.ignore_types.any? resource.to_s.singularize.capitalize)
+      }
+        result += multiple_selects(f, attr, association, selected_ids, options.merge(:disabled => taxonomy.used_and_selected_or_inherited_ids[ids]), html_opts)
       end
 
       result.html_safe

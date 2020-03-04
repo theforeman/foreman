@@ -114,41 +114,39 @@ module FormHelper
 
     items += unauthorized.map do |unauthorized_value|
       {
-        value: '',
-        label: unauthorized_value.to_s,
+        value: unauthorized_value,
+        label: '',
         hidden: true,
       }
     end
 
-    if (html_options["data-useds"])
-      JSON.parse(html_options["data-useds"]).map do |disabled_value|
-        items.each do |item|
-          item[:disabled] = true if item[:value] == disabled_value
-        end
-      end
-    end
+   items.each do |item|
+     if options[:mismatches] && options[:mismatches].include?(item[:value])
+       item[:disabled] = true
+       item[:tooltip] = __("Select this since it belongs to a host")
+     elsif options[:useds] && options[:useds].include? ...
+       item[:disabled] = true
+       item[:tooltip] = __("This is used by a host")
+     elsif ....
+     end
+   end
 
     input_id = "#{f.object_name}_#{attr_ids}"
     error_messages = f.object.errors[attr].map(&:inspect).join(', ')
-    props = {
+    props = options.merge({
       id: "dual_list_#{input_id}",
-      label: options[:label],
-      error: error_messages,
       items: items,
-      selectedIDs: selected_ids,
+      value: selected_ids,
       inputProps: {
         name: "#{f.object_name}[#{attr_ids}][]",
         id: input_id,
         className: class_name,
         form: f.options[:html][:id],
       },
-      disabled: html_options['disabled'],
     }.to_json
 
-    field(f, attr, options) do
-      f.hidden_field(attr_ids, multiple: true, :value => nil, :id => '') +
-      react_component('DualList', props)
-    end
+    f.hidden_field(attr_ids, multiple: true, :value => nil, :id => '') +
+    react_form_input('dualList', f, attr, props)
   end
 
   def line_count(f, attr)
