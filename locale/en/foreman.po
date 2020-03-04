@@ -1316,6 +1316,9 @@ msgstr ""
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
 
+msgid "Cannot delete built-in role"
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr ""
 
@@ -6243,6 +6246,9 @@ msgid ""
 "                name as an argument. E.g. %{example2} will load the value through input called cpus."
 msgstr ""
 
+msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr ""
 
@@ -7161,6 +7167,16 @@ msgstr ""
 
 msgid "Remember hosts selection for the next bulk action"
 msgstr ""
+
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Remote address"
 msgstr ""
@@ -8990,6 +9006,9 @@ msgstr ""
 msgid "This role is locked for editing."
 msgstr ""
 
+msgid "This role is locked from being modified by users."
+msgstr ""
+
 msgid "This service is available for unauthenticated users"
 msgstr ""
 
@@ -9405,6 +9424,9 @@ msgid "Unable to set TFTP boot entry for %s"
 msgstr ""
 
 msgid "Unable to sign PuppetCA certificate for %s"
+msgstr ""
+
+msgid "Unable to submit role: Problem with associated filter %s"
 msgstr ""
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
@@ -11084,6 +11106,9 @@ msgid "soft"
 msgstr ""
 
 msgid "some interfaces are invalid"
+msgstr ""
+
+msgid "some permissions were not found: %s"
 msgstr ""
 
 msgid "space separated options, e.g. miimon=100"

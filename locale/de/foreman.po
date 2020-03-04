@@ -17,7 +17,7 @@
 # Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
-# Markus Bucher <bucher@atix.de>, 2019
+# Markus Bucher <bucher@atix.de>, 2019-2020
 # Martin Zimmermann <martin.zimmermann@gmx.com>, 2018
 # Oliver Freyermuth <o.freyermuth@googlemail.com>, 2019
 # Paul Puschmann, 2013
@@ -37,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2020-03-02 13:14+0000\n"
+"Last-Translator: Markus Bucher <bucher@atix.de>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1936,7 +1936,7 @@ msgid "Create a compute attributes set"
 msgstr "Rechenattributset erstellen"
 
 msgid "Create a compute profile"
-msgstr "Rechenprofilen erstellen"
+msgstr "Rechenprofil erstellen"
 
 msgid "Create a compute resource"
 msgstr "Rechenressource erstellen"
@@ -2281,7 +2281,7 @@ msgid "Delete a bookmark"
 msgstr "Lesezeichen löschen"
 
 msgid "Delete a compute profile"
-msgstr "Rechenprofilen löschen"
+msgstr "Rechenprofil löschen"
 
 msgid "Delete a compute resource"
 msgstr "Rechenressource löschen"
@@ -7924,7 +7924,7 @@ msgid "Show a compute attributes set"
 msgstr "Recheneigenschaftsset anzeigen"
 
 msgid "Show a compute profile"
-msgstr "Rechenprofilen anzeigen"
+msgstr "Rechenprofil anzeigen"
 
 msgid "Show a compute resource"
 msgstr "Rechenressource anzeigen"
@@ -9578,7 +9578,7 @@ msgid "Update a compute attributes set"
 msgstr "Rechenattributset aktualisieren"
 
 msgid "Update a compute profile"
-msgstr "Rechenprofilen aktualisieren"
+msgstr "Rechenprofil aktualisieren"
 
 msgid "Update a compute resource"
 msgstr "Rechenressource aktualisieren"

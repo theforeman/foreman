@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-18 12:10+0200\n"
-"PO-Revision-Date: 2020-02-18 12:10+0200\n"
+"POT-Creation-Date: 2020-03-04 16:29+0200\n"
+"PO-Revision-Date: 2020-03-04 16:29+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4171,11 +4171,11 @@ msgstr ""
 msgid "You have already logged in"
 msgstr ""
 
-#: ../app/graphql/mutations/base_mutation.rb:38
+#: ../app/graphql/mutations/base_mutation.rb:40
 msgid "Unauthorized. You do not have the required permission %s."
 msgstr ""
 
-#: ../app/graphql/mutations/base_mutation.rb:52
+#: ../app/graphql/mutations/base_mutation.rb:53
 msgid "Could not resolve ID."
 msgstr ""
 
@@ -5045,6 +5045,25 @@ msgstr ""
 msgid "Please delete all nested groups before deleting it."
 msgstr ""
 
+#: ../app/helpers/hosts_and_hostgroups_helper.rb:24
+#: ../app/helpers/shared_smart_proxies_helper.rb:10
+msgid "inherit"
+msgstr ""
+
+#: ../app/helpers/hosts_and_hostgroups_helper.rb:47
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../app/helpers/hosts_and_hostgroups_helper.rb:49
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural ""
+"Reminder: <strong> All %{count} hosts are selected </strong> for query filter "
+"%{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 #: ../app/helpers/hosts_helper.rb:61
 msgid "%s can be changed using bulk action on the All Hosts page"
 msgstr ""
@@ -5581,10 +5600,6 @@ msgstr[1] ""
 msgid ""
 "This setting is defined in the configuration file '%{filename}' and is read-on"
 "ly."
-msgstr ""
-
-#: ../app/helpers/shared_smart_proxies_helper.rb:10
-msgid "inherit"
 msgstr ""
 
 #: ../app/helpers/smart_proxies_helper.rb:16
@@ -7114,6 +7129,28 @@ msgstr ""
 
 #: ../app/models/role.rb:107
 msgid "Unable to create the default role."
+msgstr ""
+
+#: ../app/models/role.rb:279
+msgid ""
+"One or more of the associated filters are invalid which prevented the role to "
+"be saved"
+msgstr ""
+
+#: ../app/models/role.rb:280
+msgid "Unable to submit role: Problem with associated filter %s"
+msgstr ""
+
+#: ../app/models/role.rb:295
+msgid "Cannot delete built-in role"
+msgstr ""
+
+#: ../app/models/role.rb:301
+msgid "This role is locked from being modified by users."
+msgstr ""
+
+#: ../app/models/role.rb:335
+msgid "some permissions were not found: %s"
 msgstr ""
 
 #: ../app/models/setting.rb:145
