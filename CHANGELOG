@@ -1,3 +1,25 @@
+2020-03-04	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.0.0-rc2
+	* i18n - extracting new, pulling from tx
+
+2020-03-04	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29230 - Fix redirect for host audits
+
+2020-03-03	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29043 - Add name to 'generate_at' field
+
+2020-03-03	laviro <1ronlavi@gmail.com>
+	* Fixes #29139 - fix height of html and body
+
+2020-02-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28838, #28931 - Safer seeding on initialization
+
+2020-02-23	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #29106 - orderable select value
+
+2020-02-19	Kamil Szubrycht <kamil.szubrycht@ironin.pl>
+	* Fixes #29010 - graphql: fix creating object by user with create permission
+
 2020-02-18	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.0.0-rc1
 	* templates - sync from community-templates
