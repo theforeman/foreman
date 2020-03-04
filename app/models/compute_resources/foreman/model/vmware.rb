@@ -79,9 +79,7 @@ module Foreman::Model
     end
 
     def datacenters
-      cache.cache(:datacenters) do
-        name_sort(client.datacenters.all)
-      end
+      name_sort(client.datacenters.all)
     end
 
     def cluster(cluster)
