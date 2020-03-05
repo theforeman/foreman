@@ -5,6 +5,7 @@ module Foreman
         super
         self.pool_size = SETTINGS.fetch(:dynflow, {})
                                  .fetch(:pool_size, pool_size)
+        self.lazy_initialization = rake_task_with_executor? || self.lazy_initialization
       end
 
       # Action related info such as exceptions raised inside the actions' methods
