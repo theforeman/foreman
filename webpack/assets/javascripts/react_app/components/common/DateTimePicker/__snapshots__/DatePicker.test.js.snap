@@ -7,9 +7,9 @@ exports[`DatePicker is working properly 1`] = `
   >
     <input
       aria-label="date-time-picker-input"
-      class="form-control"
+      class="date-input form-control"
       type="text"
-      value="2/21/2019"
+      value=""
     />
     <span
       class="date-picker-pf input-group-addon"
@@ -17,6 +17,14 @@ exports[`DatePicker is working properly 1`] = `
       <span
         aria-hidden="true"
         class="fa fa-calendar"
+      />
+    </span>
+    <span
+      class="clear-button input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-close"
       />
     </span>
   </span>
@@ -30,9 +38,9 @@ exports[`Edit form of DatePicker 1`] = `
   >
     <input
       aria-label="date-time-picker-input"
-      class="form-control"
+      class="date-input form-control"
       type="text"
-      value="2/21/2019"
+      value=""
     />
     <span
       class="date-picker-pf input-group-addon"
@@ -40,6 +48,14 @@ exports[`Edit form of DatePicker 1`] = `
       <span
         aria-hidden="true"
         class="fa fa-calendar"
+      />
+    </span>
+    <span
+      class="clear-button input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-close"
       />
     </span>
   </span>

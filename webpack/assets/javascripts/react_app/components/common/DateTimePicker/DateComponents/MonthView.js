@@ -22,7 +22,6 @@ class MonthView extends React.Component {
     const newDate = new Date(props.date);
     if (newDate !== new Date(state.date)) {
       return {
-        date: newDate,
         selectedDate: newDate,
       };
     }

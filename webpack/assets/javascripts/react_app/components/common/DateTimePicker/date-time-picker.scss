@@ -7,7 +7,11 @@
 }
 
 .bootstrap-datetimepicker-widget.dropdown-menu {
-  max-width: none;
+  max-width: 20em;
+
+  &.timepicker-sbs {
+    max-width: 40em;
+  }
 
   .arrow {
     left: 10% !important;

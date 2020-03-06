@@ -8,6 +8,8 @@ import {
   deepPropsToCamelCase,
   removeLastSlashFromPath,
   stringIsPositiveNumber,
+  formatDate,
+  formatDateTime,
 } from './helpers';
 
 describe('isoCompatibleDate', () => {
@@ -112,5 +114,19 @@ describe('stringIsPositiveNumber', () => {
   });
   it('should return false on a word', () => {
     expect(stringIsPositiveNumber('number')).toBeFalsy();
+  });
+});
+
+describe('formatDate', () => {
+  it('should return date string', () => {
+    const date = new Date('2020-03-06 14:00');
+    expect(formatDate(date)).toEqual('2020-03-06');
+  });
+});
+
+describe('formatDateTime', () => {
+  it('should return datetime string', () => {
+    const date = new Date('2020-03-06 14:00');
+    expect(formatDateTime(date)).toEqual('2020-03-06 14:00:00');
   });
 });
