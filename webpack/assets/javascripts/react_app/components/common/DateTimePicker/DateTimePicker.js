@@ -11,31 +11,20 @@ import DateInput from './DateComponents/DateInput';
 import TodayButton from './DateComponents/TodayButton';
 import TimeInput from './TimeComponents/TimeInput';
 import { MONTH } from './DateComponents/DateConstants';
+import { formatDateTime } from '../../../common/helpers';
 import './date-time-picker.scss';
 
 class DateTimePicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: new Date(this.props.value),
-      typeOfDateInput: MONTH,
-      isTimeTableOpen: false,
-      hiddenValue: this.props.hiddenValue,
-    };
+  get initialDate() {
+    const { value } = this.props;
+    return Date.parse(value) ? new Date(value) : new Date();
   }
 
-  formatDate = () => {
-    const zeroPadding = n => (n < 10 ? `0${n}` : n);
-    const { value } = this.state;
-    const date = {
-      year: value.getFullYear(),
-      month: zeroPadding(value.getMonth() + 1),
-      day: zeroPadding(value.getDate()),
-      hour: zeroPadding(value.getHours()),
-      minutes: zeroPadding(value.getMinutes()),
-    };
-
-    return `${date.year}-${date.month}-${date.day} ${date.hour}:${date.minutes}:00`;
+  state = {
+    value: this.initialDate,
+    typeOfDateInput: MONTH,
+    isTimeTableOpen: false,
+    hiddenValue: this.props.hiddenValue,
   };
 
   setSelected = date => {
@@ -57,6 +46,7 @@ class DateTimePicker extends React.Component {
       id,
       placement,
       name,
+      required,
     } = this.props;
     const { value, typeOfDateInput, isTimeTableOpen, hiddenValue } = this.state;
     const popover = (
@@ -93,7 +83,7 @@ class DateTimePicker extends React.Component {
             type="text"
             className="date-time-input"
             name={name}
-            value={hiddenValue ? '' : this.formatDate()}
+            value={hiddenValue && !required ? '' : formatDateTime(value)}
             onChange={e => this.setSelected(e.target.value)}
           />
 
@@ -109,15 +99,17 @@ class DateTimePicker extends React.Component {
               <Icon type="fa" name="calendar" />
             </InputGroup.Addon>
           </OverlayTrigger>
-          <InputGroup.Addon className="clear-button">
-            <Icon
-              type="fa"
-              name="close"
-              onClick={() =>
-                this.setState({ hiddenValue: true, value: new Date() })
-              }
-            />
-          </InputGroup.Addon>
+          {!required && (
+            <InputGroup.Addon className="clear-button">
+              <Icon
+                type="fa"
+                name="close"
+                onClick={() =>
+                  this.setState({ hiddenValue: true, value: new Date() })
+                }
+              />
+            </InputGroup.Addon>
+          )}
         </InputGroup>
       </div>
     );
@@ -133,6 +125,7 @@ DateTimePicker.propTypes = {
   hiddenValue: PropTypes.bool,
   placement: OverlayTrigger.propTypes.placement,
   name: PropTypes.string,
+  required: PropTypes.bool,
 };
 DateTimePicker.defaultProps = {
   value: new Date(),
@@ -143,5 +136,6 @@ DateTimePicker.defaultProps = {
   hiddenValue: true,
   placement: 'top',
   name: undefined,
+  required: false,
 };
 export default DateTimePicker;

@@ -20,6 +20,7 @@ exports[`Report Template AutoComplete rendering renders Report Date input 1`] = 
     }
     locale="EN"
     placement="top"
+    required={false}
     value="2019-01-04"
     weekStartsOn={1}
   />
@@ -57,6 +58,7 @@ exports[`Report Template AutoComplete rendering renders with Require and Info 1`
     }
     locale="EN"
     placement="top"
+    required={false}
     value="2019-01-04"
     weekStartsOn={1}
   />

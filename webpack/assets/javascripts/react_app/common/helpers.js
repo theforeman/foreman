@@ -163,6 +163,31 @@ export const stringIsPositiveNumber = value => {
 export const getManualURL = version =>
   `https://theforeman.org/manuals/${version}/index.html`;
 
+/**
+ * Transform the Date object to date string accepted in the server
+ * @param {Date}
+ * @returns {string}
+ */
+export const formatDate = date => formatDateTime(date).split(' ')[0];
+
+/**
+ * Transform the Date object to datetime string accepted in the server
+ * @param {Date}
+ * @returns {string}
+ */
+export const formatDateTime = date => {
+  const zeroPadding = n => (n < 10 ? `0${n}` : n);
+  const { year, month, day, hour, minutes } = {
+    year: date.getFullYear(),
+    month: zeroPadding(date.getMonth() + 1),
+    day: zeroPadding(date.getDate()),
+    hour: zeroPadding(date.getHours()),
+    minutes: zeroPadding(date.getMinutes()),
+  };
+
+  return `${year}-${month}-${day} ${hour}:${minutes}:00`;
+};
+
 export default {
   isoCompatibleDate,
   bindMethods,
@@ -179,4 +204,6 @@ export default {
   deepPropsToSnakeCase,
   stringIsPositiveNumber,
   getManualURL,
+  formatDate,
+  formatDateTime,
 };
