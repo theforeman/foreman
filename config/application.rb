@@ -222,7 +222,8 @@ module Foreman
       :dynflow => {:enabled => true},
       :telemetry => {:enabled => false},
       :blob => {:enabled => false},
-      :taxonomy => {:enabled => true}
+      :taxonomy => {:enabled => true},
+      :api_deprecations => {:enabled => true}
     ))
 
     config.logger = Foreman::Logging.logger('app')

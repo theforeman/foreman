@@ -16,7 +16,7 @@ class ForemanDeprecationTest < ActiveSupport::TestCase
     end
   end
   test "calling API deprecation" do
-    ActiveSupport::Deprecation.expects(:warn).with("Your API call uses deprecated behavior, More info", instance_of(Array))
+    Foreman::Logging.logger('api_deprecations')
     assert_nothing_raised do
       Foreman::Deprecation.api_deprecation_warning("More info")
     end
