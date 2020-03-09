@@ -247,12 +247,14 @@ module Api
       param :id, :identifier, :required => true
       param :vm_id, :identifier, :required => true
       def show_vm
-        @vm = @compute_resource.find_vm_by_uuid(params[:vm_id])
+        begin
+          @vm = @compute_resource.find_vm_by_uuid(params[:vm_id])
+        rescue
+          raise ::Foreman::Exception.new(N_("Virtual machine was not found by id %{vm_id}") % {:vm_id => params[:vm_id]})
+        end
         attributes = @vm.attributes.deep_symbolize_keys
-        attributes.delete(:parent)
-        render :json => attributes
-      rescue
-        raise ::Foreman::Exception.new(N_("Virtual machine was not found by id %{vm_id}") % {:vm_id => params[:vm_id]})
+        attributes[:provider] = @compute_resource.provider
+        render :json => attributes.as_json(:except => [:label_fingerprint, :fingerprint, :parent])
       end
 
       api :PUT, "/compute_resources/:id/available_virtual_machines/:vm_id/power", N_("Power a Virtual Machine")
