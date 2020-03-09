@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { Paginator } from 'patternfly-react';
 import { translate as __ } from '../../common/I18n';
+import { usePaginationOptions } from './PaginationHelper';
 import {
   getURIpage,
   getURIperPage,
   changeQuery,
 } from '../../common/urlHelpers';
-import {
-  useForemanSettings,
-  usePaginationOptions,
-} from '../../Root/Context/ForemanContext';
+import { useForemanSettings } from '../../Root/Context/ForemanContext';
 import './pagination.scss';
 
 const Pagination = props => {
