@@ -27,7 +27,8 @@ exports[`Pagination rendering from erb renders layout 1`] = `
       "perPageOptions": Array [
         5,
         10,
-        20,
+        15,
+        25,
         50,
       ],
     }

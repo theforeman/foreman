@@ -521,6 +521,6 @@ module ApplicationHelper
   end
 
   def ui_settings
-    { perPage: Setting['entries_per_page'], perPageOptions: per_page_options }
+    { perPage: Setting['entries_per_page'] }
   end
 end

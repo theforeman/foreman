@@ -4,7 +4,7 @@ import { withRenderHandler } from '../../../../common/HOC';
 import AuditsList from '../../../../components/AuditsList';
 import AuditsLoadingPage from './AuditsLoadingPage';
 import Pagination from '../../../../components/Pagination/Pagination';
-import { usePaginationOptions } from '../../../../Root/Context/ForemanContext';
+import { usePaginationOptions } from '../../../../components/Pagination/PaginationHelper';
 
 const AuditsTable = ({ audits, page, itemCount, fetchAndPush }) => {
   const perPageOptions = usePaginationOptions();

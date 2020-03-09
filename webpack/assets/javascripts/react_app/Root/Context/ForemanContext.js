@@ -7,5 +7,4 @@ export const useForemanContext = () => React.useContext(getForemanContext());
 
 export const useForemanVersion = () => useForemanContext().version;
 export const useForemanSettings = () => useForemanContext().UISettings;
-export const usePaginationOptions = () => useForemanSettings().perPageOptions;
 export const useForemanDocUrl = () => useForemanContext().docUrl;
