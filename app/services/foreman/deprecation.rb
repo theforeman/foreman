@@ -11,7 +11,7 @@ module Foreman
     end
 
     def self.api_deprecation_warning(info)
-      ActiveSupport::Deprecation.warn("Your API call uses deprecated behavior, #{info}", caller)
+      Foreman::Logging.logger('api_deprecations').warn(info)
     end
 
     def self.renderer_deprecation(foreman_version_deadline, method, new_method)
