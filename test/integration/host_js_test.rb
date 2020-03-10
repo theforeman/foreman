@@ -269,7 +269,7 @@ class HostJSTest < IntegrationTestWithJavascript
 
       switch_form_tab_to_interfaces
       click_button 'Edit'
-      select2 domains(:unuseddomain).name, :from => 'host_interfaces_attributes_0_domain_id'
+      select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
       fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       close_interfaces_modal
