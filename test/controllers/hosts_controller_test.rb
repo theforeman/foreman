@@ -1844,21 +1844,6 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  context 'interfaces' do
-    test 'Taxonomy scope for interfaces' do
-      post :interfaces, params: { host: { organization_id: taxonomies(:organization1).id,
-                                          location_id: taxonomies(:location1).id }},
-           session: set_session_user, xhr: true
-      assert_response :success
-
-      options = Nokogiri::HTML(@response.body).css('select.interface_domain > option').map(&:text).uniq.reject(&:blank?)
-
-      assert_includes options, domains(:mydomain).name
-      assert_includes options, domains(:yourdomain).name
-      refute_includes options, domains(:useless).name
-    end
-  end
-
   private
 
   def initialize_host
