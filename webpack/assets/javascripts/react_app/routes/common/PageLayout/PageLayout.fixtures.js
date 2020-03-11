@@ -2,7 +2,7 @@ import { breadcrumbBar } from '../../../components/BreadcrumbBar/BreadcrumbBar.f
 import { SearchBarProps } from '../../../components/SearchBar/SearchBar.fixtures';
 
 export const pageLayoutMock = {
-  header: 'Page',
+  headTags: { title: 'some title' },
   searchable: true,
   searchProps: SearchBarProps,
   customBreadcrumbs: null,
