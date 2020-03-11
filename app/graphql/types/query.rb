@@ -85,5 +85,8 @@ module Types
 
     record_field :medium, Types::Medium
     collection_field :media, Types::Medium
+
+    record_field :bookmark, Types::Bookmark
+    collection_field :bookmarks, Types::Bookmark
   end
 end

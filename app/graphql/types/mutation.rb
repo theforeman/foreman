@@ -18,6 +18,10 @@ module Types
     field :update_medium, mutation: Mutations::Media::Update
     field :delete_medium, mutation: Mutations::Media::Delete
 
+    field :create_bookmark, mutation: Mutations::Bookmarks::Create
+    field :update_bookmark, mutation: Mutations::Bookmarks::Update
+    field :delete_bookmark, mutation: Mutations::Bookmarks::Delete
+
     include ::Foreman::Plugin::GraphqlPluginFields
     realize_plugin_mutation_extensions
   end
