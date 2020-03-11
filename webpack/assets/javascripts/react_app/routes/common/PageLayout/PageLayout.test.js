@@ -3,6 +3,8 @@ import PageLayout from './PageLayout';
 import { pageLayoutMock } from './PageLayout.fixtures';
 import { toast } from '../../../components/ToastsList/ToastList.fixtures';
 
+jest.unmock('react-helmet');
+
 const pageLayoutFixtures = {
   'render pageLayout w/search': pageLayoutMock,
   'render pageLayout without search': { ...pageLayoutMock, searchable: false },

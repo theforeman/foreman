@@ -7,6 +7,9 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={Array []}
     />
@@ -98,6 +101,9 @@ exports[`render pageLayout w/search 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={Array []}
     />
@@ -188,6 +194,9 @@ exports[`render pageLayout w/toastNotifications 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={
         Array [
@@ -286,6 +295,9 @@ exports[`render pageLayout w/toolBar 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={Array []}
     />
@@ -378,6 +390,9 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={Array []}
     />
@@ -444,6 +459,9 @@ exports[`render pageLayout without breadcrumbs 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={Array []}
     />
@@ -455,9 +473,7 @@ exports[`render pageLayout without breadcrumbs 1`] = `
       >
         <h1
           className="col-md-8"
-        >
-          Page
-        </h1>
+        />
       </div>
     </div>
     <Row
@@ -518,6 +534,9 @@ exports[`render pageLayout without search 1`] = `
   <div
     id="react-content"
   >
+    <Head>
+      <title />
+    </Head>
     <Connect(ToastsList)
       railsMessages={Array []}
     />
