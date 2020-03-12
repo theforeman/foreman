@@ -5,6 +5,7 @@ exports[`BreadcrumbBar rendering renders breadcrumb-bar 1`] = `
   className="breadcrumb-bar"
 >
   <Breadcrumb
+    className="breadcrumbs-list"
     isTitle={false}
     items={
       Array [
@@ -35,6 +36,7 @@ exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
   className="breadcrumb-bar"
 >
   <Breadcrumb
+    className="breadcrumbs-list"
     isTitle={false}
     items={
       Array [

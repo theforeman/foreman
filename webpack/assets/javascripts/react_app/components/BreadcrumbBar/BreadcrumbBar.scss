@@ -1,0 +1,23 @@
+.breadcrumb-bar {
+  padding-top: 20px;
+
+  .breadcrumb-line {
+    margin-right: -60px;
+    margin-left: -60px;
+  }
+
+  .breadcrumbs-list {
+    display: block;
+
+    .breadcrumb-switcher {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+
+      .spinner {
+        float: unset;
+      }
+    }
+  }
+}

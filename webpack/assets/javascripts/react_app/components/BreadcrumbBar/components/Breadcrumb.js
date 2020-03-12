@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Breadcrumb as PfBreadcrumb } from 'patternfly-react';
+import classNames from 'classnames';
+import {
+  Breadcrumb as PfBreadcrumb,
+  BreadcrumbItem,
+} from '@patternfly/react-core';
 import EllipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import './Breadcrumbs.scss';
 
@@ -21,7 +25,7 @@ const Breadcrumb = ({
   }
 
   return (
-    <PfBreadcrumb title={title} {...props}>
+    <PfBreadcrumb {...props}>
       {items.map((item, index) => {
         const active = index === items.length - 1;
         const {
@@ -39,20 +43,22 @@ const Breadcrumb = ({
         );
 
         return (
-          <PfBreadcrumb.Item
+          <BreadcrumbItem
             key={index}
-            active={active}
+            isActive={active}
             onClick={item.onClick}
-            href={item.url}
-            title={itemTitle}
-            className={icon && active && 'breadcrumb-item-with-icon'}
+            to={item.url}
+            className={classNames('breadcrumb-item', {
+              active,
+              'breadcrumb-item-with-icon': icon && active,
+            })}
           >
             {icon && <img src={icon.url} alt={icon.alt} title={icon.alt} />}{' '}
             {inner}
-          </PfBreadcrumb.Item>
+            {active && children}
+          </BreadcrumbItem>
         );
       })}
-      {children}
     </PfBreadcrumb>
   );
 };
