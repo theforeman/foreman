@@ -1,3 +1,53 @@
+2020-03-12	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.23.2
+
+2020-03-06	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #29276 - pin statsd-instrument
+
+2020-02-23	laviro <1ronlavi@gmail.com>
+	* Fixes #28802 - lint issue in empty state component
+
+2020-02-09	Michael Moll <kvedulv@kvedulv.de>
+	* Pin sexp_processor on Ruby 2.3
+
+2020-02-09	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #28860 - fixing bad logging of bruteforce
+
+2020-01-29	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28872 - Raise minium secure_headers version
+
+2020-01-09	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #28710 - Pin gettext on Ruby 2.3
+
+2020-01-06	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #28606 - fix DecadeView test
+
+2020-01-06	Avi Sharvit <sharvita@gmail.com>
+	* Fixes #28604 - update DecadeView snapshots to 2020
+
+2020-01-06	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #28028 - update chromedriver to match jenkins version
+
+2019-12-18	laviro <1ronlavi@gmail.com>
+	* Refs #28468 - fix more locales
+	* Refs #28468 - fix login page title locales
+	* Fixes #28468 - Misspelling on login page
+
+2019-12-04	Evgeni Golov <evgeni@golov.de>
+	* Fixes #28406 - pin mocha to < 1.10
+
+2019-11-28	Ori Rabin <orabin@redhat.com>
+	* Fixes #26919 - Resolve nil error in ovirt disk clone
+
+2019-11-24	laviro <1ronlavi@gmail.com>
+	* Refs #28274 - add eslint-plugin-promise
+	* Refs #28274 - pin prettier
+	* Fixes #28230 - Fix tests snapshots
+	* Fixes #28274 - refactor fallback route
+
+2019-11-20	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #28248 - Notify about SQLite production usage deprecation
+
 2019-11-04	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.23.1
 	* templates - sync from community-templates
