@@ -5,7 +5,7 @@
     <tr>
       <th class="ca" width="40px"><%= check_box_tag "check_all", "", false, { :onchange => "tfm.hosts.table.toggleCheck()", :'check-title' => _("Select all items on this page"), :'uncheck-title'=> _("items selected. Uncheck to Clear") } %></th>
       <% if power_status_visible? %>
-        <th class="ca" width="5%"><%= _('Power') %></th>
+        <th class="ca" width="80px"><%= _('Power') %></th>
       <% end %>
       <th width="25%"><%= sort :name, :as => _('Name') %></th>
       <th class="hidden-xs" width="17%"><%= sort :os_title, :as => _("Operating system") %></th>

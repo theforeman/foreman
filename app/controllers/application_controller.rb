@@ -404,8 +404,11 @@ class ApplicationController < ActionController::Base
   end
 
   def allow_webpack
-    webpack_csp = { script_src: [webpack_server], connect_src: [webpack_server],
-                    style_src: [webpack_server], img_src: [webpack_server], default_src: [webpack_server] }
+    webpack_csp = {
+      script_src: [webpack_server], connect_src: [webpack_server],
+      style_src: [webpack_server], img_src: [webpack_server],
+      font_src: ["data: #{webpack_server}"], default_src: [webpack_server]
+    }
 
     append_content_security_policy_directives(webpack_csp)
   end
