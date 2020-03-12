@@ -38,18 +38,6 @@ manager_3_3:
 manager_3_4:
   filter: manager_3
   permission: import_environments
-manager_4_0:
-  filter: manager_4
-  permission: view_external_variables
-manager_4_1:
-  filter: manager_4
-  permission: create_external_variables
-manager_4_2:
-  filter: manager_4
-  permission: edit_external_variables
-manager_4_3:
-  filter: manager_4
-  permission: destroy_external_variables
 manager_5_0:
   filter: manager_5
   permission: view_domains
@@ -314,9 +302,6 @@ viewer_5_0:
 viewer_6_0:
   filter: viewer_6
   permission: view_environments
-viewer_7_0:
-  filter: viewer_7
-  permission: view_external_variables
 viewer_8_0:
   filter: viewer_8
   permission: view_facts
