@@ -1,12 +1,5 @@
-.breadcrumbs-pf-title .active span {
-  display: inline-flex;
-  max-width: 50%;
-}
-
-.breadcrumbs-pf-title li.breadcrumb-item-with-icon span {
-  vertical-align: middle;
-
+.breadcrumb-item-with-icon {
   img {
-    align-self: center;
+    margin-right: 8px;
   }
 }
