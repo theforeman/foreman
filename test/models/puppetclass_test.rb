@@ -19,30 +19,6 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert_equal [], Puppetclass.search_for("host = imaginaryhost.nodomain.what")
   end
 
-  test "user with create external_variables permission can create smart variable for puppetclass" do
-    @one = users(:one)
-    # add permission for user :one
-    as_admin do
-      filter1 = FactoryBot.build(:filter)
-      filter1.permissions = Permission.where(:name => ['create_external_variables'])
-      filter2 = FactoryBot.build(:filter)
-      filter2.permissions = Permission.where(:name => ['edit_puppetclasses'])
-      role = Role.where(:name => "testing_role").first_or_create
-      role.filters = [ filter1, filter2 ]
-      role.save!
-      filter1.role = role
-      filter1.save!
-      filter2.role = role
-      filter2.save!
-      @one.roles = [ role ]
-      @one.save!
-    end
-    as_user :one do
-      nested_lookup_key_params = {:new_1372154591368 => {:key => "test_param", :key_type => "string", :default_value => "7777", :path => "fqdn\r\nhostgroup\r\nos\r\ndomain"}}
-      assert Puppetclass.first.update(:lookup_keys_attributes => nested_lookup_key_params)
-    end
-  end
-
   test "create puppetclass with smart variable as nested attribute" do
     as_admin do
       puppetclass = Puppetclass.new(:name => "PuppetclassWithSmartVariable", :lookup_keys_attributes => {"new_1372154591368" => {:key => 'smart_variable1'}})
