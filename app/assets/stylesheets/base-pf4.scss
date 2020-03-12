@@ -1,0 +1,96 @@
+/*
+  This file exists to make pf3 compatible with pf4.
+  When migrating from pf3 to pf4, some styles might be removable.
+*/
+
+/*
+  Basic fonts and colors overrides
+ */
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+}
+
+body {
+  font-family: var(--pf-global--FontFamily--sans-serif);
+  font-size: var(--pf-global--FontSize--sm);
+  font-weight: var(--pf-global--FontWeight--normal);
+  line-height: var(--pf-global--LineHeight--md);
+  text-align: left;
+  background-color: var(--pf-global--BackgroundColor--100);
+}
+
+a {
+  font-weight: var(--pf-global--link--FontWeight);
+  color: var(--pf-global--link--Color);
+  text-decoration: var(--pf-global--link--TextDecoration);
+
+  &:hover {
+    --pf-global--link--Color: var(--pf-global--link--Color--hover);
+    --pf-global--link--TextDecoration: var(--pf-global--link--TextDecoration--hover);
+  }
+}
+
+/*
+  PF3-Tables overrides
+ */
+.table {
+  & > thead,
+  & > tbody,
+  & > tfoot {
+    & > tr {
+      // fix line-height to be compatible with pf4 fonts
+      & > th,
+      & > td {
+        line-height: inherit;
+      }
+      // fix headers to be bold
+      & > th a {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/*
+  PF3-VerticalNavigation overrides
+ */
+.navbar-pf-vertical {
+  ul.navbar-iconic {
+    .nav-item-iconic {
+      font-size: 15px;
+
+      &#account_menu {
+        font-size: 12px;
+      }
+    }
+
+    .notification-dropdown > div {
+      line-height: 18px;
+    }
+  }
+}
+
+.nav-pf-vertical {
+  .secondary-nav-item-pf {
+    span.list-group-item-value {
+      font-size: 15px;
+      line-height: inherit;
+    }
+
+    .nav-pf-secondary-nav {
+      .nav-item-pf-header {
+        font-size: 17px;
+      }
+
+      .vertical-sub-header-pf {
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      span.list-group-item-value {
+        font-size: 12px;
+      }
+    }
+  }
+}
