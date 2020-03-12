@@ -23,7 +23,6 @@ class OrganizationTest < ActiveSupport::TestCase
       '',
       ' ',
       "\t",
-      *RFauxFactory.gen_strings(243).values,
     ]
   end
 

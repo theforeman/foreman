@@ -19,7 +19,6 @@ class LocationTest < ActiveSupport::TestCase
       '',
       ' ',
       "\t",
-      *RFauxFactory.gen_strings(247).values,
     ]
   end
 
