@@ -10,8 +10,6 @@ module NestedAncestryCommon
     after_save :set_other_titles, :on => [:update, :destroy]
     after_save :update_matchers, :on => :update, :if => Proc.new { |obj| obj.saved_change_to_title? }
 
-    validate :title_and_lookup_key_length
-
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title
   end
@@ -100,32 +98,5 @@ module NestedAncestryCommon
   def update_matchers
     lookup_values = LookupValue.where(:match => "#{obj_type}=#{title_before_last_save}")
     lookup_values.update_all(:match => "#{obj_type}=#{title}")
-  end
-
-  # This validation is because lookup_value has an attribute `match` that cannot be turned to a test field do to
-  # an index set on it and problems with mysql indexes on test fields.
-  # If the index can be fixed, `match` should be turned into text and then this validation should be removed
-  def title_and_lookup_key_length
-    if name.present?
-
-      # The match is defined (example for hostgroup) "hostgroup=" + hostgroup.title so the length of "hostgroup=" needs to be added to the
-      # total length of the matcher that will be created
-      # obj_type will be "hostgroup" and another character is added for the "=" sign
-      length_of_matcher = obj_type.length + 1
-
-      # the parent title + "/" is added to the name to create the title
-      # If the parent_id doesn't exist, don't let errors be raised by this validation
-      parent_model = begin
-                       parent
-                     rescue ActiveRecord::RecordNotFound
-                       nil
-                     end
-      length_of_matcher += parent_model.title.length + 1 if parent_model.present?
-
-      max_length_for_name = 255 - length_of_matcher
-      current_title_length = max_length_for_name - name.length
-
-      errors.add(:name, n_("is too long (maximum is 1 character)", "is too long (maximum is %s characters)", max_length_for_name) % max_length_for_name) if (errors[:name].empty? && current_title_length < 0)
-    end
   end
 end

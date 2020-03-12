@@ -59,7 +59,6 @@ def invalid_name_list
     ' ',
     '  ',
     "\t",
-    *RFauxFactory.gen_strings(256).values,
   ]
 end
 

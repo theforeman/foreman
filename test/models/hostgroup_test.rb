@@ -373,26 +373,11 @@ class HostgroupTest < ActiveSupport::TestCase
     assert hostgroup.read_attribute(:root_pass).blank?, 'root_pass should not be copied and stored on child'
   end
 
-  test "hostgroup name can't be too big to create lookup value matcher over 255 characters" do
-    parent = FactoryBot.create(:hostgroup)
-    min_lookupvalue_length = "hostgroup=".length + parent.title.length + 1
-    hostgroup = Hostgroup.new :parent => parent, :name => 'a' * 256
-    refute_valid hostgroup
-    assert_equal "is too long (maximum is %s characters)" % (255 - min_lookupvalue_length), hostgroup.errors[:name].first
-  end
-
   test "hostgroup name can be up to 255 characters" do
     parent = FactoryBot.create(:hostgroup)
     min_lookupvalue_length = "hostgroup=".length + parent.title.length + 1
     hostgroup = Hostgroup.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
     assert_valid hostgroup
-  end
-
-  test "hostgroup should not save when matcher is exactly 256 characters" do
-    parent = FactoryBot.create(:hostgroup, :name => 'a' * 244)
-    hostgroup = Hostgroup.new :parent => parent, :name => 'b'
-    refute_valid hostgroup
-    assert_equal _("is too long (maximum is 0 characters)"), hostgroup.errors[:name].first
   end
 
   test "to_param" do

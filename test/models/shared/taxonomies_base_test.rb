@@ -392,27 +392,11 @@ module TaxonomiesBaseTest
       end
     end
 
-    test "taxonomy name can't be too big to create lookup value matcher over 255 characters" do
-      parent = FactoryBot.create(:"#{taxonomy_name}")
-      min_lookupvalue_length = "#{taxonomy_name}=".length + parent.title.length + 1
-      taxonomy = taxonomy_class.new :parent => parent, :name => 'a' * (256 - min_lookupvalue_length)
-      refute_valid taxonomy
-      assert_equal "is too long (maximum is %s characters)" % (255 - min_lookupvalue_length),
-        taxonomy.errors[:name].first
-    end
-
     test "taxonomy name can be up to 255 characters" do
       parent = FactoryBot.create(:"#{taxonomy_name}")
       min_lookupvalue_length = "#{taxonomy_name}=".length + parent.title.length + 1
       taxonomy = taxonomy_class.new :parent => parent, :name => 'a' * (255 - min_lookupvalue_length)
       assert_valid taxonomy
-    end
-
-    test "taxonomy should not save when matcher is exactly 256 characters" do
-      parent = FactoryBot.create(:"#{taxonomy_name}", :name => 'a' * (255 - taxonomy_name.length - 2))
-      taxonomy = taxonomy_class.new :parent => parent, :name => 'b'
-      refute_valid taxonomy
-      assert_equal _("is too long (maximum is 0 characters)"), taxonomy.errors[:name].first
     end
 
     test 'ignores the taxable_type if current taxonomy ignores it' do
