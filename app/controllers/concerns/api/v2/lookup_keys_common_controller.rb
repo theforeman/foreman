@@ -10,19 +10,12 @@ module Api::V2::LookupKeysCommonController
     before_action :find_smart_class_parameters, :if => :smart_class_parameter_id?
     before_action :find_smart_class_parameter, :if => :smart_class_parameter_id?
 
-    before_action :find_smart_variables, :if => :smart_variable_id?
-    before_action :find_smart_variable, :if => :smart_variable_id?
-
     before_action :find_smarts
     before_action :find_smart
 
     before_action :return_if_smart_mismatch, :only => [:show, :update, :destroy]
 
     before_action :cast_default_value, :only => [:create, :update]
-  end
-
-  def smart_variable_id?
-    params.key?('smart_variable_id') || controller_name.match(/smart_variables/)
   end
 
   def smart_class_parameter_id?
@@ -45,28 +38,6 @@ module Api::V2::LookupKeysCommonController
         model_not_found(model_string)
       end
     end
-  end
-
-  def find_smart_variable
-    id = params.key?('smart_variable_id') ? params['smart_variable_id'] : params['id']
-    @smart_variable = VariableLookupKey.authorized(:view_external_variables).smart_variables.find_by_id(id.to_i) if id.to_i > 0
-    @smart_variable ||= begin
-                          puppet_cond = { :puppetclass_id => @puppetclass.id } if @puppetclass
-                          VariableLookupKey.authorized(:view_external_variables).smart_variables.where(puppet_cond).find_by_key(id.to_s)
-                        end
-    @smart_variable
-  end
-
-  def find_smart_variables
-    @smart_variables = smart_variables_resource_scope.search_for(*search_options).paginate(paginate_options)
-  end
-
-  def smart_variables_resource_scope
-    return VariableLookupKey.authorized(:view_external_variables).smart_variables unless (@puppetclass || @host || @hostgroup)
-    puppetclass_ids   = @puppetclass.id if @puppetclass
-    puppetclass_ids ||= @hostgroup.all_puppetclasses.map(&:id) if @hostgroup
-    puppetclass_ids ||= @host.all_puppetclasses.map(&:id) if @host
-    VariableLookupKey.authorized(:view_external_variables).global_parameters_for_class(puppetclass_ids)
   end
 
   def find_smart_class_parameter
@@ -106,33 +77,22 @@ module Api::V2::LookupKeysCommonController
   end
 
   def find_smarts
-    @smarts   = @smart_variables
-    @smarts ||= @smart_class_parameters
-    @smarts
+    @smarts = @smart_class_parameters
   end
 
   def find_smart
-    @smart   = @smart_variable
-    @smart ||= @smart_class_parameter
-    @smart
+    @smart = @smart_class_parameter
   end
 
   def return_if_smart_mismatch
     if (@smarts && @smart && !@smarts.find_by_id(@smart.id)) || (@smarts && !@smart)
-      obj = smart_variable_id? ? "Smart variable" : "Smart class parameter"
-      id = if smart_variable_id?
-             params.key?('smart_variable_id') ? params['smart_variable_id'] : params['id']
-           else
-             params.key?('smart_class_parameter_id') ? params['smart_variable_id'] : params['id']
-           end
-      not_found "#{obj} not found by id '#{id}'"
+      id = params.key?('smart_class_parameter_id') ? params['smart_class_parameter_id'] : params['id']
+      not_found "Smart class parameter not found by id '#{id}'"
     end
   end
 
   def cast_default_value
-    obj = smart_variable_id? ? "smart_variable" : "smart_class_parameter"
-
-    cast_value(obj, :default_value)
+    cast_value("smart_class_parameter", :default_value)
   end
 
   def cast_value(obj = :override_value, value = :value)
