@@ -106,7 +106,7 @@ class Hostgroup < ApplicationRecord
   class Jail < Safemode::Jail
     allow :id, :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppetproxy,
-      :puppet_ca_server, :indent, :os, :arch, :domain, :subnet,
+      :puppet_ca_server, :indent, :os, :arch, :domain, :subnet, :hosts,
       :subnet6, :realm, :root_pass, :description, :pxe_loader, :title
   end
 
