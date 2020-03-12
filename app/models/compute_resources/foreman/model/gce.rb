@@ -157,16 +157,25 @@ module Foreman::Model
       images_list = client.images.current
       if image_families_to_filter.any?
         regexp = Setting.convert_array_to_regexp(image_families_to_filter, prefix: '', suffix: '')
-        images_list.select! {|img| img.family&.match(regexp)}
+        images_list.select! { |img| img.family&.match(regexp) }
       end
       images_list
     end
 
-    # Includes the ability to override the images list from Google Compute Engine
-    # override this method to filter list by adding image family names
-    # Example - ['rhel', 'centos']
     def image_families_to_filter
-      []
+      self.class.image_families_to_filter
+    end
+
+    def self.image_families_to_filter
+      @image_families_to_filter ||= []
+    end
+
+    # Becomes easy to filter the images list from Google Compute Engine
+    # Register an image family using this method to filter list
+    # Example - 'rhel', 'centos'
+    def self.register_family_for_image_filter(family)
+      image_families_to_filter << family
+      image_families_to_filter.uniq!
     end
 
     def self.model_name
