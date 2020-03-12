@@ -204,26 +204,6 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :external_variables do |map|
-    map.permission :view_external_variables,    {:lookup_keys => [:index, :show, :auto_complete_search],
-                                                 :variable_lookup_keys => [:index, :show, :auto_complete_search, :welcome],
-                                                 :lookup_values => [:index],
-                                                 :"api/v2/smart_variables" => [:index, :show],
-                                                 :"api/v2/override_values" => [:index, :show]}
-    map.permission :create_external_variables,  {:lookup_keys => [:new, :create],
-                                                 :variable_lookup_keys => [:new, :create],
-                                                 :lookup_values => [:create],
-                                                 :"api/v2/smart_variables" => [:create],
-                                                 :"api/v2/override_values" => [:create]}
-    map.permission :edit_external_variables,    {:lookup_keys => [:edit, :update],
-                                                 :variable_lookup_keys => [:edit, :update],
-                                                 :lookup_values => [:create, :update, :destroy],
-                                                 :"api/v2/smart_variables" => [:update],
-                                                 :"api/v2/override_values" => [:create, :update, :destroy]}
-    map.permission :destroy_external_variables, {:lookup_keys => [:destroy],
-                                                 :variable_lookup_keys => [:destroy],
-                                                 :lookup_values => [:destroy],
-                                                 :"api/v2/smart_variables" => [:destroy],
-                                                 :"api/v2/override_values" => [:create, :update, :destroy]}
     map.permission :view_external_parameters,    {:lookup_keys => [:index, :show, :auto_complete_search],
                                                  :puppetclass_lookup_keys => [:index, :show, :auto_complete_search, :welcome],
                                                  :lookup_values => [:index],
