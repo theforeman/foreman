@@ -4,7 +4,7 @@ import { BreadcrumbSwitcher } from 'patternfly-react';
 
 import { noop } from '../../common/helpers';
 import Breadcrumb from './components/Breadcrumb';
-import './breadcrumbswitcher.scss';
+import './BreadcrumbBar.scss';
 
 class BreadcrumbBar extends React.Component {
   handleOpen() {
@@ -65,6 +65,7 @@ class BreadcrumbBar extends React.Component {
           items={breadcrumbItems}
           isTitle={isTitle}
           titleReplacement={titleReplacement}
+          className="breadcrumbs-list"
         >
           {isSwitchable && (
             <BreadcrumbSwitcher
