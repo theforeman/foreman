@@ -1,11 +1,5 @@
 .ace_content {
-  font-family:
-    'SFMono-Regular',
-    Consolas,
-    'Liberation Mono',
-    Menlo,
-    Courier,
-    monospace;
+  font-family: monospace !important;
 }
 
 .mask-editor {
@@ -238,6 +232,7 @@
   height: 360px !important;
   width: 100% !important;
   border: 0 !important;
+  font-family: monospace !important;
 }
 
 .ace_editor_modal {
