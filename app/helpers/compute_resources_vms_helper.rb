@@ -294,4 +294,14 @@ module ComputeResourcesVmsHelper
       }
     )
   end
+
+  def vmware_vm_hypervisor_name(vm)
+    vm.hypervisor&.name
+  rescue RbVmomi::Fault => e
+    if e.fault.instance_of?(RbVmomi::VIM::NoPermission)
+      "<#{_('Missing permission')} #{e.fault.privilegeId}>"
+    else
+      raise e
+    end
+  end
 end
