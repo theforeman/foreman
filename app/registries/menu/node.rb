@@ -86,7 +86,7 @@ module Menu
 
     # Returns the position for this node in it's parent
     def position
-      self.parent.children.index(self)
+      parent.children.index(self)
     end
 
     # Returns the root for this node

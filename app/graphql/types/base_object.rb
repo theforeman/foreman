@@ -44,7 +44,7 @@ module Types
         if new_model_class
           @model_class = new_model_class
         else
-          @model_class ||= "::#{self.to_s.demodulize}".safe_constantize
+          @model_class ||= "::#{to_s.demodulize}".safe_constantize
         end
       end
 

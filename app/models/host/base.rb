@@ -85,7 +85,7 @@ module Host
 
     def dup
       super.tap do |host|
-        host.interfaces << self.primary_interface.dup if self.primary_interface.present?
+        host.interfaces << primary_interface.dup if primary_interface.present?
       end
     end
 
@@ -118,7 +118,7 @@ module Host
 
       host = Host.find_by_certname(certname) if certname.present?
       host ||= Host.find_by_name(hostname)
-      host ||= self.new(:name => hostname) # if no host was found, build a new one
+      host ||= new(:name => hostname) # if no host was found, build a new one
 
       # if we were given a certname but found the Host by hostname we should update the certname
       # this also sets certname for newly created hosts
@@ -198,7 +198,7 @@ module Host
     def set_non_empty_values(parser, methods)
       methods.each do |attr|
         value = parser.send(attr)
-        self.send("#{attr}=", value) if value.present?
+        send("#{attr}=", value) if value.present?
       end
     end
 
@@ -206,21 +206,21 @@ module Host
       # if host has no information in primary interface we try to match it and update it
       # instead of creating new interface, suggested primary interface mac and identifier
       # is saved to primary interface so we match it in updating code below
-      if !self.managed? && self.primary_interface.mac.blank? && self.primary_interface.identifier.blank?
+      if !managed? && primary_interface.mac.blank? && primary_interface.identifier.blank?
         identifier, values = parser.suggested_primary_interface(self)
         if values.present?
           logger.debug "Suggested #{identifier} NIC as a primary interface."
-          self.primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress])
+          primary_interface.mac = Net::Validations.normalize_mac(values[:macaddress])
           interface_klass = interface_class(identifier)
           # bridge interfaces are not attached to parent interface so save would not be possible
           if interface_klass != Nic::Bridge
-            self.primary_interface.virtual = !!values[:virtual]
-            self.primary_interface.attached_to = values[:attached_to] || ''
-            self.primary_interface.tag = values[:tag] || ''
+            primary_interface.virtual = !!values[:virtual]
+            primary_interface.attached_to = values[:attached_to] || ''
+            primary_interface.tag = values[:tag] || ''
           end
         end
-        self.primary_interface.update_attribute(:identifier, identifier)
-        self.primary_interface.save!
+        primary_interface.update_attribute(:identifier, identifier)
+        primary_interface.save!
       end
 
       changed_count = 0
@@ -232,14 +232,14 @@ module Host
 
       ipmi = parser.ipmi_interface
       if ipmi.present?
-        existing = self.interfaces.find_by(:mac => ipmi[:macaddress], :type => Nic::BMC.name)
+        existing = interfaces.find_by(:mac => ipmi[:macaddress], :type => Nic::BMC.name)
         iface = existing || Nic::BMC.new(:managed => false)
         iface.provider ||= 'IPMI'
         changed_count += 1 if set_interface(ipmi, 'ipmi', iface)
       end
       telemetry_increment_counter(:importer_facts_count_interfaces, changed_count, type: parser.class_name_humanized)
 
-      self.interfaces.reload
+      interfaces.reload
     end
 
     def set_comment(parser)
@@ -273,14 +273,14 @@ module Host
           default_taxonomy = taxonomy_class.find_by_title(Setting["default_#{taxonomy}"])
         end
 
-        if self.send(taxonomy).present?
+        if send(taxonomy).present?
           # Change taxonomy to fact taxonomy if set, otherwise leave it as is
-          self.send("#{taxonomy}=", taxonomy_from_fact) unless taxonomy_from_fact.nil?
+          send("#{taxonomy}=", taxonomy_from_fact) unless taxonomy_from_fact.nil?
         else
           # No taxonomy was set, set to fact taxonomy or default taxonomy
-          self.send "#{taxonomy}=", (taxonomy_from_fact || default_taxonomy)
+          send "#{taxonomy}=", (taxonomy_from_fact || default_taxonomy)
         end
-        taxonomy_class.current = self.send(taxonomy)
+        taxonomy_class.current = send(taxonomy)
       end
     end
 
@@ -302,19 +302,19 @@ module Host
     end
 
     def managed_interfaces
-      self.interfaces.managed.is_managed.all
+      interfaces.managed.is_managed.all
     end
 
     def bond_interfaces
-      self.interfaces.bonds.is_managed.all
+      interfaces.bonds.is_managed.all
     end
 
     def bridge_interfaces
-      self.interfaces.bridges.is_managed.all
+      interfaces.bridges.is_managed.all
     end
 
     def interfaces_with_identifier(identifiers)
-      self.interfaces.is_managed.where(:identifier => identifiers).all
+      interfaces.is_managed.where(:identifier => identifiers).all
     end
 
     def reload(*args)
@@ -327,7 +327,7 @@ module Host
       became = super
       became.drop_primary_interface_cache
       became.drop_provision_interface_cache
-      became.interfaces = self.interfaces
+      became.interfaces = interfaces
       became
     end
 
@@ -363,7 +363,7 @@ module Host
     # method is public because it's used when we run orchestration from interface side
     def setup_clone
       return if new_record?
-      @old = super { |clone| clone.interfaces = self.interfaces.map { |i| setup_object_clone(i) } }
+      @old = super { |clone| clone.interfaces = interfaces.map { |i| setup_object_clone(i) } }
     end
 
     def skip_orchestration?
@@ -429,7 +429,7 @@ module Host
 
     def update_primary_interface_attributes(attrs)
       attrs.each do |name, value|
-        self.send "#{name}=", value
+        send "#{name}=", value
       end
     end
 
@@ -444,30 +444,30 @@ module Host
     end
 
     def build_required_interfaces(attrs = {})
-      if self.primary_interface.nil?
-        if self.interfaces.empty?
+      if primary_interface.nil?
+        if interfaces.empty?
           attrs[:type] ||= 'Nic::Managed'
-          self.interfaces.build(attrs.merge(primary: true))
+          interfaces.build(attrs.merge(primary: true))
         else
-          interface = self.interfaces.first
+          interface = interfaces.first
           interface.attributes = attrs
           interface.primary = true
         end
-      elsif attrs[:type] && self.primary_interface.type != attrs[:type]
-        self.primary_interface.type = attrs[:type]
-        if self.primary_interface.persisted?
-          if self.primary_interface.save(validate: false)
-            self.interfaces.reload
-            self.provision_interface&.reload
+      elsif attrs[:type] && primary_interface.type != attrs[:type]
+        primary_interface.type = attrs[:type]
+        if primary_interface.persisted?
+          if primary_interface.save(validate: false)
+            interfaces.reload
+            provision_interface&.reload
           else
-            logger.error "Unable to convert interface #{self} from #{self.primary_interface.type} to #{attrs[:type]}: #{self.primary_interface.errors.full_messages.to_sentence}"
+            logger.error "Unable to convert interface #{self} from #{primary_interface.type} to #{attrs[:type]}: #{primary_interface.errors.full_messages.to_sentence}"
           end
         end
       end
-      self.primary_interface.provision = true if self.provision_interface.nil?
+      primary_interface.provision = true if provision_interface.nil?
     end
 
-    def get_interface_scope(name, attributes, base = self.interfaces)
+    def get_interface_scope(name, attributes, base = interfaces)
       case interface_class(name).to_s
         # we search bonds based on identifiers, e.g. ubuntu sets random MAC after each reboot se we can't
         # rely on mac
@@ -488,7 +488,7 @@ module Host
             mac_based.virtual.where(:identifier => name) || find_by_attached_mac(base, mac_based, identifier, attributes)
           elsif mac_based.physical.any?
             mac_based.physical
-          elsif !self.managed
+          elsif !managed
             # Unmanaged host's interfaces are just used for reporting, so overwrite based on identifier first
             base.where(:identifier => name)
           end
@@ -520,7 +520,7 @@ module Host
     def save_updated_bond(bond)
       bond.save!
     rescue StandardError => e
-      logger.warn "Saving #{bond.identifier} NIC for host #{self.name} failed, skipping because #{e.message}:"
+      logger.warn "Saving #{bond.identifier} NIC for host #{name} failed, skipping because #{e.message}:"
       bond.errors.full_messages.each { |message| logger.warn " #{message}" }
     end
 
@@ -566,7 +566,7 @@ module Host
     def update_virtuals(old, new)
       self.updated_virtuals ||= []
 
-      self.interfaces.where(:attached_to => old).virtual.each do |virtual_interface|
+      interfaces.where(:attached_to => old).virtual.each do |virtual_interface|
         next if self.updated_virtuals.include?(virtual_interface.id) # may have been already renamed by another physical
 
         virtual_interface.attached_to = new
@@ -589,15 +589,15 @@ module Host
 
     # we can't use SQL query for new records, because interfaces may not exist yet
     def get_interface_by_flag(flag)
-      if self.new_record?
-        self.interfaces.detect(&flag)
+      if new_record?
+        interfaces.detect(&flag)
       else
         cache = "@#{flag}_interface"
         if (result = instance_variable_get(cache))
           result
         else
           # we can't use SQL, we need to get even unsaved objects
-          interface = self.interfaces.detect(&flag)
+          interface = interfaces.detect(&flag)
 
           interface.host = self if interface && !interface.destroyed? # inverse_of does not help (STI), but ignore this on deletion
           instance_variable_set(cache, interface)
@@ -609,17 +609,17 @@ module Host
     # provision is required only for managed host and defaults to primary
     def host_has_required_interfaces
       check_primary_interface
-      check_provision_interface if self.managed?
+      check_provision_interface if managed?
     end
 
     def check_primary_interface
-      if self.primary_interface.nil?
+      if primary_interface.nil?
         errors.add :interfaces, _("host must have one primary interface")
       end
     end
 
     def check_provision_interface
-      if self.provision_interface.nil?
+      if provision_interface.nil?
         errors.add :interfaces, _("managed host must have one provision interface")
       end
     end
@@ -629,7 +629,7 @@ module Host
     def uniq_interfaces_identifiers
       success = true
       identifiers = []
-      relevant_interfaces = self.interfaces.select { |i| !i.marked_for_destruction? }
+      relevant_interfaces = interfaces.select { |i| !i.marked_for_destruction? }
       relevant_interfaces.each do |interface|
         next if interface.identifier.blank?
         if identifiers.include?(interface.identifier)

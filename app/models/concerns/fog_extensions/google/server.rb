@@ -58,7 +58,7 @@ module FogExtensions
         if list_of_disks[0].is_a? Hash
           requires :identity, :zone
           service.disks.all(
-            :zone => self.zone_name,
+            :zone => zone_name,
             :filter => construct_disk_filter(list_of_disks)
           )
         else

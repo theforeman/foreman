@@ -83,7 +83,7 @@ class Template < ApplicationRecord
   def import_without_save(text, options = {})
     self.template = text
     @importing_metadata = self.class.parse_metadata(text)
-    Foreman::Logging.logger('app').debug "setting attributes for #{self.name} with id: #{self.id || 'N/A'}"
+    Foreman::Logging.logger('app').debug "setting attributes for #{name} with id: #{id || 'N/A'}"
     self.snippet = !!@importing_metadata[:snippet]
     self.default = options[:default] unless options[:default].nil?
     self.description = @importing_metadata[:description]
@@ -100,7 +100,7 @@ class Template < ApplicationRecord
   # based on +name it either finds existing template or builds a new one
   # then it applies changes to it and return this object, note no changes were saved at this point
   def self.import_without_save(name, text, options = {})
-    template = self.find_without_collision :name, name
+    template = find_without_collision :name, name
     Foreman::Logging.logger('app').debug "#{template.new_record? ? 'building new' : 'updating existing'} template"
     template.import_without_save(text, options)
   end
@@ -142,7 +142,7 @@ class Template < ApplicationRecord
 
   # override in subclass to handle taxonomy scope, see TaxonomyCollisionFinder
   def self.find_without_collision(attribute, name)
-    self.find_or_initialize_by :name => name
+    find_or_initialize_by :name => name
   end
 
   def self.default_render_scope_class
@@ -169,7 +169,7 @@ class Template < ApplicationRecord
 
   def dup
     dup = super
-    self.template_inputs.each do |input|
+    template_inputs.each do |input|
       dup.template_inputs.build input.attributes.except('template_id', 'id', 'created_at', 'updated_at')
     end
     dup
@@ -242,7 +242,7 @@ class Template < ApplicationRecord
       organizations = User.current.my_organizations.where(:title => @importing_metadata['organizations'])
       self.organization_ids = organizations.map(&:id)
     else
-      self.organization_ids << Organization.current.id if Organization.current && !self.organization_ids.include?(Organization.current.id)
+      organization_ids << Organization.current.id if Organization.current && !organization_ids.include?(Organization.current.id)
     end
   end
 
@@ -251,7 +251,7 @@ class Template < ApplicationRecord
       locations = User.current.my_locations.where(:title => @importing_metadata['locations'])
       self.location_ids = locations.map(&:id)
     else
-      self.location_ids << Location.current.id if Location.current && !self.location_ids.include?(Location.current.id)
+      location_ids << Location.current.id if Location.current && !location_ids.include?(Location.current.id)
     end
   end
 
@@ -260,7 +260,7 @@ class Template < ApplicationRecord
   end
 
   def associate_metadata_on_import?(options)
-    (options[:associate] == 'new' && self.new_record?) || (options[:associate] == 'always')
+    (options[:associate] == 'new' && new_record?) || (options[:associate] == 'always')
   end
 
   def allowed_changes
@@ -275,13 +275,13 @@ class Template < ApplicationRecord
     actual_changes = changes
 
     # Locked & Default are Special
-    if actual_changes.include?('locked') && !self.modify_locked
+    if actual_changes.include?('locked') && !modify_locked
       if User.current.nil? || !User.current.can?("lock_#{self.class.to_s.underscore.pluralize}", self)
         errors.add(:base, _("You are not authorized to lock templates."))
       end
     end
 
-    if actual_changes.include?('default') && !self.modify_default
+    if actual_changes.include?('default') && !modify_default
       if User.current.nil? || !(User.current.can?(:create_organizations) || User.current.can?(:create_locations))
         errors.add(:base, _("You are not authorized to make a template default."))
       end
@@ -289,7 +289,7 @@ class Template < ApplicationRecord
 
     # API request can be changing the locked content (not allowed_changes) but the locked attribute at the same
     # time, so if changes include locked attribute (template is being locked or unlocked), we skip the lock error
-    if !self.modify_locked && !actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty? &&
+    if !modify_locked && !actual_changes.delete_if { |k, v| allowed_changes.include? k }.empty? &&
         !changes.include?('locked')
       errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))
     end

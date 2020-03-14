@@ -2,7 +2,7 @@ module Classification
   # Responsible for generation of matcher strings for a given host and set of keys
   class MatchesGenerator
     def self.matches(host, keys)
-      self.new(host, keys).matches
+      new(host, keys).matches
     end
 
     attr_reader :host, :keys

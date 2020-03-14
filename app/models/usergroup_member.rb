@@ -34,13 +34,13 @@ class UsergroupMember < ApplicationRecord
 
   def ensure_not_reflexive
     if member_id == usergroup_id && member_type == 'Usergroup'
-      self.errors.add :base, (_('cannot contain itself as member') % Usergroup.find(usergroup_id).name)
+      errors.add :base, (_('cannot contain itself as member') % Usergroup.find(usergroup_id).name)
       raise ::Foreman::CyclicGraphException, self
     end
   end
 
   def ensure_no_cycle
-    if self.member_type != 'User'
+    if member_type != 'User'
       current = UsergroupMember.usergroup_memberships
       EnsureNoCycle.new(current, :usergroup_id, :member_id).ensure(self)
     end
@@ -60,7 +60,7 @@ class UsergroupMember < ApplicationRecord
   end
 
   def remove_old_cache_for_old_record
-    klass = member_type_changed? ? self.member_type_was.constantize : self.member_type.constantize
+    klass = member_type_changed? ? member_type_was.constantize : member_type.constantize
     users = if member_id_changed?
               find_all_affected_users_for(klass.unscoped.find(member_id_was)).flatten
             else

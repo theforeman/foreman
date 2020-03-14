@@ -42,7 +42,7 @@ module Foreman
         present_assets = Dir.chdir(root) do
           Dir["app/assets/**/*"].select { |f| File.file?(f) }.map { |f| f.split(File::SEPARATOR, 4).last }
         end
-        new_assets = present_assets - self.assets
+        new_assets = present_assets - assets
 
         # Assets outside of the namespace can't properly be packaged, so don't
         # automatically detect and include them. Requires manual configuration
@@ -59,9 +59,9 @@ module Foreman
       end
 
       def register_assets
-        return unless self.assets.present?
-        Rails.logger.debug { "Registering #{self.assets.count} assets for plugin #{id} precompilation" }
-        Rails.application.config.assets.precompile.push(*self.assets)
+        return unless assets.present?
+        Rails.logger.debug { "Registering #{assets.count} assets for plugin #{id} precompilation" }
+        Rails.application.config.assets.precompile.push(*assets)
       end
     end
   end

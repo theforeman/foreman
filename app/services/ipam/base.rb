@@ -42,8 +42,8 @@ module IPAM
     private
 
     def normalize_mac!
-      return unless self.mac.present?
-      self.mac = Net::Validations.normalize_mac(self.mac)
+      return unless mac.present?
+      self.mac = Net::Validations.normalize_mac(mac)
     rescue Net::Validations::Error
       errors.add(:mac, _('is not a valid MAC address'))
     end

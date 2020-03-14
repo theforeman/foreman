@@ -16,7 +16,7 @@ module Hostext
       opts[:hostgroup_id]       ||= hostgroup_id
       opts[:environment_id]     ||= environment_id
 
-      Taxonomy.as_taxonomy(self.organization, self.location) do
+      Taxonomy.as_taxonomy(organization, location) do
         ProvisioningTemplate.find_template opts
       end
     end
@@ -34,12 +34,12 @@ module Hostext
 
     def template_kinds(provisioning = nil)
       return TemplateKind.all unless provisioning == 'image'
-      cr     = ComputeResource.find_by_id(self.compute_resource_id)
+      cr     = ComputeResource.find_by_id(compute_resource_id)
       images = cr.try(:images)
       if images.blank?
         [TemplateKind.friendly.find('finish')]
       else
-        uuid       = self.compute_attributes[cr.image_param_name]
+        uuid       = compute_attributes[cr.image_param_name]
         image_kind = images.find_by_uuid(uuid).try(:user_data) ? 'user_data' : 'finish'
         [TemplateKind.friendly.find(image_kind)]
       end

@@ -11,7 +11,7 @@ class ForemanTrend < Trend
   end
 
   def create_values
-    self.class.create_values(self.trendable_type)
+    self.class.create_values(trendable_type)
   end
 
   def self.create_values(trendable_type)

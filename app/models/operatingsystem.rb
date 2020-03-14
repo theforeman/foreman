@@ -151,14 +151,14 @@ class Operatingsystem < ApplicationRecord
   end
 
   def self.find_by_to_label(str)
-    os = self.find_by_description(str.to_s)
+    os = find_by_description(str.to_s)
     return os if os
     a = str.split(" ")
     b = a[1].split('.') if a[1]
     cond = {:name => a[0]}
     cond[:major] = b[0] if b && b[0]
     cond[:minor] = b[1] if b && b[1]
-    self.find_by(cond)
+    find_by(cond)
   end
 
   # Implemented only in the OSs subclasses where it makes sense
@@ -204,7 +204,7 @@ class Operatingsystem < ApplicationRecord
     unless medium_provider.is_a? MediumProviders::Provider
       raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
     end
-    pxe_prefix(medium_provider) + "-" + self.family.constantize::PXEFILES[type.to_sym]
+    pxe_prefix(medium_provider) + "-" + family.constantize::PXEFILES[type.to_sym]
   end
 
   # Does this OS family support a build variant that is constructed from a prebuilt archive
@@ -243,7 +243,7 @@ class Operatingsystem < ApplicationRecord
   # Does this OS family use release_name in its naming scheme
   def use_release_name?
     return false unless family
-    return self.becomes(family.constantize).use_release_name? unless self.class == family.constantize
+    return becomes(family.constantize).use_release_name? unless self.class == family.constantize
     false
   end
 
@@ -275,7 +275,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def deduce_family
-    self.family || self.class.deduce_family(name)
+    family || self.class.deduce_family(name)
   end
 
   def boot_files_uri(medium_provider, &block)
@@ -287,7 +287,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def boot_file_sources(medium_provider, &block)
-    @boot_file_sources ||= self.family.constantize::PXEFILES.transform_values do |img|
+    @boot_file_sources ||= family.constantize::PXEFILES.transform_values do |img|
       "#{medium_provider.medium_uri(pxedir(medium_provider), &block)}/#{img}"
     end
   end
@@ -305,7 +305,7 @@ class Operatingsystem < ApplicationRecord
   private
 
   def set_family
-    self.family ||= self.deduce_family
+    self.family ||= deduce_family
   end
 
   def set_title

@@ -6,8 +6,8 @@ class SettingsHelperTest < ActionView::TestCase
   test "create a setting with values collection " do
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new { {:a => "a", :b => "b"} } })
     setting = Setting.create(options)
-    assert_equal self.send("#{setting.name}_collection"), { :a => "a", :b => "b" }
-    self.expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :a => "a", :b => "b" })
+    assert_equal send("#{setting.name}_collection"), { :a => "a", :b => "b" }
+    expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :a => "a", :b => "b" })
     value(setting)
   end
 
@@ -15,7 +15,7 @@ class SettingsHelperTest < ActionView::TestCase
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new { {:a => "a", :b => "b"} } })
     setting = Setting.create(options)
     setting.readonly!
-    self.expects(:readonly_field)
+    expects(:readonly_field)
     value(setting)
   end
 
@@ -24,36 +24,36 @@ class SettingsHelperTest < ActionView::TestCase
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new { Hash[:size => Hostgroup.all.count] } })
     FactoryBot.create(:hostgroup, :root_pass => '12345678')
     setting = Setting.create(options)
-    assert_equal self.send("#{setting.name}_collection"), { :size => expected_hostgroup_count }
-    self.expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :size => expected_hostgroup_count })
+    assert_equal send("#{setting.name}_collection"), { :size => expected_hostgroup_count }
+    expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :size => expected_hostgroup_count })
     value(setting)
   end
 
   test "create a setting with no default of settings_type array" do
     setting = Setting.create({:name => "name",
       :value => "", :description => "description", :default => [], :settings_type => "array", :full_name => "full_name"})
-    self.expects(:edit_textarea).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "No default value was set")
+    expects(:edit_textarea).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "No default value was set")
     value(setting)
   end
 
   test "create a setting with default of settings_type array" do
     setting = Setting.create({:name => "name",
       :value => "", :description => "description", :default => "default value", :settings_type => "array", :full_name => "full_name"})
-    self.expects(:edit_textarea).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "default value")
+    expects(:edit_textarea).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "default value")
     value(setting)
   end
 
   test "create a setting with no default of settings_type string" do
     setting = Setting.create({:name => "name",
       :value => "", :description => "description", :default => "", :settings_type => "string", :full_name => "full_name"})
-    self.expects(:edit_textfield).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "No default value was set")
+    expects(:edit_textfield).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "No default value was set")
     value(setting)
   end
 
   test "create a setting with default of settings_type string" do
     setting = Setting.create({:name => "name",
       :value => "", :description => "description", :default => "default value", :settings_type => "string", :full_name => "full_name"})
-    self.expects(:edit_textfield).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "default value")
+    expects(:edit_textfield).with(setting, :value, :title => setting.full_name_with_default, :helper => :show_value, :placeholder => "default value")
     value(setting)
   end
 end

@@ -8,7 +8,7 @@ module UrlValidator
 
   module ClassMethods
     def validate_is_http_url(attr)
-      is_http_url?(self.send(attr))
+      is_http_url?(send(attr))
     end
   end
 end

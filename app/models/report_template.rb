@@ -54,6 +54,6 @@ class ReportTemplate < Template
   end
 
   def supports_format_selection?
-    self.template.include?('report_render')
+    template.include?('report_render')
   end
 end

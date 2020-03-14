@@ -53,7 +53,7 @@ class TemplateInput < ApplicationRecord
   end
 
   def options_array
-    self.options.blank? ? [] : self.options.split(/\r?\n/).map(&:strip)
+    options.blank? ? [] : options.split(/\r?\n/).map(&:strip)
   end
 
   def basic?

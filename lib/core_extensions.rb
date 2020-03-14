@@ -8,7 +8,7 @@ end
 
 class ActiveRecord::Base
   def <=>(other)
-    self.name <=> other.name
+    name <=> other.name
   end
 
   def update_single_attribute(attribute, value)
@@ -109,7 +109,7 @@ class ActiveRecord::Base
   alias_attribute :to_s, :to_label
 
   def self.unconfigured?
-    where(nil).reorder('').limit(1).pluck(self.base_class.primary_key).empty?
+    where(nil).reorder('').limit(1).pluck(base_class.primary_key).empty?
   end
 
   def self.per_page
@@ -138,11 +138,11 @@ class String
   end
 
   def to_gb
-    match_data = self.match(/^(\d+(\.\d+)?) ?(([KMGT]i?B?|B|Bytes))?$/i)
+    match_data = match(/^(\d+(\.\d+)?) ?(([KMGT]i?B?|B|Bytes))?$/i)
     if match_data.present?
       value, _, unit = match_data[1..3]
     else
-      raise "Unknown string: #{self.inspect}!"
+      raise "Unknown string: #{inspect}!"
     end
     unit ||= :byte # default to bytes if no unit given
 
@@ -157,7 +157,7 @@ class String
   end
 
   def to_utf8
-    self.encode('utf-8', :invalid => :replace, :undef => :replace, :replace => '_')
+    encode('utf-8', :invalid => :replace, :undef => :replace, :replace => '_')
   end
 
   def contains_erb?
@@ -192,7 +192,7 @@ class String
   end
 
   def integer?
-    self.to_i.to_s == self
+    to_i.to_s == self
   end
 end
 
@@ -214,6 +214,6 @@ end
 
 class ActiveModel::Errors
   def are_all_conflicts?
-    self[:conflict].count + self[:'interfaces.conflict'].count == self.count
+    self[:conflict].count + self[:'interfaces.conflict'].count == count
   end
 end

@@ -16,7 +16,7 @@ class FactTrend < Trend
   end
 
   def create_values
-    self.class.create_values(self.trendable_id)
+    self.class.create_values(trendable_id)
   end
 
   def self.create_values(fact_name_id)

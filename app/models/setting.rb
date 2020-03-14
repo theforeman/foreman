@@ -58,7 +58,7 @@ class Setting < ApplicationRecord
   default_scope -> { order(:name) }
 
   # Filer out settings from disabled plugins
-  scope :disabled_plugins, -> { where(:category => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :disabled_plugins, -> { where(:category => descendants.map(&:to_s)) unless Rails.env.development? }
 
   scope :order_by, ->(attr) { except(:order).order(attr) }
 
@@ -70,7 +70,7 @@ class Setting < ApplicationRecord
   end
 
   def self.live_descendants
-    self.disabled_plugins.order_by(:full_name)
+    disabled_plugins.order_by(:full_name)
   end
 
   def self.stick_general_first
@@ -273,10 +273,10 @@ class Setting < ApplicationRecord
 
   def self.load_defaults
     return false unless table_exists?
-    dbcache = Hash[Setting.where(:category => self.name).map { |s| [s.name, s] }]
-    self.transaction do
+    dbcache = Hash[Setting.where(:category => name).map { |s| [s.name, s] }]
+    transaction do
       default_settings.compact.each do |s|
-        val = s.update(:category => self.name).symbolize_keys
+        val = s.update(:category => name).symbolize_keys
         dbcache.key?(val[:name]) ? create_existing(dbcache[val[:name]], s) : create!(s)
       end
     end
@@ -331,7 +331,7 @@ class Setting < ApplicationRecord
   private
 
   def validate_host_owner
-    owner_type_and_id = self.value
+    owner_type_and_id = value
     return if owner_type_and_id.blank?
     owner = OwnerClassifier.new(owner_type_and_id).user_or_usergroup
     errors.add(:value, _("Host owner is invalid")) if owner.nil?
@@ -378,7 +378,7 @@ class Setting < ApplicationRecord
   end
 
   def cache_key
-    Setting.cache_key(self.name)
+    Setting.cache_key(name)
   end
 
   def readonly_when_overridden

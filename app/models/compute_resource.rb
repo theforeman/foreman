@@ -17,7 +17,7 @@ class ComputeResource < ApplicationRecord
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates :name, :presence => true, :uniqueness => true
   validate :ensure_provider_not_changed, :on => :update
-  validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
+  validates :provider, :presence => true, :inclusion => { :in => proc { providers } }
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :type, :complete_value => :true
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
@@ -30,7 +30,7 @@ class ComputeResource < ApplicationRecord
   has_many :compute_profiles, :through => :compute_attributes
 
   # The DB may contain compute resource from disabled plugins - filter them out here
-  scope :live_descendants, -> { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :live_descendants, -> { where(:type => descendants.map(&:to_s)) unless Rails.env.development? }
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -89,7 +89,7 @@ class ComputeResource < ApplicationRecord
   def self.new_provider(args)
     provider = args.delete(:provider)
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider
-    self.providers.each do |provider_name, provider_class|
+    providers.each do |provider_name, provider_class|
       return provider_class.constantize.new(args) if provider_name.downcase == provider.downcase
     end
     raise ::Foreman::Exception.new N_("unknown provider")
@@ -133,7 +133,7 @@ class ComputeResource < ApplicationRecord
 
   # Override this method to specify provider name
   def self.provider_friendly_name
-    self.name.split('::').last()
+    name.split('::').last()
   end
 
   def provider_friendly_name
@@ -327,7 +327,7 @@ class ComputeResource < ApplicationRecord
 
   # this method is overwritten for Libvirt and VMware
   def set_console_password=(setpw)
-    self.attrs[:setpw] = nil
+    attrs[:setpw] = nil
   end
 
   # this method is overwritten for Libvirt, oVirt & VMWare
@@ -379,7 +379,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def vm_ready(vm)
-    vm.wait_for { self.ready? }
+    vm.wait_for { ready? }
   end
 
   def user_data_supported?
@@ -468,7 +468,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def ensure_provider_not_changed
-    errors.add(:provider, _("cannot be changed")) if self.type_changed?
+    errors.add(:provider, _("cannot be changed")) if type_changed?
   end
 
   def set_vm_interfaces_attributes(_vm, vm_attrs)

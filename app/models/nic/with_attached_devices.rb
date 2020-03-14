@@ -38,7 +38,7 @@ module Nic::WithAttachedDevices
   end
 
   def attached_devices_objects
-    self.host.interfaces.select { |i| self.attached_devices_identifiers.include?(i.identifier) }
+    host.interfaces.select { |i| attached_devices_identifiers.include?(i.identifier) }
   end
 
   private

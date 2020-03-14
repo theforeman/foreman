@@ -34,11 +34,11 @@ class UserRole < ApplicationRecord
   delegate :expire_topbar_cache, :to => :owner, :allow_nil => true
 
   def user_role?
-    self.owner_type == 'User'
+    owner_type == 'User'
   end
 
   def user_group_role?
-    self.owner_type == 'Usergroup'
+    owner_type == 'Usergroup'
   end
 
   before_save :remove_cache!
@@ -52,10 +52,10 @@ class UserRole < ApplicationRecord
   end
 
   def cache_user_roles!
-    if self.user_role?
+    if user_role?
       built = build_user_role_cache
-    elsif self.user_group_role?
-      built = build_user_group_role_cache(self.owner)
+    elsif user_group_role?
+      built = build_user_group_role_cache(owner)
     else
       raise 'unknown UserRole owner type'
     end
@@ -64,12 +64,12 @@ class UserRole < ApplicationRecord
   end
 
   def build_user_role_cache
-    [ self.cached_user_roles.build(:user_id => owner_id, :role_id => role_id) ]
+    [ cached_user_roles.build(:user_id => owner_id, :role_id => role_id) ]
   end
 
   def build_user_group_role_cache(owner)
     cache = []
-    cache += owner.users.map { |m| self.cached_user_roles.build(:user => m, :role => role) }
+    cache += owner.users.map { |m| cached_user_roles.build(:user => m, :role => role) }
     cache += owner.usergroups.map { |g| build_user_group_role_cache(g) }
     cache.flatten
   end

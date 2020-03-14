@@ -148,7 +148,7 @@ class Hostgroup < ApplicationRecord
   # the environment used by #clases nees to be self.environment and not self.parent.environment
   def parent_classes
     return [] unless parent
-    parent.classes(self.environment)
+    parent.classes(environment)
   end
 
   def inherited_lookup_value(key)
@@ -222,7 +222,7 @@ class Hostgroup < ApplicationRecord
 
   # Clone the hostgroup
   def clone(name = "")
-    new = self.selective_clone
+    new = selective_clone
     new.name = name
     new.title = name
     new.lookup_values.each do |lv|
@@ -230,7 +230,7 @@ class Hostgroup < ApplicationRecord
       lv.host_or_hostgroup = new
     end
 
-    new.config_groups = self.config_groups
+    new.config_groups = config_groups
     new
   end
 
@@ -252,7 +252,7 @@ class Hostgroup < ApplicationRecord
   def recreate_hosts_config(only = nil, children_hosts = false)
     result = {}
 
-    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : self.id)).find_each do |host|
+    Host::Managed.authorized.where(:hostgroup => (children_hosts ? subtree_ids : id)).find_each do |host|
       result[host.name] = host.recreate_config(only)
     end
     result
@@ -286,7 +286,7 @@ class Hostgroup < ApplicationRecord
   # overwrite method in taxonomix, since hostgroup has ancestry
   def used_taxonomy_ids(type)
     return [] if new_record? && parent_id.blank?
-    Host::Base.where(:hostgroup_id => self.path_ids).distinct.pluck(type).compact
+    Host::Base.where(:hostgroup_id => path_ids).distinct.pluck(type).compact
   end
 
   def password_base64_encrypted?
@@ -294,7 +294,7 @@ class Hostgroup < ApplicationRecord
   end
 
   def validate_subnet_types
-    errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if self.subnet.present? && self.subnet.type != 'Subnet::Ipv4'
-    errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if self.subnet6.present? && self.subnet6.type != 'Subnet::Ipv6'
+    errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if subnet.present? && subnet.type != 'Subnet::Ipv4'
+    errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if subnet6.present? && subnet6.type != 'Subnet::Ipv6'
   end
 end

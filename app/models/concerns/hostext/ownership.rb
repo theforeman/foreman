@@ -51,31 +51,31 @@ module Hostext
     private
 
     def owner_taxonomies_match
-      return true if self.owner.admin?
+      return true if owner.admin?
 
-      if self.organization_id && !self.owner.my_organizations.where(:id => self.organization_id).exists?
+      if organization_id && !owner.my_organizations.where(:id => organization_id).exists?
         errors.add :is_owned_by, _("does not belong into host's organization")
       end
-      if self.location_id && !self.owner.my_locations.where(:id => self.location_id).exists?
+      if location_id && !owner.my_locations.where(:id => location_id).exists?
         errors.add :is_owned_by, _("does not belong into host's location")
       end
     end
 
     def set_default_user
       self.owner_type = 'User' if owner_id.present? && owner_type.blank?
-      return if self.owner_type.present? && (!OWNER_TYPES.include?(self.owner_type) || self.owner.nil?)
+      return if owner_type.present? && (!OWNER_TYPES.include?(owner_type) || owner.nil?)
       self.owner = owner_suggestion
     end
 
     def validate_owner
-      return true if self.owner_type.nil? && self.owner.nil?
+      return true if owner_type.nil? && owner.nil?
 
-      add_owner_error if self.owner_type.present? && self.owner.nil?
+      add_owner_error if owner_type.present? && owner.nil?
     end
 
     def add_owner_error
-      if self.owner_id.present?
-        errors.add(:owner, (_('There is no owner with id %d and type %s') % [self.owner_id, self.owner_type]))
+      if owner_id.present?
+        errors.add(:owner, (_('There is no owner with id %d and type %s') % [owner_id, owner_type]))
       else
         errors.add(:owner, _('If owner type is specified, owner must be specified too.'))
       end

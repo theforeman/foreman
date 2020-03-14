@@ -178,7 +178,7 @@ module Foreman::Model
     end
 
     def vm_ready(vm)
-      vm.wait_for { self.ready? || self.failed? }
+      vm.wait_for { ready? || failed? }
       raise Foreman::Exception.new(N_("Failed to deploy vm %{name}, fault: %{e}"), { :name => vm.name, :e => vm.fault['message'] }) if vm.failed?
     end
 
@@ -224,12 +224,12 @@ module Foreman::Model
       normalized = slice_vm_attributes(vm_attrs, ['availability_zone', 'tenant_id', 'scheduler_hint_filter'])
 
       normalized['flavor_id'] = vm_attrs['flavor_ref']
-      normalized['flavor_name'] = self.flavors.detect { |t| t.id == normalized['flavor_id'] }.try(:name)
-      normalized['tenant_name'] = self.tenants.detect { |t| t.id == normalized['tenant_id'] }.try(:name)
+      normalized['flavor_name'] = flavors.detect { |t| t.id == normalized['flavor_id'] }.try(:name)
+      normalized['tenant_name'] = tenants.detect { |t| t.id == normalized['tenant_id'] }.try(:name)
 
       security_group = vm_attrs['security_groups']
       normalized['security_group_name'] = security_group.empty? ? nil : security_group
-      normalized['security_group_id'] = self.security_groups.detect { |t| t.name == security_group }.try(:id)
+      normalized['security_group_id'] = security_groups.detect { |t| t.name == security_group }.try(:id)
 
       floating_ip_network = vm_attrs['network']
       normalized['floating_ip_network'] = floating_ip_network.empty? ? nil : floating_ip_network
@@ -248,12 +248,12 @@ module Foreman::Model
       normalized['interfaces_attributes'] = nics_ids.map.with_index do |nic_id, idx|
         [idx.to_s, {
           'id' => nic_id,
-          'name' => self.internal_networks.detect { |n| n.id == nic_id }.try(:name),
+          'name' => internal_networks.detect { |n| n.id == nic_id }.try(:name),
         }]
       end.to_h
 
       normalized['image_id'] = vm_attrs['image_ref']
-      normalized['image_name'] = self.images.find_by(:uuid => normalized['image_id']).try(:name)
+      normalized['image_name'] = images.find_by(:uuid => normalized['image_id']).try(:name)
 
       normalized
     end

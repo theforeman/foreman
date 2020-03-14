@@ -43,13 +43,13 @@ module Orchestration
 
     # sort based on priority
     def <=>(other)
-      return self.created <=> other.created if self.priority == other.priority
-      self.priority <=> other.priority
+      return created <=> other.created if priority == other.priority
+      priority <=> other.priority
     end
 
     def ==(other)
       return false unless other.is_a?(Task)
-      self.id == other.id
+      id == other.id
     end
   end
 end

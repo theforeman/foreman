@@ -250,7 +250,7 @@ class Host::Managed < Host::Base
                           :if => Proc.new { |host| host.managed && !host.image_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
                           :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
-    validates :provision_method, :inclusion => {:in => Proc.new { self.provision_methods }, :message => N_('is unknown')}, :if => Proc.new { |host| host.managed? }
+    validates :provision_method, :inclusion => {:in => Proc.new { provision_methods }, :message => N_('is unknown')}, :if => Proc.new { |host| host.managed? }
     validates :medium_id, :presence => true,
                           :if => Proc.new { |host| host.validate_media? }
     validates :medium_id, :inclusion => {:in => Proc.new { |host| host.operatingsystem.medium_ids },
@@ -283,7 +283,7 @@ class Host::Managed < Host::Base
   before_validation :validate_dns_name_uniqueness
 
   def <=>(other)
-    self.name <=> other.name
+    name <=> other.name
   end
 
   def owner_name
@@ -314,7 +314,7 @@ class Host::Managed < Host::Base
     return unless respond_to?(:old) && old && build? && !old.build?
     clear_facts
     clear_reports
-    self.reported_data_facet.destroy
+    reported_data_facet.destroy
     self.build_errors = nil
   end
 
@@ -327,11 +327,11 @@ class Host::Managed < Host::Base
     self.otp          = nil
     self.installed_at = Time.now.utc if installed
 
-    if self.save
+    if save
       send_built_notification if installed
       true
     else
-      logger.warn "Failed to set Build on #{self}: #{self.errors.full_messages}"
+      logger.warn "Failed to set Build on #{self}: #{errors.full_messages}"
       false
     end
   end
@@ -350,10 +350,10 @@ class Host::Managed < Host::Base
     return true unless realm?
 
     # If no OTP is set, then this is probably a rebuild
-    if self.otp.blank?
+    if otp.blank?
       logger.info "Setting realm for host #{name}"
       set_realm :rebuild => true
-      self.save!
+      save!
     else
       true
     end
@@ -438,7 +438,7 @@ class Host::Managed < Host::Base
   def setBuild
     self.build = true
     self.initiated_at = Time.now.utc
-    logger.warn("Set build failed: #{errors.inspect}") unless self.save
+    logger.warn("Set build failed: #{errors.inspect}") unless save
     errors.empty?
   end
 
@@ -464,7 +464,7 @@ class Host::Managed < Host::Base
     # not sure what is puppet priority about it, but we ignore it if has a fact with the same name.
     # additionally, we don't import any non strings values, as puppet don't know what to do with those as well.
 
-    myparams = self.info["parameters"]
+    myparams = info["parameters"]
     nodeinfo["parameters"].each_pair do |param, value|
       next if fact_names.exists? :name => param
       next unless value.is_a?(String)
@@ -472,14 +472,14 @@ class Host::Managed < Host::Base
       # we already have this parameter
       next if myparams.has_key?(param) && myparams[param] == value
 
-      unless (hp = self.host_parameters.create(:name => param, :value => value))
+      unless (hp = host_parameters.create(:name => param, :value => value))
         logger.warn "Failed to import #{param}/#{value} for #{name}: #{hp.errors.full_messages.join(', ')}"
         $stdout.puts $ERROR_INFO
       end
     end
 
-    self.clear_host_parameters_cache!
-    self.save
+    clear_host_parameters_cache!
+    save
   end
 
   # counts each association of a given host
@@ -543,7 +543,7 @@ class Host::Managed < Host::Base
     # hostgroup didn't change, no inheritance needs update.
     return attributes if new_hostgroup_id.blank?
 
-    new_hostgroup = self.hostgroup if initialized
+    new_hostgroup = hostgroup if initialized
     unless [new_hostgroup.try(:id), new_hostgroup.try(:friendly_id)].include? new_hostgroup_id
       new_hostgroup = Hostgroup.friendly.find(new_hostgroup_id)
     end
@@ -598,7 +598,7 @@ class Host::Managed < Host::Base
 
   def set_ip_address
     return unless SETTINGS[:unattended] && (new_record? || managed?)
-    self.interfaces.select { |nic| nic.managed }.each do |nic|
+    interfaces.select { |nic| nic.managed }.each do |nic|
       nic.ip  = nic.subnet.unused_ip(mac).suggest_ip if nic.subnet.present? && nic.ip.blank?
       nic.ip6 = nic.subnet6.unused_ip(mac).suggest_ip if nic.subnet6.present? && nic.ip6.blank?
     end
@@ -607,13 +607,13 @@ class Host::Managed < Host::Base
   def associate!(cr, vm)
     self.uuid = vm.identity
     self.compute_resource_id = cr.id
-    self.save!(:validate => false) # don't want to trigger callbacks
+    save!(:validate => false) # don't want to trigger callbacks
   end
 
   def disassociate!
     self.uuid = nil
     self.compute_resource_id = nil
-    self.save!(:validate => false) # don't want to trigger callbacks
+    save!(:validate => false) # don't want to trigger callbacks
   end
 
   def puppetrun!
@@ -662,19 +662,19 @@ class Host::Managed < Host::Base
 
   def clone
     # do not copy system specific attributes
-    host = self.selective_clone
+    host = selective_clone
 
-    host.interfaces = self.interfaces.map(&:clone)
-    if self.compute_resource
-      host.compute_attributes = host.compute_resource.vm_compute_attributes_for(self.uuid)
+    host.interfaces = interfaces.map(&:clone)
+    if compute_resource
+      host.compute_attributes = host.compute_resource.vm_compute_attributes_for(uuid)
     end
     host.refresh_global_status
     host
   end
 
   def check_interfaces
-    errors.add(:base, _("An interface marked as provision is missing")) if self.interfaces.detect(&:provision).nil?
-    errors.add(:base, _("An interface marked as primary is missing")) if self.interfaces.detect(&:primary).nil?
+    errors.add(:base, _("An interface marked as provision is missing")) if interfaces.detect(&:provision).nil?
+    errors.add(:base, _("An interface marked as primary is missing")) if interfaces.detect(&:primary).nil?
   end
 
   def bmc_nic
@@ -741,11 +741,11 @@ class Host::Managed < Host::Base
   end
 
   def image_build?
-    self.provision_method == 'image'
+    provision_method == 'image'
   end
 
   def pxe_build?
-    self.provision_method == 'build'
+    provision_method == 'build'
   end
 
   def validate_media?
@@ -826,7 +826,7 @@ class Host::Managed < Host::Base
 
     self.class.rebuild_methods_for(only).map do |method, pretty_name|
       raise ::Foreman::Exception.new(N_("There are orchestration modules with methods for configuration rebuild that have identical name: '%s'"), pretty_name) if result[pretty_name]
-      result[pretty_name] = self.send method
+      result[pretty_name] = send method
     end
     result
   end
@@ -841,8 +841,8 @@ class Host::Managed < Host::Base
   end
 
   def compute_resource_or_model
-    return self.compute_resource.name if self.compute_resource
-    self.hardware_model_name
+    return compute_resource.name if compute_resource
+    hardware_model_name
   end
 
   def local_boot_template_name(kind)
@@ -875,10 +875,10 @@ class Host::Managed < Host::Base
   # because the validation happens before transaction is committed, so data are not in DB
   # yet, this is the reason why we "reimplement" uniqueness validation
   def validate_dns_name_uniqueness
-    dups = self.interfaces.select { |i| !i.marked_for_destruction? }.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
+    dups = interfaces.select { |i| !i.marked_for_destruction? }.group_by { |i| [ i.name, i.domain_id ] }.detect { |dns, nics| dns.first.present? && nics.count > 1 }
     if dups.present?
       dups.last.first.errors.add(:name, :taken)
-      self.errors.add :interfaces, _('Some interfaces are invalid')
+      errors.add :interfaces, _('Some interfaces are invalid')
       throw :abort
     end
   end
@@ -892,7 +892,7 @@ class Host::Managed < Host::Base
   end
 
   def assign_hostgroup_attribute(attr, value, force)
-    self.send("#{attr}=", value) if force || send(attr).blank?
+    send("#{attr}=", value) if force || send(attr).blank?
   end
 
   # checks if the host association is a valid association for this host
@@ -900,7 +900,7 @@ class Host::Managed < Host::Base
     status = true
     if SETTINGS[:unattended] && managed? && os && !image_build?
       %w{ptable medium architecture}.each do |e|
-        value = self.send(e.to_sym)
+        value = send(e.to_sym)
         next if value.blank?
         unless os.send(e.pluralize.to_sym).include?(value)
           errors.add("#{e}_id".to_sym, _("%{value} does not belong to %{os} operating system") % { :value => value, :os => os })
@@ -929,11 +929,11 @@ class Host::Managed < Host::Base
   def provision_method_in_capabilities
     return unless managed?
     methods_available = capabilities.map(&:to_s)
-    errors.add(:provision_method, _('is an unsupported provisioning method, available: %s') % methods_available.join(',')) unless methods_available.include?(self.provision_method)
+    errors.add(:provision_method, _('is an unsupported provisioning method, available: %s') % methods_available.join(',')) unless methods_available.include?(provision_method)
   end
 
   def check_if_provision_method_changed
-    if self.provision_method_changed? && !provision_method_changed?(from: nil, to: capabilities.first.to_s)
+    if provision_method_changed? && !provision_method_changed?(from: nil, to: capabilities.first.to_s)
       errors.add(:provision_method, _("can't be updated after host is provisioned"))
     end
   end
@@ -946,10 +946,10 @@ class Host::Managed < Host::Base
   # but we should trigger it only for existing records and unless interfaces also changed (then validation is run
   # on them automatically)
   def trigger_nic_orchestration
-    self.primary_interface.valid? if self.primary_interface && !self.primary_interface.changed?
-    unless self.provision_interface.nil?
-      return if self.primary_interface == self.provision_interface
-      self.provision_interface.valid? if self.provision_interface && !self.provision_interface.changed?
+    primary_interface.valid? if primary_interface && !primary_interface.changed?
+    unless provision_interface.nil?
+      return if primary_interface == provision_interface
+      provision_interface.valid? if provision_interface && !provision_interface.changed?
     end
   end
 
@@ -969,7 +969,7 @@ class Host::Managed < Host::Base
   end
 
   def refresh_build_status
-    self.get_status(HostStatus::BuildStatus).refresh
+    get_status(HostStatus::BuildStatus).refresh
   end
 
   def extract_params_from_object_ancestors(object)

@@ -24,7 +24,7 @@ module HasManyCommon
     end
 
     def has_name?(field = "name")
-      self.column_names.include?(field)
+      column_names.include?(field)
     end
 
     # class method in model to overwrite default attribute_name
@@ -61,12 +61,12 @@ module HasManyCommon
         ids = Array.wrap(name_values).map do |name_value|
           assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).id
         end
-        self.send("#{assoc}_ids=", ids)
+        send("#{assoc}_ids=", ids)
       end
 
       # GETTER _names method
       define_method "#{assoc}_names" do
-        self.send(association).map(&:name_method)
+        send(association).map(&:name_method)
       end
     end
 
@@ -88,12 +88,12 @@ module HasManyCommon
           raise Foreman::AssociationNotFound
                   .new(_("Could not find %{association} with name: %{name}") % { name: name_value, association: association })
         end
-        self.send("#{assoc}_id=", assoc_id)
+        send("#{assoc}_id=", assoc_id)
       end
 
       # GETTER _name method
       define_method assoc_name do
-        self.send(association).try(:name_method)
+        send(association).try(:name_method)
       end
     end
   end

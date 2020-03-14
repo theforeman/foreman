@@ -24,7 +24,7 @@ module Foreman::Controller::SmartProxyAuth
 
   module SmartProxyRequireSsl
     def require_ssl?
-      if [self.smart_proxy_filter_actions].flatten.map(&:to_s).include?(self.action_name)
+      if [self.smart_proxy_filter_actions].flatten.map(&:to_s).include?(action_name)
         false
       else
         super

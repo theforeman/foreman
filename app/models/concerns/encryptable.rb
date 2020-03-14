@@ -37,9 +37,9 @@ module Encryptable
   end
 
   def encrypt_setters
-    self.encryptable_fields.each do |field|
+    encryptable_fields.each do |field|
       if send("#{field}_changed?")
-        self.send("#{field}=", encrypt_field(self[field.to_sym]))
+        send("#{field}=", encrypt_field(self[field.to_sym]))
       end
     end
   end

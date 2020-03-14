@@ -21,7 +21,7 @@ module Foreman
     end
 
     def save(*args)
-      type_changed = self.type_changed?
+      type_changed = type_changed?
       self.class.instance_variable_set("@finder_needs_type_condition", :false) if type_changed
       super
     ensure

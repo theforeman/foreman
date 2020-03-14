@@ -8,11 +8,11 @@ module Nic
     validates :mode, :presence => true, :inclusion => { :in => MODES }
 
     def add_slave(identifier)
-      self.add_device(identifier)
+      add_device(identifier)
     end
 
     def remove_slave(identifier)
-      self.remove_device(identifier)
+      remove_device(identifier)
     end
 
     def self.humanized_name

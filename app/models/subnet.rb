@@ -114,7 +114,7 @@ class Subnet < ApplicationRecord
   def self.network_reorder(order_string = 'network')
     adapter = connection.adapter_name.downcase
     if adapter.starts_with?('postgresql')
-      self.reorder(order_string.sub('network', 'inet(network)'))
+      reorder(order_string.sub('network', 'inet(network)'))
     else
       self
     end
@@ -208,30 +208,30 @@ class Subnet < ApplicationRecord
   end
 
   def ipam?
-    self.ipam != IPAM::MODES[:none]
+    ipam != IPAM::MODES[:none]
   end
 
   def ipam_needs_range?
-    ipam? && self.ipam != IPAM::MODES[:eui64]
+    ipam? && ipam != IPAM::MODES[:eui64]
   end
 
   def dhcp_boot_mode?
-    self.boot_mode == Subnet::BOOT_MODES[:dhcp]
+    boot_mode == Subnet::BOOT_MODES[:dhcp]
   end
 
   def unused_ip(mac = nil, excluded_ips = [])
-    unless supported_ipam_modes.map { |m| IPAM::MODES[m] }.include?(self.ipam)
+    unless supported_ipam_modes.map { |m| IPAM::MODES[m] }.include?(ipam)
       raise ::Foreman::Exception.new(N_("Unsupported IPAM mode for %s"), self.class.name)
     end
 
     opts = {:subnet => self, :mac => mac, :excluded_ips => excluded_ips}
-    IPAM.new(self.ipam, opts)
+    IPAM.new(ipam, opts)
   end
 
   def known_ips
-    self.interfaces.reload
-    ips = self.interfaces.map(&ip_sym) + self.hosts.includes(:interfaces).map(&ip_sym)
-    ips += [self.gateway, self.dns_primary, self.dns_secondary].select(&:present?)
+    interfaces.reload
+    ips = interfaces.map(&ip_sym) + hosts.includes(:interfaces).map(&ip_sym)
+    ips += [gateway, dns_primary, dns_secondary].select(&:present?)
     ips.compact.uniq
   end
 
@@ -240,7 +240,7 @@ class Subnet < ApplicationRecord
   end
 
   def has_vlanid?
-    self.vlanid.present?
+    vlanid.present?
   end
 
   # overwrite method in taxonomix, since subnet is not direct association of host anymore
@@ -265,13 +265,13 @@ class Subnet < ApplicationRecord
       errors.add(:to,   _("must be specified if from is defined")) if to.blank?
     end
     return if errors.key?(:from) || errors.key?(:to)
-    errors.add(:from, _("does not belong to subnet"))     if from.present? && !self.contains?(f = IPAddr.new(from))
-    errors.add(:to, _("does not belong to subnet"))       if to.present?   && !self.contains?(t = IPAddr.new(to))
+    errors.add(:from, _("does not belong to subnet"))     if from.present? && !contains?(f = IPAddr.new(from))
+    errors.add(:to, _("does not belong to subnet"))       if to.present?   && !contains?(t = IPAddr.new(to))
     errors.add(:from, _("can't be bigger than to range")) if from.present? && t.present? && f > t
   end
 
   def check_if_type_changed
-    if self.type_changed?
+    if type_changed?
       errors.add(:type, _("can't be updated after subnet is saved"))
     end
   end

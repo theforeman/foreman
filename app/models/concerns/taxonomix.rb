@@ -19,7 +19,7 @@ module Taxonomix
     scoped_search :relation => :organizations, :on => :id, :rename => :organization_id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
 
     dirty_has_many_associations :organizations, :locations
-    audit_associations :organizations, :locations if self.respond_to? :audit_associations
+    audit_associations :organizations, :locations if respond_to? :audit_associations
 
     validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
   end
@@ -105,7 +105,7 @@ module Taxonomix
     # it can also be an empty array that means all taxonomies (user is not assigned to any)
     def inner_select(taxonomy, inner_method = which_ancestry_method)
       # always include ancestor_ids in inner select
-      conditions = { :taxable_type => self.base_class.name }
+      conditions = { :taxable_type => base_class.name }
       if taxonomy.present?
         taxonomy_ids = get_taxonomy_ids(taxonomy, inner_method)
         conditions[:taxonomy_id] = taxonomy_ids
@@ -129,13 +129,13 @@ module Taxonomix
         # We need to generate the WHERE part of the SQL query as a string,
         # otherwise the default scope would set id on each new instance
         # and the same taxable_id on taxable_taxonomy objects
-        scope.where("#{self.table_name}.id IN (#{cached_ids.join(',')})")
+        scope.where("#{table_name}.id IN (#{cached_ids.join(',')})")
       end
     end
   end
 
   def set_current_taxonomy
-    if self.new_record? && self.errors.empty?
+    if new_record? && errors.empty?
       # we need to use _ids methods so that DirtyAssociations is correctly saved
       self.location_ids += [ Location.current.id ] if add_current_location?
       self.organization_ids += [ Organization.current.id ] if add_current_organization?
@@ -160,7 +160,7 @@ module Taxonomix
                              raise ArgumentError, "unknown taxonomy #{taxonomy}"
                          end
     current_taxonomy = klass.current
-    current_taxonomy && !self.send(association).include?(current_taxonomy)
+    current_taxonomy && !send(association).include?(current_taxonomy)
   end
 
   def used_location_ids
@@ -200,10 +200,10 @@ module Taxonomix
       assoc = assoc_base.pluralize
       key = assoc_base + '_ids'
 
-      next if (User.current.nil? || User.current.send(assoc.to_s).empty?) || (!new_record? && !self.send("#{key}_changed?"))
+      next if (User.current.nil? || User.current.send(assoc.to_s).empty?) || (!new_record? && !send("#{key}_changed?"))
 
-      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(self.send("#{key}_was"))
-      tried = self.send(key).to_set
+      allowed = taxonomy.authorized("assign_#{assoc}", taxonomy).pluck(:id).to_set.union(send("#{key}_was"))
+      tried = send(key).to_set
 
       if tried.empty? || !tried.subset?(allowed)
         errors.add key, _("Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission.") % { :assoc => _(assoc), :perm => "assign_#{assoc}" }
@@ -214,7 +214,7 @@ module Taxonomix
   protected
 
   def taxonomy_foreign_key_conditions
-    if self.respond_to?(:taxonomy_foreign_conditions)
+    if respond_to?(:taxonomy_foreign_conditions)
       taxonomy_foreign_conditions
     else
       { "#{self.class.base_class.to_s.tableize.singularize}_id".to_sym => id }
@@ -222,7 +222,7 @@ module Taxonomix
   end
 
   def used_taxonomy_ids(type)
-    return [] if new_record? || !self.respond_to?(:hosts)
+    return [] if new_record? || !respond_to?(:hosts)
     Host::Base.where(taxonomy_foreign_key_conditions).distinct.pluck(type).compact
   end
 

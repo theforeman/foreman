@@ -33,7 +33,7 @@ class MailNotification < ApplicationRecord
   # Easy way to reference the notification to support something like:
   #   MailNotification[:some_error_notification].deliver(options)
   def self.[](name)
-    self.find_by_name(name.to_s)
+    find_by_name(name.to_s)
   end
 
   def subscription_options

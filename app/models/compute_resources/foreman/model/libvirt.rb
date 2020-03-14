@@ -16,11 +16,11 @@ module Foreman::Model
 
     # Some getters/setters for the attrs Hash
     def display_type
-      self.attrs[:display].presence || 'vnc'
+      attrs[:display].presence || 'vnc'
     end
 
     def display_type=(display)
-      self.attrs[:display] = display.downcase
+      attrs[:display] = display.downcase
     end
 
     def provided_attributes
@@ -203,7 +203,7 @@ module Foreman::Model
     def normalize_vm_attrs(vm_attrs)
       normalized = slice_vm_attributes(vm_attrs, ['cpus', 'memory', 'image_id'])
 
-      normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+      normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
 
       volume_attrs = vm_attrs['volumes_attributes'] || {}
       normalized['volumes_attributes'] = volume_attrs.each_with_object({}) do |(key, vol), volumes|

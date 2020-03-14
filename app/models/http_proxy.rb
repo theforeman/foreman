@@ -21,7 +21,7 @@ class HttpProxy < ApplicationRecord
   # include all default scoping here
   default_scope lambda {
     with_taxonomy_scope do
-      order("#{self.table_name}.name")
+      order("#{table_name}.name")
     end
   }
 

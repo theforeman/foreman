@@ -439,7 +439,7 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
     read_json_fixture('facts/facts_structured_networking.json')['facts']
   end
 
-  def assert_os_idempotent(previous_os = self.os)
+  def assert_os_idempotent(previous_os = os)
     assert_equal previous_os, importer.operatingsystem, 'Different operating system returned on second call'
     assert_equal previous_os.attributes, importer.operatingsystem.attributes, 'Different operating system attributes set on second call'
   end

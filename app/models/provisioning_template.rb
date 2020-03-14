@@ -91,8 +91,8 @@ class ProvisioningTemplate < Template
   end
 
   def clone
-    self.deep_clone(:include => [:operatingsystems, :organizations, :locations],
-                    :except  => [:name, :locked, :default, :vendor])
+    deep_clone(:include => [:operatingsystems, :organizations, :locations],
+                    :except => [:name, :locked, :default, :vendor])
   end
 
   def self.find_template(opts = {})
@@ -242,9 +242,9 @@ class ProvisioningTemplate < Template
 
   def import_custom_data(options)
     super
-    self.template_kind = nil if self.snippet
+    self.template_kind = nil if snippet
 
-    if @importing_metadata.key?('kind') && !self.snippet
+    if @importing_metadata.key?('kind') && !snippet
       kind = TemplateKind.find_by_name @importing_metadata['kind']
       if kind.nil?
         errors.add :template_kind_id, _('specified template "%s" kind was not found') % @importing_metadata['kind']
@@ -262,10 +262,10 @@ class ProvisioningTemplate < Template
   # check if our template is a snippet, and remove its associations just in case they were selected.
   def check_for_snippet_assoications
     return unless snippet
-    self.hostgroups.clear
-    self.environments.clear
-    self.template_combinations.clear
-    self.operatingsystems.clear
+    hostgroups.clear
+    environments.clear
+    template_combinations.clear
+    operatingsystems.clear
     self.template_kind = nil
   end
 end

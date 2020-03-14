@@ -335,7 +335,7 @@ module ApplicationHelper
   def readonly_field(object, property, options = {})
     name       = "#{type}[#{property}]"
     helper     = options[:helper]
-    value      = helper.nil? ? object.send(property) : self.send(helper, object)
+    value      = helper.nil? ? object.send(property) : send(helper, object)
     klass      = options[:type]
     title      = options[:title]
 
@@ -399,7 +399,7 @@ module ApplicationHelper
 
   def edit_inline(object, property, options = {})
     helper     = options[:helper]
-    value      = helper.nil? ? object.send(property) : self.send(helper, object)
+    value      = helper.nil? ? object.send(property) : send(helper, object)
     klass      = options[:class]
     update_url = options[:update_url] || url_for(object)
     type       = options[:type]

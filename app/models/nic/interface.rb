@@ -38,9 +38,9 @@ module Nic
       # user's database. There is no way of determining the real vlanid, so we
       # pick the v4 one unless it turns out to be blank.
 
-      return self.tag if self.tag.present?
-      return self.subnet.vlanid if self.subnet && self.subnet.vlanid.present?
-      return self.subnet6.vlanid if self.subnet6 && self.subnet6.vlanid.present?
+      return tag if tag.present?
+      return subnet.vlanid if subnet && subnet.vlanid.present?
+      return subnet6.vlanid if subnet6 && subnet6.vlanid.present?
       ''
     end
 
@@ -55,9 +55,9 @@ module Nic
       # user's database. There is no way of determining the real mtu, so we
       # pick the v4 one unless it turns out to be blank.
 
-      return self.attrs['mtu'] if self.attrs['mtu'].present?
-      return self.subnet.mtu if self.subnet && self.subnet.mtu.present?
-      return self.subnet6.mtu if self.subnet6 && self.subnet6.mtu.present?
+      return attrs['mtu'] if attrs['mtu'].present?
+      return subnet.mtu if subnet && subnet.mtu.present?
+      return subnet6.mtu if subnet6 && subnet6.mtu.present?
       nil
     end
 
@@ -70,7 +70,7 @@ module Nic
     end
 
     def alias?
-      self.virtual? && self.identifier.present? && self.identifier.include?(':')
+      virtual? && identifier.present? && identifier.include?(':')
     end
 
     def saved_change_to_fqdn?
@@ -94,7 +94,7 @@ module Nic
     end
 
     def name_uniqueness
-      interface_attribute_uniqueness(:name, Nic::Base.where(:domain_id => self.domain_id))
+      interface_attribute_uniqueness(:name, Nic::Base.where(:domain_id => domain_id))
     end
 
     def ip_presence_and_formats
@@ -103,7 +103,7 @@ module Nic
     end
 
     def alias_subnet
-      if self.managed? && self.alias? && self.subnet && self.subnet.boot_mode != Subnet::BOOT_MODES[:static]
+      if managed? && alias? && subnet && subnet.boot_mode != Subnet::BOOT_MODES[:static]
         errors.add(:subnet_id, _('subnet boot mode is not %s' % _(Subnet::BOOT_MODES[:static])))
       end
     end
@@ -118,7 +118,7 @@ module Nic
     # this is done to ensure compatibility with puppet storeconfigs
     def normalize_name
       # Remove whitespace
-      self.name = self.name.gsub(/\s/, '') if self.name
+      self.name = name.gsub(/\s/, '') if name
       # no hostname was given or a domain was selected, since this is before validation we need to ignore
       # it and let the validations to produce an error
       return if name.empty?
@@ -129,14 +129,14 @@ module Nic
         # if we've just updated the domain name, strip off the old one
         old_domain = Domain.unscoped.find(changed_attributes["domain_id"])
         # Remove the old domain, until fqdn will be set as the full name
-        self.name = self.name.chomp('.' + old_domain.to_s)
+        self.name = name.chomp('.' + old_domain.to_s)
       end
       # name should be fqdn
       self.name = fqdn
       # A managed host we should know the domain for; and the shortname shouldn't include a period
       # This only applies for unattended=true, as otherwise the name field includes the domain
       errors.add(:name, _("must not include periods")) if (host&.managed? && managed? && shortname.include?(".") && SETTINGS[:unattended])
-      self.name = Net::Validations.normalize_hostname(name) if self.name.present?
+      self.name = Net::Validations.normalize_hostname(name) if name.present?
     end
   end
 end

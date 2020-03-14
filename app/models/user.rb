@@ -61,17 +61,17 @@ class User < ApplicationRecord
 
   scope :except_admin, lambda {
     eager_load(:cached_usergroups).
-    where(["(#{self.table_name}.admin = ? OR #{self.table_name}.admin IS NULL) AND " +
+    where(["(#{table_name}.admin = ? OR #{table_name}.admin IS NULL) AND " +
            "(#{Usergroup.table_name}.admin = ? OR #{Usergroup.table_name}.admin IS NULL)",
            false, false])
   }
   scope :only_admin, lambda {
     eager_load(:cached_usergroups).
-    where(["#{self.table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
+    where(["#{table_name}.admin = ? OR #{Usergroup.table_name}.admin = ?", true, true])
   }
   scope :except_hidden, lambda {
     if (hidden = AuthSourceHidden.pluck('auth_sources.id')).present?
-      where(self.arel_table[:auth_source_id].not_in(hidden))
+      where(arel_table[:auth_source_id].not_in(hidden))
     else
       where(nil)
     end
@@ -148,7 +148,7 @@ class User < ApplicationRecord
 
   # we need to allow self-editing and self-updating
   def check_permissions_after_save
-    if User.current.try(:id) == self.id
+    if User.current.try(:id) == id
       true
     else
       super
@@ -156,7 +156,7 @@ class User < ApplicationRecord
   end
 
   def can?(permission, subject = nil)
-    if self.admin?
+    if admin?
       true
     else
       @authorizer ||= Authorizer.new(self)
@@ -167,7 +167,7 @@ class User < ApplicationRecord
   def self.search_by_admin(key, operator, value)
     value      = value == 'true'
     value      = !value if operator == '<>'
-    conditions = [self.table_name, Usergroup.table_name].map do |base|
+    conditions = [table_name, Usergroup.table_name].map do |base|
       "(#{base}.admin = ?" + (value ? ')' : " OR #{base}.admin IS NULL)")
     end
     conditions = conditions.join(value ? ' OR ' : ' AND ')
@@ -208,7 +208,7 @@ class User < ApplicationRecord
   end
 
   def <=>(other)
-    self.name.downcase <=> other.name.downcase
+    name.downcase <=> other.name.downcase
   end
 
   # The text item to see in a select dropdown menu
@@ -338,20 +338,20 @@ class User < ApplicationRecord
   end
 
   def self.fetch_ids_by_list(userlist)
-    self.where(:lower_login => userlist.map(&:downcase)).pluck(:id)
+    where(:lower_login => userlist.map(&:downcase)).pluck(:id)
   end
 
   def upgrade_password(pass)
-    logger.info "Upgrading password for user #{self.login} to bcrypt"
+    logger.info "Upgrading password for user #{login} to bcrypt"
     self.password_salt = salt_password
     self.password_hash = hash_password(pass)
-    update_columns(password_salt: self.password_salt, password_hash: self.password_hash)
+    update_columns(password_salt: password_salt, password_hash: password_hash)
   end
 
   def matching_password?(pass)
-    return false if self.password_hash.nil?
-    type = Foreman::PasswordHash.detect_implementation(self.password_salt)
-    return false if self.password_hash != hash_password(pass, type)
+    return false if password_hash.nil?
+    type = Foreman::PasswordHash.detect_implementation(password_salt)
+    return false if password_hash != hash_password(pass, type)
     upgrade_password(pass) if type != :bcrypt
     true
   end
@@ -381,16 +381,16 @@ class User < ApplicationRecord
   end
 
   def recipients_for(notification)
-    self.receives?(notification) ? [self] : []
+    receives?(notification) ? [self] : []
   end
 
   def receives?(notification)
     return false unless mail_enabled?
-    self.mail_notifications.include? MailNotification[notification]
+    mail_notifications.include? MailNotification[notification]
   end
 
   def manage_password?
-    return false if self.admin? && !User.current.try(:admin?)
+    return false if admin? && !User.current.try(:admin?)
     auth_source&.can_set_password?
   end
 
@@ -414,34 +414,34 @@ class User < ApplicationRecord
   # user must be assigned all given roles in order to delegate them
   # or have :escalate_roles permission
   def can_assign?(role_ids)
-    can_escalate? || role_ids.all? { |r| self.role_ids_was.include?(r) }
+    can_escalate? || role_ids.all? { |r| role_ids_was.include?(r) }
   end
 
   def can_escalate?
-    self.admin? || self.can?(:escalate_roles)
+    admin? || can?(:escalate_roles)
   end
 
   # only admin can change admin flag
   def can_change_admin_flag?
-    self.admin?
+    admin?
   end
 
   def editing_self?(options = {})
     options[:controller].to_s == 'users' &&
       options[:action] =~ /edit|update/ &&
-      options[:id].to_i == self.id ||
+      options[:id].to_i == id ||
     options[:controller].to_s =~ /\Aapi\/v\d+\/users\Z/ &&
       options[:action] =~ /show|update/ &&
-      (options[:id].to_i == self.id || options[:id] == self.login) ||
+      (options[:id].to_i == id || options[:id] == login) ||
     options[:controller].to_s == 'ssh_keys' &&
-      options[:user_id].to_i == self.id &&
+      options[:user_id].to_i == id &&
       options[:action] =~ /new|create|destroy/ ||
     options[:controller].to_s == 'api/v2/ssh_keys' &&
       options[:action] =~ /show|destroy|index|create/ &&
-      options[:user_id].to_i == self.id ||
+      options[:user_id].to_i == id ||
     options[:controller].to_s == 'api/v2/personal_access_tokens' &&
       options[:action] =~ /show|destroy|index|create/ &&
-      options[:user_id].to_i == self.id
+      options[:user_id].to_i == id
   end
 
   def taxonomy_foreign_conditions
@@ -450,7 +450,7 @@ class User < ApplicationRecord
 
   def set_current_taxonomies
     ['location', 'organization'].each do |taxonomy|
-      default_taxonomy = self.send "default_#{taxonomy}"
+      default_taxonomy = send "default_#{taxonomy}"
       if default_taxonomy.present?
         taxonomy.classify.constantize.send 'current=', default_taxonomy
         session["#{taxonomy}_id"] = default_taxonomy.id
@@ -528,7 +528,7 @@ class User < ApplicationRecord
   # Known issue:
   #   If usergroup have two associated external groups, we don't know which one the user is in.
   def external_usergroups
-    usergroups.flat_map(&:external_usergroups).select { |group| group.auth_source == self.auth_source }
+    usergroups.flat_map(&:external_usergroups).select { |group| group.auth_source == auth_source }
   end
 
   def self.try_to_auto_create_user(login, password)
@@ -581,7 +581,7 @@ class User < ApplicationRecord
   end
 
   def notification_recipients_ids
-    [self.id]
+    [id]
   end
 
   def authenticate_by_personal_access_token(token)
@@ -615,7 +615,7 @@ class User < ApplicationRecord
   end
 
   def normalize_locale
-    self.locale = nil if self.respond_to?(:locale) && locale.empty?
+    self.locale = nil if respond_to?(:locale) && locale.empty?
   end
 
   def normalize_timezone
@@ -638,7 +638,7 @@ class User < ApplicationRecord
   end
 
   def verify_current_password
-    unless self.matching_password?(current_password)
+    unless matching_password?(current_password)
       errors.add :current_password, _("Incorrect password")
     end
   end
@@ -646,7 +646,7 @@ class User < ApplicationRecord
   protected
 
   def name_used_in_a_usergroup
-    if Usergroup.where(:name => self.login).present?
+    if Usergroup.where(:name => login).present?
       errors.add(:base, _("A user group already exists with this name"))
     end
   end
@@ -695,14 +695,14 @@ class User < ApplicationRecord
   end
 
   def ensure_roles_not_escalated
-    roles_check = self.new_record? ? self.role_ids.present? : self.role_ids_changed?
-    if roles_check && !User.current.can_assign?(self.role_ids)
+    roles_check = new_record? ? role_ids.present? : role_ids_changed?
+    if roles_check && !User.current.can_assign?(role_ids)
       errors.add :role_ids, _("you can't assign some of roles you selected")
     end
   end
 
   def ensure_admin_not_escalated
-    admin_check = self.new_record? ? self.admin? : self.admin_changed?
+    admin_check = new_record? ? admin? : admin_changed?
     if admin_check && !User.current.can_change_admin_flag?
       errors.add :admin, _("you can't change administrator flag")
     end
@@ -710,38 +710,38 @@ class User < ApplicationRecord
 
   def ensure_default_role
     default_role = Role.default
-    self.roles << default_role unless self.roles.include?(default_role)
+    roles << default_role unless roles.include?(default_role)
   end
 
   def ensure_admin_password_changed_by_admin
-    if (self.admin && !User.current.try(:admin?)) && password_hash_changed?
+    if (admin && !User.current.try(:admin?)) && password_hash_changed?
       errors.add :password, _('cannot be changed by a non-admin user')
     end
   end
 
   def default_location_inclusion
-    unless my_locations.include?(default_location) || default_location.blank? || self.admin?
+    unless my_locations.include?(default_location) || default_location.blank? || admin?
       errors.add :default_location, _("default locations need to be user locations first")
     end
   end
 
   def default_organization_inclusion
-    unless my_organizations.include?(default_organization) || default_organization.blank? || self.admin?
+    unless my_organizations.include?(default_organization) || default_organization.blank? || admin?
       errors.add :default_organization, _("default organizations need to be user organizations first")
     end
   end
 
   def hidden_authsource_restricted
-    if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN, ANONYMOUS_CONSOLE_ADMIN].include?(self.login)
+    if auth_source_id_changed? && hidden? && ![ANONYMOUS_ADMIN, ANONYMOUS_API_ADMIN, ANONYMOUS_CONSOLE_ADMIN].include?(login)
       errors.add :auth_source, _("is not permitted")
     end
   end
 
   def check_permissions_for_changing_login
-    if login_changed? && !self.new_record?
-      if !self.internal?
+    if login_changed? && !new_record?
+      if !internal?
         errors.add :login, _("It is not possible to change external users login")
-      elsif !(User.current.can?(:edit_users, self) || (self.id == User.current.id))
+      elsif !(User.current.can?(:edit_users, self) || (id == User.current.id))
         errors.add :login, _("You do not have permission to edit the login")
       end
     end

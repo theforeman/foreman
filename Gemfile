@@ -61,5 +61,5 @@ gem 'graphql', '~> 1.8.0'
 gem 'graphql-batch'
 
 Dir["#{File.dirname(FOREMAN_GEMFILE)}/bundler.d/*.rb"].each do |bundle|
-  self.instance_eval(Bundler.read_file(bundle))
+  instance_eval(Bundler.read_file(bundle))
 end

@@ -85,11 +85,11 @@ class SmartProxy < ApplicationRecord
 
   def has_feature?(feature_name)
     feature_ids = Feature.where(:name => feature_name).pluck(:id)
-    self.smart_proxy_features.any? { |proxy_feature| feature_ids.include?(proxy_feature.feature_id) }
+    smart_proxy_features.any? { |proxy_feature| feature_ids.include?(proxy_feature.feature_id) }
   end
 
   def capabilities(feature)
-    self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:capabilities)
+    smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:capabilities)
   end
 
   def has_capability?(feature, capability)
@@ -97,7 +97,7 @@ class SmartProxy < ApplicationRecord
   end
 
   def setting(feature, setting)
-    self.smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:settings).try(:[], setting)
+    smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:settings).try(:[], setting)
   end
 
   def statuses
@@ -115,7 +115,7 @@ class SmartProxy < ApplicationRecord
   end
 
   def feature_details
-    self.smart_proxy_features.includes(:feature).each_with_object({}) do |smart_proxy_feature, hash|
+    smart_proxy_features.includes(:feature).each_with_object({}) do |smart_proxy_feature, hash|
       hash[smart_proxy_feature.feature.name] = smart_proxy_feature.details
     end
   end
@@ -141,7 +141,7 @@ class SmartProxy < ApplicationRecord
       if valid_features.any?
         SmartProxyFeature.import_features(self, valid_features)
       else
-        self.smart_proxy_features.clear
+        smart_proxy_features.clear
         if reply.any?
           errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
                               'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.keys.to_sentence

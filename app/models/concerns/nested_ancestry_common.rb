@@ -84,7 +84,7 @@ module NestedAncestryCommon
   def set_other_titles
     if saved_change_to_name? || saved_change_to_ancestry?
       self.class.where('ancestry IS NOT NULL').find_each do |obj|
-        if obj.path_ids.include?(self.id)
+        if obj.path_ids.include?(id)
           obj.update(:title => obj.get_title)
         end
       end

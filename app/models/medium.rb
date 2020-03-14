@@ -59,11 +59,11 @@ class Medium < ApplicationRecord
   end
 
   def ensure_hosts_not_in_build
-    return true if (hosts_in_build = self.hosts.where(:build => true)).empty?
+    return true if (hosts_in_build = hosts.where(:build => true)).empty?
     hosts_in_build.each do |host|
-      self.errors.add :base, _("%{record} is used by host in build mode %{what}") % { :record => self.name, :what => host.name }
+      errors.add :base, _("%{record} is used by host in build mode %{what}") % { :record => name, :what => host.name }
     end
-    Rails.logger.error "You may not destroy #{self.to_label} as it is used by hosts in build mode!"
+    Rails.logger.error "You may not destroy #{to_label} as it is used by hosts in build mode!"
     throw :abort
   end
 end

@@ -9,7 +9,7 @@ module ParameterValidators
   def validate_parameters_names
     names = []
     errors = false
-    self.send(parameters_symbol).each do |param|
+    send(parameters_symbol).each do |param|
       next unless param.new_record? # normal validation would catch this
       if names.include?(param.name)
         param.errors.add(:name, _('has already been taken'))

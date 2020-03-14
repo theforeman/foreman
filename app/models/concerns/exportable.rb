@@ -33,8 +33,8 @@ module Exportable
   def export_attr(exporter, include_blank)
     value = if exporter.respond_to?(:call)
               exporter.call(self)
-            elsif self.respond_to?(exporter)
-              self.send(exporter)
+            elsif respond_to?(exporter)
+              send(exporter)
             end
 
     value = value.respond_to?(:map) ? export_iterable(value, include_blank) : value

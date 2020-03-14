@@ -142,11 +142,11 @@ class ReportComposer
   end
 
   def self.from_ui_params(ui_params)
-    self.new(UiParams.new(ui_params).params)
+    new(UiParams.new(ui_params).params)
   end
 
   def self.from_api_params(api_params)
-    self.new(ApiParams.new(api_params).params)
+    new(ApiParams.new(api_params).params)
   end
 
   def build_inputs(template, input_values)
@@ -233,7 +233,7 @@ class ReportComposer
     if generate_at
       scheduler = scheduler.set(wait_until: generate_at)
     end
-    scheduler.perform_later(self.to_params, user_id: User.current.id)
+    scheduler.perform_later(to_params, user_id: User.current.id)
   end
 
   def render(mode: Foreman::Renderer::REAL_MODE, **params)

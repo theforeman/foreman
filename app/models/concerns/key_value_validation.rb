@@ -3,7 +3,7 @@ module KeyValueValidation
 
   def validate_and_cast_value(object_for_key_type = nil)
     object_for_key_type ||= self
-    return if !self.value.is_a?(String) || value.contains_erb?
+    return if !value.is_a?(String) || value.contains_erb?
     Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => object_for_key_type.key_type).cast!
   rescue StandardError, SyntaxError => e
     Foreman::Logging.exception("Error while parsing #{object_for_key_type}", e)

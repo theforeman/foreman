@@ -99,10 +99,10 @@ module Foreman
       }
       extra_fields[:foreman_code] = exception.code if exception.respond_to?(:code)
       with_fields(extra_fields) do
-        self.logger(logger_name).public_send(level) { context_message }
+        logger(logger_name).public_send(level) { context_message }
       end
       # backtrace have its own separate level to prevent flooding logs with backtraces
-      self.logger(logger_name).public_send(backtrace_level) do
+      logger(logger_name).public_send(backtrace_level) do
         "Backtrace for '#{context_message}' error (#{exception.class}): #{exception.message}\n" + backtrace.join("\n")
       end
     end
@@ -110,7 +110,7 @@ module Foreman
     def blob(message, contents, extra_fields = {})
       logger_name = extra_fields[:logger] || 'blob'
       with_fields(extra_fields) do
-        self.logger(logger_name).info do
+        logger(logger_name).info do
           message + "\n" + contents
         end
       end

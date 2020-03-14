@@ -136,7 +136,7 @@ class TaxHost
     !found_orphan
   end
 
-  def non_inherited_ids(v1 = self.selected_ids, v2 = self.inherited_ids)
+  def non_inherited_ids(v1 = selected_ids, v2 = inherited_ids)
     substract_deep_hashes(v1, v2)
   end
 
@@ -213,7 +213,7 @@ class TaxHost
   def default_ids_hash(populate_values = false)
     ids = HashWithIndifferentAccess.new
     hash_keys.each do |col|
-      ids[col] = populate_values ? Array(self.send(col)).uniq : []
+      ids[col] = populate_values ? Array(send(col)).uniq : []
     end
     ids
   end

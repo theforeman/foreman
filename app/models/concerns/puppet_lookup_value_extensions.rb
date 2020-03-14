@@ -6,6 +6,6 @@ module PuppetLookupValueExtensions
   end
 
   def value_present?
-    self.errors.add(:value, :blank) if value.to_s.empty? && !omit && lookup_key.puppet?
+    errors.add(:value, :blank) if value.to_s.empty? && !omit && lookup_key.puppet?
   end
 end

@@ -29,7 +29,7 @@ module SSO
     # authenticate the user without using password.
     def authenticated?
       return false unless (self.user = request.env[CAS_USERNAME])
-      attrs = { :login => self.user }.merge(additional_attributes)
+      attrs = { :login => user }.merge(additional_attributes)
       group_count = request.env['REMOTE_USER_GROUP_N'].to_i
       if group_count > 0
         attrs[:groups] = []
@@ -42,7 +42,7 @@ module SSO
     end
 
     def support_login?
-      request.fullpath != self.login_url
+      request.fullpath != login_url
     end
 
     def authenticate!

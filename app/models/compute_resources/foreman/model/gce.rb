@@ -215,7 +215,7 @@ module Foreman::Model
     def normalize_vm_attrs(vm_attrs)
       normalized = slice_vm_attributes(vm_attrs, ['image_id', 'machine_type', 'network'])
       normalized['associate_external_ip'] = to_bool(vm_attrs['associate_external_ip'])
-      normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+      normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
 
       volume_attrs = vm_attrs['volumes_attributes'] || {}
       normalized['volumes_attributes'] = volume_attrs.each_with_object({}) do |(key, vol), volumes|

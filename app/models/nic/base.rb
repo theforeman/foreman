@@ -154,13 +154,13 @@ module Nic
 
     def clone
       # do not copy system specific attributes
-      self.deep_clone(:except => [:name, :mac, :ip, :ip6, :host_id])
+      deep_clone(:except => [:name, :mac, :ip, :ip6, :host_id])
     end
 
     # if this interface does not have MAC and is attached to other interface,
     # we can fetch mac from this other interface
     def inheriting_mac
-      self.mac.presence || self.host.interfaces.detect { |i| i.identifier == self.attached_to }.try(:mac)
+      mac.presence || host.interfaces.detect { |i| i.identifier == attached_to }.try(:mac)
     end
 
     # if this interface has attached devices (e.g. in a bond),
@@ -173,7 +173,7 @@ module Nic
     # in which case host managed? flag can be true but we should consider
     # everything as unmanaged
     def host_managed?
-      self.host&.managed? && SETTINGS[:unattended]
+      host&.managed? && SETTINGS[:unattended]
     end
 
     def require_ip4_validation?(from_compute = true)
@@ -230,12 +230,12 @@ module Nic
       self.mac = Net::Validations.normalize_mac(mac)
       true
     rescue Net::Validations::Error => e
-      self.errors.add(:mac, e.message)
+      errors.add(:mac, e.message)
     end
 
     def valid_domain
       unless Domain.find_by_id(domain_id)
-        self.errors.add(:domain_id, _("can't find domain with this id"))
+        errors.add(:domain_id, _("can't find domain with this id"))
       end
     end
 
@@ -250,25 +250,25 @@ module Nic
 
     def not_required_interface
       if host&.managed? && !host.being_destroyed?
-        if self.primary?
-          self.errors.add :primary, _("can't delete primary interface of managed host")
+        if primary?
+          errors.add :primary, _("can't delete primary interface of managed host")
         end
-        if self.provision?
-          self.errors.add :provision, _("can't delete provision interface of managed host")
+        if provision?
+          errors.add :provision, _("can't delete provision interface of managed host")
         end
       end
-      throw :abort if self.errors[:primary].present? || self.errors[:provision].present?
+      throw :abort if errors[:primary].present? || errors[:provision].present?
     end
 
     def exclusive_primary_interface
-      if host && self.primary?
+      if host && primary?
         primaries = host.interfaces.select { |i| i.primary? && i != self }
         errors.add :primary, _("host already has primary interface") unless primaries.empty?
       end
     end
 
     def exclusive_provision_interface
-      if host && self.provision?
+      if host && provision?
         provisions = host.interfaces.select { |i| i.provision? && i != self }
         errors.add :provision, _("host already has provision interface") unless provisions.empty?
       end
@@ -280,8 +280,8 @@ module Nic
     end
 
     def validate_subnet_types
-      errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if self.subnet.present? && self.subnet.type != 'Subnet::Ipv4'
-      errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if self.subnet6.present? && self.subnet6.type != 'Subnet::Ipv6'
+      errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if subnet.present? && subnet.type != 'Subnet::Ipv4'
+      errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if subnet6.present? && subnet6.type != 'Subnet::Ipv6'
     end
 
     def mac_uniqueness
@@ -293,8 +293,8 @@ module Nic
     end
 
     def validate_updating_types
-      sti_type = self.type || 'Nic::Base'
-      errors.add(:type, _("can't be changed once the interface is saved")) if self.persisted? && (self.class.name != sti_type)
+      sti_type = type || 'Nic::Base'
+      errors.add(:type, _("can't be changed once the interface is saved")) if persisted? && (self.class.name != sti_type)
     end
 
     def mac_addresses_for_provisioning
@@ -304,9 +304,9 @@ module Nic
     private
 
     def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
-      in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
-      db_candidates = base.where(attr => self.public_send(attr))
-      db_candidates = db_candidates.select { |c| c.id != self.id && in_memory_candidates.map(&:id).include?(c.id) }
+      in_memory_candidates = host.present? ? host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
+      db_candidates = base.where(attr => public_send(attr))
+      db_candidates = db_candidates.select { |c| c.id != id && in_memory_candidates.map(&:id).include?(c.id) }
       errors.add(attr, :taken) if db_candidates.present?
     end
   end

@@ -20,8 +20,8 @@ class PersonalAccessToken < ApplicationRecord
   attr_accessor :token_value
 
   def self.authenticate_user(user, token)
-    token = self.active.find_by(user: user, token: hash_token(user, token, :bcrypt)) ||
-      self.active.find_by(user: user, token: hash_token(user, token, :sha1))
+    token = active.find_by(user: user, token: hash_token(user, token, :bcrypt)) ||
+      active.find_by(user: user, token: hash_token(user, token, :sha1))
     return false unless token
 
     token.update(last_used_at: Time.current.utc)

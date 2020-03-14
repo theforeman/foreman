@@ -53,8 +53,8 @@ module DirtyAssociations
             # in API, #{association}_ids is converted to nil if user sent empty array
             # in case we got single id, we ensure it's an array
             collection = Array(collection)
-            instance_variable_set("@#{association_ids}_changed", collection.uniq.select(&:present?).map(&:to_i).sort != self.send(association_ids).sort)
-            instance_variable_set("@#{association_ids}_was", self.send(association_ids).clone)
+            instance_variable_set("@#{association_ids}_changed", collection.uniq.select(&:present?).map(&:to_i).sort != send(association_ids).sort)
+            instance_variable_set("@#{association_ids}_was", send(association_ids).clone)
             super(collection)
           end
 
@@ -73,18 +73,18 @@ module DirtyAssociations
           define_method "#{association_ids}_was" do
             value = instance_variable_get("@#{association_ids}_was")
             if value.nil?
-              instance_variable_set("@#{association_ids}_was", self.send(association_ids))
+              instance_variable_set("@#{association_ids}_was", send(association_ids))
             else
               value
             end
           end
 
           define_method "#{association_ids}_change" do
-            [self.send("#{association_ids}_was"), self.send(association_ids)]
+            [send("#{association_ids}_was"), send(association_ids)]
           end
         end
       end
-      self.prepend(extension)
+      prepend(extension)
     end
   end
 end
