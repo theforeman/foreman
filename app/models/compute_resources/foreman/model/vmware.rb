@@ -663,19 +663,19 @@ module Foreman::Model
       normalized['memory'] = vm_attrs['memory_mb'].nil? ? nil : (vm_attrs['memory_mb'].to_i * 1024)
 
       normalized['folder_path'] = vm_attrs['path']
-      normalized['folder_name'] = self.folders.detect { |f| f.path == normalized['folder_path'] }.try(:name)
+      normalized['folder_name'] = folders.detect { |f| f.path == normalized['folder_path'] }.try(:name)
 
-      normalized['cluster_id'] = self.available_clusters.detect { |c| c.name == vm_attrs['cluster'] }.try(:id)
+      normalized['cluster_id'] = available_clusters.detect { |c| c.name == vm_attrs['cluster'] }.try(:id)
       normalized['cluster_name'] = vm_attrs['cluster']
       normalized['cluster_name'] = nil if normalized['cluster_name'].empty?
 
       if normalized['cluster_name']
-        normalized['resource_pool_id'] = self.resource_pools(:cluster_id => normalized['cluster_name']).detect { |p| p.name == vm_attrs['resource_pool'] }.try(:id)
+        normalized['resource_pool_id'] = resource_pools(:cluster_id => normalized['cluster_name']).detect { |p| p.name == vm_attrs['resource_pool'] }.try(:id)
       end
       normalized['resource_pool_name'] = vm_attrs['resource_pool']
       normalized['resource_pool_name'] = nil if normalized['resource_pool_name'].empty?
 
-      normalized['guest_name'] = self.guest_types[vm_attrs['guest_id']]
+      normalized['guest_name'] = guest_types[vm_attrs['guest_id']]
 
       normalized['hardware_version_id'] = vm_attrs['hardware_version']
       normalized['hardware_version_name'] = vm_hw_versions[vm_attrs['hardware_version']]
@@ -684,7 +684,7 @@ module Foreman::Model
       normalized['cpu_hot_add_enabled'] = to_bool(vm_attrs['cpuHotAddEnabled'])
       normalized['add_cdrom'] = to_bool(vm_attrs['add_cdrom'])
 
-      normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+      normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
 
       scsi_controllers = vm_attrs['scsi_controllers'] || {}
       normalized['scsi_controllers'] = scsi_controllers.map.with_index do |ctrl, idx|
@@ -692,7 +692,7 @@ module Foreman::Model
         [idx.to_s, ctrl]
       end.to_h
 
-      stores = self.datastores
+      stores = datastores
       volumes_attributes = vm_attrs['volumes_attributes'] || {}
       normalized['volumes_attributes'] = volumes_attributes.each_with_object({}) do |(key, vol), volumes|
         volumes[key] = slice_vm_attributes(vol, ['name', 'mode'])

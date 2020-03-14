@@ -5,7 +5,7 @@ module Authorizable
     return true if Thread.current[:ignore_permission_check]
 
     authorizer = Authorizer.new(User.current)
-    creation = self.saved_change_to_id?
+    creation = saved_change_to_id?
     name = permission_name(creation ? :create : :edit)
 
     Foreman::Logging.logger('permissions').debug { "verifying the transaction by permission #{name} for class #{self.class}" }
@@ -20,7 +20,7 @@ module Authorizable
 
       # we need to rollback orchestration tasks if this object orchestrates something
       if self.class.included_modules.include?(Orchestration)
-        self.send :fail_queue, self.queue
+        send :fail_queue, queue
       end
 
       raise ActiveRecord::Rollback
@@ -52,9 +52,9 @@ module Authorizable
     # Or you may simply use authorized for User.current
     def authorized_as(user, permission, resource = nil)
       if user.nil?
-        self.where('1=0')
+        where('1=0')
       elsif user.admin?
-        self.where(nil)
+        where(nil)
       else
         Authorizer.new(user).find_collection(resource || self, :permission => permission)
       end
@@ -75,7 +75,7 @@ module Authorizable
     #
     def joins_authorized_as(user, resource, permission, opts = {})
       if user.nil?
-        self.where('1=0')
+        where('1=0')
       else
         Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts))
       end

@@ -7,7 +7,7 @@ module Net
     def initialize(opts = {})
       # set all attributes
       opts&.each do |k, v|
-        self.send("#{k}=", v) if self.respond_to?("#{k}=")
+        send("#{k}=", v) if respond_to?("#{k}=")
       end
 
       self.logger ||= Rails.logger
@@ -31,7 +31,7 @@ module Net
     # Compares two records by their attributes
     def ==(other)
       return false unless other.respond_to? :attrs
-      self.attrs == other.attrs
+      attrs == other.attrs
     end
   end
 

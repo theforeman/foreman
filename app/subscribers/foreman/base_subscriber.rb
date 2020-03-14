@@ -2,7 +2,7 @@ module Foreman
   class BaseSubscriber
     def self.call(*args)
       event = ActiveSupport::Notifications::Event.new(*args)
-      Rails.logger.info("#{self.name}: #{event.name} event received")
+      Rails.logger.info("#{name}: #{event.name} event received")
       new.call(event)
     end
 

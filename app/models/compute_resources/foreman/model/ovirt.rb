@@ -50,11 +50,11 @@ module Foreman::Model
 
     def supports_operating_systems?
       if client.respond_to?(:operating_systems)
-        unless self.attrs.key?(:available_operating_systems)
+        unless attrs.key?(:available_operating_systems)
           update_available_operating_systems
           save
         end
-        self.attrs[:available_operating_systems] != :unsupported
+        attrs[:available_operating_systems] != :unsupported
       else
         false
       end
@@ -117,21 +117,21 @@ module Foreman::Model
               else
                 false
               end
-      self.attrs[:ovirt_use_v4] = value
+      attrs[:ovirt_use_v4] = value
     end
 
     def use_v4
-      self.attrs.fetch(:ovirt_use_v4, true)
+      attrs.fetch(:ovirt_use_v4, true)
     end
 
     alias_method :use_v4?, :use_v4
 
     def ovirt_quota=(ovirt_quota_id)
-      self.attrs[:ovirt_quota_id] = ovirt_quota_id
+      attrs[:ovirt_quota_id] = ovirt_quota_id
     end
 
     def ovirt_quota
-      self.attrs[:ovirt_quota_id].presence
+      attrs[:ovirt_quota_id].presence
     end
 
     def available_images
@@ -276,7 +276,7 @@ module Foreman::Model
       template = template(args[:template]) if args[:template]
       instance_type = instance_type(args[:instance_type]) unless args[:instance_type].empty?
 
-      args[:cluster] = get_ovirt_id(self.clusters, args[:cluster])
+      args[:cluster] = get_ovirt_id(clusters, args[:cluster])
 
       sanitize_inherited_vm_attributes(args, template, instance_type)
       preallocate_and_clone_disks(args, template) if args[:volumes_attributes].present? && template.present?
@@ -418,19 +418,19 @@ module Foreman::Model
     end
 
     def display_type
-      self.attrs[:display].presence || 'vnc'
+      attrs[:display].presence || 'vnc'
     end
 
     def display_type=(display)
-      self.attrs[:display] = display.downcase
+      attrs[:display] = display.downcase
     end
 
     def keyboard_layout
-      self.attrs[:keyboard_layout].presence || 'en-us'
+      attrs[:keyboard_layout].presence || 'en-us'
     end
 
     def keyboard_layout=(layout)
-      self.attrs[:keyboard_layout] = layout.downcase
+      attrs[:keyboard_layout] = layout.downcase
     end
 
     def public_key
@@ -444,12 +444,12 @@ module Foreman::Model
     def normalize_vm_attrs(vm_attrs)
       normalized = slice_vm_attributes(vm_attrs, ['cores', 'interfaces_attributes', 'memory'])
       normalized['cluster_id'] = vm_attrs['cluster']
-      normalized['cluster_name'] = self.clusters.detect { |c| c.id == normalized['cluster_id'] }.try(:name)
+      normalized['cluster_name'] = clusters.detect { |c| c.id == normalized['cluster_id'] }.try(:name)
 
       normalized['template_id'] = vm_attrs['template']
-      normalized['template_name'] = self.templates.detect { |t| t.id == normalized['template_id'] }.try(:name)
+      normalized['template_name'] = templates.detect { |t| t.id == normalized['template_id'] }.try(:name)
 
-      cluster_networks = self.networks(:cluster_id => normalized['cluster_id'])
+      cluster_networks = networks(:cluster_id => normalized['cluster_id'])
 
       interface_attrs = vm_attrs['interfaces_attributes'] || {}
       normalized['interfaces_attributes'] = interface_attrs.inject({}) do |interfaces, (key, nic)|
@@ -482,10 +482,10 @@ module Foreman::Model
     end
 
     def validate_quota(client)
-      if self.attrs[:ovirt_quota_id].nil?
-        self.attrs[:ovirt_quota_id] = client.quotas.first.id
+      if attrs[:ovirt_quota_id].nil?
+        attrs[:ovirt_quota_id] = client.quotas.first.id
       else
-        get_ovirt_id(client.quotas, self.attrs[:ovirt_quota_id])
+        get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
       end
     end
 
@@ -531,7 +531,7 @@ module Foreman::Model
       return unless public_key.blank? || options[:force]
       client
     rescue Foreman::FingerprintException => e
-      self.public_key = e.fingerprint if self.public_key.blank?
+      self.public_key = e.fingerprint if public_key.blank?
     end
 
     def api_version
@@ -613,7 +613,7 @@ module Foreman::Model
         vm.destroy_interface(:id => interface.id, :blocking => true)
       end
       # add interfaces
-      cluster_networks = self.networks(:cluster_id => cluster_id)
+      cluster_networks = networks(:cluster_id => cluster_id)
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?

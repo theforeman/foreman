@@ -76,11 +76,11 @@ class Taxonomy < ApplicationRecord
   end
 
   def self.ignore?(taxable_type)
-    current_taxonomies = if self.current.nil? && User.current.present?
+    current_taxonomies = if current.nil? && User.current.present?
                            # "Any context" - all available taxonomies"
-                           User.current.public_send("my_#{self.to_s.underscore.pluralize}")
+                           User.current.public_send("my_#{to_s.underscore.pluralize}")
                          else
-                           [ self.current ]
+                           [ current ]
                          end
     current_taxonomies.compact.any? do |current|
       current.ignore?(taxable_type)
@@ -96,7 +96,7 @@ class Taxonomy < ApplicationRecord
   # if user is admin we we return the original value (even if nil).
   def self.expand(value)
     if value.blank? && User.current.present? && !User.current.admin?
-      value = self.send("my_#{self.to_s.underscore.pluralize}")
+      value = send("my_#{to_s.underscore.pluralize}")
     end
     value
   end
@@ -172,7 +172,7 @@ class Taxonomy < ApplicationRecord
   # returns self and parent parameters as a hash
   def parameters(include_source = false)
     hash = parent_params(include_source)
-    self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each do |p|
+    send("#{type.downcase}_parameters".to_sym).authorized(:view_params).each do |p|
       hash[p.name] = include_source ? p.hash_for_include_source(sti_name, el.title) : p.value
     end
     hash
@@ -194,11 +194,11 @@ class Taxonomy < ApplicationRecord
   end
 
   def params_objects
-    (self.send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq { |param| param.name }
+    (send("#{type.downcase}_parameters".to_sym).authorized(:view_params) + taxonomy_inherited_params_objects.to_a.reverse!).uniq { |param| param.name }
   end
 
   def notification_recipients_ids
-    self.subtree.flat_map(&:users).map(&:id).uniq
+    subtree.flat_map(&:users).map(&:id).uniq
   end
 
   # note - this method used by before_destroy callbacks in extension files from plugins
@@ -206,7 +206,7 @@ class Taxonomy < ApplicationRecord
   # This will check if any taxable_taxonomies records present and apply destroy_all
   # so that it nullifies all associated audit records
   def destroy_taxable_taxonomies
-    TaxableTaxonomy.where(taxonomy_id: self.id).destroy_all
+    TaxableTaxonomy.where(taxonomy_id: id).destroy_all
   end
 
   private
@@ -216,7 +216,7 @@ class Taxonomy < ApplicationRecord
 
   def assign_default_templates
     Template.where(:default => true).group_by { |t| t.class.to_s.underscore.pluralize }.each do |association, templates|
-      self.send("#{association}=", self.send(association) + templates.select(&:valid?))
+      send("#{association}=", send(association) + templates.select(&:valid?))
     end
   end
 
@@ -235,11 +235,11 @@ class Taxonomy < ApplicationRecord
 
   def assign_taxonomy_to_user
     return if User.current.nil? || User.current.admin
-    TaxableTaxonomy.create(:taxonomy_id => self.id, :taxable_id => User.current.id, :taxable_type => 'User')
+    TaxableTaxonomy.create(:taxonomy_id => id, :taxable_id => User.current.id, :taxable_type => 'User')
   end
 
   def parent_id_does_not_escalate
-    unless User.current.can?("edit_#{self.class.to_s.underscore.pluralize}", self.parent)
+    unless User.current.can?("edit_#{self.class.to_s.underscore.pluralize}", parent)
       errors.add :parent_id, _("Missing a permission to edit parent %s") % self.class.to_s
       false
     end

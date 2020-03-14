@@ -39,7 +39,7 @@ class SshKey < ApplicationRecord
   end
 
   def to_export
-    type, base64 = self.key.split
+    type, base64 = key.split
     [type, base64, comment].join(' ')
   end
 
@@ -71,8 +71,8 @@ class SshKey < ApplicationRecord
 
   def generate_fingerprint
     self.fingerprint = nil
-    return unless self.key.present?
-    self.fingerprint = SSHKey.sha256_fingerprint(self.key)
+    return unless key.present?
+    self.fingerprint = SSHKey.sha256_fingerprint(key)
     true
   rescue SSHKey::PublicKeyError => exception
     Foreman::Logging.exception("Could not calculate SSH key fingerprint", exception)
@@ -81,8 +81,8 @@ class SshKey < ApplicationRecord
 
   def calculate_length
     self.length = nil
-    return unless self.key.present?
-    self.length = SSHKey.ssh_public_key_bits(self.key)
+    return unless key.present?
+    self.length = SSHKey.ssh_public_key_bits(key)
     true
   rescue SSHKey::PublicKeyError => exception
     Foreman::Logging.exception("Could not calculate SSH key length", exception)

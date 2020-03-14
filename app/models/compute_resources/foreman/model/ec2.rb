@@ -24,7 +24,7 @@ module Foreman::Model
     end
 
     def gov_cloud
-      self.url == GOV_CLOUD_REGION
+      url == GOV_CLOUD_REGION
     end
     alias_method :gov_cloud?, :gov_cloud
 
@@ -127,16 +127,16 @@ module Foreman::Model
     def normalize_vm_attrs(vm_attrs)
       normalized = slice_vm_attributes(vm_attrs, ['flavor_id', 'availability_zone', 'subnet_id', 'image_id', 'managed_ip'])
 
-      normalized['flavor_name'] =  self.flavors.detect { |f| f.id == normalized['flavor_id'] }.try(:name)
-      normalized['subnet_name'] =  self.subnets.detect { |f| f.subnet_id == normalized['subnet_id'] }.try(:cidr_block)
-      normalized['image_name'] = self.images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+      normalized['flavor_name'] =  flavors.detect { |f| f.id == normalized['flavor_id'] }.try(:name)
+      normalized['subnet_name'] =  subnets.detect { |f| f.subnet_id == normalized['subnet_id'] }.try(:cidr_block)
+      normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
 
       group_ids = vm_attrs['security_group_ids'] || []
       group_ids = group_ids.select { |gid| gid != '' }
       normalized['security_groups'] = group_ids.map.with_index do |gid, idx|
         [idx.to_s, {
           'id' => gid,
-          'name' => self.security_groups.detect { |g| g.group_id == gid }.try(:name),
+          'name' => security_groups.detect { |g| g.group_id == gid }.try(:name),
         }]
       end.to_h
 

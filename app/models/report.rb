@@ -68,7 +68,7 @@ class Report < ApplicationRecord
 
   # add sort by report time
   def <=>(other)
-    self.created_at <=> other.created_at
+    created_at <=> other.created_at
   end
 
   # Expire reports based on time and status

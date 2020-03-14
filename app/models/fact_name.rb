@@ -30,7 +30,7 @@ class FactName < ApplicationRecord
   has_ancestry
 
   def set_name
-    self.short_name = self.name.split(SEPARATOR).last
+    self.short_name = name.split(SEPARATOR).last
   end
 
   # To be overridden in subclasses to specify what is the origin of this

@@ -49,8 +49,8 @@ class LookupValue < ApplicationRecord
 
   def value_before_type_cast
     return self[:value] if errors[:value].present?
-    return self.value if lookup_key.nil? || value.contains_erb?
-    LookupKey.format_value_before_type_cast(self.value, lookup_key.key_type)
+    return value if lookup_key.nil? || value.contains_erb?
+    LookupKey.format_value_before_type_cast(value, lookup_key.key_type)
   end
 
   def validate_value

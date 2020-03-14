@@ -126,7 +126,7 @@ class LookupKey < ApplicationRecord
   # we cannot search the database, in case the lookup value hasn't been saved yet
   def overridden_value(obj)
     obj.lookup_values.detect do |lookup_value|
-      lookup_value.lookup_key_id == self.id
+      lookup_value.lookup_key_id == id
     end
   end
 
@@ -180,19 +180,19 @@ class LookupKey < ApplicationRecord
 
   def disable_merge_overrides
     if merge_overrides && !supports_merge?
-      self.errors.add(:merge_overrides, _("can only be set for array or hash"))
+      errors.add(:merge_overrides, _("can only be set for array or hash"))
     end
   end
 
   def disable_avoid_duplicates
     if avoid_duplicates && (!merge_overrides || !supports_uniq?)
-      self.errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
+      errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
     end
   end
 
   def disable_merge_default
     if merge_default && !merge_overrides
-      self.errors.add(:merge_default, _("can only be set when merge overrides is set"))
+      errors.add(:merge_default, _("can only be set when merge overrides is set"))
     end
   end
 

@@ -26,17 +26,17 @@ module Hostext
 
     def set_token
       return unless Setting[:token_duration] != 0
-      self.build_token(:value => Foreman.uuid,
+      build_token(:value => Foreman.uuid,
                        :expires => Time.now.utc + Setting[:token_duration].minutes)
     end
 
     def token_expired?
-      return false unless Setting[:token_duration] != 0 && self.token.present?
-      self.token.expires < Time.now.utc
+      return false unless Setting[:token_duration] != 0 && token.present?
+      token.expires < Time.now.utc
     end
 
     def expire_token
-      self.token.delete if self.token.present?
+      token.delete if token.present?
     end
   end
 end

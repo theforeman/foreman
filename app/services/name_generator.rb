@@ -45,7 +45,7 @@ class NameGenerator
 
   # does not respect global setting
   def generate_next_random_name
-    self.register, firstname, lastname = @random_generator.generate(self.register)
+    self.register, firstname, lastname = @random_generator.generate(register)
     [firstname, lastname].join('-').downcase
   end
 

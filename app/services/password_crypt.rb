@@ -22,7 +22,7 @@ class PasswordCrypt
     when 'Base64-Windows'
       result = Base64.strict_encode64(passwd.concat("AdministratorPassword").encode('utf-16le'))
     else
-      result = passwd.crypt("#{ALGORITHMS[hash_alg]}#{self.generate_linux_salt}")
+      result = passwd.crypt("#{ALGORITHMS[hash_alg]}#{generate_linux_salt}")
     end
 
     result.force_encoding(Encoding::UTF_8) if result.encoding != Encoding::UTF_8
@@ -30,7 +30,7 @@ class PasswordCrypt
   end
 
   def self.grub2_passw_crypt(passw)
-    self.passw_crypt(passw, 'SHA512')
+    passw_crypt(passw, 'SHA512')
   end
 
   def self.crypt_gnu_compatible?

@@ -15,7 +15,7 @@ class NXOS < Operatingsystem
   end
 
   def url_for_boot(medium_provider, file)
-    raise ::Foreman::Exception.new(N_("Function not available for %s"), self.display_family)
+    raise ::Foreman::Exception.new(N_("Function not available for %s"), display_family)
   end
 
   def boot_filename(host = nil)

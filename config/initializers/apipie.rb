@@ -73,7 +73,7 @@ class UndefValidator < Apipie::Validator::BaseValidator
   end
 
   def self.build(param_description, argument, options, block)
-    self.new(param_description) if argument == :undef
+    new(param_description) if argument == :undef
   end
 
   def description
@@ -88,7 +88,7 @@ class IdentifierValidator < Apipie::Validator::BaseValidator
   end
 
   def self.build(param_description, argument, options, block)
-    self.new(param_description) if argument == :identifier
+    new(param_description) if argument == :identifier
   end
 
   def description
@@ -104,7 +104,7 @@ class IdentifierDottableValidator < Apipie::Validator::BaseValidator
   end
 
   def self.build(param_description, argument, options, block)
-    self.new(param_description) if argument == :identifier_dottable
+    new(param_description) if argument == :identifier_dottable
   end
 
   def description
@@ -127,7 +127,7 @@ class AnyTypeValidator < Apipie::Validator::BaseValidator
 
   def self.build(param_description, argument, options, block)
     if argument == :any_type
-      self.new(param_description, argument, options)
+      new(param_description, argument, options)
     end
   end
 

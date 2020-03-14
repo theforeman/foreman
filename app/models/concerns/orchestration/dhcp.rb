@@ -130,14 +130,14 @@ module Orchestration::DHCP
     }
 
     if provision?
-      dhcp_attr[:nextServer] = boot_server unless self.host.pxe_loader == 'None'
-      filename = operatingsystem.boot_filename(self.host)
+      dhcp_attr[:nextServer] = boot_server unless host.pxe_loader == 'None'
+      filename = operatingsystem.boot_filename(host)
       dhcp_attr[:filename] = filename if filename.present?
       if jumpstart?
-        jumpstart_arguments = os.jumpstart_params self.host, model.vendor_class
+        jumpstart_arguments = os.jumpstart_params host, model.vendor_class
         dhcp_attr.merge! jumpstart_arguments unless jumpstart_arguments.empty?
       elsif operatingsystem.respond_to?(:pxe_type) && operatingsystem.pxe_type == "ZTP" && operatingsystem.respond_to?(:ztp_arguments)
-        ztp_arguments = os.ztp_arguments self.host
+        ztp_arguments = os.ztp_arguments host
         dhcp_attr.merge! ztp_arguments unless ztp_arguments.empty?
       end
     end
@@ -171,11 +171,11 @@ module Orchestration::DHCP
   # do we need to update our dhcp reservations
   def dhcp_update_required?
     # IP Address / name changed, or 'rebuild' action is triggered and DHCP record on the smart proxy is not present/identical.
-    return true if ((old.ip != ip) || (old.hostname != hostname) || provision_mac_addresses_changed? || (old.subnet != subnet) || (operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(self.host)) ||
+    return true if ((old.ip != ip) || (old.hostname != hostname) || provision_mac_addresses_changed? || (old.subnet != subnet) || (operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(host)) ||
                     (!old.build? && build? && !all_dhcp_records_valid?))
     # Handle jumpstart
     # TODO, abstract this way once interfaces are fully used
-    if self.is_a?(Host::Base) && jumpstart?
+    if is_a?(Host::Base) && jumpstart?
       if !old.build? || (old.medium != medium || old.arch != arch) ||
           (os && old.os && (old.os.name != os.name || old.os != os))
         return true

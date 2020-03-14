@@ -87,7 +87,7 @@ class Puppetclass < ApplicationRecord
   def all_hostgroups(with_descendants = true, unsorted = false)
     hgs = Hostgroup.authorized
                    .eager_load(:hostgroup_classes, :config_groups => [:config_group_classes])
-                   .where("#{self.id} IN (hostgroup_classes.puppetclass_id, config_group_classes.puppetclass_id)")
+                   .where("#{id} IN (hostgroup_classes.puppetclass_id, config_group_classes.puppetclass_id)")
                    .distinct
     hgs = hgs.reorder('') if unsorted
     hgs = hgs.flat_map(&:subtree).uniq if with_descendants
@@ -98,7 +98,7 @@ class Puppetclass < ApplicationRecord
     Host::Managed.authorized
                  .reorder('')
                  .eager_load(:host_classes, :config_groups => [:config_group_classes])
-                 .where("(? IN (host_classes.puppetclass_id, config_group_classes.puppetclass_id)) OR (hosts.hostgroup_id IN (?))", self.id, all_hostgroups(true, true).map(&:id))
+                 .where("(? IN (host_classes.puppetclass_id, config_group_classes.puppetclass_id)) OR (hosts.hostgroup_id IN (?))", id, all_hostgroups(true, true).map(&:id))
                  .count
   end
 

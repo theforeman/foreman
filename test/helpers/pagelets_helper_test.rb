@@ -7,7 +7,7 @@ class PageletsHelperTest < ActionView::TestCase
 
   setup do
     controller.prepend_view_path File.expand_path('../static_fixtures/views', __dir__)
-    self.stubs(:virtual_path).returns("nonexisting/path")
+    stubs(:virtual_path).returns("nonexisting/path")
   end
 
   def action_name
@@ -58,7 +58,7 @@ class PageletsHelperTest < ActionView::TestCase
   end
 
   test "should render pagelet using virtual path" do
-    self.stubs(:virtual_path).returns("tests/_form")
+    stubs(:virtual_path).returns("tests/_form")
 
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
       :name => "TestTab",
@@ -72,7 +72,7 @@ class PageletsHelperTest < ActionView::TestCase
   end
 
   test "should return sorted pagelets" do
-    self.stubs(:virtual_path).returns("tests/_form")
+    stubs(:virtual_path).returns("tests/_form")
 
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
       :name => "TestTab",
@@ -86,7 +86,7 @@ class PageletsHelperTest < ActionView::TestCase
   end
 
   test "should not duplicate pagelets" do
-    self.stubs(:virtual_path).returns("test/test")
+    stubs(:virtual_path).returns("test/test")
 
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
       :name => "TestTab",

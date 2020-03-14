@@ -25,7 +25,7 @@ class UpgradeTask < ApplicationRecord
         existing_task.update!(seed_task)
       else
         seed_task[:subject] = subject
-        self.create!(seed_task)
+        create!(seed_task)
       end
     end
   end

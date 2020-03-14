@@ -104,7 +104,7 @@ module Foreman
                          else
                            User.unscoped.find_by_login(login)
                          end
-          raise ::Foreman::Exception.new(N_("Cannot find user %s when switching context"), login) unless self.current.present?
+          raise ::Foreman::Exception.new(N_("Cannot find user %s when switching context"), login) unless current.present?
           yield if block_given?
         ensure
           self.current = old_user

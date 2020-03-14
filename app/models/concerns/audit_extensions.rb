@@ -140,17 +140,17 @@ module AuditExtensions
   private
 
   def log_audit
-    telemetry_increment_counter(:audit_records_created, 1, type: self.auditable_type)
+    telemetry_increment_counter(:audit_records_created, 1, type: auditable_type)
     audit_logger = Foreman::Logging.logger('audit')
-    return unless (self.audited_changes && audit_logger.info?)
-    self.audited_changes.each_pair do |attribute, change|
+    return unless (audited_changes && audit_logger.info?)
+    audited_changes.each_pair do |attribute, change|
       audited_fields = {
-        audit_action: self.action,
-        audit_type: self.auditable_type,
-        audit_id: self.auditable_id,
+        audit_action: action,
+        audit_type: auditable_type,
+        audit_id: auditable_id,
         audit_attribute: attribute,
       }
-      if self.action == 'update'
+      if action == 'update'
         audited_fields[:audit_field_old] = change[0]
         audited_fields[:audit_field_new] = change[1]
         log_line = change.join(', ')
@@ -159,14 +159,14 @@ module AuditExtensions
         log_line = change
       end
       Foreman::Logging.with_fields(audited_fields) do
-        audit_logger.info "#{self.auditable_type} (#{self.auditable_id}) #{self.action} event on #{attribute} #{log_line}"
+        audit_logger.info "#{auditable_type} (#{auditable_id}) #{action} event on #{attribute} #{log_line}"
       end
     end
-    telemetry_increment_counter(:audit_records_logged, self.audited_changes.count, type: self.auditable_type)
+    telemetry_increment_counter(:audit_records_logged, audited_changes.count, type: auditable_type)
   end
 
   def filter_encrypted
-    self.audited_changes.each do |name, change|
+    audited_changes.each do |name, change|
       next if change.nil? || change.to_s.empty?
       if change.is_a? Array
         change.map! { |c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? REDACTED : c }
@@ -205,7 +205,7 @@ module AuditExtensions
     previous_state = auditable.class.find_by(id: auditable_id) if auditable
     previous_state ||= auditable
     self.auditable_name ||= previous_state.try(:to_label)
-    self.associated_name ||= self.associated.try(:to_label)
+    self.associated_name ||= associated.try(:to_label)
   end
 
   def set_taxonomies
@@ -218,17 +218,17 @@ module AuditExtensions
     taxonomy_attribute_plural = taxonomy_attribute.to_s.pluralize.to_sym
 
     if auditable.respond_to?(taxonomy_attribute)
-      self.send("#{taxonomy_attribute_plural}=", [
+      send("#{taxonomy_attribute_plural}=", [
         auditable.send(taxonomy_attribute), audited_changes[taxonomy_attribute.to_s]
       ].flatten.compact.uniq)
     elsif auditable.respond_to?(taxonomy_attribute_plural)
-      self.send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural))
+      send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural))
     elsif associated
       set_taxonomies_using_associated(taxonomy.to_s)
     end
 
     if auditable.is_a? taxonomy.capitalize.to_s.constantize
-      self.send("#{taxonomy_attribute_plural}=", [auditable_id])
+      send("#{taxonomy_attribute_plural}=", [auditable_id])
     end
   end
 
@@ -239,6 +239,6 @@ module AuditExtensions
     elsif associated.respond_to?(:"#{key_name}_ids")
       ids_arr = associated.send("#{key_name}_ids")
     end
-    self.send("#{key_name}_ids=", ids_arr)
+    send("#{key_name}_ids=", ids_arr)
   end
 end

@@ -77,7 +77,7 @@ class AuthSourceLdap < AuthSource
 
     attrs
   rescue Net::LDAP::Error, Net::LDAP::LdapError => error
-    raise ::Foreman::LdapException.new(error, N_("Error while connecting to '%{name}' LDAP server at '%{url}' during authentication" % {:url => self.host, :name => self.name}))
+    raise ::Foreman::LdapException.new(error, N_("Error while connecting to '%{name}' LDAP server at '%{url}' during authentication" % {:url => host, :name => name}))
   end
 
   def auth_method_name
@@ -85,7 +85,7 @@ class AuthSourceLdap < AuthSource
   end
 
   def to_config(login = nil, password = nil)
-    raise ::Foreman::Exception.new(N_('Cannot create LDAP configuration for %s without dedicated service account'), self.name) if login.nil? && use_user_login_for_service?
+    raise ::Foreman::Exception.new(N_('Cannot create LDAP configuration for %s without dedicated service account'), name) if login.nil? && use_user_login_for_service?
     { :host    => host,    :port => port, :encryption => encryption_config,
       :base_dn => base_dn, :group_base => groups_base, :attr_login => attr_login,
       :server_type  => server_type.to_sym, :search_filter => ldap_filter,
@@ -102,9 +102,9 @@ class AuthSourceLdap < AuthSource
 
   def ldap_con(login = nil, password = nil)
     if login.present?
-      LdapFluff.new(self.to_config(login, password))
+      LdapFluff.new(to_config(login, password))
     else
-      @ldap_con ||= LdapFluff.new(self.to_config)
+      @ldap_con ||= LdapFluff.new(to_config)
     end
   rescue Net::LDAP::Error => e
     message = _("Error during LDAP connection %{name} using login %{login}: %{error}") % {name: name, login: login, error: e}
@@ -180,7 +180,7 @@ class AuthSourceLdap < AuthSource
     result = {}
     begin
       Timeout.timeout(20) do
-        self.ldap_con.test
+        ldap_con.test
       end
       result[:success] = true
       result[:message] = _("Test connection to LDAP server was successful.")

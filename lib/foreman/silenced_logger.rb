@@ -25,7 +25,7 @@ module Foreman
     end
 
     def local_level
-      Thread.current[level_key] || self.level
+      Thread.current[level_key] || level
     end
 
     def local_level=(level)

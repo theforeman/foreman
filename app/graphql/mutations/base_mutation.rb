@@ -10,7 +10,7 @@ module Mutations
         if new_resource_class
           @resource_class = new_resource_class
         else
-          @resource_class ||= "::#{self.to_s.split('::')[-2].singularize}".safe_constantize
+          @resource_class ||= "::#{to_s.split('::')[-2].singularize}".safe_constantize
         end
       end
 

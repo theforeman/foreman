@@ -4,7 +4,7 @@ module Pagelets
       delegate :add_pagelet, :pagelets_at, :with_key, to: :instance
 
       def instance
-        @instance ||= self.new
+        @instance ||= new
       end
       attr_writer :instance
     end

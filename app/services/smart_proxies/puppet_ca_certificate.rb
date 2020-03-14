@@ -23,6 +23,6 @@ class SmartProxies::PuppetCACertificate
   end
 
   def <=>(other)
-    self.name <=> other.name
+    name <=> other.name
   end
 end

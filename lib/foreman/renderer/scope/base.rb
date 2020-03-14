@@ -9,7 +9,7 @@ module Foreman
         include Foreman::Renderer::Scope::Macros::SnippetRendering
 
         def self.inherited(child_class)
-          self.loaders.each { |loader| child_class.register_loader(loader) }
+          loaders.each { |loader| child_class.register_loader(loader) }
           super
         end
 

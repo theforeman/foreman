@@ -46,13 +46,13 @@ module Orchestration::Puppetca
       logger.warn "Received an unexpected smart proxy response: #{response}"
       return false
     end
-    self.create_puppetca_token value: response['generated_token']
+    create_puppetca_token value: response['generated_token']
   end
 
   # Removes the host's name from the autosign.conf file
   def delAutosign
     logger.info "Delete the autosign entry for #{name}"
-    self.puppetca_token.destroy! if self.puppetca_token.present?
+    puppetca_token.destroy! if puppetca_token.present?
     puppetca.del_autosign certname
   end
 

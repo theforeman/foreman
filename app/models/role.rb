@@ -125,12 +125,12 @@ class Role < ApplicationRecord
 
   # Return true if the role is a builtin role
   def builtin?
-    self.builtin != 0
+    builtin != 0
   end
 
   # Return true if the role is a user role
   def user?
-    !self.builtin?
+    !builtin?
   end
 
   # Return true if role is allowed to do the specified action
@@ -153,7 +153,7 @@ class Role < ApplicationRecord
 
     collection = permission_records permissions
 
-    current_filters = self.filters
+    current_filters = filters
     collection.group_by(&:resource_type).each do |resource_type, grouped_permissions|
       filter = filter_for_permission_add resource_type, current_filters, search
 
@@ -169,7 +169,7 @@ class Role < ApplicationRecord
 
   def find_for_permission_removal(permission_names)
     collection = permission_records permission_names
-    current_filters = self.filters
+    current_filters = filters
     collection.group_by(&:resource_type).inject([]) do |memo, (resource_type, grouped_permissions)|
       memo.concat filters_and_filterings_for_removal(resource_type, grouped_permissions, current_filters)
     end
@@ -213,20 +213,20 @@ class Role < ApplicationRecord
   end
 
   def disable_filters_overriding
-    self.filters.where(:override => true).map { |filter| filter.disable_overriding! }
+    filters.where(:override => true).map { |filter| filter.disable_overriding! }
   end
 
   def clone(role_params = {})
-    new_role = self.deep_clone(:except => [:name, :builtin, :origin],
+    new_role = deep_clone(:except => [:name, :builtin, :origin],
                                :include => [:locations, :organizations, { :filters => :permissions }])
     new_role.attributes = role_params
-    new_role.cloned_from_id = self.id
+    new_role.cloned_from_id = id
     new_role.filters = new_role.filters.select { |f| f.filterings.present? }
     new_role
   end
 
   def locked?
-    return false if self.modify_locked || self.class.modify_locked
+    return false if modify_locked || self.class.modify_locked
     return false unless respond_to? :origin
     origin.present? && builtin != BUILTIN_DEFAULT_ROLE
   end
@@ -274,7 +274,7 @@ class Role < ApplicationRecord
   private
 
   def sync_inheriting_filters
-    self.filters.where(:override => false).find_each do |f|
+    filters.where(:override => false).find_each do |f|
       unless f.save
         errors.add :base, N_('One or more of the associated filters are invalid which prevented the role to be saved')
         raise ActiveRecord::Rollback, N_("Unable to submit role: Problem with associated filter %s") % f.errors
@@ -315,7 +315,7 @@ class Role < ApplicationRecord
       # add filterings to what we have in memory, not to a newly fetched record
       find_current_filter current_filters, filter_record
     else
-      self.filters.build(:search => search)
+      filters.build(:search => search)
     end
   end
 

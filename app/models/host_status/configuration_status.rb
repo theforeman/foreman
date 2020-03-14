@@ -112,7 +112,7 @@ module HostStatus
 
     def handle_options(options)
       if options.has_key?(:last_reports) && !options[:last_reports].nil?
-        cached_report = options[:last_reports].find { |r| r.host_id == self.host_id }
+        cached_report = options[:last_reports].find { |r| r.host_id == host_id }
         self.last_report = cached_report
       end
     end

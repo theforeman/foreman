@@ -108,7 +108,7 @@ module Orchestration::Compute
       return false
     end
 
-    self.compute_attributes[:user_data] = render_template(template: template)
+    compute_attributes[:user_data] = render_template(template: template)
 
     return false if errors.any?
     logger.info "Revoked old certificates and enabled autosign for UserData"
@@ -137,11 +137,11 @@ module Orchestration::Compute
           return false unless match_macs_to_nics(fog_attr)
         elsif [:ip, :ip6].include?(foreman_attr)
           value = vm.send(fog_attr) || find_address(foreman_attr)
-          self.send("#{foreman_attr}=", value)
-          return false if self.send(foreman_attr).present? && !validate_foreman_attr(value, ::Nic::Base, foreman_attr)
+          send("#{foreman_attr}=", value)
+          return false if send(foreman_attr).present? && !validate_foreman_attr(value, ::Nic::Base, foreman_attr)
         else
           value = vm.send(fog_attr)
-          self.send("#{foreman_attr}=", value)
+          send("#{foreman_attr}=", value)
           return false unless validate_required_foreman_attr(value, Host, foreman_attr)
         end
       end
@@ -166,9 +166,9 @@ module Orchestration::Compute
       compute_resource.vm_ready vm
       logger.info "waiting for instance to acquire ip address"
       vm.wait_for do
-        (attrs.key?(:ip) && self.send(attrs[:ip]).present?) ||
-          (attrs.key?(:ip6) && self.send(attrs[:ip6]).present?) ||
-          self.ip_addresses.present?
+        (attrs.key?(:ip) && send(attrs[:ip]).present?) ||
+          (attrs.key?(:ip6) && send(attrs[:ip6]).present?) ||
+          ip_addresses.present?
       end
     end
   rescue => e
@@ -271,7 +271,7 @@ module Orchestration::Compute
     # We need to return fast for user-data, so that we save the host before
     # cloud-init finishes, even if the IP is not reachable by Foreman. We do have
     # to return a real IP though, or Foreman will fail to save the host.
-    return vm_addresses.first if (vm_addresses.present? && self.compute_attributes[:user_data].present?)
+    return vm_addresses.first if (vm_addresses.present? && compute_attributes[:user_data].present?)
 
     # Loop over the addresses waiting for one to come up
     ip = nil
@@ -337,7 +337,7 @@ module Orchestration::Compute
     fog_nics = vm.interfaces.dup
 
     logger.debug "Orchestration::Compute: Trying to match network interfaces from fog #{fog_nics.inspect}"
-    self.interfaces.select(&:physical?).each do |nic|
+    interfaces.select(&:physical?).each do |nic|
       selected_nic = vm.select_nic(fog_nics, nic)
       if selected_nic.nil? # found no matching fog nic for this Foreman nic
         logger.warn "Orchestration::Compute: Could not match network interface #{nic.inspect}"

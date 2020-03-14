@@ -35,7 +35,7 @@ module Hostext
     end
 
     def reported_data_facet
-      self.reported_data || self.build_reported_data
+      reported_data || build_reported_data
     end
 
     private
@@ -55,7 +55,7 @@ module Hostext
                           value
                         end
 
-      facet.public_send("#{attr_name}=", formatted_value) if self.persisted?
+      facet.public_send("#{attr_name}=", formatted_value) if persisted?
     end
   end
 end

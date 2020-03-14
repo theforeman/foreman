@@ -57,7 +57,7 @@ module Orchestration::Realm
 
   def queue_realm_update
     # Update if the hostgroup is changed or if the realm is changed
-    if self.hostgroup_id_changed? || self.realm_id_changed?
+    if hostgroup_id_changed? || realm_id_changed?
       queue.create(:name => _("Update realm entry for %s") % self, :priority => 1,
                    :action => [self, :update_realm])
     end

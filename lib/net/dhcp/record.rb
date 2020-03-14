@@ -5,9 +5,9 @@ module Net::DHCP
     def initialize(opts = { })
       super(opts)
       self.related_macs ||= []
-      self.mac     = Net::Validations.validate_mac! self.mac
-      self.network = Net::Validations.validate_network! self.network
-      self.ip      = Net::Validations.validate_ip! self.ip
+      self.mac     = Net::Validations.validate_mac! mac
+      self.network = Net::Validations.validate_network! network
+      self.ip      = Net::Validations.validate_ip! ip
       self.type    = opts["type"]
     end
 
@@ -64,7 +64,7 @@ module Net::DHCP
     # Verifies that a record already exists on the dhcp server
     def valid?
       logger.info "Fetching DHCP reservation #{name} for #{self}"
-      self.eql_for_conflicts?(proxy.record(network, mac))
+      eql_for_conflicts?(proxy.record(network, mac))
     end
 
     def eql_for_conflicts?(other)

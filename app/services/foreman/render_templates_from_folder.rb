@@ -35,7 +35,7 @@ module Foreman
         begin
           render_template(template)
         rescue StandardError => e
-          self.errors[template] = e.message
+          errors[template] = e.message
         end
       end
       errors.empty?

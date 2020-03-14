@@ -10,7 +10,7 @@ module MediumProviders
 
     # Provides a friendly name of the provider in case of provider error.
     def self.friendly_name
-      self.name
+      name
     end
 
     class Jail < Safemode::Jail

@@ -43,7 +43,7 @@ module PxeLoaderSupport
     end
 
     def valid_loader_name?(pxe_loader)
-      self.all_loaders.include?(pxe_loader)
+      all_loaders.include?(pxe_loader)
     end
 
     def firmware_type(pxe_loader)

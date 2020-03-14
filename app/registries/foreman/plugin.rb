@@ -180,7 +180,7 @@ module Foreman #:nodoc:
     end
 
     def <=>(plugin)
-      self.id.to_s <=> plugin.id.to_s
+      id.to_s <=> plugin.id.to_s
     end
 
     def to_s
@@ -230,7 +230,7 @@ module Foreman #:nodoc:
       Menu::Manager.map(menu).sub_menu(name, options)
       current = @parent
       @parent = name
-      self.instance_eval(&block) if block_given?
+      instance_eval(&block) if block_given?
       @parent = current
     end
 
@@ -271,7 +271,7 @@ module Foreman #:nodoc:
 
     def security_block(name, &block)
       @security_block = name
-      self.instance_eval(&block)
+      instance_eval(&block)
       @security_block = nil
     end
 
@@ -281,7 +281,7 @@ module Foreman #:nodoc:
     #   to AccessControl
     def permission(name, hash, options = {})
       rbac_registry.register name, options
-      options[:engine] ||= self.id.to_s
+      options[:engine] ||= id.to_s
       options[:security_block] = @security_block
       Foreman::AccessControl.map do |map|
         map.permission name, hash, options
@@ -297,7 +297,7 @@ module Foreman #:nodoc:
       return false if pending_migrations || Rails.env.test? || User.unscoped.find_by_login(User::ANONYMOUS_ADMIN).nil?
       Role.without_auditing do
         Filter.without_auditing do
-          Plugin::RoleLock.new(self.id).register_role name, permissions, rbac_registry, description
+          Plugin::RoleLock.new(id).register_role name, permissions, rbac_registry, description
         end
       end
     rescue PermissionMissingException => e

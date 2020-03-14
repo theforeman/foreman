@@ -2640,7 +2640,7 @@ class HostTest < ActiveSupport::TestCase
       end
 
       def to_managed!
-        host       = self.becomes(::Host::Managed)
+        host       = becomes(::Host::Managed)
         host.type  = 'Host::Managed'
         host.name  = "#{host.name}-Managed"
         host.save

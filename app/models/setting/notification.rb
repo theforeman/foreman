@@ -1,8 +1,8 @@
 class Setting::Notification < Setting
   def self.default_settings
     [
-      self.set('rss_enable', N_('Whether to pull RSS notifications or not'), true, N_('RSS enable')),
-      self.set('rss_url', N_('URL to fetch RSS notifications from'), 'https://theforeman.org/feed.xml', N_('RSS URL')),
+      set('rss_enable', N_('Whether to pull RSS notifications or not'), true, N_('RSS enable')),
+      set('rss_url', N_('URL to fetch RSS notifications from'), 'https://theforeman.org/feed.xml', N_('RSS URL')),
     ]
   end
 

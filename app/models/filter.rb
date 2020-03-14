@@ -36,7 +36,7 @@ class Filter < ApplicationRecord
 
   validates_lengths_from_database
 
-  default_scope -> { order(["#{self.table_name}.role_id", "#{self.table_name}.id"]) }
+  default_scope -> { order(["#{table_name}.role_id", "#{table_name}.id"]) }
   scope :unlimited, -> { where(:search => nil, :taxonomy_search => nil) }
   scope :limited, -> { where("search IS NOT NULL OR taxonomy_search IS NOT NULL") }
 
@@ -93,7 +93,7 @@ class Filter < ApplicationRecord
   end
 
   def to_s
-    _('filter for %s role') % self.role.try(:name) || 'unknown'
+    _('filter for %s role') % role.try(:name) || 'unknown'
   end
 
   def to_label
@@ -136,8 +136,8 @@ class Filter < ApplicationRecord
   end
 
   def search_condition
-    searches = [self.search]
-    searches << self.taxonomy_search
+    searches = [search]
+    searches << taxonomy_search
     searches.compact!
     searches.map! { |s| parenthesize(s) } if searches.size > 1
     searches.join(' and ')
@@ -150,16 +150,16 @@ class Filter < ApplicationRecord
 
   def disable_overriding!
     self.override = false
-    self.save!
+    save!
   end
 
   def enforce_inherited_taxonomies
-    inherit_taxonomies! unless self.override?
+    inherit_taxonomies! unless override?
   end
 
   def inherit_taxonomies!
-    self.organization_ids = self.role.organization_ids if self.allows_organization_filtering?
-    self.location_ids = self.role.location_ids if self.allows_location_filtering?
+    self.organization_ids = role.organization_ids if allows_organization_filtering?
+    self.location_ids = role.location_ids if allows_location_filtering?
     build_taxonomy_search
   end
 
@@ -172,7 +172,7 @@ class Filter < ApplicationRecord
     orgs = [] if !granular? || !resource_class.allows_organization_filtering?
     locs = [] if !granular? || !resource_class.allows_location_filtering?
 
-    if self.organizations.empty? && self.locations.empty?
+    if organizations.empty? && locations.empty?
       self.taxonomy_search = nil
     else
       taxonomies = [orgs, locs].reject { |t| t.blank? }
@@ -182,14 +182,14 @@ class Filter < ApplicationRecord
 
   def build_taxonomy_search_string(name)
     relation = name.pluralize
-    taxes = self.send(relation).empty? ? [] : self.send(relation).map { |t| "#{name}_id = #{t.id}" }
+    taxes = send(relation).empty? ? [] : send(relation).map { |t| "#{name}_id = #{t.id}" }
     taxes = taxes.join(' or ')
     parenthesize(taxes)
   end
 
   def nilify_empty_searches
-    self.search = nil if self.search.empty? || self.unlimited == '1'
-    self.taxonomy_search = nil if self.taxonomy_search.empty?
+    self.search = nil if search.empty? || unlimited == '1'
+    self.taxonomy_search = nil if taxonomy_search.empty?
   end
 
   def parenthesize(string)
@@ -202,35 +202,35 @@ class Filter < ApplicationRecord
 
   # if we have 0 types, empty validation will set error, we can't have more than one type
   def same_resource_type_permissions
-    types = self.permissions.map(&:resource_type).uniq
+    types = permissions.map(&:resource_type).uniq
     if types.size > 1
       errors.add(
         :permissions,
         _('must be of same resource type (%{types}) - Role (%{role})') %
         {
           types: types.join(','),
-          role: self.role.name,
+          role: role.name,
         }
       )
     end
   end
 
   def not_empty_permissions
-    errors.add(:permissions, _('You must select at least one permission')) if self.permissions.blank? && self.filterings.blank?
+    errors.add(:permissions, _('You must select at least one permission')) if permissions.blank? && filterings.blank?
   end
 
   def allowed_taxonomies
-    if self.organization_ids.present? && !self.allows_organization_filtering?
+    if organization_ids.present? && !allows_organization_filtering?
       errors.add(:organization_ids, _('You can\'t assign organizations to this resource'))
     end
 
-    if self.location_ids.present? && !self.allows_location_filtering?
+    if location_ids.present? && !allows_location_filtering?
       errors.add(:location_ids, _('You can\'t assign locations to this resource'))
     end
   end
 
   def enforce_override_flag
-    self.override = false unless self.allows_taxonomies_filtering?
+    self.override = false unless allows_taxonomies_filtering?
     true
   end
 

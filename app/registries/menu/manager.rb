@@ -71,7 +71,7 @@ module Menu
       def push(obj, options = {})
         parent = options[:parent] || @parent
 
-        target_root = (parent && (subtree = self.find(parent))) ? subtree : @menu_items.root
+        target_root = (parent && (subtree = find(parent))) ? subtree : @menu_items.root
 
         # menu item position
         if options[:first]
@@ -95,7 +95,7 @@ module Menu
         push(Toggle.new(name, options[:caption], options[:icon]), options)
         current = @parent
         @parent = name
-        self.instance_eval(&block) if block_given?
+        instance_eval(&block) if block_given?
         @parent = current
       end
 

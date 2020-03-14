@@ -53,14 +53,14 @@ module HostCommon
 
         id = attr.delete(:id)
         if id.present?
-          lookup_value = self.lookup_values.to_a.find { |i| i.id.to_i == id.to_i }
+          lookup_value = lookup_values.to_a.find { |i| i.id.to_i == id.to_i }
           if lookup_value
             mark_for_destruction = Foreman::Cast.to_bool(attr.delete(:_destroy))
             lookup_value.attributes = attr
             lookup_value.mark_for_destruction if mark_for_destruction
           end
         elsif !Foreman::Cast.to_bool(attr.delete(:_destroy))
-          self.lookup_values.build(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
+          lookup_values.build(attr.merge(:match => lookup_value_match, :host_or_hostgroup => self))
         end
       end
     end
@@ -84,7 +84,7 @@ module HostCommon
   end
 
   def puppetca?
-    return false if self.respond_to?(:managed?) && !managed?
+    return false if respond_to?(:managed?) && !managed?
     puppetca_exists?
   end
 
