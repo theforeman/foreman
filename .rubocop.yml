@@ -123,6 +123,10 @@ Style/PreferredHashMethods:
 Style/StringLiterals:
   Enabled: false
 
+Style/SymbolArray:
+  EnforcedStyle: brackets
+  MinSize: 1
+
 Style/TernaryParentheses:
   EnforcedStyle: require_parentheses_when_complex
 

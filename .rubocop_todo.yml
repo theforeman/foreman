@@ -456,13 +456,6 @@ Style/StderrPuts:
 Style/StructInheritance:
   Enabled: false
 
-# Offense count: 891
-# Cop supports --auto-correct.
-# Configuration parameters: MinSize.
-# SupportedStyles: percent, brackets
-Style/SymbolArray:
-  EnforcedStyle: brackets
-
 # Offense count: 95
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoredMethods.
