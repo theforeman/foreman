@@ -17,3 +17,5 @@ on_worker_boot do
   dynflow = ::Rails.application.dynflow
   dynflow.initialize! unless dynflow.config.lazy_initialization
 end
+
+plugin :systemd

@@ -4,11 +4,16 @@ Documentation=https://theforeman.org
 After=network.target remote-fs.target nss-lookup.target
 
 [Service]
-Type=simple
+Type=notify
 User=foreman
 TimeoutSec=300
 WorkingDirectory=/usr/share/foreman
 ExecStart=/usr/bin/rails server --environment $FOREMAN_ENV --port $FOREMAN_PORT --binding $FOREMAN_BIND
+ExecReload=/bin/kill -USR1 $MAINPID
+ExecRestart=/bin/kill -USR2 $MAINPID
+Restart=Always
+KillMode=mixed
+WatchdogSec=30
 Environment=FOREMAN_ENV=production FOREMAN_PORT=3000 FOREMAN_BIND=0.0.0.0
 
 SyslogIdentifier=foreman
