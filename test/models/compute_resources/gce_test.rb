@@ -162,4 +162,45 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
     assert_include cr.errors.keys, :zone
     assert_include cr.errors[:zone], 'is not valid'
   end
+
+  describe '#available_images' do
+    let(:cr) { FactoryBot.create(:gce_cr, :with_images) }
+
+    test "should display only current images from GCE" do
+      image1 = mock('image1')
+      image2 = mock('image2')
+      image3 = mock('image3')
+
+      mock_images = [image1, image2, image3]
+      mock_images.stubs('current').returns([image1, image3])
+      mock_client = mock('client')
+      mock_client.stubs(:images).returns(mock_images)
+      cr.stubs(:client).returns(mock_client)
+
+      gce_images = cr.send(:client).images
+      current_images = cr.available_images.dup
+      assert_not_equal(gce_images.count, current_images.count)
+    end
+
+    test "should filter images when register with any image families" do
+      image1 = mock('image1')
+      image2 = mock('image2')
+      image3 = mock('image3')
+
+      mock_images = [image1, image2, image3]
+      mock_images.stubs('current').returns([image1, image3])
+      mock_client = mock('client')
+      mock_client.stubs(:images).returns(mock_images)
+      cr.stubs(:client).returns(mock_client)
+
+      image1.expects(:family).returns('rhel-6')
+      image3.expects(:family).returns('centos-6')
+
+      cr.class.register_family_for_image_filter('rhel')
+      filtered_current_images = cr.available_images
+
+      assert_includes filtered_current_images, image1
+      assert_equal 1, filtered_current_images.count
+    end
+  end
 end
