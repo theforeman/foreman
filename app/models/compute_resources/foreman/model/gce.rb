@@ -154,7 +154,28 @@ module Foreman::Model
     end
 
     def available_images
-      client.images
+      images_list = client.images.current
+      if image_families_to_filter.any?
+        regexp = Setting.convert_array_to_regexp(image_families_to_filter, prefix: '', suffix: '')
+        images_list.select! { |img| img.family&.match(regexp) }
+      end
+      images_list
+    end
+
+    def image_families_to_filter
+      self.class.image_families_to_filter
+    end
+
+    def self.image_families_to_filter
+      @image_families_to_filter ||= []
+    end
+
+    # Becomes easy to filter the images list from Google Compute Engine
+    # Register an image family using this method to filter list
+    # Example - 'rhel', 'centos'
+    def self.register_family_for_image_filter(family)
+      image_families_to_filter << family
+      image_families_to_filter.uniq!
     end
 
     def self.model_name
@@ -230,7 +251,8 @@ module Foreman::Model
         :provider => 'google',
         :google_project => project,
         :google_client_email => email,
-        :google_json_key_location => key_path
+        :google_json_key_location => key_path,
+        :google_extra_global_projects => ['rhel-sap-cloud']
       )
     end
 
