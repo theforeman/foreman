@@ -5,6 +5,10 @@ class ForemanSeeder
 
   attr_reader :seeds
 
+  class << self
+    attr_accessor :is_seeding
+  end
+
   def initialize
     @seeds = (foreman_seeds + plugin_seeds).sort_by { |seed| seed.split("/").last }
   end
@@ -29,20 +33,24 @@ class ForemanSeeder
   end
 
   def execute
-    @seeds.each do |seed|
-      Rails.logger.info("Seeding #{seed}") unless Rails.env.test?
+    self.class.is_seeding = true
+    begin
+      @seeds.each do |seed|
+        Rails.logger.info("Seeding #{seed}") unless Rails.env.test?
 
-      admin = User.unscoped.find_by_login(User::ANONYMOUS_ADMIN)
-      # anonymous admin does not exist until some of seed step creates it, therefore we use it only when it exists
-      if admin.present?
-        User.as_anonymous_admin do
+        admin = User.unscoped.find_by_login(User::ANONYMOUS_ADMIN)
+        # anonymous admin does not exist until some of seed step creates it, therefore we use it only when it exists
+        if admin.present?
+          User.as_anonymous_admin do
+            load seed
+          end
+        else
           load seed
         end
-      else
-        load seed
       end
+    ensure
+      self.class.is_seeding = false
     end
-
     save_hash
 
     Rails.logger.info("All seed files executed") unless Rails.env.test?

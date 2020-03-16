@@ -11,8 +11,8 @@ class Template < ApplicationRecord
   validates :name, :presence => true
   validates :template, :presence => true
   validates :audit_comment, :length => {:maximum => 255}
-  validate :template_changes, :if => ->(template) { (template.locked? || template.locked_changed?) && template.persisted? && !Foreman.in_rake? }
-  validate :inputs_unchanged_when_locked, :if => ->(template) { (template.locked? || template.locked_changed?) && template.persisted? && !Foreman.in_rake? }
+  validate :template_changes, :if => :run_template_changes_validation?
+  validate :inputs_unchanged_when_locked, :if => :run_template_changes_validation?
   validate do
     validate_unique_inputs!
   rescue Foreman::Exception => e
@@ -297,6 +297,10 @@ class Template < ApplicationRecord
 
   def remove_trailing_chars
     self.template = template.tr("\r", '') if template.present?
+  end
+
+  def run_template_changes_validation?
+    (locked? || locked_changed?) && persisted? && !ForemanSeeder.is_seeding
   end
 
   def inputs_unchanged_when_locked
