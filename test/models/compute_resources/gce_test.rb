@@ -176,6 +176,7 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       mock_client = mock('client')
       mock_client.stubs(:images).returns(mock_images)
       cr.stubs(:client).returns(mock_client)
+      cr.stubs(:image_families_to_filter).returns([])
 
       gce_images = cr.send(:client).images
       current_images = cr.available_images.dup
@@ -192,13 +193,12 @@ class Foreman::Model::GCETest < ActiveSupport::TestCase
       mock_client = mock('client')
       mock_client.stubs(:images).returns(mock_images)
       cr.stubs(:client).returns(mock_client)
+      cr.stubs(:image_families_to_filter).returns(['rhel'])
 
       image1.expects(:family).returns('rhel-6')
       image3.expects(:family).returns('centos-6')
 
-      cr.class.register_family_for_image_filter('rhel')
       filtered_current_images = cr.available_images
-
       assert_includes filtered_current_images, image1
       assert_equal 1, filtered_current_images.count
     end
