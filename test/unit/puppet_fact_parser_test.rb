@@ -99,6 +99,18 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
       assert_equal "RHEL Server 6.2", os.description
     end
 
+    test "should not mix Workstation with Server on RHEL7" do
+      @importer = PuppetFactParser.new(rhel_7_workstation_facts)
+      first_os = @importer.operatingsystem
+      assert first_os.present?
+      assert_equal "RedHat_Workstation", first_os.name
+
+      @importer = PuppetFactParser.new(rhel_7_server_facts)
+      first_os = @importer.operatingsystem
+      assert first_os.present?
+      assert_equal "RedHat", first_os.name
+    end
+
     test "should not alter description field if already set" do
       # Need to instantiate @importer once with normal facts
       first_os = @importer.operatingsystem
@@ -417,6 +429,14 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   def debian_facts
     read_json_fixture('facts/facts_debian.json')['facts']
+  end
+
+  def rhel_7_workstation_facts
+    read_json_fixture('facts/facts_rhel_7_workstation.json').with_indifferent_access
+  end
+
+  def rhel_7_server_facts
+    read_json_fixture('facts/facts_rhel_7_server.json').with_indifferent_access
   end
 
   def sles_facts
