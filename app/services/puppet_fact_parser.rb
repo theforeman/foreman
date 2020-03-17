@@ -185,7 +185,13 @@ class PuppetFactParser < FactParser
   end
 
   def os_name
-    facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
+    os_name = facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
+
+    if os_name == 'RedHat' && facts[:lsbdistid] == 'RedHatEnterpriseWorkstation'
+      os_name += '_Workstation'
+    end
+
+    os_name
   end
 
   def os_release
