@@ -415,6 +415,21 @@ class HostJSTest < IntegrationTestWithJavascript
       page.execute_script("tfm.hosts.table.buildRedirect('#{select_multiple_environment_hosts_path}')")
       assert_current_path(select_multiple_environment_hosts_path, :ignore_query => true)
     end
+
+    test 'redirect js with parameter in URL' do
+      path1 = hosts_path(param1: 'val1')
+      path2 = hosts_path(param1: 'val1', param2: 'val2')
+
+      visit hosts_path
+      check 'check_all'
+      page.execute_script("tfm.hosts.table.buildRedirect('#{path1}')")
+      assert(current_url.include?("#{path1}&host_ids"))
+
+      visit hosts_path
+      check 'check_all'
+      page.execute_script("tfm.hosts.table.buildRedirect('#{path2}')")
+      assert(current_url.include?("#{path2}&host_ids"))
+    end
   end
 
   describe 'edit page' do
