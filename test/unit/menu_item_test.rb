@@ -61,7 +61,7 @@ class MenuItemTest < ActiveSupport::TestCase
       Menu::Item.new(:test_error, :if => ['not_a_proc'])
     end
 
-    assert Menu::Item.new(:test_good_if, :if => Proc.new {})
+    assert Menu::Item.new(:test_good_if, :if => proc {})
   end
 
   def test_new_menu_item_should_allow_a_hash_for_extra_html_options
@@ -77,7 +77,7 @@ class MenuItemTest < ActiveSupport::TestCase
       Menu::Item.new(:test_error, :children => ['not_a_proc'])
     end
 
-    assert Menu::Item.new(:test_good_children, :children => Proc.new {})
+    assert Menu::Item.new(:test_good_children, :children => proc {})
   end
 
   def test_new_should_not_allow_setting_the_parent_item_to_the_current_item

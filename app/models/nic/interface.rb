@@ -3,20 +3,20 @@ module Nic
     before_validation :normalize_ip
     validate :ip_presence_and_formats
 
-    validate :ip_uniqueness, :if => Proc.new { |i| i.ip.present? }
-    validate :ip6_uniqueness, :if => Proc.new { |i| i.ip6.present? }
-    validates :attached_to, :presence => true, :if => Proc.new { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
+    validate :ip_uniqueness, :if => proc { |i| i.ip.present? }
+    validate :ip6_uniqueness, :if => proc { |i| i.ip6.present? }
+    validates :attached_to, :presence => true, :if => proc { |o| o.virtual && o.instance_of?(Nic::Managed) && !o.bridge? }
 
     # Don't have to set a hostname for each interface, but it must be unique if it is set.
-    before_validation :copy_hostname_from_host, :if => Proc.new { |nic| nic.primary? && nic.hostname.blank? }
+    before_validation :copy_hostname_from_host, :if => proc { |nic| nic.primary? && nic.hostname.blank? }
     before_validation :normalize_name
 
     validates :name, :allow_nil => true, :allow_blank => true, :format => {:with => Net::Validations::HOST_REGEXP, :message => _(Net::Validations::HOST_REGEXP_ERR_MSG)}
 
-    validate :name_uniqueness, :if => Proc.new { |i| i.name.present? }
+    validate :name_uniqueness, :if => proc { |i| i.name.present? }
 
     # aliases and vlans require identifiers so we can differentiate and properly configure them
-    validates :identifier, :presence => true, :if => Proc.new { |o| o.virtual? && o.managed? && o.instance_of?(Nic::Managed) }
+    validates :identifier, :presence => true, :if => proc { |o| o.virtual? && o.managed? && o.instance_of?(Nic::Managed) }
 
     validate :alias_subnet
 

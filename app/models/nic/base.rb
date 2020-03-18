@@ -16,24 +16,24 @@ module Nic
     before_destroy :not_required_interface
 
     validate :mac_uniqueness,
-      :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
+      :if => proc { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
-              :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?) }
+              :if => proc { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?) }
     validate :validate_mac_is_unicast,
-      :if => Proc.new { |nic| nic.managed? && !nic.virtual? }
+      :if => proc { |nic| nic.managed? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
-    validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
+    validates :host, :presence => true, :if => proc { |nic| nic.require_host? }
 
     validates :identifier, :uniqueness => { :scope => :host_id },
       :if => ->(nic) { nic.identifier.present? && nic.host && nic.identifier_was.blank? }
 
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
-    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
-    validate :valid_domain, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
-    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip4_validation? }
-    validates :ip6, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip6_validation? }
+    validates :domain, :presence => true, :if => proc { |nic| nic.host_managed? && nic.primary? }
+    validate :valid_domain, :if => proc { |nic| nic.host_managed? && nic.primary? }
+    validates :ip, :presence => true, :if => proc { |nic| nic.host_managed? && nic.require_ip4_validation? }
+    validates :ip6, :presence => true, :if => proc { |nic| nic.host_managed? && nic.require_ip6_validation? }
 
     validate :validate_subnet_types
     validates_with SubnetsConsistencyValidator

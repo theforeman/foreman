@@ -12,7 +12,7 @@ module Hostext
                                :allow_blank => true,
                                :message     => (_("Owner type needs to be one of the following: %s") % OWNER_TYPES.join(', '))}
       validate :validate_owner
-      validate :owner_taxonomies_match, :if => Proc.new { |host| host.owner.is_a?(User) }
+      validate :owner_taxonomies_match, :if => proc { |host| host.owner.is_a?(User) }
     end
 
     def owner

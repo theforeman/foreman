@@ -100,7 +100,7 @@ class ParameterFilterTest < ActiveSupport::TestCase
 
     test "permits plugin-added attributes from blocks" do
       plugin = mock('plugin')
-      rule = [Proc.new { |ctx| ctx.permit(:plugin_ext) }]
+      rule = [proc { |ctx| ctx.permit(:plugin_ext) }]
       plugin.expects(:parameter_filters).with(klass).returns([rule])
       Foreman::Plugin.expects(:all).returns([plugin])
       assert_equal({'plugin_ext' => 'b'}, filter.filter_params(params(:example => {:test => 'a', :plugin_ext => 'b'}), ui_context).to_h)

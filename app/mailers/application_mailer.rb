@@ -2,8 +2,8 @@ require 'uri'
 
 class ApplicationMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
-  default :delivery_method => Proc.new { Setting[:delivery_method] },
-          :from => Proc.new { Setting[:email_reply_address] || "noreply@foreman.example.org" }
+  default :delivery_method => proc { Setting[:delivery_method] },
+          :from => proc { Setting[:email_reply_address] || "noreply@foreman.example.org" }
   after_action :set_delivery_options
 
   def mail(headers = {}, &block)

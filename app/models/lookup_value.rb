@@ -16,7 +16,7 @@ class LookupValue < ApplicationRecord
   before_validation :sanitize_match
 
   validate :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
-  validate :validate_value, :unless => Proc.new { |p| p.omit }
+  validate :validate_value, :unless => proc { |p| p.omit }
 
   attr_accessor :host_or_hostgroup
 

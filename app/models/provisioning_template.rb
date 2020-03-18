@@ -19,7 +19,7 @@ class ProvisioningTemplate < Template
   self.table_name = 'templates'
 
   validates :name, :uniqueness => true
-  validates :template_kind_id, :presence => true, :unless => Proc.new { |t| t.snippet }
+  validates :template_kind_id, :presence => true, :unless => proc { |t| t.snippet }
 
   before_destroy EnsureNotUsedBy.new(:hostgroups, :environments, :os_default_templates)
   has_many :template_combinations, :dependent => :destroy
@@ -49,8 +49,8 @@ class ProvisioningTemplate < Template
   scoped_search :relation => :template_kind,    :on => :name, :rename => :kind,            :complete_value => true
 
   attr_exportable({
-    :kind => Proc.new { |template| template.template_kind.try(:name) },
-    :oses => Proc.new { |template| template.operatingsystems.map(&:name).uniq },
+    :kind => proc { |template| template.template_kind.try(:name) },
+    :oses => proc { |template| template.operatingsystems.map(&:name).uniq },
   }.merge(taxonomy_exportable))
 
   dirty_has_many_associations :template_combinations, :os_default_templates, :operatingsystems

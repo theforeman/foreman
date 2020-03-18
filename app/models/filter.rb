@@ -52,7 +52,7 @@ class Filter < ApplicationRecord
   before_validation :build_taxonomy_search, :nilify_empty_searches, :enforce_override_flag
   before_save :enforce_inherited_taxonomies
 
-  validates :search, :presence => true, :unless => Proc.new { |o| o.search.nil? }
+  validates :search, :presence => true, :unless => proc { |o| o.search.nil? }
   validates_with ScopedSearchValidator
   validates :role, :presence => true
 

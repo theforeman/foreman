@@ -1,7 +1,7 @@
 class LookupKeysController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_action :setup_search_options, :only => :index
-  before_action :find_resource, :only => [:edit, :update, :destroy], :if => Proc.new { params[:id] }
+  before_action :find_resource, :only => [:edit, :update, :destroy], :if => proc { params[:id] }
 
   def index
     @lookup_keys = resource_base_search_and_page(:puppetclass)

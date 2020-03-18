@@ -404,11 +404,6 @@ Style/NumericLiterals:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
-# Offense count: 114
-# Cop supports --auto-correct.
-Style/Proc:
-  Enabled: false
-
 # Offense count: 73
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

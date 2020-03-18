@@ -30,11 +30,11 @@ class PageletsHelperTest < ActionView::TestCase
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
       :name => "Visible",
       :partial => "test",
-      :onlyif => Proc.new { true })
+      :onlyif => proc { true })
     Pagelets::Manager.add_pagelet("test/test", :main_tabs,
       :name => "Hidden",
       :partial => "test",
-      :onlyif => Proc.new { false })
+      :onlyif => proc { false })
     result = render_tab_header_for :main_tabs
     assert result.match /Visible/
     refute result.match /Hidden/

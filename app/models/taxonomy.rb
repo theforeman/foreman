@@ -29,10 +29,10 @@ class Taxonomy < ApplicationRecord
 
   has_many :puppetclasses, :through => :environments
 
-  validate :check_for_orphans, :unless => Proc.new { |t| t.new_record? }
+  validate :check_for_orphans, :unless => proc { |t| t.new_record? }
   # the condition for parent_id != 0 is required because of our tests, should validate macros fill in attribute with values and it set 0 to this one
   # which would lead to an error when we ask for parent object
-  validate :parent_id_does_not_escalate, :if => Proc.new { |t| t.ancestry_changed? && t.parent_id != 0 && t.parent.present? }
+  validate :parent_id_does_not_escalate, :if => proc { |t| t.ancestry_changed? && t.parent_id != 0 && t.parent.present? }
   validates :name, :presence => true, :uniqueness => {:scope => [:ancestry, :type], :case_sensitive => false}
 
   def self.inherited(child)

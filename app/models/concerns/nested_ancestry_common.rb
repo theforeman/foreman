@@ -8,7 +8,7 @@ module NestedAncestryCommon
 
     before_validation :set_title
     after_save :set_other_titles, :on => [:update, :destroy]
-    after_save :update_matchers, :on => :update, :if => Proc.new { |obj| obj.saved_change_to_title? }
+    after_save :update_matchers, :on => :update, :if => proc { |obj| obj.saved_change_to_title? }
 
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title

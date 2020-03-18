@@ -6,8 +6,8 @@ module AuditExtensions
 
   included do
     before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name, :set_taxonomies
-    before_save :filter_encrypted, :if => Proc.new { |audit| audit.audited_changes.present? }
-    before_save :filter_passwords, :if => Proc.new { |audit| audit.audited_changes.try(:has_key?, 'password') }
+    before_save :filter_encrypted, :if => proc { |audit| audit.audited_changes.present? }
+    before_save :filter_passwords, :if => proc { |audit| audit.audited_changes.try(:has_key?, 'password') }
     after_create :log_audit
 
     scope :untaxed, -> { by_auditable_types(untaxable) }
