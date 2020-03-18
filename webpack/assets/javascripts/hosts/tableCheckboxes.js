@@ -256,7 +256,9 @@ export function buildModal(element, url) {
 
 export function buildRedirect(url) {
   const data = getBulkParam();
-  const redirectUrl = url.includes('?') ? `${url}&${$.param(data)}` : `${url}?${$.param(data)}`;
+  const redirectUrl = url.includes('?')
+    ? `${url}&${$.param(data)}`
+    : `${url}?${$.param(data)}`;
 
   window.location.replace(redirectUrl);
 }
