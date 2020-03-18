@@ -105,7 +105,7 @@ class Host::Managed < Host::Base
       :managed_interfaces, :facts, :facts_hash, :root_pass, :sp_name, :sp_ip, :sp_mac, :sp_subnet, :use_image,
       :multiboot, :jumpstart_path, :install_path, :miniroot, :medium, :bmc_nic, :templates_used, :owner, :owner_type,
       :ssh_authorized_keys, :pxe_loader, :global_status, :get_status, :puppetca_token, :last_report, :build?, :smart_proxies, :host_param,
-      :virtual, :ram, :sockets, :cores, :params
+      :virtual, :ram, :sockets, :cores, :params, :pxe_loader_efi?
   end
 
   scope :recent, lambda { |interval = Setting[:outofsync_interval]|
@@ -738,6 +738,10 @@ class Host::Managed < Host::Base
 
   def pxe_loader
     explicit_pxe_loader || hostgroup.try(:pxe_loader)
+  end
+
+  def pxe_loader_efi?
+    pxe_loader.include?('EFI')
   end
 
   def image_build?
