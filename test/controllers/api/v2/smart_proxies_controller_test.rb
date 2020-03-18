@@ -123,7 +123,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
 
   test_attributes :pid => '62631275-7a92-4d34-a949-c56e0c4063f1'
   test "should update smart_proxy organizations" do
-    organization_ids = [ taxonomies(:organization2).id, taxonomies(:empty_organization).id ].sort
+    organization_ids = [taxonomies(:organization2).id, taxonomies(:empty_organization).id].sort
     smart_proxy = smart_proxies(:one)
     put :update, params: { :id => smart_proxy.to_param, :smart_proxy => { :organization_ids => organization_ids } }
     assert_response :success
@@ -134,7 +134,7 @@ class Api::V2::SmartProxiesControllerTest < ActionController::TestCase
 
   test_attributes :pid => 'e08eaaa9-7c11-4cda-bbe7-6d1f7c732569'
   test "should update smart_proxy locations" do
-    location_ids = [ taxonomies(:location1).id, taxonomies(:location2).id ].sort
+    location_ids = [taxonomies(:location1).id, taxonomies(:location2).id].sort
     smart_proxy = smart_proxies(:one)
     put :update, params: { :id => smart_proxy.to_param, :smart_proxy => { :location_ids => location_ids } }
     assert_response :success

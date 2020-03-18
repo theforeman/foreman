@@ -14,7 +14,7 @@ class FactValueTest < ActiveSupport::TestCase
 
   test ".build_facts_hash returns a hash with host name" do
     hash = { @host.to_s => { @fact_name.name => @fact_value.value } }
-    assert_equal hash, FactValue.build_facts_hash([ @fact_value ])
+    assert_equal hash, FactValue.build_facts_hash([@fact_value])
   end
 
   test "should return the count of each fact" do
@@ -44,7 +44,7 @@ class FactValueTest < ActiveSupport::TestCase
 
   test '.with_fact_parent_id scope returns only children for given id' do
     result = FactValue.with_fact_parent_id(@fact_name.id)
-    assert_equal [ @child_value ], result
+    assert_equal [@child_value], result
 
     result = FactValue.with_fact_parent_id(@child_name.id)
     assert_equal [], result

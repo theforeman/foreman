@@ -5,7 +5,7 @@ class ReportTemplatesControllerTest < ActionController::TestCase
   basic_pagination_rendered_test
 
   def setup
-    @report_template = FactoryBot.create(:report_template, :organizations => [ taxonomies(:organization1) ], :locations => [ taxonomies(:location1) ])
+    @report_template = FactoryBot.create(:report_template, :organizations => [taxonomies(:organization1)], :locations => [taxonomies(:location1)])
   end
 
   test 'index' do

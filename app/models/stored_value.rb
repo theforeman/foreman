@@ -1,8 +1,8 @@
 class StoredValue < ApplicationRecord
   scope :valid, lambda {
-    where([ "expire_at > ?", Time.now ]).or(where(expire_at: nil))
+    where(["expire_at > ?", Time.now]).or(where(expire_at: nil))
   }
-  scope :expired, ->(ago = 0) { where([ "expire_at <= ?", (Time.now - ago)]) }
+  scope :expired, ->(ago = 0) { where(["expire_at <= ?", (Time.now - ago)]) }
 
   def self.write(result_key, result_value, expire_at: nil)
     record = find_by(key: result_key) || new(key: result_key)

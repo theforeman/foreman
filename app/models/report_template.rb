@@ -45,7 +45,7 @@ class ReportTemplate < Template
   end
 
   def self.acceptable_template_input_types
-    [ :user ]
+    [:user]
   end
 
   # we don't want to log reports, it can be a lot of data

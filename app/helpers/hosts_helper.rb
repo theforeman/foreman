@@ -186,11 +186,11 @@ module HostsHelper
   def resources_chart(timerange = 1.day.ago)
     applied, failed, restarted, failed_restarts, skipped = [], [], [], [], []
     @host.reports.recent(timerange).each do |r|
-      applied         << [r.reported_at.to_i * 1000, r.applied ]
-      failed          << [r.reported_at.to_i * 1000, r.failed ]
-      restarted       << [r.reported_at.to_i * 1000, r.restarted ]
-      failed_restarts << [r.reported_at.to_i * 1000, r.failed_restarts ]
-      skipped         << [r.reported_at.to_i * 1000, r.skipped ]
+      applied         << [r.reported_at.to_i * 1000, r.applied]
+      failed          << [r.reported_at.to_i * 1000, r.failed]
+      restarted       << [r.reported_at.to_i * 1000, r.restarted]
+      failed_restarts << [r.reported_at.to_i * 1000, r.failed_restarts]
+      skipped         << [r.reported_at.to_i * 1000, r.skipped]
     end
     [{:label => _("Applied"), :data => applied, :color => '#89A54E'},
      {:label => _("Failed"), :data => failed, :color => '#AA4643'},
@@ -388,7 +388,7 @@ module HostsHelper
     selectable_f form,
       :proxy_id,
       [[_("Select desired %s proxy") % _(proxy_feature), "disabled"]] +
-      [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
+      [[_("*Clear %s proxy*") % _(proxy_feature), ""]] +
       SmartProxy.with_features(proxy_feature).map { |p| [p.name, p.id] },
       {},
       {:label => _(proxy_feature), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" }

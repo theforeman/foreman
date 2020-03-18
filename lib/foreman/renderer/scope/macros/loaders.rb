@@ -6,17 +6,17 @@ module Foreman
           include Foreman::Renderer::Errors
 
           LOADERS = [
-            [ :load_organizations, Organization, :view_organizations ],
-            [ :load_locations, Location, :view_locations ],
-            [ :load_hosts, Host, :view_hosts ],
-            [ :load_operating_systems, Operatingsystem, :view_operatingsystems ],
-            [ :load_subnets, Subnet, :view_subnets ],
-            [ :load_smart_proxies, SmartProxy, :view_smart_proxies ],
-            [ :load_user_groups, Usergroup, :view_usergroups ],
-            [ :load_host_groups, Hostgroup, :view_hostgroups ],
-            [ :load_domains, Domain, :view_domains ],
-            [ :load_realms, Realm, :view_realms ],
-            [ :load_users, User, :view_users ],
+            [:load_organizations, Organization, :view_organizations],
+            [:load_locations, Location, :view_locations],
+            [:load_hosts, Host, :view_hosts],
+            [:load_operating_systems, Operatingsystem, :view_operatingsystems],
+            [:load_subnets, Subnet, :view_subnets],
+            [:load_smart_proxies, SmartProxy, :view_smart_proxies],
+            [:load_user_groups, Usergroup, :view_usergroups],
+            [:load_host_groups, Hostgroup, :view_hostgroups],
+            [:load_domains, Domain, :view_domains],
+            [:load_realms, Realm, :view_realms],
+            [:load_users, User, :view_users],
           ]
 
           LOADERS.each do |name, model, permission|

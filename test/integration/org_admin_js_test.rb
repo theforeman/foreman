@@ -22,7 +22,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
   context "user is org admin of single org" do
     def setup
       @user.organizations << @org1
-      @user.locations = [ @loc1, @loc2 ]
+      @user.locations = [@loc1, @loc2]
       @user.roles << @org_admin_of_org1
       @visible_domain = FactoryBot.create(:domain, :organizations => [@org1], :locations => [@loc1])
       @invisible_domain_1 = FactoryBot.create(:domain, :organizations => [@org2], :locations => [@loc1])
@@ -97,7 +97,7 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
       created_domain = Domain.unscoped.find_by_name(domain.name)
       # sets the only organization anyway
-      assert_equal [ @org1 ], created_domain.organizations
+      assert_equal [@org1], created_domain.organizations
     end
 
     def test_org_admins_can_not_assign_location_which_they_do_not_belong_to
@@ -125,10 +125,10 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
   context "user is org admin of two organizations" do
     def setup
-      @user.organizations = [ @org1, @org2 ]
-      @user.locations = [ @loc1, @loc2 ]
+      @user.organizations = [@org1, @org2]
+      @user.locations = [@loc1, @loc2]
       @org_admin_of_org2 = clone_role(@org_admin, @org2)
-      @user.roles = [ @org_admin_of_org1, @org_admin_of_org2 ]
+      @user.roles = [@org_admin_of_org1, @org_admin_of_org2]
       @visible_domain_1 = FactoryBot.create(:domain, :organizations => [@org1], :locations => [@loc1])
       @visible_domain_2 = FactoryBot.create(:domain, :organizations => [@org2], :locations => [@loc1])
       @invisible_domain_1 = FactoryBot.create(:domain, :organizations => [@org3], :locations => [@loc1])
@@ -221,13 +221,13 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
   context "user is org admin of two organizations through single role" do
     def setup
-      @user.organizations = [ @org1, @org2 ]
-      @user.locations = [ @loc1, @loc2 ]
+      @user.organizations = [@org1, @org2]
+      @user.locations = [@loc1, @loc2]
       @org_admin_of_org_1_and_2 = clone_role(@org_admin, @org1, " and #{@org2.name}")
-      @org_admin_of_org_1_and_2.organization_ids = [ @org1.id, @org2.id ]
+      @org_admin_of_org_1_and_2.organization_ids = [@org1.id, @org2.id]
       @org_admin_of_org_1_and_2.save # trigger filter inheritance
 
-      @user.roles = [ @org_admin_of_org_1_and_2 ]
+      @user.roles = [@org_admin_of_org_1_and_2]
       @visible_domain_1 = FactoryBot.create(:domain, :organizations => [@org1], :locations => [@loc1])
       @visible_domain_2 = FactoryBot.create(:domain, :organizations => [@org2], :locations => [@loc1])
       @invisible_domain_1 = FactoryBot.create(:domain, :organizations => [@org3], :locations => [@loc1])
@@ -302,12 +302,12 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
   context "user is org admin of three organizations through single role but belongs to only two of them" do
     def setup
-      @user.organizations = [ @org1, @org3 ]
-      @user.locations = [ @loc1, @loc2 ]
+      @user.organizations = [@org1, @org3]
+      @user.locations = [@loc1, @loc2]
       @org_admin_of_org_123 = clone_role(@org_admin, @org1, " and #{@org2.name} and #{@org3.name}")
-      @org_admin_of_org_123.organization_ids = [ @org1.id, @org2.id, @org3.id ]
+      @org_admin_of_org_123.organization_ids = [@org1.id, @org2.id, @org3.id]
       @org_admin_of_org_123.save # trigger filter inheritance
-      @user.roles = [ @org_admin_of_org_123 ]
+      @user.roles = [@org_admin_of_org_123]
       @visible_domain_1 = FactoryBot.create(:domain, :organizations => [@org1], :locations => [@loc1])
       # visible through permissions, can't be switched to though
       @visible_domain_2 = FactoryBot.create(:domain, :organizations => [@org2], :locations => [@loc1])
@@ -388,10 +388,10 @@ class OrgAdminJSTest < IntegrationTestWithJavascript
 
   context "user is org admin of two organizations but is not assigned to any organization" do
     def setup
-      @user.organizations = [ ]
-      @user.locations = [ @loc1, @loc2 ]
+      @user.organizations = []
+      @user.locations = [@loc1, @loc2]
       @org_admin_of_org2 = clone_role(@org_admin, @org2)
-      @user.roles = [ @org_admin_of_org1, @org_admin_of_org2 ]
+      @user.roles = [@org_admin_of_org1, @org_admin_of_org2]
       @invisible_domain_1 = FactoryBot.create(:domain, :organizations => [@org1], :locations => [@loc1])
     end
 

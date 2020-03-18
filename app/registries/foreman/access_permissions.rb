@@ -6,7 +6,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :user_logout, { :users => [:logout] }, :public => true
     map.permission :view_current_user, { :"api/v2/users" => [:show_current] }, public: :true
     map.permission :my_account, { :users => [:edit],
-      :notification_recipients => [:index, :update, :destroy, :update_group_as_read, :destroy_group ],
+      :notification_recipients => [:index, :update, :destroy, :update_group_as_read, :destroy_group],
       :"api/v2/table_preferences" => [:show, :create, :edit, :delete, :index]}, :public => true
     map.permission :api_status, { :"api/v2/home" => [:status]}, :public => true
     map.permission :about_index, { :about => [:index] }, :public => true
@@ -492,7 +492,7 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :create_puppetclasses,  {:puppetclasses => [:new, :create],
                                           :"api/v2/puppetclasses" => [:create],
                                         }
-    map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update, :override ],
+    map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update, :override],
                                           :"api/v2/puppetclasses" => [:update],
                                           :"api/v2/smart_variables" => [:create, :update, :destroy],
                                           :"api/v2/smart_class_parameters" => [:create, :update, :destroy],

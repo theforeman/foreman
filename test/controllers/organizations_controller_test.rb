@@ -22,8 +22,8 @@ class OrganizationsControllerTest < ActionController::TestCase
     org1 = FactoryBot.create(:organization)
     org2 = FactoryBot.create(:organization)
     user = FactoryBot.create(:user, :mail => 'a@b.c')
-    user.organizations = [ org1 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    user.organizations = [org1]
+    filter = FactoryBot.create(:filter, :permissions => [Permission.find_by_name(:view_organizations)])
     user.roles << filter.role
     as_user user do
       get :index, session: set_session_user.merge(:user => User.current.id)
@@ -225,7 +225,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
   test 'should allow empty array as param value of array field while updating organization' do
     organization = taxonomies(:organization2)
-    organization.update(:smart_proxy_ids => [ smart_proxies(:one).id ])
+    organization.update(:smart_proxy_ids => [smart_proxies(:one).id])
     saved_organization = Organization.find_by_id(organization.id)
     assert_equal 1, saved_organization.smart_proxy_ids.count
     put :update, params: { :id => organization.id, :organization => {:smart_proxy_ids => [""]} }, session: set_session_user

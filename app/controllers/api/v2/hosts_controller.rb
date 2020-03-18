@@ -178,7 +178,7 @@ module Api
 
       api :GET, "/hosts/:id/status/:type", N_("Get status of host")
       param :id, :identifier_dottable, :required => true
-      param :type, [ HostStatus::Global ] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(
+      param :type, [HostStatus::Global] + HostStatus.status_registry.to_a.map { |s| s.humanized_name }, :required => true, :desc => N_(
         <<~EOS
           status type, can be one of
           * global

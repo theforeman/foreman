@@ -2,7 +2,7 @@ module Foreman
   module Renderer
     PREVIEW_MODE = 'preview'
     REAL_MODE = 'real'
-    AVAILABLE_RENDERING_MODES = [ PREVIEW_MODE, REAL_MODE ]
+    AVAILABLE_RENDERING_MODES = [PREVIEW_MODE, REAL_MODE]
 
     class << self
       attr_writer :config

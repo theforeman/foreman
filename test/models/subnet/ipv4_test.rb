@@ -23,7 +23,7 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
 
   test 'can be created with domains' do
     subnet = FactoryBot.build(:subnet_ipv4)
-    subnet.domain_ids = [ domains(:mydomain).id ]
+    subnet.domain_ids = [domains(:mydomain).id]
     assert subnet.save
   end
 
@@ -159,9 +159,9 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
                        'domain_name_servers' => ['192.168.11.1', '8.8.8.8'],
                        'range' => ['192.168.11.0', '192.168.11.200'] }
       ProxyAPI::DHCP.any_instance.
-        stubs(:subnets => [ { 'network' => '192.168.11.0',
+        stubs(:subnets => [{ 'network' => '192.168.11.0',
                               'netmask' => '255.255.255.0',
-                              'options' => dhcp_options } ])
+                              'options' => dhcp_options }])
       Subnet.expects(:new).with(:network => "192.168.11.0",
                                 :mask => "255.255.255.0",
                                 :gateway => "192.168.11.1",
@@ -175,8 +175,8 @@ class Subnet::Ipv4Test < ActiveSupport::TestCase
 
     test 'imports subnets without options' do
       ProxyAPI::DHCP.any_instance.
-        stubs(:subnets => [ { 'network' => '192.168.11.0',
-                              'netmask' => '255.255.255.0' } ])
+        stubs(:subnets => [{ 'network' => '192.168.11.0',
+                              'netmask' => '255.255.255.0' }])
       Subnet.expects(:new).with(:network => "192.168.11.0",
                                 :mask => "255.255.255.0",
                                 :dhcp => @mock_proxy)

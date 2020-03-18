@@ -235,7 +235,7 @@ class ProvisioningTemplate < Template
   end
 
   def self.acceptable_template_input_types
-    [ :fact, :variable, :puppet_parameter ]
+    [:fact, :variable, :puppet_parameter]
   end
 
   private

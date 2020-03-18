@@ -131,10 +131,10 @@ class UsergroupMember < ApplicationRecord
 
   def find_all_affected_memberships_for(member, direction = :usergroups)
     if member.is_a?(User)
-      [ member.usergroup_member ]
+      [member.usergroup_member]
     elsif member.is_a?(Usergroup)
-      [ member.usergroup_members.user_memberships +
-           member.send(direction).map { |g| find_all_affected_memberships_for(g, direction) } ]
+      [member.usergroup_members.user_memberships +
+           member.send(direction).map { |g| find_all_affected_memberships_for(g, direction) }]
     else
       raise ArgumentError, "Unknown member type #{member}"
     end
@@ -153,6 +153,6 @@ class UsergroupMember < ApplicationRecord
   end
 
   def find_all_usergroups_for(usergroup)
-    [ usergroup ] + usergroup.parents.map { |p| find_all_usergroups_for(p) }
+    [usergroup] + usergroup.parents.map { |p| find_all_usergroups_for(p) }
   end
 end

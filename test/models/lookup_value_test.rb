@@ -42,7 +42,7 @@ class LookupValueTest < ActiveSupport::TestCase
     FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "name = #{@host1.name}")
     # Todo, restore the ip test variant once our scoped-search works with host.ip again
     # FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
-    user.roles << [ role ]
+    user.roles << [role]
     as_user :one do
       assert Host.authorized(:view_hosts, Host).where(:name => @host1.name).exists?
       refute Host.authorized(:view_hosts, Host).where(:name => @host2.name).exists?
@@ -274,7 +274,7 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "should create override value for smart variable with list validator and matching value" do
-    values_list = [ 'test', 'example', 30 ]
+    values_list = ['test', 'example', 30]
     validator_type = 'list'
     validator_rule = values_list.join(', ')
     smart_variable = FactoryBot.create(

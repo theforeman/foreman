@@ -39,16 +39,16 @@ class HostTest < ActiveSupport::TestCase
   test "existing interface can be assigned as host primary interface" do
     host = FactoryBot.build(:host, :managed)
     host.interfaces = [] # remove existing primary interface
-    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => true, :host => host,
-                                           :domain => FactoryBot.create(:domain)) ]
+    host.interfaces = [FactoryBot.create(:nic_managed, :primary => true, :host => host,
+                                           :domain => FactoryBot.create(:domain))]
     assert host.save
   end
 
   test "host without primary interface should rise error" do
     host = FactoryBot.build(:host, :managed)
     host.interfaces = [] # remove existing primary interface
-    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => false, :provision => true, :host => host,
-                                          :domain => FactoryBot.create(:domain)) ]
+    host.interfaces = [FactoryBot.create(:nic_managed, :primary => false, :provision => true, :host => host,
+                                          :domain => FactoryBot.create(:domain))]
     refute host.valid?
     assert_equal [:interfaces, :base], host.errors.keys
     assert_equal "An interface marked as primary is missing", host.errors[:base].first
@@ -57,8 +57,8 @@ class HostTest < ActiveSupport::TestCase
   test "host without primary interface should rise error" do
     host = FactoryBot.build(:host, :managed)
     host.interfaces = [] # remove existing primary interface
-    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => true, :provision => false, :host => host,
-                                          :domain => FactoryBot.create(:domain)) ]
+    host.interfaces = [FactoryBot.create(:nic_managed, :primary => true, :provision => false, :host => host,
+                                          :domain => FactoryBot.create(:domain))]
     assert_equal [:interfaces, :base], host.errors.keys
     assert_equal "An interface marked as provision is missing", host.errors[:base].first
   end
@@ -66,8 +66,8 @@ class HostTest < ActiveSupport::TestCase
   test "host without primary and provision interface should rise error" do
     host = FactoryBot.build(:host, :managed)
     host.interfaces = [] # remove existing primary interface
-    host.interfaces = [ FactoryBot.create(:nic_managed, :primary => false, :provision => false, :host => host,
-                                          :domain => FactoryBot.create(:domain)) ]
+    host.interfaces = [FactoryBot.create(:nic_managed, :primary => false, :provision => false, :host => host,
+                                          :domain => FactoryBot.create(:domain))]
     refute host.valid?
     assert_equal [:interfaces, :base], host.errors.keys
     assert_equal "An interface marked as provision is missing", host.errors[:base].first
@@ -1063,7 +1063,7 @@ class HostTest < ActiveSupport::TestCase
       @template = FactoryBot.create(:provisioning_template)
       @host.operatingsystem.provisioning_templates << @template
       FactoryBot.create(:os_default_template, :provisioning_template => @template, :operatingsystem => @host.operatingsystem, :template_kind => @template.template_kind)
-      @user = FactoryBot.create(:user, :organizations => [ @org ], :locations => [ @loc ])
+      @user = FactoryBot.create(:user, :organizations => [@org], :locations => [@loc])
     end
 
     test "retrieves the template that is associated with host's organization and location" do
@@ -2227,12 +2227,12 @@ class HostTest < ActiveSupport::TestCase
     # add permission for user :one
     as_admin do
       filter = FactoryBot.build(:filter)
-      filter.permissions = [ Permission.find_by_name('edit_hosts') ]
+      filter.permissions = [Permission.find_by_name('edit_hosts')]
       filter.save!
       role = Role.where(:name => "testing_role").first_or_create
-      role.filters = [ filter ]
+      role.filters = [filter]
       role.save!
-      @one.roles = [ role ]
+      @one.roles = [role]
       @one.save!
     end
     h = FactoryBot.create(:host, :managed)
@@ -3034,7 +3034,7 @@ class HostTest < ActiveSupport::TestCase
 
     test 'clone host with identifier should be valid' do
       interface = FactoryBot.build(:nic_primary_and_provision, :identifier => 'eth0')
-      host = FactoryBot.create(:host, :interfaces => [ interface ])
+      host = FactoryBot.create(:host, :interfaces => [interface])
       copy = host.clone
 
       cloned_interface = copy.interfaces.first

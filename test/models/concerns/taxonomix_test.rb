@@ -210,26 +210,26 @@ class TaxonomixTest < ActiveSupport::TestCase
       env5 = FactoryBot.create(:environment, :locations => [loc1])
       env6 = FactoryBot.create(:environment, :locations => [loc3])
       taxable_ids = Environment.taxable_ids([loc2, loc4], org, :subtree_ids)
-      visible = [ env1 ]
-      invisible = [ env2, env3, env4, env5, env6 ]
+      visible = [env1]
+      invisible = [env2, env3, env4, env5, env6]
       visible.each { |env| assert_includes taxable_ids, env.id }
       invisible.each { |env| refute_includes taxable_ids, env.id }
 
       taxable_ids = Environment.taxable_ids([], org, :subtree_ids)
-      visible = [ env1, env2 ]
-      invisible = [ env3, env4, env5, env6 ]
+      visible = [env1, env2]
+      invisible = [env3, env4, env5, env6]
       visible.each { |env| assert_includes taxable_ids, env.id }
       invisible.each { |env| refute_includes taxable_ids, env.id }
 
       taxable_ids = Environment.taxable_ids(loc2, [], :subtree_ids)
-      visible = [ env1, env3, env5, env6 ]
-      invisible = [ env2, env4 ]
+      visible = [env1, env3, env5, env6]
+      invisible = [env2, env4]
       visible.each { |env| assert_includes taxable_ids, env.id }
       invisible.each { |env| refute_includes taxable_ids, env.id }
 
       taxable_ids = Environment.taxable_ids([loc2, loc4], [], :subtree_ids)
-      visible = [ env1, env3, env4, env5, env6 ]
-      invisible = [ env2 ]
+      visible = [env1, env3, env4, env5, env6]
+      invisible = [env2]
       visible.each { |env| assert_includes taxable_ids, env.id }
       invisible.each { |env| refute_includes taxable_ids, env.id }
     end
@@ -237,27 +237,27 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   test "validation does not prevent taxonomy association if user does not have permissions of already assigned taxonomies" do
     filter = FactoryBot.create(:filter, :search => 'name ~ visible*')
-    filter.permissions = Permission.where(:name => [ 'view_organizations', 'assign_organizations' ])
+    filter.permissions = Permission.where(:name => ['view_organizations', 'assign_organizations'])
     role = FactoryBot.create(:role)
-    role.filters = [ filter ]
+    role.filters = [filter]
 
     filter2 = FactoryBot.create(:filter)
-    filter2.permissions = Permission.where(:name => [ 'edit_domains' ])
+    filter2.permissions = Permission.where(:name => ['edit_domains'])
     role2 = FactoryBot.create(:role)
-    role2.filters = [ filter2 ]
+    role2.filters = [filter2]
 
     user = FactoryBot.create(:user)
-    user.roles = [ role, role2 ]
+    user.roles = [role, role2]
     org1 = FactoryBot.create :organization, :name => 'visible1'
     org2 = FactoryBot.create :organization, :name => 'visible2'
     org3 = FactoryBot.create :organization, :name => 'hidden'
-    user.organizations = [ org1 ]
+    user.organizations = [org1]
 
-    resource = FactoryBot.create(:domain, :organizations => [ org1, org3 ])
+    resource = FactoryBot.create(:domain, :organizations => [org1, org3])
     assert_includes resource.organizations, org3
 
     as_user user do
-      resource.organization_ids = [ org1, org2, org3 ].map(&:id)
+      resource.organization_ids = [org1, org2, org3].map(&:id)
       assert resource.save!
     end
 
@@ -268,9 +268,9 @@ class TaxonomixTest < ActiveSupport::TestCase
 
   test "default scope does not set create scope attributes" do
     org = FactoryBot.create :organization
-    FactoryBot.create(:domain, :organizations => [ org ])
+    FactoryBot.create(:domain, :organizations => [org])
     original_org, Organization.current = Organization.current, org
-    new_dom = Domain.new(:organization_ids => [ org.id ])
+    new_dom = Domain.new(:organization_ids => [org.id])
     Organization.current = original_org
     new_dom.taxable_taxonomies.must_be :present?
     assert new_dom.taxable_taxonomies.all?(&:valid?)
@@ -279,13 +279,13 @@ class TaxonomixTest < ActiveSupport::TestCase
   test "#taxable_ids works even if the resources uses eager loading on through associations" do
     user = FactoryBot.create(:user)
     filter = FactoryBot.create(:filter)
-    filter.permissions = Permission.where(:name => [ 'view_provisioning_templates' ])
-    role = FactoryBot.create(:role, :filters => [ filter ])
+    filter.permissions = Permission.where(:name => ['view_provisioning_templates'])
+    role = FactoryBot.create(:role, :filters => [filter])
 
     user = FactoryBot.create(:user)
-    user.roles = [ role ]
-    org = FactoryBot.create :organization, :ignore_types => [ 'Hostgroup' ]
-    user.organizations = [ org ]
+    user.roles = [role]
+    org = FactoryBot.create :organization, :ignore_types => ['Hostgroup']
+    user.organizations = [org]
 
     in_taxonomy org do
       as_user user do
@@ -301,7 +301,7 @@ class TaxonomixTest < ActiveSupport::TestCase
     as_admin do
       direct_admin = FactoryBot.create(:user, :admin)
       group = FactoryBot.create(:usergroup, :admin => true)
-      group_admin = FactoryBot.create(:user, :usergroups => [ group ])
+      group_admin = FactoryBot.create(:user, :usergroups => [group])
     end
 
     found_admins = User.admin_ids

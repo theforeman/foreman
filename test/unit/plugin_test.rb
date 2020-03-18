@@ -300,12 +300,12 @@ class PluginTest < ActiveSupport::TestCase
 
   def test_can_merge_tests_to_skip_arrays
     @klass.register :foo do
-      tests_to_skip "FooTest" => [ "test1", "test2" ]
+      tests_to_skip "FooTest" => ["test1", "test2"]
     end
     @klass.register :bar do
-      tests_to_skip "FooTest" => [ "test3", "test4" ]
+      tests_to_skip "FooTest" => ["test3", "test4"]
     end
-    assert_equal [ "test1", "test2", "test3", "test4" ], @klass.tests_to_skip["FooTest"]
+    assert_equal ["test1", "test2", "test3", "test4"], @klass.tests_to_skip["FooTest"]
   end
 
   def test_configure_logging

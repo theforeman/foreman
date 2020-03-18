@@ -64,7 +64,7 @@ class UserRole < ApplicationRecord
   end
 
   def build_user_role_cache
-    [ cached_user_roles.build(:user_id => owner_id, :role_id => role_id) ]
+    [cached_user_roles.build(:user_id => owner_id, :role_id => role_id)]
   end
 
   def build_user_group_role_cache(owner)

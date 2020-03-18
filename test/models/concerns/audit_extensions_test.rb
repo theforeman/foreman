@@ -197,20 +197,20 @@ class AuditExtensionsTest < ActiveSupport::TestCase
     let(:loc2) { FactoryBot.create(:location) }
     let(:org1) { FactoryBot.create(:organization) }
     let(:org2) { FactoryBot.create(:organization) }
-    let(:user1) { FactoryBot.create(:user, :locations => [ loc1 ], :organizations => [ org1 ]) }
-    let(:user2) { FactoryBot.create(:user, :locations => [ loc2 ], :organizations => [ org2 ]) }
-    let(:domain1_audit) { FactoryBot.create(:audit, :organizations => [ org1 ], :locations => [ loc1 ], :auditable_type => 'Domain') }
-    let(:domain2_audit) { FactoryBot.create(:audit, :organizations => [ org2 ], :locations => [ loc2 ], :auditable_type => 'Domain') }
-    let(:domain12_audit) { FactoryBot.create(:audit, :organizations => [ org1 ], :locations => [ loc2 ], :auditable_type => 'Domain') }
-    let(:domain21_audit) { FactoryBot.create(:audit, :organizations => [ org2 ], :locations => [ loc1 ], :auditable_type => 'Domain') }
-    let(:domain01_audit) { FactoryBot.create(:audit, :locations => [ loc1 ], :auditable_type => 'Domain') }
-    let(:domain10_audit) { FactoryBot.create(:audit, :organizations => [ org1 ], :auditable_type => 'Domain') }
+    let(:user1) { FactoryBot.create(:user, :locations => [loc1], :organizations => [org1]) }
+    let(:user2) { FactoryBot.create(:user, :locations => [loc2], :organizations => [org2]) }
+    let(:domain1_audit) { FactoryBot.create(:audit, :organizations => [org1], :locations => [loc1], :auditable_type => 'Domain') }
+    let(:domain2_audit) { FactoryBot.create(:audit, :organizations => [org2], :locations => [loc2], :auditable_type => 'Domain') }
+    let(:domain12_audit) { FactoryBot.create(:audit, :organizations => [org1], :locations => [loc2], :auditable_type => 'Domain') }
+    let(:domain21_audit) { FactoryBot.create(:audit, :organizations => [org2], :locations => [loc1], :auditable_type => 'Domain') }
+    let(:domain01_audit) { FactoryBot.create(:audit, :locations => [loc1], :auditable_type => 'Domain') }
+    let(:domain10_audit) { FactoryBot.create(:audit, :organizations => [org1], :auditable_type => 'Domain') }
     let(:architecture_audit) { FactoryBot.create(:audit, :organizations => [], :locations => [], :auditable_type => 'Architecture') }
-    let(:organization_audit) { FactoryBot.create(:audit, :auditable_type => 'Organization', :organizations => [], :locations => [ loc1 ]) }
-    let(:location_audit) { FactoryBot.create(:audit, :auditable_type => 'Location', :organizations => [ org1 ], :locations => []) }
-    let(:location2_audit) { FactoryBot.create(:audit, :auditable_type => 'Location', :organizations => [ org2 ], :locations => []) }
+    let(:organization_audit) { FactoryBot.create(:audit, :auditable_type => 'Organization', :organizations => [], :locations => [loc1]) }
+    let(:location_audit) { FactoryBot.create(:audit, :auditable_type => 'Location', :organizations => [org1], :locations => []) }
+    let(:location2_audit) { FactoryBot.create(:audit, :auditable_type => 'Location', :organizations => [org2], :locations => []) }
     let(:lazy_load) do
-      [ architecture_audit, domain1_audit, domain2_audit, domain12_audit, domain21_audit, domain01_audit, domain10_audit, organization_audit, location_audit, location2_audit ]
+      [architecture_audit, domain1_audit, domain2_audit, domain12_audit, domain21_audit, domain01_audit, domain10_audit, organization_audit, location_audit, location2_audit]
     end
 
     test ".untaxed" do

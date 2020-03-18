@@ -10,11 +10,11 @@ class ReportImporter
   end
 
   def self.register_smart_proxy_feature(feature)
-    @authorized_smart_proxy_features = (authorized_smart_proxy_features + [ feature ]).uniq
+    @authorized_smart_proxy_features = (authorized_smart_proxy_features + [feature]).uniq
   end
 
   def self.unregister_smart_proxy_feature(feature)
-    @authorized_smart_proxy_features -= [ feature ]
+    @authorized_smart_proxy_features -= [feature]
   end
 
   def self.import(raw, proxy_id = nil)

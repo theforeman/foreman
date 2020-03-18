@@ -145,7 +145,7 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
       @loc1 = FactoryBot.create(:location)
       @role = FactoryBot.build(:role)
       @role.add_permissions!([:view_domains, :edit_domains, :view_locations, :assign_locations, :view_organizations, :assign_organizations])
-      @user = FactoryBot.create(:user, :organization_ids => [@org1.id], :location_ids => [@loc1.id], :roles => [ @role ])
+      @user = FactoryBot.create(:user, :organization_ids => [@org1.id], :location_ids => [@loc1.id], :roles => [@role])
 
       @domain1 = FactoryBot.create(:domain, :organization_ids => [@org1.id], :location_ids => [@loc1.id])
       @domain2 = FactoryBot.create(:domain, :organization_ids => [@org2.id], :location_ids => [@loc1.id])
@@ -174,8 +174,8 @@ class Api::V2::DomainsControllerTest < ActionController::TestCase
     context 'user permissions are scoped to single organization' do
       def setup
         super
-        @role.organization_ids = [ @org1.id ]
-        @role.location_ids = [ @loc1.id ]
+        @role.organization_ids = [@org1.id]
+        @role.location_ids = [@loc1.id]
         @role.save # to trigger taxonomy propagation to filters
       end
 

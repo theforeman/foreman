@@ -149,7 +149,7 @@ class RoleTest < ActiveSupport::TestCase
 
     context 'role has some empty filters' do
       before do
-        role.permissions = [ Permission.first ]
+        role.permissions = [Permission.first]
         role.filters.first.filterings = []
       end
 
@@ -372,22 +372,22 @@ class RoleTest < ActiveSupport::TestCase
 
     describe '#sync_inheriting_filters' do
       it 'automatically propagates taxonomies to filters after save' do
-        @role.organizations = [ @org1 ]
+        @role.organizations = [@org1]
         @role.save
         @filter_with_org.reload
-        assert_equal [ @org1 ], @filter_with_org.organizations
+        assert_equal [@org1], @filter_with_org.organizations
       end
 
       it 'automatically propagates taxonomies only to inheriting filters' do
         @filter_with_org.update_attribute :override, true
-        @role.organizations = [ @org2 ]
+        @role.organizations = [@org2]
         @role.save
         @filter_with_org.reload
         assert_empty @filter_with_org.organizations
       end
 
       it 'should forced unlimited check if role or filter have no taxonomies' do
-        @role.organizations = [ @org1 ]
+        @role.organizations = [@org1]
         @role.save
         @filter_with_org.reload
         assert @filter_without_org.unlimited?
@@ -410,7 +410,7 @@ class RoleTest < ActiveSupport::TestCase
       end
 
       it 'does not touch filters that do not support taxonomies' do
-        @role.organizations = [ @org1 ]
+        @role.organizations = [@org1]
         @role.save
         @filter_without_org.reload
         assert_empty @filter_without_org.organizations
@@ -419,7 +419,7 @@ class RoleTest < ActiveSupport::TestCase
 
       it 'does not touch filters that do not support taxonomies even if they override' do
         @filter_without_org.update_attribute :override, true
-        @role.organizations = [ @org1 ]
+        @role.organizations = [@org1]
         @role.save
         @filter_without_org.reload
         assert_empty @filter_without_org.organizations
@@ -430,11 +430,11 @@ class RoleTest < ActiveSupport::TestCase
     describe '#disable_filters_overriding' do
       it 'disables overriding and inherits taxonomies' do
         @filter_with_org.update_attribute :override, true
-        @role.organizations = [ @org1 ]
+        @role.organizations = [@org1]
         as_admin do
           @role.disable_filters_overriding
           @filter_with_org.reload
-          assert_equal [ @org1 ], @filter_with_org.organizations
+          assert_equal [@org1], @filter_with_org.organizations
           refute @filter_with_org.override
         end
       end

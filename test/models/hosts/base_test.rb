@@ -48,13 +48,13 @@ module Host
     end
 
     test '.new should mark one interfaces as primary if none was chosen explicitly' do
-      host = Host::Base.new(:interfaces_attributes => [ {:ip => '192.168.0.1' }, { :ip => '192.168.1.2' } ])
+      host = Host::Base.new(:interfaces_attributes => [{:ip => '192.168.0.1' }, { :ip => '192.168.1.2' }])
       assert host.primary_interface
       assert_equal 2, host.interfaces.size
     end
 
     test '.new does not reset primary flag if it was set explicitly' do
-      host = Host::Base.new(:interfaces_attributes => [ {:ip => '192.168.0.1' }, { :ip => '192.168.1.2', :primary => true } ])
+      host = Host::Base.new(:interfaces_attributes => [{:ip => '192.168.0.1' }, { :ip => '192.168.1.2', :primary => true }])
       assert_equal 2, host.interfaces.size
       assert_equal '192.168.1.2', host.primary_interface.ip
     end
@@ -65,8 +65,8 @@ module Host
       refute host.valid?
       assert_includes host.errors.keys, :interfaces
 
-      host.interfaces = [ FactoryBot.build_stubbed(:nic_managed, :primary => true, :host => host,
-                                            :domain => FactoryBot.create(:domain)) ]
+      host.interfaces = [FactoryBot.build_stubbed(:nic_managed, :primary => true, :host => host,
+                                            :domain => FactoryBot.create(:domain))]
       assert host.valid?
     end
 

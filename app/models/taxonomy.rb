@@ -80,7 +80,7 @@ class Taxonomy < ApplicationRecord
                            # "Any context" - all available taxonomies"
                            User.current.public_send("my_#{to_s.underscore.pluralize}")
                          else
-                           [ current ]
+                           [current]
                          end
     current_taxonomies.compact.any? do |current|
       current.ignore?(taxable_type)

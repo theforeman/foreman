@@ -256,13 +256,13 @@ module ApplicationHelper
     if data.is_a?(Array)
       data = data.map do |kv|
         ticks ||= []
-        ticks << [i += 1, kv[0].to_s.humanize ]
+        ticks << [i += 1, kv[0].to_s.humanize]
         [i, kv[1]]
       end
     elsif  data.is_a?(Hash)
       data = data.map do |k, v|
         ticks ||= []
-        ticks << [i += 1, k.to_s.humanize ]
+        ticks << [i += 1, k.to_s.humanize]
         [i, v]
       end
     end

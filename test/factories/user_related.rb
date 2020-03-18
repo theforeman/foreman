@@ -13,8 +13,8 @@ FactoryBot.define do
     auth_source { AuthSourceInternal.first }
     password { 'password' }
     sequence(:login) { |n| "user#{n}" }
-    organizations { [ Organization.find_or_initialize_by(name: 'Organization 1') ] }
-    locations { [ Location.find_or_initialize_by(name: 'Location 1') ] }
+    organizations { [Organization.find_or_initialize_by(name: 'Organization 1')] }
+    locations { [Location.find_or_initialize_by(name: 'Location 1')] }
 
     trait :admin do
       admin { true }
@@ -101,7 +101,7 @@ FactoryBot.define do
   factory :filter do
     search { nil }
     role { FactoryBot.create :role }
-    permissions { [ FactoryBot.create(:permission, :host) ] }
+    permissions { [FactoryBot.create(:permission, :host)] }
 
     trait :on_name_all do
       search { 'name ~ *' }

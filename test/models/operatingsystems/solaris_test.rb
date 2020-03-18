@@ -5,8 +5,8 @@ class SolarisTest < ActiveSupport::TestCase
 
   test "jumpstart parameter generation" do
     h = FactoryBot.create(:host, :managed, :with_environment, :domain => domains(:yourdomain),
-          :interfaces => [ FactoryBot.build(:nic_primary_and_provision,
-            :ip => '2.3.4.10') ],
+          :interfaces => [FactoryBot.build(:nic_primary_and_provision,
+            :ip => '2.3.4.10')],
           :architecture => architectures(:sparc),
           :operatingsystem => operatingsystems(:solaris10),
           :pxe_loader => '',

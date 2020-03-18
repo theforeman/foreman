@@ -49,7 +49,7 @@ class FilterTest < ActiveSupport::TestCase
 
   test "#resource_type" do
     f = FactoryBot.build_stubbed(:filter)
-    f.stub :filterings, [ OpenStruct.new(:permission => OpenStruct.new(:resource_type => 'test')) ] do
+    f.stub :filterings, [OpenStruct.new(:permission => OpenStruct.new(:resource_type => 'test'))] do
       assert_equal 'test', f.resource_type
     end
   end
@@ -218,7 +218,7 @@ class FilterTest < ActiveSupport::TestCase
 
   test 'disable overriding recalculates taxonomies' do
     f = FactoryBot.build(:filter, :resource_type => 'Domain')
-    f.role = FactoryBot.build(:role, :organizations => [ FactoryBot.build(:organization) ])
+    f.role = FactoryBot.build(:role, :organizations => [FactoryBot.build(:organization)])
     assert_empty f.organizations
     f.disable_overriding!
     refute f.override
@@ -227,7 +227,7 @@ class FilterTest < ActiveSupport::TestCase
 
   test 'enforce_inherited_taxonomies respects override configuration' do
     f = FactoryBot.build(:filter, :resource_type => 'Domain', :override => true)
-    f.role = FactoryBot.build(:role, :organizations => [ FactoryBot.build(:organization) ])
+    f.role = FactoryBot.build(:role, :organizations => [FactoryBot.build(:organization)])
     f.save # we need ids
     f.enforce_inherited_taxonomies
     assert_empty f.organizations
@@ -238,7 +238,7 @@ class FilterTest < ActiveSupport::TestCase
 
   test 'enforce_inherited_taxonomies builds the taxonomy search string' do
     f = FactoryBot.build(:filter, :resource_type => 'Domain')
-    f.role = FactoryBot.build(:role, :organizations => [ FactoryBot.build(:organization) ])
+    f.role = FactoryBot.build(:role, :organizations => [FactoryBot.build(:organization)])
     f.save # we need ids
     f.enforce_inherited_taxonomies
     assert_equal "(organization_id = #{f.organizations.first.id})", f.taxonomy_search

@@ -31,7 +31,7 @@ end
 
 # Use our custom test runner, and register a fake plugin to skip a specific test
 Foreman::Plugin.register :skip_test do
-  tests_to_skip "CustomRunnerTest" => [ "custom runner is working" ]
+  tests_to_skip "CustomRunnerTest" => ["custom runner is working"]
 end
 
 # Turn of Apipie validation for tests

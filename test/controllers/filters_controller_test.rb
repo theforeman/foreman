@@ -67,16 +67,16 @@ class FiltersControllerTest < ActionController::TestCase
     role.add_permissions! [permission1.name]
     org1 = FactoryBot.create(:organization)
     org2 = FactoryBot.create(:organization)
-    role.organizations = [ org1 ]
+    role.organizations = [org1]
     role.filters.reload
     filter_with_org = role.filters.detect(&:allows_organization_filtering?)
-    filter_with_org.update :organizations => [ org1, org2 ], :override => true
+    filter_with_org.update :organizations => [org1, org2], :override => true
 
     patch :disable_overriding, params: { :role_id => role.id, :id => filter_with_org.id }, session: set_session_user
 
     assert_response :redirect
     filter_with_org.reload
-    assert_equal [ org1 ], filter_with_org.organizations
+    assert_equal [org1], filter_with_org.organizations
     refute filter_with_org.override
   end
 end

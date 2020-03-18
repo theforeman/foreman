@@ -124,7 +124,7 @@ class OperatingsystemsControllerTest < ActionController::TestCase
     test 'valid os_default_template should be saved' do
       operatingsystem = Operatingsystem.first
       put :update, params: { :id => operatingsystem.id, :operatingsystem =>
-          {:os_default_templates_attributes => [{:provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id} ]} }, session: set_session_user
+          {:os_default_templates_attributes => [{:provisioning_template_id => @provisioning_template.id, :template_kind_id => @template_kind.id}]} }, session: set_session_user
       refute_empty operatingsystem.os_default_templates
       assert_redirected_to operatingsystems_url
     end

@@ -260,7 +260,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     it "should generate report with optional params without value" do
       report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
       input = FactoryBot.create(:template_input, :name => 'hello')
-      report_template.template_inputs = [ input ]
+      report_template.template_inputs = [input]
       post :generate, params: { id: report_template.id }
       assert_response :success
       assert_equal '2 ', response.body
@@ -269,7 +269,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     it "should fail with required params without value" do
       report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
       input = FactoryBot.create(:template_input, :name => 'hello', :required => true)
-      report_template.template_inputs = [ input ]
+      report_template.template_inputs = [input]
       post :generate, params: { id: report_template.id }
       assert_response :unprocessable_entity
     end
@@ -277,7 +277,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
     it "should generate report with optional params with value" do
       report_template = FactoryBot.create(:report_template, :template => '<%= 1 + 1 %> <%= input("hello") %>')
       input = FactoryBot.create(:template_input, :name => 'hello', :required => true)
-      report_template.template_inputs = [ input ]
+      report_template.template_inputs = [input]
       post :generate, params: { id: report_template.id, input_values: { hello: 'ohai' } }
       assert_response :success
       assert_equal '2 ohai', response.body
@@ -385,7 +385,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
 
     def stub_plan_arguments(gzip: false, user_id: User.current.id, mail_to: nil)
       composer_params = { 'template_id' => report_template.id, 'input_values' => nil, 'gzip' => gzip, 'send_mail' => !!mail_to, 'mail_to' => mail_to }
-      @controller.stubs(:plan_arguments).returns([ composer_params, { 'user_id' => user_id } ])
+      @controller.stubs(:plan_arguments).returns([composer_params, { 'user_id' => user_id }])
     end
 
     describe 'failures' do
