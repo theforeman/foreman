@@ -30,7 +30,7 @@ class TemplateRenderJobTest < ActiveJob::TestCase
   end
 
   describe '#humanized_name' do
-    let(:template) { FactoryBot.create(:report_template, :organizations => [ taxonomies(:organization1) ], :locations => [ taxonomies(:location1) ]) }
+    let(:template) { FactoryBot.create(:report_template, :organizations => [taxonomies(:organization1)], :locations => [taxonomies(:location1)]) }
     before do
       @job = TemplateRenderJob.new({'template_id' => template.id, 'foo' => 'bar'}, user_id: users(:admin).id)
       @job.provider_job_id = 'UNIQUE-PROVIDER-ID'

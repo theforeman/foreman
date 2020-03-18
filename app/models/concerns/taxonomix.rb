@@ -137,8 +137,8 @@ module Taxonomix
   def set_current_taxonomy
     if new_record? && errors.empty?
       # we need to use _ids methods so that DirtyAssociations is correctly saved
-      self.location_ids += [ Location.current.id ] if add_current_location?
-      self.organization_ids += [ Organization.current.id ] if add_current_organization?
+      self.location_ids += [Location.current.id] if add_current_location?
+      self.organization_ids += [Organization.current.id] if add_current_organization?
     end
   end
 

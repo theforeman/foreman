@@ -235,7 +235,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
       put :update, params: { :id => os.to_param, :operatingsystem => { },
-                             :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id } ] }
+                             :architectures => [{ :id => architectures(:x86_64).id }, { :id => architectures(:sparc).id }] }
     end
     assert_response :success
   end
@@ -244,7 +244,7 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     os = operatingsystems(:redhat)
     assert_difference('os.architectures.count') do
       put :update, params: { :id => os.to_param, :operatingsystem => { },
-                             :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name } ] }
+                             :architectures => [{ :name => architectures(:x86_64).name }, { :name => architectures(:sparc).name }] }
     end
     assert_response :success
   end

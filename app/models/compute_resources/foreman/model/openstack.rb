@@ -122,13 +122,13 @@ module Foreman::Model
         :imageRef => args[:image_ref])
       @boot_vol_id = boot_vol.id.tr('"', '')
       boot_vol.wait_for { status == 'available' }
-      args[:block_device_mapping_v2] = [ {
+      args[:block_device_mapping_v2] = [{
         :source_type => "volume",
         :destination_type => "volume",
         :delete_on_termination => "1",
         :uuid => @boot_vol_id,
         :boot_index => "0",
-      } ]
+      }]
     end
 
     def possible_scheduler_hints

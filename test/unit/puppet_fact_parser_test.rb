@@ -179,12 +179,12 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
   describe "#facterversion" do
     test "returns an array of integers" do
       parser = PuppetFactParser.new(facterversion: '3.2.1')
-      assert_equal [ 3, 2, 1 ], parser.send(:facterversion)
+      assert_equal [3, 2, 1], parser.send(:facterversion)
     end
 
     test "returns an array of integers when only major version is reported" do
       parser = PuppetFactParser.new(facterversion: '3')
-      assert_equal [ 3 ], parser.send(:facterversion)
+      assert_equal [3], parser.send(:facterversion)
     end
 
     test "returns and empy array when facterversion is not reported" do

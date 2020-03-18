@@ -145,7 +145,7 @@ class ComputeOrchestrationTest < ActiveSupport::TestCase
 
       @host = FactoryBot.build(:host,
         :compute_resource => @cr)
-      @host.interfaces = [ @virtual, @physical ]
+      @host.interfaces = [@virtual, @physical]
       @host.vm = mock("vm")
       @host.vm.stubs(:interfaces).returns([])
     end

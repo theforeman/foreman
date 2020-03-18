@@ -65,22 +65,22 @@ class RolesControllerTest < ActionController::TestCase
     before do
       @permission1 = FactoryBot.create(:permission, :domain, :name => 'permission1')
       @role = FactoryBot.build(:role, :permissions => [])
-      @role.add_permissions! [ @permission1.name ]
+      @role.add_permissions! [@permission1.name]
       @org1 = FactoryBot.create(:organization)
       @org2 = FactoryBot.create(:organization)
-      @role.organizations = [ @org1 ]
+      @role.organizations = [@org1]
     end
 
     test 'should disable filter overriding' do
       @role.filters.reload
       @filter_with_org = @role.filters.detect { |f| f.allows_organization_filtering? }
-      @filter_with_org.update :organizations => [ @org1, @org2 ], :override => true
+      @filter_with_org.update :organizations => [@org1, @org2], :override => true
 
       patch :disable_filters_overriding, params: { :id => @role.id }, session: set_session_user
       @filter_with_org.reload
 
       assert_response :redirect
-      assert_equal [ @org1 ], @filter_with_org.organizations
+      assert_equal [@org1], @filter_with_org.organizations
       refute @filter_with_org.override?
     end
 
@@ -88,7 +88,7 @@ class RolesControllerTest < ActionController::TestCase
       put :update, params: { :id => @role.id, :role => { :organization_ids => ['', @org2.id.to_s, ''] } }, session: set_session_user
       assert_response :redirect
       filter = @role.filters.first
-      assert_equal [ @org2 ], filter.organizations.all
+      assert_equal [@org2], filter.organizations.all
     end
 
     test 'sets new taxonomies to filters after cloning properly' do
@@ -99,7 +99,7 @@ class RolesControllerTest < ActionController::TestCase
 
       assert_response :redirect
       filter = Role.find_by_name('clonedrole').filters.first
-      assert_equal [ @org2 ], filter.organizations.all
+      assert_equal [@org2], filter.organizations.all
     end
   end
 

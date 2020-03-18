@@ -17,7 +17,7 @@ module SubnetsHelper
 
   def subnet_types
     Subnet::SUBNET_TYPES.map do |klass, type_name|
-      [ _(type_name), klass.to_s ]
+      [_(type_name), klass.to_s]
     end
   end
 

@@ -7,7 +7,7 @@ class AuthorizableTest < ActiveSupport::TestCase
     @user = user_role.owner
     role = user_role.role
     permission = Permission.find_by_name('create_domains')
-    role.filters << FactoryBot.create(:filter, :on_name_starting_with_a, :role => role, :permissions => [ permission ])
+    role.filters << FactoryBot.create(:filter, :on_name_starting_with_a, :role => role, :permissions => [permission])
   end
 
   test "create permissions respects search conditions of filters" do

@@ -34,7 +34,7 @@ module Foreman
         end
 
         def allowed_helpers
-          @allowed_helpers ||= super + [ :report_row, :report_render, :report_format, :report_headers ]
+          @allowed_helpers ||= super + [:report_row, :report_render, :report_format, :report_headers]
         end
 
         def report_format

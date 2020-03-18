@@ -105,7 +105,7 @@ class FactValue < ApplicationRecord
     values = select(:value).joins(:fact_name).where(:fact_names => {:name => fact}).map do |fv|
       fv.value.to_gb
     end
-    [ values.sum, values.size ]
+    [values.sum, values.size]
   end
 
   def self.search_cast_facts(key, operator, value)

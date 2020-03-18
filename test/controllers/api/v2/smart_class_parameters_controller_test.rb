@@ -80,7 +80,7 @@ class Api::V2::SmartClassParametersControllerTest < ActionController::TestCase
     filter2 = FactoryBot.build(:filter)
     filter2.permissions = Permission.where(:resource_type => ['PuppetclassLookupKey'])
     role = FactoryBot.build(:role)
-    role.filters = [ filter1, filter2 ]
+    role.filters = [filter1, filter2]
     role.save!
     user = FactoryBot.create(:user)
     user.update_attribute :roles, [role]

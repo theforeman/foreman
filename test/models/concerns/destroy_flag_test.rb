@@ -4,7 +4,7 @@ class DummyDestroyFlagClass
   cattr_accessor :callbacks
 
   def self.before_destroy(&block)
-    self.callbacks = [ block ]
+    self.callbacks = [block]
   end
 
   def destroy

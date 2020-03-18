@@ -75,8 +75,8 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     loc1 = FactoryBot.create(:location)
     loc2 = FactoryBot.create(:location)
     user = FactoryBot.create(:user)
-    user.locations = [ loc1 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:destroy_locations) ])
+    user.locations = [loc1]
+    filter = FactoryBot.create(:filter, :permissions => [Permission.find_by_name(:destroy_locations)])
     user.roles << filter.role
     as_user user do
       delete :destroy, params: { :id => loc2 }

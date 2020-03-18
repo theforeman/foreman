@@ -118,9 +118,9 @@ class ActiveSupport::TestCase
       permission = Permission.find_by_name("#{operation}_#{type}") ||
         FactoryBot.build(:permission, :name => "#{operation}_#{type}")
       filter = FactoryBot.build(:filter, :search => search)
-      filter.permissions = [ permission ]
+      filter.permissions = [permission]
       role = Role.where(:name => "#{operation}_#{type}").first_or_create
-      role.filters = [ filter ]
+      role.filters = [filter]
       role.save!
       filter.role = role
       filter.save!

@@ -244,7 +244,7 @@ class MigratePermissions < ActiveRecord::Migration[4.2]
     orgs = user.organizations
     locs = user.locations
 
-    [ search, orgs, locs ]
+    [search, orgs, locs]
   end
 
   def filtered?(user)

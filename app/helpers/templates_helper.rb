@@ -51,7 +51,7 @@ module TemplatesHelper
 
   def template_input_types_options(keys = TemplateInput::TYPES.keys)
     keys.map!(&:to_s)
-    TemplateInput::TYPES.select { |k, _| keys.include?(k.to_s) }.map { |key, name| [ _(name), key ] }
+    TemplateInput::TYPES.select { |k, _| keys.include?(k.to_s) }.map { |key, name| [_(name), key] }
   end
 
   def hide_resource_type_input(obj)

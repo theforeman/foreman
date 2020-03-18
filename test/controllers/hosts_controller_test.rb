@@ -1590,7 +1590,7 @@ class HostsControllerTest < ActionController::TestCase
   test '#process_hostgroup works on Host subclasses' do
     class Host::Test < Host::Base; end
     user = FactoryBot.create(:user, :with_mail, :admin => false)
-    FactoryBot.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
+    FactoryBot.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => ['edit_hosts', 'view_hosts']))
     user.roles << roles(:create_hosts)
     user.save!
     hostgroup = FactoryBot.create(:hostgroup)
@@ -1618,7 +1618,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test '#compute_resource_selected returns 404 without valid compute resource' do
     user = FactoryBot.build(:user, :with_mail, :admin => false)
-    FactoryBot.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => [ 'edit_hosts', 'view_hosts' ]))
+    FactoryBot.create(:filter, :role => roles(:create_hosts), :permissions => Permission.where(:name => ['edit_hosts', 'view_hosts']))
     user.roles << roles(:create_hosts)
     user.save!
 

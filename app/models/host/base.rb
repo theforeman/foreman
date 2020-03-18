@@ -1,6 +1,6 @@
 module Host
   class Base < ApplicationRecord
-    KERNEL_RELEASE_FACTS = [ 'kernelrelease', 'ansible_kernel', 'kernel::release' ]
+    KERNEL_RELEASE_FACTS = ['kernelrelease', 'ansible_kernel', 'kernel::release']
 
     prepend Foreman::STI
     include Authorizable
@@ -106,7 +106,7 @@ module Host
     end
 
     def self.attributes_protected_by_default
-      super - [ inheritance_column ]
+      super - [inheritance_column]
     end
 
     def self.import_host(hostname, certname = nil)
@@ -178,7 +178,7 @@ module Host
     end
 
     def attributes_to_import_from_facts
-      [ :model ]
+      [:model]
     end
 
     def primary_interface_type(parser)

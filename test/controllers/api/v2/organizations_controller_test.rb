@@ -11,8 +11,8 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     org1 = FactoryBot.create(:organization)
     org2 = FactoryBot.create(:organization)
     user = FactoryBot.create(:user)
-    user.organizations = [ org1 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    user.organizations = [org1]
+    filter = FactoryBot.create(:filter, :permissions => [Permission.find_by_name(:view_organizations)])
     user.roles << filter.role
     as_user user do
       get :index
@@ -26,12 +26,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     org1 = FactoryBot.create(:organization)
     loc1 = FactoryBot.create(:location)
     loc2 = FactoryBot.create(:location)
-    org2 = FactoryBot.create(:organization, :location_ids => [ loc1.id ])
-    org3 = FactoryBot.create(:organization, :location_ids => [ loc2.id ])
+    org2 = FactoryBot.create(:organization, :location_ids => [loc1.id])
+    org3 = FactoryBot.create(:organization, :location_ids => [loc2.id])
     user = FactoryBot.create(:user)
-    user.organizations = [ org1, org2 ]
-    user.locations = [ loc1, loc2 ]
-    filter = FactoryBot.create(:filter, :permissions => [ Permission.find_by_name(:view_organizations) ])
+    user.organizations = [org1, org2]
+    user.locations = [loc1, loc2]
+    filter = FactoryBot.create(:filter, :permissions => [Permission.find_by_name(:view_organizations)])
     user.roles << filter.role
     as_user user do
       get :index, params: { :organization_id => org1.id, :location_ids => loc1.id }
@@ -60,7 +60,7 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
 
   test "organization ignore types can be modified" do
     org = FactoryBot.create(:organization)
-    put :update, params: { :id => org.to_param, :organization => { :ignore_types => [ 'ProvisioningTemplate' ] } }
+    put :update, params: { :id => org.to_param, :organization => { :ignore_types => ['ProvisioningTemplate'] } }
     org.reload
     assert_includes org.ignore_types, 'ProvisioningTemplate'
   end

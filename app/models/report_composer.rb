@@ -110,7 +110,7 @@ class ReportComposer
 
     def convert_input_names_to_ids(template_id, input_values)
       inputs = TemplateInput.where(:template_id => template_id, :name => input_values.keys)
-      Hash[inputs.map { |i| [ i.id.to_s, 'value' => input_values[i.name] ] }]
+      Hash[inputs.map { |i| [i.id.to_s, 'value' => input_values[i.name]] }]
     end
   end
 

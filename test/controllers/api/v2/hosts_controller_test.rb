@@ -11,7 +11,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     as_admin do
       @host = FactoryBot.create(:host)
       @ptable = FactoryBot.create(:ptable)
-      @ptable.operatingsystems = [ Operatingsystem.find_by_name('Redhat') ]
+      @ptable.operatingsystems = [Operatingsystem.find_by_name('Redhat')]
       Host::Managed.any_instance.stubs(:vm_exists?).returns(true)
     end
   end
@@ -1072,8 +1072,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       FactoryBot.create(
         :domain,
         :name => 'virt.bos.redhat.com',
-        :location_ids => [ basic_attrs[:location_id] ],
-        :organization_ids => [ basic_attrs[:organization_id] ]
+        :location_ids => [basic_attrs[:location_id]],
+        :organization_ids => [basic_attrs[:organization_id]]
       )
     end
     let(:compute_resource) do
@@ -1081,8 +1081,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         :compute_resource,
         :vmware,
         :uuid => 'Solutions',
-        :location_ids => [ basic_attrs[:location_id] ],
-        :organization_ids => [ basic_attrs[:organization_id] ]
+        :location_ids => [basic_attrs[:location_id]],
+        :organization_ids => [basic_attrs[:organization_id]]
       )
       ComputeResource.find_by_id(cr.id)
     end
@@ -1127,12 +1127,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     disable_orchestration
     subnet1 = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet1', :network => '192.168.2.0', :from => '192.168.2.10',
                                   :to => '192.168.2.12', :dns_primary => '192.168.2.2', :gateway => '192.168.2.3',
-                                  :ipam => IPAM::MODES[:db], :location_ids => [ basic_attrs[:location_id] ],
-                                  :organization_ids => [ basic_attrs[:organization_id] ])
+                                  :ipam => IPAM::MODES[:db], :location_ids => [basic_attrs[:location_id]],
+                                  :organization_ids => [basic_attrs[:organization_id]])
     subnet2 = FactoryBot.create(:subnet_ipv4, :name => 'my_subnet2', :network => '192.168.3.0', :from => '192.168.3.10',
                                  :to => '192.168.3.12', :dns_primary => '192.168.3.2', :gateway => '192.168.3.3',
-                                 :ipam => IPAM::MODES[:db], :location_ids => [ basic_attrs[:location_id] ],
-                                 :organization_ids => [ basic_attrs[:organization_id] ])
+                                 :ipam => IPAM::MODES[:db], :location_ids => [basic_attrs[:location_id]],
+                                 :organization_ids => [basic_attrs[:organization_id]])
     assert_difference('Host.count') do
       post :create, params: { :host => basic_attrs.merge!(:interfaces_attributes => [{ :primary => true, :mac => '00:11:22:33:44:00',
                       :subnet_id => subnet1.id}, { :primary => false, :mac => '00:11:22:33:44:01', :subnet_id => subnet2.id}]) }

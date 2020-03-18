@@ -9,7 +9,7 @@ module Hostext
 
       test "can be found by config group" do
         config_group = FactoryBot.create(:config_group)
-        @host.config_groups = [ config_group ]
+        @host.config_groups = [config_group]
         result = Host.search_for("config_group = #{config_group.name}")
         assert_includes result, @host
       end

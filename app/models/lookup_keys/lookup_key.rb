@@ -5,7 +5,7 @@ class LookupKey < ApplicationRecord
   include Classification
   include KeyType
 
-  VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
+  VALIDATOR_TYPES = [N_("regexp"), N_("list")]
 
   KEY_DELM = ","
   EQ_DELM  = "="

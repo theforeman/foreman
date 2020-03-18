@@ -162,11 +162,11 @@ FactoryBot.define do
 
     trait :with_puppetclass do
       environment
-      puppetclasses { [ FactoryBot.create(:puppetclass, :environments => [environment]) ] }
+      puppetclasses { [FactoryBot.create(:puppetclass, :environments => [environment])] }
     end
 
     trait :with_config_group do
-      config_groups { [ FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment]) ] }
+      config_groups { [FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment])] }
     end
 
     trait :with_parameter do
@@ -262,7 +262,7 @@ FactoryBot.define do
       medium { operatingsystem.try(:media).try(:first) }
       ptable { operatingsystem.try(:ptables).try(:first) }
       domain
-      interfaces { [ FactoryBot.build(:nic_primary_and_provision) ] }
+      interfaces { [FactoryBot.build(:nic_primary_and_provision)] }
       association :operatingsystem, :with_associations
     end
 
@@ -515,7 +515,7 @@ FactoryBot.define do
         FactoryBot.create(:libvirt_cr, taxonomies)
       end
       domain
-      interfaces { [ FactoryBot.build(:nic_primary_and_provision) ] }
+      interfaces { [FactoryBot.build(:nic_primary_and_provision)] }
       puppet_ca_proxy do
         FactoryBot.create(:puppet_ca_smart_proxy)
       end
@@ -549,7 +549,7 @@ FactoryBot.define do
 
     trait :with_puppetclass do
       environment
-      puppetclasses { [ FactoryBot.create(:puppetclass, :environments => [environment]) ] }
+      puppetclasses { [FactoryBot.create(:puppetclass, :environments => [environment])] }
     end
 
     trait :with_compute_resource do
@@ -558,7 +558,7 @@ FactoryBot.define do
 
     trait :with_config_group do
       environment
-      config_groups { [ FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment]) ] }
+      config_groups { [FactoryBot.create(:config_group, :with_puppetclass, :class_environments => [environment])] }
     end
 
     trait :with_parameter do

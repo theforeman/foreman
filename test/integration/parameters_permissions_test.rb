@@ -9,7 +9,7 @@ class ParametersPermissionsIntegrationTest < ActionDispatch::IntegrationTest
       :role => role)
     domain_filter = FactoryBot.create(:filter, :permissions => Permission.where(:name => ['edit_domains', 'view_domains']))
 
-    role.filters = [ @filter, domain_filter ]
+    role.filters = [@filter, domain_filter]
     @user = FactoryBot.create(:user, :with_mail)
     @user.roles << role
 

@@ -339,7 +339,7 @@ class UsergroupMemberTest < ActiveSupport::TestCase
   test "user can be destroyed and it destroys also user group members correctly" do
     user = FactoryBot.create :user
     group = FactoryBot.create :usergroup
-    group.users = [ user ]
+    group.users = [user]
     assert user.destroy
   end
 

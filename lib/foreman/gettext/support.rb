@@ -51,7 +51,7 @@ module Foreman
           # TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
           human_locale = _("locale_name")
           human_locale = locale if human_locale == "locale_name"
-          FastGettext.human_available_locales << [ human_locale, locale ]
+          FastGettext.human_available_locales << [human_locale, locale]
         end
       ensure
         FastGettext.locale = original_locale
