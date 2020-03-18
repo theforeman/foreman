@@ -29,7 +29,7 @@ class Ptable < Template
   has_and_belongs_to_many :operatingsystems, :join_table => :operatingsystems_ptables, :association_foreign_key => :operatingsystem_id, :foreign_key => :ptable_id
   validates :layout, :presence => true
   validates :name, :uniqueness => true
-  validates :os_family, :absence => true, :if => Proc.new { |ptable| ptable.snippet }
+  validates :os_family, :absence => true, :if => proc { |ptable| ptable.snippet }
   validate_inclusion_in_families :os_family
 
   # these can't be shared in parent class, scoped search can't handle STI properly

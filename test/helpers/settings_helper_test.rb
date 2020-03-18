@@ -4,7 +4,7 @@ class SettingsHelperTest < ActionView::TestCase
   include SettingsHelper
 
   test "create a setting with values collection " do
-    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new { {:a => "a", :b => "b"} } })
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => proc { {:a => "a", :b => "b"} } })
     setting = Setting.create(options)
     assert_equal send("#{setting.name}_collection"), { :a => "a", :b => "b" }
     expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :a => "a", :b => "b" })
@@ -12,7 +12,7 @@ class SettingsHelperTest < ActionView::TestCase
   end
 
   test "readonly setting with values collection returns readonly field" do
-    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new { {:a => "a", :b => "b"} } })
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => proc { {:a => "a", :b => "b"} } })
     setting = Setting.create(options)
     setting.readonly!
     expects(:readonly_field)
@@ -21,7 +21,7 @@ class SettingsHelperTest < ActionView::TestCase
 
   test "create a setting with a dynamic collection" do
     expected_hostgroup_count = Hostgroup.all.count + 1
-    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => Proc.new { Hash[:size => Hostgroup.all.count] } })
+    options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => proc { Hash[:size => Hostgroup.all.count] } })
     FactoryBot.create(:hostgroup, :root_pass => '12345678')
     setting = Setting.create(options)
     assert_equal send("#{setting.name}_collection"), { :size => expected_hostgroup_count }

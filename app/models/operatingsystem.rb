@@ -36,7 +36,7 @@ class Operatingsystem < ApplicationRecord
             :uniqueness => { :scope => [:major, :minor], :message => N_("Operating system version already exists")}
   validates :description, :uniqueness => true, :allow_blank => true
   validates :password_hash, :inclusion => { :in => PasswordCrypt::ALGORITHMS }
-  validates :release_name, :presence => true, :if => Proc.new { |os| os.family == 'Debian' }
+  validates :release_name, :presence => true, :if => proc { |os| os.family == 'Debian' }
   before_validation :downcase_release_name, :set_title, :stringify_major_and_minor
   validates :title, :uniqueness => true, :presence => true
 

@@ -25,7 +25,7 @@ class FactName < ApplicationRecord
 
   validates :name, :uniqueness => { :scope => :type }
 
-  before_save :set_name, :if => Proc.new { |fact| fact.short_name.blank? }
+  before_save :set_name, :if => proc { |fact| fact.short_name.blank? }
 
   has_ancestry
 

@@ -21,7 +21,7 @@ module Taxonomix
     dirty_has_many_associations :organizations, :locations
     audit_associations :organizations, :locations if respond_to? :audit_associations
 
-    validate :ensure_taxonomies_not_escalated, :if => Proc.new { User.current.nil? || !User.current.admin? }
+    validate :ensure_taxonomies_not_escalated, :if => proc { User.current.nil? || !User.current.admin? }
   end
 
   module ClassMethods

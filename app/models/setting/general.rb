@@ -27,8 +27,8 @@ class Setting::General < Setting
       set("append_domain_name_for_hosts", N_("Foreman will append domain names when new hosts are provisioned"), true, N_("Append domain names to the host")),
       set('outofsync_interval', N_("Duration in minutes after servers are classed as out of sync."), 30, N_('Out of sync interval')),
       set('instance_id', N_("Foreman instance ID, uniquely identifies this Foreman instance."), 'uuid', N_('Foreman UUID'), Foreman.uuid),
-      set('default_locale', N_("Language to use for new users"), nil, N_('Default language'), nil, { :collection => Proc.new { locales } }),
-      set('default_timezone', N_("Timezone to use for new users"), nil, N_('Default timezone'), nil, { :collection => Proc.new { timezones } }),
+      set('default_locale', N_("Language to use for new users"), nil, N_('Default language'), nil, { :collection => proc { locales } }),
+      set('default_timezone', N_("Timezone to use for new users"), nil, N_('Default timezone'), nil, { :collection => proc { timezones } }),
     ]
   end
 

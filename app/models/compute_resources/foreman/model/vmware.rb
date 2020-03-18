@@ -14,7 +14,7 @@ module Foreman::Model
 
     validates :user, :password, :server, :datacenter, :presence => true
     validates :display_type, :inclusion => {
-      :in => Proc.new { |cr| cr.class.supported_display_types.keys },
+      :in => proc { |cr| cr.class.supported_display_types.keys },
       :message => N_('not supported by this compute resource'),
     }
 

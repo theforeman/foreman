@@ -218,14 +218,14 @@ class Host::Managed < Host::Base
   # some shortcuts
   alias_attribute :arch, :architecture
 
-  validates :environment_id, :presence => true, :unless => Proc.new { |host| host.puppet_proxy_id.blank? }
-  validates :organization_id, :presence => true, :if => Proc.new { |host| host.managed? }
-  validates :location_id,     :presence => true, :if => Proc.new { |host| host.managed? }
-  validate :compute_resource_in_taxonomy, :if => Proc.new { |host| host.managed? && host.compute_resource_id.present? }
+  validates :environment_id, :presence => true, :unless => proc { |host| host.puppet_proxy_id.blank? }
+  validates :organization_id, :presence => true, :if => proc { |host| host.managed? }
+  validates :location_id,     :presence => true, :if => proc { |host| host.managed? }
+  validate :compute_resource_in_taxonomy, :if => proc { |host| host.managed? && host.compute_resource_id.present? }
 
   if SETTINGS[:unattended]
     # define before orchestration is included so we can prepare object before VM is tried to be deleted
-    before_destroy :disassociate!, :if => Proc.new { |host| host.uuid && !Setting[:destroy_vm_on_host_delete] }
+    before_destroy :disassociate!, :if => proc { |host| host.uuid && !Setting[:destroy_vm_on_host_delete] }
     # handles all orchestration of smart proxies.
     include Orchestration
     # DHCP orchestration delegation
@@ -244,23 +244,23 @@ class Host::Managed < Host::Base
     include HostTemplateHelpers
     delegate :require_ip4_validation?, :require_ip6_validation?, :to => :provision_interface
 
-    validates :architecture_id, :presence => true, :if => Proc.new { |host| host.managed }
+    validates :architecture_id, :presence => true, :if => proc { |host| host.managed }
     validates :root_pass, :length => {:minimum => 8, :message => _('should be 8 characters or more')},
                           :presence => {:message => N_('should not be blank - consider setting a global or host group default')},
-                          :if => Proc.new { |host| host.managed && !host.image_build? && build? }
+                          :if => proc { |host| host.managed && !host.image_build? && build? }
     validates :ptable_id, :presence => {:message => N_("can't be blank unless a custom partition has been defined")},
-                          :if => Proc.new { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
-    validates :provision_method, :inclusion => {:in => Proc.new { provision_methods }, :message => N_('is unknown')}, :if => Proc.new { |host| host.managed? }
+                          :if => proc { |host| host.managed && host.disk.empty? && !Foreman.in_rake? && !host.image_build? && host.build? }
+    validates :provision_method, :inclusion => {:in => proc { provision_methods }, :message => N_('is unknown')}, :if => proc { |host| host.managed? }
     validates :medium_id, :presence => true,
-                          :if => Proc.new { |host| host.validate_media? }
-    validates :medium_id, :inclusion => {:in => Proc.new { |host| host.operatingsystem.medium_ids },
+                          :if => proc { |host| host.validate_media? }
+    validates :medium_id, :inclusion => {:in => proc { |host| host.operatingsystem.medium_ids },
                                          :message => N_('must belong to host\'s operating system')},
-                          :if => Proc.new { |host| host.operatingsystem && host.medium }
+                          :if => proc { |host| host.operatingsystem && host.medium }
     validate :provision_method_in_capabilities
     validate :short_name_periods
     validate :check_interfaces
-    before_validation :set_compute_attributes, :on => :create, :if => Proc.new { compute_attributes_empty? }
-    validate :check_if_provision_method_changed, :on => :update, :if => Proc.new { |host| host.managed }
+    before_validation :set_compute_attributes, :on => :create, :if => proc { compute_attributes_empty? }
+    validate :check_if_provision_method_changed, :on => :update, :if => proc { |host| host.managed }
     validates :uuid, uniqueness: { :allow_blank => true }
   else
     def fqdn
@@ -278,8 +278,8 @@ class Host::Managed < Host::Base
 
   before_validation :set_hostgroup_defaults, :set_ip_address
   after_validation :ensure_associations
-  before_validation :set_certname, :if => Proc.new { |h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
-  after_validation :trigger_nic_orchestration, :if => Proc.new { |h| h.managed? && h.changed? }, :on => :update
+  before_validation :set_certname, :if => proc { |h| h.managed? && Setting[:use_uuid_for_certificates] } if SETTINGS[:unattended]
+  after_validation :trigger_nic_orchestration, :if => proc { |h| h.managed? && h.changed? }, :on => :update
   before_validation :validate_dns_name_uniqueness
 
   def <=>(other)

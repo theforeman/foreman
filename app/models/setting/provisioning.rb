@@ -12,7 +12,7 @@ class Setting::Provisioning < Setting
   end
 
   Setting::BLANK_ATTRS.push(*(default_global_labels + local_boot_labels))
-  validates :value, :pxe_template_name => true, :if => Proc.new { |s| s.class.default_global_labels.include?(s.name) }
+  validates :value, :pxe_template_name => true, :if => proc { |s| s.class.default_global_labels.include?(s.name) }
 
   IGNORED_INTERFACES = [
     'lo',
@@ -40,7 +40,7 @@ class Setting::Provisioning < Setting
               {:name => _("Usergroup"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
 
     [
-      set('host_owner', N_("Default owner on provisioned hosts, if empty Foreman will use current user"), nil, N_('Host owner'), nil, {:collection => Proc.new { select }, :include_blank => _("Select an owner")}),
+      set('host_owner', N_("Default owner on provisioned hosts, if empty Foreman will use current user"), nil, N_('Host owner'), nil, {:collection => proc { select }, :include_blank => _("Select an owner")}),
       set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil, N_('Root password')),
       set('unattended_url', N_("URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"), unattended_url, N_('Unattended URL')),
       set('safemode_render', N_("Enable safe mode config templates rendering (recommended)"), true, N_('Safemode rendering')),
@@ -60,10 +60,10 @@ class Setting::Provisioning < Setting
       set('use_shortname_for_vms', N_("Foreman will use the short hostname instead of the FQDN for creating new virtual machines"), false, N_('Use short name for VMs')),
       set('dns_timeout', N_("List of timeouts (in seconds) for DNS lookup attempts such as the dns_lookup macro and DNS record conflict validation"), [5, 10, 15, 20], N_('DNS timeout')),
       set('clean_up_failed_deployment', N_("Foreman will delete virtual machine if provisioning script ends with non zero exit code"), true, N_('Clean up failed deployment')),
-      set('name_generator_type', N_("Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"), 'Random-based', N_("Type of name generator"), nil, {:collection => Proc.new { NameGenerator::GENERATOR_TYPES } }),
+      set('name_generator_type', N_("Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)"), 'Random-based', N_("Type of name generator"), nil, {:collection => proc { NameGenerator::GENERATOR_TYPES } }),
       set('default_pxe_item_global', N_("Default PXE menu item in global template - 'local', 'discovery' or custom, use blank for template default"), nil, N_("Default PXE global template entry")),
       set('default_pxe_item_local', N_("Default PXE menu item in local template - 'local', 'local_chain_hd0' or custom, use blank for template default"), nil, N_("Default PXE local template entry")),
-      set('intermediate_ipxe_script', N_('Intermediate iPXE script for unattended installations'), 'iPXE intermediate script', N_('iPXE intermediate script'), nil, { :collection => Proc.new { Hash[ProvisioningTemplate.unscoped.of_kind(:iPXE).map { |tmpl| [tmpl.name, tmpl.name] }] } }),
+      set('intermediate_ipxe_script', N_('Intermediate iPXE script for unattended installations'), 'iPXE intermediate script', N_('iPXE intermediate script'), nil, { :collection => proc { Hash[ProvisioningTemplate.unscoped.of_kind(:iPXE).map { |tmpl| [tmpl.name, tmpl.name] }] } }),
       set(
         'destroy_vm_on_host_delete',
         N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),
@@ -104,7 +104,7 @@ class Setting::Provisioning < Setting
 
   def self.map_pxe_kind
     TemplateKind::PXE.map do |pxe_kind|
-      templates = Proc.new { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
+      templates = proc { Hash[ProvisioningTemplate.unscoped.of_kind(pxe_kind).map { |tmpl| [tmpl.name, tmpl.name] }] }
       yield pxe_kind, templates
     end
   end

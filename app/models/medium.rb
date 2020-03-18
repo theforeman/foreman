@@ -22,7 +22,7 @@ class Medium < ApplicationRecord
     :url_schema => ['http', 'https', 'ftp', 'nfs']
   validates :media_path, :config_path, :image_path, :allow_blank => true,
                 :format => { :with => VALID_NFS_PATH, :message => N_("does not appear to be a valid nfs mount path")},
-                :if => Proc.new { |m| m.respond_to? :media_path }
+                :if => proc { |m| m.respond_to? :media_path }
 
   validate_inclusion_in_families :os_family
 

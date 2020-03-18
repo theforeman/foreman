@@ -11,7 +11,7 @@ class ExternalUsergroup < ApplicationRecord
   validates :name, :uniqueness => { :scope => :auth_source_id }
   validates :name, :auth_source, :usergroup, :presence => true
   validate :hidden_authsource_restricted
-  validate :in_auth_source?, :if => Proc.new { |eu| eu.auth_source.respond_to?(:valid_group?) }
+  validate :in_auth_source?, :if => proc { |eu| eu.auth_source.respond_to?(:valid_group?) }
   validate :domain_users_forbidden
 
   def refresh

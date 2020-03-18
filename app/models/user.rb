@@ -81,9 +81,9 @@ class User < ApplicationRecord
 
   validates :mail, :email => true, :allow_blank => true
   validates :mail, :presence => true, :on => :update,
-                   :if => Proc.new { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? && (u.mail_was.present? || (User.current == u && !User.current.hidden?)) }
+                   :if => proc { |u| !AuthSourceHidden.where(:id => u.auth_source_id).any? && (u.mail_was.present? || (User.current == u && !User.current.hidden?)) }
 
-  validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => Proc.new { |user| user.respond_to?(:locale) }
+  validates :locale, :format => { :with => /\A\w{2}([_-]\w{2})?\Z/ }, :allow_blank => true, :if => proc { |user| user.respond_to?(:locale) }
   before_validation :normalize_locale
 
   def self.title_name
@@ -97,16 +97,16 @@ class User < ApplicationRecord
   validates :login, :presence => true, :uniqueness => {:case_sensitive => false, :message => N_("already exists")},
                     :format => {:with => /\A[[:alnum:]_\-@\.\\$#+]*\Z/}, :length => {:maximum => 100}
   validates :auth_source_id, :presence => true
-  validates :password_hash, :presence => true, :if => Proc.new { |user| user.manage_password? }
-  validates :password, :confirmation => true, :if => Proc.new { |user| user.manage_password? },
-                       :unless => Proc.new { |user| user.password.empty? }
+  validates :password_hash, :presence => true, :if => proc { |user| user.manage_password? }
+  validates :password, :confirmation => true, :if => proc { |user| user.manage_password? },
+                       :unless => proc { |user| user.password.empty? }
   validates :firstname, :lastname, :format => {:with => name_format}, :length => {:maximum => 50}, :allow_nil => true
   validate :name_used_in_a_usergroup, :ensure_hidden_users_are_not_renamed, :ensure_hidden_users_remain_admin,
     :ensure_privileges_not_escalated, :default_organization_inclusion, :default_location_inclusion,
     :ensure_last_admin_remains_admin, :hidden_authsource_restricted, :ensure_admin_password_changed_by_admin,
     :check_permissions_for_changing_login
-  before_validation :verify_current_password, :if => Proc.new { |user| user == User.current },
-                    :unless => Proc.new { |user| user.password.empty? }
+  before_validation :verify_current_password, :if => proc { |user| user == User.current },
+                    :unless => proc { |user| user.password.empty? }
   before_validation :prepare_password, :normalize_mail
   before_save       :set_lower_login
   before_save       :normalize_timezone

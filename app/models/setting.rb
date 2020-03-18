@@ -32,24 +32,24 @@ class Setting < ApplicationRecord
 
   validates :name, :presence => true, :uniqueness => true
   validates :description, :presence => true
-  validates :default, :presence => true, :unless => Proc.new { |s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
-  validates :default, :inclusion => {:in => [true, false]}, :if => Proc.new { |s| s.settings_type == "boolean" }
-  validates :value, :numericality => true, :length => {:maximum => 8}, :if => Proc.new { |s| s.settings_type == "integer" }
-  validates :value, :numericality => {:greater_than => 0}, :if => Proc.new { |s| NONZERO_ATTRS.include?(s.name) }
-  validates :value, :inclusion => {:in => [true, false]}, :if => Proc.new { |s| s.settings_type == "boolean" }
-  validates :value, :presence => true, :if => Proc.new { |s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
+  validates :default, :presence => true, :unless => proc { |s| s.settings_type == "boolean" || BLANK_ATTRS.include?(s.name) }
+  validates :default, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
+  validates :value, :numericality => true, :length => {:maximum => 8}, :if => proc { |s| s.settings_type == "integer" }
+  validates :value, :numericality => {:greater_than => 0}, :if => proc { |s| NONZERO_ATTRS.include?(s.name) }
+  validates :value, :inclusion => {:in => [true, false]}, :if => proc { |s| s.settings_type == "boolean" }
+  validates :value, :presence => true, :if => proc { |s| s.settings_type == "array" && !BLANK_ATTRS.include?(s.name) }
   validates :settings_type, :inclusion => {:in => TYPES}, :allow_nil => true, :allow_blank => true
-  validates :value, :url_schema => ['http', 'https'], :if => Proc.new { |s| URI_ATTRS.include?(s.name) }
+  validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_ATTRS.include?(s.name) }
 
-  validates :value, :url_schema => ['http', 'https'], :if => Proc.new { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
+  validates :value, :url_schema => ['http', 'https'], :if => proc { |s| URI_BLANK_ATTRS.include?(s.name) && s.value.present? }
 
-  validate :validate_host_owner, :if => Proc.new { |s| s.name == "host_owner" }
-  validates :value, :format => { :with => Resolv::AddressRegex }, :if => Proc.new { |s| IP_ATTRS.include? s.name }
-  validates :value, :regexp => true, :if => Proc.new { |s| REGEXP_ATTRS.include? s.name }
-  validates :value, :array_type => true, :if => Proc.new { |s| s.settings_type == "array" }
-  validates_with ValueValidator, :if => Proc.new { |s| s.respond_to?("validate_#{s.name}") }
-  validates :value, :array_hostnames_ips => true, :if => Proc.new { |s| ARRAY_HOSTNAMES.include? s.name }
-  validates :value, :email => true, :if => Proc.new { |s| EMAIL_ATTRS.include? s.name }
+  validate :validate_host_owner, :if => proc { |s| s.name == "host_owner" }
+  validates :value, :format => { :with => Resolv::AddressRegex }, :if => proc { |s| IP_ATTRS.include? s.name }
+  validates :value, :regexp => true, :if => proc { |s| REGEXP_ATTRS.include? s.name }
+  validates :value, :array_type => true, :if => proc { |s| s.settings_type == "array" }
+  validates_with ValueValidator, :if => proc { |s| s.respond_to?("validate_#{s.name}") }
+  validates :value, :array_hostnames_ips => true, :if => proc { |s| ARRAY_HOSTNAMES.include? s.name }
+  validates :value, :email => true, :if => proc { |s| EMAIL_ATTRS.include? s.name }
   before_validation :set_setting_type_from_value
   before_save :clear_value_when_default
   before_save :clear_cache
