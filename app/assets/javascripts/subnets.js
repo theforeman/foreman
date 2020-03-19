@@ -2,6 +2,10 @@ function showSubnetIPAM(element) {
   if ($.inArray(element.val(), element.data('disable-auto-suggest-on')) !== -1)
     $('#ipam_options').hide();
   else $('#ipam_options').show();
+
+  if ($.inArray(element.val(), element.data('enable-ipam-group-on')) >= 0)
+    $('#external_ipam_options').show();
+  else $('#external_ipam_options').hide();
 }
 
 function checkedRelatedRadioButton(element) {

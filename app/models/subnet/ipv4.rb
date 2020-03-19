@@ -26,7 +26,7 @@ class Subnet::Ipv4 < Subnet
   end
 
   def self.supported_ipam_modes
-    [:dhcp, :db, :random_db, :none]
+    [:dhcp, :db, :random_db, :external_ipam, :none]
   end
 
   def self.show_mask?
