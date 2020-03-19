@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-04 16:29+0200\n"
-"PO-Revision-Date: 2020-03-04 16:29+0200\n"
+"POT-Creation-Date: 2020-03-19 11:02+0200\n"
+"PO-Revision-Date: 2020-03-19 11:02+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -18,25 +18,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../app/assets/javascripts/application.js:67
+#: ../app/assets/javascripts/application.js:73
 msgid "Failed to fetch: "
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:226
+#: ../app/assets/javascripts/application.js:232
 msgid "Sorry but no templates were configured."
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:386
+#: ../app/assets/javascripts/application.js:392
 #: ../app/models/config_report.rb:81
 msgid "Success"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:390
+#: ../app/assets/javascripts/application.js:396
 #: ../app/helpers/layout_helper.rb:154 ../app/models/host_status/global.rb:36
 msgid "Warning"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:394
+#: ../app/assets/javascripts/application.js:400
 #: ../app/controllers/application_controller.rb:348
 #: ../app/helpers/dashboard_helper.rb:59 ../app/helpers/layout_helper.rb:160
 #: ../app/models/host_status/configuration_status.rb:71
@@ -45,11 +45,11 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:430
+#: ../app/assets/javascripts/application.js:436
 msgid "Unknown power state"
 msgstr ""
 
-#: ../app/assets/javascripts/application.js:458
+#: ../app/assets/javascripts/application.js:464
 msgid "Exit Full Screen"
 msgstr ""
 
@@ -258,20 +258,20 @@ msgstr ""
 msgid "Admin permissions required"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:334
+#: ../app/controllers/api/base_controller.rb:335
 msgid "%{resource_name} not found by id '%{id}'"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:347
+#: ../app/controllers/api/base_controller.rb:348
 msgid "Missing one of the required permissions: %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:379
+#: ../app/controllers/api/base_controller.rb:380
 #: ../app/controllers/application_controller.rb:159
 msgid "unknown permission for %s"
 msgstr ""
 
-#: ../app/controllers/api/base_controller.rb:390
+#: ../app/controllers/api/base_controller.rb:391
 msgid "unknown parent permission for %s"
 msgstr ""
 
@@ -5200,7 +5200,7 @@ msgstr ""
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 #: ../app/helpers/images_helper.rb:8
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:7
-#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:11
+#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:13
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:26
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:13
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:75
@@ -5990,21 +5990,21 @@ msgstr ""
 msgid "selected image does not exist"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:218
+#: ../app/models/compute_resources/foreman/model/gce.rb:239
 msgid "console is not available at this time because the instance is powered off"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:275
+#: ../app/models/compute_resources/foreman/model/gce.rb:297
 msgid "Unable to access key"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:278
+#: ../app/models/compute_resources/foreman/model/gce.rb:300
 msgid ""
 "Invalid Google JSON key. Please verify client email & private key options are "
 "present"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:281
+#: ../app/models/compute_resources/foreman/model/gce.rb:303
 msgid "Certificate key is not a valid JSON"
 msgstr ""
 
@@ -6123,7 +6123,7 @@ msgid "CD-ROM"
 msgstr ""
 
 #: ../app/models/compute_resources/foreman/model/vmware.rb:226
-#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:14
+#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:17
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:16
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:23
 #: ../app/views/compute_resources_vms/form/libvirt/_network.html.erb:27
@@ -10521,7 +10521,7 @@ msgid "Flavor"
 msgstr ""
 
 #: ../app/views/compute_resources_vms/form/ec2/_base.html.erb:7
-#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:10
+#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:12
 #: ../app/views/compute_resources_vms/form/libvirt/_base.html.erb:20
 #: ../app/views/compute_resources_vms/form/openstack/_base.html.erb:12
 #: ../app/views/compute_resources_vms/form/ovirt/_base.html.erb:70
@@ -10572,7 +10572,7 @@ msgstr ""
 msgid "Machine type"
 msgstr ""
 
-#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:15
+#: ../app/views/compute_resources_vms/form/gce/_base.html.erb:18
 msgid "Associate Ephemeral External IP"
 msgstr ""
 
@@ -14135,6 +14135,10 @@ msgstr ""
 
 #: ../app/views/users/logout.html.erb:1
 msgid "Are you sure you want to log out?"
+msgstr ""
+
+#: ../config/initializers/deprecations.rb:21
+msgid "Further Information"
 msgstr ""
 
 #: ../db/seeds.d/160-mail_notifications.rb:8

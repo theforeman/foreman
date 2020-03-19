@@ -3460,6 +3460,9 @@ msgstr ""
 msgid "Function not available for %s"
 msgstr ""
 
+msgid "Further Information"
+msgstr ""
+
 msgid "GMT time"
 msgstr ""
 

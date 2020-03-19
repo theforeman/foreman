@@ -14,7 +14,7 @@
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013-2014
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2013,2016
 # Eike Stehr <estehr@gmail.com>, 2015
-# Ettore Atalan <atalanttore@googlemail.com>, 2014-2017
+# Ettore Atalan <atalanttore@googlemail.com>, 2014-2017,2020
 # Hannes Schaller <admin@cyberkov.at>, 2013
 # Arnold Bechtoldt <mail@arnoldbechtoldt.com>, 2014
 # Markus Bucher <bucher@atix.de>, 2019-2020
@@ -37,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-03-02 13:14+0000\n"
-"Last-Translator: Markus Bucher <bucher@atix.de>\n"
+"PO-Revision-Date: 2020-03-08 12:36+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr[0] "%s aktive Funktionen"
 msgstr[1] "%s aktive Funktionen"
 
 msgid "%s Filters"
-msgstr ""
+msgstr "%s Filter"
 
 msgid "%s Log Message"
 msgid_plural "%s Log Messages"
@@ -165,7 +165,7 @@ msgid "%s you had selected as your context has been deleted"
 msgstr "%s die Sie als Kontext gewählt hatten, wurde gelöscht."
 
 msgid "%{action} %{vm}"
-msgstr ""
+msgstr "%{action} %{vm}"
 
 msgid "%{app_name} API documentation homepage"
 msgstr "%{app_name} API-Dokumentations-Startseite"
@@ -583,7 +583,7 @@ msgid "Add:"
 msgstr "Hinzufügen:"
 
 msgid "Added %{from} to %{to}"
-msgstr ""
+msgstr "%{from} zu %{to} hinzugefügt"
 
 msgid "Adding would cause a cycle!"
 msgstr "Hinzufügen würde einen Kreislauf verursachen!"
@@ -891,7 +891,7 @@ msgid "Associated Host"
 msgstr "Zugewiesener Host"
 
 msgid "Associating VMs is not supported for this compute resource"
-msgstr "VMs zuordnen wird nicht unterstützt für diese Rechenressource"
+msgstr "Das Zuordnen von VMs wird für diese Rechenressource nicht unterstützt"
 
 msgid "Association"
 msgstr "Zusammenschluss"
@@ -1052,7 +1052,7 @@ msgid "Authentication"
 msgstr "Authentifizierung"
 
 msgid "Authentication sources"
-msgstr ""
+msgstr "Authentifizierungsquellen"
 
 msgid "Author"
 msgstr "Autor"
@@ -1214,7 +1214,7 @@ msgid "Boot Mode"
 msgstr "Boot Modus"
 
 msgid "Boot device"
-msgstr "Boot-Device"
+msgstr "Boot-Gerät"
 
 msgid "Boot from volume"
 msgstr "Starten von Volumen"
@@ -1223,7 +1223,7 @@ msgid "Boot host from specified device"
 msgstr "Host von angegebenem Gerät starten"
 
 msgid "Boot order"
-msgstr ""
+msgstr "Boot-Reihenfolge"
 
 msgid "Boot time"
 msgstr ""
@@ -1280,7 +1280,7 @@ msgid "CA Certificate Expiry Date"
 msgstr "Ablaufdatum CA Zertifikat"
 
 msgid "CD-ROM"
-msgstr ""
+msgstr "CD-ROM"
 
 msgid "CD-ROM drive"
 msgstr "CD-ROM-Laufwerk"
@@ -1421,7 +1421,7 @@ msgid "Changed environments"
 msgstr "Geänderte Umgebungen"
 
 msgid "Changes"
-msgstr ""
+msgstr "Änderungen"
 
 msgid "Changes to organizations and locations will propagate to all inheriting filters"
 msgstr ""
@@ -1559,7 +1559,7 @@ msgid "Compute Profiles"
 msgstr "Rechenprofile"
 
 msgid "Compute Resouces"
-msgstr ""
+msgstr "Rechenressourcen"
 
 msgid "Compute Resource"
 msgstr "Rechenressource"
@@ -1690,7 +1690,7 @@ msgid "Confirm"
 msgstr "Bestätigen"
 
 msgid "Confirm Action"
-msgstr ""
+msgstr "Aktion bestätigen"
 
 msgid "Conflict - %s"
 msgstr "Konflikt - %s"
@@ -1855,7 +1855,7 @@ msgid "Create LDAP Auth Source"
 msgstr "LDAP-Authentifizierungsquelle erstellen"
 
 msgid "Create LDAP Authentication Source"
-msgstr ""
+msgstr "LDAP-Authentifizierungsquelle erstellen"
 
 msgid "Create Location"
 msgstr "Erzeuge einen Standort"
@@ -2149,7 +2149,7 @@ msgid "DNS proxy to use within this domain for managing A records, note that PTR
 msgstr "DNS Proxy, der innerhalb der Domain zur Verwaltung von A Einträgen dient. Anmerkung: PTR Einträge werden vom Subnetz DNS Proxy verwaltet"
 
 msgid "DNS timeout"
-msgstr ""
+msgstr "DNS-Zeitüberschreitung"
 
 msgid "Daily"
 msgstr "Täglich"
@@ -2209,7 +2209,7 @@ msgid "Default encrypted root password on provisioned hosts"
 msgstr "Standardmäßiges verschlüsseltes Root-Passwort auf bereitgestellten Hosts"
 
 msgid "Default language"
-msgstr ""
+msgstr "Standardsprache"
 
 msgid "Default location"
 msgstr "Standardmäßiger Standort"
@@ -2227,7 +2227,7 @@ msgid "Default templates are automatically added to new organizations and locati
 msgstr "Standardvorlagen werden automatisch zu neuen Organisationen und Standorten hinzugefügt."
 
 msgid "Default timezone"
-msgstr ""
+msgstr "Standardzeitzone"
 
 msgid "Default value"
 msgstr "Standardwert"
@@ -2275,7 +2275,7 @@ msgid "Delete a Puppet class"
 msgstr "Puppet-Klasse löschen"
 
 msgid "Delete a Virtual Machine"
-msgstr ""
+msgstr "Eine virtuelle Maschine löschen"
 
 msgid "Delete a bookmark"
 msgstr "Lesezeichen löschen"
@@ -2661,13 +2661,13 @@ msgid "Edit %s"
 msgstr "%s bearbeiten"
 
 msgid "Edit %s Resource Filter"
-msgstr ""
+msgstr "%s Ressourcenfilter bearbeiten"
 
 msgid "Edit Compute profile"
 msgstr "Rechenprofil bearbeiten"
 
 msgid "Edit External Authentication Source"
-msgstr ""
+msgstr "Externe Authentifzierungsquelle bearbeiten"
 
 msgid "Edit Host"
 msgstr "Host bearbeiten"
@@ -2688,7 +2688,7 @@ msgid "Edit this host"
 msgstr "Diesen Host bearbeiten"
 
 msgid "Editor"
-msgstr ""
+msgstr "Editor"
 
 msgid "Email Preferences"
 msgstr "E-Mail-Einstellungen"
@@ -2849,7 +2849,7 @@ msgid "Error while trying to update resource: %s"
 msgstr "Fehler während der Aktualisierung der Ressource: %s"
 
 msgid "Error! "
-msgstr ""
+msgstr "Fehler! "
 
 msgid "Errors"
 msgstr "Fehler"
@@ -2933,7 +2933,7 @@ msgid "Export to CSV"
 msgstr "Ins CSV-Format exportieren"
 
 msgid "External Documentation"
-msgstr ""
+msgstr "Externe Dokumentation"
 
 msgid "External Groups"
 msgstr "Externe Gruppen"
@@ -3315,7 +3315,7 @@ msgid "Floating IP network"
 msgstr "Gleitendes IP-Netzwerk"
 
 msgid "Floppy"
-msgstr ""
+msgstr "Diskette"
 
 msgid "Folder"
 msgstr "Ordner"
@@ -3510,7 +3510,7 @@ msgid "Function not available for %s"
 msgstr "Funktion für %s nicht verfügbar"
 
 msgid "Further Information"
-msgstr ""
+msgstr "Weitere Informationen"
 
 msgid "GMT time"
 msgstr "Zeitzone GMT (Greenwich Mean Time)"
@@ -3669,7 +3669,7 @@ msgid "Hard disk"
 msgstr "Festplatte"
 
 msgid "Harddisk"
-msgstr ""
+msgstr "Festplatte"
 
 msgid "Hardware"
 msgstr "Hardware"
@@ -3705,7 +3705,7 @@ msgid "Hidden Value"
 msgstr "Verborgener Wert"
 
 msgid "Hide Content"
-msgstr ""
+msgstr "Inhalt ausblenden"
 
 msgid "Hide advanced fields"
 msgstr "Erweiterte Felder ausblenden"
@@ -4442,7 +4442,7 @@ msgid "Import"
 msgstr "Import"
 
 msgid "Import File"
-msgstr ""
+msgstr "Datei importieren"
 
 msgid "Import IPv4 subnets"
 msgstr "IPv4-Subnetze importieren"
@@ -4568,7 +4568,7 @@ msgid "Installed"
 msgstr "Installiert"
 
 msgid "Instance %{uuid}"
-msgstr ""
+msgstr "Instanz %{uuid}"
 
 msgid "Instance type"
 msgstr "Instanz-Typ"
@@ -4715,13 +4715,13 @@ msgid "Keybind"
 msgstr ""
 
 msgid "Keyboard"
-msgstr ""
+msgstr "Tastatur"
 
 msgid "Kind"
 msgstr "Art"
 
 msgid "LDAP Documentation"
-msgstr ""
+msgstr "LDAP-Dokumentation"
 
 msgid "LDAP error - %{message}"
 msgstr "LDAP-Fehler - %{message}"
@@ -5060,7 +5060,7 @@ msgid "List available security groups for a compute resource"
 msgstr "Verfügbare Sicherheitsgruppen für eine Rechenressource auflisten"
 
 msgid "List available virtual machines for a compute resource"
-msgstr ""
+msgstr "Verfügbare virtuelle Maschinen für eine Rechenressource auflisten"
 
 msgid "List available zone for a compute resource"
 msgstr "Verfügbare Zonen für eine Rechenressource auflisten"
@@ -5532,7 +5532,7 @@ msgid "Max trends"
 msgstr "Maximale Trends"
 
 msgid "Maximize"
-msgstr ""
+msgstr "Maximieren"
 
 msgid "Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"
 msgstr ""
@@ -5900,7 +5900,7 @@ msgid "No IPv4 subnets selected"
 msgstr "Keine IPv4-Subnetze ausgewählt"
 
 msgid "No Results"
-msgstr ""
+msgstr "Keine Ergebnisse"
 
 msgid "No TFTP feature"
 msgstr "Keine TFTP-Funktion"
@@ -6242,7 +6242,7 @@ msgid "OAuth map users"
 msgstr "OAuth Map-Benutzer"
 
 msgid "OIDC Algorithm"
-msgstr ""
+msgstr "OIDC-Algorithmus"
 
 msgid "OIDC Audience"
 msgstr ""
@@ -6496,7 +6496,7 @@ msgid "Out of sync interval"
 msgstr "\"nicht synchronisiert\" Intervall"
 
 msgid "Output format"
-msgstr ""
+msgstr "Ausgabeformat"
 
 msgid "Overridden"
 msgstr "Überschreiben"
@@ -6890,7 +6890,7 @@ msgid "Preview"
 msgstr "Vorschau"
 
 msgid "Preview is outdated."
-msgstr ""
+msgstr "Vorschau ist veraltet."
 
 msgid "Preview rendered provisioning template content"
 msgstr "Inhaltsvorschau der gerenderten Bereitstellungsvorlage"
@@ -7262,7 +7262,7 @@ msgid "Remove:"
 msgstr "Entferne:"
 
 msgid "Removed %{from} to %{to}"
-msgstr ""
+msgstr "%{from} von %{to} entfernt"
 
 msgid "Removing compute instance %s"
 msgstr "Recheninstanz %s wird entfernt"
@@ -7658,7 +7658,7 @@ msgid "Select All"
 msgstr "Alle auswählen"
 
 msgid "Select Host..."
-msgstr ""
+msgstr "Host auswählen..."
 
 msgid "Select Hosts"
 msgstr "Hosts auswählen"
@@ -8017,7 +8017,7 @@ msgid "Show a user group"
 msgstr "Benutzergruppe anzeigen"
 
 msgid "Show a virtual machine"
-msgstr ""
+msgstr "Eine virtuelle Maschine anzeigen"
 
 msgid "Show all %s children fact values"
 msgstr "Alle untergeordneten Faktenwerte für %s anzeigen"
@@ -8306,7 +8306,7 @@ msgstr "Storage Pool"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Stored value"
-msgstr ""
+msgstr "Gespeicherter Wert"
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "StoredValue|Expire at"
@@ -8486,7 +8486,7 @@ msgid "Synchronize group from authentication source"
 msgstr "Gruppe von Authentifizierungsquelle synchronisieren"
 
 msgid "Syntax"
-msgstr ""
+msgstr "Syntax"
 
 msgid "Syntax error occurred while parsing the template %{name}, make sure you have all ERB tags properly closed and the Ruby syntax is valid. The Ruby error: %{message}"
 msgstr "Syntax-Fehler sind aufgetreten beim parsen der Vorlage %{name}. Stellen sie sicher, dass sie alle ERB tags geschlossen haben und die Ruby Syntax in Takt ist. Der Ruby fehler lautet: %{message}"
@@ -8965,7 +8965,7 @@ msgid "The virtual machine is being deleted."
 msgstr "Die virtuelle Maschine wird gelöscht"
 
 msgid "Theme"
-msgstr ""
+msgstr "Thema"
 
 msgid "There are migrations pending in the system."
 msgstr "Es sind Migrationen im System ausstehend"
@@ -9539,7 +9539,7 @@ msgid "Unknown power state"
 msgstr "Unbekannter Energiezustand"
 
 msgid "Unknown status: %s"
-msgstr ""
+msgstr "Unbekannter Status: %s"
 
 msgid "Unlock"
 msgstr "Entsperren"
@@ -9782,7 +9782,7 @@ msgid "Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/toke
 msgstr ""
 
 msgid "Use APIv4"
-msgstr ""
+msgstr "APIv4 verwenden"
 
 msgid "Use NIS netgroups instead of posix groups."
 msgstr "NIS Netgroups verwenden anstelle von Posix Gruppen."
@@ -10024,7 +10024,7 @@ msgid "VMRC Console"
 msgstr "VMRC-Konsole"
 
 msgid "VMs"
-msgstr ""
+msgstr "VMs"
 
 msgid "VNC"
 msgstr "VNC"
@@ -10138,7 +10138,7 @@ msgid "Warning!"
 msgstr "Warnung!"
 
 msgid "Warning! "
-msgstr ""
+msgstr "Warnung! "
 
 msgid "Warning! This will remove %{name} from %{number} user. are you sure?"
 msgid_plural "Warning! This will remove %{name} from %{number} users. are you sure?"
@@ -10671,7 +10671,7 @@ msgid "for AzureRm eg. 'eastus' and for EC2 only. Use '%s' for EC2 GovCloud regi
 msgstr ""
 
 msgid "for GCE only"
-msgstr ""
+msgstr "nur für GCE"
 
 msgid "for Libvirt and VMware only"
 msgstr "nur für Libvirt und VMware"
@@ -11169,7 +11169,7 @@ msgid "start"
 msgstr "Start"
 
 msgid "starting"
-msgstr ""
+msgstr "wird gestartet"
 
 msgid "state"
 msgstr "Status"
@@ -11192,7 +11192,7 @@ msgid "stop"
 msgstr "Stop"
 
 msgid "stopping"
-msgstr ""
+msgstr "wird gestoppt"
 
 msgid "string"
 msgstr "Zeichenkette"
