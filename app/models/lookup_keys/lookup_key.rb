@@ -95,12 +95,12 @@ class LookupKey < ApplicationRecord
 
   def path
     path = self[:path]
-    path.presence || array2path(Setting["Default_variables_Lookup_Path"])
+    path.presence || array2path(Setting["Default_parameters_Lookup_Path"])
   end
 
   def path=(v)
     return unless v
-    using_default = v.tr("\r", "") == array2path(Setting["Default_variables_Lookup_Path"])
+    using_default = v.tr("\r", "") == array2path(Setting["Default_parameters_Lookup_Path"])
     self[:path] = using_default ? nil : v
   end
 
