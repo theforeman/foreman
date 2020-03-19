@@ -242,6 +242,8 @@ Foreman::Application.routes.draw do
           resources :ssh_keys, :only => [:index, :show, :create, :destroy]
           resources :personal_access_tokens, :only => [:index, :show, :create, :destroy]
           resources :table_preferences, :only => [:index, :create, :destroy, :show, :update]
+          resources :mail_notifications, :only => [:create, :destroy, :update]
+          get 'mail_notifications', :to => 'mail_notifications#user_mail_notifications', :on => :member
         end
       end
 
