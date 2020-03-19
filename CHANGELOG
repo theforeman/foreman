@@ -1,3 +1,30 @@
+2020-03-19	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.0.0-rc3
+	* i18n - extracting new, pulling from tx
+
+2020-03-19	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #29272 - add template locked error only in not seeding
+
+2020-03-16	kgaikwad <kavitagaikwad103@gmail.com>
+	* Refs #29049 - fix image_families filter test for GCE
+	* Fixes #29049 - filter images & extends projects in GCE (#7463)
+	* Fixes #29183 - hide image selection from compute-profile in GCE
+
+2020-03-16	Evgeni Golov <evgeni@golov.de>
+	* don't quote CMD in Dockerfile
+
+2020-03-12	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #29285 - Deprecate Rackspace Compute Resource
+
+2020-03-08	laviro <1ronlavi@gmail.com>
+	* Fixes #29018 - disabled buttons are still working
+
+2020-03-08	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29065 - Do not add lone taxonomies to filter
+
+2020-03-06	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #29276 - pin statsd-instrument
+
 2020-03-04	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.0.0-rc2
 	* i18n - extracting new, pulling from tx
