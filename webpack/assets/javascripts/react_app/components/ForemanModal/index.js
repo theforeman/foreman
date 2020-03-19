@@ -20,14 +20,14 @@ const ConnectedForemanModal = props => {
   const isSubmitting = useSelector(state => selectIsModalSubmitting(state, id));
   const dispatch = useDispatch();
   const onClose = () => dispatch(setModalClosed({ id }));
-  const onLoad = () =>
-    dispatch(addModal({ id, isOpen: false, isSubmitting: false }));
+
   const modalExists = useSelector(state => selectModalExists(state, id));
 
   useEffect(() => {
     if (modalExists) return; // don't add modal if it already exists
-    onLoad();
-  }, [modalExists]);
+    // https://github.com/facebook/react/issues/14920
+    dispatch(addModal({ id, isOpen: false, isSubmitting: false }));
+  }, [modalExists, id, dispatch]);
 
   return (
     <ForemanModal
