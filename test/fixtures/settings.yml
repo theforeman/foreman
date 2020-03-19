@@ -52,7 +52,7 @@ attributes13:
   default: "false"
   description: Enable Email Alerts per each failed puppet report
 attributes14:
-  name: Default_variables_Lookup_Path
+  name: Default_parameters_Lookup_Path
   category: Setting::Puppet
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
