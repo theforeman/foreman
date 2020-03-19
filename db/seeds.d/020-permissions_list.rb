@@ -93,6 +93,7 @@ class PermissionsList
         ['PuppetclassLookupKey', 'edit_external_parameters'],
         ['PuppetclassLookupKey', 'destroy_external_parameters'],
         ['MailNotification', 'view_mail_notifications'],
+        ['MailNotification', 'edit_user_mail_notifications'],
         ['Medium', 'view_media'],
         ['Medium', 'create_media'],
         ['Medium', 'edit_media'],
