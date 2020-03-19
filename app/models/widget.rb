@@ -8,6 +8,8 @@ class Widget < ApplicationRecord
 
   before_validation :default_values
 
+  scope :available, -> { where(template: Dashboard::Manager.default_widgets.map { |w| w[:template] }) }
+
   def default_values
     self.sizex ||= 4
     self.sizey ||= 1
