@@ -58,6 +58,12 @@ class Subnet < ApplicationRecord
     :api_description => N_('HTTPBoot Proxy ID to use within this subnet'),
     :description => N_('HTTPBoot Proxy to use within this subnet')
 
+  belongs_to_proxy :externalipam,
+    :feature => N_('External IPAM'),
+    :label => N_('External IPAM'),
+    :api_description => N_('External IPAM Proxy ID to use within this subnet'),
+    :description => N_('External IPAM Proxy to use within this subnet')
+
   belongs_to_proxy :dns,
     :feature => N_('DNS'),
     :label => N_('Reverse DNS Proxy'),
@@ -87,6 +93,7 @@ class Subnet < ApplicationRecord
   validates :nic_delay, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 1024, allow_nil: true}, :allow_blank => true
 
   before_validation :normalize_addresses
+  after_validation :validate_against_external_ipam
   validate :ensure_ip_addrs_valid
 
   validate :validate_ranges
@@ -207,16 +214,68 @@ class Subnet < ApplicationRecord
     @template_proxy ||= ProxyAPI::Template.new({:url => template.url}.merge(attrs)) if template?
   end
 
+  def external_ipam?
+    supports_ipam_mode?(:external_ipam) && externalipam && externalipam.url.present?
+  end
+
+  def external_ipam_proxy(attrs = {})
+    @external_ipam_proxy ||= ProxyAPI::ExternalIpam.new({:url => externalipam.url}.merge(attrs)) if external_ipam?
+  end
+
   def ipam?
     ipam != IPAM::MODES[:none]
   end
 
   def ipam_needs_range?
-    ipam? && ipam != IPAM::MODES[:eui64]
+    ipam? && ipam != IPAM::MODES[:eui64] && ipam != IPAM::MODES[:external_ipam]
+  end
+
+  def ipam_needs_group?
+    ipam? && ipam == IPAM::MODES[:external_ipam]
   end
 
   def dhcp_boot_mode?
     boot_mode == Subnet::BOOT_MODES[:dhcp]
+  end
+
+  def validate_against_external_ipam
+    return unless errors.full_messages.empty?
+
+    if ipam == IPAM::MODES[:external_ipam]
+      external_ipam_proxy = SmartProxy.with_features('External IPAM').first
+
+      if external_ipam_proxy.nil?
+        errors.add :ipam, _('There must be at least one Smart Proxy present with an External IPAM plugin installed and configured')
+      elsif self.external_ipam_proxy.nil?
+        errors.add :ipam, _('A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab.')
+      elsif !group_exists_in_external_ipam
+        errors.add :externalipam_group, _('Group not found in the configured External IPAM instance')
+      elsif !subnet_exists_in_external_ipam
+        errors.add :network, _('Subnet not found in the configured External IPAM instance')
+      elsif !subnet_exists_in_group
+        errors.add :network, _('Subnet not found in the specified External IPAM group')
+      end
+    end
+  end
+
+  def subnet_exists_in_group
+    return true if externalipam_group.empty?
+    return false unless external_ipam_proxy
+    subnet = external_ipam_proxy.get_subnet_from_group(network_address, externalipam_group)
+    subnet.empty? ? false : true
+  end
+
+  def subnet_exists_in_external_ipam
+    return false unless external_ipam_proxy
+    subnet = external_ipam_proxy.get_subnet(network_address, externalipam_group)
+    subnet.empty? ? false : true
+  end
+
+  def group_exists_in_external_ipam
+    return true if externalipam_group.empty?
+    return false unless external_ipam_proxy
+    group = external_ipam_proxy.get_group(externalipam_group)
+    group.empty? ? false : true
   end
 
   def unused_ip(mac = nil, excluded_ips = [])

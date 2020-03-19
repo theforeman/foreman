@@ -41,5 +41,9 @@ FactoryBot.define do
     trait :bmc do
       name { 'BMC' }
     end
+
+    trait :external_ipam do
+      name { 'External IPAM' }
+    end
   end
 end
