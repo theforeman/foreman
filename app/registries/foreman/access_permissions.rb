@@ -414,7 +414,8 @@ Foreman::AccessControl.map do |permission_set|
 
   permission_set.security_block :mail_notifications do |map|
     map.permission :view_mail_notifications, { :mail_notifications => [:index, :auto_complete_search, :show],
-                                               :"api/v2/mail_notifications" => [:index, :show] }
+                                               :"api/v2/mail_notifications" => [:index, :show, :user_mail_notifications] }
+    map.permission :edit_user_mail_notifications, { :"api/v2/mail_notifications" => [:create, :destroy, :update] }
   end
 
   permission_set.security_block :media do |map|
