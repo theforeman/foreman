@@ -30,10 +30,12 @@ const ForemanModal = props => {
     submitProps,
   };
 
-  const defaultHeader = headerTitle => headerTitle ? <ForemanModalHeader /> : null
+  const defaultHeader = headerTitle =>
+    headerTitle ? <ForemanModalHeader /> : null;
   const headerToRender = headerChild || defaultHeader(title);
 
-  const defaultFooter = subProps => (Object.keys(subProps).length !== 0) ? <ForemanModalFooter /> : null;
+  const defaultFooter = subProps =>
+    Object.keys(subProps).length !== 0 ? <ForemanModalFooter /> : null;
   const footerToRender = footerChild || defaultFooter(submitProps);
 
   return (
