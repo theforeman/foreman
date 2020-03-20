@@ -413,10 +413,10 @@ class Host::Managed < Host::Base
     if Setting[:update_hostgroup_from_facts]
       attrs << :hostgroup
     end
-    if !Setting[:ignore_facts_for_operatingsystem] || (Setting[:ignore_facts_for_operatingsystem] && operatingsystem.blank?)
+    unless Setting[:ignore_facts_for_operatingsystem] || operatingsystem.blank?
       attrs << :operatingsystem
     end
-    if !Setting[:ignore_facts_for_domain] || (Setting[:ignore_facts_for_domain] && domain.blank?)
+    unless Setting[:ignore_facts_for_domain] || domain.blank?
       attrs << :domain
     end
 
