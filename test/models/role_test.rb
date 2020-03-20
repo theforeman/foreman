@@ -28,12 +28,12 @@ class RoleTest < ActiveSupport::TestCase
 
   it "should strip leading space on name" do
     role = Role.new(:name => " a role name")
-    role.must_be :valid?
+    _(role).must_be :valid?
   end
 
   it "should strip a trailing space on name" do
     role = Role.new(:name => "a role name ")
-    role.must_be :valid?
+    _(role).must_be :valid?
   end
 
   it "should delete role who has users" do
@@ -204,8 +204,8 @@ class RoleTest < ActiveSupport::TestCase
       end
 
       subject { Role.for_current_user.to_a }
-      it { subject.must_include(first) }
-      it { subject.wont_include(second) }
+      it { _(subject).must_include(first) }
+      it { _(subject).wont_include(second) }
     end
 
     context "when current user is admin for_current_user should return all givable roles" do

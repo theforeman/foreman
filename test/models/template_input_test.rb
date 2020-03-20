@@ -10,11 +10,11 @@ class TemplateInputTest < ActiveSupport::TestCase
     end
 
     it 'exports type' do
-      template_input.to_export['input_type'].must_equal template_input.input_type
+      _(template_input.to_export['input_type']).must_equal template_input.input_type
     end
 
     it 'exports options' do
-      template_input.to_export['options'].must_equal template_input.options
+      _(template_input.to_export['options']).must_equal template_input.options
     end
   end
 

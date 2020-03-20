@@ -66,25 +66,25 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
     it 'maps operating system to ovirt operating systems' do
       @compute_resource.stubs(:available_operating_systems).returns(@os_hashes)
-      @compute_resource.determine_os_type(@host).must_equal "other_linux"
+      _(@compute_resource.determine_os_type(@host)).must_equal "other_linux"
 
       @host.operatingsystem = operatingsystems(:redhat)
-      @compute_resource.determine_os_type(@host).must_equal "rhel_6"
+      _(@compute_resource.determine_os_type(@host)).must_equal "rhel_6"
 
       @host.architecture = architectures(:x86_64)
-      @compute_resource.determine_os_type(@host).must_equal "rhel_6x64"
+      _(@compute_resource.determine_os_type(@host)).must_equal "rhel_6x64"
 
       @host.operatingsystem = operatingsystems(:ubuntu1210)
-      @compute_resource.determine_os_type(@host).must_equal "ubuntu_12_10"
+      _(@compute_resource.determine_os_type(@host)).must_equal "ubuntu_12_10"
 
       @host.operatingsystem = FactoryBot.create(:operatingsystem)
-      @compute_resource.determine_os_type(@host).must_equal "other"
+      _(@compute_resource.determine_os_type(@host)).must_equal "other"
     end
 
     it 'respects host param ovirt_ostype' do
       @compute_resource.stubs(:available_operating_systems).returns(@os_hashes)
       @host.stubs(:params).returns({'ovirt_ostype' => 'some_os'})
-      @compute_resource.determine_os_type(@host).must_equal "some_os"
+      _(@compute_resource.determine_os_type(@host)).must_equal "some_os"
     end
 
     it 'caches the operating systems in the compute resource' do
@@ -112,7 +112,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
     it 'passes api_version properly' do
       Fog::Compute.expects(:new).with do |options|
-        options[:api_version].must_equal 'v4'
+        _(options[:api_version]).must_equal 'v4'
       end.returns(@client_mock)
       @compute_resource.use_v4 = true
       @compute_resource.ovirt_quota = '1'
@@ -121,20 +121,20 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
 
     it 'passes api_version v4 by default' do
       Fog::Compute.expects(:new).with do |options|
-        options[:api_version].must_equal 'v4'
+        _(options[:api_version]).must_equal 'v4'
       end.returns(@client_mock)
       @compute_resource.send(:client)
     end
 
     it 'accepts "1" and true as true values, anything else as false' do
       @compute_resource.use_v4 = true
-      @compute_resource.use_v4?.must_equal true
+      _(@compute_resource.use_v4?).must_equal true
       @compute_resource.use_v4 = false
-      @compute_resource.use_v4?.must_equal false
+      _(@compute_resource.use_v4?).must_equal false
       @compute_resource.use_v4 = '1'
-      @compute_resource.use_v4?.must_equal true
+      _(@compute_resource.use_v4?).must_equal true
       @compute_resource.use_v4 = '0'
-      @compute_resource.use_v4?.must_equal false
+      _(@compute_resource.use_v4?).must_equal false
     end
   end
 
