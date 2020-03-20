@@ -13,6 +13,7 @@ group :test do
   gem 'factory_bot_rails', '~> 5.0', :require => false
   gem 'rubocop', '~> 0.80.0'
   gem 'rubocop-checkstyle_formatter', '~> 0.2'
+  gem 'rubocop-minitest', '~> 0.7.0'
   gem 'rubocop-performance', '~> 1.5.2'
   gem 'rubocop-rails', '~> 2.4.2'
   gem 'poltergeist', '>= 1.18.0', :require => false
