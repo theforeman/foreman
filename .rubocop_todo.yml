@@ -143,11 +143,6 @@ Minitest/AssertRespondTo:
 Minitest/AssertTruthy:
   Enabled: false
 
-# Offense count: 24
-# Cop supports --auto-correct.
-Minitest/GlobalExpectations:
-  Enabled: false
-
 # Offense count: 14
 # Cop supports --auto-correct.
 Minitest/RefuteEmpty:

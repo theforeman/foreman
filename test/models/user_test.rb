@@ -1069,7 +1069,7 @@ class UserTest < ActiveSupport::TestCase
     user.timezone = ''
     assert user.valid?
     user.save
-    user.timezone.must_be_nil
+    _(user.timezone).must_be_nil
   end
 
   test "changing user password as admin without setting current password" do

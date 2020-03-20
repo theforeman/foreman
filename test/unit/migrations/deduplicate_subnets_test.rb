@@ -29,15 +29,15 @@ class Migrations::DeduplicateSubnetsTest < ActiveSupport::TestCase
     it 'deduplicates the subnets with the same name' do
       deduplicator = Migrations::DeduplicateSubnets.new
       result = deduplicator.deduplicate_subnets(@subnets)
-      result.must_equal [@original_subnet, @different_network_subnet,
-                         @different_org_subnet, @different_loc_subnet]
+      _(result).must_equal [@original_subnet, @different_network_subnet,
+                            @different_org_subnet, @different_loc_subnet]
       result.each do |subnet|
         refute subnet.changed? # test we saved the changes
       end
-      @original_subnet.name.must_equal @name
-      @different_network_subnet.name.must_equal "#{@name}-2"
-      @different_org_subnet.name.must_equal "#{@name}-3"
-      @different_loc_subnet.name.must_equal "#{@name}-4"
+      _(@original_subnet.name).must_equal @name
+      _(@different_network_subnet.name).must_equal "#{@name}-2"
+      _(@different_org_subnet.name).must_equal "#{@name}-3"
+      _(@different_loc_subnet.name).must_equal "#{@name}-4"
     end
   end
 end

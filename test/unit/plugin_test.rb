@@ -273,11 +273,11 @@ class PluginTest < ActiveSupport::TestCase
       name 'Awesome compute'
       compute_resource Awesome::Provider::MyAwesome
     end
-    assert ComputeResource.providers.keys.must_include 'MyAwesome'
-    assert ComputeResource.providers.values.must_include 'Awesome::Provider::MyAwesome'
+    assert _(ComputeResource.providers.keys).must_include 'MyAwesome'
+    assert _(ComputeResource.providers.values).must_include 'Awesome::Provider::MyAwesome'
     assert_equal ComputeResource.provider_class('MyAwesome'), 'Awesome::Provider::MyAwesome'
-    assert ComputeResource.registered_providers.keys.must_include 'MyAwesome'
-    assert ComputeResource.registered_providers.values.must_include 'Awesome::Provider::MyAwesome'
+    assert _(ComputeResource.registered_providers.keys).must_include 'MyAwesome'
+    assert _(ComputeResource.registered_providers.values).must_include 'Awesome::Provider::MyAwesome'
   end
 
   def test_invalid_compute_resource

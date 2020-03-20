@@ -272,7 +272,7 @@ class TaxonomixTest < ActiveSupport::TestCase
     original_org, Organization.current = Organization.current, org
     new_dom = Domain.new(:organization_ids => [org.id])
     Organization.current = original_org
-    new_dom.taxable_taxonomies.must_be :present?
+    _(new_dom.taxable_taxonomies).must_be :present?
     assert new_dom.taxable_taxonomies.all?(&:valid?)
   end
 

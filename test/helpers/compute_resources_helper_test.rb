@@ -20,7 +20,7 @@ class ComputeResourcesHelperTest < ActionView::TestCase
       compute.stubs(:datacenters).raises(Foreman::FingerprintException, 'Wrong fingerprint')
       instance.controller.action_name = 'test_connection'
       instance.list_datacenters(compute)
-      compute.errors.messages[:pubkey_hash].first.must_include 'Wrong fingerprint'
+      _(compute.errors.messages[:pubkey_hash].first).must_include 'Wrong fingerprint'
     end
   end
 end
