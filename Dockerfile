@@ -88,7 +88,7 @@ RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bu
 RUN date -u > BUILD_TIME
 
 # Start the main process.
-CMD bundle exec bin/rails server
+CMD bundle exec bin/rails server -b 0.0.0.0
 
 EXPOSE 3000/tcp
 EXPOSE 5910-5930/tcp
