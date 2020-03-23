@@ -104,3 +104,19 @@ dispatch(
 );
 
 The error handling function will receive the error object from the API request.
+
+## Success handling
+
+In case you want to invoke some method or action immediately after the request succeed,
+we support the `handleSuccess` param where you could pass a success handling function, e.g:
+
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    handleSuccess: response => { dispatch(addToast({ type: 'success' })) }, 
+    ...
+  })
+);
+
+The success handling function will receive the response object from the API request.

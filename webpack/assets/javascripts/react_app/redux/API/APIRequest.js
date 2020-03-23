@@ -10,6 +10,7 @@ export const get = async (
     params = {},
     actionTypes = {},
     handleError = noop,
+    handleSuccess = noop,
     payload = {},
   },
   { dispatch }
@@ -22,20 +23,21 @@ export const get = async (
     payload: modifiedPayload,
   });
   try {
-    const { data } = await API.get(url, headers, params);
+    const response = await API.get(url, headers, params);
     dispatch({
       type: SUCCESS,
       key,
       payload: modifiedPayload,
-      response: data,
+      response: response.data,
     });
+    handleSuccess(response);
   } catch (error) {
-    handleError(error);
     dispatch({
       type: FAILURE,
       key,
       payload: modifiedPayload,
       response: error,
     });
+    handleError(error);
   }
 };

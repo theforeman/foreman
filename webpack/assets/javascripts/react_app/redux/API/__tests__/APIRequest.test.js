@@ -13,14 +13,20 @@ describe('API get', () => {
   });
 
   it('should dispatch request and success actions on resolve', async () => {
+    const apiSuccessResponse = { data };
     API.get.mockImplementation(
       () =>
         new Promise((resolve, reject) => {
-          resolve({ data });
+          resolve(apiSuccessResponse);
         })
     );
-    get(action.payload, store);
+    const modifiedAction = { ...action };
+    modifiedAction.payload.handleSuccess = jest.fn();
+    get(modifiedAction.payload, store);
     await IntegrationTestHelper.flushAllPromises();
+    expect(modifiedAction.payload.handleSuccess).toHaveBeenLastCalledWith(
+      apiSuccessResponse
+    );
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 
