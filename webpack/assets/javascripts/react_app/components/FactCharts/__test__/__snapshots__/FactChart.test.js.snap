@@ -143,6 +143,7 @@ exports[`factCharts should render open 1`] = `
             onclick={[Function]}
             title={
               Object {
+                "precision": 1,
                 "type": "percent",
               }
             }

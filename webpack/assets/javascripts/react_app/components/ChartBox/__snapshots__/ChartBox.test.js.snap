@@ -37,6 +37,7 @@ exports[`ChartBox error 1`] = `
         onclick={[Function]}
         title={
           Object {
+            "precision": 1,
             "type": "percent",
           }
         }
@@ -89,6 +90,7 @@ exports[`ChartBox pending 1`] = `
         onclick={[Function]}
         title={
           Object {
+            "precision": 1,
             "type": "percent",
           }
         }
@@ -153,6 +155,7 @@ exports[`ChartBox resolved 1`] = `
         onclick={[Function]}
         title={
           Object {
+            "precision": 1,
             "type": "percent",
           }
         }

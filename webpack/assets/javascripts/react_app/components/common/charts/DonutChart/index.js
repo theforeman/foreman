@@ -41,7 +41,7 @@ DonutChart.defaultProps = {
   data: undefined,
   config: 'regular',
   noDataMsg: __('No data available'),
-  title: { type: 'percent' },
+  title: { type: 'percent', precision: 1 },
   unloadData: false,
   onclick: noop,
 };
