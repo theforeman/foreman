@@ -74,6 +74,7 @@ exports[`renders DonutChart render donut chart 1`] = `
   tip="Expand the chart"
   title={
     Object {
+      "precision": 1,
       "type": "percent",
     }
   }
