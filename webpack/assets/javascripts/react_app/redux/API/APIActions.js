@@ -9,6 +9,7 @@ const { GET } = API_OPERATIONS;
  * @param { String } payload.url the url for the API request.
  * @param { String } payload.headers the API get request headers.
  * @param { Object } payload.params the API get request params.
+ * @param { Object } payload.handleError an error handling callback.
  * @param { Object } payload.payload the API payload which will be passed also to the reducer.
  * @param { Object } payload.actionTypes action types which will replace the default action types.
  */

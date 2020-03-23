@@ -25,14 +25,20 @@ describe('API get', () => {
   });
 
   it('should dispatch request and failure actions on reject', async () => {
+    const apiError = new Error('bad request');
     API.get.mockImplementation(
       () =>
         new Promise((resolve, reject) => {
-          reject(Error('bad request'));
+          reject(apiError);
         })
     );
-    get(action.payload, store);
+    const modifiedAction = { ...action };
+    modifiedAction.payload.handleError = jest.fn();
+    get(modifiedAction.payload, store);
     await IntegrationTestHelper.flushAllPromises();
+    expect(modifiedAction.payload.handleError).toHaveBeenLastCalledWith(
+      apiError
+    );
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 });

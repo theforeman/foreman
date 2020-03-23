@@ -1,8 +1,17 @@
 import { API } from './';
 import { actionTypeGenerator } from './APIActionTypeGenerator';
+import { noop } from '../../common/helpers';
 
 export const get = async (
-  { key, url, headers = {}, params = {}, actionTypes = {}, payload = {} },
+  {
+    key,
+    url,
+    headers = {},
+    params = {},
+    actionTypes = {},
+    handleError = noop,
+    payload = {},
+  },
   { dispatch }
 ) => {
   const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(key, actionTypes);
@@ -21,6 +30,7 @@ export const get = async (
       response: data,
     });
   } catch (error) {
+    handleError(error);
     dispatch({
       type: FAILURE,
       key,

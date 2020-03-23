@@ -88,3 +88,19 @@ it will manage the request statuses, errors and responses.
 
 We provided you the `selectAPIByKey` in '/APISelectors.js' which will return the key substate,
 there are also `selectAPIStatus`, `selectAPIPayload`, `selectAPIResponse`, `selectAPIError` and `selectAPIErrorMessage`.
+
+## Error handling
+
+In case you want to invoke some method or action immediately when an error occurs,
+we support the `handleError` param where you could pass an error handling function, e.g:
+
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    handleError: error => error.response.status === 401 ? logoutUser() : null
+    ...
+  })
+);
+
+The error handling function will receive the error object from the API request.
