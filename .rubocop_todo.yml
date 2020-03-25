@@ -13,11 +13,6 @@
 Layout/CaseIndentation:
   Enabled: false
 
-# Offense count: 679
-# Cop supports --auto-correct.
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
 # Offense count: 194
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
