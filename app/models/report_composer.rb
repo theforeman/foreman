@@ -159,7 +159,6 @@ class ReportComposer
       val = input.default if val.blank?
       inputs[input.id.to_s] = InputValue.new(value: val, template_input: input)
     end
-
     inputs
   end
 
