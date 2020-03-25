@@ -121,9 +121,7 @@ class ReportImporter
       users = ConfigManagementError.all_hosts.flat_map(&:users)
       users = users.select do |user|
         User.as user do
-          Host.authorized_as(user, :view_hosts).find(host.id).present?
-        rescue ActiveRecord::RecordNotFound
-          nil
+          Host.authorized(:view_hosts).where(id: host.id).any?
         end
       end
       owners.concat users
