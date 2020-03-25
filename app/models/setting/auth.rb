@@ -27,7 +27,7 @@ class Setting::Auth < Setting
       set('bcrypt_cost', N_("Cost value of bcrypt password hash function for internal auth-sources (4-30). Higher value is safer but verification is slower particularly for stateless API calls and UI logins. Password change needed to take effect."), 4, N_('BCrypt password cost')),
       set('bmc_credentials_accessible', N_("Permits access to BMC interface passwords through ENC YAML output and in templates"), true, N_('BMC credentials access')),
       set('oidc_jwks_url', N_("OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"), nil, N_('OIDC JWKs URL')),
-      set('oidc_audience', N_("Name of the OpenID Connect Audience that is being used for Authentication. In case of Keycloak this is the Client ID."), nil, N_('OIDC Audience')),
+      set('oidc_audience', N_("Name of the OpenID Connect Audience that is being used for Authentication. In case of Keycloak this is the Client ID."), [], N_('OIDC Audience')),
       set('oidc_issuer', N_("The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the OpenID providers."), nil, N_('OIDC Issuer')),
       set('oidc_algorithm', N_("The algorithm used to encode the JWT in the OpenID provider."), nil, N_('OIDC Algorithm')),
     ]
