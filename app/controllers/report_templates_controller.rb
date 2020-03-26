@@ -18,7 +18,7 @@ class ReportTemplatesController < TemplatesController
     if request.method == "GET"
       params[:report_template_report] = {
         :input_values => build_input_values_from_query(params),
-        :format => params['format'].downcase,
+        :format => params['format']&.downcase,
       }
     end
     @composer = ReportComposer.from_ui_params(params)
