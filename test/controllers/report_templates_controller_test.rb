@@ -179,6 +179,12 @@ class ReportTemplatesControllerTest < ActionController::TestCase
       assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
     end
 
+    it "schedule report moves params from url query to report_template_report" do
+      expect_job_enque_with({ '1' => { 'value' => 'ohai' } }, format: 'html')
+      get :schedule_report, params: { :id => @report_template.to_param, :format => 'html', :input_values => { '1' => { :value => 'ohai' } } }, session: set_session_user
+      assert_redirected_to report_data_report_template_url(@report_template, job_id: 'JOB-UNIQUE-IDENTIFIER')
+    end
+
     it "schedule report delivery by e-mail" do
       expect_job_enque_with(nil, mail_to: 'this@email.cz')
       get :schedule_report, params: { :id => @report_template.to_param, :report_template_report => { send_mail: '1', mail_to: 'this@email.cz' } }, session: set_session_user
