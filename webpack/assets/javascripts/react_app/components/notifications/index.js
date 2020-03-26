@@ -12,7 +12,7 @@ import { noop, translateObject } from '../../common/helpers';
 
 import './notifications.scss';
 import ToggleIcon from './ToggleIcon/ToggleIcon';
-import { redirectToLogin } from './helpers';
+import { reloadPage } from '../../../foreman_navigation';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
@@ -33,11 +33,12 @@ class notificationContainer extends React.Component {
   }
 
   componentDidUpdate() {
-    const { error } = this.props;
+    const { error, stopNotificationsPolling } = this.props;
     if (error) {
       const { response: { status } = {} } = error;
+      stopNotificationsPolling();
       if (status === 401) {
-        redirectToLogin();
+        reloadPage();
       }
     }
   }
