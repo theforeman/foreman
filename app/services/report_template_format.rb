@@ -14,7 +14,7 @@ class ReportTemplateFormat
   end
 
   def self.find(id)
-    all.find { |f| f.id.to_s == id.to_s }
+    all.find { |f| f.id.to_s == id.to_s.downcase }
   end
 
   # if the template does not support formats at all,

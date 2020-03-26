@@ -14,18 +14,12 @@ class ReportTemplatesController < TemplatesController
     @composer = ReportComposer.from_ui_params(params)
   end
 
-  def build_input_values_from_query(params)
-    @report_template = ReportTemplate.find(params[:id])
-    values = {}
-    @report_template.template_inputs.each do |template_input|
-      values[template_input.id.to_s] = { value: params[template_input.name] }
-    end
-    values
-  end
-
   def schedule_report
     if request.method == "GET"
-      params[:report_template_report] = { :input_values => build_input_values_from_query(params) }
+      params[:report_template_report] = {
+        :input_values => build_input_values_from_query(params),
+        :format => params['format'].downcase,
+      }
     end
     @composer = ReportComposer.from_ui_params(params)
     if @composer.valid?
@@ -59,5 +53,14 @@ class ReportTemplatesController < TemplatesController
       else
         super
     end
+  end
+
+  def build_input_values_from_query(params)
+    @report_template = ReportTemplate.find(params[:id])
+    values = {}
+    @report_template.template_inputs.each do |template_input|
+      values[template_input.id.to_s] = { value: params[template_input.name] }
+    end
+    values
   end
 end
