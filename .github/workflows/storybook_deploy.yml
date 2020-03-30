@@ -18,7 +18,9 @@ jobs:
     - name: Fetch all branches
       run: 'git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*'
     - name: Run npm install
-      run: npm install
+      run: |
+        npm install
+        npm install terser@4.6.7
     - name: Build Storybook in temporary folder
       run: npm run build-storybook -- --output-dir=tmp/storybooks/${{ github.event.pull_request.number }}
     - name: Move files to storybooks/${{ github.event.pull_request.number }}
@@ -32,7 +34,6 @@ jobs:
       if: success()
       run: |
         npm install surge
-        npm install terser@4.6.7
         SURGE_LOGIN=jlenz@redhat.com SURGE_TOKEN=b541d1ed09a6655320d49757721024ae surge --project tmp/storybooks/${{ github.event.pull_request.number }} --domain foreman-{{ github.event.pull_request.number }}.surge.sh
     - name: Comment PR with new Storybook location
       if: success()
