@@ -12,8 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        clean: false
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
