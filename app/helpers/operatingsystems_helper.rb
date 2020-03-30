@@ -45,6 +45,8 @@ module OperatingsystemsHelper
              "stub/firebrick-o"
            when /CoreOS|ContainerLinux|Container Linux/i
              "coreos"
+           when /Flatcar/i
+             "stub/darkblue-f"
            when /RancherOS/i
              "rancheros"
            when /NXOS/i

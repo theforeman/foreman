@@ -12,6 +12,12 @@ FactoryBot.define do
       os_family { 'Coreos' }
     end
 
+    trait :flatcar do
+      sequence(:name) { |n| "Flatcar Mirror #{n}" }
+      sequence(:path) { 'http://$release.release.flatcar-linux.net' }
+      os_family { 'Coreos' }
+    end
+
     trait :ubuntu do
       sequence(:name) { |n| "Ubuntu Mirror #{n}" }
       sequence(:path) { 'http://archive.ubuntu.com/ubuntu' }

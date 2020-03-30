@@ -72,6 +72,15 @@ FactoryBot.define do
       title { 'CoreOS 494.5.0' }
     end
 
+    factory :flatcar, class: Coreos do
+      sequence(:name) { 'Flatcar' }
+      major { '2345' }
+      minor { '3.0' }
+      type { 'Coreos' }
+      release_name { 'stable' }
+      title { 'Flatcar 2345.3.0' }
+    end
+
     factory :ubuntu14_10, class: Debian do
       sequence(:name) { 'Ubuntu' }
       major { '14' }
