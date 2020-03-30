@@ -32,12 +32,9 @@ jobs:
         git status
     - name: Deploy Storybook to surge
       if: success()
-      with:
-        SURGE_LOGIN: jlenz@redhat.com
-        SURGE_TOKEN: b541d1ed09a6655320d49757721024ae
       run: |
         npm install --save-dev surge
-        surge --project tmp/storybooks/${{ github.event.pull_request.number }} --domain foreman-{{ github.event.pull_request.number }}.surge.sh
+        SURGE_LOGIN=jlenz@redhat.com SURGE_TOKEN=b541d1ed09a6655320d49757721024ae surge --project tmp/storybooks/${{ github.event.pull_request.number }} --domain foreman-{{ github.event.pull_request.number }}.surge.sh
     - name: Comment PR with new Storybook location
       if: success()
       uses: thollander/actions-comment-pull-request@master
