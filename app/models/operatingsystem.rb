@@ -62,7 +62,7 @@ class Operatingsystem < ApplicationRecord
                'Windows'   => %r{Windows}i,
                'Altlinux'  => %r{Altlinux}i,
                'Archlinux' => %r{Archlinux}i,
-               'Coreos'    => %r{CoreOS}i,
+               'Coreos'    => %r{CoreOS|Flatcar}i,
                'Rancheros' => %r{RancherOS}i,
                'Gentoo'    => %r{Gentoo}i,
                'Solaris'   => %r{Solaris}i,

@@ -5,6 +5,10 @@ class Coreos < Operatingsystem
     'coreos'
   end
 
+  def bootfile(medium_provider, type)
+    super.sub('coreos_', "#{pxe_file_prefix}_")
+  end
+
   def mediumpath(medium_provider)
     medium_provider.medium_uri('$arch-usr/') do |vars|
       transform_vars(vars)
@@ -16,10 +20,14 @@ class Coreos < Operatingsystem
   end
 
   def boot_file_sources(medium_provider, &block)
-    super do |vars|
+    sources = super do |vars|
       vars = yield(vars) if block_given?
 
       transform_vars(vars)
+    end
+
+    sources.transform_values do |url|
+      url.sub('/coreos_', "/#{pxe_file_prefix}_")
     end
   end
 
@@ -33,6 +41,11 @@ class Coreos < Operatingsystem
   end
 
   private
+
+  # tries to guess if this a flatcar or original coreos container linux
+  def pxe_file_prefix
+    (name =~ /flatcar/i) ? 'flatcar' : 'coreos'
+  end
 
   def transform_vars(vars)
     vars[:arch] = vars[:arch].sub('x86_64', 'amd64')
