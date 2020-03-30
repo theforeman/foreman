@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Debounce reducer Should handle DEBOUNCE_CLEAR 1`] = `Object {}`;
+
+exports[`Debounce reducer should handle DEBOUNCE_START 1`] = `
+Object {
+  "SOME_KEY": 121,
+}
+`;
+
+exports[`Debounce reducer should return the initial state 1`] = `Object {}`;

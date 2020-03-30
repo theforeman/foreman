@@ -1,0 +1,20 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Debounce Middleware"
+  parameters={{
+    storyWeight: 110,
+  }}
+/>
+
+# Debounce Middleware
+
+This middleware will delay an action invocation by a provided debounce miliseconds.
+the action must provide a `key` and `debounce` params, and on its first run the middleware
+will register that running debounced action by its key in the redux store.
+later whenever that action with that specific key is called again,
+the middleware will look up to the store to check if the debounce is active. 
+
+## How to start
+
+To be continued...

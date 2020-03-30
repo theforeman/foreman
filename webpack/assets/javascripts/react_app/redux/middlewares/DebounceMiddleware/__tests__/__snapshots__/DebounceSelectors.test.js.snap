@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`intervals selectors should return the debounce item 1`] = `121`;
+
+exports[`intervals selectors should return the debounce wrapper 1`] = `
+Object {
+  "SOME_KEY": 121,
+}
+`;

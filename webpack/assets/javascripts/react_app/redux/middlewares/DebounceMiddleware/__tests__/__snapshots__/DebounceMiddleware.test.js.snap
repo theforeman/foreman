@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Debounce Middleware should handle DEBOUNCE_CLEAR action 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "key": "SOME_KEY",
+        },
+        "type": "DEBOUNCE_CLEAR",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`Debounce Middleware should handle an action with "debounce" key 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "debounceID": 2,
+          "key": "SOME_KEY",
+        },
+        "type": "DEBOUNCE_START",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`Debounce Middleware should stop incoming action due to active debounce 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "key": "SOME_KEY",
+        },
+        "type": "DEBOUNCE_STOP_INCOMING_ACTION",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;

@@ -5,9 +5,13 @@ import forceSingleton from '../common/forceSingleton';
 
 import reducers from './reducers';
 
-import { IntervalMiddleware, APIMiddleware } from './middlewares';
+import {
+  IntervalMiddleware,
+  APIMiddleware,
+  DebounceMiddleware,
+} from './middlewares';
 
-let middleware = [thunk, IntervalMiddleware, APIMiddleware];
+let middleware = [thunk, IntervalMiddleware, DebounceMiddleware, APIMiddleware];
 
 const logReduxToConsole = () => {
   const isProduction = process.env.NODE_ENV === 'production';

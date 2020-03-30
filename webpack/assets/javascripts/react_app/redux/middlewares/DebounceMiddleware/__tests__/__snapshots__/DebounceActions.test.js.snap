@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`debounce actions should clear debounce 1`] = `
+Object {
+  "payload": Object {
+    "key": "SOME_KEY",
+  },
+  "type": "DEBOUNCE_CLEAR",
+}
+`;
+
+exports[`debounce actions should inform about a canceled incoming action while debounce 1`] = `
+Object {
+  "payload": Object {
+    "key": "SOME_KEY",
+  },
+  "type": "DEBOUNCE_STOP_INCOMING_ACTION",
+}
+`;
+
+exports[`debounce actions should start debounce 1`] = `
+Object {
+  "payload": Object {
+    "debounceID": 121,
+    "key": "SOME_KEY",
+  },
+  "type": "DEBOUNCE_START",
+}
+`;
