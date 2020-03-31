@@ -117,7 +117,7 @@ class FilterTest < ActiveSupport::TestCase
       f = FactoryBot.build_stubbed(:filter, :search => '', :unlimited => '1', :organization_ids => [@organization.id])
       assert f.valid?
       assert f.limited?
-      assert_include f.taxonomy_search, "(organization_id = #{@organization.id})"
+      assert_include f.taxonomy_search, "(organization_id ^ (#{@organization.id}))"
       assert_not_include f.taxonomy_search, ' and '
       assert_not_include f.taxonomy_search, ' or '
     end
@@ -126,7 +126,7 @@ class FilterTest < ActiveSupport::TestCase
       f = FactoryBot.build_stubbed(:filter, :search => '', :unlimited => '1', :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
-      assert_include f.taxonomy_search, "(location_id = #{@location.id})"
+      assert_include f.taxonomy_search, "(location_id ^ (#{@location.id}))"
     end
 
     test "filter with location set is always limited before validation" do
@@ -134,9 +134,7 @@ class FilterTest < ActiveSupport::TestCase
                          :organization_ids => [@organization.id, @organization1.id], :location_ids => [@location.id])
       assert f.valid?
       assert f.limited?
-      assert_include f.taxonomy_search, "(location_id = #{@location.id})"
-      assert_include f.taxonomy_search, "organization_id = #{@organization.id}"
-      assert_include f.taxonomy_search, "organization_id = #{@organization1.id}"
+      assert_equal "(organization_id ^ (#{@organization.id},#{@organization1.id})) and (location_id ^ (#{@location.id}))", f.taxonomy_search
     end
 
     test "removing all organizations and locations from filter nilify taxonomy search" do
@@ -241,6 +239,6 @@ class FilterTest < ActiveSupport::TestCase
     f.role = FactoryBot.build(:role, :organizations => [FactoryBot.build(:organization)])
     f.save # we need ids
     f.enforce_inherited_taxonomies
-    assert_equal "(organization_id = #{f.organizations.first.id})", f.taxonomy_search
+    assert_equal "(organization_id ^ (#{f.organizations.first.id}))", f.taxonomy_search
   end
 end

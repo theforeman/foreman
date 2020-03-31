@@ -181,10 +181,10 @@ class Filter < ApplicationRecord
   end
 
   def build_taxonomy_search_string(name)
-    relation = name.pluralize
-    taxes = send(relation).empty? ? [] : send(relation).map { |t| "#{name}_id = #{t.id}" }
-    taxes = taxes.join(' or ')
-    parenthesize(taxes)
+    relation = send(name.pluralize).pluck(:id)
+    return '' if relation.empty?
+
+    parenthesize("#{name}_id ^ (#{relation.join(',')})")
   end
 
   def nilify_empty_searches
