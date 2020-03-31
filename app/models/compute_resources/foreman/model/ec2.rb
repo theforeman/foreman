@@ -17,14 +17,14 @@ module Foreman::Model
 
     def gov_cloud=(enable_gov_cloud)
       if enable_gov_cloud == '1'
-        self.url = GOV_CLOUD_REGION
+        self.url ||= GOV_CLOUD_REGION
       elsif gov_cloud?
         self.url = nil
       end
     end
 
     def gov_cloud
-      url == GOV_CLOUD_REGION
+      ['us-gov-west-1', 'us-gov-east-1'].include? url
     end
     alias_method :gov_cloud?, :gov_cloud
 
@@ -153,6 +153,7 @@ module Foreman::Model
     end
 
     def client
+      self.url = region if gov_cloud
       @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region, :connection_options => connection_options)
     end
 
