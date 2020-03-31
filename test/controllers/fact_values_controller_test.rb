@@ -27,6 +27,12 @@ class FactValuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'when host-id is presented in params, it should be added to search with "and" operator' do
+    get :index, params: {host_id: host.id, search: 'location = a'}, session: set_session_user
+    assert_response :success
+    assert_match "location = a and host = #{host.id}", @controller.params[:search]
+  end
+
   def test_index_with_sort
     @request.env['HTTP_REFERER'] = fact_values_path
     get :index, params: {order: 'origin ASC'}, session: set_session_user
