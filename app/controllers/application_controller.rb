@@ -198,7 +198,10 @@ class ApplicationController < ActionController::Base
       if param =~ /(\w+)_id$/
         if params[param].present?
           query = "#{Regexp.last_match(1)} = #{params[param]}"
-          params[:search] += query unless params[:search].include? query
+          unless params[:search].include? query
+            params[:search] += ' and ' if params[:search].present?
+            params[:search] += query
+          end
         end
       end
     end
