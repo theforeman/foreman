@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-19 11:02+0200\n"
-"PO-Revision-Date: 2020-03-19 11:02+0200\n"
+"POT-Creation-Date: 2020-04-01 17:39+0300\n"
+"PO-Revision-Date: 2020-04-01 17:39+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -8434,7 +8434,7 @@ msgstr ""
 msgid "You are not authorized to make a template default."
 msgstr ""
 
-#: ../app/models/template.rb:294 ../app/models/template.rb:305
+#: ../app/models/template.rb:294 ../app/models/template.rb:309
 msgid "This template is locked. Please clone it to a new template to customize."
 msgstr ""
 

@@ -24,9 +24,9 @@
 # abf90805572190d649c59f7a021d76cb, 2013-2014
 # ppuschmann, 2013
 # abf90805572190d649c59f7a021d76cb, 2013
-# simon11 <simon.stieger.98@live.de>, 2014
+# simon11 <transifex@stieger.co>, 2014
 # Simon Leinen <simon.leinen@gmail.com>, 2017
-# simon11 <simon.stieger.98@live.de>, 2014
+# simon11 <transifex@stieger.co>, 2014
 # stbenjam <stephen@redhat.com>, 2014,2016
 # stbenjam <stephen@redhat.com>, 2014,2016
 # Wiederoder <stefanwiederoder@googlemail.com>, 2013
