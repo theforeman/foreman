@@ -1,3 +1,16 @@
+2020-04-02	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.0.0
+	* templates - sync from community-templates
+
+2020-04-01	Tomer Brisker <tbrisker@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2020-03-23	Evgeni Golov <evgeni@golov.de>
+	* use ENV not ARG to set RAILS_ENV in the running container
+
+2020-03-23	Ori Rabin <orabin@redhat.com>
+	* Fixes #29390 - Unpin pry-byebug
+
 2020-03-19	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.0.0-rc3
 	* i18n - extracting new, pulling from tx
