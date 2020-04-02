@@ -1,5 +1,35 @@
 require 'find'
 
+ApipieDSL.configure do |config|
+  config.default_version = 'v1'
+  config.app_name = 'Foreman'
+  config.app_info = 'The Foreman is aimed to be a single address for all machines life cycle management.'
+  config.doc_base_url = '/templates_doc'
+  config.markup = ApipieDSL::Markup::Markdown.new if Rails.env.development? && defined? Maruku
+  config.dsl_classes_matchers = [
+    "#{Rails.root}/lib/foreman/renderer/**/*.rb",
+  ]
+  # TODO all provisioning reports jobs additional
+  config.sections = %w[basic_ruby_methods]
+  # TODO enable?
+  config.validate = false
+
+  config.use_cache = Rails.env.production? || File.directory?(config.cache_dir)
+  # config.languages = [] # turn off localized DSL docs, useful for development
+  config.languages = ENV['FOREMAN_APIPIE_LANGS'].try(:split, ' ') || FastGettext.available_locales
+  config.default_locale = FastGettext.default_locale
+  config.locale = ->(loc) { loc ? FastGettext.set_locale(loc) : FastGettext.locale }
+
+  config.translate = lambda do |str, loc|
+    old_loc = FastGettext.locale
+    FastGettext.set_locale(loc)
+    trans = _(str) if str
+    FastGettext.set_locale(old_loc)
+    trans
+  end
+  config.help_layout = 'apipie_dsl/apipie_dsls/help.html.erb'
+end
+
 Apipie.configure do |config|
   config.app_name = "Foreman"
   config.app_info = "The Foreman is aimed to be a single address for all machines life cycle management."

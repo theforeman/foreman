@@ -1,6 +1,8 @@
 module Foreman
   module Renderer
     class Configuration
+      include Foreman::Renderer::DocTemplates::BasicRubyMethods
+
       DEFAULT_ALLOWED_GENERIC_HELPERS = [
         :foreman_url,
         :snippet, :snippets,

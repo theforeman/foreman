@@ -125,6 +125,7 @@
       <h6><%= _("Documentation") %></h6>
       <ul>
         <li><%= link_to _('API Resources'), apipie_apipie_path, :title => _('Automate Foreman via a simple and powerful API') %></li>
+        <li><%= link_to _('Templates DSL'), apipie_dsl_apipie_dsl_path, :title => _('Get DSL reference for templates writing') %></li>
         <li><%= link_to _('Manual'), documentation_url, :rel => "external" %></li>
         <li><%= link_to _('Wiki'), "http://projects.theforeman.org", :rel => "external" %></li>
       </ul>
@@ -143,4 +144,3 @@
   </div>
   <%= slot('aboutFooterSlot', true) %>
 </div>
-
