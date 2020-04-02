@@ -18,6 +18,7 @@
       </div>
       <div class="user_input_type custom_input_type_fields" style="<%= (f.object.user_template_input? || f.object.new_record?) ? '' : 'display:none' %>">
         <%= checkbox_f f, :advanced, :disabled => @template.locked? %>
+        <%= checkbox_f f, :hidden_value, :disabled => @template.locked?, label_help: _('Should the value be hidden from users? Useful for sensitive input values such as passwords. Only applicable to Plain value types.'), wrapper_class: "form-group input-hidden-value-#{f.index || f.object_id}#{' hide' if f.object.value_type != 'plain'}" %>
         <%= textarea_f f, :options, :rows => 3, :class => 'user_input_type', :help_inline => _("A list of options the user can select from. If not provided, the user will be given a free-form field"),
                                     :disabled => @template.locked?, wrapper_class: "form-group input-options-#{f.index || f.object.id}#{' hide' if f.object.value_type != 'plain'}"  %>
         <%= text_f f, :default, :disabled => @template.locked? %>

@@ -55,7 +55,9 @@ export const inputValueOnchange = input => {
 
   $fields.find(`.resource-type-${inputId}`).toggle(searchValue);
   $fields.find(`.input-options-${inputId}`).toggle(plainValue);
+  $fields.find(`.input-hidden-value-${inputId}`).toggle(plainValue);
 };
+
 export function snippetChanged(item) {
   const checked = $(item).is(':checked');
 

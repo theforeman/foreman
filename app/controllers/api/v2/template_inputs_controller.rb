@@ -36,6 +36,7 @@ module Api
           param :puppet_parameter_name, String, :required => false, :desc => N_('Puppet parameter name, used when input type is puppet_parameter')
           param :options, Array, :required => false, :desc => N_('Selectable values for user inputs')
           param :default, String, :required => false, :desc => N_('Default value for user input')
+          param :hidden_value, :bool, :required => false, :desc => N_('The value contains sensitive information and shouldn not be normally visible, useful e.g. for passwords')
           param :value_type, TemplateInput::VALUE_TYPE, :required => false, :desc => N_('Value type, defaults to plain')
           param :resource_type, Permission.resources, :required => false, :desc => N_('For values of type search, this is the resource the value searches in')
         end
