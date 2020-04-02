@@ -33,6 +33,7 @@ module Api
       param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
+        @hostgroup.preload_nested(Hostgroup.nested_attribute_fields)
       end
 
       def_param_group :hostgroup do

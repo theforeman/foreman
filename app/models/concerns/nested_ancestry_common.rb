@@ -73,7 +73,27 @@ module NestedAncestryCommon
     end
   end
 
+  def reload(*params)
+    super
+    @preloaded_nested_attrs = nil
+  end
+
+  def preload_nested(*attrs)
+    return unless ancestry.present?
+    attrs = attrs.flatten
+    inheritance_path = self.class.sort_by_ancestry(ancestors.select(attrs + [:id, :ancestry]))
+    @preloaded_nested_attrs ||= {}
+    attrs.each do |attr|
+      @preloaded_nested_attrs[attr.to_sym] = inheritance_path.map { |a| a.try(attr) }.compact.last
+    end
+  end
+
+  def is_nested_preloaded?(attr)
+    @preloaded_nested_attrs&.key?(attr.to_sym)
+  end
+
   def nested(attr)
+    return @preloaded_nested_attrs[attr.to_sym] if is_nested_preloaded?(attr)
     self.class.sort_by_ancestry(ancestors.where("#{attr} is not NULL")).last.try(attr) if ancestry.present?
   end
 
