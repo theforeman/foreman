@@ -4,7 +4,14 @@
   <% else %>
     <%= content_tag :div, nil, id: "template-input-#{input.id}" %>
     <% if input.value_type == 'plain' || input.value_type.nil? %>
-      <%= textarea_f input_fields, :value, :label => input.name, :label_help => input.description, :required => input.required, :rows => 2, :onchange => local_assigns[:onchange], :id => input.name %>
+      <%= textarea_f input_fields, :value,
+        :label => input.name,
+        :label_help => input.description,
+        :required => input.required,
+        :rows => 2,
+        :onchange => local_assigns[:onchange],
+        :id => input.name,
+        :class => input.hidden_value? ? 'masked-input' : '' %>
     <% else %>
       <%= mount_report_template_input(input_fields.object) %>
     <% end %>

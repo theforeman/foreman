@@ -12,7 +12,7 @@ class TemplateInput < ApplicationRecord
 
   attr_exportable(:name, :required, :input_type, :fact_name, :variable_name, :puppet_class_name,
     :puppet_parameter_name, :description, :options, :advanced, :value_type,
-    :resource_type, :default)
+    :resource_type, :default, :hidden_value)
 
   belongs_to :template
 
