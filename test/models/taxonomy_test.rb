@@ -75,7 +75,7 @@ class TaxonomyTest < ActiveSupport::TestCase
   end
 
   test "#taxonomy_ids_by_ignore_type should return ids of taxonomy_type for which 'Select All' option is checked for a resource." do
-    FactoryBot.create(:organization, :ignore_types => [ 'User' ])
+    FactoryBot.create(:organization, :ignore_types => ['User'])
     user = FactoryBot.create(:user, :id => 20)
     organization_ids_with_select_all = Organization.taxonomy_ids_by_ignore_type(user.class.to_s)
     assert_not organization_ids_with_select_all.empty?

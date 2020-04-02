@@ -206,8 +206,8 @@ class Taxonomy < ApplicationRecord
   def assign_default_templates
     Template.where(:default => true).select(&:valid?).each do |template|
       template_class_string = template.class.to_s
-      unless self.ignore_types.include?(template_class_string)
-        self.send(template_class_string.underscore.pluralize.to_s) << template
+      unless ignore_types.include?(template_class_string)
+        send(template_class_string.underscore.pluralize.to_s) << template
       end
     end
   end
@@ -242,9 +242,9 @@ class Taxonomy < ApplicationRecord
     ignore_types.each do |klass|
       klass_obj_ids = klass.constantize.unscoped.pluck(:id)
       klass_ids_meth = klass.underscore + '_ids'
-      existing_ids = self.send(klass_ids_meth)
+      existing_ids = send(klass_ids_meth)
       next if (klass_obj_ids - existing_ids).blank?
-      self.send("#{klass_ids_meth}=", klass_obj_ids)
+      send("#{klass_ids_meth}=", klass_obj_ids)
     end
   end
 end

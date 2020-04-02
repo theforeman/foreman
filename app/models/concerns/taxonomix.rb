@@ -222,11 +222,11 @@ module Taxonomix
 
   def assign_taxonomy_ids(taxonomy_class_name, taxonomy_ids_by_ignore_type)
     taxonomy_ids_meth = taxonomy_class_name.underscore + '_ids'
-    existing_obj_ids = self.send(taxonomy_ids_meth)
+    existing_obj_ids = send(taxonomy_ids_meth)
     return if (taxonomy_ids_by_ignore_type - existing_obj_ids).blank?
 
     taxonomy_ids_by_ignore_type.concat(existing_obj_ids).uniq!
-    self.send("#{taxonomy_ids_meth}=", taxonomy_ids_by_ignore_type)
+    send("#{taxonomy_ids_meth}=", taxonomy_ids_by_ignore_type)
   end
 
   protected
