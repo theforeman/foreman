@@ -7,8 +7,8 @@ module NestedAncestryCommon
     has_ancestry :orphan_strategy => :restrict
 
     before_validation :set_title
-    after_save :set_other_titles, :on => [:update, :destroy]
-    after_save :update_matchers, :on => :update, :if => proc { |obj| obj.saved_change_to_title? }
+    after_update :set_other_titles
+    after_update :update_matchers, :if => proc { |obj| obj.saved_change_to_title? }
 
     # attribute used by *_names and *_name methods.  default is :name
     attr_name :title
