@@ -113,9 +113,8 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "should not create with content type text plain" do
-    assert_raises_with_message(RuntimeError, 'Unknown Content-Type') do
-      post :create, params: { :organization => {:name => "foo organization"} }, as: 'text/plain'
-    end
+    post :create, params: { :organization => {:name => "foo organization"} }, as: Mime::LOOKUP['text/plain']
+    assert_response :unsupported_media_type
   end
 
   test "create with name" do
