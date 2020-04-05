@@ -66,9 +66,8 @@ two:
   key_type: string
   validator_type: list
   validator_rule: '443,8443'
-  puppetclass: one
   default_value: 443
-  type: VariableLookupKey
+  type: PuppetclassLookupKey
 
 four:
   key: special_info
@@ -76,13 +75,11 @@ four:
   validator_rule:
   default_value: 'secret'
   override: true
-  puppetclass: two
   path: "organization,location\nxyz\nhostgroup"
-  type: VariableLookupKey
+  type: PuppetclassLookupKey
 
 eight:
   key: bool_test
   key_type: boolean
-  puppetclass: one
   default_value: true
-  type: VariableLookupKey
+  type: PuppetclassLookupKey

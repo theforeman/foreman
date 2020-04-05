@@ -65,7 +65,6 @@ module AuditSearch
         :partition_table => 'Ptable',
         :setting => 'Setting',
         :smart_class_parameter => 'PuppetclassLookupKey',
-        :smart_variable => 'VariableLookupKey',
         :subnet => 'Subnet',
         :provisioning_template => 'ProvisioningTemplate'
       )

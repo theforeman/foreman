@@ -119,29 +119,6 @@ class SubnetTest < ActiveSupport::TestCase
     assert_match /is used by/, subnet.errors.full_messages.join("\n")
   end
 
-  test 'smart variable matches on subnet name' do
-    host = FactoryBot.create(:host, :with_subnet, :puppetclasses => [puppetclasses(:one)])
-    subnet = host.subnet
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'string',
-                             :default_value => 'default', :path => "subnet",
-                             :puppetclass => puppetclasses(:one))
-
-    value = as_admin do
-      LookupValue.create! :lookup_key_id => key.id,
-                          :match => "subnet=#{subnet.name}",
-                          :value => 'subnet'
-    end
-    key.reload
-
-    keys = VariableLookupKey.global_parameters_for_class([puppetclasses(:one).id])
-    smart_variables = keys.values_hash(host).raw
-
-    assert_equal({key.id => {key.key => {:value => value.value,
-                                         :element => 'subnet',
-                                         :element_name => subnet.name}}},
-      smart_variables)
-  end
-
   test "should have MTU set to 1500 by default" do
     assert_equal 1500, Subnet.new.mtu
   end

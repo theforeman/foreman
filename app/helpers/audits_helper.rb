@@ -170,8 +170,6 @@ module AuditsHelper
                     'Puppet Class'
                   when 'Parameter'
                     "#{audit.associated_type || 'Global'}-#{type_name}"
-                  when 'LookupKey', 'VariableLookupKey'
-                    'Smart Variable'
                   when 'PuppetclassLookupKey'
                     'Smart Class Parameter'
                   when 'LookupValue'

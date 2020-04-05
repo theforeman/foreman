@@ -20,7 +20,7 @@ class LookupKeyTest < ActiveSupport::TestCase
   def test_element_seperations
     key = ""
     as_admin do
-      key = VariableLookupKey.create!(:key => "ntp", :path => "domain,hostgroup\n domain", :puppetclass => Puppetclass.first)
+      key = PuppetclassLookupKey.create!(:key => "ntp", :path => "domain,hostgroup\n domain")
     end
     elements = key.send(:path_elements) # hack to access private method
     assert_equal "domain", elements[0][0]
@@ -184,11 +184,6 @@ class LookupKeyTest < ActiveSupport::TestCase
       assert_equal val, param.default_value_before_type_cast
     end
   end
-
-  test "this is a smart variable?" do
-    assert lookup_keys(:two).class == VariableLookupKey
-  end
-
   test "this is a smart class parameter?" do
     assert_not_deprecated do
       assert lookup_keys(:complex).puppet?
@@ -196,22 +191,9 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "to_param should replace whitespace with underscore" do
-    lookup_key = VariableLookupKey.new(:key => "smart variable", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
+    lookup_key = PuppetclassLookupKey.new(:key => "smart variable", :path => "hostgroup",
+                                          :default_value => "default")
     assert_equal "-smart_variable", lookup_key.to_param
-  end
-
-  test "should create smart variable with the same name as class parameters" do
-    env = FactoryBot.create(:environment)
-    pc = FactoryBot.create(:puppetclass, :with_parameters, :environments => [env])
-    key = pc.class_params.first
-    smart_variable = VariableLookupKey.create!(:key => key.key, :path => "hostgroup", :puppetclass => Puppetclass.first)
-    assert_valid smart_variable
-  end
-
-  test "should not create two smart variables with the same name" do
-    VariableLookupKey.create!(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default")
-    smart_variable2 = VariableLookupKey.new(:key => "smart-varialble", :path => "hostgroup", :puppetclass => Puppetclass.first, :default_value => "default2")
-    refute_valid smart_variable2
   end
 
   test "should not be able to merge overrides for a string" do
@@ -326,22 +308,6 @@ class LookupKeyTest < ActiveSupport::TestCase
     override_params.each { |param| assert_equal false, @key.read_attribute(param) }
   end
 
-  test "override params are not reset for variable lookup key" do
-    @key = FactoryBot.create(:variable_lookup_key, :key_type => 'array', :override => true,
-                              :default_value => '[]', :puppetclass => puppetclasses(:one))
-    override_params = [:merge_overrides, :merge_default, :avoid_duplicates]
-
-    override_params.each { |param| @key.send("#{param}=", true) }
-    @key.save
-
-    @key.override = false
-    @key.description = "Gregor Samsa"
-
-    assert @key.save
-    refute @key.errors.any?
-    override_params.each { |param| assert_equal true, @key.read_attribute(param) }
-  end
-
   test "#overridden? works for unsaved hosts" do
     key = FactoryBot.create(:puppetclass_lookup_key)
     host = FactoryBot.build_stubbed(:host)
@@ -449,9 +415,8 @@ class LookupKeyTest < ActiveSupport::TestCase
 
   test "can create lookup key with long default_value" do
     as_user :one do
-      lookup_key = FactoryBot.build(:variable_lookup_key, :key_type => 'string', :override => true,
-                                       :default_value => 'a' * 280, :puppetclass => puppetclasses(:one))
-
+      lookup_key = FactoryBot.build(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'string',
+                                    :override => true, :default_value => 'a' * 280, :puppetclass => puppetclasses(:one))
       assert_valid lookup_key
     end
   end

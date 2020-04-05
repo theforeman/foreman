@@ -4,10 +4,6 @@ class CastLookupKeyValues < ActiveRecord::Migration[5.1]
     PuppetclassLookupKey.unscoped.preload(:lookup_values).where(override: true).where.not(key_type: 'string').find_each do |key|
       cast_key_and_values(key)
     end
-
-    VariableLookupKey.unscoped.preload(:lookup_values).where.not(key_type: 'string').find_each do |key|
-      cast_key_and_values(key)
-    end
   end
 
   private

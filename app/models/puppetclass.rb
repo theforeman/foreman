@@ -20,8 +20,6 @@ class Puppetclass < ApplicationRecord
   has_many_hosts :through => :host_classes, :dependent => :destroy
   has_many :config_group_classes
   has_many :config_groups, :through => :config_group_classes, :dependent => :destroy
-  has_many :lookup_keys, :inverse_of => :puppetclass, :dependent => :destroy, :class_name => 'VariableLookupKey'
-  accepts_nested_attributes_for :lookup_keys, :reject_if => ->(a) { a[:key].blank? }, :allow_destroy => true
   # param classes
   has_many :class_params, -> { where('environment_classes.puppetclass_lookup_key_id is NOT NULL').distinct },
     :through => :environment_classes, :source => :puppetclass_lookup_key
@@ -29,8 +27,6 @@ class Puppetclass < ApplicationRecord
 
   validates :name, :uniqueness => true, :presence => true, :no_whitespace => true
 
-  alias_attribute :smart_variables, :lookup_keys
-  alias_attribute :smart_variable_ids, :lookup_key_ids
   alias_attribute :smart_class_parameters, :class_params
   alias_attribute :smart_class_parameter_ids, :class_param_ids
 
