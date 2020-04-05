@@ -7,6 +7,7 @@ module NestedAncestryCommon
     has_ancestry :orphan_strategy => :restrict
 
     before_validation :set_title
+    after_destroy :set_other_titles
     after_update :set_other_titles
     after_update :update_matchers, :if => proc { |obj| obj.saved_change_to_title? }
 
