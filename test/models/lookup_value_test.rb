@@ -273,12 +273,12 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal('hostgroup,domain', value.path)
   end
 
-  test "should create override value for smart variable with list validator and matching value" do
+  test "should create override value for smart class parameter with list validator and matching value" do
     values_list = ['test', 'example', 30]
     validator_type = 'list'
     validator_rule = values_list.join(', ')
-    smart_variable = FactoryBot.create(
-      :variable_lookup_key,
+    smart_class_parameter = FactoryBot.create(
+      :puppetclass_lookup_key,
       :variable => RFauxFactory.gen_alpha,
       :puppetclass_id => puppetclasses(:one).id,
       :validator_type => validator_type,
@@ -289,7 +289,7 @@ class LookupValueTest < ActiveSupport::TestCase
     values_list.each do |value|
       sv_lookup_value = FactoryBot.build(
         :lookup_value,
-        :lookup_key_id => smart_variable.id,
+        :lookup_key_id => smart_class_parameter.id,
         :match => match,
         :value => value
       )

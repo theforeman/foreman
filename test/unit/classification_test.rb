@@ -308,8 +308,8 @@ class ClassificationTest < ActiveSupport::TestCase
     refute enc['base'].key?(key.key)
   end
 
-  test 'smart variable of array with avoid_duplicates should return lookup_value array without duplicates' do
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'array', :merge_overrides => true,
+  test 'smart class parameter of array with avoid_duplicates should return lookup_value array without duplicates' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array', :merge_overrides => true,
                              :default_value => [], :path => "organization\nlocation", :avoid_duplicates => true,
                              :puppetclass => puppetclasses(:one))
 
@@ -330,9 +330,9 @@ class ClassificationTest < ActiveSupport::TestCase
       Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
 
-  test 'smart variable of array without avoid_duplicates should return lookup_value array with duplicates' do
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'array', :merge_overrides => true,
-                             :default_value => [], :path => "organization\nlocation",
+  test 'smart class parameter of array without avoid_duplicates should return lookup_value array with duplicates' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
+                             :merge_overrides => true, :default_value => [], :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
 
     value = as_admin do
@@ -353,9 +353,9 @@ class ClassificationTest < ActiveSupport::TestCase
       Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
 
-  test 'smart variable of hash in hash with merge_overrides should return lookup_value hash with array of elements' do
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
-                             :default_value => {}, :path => "organization\nlocation",
+  test 'smart class parameter of hash in hash with merge_overrides should return lookup_value hash with array of elements' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'hash',
+                             :merge_overrides => true, :default_value => {}, :path => "organization\nlocation",
                              :puppetclass => puppetclasses(:one))
 
     as_admin do
@@ -376,9 +376,9 @@ class ClassificationTest < ActiveSupport::TestCase
       Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
 
-  test 'smart variable of hash with merge_overrides and priority should obey priority' do
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
-                             :default_value => {}, :path => "organization\nos\nlocation",
+  test 'smart class parameter of hash with merge_overrides and priority should obey priority' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'hash',
+                             :merge_overrides => true, :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
     as_admin do
@@ -405,9 +405,9 @@ class ClassificationTest < ActiveSupport::TestCase
       Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
 
-  test 'smart variable of hash with merge_overrides and priority should return lookup_value hash with array of elements' do
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
-                             :default_value => {}, :path => "organization\nos\nlocation",
+  test 'smart class parameter of hash with merge_overrides and priority should return lookup_value hash with array of elements' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'hash',
+                             :merge_overrides => true, :default_value => {}, :path => "organization\nos\nlocation",
                              :puppetclass => puppetclasses(:one))
 
     as_admin do
@@ -429,10 +429,10 @@ class ClassificationTest < ActiveSupport::TestCase
       Classification::ValuesHashQuery.values_hash(@host, LookupKey.where(:id => [key])).raw)
   end
 
-  test 'smart variable of hash without merge_default should not merge with default value' do
-    key = FactoryBot.create(:variable_lookup_key, :key_type => 'hash', :merge_overrides => true,
-                             :default_value => {:default => 'example'}, :path => "organization\nos\nlocation",
-                             :puppetclass => puppetclasses(:one))
+  test 'smart class parameter of hash without merge_default should not merge with default value' do
+    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'hash',
+                             :merge_overrides => true, :default_value => {:default => 'example'},
+                             :path => "organization\nos\nlocation", :puppetclass => puppetclasses(:one))
 
     as_admin do
       LookupValue.create! :lookup_key_id => key.id,

@@ -19,14 +19,6 @@ class PuppetclassTest < ActiveSupport::TestCase
     assert_equal [], Puppetclass.search_for("host = imaginaryhost.nodomain.what")
   end
 
-  test "create puppetclass with smart variable as nested attribute" do
-    as_admin do
-      puppetclass = Puppetclass.new(:name => "PuppetclassWithSmartVariable", :lookup_keys_attributes => {"new_1372154591368" => {:key => 'smart_variable1'}})
-      assert puppetclass.save
-      assert_equal Puppetclass.unscoped.last.id, LookupKey.unscoped.last.puppetclass_id
-    end
-  end
-
   test "Puppetclass singularize from custom inflection" do
     assert_equal "Puppetclass", "Puppetclass".singularize
     assert_equal "Puppetclass", "Puppetclasses".singularize
@@ -130,32 +122,6 @@ class PuppetclassTest < ActiveSupport::TestCase
       @host.update_attribute(:hostgroup_id, @hostgroup.id)
       assert_equal 1, @class.hosts_count
     end
-  end
-
-  test "three levels of nested attributes still validate nested objects" do
-    klass = FactoryBot.create(:puppetclass)
-    hostgroup = FactoryBot.create(:hostgroup)
-    lk = FactoryBot.create(:variable_lookup_key, puppetclass_id: klass.id)
-    attributes = {"hostgroup_ids" => [hostgroup.id],
-      "lookup_keys_attributes" =>
-      {"0" =>
-        { "_destroy" => "false",
-          "key" => "hahs",
-          "description" => "",
-          "key_type" => "hash",
-          "default_value" => "{\"foo\" => \"bar\"}",
-          "hidden_value" => "0",
-          "validator_type" => "",
-          "path" => "owner\r\nfqdn\r\nhostgroup\r\nos\r\ndomain",
-          "merge_overrides" => "0",
-          "lookup_values_attributes" => {"0" => {"match" => "owner=sdgsd", "value" => "{\"foo\" => \"bar\"}", "_destroy" => "false"}},
-          "id" => lk.id,
-        },
-      },
-    }
-
-    refute klass.update(attributes)
-    assert klass.errors.messages.key?(:"lookup_keys.lookup_values.value")
   end
 
   context "search in puppetclasses" do

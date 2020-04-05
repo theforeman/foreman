@@ -202,4 +202,3 @@ class LookupKey < ApplicationRecord
 end
 
 require_dependency 'puppetclass_lookup_key'
-require_dependency 'variable_lookup_key'

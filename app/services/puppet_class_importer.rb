@@ -193,7 +193,7 @@ class PuppetClassImporter
   def db_classes(environment)
     return @foreman_classes[environment] if @foreman_classes[environment]
     return [] unless (env = Environment.find_by_name(environment))
-    @foreman_classes[environment] = env.puppetclasses.includes(:lookup_keys, :class_params)
+    @foreman_classes[environment] = env.puppetclasses.includes(:class_params)
   end
 
   def db_classes_name(environment)

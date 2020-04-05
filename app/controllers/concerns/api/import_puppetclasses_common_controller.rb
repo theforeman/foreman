@@ -20,7 +20,6 @@ module Api::ImportPuppetclassesCommonController
 
   def import_puppetclasses
     return unless changed_environments
-
     # @changed is returned from the method above changed_environments
     # Limit actions by setting @changed[kind] to empty hash {} (no action)
     # if :except parameter is passed with comma deliminator import_puppetclasses?except=new,obsolete
