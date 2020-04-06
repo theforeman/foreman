@@ -73,7 +73,7 @@ class Host::Managed < Host::Base
 
   def build_hooks
     return if previous_changes['build'].nil?
-    if build?
+    if previous_changes['build'] == [true, false]
       run_callbacks :build do
         logger.debug "custom hook after_build on #{name} will be executed if defined."
         true
