@@ -344,17 +344,12 @@ module Foreman #:nodoc:
 
     def pending_migrations
       return true if Foreman.in_setup_db_rake?
-      migration_paths = ActiveRecord::MigrationContext.new(
-        ActiveRecord::Migrator.migrations_paths).migrations
-      pending_migrations = ActiveRecord::Migrator.new(:up, migration_paths).
-        pending_migrations
 
-      return false if pending_migrations.empty?
-      migration_names = pending_migrations.take(5).map(&:name).join(', ')
-      Rails.logger.debug(
-        "There are #{pending_migrations.size} pending migrations: "\
-        "#{migration_names}#{(pending_migrations.size > 5) ? '...' : ''}")
-      true
+      pending_migrations = ActiveRecord::Base.connection.migration_context.needs_migration?
+
+      Rails.logger.debug("There are pending migrations. Please run foreman-rake db:migrate.") if pending_migrations
+
+      pending_migrations
     end
 
     # List of helper methods allowed for templates in safe mode
