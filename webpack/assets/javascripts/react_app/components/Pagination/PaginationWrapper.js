@@ -34,22 +34,13 @@ const PaginationWrapper = props => {
     });
   };
 
-  const initPagination = paginationFromProps => {
-    const defaultPagination = {
-      page: 1,
-      perPage: 20,
-      perPageOptions: [5, 10, 15, 20, 25, 50],
-    };
-    return { ...defaultPagination, ...(paginationFromProps || {}) };
-  };
-
   return (
     <Pagination
       data={{ itemCount, viewType }}
       onPageSet={onPageSetUpdate}
       onPerPageSelect={onPerPageSelectUpdate}
       dropdownButtonId={dropdownButtonId}
-      pagination={initPagination(pagination)}
+      pagination={pagination}
       {...otherProps}
     />
   );
@@ -59,6 +50,7 @@ PaginationWrapper.defaultProps = {
   onChange: () => {},
   viewType: 'list',
   ...Paginator.defaultProps,
+  pagination: {},
 };
 
 PaginationWrapper.propTypes = {
