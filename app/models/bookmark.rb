@@ -20,7 +20,7 @@ class Bookmark < ApplicationRecord
   scoped_search :on => :name, :complete_value => true
 
   scope :my_bookmarks, lambda {
-    where(public: true).or(Bookmark.where(owner: User.current))
+    where(public: true).or(where(owner: User.current))
   }
 
   scope :controller, ->(*args) { where("controller = ?", (args.first || '')) }
