@@ -34,17 +34,16 @@ const Pagination = props => {
     ? 'col-md-12'
     : `col-md-12 ${data.classNames.pagination_classes}`;
 
+  const pageOpts = {
+    page: urlPage,
+    perPage: urlPerPage || perPage,
+    perPageOptions,
+    ...pagination,
+  };
+
   return (
     <Paginator
-      pagination={
-        isEmpty(pagination)
-          ? {
-              page: urlPage,
-              perPage: urlPerPage || perPage,
-              perPageOptions,
-            }
-          : { ...pagination, perPage: urlPerPage || perPage }
-      }
+      pagination={pageOpts}
       viewType={data.viewType}
       itemCount={data.itemCount}
       onPageSet={onPageSet}
