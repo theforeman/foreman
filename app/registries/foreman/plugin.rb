@@ -157,6 +157,15 @@ module Foreman #:nodoc:
       @status_extension = nil
     end
 
+    def engine
+      @engine ||= Rails::Engine.find(path) if path
+    end
+
+    def migrations_paths
+      return [] unless engine
+      engine.paths['db/migrate'].existent
+    end
+
     def fact_importer_registry
       self.class.fact_importer_registry
     end
@@ -346,12 +355,13 @@ module Foreman #:nodoc:
 
     def pending_migrations
       return true if Foreman.in_setup_db_rake?
+      return @pending_migrations unless @pending_migrations.nil?
 
-      pending_migrations = ActiveRecord::Base.connection.migration_context.needs_migration?
+      @pending_migrations = ActiveRecord::MigrationContext.new(migrations_paths, ActiveRecord::SchemaMigration).needs_migration?
 
-      Rails.logger.debug("There are pending migrations. Please run foreman-rake db:migrate.") if pending_migrations
+      Rails.logger.debug("There are pending migrations for #{id}. Please run foreman-rake db:migrate.") if @pending_migrations
 
-      pending_migrations
+      @pending_migrations
     end
 
     # List of helper methods allowed for templates in safe mode

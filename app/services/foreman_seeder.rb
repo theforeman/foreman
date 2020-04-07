@@ -20,11 +20,7 @@ class ForemanSeeder
 
   def plugin_seeds
     Foreman::Plugin.registered_plugins.collect do |name, plugin|
-      engine = (name.to_s.tr('-', '_').camelize + '::Engine').constantize
-      Dir.glob(engine.root + 'db/seeds.d/*.rb')
-    rescue NameError => e
-      Foreman::Logging.exception("Failed to register plugin #{name}", e)
-      nil
+      Dir.glob(plugin.engine.root + 'db/seeds.d/*.rb') if plugin.engine
     end.flatten.compact
   end
 
