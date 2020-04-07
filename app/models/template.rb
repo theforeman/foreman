@@ -268,7 +268,10 @@ class Template < ApplicationRecord
   end
 
   def check_if_template_is_locked
-    errors.add(:base, _("This template is locked and may not be removed.")) if locked?
+    if locked?
+      errors.add(:base, _("This template is locked and may not be removed."))
+      throw(:abort)
+    end
   end
 
   def template_changes
