@@ -55,9 +55,7 @@ module Foreman
     # while initializing the engine.
     # This allows us to find extension template from plugins
     # that match the template name
-    def call(template)
-      source = template.source
-
+    def call(template, source)
       %{ ::Rabl::Engine.new(#{source.inspect}, :template => '#{template.virtual_path}').
                                           apply(self, assigns.merge(local_assigns)).
                                                         render }
