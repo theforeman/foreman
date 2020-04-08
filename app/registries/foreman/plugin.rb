@@ -79,6 +79,8 @@ module Foreman #:nodoc:
         plugin.after_initialize
 
         registered_plugins[id] = plugin
+      rescue ActiveRecord::StatementInvalid => e
+        Rails.logger.warn("Failed to register #{id} plugin (#{e})")
       end
 
       def unregister(plugin_id)
