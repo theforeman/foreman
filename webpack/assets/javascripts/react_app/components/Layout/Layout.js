@@ -1,14 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { VerticalNav } from 'patternfly-react';
-import { translate as __ } from '../../common/I18n';
-import { noop } from '../../common/helpers';
-
-import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';
-import LayoutContainer from './components/LayoutContainer';
-import TaxonomySwitcher from './components/TaxonomySwitcher';
-import UserDropdowns from './components/UserDropdowns';
+import {
+  Brand,
+  Page,
+  PageSection,
+  PageSectionVariants,
+  PageSidebar,
+  SkipToContent,
+} from '@patternfly/react-core';
+// eslint-disable-next-line
+import globalBreakpointMd from '@patternfly/react-tokens/dist/js/global_breakpoint_md';
+import CustomPageHeader from './components/CustomPageHeader';
+import {
+  getActive,
+  getCurrentPath,
+  layoutPropTypes,
+  layoutDefaultProps,
+} from './LayoutHelper';
+import VerticalNav from './components/VerticalNav';
+import Toolbar from './components/Toolbar';
 import './layout.scss';
 
 class Layout extends React.Component {
@@ -23,11 +32,8 @@ class Layout extends React.Component {
       currentOrganization,
       changeActiveMenu,
       activeMenu,
-      isCollapsed,
-      onCollapse,
     } = this.props;
     if (items.length === 0) fetchMenuItems(data);
-    if (isCollapsed) onCollapse();
 
     const activeURLMenu = getActive(data.menu, getCurrentPath());
     if (activeMenu !== activeURLMenu.title) {
@@ -64,9 +70,6 @@ class Layout extends React.Component {
       items,
       data,
       isLoading,
-      isCollapsed,
-      onExpand,
-      onCollapse,
       changeActiveMenu,
       changeOrganization,
       changeLocation,
@@ -77,157 +80,87 @@ class Layout extends React.Component {
       history,
     } = this.props;
 
+    const afterNavToggle = navOpen => {
+      const mobileView =
+        window.innerWidth < Number.parseInt(globalBreakpointMd.value, 10);
+      if (mobileView) {
+        // ignore for mobile view
+        return;
+      }
+      // toggles a class in the body tag, so that the main #rails-app-content container can have the appropriate width
+      if (navOpen) {
+        document.body.classList.add('pf-m-expanded');
+      } else {
+        document.body.classList.remove('pf-m-expanded');
+      }
+    };
+    const header = (
+      <CustomPageHeader
+        logo={
+          <Brand
+            src={data.logo}
+            alt={data.brand}
+            style={{ marginTop: '8px' }}
+          />
+        }
+        logoProps={{ href: data.root }}
+        showNavToggle
+        contextSelector={
+          <Toolbar
+            data={data}
+            currentLocation={currentLocation}
+            changeLocation={changeLocation}
+            currentOrganization={currentOrganization}
+            changeOrganization={changeOrganization}
+            isLoading={isLoading}
+            changeActiveMenu={changeActiveMenu}
+          />
+        }
+        afterNavToggle={afterNavToggle}
+        className="navbar-pf-vertical"
+      />
+    );
+    const sidebar = (
+      <PageSidebar
+        nav={
+          <VerticalNav
+            items={items}
+            activeMenu={activeMenu}
+            changeActiveMenu={changeActiveMenu}
+            history={history}
+          />
+        }
+        theme="dark"
+      />
+    );
+    const pageId = 'main';
+    const pageSkipToContent = (
+      <SkipToContent href={`#${pageId}`}>Skip to content</SkipToContent>
+    );
+
     return (
-      <React.Fragment>
-        <VerticalNav
-          hoverDelay={100}
-          items={items}
-          onItemClick={primary =>
-            handleMenuClick(primary, activeMenu, changeActiveMenu)
-          }
-          onNavigate={({ href }) => history.push(href)}
-          activePath={`/${__(activeMenu || 'active')}/`}
-          onCollapse={onCollapse}
-          onExpand={onExpand}
-          {...this.props}
-        >
-          <VerticalNav.Masthead>
-            <VerticalNav.Brand
-              title={data.brand}
-              iconImg={data.logo}
-              href={data.root}
-            />
-            <TaxonomySwitcher
-              taxonomiesBool={data.taxonomies}
-              currentLocation={currentLocation}
-              locations={
-                data.taxonomies.locations
-                  ? data.locations.available_locations
-                  : []
-              }
-              onLocationClick={changeLocation}
-              currentOrganization={currentOrganization}
-              organizations={
-                data.taxonomies.organizations
-                  ? data.orgs.available_organizations
-                  : []
-              }
-              onOrgClick={changeOrganization}
-              isLoading={isLoading}
-            />
-            <UserDropdowns
-              notificationUrl={data.notification_url}
-              user={data.user}
-              changeActiveMenu={changeActiveMenu}
-              stopImpersonationUrl={data.stop_impersonation_url}
-            />
-          </VerticalNav.Masthead>
-        </VerticalNav>
-        <LayoutContainer isCollapsed={isCollapsed}>{children}</LayoutContainer>
-      </React.Fragment>
+      <Page
+        header={header}
+        sidebar={sidebar}
+        isManagedSidebar
+        skipToContent={pageSkipToContent}
+        mainContainerId={pageId}
+        className="foreman-theme"
+      >
+        <PageSection variant={PageSectionVariants.light}>
+          {children}
+        </PageSection>
+      </Page>
     );
   }
 }
 
 Layout.propTypes = {
-  children: PropTypes.node,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-  currentOrganization: PropTypes.string,
-  currentLocation: PropTypes.string,
-  isLoading: PropTypes.bool,
-  isCollapsed: PropTypes.bool,
-  activeMenu: PropTypes.string,
-  fetchMenuItems: PropTypes.func,
-  changeActiveMenu: PropTypes.func,
-  changeOrganization: PropTypes.func,
-  changeLocation: PropTypes.func,
-  onExpand: PropTypes.func,
-  onCollapse: PropTypes.func,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      className: PropTypes.string,
-      iconClass: PropTypes.string.isRequired,
-      initialActive: PropTypes.bool,
-      subItems: PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string,
-          isDivider: PropTypes.bool,
-          className: PropTypes.string,
-          href: PropTypes.string,
-        })
-      ),
-    })
-  ),
-  data: PropTypes.shape({
-    brand: PropTypes.string,
-    stop_impersonation_url: PropTypes.string.isRequired,
-    menu: PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-        children: PropTypes.any,
-      })
-    ),
-    locations: PropTypes.shape({
-      current_location: PropTypes.string,
-      available_locations: PropTypes.arrayOf(
-        PropTypes.shape({
-          href: PropTypes.string.isRequired,
-          id: PropTypes.number.isRequired,
-          title: PropTypes.string,
-        })
-      ),
-    }),
-    orgs: PropTypes.shape({
-      current_org: PropTypes.string,
-      available_organizations: PropTypes.arrayOf(
-        PropTypes.shape({
-          href: PropTypes.string.isRequired,
-          id: PropTypes.number.isRequired,
-          title: PropTypes.string,
-        })
-      ),
-    }),
-    root: PropTypes.string.isRequired,
-    logo: PropTypes.string.isRequired,
-    notification_url: PropTypes.string.isRequired,
-    taxonomies: PropTypes.shape({
-      locations: PropTypes.bool.isRequired,
-      organizations: PropTypes.bool.isRequired,
-    }),
-    user: PropTypes.shape({
-      current_user: PropTypes.object.isRequired,
-      user_dropdown: PropTypes.arrayOf(
-        PropTypes.shape({
-          children: PropTypes.any,
-          icon: PropTypes.string.isRequired,
-          name: PropTypes.string.isRequired,
-          type: PropTypes.string.isRequired,
-        })
-      ),
-    }),
-  }),
+  ...layoutPropTypes,
 };
 
 Layout.defaultProps = {
-  children: null,
-  items: [],
-  data: {},
-  currentOrganization: 'Any Organization',
-  currentLocation: 'Any Location',
-  isLoading: false,
-  isCollapsed: false,
-  activeMenu: '',
-  fetchMenuItems: noop,
-  changeActiveMenu: noop,
-  changeOrganization: noop,
-  changeLocation: noop,
-  onExpand: noop,
-  onCollapse: noop,
+  ...layoutDefaultProps,
 };
 
 export default Layout;

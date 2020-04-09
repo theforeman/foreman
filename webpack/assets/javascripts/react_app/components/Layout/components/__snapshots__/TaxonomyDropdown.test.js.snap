@@ -1,216 +1,294 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TaxonomyDropdown rendering render TaxonomyDropdown 1`] = `
-<NavItem
-  activeHref=""
-  activeKey=""
-  className="dropdown org-switcher"
+<CustomContextSelector
+  className=""
   id="organization-dropdown"
+  isOpen={true}
+  onSearchButtonClick={[Function]}
+  onSearchInputChange={[Function]}
+  onSelect={[Function]}
+  onToggle={[Function]}
+  screenReaderLabel="Selected Taxonomy:"
+  searchButtonAriaLabel="Search menu items"
+  searchInputPlaceholder="Search"
+  searchInputValue=""
+  searchProps={
+    Object {
+      "className": "taxonomy_search",
+      "id": "search_taxonomy_organization",
+    }
+  }
+  showFilter={false}
+  staticGroup={
+    Object {
+      "items": Array [
+        Object {
+          "className": "organizations_clear",
+          "href": "/organizations/clear",
+          "onClick": [Function],
+          "title": "Any Organization",
+        },
+        Object {
+          "className": "organization",
+          "href": "/organizations",
+          "title": "Manage Organizations",
+        },
+      ],
+      "title": "Organization",
+    }
+  }
+  toggleText="org1"
 >
-  <a
-    className="dropdown-toggle nav-item-iconic"
-    data-toggle="dropdown"
-    href="#"
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="0"
+    onClick={[Function]}
+    sendRef={[Function]}
   >
-    org1
-    <span
-      className="caret"
-    />
-  </a>
-  <ul
-    className="dropdown-menu"
+    <a
+      className="organization_menuitem"
+      href="/organizations/1-org1/select"
+      id="select_taxonomy_org1"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
+    >
+      org1
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="1"
+    onClick={[Function]}
+    sendRef={[Function]}
   >
-    <li
-      className="dropdown-header"
+    <a
+      className="organization_menuitem"
+      href="/organizations/2-org2/select"
+      id="select_taxonomy_org2"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      Organization
-    </li>
-    <li>
-      <a
-        className="organizations_clear"
-        href="/organizations/clear"
-        onClick={[Function]}
-      >
-        Any Organization
-      </a>
-    </li>
-    <li>
-      <a
-        className="organization"
-        href="/organizations"
-      >
-        Manage Organizations
-      </a>
-    </li>
-    <li
-      className="divider"
-    />
-    <li
-      key="0"
-    >
-      <a
-        className="organization_menuitem"
-        href="/organizations/1-org1/select"
-        id="select_taxonomy_org1"
-        onClick={[Function]}
-      >
-        org1
-      </a>
-    </li>
-    <li
-      key="1"
-    >
-      <a
-        className="organization_menuitem"
-        href="/organizations/2-org2/select"
-        id="select_taxonomy_org2"
-        onClick={[Function]}
-      >
-        org2
-      </a>
-    </li>
-  </ul>
-</NavItem>
+      org2
+    </a>
+  </ContextSelectorItem>
+</CustomContextSelector>
 `;
 
 exports[`TaxonomyDropdown rendering render TaxonomyDropdownWithSearch 1`] = `
-<NavItem
-  activeHref=""
-  activeKey=""
-  className="dropdown org-switcher"
+<CustomContextSelector
+  className=""
   id="organization-dropdown"
+  isOpen={true}
+  onSearchButtonClick={[Function]}
+  onSearchInputChange={[Function]}
+  onSelect={[Function]}
+  onToggle={[Function]}
+  screenReaderLabel="Selected Taxonomy:"
+  searchButtonAriaLabel="Search menu items"
+  searchInputPlaceholder="Search"
+  searchInputValue=""
+  searchProps={
+    Object {
+      "className": "taxonomy_search",
+      "id": "search_taxonomy_organization",
+    }
+  }
+  showFilter={true}
+  staticGroup={
+    Object {
+      "items": Array [
+        Object {
+          "className": "organizations_clear",
+          "href": "/organizations/clear",
+          "onClick": [Function],
+          "title": "Any Organization",
+        },
+        Object {
+          "className": "organization",
+          "href": "/organizations",
+          "title": "Manage Organizations",
+        },
+      ],
+      "title": "Organization",
+    }
+  }
+  toggleText="org1"
 >
-  <a
-    className="dropdown-toggle nav-item-iconic"
-    data-toggle="dropdown"
-    href="#"
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="0"
+    onClick={[Function]}
+    sendRef={[Function]}
   >
-    org1
-    <span
-      className="caret"
-    />
-  </a>
-  <ul
-    className="dropdown-menu"
+    <a
+      className="organization_menuitem"
+      href="/organizations/1-org1/select"
+      id="select_taxonomy_org1"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
+    >
+      org1
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="1"
+    onClick={[Function]}
+    sendRef={[Function]}
   >
-    <li
-      className="dropdown-header"
+    <a
+      className="organization_menuitem"
+      href="/organizations/2-org2/select"
+      id="select_taxonomy_org2"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      Organization
-    </li>
-    <li>
-      <a
-        className="organizations_clear"
-        href="/organizations/clear"
-        onClick={[Function]}
-      >
-        Any Organization
-      </a>
-    </li>
-    <li>
-      <a
-        className="organization"
-        href="/organizations"
-      >
-        Manage Organizations
-      </a>
-    </li>
-    <li
-      className="divider"
-    />
-    <li>
-      <input
-        className="form-control taxonomy_search"
-        id="search_taxonomy_organization"
-        onChange={[Function]}
-        placeholder="Filter ..."
-        type="text"
-      />
-    </li>
-    <li
-      key="0"
+      org2
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="2"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <a
+      className="organization_menuitem"
+      href="/organizations/3-org3/select"
+      id="select_taxonomy_org3"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      <a
-        className="organization_menuitem"
-        href="/organizations/1-org1/select"
-        id="select_taxonomy_org1"
-        onClick={[Function]}
-      >
-        org1
-      </a>
-    </li>
-    <li
-      key="1"
+      org3
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="3"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <a
+      className="organization_menuitem"
+      href="/organizations/4-org4/select"
+      id="select_taxonomy_org4"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      <a
-        className="organization_menuitem"
-        href="/organizations/2-org2/select"
-        id="select_taxonomy_org2"
-        onClick={[Function]}
-      >
-        org2
-      </a>
-    </li>
-    <li
-      key="2"
+      org4
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="4"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <a
+      className="organization_menuitem"
+      href="/organizations/5-org5/select"
+      id="select_taxonomy_org5"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      <a
-        className="organization_menuitem"
-        href="/organizations/3-org3/select"
-        id="select_taxonomy_org3"
-        onClick={[Function]}
-      >
-        org3
-      </a>
-    </li>
-    <li
-      key="3"
+      org5
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="5"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <a
+      className="organization_menuitem"
+      href="/organizations/6-org6/select"
+      id="select_taxonomy_org6"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      <a
-        className="organization_menuitem"
-        href="/organizations/4-org4/select"
-        id="select_taxonomy_org4"
-        onClick={[Function]}
-      >
-        org4
-      </a>
-    </li>
-    <li
-      key="4"
+      org6
+    </a>
+  </ContextSelectorItem>
+  <ContextSelectorItem
+    className=""
+    isDisabled={false}
+    isHovered={false}
+    key="6"
+    onClick={[Function]}
+    sendRef={[Function]}
+  >
+    <a
+      className="organization_menuitem"
+      href="/organizations/7-org7/select"
+      id="select_taxonomy_org7"
+      onClick={[Function]}
+      style={
+        Object {
+          "color": "inherit",
+          "textDecoration": "inherit",
+        }
+      }
     >
-      <a
-        className="organization_menuitem"
-        href="/organizations/5-org5/select"
-        id="select_taxonomy_org5"
-        onClick={[Function]}
-      >
-        org5
-      </a>
-    </li>
-    <li
-      key="5"
-    >
-      <a
-        className="organization_menuitem"
-        href="/organizations/6-org6/select"
-        id="select_taxonomy_org6"
-        onClick={[Function]}
-      >
-        org6
-      </a>
-    </li>
-    <li
-      key="6"
-    >
-      <a
-        className="organization_menuitem"
-        href="/organizations/7-org7/select"
-        id="select_taxonomy_org7"
-        onClick={[Function]}
-      >
-        org7
-      </a>
-    </li>
-  </ul>
-</NavItem>
+      org7
+    </a>
+  </ContextSelectorItem>
+</CustomContextSelector>
 `;

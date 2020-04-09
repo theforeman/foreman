@@ -76,7 +76,7 @@ describe('BreadcrumbBar', () => {
 
       // test breadcrumb item click
       component
-        .find('.breadcrumbs-pf-title.breadcrumb a')
+        .find('.pf-c-breadcrumb__list .pf-c-breadcrumb__item')
         .at(1)
         .simulate('click');
       expect(mockBreadcrumbItemOnClick.mock.calls).toHaveLength(1);

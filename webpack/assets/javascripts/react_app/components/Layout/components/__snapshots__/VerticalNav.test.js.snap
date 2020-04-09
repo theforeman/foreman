@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VerticalNav rendering render VerticalNav 1`] = `
+<Component
+  theme="dark"
+>
+  <NavList
+    ariaLeftScroll="Scroll left"
+    ariaRightScroll="Scroll right"
+    className=""
+    variant="default"
+  >
+    <NavExpandable
+      className="foreman-nav-expandable"
+      groupId={null}
+      id=""
+      isActive={false}
+      isExpanded={false}
+      key="Monitor"
+      srText=""
+      title={
+        <React.Fragment>
+          <span
+            className="fa fa-tachometer"
+            style={
+              Object {
+                "paddingRight": "10px",
+                "pointerEvents": "none",
+              }
+            }
+          />
+          <span
+            style={
+              Object {
+                "pointerEvents": "none",
+              }
+            }
+          >
+            Monitor
+          </span>
+        </React.Fragment>
+      }
+    >
+      <NavItem
+        isActive={false}
+        key="/Aa"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Aa
+      </NavItem>
+      <NavItem
+        isActive={false}
+        key="/Cc"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Cc
+      </NavItem>
+    </NavExpandable>
+    <NavExpandable
+      className="foreman-nav-expandable"
+      groupId={null}
+      id=""
+      isActive={false}
+      isExpanded={false}
+      key="Hosts"
+      srText=""
+      title={
+        <React.Fragment>
+          <span
+            className="fa fa-server"
+            style={
+              Object {
+                "paddingRight": "10px",
+                "pointerEvents": "none",
+              }
+            }
+          />
+          <span
+            style={
+              Object {
+                "pointerEvents": "none",
+              }
+            }
+          >
+            Hosts
+          </span>
+        </React.Fragment>
+      }
+    >
+      <NavItem
+        isActive={false}
+        key="/Dd"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Dd
+      </NavItem>
+      <NavItem
+        isActive={false}
+        key="/Ff"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Ff
+      </NavItem>
+    </NavExpandable>
+    <NavExpandable
+      className="foreman-nav-expandable"
+      groupId={null}
+      id=""
+      isActive={false}
+      isExpanded={false}
+      key="Configure"
+      srText=""
+      title={
+        <React.Fragment>
+          <span
+            className="fa fa-wrench"
+            style={
+              Object {
+                "paddingRight": "10px",
+                "pointerEvents": "none",
+              }
+            }
+          />
+          <span
+            style={
+              Object {
+                "pointerEvents": "none",
+              }
+            }
+          >
+            Configure
+          </span>
+        </React.Fragment>
+      }
+    >
+      <NavItem
+        isActive={false}
+        key="/Gg"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Gg
+      </NavItem>
+      <NavItem
+        isActive={false}
+        key="/Ii"
+        onClick={[Function]}
+        preventDefault={true}
+      >
+        Ii
+      </NavItem>
+    </NavExpandable>
+  </NavList>
+</Component>
+`;

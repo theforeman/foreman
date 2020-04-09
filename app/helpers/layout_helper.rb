@@ -49,7 +49,7 @@ module LayoutHelper
 
   def layout_data
     { menu: fetch_menus,
-      logo: image_path("header_logo.svg", :class => "header-logo"),
+      logo: image_path("login_logo.png", :class => "header-logo"),
       notification_url: main_app.notification_recipients_path,
       stop_impersonation_url: main_app.stop_impersonation_users_path,
       user: fetch_user, brand: 'foreman',

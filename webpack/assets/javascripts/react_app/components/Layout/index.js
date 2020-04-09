@@ -28,9 +28,6 @@ const mapStateToProps = state => ({
 // map action dispatchers to props
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-// export prop-types
-export const { propTypes } = Layout;
-
 // export reducers
 export const reducers = { layout: reducer };
 

@@ -6,15 +6,18 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "activeMenu": "Hosts",
+          "org": Object {
+            "id": 2,
+            "title": "org2",
+          },
         },
-        "type": "LAYOUT_CHANGE_ACTIVE",
+        "type": "LAYOUT_CHANGE_ORG",
       },
     ],
   ],
   "state": Object {
     "layout": Object {
-      "activeMenu": "Hosts",
+      "activeMenu": "Monitor",
       "currentLocation": Object {
         "id": 1,
         "title": "yaml",

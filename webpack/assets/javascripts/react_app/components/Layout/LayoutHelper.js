@@ -2,12 +2,14 @@
 // eslint bug - https://github.com/eslint/eslint/issues/12117
 
 import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
+
 import {
   changeOrganization,
   changeLocation,
 } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
-import { removeLastSlashFromPath } from '../../common/helpers';
+import { removeLastSlashFromPath, noop } from '../../common/helpers';
 
 export const getCurrentPath = () =>
   removeLastSlashFromPath(window.location.pathname);
@@ -129,4 +131,101 @@ export const checkCollapsed = () => {
     `["navCollapsed","pinnedPath"]`
   );
   return !!collapsedState && collapsedState.includes('true');
+};
+
+export const layoutPropTypes = {
+  children: PropTypes.node,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  currentOrganization: PropTypes.string,
+  currentLocation: PropTypes.string,
+  isLoading: PropTypes.bool,
+  activeMenu: PropTypes.string,
+  fetchMenuItems: PropTypes.func,
+  changeActiveMenu: PropTypes.func,
+  changeOrganization: PropTypes.func,
+  changeLocation: PropTypes.func,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      className: PropTypes.string,
+      iconClass: PropTypes.string.isRequired,
+      initialActive: PropTypes.bool,
+      subItems: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string,
+          isDivider: PropTypes.bool,
+          className: PropTypes.string,
+          href: PropTypes.string,
+        })
+      ),
+    })
+  ),
+  data: PropTypes.shape({
+    brand: PropTypes.string,
+    stop_impersonation_url: PropTypes.string.isRequired,
+    menu: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        children: PropTypes.any,
+      })
+    ),
+    locations: PropTypes.shape({
+      current_location: PropTypes.string,
+      available_locations: PropTypes.arrayOf(
+        PropTypes.shape({
+          href: PropTypes.string.isRequired,
+          id: PropTypes.number.isRequired,
+          title: PropTypes.string,
+        })
+      ),
+    }),
+    orgs: PropTypes.shape({
+      current_org: PropTypes.string,
+      available_organizations: PropTypes.arrayOf(
+        PropTypes.shape({
+          href: PropTypes.string.isRequired,
+          id: PropTypes.number.isRequired,
+          title: PropTypes.string,
+        })
+      ),
+    }),
+    root: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
+    notification_url: PropTypes.string.isRequired,
+    taxonomies: PropTypes.shape({
+      locations: PropTypes.bool.isRequired,
+      organizations: PropTypes.bool.isRequired,
+    }),
+    user: PropTypes.shape({
+      current_user: PropTypes.object.isRequired,
+      // TODO: was not sure what the correct PropType is, it was missing before
+      impersonated_by: PropTypes.any,
+      user_dropdown: PropTypes.arrayOf(
+        PropTypes.shape({
+          children: PropTypes.any,
+          icon: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          type: PropTypes.string.isRequired,
+        })
+      ),
+    }),
+  }),
+};
+
+export const layoutDefaultProps = {
+  children: null,
+  items: [],
+  data: {},
+  currentOrganization: 'Any Organization',
+  currentLocation: 'Any Location',
+  isLoading: false,
+  activeMenu: '',
+  fetchMenuItems: noop,
+  changeActiveMenu: noop,
+  changeOrganization: noop,
+  changeLocation: noop,
 };

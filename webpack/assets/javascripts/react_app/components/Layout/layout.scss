@@ -1,74 +1,35 @@
 @import '../../common/colors.scss';
 
-.secondary-nav-item-pf > .nav-pf-secondary-nav {
-  background-color: $nav-pf-vertical-active-bg-color;
-
-  .mobile-active {
-    // Mark active Location/Org in Mobile view
-    a {
-      .list-group-item-value {
-        background-color: $nav-pf-vertical-secondary-active-bg-color;
-      }
+.pf-c-page.foreman-theme {
+  .pf-c-page__header {
+    .pf-c-data-toolbar {
+      background-color: transparent;
     }
   }
 
-  .list-group-item {
-    a {
-      background-color: $nav-pf-vertical-active-bg-color;
+  .pf-c-page__sidebar.pf-m-dark {
+    background-color: $nav-pf-vertical-secondary-active-bg-color;
 
-      &:hover {
-        .list-group-item-value {
-          background-color: $nav-pf-vertical-secondary-active-bg-color;
-        }
+    .pf-c-nav.pf-m-dark > .pf-c-nav__list {
+      .pf-c-nav__item.pf-m-current,
+      .pf-c-nav__item > .pf-c-nav__link.pf-m-current {
+        background-color: $nav-pf-vertical-active-bg-color;
       }
-    }
 
-    span {
-      color: $nav-pf-vertical-active-icon-color;
-    }
-  }
-}
+      .pf-c-nav__item.pf-m-current > .pf-c-nav__link[data-component=pf-nav-expandable] {
+        color: $nav-pf-vertical-active-icon-color;
+      }
 
-#react-app-root > .nav-pf-vertical {
-  background-color: $nav-pf-vertical-secondary-active-bg-color;
+      .pf-c-nav__link {
+        color: $nav-pf-vertical-icon-color;
+      }
 
-  .list-group {
-    .list-group-item {
-      a {
-        span {
-          color: $nav-pf-vertical-icon-color;
-        }
-
+      .pf-c-nav__simple-list .pf-c-nav__link {
+        &.pf-m-current,
+        &.pf-m-hover,
         &:hover {
           background-color: $nav-pf-vertical-active-bg-color;
-
-          span {
-            color: $nav-pf-vertical-active-icon-color;
-          }
-        }
-
-        &::after {
-          color: $nav-pf-vertical-icon-color;
-        }
-      }
-
-      &:hover {
-        a {
-          background-color: $nav-pf-vertical-active-bg-color;
-
-          span {
-            color: $nav-pf-vertical-active-icon-color;
-          }
-        }
-      }
-
-      &.active {
-        a {
-          background-color: $nav-pf-vertical-active-bg-color;
-
-          span {
-            color: $nav-pf-vertical-active-icon-color;
-          }
+          color: $nav-pf-vertical-active-icon-color;
         }
       }
     }
@@ -82,13 +43,4 @@
 #vertical-spinner {
   margin-top: 15px;
   margin-left: 5px;
-}
-
-.navbar-header {
-  width: 221.22px;
-}
-
-.taxonomy_search {
-  max-width: 92%;
-  margin: 4px 0 4px 8px;
 }

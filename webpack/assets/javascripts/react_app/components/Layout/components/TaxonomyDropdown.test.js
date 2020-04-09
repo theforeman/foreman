@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from '@theforeman/test';
+import { mount } from '@theforeman/test';
 
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import TaxonomyDropdown from './TaxonomyDropdown';
@@ -14,6 +14,7 @@ const props = {
   manageTaxonomyText: 'Manage Organizations',
   anyTaxonomyURL: '/organizations/clear',
   manageTaxonomyURL: '/organizations',
+  isOpen: true,
 };
 
 const propsSearch = {
@@ -33,9 +34,10 @@ describe('TaxonomyDropdown', () => {
   describe('simulate onClick', () => {
     const changeTaxonomy = jest.fn();
 
-    const wrapper = shallow(
+    const wrapper = mount(
       <TaxonomyDropdown {...props} changeTaxonomy={changeTaxonomy} />
     );
+
     wrapper
       .find('.organization_menuitem')
       .at(0)
@@ -45,9 +47,8 @@ describe('TaxonomyDropdown', () => {
   });
 
   it('Search items', () => {
-    const wrapper = shallow(<TaxonomyDropdown {...propsSearch} />);
+    const wrapper = mount(<TaxonomyDropdown {...propsSearch} />);
     const searchInput = wrapper.find('input.taxonomy_search');
-
     expect(searchInput.exists()).toBeTruthy();
 
     searchInput.simulate('change', { target: { value: 'org7' } });

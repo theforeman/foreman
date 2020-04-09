@@ -1,31 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
-<Breadcrumb
-  title={false}
->
+<Component>
   <BreadcrumbItem
-    active={false}
-    href="/some-url"
+    isActive={false}
     key="0"
-    title="root"
+    to="/some-url"
   >
      
     root
   </BreadcrumbItem>
   <BreadcrumbItem
-    active={false}
+    isActive={false}
     key="1"
     onClick={[MockFunction]}
-    title="child with onClick"
   >
      
     child with onClick
   </BreadcrumbItem>
   <BreadcrumbItem
-    active={true}
+    isActive={true}
     key="2"
-    title="active child"
   >
      
     <EllipisWithTooltip
@@ -34,17 +29,14 @@ exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
       active child
     </EllipisWithTooltip>
   </BreadcrumbItem>
-</Breadcrumb>
+</Component>
 `;
 
 exports[`Breadcrumbs renders h1 title 1`] = `
-<Breadcrumb
-  title={false}
->
+<Component>
   <BreadcrumbItem
-    active={true}
+    isActive={true}
     key="0"
-    title="title"
   >
      
     <EllipisWithTooltip
@@ -53,26 +45,22 @@ exports[`Breadcrumbs renders h1 title 1`] = `
       title
     </EllipisWithTooltip>
   </BreadcrumbItem>
-</Breadcrumb>
+</Component>
 `;
 
 exports[`Breadcrumbs renders title override 1`] = `
-<Breadcrumb
-  title={false}
->
+<Component>
   <BreadcrumbItem
-    active={false}
-    href="/some-url"
+    isActive={false}
     key="0"
-    title="root"
+    to="/some-url"
   >
      
     root
   </BreadcrumbItem>
   <BreadcrumbItem
-    active={true}
+    isActive={true}
     key="1"
-    title="override title"
   >
      
     <EllipisWithTooltip
@@ -81,5 +69,5 @@ exports[`Breadcrumbs renders title override 1`] = `
       override title
     </EllipisWithTooltip>
   </BreadcrumbItem>
-</Breadcrumb>
+</Component>
 `;

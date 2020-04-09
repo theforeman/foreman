@@ -117,21 +117,60 @@ Object {
       "href": "/a",
       "iconClass": "fa fa-tachometer",
       "initialActive": true,
-      "subItems": undefined,
+      "subItems": Array [
+        Object {
+          "href": "/Aa",
+          "isDivider": false,
+          "onClick": [MockFunction],
+          "title": "Aa",
+        },
+        Object {
+          "href": "/Cc",
+          "isDivider": false,
+          "onClick": [MockFunction],
+          "title": "Cc",
+        },
+      ],
       "title": "Monitor",
     },
     Object {
       "href": "/b",
       "iconClass": "fa fa-server",
       "initialActive": false,
-      "subItems": undefined,
+      "subItems": Array [
+        Object {
+          "href": "/Dd",
+          "isDivider": false,
+          "onClick": [MockFunction],
+          "title": "Dd",
+        },
+        Object {
+          "href": "/Ff",
+          "isDivider": false,
+          "onClick": [MockFunction],
+          "title": "Ff",
+        },
+      ],
       "title": "Hosts",
     },
     Object {
       "href": "/c",
       "iconClass": "fa fa-wrench",
       "initialActive": false,
-      "subItems": undefined,
+      "subItems": Array [
+        Object {
+          "href": "/Gg",
+          "isDivider": false,
+          "onClick": [MockFunction],
+          "title": "Gg",
+        },
+        Object {
+          "href": "/Ii",
+          "isDivider": false,
+          "onClick": [MockFunction],
+          "title": "Ii",
+        },
+      ],
       "title": "Configure",
     },
   ],

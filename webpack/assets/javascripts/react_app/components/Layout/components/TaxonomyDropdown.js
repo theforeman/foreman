@@ -1,13 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NavItem from './NavItem';
+import { ContextSelectorItem } from '@patternfly/react-core';
+import CustomContextSelector from './CustomContextSelector';
 import { noop } from '../../../common/helpers';
 import { translate as __ } from '../../../common/I18n';
 
 class TaxonomyDropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { searchValue: '' };
+    this.state = {
+      searchValue: '',
+      isOpen: false,
+      filteredItems: props.taxonomies,
+    };
+    this.allItems = props.taxonomies;
+    this.onToggle = (event, isOpen) => {
+      this.setState({
+        isOpen,
+      });
+    };
+    this.onSelect = (event, value) => {
+      this.setState({
+        isOpen: !this.state.isOpen,
+      });
+    };
+    this.onSearchInputChange = (value, event) => {
+      this.setState(
+        { searchValue: event.target.value },
+        this.onSearchButtonClick
+      );
+    };
+    this.onSearchButtonClick = event => {
+      const filtered =
+        this.state.searchValue === ''
+          ? this.allItems
+          : this.allItems.filter(item =>
+              item.title
+                .toLowerCase()
+                .includes(this.state.searchValue.toLowerCase())
+            );
+
+      this.setState({ filteredItems: filtered || [] });
+    };
   }
 
   render() {
@@ -15,84 +49,67 @@ class TaxonomyDropdown extends React.Component {
       taxonomyType,
       currentTaxonomy,
       taxonomies,
-      id,
       changeTaxonomy,
       anyTaxonomyText,
       manageTaxonomyText,
       anyTaxonomyURL,
       manageTaxonomyURL,
+      ...props
     } = this.props;
 
-    const filteredTaxonomies = () => {
-      const { searchValue } = this.state;
-
-      if (searchValue === '') {
-        return this.props.taxonomies;
-      }
-
-      return this.props.taxonomies.filter(item =>
-        item.title.toLowerCase().includes(searchValue.toLowerCase())
-      );
-    };
+    const { isOpen, searchValue, filteredItems } = this.state;
 
     return (
-      <NavItem className="dropdown org-switcher" id={id}>
-        <a
-          href="#"
-          className="dropdown-toggle nav-item-iconic"
-          data-toggle="dropdown"
-        >
-          {__(currentTaxonomy)}
-          <span className="caret" />
-        </a>
-        <ul className="dropdown-menu">
-          <li className="dropdown-header">{__(taxonomyType)}</li>
-          <li>
-            <a
-              className={`${taxonomyType.toLowerCase()}s_clear`}
-              href={anyTaxonomyURL}
-              onClick={() => {
+      <CustomContextSelector
+        toggleText={__(currentTaxonomy)}
+        onSearchInputChange={this.onSearchInputChange}
+        isOpen={isOpen}
+        searchInputValue={searchValue}
+        onToggle={this.onToggle}
+        onSelect={this.onSelect}
+        onSearchButtonClick={this.onSearchButtonClick}
+        screenReaderLabel="Selected Taxonomy:"
+        showFilter={taxonomies.length > 6}
+        searchProps={{
+          className: 'taxonomy_search',
+          id: `search_taxonomy_${taxonomyType.toLowerCase()}`,
+        }}
+        staticGroup={{
+          title: __(taxonomyType),
+          items: [
+            {
+              title: __(anyTaxonomyText),
+              href: anyTaxonomyURL,
+              onClick: () => {
                 changeTaxonomy({ title: anyTaxonomyText });
+              },
+              className: `${taxonomyType.toLowerCase()}s_clear`,
+            },
+            {
+              title: __(manageTaxonomyText),
+              href: manageTaxonomyURL,
+              className: taxonomyType.toLowerCase(),
+            },
+          ],
+        }}
+        {...props}
+      >
+        {filteredItems.map((taxonomy, i) => (
+          <ContextSelectorItem key={i}>
+            <a
+              id={`select_taxonomy_${taxonomy.title}`}
+              className={`${taxonomyType.toLowerCase()}_menuitem`}
+              href={taxonomy.href}
+              onClick={() => {
+                changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });
               }}
+              style={{ textDecoration: 'inherit', color: 'inherit' }}
             >
-              {__(anyTaxonomyText)}
+              {__(taxonomy.title)}
             </a>
-          </li>
-          <li>
-            <a className={taxonomyType.toLowerCase()} href={manageTaxonomyURL}>
-              {__(manageTaxonomyText)}
-            </a>
-          </li>
-          <li className="divider" />
-          {taxonomies.length > 6 && (
-            <li>
-              <input
-                type="text"
-                className="form-control taxonomy_search"
-                id={`search_taxonomy_${taxonomyType.toLowerCase()}`}
-                placeholder="Filter ..."
-                onChange={e => {
-                  this.setState({ searchValue: e.target.value });
-                }}
-              />
-            </li>
-          )}
-          {filteredTaxonomies().map((taxonomy, i) => (
-            <li key={i}>
-              <a
-                className={`${taxonomyType.toLowerCase()}_menuitem`}
-                id={`select_taxonomy_${taxonomy.title}`}
-                href={taxonomy.href}
-                onClick={() => {
-                  changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });
-                }}
-              >
-                {__(taxonomy.title)}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </NavItem>
+          </ContextSelectorItem>
+        ))}
+      </CustomContextSelector>
     );
   }
 }

@@ -1,65 +1,87 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, VerticalNav, Icon, MenuItem } from 'patternfly-react';
 import { get } from 'lodash';
-import NotificationContainer from '../../notifications';
-import NavDropdown from './NavDropdown';
-import NavItem from './NavItem';
-import ImpersonateIcon from './ImpersonateIcon';
+import { Icon } from 'patternfly-react';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownItem,
+  DropdownSeparator,
+} from '@patternfly/react-core';
+
 import { translate as __ } from '../../../common/I18n';
 
-const UserDropdowns = ({
-  activeKey, // eslint-disable-line react/prop-types
-  activeHref, // eslint-disable-line react/prop-types
-  user,
-  changeActiveMenu,
-  notificationUrl,
-  stopImpersonationUrl,
-  ...props
-}) => {
-  const userInfo = get(user, 'current_user.user');
-  const impersonateIcon = (
-    <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
-  );
-  return (
-    <VerticalNav.IconBar {...props}>
-      <NavItem
-        className="drawer-pf-trigger dropdown notification-dropdown"
-        id="notifications_container"
-      >
-        <NotificationContainer data={{ url: notificationUrl }} />
-      </NavItem>
-      {user.impersonated_by && impersonateIcon}
-      {userInfo && (
-        <NavDropdown componentClass="li" id="account_menu">
-          <Dropdown.Toggle useAnchor className="nav-item-iconic">
-            <Icon type="fa" name="user avatar small" />
-            {userInfo.name}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {user.user_dropdown[0].children.map((item, i) =>
-              item.type === 'divider' ? (
-                <MenuItem key={i} divider />
-              ) : (
-                <MenuItem
-                  key={i}
-                  className="user_menuitem"
-                  href={item.url}
-                  onClick={() => {
-                    changeActiveMenu({ title: 'User' });
-                  }}
-                  {...item.html_options}
-                >
-                  {__(item.name)}
-                </MenuItem>
-              )
-            )}
-          </Dropdown.Menu>
-        </NavDropdown>
-      )}
-    </VerticalNav.IconBar>
-  );
-};
+class UserDropdowns extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { userDropdownOpen: false };
+    this.onDropdownToggle = userDropdownOpen => {
+      this.setState({
+        userDropdownOpen,
+      });
+    };
+    this.onDropdownSelect = event => {
+      this.setState({
+        userDropdownOpen: !this.state.userDropdownOpen,
+      });
+    };
+  }
+
+  render() {
+    const {
+      activeKey, // eslint-disable-line react/prop-types
+      activeHref, // eslint-disable-line react/prop-types
+      user,
+      changeActiveMenu,
+      notificationUrl,
+      stopImpersonationUrl,
+      ...props
+    } = this.props;
+
+    const { userDropdownOpen } = this.state;
+
+    const userInfo = get(user, 'current_user.user');
+
+    const userDropdownItems = user.user_dropdown[0].children.map((item, i) =>
+      item.type === 'divider' ? (
+        <DropdownSeparator key={i} />
+      ) : (
+        <DropdownItem
+          key={i}
+          href={item.url}
+          onClick={() => {
+            changeActiveMenu({ title: 'User' });
+          }}
+          className="user_menuitem"
+          {...item.html_options}
+        >
+          {__(item.name)}
+        </DropdownItem>
+      )
+    );
+
+    return (
+      <React.Fragment>
+        {userInfo && (
+          <Dropdown
+            isPlain
+            position="right"
+            onSelect={this.onDropdownSelect}
+            isOpen={userDropdownOpen}
+            toggle={
+              <DropdownToggle onToggle={this.onDropdownToggle}>
+                <Icon type="fa" name="user avatar small" />
+                {userInfo.name}
+              </DropdownToggle>
+            }
+            dropdownItems={userDropdownItems}
+            {...props}
+          />
+        )}
+      </React.Fragment>
+    );
+  }
+}
 
 UserDropdowns.propTypes = {
   /** Additional element css classes */

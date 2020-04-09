@@ -25,11 +25,9 @@ const ImpersonateIcon = props => {
         trigger={['hover', 'focus']}
         rootClose={false}
       >
-        <li className="drawer-pf-trigger masthead-icon">
-          <span className="nav-item-iconic" onClick={toggleModal}>
-            <Icon name="eye avatar small" className="blink-image" />
-          </span>
-        </li>
+        <span className="nav-item-iconic" onClick={toggleModal}>
+          <Icon name="eye avatar small" className="blink-image" />
+        </span>
       </OverlayTrigger>
       <MessageDialog
         show={showModal}
