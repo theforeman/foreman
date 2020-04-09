@@ -30,7 +30,7 @@ gem 'validates_lengths_from_database', '~> 0.5'
 gem 'friendly_id', '>= 5.2.4', '< 6'
 gem 'secure_headers', '~> 6.3'
 gem 'safemode', '>= 1.3.5', '< 2'
-gem 'fast_gettext', '~> 1.4'
+gem 'fast_gettext', '~> 2.0'
 gem 'gettext_i18n_rails', '~> 1.8'
 gem 'rails-i18n', ((SETTINGS[:rails] == '5.2') ? '~> 5.0' : '~> 6.0')
 gem 'i18n', '~> 1.1'
