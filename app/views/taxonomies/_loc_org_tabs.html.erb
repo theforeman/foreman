@@ -1,10 +1,11 @@
 <% select_options ||= {} %>
 <% html_options ||= {} %>
+<% html_options[:tab_classes] ||= {} %>
 <% html_options[:location] ||= {} %>
 <% html_options[:organization] ||= {} %>
 
 <% if show_location_tab? %>
-  <div class="tab-pane" id="locations">
+  <div class="tab-pane <%= html_options[:tab_classes][:location] %>" id="locations">
     <%= location_selects f, obj.used_or_selected_location_ids,
             {:disabled => obj.used_location_ids }.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_location_ids.to_json,
@@ -17,7 +18,7 @@
 <% end %>
 
 <% if show_organization_tab? %>
-  <div class="tab-pane" id="organizations">
+  <div class="tab-pane <%= html_options[:tab_classes][:organization] %>" id="organizations">
     <%= organization_selects f, obj.used_or_selected_organization_ids,
             {:disabled => obj.used_organization_ids }.merge!(select_options),
             {'data-descendants' => obj.children_of_selected_organization_ids.to_json,
