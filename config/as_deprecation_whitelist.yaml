@@ -1,4 +1,1 @@
 ---
-# https://projects.theforeman.org/issues/23300
-- message: 'Dangerous query method (method whose arguments are used as raw SQL) called
-    with non-attribute argument(s):'

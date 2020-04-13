@@ -83,7 +83,7 @@ module OperatingsystemsHelper
     if os.os_default_templates.any?(&:new_record?)
       os.os_default_templates.sort_by { |o| o.template_kind.name.downcase }
     else
-      os.os_default_templates.joins(:template_kind).order('LOWER(template_kinds.name)')
+      os.os_default_templates.joins(:template_kind).order(TemplateKind.arel_table[:name].lower)
     end
   end
 end

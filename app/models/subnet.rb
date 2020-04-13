@@ -121,7 +121,7 @@ class Subnet < ApplicationRecord
   def self.network_reorder(order_string = 'network')
     adapter = connection.adapter_name.downcase
     if adapter.starts_with?('postgresql')
-      reorder(order_string.sub('network', 'inet(network)'))
+      reorder(Arel.sql(order_string.sub('network', 'inet(network)')))
     else
       self
     end
