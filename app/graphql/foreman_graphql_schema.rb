@@ -19,10 +19,8 @@ class ForemanGraphqlSchema < GraphQL::Schema
   def self.object_from_id(id, query_ctx)
     return unless id.present?
 
-    _, type_name, item_id = Foreman::GlobalId.decode(id)
-    type_class = "::Types::#{type_name}".safe_constantize
-
-    model_class = type_class&.model_class
+    _, model_class_name, item_id = Foreman::GlobalId.decode(id)
+    model_class = ForemanGraphqlSchema.types.keys.find { |t| t == model_class_name }&.safe_constantize
 
     return unless model_class
 
