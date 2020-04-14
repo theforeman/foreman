@@ -173,7 +173,7 @@ class GraphQLQueryTestCase < ActiveSupport::TestCase
   end
 
   def assert_collection(expected, actual, type_name: nil)
-    assert expected.any?
+    assert expected.any?, 'The expected records array can not be empty to assert_collection'
     assert_equal expected.count, actual['totalCount']
 
     expected_global_ids = expected.map do |r|

@@ -42,7 +42,7 @@ module Queries
       assert_equal usergroup.name, data['name']
       assert_equal usergroup.admin, data['admin']
 
-      assert_collection usergroup.users, data['users']
+      assert_collection [user], data['users']
     end
   end
 end
