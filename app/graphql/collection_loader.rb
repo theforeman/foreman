@@ -10,8 +10,11 @@ class CollectionLoader < GraphQL::Batch::Loader
 
   def load(record)
     raise TypeError, "#{model} loader can't load association for #{record.class}" unless record.is_a?(model)
-    return Promise.resolve(read_association(record)) if association_loaded?(record)
-    super
+    if association_loaded?(record) && (!base_scope || base_scope.empty_scope?)
+      Promise.resolve(record.public_send(association_name))
+    else
+      super
+    end
   end
 
   # We want to load the associations on all records, even if they have the same id
@@ -20,8 +23,8 @@ class CollectionLoader < GraphQL::Batch::Loader
   end
 
   def perform(records)
-    preload_association(records)
-    records.each { |record| fulfill(record, read_association(record)) }
+    preloader = preloader_for_association(records)
+    records.each { |record| fulfill(record, read_association(preloader, record)) }
   end
 
   private
@@ -37,12 +40,12 @@ class CollectionLoader < GraphQL::Batch::Loader
     end
   end
 
-  def preload_association(records)
-    ::ActiveRecord::Associations::Preloader.new.preload(records, association_name, base_scope)
+  def preloader_for_association(records)
+    ::ActiveRecord::Associations::Preloader.new.preload(records, association_name, base_scope).first
   end
 
-  def read_association(record)
-    record.public_send(association_name)
+  def read_association(preloader, record)
+    preloader.records_by_owner[record] || []
   end
 
   def authorized_scope
