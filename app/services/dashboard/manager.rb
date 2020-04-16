@@ -70,6 +70,7 @@ module Dashboard
           {template: 'reports_widget', sizex: 6, sizey: 1, name: N_('Latest Events')},
           {template: 'new_hosts_widget', sizex: 8, sizey: 1, name: N_('New Hosts')},
           {template: 'hosts_in_build_mode_widget', sizex: 8, sizey: 1, name: N_('Hosts in build mode')},
+          {template: 'external_ipam_widget', sizex: 8, sizey: 1, name: N_('External IPAM Dashboard')},
         ].flatten.sort_by { |widget| widget['name'] }
       end
 

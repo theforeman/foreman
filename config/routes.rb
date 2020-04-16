@@ -166,6 +166,7 @@ Foreman::Application.routes.draw do
     end
 
     get 'unattended/template/:id/*hostgroup', :to => "unattended#hostgroup_template", hostgroup: /.+/, :format => 'text'
+    get 'ipam/:group/subnets', to: 'external_ipam#show'
   end
 
   resources :settings, :only => [:index, :update] do
