@@ -11,10 +11,25 @@ namespace :dynflow do
     Dynflow::Rails::Daemon.new.run
   end
 
+  def dynflow_persistence
+    @persistence ||= begin
+                       config = Dynflow::Rails::Configuration.new
+                       config.db_pool_size = 1 # To prevent automatic detection
+                       config.send(:initialize_persistence, nil, :migrate => false, :logger => Foreman::Logging.logger('sql'))
+                     end
+  end
+
   task :migrate => :environment do
-    world = OpenStruct.new(:config => OpenStruct.new(:queues => {}))
-    config = Dynflow::Rails::Configuration.new
-    # Persistence initialization automatically migrates the db
-    config.send(:initialize_persistence, world)
+    dynflow_persistence.migrate_db
+  end
+
+  task :abort_if_pending_migrations => :environment do
+    dynflow_persistence.abort_if_pending_migrations!
+  end
+end
+
+%w(migrate abort_if_pending_migrations).each do |task|
+  Rake::Task["db:#{task}"].enhance do
+    Rake::Task["dynflow:#{task}"].invoke
   end
 end
