@@ -30,16 +30,16 @@ ENTRYPOINT ["entrypoint.sh"]
 FROM base as builder
 ENV RAILS_ENV=production
 ENV FOREMAN_APIPIE_LANGS=en
-ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter console"
+ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter console sqlite"
 
 RUN \
   microdnf install redhat-rpm-config git \
     gcc-c++ make bzip2 gettext tar \
     libxml2-devel libcurl-devel ruby-devel \
-    postgresql-devel libsq3-devel && \
+    postgresql-devel && \
   microdnf clean all
 
-ENV DATABASE_URL=sqlite3:tmp/bootstrap-db.sql
+ENV DATABASE_URL=nulldb://nohost
 
 ARG HOME=/home/foreman
 USER 1001
@@ -52,15 +52,16 @@ RUN bundle install --without "${BUNDLER_SKIPPED_GROUPS}" \
   rm -rf vendor/ruby/*/cache/*.gem && \
   find vendor/ruby/*/gems -name "*.c" -delete && \
   find vendor/ruby/*/gems -name "*.o" -delete
-RUN npm install --no-optional
 RUN \
   make -C locale all-mo && \
-  bundle exec rake assets:clean assets:precompile db:migrate &&  \
-  bundle exec rake db:seed apipie:cache:index && rm tmp/bootstrap-db.sql
-RUN ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && npm run analyze && rm -rf public/webpack/stats.json
-RUN rm -rf vendor/ruby/*/cache vendor/ruby/*/gems/*/node_modules
-# Remove unnecessary gems before coping them
-RUN bundle install --without "${BUNDLER_SKIPPED_GROUPS}" assets
+  mv -v db/schema.rb.nulldb db/schema.rb && \
+  bundle exec rake assets:clean assets:precompile apipie:cache:index
+
+RUN npm install --no-optional && \
+  ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js && npm run analyze && \
+# cleanups
+  rm -rf public/webpack/stats.json ./node_modules vendor/ruby/*/cache vendor/ruby/*/gems/*/node_modules bundler.d/nulldb.rb db/schema.rb && \
+  bundle install --without "${BUNDLER_SKIPPED_GROUPS}" assets
 
 USER 0
 RUN chgrp -R 0 ${HOME} && \
@@ -83,7 +84,7 @@ COPY --from=builder --chown=1001:0 ${HOME}/.bundle/config ${HOME}/.bundle/config
 COPY --from=builder --chown=1001:0 ${HOME}/Gemfile.lock ${HOME}/Gemfile.lock
 COPY --from=builder --chown=1001:0 ${HOME}/vendor/ruby ${HOME}/vendor/ruby
 COPY --from=builder --chown=1001:0 ${HOME}/public ${HOME}/public
-RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb
+RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb && rm -rf bundler.d/nulldb.rb
 
 RUN date -u > BUILD_TIME
 
