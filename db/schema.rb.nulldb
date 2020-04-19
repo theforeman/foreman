@@ -1,0 +1,4 @@
+# This is an empty schema designed to support
+# nulldb adapter's requirement for one to exist
+ActiveRecord::Schema.define(version: 1) do
+end
