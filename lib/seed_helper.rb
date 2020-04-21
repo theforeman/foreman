@@ -8,30 +8,32 @@ class SeedHelper
     # that it can be slow if there's high number of audits for the specified type
     def audit_modified?(type, name, attributes = {})
       audits = Audit.where(:auditable_type => type.base_class.name, :auditable_name => name)
-      audits = audits_from_attributes(audits, attributes) if attributes.present?
 
-      return true if audits.where(:action => :destroy).present?
+      return true if filter_destroy_audits(audits.where(:action => :destroy), attributes).present?
       audits.where(:action => :update).each do |audit|
-        return true if audit_changed(audit, name)
+        return true if audit_changed(audit, name) && audited_matches_attributes?(audit, attributes)
       end
       false
     end
 
-    def audit_changed(audit, name)
-      audit.audited_changes['name'].is_a?(Array) && audit.audited_changes['name'].first == name
-    end
-
-    def audits_from_attributes(audits, attributes)
-      audits.where(:id => interesting_audits(audits, attributes).map(&:id))
-    end
-
-    def interesting_audits(audits, attributes)
+    def filter_destroy_audits(audits, attributes)
+      return audits unless attributes.present?
       audits.select do |audit|
         attributes.all? do |attribute, value|
-          changed_attribute = audit.audited_changes[attribute]
-          (audit.action == 'update') ? changed_attribute.first == value : changed_attribute == value
+          audit.audited_changes[attribute] == value
         end
       end
+    end
+
+    def audited_matches_attributes?(audit, attributes)
+      return true unless attributes.present?
+      matching_attributes_on = audit.auditable
+      matching_attributes_on ||= Audit.find_by(:auditable_type => audit.auditable_type, :auditable_id => audit.auditable_id, :action => :destroy)&.audited_changes
+      matching_attributes_on.nil? || attributes.all? { |attr, val| matching_attributes_on[attr.to_s] == val }
+    end
+
+    def audit_changed(audit, name)
+      audit.audited_changes['name'].is_a?(Array) && audit.audited_changes['name'].first == name
     end
 
     def create_filters(role, collection)
