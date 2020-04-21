@@ -465,7 +465,7 @@ module Api
           else
             # type is unknown for fields that are delegated to external methods
             # 'string' is a good guess in such cases
-            info[:type] = f.ext_method.nil? ? f.type.to_s : 'string' rescue ''
+            info[:type] = f.ext_method.nil? ? f.type.to_s : 'string' rescue 'string'
           end
           info
         end
