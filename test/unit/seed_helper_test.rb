@@ -75,12 +75,48 @@ class SeedHelperTest < ActiveSupport::TestCase
     assert_includes role.filters.pluck(:search), 'name = example.com'
   end
 
-  test "should recognize object was modified" do
-    medium = Medium.last
-    medium_name = medium.name
-    refute SeedHelper.audit_modified?(Medium, medium.name)
-    medium.update(:name => "renamed medium")
-    assert SeedHelper.audit_modified?(Medium, medium_name)
+  describe '#audit_modified?' do
+    it "should recognize object was modified" do
+      medium = Medium.last
+      medium_name = medium.name
+      refute SeedHelper.audit_modified?(Medium, medium.name)
+      medium.update(:name => "renamed medium")
+      assert SeedHelper.audit_modified?(Medium, medium_name)
+    end
+
+    context 'with attributes filtering' do
+      let(:bookmark) { FactoryBot.create(:bookmark, :name => 'two', :public => true, :controller => 'config_reports') }
+
+      it "recognizes irrelevant change" do
+        refute SeedHelper.audit_modified?(Bookmark, bookmark.name, :controller => bookmark.controller)
+        bookmark.update(:query => "name = barbar")
+        bookmarks(:two).update(:name => 'modified irelevant')
+        refute SeedHelper.audit_modified?(Medium, bookmark.name, :controller => bookmark.controller)
+      end
+
+      it "recognizes relevant changes in complex history" do
+        old_name = bookmark.name
+        refute SeedHelper.audit_modified?(Bookmark, bookmark.name, :controller => bookmark.controller)
+        bookmark.update(:query => "name = barbar")
+        bookmark.update(:name => 'modified')
+        bookmark.update(:name => 'modified2')
+        bookmark.update(:query => "name = bar2")
+        assert SeedHelper.audit_modified?(Bookmark, old_name, :controller => bookmark.controller)
+        bookmarks(:two).destroy
+        bookmark.destroy
+        assert SeedHelper.audit_modified?(Bookmark, old_name, :controller => bookmark.controller)
+      end
+
+      it "recognizes irrelevant changes in complex history" do
+        refute SeedHelper.audit_modified?(Bookmark, bookmark.name, :controller => bookmark.controller)
+        bookmarks(:two)
+        bookmarks(:two).update(:name => 'modified')
+        bookmarks(:two).update(:name => 'modified2')
+        bookmarks(:two).destroy
+        bookmark.update(:query => "name = barbar")
+        refute SeedHelper.audit_modified?(Bookmark, bookmark.name, :controller => bookmark.controller)
+      end
+    end
   end
 
   describe '.import_raw_template' do

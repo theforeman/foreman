@@ -8,7 +8,7 @@ Bookmark.without_auditing do
     { :name => "disabled", :query => 'status.enabled = false', :controller => "hosts" },
     { :name => "ok hosts", :query => 'last_report > "35 minutes ago" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0', :controller => "hosts" },
   ].each do |input|
-    next if Bookmark.where(:controller => input[:controller], :name => input[:name]).first
+    next if Bookmark.where(:controller => input[:controller], :name => input[:name]).exists?
     next if SeedHelper.audit_modified? Bookmark, input[:name], :controller => input[:controller]
     b = Bookmark.create({ :public => true }.merge(input))
     raise "Unable to create bookmark: #{format_errors b}" if b.nil? || b.errors.any?
