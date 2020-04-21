@@ -16,12 +16,6 @@ class Api::V2::LookupKeysCommonControllerTest < ActiveSupport::TestCase
     @dummy = DummyController.new
   end
 
-  test "should cast default_value from smart variable" do
-    @dummy.params = {:smart_variable => { :default_value => true }}
-    @dummy.cast_value(:smart_variable, :default_value)
-    assert_equal "true", @dummy.params[:smart_variable][:default_value]
-  end
-
   test "should cast default_value from smart class parameter" do
     @dummy.params = {:smart_class_parameter => { :default_value => ['a', 'b'] }}
     @dummy.cast_value(:smart_class_parameter, :default_value)

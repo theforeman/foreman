@@ -7,23 +7,10 @@ module Api::V2::LookupKeysCommonController
     before_action :find_host, :if => :host_id?
     before_action :find_hostgroup, :if => :hostgroup_id?
 
-    before_action :find_smart_class_parameters, :if => :smart_class_parameter_id?
-    before_action :find_smart_class_parameter, :if => :smart_class_parameter_id?
-
-    before_action :find_smarts
-    before_action :find_smart
-
+    before_action :find_smart_class_parameters
+    before_action :find_smart_class_parameter
     before_action :return_if_smart_mismatch, :only => [:show, :update, :destroy]
-
     before_action :cast_default_value, :only => [:create, :update]
-  end
-
-  def smart_variable_id?
-    params.key?('smart_variable_id') || controller_name.match(/smart_variables/)
-  end
-
-  def smart_class_parameter_id?
-    params.key?('smart_class_parameter_id') || controller_name.match(/smart_class_parameters/)
   end
 
   [Puppetclass, Environment, Host::Base, Hostgroup].each do |model|
@@ -80,34 +67,15 @@ module Api::V2::LookupKeysCommonController
     params.distinct
   end
 
-  def find_smarts
-    @smarts   = @smart_variables
-    @smarts ||= @smart_class_parameters
-    @smarts
-  end
-
-  def find_smart
-    @smart   = @smart_variable
-    @smart ||= @smart_class_parameter
-    @smart
-  end
-
   def return_if_smart_mismatch
-    if (@smarts && @smart && !@smarts.find_by_id(@smart.id)) || (@smarts && !@smart)
-      obj = smart_variable_id? ? "Smart variable" : "Smart class parameter"
-      id = if smart_variable_id?
-             params.key?('smart_variable_id') ? params['smart_variable_id'] : params['id']
-           else
-             params.key?('smart_class_parameter_id') ? params['smart_variable_id'] : params['id']
-           end
-      not_found "#{obj} not found by id '#{id}'"
+    if @smart_class_parameters && (!smart_param_exists? || !@smart_class_parameter)
+      id = params.key?('smart_class_parameter_id') ? params['smart_variable_id'] : params['id']
+      not_found "Smart class parameter not found by id '#{id}''"
     end
   end
 
   def cast_default_value
-    obj = smart_variable_id? ? "smart_variable" : "smart_class_parameter"
-
-    cast_value(obj, :default_value)
+    cast_value(:smart_class_parameter, :default_value)
   end
 
   def cast_value(obj = :override_value, value = :value)
@@ -118,6 +86,10 @@ module Api::V2::LookupKeysCommonController
   end
 
   private
+
+  def smart_param_exists?
+    @smart_class_parameter && @smart_class_parameters.find_by_id(@smart_class_parameter.id)
+  end
 
   def model_not_found(model)
     error_message = (
