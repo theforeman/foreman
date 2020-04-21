@@ -42,8 +42,8 @@ module Api
       param_group :override_value, :as => :create
 
       def create
-        @override_value = @smart.lookup_values.create!(lookup_value_params)
-        @smart.update_attribute(:override, true)
+        @override_value = @smart_class_parameter.lookup_values.create!(lookup_value_params)
+        @smart_class_parameter.update_attribute(:override, true)
         process_response @override_value
       end
 
@@ -68,16 +68,16 @@ module Api
       private
 
       def find_override_values
-        if @smart
-          @override_values = @smart.lookup_values.paginate(paginate_options)
+        if @smart_class_parameter
+          @override_values = @smart_class_parameter.lookup_values.paginate(paginate_options)
           @total = @override_values.count
         end
       end
 
       def find_override_value
         @override_value = LookupValue.find_by_id(params[:id])
-        if @smart
-          @override_value ||= @smart.lookup_values.friendly.find(params[:id])
+        if @smart_class_parameter
+          @override_value ||= @smart_class_parameter.lookup_values.friendly.find(params[:id])
         end
       end
 
