@@ -117,7 +117,7 @@ const coreComponets = [
   { name: 'LineChart', type: LineChart },
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
-  { name: 'ToastNotifications', type: ToastsList, data: false },
+  { name: 'ToastNotifications', type: ToastsList },
   { name: 'StorageContainer', type: StorageContainer },
   { name: 'PasswordStrength', type: PasswordStrength },
   { name: 'BreadcrumbBar', type: BreadcrumbBar },

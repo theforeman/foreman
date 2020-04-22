@@ -12,7 +12,7 @@ exports[`HostWizard rendering renders LoginPage 1`] = `
   searchProps={Object {}}
   searchQuery=""
   searchable={false}
-  toastNotifications={null}
+  toastNotifications={Array []}
   toolbarButtons={null}
 >
   <Button

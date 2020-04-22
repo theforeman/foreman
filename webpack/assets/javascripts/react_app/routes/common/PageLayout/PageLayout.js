@@ -27,12 +27,7 @@ const PageLayout = ({
   return (
     <div id="main">
       <div id="react-content">
-        <div
-          id="toast-notifications-container"
-          data-notifications={toastNotifications}
-        >
-          <ToastsList />
-        </div>
+        <ToastsList railsMessages={toastNotifications} />
         <div id="breadcrumb">
           {!breadcrumbOptions && (
             <div className="row form-group">
@@ -116,7 +111,7 @@ PageLayout.propTypes = {
     ),
   }),
   toolbarButtons: PropTypes.node,
-  toastNotifications: PropTypes.string,
+  toastNotifications: PropTypes.array,
   onSearch: PropTypes.func,
   onBookmarkClick: PropTypes.func,
   searchQuery: PropTypes.string,
@@ -128,7 +123,7 @@ PageLayout.defaultProps = {
   searchProps: {},
   header: '',
   searchQuery: '',
-  toastNotifications: null,
+  toastNotifications: [],
   customBreadcrumbs: null,
   toolbarButtons: null,
   breadcrumbOptions: null,

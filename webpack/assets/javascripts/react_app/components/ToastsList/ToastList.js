@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ToastNotificationList,
   ToastNotification,
@@ -28,7 +28,13 @@ const toastType = type => {
   }
 };
 
-const ToastsList = ({ messages, deleteToast }) => {
+const ToastsList = ({ messages, deleteToast, addToast, railsMessages }) => {
+  useEffect(() => {
+    railsMessages.forEach(({ message, type, key }) => {
+      addToast({ message, type, key });
+    });
+  }, [addToast, railsMessages]);
+
   const toastsList = Object.entries(messages)
     .map(([key, message]) => ({ key, ...message }))
     .map(({ key, link, message, sticky = false, ...toastProps }) => {
@@ -56,10 +62,14 @@ const ToastsList = ({ messages, deleteToast }) => {
 ToastsList.propTypes = {
   messages: PropTypes.object.isRequired,
   deleteToast: PropTypes.func,
+  addToast: PropTypes.func,
+  railsMessages: PropTypes.array,
 };
 
 ToastsList.defaultProps = {
   deleteToast: noop,
+  addToast: noop,
+  railsMessages: [],
 };
 
 export default ToastsList;

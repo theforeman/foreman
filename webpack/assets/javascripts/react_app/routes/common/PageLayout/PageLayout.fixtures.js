@@ -8,6 +8,5 @@ export const pageLayoutMock = {
   customBreadcrumbs: null,
   breadcrumbOptions: breadcrumbBar,
   toolbarButtons: null,
-  toastNotifications: null,
   children: 'body',
 };
