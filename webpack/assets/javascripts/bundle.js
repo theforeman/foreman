@@ -6,6 +6,7 @@ import componentRegistry from './react_app/components/componentRegistry';
 import i18n from './react_app/common/I18n';
 import * as document from './react_app/common/document';
 import hosts from './foreman_hosts';
+import templates from './foreman_templates';
 import * as store from './foreman_store';
 import * as authSource from './foreman_auth_source';
 import * as tools from './foreman_tools';
@@ -64,4 +65,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   store,
   autocomplete,
   typeAheadSelect,
+  templates,
 });

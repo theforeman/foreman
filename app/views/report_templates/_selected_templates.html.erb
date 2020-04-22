@@ -1,0 +1,35 @@
+<div class="row">
+  <%= alert(class: 'alert-info hide', id: 'multiple-modal-alert', close: true, header: '',
+            text: multiple_filter(templates)) %>
+  <% unless multiple_with_filter? %>
+    <div class="col-md-12">
+      <table class="<%= table_css_classes %>">
+        <thead>
+          <tr>
+            <th>
+              <%= _('Name') %>
+            </th>
+            <th>
+              <%= _('Snippet') %>
+            </th>
+            <th>
+              <%= _('Locked') %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% templates.each do |template| %>
+            <tr>
+              <td><%=h template %>
+              </td>
+              <td><%= checked_icon template.snippet %></td>
+              <td><%= locked_icon template.locked?, _('This template is locked for editing.') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= check_box_tag 'keep_selected', '', false, title: _('Remember templates selection for the next bulk action') %>
+      <%= _('Remember templates selection for the next bulk action') %><br/><br/>
+    </div>
+  <% end %>
+</div>

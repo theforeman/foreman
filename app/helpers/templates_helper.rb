@@ -80,4 +80,24 @@ module TemplatesHelper
       resourceTypes: Hash[Permission.resources.map { |d| [d.tableize.to_s, d] }],
     }.to_json)
   end
+
+  def multiple_template_actions(templates)
+    actions = []
+    actions << [_('Delete Templates'), send("multiple_destroy_#{templates}_path"), true] if authorized_for(controller: :templates, action: :destroy)
+    actions
+  end
+
+  def multiple_template_actions_select(templates)
+    select_action_button(_('Select Action'), { id: 'submit_multiple' },
+      multiple_template_actions(templates).map do |action|
+        # If the action array has 3 entries, the third one is whether to use a modal dialog or not
+        modal = (action.size == 3) ? action[2] : true
+        if modal
+          link_to_function(action[0], "tfm.templates.table.buildModal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following templates are about to be changed") % action[0])
+        else
+          link_to_function(action[0], "tfm.templates.table.buildRedirect('#{action[1]}')")
+        end
+      end.flatten
+    )
+  end
 end

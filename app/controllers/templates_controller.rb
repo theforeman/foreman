@@ -5,6 +5,7 @@ class TemplatesController < ApplicationController
 
   before_action :handle_template_upload, :only => [:create, :update]
   before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock, :export]
+  before_action :find_multiple, :only => [:multiple_destroy, :submit_multiple_destroy]
   before_action :load_history, :only => :edit
   before_action :type_name_plural, :type_name_singular, :resource_class
 
@@ -74,6 +75,19 @@ class TemplatesController < ApplicationController
     end
   end
 
+  def multiple_destroy
+  end
+
+  def submit_multiple_destroy
+    missed_templates = @templates.select { |template| !template.destroy }
+    if missed_templates.empty?
+      success _('Deleted selected templates')
+    else
+      error _('The following templates were not deleted: %s') % missed_templates.map(&:name).to_sentence
+    end
+    redirect_to(saved_redirect_url_or(send("#{controller_name}_url")))
+  end
+
   def auto_complete_controller_name
     type_name_plural
   end
@@ -108,6 +122,30 @@ class TemplatesController < ApplicationController
   end
 
   private
+
+  def find_multiple
+    if params.key?(:template_names) || params.key?(:template_ids) || params.key?(:search)
+      @templates = resource_base.search_for(params[:search]) if params.key?(:search)
+      @templates ||= resource_base.where("templates.id IN (?) or templates.name IN (?)", params[:template_ids], params[:template_names])
+      if @templates.empty?
+        error _('No templates were found with that id, name or query filter')
+        redirect_to(templates_path)
+        return false
+      end
+    else
+      error _('No templates selected')
+      redirect_to(templates_path)
+      return false
+    end
+
+    @templates
+  rescue => error
+    message = _("Something went wrong while selecting templates - %s") % error
+    error(message)
+    Foreman::Logging.exception(message, error)
+    redirect_to templates_path
+    false
+  end
 
   def safe_render(template, mode = Foreman::Renderer::REAL_MODE, render_on_error: :plain, **params)
     escape = params.delete :escape_json
@@ -154,6 +192,8 @@ class TemplatesController < ApplicationController
         :lock
       when 'clone_template', 'preview', 'export'
         :view
+      when 'multiple_destroy', 'submit_multiple_destroy'
+        :destroy
       else
         super
     end

@@ -372,6 +372,8 @@ Foreman::Application.routes.draw do
         post 'preview'
         get 'revision'
         get 'auto_complete_search'
+        post 'multiple_destroy'
+        post 'submit_multiple_destroy'
       end
     end
   end

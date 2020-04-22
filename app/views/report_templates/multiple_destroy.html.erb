@@ -1,0 +1,7 @@
+<%= form_tag submit_multiple_destroy_report_templates_path(template_ids: params[:template_ids]), onsubmit: 'tfm.templates.table.resetSelection()' do %>
+  <%= alert class: 'alert-warning',
+    text: (_('This is irreversible.')).html_safe,
+    header: '' %>
+<% end %>
+
+<%= render 'selected_templates', templates: @templates %>

@@ -1,12 +1,24 @@
 <% title _("Report Templates") %>
 
-<% title_actions new_link(_("Create Template")),
+<% title_actions multiple_template_actions_select('report_templates'),
+                 new_link(_("Create Template")),
                  documentation_button('4.11Reports')
 %>
-
+<%= alert(class: 'alert-info hide', id: 'multiple-alert', close: false, header: '',
+          text: n_('Single template on this page is selected.',
+                   "All %{per_page} templates on this page are selected.", per_page(@templates)).html_safe % { per_page: per_page(@templates) } + ' ' +
+                   link_to_function(n_("Select this template",
+                                       "Select all <b> %{total} </b> templates", @templates.total_entries).html_safe % { total: @templates.total_entries },
+                                       "tfm.templates.table.multipleSelection()")) %>
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
+      <th class='ca' width='40px'>
+        <%= check_box_tag 'check_all', '', false,
+                          { onchange: 'tfm.templates.table.toggleCheck()',
+                            :'check-title' => _('Select all items on this page'),
+                            :'uncheck-title'=> _('items selected. Uncheck to clear') } %>
+      </th>
       <th class="col-md-3"><%= sort :name, :as => s_("ReportTemplate|Name") %></th>
       <th class="col-md-1"><%= sort :snippet, :as => s_("ReportTemplate|Snippet") %></th>
       <th class="col-md-1"><%= sort :locked, :as => s_("ReportTemplate|Locked"), :default => "DESC" %></th>
@@ -16,6 +28,12 @@
   <tbody>
     <% for report_template in @templates %>
     <tr>
+        <td align='center' class='ca'>
+          <%= check_box_tag 'template_ids[]', nil, false,
+                            id: "template_ids_#{report_template.id}",
+                            class: 'template_select_boxes',
+                            onclick: 'tfm.templates.table.templateChecked(this)' %>
+        </td>
         <td class="ellipsis"><%= link_to_if_authorized report_template,
                                          hash_for_edit_report_template_path(:id => report_template.to_param).
                                          merge(:auth_object => report_template, :authorizer => authorizer,
@@ -30,3 +48,19 @@
   </tbody>
 </table>
 <%= will_paginate_with_info @templates %>
+<div id="confirmation-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><%= _('Please Confirm') %></h4>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _('Cancel') %></button>
+        <button type="button" class="btn btn-primary" onclick='tfm.templates.table.submitModalForm()'><%= _('Submit') %></button>
+      </div>
+    </div>
+  </div>
+</div>
