@@ -43,7 +43,7 @@ const ModelsPage = ({
       onSearch={handleSearch}
       onBookmarkClick={handleSearch}
       toolbarButtons={canCreate && createBtn}
-      toastNotifications={JSON.stringify(toasts)}
+      toastNotifications={toasts}
     >
       <ModelsPageContent
         models={models}

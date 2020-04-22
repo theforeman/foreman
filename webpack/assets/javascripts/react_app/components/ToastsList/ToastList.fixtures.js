@@ -6,14 +6,15 @@ export const emptyState = Immutable({
   },
 });
 
+export const toast = {
+  message: 'Widget positions successfully saved.',
+  type: 'success',
+  key: 'test-key',
+};
+
 export const singleMessageState = Immutable({
   toasts: {
-    messages: {
-      1: {
-        message: 'Widget positions successfully saved.',
-        type: 'success',
-      },
-    },
+    messages: { 1: toast },
   },
 });
 

@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ToastList Should add rails toasts 1`] = `
+Object {
+  "payload": Object {
+    "key": "test-key",
+    "message": Object {
+      "key": "test-key",
+      "message": "Widget positions successfully saved.",
+      "type": "success",
+    },
+  },
+  "type": "TOASTS_ADD",
+}
+`;
+
 exports[`ToastList should render with emptyState 1`] = `
 <Connect(ToastsList)
   store={
@@ -18,6 +32,7 @@ exports[`ToastList should render with emptyState 1`] = `
     clearToasts={[Function]}
     deleteToast={[Function]}
     messages={Object {}}
+    railsMessages={Array []}
     store={
       Object {
         "clearActions": [Function],
@@ -73,6 +88,7 @@ exports[`ToastList should render with multipleMessagesState 1`] = `
         },
       }
     }
+    railsMessages={Array []}
     store={
       Object {
         "clearActions": [Function],
@@ -413,11 +429,13 @@ exports[`ToastList should render with singleMessageState 1`] = `
     messages={
       Object {
         "1": Object {
+          "key": "test-key",
           "message": "Widget positions successfully saved.",
           "type": "success",
         },
       }
     }
+    railsMessages={Array []}
     store={
       Object {
         "clearActions": [Function],
@@ -444,7 +462,7 @@ exports[`ToastList should render with singleMessageState 1`] = `
       >
         <TimedToastNotification
           className=""
-          key=".$1"
+          key=".$test-key"
           onDismiss={[Function]}
           paused={false}
           timerdelay={8000}
@@ -561,6 +579,7 @@ exports[`ToastList should render with singleMessageWithLinkState 1`] = `
         },
       }
     }
+    railsMessages={Array []}
     store={
       Object {
         "clearActions": [Function],

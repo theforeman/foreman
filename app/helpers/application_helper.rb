@@ -473,10 +473,7 @@ module ApplicationHelper
   end
 
   def notifications
-    content_tag :div, id: 'toast-notifications-container',
-                      'data-notifications': toast_notifications_data.to_json.html_safe do
-      react_component('ToastNotifications')
-    end
+    react_component('ToastNotifications', {railsMessages: toast_notifications_data})
   end
 
   def toast_notifications_data
