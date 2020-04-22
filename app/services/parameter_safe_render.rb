@@ -7,6 +7,8 @@ class ParameterSafeRender
   end
 
   def render(value)
+    return value unless interpolate_erb?
+
     render_object(value)
   end
 
@@ -14,10 +16,12 @@ class ParameterSafeRender
 
   attr_reader :host
 
-  def render_object(object)
-    return object unless (Setting[:interpolate_erb_in_parameters])
+  def interpolate_erb?
+    @interpolate_erb = Setting[:interpolate_erb_in_parameters] if @interpolate_erb.nil?
+    @interpolate_erb
+  end
 
-    # recurse over object types until we're dealing with a String
+  def render_object(object)
     case object
     when String
       render_string object
@@ -26,12 +30,14 @@ class ParameterSafeRender
     when Hash
       object.merge(object) { |k, v| render_object v }
     else
-      # Don't know how to parse this, send it back
       object
     end
   end
 
   def render_string(string)
+    # exit early if there is nothing to parse
+    return string unless string.contains_erb?
+
     source = Foreman::Renderer::Source::String.new(content: string)
     scope = Foreman::Renderer.get_scope(klass: Foreman::Renderer::Scope::Partition, host: host)
     Foreman::Renderer.render(source, scope)

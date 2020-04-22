@@ -6,6 +6,20 @@ class ParameterSafeRenderTest < ActiveSupport::TestCase
     @safe_render = ParameterSafeRender.new(@host)
   end
 
+  test 'safe_render should return empty string' do
+    Setting[:interpolate_erb_in_parameters] = true
+
+    s = @safe_render.render('')
+    assert_equal '', s
+  end
+
+  test 'safe_render should return long string' do
+    Setting[:interpolate_erb_in_parameters] = true
+
+    s = @safe_render.render('X' * 1024)
+    assert_equal 'X' * 1024, s
+  end
+
   test 'safe_render should return raw strings when interpolate is false' do
     Setting[:interpolate_erb_in_parameters] = false
 
