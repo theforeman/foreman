@@ -4,6 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import {
+  toast,
   emptyState,
   singleMessageState,
   singleMessageWithLinkState,
@@ -66,5 +67,12 @@ describe('ToastList', () => {
     );
     // eslint-disable-next-line no-console
     console.warn.mockRestore();
+  });
+
+  it('Should add rails toasts', () => {
+    const store = mockStore(emptyState);
+    store.clearActions();
+    mount(<ToastList store={store} railsMessages={[toast]} />);
+    expect(store.getActions()[0]).toMatchSnapshot();
   });
 });

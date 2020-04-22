@@ -7,12 +7,9 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
@@ -103,12 +100,9 @@ exports[`render pageLayout w/search 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
@@ -198,12 +192,17 @@ exports[`render pageLayout w/toastNotifications 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications="notification"
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={
+        Array [
+          Object {
+            "key": "test-key",
+            "message": "Widget positions successfully saved.",
+            "type": "success",
+          },
+        ]
+      }
+    />
     <div
       id="breadcrumb"
     >
@@ -293,12 +292,9 @@ exports[`render pageLayout w/toolBar 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
@@ -390,12 +386,9 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
@@ -459,12 +452,9 @@ exports[`render pageLayout without breadcrumbs 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >
@@ -536,12 +526,9 @@ exports[`render pageLayout without search 1`] = `
   <div
     id="react-content"
   >
-    <div
-      data-notifications={null}
-      id="toast-notifications-container"
-    >
-      <Connect(ToastsList) />
-    </div>
+    <Connect(ToastsList)
+      railsMessages={Array []}
+    />
     <div
       id="breadcrumb"
     >

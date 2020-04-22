@@ -1,6 +1,7 @@
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 import PageLayout from './PageLayout';
 import { pageLayoutMock } from './PageLayout.fixtures';
+import { toast } from '../../../components/ToastsList/ToastList.fixtures';
 
 const pageLayoutFixtures = {
   'render pageLayout w/search': pageLayoutMock,
@@ -15,7 +16,7 @@ const pageLayoutFixtures = {
   },
   'render pageLayout w/toastNotifications': {
     ...pageLayoutMock,
-    toastNotifications: 'notification',
+    toastNotifications: [toast],
   },
   'render pageLayout w/toolBar': {
     ...pageLayoutMock,
