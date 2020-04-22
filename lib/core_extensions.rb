@@ -161,7 +161,9 @@ class String
   end
 
   def contains_erb?
-    self =~ /<%.*%>/
+    # minimum possible ERB is four characters '<%%>'
+    return false if size <= 4
+    index('<%')
   end
 
   # TODO Remove me after Rails 6 upgrade: https://github.com/rails/rails/commit/4940cc49ddb361d584d51bc3eb4675ff8ece4a2b
