@@ -2,7 +2,12 @@ class Debian < Operatingsystem
   PXEFILES = {:kernel => "linux", :initrd => "initrd.gz"}
 
   def pxedir
-    'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'
+    # support ubuntu focal(20), which moved pxe files to legacy_image
+    if (guess_os == 'ubuntu' && major.to_i >= 20)
+      'dists/$release/main/installer-$arch/current/legacy-images/netboot/' + guess_os + '-installer/$arch'
+    else
+      'dists/$release/main/installer-$arch/current/images/netboot/' + guess_os + '-installer/$arch'
+    end
   end
 
   def preseed_server(medium_provider)
