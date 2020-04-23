@@ -21,10 +21,16 @@ class Ping
           plugins: Foreman::Plugin.all,
           smart_proxies: statuses_smart_proxies,
           compute_resources: statuses_compute_resources,
+          rails_cache: rails_cache_check,
         },
       }.merge(plugins_statuses).merge(ping) do |_key, old_val, new_val|
         old_val.merge(new_val)
       end
+    end
+
+    def rails_cache_check
+      Rails.cache.write("foreman_rails_check", 1)
+      Rails.cache.fetch("foreman_rails_check") ? STATUS_OK : STATUS_FAIL
     end
 
     private
