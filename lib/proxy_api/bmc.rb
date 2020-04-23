@@ -5,6 +5,7 @@ module ProxyAPI
     def initialize(args)
       @target = args[:host_ip] || '127.0.0.1'
       @url = args[:url] + "/bmc"
+      @provider = args[:bmc_provider]
       super args
     end
 
@@ -29,6 +30,7 @@ module ProxyAPI
       case args[:function]
       when "bootdevice"
         if SUPPORTED_BOOT_DEVICES.include?(args[:device])
+          args[:bmc_provider] = @provider
           parse put(args, bmc_url_for('config', "#{args[:function]}/#{args[:device]}"))
         else
           raise NoMethodError
@@ -49,9 +51,11 @@ module ProxyAPI
       case args[:action]
       when "on?", "off?", "status"
         args[:action].chop! if args[:action].include?('?')
-        response = parse(get(bmc_url_for('power', args[:action]), args))
+        provider_query = @provider ? "?bmc_provider=#{@provider}" : ''
+        response = parse(get(bmc_url_for('power', args[:action]) + provider_query, args))
         response.is_a?(Hash) ? response['result'] : response
       when "on", "off", "cycle", "soft"
+        args[:bmc_provider] = @provider
         res = parse put(args, bmc_url_for('power', args[:action]))
         res && (res['result'] == true || res['result'] == "#{@target}: ok\n")
       else
@@ -69,8 +73,10 @@ module ProxyAPI
       # put "/bmc/:host/chassis/identify/:action"
       case args[:action]
       when "status"
-        parse get(bmc_url_for('identify', args[:action]), args)
+        provider_query = @provider ? "?bmc_provider=#{@provider}" : ''
+        parse get(bmc_url_for('identify', args[:action]) + provider_query, args)
       when "on", "off"
+        args[:bmc_provider] = @provider
         parse put(args, bmc_url_for('identify', args[:action]))
       else
         raise NoMethodError
@@ -86,7 +92,8 @@ module ProxyAPI
       # get "/bmc/:host/lan/:action"
       case args[:action]
       when "ip", "netmask", "mac", "gateway"
-        response = parse(get(bmc_url_for('lan', args[:action]), args))
+        provider_query = @provider ? "?bmc_provider=#{@provider}" : ''
+        response = parse(get(bmc_url_for('lan', args[:action]), args) + provider_query)
         response.is_a?(Hash) ? response['result'] : response
       else
         raise NoMethodError
