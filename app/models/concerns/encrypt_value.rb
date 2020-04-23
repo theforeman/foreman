@@ -1,7 +1,7 @@
 module EncryptValue
   ENCRYPTION_PREFIX = "encrypted-"
   def matches_prefix?(str)
-    ENCRYPTION_PREFIX == str.to_s[0..(ENCRYPTION_PREFIX.length - 1)]
+    str.to_s.start_with? ENCRYPTION_PREFIX
   end
 
   def encryption_key
@@ -19,7 +19,7 @@ module EncryptValue
   end
 
   def is_decryptable?(str)
-    if !matches_prefix?(str) || encryption_key.blank?
+    if encryption_key.blank? || !matches_prefix?(str)
       false
     else
       true
