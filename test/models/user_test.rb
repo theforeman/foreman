@@ -163,10 +163,27 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'login should also be unique across usergroups' do
-    Usergroup.expects(:where).with(:name => 'foo').returns(['fakeuser'])
+    Usergroup.expects(:where).with(:name => 'foo').returns(['fakeusergroup'])
     u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:one),
                                  :login => "foo", :mail => "foo@bar.com")
     refute u.valid?
+    assert_includes u.errors.full_messages, 'A user group already exists with this name'
+  end
+
+  test 'external login should be unique across usergroups' do
+    Usergroup.expects(:where).with(:name => 'foo').returns(['fakeusergroup'])
+    u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:external),
+                                 :login => "foo", :mail => "foo@bar.com")
+    refute u.valid?
+    assert_includes u.errors.full_messages, 'A user group already exists with this name'
+  end
+
+  test 'hidden login should be unique across usergroups' do
+    Usergroup.expects(:where).with(:name => 'foo').returns(['fakeusergroup'])
+    u = FactoryBot.build_stubbed(:user, :auth_source => auth_sources(:hidden),
+                                 :login => "foo", :mail => "foo@bar.com")
+    refute u.valid?
+    assert_includes u.errors.full_messages, 'A user group already exists with this name'
   end
 
   test "user should login case insensitively" do
