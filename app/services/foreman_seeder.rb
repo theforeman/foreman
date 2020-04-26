@@ -11,6 +11,7 @@ class ForemanSeeder
 
   def initialize
     @seeds = (foreman_seeds + plugin_seeds).sort_by { |seed| seed.split("/").last }
+    @hashed_files = @seeds + templates
   end
 
   def foreman_seeds
@@ -27,8 +28,12 @@ class ForemanSeeder
     end.flatten.compact
   end
 
+  def templates
+    SeedHelper.report_templates + SeedHelper.provisioning_templates + SeedHelper.partition_tables_templates
+  end
+
   def hash
-    hashes = @seeds.collect { |seed| Digest::SHA256.file(seed).base64digest }
+    hashes = @hashed_files.collect { |seed| Digest::SHA256.file(seed).base64digest }
     Digest::SHA256.base64digest(hashes.join)
   end
 
