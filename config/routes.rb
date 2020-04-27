@@ -1,4 +1,5 @@
 Foreman::Application.routes.draw do
+  apipie_dsl
   resources :mail_notifications, :only => [] do
     collection do
       get 'auto_complete_search'

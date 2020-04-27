@@ -1,0 +1,58 @@
+<h1><%= _('Template syntax') %></h1>
+<%= _('Templates are generated using the Embedded Ruby (ERB) language.') %>
+<%= _('The following table and example snippet shows global methods, variables and class methods and how to use them.') %>
+<%= _('These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful.') %>
+<% unless Setting[:safemode_render] -%>
+  <%= _('To enable safe mode, navigate to Settings page and enable Safemode rendering option.') %>
+<% end -%>
+<h2><%= _('Examples') %></h2>
+<div class="panel-group" id="accordion-markup">
+  <%= render "help_accordion", :title => _('Comments'), :contents => (capture { %>
+    <%%# this is a comment %>
+  <% }) %>
+  <%= render "help_accordion", :title => _('In-line code syntax'), :contents => (capture { %>
+    <%% if true -%><br/>
+    &nbsp;&nbsp;some content<br/>
+    <%% end -%>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Printing data'), :contents => (capture { %>
+    <%%= "some content from variable" %>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Variables'), :contents => (capture { %>
+    <%%= @host %>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Calling methods on objects'), :contents => (capture { %>
+    <%%= @host.operatingsystem.major %>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Safe mode methods'), :contents => (capture { %>
+    <%%# @host.operatingsystem.set_title("this method is not listed for Operatingsystem") %>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Global macros'), :contents => (capture { %>
+    <%%= rand(9999) + 1 %>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Iterating'), :contents => (capture { %>
+    <%% @host.interfaces.each do |interface| -%><br/>
+    &nbsp;&nbsp;NIC name: <%%= interface.name %><br/>
+    <%% end -%><br/>
+  <% }) %>
+  <%= render "help_accordion", :title => _('Inputs'), :wrap_in_code => false, :contents => (capture { %>
+      <p>
+        <%= (_('Once you define a template input in Inputs tab and save the template, it can be used in the ERB.
+        To load value specified through this input, use global macro %{example1} and pass the input
+        name as an argument. E.g. %{example2} will load the value through input called cpus.') % {
+            :example1 => "<code>input</code>",
+            :example2 => "<code><&#37;= input('cpus') &#37;></code>"
+        }).html_safe %>
+      <p>
+        <%= (_("While rendering the template in preview mode, the input either loads the value or uses a placeholder
+        if the input is not ready for the rendering. If the template is rendered for real and the input is
+        not ready, an error is raised. The readyness criteria differs per input type, e.g. for Fact Inputs
+        linked to host's fact with name \"cpu_count\" is ready when %{example1} facts contains value
+        for such fact. To load this value into the template, following code can be used %{example2}
+        Note that the fact name can differ from input name.") % {
+            :example1 => "<code>@host</code>",
+            :example2 => "<code><&#37;= input('cpus') &#37;></code>"
+        }).html_safe %>
+      </p>
+  <% }) %>
+</div>

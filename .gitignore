@@ -19,6 +19,7 @@ bundler.d/*.local.rb
 .idea
 *.pyc
 public/apipie-cache
+public/apipie-dsl-cache
 public/assets
 .DS_Store
 foreman_client

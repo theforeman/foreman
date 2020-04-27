@@ -30,6 +30,9 @@ class AccessPermissionsTest < ActiveSupport::TestCase
     # Apipie
     "apipie/apipies/index", "apipie/apipies/apipie_checksum",
 
+    # ApipieDSL
+    "apipie_dsl/apipie_dsls/index",
+
     # App controller stubs
     "testable/index", "api/testable/index", "api/testable/raise_error",
     "api/testable/required_nested_values", "api/testable/optional_nested_values", "api/testable/nested_values",
