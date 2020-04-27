@@ -176,36 +176,4 @@ class ComputeResourceHostImporterTest < ActiveSupport::TestCase
       assert_equal compute_resource, host.compute_resource
     end
   end
-
-  context 'on rackspace' do
-    let(:compute_resource) { FactoryBot.build(:rackspace_cr) }
-    let(:uuid) { '52b9406e-cf66-4867-8655-719a094e324c' }
-    let(:compute) { compute_resource.send(:client) }
-    let(:flavor) { compute.flavors.first.id }
-    let(:os_image) { compute.images.first.id }
-    let(:vm) do
-      compute.servers.new(
-        :name         => 'test.example.com',
-        :flavor_id    => flavor,
-        :image_id     => os_image,
-        :ipv4_address => '192.168.100.1',
-        :ipv6_address => '2001:db8::1'
-      )
-    end
-    setup do
-      @domain = FactoryBot.create(:domain, :name => 'example.com')
-      vm.save
-    end
-
-    test 'imports the VM with all parameters' do
-      assert_equal 'test', host.name
-      assert_equal vm.id, host.uuid
-      assert_equal @domain, host.domain
-      assert_nil host.mac
-      assert_equal '192.168.100.1', host.ip
-      assert_equal '2001:db8::1', host.ip6
-      assert_empty host.primary_interface.compute_attributes
-      assert_equal compute_resource, host.compute_resource
-    end
-  end
 end

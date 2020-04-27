@@ -23,7 +23,7 @@ class ComputeResource < ApplicationRecord
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   before_save :sanitize_url
   has_many_hosts
-  has_many :hostgroups
+  has_many :hostgroups, :dependent => :nullify
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
@@ -49,7 +49,6 @@ class ComputeResource < ApplicationRecord
       'EC2'       => 'Foreman::Model::EC2',
       'Vmware'    => 'Foreman::Model::Vmware',
       'Openstack' => 'Foreman::Model::Openstack',
-      'Rackspace' => 'Foreman::Model::Rackspace',
       'GCE'       => 'Foreman::Model::GCE',
     }
   end
@@ -78,7 +77,7 @@ class ComputeResource < ApplicationRecord
   end
 
   def self.providers_requiring_url
-    _("Libvirt, oVirt, OpenStack and Rackspace")
+    _("Libvirt, oVirt and OpenStack")
   end
 
   def self.provider_class(name)
