@@ -47,9 +47,6 @@ module Foreman::Controller::Parameters::ComputeResource
           :public_key,
           :uuid
 
-        # rackspace
-        filter.permit :region
-
         # vmware
         filter.permit :datacenter,
           :pubkey_hash,

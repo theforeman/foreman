@@ -59,9 +59,3 @@ if Foreman::Model::Vmware.available?
   require 'fog/vsphere/models/compute/folder'
   Fog::Vsphere::Compute::Folder.include FogExtensions::Vsphere::Folder
 end
-
-if Foreman::Model::Rackspace.available?
-  require 'fog/rackspace'
-  require 'fog/rackspace/models/compute_v2/server'
-  Fog::Compute::RackspaceV2::Server.include FogExtensions::RackspaceV2::Server
-end

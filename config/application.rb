@@ -37,7 +37,7 @@ else
     Bundler.require(*Rails.groups)
     optional_bundler_groups = %w[assets]
     if SETTINGS[:unattended]
-      optional_bundler_groups += %w[ec2 fog gce libvirt openstack ovirt rackspace vmware]
+      optional_bundler_groups += %w[ec2 fog gce libvirt openstack ovirt vmware]
     end
     optional_bundler_groups.each do |group|
       Bundler.require(group)
