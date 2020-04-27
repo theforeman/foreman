@@ -5,25 +5,17 @@ import notificationReducer from '../../redux/reducers/notifications';
 import { componentMountData, serverResponse } from './notifications.fixtures';
 import Notifications from './';
 import API from '../../redux/API/API';
-import { APIMiddleware } from '../../redux/API';
-import { NOTIFICATIONS } from '../../redux/consts';
-import { IntervalMiddleware } from '../../redux/middlewares';
-import { registeredIntervalException } from '../../redux/middlewares/IntervalMiddleware/IntervalHelpers';
-import { DEFAULT_INTERVAL } from '../../redux/actions/notifications/constants';
+import { APIMiddleware, reducers as apiReducer } from '../../redux/API';
 
-jest.useFakeTimers();
 jest.mock('../../redux/API/API');
-jest.mock('../../redux/actions/notifications/constants', () => ({
-  DEFAULT_INTERVAL: 1,
-}));
 
 const notificationProps = {
   data: componentMountData,
 };
 
 const configureIntegrationHelper = () => {
-  const reducers = { notifications: notificationReducer };
-  const middlewares = [thunk, IntervalMiddleware, APIMiddleware];
+  const reducers = { notifications: notificationReducer, ...apiReducer };
+  const middlewares = [thunk, APIMiddleware];
   return new IntegrationTestHelper(reducers, middlewares);
 };
 
@@ -37,15 +29,11 @@ describe('notifications', () => {
   });
 
   it('full flow', () => {
-    API.get.mockImplementation(async () => serverResponse);
+    API.get.mockImplementation(() => serverResponse);
 
     const testHelper = configureIntegrationHelper();
     const wrapper = testHelper.mount(<Notifications {...notificationProps} />);
-    expect(setInterval).toHaveBeenCalledTimes(1);
-    expect(setInterval).toHaveBeenLastCalledWith(
-      expect.any(Function),
-      DEFAULT_INTERVAL
-    );
+
     /** this is a workaround to wait for the component
      * to get updated with the notification data.
      * I tried to use all of jest`s timer-mocking-functions with no success,
@@ -57,18 +45,6 @@ describe('notifications', () => {
       expect(wrapper.find('.unread')).toHaveLength(1);
       wrapper.find('.unread').simulate('click');
       expect(wrapper.find('.unread')).toHaveLength(0);
-    }, DEFAULT_INTERVAL);
-  });
-
-  it('should avoid multiple polling on re-mount', () => {
-    const testHelper = configureIntegrationHelper();
-    testHelper.mount(<Notifications {...notificationProps} />);
-    try {
-      testHelper.mount(<Notifications {...notificationProps} />);
-    } catch (error) {
-      expect(error.message).toBe(
-        registeredIntervalException(NOTIFICATIONS).message
-      );
-    }
+    }, 1);
   });
 });

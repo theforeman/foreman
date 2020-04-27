@@ -8,6 +8,7 @@ import {
   NOTIFICATIONS_MARK_GROUP_AS_READ,
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS,
+  SERVER_NOTIFICATIONS,
 } from '../../consts';
 import { notificationsDrawer } from '../../../common/sessionStorage';
 import { actionTypeGenerator } from '../../API';
@@ -37,6 +38,11 @@ export default (state = initialState, { type, payload, response }) => {
       return state.merge({
         notifications: response.notifications,
         hasUnreadMessages: hasUnreadMessages(response.notifications),
+      });
+    case SERVER_NOTIFICATIONS:
+      return state.merge({
+        notifications: payload.notifications,
+        hasUnreadMessages: hasUnreadMessages(payload.notifications),
       });
     case FAILURE: {
       return state.set('error', response);

@@ -10,20 +10,8 @@ import {
 } from '../../consts';
 import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
 import { API, get } from '../../API';
-import {
-  stopInterval,
-  withInterval,
-} from '../../middlewares/IntervalMiddleware';
-import { DEFAULT_INTERVAL } from './constants';
 
-const interval = process.env.NOTIFICATIONS_POLLING || DEFAULT_INTERVAL;
-
-const getNotifications = url => get({ key: NOTIFICATIONS, url });
-
-export const startNotificationsPolling = url =>
-  withInterval(getNotifications(url), interval);
-
-export const stopNotificationsPolling = () => stopInterval(NOTIFICATIONS);
+export const getNotifications = url => get({ key: NOTIFICATIONS, url });
 
 export const markAsRead = (group, id) => dispatch => {
   dispatch({

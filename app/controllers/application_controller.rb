@@ -417,4 +417,8 @@ class ApplicationController < ActionController::Base
       Foreman::ParameterFilter::Context.new(:ui, controller_name, nil)
     end
   end
+
+  def redux_action(action)
+    ActionCable.server.broadcast 'redux_channel', action: action
+  end
 end
