@@ -208,14 +208,11 @@ class ComputeResourceTest < ActiveSupport::TestCase
   end
 
   test "description supports more than 255 characters" do
-    unless ActiveRecord::Base.connection.instance_values["config"][:adapter] == 'sqlite3'
-      # rails uses text(255) with sqlite
-      description = "a" * 300
-      assert (description.length > 255)
-      cr = compute_resources(:mycompute)
-      cr.description = description
-      assert_valid cr
-    end
+    description = "a" * 300
+    assert (description.length > 255)
+    cr = compute_resources(:mycompute)
+    cr.description = description
+    assert_valid cr
   end
 
   test "#associate_by returns host by MAC attribute" do

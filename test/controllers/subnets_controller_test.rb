@@ -25,8 +25,6 @@ class SubnetsControllerTest < ActionController::TestCase
     end
 
     def test_index_sort_by_network
-      skip if ActiveRecord::Base.connection_config[:adapter].starts_with?('sqlite')
-
       get :index, params: { :order => 'network' }, session: set_session_user
       result = assigns(:subnets).map(&:id)
       assert result.index(@s1.id) < result.index(@s2.id)
@@ -36,8 +34,6 @@ class SubnetsControllerTest < ActionController::TestCase
     end
 
     def test_index_sort_by_network_desc
-      skip if ActiveRecord::Base.connection_config[:adapter].starts_with?('sqlite')
-
       get :index, params: { :order => 'network DESC' }, session: set_session_user
       result = assigns(:subnets).map(&:id)
       assert result.index(@s3.id) < result.index(@s2.id)
