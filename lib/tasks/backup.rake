@@ -23,11 +23,7 @@ namespace :db do
     backup_dir  = File.expand_path('../../db', __dir__)
     backup_name = ENV['destination'] || File.join(backup_dir, "foreman.#{Time.now.to_i}")
     unless ENV["destination"].present?
-      if config["adapter"] == "sqlite3"
-        backup_name << '.sqlite3'
-      else
-        backup_name << '.sql'
-      end
+      backup_name << '.sql'
     end
 
     if ENV['tables'].present?
@@ -45,8 +41,6 @@ namespace :db do
     case config['adapter']
     when 'postgresql'
       postgres_dump(backup_name, config, tables)
-    when 'sqlite3'
-      sqlite_dump(backup_name, config)
     else
       puts 'Your database is not supported by Foreman.' and exit(1)
     end
@@ -61,10 +55,6 @@ namespace :db do
     cmd += " " + (tables.map { |t| "-t #{t}" }).join(" ") + " " if tables.present?
     cmd += " > #{name}"
     system({'PGPASSWORD' => config['password']}, cmd)
-  end
-
-  def sqlite_dump(name, config)
-    FileUtils.cp config['database'], name
   end
 
   def get_matched_tables(input_table_names)
@@ -108,8 +98,6 @@ namespace :db do
     case config['adapter']
     when 'postgresql'
       postgres_import(ENV['file'], config)
-    when 'sqlite3'
-      sqlite_import(ENV['file'], config)
     else
       puts 'Your database dump cannot be imported by Foreman.' and exit(1)
     end
@@ -124,9 +112,5 @@ namespace :db do
     cmd += " #{file}"
     system({'PGPASSWORD' => config['password']}, cmd)
     system(cmd)
-  end
-
-  def sqlite_import(name, config)
-    FileUtils.cp name, config['database']
   end
 end

@@ -30,7 +30,7 @@ ENTRYPOINT ["entrypoint.sh"]
 FROM base as builder
 ENV RAILS_ENV=production
 ENV FOREMAN_APIPIE_LANGS=en
-ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter console sqlite"
+ENV BUNDLER_SKIPPED_GROUPS="test development openid libvirt journald facter console"
 
 RUN \
   microdnf install redhat-rpm-config git \

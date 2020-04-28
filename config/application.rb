@@ -134,9 +134,6 @@ module Foreman
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :account_password, :facts, :root_pass, :value, :report, :password_confirmation, :secret]
 
-    # Since Rails 6 sqlite db must use integer representation for booleans
-    config.active_record.sqlite3.represent_boolean_as_integer = true
-
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 

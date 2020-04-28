@@ -15,8 +15,6 @@
     => ...).where.not(:uuid => ...)`).
 - message: Rails 6.1 will return Content-Type header without modification. If you
     want just the MIME type, please use `#media_type` instead.
-- message: "`.represent_boolean_as_integer=` is now always true, so setting this is
-    deprecated and will be removed in Rails 6.1."
 - message: "`Module#parent` has been renamed to `module_parent`. `parent` is deprecated
     and will be removed in Rails 6.1."
 - message: Initialization autoloaded the constants
