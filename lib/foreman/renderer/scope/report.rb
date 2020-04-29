@@ -8,7 +8,10 @@ module Foreman
           @report_headers = []
         end
 
-        def report_render(format: report_format&.id)
+        def report_render(format: report_format&.id, order: nil, reverse_order: false)
+          apply_order!(order) if order.present?
+          @report_data.reverse! if reverse_order
+
           case format
           when :csv, :txt, nil
             report_render_csv
@@ -31,6 +34,18 @@ module Foreman
             @report_headers |= new_headers.map(&:to_s)
           end
           @report_data << row_data.values
+        end
+
+        def apply_order!(order)
+          order = [order].flatten.map(&:to_s)
+          if (unknown = order - @report_headers).present?
+            raise UnknownReportColumn.new(:unknown => unknown.join(', '))
+          end
+
+          indexes = order.map { |column| @report_headers.index(column) }
+          @report_data.sort_by! do |values|
+            indexes.map { |i| values[i] }
+          end
         end
 
         def allowed_helpers

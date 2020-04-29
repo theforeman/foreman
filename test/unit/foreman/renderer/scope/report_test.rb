@@ -23,6 +23,31 @@ class ReportScopeTest < ActiveSupport::TestCase
       assert_equal expected_yaml, @scope.report_render(format: :yaml)
     end
 
+    test 'render report ordering' do
+      @scope.report_row(name: 'c', value: 1)
+      @scope.report_row(name: 'a', value: 3)
+      @scope.report_row(name: 'b', value: 22)
+      @scope.report_row(name: 'e', value: 0)
+      @scope.report_row(name: 'd', value: 5)
+
+      expected_csv = "name,value\na,3\nb,22\nc,1\nd,5\ne,0\n"
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: 'name')
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: :name)
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: ['name'])
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: ['name', 'value'])
+
+      expected_csv = "name,value\ne,0\nc,1\na,3\nd,5\nb,22\n"
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: 'value')
+
+      expected_csv = "name,value\ne,0\nd,5\nc,1\nb,22\na,3\n"
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: 'name', reverse_order: true)
+
+      @scope.report_row(name: 'a', value: 2)
+      @scope.report_row(name: 'b', value: 2)
+      expected_csv = "name,value\na,2\na,3\nb,2\nb,22\nc,1\nd,5\ne,0\n"
+      assert_equal expected_csv, @scope.report_render(format: :csv, order: ['name', 'value'])
+    end
+
     test 'empty report' do
       expected_csv = "\n"
       assert_equal expected_csv, @scope.report_render(format: :csv)
