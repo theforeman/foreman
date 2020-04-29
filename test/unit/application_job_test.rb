@@ -15,7 +15,9 @@ class ApplicationJobTest < ActiveSupport::TestCase
 
     def stub_delayed_plans_with_serialized_args(*args)
       execution_plans = args.each_with_index.map { |_, index| OpenStruct.new(:id => index) }
-      world.persistence.expects(:find_execution_plans).returns(execution_plans)
+      world.persistence.expects(:find_execution_plans)
+                       .with(:filters => { :state => %w(planning scheduled) }).returns(execution_plans)
+      world.persistence.expects(:find_execution_plans).with(:filters => {:state => %w(planned running), :label => job_class.to_s}).returns([])
       args.each_with_index do |arg, index|
         delayed_plan = OpenStruct.new(:to_hash => { :serialized_args => arg })
         world.persistence.expects(:load_delayed_plan).with(index).returns(delayed_plan)
@@ -85,6 +87,15 @@ class ApplicationJobTest < ActiveSupport::TestCase
         it 'does not crash when delayed jobs have unexpected shape of arguments' do
           stub_delayed_plans_with_serialized_args [{'something' => 'not important' }]
           job_class.expects(:perform_later)
+
+          job_class.spawn_if_missing world
+        end
+
+        it 'takes running plans into consideration' do
+          world.persistence.expects(:find_execution_plans)
+                           .with(:filters => { :state => %w(planning scheduled) }).returns([])
+          world.persistence.expects(:find_execution_plans).with(:filters => {:state => %w(planned running), :label => job_class.to_s}).returns([1])
+          job_class.expects(:perform_later).never
 
           job_class.spawn_if_missing world
         end
