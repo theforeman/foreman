@@ -38,6 +38,10 @@ module Foreman
       class UndefinedInput < RenderingError
         MESSAGE = N_('Rendering failed, no input with name "%{s}" for input macro found').freeze
       end
+
+      class UnknownReportColumn < RenderingError
+        MESSAGE = N_('Rendering failed, one or more unknown columns specified for ordering - "%{unknown}"').freeze
+      end
     end
   end
 end
