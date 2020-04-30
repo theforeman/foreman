@@ -30,6 +30,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
+    "@babel/preset-env": "7.9.5",
+    "@babel/plugin-transform-modules-systemjs": "7.9.0",
+    "@babel/plugin-transform-modules-commonjs": "7.9.0",
+    "@babel/plugin-transform-modules-amd": "7.9.0",
     "@theforeman/builder": "^4.0.7",
     "@theforeman/eslint-plugin-foreman": "^4.0.7",
     "@theforeman/stories": "^4.0.7",
