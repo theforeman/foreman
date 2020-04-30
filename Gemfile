@@ -5,16 +5,12 @@ require_relative 'config/boot_settings'
 
 source 'https://rubygems.org'
 
-# rubocop:disable Bundler/DuplicatedGem
 case SETTINGS[:rails]
-when '5.2'
-  gem 'rails', '5.2.1'
 when '6.0'
-  gem 'rails', '6.0.2.1'
+  gem 'rails', '~> 6.0.2.2'
 else
   raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
 end
-# rubocop:enable Bundler/DuplicatedGem
 
 gem 'rest-client', '>= 2.0.0', '< 3', :require => 'rest_client'
 gem 'audited', '>= 4.9.0', '< 5'
@@ -33,7 +29,7 @@ gem 'secure_headers', '~> 6.3'
 gem 'safemode', '>= 1.3.5', '< 2'
 gem 'fast_gettext', '~> 1.4'
 gem 'gettext_i18n_rails', '~> 1.8'
-gem 'rails-i18n', ((SETTINGS[:rails] == '5.2') ? '~> 5.0' : '~> 6.0')
+gem 'rails-i18n', '~> 6.0'
 gem 'i18n', '~> 1.1'
 gem 'logging', '>= 1.8.0', '< 3.0.0'
 gem 'fog-core', '2.1.0'
