@@ -16,7 +16,7 @@ group :development do
 
   gem 'rainbow', '>= 2.2.1'
 
-  gem 'bullet', '>= 5.7.3'
+  gem 'bullet', '>= 6.1.0'
   gem "parallel_tests"
   gem 'spring', '>= 1.0', '< 3'
   gem 'benchmark-ips'
