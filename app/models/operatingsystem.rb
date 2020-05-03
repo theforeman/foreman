@@ -261,7 +261,7 @@ class Operatingsystem < ApplicationRecord
     "Unknown"
   end
 
-  def self.shorten_description(description)
+  def shorten_description(description)
     # This method should be overridden in the OS subclass
     # to handle shortening the specific formats of lsbdistdescription
     # returned by Facter on that OS
