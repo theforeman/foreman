@@ -11,8 +11,8 @@ class PuppetFactParser < FactParser
       args = {:name => os_name, :major => major, :minor => minor}
       os = Operatingsystem.find_or_initialize_by(args)
       if os_name[/debian|ubuntu/i] || os.family == 'Debian'
-        if facts[:lsbdistcodename]
-          os.release_name = facts[:lsbdistcodename]
+        if facts.dig(:os, :distro, :codename).presence || facts[:lsbdistcodename]
+          os.release_name = facts.dig(:os, :distro, :codename).presence || facts[:lsbdistcodename]
         elsif os.release_name.blank?
           os.release_name = 'unknown'
         end
@@ -24,9 +24,10 @@ class PuppetFactParser < FactParser
     if os.description.blank?
       if os_name == 'SLES'
         os.description = os_name + ' ' + orel.gsub('.', ' SP')
-      elsif facts[:lsbdistdescription]
+      elsif facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription]
         family = os.deduce_family || 'Operatingsystem'
-        os.description = family.constantize.shorten_description facts[:lsbdistdescription]
+        os = os.becomes(family.constantize)
+        os.description = os.shorten_description(facts.dig(:os, :distro, :description).presence || facts[:lsbdistdescription])
       end
     end
 
@@ -185,7 +186,7 @@ class PuppetFactParser < FactParser
   end
 
   def os_name
-    os_name = facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
+    os_name = facts.dig(:os, :name).presence || facts[:operatingsystem].presence || raise(::Foreman::Exception.new("invalid facts, missing operating system value"))
 
     if os_name == 'RedHat' && facts[:lsbdistid] == 'RedHatEnterpriseWorkstation'
       os_name += '_Workstation'
@@ -218,9 +219,9 @@ class PuppetFactParser < FactParser
       '1.0'
     when /Debian/i
       return "99" if facts[:lsbdistcodename] =~ /sid/
-      facts[:lsbdistrelease] || facts[:operatingsystemrelease]
+      facts.dig(:os, :release, :full) || facts[:lsbdistrelease] || facts[:operatingsystemrelease]
     else
-      facts[:lsbdistrelease] || facts[:operatingsystemrelease]
+      facts.dig(:os, :release, :full) || facts[:lsbdistrelease] || facts[:operatingsystemrelease]
     end
   end
 end
