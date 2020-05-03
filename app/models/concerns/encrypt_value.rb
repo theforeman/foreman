@@ -11,19 +11,11 @@ module EncryptValue
   end
 
   def is_encryptable?(str)
-    if encryption_key.blank? || str.blank? || matches_prefix?(str)
-      false
-    else
-      true
-    end
+    encryption_key.present? && str.present? && !matches_prefix?(str)
   end
 
   def is_decryptable?(str)
-    if encryption_key.blank? || !matches_prefix?(str)
-      false
-    else
-      true
-    end
+    encryption_key.present? && matches_prefix?(str)
   end
 
   def encrypt_field(str)
