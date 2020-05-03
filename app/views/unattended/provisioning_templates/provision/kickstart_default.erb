@@ -21,7 +21,7 @@ This template accepts the following parameters:
 - enable-puppetlabs-puppet5-repo: boolean (default=false)
 - enable-puppetlabs-puppet6-repo: boolean (default=false)
 - salt_master: string (default=undef)
-- ntp-server: string (default="0.fedora.pool.ntp.org")
+- ntp-server: string (default=undef)
 - bootloader-append: string (default="nofb quiet splash=quiet")
 - disable-firewall: boolean (default=false)
 - package_upgrade: boolean (default=true)
@@ -32,7 +32,11 @@ This template accepts the following parameters:
 Reference links:
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-kickstart2-options
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/installation_guide/sect-kickstart-syntax
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user
 %>
+
+# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
+
 <%
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   is_fedora = @host.operatingsystem.name == 'Fedora'
@@ -49,17 +53,6 @@ https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/in
   section_end = (rhel_compatible && os_major <= 5) ? '' : '%end'
   use_ntp = host_param_true?('use-ntp') || (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 7)
   iface = @host.provision_interface
-  network_options = []
-  if (is_fedora && os_major >= 14 ) || (rhel_compatible && os_major >= 6)
-    network_options.push("--device=#{@host.mac}")
-  end
-
-  if iface.tag.present? && iface.attached_to.present?
-    network_options.push("--vlanid=#{iface.tag}")
-    if (is_fedora && os_major >= 17) || (rhel_compatible && os_major >= 7)
-      network_options.push("--interfacename=vlan#{iface.tag}")
-    end
-  end
 -%>
 
 <% if (is_fedora && os_major < 29) || (rhel_compatible && os_major <= 7) -%>
@@ -82,7 +75,12 @@ liveimg --url=<%= liveimg_url %> <%= proxy_string %>
 <% else %>
 <%= @mediapath %><%= proxy_string %>
 <% @additional_media.each do |medium| -%>
+<% if rhel_compatible && @host.operatingsystem.name.downcase.include?("centos") && os_major >= 8 && medium[:url] && medium[:url].include?("AppStream") -%>
+# renamed from "<%= medium[:url] %>" for CentOS Anaconda to work
+repo --name AppStream --baseurl <%= medium[:url] %>
+<% else -%>
 repo --name <%= medium[:name] %> --baseurl <%= medium[:url] %> <%= medium[:install] ? ' --install' : '' %><%= proxy_string %>
+<% end -%>
 <% end -%>
 <%= snippet_if_exists(template_name + " custom repositories") %>
 <% end %>
@@ -91,14 +89,81 @@ selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing'
 keyboard <%= host_param('keyboard') || 'us' %>
 skipx
 
-<% subnet = @host.subnet -%>
-<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
-<% dhcp = subnet.dhcp_boot_mode? && !@static -%>
-<% else -%>
-<% dhcp = !@static -%>
-<% end -%>
+<%
+  network_options = []
+  nameservers = []
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
 
-network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{subnet.dns_servers.join(',')} --mtu=#{subnet.mtu.to_s}" %> --hostname <%= @host %> <%= network_options.join(' ') %>
+  # device and hostname
+  network_options.push("--device=#{iface.mac || iface.identifier}")
+  network_options.push("--hostname #{@host.name}")
+
+  # single stack
+  if subnet4 && !subnet6
+    network_options.push("--noipv6")
+  elsif !subnet4 && subnet6
+    network_options.push("--noipv4")
+  end
+
+  # dual stack MTU check
+  raise("IPv4 and IPv6 subnets have different MTU") if subnet4 && subnet6 && subnet4.mtu.present? && subnet6.mtu.present? && subnet4.mtu != subnet6.mtu
+
+  # IPv4
+  if (subnet4 && !subnet4.dhcp_boot_mode?) || @static
+    network_options.push("--bootproto static")
+    network_options.push("--ip=#{iface.ip}")
+    network_options.push("--netmask=#{subnet4.mask}")
+    network_options.push("--gateway=#{subnet4.gateway}")
+  elsif subnet4 && subnet4.dhcp_boot_mode?
+    network_options.push("--bootproto dhcp")
+  end
+  if subnet4
+    nameservers.concat(subnet4.dns_servers)
+    network_options.push("--mtu=#{subnet4.mtu}") if subnet4.mtu.present?
+  end
+
+  # IPv6
+  if rhel_compatible && os_major >= 6
+    if (subnet6 && !subnet6.dhcp_boot_mode?) || @static6
+      network_options.push("--ipv6=#{iface.ip6}/#{subnet6.cidr}")
+      network_options.push("--ipv6gateway=#{subnet6.gateway}")
+    elsif subnet6 && subnet6.dhcp_boot_mode?
+      if host_param_true?('use-slaac')
+        network_options.push("--ipv6 auto")
+      else
+        network_options.push("--ipv6 dhcp")
+      end
+    end
+    if subnet6
+      nameservers.concat(subnet6.dns_servers)
+      network_options.push("--mtu=#{subnet6.mtu}") if subnet6.mtu.present?
+    end
+  end
+
+  # bond
+  if iface.bond? && rhel_compatible && os_major >= 6
+    network_options.push("--bondslaves=#{iface.attached_devices_identifiers}")
+    network_options.push("--bondopts=mode=#{iface.mode};#{iface.bond_options.tr(' ', ';')}")
+  end
+
+  # VLAN (only on physical is recognized)
+  if iface.virtual? && iface.tag.present? && iface.attached_to.present?
+    if rhel_compatible && os_major >= 6
+      network_options.push("--vlanid=#{iface.tag}")
+    elsif rhel_compatible && os_major >= 7
+      network_options.push("--interfacename=vlan#{iface.tag}")
+    end
+  end
+
+  # DNS
+  if nameservers.size > 0
+    network_options.push("--nameserver=#{nameservers.join(',')}")
+  else
+    network_options.push("--nodns")
+  end
+-%>
+network <%= network_options.join(' ') %>
 
 rootpw --iscrypted <%= root_pass %>
 <% if host_param_true?('disable-firewall') -%>
@@ -148,11 +213,7 @@ key --skip
 <% end -%>
 
 text
-<% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>
-reboot --eject
-<% else -%>
 reboot
-<% end -%>
 
 %packages
 <%= snippet_if_exists(template_name + " custom packages") %>
@@ -206,22 +267,11 @@ exec < /dev/tty3 > /dev/tty3
 #changing to VT 3 so that we can see whats going on....
 /usr/bin/chvt 3
 <%= snippet_if_exists(template_name + " custom post") %>
-<% if subnet.respond_to?(:dhcp_boot_mode?) || @host.subnet6.respond_to?(:dhcp_boot_mode?) -%>
 <%= snippet 'kickstart_networking_setup' %>
-<% end -%>
 
-echo "Updating system time"
-<% if use_ntp -%>
-/usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
-<% else -%>
-/usr/bin/chronyc makestep
-<% end -%>
-/usr/sbin/hwclock --systohc
+<%= snippet 'ntp' %>
 
-<% if proxy_uri -%>
-# Yum proxy
-echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
-<% end -%>
+<%= snippet 'yum_proxy' %>
 
 <% if rhel_compatible && !host_param_false?('enable-epel') -%>
 <%= snippet 'epel' -%>
@@ -282,6 +332,11 @@ The last post section halts Anaconda to prevent endless loop
 <% else -%>
 %post --erroronfail
 <% end -%>
+
+<% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>
+eject -v
+<% end -%>
+
 if test -f /tmp/foreman_built; then
   echo "calling home: build is done!"
   <%= indent(2, skip1: true) { snippet('built', :variables => { :endpoint => 'built', :method => 'POST', :body_file => '/mnt/sysimage/root/install.post.log' }) } -%>
@@ -292,4 +347,3 @@ fi
 
 sync
 <%= section_end -%>
-

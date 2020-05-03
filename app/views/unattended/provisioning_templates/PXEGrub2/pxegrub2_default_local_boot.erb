@@ -9,6 +9,5 @@ set default=<%= global_setting("default_pxe_item_local", "local") %>
 set timeout=20
 echo Default PXE local template entry is set to '<%= global_setting("default_pxe_item_local", "local") %>'
 
-<%= snippet "pxegrub2_mac" %>
 <%= snippet "pxegrub2_chainload" %>
 <%= snippet "pxegrub2_discovery" %>

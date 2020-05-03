@@ -201,6 +201,10 @@ cp /etc/resolv.conf /mnt/etc
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
+<% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>
+eject -v
+<% end -%>
+
 <%= snippet 'built' %>
 
 rm /etc/resolv.conf

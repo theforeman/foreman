@@ -8,79 +8,10 @@ oses:
 - RedHat
 -%>
 # This file was deployed via '<%= template_name %>' template
-
 <%
-  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
-  is_fedora = @host.operatingsystem.name == 'Fedora'
-  os_major = @host.operatingsystem.major.to_i
-  os_minor = @host.operatingsystem.minor.to_i
-  major = @host.operatingsystem.major.to_i
-  iface = @host.provision_interface
-  mac = @host.provision_interface.mac
-
-  # Tell Anaconda to perform network functions with boot interface
-  #  both current and legacy syntax provided
-  options = ["network", "ksdevice=bootif", "ks.device=bootif"]
-  if mac
-    bootif = '00-' + mac.gsub(':', '-')
-    options.push("BOOTIF=#{bootif}")
-  end
-
-  # Tell Anaconda what to pass off to kickstart server
-  #  both current and legacy syntax provided
-  options.push("kssendmac", "ks.sendmac", "inst.ks.sendmac")
-
-  # handle non-DHCP environments (e.g. bootdisk)
-  subnet = @host.provision_interface.subnet
-  unless subnet.dhcp_boot_mode?
-    # static network configuration
-    ip = @host.provision_interface.ip
-    mask = subnet.mask
-    gw = subnet.gateway
-    hostname = @host.name
-    iface = @host.provision_interface
-    if (@host.operatingsystem.name.match(/Fedora/i) && major < 17) || major < 7
-      # old Anacoda found in Fedora 16 or RHEL 6 and older
-      dns_servers = subnet.dns_servers.join(',')
-      options.push("ip=#{ip}", "netmask=#{mask}", "gateway=#{gw}", "dns=#{dns_servers}")
-    else
-      options.push("ip=#{ip}::#{gw}:#{mask}:#{hostname}:#{iface.identifier}:none")
-      subnet.dns_servers.each { |server|
-        options.push("nameserver=#{server}")
-      }
-    end
-  end
-
-  if iface.tag.present? && iface.attached_to.present?
-    if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
-      options.push("vlanid=#{iface.tag}")
-    else
-      options.push("vlan=vlan#{iface.tag}:#{iface.attached_to}")
-    end
-  end
-
-  if subnet.nic_delay.present?
-    options.push("linksleep=#{subnet.nic_delay}")
-  end
-
-  # optional repository for Atomic
-  if @host.operatingsystem.name.match(/Atomic/i)
-    options.push("inst.repo=#{medium_uri}")
-  end
-
-  if @host.operatingsystem.name.match(/Atomic/i) || host_param('kickstart_liveimg')
-    options.push("inst.stage2=#{medium_uri}")
-  end
-
-  if !is_fedora && os_major >= 7 && host_param_true?('fips_enabled')
-    options.push('fips=1')
-  end
-
-  ksoptions = options.join(' ')
   timeout = host_param('loader_timeout').to_i * 10
   timeout = 100 if timeout.nil? || timeout <= 0
 -%>
-
 DEFAULT menu
 MENU TITLE Booting into OS installer (ESC to stop)
 TIMEOUT <%= timeout %>
@@ -89,7 +20,7 @@ ONTIMEOUT installer
 LABEL installer
   MENU LABEL <%= template_name %>
   KERNEL <%= @kernel %>
-  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= ksoptions %>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
   IPAPPEND 2
 
 <%= snippet_if_exists(template_name + " custom menu") %>

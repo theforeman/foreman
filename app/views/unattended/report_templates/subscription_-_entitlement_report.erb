@@ -1,0 +1,54 @@
+<%#
+name: Subscription - Entitlement Report
+snippet: false
+model: ReportTemplate
+template_inputs:
+- name: Days from Now
+  required: true
+  input_type: user
+  description: "Show subscriptions expiring in <= this many days.  Select 'no limit' to show all entitlements."
+  advanced: false
+  value_type: plain
+  options: "no limit\r\n7\r\n30\r\n60\r\n90\r\n120\r\n180"
+require:
+- plugin: katello
+  version: 3.16.0
+-%>
+<%- days_from_now = input('Days from Now') -%>
+<%- days_from_now = "" if days_from_now == 'no limit' -%>
+<%- should_filter = days_from_now.present? -%>
+<%- report_headers 'Host Name', 'Organization', 'Lifecycle Environment', 'Content View', 'Host Collections', 'Virtual', 'Guest of Host', 'OS', 'Arch', 'Sockets', 'RAM', 'Cores', 'SLA', 'Products', 'Subscription Name', 'Subscription Type', 'Subscription Quantity', 'Subscriptions Consumed', 'Subscription SKU', 'Subscription Contract', 'Subscription Account', 'Subscription Start', 'Subscription End', 'Subscription Guest', 'Days Remaining' -%>
+<%- load_hosts(includes: [:lifecycle_environment, :operatingsystem, :architecture, :content_view, :organization, :reported_data, :subscription_facet, :pools => [:subscription]], -%>
+<%-   search: should_filter && "pools_expiring_in_days = #{days_from_now}" -%>
+<%- ).each_record do |host| -%>
+<%-   host.pools.expiring_in_days(days_from_now).sort_by { |p| p.end_date }.each do |pool| -%>
+<%-     report_row(
+          'Host Name': host.name,
+          'Organization': host.organization,
+          'Lifecycle Environment': host.lifecycle_environment,
+          'Content View': host.content_view,
+          'Host Collections': host_collections_names(host),
+          'Virtual': host.virtual,
+          'Guest of Host': host.hypervisor_host,
+          'OS': host.operatingsystem,
+          'Arch': host.architecture,
+          'Sockets': host.sockets,
+          'RAM': host.ram,
+          'Cores': host.cores,
+          'SLA': host_sla(host),
+          'Products': host_products_names(host),
+          'Subscription Name': sub_name(pool),
+          'Subscription Type': pool.type,
+          'Subscription Quantity': pool.quantity,
+          'Subscriptions Consumed': pool.consumed,
+          'Subscription SKU': sub_sku(pool),
+          'Subscription Contract': pool.contract_number,
+          'Subscription Account': pool.account_number,
+          'Subscription Start': pool.start_date,
+          'Subscription End': pool.end_date,
+          'Subscription Guest': registered_through(host),
+          'Days Remaining': pool.days_until_expiration
+          ) -%>
+<%-   end -%>
+<%- end -%>
+<%= report_render -%>

@@ -1,16 +1,16 @@
 # This file was deployed via 'Kickstart default PXEGrub2' template
 
-
 set default=0
 set timeout=10
 
 menuentry 'Kickstart default PXEGrub2' {
-  linuxefi  ks=http://foreman.some.host.fqdn/unattended/provision  network ksdevice=bootif ks.device=bootif BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac BOOTIF=01-$net_default_mac
+  linuxefi  ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac BOOTIF=01-$net_default_mac
   initrdefi 
 }
 
+# Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561
 menuentry 'Kickstart default PXEGrub2 HTTP Boot' {
-  linuxefi /httpboot/ ks=http://foreman.some.host.fqdn/unattended/provision  network ksdevice=bootif ks.device=bootif BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac BOOTIF=01-$net_default_mac
+  linuxefi /httpboot/ ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac BOOTIF=01-$net_default_mac
   initrdefi /httpboot/
 }
 

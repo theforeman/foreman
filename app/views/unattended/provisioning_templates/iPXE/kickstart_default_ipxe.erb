@@ -9,47 +9,19 @@ oses:
 - RedHat
 %>
 <%
-  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
-  is_fedora = @host.operatingsystem.name == 'Fedora'
-  os_major = @host.operatingsystem.major.to_i
-  os_minor = @host.operatingsystem.minor.to_i
-  major = @host.operatingsystem.major.to_i
   iface = @host.provision_interface
-  mac = @host.provision_interface.mac
-  hostname = @host.name
-  subnet = @host.subnet
-  options = []
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
 
-  if subnet.respond_to?(:dhcp_boot_mode?) && subnet.dhcp_boot_mode?
-    static = ''
+  if subnet4 && !subnet4.dhcp_boot_mode?
+    ks = foreman_url('provision', static: '1')
+  elsif subnet6 && !subnet6.dhcp_boot_mode?
+    ks = foreman_url('provision', static6: '1')
   else
-    static_arg = 'static=yes'
-    static = (@host.token.nil? ? '?' : '&') + static_arg
-  end
-
-  options.push("linksleep=#{subnet.nic_delay}") if subnet.nic_delay.present?
-
-  stage2 = host_param('kickstart_liveimg') ? 'inst.stage2=' + medium_uri : ''
-
-  if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
-    options.push('ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}')
-  else
-    options.push("ip=${netX/ip}::${netX/gateway}:${netX/netmask}:#{hostname}:#{iface.identifier}:none nameserver=${dns}")
-  end
-
-  if iface.tag.present? && iface.attached_to.present?
-    if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
-      options.push("vlanid=#{iface.tag}")
-    else
-      options.push("vlan=vlan#{iface.tag}:#{iface.attached_to}")
-    end
-  end
-
-  if !is_fedora && os_major >= 7 && host_param_true?('fips_enabled')
-    options.push('fips=1')
+    ks = foreman_url('provision')
   end
 -%>
-kernel <%= "#{@host.url_for_boot(:kernel)}" %> initrd=initrd.img ks=<%= foreman_url('provision')%><%= static %> inst.stage2=<%= medium_uri %> <%= stage2 %> ksdevice=<%= mac %> network kssendmac ks.sendmac inst.ks.sendmac <%= options.join(' ') %>
+kernel <%= "#{@host.url_for_boot(:kernel)}" %> initrd=initrd.img ks=<%= ks %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options", variables: {ipxe_net: true}).strip %>
 initrd <%= "#{@host.url_for_boot(:initrd)}" %>
 imgstat
 sleep 2

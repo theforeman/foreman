@@ -12,10 +12,11 @@ oses:
   salt_enabled = host_param('salt_master') ? true : false
   os_major = @host.operatingsystem.major.to_i
   squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
+  python_package = (@host.operatingsystem.name == 'Ubuntu' && os_major >= 20) ? 'python3' : 'python'
 
   additional_packages = ['lsb-release', 'wget']
   additional_packages << host_param('additional-packages')
-  additional_packages << 'python' if ansible_enabled
+  additional_packages << python_package if ansible_enabled
   additional_packages << 'salt-minion' if salt_enabled
   additional_packages = additional_packages.join(" ").split().uniq().join(" ")
 %>

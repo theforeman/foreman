@@ -1,6 +1,4 @@
 # This file was deployed via 'Kickstart default PXELinux' template
-
-
 DEFAULT menu
 MENU TITLE Booting into OS installer (ESC to stop)
 TIMEOUT 100
@@ -9,7 +7,7 @@ ONTIMEOUT installer
 LABEL installer
   MENU LABEL Kickstart default PXELinux
   KERNEL 
-  APPEND initrd= ks=http://foreman.some.host.fqdn/unattended/provision  network ksdevice=bootif ks.device=bootif BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac
+  APPEND initrd= ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac
   IPAPPEND 2
 
 

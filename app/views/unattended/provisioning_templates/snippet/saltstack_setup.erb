@@ -16,7 +16,11 @@ apt-get install -y salt-minion
 <% elsif @host.operatingsystem.family == 'Freebsd' -%>
 pkg install -y py27-salt
 <% elsif @host.operatingsystem.family == 'Redhat' -%>
-yum -t -y install salt-minion
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install salt-minion
+else
+  yum -t -y install salt-minion
+fi
 <% end -%>
 
 cat > <%= etc_path %>/minion << EOF

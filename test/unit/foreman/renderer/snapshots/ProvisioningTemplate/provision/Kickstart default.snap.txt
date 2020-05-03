@@ -1,6 +1,9 @@
 
 
 
+# This kickstart file was rendered from the Foreman provisioning template "Kickstart default".
+
+
 
 
 
@@ -10,8 +13,7 @@ selinux --enforcing
 keyboard us
 skipx
 
-
-network --bootproto dhcp --hostname snapshothost 
+network --device=00-f0-54-1a-7e-e0 --hostname snapshothost --noipv6 --bootproto dhcp --mtu=1500 --nodns
 
 rootpw --iscrypted xybxa6JUkz63w
 firewall --service=ssh
@@ -61,9 +63,18 @@ exec < /dev/tty3 > /dev/tty3
 
 
 
+
+
+
+
 echo "Updating system time"
-/usr/bin/chronyc makestep
+systemctl enable --now chronyd
+/usr/bin/chronyc -a makestep
 /usr/sbin/hwclock --systohc
+
+
+
+
 
 
 
@@ -128,6 +139,8 @@ touch /tmp/foreman_built
 %end
 
 %post --erroronfail
+
+
 if test -f /tmp/foreman_built; then
   echo "calling home: build is done!"
   if [ -x /usr/bin/curl ]; then

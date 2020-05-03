@@ -23,6 +23,7 @@ rsync -r \
   --exclude test \
   --exclude Rakefile \
   --exclude Gemfile \
+  --exclude LICENSE \
   --exclude 'job_templates/' \
   $REPO/ct/ ./
 
