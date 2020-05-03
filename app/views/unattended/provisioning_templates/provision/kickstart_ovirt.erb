@@ -36,6 +36,8 @@ view the host is assigned to. It's also possible to provide full url,
 in which case it would be used without a change.
 %>
 
+# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
+
 install
 <%
 liveimg_name = host_param('liveimg_name') || 'squashfs.img'

@@ -10,7 +10,6 @@ oses:
   rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
   # safemode renderer does not support unary negation
   pm_set = @host.puppetmaster.empty? ? false : true
-  proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
   puppet_enabled = pm_set || host_param_true?('force-puppet')
   salt_enabled = host_param('salt_master') ? true : false
   chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
@@ -25,16 +24,9 @@ oses:
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
 <% end -%>
 
-<% if proxy_uri -%>
-# Yum proxy
-echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
-<% end -%>
+<%= snippet 'yum_proxy' %>
 
-#update local time
-echo "updating system time"
-yum -y install ntpdate
-/usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
-/usr/sbin/hwclock --systohc
+<%= snippet 'ntp' %>
 
 <% if rhel_compatible && !host_param_false?('enable-epel') -%>
 <%= snippet 'epel' -%>

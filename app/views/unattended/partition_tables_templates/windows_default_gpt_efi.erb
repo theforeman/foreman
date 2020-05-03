@@ -1,0 +1,37 @@
+<%#
+name: Windows default GPT EFI partition table
+model: Ptable
+oses:
+- Windows
+%>
+:: Disk Partitioning Layout
+
+set DPFILE=%SYSTEMDRIVE%\dp.txt
+
+:: Append commands to Diskpart file
+echo select disk 0 > %DPFILE%
+echo clean >> %DPFILE%
+echo convert gpt >> %DPFILE%
+echo create partition EFI size=100 >> %DPFILE%
+echo select partition 1 >> %DPFILE%
+echo format quick fs=fat32 label="System" >> %DPFILE%
+echo set id="c12a7328-f81f-11d2-ba4b-00a0c93ec93b" >> %DPFILE%
+echo assign letter="K" >> %DPFILE%
+echo create partition msr size=128 >> %DPFILE%
+echo create partition primary >> %DPFILE%
+echo select partition 3 >> %DPFILE%
+echo shrink minimum=450 >> %DPFILE%
+echo format quick fs=ntfs label="<%= @host.operatingsystem.family -%>" >> %DPFILE%
+echo select partition 3 >> %DPFILE%
+echo assign letter="C" >> %DPFILE%
+echo create partition primary >> %DPFILE%
+echo format quick fs=ntfs label="WinRE" >> %DPFILE%
+echo set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac" >> %DPFILE%
+echo gpt attributes=0x8000000000000001 >> %DPFILE%
+echo exit >> %DPFILE%
+
+:: Execute Diskpart with file as script argument
+diskpart /s %DPFILE%
+
+:: Remove Diskpart script file
+del %DPFILE%

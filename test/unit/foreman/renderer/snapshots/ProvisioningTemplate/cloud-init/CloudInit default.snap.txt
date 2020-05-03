@@ -1,3 +1,4 @@
+
 #cloud-config
 hostname: snapshothost
 fqdn: snapshothost
@@ -6,12 +7,72 @@ users: {}
 runcmd:
 - |
   
+  echo "" > /etc/hostname
+  
+  hostname 
+  
+  cat > /etc/hosts << EOF
+  127.0.0.1   snapshothost  localhost localhost.localdomain
+  ::1     ip6-localhost ip6-loopback
+  fe00::0 ip6-localnet
+  ff00::0 ip6-mcastprefix
+  ff02::1 ip6-allnodes
+  ff02::2 ip6-allrouters
+  EOF
+- |
+  
+  
+- |
+  
+  
+  
+  
+  echo "Updating system time"
+  systemctl enable --now chronyd
+  /usr/bin/chronyc -a makestep
+  /usr/sbin/hwclock --systohc
+- |
+- |
   
   
   
   
   
   
+  
+- |
+- |
+  
+  # SSH keys setup snippet for Remote Execution plugin
+  #
+  # Parameters:
+  #
+  # remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
+  #
+  # remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
+  #                            authorized
+  #
+  # remote_execution_create_user: create user if it not already existing
+  #
+  # remote_execution_effective_user_method: method to switch from ssh user to
+  #                                         effective user
+  #
+  # This template sets up SSH keys in any host so that as long as your public
+  # SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+  # works in combination with Remote Execution plugin by querying smart proxies
+  # to build an array.
+  #
+  # To use this snippet without the plugin provide the SSH keys as host parameter
+  # remote_execution_ssh_keys. It expects the same format like the authorized_keys
+  # file.
+  
+  
+  
+
+- |
+  
+
+- |
 - |
 phone_home:
   url: http://foreman.some.host.fqdn/unattended/built

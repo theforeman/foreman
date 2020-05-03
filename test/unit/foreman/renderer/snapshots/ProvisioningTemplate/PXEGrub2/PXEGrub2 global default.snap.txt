@@ -130,7 +130,7 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
   fi
   echo Partition with known EFI file not found, you may want to drop to grub shell
   echo and investigate available files updating 'pxegrub2_chainload' template and
-  echo the list of known filepaths for probing. Contents of \EFI directory:
+  echo the list of known filepaths for probing. Contents of /EFI directory:
   ls ($chroot)/EFI
   echo The system will halt in 2 minutes or press ESC to halt immediately.
   sleep -i 120
@@ -149,26 +149,28 @@ menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_legac
   boot
 }
 
+common="rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac"
 
-menuentry 'Foreman Discovery Image httpboot efi' --id discoveryefihttpboot {
-  linuxefi /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
-  initrdefi /httpboot/boot/fdi-image/initrd0.img
-}
-
-menuentry 'Foreman Discovery Image  efi' --id discoveryefi {
-  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
-  initrdefi boot/fdi-image/initrd0.img
-}
-
-menuentry 'Foreman Discovery Image httpboot ' --id discoveryhttpboot {
-  linux /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
-  initrd /httpboot/boot/fdi-image/initrd0.img
-}
-
-menuentry 'Foreman Discovery Image  ' --id discovery {
-  linux boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
-  initrd boot/fdi-image/initrd0.img
-}
-
+if [ ${grub_platform} == "pc" ]; then
+  menuentry 'Foreman Discovery Image' --id discovery {
+    linux boot/fdi-image/vmlinuz0 ${common}
+    initrd boot/fdi-image/initrd0.img
+  }
+  # HTTP Boot workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561
+  menuentry 'Foreman Discovery Image HTTP' --id discovery_http {
+    linux /EFI/BOOT/boot/fdi-image/vmlinuz0 ${common}
+    initrd /EFI/BOOT/boot/fdi-image/initrd0.img
+  }
+else
+  menuentry 'Foreman Discovery Image EFI' --id discovery {
+    linuxefi boot/fdi-image/vmlinuz0 ${common}
+    initrdefi boot/fdi-image/initrd0.img
+  }
+  # HTTP Boot workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561
+  menuentry 'Foreman Discovery Image EFI HTTP' --id discovery_http {
+    linuxefi /EFI/BOOT/boot/fdi-image/vmlinuz0 ${common}
+    initrdefi /EFI/BOOT/boot/fdi-image/initrd0.img
+  }
+fi
 
 

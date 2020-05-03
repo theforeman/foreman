@@ -18,11 +18,18 @@ EOF
 
 
 
-#update local time
-echo "updating system time"
-yum -y install ntpdate
-/usr/sbin/ntpdate -sub 0.fedora.pool.ntp.org
+
+
+
+
+
+
+
+echo "Updating system time"
+systemctl enable --now chronyd
+/usr/bin/chronyc -a makestep
 /usr/sbin/hwclock --systohc
+
 
 
 

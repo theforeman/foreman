@@ -5,6 +5,7 @@ snippet: true
 model: ProvisioningTemplate
 kind: snippet
 -%>
+<%- primary = @interface.primary ? 'yes' : 'no' -%>
 BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
 <%- unless @dhcp || @subnet.nil? -%>
 <%-   if @interface.ip.present? -%>
@@ -17,12 +18,14 @@ BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
 <%- end -%>
 <%- if @interface.ip6.present? -%>
 <%=   "IPV6INIT=yes" %>
-<%=   "IPV6_AUTOCONF=no" %>
+<%=   "IPV6_AUTOCONF=#{host_param_true?('use-slaac') ? 'yes' : 'no'}" %>
 <%=   "IPV6ADDR=#{@interface.ip6}" %>
 <%-   if !@subnet6.nil? && @subnet6.gateway.present? -%>
 <%=     "IPV6_DEFAULTGW=#{@subnet6.gateway}" %><%= '%$real' if @subnet6.gateway.match(/^fe80:/) %>
 <%-   end -%>
-<%=   "IPV6_PEERDNS=no" %>
+<%=   "IPV6_PEERDNS=#{primary}" %>
+<%=   "IPV6_PEERROUTES=#{primary}" %>
+<%=   "IPV6_DEFROUTE=#{primary}" %>
 <%- end -%>
 <%- if @interface.domain -%>
 DOMAIN="<%= @interface.domain %>"
@@ -32,7 +35,6 @@ DEVICE=$real
 <%=   "HWADDR=\"#{@interface.mac}\"" %>
 <%- end -%>
 ONBOOT=yes
-<%- primary = @interface.primary ? 'yes' : 'no' -%>
 PEERDNS=<%= primary %>
 PEERROUTES=<%= primary %>
 DEFROUTE=<%= primary %>
@@ -40,6 +42,10 @@ DEFROUTE=<%= primary %>
 <%-   if !@dhcp && @subnet -%>
 <%-     @subnet.dns_servers.each_index do |index| -%>
 <%=       "DNS#{index +1}=\"#{@subnet.dns_servers[index]}\"" %>
+<%-     end -%>
+<%-   elsif !@dhcp && @subnet6 -%>
+<%-     @subnet6.dns_servers.each_index do |index| -%>
+<%=       "DNS#{index +1}=\"#{@subnet6.dns_servers[index]}\"" %>
 <%-     end -%>
 <%-   end -%>
 <%- end -%>

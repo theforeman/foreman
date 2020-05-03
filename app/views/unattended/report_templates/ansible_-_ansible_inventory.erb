@@ -1,0 +1,175 @@
+<%#
+name: Ansible - Ansible Inventory
+description: This template has a special meaning and should not be renamed.
+snippet: false
+template_inputs:
+- name: Organization
+  required: true
+  input_type: user
+  description: Whether should be Organization included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Location
+  required: true
+  input_type: user
+  description: Whether should be Location included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Host Group
+  required: true
+  input_type: user
+  description: Whether should be Host Group included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Host Collections
+  required: true
+  input_type: user
+  description: Whether should be Host Collections included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Host Parameters
+  required: true
+  input_type: user
+  description: Whether should be Host Parameters included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: IPv4
+  required: true
+  input_type: user
+  description: Whether should be IPv4 included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: IPv6
+  required: true
+  input_type: user
+  description: Whether should be IPv6 included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: Subnet
+  required: true
+  input_type: user
+  description: Whether should be Subnet included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Subnet v6
+  required: true
+  input_type: user
+  description: Whether should be Subnet v6 included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: Smart Proxies
+  required: true
+  input_type: user
+  description: Whether should be Smart Proxies included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "yes"
+- name: Content Attributes
+  required: true
+  input_type: user
+  description: Whether should be Content Attributes included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: Facts
+  required: true
+  input_type: user
+  description: Whether should be Facts included.
+  advanced: false
+  value_type: plain
+  options: "yes\r\nno"
+  default: "no"
+- name: Hosts
+  required: false
+  input_type: user
+  description: Limit the report only on hosts found by this search query. Keep
+    empty for report on all available hosts.
+  advanced: false
+  value_type: search
+  resource_type: Host
+model: ReportTemplate
+require:
+- plugin: foreman_ansible
+  version: '3.1.0'
+- plugin: katello
+  version: '3.9.0'
+-%>
+<%- report_headers 'id', 'name' -%>
+<%- content_attrs = input('Content Attributes') == 'yes' %>
+<%- interface_includes = [:subnet] %>
+<%- interface_includes.push(:domain) if input('Host Parameters') == 'yes' %>
+<%- includes = [:organization, :location, :hostgroup, :host_collections, { interfaces: interface_includes }, :content_facet] %>
+<%- includes.push(:operatingsystem) if input('Host Parameters') == 'yes' %>
+<%- load_hosts(search: input('Hosts'), includes: includes).each_record do |host| -%>
+<%-   content_facet = host_content_facet(host) if content_attrs -%>
+<%-   content_attribute_data = nil -%>
+<%-   if content_facet -%>
+<%-     content_attribute_data = {
+          'applicable_module_stream_count': content_facet.applicable_module_stream_count,
+          'applicable_package_count': content_facet.applicable_rpm_count,
+          'content_source': content_facet.content_source,
+          'content_source_id': content_facet.content_source_id,
+          'content_source_name': content_facet.content_source_name,
+          'content_view': {
+              'id': content_facet.content_view_id,
+              'name': content_facet.content_view_name,
+          },
+          'content_view_id': content_facet.content_view_id,
+          'content_view_name': content_facet.content_view_name,
+          'errata_counts': content_facet.errata_counts,
+          'id': content_facet.id,
+          'kickstart_repository': content_facet.kickstart_repository,
+          'kickstart_repository_id': content_facet.kickstart_repository_id,
+          'kickstart_repository_name': content_facet.kickstart_repository_name,
+          'lifecycle_environment': {
+              'id': content_facet.lifecycle_environment_id,
+              'name': content_facet.lifecycle_environment_name,
+          },
+          'lifecycle_environment_id': content_facet.lifecycle_environment_id,
+          'lifecycle_environment_name': content_facet.lifecycle_environment_name,
+          'upgradable_module_stream_count': content_facet.upgradable_module_stream_count,
+          'upgradable_package_count': content_facet.upgradable_rpm_count,
+          'uuid': content_facet.uuid,
+}
+-%>
+<%-   end -%>
+<%-   inventory_data = { 'id': host.id, 'name': host.name }
+      inventory_data.update('organization': host.organization) if input('Organization') == 'yes'
+      inventory_data.update('location': host.location) if input('Location') == 'yes'
+      hostgroup = host.hostgroup.title if host.hostgroup
+      inventory_data.update('host_group': hostgroup) if input('Host Group') == 'yes'
+      host_collections = host.host_collections.map { |c| c.name } if host.host_collections
+      inventory_data.update('host_collections': host_collections) if input('Host Collections') == 'yes'
+      inventory_data.update('host_parameters': host.params) if input('Host Parameters') == 'yes'
+      inventory_data.update('ipv4': host.ip) if input('IPv4') == 'yes'
+      inventory_data.update('ipv6': host.ip6) if input('IPv6') == 'yes'
+      inventory_data.update('subnet': host.subnet) if input('Subnet') == 'yes'
+      inventory_data.update('subnet6': host.subnet6) if input('Subnet v6') == 'yes'
+      smart_proxies = host.smart_proxies.map { |p| p.name } if host.smart_proxies
+      inventory_data.update('smart_proxies': smart_proxies) if input('Smart Proxies') == 'yes'
+      inventory_data.update('content_attributes': content_attribute_data) if content_attrs
+      inventory_data.update('facts': host.facts) if input('Facts') == 'yes'
+      report_row(inventory_data)
+-%>
+<%- end -%>
+<%= report_render -%>
