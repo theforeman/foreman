@@ -29,6 +29,7 @@ import * as spice from './spice';
 import * as autocomplete from './foreman_autocomplete';
 import * as typeAheadSelect from './foreman_type_ahead_select';
 import './bundle_novnc';
+import * as channels from './foreman_channels';
 
 // Set the public path for dynamic imports
 if (process.env.NODE_ENV !== 'production') {
@@ -64,4 +65,5 @@ window.tfm = Object.assign(window.tfm || {}, {
   store,
   autocomplete,
   typeAheadSelect,
+  channels,
 });

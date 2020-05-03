@@ -5,15 +5,18 @@ class NotificationRecipientsController < Api::V2::BaseController
 
   def index
     payload = UINotifications::CacheHandler.new(User.current.id).payload
+    redux_action(notification_action(payload))
     render :json => payload
   end
 
   def update
-    process_response @notification_recipient.update(notification_recipient_params)
+    process_response @notification_recipient.update(notification_recipient_params),
+      redux_action(notification_action(UINotifications::CacheHandler.new(User.current.id).payload))
   end
 
   def destroy
-    process_response @notification_recipient.destroy
+    process_response @notification_recipient.destroy,
+      redux_action(notification_action(UINotifications::CacheHandler.new(User.current.id).payload))
   end
 
   def update_group_as_read
@@ -24,8 +27,9 @@ class NotificationRecipientsController < Api::V2::BaseController
       update_all(seen: true)
 
     logger.debug("updated #{count} notification recipents as seen for group #{params[:group]}")
-    UINotifications::CacheHandler.new(User.current.id).clear unless count.zero?
-
+    ui_notifications = UINotifications::CacheHandler.new(User.current.id)
+    ui_notifications.clear unless count.zero?
+    redux_action(notification_action(ui_notifications.payload))
     head (count.zero? ? :not_modified : :ok)
   end
 
@@ -37,8 +41,9 @@ class NotificationRecipientsController < Api::V2::BaseController
       delete_all
 
     logger.debug("deleted #{count} notification recipents for group #{params[:group]}")
-    UINotifications::CacheHandler.new(User.current.id).clear unless count.zero?
-
+    ui_notifications = UINotifications::CacheHandler.new(User.current.id)
+    ui_notifications.clear unless count.zero?
+    redux_action(notification_action(ui_notifications.payload))
     head (count.zero? ? :not_modified : :ok)
   end
 
@@ -47,5 +52,9 @@ class NotificationRecipientsController < Api::V2::BaseController
   def find_resource
     super
     @notification_recipient.current_user? || not_found
+  end
+
+  def notification_action(payload)
+    { type: 'SERVER_NOTIFICATIONS', payload: JSON.parse(payload) }
   end
 end

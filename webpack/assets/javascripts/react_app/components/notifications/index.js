@@ -12,16 +12,15 @@ import { noop, translateObject } from '../../common/helpers';
 
 import './notifications.scss';
 import ToggleIcon from './ToggleIcon/ToggleIcon';
-import { reloadPage } from '../../../foreman_navigation';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
     const {
-      startNotificationsPolling,
+      getNotifications,
       data: { url },
     } = this.props;
 
-    startNotificationsPolling(url);
+    getNotifications(url);
   }
 
   handleClickOutside() {
@@ -30,22 +29,6 @@ class notificationContainer extends React.Component {
     if (isReady && isDrawerOpen) {
       toggleDrawer();
     }
-  }
-
-  componentDidUpdate() {
-    const { error, stopNotificationsPolling } = this.props;
-    if (error) {
-      const { response: { status } = {} } = error;
-      stopNotificationsPolling();
-      if (status === 401) {
-        reloadPage();
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    const { stopNotificationsPolling } = this.props;
-    stopNotificationsPolling();
   }
 
   render() {
@@ -109,14 +92,13 @@ notificationContainer.propTypes = {
   expandedGroup: PropTypes.string,
   hasUnreadMessages: PropTypes.bool,
   clickedLink: PropTypes.func,
-  startNotificationsPolling: PropTypes.func,
+  getNotifications: PropTypes.func,
   toggleDrawer: PropTypes.func,
   expandGroup: PropTypes.func,
   markAsRead: PropTypes.func,
   markGroupAsRead: PropTypes.func,
   clearNotification: PropTypes.func,
   clearGroup: PropTypes.func,
-  stopNotificationsPolling: PropTypes.func,
   translations: PropTypes.shape({
     title: PropTypes.string,
     unreadEvent: PropTypes.string,
@@ -126,13 +108,6 @@ notificationContainer.propTypes = {
     clearAll: PropTypes.string,
     deleteNotification: PropTypes.string,
   }),
-  error: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      message: PropTypes.string,
-      response: PropTypes.object,
-    }),
-  ]),
 };
 
 notificationContainer.defaultProps = {
@@ -142,15 +117,13 @@ notificationContainer.defaultProps = {
   expandedGroup: null,
   hasUnreadMessages: false,
   clickedLink: noop,
-  startNotificationsPolling: noop,
+  getNotifications: noop,
   toggleDrawer: noop,
   expandGroup: noop,
   markAsRead: noop,
   markGroupAsRead: noop,
   clearNotification: noop,
   clearGroup: noop,
-  stopNotificationsPolling: noop,
-  error: null,
   translations: NotificationDrawerPanelWrapper.defaultProps.translations,
 };
 
@@ -160,7 +133,6 @@ const mapStateToProps = state => {
     isDrawerOpen,
     expandedGroup,
     hasUnreadMessages,
-    error,
   } = state.notifications;
 
   return {
@@ -169,7 +141,6 @@ const mapStateToProps = state => {
     expandedGroup,
     isReady: !!notifications,
     hasUnreadMessages,
-    error,
   };
 };
 

@@ -20,6 +20,7 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
+    "@rails/actioncable": "^6.0.0",
     "@theforeman/vendor": "^4.0.7",
     "intl": "~1.2.5",
     "jed": "^1.1.1",

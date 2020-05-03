@@ -165,6 +165,10 @@ module Api
         # re-enable json root element
         ActiveRecord::Base.include_root_in_json = true
       end
+
+      def redux_action(action)
+        ActionCable.server.broadcast 'redux_channel', action: action
+      end
     end
   end
 end
