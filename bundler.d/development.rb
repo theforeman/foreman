@@ -19,7 +19,7 @@ group :development do
   gem 'bullet', '>= 6.1.0'
   gem "parallel_tests"
   gem 'spring', '>= 1.0', '< 3'
-  gem 'benchmark-ips', '<2.8.0'
+  gem 'benchmark-ips', '>= 2.8.2'
   gem 'foreman'
   gem('bootsnap', :require => false)
   gem 'graphiql-rails', '~> 1.7'
