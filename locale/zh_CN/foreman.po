@@ -395,6 +395,9 @@ msgstr ""
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr "Foreman 用户组可与保存在 LDAP 服务器中的组关联，以便 LDAP 组成员自动将用户添加至 Foreman 用户组。"
 
+msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
+msgstr ""
+
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr "计算配置文件用于表达特定计算资源上创建的虚拟机的一组默认值（可映射至运算符定义的标签）。这表示管理员可以表达‘小’、‘中’或‘大’在给定安装上存在的所有单个计算资源上的含义等等。"
 
@@ -1054,6 +1057,9 @@ msgstr "利用简单高效的 API 对 Foreman 实施自动化"
 msgid "Automatic"
 msgstr "自动化的"
 
+msgid "Automatic cleanup has failed, there are probably other records still referencing this data, please do the clean up manually in the database and then refresh this page."
+msgstr ""
+
 msgid "Autosign"
 msgstr "自动签名"
 
@@ -1327,6 +1333,12 @@ msgstr "无法在没有专用服务帐户的情况下为 %s 生成 LDAP 配置"
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "无法删除 %{current}，因为它有嵌套的 %{sti_name}。 "
 
+msgid "Cannot delete built-in role"
+msgstr ""
+
+msgid "Cannot delete global status."
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "无法删除 %{current}，因为它有嵌套的组。 "
 
@@ -1446,6 +1458,12 @@ msgstr "为 %s 清理 PuppetCA 证书"
 
 msgid "Clear"
 msgstr "清除"
+
+msgid "Clear sub-status of host"
+msgstr ""
+
+msgid "Clears a host sub-status of a given type"
+msgstr ""
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
 msgstr "点击计算资源链接编辑器默认 VM 属性。"
@@ -2043,6 +2061,15 @@ msgstr "创建时间"
 msgid "Creates a table preference for a given table"
 msgstr "为一个指定的表创建表偏好"
 
+msgid "Creating IPv4 in External IPAM for %s"
+msgstr ""
+
+msgid "Creating IPv6 in External IPAM for %s"
+msgstr ""
+
+msgid "Creating a DB backup before proceeding is highly recommended!"
+msgstr ""
+
 msgid "Ctrl-Alt-Del"
 msgstr "重启"
 
@@ -2125,6 +2152,9 @@ msgid "Dashboard"
 msgstr "仪表板"
 
 msgid "Data are available only for the user who triggered the report and administrators"
+msgstr ""
+
+msgid "Data has been cleaned up"
 msgstr ""
 
 msgid "Data store"
@@ -2905,6 +2935,18 @@ msgstr ""
 msgid "External Groups"
 msgstr "外部组"
 
+msgid "External IPAM"
+msgstr ""
+
+msgid "External IPAM Group"
+msgstr ""
+
+msgid "External IPAM Proxy ID to use within this subnet"
+msgstr ""
+
+msgid "External IPAM Proxy to use within this subnet"
+msgstr ""
+
 msgid "External user group"
 msgstr "外部用户组"
 
@@ -3136,6 +3178,9 @@ msgstr "为 %s 设定电源状态失败。"
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
 msgstr "停止计算 %{compute_resource} 实例 %{name}: %{e} 失败"
 
+msgid "Failed to submit the request."
+msgstr ""
+
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr "更新计算 %{compute_resource} 实例 %{name} 失败：%{e}"
 
@@ -3350,6 +3395,9 @@ msgstr "Foreman 无法找到所需的 vSphere 资源。请检查 Foreman 是否�
 msgid "Foreman domain ID of interface. Required for primary interfaces on managed hosts."
 msgstr "接口的 Foreman 域 ID。所管理主机中的主接口需要这个选项。"
 
+msgid "Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>\"%{table}\"</b> with column <b>\"%{column}\"</b> having the value <b>\"%{value}\"</b>"
+msgstr ""
+
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
@@ -3431,6 +3479,9 @@ msgstr "Foreman 将在本地查询配置的解析程序，而不是通过 SOA/NS
 msgid "Foreman will update a host's environment from its facts"
 msgstr "Foreman 将根据其详情更新主机环境"
 
+msgid "Foreman will update a host's hostgroup from its facts"
+msgstr ""
+
 msgid "Foreman will update a host's subnet from its facts"
 msgstr "Foreman 将根据主机的详情更新其子网"
 
@@ -3442,9 +3493,6 @@ msgstr "Foreman 将使用 OAuth 进行 API 认证"
 
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr "Foreman 将使用随机 UUIDs 而不是主机名进行证书签署 "
-
-msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
-msgstr "Foreman 将在 ENC yaml 输出的类别中使用新的 (2.6.5+) 格式"
 
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr "Foreman 将使用简称而不是 FQDN 创建新虚拟机"
@@ -3527,6 +3575,9 @@ msgstr ""
 msgid "Generating the report took %s."
 msgstr ""
 
+msgid "Get DSL reference for templates writing"
+msgstr ""
+
 msgid "Get ENC values of host"
 msgstr "获取主机的 ENC 值"
 
@@ -3584,6 +3635,9 @@ msgstr "带有报告的良好主机"
 msgid "Google Project ID"
 msgstr "Google Project ID"
 
+msgid "Group not found in the configured External IPAM instance"
+msgstr ""
+
 msgid "Groups base DN"
 msgstr "组基础 DN"
 
@@ -3630,6 +3684,9 @@ msgid "HTTPS URL is required for API access"
 msgstr "API 访问需要 HTTPS URL"
 
 msgid "HTTPS boot requires proxy with httpboot feature and https_port exposed setting"
+msgstr ""
+
+msgid "HTTPS endpoint"
 msgstr ""
 
 msgid "Hard disk"
@@ -3950,6 +4007,9 @@ msgstr "Vm默认值"
 
 msgid "Hostname"
 msgstr "主机名"
+
+msgid "Hostname and client certificate must be valid. Ports are typically 8443 or 9090."
+msgstr ""
 
 msgid "Hostname or certname"
 msgstr "主机名或证书名称"
@@ -5308,6 +5368,9 @@ msgstr "登出"
 msgid "Logged-in"
 msgstr "登录"
 
+msgid "Login"
+msgstr ""
+
 msgid "Login delegation logout URL"
 msgstr "登录委派退出 URL"
 
@@ -5519,8 +5582,8 @@ msgstr "介质"
 msgid "Media ID"
 msgstr "介质 ID"
 
-msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will overwrite the provided value with new random MAC address."
-msgstr "此接口的媒体访问控制地址。格式必须是六组两位十六进制数<br/>，用冒号 (:) 分隔，如 00:11:22:33:44:55。大部分虚拟化计算资源（如 VMware、oVirt、libvirt）<br/> 会使用新的随机 MAC 地址覆盖提供的值。"
+msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Medium"
@@ -5616,6 +5679,9 @@ msgstr "缺少搜索父项 %s 的许可"
 msgid "Missing one of the required permissions: %s"
 msgstr "缺少所需权限之一：%s"
 
+msgid "Missing permission"
+msgstr ""
+
 msgid "Missing(ID: %s)"
 msgstr "缺少 (ID: %s)"
 
@@ -5647,6 +5713,9 @@ msgstr "监控"
 
 msgid "Monthly"
 msgstr "每月"
+
+msgid "Must be unique"
+msgstr ""
 
 msgid "Must provide an operating system"
 msgstr "必须提供操作系统"
@@ -5728,6 +5797,9 @@ msgstr "网络不能为空"
 
 msgid "Network interfaces"
 msgstr "网络接口"
+
+msgid "Network prefix in CIDR notation"
+msgstr ""
 
 msgid "Network type"
 msgstr "网络类型"
@@ -5862,6 +5934,9 @@ msgstr "没有找到此主机的 %{template_kind} 模板。请确保在 %{os} �
 
 msgid "No BMC NIC available for host %s"
 msgstr "没有可供主机 %s 使用的 BMC NIC"
+
+msgid "No Charts To Load"
+msgstr ""
 
 msgid "No Failed Features"
 msgstr "无失败的功能"
@@ -6274,6 +6349,9 @@ msgstr ""
 "                要加载通过这个输入指定的值，使用全局宏 %{example1} 并把输入名作为一个\n"
 "                参数，例如，%{example2} 将会加载名为 cpus 输入所指定的值。"
 
+msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr "仅用于 BMC 接口"
 
@@ -6310,6 +6388,9 @@ msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in s
 msgstr ""
 
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
+msgstr ""
+
+msgid "Opening VMRC Console"
 msgstr ""
 
 msgid "Operate on child hostgroup hosts"
@@ -6422,6 +6503,9 @@ msgstr "自选：这个子网的辅 DNS"
 
 msgid "Optional: Starting IP Address for IP auto suggestion"
 msgstr "自选：IP 自动提示的起始 IP 地址"
+
+msgid "Optional: The group/section of subnets in External IPAM to associate this subnet with"
+msgstr ""
 
 msgid "Optional: VLAN ID for this subnet"
 msgstr "自选：这个子网的 VLAN ID"
@@ -6561,9 +6645,6 @@ msgstr "参数值"
 
 msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
 msgstr "参数化类支持允许根据一组规则（智能匹配器），通过 ENC 对支持它的类直接实施检测、导入和提供参数。"
-
-msgid "Parameterized classes in ENC"
-msgstr "ENC 中的参数化类别"
 
 msgid "Parameters"
 msgstr "参数"
@@ -6771,6 +6852,11 @@ msgstr "请确定以下参数名称为唯一的"
 
 msgid "Please login to %{foreman_url} to change your password"
 msgstr "请登录 %{foreman_url} 更改您的密码"
+
+msgid ""
+"Please note that these HTTP proxy configurations are only used for requests\n"
+"                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
+msgstr ""
 
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)"
 msgstr "请提供一个中介供应商。它可以在模板的 @medium_provider 或 Foreman::Plugin.medium_providers.find_provider(host) 中找到"
@@ -7198,6 +7284,16 @@ msgstr "区域"
 msgid "Remember hosts selection for the next bulk action"
 msgstr "记住主机选择，以用于下一次批量操作"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote address"
 msgstr "远程地址"
 
@@ -7238,6 +7334,12 @@ msgid "Remove:"
 msgstr "删除："
 
 msgid "Removed %{from} to %{to}"
+msgstr ""
+
+msgid "Removing IPv4 in External IPAM for %s"
+msgstr ""
+
+msgid "Removing IPv6 in External IPAM for %s"
 msgstr ""
 
 msgid "Removing compute instance %s"
@@ -7803,8 +7905,8 @@ msgstr "设定用来解析值的顺序。"
 msgid "Set up compute instance %s"
 msgstr "设定计算实例 %s"
 
-msgid "Sets a proxy for all outgoing HTTP connections."
-msgstr "设置一个用于所有转出 HTTP 连接的代理服务器。"
+msgid "Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
@@ -7850,6 +7952,9 @@ msgstr "是否应在下次运行安装程序模块时执行 `foreman-rake db:mig
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "是否应在下次运行安装程序模块时执行 `foreman-rake db:seed`？"
+
+msgid "Should the value be hidden from users? Useful for sensitive input values such as passwords. Only applicable to Plain value types."
+msgstr ""
 
 msgid "Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"
 msgstr "这个接口应由 DHCP 管理还是由 DNS 智能代理服务器管理？是否应在预配过程中对其进行配置？"
@@ -8259,6 +8364,9 @@ msgstr "统计"
 msgid "Status"
 msgstr "状态"
 
+msgid "Status %s does not exist."
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"
 msgstr "停止更新 Puppet 系统信息中的 IP 地址和 MAC 值（影响所有接口）"
 
@@ -8326,6 +8434,12 @@ msgstr "子网名"
 
 msgid "Subnet network"
 msgstr "子网网络"
+
+msgid "Subnet not found in the configured External IPAM instance"
+msgstr ""
+
+msgid "Subnet not found in the specified External IPAM group"
+msgstr ""
 
 msgid "Subnet numeric identifier"
 msgstr "子网数字识别符"
@@ -8660,6 +8774,12 @@ msgstr "名称"
 msgid "Templates"
 msgstr "模板"
 
+msgid "Templates DSL"
+msgstr ""
+
+msgid "Templates are generated using the Embedded Ruby (ERB) language."
+msgstr ""
+
 msgid "Templates resolved for this operating system"
 msgstr "为这个操作系统解析的模板"
 
@@ -8817,6 +8937,9 @@ msgstr "Open Boot Prom 报告的机器的类别。主要由 Sparc Solaris 构建
 msgid "The console is not available because the VM is not powered on"
 msgstr "由于虚拟机未开机，此控制台不可用"
 
+msgid "The data deletion can not be undone, are you sure you want to proceed?"
+msgstr ""
+
 msgid "The default administrator email address"
 msgstr "管理员默认邮箱"
 
@@ -8939,6 +9062,9 @@ msgstr "与构建模式中至少一台主机关联的模板。要应用更改，
 msgid "The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc"
 msgstr "使用 ssh 进入该实例的用户，通常为 cloud-user, ec2-user, ubuntu, root 等等。"
 
+msgid "The value contains sensitive information and shouldn not be normally visible, useful e.g. for passwords"
+msgstr ""
+
 msgid "The virtual machine is being deleted."
 msgstr "已删除该虚拟机。"
 
@@ -8968,6 +9094,9 @@ msgstr "未设置使用 BMC 功能的代理服务器。请使用这个功能注�
 msgid "There may be more information in the server's logs."
 msgstr "服务器日志中可能包含更多信息。"
 
+msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
+msgstr ""
+
 msgid "There was an error creating the PXE file: %s"
 msgstr "创建 PXE 文件时出错：%s"
 
@@ -8991,6 +9120,9 @@ msgstr "精简预配"
 
 msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversible."
 msgstr "这<b>将删除</b>连接的虚拟机以及它们的磁盘，且此操作不可逆转。"
+
+msgid "This IP address has already been reserved in External IPAM"
+msgstr ""
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr "这个 Puppet 类别在其签名中没有参数。"
@@ -9033,6 +9165,9 @@ msgstr "这个角色从角色 %s 克隆而来"
 
 msgid "This role is locked for editing."
 msgstr "这个角色已锁定，无法编辑。"
+
+msgid "This role is locked from being modified by users."
+msgstr ""
 
 msgid "This service is available for unauthenticated users"
 msgstr "这个服务可用于未授权用户"
@@ -9285,11 +9420,17 @@ msgstr "用来跟踪业务流程任务状态的 UUID，GET /api/orchestration/:U
 msgid "Unable to access key"
 msgstr "无法访问密钥"
 
+msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
+msgstr ""
+
 msgid "Unable to authenticate user %s"
 msgstr "无法认证用户 %s"
 
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "无法更改 VM 显示侦听地址，请确定该显示只附加到本地主机。"
+
+msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
+msgstr ""
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr "无法与代理服务器沟通：%s"
@@ -9323,6 +9464,9 @@ msgstr "删除 %s 的 DHCP 条目"
 
 msgid "Unable to delete DNS entry"
 msgstr "无法删除 DNS 条目"
+
+msgid "Unable to delete IP %{ip} from the subnet %{subnet} in External IPAM."
+msgstr ""
 
 msgid "Unable to delete PuppetCA autosign for %s"
 msgstr "无法删除 %s 的 PuppetCA 自动签名"
@@ -9399,6 +9543,21 @@ msgstr "无法获取安装的 BMC 供应商"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "无法初始化 ProxyAPI 分类 %s"
 
+msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain group %{group} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain groups from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain subnet %{subnet} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain subnets in group %{group} from External IPAM."
+msgstr ""
+
 msgid "Unable to perform boot BMC operation"
 msgstr "无法执行引导 BMC 的操作"
 
@@ -9429,6 +9588,9 @@ msgstr "无法检索 DHCP 子网"
 msgid "Unable to retrieve DHCP subnets"
 msgstr "无法检索 DHCP 子网"
 
+msgid "Unable to retrieve the next available IP for subnet %{subnet} External IPAM."
+msgstr ""
+
 msgid "Unable to retrieve unused IP"
 msgstr "无法检索未使用的 IP"
 
@@ -9452,6 +9614,9 @@ msgstr "无法设置 %s 的 TFTP 引导条目"
 
 msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "无法签署 %s 的 PuppetCA 证书"
+
+msgid "Unable to submit role: Problem with associated filter %s"
+msgstr ""
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
 msgstr ""
@@ -9515,6 +9680,9 @@ msgstr "未知电源管理支持 - 无法继续"
 
 msgid "Unknown power state"
 msgstr "电源状态未知"
+
+msgid "Unknown records found in the database"
+msgstr ""
 
 msgid "Unknown status: %s"
 msgstr ""
@@ -9680,6 +9848,9 @@ msgstr "更新外部用户组"
 
 msgid "Update host"
 msgstr "更新主机"
+
+msgid "Update hostgroup from facts"
+msgstr ""
 
 msgid "Update realm entry for %s"
 msgstr "更新 %s realm 条目"
@@ -10329,8 +10500,8 @@ msgstr "您可以给 Foreman 中的用户添加 SSH 公钥。"
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr "您可以在 %{freenode} (irc.freenode.net) 网络中找到 Foreman。常规支持请进入 #theforema，具体与开发相关的探讨，请进入 visit #theforeman-dev。"
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
-msgstr "您可以选择所选 IP 协议支持的一种 IPAM 模式：<br/><ul><li><strong>DHCP</strong> - 通过分配的 DHCP 代理服务器管理 DHCP 的 IP，自动建议的 IP 来自 DHCP <em>(IPv4)</em></li><li><strong>内部数据库</strong> - 使用内部数据库，基于同一子网遵从范围（若有指定）的其他接口来自动建议可用 IP，主要用于静态引导模式 <em>(IPv4, IPv6)</em>，保留自然排序</li><li><strong>随机数据库</strong> - 与内部数据库相同，但结果随机化，以防止争用情形 <em>(IPv4)</em></li><li><strong>EUI-64</strong> - 基于接口的 MAC 地址分配 IPv6 地址 <em>(IPv6)</em></li><li><strong>无</strong> -  由用户全权管理 IP，不自动建议 <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgstr ""
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
 msgstr "您可以通过 %{community_forums} 请求帮助或建议，参与到与 Foreman 相关的讨论中。"
@@ -10391,6 +10562,9 @@ msgstr "继续操作前必须创建至少一个机构。"
 
 msgid "You must select at least one permission"
 msgstr "您必须至少选择一个权限。"
+
+msgid "You must stop impersonation before deleting a user that has active impersonation session."
+msgstr ""
 
 msgid "You now act as %s again."
 msgstr ""
@@ -10524,6 +10698,9 @@ msgstr "无法使用，请选择另外一个"
 msgid "cannot contain itself as member"
 msgstr ""
 
+msgid "clear"
+msgstr ""
+
 msgid "clone"
 msgstr "克隆"
 
@@ -10628,6 +10805,9 @@ msgstr "启用缓存，仅适用于 VMware "
 
 msgid "environment id"
 msgstr "环境 id"
+
+msgid "expected a value of type %s"
+msgstr ""
 
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
 msgstr "预期由主机使用的或继承的 %s （查看不匹配报告）。"
@@ -10848,11 +11028,6 @@ msgstr "是无效的"
 msgid "is too long (maximum is %s characters)"
 msgstr ""
 
-msgid "is too long (maximum is 1 character)"
-msgid_plural "is too long (maximum is %s characters)"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "is too long (maximum is 254 characters)"
 msgstr "太长（最长 254 个字符）"
 
@@ -10879,8 +11054,7 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列表"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
-#. or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
 msgid "locale_name"
 msgstr "简体中文"
 
@@ -11142,6 +11316,9 @@ msgstr "软"
 msgid "some interfaces are invalid"
 msgstr "有些接口无效"
 
+msgid "some permissions were not found: %s"
+msgstr ""
+
 msgid "space separated options, e.g. miimon=100"
 msgstr "使用空格分开的选项，例如：miimon=100"
 
@@ -11162,6 +11339,10 @@ msgstr "状态"
 
 msgid "status"
 msgstr "状态"
+
+msgid ""
+"status type\n"
+msgstr ""
 
 msgid ""
 "status type, can be one of\n"
