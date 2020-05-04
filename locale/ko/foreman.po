@@ -382,6 +382,9 @@ msgstr ""
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr ""
 
+msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
+msgstr ""
+
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr ""
 
@@ -1040,6 +1043,9 @@ msgstr ""
 msgid "Automatic"
 msgstr "자동"
 
+msgid "Automatic cleanup has failed, there are probably other records still referencing this data, please do the clean up manually in the database and then refresh this page."
+msgstr ""
+
 msgid "Autosign"
 msgstr "자동 서명 "
 
@@ -1313,6 +1319,12 @@ msgstr "전용 서비스 계정없이 %s의 LDAP 설정을 생성할 수 없습�
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "%{current} 에는 중첩된 %{sti_name}이 있기 때문에 삭제할 수 없습니다."
 
+msgid "Cannot delete built-in role"
+msgstr ""
+
+msgid "Cannot delete global status."
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "그룹 %{current}에는 중첩된 그룹이 있기 때문에 삭제할 수 없습니다. "
 
@@ -1431,6 +1443,12 @@ msgid "Cleanup PuppetCA certificates for %s"
 msgstr ""
 
 msgid "Clear"
+msgstr ""
+
+msgid "Clear sub-status of host"
+msgstr ""
+
+msgid "Clears a host sub-status of a given type"
 msgstr ""
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
@@ -2029,6 +2047,15 @@ msgstr "생성 일시 "
 msgid "Creates a table preference for a given table"
 msgstr ""
 
+msgid "Creating IPv4 in External IPAM for %s"
+msgstr ""
+
+msgid "Creating IPv6 in External IPAM for %s"
+msgstr ""
+
+msgid "Creating a DB backup before proceeding is highly recommended!"
+msgstr ""
+
 msgid "Ctrl-Alt-Del"
 msgstr "Ctrl-Alt-Del"
 
@@ -2111,6 +2138,9 @@ msgid "Dashboard"
 msgstr "대시보드 "
 
 msgid "Data are available only for the user who triggered the report and administrators"
+msgstr ""
+
+msgid "Data has been cleaned up"
 msgstr ""
 
 msgid "Data store"
@@ -2891,6 +2921,18 @@ msgstr ""
 msgid "External Groups"
 msgstr "외부 그룹"
 
+msgid "External IPAM"
+msgstr ""
+
+msgid "External IPAM Group"
+msgstr ""
+
+msgid "External IPAM Proxy ID to use within this subnet"
+msgstr ""
+
+msgid "External IPAM Proxy to use within this subnet"
+msgstr ""
+
 msgid "External user group"
 msgstr "외부 사용자 그룹 "
 
@@ -3122,6 +3164,9 @@ msgstr "%s의 전원 상태를 설정하지 못했습니다."
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
 msgstr "컴퓨팅 %{compute_resource} 인스턴스 %{name} 중지에 실패했습니다: %{e}"
 
+msgid "Failed to submit the request."
+msgstr ""
+
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr "컴퓨팅 %{compute_resource} 인스턴스 %{name} 업데이트 취소에 실패했습니다: %{e}"
 
@@ -3336,6 +3381,9 @@ msgstr ""
 msgid "Foreman domain ID of interface. Required for primary interfaces on managed hosts."
 msgstr "인터페이스의 Foreman 도메인 ID입니다. 관리형 호스트의 기본 인터페이스에 필요합니다."
 
+msgid "Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>\"%{table}\"</b> with column <b>\"%{column}\"</b> having the value <b>\"%{value}\"</b>"
+msgstr ""
+
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
@@ -3417,6 +3465,9 @@ msgstr "Foreman은 SOA/NS 권한 대신 로컬 설정 분석기를 쿼리합니�
 msgid "Foreman will update a host's environment from its facts"
 msgstr "Foreman은 정보에서 호스트 환경을 업데이트합니다 "
 
+msgid "Foreman will update a host's hostgroup from its facts"
+msgstr ""
+
 msgid "Foreman will update a host's subnet from its facts"
 msgstr ""
 
@@ -3428,9 +3479,6 @@ msgstr "Foreman은 API 인증에 OAuth를 사용합니다 "
 
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr "Foreman은 인증서 서명을 위해 호스트 이름 대신 임의의 UUID를 사용합니다 "
-
-msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
-msgstr "Foreman은 ENC yaml 출력에서 클래스에 대해 새로운 (2.6.5+) 형식을 사용합니다 "
 
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr "Foreman은 새 가상 머신을 생성하기 위해 FQDN 대신 짧은 호스트 이름을 사용합니다 "
@@ -3513,6 +3561,9 @@ msgstr ""
 msgid "Generating the report took %s."
 msgstr ""
 
+msgid "Get DSL reference for templates writing"
+msgstr ""
+
 msgid "Get ENC values of host"
 msgstr ""
 
@@ -3570,6 +3621,9 @@ msgstr ""
 msgid "Google Project ID"
 msgstr "글로벌 프로젝트 ID"
 
+msgid "Group not found in the configured External IPAM instance"
+msgstr ""
+
 msgid "Groups base DN"
 msgstr "그룹의 기본 DN "
 
@@ -3616,6 +3670,9 @@ msgid "HTTPS URL is required for API access"
 msgstr ""
 
 msgid "HTTPS boot requires proxy with httpboot feature and https_port exposed setting"
+msgstr ""
+
+msgid "HTTPS endpoint"
 msgstr ""
 
 msgid "Hard disk"
@@ -3936,6 +3993,9 @@ msgstr "Vm 기본값 "
 
 msgid "Hostname"
 msgstr "호스트 이름 "
+
+msgid "Hostname and client certificate must be valid. Ports are typically 8443 or 9090."
+msgstr ""
 
 msgid "Hostname or certname"
 msgstr "호스트 이름 또는 인증서 이름 "
@@ -5288,6 +5348,9 @@ msgstr "로그 아웃했습니다 "
 msgid "Logged-in"
 msgstr "로그인했습니다 "
 
+msgid "Login"
+msgstr ""
+
 msgid "Login delegation logout URL"
 msgstr "로그인 권한 로그아웃 URL"
 
@@ -5499,7 +5562,7 @@ msgstr "미디어 "
 msgid "Media ID"
 msgstr "미디어 ID"
 
-msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will overwrite the provided value with new random MAC address."
+msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -5596,6 +5659,9 @@ msgstr ""
 msgid "Missing one of the required permissions: %s"
 msgstr "필요한 권한 중 하나가 없습니다: %s"
 
+msgid "Missing permission"
+msgstr ""
+
 msgid "Missing(ID: %s)"
 msgstr ""
 
@@ -5627,6 +5693,9 @@ msgstr "모니터"
 
 msgid "Monthly"
 msgstr "매달"
+
+msgid "Must be unique"
+msgstr ""
 
 msgid "Must provide an operating system"
 msgstr ""
@@ -5708,6 +5777,9 @@ msgstr ""
 
 msgid "Network interfaces"
 msgstr "네트워크 인터페이스 "
+
+msgid "Network prefix in CIDR notation"
+msgstr ""
 
 msgid "Network type"
 msgstr "네트워크 유형 "
@@ -5841,6 +5913,9 @@ msgid "No %{template_kind} templates were found for this host, make sure you def
 msgstr ""
 
 msgid "No BMC NIC available for host %s"
+msgstr ""
+
+msgid "No Charts To Load"
 msgstr ""
 
 msgid "No Failed Features"
@@ -6251,6 +6326,9 @@ msgid ""
 "                name as an argument. E.g. %{example2} will load the value through input called cpus."
 msgstr ""
 
+msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr "BMC 인터페이스만 해당합니다."
 
@@ -6287,6 +6365,9 @@ msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in s
 msgstr ""
 
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
+msgstr ""
+
+msgid "Opening VMRC Console"
 msgstr ""
 
 msgid "Operate on child hostgroup hosts"
@@ -6399,6 +6480,9 @@ msgstr "옵션: 서브넷의 2차 DNS "
 
 msgid "Optional: Starting IP Address for IP auto suggestion"
 msgstr "옵션: IP 자동 제안의 시작 IP 주소 "
+
+msgid "Optional: The group/section of subnets in External IPAM to associate this subnet with"
+msgstr ""
 
 msgid "Optional: VLAN ID for this subnet"
 msgstr "옵션:  서브넷의 VLAN ID"
@@ -6538,9 +6622,6 @@ msgstr "매개 변수 값"
 
 msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
 msgstr ""
-
-msgid "Parameterized classes in ENC"
-msgstr "ENC의 매개 변수화된 클래스"
 
 msgid "Parameters"
 msgstr "매개 변수 "
@@ -6748,6 +6829,11 @@ msgstr "다음 매개 변수 이름이 고유한 것인지 확인하십시오 "
 
 msgid "Please login to %{foreman_url} to change your password"
 msgstr "%{foreman_url}에 로그인하여 암호를 변경하십시오 "
+
+msgid ""
+"Please note that these HTTP proxy configurations are only used for requests\n"
+"                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
+msgstr ""
 
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)"
 msgstr ""
@@ -7173,6 +7259,16 @@ msgstr "지역 "
 msgid "Remember hosts selection for the next bulk action"
 msgstr ""
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote address"
 msgstr "원격 주소"
 
@@ -7213,6 +7309,12 @@ msgid "Remove:"
 msgstr "삭제: "
 
 msgid "Removed %{from} to %{to}"
+msgstr ""
+
+msgid "Removing IPv4 in External IPAM for %s"
+msgstr ""
+
+msgid "Removing IPv6 in External IPAM for %s"
 msgstr ""
 
 msgid "Removing compute instance %s"
@@ -7778,7 +7880,7 @@ msgstr "값을 확인하는 순서를 설정합니다."
 msgid "Set up compute instance %s"
 msgstr "컴퓨터 인스턴스 %s 설정 "
 
-msgid "Sets a proxy for all outgoing HTTP connections."
+msgid "Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -7825,6 +7927,9 @@ msgstr "다음번 설치 프로그램 모듈 실행 시 `foreman-rake db:migrate
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "다음번 설치 프로그램 모듈 실행 시 `foreman-rake db:seed`를 실행해야 합니까? "
+
+msgid "Should the value be hidden from users? Useful for sensitive input values such as passwords. Only applicable to Plain value types."
+msgstr ""
 
 msgid "Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"
 msgstr "이 인터페이스는 DHCP 및 DNS 스마트 프록시를 통해 관리하고 프로비저닝 동안 설정해야 합니까? "
@@ -8234,6 +8339,9 @@ msgstr "통계"
 msgid "Status"
 msgstr "상태 "
 
+msgid "Status %s does not exist."
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"
 msgstr "Puppet 팩트에서 IP 주소 및 MAC 값 업데이트 중지(모든 인터페이스에 적용)"
 
@@ -8301,6 +8409,12 @@ msgstr "서브넷 이름 "
 
 msgid "Subnet network"
 msgstr "서브넷 네트워크 "
+
+msgid "Subnet not found in the configured External IPAM instance"
+msgstr ""
+
+msgid "Subnet not found in the specified External IPAM group"
+msgstr ""
 
 msgid "Subnet numeric identifier"
 msgstr "숫자로된 서브넷 식별자 "
@@ -8635,6 +8749,12 @@ msgstr "이름 "
 msgid "Templates"
 msgstr "템플릿 "
 
+msgid "Templates DSL"
+msgstr ""
+
+msgid "Templates are generated using the Embedded Ruby (ERB) language."
+msgstr ""
+
 msgid "Templates resolved for this operating system"
 msgstr "이 운영 체제에 대해 확인된 템플릿"
 
@@ -8790,6 +8910,9 @@ msgstr "Open Boot Prom에서 보고되는 시스템 클래스입니다. 이는 �
 msgid "The console is not available because the VM is not powered on"
 msgstr ""
 
+msgid "The data deletion can not be undone, are you sure you want to proceed?"
+msgstr ""
+
 msgid "The default administrator email address"
 msgstr "기본값 관리자 이메일 주소 "
 
@@ -8910,6 +9033,9 @@ msgstr "이 템플릿은 빌드 모드 상태인 하나 이상의 호스트에 �
 msgid "The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc"
 msgstr "ssh를 인스턴스에 사용하는 사용자는 일반적으로 cloud-user, ec2-user, ubuntu, root 등 입니다"
 
+msgid "The value contains sensitive information and shouldn not be normally visible, useful e.g. for passwords"
+msgstr ""
+
 msgid "The virtual machine is being deleted."
 msgstr "가상 머신이 삭제되어 있습니다. "
 
@@ -8938,6 +9064,9 @@ msgstr "BMC 기능이 설정된 프록시가 없습니다. 이 기능에 스마�
 msgid "There may be more information in the server's logs."
 msgstr ""
 
+msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
+msgstr ""
+
 msgid "There was an error creating the PXE file: %s"
 msgstr ""
 
@@ -8960,6 +9089,9 @@ msgid "Thin provision"
 msgstr "씬 프로비저닝"
 
 msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversible."
+msgstr ""
+
+msgid "This IP address has already been reserved in External IPAM"
 msgstr ""
 
 msgid "This Puppet class has no parameters in its signature."
@@ -9002,6 +9134,9 @@ msgid "This role has been cloned from role %s"
 msgstr ""
 
 msgid "This role is locked for editing."
+msgstr ""
+
+msgid "This role is locked from being modified by users."
 msgstr ""
 
 msgid "This service is available for unauthenticated users"
@@ -9253,11 +9388,17 @@ msgstr "오케스트레이션 작업 상태를 추적하기 위한 UUID, GET /ap
 msgid "Unable to access key"
 msgstr "액세스할 수 없음 "
 
+msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
+msgstr ""
+
 msgid "Unable to authenticate user %s"
 msgstr "사용자 %s을(를) 인증할 수 없습니다 "
 
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "VM 디스플레이의 수신 주소를 변경할 수 없습니다. 디스플레이가 로컬 호스트에만 할당되지 않았는지 확인합니다 "
+
+msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
+msgstr ""
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr "프록시와 통신할 수 없습니다: %s"
@@ -9291,6 +9432,9 @@ msgstr "%s의 DHCP 항목을 삭제할 수 없습니다 "
 
 msgid "Unable to delete DNS entry"
 msgstr "DNS 항목을 삭제할 수 없습니다 "
+
+msgid "Unable to delete IP %{ip} from the subnet %{subnet} in External IPAM."
+msgstr ""
 
 msgid "Unable to delete PuppetCA autosign for %s"
 msgstr "%s의 PuppetCA 자동 서명을 삭제할 수 없음 "
@@ -9367,6 +9511,21 @@ msgstr "설치된 BMC 공급자를 가져올 수 없습니다 "
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI 클래스 %s을(를) 초기화할 수 없습니다."
 
+msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain group %{group} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain groups from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain subnet %{subnet} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain subnets in group %{group} from External IPAM."
+msgstr ""
+
 msgid "Unable to perform boot BMC operation"
 msgstr "boot BMC 작업을 실행할 수 없습니다 "
 
@@ -9397,6 +9556,9 @@ msgstr "DHCP 서브넷을 검색할 수 없습니다 "
 msgid "Unable to retrieve DHCP subnets"
 msgstr "DHCP 서브넷을 검색할 수 없습니다 "
 
+msgid "Unable to retrieve the next available IP for subnet %{subnet} External IPAM."
+msgstr ""
+
 msgid "Unable to retrieve unused IP"
 msgstr "사용되지 않는 IP를 검색할 수 없습니다 "
 
@@ -9420,6 +9582,9 @@ msgstr "%s의 TFTP 부트 항목을 설정할 수 없습니다 "
 
 msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "%s의 PuppetCA 인증서에 서명할 수 없습니다 "
+
+msgid "Unable to submit role: Problem with associated filter %s"
+msgstr ""
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
 msgstr ""
@@ -9482,6 +9647,9 @@ msgid "Unknown power management support - can't continue"
 msgstr "알 수 없는 전력 관리 지원 - 계속 진행할 수 없음 "
 
 msgid "Unknown power state"
+msgstr ""
+
+msgid "Unknown records found in the database"
 msgstr ""
 
 msgid "Unknown status: %s"
@@ -9647,6 +9815,9 @@ msgid "Update external user group"
 msgstr "외부 사용자 그룹 업데이트 "
 
 msgid "Update host"
+msgstr ""
+
+msgid "Update hostgroup from facts"
 msgstr ""
 
 msgid "Update realm entry for %s"
@@ -10282,7 +10453,7 @@ msgstr ""
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr "%{freenode} (irc.freenode.net) 네트워크에서 Foreman을 찾을 수 있습니다. 일반적인 지원의 경우 #theforeman으로 개발에 관련된 대화를 하고자 할 경우 #theforeman-dev로 가십시오. "
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
 msgstr ""
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
@@ -10344,6 +10515,9 @@ msgstr "계속 진행하기 전 최소 하나의 조직을 생성해야 합니�
 
 msgid "You must select at least one permission"
 msgstr "최소 하나의 권한을 선택해야 합니다 "
+
+msgid "You must stop impersonation before deleting a user that has active impersonation session."
+msgstr ""
 
 msgid "You now act as %s again."
 msgstr ""
@@ -10477,6 +10651,9 @@ msgstr ""
 msgid "cannot contain itself as member"
 msgstr ""
 
+msgid "clear"
+msgstr ""
+
 msgid "clone"
 msgstr "복제 "
 
@@ -10581,6 +10758,9 @@ msgstr ""
 
 msgid "environment id"
 msgstr "환경 ID "
+
+msgid "expected a value of type %s"
+msgstr ""
 
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
 msgstr ""
@@ -10801,11 +10981,6 @@ msgstr "유효하지 않습니다."
 msgid "is too long (maximum is %s characters)"
 msgstr ""
 
-msgid "is too long (maximum is 1 character)"
-msgid_plural "is too long (maximum is %s characters)"
-msgstr[0] ""
-msgstr[1] ""
-
 msgid "is too long (maximum is 254 characters)"
 msgstr ""
 
@@ -10831,8 +11006,7 @@ msgstr "외부 사용자 그룹이 이 사용자 그룹에 연결되어 있습�
 msgid "list"
 msgstr "목록"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
-#. or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
 msgid "locale_name"
 msgstr "한국어"
 
@@ -11094,6 +11268,9 @@ msgstr "소프트 "
 msgid "some interfaces are invalid"
 msgstr "일부 인터페이스가 유효하지 않습니다."
 
+msgid "some permissions were not found: %s"
+msgstr ""
+
 msgid "space separated options, e.g. miimon=100"
 msgstr "공백으로 구분된 옵션 (예: miimon=100)"
 
@@ -11114,6 +11291,10 @@ msgstr "상태 "
 
 msgid "status"
 msgstr "상태 "
+
+msgid ""
+"status type\n"
+msgstr ""
 
 msgid ""
 "status type, can be one of\n"

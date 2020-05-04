@@ -428,6 +428,9 @@ msgstr "<dl><dt>String</dt> <dd>Alles wird in eine Zeichenkette verwandelt.</dd>
 msgid "A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group."
 msgstr "Eine Foreman-Benutzergruppe kann einer Gruppe angehangen werden, die auf dem LDAP Server existiert. Somit werden Mitglieder der LDAP-Gruppe automatisch der Foreman-Benutzergruppe zugewiesen"
 
+msgid "A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab."
+msgstr ""
+
 msgid "A compute profile is a way of expressing a set of defaults for VMs created on a specific compute resource that can be mapped to an operator-defined label. This means an administrator can express, for example, what 'Small', 'Medium' or 'Large' means on all of the individual compute resources present for a given installation."
 msgstr ""
 
@@ -1087,6 +1090,9 @@ msgstr "Automatisiere Foreman über eine einfache und leistungsfähige API"
 msgid "Automatic"
 msgstr "Automatisch"
 
+msgid "Automatic cleanup has failed, there are probably other records still referencing this data, please do the clean up manually in the database and then refresh this page."
+msgstr ""
+
 msgid "Autosign"
 msgstr "Automatisch Signieren"
 
@@ -1360,6 +1366,12 @@ msgstr "LDAP Konfiguration für %s kann ohne dedizierten Dienst-Account nicht er
 msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "%{current} kann nicht gelöscht werden, da es verschachtelte %{sti_name} hat."
 
+msgid "Cannot delete built-in role"
+msgstr ""
+
+msgid "Cannot delete global status."
+msgstr ""
+
 msgid "Cannot delete group %{current} because it has nested groups."
 msgstr "Gruppe %{current} kann nicht gelöscht werden, da sie verschachtelte Gruppen enthält."
 
@@ -1478,6 +1490,12 @@ msgid "Cleanup PuppetCA certificates for %s"
 msgstr "PuppetCA Zertifikate für %s bereinigen"
 
 msgid "Clear"
+msgstr ""
+
+msgid "Clear sub-status of host"
+msgstr ""
+
+msgid "Clears a host sub-status of a given type"
 msgstr ""
 
 msgid "Click on the link of a compute resource to edit its default VM attributes."
@@ -2076,6 +2094,15 @@ msgstr "Erstellt"
 msgid "Creates a table preference for a given table"
 msgstr ""
 
+msgid "Creating IPv4 in External IPAM for %s"
+msgstr ""
+
+msgid "Creating IPv6 in External IPAM for %s"
+msgstr ""
+
+msgid "Creating a DB backup before proceeding is highly recommended!"
+msgstr ""
+
 msgid "Ctrl-Alt-Del"
 msgstr "Strg-Alt-Entf"
 
@@ -2159,6 +2186,9 @@ msgstr "Übersichtsseite"
 
 msgid "Data are available only for the user who triggered the report and administrators"
 msgstr "Daten stehen nur dem Nutzer zu, der den Bericht angestartet hat oder den Administratoren zu"
+
+msgid "Data has been cleaned up"
+msgstr ""
 
 msgid "Data store"
 msgstr "Datenspeicher"
@@ -2938,6 +2968,18 @@ msgstr "Externe Dokumentation"
 msgid "External Groups"
 msgstr "Externe Gruppen"
 
+msgid "External IPAM"
+msgstr ""
+
+msgid "External IPAM Group"
+msgstr ""
+
+msgid "External IPAM Proxy ID to use within this subnet"
+msgstr ""
+
+msgid "External IPAM Proxy to use within this subnet"
+msgstr ""
+
 msgid "External user group"
 msgstr "Externe Benutzergruppe"
 
@@ -3169,6 +3211,9 @@ msgstr "Fehler beim Festlegen des Energiezustands für %s."
 msgid "Failed to stop compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Konnte die Recheninstanz %{name} auf %{compute_resource} nicht stoppen: %{e}"
 
+msgid "Failed to submit the request."
+msgstr ""
+
 msgid "Failed to undo update compute %{compute_resource} instance %{name}: %{e}"
 msgstr "Konnte die Aktualisierung der Recheninstanz %{name} auf %{compute_resource} nicht widerrufen: %{e}"
 
@@ -3383,6 +3428,9 @@ msgstr "Foreman konnte eine benötigte vSphere Ressource nicht finden. Prüfen S
 msgid "Foreman domain ID of interface. Required for primary interfaces on managed hosts."
 msgstr "Foreman-Domänen-Kennung der Schnittstelle. Erforderlich für Primärschnittstellen auf gemanagten Hosts."
 
+msgid "Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>\"%{table}\"</b> with column <b>\"%{column}\"</b> having the value <b>\"%{value}\"</b>"
+msgstr ""
+
 msgid "Foreman instance ID, uniquely identifies this Foreman instance."
 msgstr ""
 
@@ -3464,6 +3512,9 @@ msgstr "Foreman fragt den lokal konfigurierten Resolver ab anstelle der SOA/NS-E
 msgid "Foreman will update a host's environment from its facts"
 msgstr "Foreman aktualisiert die Umgebung eines Hosts basierend auf dessen Fakten"
 
+msgid "Foreman will update a host's hostgroup from its facts"
+msgstr ""
+
 msgid "Foreman will update a host's subnet from its facts"
 msgstr "Foreman aktualisiert die Subnetze eines Host basierend auf dessen Fakten"
 
@@ -3475,9 +3526,6 @@ msgstr "Foreman verwendet OAuth zur API-Authorisierung"
 
 msgid "Foreman will use random UUIDs for certificate signing instead of hostnames"
 msgstr "Foreman verwendet zufällige UUIDs zur Zertifikatssignierung anstelle von Hostnamen"
-
-msgid "Foreman will use the new (2.6.5+) format for classes in the ENC yaml output"
-msgstr "Foreman verwendet das neue (2.6.5+) Format für Klassen in der ENC-yaml-Ausgabe"
 
 msgid "Foreman will use the short hostname instead of the FQDN for creating new virtual machines"
 msgstr "Foreman verwendet den kurzen Hostnamen anstelle des FQDN zur Erstellung neuer virtueller Maschinen"
@@ -3560,6 +3608,9 @@ msgstr ""
 msgid "Generating the report took %s."
 msgstr "Generierung des Berichts dauerte %s."
 
+msgid "Get DSL reference for templates writing"
+msgstr ""
+
 msgid "Get ENC values of host"
 msgstr "ENC Werte des Host abrufen"
 
@@ -3617,6 +3668,9 @@ msgstr "Fehlerfreie Hosts mit Berichten"
 msgid "Google Project ID"
 msgstr "Google Projektkennung"
 
+msgid "Group not found in the configured External IPAM instance"
+msgstr ""
+
 msgid "Groups base DN"
 msgstr "Gruppiert Base DN"
 
@@ -3663,6 +3717,9 @@ msgid "HTTPS URL is required for API access"
 msgstr "HTTPS URL ist notwendig für den API Zugriff"
 
 msgid "HTTPS boot requires proxy with httpboot feature and https_port exposed setting"
+msgstr ""
+
+msgid "HTTPS endpoint"
 msgstr ""
 
 msgid "Hard disk"
@@ -3983,6 +4040,9 @@ msgstr "VM-Standards"
 
 msgid "Hostname"
 msgstr "Hostname"
+
+msgid "Hostname and client certificate must be valid. Ports are typically 8443 or 9090."
+msgstr ""
 
 msgid "Hostname or certname"
 msgstr "Hostname oder Zertifikatsname"
@@ -5335,6 +5395,9 @@ msgstr "Abgemeldet - Bis bald"
 msgid "Logged-in"
 msgstr "Angemeldet"
 
+msgid "Login"
+msgstr ""
+
 msgid "Login delegation logout URL"
 msgstr "Abmelde-URL für Anmeldedelegation"
 
@@ -5546,7 +5609,7 @@ msgstr "Medien"
 msgid "Media ID"
 msgstr "Medienkennung"
 
-msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will overwrite the provided value with new random MAC address."
+msgid "Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address."
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -5643,6 +5706,9 @@ msgstr "Fehlende Berechtigung zum Bearbeiten vom Übergeordneten %s"
 msgid "Missing one of the required permissions: %s"
 msgstr "Eine der erforderlichen Berechtigungen fehlt: %s"
 
+msgid "Missing permission"
+msgstr ""
+
 msgid "Missing(ID: %s)"
 msgstr "Fehlt (ID: %s)"
 
@@ -5674,6 +5740,9 @@ msgstr "Überwachen"
 
 msgid "Monthly"
 msgstr "Monatlich"
+
+msgid "Must be unique"
+msgstr ""
 
 msgid "Must provide an operating system"
 msgstr "Betriebssystem muss angegeben werden"
@@ -5755,6 +5824,9 @@ msgstr "Netzwerk darf nicht leer sein"
 
 msgid "Network interfaces"
 msgstr "Netzwerkschnittstellen"
+
+msgid "Network prefix in CIDR notation"
+msgstr ""
 
 msgid "Network type"
 msgstr "Netzwerktyp"
@@ -5889,6 +5961,9 @@ msgstr "Keine %{template_kind} Vorlagen wurden für diesen Host gefunden. Bitte 
 
 msgid "No BMC NIC available for host %s"
 msgstr "Keine BMC NIC verfügbar für Host 1%s"
+
+msgid "No Charts To Load"
+msgstr ""
 
 msgid "No Failed Features"
 msgstr "Keine fehlgeschlagenen Funktionen"
@@ -6298,6 +6373,9 @@ msgid ""
 "                name as an argument. E.g. %{example2} will load the value through input called cpus."
 msgstr ""
 
+msgid "One or more of the associated filters are invalid which prevented the role to be saved"
+msgstr ""
+
 msgid "Only for BMC interfaces."
 msgstr "Nur für BMC-Schnittstellen."
 
@@ -6334,6 +6412,9 @@ msgid "Open and read timeout for HTTP requests from Foreman to Smart Proxy (in s
 msgstr ""
 
 msgid "OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs when using Keycloak as an OpenID provider"
+msgstr ""
+
+msgid "Opening VMRC Console"
 msgstr ""
 
 msgid "Operate on child hostgroup hosts"
@@ -6446,6 +6527,9 @@ msgstr "Optional: Sekundärer DNS für dieses Subnetz"
 
 msgid "Optional: Starting IP Address for IP auto suggestion"
 msgstr "Optional: Beginnende IP-Adresse für automatischen IP-Vorschlag"
+
+msgid "Optional: The group/section of subnets in External IPAM to associate this subnet with"
+msgstr ""
 
 msgid "Optional: VLAN ID for this subnet"
 msgstr "Optional: VLAN-Kennung für dieses Subnetz"
@@ -6585,9 +6669,6 @@ msgstr "Parameterwert"
 
 msgid "Parameterized class support permits detecting, importing, and supplying parameters directly to classes which support it, via the ENC and depending on a set of rules (Smart Matchers)."
 msgstr ""
-
-msgid "Parameterized classes in ENC"
-msgstr "Parameterisierte Klassen in ENC"
 
 msgid "Parameters"
 msgstr "Parameter"
@@ -6795,6 +6876,11 @@ msgstr "Bitte stellen Sie sicher, dass die folgenden Parameter eindeutig sind."
 
 msgid "Please login to %{foreman_url} to change your password"
 msgstr "Bitte melden Sie sich auf %{foreman_url} an, um Ihr Passwort zu ändern"
+
+msgid ""
+"Please note that these HTTP proxy configurations are only used for requests\n"
+"                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level."
+msgstr ""
 
 msgid "Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)"
 msgstr ""
@@ -7222,6 +7308,16 @@ msgstr "Region"
 msgid "Remember hosts selection for the next bulk action"
 msgstr "Hosts Auswahl beibehalten für die nächste Massenänderung"
 
+msgid "Reminder: <strong> One host is selected </strong>"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong>"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Reminder: <strong> One host is selected </strong> for query filter %{query}"
+msgid_plural "Reminder: <strong> All %{count} hosts are selected </strong> for query filter %{query}"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Remote address"
 msgstr "Entfernte Adresse"
 
@@ -7263,6 +7359,12 @@ msgstr "Entferne:"
 
 msgid "Removed %{from} to %{to}"
 msgstr "%{from} von %{to} entfernt"
+
+msgid "Removing IPv4 in External IPAM for %s"
+msgstr ""
+
+msgid "Removing IPv6 in External IPAM for %s"
+msgstr ""
 
 msgid "Removing compute instance %s"
 msgstr "Recheninstanz %s wird entfernt"
@@ -7827,8 +7929,8 @@ msgstr "Reihenfolge festlegen, in der die Werte aufgelöst werden."
 msgid "Set up compute instance %s"
 msgstr "Recheninstanz %s einrichten"
 
-msgid "Sets a proxy for all outgoing HTTP connections."
-msgstr "Setzt einen Proxy für alle ausgehenden HTTP Verbindungen"
+msgid "Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level."
+msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Setting"
@@ -7874,6 +7976,9 @@ msgstr "Soll `foreman-rake db:migrate` beim nächsten Lauf der Installer-Module 
 
 msgid "Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"
 msgstr "Soll `foreman-rake db:seed` beim nächsten Lauf der Installer-Module ausgeführt werden?"
+
+msgid "Should the value be hidden from users? Useful for sensitive input values such as passwords. Only applicable to Plain value types."
+msgstr ""
 
 msgid "Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"
 msgstr "Soll diese Schnittstelle über DHCP- und DNS-Smart-Proxy verwaltet werden, oder soll sie bei der Bereitstellung konfiguriert werden?"
@@ -8283,6 +8388,9 @@ msgstr "Statistiken"
 msgid "Status"
 msgstr "Status"
 
+msgid "Status %s does not exist."
+msgstr ""
+
 msgid "Stop updating IP address and MAC values from Puppet facts (affects all interfaces)"
 msgstr "Aktualisierung von IP-Adressen und MAC-Werten aus den Puppet-Fakten stoppen (wirkt sich auf alle Schnittstellen aus)"
 
@@ -8350,6 +8458,12 @@ msgstr "Subnetzname"
 
 msgid "Subnet network"
 msgstr "Subnetznetzwerk"
+
+msgid "Subnet not found in the configured External IPAM instance"
+msgstr ""
+
+msgid "Subnet not found in the specified External IPAM group"
+msgstr ""
 
 msgid "Subnet numeric identifier"
 msgstr "Numerische Subnetzkennung"
@@ -8684,6 +8798,12 @@ msgstr "Name"
 msgid "Templates"
 msgstr "Vorlagen"
 
+msgid "Templates DSL"
+msgstr ""
+
+msgid "Templates are generated using the Embedded Ruby (ERB) language."
+msgstr ""
+
 msgid "Templates resolved for this operating system"
 msgstr "Vorlagen für dieses Betriebssystem aufgelöst"
 
@@ -8841,6 +8961,9 @@ msgstr "Die Klasse der Maschine wie von Open Boot Prom ermittelt. Dies wird prim
 msgid "The console is not available because the VM is not powered on"
 msgstr "Die Konsole ist nicht verfügbar, da die VM nicht eingeschalten ist"
 
+msgid "The data deletion can not be undone, are you sure you want to proceed?"
+msgstr ""
+
 msgid "The default administrator email address"
 msgstr "Die Email-Adresse des Standard-Administrators"
 
@@ -8961,6 +9084,9 @@ msgstr "Die Vorlage ist wenigstens einem Host im Build-Modus zugeordnet. Um die 
 msgid "The user that is used to ssh into the instance, normally cloud-user, ec2-user, ubuntu, root etc"
 msgstr "Der Benutzer für die ssh-Verbindung zur Instanz. Normalerweise cloud-user, ec2-user, ubuntu, root, etc."
 
+msgid "The value contains sensitive information and shouldn not be normally visible, useful e.g. for passwords"
+msgstr ""
+
 msgid "The virtual machine is being deleted."
 msgstr "Die virtuelle Maschine wird gelöscht"
 
@@ -8990,6 +9116,9 @@ msgstr "Es ist kein Proxy mit BMC-Feature aufgesetzt. Bitte registrieren Sie ein
 msgid "There may be more information in the server's logs."
 msgstr "Es könnten mehr Informationen dazu in den Server Logs zu finden sein."
 
+msgid "There must be at least one Smart Proxy present with an External IPAM plugin installed and configured"
+msgstr ""
+
 msgid "There was an error creating the PXE file: %s"
 msgstr "Es ist ein Fehler aufgetreten beim erzeugen der PXE Datei: %s"
 
@@ -9013,6 +9142,9 @@ msgstr "Reduzierte Bereitstellung"
 
 msgid "This <b>will delete</b> the linked VMs and their disks, and is irreversible."
 msgstr "Dies wird die verlinkten VMs und deren Festplatten unumkehrbar<b> löschen </b>."
+
+msgid "This IP address has already been reserved in External IPAM"
+msgstr ""
 
 msgid "This Puppet class has no parameters in its signature."
 msgstr "Diese puppet Klasse hat keine Parameter in ihrer Signatur."
@@ -9055,6 +9187,9 @@ msgstr "Diese Rolle ist ein Klon der Rolle %s"
 
 msgid "This role is locked for editing."
 msgstr "Diese Rolle ist für Bearbeitungen gesperrt."
+
+msgid "This role is locked from being modified by users."
+msgstr ""
 
 msgid "This service is available for unauthenticated users"
 msgstr "Dieser Dienst ist für nicht authentifizierte Benutzer nicht verfügbar"
@@ -9307,11 +9442,17 @@ msgstr "UUID zum Tracken des Status der Orchestrierungsaufgaben, GET /api/orches
 msgid "Unable to access key"
 msgstr "Fehler beim Zugriff auf Schlüssel"
 
+msgid "Unable to add IP %{ip} to the subnet %{subnet} in External IPAM."
+msgstr ""
+
 msgid "Unable to authenticate user %s"
 msgstr "User %s kann nicht authentifiziert werden"
 
 msgid "Unable to change VM display listen address, make sure the display is not attached to localhost only"
 msgstr "Überwachungsadresse für VM-Anzeige konnte nicht geändert werden. Stellen Sie sicher, dass die Anzeige nicht nur mit Localhost verbunden ist"
+
+msgid "Unable to check if subnet %{subnet} exists in the External IPAM group %{group}."
+msgstr ""
 
 msgid "Unable to communicate with the proxy: %s"
 msgstr "Es konnte nicht mit dem Proxy kommuniziert werden: %s"
@@ -9345,6 +9486,9 @@ msgstr "DHCP-Eintrag für %s konnte nicht gelöscht werden"
 
 msgid "Unable to delete DNS entry"
 msgstr "DNS-Eintrag konnte nicht gelöscht werden"
+
+msgid "Unable to delete IP %{ip} from the subnet %{subnet} in External IPAM."
+msgstr ""
 
 msgid "Unable to delete PuppetCA autosign for %s"
 msgstr "PuppetCA-Autosign für %s konnte nicht gelöscht werden"
@@ -9421,6 +9565,21 @@ msgstr "Installierte BMC-Anbieter konnten nicht geladen werden"
 msgid "Unable to initialize ProxyAPI class %s"
 msgstr "ProxyAPI Klasse %s kann nicht initialisiert werden"
 
+msgid "Unable to obtain IP address for subnet_id %{subnet} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain group %{group} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain groups from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain subnet %{subnet} from External IPAM."
+msgstr ""
+
+msgid "Unable to obtain subnets in group %{group} from External IPAM."
+msgstr ""
+
 msgid "Unable to perform boot BMC operation"
 msgstr "BMC-Operation \"boot\" konnte nicht durchgeführt werden"
 
@@ -9451,6 +9610,9 @@ msgstr "DHCP-Subnetz konnte nicht abgerufen werden"
 msgid "Unable to retrieve DHCP subnets"
 msgstr "DHCP-Subnetze konnten nicht abgerufen werden"
 
+msgid "Unable to retrieve the next available IP for subnet %{subnet} External IPAM."
+msgstr ""
+
 msgid "Unable to retrieve unused IP"
 msgstr "Ungenutzte IP konnte nicht abgerufen werden"
 
@@ -9474,6 +9636,9 @@ msgstr "TFTP-Booteintrag für %s konnte nicht festgelegt werden"
 
 msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "PuppetCA-Zertifikat für %s konnte nicht signiert werden"
+
+msgid "Unable to submit role: Problem with associated filter %s"
+msgstr ""
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
 msgstr ""
@@ -9537,6 +9702,9 @@ msgstr "Unbekannte Unterstützung für Stromzustand - Fortfahren nicht möglich"
 
 msgid "Unknown power state"
 msgstr "Unbekannter Energiezustand"
+
+msgid "Unknown records found in the database"
+msgstr ""
 
 msgid "Unknown status: %s"
 msgstr "Unbekannter Status: %s"
@@ -9702,6 +9870,9 @@ msgstr "Externe Benutzergruppe aktualisieren"
 
 msgid "Update host"
 msgstr "Host aktualisieren"
+
+msgid "Update hostgroup from facts"
+msgstr ""
 
 msgid "Update realm entry for %s"
 msgstr "Realm-Eintrag wird für %s aktualisiert"
@@ -10343,7 +10514,7 @@ msgstr "Sie können öffentliche SSH-Schlüssel einem Foreman Benutzer zuordnen.
 msgid "You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev."
 msgstr "Sie finden Foreman auf dem %{freenode} (irc.freenode.net) Netzwerk. Allgemeinen Support erhalten Sie unter #theforeman und Themen rund um die Entwicklung werden unter #theforeman-dev diskutiert."
 
-msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
+msgid "You can select one of the IPAM modes supported by the selected IP protocol:<br/><ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li><li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li><li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li><li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li><li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li><li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"
 msgstr ""
 
 msgid "You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman."
@@ -10405,6 +10576,9 @@ msgstr "Sie müssen mindestens eine Organisation erstellen, bevor Sie fortfahren
 
 msgid "You must select at least one permission"
 msgstr "Zumindest eine Berechtigung auswählen."
+
+msgid "You must stop impersonation before deleting a user that has active impersonation session."
+msgstr ""
 
 msgid "You now act as %s again."
 msgstr ""
@@ -10538,6 +10712,9 @@ msgstr "Nicht nutzbar, wählen Sie etwas anderes"
 msgid "cannot contain itself as member"
 msgstr "Kann nicht sich selbst als Mitglied enthalten"
 
+msgid "clear"
+msgstr ""
+
 msgid "clone"
 msgstr "klonen"
 
@@ -10642,6 +10819,9 @@ msgstr "Caching aktivieren, nur für VMware"
 
 msgid "environment id"
 msgstr "Umgebungskennung"
+
+msgid "expected a value of type %s"
+msgstr ""
 
 msgid "expecting %s used by hosts or inherited (check mismatches report)."
 msgstr ""
@@ -10862,11 +11042,6 @@ msgstr "ist nicht gültig"
 msgid "is too long (maximum is %s characters)"
 msgstr "ist zu lang (höchstens %s Zeichen)"
 
-msgid "is too long (maximum is 1 character)"
-msgid_plural "is too long (maximum is %s characters)"
-msgstr[0] "ist zu lang (höchstens 1 Zeichen)"
-msgstr[1] "ist zu lang (höchstens %s Zeichen)"
-
 msgid "is too long (maximum is 254 characters)"
 msgstr "ist zu lang (maximal 254 Zeichen)"
 
@@ -10893,8 +11068,7 @@ msgstr "externe Benutzergruppe mit dieser Benutzergruppe verknüpfen"
 msgid "list"
 msgstr "Liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
-#. or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
 msgid "locale_name"
 msgstr "Deutsch"
 
@@ -11156,6 +11330,9 @@ msgstr "soft"
 msgid "some interfaces are invalid"
 msgstr "einige Schnittstellen sind ungültig"
 
+msgid "some permissions were not found: %s"
+msgstr ""
+
 msgid "space separated options, e.g. miimon=100"
 msgstr "durch Leerzeichen getrennte Optionen, z.B. miimon=100"
 
@@ -11176,6 +11353,10 @@ msgstr "Status"
 
 msgid "status"
 msgstr "Status"
+
+msgid ""
+"status type\n"
+msgstr ""
 
 msgid ""
 "status type, can be one of\n"
