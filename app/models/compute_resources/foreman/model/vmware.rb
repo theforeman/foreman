@@ -449,6 +449,8 @@ module Foreman::Model
       add_cdrom = args.delete(:add_cdrom)
       args[:cdroms] = [new_cdrom] if add_cdrom == '1'
 
+      args[:volumes]&.each { |v| v[:eager_zero] = v[:eagerzero] }
+
       args.except!(:hardware_version) if args[:hardware_version] == 'Default'
 
       firmware_type = args.delete(:firmware_type)

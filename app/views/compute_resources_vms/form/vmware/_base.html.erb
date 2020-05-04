@@ -60,7 +60,8 @@ end %>
     datastoresUrl: available_storage_domains_api_compute_resource_path(compute_resource),
     storagePodsUrl: available_storage_pods_api_compute_resource_path(compute_resource)
   },
-  volumes: f.object.volumes.map { |volume| volume.attributes.merge(:size_gb => volume.size_gb).deep_transform_keys { |key| key.to_s.camelize(:lower).to_sym }.reject { |k,v| k == :Size } },
+  volumes: f.object.volumes.map { |volume| volume.attributes.merge(:size_gb => volume.size_gb, :eagerzero => volume.eager_zero).deep_transform_keys { |key| key.to_s.camelize(:lower).to_sym }.reject { |k,v| k == :Size } },
+
   controllers: f.object.scsi_controllers,
   cluster: f.object.cluster
 }.to_json) %>
