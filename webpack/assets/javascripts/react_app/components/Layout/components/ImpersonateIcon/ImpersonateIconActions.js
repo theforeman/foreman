@@ -1,11 +1,11 @@
-import api from '../../../../API';
+import { API } from '../../../../redux/API';
 import { foremanUrl } from '../../../../../foreman_tools';
 
 import { addToast } from '../../../../redux/actions/toasts';
 
 export const stopImpersonating = url => async dispatch => {
   try {
-    const { data } = await api.delete(url);
+    const { data } = await API.delete(url);
     window.location.href = foremanUrl('/users');
     return dispatch(
       addToast({

@@ -1,5 +1,4 @@
-import API from '../../../../API';
-
+import { API } from '../../../../redux/API';
 import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
 import {
   fetchAudits,
@@ -13,7 +12,7 @@ import {
   state as stateMock,
 } from '../AuditsPage.fixtures';
 
-jest.mock('../../../../API');
+jest.mock('../../../../redux/API/API');
 
 const runWithGetState = (state, action, ...params) => async dispatch => {
   const getState = () => ({
