@@ -4,8 +4,7 @@ import IntegrationTestHelper from '../../common/IntegrationTestHelper';
 import notificationReducer from '../../redux/reducers/notifications';
 import { componentMountData, serverResponse } from './notifications.fixtures';
 import Notifications from './';
-import API from '../../redux/API/API';
-import { APIMiddleware } from '../../redux/API';
+import { API, APIMiddleware } from '../../redux/API';
 import { NOTIFICATIONS } from '../../redux/consts';
 import { IntervalMiddleware } from '../../redux/middlewares';
 import { registeredIntervalException } from '../../redux/middlewares/IntervalMiddleware/IntervalHelpers';
@@ -14,7 +13,7 @@ import { DEFAULT_INTERVAL } from '../../redux/actions/notifications/constants';
 jest.useFakeTimers();
 jest.mock('../../redux/API/API');
 jest.mock('../../redux/actions/notifications/constants', () => ({
-  DEFAULT_INTERVAL: 1,
+  DEFAULT_INTERVAL: 5000,
 }));
 
 const notificationProps = {
