@@ -1,5 +1,5 @@
 import history from '../../../history';
-import API from '../../../API';
+import { API } from '../../../redux/API';
 import {
   AUDITS_PATH,
   AUDITS_PAGE_DATA_RESOLVED,
