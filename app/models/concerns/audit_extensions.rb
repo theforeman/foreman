@@ -222,7 +222,7 @@ module AuditExtensions
         auditable.send(taxonomy_attribute), audited_changes[taxonomy_attribute.to_s]
       ].flatten.compact.uniq)
     elsif auditable.respond_to?(taxonomy_attribute_plural)
-      send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural))
+      send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural).compact.uniq)
     elsif associated
       set_taxonomies_using_associated(taxonomy.to_s)
     end
@@ -235,10 +235,10 @@ module AuditExtensions
   def set_taxonomies_using_associated(key_name)
     ids_arr = []
     if associated.respond_to?(:"#{key_name}_id")
-      ids_arr = [associated.send("#{key_name}_id")].compact.uniq
+      ids_arr = [associated.send("#{key_name}_id")]
     elsif associated.respond_to?(:"#{key_name}_ids")
       ids_arr = associated.send("#{key_name}_ids")
     end
-    send("#{key_name}_ids=", ids_arr)
+    send("#{key_name}_ids=", ids_arr.compact.uniq)
   end
 end
