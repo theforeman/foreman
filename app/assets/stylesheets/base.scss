@@ -22,6 +22,18 @@ body {
   }
 }
 
+// fix pf3 tables to have bold headers
+// when mixing with pf4 styles
+.table {
+  & > thead,
+  & > tbody,
+  & > tfoot {
+    & > tr > th a {
+      font-weight: 600;
+    }
+  }
+}
+
 .base li {
   list-style: none;
   margin-left: 20px;
