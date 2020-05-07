@@ -74,7 +74,7 @@ module NestedAncestryCommon
   end
 
   def nested(attr)
-    self.class.sort_by_ancestry(ancestors.where("#{attr} is not NULL")).last.try(attr) if ancestry.present?
+    self.class.sort_by_ancestry(ancestors.where.not(attr => nil)).last.try(attr) if ancestry.present?
   end
 
   private
@@ -85,7 +85,7 @@ module NestedAncestryCommon
 
   def set_other_titles
     if saved_change_to_name? || saved_change_to_ancestry?
-      self.class.where('ancestry IS NOT NULL').find_each do |obj|
+      self.class.where.not(ancestry: nil).find_each do |obj|
         if obj.path_ids.include?(id)
           obj.update(:title => obj.get_title)
         end

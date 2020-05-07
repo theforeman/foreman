@@ -354,7 +354,7 @@ module Nic
 
     private
 
-    def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
+    def interface_attribute_uniqueness(attr, base = Nic::Base)
       in_memory_candidates = host.present? ? host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
       db_candidates = base.where(attr => public_send(attr))
       db_candidates = db_candidates.select { |c| c.id != id && in_memory_candidates.map(&:id).include?(c.id) }

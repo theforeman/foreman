@@ -186,7 +186,7 @@ class ApplicationController < ActionController::Base
     @resource_base ||= if model_of_controller.respond_to?(:authorized)
                          model_of_controller.authorized(current_permission)
                        else
-                         model_of_controller.where(nil)
+                         model_of_controller.all
                        end
   end
 
