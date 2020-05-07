@@ -2,6 +2,7 @@ run_dir = Rails.root.join('tmp')
 
 # Store server info state.
 state_path File.join(run_dir, 'puma.state')
+state_permission 0640
 
 # Configure "min" to be the minimum number of threads to use to answer
 # requests and "max" the maximum.
