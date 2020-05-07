@@ -84,7 +84,7 @@ module CommonParametersHelper
 
   def find_parameters_to_view(params_authorizer, parameters_by_type, user = User.current)
     return parameters_by_type.none if user.nil?
-    return parameters_by_type.where(nil) if user.admin?
+    return parameters_by_type.all if user.admin?
     params_authorizer.find_collection(parameters_by_type.klass, :permission => :view_params)
   end
 

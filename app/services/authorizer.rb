@@ -31,8 +31,8 @@ class Authorizer
     Foreman::Logging.logger('permissions').debug "checking permission #{permission} for class #{resource_class}"
 
     # retrieve all filters relevant to this permission for the user
-    base = user.filters.joins(:permissions).where(["#{Permission.table_name}.resource_type = ?", resource_name(resource_class)])
-    all_filters = permission.nil? ? base : base.where(["#{Permission.table_name}.name = ?", permission])
+    base = user.filters.joins(:permissions).where(permissions: {resource_type: resource_name(resource_class)})
+    all_filters = permission.nil? ? base : base.where(permissions: {name: permission})
 
     organization_ids = allowed_organizations(resource_class)
     Foreman::Logging.logger('permissions').debug "organization_ids: #{organization_ids.inspect}"

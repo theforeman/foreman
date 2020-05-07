@@ -6,7 +6,7 @@ module Foreman
 
       def add_all_permissions_to_default_roles(all_permissions)
         view_permissions = all_permissions.where("name LIKE :name", :name => "view_%")
-        org_admin_permissions = all_permissions.where('resource_type <> :resource_type OR resource_type IS NULL', { :resource_type => "Organization" })
+        org_admin_permissions = all_permissions.merge(Permission.where.not(resource_type: 'Organization').or(Permission.where(resource_type: nil)))
         Role.transaction do
           add_all_permissions_to_role(Role::MANAGER, all_permissions)
           add_all_permissions_to_role(Role::ORG_ADMIN, org_admin_permissions)

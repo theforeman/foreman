@@ -169,7 +169,7 @@ class RoleTest < ActiveSupport::TestCase
 
     context "with a missing default role" do
       setup do
-        role_ids = Role.where("builtin = #{Role::BUILTIN_DEFAULT_ROLE}").pluck(:id)
+        role_ids = Role.where(builtin: Role::BUILTIN_DEFAULT_ROLE).pluck(:id)
         UserRole.where(:role_id => role_ids).destroy_all
         roles = Role.where(:id => role_ids)
         roles.each do |found_role|

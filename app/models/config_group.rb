@@ -23,7 +23,7 @@ class ConfigGroup < ApplicationRecord
   alias_method :individual_puppetclasses, :puppetclasses
 
   def available_puppetclasses
-    Puppetclass.where(nil)
+    Puppetclass.all
   end
 
   # for auditing

@@ -257,7 +257,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       host = FactoryBot.create(:host)
       host.update(:organization => nil)
 
-      Host.stubs(:authorized).returns(Host.where('1=0'))
+      Host.stubs(:authorized).returns(Host.none)
 
       post :create, params: { :organization => {:name => "test_org"} }, session: set_session_user
 
