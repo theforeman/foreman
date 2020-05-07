@@ -130,6 +130,6 @@ class LookupValue < ApplicationRecord
   end
 
   def host_with_fqdn_exists?(fqdn)
-    Host.unscoped.left_joins(:primary_interface).where("nics.name = ?", fqdn).any?
+    Host.unscoped.left_joins(:primary_interface).where(nics: {name: fqdn}).any?
   end
 end

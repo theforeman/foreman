@@ -49,9 +49,9 @@ module Authorizable
     # Or you may simply use authorized for User.current
     def authorized_as(user, permission, resource = nil)
       if user.nil? || user.disabled?
-        where('1=0')
+        none
       elsif user.admin?
-        where(nil)
+        all
       else
         Authorizer.new(user).find_collection(resource || self, :permission => permission)
       end
@@ -72,7 +72,7 @@ module Authorizable
     #
     def joins_authorized_as(user, resource, permission, opts = {})
       if user.nil? || user.disabled?
-        where('1=0')
+        none
       else
         Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts))
       end

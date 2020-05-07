@@ -100,8 +100,8 @@ class Report < ApplicationRecord
       end
       # Delete orphan messages/sources when no reports are left
       if report_ids.blank?
-        message_count = Message.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT message_id').to_sql})").delete_all
-        source_count = Source.unscoped.where("id not IN (#{Log.unscoped.select('DISTINCT source_id').to_sql})").delete_all
+        message_count = Message.unscoped.where.not(id: Log.unscoped.distinct.select('message_id')).delete_all
+        source_count = Source.unscoped.where.not(id: Log.unscoped.distinct.select('source_id')).delete_all
         Foreman::Logging.with_fields(deleted_messages: message_count, expired_sources: source_count) do
           logger.info "Expired #{message_count} messages and #{source_count} sources"
         end

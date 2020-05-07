@@ -190,7 +190,7 @@ class Host::Managed < Host::Base
   }
 
   scope :not_disabled, lambda {
-    where(["#{Host.table_name}.enabled != ?", false])
+    where.not(enabled: false)
   }
 
   scope :with_last_report_within, lambda { |minutes|
@@ -206,7 +206,7 @@ class Host::Managed < Host::Base
   }
 
   scope :with_status, lambda { |status_type|
-    eager_load(:host_statuses).where("host_status.type = '#{status_type}'")
+    eager_load(:host_statuses).where(host_status: {type: status_type})
   }
 
   scope :with_config_status, lambda {
@@ -368,12 +368,12 @@ class Host::Managed < Host::Base
 
   def clear_reports
     # Remove any reports that may be held against this host
-    Report.where("host_id = #{id}").delete_all
+    Report.where(host_id: id).delete_all
     self.last_report = nil
   end
 
   def clear_facts
-    FactValue.where("host_id = #{id}").delete_all
+    FactValue.where(host_id: id).delete_all
   end
 
   def clear_data_on_build

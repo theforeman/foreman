@@ -145,7 +145,7 @@ module Hostext
         host_ids         = Host.authorized(:view_hosts, Host).where(conditions).joins(:puppetclasses).distinct.pluck('hosts.id')
         host_ids        += HostConfigGroup.where(:host_type => 'Host::Base').where(:config_group_id => config_group_ids).pluck(:host_id)
         hostgroups       = Hostgroup.unscoped.with_taxonomy_scope.where(conditions).joins(:puppetclasses)
-        hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where("host_config_groups.config_group_id IN (#{config_group_ids.join(',')})") if config_group_ids.any?
+        hostgroups      += Hostgroup.unscoped.with_taxonomy_scope.joins(:host_config_groups).where(host_config_groups: {config_group_id: config_group_ids}) if config_group_ids.any?
         hostgroup_ids    = hostgroups.map(&:subtree_ids).flatten.uniq
 
         opts  = ''
