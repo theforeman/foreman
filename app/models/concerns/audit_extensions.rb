@@ -222,7 +222,7 @@ module AuditExtensions
         auditable.send(taxonomy_attribute), audited_changes[taxonomy_attribute.to_s]
       ].flatten.compact.uniq)
     elsif auditable.respond_to?(taxonomy_attribute_plural)
-      send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural).compact.uniq)
+      send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural).uniq)
     elsif associated
       set_taxonomies_using_associated(taxonomy.to_s)
     end
