@@ -252,6 +252,21 @@ class FacetTest < ActiveSupport::TestCase
       assert_equal({grand_only: 'grand', parent: 'parent', local: 'local'}, actual)
     end
 
+    test 'attributes inherited from leaf without facet' do
+      parent = Hostgroup.new
+      parent_facet = parent.build_hostgroup_facet
+      parent_facet.expects(:inherited_attributes).returns(parent: 'parent', local: 'parent')
+      @facet.expects(:inherited_attributes).returns(parent: nil, local: 'local')
+
+      # Hostgroup without facet attached
+      child = Hostgroup.new
+
+      child.expects(:hostgroup_ancestry_cache).returns([parent, @hostgroup])
+      actual = child.inherited_facet_attributes(Facets.registered_facets[:hostgroup_facet])
+
+      assert_equal({parent: 'parent', local: 'local'}, actual)
+    end
+
     test 'hostgroup and facet are connected two-way' do
       assert_equal @hostgroup, @facet.hostgroup
     end
