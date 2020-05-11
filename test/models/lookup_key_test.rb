@@ -422,22 +422,14 @@ class LookupKeyTest < ActiveSupport::TestCase
   end
 
   test "can update lookup key with default_value without audit error" do
-    location_list = [taxonomies(:location1), taxonomies(:location2)]
-    puppetclass1 = FactoryBot.create(:puppetclass, :with_auditing)
-    environments = FactoryBot.create_list(:environment, 3)
-    environments.each do |e|
-      e.locations = location_list
-      e.puppetclasses = [puppetclass1]
-      e.save!
-    end
-    puppetclass1.reload
-    puppetclass1.update_attribute(:name, 'xyz')
-    audit_record = puppetclass1.audits.find_by(:action => 'update')
-    if audit_record
-      assert_operator 2, :<, puppetclass1.location_ids.length
-      audit_location_ids = audit_record.location_ids
-      refute_empty audit_location_ids
-      assert_equal 2, audit_location_ids.length
-    end
+    location = taxonomies(:location1)
+    environments = FactoryBot.create_list(:environment, 2, locations: [location])
+    puppetclass = FactoryBot.create(:puppetclass, environments: environments)
+    puppetclass.reload
+    puppetclass.update_attribute(:name, 'xyz')
+    audit_record = puppetclass.audits.find_by(:action => 'update')
+    audit_location_ids = audit_record.location_ids
+    refute_empty audit_location_ids
+    assert_equal 1, audit_location_ids.length
   end
 end

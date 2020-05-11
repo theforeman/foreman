@@ -10,8 +10,8 @@ class Puppetclass < ApplicationRecord
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
   has_many :environment_classes, :dependent => :destroy, :inverse_of => :puppetclass
   has_many :environments, -> { distinct }, :through => :environment_classes
-  has_many :organizations, :through => :environments
-  has_many :locations, :through => :environments
+  has_many :organizations, -> { distinct.reorder(nil) }, :through => :environments
+  has_many :locations, -> { distinct.reorder(nil) }, :through => :environments
 
   has_and_belongs_to_many :operatingsystems
   has_many :hostgroup_classes
