@@ -19,8 +19,8 @@ jobs:
       run: npm install
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=storybooks/main
-    - uses: yg/deploy-surge@v1.0.1
-      name: Deploy Storybook to surge.sh
+    - name: Deploy Storybook to surge.sh
+      uses: yg/deploy-surge@v1.0.1
       with:
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         DOMAIN_NAME: ${{ secrets.SURGE_DOMAIN }}
