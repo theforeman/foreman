@@ -18,12 +18,10 @@ jobs:
       run: npm install
     - name: Build Storybook
       run: npm run build-storybook -- --output-dir=storybooks/main
-    - name: Deploy Storybook to surge.sh
-      id: surge_deploy
-      env:
-        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+    - uses: yg/deploy-surge@v1.0.1
+      name: Deploy Storybook to surge.sh
+      with:
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-      if: ${{ env.SURGE_TOKEN }}
-      run: |
-        npm install --save-dev surge
-        node_modules/.bin/surge --project storybooks/main --domain foreman.surge.sh
+        DOMAIN_NAME: foreman.surge.sh
+        BUILD_DIRECTORY: storybooks/main
+      id: surge_deploy
