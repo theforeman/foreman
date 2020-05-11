@@ -689,7 +689,6 @@ module Foreman::Model
 
       scsi_controllers = vm_attrs['scsi_controllers'] || {}
       normalized['scsi_controllers'] = scsi_controllers.map.with_index do |ctrl, idx|
-        ctrl['eager_zero'] = ctrl.delete('eagerzero')
         [idx.to_s, ctrl]
       end.to_h
 
@@ -700,6 +699,7 @@ module Foreman::Model
 
         volumes[key]['controller_key'] = vol['controller_key']
         volumes[key]['thin'] = to_bool(vol['thin'])
+        volumes[key]['eager_zero'] = to_bool(vol['eager_zero'])
         volumes[key]['size'] = memory_gb_to_bytes(vol['size_gb']).to_s
         if vol['datastore'].empty?
           volumes[key]['datastore_id'] = volumes[key]['datastore_name'] = nil
