@@ -5,6 +5,7 @@ import {
   donutLargeChartConfig,
   donutMediumChartConfig,
   barChartConfig,
+  mediumBarChartConfig,
   smallBarChartConfig,
   lineChartConfig,
   timeseriesLineChartConfig,
@@ -19,6 +20,7 @@ const chartsSizeConfig = {
   bar: {
     regular: barChartConfig,
     small: smallBarChartConfig,
+    medium: mediumBarChartConfig,
   },
   line: {
     regular: lineChartConfig,
