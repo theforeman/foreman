@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
-"Last-Translator: Vladimir Pavlov <v.pavlov@i-teco.ru>\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -5391,7 +5391,7 @@ msgid "Logged-in"
 msgstr "Авторизован"
 
 msgid "Login"
-msgstr ""
+msgstr "Вход"
 
 msgid "Login delegation logout URL"
 msgstr "URL перенаправления после выхода"
@@ -11058,7 +11058,8 @@ msgstr "связать внешнюю группу пользователей с
 msgid "list"
 msgstr "список"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Русский"
 

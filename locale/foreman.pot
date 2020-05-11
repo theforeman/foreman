@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-04 21:11+0530\n"
-"PO-Revision-Date: 2020-05-04 21:11+0530\n"
+"POT-Creation-Date: 2020-05-11 22:50+0530\n"
+"PO-Revision-Date: 2020-05-11 22:50+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -5690,7 +5690,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:7
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:6
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:7
-#: ../app/views/compute_resources_vms/index/_rackspace.html.erb:6
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:10
 #: ../app/views/config_groups/index.html.erb:12
 #: ../app/views/config_reports/_list.html.erb:15
@@ -6000,37 +5999,37 @@ msgstr ""
 msgid "%s is an unknown attribute"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:81
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+#: ../app/models/compute_resource.rb:80
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:91
+#: ../app/models/compute_resource.rb:90
 msgid "must provide a provider"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:95
+#: ../app/models/compute_resource.rb:94
 msgid "unknown provider"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:246
+#: ../app/models/compute_resource.rb:245
 msgid "%s console is not supported at this time"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:255 ../app/models/compute_resource.rb:259
-#: ../app/models/compute_resource.rb:263 ../app/models/compute_resource.rb:271
-#: ../app/models/compute_resource.rb:275 ../app/models/compute_resource.rb:279
-#: ../app/models/compute_resource.rb:283 ../app/models/compute_resource.rb:287
-#: ../app/models/compute_resource.rb:291 ../app/models/compute_resource.rb:295
-#: ../app/models/compute_resource.rb:299 ../app/models/compute_resource.rb:303
-#: ../app/models/compute_resource.rb:309
+#: ../app/models/compute_resource.rb:254 ../app/models/compute_resource.rb:258
+#: ../app/models/compute_resource.rb:262 ../app/models/compute_resource.rb:270
+#: ../app/models/compute_resource.rb:274 ../app/models/compute_resource.rb:278
+#: ../app/models/compute_resource.rb:282 ../app/models/compute_resource.rb:286
+#: ../app/models/compute_resource.rb:290 ../app/models/compute_resource.rb:294
+#: ../app/models/compute_resource.rb:298 ../app/models/compute_resource.rb:302
+#: ../app/models/compute_resource.rb:308
 msgid "Not implemented for %s"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:418
+#: ../app/models/compute_resource.rb:417
 msgid "Not implemented"
 msgstr ""
 
-#: ../app/models/compute_resource.rb:471
+#: ../app/models/compute_resource.rb:470
 msgid "cannot be changed"
 msgstr ""
 
@@ -8189,11 +8188,11 @@ msgid "Puppetrun"
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:16
-msgid "Foreman will evaluate host smart variables in this order by default"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:16
-msgid "Default variables lookup path"
+msgid "Default parameters lookup path"
 msgstr ""
 
 #: ../app/models/setting/puppet.rb:17
@@ -8813,7 +8812,7 @@ msgid "Administer"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:26
-#: ../app/views/auth_source_externals/_form.html.erb:5
+#: ../app/views/auth_source_externals/_form.html.erb:7
 #: ../app/views/auth_source_ldaps/_form.html.erb:8
 #: ../app/views/compute_resources/_form.html.erb:6
 #: ../app/views/domains/_form.html.erb:9
@@ -8835,7 +8834,7 @@ msgid "Locations"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:27
-#: ../app/views/auth_source_externals/_form.html.erb:8
+#: ../app/views/auth_source_externals/_form.html.erb:12
 #: ../app/views/auth_source_ldaps/_form.html.erb:11
 #: ../app/views/compute_resources/_form.html.erb:9
 #: ../app/views/domains/_form.html.erb:12
@@ -9551,7 +9550,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_libvirt.html.erb:3
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:3
 #: ../app/views/compute_resources_vms/index/_ovirt.html.erb:3
-#: ../app/views/compute_resources_vms/index/_rackspace.html.erb:3
 #: ../app/views/compute_resources_vms/index/_vmware.html.erb:3
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:10
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:10
@@ -9610,7 +9608,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:5
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:4
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:4
-#: ../app/views/compute_resources_vms/index/_rackspace.html.erb:4
 #: ../app/views/hosts/_interfaces.html.erb:14
 #: ../app/views/hosts/_nics.html.erb:10
 #: ../app/views/provisioning_templates/_custom_tab_headers.html.erb:1
@@ -10364,7 +10361,6 @@ msgid "Secret Key"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_ec2.html.erb:9
-#: ../app/views/compute_resources/form/_rackspace.html.erb:5
 msgid "Region"
 msgstr ""
 
@@ -10522,14 +10518,6 @@ msgid ""
 "Optionally provide a CA, or a correctly ordered CA chain. If left blank, a sel"
 "f-signed CA will be populated automatically by the server during the first req"
 "uest."
-msgstr ""
-
-#: ../app/views/compute_resources/form/_rackspace.html.erb:1
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr ""
-
-#: ../app/views/compute_resources/form/_rackspace.html.erb:3
-msgid "API Key"
 msgstr ""
 
 #: ../app/views/compute_resources/form/_vmware.html.erb:1
@@ -11055,7 +11043,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/index/_ec2.html.erb:6
 #: ../app/views/compute_resources_vms/index/_gce.html.erb:5
 #: ../app/views/compute_resources_vms/index/_openstack.html.erb:5
-#: ../app/views/compute_resources_vms/index/_rackspace.html.erb:5
 #: ../app/views/puppetca/_list.html.erb:8
 msgid "State"
 msgstr ""
@@ -11081,7 +11068,6 @@ msgstr ""
 #: ../app/views/compute_resources_vms/show/_libvirt.html.erb:6
 #: ../app/views/compute_resources_vms/show/_openstack.html.erb:5
 #: ../app/views/compute_resources_vms/show/_ovirt.html.erb:6
-#: ../app/views/compute_resources_vms/show/_rackspace.html.erb:5
 #: ../app/views/compute_resources_vms/show/_vmware.html.erb:5
 #: ../app/views/hosts/_overview.html.erb:4 ../app/views/hosts/show.html.erb:32
 msgid "Properties"
@@ -12319,7 +12305,6 @@ msgstr ""
 #: ../app/views/images/form/_libvirt.html.erb:1
 #: ../app/views/images/form/_openstack.html.erb:1
 #: ../app/views/images/form/_ovirt.html.erb:1
-#: ../app/views/images/form/_rackspace.html.erb:1
 #: ../app/views/images/form/_vmware.html.erb:1
 msgid ""
 "The user that is used to ssh into the instance, normally cloud-user, ec2-user,"
@@ -12331,7 +12316,6 @@ msgstr ""
 #: ../app/views/images/form/_libvirt.html.erb:3
 #: ../app/views/images/form/_openstack.html.erb:3
 #: ../app/views/images/form/_ovirt.html.erb:2
-#: ../app/views/images/form/_rackspace.html.erb:3
 #: ../app/views/images/form/_vmware.html.erb:2
 msgid "Does this image support user data input (e.g. via cloud-init)?"
 msgstr ""
@@ -13757,8 +13741,8 @@ msgstr ""
 msgid "Organization parameters"
 msgstr ""
 
-#: ../app/views/taxonomies/_loc_org_tabs.html.erb:14
-#: ../app/views/taxonomies/_loc_org_tabs.html.erb:27
+#: ../app/views/taxonomies/_loc_org_tabs.html.erb:15
+#: ../app/views/taxonomies/_loc_org_tabs.html.erb:28
 msgid "Default on login"
 msgstr ""
 
@@ -14347,10 +14331,6 @@ msgstr ""
 
 #: ../app/views/users/logout.html.erb:1
 msgid "Are you sure you want to log out?"
-msgstr ""
-
-#: ../config/initializers/deprecations.rb:21
-msgid "Further Information"
 msgstr ""
 
 #: ../db/seeds.d/160-mail_notifications.rb:8
