@@ -17,7 +17,7 @@ const Disk = ({
   datastore,
   sizeGb,
   thin,
-  eagerzero,
+  eagerZero,
   mode,
   datastores,
   datastoresStatus,
@@ -97,15 +97,21 @@ const Disk = ({
       <Checkbox
         label={__('Thin provision')}
         checked={thin}
-        disabled={vmExists}
-        onChange={newValues => updateDisk('thin', newValues)}
+        disabled={vmExists || eagerZero}
+        onChange={newValues => {
+          updateDisk('thin', newValues);
+          newValues && updateDisk('eagerZero', false);
+        }}
       />
 
       <Checkbox
         label={__('Eager zero')}
-        checked={eagerzero}
-        disabled={vmExists}
-        onChange={newValues => updateDisk('eagerzero', newValues)}
+        checked={eagerZero}
+        disabled={vmExists || thin}
+        onChange={newValues => {
+          updateDisk('eagerZero', newValues);
+          newValues && updateDisk('thin', false);
+        }}
       />
     </div>
   );
@@ -121,7 +127,7 @@ Disk.propTypes = {
   datastore: PropTypes.string,
   sizeGb: PropTypes.number,
   thin: PropTypes.bool,
-  eagerzero: PropTypes.bool,
+  eagerZero: PropTypes.bool,
   mode: PropTypes.string,
   datastores: PropTypes.object,
   datastoresStatus: PropTypes.string,
@@ -139,7 +145,7 @@ Disk.defaultProps = {
   datastore: '',
   sizeGb: null,
   thin: false,
-  eagerzero: false,
+  eagerZero: false,
   mode: '',
   datastores: {},
   datastoresStatus: undefined,

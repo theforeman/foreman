@@ -905,11 +905,9 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           {
             'type' => 'VirtualLsiLogicController',
             'key' => 1000,
-            'eagerzero' => true,
           }, {
             'type' => 'VirtualLsiLogicController',
             'key' => 1001,
-            'eagerzero' => false,
           }
         ],
       }
@@ -917,12 +915,10 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         '0' => {
           'type' => 'VirtualLsiLogicController',
           'key' => 1000,
-          'eager_zero' => true,
         },
         '1' => {
           'type' => 'VirtualLsiLogicController',
           'key' => 1001,
-          'eager_zero' => false,
         },
       }
       normalized = cr.normalize_vm_attrs(vm_attrs)
@@ -934,7 +930,8 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       vm_attrs = {
         'volumes_attributes' => {
           '0' => {
-            'thin' => true,
+            'thin' => '0',
+            'eager_zero' => true,
             'name' => 'Hard disk',
             'mode' => 'persistent',
             'controller_key' => 1000,
@@ -945,7 +942,8 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       }
       expected_attrs = {
         '0' => {
-          'thin' => true,
+          'thin' => false,
+          'eager_zero' => true,
           'name' => 'Hard disk',
           'mode' => 'persistent',
           'controller_key' => 1000,
