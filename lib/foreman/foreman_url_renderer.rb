@@ -9,7 +9,12 @@ module Foreman
     end
 
     # returns the URL for Foreman based on the required action
-    def foreman_url(action = 'provision', params = {})
+    def foreman_url(action = nil, params = {})
+      if action.nil?
+        Foreman::Deprecation.deprecation_warning('2.3', 'Do not call foreman_url macro without arguments, use foreman_url("provision") instead.')
+        action = 'provision'
+      end
+
       # Get basic stuff
       config = URI.parse(Setting[:unattended_url])
       url_options = foreman_url_options_from_settings_or_request(config)

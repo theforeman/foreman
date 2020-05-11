@@ -49,13 +49,13 @@ class BaseMacrosTest < ActiveSupport::TestCase
 
     @scope.instance_variable_set('@host', host)
 
-    assert_match(host.provision_interface.subnet.template.url, @scope.foreman_url)
+    assert_match(host.provision_interface.subnet.template.url, @scope.foreman_url('provision'))
   end
 
   test "foreman_url should run with @host as nil" do
     @scope.instance_variable_set('@host', nil)
 
-    assert_nothing_raised { @scope.foreman_url }
+    assert_nothing_raised { @scope.foreman_url('provision') }
   end
 
   test "pxe_kernel_options are not set when no OS is set" do
