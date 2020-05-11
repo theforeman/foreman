@@ -6,6 +6,8 @@ import ChartBox from '../ChartBox/ChartBox';
 import { translate as __ } from '../../common/I18n';
 import { STATUS } from '../../constants';
 
+import './ConfigReports.scss';
+
 const ConfigReports = props => {
   const {
     metricsChartData,
@@ -29,7 +31,7 @@ const ConfigReports = props => {
 
   return (
     <Row>
-      <Col md={4}>
+      <Col md={5}>
         <ChartBox
           {...chartBoxProps}
           type="donut"
@@ -38,7 +40,7 @@ const ConfigReports = props => {
         />
       </Col>
 
-      <Col md={4}>
+      <Col md={5} className="bar-chart-medium-width">
         <ChartBox
           {...chartBoxProps}
           type="bar"
@@ -46,7 +48,7 @@ const ConfigReports = props => {
           title={__('Report Status')}
         />
       </Col>
-      <Col md={4}>
+      <Col md={2}>
         <table className={classNames(tableClasses, 'report-chart')}>
           <tbody>{tableData.map((metric, i) => createRow(metric, i))}</tbody>
           <tfoot>

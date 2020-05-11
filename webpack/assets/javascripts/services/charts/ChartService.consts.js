@@ -4,7 +4,7 @@ const enums = {
   SIZE: {
     LARGE: { height: 500 },
     REGULAR: { width: 240, height: 240 },
-    MEDIUM: { width: 350, height: 350 },
+    MEDIUM: { width: 320, height: 320 },
   },
   WIDTH: {
     SMALL: 15,
@@ -17,6 +17,7 @@ const barChartEnums = {
   SIZE: {
     LARGE: { height: 500 },
     REGULAR: { width: 350, height: 350 },
+    MEDIUM: { width: 450, height: 320 },
     SMALL: { height: 290 },
   },
   WIDTH: { ...enums.width },
@@ -81,6 +82,11 @@ export const barChartConfig = {
   ...chartConfig,
   size: barChartEnums.SIZE.REGULAR,
   padding: null,
+};
+
+export const mediumBarChartConfig = {
+  ...barChartConfig,
+  size: barChartEnums.SIZE.MEDIUM,
 };
 
 export const smallBarChartConfig = {
