@@ -1,0 +1,28 @@
+name: Deploy Main Storybook
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+
+jobs:
+  deploy_main_storybook:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        clean: false
+    - name: Run npm install
+      run: npm install
+    - name: Build Storybook
+      run: npm run build-storybook -- --output-dir=storybooks/main
+    - name: Deploy Storybook to surge.sh
+      id: surge_deploy
+      env:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      if: ${{ env.SURGE_TOKEN }}
+      run: |
+        npm install --save-dev surge
+        node_modules/.bin/surge --project storybooks/main --domain foreman.surge.sh
