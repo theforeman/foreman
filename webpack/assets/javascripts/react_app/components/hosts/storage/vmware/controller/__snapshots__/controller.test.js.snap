@@ -89,7 +89,7 @@ exports[`StorageContainer should render controller 1`] = `
           "FC0001_LX_DC1_EXAMPLE_PROD_01": "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)",
         }
       }
-      eagerzero={false}
+      eagerZero={false}
       id="e86728ee-dbde-ad59-13d6-0c5488635e73"
       key="e86728ee-dbde-ad59-13d6-0c5488635e73"
       mode="persistent"
