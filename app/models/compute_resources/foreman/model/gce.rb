@@ -244,6 +244,10 @@ module Foreman::Model
       associate_by("ip", [vm.public_ip_address, vm.private_ip_address])
     end
 
+    def connection_options
+      http_proxy ? {:proxy_url => http_proxy.full_url} : {}
+    end
+
     private
 
     def client
@@ -252,7 +256,8 @@ module Foreman::Model
         :google_project => project,
         :google_client_email => email,
         :google_json_key_location => key_path,
-        :google_extra_global_projects => ['rhel-sap-cloud']
+        :google_extra_global_projects => ['rhel-sap-cloud'],
+        :google_client_options => connection_options
       )
     end
 
