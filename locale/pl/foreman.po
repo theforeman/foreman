@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
 "Last-Translator: Michał Foryt <michal.foryt@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -5386,7 +5386,7 @@ msgid "Logged-in"
 msgstr "Zalogowany"
 
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 msgid "Login delegation logout URL"
 msgstr "Logowanie przekazano do wylogowania URL"
@@ -11051,7 +11051,8 @@ msgstr "Link zewnętrzny grupy użytkowników z tej grupy użytkowników"
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "locale_name"
 

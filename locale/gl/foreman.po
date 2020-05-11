@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
 "Last-Translator: Carmela Rubiños <carmela.rubinos@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/foreman/foreman/language/gl/"
 ")\n"
@@ -5346,7 +5346,7 @@ msgid "Logged-in"
 msgstr "Conectados"
 
 msgid "Login"
-msgstr ""
+msgstr "Conectar"
 
 msgid "Login delegation logout URL"
 msgstr ""
@@ -11001,7 +11001,8 @@ msgstr ""
 msgid "list"
 msgstr ""
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Galego"
 

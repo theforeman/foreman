@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -1332,7 +1332,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr " %{current} は %{sti_name} をネストしているために削除できません。"
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "組み込みロールを削除できません"
 
 msgid "Cannot delete global status."
 msgstr ""
@@ -5367,7 +5367,7 @@ msgid "Logged-in"
 msgstr "ログインしています"
 
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 msgid "Login delegation logout URL"
 msgstr "ログイン委任ログアウト URL"
@@ -6348,7 +6348,7 @@ msgstr ""
 "                入力名を指定します。例: %{example2} は、cpus と呼ばれる入力で値を読み込みます。"
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
-msgstr ""
+msgstr "関連付けられたフィルター 1 つ以上が無効であるため、ロールが保存できません"
 
 msgid "Only for BMC interfaces."
 msgstr "BMC インターフェスのみ。"
@@ -9163,7 +9163,7 @@ msgid "This role is locked for editing."
 msgstr "このロールは編集用にロックされています。"
 
 msgid "This role is locked from being modified by users."
-msgstr ""
+msgstr "このロールはユーザーが変更できないようにロックされています。"
 
 msgid "This service is available for unauthenticated users"
 msgstr "このサービスは未認証ユーザーが使用できます"
@@ -9612,7 +9612,7 @@ msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "%s の PuppetCA 証明書に署名できません"
 
 msgid "Unable to submit role: Problem with associated filter %s"
-msgstr ""
+msgstr "ロールを送信できません: 関連付けられたフィルターの問題 %s"
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
 msgstr ""
@@ -11043,7 +11043,8 @@ msgstr "外部ユーザーグループをこのユーザーグループにリン
 msgid "list"
 msgstr "list"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "日本語"
 
@@ -11306,7 +11307,7 @@ msgid "some interfaces are invalid"
 msgstr "一部のインターフェースが無効です"
 
 msgid "some permissions were not found: %s"
-msgstr ""
+msgstr "一部のパーミッションが見つかりませんでした: %s"
 
 msgid "space separated options, e.g. miimon=100"
 msgstr "スペース区切りのオプション (例: miimon=100)"

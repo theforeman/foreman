@@ -37,8 +37,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-03-08 12:36+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"Last-Translator: Martin Zimmermann <martin.zimmermann@gmx.com>\n"
 "Language-Team: German (http://www.transifex.com/foreman/foreman/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1367,7 +1367,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "%{current} kann nicht gelöscht werden, da es verschachtelte %{sti_name} hat."
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "Löschen einer Build-In Rolle ist nicht möglich"
 
 msgid "Cannot delete global status."
 msgstr ""
@@ -5396,7 +5396,7 @@ msgid "Logged-in"
 msgstr "Angemeldet"
 
 msgid "Login"
-msgstr ""
+msgstr "Anmelden"
 
 msgid "Login delegation logout URL"
 msgstr "Abmelde-URL für Anmeldedelegation"
@@ -9189,7 +9189,7 @@ msgid "This role is locked for editing."
 msgstr "Diese Rolle ist für Bearbeitungen gesperrt."
 
 msgid "This role is locked from being modified by users."
-msgstr ""
+msgstr "Diese Rolle ist für die Bearbeitung gesperrt."
 
 msgid "This service is available for unauthenticated users"
 msgstr "Dieser Dienst ist für nicht authentifizierte Benutzer nicht verfügbar"
@@ -11068,7 +11068,8 @@ msgstr "externe Benutzergruppe mit dieser Benutzergruppe verknüpfen"
 msgid "list"
 msgstr "Liste"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Deutsch"
 
@@ -11331,7 +11332,7 @@ msgid "some interfaces are invalid"
 msgstr "einige Schnittstellen sind ungültig"
 
 msgid "some permissions were not found: %s"
-msgstr ""
+msgstr "Einige Berechtigungen wurden nicht gefunden: %s"
 
 msgid "space separated options, e.g. miimon=100"
 msgstr "durch Leerzeichen getrennte Optionen, z.B. miimon=100"

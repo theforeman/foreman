@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -1334,7 +1334,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "无法删除 %{current}，因为它有嵌套的 %{sti_name}。 "
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "无法删除内置角色"
 
 msgid "Cannot delete global status."
 msgstr ""
@@ -5369,7 +5369,7 @@ msgid "Logged-in"
 msgstr "登录"
 
 msgid "Login"
-msgstr ""
+msgstr "登录"
 
 msgid "Login delegation logout URL"
 msgstr "登录委派退出 URL"
@@ -6350,7 +6350,7 @@ msgstr ""
 "                参数，例如，%{example2} 将会加载名为 cpus 输入所指定的值。"
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
-msgstr ""
+msgstr "一个或多个关联过滤器无效，阻止了角色保存"
 
 msgid "Only for BMC interfaces."
 msgstr "仅用于 BMC 接口"
@@ -9167,7 +9167,7 @@ msgid "This role is locked for editing."
 msgstr "这个角色已锁定，无法编辑。"
 
 msgid "This role is locked from being modified by users."
-msgstr ""
+msgstr "此角色被锁定，以防用户修改。"
 
 msgid "This service is available for unauthenticated users"
 msgstr "这个服务可用于未授权用户"
@@ -9616,7 +9616,7 @@ msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "无法签署 %s 的 PuppetCA 证书"
 
 msgid "Unable to submit role: Problem with associated filter %s"
-msgstr ""
+msgstr "无法提交角色：关联过滤器 %s 存在问题"
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
 msgstr ""
@@ -11054,7 +11054,8 @@ msgstr "将外部用户组与这个用户组关联"
 msgid "list"
 msgstr "列表"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "简体中文"
 
@@ -11317,7 +11318,7 @@ msgid "some interfaces are invalid"
 msgstr "有些接口无效"
 
 msgid "some permissions were not found: %s"
-msgstr ""
+msgstr "一些权限未找到：%s"
 
 msgid "space separated options, e.g. miimon=100"
 msgstr "使用空格分开的选项，例如：miimon=100"
