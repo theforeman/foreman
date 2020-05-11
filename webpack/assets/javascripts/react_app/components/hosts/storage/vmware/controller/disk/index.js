@@ -17,7 +17,7 @@ const Disk = ({
   datastore,
   sizeGb,
   thin,
-  eagerzero,
+  eager_zero,
   mode,
   datastores,
   datastoresStatus,
@@ -103,9 +103,9 @@ const Disk = ({
 
       <Checkbox
         label={__('Eager zero')}
-        checked={eagerzero}
+        checked={eager_zero}
         disabled={vmExists}
-        onChange={newValues => updateDisk('eagerzero', newValues)}
+        onChange={newValues => updateDisk('eager_zero', newValues)}
       />
     </div>
   );
@@ -121,7 +121,7 @@ Disk.propTypes = {
   datastore: PropTypes.string,
   sizeGb: PropTypes.number,
   thin: PropTypes.bool,
-  eagerzero: PropTypes.bool,
+  eager_zero: PropTypes.bool,
   mode: PropTypes.string,
   datastores: PropTypes.object,
   datastoresStatus: PropTypes.string,
@@ -139,7 +139,7 @@ Disk.defaultProps = {
   datastore: '',
   sizeGb: null,
   thin: false,
-  eagerzero: false,
+  eager_zero: false,
   mode: '',
   datastores: {},
   datastoresStatus: undefined,
