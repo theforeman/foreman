@@ -22,7 +22,7 @@ module Facets
     end
 
     def inherited_facet_attributes(facet_config)
-      inherited_attributes = send(facet_config.name).inherited_attributes
+      inherited_attributes = send(facet_config.name)&.inherited_attributes || {}
       hostgroup_ancestry_cache.reverse_each do |hostgroup|
         hg_facet = hostgroup.send(facet_config.name)
         next unless hg_facet
