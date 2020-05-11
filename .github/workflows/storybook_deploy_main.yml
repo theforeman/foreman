@@ -5,12 +5,13 @@ on:
     branches:
       - develop
     paths:
-      - '**[Ss]tories**'
+      - 'webpack/**'
 
 jobs:
   deploy_main_storybook:
 
     runs-on: ubuntu-latest
+    if: github.repository == 'theforeman/foreman'
 
     steps:
     - uses: actions/checkout@v2
@@ -22,6 +23,6 @@ jobs:
       name: Deploy Storybook to surge.sh
       with:
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        DOMAIN_NAME: foreman.surge.sh
+        DOMAIN_NAME: ${{ secrets.SURGE_DOMAIN }}
         BUILD_DIRECTORY: storybooks/main
       id: surge_deploy
