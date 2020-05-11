@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-02-09 20:02+0000\n"
-"Last-Translator: dschutterop <daniel@schutterop.nl>\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/foreman/foreman/l"
 "anguage/nl_NL/)\n"
 "MIME-Version: 1.0\n"
@@ -11008,7 +11008,8 @@ msgstr ""
 msgid "list"
 msgstr "lijst"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr ""
 

@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-03-12 17:35+0000\n"
-"Last-Translator: Bruno Emanuel Silva <bemanuel.pe@gmail.com>\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/foreman/foreman/l"
 "anguage/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1347,7 +1347,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr "Não foi possível remover o  %{current} porque se aninhou %{sti_name}."
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "Não é possível excluir função integrada"
 
 msgid "Cannot delete global status."
 msgstr ""
@@ -5382,7 +5382,7 @@ msgid "Logged-in"
 msgstr "Conectado"
 
 msgid "Login"
-msgstr ""
+msgstr "Efetuar login"
 
 msgid "Login delegation logout URL"
 msgstr "URL de logout para delegação de login"
@@ -6363,7 +6363,7 @@ msgstr ""
 "                entrada como um argumento. Por exemplo, %{example2} carregará o valor na entrada chamada cpus."
 
 msgid "One or more of the associated filters are invalid which prevented the role to be saved"
-msgstr ""
+msgstr "Um ou mais dos filtros associados são inválidos, o que impediu a função de ser salva"
 
 msgid "Only for BMC interfaces."
 msgstr "Apenas para interfaces BMC."
@@ -9180,7 +9180,7 @@ msgid "This role is locked for editing."
 msgstr "Esta função está bloqueada para edição."
 
 msgid "This role is locked from being modified by users."
-msgstr ""
+msgstr "Esta função está bloqueada e não pode ser modificada pelos usuários."
 
 msgid "This service is available for unauthenticated users"
 msgstr "O serviço está disponivel para usuários não autenticados."
@@ -9631,7 +9631,7 @@ msgid "Unable to sign PuppetCA certificate for %s"
 msgstr "Incapaz de assinar o certificado do PuppetCA para %s"
 
 msgid "Unable to submit role: Problem with associated filter %s"
-msgstr ""
+msgstr "Não é possível enviar a função: problema com filtro associado %s"
 
 msgid "Unable to suggest IP: subnet %s don't have a DHCP proxy associated, a proxy is not in subnets organization or IPAM is not set to DHCP"
 msgstr ""
@@ -11069,7 +11069,8 @@ msgstr "grupo de usuário externo com este grupo de usuário"
 msgid "list"
 msgstr "lista"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Português (Brasil)"
 
@@ -11332,7 +11333,7 @@ msgid "some interfaces are invalid"
 msgstr "algumas interfaces são inválidas"
 
 msgid "some permissions were not found: %s"
-msgstr ""
+msgstr "algumas permissões não foram encontradas: %s"
 
 msgid "space separated options, e.g. miimon=100"
 msgstr "opções separadas com espaço, ex:  miimon=100"

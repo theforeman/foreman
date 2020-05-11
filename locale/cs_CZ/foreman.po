@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-04-28 15:42+0000\n"
+"PO-Revision-Date: 2020-05-04 23:29+0000\n"
 "Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
@@ -1333,7 +1333,7 @@ msgid "Cannot delete %{current} because it has nested %{sti_name}."
 msgstr ""
 
 msgid "Cannot delete built-in role"
-msgstr ""
+msgstr "Vestavěnou roli nelze smazat"
 
 msgid "Cannot delete global status."
 msgstr ""
@@ -5357,7 +5357,7 @@ msgid "Logged-in"
 msgstr "Přihlášeni"
 
 msgid "Login"
-msgstr ""
+msgstr "Přihlášení"
 
 msgid "Login delegation logout URL"
 msgstr ""
@@ -9144,7 +9144,7 @@ msgid "This role is locked for editing."
 msgstr "Tato role je pro úpravy uzamčena."
 
 msgid "This role is locked from being modified by users."
-msgstr ""
+msgstr "Tato role je uzamčena před upravováním uživateli"
 
 msgid "This service is available for unauthenticated users"
 msgstr ""
@@ -11016,7 +11016,8 @@ msgstr "propojit tuto a externí skupinu uživatelů"
 msgid "list"
 msgstr "seznam"
 
-#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch or Portugues)
+#. TRANSLATORS: Provide locale name in native language (e.g. English, Deutsch
+#. or Portugues)
 msgid "locale_name"
 msgstr "Česky"
 
