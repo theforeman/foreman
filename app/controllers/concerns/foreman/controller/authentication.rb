@@ -87,8 +87,8 @@ module Foreman::Controller::Authentication
     # UI access resets only session ID
     if api_request?
       # When authenticating using SSO::OpenidConnect, upon successful authentication, we refresh the
-      # :expires_at and :sso_method values in the session (in OpenidConnect#update_session).
-      # Hence when we reset_session for SSO::OpenidConnect here, we do not reset the expires_at for session.
+      # :sso_method values in the session (in OpenidConnect#update_session).
+      # Hence when we reset_session for SSO::OpenidConnect here, we do not reset the sso_method value in session
       oidc_session? ? reset_oidc_session : reset_session
       session[:user] = user.id
       session[:api_authenticated_session] = true
@@ -102,7 +102,7 @@ module Foreman::Controller::Authentication
   end
 
   def reset_oidc_session
-    backup_session_content([:sso_method, :expires_at]) { reset_session }
+    backup_session_content { reset_session }
   end
 
   def oidc_session?
