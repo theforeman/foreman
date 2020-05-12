@@ -32,7 +32,7 @@ begin
       end
 
       def files_to_translate
-        Dir.glob(File.join(@engine.root, FILE_GLOB))
+        @engine.root.glob(FILE_GLOB)
       end
 
       def text_domain
