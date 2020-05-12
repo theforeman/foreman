@@ -1,4 +1,4 @@
-@import "~@theforeman/vendor/scss/variables";
+@import '~@theforeman/vendor/scss/variables';
 
 $caption_font_weight: 600;
 /* stylelint-disable-next-line */
@@ -15,6 +15,7 @@ $background_image: linear-gradient(
   height: 100%;
 
   .login-pf {
+    background: none;
     background-image: $background_image;
 
     .login-pf-header {
