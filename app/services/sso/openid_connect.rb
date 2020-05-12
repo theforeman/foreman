@@ -80,7 +80,6 @@ module SSO
 
     def update_session(payload)
       session[:sso_method] = self.class.to_s
-      session[:expires_at] = payload['exp']
     end
 
     def find_or_create_user_from_jwt(payload)
