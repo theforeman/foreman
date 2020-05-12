@@ -25,11 +25,7 @@ module Foreman::Controller::Session
     set_activity_time
   end
 
-  # In case of SSO::OpenidConnect Foreman will use :expiry_at from the token. This is
-  # set when the current user is set (in Authentication#set_current_user method)
-  # For other SSO types like basic_auth we use expiry at from the Settings
   def set_activity_time
-    return if session[:sso_method] == "SSO::OpenidConnect"
     session[:expires_at] = Setting[:idle_timeout].minutes.from_now.to_i
   end
 
