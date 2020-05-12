@@ -12,7 +12,7 @@ export const Loading = () => (
   <Story narrow>
     <ChartBox
       chart={{ data: [] }}
-      noDataMsg="No data here"
+      noDataMsg="No data here."
       title="Title"
       status="PENDING"
     />

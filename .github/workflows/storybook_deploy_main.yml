@@ -1,8 +1,11 @@
 name: Deploy Main Storybook
 
 on:
-  schedule:
-    - cron: '0 7 * * *'
+  push:
+    branches:
+      - develop
+    paths:
+      - '**[Ss]tories**'
 
 jobs:
   deploy_main_storybook:
@@ -11,8 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        clean: false
     - name: Run npm install
       run: npm install
     - name: Build Storybook
