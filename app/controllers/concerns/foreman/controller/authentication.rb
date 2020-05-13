@@ -76,26 +76,15 @@ module Foreman::Controller::Authentication
     # such sessions aren't checked for CSRF
     # UI access resets only session ID
     if api_request?
-      # When authenticating using SSO::OpenidConnect, upon successful authentication, we refresh the
-      # :sso_method values in the session (in OpenidConnect#update_session).
-      # Hence when we reset_session for SSO::OpenidConnect here, we do not reset the sso_method value in session
-      oidc_session? ? reset_oidc_session : reset_session
+      reset_session
       session[:user] = user.id
       session[:api_authenticated_session] = true
       set_activity_time
     else
-      oidc_session? ? reset_oidc_session : backup_session_content { reset_session }
+      backup_session_content { reset_session }
       session[:user] = user.id
       update_activity_time
     end
     user.present?
-  end
-
-  def reset_oidc_session
-    backup_session_content { reset_session }
-  end
-
-  def oidc_session?
-    session[:sso_method] == "SSO::OpenidConnect"
   end
 end
