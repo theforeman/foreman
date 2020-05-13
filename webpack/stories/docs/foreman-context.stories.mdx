@@ -10,7 +10,7 @@ import { Meta } from '@theforeman/stories';
 # ForemanContext
 
 ForemanContext is an implementation of the new `React Context` API.
-Global metadata (such as version, pagination, theme, foreman's settings, etc...) can be shared over all react nodes
+Global metadata (such as version, pagination, user, taxonomies, theme, foreman's settings, etc...) can be shared over all react nodes
 without any redux integration nor API request.
 
 ### How to apply it
@@ -27,10 +27,16 @@ Like selectors, you can consume context values by custom hooks:
 import {
   useForemanSettings,
   useForemanVersion,
+  useForemanOrganization,
+  useForemanLocation,
+  useForemanUser
 } from '../../Root/Context/ForemanContext';
 
 const { perPage } = useForemanSettings();
 const foremanVersion = useForemanVersion();
+const { id, title } = useForemanLocation();
+const { id, title } = useForemanOrganization();
+const { id, login, firstname, lastname, admin } = useForemanUser();
 ```
 
 ### How to add a value to the context
