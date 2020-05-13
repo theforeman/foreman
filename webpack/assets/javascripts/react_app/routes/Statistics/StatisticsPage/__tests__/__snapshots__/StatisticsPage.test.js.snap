@@ -15,6 +15,30 @@ exports[`StatisticsPage rendering render with props 1`] = `
   toastNotifications={null}
   toolbarButtons={null}
 >
+  <Alert
+    className=""
+    onDismiss={null}
+    type="warning"
+  >
+    <span
+      className="pficon pficon-warning-triangle-o"
+    />
+    <strong>
+      This functionality is deprecated 
+    </strong>
+    <span
+      className="text"
+    >
+      and will be removed in version 2.2. If you wish continue using it, you will need to install the Foreman Statistics plugin when upgrading to 2.2.
+      <a
+        href="/links/forums?post=t/trends-and-statistics-plugin/18745/4"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Join discussion
+      </a>
+    </span>
+  </Alert>
   <Component
     getStatisticsMeta={[Function]}
     hasData={true}

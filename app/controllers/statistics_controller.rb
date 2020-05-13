@@ -2,7 +2,7 @@ class StatisticsController < ApplicationController
   before_action :find_stat, :only => [:show]
 
   def index
-    render :json => charts.map(&:metadata)
+    render :json => { :charts => charts.map(&:metadata), discussion_url: external_link_path(type: 'forums', post: 't/trends-and-statistics-plugin/18745') }
   end
 
   def show
