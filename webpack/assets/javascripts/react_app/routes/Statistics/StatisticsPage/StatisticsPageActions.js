@@ -14,7 +14,11 @@ export const getStatisticsMeta = (
     dispatch(hideLoading());
     dispatch({
       type: STATISTICS_PAGE_DATA_RESOLVED,
-      payload: { metadata: data, hasData: data.length > 0 },
+      payload: {
+        metadata: data.charts,
+        hasData: data.charts.length > 0,
+        discussionUrl: data.discussion_url,
+      },
     });
   };
 

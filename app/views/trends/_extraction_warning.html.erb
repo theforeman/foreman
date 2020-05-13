@@ -1,8 +1,5 @@
-<% if User.current.admin? %>
-  <%= alert :class => 'alert-warning', :header => _("This funcionality is deprecated"),
-            :text => ("and will be removed in version 2.2. "\
-                       "If you wish continue using it, please install a plugin Foreman Statistics. "\
-                       "For instructions follow " +
-                       link_to('Statistics Plugin manual', external_link_path(type: 'plugin_manual', name: 'foreman_statistics', version: '1.0'))
-                     ).html_safe %>
-<% end %>
+<%= alert :class => 'alert-warning', :header => _("This functionality is deprecated"),
+          :text => ("and will be removed in version 2.2. "\
+                     "If you wish continue using it, you will need to install the Foreman Statistics plugin when upgrading to 2.2. " +
+                     link_to('Join discussion', external_link_path(type: 'forums', post: 't/trends-and-statistics-plugin/18745'), :target => '_blank')
+                   ).html_safe %>
