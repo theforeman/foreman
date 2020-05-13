@@ -2,6 +2,7 @@
 <% title _("Trends") %>
 <% title_actions new_link(_("Add Trend Counter")),
                  documentation_button('4.1.3Trends') %>
+<%= render 'trends/extraction_warning' %>
 <% if @trends.empty? %>
   <%= alert :class => 'alert-info', :header => _("No trend counter defined"),
             :text => (_("To define trend counters, use the Add Trend Counter button.</br> To start collecting trend data, set a cron job to execute 'foreman-rake trends:counter' at least every %s minutes.") % Setting[:outofsync_interval]).html_safe %>
