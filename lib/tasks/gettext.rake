@@ -32,7 +32,7 @@ begin
       end
 
       def files_to_translate
-        @engine.root.glob(FILE_GLOB)
+        @engine.root.glob(FILE_GLOB).map(&:to_s)
       end
 
       def text_domain
