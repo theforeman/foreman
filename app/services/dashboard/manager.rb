@@ -50,7 +50,7 @@ module Dashboard
                 name: N_('Host Configuration Chart for %s') % origin,
                 settings: {
                   origin: origin,
-                  class_name: 'host-configuration-chart',
+                  class_name: 'host-configuration-chart-widget',
                 },
               },
             ]
