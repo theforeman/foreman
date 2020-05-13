@@ -2,7 +2,7 @@ import API from '../../../../redux/API/API';
 
 import { testActionSnapshotWithFixtures } from '../../../../common/testHelpers';
 import { getStatisticsMeta } from '../StatisticsPageActions';
-import { statisticsProps } from '../StatisticsPage.fixtures';
+import { statisticsProps, discussionUrl } from '../StatisticsPage.fixtures';
 
 jest.mock('../../../../redux/API/API');
 
@@ -15,7 +15,10 @@ const runStatisticsAction = (callback, props, serverMock) => {
 const fixtures = {
   'should fetch statisticsMeta': () =>
     runStatisticsAction(getStatisticsMeta, {}, async () => ({
-      data: statisticsProps.statisticsMeta,
+      data: {
+        charts: statisticsProps.statisticsMeta,
+        discussion_url: discussionUrl,
+      },
     })),
   'should fetch statisticsMeta and fail': () =>
     runStatisticsAction(getStatisticsMeta, {}, async () => {

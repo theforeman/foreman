@@ -19,7 +19,7 @@ class LinksController < ApplicationController
     when 'chat'
       'https://freenode.net'
     when 'forums'
-      'https://community.theforeman.org'
+      forum_url(options['post'])
     when 'issues'
       'https://projects.theforeman.org/projects/foreman/issues'
     when 'vmrc'
@@ -42,6 +42,11 @@ class LinksController < ApplicationController
     root_url = options[:root_url] || "https://theforeman.org/plugins"
     path = version ? "#{plugin_name}/#{version}" : plugin_name
     "#{root_url}/#{path}"
+  end
+
+  def forum_url(post_path = nil, options: {})
+    root = options[:root] || 'https://community.theforeman.org'
+    post_path ? "#{root}/#{post_path}" : root
   end
 
   def wiki_url(section: '')

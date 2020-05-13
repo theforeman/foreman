@@ -4,6 +4,7 @@ exports[`StatisticsPage selectors should return StatisticsHasMetadata 1`] = `tru
 
 exports[`StatisticsPage selectors should return StatisticsPage 1`] = `
 Object {
+  "discussionUrl": "/links/forums?post=t/trends-and-statistics-plugin/18745/4",
   "getStatisticsMeta": [Function],
   "hasData": true,
   "hasError": false,
