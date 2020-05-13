@@ -10,6 +10,8 @@ class LinksController < ApplicationController
     case type
     when 'manual'
       documentation_url(options['section'], options)
+    when 'plugin_manual'
+      plugin_documentation_url(options['name'])
     when 'feed'
       Setting['rss_url']
     when 'wiki'
@@ -24,6 +26,8 @@ class LinksController < ApplicationController
       'https://www.vmware.com/go/download-vmrc'
     end
   end
+
+  private
 
   def documentation_url(section = "", options = {})
     root_url = options[:root_url] || "https://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#"
