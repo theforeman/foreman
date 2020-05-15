@@ -13,7 +13,8 @@
   <%= datetime_local_f f, :generate_at,
       label: _('Generate at'),
       label_help: _('Generate report on a given time.'),
-      input_props: { placement: 'bottom' }
+      input_props: { placement: 'bottom' },
+      value: ( f.object.generate_at || Time.now ).iso8601
     %>
 
   <%= checkbox_f f, :send_mail,
