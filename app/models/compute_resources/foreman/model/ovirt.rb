@@ -138,6 +138,13 @@ module Foreman::Model
       templates
     end
 
+    def image_exists?(image)
+      client.templates.get(image).present?
+    rescue => e
+      Foreman::Logging.exception("Error while checking if image exists", e)
+      false
+    end
+
     def template(id)
       compute = client.templates.get(id) || raise(ActiveRecord::RecordNotFound)
       compute.interfaces
