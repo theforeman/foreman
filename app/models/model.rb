@@ -14,7 +14,6 @@ class Model < ApplicationRecord
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates_lengths_from_database
   validates :name, :uniqueness => true, :presence => true

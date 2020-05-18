@@ -75,7 +75,6 @@ class AddKeys < ActiveRecord::Migration[4.2]
     add_foreign_key "template_combinations", "environments", :name => "template_combinations_environment_id_fk"
     add_foreign_key "template_combinations", "hostgroups", :name => "template_combinations_hostgroup_id_fk"
     add_foreign_key "tokens", "hosts", :name => "tokens_host_id_fk"
-    add_foreign_key "trend_counters", "trends", :name => "trend_counters_trend_id_fk"
     add_foreign_key "user_compute_resources", "compute_resources", :name => "user_compute_resources_compute_resource_id_fk"
     add_foreign_key "user_compute_resources", "users", :name => "user_compute_resources_user_id_fk"
     add_foreign_key "user_domains", "domains", :name => "user_domains_domain_id_fk"

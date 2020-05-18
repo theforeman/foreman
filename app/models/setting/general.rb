@@ -15,7 +15,6 @@ class Setting::General < Setting
       set('foreman_url', N_("URL where your Foreman instance is reachable (see also Provisioning > unattended_url)"), foreman_url, N_('Foreman URL')),
       set('entries_per_page', N_("Number of records shown per page in Foreman"), 20, N_('Entries per page')),
       set('fix_db_cache', N_('Fix DB cache on next Foreman restart'), false, N_('Fix DB cache')),
-      set('max_trend', N_("Max days for Trends graphs"), 30, N_('Max trends')),
       set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true, N_('DB pending migration')),
       set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true, N_('DB pending seed')),
       set('proxy_request_timeout', N_("Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"), 60, N_('Smart Proxy request timeout')),

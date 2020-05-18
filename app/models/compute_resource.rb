@@ -11,7 +11,6 @@ class ComputeResource < ApplicationRecord
   validates_lengths_from_database
 
   serialize :attrs, Hash
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   belongs_to :http_proxy
 
   before_destroy EnsureNotUsedBy.new(:hosts)
