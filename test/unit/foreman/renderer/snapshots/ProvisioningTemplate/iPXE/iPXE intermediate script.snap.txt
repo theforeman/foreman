@@ -4,167 +4,167 @@
 :net0
 isset ${net0/mac} || goto no_nic
 dhcp net0 || goto net1
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net0/mac} || goto net1
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet0%2Fmac%7D || goto net1
 
 :net1
 isset ${net1/mac} || goto no_nic
 dhcp net1 || goto net2
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net1/mac} || goto net2
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet1%2Fmac%7D || goto net2
 
 :net2
 isset ${net2/mac} || goto no_nic
 dhcp net2 || goto net3
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net2/mac} || goto net3
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet2%2Fmac%7D || goto net3
 
 :net3
 isset ${net3/mac} || goto no_nic
 dhcp net3 || goto net4
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net3/mac} || goto net4
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet3%2Fmac%7D || goto net4
 
 :net4
 isset ${net4/mac} || goto no_nic
 dhcp net4 || goto net5
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net4/mac} || goto net5
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet4%2Fmac%7D || goto net5
 
 :net5
 isset ${net5/mac} || goto no_nic
 dhcp net5 || goto net6
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net5/mac} || goto net6
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet5%2Fmac%7D || goto net6
 
 :net6
 isset ${net6/mac} || goto no_nic
 dhcp net6 || goto net7
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net6/mac} || goto net7
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet6%2Fmac%7D || goto net7
 
 :net7
 isset ${net7/mac} || goto no_nic
 dhcp net7 || goto net8
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net7/mac} || goto net8
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet7%2Fmac%7D || goto net8
 
 :net8
 isset ${net8/mac} || goto no_nic
 dhcp net8 || goto net9
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net8/mac} || goto net9
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet8%2Fmac%7D || goto net9
 
 :net9
 isset ${net9/mac} || goto no_nic
 dhcp net9 || goto net10
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net9/mac} || goto net10
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet9%2Fmac%7D || goto net10
 
 :net10
 isset ${net10/mac} || goto no_nic
 dhcp net10 || goto net11
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net10/mac} || goto net11
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet10%2Fmac%7D || goto net11
 
 :net11
 isset ${net11/mac} || goto no_nic
 dhcp net11 || goto net12
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net11/mac} || goto net12
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet11%2Fmac%7D || goto net12
 
 :net12
 isset ${net12/mac} || goto no_nic
 dhcp net12 || goto net13
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net12/mac} || goto net13
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet12%2Fmac%7D || goto net13
 
 :net13
 isset ${net13/mac} || goto no_nic
 dhcp net13 || goto net14
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net13/mac} || goto net14
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet13%2Fmac%7D || goto net14
 
 :net14
 isset ${net14/mac} || goto no_nic
 dhcp net14 || goto net15
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net14/mac} || goto net15
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet14%2Fmac%7D || goto net15
 
 :net15
 isset ${net15/mac} || goto no_nic
 dhcp net15 || goto net16
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net15/mac} || goto net16
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet15%2Fmac%7D || goto net16
 
 :net16
 isset ${net16/mac} || goto no_nic
 dhcp net16 || goto net17
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net16/mac} || goto net17
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet16%2Fmac%7D || goto net17
 
 :net17
 isset ${net17/mac} || goto no_nic
 dhcp net17 || goto net18
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net17/mac} || goto net18
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet17%2Fmac%7D || goto net18
 
 :net18
 isset ${net18/mac} || goto no_nic
 dhcp net18 || goto net19
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net18/mac} || goto net19
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet18%2Fmac%7D || goto net19
 
 :net19
 isset ${net19/mac} || goto no_nic
 dhcp net19 || goto net20
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net19/mac} || goto net20
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet19%2Fmac%7D || goto net20
 
 :net20
 isset ${net20/mac} || goto no_nic
 dhcp net20 || goto net21
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net20/mac} || goto net21
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet20%2Fmac%7D || goto net21
 
 :net21
 isset ${net21/mac} || goto no_nic
 dhcp net21 || goto net22
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net21/mac} || goto net22
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet21%2Fmac%7D || goto net22
 
 :net22
 isset ${net22/mac} || goto no_nic
 dhcp net22 || goto net23
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net22/mac} || goto net23
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet22%2Fmac%7D || goto net23
 
 :net23
 isset ${net23/mac} || goto no_nic
 dhcp net23 || goto net24
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net23/mac} || goto net24
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet23%2Fmac%7D || goto net24
 
 :net24
 isset ${net24/mac} || goto no_nic
 dhcp net24 || goto net25
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net24/mac} || goto net25
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet24%2Fmac%7D || goto net25
 
 :net25
 isset ${net25/mac} || goto no_nic
 dhcp net25 || goto net26
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net25/mac} || goto net26
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet25%2Fmac%7D || goto net26
 
 :net26
 isset ${net26/mac} || goto no_nic
 dhcp net26 || goto net27
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net26/mac} || goto net27
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet26%2Fmac%7D || goto net27
 
 :net27
 isset ${net27/mac} || goto no_nic
 dhcp net27 || goto net28
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net27/mac} || goto net28
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet27%2Fmac%7D || goto net28
 
 :net28
 isset ${net28/mac} || goto no_nic
 dhcp net28 || goto net29
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net28/mac} || goto net29
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet28%2Fmac%7D || goto net29
 
 :net29
 isset ${net29/mac} || goto no_nic
 dhcp net29 || goto net30
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net29/mac} || goto net30
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet29%2Fmac%7D || goto net30
 
 :net30
 isset ${net30/mac} || goto no_nic
 dhcp net30 || goto net31
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net30/mac} || goto net31
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet30%2Fmac%7D || goto net31
 
 :net31
 isset ${net31/mac} || goto no_nic
 dhcp net31 || goto net32
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net31/mac} || goto net32
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet31%2Fmac%7D || goto net32
 
 :net32
 isset ${net32/mac} || goto no_nic
 dhcp net32 || goto net33
-chain http://foreman.some.host.fqdn/unattended/iPXE?mac=${net32/mac} || goto net33
+chain http://foreman.some.host.fqdn/unattended/iPXE?mac=%24%7Bnet32%2Fmac%7D || goto net33
 
 :net33
 goto no_nic
