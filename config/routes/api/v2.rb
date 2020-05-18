@@ -206,6 +206,7 @@ Foreman::Application.routes.draw do
 
       resources :http_proxies, :except => [:new, :edit]
 
+      # TODO: remove in 2.4
       resources :trends, :only => [:create, :index, :show, :destroy]
 
       resources :subnets, :except => [:new, :edit] do
