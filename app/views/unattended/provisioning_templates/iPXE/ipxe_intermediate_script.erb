@@ -11,7 +11,7 @@ snippet: false
 :net<%= i %>
 isset ${net<%= i -%>/mac} || goto no_nic
 dhcp net<%= i -%> || goto net<%= i+1 %>
-chain <%= foreman_url('iPXE') %>?mac=${net<%= i -%>/mac} || goto net<%= i+1 %>
+chain <%= foreman_url('iPXE', mac: "${net#{i}/mac}") %> || goto net<%= i+1 %>
 <% end -%>
 
 :net33
