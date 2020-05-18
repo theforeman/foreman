@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
 "MIME-Version: 1.0\n"
@@ -435,9 +435,6 @@ msgstr "メール設定の動作を確認するテストメッセージ"
 
 msgid "A user group already exists with this name"
 msgstr "ユーザーグループはこの名前ですでに存在します"
-
-msgid "API Key"
-msgstr "API キー"
 
 msgid "API Resources"
 msgstr "API リソース"
@@ -2218,6 +2215,9 @@ msgstr "デフォルトの組織"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr "空の Forman が現在のユーザーを使用する場合の、プロビジョニングされたホストのデフォルトの所有者"
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "デフォルトテンプレートが新しい組織およびロケーションに自動的に追加されます"
 
@@ -2229,9 +2229,6 @@ msgstr "デフォルト値"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "デフォルトの変数ルックアップパス"
 
 msgid "Default verification mode"
 msgstr "デフォルトの検証モード"
@@ -3450,8 +3447,8 @@ msgstr "Foreman は、自動検出できない場合にこの puppet 環境に�
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "Foreman は、プロビジョニングスクリプトがゼロ以外の終了コードで終了する場合に仮想マシンを削除します"
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman は、デフォルトではこの順番でホストのスマート変数を評価します"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman は ENC YAML 出力で puppet 環境を明示的に設定します。これにより、puppet.conf の環境と Foreman で設定される環境間の競合を避けられます"
@@ -3521,9 +3518,6 @@ msgstr "完全トレース"
 
 msgid "Function not available for %s"
 msgstr "%s の機能が使用不可です"
-
-msgid "Further Information"
-msgstr "追加情報"
 
 msgid "GMT time"
 msgstr "GMT 時間"
@@ -4808,8 +4802,8 @@ msgstr "レベル"
 msgid "Libvirt default console address"
 msgstr "Libvirt のデフォルトコンソールアドレス"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
-msgstr "Libvirt、oVirt、OpenStack および Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
+msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr "再ビルドのステップの制限。有効なステップは  %{host_rebuild_steps} です。"
@@ -10764,9 +10758,6 @@ msgstr "例: admin@internal"
 
 msgid "e.g. givenName"
 msgstr "例: givenName"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "例: https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Catalan (http://www.transifex.com/foreman/foreman/language/ca/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -428,9 +428,6 @@ msgstr ""
 
 msgid "A user group already exists with this name"
 msgstr ""
-
-msgid "API Key"
-msgstr "Clau de l'API"
 
 msgid "API Resources"
 msgstr ""
@@ -2211,6 +2208,9 @@ msgstr "Organització per defecte"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr ""
 
@@ -2222,9 +2222,6 @@ msgstr "Valor per defecte"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "Camí per defecte de recerca de les variables"
 
 msgid "Default verification mode"
 msgstr "Mode predeterminat de verificació"
@@ -3441,8 +3438,8 @@ msgstr "Foreman utilitzarà per defecte aquest entorn de puppet si no en pot det
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr ""
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman avaluarà les variables intel·ligents dels amfitrions en aquest ordre per defecte"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman establirà explícitament l'entorn de puppet a la sortida YAML ENC. Això evitarà conflictes entre l'entorn establert al puppet.conf i l'entorn establert a Foreman"
@@ -3511,9 +3508,6 @@ msgid "Full trace"
 msgstr "Traça completa"
 
 msgid "Function not available for %s"
-msgstr ""
-
-msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -4793,7 +4787,7 @@ msgstr "Nivell"
 msgid "Libvirt default console address"
 msgstr "Adreça de la consola per defecte de Libvirt"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10732,9 +10726,6 @@ msgstr "p. ex. admin@internal"
 
 msgid "e.g. givenName"
 msgstr "p. ex. givenName"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "p. ex. https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

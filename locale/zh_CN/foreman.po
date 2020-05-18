@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -437,9 +437,6 @@ msgstr "用来测试电子邮件配置是否可以正常工作的测试信息"
 
 msgid "A user group already exists with this name"
 msgstr "此用户组名已存在"
-
-msgid "API Key"
-msgstr "API密钥"
 
 msgid "API Resources"
 msgstr "API 资源"
@@ -2220,6 +2217,9 @@ msgstr "默认组织"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr "预配主机的默认所有者如果为空，Foreman 将使用当前用户"
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "自动在新机构和位置中添加默认模板"
 
@@ -2231,9 +2231,6 @@ msgstr "默认值"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "默认变量查找路径"
 
 msgid "Default verification mode"
 msgstr "默认验证模式"
@@ -3452,8 +3449,8 @@ msgstr "如果无法自动探测到环境，Foreman 将默认使用这个 puppet
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "如果预配脚本最终得到一个非零退出代码，则 Foreman 将删除虚拟机。"
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman 将默认以这个顺序评估主机智能变量"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman 将在 ENC yaml 输出中明确设置这个 puppet 环境。这样可以避免 puppet.conf 以及 Foreman 中设置的环境冲突。"
@@ -3523,9 +3520,6 @@ msgstr "全跟踪"
 
 msgid "Function not available for %s"
 msgstr "功能无法用于 %s"
-
-msgid "Further Information"
-msgstr "进一步的信息"
 
 msgid "GMT time"
 msgstr "GMT 时间"
@@ -4810,8 +4804,8 @@ msgstr "阶段"
 msgid "Libvirt default console address"
 msgstr "Libvirt 默认控制台地址"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
-msgstr "Libvirt、oVirt、OpenStack 和 Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
+msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr "限制重建步骤，有效步骤是 %{host_rebuild_steps}"
@@ -10775,9 +10769,6 @@ msgstr "例如：admin@cm.com"
 
 msgid "e.g. givenName"
 msgstr "例如：名字"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "例如：https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

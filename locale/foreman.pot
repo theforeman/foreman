@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-11 22:50+0530\n"
-"PO-Revision-Date: 2020-05-11 22:50+0530\n"
+"POT-Creation-Date: 2020-05-18 16:47+0300\n"
+"PO-Revision-Date: 2020-05-18 16:47+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -37,7 +37,7 @@ msgid "Warning"
 msgstr ""
 
 #: ../app/assets/javascripts/application.js:400
-#: ../app/controllers/application_controller.rb:371
+#: ../app/controllers/application_controller.rb:374
 #: ../app/helpers/dashboard_helper.rb:59 ../app/helpers/layout_helper.rb:160
 #: ../app/models/host_status/configuration_status.rb:71
 #: ../app/models/host_status/global.rb:38
@@ -1959,16 +1959,88 @@ msgstr ""
 msgid "a location"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:8
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:9
 msgid "List of email notifications"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:19
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:16
+msgid ""
+"Mail notification interval option, e.g. Daily, Weekly or Monthly. Required for"
+" summary notification"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:17
+msgid ""
+"Mail notification subscription option, e.g. Subscribe, Subscribe to my hosts o"
+"r Subscribe to all hosts. Required for host built and config error state"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:18
+msgid "Relevant only for audit summary notification"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:28
 msgid "Show an email notification"
 msgstr ""
 
-#: ../app/controllers/api/v2/mail_notifications_controller.rb:20
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:29
 msgid "Numerical ID or email notification name"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:34
+msgid "Add an email notification for a user"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:48
+msgid "User mail notification already exists. Use the update action"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:54
+msgid "Update an email notification for a user"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:62
+msgid "No user mail notification to update. Use the create action"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:71
+msgid "Remove an email notification for a user"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:81
+msgid "You do not have permission to delete a mail notification of another user"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:85
+msgid "List all email notifications for a user"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:101
+msgid "Interval or subscription option is missing"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:102
+msgid "You do not have permission to add a mail notification to another user"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:103
+msgid "Interval option is needed"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:104
+msgid "Subscription option is needed"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:107
+msgid "Interval option is not valid"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:108
+msgid "Subscription option is not valid"
+msgstr ""
+
+#: ../app/controllers/api/v2/mail_notifications_controller.rb:109
+msgid "Mail query is not valid"
 msgstr ""
 
 #: ../app/controllers/api/v2/media_controller.rb:21
@@ -3345,45 +3417,45 @@ msgstr ""
 msgid "Data has been cleaned up"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:245
+#: ../app/controllers/application_controller.rb:248
 msgid "Administrator user account required"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:278
+#: ../app/controllers/application_controller.rb:281
 msgid "Successfully created %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:280
+#: ../app/controllers/application_controller.rb:283
 msgid "Successfully updated %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:282
+#: ../app/controllers/application_controller.rb:285
 msgid "Successfully deleted %s."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:284
+#: ../app/controllers/application_controller.rb:287
 msgid "Unknown action name for success message: %s"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:309
+#: ../app/controllers/application_controller.rb:312
 msgid "Conflict - %s"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:356
+#: ../app/controllers/application_controller.rb:359
 msgid "You must create at least one location before continuing."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:358
+#: ../app/controllers/application_controller.rb:361
 msgid "You must create at least one organization before continuing."
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:371
+#: ../app/controllers/application_controller.rb:374
 #: ../app/helpers/dashboard_helper.rb:60 ../app/models/host_status/global.rb:34
 #: ../app/views/hosts/_dhcp_lease_errors.html.erb:18
 msgid "OK"
 msgstr ""
 
-#: ../app/controllers/application_controller.rb:396
+#: ../app/controllers/application_controller.rb:399
 msgid "Invalid authenticity token"
 msgstr ""
 
@@ -11889,7 +11961,7 @@ msgid "Please Confirm"
 msgstr ""
 
 #: ../app/views/hosts/_metrics.html.erb:4
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:46
+#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:48
 msgid "Report Status"
 msgstr ""
 
@@ -13505,7 +13577,7 @@ msgid "Number of classes"
 msgstr ""
 
 #: ../app/views/smart_proxies/plugins/_puppet_envs.html.erb:15
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:54
+#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:56
 msgid "Total"
 msgstr ""
 
@@ -14877,7 +14949,7 @@ msgstr ""
 
 #: ../webpack/assets/javascripts/react_app/components/ChartBox/ChartBox.js:133
 #: ../webpack/assets/javascripts/react_app/components/ChartBox/index.js:71
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:25
+#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:27
 #: ../webpack/assets/javascripts/react_app/components/FactCharts/FactChart.js:39
 #: ../webpack/assets/javascripts/react_app/components/StatisticsChartsList/index.js:14
 #: ../webpack/assets/javascripts/react_app/components/common/charts/BarChart/index.js:55
@@ -14887,7 +14959,7 @@ msgid "No data available"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:37
+#: ../webpack/assets/javascripts/react_app/components/ConfigReports/ConfigReports.js:39
 msgid "Report Metrics"
 msgstr ""
 
@@ -15161,7 +15233,7 @@ msgid "Thin provision"
 msgstr ""
 
 #:
-#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:105
+#: ../webpack/assets/javascripts/react_app/components/hosts/storage/vmware/controller/disk/index.js:108
 msgid "Eager zero"
 msgstr ""
 

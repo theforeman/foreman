@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: Bryan Kearney <bryan.kearney@gmail.com>\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: French (http://www.transifex.com/foreman/foreman/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -453,9 +453,6 @@ msgstr "Message de test pour vérifier que la configuration de la messagerie él
 
 msgid "A user group already exists with this name"
 msgstr "Un groupe d'utilisateurs portant ce nom existe déjà"
-
-msgid "API Key"
-msgstr "Clé API"
 
 msgid "API Resources"
 msgstr "Ressources API"
@@ -2236,6 +2233,9 @@ msgstr "Organisation par défaut"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr "Propriétaire par défaut sur les hôtes provisionnés. Si vide, Foreman aura recours à l'utilisateur actif"
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "Les modèles par défaut sont automatiquement ajoutés aux nouvelles organisations et emplacements"
 
@@ -2247,9 +2247,6 @@ msgstr "Valeur par défaut"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "Chemin de recherche par défaut des variables"
 
 msgid "Default verification mode"
 msgstr "Mode de vérification par défaut"
@@ -3466,8 +3463,8 @@ msgstr "L'environnement Puppet par défaut si Foreman n'arrive pas à le détect
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "Foreman va supprimer la machine virtuelle si le script de provisioning renvoie un code d'erreur de sortie non nul"
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman évaluera par défaut les smart variables de l'hôte dans cette ordre "
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman fournira l'environnement Puppet dans la sortie YAML de l'ENC. Cela supprime  les incohérences entre l'environnement dans puppet.conf et l'environnement dans l'ENC."
@@ -3537,9 +3534,6 @@ msgstr "trace complète"
 
 msgid "Function not available for %s"
 msgstr "Fonction non disponible pour %s"
-
-msgid "Further Information"
-msgstr "Informations supplémentaires"
 
 msgid "GMT time"
 msgstr "Heure UTC"
@@ -4824,8 +4818,8 @@ msgstr "Niveau"
 msgid "Libvirt default console address"
 msgstr "Adresse par défaut pour la console Libvirt"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
-msgstr "Libvirt, oVirt, OpenStack et Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
+msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr "Limiter les étapes de reconstruction, les étapes valides sont %{host_rebuild_steps}"
@@ -10789,9 +10783,6 @@ msgstr "Ex : admin@interne"
 
 msgid "e.g. givenName"
 msgstr "Ex : givenName"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "Ex : https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

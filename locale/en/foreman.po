@@ -520,6 +520,9 @@ msgstr ""
 msgid "Add an SSH key for a user"
 msgstr ""
 
+msgid "Add an email notification for a user"
+msgstr ""
+
 msgid "Add external user group"
 msgstr ""
 
@@ -4617,6 +4620,15 @@ msgstr ""
 msgid "Interpolate ERB in parameters"
 msgstr ""
 
+msgid "Interval option is needed"
+msgstr ""
+
+msgid "Interval option is not valid"
+msgstr ""
+
+msgid "Interval or subscription option is missing"
+msgstr ""
+
 msgid "Invalid %{assoc} selection, you must select at least one of yours and have '%{perm}' permission."
 msgstr ""
 
@@ -4855,6 +4867,9 @@ msgid "List all bookmarks"
 msgstr ""
 
 msgid "List all compute resources"
+msgstr ""
+
+msgid "List all email notifications for a user"
 msgstr ""
 
 msgid "List all environments"
@@ -5465,7 +5480,16 @@ msgstr ""
 msgid "Mail notification"
 msgstr ""
 
+msgid "Mail notification interval option, e.g. Daily, Weekly or Monthly. Required for summary notification"
+msgstr ""
+
+msgid "Mail notification subscription option, e.g. Subscribe, Subscribe to my hosts or Subscribe to all hosts. Required for host built and config error state"
+msgstr ""
+
 msgid "Mail query"
+msgstr ""
+
+msgid "Mail query is not valid"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -6100,6 +6124,9 @@ msgid "No trend counter defined"
 msgstr ""
 
 msgid "No trend counter found"
+msgstr ""
+
+msgid "No user mail notification to update. Use the create action"
 msgstr ""
 
 msgid "None"
@@ -7248,6 +7275,9 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
+msgid "Relevant only for audit summary notification"
+msgstr ""
+
 msgid "Remember hosts selection for the next bulk action"
 msgstr ""
 
@@ -7286,6 +7316,9 @@ msgid "Remove a Puppet class from host"
 msgstr ""
 
 msgid "Remove a Puppet class from host group"
+msgstr ""
+
+msgid "Remove an email notification for a user"
 msgstr ""
 
 msgid "Remove conflicting %{type} for %{host}"
@@ -8477,6 +8510,12 @@ msgid "Subscribe to all hosts"
 msgstr ""
 
 msgid "Subscribe to my hosts"
+msgstr ""
+
+msgid "Subscription option is needed"
+msgstr ""
+
+msgid "Subscription option is not valid"
 msgstr ""
 
 msgid "Success"
@@ -9782,6 +9821,9 @@ msgstr ""
 msgid "Update an architecture"
 msgstr ""
 
+msgid "Update an email notification for a user"
+msgstr ""
+
 msgid "Update an environment"
 msgstr ""
 
@@ -9959,6 +10001,9 @@ msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "User mail notification"
+msgstr ""
+
+msgid "User mail notification already exists. Use the update action"
 msgstr ""
 
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
@@ -10461,6 +10506,12 @@ msgid "You do not have permission to %s this location parameter"
 msgstr ""
 
 msgid "You do not have permission to %s this organization parameter"
+msgstr ""
+
+msgid "You do not have permission to add a mail notification to another user"
+msgstr ""
+
+msgid "You do not have permission to delete a mail notification of another user"
 msgstr ""
 
 msgid "You do not have permission to edit the login"
