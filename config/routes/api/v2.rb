@@ -206,7 +206,9 @@ Foreman::Application.routes.draw do
 
       resources :http_proxies, :except => [:new, :edit]
 
-      resources :trends, :only => [:create, :index, :show, :destroy]
+      # TODO: remove in 2.4
+      statistics_plugin = Foreman::Plugin.find(:foreman_statistics)
+      resources :trends, :only => [:create, :index, :show, :destroy], :controller => statistics_plugin && '/foreman_statistics/api/v2/trends'
 
       resources :subnets, :except => [:new, :edit] do
         resources :locations, :only => [:index, :show]
