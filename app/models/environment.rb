@@ -15,7 +15,6 @@ class Environment < ApplicationRecord
   has_many :hostgroups
 
   validates :name, :uniqueness => true, :presence => true, :alphanumeric => true
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
   has_many :template_combinations, :dependent => :destroy
   has_many :provisioning_templates, :through => :template_combinations
 
