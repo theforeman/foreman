@@ -28,7 +28,6 @@ class Operatingsystem < ApplicationRecord
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :allow_destroy => true
   include ParameterValidators
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   attr_name :to_label
   validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true

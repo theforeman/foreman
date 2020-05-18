@@ -43,7 +43,6 @@ class Hostgroup < ApplicationRecord
 
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader

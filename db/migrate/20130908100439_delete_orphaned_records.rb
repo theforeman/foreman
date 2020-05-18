@@ -34,7 +34,6 @@ class DeleteOrphanedRecords < ActiveRecord::Migration[4.2]
     Report.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
     Log.where("message_id NOT IN (?) OR report_id NOT IN (?) OR source_id NOT IN (?)", Message.pluck(:id), Report.pluck(:id), Source.pluck(:id)).delete_all
     Token.where("host_id NOT IN (?)", Host::Base.pluck(:id)).delete_all
-    TrendCounter.where("trend_id NOT IN (?)", Trend.pluck(:id)).delete_all
 
     # NULLIFY FOREIGN KEY VALUE IF IT HAS AN ORPHANED FOREIGN KEY
     Audit.unscoped.where("user_id NOT IN (?)", User.unscoped.pluck(:id)).update_all(:user_id => nil)
