@@ -404,7 +404,7 @@ match / {
 
   expr jcs:syslog( $SYSLOG, $APPNAME, ": sending finish signal to foreman...");  
   var $do_foreman = <file-copy> {
-      <source> '<%= foreman_url %>';
+      <source> '<%= foreman_url('provision') %>';
       <destination> "/tmp";
       <staging-directory> "/tmp";
   };
