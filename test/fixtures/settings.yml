@@ -253,11 +253,6 @@ attributes59:
   category: Setting::Puppet
   default: "false"
   description: 'All hosts will show a configuration status even when a Puppet smart proxy is not assigned'
-attributes60:
-  name: max_trend
-  category: Setting::General
-  default: 30
-  description: 'Max days for Trends graphs'
 attributes61:
   name: name_generator_type
   settings_type: string
