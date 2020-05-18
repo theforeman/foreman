@@ -1,51 +1,36 @@
 module Api
   module V2
+    # This controller just informs about the plugin
     class TrendsController < V2::BaseController
-      include Foreman::Controller::Parameters::Trend
+      prepend_before_action :fail_and_inform_about_plugin
 
-      before_action :find_resource, :only => [:show, :destroy]
-
-      TRENDABLE_TYPES = [
-        'Environment', 'Operatingsystem', 'Model', 'FactName', 'Hostgroup',
-        'ComputeResource'
-      ].freeze
+      resource_description do
+        desc 'This resource has been deprecated, to continue using it please install Foreman Statistics plugin and use its API enpoints.'
+        deprecated true
+      end
 
       api :GET, "/trends/", N_("List of trends counters")
+      description 'This resource has been deprecated, to continue using it, install Foreman Statistics plugin.'
       def index
-        @trends = resource_scope_for_index
       end
 
       api :GET, "/trends/:id/", N_("Show a trend")
-      param :id, :identifier, :required => true
+      description 'This resource has been deprecated, to continue using it, install Foreman Statistics plugin.'
       def show
       end
 
       api :POST, "/trends/", N_("Create a trend counter")
-      param :trendable_type, TRENDABLE_TYPES, :required => true
-      param :fact_name, String, :required => false
-      param :name, String, :required => false
+      description 'This resource has been deprecated, to continue using it, install Foreman Statistics plugin.'
       def create
-        @trend = Trend.build_trend(trend_params)
-        if @trend.save
-          process_success
-        else
-          process_resource_error
-        end
       end
 
       api :DELETE, "/trends/:id/", N_("Delete a trend counter")
-      param :id, :identifier, :required => true
+      description 'This resource has been deprecated, to continue using it, install Foreman Statistics plugin.'
       def destroy
-        process_response @trend.destroy
       end
 
-      # Overload this method to avoid using search_for method
-      def resource_scope_for_index(options = {})
-        resource_scope(options).paginate(paginate_options)
-      end
-
-      def resource_scope(options = {})
-        @resource_scope ||= scope_for(Trend.types, options)
+      def fail_and_inform_about_plugin
+        render json: { message: _('To access /trends API you need to install Foreman Statistics plugin') }, status: :not_implemented
       end
     end
   end
