@@ -47,7 +47,7 @@ class TrendsController < ApplicationController
   end
 
   def count
-    TrendImporter.update!
+    ForemanStatistics::TrendImporter.update!
     redirect_to trends_url
   end
 end
