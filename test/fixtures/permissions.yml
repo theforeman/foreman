@@ -604,31 +604,6 @@ view_tasks:
   resource_type:
   created_at: "2013-12-04 08:41:06.274449"
   updated_at: "2013-12-04 08:41:06.274449"
-view_trends:
-  name: view_trends
-  resource_type: Trend
-  created_at: "2013-12-04 08:41:06.282474"
-  updated_at: "2013-12-04 08:41:06.282474"
-create_trends:
-  name: create_trends
-  resource_type: Trend
-  created_at: "2013-12-04 08:41:06.290854"
-  updated_at: "2013-12-04 08:41:06.290854"
-edit_trends:
-  name: edit_trends
-  resource_type: Trend
-  created_at: "2013-12-04 08:41:06.299794"
-  updated_at: "2013-12-04 08:41:06.299794"
-destroy_trends:
-  name: destroy_trends
-  resource_type: Trend
-  created_at: "2013-12-04 08:41:06.307322"
-  updated_at: "2013-12-04 08:41:06.307322"
-update_trends:
-  name: update_trends
-  resource_type: Trend
-  created_at: "2013-12-04 08:41:06.315986"
-  updated_at: "2013-12-04 08:41:06.315986"
 view_usergroups:
   name: view_usergroups
   resource_type: Usergroup
