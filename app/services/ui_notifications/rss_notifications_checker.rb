@@ -1,4 +1,7 @@
-require 'rss'
+require 'rss/parser'
+require 'rss/atom'
+require 'rss/1.0'
+require 'rss/2.0'
 require 'date'
 require "net/http"
 require "uri"
