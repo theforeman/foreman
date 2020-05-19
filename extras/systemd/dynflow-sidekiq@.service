@@ -15,7 +15,7 @@ Environment=REDIS_PROVIDER=DYNFLOW_REDIS_URL
 # https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
 Environment=MALLOC_ARENA_MAX=2
 WorkingDirectory=/usr/share/foreman
-ExecStart=/usr/bin/sidekiq -e ${RAILS_ENV} -r ${DYNFLOW_SIDEKIQ_SCRIPT} -C /etc/foreman/dynflow/%i.yml
+ExecStart=/usr/share/foreman/bin/sidekiq -e ${RAILS_ENV} -r ${DYNFLOW_SIDEKIQ_SCRIPT} -C /etc/foreman/dynflow/%i.yml
 ExecReload=/usr/bin/kill -TSTP $MAINPID
 
 SyslogIdentifier=dynflow-sidekiq@%i
