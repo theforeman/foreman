@@ -3,7 +3,25 @@ if defined?(Rake.application) && Rake.application.top_level_tasks.grep(/jenkins/
 end
 require File.expand_path('boot', __dir__)
 require 'apipie/middleware/checksum_in_headers'
-require 'rails/all'
+
+# Only import the frameworks we need - this list is taken from rails/all
+require "rails"
+
+[
+  'active_record/railtie',
+  # 'active_storage/engine',
+  'action_controller/railtie',
+  'action_view/railtie',
+  'action_mailer/railtie',
+  'active_job/railtie',
+  # 'action_cable/engine',
+  # 'action_mailbox/engine',
+  # 'action_text/engine',
+  'sprockets/railtie',
+].each do |railtie|
+  require railtie
+end
+require 'rails/test_unit/railtie' unless Rails.env.production?
 
 require File.expand_path('../config/settings', __dir__)
 require File.expand_path('../lib/foreman/dynflow', __dir__)
