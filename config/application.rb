@@ -116,7 +116,6 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
-    config.autoload_paths += %W(#{config.root}/app/models/trends)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
     config.autoload_paths += %W(#{config.root}/app/models/mail_notifications)
 
