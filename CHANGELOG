@@ -1,3 +1,96 @@
+2020-05-20	Tomer Brisker <tbrisker@gmail.com>
+	* Release 1.24.3
+	* templates - sync from community-templates
+
+2020-05-20	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #29427 - change breadcrumbs path in compute resources
+
+2020-05-06	Lukáš Zapletal <lzap+git@redhat.com>
+	* Fixes #29110 - updated fact parser to handle v3 debian OS (#7482)
+
+2020-05-05	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #29679 - Require fixed benchmark-ips version
+
+2020-04-28	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #29258 - Lazy initialize dynflow during rake tasks
+
+2020-04-28	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #29258 - Initialize dynflow in puma workers
+
+2020-04-28	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28600 - don't change encoding of empty strings
+
+2020-04-28	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #29567 - Add nulldb for build environments
+
+2020-04-28	Naga <703451+KoffeinKaio@users.noreply.github.com>
+	* Fixes #29612 - Update debian.rb to support Ubuntu 20 legacy pxe
+
+2020-04-28	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #29605 - pin babel-plugin-dynamic-import-node
+
+2020-04-14	Michael Moll <kvedulv@kvedulv.de>
+	* refs #29481 - Pin capybara (#7569)
+
+2020-04-14	Bernhard Suttner <suttner@atix.de>
+	* Fixes #29439 - VMRC doesn't start
+
+2020-03-16	kgaikwad <kavitagaikwad103@gmail.com>
+	* Refs #29049 - fix image_families filter test for GCE
+	* Fixes #29049 - filter images & extends projects in GCE (#7463)
+	* Fixes #29183 - hide image selection from compute-profile in GCE
+
+2020-03-08	laviro <1ronlavi@gmail.com>
+	* Fixes #29018 - disabled buttons are still working
+
+2020-03-08	Kamil Szubrycht <kamil.szubrycht@ironin.pl>
+	* Fixes #29010 - graphql: fix creating object by user with create permission
+
+2020-03-08	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29065 - Do not add lone taxonomies to filter
+
+2020-03-06	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #29276 - pin statsd-instrument
+
+2020-03-04	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29230 - Fix redirect for host audits
+
+2020-03-03	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29043 - Add name to 'generate_at' field
+
+2020-03-03	laviro <1ronlavi@gmail.com>
+	* Fixes #29139 - fix height of html and body
+
+2020-02-23	laviro <1ronlavi@gmail.com>
+	* Fixes #28802 - lint issue in empty state component
+
+2020-02-23	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #29053 - Fix eslint/prettier
+
+2020-02-23	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29053 - Fix navbar render when navigating back
+
+2020-02-18	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #28898 - show unique machine_types/flavors in GCE
+
+2020-02-10	Tomer Brisker <tbrisker@users.noreply.github.com>
+	* Fixes #28891 - Show host properties tab if missing taxonomy (#7420)
+
+2020-02-09	Michael Moll <kvedulv@kvedulv.de>
+	* Pin sexp_processor on Ruby 2.3
+
+2020-02-09	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #28860 - fixing bad logging of bruteforce
+
+2020-01-29	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #28872 - Raise minium secure_headers version
+
+2020-01-27	Aditi Puntambekar <apuntamb@redhat.com>
+	* Fixes #28783 - Update CR api 'region' description for AzureRm
+
+2020-01-27	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #28725 - prevent image field from disabling on host form
+
 2020-01-21	Tomer Brisker <tbrisker@gmail.com>
 	* Release 1.24.2
 	* Fixes #28564 - improve performance of orphaned facts cleanup
