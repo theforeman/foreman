@@ -15,6 +15,8 @@ class Subnet < ApplicationRecord
   include Parameterizable::ByIdName
   include Exportable
   include BelongsToProxies
+  include ScopedSearchExtensions
+  include ParameterSearch
 
   attr_exportable :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to, :boot_mode,
     :ipam, :vlanid, :mtu, :nic_delay, :network_type, :description
@@ -109,7 +111,6 @@ class Subnet < ApplicationRecord
                         :vlanid, :mtu, :nic_delay, :ipam, :boot_mode, :type], :complete_value => true
 
   scoped_search :relation => :domains, :on => :name, :rename => :domain, :complete_value => true
-  scoped_search :relation => :subnet_parameters, :on => :value, :on_key => :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 

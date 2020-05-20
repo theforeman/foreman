@@ -28,6 +28,7 @@ class Hostgroup < ApplicationRecord
   has_many :group_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :hostgroup
   accepts_nested_attributes_for :group_parameters, :allow_destroy => true
   include ParameterValidators
+  include ParameterSearch
   include PxeLoaderValidator
   include PxeLoaderSuggestion
   alias_attribute :hostgroup_parameters, :group_parameters
@@ -60,7 +61,6 @@ class Hostgroup < ApplicationRecord
   }
 
   scoped_search :on => :name, :complete_value => :true
-  scoped_search :relation => :group_parameters,    :on => :value, :on_key => :name, :complete_value => true, :only_explicit => true, :rename => :params
   scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host", :only_explicit => true
   scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ ']
   scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment, :only_explicit => true
