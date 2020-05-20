@@ -1,21 +1,21 @@
 
 menuentry 'Foreman Discovery Image httpboot efi' --id discoveryefihttpboot {
-  linuxefi /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linuxefi /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrdefi /httpboot/boot/fdi-image/initrd0.img
 }
 
 menuentry 'Foreman Discovery Image  efi' --id discoveryefi {
-  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrdefi boot/fdi-image/initrd0.img
 }
 
 menuentry 'Foreman Discovery Image httpboot ' --id discoveryhttpboot {
-  linux /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linux /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrd /httpboot/boot/fdi-image/initrd0.img
 }
 
 menuentry 'Foreman Discovery Image  ' --id discovery {
-  linux boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linux boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrd boot/fdi-image/initrd0.img
 }
 

@@ -6,7 +6,7 @@ description: Configure booting from network in EFI
 snippet: true
 %>
 <% if host_param('efi_bootentry') == 'previous' -%>
-if [[ -d /sys/firmware/efi ]]; then
+if [ -d /sys/firmware/efi ]; then
   echo "Changing EFI boot order to preserve boot. Typically the previous entry"
   echo "was network boot in netboot workflows but this can also break things."
   echo "In that case use efi_keep_bootorder host parameter to keep it untouched."
@@ -21,7 +21,7 @@ if [[ -d /sys/firmware/efi ]]; then
   echo
 fi
 <% elsif (entry = host_param('efi_bootentry')) -%>
-if [[ -d /sys/firmware/efi ]]; then
+if [ -d /sys/firmware/efi ]; then
   echo "Trying to find EFI boot entry containing: <%= entry -%>"
   echo "Boot order is currently:"
   efibootmgr
