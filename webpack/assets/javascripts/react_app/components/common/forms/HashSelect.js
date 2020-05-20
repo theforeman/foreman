@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { FormControl } from 'patternfly-react';
 
-const SettingValueHashSelect = ({ field, setting }) => (
+const HashSelect = ({ field, model }) => (
   <FormControl name="value" componentClass="select" {...field}>
-    {Object.entries(setting.selectValues.collection).map(([key, val]) => (
+    {Object.entries(model.selectValues.collection).map(([key, val]) => (
       <option key={key} value={val}>
         {val}
       </option>
@@ -13,9 +13,9 @@ const SettingValueHashSelect = ({ field, setting }) => (
   </FormControl>
 );
 
-SettingValueHashSelect.propTypes = {
+HashSelect.propTypes = {
   field: PropTypes.object.isRequired,
-  setting: PropTypes.object.isRequired,
+  model: PropTypes.object.isRequired,
 };
 
-export default SettingValueHashSelect;
+export default HashSelect;

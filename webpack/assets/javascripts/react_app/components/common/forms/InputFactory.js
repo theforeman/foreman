@@ -8,6 +8,9 @@ import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import OrderableSelect from './OrderableSelect';
 import TimePicker from '../DateTimePicker/TimePicker';
+import BoolSelect from './BoolSelect';
+import HashSelect from './HashSelect';
+import ArraySelect from './ArraySelect';
 
 const inputComponents = {
   autocomplete: AutoComplete,
@@ -15,6 +18,9 @@ const inputComponents = {
   dateTime: DateTimePicker,
   orderableSelect: OrderableSelect,
   time: TimePicker,
+  boolSelect: BoolSelect,
+  hashSelect: HashSelect,
+  arraySelect: ArraySelect,
 };
 
 export const registerInputComponent = (name, Component) => {
@@ -31,10 +37,11 @@ const InputFactory = ({ type, ...controlProps }) => {
 };
 
 InputFactory.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.bool,
     PropTypes.instanceOf(Date),
   ]),
   name: PropTypes.string,
@@ -45,8 +52,9 @@ InputFactory.propTypes = {
 };
 
 InputFactory.defaultProps = {
+  type: undefined,
   name: undefined,
-  value: undefined,
+  value: '',
   className: '',
   required: false,
   disabled: false,

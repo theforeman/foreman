@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { FormControl } from 'patternfly-react';
 
-const SettingValueArraySelect = ({ setting, field }) => {
+const ArraySelect = ({ model, field }) => {
   const createOptgroup = group => (
     <optgroup label={group.groupLabel} key={group.groupLabel}>
       {group.children.map((item, index) => (
@@ -16,7 +16,7 @@ const SettingValueArraySelect = ({ setting, field }) => {
 
   return (
     <FormControl name="value" componentClass="select" {...field}>
-      {setting.selectValues.collection.map((group, idx) => {
+      {model.selectValues.collection.map((group, idx) => {
         if (group.groupLabel && group.children) {
           return createOptgroup(group);
         }
@@ -30,9 +30,9 @@ const SettingValueArraySelect = ({ setting, field }) => {
   );
 };
 
-SettingValueArraySelect.propTypes = {
-  setting: PropTypes.object.isRequired,
+ArraySelect.propTypes = {
+  model: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
 };
 
-export default SettingValueArraySelect;
+export default ArraySelect;

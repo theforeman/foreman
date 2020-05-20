@@ -3,32 +3,52 @@ import PropTypes from 'prop-types';
 
 import { Col, HelpBlock, FormGroup } from 'patternfly-react';
 
-import SettingValueArraySelect from './SettingValueArraySelect';
-import SettingValueHashSelect from './SettingValueHashSelect';
-import SettingValueBoolean from './SettingValueBoolean';
-import InputField from '../../../../../components/common/forms/InputField';
+import InputFactory from '../../../../../components/common/forms/InputFactory';
 
 const SettingValueField = ({ setting, form, field }) => {
-  const { selectValues } = setting;
-  let inputField = <InputField field={field} />;
-
   const error = form.errors && form.errors.value;
 
-  if (selectValues && selectValues.kind === 'array') {
-    inputField = <SettingValueArraySelect field={field} setting={setting} />;
-  }
+  const arraySelectProps = settingModel =>
+    settingModel.selectValues && settingModel.selectValues.kind === 'array'
+      ? { type: 'arraySelect', field, model: settingModel }
+      : null;
 
-  if (selectValues && selectValues.kind === 'hash') {
-    inputField = <SettingValueHashSelect field={field} setting={setting} />;
-  }
+  const hashSelectProps = settingModel =>
+    settingModel.selectValues && settingModel.selectValues.kind === 'hash'
+      ? { type: 'hashSelect', field, model: settingModel }
+      : null;
 
-  if (setting.settingsType === 'boolean') {
-    inputField = <SettingValueBoolean field={field} setting={setting} />;
-  }
+  const boolSelectProps = settingModel =>
+    settingModel.settingsType === 'boolean'
+      ? { type: 'boolSelect', field }
+      : null;
 
-  if (setting.settingsType === 'array') {
-    inputField = <InputField field={field} componentClass="textarea" />;
-  }
+  const arrayProps = settingModel =>
+    settingModel.settingsType === 'array'
+      ? { ...field, componentClass: 'textarea' }
+      : null;
+
+  const inputProps = settingModel => ({ ...field });
+
+  const fieldProps = (propSelectors, model) =>
+    propSelectors.reduce((memo, propFn) => {
+      if (memo) {
+        return memo;
+      }
+
+      return propFn(model);
+    }, null);
+
+  const factoryProps = fieldProps(
+    [
+      arraySelectProps,
+      hashSelectProps,
+      boolSelectProps,
+      arrayProps,
+      inputProps,
+    ],
+    setting
+  );
 
   const helpBlock = (
     <HelpBlock>
@@ -39,7 +59,9 @@ const SettingValueField = ({ setting, form, field }) => {
   return (
     <React.Fragment>
       <FormGroup className={error ? 'has-error' : ''}>
-        <Col md={10}>{inputField}</Col>
+        <Col md={10}>
+          <InputFactory {...factoryProps} />
+        </Col>
         {error && helpBlock}
       </FormGroup>
     </React.Fragment>
