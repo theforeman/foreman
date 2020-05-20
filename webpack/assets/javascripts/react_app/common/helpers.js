@@ -1,6 +1,7 @@
 import { snakeCase, camelCase, debounce } from 'lodash';
 import URI from 'urijs';
 import { translate as __ } from './I18n';
+import { foremanUrl } from './urlHelpers';
 
 /**
  * Our API returns non-ISO8601 dates
@@ -187,9 +188,6 @@ export const formatDateTime = date => {
   return `${year}-${month}-${day} ${hour}:${minutes}:00`;
 };
 
-// generates an absolute, needed in case of running Foreman from a subpath
-export const foremanUrl = path => `${window.URL_PREFIX}${path}`;
-
 export default {
   isoCompatibleDate,
   bindMethods,
@@ -208,5 +206,4 @@ export default {
   getManualURL,
   formatDate,
   formatDateTime,
-  foremanUrl,
 };

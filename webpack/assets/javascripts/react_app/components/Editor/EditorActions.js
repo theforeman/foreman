@@ -1,6 +1,7 @@
 import { debounce, toString } from 'lodash';
 import { API } from '../../redux/API';
 import { translate as __ } from '../../common/I18n';
+import { urlBuilder } from '../../common/urlHelpers';
 
 import {
   EDITOR_CHANGE_DIFF_VIEW,
@@ -18,7 +19,6 @@ import {
   EDITOR_REVERT_CHANGES,
   EDITOR_TOGGLE_MASK,
   EDITOR_TOGGLE_RENDER_VIEW,
-  EDITOR_HOSTS_URL,
   EDITOR_HOST_SELECT_TOGGLE,
   EDITOR_HOST_SELECT_CLEAR,
   EDITOR_FETCH_HOST_PENDING,
@@ -149,6 +149,8 @@ export const previewTemplate = ({ host, renderPath }) => async (
 
 export const fetchTemplatePreview = (renderPath, params) =>
   API.post(renderPath, params);
+
+const EDITOR_HOSTS_URL = urlBuilder('hosts', 'preview_host_collection.json');
 
 // fetch & debounced fetch
 const fetchHosts = (

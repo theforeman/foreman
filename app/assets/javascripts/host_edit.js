@@ -188,7 +188,7 @@ function submit_with_all_params() {
       stop_pooling = true;
       $('body').css('cursor', 'auto');
       $('form input[type="submit"]').attr('disabled', false);
-      if (window.location.pathname !== tfm.tools.foremanUrl('/hosts/new')) {
+      if (window.location.pathname !== tfm.nav.foremanUrl('/hosts/new')) {
         // We got redirected to the show page, need to clear the title override
         tfm.store.dispatch('updateBreadcrumbTitle');
       }
@@ -451,7 +451,7 @@ function update_provisioning_image() {
   $.ajax({
     data: { operatingsystem_id: os_id, architecture_id: arch_id },
     type: 'get',
-    url: tfm.tools.foremanUrl('/compute_resources/' + compute_id + '/images'),
+    url: tfm.nav.foremanUrl('/compute_resources/' + compute_id + '/images'),
     dataType: 'json',
     success: function(result) {
       $.each(result, function() {

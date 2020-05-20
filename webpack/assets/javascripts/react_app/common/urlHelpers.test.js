@@ -1,5 +1,4 @@
 import { mockWindowLocation } from './testHelpers';
-import { visit } from '../../foreman_navigation';
 import {
   urlBuilder,
   urlWithSearch,
@@ -48,7 +47,7 @@ describe('URI query and stringify tests', () => {
     const newQuery = { search: 'some-new-search', per_page: 10 };
 
     changeQuery(newQuery);
-    expect(visit).toHaveBeenCalledWith(
+    expect(global.window.location.href).toEqual(
       `${baseHref}?search=some-new-search&page=1&per_page=10&order=name+ASC`
     );
 

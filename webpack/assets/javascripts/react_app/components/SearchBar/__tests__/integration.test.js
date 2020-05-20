@@ -8,9 +8,10 @@ import { reducers } from '../../AutoComplete';
 import bookmarksReducer from '../../Bookmarks/BookmarksReducer';
 import foremanModalsReducer from '../../ForemanModal/ForemanModalReducer';
 import { APIMiddleware } from '../../../redux/API';
-import { visit } from '../../../../foreman_navigation';
+import { changeQuery } from '../../../common/urlHelpers';
 
 jest.mock('../../../redux/API/API');
+jest.mock('../../../common/urlHelpers');
 jest.mock('lodash/debounce', () => jest.fn(fn => fn));
 
 const combinedReducers = {
@@ -38,10 +39,10 @@ describe('SearchBar integration test', () => {
       .find('.autocomplete-search-btn')
       .first()
       .simulate('click');
-    expect(visit).toHaveBeenCalledTimes(1);
+    expect(changeQuery).toHaveBeenCalledTimes(1);
     const event = new KeyboardEvent('keypress', { charCode: KEYCODES.ENTER });
     global.dispatchEvent(event);
-    expect(visit).toHaveBeenCalledTimes(2);
+    expect(changeQuery).toHaveBeenCalledTimes(2);
     // bookmark this page:
     // click on bookmark button
     wrapper

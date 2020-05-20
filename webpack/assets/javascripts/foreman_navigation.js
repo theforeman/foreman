@@ -6,10 +6,9 @@ import { push } from 'connected-react-router';
 import store from './react_app/redux';
 import * as LayoutActions from './react_app/components/Layout/LayoutActions';
 import { deprecate } from './react_app/common/DeprecationService';
+import { foremanUrl, visit } from './react_app/common/urlHelpers';
 
-export const visit = url => {
-  window.location.href = url;
-};
+export { visit, foremanUrl };
 
 export const reloadPage = () => {
   window.location.reload();

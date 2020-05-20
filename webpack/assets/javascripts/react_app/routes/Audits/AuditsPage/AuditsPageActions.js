@@ -16,7 +16,11 @@ import {
   selectAuditsSearch,
   selectAuditsIsLoadingPage,
 } from './AuditsPageSelectors';
-import { stringifyParams, getParams } from '../../../common/urlHelpers';
+import {
+  foremanUrl,
+  stringifyParams,
+  getParams,
+} from '../../../common/urlHelpers';
 import { translate as __ } from '../../../common/I18n';
 
 // on didMount or popstatee
@@ -25,7 +29,7 @@ export const initializeAudits = () => dispatch => {
   dispatch(fetchAudits(params));
   if (!history.action === 'POP') {
     history.replace({
-      pathname: AUDITS_PATH,
+      pathname: foremanUrl(AUDITS_PATH),
       search: stringifyParams(params),
     });
   }
@@ -33,7 +37,7 @@ export const initializeAudits = () => dispatch => {
 
 export const fetchAudits = (
   { page, perPage, searchQuery },
-  url = AUDITS_PATH
+  url = foremanUrl(AUDITS_PATH)
 ) => async (dispatch, getState) => {
   dispatch({ type: AUDITS_PAGE_SHOW_LOADING });
   if (selectAuditsHasError(getState()))
@@ -97,7 +101,7 @@ export const fetchAndPush = params => (dispatch, getState) => {
   const query = buildQuery(params, getState());
   dispatch(fetchAudits(query));
   history.push({
-    pathname: AUDITS_PATH,
+    pathname: foremanUrl(AUDITS_PATH),
     search: stringifyParams(query),
   });
 };

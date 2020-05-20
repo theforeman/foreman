@@ -6,8 +6,11 @@ import './auditspage.scss';
 import { translate as __ } from '../../../common/I18n';
 import PageLayout from '../../common/PageLayout/PageLayout';
 import AuditsTable from './components/AuditsTable';
-import { AUDITS_SEARCH_PROPS, AUDITS_MANUAL_URL } from '../constants';
+import { AUDITS_MANUAL_URL } from '../constants';
 import { useForemanVersion } from '../../../Root/Context/ForemanContext';
+import { getControllerSearchProps } from '../../common/helpers';
+
+const SEARCH_PROPS = getControllerSearchProps('audits');
 
 const AuditsPage = ({
   searchQuery,
@@ -21,7 +24,7 @@ const AuditsPage = ({
     <PageLayout
       header={__('Audits')}
       searchable
-      searchProps={AUDITS_SEARCH_PROPS}
+      searchProps={SEARCH_PROPS}
       searchQuery={searchQuery}
       isLoading={isLoading && hasData}
       onSearch={search => fetchAndPush({ searchQuery: search, page: 1 })}

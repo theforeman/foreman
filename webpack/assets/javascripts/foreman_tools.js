@@ -7,10 +7,20 @@
 
 import $ from 'jquery';
 import { translate as __ } from './react_app/common/I18n';
-
-import { showLoading, hideLoading } from './foreman_navigation';
+import { deprecate } from './react_app/common/DeprecationService';
+import {
+  showLoading,
+  hideLoading,
+  foremanUrl as _foremanUrl
+} from './foreman_navigation';
 
 export * from './react_app/common/DeprecationService';
+
+export function foremanUrl(path) {
+  // Katello is using this method as of now
+  deprecate('tfm.tools.foremanUrl', 'tfm.navigation.foremanUrl', '2.4');
+  return _foremanUrl(path);
+}
 
 export function showSpinner() {
   showLoading();

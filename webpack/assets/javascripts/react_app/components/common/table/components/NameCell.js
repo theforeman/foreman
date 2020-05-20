@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { urlBuilder } from '../../../../common/urlHelpers';
 
 const NameCell = ({ active, id, name, controller, children }) =>
   active ? (
-    <Link to={`/${controller}/${id}-${name}/edit`}>{children}</Link>
+    <Link to={urlBuilder(controller, 'edit', `${id}-${encodeURI(name)}`)}>
+      {children}
+    </Link>
   ) : (
     <a href="#" className="disabled" disabled="disabled" onClick={() => {}}>
       {children}

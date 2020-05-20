@@ -1,6 +1,11 @@
 import URI from 'urijs';
 
-import { visit } from '../../foreman_navigation';
+export const visit = url => {
+  window.location.href = url;
+};
+
+// generates an absolute, needed in case of running Foreman from a subpath
+export const foremanUrl = path => `${window.URL_PREFIX}${path}`;
 
 /**
  * Build a url from given controller, action and id
@@ -8,7 +13,7 @@ import { visit } from '../../foreman_navigation';
  * @param {String} action - the action
  */
 export const urlBuilder = (controller, action, id = undefined) =>
-  `/${controller}/${id ? `${id}/` : ''}${action}`;
+  foremanUrl(`/${controller}/${id ? `${id}/` : ''}${action}`);
 
 /**
  * Build a url with search query

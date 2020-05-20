@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 import { translate as __ } from '../../../common/I18n';
 import PageLayout from '../../common/PageLayout/PageLayout';
 import ModelsPageContent from './components/ModelsPageContent';
-import { MODELS_SEARCH_PROPS } from '../constants';
+import { getControllerSearchProps } from '../../common/helpers';
+
+import './ModelsPage.scss';
+
+const SEARCH_PROPS = getControllerSearchProps('models');
 
 const ModelsPage = ({
   fetchAndPush,
@@ -35,7 +39,7 @@ const ModelsPage = ({
     <PageLayout
       header={__('Hardware Models')}
       searchable={!isLoading}
-      searchProps={MODELS_SEARCH_PROPS}
+      searchProps={SEARCH_PROPS}
       searchQuery={search}
       isLoading={isLoading && hasData}
       onSearch={handleSearch}

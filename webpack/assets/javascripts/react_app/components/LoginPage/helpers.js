@@ -1,4 +1,5 @@
 import { translate as __ } from '../../common/I18n';
+import { urlBuilder } from '../../common/urlHelpers';
 
 export const adjustAlerts = alerts => {
   const submitErrors = [];
@@ -26,7 +27,7 @@ export const adjustAlerts = alerts => {
 
 export const defaultFormProps = {
   attributes: {
-    action: '/users/login',
+    action: urlBuilder('users', 'login'),
     method: 'post',
   },
   validate: true,
