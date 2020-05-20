@@ -33,11 +33,12 @@ class Domain < ApplicationRecord
 
   accepts_nested_attributes_for :domain_parameters, :allow_destroy => true
   include ParameterValidators
+  include ScopedSearchExtensions
+  include ParameterSearch
   validates :name, :presence => true, :uniqueness => true
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
 
   scoped_search :on => [:name, :fullname], :complete_value => true
-  scoped_search :relation => :domain_parameters, :on => :value, :on_key => :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
