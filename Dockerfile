@@ -46,7 +46,7 @@ USER 1001
 WORKDIR $HOME
 COPY --chown=1001:0 . ${HOME}/
 # Adding missing gems, for tzdata see https://bugzilla.redhat.com/show_bug.cgi?id=1611117
-RUN echo gem '"rdoc"' > bundler.d/container.rb && echo gem '"tzinfo-data"' >> bundler.d/container.rb
+RUN echo gem '"tzinfo-data"' >> bundler.d/container.rb
 RUN bundle install --without "${BUNDLER_SKIPPED_GROUPS}" \
     --binstubs --clean --path vendor --jobs=5 --retry=3 && \
   rm -rf vendor/ruby/*/cache/*.gem && \
