@@ -278,17 +278,21 @@ class Setting < ApplicationRecord
     true
   end
 
-  def collection_method
+  def collection_method_name
     "#{name}_collection".to_sym
   end
 
   def select_values
-    self.class.respond_to?(collection_method) ? self.class.send(collection_method) : nil
+    self.class.respond_to?(collection_method_name) ? self.class.send(collection_method_name) : nil
+  end
+
+  def self.collection_method_from(name)
+    "#{name}_collection".to_sym
   end
 
   def self.set(name, description, default, full_name = nil, value = nil, options = {})
     if options.has_key? :collection
-      define_singleton_method("#{name}_collection".to_sym) do
+      define_singleton_method(collection_method_from name) do
         SettingValueSelection.new options[:collection].call, options
       end
     end

@@ -7,9 +7,11 @@ import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
 import AppSwitcher from '../routes';
 
 const ReactApp = ({ data: { layout, metadata } }) => {
-  const ForemanContext = getForemanContext(metadata);
+  const currentUser = layout.user && layout.user.current_user;
+  const context = { ...metadata, currentUser: currentUser.user };
+  const ForemanContext = getForemanContext(context);
   return (
-    <ForemanContext.Provider value={metadata}>
+    <ForemanContext.Provider value={context}>
       <Router history={history}>
         <Layout data={layout}>
           <AppSwitcher />

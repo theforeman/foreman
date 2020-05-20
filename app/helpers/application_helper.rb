@@ -475,7 +475,7 @@ module ApplicationHelper
   end
 
   def app_metadata
-    { UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url, currentUser: { id: User.current.id } }
+    { UISettings: ui_settings, version: SETTINGS[:version].short, docUrl: documentation_url }
   end
 
   def ui_settings

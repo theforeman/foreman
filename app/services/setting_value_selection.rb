@@ -4,19 +4,17 @@ class SettingValueSelection
   attr_reader :kind, :collection
 
   def initialize(collection, options)
+    raise "Expected collection to be Hash or Array, found: #{collection}" unless collection.is_a?(Array) || collection.is_a?(Hash)
+
     if collection.is_a?(Array)
       @kind = :array
       @collection = editable_select_optgroup(collection, :include_blank => options[:include_blank])
-      return self
     end
 
     if collection.is_a?(Hash)
       @kind = :hash
       @collection = collection
-      return self
     end
-
-    raise "Expected collection to be Hash or Array, found: #{collection}"
   end
 
   private
