@@ -5,22 +5,6 @@ set default=nil
 set timeout=20
 echo Default PXE local template entry is set to 'nil'
 
-echo "Trying /httpboot/grub2/grub.cfg-$net_default_mac"
-configfile "/httpboot/grub2/grub.cfg-$net_default_mac"
-
-echo "Trying /grub2/grub.cfg-$net_default_mac"
-configfile "/grub2/grub.cfg-$net_default_mac"
-
-# The following four statements breaks grub2 and it's no
-# longer able to load any file from the base URL.
-# Comment them out to be able to use (UEFI/iPXE) HTTP Boot:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1763216
-echo "Trying grub2/grub.cfg-$net_default_mac"
-configfile "grub2/grub.cfg-$net_default_mac"
-
-echo "Trying grub.cfg-$net_default_mac"
-configfile "grub.cfg-$net_default_mac"
-
 
 insmod part_gpt
 insmod fat
@@ -151,22 +135,22 @@ menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_legac
 
 
 menuentry 'Foreman Discovery Image httpboot efi' --id discoveryefihttpboot {
-  linuxefi /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linuxefi /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrdefi /httpboot/boot/fdi-image/initrd0.img
 }
 
 menuentry 'Foreman Discovery Image  efi' --id discoveryefi {
-  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linuxefi boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrdefi boot/fdi-image/initrd0.img
 }
 
 menuentry 'Foreman Discovery Image httpboot ' --id discoveryhttpboot {
-  linux /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linux /httpboot/boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrd /httpboot/boot/fdi-image/initrd0.img
 }
 
 menuentry 'Foreman Discovery Image  ' --id discovery {
-  linux boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$mac
+  linux boot/fdi-image/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman BOOTIF=01-$net_default_mac
   initrd boot/fdi-image/initrd0.img
 }
 
