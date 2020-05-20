@@ -1,6 +1,6 @@
 module Host
   class Base < ApplicationRecord
-    KERNEL_RELEASE_FACTS = ['kernelrelease', 'ansible_kernel', 'kernel::release']
+    KERNEL_RELEASE_FACTS = ['kernelrelease', 'ansible_kernel', 'kernel::release', 'uname::release']
 
     prepend Foreman::STI
     include Authorizable
