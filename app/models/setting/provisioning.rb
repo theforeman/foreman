@@ -20,7 +20,7 @@ class Setting::Provisioning < Setting
     'usb*',
     'vnet*',
     'macvtap*',
-    '_vdsmdummy_',
+    ';vdsmdummy;',
     'veth*',
     'docker*',
     'tap*',
@@ -31,6 +31,7 @@ class Setting::Provisioning < Setting
     'qg-*',
     'vlinuxbr*',
     'vovsbr*',
+    'br-int',
   ]
 
   def self.default_settings
