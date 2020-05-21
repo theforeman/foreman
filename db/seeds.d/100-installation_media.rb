@@ -5,7 +5,8 @@ os_suse = Operatingsystem.unscoped.where(:type => "Suse") || Operatingsystem.uns
 # Installation media: default mirrors
 Medium.without_auditing do
   [
-    { :name => "CentOS mirror",        :os_family => "Redhat",  :path => "http://mirror.centos.org/centos/$major/os/$arch" },
+    { :name => "CentOS 7 mirror",      :os_family => "Redhat",  :path => "http://mirror.centos.org/centos/$major/os/$arch" },
+    { :name => "CentOS 8 mirror",      :os_family => "Redhat",  :path => "http://mirror.centos.org/centos/$major/BaseOS/$arch/kickstart" },
     { :name => "Debian mirror",        :os_family => "Debian",  :path => "http://ftp.debian.org/debian" },
     { :name => "Fedora mirror",        :os_family => "Redhat",  :path => "http://dl.fedoraproject.org/pub/fedora/linux/releases/$major/Server/$arch/os/" },
     { :name => "Fedora Atomic mirror", :os_family => "Redhat",  :path => "http://dl.fedoraproject.org/pub/alt/atomic/stable/Cloud_Atomic/$arch/os/" },
