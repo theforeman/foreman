@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from '@theforeman/test';
-import HostsCountCell from './HostsCountCell';
+import HostsCountCell from '../HostsCountCell';
 
 describe('HostsCountCell', () => {
   it('should render link', () => {

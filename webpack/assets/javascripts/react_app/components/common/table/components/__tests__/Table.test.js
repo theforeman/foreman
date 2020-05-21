@@ -1,7 +1,7 @@
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from '../../../../../common/testHelpers';
 
-import Table from './Table';
-import { columnsFixtures, rowsFixtures } from './TableFixtures';
+import Table from '../Table';
+import { columnsFixtures, rowsFixtures } from '../TableFixtures';
 
 const fixtures = {
   'renders Table with children': {

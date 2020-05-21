@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectionActions should selectAllRows and succeed 1`] = `
+Object {
+  "tableID": "some-table-id",
+  "type": "SELECT_ALL_ROWS",
+}
+`;
+
+exports[`selectionActions should selectPage and succeed 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Array [
+        "some-id",
+      ],
+      "tableID": "some-table-id",
+      "type": "SELECT_ROWS",
+    },
+  ],
+  Array [
+    Object {
+      "tableID": "some-table-id",
+      "type": "OPEN_SELECT_ALL",
+    },
+  ],
+]
+`;
+
+exports[`selectionActions should selectRow and succeed 1`] = `
+Object {
+  "payload": Array [
+    "some-id",
+  ],
+  "tableID": "some-table-id",
+  "type": "SELECT_ROWS",
+}
+`;
+
+exports[`selectionActions should unselectAllRows and succeed 1`] = `
+Object {
+  "tableID": "some-table-id",
+  "type": "UNSELECT_ALL_ROWS",
+}
+`;
+
+exports[`selectionActions should unselectRow and succeed 1`] = `
+Object {
+  "payload": Object {
+    "id": "some-id",
+    "results": Array [
+      Object {
+        "id": "some-id",
+      },
+      Object {
+        "id": "some-id2",
+      },
+    ],
+  },
+  "tableID": "some-table-id",
+  "type": "UNSELECT_ROWS",
+}
+`;

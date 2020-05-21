@@ -1,0 +1,85 @@
+import { Meta } from '@theforeman/stories';
+import { Icon } from 'patternfly-react';
+
+<Meta
+  title="Page chunks|Table"
+  parameters={{
+    storyWeight: 90,
+  }}
+/>
+
+# Table With Select boxes
+
+All needed functions and components are located at: `/react_app/components/common/table/index.js`  
+To add select boxes to your foreman table please follow this steps:
+
+## Connect The reducer
+Create a unique reducer for your table by calling the `selectionReducer(tableID)` from the table folder to your component.  
+**tableID** - a string that will represents the table in the store and will be used in the actions
+
+<Icon type="pf" name="info" />
+{' '}Tip: You can connect a few reducers to one component using Redux's
+<strong> combineReducers</strong>
+
+## Connect The Actions
+
+Create a `selectionController` using the `getSelectionController` helper
+
+```js
+getSelectionController({
+  tableID,
+  allRowsSelected,
+  rows,
+  selectedRows,
+  dispatch,
+});
+```
+
+You will need to provide the function the following argumets:  
+**tableID**: a string that will represents the table in the store
+**allRowsSelected**: a boolean that describes if all the rows available are selected.  
+This boolean is provided by the selection reducer and should be in the components store  
+**rows**: an array of row object that are available in the current page of the table. Each object should have an id.  
+**selectedRows**: an array of the selected ids (if all rows are selected this can be empty) This array is provided by the selection reducer and should be in the components store.  
+**dispatch**: dispatch function from the Redux store.
+Can be created using the useDispatch() hook.
+This is used for the selction actions.
+
+## Add To The Table TableScheme
+
+In the table schema array add the following item:
+
+```js
+    column(
+      '', // property
+      'Select all rows', // label
+      [label => selectionHeaderCellFormatter(selectionController, label)], // headFormat
+      [
+        (value, additionalData) =>
+          selectionCellFormatter(selectionController, additionalData),
+      ] // cellFormat
+    ),
+```
+
+The `property` is not used in the formatter so it should be empty.  
+The `label` will be user for the tooltip information (title property) and aria-label.
+
+### Data provided by the reducer
+
+**allRowsSelected**: a boolean that describes if all the rows available are selected  
+**selectedRows**: an array of the selected ids  
+**showSelectAll**: a boolean that indicates should the select all option be available?  
+This is true after a user is selection the whole page. Use this to show a select all button or message box.
+
+### Additional Actions
+
+If you want to use the selection action for uses outside the table you can use import selection actions from the table folder.
+Available actions:
+
+```js
+selectPage(tableID, rows);
+selectAllRows(tableID);
+unselectAllRows(tableID);
+selectRow(tableID, id);
+unselectRow(tableID, id, rows);
+```

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from '@theforeman/test';
-import NameCell from './NameCell';
+import NameCell from '../NameCell';
 
 describe('NameCell', () => {
   it('should render active link', () => {

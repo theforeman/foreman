@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectionReducer should handle OPEN_SELECT_ALL 1`] = `
+Object {
+  "allRowsSelected": false,
+  "selectedRows": Array [],
+  "showSelectAll": true,
+}
+`;
+
+exports[`selectionReducer should handle SELECT_ALL_ROWS 1`] = `
+Object {
+  "allRowsSelected": true,
+  "selectedRows": Array [],
+  "showSelectAll": false,
+}
+`;
+
+exports[`selectionReducer should handle SELECT_ROWS 1`] = `
+Object {
+  "allRowsSelected": false,
+  "selectedRows": Array [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+  ],
+  "showSelectAll": false,
+}
+`;
+
+exports[`selectionReducer should handle UNSELECT_ALL_ROWS 1`] = `
+Object {
+  "allRowsSelected": false,
+  "selectedRows": Array [],
+  "showSelectAll": false,
+}
+`;
+
+exports[`selectionReducer should handle UNSELECT_ROWS 1`] = `
+Object {
+  "allRowsSelected": false,
+  "selectedRows": Array [],
+  "showSelectAll": false,
+}
+`;
+
+exports[`selectionReducer should handle UNSELECT_ROWS with all rows selected 1`] = `
+Object {
+  "allRowsSelected": false,
+  "selectedRows": Array [
+    3,
+    4,
+    5,
+  ],
+  "showSelectAll": false,
+}
+`;
+
+exports[`selectionReducer should return the initial state 1`] = `
+Object {
+  "allRowsSelected": false,
+  "selectedRows": Array [],
+  "showSelectAll": false,
+}
+`;
