@@ -9,8 +9,8 @@ ApipieDSL.configure do |config|
   config.dsl_classes_matchers = [
     "#{Rails.root}/lib/foreman/renderer/**/*.rb",
   ]
-  # TODO all provisioning reports jobs additional
-  config.sections = %w[basic_ruby_methods]
+  # TODO provisioning reports jobs
+  config.sections = %w[all additional basic_ruby_methods]
   # TODO enable?
   config.validate = false
 

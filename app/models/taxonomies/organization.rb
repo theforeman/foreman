@@ -1,4 +1,10 @@
 class Organization < Taxonomy
+  apipie :class, desc: "A class representing an Organization object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { example: 'Red Hat' }
+    prop_group :taxonomy_props, Taxonomy, meta: { model_name: 'Organization', example: 'Red Hat/Engineering' }
+  end
+
   extend FriendlyId
   friendly_id :title
   include Foreman::ThreadSession::OrganizationModel

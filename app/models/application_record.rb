@@ -1,6 +1,15 @@
 require_relative 'concerns/audit_associations'
 
 class ApplicationRecord < ActiveRecord::Base
+  extend ApipieDSL::Class
+
+  apipie :prop_group, name: :basic_model_props do
+    property :id, Integer, desc: "Numerical ID of the #{@meta[:friendly_name] || @meta[:class_scope]}"
+    meta_example = ", e.g. #{@meta[:example]}" if @meta[:example]
+    name_desc = @meta[:name_desc] || "Name of the #{@meta[:friendly_name] || @meta[:class_scope]}#{meta_example}"
+    property :name, String, desc: name_desc
+  end
+
   self.abstract_class = true
 
   extend AuditAssociations::AssociationsDefinitions
