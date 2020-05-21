@@ -8,6 +8,8 @@ const initState = Immutable({
   sortOrder: '',
   results: [],
   status: STATUS.PENDING,
+  pagination: { page: 1, perPage: 20 },
+  total: 0,
 });
 
 const createTableReducer = tableID => (
@@ -26,6 +28,8 @@ const createTableReducer = tableID => (
         results: response.results,
         sortBy: response.sort.by,
         sortOrder: response.sort.order,
+        pagination: { page: response.page, perPage: response.per_page },
+        total: response.total,
       });
     case FAILURE:
       return Immutable.merge(state, {

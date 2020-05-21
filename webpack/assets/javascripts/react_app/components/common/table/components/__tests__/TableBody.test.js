@@ -1,7 +1,7 @@
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from '../../../../../common/testHelpers';
 
-import TableBody from './TableBody';
-import { columnsFixtures, rowsFixtures } from './TableFixtures';
+import TableBody from '../TableBody';
+import { columnsFixtures, rowsFixtures } from '../TableFixtures';
 
 const fixtures = {
   'renders TableBody': {

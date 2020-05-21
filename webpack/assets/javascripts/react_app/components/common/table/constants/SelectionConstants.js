@@ -1,0 +1,5 @@
+export const SELECT_ROWS = 'SELECT_ROWS';
+export const UNSELECT_ROWS = 'UNSELECT_ROWS';
+export const UNSELECT_ALL_ROWS = 'UNSELECT_ALL_ROWS';
+export const SELECT_ALL_ROWS = 'SELECT_ALL_ROWS';
+export const OPEN_SELECT_ALL = 'OPEN_SELECT_ALL';

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectionCellFormatter render 1`] = `
+<TableSelectionCell
+  checked={true}
+  id="selectsome-index"
+  label="Select row"
+  onChange={[Function]}
+/>
+`;
