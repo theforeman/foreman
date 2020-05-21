@@ -1,11 +1,11 @@
-import NumericInput from 'react-numeric-input';
+import ReactNumericInput from 'react-numeric-input';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
 
-const TextInput = ({
+const NumericInput = ({
   label,
   className,
   value,
@@ -15,7 +15,7 @@ const TextInput = ({
   minValue,
 }) => (
   <CommonForm label={label} className={`common-numericInput ${className}`}>
-    <NumericInput
+    <ReactNumericInput
       format={format}
       min={minValue}
       value={value}
@@ -25,7 +25,7 @@ const TextInput = ({
   </CommonForm>
 );
 
-TextInput.propTypes = {
+NumericInput.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -35,7 +35,7 @@ TextInput.propTypes = {
   onChange: PropTypes.func,
 };
 
-TextInput.defaultProps = {
+NumericInput.defaultProps = {
   label: '',
   className: '',
   value: 0,
@@ -45,4 +45,4 @@ TextInput.defaultProps = {
   onChange: noop,
 };
 
-export default TextInput;
+export default NumericInput;
