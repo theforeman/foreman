@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from '@theforeman/test';
-import SortalbeHeader from './SortableHeader';
+import SortalbeHeader from '../SortableHeader';
 
 describe('SortalbeHeader', () => {
   it('should render no icon if sortOrder is null', () => {

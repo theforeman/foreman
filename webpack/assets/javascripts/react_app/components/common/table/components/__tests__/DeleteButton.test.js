@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from '@theforeman/test';
 import { Button } from 'patternfly-react';
-import DeleteButton from './DeleteButton';
+import DeleteButton from '../DeleteButton';
 
 describe('DeleteButton', () => {
   it('should render delete button on active', () => {

@@ -1,6 +1,6 @@
-import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
+import { testComponentSnapshotsWithFixtures } from '../../../../../common/testHelpers';
 
-import TableBodyMessage from './TableBodyMessage';
+import TableBodyMessage from '../TableBodyMessage';
 
 const fixtures = {
   'renders TableBodyMessage': {
