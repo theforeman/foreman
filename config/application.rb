@@ -17,11 +17,11 @@ require "rails"
   # 'action_cable/engine',
   # 'action_mailbox/engine',
   # 'action_text/engine',
+  'rails/test_unit/railtie',
   'sprockets/railtie',
 ].each do |railtie|
   require railtie
 end
-require 'rails/test_unit/railtie' unless Rails.env.production?
 
 require File.expand_path('../config/settings', __dir__)
 require File.expand_path('../lib/foreman/dynflow', __dir__)
