@@ -1,4 +1,11 @@
 class Taxonomy < ApplicationRecord
+  apipie :prop_group, name: :taxonomy_props do
+    property :title, String, desc: "Title of the #{@meta[:model_name]}. Comparing to the Name, Title contains also names of all parent #{@meta[:model_name]}s, e.g. #{@meta[:example]}"
+    property :description, String, desc: "Description of the #{@meta[:class_scope]}"
+    property :created_at, String, desc: "The time when the #{@meta[:class_scope]} was created"
+    property :updated_at, String, desc: "The last time when the #{@meta[:class_scope]} was updated"
+  end
+
   validates_lengths_from_database
 
   include Authorizable
