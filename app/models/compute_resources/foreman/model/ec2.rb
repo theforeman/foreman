@@ -154,7 +154,7 @@ module Foreman::Model
 
     def client
       self.url = region if gov_cloud
-      @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region, :connection_options => connection_options)
+      @client ||= Fog::AWS::Compute.new(:aws_access_key_id => user, :aws_secret_access_key => password, :region => region, :connection_options => connection_options)
     end
 
     def vm_instance_defaults
