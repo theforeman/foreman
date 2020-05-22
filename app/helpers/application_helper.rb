@@ -378,23 +378,6 @@ module ApplicationHelper
     prev_controller_url
   end
 
-  # creates a data set for editable select-optgroup. each element in the 'groups' array is a hash represents a group with its children.
-  # e.g - {:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'}
-  # :name -> group's name, :scope -> scoped method (e.g 'all' or another predefined scope),
-  # :value_method -> value in params, and text_method -> the shown text in the select element.
-
-  def editable_select_optgroup(groups, options = {})
-    select = []
-    select.push(nil => options[:include_blank]) if options[:include_blank].present?
-    groups.each do |group|
-      klass = group[:class].classify.constantize
-      scope = group[:scope]
-      children = Hash[klass.send(scope).map { |obj| [obj.send(group[:value_method]), obj.send(group[:text_method])] }]
-      select.push(:text => group[:name], :children => children)
-    end
-    select
-  end
-
   private
 
   def edit_inline(object, property, options = {})
