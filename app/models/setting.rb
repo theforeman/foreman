@@ -290,8 +290,7 @@ class Setting < ApplicationRecord
     if options.has_key? :collection
       SettingsHelper.module_eval do
         define_method("#{name}_collection".to_sym) do
-          collection = options[:collection].call
-          collection.is_a?(Hash) ? collection : editable_select_optgroup(collection, :include_blank => options[:include_blank])
+          SettingValueSelection.new(options[:collection].call, options).collection
         end
       end
     end
