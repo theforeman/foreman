@@ -1,0 +1,15 @@
+
+.help-block-icon {
+  margin-right: 3px;
+}
+
+.common-numericInput {
+  .react-numeric-input {
+    display: flex !important;
+
+    input {
+      flex: 1;
+      height: 28px;
+    }
+  }
+}
