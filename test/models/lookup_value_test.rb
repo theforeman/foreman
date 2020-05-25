@@ -280,7 +280,6 @@ class LookupValueTest < ActiveSupport::TestCase
     smart_class_parameter = FactoryBot.create(
       :puppetclass_lookup_key,
       :variable => RFauxFactory.gen_alpha,
-      :puppetclass_id => puppetclasses(:one).id,
       :validator_type => validator_type,
       :validator_rule => validator_rule,
       :default_value => 'example'
