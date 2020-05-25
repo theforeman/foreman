@@ -26,7 +26,7 @@
     "react-intl": "^2.8.0"
   },
   "optionalDependencies": {
-    "chromedriver": "79.0.0"
+    "chromedriver": "81.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
