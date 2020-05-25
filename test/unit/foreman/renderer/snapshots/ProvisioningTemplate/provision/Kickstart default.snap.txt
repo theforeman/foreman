@@ -53,7 +53,7 @@ cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
 ) 2>&1 | tee /mnt/sysimage/root/install.postnochroot.log
 %end
 
-%post --log=/mnt/sysimage/root/install.post.log
+%post --log=/root/install.post.log
 logger "Starting anaconda snapshothost postinstall"
 exec < /dev/tty3 > /dev/tty3
 #changing to VT 3 so that we can see whats going on....
