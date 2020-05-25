@@ -87,6 +87,7 @@ class Template < ApplicationRecord
     self.snippet = !!@importing_metadata[:snippet]
     self.default = options[:default] unless options[:default].nil?
     self.description = @importing_metadata[:description]
+    self.locked = options[:locked] unless options[:locked].nil?
     handle_lock_on_import(options)
 
     import_taxonomies(options)
