@@ -51,9 +51,6 @@ function save_interface_modal() {
   if (modal_form.find('.interface_provision').is(':checked')) {
     $('#interfaceForms .interface_provision:checked').attr('checked', false);
   }
-  if (modal_form.find('.interface_managed').is(':checked')) {
-    $('#interfaceForms .interface_managed:checked').attr("checked", false);
-  }
 
   var interface_hidden = get_interface_hidden(interface_id);
   interface_hidden.html('');
@@ -337,10 +334,12 @@ $(document).on('click', '.managed-flag', function() {
     .closest('tr')
     .data('interface-id');
 
-  $('#interfaceForms .interface_managed:checked').prop('checked', false);
-  get_interface_hidden(interface_id)
-    .find('.interface_managed')
-    .prop('checked', true);
+  var managedCheckbox = get_interface_hidden(interface_id)
+    .find('.interface_managed');
+
+  var isChecked = $(managedCheckbox).prop('checked');
+
+  $(managedCheckbox).prop('checked', !isChecked);
 
   update_interface_table();
 });
