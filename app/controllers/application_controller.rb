@@ -122,9 +122,10 @@ class ApplicationController < ActionController::Base
   end
 
   def sti_clean_up(e)
+    require_login rescue false
     @unknown_class_name = e.message.match(/subclass: '(.*)'\./)[1]
     @parent_class = e.message.match(/overwrite (.*)\.inheritance_column/)[1].constantize
-    if params[:confirm_data_deletion] == 'yes'
+    if params[:confirm_data_deletion] == 'yes' && User.current&.admin?
       begin
         @parent_class.where(@parent_class.inheritance_column => @unknown_class_name).delete_all
       rescue ActiveRecord::InvalidForeignKey => e
