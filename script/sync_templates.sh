@@ -16,7 +16,7 @@ git clone -q -b $(git symbolic-ref -q HEAD --short) \
 # move into destination dir if run from Foreman root
 [ -d app/views/unattended ] && cd app/views/unattended
 
-rsync -r \
+rsync -r --delete \
   --exclude .gitignore \
   --exclude README.md \
   --exclude '.*' \
