@@ -261,7 +261,7 @@ cp -va /etc/resolv.conf /mnt/sysimage/etc/resolv.conf
 <%#
 Main post script, if it fails the last post is still executed.
 %>
-%post --log=/mnt/sysimage/root/install.post.log
+%post --log=/root/install.post.log
 logger "Starting anaconda <%= @host %> postinstall"
 exec < /dev/tty3 > /dev/tty3
 #changing to VT 3 so that we can see whats going on....
