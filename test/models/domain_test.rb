@@ -103,4 +103,14 @@ class DomainTest < ActiveSupport::TestCase
     refute domain.save
     assert_equal "does not have the DNS feature", domain.errors["dns_id"].first
   end
+
+  test "can search domains by params" do
+    domain = Domain.new(:name => ".localDomain.", :fullname => "full_name")
+    domain.domain_parameters << DomainParameter.create(:name => "local", :value => "example", :parameter_type => 'string')
+    assert domain.save!
+
+    parameter = domain.domain_parameters.first
+    results = Domain.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
+    assert results.include?(domain)
+  end
 end
