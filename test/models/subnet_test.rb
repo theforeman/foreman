@@ -143,4 +143,14 @@ class SubnetTest < ActiveSupport::TestCase
       assert_equal [], subnet.dns_servers
     end
   end
+
+  test "can search subnet by params with tilde operator" do
+    subnet = FactoryBot.create(:subnet_ipv4)
+    subnet.subnet_parameters << SubnetParameter.create(
+      :name => "ips_arr", :value => "['192.0.2.1', '192.0.2.2']", :parameter_type => 'array'
+    )
+    parameter = subnet.subnet_parameters.first
+    results = Subnet.search_for(%{params.#{parameter.name} ~ "192"})
+    assert results.include?(subnet)
+  end
 end

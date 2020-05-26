@@ -17,15 +17,15 @@ module ParameterSearch
       if respond_to?(:with_taxonomy_scope)
         build_query = build_query.with_taxonomy_scope
       end
-      resource_ids = build_query.joins(parameters_relation).where(conditions).map(&:id).flatten.uniq
+      resource_ids = build_query.joins(parameters_relation).where(conditions).distinct.pluck(:id)
 
-      opts = "#{table_name}.id < 0"
+      opts = "1 < 0"
       opts = "#{table_name}.id IN(#{resource_ids.join(',')})" if resource_ids.present?
       {:conditions => opts}
     end
 
     def parameter_relation_symbol
-      case class_name
+      case to_s
         when 'Operatingsystem' then :os_parameters
         when 'Hostgroup'       then :group_parameters
         when 'Domain'          then :domain_parameters

@@ -592,6 +592,18 @@ class HostgroupTest < ActiveSupport::TestCase
     end
   end
 
+  test "can search hostgroup by params" do
+    hg1 = FactoryBot.create(:hostgroup)
+    hg1.group_parameters.create!(:name => "foo", :value => "bar")
+    parameter = hg1.group_parameters.first
+    hg2 = FactoryBot.create(:hostgroup)
+    hg2.group_parameters.create!(:name => "foo", :value => "test")
+
+    results = Hostgroup.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
+    assert results.include?(hg1)
+    refute results.include?(hg2)
+  end
+
   private
 
   def setup_user(operation)
