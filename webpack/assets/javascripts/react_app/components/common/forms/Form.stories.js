@@ -13,6 +13,7 @@ import Story from '../../../../../../stories/components/Story';
 import { yesNoOpts } from './__fixtures__/Form.fixtures';
 import {
   textFieldWithHelpProps,
+  selectProps,
   dateTimeWithErrorProps,
   ownComponentFieldProps,
 } from './FormField.fixtures';
@@ -63,6 +64,9 @@ export const formField = () => (
     <Grid>
       <Row>
         <FormField {...textFieldWithHelpProps} />
+      </Row>
+      <Row>
+        <FormField {...selectProps} />
       </Row>
       <Row>
         <FormField {...dateTimeWithErrorProps} />

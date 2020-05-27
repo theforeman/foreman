@@ -15,6 +15,22 @@ export const dateTimeWithErrorProps = {
   error: 'can not be in the past',
 };
 
+export const selectProps = {
+  type: 'select',
+  id: 'date-time',
+  label: 'Grouped select',
+  name: 'group[groupedSelect]',
+  options: [
+    { value: true, label: 'Ungrouped true' },
+    { groupLabel: 'Group1', children: { rnd: 'Group1 opt1' } },
+    { value: false, label: 'Ungrouped false' },
+    {
+      groupLabel: 'Group2',
+      children: [{ value: 'rnd2', label: 'Group2 opt2' }],
+    },
+  ],
+};
+
 export const ownComponentFieldProps = {
   type: 'ownInput',
   id: 'own-field',

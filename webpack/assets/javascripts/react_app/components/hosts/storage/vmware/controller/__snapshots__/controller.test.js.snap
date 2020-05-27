@@ -23,6 +23,7 @@ exports[`StorageContainer should render controller 1`] = `
         disabled={false}
         errorMessage="An error occured."
         label=""
+        name={null}
         onChange={[Function]}
         options={
           Object {
@@ -33,6 +34,7 @@ exports[`StorageContainer should render controller 1`] = `
           }
         }
         status="RESOLVED"
+        useSelect2={true}
         value="VirtualLsiLogicController"
       />
       <Button

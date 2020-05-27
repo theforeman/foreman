@@ -96,6 +96,7 @@ FormField.propTypes = {
     PropTypes.number,
     PropTypes.instanceOf(Date),
     PropTypes.array,
+    PropTypes.bool,
   ]),
   className: PropTypes.string,
   label: PropTypes.string,
