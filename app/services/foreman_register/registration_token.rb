@@ -2,6 +2,9 @@
 
 module ForemanRegister
   class RegistrationToken
+    VALID_BEFORE_ISSUING = 3600
+    EXPIRE_AFTER_ISSUING = 24 * 3600
+
     class << self
       def encode(host, secret)
         payload = prepare_payload(host, secret)
@@ -11,20 +14,20 @@ module ForemanRegister
       private
 
       def prepare_payload(host, secret)
-        exp = iat + (24 * 3600)
-        nbf = iat - 3600
-        jti_raw = [secret, iat].join(':')
-        jti = Digest::SHA256.hexdigest(jti_raw)
+        expire_at = issued_at + EXPIRE_AFTER_ISSUING
+        not_before = issued_at - VALID_BEFORE_ISSUING
+        jwt_raw_id = [secret, issued_at].join(':')
+        jwt_id = Digest::SHA256.hexdigest(jwt_raw_id)
         {
           host_id: host.id,
-          iat: iat, # Issued At
-          jti: jti, # JWT ID
-          exp: exp, # Expiration Time
-          nbf: nbf, # Not Before Time
+          iat: issued_at,
+          jti: jwt_id,
+          exp: expire_at,
+          nbf: not_before,
         }
       end
 
-      def iat
+      def issued_at
         Time.now.to_i
       end
 

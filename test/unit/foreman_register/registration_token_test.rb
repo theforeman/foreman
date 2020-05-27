@@ -15,7 +15,7 @@ module ForemanRegister
 
     describe 'encoding' do
       it 'encodes a token' do
-        RegistrationToken.stubs(:iat).returns(1_551_729_561)
+        RegistrationToken.stubs(:issued_at).returns(1_551_729_561)
         host = OpenStruct.new(id: 123)
         registration_token = RegistrationToken.encode(host, 'some_secret')
 
