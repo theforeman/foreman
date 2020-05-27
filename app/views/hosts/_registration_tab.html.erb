@@ -9,6 +9,7 @@
   }
 </script>
 
+<div style="max-width: 600px">
 <% if @host.registration_template %>
   <p>This host can be registered to Foreman by executing this command:</p>
 
@@ -19,3 +20,4 @@
 <% else %>
   <p>This host can not be enrolled with Foreman as no registration template was set.</p>
 <% end %>
+</div>
