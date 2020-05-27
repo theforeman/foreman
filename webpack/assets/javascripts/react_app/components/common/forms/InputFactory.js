@@ -8,9 +8,11 @@ import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
 import OrderableSelect from './OrderableSelect';
 import TimePicker from '../DateTimePicker/TimePicker';
+import Select from './Select';
 
 const inputComponents = {
   autocomplete: AutoComplete,
+  select: Select,
   date: DatePicker,
   dateTime: DateTimePicker,
   orderableSelect: OrderableSelect,
@@ -21,20 +23,22 @@ export const registerInputComponent = (name, Component) => {
   inputComponents[name] = Component;
 };
 
-const InputFactory = ({ type, ...controlProps }) => {
-  if (inputComponents[type]) {
-    return (
-      <FormControl componentClass={inputComponents[type]} {...controlProps} />
-    );
-  }
-  return <FormControl type={type} {...controlProps} />;
-};
+export const getComponentClass = name => inputComponents[name] || 'input';
+
+const InputFactory = ({ type, ...controlProps }) => (
+  <FormControl
+    componentClass={getComponentClass(type)}
+    type={type}
+    {...controlProps}
+  />
+);
 
 InputFactory.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
+    PropTypes.bool,
     PropTypes.instanceOf(Date),
   ]),
   name: PropTypes.string,
@@ -45,6 +49,7 @@ InputFactory.propTypes = {
 };
 
 InputFactory.defaultProps = {
+  type: undefined,
   name: undefined,
   value: undefined,
   className: '',

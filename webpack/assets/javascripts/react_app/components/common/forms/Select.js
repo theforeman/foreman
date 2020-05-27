@@ -27,27 +27,24 @@ class Select extends React.Component {
   }
 
   componentDidMount() {
-    this.initializeSelect2();
-    this.attachEvent();
-  }
-
-  componentDidUpdate(prevProps) {
-    this.initializeSelect2();
-
-    if (this.props.status !== prevProps.status) {
+    if (this.props.useSelect2) {
+      this.initializeSelect2();
       this.attachEvent();
     }
   }
 
-  render() {
-    const renderOptions = arr =>
-      map(arr, (attribute, value) => (
-        <option key={value} value={value}>
-          {attribute}
-        </option>
-      ));
+  componentDidUpdate(prevProps) {
+    if (this.props.useSelect2) {
+      this.initializeSelect2();
+      if (this.props.status !== prevProps.status) {
+        this.attachEvent();
+      }
+    }
+  }
 
+  render() {
     const {
+      name,
       label,
       className,
       value,
@@ -58,11 +55,34 @@ class Select extends React.Component {
       errorMessage = __('An error occured.'),
     } = this.props;
 
+    const renderOption = ({ val, text, key = null }) => (
+      <option value={val} key={key || val}>
+        {text}
+      </option>
+    );
+
+    const renderOptGroup = group => (
+      <optgroup label={group.groupLabel} key={group.groupLabel}>
+        {renderOptions(group.children)}
+      </optgroup>
+    );
+
+    const renderOptions = opts => {
+      if (Array.isArray(opts)) {
+        return opts.map((opt, index) => {
+          if (opt.children) return renderOptGroup(opt);
+          return renderOption({ key: index, val: opt.value, text: opt.label });
+        });
+      }
+      return map(opts, (text, val) => renderOption({ val, text }));
+    };
+
     let content;
 
     const innerSelect = (
       <div>
         <select
+          name={name}
           disabled={disabled}
           ref={select => {
             this.select = select;
@@ -107,19 +127,22 @@ class Select extends React.Component {
 }
 
 Select.propTypes = {
-  value: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   label: PropTypes.string,
   className: PropTypes.string,
   allowClear: PropTypes.bool,
   disabled: PropTypes.bool,
-  options: PropTypes.object,
+  options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   status: PropTypes.string,
   errorMessage: PropTypes.string,
   onChange: PropTypes.func,
+  useSelect2: PropTypes.bool,
 };
 
 Select.defaultProps = {
-  value: '',
+  name: null,
+  value: undefined,
   label: '',
   className: '',
   allowClear: false,
@@ -128,6 +151,7 @@ Select.defaultProps = {
   status: STATUS.RESOLVED,
   errorMessage: __('An error occured.'),
   onChange: noop,
+  useSelect2: true,
 };
 
 export default Select;

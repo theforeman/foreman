@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpers';
 import {
+  selectProps,
   ownComponentFieldProps,
   formAutocompleteDataProps,
 } from '../FormField.fixtures';
@@ -14,6 +15,7 @@ const fixtures = {
     type: 'autocomplete',
     ...formAutocompleteDataProps,
   },
+  'renders Select': selectProps,
   'renders custom registered component': ownComponentFieldProps,
 };
 
