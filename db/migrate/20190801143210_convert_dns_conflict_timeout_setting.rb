@@ -18,8 +18,8 @@ end
 
 class ConvertDnsConflictTimeoutSetting < ActiveRecord::Migration[5.2]
   def clean_cache
-    Rails.cache.delete(Setting.cache_key("dns_conflict_timeout"))
-    Rails.cache.delete(Setting.cache_key("dns_timeout"))
+    Rails.cache.delete(Foreman::SettingManager.new.cache_key("dns_conflict_timeout"))
+    Rails.cache.delete(Foreman::SettingManager.new.cache_key("dns_timeout"))
   end
 
   def up

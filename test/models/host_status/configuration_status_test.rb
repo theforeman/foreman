@@ -78,7 +78,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
 
     test '#out_of_sync? is false when out of sync is disabled' do
       status.stubs(:out_of_sync_disabled?).returns(true)
-      refute @status.out_of_sync?
+      refute status.out_of_sync?
     end
 
     context 'with last report origin' do
@@ -91,7 +91,7 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
         refute status.out_of_sync?
       end
 
-      test "is true when origins out of sync isn't disbled and it is ouf of sync" do
+      test "is true when origins out of sync isn't disabled and it is ouf of sync" do
         stub_outofsync_setting(false)
         status.reported_at = '2015-01-01 00:00:00'
         status.save
@@ -99,8 +99,13 @@ class ConfigurationStatusTest < ActiveSupport::TestCase
       end
 
       def stub_outofsync_setting(value)
-        Setting.create(name: :testorigin_out_of_sync_disabled,
-                       description: 'description', default: false)
+        original = Foreman.setting_manager.settings
+        presenter = Foreman::SettingPresenter.new(
+          name: :testorigin_out_of_sync_disabled,
+          description: 'description',
+          default: false
+        )
+        Foreman.setting_manager.stubs(:settings).returns(original.merge('testorigin_out_of_sync_disabled' => presenter))
         Setting[:testorigin_out_of_sync_disabled] = value
       end
     end

@@ -15,18 +15,9 @@ require_dependency 'foreman/provision' if SETTINGS[:unattended]
 require_dependency 'foreman'
 require_dependency 'fog_extensions'
 
-# We may be executing something like rake db:migrate:reset, which destroys this table
-# only continue if the table exists
-if (Setting.table_exists? rescue(false))
-  # in this phase, the classes are not fully loaded yet, load them
-  Dir[
-    File.join(Rails.root, "app/models/setting.rb"),
-    File.join(Rails.root, "app/models/setting/*.rb"),
-  ].each do |f|
-    require_dependency(f)
-  end
-
-  Setting.descendants.each(&:load_defaults)
+unless Foreman.in_rake?('db:create') || Foreman.in_rake?('db:drop')
+  Foreman::SettingManager.ensure_classes_loaded!
+  Foreman.setting_manager.load
 end
 
 # load topbar

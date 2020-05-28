@@ -42,6 +42,9 @@ if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
   ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
 end
 
+Foreman::SettingManager.ensure_classes_loaded!
+Foreman.setting_manager.load
+
 # List of valid record name field.
 def valid_name_list
   [

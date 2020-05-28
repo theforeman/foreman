@@ -90,22 +90,19 @@ class Setting < ApplicationRecord
     nil
   end
 
-  def self.cache_key(name)
-    "settings/#{name}"
-  end
-
   def self.[](name)
-    name = name.to_s
-    cache.fetch(cache_key(name)) do
-      find_by(:name => name)&.value
-    end
+    Foreman.setting_manager[name]
   end
 
   def self.[]=(name, value)
-    name   = name.to_s
-    record = where(:name => name).first!
-    record.value = value
-    record.save!
+    Foreman.setting_manager[name] = value
+  end
+
+  def self.setting_type_from_value(default)
+    t = default.class.to_s.downcase
+    return t if TYPES.include?(t)
+    return "integer" if default.is_a?(Integer)
+    return "boolean" if default.is_a?(TrueClass) || default.is_a?(FalseClass)
   end
 
   def value=(v)
@@ -264,10 +261,6 @@ class Setting < ApplicationRecord
     s.readonly! if old_readonly
   end
 
-  def self.cache
-    Rails.cache
-  end
-
   # Methods for loading default settings
 
   def self.default_settings
@@ -275,31 +268,12 @@ class Setting < ApplicationRecord
   end
 
   def self.load_defaults
-    return false unless table_exists?
-    dbcache = Hash[Setting.where(:category => name).map { |s| [s.name, s] }]
-    transaction do
-      default_settings.compact.each do |s|
-        val = s.update(:category => name).symbolize_keys
-        dbcache.key?(val[:name]) ? create_existing(dbcache[val[:name]], s) : create!(s)
-      end
-    end
-    true
-  end
-
-  def self.select_collection_registry
-    @@select_collection ||= SettingSelectCollection.new
+    nil # Already loaded
   end
 
   def self.set(name, description, default, full_name = nil, value = nil, options = {})
-    if options.has_key? :collection
-      select_collection_registry.add(name, options)
-    end
-    options[:encrypted] ||= false
-    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name, :encrypted => options[:encrypted]}
-  end
-
-  def select_collection
-    self.class.select_collection_registry.collection_for self
+    presenter = Foreman.setting_manager.add_default(self.name, name, default, :value => value, :description => description, :full_name => full_name, :options => options)
+    presenter.setting_attributes
   end
 
   def self.model_name
@@ -312,22 +286,8 @@ class Setting < ApplicationRecord
 
   # End methods for loading default settings
 
-  def full_name_with_default
-    _("%{full_name} (Default: %{default})") % {full_name: _(full_name), default: has_default? ? default : "Not set" }
-  end
-
   def has_default?
-    default_type = settings_type || default.class.to_s.downcase
-    case default_type
-    when "array", "hash", "string"
-      !default.empty?
-    when "boolean", "integer", "falseclass", "trueclass"
-      true
-    when "nilclass"
-      false
-    else
-      !default.nil?
-    end
+    Foreman.setting_manager.setting_has_default?(name)
   end
 
   def hidden_value?
@@ -348,14 +308,7 @@ class Setting < ApplicationRecord
   end
 
   def set_setting_type_from_value
-    return true unless settings_type.nil?
-    t = default.class.to_s.downcase
-    if TYPES.include?(t)
-      self.settings_type = t
-    else
-      self.settings_type = "integer" if default.is_a?(Integer)
-      self.settings_type = "boolean" if default.is_a?(TrueClass) || default.is_a?(FalseClass)
-    end
+    self.settings_type ||= self.class.setting_type_from_value(default)
   end
 
   def validate_frozen_attributes
@@ -377,14 +330,7 @@ class Setting < ApplicationRecord
   end
 
   def clear_cache
-    # Rails cache returns false if the delete failed and nil if the key is missing
-    if Setting.cache.delete(cache_key) == false
-      Rails.logger.warn "Failed to remove #{name} from cache"
-    end
-  end
-
-  def cache_key
-    Setting.cache_key(name)
+    Foreman.setting_manager.clear_cache(name)
   end
 
   def readonly_when_overridden

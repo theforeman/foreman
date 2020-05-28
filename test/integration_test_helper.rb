@@ -33,6 +33,9 @@ Capybara.configure do |config|
   config.default_max_wait_time  = 20
 end
 
+Foreman::SettingManager.ensure_classes_loaded!
+Foreman.setting_manager.load
+
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
