@@ -286,16 +286,20 @@ class Setting < ApplicationRecord
     true
   end
 
+  def self.select_collection_registry
+    @@select_collection ||= SettingSelectCollection.new
+  end
+
   def self.set(name, description, default, full_name = nil, value = nil, options = {})
     if options.has_key? :collection
-      SettingsHelper.module_eval do
-        define_method("#{name}_collection".to_sym) do
-          SettingValueSelection.new(options[:collection].call, options).collection
-        end
-      end
+      select_collection_registry.add(name, options)
     end
     options[:encrypted] ||= false
     {:name => name, :value => value, :description => description, :default => default, :full_name => full_name, :encrypted => options[:encrypted]}
+  end
+
+  def select_collection
+    self.class.select_collection_registry.collection_for self
   end
 
   def self.model_name
