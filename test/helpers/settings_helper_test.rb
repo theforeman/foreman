@@ -6,7 +6,7 @@ class SettingsHelperTest < ActionView::TestCase
   test "create a setting with values collection " do
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => proc { {:a => "a", :b => "b"} } })
     setting = Setting.create(options)
-    assert_equal send("#{setting.name}_collection"), { :a => "a", :b => "b" }
+    assert_equal setting.select_collection, { :a => "a", :b => "b" }
     expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :a => "a", :b => "b" })
     value(setting)
   end
@@ -24,7 +24,7 @@ class SettingsHelperTest < ActionView::TestCase
     options = Setting.set("test_attr", "some_description", "default_value", "full_name", "my_value", { :collection => proc { Hash[:size => Hostgroup.all.count] } })
     FactoryBot.create(:hostgroup, :root_pass => '12345678')
     setting = Setting.create(options)
-    assert_equal send("#{setting.name}_collection"), { :size => expected_hostgroup_count }
+    assert_equal setting.select_collection, { :size => expected_hostgroup_count }
     expects(:edit_select).with(setting, :value, :title => setting.full_name_with_default, :select_values => { :size => expected_hostgroup_count })
     value(setting)
   end

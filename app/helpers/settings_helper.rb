@@ -5,9 +5,11 @@ module SettingsHelper
         {:title => _("This setting is defined in the configuration file '%{filename}' and is read-only.") % {:filename => setting.class.config_file}, :helper => :show_value})
     end
 
-    if respond_to? "#{setting.name}_collection"
+    select_collection = Setting.select_collection_registry.collection_for setting
+
+    unless select_collection.empty?
       return edit_select(setting, :value,
-        {:title => setting.full_name_with_default, :select_values => send("#{setting.name}_collection") })
+        {:title => setting.full_name_with_default, :select_values => select_collection })
     end
 
     placeholder = setting.has_default? ? setting.default : "No default value was set"
