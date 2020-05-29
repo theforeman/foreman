@@ -38,6 +38,7 @@ import ExternalLogout from './ExternalLogout';
 import Slot from './common/Slot';
 import TypeAheadSelect from './common/TypeAheadSelect';
 import DatePicker from './common/DateTimePicker/DatePicker';
+import ReportTemplatesTable from './ReportTemplatesTable';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -166,6 +167,7 @@ const coreComponets = [
   // Report templates
   { name: 'TemplateGenerator', type: TemplateGenerator },
   { name: 'LoginPage', type: LoginPage },
+  { name: 'ReportTemplatesTable', type: ReportTemplatesTable },
 ];
 
 componentRegistry.registerMultiple(coreComponets);

@@ -4,29 +4,6 @@
                  documentation_button('4.11Reports')
 %>
 
-<table class="<%= table_css_classes 'table-fixed' %>">
-  <thead>
-    <tr>
-      <th class="col-md-3"><%= sort :name, :as => s_("ReportTemplate|Name") %></th>
-      <th class="col-md-1"><%= sort :snippet, :as => s_("ReportTemplate|Snippet") %></th>
-      <th class="col-md-1"><%= sort :locked, :as => s_("ReportTemplate|Locked"), :default => "DESC" %></th>
-      <th class="col-md-1"><%= _('Actions') %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% for report_template in @templates %>
-    <tr>
-        <td class="ellipsis"><%= link_to_if_authorized report_template,
-                                         hash_for_edit_report_template_path(:id => report_template.to_param).
-                                         merge(:auth_object => report_template, :authorizer => authorizer,
-                                         :permission => 'edit_report_templates') %>
-        </td>
-        <td align='center'><%= checked_icon report_template.snippet %></td>
-        <td align='center'><%= locked_icon report_template.locked?, _("This template is locked for editing.") %>
-        </td>
-        <td><%= action_buttons(*permitted_actions(report_template)) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div id="report_templates_table"></div>
+<%= mount_react_component("ReportTemplatesTable", "#report_templates_table") %>
 <%= will_paginate_with_info @templates %>

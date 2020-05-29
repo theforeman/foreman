@@ -8,3 +8,6 @@ export { default as nameCellFormatter } from './nameCellFormatter';
 export { default as hostsCountCellFormatter } from './hostsCountCellFormatter';
 export { default as sortableHeaderFormatter } from './sortableHeaderFormatter';
 export { deleteActionCellFormatter } from './deleteActionCellFormatter';
+export { default as snippetCellFormatter } from './snippetCellFormatter';
+export { default as lockedCellFormatter } from './lockedCellFormatter';
+export { default as templateActionCellFormatter } from './templateActionCellFormatter';
