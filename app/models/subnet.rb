@@ -113,9 +113,41 @@ class Subnet < ApplicationRecord
 
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
 
+  apipie :class, "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    refs 'Subnet::Ipv4', 'Subnet::Ipv6'
+    prop_group :basic_model_props, ApplicationRecord
+    property :boot_mode, String, desc: 'Returns the default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates, e.g static or DHCP'
+    property :cidr, Integer, desc: 'Returns the network prefix or nil in case of Invalid Error'
+    property :description, String, desc: 'Returns the subnet description'
+    property :httpboot?, one_of: [true, false], desc: 'Returns true if this subnet supports the HTTPBoot feature, false otherwise'
+    property :httpboot, SmartProxy, desc: 'Returns associated Smart Proxy with HTTPBoot feature'
+    property :ipam?, one_of: [true, false], desc: 'Returns true if this subnet has IPAM mode set, false otherwise'
+    property :ipam, String, desc: 'Returns IPAM mode set for this subnet'
+    property :dhcp?, one_of: [true, false], desc: 'Returns true if this subnet supports the DHCP IPAM mode, false otherwise'
+    property :dhcp, SmartProxy, desc: 'Returns associated Smart Proxy with DHCP feature'
+    property :dhcp_boot_mode?, one_of: [true, false], desc: 'Returns true if the subnet boot mode is DHCP, false otherwise'
+    property :dns?, one_of: [true, false], desc: 'Returns true if this subnet supports DNS for managing PTR records, false otherwise'
+    property :dns, SmartProxy, desc: 'Returns associated Smart Proxy with DNS for managing PTR records feature'
+    property :dns_primary, String, desc: 'Returns the primary DNS server address, e.g. 192.168.122.1'
+    property :dns_secondary, String, desc: 'Returns the secondary DNS server address'
+    property :dns_servers, Array, desc: 'Returns an array of the DNS servers address'
+    property :gateway, String, desc: 'Returns the gateway address, e.g. 192.168.122.1'
+    property :has_vlanid?, one_of: [true, false], desc: 'Returns true is the subnet has a VLAN ID, false otherwise'
+    property :mask, String, desc: 'Returns the network mask, e.g. 255.255.255.0'
+    property :mtu, Integer, desc: 'Returns the MTU'
+    property :network, String, desc: 'Returns the network address, e.g. 192.168.122.0'
+    property :nic_delay, Array, desc: 'Returns the delay network activity during installation, NICs attached to this subnet will be have linksleep configured in Kickstart to given amount of seconds'
+    property :template?, one_of: [true, false], desc: 'Returns true if this subnet supports Templates feature, false otherwise'
+    property :template, SmartProxy, desc: 'Returns associated Smart Proxy with Templates feature'
+    property :tftp?, one_of: [true, false], desc: 'Returns true if this subnet supports TFTP feature, false otherwise'
+    property :tftp, SmartProxy, desc: 'Returns associated Smart Proxy with TFTP feature'
+    property :to_label, String, desc: 'Returns the the subnet label which is a combination of name and the network address'
+    property :vlanid, Integer, desc: 'Returns the VLAN ID for of this subnet'
+  end
   class Jail < ::Safemode::Jail
     allow :id, :name, :network, :mask, :cidr, :title, :to_label, :gateway, :dns_primary, :dns_secondary, :dns_servers,
-      :vlanid, :mtu, :nic_delay, :boot_mode, :dhcp?, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?,
+      :vlanid, :mtu, :nic_delay, :boot_mode, :nil?, :has_vlanid?, :dhcp_boot_mode?, :description, :present?,
       :dhcp, :dhcp?, :tftp, :tftp?, :dns, :dns?, :httpboot, :httpboot?, :template, :template?, :ipam, :ipam?
   end
 
