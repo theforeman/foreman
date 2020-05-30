@@ -7,6 +7,7 @@ ApipieDSL.configure do |config|
   config.doc_base_url = '/templates_doc'
   config.markup = ApipieDSL::Markup::Markdown.new if Rails.env.development? && defined? Maruku
   config.dsl_classes_matchers = [
+    "#{Rails.root}/app/models/**/*.rb",
     "#{Rails.root}/lib/foreman/renderer/**/*.rb",
   ]
   # TODO provisioning reports jobs
