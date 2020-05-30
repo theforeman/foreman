@@ -1,4 +1,18 @@
 class SshKey < ApplicationRecord
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'SSH key' }
+    property :user, User, desc: 'Returns the user object which is linked to the SSH key'
+    property :key, String, desc: 'Returns the SSH public key'
+    property :fingerprint, String, desc: 'Returns the fingerprint of the public key'
+    property :length, Integer, desc: 'Returns the length of the SSH public key'
+    property :ssh_key, String, desc: 'Returns the SSH public key'
+    property :type, String, desc: 'Returns the type of the of the SSH key, e.g. ssh-rsa, ssh-dsa',
+                            example: '@ssh_key.type # => "ssh-rsa"'
+    property :comment, String, desc: 'Returns a key comment. The comment is usually a user identifier',
+                               example: '@ssh-key.comment # => forman@foreman.example.com'
+  end
+
   audited :associated_with => :user
   include Authorizable
   extend FriendlyId
