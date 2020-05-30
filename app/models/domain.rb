@@ -1,6 +1,12 @@
 require "resolv"
 # This models a DNS domain and so represents a site.
 class Domain < ApplicationRecord
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { example: 'example.com' }
+    property :fullname, String, desc: 'User name for this domain, e.g. "Primary domain for our company"'
+  end
+
   audited
   include Authorizable
   extend FriendlyId
