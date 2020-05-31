@@ -1,4 +1,4 @@
-class RenameCentOs7InstallMedia < ActiveRecord::Migration[6.0]
+class RenameCentOs7InstallMedia < ActiveRecord::Migration[5.2]
   def up
     Medium.where(name: "CentOS mirror").update_all(name: "CentOS 7 mirror")
   end
