@@ -18,6 +18,7 @@ const NumericInput = ({
   minValue,
   disabled,
   readOnly,
+  name,
 }) => (
   <CommonForm label={label} className={className}>
     <RCInputNumber
@@ -31,6 +32,7 @@ const NumericInput = ({
       disabled={disabled}
       readOnly={readOnly}
       prefixCls="foreman-numeric-input"
+      name={name}
     />
   </CommonForm>
 );
@@ -38,6 +40,7 @@ const NumericInput = ({
 NumericInput.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
+  name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   format: PropTypes.func,
   parser: PropTypes.func,
@@ -52,6 +55,7 @@ NumericInput.propTypes = {
 NumericInput.defaultProps = {
   label: '',
   className: '',
+  name: '',
   value: 0,
   format: null,
   parser: undefined,

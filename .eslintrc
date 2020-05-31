@@ -12,6 +12,8 @@
         "ignoreRequire": false,
         "skipWords": [
           "2xl",
+          "4xl",
+          "resize",
           "ampm",
           "auditable",
           "bool",
