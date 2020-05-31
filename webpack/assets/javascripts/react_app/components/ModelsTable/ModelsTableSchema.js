@@ -9,6 +9,8 @@ import {
   hostsCountCellFormatter,
   deleteActionCellFormatter,
   cellFormatter,
+  selectionHeaderCellFormatter,
+  selectionCellFormatter,
 } from '../common/table';
 
 /**
@@ -21,9 +23,18 @@ import {
  *                            Otherwise, 'ASC' for ascending and 'DESC' for descending
  * @return {Array}
  */
-const createModelsTableSchema = (apiCall, by, order) => {
+const createModelsTableSchema = (apiCall, by, order, selectionController) => {
   const sortController = sortControllerFactory(apiCall, by, order);
   return [
+    column(
+      '',
+      'Select all rows',
+      [label => selectionHeaderCellFormatter(selectionController, label)],
+      [
+        (value, additionalData) =>
+          selectionCellFormatter(selectionController, additionalData),
+      ]
+    ),
     sortableColumn('name', __('Name'), 4, sortController, [
       nameCellFormatter('models'),
     ]),
