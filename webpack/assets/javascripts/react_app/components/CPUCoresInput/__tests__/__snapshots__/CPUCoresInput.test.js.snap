@@ -24,6 +24,7 @@ exports[`CPUCoresInput rendering should render with default props 1`] = `
           format={null}
           label="CPUs"
           minValue={1}
+          name=""
           onChange={[Function]}
           precision={0}
           readOnly={false}
