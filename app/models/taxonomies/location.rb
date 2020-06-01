@@ -1,10 +1,4 @@
 class Location < Taxonomy
-  apipie :class, desc: "A class representing a Location object" do
-    sections only: %w[all additional]
-    prop_group :basic_model_props, ApplicationRecord, meta: { example: 'Europe' }
-    prop_group :taxonomy_props, Taxonomy, meta: { model_name: 'Location', example: 'Europe/Prague' }
-  end
-
   extend FriendlyId
   friendly_id :title
   include Foreman::ThreadSession::LocationModel
@@ -27,10 +21,6 @@ class Location < Taxonomy
   scope :my_locations, lambda { |user = User.current|
     user.admin? ? all : where(id: user.location_and_child_ids)
   }
-
-  class Jail < ::Safemode::Jail
-    allow :id, :name, :title, :created_at, :updated_at, :description
-  end
 
   def dup
     new = super

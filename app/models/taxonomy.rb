@@ -1,11 +1,4 @@
 class Taxonomy < ApplicationRecord
-  apipie :prop_group, name: :taxonomy_props do
-    property :title, String, desc: "Title of the #{@meta[:model_name]}. Comparing to the Name, Title contains also names of all parent #{@meta[:model_name]}s, e.g. #{@meta[:example]}"
-    property :description, String, desc: "Description of the #{@meta[:class_scope]}"
-    property :created_at, String, desc: "The time when the #{@meta[:class_scope]} was created"
-    property :updated_at, String, desc: "The last time when the #{@meta[:class_scope]} was updated"
-  end
-
   validates_lengths_from_database
 
   include Authorizable
@@ -46,6 +39,20 @@ class Taxonomy < ApplicationRecord
     child.instance_eval do
       scoped_search :on => :description, :complete_enabled => :false, :only_explicit => true
       scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER
+
+      apipie :class, desc: "A class representing #{model_name.human} object" do
+        sections only: %w[all additional]
+        name_exl, title_exl = class_scope.model_name.human == 'Location' ? ['Europe', 'Europe/Prague'] : ['Red Hat', 'Red Hat/Engineering']
+        prop_group :basic_model_props, ApplicationRecord, meta: { example: name_exl }
+        property :title, String, desc: "Title of the #{class_scope}. Comparing to the Name, Title contains also names of all parent #{class_scope}s, e.g. #{title_exl}"
+        property :description, String, desc: "Description of the #{class_scope}"
+        property :created_at, String, desc: "The time when the #{class_scope} was created"
+        property :updated_at, String, desc: "The last time when the #{class_scope} was updated"
+      end
+      jail_class = Class.new(::Safemode::Jail) do
+        allow :id, :name, :title, :created_at, :updated_at, :description
+      end
+      child.const_set('Jail', jail_class)
     end
     child.send(:include, NestedAncestryCommon::Search)
     super
