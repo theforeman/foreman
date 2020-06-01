@@ -42,6 +42,10 @@ FactoryBot.define do
       name { 'BMC' }
     end
 
+    trait :httpboot do
+      name { 'HTTPBoot' }
+    end
+
     trait :external_ipam do
       name { 'External IPAM' }
     end
