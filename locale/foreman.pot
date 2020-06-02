@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-18 16:47+0300\n"
-"PO-Revision-Date: 2020-05-18 16:47+0300\n"
+"POT-Creation-Date: 2020-06-02 13:31+0530\n"
+"PO-Revision-Date: 2020-06-02 13:31+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -122,35 +122,35 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:189
+#: ../app/assets/javascripts/host_edit_interfaces.js:186
 #: ../app/helpers/hosts_helper.rb:69 ../app/helpers/hosts_helper.rb:356
 #: ../app/views/taxonomies/_form.html.erb:6
 msgid "Primary"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:195
+#: ../app/assets/javascripts/host_edit_interfaces.js:192
 #: ../app/helpers/hosts_helper.rb:70 ../app/helpers/hosts_helper.rb:357
 #: ../app/models/setting/provisioning.rb:84
 msgid "Provisioning"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:201
+#: ../app/assets/javascripts/host_edit_interfaces.js:198
 msgid "Managed"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:360
+#: ../app/assets/javascripts/host_edit_interfaces.js:359
 msgid "virtual attached to %s"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:361
+#: ../app/assets/javascripts/host_edit_interfaces.js:360
 msgid "virtual"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:366
+#: ../app/assets/javascripts/host_edit_interfaces.js:365
 msgid "physical"
 msgstr ""
 
-#: ../app/assets/javascripts/host_edit_interfaces.js:400
+#: ../app/assets/javascripts/host_edit_interfaces.js:399
 #: ../app/registries/menu/loader.rb:54 ../app/views/hosts/index.html.erb:1
 #: ../app/views/hosts/new.html.erb:1 ../app/views/hosts/welcome.html.erb:10
 msgid "Create Host"
@@ -3655,7 +3655,7 @@ msgid "%s you had selected as your context has been deleted"
 msgstr ""
 
 #: ../app/controllers/concerns/foreman/controller/authentication.rb:25
-#: ../app/controllers/concerns/foreman/controller/session.rb:44
+#: ../app/controllers/concerns/foreman/controller/session.rb:40
 msgid "Your session has expired, please login again"
 msgstr ""
 
@@ -5072,7 +5072,7 @@ msgstr ""
 #: ../app/views/hosts/review_before_build.html.erb:6
 #: ../app/views/images/_list.html.erb:20
 #: ../app/views/taxonomies/index.html.erb:29
-#: ../app/views/trends/index.html.erb:28
+#: ../app/views/trends/index.html.erb:29
 msgid "Edit"
 msgstr ""
 
@@ -8975,13 +8975,13 @@ msgid "Dashboard"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:42
-#: ../webpack/assets/javascripts/react_app/routes/Statistics/StatisticsPage/StatisticsPage.js:8
+#: ../webpack/assets/javascripts/react_app/routes/Statistics/StatisticsPage/StatisticsPage.js:9
 msgid "Statistics"
 msgstr ""
 
 #: ../app/registries/menu/loader.rb:43 ../app/views/trends/index.html.erb:2
 #: ../app/views/trends/welcome.html.erb:1
-#: ../app/views/trends/welcome.html.erb:6
+#: ../app/views/trends/welcome.html.erb:7
 msgid "Trends"
 msgstr ""
 
@@ -9632,7 +9632,7 @@ msgstr ""
 #: ../app/views/key_pairs/index.html.erb:8
 #: ../app/views/puppetclasses/_classes_parameters.html.erb:5
 #: ../app/views/ssh_keys/_ssh_keys_tab.html.erb:6
-#: ../app/views/trends/index.html.erb:18
+#: ../app/views/trends/index.html.erb:19
 #: ../webpack/assets/javascripts/react_app/components/Bookmarks/components/BookmarkForm/BookmarkForm.js:45
 #: ../webpack/assets/javascripts/react_app/components/ModelsTable/ModelsTableSchema.js:27
 msgid "Name"
@@ -9887,7 +9887,7 @@ msgstr ""
 #: ../app/views/report_templates/welcome.html.erb:8
 #: ../app/views/smart_proxies/welcome.html.erb:8
 #: ../app/views/subnets/welcome.html.erb:11
-#: ../app/views/trends/welcome.html.erb:8
+#: ../app/views/trends/welcome.html.erb:9
 msgid "Learn more about this in the documentation."
 msgstr ""
 
@@ -14122,6 +14122,10 @@ msgstr ""
 msgid "Is the cron job that executes %s enabled?"
 msgstr ""
 
+#: ../app/views/trends/_extraction_warning.html.erb:1
+msgid "This functionality is deprecated"
+msgstr ""
+
 #: ../app/views/trends/_form.html.erb:4
 msgid "Please Select"
 msgstr ""
@@ -14142,44 +14146,44 @@ msgstr ""
 msgid "Display Name"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:3 ../app/views/trends/welcome.html.erb:10
+#: ../app/views/trends/index.html.erb:3 ../app/views/trends/welcome.html.erb:11
 msgid "Add Trend Counter"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:6
+#: ../app/views/trends/index.html.erb:7
 msgid "No trend counter defined"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:7
+#: ../app/views/trends/index.html.erb:8
 msgid ""
 "To define trend counters, use the Add Trend Counter button.</br> To start coll"
 "ecting trend data, set a cron job to execute 'foreman-rake trends:counter' at "
 "least every %s minutes."
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:11
+#: ../app/views/trends/index.html.erb:12
 msgid "No trend counter found"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:12
+#: ../app/views/trends/index.html.erb:13
 msgid ""
 "To start collecting trend data, set a cron job to execute <span class='black'>"
 "foreman-rake trends:counter</span> at least every %s minutes."
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:19
+#: ../app/views/trends/index.html.erb:20
 msgid "Action"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:25
+#: ../app/views/trends/index.html.erb:26
 msgid "Show Trends"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:29
+#: ../app/views/trends/index.html.erb:30
 msgid "Delete all the trend history for %s?"
 msgstr ""
 
-#: ../app/views/trends/index.html.erb:37
+#: ../app/views/trends/index.html.erb:38
 msgid "Last update:"
 msgstr ""
 
@@ -14191,7 +14195,7 @@ msgstr ""
 msgid "Number of Hosts"
 msgstr ""
 
-#: ../app/views/trends/welcome.html.erb:7
+#: ../app/views/trends/welcome.html.erb:8
 msgid ""
 "Trends in Foreman allow you to track changes in your infrastructure over time."
 " It allows you to track both Foreman related information and to any fact. The "
@@ -14564,6 +14568,12 @@ msgstr ""
 
 #: ../lib/foreman/renderer/errors.rb:39
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
+msgstr ""
+
+#: ../lib/foreman/renderer/errors.rb:43
+msgid ""
+"Rendering failed, one or more unknown columns specified for ordering - \"%{unkn"
+"own}\""
 msgstr ""
 
 #: ../lib/foreman/renderer/scope/macros/snippet_rendering.rb:24

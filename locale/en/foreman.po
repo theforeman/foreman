@@ -7360,6 +7360,9 @@ msgstr ""
 msgid "Rendering failed, no input with name \"%{s}\" for input macro found"
 msgstr ""
 
+msgid "Rendering failed, one or more unknown columns specified for ordering - \"%{unknown}\""
+msgstr ""
+
 #. TRANSLATORS: "Table name" or "Table name|Column name" for error messages
 msgid "Report"
 msgstr ""
@@ -9126,6 +9129,9 @@ msgid "This Puppet class has no parameters in its signature."
 msgstr ""
 
 msgid "This allows Foreman to associate a puppet variable with a domain/site and automatically append this variable to all external node requests made by machines at that site."
+msgstr ""
+
+msgid "This functionality is deprecated"
 msgstr ""
 
 msgid "This group has nested groups!"

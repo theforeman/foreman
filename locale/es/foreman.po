@@ -16,8 +16,8 @@
 # Gustavo Varela <gustavo.varela@gmail.com>, 2013
 # Jared Nelson <jared@ajpadilla.com>, 2013
 # Jared Nelson <jared@ajpadilla.com>, 2013
-# Sergio Ocón <sergio.ocon@redhat.com>, 2014-2015
-# Sergio Ocón <sergio.ocon@redhat.com>, 2014
+# Sergio Ocón-Cárdenas <sergio.ocon@redhat.com>, 2014-2015
+# Sergio Ocón-Cárdenas <sergio.ocon@redhat.com>, 2014
 # Silvia Perez <silvy10linux@gmail.com>, 2015
 # nefeli <vidakovic@gmail.com>, 2014
 msgid ""
