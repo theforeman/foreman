@@ -1,3 +1,61 @@
+2020-06-02	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.1.0-rc2
+
+2020-06-02	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2020-06-02	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #29796 - trends extraction warning
+
+2020-05-31	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #28116 - introduce CentOS mirror (8.x) inst. media
+
+2020-05-31	Tomer Brisker <tbrisker@gmail.com>
+	* templates - sync from community-templates
+
+2020-05-27	Aditi Puntambekar <apuntamb@redhat.com>
+	* Fixes #29936 - Bump fog-aws version to 3.6.5
+
+2020-05-27	Marek Hulan <mhulan@redhat.com>
+	* Fixes #29578 - add sorting feature to reports
+
+2020-05-26	Aditi Puntambekar <apuntamb@redhat.com>
+	* Fixes #28639,#28640 - fix AWS deprecation and unrecognized args warnings
+
+2020-05-26	Rahul Bajaj <rahulrb0509@gmail.com>
+	* Refs #29744 - refactor the set_current_user method
+	* Fixes #29744 - Consistent session expiration for oidc ext. users
+
+2020-05-26	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29709 - Check properly managed interfaces
+
+2020-05-26	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #29714 - Drop puppetclass_id column from Lookup_keys
+
+2020-05-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #28028 - Drop chromedriver dependency
+
+2020-05-25	Ranjan Kumar <ranjankumar188@gmail.com>
+	* Fixes #29891 - add kernel release fact for rhsm
+
+2020-05-25	Tomer Brisker <tbrisker@gmail.com>
+	* templates - delete old templates on sync
+
+2020-05-21	Shimon Shtein <sshtein@redhat.com>
+	* Refs #29135 - fix section paramter in links
+
+2020-05-21	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #29869 - react pages in plugins
+
+2020-05-21	Aditi Puntambekar <apuntamb@redhat.com>
+	* Fixes #29402 - Add missing gov region for EC2
+
+2020-05-19	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #29761 - correct config status chart layout
+
+2020-05-19	Ondřej Ezr <oezr@redhat.com>
+	* Refs #29796 - statistics extraction warning
+
 2020-05-18	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.1.0-rc1
 	* i18n - extracting new, pulling from tx
