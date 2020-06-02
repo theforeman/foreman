@@ -10,9 +10,6 @@
     the ActionDispatch::SSL middleware to more fully enforce that your application
     communicate over HTTPS. If needed, you can use `config.ssl_options` to exempt
     matching endpoints from being redirected to HTTPS.
-- message: NOT conditions will no longer behave as NOR in Rails 6.1. To continue using
-    NOR conditions, NOT each conditions manually (`.where.not(:compute_resource_id
-    => ...).where.not(:uuid => ...)`).
 - message: Rails 6.1 will return Content-Type header without modification. If you
     want just the MIME type, please use `#media_type` instead.
 - message: Initialization autoloaded the constants

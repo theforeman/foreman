@@ -211,7 +211,7 @@ class Host::Managed < Host::Base
 
   scope :for_vm, ->(cr, vm) { where(:compute_resource_id => cr.id, :uuid => Array.wrap(vm).compact.map(&:identity).map(&:to_s)) }
 
-  scope :with_compute_resource, -> { where.not(:compute_resource_id => nil, :uuid => nil) }
+  scope :with_compute_resource, -> { where.not(:compute_resource_id => nil).where.not(:uuid => nil) }
 
   scope :in_build_mode, -> { where(build: true) }
   scope :with_build_errors, -> { where.not(build_errors: nil) }
