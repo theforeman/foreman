@@ -19,9 +19,9 @@
 # Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2016,2018
 # Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2014
 # Luiz Henrique Vasconcelos <luizvasconceloss@yahoo.com.br>, 2014-2015
-# Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
-# Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
-# Marcos Barbosa <inactive+marcosestevesbarbosa@transifex.com>, 2013
+# c2208e8ff849df3dc915749e5c910fa8_6726102 <f9c4b365e023d2bd377bf8a34684fbe5_106337>, 2013
+# c2208e8ff849df3dc915749e5c910fa8_6726102 <f9c4b365e023d2bd377bf8a34684fbe5_106337>, 2013
+# c2208e8ff849df3dc915749e5c910fa8_6726102 <f9c4b365e023d2bd377bf8a34684fbe5_106337>, 2013
 # Valeria S Silva <valeriassilva@live.com>, 2015
 # Victor Lantier <victor@vermillion.net.br>, 2016
 msgid ""
