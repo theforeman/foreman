@@ -7,7 +7,7 @@ source 'https://rubygems.org'
 
 case SETTINGS[:rails]
 when '6.0'
-  gem 'rails', '~> 6.0.2.2'
+  gem 'rails', '~> 6.0.3.1'
 else
   raise "Unsupported Ruby on Rails version configured in settings.yaml: #{SETTINGS[:rails]}"
 end
