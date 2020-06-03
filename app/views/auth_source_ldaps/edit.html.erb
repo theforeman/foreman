@@ -1,3 +1,14 @@
-<% title _("Edit %s") % @auth_source_ldap.to_s %>
-
+<%= breadcrumbs(
+    items: [
+      {
+        caption: _("Authentication Sources"),
+        url: auth_sources_path
+      },
+      {
+        caption: _("Edit %s") % @auth_source_ldap.to_label,
+      }
+    ],
+    switchable: false,
+  )
+%>
 <%= render :partial => 'form' %>
