@@ -7,7 +7,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
   MULTIPLE_EDIT_ACTIONS = %w(select_multiple_environment update_multiple_environment
                              select_multiple_puppet_proxy update_multiple_puppet_proxy
                              select_multiple_puppet_ca_proxy update_multiple_puppet_ca_proxy)
-  PUPPET_MULTIPLE_ACTIONS = %w(multiple_puppetrun update_multiple_puppetrun) + MULTIPLE_EDIT_ACTIONS
 
   included do
     add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
@@ -17,11 +16,10 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     before_action :ajax_request_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
     before_action :find_resource_for_puppet_host_extensions, :only => [:puppetrun]
     before_action :taxonomy_scope_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
-    before_action :find_multiple_for_puppet_host_extensions, :only => PUPPET_MULTIPLE_ACTIONS
+    before_action :find_multiple_for_puppet_host_extensions, :only => MULTIPLE_EDIT_ACTIONS
     before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
     before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
 
-    define_action_permission ['puppetrun', 'multiple_puppetrun', 'update_multiple_puppetrun'], :puppetrun
     define_action_permission MULTIPLE_EDIT_ACTIONS, :edit
 
     set_callback :set_class_variables, :after, :set_puppet_class_variables
@@ -43,20 +41,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "puppetclasses/classes_parameters", :locals => { :obj => refresh_host}
     end
-  end
-
-  def multiple_puppetrun
-    deny_access unless Setting[:puppetrun]
-  end
-
-  def update_multiple_puppetrun
-    return deny_access unless Setting[:puppetrun]
-    if @hosts.map(&:puppetrun!).uniq == [true]
-      success _("Successfully executed, check reports and/or log files for more details")
-    else
-      error _("Some or all hosts execution failed, Please check log files for more information")
-    end
-    redirect_back_or_to hosts_path
   end
 
   def select_multiple_environment

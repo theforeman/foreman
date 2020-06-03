@@ -24,7 +24,7 @@ class HostsController < ApplicationController
                         select_multiple_power_state update_multiple_power_state)
 
   before_action :ajax_request, :only => AJAX_REQUESTS
-  before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :puppetrun, :review_before_build,
+  before_action :find_resource, :only => [:show, :clone, :edit, :update, :destroy, :review_before_build,
                                           :setBuild, :cancelBuild, :power, :overview, :bmc, :vm,
                                           :runtime, :resources, :nics, :ipmi_boot, :console,
                                           :toggle_manage, :pxe_config, :disassociate, :build_errors, :forget_status]
@@ -205,16 +205,6 @@ class HostsController < ApplicationController
       render :plain => _('Unable to generate output, Check log files'),
              :status => :precondition_failed
     end
-  end
-
-  def puppetrun
-    return deny_access unless Setting[:puppetrun]
-    if @host.puppetrun!
-      success _("Successfully executed, check log files for more details")
-    else
-      error @host.errors[:base].to_sentence
-    end
-    redirect_to host_path(@host)
   end
 
   def review_before_build

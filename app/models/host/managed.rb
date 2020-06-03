@@ -680,19 +680,6 @@ autopart"', desc: 'to render the content of host partition table'
     save!(:validate => false) # don't want to trigger callbacks
   end
 
-  def puppetrun!
-    unless puppet_proxy.present?
-      errors.add(:base, _("no puppet proxy defined - cant continue"))
-      logger.warn "unable to execute puppet run, no puppet proxies defined"
-      return false
-    end
-    ProxyAPI::Puppet.new({:url => puppet_proxy.url}).run fqdn
-  rescue => e
-    errors.add(:base, _("failed to execute puppetrun: %s") % e)
-    Foreman::Logging.exception("Unable to execute puppet run", e)
-    false
-  end
-
   # if certname does not exist, use hostname instead
   def certname
     self[:certname] || name

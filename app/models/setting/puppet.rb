@@ -12,7 +12,6 @@ class Setting::Puppet < Setting
       set('puppet_interval', N_("Duration in minutes after servers reporting via Puppet are classed as out of sync."), 35, N_('Puppet interval')),
       set('puppet_out_of_sync_disabled', N_("Disable host configuration status turning to out of sync for %s after report does not arrive within configured interval") % 'Puppet', false, N_('%s out of sync disabled') % 'Puppet'),
       set('default_puppet_environment', N_("Foreman will default to this puppet environment if it cannot auto detect one"), "production", N_('Default Puppet environment'), nil, { :collection => proc { Hash[Environment.all.map { |env| [env[:name], env[:name]] }] } }),
-      set('puppetrun', N_("Enable puppetrun support"), false, N_('Puppetrun')),
       set('Default_parameters_Lookup_Path', N_("Foreman will evaluate host smart class parameters in this order by default"), ["fqdn", "hostgroup", "os", "domain"], N_('Default parameters lookup path')),
       set('interpolate_erb_in_parameters', N_("Foreman will parse ERB in parameters value in the ENC output"), true, N_('Interpolate ERB in parameters')),
       set('enc_environment', N_("Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"), true, N_('ENC environment')),
