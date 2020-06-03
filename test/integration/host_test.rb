@@ -22,7 +22,6 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link?("Templates", :href => "#template")
     assert page.has_link?("Edit", :href => "/hosts/#{@host.fqdn}/edit")
     assert page.has_link?("Build", :href => "/hosts/#{@host.fqdn}#review_before_build")
-    assert page.has_link?("Run puppet", :href => "/hosts/#{@host.fqdn}/puppetrun")
     assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
   end
 

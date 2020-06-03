@@ -314,11 +314,6 @@ ipmi_boot_hosts:
   resource_type: Host
   created_at: "2013-12-04 08:41:04.940695"
   updated_at: "2013-12-04 08:41:04.940695"
-puppetrun_hosts:
-  name: puppetrun_hosts
-  resource_type: Host
-  created_at: "2013-12-04 08:41:04.962776"
-  updated_at: "2013-12-04 08:41:04.962776"
 view_images:
   name: view_images
   resource_type: Image

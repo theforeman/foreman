@@ -1,5 +1,0 @@
-<%= render 'selected_hosts', :hosts => @hosts %>
-
-<%= form_tag update_multiple_puppetrun_hosts_path({:host_ids => params[:host_ids]}) do %>
-  <small><%= _('Run Puppet on the following hosts') %></small>
-<% end %>

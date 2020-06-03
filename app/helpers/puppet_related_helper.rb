@@ -3,7 +3,6 @@ module PuppetRelatedHelper
     multiple_actions_provider :puppet_actions
     overview_fields_provider :puppet_host_overview_fields
     overview_buttons_provider :puppet_host_overview_buttons
-    title_actions_provider :puppet_host_title_actions
   end
 
   def host_puppet_environment_field(form, select_options = {}, html_options = {})
@@ -86,7 +85,6 @@ module PuppetRelatedHelper
       actions << { :action => [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path], :priority => 1050 } if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
       actions << { :action => [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path], :priority => 1051 } if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
     end
-    actions << { :action => [_('Run Puppet'), multiple_puppetrun_hosts_path], :priority => 1052 } if Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
     actions
   end
 
@@ -102,19 +100,6 @@ module PuppetRelatedHelper
       }
     end
     fields
-  end
-
-  def puppet_host_title_actions(host)
-    if host.try(:puppet_proxy)
-      [{ :action => button_group(
-        link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
-          :disabled => !Setting[:puppetrun],
-          :class => 'btn btn-default',
-          :title => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))),
-         :priority => 250 }]
-    else
-      []
-    end
   end
 
   def puppet_host_overview_buttons(host)

@@ -58,9 +58,8 @@ class AccessPermissionsTest < ActiveSupport::TestCase
 
   MAY_SKIP_AUTHORIZED = ["about/index", "react/index", "api/v2/ping/ping"]
 
-  EXTRACTED_ACTIONS = ["api/v2/trends/index", "api/v2/trends/show", "api/v2/trends/create", "api/v2/trends/destroy"]
+  EXTRACTED_ACTIONS = ["api/v2/trends/index", "api/v2/trends/show", "api/v2/trends/create", "api/v2/trends/destroy",
+                       "api/v2/puppet_hosts/puppetrun"]
 
-  SPECIAL_PATH = ['api/v2/puppet_hosts/puppetrun']
-
-  check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED + SPECIAL_PATH + EXTRACTED_ACTIONS)
+  check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED + EXTRACTED_ACTIONS)
 end

@@ -142,11 +142,6 @@ attribute32:
   default: []
   description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
   settings_type: array
-attribute36:
-  name: puppetrun
-  category: Setting::Puppet
-  default: "true"
-  description: "Enables Puppetrun Support"
 attribute37:
   name: create_new_host_when_facts_are_uploaded
   category: Setting::Puppet
