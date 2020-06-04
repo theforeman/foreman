@@ -14,8 +14,9 @@ const apiReducer = (state = initialState, { type, key, payload, response }) => {
     case REQUEST:
       return state.merge({
         [key]: {
-          payload,
           response: null,
+          ...state[key],
+          payload,
           status: PENDING,
         },
       });
