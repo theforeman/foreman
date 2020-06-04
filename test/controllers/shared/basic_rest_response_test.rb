@@ -68,6 +68,15 @@ module BasicRestResponseTest
       end
     end
 
+    def all_per_page_test
+      test 'should render all records' do
+        get :index, params: { per_page: 'all' }
+        assert_response :success
+        res = ActiveSupport::JSON.decode(@response.body)
+        assert_equal @controller.controller_name.classify.constantize.count, res['results'].size
+      end
+    end
+
     def basic_pagination_rendered_test
       context 'GET #index' do
         setup do

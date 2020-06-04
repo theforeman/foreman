@@ -13,7 +13,7 @@ module Api
 
       def_param_group :pagination do
         param :page, :number, :desc => N_("Page number, starting at 1")
-        param :per_page, :number, :desc => N_("Number of results per page to return, 'all' to return all results")
+        param :per_page, /\A([1-9]\d*|all)\Z$/, :desc => N_("Number of results per page to return, 'all' to return all results")
       end
 
       def_param_group :search_and_pagination do
