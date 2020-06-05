@@ -42,7 +42,7 @@ class Setting::Provisioning < Setting
 
     [
       set('host_owner', N_("Default owner on provisioned hosts, if empty Foreman will use current user"), nil, N_('Host owner'), nil, {:collection => proc { select }, :include_blank => _("Select an owner")}),
-      set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil, N_('Root password')),
+      set('root_pass', N_("Default encrypted root password on provisioned hosts"), nil, N_('Root password'), nil, {:encrypted => true}),
       set('unattended_url', N_("URL hosts will retrieve templates from during build, when it starts with https unattended/userdata controllers cannot be accessed via HTTP"), unattended_url, N_('Unattended URL')),
       set('safemode_render', N_("Enable safe mode config templates rendering (recommended)"), true, N_('Safemode rendering')),
       set('access_unattended_without_build', N_("Allow access to unattended URLs without build mode being used"), false, N_('Access unattended without build')),
