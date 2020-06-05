@@ -13,7 +13,7 @@ module Api
 
       def_param_group :pagination do
         param :page, :number, :desc => N_("Page number, starting at 1")
-        param :per_page, :number, :desc => N_("Number of results per page to return")
+        param :per_page, /\A([1-9]\d*|all)\Z$/, :desc => N_("Number of results per page to return, 'all' to return all results")
       end
 
       def_param_group :search_and_pagination do
@@ -89,7 +89,8 @@ module Api
       end
 
       def metadata_per_page
-        @per_page ||= params[:per_page].present? ? params[:per_page].to_i : Setting[:entries_per_page]
+        @per_page ||= Setting[:entries_per_page] if params[:per_page].empty?
+        @per_page ||= params[:per_page] == 'all' ? metadata_total : params[:per_page].to_i
       end
 
       # For the purpose of ADDING/REMOVING associations in CHILD node on POST/PUT payload

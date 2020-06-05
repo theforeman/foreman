@@ -11,6 +11,8 @@ class Api::V2::ArchitecturesControllerTest < ActionController::TestCase
     users(:one).roles = [Role.default, Role.find_by_name('Manager')]
   end
 
+  all_per_page_test
+
   test "should get index" do
     get :index
     assert_response :success

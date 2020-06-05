@@ -8,7 +8,7 @@ module Api
       add_scoped_search_description_for(Setting)
 
       def index
-        @settings = resource_scope().live_descendants.search_for(*search_options).paginate(paginate_options)
+        @settings = resource_scope_for_index.live_descendants
       end
 
       api :GET, "/settings/:id/", N_("Show a setting")

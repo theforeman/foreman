@@ -103,7 +103,9 @@ module Api
     end
 
     def resource_scope_for_index(options = {})
-      resource_scope(options).search_for(*search_options).paginate(paginate_options)
+      scope = resource_scope(options).search_for(*search_options)
+      return scope if paginate_options[:per_page] == 'all'
+      scope.paginate(paginate_options)
     end
 
     def api_request?
