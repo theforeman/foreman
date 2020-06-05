@@ -149,6 +149,24 @@ class SmartProxyTest < ActiveSupport::TestCase
       assert_equal 'bar', proxy.setting('TFTP', 'foo')
     end
 
+    test "can access httpboot_http_port exposed setting" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:httpboot => {:settings => {:http_port => 1234}, :state => 'running'})
+      proxy = FactoryBot.build(:httpboot_smart_proxy)
+      proxy.save!
+      proxy.reload
+
+      assert_equal 1234, proxy.httpboot_http_port
+    end
+
+    test "can access httpboot_https_port exposed setting" do
+      ProxyAPI::V2::Features.any_instance.stubs(:features).returns(:httpboot => {:settings => {:https_port => 1234}, :state => 'running'})
+      proxy = FactoryBot.build(:httpboot_smart_proxy)
+      proxy.save!
+      proxy.reload
+
+      assert_equal 1234, proxy.httpboot_https_port
+    end
+
     describe '#ping' do
       let(:proxy) { SmartProxy.new(name: 'Proxy', url: 'https://some.where.net:8443') }
 

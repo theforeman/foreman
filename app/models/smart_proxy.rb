@@ -100,6 +100,14 @@ class SmartProxy < ApplicationRecord
     smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:settings).try(:[], setting)
   end
 
+  def httpboot_http_port
+    setting(:HTTPBoot, 'http_port') || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
+  end
+
+  def httpboot_https_port
+    setting(:HTTPBoot, 'https_port') || raise(::Foreman::Exception.new(N_("HTTPS boot requires proxy with httpboot feature and https_port exposed setting")))
+  end
+
   def statuses
     return @statuses if @statuses
     @statuses = {}
@@ -172,6 +180,6 @@ class SmartProxy < ApplicationRecord
   end
 
   class Jail < ::Safemode::Jail
-    allow :id, :name
+    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port
   end
 end
