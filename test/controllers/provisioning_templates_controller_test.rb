@@ -61,7 +61,7 @@ class ProvisioningTemplatesControllerTest < ActionController::TestCase
   test "export" do
     get :export, params: { :id => templates(:pxekickstart).to_param }, session: set_session_user
     assert_response :success
-    assert_equal 'text/plain', response.content_type
+    assert_equal 'text/plain', response.media_type
     assert_equal templates(:pxekickstart).to_erb, response.body
     assert_match /attachment; filename="centos5_3_pxelinux.erb"/, response.headers['Content-Disposition']
   end

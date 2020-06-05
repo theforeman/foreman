@@ -230,7 +230,7 @@ class Api::V2::PtablesControllerTest < ActionController::TestCase
     ptable = FactoryBot.create(:ptable)
     get :export, params: { :id => ptable.to_param }
     assert_response :success
-    assert_equal 'text/plain', response.content_type
+    assert_equal 'text/plain', response.media_type
     User.current = users(:admin)
     assert_equal ptable.to_erb, response.body
   end
