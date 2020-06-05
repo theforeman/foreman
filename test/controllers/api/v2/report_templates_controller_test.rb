@@ -178,7 +178,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
   test 'export should export the erb of the template' do
     get :export, params: { :id => report_template.to_param }
     assert_response :success
-    assert_equal 'text/plain', response.content_type
+    assert_equal 'text/plain', response.media_type
     assert_equal report_template.to_erb, response.body
   end
 
@@ -214,7 +214,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'csv' }
       assert_response :success
-      assert_equal 'text/csv', response.content_type
+      assert_equal 'text/csv', response.media_type
       assert_equal "a\n1\n2\n", response.body
     end
 
@@ -222,7 +222,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'txt' }
       assert_response :success
-      assert_equal 'text/plain', response.content_type
+      assert_equal 'text/plain', response.media_type
       assert_equal "a\n1\n2\n", response.body
     end
 
@@ -230,7 +230,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'yaml' }
       assert_response :success
-      assert_equal 'text/yaml', response.content_type
+      assert_equal 'text/yaml', response.media_type
       assert_equal "---\n- a: 1\n- a: 2\n", response.body
     end
 
@@ -238,7 +238,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row(a: 1); report_row(a: 2); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'json' }
       assert_response :success
-      assert_equal 'application/json', response.content_type
+      assert_equal 'application/json', response.media_type
       data = nil
       assert_nothing_raised do
         data = JSON.parse response.body
@@ -251,7 +251,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       report_template = FactoryBot.create(:report_template, :template => '<%= report_row("<b>" => 1); report_row("<b>" => "<br>"); report_render %>')
       post :generate, params: { id: report_template.id, report_format: 'html' }
       assert_response :success
-      assert_equal 'text/html', response.content_type
+      assert_equal 'text/html', response.media_type
       assert_includes response.body, "<th>&lt;b&gt;</th>"
       assert_includes response.body, "<td>1</td>"
       assert_includes response.body, "<td>&lt;br&gt;</td>"
@@ -324,7 +324,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
       post :schedule_report, params: { :id => report_template.id }
       assert_response :success
-      assert_equal 'application/json', response.content_type
+      assert_equal 'application/json', response.media_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
     end
 
@@ -336,7 +336,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
                     .returns(input_values)
       post :schedule_report, params: { :id => report_template.id, :input_values => { 'foo' => 'bar' } }
       assert_response :success
-      assert_equal 'application/json', response.content_type
+      assert_equal 'application/json', response.media_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
     end
 
@@ -345,7 +345,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
       post :schedule_report, params: { :id => report_template.id, mail_to: 'this@email.cz' }
       assert_response :success
-      assert_equal 'application/json', response.content_type
+      assert_equal 'application/json', response.media_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
       refute JSON.parse(response.body).has_key?('data_url')
     end
@@ -355,7 +355,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
       post :schedule_report, params: { :id => report_template.id, report_format: 'csv' }
       assert_response :success
-      assert_equal 'application/json', response.content_type
+      assert_equal 'application/json', response.media_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
     end
 
@@ -365,7 +365,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
       ReportComposer::ApiParams.any_instance.stubs('convert_input_names_to_ids').returns({})
       post :schedule_report, params: { :id => report_template.id, generate_at: delay_to }
       assert_response :success
-      assert_equal 'application/json', response.content_type
+      assert_equal 'application/json', response.media_type
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['job_id']
       assert_match /JOB-UNIQUE-IDENTIFIER/, JSON.parse(response.body)['data_url']
     end
@@ -427,7 +427,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
 
         get :report_data, params: { id: report_template.id, job_id: 'JOBID' }
         assert_response :success
-        assert_equal 'text/plain', response.content_type
+        assert_equal 'text/plain', response.media_type
         assert_equal 'plain response', response.body
       end
 
@@ -438,7 +438,7 @@ class Api::V2::ReportTemplatesControllerTest < ActionController::TestCase
 
         get :report_data, params: { id: report_template.id, job_id: 'JOBID' }
         assert_response :success
-        assert_equal 'application/gzip', response.content_type
+        assert_equal 'application/gzip', response.media_type
         assert_equal compressed_value, response.body
       end
     end

@@ -217,6 +217,8 @@ module Foreman
     # Use Dynflow as the backend for ActiveJob
     config.active_job.queue_adapter = :dynflow
 
+    config.action_dispatch.return_only_media_type_on_content_type = false
+
     Foreman::Logging.configure(
       :log_directory => "#{Rails.root}/log",
       :environment => Rails.env,
