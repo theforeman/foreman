@@ -69,11 +69,19 @@ module BasicRestResponseTest
     end
 
     def all_per_page_test
-      test 'should render all records' do
-        get :index, params: { per_page: 'all' }
-        assert_response :success
-        res = ActiveSupport::JSON.decode(@response.body)
-        assert_equal @controller.controller_name.classify.constantize.count, res['results'].size
+      context '#index' do
+        setup do
+          per_page = Setting[:entries_per_page]
+          resource_count = @controller.resource_class.count
+          FactoryBot.create_list(get_factory_name, per_page - resource_count + 1, *@factory_options) if resource_count < per_page
+        end
+
+        test 'should render all records' do
+          get :index, params: { per_page: 'all' }
+          assert_response :success
+          res = ActiveSupport::JSON.decode(@response.body)
+          assert_equal @controller.controller_name.classify.constantize.count, res['results'].size
+        end
       end
     end
 
