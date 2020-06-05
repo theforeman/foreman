@@ -228,9 +228,9 @@ class Operatingsystem < ApplicationRecord
     architecture = host.arch.nil? ? '' : host.arch.bootfilename_efi
     if host.subnet&.httpboot?
       if host.pxe_loader =~ /UEFI HTTPS/
-        port = host.subnet.httpboot.setting(:HTTPBoot, 'https_port') || raise(::Foreman::Exception.new(N_("HTTPS boot requires proxy with httpboot feature and https_port exposed setting")))
+        port = host.subnet.httpboot.httpboot_https_port
       else
-        port = host.subnet.httpboot.setting(:HTTPBoot, 'http_port') || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
+        port = host.subnet.httpboot.httpboot_http_port
       end
       hostname = URI.parse(host.subnet.httpboot.url).hostname
       self.class.all_loaders_map(architecture, "#{hostname}:#{port}")[host.pxe_loader]
