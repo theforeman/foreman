@@ -23,7 +23,8 @@
     "@theforeman/vendor": "^4.3.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
-    "react-intl": "^2.8.0"
+    "react-intl": "^2.8.0",
+    "react-markdown": "^4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",

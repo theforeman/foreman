@@ -12,7 +12,7 @@ class Setting < ApplicationRecord
 
   graphql_type '::Types::Setting'
 
-  TYPES = %w{integer boolean hash array string}
+  TYPES = %w{integer boolean hash array string textarea}
   FROZEN_ATTRS = %w{name category full_name}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page max_trend outofsync_interval}
   BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text oidc_audience oidc_issuer oidc_algorithm
@@ -172,6 +172,9 @@ class Setting < ApplicationRecord
         return false
       end
 
+    when "textarea"
+      self.value = val.to_s
+
     when "string", nil
       # string is taken as default setting type for parsing
       self.value = NOT_STRIPPED.include?(name) ? val : val.to_s.strip
@@ -234,7 +237,7 @@ class Setting < ApplicationRecord
 
   def self.create_existing(s, opts)
     bypass_readonly(s) do
-      attrs = column_check([:default, :description, :full_name, :encrypted])
+      attrs = column_check([:default, :description, :full_name, :encrypted, :settings_type])
       to_update = Hash[opts.select { |k, v| attrs.include? k }]
       to_update[:value] = readonly_value(s.name.to_sym) if s.has_readonly_value?
       # default is converted to yaml so we need to convert the yaml here too,
@@ -295,7 +298,9 @@ class Setting < ApplicationRecord
       select_collection_registry.add(name, options)
     end
     options[:encrypted] ||= false
-    {:name => name, :value => value, :description => description, :default => default, :full_name => full_name, :encrypted => options[:encrypted]}
+    setting = {:name => name, :value => value, :description => description, :default => default, :full_name => full_name, :encrypted => options[:encrypted]}
+    setting[:settings_type] = 'textarea' if options[:field] == 'textarea'
+    setting
   end
 
   def select_collection

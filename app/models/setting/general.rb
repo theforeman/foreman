@@ -19,7 +19,7 @@ class Setting::General < Setting
       set('db_pending_migration', N_("Should the `foreman-rake db:migrate` be executed on the next run of the installer modules?"), true, N_('DB pending migration')),
       set('db_pending_seed', N_("Should the `foreman-rake db:seed` be executed on the next run of the installer modules?"), true, N_('DB pending seed')),
       set('proxy_request_timeout', N_("Open and read timeout for HTTP requests from Foreman to Smart Proxy (in seconds)"), 60, N_('Smart Proxy request timeout')),
-      set('login_text', N_("Text to be shown in the login-page footer"), nil, N_('Login page footer text')),
+      set('login_text', N_("Text to be shown in the login-page footer"), nil, N_('Login page footer text'), nil, {:field => 'textarea'}),
       set('host_power_status', N_("Show power status on host index page. This feature calls to compute resource providers which may lead to decreased performance on host listing page."), true, N_('Show host power status')),
       set('http_proxy', N_('Sets a proxy for all outgoing HTTP connections from Foreman. System-wide proxies must be configured at operating system level.'), nil, N_('HTTP(S) proxy')),
       set('http_proxy_except_list', N_('Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.'), [], N_('HTTP(S) proxy except hosts')),
