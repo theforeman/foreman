@@ -13,6 +13,6 @@ class StoredValue < ApplicationRecord
 
   def self.read(result_key)
     record = valid.find_by(key: result_key)
-    record&.value
+    record&.value&.force_encoding('UTF-8')
   end
 end

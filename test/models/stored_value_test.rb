@@ -47,5 +47,15 @@ class StoredValueTest < ActiveSupport::TestCase
       assert StoredValue.write('UNIQUE-KEY', "Hell\x00world")
       assert_equal StoredValue.read('UNIQUE-KEY'), "Hell\x00world"
     end
+
+    it 'handles special characters' do
+      assert StoredValue.write('UNIQUE-KEY', "šeď^světa")
+      assert_equal StoredValue.read('UNIQUE-KEY'), "šeď^světa"
+    end
+
+    it 'handles special characters in json' do
+      assert StoredValue.write('UNIQUE-KEY', '{ "name": "šeď^světa" }')
+      assert_equal StoredValue.read('UNIQUE-KEY').to_json, '{ "name": "šeď^světa" }'.to_json
+    end
   end
 end
