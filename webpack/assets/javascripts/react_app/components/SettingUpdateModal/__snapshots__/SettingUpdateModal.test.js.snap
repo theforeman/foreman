@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingUpdateModal it should render 1`] = `
+<ConnectedForemanModal
+  enforceFocus={true}
+  id="settingUpdateModal"
+  title="Update value for %s setting"
+>
+  <div>
+    <WrappedSettingForm
+      setModalClosed={[Function]}
+      setting={
+        Object {
+          "category": "Setting::General",
+          "configFile": "settings.yaml",
+          "createdAt": "2019-11-06 09:42:45 +0100",
+          "default": Array [],
+          "description": "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.",
+          "fullName": "HTTP(S) proxy except hosts",
+          "id": 47,
+          "name": "http_proxy_except_list",
+          "readonly": false,
+          "selectValues": null,
+          "settingsType": "array",
+          "updatedAt": "2020-03-20 13:44:40 +0100",
+          "value": Array [
+            "localhost",
+            "127.0.0.1",
+          ],
+        }
+      }
+    />
+  </div>
+</ConnectedForemanModal>
+`;

@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsTable should render 1`] = `
+<Table
+  columns={
+    Array [
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "label": "Name",
+          "props": Object {
+            "className": "col-md-2",
+          },
+        },
+        "property": "fullName",
+      },
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "label": "Value",
+          "props": Object {
+            "className": "col-md-3",
+          },
+        },
+        "property": "value",
+      },
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "label": "Description",
+          "props": Object {},
+        },
+        "property": "description",
+      },
+    ]
+  }
+  key="settings-table"
+  rows={
+    Array [
+      Object {
+        "category": "Setting::General",
+        "configFile": "settings.yaml",
+        "createdAt": "2019-11-06 09:42:45 +0100",
+        "default": "root@example.com",
+        "description": "The default administrator email address",
+        "fullName": "Administrator email address",
+        "id": 36,
+        "name": "administrator",
+        "readonly": false,
+        "selectValues": null,
+        "settingsType": "string",
+        "updatedAt": "2020-04-29 15:48:23 +0200",
+        "value": "root@example.com",
+      },
+      Object {
+        "category": "Setting::General",
+        "configFile": "settings.yaml",
+        "createdAt": "2018-01-22 14:03:38 +0100",
+        "default": false,
+        "description": "Foreman will append domain names when new hosts are provisioned",
+        "fullName": "Append domain names to the host",
+        "id": 177,
+        "name": "append_domain_name_for_hosts",
+        "readonly": false,
+        "selectValues": null,
+        "settingsType": "boolean",
+        "updatedAt": "2018-01-22 14:03:38 +0100",
+        "value": true,
+      },
+      Object {
+        "category": "Setting::General",
+        "configFile": "settings.yaml",
+        "createdAt": "2019-11-06 09:42:45 +0100",
+        "default": Array [],
+        "description": "Set hostnames to which requests are not to be proxied. Requests to the local host are excluded by default.",
+        "fullName": "HTTP(S) proxy except hosts",
+        "id": 47,
+        "name": "http_proxy_except_list",
+        "readonly": false,
+        "selectValues": null,
+        "settingsType": "array",
+        "updatedAt": "2020-03-20 13:44:40 +0100",
+        "value": Array [
+          "localhost",
+          "127.0.0.1",
+        ],
+      },
+    ]
+  }
+/>
+`;

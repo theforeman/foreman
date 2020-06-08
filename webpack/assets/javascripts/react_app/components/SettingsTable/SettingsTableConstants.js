@@ -1,0 +1,1 @@
+export const SET_UPDATE_SETTING = 'SET_UPDATE_SETTING';
