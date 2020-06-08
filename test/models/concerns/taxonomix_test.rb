@@ -103,6 +103,47 @@ class TaxonomixTest < ActiveSupport::TestCase
     end
   end
 
+  describe '.taxonomy_join_scope' do
+    setup do
+      @org = FactoryBot.create(:organization)
+      @loc = FactoryBot.create(:location)
+      @user = FactoryBot.create(:user, :organizations => [@org],
+                                :locations => [@loc])
+    end
+
+    test 'should not return objects when not in the specified taxonomies' do
+      as_admin do
+        Organization.current = @org
+        Location.current = @loc
+        taxonomy_scoped_dummies = @dummy.class.taxonomy_join_scope.all
+        assert_equal 0, taxonomy_scoped_dummies.count
+      end
+    end
+
+    test 'should return all objects for admin' do
+      as_admin do
+        taxonomy_scoped_dummies = @dummy.class.taxonomy_join_scope.all
+        all_dummies = @dummy.class.unscoped.all.to_a.sort
+        assert_equal all_dummies, taxonomy_scoped_dummies.to_a.sort
+      end
+    end
+
+    test 'should return objects for not admin user' do
+      envs = []
+      3.times do
+        envs << FactoryBot.create(:environment, :organizations => [@org], :locations => [@loc])
+      end
+
+      assert_equal 3, envs.size
+
+      as_user(@user) do
+        environment_scope = Environment.taxonomy_join_scope.all
+        refute User.current.admin?
+        assert_equal envs.sort, environment_scope.to_a.sort
+      end
+    end
+  end
+
   test ".used_location_ids can work with array of locations" do
     loc1 = FactoryBot.create(:location)
     loc2 = FactoryBot.create(:location, :parent_id => loc1.id)
