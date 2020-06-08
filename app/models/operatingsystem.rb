@@ -75,8 +75,20 @@ class Operatingsystem < ApplicationRecord
 
   graphql_type '::Types::Operatingsystem'
 
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'operating system consisting', example: 'RedHat, Fedora, Debian' }
+    property :major, String, desc: 'Major version of the operating system'
+    property :minor, String, desc: 'Minor version of the operating system'
+    property :family, String, desc: 'Family of the operating system, e.g. Redhat'
+    property :to_s, String, desc: 'Returns full name of the operating system, e.g. CentOS 7.0'
+    property :release, String, desc: 'Full release version, e.g. 7.0'
+    property :release_name, String, desc: 'Release name of the operating system, e.g. stretch'
+    property :pxe_type, String, desc: 'PXE type of the operating system, e.g. kickstart'
+    property :password_hash, String, desc: 'Encrypted hash of the operating system password'
+  end
   class Jail < Safemode::Jail
-    allow :id, :name, :media_url, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
+    allow :id, :name, :major, :minor, :family, :to_s, :==, :release, :release_name, :kernel, :initrd, :pxe_type, :boot_files_uri, :password_hash, :mediumpath
   end
 
   def self.title_name
@@ -192,10 +204,18 @@ class Operatingsystem < ApplicationRecord
     ""
   end
 
+  apipie :method, 'Returns path to the kernel to be installed with prefix based on given medium provider' do
+    required :medium_provider, MediumProviders::Provider, 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    returns String, 'Path to the kernel to be installed'
+  end
   def kernel(medium_provider)
     bootfile(medium_provider, :kernel)
   end
 
+  apipie :method, 'Returns path to the initial RAM disk with prefix based on given medium provider' do
+    required :medium_provider, MediumProviders::Provider, 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    returns String, 'Path to the initial RAM disk'
+  end
   def initrd(medium_provider)
     bootfile(medium_provider, :initrd)
   end
@@ -278,6 +298,11 @@ class Operatingsystem < ApplicationRecord
     family || self.class.deduce_family(name)
   end
 
+  apipie :method, 'Retruns an array of boot file sources URIs' do
+    required :medium_provider, MediumProviders::Provider, 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    block schema: '{ |vars| }', desc: 'Allows to adjust meduim variables within the block'
+    returns Array, desc: 'Array of boot file sources URIs'
+  end
   def boot_files_uri(medium_provider, &block)
     boot_file_sources(medium_provider, &block).values
   end
@@ -298,6 +323,10 @@ class Operatingsystem < ApplicationRecord
     options
   end
 
+  apipie :method, 'Returns medium URI for given medium provider' do
+    required :medium_provider, MediumProviders::Provider, desc: 'Medium provider'
+    returns String, desc: 'Medium URI of given medium provider'
+  end
   def mediumpath(medium_provider)
     medium_provider.medium_uri.to_s
   end
