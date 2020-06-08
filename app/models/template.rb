@@ -25,6 +25,10 @@ class Template < ApplicationRecord
 
   attr_exportable :name, :description, :snippet, :template_inputs, :model => ->(template) { template.class.to_s }
 
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord
+  end
   class Jail < Safemode::Jail
     allow :id, :name
   end

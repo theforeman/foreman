@@ -60,6 +60,14 @@ class Ptable < Template
     end
   }
 
+  apipie :class, desc: 'A class representing Partition Table object' do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'partition table', example: 'Kickstart default' }
+  end
+  class Jail < Safemode::Jail
+    allow :id, :name
+  end
+
   def self.template_includes
     super + [:operatingsystems]
   end
