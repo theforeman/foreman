@@ -132,6 +132,54 @@ module Taxonomix
         scope.where("#{table_name}.id IN (#{cached_ids.join(',')})")
       end
     end
+
+    def join_user_organizations
+      org_ids = user_taxonomy_ids(Organization)
+      join_taxonomies(org_ids, org_join_arel, Organization)
+    end
+
+    def join_user_locations
+      loc_ids = user_taxonomy_ids(Location)
+      join_taxonomies(loc_ids, loc_join_arel, Location)
+    end
+
+    def join_taxonomies(taxonomy_ids, tax_arel, taxonomy_class)
+      return all unless filter_taxonomy?(taxonomy_class)
+
+      class_arel = base_class.arel_table
+      statement = class_arel.join(tax_arel, Arel::Nodes::InnerJoin).on(
+        class_arel[:id].eq(tax_arel[:taxable_id]).
+        and(tax_arel[:taxable_type].eq(base_class.name)).
+        and(tax_arel[:taxonomy_id].in(taxonomy_ids))
+      )
+      joins(statement.join_sources)
+    end
+
+    def taxonomy_join_scope
+      unscoped.distinct.join_user_organizations.join_user_locations
+    end
+
+    def filter_taxonomy?(taxonomy_class)
+      taxonomy_class.current || !User.current.admin?
+    end
+
+    def org_join_arel
+      Arel::Table.new(:taxable_taxonomies).alias("tto")
+    end
+
+    def loc_join_arel
+      Arel::Table.new(:taxable_taxonomies).alias("ttl")
+    end
+
+    def user_taxonomy_ids(taxonomy_class)
+      taxonomy = taxonomy_class.current
+      if any_context?(taxonomy)
+        taxonomy_relation = taxonomy_class.to_s.underscore.pluralize
+        taxonomy_class.send("my_#{taxonomy_relation}").reorder(nil).pluck(:id)
+      else
+        get_taxonomy_ids(taxonomy, :subtree_ids)
+      end
+    end
   end
 
   def set_current_taxonomy

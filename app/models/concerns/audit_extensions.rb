@@ -11,14 +11,7 @@ module AuditExtensions
     after_create :log_audit
 
     scope :untaxed, -> { by_auditable_types(untaxable) }
-    scope :fully_taxable_auditables, -> { by_auditable_types(fully_taxable) }
-    scope :fully_taxable_auditables_in_taxonomy_scope, -> { with_taxonomy_scope { fully_taxable_auditables } }
     scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
-    scope :taxed_and_untaxed, lambda {
-      untaxed.or(fully_taxable_auditables_in_taxonomy_scope)
-             .or(taxed_only_by_organization)
-             .or(taxed_only_by_location)
-    }
 
     include Authorizable
     include Taxonomix
@@ -93,15 +86,52 @@ module AuditExtensions
       end
 
       def taxed_only_by_location
-        locations = Location.current || Location.my_locations.reorder(nil)
-        by_auditable_types(location_taxable).
-          where(id: TaxableTaxonomy.where(taxonomy: locations, taxable_type: 'Audited::Audit').select(:taxable_id))
+        join_user_locations.where(arel_taxed_only_by_location)
       end
 
       def taxed_only_by_organization
-        organizations = Organization.current || Organization.my_organizations.reorder(nil)
-        by_auditable_types(organization_taxable).
-          where(id: TaxableTaxonomy.where(taxonomy: organizations, taxable_type: 'Audited::Audit').select(:taxable_id))
+        join_user_organizations.where(arel_taxed_only_by_organization)
+      end
+
+      def taxed_and_untaxed
+        clauses = []
+        if filter_taxonomy?(Organization)
+          clauses << org_join_arel[:taxonomy_id].in(user_taxonomy_ids(Organization))
+        end
+
+        if filter_taxonomy?(Location)
+          clauses << loc_join_arel[:taxonomy_id].in(user_taxonomy_ids(Location))
+        end
+
+        clauses << arel_table[:auditable_type].in(fully_taxable.map(&:to_s))
+        fully_taxed_arel = clauses.reduce(:and)
+        fully_taxed_arel = arel_table.grouping(fully_taxed_arel) if clauses.size > 1
+        statement = fully_taxed_arel.
+          or(arel_table[:auditable_type].in(untaxable.map(&:to_s))).
+          or(arel_table.grouping(arel_taxed_only_by_organization)).
+          or(arel_table.grouping(arel_taxed_only_by_location))
+
+        taxonomy_join_scope.where(statement)
+      end
+
+      def arel_taxed_only_by_location
+        arel_table[:auditable_type].in(location_taxable.map(&:to_s)).
+          and(loc_join_arel[:taxonomy_id].in(user_taxonomy_ids(Location)))
+      end
+
+      def arel_taxed_only_by_organization
+        arel_table[:auditable_type].in(organization_taxable.map(&:to_s)).
+          and(org_join_arel[:taxonomy_id].in(user_taxonomy_ids(Organization)))
+      end
+
+      def join_taxonomies(taxonomy_ids, tax_arel, taxonomy_class)
+        class_arel = base_class.arel_table
+        statement = class_arel.join(tax_arel, Arel::Nodes::OuterJoin).on(
+          class_arel[:id].eq(tax_arel[:taxable_id]).
+          and(tax_arel[:taxable_type].eq(base_class.name)).
+          and(tax_arel[:taxonomy_id].in(taxonomy_ids))
+        )
+        joins(statement.join_sources)
       end
 
       private
