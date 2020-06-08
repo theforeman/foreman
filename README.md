@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/theforeman/foreman/badge.svg?branch=develop)](https://coveralls.io/github/theforeman/foreman?branch=develop)
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 [![Support IRC channel](https://kiwiirc.com/buttons/irc.freenode.net/theforeman.png)](https://kiwiirc.com/client/irc.freenode.net/?#theforeman)
-[![Storybook](https://raw.githubusercontent.com/storybooks/brand/master/badge/badge-storybook.svg)](http://theforeman.github.io/foreman)
+[![Storybook](https://raw.githubusercontent.com/storybooks/brand/master/badge/badge-storybook.svg)](https://foreman-storybook.surge.sh)
 
 [Foreman](https://theforeman.org) is a free open source project that gives you the power to easily **automate repetitive tasks**, quickly **deploy applications**, and proactively **manage your servers life cycle**, on-premises or in the cloud.
 
