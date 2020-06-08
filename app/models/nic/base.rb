@@ -77,8 +77,45 @@ module Nic
     # provider specific attributes
     serialize :compute_attributes, Hash
 
+    apipie :class, 'A class representing Network Interface Controller object' do
+      name 'NIC'
+      sections only: %w[all additional]
+      refs 'Nic::Base', 'Nic::Managed'
+      prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'interface', name_desc: 'FQDN represented by this interface' }
+      property :subnet, 'Subnet::Ipv4', desc: 'Returns associated IPv4 subnet'
+      property :subnet6, 'Subnet::Ipv6', desc: 'Returns associated IPv6 subnet'
+      property :virtual?, one_of: [true, false], desc: 'Returns true if the controller is virtual, false otherwise'
+      property :physical?, one_of: [true, false], desc: 'Returns true if the controller is physical, false otherwise'
+      property :mac, String, desc: 'Returns MAC address of this controller'
+      property :ip, String, desc: 'Returns IPv4 of this controller'
+      property :ip6, String, desc: 'Returns IPv6 of this controller'
+      property :identifier, String, desc: 'Returns identifier of this controller, e.g. eth0'
+      property :attached_to, String, desc: 'Returns identifier of the controller this controller is attached to'
+      property :tag, String, desc: 'Returns VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.'
+      property :domain, 'Domain', desc: 'Returns domain associated with this interface'
+      property :mtu, Integer, desc: 'Returns MTU for this controller'
+      property :bond_options, String, desc: 'Returns space separated options, e.g. miimon=100. Only for bond interfaces'
+      property :attached_devices, String, desc: 'Returns comma separated identifiers of attached devices'
+      property :attached_devices_identifiers, Array, desc: 'Returns identifiers of attached devices'
+      property :mode, String, desc: 'Returns bond mode of the interface, e.g. balance-rr'
+      property :primary, one_of: [true, false], desc: 'Returns true if this controller is primary device, false otherwise'
+      property :provision, one_of: [true, false], desc: 'Returns true if this controller is used for provisioning, false otherwise'
+      property :alias?, one_of: [true, false], desc: 'Returns true if this controller is used as an alias, false otherwise'
+      property :inheriting_mac, String, desc: 'Returns inherited MAC address of the controller this controller is alias for'
+      property :children_mac_addresses, Array, desc: 'Returns MAC addresses of attached devices'
+      property :nic_delay, Integer, desc: 'Returns the delay in seconds for network activity during install'
+      property :fqdn, String, desc: 'Returns FQDN for this device'
+      property :shortname, String, desc: 'Returns the controller\'s name without its domain'
+      property :type, String, desc: 'Returns type of this controller, e.g. Nic::Managed'
+      property :vlanid, String, desc: 'Returns VLAN ID of the subnet this device is associated with'
+      property :managed?, one_of: [true, false], desc: 'Returns true if external services such as DNS, DHCP and TFTP are configured for this interface, false otherwise'
+      property :bond?, one_of: [true, false], desc: 'Returns true if the type of the interface is Bond, false otherwise'
+      property :bridge?, one_of: [true, false], desc: 'Returns true if the type of the interface is Bridge, false otherwise'
+      property :bmc?, one_of: [true, false], desc: 'Returns true if the type of the interface is BMC, false otherwise'
+      property :link, one_of: [true, false], desc: 'Returns true if the interface is up, false otherwise'
+    end
     class Jail < ::Safemode::Jail
-      allow :id, :managed?, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
+      allow :id, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
         :link, :tag, :domain, :vlanid, :mtu, :bond_options, :attached_devices, :mode,
         :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
         :children_mac_addresses, :nic_delay, :fqdn, :shortname, :type, :managed?, :bond?, :bridge?, :bmc?
