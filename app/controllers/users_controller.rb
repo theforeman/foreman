@@ -72,10 +72,15 @@ class UsersController < ApplicationController
   end
 
   def impersonate
+    user = User.enabled.find_by_id(params[:id])
+    if user.nil?
+      warning _("User is disabled")
+      redirect_to users_path
+      return
+    end
     if session[:impersonated_by].blank?
       session[:impersonated_by] = User.current.id
       User.impersonator = User.current
-      user = User.find_by_id(params[:id])
       session[:user] = user.id
       success _("You impersonated user %s, to cancel the session, click the impersonation icon in the top bar.") % user.name
       Audit.create :auditable_type => 'User', :auditable_id => user.id, :user_id => User.current.id, :action => 'impersonate', :audited_changes => {}

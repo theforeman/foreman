@@ -28,7 +28,7 @@ module UsersHelper
   end
 
   def user_action_buttons(user, additional_actions = [])
-    if User.current.admin? && user != User.current && session[:impersonated_by].blank?
+    if User.current.admin? && user != User.current && session[:impersonated_by].blank? && !user.disabled?
       additional_actions << link_to(_('Impersonate'),
         { :controller => 'users',
           :action => 'impersonate',
