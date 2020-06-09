@@ -1,3 +1,73 @@
+2020-06-09	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.0.1
+	* templates - sync from community-templates
+
+2020-06-07	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #29584 - Preload Puma in production
+
+2020-06-07	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #29258 - Initialize dynflow in puma workers
+
+2020-06-07	sthirugn <sthirugn@redhat.com>
+	* Fixes #28955 - Added puma configuration
+
+2020-06-07	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #29582 - Improve performance of externalNodes
+
+2020-05-31	Michael Moll <kvedulv@kvedulv.de>
+	* Refs #28116 - adjust migration version for Rails 5.2
+
+2020-05-31	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #28116 - introduce CentOS mirror (8.x) inst. media
+
+2020-05-26	Tomer Brisker <tbrisker@gmail.com>
+	* Fixes #29362 - Include templates in seed hash calculation
+
+2020-05-26	Ondrej Prazak <oprazak@redhat.com>
+	* Fixes #29709 - Check properly managed interfaces
+
+2020-05-26	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #28028 - Drop chromedriver dependency
+
+2020-05-25	Tomer Brisker <tbrisker@gmail.com>
+	* templates - delete old templates on sync
+
+2020-05-06	Lukáš Zapletal <lzap+git@redhat.com>
+	* Fixes #29110 - updated fact parser to handle v3 debian OS (#7482)
+
+2020-05-05	Aaditi Jain <aaditi2290@gmail.com>
+	* Fixes #29092 - Set Active Tab for AuthSourceExternal form
+
+2020-05-05	Ondřej Ezr <oezr@redhat.com>
+	* Refs #29605 - pin more more of babel-plugin-dyncamic-import-node
+
+2020-05-05	Michael Moll <kvedulv@kvedulv.de>
+	* Fixes #29679 - Require fixed benchmark-ips version
+
+2020-05-03	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #29427 - change breadcrumbs path in compute resources
+
+2020-04-28	Adam Ruzicka <aruzicka@redhat.com>
+	* Refs #29258 - Lazy initialize dynflow during rake tasks
+
+2020-04-28	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #29258 - Initialize dynflow in puma workers
+
+2020-04-28	Eric D. Helms <ericdhelms@gmail.com>
+	* Fixes #29567 - Add nulldb for build environments
+
+2020-04-28	Naga <703451+KoffeinKaio@users.noreply.github.com>
+	* Fixes #29612 - Update debian.rb to support Ubuntu 20 legacy pxe
+
+2020-04-28	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #29605 - pin babel-plugin-dynamic-import-node
+
+2020-04-14	Michael Moll <kvedulv@kvedulv.de>
+	* refs #29481 - Pin capybara (#7569)
+
+2020-04-14	Bernhard Suttner <suttner@atix.de>
+	* Fixes #29439 - VMRC doesn't start
+
 2020-04-02	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.0.0
 	* templates - sync from community-templates
