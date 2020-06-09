@@ -56,4 +56,8 @@ class ReportTemplate < Template
   def supports_format_selection?
     template.include?('report_render')
   end
+
+  def support_single_host_render?
+    false
+  end
 end

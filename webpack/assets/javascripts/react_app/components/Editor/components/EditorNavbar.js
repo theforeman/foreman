@@ -32,6 +32,7 @@ const EditorNavbar = ({
   showHide,
   showImport,
   showPreview,
+  showHostSelector,
   template,
   theme,
   themes,
@@ -87,20 +88,22 @@ const EditorNavbar = ({
               }
             }}
           />
-          <EditorHostSelect
-            show={selectedView === 'preview'}
-            open={isSelectOpen}
-            selectedItem={selectedHost}
-            placeholder={__('Select Host...')}
-            isLoading={isFetchingHosts}
-            onChange={host => previewTemplate({ host, renderPath })}
-            searchQuery={searchQuery}
-            onToggle={onHostSelectToggle}
-            onSearchChange={onHostSearch}
-            onSearchClear={onSearchClear}
-            options={isSearchingHosts ? filteredHosts : hosts}
-            key="hostsSelect"
-          />
+          {showHostSelector && (
+            <EditorHostSelect
+              show={selectedView === 'preview'}
+              open={isSelectOpen}
+              selectedItem={selectedHost}
+              placeholder={__('Select Host...')}
+              isLoading={isFetchingHosts}
+              onChange={host => previewTemplate({ host, renderPath })}
+              searchQuery={searchQuery}
+              onToggle={onHostSelectToggle}
+              onSearchChange={onHostSearch}
+              onSearchClear={onSearchClear}
+              options={isSearchingHosts ? filteredHosts : hosts}
+              key="hostsSelect"
+            />
+          )}
           {selectedView === 'preview' &&
             previewResult !== '' &&
             renderedEditorValue !== value && (
@@ -134,6 +137,7 @@ const EditorNavbar = ({
       showImport={showImport}
       showHide={showHide}
       showPreview={showPreview}
+      showHostSelector={showHostSelector}
       isDiff={isDiff}
       diffViewType={diffViewType}
       isMasked={isMasked}
@@ -195,6 +199,7 @@ EditorNavbar.propTypes = {
   showHide: PropTypes.bool,
   showImport: PropTypes.bool.isRequired,
   showPreview: PropTypes.bool.isRequired,
+  showHostSelector: PropTypes.bool,
   template: PropTypes.string,
   theme: PropTypes.string.isRequired,
   themes: PropTypes.array.isRequired,
@@ -210,6 +215,7 @@ EditorNavbar.defaultProps = {
   renderPath: '',
   showHide: false,
   template: '',
+  showHostSelector: true,
 };
 
 export default EditorNavbar;

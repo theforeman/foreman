@@ -51,6 +51,7 @@ class Editor extends React.Component {
         showHide,
         showImport,
         showPreview,
+        showHostSelector,
         template,
         title,
       },
@@ -142,6 +143,7 @@ class Editor extends React.Component {
           importFile={importFile}
           showImport={showImport}
           showPreview={showPreview}
+          showHostSelector={showHostSelector}
           showHide={showHide}
           revertChanges={revertChanges}
           previewTemplate={previewTemplate}
@@ -218,6 +220,7 @@ Editor.propTypes = {
     showHide: PropTypes.bool,
     showImport: PropTypes.bool,
     showPreview: PropTypes.bool,
+    showHostSelector: PropTypes.bool,
     template: PropTypes.string,
     templateClass: PropTypes.string,
     name: PropTypes.string,

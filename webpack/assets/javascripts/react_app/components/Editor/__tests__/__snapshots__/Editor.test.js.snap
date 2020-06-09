@@ -75,6 +75,7 @@ exports[`Editor rendering renders editor 1`] = `
     selectedView="input"
     showError={true}
     showHide={true}
+    showHostSelector={true}
     showImport={true}
     showPreview={true}
     template="<? />"
