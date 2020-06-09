@@ -299,7 +299,7 @@ class Setting < ApplicationRecord
     end
     options[:encrypted] ||= false
     setting = {:name => name, :value => value, :description => description, :default => default, :full_name => full_name, :encrypted => options[:encrypted]}
-    setting[:settings_type] = 'textarea' if options[:field] == 'textarea'
+    setting[:settings_type] = 'textarea' if options[:settings_type] == 'textarea'
     setting
   end
 

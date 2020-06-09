@@ -13,7 +13,7 @@ module SettingsHelper
     end
 
     placeholder = setting.has_default? ? setting.default : "No default value was set"
-    return edit_textarea(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value, :placeholder => placeholder}) if setting.settings_type == 'array' || setting.settings_type == 'textarea'
+    return edit_textarea(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value, :placeholder => placeholder}) if ['array', 'textarea'].include?(setting.settings_type)
     edit_textfield(setting, :value, {:title => setting.full_name_with_default, :helper => :show_value, :placeholder => placeholder})
   end
 
