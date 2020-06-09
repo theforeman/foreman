@@ -13,26 +13,38 @@ describe('API get', () => {
   });
 
   it('should dispatch request and success actions on resolve', async () => {
+    const apiSuccessResponse = { data };
     API.get.mockImplementation(
       () =>
         new Promise((resolve, reject) => {
-          resolve({ data });
+          resolve(apiSuccessResponse);
         })
     );
-    get(action.payload, store);
+    const modifiedAction = { ...action };
+    modifiedAction.payload.handleSuccess = jest.fn();
+    get(modifiedAction.payload, store);
     await IntegrationTestHelper.flushAllPromises();
+    expect(modifiedAction.payload.handleSuccess).toHaveBeenLastCalledWith(
+      apiSuccessResponse
+    );
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 
   it('should dispatch request and failure actions on reject', async () => {
+    const apiError = new Error('bad request');
     API.get.mockImplementation(
       () =>
         new Promise((resolve, reject) => {
-          reject(Error('bad request'));
+          reject(apiError);
         })
     );
-    get(action.payload, store);
+    const modifiedAction = { ...action };
+    modifiedAction.payload.handleError = jest.fn();
+    get(modifiedAction.payload, store);
     await IntegrationTestHelper.flushAllPromises();
+    expect(modifiedAction.payload.handleError).toHaveBeenLastCalledWith(
+      apiError
+    );
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 });
