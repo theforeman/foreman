@@ -103,10 +103,33 @@ class Hostgroup < ApplicationRecord
     where(conditions)
   }
 
+  apipie :class, "A class representing #{model_name.human} object" do
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'host group' }
+    property :architecture, Architecture, desc: 'Returns architecture to be used on hosts within this host group'
+    property :arch, Architecture, desc: 'Returns architecture to be used on hosts within this host group'
+    property :description, String, desc: 'Returns description of the host group'
+    property :diskLayout, String, desc: 'Returns partition table template to be used on hosts within this host group'
+    property :environment, Environment, desc: 'Returns Puppet environment associated with this host group'
+    property :operatingsystem, Operatingsystem, desc: 'Returns operating system to be used on hosts within this host group'
+    property :os, Operatingsystem, desc: 'Returns operating system to be used on hosts within this host group'
+    property :ptable, Ptable, desc: 'Returns partition table associated with this host group'
+    property :puppetmaster, String, desc: 'Returns host name of the server with Puppet Master'
+    property :params, Hash, desc: 'Returns parameters of this host group'
+    property :puppet_proxy, SmartProxy, desc: 'Returns Smart proxy with Puppet feature'
+    property :puppet_ca_server, SmartProxy, desc: 'Returns Smart proxy Puppet CA feature'
+    property :domain, Domain, desc: 'Returns domain associated with this host group'
+    property :subnet, Subnet::Ipv4, desc: 'Returns IPv4 subnet associated with this host group'
+    property :hosts, array_of: Host, desc: 'Returns all the hosts associated with this host group'
+    property :subnet6, Subnet::Ipv6, desc: 'Returns IPv6 subnet associated with this host group'
+    property :realm, Realm, desc: 'Returns realm associated with this host group'
+    property :root_pass, String, desc: 'Returns root user\'s encrypted password for the each host associated with this host group'
+    property :pxe_loader, String, desc: 'Returns boot loader to be applied on each host within this host group'
+    property :title, String, desc: 'Returns full title of this host group, e.g. Base/CentOS 7'
+  end
   class Jail < Safemode::Jail
     allow :id, :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
-      :environment, :ptable, :url_for_boot, :params, :puppetproxy,
-      :puppet_ca_server, :indent, :os, :arch, :domain, :subnet, :hosts,
+      :environment, :ptable, :url_for_boot, :params, :puppet_proxy,
+      :puppet_ca_server, :os, :arch, :domain, :subnet, :hosts,
       :subnet6, :realm, :root_pass, :description, :pxe_loader, :title
   end
 
