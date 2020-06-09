@@ -200,6 +200,10 @@ class Template < ApplicationRecord
     inputs.each_value { |new_input| template_inputs.build(new_input) }
   end
 
+  def support_single_host_render?
+    true
+  end
+
   private
 
   # This method can be overridden in Template children classes to import additional attributes

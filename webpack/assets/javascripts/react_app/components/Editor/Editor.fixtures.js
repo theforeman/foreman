@@ -40,6 +40,7 @@ export const dropdowns = {
 
 export const showBooleans = {
   showPreview: true,
+  showHostSelector: true,
   showImport: true,
   showHide: true,
 };

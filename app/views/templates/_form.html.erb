@@ -52,6 +52,7 @@
                 title: @template.name,
                 showImport: !@template.locked,
                 showPreview: true,
+                showHostSelector: @template.support_single_host_render?,
                 renderPath: url_for(template_hash_for_member(@template, 'preview')),
               }.to_json) %>
         </div>
