@@ -1,6 +1,5 @@
 import {
   registeredIntervalException,
-  unregisteredIntervalException,
   withInterval,
   getDefaultInterval,
 } from '../IntervalHelpers';
@@ -10,10 +9,6 @@ import { DEFAULT_INTERVAL } from '../IntervalConstants';
 describe('Interval Helpers', () => {
   it('return registeredIntervalException error', () => {
     expect(registeredIntervalException(key)).toMatchSnapshot();
-  });
-
-  it('return unregisteredIntervalException error', () => {
-    expect(unregisteredIntervalException(key)).toMatchSnapshot();
   });
 
   it('return withInterval modified action', () => {

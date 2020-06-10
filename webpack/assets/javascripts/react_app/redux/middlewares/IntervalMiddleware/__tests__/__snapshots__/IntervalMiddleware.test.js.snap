@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Interval Middleware should handle STOP_INTERVAL action 1`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      Object {
-        "key": "SOME_KEY",
-        "type": "STOP_INTERVAL",
-      },
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": undefined,
-    },
-  ],
-}
-`;
-
 exports[`Interval Middleware should handle an action with "interval" key 1`] = `
 [MockFunction] {
   "calls": Array [
@@ -33,7 +14,7 @@ exports[`Interval Middleware should handle an action with "interval" key 1`] = `
     ],
     Array [
       Object {
-        "intervalID": 2,
+        "intervalID": 1,
         "key": "SOME_KEY",
         "type": "START_INTERVAL",
       },
@@ -57,8 +38,7 @@ exports[`Interval Middleware should pass action to next 1`] = `
   "calls": Array [
     Array [
       Object {
-        "key": "SOME_KEY",
-        "type": "STOP_INTERVAL",
+        "type": "SOME_TYPE",
       },
     ],
   ],

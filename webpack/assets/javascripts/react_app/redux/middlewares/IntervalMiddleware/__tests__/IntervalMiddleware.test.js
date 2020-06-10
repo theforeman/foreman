@@ -11,6 +11,8 @@ import {
 } from '../IntervalHelpers';
 import { stopInterval } from '../IntervalActions';
 
+jest.useFakeTimers();
+
 describe('Interval Middleware', () => {
   const getFakeStore = () => ({
     getState: () => ({
@@ -54,7 +56,8 @@ describe('Interval Middleware', () => {
     const stopAction = stopInterval(key);
 
     IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
-    expect(fakeNext).toMatchSnapshot();
+    expect(clearInterval).toHaveBeenCalled();
+    expect(fakeNext.mock.calls).toHaveLength(0);
   });
 
   it('should handle STOP_INTERVAL action when key does not exist', () => {
@@ -73,9 +76,9 @@ describe('Interval Middleware', () => {
   it('should pass action to next', () => {
     const fakeStore = getFakeStoreWithKey();
     const fakeNext = jest.fn();
-    const stopAction = stopInterval(key);
+    const action = { type: 'SOME_TYPE' };
 
-    IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
+    IntervalMiddleware(fakeStore)(fakeNext)(action);
     expect(fakeNext).toMatchSnapshot();
   });
 });
