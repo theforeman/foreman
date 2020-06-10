@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`API actions should call the API delete action 1`] = `
+Object {
+  "payload": Object {
+    "actionTypes": Object {
+      "FAILURE": "SOME_KEY_FAILURE",
+      "REQUEST": "SOME_KEY_REQUEST",
+      "SUCCESS": "SOME_KEY_SUCCESS",
+    },
+    "headers": Object {},
+    "key": "SOME_KEY",
+    "payload": Object {
+      "id": 2,
+    },
+    "url": "some/url",
+  },
+  "type": "API_DELETE",
+}
+`;
+
 exports[`API actions should call the API get action 1`] = `
 Object {
   "payload": Object {
@@ -20,5 +39,74 @@ Object {
     "url": "some/url",
   },
   "type": "API_GET",
+}
+`;
+
+exports[`API actions should call the API patch action 1`] = `
+Object {
+  "payload": Object {
+    "actionTypes": Object {
+      "FAILURE": "SOME_KEY_FAILURE",
+      "REQUEST": "SOME_KEY_REQUEST",
+      "SUCCESS": "SOME_KEY_SUCCESS",
+    },
+    "headers": Object {},
+    "key": "SOME_KEY",
+    "params": Object {
+      "page": 1,
+      "per_page": 25,
+    },
+    "payload": Object {
+      "id": 2,
+    },
+    "url": "some/url",
+  },
+  "type": "API_PATCH",
+}
+`;
+
+exports[`API actions should call the API post action 1`] = `
+Object {
+  "payload": Object {
+    "actionTypes": Object {
+      "FAILURE": "SOME_KEY_FAILURE",
+      "REQUEST": "SOME_KEY_REQUEST",
+      "SUCCESS": "SOME_KEY_SUCCESS",
+    },
+    "headers": Object {},
+    "key": "SOME_KEY",
+    "params": Object {
+      "page": 1,
+      "per_page": 25,
+    },
+    "payload": Object {
+      "id": 2,
+    },
+    "url": "some/url",
+  },
+  "type": "API_POST",
+}
+`;
+
+exports[`API actions should call the API put action 1`] = `
+Object {
+  "payload": Object {
+    "actionTypes": Object {
+      "FAILURE": "SOME_KEY_FAILURE",
+      "REQUEST": "SOME_KEY_REQUEST",
+      "SUCCESS": "SOME_KEY_SUCCESS",
+    },
+    "headers": Object {},
+    "key": "SOME_KEY",
+    "params": Object {
+      "page": 1,
+      "per_page": 25,
+    },
+    "payload": Object {
+      "id": 2,
+    },
+    "url": "some/url",
+  },
+  "type": "API_PUT",
 }
 `;

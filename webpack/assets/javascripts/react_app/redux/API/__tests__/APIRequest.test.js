@@ -1,7 +1,7 @@
-import { get } from '../APIRequest';
 import { API } from '../';
 import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
 import { action } from '../APIFixtures';
+import { apiRequest } from '../APIRequest';
 
 const data = { results: [1] };
 jest.mock('../');
@@ -22,7 +22,7 @@ describe('API get', () => {
     );
     const modifiedAction = { ...action };
     modifiedAction.payload.handleSuccess = jest.fn();
-    get(modifiedAction.payload, store);
+    apiRequest(modifiedAction, store);
     await IntegrationTestHelper.flushAllPromises();
     expect(modifiedAction.payload.handleSuccess).toHaveBeenLastCalledWith(
       apiSuccessResponse
@@ -40,7 +40,7 @@ describe('API get', () => {
     );
     const modifiedAction = { ...action };
     modifiedAction.payload.handleError = jest.fn();
-    get(modifiedAction.payload, store);
+    apiRequest(modifiedAction, store);
     await IntegrationTestHelper.flushAllPromises();
     expect(modifiedAction.payload.handleError).toHaveBeenLastCalledWith(
       apiError

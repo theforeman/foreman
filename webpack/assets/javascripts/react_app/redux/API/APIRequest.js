@@ -1,17 +1,20 @@
-import { API } from './';
+import { getApiResponse } from './APIHelpers';
 import { actionTypeGenerator } from './APIActionTypeGenerator';
 import { noop } from '../../common/helpers';
 
-export const get = async (
+export const apiRequest = async (
   {
-    key,
-    url,
-    headers = {},
-    params = {},
-    actionTypes = {},
-    handleError = noop,
-    handleSuccess = noop,
-    payload = {},
+    type,
+    payload: {
+      key,
+      url,
+      headers = {},
+      params = {},
+      actionTypes = {},
+      handleError = noop,
+      handleSuccess = noop,
+      payload = {},
+    },
   },
   { dispatch }
 ) => {
@@ -23,7 +26,7 @@ export const get = async (
     payload: modifiedPayload,
   });
   try {
-    const response = await API.get(url, headers, params);
+    const response = await getApiResponse({ type, url, headers, params });
     dispatch({
       type: SUCCESS,
       key,

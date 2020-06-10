@@ -1,11 +1,9 @@
-import { API_OPERATIONS } from './';
-import { get } from './APIRequest';
+import { apiRequest } from './APIRequest';
+import { isAPIAction } from './APIHelpers';
 
 export const APIMiddleware = store => next => action => {
-  const { type, payload } = action;
-  if (type === API_OPERATIONS.GET) {
-    get(payload, store);
+  if (isAPIAction(action)) {
+    apiRequest(action, store);
   }
-
   return next(action);
 };
