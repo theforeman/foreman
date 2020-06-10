@@ -1,1 +1,7 @@
-export const API_OPERATIONS = { GET: 'API_GET' };
+export const API_OPERATIONS = {
+  GET: 'API_GET',
+  POST: 'API_POST',
+  PUT: 'API_PUT',
+  DELETE: 'API_DELETE',
+  PATCH: 'API_PATCH',
+};

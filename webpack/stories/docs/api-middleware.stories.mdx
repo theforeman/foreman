@@ -9,19 +9,24 @@ import { Meta } from '@theforeman/stories';
 
 # API Middleware
 
-Instead of each component handling API calls in the same way we have the API Middleware that will handle it instead.
+Instead of each component handling API calls in the same way we have the API Middleware that will handle it.
 
-the API Actions can be imported from 'webpack/assets/javascripts/react_app/redux/API/index.js'
+`APIActions` can be imported from 'webpack/assets/javascripts/react_app/redux/API/index.js'
 or 'foremanReact/redux/API/index.js' for plugins
 
-currently the `get` action is available, and soon we will support all of the API operations.
+`APIActions` contains the following methods: `get`, `post`, `put`, `delete`, `patch` which can be also imported independently, e.g:
+
+```js
+import { get, post, put, patch } from '../../redux/API';
+// can't import 'delete' as it's a reserved word in JS.
+```
 
 ## How to use it in your action
 
 ```js
 import { get } from '../../redux/API';
 
-const someAction = url =>
+const someAction = (url) =>
   get({
     key: MY_SPECIAL_KEY, // this will be used later to identify your API call, so keep it unique.
     url,
@@ -71,6 +76,7 @@ dispatch(
 ## Main API Reducer
 
 The API will manage the request lifecycle in the redux store > API > the provided key, e.g:
+
 ```js
 {
   API: {
@@ -82,6 +88,7 @@ The API will manage the request lifecycle in the redux store > API > the provide
   }
 }
 ```
+
 it will manage the request statuses, errors and responses.
 
 ### Access the API store
@@ -94,6 +101,7 @@ there are also `selectAPIStatus`, `selectAPIPayload`, `selectAPIResponse`, `sele
 In case you want to invoke some method or action immediately when an error occurs,
 we support the `handleError` param where you could pass an error handling function, e.g:
 
+```js
 dispatch(
   get({
     key: MY_SPECIAL_KEY,
@@ -102,6 +110,7 @@ dispatch(
     ...
   })
 );
+```
 
 The error handling function will receive the error object from the API request.
 
@@ -110,13 +119,15 @@ The error handling function will receive the error object from the API request.
 In case you want to invoke some method or action immediately after the request succeed,
 we support the `handleSuccess` param where you could pass a success handling function, e.g:
 
+```js
 dispatch(
   get({
     key: MY_SPECIAL_KEY,
     url,
-    handleSuccess: response => { dispatch(addToast({ type: 'success' })) }, 
+    handleSuccess: response => { dispatch(addToast({ type: 'success' })) },
     ...
   })
 );
+```
 
 The success handling function will receive the response object from the API request.

@@ -1,7 +1,8 @@
 import React from 'react';
+import uuidV1 from 'uuid/v1';
 import { IntegrationTestHelper } from '@theforeman/test';
-
-import { API } from '../../../../../redux/API';
+import API from '../../../../../redux/API/API';
+import { APIMiddleware } from '../../../../../redux/API';
 
 import BookmarkForm from '../index';
 import { reducers as bookmarksReducer } from '../../../index';
@@ -24,7 +25,9 @@ const reducers = {
   ...autocompleteReducer,
 };
 
-jest.mock('../../../../../redux/API');
+jest.mock('../../../../../redux/API/API');
+jest.mock('uuid/v1');
+uuidV1.mockImplementation(() => '1547e1c0-309a-11e9-98f5-5f761412a4c2');
 
 const props = {
   url: '/api/v2/hosts',
@@ -34,7 +37,9 @@ const props = {
 
 describe('Bookmark form integration test', () => {
   it('should allow submission when fields filled in', async () => {
-    const testHelper = new IntegrationTestHelper(reducers);
+    API.post.mockImplementation(async () => submitResponse);
+
+    const testHelper = new IntegrationTestHelper(reducers, [APIMiddleware]);
     testHelper.store.dispatch({
       type: BOOKMARKS_SUCCESS,
       payload: {
@@ -69,17 +74,10 @@ describe('Bookmark form integration test', () => {
       component.find('Button[bsStyle="default"]').props().disabled
     ).not.toBeTruthy();
 
-    const mock = jest.fn();
-
-    API.post.mockImplementation(async (...args) => {
-      mock(...args);
-      return submitResponse;
-    });
-
     submitBtn.simulate('submit');
     await IntegrationTestHelper.flushAllPromises();
     component.update();
 
-    expect(mock).toHaveBeenCalledWith(props.url, submitResponse.data);
+    testHelper.takeActionsSnapshot('form submitted');
   });
 });

@@ -1,19 +1,19 @@
 import { APIMiddleware, API_OPERATIONS } from '../';
-import { get } from '../APIRequest';
+import { apiRequest } from '../APIRequest';
 
 jest.mock('../APIRequest');
 
 describe('APIMiddleware', () => {
-  it('should not call get request', async () => {
-    get.mockImplementation(jest.fn());
+  it('should not call apiRequest if action type is irrelevant', async () => {
+    apiRequest.mockImplementation(jest.fn());
     APIMiddleware()(jest.fn())({ type: 'TEST' });
-    expect(get.mock.calls).toHaveLength(0);
+    expect(apiRequest.mock.calls).toHaveLength(0);
   });
 
-  it('should call get request', async () => {
-    get.mockImplementation(jest.fn());
+  it('should call apiRequest when action type is relevant', async () => {
+    apiRequest.mockImplementation(jest.fn());
     APIMiddleware()(jest.fn())({ type: API_OPERATIONS.GET });
-    expect(get).toBeCalled();
+    expect(apiRequest).toBeCalled();
   });
 
   it('should pass the API action to next', () => {

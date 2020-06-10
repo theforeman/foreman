@@ -1,4 +1,4 @@
-import { API } from '../../API';
+import { APIActions } from '../../API';
 
 import { addToast } from '../toasts';
 import { sprintf, translate as __ } from '../../../../react_app/common/I18n';
@@ -47,13 +47,24 @@ const verifyProps = (item, values) => {
   }
 };
 
-export const submitForm = ({ item, url, values, message, method = 'post' }) => {
-  verifyProps(item, values);
+export const submitForm = ({
+  item,
+  url,
+  values: params,
+  message,
+  method = 'post',
+  headers,
+  apiActionTypes: actionTypes,
+}) => {
+  verifyProps(item, params);
   return async dispatch => {
-    try {
-      const { data } = await API[method](url, values);
+    const uniqueAPIKey = `${item.toUpperCase()}_FORM_SUBMITTED`;
+
+    const handleError = error => onError(error);
+
+    const handleSuccess = ({ data }) => {
       dispatch({
-        type: `${item.toUpperCase()}_FORM_SUBMITTED`,
+        type: uniqueAPIKey,
         payload: { item, data },
       });
       dispatch(
@@ -63,8 +74,18 @@ export const submitForm = ({ item, url, values, message, method = 'post' }) => {
           message: message || sprintf('%s was successfully created.', __(item)),
         })
       );
-    } catch (error) {
-      onError(error);
-    }
+    };
+
+    dispatch(
+      APIActions[method]({
+        key: uniqueAPIKey,
+        url,
+        headers,
+        params,
+        actionTypes,
+        handleError,
+        handleSuccess,
+      })
+    );
   };
 };
