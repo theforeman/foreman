@@ -133,6 +133,4 @@ export function updateTable(element) {
 }
 
 // generates an absolute, needed in case of running Foreman from a subpath
-export function foremanUrl(path) {
-  return window.URL_PREFIX + path;
-}
+export { foremanUrl } from './react_app/common/helpers';
