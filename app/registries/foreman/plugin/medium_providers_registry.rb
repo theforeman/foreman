@@ -31,10 +31,11 @@ module Foreman
         valid_providers = provider_instances.select { |provider| provider.valid? }
         if valid_providers.count > 1
           logger.error(
-            'Found more than one provider for %{entity}. Valid providers: %{providers}' %
+            'Found more than one provider for %{entity}. Found: %{found}. Valid providers: %{providers}' %
             {
               entity: entity,
-              providers: providers.map { |provider| provider.class.friendly_name },
+              providers: providers.map { |provider| provider.class.name },
+              found: valid_providers.map { |provider| provider.class.name },
             })
         end
 
@@ -43,7 +44,7 @@ module Foreman
             'Could not find a provider for %{entity}. Providers returned %{errors}' %
             {
               entity: entity,
-              errors: provider_instances.map { |provider| [provider.class.friendly_name, provider.errors] }.to_h,
+              errors: provider_instances.map { |provider| [provider.class.name, provider.errors] }.to_h,
             })
         end
 
