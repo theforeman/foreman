@@ -3,7 +3,6 @@ import { STOP_INTERVAL } from './IntervalConstants';
 import { selectDoesIntervalExist, selectIntervalID } from './IntervalSelectors';
 import {
   registeredIntervalException,
-  unregisteredIntervalException,
   getDefaultInterval,
 } from './IntervalHelpers';
 import { startInterval as startIntervalAction } from './IntervalActions';
@@ -32,13 +31,8 @@ export const IntervalMiddleware = store => next => action => {
 
   if (type === STOP_INTERVAL) {
     const state = store.getState();
-
-    if (!selectDoesIntervalExist(state, intervalKey)) {
-      throw unregisteredIntervalException(intervalKey);
-    }
-
     const intervalID = selectIntervalID(state, intervalKey);
-    clearInterval(intervalID);
+    return intervalID && clearInterval(intervalID);
   }
 
   return next(action);
