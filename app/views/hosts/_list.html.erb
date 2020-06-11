@@ -24,7 +24,7 @@
         </td>
         <% if power_status_visible? %>
           <td class="ca">
-            <%= react_component('PowerStatus', data: { id: host.id, url: power_api_host_path(host) }) %>
+            <%= react_component('PowerStatus', id: host.id, url: power_api_host_path(host)) %>
           </td>
         <% end %>
         <td class="ellipsis"><%= name_column(host) %>
