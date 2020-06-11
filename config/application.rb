@@ -218,7 +218,7 @@ module Foreman
     config.active_job.queue_adapter = :dynflow
 
     Foreman::Logging.configure(
-      :log_directory => "#{Rails.root}/log",
+      :log_directory => SETTINGS.dig(:logging, :log_directory) || "#{Rails.root}/log",
       :environment => Rails.env,
       :config_overrides => SETTINGS[:logging]
     )

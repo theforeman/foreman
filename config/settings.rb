@@ -3,9 +3,11 @@ require_relative '../app/services/foreman/version'
 require_relative '../app/services/foreman/env_settings_loader'
 
 root = File.expand_path(File.dirname(__FILE__) + "/..")
-settings_file = Rails.env.test? ? 'config/settings.yaml.test' : 'config/settings.yaml'
+settings_files = Rails.env.test? ? ['config/settings.yaml.test', 'config/settings.yaml.test.local'] : ['config/settings.yaml', 'config/settings.yaml.local']
 
-SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result) if File.exist?(settings_file)
+settings_files.each do |settings_file|
+  SETTINGS.merge! YAML.load(ERB.new(File.read("#{root}/#{settings_file}")).result) if File.exist?(settings_file)
+end
 SETTINGS[:version] = Foreman::Version.new
 
 # Load settings from env variables

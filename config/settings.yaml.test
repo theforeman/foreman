@@ -3,3 +3,5 @@
 :require_ssl: false
 :fqdn: foreman.example.com
 :domain: example.com
+
+# Do not change this file, create config/settings.yaml.test.local instead.

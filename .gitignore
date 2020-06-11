@@ -13,6 +13,7 @@ config/settings.plugins.d
 config/database.yml
 config/initializers/local_secret_token.rb
 config/initializers/encryption_key.rb
+config/*.yaml*local
 Gemfile.lock
 bundler.d/*.local.rb
 *.sw?
