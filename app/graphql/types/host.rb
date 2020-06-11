@@ -18,6 +18,7 @@ module Types
     field :pxe_loader, String
     field :enabled, Boolean
     field :uuid, String
+    field :power_status, resolver: Resolvers::Host::PowerStatus
 
     belongs_to :architecture, Types::Architecture
     belongs_to :compute_resource, Types::ComputeResource
