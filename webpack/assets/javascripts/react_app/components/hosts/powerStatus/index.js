@@ -1,43 +1,27 @@
-import { connect } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import PowerStatus from './PowerStatus';
+import { get } from '../../../redux/API';
+import { HOST_POWER_STATUS } from './PowerStatusConstants';
+import { selectState, selectTitle } from './PowerStatusSelectors';
 
-import { noop } from '../../../common/helpers';
-import * as HostsActions from '../../../redux/actions/hosts/powerStatus/';
+const ConnectedPowerStatus = ({ id, url }) => {
+  const key = `${HOST_POWER_STATUS}_${id}`;
+  const state = useSelector(store => selectState(store, key));
+  const title = useSelector(store => selectTitle(store, key));
+  const dispatch = useDispatch();
 
-import PowerStatusInner from './powerStatusInner';
+  useEffect(() => {
+    dispatch(get({ key, url }));
+  }, [url, key, dispatch]);
 
-class PowerStatus extends React.Component {
-  componentDidMount() {
-    const {
-      data: { id, url },
-      getHostPowerState,
-    } = this.props;
-
-    getHostPowerState({ id, url });
-  }
-
-  render() {
-    return <PowerStatusInner {...this.props.power} />;
-  }
-}
-
-PowerStatus.propTypes = {
-  data: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    url: PropTypes.string,
-  }).isRequired,
-  power: PropTypes.object,
-  getHostPowerState: PropTypes.func,
+  return <PowerStatus state={state} title={title} />;
 };
 
-PowerStatus.defaultProps = {
-  power: {},
-  getHostPowerState: noop,
+ConnectedPowerStatus.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  url: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  power: state.hosts.powerStatus[ownProps.data.id] || {},
-});
-
-export default connect(mapStateToProps, HostsActions)(PowerStatus);
+export default ConnectedPowerStatus;

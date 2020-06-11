@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PowerStatusInner should render power status when resolved with off 1`] = `
+<span
+  className="fa fa-power-off host-power-status off"
+  title="some_status_text"
+/>
+`;
+
+exports[`PowerStatusInner should render power status when resolved with on 1`] = `
+<span
+  className="fa fa-power-off host-power-status on"
+  title="some_status_text"
+/>
+`;
+
+exports[`PowerStatusInner should render power status with error 1`] = `
+<span
+  className="fa fa-power-off host-power-status na"
+  title="some_error"
+/>
+`;
+
+exports[`PowerStatusInner should render power status with spinner 1`] = `
+<div
+  className="loader-root"
+>
+  <Spinner
+    className=""
+    inline={false}
+    inverse={false}
+    loading={true}
+    size="xs"
+  />
+</div>
+`;
