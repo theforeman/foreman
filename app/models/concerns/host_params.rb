@@ -41,6 +41,14 @@ module HostParams
       @cached_host_params_hash ||= inherited_params_hash.merge(non_inherited_params_hash)
     end
 
+    apipie :method, 'Returns host\'s parameter by specified name' do
+      required :name, String, 'Name of the parameter to retrieve'
+      returns Object, 'Value of the parameter'
+      example "ntp {
+    boot-server <%= host_param('ntp-server') || '0.pool.ntp.org' %>;
+    server <%= host_param('ntp-server') || '0.pool.ntp.org' %>;
+}", desc: 'Set specified in host parameters NTP server for the host or use default one'
+    end
     def host_param(name)
       if @cached_host_params_rendered
         @cached_host_params_rendered[name]

@@ -6,6 +6,11 @@ class Host::Managed < Host::Base
   has_many :audits, -> { where(:auditable_type => 'Host::Base') }, :foreign_key => :auditable_id,
            :class_name => 'Audited::Audit'
 
+  apipie :class do
+    name 'Host Managed'
+    sections only: %w[all additional]
+    refs 'Host::Managed'
+  end
   include Hostext::PowerInterface
   include Hostext::Search
   include Hostext::SmartProxy
@@ -97,6 +102,64 @@ class Host::Managed < Host::Base
 
   graphql_type '::Types::Host'
 
+  apipie :class, 'A class representing managed Host object' do
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'host', name_desc: 'Host FQDN, e.g. my-host.example.com' }
+    property :architecture, 'Architecture', desc: 'Returns architecture assigned to the host or nil if no architecture is assigned (unmanaged host)'
+    property :build?, one_of: [true, false], desc: 'Returns true if the host is pending for build, false otherwise'
+    property :certname, String, desc: 'Returns a name used in puppet certificate, this is usually either equal to FQDN or random UUID if `use_uuid_for_certificates` setting is enabled'
+    property :compute_resource, 'ComputeResource', desc: 'Returns a compute resource object the host exists in, nil if no compute resource is assigned (e.g. baremetal host)'
+    property :domain, 'Domain', desc: 'Returns a domain object the host primary interface belongs to, nil if no domain is assigned (unmanaged host)'
+    property :environment, 'Environment', desc: 'Returns a string representing the puppet environment the host is assigned to (e.g. "production") or an empty string if no puppet environment is assigned'
+    property :hostgroup, 'Hostgroup', desc: 'Returns a host group object the host is assigned to, nil if no host group is assigned'
+    property :interfaces, array_of: ['Nic::Managed'], desc: 'Returns an array of all host interfaces objects'
+    property :ip, String, desc: 'Returns an IPv4 address of the host primary interface, e.g. "192.168.0.1"'
+    property :ip6, String, desc: 'Returns an IPv6 address of the host primary interface, e.g. "fe80::200:11ff:fe22:1122"'
+    property :mac, String, desc: 'Returns a MAC address of the host primary interface, e.g. "52:54:00:bc:c9:ca"'
+    property :location, 'Location', desc: 'Returns a location object of the host, returns nil if is assigned'
+    property :model, 'Model', desc: 'Returns a hardware model object of the host'
+    property :operatingsystem, 'Operatingsystem', desc: "alias of os property"
+    property :organization, 'Organization', desc: 'Returns an organization object of the host, returns nil if is assigned'
+    property :os, 'Operatingsystem', desc: 'Return an operating system object assigned to the host, nil if no OS is assigned'
+    property :otp, String, desc: 'One time password obtained from IPA, used for realm enrollment during provisioning'
+    property :provision_method, String, desc: 'Returns a provisioning method used for this host, one of "build", "image". Plugins can add additional methods.'
+    property :ptable, 'Ptable', desc: 'Returns a partition table object assigned to the host, returns nil if none is found'
+    property :puppet_ca_server, String, desc: 'FQDN of the Puppet CA server used by this host, typically FQDN of the host\'s puppet CA proxy'
+    property :puppetmaster, String, desc: 'FQDN of the Puppet master/server used by this host, typically FQDN of the host\'s puppet proxy'
+    property :realm, 'Realm', desc: 'Returns a realm object assigned to the host primary interface, returns nil if none is found'
+    property :shortname, String, desc: 'Host shortname, usually a hostname without the domain part, e.g. my-host'
+    property :subnet, 'Subnet', desc: 'Returns an IPv4 subnet object assigned to the host primary interface, returns nil if none is found'
+    property :subnet6, 'Subnet', desc: 'Returns an IPv6 subnet object assigned to the host primary interface, returns nil if none is found'
+    property :token, String, desc: 'Returns a token used for phone home calls authentication during provisioning'
+    property :root_pass, String, desc: "Returns host's encrypted password hash"
+    property :use_image, one_of: [true, false], desc: 'Returns whether provisioning is image based'
+    property :sp_name, String, desc: "Returns BMC's NIC name"
+    property :sp_ip, String, desc: 'Returns BMC\'s NIC IP'
+    property :sp_mac, String, desc: 'Returns BMC\'s NIC MAC'
+    property :sp_subnet, String, desc: "Returns BMC's NIC subnet"
+    property :jumpstart_path, String, desc: 'Calculates the jumpstart\'s path in relation to the domain and convert host to an IP'
+    property :install_path, String, desc: 'Calculates the media\'s path in relation to the domain and convert host to an IP'
+    property :image_build?, one_of: [true, false], desc: 'Returns true if this host provision method is image, meaning image based provisioning, false otherwise'
+    property :medium, 'Medium', desc: 'Returns installation medium associated with the host'
+    property :bmc_nic, 'Nic::BMC', desc: 'Returns BMC interface'
+    property :templates_used, Array, desc: 'Returns an array with available templates for associated OS'
+    property :owner, one_of: ['User', 'Usergroup'], desc: 'Returns host\'s owner'
+    property :owner_type, String, desc: 'Returns host owner\'s type'
+    property :ssh_authorized_keys, array_of: String, desc: 'Returns an array of host owner\'s SSH authorized keys'
+    property :pxe_loader, String, desc: 'Returns name of PXE loader, e.g. PXELinux BIOS'
+    property :pxe_build?, one_of: [true, false], desc: 'Returns true if this host provision method is build, meaning network based provisioning, false otherwise'
+    property :global_status, Integer, desc: 'Returns numerical representation of the host status'
+    property :multiboot, String, desc: 'Returns path to multiboot loader'
+    property :miniroot, String, desc: 'Returns path to the initial RAM disk for this host'
+    property :puppetca_token, 'Token::Puppetca', desc: 'Returns Puppet CA token for this host'
+    property :last_report, 'ActiveSupport::TimeWithZone', desc: 'Returns date object representing time when the last report was made by this host'
+    property :smart_proxies, array_of: ['SmartProxy'], desc: 'Returns Smart Proxies attached to the host'
+    property :virtual, one_of: [true, false], desc: 'Returns true if the host is virtual, false otherwise'
+    property :ram, Integer, desc: 'Returns RAM size of the host in MB'
+    property :sockets, Integer, desc: 'Returns number of the host\'s sockets'
+    property :cores, Integer, desc: 'Returns number of the host\'s cores'
+    property :params, Hash, desc: 'Returns name=value object with host\'s parameters'
+    property :pxe_loader_efi?, one_of: [true, false], desc: 'Returns true if PXE Loader uses EFI, false otherwise'
+  end
   class Jail < ::Safemode::Jail
     allow :id, :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
@@ -369,7 +432,17 @@ class Host::Managed < Host::Base
                             end
   end
 
-  # returns the host correct disk layout, custom or common
+  apipie :method, 'Returns the host rendered partition table' do
+    desc 'It either uses custom partition table specified on host object itself
+         or the one assigned as a partition table via operating system'
+    raises error: Foreman::Exception, desc: 'If custom partition table was not specified and no partition table is assigned to host operating system family'
+    returns String, desc: 'Evaluated partition table'
+    example '@host.diskLayout # =>
+"zerombr
+clearpart --all --initlabel
+autopart"', desc: 'to render the content of host partition table'
+    example '<% save_to_file "/root/ptable_debug", @host.diskLayout %>', desc: 'A snippet that could be used to store a file in shell script or kickstart %post section to save host partition table for debugging purposes'
+  end
   def diskLayout
     raise Foreman::Exception, 'Neither disk nor partition table defined for host' unless disk_layout_source
     scope = Foreman::Renderer.get_scope(host: self, source: disk_layout_source)
@@ -635,6 +708,12 @@ class Host::Managed < Host::Base
     self[:certname] || name
   end
 
+  apipie :method, 'Returns the list of provisioning capabilities of this host based on its compute resource' do
+    returns array_of: Symbol, desc: 'Returns an array of symbols, representing capabilities of this host based on its compute resource.
+                                    * `:build` means network based provisioning
+                                    * `:image` means image based provisioning
+                                    * `:new_volume` allows adding additional storage volumes'
+  end
   def capabilities
     compute_resource ? compute_resource.capabilities : bare_metal_capabilities
   end
@@ -643,6 +722,21 @@ class Host::Managed < Host::Base
     [:build]
   end
 
+  apipie :method, 'Returns the compute resource type or BareMetal for non virtualized hosts' do
+    returns String, desc: 'String representing the provider, BareMetal for non virtualized hosts'
+    example '@host.provider # => "VMware"'
+    example '<% case @host.provider %>
+<% when "BareMetal" %>
+  echo "This is BareMetal"
+<% when "VMware" %>
+  echo "This is VMware VM"
+<% when "Google" %>
+  echo "This is VM running in Google cloud"
+<% when "EC2" %>
+  echo "This is VM running in Amazon cloud"
+<% else %>
+<% end %>'
+  end
   def provider
     if compute_resource_id
       compute_resource.provider_friendly_name
@@ -781,6 +875,11 @@ class Host::Managed < Host::Base
     refresh_global_status!
   end
 
+  apipie :method, 'Used to retrieve a host status object by given status string' do
+    required :type, String, 'Type of the host status to retrieve, e.g. "HostStatus::BuildStatus"'
+    returns 'HostStatus', desc: 'Host status object. Can be used to retrieve additional information'
+    example '@host.get_status("HostStatus::BuildStatus").reported_at.to_s # => "2020-05-15 21:16:00 UTC'
+  end
   def get_status(type)
     status = host_statuses.detect { |s| s.type == type.to_s }
     if status.nil?

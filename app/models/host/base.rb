@@ -67,6 +67,13 @@ module Host
                                     :domain, :domain_id, :domain_name,
                                     :lookup_values_attributes].freeze
 
+    apipie :class, 'A class representing base Host object' do
+      name 'Host Base'
+      desc 'Methods and properties of this class are also available for managed host'
+      sections only: %w[all additional]
+      refs 'Host'
+    end
+
     # primary interface is mandatory because of delegated methods so we build it if it's missing
     # similar for provision interface
     # we can't set name attribute until we have primary interface so we don't pass it to super
@@ -246,6 +253,15 @@ module Host
       self.comment = parser.comment
     end
 
+    apipie :method, 'A list of facts known about the host.' do
+      desc 'Note that available facts depend on what facts have been uploaded to Formean,
+           typical sources are Puppet facter, subscription manager etc.
+           The facts can be out of date, this macro only provides access to the value stored in the database.'
+      returns Hash, desc: 'A hash of facts, keys are fact names, values are fact values'
+      example '@host.facts # => { "hardwareisa"=>"x86_64", "kernel"=>"Linux", "virtual"=>"physical", ... }', desc: 'Getting all host facts'
+      example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this caes'
+      aliases :facts
+    end
     def facts_hash
       hash = {}
       fact_values.includes(:fact_name).collect do |fact|
@@ -293,26 +309,48 @@ module Host
       @overwrite = value.to_s == "true"
     end
 
+    apipie :method, 'Returns a primary interface object of the host.' do
+      returns 'Nic::Managed', desc: 'Host primary interface. Primary interface is the one, that defines FQDN and primary IP for the host.'
+    end
     def primary_interface
       get_interface_by_flag(:primary)
     end
 
+    apipie :method, desc: 'Returns a provision interface object of the host.' do
+      returns 'Nic::Managed', desc: 'Host provisioning interface. Provisioning interface is used to determine on which interface the PXE boot should be performed. Foreman uses its subnet TFTP proxy.'
+    end
     def provision_interface
       get_interface_by_flag(:provision)
     end
 
+    apipie :method, desc: 'Returns an array of all managed interfaces objects' do
+      returns array_of: 'Nic::Managed', desc: 'An array of all managed interfaces'
+      example '@host.managed_interfaces.size # => 3'
+    end
     def managed_interfaces
       interfaces.managed.is_managed.all
     end
 
+    apipie :method, desc: 'Returns an array of all managed bond interfaces objects' do
+      returns array_of: 'Nic::Bond', desc: 'An array of all bond interfaces'
+      example '@host.bond_interfaces.map { |i| i.ip }.join(",") # => ["192.168.0.1","10.0.0.1"]'
+    end
     def bond_interfaces
       interfaces.bonds.is_managed.all
     end
 
+    apipie :method, desc: 'Returns an array of all managed bridge interfaces objects' do
+      returns array_of: 'Nic::Bridge', desc: 'An array of all bridge interfaces objects'
+    end
     def bridge_interfaces
       interfaces.bridges.is_managed.all
     end
 
+    apipie :method, desc: 'Returns an array of all managed interfaces with a given identifiers' do
+      required :identifiers, Array, desc: 'the list of identifiers to filter by'
+      returns array_of: 'Nic::Managed', desc: 'An array of interface objects matching the given identifiers'
+      example '@host.interface_with_identifier("eth1", "eth2") # => [ <#Nic::Managed ...>, <#Nic::Managed ...> ]'
+    end
     def interfaces_with_identifier(identifiers)
       interfaces.is_managed.where(:identifier => identifiers).all
     end
