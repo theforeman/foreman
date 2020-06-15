@@ -294,6 +294,7 @@ module Foreman
 
       Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
         set_dependent_action :destroy
+        template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
       end
 
       Plugin.all.each do |plugin|

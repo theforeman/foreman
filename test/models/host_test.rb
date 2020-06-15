@@ -3596,47 +3596,6 @@ class HostTest < ActiveSupport::TestCase
     assert_equal 'ens1.102', res.first.identifier
   end
 
-  describe '#uptime_seconds' do
-    test 'should return uptime in seconds' do
-      host = FactoryBot.create(:host)
-      boot_time = 1.day.ago
-      host.create_reported_data(:boot_time => boot_time)
-      now = Time.zone.now.to_i
-      assert_equal host.uptime_seconds, now - boot_time.to_i
-    end
-
-    test 'should return nil if no uptime fact is available' do
-      host = FactoryBot.create(:host)
-      assert_nil host.uptime_seconds
-    end
-  end
-
-  describe '#uptime_seconds' do
-    test 'should not fail on host without reported data' do
-      host = FactoryBot.create(:host)
-      assert_nothing_raised do
-        host.clear_data_on_build
-      end
-    end
-
-    test 'should delete reported data on rebuild' do
-      host = FactoryBot.create(:host)
-      boot_time = 1.day.ago
-      host.create_reported_data(:boot_time => boot_time)
-      refute_nil host.uptime_seconds
-      host.instance_variable_set '@old', host.clone
-      host.build = true
-      host.clear_data_on_build
-      host.reload
-      assert_nil host.uptime_seconds
-    end
-
-    test 'should return nil if no uptime fact is available' do
-      host = FactoryBot.create(:host)
-      assert_nil host.uptime_seconds
-    end
-  end
-
   private
 
   def setup_host_with_nic_parser(nic_attributes)
