@@ -14,11 +14,6 @@ module Host
     should_not allow_value('hostname_with_dashes').for(:name)
     should allow_value('hostname.with.periods').for(:name)
 
-    test "should import facts from json stream" do
-      host = Host::Managed.new(:name => "sinn1636.lan")
-      assert host.import_facts(read_json_fixture('facts/facts.json')['facts'])
-    end
-
     test "should generate a random name" do
       NameGenerator.any_instance.expects(:next_random_name).returns("some-name")
       host = Host::Base.new(:domain => FactoryBot.create(:domain, :name => "domain.net"))

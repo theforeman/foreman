@@ -119,6 +119,13 @@ module Orchestration
     Rails.env.test?
   end
 
+  def without_orchestration_if(disabled = true, &block)
+    skip_orchestration! if disabled && SETTINGS[:unattended]
+    yield
+  ensure
+    enable_orchestration! if disabled && SETTINGS[:unattended]
+  end
+
   private
 
   # Handles the actual queue
