@@ -8,7 +8,6 @@ module Host
     include DestroyFlag
     include InterfaceCloning
     include Hostext::Ownership
-    include Hostext::FactData
     include Foreman::TelemetryHelper
     include Facets::BaseHostExtensions
 

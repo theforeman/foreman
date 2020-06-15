@@ -34,8 +34,8 @@ module Facets
       # This method is used to add all relation objects necessary for accessing facet from the host object.
       # It:
       # 1. Adds active record one to one association
-      # 2. Adds the ability to set facet's attributes via Host#attributes= method
-      # 3. Extends Host::Managed model with extension module defined by facet's configuration
+      # 2. Adds the ability to set facet's attributes via Model#attributes= method
+      # 3. Extends model with extension module defined by facet's configuration
       # 4. Includes facet in host's cloning mechanism
       # 5. Adds compatibility properties forwarders so old property calls will still work after moving them to a facet:
       #    host.foo # => will call Host.my_facet.foo

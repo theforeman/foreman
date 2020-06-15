@@ -69,7 +69,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
   describe '#host_uptime_seconds' do
     test 'should return host uptime in seconds' do
       host = FactoryBot.create(:host)
-      facet = host.reported_data_facet
+      facet = host.build_reported_data
       freeze_time do
         facet.update!(:boot_time => 123.seconds.ago)
         assert_equal 123, @scope.host_uptime_seconds(host)

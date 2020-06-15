@@ -378,7 +378,7 @@ class Host::Managed < Host::Base
     return unless respond_to?(:old) && old && build? && !old.build?
     clear_facts
     clear_reports
-    reported_data_facet.destroy
+    reported_data&.destroy
     self.build_errors = nil
   end
 
@@ -490,7 +490,6 @@ autopart"', desc: 'to render the content of host partition table'
 
   def populate_fields_from_facts(parser, type, source_proxy)
     super
-    set_reported_data(parser)
     update_os_from_facts if operatingsystem_id_changed?
     populate_facet_fields(parser, type, source_proxy)
   end
