@@ -4,7 +4,13 @@ require 'securerandom'
 # mostly for template rendering consistency
 module HostCommon
   extend ActiveSupport::Concern
+  extend ApipieDSL::Module
   include BelongsToProxies
+
+  apipie :class, 'Common methods for Host and Host group objects' do
+    name 'Host/group common'
+    sections only: %w[all additional]
+  end
 
   included do
     belongs_to_proxy :puppet_proxy,
@@ -78,7 +84,11 @@ module HostCommon
     @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(self)
   end
 
-  # Returns a url pointing to boot file
+  apipie :method, 'Returns a url pointing to boot file' do
+    required :file, Symbol, desc: 'File type to download from installation media associated with the host operating system. Accepted file types are based on host operating system, e.g. :kernel, :initrd'
+    returns String, desc: 'The url for fetching the file'
+    example "url_for_boot(:kernel) # => 'http://dl.fedoraproject.org/pub/fedora/linux/releases/29/Server/x86_64/os//images/pxeboot/vmlinuz'"
+  end
   def url_for_boot(file)
     os.url_for_boot(medium_provider, file)
   end
