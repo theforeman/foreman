@@ -303,7 +303,7 @@ module Api
 
       def facts
         @host = detect_host_type.import_host params[:name], params[:certname]
-        state = @host.import_facts(params[:facts].to_unsafe_h, detected_proxy)
+        state = HostFactImporter.new(@host).import_facts(params[:facts].to_unsafe_h, detected_proxy)
         process_response state
       rescue ::Foreman::Exception => e
         render_exception(e, :status => :unprocessable_entity)

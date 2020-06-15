@@ -337,15 +337,6 @@ class Host::Managed < Host::Base
     end
   end
 
-  def import_facts(facts, source_proxy = nil)
-    # Facts come from 'existing' attributes/infrastructure. We skip triggering
-    # the orchestration of this infrastructure when we create a host this way.
-    skip_orchestration! if SETTINGS[:unattended] && !SETTINGS[:enable_orchestration_on_fact_import]
-    super
-  ensure
-    enable_orchestration! if SETTINGS[:unattended] && !SETTINGS[:enable_orchestration_on_fact_import]
-  end
-
   # Request a new OTP for a host
   def handle_realm
     return true unless realm?
