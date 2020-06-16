@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Grid,
@@ -75,8 +75,9 @@ const HostDetails = ({ match }) => {
         </GridItem>
       </Grid>
       <br />
+      <br />
       <Grid>
-        <GridItem span={3} rowSpan={2}>
+        <GridItem span={3} rowSpan={3}>
           {response.name ? (
             <Properties hostData={response} />
           ) : (
@@ -90,11 +91,11 @@ const HostDetails = ({ match }) => {
             <Skeleton count={10} />
           )}
         </GridItem>
-        <GridItem style={{ marginLeft: '40px' }} span={3}>
+        <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
           {response.name ? (
-            <AuditCard audits={response.audits} />
+            <AuditCard hostName={response.name} />
           ) : (
-            <Skeleton count={2} />
+            <Skeleton count={5} />
           )}
         </GridItem>
         <GridItem
