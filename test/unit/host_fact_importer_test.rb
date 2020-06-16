@@ -75,29 +75,6 @@ class HostFactImporterTest < ActiveSupport::TestCase
     assert HostFactImporter.new(host).import_facts(raw['facts'])
   end
 
-  context "with enable_orchestration_on_fact_import" do
-    def setup
-      SETTINGS[:enable_orchestration_on_fact_import] = true
-    end
-
-    def teardown
-      SETTINGS[:enable_orchestration_on_fact_import] = false
-    end
-
-    test "should trigger orchestration when importing facts if enable_orchestration_on_fact_import is true" do
-      refute Host.find_by_name('sinn1636.lan')
-      raw = read_json_fixture('facts/facts_with_certname.json')
-      host = Host.import_host(raw['name'], 'puppet')
-      host.stubs(:skip_orchestration_for_testing?).returns(false) # Explicitly enable orchestration
-
-      host.expects(:skip_orchestration!).never
-      host.expects(:skip_orchestration?).at_least_once.returns(false)
-      host.expects(:queue).at_least_once
-
-      assert HostFactImporter.new(host).import_facts(raw['facts'])
-    end
-  end
-
   test 'import_host does not require any' do
     host = Host.import_host('host', 'custom_type')
     assert_equal 'host', host.name

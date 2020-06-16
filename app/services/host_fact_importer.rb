@@ -12,7 +12,7 @@ class HostFactImporter
   end
 
   def skip_orchestration?
-    !SETTINGS[:enable_orchestration_on_fact_import]
+    true
   end
 
   def import_facts(facts, source_proxy = nil)
