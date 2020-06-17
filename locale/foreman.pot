@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-02 13:31+0530\n"
-"PO-Revision-Date: 2020-06-02 13:31+0530\n"
+"POT-Creation-Date: 2020-06-17 12:07+0530\n"
+"PO-Revision-Date: 2020-06-17 12:07+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -234,7 +234,7 @@ msgstr ""
 #: ../app/assets/javascripts/subnets.js:104
 #: ../app/models/lookup_keys/lookup_key.rb:160
 #: ../app/models/nic/interface.rb:101 ../app/models/nic/interface.rb:102
-#: ../app/models/subnet.rb:348
+#: ../app/models/subnet.rb:349
 #: ../app/services/foreman/parameters/validator.rb:29
 #: ../app/validators/email_validator.rb:14
 msgid "is invalid"
@@ -6113,17 +6113,17 @@ msgstr ""
 msgid "console is not available at this time because the instance is powered off"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:297
+#: ../app/models/compute_resources/foreman/model/gce.rb:302
 msgid "Unable to access key"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:300
+#: ../app/models/compute_resources/foreman/model/gce.rb:305
 msgid ""
 "Invalid Google JSON key. Please verify client email & private key options are "
 "present"
 msgstr ""
 
-#: ../app/models/compute_resources/foreman/model/gce.rb:303
+#: ../app/models/compute_resources/foreman/model/gce.rb:308
 msgid "Certificate key is not a valid JSON"
 msgstr ""
 
@@ -7154,14 +7154,6 @@ msgstr ""
 msgid ""
 "Please provide a medium provider. It can be found as @medium_provider in templ"
 "ates, or Foreman::Plugin.medium_providers.find_provider(host)"
-msgstr ""
-
-#: ../app/models/operatingsystem.rb:231
-msgid "HTTPS boot requires proxy with httpboot feature and https_port exposed setting"
-msgstr ""
-
-#: ../app/models/operatingsystem.rb:233
-msgid "HTTP boot requires proxy with httpboot feature and http_port exposed setting"
 msgstr ""
 
 #: ../app/models/operatingsystem.rb:238
@@ -8399,29 +8391,37 @@ msgstr ""
 msgid "Only one declaration of a proxy is allowed"
 msgstr ""
 
-#: ../app/models/smart_proxy.rb:66 ../app/models/smart_proxy.rb:134
+#: ../app/models/smart_proxy.rb:66 ../app/models/smart_proxy.rb:142
 msgid ""
 "An invalid response was received while requesting available features from this"
 " proxy"
 msgstr ""
 
-#: ../app/models/smart_proxy.rb:69 ../app/models/smart_proxy.rb:153
+#: ../app/models/smart_proxy.rb:69 ../app/models/smart_proxy.rb:161
 msgid "Unable to communicate with the proxy: %s"
 msgstr ""
 
-#: ../app/models/smart_proxy.rb:146
+#: ../app/models/smart_proxy.rb:104
+msgid "HTTP boot requires proxy with httpboot feature and http_port exposed setting"
+msgstr ""
+
+#: ../app/models/smart_proxy.rb:108
+msgid "HTTPS boot requires proxy with httpboot feature and https_port exposed setting"
+msgstr ""
+
+#: ../app/models/smart_proxy.rb:154
 msgid ""
 "Features \"%s\" in this proxy are not recognized by Foreman. If these features c"
 "ome from a Smart Proxy plugin, make sure Foreman has the plugin installed too."
 msgstr ""
 
-#: ../app/models/smart_proxy.rb:149
+#: ../app/models/smart_proxy.rb:157
 msgid ""
 "No features found on this proxy, please make sure you enable at least one feat"
 "ure"
 msgstr ""
 
-#: ../app/models/smart_proxy.rb:154
+#: ../app/models/smart_proxy.rb:162
 msgid "Please check the proxy is configured and running on the host."
 msgstr ""
 
@@ -8544,55 +8544,55 @@ msgstr ""
 msgid "not supported by this protocol"
 msgstr ""
 
-#: ../app/models/subnet.rb:248
+#: ../app/models/subnet.rb:249
 msgid ""
 "There must be at least one Smart Proxy present with an External IPAM plugin in"
 "stalled and configured"
 msgstr ""
 
-#: ../app/models/subnet.rb:250
+#: ../app/models/subnet.rb:251
 msgid ""
 "A Smart Proxy with an External IPAM feature enabled must be selected in the Pr"
 "oxies tab."
 msgstr ""
 
-#: ../app/models/subnet.rb:252
+#: ../app/models/subnet.rb:253
 msgid "Group not found in the configured External IPAM instance"
 msgstr ""
 
-#: ../app/models/subnet.rb:254
+#: ../app/models/subnet.rb:255
 msgid "Subnet not found in the configured External IPAM instance"
 msgstr ""
 
-#: ../app/models/subnet.rb:256
+#: ../app/models/subnet.rb:257
 msgid "Subnet not found in the specified External IPAM group"
 msgstr ""
 
-#: ../app/models/subnet.rb:283
+#: ../app/models/subnet.rb:284
 msgid "Unsupported IPAM mode for %s"
 msgstr ""
 
-#: ../app/models/subnet.rb:323
+#: ../app/models/subnet.rb:324
 msgid "must be specified if to is defined"
 msgstr ""
 
-#: ../app/models/subnet.rb:324
+#: ../app/models/subnet.rb:325
 msgid "must be specified if from is defined"
 msgstr ""
 
-#: ../app/models/subnet.rb:327 ../app/models/subnet.rb:328
+#: ../app/models/subnet.rb:328 ../app/models/subnet.rb:329
 msgid "does not belong to subnet"
 msgstr ""
 
-#: ../app/models/subnet.rb:329
+#: ../app/models/subnet.rb:330
 msgid "can't be bigger than to range"
 msgstr ""
 
-#: ../app/models/subnet.rb:334
+#: ../app/models/subnet.rb:335
 msgid "can't be updated after subnet is saved"
 msgstr ""
 
-#: ../app/models/subnet.rb:388
+#: ../app/models/subnet.rb:389
 msgid "unknown network_type"
 msgstr ""
 
@@ -10440,27 +10440,27 @@ msgstr ""
 msgid "Load Regions"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_gce.html.erb:1
+#: ../app/views/compute_resources/form/_gce.html.erb:3
 msgid "Google Project ID"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_gce.html.erb:2
+#: ../app/views/compute_resources/form/_gce.html.erb:4
 msgid "Client Email"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_gce.html.erb:3
+#: ../app/views/compute_resources/form/_gce.html.erb:5
 msgid "Certificate Path"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_gce.html.erb:3
+#: ../app/views/compute_resources/form/_gce.html.erb:5
 msgid "The file path where your JSON file is located"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_gce.html.erb:6
+#: ../app/views/compute_resources/form/_gce.html.erb:8
 msgid "Zone"
 msgstr ""
 
-#: ../app/views/compute_resources/form/_gce.html.erb:7
+#: ../app/views/compute_resources/form/_gce.html.erb:9
 msgid "Load Zones"
 msgstr ""
 
