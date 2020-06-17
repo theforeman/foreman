@@ -26,6 +26,15 @@ namespace :dynflow do
   task :abort_if_pending_migrations => :environment do
     dynflow_persistence.abort_if_pending_migrations!
   end
+
+  desc <<~END_DESC
+    Sets up the environment to act as a Dynflow client. By acting as a client, it still send tasks to be processed, but it cannot execute tasks.
+  END_DESC
+  task :client do
+    dynflow = ::Rails.application.dynflow
+    dynflow.config.remote = true
+    dynflow.initialize!
+  end
 end
 
 %w(migrate abort_if_pending_migrations).each do |task|
