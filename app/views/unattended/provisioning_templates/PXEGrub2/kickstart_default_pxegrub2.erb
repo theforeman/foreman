@@ -22,18 +22,31 @@ oses:
   end
 -%>
 
-set default=0
+set default=<%= host_param('default_grub_install_entry') || 0 %>
 set timeout=<%= host_param('loader_timeout') || 10 %>
 
 menuentry '<%= template_name %>' {
-  <%= linuxcmd %> <%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %> BOOTIF=01-$net_default_mac
+  <%= linuxcmd %> <%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
   <%= initrdcmd %> <%= @initrd %>
 }
 
-# Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561
-menuentry '<%= template_name %> HTTP Boot' {
-  <%= linuxcmd %> /httpboot/<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %> BOOTIF=01-$net_default_mac
-  <%= initrdcmd %> /httpboot/<%= @initrd %>
+<%
+# Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561 and https://bugzilla.redhat.com/show_bug.cgi?id=1842893
+if @host.provision_interface.subnet.httpboot
+  proxy_http_port = @host.provision_interface.subnet.httpboot.httpboot_http_port
+  proxy_https_port = @host.provision_interface.subnet.httpboot.httpboot_https_port
+  # Workaround for "no DNS server configured" https://bugzilla.redhat.com/show_bug.cgi?id=1842509
+  proxy_host = dns_lookup(@host.provision_interface.subnet.httpboot.hostname)
+-%>
+menuentry '<%= template_name %> EFI HTTP' --id efi_http {
+  <%= linuxcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @initrd %>
 }
+
+menuentry '<%= template_name %> EFI HTTPS' --id efi_https {
+  <%= linuxcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @initrd %>
+}
+<% end %>
 
 <%= snippet_if_exists(template_name + " custom menu") %>
