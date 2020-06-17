@@ -20,11 +20,10 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^4.3.0",
+    "@theforeman/vendor": "^4.7.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
-    "react-intl": "^2.8.0",
-    "react-markdown": "^4.3.1"
+    "react-intl": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
@@ -32,11 +31,11 @@
     "@babel/plugin-transform-modules-systemjs": "7.9.0",
     "@babel/plugin-transform-modules-commonjs": "7.9.0",
     "@babel/plugin-transform-modules-amd": "7.9.0",
-    "@theforeman/builder": "^4.3.0",
-    "@theforeman/eslint-plugin-foreman": "^4.3.0",
-    "@theforeman/stories": "^4.3.0",
-    "@theforeman/test": "^4.3.0",
-    "@theforeman/vendor-dev": "^4.3.0",
+    "@theforeman/builder": "^4.7.0",
+    "@theforeman/eslint-plugin-foreman": "^4.7.0",
+    "@theforeman/stories": "^4.7.0",
+    "@theforeman/test": "^4.7.0",
+    "@theforeman/vendor-dev": "^4.7.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
