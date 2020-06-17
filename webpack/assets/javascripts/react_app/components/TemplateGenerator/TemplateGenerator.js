@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Button } from 'patternfly-react';
 
-import { sprintf, translate as __ } from '../../../react_app/common/I18n';
+import { noop } from '../../common/helpers';
+import { sprintf, translate as __ } from '../../common/I18n';
 import AlertBody from '../common/Alert/AlertBody';
 
 const pollingMsg = `
@@ -43,7 +44,7 @@ class TemplateGenerator extends React.Component {
   }
 
   render() {
-    const { polling, dataUrl, generatingError } = this.props;
+    const { polling, dataUrl, pollReportData, generatingError } = this.props;
 
     if (!dataUrl && !polling) return null;
 
@@ -51,7 +52,7 @@ class TemplateGenerator extends React.Component {
       <React.Fragment>
         {this.renderAlert()}
         {!polling && !generatingError && (
-          <Button bsStyle="primary" href={dataUrl} target="_blank">
+          <Button bsStyle="primary" onClick={() => pollReportData(dataUrl)}>
             {__('Download')}
           </Button>
         )}
@@ -65,6 +66,7 @@ TemplateGenerator.propTypes = {
     templateName: PropTypes.string.isRequired,
   }).isRequired,
   polling: PropTypes.bool,
+  pollReportData: PropTypes.func,
   dataUrl: PropTypes.string,
   generatingError: PropTypes.string,
   generatingErrorMessages: PropTypes.arrayOf(
@@ -74,6 +76,7 @@ TemplateGenerator.propTypes = {
 
 TemplateGenerator.defaultProps = {
   polling: false,
+  pollReportData: noop,
   dataUrl: null,
   generatingError: null,
   generatingErrorMessages: null,
