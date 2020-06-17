@@ -42,7 +42,7 @@ module Api
       end
 
       before_action :setup_has_many_params, :only => [:create, :update]
-      before_action :check_content_type
+      before_action :check_media_type
       # ensure include_root_in_json = false for V2 only
       around_action :disable_json_root
 
@@ -144,9 +144,26 @@ module Api
         append_array_of_ids(params)             # unwrapped params
       end
 
+      def self.skip_before_action(*names)
+        names = names.map do |n|
+          if n == :check_content_type
+            Foreman::Deprecation.deprecation_warning('2.3', '#check_content_type is renamed to #check_media_type')
+            :check_media_type
+          else
+            n
+          end
+        end
+        super(*names)
+      end
+
       def check_content_type
-        if (request.post? || request.put?) && request.content_type != "application/json"
-          render_error(:unsupported_content_type, :status => :unsupported_media_type)
+        Foreman::Deprecation.deprecation_warning('2.3', '#check_content_type is renamed to #check_media_type')
+        check_media_type
+      end
+
+      def check_media_type
+        if (request.post? || request.put?) && request.media_type != "application/json"
+          render_error(:unsupported_media_type, :status => :unsupported_media_type)
         end
       end
 
