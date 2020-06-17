@@ -22,8 +22,7 @@ exports[`TemplateGenerator rendering render button if not polling and no errors 
     bsClass="btn"
     bsStyle="primary"
     disabled={false}
-    href="/data/IDENTIFIER.json"
-    target="_blank"
+    onClick={[Function]}
   >
     Download
   </Button>
