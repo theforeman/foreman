@@ -37,7 +37,7 @@ class SshKey < ApplicationRecord
   apipie :class, desc: "A class representing #{model_name.human} object" do
     sections only: %w[all additional]
     prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'SSH key' }
-    property :user, User, desc: 'Returns the user object which is linked to the SSH key'
+    property :user, 'User', desc: 'Returns the user object which is linked to the SSH key'
     property :key, String, desc: 'Returns the SSH public key'
     property :to_export, String, desc: 'Returns a string representing the key with its metadata (key, type and comment)'
     property :fingerprint, String, desc: 'Returns the fingerprint of the public key'

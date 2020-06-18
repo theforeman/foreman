@@ -205,7 +205,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   apipie :method, 'Returns path to the kernel to be installed with prefix based on given medium provider' do
-    required :medium_provider, MediumProviders::Provider, 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    required :medium_provider, 'MediumProviders::Provider', 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
     returns String, 'Path to the kernel to be installed'
   end
   def kernel(medium_provider)
@@ -213,7 +213,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   apipie :method, 'Returns path to the initial RAM disk with prefix based on given medium provider' do
-    required :medium_provider, MediumProviders::Provider, 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    required :medium_provider, 'MediumProviders::Provider', 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
     returns String, 'Path to the initial RAM disk'
   end
   def initrd(medium_provider)
@@ -299,7 +299,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   apipie :method, 'Retruns an array of boot file sources URIs' do
-    required :medium_provider, MediumProviders::Provider, 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
+    required :medium_provider, 'MediumProviders::Provider', 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
     block schema: '{ |vars| }', desc: 'Allows to adjust meduim variables within the block'
     returns Array, desc: 'Array of boot file sources URIs'
   end
@@ -324,7 +324,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   apipie :method, 'Returns medium URI for given medium provider' do
-    required :medium_provider, MediumProviders::Provider, desc: 'Medium provider'
+    required :medium_provider, 'MediumProviders::Provider', desc: 'Medium provider'
     returns String, desc: 'Medium URI of given medium provider'
   end
   def mediumpath(medium_provider)
