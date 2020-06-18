@@ -150,11 +150,11 @@ class User < ApplicationRecord
     property :firstname, String, desc: 'Returns the user first name'
     property :lastname, String, desc: 'Returns the user last name'
     property :description, String, desc: 'Returns the user description'
-    property :ssh_keys, array_of: SshKey, desc: 'Returns an array of the user\'s associated SshKey objects'
+    property :ssh_keys, array_of: 'SshKey', desc: 'Returns an array of the user\'s associated SshKey objects'
     property :ssh_authorized_keys, array_of: String, desc: 'Returns an array of strings representing the user\'s keys with their metadata (key, type and comment)'
     property :login, String, desc: 'Returns the user login'
     property :mail, String, desc: 'Returns the user mail'
-    property :last_login_on, ActiveSupport::TimeWithZone, desc: 'Returns the user last login time, in UTC time zone'
+    property :last_login_on, 'ActiveSupport::TimeWithZone', desc: 'Returns the user last login time, in UTC time zone'
     property :disabled, one_of: [true, false], desc: 'Returns true if the user account is disabled, false otherwise'
   end
   class Jail < ::Safemode::Jail
