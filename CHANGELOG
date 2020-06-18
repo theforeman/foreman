@@ -1,3 +1,41 @@
+2020-06-18	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.1.0-rc3
+
+2020-06-18	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #30138 - report template download button
+
+2020-06-18	Amit Upadhye <upadhyeammit@gmail.com>
+	* Sync templates and generate snapshot for 2.1
+
+2020-06-17	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #29872 - Always require test_unit railtie
+	* Fixes #29872 - Only load used Rails frameworks
+	* Fixes #29988 - Upgrade Rails to 6.0.3.1
+
+2020-06-17	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2020-06-16	Amir Fefer <amirfefer@gmail.com>
+	* Fixes #30001 - fix auth sources breadcrumbs
+
+2020-06-16	kgaikwad <kavitagaikwad103@gmail.com>
+	* Fixes #29490 - adds http_proxy support in GCE
+
+2020-06-16	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #30056 - Forcing Unicode in reports
+
+2020-06-16	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #30097 - media provider friendly_name method removed
+
+2020-06-11	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #30052 - Do not dump dynflow tables when dumping db schema
+
+2020-06-09	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #30014 - set MALLOC_ARENA_MAX=2 for puma
+
+2020-06-07	Lukáš Zapletal <lzap+git@redhat.com>
+	* Fixes #29974 - allow subnet helpers (#7713)
+
 2020-06-02	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.1.0-rc2
 
