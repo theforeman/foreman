@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Nav, Spinner } from 'patternfly-react';
 import { noop } from '../../../common/helpers';
 
+import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from '../LayoutConstants';
 import NavItem from './NavItem';
 import TaxonomyDropdown from './TaxonomyDropdown';
 
@@ -24,7 +25,7 @@ const TaxonomySwitcher = ({
         currentTaxonomy={currentOrganization}
         taxonomies={organizations}
         changeTaxonomy={onOrgClick}
-        anyTaxonomyText="Any Organization"
+        anyTaxonomyText={ANY_ORGANIZATION_TEXT}
         manageTaxonomyText="Manage Organizations"
         anyTaxonomyURL="/organizations/clear"
         manageTaxonomyURL="/organizations"
@@ -37,7 +38,7 @@ const TaxonomySwitcher = ({
         currentTaxonomy={currentLocation}
         taxonomies={locations}
         changeTaxonomy={onLocationClick}
-        anyTaxonomyText="Any Location"
+        anyTaxonomyText={ANY_LOCATION_TEXT}
         manageTaxonomyText="Manage Locations"
         anyTaxonomyURL="/locations/clear"
         manageTaxonomyURL="/locations"
@@ -77,8 +78,8 @@ TaxonomySwitcher.propTypes = {
 };
 TaxonomySwitcher.defaultProps = {
   isLoading: false,
-  currentLocation: 'Any Location',
-  currentOrganization: 'Any Organization',
+  currentLocation: ANY_LOCATION_TEXT,
+  currentOrganization: ANY_ORGANIZATION_TEXT,
   onLocationClick: noop,
   onOrgClick: noop,
 };

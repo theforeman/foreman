@@ -5,146 +5,88 @@ import { VerticalNav } from 'patternfly-react';
 import { translate as __ } from '../../common/I18n';
 import { noop } from '../../common/helpers';
 
-import { getActive, getCurrentPath, handleMenuClick } from './LayoutHelper';
+import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from './LayoutConstants';
+import { handleMenuClick } from './LayoutHelper';
 import LayoutContainer from './components/LayoutContainer';
 import TaxonomySwitcher from './components/TaxonomySwitcher';
 import UserDropdowns from './components/UserDropdowns';
 import './layout.scss';
 
-class Layout extends React.Component {
-  componentDidMount() {
-    const {
-      items,
-      data,
-      fetchMenuItems,
-      changeLocation,
-      currentLocation,
-      changeOrganization,
-      currentOrganization,
-      changeActiveMenu,
-      activeMenu,
-      isCollapsed,
-      onCollapse,
-    } = this.props;
-    if (items.length === 0) fetchMenuItems(data);
-    if (isCollapsed) onCollapse();
-
-    const activeURLMenu = getActive(data.menu, getCurrentPath());
-    if (activeMenu !== activeURLMenu.title) {
-      changeActiveMenu(activeURLMenu);
-    }
-
-    if (
-      data.taxonomies.locations &&
-      !!data.locations.current_location &&
-      currentLocation !== data.locations.current_location
-    ) {
-      const initialLocTitle = data.locations.current_location;
-      const initialLocId = data.locations.available_locations.find(
-        loc => loc.title === initialLocTitle
-      ).id;
-      changeLocation({ title: initialLocTitle, id: initialLocId });
-    }
-
-    if (
-      data.taxonomies.organizations &&
-      !!data.orgs.current_org &&
-      currentOrganization !== data.orgs.current_org
-    ) {
-      const initialOrgTitle = data.orgs.current_org;
-      const initialOrgId = data.orgs.available_organizations.find(
-        org => org.title === initialOrgTitle
-      ).id;
-      changeOrganization({ title: initialOrgTitle, id: initialOrgId });
-    }
-  }
-
-  render() {
-    const {
-      items,
-      data,
-      isLoading,
-      isCollapsed,
-      onExpand,
-      onCollapse,
-      changeActiveMenu,
-      changeOrganization,
-      changeLocation,
-      currentOrganization,
-      currentLocation,
-      activeMenu,
-      children,
-      history,
-    } = this.props;
-
-    return (
-      <React.Fragment>
-        <VerticalNav
-          hoverDelay={100}
-          items={items}
-          onItemClick={primary =>
-            handleMenuClick(primary, activeMenu, changeActiveMenu)
+const Layout = ({
+  items,
+  data,
+  isLoading,
+  isCollapsed,
+  navigate,
+  expandLayoutMenus,
+  collapseLayoutMenus,
+  changeActiveMenu,
+  changeOrganization,
+  changeLocation,
+  currentOrganization,
+  currentLocation,
+  activeMenu,
+  children,
+}) => (
+  <React.Fragment>
+    <VerticalNav
+      hoverDelay={100}
+      items={items}
+      onItemClick={primary =>
+        handleMenuClick(primary, activeMenu, changeActiveMenu)
+      }
+      onNavigate={({ href }) => navigate(href)}
+      activePath={`/${__(activeMenu || 'active')}/`}
+      onCollapse={collapseLayoutMenus}
+      onExpand={expandLayoutMenus}
+    >
+      <VerticalNav.Masthead>
+        <VerticalNav.Brand
+          title={data.brand}
+          iconImg={data.logo}
+          href={data.root}
+        />
+        <TaxonomySwitcher
+          taxonomiesBool={data.taxonomies}
+          currentLocation={currentLocation}
+          locations={
+            data.taxonomies.locations ? data.locations.available_locations : []
           }
-          onNavigate={({ href }) => history.push(href)}
-          activePath={`/${__(activeMenu || 'active')}/`}
-          onCollapse={onCollapse}
-          onExpand={onExpand}
-          {...this.props}
-        >
-          <VerticalNav.Masthead>
-            <VerticalNav.Brand
-              title={data.brand}
-              iconImg={data.logo}
-              href={data.root}
-            />
-            <TaxonomySwitcher
-              taxonomiesBool={data.taxonomies}
-              currentLocation={currentLocation}
-              locations={
-                data.taxonomies.locations
-                  ? data.locations.available_locations
-                  : []
-              }
-              onLocationClick={changeLocation}
-              currentOrganization={currentOrganization}
-              organizations={
-                data.taxonomies.organizations
-                  ? data.orgs.available_organizations
-                  : []
-              }
-              onOrgClick={changeOrganization}
-              isLoading={isLoading}
-            />
-            <UserDropdowns
-              notificationUrl={data.notification_url}
-              user={data.user}
-              changeActiveMenu={changeActiveMenu}
-              stopImpersonationUrl={data.stop_impersonation_url}
-            />
-          </VerticalNav.Masthead>
-        </VerticalNav>
-        <LayoutContainer isCollapsed={isCollapsed}>{children}</LayoutContainer>
-      </React.Fragment>
-    );
-  }
-}
+          onLocationClick={changeLocation}
+          currentOrganization={currentOrganization}
+          organizations={
+            data.taxonomies.organizations
+              ? data.orgs.available_organizations
+              : []
+          }
+          onOrgClick={changeOrganization}
+          isLoading={isLoading}
+        />
+        <UserDropdowns
+          notificationUrl={data.notification_url}
+          user={data.user}
+          changeActiveMenu={changeActiveMenu}
+          stopImpersonationUrl={data.stop_impersonation_url}
+        />
+      </VerticalNav.Masthead>
+    </VerticalNav>
+    <LayoutContainer isCollapsed={isCollapsed}>{children}</LayoutContainer>
+  </React.Fragment>
+);
 
 Layout.propTypes = {
   children: PropTypes.node,
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
   currentOrganization: PropTypes.string,
   currentLocation: PropTypes.string,
   isLoading: PropTypes.bool,
   isCollapsed: PropTypes.bool,
   activeMenu: PropTypes.string,
-  fetchMenuItems: PropTypes.func,
+  navigate: PropTypes.func,
   changeActiveMenu: PropTypes.func,
   changeOrganization: PropTypes.func,
   changeLocation: PropTypes.func,
-  onExpand: PropTypes.func,
-  onCollapse: PropTypes.func,
+  expandLayoutMenus: PropTypes.func,
+  collapseLayoutMenus: PropTypes.func,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -217,17 +159,17 @@ Layout.defaultProps = {
   children: null,
   items: [],
   data: {},
-  currentOrganization: 'Any Organization',
-  currentLocation: 'Any Location',
+  currentOrganization: ANY_ORGANIZATION_TEXT,
+  currentLocation: ANY_LOCATION_TEXT,
   isLoading: false,
   isCollapsed: false,
   activeMenu: '',
-  fetchMenuItems: noop,
+  navigate: noop,
   changeActiveMenu: noop,
   changeOrganization: noop,
   changeLocation: noop,
-  onExpand: noop,
-  onCollapse: noop,
+  expandLayoutMenus: noop,
+  collapseLayoutMenus: noop,
 };
 
 export default Layout;

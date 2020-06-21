@@ -86,6 +86,17 @@ Object {
 }
 `;
 
+exports[`Layout reducer should handle LAYOUT_INITIALIZE 1`] = `
+Object {
+  "activeMenu": "some-menu",
+  "currentLocation": "some location",
+  "currentOrganization": "some organization",
+  "isCollapsed": true,
+  "isLoading": false,
+  "items": "some-items",
+}
+`;
+
 exports[`Layout reducer should handle LAYOUT_SHOW_LOADING 1`] = `
 Object {
   "activeMenu": "initialActive",
@@ -98,43 +109,6 @@ Object {
   "isCollapsed": false,
   "isLoading": true,
   "items": Array [],
-}
-`;
-
-exports[`Layout reducer should handle LAYOUT_UPDATE_ITEMS 1`] = `
-Object {
-  "activeMenu": "initialActive",
-  "currentLocation": Object {
-    "title": "Any Location",
-  },
-  "currentOrganization": Object {
-    "title": "Any Organization",
-  },
-  "isCollapsed": false,
-  "isLoading": false,
-  "items": Array [
-    Object {
-      "href": "/a",
-      "iconClass": "fa fa-tachometer",
-      "initialActive": true,
-      "subItems": undefined,
-      "title": "Monitor",
-    },
-    Object {
-      "href": "/b",
-      "iconClass": "fa fa-server",
-      "initialActive": false,
-      "subItems": undefined,
-      "title": "Hosts",
-    },
-    Object {
-      "href": "/c",
-      "iconClass": "fa fa-wrench",
-      "initialActive": false,
-      "subItems": undefined,
-      "title": "Configure",
-    },
-  ],
 }
 `;
 

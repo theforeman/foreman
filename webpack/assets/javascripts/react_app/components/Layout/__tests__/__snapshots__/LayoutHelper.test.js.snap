@@ -5,6 +5,7 @@ Array [
   Object {
     "children": Array [
       Object {
+        "exact": true,
         "name": "Dashboard",
         "type": "item",
         "url": "/",
@@ -133,13 +134,19 @@ Array [
 ]
 `;
 
-exports[`LayoutHelper should getActive(Monitor) 1`] = `
+exports[`LayoutHelper should getActiveMenuItem(Hosts, "/hosts/new") 1`] = `
+Object {
+  "title": "Hosts",
+}
+`;
+
+exports[`LayoutHelper should getActiveMenuItem(Monitor, null) 1`] = `
 Object {
   "title": "Monitor",
 }
 `;
 
-exports[`LayoutHelper should getActive(null) 1`] = `
+exports[`LayoutHelper should getActiveMenuItem(null) 1`] = `
 Object {
   "title": "",
 }

@@ -1,5 +1,6 @@
 import { testSelectorsSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
+  selectActiveMenu,
   patternflyMenuItemsSelector,
   selectIsLoading,
   selectLayout,
@@ -39,6 +40,7 @@ const namelessState = {
 
 const fixtures = {
   'should return Layout': () => selectLayout(state),
+  'should return activeMenu': () => selectActiveMenu(state),
   'should return PF-React Compatible items': () =>
     patternflyMenuItemsSelector(state),
   'should return empty array of items': () =>

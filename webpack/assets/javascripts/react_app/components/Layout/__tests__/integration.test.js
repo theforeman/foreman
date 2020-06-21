@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import IntegrationTestHelper from '../../../common/IntegrationTestHelper';
+import { IntegrationTestHelper } from '@theforeman/test';
 
 import { hasTaxonomiesMock } from '../Layout.fixtures';
 import Layout, { reducers } from '../index';
 
 jest.mock('../../notifications', () => 'span');
+
 describe('Layout integration test', () => {
   it('should flow', async () => {
     const integrationTestHelper = new IntegrationTestHelper(reducers);

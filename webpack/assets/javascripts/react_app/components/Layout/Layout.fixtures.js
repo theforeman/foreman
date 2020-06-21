@@ -66,6 +66,7 @@ const monitorChildren = [
   {
     type: 'item',
     name: 'Dashboard',
+    exact: true,
     url: '/',
   },
   {
@@ -236,9 +237,6 @@ const serverUser = {
 export const layoutMock = {
   items: PFitems,
   activeMenu: 'Monitor',
-  history: {
-    push: jest.fn(),
-  },
   data: {
     menu: [...hashItemsA, ...hashItemsB],
     locations,
