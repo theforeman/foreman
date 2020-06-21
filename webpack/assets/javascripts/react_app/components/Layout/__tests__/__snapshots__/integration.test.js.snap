@@ -29,6 +29,7 @@ Object {
         Object {
           "children": Array [
             Object {
+              "exact": true,
               "name": "Dashboard",
               "type": "item",
               "url": "/",
@@ -192,6 +193,7 @@ Object {
         Object {
           "children": Array [
             Object {
+              "exact": true,
               "name": "Dashboard",
               "type": "item",
               "url": "/",
@@ -329,7 +331,7 @@ Object {
     Array [
       Object {
         "payload": Object {
-          "org": Object {
+          "organization": Object {
             "id": 2,
             "title": "org2",
           },
@@ -355,6 +357,7 @@ Object {
         Object {
           "children": Array [
             Object {
+              "exact": true,
               "name": "Dashboard",
               "type": "item",
               "url": "/",
@@ -504,6 +507,7 @@ Object {
       Object {
         "children": Array [
           Object {
+            "exact": true,
             "name": "Dashboard",
             "type": "item",
             "url": "/",

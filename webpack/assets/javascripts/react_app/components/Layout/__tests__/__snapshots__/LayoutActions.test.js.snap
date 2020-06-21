@@ -1,184 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Layout actions should changeActiveMenu to Monitor 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "activeMenu": "Monitor",
-      },
-      "type": "LAYOUT_CHANGE_ACTIVE",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "activeMenu": "Monitor",
+  },
+  "type": "LAYOUT_CHANGE_ACTIVE",
+}
 `;
 
 exports[`Layout actions should changeLocation 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "location": "loc1",
-      },
-      "type": "LAYOUT_CHANGE_LOCATION",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "location": "loc1",
+  },
+  "type": "LAYOUT_CHANGE_LOCATION",
+}
 `;
 
 exports[`Layout actions should changeOrganization 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "org": "org1",
-      },
-      "type": "LAYOUT_CHANGE_ORG",
-    },
-  ],
-]
+Object {
+  "payload": Object {
+    "organization": "org1",
+  },
+  "type": "LAYOUT_CHANGE_ORG",
+}
 `;
 
-exports[`Layout actions should fetchMenuItems 1`] = `
-Array [
-  Array [
-    Object {
-      "payload": Object {
-        "items": Array [
-          Object {
-            "children": Array [
-              Object {
-                "name": "Dashboard",
-                "type": "item",
-                "url": "/",
-              },
-              Object {
-                "name": "Facts",
-                "type": "item",
-                "url": "/fact_values",
-              },
-            ],
-            "className": "",
-            "icon": "fa fa-tachometer",
-            "name": "Monitor",
-            "type": "sub_menu",
-          },
-          Object {
-            "children": Array [
-              Object {
-                "name": "All Hosts",
-                "type": "item",
-                "url": "/hosts/new",
-              },
-              Object {
-                "name": "Architectures",
-                "type": "item",
-                "url": "/architectures",
-              },
-            ],
-            "className": "",
-            "icon": "fa fa-server",
-            "name": "Hosts",
-            "type": "sub_menu",
-          },
-          Object {
-            "children": Array [
-              Object {
-                "name": "Environments",
-                "type": "item",
-                "url": "/environments",
-              },
-              Object {
-                "name": "Architectures",
-                "type": "item",
-                "url": "/architectures",
-              },
-            ],
-            "className": "visible-xs-block",
-            "icon": "fa fa-wrench",
-            "name": "User",
-            "type": "sub_menu",
-          },
-          Object {
-            "children": Array [
-              Object {
-                "name": "Domains",
-                "type": "item",
-                "url": "/domains",
-              },
-              Object {
-                "name": "Realms",
-                "type": "item",
-                "url": "/realms",
-              },
-            ],
-            "className": "",
-            "icon": "pficon pficon-network",
-            "name": "Infrastructure",
-            "type": "sub_menu",
-          },
-          Object {
-            "children": Array [
-              Object {
-                "name": "Any Organization",
-                "onClick": [Function],
-                "url": "/organizations/clear",
-              },
-              Object {
-                "name": "org1",
-                "onClick": [Function],
-                "type": undefined,
-                "url": "/organizations/1-org1/select",
-              },
-              Object {
-                "name": "org2",
-                "onClick": [Function],
-                "type": undefined,
-                "url": "/organizations/2-org2/select",
-              },
-            ],
-            "className": "visible-xs-block",
-            "icon": "fa fa-building",
-            "name": "Organizations",
-            "type": "sub_menu",
-          },
-          Object {
-            "children": Array [
-              Object {
-                "name": "Any Location",
-                "onClick": [Function],
-                "url": "/locations/clear",
-              },
-              Object {
-                "name": "yaml",
-                "onClick": [Function],
-                "type": undefined,
-                "url": "/locations/1-yaml/select",
-              },
-              Object {
-                "name": "london",
-                "onClick": [Function],
-                "type": undefined,
-                "url": "/locations/2-london/select",
-              },
-              Object {
-                "name": "norway",
-                "onClick": [Function],
-                "type": undefined,
-                "url": "/locations/3-norway/select",
-              },
-            ],
-            "className": "visible-xs-block",
-            "icon": "fa fa-globe",
-            "name": "Locations",
-            "type": "sub_menu",
-          },
-        ],
-      },
-      "type": "LAYOUT_UPDATE_ITEMS",
-    },
-  ],
-]
+exports[`Layout actions should collapseLayoutMenus 1`] = `
+Object {
+  "type": "LAYOUT_COLLAPSE",
+}
+`;
+
+exports[`Layout actions should expandLayoutMenus 1`] = `
+Object {
+  "type": "LAYOUT_EXPAND",
+}
 `;
 
 exports[`Layout actions should hideLoading 1`] = `
@@ -187,15 +45,16 @@ Object {
 }
 `;
 
-exports[`Layout actions should onCollapse 1`] = `
+exports[`Layout actions should initialize the layout 1`] = `
 Object {
-  "type": "LAYOUT_COLLAPSE",
-}
-`;
-
-exports[`Layout actions should onExpand 1`] = `
-Object {
-  "type": "LAYOUT_EXPAND",
+  "payload": Object {
+    "activeMenu": "some active menu",
+    "isCollapsed": false,
+    "items": "some items",
+    "location": "loc2",
+    "organization": "org1",
+  },
+  "type": "LAYOUT_INITIALIZE",
 }
 `;
 

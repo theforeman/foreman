@@ -1,7 +1,7 @@
 import {
+  LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_UPDATE_ITEMS,
   LAYOUT_CHANGE_ORG,
   LAYOUT_CHANGE_LOCATION,
   LAYOUT_CHANGE_ACTIVE,
@@ -12,10 +12,21 @@ import {
 import reducer from '../LayoutReducer';
 
 import { testReducerSnapshotWithFixtures } from '../../../common/testHelpers';
-import { layoutMock } from '../Layout.fixtures';
 
 const fixtures = {
   'should return the initial state': {},
+  'should handle LAYOUT_INITIALIZE': {
+    action: {
+      type: LAYOUT_INITIALIZE,
+      payload: {
+        items: 'some-items',
+        activeMenu: 'some-menu',
+        isCollapsed: true,
+        organization: 'some organization',
+        location: 'some location',
+      },
+    },
+  },
   'should handle LAYOUT_SHOW_LOADING': {
     action: {
       type: LAYOUT_SHOW_LOADING,
@@ -44,19 +55,11 @@ const fixtures = {
       type: LAYOUT_EXPAND,
     },
   },
-  'should handle LAYOUT_UPDATE_ITEMS': {
-    action: {
-      type: LAYOUT_UPDATE_ITEMS,
-      payload: {
-        items: layoutMock.items,
-      },
-    },
-  },
   'should handle LAYOUT_CHANGE_ORG': {
     action: {
       type: LAYOUT_CHANGE_ORG,
       payload: {
-        org: 'org1',
+        organization: 'org1',
       },
     },
   },

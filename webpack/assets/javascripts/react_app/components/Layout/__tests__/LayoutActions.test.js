@@ -1,29 +1,35 @@
 import { testActionSnapshotWithFixtures } from '../../../common/testHelpers';
 import {
+  initializeLayout,
   showLoading,
   hideLoading,
   changeActiveMenu,
-  fetchMenuItems,
   changeOrganization,
   changeLocation,
-  onCollapse,
-  onExpand,
+  collapseLayoutMenus,
+  expandLayoutMenus,
 } from '../LayoutActions';
 
-import { layoutMock } from '../Layout.fixtures';
-
 const fixtures = {
+  'should initialize the layout': () =>
+    initializeLayout({
+      items: 'some items',
+      activeMenu: 'some active menu',
+      isCollapsed: false,
+      organization: 'org1',
+      location: 'loc2',
+    }),
+
   'should showLoading': () => showLoading(),
 
   'should hideLoading': () => hideLoading(),
 
   'should changeActiveMenu to Monitor': () =>
     changeActiveMenu({ title: 'Monitor' }),
-  'should onExpand': () => onExpand(),
 
-  'should onCollapse': () => onCollapse(),
+  'should expandLayoutMenus': () => expandLayoutMenus(),
 
-  'should fetchMenuItems': () => fetchMenuItems(layoutMock.data),
+  'should collapseLayoutMenus': () => collapseLayoutMenus(),
 
   'should changeOrganization': () => changeOrganization('org1'),
 

@@ -26,6 +26,7 @@ Object {
     Object {
       "children": Array [
         Object {
+          "exact": true,
           "name": "Dashboard",
           "type": "item",
           "url": "/",
@@ -199,6 +200,8 @@ Array [
   },
 ]
 `;
+
+exports[`Layout selectors should return activeMenu 1`] = `"Hosts"`;
 
 exports[`Layout selectors should return empty array of items 1`] = `Array []`;
 

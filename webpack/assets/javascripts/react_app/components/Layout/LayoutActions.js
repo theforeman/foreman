@@ -1,14 +1,30 @@
-import { combineMenuItems } from './LayoutHelper';
 import {
+  LAYOUT_INITIALIZE,
   LAYOUT_SHOW_LOADING,
   LAYOUT_HIDE_LOADING,
-  LAYOUT_UPDATE_ITEMS,
   LAYOUT_CHANGE_LOCATION,
   LAYOUT_CHANGE_ACTIVE,
   LAYOUT_CHANGE_ORG,
   LAYOUT_EXPAND,
   LAYOUT_COLLAPSE,
 } from './LayoutConstants';
+
+export const initializeLayout = ({
+  items,
+  activeMenu,
+  isCollapsed,
+  organization,
+  location,
+}) => ({
+  type: LAYOUT_INITIALIZE,
+  payload: {
+    items,
+    activeMenu,
+    isCollapsed,
+    organization,
+    location,
+  },
+});
 
 export const showLoading = () => ({
   type: LAYOUT_SHOW_LOADING,
@@ -18,45 +34,29 @@ export const hideLoading = () => ({
   type: LAYOUT_HIDE_LOADING,
 });
 
-export const changeActiveMenu = ({ title }) => dispatch => {
-  dispatch({
-    type: LAYOUT_CHANGE_ACTIVE,
-    payload: {
-      activeMenu: title,
-    },
-  });
-};
+export const changeActiveMenu = ({ title }) => ({
+  type: LAYOUT_CHANGE_ACTIVE,
+  payload: {
+    activeMenu: title,
+  },
+});
 
-export const fetchMenuItems = data => dispatch => {
-  const items = combineMenuItems(data);
-  dispatch({
-    type: LAYOUT_UPDATE_ITEMS,
-    payload: {
-      items,
-    },
-  });
-};
+export const changeOrganization = organization => ({
+  type: LAYOUT_CHANGE_ORG,
+  payload: { organization },
+});
 
-export const changeOrganization = org => dispatch => {
-  dispatch({
-    type: LAYOUT_CHANGE_ORG,
-    payload: { org },
-  });
-};
+export const changeLocation = location => ({
+  type: LAYOUT_CHANGE_LOCATION,
+  payload: {
+    location,
+  },
+});
 
-export const changeLocation = location => dispatch => {
-  dispatch({
-    type: LAYOUT_CHANGE_LOCATION,
-    payload: {
-      location,
-    },
-  });
-};
-
-export const onExpand = () => ({
+export const expandLayoutMenus = () => ({
   type: LAYOUT_EXPAND,
 });
 
-export const onCollapse = () => ({
+export const collapseLayoutMenus = () => ({
   type: LAYOUT_COLLAPSE,
 });
