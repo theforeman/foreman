@@ -7,6 +7,8 @@ module Foreman::TelemetrySinks
       require 'prometheus/client/data_stores/direct_file_store'
       # Set multiprocess-friendly data store
       FileUtils.mkdir_p(PROMETHEUS_STORE_DIR)
+      # but clean it during startup as files will accumulate over time
+      FileUtils.rm_f(Dir.glob("#{PROMETHEUS_STORE_DIR}/*.bin"))
       Prometheus::Client.config.data_store =
         Prometheus::Client::DataStores::DirectFileStore.new(dir: PROMETHEUS_STORE_DIR)
       @prom = ::Prometheus::Client.registry
