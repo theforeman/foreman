@@ -6,6 +6,31 @@ class ActiveSupport::TestCase
   set_fixture_class({ :hosts => Host::Base })
   set_fixture_class :nics => Nic::BMC
 
+  # Plugin fixtures loading
+  class_attribute :plugins_fixture_table_names, default: {}
+
+  Foreman::Plugin.all.each do |plugin|
+    next unless plugin.test_fixtures
+    core_path = self.fixture_path
+    core_table_names = self.fixture_table_names
+    self.fixture_path = plugin.test_fixture_path
+    self.fixture_table_names = []
+    fixtures plugin.test_fixtures
+    self.plugins_fixture_table_names[plugin.id] = self.fixture_table_names
+    self.fixture_path = core_path
+    self.fixture_table_names = core_table_names
+  end
+
+  def load_fixtures(config)
+    all_fixtures = super
+    plugins_fixture_table_names.each do |plugin_id, table_names|
+      fixtures = ActiveRecord::FixtureSet.create_fixtures(Foreman::Plugin.find(plugin_id).test_fixture_path, table_names, fixture_class_names, config)
+      all_fixtures.merge!(Hash[fixtures.map { |f| [f.name, f] }])
+    end
+    all_fixtures
+  end
+  # end plugin fixtures
+
   setup :begin_gc_deferment
   setup :reset_rails_cache
   setup :skip_if_plugin_asked_to

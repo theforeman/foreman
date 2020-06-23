@@ -127,7 +127,7 @@ module Foreman #:nodoc:
     prepend Foreman::Plugin::SearchOverrides
     prepend Foreman::Plugin::GlobalJs
 
-    def_field :name, :description, :url, :author, :author_url, :version, :path
+    def_field :name, :description, :url, :author, :author_url, :version, :path, :test_fixtures
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
       :renderer_variable_loaders, :host_ui_description, :ping_extension, :status_extension
@@ -159,6 +159,10 @@ module Foreman #:nodoc:
 
     def engine
       @engine ||= Rails::Engine.find(path) if path
+    end
+
+    def test_fixture_path
+      File.join(path, 'test', 'fixtures') if path
     end
 
     def migrations_paths
