@@ -1,23 +1,21 @@
-import React from 'react';
-import { shallow } from '@theforeman/test';
-import { Button } from 'patternfly-react';
+import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
 import DeleteButton from '../DeleteButton';
 
+const baseProps = {
+  id: 1,
+  name: 'KVM',
+  controller: 'models',
+  onClick: () => {},
+};
+
+const fixtures = {
+  'should render delete button on active': {
+    active: true,
+    ...baseProps,
+  },
+  'should render nothing on inactive': baseProps,
+};
+
 describe('DeleteButton', () => {
-  it('should render delete button on active', () => {
-    const view = shallow(
-      <DeleteButton active id={1} name="KVM" controller="models" />
-    );
-    const button = view.find(Button);
-    expect(button.props()['data-method']).toBe('delete');
-    expect(button.props()['data-confirm']).toBe('Delete KVM?');
-    expect(button.props().href).toBe('models/1-KVM');
-    expect(button.props().children).toBe('Delete');
-  });
-  it('should render nothing on non-active', () => {
-    const view = shallow(
-      <DeleteButton id={1} name="KVM" controller="models" />
-    );
-    expect(view.find(Button)).toHaveLength(0);
-  });
+  testComponentSnapshotsWithFixtures(DeleteButton, fixtures);
 });

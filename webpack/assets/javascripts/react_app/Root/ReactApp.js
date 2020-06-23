@@ -14,7 +14,7 @@ const ReactApp = ({ data: { layout, metadata, toasts } }) => {
     <ForemanContext.Provider value={contextData}>
       <ConnectedRouter history={history}>
         <Layout data={layout}>
-          <AppSwitcher toasts={toasts} />
+          <AppSwitcher />
         </Layout>
       </ConnectedRouter>
     </ForemanContext.Provider>
