@@ -16,11 +16,12 @@ NameCell.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   controller: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 };
 
 NameCell.defaultProps = {
   active: false,
+  children: null,
 };
 
 export default NameCell;

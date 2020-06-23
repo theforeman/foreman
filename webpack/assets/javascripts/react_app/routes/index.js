@@ -1,12 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { routes } from './routes';
 import { visit } from '../../foreman_navigation';
 
 let currentPath = window.location.href;
 
-const AppSwitcher = props => {
+const AppSwitcher = () => {
   const updateCurrentPath = nextPath => {
     currentPath = nextPath;
   };
@@ -16,10 +15,10 @@ const AppSwitcher = props => {
     if (railsContainer) railsContainer.remove();
   };
 
-  const handleRoute = (Component, componentProps) => {
+  const handleRoute = (Component, props) => {
     handleRailsContainer();
     updateCurrentPath();
-    return <Component {...componentProps} />;
+    return <Component {...props} />;
   };
 
   const handleFallbackRoute = () => {
@@ -28,10 +27,8 @@ const AppSwitcher = props => {
       updateCurrentPath(nextPath);
       visit(nextPath);
     }
-    return props.children;
+    return null;
   };
-
-  const { children, ...rest } = props;
 
   return (
     <Switch>
@@ -40,22 +37,12 @@ const AppSwitcher = props => {
           path={path}
           key={path}
           {...routeProps}
-          render={componentProps =>
-            handleRoute(Component, { ...componentProps, ...rest })
-          }
+          render={componentProps => handleRoute(Component, componentProps)}
         />
       ))}
       <Route render={handleFallbackRoute} />
     </Switch>
   );
-};
-
-AppSwitcher.propTypes = {
-  children: PropTypes.object,
-};
-
-AppSwitcher.defaultProps = {
-  children: undefined,
 };
 
 export default AppSwitcher;

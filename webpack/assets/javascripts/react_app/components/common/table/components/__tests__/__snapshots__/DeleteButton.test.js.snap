@@ -13,4 +13,4 @@ exports[`DeleteButton should render delete button on active 1`] = `
 </Button>
 `;
 
-exports[`DeleteButton should render nothing on non-active 1`] = `""`;
+exports[`DeleteButton should render nothing on inactive 1`] = `""`;

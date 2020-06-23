@@ -2,10 +2,8 @@
 
 exports[`NameCell should render active link 1`] = `
 <Link
-  to="/models/2-KVM/edit"
->
-  kvm
-</Link>
+  to="/models/1-KVM/edit"
+/>
 `;
 
 exports[`NameCell should render disabled link 1`] = `
@@ -14,7 +12,5 @@ exports[`NameCell should render disabled link 1`] = `
   disabled="disabled"
   href="#"
   onClick={[Function]}
->
-  hyperv
-</a>
+/>
 `;
