@@ -25,7 +25,7 @@
   </ul>
 </ul>
 
-<p><%= _('This section provides an introduction to ERB templates and the rendering engine and illustrates the core principles on examples. Note that the templates provided by default installation also give a good source of ERB syntax examples.') %></p>
+<p><%= _('This section provides an introduction to ERB templates and the rendering engine, and illustrates the core principles with examples. Note that the default templates that are provided with the installation are also a good source of ERB syntax examples.') %></p>
 
 <h2 id="what_is_erb"><%= _('What is ERB') %></h2>
 
@@ -40,7 +40,7 @@
 </ul>
 
 
-<p><%= _('When the system asks for evaluated template, the code in the ERB tags is executed and the variables are replaced with their current values. This process is referred to as rendering. Typically rendering occurs during provisioning, when Kickstart file is asked by Anaconda or partition table is about to be deployed. It can also happen during when Remote Execution job is triggered to render the script to be executed. While the ERB exposes the power of programming language executed on the application server, the rendering mechanism has the safemode rendering option enabled by default, which prevents any harmful code being executed from templates.') %></p>
+<p><%= _('When the system asks for evaluated template, the code in the ERB tags is executed and the variables are replaced with their current values. This process is referred to as rendering. Typically rendering occurs during provisioning, when Kickstart file is asked by Anaconda or partition table is about to be deployed. Rendering also happens when a Remote Execution job is triggered to render the script to be executed. While the ERB exposes the power of programming language executed on the application server, the rendering mechanism has the safemode rendering option enabled by default, which prevents any harmful code being executed from templates.') %></p>
 <p><%= _('Each template type rendering capabilities slightly differ, e.g. a provisioning template is always rendered for a single host object and therefore a @host variable is defined. Another example is a report template, where report formatting specific macros are available.') %></p>
 
 <h2 id="writing_erb_templates"><%= _('Writing ERB Templates') %></h2>
@@ -66,7 +66,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <%= apipie_dsl_example("#{apipie_erb_wrap('server_name = @host.fqdn', close_trim: true)}\n#{apipie_erb_wrap('server_name')}", 'host.example.com') %>
 
-<p><%= _('Note that words starting with <code>@</code> are instance variables. When the template is rendered, some instance variables are automatically predefined. Which variables depend on the template type. E.g. @host is available for provisioning template as well as partition tables and remote execution jobs.').html_safe %></p>
+<p><%= _('Note that words starting with <code>@</code> are instance variables. When the template is rendered, some instance variables are automatically predefined. Whether you can use a predefined variable depends on the template type, for example, the variable @host is available for the provisioning template, partition tables, and remote execution jobs.').html_safe %></p>
 
 <p><%= _('Note that if you enter an incorrect instance variable, no output is returned. However, if you try to call a method on an incorrect variable, the following error message returns:') %></p>
 
@@ -84,7 +84,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <p><%= _('This is used to reduce the number of lines, where Ruby syntax permits, in rendered templates. White spaces in ERB tags are ignored.') %></p>
 
-<p><%= _('An example of how this would be used in a report template to remove unnecessary newlines between a FQDN and IP address:') %></p>
+<p><%= _('The following example demonstrates how this is used to to remove unnecessary newlines between a FQDN and IP address:') %></p>
 
 <%= apipie_dsl_example("FQDN: #{apipie_erb_wrap('host.fqdn', close_trim: true)}\n IP: #{apipie_erb_wrap('host.ip', close_trim: true)}", "FQDN: host.example.com IP: 192.168.22.1") %>
 
@@ -100,7 +100,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <h3 id="erb_indentation"><%= _('Indentation in ERB templates') %></h3>
 
-<p><%= _('Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignore white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:') %></p>
+<p><%= _('Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:') %></p>
 
 <pre>
 <&#37;- load_hosts.each_record do |host| -&#37;>
@@ -113,7 +113,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 <h2 id="building_blocks"><%= _('Basic building blocks - macros, variables, methods') %></h2>
 
 <p><%= _('The Ruby code inside of the ERB tags typically contain expressions. They consist of program flow control terminals, variables, macros. Variables and macros evaluates to objects. Each object has set of allowed methods that can be called on it. These methods can return objects.') %></p>
-<p><%= (_('An example of control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. load_hosts or input. See all available macros %s. Example of object is a number, string, Host, Subnet, User. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the lits of all available methods on objects, see the documentation for each template type.') % link_to(_('here'), @doc[:doc_url] + section_ext('all'))).html_safe %></p>
+<p><%= (_('An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. load_hosts or input. See all available macros %s. Example of object is a number, string, Host, Subnet, User. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the lits of all available methods on objects, see the documentation for each template type.') % link_to(_('here'), @doc[:doc_url] + section_ext('all'))).html_safe %></p>
 
 <h3 id="conditionals"><%= _('Conditional statements') %></h3>
 
@@ -130,7 +130,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
                            apipie_erb_wrap('result"'),
                        "host1.example.com\npositive") %>
 
-<p><%= _('Note that the else branch is optional. Also multiple conditions can be specified using elsif, but that is usually better written using case/when construct. See the example below') %></p>
+<p><%= _('Note that the else branch is optional. Also multiple conditions can be specified using elsif, but that is usually better written using a case/when construct. See the example below') %></p>
 
 <%= apipie_dsl_example(apipie_erb_wrap("case input('Order')", mode: :silent, open_trim: true, close_trim: true) + "\n" +
                            apipie_erb_wrap("when 'Name'", mode: :silent, open_trim: true, close_trim: true) + "\n" +
@@ -159,7 +159,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
                            apipie_erb_wrap("end", open_trim: true, close_trim: true, mode: :silent),
                        "192.168.122.144\n10.0.0.1\n") %>
 
-<p><%= _('This is the simple example of iterating over array of two interfaces and only printing the IP address of each. In reality, the interface object can be used to fetch more information, like shown on the example below. To see all available methods, see the documentation for Nic::Managed object.') %></p>
+<p><%= _('This is the simple example of iterating over array of two interfaces and only printing the IP address of each. In reality, the interface object can be used to fetch more information, as shown in the following example. To see all available methods, see the documentation for Nic::Managed object.') %></p>
 
 <%= apipie_dsl_example(apipie_erb_wrap("@host.name") + "\n" +
                            apipie_erb_wrap("@host.interfaces.each do |iface|", mode: :silent, open_trim: true, close_trim: true) + "\n" +
@@ -214,9 +214,9 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
   virtual: false
   vlan id:") %>
 
-<p><%= _('The information from above can be used e.g. to create NetworkManager configuration file for each interface in the provisioning template.') %></p>
+<p><%= _('The information from above can be used e.g. to create a NetworkManager configuration file for each interface in the provisioning template.') %></p>
 
-<p><%= _('In report template, loader macros are used most of the time. Iterating over results of these is a little different. It is important to use <code>each_record</code> instead of <code>each</code>, because loaders load objects in batches and each record in fact represent the batch. Otherwise the construct looks the same, as shown on example below').html_safe %></p>
+<p><%= _('In a report template, loader macros are used most of the time. Iterating over results of these is a little different. It is important to use <code>each_record</code> instead of <code>each</code>, because loaders load objects in batches and each record in fact represents the batch. Otherwise the construct looks the same, as shown in the following example').html_safe %></p>
 
 <%= apipie_dsl_example(apipie_erb_wrap("load_users.each_record do |user|", mode: :silent, open_trim: true, close_trim: true) + "\n" +
                            apipie_erb_wrap('  report_row({ "Login": user.login, "Last Login": user.last_login_on })', mode: :silent, open_trim: true, close_trim: true) + "\n" +
@@ -224,7 +224,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <h3 id="variables"><%= _('Built-in variables') %></h3>
 
-<p><%= _('Templates can access built-in instnace variables denoted by <code>@</code>.').html_safe %></p>
+<p><%= _('Templates can access built-in instance variables denoted by <code>@</code>.').html_safe %></p>
 
 <table class="table table-condensed">
   <thead>
@@ -255,7 +255,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <h2 id="inputs"><%= _('Inputs') %></h2>
 
-<p><%= _('To customize template per rendering, various inputs can be defined. Inputs are of several types. Different template types support different input types.') %></p>
+<p><%= _('To customize a template for each individual rendering, various inputs can be defined. Inputs are of several types. Different template types support different input types.') %></p>
 <table class="table table-condensed">
   <thead>
   <tr>
@@ -266,33 +266,33 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
   <tbody>
   <tr>
     <td><%= _('User input') %></td>
-    <td><%= _('User needs to specify the value when the template is rendered. A value type can also be specified, determining the filling mode. Plain value can be specified as an arbitrary string, Search value allows the autocompletion in the UI, Date expects a date value and UI provides a calendar helper. User input can have default value set. The value can be hidden with asterisks, which is useful for sensitive information. For Plani value type, multiple options can be filled in. During the rendering, user needs to pick one of the specified values.') %></td>
+    <td><%= _('A user needs to specify the value when the template is rendered. A value type can also be specified, determining the filling mode. A plain value can be specified as an arbitrary string, A search value allows the auto-completion in the UI, A date expects a date value and UI provides a calendar helper. A user input can have a default value set. The value can be hidden with asterisks, which is useful for sensitive information. For a plain value type, multiple options can be inserted. During the rendering, a user must pick one of the specified values.') %></td>
   </tr>
   <tr>
     <td><%= _('Fact value') %></td>
-    <td><%= _('This input value is fed from specified fact for the host, which the template is being rendered for. This way the template can access e.g. the host cpus number.') %></td>
+    <td><%= _('This input value is fed from a specified fact for the host, which the template is being rendered for. This way the template can access e.g. the host cpus number.') %></td>
   </tr>
   <tr>
     <td><%= _('Variable') %></td>
-    <td><%= _('This input value is fed from parameter values calculated for the host, which the template is being rendered for. This way the template can access a value of a global parameter, which is applied to every host. If that parameter would be overridden e.g. on host subnet level, this value would be fed to this input.') %></td>
+    <td><%= _('This input value is fed from parameter values calculated for the host, which the template is being rendered for. This way the template can access a value of a global parameter, which is applied to every host. If that parameter would be overridden e.g. on a host\'s subnet level, this value would be fed to this input.') %></td>
   </tr>
   <tr>
     <td><%= _('Puppet parameter') %></td>
-    <td><%= _('Similar to variable input type, however it loads the value for specific smart class parameter. User needs to specify the puppet class and the smart class parameter name when defining the input.') %></td>
+    <td><%= _('Similar to the variable input type, however, it loads the value for a specific smart class parameter. The user must specify the Puppet class and the smart class parameter name when defining the input.') %></td>
   </tr>
   </tbody>
 </table>
 
-<p><%= _('All inputs defined for a signle template must have a have unique name, that is then used in ERB code. Inputs can optionally have a description, that is rendered as an inline help, when the template is rendered.') %></p>
+<p><%= _('All inputs defined for a single template must have a have unique name that is then used in ERB code. Inputs can optionally have a description that is rendered as an inline help when the template is rendered.') %></p>
 
-<p><%= (_('Once a template input is defined in the Inputs tab and the template is saved, it can be used in the ERB. To load value specified through this input, global macro <code>input</code> is used. The input name must be specified as the argument. E.g. the example below will load the value through input called cpus.').html_safe) %>
+<p><%= (_('Once a template input is defined in the Inputs tab and the template is saved, it can be used in the ERB. To load a value specified through this input, a global macro <code>input</code> is used. The input name must be specified as the argument. E.g. the example below will load the value through input called cpus.').html_safe) %>
 <p>
 
   <%= apipie_dsl_example("CPUs: " + apipie_erb_wrap("input('cpus')"), "CPUs: 8") %>
 
-<p><%= (_("While rendering the template in preview mode, the input either loads the value or uses a placeholder in case, the input is not ready for the rendering. If the template is rendered for real and the input is not ready, an error is raised. The readyness criteria differs per input type, e.g. for Fact inputs linked to host's fact with name \"cpu_count\" is ready when @host facts contains value for such fact.")) %> </p>
+<p><%= (_("While rendering the template in preview mode, the input either loads the value or uses a placeholder in case the input is not ready for rendering. If the template is rendered and the input is not ready, an error is thrown. The readiness criteria differs per input type, e.g. for Fact inputs linked to a host's fact with the name \"cpu_count\" , when @host contains a value for the fact, the input is ready.")) %> </p>
 
-<p><%= _('As it was mentioned above, different template types support different template inputs. See the table below for available combinations.') %></p>
+<p><%= _('As mentioned above, different template types support different template inputs. See the table below for available combinations.') %></p>
 
 <table class="table table-condensed">
   <thead>
@@ -323,18 +323,18 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <h2 id="snippets"><%= _('Snippets') %></h2>
 
-<p><%= _('Snippets are special kind of templates that can be easily reused in multiple other templates. Imagine there is a bootstrap procedure to be run on every provisioned host. At the same time, there are multiple kickstart templates. To avoid duplication a snippet can be used. Assuming there is a snippet created with a name Bootstrap, following example will inject it in a template') %></p>
+<p><%= _('Snippets are smaller, reusable templates that can be used to customize other templates. For example, a bootstrap procedure that must run on every provisioned host, but to achieve this requires modifying multiple kickstart templates. To avoid duplication, a snippet can be used. Assuming there is a snippet created with a name Bootstrap, following example will inject it into a template') %></p>
 
 <%= apipie_dsl_example(apipie_erb_wrap("snippet('Bootstrap')")) %>
 
 <h2 id="safe_mode"><%= _('Safe mode') %></h2>
 
-<p><%= _('Safe Mode is how we refer to the safety mechanism we have to prevent doing harmful things. It whitelists Ruby methods, that can be used in the template. When a safe mode protected method is called accidentally, rendering fails with the error that says "Safemode doesn\'t allow to access ...".') %></p>
+<p><%= _('Safe Mode is a safety mechanism that is in place to prevent accidents from occurring. It contains a list of Ruby methods that can be used safely in a template. When a safe-mode-protected method is called accidentally, rendering fails with the error that says "Safemode doesn\'t allow to access ...".') %></p>
 
-<p><%= _('When writing a template, prefer to use macros and variables, that are already available with Safe Mode enabled. If you are looking for some information that you are not able to retrieve via allowed methods or macros listed in this documentation, you can consider disabling the Safe Mode. Doing that, you will be able to access all internal application variables and methods directly, when the template is rendered.') %></p>
+<p><%= _('Aim to use macros and variables that are already available with Safe Mode enabled in your template. If you are looking for some information that you are not able to retrieve via allowed methods or macros listed in this documentation, you can consider disabling the Safe Mode. Doing that, you will be able to access all internal application variables and methods directly, when the template is rendered.') %></p>
 
-<p><%= _('Be aware, this is dangerous and it can cause performance and security issues. Disabling safe mode allows any Ruby code to be executed on the server. Any application user that can edit the template can modify the template, so that when it is rendered, it spawns a shell process and run arbitrary command in it. Such commands would be ran under the "foreman" user and would still be restricted by SELinux policy. Disabling Safe Mode is only recommended in trusted environment.') %></p>
+<p><%= _('Be aware, this is dangerous and it can cause performance and security issues. Disabling safe mode allows any Ruby code to be executed on the server. Any application user that can edit the template can modify the template, so that when it is rendered, it spawns a shell process and runs an arbitrary command in it. These commands are run as the "foreman" user and are still restricted by SELinux policy. Disabling Safe Mode is only recommended in a trusted environment.') %></p>
 
 <h3 id="disabling_safe_mode"><%= _('Disabling Safe mode') %></h3>
 
-<p><%= (_('In order to disable Safe mode, navigate to Administer -> %{settings_link} -> Provisioning tab and search for a setting called "Safemode rendering". Value "No" means, rendering is unprotected and potentially dangerous. This installation has currently safe mode: <b>%{status}</b>.') % {:status => (Setting[:safemode_render] ? _('enabled') : _('disabled')), :settings_link => link_to(_('Settings'), settings_path)}).html_safe %></p>
+<p><%= (_('In order to disable Safe mode, navigate to Administer -> %{settings_link} -> Provisioning tab and search for a setting called "Safemode rendering". Value "No" means, rendering is unprotected and potentially dangerous. This installation has currently safe mode: <b>%{status}</b>.') % {:status => (Setting[:safemode_render] ? _('enabled') : _('disabled')), :settings_link => link_to(_('Settings'), Rails.application.routes.url_helpers.settings_path)}).html_safe %></p>
