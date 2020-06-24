@@ -4,9 +4,12 @@ import IntegrationTestHelper from '../../common/IntegrationTestHelper';
 import notificationReducer from '../../redux/reducers/notifications';
 import { componentMountData, serverResponse } from './notifications.fixtures';
 import Notifications from './';
-import { API, APIMiddleware } from '../../redux/API';
+import API from '../../redux/API/API';
 import { NOTIFICATIONS } from '../../redux/consts';
-import { IntervalMiddleware } from '../../redux/middlewares/IntervalMiddleware';
+import {
+  IntervalMiddleware,
+  reducers as intervalsReducer,
+} from '../../redux/middlewares/IntervalMiddleware';
 import { registeredIntervalException } from '../../redux/middlewares/IntervalMiddleware/IntervalHelpers';
 import { DEFAULT_INTERVAL } from '../../redux/actions/notifications/constants';
 
@@ -21,8 +24,11 @@ const notificationProps = {
 };
 
 const configureIntegrationHelper = () => {
-  const reducers = { notifications: notificationReducer };
-  const middlewares = [thunk, IntervalMiddleware, APIMiddleware];
+  const reducers = {
+    notifications: notificationReducer,
+    intervals: intervalsReducer,
+  };
+  const middlewares = [thunk, IntervalMiddleware];
   return new IntegrationTestHelper(reducers, middlewares);
 };
 

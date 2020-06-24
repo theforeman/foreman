@@ -5,10 +5,7 @@ import {
   stateWithKey,
   actionWithInterval,
 } from '../IntervalFixtures';
-import {
-  registeredIntervalException,
-  unregisteredIntervalException,
-} from '../IntervalHelpers';
+import { registeredIntervalException } from '../IntervalHelpers';
 import { stopInterval } from '../IntervalActions';
 
 jest.useFakeTimers();
@@ -57,20 +54,7 @@ describe('Interval Middleware', () => {
 
     IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
     expect(clearInterval).toHaveBeenCalled();
-    expect(fakeNext.mock.calls).toHaveLength(0);
-  });
-
-  it('should handle STOP_INTERVAL action when key does not exist', () => {
-    const fakeStore = getFakeStore();
-    const fakeNext = jest.fn();
-    const stopAction = stopInterval(key);
-
-    try {
-      IntervalMiddleware(fakeStore)(fakeNext)(stopAction);
-    } catch (error) {
-      expect(error.message).toBe(unregisteredIntervalException(key).message);
-    }
-    expect(fakeNext).not.toBeCalled();
+    expect(fakeNext).toMatchSnapshot();
   });
 
   it('should pass action to next', () => {

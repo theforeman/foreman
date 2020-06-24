@@ -32,7 +32,7 @@ export const IntervalMiddleware = store => next => action => {
   if (type === STOP_INTERVAL) {
     const state = store.getState();
     const intervalID = selectIntervalID(state, intervalKey);
-    return intervalID && clearInterval(intervalID);
+    intervalID && clearInterval(intervalID);
   }
 
   return next(action);
