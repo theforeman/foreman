@@ -1,59 +1,78 @@
 require 'test_helper'
 
-class LookupKeysControllerTest < ActionController::TestCase
-  tests PuppetclassLookupKeysController
+class DummyLookupKey < LookupKey
+end
 
-  setup do
-    @key = lookup_keys(:one)
-    @base = {
-      :key => @key.key,
-      :override => true,
-      :lookup_values_attributes => {},
-    }
-    @value = @key.override_values[1]
-    @key.override_values = [@value]
-    @create = {"1462788609698" => {"match" => "hostgroup=db", "value" => '4', "omit" => "0", "_destroy" => "false"}}
-    @delete = {"0" => {"match" => @value.match, "value" => @value.value, "omit" => "0", "_destroy" => "1", "id" => @value.id } }
+class DummyLookupKeysController < LookupKeysController
+  include Foreman::Controller::Parameters::LookupKey
+
+  def self.dummy_lookup_key_params_filter
+    Foreman::ParameterFilter.new(::DummyLookupKey).tap do |filter|
+      add_lookup_key_params_filter(filter)
+    end
   end
 
-  test 'patch add valid override' do
-    @key.override_values = []
-    Setting::General.any_instance.stubs(:valid?).returns(true)
+  def index
+  end
 
-    assert_equal @key.override_values.count, 0
-    params = @base.merge(:lookup_values_attributes => @create)
-    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
-    assert_redirected_to puppetclass_lookup_keys_path
+  def process_error(hash = {})
+    super(hash.merge(:render => { :plain => 'TaDa' }))
+  end
 
-    assert_equal @key.reload.override_values.count, 1
-    value = @key.override_values.first
+  def dummy_lookup_key_params
+    self.class.dummy_lookup_key_params_filter.filter_params(params, parameter_filter_context)
+  end
+end
+
+Rails.application.routes.disable_clear_and_finalize = true
+Rails.application.routes.draw do
+  resources :dummy_lookup_keys
+end
+
+class LookupKeysControllerTest < ActionController::TestCase
+  tests DummyLookupKeysController
+
+  let(:key) { FactoryBot.create(:lookup_key, :integer, :type => 'DummyLookupKey') }
+  let(:key_with_value) { FactoryBot.create(:lookup_key, :integer, :with_override, :path => "hostgroup\ncomment", :type => 'DummyLookupKey') }
+  let(:new_value_params) { { 'match' => 'hostgroup=db', 'value' => '4', 'omit' => '0' } }
+  let(:destroy_params) { { 'id' => key_with_value.override_values.first.id, '_destroy' => '1' } }
+
+  test '#update adds valid override' do
+    assert_equal key.override_values.count, 0
+    params = { :override => true, :lookup_values_attributes => { '112' => new_value_params }}
+    patch :update, params: { :id => key.to_param, :dummy_lookup_key => params }, session: set_session_user
+    assert_redirected_to dummy_lookup_keys_path
+
+    assert_equal key.reload.override_values.count, 1
+    value = key.override_values.first
     assert_equal 'hostgroup=db', value.match
     assert_equal 4, value.value
   end
 
-  test 'patch delete' do
-    params = @base.merge(:lookup_values_attributes => @delete)
-    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
-    assert_redirected_to puppetclass_lookup_keys_path
-    assert_equal 0, @key.reload.override_values.count
+  test '#update deletes values' do
+    params = { :override => true, :lookup_values_attributes => { '0' => destroy_params }}
+    assert_difference -> { key_with_value.override_values.count }, -1 do
+      patch :update, params: { :id => key_with_value.to_param, :dummy_lookup_key => params }, session: set_session_user
+      assert_redirected_to dummy_lookup_keys_path
+    end
   end
 
-  test 'patch add and delete' do
-    params = @base.merge(:lookup_values_attributes => @create.merge(@delete))
-    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
-    assert_redirected_to puppetclass_lookup_keys_path
-    assert_equal @key.reload.override_values.count, 1
-    updated = @key.override_values.first
-    assert_equal 4, updated.value
-    assert_equal @value.match, updated.match
+  test '#update creates and deletes values simultanously' do
+    params = { :override => true, :lookup_values_attributes => { '0' => destroy_params, '112' => new_value_params }}
+    patch :update, params: { :id => key_with_value.to_param, :dummy_lookup_key => params }, session: set_session_user
+    assert_redirected_to dummy_lookup_keys_path
+    assert_equal key_with_value.reload.override_values.count, 1
+    new_val = key_with_value.override_values.first
+    assert_equal 4, new_val.value
+    assert_equal 'hostgroup=db', new_val.match
   end
 
-  test 'patch conflicting' do
-    create = {'1462788609699' => @create.values.first }
-    params = @base.merge(:lookup_values_attributes => @create.merge(@delete.merge(create)))
-    patch :update, params: { :id => "#{@key.id}-#{@key.key}", :puppetclass_lookup_key => params }, session: set_session_user
+  test '#update handle match conflict' do
+    params = { :override => true, :lookup_values_attributes => { '112' => new_value_params,
+                                                                 '113' => new_value_params,
+                                                                 '0' => destroy_params }}
+    patch :update, params: { :id => key_with_value.to_param, :dummy_lookup_key => params }, session: set_session_user
     assert_response :success
-    assert_equal 1, @key.reload.override_values.count
-    assert_equal @value.value, @key.override_values.first.value
+    assert_equal 1, key_with_value.reload.override_values.count
   end
 end
