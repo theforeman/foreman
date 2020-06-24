@@ -1,8 +1,11 @@
 <h1><%= _('Unknown records found in the database') %></h1>
-
-<%= alert(text: _('Creating a DB backup before proceeding is highly recommended!'), class: 'alert-danger', close: false) %>
-
-<%= (_('Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>"%{table}"</b> with column <b>"%{column}"</b> having the value <b>"%{value}"</b>') % { table: @parent_class.table_name, column: @parent_class.inheritance_column, value: @unknown_class_name}).html_safe %>
-
-<br><br>
-<%= link_to _('Delete'), '?confirm_data_deletion=yes', class: 'btn btn-danger', data: { confirm: _('The data deletion can not be undone, are you sure you want to proceed?') } %>
+<% if User.current&.admin? %>
+  <%= alert(text: _('Creating a DB backup before proceeding is highly recommended!'), class: 'alert-danger', close: false) %>
+  
+  <%= (_('Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>"%{table}"</b> with column <b>"%{column}"</b> having the value <b>"%{value}"</b>') % { table: @parent_class.table_name, column: @parent_class.inheritance_column, value: @unknown_class_name}).html_safe %>
+  
+  <br><br>
+  <%= link_to _('Delete'), '?confirm_data_deletion=yes', class: 'btn btn-danger', data: { confirm: _('The data deletion can not be undone, are you sure you want to proceed?') } %>
+<% else %>
+  <%= (_('Please contact your administrator, the request id for finding the logs: "%s"') % request.uuid) %>
+<% end %>
