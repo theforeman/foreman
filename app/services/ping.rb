@@ -63,7 +63,7 @@ class Ping
         begin
           version = proxy.statuses[:version].version['version']
           features = proxy.statuses[:version].version['modules']
-          failed_features = proxy.statuses[:logs].logs.failed_modules
+          failed_features = ProxyAPI::V2::Features.new(:url => proxy.url).features.select { |f, p| p['state'] == 'failed' }
           status = STATUS_OK
         rescue ::Foreman::WrappedException => error
           version ||= 'N/A'
