@@ -123,6 +123,7 @@ class ApplicationController < ActionController::Base
 
   def sti_clean_up(e)
     require_login rescue false
+    Foreman::Logging.exception("Action failed", e) unless User.current&.admin?
     @unknown_class_name = e.message.match(/subclass: '(.*)'\./)[1]
     @parent_class = e.message.match(/overwrite (.*)\.inheritance_column/)[1].constantize
     if params[:confirm_data_deletion] == 'yes' && User.current&.admin?
