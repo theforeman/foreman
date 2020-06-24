@@ -11,10 +11,11 @@ class LookupValue < ApplicationRecord
   delegate :hidden_value?, :editable_by_user?, :to => :lookup_key, :allow_nil => true
 
   belongs_to :lookup_key
-  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
 
+  validate :ensure_match_uniqueness
+  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
   validate :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
   validate :validate_value, :unless => proc { |p| p.omit }
 
@@ -116,6 +117,12 @@ class LookupValue < ApplicationRecord
     unless lookup_key.path_elements.include?(key_elements)
       errors.add(:match, _("%{key} does not exist in order field") % { :key => key_elements.join(',') })
     end
+  end
+
+  # needs to be validated manualy as at validation time, siblings might not be saved
+  def ensure_match_uniqueness
+    return if lookup_key.nil?
+    errors.add(:match, :taken) if lookup_key.lookup_values.any? { |sibling| sibling != self && sibling.match == match }
   end
 
   def skip_strip_attrs

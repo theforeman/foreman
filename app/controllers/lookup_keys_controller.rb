@@ -1,12 +1,9 @@
+# Base class for all LookupKeys descendants controllers
+# The index method needs to be always implemented in the subclass
 class LookupKeysController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   before_action :setup_search_options, :only => :index
   before_action :find_resource, :only => [:edit, :update, :destroy], :if => proc { params[:id] }
-
-  def index
-    @lookup_keys = resource_base_search_and_page(:puppetclass)
-    @puppetclass_authorizer = Authorizer.new(User.current, :collection => @lookup_keys.map(&:puppetclass_id).compact.uniq)
-  end
 
   def edit
   end
@@ -25,6 +22,16 @@ class LookupKeysController < ApplicationController
     else
       process_error
     end
+  end
+
+  protected
+
+  def resource
+    instance_variable_get("@#{resource_name}")
+  end
+
+  def resource_params
+    send("#{resource_name}_params")
   end
 
   private

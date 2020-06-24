@@ -326,8 +326,8 @@ class LookupKeyTest < ActiveSupport::TestCase
     value4 = LookupValue.create(:lookup_key => key, :match => "arch=testarcg", :value => "aaa")
     value5 = LookupValue.create(:lookup_key => key, :match => "arch=testaaaa", :value => "bcd")
 
+    refute_equal([value3, value1, value5, value4, value2], key.lookup_values.reload)
     assert_equal([value3, value1, value5, value4, value2], key.sorted_values)
-    refute_equal([value3, value1, value5, value4, value2], key.lookup_values)
   end
 
   test 'should not update with invalid parameter types' do
