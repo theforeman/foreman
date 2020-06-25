@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { checkCollapsed } from './LayoutHelper';
+import { getIsNavbarCollapsed } from './LayoutSessionStorage';
 
 import {
   LAYOUT_SHOW_LOADING,
@@ -15,7 +15,7 @@ import {
 const initialState = Immutable({
   items: [],
   isLoading: false,
-  isCollapsed: checkCollapsed(),
+  isCollapsed: getIsNavbarCollapsed(),
   activeMenu: 'initialActive',
   currentOrganization: { title: 'Any Organization' },
   currentLocation: { title: 'Any Location' },

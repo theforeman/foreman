@@ -22,6 +22,7 @@ import {
 } from '../react_app/common/I18n';
 import { getURIsearch } from '../react_app/common/urlHelpers';
 import { foremanUrl } from '../foreman_tools';
+import * as sessionStorage from './HostsSessionStorage';
 
 // Array contains list of host ids
 const cookieName = `_ForemanSelected${window.location.pathname.replace(
@@ -89,16 +90,16 @@ function toggleActions() {
 $(document).on('ContentLoad', () => {
   if (window.location.pathname !== foremanUrl('/hosts')) return;
 
-  const hostQuery = sessionStorage.getItem('hostQuery');
+  const hostQuery = sessionStorage.getHostQuery();
   const uriSearch = getURIsearch();
 
   // clear selected hosts if new search occurs
   if (uriSearch !== '' && hostQuery !== uriSearch) {
     cleanHostsSelection();
-    sessionStorage.setItem('hostQuery', uriSearch);
+    sessionStorage.setHostQuery(uriSearch);
     return;
   }
-  sessionStorage.setItem('hostQuery', uriSearch);
+  sessionStorage.setHostQuery(uriSearch);
 
   for (let i = 0; i < foremanSelectedHosts.length; i++) {
     const cid = `host_ids_${foremanSelectedHosts[i]}`;
