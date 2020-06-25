@@ -1345,7 +1345,7 @@ class HostsControllerTest < ActionController::TestCase
 
   test "#host update shouldn't diassociate from VM" do
     hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os)
-    compute_resource = compute_resources(:ovirt)
+    compute_resource = compute_resources(:one)
     compute_resource.update(:locations => hostgroup.locations, :organizations => hostgroup.organizations)
     host = FactoryBot.create(:host, :hostgroup => hostgroup, :compute_resource => compute_resource)
     host_attributes = host.attributes

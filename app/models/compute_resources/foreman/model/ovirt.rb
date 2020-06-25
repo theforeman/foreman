@@ -11,6 +11,7 @@ module Foreman::Model
     validates :keyboard_layout, :inclusion => { :in => ALLOWED_KEYBOARD_LAYOUTS }
     validates :user, :password, :presence => true
     after_validation :connect, :update_available_operating_systems unless Rails.env.test?
+    before_save :validate_quota
 
     alias_attribute :datacenter, :uuid
 
@@ -488,7 +489,7 @@ module Foreman::Model
       ]
     end
 
-    def validate_quota(client)
+    def validate_quota
       if attrs[:ovirt_quota_id].nil?
         attrs[:ovirt_quota_id] = client.quotas.first.id
       else
@@ -519,7 +520,6 @@ module Foreman::Model
         :api_version      => use_v4? ? 'v4' : 'v3'
       )
       client.datacenters
-      validate_quota(client)
       @client = client
     rescue => e
       if e.message =~ /SSL_connect.*certificate verify failed/ ||
