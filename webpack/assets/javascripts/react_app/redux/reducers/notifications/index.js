@@ -9,13 +9,13 @@ import {
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS,
 } from '../../consts';
-import { notificationsDrawer } from '../../../common/sessionStorage';
+import * as sessionStorage from '../../../components/notifications/NotificationDrawerSessionStorage';
 import { actionTypeGenerator } from '../../API';
 
 const initialState = Immutable({
-  isDrawerOpen: notificationsDrawer.getIsOpened(),
-  expandedGroup: notificationsDrawer.getExpandedGroup(),
-  hasUnreadMessages: notificationsDrawer.getHasUnreadMessages() || false,
+  isDrawerOpen: sessionStorage.getIsOpened(),
+  expandedGroup: sessionStorage.getExpandedGroup(),
+  hasUnreadMessages: sessionStorage.getHasUnreadMessages() || false,
 });
 
 const hasUnreadMessages = notifications => {
@@ -25,7 +25,7 @@ const hasUnreadMessages = notifications => {
   // TODO: consider moving this either to a reselect
   // ,store.subscribe OR to a distint redux action
   // leaving it here as it makes the most sense to me.
-  notificationsDrawer.setHasUnreadMessages(result);
+  sessionStorage.setHasUnreadMessages(result);
   return result;
 };
 

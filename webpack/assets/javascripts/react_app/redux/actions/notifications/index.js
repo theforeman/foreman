@@ -8,7 +8,7 @@ import {
   NOTIFICATIONS_MARK_GROUP_AS_CLEARED,
   NOTIFICATIONS_LINK_CLICKED,
 } from '../../consts';
-import { notificationsDrawer as sessionStorage } from '../../../common/sessionStorage';
+import * as sessionStorage from '../../../components/notifications/NotificationDrawerSessionStorage';
 import { API, get } from '../../API';
 import {
   stopInterval,
