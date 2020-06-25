@@ -17,8 +17,7 @@ class AuditSearchTest < ActiveSupport::TestCase
   end
 
   test "search for type=lookupvalue in audit" do
-    key = lookup_keys(:three)
-    FactoryBot.create :lookup_value, :with_auditing, :lookup_key_id => key.id, :value => false, :match => "hostgroup=Common"
+    FactoryBot.create :lookup_value, :with_auditing, :value => false, :match => "hostgroup=Common"
     refute_empty Audit.search_for("type = override_value")
   end
 

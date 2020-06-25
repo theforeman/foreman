@@ -1,22 +1,25 @@
 require 'test_helper'
 
 class LookupValueTest < ActiveSupport::TestCase
-  def setup
-    @host1 = FactoryBot.create(:host)
-    @host2 = FactoryBot.create(:host)
-  end
+  let(:host1) { FactoryBot.create(:host) }
+  let(:host2) { FactoryBot.create(:host) }
+  let(:lookup_key) { FactoryBot.create(:lookup_key, :integer, :path => "hostgroup\nfqdn") }
+  let(:string_lookup_key) { FactoryBot.create(:lookup_key, :path => "hostgroup\nfqdn") }
+  let(:yaml_lookup_key) { FactoryBot.create(:lookup_key, :yaml, :path => "hostgroup\nfqdn") }
+  let(:array_lookup_key) { FactoryBot.create(:lookup_key, :array, :path => "hostgroup\nfqdn") }
+  let(:boolean_lookup_key) { FactoryBot.create(:lookup_key, :boolean, :path => "hostgroup\nfqdn\nhostgroup,domain") }
 
   def valid_attrs1
-    { :match => "fqdn=#{@host2.name}",
+    { :match => "fqdn=#{host2.name}",
       :value => "3001",
-      :lookup_key_id => lookup_keys(:one).id,
+      :lookup_key_id => lookup_key.id,
     }
   end
 
   def valid_attrs2
     { :match => "hostgroup=Common",
       :value => "3001",
-      :lookup_key_id => lookup_keys(:one).id,
+      :lookup_key_id => lookup_key.id,
     }
   end
 
@@ -35,23 +38,9 @@ class LookupValueTest < ActiveSupport::TestCase
     end
   end
 
-  test "non-admin user can view only his hosts allowed by filters" do
-    # Host.authorized(:view_hosts, Host) returns only hosts(:one)
-    user = users(:one)
-    role = FactoryBot.create(:role, :name => 'user_view_host_by_ip')
-    FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "name = #{@host1.name}")
-    # Todo, restore the ip test variant once our scoped-search works with host.ip again
-    # FactoryBot.create(:filter, :role => role, :permissions => [Permission.find_by_name(:view_hosts)], :search => "ip = #{@host1.ip}")
-    user.roles << [role]
-    as_user :one do
-      assert Host.authorized(:view_hosts, Host).where(:name => @host1.name).exists?
-      refute Host.authorized(:view_hosts, Host).where(:name => @host2.name).exists?
-    end
-  end
-
   test "any user including admin cannot create lookup value if match fqdn= does not match existing host" do
     as_admin do
-      attrs = { :match => "fqdn=non.existing.com", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      attrs = { :match => "fqdn=non.existing.com", :value => "123", :lookup_key_id => lookup_key.id }
       lookup_value = LookupValue.new(attrs)
       refute lookup_value.save
       assert_match /Match fqdn=non.existing.com does not match an existing host/, lookup_value.errors.full_messages.join("\n")
@@ -60,7 +49,7 @@ class LookupValueTest < ActiveSupport::TestCase
 
   test "any user including admin cannot create lookup value if match hostgroup= does not match existing hostgroup" do
     as_admin do
-      attrs = { :match => "hostgroup=non_existing_group", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      attrs = { :match => "hostgroup=non_existing_group", :value => "123", :lookup_key_id => lookup_key.id }
       lookup_value = LookupValue.new(attrs)
       refute lookup_value.save
       assert_match /Match hostgroup=non_existing_group does not match an existing host group/, lookup_value.errors.full_messages.join("\n")
@@ -72,7 +61,7 @@ class LookupValueTest < ActiveSupport::TestCase
       Setting[:append_domain_name_for_hosts] = false
       domain = FactoryBot.create(:domain)
       host = FactoryBot.create(:host, interfaces: [FactoryBot.build(:nic_managed, identifier: 'fqdn_test', primary: true, domain: domain)])
-      attrs = { :match => "fqdn=#{host.primary_interface.fqdn}", :value => "123", :lookup_key_id => lookup_keys(:one).id }
+      attrs = { :match => "fqdn=#{host.primary_interface.fqdn}", :value => "123", :lookup_key_id => lookup_key.id }
       refute_match /#{domain.name}/, host.name, "#{host.name} shouldn't be FQDN"
       assert_difference('LookupValue.count') do
         LookupValue.create!(attrs)
@@ -81,51 +70,52 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "can create lookup value if user has matching hostgroup " do
+    attrs = valid_attrs2 # create key outside as_user
     as_user :one do
-      lookup_value = LookupValue.new(valid_attrs2)
+      lookup_value = LookupValue.new(attrs)
       assert_difference('LookupValue.count') do
         assert lookup_value.save
       end
     end
   end
 
-  test "smart class parameter accepts valid data" do
+  test "accepts valid data" do
     as_admin do
-      lk = LookupValue.new(:value => "---\nfoo:\n  bar: baz", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
+      lk = LookupValue.new(:value => "---\nfoo:\n  bar: baz", :match => "hostgroup=Common", :lookup_key => yaml_lookup_key)
       assert lk.valid?
       assert lk.save!
     end
   end
 
-  test "smart class parameter validation detects invalid data" do
+  test "validation detects invalid data" do
     as_admin do
-      lk = LookupValue.new(:value => "---\n[[\n;", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
+      lk = LookupValue.new(:value => "---\n[[\n;", :match => "hostgroup=Common", :lookup_key => yaml_lookup_key)
       refute lk.valid?
       assert lk.errors.messages[:value].include? "is invalid yaml"
     end
   end
 
   test "should cast and uncast string containing a Hash" do
-    lk1 = LookupValue.new(:value => "---\n  foo: bar", :match => "hostgroup=Common", :lookup_key => lookup_keys(:six))
+    lk1 = LookupValue.new(:value => "---\n  foo: bar", :match => "hostgroup=Common", :lookup_key => yaml_lookup_key)
     assert lk1.save!
     assert lk1.value.is_a? Hash
     assert_includes lk1.value_before_type_cast, 'foo: bar'
 
-    lk2 = LookupValue.new(:value => "{'foo': 'bar'}", :match => "environment=Production", :lookup_key => lookup_keys(:six))
+    lk2 = LookupValue.new(:value => "{'foo': 'bar'}", :match => "hostgroup=Parent", :lookup_key => yaml_lookup_key)
     assert lk2.save!
     assert lk2.value.is_a? Hash
     assert_includes lk2.value_before_type_cast, 'foo: bar'
   end
 
   test "should cast and uncast string containing an Array" do
-    lk = LookupValue.new(:value => "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]", :match => "hostgroup=Common", :lookup_key => lookup_keys(:seven))
+    lk = LookupValue.new(:value => "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]", :match => "hostgroup=Common", :lookup_key => array_lookup_key)
     assert lk.save!
     assert lk.value.is_a? Array
     assert_equal lk.value_before_type_cast, "[{\"foo\":\"bar\"},{\"baz\":\"qux\"},\"baz\"]"
   end
 
   test "should not cast string if object invalid" do
-    lk = LookupValue.new(:value => '{"foo" => "bar"}', :match => "hostgroup=Common", :lookup_key => lookup_keys(:seven))
+    lk = LookupValue.new(:value => '{"foo" => "bar"}', :match => "hostgroup=Common", :lookup_key => array_lookup_key)
     refute lk.valid?
     assert_equal lk.value_before_type_cast, '{"foo" => "bar"}'
   end
@@ -144,124 +134,51 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "boolean lookup value should allow for false value" do
-    # boolean key
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => false, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => false, :match => "hostgroup=Common", :lookup_key_id => boolean_lookup_key.id)
     assert value.valid?
   end
 
-  test "boolean lookup value should not allow for nil value" do
-    # boolean key
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id)
-    refute value.valid?
-  end
-
-  test "boolean lookup value should allow nil value if omit is true" do
-    # boolean key
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => nil, :match => "hostgroup=Common", :lookup_key_id => key.id, :omit => true)
-    assert_valid value
-  end
-
   test "lookup value should allow valid key" do
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => true, :match => "hostgroup=Common", :lookup_key_id => boolean_lookup_key.id)
     assert_valid value
   end
 
   test "lookup value should allow valid multiple key" do
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "hostgroup=Common,domain=example.com", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => true, :match => "hostgroup=Common,domain=example.com", :lookup_key_id => boolean_lookup_key.id)
     assert_valid value
   end
 
   test "lookup value should not allow for nil key" do
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => true, :match => "", :lookup_key_id => boolean_lookup_key.id)
     refute_valid value
   end
 
   test "lookup value will be rejected for invalid key" do
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "hostgroup=", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => true, :match => "hostgroup=", :lookup_key_id => boolean_lookup_key.id)
     refute_valid value
     assert_equal "is invalid", value.errors[:match].first
   end
 
   test "lookup value will be rejected for invalid multiple key" do
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "hostgroup=Common,domain=", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => true, :match => "hostgroup=Common,domain=", :lookup_key_id => boolean_lookup_key.id)
     refute_valid value
     assert_equal "is invalid", value.errors[:match].first
   end
 
   test "lookup value will be rejected for invalid matcher" do
-    key = lookup_keys(:three)
-    value = LookupValue.new(:value => true, :match => "something=Common", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => true, :match => "something=Common", :lookup_key_id => boolean_lookup_key.id)
     refute_valid value
     assert_equal "something does not exist in order field", value.errors[:match].first
   end
 
-  test "shouldn't save with empty boolean matcher for smart class parameter" do
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'boolean', :override => true,
-                                    :default_value => "true", :description => 'description')
-    lookup_value = FactoryBot.build_stubbed(:lookup_value, :lookup_key => lookup_key, :match => "os=fake", :value => '')
-    refute lookup_value.valid?
-  end
-
-  context "when key is a boolean and default_value is a string" do
-    def setup
-      @key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-        :override => true, :key_type => 'boolean',
-        :default_value => 'whatever', :puppetclass => puppetclasses(:one), :omit => true)
-      @value = LookupValue.new(:value => 'abc', :match => "hostgroup=Common", :lookup_key_id => @key.id, :omit => true)
-    end
-
-    test "value is not validated if omit is true" do
-      assert_valid @value
-    end
-
-    test "value is validated if omit is false" do
-      @value.omit = false
-      refute_valid @value
-    end
-  end
-
-  context "when key type is puppetclass lookup and value is empty" do
-    def setup
-      @key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-        :with_override, :with_omit, :path => "hostgroup\ncomment",
-                                :key_type => 'string',
-                                :puppetclass => puppetclasses(:one))
-      @value = FactoryBot.build_stubbed(:lookup_value, :value => "",
-                                         :match => "hostgroup=Common",
-                                         :lookup_key_id => @key.id,
-                                         :omit => true)
-    end
-
-    test "value is validated if omit is true" do
-      assert_valid @value
-    end
-
-    test "value is not validated if omit is false" do
-      @value.omit = false
-      refute_valid @value
-    end
-  end
-
   test "should allow white space in value" do
-    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-      :with_override, :path => "hostgroup\ncomment",
-                             :key_type => 'string',
-                             :puppetclass => puppetclasses(:one))
     text = <<~EOF
 
       this is a multiline value
       with leading and trailing whitespace
 
     EOF
-    value = LookupValue.new(:value => text, :match => "hostgroup=Common", :lookup_key_id => key.id)
+    value = LookupValue.new(:value => text, :match => "hostgroup=Common", :lookup_key_id => string_lookup_key.id)
     assert value.save!
     assert_equal value.value, text
   end
@@ -299,22 +216,17 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "can create lookup value with long value" do
-    as_user :one do
-      lookup_value = LookupValue.new({ :match => "os=Common",
-                                       :value => 'a' * 280,
-                                       :lookup_key_id => lookup_keys(:complex).id,
-                                     })
-      assert_difference('LookupValue.count') do
-        assert lookup_value.save
-      end
+    lookup_value = LookupValue.new({ :match => "hostgroup=Common",
+                                     :value => 'a' * 280,
+                                     :lookup_key_id => string_lookup_key.id,
+                                   })
+    assert_difference('LookupValue.count') do
+      assert lookup_value.save
     end
   end
 
   test "should save matcher types as lowercase" do
-    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-      :override => true, :key_type => 'string', :path => "HOSTGROUP\nFQDN",
-      :default_value => "test123", :puppetclass => puppetclasses(:one))
-
+    key = FactoryBot.create(:lookup_key, :path => "HOSTGROUP\nFQDN")
     lv = LookupValue.new(:value => "lookup_value_lower_test", :match => "HOSTGROUP=Common", :lookup_key => key)
     assert lv.save!
     assert_equal "hostgroup\nfqdn", key.path
