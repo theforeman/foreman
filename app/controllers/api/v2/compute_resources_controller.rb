@@ -46,7 +46,7 @@ module Api
           param :server, String, :desc => N_("for VMware")
           param :set_console_password, :bool, :desc => N_("for Libvirt and VMware only")
           param :display_type, %w(VNC SPICE), :desc => N_('for Libvirt and oVirt only')
-          param :keyboard, ComputeResource::ALLOWED_KEYBOARD_LAYOUTS, :desc => N_('for oVirt only')
+          param :keyboard_layout, ComputeResource::ALLOWED_KEYBOARD_LAYOUTS, :desc => N_('for oVirt only')
           param :caching_enabled, :bool, :desc => N_('enable caching, for VMware only')
           param :project, String, :desc => N_("Project id for GCE only")
           param :email, String, :desc => N_("Email for GCE only")
