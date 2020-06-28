@@ -226,6 +226,7 @@ module Hostext
       def search_by_os_major(key, operator, value)
         condition = sanitize_sql_for_conditions(["CAST(major AS DECIMAL) #{operator} ?", value_to_sql(operator, value.to_f)])
         operatingsystem_ids = Operatingsystem.select(:id).where(condition).pluck('operatingsystems.id').join(',')
+        operatingsystem_ids = '-1' if operatingsystem_ids.empty?
         {:conditions => "hosts.operatingsystem_id IN (#{operatingsystem_ids})"}
       end
 
@@ -248,6 +249,7 @@ module Hostext
             end
           end
         end
+        operatingsystem_ids = ['-1'] if operatingsystem_ids.empty?
         {:conditions => "hosts.operatingsystem_id IN (#{operatingsystem_ids.join(',')})"}
       end
 
