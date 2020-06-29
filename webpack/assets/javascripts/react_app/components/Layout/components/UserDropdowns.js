@@ -1,26 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dropdown, VerticalNav, Icon, MenuItem } from 'patternfly-react';
+import { VerticalNav, Icon } from 'patternfly-react';
 import { get } from 'lodash';
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownItem,
+  DropdownSeparator,
+} from '@patternfly/react-core';
+
 import NotificationContainer from '../../notifications';
-import NavDropdown from './NavDropdown';
 import NavItem from './NavItem';
 import ImpersonateIcon from './ImpersonateIcon';
 import { translate as __ } from '../../../common/I18n';
 
 const UserDropdowns = ({
-  activeKey, // eslint-disable-line react/prop-types
-  activeHref, // eslint-disable-line react/prop-types
   user,
   changeActiveMenu,
   notificationUrl,
   stopImpersonationUrl,
   ...props
 }) => {
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+
+  const onDropdownToggle = newUserDropdownOpen => {
+    setUserDropdownOpen(newUserDropdownOpen);
+  };
+  const onDropdownSelect = () => {
+    setUserDropdownOpen(userDropdownOpen);
+  };
   const userInfo = get(user, 'current_user.user');
   const impersonateIcon = (
     <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
   );
+
+  const userDropdownItems = user.user_dropdown[0].children.map((item, i) =>
+    item.type === 'divider' ? (
+      <DropdownSeparator key={i} />
+    ) : (
+      <DropdownItem
+        key={i}
+        className="user_menuitem"
+        href={item.url}
+        onClick={() => {
+          changeActiveMenu({ title: 'User' });
+        }}
+        {...item.html_options}
+      >
+        {__(item.name)}
+      </DropdownItem>
+    )
+  );
+
   return (
     <VerticalNav.IconBar {...props}>
       <NavItem
@@ -30,33 +61,24 @@ const UserDropdowns = ({
         <NotificationContainer data={{ url: notificationUrl }} />
       </NavItem>
       {user.impersonated_by && impersonateIcon}
-      {userInfo && (
-        <NavDropdown componentClass="li" id="account_menu">
-          <Dropdown.Toggle useAnchor className="nav-item-iconic">
-            <Icon type="fa" name="user avatar small" />
-            {userInfo.name}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {user.user_dropdown[0].children.map((item, i) =>
-              item.type === 'divider' ? (
-                <MenuItem key={i} divider />
-              ) : (
-                <MenuItem
-                  key={i}
-                  className="user_menuitem"
-                  href={item.url}
-                  onClick={() => {
-                    changeActiveMenu({ title: 'User' });
-                  }}
-                  {...item.html_options}
-                >
-                  {__(item.name)}
-                </MenuItem>
-              )
-            )}
-          </Dropdown.Menu>
-        </NavDropdown>
-      )}
+      <NavItem id="account_menu" className="pf-c-page__header">
+        {userInfo && (
+          <Dropdown
+            isPlain
+            position="right"
+            onSelect={onDropdownSelect}
+            isOpen={userDropdownOpen}
+            toggle={
+              <DropdownToggle onToggle={onDropdownToggle}>
+                <Icon type="fa" name="user avatar small" />
+                {userInfo.name}
+              </DropdownToggle>
+            }
+            dropdownItems={userDropdownItems}
+            {...props}
+          />
+        )}
+      </NavItem>
     </VerticalNav.IconBar>
   );
 };
