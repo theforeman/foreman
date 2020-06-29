@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserDropdown rendering render switcher w/loading 1`] = `
+exports[`UserDropdown render 1`] = `
 <VerticalNav.IconBar
   className=""
   collapse={true}
+  isOpen={true}
   notification_url="/"
 >
   <NavItem
@@ -20,51 +21,108 @@ exports[`UserDropdown rendering render switcher w/loading 1`] = `
       }
     />
   </NavItem>
-  <NavDropdown
+  <NavItem
     activeHref=""
     activeKey=""
-    className=""
-    componentClass="li"
+    className="pf-c-page__header"
     id="account_menu"
   >
-    <DropdownToggle
-      bsClass="dropdown-toggle"
-      bsRole="toggle"
-      className="nav-item-iconic"
-      open={false}
-      useAnchor={true}
-    >
-      <Icon
-        name="user avatar small"
-        type="fa"
-      />
-      G L
-    </DropdownToggle>
-    <DropdownMenu
-      bsClass="dropdown-menu"
-      bsRole="menu"
-      pullRight={false}
-    >
-      <MenuItem
-        bsClass="dropdown"
-        className="user_menuitem"
-        disabled={false}
-        divider={false}
-        header={false}
-        href="/"
-        key="0"
-        onClick={[Function]}
-      >
-        My Account
-      </MenuItem>
-      <MenuItem
-        bsClass="dropdown"
-        disabled={false}
-        divider={true}
-        header={false}
-        key="1"
-      />
-    </DropdownMenu>
-  </NavDropdown>
+    <Dropdown
+      className=""
+      dropdownItems={
+        Array [
+          <DropdownItem
+            className="user_menuitem"
+            href="/"
+            onClick={[Function]}
+          >
+            My Account
+          </DropdownItem>,
+          <DropdownSeparator />,
+        ]
+      }
+      isOpen={true}
+      isPlain={true}
+      notification_url="/"
+      onSelect={[Function]}
+      position="right"
+      toggle={
+        <DropdownToggle
+          onToggle={[Function]}
+        >
+          <Icon
+            name="user avatar small"
+            type="fa"
+          />
+          G L
+        </DropdownToggle>
+      }
+    />
+  </NavItem>
+</VerticalNav.IconBar>
+`;
+
+exports[`UserDropdown render with impersonated by icon 1`] = `
+<VerticalNav.IconBar
+  className=""
+  collapse={true}
+  isOpen={true}
+  notification_url="/"
+>
+  <NavItem
+    activeHref=""
+    activeKey=""
+    className="drawer-pf-trigger dropdown notification-dropdown"
+    id="notifications_container"
+  >
+    <Connect(OnClickOutside(notificationContainer))
+      data={
+        Object {
+          "url": "",
+        }
+      }
+    />
+  </NavItem>
+  <Connect(ImpersonateIcon)
+    stopImpersonationUrl=""
+  />
+  <NavItem
+    activeHref=""
+    activeKey=""
+    className="pf-c-page__header"
+    id="account_menu"
+  >
+    <Dropdown
+      className=""
+      dropdownItems={
+        Array [
+          <DropdownItem
+            className="user_menuitem"
+            href="/"
+            onClick={[Function]}
+          >
+            My Account
+          </DropdownItem>,
+          <DropdownSeparator />,
+        ]
+      }
+      isOpen={true}
+      isPlain={true}
+      notification_url="/"
+      onSelect={[Function]}
+      position="right"
+      toggle={
+        <DropdownToggle
+          onToggle={[Function]}
+        >
+          <Icon
+            name="user avatar small"
+            type="fa"
+          />
+          G L
+        </DropdownToggle>
+      }
+    />
+  </NavItem>
 </VerticalNav.IconBar>
 `;

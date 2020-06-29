@@ -266,4 +266,6 @@ export const hasTaxonomiesMock = {
 export const userDropdownProps = {
   user: serverUser,
   notification_url: '/',
+  changeActiveMenu: jest.fn(),
+  isOpen: true,
 };

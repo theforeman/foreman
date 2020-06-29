@@ -1,30 +1,14 @@
-import React from 'react';
-import { shallow } from '@theforeman/test';
 import { testComponentSnapshotsWithFixtures } from '../../../common/testHelpers';
 
-import UserDropdowns from '../components/UserDropdowns';
+import UserDropdowns from './UserDropdowns';
 import { userDropdownProps } from '../Layout.fixtures';
 
-const createStubs = () => ({
-  changeActiveMenu: jest.fn(),
-});
-
 const fixtures = {
-  'render switcher w/loading': {
+  render: userDropdownProps,
+  'render with impersonated by icon': {
     ...userDropdownProps,
-    ...createStubs(),
+    user: { ...userDropdownProps.user, impersonated_by: true },
   },
 };
-
-describe('UserDropdown', () => {
-  describe('rendering', () =>
-    testComponentSnapshotsWithFixtures(UserDropdowns, fixtures));
-
-  describe('trigger onClicks', () => {
-    const wrapper = shallow(
-      <UserDropdowns {...userDropdownProps} {...createStubs()} />
-    );
-
-    wrapper.find('.user_menuitem').simulate('click');
-  });
-});
+describe('UserDropdown', () =>
+  testComponentSnapshotsWithFixtures(UserDropdowns, fixtures));
