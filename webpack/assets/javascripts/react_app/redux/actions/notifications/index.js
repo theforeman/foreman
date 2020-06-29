@@ -10,6 +10,7 @@ import {
 } from '../../consts';
 import * as sessionStorage from '../../../components/notifications/NotificationDrawerSessionStorage';
 import { API, get } from '../../API';
+import { reloadPage } from '../../../../foreman_navigation';
 import {
   stopInterval,
   withInterval,
@@ -18,10 +19,22 @@ import { DEFAULT_INTERVAL } from './constants';
 
 const interval = process.env.NOTIFICATIONS_POLLING || DEFAULT_INTERVAL;
 
-const getNotifications = url => get({ key: NOTIFICATIONS, url });
+const handleNotificationPollingError = (error, stopNotificationPolling) => {
+  if (error.response?.status === 401) {
+    stopNotificationPolling();
+    reloadPage();
+  }
+};
 
 export const startNotificationsPolling = url =>
-  withInterval(getNotifications(url), interval);
+  withInterval(
+    get({
+      key: NOTIFICATIONS,
+      url,
+      handleError: handleNotificationPollingError,
+    }),
+    interval
+  );
 
 export const stopNotificationsPolling = () => stopInterval(NOTIFICATIONS);
 

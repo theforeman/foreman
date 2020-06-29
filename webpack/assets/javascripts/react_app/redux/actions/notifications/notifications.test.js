@@ -1,7 +1,7 @@
 import { API } from '../../../redux/API';
 import * as actions from './index';
 
-jest.mock('../../../redux/API');
+jest.mock('../../../redux/API/API');
 
 describe('Notification Drawer actions', () => {
   it('should make notification group read', () => {
