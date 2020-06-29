@@ -2,12 +2,27 @@ module Foreman
   module Renderer
     module Scope
       class Report < Foreman::Renderer::Scope::Template
+        extend ApipieDSL::Class
+
+        apipie :class, 'Macros specific for report rendering' do
+          name 'Report'
+          sections only: %w[all reports]
+        end
+
         def initialize(**args)
           super
           @report_data = []
           @report_headers = []
         end
 
+        apipie :method, 'Render a report for all rows defined' do
+          desc 'This macro is typically called at the end of the report template, after all rows
+            with data has been registered.'
+          keyword :format, ReportTemplateFormat.all.map(&:id), desc: 'The desired format of output', default: ReportTemplateFormat.default.id
+          returns String, desc: 'This is the resulting report'
+          example "report_render # => 'name,ip\nhost1.example.com,192.168.0.2\nhost2.example.com,192.168.0.3'"
+          example "report_render(format: :yaml) # => '---\n- name: host1.example.com\n  ip: 192.168.0.2\n- name: host2.example.com\n  ip: 192.168.0.3'"
+        end
         def report_render(format: report_format&.id, order: nil, reverse_order: false)
           apply_order!(order) if order.present?
           @report_data.reverse! if reverse_order
@@ -24,10 +39,27 @@ module Foreman
           end
         end
 
+        apipie :method, 'Register minimal headers for the report' do
+          desc "This is useful in case of possible empty reports. **report_row** macro will automatically update
+            headers if needed."
+          list :headers, desc: 'List of headers'
+          returns Array, desc: 'Minimal registered headers'
+          example "<%- report_headers 'id', 'name' -%>"
+        end
         def report_headers(*headers)
           @report_headers = headers.map(&:to_s)
         end
 
+        apipie :method, 'Register a row of data for the report' do
+          desc "For every record that should be part of the report, **report_row** macro needs to be called.
+            The only argument it accepts is a record definition. This is typically called in some **each** loop. Calling
+            this at least once is important so we know what columns are to be rendered in this report.
+            Calling this macro adds a record to the rendering queue."
+          required :row_data, Hash, desc: 'Data in form of hash, keys are column names, values are values for this record'
+          returns Array, desc: 'Currently registered report data'
+          example "report_row(:name => 'host1.example.com', :ip => '192.168.0.2')"
+          example "<%- load_hosts.each_record do |host|\n  report_row(:name => host.name, :ip => host.ip)\nend -%>"
+        end
         def report_row(row_data)
           new_headers = row_data.keys
           if @report_headers.size < new_headers.size

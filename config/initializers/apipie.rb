@@ -10,8 +10,8 @@ ApipieDSL.configure do |config|
     "#{Rails.root}/app/models/**/*.rb",
     "#{Rails.root}/lib/foreman/renderer/**/*.rb",
   ]
-  # TODO provisioning reports jobs
-  config.sections = %w[all additional basic_ruby_methods]
+  # TODO provisioning jobs
+  config.sections = %w[all reports additional basic_ruby_methods]
   # TODO enable?
   config.validate = false
 
