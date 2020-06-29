@@ -3,6 +3,15 @@
 exports[`API get should dispatch request and failure actions on reject 1`] = `
 Array [
   Array [
+    [Error: bad request],
+    [Function],
+  ],
+]
+`;
+
+exports[`API get should dispatch request and failure actions on reject 2`] = `
+Array [
+  Array [
     Object {
       "key": "SOME_KEY",
       "payload": Object {
@@ -51,6 +60,41 @@ Array [
         ],
       },
       "type": "SOME_KEY_SUCCESS",
+    },
+  ],
+]
+`;
+
+exports[`API get should dispatch stop interval on API error 1`] = `
+Array [
+  Array [
+    [Error: bad request],
+    [Function],
+  ],
+]
+`;
+
+exports[`API get should dispatch stop interval on API error 2`] = `
+Array [
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "type": "SOME_KEY_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "response": [Error: bad request],
+      "type": "SOME_KEY_FAILURE",
     },
   ],
 ]

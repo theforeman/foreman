@@ -1,6 +1,8 @@
 import { getApiResponse } from './APIHelpers';
 import { actionTypeGenerator } from './APIActionTypeGenerator';
 import { noop } from '../../common/helpers';
+import { stopInterval } from '../middlewares/IntervalMiddleware';
+import { selectDoesIntervalExist } from '../middlewares/IntervalMiddleware/IntervalSelectors';
 
 export const apiRequest = async (
   {
@@ -16,7 +18,7 @@ export const apiRequest = async (
       payload = {},
     },
   },
-  { dispatch }
+  { dispatch, getState }
 ) => {
   const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(key, actionTypes);
   const modifiedPayload = { ...payload, url };
@@ -41,6 +43,9 @@ export const apiRequest = async (
       payload: modifiedPayload,
       response: error,
     });
-    handleError(error);
+    const stopIntervalCallback = selectDoesIntervalExist(getState(), key)
+      ? () => dispatch(stopInterval(key))
+      : noop;
+    handleError(error, stopIntervalCallback);
   }
 };

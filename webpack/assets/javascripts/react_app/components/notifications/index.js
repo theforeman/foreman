@@ -12,7 +12,6 @@ import { noop, translateObject } from '../../common/helpers';
 
 import './notifications.scss';
 import ToggleIcon from './ToggleIcon/ToggleIcon';
-import { reloadPage } from '../../../foreman_navigation';
 
 class notificationContainer extends React.Component {
   componentDidMount() {
@@ -29,17 +28,6 @@ class notificationContainer extends React.Component {
 
     if (isReady && isDrawerOpen) {
       toggleDrawer();
-    }
-  }
-
-  componentDidUpdate() {
-    const { error, stopNotificationsPolling } = this.props;
-    if (error) {
-      const { response: { status } = {} } = error;
-      stopNotificationsPolling();
-      if (status === 401) {
-        reloadPage();
-      }
     }
   }
 
@@ -126,13 +114,6 @@ notificationContainer.propTypes = {
     clearAll: PropTypes.string,
     deleteNotification: PropTypes.string,
   }),
-  error: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      message: PropTypes.string,
-      response: PropTypes.object,
-    }),
-  ]),
 };
 
 notificationContainer.defaultProps = {
@@ -150,7 +131,6 @@ notificationContainer.defaultProps = {
   clearNotification: noop,
   clearGroup: noop,
   stopNotificationsPolling: noop,
-  error: null,
   translations: NotificationDrawerPanelWrapper.defaultProps.translations,
 };
 
@@ -160,7 +140,6 @@ const mapStateToProps = state => {
     isDrawerOpen,
     expandedGroup,
     hasUnreadMessages,
-    error,
   } = state.notifications;
 
   return {
@@ -169,7 +148,6 @@ const mapStateToProps = state => {
     expandedGroup,
     isReady: !!notifications,
     hasUnreadMessages,
-    error,
   };
 };
 
