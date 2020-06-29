@@ -50,9 +50,12 @@ exports[`UserDropdown render 1`] = `
         <DropdownToggle
           onToggle={[Function]}
         >
-          <Icon
-            name="user avatar small"
-            type="fa"
+          <UserAltIcon
+            className="user-icon"
+            color="currentColor"
+            noVerticalAlign={false}
+            size="sm"
+            title={null}
           />
           G L
         </DropdownToggle>
@@ -115,9 +118,12 @@ exports[`UserDropdown render with impersonated by icon 1`] = `
         <DropdownToggle
           onToggle={[Function]}
         >
-          <Icon
-            name="user avatar small"
-            type="fa"
+          <UserAltIcon
+            className="user-icon"
+            color="currentColor"
+            noVerticalAlign={false}
+            size="sm"
+            title={null}
           />
           G L
         </DropdownToggle>

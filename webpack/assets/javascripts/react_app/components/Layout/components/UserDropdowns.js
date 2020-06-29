@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { VerticalNav, Icon } from 'patternfly-react';
+import { VerticalNav } from 'patternfly-react';
 import { get } from 'lodash';
 import {
   Dropdown,
@@ -8,6 +8,7 @@ import {
   DropdownItem,
   DropdownSeparator,
 } from '@patternfly/react-core';
+import { UserAltIcon } from '@patternfly/react-icons';
 
 import NotificationContainer from '../../notifications';
 import NavItem from './NavItem';
@@ -70,7 +71,7 @@ const UserDropdowns = ({
             isOpen={userDropdownOpen}
             toggle={
               <DropdownToggle onToggle={onDropdownToggle}>
-                <Icon type="fa" name="user avatar small" />
+                <UserAltIcon className="user-icon" />
                 {userInfo.name}
               </DropdownToggle>
             }
