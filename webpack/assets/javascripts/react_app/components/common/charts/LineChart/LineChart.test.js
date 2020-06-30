@@ -2,8 +2,7 @@ import { testComponentSnapshotsWithFixtures } from '@theforeman/test';
 import { data, timeseriesData } from './LineChart.fixtures';
 import LineChart from './index';
 
-jest.unmock('../../../../../services/charts/LineChartService');
-jest.unmock('../../../../../services/charts/ChartService');
+jest.mock('../../../../../services/charts/ChartService.consts');
 
 const fixtures = {
   'should render line chart': {

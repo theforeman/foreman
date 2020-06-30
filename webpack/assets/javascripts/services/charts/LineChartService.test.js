@@ -6,8 +6,7 @@ import {
   timeseriesData,
 } from '../../react_app/components/common/charts/LineChart/LineChart.fixtures';
 
-jest.unmock('./LineChartService');
-jest.unmock('./ChartService');
+jest.mock('./ChartService.consts');
 
 const fixtures = {
   'should get regular config': () =>
