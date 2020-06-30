@@ -203,6 +203,7 @@ export const layoutPropTypes = {
   data: PropTypes.shape({
     brand: PropTypes.string,
     stop_impersonation_url: PropTypes.string.isRequired,
+    instance_title: PropTypes.string,
     menu: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,

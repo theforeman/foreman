@@ -58,7 +58,9 @@ module LayoutHelper
       stop_impersonation_url: main_app.stop_impersonation_users_path,
       user: fetch_user, brand: 'foreman',
       taxonomies: taxonomies_booleans, root: main_app.root_path,
-      locations: fetch_locations, orgs: fetch_organizations }
+      locations: fetch_locations, orgs: fetch_organizations,
+      instance_title: Setting[:instance_title]
+    }
   end
 
   def title(page_title, page_header = nil)
