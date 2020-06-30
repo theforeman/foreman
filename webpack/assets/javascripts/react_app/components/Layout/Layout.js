@@ -68,6 +68,7 @@ const Layout = ({
           user={data.user}
           changeActiveMenu={changeActiveMenu}
           stopImpersonationUrl={data.stop_impersonation_url}
+          instanceTitle={data.instance_title}
         />
       </VerticalNav.Masthead>
     </VerticalNav>

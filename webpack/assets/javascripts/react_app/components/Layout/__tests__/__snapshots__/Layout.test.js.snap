@@ -110,6 +110,7 @@ exports[`Layout rendering renders layout 1`] = `
       <UserDropdowns
         changeActiveMenu={[Function]}
         className=""
+        instanceTitle="Production"
         notificationUrl="/notification_recipients"
         stopImpersonationUrl="/users/stop_impersonation"
         user={
