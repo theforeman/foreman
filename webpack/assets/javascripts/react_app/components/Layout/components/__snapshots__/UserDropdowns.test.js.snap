@@ -7,6 +7,9 @@ exports[`UserDropdown render 1`] = `
   isOpen={true}
   notification_url="/"
 >
+  <InstanceTitleViewer
+    title=""
+  />
   <NavItem
     activeHref=""
     activeKey=""
@@ -71,6 +74,9 @@ exports[`UserDropdown render with impersonated by icon 1`] = `
   isOpen={true}
   notification_url="/"
 >
+  <InstanceTitleViewer
+    title=""
+  />
   <NavItem
     activeHref=""
     activeKey=""

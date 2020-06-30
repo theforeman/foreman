@@ -250,6 +250,7 @@ export const layoutMock = {
     taxonomies: { locations: true, organizations: true },
     user,
     stop_impersonation_url: '/users/stop_impersonation',
+    instance_title: 'Production',
   },
 };
 

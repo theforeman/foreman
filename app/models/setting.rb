@@ -16,7 +16,7 @@ class Setting < ApplicationRecord
   FROZEN_ATTRS = %w{name category}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
   BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text oidc_audience oidc_issuer oidc_algorithm
-                    smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list default_locale default_timezone ssl_certificate ssl_ca_file ssl_priv_key default_pxe_item_global default_pxe_item_local oidc_jwks_url }
+                    smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list default_locale default_timezone ssl_certificate ssl_ca_file ssl_priv_key default_pxe_item_global default_pxe_item_local oidc_jwks_url instance_title }
   ARRAY_HOSTNAMES = %w{trusted_hosts}
   URI_ATTRS = %w{foreman_url unattended_url}
   URI_BLANK_ATTRS = %w{login_delegation_logout_url}
