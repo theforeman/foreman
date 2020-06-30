@@ -67,7 +67,7 @@ class Setting::Provisioning < Setting
       set(
         'destroy_vm_on_host_delete',
         N_("Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource. When disabled, VMs are unlinked when the host is deleted, meaning they remain on Compute Resource and can be re-associated or imported back to Foreman again. This does not automatically power off the VM"),
-        true,
+        false,
         N_("Destroy associated VM on host delete")
       ),
       set(
