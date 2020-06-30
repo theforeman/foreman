@@ -55,7 +55,6 @@ exports[`UserDropdown render 1`] = `
             color="currentColor"
             noVerticalAlign={false}
             size="sm"
-            title={null}
           />
           G L
         </DropdownToggle>
@@ -123,7 +122,6 @@ exports[`UserDropdown render with impersonated by icon 1`] = `
             color="currentColor"
             noVerticalAlign={false}
             size="sm"
-            title={null}
           />
           G L
         </DropdownToggle>

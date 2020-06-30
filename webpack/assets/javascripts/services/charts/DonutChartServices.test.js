@@ -6,8 +6,8 @@ import {
   dataWithLongLabels,
 } from '../../react_app/components/common/charts/DonutChart/DonutChart.fixtures';
 
-jest.unmock('./DonutChartService');
-jest.unmock('./ChartService');
+jest.mock('./ChartService.consts');
+
 describe('getDonutChartConfig', () => {
   it('data should be filtered', () => {
     expect(
