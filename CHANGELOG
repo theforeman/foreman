@@ -1,3 +1,18 @@
+2020-07-01	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.1.0
+
+2020-07-01	Evgeni Golov <evgeni@golov.de>
+	* add package-lock.json based on 2.1 packaging
+
+2020-07-01	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #30229 - Fix errors when searching os that not exists
+
+2020-06-24	Marek Hulán <ares@users.noreply.github.com>
+	* Fixes #29445 - restrict STI deletion to admin (#7694)
+
+2020-06-23	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
 2020-06-18	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.1.0-rc3
 
