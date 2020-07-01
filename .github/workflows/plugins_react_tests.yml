@@ -3,6 +3,11 @@ name: (non-blocking) React on plugins
 on:
   pull_request:
     branches: [develop]
+    paths:
+      - 'webpack/*'
+      - 'package.json'
+      - 'config/webpack.config.js'
+      - '.github/workflows/plugins_react_tests.yml'
 
 jobs:
   test:
