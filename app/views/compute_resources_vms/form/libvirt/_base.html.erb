@@ -1,9 +1,14 @@
 <%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
 
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_vm if show_vm_name? %>
-
-<%= counter_f f, :cpus, :disabled => !new_vm, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
-
+<div id="cpus_input">
+   <%= react_component('CPUCoresInput',
+                       {label: 'CPUs',
+                        defaultValue: f.object.cpus.present? ? f.object.cpus : 1,
+                        disabled: !new_vm,
+                        recommendedMaxValue: compute_resource.max_cpu_count,
+                        name: "#{f.object_name}[cpus]"}) %>
+</div>
 <%= select_f f, :cpu_mode, Foreman::Model::Libvirt::CPU_MODES, :to_s, :to_s, { }, :label => _("CPU mode"), :label_size => "col-md-2" %>
 <%= react_component('MemoryAllocationInput',
                     {label: 'Memory',

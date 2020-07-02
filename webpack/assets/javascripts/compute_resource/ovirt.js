@@ -44,8 +44,7 @@ export function templateSelected(item) {
             defaultValue: result.memory / megabyte,
           })
         );
-        $('[id$=_cores]').val(result.cores);
-        $('[id$=_sockets]').val(result.sockets);
+        updateCoresAndSockets(result);
         $('[id$=_ha]').prop('checked', result.ha);
       }
       $('#network_interfaces')
@@ -97,8 +96,7 @@ export function instanceTypeSelected(item) {
               defaultValue: result.memory / megabyte,
             })
           );
-          $('[id$=_cores]').val(result.cores);
-          $('[id$=_sockets]').val(result.sockets);
+          updateCoresAndSockets(result);
           $('[id$=_ha]').prop('checked', result.ha);
         }
         memoryInputElement.setAttribute(
@@ -108,7 +106,8 @@ export function instanceTypeSelected(item) {
             disabled: result.name != null,
           })
         );
-        ['_cores', '_sockets', '_ha'].forEach(name =>
+        disableCoresAndSockets(result);
+        ['_ha'].forEach(name =>
           $(`[id$=${name}]`).prop('readOnly', result.name != null)
         );
         const instanceTypeSelector = $(
@@ -167,6 +166,52 @@ function addVolume({
   $(`[id$=${newId}_storage_domain]`)
     .next()
     .hide();
+}
+
+function updateCoresAndSockets(result) {
+  const coresInputElement = document
+    .getElementById('cores-input')
+    .getElementsByTagName('foreman-react-component')[0];
+  coresInputElement.setAttribute(
+    'data-props',
+    JSON.stringify({
+      ...coresInputElement.reactProps,
+      defaultValue: result.cores,
+    })
+  );
+  const socketInputElement = document
+    .getElementById('sockets-input')
+    .getElementsByTagName('foreman-react-component')[0];
+  socketInputElement.setAttribute(
+    'data-props',
+    JSON.stringify({
+      ...socketInputElement.reactProps,
+      defaultValue: result.sockets,
+    })
+  );
+}
+
+function disableCoresAndSockets(result) {
+  const coresInputElement = document
+    .getElementById('cores-input')
+    .getElementsByTagName('foreman-react-component')[0];
+  coresInputElement.setAttribute(
+    'data-props',
+    JSON.stringify({
+      ...coresInputElement.reactProps,
+      disabled: result.name != null,
+    })
+  );
+  const socketInputElement = document
+    .getElementById('sockets-input')
+    .getElementsByTagName('foreman-react-component')[0];
+  socketInputElement.setAttribute(
+    'data-props',
+    JSON.stringify({
+      ...socketInputElement.reactProps,
+      disabled: result.name != null,
+    })
+  );
 }
 
 function disableElement(element) {

@@ -257,7 +257,7 @@ class HostJSTest < IntegrationTestWithJavascript
       select2(hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
       click_link('Virtual Machine')
-      cpus_field = page.find_field('host_compute_attributes_cpus')
+      cpus_field = page.find_field('host[compute_attributes][cpus]')
       assert_equal '1', cpus_field.value
 
       switch_form_tab_to_interfaces
@@ -271,7 +271,7 @@ class HostJSTest < IntegrationTestWithJavascript
       select2(compute_profile.name, :from => 'host_compute_profile_id')
 
       click_link('Virtual Machine')
-      cpus_field = page.find_field('host_compute_attributes_cpus')
+      cpus_field = page.find_field('host[compute_attributes][cpus]')
       assert_equal '2', cpus_field.value
 
       switch_form_tab_to_interfaces
