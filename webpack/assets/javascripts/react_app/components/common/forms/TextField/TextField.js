@@ -11,6 +11,7 @@ const TextField = ({
   inputClassName,
   required,
   validate,
+  helpBlock,
 }) => (
   <Field
     name={name}
@@ -25,6 +26,7 @@ const TextField = ({
         className={className}
         inputClassName={inputClassName}
         label={label}
+        helpBlock={helpBlock}
       />
     )}
   />
@@ -38,6 +40,7 @@ TextField.propTypes = {
   inputClassName: PropTypes.string,
   required: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   validate: PropTypes.func,
+  helpBlock: PropTypes.string,
 };
 
 TextField.defaultProps = {
@@ -47,6 +50,7 @@ TextField.defaultProps = {
   required: false,
   inputClassName: undefined,
   validate: undefined,
+  helpBlock: null,
 };
 
 export default TextField;

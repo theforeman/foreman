@@ -10,6 +10,7 @@ const TextFieldInner = ({
   className,
   inputClassName,
   meta: { touched, error },
+  helpBlock,
 }) => (
   <CommonForm
     label={label}
@@ -29,6 +30,11 @@ const TextFieldInner = ({
         className={type === 'checkbox' ? '' : 'form-control'}
       />
     )}
+    {helpBlock && (
+      <span className="help-block">
+        {helpBlock}
+      </span>
+    )}
   </CommonForm>
 );
 
@@ -40,6 +46,7 @@ TextFieldInner.propTypes = {
   className: PropTypes.string,
   inputClassName: PropTypes.string,
   meta: PropTypes.shape({ touched: PropTypes.bool, error: PropTypes.string }),
+  helpBlock: PropTypes.string,
 };
 
 TextFieldInner.defaultProps = {
@@ -50,6 +57,7 @@ TextFieldInner.defaultProps = {
   required: false,
   inputClassName: undefined,
   meta: { touched: false, error: undefined },
+  helpBlock: null,
 };
 
 export default TextFieldInner;
