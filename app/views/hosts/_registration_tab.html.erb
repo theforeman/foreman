@@ -11,13 +11,13 @@
 
 <div style="max-width: 600px">
 <% if @host.registration_template %>
-  <p>This host can be registered to Foreman by executing this command:</p>
+  <p><%= _('This host can be registered to Foreman by executing this command:') %></p>
 
   <pre class="terminal" id="registration_command">
   curl <%= @host.registration_url %> | bash
   </pre>
   <%= link_to _('Copy to clipboard'), nil, class: 'btn btn-default', onclick: 'foreman_register_copy_configuration_to_clipboard($("#registration_command").html()); return false;' %>
 <% else %>
-  <p>This host can not be enrolled with Foreman as no registration template was set.</p>
+  <p><%= _('This host can not be enrolled with Foreman as no registration template was set.') %></p>
 <% end %>
 </div>
