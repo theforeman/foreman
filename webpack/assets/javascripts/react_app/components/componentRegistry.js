@@ -43,6 +43,7 @@ import SettingUpdateModal from './SettingUpdateModal';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
 import MemoryAllocationInput from './MemoryAllocationInput';
+import CPUCoresInput from './CPUCoresInput';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -145,6 +146,11 @@ const coreComponets = [
   {
     name: 'MemoryAllocationInput',
     type: MemoryAllocationInput,
+    store: false,
+  },
+  {
+    name: 'CPUCoresInput',
+    type: CPUCoresInput,
     store: false,
   },
   {

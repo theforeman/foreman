@@ -50,9 +50,9 @@ NumericInput.propTypes = {
   step: PropTypes.number,
   precision: PropTypes.number,
   minValue: PropTypes.number,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   readOnly: PropTypes.bool,
-  disabled: PropTypes.bool,
 };
 
 NumericInput.defaultProps = {
@@ -64,10 +64,10 @@ NumericInput.defaultProps = {
   format: null,
   parser: undefined,
   step: 1,
+  disabled: false,
   precision: 0,
   minValue: 0,
   onChange: noop,
-  disabled: false,
   readOnly: false,
 };
 

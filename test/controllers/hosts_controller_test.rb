@@ -1527,7 +1527,7 @@ class HostsControllerTest < ActionController::TestCase
 
       assert_response :success
       assert_template :partial => '_form'
-      assert_select '#host_compute_attributes_cpus'
+      assert_select 'input', {:name => 'host[compute_attributes][cpus]'}
     end
 
     test '#process_hostgroup does not change compute attributes if compute profile selected manually' do
@@ -1551,21 +1551,21 @@ class HostsControllerTest < ActionController::TestCase
 
       assert_response :success
       assert_template :partial => '_form'
-      assert_select '#host_compute_attributes_cpus'
+      assert_select 'input', {:name => 'host[compute_attributes][cpus]'}
     end
 
     test '#compute_resource_selected renders compute tab without compute profile' do
       get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
-      assert_select '#host_compute_attributes_cpus'
+      assert_select 'input', {:name => 'host[compute_attributes][cpus]'}
     end
 
     test '#compute_resource_selected renders compute tab with explicit compute profile' do
       get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :compute_profile_id => compute_profiles(:two).id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
-      assert_select '#host_compute_attributes_cpus'
+      assert_select 'input', {:name => 'host[compute_attributes][cpus]'}
     end
 
     test '#compute_resource_selected renders compute tab with hostgroup\'s compute profile' do
@@ -1573,7 +1573,7 @@ class HostsControllerTest < ActionController::TestCase
       get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
-      assert_select '#host_compute_attributes_cpus'
+      assert_select 'input', {:name => 'host[compute_attributes][cpus]'}
     end
 
     test '#compute_resource_selected renders compute tab with hostgroup parent\'s compute profile' do
@@ -1582,7 +1582,7 @@ class HostsControllerTest < ActionController::TestCase
       get :compute_resource_selected, params: { :host => {:compute_resource_id => compute_resources(:one).id, :hostgroup_id => group.id}}, session: set_session_user, xhr: true
       assert_response :success
       assert_template :partial => '_compute'
-      assert_select '#host_compute_attributes_cpus'
+      assert_select 'input', {:name => 'host[compute_attributes][cpus]'}
     end
   end
 

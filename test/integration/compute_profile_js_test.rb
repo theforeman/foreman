@@ -61,7 +61,7 @@ class ComputeProfileJSTest < IntegrationTestWithJavascript
     visit compute_profile_path(selected_profile)
     assert click_link(compute_resources(:ovirt).to_s)
     assert_equal  "512 MB", find_field('compute_attribute_vm_attrs_memory').value
-    assert_equal  "1", find_field('compute_attribute_vm_attrs_cores').value
+    assert_equal  "1", find_field('compute_attribute[vm_attrs][cores]').value
   end
 
   test "index page" do

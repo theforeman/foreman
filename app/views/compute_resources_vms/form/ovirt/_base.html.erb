@@ -35,17 +35,31 @@ disable_sockets = !new_vm || (new_vm && instance_type && instance_type.sockets.p
 disable_mem = !new_vm || (new_vm && instance_type && instance_type.memory.present?)
 %>
 
-<%= counter_f f, :cores, :disabled => disable_cores, :label => _('Cores per socket'), :label_size => 'col-md-2' %>
-
-<%= counter_f f, :sockets, :disabled => disable_sockets, :label => _('Sockets'), :label_size => 'col-md-2' %>
-<div id="memory-input">
-<%= react_component('MemoryAllocationInput',
-                    {label: 'Memory',
-                     disabled: disable_mem,
-                     defaultValue: f.object.memory.present? ? f.object.memory.to_i / 1.megabytes : 1024,
-                     id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}memory",
-                     name: "#{f.object_name}[memory]"}) %>
+<div id="cores-input">
+  <%= react_component('CPUCoresInput',
+                          {label: 'Cores per socket',
+                           disabled: disable_cores,
+                           defaultValue: f.object.cores.present? ? f.object.cores : 1,
+                           id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}cores",
+                           name: "#{f.object_name}[cores]"}) %>
 </div>
+<div id="sockets-input">
+  <%= react_component('CPUCoresInput',
+                          {label: 'Sockets',
+                           disabled: disable_sockets,
+                           defaultValue: f.object.sockets.present? ? f.object.sockets : 1,
+                           id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}sockets",
+                           name: "#{f.object_name}[sockets]"}) %>
+</div>
+<div id="memory-input">
+  <%= react_component('MemoryAllocationInput',
+                      {label: 'Memory',
+                       disabled: disable_mem,
+                       defaultValue: f.object.memory.present? ? f.object.memory.to_i / 1.megabytes : 1024,
+                       id: "#{f.object_name.gsub(/[\[\]]/, '[' => '_', ']' => '_')}memory",
+                       name: "#{f.object_name}[memory]"}) %>
+</div>
+
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
 <%= checkbox_f f, :ha, { :checked => (f.object.ha == '1') , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>

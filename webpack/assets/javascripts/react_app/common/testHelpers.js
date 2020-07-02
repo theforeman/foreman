@@ -64,7 +64,7 @@ export const shallowRenderComponentWithFixtures = (Component, fixtures) =>
 
 /**
  * Test a component with fixtures and snapshots
- * @param  {ReactComponent} Component Component to test
+ * @param  {function(): *} Component Component to test
  * @param  {Object}         fixtures  key=fixture description, value=props to apply
  */
 export const testComponentSnapshotsWithFixtures = (Component, fixtures) =>

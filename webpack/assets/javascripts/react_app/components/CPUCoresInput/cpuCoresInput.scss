@@ -1,4 +1,15 @@
+@import '../../common/colors.scss';
 
-.help-block-icon {
+.container {
+  max-width: none !important;
+}
+
+.warning-icon {
   margin-right: 3px;
+  color: $pf-gold-400;
+}
+
+.error-icon {
+  margin-right: 3px;
+  color: $pf-red-100;
 }
