@@ -9,5 +9,6 @@ export const MODELS_PAGE_CLEAR_ERROR = 'MODELS_PAGE_CLEAR_ERROR';
 export const MODELS_SEARCH_PROPS = getControllerSearchProps('models');
 export const MODELS_API_PATH = '/api/models?include_permissions=true';
 export const MODELS_PATH = '/models';
+export const NEW_MODEL_PATH = '/models/new';
 export const MODEL_DELETE_MODAL_ID = 'modelDeleteModal';
 export const API_REQUEST_KEY = 'MODELS';
