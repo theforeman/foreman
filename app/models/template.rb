@@ -304,6 +304,10 @@ class Template < ApplicationRecord
         !changes.include?('locked')
       errors.add(:base, _("This template is locked. Please clone it to a new template to customize."))
     end
+
+    if !modify_locked && locked? && !audit_comment.empty?
+      errors.add(:base, _("Cannot add audit comment to a locked template."))
+    end
   end
 
   def remove_trailing_chars
