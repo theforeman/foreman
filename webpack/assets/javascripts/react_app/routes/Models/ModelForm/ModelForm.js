@@ -11,7 +11,9 @@ const infoHelp = __("General useful description, for example this kind of hardwa
 const ModelForm = props => {
   return (
     <ForemanForm
-      onSubmit={(values, actions) => {}}
+      onSubmit={async (values, actions) => {
+         props.onSubmit(values, actions)
+      }}
       initialValues={props.initialValues}
       onCancel={() => {}}
     >
