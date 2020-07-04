@@ -42,7 +42,6 @@ Foreman::Application.routes.draw do
     'report_templates',
     'smart_proxies',
     'subnets',
-    'trends',
     'usergroups',
   ]
 
@@ -189,11 +188,6 @@ Foreman::Application.routes.draw do
       get 'import_environments'
       post 'obsolete_and_new'
       get 'auto_complete_search'
-    end
-  end
-  resources :trends do
-    collection do
-      post 'count'
     end
   end
 

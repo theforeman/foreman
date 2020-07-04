@@ -40,7 +40,6 @@ module Menu
           menu.item :dashboard,         :caption => N_('Dashboard'), :exact => true
           menu.item :fact_values,       :caption => N_('Facts')
           menu.item :statistics,        :caption => N_('Statistics')
-          menu.item :trends,            :caption => N_('Trends')
           menu.item :audits,            :caption => N_('Audits')
           menu.divider                  :caption => N_('Reports')
           menu.item :reports,           :caption => N_('Config Management'),

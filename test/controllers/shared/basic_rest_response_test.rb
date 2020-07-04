@@ -107,7 +107,6 @@ module BasicRestResponseTest
         end
 
         test 'should not render pagination when no search results' do
-          next if @controller.resource_name == "trend"
           @request.env['HTTP_REFERER'] = root_url
           get :index, params: {search: "name='A98$bcD#67Ef*g"}, session: set_session_user
           assert (@response.body.include? "No entries found") || @response.body.match(/You are being.*redirected/)
@@ -123,8 +122,6 @@ module BasicRestResponseTest
   def get_factory_name
     model = @controller.controller_name.singularize
     case model
-      when "trend"
-        :trend_os
       when "subnet"
         :subnet_ipv4
       else
