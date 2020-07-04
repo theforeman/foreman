@@ -1,8 +1,0 @@
-<%= form_for @trend do |f| %>
-  <%= base_errors_for @trend %>
-  <% types = trendable_types %>
-  <%= selectable_f f, :trendable_type, types, { }, :place_holder => _('Please Select'), :onchange => 'tfm.trends.trendTypeSelected(this)' %>
-  <%= select_f(f, :trendable_id, FactName.no_timestamp_fact, :id, :name, { :include_blank => true }, :disabled => types.first[1] != 'FactName') %>
-  <%= text_f f, :name, :disabled => types.first[1] != 'FactName' %>
-  <%= submit_or_cancel f %>
-<% end %>
