@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
   Button,
@@ -6,6 +7,8 @@ import {
   Dropdown,
   KebabToggle,
 } from '@patternfly/react-core';
+import { foremanUrl } from '../../../../foreman_navigation';
+import { translate as __ } from '../../../common/I18n';
 
 const ActionsBar = ({ hostName }) => {
   const [kebabIsOpen, setKebab] = useState(false);
@@ -32,11 +35,11 @@ const ActionsBar = ({ hostName }) => {
     <>
       <Button
         onClick={() => {
-          window.location = `/hosts/${hostName}/edit`;
+          window.location = foremanUrl(`/hosts/${hostName}/edit`);
         }}
         variant="secondary"
       >
-        Edit
+        {__('Edit')}
       </Button>
       <Dropdown
         toggle={<KebabToggle onToggle={onKebabToggle} />}
@@ -46,6 +49,10 @@ const ActionsBar = ({ hostName }) => {
       />
     </>
   );
+};
+
+ActionsBar.propTypes = {
+  hostName: PropTypes.string.isRequired,
 };
 
 export default ActionsBar;

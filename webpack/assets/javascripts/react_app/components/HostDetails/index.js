@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -11,7 +12,10 @@ import {
   BreadcrumbItem,
   Text,
   TextVariants,
+  PageSection,
+  PageSectionVariants,
 } from '@patternfly/react-core';
+
 import Skeleton from 'react-loading-skeleton';
 import TimeAgo from 'react-timeago';
 import StatusAlert from './Status';
@@ -25,6 +29,8 @@ import ParametersCard from './Parameters';
 import InterfacesCard from './Interfaces';
 import AuditCard from './Audits';
 import ActionsBar from './ActionsBar';
+
+import './HostDetails.scss';
 
 const HostDetails = ({ match }) => {
   const dispatch = useDispatch();
@@ -41,116 +47,124 @@ const HostDetails = ({ match }) => {
     );
   }, [match.params.id, dispatch]);
 
+  useEffect(() => {
+    document.body.classList.add('transprenet-border');
+  }, []);
+
   const handleTabClick = (event, tabIndex) => {
     setActiveTab(tabIndex);
   };
   return (
     <>
-      {response.name ? (
-        <Breadcrumb style={{ marginTop: '15px' }}>
-          <BreadcrumbItem to="/hosts">Hosts</BreadcrumbItem>
-          <BreadcrumbItem isActive>{response.name}</BreadcrumbItem>
-        </Breadcrumb>
-      ) : (
-        <Skeleton />
-      )}
-      {/* TODO: Replace all br with css */}
-      <br />
-      <br />
-      <Grid>
-        <GridItem span={2}>
-          <Title headingLevel="h5" size="2xl">
-            {/* TODO: Make a generic Skeleton HOC (withSkeleton) */}
-            {response.name || <Skeleton />}
-          </Title>
-        </GridItem>
-        <GridItem style={{ marginTop: '5px', marginLeft: '10px' }} span={8}>
-          <Badge key={1}>{response.operatingsystem_name}</Badge>{' '}
-          <Badge key={21}>{response.architecture_name}</Badge>
-        </GridItem>
-        <GridItem span={2}>
-          {response.name ? (
-            <ActionsBar hostName={response.name} />
-          ) : (
-            <Skeleton />
-          )}
-        </GridItem>
-      </Grid>
-      {response.name ? (
-        <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
-          {/* TODO: extracting text */}
-          created <TimeAgo date={response.created_at} />
-          {` by ${response.owner_name} (updated`}{' '}
-          <TimeAgo date={response.updated_at} />)
-        </Text>
-      ) : (
-        <Skeleton />
-      )}
-      <br />
+      <PageSection
+        style={{
+          marginLeft: '-18px',
+          marginRight: '-18px',
+          background: 'white',
+        }}
+        variant={PageSectionVariants.light}
+      >
+        <div style={{ marginLeft: '18px', marginRight: '18px' }}>
+          <Breadcrumb style={{ marginTop: '15px' }}>
+            <BreadcrumbItem to="/hosts">Hosts</BreadcrumbItem>
+            <BreadcrumbItem isActive>
+              {response.name || <Skeleton />}
+            </BreadcrumbItem>
+          </Breadcrumb>
+          {/* TODO: Replace all br with css */}
+          <br />
+          <br />
+          <Grid>
+            <GridItem span={2}>
+              <Title headingLevel="h5" size="2xl">
+                {/* TODO: Make a generic Skeleton HOC (withSkeleton) */}
+                {response.name || <Skeleton />}
+              </Title>
+            </GridItem>
+            <GridItem style={{ marginTop: '5px', marginLeft: '10px' }} span={8}>
+              <Badge key={1}>{response.operatingsystem_name}</Badge>{' '}
+              <Badge key={21}>{response.architecture_name}</Badge>
+            </GridItem>
+            <GridItem span={2}>
+              <ActionsBar hostName={response.name || <Skeleton />} />
+            </GridItem>
+          </Grid>
+          <Text style={{ fontStyle: 'italic' }} component={TextVariants.p}>
+            {/* TODO: extracting text and remove timeago usage in favor i18n */}
+            {response.name ? (
+              <div>
+                created <TimeAgo date={response.created_at} /> by{' '}
+                {response.owner_name} (updated{' '}
+                <TimeAgo date={response.updated_at} />)
+              </div>
+            ) : (
+              <Skeleton width={400} />
+            )}
+          </Text>
+          <br />
+        </div>
+      </PageSection>
       <Tabs
-        style={{ display: response.name ? 'block' : 'none' }}
+        style={{
+          marginLeft: '-18px',
+          marginRight: '-18px',
+          background: 'white',
+        }}
         activeKey={activeTab}
         onSelect={handleTabClick}
       >
         <Tab eventKey={0} title="Details">
-          <Grid>
-            <GridItem offset={3} span={4}>
-              {response.name ? (
-                <StatusAlert status={response.global_status_label} />
-              ) : (
-                <Skeleton />
-              )}
-            </GridItem>
-          </Grid>
-          <br />
-          <br />
-          <Grid>
-            <GridItem span={3} rowSpan={3}>
-              {response.name ? (
+          <div id="test">
+            <br />
+            <Grid>
+              <GridItem offset={3} span={4}>
+                <StatusAlert
+                  status={response ? response.global_status_label : null}
+                />
+              </GridItem>
+            </Grid>
+            <br />
+            <br />
+            <Grid>
+              <GridItem span={3} rowSpan={3}>
                 <Properties hostData={response} />
-              ) : (
-                <Skeleton count={15} />
-              )}
-            </GridItem>
-            <GridItem style={{ marginLeft: '40px' }} span={3}>
-              {response.name ? (
+              </GridItem>
+              <GridItem style={{ marginLeft: '40px' }} span={3}>
                 <ParametersCard paramters={response.all_parameters} />
-              ) : (
-                <Skeleton count={10} />
-              )}
-            </GridItem>
-            <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
-              {response.name ? (
+              </GridItem>
+              <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
                 <AuditCard hostName={response.name} />
-              ) : (
-                <Skeleton count={5} />
-              )}
-            </GridItem>
-            <GridItem
-              style={{ marginLeft: '40px', marginTop: '20px' }}
-              offset={3}
-              span={3}
-            >
-              {response.name ? (
+              </GridItem>
+              <GridItem
+                style={{ marginLeft: '40px', marginTop: '20px' }}
+                offset={3}
+                span={3}
+              >
                 <InterfacesCard interfaces={response.interfaces} />
-              ) : (
-                <Skeleton count={10} />
-              )}
-            </GridItem>
-          </Grid>
+              </GridItem>
+            </Grid>
+          </div>
         </Tab>
-        <Tab eventKey={1} title="Content">
+        <Tab eventKey={1} title="Facts">
           WIP
         </Tab>
         <Tab eventKey={2} title="Tasks">
           WIP
         </Tab>
-        <Tab eventKey={3} title="Subscriptions">
+        <Tab eventKey={3} title="Content">
           WIP
         </Tab>
       </Tabs>
     </>
   );
+};
+
+HostDetails.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default HostDetails;

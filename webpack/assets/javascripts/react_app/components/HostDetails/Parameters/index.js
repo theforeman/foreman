@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import {
   DataList,
@@ -12,6 +13,8 @@ import {
   AccordionContent,
   AccordionToggle,
 } from '@patternfly/react-core';
+import Skeleton from 'react-loading-skeleton';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import styles from '@patternfly/react-styles/css/components/DataList/data-list';
 import { translate as __ } from '../../../common/I18n';
 
@@ -28,8 +31,14 @@ const ParametersCard = ({ paramters }) => {
     <Card isHoverable>
       <CardBody>{__('Paramterers')}</CardBody>
       <Accordion asDefinitionList>
+        {!paramters.length && (
+          <div style={{ marginLeft: '20px' }}>
+            <Skeleton count={3} width={200} />
+          </div>
+        )}
+
         {paramters.map(param => (
-          <AccordionItem>
+          <AccordionItem key={param.id}>
             <AccordionToggle
               onClick={() => {
                 onToggle(param.name);
@@ -86,6 +95,13 @@ const ParametersCard = ({ paramters }) => {
       </Accordion>
     </Card>
   );
+};
+
+ParametersCard.propTypes = {
+  paramters: PropTypes.array,
+};
+ParametersCard.defaultProps = {
+  paramters: [],
 };
 
 export default ParametersCard;

@@ -1,5 +1,7 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { foremanUrl } from '../../../../foreman_tools';
+import { useSelector, useDispatch } from 'react-redux';
+import Skeleton from 'react-loading-skeleton';
 import {
   Card,
   DataList,
@@ -14,10 +16,12 @@ import {
   AccordionToggle,
   Button,
 } from '@patternfly/react-core';
-import { get } from '../../../redux/API';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectAPIResponse } from '../../../redux/API/APISelectors';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import styles from '@patternfly/react-styles/css/components/DataList/data-list';
+
+import { foremanUrl } from '../../../../foreman_tools';
+import { get } from '../../../redux/API';
+import { selectAPIResponse } from '../../../redux/API/APISelectors';
 import { translate as __ } from '../../../common/I18n';
 
 const AuditCard = ({ hostName }) => {
@@ -46,6 +50,11 @@ const AuditCard = ({ hostName }) => {
     <Card isHoverable>
       <CardBody>{__('Last Audits')}</CardBody>
       <Accordion asDefinitionList>
+        {!audits.results && (
+          <div style={{ marginLeft: '20px' }}>
+            <Skeleton count={3} width={200} />
+          </div>
+        )}
         {Object.keys(audits).length &&
           audits.results.map((audit, index) => {
             if (index < 3)
@@ -63,7 +72,6 @@ const AuditCard = ({ hostName }) => {
                     <span>{`${audit.action} (by ${audit.user_name})`}</span>
                   </AccordionToggle>
                   <AccordionContent
-                    // id={audit.identifier}
                     isHidden={
                       ativeAccordion !== `${audit.request_uuid}-${index}`
                     }
@@ -110,6 +118,7 @@ const AuditCard = ({ hostName }) => {
                   </AccordionContent>
                 </AccordionItem>
               );
+            return null;
           })}
       </Accordion>
       <Button
@@ -118,10 +127,14 @@ const AuditCard = ({ hostName }) => {
         target="_blank"
         variant="link"
       >
-        More Audits...
+        {__('More Audits...')}
       </Button>
     </Card>
   );
+};
+
+AuditCard.propTypes = {
+  hostName: PropTypes.string.isRequired,
 };
 
 export default AuditCard;

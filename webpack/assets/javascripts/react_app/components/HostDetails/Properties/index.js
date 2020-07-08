@@ -1,18 +1,23 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 import styles from '@patternfly/react-styles/css/components/DataList/data-list';
 import {
   DataList,
   DataListItem,
   DataListItemRow,
   DataListItemCells,
+  Card,
   DataListCell,
 } from '@patternfly/react-core';
 import { translate as __ } from '../../../common/I18n';
 
-const Properties = ({ hostData }) => {
-  return (
+const Properties = ({ hostData }) => (
+  <Card isHoverable>
     <DataList aria-label="Host Properties" className={styles.modifiers.compact}>
-      <DataListItem>
+      <DataListItem aria-labelledby="name">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -20,19 +25,21 @@ const Properties = ({ hostData }) => {
                 <span> {__('Operating System')}</span>
               </DataListCell>,
               <DataListCell key="os-content">
-                <img
-                  height="16"
-                  width="16"
-                  alt="os logo"
-                  src={hostData.operatingsystem_icon}
-                />{' '}
-                {hostData.operatingsystem_name}
+                {hostData.operatingsystem_icon && (
+                  <img
+                    height="16"
+                    width="16"
+                    alt="os logo"
+                    src={hostData.operatingsystem_icon}
+                  />
+                )}{' '}
+                {hostData.operatingsystem_name || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem>
+      <DataListItem aria-labelledby="domain">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -40,13 +47,13 @@ const Properties = ({ hostData }) => {
                 <span>{__('Domain')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="domain-content">
-                {hostData.domain_name}
+                {hostData.domain_name || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem>
+      <DataListItem aria-labelledby="architecutre">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -54,13 +61,13 @@ const Properties = ({ hostData }) => {
                 <span id="simple-item2">{__('Architecture')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="architecture-content">
-                {hostData.architecture_name}
+                {hostData.architecture_name || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem>
+      <DataListItem aria-labelledby="ip">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -68,13 +75,13 @@ const Properties = ({ hostData }) => {
                 <span id="simple-item2">{__('IP Address')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="ip-content">
-                {hostData.ip}
+                {hostData.ip || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem>
+      <DataListItem aria-labelledby="ip6">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -82,13 +89,13 @@ const Properties = ({ hostData }) => {
                 <span>{__('IP6 Address')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="ip6-content">
-                {hostData.ip6}
+                {hostData.ip6 || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem>
+      <DataListItem aria-labelledby="mac">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -96,13 +103,13 @@ const Properties = ({ hostData }) => {
                 <span id="simple-item2">{__('MAC')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="mac-content">
-                {hostData.mac}
+                {hostData.mac || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem>
+      <DataListItem aria-labelledby="location">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -110,14 +117,14 @@ const Properties = ({ hostData }) => {
                 <span id="simple-item2">{__('Location')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="location-content">
-                {hostData.location_name}
+                {hostData.location_name || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
 
-      <DataListItem>
+      <DataListItem aria-labelledby="organization">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[
@@ -125,14 +132,28 @@ const Properties = ({ hostData }) => {
                 <span id="simple-item2">{__('Organization')}</span>
               </DataListCell>,
               <DataListCell isFilled alignRight key="org-content">
-                {hostData.organization_name}
+                {hostData.organization_name || <Skeleton />}
               </DataListCell>,
             ]}
           />
         </DataListItemRow>
       </DataListItem>
     </DataList>
-  );
+  </Card>
+);
+
+Properties.propTypes = {
+  hostData: PropTypes.shape({
+    architecture_name: PropTypes.string,
+    domain_name: PropTypes.string,
+    ip: PropTypes.string,
+    ip6: PropTypes.string,
+    location_name: PropTypes.string,
+    mac: PropTypes.string,
+    operatingsystem_icon: PropTypes.string,
+    operatingsystem_name: PropTypes.string,
+    organization_name: PropTypes.string,
+  }).isRequired,
 };
 
 export default Properties;
