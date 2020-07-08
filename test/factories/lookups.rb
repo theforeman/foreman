@@ -29,6 +29,11 @@ FactoryBot.define do
       default_value { '[{"hostname": "test.example.com"}]' }
     end
 
+    trait :hash do
+      key_type { 'hash' }
+      default_value { '{"hostname": "test.example.com"}' }
+    end
+
     trait :with_omit do
       omit { true }
     end
@@ -47,6 +52,8 @@ FactoryBot.define do
                                   '--- \nfoo: overridden\n'
                                 when 'array'
                                   '[{"overridden": "value"}]'
+                                when 'hash'
+                                  '{"overridden": "value"}'
                                 else
                                   'overridden value'
                                 end,
