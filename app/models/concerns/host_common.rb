@@ -15,14 +15,14 @@ module HostCommon
   included do
     belongs_to_proxy :puppet_proxy,
       :feature => N_('Puppet'),
-      :label => N_('Puppet Master'),
-      :description => N_('Use this puppet server as an initial Puppet Server or to execute puppet runs'),
+      :label => N_('Puppet Proxy'),
+      :description => N_('Use the Puppetserver configured on this Smart Proxy'),
       :api_description => N_('Puppet proxy ID')
 
     belongs_to_proxy :puppet_ca_proxy,
       :feature => 'Puppet CA',
-      :label => N_('Puppet CA'),
-      :description => N_('Use this puppet server as a CA server'),
+      :label => N_('Puppet CA Proxy'),
+      :description => N_('Use the Puppetserver CA configured on this Smart Proxy'),
       :api_description => N_('Puppet CA proxy ID')
 
     belongs_to :architecture
