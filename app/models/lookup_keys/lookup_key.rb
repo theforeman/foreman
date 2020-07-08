@@ -28,6 +28,9 @@ class LookupKey < ApplicationRecord
   validates_associated :lookup_values
 
   before_validation :sanitize_path
+  before_validation :cast_default_value, :if => :override?
+  validate :validate_default_value, :disable_avoid_duplicates, :disable_merge_overrides, :disable_merge_default, :if => :override?
+  after_validation :reset_override_params, :if => ->(key) { key.override_changed? && !key.override? }
   attr_name :key
 
   def self.inherited(child)
@@ -140,6 +143,13 @@ class LookupKey < ApplicationRecord
   end
 
   private
+
+  def reset_override_params
+    self.merge_overrides = false
+    self.avoid_duplicates = false
+    self.merge_default = false
+    true
+  end
 
   def sanitize_path
     self.path = path.tr("\s", "").downcase if path.present?
