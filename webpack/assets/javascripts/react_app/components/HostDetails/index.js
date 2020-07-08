@@ -17,7 +17,7 @@ import {
 } from '@patternfly/react-core';
 
 import Skeleton from 'react-loading-skeleton';
-import TimeAgo from 'react-timeago';
+import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
 import StatusAlert from './Status';
 
 import { foremanUrl } from '../../../foreman_tools';
@@ -93,9 +93,17 @@ const HostDetails = ({ match }) => {
             {/* TODO: extracting text and remove timeago usage in favor i18n */}
             {response.name ? (
               <div>
-                created <TimeAgo date={response.created_at} /> by{' '}
+                created{' '}
+                <RelativeDateTime
+                  date={response.created_at}
+                  defaultValue="N/A"
+                />{' '}
                 {response.owner_name} (updated{' '}
-                <TimeAgo date={response.updated_at} />)
+                <RelativeDateTime
+                  date={response.updated_at}
+                  defaultValue="N/A"
+                />
+                )
               </div>
             ) : (
               <Skeleton width={400} />
