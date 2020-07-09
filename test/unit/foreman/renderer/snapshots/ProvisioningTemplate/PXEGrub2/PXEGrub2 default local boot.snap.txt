@@ -140,20 +140,10 @@ if [ ${grub_platform} == "pc" ]; then
     linux boot/fdi-image/vmlinuz0 ${common}
     initrd boot/fdi-image/initrd0.img
   }
-  # HTTP Boot workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561
-  menuentry 'Foreman Discovery Image HTTP' --id discovery_http {
-    linux /EFI/BOOT/boot/fdi-image/vmlinuz0 ${common}
-    initrd /EFI/BOOT/boot/fdi-image/initrd0.img
-  }
 else
   menuentry 'Foreman Discovery Image EFI' --id discovery {
     linuxefi boot/fdi-image/vmlinuz0 ${common}
     initrdefi boot/fdi-image/initrd0.img
-  }
-  # HTTP Boot workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561
-  menuentry 'Foreman Discovery Image EFI HTTP' --id discovery_http {
-    linuxefi /EFI/BOOT/boot/fdi-image/vmlinuz0 ${common}
-    initrdefi /EFI/BOOT/boot/fdi-image/initrd0.img
   }
 fi
 

@@ -109,7 +109,6 @@ d-i apt-setup/local<%= repos %>/repository string <%= medium[:url] %> <%= @host.
 <% end -%>
 
 <% if salt_enabled -%>
-<% salt_package = 'salt-minion' -%>
 <% if host_param_true?('enable-saltstack-repo') -%>
 <% if @host.operatingsystem.name == 'Debian' -%>
 d-i apt-setup/local<%= repos %>/repository string http://debian.saltstack.com/debian <%= @host.operatingsystem.release_name %>-saltstack main
@@ -124,8 +123,6 @@ d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/looku
 <% repos += 1 -%>
 <% end -%>
 <% end -%>
-<% else -%>
-<% salt_package = '' -%>
 <% end -%>
 
 # Install minimal task set (see tasksel --task-packages minimal)

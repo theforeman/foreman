@@ -15,7 +15,7 @@ require:
 - plugin: katello
 ￼ version: 3.9.0
 -%>
-<%- report_hraders 'Name', 'Ip', 'Operating System', 'Subscriptions', 'Applicable Errata', 'Owner', 'Kernel', 'Latest kernel available' -%>
+<%- report_headers 'Name', 'Ip', 'Operating System', 'Subscriptions', 'Applicable Errata', 'Owner', 'Kernel', 'Latest kernel available' -%>
 <%- load_hosts(search: input('Hosts filter'), includes: [:operatingsystem, :subscriptions, :interfaces, :applicable_errata], preload: [:kernel_release, :owner]).each_record do |host| -%>
 <%-   report_row(
         'Name': host.name,
