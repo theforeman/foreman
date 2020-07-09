@@ -149,9 +149,9 @@ skipx
 
   # VLAN (only on physical is recognized)
   if iface.virtual? && iface.tag.present? && iface.attached_to.present?
-    if rhel_compatible && os_major >= 6
+    if rhel_compatible && os_major == 6
       network_options.push("--vlanid=#{iface.tag}")
-    elsif rhel_compatible && os_major >= 7
+    else
       network_options.push("--interfacename=vlan#{iface.tag}")
     end
   end
@@ -233,11 +233,6 @@ redhat-lsb-core
 <% end -%>
 <% if host_param_true?('fips_enabled') -%>
 <%=   snippet 'fips_packages' %>
-<% end -%>
-
-
-<% if salt_enabled %>
-salt-minion
 <% end -%>
 <%= section_end -%>
 

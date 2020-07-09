@@ -5,6 +5,8 @@ model: ProvisioningTemplate
 oses:
 - CentOS
 - Fedora
+- Debian
+- Ubuntu
 -%>
 #!/bin/bash
 
@@ -12,50 +14,10 @@ set -e
 
 # This script enrolls a host with Foreman.
 # Host: <%= @host.name %>
+
 <% if @host.puppetmaster.present? -%>
-
-# Setup puppet repositories
-
-rpm -Uvh https://yum.puppetlabs.com/puppet6/puppet6-release-el-7.noarch.rpm
-
-# Install puppet
-
-if [ -f /usr/bin/dnf ]; then
-  dnf -y install puppet
-else
-  yum -t -y install puppet-agent
-fi
-
-cat > /etc/puppetlabs/puppet/puppet.conf << EOF
-[main]
-vardir = /opt/puppetlabs/puppet/cache
-logdir = /var/log/puppetlabs/puppet
-rundir = /var/run/puppetlabs
-ssldir = /etc/puppetlabs/puppet/ssl
-
-[agent]
-pluginsync      = true
-report          = true
-ignoreschedules = true
-<%- if @host.puppet_ca_server.present? -%>
-ca_server       = <%= @host.puppet_ca_server %>
-<%- end -%>
-certname        = <%= @host.certname %>
-environment     = <%= @host.environment %>
-server          = <%= @host.puppetmaster %>
-EOF
-
-<% if @host.puppetca_token.present? -%>
-cat > /etc/puppetlabs/csr_attributes.yaml << EOF
----
-custom_attributes:
-  1.2.840.113549.1.9.7: "<%= @host.puppetca_token.value %>"
-EOF
-<% end -%>
-
-# Initial puppet run
-
-/opt/puppetlabs/bin/puppet agent --config /etc/puppetlabs/puppet/puppet.conf --onetime <%= @host.puppetmaster.blank? ? '' : "--server #{@host.puppetmaster}" %> --no-daemonize
+<%= snippet 'puppetlabs_repo' %>
+<%= snippet 'puppet_setup' %>
 <% end -%>
 
 # Call home to exit build mode

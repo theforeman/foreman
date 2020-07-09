@@ -66,5 +66,10 @@ fi
 <%= snippet 'saltstack_setup' %>
 <% end -%>
 
+<% if host_param_true?('ansible_tower_provisioning') -%>
+    <%= save_to_file('/tmp/ansible_provisioning_call.sh', snippet('ansible_tower_callback_script')) %>
+    /bin/sh /tmp/ansible_provisioning_call.sh
+<% end -%>
+
 # UserData still needs to mark the build as finished
 <%= snippet 'built' %>

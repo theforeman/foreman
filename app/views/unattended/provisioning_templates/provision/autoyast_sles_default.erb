@@ -153,9 +153,6 @@ oses:
       <package>rubygem-puppet</package>
 <% end -%>
 <% end -%>
-<% if salt_enabled -%>
-      <package>salt-minion</package>
-<% end -%>
 <% if spacewalk_enabled -%>
       <package>rhn-setup</package>
 <% end -%>
@@ -210,16 +207,16 @@ cp /etc/resolv.conf /mnt/etc
 
 <%= snippet "blacklist_kernel_modules" %>
 
+<% if spacewalk_enabled -%>
+<%= snippet 'redhat_register' %>
+<% end -%>
+
 <% if puppet_enabled -%>
 <%= snippet 'puppet_setup' %>
 <% end -%>
 
 <% if salt_enabled %>
 <%= snippet 'saltstack_setup' %>
-<% end -%>
-
-<% if spacewalk_enabled -%>
-<%= snippet 'redhat_register' %>
 <% end -%>
 
 <% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>

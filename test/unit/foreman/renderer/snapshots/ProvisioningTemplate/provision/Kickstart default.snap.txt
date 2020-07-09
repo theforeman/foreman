@@ -39,8 +39,6 @@ chrony
 wget
 @Core
 redhat-lsb-core
-
-
 %end
 
 %post --nochroot
