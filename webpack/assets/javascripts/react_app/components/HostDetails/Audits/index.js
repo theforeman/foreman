@@ -55,11 +55,11 @@ const AuditCard = ({ hostName }) => {
             <Skeleton count={3} width={200} />
           </div>
         )}
-        {Object.keys(audits).length &&
+        {audits.results &&
           audits.results.map((audit, index) => {
             if (index < 3)
               return (
-                <AccordionItem>
+                <AccordionItem key={index}>
                   <AccordionToggle
                     onClick={() => {
                       onToggle(`${audit.request_uuid}-${index}`);

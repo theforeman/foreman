@@ -56,14 +56,7 @@ const HostDetails = ({ match }) => {
   };
   return (
     <>
-      <PageSection
-        style={{
-          marginLeft: '-18px',
-          marginRight: '-18px',
-          background: 'white',
-        }}
-        variant={PageSectionVariants.light}
-      >
+      <PageSection className="header" variant={PageSectionVariants.light}>
         <div style={{ marginLeft: '18px', marginRight: '18px' }}>
           <Breadcrumb style={{ marginTop: '15px' }}>
             <BreadcrumbItem to="/hosts">Hosts</BreadcrumbItem>
@@ -98,7 +91,7 @@ const HostDetails = ({ match }) => {
                   date={response.created_at}
                   defaultValue="N/A"
                 />{' '}
-                {response.owner_name} (updated{' '}
+                by {response.owner_name} (updated{' '}
                 <RelativeDateTime
                   date={response.updated_at}
                   defaultValue="N/A"

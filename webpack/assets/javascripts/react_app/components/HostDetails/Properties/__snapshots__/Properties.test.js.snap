@@ -22,6 +22,10 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
                 </span>
               </DataListCell>,
               <DataListCell>
+                <OsIcon
+                  family=""
+                  os="windows 3.11"
+                />
                  
                 windows 3.11
               </DataListCell>,
