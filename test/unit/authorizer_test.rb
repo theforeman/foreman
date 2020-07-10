@@ -255,7 +255,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     filters = [FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '(1=1)', result
+    assert_equal '', result
   end
 
   test "#build_scoped_search_condition(filters) for limited and unlimited filter" do
@@ -263,7 +263,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     filters = [FactoryBot.build_stubbed(:filter, :on_name_all), FactoryBot.build_stubbed(:filter)]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '(name ~ *) OR (1=1)', result
+    assert_equal '(name ~ *)', result
   end
 
   test "#build_scoped_search_condition(filters) for empty filter" do
@@ -271,7 +271,7 @@ class AuthorizerTest < ActiveSupport::TestCase
     filters = [FactoryBot.build_stubbed(:filter, :search => '')]
     result  = auth.build_scoped_search_condition(filters)
 
-    assert_equal '(1=1)', result
+    assert_equal '', result
   end
 
   test "#find_collection(Host, :permission => :view_hosts) with scoped_search join returns r/w resources" do

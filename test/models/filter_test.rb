@@ -241,4 +241,11 @@ class FilterTest < ActiveSupport::TestCase
     f.enforce_inherited_taxonomies
     assert_equal "(organization_id ^ (#{f.organizations.first.id}))", f.taxonomy_search
   end
+
+  test 'saving nilifies empty taxonomy search' do
+    f = FactoryBot.build(:filter, :resource_type => 'Domain')
+    f.role = FactoryBot.build(:role, :organizations => [FactoryBot.build(:organization)])
+    f.save
+    assert_nil f.taxonomy_search
+  end
 end
