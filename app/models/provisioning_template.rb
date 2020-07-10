@@ -36,9 +36,10 @@ class ProvisioningTemplate < Template
   # tested with scoped_search 3.2.0
   include Taxonomix
   include TemplateTax
-  scoped_search :on => :name,    :complete_value => true, :default_order => true
-  scoped_search :on => :locked,  :complete_value => {:true => true, :false => false}
-  scoped_search :on => :snippet, :complete_value => {:true => true, :false => false}
+  scoped_search :on => :name,      :complete_value => true, :default_order => true
+  scoped_search :on => :os_family, :complete_value => true
+  scoped_search :on => :locked,    :complete_value => {:true => true, :false => false}
+  scoped_search :on => :snippet,   :complete_value => {:true => true, :false => false}
   scoped_search :on => :template
   scoped_search :on => :vendor, :only_explicit => true, :complete_value => true
   scoped_search :on => :default, :only_explicit => true, :complete_value => {:true => true, :false => false}, :rename => 'default_template'
