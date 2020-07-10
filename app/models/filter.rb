@@ -50,7 +50,7 @@ class Filter < ApplicationRecord
   scoped_search :relation => :permissions, :on => :name,          :rename => :permission
 
   before_validation :build_taxonomy_search, :nilify_empty_searches, :enforce_override_flag
-  before_save :enforce_inherited_taxonomies
+  before_save :enforce_inherited_taxonomies, :nilify_empty_searches
 
   validates :search, :presence => true, :unless => proc { |o| o.search.nil? }
   validates_with ScopedSearchValidator
