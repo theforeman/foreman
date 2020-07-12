@@ -57,7 +57,7 @@ module Api
       end
 
       def change_datacenter_to_uuid(datacenter)
-        if @compute_resource.respond_to?(:get_datacenter_uuid) && datacenter.present? && !Foreman.is_uuid?(datacenter)
+        if @compute_resource.respond_to?(:get_datacenter_uuid) && datacenter.present?
           @compute_resource.test_connection
           @compute_resource.get_datacenter_uuid(datacenter)
         end
@@ -68,12 +68,11 @@ module Api
 
       def create
         begin
-          @compute_resource = ComputeResource.new_provider(compute_resource_params)
+          @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
         rescue Foreman::Exception => e
           render_exception(e, :status => :unprocessable_entity)
           return
         end
-
         datacenter = change_datacenter_to_uuid(compute_resource_params[:datacenter])
         @compute_resource.datacenter = datacenter if datacenter.present?
 
