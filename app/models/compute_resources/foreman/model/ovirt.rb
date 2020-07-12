@@ -198,10 +198,16 @@ module Foreman::Model
       client.datacenters(options).map { |dc| [dc[:name], dc[:id]] }
     end
 
-    def get_datacenter_uuid(name)
-      datacenter_uuid = datacenters.select { |dc| dc[0] == name }
-      raise ::Foreman::Exception.new(N_('Datacenter was not found')) if datacenter_uuid.empty?
-      datacenter_uuid.first[1]
+    def get_datacenter_uuid(datacenter)
+      return @datacenter_uuid if @datacenter_uuid
+      if Foreman.is_uuid?(datacenter)
+        @datacenter_uuid = datacenter
+      else
+        @datacenter_uuid = datacenters.select { |dc| dc[0] == datacenter }
+        raise ::Foreman::Exception.new(N_('Datacenter was not found')) if @datacenter_uuid.empty?
+        @datacenter_uuid = @datacenter_uuid.first[1]
+      end
+      @datacenter_uuid
     end
 
     def editable_network_interfaces?
