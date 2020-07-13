@@ -1344,8 +1344,12 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   test "#host update shouldn't diassociate from VM" do
+    require 'fog/ovirt/models/compute/quota'
     hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_os)
-    compute_resource = compute_resources(:one)
+    compute_resource = compute_resources(:ovirt)
+    quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => "Default" })
+    client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [quota]) }
+    compute_resource.stubs(:client).returns(client_mock)
     compute_resource.update(:locations => hostgroup.locations, :organizations => hostgroup.organizations)
     host = FactoryBot.create(:host, :hostgroup => hostgroup, :compute_resource => compute_resource)
     host_attributes = host.attributes
