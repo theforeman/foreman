@@ -234,7 +234,7 @@ module Hostext
         y, z = value.split(".")
         z ||= 0
         operatingsystem_ids = []
-        Operatingsystem.all.find_each do |os|
+        Operatingsystem.where.not(minor: [nil, '']).find_each do |os|
           os_y, os_z = os.minor.split('.')
           os_z ||= 0
           operator_addition1 = (operator.length == 1) ? "=" : ""
