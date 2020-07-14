@@ -134,19 +134,20 @@ class ReportImporterTest < ActiveSupport::TestCase
   end
 
   describe 'Report scanning' do
-    let(:report_scanner) { stub_everything('TestReportScanner') }
+    let(:report_scanner) { stub_everything('TestReportScanner', :identify_origin => 'TestOrigin') }
     let(:report) { read_json_fixture('reports/empty.json') }
 
-    describe '.scan' do
+    describe '#add_reporter_specific_data' do
       let(:importer) { TestReportImporter.new(report) }
       setup do
         importer.stubs(:report_scanners).returns([report_scanner])
         importer.send(:create_report_and_logs)
       end
 
-      it 'calls scan with the report on scanner' do
-        report_scanner.expects(:scan)
-        importer.send(:scan)
+      it 'calls add_reporter_specific_data with the report on scanner' do
+        report_scanner.expects(:add_reporter_data)
+        importer.send(:add_reporter_specific_data)
+        assert_equal importer.report.origin, 'TestOrigin'
       end
     end
   end

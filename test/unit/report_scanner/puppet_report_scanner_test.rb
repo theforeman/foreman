@@ -3,21 +3,15 @@ require 'test_helper'
 class PuppetReportScannerTest < ActiveSupport::TestCase
   subject { Foreman::PuppetReportScanner }
 
-  describe '.scan' do
-    let(:report) { stub_everything('ConfigReport') }
-
-    it 'sets the report origin to Puppet when puppet_report? returns true' do
-      assert_nil report.origin
+  describe '.identify_origin' do
+    it 'returns Puppet if puppet_report' do
       subject.expects(:puppet_report?).returns(true)
-      report.expects(:"origin=").with('Puppet')
-      assert subject.scan(report, [])
+      assert_equal 'Puppet', subject.identify_origin({})
     end
 
-    it 'sets the report NO origin when puppet_report? returns false' do
-      assert_nil report.origin
+    it 'returns nil if not puppet_report' do
       subject.expects(:puppet_report?).returns(false)
-      report.expects(:"origin=").never
-      refute subject.scan(report, [])
+      assert_nil subject.identify_origin({})
     end
   end
 
