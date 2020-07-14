@@ -31,11 +31,7 @@ class LinksController < ApplicationController
 
   def documentation_url(section = "", options = {})
     root_url = options[:root_url] || "https://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#"
-    if section.empty?
-      "https://theforeman.org/documentation.html##{SETTINGS[:version].short}"
-    else
-      root_url + section
-    end
+    root_url + (section || '')
   end
 
   def plugin_documentation_url(plugin_name, version: nil, options: {})
