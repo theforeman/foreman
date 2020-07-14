@@ -5,7 +5,7 @@ class LinksControllerTest < ActionController::TestCase
     test '#documentation_url returns global url if no section specified' do
       get :show, params: { type: 'manual' }
 
-      assert_redirected_to /documentation.html/
+      assert_redirected_to /index.html/
     end
 
     test '#documentation_url returns foreman docs url with a given section' do
