@@ -113,7 +113,26 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 <h2 id="building_blocks"><%= _('Basic building blocks - macros, variables, methods') %></h2>
 
 <p><%= _('The Ruby code inside of the ERB tags typically contain expressions. They consist of program flow control terminals, variables, macros. Variables and macros evaluates to objects. Each object has set of allowed methods that can be called on it. These methods can return objects.') %></p>
-<p><%= (_('An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. load_hosts or input. See all available macros %s. Example of object is a number, string, Host, Subnet, User. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the lits of all available methods on objects, see the documentation for each template type.') % link_to(_('here'), @doc[:doc_url] + section_ext('all'))).html_safe %></p>
+<p><%= (_('An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. %{load_hosts} or %{input}. See all available macros %{all_macros}. Example of object class is an %{integer}, String, %{host}, %{subnet}, %{user}. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the list of all available methods on objects, see the documentation for each template type.') % {
+    all_macros: link_to(_('here'), @doc[:doc_url] + section_ext('all')),
+    load_hosts: link_to('load_hosts', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Foreman::Renderer::Scope::Macros::Loaders', method: 'load_hosts')),
+    input: link_to('input', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Foreman::Renderer::Scope::Macros::Inputs', method: 'input')),
+    integer: link_to('Integer', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'basic_ruby_methods', format: 'html', class: 'Foreman::Renderer::DocTemplates::BasicRubyMethods::Integer')),
+    host: link_to('Host', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Host::Managed')),
+    subnet: link_to('Subnet', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Subnet')),
+    user: link_to('User', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'User'))
+  }).html_safe %></p>
+
+<p>
+  <%= _('In the following example, <code>if</code> and <code>==</code> are terminals, <code>@host</code> is instance variable holding the object of the %{host_object_link} class, <code>.domain</code> is the call of the method named %{domain_method_link} on this %{host_object_link} object. That returns the %{domain_object_link} object. <code>.name</code> is then calling of a method %{name_method_link} on this %{domain_object_link} object. The resulting name of the domain is then compared with fixed string object example.com' % {
+        host_object_link: link_to('Host', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Host::Managed')),
+        domain_object_link: link_to('Domain', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Domain')),
+        name_method_link: link_to('name', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Domain', anchor: 'link-description-name')),
+        domain_method_link: link_to('domain', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Host::Managed', anchor: 'link-description-domain'))
+    }).html_safe %>
+
+  <%= apipie_dsl_example(apipie_erb_wrap('if @host.domain.name == "example.com"', mode: :silent, close_trim: true)) %>
+</p>
 
 <h3 id="conditionals"><%= _('Conditional statements') %></h3>
 
@@ -159,7 +178,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
                            apipie_erb_wrap("end", open_trim: true, close_trim: true, mode: :silent),
                        "192.168.122.144\n10.0.0.1\n") %>
 
-<p><%= _('This is the simple example of iterating over array of two interfaces and only printing the IP address of each. In reality, the interface object can be used to fetch more information, as shown in the following example. To see all available methods, see the documentation for Nic::Managed object.') %></p>
+<p><%= (_('This is the simple example of iterating over array of two interfaces and only printing the IP address of each. In reality, the interface object can be used to fetch more information, as shown in the following example. To see all available methods, see the documentation for %s object.') % link_to('Nic::Managed', apipie_dsl_apipie_dsl_path(version: ApipieDSL.configuration.default_version, section: 'all', format: 'html', class: 'Nic::Base'))).html_safe %></p>
 
 <%= apipie_dsl_example(apipie_erb_wrap("@host.name") + "\n" +
                            apipie_erb_wrap("@host.interfaces.each do |iface|", mode: :silent, open_trim: true, close_trim: true) + "\n" +
