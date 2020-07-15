@@ -5,7 +5,10 @@ FactoryBot.define do
     locations { [Location.find_by_name('Location 1')] }
   end
 
-  factory :environment_class
+  factory :environment_class do
+    environment
+    puppetclass
+  end
 
   factory :puppetclass_lookup_key, parent: :lookup_key, class: 'PuppetclassLookupKey' do
     trait :as_smart_class_param do
@@ -13,8 +16,8 @@ FactoryBot.define do
         puppetclass { nil }
       end
       after(:create) do |lkey, evaluator|
-        evaluator.puppetclass.environments.each do |env|
-          FactoryBot.create :environment_class, :puppetclass_id => evaluator.puppetclass.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
+        evaluator.puppetclass&.environments&.each do |env|
+          FactoryBot.create :environment_class, :puppetclass => evaluator.puppetclass, :environment => env, :puppetclass_lookup_key_id => lkey.id
         end
       end
     end
@@ -28,7 +31,7 @@ FactoryBot.define do
     end
     after(:create) do |pc, evaluator|
       evaluator.environments.each do |env|
-        FactoryBot.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id unless env.nil?
+        FactoryBot.create :environment_class, :puppetclass => pc, :environment => env unless env.nil?
       end
     end
 
@@ -40,7 +43,7 @@ FactoryBot.define do
         evaluator.parameter_count.times do
           evaluator.environments.each do |env|
             lkey = FactoryBot.create :puppetclass_lookup_key
-            FactoryBot.create :environment_class, :puppetclass_id => pc.id, :environment_id => env.id, :puppetclass_lookup_key_id => lkey.id
+            FactoryBot.create :environment_class, :puppetclass => pc, :environment => env, :puppetclass_lookup_key_id => lkey.id
           end
         end
       end
