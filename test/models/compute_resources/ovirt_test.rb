@@ -62,6 +62,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       end
       @compute_resource = FactoryBot.build(:ovirt_cr)
       @host = FactoryBot.build(:host, :mac => 'ca:d0:e6:32:16:97')
+      @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => "Default" })
     end
 
     it 'maps operating system to ovirt operating systems' do
@@ -90,6 +91,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     it 'caches the operating systems in the compute resource' do
       client_mock = mock.tap { |m| m.stubs(:operating_systems).returns(@ovirt_oses) }
       @compute_resource.stubs(:client).returns(client_mock)
+      client_mock.stubs(:quotas).returns([@quota])
       assert @compute_resource.supports_operating_systems?
       assert_equal @os_hashes, @compute_resource.available_operating_systems
     end
@@ -97,6 +99,7 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
     it 'handles a case when the operating systems endpoint is missing' do
       client_mock = mock.tap { |m| m.stubs(:operating_systems).raises(Fog::Ovirt::Errors::OvirtEngineError, StandardError.new('404')) }
       @compute_resource.stubs(:client).returns(client_mock)
+      client_mock.stubs(:quotas).returns([@quota])
       refute @compute_resource.supports_operating_systems?
     end
   end
@@ -145,26 +148,27 @@ class Foreman::Model:: OvirtTest < ActiveSupport::TestCase
       @compute_resource = FactoryBot.build(:ovirt_cr)
       @quota = Fog::Ovirt::Compute::Quota.new({ :id => '1', :name => 'Default' })
       @client_mock = mock.tap { |m| m.stubs(datacenters: [], quotas: [@quota]) }
+      @compute_resource.stubs(:client).returns(@client_mock)
     end
 
     test 'quota validation - id entered' do
       @compute_resource.ovirt_quota = '1'
-      assert_equal('1', @compute_resource.validate_quota(@client_mock))
+      assert_equal('1', @compute_resource.validate_quota)
     end
 
     test 'quota validation - name entered' do
       @compute_resource.ovirt_quota = 'Default'
-      assert_equal('1', @compute_resource.validate_quota(@client_mock))
+      assert_equal('1', @compute_resource.validate_quota)
     end
 
     test 'quota validation - nothing entered' do
-      assert_equal('1', @compute_resource.validate_quota(@client_mock))
+      assert_equal('1', @compute_resource.validate_quota)
     end
 
     test 'quota validation - name entered' do
       @compute_resource.ovirt_quota = 'Default2'
       assert_raise Foreman::Exception do
-        @compute_resource.validate_quota(@client_mock)
+        @compute_resource.validate_quota
       end
     end
   end
