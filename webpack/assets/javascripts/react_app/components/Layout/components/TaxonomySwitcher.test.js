@@ -4,7 +4,6 @@ import { layoutMock } from '../Layout.fixtures';
 
 const props = {
   organizations: layoutMock.data.orgs.available_organizations,
-  taxonomiesBool: layoutMock.data.taxonomies,
   locations: layoutMock.data.locations.available_locations,
   currentLocation: 'location',
   currentOrganization: 'organization',
