@@ -48,18 +48,11 @@ const Layout = ({
           href={data.root}
         />
         <TaxonomySwitcher
-          taxonomiesBool={data.taxonomies}
           currentLocation={currentLocation}
-          locations={
-            data.taxonomies.locations ? data.locations.available_locations : []
-          }
+          locations={data.locations.available_locations || []}
           onLocationClick={changeLocation}
           currentOrganization={currentOrganization}
-          organizations={
-            data.taxonomies.organizations
-              ? data.orgs.available_organizations
-              : []
-          }
+          organizations={data.orgs.available_organizations || []}
           onOrgClick={changeOrganization}
           isLoading={isLoading}
         />

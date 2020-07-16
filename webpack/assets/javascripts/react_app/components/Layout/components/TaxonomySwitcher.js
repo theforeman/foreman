@@ -13,38 +13,33 @@ const TaxonomySwitcher = ({
   currentLocation,
   organizations,
   locations,
-  taxonomiesBool,
   isLoading,
   onLocationClick,
   onOrgClick,
 }) => (
   <Nav navbar pullLeft className="navbar-iconic">
-    {taxonomiesBool.organizations && (
-      <TaxonomyDropdown
-        taxonomyType="Organization"
-        id="organization-dropdown"
-        currentTaxonomy={currentOrganization}
-        taxonomies={organizations}
-        changeTaxonomy={onOrgClick}
-        anyTaxonomyText={ANY_ORGANIZATION_TEXT}
-        manageTaxonomyText="Manage Organizations"
-        anyTaxonomyURL="/organizations/clear"
-        manageTaxonomyURL="/organizations"
-      />
-    )}
-    {taxonomiesBool.locations && (
-      <TaxonomyDropdown
-        taxonomyType="Location"
-        id="location-dropdown"
-        currentTaxonomy={currentLocation}
-        taxonomies={locations}
-        changeTaxonomy={onLocationClick}
-        anyTaxonomyText={ANY_LOCATION_TEXT}
-        manageTaxonomyText="Manage Locations"
-        anyTaxonomyURL="/locations/clear"
-        manageTaxonomyURL="/locations"
-      />
-    )}
+    <TaxonomyDropdown
+      taxonomyType="Organization"
+      id="organization-dropdown"
+      currentTaxonomy={currentOrganization}
+      taxonomies={organizations}
+      changeTaxonomy={onOrgClick}
+      anyTaxonomyText="Any Organization"
+      manageTaxonomyText="Manage Organizations"
+      anyTaxonomyURL="/organizations/clear"
+      manageTaxonomyURL="/organizations"
+    />
+    <TaxonomyDropdown
+      taxonomyType="Location"
+      id="location-dropdown"
+      currentTaxonomy={currentLocation}
+      taxonomies={locations}
+      changeTaxonomy={onLocationClick}
+      anyTaxonomyText="Any Location"
+      manageTaxonomyText="Manage Locations"
+      anyTaxonomyURL="/locations/clear"
+      manageTaxonomyURL="/locations"
+    />
     {isLoading && (
       <NavItem id="vertical-spinner">
         <Spinner size="md" inverse loading />
@@ -60,10 +55,6 @@ TaxonomySwitcher.propTypes = {
   currentLocation: PropTypes.string,
   organizations: PropTypes.arrayOf(organizationPropType).isRequired,
   locations: PropTypes.arrayOf(locationPropType).isRequired,
-  taxonomiesBool: PropTypes.shape({
-    locations: PropTypes.bool.isRequired,
-    organizations: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 TaxonomySwitcher.defaultProps = {
   isLoading: false,

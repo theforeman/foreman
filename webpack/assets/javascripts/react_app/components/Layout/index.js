@@ -41,20 +41,18 @@ const ConnectedLayout = ({ children, data }) => {
         items: combineMenuItems(data),
         activeMenu: getActiveMenuItem(data.menu).title,
         isCollapsed: getIsNavbarCollapsed(),
-        organization:
-          data.taxonomies.organizations && data.orgs.current_org
-            ? createInitialTaxonomy(
-                data.orgs.current_org,
-                data.orgs.available_organizations
-              )
-            : ANY_ORGANIZATION_TAXONOMY,
-        location:
-          data.taxonomies.locations && data.locations.current_location
-            ? createInitialTaxonomy(
-                data.locations.current_location,
-                data.locations.available_locations
-              )
-            : ANY_LOCATION_TAXONOMY,
+        organization: data.orgs.current_org
+          ? createInitialTaxonomy(
+              data.orgs.current_org,
+              data.orgs.available_organizations
+            )
+          : ANY_ORGANIZATION_TAXONOMY,
+        location: data.locations.current_location
+          ? createInitialTaxonomy(
+              data.locations.current_location,
+              data.locations.available_locations
+            )
+          : ANY_LOCATION_TAXONOMY,
       })
     );
   }, [data, dispatch]);
