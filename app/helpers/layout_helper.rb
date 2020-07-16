@@ -11,10 +11,6 @@ module LayoutHelper
     UserMenu.new.menus.flatten
   end
 
-  def taxonomies_booleans
-    { locations: show_location_tab?, organizations: show_organization_tab? }
-  end
-
   def available_organizations
     Organization.my_organizations.map do |organization|
       {id: organization.id, title: organization.title, href: main_app.select_organization_path(organization)}
@@ -36,15 +32,11 @@ module LayoutHelper
   end
 
   def fetch_organizations
-    if show_organization_tab?
-      { current_org: current_organization, available_organizations: available_organizations }
-    end
+    { current_org: current_organization, available_organizations: available_organizations }
   end
 
   def fetch_locations
-    if show_location_tab?
-      { current_location: current_location, available_locations: available_locations }
-    end
+    { current_location: current_location, available_locations: available_locations }
   end
 
   def fetch_user
@@ -57,7 +49,7 @@ module LayoutHelper
       notification_url: main_app.notification_recipients_path,
       stop_impersonation_url: main_app.stop_impersonation_users_path,
       user: fetch_user, brand: 'foreman',
-      taxonomies: taxonomies_booleans, root: main_app.root_path,
+      root: main_app.root_path,
       locations: fetch_locations, orgs: fetch_organizations,
       instance_title: Setting[:instance_title]
     }

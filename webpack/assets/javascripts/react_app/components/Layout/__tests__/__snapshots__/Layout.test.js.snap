@@ -100,12 +100,6 @@ exports[`Layout rendering renders layout 1`] = `
             },
           ]
         }
-        taxonomiesBool={
-          Object {
-            "locations": true,
-            "organizations": true,
-          }
-        }
       />
       <UserDropdowns
         changeActiveMenu={[Function]}

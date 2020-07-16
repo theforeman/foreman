@@ -59,13 +59,9 @@ export const combineMenuItems = data => {
     items.push(translatedItem);
   });
 
-  if (data.taxonomies.organizations) {
-    items.push(createOrgItem(data.orgs.available_organizations));
-  }
+  items.push(createOrgItem(data.orgs.available_organizations));
+  items.push(createLocationItem(data.locations.available_locations));
 
-  if (data.taxonomies.locations) {
-    items.push(createLocationItem(data.locations.available_locations));
-  }
   return items;
 };
 
