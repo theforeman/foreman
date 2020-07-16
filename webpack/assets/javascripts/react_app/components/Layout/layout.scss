@@ -1,3 +1,4 @@
+@import '~@theforeman/vendor/scss/variables';
 @import '../../common/colors.scss';
 
 .secondary-nav-item-pf > .nav-pf-secondary-nav {
@@ -29,47 +30,76 @@
   }
 }
 
-#react-app-root > .nav-pf-vertical {
-  background-color: $nav-pf-vertical-secondary-active-bg-color;
+#react-app-root {
+  .react-container {
+    margin-right: auto;
+    margin-left: 200px;
+    padding-left: 20px;
+    padding-right: 20px;
 
-  .list-group {
-    .list-group-item {
-      a {
-        span {
-          color: $nav-pf-vertical-icon-color;
+    &.collapsed-nav {
+      margin-left: 75px;
+    }
+  }
+
+  .nav-pf-vertical {
+    background-color: $nav-pf-vertical-secondary-active-bg-color;
+
+    .list-group {
+      .list-group-item {
+        a {
+          span {
+            color: $nav-pf-vertical-icon-color;
+          }
+
+          &:hover {
+            background-color: $nav-pf-vertical-active-bg-color;
+
+            span {
+              color: $nav-pf-vertical-active-icon-color;
+            }
+          }
+
+          &::after {
+            color: $nav-pf-vertical-icon-color;
+          }
         }
 
         &:hover {
-          background-color: $nav-pf-vertical-active-bg-color;
+          a {
+            background-color: $nav-pf-vertical-active-bg-color;
 
-          span {
-            color: $nav-pf-vertical-active-icon-color;
+            span {
+              color: $nav-pf-vertical-active-icon-color;
+            }
           }
         }
 
-        &::after {
-          color: $nav-pf-vertical-icon-color;
-        }
-      }
+        &.active {
+          a {
+            background-color: $nav-pf-vertical-active-bg-color;
 
-      &:hover {
-        a {
-          background-color: $nav-pf-vertical-active-bg-color;
-
-          span {
-            color: $nav-pf-vertical-active-icon-color;
+            span {
+              color: $nav-pf-vertical-active-icon-color;
+            }
           }
         }
       }
+    }
+  }
+}
 
-      &.active {
-        a {
-          background-color: $nav-pf-vertical-active-bg-color;
+/*
+  patternfly-sass hides the vertical-nav on smaller screens, see: https://github.com/patternfly/patternfly-sass/blob/5e7cce3445d5b1af1e16500695b9f33edc6a4f6c/assets/javascripts/patternfly-functions.js#L260
+  the react-container needs to be shifted when it happens.
+*/
+@media only screen and (max-width: $pf-global--breakpoint--md) {
+  #react-app-root {
+    .react-container {
+      margin-left: 0;
 
-          span {
-            color: $nav-pf-vertical-active-icon-color;
-          }
-        }
+      &.collapsed-nav {
+        margin-left: 0;
       }
     }
   }

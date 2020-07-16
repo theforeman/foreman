@@ -1,4 +1,4 @@
 import { getValue } from '../../common/SessionStorage';
 
 export const getIsNavbarCollapsed = () =>
-  !!getValue(`["navCollapsed","pinnedPath"]`);
+  !!getValue(`["navCollapsed","pinnedPath"]`)?.navCollapsed;
