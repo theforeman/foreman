@@ -37,6 +37,10 @@ node :hostgroup_name do |host|
   host.hostgroup.name if host.hostgroup.present?
 end
 
+node :operatingsystem_icon do |host|
+  icon(@host.operatingsystem, path: true) if host.operatingsystem.present?
+end
+
 node :hostgroup_title do |host|
   host.hostgroup.title if host.hostgroup.present?
 end

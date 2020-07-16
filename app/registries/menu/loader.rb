@@ -97,6 +97,9 @@ module Menu
           menu.item :host_wizard,
             :caption => 'Host Wizard',
             :url => '/host_wizard'
+          menu.item :host_wizard,
+            :caption => 'Host Wizard',
+            :url => '/host_wizard'
         end
       end
 

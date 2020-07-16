@@ -12,7 +12,6 @@ import {
   Card,
   DataListCell,
 } from '@patternfly/react-core';
-import OSIcon from './OSIcon';
 import { translate as __ } from '../../../common/I18n';
 
 const Properties = ({ hostData }) => (
@@ -26,10 +25,14 @@ const Properties = ({ hostData }) => (
                 <span> {__('Operating System')}</span>
               </DataListCell>,
               <DataListCell key="os-content">
-                <OSIcon
-                  os={hostData.operatingsystem_name}
-                  family={hostData.family}
-                />{' '}
+                {hostData.operatingsystem_icon && (
+                  <img
+                    height="16"
+                    width="16"
+                    alt="os logo"
+                    src={hostData.operatingsystem_icon}
+                  />
+                )}{' '}
                 {hostData.operatingsystem_name || <Skeleton />}
               </DataListCell>,
             ]}
@@ -141,8 +144,6 @@ const Properties = ({ hostData }) => (
 
 Properties.propTypes = {
   hostData: PropTypes.shape({
-    name: PropTypes.string,
-    family: PropTypes.string,
     architecture_name: PropTypes.string,
     domain_name: PropTypes.string,
     ip: PropTypes.string,
