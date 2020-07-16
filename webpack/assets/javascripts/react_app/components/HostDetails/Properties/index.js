@@ -25,14 +25,6 @@ const Properties = ({ hostData }) => (
                 <span> {__('Operating System')}</span>
               </DataListCell>,
               <DataListCell key="os-content">
-                {hostData.operatingsystem_icon && (
-                  <img
-                    height="16"
-                    width="16"
-                    alt="os logo"
-                    src={hostData.operatingsystem_icon}
-                  />
-                )}{' '}
                 {hostData.operatingsystem_name || <Skeleton />}
               </DataListCell>,
             ]}
@@ -150,7 +142,6 @@ Properties.propTypes = {
     ip6: PropTypes.string,
     location_name: PropTypes.string,
     mac: PropTypes.string,
-    operatingsystem_icon: PropTypes.string,
     operatingsystem_name: PropTypes.string,
     organization_name: PropTypes.string,
   }).isRequired,

@@ -23,7 +23,6 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
             color="currentColor"
             noVerticalAlign={false}
             size="sm"
-            title={null}
           />
            
           awesome-subnet

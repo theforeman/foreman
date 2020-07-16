@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HostDetails - Status should render error Host Status 1`] = `
-<Component
+<Alert
   title="Host Status - ERROR"
   variant="danger"
 />
 `;
 
 exports[`HostDetails - Status should render ok Host Status 1`] = `
-<Component
+<Alert
   title="Host Status - OK"
   variant="success"
 />
