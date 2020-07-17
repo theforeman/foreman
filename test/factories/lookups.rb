@@ -19,6 +19,11 @@ FactoryBot.define do
       default_value { true }
     end
 
+    trait :json do
+      key_type { 'json' }
+      default_value { '{"foo":"bar"}' }
+    end
+
     trait :yaml do
       key_type { 'yaml' }
       default_value { '--- \nfoo: bar\n' }
@@ -50,6 +55,8 @@ FactoryBot.define do
                                   false
                                 when 'yaml'
                                   '--- \nfoo: overridden\n'
+                                when 'json'
+                                  '{"foo":"overridden"}'
                                 when 'array'
                                   '[{"overridden": "value"}]'
                                 when 'hash'
