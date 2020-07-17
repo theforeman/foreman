@@ -752,80 +752,6 @@ class HostTest < ActiveSupport::TestCase
     assert host.valid?
   end
 
-  test "should import from external nodes output" do
-    # create a dummy node
-    Parameter.destroy_all
-    host = Host.create :name => "myfullhost", :mac => "aabbacddeeff", :ip => "3.3.4.12", :medium => media(:one),
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :subnet => subnets(:two),
-      :architecture => architectures(:x86_64), :environment => environments(:production), :disk => "aaa",
-      :puppet_proxy => smart_proxies(:puppetmaster)
-
-    # dummy external node info
-    nodeinfo = {"environment" => "production",
-                "parameters" => {"puppetmaster" => "puppet", "MYVAR" => "value", "port" => "80",
-                                "ssl_port" => "443", "foreman_env" => "production", "owner_name" => "Admin User",
-                                "root_pw" => "xybxa6JUkz63w", "owner_email" => "admin@someware.com",
-                                "foreman_subnets" =>
-    [{"network" => "3.3.4.0",
-      "name" => "two",
-      "gateway" => nil,
-      "mask" => "255.255.255.0",
-      "dns_primary" => nil,
-      "dns_secondary" => nil,
-      "from" => nil,
-      "to" => nil,
-      "boot_mode" => "DHCP",
-      "vlanid" => "41",
-      "ipam" => "DHCP"}],
-      "foreman_interfaces" =>
-    [{"mac" => "aa:bb:ac:dd:ee:ff",
-      "ip" => "3.3.4.12",
-      "type" => "Interface",
-      "name" => 'myfullhost.mydomain.net',
-      "attrs" => {},
-      "virtual" => false,
-      "link" => true,
-      "identifier" => nil,
-      "managed" => true,
-      "primary" => true,
-      "provision" => true,
-      "subnet" => {"network" => "3.3.4.0",
-                  "mask" => "255.255.255.0",
-                  "name" => "two",
-                  "gateway" => nil,
-                  "dns_primary" => nil,
-                  "dns_secondary" => nil,
-                  "from" => nil,
-                  "to" => nil,
-                  "boot_mode" => "DHCP",
-                  "vlanid" => "41",
-                  "ipam" => "DHCP"}}]},
-                  "classes" => {"apache" => {"custom_class_param" => "abcdef"}, "base" => {"cluster" => "secret"}} }
-
-    host.importNode nodeinfo
-    nodeinfo["parameters"]["special_info"] = "secret" # smart variable on apache
-
-    info = host.info
-    assert_includes info.keys, 'environment'
-    assert_equal 'production', host.environment.name
-    assert_includes info.keys, 'parameters'
-    assert_includes info.keys, 'classes'
-    assert_equal({ 'apache' => { 'custom_class_param' => 'abcdef' }, 'base' => { 'cluster' => 'secret' } }, info['classes'])
-    parameters = info['parameters']
-    assert_equal 'puppet', parameters['puppetmaster']
-    assert_equal 'xybxa6JUkz63w', parameters['root_pw']
-    assert_includes parameters.keys, 'foreman_subnets'
-    assert_includes parameters.keys, 'foreman_interfaces'
-    assert_equal '3.3.4.12', parameters['foreman_interfaces'].first['ip']
-  end
-
-  test "should import from non-parameterized external nodes output" do
-    host = FactoryBot.create(:host, :environment => environments(:production))
-    host.importNode("environment" => "production", "classes" => ["apache", "base"], "parameters" => {})
-
-    assert_equal ['apache', 'base'], host.info['classes'].keys
-  end
-
   test "show be enabled by default" do
     host = Host.create :name => "myhost", :mac => "aabbccddeeff"
     assert host.enabled?
@@ -2472,22 +2398,6 @@ class HostTest < ActiveSupport::TestCase
     enc = host.info
     assert_equal 'example.tst', enc['parameters']['domainname']
     assert_equal 'custom text', enc['parameters']['foreman_domain_description']
-  end
-
-  test "#info ENC YAML returns no puppet classes if no environment" do
-    puppetclass = FactoryBot.create(:puppetclass)
-    host = FactoryBot.create(:host, :puppetclasses => [puppetclass])
-
-    assert_empty host.info['classes']
-  end
-
-  test "#info ENC YAML uses Classification::ClassParam for parameterized output" do
-    host = FactoryBot.build_stubbed(:host, :with_environment)
-    classes = {'myclass' => {'myparam' => 'myvalue'}}
-    HostInfoProviders::PuppetInfo.any_instance.expects(:puppetclass_parameters).returns(classes)
-    enc = host.info
-    assert_kind_of Hash, enc
-    assert_equal classes, enc['classes']
   end
 
   test '#info ENC YAML contains ipv4 and ipv6 subnets' do
