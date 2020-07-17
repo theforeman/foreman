@@ -248,9 +248,9 @@ class Operatingsystem < ApplicationRecord
     architecture = host.arch.nil? ? '' : host.arch.bootfilename_efi
     if host.subnet&.httpboot?
       if host.pxe_loader =~ /UEFI HTTPS/
-        port = host.subnet.httpboot.httpboot_https_port
+        port = host.subnet.httpboot.httpboot_https_port!
       else
-        port = host.subnet.httpboot.httpboot_http_port
+        port = host.subnet.httpboot.httpboot_http_port!
       end
       hostname = URI.parse(host.subnet.httpboot.url).hostname
       self.class.all_loaders_map(architecture, "#{hostname}:#{port}")[host.pxe_loader]
