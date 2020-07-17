@@ -241,22 +241,6 @@ class HostsControllerTest < ActionController::TestCase
     assert_equal @enc, response.body
   end
 
-  test "externalNodes should render YAML hashes correctly" do
-    HostInfoProviders::PuppetInfo.any_instance.expects(:classes_info_hash).returns(
-      'dhcp' => {
-        'bootfiles' => [
-          {'name' => 'foo', 'mount_point' => '/bar'}.with_indifferent_access,
-          {'name' => 'john', 'mount_point' => '/doe'}.with_indifferent_access,
-        ],
-      }
-    ).at_least_once
-
-    get :externalNodes, params: { :name => @host.name, :format => "yml" }, session: set_session_user
-    assert_response :success
-    as_admin { @enc = @host.info.deep_stringify_keys.to_yaml }
-    assert_equal @enc, response.body
-  end
-
   test "when host is not saved after setBuild, the flash should inform it" do
     Host.any_instance.stubs(:setBuild).returns(false)
     @request.env['HTTP_REFERER'] = hosts_path
