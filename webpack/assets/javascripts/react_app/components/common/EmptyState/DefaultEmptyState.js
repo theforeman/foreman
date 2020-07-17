@@ -2,13 +2,13 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { Button } from '@patternfly/react-core';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 import EmptyStatePattern from './EmptyStatePattern';
 import { defaultEmptyStatePropTypes } from './EmptyStatePropTypes';
 
 const DefaultEmptyState = props => {
   const {
     icon,
-    iconType,
     header,
     description,
     documentation,
@@ -48,7 +48,6 @@ const DefaultEmptyState = props => {
   return (
     <EmptyStatePattern
       icon={icon}
-      iconType={iconType}
       header={header}
       description={description}
       documentation={documentation}
@@ -61,9 +60,8 @@ const DefaultEmptyState = props => {
 DefaultEmptyState.propTypes = defaultEmptyStatePropTypes;
 
 DefaultEmptyState.defaultProps = {
-  icon: 'add-circle-o',
+  icon: PlusCircleIcon,
   secondaryActions: [],
-  iconType: 'pf',
 };
 
 export default DefaultEmptyState;

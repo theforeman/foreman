@@ -1,12 +1,13 @@
 import React from 'react';
-import { Icon } from 'patternfly-react';
 import {
   Title,
   EmptyState,
   EmptyStateVariant,
   EmptyStateBody,
   EmptyStateSecondaryActions,
+  EmptyStateIcon,
 } from '@patternfly/react-core';
+import { PlusCircleIcon } from '@patternfly/react-icons';
 import { emptyStatePatternPropTypes } from './EmptyStatePropTypes';
 import { translate as __ } from '../../../common/I18n';
 import './EmptyState.scss';
@@ -16,10 +17,11 @@ const EmptyStatePattern = props => {
     documentation,
     action,
     secondaryActions,
-    iconType,
     icon,
+    iconColor,
     header,
     description,
+    variant,
   } = props;
 
   const DocumentationBlock = () => {
@@ -44,12 +46,11 @@ const EmptyStatePattern = props => {
   };
 
   return (
-    <EmptyState variant={EmptyStateVariant.xl}>
+    <EmptyState variant={variant}>
       <span className="empty-state-icon">
-        {/* TODO: Add pf4 icons, Redmine issue: #30865 */}
-        <Icon name={icon} type={iconType} size="2x" />
+        <EmptyStateIcon icon={icon} color={iconColor || undefined} />
       </span>
-      <Title headingLevel="h5" size="4xl">
+      <Title headingLevel="h4" size="xl">
         {header}
       </Title>
       <EmptyStateBody>
@@ -67,13 +68,14 @@ const EmptyStatePattern = props => {
 EmptyStatePattern.propTypes = emptyStatePatternPropTypes;
 
 EmptyStatePattern.defaultProps = {
-  icon: 'add-circle-o',
+  icon: PlusCircleIcon,
   secondaryActions: [],
   documentation: {
     url: '#',
   },
   action: null,
   iconType: 'pf',
+  variant: EmptyStateVariant.large,
 };
 
 export default EmptyStatePattern;

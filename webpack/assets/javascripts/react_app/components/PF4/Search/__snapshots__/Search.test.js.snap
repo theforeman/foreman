@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search component rendering renders correctly 1`] = `
+<div>
+  <ControlLabel
+    bsClass="control-label"
+    srOnly={true}
+  >
+    Search
+  </ControlLabel>
+  <TypeAhead
+    actionText="Search"
+    autoSearchEnabled={true}
+    initialInputValue=""
+    items={Array []}
+    onInputUpdate={[Function]}
+    onSearch={[Function]}
+    patternfly4={false}
+  />
+</div>
+`;

@@ -4,6 +4,7 @@ import store from '../../../redux';
 import { text, select, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@patternfly/react-core';
+import { CubesIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import Story from '../../../../../../stories/components/Story';
 
@@ -14,7 +15,6 @@ export default {
 export const defaultStory = () => (
   <Story>
     <EmptyStatePattern
-      icon={select('icons', ['add-circle-o', 'edit', 'key', 'print'], 'key')}
       header={text('header', 'This is the header')}
       description={text('description', 'Your description goes here!')}
     />
@@ -28,7 +28,7 @@ defaultStory.story = {
 export const withPrimaryAction = () => (
   <Story>
     <EmptyStatePattern
-      icon={select('icons', ['add-circle-o', 'edit', 'key', 'print'], 'key')}
+      icon={CubesIcon}
       header={text('header', 'Header')}
       description={text('description', 'Description!')}
       action={
@@ -45,7 +45,6 @@ withPrimaryAction.story = {
 export const withPrimaryAndSecondaryActions = () => (
   <Story>
     <EmptyStatePattern
-      icon={select('icons', ['add-circle-o', 'edit', 'key', 'print'], 'key')}
       header={text('header', 'Header')}
       description={text('description', 'Description!')}
       action={
@@ -77,7 +76,7 @@ withPrimaryAndSecondaryActions.story = {
 export const withCustomizedDocumentation = () => (
   <Story>
     <EmptyStatePattern
-      icon={select('icons', ['add-circle-o', 'edit', 'key', 'print'], 'key')}
+      icon={ExclamationCircleIcon}
       header={text('header', 'Header')}
       description={text('description', 'Description!')}
       documentation={
@@ -109,11 +108,6 @@ export const foremanEmptyState = () => {
     <Story>
       <Provider store={store}>
         <DefaultEmptyState
-          icon={select(
-            'icons',
-            ['add-circle-o', 'edit', 'key', 'print'],
-            'key'
-          )}
           header={text('header', 'Header')}
           description={text('description', 'Description!')}
           documentation={docObject}
