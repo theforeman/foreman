@@ -101,11 +101,19 @@ class SmartProxy < ApplicationRecord
   end
 
   def httpboot_http_port
-    setting(:HTTPBoot, 'http_port') || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
+    setting(:HTTPBoot, 'http_port')
+  end
+
+  def httpboot_http_port!
+    httpboot_http_port || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
   end
 
   def httpboot_https_port
-    setting(:HTTPBoot, 'https_port') || raise(::Foreman::Exception.new(N_("HTTPS boot requires proxy with httpboot feature and https_port exposed setting")))
+    setting(:HTTPBoot, 'https_port')
+  end
+
+  def httpboot_https_port!
+    httpboot_https_port || raise(::Foreman::Exception.new(N_("HTTPS boot requires proxy with httpboot feature and https_port exposed setting")))
   end
 
   def statuses
@@ -180,6 +188,6 @@ class SmartProxy < ApplicationRecord
   end
 
   class Jail < ::Safemode::Jail
-    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port
+    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!
   end
 end
