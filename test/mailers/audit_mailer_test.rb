@@ -56,7 +56,7 @@ class AuditMailerTest < ActionMailer::TestCase
   test "Audit template change should not crash" do
     template = FactoryBot.create(:provisioning_template, :template => 'aaaa', :snippet => true)
     template.update!(:template => 'bbbbbb')
-    audit = Audit.where(auditable_type: "ProvisioningTemplate", auditable_id: template.id).last
+    audit = template.reload.audits.last
     @options[:query] = "id = #{audit.id}"
     assert_includes(AuditMailer.summary(@options).deliver_now.body.parts.last.body, 'Template content changed')
   end
