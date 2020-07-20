@@ -10,19 +10,6 @@ FactoryBot.define do
     puppetclass
   end
 
-  factory :puppetclass_lookup_key, parent: :lookup_key, class: 'PuppetclassLookupKey' do
-    trait :as_smart_class_param do
-      transient do
-        puppetclass { nil }
-      end
-      after(:create) do |lkey, evaluator|
-        evaluator.puppetclass&.environments&.each do |env|
-          FactoryBot.create :environment_class, :puppetclass => evaluator.puppetclass, :environment => env, :puppetclass_lookup_key_id => lkey.id
-        end
-      end
-    end
-  end
-
   factory :puppetclass do
     sequence(:name) { |n| "class#{n}" }
 
