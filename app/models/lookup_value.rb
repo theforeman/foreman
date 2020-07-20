@@ -3,7 +3,6 @@ class LookupValue < ApplicationRecord
   extend FriendlyId
   friendly_id :match
   include Authorizable
-  include PuppetLookupValueExtensions
   include HiddenValue
   include KeyValueValidation
 
