@@ -34,9 +34,8 @@ class HostgroupIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   test 'clone shows no errors on lookup values' do
-    group = FactoryBot.create(:hostgroup, :with_puppetclass)
-    FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "hostgroup\ncomment",
-                       :puppetclass => group.puppetclasses.first, :overrides => {group.lookup_value_matcher => 'test'})
+    group = FactoryBot.create(:hostgroup)
+    FactoryBot.create(:lookup_key, :with_override, path: "hostgroup\ncomment", overrides: { group.lookup_value_matcher => 'test' })
 
     visit clone_hostgroup_path(group)
     assert page.has_link?('Parameters', :href => '#params')

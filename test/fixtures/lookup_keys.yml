@@ -5,7 +5,7 @@ one:
   path: "hostgroup\ncomment\nfqdn"
   validator_type:
   default_value: 80
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 three:
   key: ssl
@@ -14,7 +14,7 @@ three:
   validator_rule:
   default_value: true
   override: true
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 complex:
   key: cluster
@@ -23,7 +23,7 @@ complex:
   default_value: 'secret'
   override: true
   path: "fqdn\norganization,location\nhostgroup\nos"
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 five:
   key: custom_class_param
@@ -32,7 +32,7 @@ five:
   default_value: 'abcdef'
   path: "fqdn\norganization,location\nhostgroup"
   override: true
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 five_same_name:
   key: custom_class_param
@@ -41,25 +41,7 @@ five_same_name:
   default_value: 'abcdef'
   path: 'organization,location'
   override: true
-  type: PuppetclassLookupKey
-
-six:
-  key: yaml_test
-  key_type: yaml
-  validator_rule:
-  default_value: "--- \nfoo: bar\n"
-  path: "organization,location\nhostgroup\ncomment\nfqdn\nenvironment"
-  override: true
-  type: PuppetclassLookupKey
-
-seven:
-  key: array_test
-  key_type: array
-  validator_rule:
-  default_value: "[{'hostname': 'test.example.com'}]"
-  path: "organization,location\nhostgroup"
-  override: true
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 two:
   key: ssl_port
@@ -67,7 +49,7 @@ two:
   validator_type: list
   validator_rule: '443,8443'
   default_value: 443
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 four:
   key: special_info
@@ -76,10 +58,10 @@ four:
   default_value: 'secret'
   override: true
   path: "organization,location\nxyz\nhostgroup"
-  type: PuppetclassLookupKey
+  type: LookupKey
 
 eight:
   key: bool_test
   key_type: boolean
   default_value: true
-  type: PuppetclassLookupKey
+  type: LookupKey

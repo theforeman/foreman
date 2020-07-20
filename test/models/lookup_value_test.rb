@@ -121,10 +121,7 @@ class LookupValueTest < ActiveSupport::TestCase
   end
 
   test "shuld not cast string with erb" do
-    key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-      :override => true, :key_type => 'array', :merge_overrides => true, :avoid_duplicates => true,
-      :default_value => [1, 2, 3], :puppetclass => puppetclasses(:one))
-
+    key = FactoryBot.create(:lookup_key, :array, override: true, merge_overrides: true, avoid_duplicates: true, default_value: [1, 2, 3])
     lv = LookupValue.new(:value => "<%= [4,5,6] %>", :match => "hostgroup=Common", :lookup_key => key)
     # does not cast on save (validate_and_cast_value)
     assert lv.save!
@@ -190,12 +187,12 @@ class LookupValueTest < ActiveSupport::TestCase
     assert_equal('hostgroup,domain', value.path)
   end
 
-  test "should create override value for smart class parameter with list validator and matching value" do
+  test "should create override value for lookup key with list validator and matching value" do
     values_list = ['test', 'example', 30]
     validator_type = 'list'
     validator_rule = values_list.join(', ')
-    smart_class_parameter = FactoryBot.create(
-      :puppetclass_lookup_key,
+    lookup_key = FactoryBot.create(
+      :lookup_key,
       :variable => RFauxFactory.gen_alpha,
       :validator_type => validator_type,
       :validator_rule => validator_rule,
@@ -205,7 +202,7 @@ class LookupValueTest < ActiveSupport::TestCase
     values_list.each do |value|
       sv_lookup_value = FactoryBot.build(
         :lookup_value,
-        :lookup_key_id => smart_class_parameter.id,
+        :lookup_key_id => lookup_key.id,
         :match => match,
         :value => value
       )
