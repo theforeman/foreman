@@ -10,11 +10,9 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   included do
     add_smart_proxy_filters PUPPETMASTER_ACTIONS, :features => ['Puppet']
-    alias_method :find_resource_for_puppet_host_extensions, :find_resource
     alias_method :ajax_request_for_puppet_host_extensions, :ajax_request
 
     before_action :ajax_request_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
-    before_action :find_resource_for_puppet_host_extensions, :only => [:puppetrun]
     before_action :taxonomy_scope_for_puppet_host_extensions, :only => PUPPET_AJAX_REQUESTS
     before_action :find_multiple_for_puppet_host_extensions, :only => MULTIPLE_EDIT_ACTIONS
     before_action :validate_multiple_puppet_proxy, :only => :update_multiple_puppet_proxy
