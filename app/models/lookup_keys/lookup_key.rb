@@ -210,5 +210,3 @@ class LookupKey < ApplicationRecord
     ['default_value']
   end
 end
-
-require_dependency 'puppetclass_lookup_key'

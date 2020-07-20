@@ -97,9 +97,10 @@ class LookupKeyTest < ActiveSupport::TestCase
       assert_equal val, param.default_value_before_type_cast
     end
   end
-  test "this is a smart class parameter?" do
+
+  test "this is not a smart class parameter?" do
     assert_not_deprecated do
-      assert lookup_keys(:complex).puppet?
+      refute FactoryBot.build_stubbed(:lookup_key).puppet?
     end
   end
 

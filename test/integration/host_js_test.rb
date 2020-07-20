@@ -291,11 +291,6 @@ class HostJSTest < IntegrationTestWithJavascript
 
       set_request_user(user)
 
-      host = FactoryBot.create(:host, :with_puppetclass)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-        :key_type => 'string', :default_value => true, :path => "fqdn",
-        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
-
       visit new_host_path
       assert page.has_link?('Parameters', :href => '#params')
       click_link 'Parameters'
