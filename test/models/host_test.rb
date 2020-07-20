@@ -268,95 +268,99 @@ class HostTest < ActiveSupport::TestCase
     assert !host.new_record?
   end
 
-  test "non-admin user should be able to create host with new lookup value" do
-    subnets(:two).organizations = users(:one).organizations
-    subnets(:two).locations = users(:one).locations
-    User.current = users(:one)
-    User.current.roles << [roles(:manager)]
-    assert_difference('LookupValue.unscoped.count') do
-      assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
-      :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
-      :subnet => subnets(:two), :architecture => architectures(:x86_64),
-      :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
-      :organization => users(:one).organizations.first, :location => users(:one).locations.first,
-      :environment => environments(:production), :disk => "empty partition",
-      :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
-    end
-  end
-
-  test "lookup value has right matcher for a host" do
-    assert_difference('LookupValue.where(:lookup_key_id => lookup_keys(:five).id, :match => "fqdn=abc.mydomain.net").count') do
-      Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "3.3.4.3",
-        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
-        :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+  describe 'lookup values manipulation through attribute assignment' do
+    test "non-admin user should be able to create host with new lookup value" do
+      lookup_key = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
+      subnets(:two).organizations = users(:one).organizations
+      subnets(:two).locations = users(:one).locations
+      User.current = users(:one)
+      User.current.roles << [roles(:manager)]
+      puts lookup_key
+      refute lookup_key.id.nil?
+      assert_difference(-> { LookupValue.unscoped.count }, 1) do
+        assert Host.create! :name => "abc.mydomain.net", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+        :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat),
+        :subnet => subnets(:two), :architecture => architectures(:x86_64),
+        :puppet_proxy => smart_proxies(:puppetmaster), :medium => media(:one),
+        :organization => users(:one).organizations.first, :location => users(:one).locations.first,
         :environment => environments(:production), :disk => "empty partition",
-        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:five).id, "value" => "some_value"}}
+        :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
+      end
     end
-  end
 
-  test "should be able to add new lookup value on update_attributes" do
-    host = FactoryBot.create(:host)
-    lookup_key = lookup_keys(:three)
-    assert_difference('LookupValue.count') do
-      assert host.update!(:lookup_values_attributes => {:new_123456 =>
-                                                                   {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=#{host.fqdn}",
-                                                                    :_destroy => 'false'}})
+    test "lookup value has right matcher for a host" do
+      lookup_key = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
+      assert_difference(-> { LookupValue.where(lookup_key_id: lookup_key.id, match: "fqdn=abc.mydomain.net").count }, 1) do
+        Host.create! :name => "abc", :mac => "aabbecddeeff", :ip => "3.3.4.3",
+          :domain => domains(:mydomain), :operatingsystem => operatingsystems(:redhat), :medium => media(:one),
+          :subnet => subnets(:two), :architecture => architectures(:x86_64), :puppet_proxy => smart_proxies(:puppetmaster),
+          :environment => environments(:production), :disk => "empty partition",
+          :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_key.id, "value" => "some_value"}}
+      end
     end
-  end
 
-  test "should be able to delete existing lookup value on update_attributes" do
-    host = FactoryBot.create(:host)
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key)
-    lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
-                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
-    host.reload
-    assert_difference('LookupValue.count', -1) do
-      assert host.update!(:lookup_values_attributes => {'0' =>
-                                                                   {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=#{host.fqdn}",
-                                                                    :id => lookup_value.id, :_destroy => 'true'}})
+    test "should be able to add new lookup value on update_attributes" do
+      host = FactoryBot.create(:host)
+      lookup_key = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
+      assert_difference('LookupValue.count') do
+        assert host.update!(:lookup_values_attributes => {:new_123456 =>
+                                                                     {:lookup_key_id => lookup_key.id, :value => true, :match => "fqdn=#{host.fqdn}",
+                                                                      :_destroy => 'false'}})
+      end
     end
-  end
 
-  test "should be able to update lookup value on update_attributes" do
-    host = FactoryBot.create(:host)
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key)
-    lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
-                                      :match => "fqdn=#{host.fqdn}", :value => '8080')
-    host.reload
-    assert_difference('LookupValue.count', 0) do
-      assert host.update!(:lookup_values_attributes => {'0' =>
-                                                                   {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=#{host.fqdn}",
-                                                                    :id => lookup_value.id, :_destroy => 'false'}})
+    test "should be able to delete existing lookup value on update_attributes" do
+      host = FactoryBot.create(:host)
+      lookup_key = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
+      lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                        :match => "fqdn=#{host.fqdn}", :value => '8080')
+      host.reload
+      assert_difference('LookupValue.count', -1) do
+        assert host.update!(:lookup_values_attributes => {'0' =>
+                                                                     {:lookup_key_id => lookup_key.id, :value => '8080', :match => "fqdn=#{host.fqdn}",
+                                                                      :id => lookup_value.id, :_destroy => 'true'}})
+      end
     end
-    lookup_value.reload
-    assert_equal '80', lookup_value.value
-  end
 
-  test "should be able to update complex YAML lookup value" do
-    host = FactoryBot.create(:host)
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'yaml')
-    lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
-                                      :match => host.lookup_value_matcher, :value => YAML.dump(:foo => :bar))
-    host.reload
-    assert_difference('LookupValue.count', 0) do
-      assert host.update!(:lookup_values_attributes => {'0' =>
-                                                                   {:lookup_key_id => lookup_key.id.to_s, :value => YAML.dump(:updated => :value),
-                                                                    :match => host.lookup_value_matcher,
-                                                                    :id => lookup_value.id.to_s, :_destroy => 'false'}})
+    test "should be able to update lookup value on update_attributes" do
+      host = FactoryBot.create(:host)
+      lookup_key = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
+      lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                        :match => "fqdn=#{host.fqdn}", :value => '8080')
+      host.reload
+      assert_difference('LookupValue.count', 0) do
+        assert host.update!(:lookup_values_attributes => {'0' =>
+                                                                     {:lookup_key_id => lookup_key.id, :value => '80', :match => "fqdn=#{host.fqdn}",
+                                                                      :id => lookup_value.id, :_destroy => 'false'}})
+      end
+      assert_equal '80', lookup_value.reload.value
     end
-    lookup_value.reload
-    assert_equal({:updated => :value}, lookup_value.value)
-  end
 
-  test "should raise nested lookup value validation errors" do
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key, :key_type => 'hash')
-    host = FactoryBot.build(:host)
-    host.attributes = {:lookup_values_attributes => {'0' =>
-                                                     {:lookup_key_id => lookup_key.id.to_s, :value => '{"a":',
-                                                      :match => host.lookup_value_matcher,
-                                                      :_destroy => 'false'}}}
-    assert host.lookup_values.first.present?
-    refute_valid host, :'lookup_values.value', /invalid hash/
+    test "should be able to update complex YAML lookup value" do
+      host = FactoryBot.create(:host)
+      lookup_key = FactoryBot.create(:lookup_key, key_type: 'yaml', override: true, path: 'fqdn')
+      lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
+                                        :match => host.lookup_value_matcher, :value => YAML.dump(:foo => :bar))
+      host.reload
+      assert_difference('LookupValue.count', 0) do
+        assert host.update!(:lookup_values_attributes => {'0' =>
+                                                                     {:lookup_key_id => lookup_key.id.to_s, :value => YAML.dump(:updated => :value),
+                                                                      :match => host.lookup_value_matcher,
+                                                                      :id => lookup_value.id.to_s, :_destroy => 'false'}})
+      end
+      assert_equal({:updated => :value}, lookup_value.reload.value)
+    end
+
+    test "should raise nested lookup value validation errors" do
+      lookup_key = FactoryBot.create(:lookup_key, :hash, override: true, path: 'fqdn')
+      host = FactoryBot.build(:host)
+      host.attributes = {:lookup_values_attributes => {'0' =>
+                                                       {:lookup_key_id => lookup_key.id.to_s, :value => '{"a":',
+                                                        :match => host.lookup_value_matcher,
+                                                        :_destroy => 'false'}}}
+      assert host.lookup_values.first.present?
+      refute_valid host, :'lookup_values.value', /invalid hash/
+    end
   end
 
   test "should read the Puppet CA Server URL from its proxy settings" do
@@ -2434,9 +2438,7 @@ class HostTest < ActiveSupport::TestCase
   describe 'cloning' do
     test 'relationships are copied' do
       host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-      key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'string',
-                                :override => true, :puppetclass => host.puppetclasses.first)
-      LookupValue.create(:value => 'abc', :match => host.lookup_value_matcher, :lookup_key_id => key.id)
+      FactoryBot.create(:lookup_key, :with_override, path: 'fqdn', overrides: { host.lookup_value_matcher => 'abc' })
       copy = host.clone
       assert_equal host.host_classes.map(&:puppetclass_id), copy.host_classes.map(&:puppetclass_id)
       assert_equal host.host_parameters.map(&:name), copy.host_parameters.map(&:name)
@@ -2457,8 +2459,8 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'lookup values are copied' do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment", :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      host = FactoryBot.create(:host)
+      FactoryBot.create(:lookup_key, :with_override, path: "fqdn\ncomment", overrides: { host.lookup_value_matcher => 'test' })
       copy = host.clone
       assert_equal 1, host.lookup_values.reload.size
       assert_equal 1, copy.lookup_values.size
@@ -2492,8 +2494,8 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'without save makes no changes' do
-      host = FactoryBot.create(:host, :with_config_group, :with_puppetclass, :with_parameter)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment", :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      host = FactoryBot.create(:host, :with_parameter)
+      FactoryBot.create(:lookup_key, :with_override, :path => "fqdn\ncomment", :overrides => {host.lookup_value_matcher => 'test'})
       ActiveRecord::Base.any_instance.expects(:destroy).never
       ActiveRecord::Base.any_instance.expects(:save).never
       host.clone
@@ -2566,7 +2568,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing name with a fqdn should rename lookup_value matcher' do
     host = FactoryBot.create(:host)
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key)
+    lookup_key = FactoryBot.create(:lookup_key)
     lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -2579,7 +2581,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing only name should rename lookup_value matcher' do
     host = FactoryBot.create(:host, :domain => FactoryBot.create(:domain))
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key)
+    lookup_key = FactoryBot.create(:lookup_key)
     lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -2592,7 +2594,7 @@ class HostTest < ActiveSupport::TestCase
 
   test 'changing host domain should rename lookup_value matcher' do
     host = FactoryBot.create(:host)
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key)
+    lookup_key = FactoryBot.create(:lookup_key)
     lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -2605,7 +2607,7 @@ class HostTest < ActiveSupport::TestCase
 
   test "destroying host should destroy lookup values" do
     host = FactoryBot.create(:host)
-    lookup_key = FactoryBot.create(:puppetclass_lookup_key)
+    lookup_key = FactoryBot.create(:lookup_key)
     lookup_value = FactoryBot.create(:lookup_value, :lookup_key_id => lookup_key.id,
                                       :match => "fqdn=#{host.fqdn}", :value => '8080')
     host.reload
@@ -2815,21 +2817,22 @@ class HostTest < ActiveSupport::TestCase
     assert_match(/must belong/, host.errors[:medium_id].first)
   end
 
-  context "lookup value attributes" do
-    test "invoking lookup_values_attributes= does not save lookup values in db until #save is invoked" do
+  describe "#lookup_values_attributes=" do
+    test "does not save lookup values in db until #save is invoked" do
       host = FactoryBot.create(:host)
+      lkey = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
       assert_no_difference('LookupValue.count') do
-        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
+        host.lookup_values_attributes = {"new_123456" => {"lookup_key_id" => lkey.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}}
       end
 
-      assert_difference('LookupValue.count') do
+      assert_difference('LookupValue.count', 1) do
         host.save
       end
     end
 
-    test "lookup_values_attributes= updates existing lookup values" do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      lkey = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :puppetclass => host.classes.first, :overrides => {"fqdn=#{host.name}" => 'old value'})
+    test "updates existing lookup values" do
+      host = FactoryBot.create(:host)
+      lkey = FactoryBot.create(:lookup_key, :with_override, path: 'fqdn', overrides: {"fqdn=#{host.name}" => 'old value'})
       lval = host.lookup_values.first
 
       host.lookup_values_attributes = {'0' => {'lookup_key_id' => lkey.id.to_s, 'value' => 'new value', '_destroy' => '0', 'id' => lval.id.to_s}}.with_indifferent_access
@@ -2839,11 +2842,12 @@ class HostTest < ActiveSupport::TestCase
       assert_equal 'new value', LookupValue.find(lval.id).value
     end
 
-    test "same works for destruction of lookup keys" do
-      host = FactoryBot.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lookup_keys(:complex).id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}})
+    test "destroy existing lookup values on host save" do
+      lkey = FactoryBot.create(:lookup_key, override: true, path: 'fqdn')
+      host = FactoryBot.create(:host, :lookup_values_attributes => {"new_123456" => {"lookup_key_id" => lkey.id, "value" => "some_value", "match" => "fqdn=abc.mydomain.net"}})
       lookup_value = host.lookup_values.first
       assert_no_difference('LookupValue.count') do
-        host.lookup_values_attributes = {'0' => {'lookup_key_id' => lookup_keys(:complex).id.to_s, 'id' => lookup_value.id.to_s, '_destroy' => '1'}}.with_indifferent_access
+        host.lookup_values_attributes = {'0' => {'lookup_key_id' => lkey.id.to_s, 'id' => lookup_value.id.to_s, '_destroy' => '1'}}.with_indifferent_access
       end
 
       assert_difference('LookupValue.count', -1) do

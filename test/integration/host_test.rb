@@ -53,8 +53,7 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
   describe 'clone page' do
     test 'shows no errors on lookup values' do
       host = FactoryBot.create(:host, :with_puppetclass)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ncomment",
-                         :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'test'})
+      FactoryBot.create(:lookup_key, :with_override, path: "fqdn\ncomment", overrides: { host.lookup_value_matcher => 'test' })
 
       visit clone_host_path(host)
       assert page.has_link?('Parameters', :href => '#params')
