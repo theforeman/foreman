@@ -479,7 +479,7 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     test "throws exception when CSRF token is invalid or not present" do
-      assert_raises Foreman::Exception do
+      assert_raises ActionController::InvalidAuthenticityToken do
         post :logout, session: set_session_user
       end
     end
