@@ -54,13 +54,13 @@ class MockPagination extends React.Component {
   render() {
     return (
       <div>
+        <ul>{this.state.items.map(renderItem)}</ul>
         <Pagination
           viewType="list"
           itemCount={mocks.length}
           pagination={this.state.pagination}
           onChange={changes => this.onPaginationChange(changes)}
         />
-        <ul>{this.state.items.map(renderItem)}</ul>
       </div>
     );
   }
