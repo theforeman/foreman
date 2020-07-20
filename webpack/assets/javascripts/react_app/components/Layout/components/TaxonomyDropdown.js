@@ -42,7 +42,7 @@ class TaxonomyDropdown extends React.Component {
           className="dropdown-toggle nav-item-iconic"
           data-toggle="dropdown"
         >
-          {__(currentTaxonomy)}
+          {currentTaxonomy}
           <span className="caret" />
         </a>
         <ul className="dropdown-menu">
@@ -87,7 +87,7 @@ class TaxonomyDropdown extends React.Component {
                   changeTaxonomy({ title: taxonomy.title, id: taxonomy.id });
                 }}
               >
-                {__(taxonomy.title)}
+                {taxonomy.title}
               </a>
             </li>
           ))}
