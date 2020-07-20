@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   include Foreman::Controller::Authorize
   include Foreman::Controller::RequireSsl
 
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  protect_from_forgery with: :exception # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
   rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
@@ -392,13 +392,6 @@ class ApplicationController < ActionController::Base
 
     @organization ||= Organization.current
     @location     ||= Location.current
-  end
-
-  # Called from ActionController::RequestForgeryProtection, overrides
-  # nullify session which is the default behavior for unverified requests in Rails 3.
-  # On Rails 4 we can get rid of this and use the strategy ':exception'.
-  def handle_unverified_request
-    raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
   end
 
   def parameter_filter_context

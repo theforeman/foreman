@@ -3,7 +3,7 @@ module LayoutHelper
     mount_react_component('ReactApp', "#react-app-root", {
       layout: layout_data,
       metadata: app_metadata,
-      toasts: toast_notifiations_data,
+      toasts: toast_notifications_data,
     }.to_json)
   end
 

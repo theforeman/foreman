@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   include Foreman::Controller::BruteforceProtection
   include Foreman::TelemetryHelper
 
+  rescue_from ActionController::InvalidAuthenticityToken, with: :login_token_reload
   skip_before_action :require_mail, :only => [:edit, :update, :logout, :stop_impersonation]
   skip_before_action :require_login, :check_user_enabled, :authorize, :session_expiry, :update_activity_time, :set_taxonomy, :set_gettext_locale_db, :only => [:login, :logout, :extlogout]
   skip_before_action :authorize, :only => [:extlogin, :impersonate, :stop_impersonation]
@@ -224,8 +225,19 @@ class UsersController < ApplicationController
   def verify_active_session
     if !request.post? && params[:status].blank? && User.unscoped.enabled.exists?(session[:user].presence)
       warning _("You have already logged in")
+      # Prevent a redirect loop in case the previous page was login page -
+      # e.g when csrf token expired but user already logged in from another tab
+      if request.headers["Referer"] == login_users_url
+        redirect_to hosts_path and return
+      end
       redirect_back_or_to hosts_path
       nil
     end
+  end
+
+  def login_token_reload(exception)
+    raise exception unless request.post? && action_name == 'login'
+    inline_warning _("CSRF protection token expired, please log in again")
+    redirect_to login_users_path
   end
 end
