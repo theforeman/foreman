@@ -132,7 +132,7 @@ Foreman::AccessControl.map do |permission_set|
                                         :"api/v2/template_combinations" => [:destroy],
                                       }
     map.permission :deploy_provisioning_templates,  {:provisioning_templates => [:build_pxe_default],
-                                        :"api/v2/provisioning_templates" => [:build_pxe_default],
+                                        :"api/v2/provisioning_templates" => [:build_pxe_default, :global_registration],
                                       }
 
     map.permission :lock_provisioning_templates,    {:provisioning_templates => [:lock, :unlock],

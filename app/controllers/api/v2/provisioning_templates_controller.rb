@@ -6,12 +6,13 @@ module Api
       include Foreman::Controller::Parameters::ProvisioningTemplate
       include Foreman::Controller::TemplateImport
 
-      before_action :find_optional_nested_object
+      before_action :find_optional_nested_object, except: [:global_registration]
       before_action :find_resource, :only => %w{show update destroy clone export}
 
       before_action :handle_template_upload, :only => [:create, :update]
       before_action :process_template_kind, :only => [:create, :update]
       before_action :process_operatingsystems, :only => [:create, :update]
+      before_action :find_global_registration, :only => [:global_registration]
 
       api :GET, "/provisioning_templates/", N_("List provisioning templates")
       api :GET, "/operatingsystems/:operatingsystem_id/provisioning_templates", N_("List provisioning templates per operating system")
@@ -130,6 +131,11 @@ module Api
         send_data @provisioning_template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @provisioning_template.filename
       end
 
+      api :GET, '/provisioning_templates/global_registration', N_('Render Global Registration template')
+      def global_registration
+        render plain: @provisioning_template.render.html_safe
+      end
+
       private
 
       def resource_class
@@ -153,6 +159,16 @@ module Api
             'view'
           else
             super
+        end
+      end
+
+      def find_global_registration
+        template_name = Setting['default_global_registration_item']
+        @provisioning_template = ProvisioningTemplate.find_by(name: template_name)
+
+        unless @provisioning_template
+          error = _('Template %s not found') % template_name
+          render plain: error, status: :not_found
         end
       end
     end
