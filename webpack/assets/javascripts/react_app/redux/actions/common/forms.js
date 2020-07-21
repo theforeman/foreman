@@ -1,6 +1,4 @@
 import { APIActions } from '../../API';
-
-import { addToast } from '../toasts';
 import { sprintf, translate as __ } from '../../../../react_app/common/I18n';
 
 export class SubmissionError {
@@ -67,14 +65,16 @@ export const submitForm = ({
         type: uniqueAPIKey,
         payload: { item, data },
       });
-      dispatch(
-        addToast({
-          type: 'success',
-          // eslint-disable-next-line no-undef
-          message: message || sprintf('%s was successfully created.', __(item)),
-        })
-      );
     };
+
+    const successToast = response =>
+      message || sprintf('%s was successfully created.', __(item));
+
+    const errorToast = error =>
+      sprintf(
+        'Oh no! Something went wrong while submiting the form, the server returned the following error: %s',
+        error
+      );
 
     dispatch(
       APIActions[method]({
@@ -85,6 +85,8 @@ export const submitForm = ({
         actionTypes,
         handleError,
         handleSuccess,
+        successToast,
+        errorToast,
       })
     );
   };

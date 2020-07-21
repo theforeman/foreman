@@ -64,4 +64,45 @@ describe('API get', () => {
     expect(modifiedAction.payload.handleError.mock.calls).toMatchSnapshot();
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
+
+  it('should dispatch a success toast notification on API resolve', async () => {
+    const apiSuccessResponse = { data };
+    API.get.mockImplementation(
+      () =>
+        new Promise((resolve, reject) => {
+          resolve(apiSuccessResponse);
+        })
+    );
+    const modifiedAction = { ...action };
+    modifiedAction.payload.successToast = jest.fn(
+      () => 'Your API request was successful!'
+    );
+    apiRequest(modifiedAction, store);
+    await IntegrationTestHelper.flushAllPromises();
+    expect(modifiedAction.payload.successToast).toHaveBeenLastCalledWith(
+      apiSuccessResponse
+    );
+    expect(store.dispatch.mock.calls).toMatchSnapshot();
+  });
+
+  it('should dispatch an error toast notification on API failure', async () => {
+    const apiError = new Error('bad request');
+    API.get.mockImplementation(
+      () =>
+        new Promise((resolve, reject) => {
+          reject(apiError);
+        })
+    );
+    const modifiedAction = { ...action };
+    modifiedAction.payload.errorToast = jest.fn(
+      error =>
+        `Oh no! Something went wrong, server returned the error: ${error.message}`
+    );
+    apiRequest(modifiedAction, store);
+    await IntegrationTestHelper.flushAllPromises();
+    expect(modifiedAction.payload.errorToast).toHaveBeenLastCalledWith(
+      apiError
+    );
+    expect(store.dispatch.mock.calls).toMatchSnapshot();
+  });
 });
