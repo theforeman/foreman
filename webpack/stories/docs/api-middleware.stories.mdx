@@ -26,7 +26,7 @@ import { get, post, put, patch } from '../../redux/API';
 ```js
 import { get } from '../../redux/API';
 
-const someAction = (url) =>
+const someAction = url =>
   get({
     key: MY_SPECIAL_KEY, // this will be used later to identify your API call, so keep it unique.
     url,
@@ -131,3 +131,19 @@ dispatch(
 ```
 
 The success handling function will receive the response object from the API request.
+
+## Toast handling
+
+Instead of managing and dispatching the toast action by yourself, you can use the API middleware shortcuts,
+by passing `toastSuccess` or `toastError` as keys in the API action, e.g:
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    toastError: error => `Oh no! Something went wrong while submiting the form, the server returned the following error: ${error}`
+    toastSuccess: response => `Yay! task: ${response.taskID} was successfully created.`
+  })
+);
+```
