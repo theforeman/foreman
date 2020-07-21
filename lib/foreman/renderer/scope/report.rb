@@ -19,9 +19,14 @@ module Foreman
           desc 'This macro is typically called at the end of the report template, after all rows
             with data has been registered.'
           keyword :format, ReportTemplateFormat.all.map(&:id), desc: 'The desired format of output', default: ReportTemplateFormat.default.id
+          keyword :order, String, desc: "The desired order of the reported data. It needs to be the name of the column or an array of more of them, e.g. <code>'name'</code> or <code>['ip', 'name']</code>. If no order is specified, the report will be sorted by the order of report_row calls.", default: nil
+          keyword :reverse_order, [true, false], desc: 'Reverse the order of the reported data', default: false
           returns String, desc: 'This is the resulting report'
           example "report_render # => 'name,ip\nhost1.example.com,192.168.0.2\nhost2.example.com,192.168.0.3'"
           example "report_render(format: :yaml) # => '---\n- name: host1.example.com\n  ip: 192.168.0.2\n- name: host2.example.com\n  ip: 192.168.0.3'"
+          example "report_render(order: :ip)  # => \n#'name,ip\n#host1.example.com,192.168.0.2\n#host2.example.com,192.168.0.3'"
+          example "report_render(order: [:name, :ip]) # => \n#'name,ip\n#host1.example.com,192.168.0.2\n#host2.example.com,192.168.0.3'"
+          example "report_render(order: :ip, reverse_order: true) # => \n#'name,ip\n#host2.example.com,192.168.0.3\n#host1.example.com,192.168.0.2'"
         end
         def report_render(format: report_format&.id, order: nil, reverse_order: false)
           apply_order!(order) if order.present?
@@ -40,8 +45,7 @@ module Foreman
         end
 
         apipie :method, 'Register minimal headers for the report' do
-          desc "This is useful in case of possible empty reports. **report_row** macro will automatically update
-            headers if needed."
+          desc "Report template gathers the column names when report_row is called. However, if the method is not ever called, e.g. because the collection is empty, the report wouldn't have any headers. This macro allows to explicitly define expected headers. If new header is registered by report_row, it's just added to the list of known headers."
           list :headers, desc: 'List of headers'
           returns Array, desc: 'Minimal registered headers'
           example "<%- report_headers 'id', 'name' -%>"
