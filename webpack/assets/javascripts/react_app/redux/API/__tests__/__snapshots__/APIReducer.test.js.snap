@@ -15,6 +15,7 @@ Object {
 exports[`API reducer should handle API request action 1`] = `
 Object {
   "SOME_KEY": Object {
+    "isFirstRequest": true,
     "payload": Object {
       "id": 2,
     },

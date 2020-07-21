@@ -2,6 +2,7 @@
 
 exports[`API selectors should return the API substate by key 1`] = `
 Object {
+  "isFirstRequest": true,
   "payload": Object {
     "id": 2,
   },
@@ -17,6 +18,8 @@ Object {
 exports[`API selectors should return the API substate error 1`] = `[Error: some_error]`;
 
 exports[`API selectors should return the API substate error message 1`] = `"some_error"`;
+
+exports[`API selectors should return the API substate isFirstRequest 1`] = `true`;
 
 exports[`API selectors should return the API substate payload 1`] = `
 Object {
@@ -37,6 +40,7 @@ exports[`API selectors should return the API substate status 1`] = `"RESOLVED"`;
 exports[`API selectors should return the API wrapper 1`] = `
 Object {
   "SOME_KEY": Object {
+    "isFirstRequest": true,
     "payload": Object {
       "id": 2,
     },

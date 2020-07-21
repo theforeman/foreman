@@ -22,3 +22,6 @@ export const selectAPIErrorMessage = (state, key) => {
   const error = selectAPIError(state, key);
   return error && error.message;
 };
+
+export const selectIsFirstRequest = (state, key) =>
+  selectAPIByKey(state, key).isFirstRequest;

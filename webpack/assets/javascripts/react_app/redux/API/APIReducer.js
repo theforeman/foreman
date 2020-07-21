@@ -18,11 +18,13 @@ const apiReducer = (state = initialState, { type, key, payload, response }) => {
           ...state[key],
           payload,
           status: PENDING,
+          isFirstRequest: !state[key],
         },
       });
     case SUCCESS:
       return state.merge({
         [key]: {
+          ...state[key],
           payload,
           response,
           status: RESOLVED,
@@ -31,6 +33,7 @@ const apiReducer = (state = initialState, { type, key, payload, response }) => {
     case FAILURE:
       return state.merge({
         [key]: {
+          ...state[key],
           payload,
           response,
           status: ERROR,

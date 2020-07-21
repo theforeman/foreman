@@ -7,6 +7,7 @@ import {
   selectAPIErrorMessage,
   selectAPIResponse,
   selectAPIPayload,
+  selectIsFirstRequest,
 } from '../APISelectors';
 import { key, payload, data, error } from '../APIFixtures';
 import { STATUS } from '../../../constants';
@@ -17,6 +18,7 @@ const successState = {
       payload,
       response: data,
       status: STATUS.RESOLVED,
+      isFirstRequest: true,
     },
   },
 };
@@ -41,6 +43,8 @@ const fixtures = {
     selectAPIResponse(successState, key),
   'should return the API substate payload': () =>
     selectAPIPayload(successState, key),
+  'should return the API substate isFirstRequest': () =>
+    selectIsFirstRequest(successState, key),
   'should return the API substate error': () =>
     selectAPIError(failureState, key),
   'should return the API substate error message': () =>
