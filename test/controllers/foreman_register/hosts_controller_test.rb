@@ -7,7 +7,7 @@ module ForemanRegister
     let(:organization) { FactoryBot.create(:organization) }
     let(:tax_location) { FactoryBot.create(:location) }
     let(:template_content) { 'template content <%= @host.name %>' }
-    let(:template_kind) { FactoryBot.create(:template_kind, name: 'registration') }
+    let(:template_kind) { template_kinds(:registration) }
     let(:registration_template) do
       FactoryBot.create(
         :provisioning_template,
