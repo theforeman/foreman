@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1`] = `
+<Card
+  isHoverable={true}
+>
+  <CardBody>
+    Paramterers
+  </CardBody>
+  <Accordion
+    asDefinitionList={true}
+  >
+    <AccordionItem
+      key="1"
+    >
+      <AccordionToggle
+        id="global"
+        isExpanded={false}
+        onClick={[Function]}
+      >
+        global
+      </AccordionToggle>
+      <AccordionContent
+        id="global"
+        isHidden={true}
+      >
+        <DataList
+          aria-label="Parameters"
+          className="pf-m-compact"
+        >
+          <DataListItem
+            aria-labelledby="Parameter's type"
+          >
+            <DataListItemRow>
+              <DataListItemCells
+                dataListCells={
+                  Array [
+                    <DataListCell>
+                      <span>
+                        Type
+                      </span>
+                    </DataListCell>,
+                    <DataListCell>
+                      string
+                    </DataListCell>,
+                  ]
+                }
+              />
+            </DataListItemRow>
+          </DataListItem>
+          <DataListItem
+            aria-labelledby="Parameter's Value"
+          >
+            <DataListItemRow>
+              <DataListItemCells
+                dataListCells={
+                  Array [
+                    <DataListCell
+                      isFilled={true}
+                    >
+                      <span>
+                        Value
+                      </span>
+                    </DataListCell>,
+                    <DataListCell
+                      alignRight={true}
+                      isFilled={true}
+                    >
+                      true
+                    </DataListCell>,
+                  ]
+                }
+              />
+            </DataListItemRow>
+          </DataListItem>
+        </DataList>
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem
+      key="2"
+    >
+      <AccordionToggle
+        id="local"
+        isExpanded={false}
+        onClick={[Function]}
+      >
+        local
+      </AccordionToggle>
+      <AccordionContent
+        id="local"
+        isHidden={true}
+      >
+        <DataList
+          aria-label="Parameters"
+          className="pf-m-compact"
+        >
+          <DataListItem
+            aria-labelledby="Parameter's type"
+          >
+            <DataListItemRow>
+              <DataListItemCells
+                dataListCells={
+                  Array [
+                    <DataListCell>
+                      <span>
+                        Type
+                      </span>
+                    </DataListCell>,
+                    <DataListCell>
+                      string
+                    </DataListCell>,
+                  ]
+                }
+              />
+            </DataListItemRow>
+          </DataListItem>
+          <DataListItem
+            aria-labelledby="Parameter's Value"
+          >
+            <DataListItemRow>
+              <DataListItemCells
+                dataListCells={
+                  Array [
+                    <DataListCell
+                      isFilled={true}
+                    >
+                      <span>
+                        Value
+                      </span>
+                    </DataListCell>,
+                    <DataListCell
+                      alignRight={true}
+                      isFilled={true}
+                    >
+                      --- false
+...
+
+                    </DataListCell>,
+                  ]
+                }
+              />
+            </DataListItemRow>
+          </DataListItem>
+        </DataList>
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</Card>
+`;
