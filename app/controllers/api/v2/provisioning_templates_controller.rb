@@ -131,7 +131,7 @@ module Api
         send_data @provisioning_template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @provisioning_template.filename
       end
 
-      api :GET, '/provisioning_templates/global_registration', N_('Render Global Registration template')
+      api :GET, '/register', N_('Render Global Registration template')
       def global_registration
         if @provisioning_template
           render plain: @provisioning_template.render.html_safe
