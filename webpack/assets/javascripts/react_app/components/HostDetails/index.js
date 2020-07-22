@@ -48,7 +48,10 @@ const HostDetails = ({ match }) => {
   }, [match.params.id, dispatch]);
 
   useEffect(() => {
-    document.body.classList.add('transprenet-border');
+    //  This is a workaround for adding gray background inspiring pf4 desgin
+    //  TODO: delete it when pf4 layout (Page copmponent) is implemented in foreman
+    document.body.classList.add('pf-gray-background');
+    return () => document.body.classList.remove('pf-gray-background');
   }, []);
 
   const handleTabClick = (event, tabIndex) => {
@@ -56,7 +59,10 @@ const HostDetails = ({ match }) => {
   };
   return (
     <>
-      <PageSection className="header" variant={PageSectionVariants.light}>
+      <PageSection
+        className="host-details-header-section"
+        variant={PageSectionVariants.light}
+      >
         <div style={{ marginLeft: '18px', marginRight: '18px' }}>
           <Breadcrumb style={{ marginTop: '15px' }}>
             <BreadcrumbItem to="/hosts">Hosts</BreadcrumbItem>
@@ -115,36 +121,34 @@ const HostDetails = ({ match }) => {
         onSelect={handleTabClick}
       >
         <Tab eventKey={0} title="Details">
-          <div id="test">
-            <br />
-            <Grid>
-              <GridItem offset={3} span={4}>
-                <StatusAlert
-                  status={response ? response.global_status_label : null}
-                />
-              </GridItem>
-            </Grid>
-            <br />
-            <br />
-            <Grid>
-              <GridItem span={3} rowSpan={3}>
-                <Properties hostData={response} />
-              </GridItem>
-              <GridItem style={{ marginLeft: '40px' }} span={3}>
-                <ParametersCard paramters={response.all_parameters} />
-              </GridItem>
-              <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
-                <AuditCard hostName={response.name} />
-              </GridItem>
-              <GridItem
-                style={{ marginLeft: '40px', marginTop: '20px' }}
-                offset={3}
-                span={3}
-              >
-                <InterfacesCard interfaces={response.interfaces} />
-              </GridItem>
-            </Grid>
-          </div>
+          <br />
+          <Grid>
+            <GridItem offset={3} span={4}>
+              <StatusAlert
+                status={response ? response.global_status_label : null}
+              />
+            </GridItem>
+          </Grid>
+          <br />
+          <br />
+          <Grid>
+            <GridItem span={3} rowSpan={3}>
+              <Properties hostData={response} />
+            </GridItem>
+            <GridItem style={{ marginLeft: '40px' }} span={3}>
+              <ParametersCard paramters={response.all_parameters} />
+            </GridItem>
+            <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
+              <AuditCard hostName={response.name} />
+            </GridItem>
+            <GridItem
+              style={{ marginLeft: '40px', marginTop: '20px' }}
+              offset={3}
+              span={3}
+            >
+              <InterfacesCard interfaces={response.interfaces} />
+            </GridItem>
+          </Grid>
         </Tab>
         <Tab eventKey={1} title="Facts">
           WIP
