@@ -51,7 +51,7 @@ class Taxonomy < ApplicationRecord
       end
       child.const_set('Jail', jail_class)
     end
-    child.send(:include, NestedAncestryCommon::Search)
+    child.send(:include, ::NestedAncestryCommon::Search)
     super
   end
 

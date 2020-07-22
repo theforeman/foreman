@@ -107,7 +107,7 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
     config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
-    config.autoload_paths += %W(#{config.root}/app/models/host_status)
+    # config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
@@ -169,6 +169,9 @@ module Foreman
 
     # enables JSONP support in the Rack middleware
     config.middleware.use Rack::JSONP if SETTINGS[:support_jsonp]
+
+    config.load_defaults "6.0"
+    config.autoloader = :zeitwerk
 
     # Enable Rack OpenID middleware
     begin
@@ -305,7 +308,7 @@ module Foreman
         child.helper helpers
       end
 
-      Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
+      ::Facets.register(HostFacets::ReportedDataFacet, :reported_data) do
         set_dependent_action :destroy
         template_compatibility_properties :cores, :virtual, :sockets, :ram, :uptime_seconds
       end
