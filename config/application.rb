@@ -104,7 +104,7 @@ module Foreman
     Dir["#{Rails.root}/config/routes/**/*.rb"].each do |route_file|
       config.paths['config/routes.rb'] << route_file
     end
-
+    config.load_defaults 6.0
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -115,7 +115,7 @@ module Foreman
     config.autoload_paths += %W(#{config.root}/app/models/compute_resources)
     config.autoload_paths += %W(#{config.root}/app/models/fact_names)
     config.autoload_paths += %W(#{config.root}/app/models/lookup_keys)
-    config.autoload_paths += %W(#{config.root}/app/models/host_status)
+    # config.autoload_paths += %W(#{config.root}/app/models/host_status)
     config.autoload_paths += %W(#{config.root}/app/models/operatingsystems)
     config.autoload_paths += %W(#{config.root}/app/models/parameters)
     config.autoload_paths += %W(#{config.root}/app/models/taxonomies)
