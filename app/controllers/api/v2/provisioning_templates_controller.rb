@@ -133,7 +133,11 @@ module Api
 
       api :GET, '/provisioning_templates/global_registration', N_('Render Global Registration template')
       def global_registration
-        render plain: @provisioning_template.render.html_safe
+        if @provisioning_template
+          render plain: @provisioning_template.render.html_safe
+        else
+          render plain: _('Global Registration Template not found'), status: :not_found
+        end
       end
 
       private
@@ -159,16 +163,6 @@ module Api
             'view'
           else
             super
-        end
-      end
-
-      def find_global_registration
-        template_name = Setting['default_global_registration_item']
-        @provisioning_template = ProvisioningTemplate.find_by(name: template_name)
-
-        unless @provisioning_template
-          error = _('Template %s not found') % template_name
-          render plain: error, status: :not_found
         end
       end
     end

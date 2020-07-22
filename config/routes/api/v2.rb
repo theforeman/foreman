@@ -50,7 +50,6 @@ Foreman::Application.routes.draw do
           post 'build_pxe_default'
           get 'revision'
           post :import
-          get :global_registration
         end
         resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]

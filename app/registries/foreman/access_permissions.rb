@@ -132,7 +132,7 @@ Foreman::AccessControl.map do |permission_set|
                                         :"api/v2/template_combinations" => [:destroy],
                                       }
     map.permission :deploy_provisioning_templates,  {:provisioning_templates => [:build_pxe_default],
-                                        :"api/v2/provisioning_templates" => [:build_pxe_default, :global_registration],
+                                        :"api/v2/provisioning_templates" => [:build_pxe_default],
                                       }
 
     map.permission :lock_provisioning_templates,    {:provisioning_templates => [:lock, :unlock],
@@ -308,6 +308,7 @@ Foreman::AccessControl.map do |permission_set|
                                      :"api/v2/hosts" => [:create],
                                      :"api/v2/interfaces" => [:create],
                                      :"api/v2/tasks" => [:index],
+                                     :"api/v2/provisioning_templates" => [:global_registration],
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
                                                :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,

@@ -10,6 +10,11 @@ module Foreman::Controller::ProvisioningTemplates
     @operatingsystems = @template.operatingsystems if @template.respond_to?(:operatingsystems)
   end
 
+  def find_global_registration
+    template_name = Setting[:default_global_registration_item]
+    @provisioning_template = ProvisioningTemplate.find_by(name: template_name)
+  end
+
   private
 
   def default_template_url(template, hostgroup)
