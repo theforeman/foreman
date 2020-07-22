@@ -102,3 +102,5 @@ module NestedAncestryCommon
     lookup_values.update_all(:match => "#{obj_type}=#{title}")
   end
 end
+
+require_dependency 'nested_ancestry_common/search'

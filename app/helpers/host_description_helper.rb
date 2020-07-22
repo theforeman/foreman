@@ -1,5 +1,5 @@
 module HostDescriptionHelper
-  UI.register_host_description do
+  ::UI.register_host_description do
     multiple_actions_provider :base_multiple_actions
     overview_fields_provider :base_status_overview_fields
     overview_fields_provider :base_host_overview_fields
