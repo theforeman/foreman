@@ -10,6 +10,7 @@ import {
 } from '@patternfly/react-core';
 import { UserAltIcon } from '@patternfly/react-icons';
 
+import { userPropType } from '../LayoutHelper';
 import NotificationContainer from '../../notifications';
 import NavItem from './NavItem';
 import ImpersonateIcon from './ImpersonateIcon';
@@ -88,7 +89,7 @@ UserDropdowns.propTypes = {
   /** Additional element css classes */
   className: PropTypes.string,
   /** User Data Array */
-  user: PropTypes.object,
+  user: userPropType,
   /** notification URL */
   notificationUrl: PropTypes.string,
   /** changeActiveMenu Func */
