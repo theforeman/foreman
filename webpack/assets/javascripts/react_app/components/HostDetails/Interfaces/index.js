@@ -15,8 +15,6 @@ import {
 } from '@patternfly/react-core';
 import { StarIcon } from '@patternfly/react-icons';
 import Skeleton from 'react-loading-skeleton';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import styles from '@patternfly/react-styles/css/components/DataList/data-list';
 import { translate as __ } from '../../../common/I18n';
 
 const InterfacesCard = ({ interfaces }) => {
@@ -54,10 +52,7 @@ const InterfacesCard = ({ interfaces }) => {
               id={Interface.identifier}
               isHidden={ativeAccordion !== Interface.identifier}
             >
-              <DataList
-                className={styles.modifiers.compact}
-                aria-label="Interfaces"
-              >
+              <DataList isCompact aria-label="Interfaces">
                 <DataListItem aria-labelledby="ip">
                   <DataListItemRow>
                     <DataListItemCells

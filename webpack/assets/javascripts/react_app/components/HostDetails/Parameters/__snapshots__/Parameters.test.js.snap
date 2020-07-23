@@ -26,7 +26,7 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
       >
         <DataList
           aria-label="Parameters"
-          className="pf-m-compact"
+          isCompact={true}
         >
           <DataListItem
             aria-labelledby="Parameter's type"
@@ -92,7 +92,7 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
       >
         <DataList
           aria-label="Parameters"
-          className="pf-m-compact"
+          isCompact={true}
         >
           <DataListItem
             aria-labelledby="Parameter's type"

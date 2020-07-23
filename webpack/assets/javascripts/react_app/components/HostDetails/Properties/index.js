@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import styles from '@patternfly/react-styles/css/components/DataList/data-list';
 import {
   DataList,
   DataListItem,
@@ -16,7 +13,7 @@ import { translate as __ } from '../../../common/I18n';
 
 const Properties = ({ hostData }) => (
   <Card isHoverable>
-    <DataList aria-label="Host Properties" className={styles.modifiers.compact}>
+    <DataList aria-label="Host Properties" isCompact>
       <DataListItem aria-labelledby="name">
         <DataListItemRow>
           <DataListItemCells

@@ -14,8 +14,6 @@ import {
   AccordionToggle,
 } from '@patternfly/react-core';
 import Skeleton from 'react-loading-skeleton';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import styles from '@patternfly/react-styles/css/components/DataList/data-list';
 import { translate as __ } from '../../../common/I18n';
 
 const ParametersCard = ({ paramters }) => {
@@ -52,10 +50,7 @@ const ParametersCard = ({ paramters }) => {
               id={param.name}
               isHidden={ativeAccordion !== param.name}
             >
-              <DataList
-                aria-label="Parameters"
-                className={styles.modifiers.compact}
-              >
+              <DataList aria-label="Parameters" isCompact>
                 <DataListItem aria-labelledby="Parameter's type">
                   <DataListItemRow>
                     <DataListItemCells
