@@ -2,13 +2,14 @@
 // eslint bug - https://github.com/eslint/eslint/issues/12117
 
 import { isEmpty } from 'lodash';
+import PropTypes from 'prop-types';
 import {
   changeOrganization,
   changeLocation,
 } from '../../../foreman_navigation';
 import { translate as __ } from '../../common/I18n';
-import { removeLastSlashFromPath } from '../../common/helpers';
 import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from './LayoutConstants';
+import { removeLastSlashFromPath, noop } from '../../common/helpers';
 
 export const createInitialTaxonomy = (currentTaxonomy, availableTaxonomies) => {
   const taxonomyId = availableTaxonomies.find(
@@ -134,4 +135,108 @@ const createLocationItem = locations => {
     className: 'visible-xs-block',
   };
   return locItem;
+};
+
+export const organizationPropType = PropTypes.shape({
+  current_org: PropTypes.string,
+  available_organizations: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string,
+    })
+  ),
+});
+
+export const locationPropType = PropTypes.shape({
+  current_location: PropTypes.string,
+  available_locations: PropTypes.arrayOf(
+    PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string,
+    })
+  ),
+});
+
+export const userPropType = PropTypes.shape({
+  current_user: PropTypes.object.isRequired,
+  user_dropdown: PropTypes.arrayOf(
+    PropTypes.shape({
+      children: PropTypes.any,
+      icon: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })
+  ),
+});
+
+export const layoutPropTypes = {
+  children: PropTypes.node,
+  currentOrganization: PropTypes.string,
+  currentLocation: PropTypes.string,
+  isLoading: PropTypes.bool,
+  isCollapsed: PropTypes.bool,
+  activeMenu: PropTypes.string,
+  navigate: PropTypes.func,
+  changeActiveMenu: PropTypes.func,
+  changeOrganization: PropTypes.func,
+  changeLocation: PropTypes.func,
+  expandLayoutMenus: PropTypes.func,
+  collapseLayoutMenus: PropTypes.func,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      className: PropTypes.string,
+      iconClass: PropTypes.string.isRequired,
+      initialActive: PropTypes.bool,
+      subItems: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string,
+          isDivider: PropTypes.bool,
+          className: PropTypes.string,
+          href: PropTypes.string,
+        })
+      ),
+    })
+  ),
+  data: PropTypes.shape({
+    brand: PropTypes.string,
+    stop_impersonation_url: PropTypes.string.isRequired,
+    menu: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        children: PropTypes.any,
+      })
+    ),
+    locations: locationPropType,
+    orgs: organizationPropType,
+    root: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
+    notification_url: PropTypes.string.isRequired,
+    taxonomies: PropTypes.shape({
+      locations: PropTypes.bool.isRequired,
+      organizations: PropTypes.bool.isRequired,
+    }),
+    user: userPropType,
+  }),
+};
+
+export const layoutDefaultProps = {
+  children: null,
+  items: [],
+  data: {},
+  currentOrganization: ANY_ORGANIZATION_TEXT,
+  currentLocation: ANY_LOCATION_TEXT,
+  isLoading: false,
+  isCollapsed: false,
+  activeMenu: '',
+  navigate: noop,
+  changeActiveMenu: noop,
+  changeOrganization: noop,
+  changeLocation: noop,
+  expandLayoutMenus: noop,
+  collapseLayoutMenus: noop,
 };

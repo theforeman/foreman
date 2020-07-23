@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Nav, Spinner } from 'patternfly-react';
 import { noop } from '../../../common/helpers';
 
+import { locationPropType, organizationPropType } from '../LayoutHelper';
 import { ANY_ORGANIZATION_TEXT, ANY_LOCATION_TEXT } from '../LayoutConstants';
 import NavItem from './NavItem';
 import TaxonomyDropdown from './TaxonomyDropdown';
@@ -57,20 +58,8 @@ TaxonomySwitcher.propTypes = {
   isLoading: PropTypes.bool,
   currentOrganization: PropTypes.string,
   currentLocation: PropTypes.string,
-  organizations: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string,
-      href: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  locations: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string,
-      href: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  organizations: PropTypes.arrayOf(organizationPropType).isRequired,
+  locations: PropTypes.arrayOf(locationPropType).isRequired,
   taxonomiesBool: PropTypes.shape({
     locations: PropTypes.bool.isRequired,
     organizations: PropTypes.bool.isRequired,

@@ -222,6 +222,9 @@ const serverUser = {
   },
   user_dropdown: [
     {
+      type: 'sub_menu',
+      name: 'User',
+      icon: 'fa fa-user',
       children: [
         {
           type: 'item',
