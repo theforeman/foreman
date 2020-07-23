@@ -16,8 +16,6 @@ import {
   AccordionToggle,
   Button,
 } from '@patternfly/react-core';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import styles from '@patternfly/react-styles/css/components/DataList/data-list';
 
 import { foremanUrl } from '../../../../foreman_tools';
 import { get } from '../../../redux/API';
@@ -76,10 +74,7 @@ const AuditCard = ({ hostName }) => {
                       ativeAccordion !== `${audit.request_uuid}-${index}`
                     }
                   >
-                    <DataList
-                      className={styles.modifiers.compact}
-                      aria-label="Audits"
-                    >
+                    <DataList isCompact aria-label="Audits">
                       {audit &&
                         Object.entries(audit.audited_changes).map(
                           ([key, value], i) => (

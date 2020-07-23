@@ -34,7 +34,7 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
       >
         <DataList
           aria-label="Interfaces"
-          className="pf-m-compact"
+          isCompact={true}
         >
           <DataListItem
             aria-labelledby="ip"
@@ -169,7 +169,7 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
       >
         <DataList
           aria-label="Interfaces"
-          className="pf-m-compact"
+          isCompact={true}
         >
           <DataListItem
             aria-labelledby="ip"

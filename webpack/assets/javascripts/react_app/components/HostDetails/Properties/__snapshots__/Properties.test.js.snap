@@ -6,7 +6,7 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
 >
   <DataList
     aria-label="Host Properties"
-    className="pf-m-compact"
+    isCompact={true}
   >
     <DataListItem
       aria-labelledby="name"
