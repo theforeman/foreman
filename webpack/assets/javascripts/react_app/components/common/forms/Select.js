@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { map } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner } from 'patternfly-react';
@@ -9,6 +8,7 @@ import { noop } from '../../../common/helpers';
 import CommonForm from './CommonForm';
 import { STATUS } from '../../../constants';
 import MessageBox from '../MessageBox';
+import { renderOptions } from './SelectHelpers';
 
 class Select extends React.Component {
   initializeSelect2() {
@@ -54,28 +54,6 @@ class Select extends React.Component {
       status = STATUS.RESOLVED,
       errorMessage = __('An error occured.'),
     } = this.props;
-
-    const renderOption = ({ val, text, key = null }) => (
-      <option value={val} key={key || val}>
-        {text}
-      </option>
-    );
-
-    const renderOptGroup = group => (
-      <optgroup label={group.groupLabel} key={group.groupLabel}>
-        {renderOptions(group.children)}
-      </optgroup>
-    );
-
-    const renderOptions = opts => {
-      if (Array.isArray(opts)) {
-        return opts.map((opt, index) => {
-          if (opt.children) return renderOptGroup(opt);
-          return renderOption({ key: index, val: opt.value, text: opt.label });
-        });
-      }
-      return map(opts, (text, val) => renderOption({ val, text }));
-    };
 
     let content;
 
