@@ -2,11 +2,13 @@ import Immutable from 'seamless-immutable';
 
 import {
   LOAD_SETTING_RECORDS,
+  SET_EDITING_SETTING,
   SETTINGS_FORM_SUBMITTED,
 } from './SettingRecordsConstants';
 
 export const initialState = Immutable({
   settings: {},
+  editing: null,
 });
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -24,6 +26,8 @@ const reducer = (state = initialState, { type, payload }) => {
         updatedCategory
       );
     }
+    case SET_EDITING_SETTING:
+      return state.set('editing', payload.setting);
     default:
       return state;
   }

@@ -5,15 +5,15 @@ import useSettingModal from './useSettingModal';
 
 import SettingUpdateModal from './SettingUpdateModal';
 
-import { selectSettingToEdit } from '../SettingsTable/SettingsTableSelectors';
+import { selectSettingEditing } from '../SettingRecords/SettingRecordsSelectors';
 
 const WrappedSettingUpdateModal = props => {
-  const toUpdate = useSelector(state => selectSettingToEdit(state));
+  const setting = useSelector(state => selectSettingEditing(state)) || {};
 
   const { setModalClosed } = useSettingModal();
 
   return (
-    <SettingUpdateModal setting={toUpdate} setModalClosed={setModalClosed} />
+    <SettingUpdateModal setting={setting} setModalClosed={setModalClosed} />
   );
 };
 

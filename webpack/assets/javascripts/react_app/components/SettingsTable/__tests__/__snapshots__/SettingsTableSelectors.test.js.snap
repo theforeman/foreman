@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`SettingsTableSelectors should select setting to edit 1`] = `
-Object {
-  "category": "Setting::Foo",
-  "id": 42,
-  "name": "edit_me",
-}
-`;

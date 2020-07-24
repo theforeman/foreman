@@ -21,7 +21,6 @@ import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
 import { reducers as modelsPageReducers } from '../../routes/Models/ModelsPage';
 import { reducers as settingRecordsReducers } from '../../components/SettingRecords';
-import { reducers as settingsTableReducers } from '../../components/SettingsTable';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
@@ -40,7 +39,6 @@ export function combineReducersAsync(asyncReducers) {
     ...factChartReducers,
     ...typeAheadSelectReducers,
     ...settingRecordsReducers,
-    ...settingsTableReducers,
 
     router: connectRouter(history),
     // Pages

@@ -4,17 +4,11 @@ import PropTypes from 'prop-types';
 
 import { selectSettingsByCategory } from '../SettingRecords/SettingRecordsSelectors';
 
-import { setSettingToUpdate } from './SettingsTableActions';
+import { setSettingEditing } from '../SettingRecords/SettingRecordsActions';
 
 import SettingsTable from './SettingsTable';
 
-import reducer from './SettingsTableReducer';
-
 import useSettingModal from '../SettingUpdateModal/useSettingModal';
-
-export const reducers = {
-  settingsTable: reducer,
-};
 
 const WrappedSettingsTable = props => {
   const settings = useSelector(state =>
@@ -25,7 +19,7 @@ const WrappedSettingsTable = props => {
   const { setModalOpen } = useSettingModal();
 
   const onEditClick = async setting => {
-    await dispatch(setSettingToUpdate(setting));
+    await dispatch(setSettingEditing(setting));
     setModalOpen();
   };
 

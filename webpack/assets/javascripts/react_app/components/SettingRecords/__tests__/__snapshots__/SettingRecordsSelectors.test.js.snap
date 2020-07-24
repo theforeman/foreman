@@ -208,6 +208,14 @@ Object {
 }
 `;
 
+exports[`SettingRecordsSelectors should select setting to edit 1`] = `
+Object {
+  "category": "Setting::Foo",
+  "id": 42,
+  "name": "edit_me",
+}
+`;
+
 exports[`SettingRecordsSelectors should select settings by category 1`] = `
 Array [
   Object {

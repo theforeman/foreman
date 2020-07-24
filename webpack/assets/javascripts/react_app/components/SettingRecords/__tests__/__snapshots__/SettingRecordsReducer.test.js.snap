@@ -2,6 +2,7 @@
 
 exports[`SettingRecordsReducer should load settings 1`] = `
 Object {
+  "editing": null,
   "settings": Object {
     "Setting::Auth": Array [
       Object {
@@ -194,12 +195,25 @@ Object {
 
 exports[`SettingRecordsReducer should return initial state 1`] = `
 Object {
+  "editing": null,
+  "settings": Object {},
+}
+`;
+
+exports[`SettingRecordsReducer should set setting to update 1`] = `
+Object {
+  "editing": Object {
+    "category": "Setting::Email",
+    "id": 5,
+    "name": "email_reply_address",
+  },
   "settings": Object {},
 }
 `;
 
 exports[`SettingRecordsReducer should update a setting 1`] = `
 Object {
+  "editing": null,
   "settings": Object {
     "Setting::Auth": Array [
       Object {
