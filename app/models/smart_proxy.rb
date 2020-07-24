@@ -187,6 +187,17 @@ class SmartProxy < ApplicationRecord
     end
   end
 
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    name 'Smart Proxy'
+    refs 'SmartProxy'
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'Smart Proxy' }
+    property :hostname, String, desc: 'Returns name of the host with proxy'
+    property :httpboot_http_port, Integer, desc: 'Returns proxy port for HTTP boot'
+    property :httpboot_http_port!, Integer, desc: 'Same as httpboot_http_port, but raises Foreman::Exception if no port is set'
+    property :httpboot_https_port, Integer, desc: 'Returns proxy port for HTTPS boot'
+    property :httpboot_https_port!, Integer, desc: 'Same as httpboot_https_port, but raises Foreman::Exception if no port is set'
+  end
   class Jail < ::Safemode::Jail
     allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!
   end
