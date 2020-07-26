@@ -42,7 +42,7 @@ disable_mem = !new_vm || (new_vm && instance_type && instance_type.memory.presen
 <%= byte_size_f f, :memory, :disabled => disable_mem, :label => _('Memory'), :label_size => "col-md-2" %>
 
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :ha, { :checked => f.object.ha.present? , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
+<%= checkbox_f f, :ha, { :checked => (f.object.ha == '1') , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
 <%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
 
 <%= f.fields_for :display, OpenStruct.new(f.object.display) do |display_f| %>
