@@ -193,7 +193,6 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
       Setting::Provisioning.any_instance.stubs(:value).returns('not-existing-template')
       get :global_registration
       assert_response :not_found
-      assert_equal @response.body, "Global Registration Template not found"
     end
 
     test "should render error when template is invalid" do
