@@ -402,7 +402,7 @@ module ApplicationHelper
       :'data-class-id'   => klass.id,
       :'data-class-name' => klass.name,
       :'data-type'       => type,
-      :'data-url'        => parameters_puppetclass_path(:id => klass.id),
+      :'data-url'        => main_app.parameters_puppetclass_path(:id => klass.id),
       :rel               => 'twipsy',
     }
   end
