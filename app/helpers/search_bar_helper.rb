@@ -11,7 +11,7 @@ module SearchBarHelper
     bookmarks = {}
     if use_bookmarks
       bookmarks = {
-        url: api_bookmarks_path,
+        url: main_app.api_bookmarks_path,
         canCreate: authorizer.can?(:create_bookmarks),
         documentationUrl: documentation_url("4.1.5Searching"),
       }
@@ -35,7 +35,7 @@ module SearchBarHelper
     autocomplete_id: "searchBar"
   )
     bookmarks = {
-      url: api_bookmarks_path,
+      url: main_app.api_bookmarks_path,
       canCreate: authorizer.can?(:create_bookmarks),
       documentationUrl: documentation_url("4.1.5Searching"),
     }
