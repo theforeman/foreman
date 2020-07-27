@@ -1,7 +1,7 @@
 # Base container that is used for both building and running the app
-FROM registry.fedoraproject.org/fedora-minimal:31 as base
-ARG RUBY_VERSION="2.6"
-ARG NODEJS_VERSION="11"
+FROM registry.fedoraproject.org/fedora-minimal:latest as base
+ARG RUBY_VERSION="2.7"
+ARG NODEJS_VERSION="12"
 ENV FOREMAN_FQDN=foreman.example.com
 ENV FOREMAN_DOMAIN=example.com
 
@@ -84,7 +84,7 @@ COPY --from=builder --chown=1001:0 ${HOME}/.bundle/config ${HOME}/.bundle/config
 COPY --from=builder --chown=1001:0 ${HOME}/Gemfile.lock ${HOME}/Gemfile.lock
 COPY --from=builder --chown=1001:0 ${HOME}/vendor/ruby ${HOME}/vendor/ruby
 COPY --from=builder --chown=1001:0 ${HOME}/public ${HOME}/public
-RUN echo gem '"tzinfo-data"' > bundler.d/container.rb && rm -rf bundler.d/nulldb.rb
+RUN echo gem '"tzinfo-data"' > bundler.d/container.rb && rm -rf bundler.d/nulldb.rb bin/spring
 
 RUN date -u > BUILD_TIME
 
