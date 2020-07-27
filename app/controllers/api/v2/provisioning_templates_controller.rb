@@ -136,7 +136,7 @@ module Api
         if @provisioning_template
           render plain: @provisioning_template.render.html_safe
         else
-          render plain: _('Global Registration Template not found'), status: :not_found
+          render plain: _('Global Registration Template with name %s defined via default_global_registration_item Setting not found, please configure the existing template name first') % Setting[:default_global_registration_item], status: :not_found
         end
       end
 
