@@ -5,7 +5,6 @@ import ReactApp from '../Root/ReactApp';
 import DonutChart from './common/charts/DonutChart';
 import BarChart from './common/charts/BarChart';
 import LineChart from './common/charts/LineChart';
-import StatisticsChartsList from './StatisticsChartsList';
 import PowerStatus from './hosts/powerStatus/';
 import NotificationContainer from './notifications/';
 import ToastsList from './ToastsList/';
@@ -113,7 +112,6 @@ const coreComponets = [
   { name: 'AutoComplete', type: AutoComplete },
   { name: 'DonutChart', type: DonutChart },
   { name: 'LineChart', type: LineChart },
-  { name: 'StatisticsChartsList', type: StatisticsChartsList },
   { name: 'PowerStatus', type: PowerStatus },
   { name: 'NotificationContainer', type: NotificationContainer },
   { name: 'ToastNotifications', type: ToastsList, data: false },
