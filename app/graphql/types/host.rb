@@ -38,5 +38,6 @@ module Types
     belongs_to :compute_profile, Types::ComputeProfile
     has_many :fact_names, Types::FactName
     has_many :fact_values, Types::FactValue
+    has_many :reports, Types::ConfigReport
   end
 end
