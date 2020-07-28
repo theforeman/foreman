@@ -164,7 +164,6 @@ class PermissionsList
         ['SshKey', 'view_ssh_keys'],
         ['SshKey', 'create_ssh_keys'],
         ['SshKey', 'destroy_ssh_keys'],
-        [nil, 'view_statistics'],
         ['Subnet', 'view_subnets'],
         ['Subnet', 'create_subnets'],
         ['Subnet', 'edit_subnets'],

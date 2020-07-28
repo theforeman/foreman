@@ -39,7 +39,6 @@ module Menu
         menu.sub_menu :monitor_menu,    :caption => N_('Monitor'), :icon => 'fa fa-tachometer' do
           menu.item :dashboard,         :caption => N_('Dashboard'), :exact => true
           menu.item :fact_values,       :caption => N_('Facts')
-          menu.item :statistics,        :caption => N_('Statistics')
           menu.item :audits,            :caption => N_('Audits')
           menu.divider                  :caption => N_('Reports')
           menu.item :reports,           :caption => N_('Config Management'),

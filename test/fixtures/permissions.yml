@@ -564,11 +564,6 @@ destroy_smart_proxies_puppetca:
   resource_type: SmartProxy
   created_at: "2013-12-04 08:41:06.216154"
   updated_at: "2013-12-04 08:41:06.216154"
-view_statistics:
-  name: view_statistics
-  resource_type:
-  created_at: "2013-12-04 08:41:06.223528"
-  updated_at: "2013-12-04 08:41:06.223528"
 view_subnets:
   name: view_subnets
   resource_type: Subnet

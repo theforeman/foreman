@@ -194,8 +194,6 @@ Foreman::Application.routes.draw do
 
       resources :settings, :only => [:index, :show, :update]
 
-      resources :statistics, :only => [:index]
-
       get '/', :to => 'home#index'
       get 'status', :to => 'home#status', :as => "v2_status"
       get 'current_user', to: 'users#show_current', as: "current_user"
@@ -209,6 +207,7 @@ Foreman::Application.routes.draw do
       # TODO: remove in 2.4
       statistics_plugin = Foreman::Plugin.find(:foreman_statistics)
       resources :trends, :only => [:create, :index, :show, :destroy], :controller => statistics_plugin && '/foreman_statistics/api/v2/trends'
+      resources :statistics, :only => [:index], :controller => statistics_plugin && '/foreman_statistics/api/v2/statistics'
 
       resources :subnets, :except => [:new, :edit] do
         resources :locations, :only => [:index, :show]
