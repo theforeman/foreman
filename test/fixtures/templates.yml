@@ -172,3 +172,11 @@ autopart:
   operatingsystems: centos5_3
   locked: true
   type: Ptable
+
+global_registration:
+  name: Global Registration
+  template: 'echo "Default Global registration template"'
+  template_kind: registration
+  operatingsystems: redhat
+  locked: true
+  type: ProvisioningTemplate

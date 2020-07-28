@@ -423,3 +423,8 @@ attribute93:
   category: Setting::Puppet
   default: true
   description: "Foreman will update a host's hostgroup from its facts"
+attribute94:
+  name: default_global_registration_item
+  category: Setting::Provisioning
+  default: 'Global Registration'
+  description: "Default Global registration template"

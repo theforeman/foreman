@@ -26,3 +26,7 @@ pxegrub:
 pxegrub2:
   name: PXEGrub2
   description: description for pxegrub2 template
+
+registration:
+  name: registration
+  description: description for registration template

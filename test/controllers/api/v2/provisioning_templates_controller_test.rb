@@ -181,4 +181,24 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
     template_combination = TemplateCombination.find(template_combinations[0]['id'])
     assert_equal response['id'], template_combination.provisioning_template_id
   end
+
+  describe 'global registration template' do
+    test "should get template" do
+      get :global_registration
+      assert_response :success
+      assert_equal @response.body, templates(:global_registration).template
+    end
+
+    test "should render not_found" do
+      Setting::Provisioning.any_instance.stubs(:value).returns('not-existing-template')
+      get :global_registration
+      assert_response :not_found
+    end
+
+    test "should render error when template is invalid" do
+      Foreman::Renderer::Source::Database.any_instance.stubs(:content).returns("<% asda =!?== '2 % %>")
+      get :global_registration
+      assert_response :internal_server_error
+    end
+  end
 end

@@ -1,0 +1,10 @@
+<%#
+kind: registration
+name: Global Registration
+model: ProvisioningTemplate
+-%>
+
+if ! [ $(id -u) = 0 ]; then
+    echo "Please run as root"
+    exit 1
+fi

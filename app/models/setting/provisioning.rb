@@ -77,6 +77,7 @@ class Setting::Provisioning < Setting
         N_('Exclude pattern for facts stored in foreman')
       ),
       set('maximum_structured_facts', N_("Maximum amount of keys in structured subtree, statistics stored in foreman::dropped_subtree_facts"), 100, N_('Maximum structured facts')),
+      set('default_global_registration_item', N_("Global Registration template"), 'Global Registration', N_("Default Global registration template")),
     ] + default_global_templates + default_local_boot_templates
   end
 
