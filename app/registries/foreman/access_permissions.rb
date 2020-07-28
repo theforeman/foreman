@@ -678,12 +678,6 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
-  permission_set.security_block :statistics do |map|
-    map.permission :view_statistics, {:statistics => [:index, :show],
-                                       :"api/v2/statistics" => [:index],
-                                      }
-  end
-
   permission_set.security_block :tasks do |map|
     map.permission :view_tasks, {:trends => [:show]}
   end

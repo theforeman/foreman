@@ -179,9 +179,6 @@ manager_16_0:
 manager_16_1:
   filter: manager_16
   permission: access_dashboard
-manager_16_2:
-  filter: manager_16
-  permission: view_statistics
 manager_17_0:
   filter: manager_17
   permission: view_reports
@@ -293,9 +290,6 @@ viewer_4_0:
 viewer_4_1:
   filter: viewer_4
   permission: access_settings
-viewer_4_2:
-  filter: viewer_4
-  permission: view_statistics
 viewer_5_0:
   filter: viewer_5
   permission: view_domains
