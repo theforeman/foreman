@@ -36,9 +36,9 @@ model: ReportTemplate
 <%-     status = "#{host2.name} only"-%>
 <%-   elsif version2 == "-" -%>
 <%-     status = "#{host1.name} only"-%>
-<%-   elsif version(version1) > version(version2) -%>
+<%-   elsif sortable_version(version1) > sortable_version(version2) -%>
 <%-     status = "greater in #{host1.name}"-%>
-<%-   elsif version(version1) < version(version2) -%>
+<%-   elsif sortable_version(version1) < sortable_version(version2) -%>
 <%-     status = "lower in #{host1.name}"-%>
 <%-   else  -%>
 <%-     status = "same version"-%>
