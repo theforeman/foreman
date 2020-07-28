@@ -20,18 +20,18 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^4.11.1",
+    "@theforeman/vendor": "^4.12.0",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^4.11.1",
-    "@theforeman/eslint-plugin-foreman": "^4.11.1",
-    "@theforeman/stories": "^4.11.1",
-    "@theforeman/test": "^4.11.1",
-    "@theforeman/vendor-dev": "^4.11.1",
+    "@theforeman/builder": "^4.12.0",
+    "@theforeman/eslint-plugin-foreman": "^4.12.0",
+    "@theforeman/stories": "^4.12.0",
+    "@theforeman/test": "^4.12.0",
+    "@theforeman/vendor-dev": "^4.12.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",
