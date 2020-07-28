@@ -12,7 +12,6 @@ import { reducers as diffModalReducers } from '../../components/ConfigReports/Di
 import { reducers as editorReducers } from '../../components/Editor';
 import { reducers as templateGenerationReducers } from '../../components/TemplateGenerator';
 import { reducers as factChartReducers } from '../../components/FactCharts';
-import { reducers as statisticsPageReducers } from '../../routes/Statistics/StatisticsPage';
 import { reducers as fillReducers } from '../../components/common/Fill';
 import { reducers as typeAheadSelectReducers } from '../../components/common/TypeAheadSelect';
 import { reducers as auditsPageReducers } from '../../routes/Audits/AuditsPage';
@@ -41,7 +40,6 @@ export function combineReducersAsync(asyncReducers) {
 
     router: connectRouter(history),
     // Pages
-    ...statisticsPageReducers,
     ...fillReducers,
     ...auditsPageReducers,
     ...modalReducers,
