@@ -91,5 +91,8 @@ module Types
 
     record_field :setting, Types::Setting
     collection_field :settings, Types::Setting
+
+    record_field :configReport, Types::ConfigReport
+    collection_field :configReports, Types::ConfigReport
   end
 end
