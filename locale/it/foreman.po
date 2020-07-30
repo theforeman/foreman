@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Italian (http://www.transifex.com/foreman/foreman/language/it/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -428,9 +428,6 @@ msgstr ""
 
 msgid "A user group already exists with this name"
 msgstr "Esiste già un gruppo utenti con questo nome"
-
-msgid "API Key"
-msgstr "API Key"
 
 msgid "API Resources"
 msgstr ""
@@ -2211,6 +2208,9 @@ msgstr "Organizzazione predefinita"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr ""
 
@@ -2221,9 +2221,6 @@ msgid "Default value"
 msgstr "Valore predefinito"
 
 msgid "Default value for user input"
-msgstr ""
-
-msgid "Default variables lookup path"
 msgstr ""
 
 msgid "Default verification mode"
@@ -3438,8 +3435,8 @@ msgstr "Foreman eseguirà il default su questo ambiente puppet se non è in grad
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr ""
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Per impostazione predefinita, Foreman valuterà le variabili smart dell'host seguendo questo ordine"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman imposterà in modo esplicito l'ambiente puppet all'interno dell'output yalm ENC. Ciò eviterà di avere dei conflitti con l'ambiente puppet.conf e quello impostato in Foreman"
@@ -3508,9 +3505,6 @@ msgid "Full trace"
 msgstr "Controllo completo"
 
 msgid "Function not available for %s"
-msgstr ""
-
-msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -4790,7 +4784,7 @@ msgstr "Livello"
 msgid "Libvirt default console address"
 msgstr ""
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10725,9 +10719,6 @@ msgstr "es. admin@internal"
 
 msgid "e.g. givenName"
 msgstr "es. Nome"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "es. https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Korean (http://www.transifex.com/foreman/foreman/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -424,9 +424,6 @@ msgstr ""
 
 msgid "A user group already exists with this name"
 msgstr "이 이름으로된 사용 그룹이 이미 존재합니다 "
-
-msgid "API Key"
-msgstr "API 키 "
 
 msgid "API Resources"
 msgstr ""
@@ -2206,6 +2203,9 @@ msgstr "기본 조직"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "기본 템플릿이 새 조직과 위치에 자동으로 추가됩니다."
 
@@ -2217,9 +2217,6 @@ msgstr "기본값 "
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "기본 변수 조회 경로"
 
 msgid "Default verification mode"
 msgstr ""
@@ -3438,8 +3435,8 @@ msgstr "Foreman은 자동으로 검색하지 못 할 경우 puppet 환경에 기
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "프로비저닝 스크립트가 0이 아닌 종료 코드로 끝나면 Foreman이 가상 머신을 삭제합니다."
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman은 기본값으로 순서대로 호스트 스마트 변수를 평가합니다 "
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman은 ENC yaml 출력에서 puppet 환경을 명시적으로 설정합니다. 이로 인해 puppet.conf의 환경과 Foreman으로 설정되는 환경 간의 충돌을 방지할 수 있습니다  "
@@ -3509,9 +3506,6 @@ msgstr "전체 추적 "
 
 msgid "Function not available for %s"
 msgstr "%s에 사용할 수 없는 기능"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 시간"
@@ -4790,7 +4784,7 @@ msgstr "레벨 "
 msgid "Libvirt default console address"
 msgstr "Libvirt 기본 콘솔 주소"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10728,9 +10722,6 @@ msgstr "예: admin@internal"
 
 msgid "e.g. givenName"
 msgstr "예: givenName"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "예: https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

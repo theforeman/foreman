@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/foreman/foreman/lang"
 "uage/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -433,9 +433,6 @@ msgstr ""
 
 msgid "A user group already exists with this name"
 msgstr "此名稱已經存在於使用者群組中"
-
-msgid "API Key"
-msgstr "API 金鑰"
 
 msgid "API Resources"
 msgstr ""
@@ -2216,6 +2213,9 @@ msgstr "預設組織"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "預設範本會自動加入至新組織與位置"
 
@@ -2227,9 +2227,6 @@ msgstr "預設值"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "預設變數的查找路徑"
 
 msgid "Default verification mode"
 msgstr ""
@@ -3446,8 +3443,8 @@ msgstr "若 Foreman 無法自動偵測 puppet 環境，就預設值它將會使�
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "Foreman 會偵測虛擬機器，如果佈建 script 最後產生了非零值的退出碼"
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman 就預設值將會使用此順序來評估主機智慧變數"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman 將會明確設置 puppet 環境於 ENC yaml 輸出中。這將避免 puppet.conf 和 Foreman 中，環境之間的衝突。"
@@ -3517,9 +3514,6 @@ msgstr "完整追蹤"
 
 msgid "Function not available for %s"
 msgstr "%s 的功能不可用"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "GMT 時間"
@@ -4798,7 +4792,7 @@ msgstr "等級"
 msgid "Libvirt default console address"
 msgstr "Libvirt 的預設主控台位址"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10737,9 +10731,6 @@ msgstr "例如 admin@internal"
 
 msgid "e.g. givenName"
 msgstr "例如 givenName"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "例如 https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

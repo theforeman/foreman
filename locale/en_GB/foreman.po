@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
 "Last-Translator: Transifex Bot <>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/foreman/fore"
 "man/language/en_GB/)\n"
@@ -425,9 +425,6 @@ msgid "A test message to check the email configuration is working"
 msgstr ""
 
 msgid "A user group already exists with this name"
-msgstr ""
-
-msgid "API Key"
 msgstr ""
 
 msgid "API Resources"
@@ -2209,6 +2206,9 @@ msgstr "Default organisation"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "Default templates are automatically added to new organisations and locations"
 
@@ -2219,9 +2219,6 @@ msgid "Default value"
 msgstr ""
 
 msgid "Default value for user input"
-msgstr ""
-
-msgid "Default variables lookup path"
 msgstr ""
 
 msgid "Default verification mode"
@@ -3436,7 +3433,7 @@ msgstr ""
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr ""
 
-msgid "Foreman will evaluate host smart variables in this order by default"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
 msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
@@ -3506,9 +3503,6 @@ msgid "Full trace"
 msgstr ""
 
 msgid "Function not available for %s"
-msgstr ""
-
-msgid "Further Information"
 msgstr ""
 
 msgid "GMT time"
@@ -4788,7 +4782,7 @@ msgstr ""
 msgid "Libvirt default console address"
 msgstr ""
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10722,9 +10716,6 @@ msgid "e.g. admin@internal"
 msgstr ""
 
 msgid "e.g. givenName"
-msgstr ""
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
 msgstr ""
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
