@@ -1,7 +1,8 @@
 <% title _('Config Groups') %>
 
 <% title_actions new_link(_('Create Config Group')), help_button %>
-
+<%= alert :header => '', :class => 'alert-warning', :close => false,
+          :text => extraction_warning_config_groups %>
 <table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
