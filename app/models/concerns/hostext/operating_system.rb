@@ -34,7 +34,8 @@ module Hostext
 
     def template_kinds(provisioning = nil)
       return TemplateKind.all unless provisioning == 'image'
-      cr     = ComputeResource.find_by_id(compute_resource_id)
+      cr_id  = compute_resource_id || hostgroup&.compute_resource_id
+      cr     = ComputeResource.find_by_id(cr_id)
       images = cr.try(:images)
       if images.blank?
         [TemplateKind.friendly.find('finish')]
