@@ -1,5 +1,6 @@
 <% title _("Puppet Classes") %>
-
+<%= alert :header => '', :class => 'alert-warning', :close => false,
+          :text => extraction_warning_puppet_classes_management %>
 <% title_actions import_proxy_select(hash_for_import_environments_puppetclasses_path),
                  documentation_button('4.2.2Classes') %>
 

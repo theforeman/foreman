@@ -1,5 +1,6 @@
 <% title _('Puppet Environments') %>
-
+<%= alert :header => '', :class => 'alert-warning', :close => false,
+          :text => extraction_warning_puppet_environments %>
 <%= environments_title_actions %>
 
 <table class="<%= table_css_classes 'table-fixed' %>">
