@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: Michał Foryt <michal.foryt@gmail.com>\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Polish (http://www.transifex.com/foreman/foreman/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -456,9 +456,6 @@ msgstr ""
 
 msgid "A user group already exists with this name"
 msgstr "Grupa użytkownik już istnieje pod tą nazwą"
-
-msgid "API Key"
-msgstr "Klucz API"
 
 msgid "API Resources"
 msgstr ""
@@ -2241,6 +2238,9 @@ msgstr "domyślna organizacja"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "Domyślne szablony są automatycznie dodawane do nowej organizacji i lokalizacji"
 
@@ -2252,9 +2252,6 @@ msgstr "Domyślna wartość "
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "Domyślna ścieżka odnośnika do zmiennej"
 
 msgid "Default verification mode"
 msgstr ""
@@ -3475,8 +3472,8 @@ msgstr "Foreman będzie domyślny do tego środowiska puppet jeśli nie wykryje 
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "Foreman usunie maszynę wirtualną, jeśli skrypt zaopatrywania kończy z niezerowym kodem zakończenia"
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Foreman będzie oceniać smart variables hosta w domyślnej kolejności"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman będzie jawnie ustawiać środowisko puppet na wyjściu END YAML. Pozwoli to uniknąć konfliktów między środowiskiem w puppet.conf i środowiskiem określonym w Foreman"
@@ -3546,9 +3543,6 @@ msgstr "Full trace"
 
 msgid "Function not available for %s"
 msgstr "Funkcja nie jest dostępna dla %s"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "Czas GMT"
@@ -4827,7 +4821,7 @@ msgstr "Poziom"
 msgid "Libvirt default console address"
 msgstr "Domyślny adres konsoli Libvirt"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10770,9 +10764,6 @@ msgstr "np. admin@internal"
 
 msgid "e.g. givenName"
 msgstr "np. nadane imię"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "np. https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""

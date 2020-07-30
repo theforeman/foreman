@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
+# trendspotter <j.podhorecky@volny.cz>, 2020
 # Lukáš Zapletal, 2013
 # Pavel Borecki <pavel.borecki@gmail.com>, 2018-2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
+"PO-Revision-Date: 2020-07-05 16:54+0000\n"
+"Last-Translator: trendspotter <j.podhorecky@volny.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/foreman/forema"
 "n/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -437,9 +438,6 @@ msgstr ""
 msgid "A user group already exists with this name"
 msgstr "Takto nazvaná skupina uživatelů už existuje"
 
-msgid "API Key"
-msgstr "Klíč k aplikačnímu program. rozhraní"
-
 msgid "API Resources"
 msgstr "Prostředky aplikačního programového rozhraní"
 
@@ -627,7 +625,7 @@ msgid "All host groups"
 msgstr "Všechny skupiny hostitelů"
 
 msgid "All hosts data matches configurations for locations and organizations."
-msgstr ""
+msgstr "Všechna data hostitelů odpovídají konfiguracím pro umístění a organizace."
 
 msgid "All hosts previously with no %{single} are now assigned to %{name}"
 msgstr ""
@@ -648,7 +646,7 @@ msgid "All mismatches between hosts and %s have been fixed"
 msgstr ""
 
 msgid "All mismatches between hosts and locations/organizations have been fixed"
-msgstr ""
+msgstr "Všechny neshody mezi hostiteli a místy / organizacemi byly opraveny"
 
 msgid "All partition tables"
 msgstr "Všechny tabulky rozdělení úložiště"
@@ -2219,6 +2217,9 @@ msgstr "Výchozí organizace"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr ""
 
@@ -2230,9 +2231,6 @@ msgstr "Výchozí hodnota"
 
 msgid "Default value for user input"
 msgstr "Výchozí hodnoty pro vstup od uživatele"
-
-msgid "Default variables lookup path"
-msgstr ""
 
 msgid "Default verification mode"
 msgstr "Výchozí režim ověřování"
@@ -3446,7 +3444,7 @@ msgstr ""
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr ""
 
-msgid "Foreman will evaluate host smart variables in this order by default"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
 msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
@@ -3517,9 +3515,6 @@ msgstr ""
 
 msgid "Function not available for %s"
 msgstr ""
-
-msgid "Further Information"
-msgstr "Další informace"
 
 msgid "GMT time"
 msgstr ""
@@ -4798,8 +4793,8 @@ msgstr "Úroveň"
 msgid "Libvirt default console address"
 msgstr ""
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
-msgstr "Libvirt, oVirt, OpenStack a Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
+msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
 msgstr ""
@@ -10735,9 +10730,6 @@ msgstr "např. spravce@interni"
 
 msgid "e.g. givenName"
 msgstr "např. Jméno"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "např. https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr "např. https://ovirt.example.com/ovirt-engine/api"

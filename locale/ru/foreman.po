@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-05-04 23:29+0000\n"
-"Last-Translator: 0868a4d1af5275b3f70b0a6dac4c99a4\n"
+"PO-Revision-Date: 2020-05-11 23:48+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Russian (http://www.transifex.com/foreman/foreman/language/ru/)"
 "\n"
 "MIME-Version: 1.0\n"
@@ -461,9 +461,6 @@ msgstr ""
 
 msgid "A user group already exists with this name"
 msgstr "Группа с этим именем уже существует"
-
-msgid "API Key"
-msgstr "Ключ API"
 
 msgid "API Resources"
 msgstr ""
@@ -2246,6 +2243,9 @@ msgstr "Организация по умолчанию"
 msgid "Default owner on provisioned hosts, if empty Foreman will use current user"
 msgstr ""
 
+msgid "Default parameters lookup path"
+msgstr ""
+
 msgid "Default templates are automatically added to new organizations and locations"
 msgstr "Такие шаблоны будут по умолчанию добавляться в новые организации и местоположения"
 
@@ -2257,9 +2257,6 @@ msgstr "Исходное значение"
 
 msgid "Default value for user input"
 msgstr ""
-
-msgid "Default variables lookup path"
-msgstr "Стандартный путь поиска переменных"
 
 msgid "Default verification mode"
 msgstr ""
@@ -3480,8 +3477,8 @@ msgstr "Окружение Puppet, которое будет выбрано, е�
 msgid "Foreman will delete virtual machine if provisioning script ends with non zero exit code"
 msgstr "Удалить виртуальную машину, если сценарий подготовки завершился с ненулевым кодом выхода"
 
-msgid "Foreman will evaluate host smart variables in this order by default"
-msgstr "Порядок обработки смарт-переменных узла"
+msgid "Foreman will evaluate host smart class parameters in this order by default"
+msgstr ""
 
 msgid "Foreman will explicitly set the puppet environment in the ENC yaml output. This will avoid conflicts between the environment in puppet.conf and the environment set in Foreman"
 msgstr "Foreman передаст информацию об окружении Puppet в YAML-выводе ENC в явном виде — это позволит избежать конфликтов с окружением, заданным в puppet.conf"
@@ -3551,9 +3548,6 @@ msgstr "данные трассировки"
 
 msgid "Function not available for %s"
 msgstr "Функция не доступна для %s"
-
-msgid "Further Information"
-msgstr ""
 
 msgid "GMT time"
 msgstr "GMT"
@@ -4832,7 +4826,7 @@ msgstr "Уровень"
 msgid "Libvirt default console address"
 msgstr "Адрес консоли Libvirt по умолчанию"
 
-msgid "Libvirt, oVirt, OpenStack and Rackspace"
+msgid "Libvirt, oVirt and OpenStack"
 msgstr ""
 
 msgid "Limit rebuild steps, valid steps are %{host_rebuild_steps}"
@@ -10777,9 +10771,6 @@ msgstr "например: admin@internal"
 
 msgid "e.g. givenName"
 msgstr "givenName"
-
-msgid "e.g. https://identity.api.rackspacecloud.com/v2.0"
-msgstr "например: https://identity.api.rackspacecloud.com/v2.0"
 
 msgid "e.g. https://ovirt.example.com/ovirt-engine/api"
 msgstr ""
