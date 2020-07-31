@@ -46,9 +46,7 @@ class Host::Managed < Host::Base
     output
   end
 
-  set_crud_hooks :host do |h|
-    { id: h.id, hostname: h.hostname }
-  end
+  set_crud_hooks :host
 
   set_hook :build_entered, if: -> { saved_change_to_build? && build? } do |h|
     { id: h.id, hostname: h.hostname }
@@ -56,6 +54,10 @@ class Host::Managed < Host::Base
 
   set_hook :build_exited, if: -> { saved_change_to_build? && !build? } do |h|
     { id: h.id, hostname: h.hostname }
+  end
+
+  set_hook :status_changed, if: -> { saved_change_to_global_status? } do |h|
+    { id: h.id, hostname: h.hostname, global_status: { from: h.previous_changes[:global_status][0], to: h.previous_changes[:global_status][1] } }
   end
 
   # Define custom hook that can be called in model by magic methods (before, after, around)

@@ -10,6 +10,7 @@ class Domain < ApplicationRecord
   include Parameterizable::ByIdName
   include BelongsToProxies
   include ParameterAttributes
+  include Foreman::ObservableModel
 
   validates_lengths_from_database
   has_many :hostgroups
@@ -47,6 +48,8 @@ class Domain < ApplicationRecord
       order("domains.name")
     end
   }
+
+  set_crud_hooks :domain
 
   apipie :class, desc: "A class representing #{model_name.human} object" do
     sections only: %w[all additional]
