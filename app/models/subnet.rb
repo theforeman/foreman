@@ -17,6 +17,7 @@ class Subnet < ApplicationRecord
   include BelongsToProxies
   include ScopedSearchExtensions
   include ParameterSearch
+  include Foreman::ObservableModel
 
   attr_exportable :name, :network, :mask, :gateway, :dns_primary, :dns_secondary, :from, :to, :boot_mode,
     :ipam, :vlanid, :mtu, :nic_delay, :network_type, :description
@@ -119,6 +120,8 @@ class Subnet < ApplicationRecord
   scoped_search :relation => :domains, :on => :name, :rename => :domain, :complete_value => true
 
   delegate :supports_ipam_mode?, :supported_ipam_modes, :show_mask?, to: 'self.class'
+
+  set_crud_hooks :subnet
 
   apipie :class, "A class representing #{model_name.human} object" do
     sections only: %w[all additional]

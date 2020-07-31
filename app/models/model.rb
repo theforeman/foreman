@@ -6,11 +6,7 @@ class Model < ApplicationRecord
   include Parameterizable::ByIdName
   include ::Foreman::ObservableModel
 
-  set_hook :model_created, on: :create
-  set_hook :model_updated, on: :update
-  set_hook :model_destroyed, on: :destroy do |model|
-    { id: model.id, name: model.name }
-  end
+  set_crud_hooks :model
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts

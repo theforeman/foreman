@@ -135,6 +135,7 @@ module Host
           'host_destroyed.event.foreman',
           'build_entered.event.foreman',
           'build_exited.event.foreman',
+          'status_changed.event.foreman',
         ]
 
         assert_same_elements expected, Host::Managed.event_subscription_hooks
@@ -166,6 +167,20 @@ module Host
             end
 
             host.built
+          end
+        end
+      end
+
+      describe 'status_changed hook' do
+        let(:host) { FactoryBot.create(:host, :managed, global_status: 0) }
+
+        test '"status_changed.event.foreman" event is sent when global status was changed' do
+          ActiveSupport::Notifications.subscribed(callback, 'status_changed.event.foreman') do
+            callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
+              payload == { id: host.id, hostname: host.hostname, global_status: { from: 0, to: 1} }.merge(context: event_context)
+            end
+
+            host.update(global_status: 1)
           end
         end
       end

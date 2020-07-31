@@ -15,6 +15,7 @@ class User < ApplicationRecord
   include Exportable
   include TopbarCacheExpiry
   include JwtAuth
+  include Foreman::ObservableModel
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
@@ -143,6 +144,8 @@ class User < ApplicationRecord
   def as_json(options = {})
     super.tap { |h| h.key?('user') ? h['user']['name'] = name : h['name'] = name }
   end
+
+  set_crud_hooks :user
 
   apipie :class, desc: "A class representing #{model_name.human} object" do
     sections only: %w[all additional]

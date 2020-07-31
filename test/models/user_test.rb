@@ -71,6 +71,16 @@ class UserTest < ActiveSupport::TestCase
   # Associations
   should have_many(:ssh_keys).dependent(:destroy)
 
+  test 'hooks are defined' do
+    expected = [
+      'user_created.event.foreman',
+      'user_updated.event.foreman',
+      'user_destroyed.event.foreman',
+    ]
+
+    assert_same_elements expected, User.event_subscription_hooks
+  end
+
   test 'should update with multiple valid descriptions' do
     user = users(:one)
     valid_name_list.each do |description|
