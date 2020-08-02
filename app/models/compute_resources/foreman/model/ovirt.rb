@@ -360,6 +360,7 @@ module Foreman::Model
 
     def new_volume(attr = {})
       set_preallocated_attributes!(attr, attr[:preallocate])
+      raise ::Foreman::Exception.new(N_('VM volume attributes are not set properly')) unless attr.all? { |key, value| value.is_a? String }
       Fog::Ovirt::Compute::Volume.new(attr)
     end
 
