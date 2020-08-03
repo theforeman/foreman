@@ -1,10 +1,12 @@
+import { createSelector } from 'reselect';
 import { propsToCamelCase } from '../../common/helpers';
 
 const selectSettingRecords = state => state.settingRecords;
 export const selectSettings = state => selectSettingRecords(state).settings;
-export const selectSettingsByCategory = (state, category) =>
-  selectSettings(state)[category].map(propsToCamelCase);
-export const selectSettingById = (state, id, category) =>
-  selectSettingsByCategory(state, category).find(setting => setting.id === id);
+
+export const selectSettingsByCategory = category => createSelector(selectSettings, settings => settings[category].map(propsToCamelCase))
+
+export const selectSettingById = (id, category) => createSelector(selectSettingsByCategory(category), settings => settings.find(setting => setting.id === id));
+
 export const selectSettingEditing = state =>
   selectSettingRecords(state).editing;

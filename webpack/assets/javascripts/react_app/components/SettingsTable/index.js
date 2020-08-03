@@ -12,7 +12,7 @@ import useSettingModal from '../SettingUpdateModal/useSettingModal';
 
 const WrappedSettingsTable = props => {
   const settings = useSelector(state =>
-    selectSettingsByCategory(state, props.category)
+    selectSettingsByCategory(props.category)(state)
   );
 
   const dispatch = useDispatch();
