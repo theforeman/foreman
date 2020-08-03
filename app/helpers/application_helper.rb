@@ -394,7 +394,7 @@ module ApplicationHelper
   end
 
   def documentation_url(section = "", options = {})
-    main_app.external_link_url(options.merge(type: 'manual', section: section))
+    main_app.external_link_url(options.merge(type: 'manual', params: { section: section }))
   end
 
   def options_for_puppetclass_selection(klass, type)
