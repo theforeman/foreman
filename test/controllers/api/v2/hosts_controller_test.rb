@@ -226,6 +226,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_proxy.name, response['puppet_proxy_name']
   end
 
+  test "should show registration token" do
+    get :show, params: {:id => @host.id}, session: set_session_user
+    assert_response :success
+    assert_not_empty ActiveSupport::JSON.decode(@response.body)['registration_token']
+  end
+
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do

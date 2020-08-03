@@ -1005,12 +1005,11 @@ class HostTest < ActiveSupport::TestCase
     assert h.valid?
   end
 
-  test "should not allow build mode for unmanaged hosts" do
+  test "should allow build mode for unmanaged hosts" do
     h = FactoryBot.build_stubbed(:host)
     assert h.valid?
     h.build = true
-    refute h.valid?
-    assert h.errors[:build].include?("cannot be enabled for an unmanaged host")
+    assert h.valid?
   end
 
   test "should allow to save root pw" do
