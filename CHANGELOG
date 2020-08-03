@@ -1,3 +1,31 @@
+2020-08-03	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.1.1
+
+2020-07-29	Ron Lavi <1ronlavi@gmail.com>
+	* Fixes #29990 - stop clear API response on polling
+
+2020-07-29	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #30375 - fix os_minor search to not show empty minor
+
+2020-07-22	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #30431 - Grub2 IPv6 only subnet nil error
+
+2020-07-22	Jonathon Turel <jturel@gmail.com>
+	* Fixes #30244 - prevent Filter empty search_condition
+
+2020-07-16	Yifat Makias <42476762+yifatmakias@users.noreply.github.com>
+	* Fixes #30175,#30195 - Moving Quota validation to before_save in Ovirt CR (#7774)
+
+2020-07-16	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #30372 - Fix creation of ovirt CR via api
+	* Fixes #30231 - Fix keyboard to keyboard_layout in ovirt CR API
+
+2020-07-08	Dominik Matoulek <domitea@gmail.com>
+	* Fixes #30196 - Remove double listed marcos
+
+2020-07-02	Tomer Brisker <tbrisker@gmail.com>
+	* Drop package-lock and pin npm modules to packaged versions
+
 2020-07-01	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.1.0
 
