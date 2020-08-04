@@ -143,10 +143,10 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 <%= apipie_dsl_example(apipie_erb_wrap('@host.name') + "\n" +
                            apipie_erb_wrap('if @host.name == "host1.example.com"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
                            apipie_erb_wrap('  result = "positive"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
-                           apipie_erb_wrap('else"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
+                           apipie_erb_wrap('else', mode: :silent, open_trim: true, close_trim: true) + "\n" +
                            apipie_erb_wrap('  result = "negative"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
-                           apipie_erb_wrap('end"', mode: :silent, open_trim: true, close_trim: true) + "\n" +
-                           apipie_erb_wrap('result"'),
+                           apipie_erb_wrap('end', mode: :silent, open_trim: true, close_trim: true) + "\n" +
+                           apipie_erb_wrap('result'),
                        "host1.example.com\npositive") %>
 
 <p><%= _('Note that the else branch is optional. Also multiple conditions can be specified using elsif, but that is usually better written using a case/when construct. See the example below') %></p>
