@@ -5,6 +5,14 @@ import { useDispatch } from 'react-redux';
 import { submitForm } from '../../../../redux/actions/common/forms';
 import SettingForm from './SettingForm';
 
+const initialValue = setting => {
+  if (setting.encrypted) {
+    return '';
+  }
+
+  return setting.value === null ? '' : setting.value;
+};
+
 const WrappedSettingForm = props => {
   const dispatch = useDispatch();
 
@@ -12,7 +20,7 @@ const WrappedSettingForm = props => {
     <SettingForm
       submitForm={(...args) => dispatch(submitForm(...args))}
       initialValues={{
-        value: props.setting.value === null ? '' : props.setting.value,
+        value: initialValue(props.setting),
       }}
       {...props}
     />

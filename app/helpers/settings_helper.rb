@@ -65,7 +65,8 @@ module SettingsHelper
       :full_name => setting.full_name,
       :config_file => setting.class.config_file,
       :select_values => setting.select_collection,
-      :value => setting.value,
+      :value => setting.safe_value,
+      :encrypted => setting.encrypted?,
     }
   end
 end

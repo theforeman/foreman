@@ -8,6 +8,7 @@ import {
   withHashSelection,
   boolSetting,
   stringSetting,
+  rootPass,
 } from '../../SettingRecords/__tests__/SettingRecords.fixtures';
 
 const baseFixtures = {
@@ -34,6 +35,10 @@ const fixtures = {
   },
   'should render for setting with array selection': {
     setting: withArraySelection,
+    ...baseFixtures,
+  },
+  'should render for encrypted setting': {
+    setting: rootPass,
     ...baseFixtures,
   },
 };

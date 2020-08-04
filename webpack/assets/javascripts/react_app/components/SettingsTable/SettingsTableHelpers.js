@@ -6,8 +6,8 @@ import { translate as __ } from '../../common/I18n';
 
 import { deepPropsToCamelCase } from '../../common/helpers';
 
-export const withTooltip = Component => props => {
-  const { tooltipId, tooltipText, ...rest } = props;
+export const withTooltip = Component => componentProps => {
+  const { tooltipId, tooltipText, ...rest } = componentProps;
 
   return (
     <OverlayTrigger
@@ -30,6 +30,17 @@ export const arraySelection = setting => {
     return null;
   }
   return deepPropsToCamelCase(selectValues);
+};
+
+const formatEncryptedDefault = setting => {
+  if (setting.encrypted && setting.default) {
+    return setting.default
+      .split('')
+      .map(item => '\u2219')
+      .join('');
+  }
+
+  return null;
 };
 
 const formatBooleanDefault = setting => formatBoolean('default', setting);
@@ -115,6 +126,7 @@ export const valueToString = reduceFormats([
 ]);
 
 export const defaultToString = reduceFormats([
+  formatEncryptedDefault,
   formatBooleanDefault,
   formatArrayDefault,
   formatArraySelectionDefault,

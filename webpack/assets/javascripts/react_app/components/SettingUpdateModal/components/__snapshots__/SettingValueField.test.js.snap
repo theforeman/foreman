@@ -13,6 +13,7 @@ exports[`SettingValueField should render for array setting 1`] = `
     >
       <FormControl
         bsClass="form-control"
+        className=""
         componentClass="textarea"
       />
     </Col>
@@ -33,6 +34,7 @@ exports[`SettingValueField should render for bool setting 1`] = `
     >
       <FormControl
         bsClass="form-control"
+        className=""
         componentClass="select"
       >
         <option
@@ -51,6 +53,32 @@ exports[`SettingValueField should render for bool setting 1`] = `
 </Fragment>
 `;
 
+exports[`SettingValueField should render for encrypted setting 1`] = `
+<Fragment>
+  <FormGroup
+    bsClass="form-group"
+    className=""
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={10}
+    >
+      <FormControl
+        bsClass="form-control"
+        className="masked-input"
+        componentClass="input"
+      />
+      <HelpBlock
+        bsClass="help-block"
+      >
+        This setting is encrypted. Empty input field is displayed instead of the setting value.
+      </HelpBlock>
+    </Col>
+  </FormGroup>
+</Fragment>
+`;
+
 exports[`SettingValueField should render for setting with array selection 1`] = `
 <Fragment>
   <FormGroup
@@ -64,6 +92,7 @@ exports[`SettingValueField should render for setting with array selection 1`] = 
     >
       <FormControl
         bsClass="form-control"
+        className=""
         componentClass="select"
       >
         <option
@@ -137,6 +166,7 @@ exports[`SettingValueField should render for setting with hash selection 1`] = `
     >
       <FormControl
         bsClass="form-control"
+        className=""
         componentClass="select"
       >
         <option
@@ -254,6 +284,7 @@ exports[`SettingValueField should render for string setting 1`] = `
     >
       <FormControl
         bsClass="form-control"
+        className=""
         componentClass="input"
       />
     </Col>

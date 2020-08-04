@@ -9,6 +9,7 @@ const SettingCellInner = props => {
 
   const cssClasses = classNames(className, {
     'editable-empty': !setting.value && setting.settingsType !== 'boolean',
+    'masked-input': setting.encrypted,
   });
 
   const field = (

@@ -13,6 +13,23 @@ export const settings = [
     selectValues: null,
     value: 'root@example.com',
     configFile: 'settings.yaml',
+    encrypted: false,
+  },
+  {
+    description: 'Default encrypted root password on provisioned hosts',
+    category: 'Setting::Provisioning',
+    settingsType: 'string',
+    default: 'foobar',
+    createdAt: '2019-11-06 09:42:45 +0100',
+    updatedAt: '2020-04-29 15:48:23 +0200',
+    readonly: false,
+    id: 73,
+    name: 'root_pass',
+    fullName: 'Root password',
+    selectValues: null,
+    value: 'changeme',
+    configFile: 'settings.yaml',
+    encrypted: true,
   },
   {
     description:
@@ -29,6 +46,7 @@ export const settings = [
     selectValues: null,
     value: false,
     configFile: 'settings.yaml',
+    encrypted: false,
   },
   {
     description:
@@ -45,6 +63,7 @@ export const settings = [
     selectValues: null,
     value: true,
     configFile: 'settings.yaml',
+    encrypted: false,
   },
   {
     description:
@@ -61,6 +80,7 @@ export const settings = [
     selectValues: null,
     value: 9,
     configFile: 'settings.yaml',
+    encrypted: false,
   },
   {
     category: 'Setting::Provisioning',
@@ -91,6 +111,7 @@ export const settings = [
       'Windows default PXELinux': 'Windows default PXELinux',
       'XenServer default PXELinux': 'XenServer default PXELinux',
     },
+    encrypted: false,
   },
   {
     category: 'Setting::Provisioning',
@@ -127,6 +148,7 @@ export const settings = [
         ],
       },
     ],
+    encrypted: false,
   },
   {
     category: 'Setting::General',
@@ -142,6 +164,7 @@ export const settings = [
     selectValues: null,
     settingsType: 'array',
     updatedAt: '2020-03-20 13:44:40 +0100',
+    encrypted: false,
     value: ['localhost', '127.0.0.1'],
   },
   {
@@ -157,6 +180,7 @@ export const settings = [
     fullName: 'Email reply address',
     selectValues: null,
     value: 'root@example.com',
+    encrypted: false,
     configFile: 'settings.yaml',
   },
 ];
@@ -185,3 +209,4 @@ export const arraySetting = settings.find(
 export const stringSetting = settings.find(
   item => item.name === 'email_reply_address'
 );
+export const rootPass = settings.find(item => item.name === 'root_pass');
