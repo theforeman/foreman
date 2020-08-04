@@ -95,18 +95,45 @@ class Api::V2::TestableControllerTest < ActionController::TestCase
     context 'with jwt auth' do
       let(:sso) { SSO::Jwt.new(@controller) }
       let(:user) { as_admin { FactoryBot.create(:user, :admin) } }
-      let(:jwt_token) { user.jwt_token! }
+      let(:user2) { as_admin { FactoryBot.create(:user) } }
+      let(:action) { Struct.new(:name) }
 
       setup do
         @controller.instance_variable_set(:@available_sso, sso)
         @controller.stubs(:get_sso_method).returns(sso)
-        @request.headers['Authorization'] = "Bearer #{jwt_token}"
       end
 
       test 'it sets the session user' do
+        @request.headers['Authorization'] = "Bearer #{user.jwt_token!}"
+
         get :index
         assert_response :success
         assert_equal user.id, session[:user]
+      end
+
+      test 'with correct jwt scope and correct user permissions' do
+        @request.headers['Authorization'] = "Bearer #{user2.jwt_token!(scope: [:view_tasks])}"
+        Foreman::AccessControl.stubs(:permissions_for_controller_action).returns([action.new(:view_tasks)])
+        Foreman::AccessControl.stubs(:allowed_actions).returns(['api/v2/testable/index'])
+
+        get :index
+        assert_response :success
+      end
+
+      test 'with correct jwt scope but missing user permission' do
+        @request.headers['Authorization'] = "Bearer #{user2.jwt_token!(scope: [:view_users])}"
+        Foreman::AccessControl.stubs(:permissions_for_controller_action).returns([action.new(:view_users)])
+
+        get :index
+        assert_response :forbidden
+      end
+
+      test 'with invalid jwt scope' do
+        @request.headers['Authorization'] = "Bearer #{user2.jwt_token!(scope: [:view_hosts])}"
+        Foreman::AccessControl.stubs(:permissions_for_controller_action).returns([action.new(:view_users)])
+
+        get :index
+        assert_response :forbidden
       end
     end
 

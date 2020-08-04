@@ -8,9 +8,12 @@ module JwtAuth
       jwt_secret || create_jwt_secret!
     end
 
-    def jwt_token!(expiration: nil)
+    # Arguments:
+    # => :scope       Array of permissions, eg: [:view_hosts, :create_hosts]
+    # => :expiration  Integer, eg: 4.hours.to_i
+    def jwt_token!(scope: [], expiration: nil)
       jwt_secret = jwt_secret!
-      JwtToken.encode(self, jwt_secret.token, expiration).to_s
+      JwtToken.encode(self, jwt_secret.token, scope: scope, expiration: expiration).to_s
     end
   end
 end
