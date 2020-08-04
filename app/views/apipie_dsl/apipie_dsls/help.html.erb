@@ -114,7 +114,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <p><%= _('The Ruby code inside of the ERB tags typically contain expressions. They consist of program flow control terminals, variables, macros. Variables and macros evaluates to objects. Each object has set of allowed methods that can be called on it. These methods can return objects.') %></p>
 <p><%= (_('An example of a control flow terminal is an if condition or for each cycle. Macros are functions called by their name without specifying any object, e.g. %{load_hosts} or %{input}. See all available macros %{all_macros}. Example of object class is an %{integer}, String, %{host}, %{subnet}, %{user}. Calling a method on an object is denoted by <code>.</code>. For example <code>@host.fqdn</code> expression is an instance variable that holds and evaluates to an object of a Host, on which the fqdn method is called. To find the list of all available methods on objects, see the documentation for each template type.') % {
-    all_macros: link_to(_('here'), @doc[:doc_url] + section_ext('all')),
+    all_macros: link_to(_('here'), @doc[:doc_url] + section_ext('all') + '.html'),
     load_hosts: link_to('load_hosts', @doc[:doc_url] + section_ext('all') + '/Foreman::Renderer::Scope::Macros::Loaders/load_hosts.html'),
     input: link_to('input', @doc[:doc_url] + section_ext('all') + '/Foreman::Renderer::Scope::Macros::Inputs/input.html'),
     integer: link_to('Integer', @doc[:doc_url] + section_ext('basic_ruby_methods') + '/Foreman::Renderer::DocTemplates::BasicRubyMethods::Integer.html'),
