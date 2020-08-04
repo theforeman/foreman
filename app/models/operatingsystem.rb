@@ -298,9 +298,9 @@ class Operatingsystem < ApplicationRecord
     family || self.class.deduce_family(name)
   end
 
-  apipie :method, 'Retruns an array of boot file sources URIs' do
+  apipie :method, 'Returns an array of boot file sources URIs' do
     required :medium_provider, 'MediumProviders::Provider', 'Medium provider responsible to provide location of installation medium for a given entity (host or host group)'
-    block schema: '{ |vars| }', desc: 'Allows to adjust meduim variables within the block'
+    block schema: '{ |vars| }', desc: 'Allows to adjust medium variables within the block'
     returns Array, desc: 'Array of boot file sources URIs'
   end
   def boot_files_uri(medium_provider, &block)

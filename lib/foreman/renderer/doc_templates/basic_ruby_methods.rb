@@ -270,7 +270,7 @@ puts "Liftoff!"
 (-1).next   #=> 0'
           end
 
-          apipie_method :size, 'Returns the number of bytes in the machine representation of givent integer (machine dependent).' do
+          apipie_method :size, 'Returns the number of bytes in the machine representation of given integer (machine dependent).' do
             returns ::Integer
             example '1.size               #=> 8
 -1.size              #=> 8
