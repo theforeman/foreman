@@ -1,0 +1,15 @@
+#properties_table {
+  .property_name {
+    width: 150px;
+  }
+
+  .property_value {
+    min-width: 150px;
+  }
+}
+
+table {
+  .clickable-host-status {
+    cursor: pointer;
+  }
+}

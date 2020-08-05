@@ -92,11 +92,11 @@ module HostsHelper
 
   # method that reformat the hostname column by adding the status icons
   def name_column(host)
-    style = host_global_status_icon_class_for_host(host)
-    displayable_statuses = host.host_statuses.select { |status| status.relevant? && !status.substatus? }
-    tooltip = displayable_statuses.sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
-
-    content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip})
+    content = content_tag(:span, "")
+    content += react_component('HostStatus',
+                                className: host_global_status_icon_class_for_host(host),
+                                overviewFields: overview_fields(host)
+                              )
     content += link_to("  #{host}", host_path(host))
     content
   end
