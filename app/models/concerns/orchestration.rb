@@ -119,11 +119,11 @@ module Orchestration
     Rails.env.test?
   end
 
-  def without_orchestration_if(disabled = true, &block)
-    skip_orchestration! if disabled && SETTINGS[:unattended]
+  def without_orchestration(&block)
+    skip_orchestration! if SETTINGS[:unattended]
     yield
   ensure
-    enable_orchestration! if disabled && SETTINGS[:unattended]
+    enable_orchestration! if SETTINGS[:unattended]
   end
 
   private

@@ -11,10 +11,6 @@ class HostFactImporter
     Setting[:create_new_host_when_facts_are_uploaded]
   end
 
-  def skip_orchestration?
-    true
-  end
-
   def import_facts(facts, source_proxy = nil)
     return false if !create_new_record_when_facts_are_uploaded? && host.new_record?
 
@@ -31,7 +27,7 @@ class HostFactImporter
       facts_importer.import!
     end
 
-    skiping_orchestration do
+    skipping_orchestration do
       host.save(:validate => false)
     end
 
@@ -39,16 +35,18 @@ class HostFactImporter
   end
 
   def parse_facts(facts, type, source_proxy)
-    skiping_orchestration do
+    skipping_orchestration do
       host.parse_facts facts, type, source_proxy
     end
   end
 
   private
 
-  def skiping_orchestration(&block)
+  def skipping_orchestration
     if host.is_a?(Host::Managed)
-      host.without_orchestration_if(skip_orchestration?, &block)
+      host.without_orchestration do
+        yield
+      end
     else
       yield
     end
