@@ -258,8 +258,18 @@ module Foreman
     end
 
     class MultilineRequestPatternLayout < MultilinePatternLayout
+      private
+
       def indent_lines(string)
-        string.gsub("\n", "\n #{::Logging.mdc['request'].split('-').first} | ")
+        if request_id
+          string.gsub("\n", "\n #{request_id.split('-').first} | ")
+        else
+          super(string)
+        end
+      end
+
+      def request_id
+        ::Logging.mdc['request']
       end
     end
   end
