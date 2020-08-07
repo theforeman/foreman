@@ -16,7 +16,6 @@ namespace :seed do
         exit 1
       end
 
-      include FactoryBot::Syntax::Methods
       FactoryBot.find_definitions
     end
 
@@ -29,7 +28,7 @@ namespace :seed do
           # TODO: Select a number of locations? All?
           locations = []
           generate(Domain, get_desired(5)) do |count, generator|
-            create(:domain,
+            FactoryBot.create(:domain,
               :name => build_domain(names, generator),
               :organizations => [organization],
               :locations => locations)
@@ -51,7 +50,7 @@ namespace :seed do
           Organization.current = organizations.sample
           domains = Domain.all
 
-          create(:host,
+          FactoryBot.create(:host,
             :hostname => generator.next_random_name,
             :domain => domains.sample,
             :operatingsystem => os,
@@ -76,7 +75,7 @@ namespace :seed do
     task :organizations => :load_factories do
       User.as_anonymous_admin do
         generate(Organization, get_desired(10)) do |count, generator|
-          create(:organization, :name => generator.next_random_name)
+          FactoryBot.create(:organization, :name => generator.next_random_name)
         end
       end
     end
@@ -115,18 +114,18 @@ namespace :seed do
 
       [
         # Red Hat
-        build(:operatingsystem, :name => 'RedHat', :major => '6', :architectures => architectures),
-        build(:operatingsystem, :name => 'RedHat', :major => '7', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'RedHat', :major => '6', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'RedHat', :major => '7', :architectures => architectures),
         # CentOS
-        build(:operatingsystem, :name => 'CentOS', :major => '6', :architectures => architectures),
-        build(:operatingsystem, :name => 'CentOS', :major => '7', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'CentOS', :major => '6', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'CentOS', :major => '7', :architectures => architectures),
         # Debian
-        build(:operatingsystem, :name => 'Debian', :major => '8', :minor => '8', :release_name => 'jessie', :architectures => architectures),
-        build(:operatingsystem, :name => 'Debian', :major => '9', :minor => '0', :release_name => 'stretch', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'Debian', :major => '8', :minor => '8', :release_name => 'jessie', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'Debian', :major => '9', :minor => '0', :release_name => 'stretch', :architectures => architectures),
         # Ubuntu
-        build(:operatingsystem, :name => 'Ubuntu', :major => '12', :minor => '04', :release_name => 'precise', :architectures => architectures),
-        build(:operatingsystem, :name => 'Ubuntu', :major => '14', :minor => '04', :release_name => 'trusty', :architectures => architectures),
-        build(:operatingsystem, :name => 'Ubuntu', :major => '16', :minor => '04', :release_name => 'xenial', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'Ubuntu', :major => '12', :minor => '04', :release_name => 'precise', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'Ubuntu', :major => '14', :minor => '04', :release_name => 'trusty', :architectures => architectures),
+        FactoryBot.build(:operatingsystem, :name => 'Ubuntu', :major => '16', :minor => '04', :release_name => 'xenial', :architectures => architectures),
       ]
     end
 
