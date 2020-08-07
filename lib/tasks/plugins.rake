@@ -25,6 +25,28 @@ namespace :plugin do
       ActiveRecord::Tasks::DatabaseTasks.migrations_paths << path
     end
   end
+
+  task :rubocop, [:engine, :junit] => :environment do |t, args|
+    unless args[:engine]
+      abort("You must specify the name of the plugin (e.g. rake plugin:rubocop['my_plugin'])")
+    end
+
+    engine = "#{args[:engine].tr('-', '_').camelize}::Engine".constantize
+    options = []
+
+    options += ['--format', 'progress']
+    options += ['--format', 'junit', '--out', args[:junit]] if args[:junit]
+
+    config_path = engine.root.join('.rubocop.yml')
+    options += ['--config', config_path.to_s] if config_path.exist?
+
+    options << engine.root.join('{app,lib,test}/**/*.rb').to_s
+
+    require 'rubocop'
+    cli = RuboCop::CLI.new
+    result = cli.run(options)
+    abort('RuboCop failed!') if result.nonzero?
+  end
 end
 
 Rake::Task["db:migrate"].enhance ['plugin:refresh_migrations']
