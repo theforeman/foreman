@@ -30,7 +30,7 @@ namespace :dynflow do
   desc <<~END_DESC
     Sets up the environment to act as a Dynflow client. By acting as a client, it still send tasks to be processed, but it cannot execute tasks.
   END_DESC
-  task :client do
+  task :client => :environment do
     dynflow = ::Rails.application.dynflow
     dynflow.config.remote = true
     dynflow.initialize!
