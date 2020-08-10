@@ -8,3 +8,4 @@
 
 echo "This script is deprecated, please use the 'npm run link' in 'foreman-js'"
 echo "See the docs: https://foreman-storybook.surge.sh/?path=/docs/introduction-adding-dependencies--page"
+exit 1
