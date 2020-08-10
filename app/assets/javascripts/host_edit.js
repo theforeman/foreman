@@ -792,6 +792,7 @@ function interface_subnet_selected(element, ip_field, skip_mac) {
   // mark the selected value to preserve it for form hiding
   preserve_selected_options($(element));
 
+  if ($(element).attr('disabled')) return;
   var subnet_id = $(element).val();
   if (subnet_id == '') return;
   var interface_ip = $(element)
