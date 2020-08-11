@@ -68,7 +68,11 @@ module Api
 
       def create
         begin
-          @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
+          if compute_resource_params["provider"].downcase == "ovirt"
+            @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
+          else
+            @compute_resource = ComputeResource.new_provider(compute_resource_params)
+          end
         rescue Foreman::Exception => e
           render_exception(e, :status => :unprocessable_entity)
           return
