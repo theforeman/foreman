@@ -20,5 +20,4 @@
   link_to(_("Other reports for this host"), host_config_reports_path(@config_report.host), :class => 'btn btn-default')
 %>
 
-<div id="diff-modal" class="modal-body"></div>
-<%= mount_react_component('DiffModal', '#diff-modal') %>
+<%= react_component('DiffModal') %>
