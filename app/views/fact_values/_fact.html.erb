@@ -28,12 +28,12 @@
   <td><% unless fact.compose %>
         <%= popover("", "the chart can't display special characters and probably won't be able to redirect you to the right search", {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.value) || is_escaped_value(fact.name) %>
         <span id="view-fact-chart-<%= fact.id %>"></span>
-        <%= mount_react_component('FactChart', "#view-fact-chart-#{fact.id}", {
+        <%= react_component('FactChart', {
             path: fact_path(fact.fact_name_id),
             title: fact.fact_name.name,
             id: fact.id,
             search: '/hosts?search=facts.' + fact.fact_name.name + '~~VAL1~'
-        }.to_json) %>
+        }) %>
       <% end %>
   </td>
 </tr>

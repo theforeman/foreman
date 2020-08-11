@@ -12,7 +12,7 @@ import {
   selectFactChartData,
 } from './FactChartSelectors';
 
-const ConnectedFactChart = ({ data: { id, path, title, search } }) => {
+const ConnectedFactChart = ({ id, path, title, search }) => {
   const key = `${FACT_CHART}_${id}`;
   const hostsCount = useSelector(state => selectHostCount(state, key));
   const status = useSelector(state => selectFactChartStatus(state, key));
@@ -39,12 +39,14 @@ const ConnectedFactChart = ({ data: { id, path, title, search } }) => {
 };
 
 ConnectedFactChart.propTypes = {
-  data: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    path: PropTypes.string,
-    title: PropTypes.string,
-    search: PropTypes.string,
-  }).isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  path: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  search: PropTypes.string,
+};
+
+ConnectedFactChart.defaultProps = {
+  search: null,
 };
 
 export default ConnectedFactChart;
