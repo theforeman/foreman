@@ -9,6 +9,14 @@ template_inputs:
     filtered by type.
   options: "all\r\nsecurity\r\nbugfix\r\nrecommended\r\nenhancement\r\noptional"
   advanced: false
+- name: Hosts filter
+  required: false
+  input_type: user
+  description: Limit the report only on hosts found by this search query. Keep empty
+    for report on all available hosts.
+  advanced: false
+  value_type: search
+  resource_type: Host
 - name: Include Last Reboot
   required: false
   input_type: user
@@ -46,11 +54,12 @@ require:
   version: 3.12.0
 -%>
 <%- report_headers 'date', 'hostname', 'erratum_id', 'erratum_type', 'status' -%>
-<%- load_errata_applications(filter_errata_type: input('Filter Errata Type'), 
+<%- load_errata_applications(filter_errata_type: input('Filter Errata Type'),
                              include_last_reboot: input('Include Last Reboot'),
                              since: input('Since'),
                              up_to: input('Up to'),
-                             status: input('Status')
+                             status: input('Status'),
+                             host_filter: input('Hosts filter').empty? ? nil : input('Hosts filter')
                              ).each do |info| -%>
 <%-   report_row(info) -%>
 <%- end -%>
