@@ -2,14 +2,11 @@
 
 <div id="ptable-empty-state"></div>
 <% description = _("Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities.")%>
-<%= mount_react_component('EmptyState',
-                          '#ptable-empty-state',
-                          { :icon => 'table',
-                            :iconType => 'fa',
-                            :header => _('Partition Tables'),
-                            :description => description,
-                            :documentation => { :url => documentation_url("4.4.4PartitionTables") },
-                            :action => { :title => _("Create Partition Table"), :url => new_ptable_path }
-                          }.to_json,
-                          { :flatten_data => true }
-)%>
+<%= react_component('EmptyState', {
+                                    :icon => 'table',
+                                    :iconType => 'fa',
+                                    :header => _('Partition Tables'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("4.4.4PartitionTables") },
+                                    :action => { :title => _("Create Partition Table"), :url => new_ptable_path }
+                                  }) %>
