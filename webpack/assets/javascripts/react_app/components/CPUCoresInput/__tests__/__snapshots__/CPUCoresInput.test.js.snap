@@ -20,11 +20,14 @@ exports[`CPUCoresInput rendering should render with default props 1`] = `
       >
         <NumericInput
           className=""
+          disabled={false}
           format={null}
           label="CPUs"
           minValue={1}
           onChange={[Function]}
           precision={0}
+          readOnly={false}
+          step={1}
           value={1}
         />
       </Col>

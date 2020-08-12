@@ -1,0 +1,104 @@
+@import "~@theforeman/vendor/scss/variables";
+@import "~@theforeman/vendor/scss/mixins";
+
+.foreman-numeric-input {
+  position: relative;
+  display: flex;
+
+  .foreman-numeric-input-input-wrap {
+    width: 100%;
+
+    // Remove input style when this PR is merged: https://github.com/react-component/input-number/pull/262
+    input {
+      flex: 1;
+      height: 26px;
+      width: 100%;
+      padding-right: $padding-small-vertical;
+      box-sizing: border-box;
+      font-size: inherit;
+      border: 1px solid $input-border;
+      border-radius: $input-border-radius;
+      padding-left: $padding-small-vertical;
+      display: block;
+      appearance: none;
+      line-height: normal;
+
+      &:focus {
+        @include form-control-outline;
+      }
+
+      &:hover {
+        border-color: $input-border-hover;
+      }
+
+      &[disabled] {
+        box-shadow: none;
+        border-color: $input-border;
+        color: #8b8d8f;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .foreman-numeric-input-handler-up-inner,
+  .foreman-numeric-input-handler-down-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-style: solid;
+    margin: -0.3ex 0 0 -0.56ex;
+  }
+
+  .foreman-numeric-input-handler-up-inner {
+    border-width: 0 0.6ex 0.6ex 0.6ex;
+    border-color: transparent transparent $color-pf-black-600;
+  }
+
+  .foreman-numeric-input-handler-down-inner {
+    border-width: 0.6ex 0.6ex 0 0.6ex;
+    border-color: $color-pf-black-600 transparent transparent;
+  }
+
+  .foreman-numeric-input-handler-up {
+    top: 2px;
+    bottom: 50%;
+    border-radius: 2px 2px 0 0;
+    border-width: 1px 1px 0;
+  }
+
+  .foreman-numeric-input-handler-down {
+    top: 50%;
+    bottom: 2px;
+    border-radius: 0 0 2px 2px;
+    border-width: 0 1px 1px 1px;
+  }
+
+  .foreman-numeric-input-handler-up,
+  .foreman-numeric-input-handler-down {
+    position: absolute;
+    right: 2px;
+    width: 2.26ex;
+    border-color: $color-pf-black-300;
+    border-style: solid;
+    text-align: center;
+    cursor: default;
+    transition: all 0.1s ease 0s;
+    background: $color-pf-black-300;
+    box-shadow: $color-pf-black-300 -1px -1px 3px inset, $color-pf-black-200 1px 1px 3px inset;
+
+    &:hover {
+      background: $color-pf-black-400;
+    }
+
+    &:active {
+      background: $color-pf-black-500;
+      box-shadow: 0 1px 3px $color-pf-black-300 inset, -1px -1px 4px $color-pf-black-200 inset;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+}
