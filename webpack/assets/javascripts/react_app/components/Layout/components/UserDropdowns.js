@@ -30,7 +30,7 @@ const UserDropdowns = ({
   const onDropdownSelect = () => {
     setUserDropdownOpen(userDropdownOpen);
   };
-  const userInfo = get(user, 'current_user.user');
+  const userInfo = get(user, 'current_user');
   const impersonateIcon = (
     <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
   );

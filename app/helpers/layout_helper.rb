@@ -4,7 +4,8 @@ module LayoutHelper
       layout: layout_data,
       metadata: app_metadata,
       toasts: toast_notifiations_data,
-    }.to_json)
+      currentUser: fetch_current_user,
+    }.to_json(:root => false))
   end
 
   def fetch_menus
@@ -49,6 +50,16 @@ module LayoutHelper
 
   def fetch_user
     { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by_id(session[:impersonated_by]) }
+  end
+
+  def fetch_current_user
+    u = User.current
+    {
+      admin: u.admin,
+      id: u.id,
+      login: u.login,
+      permissions: u.permissions.select([:id, :name])
+    }
   end
 
   def layout_data

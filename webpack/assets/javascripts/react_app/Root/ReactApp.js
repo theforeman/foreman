@@ -6,8 +6,8 @@ import { getForemanContext } from '../Root/Context/ForemanContext';
 import Layout, { propTypes as LayoutPropTypes } from '../components/Layout';
 import AppSwitcher from '../routes';
 
-const ReactApp = ({ data: { layout, metadata, toasts } }) => {
-  const contextData = { metadata, toasts };
+const ReactApp = ({ data: { layout, metadata, toasts, currentUser } }) => {
+  const contextData = { metadata, toasts, currentUser };
   const ForemanContext = getForemanContext(contextData);
 
   return (
