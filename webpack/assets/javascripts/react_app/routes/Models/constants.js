@@ -13,3 +13,4 @@ export const NEW_MODEL_PATH = '/models/new';
 export const CREATE_MODEL_API_PATH = '/api/models';
 export const MODEL_DELETE_MODAL_ID = 'modelDeleteModal';
 export const API_REQUEST_KEY = 'MODELS';
+export const CREATE_PERMISSION = 'create_models';
