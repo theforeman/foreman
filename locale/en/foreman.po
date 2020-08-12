@@ -744,9 +744,6 @@ msgstr ""
 msgid "Architecture"
 msgstr ""
 
-msgid "Architecture Distribution"
-msgstr ""
-
 msgid "Architecture ID"
 msgstr ""
 
@@ -1092,12 +1089,6 @@ msgid "Available Providers"
 msgstr ""
 
 msgid "Available input types"
-msgstr ""
-
-msgid "Average Memory Usage"
-msgstr ""
-
-msgid "Average Swap Usage"
 msgstr ""
 
 msgid "Avoid duplicate values when merging them (only array type)?"
@@ -1478,9 +1469,6 @@ msgstr ""
 msgid "Class"
 msgstr ""
 
-msgid "Class Distribution"
-msgstr ""
-
 msgid "Classes"
 msgstr ""
 
@@ -1584,9 +1572,6 @@ msgid "Compute Resouces"
 msgstr ""
 
 msgid "Compute Resource"
-msgstr ""
-
-msgid "Compute Resource Distribution"
 msgstr ""
 
 msgid "Compute Resources"
@@ -2803,9 +2788,6 @@ msgstr ""
 msgid "Environment"
 msgstr ""
 
-msgid "Environment Distribution"
-msgstr ""
-
 msgid "Environment ID"
 msgstr ""
 
@@ -3727,9 +3709,6 @@ msgstr ""
 msgid "Harddisk"
 msgstr ""
 
-msgid "Hardware"
-msgstr ""
-
 msgid "Hardware Model"
 msgstr ""
 
@@ -3806,9 +3785,6 @@ msgid "Host Fetch ${response}"
 msgstr ""
 
 msgid "Host Group / Environment"
-msgstr ""
-
-msgid "Host Group Distribution"
 msgstr ""
 
 msgid "Host Group Parameters"
@@ -5382,9 +5358,6 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-msgid "Location Distribution"
-msgstr ""
-
 msgid "Location fact"
 msgstr ""
 
@@ -6015,9 +5988,6 @@ msgstr ""
 msgid "No BMC NIC available for host %s"
 msgstr ""
 
-msgid "No Charts To Load"
-msgstr ""
-
 msgid "No Failed Features"
 msgstr ""
 
@@ -6339,9 +6309,6 @@ msgstr ""
 msgid "Number Of Clients"
 msgstr ""
 
-msgid "Number of CPUs"
-msgstr ""
-
 msgid "Number of Events"
 msgstr ""
 
@@ -6606,9 +6573,6 @@ msgid "Order"
 msgstr ""
 
 msgid "Organization"
-msgstr ""
-
-msgid "Organization Distribution"
 msgstr ""
 
 msgid "Organization fact"
@@ -8217,6 +8181,9 @@ msgstr ""
 msgid "Show all %s children fact values"
 msgstr ""
 
+msgid "Show all %s facts with the same value"
+msgstr ""
+
 msgid "Show an HTTP Proxy"
 msgstr ""
 
@@ -8482,9 +8449,6 @@ msgid "State"
 msgstr ""
 
 msgid "Static"
-msgstr ""
-
-msgid "Statistics"
 msgstr ""
 
 msgid "Status"
@@ -9392,6 +9356,9 @@ msgid "Timeout has occurred while communicating with %s"
 msgstr ""
 
 msgid "Timezone to use for new users"
+msgstr ""
+
+msgid "To access /statistics API you need to install Foreman Statistics plugin"
 msgstr ""
 
 msgid "To access /trends API you need to install Foreman Statistics plugin"
@@ -10491,6 +10458,9 @@ msgstr ""
 msgid "Welcome to Foreman"
 msgstr ""
 
+msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
+msgstr ""
+
 msgid "What is ERB"
 msgstr ""
 
@@ -11039,9 +11009,6 @@ msgstr ""
 msgid "for proxy"
 msgstr ""
 
-msgid "free memory"
-msgstr ""
-
 msgid "from profile %s"
 msgstr ""
 
@@ -11588,9 +11555,6 @@ msgid "use NIS netgroups instead of posix groups, applicable only when server_ty
 msgstr ""
 
 msgid "use if you want update locked templates"
-msgstr ""
-
-msgid "used memory"
 msgstr ""
 
 msgid "using %s"
