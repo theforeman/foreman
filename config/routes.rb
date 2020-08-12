@@ -438,7 +438,7 @@ Foreman::Application.routes.draw do
       end
     end
 
-    resources :models, :except => [:show, :index, :new] do
+    resources :models, :except => [:show, :index, :new, :create] do
       collection do
         get 'auto_complete_search'
       end

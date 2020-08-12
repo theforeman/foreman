@@ -1,6 +1,8 @@
 import React from 'react';
 import { translate as __ } from '../../../common/I18n';
 
+import { propsToSnakeCase } from '../../../common/helpers'
+
 import ForemanForm from '../../../components/common/forms/ForemanForm';
 import TextField from '../../../components/common/forms/TextField';
 
@@ -11,11 +13,9 @@ const infoHelp = __("General useful description, for example this kind of hardwa
 const ModelForm = props => {
   return (
     <ForemanForm
-      onSubmit={async (values, actions) => {
-         props.onSubmit(values, actions)
-      }}
+      onSubmit={(values, actions) => props.onSubmit(propsToSnakeCase(values), actions)}
       initialValues={props.initialValues}
-      onCancel={() => {}}
+      onCancel={props.onCancel}
     >
       <TextField name="name" type="text" required="true" label={__('Name')} />
       <TextField name="hardwareModel" type="text" label={__('Hardware Model')} helpBlock={hwModelHelp} />
