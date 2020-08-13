@@ -894,17 +894,30 @@ function selectRelatedNetwork(subnetElement) {
   }
 
   var selected = null;
+  // prefer a match of the vlanid bounded by non digits
+  // this prevent vlanId=1 from matching "vlan100"
+  var vlanidregex = new RegExp("(^|\\D)" + vlanId + "($|\\D)")
 
   network_select.find('option').each(function(index, option) {
     if (
       selected === null &&
-      $(option)
-        .text()
-        .indexOf(vlanId) !== -1
+      vlanidregex.test($(option).text())
     ) {
       selected = option.value;
     }
   });
+  if (selected === null) {
+    network_select.find('option').each(function(index, option) {
+      if (
+        selected === null &&
+        $(option)
+          .text()
+          .indexOf(vlanId) !== -1
+      ) {
+        selected = option.value;
+      }
+    });
+  }
 
   if (selected !== null) {
     network_select.val(selected).trigger('change');
