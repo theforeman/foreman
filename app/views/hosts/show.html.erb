@@ -10,7 +10,7 @@
 <%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>
 <div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
-  <div class="col-md-4">
+  <div class="col-md-12">
     <table id="details_table" class="<%= table_css_classes %>">
       <thead>
         <tr>
@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <div class="col-md-8">
+  <div class="col-md-6">
     <div class="stats-well">
       <h4 class="ca"><%= _("Runtime") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>
@@ -85,6 +85,8 @@
         <%= spinner(_('Loading runtime information ...')) %>
       </div>
     </div>
+  </div>
+  <div class="col-md-6">
     <div class="stats-well">
       <h4 class="ca"><%= _("Resources") %></h4>
       <h6 class="ca"><%= n_("last %s day", "last %s days", @range) % @range %></h6>

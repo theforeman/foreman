@@ -127,7 +127,9 @@ a {
 }
 
 .tab-content {
-  min-height: 420px;
+  height: 400px;
+  margin-bottom: 20px;
+  overflow-y: auto;
 }
 
 .badge.close {
