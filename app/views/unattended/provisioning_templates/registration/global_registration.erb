@@ -25,13 +25,19 @@ if [ -f /etc/os-release ] ; then
 fi
 
 create_host_curl() {
-  curl --request POST <%= foreman_server_url %>/api/hosts \
+  curl --fail --request POST <%= foreman_server_url %>/api/hosts \
        <%= headers.join(' ') %> \
        -d '{ "host": { "name": "'$(hostname --fqdn)'", "build": "false", "managed": "false"
        <%= ", \"organization_id\": \"#{@organization.id}\"" if @organization -%>
        <%= ", \"location_id\": \"#{@location.id}\"" if @location -%>
        <%= ", \"hostgroup_id\": \"#{@hostgroup.id}\"" if @hostgroup -%>
        }}'
+}
+
+exit_on_error() {
+    echo ""
+    echo "Host registration failed"
+    exit 1
 }
 
 echo "#"
@@ -45,12 +51,15 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     curl --insecure --output $CONSUMER_RPM <%= subscription_manager_configuration_url %>
     yum localinstall $CONSUMER_RPM -y
     yum install subscription-manager -y
-    subscription-manager register --org=<%= @organization.label %> --activationkey="sample-key"
-
+    subscription-manager register --org=<%= @organization.label %> --activationkey="sample-key" || exit_on_error
     rm -f $CONSUMER_RPM
+
+    TOKEN=$(curl -s -X GET "<%= foreman_server_url %>/api/hosts/$(hostname --fqdn)" <%= headers.join(' ') %> | grep -Po '(?<=\"registration_token\":")([^\"]+)')
 else
-    create_host_curl
+    TOKEN=$(create_host_curl | grep -Po '(?<=\"registration_token\":")([^\"]+)') || exit_on_error
 fi
 <% else -%>
-create_host_curl
+TOKEN=$(create_host_curl | grep -Po '(?<=\"registration_token\":")([^\"]+)') || exit_on_error
 <% end -%>
+
+curl -X GET "<%= foreman_server_url %>/foreman_register/hosts/register?token=$TOKEN" | bash

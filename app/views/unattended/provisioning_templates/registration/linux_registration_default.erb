@@ -20,6 +20,23 @@ set -e
 <%= snippet 'puppet_setup' %>
 <% end -%>
 
+<%= snippet 'remote_execution_ssh_keys' %>
+
+<% if host_param_true?('host_registration_insights') -%>
+if [ -f /etc/os-release ] ; then
+  . /etc/os-release
+fi
+
+if [ x$ID = xrhel ]; then
+  echo '#'
+  echo '# Installing Insights client'
+  echo '#'
+
+  yum install -y insights-client
+  insights-client --register
+fi
+<% end -%>
+
 # Call home to exit build mode
 
 curl -o /dev/null --noproxy \* '<%= foreman_url('built') %>'
