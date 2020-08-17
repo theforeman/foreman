@@ -206,6 +206,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
         organization_id: taxonomies(:organization1).id,
         location_id: taxonomies(:location1).id,
         hostgroup_id: hostgroups(:common).id,
+        insecure: 'true',
       }
 
       get :global_registration, params: params, session: set_session_user
@@ -215,6 +216,7 @@ class Api::V2::ProvisioningTemplatesControllerTest < ActionController::TestCase
       assert_equal taxonomies(:organization1), vars[:organization]
       assert_equal taxonomies(:location1), vars[:location]
       assert_equal hostgroups(:common), vars[:hostgroup]
+      assert vars[:insecure]
       assert_equal users(:admin), vars[:user]
     end
 

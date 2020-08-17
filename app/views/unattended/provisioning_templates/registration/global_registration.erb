@@ -26,7 +26,7 @@ fi
 
 create_host_curl() {
   curl --request POST <%= foreman_server_url %>/api/hosts \
-       <%= headers.join(' ') %> \
+       <%= '--insecure' if @insecure %> <%= headers.join(' ') %> \
        -d '{ "host": { "name": "'$(hostname --fqdn)'", "build": "false", "managed": "false"
        <%= ", \"organization_id\": \"#{@organization.id}\"" if @organization -%>
        <%= ", \"location_id\": \"#{@location.id}\"" if @location -%>
@@ -42,9 +42,8 @@ echo "#"
 if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     CONSUMER_RPM=$(mktemp --suffix .rpm)
 
-    curl --insecure --output $CONSUMER_RPM <%= subscription_manager_configuration_url %>
+    curl --output $CONSUMER_RPM <%= subscription_manager_configuration_url %>
     yum localinstall $CONSUMER_RPM -y
-    yum install subscription-manager -y
     subscription-manager register --org=<%= @organization.label %> --activationkey="sample-key"
 
     rm -f $CONSUMER_RPM

@@ -135,6 +135,7 @@ module Api
       param :organization_id, :number, desc: N_("ID of the Organization to register the host in.")
       param :location_id, :number, desc: N_("ID of the Location to register the host in.")
       param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in.")
+      param :insecure, :bool, desc: N_("Flag for allowing insecure connections when using SSL.")
       def global_registration
         if @provisioning_template
           render plain: @provisioning_template.render(variables: @global_registration_vars).html_safe

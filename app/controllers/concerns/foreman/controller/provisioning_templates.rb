@@ -59,6 +59,7 @@ module Foreman::Controller::ProvisioningTemplates
       organization: organization,
       location: location,
       hostgroup: host_group,
+      insecure: ActiveRecord::Type::Boolean.new.deserialize(params['insecure']),
     }.merge(params.permit(permitted).to_h.symbolize_keys)
   end
 end
