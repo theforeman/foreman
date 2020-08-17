@@ -16,7 +16,7 @@ module Foreman
             keyword :includes, Array, of: [String, Symbol], desc: 'An array of associations represented by strings or symbols, to be included in the SQL query. The list can be extended
               from plugins and can not be fully documented here. Most used associations are :puppetclasses, :host_statuses, :fact_names, :interfaces, :domain, :subnet', default: nil
             keyword :preload, Array, desc: 'Same as includes but using preload', default: nil
-            keyword :joins, Array, desc: 'An array of associations repesented by strings or symbols, to be included in the SQL query. The list can be extended from plugins and can not be
+            keyword :joins, Array, desc: 'An array of associations represented by strings or symbols, to be included in the SQL query. The list can be extended from plugins and can not be
               fully documented here. Joined associations can be then used in select keyword and will be loaded into instantiated object', default: nil
             keyword :select, Array, desc: 'An array of columns (object attributes) to be loaded. By default, all columns are loaded, however you may specify subset of columns you need', default: nil
           end

@@ -232,12 +232,12 @@ module Host
     end
 
     apipie :method, 'A list of facts known about the host.' do
-      desc 'Note that available facts depend on what facts have been uploaded to Formean,
+      desc 'Note that available facts depend on what facts have been uploaded to Foreman,
            typical sources are Puppet facter, subscription manager etc.
            The facts can be out of date, this macro only provides access to the value stored in the database.'
       returns Hash, desc: 'A hash of facts, keys are fact names, values are fact values'
       example '@host.facts # => { "hardwareisa"=>"x86_64", "kernel"=>"Linux", "virtual"=>"physical", ... }', desc: 'Getting all host facts'
-      example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this caes'
+      example '@host.facts["uptime"] # => "30 days"', desc: 'Getting specific fact value, +uptime+ in this case'
       aliases :facts
     end
     def facts_hash
