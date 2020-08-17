@@ -21,21 +21,21 @@ export const callOnMount = callback => WrappedComponent => componentProps => {
  * assuming the component has withRouter
  * @param {Function} callback - function to run
  */
-export const callOnPopState = callback => WrappedComponent => props => {
+export const callOnPopState = callback => WrappedComponent => componentProps => {
   const didMount = useRef(false);
   const {
     history: { action },
     location: { search },
-  } = props;
+  } = componentProps;
   useEffect(() => {
     if (action === 'POP' && didMount.current) {
-      callback(props);
+      callback(componentProps);
     } else {
       didMount.current = true;
     }
   }, [search, action]);
 
-  return <WrappedComponent {...props} />;
+  return <WrappedComponent {...componentProps} />;
 };
 
 /**
