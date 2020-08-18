@@ -2,11 +2,11 @@ module SSO
   class Apache < Base
     delegate :session, :to => :controller
 
-    CAS_USERNAME = 'REMOTE_USER'
+    CAS_USERNAME = 'HTTP_REMOTE_USER'
     ENV_TO_ATTR_MAPPING = {
-      'REMOTE_USER_EMAIL'     => :mail,
-      'REMOTE_USER_FIRSTNAME' => :firstname,
-      'REMOTE_USER_LASTNAME'  => :lastname,
+      'HTTP_REMOTE_USER_EMAIL'     => :mail,
+      'HTTP_REMOTE_USER_FIRSTNAME' => :firstname,
+      'HTTP_REMOTE_USER_LASTNAME'  => :lastname,
     }
 
     def available?
@@ -30,10 +30,10 @@ module SSO
     def authenticated?
       return false unless (self.user = request.env[CAS_USERNAME])
       attrs = { :login => user }.merge(additional_attributes)
-      group_count = request.env['REMOTE_USER_GROUP_N'].to_i
-      if group_count > 0
+      if request.env.has_key?('HTTP_REMOTE_USER_GROUPS')
         attrs[:groups] = []
-        group_count.times { |i| attrs[:groups] << request.env["REMOTE_USER_GROUP_#{i + 1}"] }
+        groups = request.env['HTTP_REMOTE_USER_GROUPS'].split(':')
+        groups.each { |group| attrs[:groups] << group }
       end
 
       return false unless User.find_or_create_external_user(attrs, Setting['authorize_login_delegation_auth_source_user_autocreate'])

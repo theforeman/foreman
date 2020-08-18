@@ -853,7 +853,7 @@ class HostsControllerTest < ActionController::TestCase
   end
 
   def set_remote_user_to(user)
-    @request.env['REMOTE_USER'] = user.login
+    @request.env['HTTP_REMOTE_USER'] = user.login
   end
 
   context 'submit actions with multiple hosts' do
