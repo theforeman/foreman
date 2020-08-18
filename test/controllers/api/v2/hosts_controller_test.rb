@@ -567,7 +567,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   end
 
   def set_remote_user_to(user)
-    @request.env['REMOTE_USER'] = user.login
+    @request.env['HTTP_REMOTE_USER'] = user.login
   end
 
   test "when REMOTE_USER is provided and both authorize_login_delegation{,_api}
