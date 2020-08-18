@@ -6,12 +6,9 @@
     <%= N_('Run Distribution Chart') %>
   <% end %>
 </h4>
-<div id="run_distribution"></div>
-<%= mount_react_component('ComponentWrapper', '#run_distribution', {
-    component: 'BarChart', 
-    componentProps: {
+<%= react_component('BarChart', {
       data: get_run_distribution_data(@data.hosts, :origin => origin),
       xAxisLabel: _("Minutes Ago"),
       yAxisLabel: _("Number Of Clients"),
       config: 'small'
-    }}.to_json) %>
+    }) %>
