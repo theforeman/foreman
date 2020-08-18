@@ -1,7 +1,6 @@
 import React from 'react';
 import NewModelPage from './NewModelPage';
 
-import { withProtectedView } from '../../../common/HOC';
 import { useForemanContext } from '../../../Root/Context/ForemanContext';
 
 import PermissionDenied from '../../../components/PermissionDenied';

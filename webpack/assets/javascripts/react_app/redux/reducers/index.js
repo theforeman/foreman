@@ -20,37 +20,39 @@ import { reducers as intervalReducers } from '../middlewares/IntervalMiddleware'
 import { reducers as bookmarksReducers } from '../../components/Bookmarks';
 import { reducers as modalReducers } from '../../components/ForemanModal';
 import { reducers as apiReducer } from '../API';
-import { reducers as modelsPageReducers } from '../../routes/Models/ModelsPage';
 
 export function combineReducersAsync(asyncReducers) {
   return combineReducers({
-    ...bookmarksReducers,
-    hosts,
-    notifications,
-    toasts,
-    ...passwordStrengthReducers,
-    ...breadcrumbBarReducers,
+    ...allReducers,
     ...layoutReducers,
     ...asyncReducers,
-    ...autoCompleteReducers,
-    ...diffModalReducers,
-    ...editorReducers,
-    ...templateGenerationReducers,
-    ...factChartReducers,
-    ...typeAheadSelectReducers,
-
     router: connectRouter(history),
-    // Pages
-    ...statisticsPageReducers,
-    ...fillReducers,
-    ...auditsPageReducers,
-    ...modalReducers,
-    ...modelsPageReducers,
-
-    // Middlewares
-    ...intervalReducers,
-    ...apiReducer,
   });
 }
+
+export const allReducers = {
+  ...bookmarksReducers,
+  hosts,
+  notifications,
+  toasts,
+  ...passwordStrengthReducers,
+  ...breadcrumbBarReducers,
+  ...autoCompleteReducers,
+  ...diffModalReducers,
+  ...editorReducers,
+  ...templateGenerationReducers,
+  ...factChartReducers,
+  ...typeAheadSelectReducers,
+
+  // Pages
+  ...statisticsPageReducers,
+  ...fillReducers,
+  ...auditsPageReducers,
+  ...modalReducers,
+
+  // Middlewares
+  ...intervalReducers,
+  ...apiReducer,
+};
 
 export default combineReducersAsync();
