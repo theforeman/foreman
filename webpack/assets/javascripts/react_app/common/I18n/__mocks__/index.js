@@ -7,7 +7,6 @@ export const ngettext = (singular, plural, number) =>
 export const { sprintf } = jest.requireActual('jed');
 
 export const intl = {
-  ready: Promise.resolve(true),
   timezone: 'UTC',
   locale: 'en',
 };

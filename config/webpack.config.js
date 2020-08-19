@@ -10,7 +10,6 @@ var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var pluginUtils = require('../script/plugin_webpack_directories');
-var vendorEntry = require('./webpack.vendor');
 var SimpleNamedModulesPlugin = require('../webpack/simple_named_modules');
 var argvParse = require('argv-parse');
 var fs = require('fs');
@@ -24,23 +23,6 @@ var args = argvParse({
     type: 'string',
   },
 });
-
-const supportedLocales = () => {
-  const localeDir = path.join(__dirname, '..', 'locale');
-
-  // Find all files in ./locale/*
-  const localesFiles = fs.readdirSync(localeDir);
-
-  // Return only folders
-  return localesFiles.filter(f =>
-    fs.statSync(path.join(localeDir, f)).isDirectory()
-  );
-};
-
-const supportedLanguages = () => {
-  // Extract extract languages from the language tags (strip off dialects)
-  return [...new Set(supportedLocales().map(d => d.split('_')[0]))];
-};
 
 const devServerConfig = () => {
   const result = require('dotenv').config();
@@ -112,13 +94,8 @@ module.exports = env => {
   var entry = Object.assign(
     {
       bundle: bundleEntry,
-      vendor: vendorEntry,
     },
     pluginEntries
-  );
-
-  const supportedLanguagesRE = new RegExp(
-    `/(${supportedLanguages().join('|')})$`
   );
 
   var config = {
@@ -232,25 +209,8 @@ module.exports = env => {
           REDUX_LOGGER: process.env.REDUX_LOGGER,
         },
       }),
-      // limit locales from intl only to supported ones
-      new webpack.ContextReplacementPlugin(
-        /intl\/locale-data\/jsonp/,
-        supportedLanguagesRE
-      ),
-      // limit locales from react-intl only to supported ones
-      new webpack.ContextReplacementPlugin(
-        /react-intl\/locale-data/,
-        supportedLanguagesRE
-      ),
-    ],
+    ]
   };
-
-  config.plugins.push(
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-    })
-  );
 
   if (production) {
     config.plugins.push(
