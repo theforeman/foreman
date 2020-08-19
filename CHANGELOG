@@ -1,3 +1,10 @@
+2020-08-19	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.0.2
+	* Refs #30659 - pin friendly_id to < 5.4
+
+2020-08-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #30617 - Fix Change Owner bulk action
+
 2020-06-09	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.0.1
 	* templates - sync from community-templates
