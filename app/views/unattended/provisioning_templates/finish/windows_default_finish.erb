@@ -14,11 +14,16 @@ params:
 - windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
 - localAdminAccountDisabled: false
 - ntpServer: time.windows.com,other.time.server
-- domainAdminAccount: administrator@domain.com # use this account to join domain
+- domainAdminAccount: joinuser@domain.com # please do not use the domain administrator
 - domainAdminAccountPasswd: Password for the domain Admin account
 - computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
 - computerDomain: domain.com # domain to join
+- machinePassword: used for unsecure domain join. needs precrated computer object (New-ADComputer)
 - foremanDebug: false
+%>
+<%#
+# Information about unsecure domain join
+# https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/add-computer?view=powershell-5.1#example-9--add-a-computer-to-a-domain-using-predefined-computer-credentials
 %>
 <%
   # safemode renderer does not support unary negation
@@ -52,14 +57,17 @@ params:
   w32tm /resync
   w32tm /resync
 
-  :: You can join your machine to the domain right here >
-
-  <% if host_param('domainAdminAccount') and host_param('domainAdminAccountPasswd') -%>
-    echo joining domain
-    powershell.exe -OutputFormat text -ExecutionPolicy remotesigned -command c:\deploy\joinDomain.ps1
+  <% if host_param('computerDomain') -%>
+    <% if host_param('domainAdminAccount').present? && host_param('domainAdminAccountPasswd').present? -%>
+      echo performing secure domain join
+      powershell.exe -OutputFormat text -command Add-Computer -DomainName '<%= host_param('computerDomain') -%>' -Credential (New-Object -TypeName System.Management.Automation.PSCredential '<%= host_param('domainAdminAccount') -%>', (ConvertTo-SecureString -String '<%= host_param('domainAdminAccountPasswd') -%>' -AsPlainText -Force)) <% if host_param('computerOU').present? -%>-OUPath '<%= host_param('computerOU') -%>'<% end -%>
+    <% else %>
+      <% if host_param('machinePassword').present? %>
+        echo performing unsecure domain join
+        powershell.exe -OutputFormat text -command Add-Computer -Domain '<%= host_param('computerDomain') -%>' -Options UnsecuredJoin,PasswordPass -Credential (New-Object -TypeName System.Management.Automation.PSCredential $null, (ConvertTo-SecureString -String '<%= host_param('machinePassword') -%>' -AsPlainText -Force))
+      <% end %>
+    <% end %>
   <% end %>
-
-  :: < You can join your machine to the domain right here
 
   <% if host_param('localAdminAccountDisabled') %>
     echo Disabling %tempAdminUser%
@@ -87,14 +95,10 @@ params:
 
   <%= snippet 'Windows network' %>
 
-  <% if host_param('foremanDebug') != true %>
-    echo Safely remove wimaging files
-    sdelete.exe -accepteula -p 2 -r c:\wimaging
-    sdelete.exe -accepteula -p 2 c:\Windows\Panther\unattend.xml
-    sdelete.exe -accepteula -p 2 C:\Windows\Setup\Scripts\SetupComplete.cmd
-    sdelete.exe -accepteula -p 2 -r c:\minint
-    sdelete.exe -accepteula -p 2 -r c:\wimaging
-  <% end %>
+  <% if foreman_url('user_data') %>
+    echo execute user data script
+    IF EXIST c:\deploy\user_data.ps1 powershell.exe -OutputFormat text -command c:\deploy\user_data.ps1
+  <% end -%>
 
   <% if puppet_enabled %>
     echo Installing puppet
@@ -105,16 +109,22 @@ params:
   <% end%>
 
   <% if host_param('foremanDebug') != true %>
+
+    echo reboot in 15sec
+    start /b shutdown /r /t 15
+
+    echo Safely remove wimaging files
+    sdelete.exe -accepteula -p 2 -r c:\wimaging
+    sdelete.exe -accepteula -p 2 -r c:\minint
+    sdelete.exe -accepteula -p 2 c:\Windows\Panther\unattend.xml
+    sdelete.exe -accepteula -p 2 C:\Windows\Setup\Scripts\SetupComplete.cmd
+
+    echo Safely remove leftover directories
+    sdelete.exe -accepteula -p 2 -r c:\drivers
+    sdelete.exe -accepteula -p 2 -r c:\updates
+
     echo Safely removing c:\deploy
+    cd /
     sdelete.exe -accepteula -p 2 -r c:\deploy
-
-    echo remove leftover directories
-    rmdir /s /q c:\wimaging
-    rmdir /s /q c:\minint
-    rmdir /s /q c:\deploy
-    rmdir /s /q c:\extras
-
-    echo rebooting...
-    shutdown /r /t 5
   <% end -%>
 <% end -%>
