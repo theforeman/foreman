@@ -1,3 +1,21 @@
+2020-08-20	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.1.2
+
+2020-08-20	Adam Růžička <adamruzicka@users.noreply.github.com>
+	* Fixes #30528 - Run rake console as dynflow client (#7871)
+
+2020-08-20	Adam Ruzicka <aruzicka@redhat.com>
+	* Fixes #30146 - Allow running Rake tasks as Dynflow clients
+
+2020-08-19	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #30659 - pin friendly_id to < 5.4
+
+2020-08-12	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #30620 - Fix CR creation from the API
+
+2020-08-10	Ewoud Kohl van Wijngaarden <ewoud@kohlvanwijngaarden.nl>
+	* Fixes #30617 - Fix Change Owner bulk action
+
 2020-08-03	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.1.1
 
