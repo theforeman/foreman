@@ -135,6 +135,7 @@ module Api
       param :organization_id, :number, desc: N_("ID of the Organization to register the host in.")
       param :location_id, :number, desc: N_("ID of the Location to register the host in.")
       param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in.")
+      param :url, String, desc: N_("URL to the Foreman or Smart proxy used in the template.")
       def global_registration
         if @provisioning_template
           render plain: @provisioning_template.render(variables: @global_registration_vars).html_safe

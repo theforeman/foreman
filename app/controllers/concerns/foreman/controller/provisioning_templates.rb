@@ -59,6 +59,7 @@ module Foreman::Controller::ProvisioningTemplates
       organization: organization,
       location: location,
       hostgroup: host_group,
+      url: params['url'],
     }.merge(params.permit(permitted).to_h.symbolize_keys)
   end
 end
