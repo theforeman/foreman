@@ -215,7 +215,7 @@ module Hostext
       end
 
       def search_cast_facts(key, operator, value)
-        in_query = FactValue.joins(:fact_name).select(:host_id).
+        in_query = FactValue.unscoped.joins(:fact_name).select(:host_id).
                     where("#{FactName.table_name}.name = ?", key.split('.', 2).last).
                     where(cast_facts(FactValue.table_name, key, operator, value)).to_sql
         {
