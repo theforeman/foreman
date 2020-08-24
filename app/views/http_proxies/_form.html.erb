@@ -20,7 +20,7 @@
       <%= text_f   f, :name %>
       <%= text_f   f, :url, :help_inline => _("URL of the proxy including schema (https://proxy.example.com:8080)") %>
       <%= text_f   f, :username, :help_inline => _("Username to use if authentication is required.") %>
-      <%= password_f   f, :password, :help_inline => _("Password to use if authentication is required.") %>
+      <%= password_f   f, :password, :help_inline => _("Password to use if authentication is required."), :unset => true %>
 
       <%= text_f   f, :test_url, :value => "https://aws.amazon.com", :name => "test_url", :label => _("Test URL"),
                    :help_inline => spinner_button_f(f, 'Test Connection', "tfm.httpProxies.testConnection(this, '#{test_connection_http_proxies_path}')",
