@@ -10,13 +10,6 @@ module ExternalLogoutHelper
   end
 
   def mount_external_logout
-    container_class = "external_logout"
-    content_tag(:div, nil, :class => container_class) +
-    mount_react_component(
-      'ExternalLogout',
-      ".#{container_class}",
-      external_logout_props.to_json,
-      flatten_data: true
-    )
+    react_component('ExternalLogout', external_logout_props)
   end
 end
