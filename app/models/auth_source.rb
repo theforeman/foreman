@@ -46,9 +46,21 @@ class AuthSource < ApplicationRecord
 
   validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 60 }
 
-  scope :non_internal, -> { where("auth_sources.type NOT IN (?)", ['AuthSourceInternal', 'AuthSourceHidden']) }
-  scope :except_hidden, -> { where('auth_sources.type <> ?', 'AuthSourceHidden') }
-  scope :only_ldap, -> { where("auth_sources.type = ?", 'AuthSourceLdap') }
+  scope :non_internal, -> { where.not(type: (internal_types + hidden_types).map(&:to_s)) }
+  scope :except_hidden, -> { where.not(type: hidden_types.map(&:to_s)) }
+  scope :only_ldap, -> { where(type: ldap_types.map(&:to_s)) }
+
+  def self.internal_types
+    [AuthSourceInternal] + AuthSourceInternal.descendants
+  end
+
+  def self.hidden_types
+    [AuthSourceHidden] + AuthSourceHidden.descendants
+  end
+
+  def self.ldap_types
+    [AuthSourceLdap] + AuthSourceLdap.descendants
+  end
 
   def authenticate(login, password)
   end
