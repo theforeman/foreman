@@ -3,6 +3,7 @@
 exports[`AutoComplete rendering renders AutoComplete 1`] = `
 <div
   className="search-bar input-group"
+  id="search-bar"
 >
   <Connect(AutoComplete)
     controller="models"

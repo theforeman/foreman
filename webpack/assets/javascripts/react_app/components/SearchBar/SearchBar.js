@@ -16,7 +16,7 @@ const SearchBar = props => {
   } = props;
 
   return (
-    <div className="search-bar input-group">
+    <div className="search-bar input-group" id="search-bar">
       <AutoComplete
         id={autocomplete.id}
         handleSearch={() => onSearch(searchQuery)}

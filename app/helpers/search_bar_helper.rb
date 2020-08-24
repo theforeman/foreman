@@ -16,16 +16,17 @@ module SearchBarHelper
         documentationUrl: documentation_url("4.1.5Searching"),
       }
     end
-    mount_react_component("SearchBar", "##{id}", {
-      controller: controller,
-      autocomplete: {
-        id: autocomplete_id,
-        searchQuery: search_query,
-        url: url,
-        useKeyShortcuts: use_key_shortcuts,
-      },
-      bookmarks: bookmarks,
-    }.to_json)
+    react_component("SearchBar", {
+                      data: {
+                        controller: controller,
+                      autocomplete: {
+                        id: autocomplete_id,
+                        searchQuery: search_query,
+                        url: url,
+                        useKeyShortcuts: use_key_shortcuts,
+                      },
+                      bookmarks: bookmarks,
+                      }})
   end
 
   def get_search_props(

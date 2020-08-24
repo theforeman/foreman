@@ -55,33 +55,29 @@ exports[`render pageLayout w/beforeToolbarComponent 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -154,33 +150,29 @@ exports[`render pageLayout w/search 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -253,33 +245,29 @@ exports[`render pageLayout w/toastNotifications 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -352,33 +340,29 @@ exports[`render pageLayout w/toolBar 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -427,33 +411,29 @@ exports[`render pageLayout with custom breadcrumbs 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
@@ -508,33 +488,29 @@ exports[`render pageLayout without breadcrumbs 1`] = `
         componentClass="div"
         md={6}
       >
-        <div
-          id="search-bar"
-        >
-          <Connect(SearchBar)
-            data={
-              Object {
-                "data": Object {
-                  "autocomplete": Object {
-                    "id": "searchBar",
-                    "searchQuery": null,
-                    "url": "model/auto_complete_search",
-                    "useKeyShortcuts": true,
-                  },
-                  "bookmarks": Object {
-                    "canCreate": true,
-                    "documentationUrl": "/doc/url",
-                    "url": "/api/bookmarks",
-                  },
-                  "controller": "models",
+        <Connect(SearchBar)
+          data={
+            Object {
+              "data": Object {
+                "autocomplete": Object {
+                  "id": "searchBar",
+                  "searchQuery": null,
+                  "url": "model/auto_complete_search",
+                  "useKeyShortcuts": true,
                 },
-              }
+                "bookmarks": Object {
+                  "canCreate": true,
+                  "documentationUrl": "/doc/url",
+                  "url": "/api/bookmarks",
+                },
+                "controller": "models",
+              },
             }
-            initialQuery=""
-            onBookmarkClick={[Function]}
-            onSearch={[Function]}
-          />
-        </div>
+          }
+          initialQuery=""
+          onBookmarkClick={[Function]}
+          onSearch={[Function]}
+        />
          
       </Col>
       <Col
