@@ -16,26 +16,28 @@ const LoginPage = ({
 }) => {
   const { modifiedAlerts, submitErrors } = adjustAlerts(alerts);
   return (
-    <PFLoginPage
-      container={{
-        backgroundUrl,
-        alert: modifiedAlerts,
-      }}
-      header={{
-        logoSrc,
-        caption: <LoginPageCaption version={version} caption={caption} />,
-      }}
-      card={{
-        title: __('Log in to your account'),
-        form: {
-          ...defaultFormProps,
-          submitError: submitErrors,
-          additionalFields: (
-            <input name="authenticity_token" type="hidden" value={token} />
-          ),
-        },
-      }}
-    />
+    <div id="login-page">
+      <PFLoginPage
+        container={{
+          backgroundUrl,
+          alert: modifiedAlerts,
+        }}
+        header={{
+          logoSrc,
+          caption: <LoginPageCaption version={version} caption={caption} />,
+        }}
+        card={{
+          title: __('Log in to your account'),
+          form: {
+            ...defaultFormProps,
+            submitError: submitErrors,
+            additionalFields: (
+              <input name="authenticity_token" type="hidden" value={token} />
+            ),
+          },
+        }}
+      />
+    </div>
   );
 };
 
