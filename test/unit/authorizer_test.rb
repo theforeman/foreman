@@ -354,4 +354,21 @@ class AuthorizerTest < ActiveSupport::TestCase
       auth.find_collection(Host::Base)
     end
   end
+
+  describe '#find_collection' do
+    context 'using joined_on option' do
+      test 'allows filtering on associations that do not match association class' do
+        permission = Permission.find_by_name('view_hosts')
+        FactoryBot.create(:host, :debian, :with_facts)
+        FactoryBot.create(:filter, role: @role, permissions: [permission], search: 'os = Debian', organization_ids: [taxonomies(:organization1).id])
+        authorizer = Authorizer.new(@user)
+        # FactValue is referencing HostBase, but operatingsystem association is defined on Host::Managed
+        # this could cause unknown association exception in Rails, we should avoid it
+        assert_nothing_raised do
+          authorizer.find_collection(Host, permission: :view_hosts, joined_on: FactValue).to_a
+        end
+        assert_operator 0, :<, authorizer.find_collection(Host, permission: :view_hosts, joined_on: FactValue).count
+      end
+    end
+  end
 end

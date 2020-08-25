@@ -56,18 +56,21 @@ class Authorizer
     scope_components = build_filtered_scope_components(resource_class, all_filters, options)
     if options[:joined_on]
       # build scope for the "joined_on" object filtered by the associated "resource_class"
-      assoc_name = options[:association_name]
-      assoc_name ||= options[:joined_on].reflect_on_all_associations.find { |a| a.klass.base_class == resource_class.base_class }.name
-
-      scope = options[:joined_on].joins(assoc_name => scope_components[:includes]).readonly(false)
+      assoc = options[:joined_on].reflect_on_association(options[:association_name]) if options[:association_name]
+      assoc ||= options[:joined_on].reflect_on_all_associations.find { |a| a.klass.base_class == resource_class.base_class }
 
       # allow user to add their own further clauses
       scope_components[:where] << options[:where] if options[:where].present?
 
-      # apply every where clause to the scope consecutively
-      scope_components[:where].inject(scope) do |scope_build, where|
-        where.is_a?(Hash) ? scope_build.where(resource_class.table_name => where) : scope_build.where(where)
+      scope = options[:joined_on].joins(assoc.name)
+      if scope_components[:where].present?
+        # Get a subselect based on the scope search criteria
+        subselect = resource_class.left_outer_joins(scope_components[:includes])
+        subselect = scope_components[:where].inject(subselect) { |scope_build, where| scope_build.where(where) }
+        scope = scope.where(assoc.foreign_key => subselect)
       end
+
+      scope.readonly(false)
     else
       # build regular filtered scope for "resource_class"
       scope = resource_class
