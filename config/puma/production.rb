@@ -13,6 +13,14 @@ threads ENV.fetch('FOREMAN_PUMA_THREADS_MIN', 0).to_i, ENV.fetch('FOREMAN_PUMA_T
 #
 workers ENV.fetch('FOREMAN_PUMA_WORKERS', 2).to_i
 
+# Provides systemd notify support through the
+# puma-systemd-plugin
+begin
+  plugin :systemd
+rescue Puma::UnknownPlugin
+  puts "Failed to load systemd plugin"
+end
+
 # In clustered mode, Puma can "preload" your application. This loads all the
 # application code prior to forking. Preloading reduces total memory usage of
 # your application via an operating system feature called copy-on-write
