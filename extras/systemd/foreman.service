@@ -5,7 +5,7 @@ After=network.target remote-fs.target nss-lookup.target
 Requires=foreman.socket
 
 [Service]
-Type=simple
+Type=notify
 User=foreman
 TimeoutSec=300
 WorkingDirectory=/usr/share/foreman
