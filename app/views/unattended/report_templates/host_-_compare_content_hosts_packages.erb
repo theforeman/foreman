@@ -15,41 +15,48 @@ template_inputs:
   value_type: plain
   resource_type: Katello::ActivationKey
 model: ReportTemplate
+require:
+- plugin: katello
+  version: 3.16.1
 -%>
 <%- packages = [] -%>
-<%- host1 = load_hosts(search: "name = #{input('Host 1')}").first.first -%>
-<%- host2 = load_hosts(search: "name = #{input('Host 2')}").first.first -%>
-<%- report_headers 'Package', host1.name, host2.name, 'Architecture', 'Status' -%>
-<%- set1 = host1.installed_packages.group_by { |p| p.name } -%>
-<%- set2 = host2.installed_packages.group_by { |p| p.name } -%>
-<%- (set1.keys | set2.keys).uniq.each do |package_name| -%>
-<%-   packages << { 'Package' => package_name,
-                     host1.name => (set1.key?(package_name) ? set1[package_name].first.nvra : '-'),
-                     host2.name => (set2.key?(package_name) ? set2[package_name].first.nvra : '-') } -%>
-<%- end -%>
-<%- packages.each do |data| -%>
-<%-   version1 = data[host1.name].gsub(data["Package"] + "-", "").gsub(/\.el[0-9][^.]*/, "").gsub(/\.[n|x|i].*/, "") -%>
-<%-   version2 = data[host2.name].gsub(data["Package"] + "-", "").gsub(/\.el[0-9][^.]*/, "").gsub(/\.[n|x|i].*/, "") -%>
-<%-   arch_list = [ data[host1.name].split('.').last, data[host2.name].split('.').last ].uniq -%>
-<%-   arch_list.delete("-") -%>
-<%-   if version1 == "-" -%>
-<%-     status = "#{host2.name} only"-%>
-<%-   elsif version2 == "-" -%>
-<%-     status = "#{host1.name} only"-%>
-<%-   elsif sortable_version(version1) > sortable_version(version2) -%>
-<%-     status = "greater in #{host1.name}"-%>
-<%-   elsif sortable_version(version1) < sortable_version(version2) -%>
-<%-     status = "lower in #{host1.name}"-%>
-<%-   else  -%>
-<%-     status = "same version"-%>
+<%- hosts = load_hosts(search: "name ^ (#{input('Host 1')}, #{input('Host 2')})").to_a.flatten -%>
+<%- if hosts.length != 2 -%>
+<%-   raise _("At least one of the hosts couldn't be found") -%>
+<%- else -%>
+<%-   host1 = hosts.first -%>
+<%-   host2 = hosts.last -%>
+<%-   report_headers 'Package', host1.name, host2.name, 'Architecture', 'Status' -%>
+<%-   set1 = host1.installed_packages.group_by { |p| p.name } -%>
+<%-   set2 = host2.installed_packages.group_by { |p| p.name } -%>
+<%-   (set1.keys | set2.keys).uniq.each do |package_name| -%>
+<%-     packages << { 'Package' => package_name,
+                       host1.name => (set1.key?(package_name) ? set1[package_name].first.nvra : '-'),
+                       host2.name => (set2.key?(package_name) ? set2[package_name].first.nvra : '-') } -%>
+<%-     end -%>
+<%-   packages.each do |data| -%>
+<%-     version1 = data[host1.name].gsub(data["Package"] + "-", "").gsub(/\.el[0-9][^.]*/, "").gsub(/\.[n|x|i].*/, "") -%>
+<%-     version2 = data[host2.name].gsub(data["Package"] + "-", "").gsub(/\.el[0-9][^.]*/, "").gsub(/\.[n|x|i].*/, "") -%>
+<%-     arch_list = [ data[host1.name].split('.').last, data[host2.name].split('.').last ].uniq -%>
+<%-     arch_list.delete("-") -%>
+<%-     if version1 == "-" -%>
+<%-       status = "#{host2.name} only"-%>
+<%-     elsif version2 == "-" -%>
+<%-       status = "#{host1.name} only"-%>
+<%-     elsif sortable_version(version1) > sortable_version(version2) -%>
+<%-       status = "greater in #{host1.name}"-%>
+<%-     elsif sortable_version(version1) < sortable_version(version2) -%>
+<%-       status = "lower in #{host1.name}"-%>
+<%-     else  -%>
+<%-       status = "same version"-%>
+<%-     end -%>
+<%-     report_row(
+          'Package': data['Package'],
+          "#{host1.name}": data[host1.name],
+          "#{host2.name}": data[host2.name],
+          'Architecture': arch_list[0],
+          'Status': status
+        ) -%>
 <%-   end -%>
-<%-   report_row(
-        'Package': data['Package'],
-        "#{host1.name}": data[host1.name],
-        "#{host2.name}": data[host2.name],
-        'Architecture': arch_list[0],
-        'Status': status
-      )
--%>
 <%- end -%>
 <%= report_render -%>
