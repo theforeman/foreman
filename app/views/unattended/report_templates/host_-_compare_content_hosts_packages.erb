@@ -20,12 +20,10 @@ require:
   version: 3.16.1
 -%>
 <%- packages = [] -%>
-
 <%- hosts = load_hosts(search: "name ^ (#{input('Host 1')}, #{input('Host 2')})").to_a.flatten -%>
 <%- if hosts.length != 2 -%>
-<%-   raise _('At least one of the hosts couldn\'t be found') -%>
+<%-   raise _("At least one of the hosts couldn't be found") -%>
 <%- else -%>
-
 <%-   host1 = hosts.first -%>
 <%-   host2 = hosts.last -%>
 <%-   report_headers 'Package', host1.name, host2.name, 'Architecture', 'Status' -%>
@@ -58,8 +56,7 @@ require:
           "#{host2.name}": data[host2.name],
           'Architecture': arch_list[0],
           'Status': status
-        )
--%>
+        ) -%>
 <%-   end -%>
 <%- end -%>
 <%= report_render -%>
