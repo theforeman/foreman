@@ -3,17 +3,24 @@ require 'base64'
 
 class JwtToken < Struct.new(:token)
   class << self
-    def encode(user, secret)
-      payload = prepare_payload(user, secret)
+    def encode(user, secret, expiration = nil)
+      payload = prepare_payload(user, secret, expiration)
       new JWT.encode(payload, secret)
     end
 
     private
 
-    def prepare_payload(user, secret)
+    def prepare_payload(user, secret, expiration)
       jti_raw = [secret, iat].join(':')
       jti = Digest::SHA256.hexdigest(jti_raw)
-      { user_id: user.id, iat: iat, jti: jti }
+      payload = {
+        user_id: user.id,
+        iat: iat,
+        jti: jti,
+      }
+
+      payload[:exp] = (Time.now.to_i + expiration) if expiration
+      payload
     end
 
     def iat

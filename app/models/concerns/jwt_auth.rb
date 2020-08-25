@@ -8,9 +8,9 @@ module JwtAuth
       jwt_secret || create_jwt_secret!
     end
 
-    def jwt_token!
+    def jwt_token!(expiration: nil)
       jwt_secret = jwt_secret!
-      JwtToken.encode(self, jwt_secret.token).to_s
+      JwtToken.encode(self, jwt_secret.token, expiration).to_s
     end
   end
 end

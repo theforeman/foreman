@@ -132,9 +132,12 @@ module Api
       end
 
       api :GET, '/register', N_('Render Global Registration template')
+      param :organization_id, :number, desc: N_("ID of the Organization to register the host in.")
+      param :location_id, :number, desc: N_("ID of the Location to register the host in.")
+      param :hostgroup_id, :number, desc: N_("ID of the Host group to register the host in.")
       def global_registration
         if @provisioning_template
-          render plain: @provisioning_template.render.html_safe
+          render plain: @provisioning_template.render(variables: @global_registration_vars).html_safe
         else
           render plain: _('Global Registration Template with name %s defined via default_global_registration_item Setting not found, please configure the existing template name first') % Setting[:default_global_registration_item], status: :not_found
         end
