@@ -12,11 +12,12 @@ module ComputeResourcesVmsHelper
   end
 
   def vm_console(host, vm)
+    options = { :class => "btn btn-info", :id => "console-button" }
     if vm&.ready?
       link_to_if_authorized(_("Console"), hash_for_console_host_path().merge(:auth_object => host, :permission => 'console_hosts'),
-        { :class => "btn btn-info" })
+        options)
     else
-      link_to(_("Console"), '#', {:disabled => true, :class => "btn btn-info"})
+      link_to(_("Console"), '#', options.merge(:disabled => true))
     end
   end
 
@@ -290,6 +291,7 @@ module ComputeResourcesVmsHelper
         :id => vm.identity
       ),
       {
+        :id => "console-button",
         :class => "btn btn-info",
       }
     )
