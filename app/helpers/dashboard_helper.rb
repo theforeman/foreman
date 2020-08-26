@@ -53,15 +53,15 @@ module DashboardHelper
     data
   end
 
-  def get_overview_json(report, options = {})
-    [
+  def get_overview(report, options = {})
+    { data: [
       [_('Active'), report[:active_hosts_ok_enabled], report_color[:active_hosts_ok_enabled]],
       [_('Error'), report[:bad_hosts_enabled], report_color[:bad_hosts_enabled]],
       [_('OK'), report[:ok_hosts_enabled], report_color[:ok_hosts_enabled]],
       [_('Pending changes'), report[:pending_hosts_enabled], report_color[:pending_hosts_enabled]],
       [_('Out of sync'), report[:out_of_sync_hosts_enabled], report_color[:out_of_sync_hosts_enabled]],
       [_('No report'), report[:reports_missing], report_color[:reports_missing]],
-    ].to_json
+    ]}
   end
 
   def get_run_distribution_data(hosts, options = {})
