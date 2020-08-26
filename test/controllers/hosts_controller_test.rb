@@ -1256,6 +1256,15 @@ class HostsControllerTest < ActionController::TestCase
     assert @host.root_pass.empty?
   end
 
+  test "host should get bmc status" do
+    @host.stubs(:bmc_proxy).returns(nil)
+    @host.interfaces.create(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
+                      :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
+    @host.power.stubs(:state).returns("on")
+    get :bmc, params: { :id => @host.id }, session: set_session_user
+    assert_response :success
+  end
+
   test "host update without BMC paasword in the params does not erase existing password" do
     bmc1 = @host.interfaces.build(:name => "bmc1", :mac => '52:54:00:b0:0c:fc', :type => 'Nic::BMC',
                       :ip => '10.0.1.101', :username => 'user1111', :password => 'abc123456', :provider => 'IPMI')
