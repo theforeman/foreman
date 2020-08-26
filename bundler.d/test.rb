@@ -18,7 +18,7 @@ group :test do
   gem 'rubocop-rails', '~> 2.4.2'
   gem 'poltergeist', '>= 1.18.0', :require => false
   gem 'selenium-webdriver', :require => false
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers', '>= 4.0', '< 4.4'
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.4'
   gem 'rails-controller-testing', '~> 1.0'
