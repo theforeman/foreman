@@ -265,7 +265,7 @@ class HostsController < ApplicationController
 
   def bmc
     render :partial => 'bmc', :locals => {
-      status: power_status(@host.power.state),
+      status: helpers.power_status(@host.power.state),
       bmc_proxy: @host.bmc_proxy,
     }
   rescue Foreman::BMCFeatureException
