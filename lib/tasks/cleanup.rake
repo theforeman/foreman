@@ -10,7 +10,7 @@ namespace :purge do
     ActiveRecord::Base.connection.drop_table(:trends, if_exists: true)
     # Migration names: create_trends create_trend_counters add_range_to_trend_counters add_trend_counter_created_at_unique_constraint
     ActiveRecord::SchemaMigration.where(version: %w[20121012170851 20121012170936 20150202094307 20181031155025]).delete_all
-    perms = Permission.where(resource_type: 'Trend')
+    perms = Permission.where(name: %w[view_statistics view_trends create_trends edit_trends destroy_trends update_trends])
     perms.each { |perm| perm.filters.destroy_all }
     perms.destroy_all
     Setting.where(name: 'max_trend').delete_all
