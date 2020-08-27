@@ -345,7 +345,7 @@ class SettingTest < ActiveSupport::TestCase
     setting = Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
     setting.value = ""
     assert !setting.save
-    assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
+    assert_equal "can't be blank", setting.errors[:value].first
   end
 
   test "unattended_url must have a valid format" do
@@ -358,9 +358,9 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   test "unattended_url must have proper format" do
-    attrs = { :name => "foreman_url", :default => "http://foo.com" }
+    attrs = { :name => "unattended_url", :default => "http://foo.com" }
     assert Setting.where(:name => attrs[:name]).first || Setting.create(attrs)
-    setting = Setting.find_by_name("foreman_url")
+    setting = Setting.find_by_name("unattended_url")
     setting.value = "random_string"
     assert !setting.save
     assert_equal "URL must be valid and schema must be one of http and https", setting.errors[:value].first
