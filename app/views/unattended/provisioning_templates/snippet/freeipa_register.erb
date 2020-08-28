@@ -45,7 +45,7 @@ snippet: true
   freeipa_client=freeipa-client
 <% end -%>
 
-<%= @host.operatingsystem.family == 'Redhat' ? 'yum install -y libsss_sudo' : 'apt-get install -y libsss-sudo' %> $freeipa_client
+<%= @host.operatingsystem.family == 'Redhat' ? 'yum install -y libsss_sudo' : 'DEBIAN_FRONTEND=noninteractive apt-get install -y libsss-sudo' %> $freeipa_client
 
 ##
 ## IPA Client Installation
