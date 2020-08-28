@@ -4,9 +4,9 @@ Documentation=https://theforeman.org
 After=network.target remote-fs.target nss-lookup.target
 
 [Service]
-Type=simple
+Type=notify
 User=foreman
-TimeoutSec=90
+TimeoutSec=300
 Environment=RAILS_ENV=production
 Environment=DYNFLOW_SIDEKIQ_SCRIPT=/usr/share/foreman/extras/dynflow-sidekiq.rb
 Environment=DYNFLOW_REDIS_URL=redis://localhost:6379/0
