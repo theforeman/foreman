@@ -17,8 +17,8 @@ class ReportTemplateJSIntegrationTest < IntegrationTestWithJavascript
     template_text = "CPUs,RAM,HDD\n<%= input(\'cpus\') -%>,<%= 1024 -%> MB,N/A"
 
     fill_in :id => 'report_template_name', :with => 'A testing report'
-    fill_in_editor_field('#react-ace', template_text)
-    assert has_editor_display?('#react-ace', template_text)
+    fill_in_editor_field('#editor-container', template_text)
+    assert has_editor_display?('#editor-container', template_text)
 
     click_link('Inputs')
     within "#template_inputs" do
