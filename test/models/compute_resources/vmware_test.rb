@@ -218,6 +218,49 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
     assert_equal mock_vm, cr.create_vm(attrs_in)
   end
 
+  test "#clone_vm works with no volume attributes" do
+    attrs_in = HashWithIndifferentAccess.new(
+      "image_id"              => "2",
+      "cpus"                  => "1",
+      "interfaces_attributes" => {
+        "new_interfaces" => {
+          "type"    => "VirtualE1000",
+              "network" => "network-17",
+              "_delete" => "",
+        },
+          "0" => {
+            "type" => "VirtualVmxnet3",
+              "network" => "network-17",
+              "_delete" => "",
+          },
+      }
+    )
+    attrs_parsed = HashWithIndifferentAccess.new(
+      "image_id" => "2",
+      "cpus" => "1",
+      "interfaces_attributes" => {
+        "new_interfaces" => {
+          "type" => "VirtualE1000",
+              "network" => "Test network",
+              "_delete" => "",
+        },
+          "0" => {
+            "type" => "VirtualVmxnet3",
+              "network" => "Test network",
+              "_delete" => "",
+          },
+      },
+      "provision_method" => "image"
+    )
+
+    mock_vm = mock('vm')
+    cr = FactoryBot.build_stubbed(:vmware_cr)
+    cr.expects(:parse_networks).with(attrs_in).returns(attrs_parsed)
+    cr.expects(:clone_vm).with(attrs_parsed).returns(mock_vm)
+    cr.expects(:test_connection)
+    assert_equal mock_vm, cr.create_vm(attrs_in)
+  end
+
   describe "#parse_args" do
     setup do
       @cr = FactoryBot.build_stubbed(:vmware_cr)
