@@ -268,9 +268,7 @@ module FormHelper
   end
 
   def react_cancel_button(args)
-    content_tag(:span, :id => 'form-cancel-btn') do
-      mount_react_component('RedirectCancelButton', '#form-cancel-btn', { :cancelPath => args[:cancel_path] }.to_json, :flatten_data => true)
-    end
+    react_component('RedirectCancelButton', { :cancelPath => args[:cancel_path] })
   end
 
   def options_for_submit_or_cancel(f, overwrite, args)
