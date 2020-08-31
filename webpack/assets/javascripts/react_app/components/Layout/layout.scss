@@ -36,10 +36,6 @@
     margin-left: 200px;
     padding-left: 20px;
     padding-right: 20px;
-
-    &.collapsed-nav {
-      margin-left: 75px;
-    }
   }
 
   .nav-pf-vertical {
@@ -94,14 +90,9 @@
   the react-container needs to be shifted when it happens.
 */
 @media only screen and (max-width: $pf-global--breakpoint--md) {
-  #react-app-root {
-    .react-container {
-      margin-left: 0;
-
-      &.collapsed-nav {
-        margin-left: 0;
-      }
-    }
+  #react-app-root .react-container,
+  #rails-app-content {
+    margin-left: 0;
   }
 }
 
@@ -121,4 +112,18 @@
 .taxonomy_search {
   max-width: 92%;
   margin: 4px 0 4px 8px;
+}
+
+.collapsed-nav {
+  #react-app-root .react-container,
+  #rails-app-content {
+    margin-left: 75px;
+  }
+
+  @media only screen and (max-width: $pf-global--breakpoint--md) {
+    #react-app-root .react-container,
+    #rails-app-content {
+      margin-left: 0;
+    }
+  }
 }
