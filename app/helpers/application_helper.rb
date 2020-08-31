@@ -474,7 +474,7 @@ module ApplicationHelper
   def notifications
     content_tag :div, id: 'toast-notifications-container',
                       'data-notifications': toast_notifications_data.to_json.html_safe do
-      mount_react_component('ToastNotifications', '#toast-notifications-container')
+      react_component('ToastNotifications')
     end
   end
 
