@@ -308,7 +308,7 @@ module Foreman::Model
     end
 
     def get_ovirt_id(argument_list, argument)
-      if argument_list.detect { |a| a.name == argument }.nil? && argument_list.detect { |a| a.id == argument }.nil?
+      if argument_list.none? { |a| a.name == argument ||  a.id == argument }
         raise Foreman::Exception.new("#{argument} is not valid, enter id or name")
       else
         argument_list.detect { |a| a.name == argument }.try(:id) || argument
@@ -631,6 +631,7 @@ module Foreman::Model
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
+        raise Foreman::Exception.new("Interface network is missing.") if interface[:network].nil?
         interface[:network] = get_ovirt_id(cluster_networks, interface[:network])
         vm.add_interface(interface)
       end
