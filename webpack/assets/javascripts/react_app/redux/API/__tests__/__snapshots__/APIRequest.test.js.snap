@@ -121,6 +121,21 @@ exports[`API get should dispatch request and success actions on resolve 1`] = `
 Array [
   Array [
     Object {
+      "data": Object {
+        "results": Array [
+          1,
+        ],
+      },
+    },
+    [Function],
+  ],
+]
+`;
+
+exports[`API get should dispatch request and success actions on resolve 2`] = `
+Array [
+  Array [
+    Object {
       "key": "SOME_KEY",
       "payload": Object {
         "id": 2,
