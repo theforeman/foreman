@@ -43,7 +43,10 @@ const sendMail = () => ({
 
 There are several ways to stop the interval:
 
-We will need to use the `stopInterval` Action from IntervalMiddlware.
+In case you are using the API middleware actions,
+the `stopInterval` for your `key` will be passed as the second param in your `handleSuccess`/ `handleError` callbacks.
+
+Another option is to use the `stopInterval` Action from IntervalMiddlware directly.
 `stopInterval` is defined in `webpack/assets/javascripts/react_app/redux/middlewares/IntervalMiddleware`
 or `foremanReact/redux/middlewares/IntervalMiddleware` for plugins
 

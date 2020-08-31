@@ -132,6 +132,9 @@ dispatch(
 
 The success handling function will receive the response object from the API request.
 
+In case you are also using the interval middleware with the same `KEY`,
+the `stopInterval` for your key will be passed as the second param in your `handleSuccess`/ `handleError` callbacks.
+
 ## Toast handling
 
 Instead of managing and dispatching the toast action by yourself, you can use the API middleware shortcuts,
