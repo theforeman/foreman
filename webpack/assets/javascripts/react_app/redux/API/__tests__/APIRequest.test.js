@@ -27,9 +27,7 @@ describe('API get', () => {
     modifiedAction.payload.handleSuccess = jest.fn();
     apiRequest(modifiedAction, store);
     await IntegrationTestHelper.flushAllPromises();
-    expect(modifiedAction.payload.handleSuccess).toHaveBeenLastCalledWith(
-      apiSuccessResponse
-    );
+    expect(modifiedAction.payload.handleSuccess.mock.calls).toMatchSnapshot();
     expect(store.dispatch.mock.calls).toMatchSnapshot();
   });
 
