@@ -43,7 +43,6 @@ elsif host_param_true?('enable-puppetlabs-puppet5-repo')
   repo_subdir = 'puppet5/'
 end
 -%>
-
 <% if repo_name -%>
 <% if os_family == 'Redhat' || os_name == 'SLES' -%>
 rpm -Uvh<%= http_proxy %><%= http_port %> https://<%= repo_host %>/<%= repo_subdir %><%= repo_name %>-<%= repo_os %>-<%= os_major %>.noarch.rpm

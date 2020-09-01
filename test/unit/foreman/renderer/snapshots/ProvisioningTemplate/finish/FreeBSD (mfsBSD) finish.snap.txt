@@ -26,6 +26,35 @@ pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 
 
+cat > /etc/puppet/puppet.conf << EOF
+
+
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+digest_algorithm = sha256
+
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = 
+certname        = snapshothost
+environment     = 
+server          = 
+
+EOF
+
+
+
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
+
+
+
 # SSH keys setup snippet for Remote Execution plugin
 #
 # Parameters:
@@ -51,5 +80,8 @@ pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 
 
+
+
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1
 
 exit 0
