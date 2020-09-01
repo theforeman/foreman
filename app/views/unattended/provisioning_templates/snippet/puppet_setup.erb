@@ -4,7 +4,7 @@ name: puppet_setup
 model: ProvisioningTemplate
 description: this snippet will configure the Puppet agent
 snippet: true
-%>
+-%>
 <%
 os_family = @host.operatingsystem.family
 os_major  = @host.operatingsystem.major.to_i
@@ -29,8 +29,7 @@ else
   etc_path = '/etc/puppet'
   bin_path = '/usr/bin'
 end
-%>
-
+-%>
 <% if os_family == 'Debian' -%>
 apt-get update
 apt-get install -y <%= linux_package %>

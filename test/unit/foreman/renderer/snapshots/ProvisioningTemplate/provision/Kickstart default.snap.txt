@@ -39,6 +39,10 @@ chrony
 wget
 @Core
 redhat-lsb-core
+
+dracut-fips
+-prelink
+
 %end
 
 %post --nochroot
@@ -121,13 +125,51 @@ fi
 
 
 
+echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
 
 
 
+cat > /etc/puppet/puppet.conf << EOF
 
 
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+digest_algorithm = sha256
+
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = 
+certname        = snapshothost
+environment     = 
+server          = 
+
+EOF
+
+
+
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
+
+
+
+
+# Assume systemd is not available
+cat << EOF > /root/ansible_provisioning_call.sh
+#!/bin/sh
+
+echo "Calling Ansible AWX/Tower provisioning callback..."
+/usr/bin/curl -v -k -s --data "host_config_key=" https:///api/v2/job_templates//callback/
+echo "DONE"
+EOF
+(chmod +x /root/ansible_provisioning_call.sh; crontab -u root -l 2>/dev/null; echo "@reboot /root/ansible_provisioning_call.sh" ) | crontab -u root -
 
 
 

@@ -3,6 +3,7 @@ vardir = /var/lib/puppet
 logdir = /var/log/puppet
 rundir = /var/run/puppet
 ssldir = \$vardir/ssl
+digest_algorithm = sha256
 
 [agent]
 pluginsync      = true
