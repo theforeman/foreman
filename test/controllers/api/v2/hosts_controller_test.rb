@@ -555,7 +555,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         are set, authentication should succeed w/o valid session cookies" do
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = true
-    set_remote_user_to users(:admin)
+    user = FactoryBot.create(:user, :admin, :with_mail, :auth_source => auth_sources(:external))
+    set_remote_user_to user
     User.current = nil # User.current is admin at this point (from initialize_host)
     host = Host.first
     get :show, params: { :id => host.to_param, :format => 'json' }

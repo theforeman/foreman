@@ -298,6 +298,10 @@ class User < ApplicationRecord
 
     # existing user, we'll update them
     if (user = unscoped.find_by_login(attrs[:login]))
+      unless user.auth_source.is_a? AuthSourceExternal
+        logger.info "Failed to log in external user: Username '#{attrs[:login]}' already exists in a different authentication source"
+        return nil
+      end
       # we know this auth source and it's user's auth source, we'll update user attributes
       if auth_source && (user.auth_source_id == auth_source.id)
         auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
