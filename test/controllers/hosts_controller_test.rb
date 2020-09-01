@@ -817,7 +817,8 @@ class HostsControllerTest < ActionController::TestCase
       @host = Host.first
       Setting[:authorize_login_delegation] = true
       Setting[:authorize_login_delegation_api] = false
-      set_remote_user_to users(:admin)
+      user = FactoryBot.create(:user, :admin, :with_mail, :auth_source => auth_sources(:external))
+      set_remote_user_to user
       User.current = nil # User.current is admin at this point (from initialize_host)
     end
 
