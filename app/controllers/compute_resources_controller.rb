@@ -36,7 +36,7 @@ class ComputeResourcesController < ApplicationController
       @compute_resource.valid?
       process_error
     end
-  rescue Fog::Errors::Error => e
+  rescue Fog::Errors::Error, Excon::Error => e
     Foreman::Logging.exception("Error while creating a resource", e)
     process_error(
       error_msg: _('Error while trying to create resource: %s') % e.message
@@ -75,7 +75,7 @@ class ComputeResourcesController < ApplicationController
     else
       process_error
     end
-  rescue Fog::Errors::Error => e
+  rescue Fog::Errors::Error, Excon::Error => e
     Foreman::Logging.exception("Error while updating resource", e)
     process_error(
       error_msg: _('Error while trying to update resource: %s') % e.message
