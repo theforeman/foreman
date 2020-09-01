@@ -27,6 +27,7 @@ vardir = /var/lib/puppet
 logdir = /var/log/puppet
 rundir = /var/run/puppet
 ssldir = \$vardir/ssl
+digest_algorithm = sha256
 
 [agent]
 pluginsync      = true
@@ -47,5 +48,7 @@ else
 fi
 
 /sbin/chkconfig puppetd on
+
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1
 
 exit 0

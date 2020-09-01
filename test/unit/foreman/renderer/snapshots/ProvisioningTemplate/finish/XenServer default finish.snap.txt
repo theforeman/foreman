@@ -7,3 +7,4 @@ else
   wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
 fi
 
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1

@@ -7,7 +7,7 @@ ONTIMEOUT installer
 LABEL installer
   MENU LABEL Kickstart default PXELinux
   KERNEL 
-  APPEND initrd= ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac
+  APPEND initrd= ks=http://foreman.some.host.fqdn/unattended/provision  BOOTIF=00-00-f0-54-1a-7e-e0 kssendmac ks.sendmac inst.ks.sendmac fips=1
   IPAPPEND 2
 
 

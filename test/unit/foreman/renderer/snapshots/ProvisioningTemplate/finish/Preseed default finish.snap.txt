@@ -32,9 +32,38 @@
 
 
 
+echo "blacklist amodule" >> /etc/modprobe.d/blacklist.conf
 
 
 
+
+
+cat > /etc/puppet/puppet.conf << EOF
+
+
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+digest_algorithm = sha256
+
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = 
+certname        = snapshothost
+environment     = 
+server          = 
+
+EOF
+
+
+
+# export a custom fact called 'is_installer' to allow detection of the installer environment in Puppet modules
+export FACTER_is_installer=true
+# passing a non-existent tag like "no_such_tag" to the puppet agent only initializes the node
+/usr/bin/puppet agent --config /etc/puppet/puppet.conf --onetime --tags no_such_tag  --no-daemonize
 
 
 
@@ -63,3 +92,4 @@ else
   wget -q -O /dev/null --header 'Content-Type: text/plain' 'http://foreman.some.host.fqdn/unattended/built'
 fi
 
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1
