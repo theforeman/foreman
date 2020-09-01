@@ -310,6 +310,11 @@ Foreman::Application.routes.draw do
     end
     resources :ssh_keys, :only => [:new, :create, :destroy]
   end
+
+  namespace :users do
+    post 'jwt', to: 'jwt#create'
+  end
+
   resources :roles, :except => [:show] do
     member do
       get 'clone'

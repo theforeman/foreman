@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserJwtField error 1`] = `
+<Row
+  bsClass="row"
+  componentClass="div"
+>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={12}
+  >
+    <Alert
+      className=""
+      onDismiss={null}
+      type="error"
+    >
+      There was an error while creating the JWT token, try refreshing the page.
+    </Alert>
+  </Col>
+</Row>
+`;
+
+exports[`UserJwtField ok 1`] = `
+<LoadingState
+  additionalClasses=""
+  loading={false}
+  loadingText="Loading"
+  size="lg"
+  timeout={300}
+>
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={12}
+    >
+      <div
+        className="user-jwt-field"
+      >
+        <p>
+          Following JWT can be used for the API authorization, like this:
+          <br />
+          <code>
+            curl -X GET '
+            localhost/api/v2/hosts
+            ' -H 'Authorization: Bearer your-token'
+          </code>
+        </p>
+      </div>
+    </Col>
+  </Row>
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={4}
+    >
+      <strong>
+        Generated token:
+      </strong>
+      <CopyToClipboard
+        valueToCopy="token23"
+      />
+    </Col>
+  </Row>
+</LoadingState>
+`;
+
+exports[`UserJwtField pending 1`] = `
+<LoadingState
+  additionalClasses=""
+  loading={true}
+  loadingText="Loading"
+  size="lg"
+  timeout={300}
+>
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={12}
+    >
+      <div
+        className="user-jwt-field"
+      >
+        <p>
+          Following JWT can be used for the API authorization, like this:
+          <br />
+          <code>
+            curl -X GET '
+            localhost/api/v2/hosts
+            ' -H 'Authorization: Bearer your-token'
+          </code>
+        </p>
+      </div>
+    </Col>
+  </Row>
+  <Row
+    bsClass="row"
+    componentClass="div"
+  >
+    <Col
+      bsClass="col"
+      componentClass="div"
+      md={4}
+    >
+      <strong>
+        Generated token:
+      </strong>
+      <CopyToClipboard
+        valueToCopy="token23"
+      />
+    </Col>
+  </Row>
+</LoadingState>
+`;

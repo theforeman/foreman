@@ -15,6 +15,9 @@
     <% if @editing_self || authorized_for(:controller => 'ssh_keys', :action => :view) %>
       <li><a href='#ssh_keys' data-toggle='tab'><%= _('SSH Keys') %></a></li>
     <% end %>
+    <% if @editing_self %>
+      <li><a href='#jwt_token' data-toggle='tab'><%= _('JWT') %></a></li>
+    <% end %>
   </ul>
 
   <div class='tab-content'>
@@ -127,6 +130,10 @@
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
                :html_options => user_taxonomies_html_options(@user)
     %>
+
+    <div class='tab-pane' id='jwt_token'>
+      <%= react_component('UserJwt') %>
+    </div>
   </div>
 
   <%= submit_or_cancel f %>

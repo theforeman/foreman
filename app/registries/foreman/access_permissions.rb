@@ -7,7 +7,8 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :view_current_user, { :"api/v2/users" => [:show_current] }, public: :true
     map.permission :my_account, { :users => [:edit],
       :notification_recipients => [:index, :update, :destroy, :update_group_as_read, :destroy_group],
-      :"api/v2/table_preferences" => [:show, :create, :edit, :delete, :index]}, :public => true
+      :"api/v2/table_preferences" => [:show, :create, :edit, :delete, :index],
+      :"users/jwt" => [:create]}, :public => true
     map.permission :api_status, { :"api/v2/home" => [:status]}, :public => true
     map.permission :about_index, { :about => [:index] }, :public => true
     map.permission :user_menu, { :user_menus => [:menu] }, :public => true
