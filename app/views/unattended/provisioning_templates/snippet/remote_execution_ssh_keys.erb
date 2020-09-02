@@ -46,7 +46,7 @@ if $user_exists; then
   mkdir -p <%= ssh_path %>
 
   cat << EOF >> <%= ssh_path %>/authorized_keys
-<%= host_param('remote_execution_ssh_keys').is_a?(String) ? host_param('remote_execution_ssh_keys') : host_param('remote_execution_ssh_keys').join("\n") %>
+<%= host_param('remote_execution_ssh_keys').is_a?(String) ? host_param('remote_execution_ssh_keys') : host_param('remote_execution_ssh_keys').uniq.join("\n") %>
 EOF
 
   chmod 0700 <%= ssh_path %>
