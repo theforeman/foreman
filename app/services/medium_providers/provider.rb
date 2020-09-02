@@ -66,6 +66,10 @@ module MediumProviders
       raise "validate is not implemented for #{self.class.name}"
     end
 
+    def architecture
+      entity.try(:architecture)
+    end
+
     private
 
     def parse_media(media)
