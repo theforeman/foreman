@@ -5,7 +5,7 @@ export const selectAPI = state => state.API;
 export const selectAPIByKey = (state, key) => selectAPI(state)[key] || {};
 
 export const selectAPIStatus = (state, key) =>
-  selectAPIByKey(state, key).status || STATUS.PENDING;
+  selectAPIByKey(state, key).status;
 
 export const selectAPIPayload = (state, key) =>
   selectAPIByKey(state, key).payload || {};
