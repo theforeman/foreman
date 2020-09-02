@@ -36,10 +36,6 @@ module MediumProviders
       entity.respond_to?(:medium) && errors.empty?
     end
 
-    def architecture
-      entity.try(:architecture)
-    end
-
     private
 
     def medium_vars_to_uri(url, arch, os, &block)
