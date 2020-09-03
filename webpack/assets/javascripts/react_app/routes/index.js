@@ -1,11 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { routes } from './routes';
 import { visit } from '../../foreman_navigation';
 
 let currentPath = window.location.href;
 
-const AppSwitcher = () => {
+const AppSwitcher = props => {
   const updateCurrentPath = nextPath => {
     currentPath = nextPath;
   };
@@ -15,10 +16,10 @@ const AppSwitcher = () => {
     if (railsContainer) railsContainer.remove();
   };
 
-  const handleRoute = (Component, props) => {
+  const handleRoute = (Component, componentProps) => {
     handleRailsContainer();
     updateCurrentPath();
-    return <Component {...props} />;
+    return <Component {...componentProps} />;
   };
 
   const handleFallbackRoute = () => {
@@ -31,18 +32,29 @@ const AppSwitcher = () => {
   };
 
   return (
-    <Switch>
-      {routes.map(({ render: Component, path, ...routeProps }) => (
-        <Route
-          path={path}
-          key={path}
-          {...routeProps}
-          render={componentProps => handleRoute(Component, componentProps)}
-        />
-      ))}
-      <Route render={handleFallbackRoute} />
-    </Switch>
+    <React.Fragment>
+      <Switch>
+        {routes.map(({ render: Component, path, ...routeProps }) => (
+          <Route
+            path={path}
+            key={path}
+            {...routeProps}
+            render={componentProps => handleRoute(Component, componentProps)}
+          />
+        ))}
+        <Route render={handleFallbackRoute} />
+      </Switch>
+      {props.children}
+    </React.Fragment>
   );
+};
+
+AppSwitcher.propTypes = {
+  children: PropTypes.object,
+};
+
+AppSwitcher.defaultProps = {
+  children: null,
 };
 
 export default AppSwitcher;
