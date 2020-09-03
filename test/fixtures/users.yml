@@ -115,3 +115,14 @@ system_admin:
   auth_source: internal
   password_hash: 02d7ff9921071af778ff4f8608579dcd6d80dfba
   password_salt: 80a167f1effbd82c2485ed81c3cfd68b11bc40dc
+
+external:
+  login: external
+  lower_login: external
+  firstname: External
+  lastname: User
+  mail: external_user@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: external
+
