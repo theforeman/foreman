@@ -308,7 +308,7 @@ module Foreman
             returns Integer, desc: 'amount of cores'
             example 'host_cores(host) # => 2'
           end
-          def host_cores(cores)
+          def host_cores(host)
             host&.cores
           end
 
