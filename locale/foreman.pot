@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-12 14:05+0300\n"
-"PO-Revision-Date: 2020-08-12 14:05+0300\n"
+"POT-Creation-Date: 2020-09-04 14:57+0530\n"
+"PO-Revision-Date: 2020-09-04 14:57+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -2780,7 +2780,7 @@ msgid "Generate report from a template"
 msgstr ""
 
 #: ../app/controllers/api/v2/report_templates_controller.rb:111
-#: ../app/controllers/api/v2/report_templates_controller.rb:130
+#: ../app/controllers/api/v2/report_templates_controller.rb:131
 msgid ""
 "Hash of input values where key is the name of input, value is the value for th"
 "is input"
@@ -2791,49 +2791,53 @@ msgid "Compress the report uzing gzip"
 msgstr ""
 
 #: ../app/controllers/api/v2/report_templates_controller.rb:113
-#: ../app/controllers/api/v2/report_templates_controller.rb:134
+#: ../app/controllers/api/v2/report_templates_controller.rb:135
 msgid "Report format, defaults to '%s'"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:128
+#: ../app/controllers/api/v2/report_templates_controller.rb:126
+msgid "Generating Report template failed for: %s."
+msgstr ""
+
+#: ../app/controllers/api/v2/report_templates_controller.rb:129
 msgid "Schedule generating of a report"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:131
+#: ../app/controllers/api/v2/report_templates_controller.rb:132
 msgid "Compress the report using gzip"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:132
+#: ../app/controllers/api/v2/report_templates_controller.rb:133
 msgid ""
 "If set, scheduled report will be delivered via e-mail. Use '%s' to separate mu"
 "ltiple email addresses."
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:133
+#: ../app/controllers/api/v2/report_templates_controller.rb:134
 msgid "UTC time to generate report at"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:167
+#: ../app/controllers/api/v2/report_templates_controller.rb:168
 msgid "Downloads a generated report"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:169
+#: ../app/controllers/api/v2/report_templates_controller.rb:170
 msgid "ID assigned to generating job by the schedule command"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:179
+#: ../app/controllers/api/v2/report_templates_controller.rb:180
 msgid "Generating of report has been canceled"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:184
+#: ../app/controllers/api/v2/report_templates_controller.rb:185
 msgid "Report data are not available, it has probably expired."
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:216
+#: ../app/controllers/api/v2/report_templates_controller.rb:217
 msgid "Report not found, please ensure you used the correct job_id"
 msgstr ""
 
-#: ../app/controllers/api/v2/report_templates_controller.rb:222
+#: ../app/controllers/api/v2/report_templates_controller.rb:223
 msgid ""
 "Data are available only for the user who triggered the report and administrato"
 "rs"
@@ -4332,7 +4336,6 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:230 ../app/helpers/reports_helper.rb:24
 #: ../app/services/power_manager/power_status.rb:6
 #: ../app/views/dashboard/_hosts_in_build_mode_widget_host_list.html.erb:14
-#: ../app/views/fact_values/_fact.html.erb:7
 #: ../app/views/filters/index.html.erb:52
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/index.js:40
 msgid "N/A"
@@ -6798,7 +6801,7 @@ msgstr ""
 msgid "is not found in the authentication source"
 msgstr ""
 
-#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:758
+#: ../app/models/external_usergroup.rb:38 ../app/models/user.rb:762
 msgid "is not permitted"
 msgstr ""
 
@@ -8737,63 +8740,63 @@ msgstr ""
 msgid "Anonymous admin user %s is missing, run foreman-rake db:seed"
 msgstr ""
 
-#: ../app/models/user.rb:664
+#: ../app/models/user.rb:668
 msgid "Incorrect password"
 msgstr ""
 
-#: ../app/models/user.rb:672
+#: ../app/models/user.rb:676
 msgid "A user group already exists with this name"
 msgstr ""
 
-#: ../app/models/user.rb:678
+#: ../app/models/user.rb:682
 msgid "Can't delete the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:686 ../app/models/usergroup.rb:111
+#: ../app/models/user.rb:690 ../app/models/usergroup.rb:111
 msgid "cannot be removed from the last admin account"
 msgstr ""
 
-#: ../app/models/user.rb:695
+#: ../app/models/user.rb:699
 msgid "Can't delete internal admin account"
 msgstr ""
 
-#: ../app/models/user.rb:704
+#: ../app/models/user.rb:708
 msgid "cannot be removed from an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:710
+#: ../app/models/user.rb:714
 msgid "cannot be changed on an internal protected account"
 msgstr ""
 
-#: ../app/models/user.rb:722
+#: ../app/models/user.rb:726
 msgid "you can't assign some of roles you selected"
 msgstr ""
 
-#: ../app/models/user.rb:729
+#: ../app/models/user.rb:733
 msgid "you can't change administrator flag"
 msgstr ""
 
-#: ../app/models/user.rb:740
+#: ../app/models/user.rb:744
 msgid "cannot be changed by a non-admin user"
 msgstr ""
 
-#: ../app/models/user.rb:746
+#: ../app/models/user.rb:750
 msgid "default locations need to be user locations first"
 msgstr ""
 
-#: ../app/models/user.rb:752
+#: ../app/models/user.rb:756
 msgid "default organizations need to be user organizations first"
 msgstr ""
 
-#: ../app/models/user.rb:765
+#: ../app/models/user.rb:769
 msgid "It is not possible to change external users login"
 msgstr ""
 
-#: ../app/models/user.rb:767
+#: ../app/models/user.rb:771
 msgid "You do not have permission to edit the login"
 msgstr ""
 
-#: ../app/models/user.rb:774
+#: ../app/models/user.rb:778
 msgid "It is not possible to disable yourself"
 msgstr ""
 
@@ -11896,10 +11899,6 @@ msgid ""
 "tart}Puppet classes and environment importer%{link_end}."
 msgstr ""
 
-#: ../app/views/fact_values/_fact.html.erb:21
-msgid "Show all %s facts with the same value"
-msgstr ""
-
 #: ../app/views/fact_values/index.html.erb:5
 #: ../app/views/fact_values/welcome.html.erb:1
 #: ../app/views/fact_values/welcome.html.erb:6
@@ -12617,13 +12616,6 @@ msgstr ""
 
 #: ../app/views/hosts/provision_method/build/_form.html.erb:3
 msgid "Enable this host for provisioning"
-msgstr ""
-
-#: ../app/views/hosts/provision_method/build/_form.html.erb:11
-msgid ""
-"What ever text(or ERB template) you use in here, would be used as your OS disk"
-" layout options If you want to use the partition table option, delete all of t"
-"he text from this field"
 msgstr ""
 
 #: ../app/views/hosts/query.html.erb:1
