@@ -73,19 +73,19 @@ module Foreman::Controller::SmartProxyAuth
           # If the client sent certificate contains a subject or sans, use them for request_hosts, else fall back to the dn set in the request environment
           request_hosts = client_certificate.hosts
         else
-          logger.warn "SSL cert has not been verified (#{client_certificate.verify}) - request from #{request.ip}, #{client_certificate.subject}"
+          logger.warn "SSL cert has not been verified (#{client_certificate.verify}) - request from #{request.remote_ip}, #{client_certificate.subject}"
         end
       elsif require_cert
-        logger.warn "No SSL cert with CN supplied - request from #{request.ip}"
+        logger.warn "No SSL cert with CN supplied - request from #{request.remote_ip}"
       else
-        logger.warn "No SSL cert supplied, falling back to reverse DNS for hostname lookup - request from #{request.ip}"
-        request_hosts = Resolv.new.getnames(request.ip)
+        logger.warn "No SSL cert supplied, falling back to reverse DNS for hostname lookup - request from #{request.remote_ip}"
+        request_hosts = Resolv.new.getnames(request.remote_ip)
       end
     elsif SETTINGS[:require_ssl]
-      logger.warn "SSL is required - request from #{request.ip}"
+      logger.warn "SSL is required - request from #{request.remote_ip}"
     else
-      request_hosts = Resolv.new.getnames(request.ip)
-      request_hosts = [request.ip] if request_hosts == []
+      request_hosts = Resolv.new.getnames(request.remote_ip)
+      request_hosts = [request.remote_ip] if request_hosts.empty?
     end
     return false unless request_hosts
 

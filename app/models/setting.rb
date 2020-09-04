@@ -20,7 +20,7 @@ class Setting < ApplicationRecord
   URI_ATTRS = %w{foreman_url unattended_url}
   URI_BLANK_ATTRS = %w{login_delegation_logout_url}
   IP_ATTRS = %w{libvirt_default_console_address}
-  REGEXP_ATTRS = %w{remote_addr}
+  REGEXP_ATTRS = %w{}
   EMAIL_ATTRS = %w{administrator email_reply_address}
   NOT_STRIPPED = %w{}
 
