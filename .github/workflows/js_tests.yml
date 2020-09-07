@@ -1,0 +1,35 @@
+name: JavaScript
+on:
+  pull_request:
+    paths:
+      - 'webpack/**'
+      - 'package.json'
+      - '.github/workflows/js_tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - 12
+          - 14
+    steps:
+      - name: Checkout Foreman
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run linter
+        run: npm run lint
+      - name: Run tests
+        run: npm run test
+      - name: Publish Coveralls (node v14)
+        if: ${{ matrix.node-version == 14 }}
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
