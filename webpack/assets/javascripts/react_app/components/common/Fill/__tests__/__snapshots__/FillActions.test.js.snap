@@ -12,6 +12,7 @@ Array [
           "slotId": "slot-id",
           "weight": 100,
         },
+        "weight": undefined,
       },
       "type": "SLOT_AND_FILL_REGISTER_FILL",
     },

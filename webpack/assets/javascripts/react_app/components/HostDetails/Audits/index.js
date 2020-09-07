@@ -78,7 +78,10 @@ const AuditCard = ({ hostName }) => {
                       {audit &&
                         Object.entries(audit.audited_changes).map(
                           ([key, value], i) => (
-                            <DataListItem aria-labelledby="">
+                            <DataListItem
+                              key={`audit-item${i}`}
+                              aria-labelledby=""
+                            >
                               <DataListItemRow>
                                 <DataListItemCells
                                   dataListCells={[

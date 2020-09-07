@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => ({
   fills: selectFillsComponents(state, {
     id: ownProps.id,
     multiple: ownProps.multi,
+    fillID: ownProps.fillID,
   }),
 });
 
