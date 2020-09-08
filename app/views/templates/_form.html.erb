@@ -103,35 +103,35 @@
         <%= link_to(_('For more info visit our documentation.'), documentation_url(controller.documentation_anchor)) if controller.respond_to?(:documentation_anchor) %>
         <h2><%= _('Examples') %></h2>
         <div class="panel-group" id="accordion-markup">
-          <%= render "help_accordion", :title => _('Comments'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Comments'), :contents => (capture { %>
             <%%# this is a comment %>
           <% }) %>
-          <%= render "help_accordion", :title => _('In-line code syntax'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('In-line code syntax'), :contents => (capture { %>
             <%% if true -%><br/>
             &nbsp;&nbsp;some content<br/>
             <%% end -%>
           <% }) %>
-          <%= render "help_accordion", :title => _('Printing data'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Printing data'), :contents => (capture { %>
             <%%= "some content from variable" %>
           <% }) %>
-          <%= render "help_accordion", :title => _('Variables'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Variables'), :contents => (capture { %>
             <%%= @host %>
           <% }) %>
-          <%= render "help_accordion", :title => _('Calling methods on objects'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Calling methods on objects'), :contents => (capture { %>
             <%%= @host.operatingsystem.major %>
           <% }) %>
-          <%= render "help_accordion", :title => _('Safe mode methods'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Safe mode methods'), :contents => (capture { %>
             <%%# @host.operatingsystem.set_title("this method is not listed for Operatingsystem") %>
           <% }) %>
-          <%= render "help_accordion", :title => _('Global macros'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Global macros'), :contents => (capture { %>
             <%%= rand(9999) + 1 %>
           <% }) %>
-          <%= render "help_accordion", :title => _('Iterating'), :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Iterating'), :contents => (capture { %>
             <%% @host.interfaces.each do |interface| -%><br/>
             &nbsp;&nbsp;NIC name: <%%= interface.name %><br/>
             <%% end -%><br/>
           <% }) %>
-          <%= render "help_accordion", :title => _('Inputs'), :wrap_in_code => false, :contents => (capture { %>
+          <%= render "help_accordion", :title => N_('Inputs'), :wrap_in_code => false, :contents => (capture { %>
               <p>
                 <%= (_('Once you define a template input in Inputs tab and save the template, it can be used in the ERB.
                 To load value specified through this input, use global macro %{example1} and pass the input
