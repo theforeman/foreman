@@ -14,6 +14,8 @@ import $ from 'jquery';
 import { showSpinner } from '../foreman_tools';
 import { testConnection } from '../foreman_compute_resource';
 
+const megabyte = 1024 * 1024;
+
 export function templateSelected(item) {
   const template = $(item).val();
 
@@ -32,9 +34,16 @@ export function templateSelected(item) {
       // As Instance Type values will take precence over templates values,
       // we don't update memory/cores values if  instance type is already selected
       if (!$('#host_compute_attributes_instance_type').val()) {
-        $('[id$=_memory]')
-          .val(result.memory)
-          .trigger('change');
+        const memoryInputElement = document
+          .getElementById('memory-input')
+          .getElementsByTagName('foreman-react-component')[0];
+        memoryInputElement.setAttribute(
+          'data-props',
+          JSON.stringify({
+            ...memoryInputElement.reactProps,
+            defaultValue: result.memory / megabyte,
+          })
+        );
         $('[id$=_cores]').val(result.cores);
         $('[id$=_sockets]').val(result.sockets);
         $('[id$=_ha]').prop('checked', result.ha);
@@ -78,14 +87,22 @@ export function instanceTypeSelected(item) {
       data: `instance_type_id=${instanceType}`,
       success(result) {
         if (result.name != null) {
-          $('[id$=_memory]')
-            .val(result.memory)
-            .trigger('change');
+          const memoryInputElement = document
+            .getElementById('memory-input')
+            .getElementsByTagName('foreman-react-component')[0];
+          memoryInputElement.setAttribute(
+            'data-props',
+            JSON.stringify({
+              ...memoryInputElement.reactProps,
+              defaultValue: result.memory / megabyte,
+              readOnly: result.name != null,
+            })
+          );
           $('[id$=_cores]').val(result.cores);
           $('[id$=_sockets]').val(result.sockets);
           $('[id$=_ha]').prop('checked', result.ha);
         }
-        ['_memory', '_cores', '_sockets', '_ha'].forEach(name =>
+        ['_cores', '_sockets', '_ha'].forEach(name =>
           $(`[id$=${name}]`).prop('readOnly', result.name != null)
         );
         const instanceTypeSelector = $(

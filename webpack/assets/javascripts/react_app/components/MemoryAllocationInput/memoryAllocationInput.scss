@@ -1,5 +1,9 @@
 @import '../../common/colors.scss';
 
+.container {
+  max-width: none !important;
+}
+
 .warning-icon {
   margin-right: 3px;
   color: $pf-gold-400;

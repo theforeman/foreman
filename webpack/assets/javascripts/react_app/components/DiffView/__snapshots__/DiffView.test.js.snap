@@ -2,8 +2,11 @@
 
 exports[`DiffView rendering render DiffView w/Patch 1`] = `
 <div>
-  <Memo(Diff)
+  <Diff
     diffType="modify"
+    generateAnchorID={[Function]}
+    gutterAnchor={false}
+    hideGutter={false}
     hunks={
       Array [
         Object {
@@ -51,14 +54,18 @@ exports[`DiffView rendering render DiffView w/Patch 1`] = `
       ]
     }
     key="1111111-2222222"
+    optimizeSelection={false}
     viewType="unified"
   />
 </div>
 `;
 
 exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
-<Memo(Diff)
+<Diff
   diffType="modify"
+  generateAnchorID={[Function]}
+  gutterAnchor={false}
+  hideGutter={false}
   hunks={
     Array [
       Object {
@@ -85,6 +92,7 @@ exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
       },
     ]
   }
+  optimizeSelection={false}
   viewType="split"
 />
 `;
