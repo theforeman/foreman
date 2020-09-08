@@ -193,17 +193,6 @@ exports[`Slot-Fill render multiple fills 1`] = `
 </Slot>
 `;
 
-exports[`Slot-Fill render multiple fills 2`] = `
-Object {
-  "extendable": Object {
-    "slot-1": Object {
-      "some-key-1": 100,
-      "some-key-2": 200,
-    },
-  },
-}
-`;
-
 exports[`Slot-Fill render multiple fills: Integration test actions 1`] = `
 Array [
   Array [
@@ -227,6 +216,17 @@ Array [
     },
   ],
 ]
+`;
+
+exports[`Slot-Fill render multiple fills: Integration test store 1`] = `
+Object {
+  "extendable": Object {
+    "slot-1": Object {
+      "some-key-1": 100,
+      "some-key-2": 200,
+    },
+  },
+}
 `;
 
 exports[`Slot-Fill slot with multi override props should take max weight 1`] = `
