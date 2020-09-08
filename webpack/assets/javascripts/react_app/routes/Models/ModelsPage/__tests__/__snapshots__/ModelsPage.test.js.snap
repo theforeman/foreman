@@ -29,7 +29,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
   searchable={true}
   toastNotifications={Array []}
   toolbarButtons={
-    <ForwardRef
+    <Link
       to="/models/new"
     >
       <Button
@@ -41,7 +41,7 @@ exports[`ModelsPage redering should render when loading 1`] = `
       >
         Create Model
       </Button>
-    </ForwardRef>
+    </Link>
   }
 >
   <Component
@@ -113,7 +113,7 @@ exports[`ModelsPage redering should render with error 1`] = `
   searchable={true}
   toastNotifications={Array []}
   toolbarButtons={
-    <ForwardRef
+    <Link
       to="/models/new"
     >
       <Button
@@ -125,7 +125,7 @@ exports[`ModelsPage redering should render with error 1`] = `
       >
         Create Model
       </Button>
-    </ForwardRef>
+    </Link>
   }
 >
   <Component
@@ -202,7 +202,7 @@ exports[`ModelsPage redering should render with models 1`] = `
   searchable={true}
   toastNotifications={Array []}
   toolbarButtons={
-    <ForwardRef
+    <Link
       to="/models/new"
     >
       <Button
@@ -214,7 +214,7 @@ exports[`ModelsPage redering should render with models 1`] = `
       >
         Create Model
       </Button>
-    </ForwardRef>
+    </Link>
   }
 >
   <Component
@@ -286,7 +286,7 @@ exports[`ModelsPage redering should render with no data 1`] = `
   searchable={true}
   toastNotifications={Array []}
   toolbarButtons={
-    <ForwardRef
+    <Link
       to="/models/new"
     >
       <Button
@@ -298,7 +298,7 @@ exports[`ModelsPage redering should render with no data 1`] = `
       >
         Create Model
       </Button>
-    </ForwardRef>
+    </Link>
   }
 >
   <Component
