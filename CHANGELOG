@@ -1,3 +1,25 @@
+2020-09-08	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.2.0-rc2
+
+2020-09-06	Amit Upadhye <amitupadhye@foreman.example.com>
+	* i18n - extracting new, pulling from tx
+
+2020-09-03	Rahul Bajaj <rahulrb0509@gmail.com>
+	* Fixes #30739 - User must login with the assigned auth source
+
+2020-08-27	Ondřej Ezr <oezr@redhat.com>
+	* Refs #30348 - statistic permission cleanup
+	* Fixes #30348 - trends cleanup task
+
+2020-08-27	Justin Sherrill <jsherril@redhat.com>
+	* Fixes #30712 - pin shoulda_matcher < 4.4
+
+2020-08-25	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #30556 - Get an accurate err for invalid hosts in report (#7897)
+
+2020-08-19	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #30659 - pin friendly_id to < 5.4
+
 2020-08-12	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.2.0-rc1
 	* i18n - extracting new, pulling from tx
