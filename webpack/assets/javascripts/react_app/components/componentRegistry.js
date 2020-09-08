@@ -42,6 +42,7 @@ import SettingsTable from './SettingsTable';
 import SettingUpdateModal from './SettingUpdateModal';
 import PersonalAccessTokens from './users/PersonalAccessTokens';
 import ClipboardCopy from './common/ClipboardCopy';
+import MemoryAllocationInput from './MemoryAllocationInput';
 
 const componentRegistry = {
   registry: forceSingleton('component_registry', () => ({})),
@@ -141,7 +142,11 @@ const coreComponets = [
   { name: 'SettingUpdateModal', type: SettingUpdateModal },
   { name: 'PersonalAccessTokens', type: PersonalAccessTokens },
   { name: 'ClipboardCopy', type: ClipboardCopy },
-
+  {
+    name: 'MemoryAllocationInput',
+    type: MemoryAllocationInput,
+    store: false,
+  },
   {
     name: 'RelativeDateTime',
     type: RelativeDateTime,
