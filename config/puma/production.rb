@@ -1,3 +1,30 @@
+require 'English'
+
+# Puma will only listen on what it's configured to listen on. When running
+# under systemd socket activation, the configuration where to listen is in
+# foreman.socket. This code translates whatever listen file descriptors it
+# received from systemd into bind statements. It also clears anything it was
+# configured on.
+if ENV['LISTEN_FDS'] && ENV['LISTEN_PID'].to_i == $PID
+  require 'socket'
+
+  clear_binds!
+
+  ENV['LISTEN_FDS'].to_i.times do |index|
+    fd = index + 3 # 3 is the magic number you add to follow the SA protocol
+    sock = TCPServer.for_fd(fd)
+    url = begin # Try to parse as a path
+            "unix://#{Socket.unpack_sockaddr_un(sock.getsockname)}"
+          rescue ArgumentError # Try to parse as a port/ip
+            port, addr = Socket.unpack_sockaddr_in(sock.getsockname)
+            addr = "[#{addr}]" if addr =~ /\:/
+            "tcp://#{addr}:#{port}"
+          end
+
+    bind url
+  end
+end
+
 # Configure "min" to be the minimum number of threads to use to answer
 # requests and "max" the maximum.
 #
