@@ -1,0 +1,47 @@
+<%#
+kind: ptable
+name: Kickstart dynamic
+model: Ptable
+oses:
+- CentOS
+- Fedora
+- RedHat
+-%>
+<%#
+
+When a partition template contains a line starting with "#Dynamic", the contents
+will be put into %pre shell scriplet executed with bash and it's expected to
+create a file "/tmp/diskpart.cfg" which is then included into the Kickstart
+partitioning section. This allows generating partitioning schemes on the
+managed node before Anaconda starts installation.
+
+This template is an example of such dynamic partitioning scheme. It follows
+recommended scheme of Red Hat Enterprise Linux for servers (no extra allocation
+for hibernation):
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/storage_administration_guide/ch-swapspace
+
+Take this as an example, any configuration (RAID, LVM, LUKS) can be created
+this way.
+
+-%>
+#Dynamic (do not remove this line)
+
+MEMORY=$((`grep MemTotal: /proc/meminfo | sed 's/^MemTotal: *//'|sed 's/ .*//'` / 1024))
+if [ "$MEMORY" -lt 2048 ]; then
+    SWAP_MEMORY=$(($MEMORY * 2))
+elif [ "$MEMORY" -lt 8192 ]; then
+    SWAP_MEMORY=$MEMORY
+elif [ "$MEMORY" -lt 65536 ]; then
+    SWAP_MEMORY=$(($MEMORY / 2))
+else
+    SWAP_MEMORY=32768
+fi
+
+cat <<EOF > /tmp/diskpart.cfg
+zerombr
+clearpart --all --initlabel
+part /boot --fstype ext4 --size 200 --asprimary
+part swap --size "$SWAP_MEMORY"
+part / --fstype ext4 --size 1024 --grow
+EOF
