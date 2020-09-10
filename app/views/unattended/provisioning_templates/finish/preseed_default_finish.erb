@@ -34,8 +34,8 @@ oses:
 <% if @host.provision_method == 'image' && root_pass.present? -%>
 # Install the root password
 echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
-<% end -%>
 
+<% end -%>
 <%= snippet_if_exists(template_name + " custom snippet") %>
 <% if host_enc['parameters']['realm'] && @host.realm && @host.realm.realm_type == 'FreeIPA' -%>
 <%= snippet 'freeipa_register' %>
