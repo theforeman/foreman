@@ -15,7 +15,7 @@ class TemplateInput < ApplicationRecord
     :resource_type, :default, :hidden_value)
 
   belongs_to :template
-
+  before_destroy :prevent_delete_if_template_is_locked
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :input_type, :complete_value => true
 
@@ -27,6 +27,7 @@ class TemplateInput < ApplicationRecord
   validates :puppet_parameter_name, :puppet_class_name, :presence => { :if => :puppet_parameter_template_input? }
   validates :value_type, inclusion: { in: VALUE_TYPE }
   validates :default, inclusion: { in: :options_array }, if: -> { options.present? }, allow_blank: true
+  validate :check_if_template_is_locked
 
   def user_template_input?
     input_type == 'user'
@@ -61,6 +62,19 @@ class TemplateInput < ApplicationRecord
   end
 
   private
+
+  def prevent_delete_if_template_is_locked
+    if template&.locked
+      errors.add(:base, _("Cannot delete template input as template is locked."))
+      throw(:abort)
+    end
+  end
+
+  def check_if_template_is_locked
+    if template&.locked
+      errors.add(:base, _('This template is locked. Please clone it to a new template to customize.'))
+    end
+  end
 
   def get_resolver(scope)
     resolver_class = case input_type
