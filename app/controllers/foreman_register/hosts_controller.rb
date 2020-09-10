@@ -19,11 +19,22 @@ module ForemanRegister
     before_action :set_admin_user
     before_action :skip_secure_headers
     before_action :find_host
+    before_action :find_template
 
     def register
+      unless @template
+        msg = N_("Unable to find registration template for host %{host} running %{os}") % { host: @host.name, os: @host.operatingsystem }
+        render_error(
+          message: msg,
+          status: :not_found,
+          host: @host.name,
+          os: @host.operatingsystem
+        )
+        return
+      end
+
       @host.setBuild
-      template = rendered_registration_template
-      render plain: template if template
+      safe_render(@template)
     end
 
     private
@@ -31,7 +42,7 @@ module ForemanRegister
     def find_host
       token = params[:token]
       jwt_payload = ForemanRegister::RegistrationToken.new(token).decode
-      return render_error(message: 'Registration token is missing or invalid.') unless jwt_payload
+      return render_error(message: N_('Registration token is missing or invalid.')) unless jwt_payload
 
       @host = Host::Managed.find_by!(id: jwt_payload['host_id'])
     end
@@ -44,31 +55,24 @@ module ForemanRegister
       render plain: "#!/bin/sh\necho \"#{message % kwargs}\"\nexit 1\n", status: status
     end
 
-    def rendered_registration_template
-      template = @host.registration_template
-      unless template
-        render_error(
-          message: 'Unable to find registration template for host %{host} running %{os}',
-          status: :not_found,
-          host: @host.name,
-          os: @host.operatingsystem
-        )
-        return
-      end
-      safe_render(template)
+    def find_template
+      @template = @host.registration_template
+    rescue ::Foreman::Exception
+      render_error(message: N_('Host is not associated with an operating system'))
     end
 
     def safe_render(template)
-      template.render(host: @host, params: params)
+      render plain: template.render(host: @host, params: params)
     rescue StandardError => e
       Foreman::Logging.exception("Error rendering the #{template.name} template", e)
+      message = N_("There was an error rendering the %{name} template: %{error}") % { name: template.name, error: e }
+
       render_error(
-        message: 'There was an error rendering the %{name} template: %{error}',
+        message: message,
         status: :internal_server_error,
         name: template.name,
         error: e.message
       )
-      false
     end
   end
 end
