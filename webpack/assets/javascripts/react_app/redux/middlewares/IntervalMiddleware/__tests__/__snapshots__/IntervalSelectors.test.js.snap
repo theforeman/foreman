@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`intervals selectors should return if interval exists for a specific key 1`] = `true`;
+
+exports[`intervals selectors should return the interval ID 1`] = `1212`;
+
+exports[`intervals selectors should return the intervals wrapper 1`] = `
+Object {
+  "SOME_KEY": 1212,
+}
+`;

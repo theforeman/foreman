@@ -1,4 +1,4 @@
-class AddIndexToHost < ActiveRecord::Migration
+class AddIndexToHost < ActiveRecord::Migration[4.2]
   def up
     add_index "hosts", "last_report"
     add_index "hosts", "installed_at"

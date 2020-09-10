@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Interval Helpers return registeredIntervalException error 1`] = `[Error: There is already an interval running and registered for: SOME_KEY.]`;

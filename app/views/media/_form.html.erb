@@ -1,40 +1,30 @@
-<%= javascript "nfs_visibility" %>
 <%= form_for @medium do |f| %>
   <%= base_errors_for @medium %>
 
-  <% if show_taxonomy_tabs? %>
-    <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Medium") %></a></li>
-      <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
-      <% end %>
-      <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
-      <% end %>
-    </ul>
-  <% end%>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Medium") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="primary">
-        <%= text_f f, :name %>
-        <%= text_f f, :path, :size => "col-md-8", :help_block => _("The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= text_f f, :path, :size => "col-md-8", :help_block => _("The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
           for example <em>http://mirror.centos.org/centos/$version/os/$arch</em> where <strong>$arch</strong> will be substituted for the host's actual OS architecture and <strong>$version</strong>, <strong>$major</strong> and <strong>$minor</strong> will be substituted for the version of the operating system. Solaris and Debian media may also use <strong>$release</strong>.").html_safe %>
-        <span id="nfs-section" <%= display?(!@medium.operatingsystems.map(&:require_nfs_access_to_medium).any?) %>>
+        <span id="nfs-section" <%= display?(!required_nfs?) %>>
           <%= text_f f, :media_path,  :size => "col-md-8", :help_inline => _("The NFS path to the media.") %>
           <%= text_f f, :config_path, :size => "col-md-8", :help_inline => _("The NFS path to the jumpstart control files.") %>
           <%= text_f f, :image_path,  :size => "col-md-8", :help_inline => _("The NFS path to the image directory.") %>
         </span>
-        <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family") }, { :label => _("Operating system family") } %>
-      </div>
-
-    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @medium %>
-
-    <%= submit_or_cancel f %>
-
+        <%= select_f f, :os_family, Operatingsystem.families_as_collection, :value, :name, { :include_blank => _("Choose a family") }, { :label => _("Operating System Family"), :onchange => "tfm.medium.nfsVisibility(this, #{required_nfs_list.to_json});" } %>
     </div>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @medium %>
+    <%= submit_or_cancel f %>
+  </div>
+<% end %>
 
-  <% end %>
-
-<script type="text/javascript" charset="utf-8">
-  nfs_section_visibility([<%= Operatingsystem.all.map(&:require_nfs_access_to_medium).join(", ") %>])
-</script>

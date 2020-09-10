@@ -2,7 +2,6 @@ module Api
   module V2
     class EnvironmentsController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
       include Foreman::Controller::Parameters::Environment
 
@@ -16,6 +15,7 @@ module Api
       param :puppetclass_id, String, :desc => N_("ID of Puppet class")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Environment)
 
       def index
         @environments = resource_scope_for_index
@@ -47,7 +47,7 @@ module Api
       param_group :environment
 
       def update
-        process_response @environment.update_attributes(environment_params)
+        process_response @environment.update(environment_params)
       end
 
       api :DELETE, "/environments/:id/", N_("Delete an environment")

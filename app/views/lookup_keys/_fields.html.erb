@@ -1,75 +1,73 @@
-<div id='<%= (f.object.to_param || 'new_lookup_keys') %>' class='tab-pane fields'>
-  <% is_param = f.object.puppet? %>
-
-  <%= remove_child_link(_("Remove %s?") % (f.object.new_record? ? _("Variable") : f.object), f, { :class => 'btn btn-danger hide' }) if controller_name ==  "puppetclasses" && !is_param %>
+<div id='<%= f.object.to_param %>' class='tab-pane fields'>
   <fieldset>
-    <h2><%= _("Parameter details") %></h2>
-    <%= text_f f, :key, :disabled => is_param, :size => "col-md-8" %>
-    <%= f.hidden_field :key if is_param %>
+    <h2><%= _("Parameter Details") %></h2>
+    <%= text_f f, :key, :disabled => true, :size => "col-md-8" %>
+    <%= f.hidden_field :key %>
     <%= textarea_f f, :description, :rows => :auto, :size => "col-md-8", :class => "no-stretch" %>
-    <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label => _('Puppet Environments'), :size => "col-md-8", :disabled => true) if is_param %>
+    <%= text_f(f, :environment_classes, :value => f.object.environment_classes.map(&:environment).to_sentence, :label => _('Puppet Environments'), :size => "col-md-8", :disabled => true) %>
     <%= show_puppet_class f %>
   </fieldset>
   <fieldset>
-    <h2><%= _("Default behavior") %></h2>
-    <h6><%= _("Override the default value of the Puppet class parameter.") if is_param%></h6>
+    <h2><%= _("Default Behavior") %></h2>
+    <h6><%= _("Override the default value of the Puppet class parameter.") %></h6>
     <%= checkbox_f(f, :override, :onchange => 'toggleOverrideValue(this)', :size => "col-md-8",
-                   :help_inline => popover('', _('Whether the class parameter value is managed by Foreman.'))
-        ) if is_param %>
-    <%= param_type_selector(f, :onchange => 'keyTypeChange(this)') %>
+                   :label_help => _('Whether the class parameter value is managed by Foreman.')
+        ) %>
+    <%= param_type_selector(f, false, :onchange => 'keyTypeChange(this)') %>
     <%= textarea_f f, :default_value, :value => f.object.default_value_before_type_cast, :size => "col-md-8",
-                   :disabled => (is_param && (!f.object.override || f.object.use_puppet_default)),
-                   :fullscreen => :true,
+                   :disabled => !f.object.override || f.object.omit,
+                   :input_group_btn => fullscreen_input,
                    :rows => 1,
-                   :help_inline => popover('', _("Value to use when there is no match.")),
+                   :label_help => _("Value to use when there is no match."),
                    :class => "no-stretch #{'masked-input' if f.object.hidden_value?}" %>
     <div class="form-group">
-      <%= checkbox_f(f, :use_puppet_default, :label => _('Use Puppet default'),
-                     :help_inline => use_puppet_default_help,
+      <%= checkbox_f(f, :omit, :label => _('Omit'),
+                     :label_help => omit_help_body,
+                     :label_help_options => { :title => omit_help_title },
                      :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
-                     :onchange => 'toggleUsePuppetDefaultValue(this, "default_value")',
-                     :disabled => (is_param && !f.object.override)) if is_param %>
-      <%= checkbox_f(f, :hidden_value, :label => _('Hidden value'),
+                     :onchange => 'toggleOmitValue(this, "default_value")',
+                     :disabled => !f.object.override) %>
+      <%= checkbox_f(f, :hidden_value, :label => _('Hidden Value'),
                      :class => 'hidden_value_textarea_switch', :onchange => 'toggle_lookupkey_hidden(this)',
                      :checked => f.object.hidden_value?,
-                     :help_inline => popover("", _("Hide all values for this parameter.")),
+                     :label_help => _("Hide all values for this parameter."),
                      :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
-                     :disabled => (is_param && !f.object.override)) %>
+                     :disabled => !f.object.override) %>
     </div>
   </fieldset>
   <fieldset>
-    <%= collapsing_header _("Optional input validator"), "#optional_input_validators_#{f.object.id}", "collapsed" %>
+    <%= collapsing_header _("Optional Input Validator"), "#optional_input_validators_#{f.object.id}", "collapsed" %>
     <div id="optional_input_validators_<%= f.object.id %>" class="collapse out">
-      <%= alert :class => 'alert-info', :header => _('Note'), :text => _('If ERB is used in a parameter value, the validation of the value will happen during the ENC request. If the value is invalid, the ENC request will fail.') %>
+      <h6><%= _('If ERB is used in a parameter value, the validation of the value will happen during the ENC request. If the value is invalid, the ENC request will fail.') %></h6>
 
       <%= checkbox_f(f, :required, :size => "col-md-8", :disabled => !f.object.override,
-                     :help_inline => popover('', _("If checked, will raise an error if there is no default value and no matcher provide a value."))
-          ) if is_param %>
+                     :label_help => _("If checked, will raise an error if there is no default value and no matcher provide a value.")
+          ) %>
       <%= validator_type_selector f %>
       <%= text_f f, :validator_rule, :size => "col-md-8", :disabled => f.object.validator_type.blank?, :class => "no-stretch" %>
     </div>
   </fieldset>
   </br>
-  <div class="matcher-parent" <%= "id=#{(f.object.key || 'new_lookup_keys').to_s.gsub(' ', '_')}_lookup_key_override_value" %> style=<%= "display:none;" if (is_param && !f.object.override) %>>
+  <div class="matcher-parent" <%= "id=#{f.object.key.to_s.gsub(' ', '_')}_lookup_key_override_value" %> style=<%= "display:none;" unless f.object.override %>>
     <fieldset>
-      <h2><%= _("Prioritize attribute order") %></h2>
-      <h6><%= popover("", _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>host group, environment</code> would expect a matcher such as <code>hostgroup = \"web servers\", environment = production</code>"),
-                      :title => _("The order in which values are resolved.")).html_safe %> <%= _("Set the order in which values are resolved.") %></h6>
-      <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :id => 'order', :size => "col-md-8", :onchange => 'fill_in_matchers()', :value => f.object.path, :class => "no-stretch" %>
+      <h2><%= _("Prioritize Attribute Order") %></h2>
+      <h6><%= _("Set the order in which values are resolved.") %></h6>
+      <%= textarea_f f, :path, :rows => :auto, :label => _("Order"), :id => 'order', :size => "col-md-8", :onchange => 'fill_in_matchers()', :value => f.object.path, :class => "no-stretch",
+                        :label_help => _("The order in which matchers keys are processed, first match wins.<br> You may use multiple attributes as a matcher key, for example, an order of <code>hostgroup,environment</code> would expect a matcher such as <code>hostgroup,environment = example-group,production</code>").html_safe %>
       <%= checkbox_f(f, :merge_overrides, :onchange => 'mergeOverridesChanged(this)', :table_field => true,
                         :disabled => !f.object.supports_merge?, :size => "col-md-1", :label_size => "col-md-2",
-                        :help_inline => popover("", _("Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that use Puppet default."))) %>
+                        :label_help => _("Continue to look for matches after first find (only array/hash type)? Note: merging overrides ignores all matchers that are omitted.")) %>
       <%= checkbox_f(f, :merge_default, :disabled =>  !f.object.merge_overrides, :size => "col-md-1", :table_field => true,
-                        :label_size => "col-md-2", :help_inline => popover('',_("Include default value when merging all matching values."))) %>
+                        :label_size => "col-md-2", :label_help => _("Include default value when merging all matching values.")) %>
       <%= checkbox_f(f, :avoid_duplicates, :disabled => (!f.object.supports_uniq? || !f.object.merge_overrides),
                         :size => "col-md-1", :label_size => "col-md-2", :table_field => true,
-                        :help_inline => popover("", _("Avoid duplicate values when merging them (only array type)?"))) %>
+                        :label_help => _("Avoid duplicate values when merging them (only array type)?")) %>
     </fieldset>
     </br>
     <fieldset>
-      <h2><%= _("Specify matchers") %>  <%= documentation_button('4.2.6SmartMatchers') %></h2>
+      <h2><%= _("Specify Matchers") %>  <%= documentation_button('4.2.6SmartMatchers') %></h2>
       <div class="children_fields lookup_values">
-        <%= render 'lookup_keys/values', :f => f, :is_param => is_param %>
+        <%= render 'lookup_keys/values', :f => f, :is_param => true %>
       </div>
     </fieldset>
   </div>

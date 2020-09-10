@@ -1,27 +1,23 @@
+---
 one:
   name: DHCP Proxy
   url: https://somewhere.net:8443
-  features: dhcp
 
 two:
   name: TFTP Proxy
   url: http://somewhere.else
-  features: tftp
 
 three:
   name: DNS Proxy
   url: http://else.where:45671
-  features: dns
 
 puppetmaster:
   name: Puppetmaster Proxy
   url: http://else.where:4567
-  features: 'puppet, puppetca'
 
 realm:
   name: Realm Proxy
   url: http://else.where:1337
-  features: realm
 
 four:
   name: Unused Proxy
@@ -30,13 +26,7 @@ four:
 bmc:
   name: BMC proxy
   url: http://else.where:45673
-  features: bmc
 
 logs:
   name: A proxy with Logs feature
   url: http://else.where:45674
-  features:
-    - dhcp
-    - dns
-    - puppet
-    - logs

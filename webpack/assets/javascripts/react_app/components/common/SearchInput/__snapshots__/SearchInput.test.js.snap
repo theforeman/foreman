@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Input should render 1`] = `
+<div
+  className="input-search"
+>
+  <Icon
+    name="search"
+    type="fa"
+  />
+  <DebounceInput
+    className="form-control"
+    debounceTimeout={300}
+    element="input"
+    forceNotifyByEnter={true}
+    forceNotifyOnBlur={true}
+    id="breadcrumbs-search"
+    inputRef={[Function]}
+    minLength={0}
+    onChange={[Function]}
+    placeholder="filter..."
+    type="text"
+    value="val"
+  />
+  <Icon
+    name="close"
+    onClick={[Function]}
+    type="fa"
+  />
+</div>
+`;

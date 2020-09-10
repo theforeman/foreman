@@ -1,0 +1,85 @@
+<%#
+kind: finish
+name: Kickstart default finish
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+%>
+  <%#
+  This template accepts the following parameters:
+  - bootloader-append: string (default="nofb quiet splash=quiet")
+  - force-puppet: boolean (default=false)
+  - use-ntp: boolean (default depends on OS release)
+  - ntp-server: string (default=undef)
+  - package_upgrade: boolean (default=true)
+  - salt_master: string (default=undef)
+  %>
+<% if @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
+<%= snippet 'kickstart_networking_setup' %>
+service network restart
+<% end -%>
+
+<%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
+%>
+
+<% if @host.provision_method == 'image' && root_pass.present? -%>
+# Install the root password
+echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
+<% end -%>
+
+<%= snippet 'yum_proxy' %>
+
+<%= snippet 'ntp' %>
+
+<% if rhel_compatible && !host_param_false?('enable-epel') -%>
+<%= snippet 'epel' -%>
+<% end -%>
+
+<%= snippet 'redhat_register' %>
+
+<% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
+<%= snippet 'freeipa_register' %>
+<% end -%>
+
+<% unless host_param_false?('package_upgrade') -%>
+# update all the base packages from the updates repository
+if [ -f /usr/bin/dnf ]; then
+  dnf -y update
+else
+  yum -t -y update
+fi
+<% end -%>
+
+<%= snippet('remote_execution_ssh_keys') %>
+
+<%= snippet "blacklist_kernel_modules" %>
+
+<% if chef_enabled %>
+<%= snippet 'chef_client' %>
+<% end -%>
+
+<% if puppet_enabled %>
+<% if host_param_true?('enable-puppetlabs-repo') || host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+
+<% if host_param_true?('ansible_tower_provisioning') -%>
+<%= save_to_file('/root/ansible_provisioning_call.sh', snippet('ansible_tower_callback_script')) %>
+/root/ansible_provisioning_call.sh
+<% end -%>
+
+sync
+
+exit 0

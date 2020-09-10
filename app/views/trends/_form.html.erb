@@ -1,9 +1,0 @@
-<%= javascript 'trends' %>
-<%= form_for @trend do |f| %>
-  <%= base_errors_for @trend %>
-  <% new_record = @trend.new_record? %>
-  <%= selectable_f f, :trendable_type, trendable_types(new_record), { }, :place_holder => _('Please Select'), :onchange => 'trendTypeSelected(this)', :disabled => !new_record %>
-  <%= select_f(f, :trendable_id, FactName.no_timestamp_fact, :id, :name, { :include_blank => true }, :disabled => true) %>
-  <%= text_f f, :name %>
-  <%= submit_or_cancel f %>
-<% end %>

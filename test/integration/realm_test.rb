@@ -1,12 +1,8 @@
 require 'integration_test_helper'
 
 class RealmIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(realms_path,"Realms","New Realm")
-  end
-
   test "create new page" do
-    assert_new_button(realms_path,"New Realm",new_realm_path)
+    assert_new_button(realms_path, "Create Realm", new_realm_path)
     fill_in "realm_name", :with => "EXAMPLE.COM"
     select "FreeIPA", :from => "realm_realm_type"
     select "Realm Proxy", :from => "realm_realm_proxy_id"

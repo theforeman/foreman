@@ -5,7 +5,7 @@ module ScopedSearchExtensions
     def value_to_sql(operator, value)
       return value                 if operator !~ /LIKE/i
       return value.tr_s('%*', '%') if (value =~ /%|\*/)
-      "%#{value}%"
+      escape_str_format("%#{value}%")
     end
 
     def escape_str_format(str)
@@ -13,7 +13,7 @@ module ScopedSearchExtensions
     end
 
     def cast_facts(table, key, operator, value)
-      is_int = (value =~ /\A[-+]?\d+\z/) || (value.is_a?(Integer))
+      is_int = (value =~ /\A[-+]?\d+\z/) || value.is_a?(Integer)
       is_pg = ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'postgresql'
       # Once Postgresql 8 support is removed (used in CentOS 6), this could be replaced to only keep the first form (working well with PG 9)
       if (is_int && !is_pg)

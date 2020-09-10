@@ -1,10 +1,17 @@
-<%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. http://openstack:5000/v2.0/tokens"), :help_inline => documentation_button('5.2.6OpenStackNotes') %>
+<%= text_f f, :url, :label => _("URL"), :size => "col-md-8", :help_block => _("Use /v2 or /v3 to force API version, e.g. http://openstack:5000/v2.0/tokens or http://openstack:5000/v3/auth/tokens"), :help_inline => documentation_button('5.2.6OpenStackNotes') %>
 <%= text_f f, :user %>
 <%= password_f f, :password, :unset => unset_password? %>
 
-<% tenants = f.object.tenants rescue [] %>
-<%= selectable_f(f, :tenant, tenants, {}, {:label => _('Tenant'), :disabled => tenants.empty?,
-                 :help_inline => link_to_function(tenants.empty? ? _("Load Tenants") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{tenants.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+<%= text_f f, :tenant, :label => _("Project (Tenant) name"), :help_block => _("Project name (v3) or Tenant name (v2). Can be retrieved via CLI or RC file.") %>
+
+<%= text_f f, :domain, :label => _("User domain"), :help_block => _("Can be retrieved via CLI or RC file, e.g. 'redhat.com'. Only for v3 authentication.") %>
+
+<%= text_f f, :project_domain_name, :label => _("Project domain name"), :help_block => _("Can be retrieved via CLI or RC file. Can be left blank. Only for v3 authentication.") %>
+
+<%= text_f f, :project_domain_id, :label => _("Project domain ID"), :help_block => _("Can be retrieved via CLI or RC file. Can be set to 'default'. Only for v3 authentication.") %>
+
 <%= checkbox_f f, :allow_external_network, {:checked => f.object.allow_external_network, :label => _("Allow external network as main network")} %>
+
+<div class="col-md-offset-2">
+  <%= test_connection_button_f(f, (f.object.tenants rescue false)) %>
+</div>

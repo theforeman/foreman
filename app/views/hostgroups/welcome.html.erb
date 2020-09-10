@@ -1,20 +1,13 @@
-<% title_actions new_link(_("New Host Group")) %>
-<% title _("Host group configuration") %>
-<div id="welcome">
-  <p>
-  <%= _('A host group is in some ways similar to an inherited node declaration, in that it is a high level grouping of classes that can be named and treated as a unit. This is then treated as a template and  is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states.') %>
-
-  <%= _('In addition to defining which puppet classes get included when building this host type you are also able to assign variables and provisioning information to a host group to further refine the behavior of the puppet runtime.') %>
-
-  <%= _("The host group's classes and the host group's variables are included in the external node information when the puppetmaster compiles the host's configuration.") %>
-  </p>
-
-  <p>
-  <%= _('There are two strategies when using host groups.') %>
-
-  <%= _('You may create puppet classes that represent high-level host configurations, for example, a <b>host-type-ldap-server</b> class, which includes all the required functionality from other modules or you may decide to create a host group called <b>host-type-ldap-server</b> and add the required classes into the host group configuration.').html_safe %>
-
-  <%= _('These two options are personal decisions and are up to you (where the main difference would be the parameter/variables settings).') %>
-  </p>
-
+<% content_for(:title, _("Host Groups")) %>
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text("object-group", "", :kind => "fa") %>
+  </div>
+  <h1><%= _('Host Groups') %></h1>
+  <p><%= _("Host Groups allow hosts with common configuration to be defined and grouped together.
+            Nested groups will inherit from their parent(s).
+            This is then treated as a template and is selectable during the creation of a new host and ensures that the host is configured in one of your pre-defined states.") %></p>
+  <div class="blank-slate-pf-main-action">
+    <%= new_link(_("Create Host Group"), :class => 'btn-lg') %>
+  </div>
 </div>

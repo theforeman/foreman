@@ -5,7 +5,7 @@
          'Displaying %{num_audits} of %{total_audits} audits', @count) % {:num_audits => @limit, :total_audits => @count} %>
   <% @audits.each do |audit| %>
     <%= audit.username %> (<%= audit.remote_address %>) <%= audit_action_name audit%> <%= audited_type audit %>: <%= audit_title(audit) %>
-    (<%= audit_url(:id => audit) %>)
+    (<%= audits_url(search: "id = #{audit}") %>)
   <% end %>
 <% else %>
   <%= _('No audit changes for this period') %>

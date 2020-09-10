@@ -1,52 +1,15 @@
-.dataTable {
-  th {
-    cursor: pointer;
-    *cursor: hand;
-    background-color: #f9f9f9
-  }
-
-  .sorting {
-    background: image-url('sort_both.png') no-repeat center right;
-  }
-
-  .sorting_asc {
-    background: image-url('sort_asc.png') no-repeat center right;
-  }
-
-  .sorting_desc {
-    background: image-url('sort_desc.png') no-repeat center right;
-  }
-
-  .sorting_asc_disabled {
-    background: image-url('sort_asc_disabled.png') no-repeat center right;
-  }
-
-  .sorting_desc_disabled {
-    background: image-url('sort_desc_disabled.png') no-repeat center right;
+table.dataTable {
+  thead {
+    .sorting::after,
+    .sorting_asc::after,
+    .sorting_desc::after,
+    .sorting_asc_disabled::after,
+    .sorting_desc_disabled::after {
+      bottom: 3px;
+    }
   }
 }
 
 .dataTables_filter label {
   float: left;
-}
-
-.dataTables_info {
-  padding-top: 8px;
-}
-
-.dataTables_paginate {
-  float: right;
-  margin: 0;
-}
-
-/*table sorter bootstrap css*/
-.dataTables_length {
-  label {
-    float: left;
-    text-align: left;
-  }
-
-  select {
-    width: 75px;
-  }
 }

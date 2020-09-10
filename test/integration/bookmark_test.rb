@@ -2,7 +2,7 @@ require 'integration_test_helper'
 
 class BookmarkIntegrationTest < ActionDispatch::IntegrationTest
   test "index page" do
-    assert_index_page(bookmarks_path,"Bookmarks",false,false,true)
+    assert_index_page(bookmarks_path, "Bookmarks", false, false, true)
   end
 
   test "edit path" do

@@ -4,10 +4,11 @@ class PuppetclassLookupKeysController < LookupKeysController
   before_action :setup_search_options, :only => :index
 
   def index
-    @lookup_keys = resource_base.search_for(params[:search], :order => params[:order])
-                                .paginate(:page => params[:page])
-                                .includes(:param_classes)
-    @puppetclass_authorizer = Authorizer.new(User.current, :collection => @lookup_keys.map{|key| key.param_class.try(:id)}.compact.uniq)
+    @lookup_keys = resource_base_search_and_page.distinct.preload(:lookup_values)
+    environment_classes = EnvironmentClass.where(puppetclass_lookup_key_id: @lookup_keys.map(&:id)).select(:puppetclass_id, :puppetclass_lookup_key_id).distinct.preload(:puppetclass)
+    puppetclass_ids = environment_classes.map(&:puppetclass_id).uniq
+    @puppetclass_authorizer = Authorizer.new(User.current, :collection => puppetclass_ids)
+    @lookup_keys_to_class = Hash[environment_classes.map { |environment_class| [environment_class.puppetclass_lookup_key_id, environment_class.puppetclass] }]
   end
 
   private

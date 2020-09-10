@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuditsList rendering render resources list 1`] = `
+<ListView
+  className=""
+>
+  <ListViewItem
+    actions={
+      <span
+        className="gray-text"
+      >
+        <ShortDateTime
+          date="2018-08-13 00:34:55 -1100"
+          defaultValue="N/A"
+          seconds={false}
+          showRelativeTimeTooltip={true}
+        />
+      </span>
+    }
+    additionalInfo={
+      Array [
+        <ListViewInfoItem
+          className=""
+          stacked={false}
+        >
+          HOST
+        </ListViewInfoItem>,
+        <ListViewInfoItem
+          className=""
+          stacked={false}
+        >
+          <SearchLink
+            id={234}
+            textValue="host-foo.example.com"
+            title="Filter audits for this resource only"
+            url="/audits?search=type+%3D+host+and+auditable_id+%3D+9"
+          />
+        </ListViewInfoItem>,
+      ]
+    }
+    checkboxInput={null}
+    className="main-info-minimize-padding"
+    compoundExpand={false}
+    compoundExpanded={false}
+    description={
+      <ListViewDescription>
+        <ListViewDescriptionText>
+          updated
+        </ListViewDescriptionText>
+      </ListViewDescription>
+    }
+    heading={
+      <UserDetails
+        isAuditLogin={false}
+        remoteAddress="127.0.0.1"
+        userInfo={
+          Object {
+            "audit_path": "/audits?search=id+%3D+234",
+            "display_name": "Admin ",
+            "login": "admin",
+            "search_path": "/audits?search=user+%3D+admin",
+          }
+        }
+      />
+    }
+    hideCloseIcon={true}
+    id={234}
+    initExpanded={true}
+    key="234"
+    leftContent={null}
+    onCloseCompoundExpand={[Function]}
+    onExpand={[Function]}
+    onExpandClose={[Function]}
+    stacked={false}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <ShowOrgsLocs
+        locs={
+          Array [
+            Object {
+              "name": "test_loc1",
+              "url": "/locations/2-test_loc1/edit",
+            },
+            Object {
+              "name": "test_loc2",
+              "url": "/locations/6-test_loc2/edit",
+            },
+            Object {
+              "name": "test_loc3",
+              "url": "/locations/9-test_loc3/edit",
+            },
+          ]
+        }
+        orgs={
+          Array [
+            Object {
+              "name": "test_org1",
+              "url": "/organizations/1-test_org1/edit",
+            },
+            Object {
+              "name": "test_org2",
+              "url": "/organizations/3-test_org2/edit",
+            },
+            Object {
+              "name": "test_org3",
+              "url": "/organizations/5-test_org3/edit",
+            },
+          ]
+        }
+      />
+      <ActionLinks
+        allowedActions={
+          Array [
+            Object {
+              "css_class": "btn btn-default",
+              "title": "Host details",
+              "url": "/hosts/host-foo.example.com",
+            },
+          ]
+        }
+      />
+    </Row>
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <ShowInlineRequestUuid
+        fetchAndPush={[MockFunction]}
+        id={234}
+        requestUuid="c134239d-8ac3-494b-9962-35133fe153ba"
+      />
+    </Row>
+    <ExpansiveView
+      actionDisplayName="updated"
+      auditTitle="host-foo.example.com"
+      auditedChanges={
+        Object {
+          "comment": Array [
+            "",
+            "This is info about host for audit",
+          ],
+          "root_pass": Array [
+            "[redacted]",
+            "[redacted]",
+          ],
+        }
+      }
+      auditedChangesWithIdToLabel={
+        Array [
+          Object {
+            "change": Array [
+              Object {
+                "css_class": "show-old",
+                "id_to_label": "[redacted]",
+              },
+              Object {
+                "css_class": "show-new",
+                "id_to_label": "[redacted]",
+              },
+            ],
+            "name": "Root pass",
+          },
+          Object {
+            "change": Array [
+              Object {
+                "css_class": "show-old",
+                "id_to_label": "[empty]",
+              },
+              Object {
+                "css_class": "show-new",
+                "id_to_label": "This is info about host for audit",
+              },
+            ],
+            "name": "Comment",
+          },
+        ]
+      }
+      comment={null}
+    />
+  </ListViewItem>
+</ListView>
+`;

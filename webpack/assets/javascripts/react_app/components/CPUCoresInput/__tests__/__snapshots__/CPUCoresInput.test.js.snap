@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CPUCoresInput rendering should render with default props 1`] = `
+<FormGroup
+  bsClass="form-group"
+  validationState={null}
+>
+  <Grid
+    bsClass="container"
+    componentClass="div"
+    fluid={false}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+      >
+        <NumericInput
+          className=""
+          disabled={false}
+          format={null}
+          label="CPUs"
+          minValue={1}
+          onChange={[Function]}
+          precision={0}
+          readOnly={false}
+          step={1}
+          value={1}
+        />
+      </Col>
+    </Row>
+  </Grid>
+</FormGroup>
+`;

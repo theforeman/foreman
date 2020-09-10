@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notification Drawer actions should expand different group 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "Community",
+      },
+      "type": "NOTIFICATIONS_SET_EXPANDED_GROUP",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should expand same group 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "",
+      },
+      "type": "NOTIFICATIONS_SET_EXPANDED_GROUP",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make a group clear 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "Community",
+      },
+      "type": "NOTIFICATIONS_MARK_GROUP_AS_CLEARED",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make a group clear 2`] = `
+Array [
+  Array [
+    "/notification_recipients/group/Community",
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make a notification clear 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "Community",
+        "id": 21,
+      },
+      "type": "NOTIFICATIONS_MARK_AS_CLEAR",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make a notification clear 2`] = `
+Array [
+  Array [
+    "/notification_recipients/group/Community",
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make a notification read 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "Community",
+        "id": 21,
+      },
+      "type": "NOTIFICATIONS_MARK_AS_READ",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make a notification read 2`] = `
+Array [
+  Array [
+    "/notification_recipients/group/Community",
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make notification group read 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "Community",
+      },
+      "type": "NOTIFICATIONS_MARK_GROUP_AS_READ",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should make notification group read 2`] = `
+Array [
+  Array [
+    "/notification_recipients/group/Community",
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should open external link 1`] = `
+Array [
+  Array [
+    "toggle the drawer action",
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "external": true,
+        "href": "https://www.redhat.com/en",
+      },
+      "type": "NOTIFICATIONS_LINK_CLICKED",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should open link 1`] = `
+Array [
+  Array [
+    "toggle the drawer action",
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "external": false,
+        "href": "https://www.redhat.com/en",
+      },
+      "type": "NOTIFICATIONS_LINK_CLICKED",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should skip a notification read 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "group": "Community",
+        "id": 21,
+      },
+      "type": "NOTIFICATIONS_MARK_AS_READ",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should skip a notification read 2`] = `
+Array [
+  Array [
+    "/notification_recipients/group/Community",
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+  Array [
+    "/notification_recipients/21",
+    Object {
+      "seen": true,
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should toggle closed drawer 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "value": true,
+      },
+      "type": "NOTIFICATIONS_TOGGLE_DRAWER",
+    },
+  ],
+]
+`;
+
+exports[`Notification Drawer actions should toggle opened drawer 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "value": false,
+      },
+      "type": "NOTIFICATIONS_TOGGLE_DRAWER",
+    },
+  ],
+]
+`;

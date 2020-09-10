@@ -1,24 +1,32 @@
 <div id="main">
-  <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
-  <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
-  <%= content_tag('div', flash[:notice],  :class => 'flash hide notice')  if flash[:notice] %>
-  <div id="content" class="container">
-    <% unless @page_header.blank? %>
-      <div class="row form-group">
-        <h1 class="col-md-8"><%=h @page_header %></h1>
-      </div>
-    <% end %>
+  <div id="content">
+    <%= notifications %>
+    <div id="breadcrumb">
+      <% unless @page_header.blank? %>
+        <div class="row form-group">
+          <h1 class="col-md-8">
+            <%=h @page_header %>
+          </h1>
+        </div>
+      <% end %>
+      <% if content_for?(:breadcrumbs) %>
+        <%= yield(:breadcrumbs) %>
+      <% else %>
+        <%= mount_breadcrumbs %>
+      <% end %>
+    </div>
+    <%= yield(:before_search_bar) %>
     <div class="row">
-      <div class="title_filter <%= searchable? ? "col-md-6" : "col-md-4" %>">
+      <div class="title_filter <%= searchable? ? " col-md-6 " : "col-md-4 " %>">
         <%= render "common/searchbar" if searchable? %>
-        <%= yield(:search_bar) %>&nbsp;
+          <%= yield(:search_bar) %>&nbsp;
       </div>
-      <div id="title_action" class="<%= searchable? ? "col-md-6" : "col-md-8" %>">
-        <div class="btn-toolbar pull-right"><%=h yield(:title_actions) %></div>
+      <div id="title_action" class= <%= searchable? ? "col-md-6" : "col-md-8" %>>
+        <div class="btn-toolbar pull-right">
+          <%=h yield(:title_actions) %>
+        </div>
       </div>
     </div>
-
     <%= yield %>
   </div>
 </div>
-

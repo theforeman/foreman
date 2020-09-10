@@ -2,7 +2,6 @@
   <tr>
     <th><%= _('Name') %></th>
     <th><%= _('Type') %></th>
-    <th><%= _('Tenant') %></th>
     <th><%= _('State') %></th>
     <th><%= _('Actions') %></th>
   </tr>
@@ -12,7 +11,6 @@
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :auth_action => 'view', :authorizer => authorizer) %></td>
       <td><%= vm.flavor_with_object %></td>
-      <td><%= vm.tenant %></td>
       <td>
         <span <%= vm_power_class(vm.ready?) %>>
           <%= vm_state(vm) %></span>

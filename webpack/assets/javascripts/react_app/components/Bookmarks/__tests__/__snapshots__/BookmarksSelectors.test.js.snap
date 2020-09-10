@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookmarksSelectors should return error 1`] = `"my errors"`;
+
+exports[`BookmarksSelectors should return results 1`] = `
+Array [
+  Object {
+    "controller": "hosts",
+    "id": 52,
+    "name": "1111",
+    "owner_id": 1,
+    "owner_type": "User",
+    "public": true,
+    "query": "abc",
+  },
+  Object {
+    "controller": "hosts",
+    "id": 54,
+    "name": "1122",
+    "owner_id": 1,
+    "owner_type": "User",
+    "public": true,
+    "query": "abc",
+  },
+]
+`;
+
+exports[`BookmarksSelectors should return status 1`] = `"RESOLVED"`;

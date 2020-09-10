@@ -3,33 +3,11 @@ module TaxonomyHelper
   include FormHelper
 
   def show_location_tab?
-    SETTINGS[:locations_enabled] && User.current.allowed_to?(:view_locations)
+    User.current.allowed_to?(:view_locations)
   end
 
   def show_organization_tab?
-    SETTINGS[:organizations_enabled] && User.current.allowed_to?(:view_organizations)
-  end
-
-  def show_taxonomy_tabs?
-    SETTINGS[:locations_enabled] || SETTINGS[:organizations_enabled]
-  end
-
-  def organization_dropdown(count)
-    text = Organization.current.nil? ? _("Any Organization") : truncate(Organization.current.to_label)
-    if count == 1 && !User.current.admin?
-      link_to text, "#"
-    else
-      link_to(text, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
-    end
-  end
-
-  def location_dropdown(count)
-    text = Location.current.nil? ? _("Any Location") : truncate(Location.current.to_label)
-    if count == 1 && !User.current.admin?
-      link_to text, "#"
-    else
-      link_to(text, "#", :class => "dropdown-toggle", :'data-toggle'=>"dropdown")
-    end
+    User.current.allowed_to?(:view_organizations)
   end
 
   def taxonomy_single
@@ -49,12 +27,12 @@ module TaxonomyHelper
   end
 
   def wizard_header(current, *args)
-    content_tag(:ul,:class=>"wizard") do
-      step=1
+    content_tag(:ul, :class => "wizard") do
+      step = 1
       content = nil
       args.each do |arg|
-        step_content = content_tag(:li,(content_tag(:span,step,:class=>"badge" +" #{'badge-inverse' if step==current}")+arg).html_safe, :class=>('active' if step==current).to_s)
-        step == 1 ? content = step_content : content += step_content
+        step_content = content_tag(:li, (content_tag(:span, step, :class => "badge" + " #{'badge-inverse' if step == current}") + arg).html_safe, :class => ('active' if step == current).to_s)
+        (step == 1) ? content = step_content : content += step_content
         step += 1
       end
       content
@@ -133,8 +111,8 @@ module TaxonomyHelper
 
   def taxonomy_selects(f, selected_ids, taxonomy, label, options = {}, options_html = {})
     options[:disabled] = Array.wrap(options[:disabled])
-    options[:label]    ||= _(label)
-    multiple_selects f, label.downcase, taxonomy.authorized("assign_#{label.downcase}", taxonomy), selected_ids, options, options_html
+    options[:label] ||= _(label)
+    multiple_selects f, label.downcase.singularize + '_ids', taxonomy.authorized("assign_#{label.downcase}", taxonomy), selected_ids, options, options_html
   end
 
   def all_checkbox(f, resource)
@@ -142,10 +120,10 @@ module TaxonomyHelper
                                                        :search => nil,
                                                        :taxonomy_search => nil}).present?
     checkbox_f(f, :ignore_types,
-                 {:label => translated_label(resource, :all),
-                  :multiple => true,
-                  :onchange => 'ignore_checked(this)'},
-                  resource.to_s.classify)
+      {:label => translated_label(resource, :all),
+       :multiple => true,
+       :onchange => 'ignore_checked(this)'},
+      resource.to_s.classify)
   end
 
   def show_resource_if_allowed(f, taxonomy, resource_options)
@@ -162,11 +140,11 @@ module TaxonomyHelper
     content_tag(:div, :id => resource, :class => "tab-pane") do
       all_checkbox(f, resource) +
       multiple_selects(f, association.where(nil).klass.to_s.underscore.pluralize.to_sym, association, taxonomy.selected_or_inherited_ids[ids],
-                           {:disabled => taxonomy.used_and_selected_or_inherited_ids[ids],
-                            :label => translated_label(resource, :select)},
-                           {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json,
-                            'data-inheriteds' => taxonomy.inherited_ids[ids].to_json,
-                            'data-useds' => taxonomy.used_ids[ids].to_json })
+        {:disabled => taxonomy.used_and_selected_or_inherited_ids[ids],
+         :label => translated_label(resource, :select)},
+        {'data-mismatches' => taxonomy.need_to_be_selected_ids[ids].to_json,
+         'data-inheriteds' => taxonomy.inherited_ids[ids].to_json,
+         'data-useds' => taxonomy.used_ids[ids].to_json })
     end
   end
 
@@ -181,7 +159,7 @@ module TaxonomyHelper
                :domains => { :all => _("All domains"), :select => _("Select domains") },
                :realms => { :all => _("All realms"), :select => _("Select realms") },
                :environments => { :all => _("All environments"), :select => _("Select environments") },
-               :hostgroups => { :all => _("All host groups"), :select => _("Select host groups") }
+               :hostgroups => { :all => _("All host groups"), :select => _("Select host groups") },
     }
     labels[resource][verb]
   end

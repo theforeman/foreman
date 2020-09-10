@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpansiveView rendering render audit record changes 1`] = `
+<div
+  className="grid-container"
+>
+  <DiffContainer
+    className=""
+    newText="<h1>Hello World..</h1>"
+    oldText="<h1>Hello..</h1>"
+    patch=""
+  />
+  <table
+    className="table-changes table table-bordered table-hover"
+  >
+    <tbody>
+      <tr
+        key="0"
+      >
+        <td
+          className="col-6 col-md-4"
+          key="0"
+        >
+          <div>
+            Name
+          </div>
+        </td>
+        <td
+          className="col-6 col-md-4 show-old"
+          key="0"
+        >
+          <div
+            className="show-old"
+          >
+            <p>
+              temp1
+            </p>
+          </div>
+        </td>
+        <td
+          className="col-6 col-md-4 show-new"
+          key="1"
+        >
+          <div
+            className="show-new"
+          >
+            <p>
+              temp2
+            </p>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div
+    className="details-row comment-section"
+  >
+    <p
+      className="comment-title"
+    >
+      <strong>
+        Comments
+      </strong>
+    </p>
+    <p
+      className="comment-desc"
+    >
+      This is just test audit record
+    </p>
+  </div>
+</div>
+`;

@@ -4,7 +4,7 @@ class DomainsController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @domains = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @domains = resource_base_search_and_page
   end
 
   def new
@@ -24,7 +24,7 @@ class DomainsController < ApplicationController
   end
 
   def update
-    if @domain.update_attributes(domain_params)
+    if @domain.update(domain_params)
       process_success
     else
       process_error

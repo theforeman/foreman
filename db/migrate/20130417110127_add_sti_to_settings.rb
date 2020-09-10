@@ -1,4 +1,4 @@
-class AddStiToSettings < ActiveRecord::Migration
+class AddStiToSettings < ActiveRecord::Migration[4.2]
   def up
     execute "UPDATE settings set category='Setting::Auth' where category='Auth'"
     execute "UPDATE settings set category='Setting::General' where category='General'"

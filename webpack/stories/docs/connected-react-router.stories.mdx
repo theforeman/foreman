@@ -1,0 +1,42 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Connected React Router"
+  parameters={{
+    storyWeight: 140,
+  }}
+/>
+
+# Connected React Router
+Foreman uses react-router for client routing in react pages, however foreman contains lots of erb content which includes react components.
+in order to control react router better and to have one source of truth,
+foreman uses `connected-react-router` which enable controling react router via redux.
+
+### Push url
+This pushed a new url (including querystring) to react router and creates a transition
+
+```js
+import { pushUrl } from '../foreman_navigation';
+import { foremanUrl } from '../foreman_tools';
+
+<Button onClick={() => pushUrl(foremanUrl('/hosts'))}>
+   Click Me!
+</Button>
+```
+
+### React Router Selectors
+You can use react router selectors for retriving data
+
+selectRouterLocation - the current location.
+electRouterPath - the current path
+selectRouterSearch - the current search 
+selectRouterHash  - the current hash
+selectRouter - the entire router object which includes every entry above
+
+```js
+import { useSelector } from 'react-redux';
+import { selectRouterLocation } from '../routes/RouterSelector';
+
+
+const location = useSelector(selectRouterLocation);
+```

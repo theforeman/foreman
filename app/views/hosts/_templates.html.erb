@@ -6,18 +6,19 @@
     </tr>
   </thead>
   <tbody>
-    <% @templates.each do |tmpl| %>
-      <tr>
-        <td><%= _(tmpl.template_kind.to_s) %></td>
+    <% @templates.each do |template| %>
+      <tr id=<%= "template_#{template.id}" %>>
+        <td><%= _(template.template_kind.to_s) %></td>
         <td><%= action_buttons(display_link_if_authorized(_("Edit"),
-                                 hash_for_edit_provisioning_template_path(:id => tmpl.to_param),
-                                 :rel => "external"),
+                                                          hash_for_edit_provisioning_template_path(id: template.to_param),
+                                                          rel: "external"),
                                link_to(_("Review"),
-                                 url_for(:controller => '/unattended',
-                                          :action => 'host_template',
-                                          :kind => tmpl.template_kind.name,
-                                          :hostname => @host.name),
-                                 :rel => 'external', :"data-provisioning-template" => true)) %>
+                                       url_for(controller: '/unattended',
+                                               action: 'host_template',
+                                               kind: template.template_kind.name,
+                                               hostname: @host.name),
+                                       rel: 'external',
+                                       "data-provisioning-template": true)) %>
         </td>
       </tr>
     <% end %>

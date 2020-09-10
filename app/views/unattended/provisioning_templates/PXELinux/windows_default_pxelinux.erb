@@ -1,0 +1,11 @@
+<%#
+kind: PXELinux
+name: Windows default PXELinux
+model: ProvisioningTemplate
+oses:
+- Windows
+%>
+DEFAULT menu
+LABEL menu
+     COM32 linux.c32 <%= @host.operatingsystem.bootfile(medium_provider,:kernel) %>
+     APPEND initrdfile=<%= foreman_url('script') %>@peSetup.cmd,<%= @host.operatingsystem.bootfile(medium_provider,:bcd) %>,<%= @host.operatingsystem.bootfile(medium_provider,:bootsdi) %>,<%= @host.operatingsystem.bootfile(medium_provider,:bootwim) %>

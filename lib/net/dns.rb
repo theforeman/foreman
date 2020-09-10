@@ -19,47 +19,44 @@ module Net
     def self.lookup(query, options = {})
       return nil unless query.present?
 
-      proxy = options.fetch(:proxy)
+      proxy = options.fetch(:proxy, nil)
       resolver = options.fetch(:resolver, Resolv::DNS.new)
       ipfamily = options.fetch(:ipfamily, Socket::AF_INET)
+      resolver.timeouts = Setting[:dns_timeout]
 
-      Timeout.timeout(Setting[:dns_conflict_timeout]) do
-        ipquery = IPAddr.new(query) rescue false
-        if ipquery && ipquery.ipv4?
-          hostname = resolver.getname(query).to_s
-          ip = query
-          type = "PTR4"
-        elsif ipquery && ipquery.ipv6?
-          hostname = resolver.getname(query).to_s
-          ip = query
-          type = "PTR6"
-        elsif ipfamily == Socket::AF_INET6
-          ip = resolver.getresource(query, Resolv::DNS::Resource::IN::AAAA).address.to_s
-          hostname = query
-          type = "AAAA"
-        else
-          ip = resolver.getresource(query, Resolv::DNS::Resource::IN::A).address.to_s
-          hostname = query
-          type = "A"
-        end
+      ipquery = IPAddr.new(query) rescue nil
+      if ipquery&.ipv4?
+        hostname = resolver.getname(query).to_s
+        ip = query
+        type = "PTR4"
+      elsif ipquery&.ipv6?
+        hostname = resolver.getname(query).to_s
+        ip = query
+        type = "PTR6"
+      elsif ipfamily == Socket::AF_INET6
+        ip = resolver.getresource(query, Resolv::DNS::Resource::IN::AAAA).address.to_s
+        hostname = query
+        type = "AAAA"
+      else
+        ip = resolver.getresource(query, Resolv::DNS::Resource::IN::A).address.to_s
+        hostname = query
+        type = "A"
+      end
 
-        attrs = { :hostname => hostname, :ip => ip, :resolver => resolver, :proxy => proxy }
+      attrs = { :hostname => hostname, :ip => ip, :resolver => resolver, :proxy => proxy }
 
-        case type
-          when "A"
-            ARecord.new attrs
-          when "AAAA"
-            AAAARecord.new attrs
-          when "PTR4"
-            PTR4Record.new attrs
-          when "PTR6"
-            PTR6Record.new attrs
-        end
+      case type
+        when "A"
+          ARecord.new attrs
+        when "AAAA"
+          AAAARecord.new attrs
+        when "PTR4"
+          PTR4Record.new attrs
+        when "PTR6"
+          PTR6Record.new attrs
       end
     rescue Resolv::ResolvError, SocketError
       nil
-    rescue Timeout::Error => e
-      raise Net::Error, e
     end
 
     class Record < Net::Record

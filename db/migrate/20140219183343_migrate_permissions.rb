@@ -1,14 +1,14 @@
 # we need permissions to be seeded already
-require Rails.root + 'db/seeds.d/03-permissions'
+require Rails.root + 'db/seeds.d/030-permissions'
 
 # Fake models to make sure that this migration can be executed even when
 # original models changes later (e.g. add validation on columns that are not
 # present at this moment)
-class FakePermission < ActiveRecord::Base
+class FakePermission < ApplicationRecord
   self.table_name = 'permissions'
 end
 
-class FakeFilter < ActiveRecord::Base
+class FakeFilter < ApplicationRecord
   self.table_name = 'filters'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
@@ -30,25 +30,25 @@ class FakeFilter < ActiveRecord::Base
            :validate => false
 end
 
-class FakeUserRole < ActiveRecord::Base
+class FakeUserRole < ApplicationRecord
   self.table_name = 'user_roles'
   belongs_to :owner, :polymorphic => true
   belongs_to :role, :class_name => 'FakeRole'
 end
 
-class FakeRole < ActiveRecord::Base
+class FakeRole < ApplicationRecord
   self.table_name = 'roles'
   has_many :filters, :dependent => :destroy, :class_name => 'FakeFilter', :foreign_key => 'role_id'
   has_many :permissions, :through => :filters, :class_name => 'FakePermission', :foreign_key => 'permission_id'
 end
 
-class FakeFiltering < ActiveRecord::Base
+class FakeFiltering < ApplicationRecord
   self.table_name = 'filterings'
   belongs_to :filter, :class_name => 'FakeFilter'
   belongs_to :permission, :class_name => 'FakePermission'
 end
 
-class FakeUser < ActiveRecord::Base
+class FakeUser < ApplicationRecord
   self.table_name = 'users'
   # we need this for polymorphic relation to work, it has class name hardcoded in AR
   def self.name
@@ -74,7 +74,7 @@ class FakeUser < ActiveRecord::Base
   has_many :cached_usergroups, :through => :cached_usergroup_members, :source => :usergroup
 end
 
-class MigratePermissions < ActiveRecord::Migration
+class MigratePermissions < ActiveRecord::Migration[4.2]
   # STEP 0 - add missing permissions to DB
   # some engines could have defined new permissions during their initialization
   # but permissions table hadn't existed yet so we check all registered
@@ -158,30 +158,30 @@ class MigratePermissions < ActiveRecord::Migration
       user.roles = clones = user.roles.map { |r| clone_role(r, user) }
       say "... done"
 
-      filters                     = Hash.new { |h, k| h[k] = '' }
+      filters = Hash.new { |h, k| h[k] = '' }
 
       # compute resources
-      filters[:compute_resources] = search = user.compute_resources.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:compute_resources] = search = user.compute_resources.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected                    = clones.map(&:filters).flatten.select { |f| f.resource_type == 'ComputeResource' }
       affected.each do |filter|
-        filter.update_attributes :search => search unless search.blank?
+        filter.update :search => search if search.present?
       end
       say "... compute resource filters applied"
 
       # domains were not limited in old system, to keep it compatible, we don't convert it and use just search string
       # later for hosts
-      filters[:domains]    = user.domains.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:domains]    = user.domains.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
 
       # host groups
-      filters[:hostgroups] = search = user.hostgroups.uniq.map { |cr| "id = #{cr.id}" }.join(' or ')
+      filters[:hostgroups] = search = user.hostgroups.distinct.map { |cr| "id = #{cr.id}" }.join(' or ')
       affected             = clones.map(&:filters).flatten.select { |f| f.resource_type == 'Hostgroup' }
       affected.each do |filter|
-        filter.update_attributes :search => search unless search.blank?
+        filter.update :search => search if search.present?
       end
       say "... hostgroups filters applied"
 
       # fact_values for hosts scope
-      filters[:facts] = user.user_facts.uniq.map { |uf| "facts.#{uf.fact_name.name} #{uf.operator} #{uf.criteria}" }.join(' or ')
+      filters[:facts] = user.user_facts.distinct.map { |uf| "facts.#{uf.fact_name.name} #{uf.operator} #{uf.criteria}" }.join(' or ')
 
       search, orgs, locs = convert_filters_to_search(filters, user)
 
@@ -189,7 +189,7 @@ class MigratePermissions < ActiveRecord::Migration
       affected.each do |filter|
         filter.organizations = orgs
         filter.locations = locs
-        filter.update_attributes :search => search unless search.blank?
+        filter.update :search => search if search.present?
       end
       say "... all other filters applied"
 
@@ -206,15 +206,13 @@ class MigratePermissions < ActiveRecord::Migration
 
   def convert_filters_to_search(filters, user)
     search = ''
-    orgs = []
-    locs = []
 
     # owner_type
     if user.filter_on_owner
       user_cond = "owner_id = #{user.id} and owner_type = User"
-      group_cond = user.cached_usergroups.uniq.map { |g| "owner_id = #{g.id}" }.join(' or ')
+      group_cond = user.cached_usergroups.distinct.map { |g| "owner_id = #{g.id}" }.join(' or ')
       search = "(#{user_cond})"
-      search += " or ((#{group_cond}) and owner_type = Usergroup)" unless group_cond.blank?
+      search += " or ((#{group_cond}) and owner_type = Usergroup)" if group_cond.present?
     end
 
     # normal filters - domains, compute resource, hostgroup, facts
@@ -243,10 +241,10 @@ class MigratePermissions < ActiveRecord::Migration
     end
 
     # taxonomies
-    orgs = user.organizations if SETTINGS[:organizations_enabled]
-    locs = user.locations     if SETTINGS[:locations_enabled]
+    orgs = user.organizations
+    locs = user.locations
 
-    [ search, orgs, locs ]
+    [search, orgs, locs]
   end
 
   def filtered?(user)

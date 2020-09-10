@@ -1,8 +1,8 @@
-class FakeUser < ActiveRecord::Base
+class FakeUser < ApplicationRecord
   self.table_name = 'users'
 end
 
-class ChangeNilAdminUsersToFalse < ActiveRecord::Migration
+class ChangeNilAdminUsersToFalse < ActiveRecord::Migration[4.2]
   def up
     FakeUser.where(:admin => nil).update_all(:admin => false)
     change_column :users, :admin, :boolean, :null => false, :default => false

@@ -1,12 +1,8 @@
 require 'integration_test_helper'
 
 class MediaIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(media_path,"Media","New Medium")
-  end
-
   test "create new page" do
-    assert_new_button(media_path,"New Medium",new_medium_path)
+    assert_new_button(media_path, "Create Medium", new_medium_path)
     fill_in "medium_name", :with => "Fedora Mirror 123"
     fill_in "medium_path", :with => "http://download.eng.tlv.redhat.com/pub/fedora123/linux/releases/$major/Fedora/$arch/os"
     select "Red Hat", :from => "medium_os_family"

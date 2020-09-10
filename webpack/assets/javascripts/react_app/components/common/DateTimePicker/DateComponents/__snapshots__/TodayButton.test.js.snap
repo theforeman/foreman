@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodayButton is working properly 1`] = `
+<table
+  class="table-condensed"
+>
+  <tbody>
+    <tr>
+      <td>
+        <button
+          class="today-button"
+          type="button"
+        >
+          <span
+            class="today-button-"
+          >
+            Today
+          </span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

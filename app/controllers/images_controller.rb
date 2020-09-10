@@ -8,8 +8,8 @@ class ImagesController < ApplicationController
     # Listing images in /hosts/new consumes this method as JSON
     @images = resource_base.where(:compute_resource_id => @compute_resource.id).includes(:operatingsystem)
     respond_to do |format|
-      format.html { render :partial => 'images/list' }
-      format.json { render :json => @images.where(:operatingsystem_id => params[:operatingsystem_id], :architecture_id => params[:architecture_id]) }
+      format.html { params[:partial] ? render(:partial => 'images/list') : render(:index) }
+      format.json { render :json => @images.where(:operatingsystem_id => params[:operatingsystem_id], :architecture_id => params[:architecture_id]).order(:name) }
     end
   end
 
@@ -30,7 +30,7 @@ class ImagesController < ApplicationController
   end
 
   def update
-    if @image.update_attributes(image_params.reject { |k,v| k == :password && v.blank? })
+    if @image.update(image_params.reject { |k, v| k == :password && v.blank? })
       process_success :success_redirect => compute_resource_path(@compute_resource)
     else
       process_error
@@ -48,6 +48,6 @@ class ImagesController < ApplicationController
   private
 
   def find_compute_resource
-    @compute_resource = ComputeResource.authorized(:view_compute_resources).find(params[:compute_resource_id])
+    @compute_resource = ComputeResource.authorized(:view_compute_resources).find(params.delete(:compute_resource_id))
   end
 end

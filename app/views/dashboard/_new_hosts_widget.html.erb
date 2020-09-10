@@ -1,0 +1,11 @@
+<% hosts = @data.hosts.includes(:operatingsystem).preload(:owner).order(:created_at => :desc).limit(9) %>
+
+<h4 class="header">
+  <%= _('New Hosts') %>
+</h4>
+
+<% if hosts.empty? %>
+  <p class="ca"><%= _("No hosts available.") %></p>
+<% else %>
+  <%= render :partial => 'new_hosts_widget_host_list', :locals => { :hosts => hosts } %>
+<% end %>

@@ -1,21 +1,12 @@
 class AIX < Operatingsystem
   PXEFILES = {:kernel => "powerpc", :initrd => "initrd"}
 
-  # Override the class representation, as this breaks many rails helpers
-  def class
-    Operatingsystem
-  end
-
   def pxe_type
     "nim"
   end
 
-  def pxedir
+  def pxedir(medium_provider = nil)
     "boot/$arch/loader"
-  end
-
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
   end
 
   def display_family

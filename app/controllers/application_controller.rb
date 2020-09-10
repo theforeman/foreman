@@ -1,35 +1,35 @@
 class ApplicationController < ActionController::Base
   include ApplicationShared
 
-  force_ssl :if => :require_ssl?
-  ensure_security_headers
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
+  include Foreman::Controller::Flash
+  include Foreman::Controller::Authorize
+  include Foreman::Controller::RequireSsl
+
+  protect_from_forgery with: :exception # See ActionController::RequestForgeryProtection for details
   rescue_from Exception, :with => :generic_exception if Rails.env.production?
+  rescue_from ScopedSearch::QueryNotSupported, :with => :invalid_search_query
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
   rescue_from ProxyAPI::ProxyException, :with => :smart_proxy_exception
   rescue_from Foreman::MaintenanceException, :with => :service_unavailable
+  rescue_from ActiveRecord::SubclassNotFound, :with => :sti_clean_up
 
   # standard layout to all controllers
   helper 'layout'
-  helper_method :authorizer
+  helper_method :resource_path
 
-  before_action :require_login
+  before_action :require_login, :check_user_enabled
   before_action :set_gettext_locale_db, :set_gettext_locale
-  before_action :session_expiry, :update_activity_time, :unless => proc {|c| !SETTINGS[:login] || c.remote_user_provided? || c.api_request? }
+  before_action :session_expiry, :update_activity_time, :unless => proc { |c| c.remote_user_provided? || c.api_request? }
   before_action :set_taxonomy, :require_mail, :check_empty_taxonomy
   before_action :authorize
   before_action :welcome, :only => :index, :unless => :api_request?
+  prepend_before_action :allow_webpack, if: -> { Rails.configuration.webpack.dev_server.enabled }
   around_action :set_timezone
-  layout :display_layout?
 
   attr_reader :original_search_parameter
 
-  cache_sweeper :topbar_sweeper
-
   def welcome
-    klass = controller_name.camelize.singularize
-    if (klass.constantize.first.nil? rescue false)
+    if (model_of_controller.first.nil? rescue false)
       @welcome = true
       render :welcome rescue nil
     end
@@ -46,6 +46,21 @@ class ApplicationController < ActionController::Base
     User.current
   end
 
+  def resource_path(type)
+    return '' if type.nil?
+
+    path = type.pluralize.underscore + "_path"
+    prefix, suffix = path.split('/', 2)
+    if path.include?("/") && Rails.application.routes.mounted_helpers.method_defined?(prefix)
+      # handle mounted engines
+      engine = send(prefix)
+      engine.send(suffix) if engine.respond_to?(suffix)
+    else
+      path = path.tr("/", "_")
+      send(path) if respond_to?(path)
+    end
+  end
+
   protected
 
   # Authorize the user for the requested action
@@ -57,16 +72,8 @@ class ApplicationController < ActionController::Base
     authorized ? true : deny_access
   end
 
-  def authorizer
-    @authorizer ||= Authorizer.new(User.current, :collection => instance_variable_get("@#{controller_name}"))
-  end
-
   def deny_access
     (User.current.logged? || request.xhr?) ? render_403 : require_login
-  end
-
-  def require_ssl?
-    SETTINGS[:require_ssl]
   end
 
   # This filter is called before FastGettext set_gettext_locale and sets user-defined locale
@@ -82,10 +89,10 @@ class ApplicationController < ActionController::Base
         format.html do
           error msg
           flash.keep # keep any warnings added by the user login process, they may explain why this occurred
-          redirect_to edit_user_path(:id => User.current)
+          redirect_to main_app.edit_user_path(:id => User.current)
         end
         format.text do
-          render :text => msg, :status => :unprocessable_entity, :content_type => Mime::TEXT
+          render :plain => msg, :status => :unprocessable_entity, :content_type => Mime[:text]
         end
       end
       true
@@ -93,14 +100,14 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_request
-    render :text => _('Invalid query'), :status => :bad_request
+    render :plain => _('Invalid query'), :status => :bad_request
   end
 
   def not_found(exception = nil)
     logger.debug "not found: #{exception}" if exception
     respond_to do |format|
       format.html { render "common/404", :status => :not_found }
-      format.any { head :status => :not_found}
+      format.any { head :not_found }
     end
     true
   end
@@ -109,14 +116,39 @@ class ApplicationController < ActionController::Base
     logger.debug "service unavailable: #{exception}" if exception
     respond_to do |format|
       format.html { render "common/503", :status => :service_unavailable, :locals => { :exception => exception } }
-      format.any { head :status => :service_unavailable }
+      format.any { head :service_unavailable }
     end
     true
   end
 
+  def sti_clean_up(e)
+    require_login rescue false
+    Foreman::Logging.exception("Action failed", e) unless User.current&.admin?
+    @unknown_class_name = e.message.match(/subclass: '(.*)'\./)[1]
+    @parent_class = e.message.match(/overwrite (.*)\.inheritance_column/)[1].constantize
+    if params[:confirm_data_deletion] == 'yes' && User.current&.admin?
+      begin
+        @parent_class.where(@parent_class.inheritance_column => @unknown_class_name).delete_all
+      rescue ActiveRecord::InvalidForeignKey => e
+        Foreman::Logging.exception("Error during STI data cleanup", e)
+        render 'common/class_clean_up_failed'
+        return
+      end
+      flash[:success] = _('Data has been cleaned up')
+      redirect_back fallback_location: root_path
+    else
+      render 'common/confirm_class_clean_up'
+    end
+  end
+
   def smart_proxy_exception(exception = nil)
-    process_error(:redirect => :back, :error_msg => exception.message)
     Foreman::Logging.exception("ProxyAPI operation FAILED", exception)
+    if request.headers.include? 'HTTP_REFERER'
+      process_error(:redirect => :back, :error_msg => exception.message)
+    else
+      process_error(:render => { :plain => exception.message },
+                    :error_msg => exception.message)
+    end
   end
 
   # this method sets the Current user to be the Admin
@@ -127,11 +159,7 @@ class ApplicationController < ActionController::Base
   end
 
   def model_of_controller
-    @model_of_controller ||= controller_path.singularize.camelize.gsub('/','::').constantize
-  end
-
-  def current_permission
-    [action_permission, controller_permission].join('_')
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').constantize
   end
 
   def controller_permission
@@ -153,25 +181,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # not all models includes Authorizable so we detect whether we should apply authorized scope or not
+  # Not all models include Authorizable so we detect whether we should apply authorized scope or not
   def resource_base
     @resource_base ||= if model_of_controller.respond_to?(:authorized)
                          model_of_controller.authorized(current_permission)
                        else
                          model_of_controller.where(nil)
                        end
-  end
-
-  def notice(notice)
-    flash[:notice] = CGI.escapeHTML(notice)
-  end
-
-  def error(error)
-    flash[:error] = CGI.escapeHTML(error)
-  end
-
-  def warning(warning)
-    flash[:warning] = CGI.escapeHTML(warning)
   end
 
   # this method is used with nested resources, where obj_id is passed into the parameters hash.
@@ -182,9 +198,12 @@ class ApplicationController < ActionController::Base
     params[:search] ||= ""
     params.keys.each do |param|
       if param =~ /(\w+)_id$/
-        unless params[param].blank?
-          query = "#{$1} = #{params[param]}"
-          params[:search] += query unless params[:search].include? query
+        if params[param].present?
+          query = "#{Regexp.last_match(1)} = #{params[param]}"
+          unless params[:search].include? query
+            params[:search] += ' and ' if params[:search].present?
+            params[:search] += query
+          end
         end
       end
     end
@@ -215,9 +234,13 @@ class ApplicationController < ActionController::Base
     (@remote_user = request.env["REMOTE_USER"]).present?
   end
 
-  def display_layout?
-    return false if two_pane?
-    "application"
+  def resource_base_with_search
+    resource_base.search_for(params[:search], :order => params[:order])
+  end
+
+  def resource_base_search_and_page(tables = [])
+    base = tables.empty? ? resource_base_with_search : resource_base_with_search.eager_load(*tables)
+    base.paginate(:page => params[:page], :per_page => params[:per_page])
   end
 
   private
@@ -233,10 +256,10 @@ class ApplicationController < ActionController::Base
   def render_403(msg = nil)
     if msg.nil?
       @missing_permissions = Foreman::AccessControl.permissions_for_controller_action(path_to_authenticate)
-      Foreman::Logging.logger('permissions').debug "rendering 403 because of missing permission #{@missing_permissions.map(&:name).join(', ')}"
+      Foreman::Logging.logger('permissions').info "rendering 403 because of missing permission #{@missing_permissions.map(&:name).join(', ')}"
     else
       @missing_permissions = []
-      Foreman::Logging.logger('permissions').debug msg
+      Foreman::Logging.logger('permissions').info msg
     end
 
     respond_to do |format|
@@ -268,8 +291,12 @@ class ApplicationController < ActionController::Base
     end
     hash[:success_redirect] ||= saved_redirect_url_or(send("#{controller_name}_url"))
 
-    notice hash[:success_msg]
-    redirect_to hash[:success_redirect]
+    success hash[:success_msg]
+    if hash[:success_redirect] == :back
+      redirect_back(fallback_location: saved_redirect_url_or(send("#{controller_name}_url")))
+    else
+      redirect_to hash[:success_redirect]
+    end
   end
 
   def process_error(hash = {})
@@ -283,15 +310,19 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    logger.info "Failed to save: #{hash[:object].errors.full_messages.join(', ')}" if hash[:object].respond_to?(:errors)
-    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map{|e| _("Conflict - %s") % e}].flatten
+    logger.error "Failed to save: #{hash[:object].errors.full_messages.join(', ')}" if hash[:object].respond_to?(:errors)
+    hash[:error_msg] ||= [hash[:object].errors[:base] + hash[:object].errors[:conflict].map { |e| _("Conflict - %s") % e }].flatten
     hash[:error_msg] = [hash[:error_msg]].flatten.to_sentence
     if hash[:render]
-      flash.now[:error] = CGI.escapeHTML(hash[:error_msg]) unless hash[:error_msg].empty?
+      error(hash[:error_msg], true) unless hash[:error_msg].empty?
       render hash[:render]
     elsif hash[:redirect]
       error(hash[:error_msg]) unless hash[:error_msg].empty?
-      redirect_to hash[:redirect]
+      if hash[:redirect] == :back
+        redirect_back(fallback_location: send("#{controller_name}_url"))
+      else
+        redirect_to hash[:redirect]
+      end
     end
   end
 
@@ -306,7 +337,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_back_or_to(url)
-    redirect_to request.referer.empty? ? url : :back
+    redirect_back(fallback_location: url)
   end
 
   def saved_redirect_url_or(default)
@@ -314,42 +345,24 @@ class ApplicationController < ActionController::Base
   end
 
   def generic_exception(exception)
-    Foreman::Logging.exception("Action failed", exception)
-    render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception => exception}
-  end
-
-  def set_taxonomy
-    return if User.current.nil?
-
-    if SETTINGS[:organizations_enabled]
-      orgs = Organization.my_organizations
-      Organization.current = if orgs.count == 1 && !User.current.admin?
-                               orgs.first
-                             elsif session[:organization_id]
-                               orgs.find_by_id(session[:organization_id])
-                             end
-      warning _("Organization you had selected as your context has been deleted.") if (session[:organization_id] && Organization.current.nil?)
-    end
-
-    if SETTINGS[:locations_enabled]
-      locations = Location.my_locations
-      Location.current = if locations.count == 1 && !User.current.admin?
-                           locations.first
-                         elsif session[:location_id]
-                           locations.find_by_id(session[:location_id])
-                         end
-      warning _("Location you had selected as your context has been deleted.") if (session[:location_id] && Location.current.nil?)
+    if exception.try(:cause).is_a?(ActiveRecord::SubclassNotFound)
+      sti_clean_up(exception.cause)
+    else
+      ex_message = exception.message
+      Foreman::Logging.exception(ex_message, exception)
+      full_request_id = request.request_id
+      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception_message => ex_message, request_id: full_request_id.split('-').first, full_request_id: full_request_id}
     end
   end
 
   def check_empty_taxonomy
-    return if ["locations","organizations"].include?(controller_name)
+    return if ["locations", "organizations"].include?(controller_name)
 
-    if User.current && User.current.admin?
-      if SETTINGS[:locations_enabled] && Location.unconfigured?
-        redirect_to main_app.locations_path, :notice => _("You must create at least one location before continuing.")
-      elsif SETTINGS[:organizations_enabled] && Organization.unconfigured?
-        redirect_to main_app.organizations_path, :notice => _("You must create at least one organization before continuing.")
+    if User.current&.admin?
+      if Location.unconfigured?
+        redirect_to main_app.locations_path, :info => _("You must create at least one location before continuing.")
+      elsif Organization.unconfigured?
+        redirect_to main_app.organizations_path, :info => _("You must create at least one organization before continuing.")
       end
     end
   end
@@ -358,11 +371,11 @@ class ApplicationController < ActionController::Base
   # If the user has a fact_filter then we need to include :fact_values
   # We do not include most associations unless we are processing a html page
   def included_associations(include = [])
-    include + [ :hostgroup, :compute_resource, :operatingsystem, :environment, :model, :host_statuses, :token ]
+    include + [:hostgroup, :compute_resource, :operatingsystem, :environment, :model, :host_statuses, :token]
   end
 
   def errors_hash(errors)
-    errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message =>""}
+    errors.any? ? {:status => N_("Error"), :message => errors.full_messages.join('<br>')} : {:status => N_("OK"), :message => ""}
   end
 
   def taxonomy_scope
@@ -379,23 +392,27 @@ class ApplicationController < ActionController::Base
     @organization ||= Organization.find_by_id(params[:organization_id]) if params[:organization_id]
     @location     ||= Location.find_by_id(params[:location_id])         if params[:location_id]
 
-    @organization ||= Organization.current if SETTINGS[:organizations_enabled]
-    @location     ||= Location.current if SETTINGS[:locations_enabled]
-  end
-
-  def two_pane?
-    request.headers["X-Foreman-Layout"] == 'two-pane' && params[:action] != 'index'
-  end
-
-  # Called from ActionController::RequestForgeryProtection, overrides
-  # nullify session which is the default behavior for unverified requests in Rails 3.
-  # On Rails 4 we can get rid of this and use the strategy ':exception'.
-  def handle_unverified_request
-    raise ::Foreman::Exception.new(N_("Invalid authenticity token"))
+    @organization ||= Organization.current
+    @location     ||= Location.current
   end
 
   def parameter_filter_context
     Foreman::ParameterFilter::Context.new(:ui, controller_name, params[:action])
+  end
+
+  def allow_webpack
+    webpack_csp = {
+      script_src: [webpack_server], connect_src: [webpack_server],
+      style_src: [webpack_server], img_src: [webpack_server],
+      font_src: ["data: #{webpack_server}"], default_src: [webpack_server]
+    }
+
+    append_content_security_policy_directives(webpack_csp)
+  end
+
+  def webpack_server
+    port = Rails.configuration.webpack.dev_server.port
+    @dev_server ||= "#{request.protocol}#{request.host}:#{port}"
   end
 
   class << self

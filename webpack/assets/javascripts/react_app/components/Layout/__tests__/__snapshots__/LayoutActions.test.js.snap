@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout actions should changeActiveMenu to Monitor 1`] = `
+Object {
+  "payload": Object {
+    "activeMenu": "Monitor",
+  },
+  "type": "LAYOUT_CHANGE_ACTIVE",
+}
+`;
+
+exports[`Layout actions should changeLocation 1`] = `
+Object {
+  "payload": Object {
+    "location": "loc1",
+  },
+  "type": "LAYOUT_CHANGE_LOCATION",
+}
+`;
+
+exports[`Layout actions should changeOrganization 1`] = `
+Object {
+  "payload": Object {
+    "organization": "org1",
+  },
+  "type": "LAYOUT_CHANGE_ORG",
+}
+`;
+
+exports[`Layout actions should collapseLayoutMenus 1`] = `
+Object {
+  "type": "LAYOUT_COLLAPSE",
+}
+`;
+
+exports[`Layout actions should expandLayoutMenus 1`] = `
+Object {
+  "type": "LAYOUT_EXPAND",
+}
+`;
+
+exports[`Layout actions should hideLoading 1`] = `
+Object {
+  "type": "LAYOUT_HIDE_LOADING",
+}
+`;
+
+exports[`Layout actions should initialize the layout 1`] = `
+Object {
+  "payload": Object {
+    "activeMenu": "some active menu",
+    "isCollapsed": false,
+    "items": "some items",
+    "location": "loc2",
+    "organization": "org1",
+  },
+  "type": "LAYOUT_INITIALIZE",
+}
+`;
+
+exports[`Layout actions should showLoading 1`] = `
+Object {
+  "type": "LAYOUT_SHOW_LOADING",
+}
+`;

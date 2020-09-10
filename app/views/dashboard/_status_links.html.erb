@@ -1,28 +1,65 @@
+<%
+  origin = @data.settings[:origin] || nil
+  origin = nil if origin == 'All'
+%>
+
 <%= searchable_links _('Hosts that had performed modifications without error'),
-                     "last_report > \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and (status.applied > 0 or status.restarted > 0) and (status.failed = 0)",
+                     search_filter_with_origin(
+                       "(status.applied > 0 or status.restarted > 0) and (status.failed = 0)",
+                       origin
+                     ),
                      :active_hosts_ok_enabled
 %>
 <%= searchable_links _('Hosts in error state'),
-                     "last_report > \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and (status.failed > 0 or status.failed_restarts > 0) and status.enabled = true",
+                     search_filter_with_origin(
+                       "(status.failed > 0 or status.failed_restarts > 0) and status.enabled = true",
+                       origin
+                     ),
                      :bad_hosts_enabled
 %>
-<%= searchable_links _("Good host reports in the last %s") % time_ago_in_words((Setting[:puppet_interval]+Setting[:outofsync_interval]).minutes.ago),
-                    "last_report > \"#{Setting[:puppet_interval]+Setting[:outofsync_interval]} minutes ago\" and status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0",
+
+<%= searchable_links (out_of_sync_enabled?(origin) ? _("Good host reports in the last %s") % time_ago_in_words((report_origin_interval_setting(origin).to_i || 0).minutes.ago) : _("Good host with reports")),
+                     search_filter_with_origin(
+                       "status.enabled = true and status.applied = 0 and status.failed = 0 and status.pending = 0",
+                       origin
+                     ),
                     :ok_hosts_enabled
 %>
+
 <%= searchable_links _('Hosts that had pending changes'),
-                     'status.pending > 0 and status.enabled = true',
+                     search_filter_with_origin(
+                       "status.pending > 0 and status.enabled = true",
+                       origin
+                     ),
                      :pending_hosts_enabled
 %>
-<%= searchable_links _('Out of sync hosts'),
-                     "last_report < \"#{Setting[:puppet_interval] + Setting[:outofsync_interval]} minutes ago\" and status.enabled = true",
-                     :out_of_sync_hosts_enabled
-%>
+
+<% if out_of_sync_enabled?(origin) %>
+  <%= searchable_links _('Out of sync hosts'),
+                       search_filter_with_origin(
+                         "status.enabled = true",
+                         origin,
+                         true
+                       ),
+                       :out_of_sync_hosts_enabled
+  %>
+<% end %>
+
 <%= searchable_links _('Hosts with no reports'),
-                     "not has last_report and status.enabled = true",
+                     search_filter_with_origin(
+                       "not has last_report and status.enabled = true",
+                       origin,
+                       true,
+                       true
+                     ),
                      :reports_missing
 %>
 <%= searchable_links _('Hosts with alerts disabled'),
-                     "status.enabled = false",
+                     search_filter_with_origin(
+                       "status.enabled = false",
+                       origin,
+                       true,
+                       true
+                     ),
                      :disabled_hosts
 %>

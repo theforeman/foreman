@@ -1,7 +1,11 @@
 <h4 class="header">
-  <%= _('Host Configuration Status') %>
+  <% if @data.settings[:origin] %>
+    <%= _('Host Configuration Status for %s') % @data.settings[:origin] %>
+  <% else %>
+    <%= _('Host Configuration Status') %>
+  <% end %>
 </h4>
 <ul>
   <%= render "dashboard/status_links" %>
-  <h4 class="total"><%= _("Total Hosts: %s") % @report[:total_hosts] %></h4>
+  <h4 class="total"><%= _("Total Hosts: %s") % @data.report[:total_hosts] %></h4>
 </ul>

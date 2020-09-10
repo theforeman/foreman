@@ -1,6 +1,6 @@
-class UserMailNotification < ActiveRecord::Base
-  belongs_to :user
-  belongs_to :mail_notification
+class UserMailNotification < ApplicationRecord
+  belongs_to :user, :inverse_of => :user_mail_notifications
+  belongs_to :mail_notification, :inverse_of => :user_mail_notifications
 
   scope :daily, -> { where(:interval => 'Daily') }
   scope :weekly, -> { where(:interval => 'Weekly') }

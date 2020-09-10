@@ -4,6 +4,7 @@ module IPAM
       logger.debug("Suggesting ip for #{subnet} based on mac '#{mac}' (EUI-64).")
       validate
       return if errors.present?
+      return unless mac.present?
       ip = mac_to_ip(mac)
       logger.debug("Generated #{ip}")
       ip
@@ -16,7 +17,6 @@ module IPAM
     private
 
     def validate
-      errors.add(:mac, _("can't be blank")) unless mac.present?
       errors.add(:subnet, _("Network can't be blank")) unless subnet.network.present?
       errors.add(:subnet, _("Prefix length can't be blank")) unless subnet.cidr.present?
       errors.add(:subnet, _("Prefix length must be /64 or less to use EUI-64")) if subnet.cidr > 64

@@ -30,4 +30,9 @@ class EmailValidatorTest < ActiveSupport::TestCase
   test 'should allow blank' do
     assert @validatable.valid?
   end
+
+  test "email address can be UTF-8 encoded" do
+    @validatable.mail = "Pelé@example.com"
+    assert @validatable.valid?
+  end
 end

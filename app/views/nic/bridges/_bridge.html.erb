@@ -1,7 +1,8 @@
 <%= render 'nic/base_form', :f => f %>
 
 <%= content_tag :span, :class => 'bridge_fields' do %>
-  <%= text_f f, :attached_devices, :help_inline => popover('', _('comma separated interface identifiers'), :rel => 'popover-modal'), :class => 'attached', :size => "col-md-8", :label_size => "col-md-3" %>
+  <%= text_f f, :attached_devices, :label_help => _('comma separated interface identifiers'),
+             :label_help_options => { :rel => 'popover-modal' }, :class => 'attached', :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
 
 <%= render 'nic/provider_specific_form', :f => f %>

@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   has_many :reports, :through => :logs
   has_many :logs
   validates_lengths_from_database
@@ -10,7 +10,7 @@ class Message < ActiveRecord::Base
 
   def self.find_or_create(val)
     digest = Digest::SHA1.hexdigest(val)
-    Message.where(:digest => digest).first || Message.create(:value => val, :digest => digest)
+    Message.find_by(:digest => digest) || Message.create(:value => val, :digest => digest)
   end
 
   def skip_strip_attrs

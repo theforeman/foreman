@@ -1,39 +1,14 @@
 <% @totaltime = metrics.delete('total') %>
 <% metrics.delete_if{ |k,v| v < 0.001 } %>
-<div class="row">
-  <div class="col-md-4">
-    <div class="stats-well">
-      <h4 class="ca" ><%= _('Report Metrics') %></h4>
-      <div style="margin-top:50px;padding-bottom: 40px;">
-        <%= flot_pie_chart("metrics" ,_("Report Metrics"), metrics, :class => "statistics-pie small")%>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="stats-well">
-      <h4 class="ca" ><%= _('Report Status') %></h4>
-      <%= flot_bar_chart("status" ,"", _("Number of Events"), status, :class => "statistics-bar")%>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <table class="<%= table_css_classes %>" style="height: 398px;">
-      <tbody>
-        <% metrics.sort.each do |title, value|%>
-          <tr>
-            <td class="break-me">
-              <%= title %>
-            </td>
-            <td>
-              <%= metric value %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th><%= _("Total") %></th><th><%= metric (@totaltime || @config_report.runtime) %></th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-</div>
+
+<div id="config-reports"></div>
+<%= react_component('ConfigReports', { 
+      data: {
+        metricsChartData: metrics.to_a,
+        statusChartData: status.to_a,
+        metricsData: { tableData: metrics_table_data(metrics), 
+                       total: metric(@totaltime || @config_report.runtime), 
+                       tableClasses: table_css_classes }
+      }                 
+    }.to_json)
+%>

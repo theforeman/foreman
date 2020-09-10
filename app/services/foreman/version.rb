@@ -15,8 +15,8 @@ module Foreman
       @short = "#{@major}.#{@minor}"
 
       if @version =~ /\A(.*)-([^-]+)\z/
-        @notag = $1
-        @tag = $2
+        @notag = Regexp.last_match(1)
+        @tag = Regexp.last_match(2)
       else
         @notag = @version
         @tag = ""

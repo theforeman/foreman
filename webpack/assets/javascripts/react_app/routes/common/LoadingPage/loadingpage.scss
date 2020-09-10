@@ -1,0 +1,10 @@
+#loading-page {
+  justify-content: center;
+  display: flex;
+  margin-top: 100px;
+
+  .loading-state-pf {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormField rendering renders AutoComplete 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      formAutocompleteDataProps={
+        Object {
+          "controller": "bookmarks",
+          "disabled": false,
+          "id": "form-search",
+          "name": "Filter[search]",
+          "searchQuery": "",
+          "url": "bookmarks/auto_complete",
+          "useKeyShortcuts": false,
+        }
+      }
+      onChange={[Function]}
+      required={false}
+      type="autocomplete"
+    />
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders Date input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="date"
+    />
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders DateTime complex options and error 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId="date-time"
+  disabled={false}
+  validationState="error"
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  >
+    DateTime with error
+  </ControlLabel>
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      name="group[datetime]"
+      onChange={[Function]}
+      required={false}
+      type="dateTime"
+      value={1991-01-01T01:12:01.000Z}
+    />
+  </Col>
+  <InlineMessage
+    error="can not be in the past"
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders DateTime input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="dateTime"
+    />
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders Time input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="time"
+    />
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders text complex options and help 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId="text-field"
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  >
+    textField
+    <FieldLevelHelp
+      buttonClass="field-help"
+      content={
+        <React.Fragment>
+          This is more helpful text
+        </React.Fragment>
+      }
+      placement="right"
+      rootClose={true}
+    />
+  </ControlLabel>
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      name="group[textfield]"
+      onChange={[Function]}
+      required={false}
+      type="text"
+    />
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;
+
+exports[`FormField rendering renders text input 1`] = `
+<FormGroup
+  bsClass="form-group"
+  controlId={null}
+  disabled={false}
+  validationState={null}
+>
+  <ControlLabel
+    bsClass="control-label"
+    className="col-md-2"
+    srOnly={false}
+  />
+  <Col
+    bsClass="col"
+    className="col-md-4"
+    componentClass="div"
+  >
+    <InputFactory
+      className=""
+      disabled={false}
+      name="a"
+      onChange={[Function]}
+      required={false}
+      type="text"
+    />
+  </Col>
+  <InlineMessage
+    error={null}
+    helpInline={null}
+  />
+</FormGroup>
+`;

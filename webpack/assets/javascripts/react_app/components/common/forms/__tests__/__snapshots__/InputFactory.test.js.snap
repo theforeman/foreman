@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputFactory rendering renders AutoComplete 1`] = `
+<FormControl
+  bsClass="form-control"
+  className=""
+  componentClass={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "Error": [Function],
+      "SearchButton": [Function],
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(AutoComplete)",
+      "type": [Function],
+    }
+  }
+  controller="bookmarks"
+  disabled={false}
+  id="form-search"
+  name="Filter[search]"
+  onChange={[Function]}
+  required={false}
+  searchQuery=""
+  type="autocomplete"
+  url="bookmarks/auto_complete"
+  useKeyShortcuts={false}
+/>
+`;
+
+exports[`InputFactory rendering renders DateTime input 1`] = `
+<FormControl
+  bsClass="form-control"
+  className=""
+  componentClass={[Function]}
+  disabled={false}
+  name="a"
+  onChange={[Function]}
+  required={false}
+  type="dateTime"
+/>
+`;
+
+exports[`InputFactory rendering renders Select 1`] = `
+<FormControl
+  bsClass="form-control"
+  className=""
+  componentClass={[Function]}
+  disabled={false}
+  id="date-time"
+  label="Grouped select"
+  name="group[groupedSelect]"
+  onChange={[Function]}
+  options={
+    Array [
+      Object {
+        "label": "Ungrouped true",
+        "value": true,
+      },
+      Object {
+        "children": Object {
+          "rnd": "Group1 opt1",
+        },
+        "groupLabel": "Group1",
+      },
+      Object {
+        "label": "Ungrouped false",
+        "value": false,
+      },
+      Object {
+        "children": Array [
+          Object {
+            "label": "Group2 opt2",
+            "value": "rnd2",
+          },
+        ],
+        "groupLabel": "Group2",
+      },
+    ]
+  }
+  required={false}
+  type="select"
+/>
+`;
+
+exports[`InputFactory rendering renders custom registered component 1`] = `
+<FormControl
+  bsClass="form-control"
+  className=""
+  componentClass={[Function]}
+  disabled={false}
+  id="own-field"
+  label="ownField"
+  name="group[ownfield]"
+  onChange={[Function]}
+  required={false}
+  type="ownInput"
+/>
+`;
+
+exports[`InputFactory rendering renders text input 1`] = `
+<FormControl
+  bsClass="form-control"
+  className=""
+  componentClass="input"
+  disabled={false}
+  name="a"
+  onChange={[Function]}
+  required={false}
+  type="text"
+/>
+`;

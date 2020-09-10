@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor rendering renders editor 1`] = `
+<div
+  id="editor-container"
+>
+  <ToastNotification
+    className=""
+    id="preview_error_toast"
+    onDismiss={[Function]}
+    type="error"
+  />
+  <EditorNavbar
+    changeDiffViewType={[Function]}
+    changeSetting={[Function]}
+    changeTab={[Function]}
+    diffViewType="split"
+    fetchAndPreview={[Function]}
+    filteredHosts={Array []}
+    hosts={
+      Array [
+        Object {
+          "id": "1",
+          "name": "host1",
+        },
+        Object {
+          "id": "2",
+          "name": "host2",
+        },
+      ]
+    }
+    importFile={[Function]}
+    isDiff={true}
+    isFetchingHosts={false}
+    isLoading={false}
+    isMasked={false}
+    isRendering={false}
+    isSearchingHosts={false}
+    isSelectOpen={false}
+    keyBinding="Default"
+    keyBindings={
+      Array [
+        "Default",
+        "Emacs",
+        "Vim",
+      ]
+    }
+    mode="Ruby"
+    modes={
+      Array [
+        "Text",
+        "Json",
+        "Ruby",
+        "Html_ruby",
+        "Sh",
+        "Xml",
+        "Yaml",
+      ]
+    }
+    onHostSearch={[Function]}
+    onHostSelectToggle={[Function]}
+    onSearchClear={[Function]}
+    previewResult="previewResult"
+    previewTemplate={[Function]}
+    renderPath=""
+    renderedEditorValue="renderedEditorValue"
+    revertChanges={[Function]}
+    searchQuery=""
+    selectedHost={
+      Object {
+        "id": "",
+        "name": "",
+      }
+    }
+    selectedView="input"
+    showError={true}
+    showHide={true}
+    showHostSelector={true}
+    showImport={true}
+    showPreview={true}
+    template="<? />"
+    theme="Monokai"
+    themes={
+      Array [
+        "Github",
+        "Monokai",
+      ]
+    }
+    toggleMaskValue={[Function]}
+    toggleModal={[Function]}
+    toggleRenderView={[Function]}
+    value="value"
+  />
+  <EditorView
+    className="ace_editor_form ace_preview"
+    isMasked={false}
+    isSelected={false}
+    key="editorPreview"
+    keyBinding="Default"
+    mode="Ruby"
+    name="editorPreview"
+    onChange={[Function]}
+    readOnly={false}
+    theme="Monokai"
+    value="value"
+  />
+  <EditorView
+    className="ace_editor_form ace_input"
+    isMasked={false}
+    isSelected={true}
+    key="editorCode"
+    keyBinding="Default"
+    mode="Ruby"
+    name="editorCode"
+    onChange={[Function]}
+    readOnly={false}
+    theme="Monokai"
+    value="value"
+  />
+  <div
+    className="hidden"
+    id="diff-table"
+  >
+    <DiffView
+      newText="value"
+      oldText="<? />"
+      patch=""
+      viewType="split"
+    />
+  </div>
+  <EditorModal
+    changeDiffViewType={[Function]}
+    changeEditorValue={[Function]}
+    diffViewType="split"
+    editorValue="value"
+    isMasked={false}
+    isMaximized={false}
+    isRendering={false}
+    key="editorModal"
+    keyBinding="Default"
+    mode="Ruby"
+    name="editor"
+    previewValue="previewResult"
+    readOnly={false}
+    selectedView="input"
+    template="<? />"
+    theme="Monokai"
+    title="title"
+    toggleModal={[Function]}
+  />
+  <textarea
+    className="hidden"
+    name="editor"
+    readOnly={true}
+    value="value"
+  />
+</div>
+`;

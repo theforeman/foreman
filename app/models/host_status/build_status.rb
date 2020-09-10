@@ -2,6 +2,7 @@ module HostStatus
   class BuildStatus < Status
     PENDING = 1
     TOKEN_EXPIRED = 2
+    BUILD_FAILED = 3
     BUILT = 0
 
     def self.status_name
@@ -16,6 +17,8 @@ module HostStatus
           N_("Token expired")
         when BUILT
           N_("Installed")
+        when BUILD_FAILED
+          N_("Installation error")
         else
           N_("Unknown build status")
       end
@@ -23,7 +26,7 @@ module HostStatus
 
     def to_global(options = {})
       case to_status
-        when TOKEN_EXPIRED
+        when TOKEN_EXPIRED, BUILD_FAILED
           HostStatus::Global::ERROR
         else
           HostStatus::Global::OK
@@ -38,7 +41,11 @@ module HostStatus
           PENDING
         end
       else
-        BUILT
+        if build_errors?
+          BUILD_FAILED
+        else
+          BUILT
+        end
       end
     end
 
@@ -47,11 +54,15 @@ module HostStatus
     end
 
     def waiting_for_build?
-      host && host.build
+      host&.build
     end
 
     def token_expired?
-      host && host.token_expired?
+      host&.token_expired?
+    end
+
+    def build_errors?
+      host && host.build_errors.present?
     end
   end
 end

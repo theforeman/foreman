@@ -1,4 +1,4 @@
-class RemoveHostgroupsCountFromPuppetclasses < ActiveRecord::Migration
+class RemoveHostgroupsCountFromPuppetclasses < ActiveRecord::Migration[4.2]
   def up
     remove_column :puppetclasses, :hostgroups_count
   end

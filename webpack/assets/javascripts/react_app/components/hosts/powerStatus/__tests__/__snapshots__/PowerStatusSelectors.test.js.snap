@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Power status selectors should return a different title on error 1`] = `"some_error"`;
+
+exports[`Power status selectors should return a power status state 1`] = `"on"`;
+
+exports[`Power status selectors should return a power status title 1`] = `"some_status_text"`;
+
+exports[`Power status selectors should return n/a state on error 1`] = `"na"`;

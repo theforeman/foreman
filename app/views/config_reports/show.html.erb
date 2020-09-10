@@ -1,41 +1,23 @@
-<%= javascript 'reports' %>
 <% title "#{@config_report.host}"%>
+<% breadcrumbs(switchable: false) %>
 
 <p class='ra'> <%= _("Reported at %s ") % @config_report.reported_at %> </p>
 <% if @offset > 10 %>
-  <div class="alert alert-block alert-danger alert-dismissable">
-    <%= alert_close %>
-    <h3><%= _("Host times seems to be adrift!") %></h3>
-    <%= (_("Host reported time is <em>%s</em>") % @config_report.reported_at).html_safe %> <br/>
-    <%= (_("Foreman report creation time is <em>%s</em>") % @config_report.created_at).html_safe %> <br/>
-    <%= (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@config_report.reported_at, @config_report.created_at, :include_seconds => true)).html_safe %>
-  </div>
+  <%= alert :class => 'alert-danger',
+    :header => _('Host times seem to be adrift!'),
+    :text => "</br>".html_safe + (_("Host reported time is <em>%s</em>") % @config_report.reported_at).html_safe + "</br>".html_safe +
+             (_("Foreman report creation time is <em>%s</em>") % @config_report.created_at).html_safe + "</br>".html_safe +
+             (_("Which is an offset of <b>%s</b>") % distance_of_time_in_words(@config_report.reported_at, @config_report.created_at, :include_seconds => true)).html_safe %>
 <% end %>
 
 <% content_for(:search_bar) {logs_show} %>
 
-<%= render 'output', :logs => @config_report.logs%>
+<%= render report_origin_output_partial(@config_report.origin), :logs => @config_report.logs %>
 <%= render 'metrics', :status => @config_report.status, :metrics => @config_report.metrics["time"] if @config_report.metrics["time"] %>
 
-<%= title_actions link_to(_('Back'), :back, :class => 'btn btn-default'),
-  display_delete_if_authorized(hash_for_config_report_path(:id => @config_report), :class=> "btn btn-danger"),
+<%= title_actions display_delete_if_authorized(hash_for_config_report_path(:id => @config_report), :class=> "btn btn-danger"),
   link_to(_("Host details"), @config_report.host, :class => 'btn btn-default'),
   link_to(_("Other reports for this host"), host_config_reports_path(@config_report.host), :class => 'btn btn-default')
 %>
 
-<div id="diff-modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title"><%= _("Diff View") %></h4>
-      </div>
-      <div  id="diff-modal-editor" class="modal-body">
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal"><%= _("Close") %></button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<%= react_component('DiffModal') %>

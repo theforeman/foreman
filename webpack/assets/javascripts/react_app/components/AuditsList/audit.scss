@@ -1,0 +1,204 @@
+#audit-list {
+  .apply-comma:not(:last-child)::after {
+    white-space: pre;
+    content: ", ";
+  }
+
+  .list-view-pf-view {
+    margin-top: 10px;
+  }
+
+  .list-view-pf-body > .list-view-pf-description {
+    width: 30%;
+    flex: 1 0 30%;
+  }
+
+  .list-group-item.list-view-pf-expand-active {
+    background-color: #def3ff;
+  }
+
+  .list-group-item {
+    &:hover {
+      background-color: #edf8ff;
+    }
+
+    .list-group-item-header {
+      .list-group-item-heading {
+        flex: 1 0 unquote("calc(30% - 20px)");
+        width: unquote("calc(30% - 20px)");
+
+        .user-grid {
+          display: grid;
+
+          .user-info {
+            font-weight: bold;
+          }
+        }
+      }
+
+      .list-view-pf-additional-info-item {
+        font-weight: 600;
+        flex: 2;
+        justify-content: flex-end;
+        text-align: right;
+        max-width: inherit;
+
+        &:last-child {
+          justify-content: flex-start;
+          text-align: left;
+          flex-grow: 3;
+          overflow: hidden;
+          overflow-wrap: break-word;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-break: break-all;
+        }
+      }
+
+      .list-view-pf-actions {
+        margin-bottom: 0;
+        margin-top: 22px;
+      }
+
+      .list-view-pf-expand {
+        margin-right: 35px;
+        margin-bottom: 10px;
+        margin-top: 18px;
+      }
+    }
+  }
+
+  .list-group-item-text {
+    width: calc(65% - 40px);
+
+    .list-view-pf-description {
+      .list-group-item-text {
+        padding-left: 30px;
+      }
+    }
+  }
+
+  .main-info-minimize-padding > .list-group-item-header {
+    .list-view-pf-main-info {
+      padding-bottom: 10px;
+      padding-top: 12px;
+    }
+  }
+
+  .main-info-maximize-padding > .list-group-item-header {
+    .list-view-pf-main-info {
+      padding-bottom: 21px;
+      padding-top: 21px;
+    }
+  }
+
+  .gray-text {
+    color: #999;
+  }
+
+  .list-group-item-container {
+    padding-top: 20px;
+    padding-left: 35px;
+
+    .actions-btns {
+      padding-bottom: 15px;
+
+      .btn {
+        float: right;
+        margin-left: 10px;
+      }
+    }
+
+    .taxonomy-section,
+    .request-uuid-column {
+      padding-left: 50px;
+      word-break: break-word;
+    }
+
+    .request-uuid-column .value {
+      font-weight: bold;
+    }
+
+    .grid-container {
+      .details-row {
+        border: 1px solid #d1d1d1;
+        margin-top: 15px;
+      }
+
+      .comment-section {
+        p {
+          margin-left: 10px;
+          margin-right: 15px;
+        }
+
+        .comment-title {
+          margin-top: 10px;
+        }
+      }
+
+      .table-inline-changes {
+        margin-top: 10px;
+      }
+
+      .table-changes {
+        margin-top: 15px;
+
+        td {
+          p {
+            margin: 0 15px;
+          }
+        }
+      }
+
+      .table-changes,
+      .table-inline-changes {
+        word-break: break-word;
+        font-weight: 600;
+
+        td {
+          padding: 5px;
+        }
+
+        td:first-child {
+          padding-left: 30px;
+        }
+      }
+
+      .table-hover > tbody > tr:hover,
+      .table-hover > tbody > tr:hover > td {
+        border: 1px solid #d1d1d1;
+      }
+
+      .table-hover > tbody > tr:hover,
+      .table-hover > tbody > tr:hover > td:first-child {
+        background-color: #fff;
+      }
+
+      .show-old {
+        background-color: #ffeef0;
+      }
+
+      .show-new {
+        background-color: #e6ffed;
+      }
+
+      .table-inline-changes.table-hover.show-new > tbody > tr:hover > td,
+      .table-inline-changes.table-hover.show-new > tbody > tr:hover > th {
+        background-color: #e6ffed;
+      }
+
+      .table-inline-changes.table-hover.show-old > tbody > tr:hover > td,
+      .table-inline-changes.table-hover.show-old > tbody > tr:hover > th {
+        background-color: #ffeef0;
+      }
+
+      .editor-section {
+        margin-top: 15px;
+
+        .editor.ace_editor {
+          border: 1px solid #d1d1d1;
+        }
+      }
+    }
+  }
+}

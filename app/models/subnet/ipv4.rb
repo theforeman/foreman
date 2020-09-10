@@ -9,6 +9,7 @@ class Subnet::Ipv4 < Subnet
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
 
   validates :mask, :format => {:with => Net::Validations::MASK_REGEXP}
+  validates :mtu, :numericality => {:only_integer => true, :greater_than_or_equal_to => 68, :less_than_or_equal_to => 65536}
 
   before_validation :cleanup_addresses
 
@@ -25,7 +26,7 @@ class Subnet::Ipv4 < Subnet
   end
 
   def self.supported_ipam_modes
-    [:dhcp, :db, :none]
+    [:dhcp, :db, :random_db, :external_ipam, :none]
   end
 
   def self.show_mask?
@@ -72,9 +73,8 @@ class Subnet::Ipv4 < Subnet
   private
 
   def cleanup_ip(address)
-    address.gsub!(/\.\.+/, ".")
-    address.gsub!(/2555+/, "255")
-    address
+    address.gsub(/\.\.+/, ".").
+            gsub(/2555+/, "255")
   end
 
   def normalize_ip(address)

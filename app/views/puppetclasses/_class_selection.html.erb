@@ -9,29 +9,46 @@
   <div class="col-md-4 classes">
     <h3><%= _('Included Classes') %></h3>
 
-    <%= hidden_field_tag "#{type}[puppetclass_ids][]" %>
-
     <ul id="selected_classes">
       <% if authorized_for(:controller => :host_editing, :action => :edit_classes) %>
+        <%= hidden_field_tag "#{obj_type(obj)}[puppetclass_ids][]" %>
         <%= render :partial => "puppetclasses/selectedClasses",
-          :collection => obj.individual_puppetclasses ,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
+          :collection => obj.individual_puppetclasses,:as => :klass, :locals => { :type => obj_type(obj), :host => obj } %>
         <% unless controller_name == 'config_groups' %>
             <%= render :partial => "puppetclasses/classes_in_groups",
           :collection => obj.classes_in_groups ,:as => :klass, :locals => { :type => obj_type(obj), :obj => obj } %>
         <% end %>
       <% else %>
+
         <% obj.puppetclasses.each do |klass| %>
           <li data-original-title="<%= _('Not authorized to edit classes') %>" rel="twipsy" ><%= h klass.name %></li>
         <% end %>
       <% end %>
     </ul>
 
-    <% if (obj.kind_of?(Host::Base) && obj.hostgroup) || (obj.kind_of?(Hostgroup) && obj.parent) %>
-      <%= content_tag(:ul, :id => 'inherited_ids', :'data-inherited-puppetclass-ids' => obj.parent_classes.map(&:id).to_json) do %>
-        <% obj.parent_classes.each do |klass| %>
-          <li data-original-title="<%= _('included already from parent') %>" rel="twipsy" style='color:black;'><%= h klass.name %></li>
-        <% end %>
-      <% end %>
+    <% if obj.respond_to?(:parent_classes) && obj.parent_classes.size > 0 %>
+      <div class="panel-group paneless" id="inherited-classes">
+	<div class="panel">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">
+	      <a data-toggle="collapse" data-parent="#inherited-classes" href="#inherited-classes-list" class="collapsed">
+      		<%= _('Inherited Classes from %s') % obj.parent_name %>
+	      </a>
+	    </h3>
+	  </div>
+	  <div id="inherited-classes-list" class="panel-collapse collapse">
+	    <div class="panel-body">
+
+	      <%= content_tag(:ul, :id => 'inherited_ids', :'data-inherited-puppetclass-ids' => obj.parent_classes.map(&:id).to_json) do %>
+		<% obj.parent_classes.each do |klass| %>
+		  <li style='color:black;'><%= h klass.name %></li>
+		<% end %>
+	      <% end %>
+
+	    </div>
+	  </div>
+	</div>
+      </div>
     <% end %>
   </div>
 
@@ -39,7 +56,7 @@
     <h3><%= _('Available Classes') %></h3>
     <div class='clearfix'>
       <div class='form-group col-md-6'>
-        <input placeholder="<%= _('Filter classes') %>" class="form-control" onkeyup="filter_puppet_classes(this);" type='text'>
+        <input placeholder="<%= _('Filter classes') %>" class="form-control" onkeyup="tfm.classEditor.filterPuppetClasses(this);" type='text'>
       </div>
     </div>
     <div class="row">

@@ -1,7 +1,0 @@
-<% if bookmarks.any? %>
-<ul class='dropdown-menu'>
-  <% bookmarks.each do |bookmark| %>
-      <li><%= link_to_if_authorized bookmark.name, send("hash_for_#{bookmark.controller}_path").merge(:search => bookmark.query) %></li>
-  <% end %>
-</ul>
-<% end %>

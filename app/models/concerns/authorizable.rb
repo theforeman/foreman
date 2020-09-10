@@ -1,11 +1,40 @@
 module Authorizable
   extend ActiveSupport::Concern
+  include PermissionName
+
+  def check_permissions_after_save
+    return true if Thread.current[:ignore_permission_check]
+
+    authorizer = Authorizer.new(User.current)
+    creation = saved_change_to_id?
+    name = permission_name(creation ? :create : :edit)
+
+    Foreman::Logging.logger('permissions').debug { "verifying the transaction by permission #{name} for class #{self.class}" }
+    unless authorizer.can?(name, self, false)
+      errors.add :base, _("You don't have permission %{name} with attributes that you have specified or you don't have access to specified organizations or locations") % { :name => name }
+
+      # This is required in case the rollback happend, the instance must look like new record so that all url helpers work correctly. Rails don't rollback these attributes.
+      if creation
+        self.id = nil
+        @new_record = true
+      end
+
+      # we need to rollback orchestration tasks if this object orchestrates something
+      if self.class.included_modules.include?(Orchestration)
+        send :fail_queue, queue
+      end
+
+      raise ActiveRecord::Rollback
+    end
+  end
+
+  def authorized?(permission)
+    return false if User.current.nil?
+    User.current.can?(permission, self)
+  end
 
   included do
-    def authorized?(permission)
-      return false if User.current.nil?
-      User.current.can?(permission, self)
-    end
+    after_save :check_permissions_after_save
   end
 
   module ClassMethods
@@ -19,10 +48,10 @@ module Authorizable
     #
     # Or you may simply use authorized for User.current
     def authorized_as(user, permission, resource = nil)
-      if user.nil?
-        self.where('1=0')
+      if user.nil? || user.disabled?
+        where('1=0')
       elsif user.admin?
-        self.where(nil)
+        where(nil)
       else
         Authorizer.new(user).find_collection(resource || self, :permission => permission)
       end
@@ -42,15 +71,15 @@ module Authorizable
     # any extra conditions can be given in `opts[:where]`.
     #
     def joins_authorized_as(user, resource, permission, opts = {})
-      if user.nil?
-        self.where('1=0')
+      if user.nil? || user.disabled?
+        where('1=0')
       else
         Authorizer.new(user).find_collection(resource, {:permission => permission, :joined_on => self}.merge(opts))
       end
     end
 
     def allows_taxonomy_filtering?(taxonomy)
-      scoped_search_definition.fields.has_key?(taxonomy)
+      scoped_search_definition&.fields&.has_key?(taxonomy.to_sym)
     end
 
     def allows_organization_filtering?
@@ -67,6 +96,13 @@ module Authorizable
 
     def joins_authorized(resource, permission = nil, opts = {})
       joins_authorized_as(User.current, resource, permission, opts)
+    end
+
+    def skip_permission_check
+      original_value, Thread.current[:ignore_permission_check] = Thread.current[:ignore_permission_check], true
+      yield
+    ensure
+      Thread.current[:ignore_permission_check] = original_value
     end
   end
 end

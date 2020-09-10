@@ -1,0 +1,23 @@
+<script type="text/javascript">
+  function foreman_register_copy_configuration_to_clipboard(text) {
+    var aux = document.createElement("textarea");
+    $(aux).html(text);
+    document.body.appendChild(aux);
+    aux.select();
+    document.execCommand("copy");
+    document.body.removeChild(aux);
+  }
+</script>
+
+<div style="max-width: 600px">
+<% if @host.registration_template %>
+  <p><%= _('This host can be registered to Foreman by executing this command:') %></p>
+
+  <pre class="terminal" id="registration_command">
+  curl <%= @host.registration_url %> | bash
+  </pre>
+  <%= link_to _('Copy to clipboard'), nil, class: 'btn btn-default', onclick: 'foreman_register_copy_configuration_to_clipboard($("#registration_command").html()); return false;' %>
+<% else %>
+  <p><%= _('This host can not be enrolled with Foreman as no registration template was set.') %></p>
+<% end %>
+</div>

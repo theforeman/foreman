@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete actions should load results and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "error": null,
+        "id": "some-id",
+        "searchQuery": "x = y",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search",
+      },
+      "type": "AUTO_COMPLETE_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "error": "oops",
+        "id": "some-id",
+        "isErrorVisible": true,
+        "results": Array [],
+        "status": "ERROR",
+      },
+      "type": "AUTO_COMPLETE_FAILURE",
+    },
+  ],
+]
+`;
+
+exports[`AutoComplete actions should load results and success 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "error": null,
+        "id": "some-id",
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "models/auto_complete_search",
+      },
+      "type": "AUTO_COMPLETE_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "id": "some-id",
+        "results": Array [
+          Object {
+            "category": "category",
+            "label": "some results",
+          },
+        ],
+        "status": "RESOLVED",
+      },
+      "type": "AUTO_COMPLETE_SUCCESS",
+    },
+  ],
+]
+`;
+
+exports[`AutoComplete actions should reset-data 1`] = `
+Object {
+  "payload": Object {
+    "controller": "models",
+    "id": "some-id",
+  },
+  "type": "AUTO_COMPLETE_RESET",
+}
+`;
+
+exports[`AutoComplete actions should update disability 1`] = `
+Object {
+  "payload": Object {
+    "disabled": true,
+    "id": "some-id",
+  },
+  "type": "AUTO_COMPLETE_DISABLED_CHANGE",
+}
+`;
+
+exports[`AutoComplete actions should update store with initial data 1`] = `
+Object {
+  "payload": Object {
+    "controller": "models",
+    "disabled": false,
+    "error": "oops",
+    "id": "some-id",
+    "isErrorVisible": true,
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+    "url": "models/auto_complete_search",
+  },
+  "type": "AUTO_COMPLETE_INIT",
+}
+`;
+
+exports[`AutoComplete actions updateController 1`] = `
+Object {
+  "payload": Object {
+    "controller": "models",
+    "id": "some-id",
+    "trigger": "CONTROLLER_CHANGED",
+    "url": "models/auto_complete_search",
+  },
+  "type": "AUTO_COMPLETE_CONTROLLER_CHANGE",
+}
+`;

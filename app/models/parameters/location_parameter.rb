@@ -1,6 +1,5 @@
 class LocationParameter < Parameter
-  belongs_to :location, :foreign_key => :reference_id, :inverse_of => :location_parameters
-  audited :except => [:priority], :associated_with => :location
+  audited :except => [:priority, :searchable_value], :associated_with => :location
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :location, :presence => true
 

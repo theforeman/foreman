@@ -1,2 +1,8 @@
-<% title_actions multiple_actions_select, button_group(new_link(_("New Host"))) %>
+<% title_actions multiple_actions_select, csv_link, button_group(new_link(_("Create Host"))) %>
+<%= alert(:class => 'alert-info hide', :id => 'multiple-alert', :close => false, :header => '',
+          :text => n_("Single host on this page is selected.",
+                      "All %{per_page} hosts on this page are selected.", per_page(@hosts)).html_safe % {per_page: per_page(@hosts)} + ' ' +
+                   link_to_function(n_("Select this host",
+                                       "Select all <b> %{total} </b> hosts", @hosts.total_entries).html_safe % {total: @hosts.total_entries},
+                                    "tfm.hosts.table.multipleSelection()")) %>
 <%= render 'list', :hosts => @hosts, :header => @title || _("Hosts")  %>

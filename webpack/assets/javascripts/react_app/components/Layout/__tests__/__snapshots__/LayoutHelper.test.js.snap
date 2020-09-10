@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LayoutHelper should combineMenuItems 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "exact": true,
+        "name": "Dashboard",
+        "type": "item",
+        "url": "/",
+      },
+      Object {
+        "name": "Facts",
+        "type": "item",
+        "url": "/fact_values",
+      },
+    ],
+    "className": "",
+    "icon": "fa fa-tachometer",
+    "name": "Monitor",
+    "type": "sub_menu",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "name": "All Hosts",
+        "type": "item",
+        "url": "/hosts/new",
+      },
+      Object {
+        "name": "Architectures",
+        "type": "item",
+        "url": "/architectures",
+      },
+    ],
+    "className": "",
+    "icon": "fa fa-server",
+    "name": "Hosts",
+    "type": "sub_menu",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "name": "Environments",
+        "type": "item",
+        "url": "/environments",
+      },
+      Object {
+        "name": "Architectures",
+        "type": "item",
+        "url": "/architectures",
+      },
+    ],
+    "className": "visible-xs-block",
+    "icon": "fa fa-wrench",
+    "name": "User",
+    "type": "sub_menu",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "name": "Domains",
+        "type": "item",
+        "url": "/domains",
+      },
+      Object {
+        "name": "Realms",
+        "type": "item",
+        "url": "/realms",
+      },
+    ],
+    "className": "",
+    "icon": "pficon pficon-network",
+    "name": "Infrastructure",
+    "type": "sub_menu",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "name": "Any Organization",
+        "onClick": [Function],
+        "url": "/organizations/clear",
+      },
+      Object {
+        "name": "org1",
+        "onClick": [Function],
+        "type": undefined,
+        "url": "/organizations/1-org1/select",
+      },
+      Object {
+        "name": "org2",
+        "onClick": [Function],
+        "type": undefined,
+        "url": "/organizations/2-org2/select",
+      },
+    ],
+    "className": "visible-xs-block",
+    "icon": "fa fa-building",
+    "name": "Organizations",
+    "type": "sub_menu",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "name": "Any Location",
+        "onClick": [Function],
+        "url": "/locations/clear",
+      },
+      Object {
+        "name": "yaml",
+        "onClick": [Function],
+        "type": undefined,
+        "url": "/locations/1-yaml/select",
+      },
+      Object {
+        "name": "london",
+        "onClick": [Function],
+        "type": undefined,
+        "url": "/locations/2-london/select",
+      },
+      Object {
+        "name": "norway",
+        "onClick": [Function],
+        "type": undefined,
+        "url": "/locations/3-norway/select",
+      },
+    ],
+    "className": "visible-xs-block",
+    "icon": "fa fa-globe",
+    "name": "Locations",
+    "type": "sub_menu",
+  },
+]
+`;
+
+exports[`LayoutHelper should getActiveMenuItem(Hosts, "/hosts/new") 1`] = `
+Object {
+  "title": "Hosts",
+}
+`;
+
+exports[`LayoutHelper should getActiveMenuItem(Monitor, null) 1`] = `
+Object {
+  "title": "Monitor",
+}
+`;
+
+exports[`LayoutHelper should getActiveMenuItem(null) 1`] = `
+Object {
+  "title": "",
+}
+`;

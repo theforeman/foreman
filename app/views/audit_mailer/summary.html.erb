@@ -5,16 +5,16 @@
            'Displaying %{num_audits} of %{total_audits} audits', @count) % {:num_audits => @limit, :total_audits => @count} %>
     <% @audits.each do |audit| %>
       <li class="item">
-        <% login = audit.user.login rescue nil
+        <% login = audit.user_login
            user_search_param = login ? "user = #{login}" : %Q{username = "#{audit.username}"} %>
         <b>
           <%= link_to(audit.username, audits_url(:search => user_search_param)) %>
           <span style="color: #cccccc"><%= audit_remote_address audit %></span>
           <%= audit_action_name audit%> <%= audited_type audit %>:
-          <%= link_to(audit_title(audit), audit_url(:id => audit), {:style => 'color: #2a6496'}) %>
+          <%= link_to(audit_title(audit), audits_url(search: "id = #{audit.id}"), {:style => 'color: #2a6496'}) %>
         </b>
         <ul style="list-style-type: none;">
-          <% details(audit).each do |detail| -%>
+          <% details(audit, audits_url(search: "id = #{audit.id}")).each do |detail| -%>
             <li>
               <%= detail %>
             </li>

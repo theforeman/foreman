@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanForm integration test should render form with errors 1`] = `
+<Alert
+  className="base in fade"
+  onDismiss={null}
+  type="warning"
+>
+  <div
+    className="alert base in fade alert-warning"
+  >
+    <Icon
+      name="warning-triangle-o"
+      type="pf"
+    >
+      <PatternflyIcon
+        className=""
+        name="warning-triangle-o"
+      >
+        <span
+          aria-hidden="true"
+          className="pficon pficon-warning-triangle-o"
+        />
+      </PatternflyIcon>
+    </Icon>
+    <AlertBody
+      title="Warning! "
+    >
+      <span>
+        <strong>
+          Warning! 
+        </strong>
+        <li
+          key="0"
+        >
+          does not have enough vitamins
+        </li>
+        <li
+          key="1"
+        >
+          does not have enough proteins
+        </li>
+      </span>
+    </AlertBody>
+  </div>
+</Alert>
+`;

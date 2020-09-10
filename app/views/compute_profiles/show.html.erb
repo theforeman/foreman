@@ -1,14 +1,10 @@
-<%= javascript 'compute_resource' %>
-<% title(_("Edit Compute profile: %s") % @compute_profile.name) %>
-
-<% title_actions display_link_if_authorized(_("Back"), hash_for_compute_profiles_path, :class => 'btn btn-default') %>
-
+<% title(@compute_profile.name) %>
 <p>
   <%= _("Click on the link of a compute resource to edit its default VM attributes.") %>
 </p>
 <br />
 
-<table class="<%= table_css_classes 'table-two-pane' %>">
+<table class="<%= table_css_classes %>">
   <thead>
     <tr>
       <th><%= _("Compute Resource") %></th>
@@ -24,7 +20,7 @@
                         new_compute_profile_compute_resource_compute_attribute_path(@compute_profile.to_param, compute_resource.to_param)
                       end %>
       <tr>
-        <td class="display-two-pane"><%= link_to(compute_resource.to_label, which_path, :class => compute_attribute.try(:id) ? '' : 'new_two_pane') %></td>
+        <td><%= link_to(compute_resource.to_label, which_path) %></td>
         <td>
           <% set = compute_resource.compute_attributes.where(:compute_profile_id => @compute_profile.id).first %>
           <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>

@@ -1,19 +1,25 @@
-class Realm < ActiveRecord::Base
+class Realm < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Taxonomix
+  include BelongsToProxies
 
   TYPES = ["FreeIPA", "Active Directory"]
 
   validates_lengths_from_database
-  audited
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups)
 
-  belongs_to :realm_proxy, :class_name => "SmartProxy"
+  belongs_to_proxy :realm_proxy,
+    :feature => 'Realm',
+    :label => N_('Realm proxy'),
+    :description => N_('Realm proxy to use within this realm'),
+    :api_description => N_('Proxy ID to use within this realm'),
+    :required => true
+
   has_many_hosts
   has_many :hostgroups
-  validates :realm_proxy, :proxy_features => { :feature => "Realm", :message => N_('does not have the Realm feature') }
 
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :realm_type, :complete_value => true, :rename => :type
@@ -28,7 +34,12 @@ class Realm < ActiveRecord::Base
     end
   }
 
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { example: 'EXAMPLE.COM' }
+    property :realm_type, String, desc: 'Realm type, e.g. FreeIPA or Active Directory'
+  end
   class Jail < ::Safemode::Jail
-    allow :name, :realm_type
+    allow :id, :name, :realm_type
   end
 end

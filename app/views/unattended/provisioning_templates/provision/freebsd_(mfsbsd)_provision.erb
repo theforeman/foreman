@@ -1,0 +1,31 @@
+<%#
+kind: provision
+name: FreeBSD (mfsBSD) provision
+model: ProvisioningTemplate
+oses:
+- FreeBSD
+%>
+<%
+proxy_string = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''
+%>
+<% unless proxy_string == '' -%>
+export http_proxy='<%= proxy_string %>'
+<% end -%>
+
+# Get the disk layout, and the first disk connected to the system
+disk_layout=`/sbin/sysctl -n kern.disks | /usr/bin/sed 's/cd[0-9]//g'`
+first_disk="`echo ${disk_layout##*[1-9]} | /usr/bin/cut -d' ' -f1`"
+test -z "$first_disk" || echo "First disk: $first_disk"
+
+/root/bin/destroygeom -d <%= host_param('install-disk') || '$first_disk' %> || exit 1
+/root/bin/zfsinstall -d <%= host_param('install-disk') || '$first_disk' %> -s 2G -u <%= @mediapath %> || exit 1
+
+cp /etc/resolv.conf /mnt/etc/resolv.conf
+mount -t devfs devfs /mnt/dev
+fetch -q --no-verify-hostname --no-verify-peer -o /mnt/tmp/finish.sh -d <%= foreman_url('finish') %>
+chroot /mnt /bin/sh /tmp/finish.sh
+rm /mnt/tmp/finish.sh
+
+fetch -q --no-verify-hostname --no-verify-peer -o /dev/null -d <%= foreman_url('built') %>
+sleep 5
+reboot

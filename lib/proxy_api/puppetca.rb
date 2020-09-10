@@ -1,12 +1,12 @@
 module ProxyAPI
   class Puppetca < ProxyAPI::Resource
     def initialize(args)
-      @url  = args[:url] + "/puppet/ca"
+      @url = args[:url] + "/puppet/ca"
       super args
     end
 
     def autosign
-      parse(get "autosign")
+      parse(get("autosign"))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to get PuppetCA autosign"))
     end

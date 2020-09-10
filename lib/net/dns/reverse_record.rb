@@ -24,7 +24,7 @@ module Net
 
       # Returns an array of record objects which are conflicting with our own
       def conflicts
-        @conflicts ||= [dns_lookup(ip)].delete_if{|c| c == self}.compact
+        @conflicts ||= [dns_lookup(ip)].delete_if { |c| c == self }.compact
       end
 
       # Verifies that a record already exists on the dns server

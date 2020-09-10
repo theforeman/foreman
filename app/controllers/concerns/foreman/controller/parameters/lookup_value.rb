@@ -4,11 +4,14 @@ module Foreman::Controller::Parameters::LookupValue
   class_methods do
     def lookup_value_params_filter
       Foreman::ParameterFilter.new(::LookupValue).tap do |filter|
+        filter.permit :smart_class_parameter_id,
+          :smart_variable_id
+
         filter.permit_by_context :hidden_value,
           :host_or_hostgroup,
           :lookup_key, :lookup_key_id,
           :match,
-          :use_puppet_default,
+          :omit,
           :value,
           :nested => true
 

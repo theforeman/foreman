@@ -2,7 +2,7 @@
   <%= base_errors_for @domain %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("Domain") %></a></li>
-    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+    <% if authorizer.can?(:view_params) %>
       <li><a href="#params" data-toggle="tab"><%= _("Parameters") %></a></li>
     <% end %>
     <% if show_location_tab? %>
@@ -16,13 +16,11 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="primary">
-      <%= text_f   f, :name, :help_inline => _("The full DNS domain name") %>
+      <%= text_f   f, :name, :label => _("DNS Domain"), :help_inline => _("The full DNS domain name") %>
       <%= text_f   f, :fullname, :help_inline => _("Full name describing the domain") %>
-      <%= select_f f, :dns_id, Feature.find_by_name("DNS").smart_proxies, :id, :name,
-        {:include_blank => _("None")}, {:label => _("DNS Proxy"), :help_inline => _("DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy")}
-      %>
+      <%= smart_proxy_fields f %>
     </div>
-    <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
+    <% if authorizer.can?("view_params") %>
       <div class="tab-pane" id="params">
         <%= render "common_parameters/parameters", { :f => f, :type => :domain_parameters } %>
       </div>

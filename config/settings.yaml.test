@@ -1,8 +1,5 @@
 ---
 :unattended: true
-:login: true
 :require_ssl: false
-:locations_enabled: true
-:organizations_enabled: true
 :fqdn: foreman.example.com
 :domain: example.com

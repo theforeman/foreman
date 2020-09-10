@@ -1,3 +1,3 @@
 group :ovirt do
-  gem 'rbovirt', '~> 0.1.1'
+  gem 'fog-ovirt', '~> 1.2.5'
 end

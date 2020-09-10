@@ -1,9 +1,9 @@
 class ConfigReport < Report
   METRIC = %w[applied restarted failed failed_restarts skipped pending]
   BIT_NUM = 6
-  MAX = (1 << BIT_NUM) -1 # maximum value per metric
+  MAX = (1 << BIT_NUM) - 1 # maximum value per metric
 
-  scoped_search :on => :status, :offset => 0, :word_size => 4*BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
+  scoped_search :on => :status, :offset => 0, :word_size => 4 * BIT_NUM, :complete_value => {:true => true, :false => false}, :rename => :eventful
 
   scoped_search_status 'applied',         :on => :status, :rename => :applied
   scoped_search_status 'restarted',       :on => :status, :rename => :restarted
@@ -36,14 +36,14 @@ class ConfigReport < Report
   # it is not supported to edit status values after it has been written once.
   def status=(st)
     s = case st
-          when Integer, Fixnum
+          when Integer
             st
           when Hash
             ConfigReportStatusCalculator.new(:counters => st).calculate
           else
             raise Foreman::Exception(N_('Unsupported report status format'))
         end
-    write_attribute(:status, s)
+    self[:status] = s
   end
 
   def config_retrieval
@@ -64,7 +64,7 @@ class ConfigReport < Report
     hosts.flatten.each do |host|
       # set default of 0 per metric
       metrics = {}
-      METRIC.each {|m| metrics[m] = 0 }
+      METRIC.each { |m| metrics[m] = 0 }
       host.reports.recent(time).select(:status).each do |r|
         metrics.each_key do |m|
           metrics[m] += r.status_of(m)
@@ -85,6 +85,6 @@ class ConfigReport < Report
   delegate(*METRIC, :to => :calculator)
 
   def calculator
-    ConfigReportStatusCalculator.new(:bit_field => read_attribute(self.class.report_status_column))
+    ConfigReportStatusCalculator.new(:bit_field => self[self.class.report_status_column])
   end
 end

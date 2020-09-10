@@ -1,6 +1,6 @@
 
 <%= select_f f, :architecture_id, accessible_resource(f.object, :architecture), :id, :to_label, {:include_blank => true},
-    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'),
+    {:onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected'), :'data-type' => controller_name.singularize,
     :help_inline => :indicator, :required => true} %>
 
 <span id="os_select">
@@ -22,11 +22,12 @@
 <% end %>
 
 <div id='root_password'>
-  <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true, :unset => action_name == "edit" %>
+  <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more"), :required => true,
+                 :unset => action_name == "edit", :keep_value => action_name == "clone"  %>
 </div>
 <!-- this section is used for displaying the provisioning scripts-->
 <div class="form-group">
-  <label class="col-xs-2 control-label"><%= _('Provisioning templates') %></label>
+  <label class="col-xs-2 control-label"><%= _('Provisioning Templates') %></label>
   <div class="col-xs-10">
     <%= link_to_function icon_text("refresh", _("Resolve")), "template_info('#templates_info','#{template_used_hosts_url(:id => @host.id)}')", :class => "btn btn-default" %>
     <div class="help-block">

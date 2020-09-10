@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MessageBox the icon has pficon and pficon-info classes 1`] = `
+<div
+  className="message-box-root"
+>
+  <div
+    className="pficon pficon-info message-box-content message-box-icon"
+  />
+  <div
+    className="message-box-content message-box-message"
+  >
+    this is some text
+  </div>
+</div>
+`;
+
+exports[`MessageBox the icon has pficon and pficon-info classes with error icon 1`] = `
+<div
+  className="message-box-root"
+>
+  <div
+    className="pficon pficon-error-circle-o message-box-content message-box-icon"
+  />
+  <div
+    className="message-box-content message-box-message"
+  >
+    this is some text
+  </div>
+</div>
+`;
+
+exports[`MessageBox the message displays This is another message 1`] = `
+<div
+  className="message-box-root"
+>
+  <div
+    className="pficon pficon-warning message-box-content message-box-icon"
+  />
+  <div
+    className="message-box-content message-box-message"
+  >
+    This is another message
+  </div>
+</div>
+`;
+
+exports[`MessageBox the message displays this is some text 1`] = `
+<div
+  className="message-box-root"
+>
+  <div
+    className="pficon pficon-info message-box-content message-box-icon"
+  />
+  <div
+    className="message-box-content message-box-message"
+  >
+    this is some text
+  </div>
+</div>
+`;

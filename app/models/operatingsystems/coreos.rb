@@ -1,28 +1,34 @@
 class Coreos < Operatingsystem
   PXEFILES = {:kernel => 'coreos_production_pxe.vmlinuz', :initrd => 'coreos_production_pxe_image.cpio.gz'}
 
-  class << self
-    delegate :model_name, :to => :superclass
-  end
-
   def pxe_type
     'coreos'
   end
 
-  def mediumpath(host)
-    medium_uri(host, "#{host.medium.path}/#{host.architecture.name}-usr").to_s.gsub('x86_64','amd64')
+  def bootfile(medium_provider, type)
+    super.sub('coreos_', "#{pxe_file_prefix}_")
   end
 
-  def url_for_boot(file)
-    PXEFILES[file]
+  def mediumpath(medium_provider)
+    medium_provider.medium_uri('$arch-usr/') do |vars|
+      transform_vars(vars)
+    end.to_s
   end
 
-  def pxedir
-    '$arch/$version'
+  def pxedir(medium_provider = nil)
+    '$arch-usr/$version'
   end
 
-  def boot_files_uri(medium, architecture, host = nil)
-    super(medium, architecture, host).each{ |img_uri| img_uri.path = img_uri.path.gsub('x86_64','amd64-usr') }
+  def boot_file_sources(medium_provider, &block)
+    sources = super do |vars|
+      vars = yield(vars) if block_given?
+
+      transform_vars(vars)
+    end
+
+    sources.transform_values do |url|
+      url.sub('/coreos_', "/#{pxe_file_prefix}_")
+    end
   end
 
   def display_family
@@ -32,5 +38,16 @@ class Coreos < Operatingsystem
   # Does this OS family use release_name in its naming scheme
   def use_release_name?
     true
+  end
+
+  private
+
+  # tries to guess if this a flatcar or original coreos container linux
+  def pxe_file_prefix
+    (name =~ /flatcar/i) ? 'flatcar' : 'coreos'
+  end
+
+  def transform_vars(vars)
+    vars[:arch] = vars[:arch].sub('x86_64', 'amd64')
   end
 end

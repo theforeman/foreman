@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   match: fqdn=my5name.mydomain.net
   lookup_key: one

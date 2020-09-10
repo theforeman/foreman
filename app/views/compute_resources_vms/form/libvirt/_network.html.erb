@@ -4,8 +4,8 @@
 
 <%= selectable_f f, :type, libvirt_networks(compute_resource), {},
                  { :label    => _('Network type'),
-                   :disabled => !new_host,
-                   :onchange => 'libvirt_network_selected(this)',
+                   :disabled => !new_vm,
+                   :onchange => 'tfm.computeResource.libvirt.networkSelected(this)',
                    :class => 'libvirt_network',
                    :label_size => "col-md-3"
                  } %>
@@ -13,27 +13,24 @@
 <div id='nat' class='<%= 'hide' if f.object.type != 'network' %>'>
   <%= selectable_f f, :network, nat.map(&:name),
                    { :include_blank => nat.any? ? false : _("No networks") },
-                   { :class => "libvirt_nat", :label => _("Network"), :disabled => (f.object.type != 'network' || !new_host), :label_size => "col-md-3" } %>
+                   { :class => "libvirt_nat", :label => _("Network"), :disabled => (f.object.type != 'network' || !new_vm), :label_size => "col-md-3" } %>
 </div>
 
 <div id='bridge' class='<%= 'hide' if f.object.type && (f.object.type != 'bridge') %>'>
   <% if bridges.any? %>
     <%= selectable_f f, :bridge, bridges.map(&:name),
                      { :include_blank => bridges.any? ? false : _("No bridges") },
-                     { :class => "libvirt_bridge", :label => _("Network"), :disabled => !new_host, :label_size => "col-md-3" } %>
+                     { :class => "libvirt_bridge", :label => _("Network"), :disabled => !new_vm, :label_size => "col-md-3" } %>
   <% else %>
     <%= text_f f, :bridge,
       :class => "libvirt_bridge",
       :label => _("Network"),
-      :help_inline => popover(
-        '',
-        _('There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)'),
-        :rel => 'popover-modal'
-      ),
-      :disabled => !new_host,
+      :label_help => _('There was no active bridge interface found in libvirt, if it does not support listing, you can enter the bridge name manually (e.g. br0)'),
+      :label_help_options => { :rel => 'popover-modal' },
+      :disabled => !new_vm,
       :label_size => "col-md-3" %>
   <% end %>
 </div>
 
 <%= selectable_f f, :model, %w(virtio rtl8139 ne2k_pci pcnet e1000), {},
-                 { :label => _('NIC type'), :disabled => !new_host, :label_size => "col-md-3" } %>
+                 { :label => _('NIC type'), :disabled => !new_vm, :label_size => "col-md-3" } %>

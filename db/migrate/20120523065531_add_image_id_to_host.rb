@@ -1,4 +1,4 @@
-class AddImageIdToHost < ActiveRecord::Migration
+class AddImageIdToHost < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :image_id, :integer
   end

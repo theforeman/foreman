@@ -1,0 +1,695 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToastList should render with emptyState 1`] = `
+<Connect(ToastsList)
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <ToastsList
+    addToast={[Function]}
+    clearToasts={[Function]}
+    deleteToast={[Function]}
+    messages={Object {}}
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  />
+</Connect(ToastsList)>
+`;
+
+exports[`ToastList should render with multipleMessagesState 1`] = `
+<Connect(ToastsList)
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <ToastsList
+    addToast={[Function]}
+    clearToasts={[Function]}
+    deleteToast={[Function]}
+    messages={
+      Object {
+        "1": Object {
+          "message": "Message number 1.",
+          "type": "success",
+        },
+        "2": Object {
+          "link": Object {
+            "children": "google!",
+            "href": "google.com",
+          },
+          "message": "Message number 2.",
+          "type": "warning",
+        },
+        "3": Object {
+          "link": Object {
+            "children": "google!",
+            "href": "google.com",
+          },
+          "message": "Message number 3.",
+          "type": "error",
+        },
+      }
+    }
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="toast-notifications-list-pf"
+        onFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        <TimedToastNotification
+          className=""
+          key=".$1"
+          onDismiss={[Function]}
+          paused={false}
+          timerdelay={8000}
+          type="success"
+        >
+          <ToastNotification
+            className=""
+            onDismiss={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            type="success"
+          >
+            <Alert
+              className="toast-pf"
+              onDismiss={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="success"
+            >
+              <div
+                className="alert toast-pf alert-success alert-dismissable"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                <Button
+                  active={false}
+                  aria-hidden="true"
+                  block={false}
+                  bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    aria-hidden="true"
+                    className="close close-default"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Icon
+                      name="close"
+                      type="pf"
+                    >
+                      <PatternflyIcon
+                        className=""
+                        name="close"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
+                </Button>
+                <Icon
+                  name="ok"
+                  type="pf"
+                >
+                  <PatternflyIcon
+                    className=""
+                    name="ok"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pficon pficon-ok"
+                    />
+                  </PatternflyIcon>
+                </Icon>
+                <AlertBody
+                  message="Message number 1."
+                >
+                  <span>
+                    Message number 1.
+                  </span>
+                </AlertBody>
+              </div>
+            </Alert>
+          </ToastNotification>
+        </TimedToastNotification>
+        <TimedToastNotification
+          className=""
+          key=".$2"
+          onDismiss={[Function]}
+          paused={false}
+          timerdelay={8000}
+          type="warning"
+        >
+          <ToastNotification
+            className=""
+            onDismiss={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            type="warning"
+          >
+            <Alert
+              className="toast-pf"
+              onDismiss={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="warning"
+            >
+              <div
+                className="alert toast-pf alert-warning alert-dismissable"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                <Button
+                  active={false}
+                  aria-hidden="true"
+                  block={false}
+                  bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    aria-hidden="true"
+                    className="close close-default"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Icon
+                      name="close"
+                      type="pf"
+                    >
+                      <PatternflyIcon
+                        className=""
+                        name="close"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
+                </Button>
+                <Icon
+                  name="warning-triangle-o"
+                  type="pf"
+                >
+                  <PatternflyIcon
+                    className=""
+                    name="warning-triangle-o"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pficon pficon-warning-triangle-o"
+                    />
+                  </PatternflyIcon>
+                </Icon>
+                <AlertBody
+                  link={
+                    Object {
+                      "children": "google!",
+                      "href": "google.com",
+                    }
+                  }
+                  message="Message number 2."
+                >
+                  <span>
+                    <AlertLink
+                      href="google.com"
+                    >
+                      <div
+                        className="pull-right toast-pf-action"
+                      >
+                        <a
+                          href="google.com"
+                        >
+                          google!
+                        </a>
+                      </div>
+                    </AlertLink>
+                    Message number 2.
+                  </span>
+                </AlertBody>
+              </div>
+            </Alert>
+          </ToastNotification>
+        </TimedToastNotification>
+        <TimedToastNotification
+          className=""
+          key=".$3"
+          onDismiss={[Function]}
+          paused={false}
+          timerdelay={8000}
+          type="error"
+        >
+          <ToastNotification
+            className=""
+            onDismiss={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            type="error"
+          >
+            <Alert
+              className="toast-pf"
+              onDismiss={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="error"
+            >
+              <div
+                className="alert toast-pf alert-danger alert-dismissable"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                <Button
+                  active={false}
+                  aria-hidden="true"
+                  block={false}
+                  bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    aria-hidden="true"
+                    className="close close-default"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Icon
+                      name="close"
+                      type="pf"
+                    >
+                      <PatternflyIcon
+                        className=""
+                        name="close"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
+                </Button>
+                <Icon
+                  name="error-circle-o"
+                  type="pf"
+                >
+                  <PatternflyIcon
+                    className=""
+                    name="error-circle-o"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pficon pficon-error-circle-o"
+                    />
+                  </PatternflyIcon>
+                </Icon>
+                <AlertBody
+                  link={
+                    Object {
+                      "children": "google!",
+                      "href": "google.com",
+                    }
+                  }
+                  message="Message number 3."
+                >
+                  <span>
+                    <AlertLink
+                      href="google.com"
+                    >
+                      <div
+                        className="pull-right toast-pf-action"
+                      >
+                        <a
+                          href="google.com"
+                        >
+                          google!
+                        </a>
+                      </div>
+                    </AlertLink>
+                    Message number 3.
+                  </span>
+                </AlertBody>
+              </div>
+            </Alert>
+          </ToastNotification>
+        </TimedToastNotification>
+      </div>
+    </ToastNotificationList>
+  </ToastsList>
+</Connect(ToastsList)>
+`;
+
+exports[`ToastList should render with singleMessageState 1`] = `
+<Connect(ToastsList)
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <ToastsList
+    addToast={[Function]}
+    clearToasts={[Function]}
+    deleteToast={[Function]}
+    messages={
+      Object {
+        "1": Object {
+          "message": "Widget positions successfully saved.",
+          "type": "success",
+        },
+      }
+    }
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="toast-notifications-list-pf"
+        onFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        <TimedToastNotification
+          className=""
+          key=".$1"
+          onDismiss={[Function]}
+          paused={false}
+          timerdelay={8000}
+          type="success"
+        >
+          <ToastNotification
+            className=""
+            onDismiss={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            type="success"
+          >
+            <Alert
+              className="toast-pf"
+              onDismiss={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="success"
+            >
+              <div
+                className="alert toast-pf alert-success alert-dismissable"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                <Button
+                  active={false}
+                  aria-hidden="true"
+                  block={false}
+                  bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    aria-hidden="true"
+                    className="close close-default"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Icon
+                      name="close"
+                      type="pf"
+                    >
+                      <PatternflyIcon
+                        className=""
+                        name="close"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
+                </Button>
+                <Icon
+                  name="ok"
+                  type="pf"
+                >
+                  <PatternflyIcon
+                    className=""
+                    name="ok"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pficon pficon-ok"
+                    />
+                  </PatternflyIcon>
+                </Icon>
+                <AlertBody
+                  message="Widget positions successfully saved."
+                >
+                  <span>
+                    Widget positions successfully saved.
+                  </span>
+                </AlertBody>
+              </div>
+            </Alert>
+          </ToastNotification>
+        </TimedToastNotification>
+      </div>
+    </ToastNotificationList>
+  </ToastsList>
+</Connect(ToastsList)>
+`;
+
+exports[`ToastList should render with singleMessageWithLinkState 1`] = `
+<Connect(ToastsList)
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <ToastsList
+    addToast={[Function]}
+    clearToasts={[Function]}
+    deleteToast={[Function]}
+    messages={
+      Object {
+        "1": Object {
+          "link": Object {
+            "children": "hi link!",
+            "href": "google.com",
+          },
+          "message": "Widget positions successfully saved.",
+          "type": "success",
+        },
+      }
+    }
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <ToastNotificationList
+      className=""
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+    >
+      <div
+        className="toast-notifications-list-pf"
+        onFocus={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseOver={[Function]}
+      >
+        <TimedToastNotification
+          className=""
+          key=".$1"
+          onDismiss={[Function]}
+          paused={false}
+          timerdelay={8000}
+          type="success"
+        >
+          <ToastNotification
+            className=""
+            onDismiss={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            type="success"
+          >
+            <Alert
+              className="toast-pf"
+              onDismiss={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="success"
+            >
+              <div
+                className="alert toast-pf alert-success alert-dismissable"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+              >
+                <Button
+                  active={false}
+                  aria-hidden="true"
+                  block={false}
+                  bsClass="close"
+                  bsStyle="default"
+                  disabled={false}
+                  onClick={[Function]}
+                >
+                  <button
+                    aria-hidden="true"
+                    className="close close-default"
+                    disabled={false}
+                    onClick={[Function]}
+                    type="button"
+                  >
+                    <Icon
+                      name="close"
+                      type="pf"
+                    >
+                      <PatternflyIcon
+                        className=""
+                        name="close"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pficon pficon-close"
+                        />
+                      </PatternflyIcon>
+                    </Icon>
+                  </button>
+                </Button>
+                <Icon
+                  name="ok"
+                  type="pf"
+                >
+                  <PatternflyIcon
+                    className=""
+                    name="ok"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="pficon pficon-ok"
+                    />
+                  </PatternflyIcon>
+                </Icon>
+                <AlertBody
+                  link={
+                    Object {
+                      "children": "hi link!",
+                      "href": "google.com",
+                    }
+                  }
+                  message="Widget positions successfully saved."
+                >
+                  <span>
+                    <AlertLink
+                      href="google.com"
+                    >
+                      <div
+                        className="pull-right toast-pf-action"
+                      >
+                        <a
+                          href="google.com"
+                        >
+                          hi link!
+                        </a>
+                      </div>
+                    </AlertLink>
+                    Widget positions successfully saved.
+                  </span>
+                </AlertBody>
+              </div>
+            </Alert>
+          </ToastNotification>
+        </TimedToastNotification>
+      </div>
+    </ToastNotificationList>
+  </ToastsList>
+</Connect(ToastsList)>
+`;

@@ -1,0 +1,13 @@
+<%#
+kind: PXELinux
+name: RancherOS PXELinux
+model: ProvisioningTemplate
+oses:
+- RancherOS
+-%>
+DEFAULT rancheros
+
+LABEL rancheros
+    KERNEL <%= @kernel %>
+    APPEND rancher.state.dev=LABEL=RANCHER_STATE rancher.state.autoformat=[<%= host_param('install-disk') || '/dev/sda' %>] rancher.cloud_init.datasources=['url:<%= foreman_url('provision')-%>']
+    INITRD <%= @initrd -%>

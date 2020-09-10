@@ -1,3 +1,4 @@
+---
 mystring:
   name: MyString
   template: MyText
@@ -23,73 +24,159 @@ mystring2:
   type: ProvisioningTemplate
 
 myfinish:
-   name: MyFinish
-   template: MyFinish
-   template_kind: finish
-   operatingsystems: centos5_3, redhat, ubuntu1010
-   locked: false
-   type: ProvisioningTemplate
+  name: MyFinish
+  template: finish for <%%= @host.name %>
+  template_kind: finish
+  operatingsystems: centos5_3, redhat, ubuntu1010
+  locked: false
+  type: ProvisioningTemplate
 
 pxekickstart:
-    name: centos5_3_pxelinux
-    template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
-    template_kind: pxelinux
-    operatingsystems: centos5_3, redhat, ubuntu1010
-    locked: false
-    type: ProvisioningTemplate
+  name: centos5_3_pxelinux
+  template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ks=<%%= foreman_url("kickstart")%> ksdevice=bootif network kssendmac
+  template_kind: pxelinux
+  operatingsystems: centos5_3, redhat, ubuntu1010
+  locked: false
+  type: ProvisioningTemplate
 
 pxeautoyast:
-    name: suse_pxelinux
-    template: DEFAULT linux~LABEL linux~KERNEL <%%= @kernel %>~APPEND initrd=<%%= @initrd %> ramdisk_size=65536 install=<%%= @mediapath %> autoyast=<%%= foreman_url('provision') %> textmode=1
-    template_kind: pxelinux
-    operatingsystems: opensuse
-    locked: false
-    type: ProvisioningTemplate
+  name: suse_pxelinux
+  template: DEFAULT linux~LABEL linux~KERNEL <%%= @kernel %>~APPEND initrd=<%%= @initrd %> ramdisk_size=65536 install=<%%= @mediapath %> autoyast=<%%= foreman_url('provision') %> textmode=1
+  template_kind: pxelinux
+  operatingsystems: opensuse
+  locked: false
+  type: ProvisioningTemplate
 
 pxe_menu:
-   name: PXE Default Menu
-   template: "FOO"
-   template_kind: PXELinux
-   operatingsystems: centos5_3
-   locked: false
-   type: ProvisioningTemplate
+  name: PXE Default Menu
+  template: "FOO"
+  template_kind: pxelinux
+  operatingsystems: centos5_3
+  locked: false
+  type: ProvisioningTemplate
 
 pxe_default:
-   name: PXELinux global default
-   template: default linux~label linux~kernel <%%= @kernel %>~append initrd=<%%= @initrd %> ksdevice=bootif network kssendmac
-   template_kind: pxelinux
-   operatingsystems: centos5_3, redhat
-   locked: false
-   type: ProvisioningTemplate
+  name: PXELinux global default
+  template: |
+    DEFAULT menu
+    <%% unless @profiles.nil? -%>
+    <%% for profile in @profiles
+      url = default_template_url(profile[:template], profile[:hostgroup])
+      case profile[:pxe_type]
+      when 'kickstart'
+        append = "ks=#{url}"
+      when 'preseed'
+        locale = profile[:hostgroup].params['lang'] || 'en_US'
+        append = "interface=auto url=#{url}"
+      else
+        raise("PXE type #{profile[:pxe_type]} not supported by template #{template_name}")
+      end %>
+    LABEL <%%= "#{profile[:hostgroup]} - #{profile[:template]}" %>
+      KERNEL <%%= profile[:kernel] %>
+      APPEND initrd=<%%= profile[:initrd] %> <%%= append %>
+    <%% end -%>
+    <%% end -%>
+  template_kind: pxelinux
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
 
 pxe_local_default:
-   name: PXELinux default local boot
-   template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
-   template_kind: pxelinux
-   operatingsystems: centos5_3, redhat
-   locked: false
-   type: ProvisioningTemplate
+  name: PXELinux default local boot
+  template: DEFAULT menu~PROMPT 0~MENU TITLE PXE Menu~TIMEOUT 200~TOTALTIMEOUT 6000~ONTIMEOUT local~~LABEL local~MENU LABEL (local)~MENU DEFAULT~LOCALBOOT 0
+  template_kind: pxelinux
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
 
 ipxe:
-   name: iPXE Dummy Menu
-   template: "FOO"
-   template_kind: ipxe
-   operatingsystems: centos5_3
-   locked: false
-   type: ProvisioningTemplate
+  name: iPXE Dummy Menu
+  template: "FOO"
+  template_kind: ipxe
+  operatingsystems: centos5_3
+  locked: false
+  type: ProvisioningTemplate
 
 pxegrub:
-   name: PXEGrub Dummy Menu
-   template: "FOO"
-   template_kind: pxegrub
-   operatingsystems: centos5_3, redhat
-   locked: false
-   type: ProvisioningTemplate
+  name: PXEGrub Dummy Menu
+  template: "FOO"
+  template_kind: pxegrub
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
+
+pxegrub_default:
+  name: PXEGrub global default
+  template: |
+    default=0
+    <%% unless @profiles.nil? -%>
+    <%% for profile in @profiles
+      url = default_template_url(profile[:template], profile[:hostgroup])
+      case profile[:pxe_type]
+      when 'kickstart'
+        append = "ks=#{url}"
+      when 'preseed'
+        locale = profile[:hostgroup].params['lang'] || 'en_US'
+        append = "interface=auto url=#{url}"
+      else
+        raise("PXE type #{profile[:pxe_type]} not supported by template #{template_name}")
+      end %>
+    title <%%= "#{profile[:hostgroup]} - #{profile[:template]}" %>
+      kernel <%%= profile[:kernel] %> <%%= append %>
+      initrd <%%= profile[:initrd] %>
+    <%% end -%>
+    <%% end -%>
+  template_kind: pxegrub
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
+
+pxegrub2_default:
+  name: PXEGrub2 global default
+  template: |
+    default=local
+    <%% unless @profiles.nil? -%>
+    <%% for profile in @profiles
+      url = default_template_url(profile[:template], profile[:hostgroup])
+      case profile[:pxe_type]
+      when 'kickstart'
+        append = "ks=#{url}"
+      when 'preseed'
+        locale = profile[:hostgroup].params['lang'] || 'en_US'
+        append = "interface=auto url=#{url}"
+      else
+        raise("PXE type #{profile[:pxe_type]} not supported by template #{template_name}")
+      end %>
+    menuentry '<%%= "#{profile[:hostgroup]} - #{profile[:template]}" %>' {
+      linuxefi <%%= profile[:kernel] %> <%%= append %>
+      initrdefi <%%= profile[:initrd] %>
+    }
+    <%% end -%>
+    <%% end -%>
+  template_kind: pxegrub2
+  operatingsystems: centos5_3, redhat
+  locked: false
+  type: ProvisioningTemplate
 
 locked:
   name: Locked Template
   template: provision script
   template_kind: provision
   operatingsystems: centos5_3
+  locked: true
+  type: ProvisioningTemplate
+
+autopart:
+  name: Example partition table
+  template: autopart
+  operatingsystems: centos5_3
+  locked: true
+  type: Ptable
+
+global_registration:
+  name: Global Registration
+  template: 'echo "Default Global registration template"'
+  template_kind: registration
+  operatingsystems: redhat
   locked: true
   type: ProvisioningTemplate

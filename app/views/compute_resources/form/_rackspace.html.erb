@@ -1,8 +1,0 @@
-<%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. https://identity.api.rackspacecloud.com/v2.0"), :help_inline => documentation_button('5.2.8RackspaceNotes') %>
-<%= text_f f, :user %>
-<%= password_f f, :password, :label => _("API Key"), :unset => unset_password? %>
-<% flavors = f.object.flavors rescue [] %>
-<%= selectable_f(f, :region, f.object.regions, {}, {:label => _('Region'),
-                 :help_inline => link_to_function(_("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{flavors.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`URI query and stringify tests should return stringified params: stringify params 1`] = `"?page=1&per_page=21"`;
+
+exports[`URI query and stringify tests should return stringified params: stringify params w/search 1`] = `"?page=1&per_page=21&search=search"`;
+
+exports[`URI query and stringify tests should test params functions: getParams 1`] = `
+Object {
+  "page": 1,
+  "perPage": 25,
+  "searchQuery": "some-search",
+  "sort": Object {
+    "by": "name",
+    "order": "ASC",
+  },
+}
+`;

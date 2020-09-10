@@ -1,0 +1,17 @@
+#!gpxe
+<%#
+kind: iPXE
+name: AutoYaST default iPXE
+model: ProvisioningTemplate
+oses:
+- SLES
+- OpenSUSE
+%>
+
+<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
+<% kernel = boot_files_uris[0] -%>
+<% initrd = boot_files_uris[1] -%>
+
+kernel <%= kernel %> initrd=initrd.img splash=silent install=<%= medium_uri %> autoyast=<%= foreman_url('provision') %> text-mode=1 useDHCP=1
+initrd <%= initrd %>
+boot

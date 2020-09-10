@@ -13,7 +13,7 @@
       <div class="col-md-6">
         <%= show_feature_version('puppetca') %>
         <div class="row">
-          <div class="col-md-4"><%= _('Hosts managed:') %></div>
+          <div class="col-md-4"><strong><%= _('Hosts managed:') %></strong></div>
           <div class="col-md-8">
             <%= link_to Host::Managed.where(:puppet_ca_proxy_id => @smart_proxy.id).count, hosts_path(:search => "puppet_ca = \"#{@smart_proxy.name}\"") %>
           </div>
@@ -36,7 +36,7 @@
     <div class="tab-pane" id="certificates" data-ajax-url="<%= smart_proxy_puppetca_index_path(:smart_proxy_id => @smart_proxy) %>" data-on-complete="certTable"><%= spinner %></div>
   <% end %>
   <% if authorized_for(:permission => :view_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
-    <div class="tab-pane" id="autosign" data-ajax-url="<%= smart_proxy_autosign_index_path(:smart_proxy_id => @smart_proxy) %>" data-on-complete="activateDatatables"><%= spinner %></div>
+    <div class="tab-pane" id="autosign" data-ajax-url="<%= smart_proxy_autosign_index_path(:smart_proxy_id => @smart_proxy) %>" data-on-complete="tfm.tools.activateDatatables"><%= spinner %></div>
     <% if authorized_for(:permission => :create_smart_proxies_autosign, :auth_object => @smart_proxy, :authorizer => authorizer) %>
       <div data-ajax-url=<%= new_smart_proxy_autosign_path(:smart_proxy_id => @smart_proxy) %>></div>
     <% end %>

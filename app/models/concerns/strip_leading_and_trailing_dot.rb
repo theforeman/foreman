@@ -20,10 +20,10 @@ module StripLeadingAndTrailingDot
   end
 
   def strip_dots
-    self.changes.each do |column, values|
+    changes.each do |column, values|
       # return string if RuntimeError: can't modify frozen String
       if values.last.is_a?(String) && dot_strip_attrs.include?(column)
-        self.send("#{column}=", values.last.gsub(/(^\.|\.$)/, '')) if respond_to?("#{column}=")
+        send("#{column}=", values.last.gsub(/(^\.|\.$)/, '')) if respond_to?("#{column}=")
       end
     end
   end

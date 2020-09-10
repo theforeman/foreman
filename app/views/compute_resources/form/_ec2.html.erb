@@ -1,8 +1,10 @@
+<%= http_proxy_field f %>
+
 <%= text_f f, :user, :label => _("Access Key"), :help_inline => documentation_button('5.2.3EC2Notes') %>
 <%= password_f f, :password, :label => _("Secret Key"), :unset => unset_password? %>
 
+<%= checkbox_f f, :gov_cloud, :label_help => 'AWS GovCloud (US) is an isolated AWS region designed for U.S. government agencies<br>addressing their specific regulatory and compliance requirements.<br><br>If you want to use GovCloud region, check this. For all other regions, keep this unchecked.' %>
+
 <% regions = f.object.regions rescue [] %>
 <%= selectable_f(f, :region, regions, {}, {:label => _('Region'), :disabled => regions.empty?,
-                 :help_inline => link_to_function(regions.empty? ? _("Load Regions") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{regions.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+                 :help_inline_permanent => load_button_f(f, !regions.empty?, _("Load Regions")) }) %>

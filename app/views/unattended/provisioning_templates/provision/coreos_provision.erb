@@ -1,0 +1,46 @@
+#cloud-config
+<%#
+kind: provision
+name: CoreOS provision
+model: ProvisioningTemplate
+oses:
+- CoreOS
+%>
+<%
+os_major  = @host.operatingsystem.major.to_i
+%>
+coreos:
+  units:
+    - name: coreos-bootstrap.service
+      runtime: no
+      command: start
+      content: |
+        [Unit]
+        Description=Install coreos to disk
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/coreos-install \
+          -C <%= @host.operatingsystem.release_name %> \
+          -V <%= @host.operatingsystem.release %> \
+          -d <%= host_param('install-disk') || '/dev/sda' %> <% if @host.provider == 'VMware' %>-o vmware_raw<% end %> \
+          -c /home/core/cloud-config.yml <% if os_major >= 557 -%>-b <%= @mediapath %><% end %>
+        ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url('built') %>
+        ExecStartPost=/usr/sbin/reboot
+        [X-Fleet]
+        X-Conflicts=coreos-bootstrap.service
+<% if host_param('ssh_authorized_keys') -%>
+ssh_authorized_keys:
+<% host_param('ssh_authorized_keys').split(',').map{ |item| item.strip }.each do |ssh_key| -%>
+  - "<%= ssh_key %>"
+<% end -%>
+<% else -%>
+users:
+  - name: core
+    passwd: <%= root_pass %>
+<% end -%>
+write_files:
+  - content: |
+      <%= snippet 'coreos_cloudconfig' %>
+    path: /home/core/cloud-config.yml
+    permissions: '0600'
+    owner: core:core

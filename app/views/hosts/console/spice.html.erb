@@ -1,20 +1,21 @@
-<%= javascript 'spice' %>
 <% title "#{@console[:name]}" %>
 <%= title_actions(
-        button_group(link_to(_("Ctrl-Alt-Del"), "#", :id => "sendCtrlAltDelButton", :onclick => 'sendCtrlAltDel()', :class => "btn btn-default"),
-                     link_to(_("Troubleshooting"), "http://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#7.1NoVNC",
-                       :id => "troubleshootingButton", :class => "btn btn-default", :target => "_blank"),
+        button_group(link_to(_("Ctrl-Alt-Del"), "#", :id => "sendCtrlAltDelButton", :onclick => 'tfm.spice.sendCtrlAltDel()', :class => "btn btn-default"),
                      if supports_spice_xpi?
-                       link_to(_("New window"), "#", :id => "disconnect", :class => "btn btn-default", :onclick => 'connectXPI()', :title => _("Open Spice in a new window"))
+                       link_to(_("New window"), "#", :id => "disconnect", :class => "btn btn-default", :onclick => 'tfm.spice.connectXPI()', :title => _("Open Spice in a new window"))
                      end,
                      if @host
                        link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
                      end
-        )) %>
-
+        ),
+        documentation_button("7.1NoVNC",
+          {:id => "troubleshootingButton", :class => "btn btn-default"})
+        ) %>
 <%= content_tag(:div, :id =>'spice-area', :data => spice_data_attributes(@console)) do %>
   <div class="console-status">
-    <div id="spice-status" class="col-md-7 label" data-host="<%= @console[:name] %>"><%= _("Connecting (unencrypted) to: %s") % @console[:name] %></div>
+    <div id="spice-status" class="col-md-12 label" data-host="<%= @console[:name] %>"><%= _("Connecting (unencrypted) to: %s") % @console[:name] %></div>
   </div>
   <div id="spice-screen" class="console-screen"> </div>
 <% end %>
+
+<script type="text/javascript"> tfm.spice.startSpice() </script>

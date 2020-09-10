@@ -1,7 +1,7 @@
 <%= select_f f, :flavor_id, compute_resource.flavors, :id, :to_label, {}, :label => _('Flavor'), :label_size => "col-md-2" %>
 <%
-   arch ||= nil ; os ||= nil
-   images = possible_images(compute_resource, arch, os)
+arch ||= nil ; os ||= nil
+images = possible_images(compute_resource, arch, os)
 %>
 
 <div id='image_selection'><%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')}, {:disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2"} %></div>
@@ -9,23 +9,25 @@
 <%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")}, :label => _('Availability zone'), :label_size => "col-md-2" %>
 
 <div id='subnet_selection'>
-<% if compute_resource.subnets.any? %>
-  <%= select_f f, :subnet_id, compute_resource.subnets, :subnet_id, :cidr_block,
-                {:include_blank => _("EC2")},
-                {:label => _("Subnet"), :label_size => "col-md-2", :onchange => "ec2_vpcSelected(this);"} %>
-<% end %>
+  <% if compute_resource.subnets.any? %>
+    <%= select_f f, :subnet_id, compute_resource.subnets, :subnet_id, :cidr_block,
+    {:include_blank => _("EC2")},
+    {:label => _("Subnet"), :label_size => "col-md-2", :onchange => "tfm.computeResource.ec2.vpcSelected(this);"} %>
+  <% end %>
 
-<%
-  vpc_id = compute_object_vpc_id(f)
-  if ( groups = security_groups_for_vpc(compute_resource.security_groups, vpc_id)) %>
-  <%= selectable_f f, :security_group_ids, groups, {},
+  <% groups, vpc_sg_hash, subnet_vpc_hash = security_groups_selectable(compute_resource, f) %>
+
+  <% if groups %>
+    <%= selectable_f f, :security_group_ids, groups, {},
     { :multiple => true, :label => _("Security groups"), :label_size => "col-md-2", :disabled => !(@host.nil? || @host.ip.empty?),
       :data => {
-        :security_groups => vpc_security_group_hash(compute_resource.security_groups),
-        :subnets => subnet_vpc_hash(compute_resource.subnets)
+        :security_groups => vpc_sg_hash,
+        :subnets => subnet_vpc_hash
       },
-      :class => 'security_group_ids' } %>
+      :class => 'security_group_ids without_select2'
+    }
+  %>
 <% end %>
 
-<%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP"), :label_size => "col-md-2" } %>
+  <%= selectable_f f, :managed_ip, {_("Public")=>'public', _("Private")=>'private'}, {}, { :label => _("Managed IP"), :label_size => "col-md-2" } %>
 </div>

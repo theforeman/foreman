@@ -1,4 +1,5 @@
-class Bookmark < ActiveRecord::Base
+class Bookmark < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -7,9 +8,8 @@ class Bookmark < ActiveRecord::Base
   validates_lengths_from_database
 
   belongs_to :owner, :polymorphic => true
-  audited
 
-  validates :name, :uniqueness => {:scope => :controller}, :unless => Proc.new{|b| Bookmark.my_bookmarks.where(:name => b.name).empty?}
+  validates :name, :uniqueness => {:scope => :controller}, :unless => proc { |b| Bookmark.my_bookmarks.where(:name => b.name).empty? }
   validates :name, :query, :presence => true
   validates :controller, :presence => true, :no_whitespace => true, :bookmark_controller => true
   validates :public, inclusion: { in: [true, false] }
@@ -20,13 +20,7 @@ class Bookmark < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => true
 
   scope :my_bookmarks, lambda {
-    user = User.current
-    if !SETTINGS[:login] || user.nil?
-      conditions = {}
-    else
-      conditions = sanitize_sql_for_conditions(["((bookmarks.public = ?) OR (bookmarks.owner_id = ? AND bookmarks.owner_type = 'User'))", true, user.id])
-    end
-    where(conditions)
+    where(public: true).or(where(owner: User.current))
   }
 
   scope :controller, ->(*args) { where("controller = ?", (args.first || '')) }

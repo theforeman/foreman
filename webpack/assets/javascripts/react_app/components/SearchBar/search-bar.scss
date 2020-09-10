@@ -1,0 +1,11 @@
+@import "../AutoComplete/auto-complete.scss";
+
+.search-bar {
+  .autocomplete-search-btn-text {
+    display: inline;
+  }
+
+  .search-input.use-shortcuts {
+    padding-left: 21px;
+  }
+}

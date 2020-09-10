@@ -1,3 +1,4 @@
+---
 attributes1:
   name: administrator
   settings_type: string
@@ -45,28 +46,13 @@ attributes9:
   category: Setting::Puppet
   default: production
   description: "The Setting::Puppet environment foreman would default to in case it can't auto detect it"
-attributes10:
-  name: modulepath
-  category: Setting::Puppet
-  default: /etc/puppet/modules
-  description: "The Setting::Puppet default module path in case that Foreman can't auto detect it"
-attributes11:
-  name: document_root
-  category: Setting::Puppet
-  default: /home/olevy/git/foreman/public/puppet/rdoc
-  description: Document root where puppetdoc files should be created
-attributes12:
-  name: puppet_server
-  category: Setting::Puppet
-  default: puppet
-  description: Default Setting::Puppet Server hostname
 attributes13:
   name: failed_report_email_notification
   category: Setting::Puppet
   default: "false"
   description: Enable Email Alerts per each failed puppet report
 attributes14:
-  name: Default_variables_Lookup_Path
+  name: Default_parameters_Lookup_Path
   category: Setting::Puppet
   default: ["fqdn", "hostgroup", "os", "domain"]
   description: The Default path in which foreman resolves host specific variables
@@ -120,11 +106,6 @@ attributes24:
   category: Setting::General
   default: "false"
   description: "Setting::Authorize login delegation with REMOTE_USER environment variable for API calls"
-attributes25:
-  name: Parametrized_Classes_in_ENC
-  category: Setting::Puppet
-  default: "false"
-  description: "Should Foreman use the new format (2.6.5+) to answer Setting::Puppet in its ENC yaml output?"
 attribute26:
   name: token_duration
   category: Setting::Provisioning
@@ -156,20 +137,11 @@ attribute31:
   default: "SSL_CLIENT_CERT"
   description: "Environment variable containing a client SSL certificate"
 attribute32:
-  name: trusted_puppetmaster_hosts
+  name: trusted_hosts
   category: Setting::Auth
   default: []
   description: "Hosts that will be trusted in addition to Smart Proxies for access to fact/report importers and ENC output"
-attribute33:
-  name: use_gravatar
-  category: Setting::General
-  default: "true"
-  description: "Should Foreman use gravatar to display user icons"
-attribute36:
-  name: puppetrun
-  category: Setting::Puppet
-  default: "true"
-  description: "Enables Puppetrun Support"
+  settings_type: array
 attribute37:
   name: create_new_host_when_facts_are_uploaded
   category: Setting::Puppet
@@ -180,11 +152,6 @@ attribute38:
   category: Setting::Provisioning
   default: "true"
   description: "Should we use the originating IP of the built request to update the Host's IP?"
-attribute39:
-  name: legacy_puppet_hostname
-  category: Setting::Puppet
-  default: "false"
-  description: "Foreman will truncate hostname to 'puppet' if it starts with puppet"
 attribute40:
   name: interpolate_erb_in_parameters
   category: Setting::Puppet
@@ -225,11 +192,6 @@ attributes47:
   category: Setting::Puppet
   default: 'foreman_organization'
   description: 'Fact to set organization from when importing hosts'
-attributes48:
-  name: Enable_Smart_Variables_in_ENC
-  category: Setting::Puppet
-  default: "true"
-  description: "Foreman smart variables will be exposed via the ENC yaml output"
 attributes49:
   name: oauth_active
   category: Setting::Auth
@@ -252,12 +214,12 @@ attributes52:
   description: "Foreman will map users by username in request-header. If this is set to false, OAuth requests will have admin rights."
 attributes53:
   name: send_welcome_email
-  category: Setting::General
+  category: Setting::Email
   default: "false"
   description: "Send a welcome email including initial username and password to new users"
 attributes54:
   name: email_subject_prefix
-  category: Setting::General
+  category: Setting::Email
   default: "[foreman]"
   description: "Prefix to add to all outgoing email"
 attributes55:
@@ -268,8 +230,8 @@ attributes55:
   description: "Duration in minutes after the Puppet interval for servers to be classed as out of sync."
 attributes56:
   name: email_reply_address
-  category: Setting::General
-  default: "Foreman-noreply@#{SETTINGS[:domain]}"
+  category: Setting::Email
+  default: "foreman-noreply@#{SETTINGS[:domain]}"
   description: 'Email reply address for emails that Foreman is sending'
 attributes57:
   name: clean_up_failed_deployment
@@ -279,7 +241,7 @@ attributes57:
 attributes58:
   name: ignored_interface_identifiers
   category: Setting::Provisioning
-  default: "['lo', 'usb*', 'vnet*', 'macvtap*']"
+  default: "['lo', 'en*v*', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
   description: 'Ignore interfaces that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
 attributes59:
   name: always_show_configuration_status
@@ -297,3 +259,172 @@ attributes61:
   category: Setting::Provisioning
   default: "Random-based"
   description: 'Random gives unique names, MAC-based are longer but stable (and only works with bare-metal)'
+attributes62:
+  name: bmc_credentials_accessible
+  category: Setting::Auth
+  default: "true"
+  description: 'Permits access to BMC interface passwords through ENC YAML output and in templates'
+attributes63:
+  name: password
+  category: Setting::Puppet
+  default: nil
+  description: 'Encrypted password'
+  encrypted: true
+attributes64:
+  name: access_unattended_without_build
+  category: Setting::Provisioning
+  default: "false"
+  description: 'Allow access to unattended URLs without build mode being used'
+  full_name: 'Access unattended without build'
+  settings_type: 'boolean'
+attributes65:
+  name: update_subnets_from_facts
+  category: Setting::Puppet
+  default: "none"
+  description: 'Foreman will update a hosts subnets from its facts'
+attributes66:
+  name: delivery_method
+  category: Setting::Email
+  default: :test
+  description: 'Method used to deliver e-mail'
+attributes67:
+  name: smtp_address
+  category: Setting::Email
+  default: 'smtp@example.com'
+  description: Method used to deliver email'
+attributes68:
+  name: smtp_authentication
+  category: Setting::Email
+  default: 'none'
+  description: 'Specify authentication type, if required'
+attributes69:
+  name: sendmail_arguments
+  category: Setting::Email
+  default: 'args'
+  description: 'Specify additional options to sendmail'
+attribute70:
+  name: ignore_facts_for_operatingsystem
+  category: Setting::Provisioning
+  default: "false"
+  description: 'Stop updating Operating System from facts'
+attribute71:
+  name: ignore_facts_for_domain
+  category: Setting::Provisioning
+  default: "false"
+  description: 'Stop updating domain from facts'
+attribute72:
+  name: host_owner
+  category: Setting::Provisioning
+  default: nil
+  description: 'Default host owner'
+attribute73:
+  name: local_boot_PXELinux
+  category: Setting::Provisioning
+  default: PXELinux default local boot
+  description: 'Set up default local boot template for PXELinux'
+attribute74:
+  name: rss_enable
+  category: Setting::Notification
+  default: true
+  description: 'Whether to enable or not RSS feed notifications'
+attribute75:
+  name: rss_url
+  category: Setting::Notification
+  default: "http://theforeman.org/feed.xml"
+  description: 'Default URL for RSS feed notifications'
+attribute76:
+  name: default_pxe_item_global
+  category: Setting::Provisioning
+  default: nil
+  description: 'Default PXE global template entry'
+attribute77:
+  name: default_pxe_item_local
+  category: Setting::Provisioning
+  default: nil
+  description: 'Default PXE local template entry'
+attributes78:
+  name: excluded_facts
+  category: Setting::Provisioning
+  default: "['lo', 'en*v*', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
+  description: 'Ignore fact names that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
+  settings_type: 'array'
+attribute79:
+  name: append_domain_name_for_hosts
+  category: Setting::General
+  default: "true"
+  description: "Should append domain names when new hosts are provisioned"
+attribute80:
+  name: failed_login_attempts_limit
+  category: Setting::Auth
+  default: 30
+  description: "Foreman will block user login after this number of failed login attempts for 5 minutes from offending IP address. Set to 0 to disable bruteforce protection"
+attribute81:
+  name: bcrypt_cost
+  category: Setting::Auth
+  default: 4
+  description: "Cost value of bcrypt password hash function for internal auth-sources."
+attribute82:
+  name: login_text
+  category: Setting::General
+  default: "--- \n"
+  description: 'Text to be shown in the login-page footer'
+attribute83:
+  name: ssh_timeout
+  category: Setting::Provisioning
+  default: 120
+  description: 'Time in seconds before SSH provisioning times out'
+attribute84:
+  name: destroy_vm_on_host_delete
+  category: Setting::Provisioning
+  default: true
+  description: 'Destroy associated VM on host delete. When enabled, VMs linked to Hosts will be deleted on Compute Resource, meaning they can be re-associated or imported back to Foreman again. This does not automatically power off the VM'
+attribute85:
+  name: intermediate_ipxe_script
+  category: Setting::Provisioning
+  default: nil
+  description: 'Intermidiate iPXE script'
+attribute86:
+  name: maximum_structured_facts
+  category: Setting::Provisioning
+  default: 100
+  description: 'Maximum structured facts'
+attribute87:
+  name: instance_id
+  category: Setting::General
+  default: '2abbbe02-4ace-4269-9e20-2753f3206cc2'
+  description: 'Foreman UUID'
+attribute88:
+  name: oidc_jwks_url
+  category: Setting::Auth
+  default: 'https://keycloak.example.com/auth/realms/foreman/protocol/openid-connect/certs'
+  description: 'OpenID Connect JSON Web Key Set(JWKS) URL. Typically https://keycloak.example.com/auth/realms/<realm name>/protocol/openid-connect/certs if you are using Keycloak as an IDP'
+attribute89:
+  name: oidc_audience
+  category: Setting::Auth
+  default: 'rest-client'
+  description: 'Name of the OpenID Connect Audience that is being used for Authentication. For example in case of Keycloak this is the Client ID.'
+attribute90:
+  name: oidc_issuer
+  category: Setting::Auth
+  default: 127.0.0.1
+  description: "The iss (issuer) claim identifies the principal that issued the JWT, which exists at a `/.well-known/openid-configuration` in case of most of the IDP's."
+attribute91:
+  name: oidc_algorithm
+  category: Setting::Auth
+  default: 'RS512'
+  description: 'The algorithm used to encode the JWT in the IDP.'
+attribute92:
+  name: authorize_login_delegation_auth_source_user_autocreate
+  category: Setting::Auth
+  default: 'External'
+  description: 'Name of the external auth source where unknown externally authentication users (see authorize_login_delegation) should be created (keep unset to prevent the autocreation)'
+attribute93:
+  name: update_hostgroup_from_facts
+  category: Setting::Puppet
+  default: true
+  description: "Foreman will update a host's hostgroup from its facts"
+attribute94:
+  name: default_global_registration_item
+  category: Setting::Provisioning
+  default: 'Global Registration'
+  description: "Default Global registration template"

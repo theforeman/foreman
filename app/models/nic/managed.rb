@@ -4,49 +4,59 @@ module Nic
     include Orchestration::DHCP
     include Orchestration::DNS
     include Orchestration::TFTP
+    include Orchestration::ExternalIPAM
     include DnsInterface
     include InterfaceCloning
 
     include Exportable
-    include Foreman::Renderer
 
     before_validation :set_provisioning_flag
     after_save :update_lookup_value_fqdn_matchers, :drop_host_cache
 
-    validates :ip, :belongs_to_subnet => {:subnet => :subnet }, :if => ->(nic) { nic.dhcp? }
-    validates :ip6, :belongs_to_subnet => {:subnet => :subnet6 }, :if => ->(nic) { nic.dhcp? }
+    validates :ip, :belongs_to_subnet => {:subnet => :subnet }, :if => ->(nic) { nic.managed? }
+    validates :ip6, :belongs_to_subnet => {:subnet => :subnet6 }, :if => ->(nic) { nic.managed? }
+
+    validates :compute_resource, :belongs_to_host_taxonomy => { :taxonomy => :organization },
+              :if => ->(nic) { nic.host.respond_to?(:compute_resource) }
+    validates :compute_resource, :belongs_to_host_taxonomy => { :taxonomy => :location },
+              :if => ->(nic) { nic.host.respond_to?(:compute_resource) }
 
     # Interface normally are not executed by them self, so we use the host queue and related methods.
     # this ensures our orchestration works on both a host and a managed interface
-    delegate :progress_report_id, :capabilities, :compute_resource,
-             :operatingsystem, :provisioning_template, :jumpstart?, :build, :build?, :os, :arch,
-             :image_build?, :pxe_build?, :pxe_build?, :token, :to_ip_address, :model, :to => :host
+    delegate :capabilities, :compute_resource, :operatingsystem, :provisioning_template, :jumpstart?, :build, :build?, :os, :arch,
+      :image_build?, :pxe_build?, :pxe_build?, :token, :model, :to => :host
     delegate :operatingsystem_id, :hostgroup_id, :environment_id,
-             :overwrite?, :skip_orchestration!, :to => :host, :allow_nil => true
+      :overwrite?, :skip_orchestration?, :skip_orchestration!, :to => :host, :allow_nil => true
 
-    attr_exportable :ip, :mac, :name, :attrs, :virtual, :link, :identifier, :managed, :primary, :provision, :subnet, :subnet6,
+    attr_exportable :ip, :ip6, :mac, :name, :attrs, :virtual, :link, :identifier, :managed,
+      :primary, :provision, :subnet, :subnet6,
       :tag => ->(nic) { nic.tag if nic.virtual? },
       :attached_to => ->(nic) { nic.attached_to if nic.virtual? },
       :type => ->(nic) { nic.type.constantize.humanized_name }
 
     # this ensures we can create an interface even when there is no host queue
     # e.g. outside to Host nested attributes
-    def queue_with_host
-      if host && host.respond_to?(:queue)
-        logger.debug 'Using host queue'
+    def queue
+      if host&.respond_to?(:queue)
         host.queue
       else
-        logger.debug 'Using nic queue'
-        queue_without_host
+        super
       end
     end
-    alias_method_chain :queue, :host
 
-    def hostname
-      if domain.present? && name.present?
-        "#{shortname}.#{domain.name}"
+    def progress_report_id
+      if host&.respond_to?(:progress_report_id)
+        host.progress_report_id
       else
-        name
+        super
+      end
+    end
+
+    def progress_report_id=(value)
+      if host&.respond_to?(:progress_report_id=)
+        host.progress_report_id = value
+      else
+        super
       end
     end
 
@@ -54,17 +64,16 @@ module Nic
       N_('Interface')
     end
 
-    # Copied from compute orchestration
     def ip_available?
-      ip.present? || (host.present? && host.compute_provides?(:ip)) # TODO revist this for VMs
+      ip.present? || compute_provides_ip?(:ip)
     end
 
     def ip6_available?
-      ip6.present? || (host.present? && host.compute_provides?(:ip6)) # TODO revist this for VMs
+      ip6.present? || compute_provides_ip?(:ip6)
     end
 
     def mac_available?
-      mac.present? || (host.present? && host.compute_provides?(:mac)) # TODO revist this for VMs
+      mac_addresses_for_provisioning.any? || (host.present? && host.compute_provides?(:mac))
     end
 
     protected
@@ -81,9 +90,9 @@ module Nic
 
     def update_lookup_value_fqdn_matchers
       return unless primary?
-      return unless fqdn_changed?
+      return unless saved_change_to_fqdn?
       return unless host.present?
-      LookupValue.where(:match => "fqdn=#{fqdn_was}").
+      LookupValue.where(:match => "fqdn=#{fqdn_before_last_save}").
         update_all(:match => host.lookup_value_match)
     end
 

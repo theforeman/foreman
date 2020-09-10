@@ -6,7 +6,6 @@ module Api
       include Foreman::Controller::UsersMixin
       include Foreman::Controller::Parameters::User
       include Api::Version2
-      include Api::TaxonomyScope
 
       wrap_parameters User, :include => user_params_filter.accessible_attributes(
         Foreman::Controller::Parameters::User::Context.new(:api, controller_name, nil, false)) +
@@ -16,6 +15,7 @@ module Api
 
       api :GET, "/users/", N_("List all users")
       api :GET, "/auth_source_ldaps/:auth_source_ldap_id/users", N_("List all users for LDAP authentication source")
+      api :GET, "/auth_source_externals/:auth_source_external_id/users", N_("List all users for external authentication source")
       api :GET, "/usergroups/:usergroup_id/users", N_("List all users for user group")
       api :GET, "/roles/:role_id/users", N_("List all users for role")
       api :GET, "/locations/:location_id/users", N_("List all users for location")
@@ -25,6 +25,7 @@ module Api
       param :role_id, String, :desc => N_("ID of role")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(User)
 
       def index
         @users = resource_scope_for_index
@@ -36,20 +37,41 @@ module Api
       def show
       end
 
+      api :GET, "/current_user", N_("Show the currently logged-in user")
+
+      def show_current
+        @user = User.current
+        render :show
+      end
+
+      def_param_group :user_params do
+        param :login, String, :required => true
+        param :firstname, String, :required => false
+        param :lastname, String, :required => false
+        param :mail, String, :required => true
+        param :description, String, :required => false
+        param :disabled, :bool, :required => false
+        param :admin, :bool, :required => false, :desc => N_("is an admin account")
+        param :password, String, :desc => N_("Required unless user is in an external authentication source")
+        param :default_location_id, Integer
+        param :default_organization_id, Integer
+        param :auth_source_id, Integer, :required => true
+        param :timezone, ActiveSupport::TimeZone.all.map(&:name), :required => false, :desc => N_("User's timezone")
+        param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")
+        param :role_ids, Array, :require => false
+        param_group :taxonomies, ::Api::V2::BaseController
+      end
+
       def_param_group :user do
         param :user, Hash, :required => true, :action_aware => true do
-          param :login, String, :required => true
-          param :firstname, String, :required => false
-          param :lastname, String, :required => false
-          param :mail, String, :required => true
-          param :admin, :bool, :required => false, :desc => N_("is an admin account")
-          param :password, String, :required => true
-          param :default_location_id, Integer if SETTINGS[:locations_enabled]
-          param :default_organization_id, Integer if SETTINGS[:organizations_enabled]
-          param :auth_source_id, Integer, :required => true
-          param :timezone, ActiveSupport::TimeZone.zones_map.keys, :required => false, :desc => N_("User's timezone")
-          param :locale, FastGettext.available_locales, :required => false, :desc => N_("User's preferred locale")
-          param_group :taxonomies, ::Api::V2::BaseController
+          param_group :user_params
+        end
+      end
+
+      def_param_group :user_update do
+        param :user, Hash, :required => true, :action_aware => true do
+          param_group :user_params
+          param :current_password, String, :desc => N_("Required when user want to change own password")
         end
       end
 
@@ -74,10 +96,10 @@ module Api
         Only another admin can change the admin account attribute.
       DOC
       param :id, String, :required => true
-      param_group :user
+      param_group :user_update
 
       def update
-        if @user.update_attributes(user_params)
+        if @user.update(user_params)
           update_sub_hostgroups_owners
 
           process_success

@@ -1,717 +1,764 @@
 ---
-  view_architectures:
-    name: view_architectures
-    resource_type: Architecture
-    created_at: "2013-12-04 08:41:04.321867"
-    updated_at: "2013-12-04 08:41:04.321867"
-  create_architectures:
-    name: create_architectures
-    resource_type: Architecture
-    created_at: "2013-12-04 08:41:04.357689"
-    updated_at: "2013-12-04 08:41:04.357689"
-  edit_architectures:
-    name: edit_architectures
-    resource_type: Architecture
-    created_at: "2013-12-04 08:41:04.365371"
-    updated_at: "2013-12-04 08:41:04.365371"
-  destroy_architectures:
-    name: destroy_architectures
-    resource_type: Architecture
-    created_at: "2013-12-04 08:41:04.373182"
-    updated_at: "2013-12-04 08:41:04.373182"
-  view_authenticators:
-    name: view_authenticators
-    resource_type: AuthSourceLdap
-    created_at: "2013-12-04 08:41:04.389686"
-    updated_at: "2013-12-04 08:41:04.389686"
-  create_authenticators:
-    name: create_authenticators
-    resource_type: AuthSourceLdap
-    created_at: "2013-12-04 08:41:04.398376"
-    updated_at: "2013-12-04 08:41:04.398376"
-  edit_authenticators:
-    name: edit_authenticators
-    resource_type: AuthSourceLdap
-    created_at: "2013-12-04 08:41:04.40647"
-    updated_at: "2013-12-04 08:41:04.40647"
-  destroy_authenticators:
-    name: destroy_authenticators
-    resource_type: AuthSourceLdap
-    created_at: "2013-12-04 08:41:04.414794"
-    updated_at: "2013-12-04 08:41:04.414794"
-  view_bookmarks:
-    name: view_bookmarks
-    resource_type: Bookmark
-    created_at: "2013-12-04 08:41:04.423092"
-    updated_at: "2013-12-04 08:41:04.423092"
-  create_bookmarks:
-    name: create_bookmarks
-    resource_type: Bookmark
-    created_at: "2013-12-04 08:41:04.431655"
-    updated_at: "2013-12-04 08:41:04.431655"
-  edit_bookmarks:
-    name: edit_bookmarks
-    resource_type: Bookmark
-    created_at: "2013-12-04 08:41:04.439632"
-    updated_at: "2013-12-04 08:41:04.439632"
-  destroy_bookmarks:
-    name: destroy_bookmarks
-    resource_type: Bookmark
-    created_at: "2013-12-04 08:41:04.448264"
-    updated_at: "2013-12-04 08:41:04.448264"
-  view_compute_resources:
-    name: view_compute_resources
-    resource_type: ComputeResource
-    created_at: "2013-12-04 08:41:04.456196"
-    updated_at: "2013-12-04 08:41:04.456196"
-  create_compute_resources:
-    name: create_compute_resources
-    resource_type: ComputeResource
-    created_at: "2013-12-04 08:41:04.464913"
-    updated_at: "2013-12-04 08:41:04.464913"
-  edit_compute_resources:
-    name: edit_compute_resources
-    resource_type: ComputeResource
-    created_at: "2013-12-04 08:41:04.473288"
-    updated_at: "2013-12-04 08:41:04.473288"
-  destroy_compute_resources:
-    name: destroy_compute_resources
-    resource_type: ComputeResource
-    created_at: "2013-12-04 08:41:04.481549"
-    updated_at: "2013-12-04 08:41:04.481549"
-  view_provisioning_templates:
-    name: view_provisioning_templates
-    resource_type: ProvisioningTemplate
-    created_at: "2013-12-04 08:41:04.540648"
-    updated_at: "2013-12-04 08:41:04.540648"
-  create_provisioning_templates:
-    name: create_provisioning_templates
-    resource_type: ProvisioningTemplate
-    created_at: "2013-12-04 08:41:04.548631"
-    updated_at: "2013-12-04 08:41:04.548631"
-  edit_provisioning_templates:
-    name: edit_provisioning_templates
-    resource_type: ProvisioningTemplate
-    created_at: "2013-12-04 08:41:04.556639"
-    updated_at: "2013-12-04 08:41:04.556639"
-  destroy_provisioning_templates:
-    name: destroy_provisioning_templates
-    resource_type: ProvisioningTemplate
-    created_at: "2013-12-04 08:41:04.564948"
-    updated_at: "2013-12-04 08:41:04.564948"
-  deploy_provisioning_templates:
-    name: deploy_provisioning_templates
-    resource_type: ProvisioningTemplate
-    created_at: "2013-12-04 08:41:04.573359"
-    updated_at: "2013-12-04 08:41:04.573359"
-  access_dashboard:
-    name: access_dashboard
-    resource_type:
-    created_at: "2013-12-04 08:41:04.581753"
-    updated_at: "2013-12-04 08:41:04.581753"
-  view_domains:
-    name: view_domains
-    resource_type: Domain
-    created_at: "2013-12-04 08:41:04.590726"
-    updated_at: "2013-12-04 08:41:04.590726"
-  create_domains:
-    name: create_domains
-    resource_type: Domain
-    created_at: "2013-12-04 08:41:04.598517"
-    updated_at: "2013-12-04 08:41:04.598517"
-  edit_domains:
-    name: edit_domains
-    resource_type: Domain
-    created_at: "2013-12-04 08:41:04.606731"
-    updated_at: "2013-12-04 08:41:04.606731"
-  destroy_domains:
-    name: destroy_domains
-    resource_type: Domain
-    created_at: "2013-12-04 08:41:04.615227"
-    updated_at: "2013-12-04 08:41:04.615227"
-  view_realms:
-    name: view_realms
-    resource_type: Realm
-    created_at: "2013-12-04 08:41:04.623403"
-    updated_at: "2013-12-04 08:41:04.623403"
-  create_realms:
-    name: create_realms
-    resource_type: Realm
-    created_at: "2013-12-04 08:41:04.631791"
-    updated_at: "2013-12-04 08:41:04.631791"
-  edit_realms:
-    name: edit_realms
-    resource_type: Realm
-    created_at: "2013-12-04 08:41:04.640671"
-    updated_at: "2013-12-04 08:41:04.640671"
-  destroy_realms:
-    name: destroy_realms
-    resource_type: Realm
-    created_at: "2013-12-04 08:41:04.648794"
-    updated_at: "2013-12-04 08:41:04.648794"
-  view_environments:
-    name: view_environments
-    resource_type: Environment
-    created_at: "2013-12-04 08:41:04.623403"
-    updated_at: "2013-12-04 08:41:04.623403"
-  create_environments:
-    name: create_environments
-    resource_type: Environment
-    created_at: "2013-12-04 08:41:04.631791"
-    updated_at: "2013-12-04 08:41:04.631791"
-  edit_environments:
-    name: edit_environments
-    resource_type: Environment
-    created_at: "2013-12-04 08:41:04.640671"
-    updated_at: "2013-12-04 08:41:04.640671"
-  destroy_environments:
-    name: destroy_environments
-    resource_type: Environment
-    created_at: "2013-12-04 08:41:04.648794"
-    updated_at: "2013-12-04 08:41:04.648794"
-  import_environments:
-    name: import_environments
-    resource_type: Environment
-    created_at: "2013-12-04 08:41:04.656654"
-    updated_at: "2013-12-04 08:41:04.656654"
-  view_external_variables:
-    name: view_external_variables
-    resource_type: VariableLookupKey
-    created_at: "2013-12-04 08:41:04.664806"
-    updated_at: "2013-12-04 08:41:04.664806"
-  create_external_variables:
-    name: create_external_variables
-    resource_type: VariableLookupKey
-    created_at: "2013-12-04 08:41:04.673323"
-    updated_at: "2013-12-04 08:41:04.673323"
-  edit_external_variables:
-    name: edit_external_variables
-    resource_type: VariableLookupKey
-    created_at: "2013-12-04 08:41:04.681526"
-    updated_at: "2013-12-04 08:41:04.681526"
-  destroy_external_variables:
-    name: destroy_external_variables
-    resource_type: VariableLookupKey
-    created_at: "2013-12-04 08:41:04.690155"
-    updated_at: "2013-12-04 08:41:04.690155"
-  view_external_parameters:
-    name: view_external_parameters
-    resource_type: PuppetclassLookupKey
-    created_at: "2013-12-04 08:41:04.664806"
-    updated_at: "2013-12-04 08:41:04.664806"
-  view_globals:
-    name: view_globals
-    resource_type: CommonParameter
-    created_at: "2013-12-04 08:41:04.782155"
-    updated_at: "2013-12-04 08:41:04.782155"
-  create_globals:
-    name: create_globals
-    resource_type: CommonParameter
-    created_at: "2013-12-04 08:41:04.790219"
-    updated_at: "2013-12-04 08:41:04.790219"
-  edit_globals:
-    name: edit_globals
-    resource_type: CommonParameter
-    created_at: "2013-12-04 08:41:04.799011"
-    updated_at: "2013-12-04 08:41:04.799011"
-  destroy_globals:
-    name: destroy_globals
-    resource_type: CommonParameter
-    created_at: "2013-12-04 08:41:04.806569"
-    updated_at: "2013-12-04 08:41:04.806569"
-  create_params:
-    name: create_params
-    resource_type: Parameter
-    created_at: "2013-12-04 08:41:04.823716"
-    updated_at: "2013-12-04 08:41:04.823716"
-  edit_params:
-    name: edit_params
-    resource_type: Parameter
-    created_at: "2013-12-04 08:41:04.831888"
-    updated_at: "2013-12-04 08:41:04.831888"
-  view_params:
-    name: view_params
-    resource_type: Parameter
-    created_at: "2013-12-04 08:41:04.831888"
-    updated_at: "2013-12-04 08:41:04.831888"
-  destroy_params:
-    name: destroy_params
-    resource_type: Parameter
-    created_at: "2013-12-04 08:41:04.84007"
-    updated_at: "2013-12-04 08:41:04.84007"
-  view_hostgroups:
-    name: view_hostgroups
-    resource_type: Hostgroup
-    created_at: "2013-12-04 08:41:04.848067"
-    updated_at: "2013-12-04 08:41:04.848067"
-  create_hostgroups:
-    name: create_hostgroups
-    resource_type: Hostgroup
-    created_at: "2013-12-04 08:41:04.857019"
-    updated_at: "2013-12-04 08:41:04.857019"
-  edit_hostgroups:
-    name: edit_hostgroups
-    resource_type: Hostgroup
-    created_at: "2013-12-04 08:41:04.865372"
-    updated_at: "2013-12-04 08:41:04.865372"
-  destroy_hostgroups:
-    name: destroy_hostgroups
-    resource_type: Hostgroup
-    created_at: "2013-12-04 08:41:04.873653"
-    updated_at: "2013-12-04 08:41:04.873653"
-  view_hosts:
-    name: view_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.882031"
-    updated_at: "2013-12-04 08:41:04.882031"
-  create_hosts:
-    name: create_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.88986"
-    updated_at: "2013-12-04 08:41:04.88986"
-  edit_hosts:
-    name: edit_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.898373"
-    updated_at: "2013-12-04 08:41:04.898373"
-  destroy_hosts:
-    name: destroy_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.907008"
-    updated_at: "2013-12-04 08:41:04.907008"
-  build_hosts:
-    name: build_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.915297"
-    updated_at: "2013-12-04 08:41:04.915297"
-  power_hosts:
-    name: power_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.923204"
-    updated_at: "2013-12-04 08:41:04.923204"
-  console_hosts:
-    name: console_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.931564"
-    updated_at: "2013-12-04 08:41:04.931564"
-  ipmi_boot:
-    name: ipmi_boot
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.940695"
-    updated_at: "2013-12-04 08:41:04.940695"
-  puppetrun_hosts:
-    name: puppetrun_hosts
-    resource_type: Host
-    created_at: "2013-12-04 08:41:04.962776"
-    updated_at: "2013-12-04 08:41:04.962776"
-  view_images:
-    name: view_images
-    resource_type: Image
-    created_at: "2013-12-04 08:41:04.982309"
-    updated_at: "2013-12-04 08:41:04.982309"
-  create_images:
-    name: create_images
-    resource_type: Image
-    created_at: "2013-12-04 08:41:04.990762"
-    updated_at: "2013-12-04 08:41:04.990762"
-  edit_images:
-    name: edit_images
-    resource_type: Image
-    created_at: "2013-12-04 08:41:04.998531"
-    updated_at: "2013-12-04 08:41:04.998531"
-  destroy_images:
-    name: destroy_images
-    resource_type: Image
-    created_at: "2013-12-04 08:41:05.00707"
-    updated_at: "2013-12-04 08:41:05.00707"
-  view_locations:
-    name: view_locations
-    resource_type: Location
-    created_at: "2013-12-04 08:41:05.015645"
-    updated_at: "2013-12-04 08:41:05.015645"
-  create_locations:
-    name: create_locations
-    resource_type: Location
-    created_at: "2013-12-04 08:41:05.024063"
-    updated_at: "2013-12-04 08:41:05.024063"
-  edit_locations:
-    name: edit_locations
-    resource_type: Location
-    created_at: "2013-12-04 08:41:05.032154"
-    updated_at: "2013-12-04 08:41:05.032154"
-  destroy_locations:
-    name: destroy_locations
-    resource_type: Location
-    created_at: "2013-12-04 08:41:05.040216"
-    updated_at: "2013-12-04 08:41:05.040216"
-  assign_locations:
-    name: assign_locations
-    resource_type: Location
-    created_at: "2013-12-04 08:41:05.048684"
-    updated_at: "2013-12-04 08:41:05.048684"
-  view_media:
-    name: view_media
-    resource_type: Medium
-    created_at: "2013-12-04 08:41:05.057086"
-    updated_at: "2013-12-04 08:41:05.057086"
-  create_media:
-    name: create_media
-    resource_type: Medium
-    created_at: "2013-12-04 08:41:05.065732"
-    updated_at: "2013-12-04 08:41:05.065732"
-  edit_media:
-    name: edit_media
-    resource_type: Medium
-    created_at: "2013-12-04 08:41:05.073582"
-    updated_at: "2013-12-04 08:41:05.073582"
-  destroy_media:
-    name: destroy_media
-    resource_type: Medium
-    created_at: "2013-12-04 08:41:05.0823"
-    updated_at: "2013-12-04 08:41:05.0823"
-  view_models:
-    name: view_models
-    resource_type: Model
-    created_at: "2013-12-04 08:41:05.090697"
-    updated_at: "2013-12-04 08:41:05.090697"
-  create_models:
-    name: create_models
-    resource_type: Model
-    created_at: "2013-12-04 08:41:05.098969"
-    updated_at: "2013-12-04 08:41:05.098969"
-  edit_models:
-    name: edit_models
-    resource_type: Model
-    created_at: "2013-12-04 08:41:05.107244"
-    updated_at: "2013-12-04 08:41:05.107244"
-  destroy_models:
-    name: destroy_models
-    resource_type: Model
-    created_at: "2013-12-04 08:41:05.11531"
-    updated_at: "2013-12-04 08:41:05.11531"
-  view_operatingsystems:
-    name: view_operatingsystems
-    resource_type: Operatingsystem
-    created_at: "2013-12-04 08:41:05.123697"
-    updated_at: "2013-12-04 08:41:05.123697"
-  create_operatingsystems:
-    name: create_operatingsystems
-    resource_type: Operatingsystem
-    created_at: "2013-12-04 08:41:05.132086"
-    updated_at: "2013-12-04 08:41:05.132086"
-  edit_operatingsystems:
-    name: edit_operatingsystems
-    resource_type: Operatingsystem
-    created_at: "2013-12-04 08:41:05.140537"
-    updated_at: "2013-12-04 08:41:05.140537"
-  destroy_operatingsystems:
-    name: destroy_operatingsystems
-    resource_type: Operatingsystem
-    created_at: "2013-12-04 08:41:05.148799"
-    updated_at: "2013-12-04 08:41:05.148799"
-  view_organizations:
-    name: view_organizations
-    resource_type: Organization
-    created_at: "2013-12-04 08:41:05.235498"
-    updated_at: "2013-12-04 08:41:05.235498"
-  create_organizations:
-    name: create_organizations
-    resource_type: Organization
-    created_at: "2013-12-04 08:41:05.248483"
-    updated_at: "2013-12-04 08:41:05.248483"
-  edit_organizations:
-    name: edit_organizations
-    resource_type: Organization
-    created_at: "2013-12-04 08:41:05.25688"
-    updated_at: "2013-12-04 08:41:05.25688"
-  destroy_organizations:
-    name: destroy_organizations
-    resource_type: Organization
-    created_at: "2013-12-04 08:41:05.26538"
-    updated_at: "2013-12-04 08:41:05.26538"
-  assign_organizations:
-    name: assign_organizations
-    resource_type: Organization
-    created_at: "2013-12-04 08:41:05.273221"
-    updated_at: "2013-12-04 08:41:05.273221"
-  view_ptables:
-    name: view_ptables
-    resource_type: Ptable
-    created_at: "2013-12-04 08:41:05.281766"
-    updated_at: "2013-12-04 08:41:05.281766"
-  create_ptables:
-    name: create_ptables
-    resource_type: Ptable
-    created_at: "2013-12-04 08:41:05.482882"
-    updated_at: "2013-12-04 08:41:05.482882"
-  edit_ptables:
-    name: edit_ptables
-    resource_type: Ptable
-    created_at: "2013-12-04 08:41:05.683037"
-    updated_at: "2013-12-04 08:41:05.683037"
-  destroy_ptables:
-    name: destroy_ptables
-    resource_type: Ptable
-    created_at: "2013-12-04 08:41:05.762135"
-    updated_at: "2013-12-04 08:41:05.762135"
-  view_puppetclasses:
-    name: view_puppetclasses
-    resource_type: Puppetclass
-    created_at: "2013-12-04 08:41:06.01639"
-    updated_at: "2013-12-04 08:41:06.01639"
-  create_puppetclasses:
-    name: create_puppetclasses
-    resource_type: Puppetclass
-    created_at: "2013-12-04 08:41:06.074428"
-    updated_at: "2013-12-04 08:41:06.074428"
-  edit_puppetclasses:
-    name: edit_puppetclasses
-    resource_type: Puppetclass
-    created_at: "2013-12-04 08:41:06.082891"
-    updated_at: "2013-12-04 08:41:06.082891"
-  destroy_puppetclasses:
-    name: destroy_puppetclasses
-    resource_type: Puppetclass
-    created_at: "2013-12-04 08:41:06.091247"
-    updated_at: "2013-12-04 08:41:06.091247"
-  import_puppetclasses:
-    name: import_puppetclasses
-    resource_type: Puppetclass
-    created_at: "2013-12-04 08:41:06.099309"
-    updated_at: "2013-12-04 08:41:06.099309"
-  view_reports:
-    name: view_reports
-    resource_type: Report
-    created_at: "2013-12-04 08:41:06.107515"
-    updated_at: "2013-12-04 08:41:06.107515"
-  view_config_reports:
-    name: view_config_reports
-    resource_type: ConfigReport
-    created_at: "2013-12-04 08:41:06.107515"
-    updated_at: "2013-12-04 08:41:06.107515"
-  destroy_reports:
-    name: destroy_reports
-    resource_type: Report
-    created_at: "2013-12-04 08:41:06.116056"
-    updated_at: "2013-12-04 08:41:06.116056"
-  upload_reports:
-    name: upload_reports
-    resource_type: Report
-    created_at: "2013-12-04 08:41:06.123783"
-    updated_at: "2013-12-04 08:41:06.123783"
-  access_settings:
-    name: access_settings
-    resource_type:
-    created_at: "2013-12-04 08:41:06.132528"
-    updated_at: "2013-12-04 08:41:06.132528"
-  view_smart_proxies:
-    name: view_smart_proxies
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.140564"
-    updated_at: "2013-12-04 08:41:06.140564"
-  create_smart_proxies:
-    name: create_smart_proxies
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.149029"
-    updated_at: "2013-12-04 08:41:06.149029"
-  edit_smart_proxies:
-    name: edit_smart_proxies
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.157364"
-    updated_at: "2013-12-04 08:41:06.157364"
-  destroy_smart_proxies:
-    name: destroy_smart_proxies
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.1657"
-    updated_at: "2013-12-04 08:41:06.1657"
-  view_smart_proxies_autosign:
-    name: view_smart_proxies_autosign
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.173638"
-    updated_at: "2013-12-04 08:41:06.173638"
-  create_smart_proxies_autosign:
-    name: create_smart_proxies_autosign
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.182425"
-    updated_at: "2013-12-04 08:41:06.182425"
-  destroy_smart_proxies_autosign:
-    name: destroy_smart_proxies_autosign
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.190274"
-    updated_at: "2013-12-04 08:41:06.190274"
-  view_smart_proxies_puppetca:
-    name: view_smart_proxies_puppetca
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.198169"
-    updated_at: "2013-12-04 08:41:06.198169"
-  edit_smart_proxies_puppetca:
-    name: edit_smart_proxies_puppetca
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.206812"
-    updated_at: "2013-12-04 08:41:06.206812"
-  destroy_smart_proxies_puppetca:
-    name: destroy_smart_proxies_puppetca
-    resource_type: SmartProxy
-    created_at: "2013-12-04 08:41:06.216154"
-    updated_at: "2013-12-04 08:41:06.216154"
-  view_statistics:
-    name: view_statistics
-    resource_type:
-    created_at: "2013-12-04 08:41:06.223528"
-    updated_at: "2013-12-04 08:41:06.223528"
-  view_subnets:
-    name: view_subnets
-    resource_type: Subnet
-    created_at: "2013-12-04 08:41:06.231467"
-    updated_at: "2013-12-04 08:41:06.231467"
-  create_subnets:
-    name: create_subnets
-    resource_type: Subnet
-    created_at: "2013-12-04 08:41:06.24055"
-    updated_at: "2013-12-04 08:41:06.24055"
-  edit_subnets:
-    name: edit_subnets
-    resource_type: Subnet
-    created_at: "2013-12-04 08:41:06.248888"
-    updated_at: "2013-12-04 08:41:06.248888"
-  destroy_subnets:
-    name: destroy_subnets
-    resource_type: Subnet
-    created_at: "2013-12-04 08:41:06.257199"
-    updated_at: "2013-12-04 08:41:06.257199"
-  import_subnets:
-    name: import_subnets
-    resource_type: Subnet
-    created_at: "2013-12-04 08:41:06.265758"
-    updated_at: "2013-12-04 08:41:06.265758"
-  view_tasks:
-    name: view_tasks
-    resource_type:
-    created_at: "2013-12-04 08:41:06.274449"
-    updated_at: "2013-12-04 08:41:06.274449"
-  view_trends:
-    name: view_trends
-    resource_type: Trend
-    created_at: "2013-12-04 08:41:06.282474"
-    updated_at: "2013-12-04 08:41:06.282474"
-  create_trends:
-    name: create_trends
-    resource_type: Trend
-    created_at: "2013-12-04 08:41:06.290854"
-    updated_at: "2013-12-04 08:41:06.290854"
-  edit_trends:
-    name: edit_trends
-    resource_type: Trend
-    created_at: "2013-12-04 08:41:06.299794"
-    updated_at: "2013-12-04 08:41:06.299794"
-  destroy_trends:
-    name: destroy_trends
-    resource_type: Trend
-    created_at: "2013-12-04 08:41:06.307322"
-    updated_at: "2013-12-04 08:41:06.307322"
-  update_trends:
-    name: update_trends
-    resource_type: Trend
-    created_at: "2013-12-04 08:41:06.315986"
-    updated_at: "2013-12-04 08:41:06.315986"
-  view_usergroups:
-    name: view_usergroups
-    resource_type: Usergroup
-    created_at: "2013-12-04 08:41:06.323534"
-    updated_at: "2013-12-04 08:41:06.323534"
-  create_usergroups:
-    name: create_usergroups
-    resource_type: Usergroup
-    created_at: "2013-12-04 08:41:06.332584"
-    updated_at: "2013-12-04 08:41:06.332584"
-  edit_usergroups:
-    name: edit_usergroups
-    resource_type: Usergroup
-    created_at: "2013-12-04 08:41:06.341266"
-    updated_at: "2013-12-04 08:41:06.341266"
-  destroy_usergroups:
-    name: destroy_usergroups
-    resource_type: Usergroup
-    created_at: "2013-12-04 08:41:06.34905"
-    updated_at: "2013-12-04 08:41:06.34905"
-  view_users:
-    name: view_users
-    resource_type: User
-    created_at: "2013-12-04 08:41:06.358291"
-    updated_at: "2013-12-04 08:41:06.358291"
-  create_users:
-    name: create_users
-    resource_type: User
-    created_at: "2013-12-04 08:41:06.366741"
-    updated_at: "2013-12-04 08:41:06.366741"
-  edit_users:
-    name: edit_users
-    resource_type: User
-    created_at: "2013-12-04 08:41:06.375061"
-    updated_at: "2013-12-04 08:41:06.375061"
-  destroy_users:
-    name: destroy_users
-    resource_type: User
-    created_at: "2013-12-04 08:41:06.38334"
-    updated_at: "2013-12-04 08:41:06.38334"
-  edit_classes:
-    name: edit_classes
-    resource_type: HostClass
-    created_at: "2013-12-04 08:41:04.815942"
-    updated_at: "2013-12-11 09:48:09.672833"
-  view_compute_resources_vms:
-    name: view_compute_resources_vms
-    resource_type: ComputeResource
-    created_at: "2013-12-11 11:23:54.965532"
-    updated_at: "2013-12-11 11:23:54.965532"
-  create_compute_resources_vms:
-    name: create_compute_resources_vms
-    resource_type: ComputeResource
-    created_at: "2013-12-11 11:23:54.972197"
-    updated_at: "2013-12-11 11:23:54.972197"
-  edit_compute_resources_vms:
-    name: edit_compute_resources_vms
-    resource_type: ComputeResource
-    created_at: "2013-12-11 11:23:54.979606"
-    updated_at: "2013-12-11 11:23:54.979606"
-  destroy_compute_resources_vms:
-    name: destroy_compute_resources_vms
-    resource_type: ComputeResource
-    created_at: "2013-12-11 11:23:54.988796"
-    updated_at: "2013-12-11 11:23:54.988796"
-  power_compute_resources_vms:
-    name: power_compute_resources_vms
-    resource_type: ComputeResource
-    created_at: "2013-12-11 11:23:54.996808"
-    updated_at: "2013-12-11 11:23:54.996808"
-  console_compute_resources_vms:
-    name: console_compute_resources_vms
-    resource_type: ComputeResource
-    created_at: "2013-12-11 11:23:55.004963"
-    updated_at: "2013-12-11 11:23:55.004963"
-  view_facts:
-    name: view_facts
-    resource_type: FactValue
-    created_at: "2013-12-11 11:23:55.027868"
-    updated_at: "2013-12-11 11:23:55.027868"
-  upload_facts:
-    name: upload_facts
-    resource_type: FactValue
-    created_at: "2013-12-11 11:23:55.038552"
-    updated_at: "2013-12-11 11:23:55.038552"
-  view_audit_logs:
-    name: view_audit_logs
-    resource_type: Audit
-    created_at: "2013-12-11 11:23:54.920553"
-    updated_at: "2014-01-03 15:52:15.267695"
-  view_plugins:
-    name: view_plugins
-    resource_type:
-    created_at: "2014-01-07 15:09:32.783442"
-    updated_at: "2014-01-07 15:09:32.783442"
-  view_roles:
-    name: view_roles
-    resource_type: Role
-    created_at: "2014-01-07 15:09:32.783442"
-    updated_at: "2014-01-07 15:09:32.783442"
+view_architectures:
+  name: view_architectures
+  resource_type: Architecture
+  created_at: "2013-12-04 08:41:04.321867"
+  updated_at: "2013-12-04 08:41:04.321867"
+create_architectures:
+  name: create_architectures
+  resource_type: Architecture
+  created_at: "2013-12-04 08:41:04.357689"
+  updated_at: "2013-12-04 08:41:04.357689"
+edit_architectures:
+  name: edit_architectures
+  resource_type: Architecture
+  created_at: "2013-12-04 08:41:04.365371"
+  updated_at: "2013-12-04 08:41:04.365371"
+destroy_architectures:
+  name: destroy_architectures
+  resource_type: Architecture
+  created_at: "2013-12-04 08:41:04.373182"
+  updated_at: "2013-12-04 08:41:04.373182"
+view_authenticators:
+  name: view_authenticators
+  resource_type: AuthSource
+  created_at: "2013-12-04 08:41:04.389686"
+  updated_at: "2013-12-04 08:41:04.389686"
+create_authenticators:
+  name: create_authenticators
+  resource_type: AuthSource
+  created_at: "2013-12-04 08:41:04.398376"
+  updated_at: "2013-12-04 08:41:04.398376"
+edit_authenticators:
+  name: edit_authenticators
+  resource_type: AuthSource
+  created_at: "2013-12-04 08:41:04.40647"
+  updated_at: "2013-12-04 08:41:04.40647"
+destroy_authenticators:
+  name: destroy_authenticators
+  resource_type: AuthSource
+  created_at: "2013-12-04 08:41:04.414794"
+  updated_at: "2013-12-04 08:41:04.414794"
+view_bookmarks:
+  name: view_bookmarks
+  resource_type: Bookmark
+  created_at: "2013-12-04 08:41:04.423092"
+  updated_at: "2013-12-04 08:41:04.423092"
+create_bookmarks:
+  name: create_bookmarks
+  resource_type: Bookmark
+  created_at: "2013-12-04 08:41:04.431655"
+  updated_at: "2013-12-04 08:41:04.431655"
+edit_bookmarks:
+  name: edit_bookmarks
+  resource_type: Bookmark
+  created_at: "2013-12-04 08:41:04.439632"
+  updated_at: "2013-12-04 08:41:04.439632"
+destroy_bookmarks:
+  name: destroy_bookmarks
+  resource_type: Bookmark
+  created_at: "2013-12-04 08:41:04.448264"
+  updated_at: "2013-12-04 08:41:04.448264"
+view_compute_resources:
+  name: view_compute_resources
+  resource_type: ComputeResource
+  created_at: "2013-12-04 08:41:04.456196"
+  updated_at: "2013-12-04 08:41:04.456196"
+create_compute_resources:
+  name: create_compute_resources
+  resource_type: ComputeResource
+  created_at: "2013-12-04 08:41:04.464913"
+  updated_at: "2013-12-04 08:41:04.464913"
+edit_compute_resources:
+  name: edit_compute_resources
+  resource_type: ComputeResource
+  created_at: "2013-12-04 08:41:04.473288"
+  updated_at: "2013-12-04 08:41:04.473288"
+destroy_compute_resources:
+  name: destroy_compute_resources
+  resource_type: ComputeResource
+  created_at: "2013-12-04 08:41:04.481549"
+  updated_at: "2013-12-04 08:41:04.481549"
+view_compute_profiles:
+  name: view_compute_profiles
+  resource_type: ComputeProfile
+  created_at: "2013-12-04 08:41:04.456196"
+  updated_at: "2013-12-04 08:41:04.456196"
+create_compute_profiles:
+  name: create_compute_profiles
+  resource_type: ComputeProfile
+  created_at: "2013-12-04 08:41:04.464913"
+  updated_at: "2013-12-04 08:41:04.464913"
+edit_compute_profiles:
+  name: edit_compute_profiles
+  resource_type: ComputeProfile
+  created_at: "2013-12-04 08:41:04.473288"
+  updated_at: "2013-12-04 08:41:04.473288"
+destroy_compute_profiles:
+  name: destroy_compute_profiles
+  resource_type: ComputeProfile
+  created_at: "2013-12-04 08:41:04.481549"
+  updated_at: "2013-12-04 08:41:04.481549"
+view_provisioning_templates:
+  name: view_provisioning_templates
+  resource_type: ProvisioningTemplate
+  created_at: "2013-12-04 08:41:04.540648"
+  updated_at: "2013-12-04 08:41:04.540648"
+create_provisioning_templates:
+  name: create_provisioning_templates
+  resource_type: ProvisioningTemplate
+  created_at: "2013-12-04 08:41:04.548631"
+  updated_at: "2013-12-04 08:41:04.548631"
+edit_provisioning_templates:
+  name: edit_provisioning_templates
+  resource_type: ProvisioningTemplate
+  created_at: "2013-12-04 08:41:04.556639"
+  updated_at: "2013-12-04 08:41:04.556639"
+destroy_provisioning_templates:
+  name: destroy_provisioning_templates
+  resource_type: ProvisioningTemplate
+  created_at: "2013-12-04 08:41:04.564948"
+  updated_at: "2013-12-04 08:41:04.564948"
+deploy_provisioning_templates:
+  name: deploy_provisioning_templates
+  resource_type: ProvisioningTemplate
+  created_at: "2013-12-04 08:41:04.573359"
+  updated_at: "2013-12-04 08:41:04.573359"
+access_dashboard:
+  name: access_dashboard
+  resource_type:
+  created_at: "2013-12-04 08:41:04.581753"
+  updated_at: "2013-12-04 08:41:04.581753"
+view_domains:
+  name: view_domains
+  resource_type: Domain
+  created_at: "2013-12-04 08:41:04.590726"
+  updated_at: "2013-12-04 08:41:04.590726"
+create_domains:
+  name: create_domains
+  resource_type: Domain
+  created_at: "2013-12-04 08:41:04.598517"
+  updated_at: "2013-12-04 08:41:04.598517"
+edit_domains:
+  name: edit_domains
+  resource_type: Domain
+  created_at: "2013-12-04 08:41:04.606731"
+  updated_at: "2013-12-04 08:41:04.606731"
+destroy_domains:
+  name: destroy_domains
+  resource_type: Domain
+  created_at: "2013-12-04 08:41:04.615227"
+  updated_at: "2013-12-04 08:41:04.615227"
+view_realms:
+  name: view_realms
+  resource_type: Realm
+  created_at: "2013-12-04 08:41:04.623403"
+  updated_at: "2013-12-04 08:41:04.623403"
+create_realms:
+  name: create_realms
+  resource_type: Realm
+  created_at: "2013-12-04 08:41:04.631791"
+  updated_at: "2013-12-04 08:41:04.631791"
+edit_realms:
+  name: edit_realms
+  resource_type: Realm
+  created_at: "2013-12-04 08:41:04.640671"
+  updated_at: "2013-12-04 08:41:04.640671"
+destroy_realms:
+  name: destroy_realms
+  resource_type: Realm
+  created_at: "2013-12-04 08:41:04.648794"
+  updated_at: "2013-12-04 08:41:04.648794"
+view_environments:
+  name: view_environments
+  resource_type: Environment
+  created_at: "2013-12-04 08:41:04.623403"
+  updated_at: "2013-12-04 08:41:04.623403"
+create_environments:
+  name: create_environments
+  resource_type: Environment
+  created_at: "2013-12-04 08:41:04.631791"
+  updated_at: "2013-12-04 08:41:04.631791"
+edit_environments:
+  name: edit_environments
+  resource_type: Environment
+  created_at: "2013-12-04 08:41:04.640671"
+  updated_at: "2013-12-04 08:41:04.640671"
+destroy_environments:
+  name: destroy_environments
+  resource_type: Environment
+  created_at: "2013-12-04 08:41:04.648794"
+  updated_at: "2013-12-04 08:41:04.648794"
+import_environments:
+  name: import_environments
+  resource_type: Environment
+  created_at: "2013-12-04 08:41:04.656654"
+  updated_at: "2013-12-04 08:41:04.656654"
+view_external_parameters:
+  name: view_external_parameters
+  resource_type: PuppetclassLookupKey
+  created_at: "2013-12-04 08:41:04.664806"
+  updated_at: "2013-12-04 08:41:04.664806"
+create_external_parameters:
+  name: create_external_parameters
+  resource_type: PuppetclassLookupKey
+  created_at: "2013-12-04 08:41:04.673323"
+  updated_at: "2013-12-04 08:41:04.673323"
+edit_external_parameters:
+  name: edit_external_parameters
+  resource_type: PuppetclassLookupKey
+  created_at: "2013-12-04 08:41:04.681526"
+  updated_at: "2013-12-04 08:41:04.681526"
+destroy_external_parameters:
+  name: destroy_external_parameters
+  resource_type: PuppetclassLookupKey
+  created_at: "2013-12-04 08:41:04.690155"
+  updated_at: "2013-12-04 08:41:04.690155"
+view_globals:
+  name: view_globals
+  resource_type: CommonParameter
+  created_at: "2013-12-04 08:41:04.782155"
+  updated_at: "2013-12-04 08:41:04.782155"
+create_globals:
+  name: create_globals
+  resource_type: CommonParameter
+  created_at: "2013-12-04 08:41:04.790219"
+  updated_at: "2013-12-04 08:41:04.790219"
+edit_globals:
+  name: edit_globals
+  resource_type: CommonParameter
+  created_at: "2013-12-04 08:41:04.799011"
+  updated_at: "2013-12-04 08:41:04.799011"
+destroy_globals:
+  name: destroy_globals
+  resource_type: CommonParameter
+  created_at: "2013-12-04 08:41:04.806569"
+  updated_at: "2013-12-04 08:41:04.806569"
+create_params:
+  name: create_params
+  resource_type: Parameter
+  created_at: "2013-12-04 08:41:04.823716"
+  updated_at: "2013-12-04 08:41:04.823716"
+edit_params:
+  name: edit_params
+  resource_type: Parameter
+  created_at: "2013-12-04 08:41:04.831888"
+  updated_at: "2013-12-04 08:41:04.831888"
+view_params:
+  name: view_params
+  resource_type: Parameter
+  created_at: "2013-12-04 08:41:04.831888"
+  updated_at: "2013-12-04 08:41:04.831888"
+destroy_params:
+  name: destroy_params
+  resource_type: Parameter
+  created_at: "2013-12-04 08:41:04.84007"
+  updated_at: "2013-12-04 08:41:04.84007"
+view_hostgroups:
+  name: view_hostgroups
+  resource_type: Hostgroup
+  created_at: "2013-12-04 08:41:04.848067"
+  updated_at: "2013-12-04 08:41:04.848067"
+create_hostgroups:
+  name: create_hostgroups
+  resource_type: Hostgroup
+  created_at: "2013-12-04 08:41:04.857019"
+  updated_at: "2013-12-04 08:41:04.857019"
+edit_hostgroups:
+  name: edit_hostgroups
+  resource_type: Hostgroup
+  created_at: "2013-12-04 08:41:04.865372"
+  updated_at: "2013-12-04 08:41:04.865372"
+destroy_hostgroups:
+  name: destroy_hostgroups
+  resource_type: Hostgroup
+  created_at: "2013-12-04 08:41:04.873653"
+  updated_at: "2013-12-04 08:41:04.873653"
+view_hosts:
+  name: view_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.882031"
+  updated_at: "2013-12-04 08:41:04.882031"
+create_hosts:
+  name: create_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.88986"
+  updated_at: "2013-12-04 08:41:04.88986"
+edit_hosts:
+  name: edit_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.898373"
+  updated_at: "2013-12-04 08:41:04.898373"
+destroy_hosts:
+  name: destroy_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.907008"
+  updated_at: "2013-12-04 08:41:04.907008"
+build_hosts:
+  name: build_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.915297"
+  updated_at: "2013-12-04 08:41:04.915297"
+power_hosts:
+  name: power_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.923204"
+  updated_at: "2013-12-04 08:41:04.923204"
+console_hosts:
+  name: console_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.931564"
+  updated_at: "2013-12-04 08:41:04.931564"
+ipmi_boot_hosts:
+  name: ipmi_boot_hosts
+  resource_type: Host
+  created_at: "2013-12-04 08:41:04.940695"
+  updated_at: "2013-12-04 08:41:04.940695"
+view_images:
+  name: view_images
+  resource_type: Image
+  created_at: "2013-12-04 08:41:04.982309"
+  updated_at: "2013-12-04 08:41:04.982309"
+create_images:
+  name: create_images
+  resource_type: Image
+  created_at: "2013-12-04 08:41:04.990762"
+  updated_at: "2013-12-04 08:41:04.990762"
+edit_images:
+  name: edit_images
+  resource_type: Image
+  created_at: "2013-12-04 08:41:04.998531"
+  updated_at: "2013-12-04 08:41:04.998531"
+destroy_images:
+  name: destroy_images
+  resource_type: Image
+  created_at: "2013-12-04 08:41:05.00707"
+  updated_at: "2013-12-04 08:41:05.00707"
+view_locations:
+  name: view_locations
+  resource_type: Location
+  created_at: "2013-12-04 08:41:05.015645"
+  updated_at: "2013-12-04 08:41:05.015645"
+create_locations:
+  name: create_locations
+  resource_type: Location
+  created_at: "2013-12-04 08:41:05.024063"
+  updated_at: "2013-12-04 08:41:05.024063"
+edit_locations:
+  name: edit_locations
+  resource_type: Location
+  created_at: "2013-12-04 08:41:05.032154"
+  updated_at: "2013-12-04 08:41:05.032154"
+destroy_locations:
+  name: destroy_locations
+  resource_type: Location
+  created_at: "2013-12-04 08:41:05.040216"
+  updated_at: "2013-12-04 08:41:05.040216"
+assign_locations:
+  name: assign_locations
+  resource_type: Location
+  created_at: "2013-12-04 08:41:05.048684"
+  updated_at: "2013-12-04 08:41:05.048684"
+view_media:
+  name: view_media
+  resource_type: Medium
+  created_at: "2013-12-04 08:41:05.057086"
+  updated_at: "2013-12-04 08:41:05.057086"
+create_media:
+  name: create_media
+  resource_type: Medium
+  created_at: "2013-12-04 08:41:05.065732"
+  updated_at: "2013-12-04 08:41:05.065732"
+edit_media:
+  name: edit_media
+  resource_type: Medium
+  created_at: "2013-12-04 08:41:05.073582"
+  updated_at: "2013-12-04 08:41:05.073582"
+destroy_media:
+  name: destroy_media
+  resource_type: Medium
+  created_at: "2013-12-04 08:41:05.0823"
+  updated_at: "2013-12-04 08:41:05.0823"
+view_models:
+  name: view_models
+  resource_type: Model
+  created_at: "2013-12-04 08:41:05.090697"
+  updated_at: "2013-12-04 08:41:05.090697"
+create_models:
+  name: create_models
+  resource_type: Model
+  created_at: "2013-12-04 08:41:05.098969"
+  updated_at: "2013-12-04 08:41:05.098969"
+edit_models:
+  name: edit_models
+  resource_type: Model
+  created_at: "2013-12-04 08:41:05.107244"
+  updated_at: "2013-12-04 08:41:05.107244"
+destroy_models:
+  name: destroy_models
+  resource_type: Model
+  created_at: "2013-12-04 08:41:05.11531"
+  updated_at: "2013-12-04 08:41:05.11531"
+view_operatingsystems:
+  name: view_operatingsystems
+  resource_type: Operatingsystem
+  created_at: "2013-12-04 08:41:05.123697"
+  updated_at: "2013-12-04 08:41:05.123697"
+create_operatingsystems:
+  name: create_operatingsystems
+  resource_type: Operatingsystem
+  created_at: "2013-12-04 08:41:05.132086"
+  updated_at: "2013-12-04 08:41:05.132086"
+edit_operatingsystems:
+  name: edit_operatingsystems
+  resource_type: Operatingsystem
+  created_at: "2013-12-04 08:41:05.140537"
+  updated_at: "2013-12-04 08:41:05.140537"
+destroy_operatingsystems:
+  name: destroy_operatingsystems
+  resource_type: Operatingsystem
+  created_at: "2013-12-04 08:41:05.148799"
+  updated_at: "2013-12-04 08:41:05.148799"
+view_organizations:
+  name: view_organizations
+  resource_type: Organization
+  created_at: "2013-12-04 08:41:05.235498"
+  updated_at: "2013-12-04 08:41:05.235498"
+create_organizations:
+  name: create_organizations
+  resource_type: Organization
+  created_at: "2013-12-04 08:41:05.248483"
+  updated_at: "2013-12-04 08:41:05.248483"
+edit_organizations:
+  name: edit_organizations
+  resource_type: Organization
+  created_at: "2013-12-04 08:41:05.25688"
+  updated_at: "2013-12-04 08:41:05.25688"
+destroy_organizations:
+  name: destroy_organizations
+  resource_type: Organization
+  created_at: "2013-12-04 08:41:05.26538"
+  updated_at: "2013-12-04 08:41:05.26538"
+assign_organizations:
+  name: assign_organizations
+  resource_type: Organization
+  created_at: "2013-12-04 08:41:05.273221"
+  updated_at: "2013-12-04 08:41:05.273221"
+view_ptables:
+  name: view_ptables
+  resource_type: Ptable
+  created_at: "2013-12-04 08:41:05.281766"
+  updated_at: "2013-12-04 08:41:05.281766"
+create_ptables:
+  name: create_ptables
+  resource_type: Ptable
+  created_at: "2013-12-04 08:41:05.482882"
+  updated_at: "2013-12-04 08:41:05.482882"
+edit_ptables:
+  name: edit_ptables
+  resource_type: Ptable
+  created_at: "2013-12-04 08:41:05.683037"
+  updated_at: "2013-12-04 08:41:05.683037"
+destroy_ptables:
+  name: destroy_ptables
+  resource_type: Ptable
+  created_at: "2013-12-04 08:41:05.762135"
+  updated_at: "2013-12-04 08:41:05.762135"
+view_puppetclasses:
+  name: view_puppetclasses
+  resource_type: Puppetclass
+  created_at: "2013-12-04 08:41:06.01639"
+  updated_at: "2013-12-04 08:41:06.01639"
+create_puppetclasses:
+  name: create_puppetclasses
+  resource_type: Puppetclass
+  created_at: "2013-12-04 08:41:06.074428"
+  updated_at: "2013-12-04 08:41:06.074428"
+edit_puppetclasses:
+  name: edit_puppetclasses
+  resource_type: Puppetclass
+  created_at: "2013-12-04 08:41:06.082891"
+  updated_at: "2013-12-04 08:41:06.082891"
+destroy_puppetclasses:
+  name: destroy_puppetclasses
+  resource_type: Puppetclass
+  created_at: "2013-12-04 08:41:06.091247"
+  updated_at: "2013-12-04 08:41:06.091247"
+import_puppetclasses:
+  name: import_puppetclasses
+  resource_type: Puppetclass
+  created_at: "2013-12-04 08:41:06.099309"
+  updated_at: "2013-12-04 08:41:06.099309"
+view_reports:
+  name: view_reports
+  resource_type: Report
+  created_at: "2013-12-04 08:41:06.107515"
+  updated_at: "2013-12-04 08:41:06.107515"
+view_config_reports:
+  name: view_config_reports
+  resource_type: ConfigReport
+  created_at: "2013-12-04 08:41:06.107515"
+  updated_at: "2013-12-04 08:41:06.107515"
+destroy_reports:
+  name: destroy_reports
+  resource_type: Report
+  created_at: "2013-12-04 08:41:06.116056"
+  updated_at: "2013-12-04 08:41:06.116056"
+upload_reports:
+  name: upload_reports
+  resource_type: Report
+  created_at: "2013-12-04 08:41:06.123783"
+  updated_at: "2013-12-04 08:41:06.123783"
+access_settings:
+  name: access_settings
+  resource_type:
+  created_at: "2013-12-04 08:41:06.132528"
+  updated_at: "2013-12-04 08:41:06.132528"
+view_smart_proxies:
+  name: view_smart_proxies
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.140564"
+  updated_at: "2013-12-04 08:41:06.140564"
+create_smart_proxies:
+  name: create_smart_proxies
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.149029"
+  updated_at: "2013-12-04 08:41:06.149029"
+edit_smart_proxies:
+  name: edit_smart_proxies
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.157364"
+  updated_at: "2013-12-04 08:41:06.157364"
+destroy_smart_proxies:
+  name: destroy_smart_proxies
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.1657"
+  updated_at: "2013-12-04 08:41:06.1657"
+view_smart_proxies_autosign:
+  name: view_smart_proxies_autosign
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.173638"
+  updated_at: "2013-12-04 08:41:06.173638"
+create_smart_proxies_autosign:
+  name: create_smart_proxies_autosign
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.182425"
+  updated_at: "2013-12-04 08:41:06.182425"
+destroy_smart_proxies_autosign:
+  name: destroy_smart_proxies_autosign
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.190274"
+  updated_at: "2013-12-04 08:41:06.190274"
+view_smart_proxies_puppetca:
+  name: view_smart_proxies_puppetca
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.198169"
+  updated_at: "2013-12-04 08:41:06.198169"
+edit_smart_proxies_puppetca:
+  name: edit_smart_proxies_puppetca
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.206812"
+  updated_at: "2013-12-04 08:41:06.206812"
+destroy_smart_proxies_puppetca:
+  name: destroy_smart_proxies_puppetca
+  resource_type: SmartProxy
+  created_at: "2013-12-04 08:41:06.216154"
+  updated_at: "2013-12-04 08:41:06.216154"
+view_subnets:
+  name: view_subnets
+  resource_type: Subnet
+  created_at: "2013-12-04 08:41:06.231467"
+  updated_at: "2013-12-04 08:41:06.231467"
+create_subnets:
+  name: create_subnets
+  resource_type: Subnet
+  created_at: "2013-12-04 08:41:06.24055"
+  updated_at: "2013-12-04 08:41:06.24055"
+edit_subnets:
+  name: edit_subnets
+  resource_type: Subnet
+  created_at: "2013-12-04 08:41:06.248888"
+  updated_at: "2013-12-04 08:41:06.248888"
+destroy_subnets:
+  name: destroy_subnets
+  resource_type: Subnet
+  created_at: "2013-12-04 08:41:06.257199"
+  updated_at: "2013-12-04 08:41:06.257199"
+import_subnets:
+  name: import_subnets
+  resource_type: Subnet
+  created_at: "2013-12-04 08:41:06.265758"
+  updated_at: "2013-12-04 08:41:06.265758"
+view_tasks:
+  name: view_tasks
+  resource_type:
+  created_at: "2013-12-04 08:41:06.274449"
+  updated_at: "2013-12-04 08:41:06.274449"
+view_usergroups:
+  name: view_usergroups
+  resource_type: Usergroup
+  created_at: "2013-12-04 08:41:06.323534"
+  updated_at: "2013-12-04 08:41:06.323534"
+create_usergroups:
+  name: create_usergroups
+  resource_type: Usergroup
+  created_at: "2013-12-04 08:41:06.332584"
+  updated_at: "2013-12-04 08:41:06.332584"
+edit_usergroups:
+  name: edit_usergroups
+  resource_type: Usergroup
+  created_at: "2013-12-04 08:41:06.341266"
+  updated_at: "2013-12-04 08:41:06.341266"
+destroy_usergroups:
+  name: destroy_usergroups
+  resource_type: Usergroup
+  created_at: "2013-12-04 08:41:06.34905"
+  updated_at: "2013-12-04 08:41:06.34905"
+view_users:
+  name: view_users
+  resource_type: User
+  created_at: "2013-12-04 08:41:06.358291"
+  updated_at: "2013-12-04 08:41:06.358291"
+create_users:
+  name: create_users
+  resource_type: User
+  created_at: "2013-12-04 08:41:06.366741"
+  updated_at: "2013-12-04 08:41:06.366741"
+edit_users:
+  name: edit_users
+  resource_type: User
+  created_at: "2013-12-04 08:41:06.375061"
+  updated_at: "2013-12-04 08:41:06.375061"
+destroy_users:
+  name: destroy_users
+  resource_type: User
+  created_at: "2013-12-04 08:41:06.38334"
+  updated_at: "2013-12-04 08:41:06.38334"
+edit_classes:
+  name: edit_classes
+  resource_type: HostClass
+  created_at: "2013-12-04 08:41:04.815942"
+  updated_at: "2013-12-11 09:48:09.672833"
+view_compute_resources_vms:
+  name: view_compute_resources_vms
+  resource_type: ComputeResource
+  created_at: "2013-12-11 11:23:54.965532"
+  updated_at: "2013-12-11 11:23:54.965532"
+create_compute_resources_vms:
+  name: create_compute_resources_vms
+  resource_type: ComputeResource
+  created_at: "2013-12-11 11:23:54.972197"
+  updated_at: "2013-12-11 11:23:54.972197"
+edit_compute_resources_vms:
+  name: edit_compute_resources_vms
+  resource_type: ComputeResource
+  created_at: "2013-12-11 11:23:54.979606"
+  updated_at: "2013-12-11 11:23:54.979606"
+destroy_compute_resources_vms:
+  name: destroy_compute_resources_vms
+  resource_type: ComputeResource
+  created_at: "2013-12-11 11:23:54.988796"
+  updated_at: "2013-12-11 11:23:54.988796"
+power_compute_resources_vms:
+  name: power_compute_resources_vms
+  resource_type: ComputeResource
+  created_at: "2013-12-11 11:23:54.996808"
+  updated_at: "2013-12-11 11:23:54.996808"
+console_compute_resources_vms:
+  name: console_compute_resources_vms
+  resource_type: ComputeResource
+  created_at: "2013-12-11 11:23:55.004963"
+  updated_at: "2013-12-11 11:23:55.004963"
+view_facts:
+  name: view_facts
+  resource_type: FactValue
+  created_at: "2013-12-11 11:23:55.027868"
+  updated_at: "2013-12-11 11:23:55.027868"
+upload_facts:
+  name: upload_facts
+  resource_type: FactValue
+  created_at: "2013-12-11 11:23:55.038552"
+  updated_at: "2013-12-11 11:23:55.038552"
+view_audit_logs:
+  name: view_audit_logs
+  resource_type: Audit
+  created_at: "2013-12-11 11:23:54.920553"
+  updated_at: "2014-01-03 15:52:15.267695"
+view_plugins:
+  name: view_plugins
+  resource_type:
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+view_roles:
+  name: view_roles
+  resource_type: Role
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+view_test:
+  name: view_test
+  resource_type: "Test::Resource"
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+edit_test:
+  name: edit_test
+  resource_type: "Test::Resource"
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+create_test:
+  name: create_test
+  resource_type: "Test::Resource"
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+misc_test:
+  name: misc_test
+  resource_type:
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+view_report_templates:
+  name: view_report_templates
+  resource_type: ReportTemplate
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+edit_report_templates:
+  name: edit_report_templates
+  resource_type: ReportTemplate
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+destroy_report_templates:
+  name: destroy_report_templates
+  resource_type: ReportTemplate
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+create_report_templates:
+  name: create_report_templates
+  resource_type: ReportTemplate
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+generate_report_templates:
+  name: generate_report_templates
+  resource_type: ReportTemplate
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+view_settings:
+  name: view_settings
+  resource_type: Setting
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+edit_settings:
+  name: edit_settings
+  resource_type: Setting
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
+escalate_roles:
+  name: escalate_roles
+  resource_type: Role
+  created_at: "2014-01-07 15:09:32.783442"
+  updated_at: "2014-01-07 15:09:32.783442"
 
+<% Foreman::Plugin.all.map(&:permissions).inject({}, :merge).each do |permission,attrs| %>
+<%= permission %>:
+  name: <%= permission %>
+  <% attrs.each do |k,v| %>
+  <%= k %>: <%= v %>
+  <% end %>
+<% end %>

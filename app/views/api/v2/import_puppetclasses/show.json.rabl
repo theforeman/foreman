@@ -7,6 +7,7 @@ node(:actions) do |environment|
   actions << 'new' if @changed['new'][environment.name].present?
   actions << 'updated' if @changed['updated'][environment.name].present?
   actions << 'obsolete' if @changed['obsolete'][environment.name].present?
+  actions << 'ignored' if @changed['ignored'][environment.name].present?
   actions.as_json
 end
 
@@ -22,6 +23,14 @@ node(:obsolete_puppetclasses, :if => ->(environment) { @changed['obsolete'][envi
   JSON.parse(@changed['obsolete'][environment.name])
 end
 
+node(:ignored_puppetclasses, :if => ->(environment) { @changed['ignored'][environment.name].present? && !@changed['ignored'][environment.name].match(/_ignored_/) }) do |environment|
+  JSON.parse(@changed['ignored'][environment.name])
+end
+
 node(:removed_environment, :if => ->(environment) { @changed['obsolete'][environment.name].present? && @changed['obsolete'][environment.name].match(/_destroy_/) }) do |environment|
+  environment.name
+end
+
+node(:ignored_environment, :if => ->(environment) { @changed['ignored'][environment.name].present? && @changed['ignored'][environment.name].match(/_ignored_/) }) do |environment|
   environment.name
 end

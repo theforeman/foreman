@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_CLOSE_SWITCHER 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": false,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": null,
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_RESOURCES_FAILURE 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": false,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": [Error: some error],
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": "some/url",
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_RESOURCES_REQUEST 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": true,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": "some/url",
+  "searchQuery": undefined,
+  "titleReplacement": null,
+}
+`;
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_RESOURCES_REQUEST with search query 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": true,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": "some/url",
+  "searchQuery": "some search",
+  "titleReplacement": null,
+}
+`;
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_RESOURCES_SUCCESS 1`] = `
+Object {
+  "currentPage": 1,
+  "isLoadingResources": false,
+  "isSwitcherOpen": false,
+  "pages": 2,
+  "requestError": null,
+  "resourceSwitcherItems": Array [
+    Object {
+      "id": "1",
+      "name": "Host 1",
+      "url": "#",
+    },
+    Object {
+      "id": "2",
+      "name": "Host 2",
+      "url": "#",
+    },
+    Object {
+      "id": "3",
+      "name": "Host 3 with a very long name",
+      "url": "#",
+    },
+    Object {
+      "id": "4",
+      "name": "Host 4",
+      "onClick": [MockFunction],
+      "url": undefined,
+    },
+    Object {
+      "id": "5",
+      "name": "Host 5",
+      "onClick": undefined,
+      "url": "#",
+    },
+  ],
+  "resourceUrl": "some/url",
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;
+
+exports[`BreadcrumbBar reducer should handle BREADCRUMB_BAR_TOGGLE_SWITCHER 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": false,
+  "isSwitcherOpen": true,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": null,
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;
+
+exports[`BreadcrumbBar reducer should return the initial state 1`] = `
+Object {
+  "currentPage": null,
+  "isLoadingResources": false,
+  "isSwitcherOpen": false,
+  "pages": null,
+  "requestError": null,
+  "resourceSwitcherItems": Array [],
+  "resourceUrl": null,
+  "searchQuery": "",
+  "titleReplacement": null,
+}
+`;

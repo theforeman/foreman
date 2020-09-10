@@ -1,0 +1,13 @@
+---
+- message: ActionDispatch::Http::ParameterFilter is deprecated and will be removed
+    from Rails 6.1. Use ActiveSupport::ParameterFilter instead.
+- message: Class level methods will no longer inherit scoping from `create!` in Rails
+    6.1. To continue using the scoped relation, pass it into the block directly. To
+    instead access the full set of models, as Rails 6.1 will, use `Puppetclass.unscoped`,
+    or `Puppetclass.default_scoped` if a model has default scopes.
+- message: Controller-level `force_ssl` is deprecated and will be removed from Rails
+    6.1. Please enable `config.force_ssl` in your environment configuration to enable
+    the ActionDispatch::SSL middleware to more fully enforce that your application
+    communicate over HTTPS. If needed, you can use `config.ssl_options` to exempt
+    matching endpoints from being redirected to HTTPS.
+- message: Initialization autoloaded the constants

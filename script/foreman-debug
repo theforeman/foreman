@@ -1,7 +1,6 @@
 #!/bin/bash
 # vim:sw=2:ts=2:et
 
-export LC_ALL=C
 export SCLNAME=tfm
 
 usage() {
@@ -19,10 +18,10 @@ This program can be used on Foreman instances, Smart Proxy instances or
 backend services separately.
 
 OPTIONS:
-  -d DIR  Directory to place the tarball in (default /tmp/foreman-XYZ)
+  -d DIR  Directory to place the tarball in (default /var/tmp/foreman-XYZ)
   -g      Skip generic info (CPU, memory, firewall etc.)
-  -a      Do not generate a tarball from the resulting directory
-  -m NUM  Maximum lines to keep for each file (default 5000), zero means no limit
+  -a      Keep directory and do not generate a compressed tarball
+  -s SIZE Maximum log set size in MB (current+rotated files, defaults to 10 MB)
   -j PRG  Filter with provided program when creating a tarball
   -p      Additionally print password patterns being filtered out
   -q      Quiet mode
@@ -31,31 +30,26 @@ OPTIONS:
   -h      Shows this message
 
 USAGE
-[[ $UPLOAD_DISABLED -eq 0 ]] && cat <<UPLOADUSAGE
-You may want to upload the tarball (with -u) to our public server via rsync.
-This is a write-only directory (readable only by Foreman core developers)
-Please note that the rsync transmission is UNENCRYPTED.
-
-UPLOADUSAGE
+[[ $UPLOAD_DISABLED -eq 0 ]] && echo "${UPLOAD_USAGE_MSG}"
 }
 
-# filter for patterns like password=XYZ or secret: abc!@#$123
+# Filter for patterns like password=XYZ, -storepass XYZ or secret: XYZ
 FILTER_WORDS=(
 password
 PASSWORD
 default_password
+oauth_consumer_key
 secret
 token
-api_token
-oauth_secret
 keystorePass
 truststorePass
+storepass
 )
 FILTER_WORDS_STR=$(IFS=$'|'; echo "${FILTER_WORDS[*]}")
-FILTER="s/($FILTER_WORDS_STR)(\s*[:=]\s*)\S+/\1\2\*\*\*\*\*/g"
+FILTER="s/($FILTER_WORDS_STR)(\"?\s*[:=]?\s*)\S+/\1\2+FILTERED+/g"
 
 error() {
-  echo $* >&2
+  echo "$*" >&2
 }
 
 qprintf() {
@@ -63,7 +57,7 @@ qprintf() {
 }
 
 printv() {
-  [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo $*
+  [ $QUIET -ne 1 ] && [ $VERBOSE -eq 1 ] && echo "[$SECONDS]" $*
 }
 
 clean_stdin() {
@@ -79,42 +73,61 @@ add_cmd() {
   eval $CMD >> "$DIR/$OUT" 2>&1
 }
 
-# add and filter if it is a non zero, readable, regular file or symlink (skip otherwise)
-add_files() {
-  if [ $MAXLINES -eq 0 ]; then
-    TAIL_OR_CAT="cat"
-  else
-    TAIL_OR_CAT="tail -n ${MAXLINES}"
-  fi
-  for FILE in $*; do
-    if [ \( -f "$FILE" -o -h "$FILE" \) -a \( -r "$FILE" -a -s "$FILE" \) ]; then
-      printv " - $FILE"
-      SUBDIR=$(dirname $FILE)
-      [ ! -d "$DIR$SUBDIR" ] && mkdir -p "$DIR$SUBDIR"
-      MIME=$(file -bi "$FILE" | cut -d\; -f1)
-      case $MIME in
+# add and filter file of known MIME type, calculate size
+add_file() {
+  FILE=$1
+  SIZE=$(stat -c "%s" $FILE)
+  MIME=$(file -bi "$FILE" | cut -d\; -f1)
+  case $MIME in
         application/x-gzip)
-          zcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
+          OUTFILE="$DIR${FILE/%.gz/}"
+          zcat "$FILE" | sed -r "$FILTER" > "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         application/x-bzip2)
-          bzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
+          OUTFILE="$DIR${FILE/%.bz2/}"
+          bzcat "$FILE" | sed -r "$FILTER" > "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         application/x-xz)
-          xzcat "$FILE" | $TAIL_OR_CAT | sed -r "$FILTER" > "$DIR$FILE.txt"
+          OUTFILE="$DIR${FILE/%.xz/}"
+          xzcat "$FILE" | sed -r "$FILTER" > "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         text/plain | application/xml)
-          $TAIL_OR_CAT "$FILE" | sed -r "$FILTER" > "$DIR$FILE"
-          [ $PRINTPASS -eq 1 ] && grep -H "\*\*\*\*\*" "$DIR$FILE"
-          ;;
-        inode/symlink)
-          cp -a "$FILE" "$DIR$FILE"
-          add_files $(readlink -f $FILE)
+          OUTFILE="$DIR$FILE"
+          sed -r "$FILTER" "$FILE" > "$OUTFILE"
+          [ $PRINTPASS -eq 1 ] && grep -H "+FILTERED+" "$OUTFILE"
+          touch -c -r "$FILE" "$OUTFILE"
           ;;
         *)
           echo "Skipping file $FILE: unknown MIME type $MIME" >> "$DIR/skipped_files"
+          SIZE=0 # don't count the size to collected files
           ;;
       esac
+}
+
+# add files (from newest to oldest) that are non zero, readable, regular file or symlink, until $MAXSIZE limit is reached
+add_files() {
+  SUMSIZE=0
+  # sort regular+symlink readable nonempty files per modification time, newest first - assuming no space in a filename
+  for FILE in $(find -L $* -type f -readable -size +0b -printf "%T@ %p\n" 2> /dev/null | sort -nr | cut -d' ' -f2 2> /dev/null); do
+    # if we are over size limit, skip rest older files
+    if [ \( $SUMSIZE -gt $MAXSIZE \) -a \( $MAXSIZE -gt 0 \) ]; then
+      printv " - $FILE (skipped due to size)"
+    else
+      printv " - $FILE"
+      SUBDIR=$(dirname $FILE)
+      [ ! -d "$DIR$SUBDIR" ] && mkdir -p "$DIR$SUBDIR"
+      # if the file is symlink, copy source and add target
+      if [ -h $FILE ]; then
+        cp -a "$FILE" "$DIR$FILE"
+        FILE=$(readlink -f $FILE)
+      fi
+      add_file $FILE
+      SUMSIZE=$(($((SUMSIZE))+$((SIZE))))
     fi
+    touch -c -r "$SUBDIR" "$DIR$SUBDIR"
   done
 }
 
@@ -122,7 +135,7 @@ add_files() {
 DIR=""
 NOGENERIC=0
 NOTAR=0
-MAXLINES=5000
+MAXSIZE=10485760   # 10 MB in bytes
 COMPRESS=""
 PRINTPASS=0
 QUIET=0
@@ -130,15 +143,32 @@ VERBOSE=0
 DEBUG=0
 UPLOAD=0
 UPLOAD_DISABLED=0
+UPLOAD_URL='rsync://theforeman.org/debug-incoming'
+UPLOAD_CMD='rsync "${TARBALL}" "${UPLOAD_URL}"'
+UPLOAD_USAGE_MSG="\
+You may want to upload the tarball (with -u) to our public server via rsync.
+This is a write-only directory (readable only by Foreman core developers)
+Please note that the rsync transmission is UNENCRYPTED."
+UPLOAD_UNSET_MSG="\
+To upload a tarball to our secure site, please use the -u option."
+UPLOAD_SUCCESS_MSG="\
+The tarball has been uploaded, please contact us on community.theforeman.org
+or on IRC/Matrix (#theforeman), making sure you reference the following URL:
+
+    http://debugs.theforeman.org/"
+UPLOAD_FAIL_MSG="\
+The tarball could not be uploaded, please upload it to an alternate location
+and contact us on community.theforeman.org or on IRC/Matrix (#theforeman),
+making sure you reference that URL."
 
 if type -p xz >/dev/null; then
-  COMPRESS="xz -9"
+  COMPRESS="xz -1"
   EXTENSION=".xz"
 elif type -p bzip2 >/dev/null; then
-  COMPRESS="bzip2 -9"
+  COMPRESS="bzip2 -1"
   EXTENSION=".bz2"
 elif type -p gzip >/dev/null; then
-  COMPRESS="gzip -9"
+  COMPRESS="gzip -5"
   EXTENSION=".gz"
 else
   COMPRESS="cat"
@@ -149,7 +179,7 @@ fi
 CONF_FILE=/usr/share/foreman/config/foreman-debug.conf
 test -f $CONF_FILE && source $CONF_FILE
 
-while getopts "d:gam:j:uqpvhx" opt; do
+while getopts "d:gam:s:j:uqpvhx" opt; do
   case $opt in
     d)
       DIR="$OPTARG"
@@ -170,11 +200,16 @@ while getopts "d:gam:j:uqpvhx" opt; do
       VERBOSE=1
       ;;
     m)
-      MAXLINES="$OPTARG"
+      error "Warning: -m option has no effect, use -s option"
       ;;
     j)
       COMPRESS="$OPTARG"
       EXTENSION=".$(echo "$OPTARG" | awk '{ print $1 }')"
+      ;;
+    s)
+      #read the value and convert from MB to bytes
+      MAXSIZE="$OPTARG"
+      MAXSIZE=$((MAXSIZE*1024*1024))
       ;;
     u)
       UPLOAD=1
@@ -201,7 +236,7 @@ done
 [ $UPLOAD -eq 1 -a $NOTAR -eq 1 ] && error "Options -u and -a cannot be used together" && exit 2
 
 # some tasks take long time, print a banner (unless quiet mode was selected)
-qprintf "Processing... (takes a while)"
+qprintf "Processing... (takes a while)\n"
 
 # determine distribution family
 if [ -f /etc/debian_version ]; then
@@ -222,13 +257,30 @@ else
 fi
 printv "Determined $OS distribution"
 
+clean_temp() {
+  # prevent from removing anything user-defined
+  if [[ "$NOTAR" -eq 0 && "$DIR" == /var/tmp* ]]; then
+    printv "Cleaning $DIR"
+    rm -rf "$DIR"
+  fi
+  if [[ "$TMPDIR" == /var/tmp* ]]; then
+    printv "Cleaning $TMPDIR"
+    rm -rf "$TMPDIR"
+  fi
+}
+
+install_clean_trap() {
+  trap clean_temp EXIT
+}
+
 if [ -z "$DIR" ]; then
-  DIR=$(mktemp -d foreman-debug-XXXXX -p /tmp)
-  [ "$NOTAR" -eq 0 ] && trap "rm -rf $DIR" EXIT
+  DIR=$(mktemp -d $(basename $0)-XXXXX -p /var/tmp)
 else
   [ ! -d "$DIR" ] && mkdir -p "$DIR"
 fi
-printv "Directory $DIR created"
+export TMPDIR=$(mktemp -d foreman-debug-auxtmp-XXXXX -p /var/tmp)
+install_clean_trap
+printv "Created $DIR and $TMPDIR"
 
 TARBALL="$DIR.tar$EXTENSION"
 
@@ -259,11 +311,15 @@ if [ $NOGENERIC -eq 0 ]; then
     add_cmd "scl -l" "software_collections"
 
   add_cmd "ps auxwwwZ" "process_list"
-  add_files /var/log/messages /var/log/audit/audit.log /var/log/syslog
+  add_files /var/log/messages*
+  add_files /var/log/audit/audit.log*
+  add_files /var/log/syslog*
+  add_cmd "getenforce" "selinux_state"
   add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR | head -n 100" "selinux_first_denials.log"
   add_cmd "ausearch -m AVC -m USER_AVC -m SELINUX_ERR || grep AVC /var/log/audit/audit.log" "selinux_denials.log"
   if [ -f /usr/sbin/selinuxenabled ] && /usr/sbin/selinuxenabled; then
-    add_cmd "sepolgen-ifgen &>/dev/null && audit2allow -Ra || audit2allow -a" "selinux_audit2allow"
+    [[ -f /var/lib/sepolgen/interface_info ]] || sepolgen-ifgen &>/dev/null
+    add_cmd "audit2allow -Ra || audit2allow -a" "selinux_audit2allow"
     add_cmd "semodule -l" "selinux_modules"
     add_cmd "semanage boolean -l" "selinux_booleans"
     add_cmd "semanage fcontext -l" "selinux_fcontext"
@@ -275,6 +331,7 @@ if [ $NOGENERIC -eq 0 ]; then
     [ $DEBUG -eq 0 ] && add_cmd "dpkg --list" "installed_packages"
   fi
 
+  add_cmd "virt-who -dop" "virt_who"
 fi
 
 # FOREMAN RELATED ARTIFACTS
@@ -287,8 +344,31 @@ add_cmd "gem list" "gem_list"
 add_cmd "scl enable $SCLNAME 'gem list'" "gem_list_scl"
 add_cmd "bundle --local --gemfile=/usr/share/foreman/Gemfile" "bundle_list"
 add_cmd "facter" "facts"
-add_files /etc/foreman/* /var/log/foreman/*.log*
-add_files /etc/foreman-installer/scenarios.d/{*,*/*,*/.*} /var/log/foreman-installer/*.log*
+
+add_files /var/log/foreman/apipie_cache*.log*
+add_files /var/log/foreman/cron*.log*
+add_files /var/log/foreman/db_migrate*.log*
+add_files /var/log/foreman/db_seed*.log*
+add_files /var/log/foreman/production.log-*
+add_files /var/log/foreman/production.log
+add_files /var/log/foreman/dynflow_executor.output*
+add_files /var/log/foreman-proxy-certs-generate.*log
+
+# Dynflow Sidekiq
+add_files /etc/foreman/dynflow/*
+add_cmd "systemctl list-units dynflow*" "dynflow_units"
+add_cmd "journalctl -u dynflow-sidekiq@*" "dynflow_sidekiq_logs"
+add_cmd 'systemctl status "system-dynflow\x2dsidekiq.slice"' "dynflow_sidekiq_status"
+
+# exclude *key.pem files and encryption_key.rb
+add_files /etc/foreman/*.{yml,yaml,conf} /etc/foreman/plugins/*.yaml
+
+add_files /etc/foreman-installer/scenarios.d/{*,*/*,*/.*}
+add_files /var/log/foreman-installer/
+add_files /var/log/foreman-maintain/
+add_files /etc/foreman-installer/custom-hiera.yaml
+add_files /var/log/foreman-selinux-install.log
+
 add_files /usr/share/foreman/Gemfile*
 add_cmd "virsh list" "virsh_list"
 add_files /etc/libvirt/* /etc/libvirt/storage/* /etc/libvirt/qemu/* /etc/libvirt/qemu/networks
@@ -306,8 +386,11 @@ add_cmd "foreman-selinux-relabel -nv" "foreman_filecontexts"
 add_files /etc/{sysconfig,default}/foreman
 add_files /etc/{sysconfig,default}/libvirt*
 add_files /etc/sysconfig/pgsql
-add_files "/var/lib/pgsql/data/pg_log/*"
-add_cmd "foreman-rake plugin:list" "plugin_list"
+add_files /var/lib/pgsql/data/pg_log/*
+add_cmd "passenger-status --show=pool" "passenger_status_pool"
+add_cmd "passenger-status --show=requests" "passenger_status_requests"
+add_cmd "passenger-status --show=backtraces" "passenger_status_backtraces"
+add_cmd "passenger-memory-stats" "passenger_memory"
 
 # Look for any debug extensions provided by plugins
 if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
@@ -315,6 +398,8 @@ if [ -d "/usr/share/foreman/script/foreman-debug.d" ]; then
     if [ -x "$extension" ]; then
       printv "Processing extension $extension"
       source "$extension" 2>/dev/null
+      # install cleanup trap again just in case it got overwritten
+      install_clean_trap
     fi
   done
 fi
@@ -332,6 +417,7 @@ qprintf "\n\n"
 
 if [ "$NOTAR" -eq 0 ]; then
   pushd "$DIR" >/dev/null
+  printv "Compressing directory structure"
   tar -c ../$(basename $DIR) 2>/dev/null | $COMPRESS > "$TARBALL"
   popd >/dev/null
   qprintf "%s: %s\n\n" "A debug file has been created" "$TARBALL ($(stat -c %s "$TARBALL") bytes)"
@@ -342,12 +428,16 @@ fi
 # upload if -u was passed in
 if [ $UPLOAD_DISABLED -eq 0 -a $UPLOAD -eq 1 ]; then
   qprintf "Uploading...\n"
-  rsync $TARBALL rsync://theforeman.org/debug-incoming
-  qprintf "The tarball has been uploaded, please contact us on our mailing list or IRC\n"
-  qprintf "referencing the following URL:\n\n"
-  qprintf "    http://debugs.theforeman.org/$(basename $TARBALL)\n\n"
+  if eval ${UPLOAD_CMD} ; then
+    qprintf "%s%s\n" "${UPLOAD_SUCCESS_MSG}" "$(basename ${TARBALL})"
+  else
+    error "${UPLOAD_FAIL_MSG}"
+    exit 3
+  fi
 else
-  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "To upload a tarball to our secure site, please use the -u option.\n"
+  [[ $UPLOAD_DISABLED -eq 0 ]] && qprintf "%s\n" "${UPLOAD_UNSET_MSG}"
 fi
+
+printv "Finished in $SECONDS seconds"
 
 exit 0

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ProxyStatusTftpTest < ActiveSupport::TestCase
   setup do
-    @proxy = FactoryGirl.
+    @proxy = FactoryBot.
       build_stubbed(:template_smart_proxy, :url => 'https://secure.proxy:4568')
   end
 
@@ -19,18 +19,10 @@ class ProxyStatusTftpTest < ActiveSupport::TestCase
   end
 
   test 'it does not cache tftp_server if set to false' do
-    Rails.cache.clear
     ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.13.0.1')
     tftp_server = ProxyStatus::TFTP.new(@proxy, {:cache => false}).server
     assert_equal('127.13.0.1', tftp_server)
     assert_nil(Rails.cache.fetch("proxy_#{@proxy.id}/TFTP"))
-  end
-
-  test 'it raises an error if proxy has no tftp feature' do
-    proxy = FactoryGirl.build_stubbed(:smart_proxy)
-    assert_raise Foreman::WrappedException do
-      ProxyStatus::TFTP.new(proxy).server
-    end
   end
 
   test 'it should catch connection setup exceptions' do

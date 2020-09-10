@@ -1,4 +1,4 @@
-class FixStiHostAuditableType < ActiveRecord::Migration
+class FixStiHostAuditableType < ActiveRecord::Migration[4.2]
   def up
     execute "UPDATE audits SET auditable_type='Host' WHERE auditable_type='Host::Base'"
   end

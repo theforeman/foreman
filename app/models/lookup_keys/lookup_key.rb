@@ -1,40 +1,41 @@
-class LookupKey < ActiveRecord::Base
+class LookupKey < ApplicationRecord
+  audited :associated_with => :audit_class
   include Authorizable
   include HiddenValue
+  include Classification
+  include KeyType
 
-  KEY_TYPES = [N_("string"), N_("boolean"), N_("integer"), N_("real"), N_("array"), N_("hash"), N_("yaml"), N_("json")]
-  VALIDATOR_TYPES = [N_("regexp"), N_("list") ]
+  VALIDATOR_TYPES = [N_("regexp"), N_("list")]
 
   KEY_DELM = ","
   EQ_DELM  = "="
-  VALUE_REGEX =/\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
+  VALUE_REGEX = /\A[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+(#{KEY_DELM}[^#{KEY_DELM}]+#{EQ_DELM}[^#{KEY_DELM}]+)*\Z/
+  MATCHERS_INHERITANCE = ['hostgroup', 'organization', 'location'].freeze
 
-  audited :associated_with => :audit_class
   validates_lengths_from_database
 
   serialize :default_value
 
   has_many :lookup_values, :dependent => :destroy, :inverse_of => :lookup_key
   accepts_nested_attributes_for :lookup_values,
-                                :reject_if => :reject_invalid_lookup_values,
-                                :allow_destroy => true
+    :reject_if => :reject_invalid_lookup_values,
+    :allow_destroy => true
 
   alias_attribute :value, :default_value
-  before_validation :cast_default_value
 
   validates :key, :presence => true
   validates :validator_type, :inclusion => { :in => VALIDATOR_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
-  validates :key_type, :inclusion => {:in => KEY_TYPES, :message => N_("invalid")}, :allow_blank => true, :allow_nil => true
-  validate :validate_default_value
   validates_associated :lookup_values
-  validate :disable_merge_overrides, :disable_avoid_duplicates, :disable_merge_default
 
-  before_save :sanitize_path
+  before_validation :sanitize_path
+  before_validation :cast_default_value, :if => :override?
+  validate :validate_default_value, :disable_avoid_duplicates, :disable_merge_overrides, :disable_merge_default, :if => :override?
+  after_validation :reset_override_params, :if => ->(key) { key.override_changed? && !key.override? }
   attr_name :key
 
   def self.inherited(child)
     child.instance_eval do
-      scoped_search :on => :key, :alias => :parameter, :complete_value => true, :default_order => true
+      scoped_search :on => :key, :aliases => [:parameter], :complete_value => true, :default_order => true
       scoped_search :on => :override, :complete_value => {:true => true, :false => false}
       scoped_search :on => :merge_overrides, :complete_value => {:true => true, :false => false}
       scoped_search :on => :merge_default, :complete_value => {:true => true, :false => false}
@@ -54,7 +55,6 @@ class LookupKey < ActiveRecord::Base
   # new methods for API instead of revealing db names
   alias_attribute :parameter, :key
   alias_attribute :variable, :key
-  alias_attribute :parameter_type, :key_type
   alias_attribute :variable_type, :key_type
   alias_attribute :override_value_order, :path
   alias_attribute :override_values, :lookup_values
@@ -88,7 +88,7 @@ class LookupKey < ActiveRecord::Base
   def to_param
     # to_param is used in views to create a link to the lookup_key.
     # If the key has whitespace in it the link will break so this replaced the whitespace.
-    search_key = key.tr(' ','_') unless key.nil?
+    search_key = key.tr(' ', '_') unless key.nil?
     Parameterizable.parameterize("#{id}-#{search_key}")
   end
 
@@ -97,31 +97,19 @@ class LookupKey < ActiveRecord::Base
   end
 
   def path
-    path = read_attribute(:path)
-    path.blank? ? array2path(Setting["Default_variables_Lookup_Path"]) : path
+    path = self[:path]
+    path.presence || array2path(Setting["Default_parameters_Lookup_Path"])
   end
 
   def path=(v)
     return unless v
-    using_default = v.tr("\r","") == array2path(Setting["Default_variables_Lookup_Path"])
-    write_attribute(:path, using_default ? nil : v)
+    using_default = v.tr("\r", "") == array2path(Setting["Default_parameters_Lookup_Path"])
+    self[:path] = using_default ? nil : v
   end
 
   def default_value_before_type_cast
-    return read_attribute(:default_value) if errors[:default_value].present?
-    value_before_type_cast default_value
-  end
-
-  def value_before_type_cast(val)
-    return val if val.nil? || contains_erb?(val)
-    case key_type.to_sym
-      when :json, :array
-        val = JSON.dump(val)
-      when :yaml, :hash
-        val = YAML.dump val
-        val.sub!(/\A---\s*$\n/, '')
-    end unless key_type.blank?
-    val
+    return self[:default_value] if errors[:default_value].present?
+    LookupKey.format_value_before_type_cast(default_value, key_type)
   end
 
   def path_elements
@@ -130,10 +118,6 @@ class LookupKey < ActiveRecord::Base
         element
       end
     end
-  end
-
-  def contains_erb?(value)
-    value =~ /<%.*%>/
   end
 
   def overridden?(obj)
@@ -145,7 +129,7 @@ class LookupKey < ActiveRecord::Base
   # we cannot search the database, in case the lookup value hasn't been saved yet
   def overridden_value(obj)
     obj.lookup_values.detect do |lookup_value|
-      lookup_value.lookup_key_id == self.id
+      lookup_value.lookup_key_id == id
     end
   end
 
@@ -153,37 +137,22 @@ class LookupKey < ActiveRecord::Base
     false
   end
 
-  private
-
-  # Generate possible lookup values type matches to a given host
-  def path2matches(host)
-    raise ::Foreman::Exception.new(N_("Invalid Host")) unless host.class.model_name == "Host"
-    matches = []
-    path_elements.each do |rule|
-      match = []
-      rule.each do |element|
-        match << "#{element}#{EQ_DELM}#{attr_to_value(host,element)}"
-      end
-      matches << match.join(KEY_DELM)
-    end
-    matches
+  def sorted_values
+    prio = path.downcase.split
+    lookup_values.sort_by { |val| [prio.index(val.path), val.match] }
   end
 
-  # translates an element such as domain to its real value per host
-  # tries to find the host attribute first, parameters and then fallback to a puppet fact.
-  def attr_to_value(host, element)
-    # direct host attribute
-    return host.send(element) if host.respond_to?(element)
-    # host parameter
-    return host.host_params[element] if host.host_params.include?(element)
-    # fact attribute
-    if (fn = host.fact_names.first(:conditions => { :name => element }))
-      return FactValue.where(:host_id => host.id, :fact_name_id => fn.id).first.value
-    end
+  private
+
+  def reset_override_params
+    self.merge_overrides = false
+    self.avoid_duplicates = false
+    self.merge_default = false
+    true
   end
 
   def sanitize_path
-    self.path = path.tr("\s","").downcase unless path.blank?
+    self.path = path.tr("\s", "").downcase if path.present?
   end
 
   def array2path(array)
@@ -194,7 +163,7 @@ class LookupKey < ActiveRecord::Base
   end
 
   def cast_default_value
-    return true if default_value.nil? || contains_erb?(default_value)
+    return true if default_value.nil? || default_value.contains_erb?
     begin
       Foreman::Parameters::Caster.new(self, :attribute_name => :default_value, :to => key_type).cast!
     rescue
@@ -221,19 +190,19 @@ class LookupKey < ActiveRecord::Base
 
   def disable_merge_overrides
     if merge_overrides && !supports_merge?
-      self.errors.add(:merge_overrides, _("can only be set for array or hash"))
+      errors.add(:merge_overrides, _("can only be set for array or hash"))
     end
   end
 
   def disable_avoid_duplicates
     if avoid_duplicates && (!merge_overrides || !supports_uniq?)
-      self.errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
+      errors.add(:avoid_duplicates, _("can only be set for arrays that have merge_overrides set to true"))
     end
   end
 
   def disable_merge_default
     if merge_default && !merge_overrides
-      self.errors.add(:merge_default, _("can only be set when merge overrides is set"))
+      errors.add(:merge_default, _("can only be set when merge overrides is set"))
     end
   end
 
@@ -241,3 +210,5 @@ class LookupKey < ActiveRecord::Base
     ['default_value']
   end
 end
+
+require_dependency 'puppetclass_lookup_key'

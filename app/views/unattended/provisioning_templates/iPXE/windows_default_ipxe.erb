@@ -1,0 +1,17 @@
+<%#
+kind: iPXE
+name: Windows default iPXE
+model: ProvisioningTemplate
+oses:
+- Windows
+%>#!ipxe
+set boot-url tftp://${next-server}/
+kernel ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:kernel) %>
+
+initrd <%= foreman_url('script') %> peSetup.cmd
+
+initrd ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:bcd) %> BCD
+initrd ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:bootsdi) %> boot.sdi
+initrd ${boot-url}<%= @host.operatingsystem.bootfile(medium_provider,:bootwim) %> boot.wim
+
+boot

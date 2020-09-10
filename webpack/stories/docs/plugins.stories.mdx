@@ -1,0 +1,114 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Plugins"
+  parameters={{
+    storyWeight: 60,
+  }}
+/>
+
+# Plugins
+
+## Using components from Foreman core
+
+There are three ways components provided by Foreman core can be re-used:
+
+### 1. Mounting components into ERB
+
+No special setup is required and you can re-use React components that are available in `componentRegistry` even when your plugin doesn't use Webpack.
+Components can be mounted into ERB using the `react_component` helper:
+
+```ruby
+react_component(component_name, props)
+```
+
+**Example:**
+
+```erb
+<%= react_component('PowerStatus', id: host.id, url: power_host_path(host.id)) %>
+```
+
+will render the following HTML:
+
+```html
+<react-component
+  name="PowerStatus"
+  data-props="<%= {
+    id: host.id,
+    url: power_host_path(host.id)
+  }.to_json %>"
+></react-component>
+```
+
+(Note that the React component is rendered as a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).)
+
+The list of available components is [here](https://github.com/theforeman/foreman/blob/develop/webpack/assets/javascripts/react_app/components/componentRegistry.js#L60).
+
+### 2. Re-using core code in Webpack
+
+If your plugin uses Webpack, you can import and the core functionality from `foremanReact`.
+
+**Example:**
+
+```js
+// import helpers from foremanReact:
+import { noop } from 'foremanReact/common/helpers';
+
+// import components from foremanReact:
+import { MessageBox } from 'foremanReact/components/common/MessageBox';
+```
+
+### 3. Using components outside of Webpack
+
+The component registry is available in `Window.tfm.componentRegistry`. That gives you access to the components even from js code that isn't processed by Webpack.
+
+```js
+const MyComponent = Window.tfm.componentRegistry.getComponent(componentName)
+  .type;
+```
+
+Most of the components must be wrapped with a [Higher-Order Component](https://reactjs.org/docs/higher-order-components.html) that provides some context like Redux store or Intl. `componentRegistry` publishes a wrapper factory that can create a wrapper function with HOCs according to your needs.
+
+```js
+const i18nWrapper = componentRegistry.wrapperFactory().with('i18n').wrapper;
+const MyComponentWithIntl = i18nWrapper(MyComponent);
+```
+
+# Using Webpack in plugins
+
+There are 3 conditions that a plugin has to fulfill to share the Webpack infrastructure from Foreman core:
+
+- A `./webpack/` folder containing all the Webpack-processed code
+- A `package.json` file with dependencies
+- A defined main entry point in `package.json` or just have `./webpack/index.js`
+
+The Webpack config is shared with core, so there's no need for custom configuration.
+
+Once all the above is set up, then the script `npm run install` executed from root of the core's git checkout installs dependencies for plugins too.
+Also `npm run lint` and `npm run test` behaves similarly.
+
+### Entry points
+
+The Webpack config respects the main entry point defined in `package.json`. On top of that it loads all files matching `./webpack/*index.js`. That allows plugins to define multiple independent entry points. This can be useful in special use-cases. For example when you need to mix some parts of Webpack-processed code into pages that use asset pipeline only.
+
+### Troubleshooting
+
+You can make sure Webpack knows about your plugin by executing script `plugin_webpack_directories.rb` that prints json-formatted info about all recognized plugins.
+
+```bash
+> ./script/plugin_webpack_directories.rb | json_reformat
+{
+    "entries": {
+        "katello": "/home/vagrant/foreman/katello/webpack/index.js"
+    },
+    "paths": [
+        "/home/vagrant/foreman/katello/webpack"
+    ],
+    "plugins": {
+        "katello": {
+            "root": "/home/vagrant/foreman/katello",
+            "entry": "/home/vagrant/foreman/katello/webpack/index.js"
+        }
+    }
+}
+```

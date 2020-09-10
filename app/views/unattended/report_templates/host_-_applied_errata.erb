@@ -1,0 +1,58 @@
+<%#
+name: Host - Applied Errata
+snippet: false
+template_inputs:
+- name: Filter Errata Type
+  required: false
+  input_type: user
+  description: Filter only errata of a given type. If you select all, errata are not
+    filtered by type.
+  options: "all\r\nsecurity\r\nbugfix\r\nrecommended\r\nenhancement\r\noptional"
+  advanced: false
+- name: Include Last Reboot
+  required: false
+  input_type: user
+  description: Last reboot information is based on configuration management facts,
+    such as uptime reported by Puppet or Ansible. The computation might be performance
+    heavy, if this value is not interesting, it can be omitted by choosing no.
+  options: "yes\r\nno"
+  advanced: false
+- name: Status
+  required: false
+  input_type: user
+  description: Limit the search based on the application result.
+  options: "success\r\nwarning\r\nerror\r\ncancelled\r\npending"
+  advanced: false
+- name: Since
+  required: false
+  input_type: user
+  description: Date and time since when to search for errata applications, use any
+    format supported by the search engine, e.g. "3 weeks ago" or "2019-03-28 10:00:00
+    +0100". If time zone is not specified, current user time zone is used.
+    By default, the search is unlimited.
+  advanced: false
+  value_type: date
+- name: Up to
+  required: false
+  input_type: user
+  description: Date and time to search errata applications up to, use any format supported
+    by the search engine, e.g. "3 weeks ago" or "2019-03-28 10:00:00 +0100". If time zone
+    is not specified, current user time zone is used. By default, the search is unlimited.
+  advanced: false
+  value_type: date
+model: ReportTemplate
+require:
+- plugin: katello
+  version: 3.12.0
+-%>
+<%- report_headers 'date', 'hostname', 'erratum_id', 'erratum_type', 'status' -%>
+<%- load_errata_applications(filter_errata_type: input('Filter Errata Type'), 
+                             include_last_reboot: input('Include Last Reboot'),
+                             since: input('Since'),
+                             up_to: input('Up to'),
+                             status: input('Status')
+                             ).each do |info| -%>
+<%-   report_row(info) -%>
+<%- end -%>
+<%= report_render -%>
+

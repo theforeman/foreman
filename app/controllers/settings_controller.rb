@@ -1,14 +1,7 @@
 class SettingsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
 
-  before_action :require_admin
   helper_method :xeditable?
-
-  #This can happen in development when removing a plugin
-  rescue_from ActiveRecord::SubclassNotFound do |e|
-    type = (e.to_s =~ /\'(Setting::.*)\'\./) ? $1 : 'STI-Type'
-    render :text => (e.to_s+"<br><b>run Setting.delete_all(:category=>'#{type}') to recover.</b>").html_safe, :status=> :internal_server_error
-  end
 
   def index
     @settings = Setting.live_descendants.search_for(params[:search])
@@ -25,8 +18,7 @@ class SettingsController < ApplicationController
     end
   end
 
-  def xeditable? object = nil, permission = nil
-    #The current user is required to be admin
-    current_user.admin?
+  def xeditable?(object = nil, permission = nil)
+    current_user.can? :edit_settings
   end
 end

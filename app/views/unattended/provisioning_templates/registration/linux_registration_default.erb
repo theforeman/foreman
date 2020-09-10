@@ -1,0 +1,29 @@
+<%#
+kind: registration
+name: Linux registration default
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- Debian
+- Ubuntu
+-%>
+#!/bin/bash
+
+set -e
+
+# This script enrolls a host with Foreman.
+# Host: <%= @host.name %>
+
+<% if @host.puppetmaster.present? -%>
+<%= snippet 'puppetlabs_repo' %>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+# Call home to exit build mode
+
+curl -o /dev/null --noproxy \* '<%= foreman_url('built') %>'
+
+echo "Successfully enrolled host <%= @host.name %> with Foreman."
+
+exit 0

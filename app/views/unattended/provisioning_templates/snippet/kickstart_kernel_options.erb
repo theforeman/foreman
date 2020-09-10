@@ -1,0 +1,115 @@
+<%#
+kind: snippet
+name: kickstart_kernel_options
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  is_fedora = @host.operatingsystem.name == 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
+  os_minor = @host.operatingsystem.minor.to_i
+  major = @host.operatingsystem.major.to_i
+  hostname = @host.name
+  iface = @host.provision_interface
+  mac = @host.provision_interface.mac
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
+  options = []
+
+  if rhel_compatible && os_major < 8
+    # replaced with BOOTIF in EL8+
+    options.push("network", "ksdevice=bootif", "ks.device=bootif")
+  end
+
+  if mac
+    bootif = '00-' + mac.gsub(':', '-')
+    options.push("BOOTIF=#{bootif}")
+  end
+
+  # tell Anaconda what to pass off to kickstart server
+  # both current and legacy syntax provided
+  options.push("kssendmac", "ks.sendmac", "inst.ks.sendmac")
+
+  # networking credentials
+  raise("Dual-stack provisioning not supported") if subnet4 && subnet6
+  if subnet4 && subnet4.dhcp_boot_mode?
+    options.push("ip=dhcp") if rhel_compatible && major >= 7
+  elsif subnet4 && !subnet4.dhcp_boot_mode?
+    if rhel_compatible && major < 7
+      dns_servers = subnet4.dns_servers.join(',')
+      if @ipxe_net
+        options.push('ip=${netX/ip} netmask=${netX/netmask} gateway=${netX/gateway} dns=${dns}')
+      else
+        options.push("ip=#{iface.ip}", "netmask=#{subnet4.mask}", "gateway=#{subnet4.gateway}", "dns=#{dns_servers}")
+      end
+    else
+      if @ipxe_net
+        options.push("ip=${netX/ip}::${netX/gateway}:${netX/netmask}:#{hostname}:#{iface.identifier}:none nameserver=${dns}")
+      else
+        options.push("ip=#{iface.ip}::#{subnet4.gateway}:#{subnet4.mask}:#{hostname}:#{iface.identifier}:none")
+      end
+    end
+  elsif subnet6.dhcp_boot_mode? && rhel_compatible && major >= 7
+    if host_param_true?("use-slaac")
+      options.push("ip=auto6")
+    else
+      options.push("ip=dhcp6")
+    end
+  elsif subnet6 && !subnet6.dhcp_boot_mode?
+    raise("Static IPv6 provisioning works on RHEL7 or newer") if rhel_compatible && major < 7
+    gw = subnet6.gateway ? "[#{subnet6.gateway}]" : ""
+    options.push("ip=[#{iface.ip6}]::#{gw}:#{subnet6.cidr}:#{hostname}:#{iface.identifier}:none")
+  end
+
+  # nameservers - must be present even for DHCP subnets because of bug:
+  # https://bugzilla.redhat.com/show_bug.cgi?id=1795276
+  if subnet4 && !@ipxe_net
+    subnet4.dns_servers.each { |server|
+      options.push("nameserver=#{server}")
+    }
+  elsif subnet6 && !@ipxe_net
+    subnet6.dns_servers.each { |server|
+      options.push("nameserver=#{server}")
+    }
+  end
+
+  # bond
+  if iface.bond? && rhel_compatible && os_major >= 6
+    options.push("bond=#{iface.identifier}:#{iface.attached_devices_identifiers}:mode=#{iface.mode},#{iface.bond_options.tr(' ', ',')}")
+  end
+
+  # VLAN (only on physical is recognized)
+  if iface.virtual? && iface.tag.present? && iface.attached_to.present?
+    if (is_fedora && os_major < 17) || (rhel_compatible && os_major < 7)
+      options.push("vlanid=#{iface.tag}")
+    else
+      options.push("vlan=vlan#{iface.tag}:#{iface.attached_to}")
+    end
+  end
+
+  # optional repository for Atomic
+  if @host.operatingsystem.name.match(/Atomic/i)
+    options.push("inst.repo=#{medium_uri}")
+  end
+
+  if @host.operatingsystem.name.match(/Atomic/i) || host_param('kickstart_liveimg')
+    options.push("inst.stage2=#{medium_uri}")
+  end
+
+  if !is_fedora && os_major >= 7 && host_param_true?('fips_enabled')
+    options.push('fips=1')
+  end
+
+  nic_delay = subnet4 ? subnet4.nic_delay : nil
+  nic_delay ||= subnet6 ? subnet6.nic_delay : nil
+  if nic_delay && rhel_compatible && major >= 7
+    ["dhcp", "iflink", "ifup", "route", "ipv6dad", "ipv6auto", "carrier"].each do |type|
+      options.push("rd.net.timeout.#{type}=#{nic_delay}")
+    end
+  elsif nic_delay
+    options.push("nicdelay=#{nic_delay} linksleep=#{nic_delay}")
+  end
+-%>
+<%# do not add newline after the next line %>
+<%= options.join(' ') -%>

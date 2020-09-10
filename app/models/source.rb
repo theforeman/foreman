@@ -1,4 +1,4 @@
-class Source < ActiveRecord::Base
+class Source < ApplicationRecord
   validates_lengths_from_database
   has_many :reports, :through => :logs
   has_many :logs
@@ -10,6 +10,6 @@ class Source < ActiveRecord::Base
 
   def self.find_or_create(val)
     digest = Digest::SHA1.hexdigest(val)
-    Source.where(:digest => digest).first || Source.create(:value => val, :digest => digest)
+    Source.find_by(:digest => digest) || Source.create(:value => val, :digest => digest)
   end
 end

@@ -1,0 +1,28 @@
+#!gpxe
+<%#
+kind: iPXE
+name: Kickstart default iPXE
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- RedHat
+%>
+<%
+  iface = @host.provision_interface
+  subnet4 = iface.subnet
+  subnet6 = iface.subnet6
+
+  if subnet4 && !subnet4.dhcp_boot_mode?
+    ks = foreman_url('provision', static: '1')
+  elsif subnet6 && !subnet6.dhcp_boot_mode?
+    ks = foreman_url('provision', static6: '1')
+  else
+    ks = foreman_url('provision')
+  end
+-%>
+kernel <%= "#{@host.url_for_boot(:kernel)}" %> initrd=initrd.img ks=<%= ks %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options", variables: {ipxe_net: true}).strip %>
+initrd <%= "#{@host.url_for_boot(:initrd)}" %>
+imgstat
+sleep 2
+boot

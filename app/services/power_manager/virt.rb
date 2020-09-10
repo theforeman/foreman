@@ -24,8 +24,8 @@ module PowerManager
 
     def state_output(result)
       result = result.to_s
-      return 'on' if result.match(/started/i)
-      return 'off' if result.match(/paused/i)
+      return 'on' if result =~ /started/i
+      return 'off' if result =~ /paused/i
       translate_status(result) # unknown output
     end
 
@@ -40,7 +40,7 @@ module PowerManager
                          :soft     => 'reboot',
                          :cycle    => 'reset',
                          :status   => {:action => :virt_state, :output => :state_output},
-                         :state    => {:action => :virt_state, :output => :state_output}
+                         :state    => {:action => :virt_state, :output => :state_output},
                        })
     end
 

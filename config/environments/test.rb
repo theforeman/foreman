@@ -1,3 +1,8 @@
+# Track deprecation warnings in test environment as early as possible, but pause processing of
+# deprecations until all plugins are registered (prior to the finisher_hook initializer) to ensure
+# the whitelist is fully configured. This is done in the after_initialize block below.
+ASDeprecationTracker.pause!
+
 Foreman::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -13,8 +18,8 @@ Foreman::Application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_files   = true
-  config.static_cache_control = 'public, max-age=3600'
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {'Cache-Control' => 'public, max-age=3600'}
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -49,11 +54,11 @@ Foreman::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  # Raise exception on mass assignment of unfiltered parameters
-  config.action_controller.action_on_unpermitted_parameters = :strict
+  # log on mass assignment of unfiltered parameters
+  config.action_controller.action_on_unpermitted_parameters = :log
 
-  # Use separate cache stores for parallel_tests
-  config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
+  # Use default memory cache (32 MB top)
+  config.cache_store = :memory_store
 
   # Enable automatic creation/migration of the test DB when running tests
   config.active_record.maintain_test_schema = true
@@ -62,4 +67,15 @@ Foreman::Application.configure do
   config.active_support.test_order = :random
 
   config.webpack.dev_server.enabled = false
+
+  # Whitelist all plugin engines by default from raising errors on deprecation warnings for
+  # compatibility, allow them to override it by adding an ASDT configuration file.
+  config.after_initialize do
+    Foreman::Plugin.all.each do |plugin|
+      unless File.exist?(File.join(plugin.path, 'config', 'as_deprecation_whitelist.yaml'))
+        ASDeprecationTracker.whitelist.add(engine: plugin.id.to_s.tr('-', '_'))
+      end
+    end
+    ASDeprecationTracker.resume!
+  end
 end

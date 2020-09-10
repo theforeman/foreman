@@ -9,15 +9,15 @@ module ProxyStatus
     end
 
     def find(name)
-      certs.find{|c| c.name == name}
+      certs.find { |c| c.name == name }
     end
 
     def find_by_state(state)
-      certs.select{|c| c.state == state}
+      certs.select { |c| c.state == state }
     end
 
     def expiry
-      ca_cert = find_by_state('valid').select{|c| c.valid_from.present?}.min_by(&:valid_from)
+      ca_cert = find_by_state('valid').select { |c| c.valid_from.present? }.min_by(&:valid_from)
       if ca_cert.present?
         ca_cert.expires_at
       else

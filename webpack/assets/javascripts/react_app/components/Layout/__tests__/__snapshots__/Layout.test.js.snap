@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout rendering renders layout 1`] = `
+<Fragment>
+  <VerticalNav
+    activePath="/Monitor/"
+    blurDelay={700}
+    blurDisabled={false}
+    dynamicBodyClasses={true}
+    forceHidden={false}
+    hiddenIcons={false}
+    hideMasthead={false}
+    hoverDelay={100}
+    hoverDisabled={false}
+    items={
+      Array [
+        Object {
+          "href": "/a",
+          "iconClass": "fa fa-tachometer",
+          "initialActive": true,
+          "subItems": undefined,
+          "title": "Monitor",
+        },
+        Object {
+          "href": "/b",
+          "iconClass": "fa fa-server",
+          "initialActive": false,
+          "subItems": undefined,
+          "title": "Hosts",
+        },
+        Object {
+          "href": "/c",
+          "iconClass": "fa fa-wrench",
+          "initialActive": false,
+          "subItems": undefined,
+          "title": "Configure",
+        },
+      ]
+    }
+    masthead={null}
+    onCollapse={[Function]}
+    onExpand={[Function]}
+    onItemBlur={null}
+    onItemClick={[Function]}
+    onItemHover={null}
+    onItemPin={null}
+    onMenuToggleClick={null}
+    onMobileSelection={null}
+    onNavigate={[Function]}
+    persist={true}
+    persistentSecondary={true}
+    pinnableMenus={false}
+    showBadges={false}
+  >
+    <VerticalNav.Masthead>
+      <VerticalNav.Brand
+        href="/"
+        iconImg="/assets/header_logo-c9614c16f2ee399ae9cb7f36ec94b9a26bf8cf9eabaa7fe6099bf80d1f7940db.svg"
+        img=""
+        onClick={null}
+        title=""
+        titleImg=""
+      />
+      <TaxonomySwitcher
+        currentLocation="Any Location"
+        currentOrganization="Any Organization"
+        isLoading={false}
+        locations={
+          Array [
+            Object {
+              "href": "/locations/1-yaml/select",
+              "id": 1,
+              "title": "yaml",
+            },
+            Object {
+              "href": "/locations/2-london/select",
+              "id": 2,
+              "title": "london",
+            },
+            Object {
+              "href": "/locations/3-norway/select",
+              "id": 3,
+              "title": "norway",
+            },
+          ]
+        }
+        onLocationClick={[Function]}
+        onOrgClick={[Function]}
+        organizations={
+          Array [
+            Object {
+              "href": "/organizations/1-org1/select",
+              "id": 1,
+              "title": "org1",
+            },
+            Object {
+              "href": "/organizations/2-org2/select",
+              "id": 2,
+              "title": "org2",
+            },
+          ]
+        }
+        taxonomiesBool={
+          Object {
+            "locations": true,
+            "organizations": true,
+          }
+        }
+      />
+      <UserDropdowns
+        changeActiveMenu={[Function]}
+        className=""
+        notificationUrl="/notification_recipients"
+        stopImpersonationUrl="/users/stop_impersonation"
+        user={
+          Object {
+            "current_user": Object {
+              "user": Object {
+                "firstname": "Admin",
+                "id": 4,
+                "lastname": "User",
+                "login": "admin",
+                "name": "Admin User",
+              },
+            },
+            "user_dropdown": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Aa",
+                  },
+                  Object {
+                    "isDivider": false,
+                    "onClick": [MockFunction],
+                    "title": "Cc",
+                  },
+                ],
+                "icon": "fa fa-user",
+                "name": "User",
+                "type": "sub_menu",
+              },
+            ],
+          }
+        }
+      />
+    </VerticalNav.Masthead>
+  </VerticalNav>
+  <LayoutContainer
+    isCollapsed={false}
+  />
+</Fragment>
+`;

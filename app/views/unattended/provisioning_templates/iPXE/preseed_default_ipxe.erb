@@ -1,0 +1,32 @@
+#!gpxe
+<%#
+kind: iPXE
+name: Preseed default iPXE
+model: ProvisioningTemplate
+oses:
+- Debian
+- Ubuntu
+%>
+<% if @host.operatingsystem.name == 'Debian' -%>
+  <%- keyboard_params = "auto=true domain=#{@host.domain}" -%>
+<% else -%>
+  <%- keyboard_params = 'console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA keyboard-configuration/layoutcode=us' -%>
+<% end -%>
+
+<% subnet = @host.subnet -%>
+<% if subnet.nil? || subnet.dhcp_boot_mode? -%>
+  <%- provision_url_suffix = '' -%>
+  <%- netcfg_args = '' -%>
+<% else -%>
+  <%- provision_url_suffix = (@host.token.nil? ? '?' : '&') + 'static=yes' -%>
+  <%- netcfg_args = 'netcfg/disable_dhcp=true netcfg/get_ipaddress=${netX/ip} netcfg/get_netmask=${netX/netmask} netcfg/get_gateway=${netX/gateway} netcfg/get_nameservers=${dns} netcfg/confirm_static=true' -%>
+<% end -%>
+
+<% boot_files_uris = @host.operatingsystem.boot_files_uri(medium_provider) -%>
+<% kernel = boot_files_uris[0] -%>
+<% initrd = boot_files_uris[1] -%>
+
+kernel <%= kernel %> initrd=initrd.img interface=auto url=<%= foreman_url('provision')%><%= provision_url_suffix %> ramdisk_size=10800 root=/dev/rd/0 rw auto BOOTIF=01-${netX/mac:hexhyp} hostname=<%= @host.name %> <%= keyboard_params %> locale=<%= host_param('lang') || 'en_US' %> <%= netcfg_args %>
+initrd <%= initrd %>
+
+boot

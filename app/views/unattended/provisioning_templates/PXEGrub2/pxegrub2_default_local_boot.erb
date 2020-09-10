@@ -1,0 +1,13 @@
+<%#
+kind: PXEGrub2
+name: PXEGrub2 default local boot
+model: ProvisioningTemplate
+%>
+<%# Used to boot provisioned hosts, do not associate or change the name. %>
+
+set default=<%= global_setting("default_pxe_item_local", "local") %>
+set timeout=20
+echo Default PXE local template entry is set to '<%= global_setting("default_pxe_item_local", "local") %>'
+
+<%= snippet "pxegrub2_chainload" %>
+<%= snippet "pxegrub2_discovery" %>

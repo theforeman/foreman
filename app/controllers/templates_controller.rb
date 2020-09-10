@@ -1,17 +1,17 @@
 class TemplatesController < ApplicationController
-  include UnattendedHelper # includes also Foreman::Renderer
   include Foreman::Controller::ProvisioningTemplates
   include Foreman::Controller::AutoCompleteSearch
+  include AuditsHelper
 
   before_action :handle_template_upload, :only => [:create, :update]
-  before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock]
+  before_action :find_resource, :only => [:edit, :update, :destroy, :clone_template, :lock, :unlock, :export]
   before_action :load_history, :only => :edit
   before_action :type_name_plural, :type_name_singular, :resource_class
 
   include TemplatePathsHelper
 
   def index
-    @templates = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @templates = resource_base_search_and_page
     @templates = @templates.includes(resource_base.template_includes)
   end
 
@@ -24,9 +24,9 @@ class TemplatesController < ApplicationController
   # detect method definitions in controller ancestors, only methods defined directly in child controller
   def clone_template
     @template = @template.dup
+    @template.name += ' clone'
     @template.locked = false
     load_vars_from_template
-    flash[:warning] = _("The marked fields will need reviewing")
     @template.valid?
     render :action => :new
   end
@@ -53,7 +53,7 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    if @template.update_attributes(resource_params)
+    if @template.update(resource_params)
       process_success :object => @template
     else
       load_history
@@ -85,26 +85,48 @@ class TemplatesController < ApplicationController
     else
       @template = resource_class.new(params[type_name_plural])
     end
-    base = @template.preview_host_collection
+    base = @template.class.preview_host_collection
     @host = params[:preview_host_id].present? ? base.find(params[:preview_host_id]) : base.first
     if @host.nil?
-      render :text => _('No host could be found for rendering the template'), :status => :not_found
+      render :plain => _('No host could be found for rendering the template'), :status => :not_found
       return
     end
     @template.template = params[:template]
-    safe_render(@template)
+    safe_render(@template, Foreman::Renderer::PREVIEW_MODE, escape_json: true)
+  end
+
+  def export
+    send_data @template.to_erb, :type => 'text/plain', :disposition => 'attachment', :filename => @template.filename
+  end
+
+  def resource_class
+    @resource_class ||= controller_name.singularize.classify.constantize
+  end
+
+  def resource_name
+    'template'
   end
 
   private
 
-  def safe_render(template)
-    begin
-      load_template_vars
-      render :text => unattended_render(template)
-    rescue => error
-      Foreman::Logging.exception("Error rendering the #{template.name} template", error)
-      render :text => _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message},
-             :status => :internal_server_error
+  def safe_render(template, mode = Foreman::Renderer::REAL_MODE, render_on_error: :plain, **params)
+    escape = params.delete :escape_json
+    rendered_text = template.render(host: @host, params: params, mode: mode, **params)
+    rendered_text = rendered_text.to_json if escape
+    render :plain => rendered_text
+  rescue => error
+    Foreman::Logging.exception("Error rendering the #{template.name} template", error)
+    if error.is_a?(Foreman::Renderer::Errors::RenderingError)
+      text = error.message
+    else
+      text = _("There was an error rendering the %{name} template: %{error}") % {:name => template.name, :error => error.message}
+    end
+
+    if render_on_error == :plain
+      render :plain => text, :status => :internal_server_error
+    else
+      error error.message, :now => true
+      render render_on_error, :status => :internal_server_error
     end
   end
 
@@ -119,26 +141,22 @@ class TemplatesController < ApplicationController
 
   def load_history
     return unless @template
-    @history = Audit.descending.where(:auditable_id => @template.id, :auditable_type => @template.class, :action => 'update')
+    @history = Audit.descending
+                    .where(:auditable_id => @template.id,
+                           :auditable_type => @template.class.base_class.name,
+                           :action => %w(update create))
+                    .select { |audit| audit_template? audit }
   end
 
   def action_permission
     case params[:action]
       when 'lock', 'unlock'
         :lock
-      when 'clone_template', 'preview'
+      when 'clone_template', 'preview', 'export'
         :view
       else
         super
     end
-  end
-
-  def resource_name
-    'template'
-  end
-
-  def resource_class
-    @resource_class ||= controller_name.singularize.classify.constantize
   end
 
   def type_name_plural

@@ -1,15 +1,19 @@
-require 'foreman/access_permissions'
-require 'menu/loader'
-require 'dashboard/loader'
-require 'foreman/plugin'
-require 'foreman/renderer'
-require 'foreman/controller'
-require 'net'
-require 'foreman/provision' if SETTINGS[:unattended]
-require 'foreman'
-require 'filters_helper_overrides'
+# stdlib dependencies
 require 'English'
-require 'fog_extensions'
+
+# Registries from app/registries/
+# All are loaded and populated early but are loaded only once
+require_dependency 'foreman/access_permissions'
+require_dependency 'menu/loader'
+require_dependency 'foreman/plugin'
+
+# Other internal dependencies, may be autoloaded
+require_dependency 'foreman/foreman_url_renderer'
+require_dependency 'foreman/controller'
+require_dependency 'net'
+require_dependency 'foreman/provision' if SETTINGS[:unattended]
+require_dependency 'foreman'
+require_dependency 'fog_extensions'
 
 # We may be executing something like rake db:migrate:reset, which destroys this table
 # only continue if the table exists
@@ -25,12 +29,11 @@ if (Setting.table_exists? rescue(false))
   Setting.descendants.each(&:load_defaults)
 end
 
-#load topbar
+# load topbar
 Menu::Loader.load
-
-#load dashboard widgets
-Dashboard::Loader.load
 
 # clear our users topbar cache
 # The users table may not be exist during initial migration of the database
-TopbarSweeper.expire_cache_all_users if User.table_exists?
+TopbarSweeper.expire_cache_all_users if (User.table_exists? rescue false)
+
+Foreman::Plugin.medium_providers.register MediumProviders::Default

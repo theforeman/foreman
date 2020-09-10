@@ -3,11 +3,12 @@ module Hostext
     extend ActiveSupport::Concern
 
     included do
-      has_one :token, :foreign_key => :host_id, :dependent => :destroy
+      has_one :token, :foreign_key => :host_id, :dependent => :destroy, :inverse_of => :host, :class_name => 'Token::Build'
 
       scope :for_token, ->(token) { joins(:token).where(:tokens => { :value => token }).where("expires >= ?", Time.now.utc.to_s(:db)).select('hosts.*') }
+      scope :for_token_when_built, ->(token) { joins(:token).where(:tokens => { :value => token }).select('hosts.*') }
 
-      after_validation :refresh_token_on_build
+      before_validation :refresh_token_on_build
     end
 
     # Sets and expire provisioning tokens
@@ -25,17 +26,17 @@ module Hostext
 
     def set_token
       return unless Setting[:token_duration] != 0
-      self.build_token(:value => Foreman.uuid,
+      build_token(:value => Foreman.uuid,
                        :expires => Time.now.utc + Setting[:token_duration].minutes)
     end
 
     def token_expired?
-      return false unless Setting[:token_duration] != 0 && self.token.present?
-      self.token.expires < Time.now.utc
+      return false unless Setting[:token_duration] != 0 && token.present?
+      token.expires < Time.now.utc
     end
 
     def expire_token
-      self.token.delete if self.token.present?
+      token.delete if token.present?
     end
   end
 end

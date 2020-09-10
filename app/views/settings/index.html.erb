@@ -1,15 +1,20 @@
 <% title _("Settings") %>
 <% title_actions documentation_button('3.5.2ConfigurationOptions') %>
+<%
+ordered_settings = @settings.stick_general_first
+first_category = ordered_settings.values.flatten.first.try(:category)
+%>
 <ul class="nav nav-tabs" data-tabs="tabs">
-  <% @settings.group_by(&:category).each do |category, setting| %>
-    <li class='<%= category == @settings.first.category ? "active" : ""%>'>
-      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(short_cat(category)) %></a>
+  <% ordered_settings.each do |category, _setting| %>
+    <li class='<%= category == first_category ? "active" : ""%>'>
+      <a href='<%= "##{short_cat(category)}" %>' data-toggle="tab"><%= _(cat_label(category)) %></a>
     </li>
   <% end %>
 </ul>
 <div class="tab-content">
-  <% @settings.group_by(&:category).each do |category, setting| %>
-    <div class="tab-pane <%= "active" if category == @settings.first.category %>" id='<%= short_cat(category) %>' >
+  <% ordered_settings.each do |category, setting| %>
+    <div class="tab-pane <%= "active" if category == first_category %>" id='<%= short_cat(category) %>' >
+      <%= render_if_partial_exists "settings/category/#{category.demodulize.downcase}", setting %>
       <table class="<%= table_css_classes %>">
         <thead>
           <tr>
@@ -22,7 +27,11 @@
           <% setting.each do |item| %>
             <tr>
               <td ><%= translate_full_name(item) %></td>
-              <td class="setting_value"><%= value(item) %></td>
+              <% if ((item.value != item.default) && (item.has_default?)) %>
+                  <td class="setting_value"><strong><%= value(item) %></strong></td>
+              <% else %>
+                  <td class="setting_value"><%= value(item) %></td>
+              <% end %>
               <td><%= _(item.description) %></td>
             </tr>
           <% end %>

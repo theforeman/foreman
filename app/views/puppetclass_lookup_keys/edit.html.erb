@@ -1,2 +1,3 @@
-<% title(_("Edit Smart class parameters")) %>
+<% title _("Edit %s") % @puppetclass_lookup_key.key %>
+<% lookup_keys_breadcrumbs %>
 <%= render 'lookup_keys/edit', :lookup_key => @puppetclass_lookup_key %>

@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 anonymous:
   login: <%= User::ANONYMOUS_ADMIN %>
   lower_login: <%= User::ANONYMOUS_ADMIN.downcase %>
@@ -46,6 +45,16 @@ restricted:
   last_login_on: 2009-10-12 21:50:04
   auth_source: one
 
+scoped:
+  login: scoped
+  lower_login: scoped
+  firstname: Scoped
+  lastname: User
+  mail: userscoped@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:05
+  auth_source: one
+
 admin:
   # Proof that 'admin' isn't special
   login: secret_admin
@@ -82,3 +91,37 @@ apiadmin:
   auth_source: internal
   password_hash: 02d7ff9921071af778ff4f8608579dcd6d80dfba
   password_salt: 80a167f1effbd82c2485ed81c3cfd68b11bc40dc
+
+view_hosts:
+  login: view_hosts
+  lower_login: view_hosts
+  firstname: view_hosts
+  lastname: User
+  mail: view_hosts@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 02d7ff9921071af778ff4f8608579dcd6d80dfba
+  password_salt: 80a167f1effbd82c2485ed81c3cfd68b11bc40dc
+
+system_admin:
+  login: system_admin
+  lower_login: system_admin
+  firstname: system_admin
+  lastname: User
+  mail: system_admin@anywhere.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: internal
+  password_hash: 02d7ff9921071af778ff4f8608579dcd6d80dfba
+  password_salt: 80a167f1effbd82c2485ed81c3cfd68b11bc40dc
+
+external:
+  login: external
+  lower_login: external
+  firstname: External
+  lastname: User
+  mail: external_user@someware.com
+  admin: false
+  last_login_on: 2009-10-12 21:50:04
+  auth_source: external

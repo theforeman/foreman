@@ -4,7 +4,7 @@ module UsersHelper
   end
 
   def auth_source_column(record)
-    record.auth_source.to_label if record.auth_source
+    record.auth_source&.to_label
   end
 
   def contracted_host_list(user)
@@ -19,10 +19,34 @@ module UsersHelper
   end
 
   def user_taxonomies_html_options(user)
-    {
-      :location     => { :onchange => 'taxonomy_added(this, "location")'},
-      :organization => { :onchange => 'taxonomy_added(this, "organization")'}
-    } unless user.admin?
+    unless user.admin?
+      {
+        :location     => { :onchange => 'tfm.users.taxonomyAdded(this, "location")'},
+        :organization => { :onchange => 'tfm.users.taxonomyAdded(this, "organization")'},
+      }
+    end
+  end
+
+  def user_action_buttons(user, additional_actions = [])
+    if User.current.admin? && user != User.current && session[:impersonated_by].blank? && !user.disabled?
+      additional_actions << link_to(_('Impersonate'),
+        { :controller => 'users',
+          :action => 'impersonate',
+          :id => user.id,
+        },
+        :method => :post,
+        :data => { :no_turbolink => true })
+    end
+
+    delete_btn = display_delete_if_authorized(
+      hash_for_user_path(:id => user).merge(:auth_object => user, :authorizer => authorizer),
+      :data => { :confirm => _("Delete %s?") % user.name })
+
+    action_buttons(*([display_delete_unless_impersonator(delete_btn, user)] + additional_actions))
+  end
+
+  def display_delete_unless_impersonator(link, user)
+    (user.id == session[:impersonated_by]) ? "" : link
   end
 
   def mail_notification_query_builder(mail_notification, f)

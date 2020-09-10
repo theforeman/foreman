@@ -1,28 +1,35 @@
 <%= text_f f, :name %>
+<%= textarea_f f, :description, :rows => :auto  %>
 
 <%= subnet_type_f f %>
-<%= text_f f, :network %>
-<%= text_f f, :mask, :help_inline => _("Netmask for this subnet"), :wrapper_class => "form-group #{'hide' unless f.object.show_mask?}" %>
-<%= text_f f, :cidr, :label => _("Network prefix"), :help_inline => _("Suffix or prefix length for this subnet, e.g. 32") %>
-<%= text_f f, :gateway, :help_inline => _("Optional: Gateway for this subnet") %>
-<%= text_f f, :dns_primary, :help_inline => _("Optional: Primary DNS for this subnet") %>
-<%= text_f f, :dns_secondary, :help_inline => _("Optional: Secondary DNS for this subnet") %>
-<%= selectable_f f, :ipam, subnet_ipam_modes(f.object.type), {}, :data => {'disable-auto-suggest-on' => [IPAM::MODES[:none], IPAM::MODES[:eui64]]},
+<%= text_f f, :network, :label => _("Network Address") %>
+<%= text_f f, :cidr, :label => _("Network Prefix"), :help_inline => _("Prefix length for this subnet, e.g. 24") %>
+<%= text_f f, :mask, :label => _("Network Mask"), :help_inline => _("Netmask for this subnet"), :wrapper_class => "form-group #{'hide' unless f.object.show_mask?}" %>
+<%= text_f f, :gateway, :label => _("Gateway Address"), :help_inline => _("Optional: Gateway for this subnet") %>
+<%= text_f f, :dns_primary, :label => _("Primary DNS Server"), :help_inline => _("Optional: Primary DNS for this subnet") %>
+<%= text_f f, :dns_secondary, :label => _("Secondary DNS Server"), :help_inline => _("Optional: Secondary DNS for this subnet") %>
+<%= selectable_f f, :ipam, subnet_ipam_modes(f.object.type), {}, :data => {'disable-auto-suggest-on' => [IPAM::MODES[:none], IPAM::MODES[:eui64], IPAM::MODES[:external_ipam]], 'enable-ipam-group-on' => [IPAM::MODES[:external_ipam]]},
                  :label => _('IPAM'),
-                 :help_inline => popover(
-                         _("IP Address Management"),
-                         _("You can select one of the IPAM modes supported by the selected IP protocol:<br/>" +
+                 :label_help => _("You can select one of the IPAM modes supported by the selected IP protocol:<br/>" +
                                    "<ul><li><strong>DHCP</strong> - will manage the IP on DHCP through assigned DHCP proxy, auto-suggested IPs come from DHCP <em>(IPv4)</em></li>" +
-                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em></li>" +
+                                   "<li><strong>Internal DB</strong> - use internal DB to auto-suggest free IP based on other interfaces on same subnet respecting range if specified, useful mainly with static boot mode <em>(IPv4, IPv6)</em>, preserves natural ordering</li>" +
+                                   "<li><strong>Random DB</strong> - same as Internal DB but randomizes results to prevent race conditions <em>(IPv4)</em></li>" +
                                    "<li><strong>EUI-64</strong> - will assign the IPv6 address based on the MAC address of the interface <em>(IPv6)</em></li>" +
-                                   "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>"),
-                         :'data-placement' => "top"
-                 ).html_safe %>
+                                   "<li><strong>External IPAM</strong> - will auto-suggest the next available address via an External IPAM Smart-proxy plugin (IPv4, IPv6)</li>" +
+                                   "<li><strong>None</strong> - leave IP management solely on user, no auto-suggestion <em>(IPv4, IPv6)</em></li></ul>").html_safe,
+                 :label_help_options => { :title => _("IP Address Management"), :'data-placement' => 'top' }%>
 <div id='ipam_options' class ='<%= f.object.ipam_needs_range? ? "" : "hide" %>'>
   <%= text_f f, :from, :help_inline => _("Optional: Starting IP Address for IP auto suggestion") %>
   <%= text_f f, :to,   :help_inline => _("Optional: Ending IP Address for IP auto suggestion") %>
 </div>
+
+<div id='external_ipam_options' class='<%= f.object.ipam_needs_group? ? "" : "hide" %>'>
+  <%= text_f f, :externalipam_group, :label => _("External IPAM Group"), :help_inline => _("Optional: The group/section of subnets in External IPAM to associate this subnet with") %>
+</div>
+
 <%= number_f f, :vlanid, :min => 0, :max => 4095, :help_inline => _("Optional: VLAN ID for this subnet") %>
+<%= number_f f, :mtu, :label => _('MTU'), :min => 68, :max => 4294967295, :help_inline => _('MTU for this subnet') %>
+<%= number_f f, :nic_delay, :label => _('Link Delay'), :min => 0, :max => 900, :help_inline => _('Delay network activity during install for X seconds') %>
 <%= selectable_f f, :boot_mode, Subnet.boot_modes_with_translations, {},
-                 :help_inline => _("Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates") %>
+                 :label => _("Boot Mode"), :help_inline => _("Default boot mode for interfaces assigned to this subnet, applied to hosts from provisioning templates") %>
 <%= hidden_field_tag :redirect, params[:redirect] %>

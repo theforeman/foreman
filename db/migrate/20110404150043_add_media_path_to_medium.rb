@@ -1,4 +1,4 @@
-class AddMediaPathToMedium < ActiveRecord::Migration
+class AddMediaPathToMedium < ActiveRecord::Migration[4.2]
   def up
     add_column :media, :media_path,  :string, :limit => 128
     add_column :media, :config_path, :string, :limit => 128

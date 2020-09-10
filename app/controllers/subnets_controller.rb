@@ -5,7 +5,8 @@ class SubnetsController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @subnets = resource_base.search_for(params[:search], :order => params[:order]).includes(:domains, :dhcp).paginate :page => params[:page]
+    @subnets = resource_base_search_and_page([:domains, :dhcp])
+    @subnets = @subnets.network_reorder(params[:order]) if params[:order].present? && params[:order] =~ /\Anetwork( ASC| DESC)?\Z/
   end
 
   def new
@@ -25,7 +26,7 @@ class SubnetsController < ApplicationController
   end
 
   def update
-    if @subnet.update_attributes(subnet_params.except(:mask))
+    if @subnet.update(subnet_params.except(:mask))
       process_success success_hash
     else
       process_error
@@ -42,7 +43,7 @@ class SubnetsController < ApplicationController
 
   # query our subnet dhcp proxy for an unused IP
   def freeip
-    unless (s=params[:subnet_id].to_i) > 0
+    unless (s = params[:subnet_id].to_i) > 0
       invalid_request
       return
     end
@@ -53,7 +54,7 @@ class SubnetsController < ApplicationController
         not_found
         return
       end
-      unless (ipam = subnet.unused_ip(params[:host_mac], params[:taken_ipds])).present?
+      unless (ipam = subnet.unused_ip(params[:host_mac], params[:taken_ips])).present?
         not_found
         return
       end
@@ -69,18 +70,20 @@ class SubnetsController < ApplicationController
     proxy = SmartProxy.find(params[:smart_proxy_id])
     @subnets = Subnet::Ipv4.import(proxy)
     if @subnets.empty?
-      flash[:warning] = _("No new IPv4 subnets found")
+      warning _("No new IPv4 subnets found")
       redirect_to :subnets
     end
   end
 
   def create_multiple
     if params[:subnets].empty?
-      return redirect_to subnets_path, :notice => _("No IPv4 subnets selected")
+      return redirect_to subnets_path, :success => _("No IPv4 subnets selected")
     end
 
     params_filter = self.class.subnet_params_filter
-    subnet_attrs = params[:subnets].map { |s| params_filter.filter_params(s, parameter_filter_context) }
+    subnet_attrs = params[:subnets].map do |subnet_param|
+      params_filter.filter_params(subnet_param, parameter_filter_context, :none)
+    end
     @subnets = Subnet.create(subnet_attrs).reject { |s| s.errors.empty? }
     if @subnets.empty?
       process_success(:object => @subnets, :success_msg => _("Imported IPv4 Subnets"))
@@ -92,6 +95,6 @@ class SubnetsController < ApplicationController
   private
 
   def success_hash
-    { :success_redirect => params[:redirect].present? ? params[:redirect] : nil }
+    { :success_redirect => params[:redirect].presence }
   end
 end

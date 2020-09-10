@@ -1,15 +1,17 @@
+<%= javascript_tag("$(document).on('ContentLoad', tfm.templateInputs.initTypeChanges)"); %>
+
 <% url = if @template.persisted?
            public_send("#{@type_name_singular}_path", :id => @template)
          else
            public_send("#{@type_name_singular}_path", :id => @resource_class.new)
          end
 %>
-<%= form_for @template, :url => url, :html => { :multipart => true, :onsubmit => 'submit_code();' } do |f| %>
+<%= form_for @template, :url => url, :html => { :multipart => true } do |f| %>
   <%= base_errors_for @template %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a id="primary_tab" href="#primary" data-toggle="tab"><%= _("Template") %></a></li>
+    <li><a href="#template_inputs" data-toggle="tab"><%= _("Inputs") %></a></li>
     <%= render "#{@type_name_plural}/custom_tab_headers" unless type == 'ptable'%>
-
     <li><a id='history_tab' href="#history" data-toggle="tab"><%= _("History") %></a></li>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
@@ -17,81 +19,168 @@
     <% if show_organization_tab? %>
       <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
     <% end %>
+    <li><a id='help_tab' href="#help" data-toggle="tab"><%= _("Help") %></a></li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
+      <%= render_if_exists "#{@type_name_plural}/_alerts" %>
+
       <%= text_f f, :name, :disabled => @template.locked? %>
 
       <% if show_default? %>
-        <%= checkbox_f f, :default, :label=>_('Default'), :help_block => default_template_description %>
+        <%= checkbox_f f, :default, :label=>_('Default'), :label_help => default_template_description %>
       <% end -%>
 
       <%= render "custom_tabs", :f => f if type == 'ptable' %>
-      <%= render_if_exists "#{@type_name_plural}/_alerts" %>
-
-
 
       <% if pxe_with_building_hosts?(@template) -%>
         <% warning_text = (_("The template is associated to at least one host in build mode. To apply the change, disable and enable build mode on hosts to update the live templates or choose to %s their configuration from 'Select Action' menu") % link_to(_('recreate'), building_hosts_path(@template))).html_safe %>
-        <%= alert(:class => 'alert-warning', :header => 'Warning',
-                  :text => warning_text) %>
+        <%= alert(:class => 'alert-warning', :header => 'Warning', :text => warning_text) %>
       <% end -%>
 
       <div class='form-group'>
         <div class="col-md-12">
-            <label class="control-label"  for="template"><%= _("Template editor") %></label>
-        </div>
-
-        <div class="col-md-12">
-          <div class="editor-container">
-            <%= render :partial => 'editor/toolbar', :locals => {:show_preview => true} %>
-
-            <%= alert :class => 'alert-danger hide', :id => 'preview_error', :close => false %>
-            <%= textarea_f f, :template, :class => "editor_source", :label =>:none, :disabled => @template.locked?, :size => "max",
-                            :'data-file-name' => @template.name, :'data-render-path' => url_for(template_hash_for_member(@template, 'preview')) %>
-          </div>
+              <%= react_component('Editor', { data: {
+                template: @template.template,
+                locked: @template.locked,
+                id: @template.id,
+                type: 'templates',
+                name: template_name_attribute(@template.class),
+                templateClass: @template.class.to_s,
+                title: @template.name,
+                showImport: !@template.locked,
+                showPreview: true,
+                showHostSelector: @template.support_single_host_render?,
+                renderPath: url_for(template_hash_for_member(@template, 'preview')),
+              }}) %>
         </div>
       </div>
 
-      <% unless @template.locked? -%>
-        <%= file_field_f f, :template, :class => "editor_file_source",:size => "col-md-10", :id => 'template_file',
-                         :help_block  => _("Selecting a file will override the editor and load the file instead") %>
-      <% end -%>
+      <%= textarea_f f, :description, :size => 'col-md-10', :rows => 3, :label => _('Description'), :disabled => @template.locked? %>
 
       <%= textarea_f f, :audit_comment, :size => "col-md-10", :rows => 3, :label => _("Audit Comment"),
-                     :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes") %>
+                     :help_block => _("The Audit Comment field is saved with the template auditing to document the template changes"),
+                     :disabled => @template.locked? %>
+    </div>
+
+    <div class="tab-pane" id="template_inputs">
+      <%= alert(:class => 'alert-info', :header => _('Template inputs'),
+                :text => ('<p>' + _("Inputs can be used to parametrize templates during rendering \
+  based on template type, it allows to fetch the value from host facts, \
+  host parameterization or ask user interactively. To use value loaded \
+  via input, use <code>input('name')</code> global macro. The template needs to be \
+  saved before input macro can load the value. If the value is not available during
+  template preview, its value is expanded to <code>$TYPE_INPUT[name]</code> string." + '</p>')
+                ).html_safe) %>
+
+      <div class="children_fields">
+        <%= new_child_fields_template(f, :template_inputs, { :partial => "template_inputs/form" }) %>
+        <%= f.fields_for :template_inputs do |ff| %>
+          <div class="template_input_form fields">
+            <%= render 'template_inputs/form', :f => ff %>
+          </div>
+        <% end %>
+        <%= add_child_link '+ ' + _("Add Input"), :template_inputs, { :title => _('add a input for this template')} unless @template.locked? %>
+      </div>
     </div>
 
     <div class="tab-pane" id="history">
-      <% if @history.try(:any?) %>
-        <% @history.each do |audit| %>
-          <% next unless audit_template? audit %>
-          <div class='row'>
-            <div class='col-md-6'>
-              <b><%= audit_user(audit) %> <%= audit.comment %></b>
-            </div>
-            <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
-            <div class='col-md-8 audit-content'>
-              <%= link_to_function icon_text("retweet", _("Revert")), "revert_template(this)", :data => {:url => revision_provisioning_templates_url, :version => audit.id } %>
-              <%= link_to icon_text("eye-open", _("Show Diff")), audit_path(audit), :rel => 'external' %>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <%= alert(:class => 'alert-info', :header => _('No history found'),
-                  :text => _('Save something and try again')) %>
-      <% end %>
+      <%= render :partial => 'history', :locals => { history: @history } %>
     </div>
 
+    <div class="tab-pane" id="help">
+      <div>
+        <h1><%= _('Template syntax') %></h1>
+        <%= _('Provisioning templates are generated using the Embedded Ruby (ERB) language.') %>
+        <%= _('The following table and example snippet shows global methods, variables and class methods and how to use them.') %>
+        <%= _('These are guaranteed to work via the safe mode rendering, to ensure a template can do nothing harmful.') %>
+        <% unless Setting[:safemode_render] -%>
+          <%= _('To enable safe mode, navigate to Settings page and enable Safemode rendering option.') %>
+        <% end -%>
+        <%= link_to(_('For more info visit our documentation.'), documentation_url(controller.documentation_anchor)) if controller.respond_to?(:documentation_anchor) %>
+        <h2><%= _('Examples') %></h2>
+        <div class="panel-group" id="accordion-markup">
+          <%= render "help_accordion", :title => _('Comments'), :contents => (capture { %>
+            <%%# this is a comment %>
+          <% }) %>
+          <%= render "help_accordion", :title => _('In-line code syntax'), :contents => (capture { %>
+            <%% if true -%><br/>
+            &nbsp;&nbsp;some content<br/>
+            <%% end -%>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Printing data'), :contents => (capture { %>
+            <%%= "some content from variable" %>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Variables'), :contents => (capture { %>
+            <%%= @host %>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Calling methods on objects'), :contents => (capture { %>
+            <%%= @host.operatingsystem.major %>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Safe mode methods'), :contents => (capture { %>
+            <%%# @host.operatingsystem.set_title("this method is not listed for Operatingsystem") %>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Global macros'), :contents => (capture { %>
+            <%%= rand(9999) + 1 %>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Iterating'), :contents => (capture { %>
+            <%% @host.interfaces.each do |interface| -%><br/>
+            &nbsp;&nbsp;NIC name: <%%= interface.name %><br/>
+            <%% end -%><br/>
+          <% }) %>
+          <%= render "help_accordion", :title => _('Inputs'), :wrap_in_code => false, :contents => (capture { %>
+              <p>
+                <%= (_('Once you define a template input in Inputs tab and save the template, it can be used in the ERB.
+                To load value specified through this input, use global macro %{example1} and pass the input
+                name as an argument. E.g. %{example2} will load the value through input called cpus.') % {
+                    :example1 => "<code>input</code>",
+                    :example2 => "<code><&#37;= input('cpus') &#37;></code>"
+                }).html_safe %>
+              <p>
+                <%= (_("While rendering the template in preview mode, the input either loads the value or uses a placeholder
+                if the input is not ready for the rendering. If the template is rendered for real and the input is
+                not ready, an error is raised. The readyness criteria differs per input type, e.g. for Fact Inputs
+                linked to host's fact with name \"cpu_count\" is ready when %{example1} facts contains value
+                for such fact. To load this value into the template, following code can be used %{example2}
+                Note that the fact name can differ from input name.") % {
+                    :example1 => "<code>@host</code>",
+                    :example2 => "<code><&#37;= input('cpus') &#37;></code>"
+                }).html_safe %>
+              </p>
+          <% }) %>
+        </div>
+      </div>
+      <h2><%= _('Safe mode methods and variables') %></h2>
+      <table class="<%= table_css_classes %>">
+        <thead>
+          <tr>
+            <th class='col-md-3'><%= _("Class") %></th>
+            <th class='col-md-9'><%= _("Allowed methods or members") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ellipsis"><em><%= _("Global methods (macros)") %></em></td>
+            <td><code class="transparent"><%= safemode_helpers %></code></td>
+          </tr>
+          <tr>
+            <td class="ellipsis"><em><%= _("Global variables") %></em></td>
+            <td><code class="transparent"><%= safemode_variables %></code></td>
+          </tr>
+        <% safemode_methods.each do |record| %>
+          <tr>
+            <td class="ellipsis"><%= record.first %></td>
+            <td><code class="transparent"><%= record.second %></code></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
 
     <%= render "custom_tabs", :f => f unless type == 'ptable'%>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @template %>
 
     <%= submit_or_cancel f, false, :cancel_path => template_path_for(@template.class) %>
   </div>
-  <%# These hidden inputs are used for the diff Preview. They intentionally do
-      not have a 'name' attribute so browsers will not send them in the form POST. %>
-  <input type="hidden" id="old" value="<%= @template.template %>" />
-  <input type="hidden" id="new" value="<%= @template.template %>" />
 <% end %>

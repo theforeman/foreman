@@ -1,4 +1,4 @@
-class RemoveArchitectureDefault < ActiveRecord::Migration
+class RemoveArchitectureDefault < ActiveRecord::Migration[4.2]
   def up
     change_column :architectures, :name, :string, :default => nil
   end

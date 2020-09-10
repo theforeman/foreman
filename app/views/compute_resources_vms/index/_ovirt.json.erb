@@ -1,5 +1,6 @@
 {
-  "sEcho": <%= params['sEcho'] || '' %>,
-  "iTotalDisplayRecords": <%= ovirt_fake_vms_count %>,
-  "aaData": <%= ovirt_vms_data %>
+  "draw": <%= params['draw'].to_i || '1' %>,
+  "recordsTotal": <%= ovirt_fake_vms_count %>,
+  "recordsFiltered": <%= ovirt_fake_vms_count %>,
+  "data": <%= ovirt_vms_data %>
 }

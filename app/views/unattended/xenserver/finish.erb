@@ -1,9 +1,0 @@
-<%#
-kind: finish
-name: XenServer default finish
-oses:
-- XenServer
-%>
-
-#!/bin/bash
-/usr/bin/wget --output-document=/dev/null <%= foreman_url('built') %>

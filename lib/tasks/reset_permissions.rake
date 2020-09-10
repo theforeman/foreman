@@ -1,16 +1,15 @@
-require 'facter'
 namespace :permissions do
-  desc <<-END_DESC
-Create or reset "admin" user permissions to defaults.  Alternatively, you may
-specify a username or password.
+  desc <<~END_DESC
+    Create or reset "admin" user permissions to defaults.  Alternatively, you may
+    specify a username or password.
 
-Examples:
-  # foreman-rake permissions:reset
-  Reset to user: admin, password: HrbX7zQErrT6
+    Examples:
+      # foreman-rake permissions:reset
+      Reset to user: admin, password: HrbX7zQErrT6
 
-  # foreman-rake permissions:reset username=bclark password=changeme
-  Reset to user: bclark, password: changeme
-END_DESC
+      # foreman-rake permissions:reset username=bclark password=changeme
+      Reset to user: bclark, password: changeme
+  END_DESC
 
   task :reset => :environment do
     User.as_anonymous_admin do

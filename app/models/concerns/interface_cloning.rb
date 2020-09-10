@@ -10,7 +10,7 @@ module InterfaceCloning
     clone = object.dup
     yield(clone) if block_given?
     # we can't assign using #attributes= because of mass-assign protected attributes (e.g. type)
-    for key in (object.changed_attributes.keys - ["updated_at"])
+    (object.changed_attributes.keys - ["updated_at"]).each do |key|
       clone.send "#{key}=", object.changed_attributes[key]
     end
     clone

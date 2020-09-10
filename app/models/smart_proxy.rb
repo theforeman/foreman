@@ -1,16 +1,17 @@
-class SmartProxy < ActiveRecord::Base
+class SmartProxy < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Taxonomix
   include Parameterizable::ByIdName
-  audited
 
   validates_lengths_from_database
   before_destroy EnsureNotUsedBy.new(:hosts, :hostgroups, :subnets, :domains, [:puppet_ca_hosts, :hosts], [:puppet_ca_hostgroups, :hostgroups], :realms)
-  #TODO check if there is a way to look into the tftp_id too
+  # TODO check if there is a way to look into the tftp_id too
   # maybe with a predefined sql
-  has_and_belongs_to_many :features
+  has_many :smart_proxy_features, :dependent => :destroy
+  has_many :features, :through => :smart_proxy_features
   has_many :subnets,                                          :foreign_key => 'dhcp_id'
   has_many :domains,                                          :foreign_key => 'dns_id'
   has_many_hosts                                              :foreign_key => 'puppet_proxy_id'
@@ -27,7 +28,7 @@ class SmartProxy < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :url, :complete_value => :true
-  scoped_search :in => :features, :on => :name, :rename => :feature, :complete_value => :true
+  scoped_search :relation => :features, :on => :name, :rename => :feature, :complete_value => :true
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -44,23 +45,7 @@ class SmartProxy < ActiveRecord::Base
   end
 
   def to_s
-    return hostname unless Setting[:legacy_puppet_hostname]
-    hostname.match(/^puppet\./) ? 'puppet' : hostname
-  end
-
-  def self.smart_proxy_ids_for(hosts)
-    ids = []
-    ids << hosts.joins(:primary_interface => :subnet).pluck('DISTINCT subnets.dhcp_id')
-    ids << hosts.joins(:primary_interface => :subnet).pluck('DISTINCT subnets.tftp_id')
-    ids << hosts.joins(:primary_interface => :subnet).pluck('DISTINCT subnets.dns_id')
-    ids << hosts.joins(:primary_interface => :domain).pluck('DISTINCT domains.dns_id')
-    ids << hosts.joins(:realm).pluck('DISTINCT realm_proxy_id')
-    ids << hosts.pluck('DISTINCT puppet_proxy_id')
-    ids << hosts.pluck('DISTINCT puppet_ca_proxy_id')
-    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_proxy_id')
-    ids << hosts.joins(:hostgroup).pluck('DISTINCT hostgroups.puppet_ca_proxy_id')
-    # returned both 7, "7". need to convert to integer or there are duplicates
-    ids.flatten.compact.map { |i| i.to_i }.uniq
+    hostname
   end
 
   def hosts_count
@@ -71,6 +56,19 @@ class SmartProxy < ActiveRecord::Base
     statuses.values.each { |status| status.revoke_cache! }
     associate_features
     errors
+  end
+
+  def ping
+    begin
+      reply = get_features
+      unless reply.is_a?(Hash)
+        logger.debug("Invalid response from proxy #{name}: Expected Hash of features, got #{reply}.")
+        errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
+      end
+    rescue => e
+      errors.add(:base, _('Unable to communicate with the proxy: %s') % e)
+    end
+    !errors.any?
   end
 
   def taxonomy_foreign_conditions
@@ -85,13 +83,47 @@ class SmartProxy < ActiveRecord::Base
     conditions
   end
 
-  def has_feature?(feature)
-    self.features.any? { |proxy_feature| proxy_feature.name == feature }
+  def smart_proxy_feature_by_name(feature_name)
+    feature_id = Feature.find_by(:name => feature_name).try(:id)
+    # loop through the in memory object to work on unsaved objects
+    smart_proxy_features.find { |spf| spf.feature_id == feature_id }
+  end
+
+  def has_feature?(feature_name)
+    feature_ids = Feature.where(:name => feature_name).pluck(:id)
+    smart_proxy_features.any? { |proxy_feature| feature_ids.include?(proxy_feature.feature_id) }
+  end
+
+  def capabilities(feature)
+    smart_proxy_feature_by_name(feature).try(:capabilities)
+  end
+
+  def has_capability?(feature, capability)
+    capabilities(feature)&.include?(capability.to_s)
+  end
+
+  def setting(feature, setting)
+    smart_proxy_feature_by_name(feature).try(:settings).try(:[], setting)
+  end
+
+  def httpboot_http_port
+    setting(:HTTPBoot, 'http_port')
+  end
+
+  def httpboot_http_port!
+    httpboot_http_port || raise(::Foreman::Exception.new(N_("HTTP boot requires proxy with httpboot feature and http_port exposed setting")))
+  end
+
+  def httpboot_https_port
+    setting(:HTTPBoot, 'https_port')
+  end
+
+  def httpboot_https_port!
+    httpboot_https_port || raise(::Foreman::Exception.new(N_("HTTPS boot requires proxy with httpboot feature and https_port exposed setting")))
   end
 
   def statuses
     return @statuses if @statuses
-
     @statuses = {}
     features.each do |feature|
       name = feature.name.delete(' ')
@@ -104,27 +136,75 @@ class SmartProxy < ActiveRecord::Base
     @statuses
   end
 
+  def feature_details
+    smart_proxy_features.includes(:feature).each_with_object({}) do |smart_proxy_feature, hash|
+      hash[smart_proxy_feature.feature.name] = smart_proxy_feature.details
+    end
+  end
+
   private
 
   def sanitize_url
-    self.url.chomp!('/') unless url.empty?
+    self.url = url.chomp('/') unless url.empty?
   end
 
   def associate_features
-    return true if Rails.env == 'test'
-
     begin
-      reply = ProxyAPI::Features.new(:url => url).features
-      if reply.is_a?(Array) && reply.any?
-        self.features = Feature.where(:name => reply.map{|f| Feature.name_map[f]})
+      reply = get_features
+      unless reply.is_a?(Hash)
+        logger.debug("Invalid response from proxy #{name}: Expected Hash or Array of features, got #{reply}.")
+        errors.add(:base, _('An invalid response was received while requesting available features from this proxy'))
+        throw :abort
+      end
+
+      feature_name_map = Feature.name_map
+      valid_features = reply.select { |feature, options| feature_name_map.key?(feature) }
+
+      if valid_features.any?
+        SmartProxyFeature.import_features(self, valid_features)
       else
-        self.features.clear
-        errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
+        smart_proxy_features.clear
+        if reply.any?
+          errors.add :base, _('Features "%s" in this proxy are not recognized by Foreman. '\
+                              'If these features come from a Smart Proxy plugin, make sure Foreman has the plugin installed too.') % reply.keys.to_sentence
+        else
+          errors.add :base, _('No features found on this proxy, please make sure you enable at least one feature')
+        end
       end
     rescue => e
       errors.add(:base, _('Unable to communicate with the proxy: %s') % e)
       errors.add(:base, _('Please check the proxy is configured and running on the host.'))
     end
-    features.any?
+    throw :abort if smart_proxy_features.empty?
+  end
+
+  def get_features
+    begin
+      reply = ProxyAPI::V2::Features.new(:url => url).features.with_indifferent_access
+      reply.reject! { |name| reply[name]['state'] != 'running' }
+    rescue NotImplementedError
+      reply = ProxyAPI::Features.new(:url => url).features
+    end
+
+    if reply.is_a?(Array)
+      Hash[reply.collect { |f| [f, {}] }]
+    else
+      reply
+    end
+  end
+
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    name 'Smart Proxy'
+    refs 'SmartProxy'
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'Smart Proxy' }
+    property :hostname, String, desc: 'Returns name of the host with proxy'
+    property :httpboot_http_port, Integer, desc: 'Returns proxy port for HTTP boot'
+    property :httpboot_http_port!, Integer, desc: 'Same as httpboot_http_port, but raises Foreman::Exception if no port is set'
+    property :httpboot_https_port, Integer, desc: 'Returns proxy port for HTTPS boot'
+    property :httpboot_https_port!, Integer, desc: 'Same as httpboot_https_port, but raises Foreman::Exception if no port is set'
+  end
+  class Jail < ::Safemode::Jail
+    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!
   end
 end

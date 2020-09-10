@@ -1,0 +1,28 @@
+[Unit]
+Description=Foreman jobs daemon - %i on sidekiq
+Documentation=https://theforeman.org
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=notify
+User=foreman
+TimeoutSec=300
+Environment=RAILS_ENV=production
+Environment=DYNFLOW_SIDEKIQ_SCRIPT=/usr/share/foreman/extras/dynflow-sidekiq.rb
+Environment=DYNFLOW_REDIS_URL=redis://localhost:6379/0
+Environment=REDIS_PROVIDER=DYNFLOW_REDIS_URL
+# Greatly reduce Ruby memory fragmentation and heap usage
+# https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
+Environment=MALLOC_ARENA_MAX=2
+WorkingDirectory=/usr/share/foreman
+ExecStart=/usr/bin/sidekiq -e ${RAILS_ENV} -r ${DYNFLOW_SIDEKIQ_SCRIPT} -C /etc/foreman/dynflow/%i.yml
+ExecReload=/usr/bin/kill -TSTP $MAINPID
+
+SyslogIdentifier=dynflow-sidekiq@%i
+
+# if we crash, restart
+RestartSec=1
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

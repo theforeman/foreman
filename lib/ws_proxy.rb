@@ -14,7 +14,7 @@ class WsProxy
   def initialize(attributes)
     # setup all attributes.
     defaults.merge(attributes).each do |k, v|
-      self.send("#{k}=", v) if self.respond_to?("#{k}=")
+      send("#{k}=", v) if respond_to?("#{k}=")
     end
   end
 
@@ -23,14 +23,14 @@ class WsProxy
     proxy.start_proxy
   end
 
-  def free_port? port
+  def free_port?(port)
     socket = Socket.new :INET, :STREAM
     socket.bind(Socket.pack_sockaddr_in(port, '127.0.0.1'))
-    return true
+    true
   rescue Errno::EADDRINUSE
-    return false
+    false
   ensure
-    socket.close unless socket.nil?
+    socket&.close
   end
 
   def start_proxy
@@ -58,8 +58,7 @@ class WsProxy
       end
     end
     @proxy_port = port
-
-    { :host => host, :port => host_port, :password => password, :proxy_port => proxy_port }
+    { :port => proxy_port, :password => password, :encrypt => @encrypt }
   end
 
   private
@@ -73,7 +72,7 @@ class WsProxy
       :timeout      => 120,
       :idle_timeout => 120,
       :host_port    => 5900,
-      :host         => "0.0.0.0"
+      :host         => "0.0.0.0",
     }
   end
 

@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal reducer snapshots initial state 1`] = `Object {}`;
+
+exports[`ForemanModal reducer snapshots should add a modal with ADD_MODAL 1`] = `
+Object {
+  "modal3": Object {
+    "isOpen": false,
+    "isSubmitting": false,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should add an already-open modal with ADD_MODAL 1`] = `
+Object {
+  "modal4": Object {
+    "isOpen": true,
+    "isSubmitting": false,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should handle SET_MODAL_CLOSED action 1`] = `
+Object {
+  "myModal": Object {
+    "isOpen": false,
+    "isSubmitting": true,
+  },
+  "yourModal": Object {
+    "isOpen": false,
+    "isSubmitting": false,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should handle SET_MODAL_OPEN action 1`] = `
+Object {
+  "myModal": Object {
+    "isOpen": true,
+    "isSubmitting": true,
+  },
+  "yourModal": Object {
+    "isOpen": false,
+    "isSubmitting": false,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should handle SET_MODAL_START_SUBMITTING action 1`] = `
+Object {
+  "myModal": Object {
+    "isOpen": true,
+    "isSubmitting": true,
+  },
+  "yourModal": Object {
+    "isOpen": false,
+    "isSubmitting": true,
+  },
+}
+`;
+
+exports[`ForemanModal reducer snapshots should handle SET_MODAL_STOP_SUBMITTING action 1`] = `
+Object {
+  "myModal": Object {
+    "isOpen": true,
+    "isSubmitting": false,
+  },
+  "yourModal": Object {
+    "isOpen": false,
+    "isSubmitting": false,
+  },
+}
+`;

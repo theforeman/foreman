@@ -1,4 +1,4 @@
-class AddIpv6Subnet < ActiveRecord::Migration
+class AddIpv6Subnet < ActiveRecord::Migration[4.2]
   def self.up
     change_column :subnets, :network, :string, :limit => 45
     change_column :subnets, :mask, :string, :limit => 45

@@ -8,10 +8,12 @@ class FactsController < ApplicationController
   def show
     @fact = FactName.find(params[:id])
     begin
-      data = {:name => @fact.name, :values => FactValue.count_each(@fact.name).to_a }
+      data = {:name => @fact.name,
+              :values => FactValue.count_each(@fact.name).to_a}
     rescue
       data = @fact
     end
+    data[:values].map!(&:values)
     render :json => data
   end
 

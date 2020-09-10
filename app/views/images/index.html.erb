@@ -1,0 +1,20 @@
+<%= breadcrumbs(
+      items: [
+      {
+        caption: _("Compute Resources"),
+        url: (compute_resources_path if authorized_for(hash_for_compute_resources_path))
+      },
+      {
+        caption: _(@compute_resource.to_s),
+        url: (compute_resource_path(@compute_resource) if authorized_for(hash_for_compute_resources_path))
+      },
+      {
+        caption: _("Images")
+      }
+    ]
+  )
+%>
+
+<%= title_actions(new_link(_("Create Image"), { :compute_resource_id => @compute_resource.id, :controller => :images }, { :data=>{:target=>"full-page"} })) %>
+
+<%= render :partial => 'list' %>

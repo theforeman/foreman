@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModelDeleteModal should render a modal 1`] = `
+<ConnectedForemanModal
+  enforceFocus={true}
+  id="modelDeleteModal"
+  submitProps={
+    Object {
+      "message": "Hardware Model %s was successfuly deleted",
+      "onSuccess": [MockFunction],
+      "submitBtnProps": Object {
+        "bsStyle": "danger",
+        "btnText": "Delete",
+      },
+      "url": "/api/v2/models/5",
+    }
+  }
+  title="Confirm Hardware Model Deletion"
+>
+  You are about to delete %s. Are you sure?
+  <ForemanModalFooter />
+</ConnectedForemanModal>
+`;

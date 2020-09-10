@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   name: "foo"
   query: "foo=boo"
@@ -10,4 +9,10 @@ two:
   name: "bar"
   query: "bar=car"
   public: false
+  controller: "hosts"
+
+three:
+  name: "three"
+  query: "three"
+  public: true
   controller: "hosts"

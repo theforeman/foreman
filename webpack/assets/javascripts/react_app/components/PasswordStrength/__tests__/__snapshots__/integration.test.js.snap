@@ -1,0 +1,200 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PasswordStrength integration test should flow: email fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "my-user@email.com",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "my-user@email.com",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: initial state 1`] = `
+Object {
+  "passwordStrength": Object {
+    "password": "",
+    "passwordConfirmation": "",
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: mached password confirmation 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "|Kkh)Xeu#T8($\\"P;",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "|Kkh)Xeu#T8($\\"P;",
+      "passwordConfirmation": "|Kkh)Xeu#T8($\\"P;",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: medium fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "qwedsa",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "qwedsa",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: normal fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "QwedsaZx",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "QwedsaZx",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: strong fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "StrongP@$w0rd",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "StrongP@$w0rd",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: tooShort fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "12345",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "12345",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: unmached password confirmation 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "StrongP@$w0rd",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CONFIRMATION_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "|Kkh)Xeu#T8($\\"P;",
+      "passwordConfirmation": "StrongP@$w0rd",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: username fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "my-user-name",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "my-user-name",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: veryStrong fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "|Kkh)Xeu#T8($\\"P;",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "|Kkh)Xeu#T8($\\"P;",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;
+
+exports[`PasswordStrength integration test should flow: weak fixture 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": "123456",
+        "type": "PASSWORD_STRENGTH_PASSWORD_CHANGED",
+      },
+    ],
+  ],
+  "state": Object {
+    "passwordStrength": Object {
+      "password": "123456",
+      "passwordConfirmation": "",
+    },
+  },
+}
+`;

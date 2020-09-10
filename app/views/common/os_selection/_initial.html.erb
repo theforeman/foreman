@@ -1,6 +1,6 @@
 <%= fields_for item do |f| %>
   <%= select_f f, :architecture_id, accessible_resource(f.object, :architecture), :id, :to_label, {:include_blank => blank_or_inherit_f(f, :architecture)},
-    {:label => _("Architecture"), :onchange => 'architecture_selected(this);', :'data-url' => method_path('architecture_selected')} %>
+    {:label => _("Architecture"), :class => 'host-architecture-select', :data => { :url => method_path('architecture_selected'), :type => controller_name.singularize }} %>
 
   <span id="host_os">
     <span id="os_select">

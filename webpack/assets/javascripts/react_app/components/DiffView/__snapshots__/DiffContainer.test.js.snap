@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DiffContainer rendering render DiffContainer 1`] = `
+<div
+  className=""
+  id="diff-container"
+>
+  <DiffRadioButtons
+    changeState={[Function]}
+    stateView="split"
+  />
+  <div
+    id="diff-table"
+  >
+    <DiffView
+      newText="hello there friend"
+      oldText="hello friend"
+      patch=""
+      viewType="split"
+    />
+  </div>
+</div>
+`;

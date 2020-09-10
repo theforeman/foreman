@@ -1,0 +1,35 @@
+<%#
+kind: snippet
+name: efibootmgr_netboot
+model: ProvisioningTemplate
+description: Configure booting from network in EFI
+snippet: true
+%>
+<% if host_param('efi_bootentry') == 'previous' -%>
+if [ -d /sys/firmware/efi ]; then
+  echo "Changing EFI boot order to preserve boot. Typically the previous entry"
+  echo "was network boot in netboot workflows but this can also break things."
+  echo "In that case use efi_keep_bootorder host parameter to keep it untouched."
+  echo "Boot order is currently:"
+  efibootmgr
+  echo
+  created_entry=$(efibootmgr | grep "BootOrder" | cut -d " " -f 2 | cut -d "," -f 1)
+  others=$(efibootmgr | grep "BootOrder" | cut -d " " -f 2 | cut -d "," -f 2-)
+  new_order="${others},${created_entry}"
+  echo "Found entry ${created_entry}, changing order to:"
+  efibootmgr -o ${new_order}
+  echo
+fi
+<% elsif (entry = host_param('efi_bootentry')) -%>
+if [ -d /sys/firmware/efi ]; then
+  echo "Trying to find EFI boot entry containing: <%= entry -%>"
+  echo "Boot order is currently:"
+  efibootmgr
+  echo
+  current=$(efibootmgr | grep "BootOrder" | cut -d " " -f 2)
+  id=$(efibootmgr | grep -E '^Boot[0-9]+' | grep -E 'a' | efibootmgr | grep -E '^Boot[0-9]+' | grep -E '<%= entry -%>' | cut -c5-8)
+  echo "Found entry ${id}, changing order to:"
+  efibootmgr -o ${id},${current}
+  echo
+fi
+<% end -%>

@@ -7,6 +7,7 @@ module Api
 
       api :GET, "/compute_profiles", N_("List of compute profiles")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ComputeProfile)
 
       def index
         @compute_profiles = resource_scope_for_index
@@ -37,7 +38,7 @@ module Api
       param_group :compute_profile
 
       def update
-        process_response @compute_profile.update_attributes(compute_profile_params)
+        process_response @compute_profile.update(compute_profile_params)
       end
 
       api :DELETE, "/compute_profiles/:id/", N_("Delete a compute profile")

@@ -1,0 +1,53 @@
+<%= javascript_tag("$(document).on('ContentLoad', tfm.advancedFields.initAdvancedFields)"); %>
+
+<% title _("Generate a Report") %>
+
+<%= form_for @composer, as: :report_template_report, url: schedule_report_report_template_path(@template) do |f| %>
+
+  <%= alert(:class => 'alert-info',
+            :header => _('Generating a report'),
+            :text => ('<p>' +
+                (_('This will generate a report %s. Based on its definition, it can take a long time to process.') % h(@template.name)) +
+                '</p>').html_safe) %>
+
+  <%= datetime_local_f f, :generate_at,
+      label: _('Generate at'),
+      label_help: _('Generate report on a given time.'),
+      input_props: { placement: 'bottom' }
+    %>
+
+  <%= checkbox_f f, :send_mail,
+    label: _('Send report via e-mail'),
+    label_help: _('By checking this, the report will be sent to e-mail address specified below. Keep unchecked if you prefer to download the report in your browser.'),
+    onchange: 'tfm.templateInputs.toggleEmailFields(this)' %>
+  <div class="email-fields" <%= display?(!@composer.send_mail?) %> >
+    <%= text_f f, :mail_to,
+      label: _('Deliver to e-mail addresses'),
+      label_help: _('Valid e-mail addresses delimited by "%s"') % ReportComposer::MailToValidator::MAIL_DELIMITER %>
+  </div>
+
+  <% render_present = @composer.template.supports_format_selection?
+     output_formats = render_present ? ReportTemplateFormat.selectable : []
+  %>
+  <%= select_f f, :format, output_formats, :id, :human_name, {}, :label => _('Output format'), :label_help => _('If the template supports format selection, user can choose preferred format.<br> Typically the template needs to use report_render macro.<br><br>If usage of this macro is not found in the template,<br>this field is disabled and the output format defaults to plain text.<br><br>If the template supports filter selection, but does not use the report_render macro,<br>in order to enable this field, add a comment to the template mentioning report_render macro name.'), :disabled => !render_present %>
+
+  <%= f.fields_for :input_values do |input_values_fields| %>
+    <% inputs = @template.template_inputs.select {|input| input.input_type == 'user'} %>
+
+    <% inputs.select(&:basic?).each do |input| %>
+      <%= render :partial => 'template_inputs/invocation_form', :locals => {:input_values_fields => input_values_fields, :composer => @composer, :input => input} %>
+    <% end %>
+
+    <% if inputs.any?(&:advanced?) %>
+      <%= advanced_switch_f _('Display advanced fields'), _('Hide advanced fields') %>
+
+      <div class="advanced hidden">
+        <% inputs.select(&:advanced).each do |input| %>
+          <%= render :partial => 'template_inputs/invocation_form', :locals => {:input_values_fields => input_values_fields, :composer => @composer, :input => input} %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= submit_or_cancel f, false, { data: { disable_with: false } } %>
+<% end %>

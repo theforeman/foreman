@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DiffView rendering render DiffView w/Patch 1`] = `
+<div>
+  <Diff
+    diffType="modify"
+    generateAnchorID={[Function]}
+    gutterAnchor={false}
+    hideGutter={false}
+    hunks={Array []}
+    key="1111111-2222222"
+    markEdits={[Function]}
+    optimizeSelection={false}
+    viewType="unified"
+  />
+</div>
+`;
+
+exports[`DiffView rendering render DiffView w/oldText & newText 1`] = `
+<Diff
+  diffType="modify"
+  generateAnchorID={[Function]}
+  gutterAnchor={false}
+  hideGutter={false}
+  hunks={
+    Array [
+      Object {
+        "changes": Array [
+          Object {
+            "content": "hello friend",
+            "isDelete": true,
+            "lineNumber": 1,
+            "type": "delete",
+          },
+          Object {
+            "content": "hello there friend",
+            "isInsert": true,
+            "lineNumber": 1,
+            "type": "insert",
+          },
+        ],
+        "content": "@@ -1 +1 @@",
+        "isPlain": false,
+        "newLines": 1,
+        "newStart": 1,
+        "oldLines": 1,
+        "oldStart": 1,
+      },
+    ]
+  }
+  markEdits={[Function]}
+  optimizeSelection={false}
+  viewType="split"
+/>
+`;

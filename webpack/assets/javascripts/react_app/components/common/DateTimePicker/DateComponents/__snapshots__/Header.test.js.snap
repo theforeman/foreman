@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header is working properly 1`] = `
+<thead>
+  <tr>
+    <th
+      class="prev"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-angle-left"
+      />
+    </th>
+    <th
+      class="picker-switch"
+      colspan="5"
+    >
+      January 2019
+    </th>
+    <th
+      class="next"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-angle-right"
+      />
+    </th>
+  </tr>
+  <tr>
+    <th
+      class="dow"
+    >
+      Mo
+    </th>
+    <th
+      class="dow"
+    >
+      Tu
+    </th>
+    <th
+      class="dow"
+    >
+      We
+    </th>
+    <th
+      class="dow"
+    >
+      Th
+    </th>
+    <th
+      class="dow"
+    >
+      Fr
+    </th>
+    <th
+      class="dow"
+    >
+      Sa
+    </th>
+    <th
+      class="dow"
+    >
+      Su
+    </th>
+  </tr>
+</thead>
+`;
+
+exports[`Header is working properly with different week start 1`] = `
+<thead>
+  <tr>
+    <th
+      class="prev"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-angle-left"
+      />
+    </th>
+    <th
+      class="picker-switch"
+      colspan="5"
+    >
+      January 2019
+    </th>
+    <th
+      class="next"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-angle-right"
+      />
+    </th>
+  </tr>
+  <tr>
+    <th
+      class="dow"
+    >
+      Fr
+    </th>
+    <th
+      class="dow"
+    >
+      Sa
+    </th>
+    <th
+      class="dow"
+    >
+      Su
+    </th>
+    <th
+      class="dow"
+    >
+      Mo
+    </th>
+    <th
+      class="dow"
+    >
+      Tu
+    </th>
+    <th
+      class="dow"
+    >
+      We
+    </th>
+    <th
+      class="dow"
+    >
+      Th
+    </th>
+  </tr>
+</thead>
+`;

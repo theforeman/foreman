@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorModal should render renders EditorModal diff 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="editor-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    className="diff monokai"
+    closeButton={false}
+    closeLabel="Close"
+  >
+    <h4
+      id="editor-modal-h4"
+    />
+    <Button
+      active={false}
+      aria-hidden="true"
+      aria-label="Close"
+      block={false}
+      bsClass="btn"
+      bsStyle="link"
+      className="close"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="close"
+        type="pf"
+      />
+    </Button>
+    <DiffRadioButtons
+      changeState={[Function]}
+      stateView="split"
+    />
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    className="diff"
+    componentClass="div"
+  >
+    <div
+      id="diff-table"
+    >
+      <DiffView
+        newText="</>"
+        oldText="<? />"
+        patch=""
+        viewType="split"
+      />
+    </div>
+  </ModalBody>
+</Modal>
+`;
+
+exports[`EditorModal should render renders EditorModal editor 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  className="editor-modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    className="input monokai"
+    closeButton={false}
+    closeLabel="Close"
+  >
+    <h4
+      id="editor-modal-h4"
+    />
+    <Button
+      active={false}
+      aria-hidden="true"
+      aria-label="Close"
+      block={false}
+      bsClass="btn"
+      bsStyle="link"
+      className="close"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <Icon
+        name="close"
+        type="pf"
+      />
+    </Button>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    className="input"
+    componentClass="div"
+  >
+    <EditorView
+      className="editor ace_editor_modal"
+      isMasked={false}
+      isSelected={true}
+      keyBinding="Default"
+      mode="Ruby"
+      name="editor"
+      onChange={[Function]}
+      readOnly={false}
+      theme="Monokai"
+      value="</>"
+    />
+  </ModalBody>
+</Modal>
+`;

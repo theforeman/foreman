@@ -1,9 +1,9 @@
-<% networks = compute_resource.networks %>
 <%= select_f f, :type, compute_resource.nictypes, :first, :last, { },
-                 :class => "col-md-3 vmware_type",
-                 :label => _('NIC type'), :label_size => "col-md-3"
+  :class => "col-md-3 vmware_type",
+  :label => _('NIC type'), :label_size => "col-md-3", :disabled => !new_vm
 %>
-<%= select_f f, :network, networks, :name, :name, { },
-                 :class => "col-md-3 vmware_network",
-                 :label => _('Network'), :label_size => "col-md-3"
+<% cluster_id = params.fetch(:host, {}).fetch(:compute_attributes, {}).fetch(:cluster, nil).presence %>
+<%= select_f f, :network, vsphere_networks(compute_resource), :first, :last, { },
+  :class => "col-md-3 vmware_network",
+  :label => _('Network'), :label_size => "col-md-3", :disabled => !new_vm
 %>

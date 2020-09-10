@@ -1,5 +1,12 @@
 <% javascript 'charts', 'hosts' %>
-<% title @host.to_label, icon(@host.operatingsystem) + @host.to_label %>
+<% title @host.to_label,
+  text: @host.to_label,
+  icon: {
+    alt: label(@host.operatingsystem),
+    url: icon(@host.operatingsystem, path: true)
+  }
+%>
+<% host_breadcrumb %>
 <%= host_title_actions(@host) %>
 <% content_for(:search_bar) {reports_show} %>
 <div id="host-show" class="row" data-history-url='<%= host_path(@host)%>'>
@@ -20,6 +27,7 @@
         </tr>
       </tbody>
     </table>
+
     <ul id="myTab" class="nav nav-tabs">
       <li class="active"><a href="#properties" data-toggle="tab"><%= _('Properties') %></a></li>
       <li><a href="#metrics" data-toggle="tab"><%= _('Metrics') %></a></li>
@@ -33,6 +41,7 @@
         <li><a href="#bmc" data-toggle="tab"><%= _('BMC') %></a></li>
       <% end %>
       <li><a href="#nics" data-toggle="tab"><%= _('NICs') %></a></li>
+      <%= render_tab_header_for(:main_tabs, :subject => @host) %>
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="properties" data-ajax-url='<%= overview_host_path(@host)%>'>
@@ -53,10 +62,10 @@
       <% end %>
       <%  if @host.compute_resource_id %>
         <div class="tab-pane" id="vm" data-ajax-url='<%= vm_host_path(@host)%>' data-on-complete='setPowerState'>
-        <%= spinner(_('Loading VM information ...')) %>
+          <%= spinner(_('Loading VM information ...')) %>
         </div>
       <% end %>
-      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='onContentLoad'>
+      <div id="nics" class="tab-pane" data-ajax-url='<%= nics_host_path(@host)%>' data-on-complete='tfm.tools.activateTooltips'>
         <%= spinner(_('Loading NICs information ...')) %>
       </div>
       <% if @host.bmc_available? %>
@@ -64,8 +73,9 @@
           <%= spinner(_('Loading BMC information ...')) %>
         </div>
       <% end %>
-       </div>
+      <%= render_tab_content_for(:main_tabs, :subject => @host) %>
     </div>
+  </div>
 
   <div class="col-md-8">
     <div class="stats-well">

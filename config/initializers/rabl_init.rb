@@ -6,21 +6,21 @@ module Rabl
     attr_accessor :use_controller_name_as_json_root
     attr_accessor :json_root_default_name
   end
+end
 
-  class Engine
+module Foreman
+  module RablEngineExt
     def api_version
-      respond_to?(:response) ? response.headers["Foreman_api_version"] : '1'
+      respond_to?(:response) ? response.headers["Foreman_api_version"] : '2'
     end
 
     def default_options
-      return {:root => false, :object_root => false} if api_version.to_i > 1
-      {}
+      {:root => false, :object_root => false}
     end
 
-    def collection_with_defaults(data, options = default_options)
-      collection_without_defaults(data, options)
+    def collection(data, options = default_options)
+      super(data, options)
     end
-    alias_method_chain :collection, :defaults
 
     # extending this helper defined in module Rabl::Helpers allows users to
     # overwrite the object root name in show rabl views.  Two options:
@@ -29,13 +29,42 @@ module Rabl
     def data_name(data_token)
       # custom object root
       return params['root_name'] if respond_to?(:params) && params['root_name'].present? && !['false', false].include?(params['root_name'])
-      # no object root for v2
-      return nil if !respond_to?(:params) || api_version.to_i > 1 || ['false', false].include?(params['root_name'])
-      # otherwise return super since v1 has object root (config.include_child_root = true)
+    end
+
+    # Lists all extension templates that are defined in plugins
+    def template_extensions_from_plugins
+      return [] unless @_options[:template]
+      Foreman::Plugin.all.flat_map { |plugin| plugin.rabl_template_extensions(@_options[:template]) }
+    end
+
+    # extends the current template with templates defined in plugins
+    def load_extensions_from_plugins
+      template_extensions_from_plugins.each do |extension|
+        extends extension unless @_settings[:extends].map { |e| e[:file] }.include?(extension) || @_options[:template] == extension
+      end
+    end
+
+    def render(*args, &block)
+      load_extensions_from_plugins
       super
     end
   end
+
+  module RablTemplateHandlerExt
+    # This extends the rabl code to store the template path
+    # while initializing the engine.
+    # This allows us to find extension template from plugins
+    # that match the template name
+    def call(template, source)
+      %{ ::Rabl::Engine.new(#{source.inspect}, :template => '#{template.virtual_path}').
+                                          apply(self, assigns.merge(local_assigns)).
+                                                        render }
+    end
+  end
 end
+Rabl::Engine.prepend Foreman::RablEngineExt
+Rabl.register!
+ActionView::Template::Handlers::Rabl.singleton_class.send(:prepend, Foreman::RablTemplateHandlerExt)
 
 Rabl.configure do |config|
   # Commented as these are defaults
@@ -60,5 +89,5 @@ Rabl.configure do |config|
   # config.raise_on_missing_attribute = true # Defaults to false
   # config.replace_nil_values_with_empty_strings = true # Defaults to false
   config.use_controller_name_as_json_root = false
-  config.json_root_default_name = :results #used only if use_controller_name_as_json_root = false
+  config.json_root_default_name = :results # used only if use_controller_name_as_json_root = false
 end

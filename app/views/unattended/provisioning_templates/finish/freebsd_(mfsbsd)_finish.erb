@@ -1,0 +1,50 @@
+<%#
+kind: finish
+name: FreeBSD (mfsBSD) finish
+model: ProvisioningTemplate
+oses:
+- FreeBSD
+%>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+  proxy_string = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''
+%>
+<% unless proxy_string == '' -%>
+export http_proxy='<%= proxy_string %>'
+<% end -%>
+/bin/echo '<%= root_pass %>' | pw usermod root -H 0
+cat >> /etc/rc.conf <<EOF
+hostname="<%= @host %>"
+sshd_enable="YES"
+ntpd_enable="YES"
+EOF
+
+echo ifconfig_`ifconfig -l | cut -d ' ' -f 1`=DHCP >>/etc/rc.conf
+
+echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
+/bin/hostname <%= @host.name %>
+cp /usr/share/zoneinfo/<%= host_param('time-zone') || 'UTC' %> /etc/localtime
+adjkerntz -a
+ntpdate <%= host_param('ntp-server') || '0.freebsd.pool.ntp.org' %>
+
+mkdir /root/install/
+freebsd-update fetch > /root/install/freebsd-update_fetch.txt
+freebsd-update install > /root/install/freebsd-update_install.txt
+
+env ASSUME_ALWAYS_YES=YES pkg bootstrap
+pkg update > /root/install/pkg_update.txt
+pkg upgrade -y > /root/install/pkg_upgrade.txt
+
+<% if puppet_enabled %>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+<%= snippet('remote_execution_ssh_keys') %>
+exit 0

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-cmd=`git log --pretty='format:%ci::%an <%ae>::%s'`
+cmd = `git log --pretty='format:%ci::%an <%ae>::%s'`
 
 list = {}
 list_order = []
@@ -13,7 +13,7 @@ cmd.each_line do |l|
   date, _time, _zone = date.split(" ")
 
   id = "#{date}\t#{author}"
-  if !(list[id])
+  unless (list[id])
     list[id] = []
     list_order << {:id => id, :value => list[id]}
   end

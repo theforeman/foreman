@@ -5,8 +5,14 @@ module PowerManager
     end
 
     def self.method_missing(method, *args)
+      super
+    rescue NoMethodError
       logger.warn "invalid power state request #{action} for host: #{host}"
       raise ::Foreman::Exception.new(N_("Invalid power state request: %{action}, supported actions are %{supported}"), { :action => action, :supported => SUPPORTED_ACTIONS })
+    end
+
+    def self.respond_to_missing?(method_name, include_private = false)
+      super
     end
 
     SUPPORTED_ACTIONS.each do |method|
@@ -20,7 +26,7 @@ module PowerManager
         end
         result = send(action_entry[:output], result) if action_entry[:output]
         result
-      end # end
+      end
     end
 
     def logger
@@ -35,15 +41,15 @@ module PowerManager
 
     def action_map
       {
-        :status => { :output => :translate_status }
+        :status => { :output => :translate_status },
       }
     end
 
     def translate_status(result)
       result = result.to_s
       return N_("Unknown") if result.empty?
-      return 'on' if result.match(/on/i)
-      return 'off' if result.match(/off/i)
+      return 'on' if result =~ /on/i
+      return 'off' if result =~ /off/i
       result
     end
 

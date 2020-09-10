@@ -1,18 +1,18 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-puppet_summary:
-  name: puppet_summary
-  description: Puppet summary
+---
+config_summary:
+  name: config_summary
+  description: config summary
   mailer: HostMailer
   method: summary
   subscription_type: report
 
-puppet_error_state:
-  name: puppet_error_state
-  description: A notification when a host reports a puppet error
+config_error_state:
+  name: config_error_state
+  description: A notification when a host reports a config error
   mailer: HostMailer
   method: error_state
   subscription_type: alert
-  type: PuppetError
+  type: ConfigManagementError
 
 welcome:
   name: welcome
@@ -29,8 +29,8 @@ host_built:
   subscription_type: alert
 
 tester:
-    name: tester
-    description: Test email configurations
-    mailer: UserMailer
-    method: tester
-    subscriptable: false
+  name: tester
+  description: Test email configurations
+  mailer: UserMailer
+  method: tester
+  subscriptable: false

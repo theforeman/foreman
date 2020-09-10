@@ -5,8 +5,10 @@ class HostMailer < ApplicationMailer
 
   # sends out a summary email of hosts and their metrics (e.g. how many changes failures etc).
   def summary(options = {})
-    raise ::Foreman::Exception.new(N_("Must specify a valid user with email enabled")) unless (user=User.find(options[:user]))
-    hosts = Host::Managed.authorized_as(user, :view_hosts, Host)
+    raise ::Foreman::Exception.new(N_("Must specify a valid user with email enabled")) unless (user = User.find(options[:user]))
+    hosts = User.as user do
+      Host::Managed.authorized_as(user, :view_hosts, Host)
+    end
     time = options[:time] || 1.day.ago
     host_data = ConfigReport.summarise(time, hosts.all).sort
 
@@ -20,13 +22,13 @@ class HostMailer < ApplicationMailer
     @disabled = hosts.alerts_disabled.sort
 
     set_locale_for(user) do
-      subject = _("Puppet Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
+      subject = _("Configuration Management Summary Report - F:%{failed} R:%{restarted} S:%{skipped} A:%{applied} FR:%{failed_restarts} T:%{total}") % {
         :failed => total_metrics["failed"],
         :restarted => total_metrics["restarted"],
         :skipped => total_metrics["skipped"],
         :applied => total_metrics["applied"],
         :failed_restarts => total_metrics["failed_restarts"],
-        :total => total
+        :total => total,
       }
 
       mail(:to => user.mail, :subject => subject) do |format|
@@ -39,7 +41,7 @@ class HostMailer < ApplicationMailer
     @report = report
     @host = @report.host
     set_locale_for(options[:user]) do
-      mail(:to => options[:user].mail, :subject => (_("Puppet error on %s") % @host)) do |format|
+      mail(:to => options[:user].mail, :subject => (_("Configuration Management Error on %s") % @host)) do |format|
         format.html { render :layout => 'application_mailer' }
       end
     end
@@ -59,7 +61,7 @@ class HostMailer < ApplicationMailer
   private
 
   def load_metrics(host_data)
-    total_metrics = {"failed"=>0, "restarted"=>0, "skipped"=>0, "applied"=>0, "failed_restarts"=>0}
+    total_metrics = {"failed" => 0, "restarted" => 0, "skipped" => 0, "applied" => 0, "failed_restarts" => 0}
 
     host_data.flatten.delete_if { |x| true unless x.is_a?(Hash) }.each do |data_hash|
       total_metrics["failed"]          += data_hash[:metrics]["failed"]

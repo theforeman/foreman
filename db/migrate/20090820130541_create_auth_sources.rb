@@ -1,4 +1,4 @@
-class CreateAuthSources < ActiveRecord::Migration
+class CreateAuthSources < ActiveRecord::Migration[4.2]
   def up
     create_table :auth_sources do |t|
       t.string  "type",              :limit => 30, :default => "",    :null => false
@@ -15,7 +15,7 @@ class CreateAuthSources < ActiveRecord::Migration
       t.boolean "onthefly_register",               :default => false, :null => false
       t.boolean "tls",                             :default => false, :null => false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 

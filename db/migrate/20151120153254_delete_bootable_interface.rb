@@ -1,4 +1,4 @@
-class DeleteBootableInterface < ActiveRecord::Migration
+class DeleteBootableInterface < ActiveRecord::Migration[4.2]
   def up
     Nic::Base.where(:type => 'Nic::Bootable').update_all(:type => 'Nic::Managed',
                                                          :provision => true)

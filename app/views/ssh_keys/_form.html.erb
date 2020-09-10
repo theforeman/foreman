@@ -1,0 +1,10 @@
+<%= form_for @ssh_key, :url => user_ssh_keys_path(:user_id => @user) do |f| %>
+  <%= base_errors_for @ssh_key %>
+  <% if @ssh_key.errors.include?(:fingerprint) || @ssh_key.errors.include?(:length) %>
+    <p><%= _('Please correct the error(s) below and submit your changes again.') %></p>
+    <%= alert :close => false, :class => "alert-warning alert-block base", :text => [:fingerprint, :length].map { |field| @ssh_key.errors.full_messages_for(field).map { |e| '<li>'.html_safe + e + '</li>'.html_safe }.join }.join.html_safe  %>
+  <% end %>
+  <%= textarea_f f, :key, :size => 'col-md-8', :rows=> '3', :autofocus => true, :onfocusout => "tfm.sshKeys.autofillSshKeyName()" %>
+  <%= text_f f, :name, :focus_on_load => false %>
+  <%= submit_or_cancel f, false, :cancel_path => edit_user_path(@user) %>
+<% end %>

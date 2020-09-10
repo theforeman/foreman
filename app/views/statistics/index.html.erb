@@ -1,9 +1,0 @@
-<% title _("Statistics"), _('Statistics') %>
-<div id="statistics">
-  <% @stats.each do |stat| %>
-    <div data-ajax-url=<%= stat.url %> class='stats-well' data-on-complete='refreshCharts'>
-      <h4 class='ca pie-title'><%= stat.title %></h4>
-      <div class='statistics-pie-placeholder small'><span class='spinner spinner-lg spinner-inline'></span></div>
-    </div>
-  <% end %>
-</div>

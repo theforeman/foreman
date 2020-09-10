@@ -1,5 +1,5 @@
 <%=
   server_groups = @host.compute_resource.get_server_groups(hint_name.gsub(/server_group_/, ''))
   select_f f, :scheduler_hint_value, server_groups.to_a.sort_by { |sg| sg.name.downcase },
-           :id, :name, {}, :label => _('Server group'), :disabled => server_groups.empty? || !new_host
+           :id, :name, {}, :label => _('Server group'), :disabled => server_groups.empty? || !new_vm
 %>

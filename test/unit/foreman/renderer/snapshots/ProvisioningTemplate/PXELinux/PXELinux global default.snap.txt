@@ -1,0 +1,45 @@
+
+
+
+UI menu.c32
+MENU TITLE Booting unknown host (ESC to stop)
+TIMEOUT 200
+ONTIMEOUT nil
+DEFAULT nil
+
+
+LABEL local
+  MENU LABEL Default local boot
+  LOCALBOOT 0
+
+LABEL local_primary
+  MENU LABEL Default local boot from primary hard drive
+  LOCALBOOT 0x80
+
+LABEL local_skip
+  MENU LABEL Boot from the next BIOS device
+  LOCALBOOT -1
+
+LABEL local_chain_hd0
+  MENU LABEL Chainload the first hard drive (hd0)
+  COM32 chain.c32
+  APPEND hd0
+
+LABEL local_chain_hd1
+  MENU LABEL Chainload the second hard drive (hd1)
+  COM32 chain.c32
+  APPEND hd1
+
+
+LABEL discovery
+  MENU LABEL Foreman Discovery Image
+  KERNEL boot/fdi-image/vmlinuz0
+  APPEND initrd=boot/fdi-image/initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=http://foreman.some.host.fqdn proxy.type=foreman
+  IPAPPEND 2
+
+LABEL discovery_ipxe
+  MENU LABEL Foreman Discovery Image - iPXE
+  KERNEL ipxe.lkrn
+  APPEND dhcp && chain http://foreman.some.host.fqdn/pub/discovery.ipxe
+
+

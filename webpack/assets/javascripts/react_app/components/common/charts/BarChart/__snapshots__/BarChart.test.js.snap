@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders BarChart render bar chart 1`] = `
+<BarChart
+  axis={
+    Object {
+      "x": Object {
+        "categories": Array [
+          "Fedora 21",
+          "Ubuntu 14.04",
+          "Centos 7",
+          "Debian 8",
+        ],
+        "type": "category",
+      },
+    }
+  }
+  categories={
+    Array [
+      "Fedora 21",
+      "Ubuntu 14.04",
+      "Centos 7",
+      "Debian 8",
+    ]
+  }
+  className="bar-chart-pf"
+  color={
+    Object {
+      "pattern": Array [
+        "#0088ce",
+        "#ec7a08",
+        "#3f9c35",
+        "#005c66",
+        "f9d67a",
+        "#703fec",
+      ],
+    }
+  }
+  data={
+    Object {
+      "columns": Array [
+        Array [
+          "Number of Events",
+          3,
+          4,
+          2,
+          1,
+        ],
+      ],
+      "type": "bar",
+    }
+  }
+  grid={
+    Object {
+      "y": Object {
+        "show": true,
+      },
+    }
+  }
+  id="operatingsystem"
+  legend={
+    Object {
+      "show": true,
+    }
+  }
+  padding={null}
+  size={
+    Object {
+      "height": 240,
+      "width": 240,
+    }
+  }
+  title={
+    Object {
+      "type": "percent",
+    }
+  }
+  tooltip={
+    Object {
+      "format": Object {},
+    }
+  }
+  type="bar"
+  unloadBeforeLoad={false}
+/>
+`;
+
+exports[`renders BarChart render empty state 1`] = `
+<MessageBox
+  icontype="info"
+  msg="No data available"
+/>
+`;

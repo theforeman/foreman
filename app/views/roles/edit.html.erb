@@ -1,3 +1,4 @@
-<% title _("Edit Roles") %>
+<% title _("Edit %s") % @role.to_s %>
+<% breadcrumbs(switchable: false) %>
 
 <%= render 'form' %>

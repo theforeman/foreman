@@ -1,0 +1,20 @@
+# Template for VMWare customization via open-vm-tools
+
+identity:
+  LinuxPrep:
+    domain: snapshotdomain.com
+    hostName: 
+    hwClockUTC: true
+    timeZone: UTC
+
+globalIPSettings:
+  dnsSuffixList: [snapshotdomain.com]
+  dnsServerList: []
+
+nicSettingMap:
+  - adapter:
+      dnsDomain: snapshotdomain.com
+      dnsServerList: []
+      gateway: []
+      ip: 127.0.0.1
+      subnetMask: 255.255.255.0

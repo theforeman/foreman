@@ -7,7 +7,13 @@ module Foreman::Controller::ProvisioningTemplates
     @locations        = @template.locations
     @organizations    = @template.organizations
     @template_kind_id = @template.template_kind_id
-    @operatingsystems = @template.operatingsystems
+    @operatingsystems = @template.operatingsystems if @template.respond_to?(:operatingsystems)
+  end
+
+  def find_global_registration
+    template_name = Setting[:default_global_registration_item]
+    @provisioning_template = ProvisioningTemplate.unscoped.find_by(name: template_name)
+    @global_registration_vars = global_registration_vars if @provisioning_template
   end
 
   private
@@ -36,5 +42,23 @@ module Foreman::Controller::ProvisioningTemplates
 
   def type_name_singular
     @type_name_singular ||= resource_class.to_s.underscore
+  end
+
+  def global_registration_vars
+    permitted = Foreman::Plugin.all
+                               .map(&:allowed_registration_vars)
+                               .flatten.compact.uniq
+
+    organization = Organization.authorized(:view_organizations).find(params['organization_id']) if params['organization_id'].present?
+    location = Location.authorized(:view_locations).find(params['location_id']) if params['location_id'].present?
+    host_group = Hostgroup.authorized(:view_hostgroups).find(params['hostgroup_id']) if params["hostgroup_id"].present?
+
+    {
+      user: User.current,
+      auth_token: User.current.jwt_token!(expiration: 4.hours.to_i),
+      organization: organization,
+      location: location,
+      hostgroup: host_group,
+    }.merge(params.permit(permitted).to_h.symbolize_keys)
   end
 end

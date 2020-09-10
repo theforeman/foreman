@@ -17,7 +17,9 @@ module Api
       param :hostgroup_id, :identifier, :required => false
       param :puppetclass_id, :identifier, :required => false
       param :environment_id, :identifier, :required => false
+      param :show_hidden, :bool, :desc => N_("Display hidden values")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(PuppetclassLookupKey)
 
       def index
       end
@@ -27,6 +29,7 @@ module Api
 
       api :GET, "/smart_class_parameters/:id/", N_("Show a smart class parameter")
       param :id, :identifier, :required => true
+      param :show_hidden, :bool, :desc => N_("Display hidden values")
 
       def show
       end
@@ -37,9 +40,9 @@ module Api
         # can't update parameter/key name for :parameter, String, :required => true
         param :override, :bool, :desc => N_("Whether the smart class parameter value is managed by Foreman")
         param :description, String, :desc => N_("Description of smart class")
-        param :default_value, String, :desc => N_("Value to use when there is no match")
+        param :default_value, :any_type, :of => LookupKey::KEY_TYPES, :desc => N_("Value to use when there is no match")
         param :hidden_value, :bool, :desc => N_("When enabled the parameter is hidden in the UI")
-        param :use_puppet_default, :bool, :desc => N_("Do not send this parameter via the ENC. Puppet will use the value defined in the Puppet manifest for this parameter")
+        param :omit, :bool, :desc => N_("Foreman will not send this parameter in classification output. Puppet will use the value defined in the Puppet manifest for this parameter")
         param :path, String, :desc => N_("The order in which values are resolved")
         param :validator_type, LookupKey::VALIDATOR_TYPES, :desc => N_("Types of validation values")
         param :validator_rule, String, :desc => N_("Used to enforce certain values for the parameter values")
@@ -52,8 +55,8 @@ module Api
       end
 
       def update
-        #Note:  User must manually set :override => true. It is not automatically updated if optional input validator fields are updated.
-        @smart_class_parameter.update_attributes!(puppetclass_lookup_key_params)
+        # Note:  User must manually set :override => true. It is not automatically updated if optional input validator fields are updated.
+        @smart_class_parameter.update!(puppetclass_lookup_key_params)
         render 'api/v2/smart_class_parameters/show'
       end
 

@@ -2,7 +2,7 @@ module Foreman::Controller::Parameters::Host
   extend ActiveSupport::Concern
   include Foreman::Controller::Parameters::HostBase
   include Foreman::Controller::Parameters::HostCommon
-  include Foreman::Controller::Parameters::KeepParam
+  include Foreman::Controller::NormalizeScsiAttributes
 
   class_methods do
     def host_params_filter
@@ -19,7 +19,8 @@ module Foreman::Controller::Parameters::Host
           :compute_profile_id, :compute_profile_name,
           :compute_resource, :compute_resource_id, :compute_resource_name,
           :owner, :owner_id, :owner_name,
-          :owner_type
+          :owner_type,
+          :compute_attributes => {}
 
         add_host_base_params_filter(filter)
         add_host_common_params_filter(filter)
@@ -31,8 +32,10 @@ module Foreman::Controller::Parameters::Host
   end
 
   def host_params(top_level_hash = controller_name.singularize)
-    keep_param(params, top_level_hash, :compute_attributes) do
-      self.class.host_params_filter.filter_params(params, parameter_filter_context, top_level_hash)
+    self.class.host_params_filter.filter_params(params, parameter_filter_context, top_level_hash).tap do |normalized|
+      if parameter_filter_context.ui? && normalized["compute_attributes"] && normalized["compute_attributes"]["scsi_controllers"]
+        normalize_scsi_attributes(normalized["compute_attributes"])
+      end
     end
   end
 end

@@ -28,6 +28,12 @@
         <td><%= @vm.display[:type] %>
           (<%= @vm.display[:port] %>)</td>
       </tr>
+      <% if @vm.display[:type] == 'vnc' %>
+      <tr>
+        <td><%= _('Keyboard') %></td>
+        <td><%= @vm.display[:keyboard_layout] %></td>
+      </tr>
+      <% end %>
       <% @vm.interfaces.each do |nic| %>
         <tr>
           <td><%= _('NIC') %></td>

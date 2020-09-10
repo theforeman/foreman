@@ -1,15 +1,17 @@
 module Foreman::Model
   class Openstack < ComputeResource
-    attr_accessor :tenant, :scheduler_hint_value
-    has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
-    after_create :setup_key_pair
-    after_destroy :destroy_key_pair
+    include KeyPairComputeResource
+    attr_accessor :scheduler_hint_value
     delegate :flavors, :to => :client
-    delegate :tenants, :to => :client
     delegate :security_groups, :to => :client
 
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
+    validate :url_contains_version
     validates :user, :password, :presence => true
     validates :allow_external_network, inclusion: { in: [true, false] }
+    validates :domain, :format => { :with => /\A\S+\z/ }, :allow_blank => true
+
+    alias_method :available_flavors, :flavors
 
     SEARCHABLE_ACTIONS = [:server_group_anti_affinity, :server_group_affinity, :raw]
 
@@ -39,6 +41,41 @@ module Foreman::Model
 
     def tenant=(name)
       attrs[:tenant] = name
+    end
+
+    def project_domain_id
+      attrs[:project_domain_id]
+    end
+
+    def project_domain_id=(domain)
+      attrs[:project_domain_id] = domain
+    end
+
+    def project_domain_name
+      attrs[:project_domain_name]
+    end
+
+    def project_domain_name=(domain)
+      attrs[:project_domain_name] = domain
+    end
+
+    def tenants
+      if identity_version == 3
+        user_id = identity_client.current_user_id
+        identity_client.list_user_projects(user_id).body["projects"].map { |p| Fog::OpenStack::Identity::V3::Project.new(p) }
+      else
+        identity_client.tenants
+      end
+    end
+
+    def identity_version
+      return 3 if url =~ /\/v3/
+      return 2 if url =~ /\/v2/
+      0
+    end
+
+    def url_contains_version
+      errors.add(:url, _("must end with /v2 or /v3")) if identity_version == 0
     end
 
     def allow_external_network
@@ -85,21 +122,21 @@ module Foreman::Model
         :imageRef => args[:image_ref])
       @boot_vol_id = boot_vol.id.tr('"', '')
       boot_vol.wait_for { status == 'available' }
-      args[:block_device_mapping_v2] = [ {
+      args[:block_device_mapping_v2] = [{
         :source_type => "volume",
         :destination_type => "volume",
         :delete_on_termination => "1",
         :uuid => @boot_vol_id,
-        :boot_index => "0"
-      } ]
+        :boot_index => "0",
+      }]
     end
 
     def possible_scheduler_hints
-      SEARCHABLE_ACTIONS.collect{|x| x.to_s.camelize }
+      SEARCHABLE_ACTIONS.collect { |x| x.to_s.camelize }
     end
 
     def get_server_groups(policy)
-      server_groups = client.server_groups.select{ |sg| sg.policies.include?(policy) }
+      server_groups = client.server_groups.select { |sg| sg.policies.include?(policy) }
       errors.add(:scheduler_hint_value, _("No matching server groups found")) if server_groups.empty?
       server_groups
     end
@@ -123,7 +160,8 @@ module Foreman::Model
       network = args.delete(:network)
       # fix internal network format for fog.
       args[:nics].delete_if(&:blank?)
-      args[:nics].map! {|nic| { 'net_id' => nic } }
+      args[:nics].map! { |nic| nic.is_a?(String) ? { 'net_id' => nic } : nic }
+      args[:security_groups].delete_if(&:blank?) if args[:security_groups].present?
       format_scheduler_hint_filter(args) if args[:scheduler_hint_filter].present?
       vm = super(args)
       if network.present?
@@ -137,6 +175,11 @@ module Foreman::Model
       destroy_vm vm.id if vm
       volume_client.volumes.delete(@boot_vol_id) if args[:boot_from_volume]
       raise message
+    end
+
+    def vm_ready(vm)
+      vm.wait_for { ready? || failed? }
+      raise Foreman::Exception.new(N_("Failed to deploy vm %{name}, fault: %{e}"), { :name => vm.name, :e => vm.fault['message'] }) if vm.failed?
     end
 
     def destroy_vm(uuid)
@@ -158,7 +201,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      associate_by("ip", [vm.floating_ip_address, vm.private_ip_address])
+      associate_by("ip", [vm.floating_ip_address, vm.private_ip_address].compact)
     end
 
     def flavor_name(flavor_ref)
@@ -174,18 +217,79 @@ module Foreman::Model
     end
 
     def zones
-      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map){|i| i["zoneName"]} || [])
+      @zones ||= (client.list_zones.body["availabilityZoneInfo"].try(:map) { |i| i["zoneName"] } || [])
+    end
+
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['availability_zone', 'tenant_id', 'scheduler_hint_filter'])
+
+      normalized['flavor_id'] = vm_attrs['flavor_ref']
+      normalized['flavor_name'] = flavors.detect { |t| t.id == normalized['flavor_id'] }.try(:name)
+      normalized['tenant_name'] = tenants.detect { |t| t.id == normalized['tenant_id'] }.try(:name)
+
+      security_group = vm_attrs['security_groups']
+      normalized['security_group_name'] = security_group.empty? ? nil : security_group
+      normalized['security_group_id'] = security_groups.detect { |t| t.name == security_group }.try(:id)
+
+      floating_ip_network = vm_attrs['network']
+      normalized['floating_ip_network'] = floating_ip_network.empty? ? nil : floating_ip_network
+
+      normalized['boot_from_volume'] = to_bool(vm_attrs['boot_from_volume'])
+
+      boot_volume_size = memory_gb_to_bytes(vm_attrs['size_gb'])
+      if (boot_volume_size == 0)
+        normalized['boot_volume_size'] = nil
+      else
+        normalized['boot_volume_size'] = boot_volume_size.to_s
+      end
+
+      nics_ids = vm_attrs['nics'] || {}
+      nics_ids = nics_ids.select { |nic_id| nic_id != '' }
+      normalized['interfaces_attributes'] = nics_ids.map.with_index do |nic_id, idx|
+        [idx.to_s, {
+          'id' => nic_id,
+          'name' => internal_networks.detect { |n| n.id == nic_id }.try(:name),
+        }]
+      end.to_h
+
+      normalized['image_id'] = vm_attrs['image_ref']
+      normalized['image_name'] = images.find_by(:uuid => normalized['image_id']).try(:name)
+
+      normalized
     end
 
     private
 
+    def url_for_fog
+      u = URI.parse(url)
+      "#{u.scheme}://#{u.host}:#{u.port}"
+    end
+
     def fog_credentials
-      { :provider => :openstack,
+      { :provider           => :openstack,
         :openstack_api_key  => password,
         :openstack_username => user,
-        :openstack_auth_url => url,
-        :openstack_tenant   => tenant,
-        :openstack_identity_endpoint => url }
+        :openstack_auth_url => url_for_fog,
+        :openstack_identity_endpoint => url_for_fog,
+      }.tap do |h|
+        if tenant.present?
+          if identity_version == 2
+            h[:openstack_tenant] = tenant
+          else
+            h[:openstack_project_name] = tenant
+          end
+        end
+        h[:openstack_user_domain] = domain if domain.present?
+        h[:openstack_domain_id] = project_domain_id if project_domain_id.present?
+        h[:openstack_domain_name] = project_domain_name if project_domain_name.present?
+        h[:openstack_identity_api_version] = 'v2.0' if identity_version == 2
+        logger.debug { "OpenStack fog credentials: " + h.dup.delete_if { |key, value| key == :openstack_api_key }.to_s }
+        h
+      end
+    end
+
+    def identity_client
+      @identity_client ||= ::Fog::Identity.new(fog_credentials.except!(:openstack_identity_endpoint))
     end
 
     def client
@@ -202,28 +306,8 @@ module Foreman::Model
       @volume_client ||= ::Fog::Volume.new(fog_credentials)
     end
 
-    def setup_key_pair
-      key = client.key_pairs.create :name => "foreman-#{id}#{Foreman.uuid}"
-      KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
-    rescue => e
-      Foreman::Logging.exception("Failed to generate key pair", e)
-      destroy_key_pair
-      raise
-    end
-
-    def destroy_key_pair
-      return unless key_pair
-      logger.info "removing OpenStack key #{key_pair.name}"
-      key = client.key_pairs.get(key_pair.name)
-      key.destroy if key
-      key_pair.destroy
-      true
-    rescue => e
-      logger.warn "failed to delete key pair from OpenStack, you might need to cleanup manually : #{e}"
-    end
-
     def vm_instance_defaults
-      super.merge(:key_name => key_pair.name)
+      super.merge(:key_name => key_pair.try(:name), :metadata => {})
     end
 
     def assign_floating_ip(address, vm)

@@ -1,11 +1,15 @@
-class Model < ActiveRecord::Base
+class Model < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
+  include Parameterizable::ByIdName
+  include ::Foreman::ObservableModel
+
+  set_crud_hooks :model
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   has_many_hosts
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
 
   validates_lengths_from_database
   validates :name, :uniqueness => true, :presence => true

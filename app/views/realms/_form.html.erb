@@ -15,11 +15,9 @@
     <div class="tab-pane active" id="primary">
       <%= text_f   f, :name, :help_inline => _("Realm name, e.g. EXAMPLE.COM") %>
       <%= select_f f, :realm_type, Realm::TYPES, :to_s, :to_s, { },
-          {:label => _("Realm type"), :help_inline => _("Type of realm, e.g. FreeIPA")}
+          {:label => _("Realm Type"), :help_inline => _("Type of realm, e.g. FreeIPA")}
       %>
-       <%= select_f f, :realm_proxy_id, SmartProxy.with_features("Realm"), :id, :name,
-           { }, {:label => _("Realm proxy"), :help_inline => _("Realm proxy to use within this realm")}
-      %>
+      <%= smart_proxy_fields f %>
     </div>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @realm %>

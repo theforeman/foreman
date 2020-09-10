@@ -7,7 +7,7 @@ class PowerManagerTest < ActiveSupport::TestCase
     compute_resource_mock = mock('compute_resource')
     compute_resource_mock.stubs(:find_vm_by_uuid).returns(vm_mock)
 
-    host = FactoryGirl.build(:host, :on_compute_resource)
+    host = FactoryBot.build_stubbed(:host, :on_compute_resource)
     host.unstub(:queue_compute)
     host.stubs(:compute_resource).returns(compute_resource_mock)
 
@@ -23,7 +23,7 @@ class PowerManagerTest < ActiveSupport::TestCase
   end
 
   test "should respond to all supported actions with bmc" do
-    host = FactoryGirl.build(:host, :managed)
+    host = FactoryBot.build_stubbed(:host, :managed)
     bmc_proxy_mock = mock('bmc_proxy')
     host.stubs(:bmc_proxy).returns(bmc_proxy_mock)
     host.stubs(:bmc_available?).returns(true)
@@ -51,7 +51,7 @@ class PowerManagerTest < ActiveSupport::TestCase
       compute_resource_mock = mock('compute_resource')
       compute_resource_mock.stubs(:find_vm_by_uuid).returns(@vm_mock)
 
-      @host = FactoryGirl.build(:host, :on_compute_resource)
+      @host = FactoryBot.build_stubbed(:host, :on_compute_resource)
       @host.unstub(:queue_compute)
       @host.stubs(:compute_resource).returns(compute_resource_mock)
       @vm_mock.stubs(:reload).returns(true)

@@ -1,12 +1,16 @@
+<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
 
-<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_host if show_vm_name? %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :disabled => !new_host, :label => _('CPUs'), :label_size => "col-md-2" %>
-<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :disabled => !new_host, :label => _('Memory'), :label_size => "col-md-2" %>
+<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_vm if show_vm_name? %>
 
+<%= counter_f f, :cpus, :disabled => !new_vm, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+
+<%= select_f f, :cpu_mode, Foreman::Model::Libvirt::CPU_MODES, :to_s, :to_s, { }, :label => _("CPU mode"), :label_size => "col-md-2" %>
+
+<%= byte_size_f f, :memory, :disabled => !new_vm, :label => _('Memory'), :label_size => "col-md-2", :'data-soft-max' => compute_resource.max_memory %>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2"} if new_host && controller_name != "compute_attributes" %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2"} if new_vm && controller_name != "compute_attributes" %>
 
 <%
    arch ||= nil ; os ||= nil
@@ -16,7 +20,7 @@
   <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
              { :disabled    => images.empty? || (params[:host] && params[:host][:provision_method] == 'build'),
                :'data-url'  => template_selected_compute_resource_path(compute_resource),
-               :onchange    => 'libvirt_image_selected(this);',
+               :onchange    => 'tfm.computeResource.libvirt.imageSelected(this);',
                :help_inline => :indicator,
                :help_block  => _("Image to use"),
                :label => _('Image'), :label_size => "col-md-2"} %>

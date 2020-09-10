@@ -1,4 +1,4 @@
-class RemoveNilFromMergeOverride < ActiveRecord::Migration
+class RemoveNilFromMergeOverride < ActiveRecord::Migration[4.2]
   def up
     change_column_null :lookup_keys, :merge_overrides, false, false
     change_column_default :lookup_keys, :merge_overrides, false

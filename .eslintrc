@@ -1,0 +1,4 @@
+{
+  "plugins": ["@theforeman/foreman"],
+  "extends": "plugin:@theforeman/foreman/core"
+}

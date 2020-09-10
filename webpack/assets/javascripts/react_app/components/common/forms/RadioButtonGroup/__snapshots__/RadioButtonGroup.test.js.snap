@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`radio button group should render disabled radio buttons 1`] = `
+<CommonForm
+  className=""
+  inputClassName="col-md-6"
+  label="RadioButtonGroupLabel"
+  required={false}
+  tooltipHelp={null}
+  touched={false}
+>
+  <FormikConnect(FieldInner)
+    key="0"
+    name="RadioButtonGroupTest"
+    render={[Function]}
+  />
+  <FormikConnect(FieldInner)
+    key="1"
+    name="RadioButtonGroupTest"
+    render={[Function]}
+  />
+</CommonForm>
+`;
+
+exports[`radio button group should render group of radio buttons 1`] = `
+<CommonForm
+  className=""
+  inputClassName="col-md-6"
+  label="RadioButtonGroupLabel"
+  required={false}
+  tooltipHelp={null}
+  touched={false}
+>
+  <FormikConnect(FieldInner)
+    key="0"
+    name="RadioButtonGroupTest"
+    render={[Function]}
+  />
+  <FormikConnect(FieldInner)
+    key="1"
+    name="RadioButtonGroupTest"
+    render={[Function]}
+  />
+</CommonForm>
+`;

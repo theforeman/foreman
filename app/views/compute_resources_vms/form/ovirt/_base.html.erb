@@ -1,40 +1,80 @@
-<% javascript 'compute_resource' %>
+<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initAll)"); %>
+
 <%= text_f f, :name, :label => _('Name'), :label_size => "col-md-3" if show_vm_name? %>
 <% clusters = compute_resource.clusters %>
 <%= select_f f, :cluster, clusters, :id, :name, { },
-             { :disabled    => !new_host, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
-               :onchange    => 'ovirt_clusterSelected(this);',
+             { :disabled    => !new_vm, :'data-url' => cluster_selected_compute_resource_path(compute_resource),
+               :onchange    => 'tfm.computeResource.ovirt.clusterSelected(this);',
                :help_inline => :indicator,
                :label      => _('Cluster'), :label_size => "col-md-2" } %>
-<%= f.hidden_field :cluster if !new_host %>
-<%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Select template")},
-             { :disabled    => !new_host, :'data-url' => template_selected_compute_resource_path(compute_resource),
-               :onchange    => 'ovirt_templateSelected(this);',
+<%= f.hidden_field :cluster if !new_vm %>
+
+<%= select_f f, :template, compute_resource.templates, :id, :full_name, {:include_blank => _("Blank template")},
+             { :disabled    => !new_vm, :'data-url' => template_selected_compute_resource_path(compute_resource),
+               :onchange    => 'tfm.computeResource.ovirt.templateSelected(this);',
                :help_inline => :indicator,
                :help_block  => _("oVirt/RHEV template to use"),
                :label       => _('Template'), :label_size => "col-md-2" } %>
-<%= f.hidden_field :template if !new_host %>
+<%= f.hidden_field :template if !new_vm %>
 
-<% selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster] %>
-
-<%= selectable_f f, :cores, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :label => _('Cores'), :label_size => "col-md-2" %>
-<%= selectable_f f, :memory, memory_options(compute_resource.max_memory), { }, :class => "col-md-2", :label => _('Memory'), :label_size => "col-md-2" %>
-
-<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_host && controller_name != "compute_attributes" %>
+<%= select_f f, :instance_type, compute_resource.instance_types, :id, :name, {:include_blank => _("Custom instance type")},
+             { :disabled    => !new_vm, :'data-url' => instance_type_selected_compute_resource_path(compute_resource),
+               :onchange    => 'tfm.computeResource.ovirt.instanceTypeSelected(this);',
+               :help_inline => :indicator,
+               :help_block  => _("oVirt/RHEV instance type. Provided memory, sockets and cores values will be overriden by instance types values"),
+               :label       => _('Instance type'), :label_size => "col-md-2" } %>
+<%= f.hidden_field :instance_type if !new_vm %>
 
 <%
-   arch ||= nil ; os ||= nil
-   images = possible_images(compute_resource, arch, os)
--%>
+selected_cluster ||= params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:cluster]
+if params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:instance_type]
+  instance_type = compute_resource.instance_type(params[:host][:compute_attributes][:instance_type])
+end
+disable_cores = !new_vm || (new_vm && instance_type && instance_type.cores.present?)
+disable_sockets = !new_vm || (new_vm && instance_type && instance_type.sockets.present?)
+disable_mem = !new_vm || (new_vm && instance_type && instance_type.memory.present?)
+%>
 
-<div id='image_selection'>
-  <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
-             { :disabled    => true, :'data-url' => template_selected_compute_resource_path(compute_resource),
-               :onchange    => 'ovirt_templateSelected(this);',
-               :help_inline => :indicator,
-               :help_block  => _("Image to use"),
-               :label => _('Image'), :label_size => "col-md-2"} %>
-</div>
+<%= counter_f f, :cores, :disabled => disable_cores, :label => _('Cores per socket'), :label_size => 'col-md-2' %>
+
+<%= counter_f f, :sockets, :disabled => disable_sockets, :label => _('Sockets'), :label_size => 'col-md-2' %>
+
+<%= byte_size_f f, :memory, :disabled => disable_mem, :label => _('Memory'), :label_size => "col-md-2" %>
+
+<% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
+<%= checkbox_f f, :ha, { :checked => (f.object.ha == '1') , :label => _('Highly Available'), :label_size => "col-md-2" }  %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != "compute_attributes" %>
+
+<%= f.fields_for :display, OpenStruct.new(f.object.display) do |display_f| %>
+  <%= select_f display_f, :type, compute_resource.display_types, :downcase, :upcase,
+                { },
+                { :label_size => "col-md-2",
+                  :label => _("Display Type"),
+                  :class => 'display_type',
+                  :disabled => f.object.status != "down" && !new_vm } %>
+  <%= select_f display_f, :keyboard_layout, compute_resource.keyboard_layouts, :downcase, :to_s,
+                { },
+                { :label_size => "col-md-2",
+                  :label => _("Keyboard"),
+                  :class => 'keyboard_layout',
+                  :disabled => f.object.status != "down" && !new_vm } %>
+<% end %>
+
+<% unless local_assigns[:hide_image] %>
+  <%
+     arch ||= nil ; os ||= nil
+     images = possible_images(compute_resource, arch, os)
+  -%>
+
+  <div id='image_selection'>
+    <%= select_f f, :image_id, images, :uuid, :name,{:include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image')},
+               { :disabled    => true, :'data-url' => template_selected_compute_resource_path(compute_resource),
+                 :onchange    => 'tfm.computeResource.ovirt.templateSelected(this);',
+                 :help_inline => :indicator,
+                 :help_block  => _("Image to use"),
+                 :label => _('Image'), :label_size => "col-md-2"} %>
+  </div>
+<% end %>
 
 <%= compute_specific_js(compute_resource, "nic_info") %>
+<%= compute_specific_js(compute_resource, "display") %>

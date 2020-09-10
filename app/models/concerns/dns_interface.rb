@@ -13,7 +13,7 @@ module DnsInterface
 
     handle_validation_errors do
       store_dns_record(type,
-                       dns_class(type).new(send(:"dns_#{type}_record_attrs")))
+        dns_class(type).new(send(:"dns_#{type}_record_attrs")))
     end
   end
 
@@ -35,7 +35,8 @@ module DnsInterface
   end
 
   def recreate_dns_record(type)
-    set_dns_record(type) unless dns_record(type).nil? || dns_record(type).valid?
+    return true if dns_record(type).nil? || dns_record(type).valid?
+    set_dns_record(type)
   end
 
   def set_dns_record(type)

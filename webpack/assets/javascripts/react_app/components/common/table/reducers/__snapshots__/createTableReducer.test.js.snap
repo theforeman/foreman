@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table createTableReducer should handle FAILURE 1`] = `
+Object {
+  "error": [Error: ooops!],
+  "pagination": Object {
+    "page": 1,
+    "perPage": 20,
+  },
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "ERROR",
+  "total": 0,
+}
+`;
+
+exports[`Table createTableReducer should handle REQUEST 1`] = `
+Object {
+  "error": null,
+  "pagination": Object {
+    "page": 1,
+    "perPage": 20,
+  },
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "PENDING",
+  "total": 0,
+}
+`;
+
+exports[`Table createTableReducer should handle SUCCESS 1`] = `
+Object {
+  "error": null,
+  "pagination": Object {
+    "page": 1,
+    "perPage": 5,
+  },
+  "results": Array [
+    Object {
+      "id": 23,
+      "name": "model",
+    },
+  ],
+  "sortBy": "name",
+  "sortOrder": "ASC",
+  "status": "RESOLVED",
+  "total": 20,
+}
+`;
+
+exports[`Table createTableReducer should return initial state 1`] = `
+Object {
+  "error": null,
+  "pagination": Object {
+    "page": 1,
+    "perPage": 20,
+  },
+  "results": Array [],
+  "sortBy": "",
+  "sortOrder": "",
+  "status": "PENDING",
+  "total": 0,
+}
+`;

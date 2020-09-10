@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vmware storage reducer STORAGE_VMWARE_ADD_CONTROLLER adds another controller 1`] = `
+Object {
+  "controllers": Array [
+    Object {
+      "key": 1000,
+      "type": "ParaVirtualSCSIController",
+    },
+    Object {
+      "key": 1001,
+      "type": "ParaVirtualSCSIController",
+    },
+  ],
+  "volumes": Array [
+    Object {
+      "controllerKey": 1000,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "5124c2d1-339b-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+    Object {
+      "controllerKey": 1001,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "1547e1c0-309a-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+  ],
+}
+`;
+
+exports[`vmware storage reducer STORAGE_VMWARE_ADD_CONTROLLER adds another controller to fill after removed one 1`] = `
+Object {
+  "controllers": Array [
+    Object {
+      "key": 1001,
+      "type": "ParaVirtualSCSIController",
+    },
+    Object {
+      "key": 1000,
+      "type": "ParaVirtualSCSIController",
+    },
+  ],
+  "volumes": Array [
+    Object {
+      "controllerKey": 1001,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "5124c2d1-339b-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+    Object {
+      "controllerKey": 1000,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "1547e1c0-309a-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+  ],
+}
+`;
+
+exports[`vmware storage reducer STORAGE_VMWARE_ADD_CONTROLLER adds controller to initialState 1`] = `
+Object {
+  "controllers": Array [
+    Object {
+      "key": 1000,
+      "type": "ParaVirtualSCSIController",
+    },
+  ],
+  "volumes": Array [
+    Object {
+      "controllerKey": 1000,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "1547e1c0-309a-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+  ],
+}
+`;
+
+exports[`vmware storage reducer STORAGE_VMWARE_ADD_DISK adds volume 1`] = `
+Object {
+  "controllers": Array [
+    Object {
+      "key": 1000,
+      "type": "ParaVirtualSCSIController",
+    },
+  ],
+  "volumes": Array [
+    Object {
+      "controllerKey": 1000,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "5124c2d1-339b-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+    Object {
+      "controllerKey": 1000,
+      "datastore": "",
+      "eagerZero": false,
+      "key": "1547e1c0-309a-11e9-98f5-5f761412a4c2",
+      "mode": "persistent",
+      "name": "Hard disk",
+      "sizeGb": 10,
+      "storagePod": "",
+      "thin": false,
+    },
+  ],
+}
+`;

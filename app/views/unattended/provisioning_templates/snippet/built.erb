@@ -1,0 +1,32 @@
+<%#
+kind: snippet
+name: built
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%#
+  Sends 'built' request to exit build mode. Only use in multi-line shell context.
+  Tries curl, if not found then wget and finally wget from busybox (limited options).
+-%>
+<%
+  endpoint = @endpoint || 'built'
+  method = @method || 'POST'
+  url = foreman_url(endpoint)
+  curl_opts = ["-H 'Content-Type: text/plain'"]
+  wget_opts = ["--header 'Content-Type: text/plain'"]
+  if url.start_with?('https')
+    curl_opts << "--insecure"
+    wget_opts << "--no-check-certificate"
+  end
+  if @body_file
+    curl_opts << "--data @#{@body_file}"
+    wget_opts << "--body-file=#{@body_file}"
+  end
+-%>
+if [ -x /usr/bin/curl ]; then
+  /usr/bin/curl -o /dev/null --noproxy \* <%= curl_opts.join(' ') %> --silent '<%= url %>'
+elif [ -x /usr/bin/wget ]; then
+  /usr/bin/wget -q -O /dev/null --no-proxy --method <%= method %> <%= wget_opts.join(' ') %> '<%= url %>'
+else
+  wget -q -O /dev/null --header 'Content-Type: text/plain' '<%= url %>'
+fi

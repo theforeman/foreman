@@ -30,7 +30,7 @@
       <%= content_tag(:span, error.full_messages.to_sentence, :class => "help-block") if error.present? %>
     </td>
     <td class="ca">
-      <%= use_puppet_default_check_box(lookup_key, lookup_value, !overridden) %>
+      <%= omit_check_box(lookup_key, lookup_value, !overridden) %>
       <%= hidden_lookup_value_fields(lookup_key, lookup_value, !overridden) %>
     </td>
   </tr>

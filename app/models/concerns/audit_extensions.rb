@@ -2,42 +2,187 @@
 module AuditExtensions
   extend ActiveSupport::Concern
 
+  REDACTED = N_('[redacted]')
+
   included do
-    belongs_to :user, :class_name => 'User'
-    belongs_to :search_users, :class_name => 'User', :foreign_key => :user_id
-    belongs_to :search_hosts, -> { where(:audits => { :auditable_type => 'Host' }) },
-      :class_name => 'Host', :foreign_key => :auditable_id
-    belongs_to :search_hostgroups, :class_name => 'Hostgroup', :foreign_key => :auditable_id
-    belongs_to :search_parameters, :class_name => 'Parameter', :foreign_key => :auditable_id
-    belongs_to :search_templates, :class_name => 'ProvisioningTemplate', :foreign_key => :auditable_id
-    belongs_to :search_os, :class_name => 'Operatingsystem', :foreign_key => :auditable_id
-    belongs_to :search_class, :class_name => 'Puppetclass', :foreign_key => :auditable_id
+    before_save :fix_auditable_type, :ensure_username, :ensure_auditable_and_associated_name, :set_taxonomies
+    before_save :filter_encrypted, :if => proc { |audit| audit.audited_changes.present? }
+    before_save :filter_passwords, :if => proc { |audit| audit.audited_changes.try(:has_key?, 'password') }
+    after_create :log_audit
 
-    scoped_search :on => [:username, :remote_address], :complete_value => true
-    scoped_search :on => :audited_changes, :rename => 'changes'
-    scoped_search :on => :created_at, :complete_value => true, :rename => :time, :default_order => :desc
-    scoped_search :on => :action, :complete_value => { :create => 'create', :update => 'update', :delete => 'destroy' }
-    scoped_search :on => :auditable_type, :complete_value => { :host => 'Host', :parameter => 'Parameter', :architecture => 'Architecture',
-                                                               :puppetclass => 'Puppetclass', :os => 'Operatingsystem', :hostgroup => 'Hostgroup',
-                                                               :template => "ProvisioningTemplate" }, :rename => :type
-
-    scoped_search :in => :search_parameters, :on => :name, :complete_value => true, :rename => :parameter, :only_explicit => true
-    scoped_search :in => :search_templates, :on => :name, :complete_value => true, :rename => :template, :only_explicit => true
-    scoped_search :in => :search_os, :on => :name, :complete_value => true, :rename => :os, :only_explicit => true
-    scoped_search :in => :search_os, :on => :title, :complete_value => true, :rename => :os_title, :only_explicit => true
-    scoped_search :in => :search_class, :on => :name, :complete_value => true, :rename => :puppetclass, :only_explicit => true
-    scoped_search :in => :search_hosts, :on => :name, :complete_value => true, :rename => :host, :only_explicit => true
-    scoped_search :in => :search_hostgroups, :on => :name, :complete_value => true, :rename => :hostgroup, :only_explicit => true
-    scoped_search :in => :search_hostgroups, :on => :title, :complete_value => true, :rename => :hostgroup_title, :only_explicit => true
-    scoped_search :in => :search_users, :on => :login, :complete_value => true, :rename => :user, :only_explicit => true
-
-    before_save :ensure_username, :ensure_auditable_and_associated_name
-    after_validation :fix_auditable_type
+    scope :untaxed, -> { by_auditable_types(untaxable) }
+    scope :fully_taxable_auditables, -> { by_auditable_types(fully_taxable) }
+    scope :fully_taxable_auditables_in_taxonomy_scope, -> { with_taxonomy_scope { fully_taxable_auditables } }
+    scope :by_auditable_types, ->(auditable_types) { where(:auditable_type => auditable_types.map(&:to_s)).readonly(false) }
+    scope :taxed_and_untaxed, lambda {
+      untaxed.or(fully_taxable_auditables_in_taxonomy_scope)
+             .or(taxed_only_by_organization)
+             .or(taxed_only_by_location)
+    }
 
     include Authorizable
+    include Taxonomix
+    include Foreman::TelemetryHelper
+
+    # audits can be created regardless of permissions
+    def check_permissions_after_save
+      true
+    end
+
+    def self.humanize_class_name
+      _("Audit")
+    end
+
+    serialize :audited_changes
+
+    # don't check user's permissions when setting the audit's taxonomies
+    def ensure_taxonomies_not_escalated
+      true
+    end
+
+    # Audits should never execute what Taxonomix#set_current_taxonomy does
+    def set_current_taxonomy
+    end
+
+    class << self
+      def allows_organization_filtering?
+        false
+      end
+
+      def allows_location_filtering?
+        false
+      end
+
+      def location_taxable
+        known_auditable_types.select do |model|
+          has_any_association_to?(:location, model) &&
+          !has_any_association_to?(:organization, model)
+        end
+      end
+
+      def organization_taxable
+        known_auditable_types.select do |model|
+          has_any_association_to?(:organization, model) &&
+          !has_any_association_to?(:location, model)
+        end
+      end
+
+      def fully_taxable
+        known_auditable_types.select do |model|
+          [:location, :organization].map do |taxable|
+            has_any_association_to?(taxable, model)
+          end.all?
+        end
+      end
+
+      def untaxable
+        untaxed = known_auditable_types.select do |model|
+          !has_taxonomix?(model)
+          !has_any_association_to?(:organization, model) &&
+          !has_any_association_to?(:location, model)
+        end
+        untaxed -= Nic::Base.descendants unless User.current.admin?
+        untaxed
+      end
+
+      def known_auditable_types
+        unscoped.distinct.pluck(:auditable_type).map do |auditable_type|
+          auditable_type.constantize
+        rescue NameError
+        end.compact
+      end
+
+      def taxed_only_by_location
+        locations = Location.current || Location.my_locations.reorder(nil)
+        by_auditable_types(location_taxable).
+          where(id: TaxableTaxonomy.where(taxonomy: locations, taxable_type: 'Audited::Audit').select(:taxable_id))
+      end
+
+      def taxed_only_by_organization
+        organizations = Organization.current || Organization.my_organizations.reorder(nil)
+        by_auditable_types(organization_taxable).
+          where(id: TaxableTaxonomy.where(taxonomy: organizations, taxable_type: 'Audited::Audit').select(:taxable_id))
+      end
+
+      private
+
+      def has_association?(association, model = self)
+        associations = model.reflect_on_all_associations.map(&:name)
+        associations.include?(association)
+      end
+
+      def has_any_association_to?(tax_type, model)
+        [has_association?(tax_type.to_sym, model), has_association?(tax_type.to_s.pluralize.to_sym, model)].any?
+      end
+
+      def has_taxonomix?(model)
+        model.include?(Taxonomix)
+      end
+    end
+  end
+
+  module ClassMethods
+    def main_objects
+      main_classes = audited_classes.reject { |cl| cl.audited_options.key?(:associated_with) }
+      main_classes.concat(non_abstract_parents(main_classes))
+    end
+
+    def main_object_names
+      main_objects.map(&:name)
+    end
+
+    def non_abstract_parents(classes_list)
+      parents_list = classes_list.map(&:superclass).uniq
+      parents_list.select { |cl| cl != ActiveRecord::Base && !cl.abstract_class? && cl.table_exists? }.compact
+    end
   end
 
   private
+
+  def log_audit
+    telemetry_increment_counter(:audit_records_created, 1, type: auditable_type)
+    audit_logger = Foreman::Logging.logger('audit')
+    return unless (audited_changes && audit_logger.info?)
+    audited_changes.each_pair do |attribute, change|
+      audited_fields = {
+        audit_action: action,
+        audit_type: auditable_type,
+        audit_id: auditable_id,
+        audit_attribute: attribute,
+      }
+      if action == 'update'
+        audited_fields[:audit_field_old] = change[0]
+        audited_fields[:audit_field_new] = change[1]
+        log_line = change.join(', ')
+      else
+        audited_fields[:audit_field] = change
+        log_line = change
+      end
+      Foreman::Logging.with_fields(audited_fields) do
+        audit_logger.info "#{auditable_type} (#{auditable_id}) #{action} event on #{attribute} #{log_line}"
+      end
+    end
+    telemetry_increment_counter(:audit_records_logged, audited_changes.count, type: auditable_type)
+  end
+
+  def filter_encrypted
+    audited_changes.each do |name, change|
+      next if change.nil? || change.to_s.empty?
+      if change.is_a? Array
+        change.map! { |c| c.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX) ? REDACTED : c }
+      else
+        audited_changes[name] = REDACTED if change.to_s.start_with?(EncryptValue::ENCRYPTION_PREFIX)
+      end
+    end
+  end
+
+  def filter_passwords
+    if action == 'update'
+      audited_changes['password'] = [REDACTED, REDACTED]
+    else
+      audited_changes['password'] = REDACTED
+    end
+  end
 
   def ensure_username
     self.user_as_model = User.current
@@ -46,14 +191,54 @@ module AuditExtensions
 
   def fix_auditable_type
     # STI Host class should use the stub module instead of Host::Base
-    self.auditable_type = "Host"          if auditable_type =~  /Host::/
-    self.associated_type = "Host"         if associated_type =~ /Host::/
-    self.auditable_type = auditable.type  if auditable_type == "Taxonomy" && auditable
-    self.associated_type = auditable.type if auditable_type == "Taxonomy" && auditable
+    self.auditable_type = "Host::Base" if auditable_type =~ /Host::/
+    self.associated_type = "Host::Base" if associated_type =~ /Host::/
+    self.auditable_type = auditable.type if ["Taxonomy", "LookupKey"].include?(auditable_type) && auditable
+    self.associated_type = associated.type if ["Taxonomy", "LookupKey"].include?(associated_type) && associated
+    self.auditable_type = auditable.type if auditable_type =~ /Nic::/
   end
 
   def ensure_auditable_and_associated_name
-    self.auditable_name  ||= self.auditable.try(:to_label)
-    self.associated_name ||= self.associated.try(:to_label)
+    # If the label changed we want to record the old one, not the new one.
+    # We need to load old version from db since the auditable in memory is the
+    # updated version that hasn't been saved yet.
+    previous_state = auditable.class.unscoped.find_by(id: auditable_id) if auditable
+    previous_state ||= auditable
+    self.auditable_name ||= previous_state.try(:to_label)
+    self.associated_name ||= associated.try(:to_label)
+  end
+
+  def set_taxonomies
+    set_taxonomy_for(:location)
+    set_taxonomy_for(:organization)
+  end
+
+  def set_taxonomy_for(taxonomy)
+    taxonomy_attribute = "#{taxonomy}_id".to_sym
+    taxonomy_attribute_plural = taxonomy_attribute.to_s.pluralize.to_sym
+
+    if auditable.respond_to?(taxonomy_attribute)
+      send("#{taxonomy_attribute_plural}=", [
+        auditable.send(taxonomy_attribute), audited_changes[taxonomy_attribute.to_s]
+      ].flatten.compact.uniq)
+    elsif auditable.respond_to?(taxonomy_attribute_plural)
+      send("#{taxonomy_attribute_plural}=", auditable.send(taxonomy_attribute_plural).uniq)
+    elsif associated
+      set_taxonomies_using_associated(taxonomy.to_s)
+    end
+
+    if auditable.is_a? taxonomy.capitalize.to_s.constantize
+      send("#{taxonomy_attribute_plural}=", [auditable_id])
+    end
+  end
+
+  def set_taxonomies_using_associated(key_name)
+    ids_arr = []
+    if associated.respond_to?(:"#{key_name}_id")
+      ids_arr = [associated.send("#{key_name}_id")]
+    elsif associated.respond_to?(:"#{key_name}_ids")
+      ids_arr = associated.send("#{key_name}_ids")
+    end
+    send("#{key_name}_ids=", ids_arr.compact.uniq)
   end
 end

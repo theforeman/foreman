@@ -1,9 +1,10 @@
 module Net
   module DNS
     class ARecord < DNS::ForwardRecord
-      def initialize(opts = { })
-        super opts
-        self.ip = Validations.validate_ip! self.ip
+      def initialize(opts = {})
+        super(opts)
+        self.ip = Validations.normalize_ip(ip)
+        Validations.validate_ip!(ip)
         self.ipfamily = Socket::AF_INET
         @type = "A"
       end

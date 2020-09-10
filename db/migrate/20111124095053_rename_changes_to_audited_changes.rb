@@ -1,4 +1,4 @@
-class RenameChangesToAuditedChanges < ActiveRecord::Migration
+class RenameChangesToAuditedChanges < ActiveRecord::Migration[4.2]
   def up
     rename_column :audits, :changes, :audited_changes
   end

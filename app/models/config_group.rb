@@ -1,4 +1,4 @@
-class ConfigGroup < ActiveRecord::Base
+class ConfigGroup < ApplicationRecord
   audited
   include Authorizable
   include Parameterizable::ByIdName
@@ -14,6 +14,7 @@ class ConfigGroup < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   scoped_search :on => :name, :complete_value => true
+  scoped_search :relation => :puppetclasses, :on => :name, :complete_value => true, :rename => :class, :only_explicit => true, :operators => ['= ', '~ ']
 
   default_scope -> { order('config_groups.name') }
 

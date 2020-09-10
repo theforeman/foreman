@@ -1,0 +1,21 @@
+<%#
+kind: PXEGrub
+name: PXEGrub default local boot
+model: ProvisioningTemplate
+%>
+<%# Used to boot provisioned hosts, do not associate or change the name. %>
+<%
+  # Grub1 only supports numeric default statement, this allows conversion to number. First define
+  # array of directories we will search for EFI booloaders:
+  paths = ["fedora", "redhat", "centos", "debian", "ubuntu", "sles", "opensuse", "Microsoft", "EFI"]
+  # Add remaining entries to it and use this to convert to number:
+  items = paths.push("local_chain_hd0")
+  # Read default setting but since "local" is missing, use the first path available.
+  default_setting = global_setting("default_pxe_item_local", paths.first)
+  default_setting = paths.first if default_setting == 'local'
+  default_item = items.index(default_setting) || 0
+%>
+default=<%= default_item %>
+timeout=20
+
+<%= snippet "pxegrub_chainload", variables: {paths: paths} %>

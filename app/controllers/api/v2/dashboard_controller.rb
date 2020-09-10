@@ -7,7 +7,7 @@ module Api
       def index
         status = Dashboard::Data.status(params[:search])
         respond_to do |format|
-          format.yaml { render :text => status.to_yaml }
+          format.yaml { render :plain => status.to_yaml }
           format.json { render :json => status.merge(glossary) }
         end
       end
@@ -33,8 +33,8 @@ module Api
             :good_hosts                => _('Hosts without errors'),
             :good_hosts_enabled        => _('Hosts without errors, with alerts enabled'),
             :percentage                => _('Hosts without errors percent'),
-            :reports_missing           => _('Hosts which are not reporting')
-          }
+            :reports_missing           => _('Hosts which are not reporting'),
+          },
         }
       end
     end

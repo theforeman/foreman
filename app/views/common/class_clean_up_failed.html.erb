@@ -1,0 +1,7 @@
+<h1><%= _('Unknown records found in the database') %></h1>
+
+<%= (_('Foreman has detected definitions of unknown classes in your database. This can happen after a plugin removal which did not properly cleaned up data it created. Would you like to delete all records from SQL table <b>"%{table}"</b> with column <b>"%{column}"</b> having the value <b>"%{value}"</b>') % { table: @parent_class.table_name, column: @parent_class.inheritance_column, value: @unknown_class_name}).html_safe %>
+
+<br><br>
+
+<%= alert(text: _('Automatic cleanup has failed, there are probably other records still referencing this data, please do the clean up manually in the database and then refresh this page.'), class: 'alert-warning', close: false) %>

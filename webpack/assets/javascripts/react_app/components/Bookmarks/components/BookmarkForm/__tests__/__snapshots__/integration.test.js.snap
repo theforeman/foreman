@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bookmark form integration test should allow submission when fields filled in: form submitted 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "hosts",
+        "item": "Bookmark",
+      },
+      "response": Object {
+        "results": Array [
+          Object {
+            "controller": "hosts",
+            "id": 52,
+            "name": "1111",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+          Object {
+            "controller": "hosts",
+            "id": 54,
+            "name": "1122",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+        ],
+      },
+      "type": "BOOKMARKS_SUCCESS",
+    },
+  ],
+  Array [
+    Object {
+      "key": "BOOKMARKS_FORM_SUBMITTED",
+      "payload": Object {
+        "url": "/api/v2/hosts",
+      },
+      "type": "BOOKMARKS_FORM_SUBMITTED_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "actionTypes": undefined,
+        "errorToast": [Function],
+        "handleError": [Function],
+        "handleSuccess": [Function],
+        "headers": undefined,
+        "key": "BOOKMARKS_FORM_SUBMITTED",
+        "params": Object {
+          "controller": "hosts",
+          "name": "Joe.D",
+          "public": false,
+          "query": "name ~ my",
+        },
+        "successToast": [Function],
+        "url": "/api/v2/hosts",
+      },
+      "type": "API_POST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "BOOKMARKS_FORM_SUBMITTED",
+      "payload": Object {
+        "url": "/api/v2/hosts",
+      },
+      "response": Object {
+        "controller": "hosts",
+        "name": "Joe.D",
+        "public": false,
+        "query": "name ~ my",
+      },
+      "type": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "key": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
+        "message": Object {
+          "key": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
+          "message": "Bookmark was successfully created.",
+          "type": "success",
+        },
+      },
+      "type": "TOASTS_ADD",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "data": Object {
+          "controller": "hosts",
+          "name": "Joe.D",
+          "public": false,
+          "query": "name ~ my",
+        },
+        "item": "Bookmarks",
+      },
+      "type": "BOOKMARKS_FORM_SUBMITTED",
+    },
+  ],
+]
+`;

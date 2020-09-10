@@ -1,0 +1,38 @@
+<%#
+kind: provision
+name: XenServer default answerfile
+model: ProvisioningTemplate
+oses:
+- XenServer
+-%>
+<%
+  subnet = @host.subnet
+  dhcp = subnet.dhcp_boot_mode?
+  interface_name = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
+-%>
+<?xml version="1.0"?>
+<installation mode="fresh" srtype="lvm">
+<%= @host.diskLayout -%>
+  <keymap><%= host_param('keyboard') || 'us' %></keymap>
+  <hostname><%= @host.shortname %></hostname>
+  <root-password type="hash"><%= root_pass %></root-password>
+  <source type="url"><%= @mediapath %></source>
+  <admin-interface name="<%= interface_name %>" proto="<%= dhcp ? 'dhcp' : 'static' %>">
+<% unless dhcp -%>
+    <ip><%= @host.ip %></ip>
+    <subnet-mask><%= subnet.mask %></subnet-mask>
+<% if subnet.gateway.present? -%>
+    <gateway><%= subnet.gateway %></gateway>
+<% end -%>
+<% end -%>
+  </admin-interface>
+<% subnet.dns_servers.each do |nameserver| -%>
+  <name-server><%= nameserver %></name-server>
+<% end -%>
+  <ntp-server><%= host_param('ntp-server') || 'pool.ntp.org' %></ntp-server>
+  <timezone><%= host_param('time-zone') || 'UTC' %></timezone>
+  <time-config-method>ntp</time-config-method>
+  <script stage="installation-complete" type="url">
+    <%= foreman_url('finish') %>
+  </script>
+</installation>

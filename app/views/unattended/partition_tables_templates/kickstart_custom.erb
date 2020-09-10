@@ -1,0 +1,56 @@
+<%#
+kind: ptable
+name: Kickstart custom
+model: Ptable
+oses:
+- CentOS
+- Fedora
+- RedHat
+%>
+zerombr
+clearpart --all --initlabel
+<%
+  dev = host_param('part_device') || 'sda'
+  swap = host_param('part_swap_size') || '4096'
+  root = host_param('part_root_percent') || '100'
+  home = host_param('part_home_percent') || '0'
+  fstype = host_param('part_fstype') || 'xfs'
+-%>
+
+<% if @host.pxe_loader.include?('UEFI') -%>
+
+  part /boot/efi --fstype="efi" --ondisk=<%= dev %> --size=200 --fsoptions="umask=0077,shortname=efi"
+  <%- if (@host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i >= 7 ) -%>
+    part /boot --fstype="<%= fstype %>" --ondisk=<%= dev %> --size=1024
+  <% else -%>
+    part /boot --fstype="ext4" --ondisk=<%= dev %> --size=1024
+  <% end -%>
+  part pv.01 --fstype="lvmpv" --ondisk=<%= dev %> --size=1024 --grow
+  volgroup vg_sda --pesize=4096 pv.01
+  logvol swap --fstype="swap" --size=<%= swap %> --name=lv_swap --vgname=vg_sda
+  logvol / --fstype="<%= fstype %>" --percent=<%= root %> --name=lv_root --vgname=vg_sda
+  <% if home != '0' -%>
+    logvol /home --fstype="<%= fstype %>" --percent=<%= home %> --name=lv_home --vgname=vg_sda
+  <% end -%>
+
+<% elsif @host.pxe_loader.include?('BIOS') -%>
+
+  <%- if (@host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i >= 7 ) -%>
+    part /boot --fstype="<%= fstype %>" --ondisk=<%= dev %> --size=1024
+  <% else -%>
+    part /boot --fstype="ext4" --ondisk=<%= dev %> --size=1024
+  <% end -%>
+  part pv.01 --fstype="lvmpv" --ondisk=<%= dev %> --size=1024 --grow
+  volgroup vg_sda --pesize=4096 pv.01
+  logvol swap --fstype="swap" --size=<%= swap %> --name=lv_swap --vgname=vg_sda
+  logvol / --fstype="<%= fstype %>" --percent=<%= root %> --name=lv_root --vgname=vg_sda
+  <% if home != '0' -%>
+    logvol /home --fstype="<%= fstype %>" --percent=<%= home %> --name=lv_home --vgname=vg_sda
+  <% end -%>
+
+<% else -%>
+
+# fallback to autopart, PXE loader was set to: <%= @host.pxe_loader %>
+autopart <%= host_param('autopart_options') %>
+
+<% end -%>

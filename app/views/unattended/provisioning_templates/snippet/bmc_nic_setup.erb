@@ -1,0 +1,94 @@
+<%#
+kind: snippet
+name: bmc_nic_setup
+model: ProvisioningTemplate
+snippet: true
+%>
+<%#
+# bmc_nic_setup snippet
+# This snippet configure BMC interfaces.
+# At this time, only IPMI provider is supported.
+# It was tested on some Dell hardware with CentOS 6 - CentOS 7 and should be compatible with respective
+# upstream RHEL versions.
+#
+# What this snippet does:
+# * Configure the networking part of the interface (ipaddr, netmask, ip gateway or dhcp)
+#
+# * Set the authentication mecanism to 'MD5' for the used privilege level
+#
+# * Create or Update the provided user with provided privileges level. ADMINISTRATOR privilege level is used by default
+#   because ipmitool utility request ADMINISTRATOR privileges level if no privilege level is provided.
+#   If you want to use a lower level of privilges (like OPERATOR), don't forget to add the privilege level to request
+#   with your ipmi command (eg: ipmitool -I lanplus -L operator -U user1 -H 192.168.1.2 chassis status).
+#
+# * Enable the user created/updated
+#
+# What this snippet doesn't do:
+# * Set/Update the VLAN tag on the BMC interface because this configuration depends on the switch port configuration
+#   and the 'ipmitool lan set <channel> vlan id <off|<id>>' command don't work on all Dell hardware tested.
+#
+# host_params:
+# * bmc_ipmi_priv_level: Privilege level to use for the ipmi user.
+#                        'ADMINISTRATOR' is used by default if not provided.
+# * bmc_ipmi_auth_method: Channel authentication types. Possible values: NONE, MD2, MD4, MD5, PASSWORD.
+#                         'MD5' is used by default if not provided.
+# * bmc_ipmi_channel_id: Channel ID for the IPMI configuration.
+#
+#
+# How to test configuration result:
+# * From a remote host that can reach the current IPMI interface, install ipmitool utilities and type the following command:
+#   ipmitool -I <interface> -L <privilege_level> -U <user> -H <host> chassis status
+%>
+<%
+bmc_nic = @host.bmc_nic
+
+privilege_levels = {'ADMINISTRATOR' => 4, 'OPERATOR' => 3}
+user_privilege_level = host_param('bmc_ipmi_priv_level') || 'ADMINISTRATOR'
+auth_method = host_param('bmc_ipmi_auth_method') || 'MD5'
+channel_id = host_param('bmc_ipmi_channel_id') || '1'
+
+os_family = @host.operatingsystem.family
+%>
+
+<% if bmc_nic && bmc_nic.managed? && bmc_nic.provider == "IPMI" && !bmc_nic.username.empty?  && !bmc_nic.password.empty? -%>
+
+# Configure BMC interface
+<% if os_family == 'Redhat' %>
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install ipmitool
+else
+  yum -t -y install ipmitool
+fi
+<% elsif os_family == 'Freebsd' %>
+pkg install -y ipmitool
+<% elsif os_family == 'Debian' %>
+apt-get update
+apt-get install -y ipmitool
+<% end %>
+
+<% if bmc_nic.subnet.dhcp_boot_mode? -%>
+ipmitool lan set <%= channel_id %> ipsrc dhcp
+<% else -%>
+ipmitool lan set <%= channel_id %> ipsrc static
+ipmitool lan set <%= channel_id %> ipaddr <%= bmc_nic.ip %>
+ipmitool lan set <%= channel_id %> netmask <%= bmc_nic.subnet.mask %>
+ipmitool lan set <%= channel_id %> defgw ipaddr <%= bmc_nic.subnet.gateway %>
+<% end -%>
+
+ipmitool lan set <%= channel_id %> auth <%= user_privilege_level %> <%= auth_method %>
+ipmitool lan set <%= channel_id %> arp respond on
+ipmitool lan set <%= channel_id %> access on
+
+# Provided user exist, get his ID
+if ipmitool user list <%= channel_id %> | grep -m 1 -E '[[:blank:]]<%= bmc_nic.username %>[[:blank:]]' >/dev/null 2>&1; then
+  ipmi_user_id=$(ipmitool user list <%= channel_id %> | grep -m 1 -E '[[:blank:]]<%= bmc_nic.username %>[[:blank:]]' | cut -d ' ' -f1)
+# provided user don't exist, get the next free ID and create a new user.
+else
+  ipmi_user_id=$[$(ipmitool user list <%= channel_id %> | tail -n 1 | cut -d ' ' -f1)+1]
+  ipmitool user set name ${ipmi_user_id} <%= bmc_nic.username %>
+fi
+
+ipmitool user set password ${ipmi_user_id} <%= bmc_nic.password %>
+ipmitool channel setaccess <%= channel_id %> ${ipmi_user_id} link=on ipmi=on callin=on privilege=<%= privilege_levels[user_privilege_level] %>
+ipmitool user enable ${ipmi_user_id}
+<% end -%>

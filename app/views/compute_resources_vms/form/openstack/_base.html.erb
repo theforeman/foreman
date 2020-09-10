@@ -1,10 +1,12 @@
-<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_host if show_vm_name? %>
+<%= text_f f, :name, :label => _('Name'), :label_size => "col-md-2", :disabled => !new_vm if show_vm_name? %>
 <%= select_f f, :flavor_ref, compute_resource.flavors, :id, :name, {}, :label => _('Flavor'), :label_size => "col-md-2" %>
 <%
    arch ||= nil ; os ||= nil
    images = possible_images(compute_resource, arch, os)
 %>
-<%= selectable_f f, :availability_zone, compute_resource.zones, {:include_blank => _("No preference")}, :label => _('Availability zone'), :label_size => "col-md-2" %>
+<%= selectable_f f, :availability_zone, compute_resource.zones,
+                {:inculde_blank => (compute_resource.zones.empty? || compute_resource.zones.size == 1) ? false : _("No preference") },
+                :label => _('Availability zone'), :label_size => "col-md-2" %>
 <div id='image_selection'>
   <%= select_f f, :image_ref, images, :uuid, :name,
                { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
@@ -12,17 +14,17 @@
 </div>
 <%= select_f f, :tenant_id, compute_resource.tenants, :id, :name, {}, :label => _('Tenant'), :label_size => "col-md-2" %>
 
-<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, :label => _("Security group"), :label_size => "col-md-2"  %>
+<%= select_f f, :security_groups, compute_resource.security_groups, :name, :name, {}, { :label => _("Security groups"), :label_size => "col-md-2", :multiple => true}  %>
 <%= select_f f, :nics, compute_resource.internal_networks, :id, :name,
              {}, { :label => _('Internal network'), :label_size => "col-md-2", :multiple => true } %>
 <%= selectable_f f, :network, compute_resource.address_pools, { include_blank: 'None' }, { :label => _("Floating IP network"), :label_size => "col-md-2" } %>
 <%= checkbox_f f, :boot_from_volume, {:label => _("Boot from volume"), :label_size => "col-md-2", :help_inline => _("Create new boot volume from image")}, "true", "false" %>
 <%= text_f f, :size_gb, { :label => _("New boot volume size (GB)"), :label_size => "col-md-2", :help_inline => _("Defaults to image size if left blank") } %>
 <%= selectable_f f, :scheduler_hint_filter, compute_resource.possible_scheduler_hints, { include_blank: 'None' }, { :label => _("Scheduler hint filter"), :label_size => "col-md-2", :'data-url' => scheduler_hint_selected_hosts_path,
-                                                                                                              :onchange => 'schedulerHintFilterSelected(this);', :disabled => !new_host } %>
+                                                                                                              :onchange => 'tfm.computeResource.openstack.schedulerHintFilterSelected(this);', :disabled => !new_vm } %>
 <div id="scheduler_hint_wrapper">
-  <%= if @host && @host.compute_attributes[:scheduler_hint_filter]
-        render :partial => "compute_resources_vms/form/scheduler_hint_filters", :locals => { :compute_resource => compute_resource, :host => @host, :new_host => new_host }
+  <%= if @host && @host.compute_attributes && @host.compute_attributes[:scheduler_hint_filter].present?
+        render :partial => "compute_resources_vms/form/scheduler_hint_filters", :locals => { :compute_resource => compute_resource, :host => @host, :new_vm => new_vm }
       end  %>
 </div>
 

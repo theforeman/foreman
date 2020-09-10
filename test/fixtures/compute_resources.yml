@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   name: bigcompute
   description: MyString
@@ -61,6 +60,8 @@ gce:
   user: MyString
   password: MyString
   uuid: 78787878787
+  attrs:
+    :project: foo
   type: Foreman::Model::GCE
 
 ovirt:

@@ -1,4 +1,4 @@
-class FakeBMCNic < ActiveRecord::Base
+class FakeBMCNic < ApplicationRecord
   self.table_name = 'nics'
   serialize :attrs, Hash
 
@@ -18,7 +18,7 @@ class FakeBMCNic < ActiveRecord::Base
       old_value = attrs[method]
       self.attrs[method] = value
       # attrs_will_change! makes the record dirty. Otherwise, rails has a bug that it won't save if no other field is changed.
-      self.attrs_will_change! if (old_value != value)
+      attrs_will_change! if (old_value != value)
     end
   end
 
@@ -27,7 +27,7 @@ class FakeBMCNic < ActiveRecord::Base
   end
 end
 
-class ExtractNicAttributes < ActiveRecord::Migration
+class ExtractNicAttributes < ActiveRecord::Migration[4.2]
   def up
     add_column :nics, :provider, :string, :limit => 255
     add_column :nics, :username, :string, :limit => 255

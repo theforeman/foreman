@@ -1,23 +1,8 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one:
-  taxonomy: location1
-  taxable: one
-  taxable_type: "Subnet"
-
+---
 two:
   taxonomy: location1
   taxable: one
   taxable_type: "SmartProxy"
-
-three:
-  taxonomy: organization1
-  taxable: one
-  taxable_type: "Subnet"
 
 four:
   taxonomy: organization1
@@ -44,15 +29,15 @@ eight:
   taxable: yourdomain
   taxable_type: "Domain"
 
+eight2:
+  taxonomy: organization1
+  taxable: yourdomain
+  taxable_type: "Domain"
+
 nine:
   taxonomy: organization1
   taxable: mydomain
   taxable_type: "Domain"
-
-ten:
-  taxonomy: location1
-  taxable: one
-  taxable_type: "Medium"
 
 eleven:
   taxonomy: location1
@@ -133,3 +118,98 @@ twentysix:
   taxonomy: organization2
   taxable: Location 2
   taxable_type: Taxonomy
+
+scoped_user_organization1:
+  taxonomy: organization1
+  taxable: scoped
+  taxable_type: User
+
+scoped_user_location1:
+  taxonomy: location1
+  taxable: scoped
+  taxable_type: User
+
+user_one_org:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "User"
+
+user_one_loc:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "User"
+
+subnet_one_org:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "Subnet"
+
+subnet_one_loc:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "Subnet"
+
+subnet_five_org:
+  taxonomy: organization1
+  taxable: five
+  taxable_type: "Subnet"
+
+subnet_five_loc:
+  taxonomy: location1
+  taxable: five
+  taxable_type: "Subnet"
+
+compute_mycompute_org:
+  taxonomy: organization1
+  taxable: mycompute
+  taxable_type: "ComputeResource"
+
+compute_mycompute_loc:
+  taxonomy: location1
+  taxable: mycompute
+  taxable_type: "ComputeResource"
+
+hostgroup_common_org:
+  taxonomy: organization1
+  taxable: common
+  taxable_type: "Hostgroup"
+
+hostgroup_common_loc:
+  taxonomy: location1
+  taxable: common
+  taxable_type: "Hostgroup"
+
+medium_one_org:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "Medium"
+
+medium_one_loc:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "Medium"
+
+auth_source_ldap_one_org:
+  taxonomy: organization1
+  taxable: one
+  taxable_type: "AuthSource"
+
+auth_source_ldap_one_loc:
+  taxonomy: location1
+  taxable: one
+  taxable_type: "AuthSource"
+
+puppetmaster_organization2:
+  taxonomy: organization2
+  taxable: puppetmaster
+  taxable_type: "SmartProxy"
+
+bmc_organization:
+  taxonomy: organization1
+  taxable: bmc
+  taxable_type: "SmartProxy"
+
+bmc_location1:
+  taxonomy: location1
+  taxable: bmc
+  taxable_type: "SmartProxy"

@@ -1,0 +1,50 @@
+name: (non-blocking) React on plugins
+
+on:
+  pull_request:
+    branches: [develop]
+    paths:
+      - 'webpack/**'
+      - 'package.json'
+      - 'config/webpack.config.js'
+      - '.github/workflows/plugins_react_tests.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - repo: katello
+            org: Katello
+          - repo: foreman-tasks
+            org: theforeman
+    steps:
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      # We could update the postinstall action for foreman to look for an environment variable for plugin webpack dirs
+      # before kicking off the ruby script to find them, this would eliminate the ruby dep and running `npm install` in plugins.
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: Checkout Foreman
+        uses: actions/checkout@v2
+        with:
+          path: ./projects/foreman
+      - name: Install Foreman npm dependencies
+        run: npm install
+        working-directory: ${{ github.workspace }}/projects/foreman
+      - name: Checkout ${{ matrix.repo }}
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ matrix.org }}/${{ matrix.repo }}
+          path: ./projects/${{ matrix.repo }}
+      - name: Install ${{ matrix.repo }} npm dependencies
+        run: npm install
+        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}
+      - name: Run ${{ matrix.plugin_repo }} tests
+        run: npm test
+        working-directory: ${{ github.workspace }}/projects/${{ matrix.repo }}

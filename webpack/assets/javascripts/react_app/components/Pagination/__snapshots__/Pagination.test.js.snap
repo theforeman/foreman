@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination rendering from erb renders layout 1`] = `
+<Paginator
+  className="col-md-12"
+  disableNext={false}
+  disablePrev={false}
+  dropdownButtonId="pagination-row-dropdown"
+  itemCount={21}
+  messages={
+    Object {
+      "currentPage": "Current Page",
+      "firstPage": "First Page",
+      "lastPage": "Last Page",
+      "nextPage": "Next Page",
+      "of": "of",
+      "perPage": "per page",
+      "previousPage": "Previous Page",
+    }
+  }
+  onPageSet={[Function]}
+  onPerPageSelect={[Function]}
+  pagination={
+    Object {
+      "page": 1,
+      "perPage": 5,
+      "perPageOptions": Array [
+        5,
+        10,
+        20,
+        50,
+      ],
+    }
+  }
+  viewType="table"
+/>
+`;
+
+exports[`Pagination rendering from js renders correctly 1`] = `
+<Pagination
+  className=""
+  data={
+    Object {
+      "itemCount": 52,
+      "viewType": "list",
+    }
+  }
+  disableNext={false}
+  disablePrev={false}
+  dropdownButtonId="pagination-row-dropdown"
+  messages={
+    Object {
+      "currentPage": "Current Page",
+      "firstPage": "First Page",
+      "lastPage": "Last Page",
+      "nextPage": "Next Page",
+      "of": "of",
+      "perPage": "per page",
+      "previousPage": "Previous Page",
+    }
+  }
+  onPageSet={[Function]}
+  onPerPageSelect={[Function]}
+  pagination={
+    Object {
+      "page": 2,
+      "perPage": 20,
+      "perPageOptions": Array [
+        5,
+        10,
+        25,
+      ],
+    }
+  }
+/>
+`;

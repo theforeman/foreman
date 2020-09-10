@@ -16,7 +16,7 @@ module HostsNicHelper
     if accessible_resource(f.object, klass).any?
       array = options_for_select(
         [[]] +
-        accessible_resource(f.object, klass).map{ |subnet| [subnet.to_label, subnet.id, {'data-suggest_new' => subnet.unused_ip.suggest_new?}]}, f.object.public_send(attr)
+        accessible_resource(f.object, klass).map { |subnet| [subnet.to_label, subnet.id, {'data-suggest_new' => subnet.unused_ip.suggest_new?, 'data-vlan_id' => subnet.vlanid}] }, f.object.public_send(attr)
       )
     else
       array = [[_("No subnets"), '']]

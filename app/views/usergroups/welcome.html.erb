@@ -1,0 +1,16 @@
+<% title _("User Groups") %>
+
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text("project", "", :kind => "pficon") %>
+  </div>
+  <h1><%= _('User groups') %></h1>
+  <p>
+    <%= _("With user groups, you can group your users and assign them roles on a group basis.") %></br>
+    <%= _("User groups enable users to log into Foreman and be automatically granted permissions.") %></br>
+    <%= _("A Foreman user group can be associated to a group stored in an LDAP server, so membership of the LDAP group automatically adds the user to the Foreman user group.") %></br>
+  </p>
+  <div class="blank-slate-pf-main-action">
+    <%= new_link(_("Create User group"), {}, { :class => "btn-lg" }) %>
+  </div>
+</div>

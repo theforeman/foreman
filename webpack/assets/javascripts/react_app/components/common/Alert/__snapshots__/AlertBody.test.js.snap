@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertBody should render With all props 1`] = `
+<span>
+  <AlertLink
+    href="#"
+  >
+    link text
+  </AlertLink>
+  <strong>
+    some title
+  </strong>
+  some message
+  <span>
+    a Child
+  </span>
+</span>
+`;
+
+exports[`AlertBody should render with childrens 1`] = `
+<span>
+  <span>
+    a Child
+  </span>
+</span>
+`;
+
+exports[`AlertBody should render with link 1`] = `
+<span>
+  <AlertLink
+    href="#"
+  >
+    link text
+  </AlertLink>
+</span>
+`;
+
+exports[`AlertBody should render with title and message 1`] = `
+<span>
+  <strong>
+    some title
+  </strong>
+  some message
+</span>
+`;

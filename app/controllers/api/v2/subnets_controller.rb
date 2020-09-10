@@ -2,12 +2,13 @@ module Api
   module V2
     class SubnetsController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Subnet
+      include ParameterAttributes
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy freeip}
       before_action :find_ipam, :only => %w{freeip}
+      before_action :process_parameter_attributes, :only => %w{update}
 
       api :GET, '/subnets', N_("List of subnets")
       api :GET, "/domains/:domain_id/subnets", N_("List of subnets for a domain")
@@ -16,13 +17,16 @@ module Api
       param :domain_id, String, :desc => N_("ID of domain")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Subnet)
 
       def index
         @subnets = resource_scope_for_index.includes(:tftp, :dhcp, :dns)
+        @subnets = @subnets.network_reorder(params[:order]) if params[:order].present? && params[:order] =~ /\Anetwork( ASC| DESC)?\Z/
       end
 
       api :GET, "/subnets/:id/", N_("Show a subnet")
       param :id, :identifier, :required => true
+      param :show_hidden_parameters, :bool, :desc => N_("Display hidden parameter values")
 
       def show
       end
@@ -30,21 +34,24 @@ module Api
       def_param_group :subnet do
         param :subnet, Hash, :required => true, :action_aware => true do
           param :name, String, :desc => N_("Subnet name"), :required => true
+          param :description, String, :desc => N_("Subnet description")
           param :network_type, Subnet::SUBNET_TYPES.values, :desc => N_('Type or protocol, IPv4 or IPv6, defaults to IPv4')
           param :network, String, :desc => N_("Subnet network"), :required => true
-          param :mask, String, :desc => N_("Netmask for this subnet"), :required => true
-          param :gateway, String, :desc => N_("Primary DNS for this subnet")
+          param :cidr, String, :desc => N_("Network prefix in CIDR notation")
+          param :mask, String, :desc => N_("Netmask for this subnet")
+          param :gateway, String, :desc => N_("Subnet gateway")
           param :dns_primary, String, :desc => N_("Primary DNS for this subnet")
           param :dns_secondary, String, :desc => N_("Secondary DNS for this subnet")
-          param :ipam, String, :desc => N_('IP Address auto suggestion mode for this subnet, valid values are "DHCP", "Internal DB", "None"')
+          param :ipam, IPAM::MODES.values, :desc => N_('IP Address auto suggestion mode for this subnet.')
           param :from, String, :desc => N_("Starting IP Address for IP auto suggestion")
           param :to, String, :desc => N_("Ending IP Address for IP auto suggestion")
           param :vlanid, String, :desc => N_("VLAN ID for this subnet")
+          param :mtu, Integer, :desc => N_("MTU for this subnet")
           param :domain_ids, Array, :desc => N_("Domains in which this subnet is part")
-          param :dhcp_id, :number, :desc => N_("DHCP Proxy to use within this subnet")
-          param :tftp_id, :number, :desc => N_("TFTP Proxy to use within this subnet")
-          param :dns_id, :number, :desc => N_("DNS Proxy to use within this subnet")
-          param :boot_mode, String, :desc => N_('Default boot mode for interfaces assigned to this subnet, valid values are "Static", "DHCP"')
+          Subnet.registered_smart_proxies.each do |name, options|
+            param :"#{name}_id", :number, :desc => options[:api_description]
+          end
+          param :boot_mode, Subnet::BOOT_MODES.values, :desc => N_('Default boot mode for interfaces assigned to this subnet.')
           param :subnet_parameters_attributes, Array, :required => false, :desc => N_("Array of parameters (name, value)")
           param_group :taxonomies, ::Api::V2::BaseController
         end
@@ -63,7 +70,7 @@ module Api
       param_group :subnet
 
       def update
-        process_response @subnet.update_attributes(subnet_params)
+        process_response @subnet.update(subnet_params)
       end
 
       api :DELETE, '/subnets/:id', N_("Delete a subnet")

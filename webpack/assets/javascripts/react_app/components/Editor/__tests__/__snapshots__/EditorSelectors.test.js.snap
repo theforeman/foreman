@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor selectors should return componentHosts 1`] = `
+Array [
+  Object {
+    "id": "1",
+    "name": "host1",
+  },
+  Object {
+    "id": "2",
+    "name": "host2",
+  },
+]
+`;
+
+exports[`Editor selectors should return componentHosts w/Empty Arr 1`] = `Array []`;
+
+exports[`Editor selectors should return editor 1`] = `
+Object {
+  "changeDiffViewType": [Function],
+  "changeEditorValue": [Function],
+  "changeSetting": [Function],
+  "changeTab": [Function],
+  "data": Object {
+    "name": "editor",
+    "options": Object {
+      "keyBindings": Array [
+        "Default",
+        "Emacs",
+        "Vim",
+      ],
+      "modes": Array [
+        "Text",
+        "Json",
+        "Ruby",
+        "Html_ruby",
+        "Sh",
+        "Xml",
+        "Yaml",
+      ],
+      "themes": Array [
+        "Github",
+        "Monokai",
+      ],
+    },
+    "showHide": true,
+    "showHostSelector": true,
+    "showImport": true,
+    "showPreview": true,
+    "template": "<? />",
+    "title": "title",
+  },
+  "diffViewType": "split",
+  "dismissErrorToast": [Function],
+  "editorName": "editor",
+  "errorText": "",
+  "fetchAndPreview": [Function],
+  "filteredHosts": Array [],
+  "hosts": Array [
+    Object {
+      "id": "1",
+      "name": "host1",
+    },
+    Object {
+      "id": "2",
+      "name": "host2",
+    },
+  ],
+  "importFile": [Function],
+  "initializeEditor": [Function],
+  "isFetchingHosts": false,
+  "isLoading": false,
+  "isMasked": false,
+  "isMaximized": false,
+  "isRendering": false,
+  "isSearchingHosts": false,
+  "isSelectOpen": false,
+  "keyBinding": "Default",
+  "keyBindings": Array [
+    "Default",
+    "Emacs",
+    "Vim",
+  ],
+  "mode": "Ruby",
+  "modes": Array [
+    "Text",
+    "Json",
+    "Ruby",
+    "Html_ruby",
+    "Sh",
+    "Xml",
+    "Yaml",
+  ],
+  "name": "editor",
+  "onHostSearch": [Function],
+  "onHostSelectToggle": [Function],
+  "onSearchClear": [Function],
+  "previewResult": "previewResult",
+  "previewTemplate": [Function],
+  "previewValue": "preview",
+  "readOnly": false,
+  "renderPath": "/render/path",
+  "renderedEditorValue": "renderedEditorValue",
+  "revertChanges": [Function],
+  "searchQuery": "",
+  "selectedHost": Object {
+    "id": "",
+    "name": "",
+  },
+  "selectedView": "input",
+  "showError": true,
+  "template": "<? />",
+  "theme": "Monokai",
+  "themes": Array [
+    "Github",
+    "Monokai",
+  ],
+  "toggleMaskValue": [Function],
+  "toggleModal": [Function],
+  "toggleRenderView": [Function],
+  "value": "value",
+}
+`;
+
+exports[`Editor selectors should return filtered componentHosts 1`] = `Array []`;
+
+exports[`Editor selectors should return selectChosenView 1`] = `"input"`;
+
+exports[`Editor selectors should return selectDiffType 1`] = `"split"`;
+
+exports[`Editor selectors should return selectEditorName 1`] = `"editor"`;
+
+exports[`Editor selectors should return selectErrorText 1`] = `""`;
+
+exports[`Editor selectors should return selectFilteredHosts 1`] = `Array []`;
+
+exports[`Editor selectors should return selectHosts 1`] = `
+Array [
+  Object {
+    "id": "1",
+    "name": "host1",
+  },
+  Object {
+    "id": "2",
+    "name": "host2",
+  },
+]
+`;
+
+exports[`Editor selectors should return selectIsFetchingHosts 1`] = `false`;
+
+exports[`Editor selectors should return selectIsLoading 1`] = `false`;
+
+exports[`Editor selectors should return selectIsMasked 1`] = `false`;
+
+exports[`Editor selectors should return selectIsMaximized 1`] = `false`;
+
+exports[`Editor selectors should return selectIsReadOnly 1`] = `false`;
+
+exports[`Editor selectors should return selectIsRendering 1`] = `false`;
+
+exports[`Editor selectors should return selectIsSearchingHosts 1`] = `false`;
+
+exports[`Editor selectors should return selectIsSelectOpen 1`] = `false`;
+
+exports[`Editor selectors should return selectKeyBind 1`] = `"Default"`;
+
+exports[`Editor selectors should return selectMode 1`] = `"Ruby"`;
+
+exports[`Editor selectors should return selectPreviewResult 1`] = `"previewResult"`;
+
+exports[`Editor selectors should return selectRenderedEditorValue 1`] = `"renderedEditorValue"`;
+
+exports[`Editor selectors should return selectSearchQuery 1`] = `""`;
+
+exports[`Editor selectors should return selectShowError 1`] = `true`;
+
+exports[`Editor selectors should return selectTemplateClass 1`] = `undefined`;
+
+exports[`Editor selectors should return selectTheme 1`] = `"Monokai"`;
+
+exports[`Editor selectors should return selectValue 1`] = `"value"`;
+
+exports[`Editor selectors should return selected host 1`] = `
+Object {
+  "id": "",
+  "name": "",
+}
+`;

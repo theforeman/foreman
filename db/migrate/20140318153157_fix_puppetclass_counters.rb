@@ -1,4 +1,4 @@
-class FixPuppetclassCounters < ActiveRecord::Migration
+class FixPuppetclassCounters < ActiveRecord::Migration[4.2]
   def up
     # This is the counter for the total number of params for a given puppet class
     # across all environments.  It was poorly named.
@@ -6,9 +6,6 @@ class FixPuppetclassCounters < ActiveRecord::Migration
 
     # Smart Variables Counts
     add_column    :puppetclasses, :lookup_keys_count, :integer, :default => 0
-    LookupKey.where("puppetclass_id IS NOT NULL").each do |k|
-      Puppetclass.reset_counters(k.puppetclass_id, :lookup_keys)
-    end
   end
 
   def down

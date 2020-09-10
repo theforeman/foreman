@@ -1,52 +1,12 @@
-<% title _("Partition table configuration") %>
-<% title_actions new_link(_("New Partition Table")) %>
-<div id="welcome">
-  <p> <%= _("A partition table entry represents either") %> </p>
-  <ul>
-    <li> <%= _("An explicit layout for the partitions of your hard drive(s). E.G.") %></li>
-<pre>
-zerombr
-clearpart --all --initlabel
-part /boot --fstype ext3 --size=100 --asprimary
-part /     --fstype ext3 --size=1024 --grow
-part swap  --recommended
-</pre>
-  <li><%= _("A script to dynamically calculate the desired sizes. E.G.") %></li>
-<pre>
-#Dynamic - The below code is to manage the swap size
+<% content_for(:title, _("Partition Tables")) %>
 
-#get the actual memory installed on the system and divide by 1024 to get it in MB
-usable_ram=$((`awk '$1 ~ /^MemTotal/ {printf "%d\n", $2 / 1024}' /proc/meminfo`))
-
-#check if the memory is less than 2GB then swap is double the memory else it is maximum 24 G for really inactive stuff.
-if [ "$usable_ram" -le 2048 ]; then
-  swap_size=$(($usable_ram * 2))
-else
-  swap_size=$(($usable_ram + 2048))
-fi
-if [ $swap_size -gt 24576 ] ; then
-  swap_size=24576
-fi
-
-#copy all the HDD partitions to the temp file for execution
-cat &lt&lt EOF &gt /tmp/diskpart.cfg
-zerombr
-clearpart --all --initlabel
-part swap --size 250 --maxsize "$swap_size" --grow
-part /boot --fstype ext3 --size 100 --asprimary
-part / --fstype ext3 --size 8192 --maxsize 12288 --grow
-part /tmp2 --size 250 --fstype ext3 --grow
-EOF
-</pre>
-  </ul>
-  <p>
-  <%= _("The inclusion of the keyword string <b>#Dynamic</b> at the start of a line lets Foreman know that this is not an explicit disk layout and must treated as a shell script, executed prior
-  to the install process and that the explicit partition table will be found at <b>/tmp/diskpart.cfg</b> during the build process.").html_safe %>
-  </p>
-  <p>
-  <%= _("The dynamic partitioning style is currently only available for the Red Hat family of operating systems, all others must provide an explicit list of partitions and sizes.") %>
-  </p>
-  <p>
-  <%= (_("You may also associate one or more operating systems with this partition table or alternatively set this up later on the %s page") % (link_to _("Operating systems"), operatingsystems_path)).html_safe %>
-  </p>
-</div>
+<div id="ptable-empty-state"></div>
+<% description = _("Partition templates describe the partition layout, with just a different disk layout to account for different server capabilities.")%>
+<%= react_component('EmptyState', {
+                                    :icon => 'table',
+                                    :iconType => 'fa',
+                                    :header => _('Partition Tables'),
+                                    :description => description,
+                                    :documentation => { :url => documentation_url("4.4.4PartitionTables") },
+                                    :action => { :title => _("Create Partition Table"), :url => new_ptable_path }
+                                  }) %>

@@ -2,7 +2,17 @@
 
 <%= content_tag :span, :id => 'bmc_fields' do %>
   <%= text_f f, :username, :size => "col-md-8", :label_size => "col-md-3" %>
-  <%= password_f f, :password, :unset => action_name == "edit", :size => "col-md-8", :label_size => "col-md-3" %>
+  <%= password_f f, :password, :unset => action_name == "edit", :size => "col-md-8", :label_size => "col-md-3",
+                    :label_help => _("The BMC password will be used by Foreman to access the host's BMC controller via a BMC-enabled smart proxy, if available.<br/>").html_safe +
+                          (Setting[:bmc_credentials_accessible] ?
+                            _("The password will also be accessible to other users via templates and in the ENC YAML output; disable the bmc_credentials_accessible setting to prevent access.") :
+                            _("The password will not be accessible to other users; enable the bmc_credentials_accessible setting to permit access via templates and in the ENC YAML output.")),
+                     :label_help_options => {
+                        :title => _("BMC password usage"),
+                        :rel => 'popover-modal',
+                        :'data-placement' => "top"
+                     }
+ %>
   <%= selectable_f f, :provider, Nic::BMC::PROVIDERS, {}, :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
 

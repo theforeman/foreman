@@ -1,0 +1,145 @@
+<%#
+kind: provision
+name: Preseed default
+model: ProvisioningTemplate
+oses:
+- Debian
+- Ubuntu
+%>
+<%
+  proxy_string = host_param('http-proxy') ? " http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : ''
+  ansible_enabled = plugin_present?('foreman_ansible')
+  salt_enabled = host_param('salt_master') ? true : false
+  os_major = @host.operatingsystem.major.to_i
+  squeeze_or_older = (@host.operatingsystem.name == 'Debian' && os_major <= 6)
+  python_package = (@host.operatingsystem.name == 'Ubuntu' && os_major >= 20) ? 'python3' : 'python'
+
+  additional_packages = ['lsb-release', 'wget']
+  additional_packages << host_param('additional-packages')
+  additional_packages << python_package if ansible_enabled
+  additional_packages << 'salt-minion' if salt_enabled
+  additional_packages = additional_packages.join(" ").split().uniq().join(" ")
+%>
+# Locale
+d-i debian-installer/locale string <%= host_param('lang') || 'en_US' %>
+# country and keyboard settings are automatic. Keep them ...
+# ... for wheezy and newer:
+d-i keyboard-configuration/xkb-keymap seen true
+<% if squeeze_or_older -%>
+# ... for squeeze and older:
+d-i console-keymaps-at/keymap seen true
+<% end -%>
+
+<% subnet = @host.subnet -%>
+<% if @static -%>
+  <%- dhcp = false -%>
+<% elsif subnet.nil? -%>
+  <%- dhcp = true -%>
+<% else -%>
+  <%- dhcp = subnet.dhcp_boot_mode? -%>
+<% end -%>
+<% unless dhcp -%>
+# Static network configuration.
+d-i preseed/early_command string /bin/killall.sh; /bin/netcfg
+d-i netcfg/disable_autoconfig boolean true
+d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Configure network manually
+d-i netcfg/disable_dhcp boolean true
+d-i netcfg/get_ipaddress string <%= @host.ip %>
+d-i netcfg/get_netmask string <%= subnet.mask %>
+d-i netcfg/get_nameservers string <%= subnet.dns_servers.join(' ') %>
+d-i netcfg/get_gateway string <%= subnet.gateway %>
+d-i netcfg/confirm_static boolean true
+<% end -%>
+
+# Network configuration
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname string <%= @host %>
+d-i netcfg/get_domain string <%= @host.domain %>
+d-i netcfg/wireless_wep string
+
+d-i hw-detect/load_firmware boolean true
+
+<% if host_param_true?('preseed-live-installer') -%>
+# Offline live-installer location
+d-i live-installer/net-image string http://<%= @preseed_server %><%= @preseed_path %>/install/filesystem.squashfs
+<% end -%>
+
+# Mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string <%= @preseed_server %>
+d-i mirror/http/directory string <%= @preseed_path %>
+d-i mirror/http/proxy string<%= proxy_string %>
+d-i mirror/codename string <%= @host.operatingsystem.release_name %>
+d-i mirror/suite string <%= @host.operatingsystem.release_name %>
+d-i mirror/udeb/suite string <%= @host.operatingsystem.release_name %>
+
+# Time settings
+d-i clock-setup/utc boolean true
+d-i time/zone string <%= host_param('time-zone') || 'UTC' %>
+
+# NTP
+d-i clock-setup/ntp boolean true
+d-i clock-setup/ntp-server string <%= host_param('ntp-server') || '0.debian.pool.ntp.org' %>
+
+# Set alignment for automatic partitioning
+# Choices: cylinder, minimal, optimal
+#d-i partman/alignment select cylinder
+
+<%= @host.diskLayout %>
+
+<% if host_param('preseed-kernel-image') -%>
+# Install different kernel
+d-i base-installer/kernel/image string <%= host_param('preseed-kernel-image') %>
+<% end %>
+
+# User settings
+d-i passwd/root-password-crypted password <%= root_pass %>
+user-setup-udeb passwd/root-login boolean true
+d-i passwd/make-user boolean false
+user-setup-udeb passwd/make-user boolean false
+
+<% repos = 0 %>
+
+<% @additional_media.each do |medium| -%>
+d-i apt-setup/local<%= repos %>/repository string <%= medium[:url] %> <%= @host.operatingsystem.release_name %>-<%= medium[:name] %> main
+<%= "d-i apt-setup/local#{repos}/comment string #{medium[:comment]}" if medium[:comment] %>
+<%= "d-i apt-setup/local#{repos}/key string #{medium[:gpgkey]}" if medium[:gpgkey] %>
+<% repos +=1 -%>
+<% end -%>
+
+<% if salt_enabled -%>
+<% if host_param_true?('enable-saltstack-repo') -%>
+<% if @host.operatingsystem.name == 'Debian' -%>
+d-i apt-setup/local<%= repos %>/repository string http://debian.saltstack.com/debian <%= @host.operatingsystem.release_name %>-saltstack main
+d-i apt-setup/local<%= repos %>/comment string SaltStack Repository
+d-i apt-setup/local<%= repos %>/key string http://debian.saltstack.com/debian-salt-team-joehealy.gpg.key
+<% repos += 1 -%>
+<% end -%>
+<% if @host.operatingsystem.name == 'Ubuntu' -%>
+d-i apt-setup/local<%= repos %>/repository string http://ppa.launchpad.net/saltstack/salt/ubuntu <%= @host.operatingsystem.release_name %> main
+d-i apt-setup/local<%= repos %>/comment string SaltStack Repository
+d-i apt-setup/local<%= repos %>/key string http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x4759FA960E27C0A6
+<% repos += 1 -%>
+<% end -%>
+<% end -%>
+<% end -%>
+
+# Install minimal task set (see tasksel --task-packages minimal)
+tasksel tasksel/first multiselect minimal, ssh-server, openssh-server
+
+# Install some base packages
+d-i pkgsel/include string <%= additional_packages %>
+d-i pkgsel/update-policy select <%= host_param('preseed-update-policy') || 'unattended-upgrades' %>
+d-i pkgsel/upgrade select <%= host_param('preseed-post-install-upgrade') || 'none' %>
+
+popularity-contest popularity-contest/participate boolean false
+
+# Boot loader settings
+#grub-pc grub-pc/hidden_timeout boolean false
+#grub-pc grub-pc/timeout string 10
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+d-i finish-install/reboot_in_progress note
+
+d-i preseed/late_command string wget -Y off <%= @static ? "'#{foreman_url('finish', static: 'true')}'" : foreman_url('finish') %> -O /target/tmp/finish.sh && in-target chmod +x /tmp/finish.sh && in-target /tmp/finish.sh

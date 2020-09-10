@@ -17,7 +17,7 @@ namespace :locale do
     File.rename "#{filename}.rb", "#{filename}.tmp"
     File.open("#{filename}.rb", "w") do |output|
       IO.foreach("#{filename}.tmp") do |line|
-        if not line =~ /^\s*#/ and not line =~ ignored
+        if !(line =~ /^\s*#/) && !(line =~ ignored)
           output.puts '# TRANSLATORS: "Table name" or "Table name|Column name" for error messages'
           output.puts line
         end
@@ -34,9 +34,9 @@ namespace :locale do
   find_dependencies.shift if ENV['SKIP_MODEL']
   task :find => find_dependencies do
     # find malformed strings
-    errors = File.open("locale/#{DOMAIN}.pot") {|f| f.grep /(%s.*%s|#\{)/}
+    errors = File.open("locale/#{DOMAIN}.pot") { |f| f.grep /(%s.*%s|#\{)/ }
     if errors.count > 0
-      errors.each {|e| puts "MALFORMED: #{e}"}
+      errors.each { |e| puts "MALFORMED: #{e}" }
       puts "Malformed strings found: #{errors.count}"
       puts "Please read http://projects.theforeman.org/projects/foreman/wiki/Translating"
     end

@@ -1,0 +1,169 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|API Middleware Usage"
+  parameters={{
+    storyWeight: 100,
+  }}
+/>
+
+# Example: how to use the API middleware
+
+The example API returns a JSON object like this:
+
+```json
+{
+  "items": [
+    { "id": 319, "title": "setting", "action": "update" },
+    { "id": 150, "title": "bookmark", "action": "create" }
+  ]
+}
+```
+
+```js
+/** MyComponent.js*/
+import React from 'react';
+import { STATUS } from '../../constants';
+
+const MyComponent = ({ status, error, items }) => {
+  if (status === STATUS.PENDING) {
+    return <div>Loading...</div>;
+  }
+
+  if (status === STATUS.ERROR) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>
+          {item.title} {item.action}
+        </li>
+      ))}
+    </ul>
+  );
+};
+```
+
+```js
+/** index.js*/
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectItems,
+  selectStatus,
+  selectError,
+} from './MyComponentsSelectors.js';
+import { getData } from './MyComponentActions';
+import MyComponent from './MyComponent';
+
+const ConnectedMyComponent = ({ path }) => {
+  const items = useSelector(selectItems);
+  const status = useSelector(selectStatus);
+  const error = useSelector(selectError);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getData(path));
+  }, [path]);
+
+  return <MyComponent items={items} status={status} error={error} />;
+};
+
+ConnectedMyComponent.propTypes = {
+  path: PropTypes.string.isRequired,
+};
+
+export default ConnectedMyComponent;
+```
+
+```js
+/** MyComponentSelectors.js*/
+
+import { MY_SPECIAL_KEY } from './MyComponentConstants';
+import {
+  selectAPIStatus,
+  selectAPIError,
+  selectAPIResponse,
+} from '../../redux/API/APISelectors';
+
+// use the same key that you've used in the API action.
+export const selectItems = state =>
+  selectAPIResponse(state, MY_SPECIAL_KEY).items || [];
+
+export const selectStatus = state => selectAPIStatus(state, MY_SPECIAL_KEY);
+
+export const selectError = state => selectAPIError(state, MY_SPECIAL_KEY);
+```
+
+```js
+/** MyComponentActions.js*/
+
+export const getData = url => ({
+  type: API_OPERATIONS.GET,
+  payload: {
+    key: MY_SPECIAL_KEY, // you will need to re-use this key in order to access the right API reducer later.
+    url,
+    payload: {
+      page: 2,
+      per_page: 10,
+    },
+  }
+});
+```
+
+Once the action is triggered, the API middleware will manage the request
+and update the store with the request status:
+
+the store on API pending:
+
+```js
+{
+  ...
+  API: {
+    MY_SPECIAL_KEY: { // The key that was provided in the API action.
+      response: null,
+      status: "PENDING",
+      payload: {},
+    }
+  }
+}
+```
+
+the store on API success:
+
+```js
+{
+  ...
+  API: {
+    MY_SPECIAL_KEY: {
+      response: {
+        items: [
+          {id: 319, title: "setting", action: "update"},
+          {id: 150, title: "bookmark", action: "create"}
+        ],
+      },
+      status: "RESOLVED",
+      payload: {},
+    }
+  }
+}
+```
+
+the store on API failure:
+
+```js
+{
+  ...
+  API: {
+    MY_SPECIAL_KEY: {
+      response: "Network Error",
+      status: "ERROR",
+      paylod: {},
+    }
+  }
+}
+```

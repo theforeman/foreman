@@ -1,0 +1,7 @@
+<% title _("Download generated report") %>
+
+<%= react_component('TemplateGenerator', data: { templateName: @template.name }) %>
+
+<script type="text/javascript">
+  tfm.templateInputs.pollReportData('<%= @data_url %>');
+</script>

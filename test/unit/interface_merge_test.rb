@@ -12,13 +12,13 @@ class InterfaceMergeTest < ActiveSupport::TestCase
   def expected_attrs(num)
     {
       'attr' => num,
-      'from_profile' => @profile_name
+      'from_profile' => @profile_name,
     }
   end
 
   test "it doesn't change interfaces when the attributes are nil" do
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0')
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0'),
     ]
     @merge.run(stub(:interfaces => interfaces), nil)
 
@@ -29,9 +29,9 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it merges compute attributes with existing NICs" do
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0'),
-      FactoryGirl.build(:nic_managed, :identifier => 'eth1'),
-      FactoryGirl.build(:nic_managed, :identifier => 'eth2')
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0'),
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth1'),
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth2'),
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -48,7 +48,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it overwrites NIC compute attributes from the profile by default" do
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9}),
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -59,7 +59,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
   test "it does not overwrite NIC compute attributes already set with :merge_compute_attributes" do
     @merge = InterfaceMerge.new(:merge_compute_attributes => true)
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9})
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0', :compute_attributes => {'attr' => 9}),
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -78,7 +78,7 @@ class InterfaceMergeTest < ActiveSupport::TestCase
 
   test "it creates additional NICs" do
     interfaces = [
-      FactoryGirl.build(:nic_managed, :identifier => 'eth0')
+      FactoryBot.build_stubbed(:nic_managed, :identifier => 'eth0'),
     ]
     @merge.run(stub(:interfaces => interfaces), @attributes)
 
@@ -87,6 +87,6 @@ class InterfaceMergeTest < ActiveSupport::TestCase
     assert_equal 'eth0', interfaces[0].identifier
 
     assert_equal expected_attrs(2), interfaces[1].compute_attributes
-    assert_equal nil, interfaces[1].identifier
+    assert_nil interfaces[1].identifier
   end
 end

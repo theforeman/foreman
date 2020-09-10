@@ -11,17 +11,27 @@ module FogExtensions
         name
       end
 
-      def nics_attributes=(attrs); end
+      def cpu_mode
+        attributes[:cpu][:mode]
+      end
 
-      def volumes_attributes=(attrs); end
+      def cpu_mode=(cpumode)
+        attributes[:cpu][:mode] = (cpumode == 'default') ? nil : cpumode
+      end
+
+      def nics_attributes=(attrs)
+      end
+
+      def volumes_attributes=(attrs)
+      end
 
       # Libvirt expect units in KB, while we use bytes
       def memory
-        attributes[:memory_size].to_i * Foreman::SIZE[:kilo]
+        attributes[:memory_size].to_i.kilobytes
       end
 
       def memory=(mem)
-        attributes[:memory_size] = mem.to_i / Foreman::SIZE[:kilo] if mem
+        attributes[:memory_size] = mem.to_i / 1.kilobyte if mem
       end
 
       def reset

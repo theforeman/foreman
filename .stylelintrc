@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+  ],
+  "rules": {
+    "at-rule-no-unknown": null,
+    "selector-type-no-unknown": null,
+  },
+  "ignore": ["custom-elements"],
+}

@@ -7,7 +7,7 @@ module Net
 
       def destroy
         super
-        proxy.delete(hostname)
+        proxy.delete("#{hostname}/#{type}")
       end
 
       def create

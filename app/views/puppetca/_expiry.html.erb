@@ -1,12 +1,12 @@
 <div class="col-md-3">
   <div class="card-pf card-pf-accented card-pf-aggregate-status card-pf-with-action">
     <h2 class="card-pf-title">
-      <%= icon_text('calendar', '', :kind => 'fa') %><%= _("CA certificate expiry date") %>
+      <%= icon_text('calendar', '', :kind => 'fa') %><%= _("CA Certificate Expiry Date") %>
     </h2>
     <div class="card-pf-body">
       <p class="card-pf-aggregate-status-notifications">
         <% if expiry.is_a? Time %>
-          <%= time_column expiry, :tense => :future %>
+          <%= date_time_relative(expiry) %>
         <% else %>
           <%= expiry %>
         <% end %>

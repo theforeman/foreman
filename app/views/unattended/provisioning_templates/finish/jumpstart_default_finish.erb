@@ -1,0 +1,58 @@
+<%#
+kind: finish
+name: Jumpstart default finish
+model: ProvisioningTemplate
+oses:
+- Solaris
+%>
+logger "Starting finish script"
+
+# Do not turn the machine off after 30 minutes. Very annoying!
+/bin/touch /noautoshutdown
+
+# Install the root password
+/usr/bin/perl -p -i -e 's/^root:[^:]+/root:<%= @host.root_pass.gsub('/', '\/')-%>/' /etc/shadow
+
+# Root can ssh into this box. This is very useful while we rebuild this
+/usr/bin/perl -p -i -e "s/PermitRootLogin no/PermitRootLogin yes/" /etc/ssh/sshd_config
+
+# Now ensure that we have the newest puppet and facter installed
+mount /proc
+/usr/bin/cat /etc/mnttab | sed -e 's/\/a/\//' | sed -e 's/\/a//' > /a/etc/mnttab
+/sbin/mount -F mntfs mnttab /etc/mnttab
+/usr/sbin/mknod /devices/pseudo/random@0:random c 190 0
+/usr/sbin/mknod /devices/pseudo/random@0:urandom c 190 1
+/usr/sbin/pkgadd -a /tmp/admin -d http://get.opencsw.org/now all
+/opt/csw/bin/pkgutil -U -y
+/opt/csw/bin/pkgutil -u -f -y CSWfacter CSWpuppet CSWwget
+
+/usr/bin/echo "Creating helper startup script to start puppet"
+ONETIME=S99.enable.puppet
+/usr/bin/cat > /etc/rc3.d/$ONETIME << EOF
+#!/bin/sh
+#
+# $ONETIME
+#
+# runs once at startup and then removes itself.
+#
+PATH=/usr/bin:/usr/sbin; export PATH
+/usr/sbin/svccfg import /var/opt/csw/svc/manifest/network/cswpuppetd.xml
+/usr/sbin/svcadm enable svc:/network/cswpuppetd
+sleep 2
+rm \$0
+EOF
+
+/usr/bin/echo "Configuring puppet"
+cat > /etc/puppet/puppet.conf << EOF
+<%= snippet 'puppet.conf' -%>
+EOF
+# The x86 version of the puppet package ignores the --config parameter. This should fix that and not hurt other installations
+if [ -f /etc/opt/csw/puppet/puppetd.conf ]
+then
+    rm -f /etc/opt/csw/puppet/puppetd.conf
+    ln -s /etc/puppet/puppet.conf /etc/opt/csw/puppet/puppetd.conf
+fi
+/opt/csw/bin/puppet agent --config /etc/puppet/puppet.conf -o --tags no_such_tag --server <%= @host.puppetmaster %> --no-daemonize
+echo "Informing Foreman that we are built"
+/opt/csw/bin/wget --no-check-certificate -O /dev/null <%= foreman_url('built') %>
+exit 0

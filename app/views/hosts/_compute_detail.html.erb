@@ -1,18 +1,5 @@
-
-<% new_host = @host.nil? || new_host?(@host) %>
-
 <%= render :partial => provider_partial(compute_resource, 'base'),
-            :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_host }.merge(args_for_compute_resource_partial(@host)) %>
-
-<!--NICS-->
-<% if provider_partial_exist?(compute_resource, 'network') %>
-  <fieldset>
-    <h2><%= _("Network interfaces") %></h2>
-    <p class="help-block">
-      <%= _("Network interfaces management has been moved to the Interfaces tab. Please set your interfaces there.") %>
-    </p>
-  </fieldset>
-<% end %>
+            :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm }.merge(args_for_compute_resource_partial(@host)) %>
 
 <!--Storage-->
-<%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_host, :item_layout => 'removable' } %>
+<%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm, :item_layout => 'removable' } %>

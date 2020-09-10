@@ -1,0 +1,48 @@
+<div class="tab-pane" id="ssh_keys">
+  <table class="<%= table_css_classes 'table-fixed' %>">
+    <% if user.ssh_keys.any? %>
+    <thead>
+      <tr>
+        <th class="col-md-5"><%= _('Name') %></th>
+        <th class="col-md-3 hidden-xs"><%= _('Fingerprint') %></th>
+        <th class="col-md-1 hidden-xs"><%= _('Length') %></th>
+        <th class="col-md-2"><%= _('Created') %></th>
+        <th class="col-md-1"><%= _('Actions') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% user.ssh_keys.each do |key| %>
+        <%= render 'ssh_keys/ssh_key_row', :f => f, :key => key %>
+      <% end %>
+    </tbody>
+  <% else %>
+    <tbody>
+      <tr>
+        <td class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+              <%= icon_text("key", "", :kind => "fa") %>
+            </div>
+            <h1><%= _('SSH keys') %></h1>
+            <p>
+              <%= _("You can add SSH public keys to a user in Foreman.") %><br />
+              <%= _("The keys can be used in provisioning templates and are also available for configuration management tools managed by Foreman.") %><br />
+             </p>
+             <% if @user.persisted? && authorized_for(hash_for_new_user_ssh_key_path(:user_id => @user)) %>
+               <div class="blank-slate-pf-main-action">
+                 <%= link_to(_('Add SSH key'), hash_for_new_user_ssh_key_path(:user_id => @user), :class => "btn btn-success btn-lg" ) %>
+               </div>
+             <% else %>
+               <%= alert :header => '', :class => 'alert-warning', :close => false,
+                         :text => _("In order to add the SSH key, the user must be saved first. A 'create_ssh_keys' permission is required too.") %>
+             <% end %>
+        </td>
+      </tr>
+    </tbody>
+  <% end %>
+  </table>
+  <% if user.ssh_keys.any? && authorized_for(hash_for_new_user_ssh_key_path(:user_id => @user)) %>
+    <hr>
+    <%= link_to(_("Add SSH Key"), hash_for_new_user_ssh_key_path(:user_id => @user),
+                              { :class => 'btn btn-success pull-right'} ) %>
+    <% end %>
+</div>

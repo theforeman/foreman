@@ -1,35 +1,53 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :feature do
-    factory :template_feature do
-      name 'Templates'
+    initialize_with { Feature.find_or_create_by(name: name) }
+
+    factory :templates do
+      name { 'Templates' }
     end
 
     factory :tftp_feature do
-      name 'TFTP'
+      name { 'TFTP' }
     end
 
     trait :tftp do
-      name 'tftp'
+      name { 'tftp' }
+    end
+
+    trait :templates do
+      name { 'Templates' }
     end
 
     trait :dhcp do
-      name 'DHCP'
+      name { 'DHCP' }
     end
 
     trait :dns do
-      name 'DNS'
+      name { 'DNS' }
     end
 
     trait :realm do
-      name 'Realm'
+      name { 'Realm' }
     end
 
     trait :puppetca do
-      name 'Puppet CA'
+      name { 'Puppet CA' }
     end
 
     trait :puppet do
-      name 'Puppet'
+      name { 'Puppet' }
+    end
+
+    trait :bmc do
+      name { 'BMC' }
+    end
+
+    trait :httpboot do
+      name { 'HTTPBoot' }
+    end
+
+    trait :external_ipam do
+      name { 'External IPAM' }
     end
   end
 end

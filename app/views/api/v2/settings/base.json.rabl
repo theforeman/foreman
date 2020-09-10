@@ -1,3 +1,3 @@
 object @setting
 
-attributes :id, :name
+attributes :id, :name, :full_name

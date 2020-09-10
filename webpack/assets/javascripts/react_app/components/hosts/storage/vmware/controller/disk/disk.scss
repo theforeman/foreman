@@ -1,0 +1,36 @@
+@import '../../../../../../common/colors';
+
+.disks-container {
+  padding: 0 150px;
+  display: flex;
+  flex-direction: column;
+
+  .disk-container {
+    display: flex;
+    padding: 20px 0;
+    margin-top: 20px;
+    flex-direction: column;
+    border-top: 1px solid $pf-black-200;
+
+    .close {
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .control-label,
+    .delete-volume-container {
+      text-align: left;
+    }
+
+    .common-checkbox {
+      text-align: left;
+    }
+  }
+}

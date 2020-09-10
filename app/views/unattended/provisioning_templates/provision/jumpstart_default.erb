@@ -1,0 +1,17 @@
+<%#
+kind: provision
+name: Jumpstart default
+model: ProvisioningTemplate
+oses:
+- Solaris
+%>
+install_type <%= @install_type %>
+partitioning explicit
+<%= @disk %>
+<% if @host.use_image  -%>
+archive_location nfs <%=@archive_location%>
+<% else -%>
+system_type <%= @system_type %>
+package <%= @packages %> add
+cluster <%= @cluster %>
+<% end -%>

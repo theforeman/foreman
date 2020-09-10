@@ -1,4 +1,4 @@
-class CreateOperatingsystemsConfigTemplates < ActiveRecord::Migration
+class CreateOperatingsystemsConfigTemplates < ActiveRecord::Migration[4.2]
   def up
     create_table :config_templates_operatingsystems, :id => false do |t|
       t.references :config_template, :null => false

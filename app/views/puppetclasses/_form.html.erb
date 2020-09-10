@@ -1,15 +1,17 @@
 <%= form_for @puppetclass, :url => (@puppetclass.new_record? ? puppetclasses_path : puppetclass_path(:id => @puppetclass)) do |f| %>
   <%= base_errors_for @puppetclass %>
+  <% unless @puppetclass.errors.empty? %>
+    <%= alert :class => 'alert-danger', :header => '', :text => _("The class could not be saved because of an error in one of the class parameters.") %>
+  <% end %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Puppet Class') %></a></li>
     <li><a href="#smart_class_param" data-toggle="tab"><%= _('Smart Class Parameter') %></a></li>
-    <li><a href="#smart_vars" data-toggle="tab"><%= _('Smart Variables') %></a></li>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name, :disabled => true %>
-      <%= text_f f, :environments, :value => @puppetclass.environments.to_sentence, :label=> _('Puppet environments'), :disabled => true %>
+      <%= text_f f, :environments, :value => @puppetclass.environments.map(&:name).to_sentence, :label=> _('Puppet environments'), :disabled => true %>
       <%= multiple_checkboxes f, :hostgroups,   @puppetclass, Hostgroup,   :label => _("Host groups") %>
     </div>
     <div class="tab-pane lookup-keys-container" id="smart_class_param">
@@ -21,12 +23,6 @@
           </strong><br><%= _('To update the class signature, go to the Puppet Classes page and select "Import".') %></p>
         </div>
       <% else %>
-        <div class="undo-smart-vars alert alert-info hide">
-          <%= icon_text("info", "",:kind => "pficon") %>
-          <h4 class='alert-heading'>
-            <%= _('Undo remove') %>
-          </h4>
-        </div>
         <div class="row">
           <div class='col-md-3'>
             <input placeholder="<%= _('Filter by name') %>" onkeyup="filterByClassParam(this);" type='text' class="form-control">
@@ -46,8 +42,8 @@
           <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
             <% @puppetclass.class_params.includes(:environments, :environment_classes, :lookup_values).each do |key| %>
               <li data-used-environments=<%= key.environments.map(&:to_s).to_json %> >
-                <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key %>">
-                  <div class="clip"><%= icon_text((key.override ? "flag": ""), key.to_s.tr('_',' '), :kind => 'fa') %></div>
+                <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key.key.size > 43 ? key : "" %>">
+                  <div class="clip"><%= icon_text((key.override ? "flag": ""), key.to_s.tr('_',' '), :kind => 'fa', :title => _('Overridden')) %></div>
                 </a>
               </li>
             <% end %>
@@ -60,38 +56,7 @@
         </div>
       <% end %>
     </div>
-    <div class="tab-pane lookup-keys-container" id="smart_vars">
-      <div class="undo-smart-vars alert alert-info hide">
-        <%= icon_text("info", "",:kind => "pficon") %>
-        <h4 class='alert-heading'>
-          <%= _('Undo remove') %>
-        </h4>
-      </div>
-      <div class='row'>
-        <div class='form-group col-md-12 text-right'>
-          <%= documentation_button('4.2.4SmartVariables') %>
-        </div>
-      </div>
-      <div class="smart-var-left col-md-3">
-        <ul class="nav nav-pills nav-stacked smart-var-tabs" data-tabs="pills">
-          <% @puppetclass.lookup_keys.each do |key| %>
-            <li>
-              <a data-toggle="tab" id="pill_<%= key.to_param %>" href="#<%= key.to_param %>" title="<%= key %>">
-                <div class="clip"><%= key.to_s.tr('_',' ') %></div><span class="close pull-right">&times;</span>
-              </a>
-            </li>
-          <% end %>
-          <li><%= link_to_function '+ ' + _("Add Variable"), "add_child_node(this);" ,:class=>"btn btn-primary",:style=>":hover{}", :"data-association" => :lookup_keys %></li>
-        </ul>
-      </div>
-      <div class="tab-content col-md-9 stacked-content">
-        <%= f.fields_for :lookup_keys do |lookup_keys_form| %>
-          <%= render 'lookup_keys/fields', :f => lookup_keys_form  %>
-        <% end %>
-      </div>
-    </div>
-    <%= new_child_fields_template(f, :lookup_keys, {:partial => "lookup_keys/fields"})%>
   </div>
 
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel(f, false, { :cancel_path => resource_prev_url_with_search_filters }) %>
 <% end %>

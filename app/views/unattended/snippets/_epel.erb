@@ -1,6 +1,0 @@
-<%#
-kind: snippet
-name: epel
-%>
-
-su -c 'rpm -Uvh <%= @host.os.medium_uri(@host, "http://dl.fedoraproject.org/pub/epel/epel-release-latest-#{@host.operatingsystem.major}.noarch.rpm") %>'

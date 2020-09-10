@@ -2,7 +2,6 @@ module Api
   module V2
     class SmartProxiesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Api::ImportPuppetclassesCommonController
       include Foreman::Controller::Parameters::SmartProxy
 
@@ -11,6 +10,7 @@ module Api
       api :GET, "/smart_proxies/", N_("List all smart proxies")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(SmartProxy)
 
       def index
         @smart_proxies = resource_scope_for_index.includes(:features)
@@ -43,7 +43,7 @@ module Api
       param_group :smart_proxy
 
       def update
-        process_response @smart_proxy.update_attributes(smart_proxy_params)
+        process_response @smart_proxy.update(smart_proxy_params)
       end
 
       api :DELETE, "/smart_proxies/:id/", N_("Delete a smart proxy")
@@ -57,7 +57,7 @@ module Api
       param :id, String, :required => true
 
       def refresh
-        process_response @smart_proxy.refresh.blank? && @smart_proxy.save
+        process_response @smart_proxy.refresh.blank? && @smart_proxy.save && @smart_proxy.reload
       end
 
       def version

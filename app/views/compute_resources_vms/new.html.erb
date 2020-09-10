@@ -1,15 +1,14 @@
-<%= javascript 'compute_resource' %>
 <% title _("New Virtual Machine") %>
 
 <%= form_tag compute_resource_vms_path(@compute_resource) do %>
   <%= fields_for "vm", @vm do |f| %>
-    <%= render provider_partial(@compute_resource, 'base'), :f => f, :compute_resource => @compute_resource, :new_host => true %>
+    <%= render provider_partial(@compute_resource, 'base'), :f => f, :compute_resource => @compute_resource, :new_host => true, :new_vm => true %>
 
     <!--NICS-->
-    <%= render :partial => 'compute_resources_vms/form/networks', :locals => { :f => f, :compute_resource => @compute_resource, :new_host => true, :item_layout => 'removable' } %>
+    <%= render :partial => 'compute_resources_vms/form/networks', :locals => { :f => f, :compute_resource => @compute_resource, :new_host => true, :new_vm => true, :item_layout => 'removable' } %>
 
     <!--Storage-->
-    <%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => @compute_resource, :new_host => true, :item_layout => 'removable' } %>
+    <%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => @compute_resource, :new_host => true, :new_vm => true, :item_layout => 'removable' } %>
 
     <div class="form-actions">
       <%= submit_tag _("Create"), :class => "btn btn-primary" %>

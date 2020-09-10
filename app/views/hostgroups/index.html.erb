@@ -1,13 +1,13 @@
 <% title _("Host Groups") %>
 
-<% title_actions new_link(_("New Host Group")), help_path %>
+<% title_actions csv_link, new_link(_("Create Host Group")), help_button %>
 
-<table class="<%= table_css_classes %>">
+<table class="<%= table_css_classes 'table-fixed' %>" data-history-url='<%= hostgroups_path %>'>
   <thead>
     <tr>
       <th><%= sort :label, :as => _('Hostgroup|Name') %></th>
       <th><%= _('Hosts') %></th>
-      <th><%= _('Hosts including sub-groups') %></th>
+      <th><%= _('Hosts including Sub-groups') %></th>
       <th><%= _('Actions') %></th>
     </tr>
   </thead>
@@ -18,7 +18,7 @@
           <%= label_with_link(hostgroup, 150, authorizer) %>
         </td>
         <td>
-          <%= link_to hosts_count.fetch(hostgroup.id, 0), hosts_path(:search => %Q[hostgroup_fullname = "#{hostgroup.title}"]) %>
+          <%= link_to hosts_count[hostgroup], hosts_path(:search => %Q[hostgroup_fullname = "#{hostgroup.title}"]) %>
         </td>
         <td>
           <%= link_to hostgroup.children_hosts_count, hosts_path(:search => %Q[parent_hostgroup = "#{hostgroup.title}"]) %>

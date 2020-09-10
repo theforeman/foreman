@@ -1,3 +1,7 @@
-<% modules.each do |module_name, error_message| %>
-  <a href="#logs" onclick="filterLogsByMessage('<%= module_name %>')" data-toggle="tooltip" data-placement="top" title="<%= error_message %>"><%= Feature.name_map[module_name] || module_name.humanize %></a>
+<% if modules.present? %>
+  <% modules.each do |module_name, error_message| %>
+    <a href="#logs" onclick="filterLogsByMessage('<%= module_name %>')" data-toggle="tooltip" data-placement="top" title="<%= error_message %>"><%= name_map[module_name] || module_name.humanize %></a>
+  <% end %>
+<% else %>
+  <%= _("No Failed Features") %>
 <% end %>

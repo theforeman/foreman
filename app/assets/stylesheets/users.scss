@@ -1,10 +1,11 @@
 #audit_summary_query_builder {
   display: block;
-  top: -14px;
+  top: -6px;
   left: 20%;
+  width: 92%;
 }
 
-#audit_summary_query_builder:before {
+#audit_summary_query_builder::before {
   content: "";
   padding: 15px;
   border: 1px solid #ccc;
@@ -12,13 +13,15 @@
   border-radius: 0 0 0 10px;
   position: absolute;
   left: -15px;
-  top: -11px;
+  top: -15px;
 }
 
 .mail_notification_query {
   margin: 8px;
+
   .audit_summary_query_setting {
     cursor: pointer;
     font-size: 10px;
   }
 }
+

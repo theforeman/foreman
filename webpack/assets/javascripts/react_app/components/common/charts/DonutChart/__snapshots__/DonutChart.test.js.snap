@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders DonutChart render donut chart 1`] = `
+<DonutChart
+  className="donut-chart-pf"
+  color={
+    Object {
+      "pattern": Array [
+        "#0088ce",
+        "#d1d1d1",
+      ],
+    }
+  }
+  data={
+    Object {
+      "columns": Array [
+        Array [
+          "Fedora 21 extra extra extra extra extra extra extra extra extra extra long label",
+          3,
+        ],
+        Array [
+          "Ubuntu 14.04",
+          4,
+        ],
+        Array [
+          "Centos 7 extra extra long label",
+          2,
+        ],
+        Array [
+          "Debian 8",
+          1,
+        ],
+        Array [
+          "Fedora 27",
+          2,
+        ],
+        Array [
+          "Fedora 26",
+          1,
+        ],
+      ],
+    }
+  }
+  donut={
+    Object {
+      "label": Object {
+        "show": false,
+      },
+      "width": 15,
+    }
+  }
+  id="operatingsystem"
+  legend={
+    Object {
+      "show": false,
+    }
+  }
+  noDataMsg="No data available"
+  padding={
+    Object {
+      "bottom": 0,
+      "left": 0,
+      "right": 0,
+      "top": 0,
+    }
+  }
+  search="/hosts?search=os_title=~VAL~"
+  size={
+    Object {
+      "height": 171,
+    }
+  }
+  status="RESOLVED"
+  tip="Expand the chart"
+  title={
+    Object {
+      "precision": 1,
+      "type": "percent",
+    }
+  }
+  tooltip={
+    Object {
+      "show": true,
+    }
+  }
+  type="donut"
+  unloadBeforeLoad={false}
+/>
+`;
+
+exports[`renders DonutChart render empty state 1`] = `
+<MessageBox
+  icontype="info"
+  msg="No data available"
+/>
+`;

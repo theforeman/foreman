@@ -1,9 +1,6 @@
 class CommonParameter < Parameter
-  audited :except => [:priority]
+  audited :except => [:priority, :searchable_value]
   validates :name, :uniqueness => true
-
-  scoped_search :on => :name, :complete_value => :true
-  scoped_search :on => :value, :complete_value => :true
 
   def associated_type
     N_('global')

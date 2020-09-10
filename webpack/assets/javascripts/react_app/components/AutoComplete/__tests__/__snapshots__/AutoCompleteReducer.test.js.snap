@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_CONTROLLER_CHANGE 1`] = `
+Object {
+  "some-id": Object {
+    "controller": "models",
+    "trigger": "INPUT_CHANGE",
+    "url": "models/auto_complete_search",
+  },
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_DISABLED_CHANGE 1`] = `
+Object {
+  "some-id": Object {
+    "disabled": true,
+  },
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_FAILURE 1`] = `
+Object {
+  "some-id": Object {
+    "error": "oops",
+    "isErrorVisible": false,
+    "results": Array [],
+    "status": "ERROR",
+  },
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_REQUEST 1`] = `
+Object {
+  "some-id": Object {
+    "controller": "models",
+    "error": null,
+    "searchQuery": "",
+    "status": "PENDING",
+    "trigger": "INPUT_CHANGE",
+    "url": undefined,
+  },
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_RESET 1`] = `
+Object {
+  "some-id": Object {
+    "controller": null,
+    "disabled": false,
+    "error": null,
+    "isErrorVisible": false,
+    "results": Array [],
+    "searchQuery": "",
+    "status": null,
+    "trigger": "RESET",
+    "url": undefined,
+  },
+}
+`;
+
+exports[`AutoComplete reducer should handle AUTO_COMPLETE_SUCCESS 1`] = `
+Object {
+  "some-id": Object {
+    "results": Array [
+      Object {
+        "category": "category",
+        "label": "some results",
+      },
+    ],
+    "status": "RESOLVED",
+  },
+}
+`;
+
+exports[`AutoComplete reducer should return the initial state 1`] = `Object {}`;
+
+exports[`AutoComplete reducer should update state with initial data 1`] = `
+Object {
+  "some-id": Object {
+    "controller": "models",
+    "disabled": false,
+    "error": "oops",
+    "isErrorVisible": true,
+    "results": undefined,
+    "searchQuery": "",
+    "status": "RESOLVED",
+    "trigger": "COMPONENT_DID_MOUNT",
+    "url": undefined,
+  },
+}
+`;

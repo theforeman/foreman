@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Edit form of TimePicker 1`] = `
+<div>
+  <span
+    class="input-group date-time-picker-pf input-group"
+  >
+    <input
+      aria-label="date-time-picker-input"
+      class="form-control"
+      type="text"
+      value="2:42 PM"
+    />
+    <span
+      class="date-picker-pf input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-clock-o"
+      />
+    </span>
+  </span>
+</div>
+`;
+
+exports[`TimePicker is working properly 1`] = `
+<div>
+  <span
+    class="input-group date-time-picker-pf input-group"
+  >
+    <input
+      aria-label="date-time-picker-input"
+      class="form-control"
+      type="text"
+      value="5:22 PM"
+    />
+    <span
+      class="date-picker-pf input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-clock-o"
+      />
+    </span>
+  </span>
+</div>
+`;
+
+exports[`TimePicker is working properly with time only 1`] = `
+<div>
+  <span
+    class="input-group date-time-picker-pf input-group"
+  >
+    <input
+      aria-label="date-time-picker-input"
+      class="form-control"
+      type="text"
+      value="5:22 PM"
+    />
+    <span
+      class="date-picker-pf input-group-addon"
+    >
+      <span
+        aria-hidden="true"
+        class="fa fa-clock-o"
+      />
+    </span>
+  </span>
+</div>
+`;

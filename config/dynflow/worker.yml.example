@@ -1,0 +1,4 @@
+:concurrency: 10
+:queues:
+  - default
+  - remote_execution

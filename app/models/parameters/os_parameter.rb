@@ -1,6 +1,5 @@
 class OsParameter < Parameter
-  belongs_to :operatingsystem, :foreign_key => :reference_id, :inverse_of => :os_parameters
-  audited :except => [:priority], :associated_with => :operatingsystem
+  audited :except => [:priority, :searchable_value], :associated_with => :operatingsystem
   validates :name, :uniqueness => {:scope => :reference_id}
   validates :operatingsystem, :presence => true
 

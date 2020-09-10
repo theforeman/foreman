@@ -1,0 +1,278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Autocomplete integration test should flow: Clear button clicked 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "error": null,
+          "id": "some-id",
+          "searchQuery": "",
+          "status": "PENDING",
+          "trigger": "INPUT_CLEAR",
+          "url": "models/auto_complete_search",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "some-id": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "results1 ",
+          },
+          Object {
+            "category": "Dolphine",
+            "label": "results2 ",
+          },
+        ],
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_CLEAR",
+        "url": "models/auto_complete_search",
+      },
+    },
+  },
+}
+`;
+
+exports[`Autocomplete integration test should flow: initial state 1`] = `
+Object {
+  "autocomplete": Object {
+    "some-id": Object {
+      "controller": "models",
+      "disabled": false,
+      "error": null,
+      "isErrorVisible": false,
+      "results": undefined,
+      "searchQuery": "",
+      "status": "RESOLVED",
+      "trigger": "COMPONENT_DID_MOUNT",
+      "url": "models/auto_complete_search",
+    },
+  },
+}
+`;
+
+exports[`Autocomplete integration test should flow: input focused 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "error": null,
+          "id": "some-id",
+          "searchQuery": "",
+          "status": "PENDING",
+          "trigger": "INPUT_FOCUS",
+          "url": "models/auto_complete_search",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "some-id": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": undefined,
+        "searchQuery": "",
+        "status": "PENDING",
+        "trigger": "INPUT_FOCUS",
+        "url": "models/auto_complete_search",
+      },
+    },
+  },
+}
+`;
+
+exports[`Autocomplete integration test should flow: option selected 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "error": null,
+          "id": "some-id",
+          "searchQuery": "result",
+          "status": "PENDING",
+          "trigger": "ITEM_SELECT",
+          "url": "models/auto_complete_search",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "some-id": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "result",
+          },
+        ],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "ITEM_SELECT",
+        "url": "models/auto_complete_search",
+      },
+    },
+  },
+}
+`;
+
+exports[`Autocomplete integration test should flow: option selected again 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "controller": "models",
+          "error": null,
+          "id": "some-id",
+          "searchQuery": "result",
+          "status": "PENDING",
+          "trigger": "ITEM_SELECT",
+          "url": "models/auto_complete_search",
+        },
+        "type": "AUTO_COMPLETE_REQUEST",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "some-id": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "results1 ",
+          },
+          Object {
+            "category": "Dolphine",
+            "label": "results2 ",
+          },
+        ],
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "ITEM_SELECT",
+        "url": "models/auto_complete_search",
+      },
+    },
+  },
+}
+`;
+
+exports[`Autocomplete integration test should flow: request that was triggered by focus is over 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "id": "some-id",
+          "results": Array [
+            Object {
+              "category": "",
+              "label": "result",
+            },
+          ],
+          "status": "RESOLVED",
+        },
+        "type": "AUTO_COMPLETE_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "some-id": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "result",
+          },
+        ],
+        "searchQuery": "",
+        "status": "RESOLVED",
+        "trigger": "INPUT_FOCUS",
+        "url": "models/auto_complete_search",
+      },
+    },
+  },
+}
+`;
+
+exports[`Autocomplete integration test should flow: request that was triggered by option select is over 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "id": "some-id",
+          "results": Array [
+            Object {
+              "category": "",
+              "label": "results1 ",
+            },
+            Object {
+              "category": "Dolphine",
+              "label": "results2 ",
+            },
+          ],
+          "status": "RESOLVED",
+        },
+        "type": "AUTO_COMPLETE_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "some-id": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": Array [
+          Object {
+            "category": "",
+            "label": "results1 ",
+          },
+          Object {
+            "category": "Dolphine",
+            "label": "results2 ",
+          },
+        ],
+        "searchQuery": "result",
+        "status": "RESOLVED",
+        "trigger": "ITEM_SELECT",
+        "url": "models/auto_complete_search",
+      },
+    },
+  },
+}
+`;

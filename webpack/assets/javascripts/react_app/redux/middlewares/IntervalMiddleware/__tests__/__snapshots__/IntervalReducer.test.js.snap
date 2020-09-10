@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Interval reducer Should handle STOP_INTERVAL 1`] = `Object {}`;
+
+exports[`Interval reducer should handle START_INTERVAL 1`] = `
+Object {
+  "SOME_KEY": 1212,
+}
+`;
+
+exports[`Interval reducer should return the initial state 1`] = `Object {}`;

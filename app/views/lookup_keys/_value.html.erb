@@ -11,18 +11,18 @@
     </div>
   </td>
   <td>
-    <%= hidden_value_field(f, :value, f.object.use_puppet_default, :value => f.object.value_before_type_cast, :'data-property' => 'value', :hidden_value => hidden_value) %>
+    <%= hidden_value_field(f, :value, f.object.omit, :value => f.object.value_before_type_cast, :'data-property' => 'value', :hidden_value => hidden_value) %>
   </td>
   <% if is_param %>
     <td class="ca">
-      <%= f.check_box :use_puppet_default, :'data-property' => 'use_puppet_default',
+      <%= f.check_box :omit, :'data-property' => 'omit',
                       :disabled => !is_param,
-                      :onchange => 'toggleUsePuppetDefaultValue(this, "value")' %>
+                      :onchange => 'toggleOmitValue(this, "value")' %>
     </td>
   <%end%>
   <td>
     <span class="help-block">
-      <%= link_to_remove_fields('', f) %>
+      <%= link_to_remove_fields('', f, title: _('Remove Matcher')) %>
     </span>
   </td>
 </tr>

@@ -5,6 +5,7 @@
       <th><%= sort :host, :as => _("Host") %></th>
       <% end %>
       <th><%= sort :reported, :as => _("Last report") %></th>
+      <th class="col-md-1 fact-origin"><%= sort :origin, :as => _('Origin') %></th>
       <th class="col-md-1"><%= sort :applied, :as => _("Applied") %></th>
       <th class="col-md-1"><%= sort :restarted, :as => _("Restarted") %></th>
       <th class="col-md-1"><%= sort :failed, :as => _("Failed") %></th>
@@ -25,6 +26,7 @@
           <% end %>
         <% end %>
         <td><%= reported_at_column(report) %></td>
+        <td class="fact-origin"><%= report_origin_icon(report.origin) %></td>
         <td><%= report_event_column(report.applied, "label-info") %></td>
         <td><%= report_event_column(report.restarted, "label-info") %></td>
         <td><%= report_event_column(report.failed, "label-danger") %></td>
@@ -33,7 +35,7 @@
         <td><%= report_event_column(report.pending, "label-info") %></td>
         <td>
           <%= action_buttons(display_delete_if_authorized hash_for_config_report_path(:id => report).merge(:auth_object => report, :authorizer => authorizer),
-                                           :confirm => _("Delete report for %s?") % report.host.try(:name)) %>
+                             :data => {:confirm => _("Delete report for %s?") % report.host.try(:name)}) %>
         </td>
       </tr>
     <% end %>

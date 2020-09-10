@@ -7,9 +7,9 @@ body {
 
 table {
   min-width: 400px;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   padding: 5px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-collapse: collapse;
   text-align: justify;
   width: 100%;
@@ -23,17 +23,17 @@ th {
   text-align: left;
   border-collapse: collapse;
   background: #f5f5f5;
-  background-image: linear-gradient(#f5f5f5, #e8e8e8);
+  background-image: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
   padding: 4px;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
 }
 
 td.hosts-rows {
   text-align: left;
   border-collapse: collapse;
-  background-color: #FFFFFF;
+  background-color: #fff;
   padding: 4px;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
 }
 
 td.dashboard {
@@ -46,13 +46,13 @@ td.dashboard {
 div.dashboard {
   background: #e1e2e3;
   padding: 20px 40px;
-  margin: 5px 0px 10px;
+  margin: 5px 0 10px;
 }
 
-td.dashboard  p{
+td.dashboard p {
   font-weight: bold;
   margin: 5px;
-  padding: 0px;
+  padding: 0;
 }
 
 .hosts {
@@ -62,15 +62,15 @@ td.dashboard  p{
 }
 
 .host-list {
-    background: #fff;
-    margin: 5px 0px;
-    padding: 5px 20px;
+  background: #fff;
+  margin: 5px 0;
+  padding: 5px 20px;
 }
 
 .total {
   background-color: #e1e2e3;
-  margin: 5px 0px;
-  padding: 0px;
+  margin: 5px 0;
+  padding: 0;
   line-height: 24px;
 }
 

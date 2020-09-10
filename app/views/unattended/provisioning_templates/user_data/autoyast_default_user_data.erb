@@ -1,0 +1,41 @@
+<%#
+kind: user_data
+name: AutoYaST default user data
+model: ProvisioningTemplate
+oses:
+- OpenSUSE
+- SLES
+-%>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+-%>
+#!/bin/bash
+
+<%# Cloud instances frequently have incorrect hosts data %>
+<%= snippet 'fix_hosts' %>
+
+<% if @host.provision_method == 'image' && !root_pass.empty? -%>
+# Install the root password
+echo 'root:<%= root_pass -%>' | /usr/sbin/chpasswd -e
+<% end -%>
+
+<%= snippet('remote_execution_ssh_keys') %>
+
+<%= snippet "blacklist_kernel_modules" %>
+
+<% if puppet_enabled %>
+<% if host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppetlabs-puppet5-repo') -%>
+<%= snippet 'puppetlabs_repo' %>
+<% end -%>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+
+# UserData still needs to mark the build as finished
+<%= snippet 'built' %>

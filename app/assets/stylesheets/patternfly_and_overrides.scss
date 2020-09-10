@@ -1,15 +1,10 @@
-@import "mixin";
-@import "colors";
-
-$navbar-default-bg: $primary_color;
-
-.control-label{
+.control-label {
   text-align: left;
-  padding-left: 0px;
+  padding-left: 0;
   padding-right: 5px;
 }
 
-.spinner{
+.spinner {
   float: left;
 }
 
@@ -18,24 +13,24 @@ $navbar-default-bg: $primary_color;
 }
 
 fieldset > div.col-md-1 {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
-.children_fields{
+.children_fields {
   padding-left: 20px;
   padding-right: 20px;
 }
 
-.form-control{
+.form-control {
   display: inline-block;
 }
 
-textarea.form-control{
-  padding-top: 0px;
-  padding-bottom: 0px;
+textarea.form-control {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-.modal-body > fieldset > div.clearfix div.has-error > span.help-inline{
+.modal-body > fieldset > div.clearfix div.has-error > span.help-inline {
   padding-left: 80px;
 }
 
@@ -45,20 +40,16 @@ textarea.form-control{
   max-width: 1400px; // Max width as per suggested by Patternfly
 }
 
-.autocomplete-clear{
+.autocomplete-clear {
   z-index: 3;
   position: relative;
-}
-
-.jnotify-close{
-  color: black !important;
 }
 
 #login {
   max-width: 100%;
 }
 
-.label{
+.label {
   font-size: 75%;
 }
 
@@ -66,9 +57,14 @@ textarea.form-control{
   background-color: black;
 }
 
-span.input-group-btn .hidden-xs {display:inline !important;}
+span.input-group-btn .hidden-xs {
+  display: inline !important;
+}
+
 @media (max-width: 768px) {
-  span.input-group-btn .hidden-xs {display:none !important;}
+  span.input-group-btn .hidden-xs {
+    display: none !important;
+  }
 }
 
 .children_fields.lookup_values > th {
@@ -77,7 +73,7 @@ span.input-group-btn .hidden-xs {display:inline !important;}
 
 span.btn a {
   text-decoration: none;
-  color: #333333;
+  color: #333;
 }
 
 a {
@@ -85,7 +81,7 @@ a {
 }
 
 // help-inline is not defined in Bootstrap3
-.help-inline{
+.help-inline {
   margin: 0;
   display: inline;
   color: #737373;
@@ -97,7 +93,7 @@ a {
 }
 
 .label-default {
-  background-color: #cccccc;
+  background-color: #ccc;
 }
 
 .form-actions {
@@ -106,26 +102,35 @@ a {
   margin-bottom: 20px;
 }
 
-.navbar.navbar-form{
+.navbar.navbar-form {
   background-color: #f8f8f8;
   padding: 10px;
   border: 1px solid #e7e7e7;
   margin-right: 18px;
 }
 
-.nav.nav-tabs{
+.nav.nav-tabs {
   margin-bottom: 20px;
-  #host-show &{
+
+  #host-show & {
     margin-bottom: 10px;
     font-size: 12px;
   }
 }
 
-.tab-content{
+.navbar-brand,
+.navbar-brand-icon {
+  width: 44px;
+  height: 34px;
+  margin: 0 5px 0 0 !important;
+  max-width: none;
+}
+
+.tab-content {
   min-height: 420px;
 }
 
-.badge.close{
+.badge.close {
   font-size: 14px;
   opacity: 1;
 }
@@ -135,7 +140,7 @@ a {
 .table > tbody > tr > th,
 .table > tbody > tr > td,
 .table > tfoot > tr > th,
-.table > tfoot > tr > td{
+.table > tfoot > tr > td {
   vertical-align: middle;
 }
 
@@ -144,42 +149,56 @@ a {
 }
 
 .btn-toolbar {
-  .btn-group, .btn-docs {
-    float: none
-  }
- }
+  display: flex;
+  align-items: center;
 
-.popover{
+  #toolbar-spinner {
+    margin-right: 5px;
+  }
+
+  .btn-group,
+  .btn-docs {
+    float: none;
+  }
+}
+
+.popover {
   max-width: none;
   z-index: 2000;
 }
 
 @-moz-document url-prefix() {
   /* Workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
-  *, *:before, *:after {
+  *,
+  *::before,
+  *::after {
     background-clip: padding-box;
   }
 }
-.smart-var-left{
-  max-height:500px;
+
+.smart-var-left {
+  max-height: 500px;
   direction: rtl;
-  float:left;
+  float: left;
   text-align: left;
   overflow-y: auto;
-  padding-right:0;
+  padding-right: 0;
 }
+
 .stacked-content.tab-content {
   padding: 19px;
   min-height: 460px;
   border: 1px solid $primary_gradient_start;
-  @include box-shadow(-2px 0 5px 0px rgba(0, 0, 0, 0.2));
+  box-shadow: -2px 0 5px 0 rgba(0, 0, 0, 0.2);
 }
-.nav.nav-pills.nav-stacked .btn.btn-success:hover{
+
+.nav.nav-pills.nav-stacked .btn.btn-success:hover {
   background-color: #47a447;
 }
 
 .nav.nav-pills.nav-stacked {
   padding-right: 0;
+
   & > li > a {
     .clip {
       white-space: nowrap;
@@ -191,12 +210,13 @@ a {
     }
   }
 }
+
 .tooltip {
   word-wrap: break-word;
 }
 
 .has-error {
-  color: #a94442
+  color: #a94442;
 }
 
 body.modal-open {
@@ -216,7 +236,6 @@ body.modal-open {
 .input-addon {
   color: black;
 }
-// eof form-control-feedback
 
 legend {
   margin-bottom: 10px;
@@ -230,11 +249,15 @@ textarea {
   }
 }
 
-div.form-group .glyphicon-info-sign{
+div.form-group .glyphicon-info-sign {
   color: black;
 }
 
-div.form-group .pficon-info{
+form .pficon-info {
+  color: $color-pf-blue-500;
+}
+
+form .fa-info-circle {
   color: black;
 }
 
@@ -257,7 +280,7 @@ div.form-group .pficon-info{
 .pagination > .disabled > span:focus,
 .pagination > .disabled > a,
 .pagination > .disabled > a:hover,
-.pagination > .disabled > a:focus
+.pagination > .disabled > a:focus,
 .pagination > li > a,
 .pagination > li > span {
   background-image: none;
@@ -268,10 +291,10 @@ div.form-group .pficon-info{
 .select2-search input,
 .select2-drop.select2-drop-above,
 .select2-container .select2-choice .select2-arrow,
-.select2-dropdown-open.select2-drop-above [class^="select2-choice"],
+.select2-dropdown-open.select2-drop-above [class^='select2-choice'],
 .select2-drop,
 .select2-container .select2-choices {
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 .btn-group > .btn + .dropdown-toggle {
@@ -285,11 +308,11 @@ div.form-group .pficon-info{
   padding: inherit;
 }
 
-.col-md-3 b{
+.col-md-3 b {
   font-size: 100%;
 }
 
-a.btn-info span{
+a.btn-info span {
   padding-bottom: 4px;
 }
 
@@ -308,7 +331,76 @@ a.btn-info span{
   }
 }
 
-.dropdown-submenu > .dropdown-menu {
-  max-height: 80vh;
+.org-switcher > .dropdown-menu {
+  max-height: 24vh;
   overflow-y: auto;
+}
+// Color origin: pf-orange-400
+.pficon-ok.warn::before {
+  color: #ec7a08;
+}
+
+.paneless {
+  .panel {
+    box-shadow: none;
+  }
+
+  .panel-title {
+    font-size: inherit;
+  }
+
+  .panel-heading + .panel-collapse .panel-body {
+    border: none;
+    padding: 0;
+  }
+
+  .panel-heading {
+    background: none;
+    border: none;
+    padding-left: inherit;
+    padding-right: inherit;
+
+    a {
+      font-weight: inherit;
+      font-size: inherit;
+    }
+  }
+}
+
+// gridster on dashboard conflicts with notifications drawer
+.gridster .gs-w {
+  z-index: auto !important;
+}
+
+#history a .glyphicon {
+  color: #4d5258;
+}
+
+.navbar-pf-vertical {
+  .drawer-pf {
+    height: auto;
+  }
+}
+
+span.btn-action a {
+  display: block;
+  margin: -2px -6px;
+  padding: 2px 6px;
+}
+
+span.btn-action.btn-primary a {
+  color: #fff;
+}
+
+.vertical-sub-header-pf {
+  line-height: 25px;
+  font-size: 12px;
+  margin-left: 20px;
+  font-weight: bold;
+  color: #fff;
+  padding: 20px 0 2px 5px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

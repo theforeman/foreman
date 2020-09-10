@@ -11,10 +11,10 @@ module Foreman
         dest = File.join(dir, bin)
         return dest if FileTest.file?(dest) && FileTest.executable?(dest)
       end
-      return false
+      false
     rescue StandardError => e
       logger.warn e
-      return false
+      false
     end
 
     # Generates a URL-safe token for use with Rails for signing cookies
@@ -22,9 +22,10 @@ module Foreman
       SecureRandom.base64(96).tr('+/=', '-_*')
     end
 
-    # recommended to make encryption_key at least 32 bytes. Ex. SecureRandom.hex(20)
+    # recommended to make encryption_key 32 bytes, matching the key length preferred by
+    # AS::MessageEncryptor's default algorithm
     def secure_encryption_key
-      SecureRandom.hex(20)
+      SecureRandom.hex(ActiveSupport::MessageEncryptor.key_len / 2)
     end
   end
 end

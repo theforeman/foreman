@@ -5,7 +5,7 @@ module SmartProxiesHelper
     actions = []
     actions << display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy))
     actions << display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer),
-                                            :data => {:confirm => _("Delete %s?") % proxy.name}, :class => 'delete')
+      :data => {:confirm => _("Delete %s?") % proxy.name}, :class => 'delete')
     actions << feature_actions(proxy, authorizer)
     actions
   end
@@ -32,10 +32,10 @@ module SmartProxiesHelper
       actions << link_to_function_if_authorized(_('Expire logs'), "expireLogs(this, (new Date).getTime() / 1000);",
         hash_for_expire_logs_smart_proxy_path(:id => proxy), {
           :data => {
-            :"url" => expire_logs_smart_proxy_path(:id => proxy),
+            :url => expire_logs_smart_proxy_path(:id => proxy),
             :"url-errors" => errors_card_smart_proxy_path(:id => proxy),
-            :"url-modules" => modules_card_smart_proxy_path(:id => proxy)
-          }
+            :"url-modules" => modules_card_smart_proxy_path(:id => proxy),
+          },
         })
     end
 
@@ -46,31 +46,28 @@ module SmartProxiesHelper
 
   def smart_proxy_title_actions(proxy, authorizer)
     title_actions(
-      button_group(
-        link_to(_("Back"), smart_proxies_path, :class => 'btn btn-default')
-      ),
-      select_action_button(_("Select Action"), {}, feature_actions(proxy, authorizer)),
+      select_action_button(_("Actions"), {}, feature_actions(proxy, authorizer)),
       button_group(
         display_link_if_authorized(_("Edit"), hash_for_edit_smart_proxy_path(:id => proxy), :class => 'btn btn-default')
       ),
       button_group(
         display_delete_if_authorized(hash_for_smart_proxy_path(:id => proxy).merge(:auth_object => proxy, :authorizer => authorizer),
-                                     :data => {:confirm => _("Delete %s?") % proxy.name}, :class => 'btn btn-danger')
+          :data => {:confirm => _("Delete %s?") % proxy.name}, :class => 'btn btn-default')
       )
     )
   end
 
-  def refresh_proxy_icon(proxy, authorizer)
-    display_link_if_authorized(icon_text("refresh", "", :kind => "pficon"), hash_for_refresh_smart_proxy_path(:id => proxy).
-                                                     merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put)
+  def refresh_proxy_button(proxy, authorizer)
+    display_link_if_authorized('Refresh features', hash_for_refresh_smart_proxy_path(:id => proxy).
+                                                     merge(:auth_object => proxy, :permission => 'edit_smart_proxies', :authorizer => authorizer), :method => :put, :class => 'btn btn-default')
   end
 
   def services_tab_features(proxy)
-    proxy.features.where('features.name NOT IN (?)', TABBED_FEATURES).uniq.pluck("name").sort
+    proxy.features.where('features.name NOT IN (?)', TABBED_FEATURES).distinct.pluck("name").sort
   end
 
   def tabbed_features(proxy)
-    proxy.features.where('features.name IN (?)', TABBED_FEATURES).uniq.pluck("name").sort
+    proxy.features.where('features.name IN (?)', TABBED_FEATURES).distinct.pluck("name").sort
   end
 
   def show_feature_version(feature)
@@ -83,7 +80,7 @@ module SmartProxiesHelper
       'INFO' => 'info',
       'WARN' => 'warning',
       'ERROR' => 'danger',
-      'FATAL' => 'danger'
+      'FATAL' => 'danger',
     }
   end
 

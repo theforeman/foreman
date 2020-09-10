@@ -10,13 +10,13 @@
 #   Enable logging output inline in rails console
 #   values: true, false
 #
-# :level: 
+# :level:
 #   Only messages with severity >= this level from all loggers will be logged
 #   values: debug, info, warn, error, fatal, unknown
 #
 # :type:
 #   Type of logging, for file variant you can specify other options below like filename
-#   values: file, syslog
+#   values: file, stdout, syslog or journald
 #
 # :filename:
 #   Log filename for this environment, it will be placed into #{Rails.root}/log directory
@@ -33,8 +33,19 @@
 #   includes filename and line number of the log message)
 #   values: true, false
 #
+# :layout:
+#   Formatter, one of 'pattern', 'multiline_pattern', 'multiline_request_pattern' or 'json'. The multiline pattern prepends
+#   '|' characters on all additional lines for better readability. The multiline request pattern also adds request id to
+#   all additional line for better log searching.
+#
+# :json_items:
+#   Items to include in JSON. Only applies when 'json' layout is set. Possible items are
+#   logger timestamp level message file line method hostname pid millis thread_id thread
+#   mdc ndc. Global fields like session or organization are available under 'mdc' item,
+#   local fields like exception class or backtrace are under 'ndc' item.
+#
 # :pattern:
-#   Logger line pattern, you can use the following macros
+#   Logger line pattern, currently ignored by syslog. You can use the following macros
 #     [%c] name of the logger that generate the log event
 #     [%d] datestamp
 #     [%m] the user supplied log message
@@ -46,16 +57,43 @@
 #     [%L] line number where the logging request was issued
 #     [%M] method name where the logging request was issued
 #     [%X{request}] request-ID set in HTTP headers, or random UUID
-#     [%X{session}] session ID from cookies, else the request-ID
-#     [%X{string}] variable set using ::Logging.mdc['string'] =
-
+#     [%X{session}] random ID assigned per session (not available for the initial log line by Rails)
+#     [%X{user_login}] currently logged user if present
+#     [%X{org_id}] current organization id if available
+#     [%X{loc_id}] current location id if available
+#     [%X{remote_ip}] remote IP
+#     [%x{exception_class}] exception info (only for exception entries)
+#     [%x{exception_message}] exception info (only for exception entries)
+#     [%x{exception_backtrace}] exception info (only for exception entries)
+#     [%X{string}] generic field set via MDC (::Logging.mdc['string'])
+#     [%x{string}] generic field set via NDC (::Logging.ndc['string'])
+#
+# :sys_pattern:
+#   Logger line pattern for system log/journal. See :pattern for more info.
+#
+# :facility:
+#   System log/journal facility to use. One of LOG_AUTH, LOG_AUTHPRIV, LOG_CONSOLE,
+#   LOG_CRON, LOG_DAEMON, LOG_FTP, LOG_KERN, LOG_LPR, LOG_MAIL, LOG_NEWS, LOG_NTP,
+#   LOG_SECURITY, LOG_SYSLOG, LOG_USER, LOG_UUCP, LOG_LOCAL0 to LOG_LOCAL7. See
+#   syslog(3) man page for more info.
+#
 :default:
   :colorize: false
   :console_inline: false
   :log_trace: false
   :level: info
   :type: file
-  :pattern: "%d %.8X{session} [%c] [%.1l] %m\n"
+  :layout: multiline_request_pattern
+  :json_items:
+    - logger
+    - timestamp
+    - level
+    - message
+    - mdc
+    - ndc
+  :pattern: "%d [%.1l|%.3c|%.8X{request}] %m\n"
+  :sys_pattern: "%m\n"
+  :facility: LOG_LOCAL6
 
 :production:
   :filename: "production.log"

@@ -1,27 +1,28 @@
 module ProxyAPI
   class TFTP < ProxyAPI::Resource
     def initialize(args)
-      @url     = args[:url] + "/tftp"
-      @variant = args[:variant]
+      @url = args[:url] + "/tftp"
       super args
     end
 
     # Creates a TFTP boot entry
+    # [+kind+] : PXE template kind
     # [+mac+]  : MAC address
     # [+args+] : Hash containing
     #    :pxeconfig => String containing the configuration
     # Returns  : Boolean status
-    def set(mac, args)
-      parse(post(args, "#{@variant}/#{mac}"))
+    def set(kind, mac, args)
+      parse(post(args, "#{kind}/#{mac}"))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to set TFTP boot entry for %s"), mac)
     end
 
     # Deletes a TFTP boot entry
+    # [+kind+] : PXE template kind
     # [+mac+] : String in coloned sextuplet format
     # Returns : Boolean status
-    def delete(mac)
-      parse(super("#{@variant}/#{mac}"))
+    def delete(kind, mac)
+      parse(super("#{kind}/#{mac}"))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to delete TFTP boot entry for %s"), mac)
     end
@@ -53,8 +54,8 @@ module ProxyAPI
     # [+args+] : Hash containing
     #   :menu => String containing the menu text
     # Returns    : Boolean status
-    def create_default(args)
-      parse(post(args, "create_default"))
+    def create_default(kind, args)
+      parse(post(args, "#{kind}/create_default"))
     rescue => e
       raise ProxyException.new(url, e, N_("Unable to create default TFTP boot menu"))
     end

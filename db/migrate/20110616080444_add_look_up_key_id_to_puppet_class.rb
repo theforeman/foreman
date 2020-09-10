@@ -1,4 +1,4 @@
-class AddLookUpKeyIdToPuppetClass < ActiveRecord::Migration
+class AddLookUpKeyIdToPuppetClass < ActiveRecord::Migration[4.2]
   def up
     add_column :lookup_keys, :puppetclass_id, :integer
     add_index :lookup_keys, :puppetclass_id

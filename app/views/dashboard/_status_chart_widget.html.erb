@@ -1,7 +1,18 @@
+<%
+  origin = @data.settings[:origin]
+  widget_chart_id = "host_configuration_chart"
+  widget_chart_id += "_#{origin.downcase}" if origin
+%>
 <h4 class="header">
-  <%= title = _('Host Configuration Chart') %>
+  <% if origin %>
+    <%= title = _('Host Configuration Chart for %s') % origin %>
+  <% else %>
+    <%= title = _('Host Configuration Chart') %>
+  <% end %>
 </h4>
-<%= render_overview(@report, :class => 'statistics-pie small', :custom_title => title) %>
+<div id="<%= widget_chart_id %>" class="host-configuration-chart">
+</div>
+<%= mount_react_component('DonutChart', "##{widget_chart_id}", get_overview_json(@data.report))%>
 <ul class="ui-helper-hidden">
   <%= render "dashboard/status_links" %>
 </ul>

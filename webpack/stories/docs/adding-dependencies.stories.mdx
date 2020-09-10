@@ -1,0 +1,35 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Adding dependencies"
+  parameters={{
+    storyWeight: 40,
+  }}
+/>
+
+# Using/Adding/updating NPM dependencies
+
+Foreman manage npm dependencies with a seperate project called `@theforeman/vendor` which responsible to deliver 3rd-party modules to foreman and its plugins.
+Foreman and its plugins consumes `@theforeman/vendor` project from `npm` in development and from `rpm` in production.
+
+`@theforeman/vendor` lives inside a monorepo together with other foreman javascript tools in a project called [`foreman-js`](https://github.com/theforeman/foreman-js)
+
+[Read more about `@theforeman/vendor`](https://github.com/theforeman/foreman-js/tree/master/packages/vendor)
+
+### Consuming `foreman-js` projects from source (locally)
+
+Clone, install, build and link the `foreman-js` project to foreman:
+
+```sh
+git clone git@github.com:theforeman/foreman-js.git
+cd foreman-js
+npm install
+npm run build
+npm run link -- --location ../foreman
+```
+
+To read to full documentation, please go to `foreman-js` contribution guide:
+https://github.com/theforeman/foreman-js/blob/master/CONTRIBUTING.md
+
+**NOTICE: You must remove `./node_modules/@theforeman` before running `npm install`.
+If not, it will destroy your `foreman-js` copy.**

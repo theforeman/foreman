@@ -1,0 +1,217 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bookmarks integration test should flow: bookmarks opened 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "key": "BOOKMARKS",
+          "payload": Object {
+            "controller": "hosts",
+          },
+          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=100",
+        },
+        "type": "API_GET",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {},
+    "bookmarks": Object {
+      "hosts": Object {
+        "errors": null,
+        "results": Array [],
+        "status": "PENDING",
+      },
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;
+
+exports[`Bookmarks integration test should flow: bookmarks opened and loaded 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "key": "BOOKMARKS",
+        "payload": Object {
+          "controller": "hosts",
+          "url": "/api/v2/hosts?search=controller%3Dhosts&per_page=100",
+        },
+        "response": Object {
+          "results": Array [
+            Object {
+              "controller": "hosts",
+              "id": 52,
+              "name": "1111",
+              "owner_id": 1,
+              "owner_type": "User",
+              "public": true,
+              "query": "abc",
+            },
+            Object {
+              "controller": "hosts",
+              "id": 54,
+              "name": "1122",
+              "owner_id": 1,
+              "owner_type": "User",
+              "public": true,
+              "query": "abc",
+            },
+          ],
+        },
+        "type": "BOOKMARKS_SUCCESS",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {},
+    "bookmarks": Object {
+      "hosts": Object {
+        "errors": null,
+        "results": Array [
+          Object {
+            "controller": "hosts",
+            "id": 52,
+            "name": "1111",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+          Object {
+            "controller": "hosts",
+            "id": 54,
+            "name": "1122",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+        ],
+        "status": "RESOLVED",
+      },
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;
+
+exports[`Bookmarks integration test should flow: form submitted 1`] = `
+Object {
+  "autocomplete": Object {},
+  "bookmarks": Object {
+    "hosts": Object {
+      "errors": null,
+      "results": Array [
+        Object {
+          "controller": "hosts",
+          "id": 52,
+          "name": "1111",
+          "owner_id": 1,
+          "owner_type": "User",
+          "public": true,
+          "query": "abc",
+        },
+        Object {
+          "controller": "hosts",
+          "id": 54,
+          "name": "1122",
+          "owner_id": 1,
+          "owner_type": "User",
+          "public": true,
+          "query": "abc",
+        },
+        Object {
+          "controller": "hosts",
+          "name": "Joe.D",
+          "public": false,
+          "query": "name ~ my",
+        },
+      ],
+      "status": "RESOLVED",
+    },
+  },
+  "foremanModals": Object {
+    "bookmarksModal": Object {
+      "isOpen": false,
+      "isSubmitting": false,
+    },
+  },
+}
+`;
+
+exports[`Bookmarks integration test should flow: initial state 1`] = `
+Object {
+  "autocomplete": Object {},
+  "bookmarks": Object {},
+  "foremanModals": Object {
+    "bookmarksModal": Object {
+      "isOpen": false,
+      "isSubmitting": false,
+    },
+  },
+}
+`;
+
+exports[`Bookmarks integration test should flow: modal opened 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "id": "bookmarksModal",
+        },
+        "type": "SET_MODAL_OPEN",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {},
+    "bookmarks": Object {
+      "hosts": Object {
+        "errors": null,
+        "results": Array [
+          Object {
+            "controller": "hosts",
+            "id": 52,
+            "name": "1111",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+          Object {
+            "controller": "hosts",
+            "id": 54,
+            "name": "1122",
+            "owner_id": 1,
+            "owner_type": "User",
+            "public": true,
+            "query": "abc",
+          },
+        ],
+        "status": "RESOLVED",
+      },
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "isOpen": true,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;

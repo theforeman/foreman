@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExternalLogout rendering renders ExternalLogout 1`] = `
+<div
+  className="external-logout"
+  style={
+    Object {
+      "backgroundImage": "url(/some-background)",
+    }
+  }
+>
+  <Grid
+    bsClass="container"
+    componentClass="div"
+    fluid={false}
+  >
+    <Row
+      bsClass="row"
+      componentClass="div"
+    >
+      <Col
+        bsClass="col"
+        componentClass="div"
+        md={6}
+        mdOffset={3}
+        sm={8}
+        smOffset={2}
+      >
+        <header
+          className="login-pf-page-header"
+        >
+          <img
+            alt="logo"
+            className="brand"
+            src="/some-logo"
+          />
+          <div
+            className="login-pf-caption"
+          >
+            <h1
+              id="title"
+            >
+              Welcome
+            </h1>
+            <p
+              id="version"
+            >
+              Version some version
+            </p>
+            <p
+              id="login_text"
+            >
+              some caption
+            </p>
+          </div>
+        </header>
+        <Button
+          active={false}
+          block={true}
+          bsClass="btn"
+          bsSize="large"
+          bsStyle="primary"
+          className="login-pf-submit-button"
+          disabled={false}
+          href="some link"
+          type="submit"
+        >
+          Click to log in again
+        </Button>
+      </Col>
+    </Row>
+  </Grid>
+</div>
+`;

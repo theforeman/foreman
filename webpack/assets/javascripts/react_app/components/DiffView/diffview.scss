@@ -1,0 +1,55 @@
+#diff-radio-buttons {
+  margin-bottom: 5px;
+  float: right;
+
+  .diff-button {
+    text-transform: capitalize;
+    width: 60px;
+  }
+}
+
+#diff-table {
+  border: 1px solid #d1d1d1;
+  max-height: 400px;
+  overflow: auto;
+  clear: both;
+
+  .diff-line {
+    line-height: 1.7;
+    font-family:
+      'SFMono-Regular',
+      Consolas,
+      'Liberation Mono',
+      Menlo,
+      Courier,
+      monospace;
+  }
+
+  .diff-gutter {
+    border-left: 1px solid #e8e9ea;
+  }
+
+  .diff-gutter.diff-gutter-insert {
+    background-color: #cdffd8;
+  }
+
+  .diff-hunk-header {
+    border: 1px solid #e8e9ea;
+  }
+
+  .diff-code-insert {
+    background-color: #e6ffed;
+
+    mark.diff-code-edit {
+      background-color: #acf2bd;
+    }
+  }
+
+  .diff-code-delete {
+    background-color: #ffeef0;
+
+    mark.diff-code-edit {
+      background-color: #fdb8c0;
+    }
+  }
+}

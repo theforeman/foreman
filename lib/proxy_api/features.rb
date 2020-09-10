@@ -1,7 +1,7 @@
 module ProxyAPI
   class Features < ProxyAPI::Resource
     def initialize(args)
-      @url  = args[:url] + "/features"
+      @url = args[:url] + "/features"
       super args
     end
 

@@ -1,4 +1,4 @@
-class Widget < ActiveRecord::Base
+class Widget < ApplicationRecord
   belongs_to :user
 
   validates :user_id, :name, :template, :presence => true
@@ -8,12 +8,13 @@ class Widget < ActiveRecord::Base
 
   before_validation :default_values
 
+  scope :available, -> { where(template: Dashboard::Manager.default_widgets.map { |w| w[:template] }) }
+
   def default_values
     self.sizex ||= 4
     self.sizey ||= 1
     self.col   ||= 1
     self.row   ||= 1
-    self.hide  ||= false
     self.data  ||= {}
   end
 

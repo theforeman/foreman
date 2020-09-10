@@ -6,19 +6,17 @@ class BelongsToHostTaxonomyValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     taxonomy = @options[:taxonomy]
-    return unless Taxonomy.enabled?(taxonomy) && record.host.present? && value.present?
+    return unless record.host.present? && value.present?
 
     host_taxonomy = record.host.public_send(taxonomy)
-    attribute_taxonomies = value.public_send(taxonomy.to_s.pluralize.to_sym)
+    return if host_taxonomy.nil?
 
-    return if host_taxonomy.nil? && attribute_taxonomies.empty?
+    host_taxonomy_ids = host_taxonomy.path_ids
+    attribute_taxonomy_ids = value.public_send("#{taxonomy}_ids")
 
-    record.errors.add(attribute, _("is not defined for host's %s.") % _(taxonomy)) unless include_or_empty?(attribute_taxonomies, host_taxonomy)
-  end
-
-  private
-
-  def include_or_empty?(list, item)
-    (list.empty? && item.nil?) || list.include?(item)
+    unless (attribute_taxonomy_ids & host_taxonomy_ids).any?
+      attribute_name = attribute.to_s.end_with?('_id') ? attribute : "#{attribute}_id"
+      record.errors.add(attribute_name, _("is not defined for host's %s") % _(taxonomy))
+    end
   end
 end

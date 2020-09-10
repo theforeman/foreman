@@ -1,0 +1,8 @@
+<h2 class="headline"><%= _('Report completed') %></h2>
+<p>
+  <%= _('The report %{name} that was requested at %{time} has been generated%{compression} and attached to this email.') %
+        { name: @composer.template&.name, time: l(@start), compression: (@composer.gzip? ? (', ' + _('compresed')) : '') } %>
+</p>
+<p>
+  <%= _('Generating the report took %s.') % distance_of_time_in_words(@end - @start) %>
+</p>

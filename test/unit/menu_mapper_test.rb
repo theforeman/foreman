@@ -152,7 +152,7 @@ class MenuMapperTest < ActiveSupport::TestCase
     menu_mapper.item :test_overview, :url_hash => { :controller => 'hosts', :action => 'show'}
 
     item = menu_mapper.find(:nothing)
-    assert_equal nil, item
+    assert_nil item
   end
 
   def test_delete
@@ -183,8 +183,8 @@ class MenuMapperTest < ActiveSupport::TestCase
   test 'deleting all items' do
     # Exposed by deleting :last items
     Menu::Manager.map :test_menu do |menu|
-      menu.item :not_last, :url_hash=>  { :controller => 'hosts', :action => 'index'}
-      menu.item :administration, :url_hash=> { :controller => 'hosts', :action => 'show'}, :last => true
+      menu.item :not_last, :url_hash => { :controller => 'hosts', :action => 'index'}
+      menu.item :administration, :url_hash => { :controller => 'hosts', :action => 'show'}, :last => true
       menu.item :help, :url_hash => { :controller => 'help', :action => 'show'}, :last => true
     end
 

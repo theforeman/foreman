@@ -1,0 +1,8 @@
+---
+myhttpproxy:
+  name: myhttpproxy
+  url: https://mytest.com
+
+yourhttpproxy:
+  name: yourhttpproxy
+  url: https://yourtest.com

@@ -1,0 +1,6 @@
+
+DEFAULT memdisk
+
+LABEL memdisk
+    KERNEL memdisk
+    APPEND initrd= harddisk raw

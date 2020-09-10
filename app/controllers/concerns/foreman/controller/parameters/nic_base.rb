@@ -3,7 +3,8 @@ module Foreman::Controller::Parameters::NicBase
 
   class_methods do
     def add_nic_base_params_filter(filter)
-      filter.permit_by_context :attached_to,
+      filter.permit_by_context :attached_devices, # accepts string or array
+        :attached_to,
         :bond_options,
         :host, :host_id,
         :identifier,
@@ -23,7 +24,7 @@ module Foreman::Controller::Parameters::NicBase
         :username,
         :virtual,
         {:attached_devices => []},
-        {:compute_attributes => [:bridge, :from_profile, :model, :network, :type, :name]},
+        {:compute_attributes => {}},
         :nested => true
 
       filter.permit_by_context :id,

@@ -1,16 +1,12 @@
 class Solaris < Operatingsystem
   PXEFILES = {:initrd => "x86.miniroot", :kernel => "multiboot"}
 
-  class << self
-    delegate :model_name, :to => :superclass
-  end
-
   def file_prefix
-    (self).to_s.gsub(/[\s\(\)]/,"-").gsub("--", "-").gsub(/-\Z/, "")
+    to_s.gsub(/[\s\(\)]/, "-").gsub("--", "-").gsub(/-\Z/, "")
   end
 
   # sets the prefix for the tftp files based on the OS
-  def pxe_prefix(architecture = nil)
+  def pxe_prefix(_medium_provider)
     "boot/#{file_prefix}"
   end
 
@@ -23,26 +19,23 @@ class Solaris < Operatingsystem
     "jumpstart"
   end
 
-  # The variant to use when communicating with the proxy. Syslinux are pxegrub currently supported
-  def pxe_variant
-    "pxegrub"
+  def available_loaders
+    ["None"]
   end
 
-  # The kind of PXE configuration template used. PXELinux and PXEGrub are currently supported
-  def template_kind
-    "PXEGrub"
+  def dhcp_record_type
+    Net::DHCP::SparcRecord
   end
 
-  def pxedir
-    "Solaris_#{minor}/Tools/Boot"
+  def template_kinds
+    ["PXEGrub"]
   end
 
-  def url_for_boot(file)
-    pxedir + "/" + PXEFILES[file]
+  def pxedir(medium_provider = nil)
+    "Solaris_$minor/Tools/Boot"
   end
 
   def boot_filename(host)
-    #handle things like gpxelinux/ gpxe / pxelinux here
     if host.jumpstart?
       "Solaris-#{major}.#{minor}-#{release_name}-#{host.model.hardware_model}-inetboot"
     else
@@ -55,7 +48,7 @@ class Solaris < Operatingsystem
   end
 
   # If this OS family requires access to its media via NFS
-  def require_nfs_access_to_medium
+  def self.require_nfs_access_to_medium
     true
   end
 
@@ -84,11 +77,12 @@ class Solaris < Operatingsystem
   end
 
   def jumpstart_params(host, vendor)
+    medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
     # root server and install server are always the same under Foreman
     server_name = host.medium.media_host
     server_ip   = host.domain.resolver.getaddress(server_name).to_s
     jpath       = jumpstart_path host.medium, host.domain
-    ipath       = interpolate_medium_vars(host.medium.media_dir, host.architecture.name, self)
+    ipath       = medium_provider.interpolate_vars(host.medium.media_dir).to_s
 
     {
       :vendor => "<#{vendor}>",
@@ -99,7 +93,7 @@ class Solaris < Operatingsystem
       :install_server_name   => server_name.split('.').first,           # mediahost
       :install_path          => ipath,                                  # /vol/solgi_5.10/sol10_hw0910
       :sysid_server_path     => "#{jpath}/sysidcfg/sysidcfg_primary",   # 192.168.216.241:/vol/jumpstart/sysidcfg/sysidcfg_primary
-      :jumpstart_server_path => jpath,                                  # 192.168.216.241:/vol/jumpstart
+      :jumpstart_server_path => jpath, # 192.168.216.241:/vol/jumpstart
     }
   end
 

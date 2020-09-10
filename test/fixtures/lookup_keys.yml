@@ -1,15 +1,16 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   key: port
   key_type: integer
+  path: "hostgroup\ncomment\nfqdn"
   validator_type:
   default_value: 80
   type: PuppetclassLookupKey
 
 three:
   key: ssl
-  key_type: Boolean
+  key_type: boolean
+  path: "fqdn\nhostgroup\nhostgroup,domain\nos"
   validator_rule:
   default_value: true
   override: true
@@ -21,7 +22,7 @@ complex:
   validator_rule:
   default_value: 'secret'
   override: true
-  path: 'organization,location'
+  path: "fqdn\norganization,location\nhostgroup\nos"
   type: PuppetclassLookupKey
 
 five:
@@ -29,7 +30,7 @@ five:
   key_type: string
   validator_rule:
   default_value: 'abcdef'
-  path: 'organization,location'
+  path: "fqdn\norganization,location\nhostgroup"
   override: true
   type: PuppetclassLookupKey
 
@@ -47,7 +48,7 @@ six:
   key_type: yaml
   validator_rule:
   default_value: "--- \nfoo: bar\n"
-  path: 'organization,location'
+  path: "organization,location\nhostgroup\ncomment\nfqdn\nenvironment"
   override: true
   type: PuppetclassLookupKey
 
@@ -56,7 +57,7 @@ seven:
   key_type: array
   validator_rule:
   default_value: "[{'hostname': 'test.example.com'}]"
-  path: 'organization,location'
+  path: "organization,location\nhostgroup"
   override: true
   type: PuppetclassLookupKey
 
@@ -65,9 +66,8 @@ two:
   key_type: string
   validator_type: list
   validator_rule: '443,8443'
-  puppetclass: one
   default_value: 443
-  type: VariableLookupKey
+  type: PuppetclassLookupKey
 
 four:
   key: special_info
@@ -75,6 +75,11 @@ four:
   validator_rule:
   default_value: 'secret'
   override: true
-  puppetclass: two
-  path: 'organization,location'
-  type: VariableLookupKey
+  path: "organization,location\nxyz\nhostgroup"
+  type: PuppetclassLookupKey
+
+eight:
+  key: bool_test
+  key_type: boolean
+  default_value: true
+  type: PuppetclassLookupKey

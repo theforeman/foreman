@@ -7,8 +7,11 @@
         <span class="profile">( <%= _("from profile %s") % f.object.compute_attributes["from_profile"] %> )</span>
       <% end %>
     </h3>
+
+    <% new_vm = @vm ? @vm.persisted? : new_vm?(@host) %>
+
     <%= f.fields_for 'compute_attributes', OpenStruct.new(f.object.compute_attributes) do |f| %>
-      <%= render provider_partial(@host.compute_resource, 'network'), :f => f, :disabled => f.object.persisted?, :compute_resource => @host.compute_resource, :new_host => new_host?(@host) %>
+      <%= render provider_partial(@host.compute_resource, 'network'), :f => f, :disabled => f.object.persisted?, :compute_resource => @host.compute_resource, :new_host => new_vm, :new_vm => new_vm %>
     <% end %>
   </fieldset>
 <% end %>

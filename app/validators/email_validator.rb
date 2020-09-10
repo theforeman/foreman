@@ -1,9 +1,16 @@
 class EmailValidator < ActiveModel::EachValidator
-  EMAIL_REGEXP = /\A(([\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+((\.\"[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\")*\.[\w!#\$%&\'\*\+\-\/=\?\^`\{\|\}~]+)*)|(\"[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+(\.[\w !#\$%&\'\*\+\-\/=\?\^`\{\|\}~\"\(\),:;<>@\[\\\] ]+)*\"))
-             @[a-z0-9]+((\.[a-z0-9]+)*|(\-[a-z0-9]+)*)*\z/ix
   def validate_each(record, attribute, value)
     return if options[:allow_blank] && value.empty?
     record.errors.add(attribute, _("is too long (maximum is 254 characters)")) if value && value.length > 254
-    record.errors.add(attribute, _("is invalid")) unless value && value.match(EMAIL_REGEXP)
+    begin
+      address = value.split("@")
+      encoded_address = (address.count == 2) ? Mail::Encodings.decode_encode(address[0], :encode) + '@' + Mail::Encodings.decode_encode(address[1], :encode) : value
+      m = Mail::Address.new(encoded_address)
+      r = m.domain.present? && m.address == value
+    rescue Mail::Field::ParseError => exception
+      Foreman::Logging.exception("Email address is invalid", exception)
+      r = false
+    end
+    record.errors[attribute] << (options[:message] || N_("is invalid")) unless r
   end
 end

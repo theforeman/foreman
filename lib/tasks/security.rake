@@ -1,10 +1,11 @@
-require 'foreman/util'
+require_dependency 'foreman/util'
 
 namespace :security do
   desc 'Generate new security token'
-  task :generate_token do
+  task :generate_token, [:path] do |t, args|
     include Foreman::Util
-    File.open(Rails.root.join('config', 'initializers', 'local_secret_token.rb'), "w") do |fd|
+    path = args[:path] || Rails.root.join('config', 'initializers', 'local_secret_token.rb')
+    File.open(path, "w") do |fd|
       fd.write("# Be sure to restart your server when you modify this file.
 
 # Your secret key for verifying the integrity of signed cookies.
@@ -14,7 +15,7 @@ namespace :security do
 
 # You can use `rake security:generate_token` to regenerate this file.
 
-Foreman::Application.config.secret_token = '#{secure_token}'
+Foreman::Application.config.secret_key_base = '#{secure_token}'
 ")
     end
   end

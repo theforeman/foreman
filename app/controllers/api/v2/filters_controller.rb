@@ -2,7 +2,6 @@ module Api
   module V2
     class FiltersController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Filter
 
       before_action :find_optional_nested_object
@@ -10,6 +9,7 @@ module Api
 
       api :GET, "/filters/", N_("List all filters")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Filter)
 
       def index
         @filters = resource_scope_for_index
@@ -25,6 +25,7 @@ module Api
         param :filter, Hash, :action_aware => true, :required => true do
           param :role_id, String, :required => true
           param :search, String
+          param :override, :bool
           param :permission_ids, Array
           param :organization_ids, Array
           param :location_ids, Array
@@ -35,7 +36,7 @@ module Api
       param_group :filter, :as => :create
 
       def create
-        @filter = nested_obj ? nested_obj.filters.build(filter_params) : Filter.new(filter_params)
+        @filter = nested_obj.respond_to?(:filters) ? nested_obj.filters.build(filter_params) : Filter.new(filter_params)
         process_response @filter.save
       end
 
@@ -44,7 +45,7 @@ module Api
       param_group :filter
 
       def update
-        process_response @filter.update_attributes(filter_params)
+        process_response @filter.update(filter_params)
       end
 
       api :DELETE, "/filters/:id/", N_("Delete a filter")
@@ -52,6 +53,10 @@ module Api
 
       def destroy
         process_response @filter.destroy
+      end
+
+      def resource_scope(*args)
+        resource_class.unscoped
       end
 
       private

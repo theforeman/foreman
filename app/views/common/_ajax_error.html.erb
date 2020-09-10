@@ -1,1 +1,1 @@
-<%= alert(:text => _("Failure: %s") % message, :class => 'alert-danger', :header => '', :close => false) %>
+<%= alert(:text => trunc_with_tooltip(_("Failure: %s") % message, 90, "", false), :class => 'alert-danger', :header => '', :close => false) %>

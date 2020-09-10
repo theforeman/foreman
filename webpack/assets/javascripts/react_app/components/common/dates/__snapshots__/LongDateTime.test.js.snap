@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LongDateTime formats date 1`] = `
+<LongDateTime
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
+  seconds={false}
+  showRelativeTimeTooltip={false}
+>
+  <span>
+    <FormattedDate
+      day="2-digit"
+      hour="2-digit"
+      minute="2-digit"
+      month="long"
+      value={2017-10-13T11:54:55.000Z}
+      year="numeric"
+    >
+      <span>
+        October 13, 2017, 11:54 AM
+      </span>
+    </FormattedDate>
+  </span>
+</LongDateTime>
+`;
+
+exports[`LongDateTime formats date with relative tooltip 1`] = `
+<LongDateTime
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
+  seconds={false}
+  showRelativeTimeTooltip={true}
+>
+  <span
+    title="15 days ago"
+  >
+    <FormattedDate
+      day="2-digit"
+      hour="2-digit"
+      minute="2-digit"
+      month="long"
+      value={2017-10-13T11:54:55.000Z}
+      year="numeric"
+    >
+      <span>
+        October 13, 2017, 11:54 AM
+      </span>
+    </FormattedDate>
+  </span>
+</LongDateTime>
+`;
+
+exports[`LongDateTime formats date with seconds 1`] = `
+<LongDateTime
+  date={2017-10-13T11:54:55.000Z}
+  defaultValue="Default value"
+  seconds={true}
+  showRelativeTimeTooltip={false}
+>
+  <span>
+    <FormattedDate
+      day="2-digit"
+      hour="2-digit"
+      minute="2-digit"
+      month="long"
+      second="2-digit"
+      value={2017-10-13T11:54:55.000Z}
+      year="numeric"
+    >
+      <span>
+        October 13, 2017, 11:54:55 AM
+      </span>
+    </FormattedDate>
+  </span>
+</LongDateTime>
+`;
+
+exports[`LongDateTime renders default value 1`] = `
+<LongDateTime
+  date={null}
+  defaultValue="Default value"
+  seconds={false}
+  showRelativeTimeTooltip={false}
+>
+  <span>
+    Default value
+  </span>
+</LongDateTime>
+`;

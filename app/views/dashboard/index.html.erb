@@ -1,4 +1,4 @@
-<%= javascript 'dashboard' %>
+<%= javascript 'charts' %>
 <% title _('Overview') %>
 <%= title_actions dashboard_actions %>
 
@@ -10,14 +10,15 @@
   <% else %>
     <div id='dashboard' class="dashboard gridster col-md-12">
       <ul>
-        <% User.current.widgets.order(:id).each do |widget| %>
+        <% User.current.widgets.available.order(:id).each do |widget| %>
           <%= content_tag(:li, widget_data(widget)) do %>
             <div class='widget_control'>
-              <a class='remove' data-url='<%= widget_path(widget) %>'>&times;</a>
-              <a class='minimize'>&minus;</a>
+              <a class='remove' data-url='<%= widget_path(widget) %>' onclick='tfm.dashboard.removeWidget(this)' >&times;</a>
             </div>
-            <div class="widget <%= widget.name.parameterize %>">
-              <%= render_widget(widget) %>
+            <div class="widget <%= widget_class_name(widget).parameterize %>">
+              <div data-ajax-url="<%= widget_path(widget, search: params[:search]) %>" data-on-complete="tfm.dashboard.widgetLoaded">
+                <%= spinner(_("%s widget loading...") % widget.name) %>
+              </div>
             </div>
           <% end %>
         <% end %>

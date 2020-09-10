@@ -22,16 +22,10 @@
       <%= render 'fields', :f => f %>
     </div>
     <div class="tab-pane" id="domains">
-      <%= multiple_checkboxes f, :domain, f.object, Domain, {:help_inline => _("Domains in which this subnet is part"), :size => 'col-md-6', :prefix => f.object_name}, { :label => _("Domain")} %>
+      <%= multiple_checkboxes f, :domains, f.object, Domain, {:help_inline => _("Domains in which this subnet is part"), :size => 'col-md-6', :prefix => f.object_name}, { :label => _("Domain")} %>
     </div>
     <div class="tab-pane" id="proxies">
-      <%= select_f f, :dhcp_id, SmartProxy.with_features("DHCP"), :id, :name,
-        {:include_blank => _("None")}, :label => _("DHCP Proxy"), :help_inline => _("DHCP Proxy to use within this subnet"),
-         :wrapper_class => "form-group #{'hide' unless f.object.supports_ipam_mode?(:dhcp)}" %>
-      <%= select_f f, :tftp_id, SmartProxy.with_features("TFTP"), :id, :name,
-        {:include_blank => _("None")}, :label => _("TFTP Proxy"), :help_inline => _("TFTP Proxy to use within this subnet") %>
-      <%= select_f f, :dns_id, SmartProxy.with_features("DNS"), :id, :name,
-        {:include_blank => _("None")}, :label => _("Reverse DNS Proxy"), :help_inline => _("DNS Proxy to use within this subnet for managing PTR records, note that A and AAAA records are managed via Domain DNS proxy") %>
+      <%= smart_proxy_fields f %>
     </div>
 
     <% if authorized_for(:controller => "host_editing", :action => "view_params") %>

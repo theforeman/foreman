@@ -1,4 +1,4 @@
-class AddConfigGroupCounterDefaults < ActiveRecord::Migration
+class AddConfigGroupCounterDefaults < ActiveRecord::Migration[4.2]
   def up
     change_column :config_groups, :hosts_count, :integer, :default => 0
     change_column :config_groups, :hostgroups_count, :integer, :default => 0

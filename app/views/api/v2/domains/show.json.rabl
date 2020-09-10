@@ -7,7 +7,7 @@ child :subnets do
 end
 
 node do |domain|
-  { :parameters => partial("api/v2/parameters/base", :object => domain.parameters.authorized) }
+  { :parameters => partial("api/v2/parameters/index", :object => domain.parameters.authorized) }
 end
 
 node do |domain|

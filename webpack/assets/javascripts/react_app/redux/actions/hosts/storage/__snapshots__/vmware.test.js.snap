@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vmware storage hosts actions fetchDatastores makes the ajax request to the right url 1`] = `
+Object {
+  "payload": Object {
+    "key": "STORAGE_VMWARE_DATASTORES",
+    "payload": Object {
+      "params": Object {
+        "cluster_id": "cluster",
+      },
+    },
+    "url": "test.com/datastores",
+  },
+  "type": "API_GET",
+}
+`;
+
+exports[`vmware storage hosts actions fetchStoragePods makes the ajax request to the right url 1`] = `
+Object {
+  "payload": Object {
+    "key": "STORAGE_VMWARE_STORAGEPODS",
+    "payload": Object {
+      "params": Object {
+        "cluster_id": "cluster",
+      },
+    },
+    "url": "test.com/storage_pods",
+  },
+  "type": "API_GET",
+}
+`;

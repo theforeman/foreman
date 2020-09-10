@@ -1,0 +1,14 @@
+<%#
+kind: snippet
+name: http_proxy
+model: ProvisioningTemplate
+snippet: true
+%>
+<% if (proxy = host_param("http_proxy")) -%>
+http_proxy=<%= proxy %>
+export http_proxy
+https_proxy=<%= proxy %>
+export https_proxy
+no_proxy=localhost,127.0.0.0/8,*.local,*.<%= @host.domain.name -%>,puppet
+export no_proxy
+<% end -%>

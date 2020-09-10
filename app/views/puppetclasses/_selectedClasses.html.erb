@@ -1,4 +1,4 @@
-<%= content_tag_for :li, klass, :selected, :class => cycle('even', 'odd') do %>
+<%= content_tag_for :li, klass, :selected, :class => [cycle('even', 'odd'), ('unavailable' unless klass.environments.include?(@environment))] do %>
   <%= link_to_remove_puppetclass(klass, host) %>
   <%= hidden_field_tag "#{type}[puppetclass_ids][]", klass.id %>
 <% end %>

@@ -1,0 +1,55 @@
+<%#
+kind: snippet
+name: puppet.conf
+model: ProvisioningTemplate
+snippet: true
+%>
+<%
+  os_family = @host.operatingsystem.family
+  os_name   = @host.operatingsystem.name
+
+  aio_enabled = host_param_true?('enable-puppetlabs-puppet6-repo') || host_param_true?('enable-puppet6') || host_param_true?('enable-puppetlabs-puppet5-repo') || host_param_true?('enable-puppet5')
+  aio_available = os_family == 'Debian' || os_family == 'Redhat' || os_name == 'SLES'
+
+  if aio_enabled && aio_available
+    var_dir = '/opt/puppetlabs/puppet/cache'
+    log_dir = '/var/log/puppetlabs/puppet'
+    run_dir = '/var/run/puppetlabs'
+    ssl_dir = '/etc/puppetlabs/puppet/ssl'
+  elsif os_family == 'Windows'
+    var_dir = 'C:\ProgramData\PuppetLabs\puppet\cache'
+    log_dir = 'C:\ProgramData\PuppetLabs\puppet\var\log'
+    run_dir = 'C:\ProgramData\PuppetLabs\puppet\var\run'
+    ssl_dir = 'C:\ProgramData\PuppetLabs\puppet\etc\ssl'
+  else
+    if @host.operatingsystem.family == 'Freebsd'
+      var_dir = '/var/puppet'
+    else
+      var_dir = '/var/lib/puppet'
+    end
+    log_dir = '/var/log/puppet'
+    run_dir = '/var/run/puppet'
+    ssl_dir = '\$vardir/ssl'
+  end
+%>
+[main]
+<%- unless host_param('dns_alt_names').to_s.empty? -%>
+dns_alt_names = <%= host_param('dns_alt_names') %>
+<%- end -%>
+vardir = <%= var_dir %>
+logdir = <%= log_dir %>
+rundir = <%= run_dir %>
+ssldir = <%= ssl_dir %>
+<% if host_param_true?('fips_enabled') -%>
+digest_algorithm = sha256
+<% end -%>
+
+[agent]
+pluginsync      = true
+report          = true
+<%- if @host.puppet_ca_server.strip -%>
+ca_server       = <%= @host.puppet_ca_server %>
+<%- end -%>
+certname        = <%= @host.certname %>
+environment     = <%= @host.environment %>
+server          = <%= @host.puppetmaster %>

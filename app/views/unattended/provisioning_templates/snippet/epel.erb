@@ -1,0 +1,13 @@
+<%#
+kind: snippet
+name: epel
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%
+repo_base  = host_param('epel-repo-base') ? host_param('epel-repo-base') : 'https://dl.fedoraproject.org/pub/epel'
+http_proxy = host_param('http-proxy') ? " --httpproxy #{host_param('http-proxy')}" : nil
+http_port  = host_param('http-proxy-port') ? " --httpport #{host_param('http-proxy-port')}" : nil
+os_major   = @host.operatingsystem.major.to_i
+-%>
+rpm -Uvh<%= http_proxy %><%= http_port %> <%= repo_base %>/epel-release-latest-<%= os_major %>.noarch.rpm

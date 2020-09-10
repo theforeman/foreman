@@ -1,0 +1,263 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeInput is working properly 1`] = `
+<div
+  class="timepicker col-md-6"
+>
+  <div
+    class="timepicker-picker"
+  >
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <a
+              class="btn clock-btn increment-hour"
+            >
+              <span
+                class="glyphicon glyphicon-chevron-up"
+              />
+            </a>
+          </td>
+          <td
+            class="separator"
+          />
+          <td>
+            <a
+              class="btn clock-btn increment-min"
+            >
+              <span
+                class="glyphicon glyphicon-chevron-up"
+              />
+            </a>
+          </td>
+          <td
+            class="separator"
+          />
+        </tr>
+        <tr>
+          <td>
+            <span
+              class="timepicker-hour"
+            >
+              02
+            </span>
+          </td>
+          <td
+            class="separator"
+          >
+            :
+          </td>
+          <td>
+            <span
+              class="timepicker-minute"
+            >
+              22
+            </span>
+          </td>
+          <td>
+            <button
+              class="btn btn-primary ampm-toggle"
+              type="button"
+            >
+              PM
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a
+              class="btn clock-btn decrement-hour"
+            >
+              <span
+                class="glyphicon glyphicon-chevron-down"
+              />
+            </a>
+          </td>
+          <td
+            class="separator"
+          />
+          <td>
+            <a
+              class="btn clock-btn decrement-min"
+            >
+              <span
+                class="glyphicon glyphicon-chevron-down"
+              />
+            </a>
+          </td>
+          <td
+            class="separator"
+          />
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`TimeInput toggles view to hours 1`] = `
+<div
+  class="timepicker col-md-6"
+>
+  <div
+    class="timepicker-hours"
+  >
+    <table
+      class="table-condensed"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="hour"
+          >
+            12
+          </td>
+          <td
+            class="hour"
+          >
+            01
+          </td>
+          <td
+            class="hour"
+          >
+            02
+          </td>
+          <td
+            class="hour"
+          >
+            03
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="hour"
+          >
+            04
+          </td>
+          <td
+            class="hour"
+          >
+            05
+          </td>
+          <td
+            class="hour"
+          >
+            06
+          </td>
+          <td
+            class="hour"
+          >
+            07
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="hour"
+          >
+            08
+          </td>
+          <td
+            class="hour"
+          >
+            09
+          </td>
+          <td
+            class="hour"
+          >
+            10
+          </td>
+          <td
+            class="hour"
+          >
+            11
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`TimeInput toggles view to minutes 1`] = `
+<div
+  class="timepicker col-md-6"
+>
+  <div
+    class="timepicker-minutes"
+  >
+    <table
+      class="table-condensed"
+    >
+      <tbody>
+        <tr>
+          <td
+            class="minute"
+          >
+            00
+          </td>
+          <td
+            class="minute"
+          >
+            05
+          </td>
+          <td
+            class="minute"
+          >
+            10
+          </td>
+          <td
+            class="minute"
+          >
+            15
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="minute"
+          >
+            20
+          </td>
+          <td
+            class="minute"
+          >
+            25
+          </td>
+          <td
+            class="minute"
+          >
+            30
+          </td>
+          <td
+            class="minute"
+          >
+            35
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="minute"
+          >
+            40
+          </td>
+          <td
+            class="minute"
+          >
+            45
+          </td>
+          <td
+            class="minute"
+          >
+            50
+          </td>
+          <td
+            class="minute"
+          >
+            55
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

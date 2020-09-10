@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubmitOrCancel should render 1`] = `
+<Fragment>
+  <SubmitBtn
+    bsStyle="primary"
+    btnText="Submit"
+    isSubmitting={false}
+    onSubmit={[MockFunction]}
+  />
+  <CancelBtn
+    bsStyle="default"
+    btnText="Cancel"
+    disabled={false}
+    onCancel={[MockFunction]}
+  />
+</Fragment>
+`;
+
+exports[`SubmitOrCancel should render when isSubmitting 1`] = `
+<Fragment>
+  <SubmitBtn
+    bsStyle="primary"
+    btnText="Submit"
+    isSubmitting={true}
+    onSubmit={[MockFunction]}
+  />
+  <CancelBtn
+    bsStyle="default"
+    btnText="Cancel"
+    disabled={true}
+    onCancel={[MockFunction]}
+  />
+</Fragment>
+`;

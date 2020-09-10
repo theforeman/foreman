@@ -3,7 +3,7 @@ object @operatingsystem
 extends "api/v2/operatingsystems/main"
 
 node do |os|
-  { :parameters => partial("api/v2/parameters/base", :object => os.parameters.authorized) }
+  { :parameters => partial("api/v2/parameters/index", :object => os.parameters.authorized) }
 end
 
 child :media do
@@ -16,10 +16,6 @@ end
 
 child :ptables => :ptables do
   extends "api/v2/ptables/base"
-end
-
-child :provisioning_templates => :config_templates do
-  extends "api/v2/config_templates/base"
 end
 
 child :provisioning_templates => :provisioning_templates do

@@ -1,4 +1,21 @@
 <% title(_("Virtual Machines on %s") % @compute_resource) %>
+<%= breadcrumbs(
+    items:
+    [
+      {
+        caption: _("Compute Resouces"),
+        url: compute_resources_path
+      },
+      {
+        caption: @compute_resource.name,
+        url: compute_resource_path(@compute_resource)
+      },
+      {
+        caption: _("VMs"),
+      },
+    ],
+    switchable: false
+) %>
 <%= vms_table do %>
   <%= render "compute_resources_vms/index/#{@compute_resource.provider.downcase}" %>
 <% end %>

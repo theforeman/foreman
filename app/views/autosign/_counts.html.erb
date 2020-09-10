@@ -2,18 +2,16 @@
   <div class="card-pf  card-pf-accented card-pf-aggregate-status card-pf-with-action">
     <h2 class="card-pf-title">
       <a href="#autosign">
-        <%= icon_text('check', '', :kind => 'fa') %><span class="card-pf-aggregate-status-count"><%= autosign.length.to_s %></span> <%= _("Autosign entries") %>
+        <%= icon_text('check', '', :kind => 'fa') %><span class="card-pf-aggregate-status-count"><%= autosign.length.to_s %></span> <%= _("Autosign Entries") %>
       </a>
     </h2>
     <div class="card-pf-body">
       <p class="card-pf-aggregate-status-notifications">
       <span class="card-pf-aggregate-status-notification">
         <% if authorized_for(:controller => "SmartProxies::Autosign", :action => :create, :auth_object => @proxy) %>
-          <a href="" class="add" data-toggle='modal' data-target='#autosignModal'>
-          <span class="pficon pficon-add-circle-o" data-toggle="tooltip" title="<%= _('Add Autosign entry') %>"></span></a>
+          <a href="" class="btn btn-default" data-toggle='modal' data-target='#autosignModal'><%= _('Add Autosign entry') %></a>
         <% else %>
-          <a href="#autosign">
-          <span class="fa fa-search" data-toggle="tooltip" title="<%= _('View list') %>"></span></a>
+          <a href="#autosign" class="btn btn-default"><%= _('View list') %></a>
         <% end %>
       </span>
       </p>

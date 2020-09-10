@@ -1,8 +1,8 @@
-class CreateArchitectures < ActiveRecord::Migration
+class CreateArchitectures < ActiveRecord::Migration[4.2]
   def up
     create_table :architectures do |t|
       t.string   "name", :limit => 10, :default => "x86_64", :null => false
-      t.timestamps
+      t.timestamps null: true
     end
 
     create_table :architectures_operatingsystems, :id => false do |t|

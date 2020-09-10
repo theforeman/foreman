@@ -1,4 +1,4 @@
-class FixAuditableType2 < ActiveRecord::Migration
+class FixAuditableType2 < ActiveRecord::Migration[4.2]
   def up
     # Taxonomy
     Audit.where(:auditable_type => 'Taxonomy').each do |audit|

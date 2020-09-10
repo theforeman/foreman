@@ -1,0 +1,255 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor actions should change mode to Html 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "mode": "Html",
+      },
+      "type": "EDITOR_CHANGE_SETTING",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should changeDiffViewType 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": "unified",
+      "type": "EDITOR_CHANGE_DIFF_VIEW",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should changeEditorValue 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": "</>",
+      "type": "EDITOR_CHANGE_VALUE",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should changeTab 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": "diff",
+      "type": "EDITOR_CHANGE_TAB",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should dismissErrorToast 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "errorText": "",
+        "showError": false,
+      },
+      "type": "EDITOR_DISMISS_ERROR",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should importFile 1`] = `Array []`;
+
+exports[`Editor actions should initializeEditor 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "hosts": Array [],
+        "isMasked": false,
+        "isRendering": false,
+        "isSearchingHosts": false,
+        "previewResult": "",
+        "readOnly": true,
+        "selectedHost": Object {
+          "id": "",
+          "name": "",
+        },
+        "selectedView": "input",
+        "showError": false,
+        "templateClass": undefined,
+        "value": "<? />",
+      },
+      "type": "EDITOR_INITIALIZE",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should initializeEditor unlocked 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "hosts": Array [],
+        "isRendering": false,
+        "isSearchingHosts": false,
+        "previewResult": "",
+        "readOnly": false,
+        "selectedHost": Object {
+          "id": "",
+          "name": "",
+        },
+        "selectedView": "input",
+        "showError": false,
+        "templateClass": undefined,
+        "value": "<? />",
+      },
+      "type": "EDITOR_INITIALIZE",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should onHostSearch and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "isFetchingHosts": true,
+        "isSearchingHosts": true,
+        "searchQuery": "host",
+      },
+      "type": "EDITOR_FETCH_HOST_PENDING",
+    },
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`Editor actions should onHostSearch and succeed 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "isFetchingHosts": true,
+        "isSearchingHosts": true,
+        "searchQuery": "host",
+      },
+      "type": "EDITOR_FETCH_HOST_PENDING",
+    },
+  ],
+  Array [
+    [Function],
+  ],
+]
+`;
+
+exports[`Editor actions should onHostSelectToggle 1`] = `
+Object {
+  "type": "EDITOR_HOST_SELECT_TOGGLE",
+}
+`;
+
+exports[`Editor actions should onSearchClear 1`] = `
+Object {
+  "type": "EDITOR_HOST_SELECT_CLEAR",
+}
+`;
+
+exports[`Editor actions should previewTemplate and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "EDITOR_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "EDITOR_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "errorText": "",
+        "previewResult": "Error during rendering, Return to Editor tab.",
+        "renderedEditorValue": "value",
+        "selectedHost": Object {
+          "id": "1",
+          "name": "host",
+        },
+        "showError": true,
+      },
+      "type": "EDITOR_SHOW_ERROR",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should previewTemplate and succeed 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "EDITOR_SHOW_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "type": "EDITOR_HIDE_LOADING",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "isSearchingHosts": false,
+        "previewResult": Array [
+          "< renderedData />",
+        ],
+        "renderedEditorValue": "value",
+        "selectedHost": Object {
+          "id": "1",
+          "name": "host",
+        },
+      },
+      "type": "EDITOR_EXEC_PREVIEW",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should revertChanges 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "isRendering": false,
+        "value": "<template />",
+      },
+      "type": "EDITOR_REVERT_CHANGES",
+    },
+  ],
+]
+`;
+
+exports[`Editor actions should toggleMaskValue 1`] = `
+Object {
+  "type": "EDITOR_TOGGLE_MASK",
+}
+`;
+
+exports[`Editor actions should toggleModal 1`] = `
+Object {
+  "type": "EDITOR_MODAL_TOGGLE",
+}
+`;
+
+exports[`Editor actions should toggleRenderView 1`] = `
+Object {
+  "type": "EDITOR_TOGGLE_RENDER_VIEW",
+}
+`;

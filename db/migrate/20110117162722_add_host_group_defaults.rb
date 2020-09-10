@@ -1,4 +1,4 @@
-class AddHostGroupDefaults < ActiveRecord::Migration
+class AddHostGroupDefaults < ActiveRecord::Migration[4.2]
   def up
     add_column :hostgroups, :environment_id, :integer
     add_column :hostgroups, :operatingsystem_id, :integer

@@ -4,10 +4,12 @@ class ProvisioningTemplateJSTest < IntegrationTestWithJavascript
   # intermittent failures:
   #   ProvisioningTemplateJSTest.test_0001_edit template page
   #   ProvisioningTemplateJSTest.test_0002_edit snippet page
-  extend Minitest::OptionalRetry
+  test "index page" do
+    assert_index_page(provisioning_templates_path, "Provisioning Templates", "Create Template")
+  end
 
   test "edit template page" do
-    template = FactoryGirl.create(:provisioning_template)
+    template = FactoryBot.create(:provisioning_template)
     visit provisioning_templates_path
     click_link template.name
     fill_in 'provisioning_template_name', :with => 'updated template'
@@ -28,7 +30,7 @@ class ProvisioningTemplateJSTest < IntegrationTestWithJavascript
   end
 
   test "edit snippet page" do
-    template = FactoryGirl.create(:provisioning_template, :snippet)
+    template = FactoryBot.create(:provisioning_template, :snippet)
     visit provisioning_templates_path
     click_link template.name
     fill_in 'provisioning_template_name', :with => 'updated snippet'

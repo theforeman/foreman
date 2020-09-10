@@ -4,9 +4,10 @@ class Location < Taxonomy
   include Foreman::ThreadSession::LocationModel
   include Parameterizable::ByIdName
 
-  has_and_belongs_to_many :organizations, :join_table => 'locations_organizations'
+  has_and_belongs_to_many :organizations, :join_table => 'locations_organizations', :validate => false
   has_many_hosts :dependent => :nullify
   before_destroy EnsureNotUsedBy.new(:hosts)
+  has_many :reports, :through => :hosts, :class_name => 'ConfigReport'
 
   has_many :location_parameters, :class_name => 'LocationParameter', :foreign_key => :reference_id, :dependent => :destroy, :inverse_of => :location
   has_many :default_users,       :class_name => 'User',              :foreign_key => :default_location_id
@@ -15,9 +16,10 @@ class Location < Taxonomy
 
   scope :completer_scope, ->(opts) { my_locations }
 
-  scope :my_locations, lambda {
-    conditions = User.current.admin? ? {} : sanitize_sql_for_conditions([" (taxonomies.id in (?))", User.current.location_and_child_ids])
-    where(conditions)
+  scoped_search :on => :id, :validator => ScopedSearch::Validators::INTEGER, :rename => 'location_id', :only_explicit => true
+
+  scope :my_locations, lambda { |user = User.current|
+    user.admin? ? all : where(id: user.location_and_child_ids)
   }
 
   def dup

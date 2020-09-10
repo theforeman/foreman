@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionButtons renders ActionButtons with 0 button 1`] = `""`;
+
+exports[`ActionButtons renders ActionButtons with 1 button 1`] = `
+<Button
+  active={false}
+  block={false}
+  bsClass="btn"
+  bsSize="small"
+  bsStyle="default"
+  disabled={false}
+  onClick={[Function]}
+>
+  first
+</Button>
+`;
+
+exports[`ActionButtons renders ActionButtons with 3 button 1`] = `
+<SplitButton
+  bsSize="small"
+  onClick={[Function]}
+  title="first"
+>
+  <MenuItem
+    bsClass="dropdown"
+    data-method="put"
+    disabled={false}
+    divider={false}
+    header={false}
+    href="some-url2"
+    key="second"
+    title="second"
+  >
+    second
+  </MenuItem>
+  <MenuItem
+    bsClass="dropdown"
+    disabled={false}
+    divider={false}
+    header={false}
+    key="third"
+    onClick={[Function]}
+    title="third"
+  >
+    third
+  </MenuItem>
+</SplitButton>
+`;

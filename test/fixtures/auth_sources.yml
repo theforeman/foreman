@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   name: ldap-server
   host: ldap
@@ -24,3 +23,7 @@ internal:
 hidden:
   name: Hidden
   type: AuthSourceHidden
+
+external:
+  name: External
+  type: AuthSourceExternal

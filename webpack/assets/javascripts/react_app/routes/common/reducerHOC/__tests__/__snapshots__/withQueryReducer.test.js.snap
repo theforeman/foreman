@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withQueryReducer should handle TEST_UPDATE_QUERY 1`] = `
+Object {
+  "itemCount": 20,
+  "page": 21,
+  "perPage": 20,
+  "searchQuery": "search",
+}
+`;
+
+exports[`withQueryReducer should return the initial state 1`] = `
+Object {
+  "itemCount": 0,
+  "page": 1,
+  "searchQuery": "",
+}
+`;

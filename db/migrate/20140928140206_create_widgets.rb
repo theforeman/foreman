@@ -1,4 +1,4 @@
-class CreateWidgets < ActiveRecord::Migration
+class CreateWidgets < ActiveRecord::Migration[4.2]
   def change
     create_table :widgets do |t|
       t.references :user, :index => true
@@ -12,7 +12,7 @@ class CreateWidgets < ActiveRecord::Migration
       t.integer :row, :default => 1
       t.boolean :hide, :default => false
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

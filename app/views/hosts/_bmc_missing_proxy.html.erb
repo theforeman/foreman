@@ -1,0 +1,14 @@
+<div>
+<%
+  text = ''.html_safe
+  if bmc_count.zero?
+    text += _('No %s with BMC feature found, install one, enable BMC module and register it.').html_safe %
+      link_to(_("Smart Proxy"), smart_proxies_path)
+  end
+
+  if bmc_proxy.nil?
+      text += ' '.html_safe + _('Missing BMC feature associated with %s.').html_safe % link_to(_("Subnet"), subnets_path)
+  end
+%>
+  <%= alert :class => 'alert-warning', :header => '', :text => text %>
+</div>

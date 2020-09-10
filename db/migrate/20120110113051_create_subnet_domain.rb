@@ -1,10 +1,10 @@
-class CreateSubnetDomain < ActiveRecord::Migration
+class CreateSubnetDomain < ActiveRecord::Migration[4.2]
   def up
     create_table :subnet_domains do |t|
       t.references :domain
       t.references :subnet
 
-      t.timestamps
+      t.timestamps null: true
     end
 
     Subnet.unscoped.find_each do |s|

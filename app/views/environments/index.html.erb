@@ -2,7 +2,7 @@
 
 <%= environments_title_actions %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-8"><%= sort :name, :as => s_('Environment|Name') %></th>
@@ -13,10 +13,10 @@
   <tbody>
     <% @environments.each do |environment| %>
       <tr>
-        <td class="display-two-pane ellipsis">
+        <td class="ellipsis">
           <%= link_to_if_authorized environment.name, hash_for_edit_environment_path(:id => environment).merge(:auth_object => environment, :authorizer => authorizer) %>
         </td>
-        <td><%= link_to hosts_count.fetch(environment.id, 0), hosts_path(:search => "environment = #{environment}") %></td>
+        <td><%= link_to hosts_count[environment], hosts_path(:search => "environment = #{environment}") %></td>
         <td>
           <%= action_buttons(link_to(_('Classes'), puppetclasses_path(:search => "environment = #{environment}")),
                              import_proxy_links(hash_for_import_environments_environments_path(:env => environment)),

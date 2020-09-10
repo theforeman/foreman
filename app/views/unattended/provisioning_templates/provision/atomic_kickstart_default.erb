@@ -1,0 +1,57 @@
+<%#
+kind: provision
+name: Atomic Kickstart default
+model: ProvisioningTemplate
+%>
+
+lang <%= host_param('lang') || 'en_US.UTF-8' %>
+keyboard <%= host_param('keyboard') || 'us' %>
+timezone --utc <%= host_param('time-zone') || 'UTC' %>
+
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
+<% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% else -%>
+<% dhcp = !@static -%>
+<% end -%>
+
+network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{subnet.dns_servers.join(',')} --mtu=#{subnet.mtu.to_s}" %> --hostname <%= @host %><%= " --device=#{@host.mac}" -%>
+
+# Partition table should create /boot and a volume atomicos
+<% if @dynamic -%>
+%include /tmp/diskpart.cfg
+<% else -%>
+<%= @host.diskLayout %>
+<% end -%>
+
+bootloader --timeout=3
+text
+
+<% if @host.os.name.match /.*fedora.*/i -%>
+# Use medium_uri/content/repo/ as the URL if you
+# have set up a local installation media for Fedora
+<% fedora_atomic_url = host_param('atomic_refs_url') || "https://dl.fedoraproject.org/pub/fedora/linux/atomic/#{@host.os.major}/" %>
+ostreesetup --nogpg --osname=fedora-atomic --remote=fedora-atomic-ostree --url=<%= fedora_atomic_url %> --ref=fedora-atomic/f<%= @host.os.major %>/<%= @host.architecture %>/docker-host
+<% elsif @host.os.name.match /.*centos.*/i -%>
+ostreesetup --nogpg --osname=centos-atomic-host --remote=centos-atomic-host-ostree --url=<%= host_param_true?('atomic-upstream') ? "http://mirror.centos.org/centos/#{@host.os.major}/atomic/#{@host.architecture}/repo/" : medium_uri %> --ref=centos-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
+<% else -%>
+ostreesetup --nogpg --osname=rhel-atomic-host --remote=rhel-atomic-host-ostree --url=file:///install/ostree --ref=rhel-atomic-host/<%= @host.os.major %>/<%= @host.architecture %>/standard
+<% end -%>
+services --disabled cloud-init,cloud-config,cloud-final,cloud-init-local
+rootpw --iscrypted <%= root_pass %>
+
+reboot
+
+%post
+<%= snippet 'redhat_register' %>
+rm -f /etc/ostree/remotes.d/*.conf
+<%= snippet('remote_execution_ssh_keys') %>
+<%= snippet 'efibootmgr_netboot' %>
+(
+# Report success back to Foreman
+<%= snippet 'built' %>
+) 2>&1 | tee /mnt/sysimage/root/install.post.log
+
+exit 0
+
+%end

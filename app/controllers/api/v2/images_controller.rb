@@ -13,6 +13,7 @@ module Api
       param :architecture_id, String, :desc => N_("ID of architecture")
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Image)
 
       def index
         @images = resource_scope_for_index
@@ -33,7 +34,7 @@ module Api
         param :image, Hash, :required => true, :action_aware => true do
           param :name, String, :required => true
           param :username, String, :required => true
-          param :uuid, String, :required => true
+          param :uuid, String, :required => true, :desc => N_("Template ID in the compute resource")
           param :password, String, :required => false
           param :compute_resource_id, String, :desc => N_("ID of compute resource")
           param :architecture_id, String, :desc => N_("ID of architecture")
@@ -57,7 +58,7 @@ module Api
       param_group :image
 
       def update
-        process_response @image.update_attributes(image_params)
+        process_response @image.update(image_params)
       end
 
       api :DELETE, "/compute_resources/:compute_resource_id/images/:id/", N_("Delete an image")

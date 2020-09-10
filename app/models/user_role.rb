@@ -15,7 +15,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class UserRole < ActiveRecord::Base
+class UserRole < ApplicationRecord
+  include TopbarCacheExpiry
+
   belongs_to :owner, :polymorphic => true
   belongs_to :role
 
@@ -24,7 +26,7 @@ class UserRole < ActiveRecord::Base
   validates :role_id, :presence => true
   validates :owner_id, :uniqueness => {:scope => [:role_id, :owner_type],
                                        :message => N_("has this role already")},
-                                       :unless => -> {owner.blank?}
+                                       :unless => -> { owner.blank? }
 
   # if we trigger cache clean up by deleting the user, the owner relation target
   # does not work since taxable_taxonomy record is already deleted, in this case
@@ -32,11 +34,11 @@ class UserRole < ActiveRecord::Base
   delegate :expire_topbar_cache, :to => :owner, :allow_nil => true
 
   def user_role?
-    self.owner_type == 'User'
+    owner_type == 'User'
   end
 
   def user_group_role?
-    self.owner_type == 'Usergroup'
+    owner_type == 'Usergroup'
   end
 
   before_save :remove_cache!
@@ -50,10 +52,10 @@ class UserRole < ActiveRecord::Base
   end
 
   def cache_user_roles!
-    if self.user_role?
+    if user_role?
       built = build_user_role_cache
-    elsif self.user_group_role?
-      built = build_user_group_role_cache(self.owner)
+    elsif user_group_role?
+      built = build_user_group_role_cache(owner)
     else
       raise 'unknown UserRole owner type'
     end
@@ -62,12 +64,12 @@ class UserRole < ActiveRecord::Base
   end
 
   def build_user_role_cache
-    [ self.cached_user_roles.build(:user_id => owner.id, :role_id => role.id) ]
+    [cached_user_roles.build(:user_id => owner_id, :role_id => role_id)]
   end
 
   def build_user_group_role_cache(owner)
     cache = []
-    cache += owner.users.map { |m| self.cached_user_roles.build(:user => m, :role => role) }
+    cache += owner.users.map { |m| cached_user_roles.build(:user => m, :role => role) }
     cache += owner.usergroups.map { |g| build_user_group_role_cache(g) }
     cache.flatten
   end

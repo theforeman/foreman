@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FactChart reducer initial state 1`] = `
+Object {
+  "modalToDisplay": Object {},
+}
+`;
+
+exports[`FactChart reducer should not display modal 1`] = `
+Object {
+  "modalToDisplay": Object {},
+}
+`;

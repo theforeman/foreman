@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Breadcrumbs renders breadcrumbs menu 1`] = `
+<Breadcrumb>
+  <BreadcrumbItem
+    className="breadcrumb-item"
+    isActive={false}
+    key="0"
+    to="/some-url"
+  >
+     
+    root
+  </BreadcrumbItem>
+  <BreadcrumbItem
+    className="breadcrumb-item"
+    isActive={false}
+    key="1"
+    onClick={[MockFunction]}
+  >
+     
+    child with onClick
+  </BreadcrumbItem>
+  <BreadcrumbItem
+    className="breadcrumb-item active"
+    isActive={true}
+    key="2"
+  >
+     
+    <EllipisWithTooltip
+      placement="bottom"
+    >
+      active child
+    </EllipisWithTooltip>
+  </BreadcrumbItem>
+</Breadcrumb>
+`;
+
+exports[`Breadcrumbs renders h1 title 1`] = `
+<Breadcrumb>
+  <BreadcrumbItem
+    className="breadcrumb-item active"
+    isActive={true}
+    key="0"
+  >
+     
+    <EllipisWithTooltip
+      placement="bottom"
+    >
+      title
+    </EllipisWithTooltip>
+  </BreadcrumbItem>
+</Breadcrumb>
+`;
+
+exports[`Breadcrumbs renders title override 1`] = `
+<Breadcrumb>
+  <BreadcrumbItem
+    className="breadcrumb-item"
+    isActive={false}
+    key="0"
+    to="/some-url"
+  >
+     
+    root
+  </BreadcrumbItem>
+  <BreadcrumbItem
+    className="breadcrumb-item active"
+    isActive={true}
+    key="1"
+  >
+     
+    <EllipisWithTooltip
+      placement="bottom"
+    >
+      override title
+    </EllipisWithTooltip>
+  </BreadcrumbItem>
+</Breadcrumb>
+`;

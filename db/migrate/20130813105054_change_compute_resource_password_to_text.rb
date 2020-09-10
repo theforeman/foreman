@@ -1,4 +1,4 @@
-class ChangeComputeResourcePasswordToText < ActiveRecord::Migration
+class ChangeComputeResourcePasswordToText < ActiveRecord::Migration[4.2]
   def up
     # encrypted passwords may be over 255 characters, so column is changed to text
     change_column :compute_resources, :password, :text

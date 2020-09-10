@@ -1,8 +1,9 @@
 # Represents a Host's network interface
 # This class is the both parent
 module Nic
-  class Base < ActiveRecord::Base
-    include Foreman::STI
+  class Base < ApplicationRecord
+    audited associated_with: :host
+    prepend Foreman::STI
     include Encryptable
     encrypts :password
 
@@ -15,30 +16,36 @@ module Nic
     before_destroy :not_required_interface
 
     validate :mac_uniqueness,
-             :if => Proc.new { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
+      :if => proc { |nic| nic.managed? && nic.host && nic.host.managed? && !nic.host.compute? && !nic.virtual? && nic.mac.present? }
     validates :mac, :presence => true,
-              :if => Proc.new { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.virtual? }
+              :if => proc { |nic| nic.managed? && nic.host_managed? && !nic.host.compute? && !nic.host.compute_provides?(:mac) && !nic.virtual? && (nic.provision? || nic.subnet.present? || nic.subnet6.present?) }
+    validate :validate_mac_is_unicast,
+      :if => proc { |nic| nic.managed? && !nic.virtual? }
     validates :mac, :mac_address => true, :allow_blank => true
 
-    validates :host, :presence => true, :if => Proc.new { |nic| nic.require_host? }
+    validates :host, :presence => true, :if => proc { |nic| nic.require_host? }
 
     validates :identifier, :uniqueness => { :scope => :host_id },
-      :if => ->(nic) { nic.identifier.present? && nic.host && !nic.identifier_was.present? }
+      :if => ->(nic) { nic.identifier.present? && nic.host && nic.identifier_was.blank? }
 
     validate :exclusive_primary_interface
     validate :exclusive_provision_interface
-    validates :domain, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
-    validate :valid_domain, :if => Proc.new { |nic| nic.host_managed? && nic.primary? }
-    validates :ip, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip4_validation? }
-    validates :ip6, :presence => true, :if => Proc.new { |nic| nic.host_managed? && nic.require_ip6_validation? }
+    validates :domain, :presence => true, :if => proc { |nic| nic.host_managed? && nic.primary? }
+    validate :valid_domain, :if => proc { |nic| nic.host_managed? && nic.primary? }
+    validates :ip, :presence => true, :if => proc { |nic| nic.host_managed? && nic.require_ip4_validation? }
+    validates :ip6, :presence => true, :if => proc { |nic| nic.host_managed? && nic.require_ip6_validation? }
 
     validate :validate_subnet_types
+    validates_with SubnetsConsistencyValidator
+    validate :validate_updating_types
 
     # Validate that subnet's taxonomies are defined for nic's host
-    Taxonomy.enabled_taxonomies.map(&:singularize).map(&:to_sym).each do |taxonomy|
-      validates :subnet, :belongs_to_host_taxonomy => {:taxonomy => taxonomy }
-      validates :subnet6, :belongs_to_host_taxonomy => {:taxonomy => taxonomy }
-    end
+    validates :subnet, :belongs_to_host_taxonomy => { :taxonomy => :location }
+    validates :subnet6, :belongs_to_host_taxonomy => { :taxonomy => :location }
+    validates :subnet, :belongs_to_host_taxonomy => { :taxonomy => :organization }
+    validates :subnet6, :belongs_to_host_taxonomy => { :taxonomy => :organization }
+
+    validate :check_blank_mac_for_virtual_resources, on: :create
 
     scope :bmc, -> { where(:type => "Nic::BMC") }
     scope :bonds, -> { where(:type => "Nic::Bond") }
@@ -59,20 +66,82 @@ module Nic
 
     belongs_to_host :inverse_of => :interfaces, :class_name => "Host::Base"
 
+    scoped_search :on => :mac, :complete_value => true, :only_explicit => true
+    scoped_search :on => :ip, :complete_value => true, :only_explicit => true
+    scoped_search :on => :name, :complete_value => true, :only_explicit => true
+    scoped_search :on => :managed, :complete_value => {:true => true, :false => false}, :only_explicit => true
+    scoped_search :on => :primary, :complete_value => {:true => true, :false => false}, :only_explicit => true
+    scoped_search :on => :domain_id, :complete_value => true, :only_explicit => true
+
     # keep extra attributes needed for sub classes.
     serialize :attrs, Hash
 
     # provider specific attributes
     serialize :compute_attributes, Hash
 
+    apipie :class, 'A class representing Network Interface Controller object' do
+      name 'NIC'
+      sections only: %w[all additional]
+      refs 'Nic::Base', 'Nic::Managed'
+      prop_group :basic_model_props, ApplicationRecord, meta: { friendly_name: 'interface', name_desc: 'FQDN represented by this interface' }
+      property :subnet, 'Subnet::Ipv4', desc: 'Returns associated IPv4 subnet'
+      property :subnet6, 'Subnet::Ipv6', desc: 'Returns associated IPv6 subnet'
+      property :virtual?, one_of: [true, false], desc: 'Returns true if the controller is virtual, false otherwise'
+      property :physical?, one_of: [true, false], desc: 'Returns true if the controller is physical, false otherwise'
+      property :mac, String, desc: 'Returns MAC address of this controller'
+      property :ip, String, desc: 'Returns IPv4 of this controller'
+      property :ip6, String, desc: 'Returns IPv6 of this controller'
+      property :identifier, String, desc: 'Returns identifier of this controller, e.g. eth0'
+      property :attached_to, String, desc: 'Returns identifier of the controller this controller is attached to'
+      property :tag, String, desc: 'Returns VLAN tag, this attribute has precedence over the subnet VLAN ID. Only for virtual interfaces.'
+      property :domain, 'Domain', desc: 'Returns domain associated with this interface'
+      property :mtu, Integer, desc: 'Returns MTU for this controller'
+      property :bond_options, String, desc: 'Returns space separated options, e.g. miimon=100. Only for bond interfaces'
+      property :attached_devices, String, desc: 'Returns comma separated identifiers of attached devices'
+      property :attached_devices_identifiers, Array, desc: 'Returns identifiers of attached devices'
+      property :mode, String, desc: 'Returns bond mode of the interface, e.g. balance-rr'
+      property :primary, one_of: [true, false], desc: 'Returns true if this controller is primary device, false otherwise'
+      property :provision, one_of: [true, false], desc: 'Returns true if this controller is used for provisioning, false otherwise'
+      property :alias?, one_of: [true, false], desc: 'Returns true if this controller is used as an alias, false otherwise'
+      property :inheriting_mac, String, desc: 'Returns inherited MAC address of the controller this controller is alias for'
+      property :children_mac_addresses, Array, desc: 'Returns MAC addresses of attached devices'
+      property :nic_delay, Integer, desc: 'Returns the delay in seconds for network activity during install'
+      property :fqdn, String, desc: 'Returns FQDN for this device'
+      property :shortname, String, desc: 'Returns the controller\'s name without its domain'
+      property :type, String, desc: 'Returns type of this controller, e.g. Nic::Managed'
+      property :vlanid, String, desc: 'Returns VLAN ID of the subnet this device is associated with'
+      property :managed?, one_of: [true, false], desc: 'Returns true if external services such as DNS, DHCP and TFTP are configured for this interface, false otherwise'
+      property :bond?, one_of: [true, false], desc: 'Returns true if the type of the interface is Bond, false otherwise'
+      property :bridge?, one_of: [true, false], desc: 'Returns true if the type of the interface is Bridge, false otherwise'
+      property :bmc?, one_of: [true, false], desc: 'Returns true if the type of the interface is BMC, false otherwise'
+      property :link, one_of: [true, false], desc: 'Returns true if the interface is up, false otherwise'
+    end
     class Jail < ::Safemode::Jail
-      allow :managed?, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
-            :link, :tag, :domain, :vlanid, :bond_options, :attached_devices, :mode,
-            :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac
+      allow :id, :subnet, :subnet6, :virtual?, :physical?, :mac, :ip, :ip6, :identifier, :attached_to,
+        :link, :tag, :domain, :vlanid, :mtu, :bond_options, :attached_devices, :mode,
+        :attached_devices_identifiers, :primary, :provision, :alias?, :inheriting_mac,
+        :children_mac_addresses, :nic_delay, :fqdn, :shortname, :type, :managed?, :bond?, :bridge?, :bmc?
+    end
+
+    # include STI inheritance column in audits
+    def self.default_ignored_attributes
+      super - [inheritance_column]
     end
 
     def physical?
       !virtual?
+    end
+
+    def bond?
+      type == 'Nic::Bond'
+    end
+
+    def bridge?
+      type == 'Nic::Bridge'
+    end
+
+    def bmc?
+      type == 'Nic::BMC'
     end
 
     def type_name
@@ -88,7 +157,7 @@ module Nic
       allowed_types.find { |nic_class| nic_class.humanized_name.downcase == name.to_s.downcase }
     end
 
-    # NIC types have to be registered to to expose them to users
+    # NIC types have to be registered to expose them to users
     def self.register_type(type)
       allowed_types << type
     end
@@ -104,8 +173,24 @@ module Nic
       result
     end
 
+    def hostname
+      if domain.present? && name.present?
+        "#{shortname}.#{domain.name}"
+      else
+        name
+      end
+    end
+
     def shortname
-      domain.nil? ? name : name.to_s.chomp("." + domain.name)
+      if domain
+        name.to_s.chomp("." + domain.name)
+      elsif domain_id && (unscoped_domain = Domain.unscoped.find_by(id: domain_id))
+        # If domain is nil, but domain_id is set, domain could be
+        # in another taxonomy.  Don't fail to create a correct shortname.
+        name.to_s.chomp("." + unscoped_domain.name)
+      else
+        name
+      end
     end
 
     def validated?
@@ -120,63 +205,88 @@ module Nic
 
     def clone
       # do not copy system specific attributes
-      self.deep_clone(:except  => [:name, :mac, :ip, :ip6])
+      deep_clone(:except => [:name, :mac, :ip, :ip6, :host_id])
     end
 
     # if this interface does not have MAC and is attached to other interface,
     # we can fetch mac from this other interface
     def inheriting_mac
-      if self.mac.nil? || self.mac.empty?
-        self.host.interfaces.detect { |i| i.identifier == self.attached_to }.try(:mac)
-      else
-        self.mac
-      end
+      mac.presence || host.interfaces.detect { |i| i.identifier == attached_to }.try(:mac)
+    end
+
+    # if this interface has attached devices (e.g. in a bond),
+    # we can get the mac addresses from the children
+    def children_mac_addresses
+      []
     end
 
     # we don't consider host as managed if we are in non-unattended mode
     # in which case host managed? flag can be true but we should consider
     # everything as unmanaged
     def host_managed?
-      self.host && self.host.managed? && SETTINGS[:unattended]
+      host&.managed? && SETTINGS[:unattended]
     end
 
-    def require_ip_validation?(ip_field, other_ip_field, subnet_object)
-      raise ::Foreman::Exception.new("invalid ip field: %s", ip_field) unless ip_field == :ip || ip_field == :ip6
-      raise ::Foreman::Exception.new("invalid other ip field: %s", other_ip_field) unless other_ip_field == :ip || other_ip_field == :ip6
-
-      # if it's not managed there's nowhere to specify an IP anyway
-      return false unless self.host.managed? && self.managed? && self.provision?
-
-      # if the CR will provide an IP, then don't validate yet
-      return false if host.compute_provides?(ip_field)
-
-      ip_for_dns   = (subnet_object.present? && subnet_object.dns_id.present?) || (domain.present? && domain.dns_id.present? && !self.send(other_ip_field).present?)
-      ip_for_dhcp  = subnet_object.present? && subnet_object.dhcp_id.present?
-      ip_for_token = Setting[:token_duration] == 0 && (host.pxe_build? || (host.image_build? && host.image.try(:user_data?))) && !self.send(other_ip_field).present?
-
-      # Any of these conditions will require an IP, so chain with OR
-      ip_for_dns || ip_for_dhcp || ip_for_token
+    def require_ip4_validation?(from_compute = true)
+      NicIpRequired::Ipv4.new(:nic => self, :from_compute => from_compute).required?
     end
 
-    def require_ip4_validation?
-      require_ip_validation?(:ip, :ip6, subnet)
+    def require_ip6_validation?(from_compute = true)
+      NicIpRequired::Ipv6.new(:nic => self, :from_compute => from_compute).required?
     end
 
-    def require_ip6_validation?
-      require_ip_validation?(:ip6, :ip, subnet6)
+    def required_ip_addresses_set?(from_compute = true)
+      errors.add(:ip, :blank) if ip.blank? && require_ip4_validation?(from_compute)
+      errors.add(:ip6, :blank) if ip6.blank? && require_ip6_validation?(from_compute)
+      !errors.include?(:ip) && !errors.include?(:ip6)
+    end
+
+    def compute_provides_ip?(field)
+      return false unless managed? && host_managed? && primary?
+      subnet_field = (field == :ip6) ? :subnet6 : :subnet
+      host.compute_provides?(field) || host.compute_provides?(:mac) && mac_based_ipam?(subnet_field)
+    end
+
+    def mac_based_ipam?(subnet_field)
+      send(subnet_field).present? && send(subnet_field).ipam == IPAM::MODES[:eui64]
+    end
+
+    # Overwrite setter for ip to force normalization
+    # even when address is set during a callback
+    def ip=(addr)
+      super(Net::Validations.normalize_ip(addr))
+    end
+
+    # Overwrite setter for ip6 to force normalization
+    # even when address is set during a callback
+    def ip6=(addr)
+      super(Net::Validations.normalize_ip6(addr))
+    end
+
+    def matches_subnet?(ip_field, subnet_field)
+      return unless send(subnet_field).present?
+      ip_value = send(ip_field)
+      ip_value.present? && public_send(subnet_field).contains?(ip_value)
+    end
+
+    def to_audit_label
+      return "#{name} (#{identifier})" if name.present? && identifier.present?
+      return "#{mac} (#{identifier})" if mac.present? && identifier.present?
+      [mac, name, identifier, _('Unnamed')].detect(&:present?)
     end
 
     protected
 
     def normalize_mac
       self.mac = Net::Validations.normalize_mac(mac)
+      true
     rescue Net::Validations::Error => e
-      self.errors.add(:mac, e.message)
+      errors.add(:mac, e.message)
     end
 
     def valid_domain
       unless Domain.find_by_id(domain_id)
-        self.errors.add(:domain_id, _("can't find domain with this id"))
+        errors.add(:domain_id, _("can't find domain with this id"))
       end
     end
 
@@ -190,26 +300,26 @@ module Nic
     end
 
     def not_required_interface
-      if host && host.managed? && !host.being_destroyed?
-        if self.primary?
-          self.errors.add :primary, _("can't delete primary interface of managed host")
+      if host&.managed? && !host.being_destroyed?
+        if primary?
+          errors.add :primary, _("can't delete primary interface of managed host")
         end
-        if self.provision?
-          self.errors.add :provision, _("can't delete provision interface of managed host")
+        if provision?
+          errors.add :provision, _("can't delete provision interface of managed host")
         end
       end
-      !(self.errors[:primary].present? || self.errors[:provision].present?)
+      throw :abort if errors[:primary].present? || errors[:provision].present?
     end
 
     def exclusive_primary_interface
-      if host && self.primary?
+      if host && primary?
         primaries = host.interfaces.select { |i| i.primary? && i != self }
         errors.add :primary, _("host already has primary interface") unless primaries.empty?
       end
     end
 
     def exclusive_provision_interface
-      if host && self.provision?
+      if host && provision?
         provisions = host.interfaces.select { |i| i.provision? && i != self }
         errors.add :provision, _("host already has provision interface") unless provisions.empty?
       end
@@ -221,21 +331,40 @@ module Nic
     end
 
     def validate_subnet_types
-      errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if self.subnet.present? && self.subnet.type != 'Subnet::Ipv4'
-      errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if self.subnet6.present? && self.subnet6.type != 'Subnet::Ipv6'
+      errors.add(:subnet, _("must be of type Subnet::Ipv4.")) if subnet.present? && subnet.type != 'Subnet::Ipv4'
+      errors.add(:subnet6, _("must be of type Subnet::Ipv6.")) if subnet6.present? && subnet6.type != 'Subnet::Ipv6'
     end
 
     def mac_uniqueness
       interface_attribute_uniqueness(:mac, Nic::Base.physical.is_managed)
     end
 
+    def validate_mac_is_unicast
+      errors.add(:mac, _('must be a unicast MAC address')) if Net::Validations.multicast_mac?(mac) || Net::Validations.broadcast_mac?(mac)
+    end
+
+    def validate_updating_types
+      sti_type = type || 'Nic::Base'
+      errors.add(:type, _("can't be changed once the interface is saved")) if persisted? && (self.class.name != sti_type)
+    end
+
+    def mac_addresses_for_provisioning
+      [mac, children_mac_addresses].flatten.compact.uniq
+    end
+
     private
 
     def interface_attribute_uniqueness(attr, base = Nic::Base.where(nil))
-      in_memory_candidates = self.host.present? ? self.host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
-      db_candidates = base.where(attr => self.public_send(attr))
-      db_candidates = db_candidates.select { |c| c.id != self.id && in_memory_candidates.map(&:id).include?(c.id) }
+      in_memory_candidates = host.present? ? host.interfaces.select { |i| i.persisted? && !i.marked_for_destruction? } : [self]
+      db_candidates = base.where(attr => public_send(attr))
+      db_candidates = db_candidates.select { |c| c.id != id && in_memory_candidates.map(&:id).include?(c.id) }
       errors.add(attr, :taken) if db_candidates.present?
+    end
+
+    def check_blank_mac_for_virtual_resources
+      if virtual? && host.try(:compute_provides?, :mac) && host.uuid.empty? && mac.present?
+        errors.add(:mac, _("can't be set for this interface because it's provided by the compute resource"))
+      end
     end
   end
 end

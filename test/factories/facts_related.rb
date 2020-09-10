@@ -1,16 +1,16 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :fact_name do
-    sequence(:name) {|n| "fact#{n}" }
+    sequence(:name) { |n| "fact#{n}" }
   end
 
   factory :fact_value do
     fact_name
-    sequence(:value) {|n| "value#{n}" }
+    sequence(:value) { |n| "value#{n}" }
     host
   end
 
   factory :fact_name_other, :class => FactName do
-    type 'FactNameOther'
-    sequence(:name) {|n| "fact#{n}" }
+    type { 'FactNameOther' }
+    sequence(:name) { |n| "fact#{n}" }
   end
 end

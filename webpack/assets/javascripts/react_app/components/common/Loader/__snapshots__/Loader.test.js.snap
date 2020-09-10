@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loader renders correct content based on status default case 1`] = `
+<Loader
+  spinnerSize="lg"
+  status=""
+>
+  <div
+    className="loader-root"
+  >
+    <MessageBox
+      icontype="error-circle-o"
+      msg="Invalid Status"
+    >
+      <div
+        className="message-box-root"
+      >
+        <div
+          className="pficon pficon-error-circle-o message-box-content message-box-icon"
+        />
+        <div
+          className="message-box-content message-box-message"
+        >
+          Invalid Status
+        </div>
+      </div>
+    </MessageBox>
+  </div>
+</Loader>
+`;
+
+exports[`Loader renders correct content based on status failure 1`] = `
+<div
+  className="loader-root"
+>
+  <div
+    className="failure"
+    key="1"
+  >
+    Failure
+  </div>
+</div>
+`;
+
+exports[`Loader renders correct content based on status pending 1`] = `
+<div
+  className="loader-root"
+>
+  <Spinner
+    className=""
+    inline={false}
+    inverse={false}
+    loading={true}
+    size="lg"
+  />
+</div>
+`;
+
+exports[`Loader renders correct content based on status pending-different-spinner 1`] = `
+<div
+  className="loader-root"
+>
+  <Spinner
+    className=""
+    inline={false}
+    inverse={false}
+    loading={true}
+    size="xs"
+  />
+</div>
+`;
+
+exports[`Loader renders correct content based on status success 1`] = `
+<div
+  className="loader-root"
+>
+  <div
+    className="success"
+    key="0"
+  >
+    Success
+  </div>
+</div>
+`;

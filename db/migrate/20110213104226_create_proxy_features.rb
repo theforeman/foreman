@@ -1,11 +1,11 @@
-class CreateProxyFeatures < ActiveRecord::Migration
-  class Feature < ActiveRecord::Base; end
+class CreateProxyFeatures < ActiveRecord::Migration[4.2]
+  class Feature < ApplicationRecord; end
 
   def up
     # Create the tables
     create_table :features do |t|
       t.string :name, :limit => 16
-      t.timestamps
+      t.timestamps null: true
     end
 
     create_table :features_smart_proxies, :id => false do |t|

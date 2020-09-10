@@ -21,4 +21,12 @@ module Foreman::Controller::Parameters::Ptable
   def ptable_params
     self.class.ptable_params_filter.filter_params(params, parameter_filter_context)
   end
+
+  def organization_params
+    self.class.organization_params_filter(::Ptable).filter_params(params, parameter_filter_context)
+  end
+
+  def location_params
+    self.class.location_params_filter(::Ptable).filter_params(params, parameter_filter_context)
+  end
 end

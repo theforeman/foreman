@@ -9,7 +9,9 @@ module Foreman::Controller::HostDetails
   end
 
   def os_selected
-    assign_parameter "operatingsystem", "common/os_selection/"
+    assign_parameter "operatingsystem", "common/os_selection/" do |item|
+      item.suggest_default_pxe_loader
+    end
   end
 
   def medium_selected
@@ -19,7 +21,7 @@ module Foreman::Controller::HostDetails
 
   def domain_selected
     respond_to do |format|
-      format.html {assign_parameter "domain", "common/"}
+      format.html { assign_parameter "domain", "common/" }
       format.json do
         taxonomy_scope
         Taxonomy.as_taxonomy @organization, @location do
@@ -45,10 +47,15 @@ module Foreman::Controller::HostDetails
   def assign_parameter(name, root = "")
     taxonomy_scope
     Taxonomy.as_taxonomy @organization, @location do
-      instance_variable_set("@#{name}",name.classify.constantize.where(:id => params["#{name}_id"]).first)
-      item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(params[controller_name.singularize])
+      item = instance_variable_get("@#{controller_name.singularize}") || controller_name.classify.constantize.new(item_params)
+      instance_variable_set("@#{name}", item.send(name.to_sym))
+      yield item if block_given?
       render :partial => root + name, :locals => { :item => item }
     end
+  end
+
+  def item_params
+    send("#{item_name}_params".to_sym)
   end
 
   def item_name

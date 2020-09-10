@@ -2,12 +2,16 @@
 <%= text_f f, :user %>
 <%= password_f f, :password, :unset => unset_password? %>
 <% datacenters = list_datacenters f.object%>
-<%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'),
-                 :help_inline => link_to_function(datacenters.empty? ? _("Load Datacenters") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{datacenters.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+<%= selectable_f(f, :datacenter, datacenters, {}, {:label => _('Datacenter'), :help_inline_permanent => load_datacenters_button_f(f, !datacenters.empty?) })%>
 <%= text_f f, :pubkey_hash, :disabled => true, :label => _("Fingerprint"), :size => "col-md-8" %>
+<%= select_f f, :display_type, f.object.class.supported_display_types,
+  :first, :last, {}, {
+  :label => _('Display Type'),
+  :help_inline => _('VNC consoles are unsupported on VMware ESXi 6.5 and later.')
+} %>
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
-                  :label => _("Console passwords"),
-                  :help_inline => _("Set a randomly generated password on the display connection") %>
+                  :label => _("VNC Console Passwords"),
+                  :help_inline => _("Set a randomly generated password on the VNC display connection") %>
+<%= checkbox_f f, :caching_enabled, :label => _("Enable Caching"),
+                  :help_inline => _("Cache slow calls to VMWare to speed up page rendering") %>
 <%= f.hidden_field(:pubkey_hash) if f.object.uuid.present? %>

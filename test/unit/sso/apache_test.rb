@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'test_helper'
 
 class ApacheTest < ActiveSupport::TestCase
@@ -19,6 +18,11 @@ class ApacheTest < ActiveSupport::TestCase
     apache = get_apache_method(false)
     Setting["authorize_login_delegation"] = true
     assert apache.available?
+
+    SSO::Base.any_instance.stubs(:http_token).returns('JWT')
+    assert !apache.available?
+    # reset the return value for http_token method to nil.
+    SSO::Base.any_instance.stubs(:http_token).returns(nil)
 
     Setting["authorize_login_delegation"] = false
     assert !apache.available?
@@ -54,7 +58,7 @@ class ApacheTest < ActiveSupport::TestCase
     apache.controller.request.env['REMOTE_USER_LASTNAME']  = 'Bar'
     User.expects(:find_or_create_external_user).
         with({:login => 'ares', :mail => 'foobar@example.com', :firstname => 'Foo', :lastname => 'Bar'}, 'apache').
-        returns(true)
+        returns(User.new)
     assert apache.authenticated?
   end
 
@@ -64,12 +68,12 @@ class ApacheTest < ActiveSupport::TestCase
 
     apache.controller.request.env[SSO::Apache::CAS_USERNAME] = 'ares'
     apache.controller.request.env['REMOTE_USER_GROUP_N']     = 2
-    existing = FactoryGirl.create :usergroup
+    existing = FactoryBot.build :usergroup
     apache.controller.request.env['REMOTE_USER_GROUP_1']     = existing.name
     apache.controller.request.env['REMOTE_USER_GROUP_2']     = 'does-not-exist-for-sure'
     User.expects(:find_or_create_external_user).
         with({:login => 'ares', :groups => [existing.name, 'does-not-exist-for-sure']}, 'apache').
-        returns(true)
+        returns(User.new)
     assert apache.authenticated?
   end
 

@@ -2,13 +2,13 @@ require 'test_helper'
 
 class AssociationAuthorizerTest < ActiveSupport::TestCase
   def setup
-    @hostgroup = FactoryGirl.create(:hostgroup)
-    @host = FactoryGirl.create(:host, :managed, :hostgroup => @hostgroup)
-    @user = FactoryGirl.create(:user)
+    @hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os)
+    @host = FactoryBot.create(:host, :managed, :hostgroup => @hostgroup)
+    @user = FactoryBot.create(:user)
   end
 
   test "user with permissions can view host" do
-    role = FactoryGirl.create(:role, :name => 'can_view_host')
+    role = FactoryBot.build(:role, :name => 'can_view_host')
     role.add_permissions!(['view_hosts'])
     @user.update_attribute :roles, [role]
 
@@ -42,7 +42,7 @@ class AssociationAuthorizerTest < ActiveSupport::TestCase
   end
 
   test "authorized_associations should use overridden permission name if class has one" do
-    FactoryGirl.create(:permission, :name => 'view_buildings')
+    FactoryBot.create(:permission, :name => 'view_buildings')
 
     class House
       def self.permission_name

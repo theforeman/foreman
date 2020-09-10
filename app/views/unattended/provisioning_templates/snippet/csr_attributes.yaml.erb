@@ -1,0 +1,9 @@
+<%#
+kind: snippet
+name: csr_attributes.yaml
+model: ProvisioningTemplate
+snippet: true
+%>
+---
+custom_attributes:
+  1.2.840.113549.1.9.7: "<%= @host.puppetca_token.value %>"

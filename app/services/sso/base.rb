@@ -4,6 +4,8 @@ module SSO
     attr_accessor :user, :has_rendered
     delegate :request, :to => :controller
 
+    OIDC_ACCESS_TOKEN = 'HTTP_OIDC_ACCESS_TOKEN'
+
     def initialize(controller)
       @controller = controller
     end
@@ -41,7 +43,11 @@ module SSO
     end
 
     def current_user
-      User.except_hidden.find_by_login(self.user)
+      User.unscoped.except_hidden.find_by_login(user)
+    end
+
+    def http_token
+      request.env[OIDC_ACCESS_TOKEN]
     end
   end
 end

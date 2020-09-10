@@ -1,20 +1,32 @@
 module Foreman::Model
   class EC2 < ComputeResource
-    has_one :key_pair, :foreign_key => :compute_resource_id, :dependent => :destroy
+    GOV_CLOUD_REGION = 'us-gov-west-1'
 
+    include KeyPairComputeResource
     delegate :flavors, :subnets, :to => :client
-    delegate :security_groups, :flavors, :zones, :to => :self, :prefix => 'available'
     validates :user, :password, :presence => true
-
-    after_create :setup_key_pair
-    after_destroy :destroy_key_pair
 
     alias_attribute :access_key, :user
     alias_attribute :region, :url
 
+    alias_method :available_flavors, :flavors
+
     def to_label
       "#{name} (#{region}-#{provider_friendly_name})"
     end
+
+    def gov_cloud=(enable_gov_cloud)
+      if enable_gov_cloud == '1'
+        self.url ||= GOV_CLOUD_REGION
+      elsif gov_cloud?
+        self.url = nil
+      end
+    end
+
+    def gov_cloud
+      ['us-gov-west-1', 'us-gov-east-1'].include? url
+    end
+    alias_method :gov_cloud?, :gov_cloud
 
     def provided_attributes
       super.merge({ :ip => :vm_ip_address })
@@ -34,23 +46,24 @@ module Foreman::Model
 
     def find_vm_by_uuid(uuid)
       super
-    rescue Fog::Compute::AWS::Error
+    rescue Fog::AWS::Compute::Error
       raise(ActiveRecord::RecordNotFound)
     end
 
     def create_vm(args = { })
-      args = vm_instance_defaults.merge(args.to_hash.symbolize_keys).deep_symbolize_keys
+      args = vm_instance_defaults.merge(args.to_h.symbolize_keys).deep_symbolize_keys
       if (name = args[:name])
-        args.merge!(:tags => {:Name => name})
+        args[:tags] = {:Name => name}
       end
       if (image_id = args[:image_id])
-        image = images.find_by_uuid(image_id)
+        image = images.find_by_uuid(image_id.to_s)
         iam_hash = image.iam_role.present? ? {:iam_instance_profile_name => image.iam_role} : {}
         args.merge!(iam_hash)
       end
       args[:groups].reject!(&:empty?) if args.has_key?(:groups)
       args[:security_group_ids].reject!(&:empty?) if args.has_key?(:security_group_ids)
       args[:associate_public_ip] = subnet_implies_is_vpc?(args) && args[:managed_ip] == 'public'
+      args[:private_ip_address] = args[:interfaces_attributes][:"0"][:ip]
       super(args)
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled EC2 error", e)
@@ -62,6 +75,7 @@ module Foreman::Model
       groups.reject! { |sg| sg.vpc_id != vpc } if vpc
       groups
     end
+    alias_method :available_security_groups, :security_groups
 
     def regions
       return [] if user.blank? || password.blank?
@@ -71,22 +85,25 @@ module Foreman::Model
     def zones
       @zones ||= client.describe_availability_zones.body["availabilityZoneInfo"].map { |r| r["zoneName"] if r["regionName"] == region }.compact
     end
+    alias_method :available_zones, :zones
 
     def test_connection(options = {})
       super
       errors[:user].empty? && errors[:password].empty? && regions
-    rescue Fog::Compute::AWS::Error => e
+    rescue Fog::AWS::Compute::Error => e
+      errors[:base] << e.message
+    rescue Excon::Error::Socket => e
       errors[:base] << e.message
     end
 
     def console(uuid)
       vm = find_vm_by_uuid(uuid)
-      vm.console_output.body.merge(:type=>'log', :name=>vm.name)
+      vm.console_output.body.merge(:type => 'log', :name => vm.name)
     end
 
     def destroy_vm(uuid)
       vm = find_vm_by_uuid(uuid)
-      vm.destroy if vm
+      vm&.destroy
       true
     end
 
@@ -107,36 +124,37 @@ module Foreman::Model
       client.images.get(image).present?
     end
 
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['flavor_id', 'availability_zone', 'subnet_id', 'image_id', 'managed_ip'])
+
+      normalized['flavor_name'] =  flavors.detect { |f| f.id == normalized['flavor_id'] }.try(:name)
+      normalized['subnet_name'] =  subnets.detect { |f| f.subnet_id == normalized['subnet_id'] }.try(:cidr_block)
+      normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+
+      group_ids = vm_attrs['security_group_ids'] || []
+      group_ids = group_ids.select { |gid| gid != '' }
+      normalized['security_groups'] = group_ids.map.with_index do |gid, idx|
+        [idx.to_s, {
+          'id' => gid,
+          'name' => security_groups.detect { |g| g.group_id == gid }.try(:name),
+        }]
+      end.to_h
+
+      normalized
+    rescue Fog::AWS::Compute::Error => e
+      Foreman::Logging.exception("Unhandled EC2 error", e)
+      {}
+    end
+
     private
 
-    def subnet_implies_is_vpc? args
+    def subnet_implies_is_vpc?(args)
       args[:subnet_id].present?
     end
 
     def client
-      @client ||= ::Fog::Compute.new(:provider => "AWS", :aws_access_key_id => user, :aws_secret_access_key => password, :region => region)
-    end
-
-    # this method creates a new key pair for each new ec2 compute resource
-    # it should create the key and upload it to AWS
-    def setup_key_pair
-      key = client.key_pairs.create :name => "foreman-#{id}#{Foreman.uuid}"
-      KeyPair.create! :name => key.name, :compute_resource_id => self.id, :secret => key.private_key
-    rescue => e
-      Foreman::Logging.exception("Failed to generate key pair", e)
-      destroy_key_pair
-      raise
-    end
-
-    def destroy_key_pair
-      return unless key_pair
-      logger.info "removing AWS key #{key_pair.name}"
-      key = client.key_pairs.get(key_pair.name)
-      key.destroy if key
-      key_pair.destroy
-      true
-    rescue => e
-      logger.warn "failed to delete key pair from AWS, you might need to cleanup manually : #{e}"
+      self.url = region if gov_cloud
+      @client ||= Fog::AWS::Compute.new(:aws_access_key_id => user, :aws_secret_access_key => password, :region => region, :connection_options => connection_options)
     end
 
     def vm_instance_defaults

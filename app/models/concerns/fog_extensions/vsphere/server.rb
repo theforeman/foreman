@@ -14,9 +14,11 @@ module FogExtensions
         power_state
       end
 
-      def interfaces_attributes=(attrs); end
+      def interfaces_attributes=(attrs)
+      end
 
-      def volumes_attributes=(attrs); end
+      def volumes_attributes=(attrs)
+      end
 
       def poweroff
         stop(:force => true)
@@ -37,12 +39,16 @@ module FogExtensions
 
       def select_nic(fog_nics, nic)
         nic_attrs = nic.compute_attributes
-        selected_nic = fog_nics.detect { |fn| fn.network == nic_attrs['network'] } # grab any nic on the same network
-        unless selected_nic
-          vm_network = service.get_network(nic_attrs['network'], datacenter)
-          if vm_network && vm_network.key?(:id)
-            selected_nic = fog_nics.detect { |fn| fn.network == vm_network[:id] } # try and match on portgroup
-          end
+        all_networks = service.list_networks(datacenter: datacenter)
+        vm_network = all_networks.detect { |network| nic_attrs['network'] && [network[:name], network[:id]].compact.include?(nic_attrs['network']) }
+        vm_network ||= all_networks.detect { |network| network[:_ref] == nic_attrs['network'] }
+        unless vm_network
+          Rails.logger.info "Could not find Vsphere network for #{nic_attrs.inspect}"
+          return
+        end
+        selected_nic = fog_nics.detect { |fn| fn.network == vm_network[:name] } # grab any nic on the same network
+        if selected_nic.nil? && vm_network[:id].present?
+          selected_nic = fog_nics.detect { |fn| fn.network == vm_network[:id] } # try to match on portgroup
         end
         selected_nic
       end

@@ -1,8 +1,9 @@
-require "proxy_api"
-require 'orchestration/queue'
+require_dependency "proxy_api"
+require_dependency 'orchestration/queue'
 
 module Orchestration
   extend ActiveSupport::Concern
+  include Orchestration::ProgressReport
 
   included do
     attr_reader :old
@@ -20,6 +21,14 @@ module Orchestration
 
     def rebuild_methods=(methods)
       @rebuild_methods = methods || {}
+    end
+
+    def rebuild_methods_for(only = nil)
+      if only.present?
+        (@rebuild_methods || {}).select { |k, v| only.include?(v) }
+      else
+        @rebuild_methods || {}
+      end
     end
 
     def register_rebuild(method, pretty_name)
@@ -79,11 +88,11 @@ module Orchestration
   end
 
   def queue
-    @queue ||= Orchestration::Queue.new
+    @queue ||= Orchestration::Queue.new(self.class.name + ' Main')
   end
 
   def post_queue
-    @post_queue ||= Orchestration::Queue.new
+    @post_queue ||= Orchestration::Queue.new(self.class.name + ' Post')
   end
 
   def record_conflicts
@@ -99,11 +108,22 @@ module Orchestration
   end
 
   def skip_orchestration?
+    return true if skip_orchestration_for_testing?
+    !!@skip_orchestration
+  end
+
+  def skip_orchestration_for_testing?
     # The orchestration should be disabled in tests in order to avoid side effects.
     # If a test needs to enable orchestration, it should be done explicitly by stubbing
     # this method.
-    return true if Rails.env.test?
-    !!@skip_orchestration
+    Rails.env.test?
+  end
+
+  def without_orchestration(&block)
+    skip_orchestration! if SETTINGS[:unattended]
+    yield
+  ensure
+    enable_orchestration! if SETTINGS[:unattended]
   end
 
   private
@@ -113,6 +133,7 @@ module Orchestration
   # if any of them fail, it rollbacks all completed tasks
   # in order not to keep any left overs in our proxies.
   def process(queue_name)
+    processed = 0
     return true if skip_orchestration?
 
     # queue is empty - nothing to do.
@@ -125,10 +146,11 @@ module Orchestration
       break unless q.failed.empty?
 
       task.status = "running"
-
       update_cache
+      logger.debug("Processing task '#{task.name}' from '#{q.name}'")
       begin
         task.status = execute({:action => task.action}) ? "completed" : "failed"
+        processed += 1
       rescue Net::Conflict => e
         task.status = "conflict"
         add_conflict(e)
@@ -147,22 +169,36 @@ module Orchestration
     fail_queue(q)
 
     rollback
+  ensure
+    unless q.nil?
+      if processed > 0
+        logger.info("Processed #{processed} tasks from queue '#{q.name}', completed #{q.completed.count}/#{q.all.count}") unless q.empty?
+        # rubocop:disable Rails/FindEach
+        q.all.each do |task|
+          msg = "Task '#{task.name}' *#{task.status}*"
+          if task.status?(:completed) || task.status?(:pending)
+            logger.debug msg
+          else
+            logger.error msg
+          end
+        end
+        # rubocop:enable Rails/FindEach
+      end
+    end
   end
 
   def fail_queue(q)
-    q.pending.each{ |task| task.status = "canceled" }
+    q.pending.each { |task| task.status = "canceled" }
 
     # handle errors
     # we try to undo all completed operations and trigger a DB rollback
     (q.completed + q.running).sort.reverse_each do |task|
-      begin
-        task.status = "rollbacked"
-        update_cache
-        execute({:action => task.action, :rollback => true})
-      rescue => e
-        # if the operation failed, we can just report upon it
-        failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }, e
-      end
+      task.status = "rollbacked"
+      update_cache
+      execute({:action => task.action, :rollback => true})
+    rescue => e
+      # if the operation failed, we can just report upon it
+      failure _("Failed to perform rollback on %{task} - %{e}") % { :task => task.name, :e => e }, e
     end
   end
 
@@ -178,17 +214,17 @@ module Orchestration
       met = met.to_s
       case met
       when /set/
-        met.gsub!("set","del")
+        met.gsub!("set", "del")
       when /del/
-        met.gsub!("del","set")
+        met.gsub!("del", "set")
       else
         raise "Dont know how to rollback #{met}"
       end
       met = met.to_sym
     end
-    if obj.respond_to?(met,true)
+    if obj.respond_to?(met, true)
       param.nil? || (return obj.send(met, param))
-      return obj.send(met)
+      obj.send(met)
     else
       failure _("invalid method %s") % met
       raise ::Foreman::Exception.new(N_("invalid method %s"), met)
@@ -201,5 +237,9 @@ module Orchestration
 
   def update_cache
     Rails.cache.write(progress_report_id, (queue.all + post_queue.all).to_json, :expires_in => 5.minutes)
+  end
+
+  def attr_equivalent?(old, new)
+    (old.blank? && new.blank?) || (old == new)
   end
 end

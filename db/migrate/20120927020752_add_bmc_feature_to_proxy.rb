@@ -1,4 +1,4 @@
-class AddBmcFeatureToProxy < ActiveRecord::Migration
+class AddBmcFeatureToProxy < ActiveRecord::Migration[4.2]
   def up
   end
 

@@ -1,3 +1,3 @@
 object @subnet
 
-attributes :id, :name, :network_address
+attributes :id, :name, :description, :network_address

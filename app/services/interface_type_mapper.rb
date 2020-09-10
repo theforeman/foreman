@@ -1,9 +1,9 @@
 class InterfaceTypeMapper
-  class UnknownTypeExeption < Foreman::Exception; end
+  class UnknownTypeException < Foreman::Exception; end
 
   DEFAULT_TYPE = Nic::Managed
-  ALLOWED_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.humanized_name.downcase }
-  LEGACY_TYPE_NAMES = Nic::Base.allowed_types.map{ |t| t.name }
+  ALLOWED_TYPE_NAMES = Nic::Base.allowed_types.map { |t| t.humanized_name.downcase }
+  LEGACY_TYPE_NAMES = Nic::Base.allowed_types.map { |t| t.name }
 
   def self.map(nic_type)
     return DEFAULT_TYPE.name if nic_type.nil?
@@ -15,7 +15,7 @@ class InterfaceTypeMapper
       # enable sending class names directly to keep backward compatibility
       nic_type
     else
-      raise UnknownTypeExeption.new(N_("Unknown interface type, must be one of [%s]") % ALLOWED_TYPE_NAMES.join(', '))
+      raise UnknownTypeException.new(N_("Unknown interface type, must be one of [%s]") % ALLOWED_TYPE_NAMES.join(', '))
     end
   end
 end

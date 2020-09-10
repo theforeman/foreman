@@ -16,19 +16,11 @@ module Foreman
       Foreman::Plugin.all.each do |plugin|
         plugin.parameter_filters(resource_class).each do |filter|
           if filter.last.is_a?(Proc)
-            filter_block = filter.pop
+            *filter, filter_block = filter
             permit(*filter, &filter_block)
           else
             permit(*filter)
           end
-        end
-      end
-
-      # Permit all attributes using deprecated attr_accessible, both as scalar or array
-      if resource_class.legacy_accessible_attributes.present?
-        permit do |ctx|
-          ctx.permit resource_class.legacy_accessible_attributes
-          ctx.permit Hash[resource_class.legacy_accessible_attributes.map { |a| [a,[]] }]
         end
       end
     end
@@ -47,9 +39,15 @@ module Foreman
     def filter_params(params, context, top_level_hash = nil)
       top_level_hash ||= context.controller_name.singularize
       if top_level_hash == :none
-        params.permit(*filter(context))
+        params.permit(*filter(context)).to_h
       else
-        params.permit(top_level_hash => filter(context)).fetch(top_level_hash, {})
+        if context.api? # allow both wrapped and unwrapped
+          allow = [*filter(context), top_level_hash => filter(context)]
+        else
+          allow = {top_level_hash => filter(context)}
+        end
+        permitted = params.permit(allow)
+        permitted.to_h.fetch(top_level_hash, {})
       end
     end
 

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NameCell should render active link 1`] = `
+<Link
+  to="/models/1-KVM/edit"
+/>
+`;
+
+exports[`NameCell should render disabled link 1`] = `
+<a
+  className="disabled"
+  disabled="disabled"
+  href="#"
+  onClick={[Function]}
+/>
+`;

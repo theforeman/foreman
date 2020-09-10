@@ -4,7 +4,10 @@ module Foreman::Model
 
     ALLOWED_DISPLAY_TYPES = %w(vnc spice)
 
-    validates :url, :format => { :with => URI.regexp }
+    # 'custom' is not implemented. This needs extra UI.
+    CPU_MODES = %w(default host-model host-passthrough)
+
+    validates :url, :format => { :with => URI::DEFAULT_PARSER.make_regexp }, :presence => true
     validates :display_type, :inclusion => { :in => ALLOWED_DISPLAY_TYPES }
 
     def self.available?
@@ -13,11 +16,11 @@ module Foreman::Model
 
     # Some getters/setters for the attrs Hash
     def display_type
-      self.attrs[:display].present? ? self.attrs[:display] : 'vnc'
+      attrs[:display].presence || 'vnc'
     end
 
     def display_type=(display)
-      self.attrs[:display] = display.downcase
+      attrs[:display] = display.downcase
     end
 
     def provided_attributes
@@ -29,7 +32,7 @@ module Foreman::Model
     end
 
     def capabilities
-      [:build, :image]
+      [:build, :image, :new_volume]
     end
 
     def editable_network_interfaces?
@@ -58,12 +61,13 @@ module Foreman::Model
       hypervisor.cpus
     end
 
-    # libvirt reports in KB
+    # returns available memory for VM in bytes
     def max_memory
-      hypervisor.memory * Foreman::SIZE[:kilo]
+      # libvirt reports in KB
+      hypervisor.memory.kilobyte
     rescue => e
       logger.debug "unable to figure out free memory, guessing instead due to:#{e}"
-      16*Foreman::SIZE[:giga]
+      16.gigabytes
     end
 
     def test_connection(options = {})
@@ -74,7 +78,7 @@ module Foreman::Model
       errors[:base] << e.message
     end
 
-    def new_nic(attr = { })
+    def new_nic(attr = {})
       client.nics.new attr
     end
 
@@ -83,8 +87,15 @@ module Foreman::Model
       new_nic(attr)
     end
 
-    def new_volume(attr = { })
+    def new_volume(attr = {})
+      return unless new_volume_errors.empty?
       client.volumes.new(attr.merge(:allocation => '0G'))
+    end
+
+    def new_volume_errors
+      errors = []
+      errors.push _('no storage pool available on hypervisor') if storage_pools.empty?
+      errors
     end
 
     def storage_pools
@@ -120,8 +131,8 @@ module Foreman::Model
 
     def new_vm(attr = { })
       test_connection
-      return unless errors.empty?
-      opts = vm_instance_defaults.merge(attr.to_hash).deep_symbolize_keys
+      libvirt_connection_error unless errors.empty?
+      opts = vm_instance_defaults.merge(attr.to_h).deep_symbolize_keys
 
       # convert rails nested_attributes into a plain hash
       [:nics, :volumes].each do |collection|
@@ -146,7 +157,7 @@ module Foreman::Model
     rescue Fog::Errors::Error => e
       Foreman::Logging.exception("Unhandled Libvirt error", e)
       begin
-        destroy_vm vm.id if vm && vm.id
+        destroy_vm vm.id if vm&.id
       rescue Fog::Errors::Error => destroy_e
         Foreman::Logging.exception("Libvirt destroy failed for #{vm.id}", destroy_e)
       end
@@ -160,7 +171,7 @@ module Foreman::Model
       # Listen address cannot be updated while the guest is running
       # When we update the display password, we pass the existing listen address
       vm.update_display(:password => password, :listen => vm.display[:listen], :type => vm.display[:type])
-      WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type =>  vm.display[:type], :name=> vm.name)
+      WsProxy.start(:host => hypervisor.hostname, :host_port => vm.display[:port], :password => password).merge(:type => vm.display[:type], :name => vm.name)
     rescue ::Libvirt::Error => e
       if e.message =~ /cannot change listen address/
         logger.warn e
@@ -175,7 +186,7 @@ module Foreman::Model
     end
 
     def associated_host(vm)
-      associate_by("mac", vm.mac)
+      associate_by("mac", vm.interfaces.map(&:mac))
     end
 
     def vm_compute_attributes_for(uuid)
@@ -184,12 +195,48 @@ module Foreman::Model
         vm_attrs[:memory] = nil
         logger.debug("Compute attributes for VM '#{uuid}' diddn't contain :memory_size")
       else
-        vm_attrs[:memory] = vm_attrs[:memory_size]*1024 # value is returned in megabytes, we need bytes
+        vm_attrs[:memory] = vm_attrs[:memory_size] * 1024 # value is returned in megabytes, we need bytes
       end
       vm_attrs
     end
 
+    def normalize_vm_attrs(vm_attrs)
+      normalized = slice_vm_attributes(vm_attrs, ['cpus', 'memory', 'image_id'])
+
+      normalized['image_name'] = images.find_by(:uuid => vm_attrs['image_id']).try(:name)
+
+      volume_attrs = vm_attrs['volumes_attributes'] || {}
+      normalized['volumes_attributes'] = volume_attrs.each_with_object({}) do |(key, vol), volumes|
+        volumes[key] = {
+          'capacity' => memory_gb_to_bytes(vol['capacity']).to_s,
+          'allocation' => memory_gb_to_bytes(vol['allocation']).to_s,
+          'format_type' => vol['format_type'],
+          'pool' => vol['pool_name'],
+        }
+      end
+
+      interface_attrs = vm_attrs['nics_attributes'] || {}
+      normalized['interfaces_attributes'] = interface_attrs.each_with_object({}) do |(key, nic), interfaces|
+        interfaces[key] = {
+          'type' => nic['type'],
+          'model' => nic['model'],
+        }
+        if nic['type'] == 'network'
+          interfaces[key]['network'] = nic['network']
+        else
+          interfaces[key]['bridge'] = nic['bridge']
+        end
+      end
+
+      normalized
+    end
+
     protected
+
+    def libvirt_connection_error
+      msg = N_('Unable to connect to libvirt due to: %s. Please make sure your libvirt compute resource is reachable and that you have appropriate access permissions.')
+      raise Foreman::Exception.new(msg, errors.full_messages.join(', '))
+    end
 
     def client
       # WARNING potential connection leak
@@ -207,9 +254,9 @@ module Foreman::Model
 
     def vm_instance_defaults
       super.merge(
-        :memory     => 768*Foreman::SIZE[:mega],
+        :memory     => 2048.megabytes,
         :nics       => [new_nic],
-        :volumes    => [new_volume],
+        :volumes    => [new_volume].compact,
         :display    => { :type     => display_type,
                          :listen   => Setting[:libvirt_default_console_address],
                          :password => random_password,
@@ -218,7 +265,7 @@ module Foreman::Model
     end
 
     def create_volumes(args)
-      args[:volumes].each {|vol| validate_volume_capacity(vol)}
+      args[:volumes].each { |vol| validate_volume_capacity(vol) }
 
       # if using image creation, the first volume needs a backing disk set
       if args[:backing_id].present?
@@ -229,9 +276,11 @@ module Foreman::Model
       begin
         vols = []
         (volumes = args[:volumes]).each do |vol|
-          vol.name       = "#{args[:prefix]}-disk#{volumes.index(vol)+1}"
+          vol.name = "#{args[:prefix]}-disk#{volumes.index(vol) + 1}"
           vol.capacity = "#{vol.capacity}G" unless vol.capacity.to_s.end_with?('G')
-          vol.allocation = "#{vol.allocation}G" unless vol.allocation.to_s.end_with?('G')
+          if vol.allocation.match(/^\d+/) && !vol.allocation.to_s.end_with?('G')
+            vol.allocation = "#{vol.allocation}G"
+          end
           vol.save
           vols << vol
         end

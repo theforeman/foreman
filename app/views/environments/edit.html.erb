@@ -1,3 +1,8 @@
-<% title _("Edit Environment") %>
-
+<% title _("Edit %s") % @environment.to_s %>
+<%= breadcrumbs(:switchable => true,
+                :resource_url => environments_path,
+                :items => [
+                  { :caption => _('Puppet Environments'), :url => environments_path },
+                  { :caption => @page_header }
+                ])%>
 <%= render :partial => 'form' %>

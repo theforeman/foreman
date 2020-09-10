@@ -1,4 +1,4 @@
-require 'foreman/util'
+require_dependency 'foreman/util'
 
 namespace :security do
   desc 'Generate new encryption key'
@@ -29,32 +29,32 @@ namespace :db do
       encryptable_resource.encryptable_fields.each do |field|
         str = encryptable_resource.read_attribute(field.to_sym)
         encryptable_resource.update_column(field.to_sym,
-                                       encryptable_resource.send("#{action}_field", str))
+          encryptable_resource.send("#{action}_field", str))
       end
     end
   end
 
-  desc <<-END_DESC
-Encrypt all passwords (compute resources, LDAP authentication sources) using
-the encryption key in config/initializers/encryption_key.rb.
+  desc <<~END_DESC
+    Encrypt all passwords (compute resources, LDAP authentication sources) using
+    the encryption key in config/initializers/encryption_key.rb.
 
-Plugins might enhance this task.
+    Plugins might enhance this task.
 
-This task is idempotent and it will just skip already encrypted passwords.
-END_DESC
+    This task is idempotent and it will just skip already encrypted passwords.
+  END_DESC
   task :encrypt_all do
     Rake::Task['db:auth_sources_ldap:encrypt'].invoke
     Rake::Task['db:compute_resources:encrypt'].invoke
   end
 
-  desc <<-END_DESC
-Decrypt all passwords (compute resources, LDAP authentication sources) using the encryption key
-in config/initializers/encryption_key.rb.
+  desc <<~END_DESC
+    Decrypt all passwords (compute resources, LDAP authentication sources) using the encryption key
+    in config/initializers/encryption_key.rb.
 
-Plugins might enhance this task.
+    Plugins might enhance this task.
 
-This task is idempotent and it will just skip already decrypted passwords.
-END_DESC
+    This task is idempotent and it will just skip already decrypted passwords.
+  END_DESC
   task :decrypt_all do
     Rake::Task['db:auth_sources_ldap:decrypt'].invoke
     Rake::Task['db:compute_resources:decrypt'].invoke

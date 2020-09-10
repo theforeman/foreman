@@ -1,0 +1,33 @@
+<%#
+kind: PXEGrub2
+name: PXEGrub2 global default
+model: ProvisioningTemplate
+%>
+<%# Used to boot unknown hosts, do not associate or change the name. %>
+
+default=<%= global_setting("default_pxe_item_global", "local") %>
+timeout=20
+echo Default PXE global template entry is set to '<%= global_setting("default_pxe_item_global", "local") %>'
+
+<%= snippet "pxegrub2_mac" %>
+<%= snippet "pxegrub2_chainload" %>
+<%= snippet "pxegrub2_discovery" %>
+
+<% unless @profiles.nil? -%>
+<% for profile in @profiles
+  url = default_template_url(profile[:template], profile[:hostgroup])
+  case profile[:pxe_type]
+  when 'kickstart'
+    append = "ks=#{url} ksdevice=bootif network kssendmac ks.sendmac inst.ks.sendmac"
+  when 'preseed'
+    locale = profile[:hostgroup].params['lang'] || 'en_US'
+    append = "interface=auto url=#{url} ramdisk_size=10800 root=/dev/rd/0 rw auto hostname=unassigned-hostname locale=#{locale} console-setup/ask_detect=false console-setup/layout=USA console-setup/variant=USA"
+  else
+    raise("PXE type #{profile[:pxe_type]} not supported by template #{template_name}")
+  end %>
+menuentry '<%= "#{profile[:hostgroup]} - #{profile[:template]}" %>' {
+  linuxefi <%= profile[:kernel] %> <%= append %>
+  initrdefi <%= profile[:initrd] %>
+}
+<% end %>
+<% end -%>

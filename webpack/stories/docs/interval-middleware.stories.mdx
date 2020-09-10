@@ -1,0 +1,117 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|Interval Middleware"
+  parameters={{
+    storyWeight: 110,
+  }}
+/>
+
+# Interval Middleware
+
+This middleware will run an action for every given interval miliseconds,
+and will manage all running intervals in the Redux store so we could clear the interval later.
+
+## How to start
+
+To start an interval, you should add `interval` and a unique `key` into you action, for example:
+
+```js
+// MyComponent/MyComponentActions.js
+...
+dispatch({
+  type: API_OPERATIONS.GET,
+  key: MY_SPECIAL_KEY, // use a special key which will be used later to clear the interval.
+  interval: 3000 // or 'true' which will use the default interval milisec.
+  url,
+  payload: data,
+});
+```
+
+it could be also a simple action such as:
+
+```js
+const sendMail = () => ({
+  type: SEND_MAIL,
+  key: MY_SPECIAL_MAIL_KEY,
+  interval: 10000000,
+  payload: data,
+});
+```
+
+## How to stop
+
+There are several ways to stop the interval:
+
+We will need to use the `stopInterval` Action from IntervalMiddlware.
+`stopInterval` is defined in `webpack/assets/javascripts/react_app/redux/middlewares/IntervalMiddleware`
+or `foremanReact/redux/middlewares/IntervalMiddleware` for plugins
+
+```js
+// MyComponent/MyComponentActions.js
+....
+import { stopInterval } from '../../redux/middlewares/IntervalMiddleware';
+...
+
+// use the same key you used to start the interval.
+export const stopAPIInterval = () => stopInterval(key);
+```
+
+Then it will be available in your component:
+
+```js
+// MyComponent/MyComponent.js
+componentWillUnmount() {
+  // use the same key you used to start the interval.
+  this.props.stopAPIInterval(key)
+}
+```
+
+Another option is to add the action to redux `connect` in the index file through `mapDispatchToProps`:
+
+```js
+// MyComponent/index.js
+import { stopInterval } from "../../redux/middlewares/IntervalMiddleware";
+// import { stopInterval } from "foremanReact/redux/middlewares/IntervalMiddleware"; in plugins
+...
+const mapDispatchToProps = dispatch => bindActionCreators( { ...actions, stopInterval }, dispatch)
+```
+
+Then it will be available in your component:
+
+```js
+// MyComponent/MyComponent.js
+cleanUpPolling = () => {
+  const { stopInterval } = this.props;
+  // use the same key you used to start the interval.
+  stopInterval(key);
+};
+```
+
+You could also call it with `useDispatch` hook:
+
+```js
+// MyComponent/MyComponent.js
+import { useDispatch } from 'react-redux'
+import { stopInterval } from "../../redux/middlewares/IntervalMiddleware";
+// import { stopInterval } from "foremanReact/redux/middlewares/IntervalMiddleware"; in plugins
+...
+cleanUpPolling = () => {
+  const dispatch = useDispatch()
+  // use the same key you used to start the interval.
+  dispatch(stopInterval(key))
+}
+```
+
+Components that use Hooks such as `useEffect`, should call for cleanup same as in `componentWillUnmount`:
+
+```js
+// MyComponent/MyComponent.js
+...
+useEffect(() => {
+  ... // start polling
+ return cleanUpPolling;
+}, []);
+```
+
+You can change the `DEFAULT_INTERVAL` from the console by setting DEFAULT_INTERVAL=5000.

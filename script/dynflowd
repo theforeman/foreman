@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+class ArgvParser
+  attr_reader :options, :command
+
+  def initialize(argv, file)
+    @options = { rails_root: Dir.pwd }
+
+    parser = OptionParser.new do |opts|
+      opts.banner = banner(file)
+
+      opts.on('-h', '--help', 'Show this message') do
+        puts opts
+        exit 1
+      end
+      opts.on('-f', '--foreman-root=PATH', "Path to Foreman Rails root path. By default '#{@options[:rails_root]}'") do |path|
+        @options[:rails_root] = path
+      end
+      opts.on('-c', '--executors-count=COUNT', 'Number of parallel executors to spawn. Overrides EXECUTORS_COUNT environment varaible.') do |count|
+        @options[:executors_count] = count.to_i
+      end
+      opts.on('-m', '--memory-limit=SIZE', 'Limits the amount of memory an executor can consume. Overrides EXECUTOR_MEMORY_LIMIT environment varaible. You can use kb, mb, gb') do |size|
+        @options[:memory_limit] = size
+      end
+      opts.on('--executor-memory-init-delay=SECONDS', 'Start memory polling after SECONDS. Overrides EXECUTOR_MEMORY_MONITOR_DELAY environment varaible.') do |seconds|
+        @options[:memory_init_delay] = seconds.to_i
+      end
+      opts.on('--executor-memory-polling-interval=SECONDS', 'Check for memory useage every SECONDS sec. Overrides EXECUTOR_MEMORY_MONITOR_INTERVAL environment varaible.') do |seconds|
+        @options[:memory_polling_interval] = seconds.to_i
+      end
+    end
+
+    args = parser.parse!(argv)
+    @command = args.first || 'run'
+  end
+
+  def banner(file)
+    banner = <<~BANNER
+      Run Dynflow executor for Foreman tasks.
+
+      Usage: #{File.basename(file)} [options] ACTION"
+
+      ACTION can be one of:
+
+      * start   - start the executor on background. It creates these files
+                in tmp/pid directory:
+
+                  * dynflow_executor_monitor.pid - pid of monitor ensuring
+                                                   the executor keeps running
+                  * dynflow_executor.pid         - pid of the executor itself
+                  * dynflow_executor.output      - stdout of the executor
+      * stop    - stops the running executor
+      * restart - restarts the running executor
+      * run     - run the executor in foreground
+
+    BANNER
+    banner
+  end
+end
+
+# run the script if it's executed explicitly
+if $PROGRAM_NAME == __FILE__
+  parser = ArgvParser.new(ARGV, $PROGRAM_NAME)
+
+  Dir.chdir(parser.options[:rails_root]) do
+    app_file = File.expand_path('./config/application', parser.options[:rails_root])
+    require app_file
+
+    Dynflow::Rails::Daemon.new.run_background(parser.command, parser.options)
+  end
+end

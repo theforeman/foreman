@@ -7,13 +7,14 @@ module HasManyCommon
 
   # calls method :name or whatever is defined in attr_name :title
   def name_method
-    send(self.class.attribute_name)
+    send(self.class.attribute_name).to_s
   end
 
   module ClassMethods
     # default attribute used by *_names and *_name is :name
-    # if :name doesn't exist, :id is used, so it doesn't error out if attr_name :field is not defined
-    # most likely model will have attr_name :field to overwrite attribute_name
+    # if :name doesn't exist, :id as a string is used, so it doesn't error out
+    # if attr_name :field is not defined most likely model will have attr_name
+    # :field to overwrite attribute_name
     def attribute_name
       if has_name?
         :name
@@ -23,7 +24,7 @@ module HasManyCommon
     end
 
     def has_name?(field = "name")
-      self.column_names.include?(field)
+      column_names.include?(field)
     end
 
     # class method in model to overwrite default attribute_name
@@ -60,12 +61,12 @@ module HasManyCommon
         ids = Array.wrap(name_values).map do |name_value|
           assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).id
         end
-        self.send("#{assoc}_ids=", ids)
+        send("#{assoc}_ids=", ids)
       end
 
       # GETTER _names method
       define_method "#{assoc}_names" do
-        assoc_klass(association).where(:id => send("#{assoc}_ids")).map { |res| res.name_method }
+        send(association).map(&:name_method)
       end
     end
 
@@ -82,14 +83,17 @@ module HasManyCommon
 
       # SETTER _name= method
       define_method "#{assoc_name}=" do |name_value|
-        assoc_id = assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).id
-        self.send("#{assoc}_id=", assoc_id)
+        assoc_id = assoc_klass(association).send("find_by_#{assoc_klass(association).attribute_name}", name_value).try(:id)
+        unless assoc_id
+          raise Foreman::AssociationNotFound
+                  .new(_("Could not find %{association} with name: %{name}") % { name: name_value, association: association })
+        end
+        send("#{assoc}_id=", assoc_id)
       end
 
       # GETTER _name method
       define_method assoc_name do
-        assoc_id = self.send("#{assoc}_id")
-        assoc_klass(association).find_by_id(assoc_id).try(:name_method)
+        send(association).try(:name_method)
       end
     end
   end

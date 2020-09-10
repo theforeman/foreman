@@ -1,7 +1,7 @@
 // Colors
-$primary_color: #005C7E;
+$primary_color: #005c7e;
 $border_color: #0187b6;
-$brand_color: #005C7E;
+$brand_color: #005c7e;
 
 $primary_gradient_start: #0072a0;
 $primary_gradient_end: #0072a0;
@@ -21,7 +21,12 @@ $navbar-default-link-color: white;
 $navbar-default-link-active-color: white;
 $navbar-default-link-hover-color: white;
 
-$dropdown-link-color: #333333;
+$dropdown-link-color: #333;
 $dropdown-link-active-color: white;
 $dropdown-link-hover-color: white;
-$dropdown-link-hover-bg: #0088cc;
+$dropdown-link-hover-bg: #08c;
+
+$login-bg-color: $primary_color;
+$login-container-bg-color-rgba: rgba(0, 0, 0, 0.3);
+
+$topbar-default-color: #01749d;

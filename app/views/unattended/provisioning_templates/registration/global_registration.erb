@@ -1,0 +1,56 @@
+<%#
+kind: registration
+name: Global Registration
+model: ProvisioningTemplate
+-%>
+#!/bin/sh
+<%
+    headers = ["-H 'Content-Type: application/json'", "-H 'Accept: application/json'", "-H 'Authorization: Bearer #{@auth_token}'"]
+-%>
+
+# Rendered with following template parameters:
+<%= "# User: [#{@user.login}]" -%>
+<%= ", Organization: [#{@organization.name}]" if @organization -%>
+<%= ", Location: [#{@location.name}]" if @location -%>
+<%= ", Hostgroup: [#{@hostgroup.name}]" if @hostgroup -%>
+
+
+if ! [ $(id -u) = 0 ]; then
+    echo "Please run as root"
+    exit 1
+fi
+
+if [ -f /etc/os-release ] ; then
+  . /etc/os-release
+fi
+
+create_host_curl() {
+  curl --request POST <%= foreman_server_url %>/api/hosts \
+       <%= headers.join(' ') %> \
+       -d '{ "host": { "name": "'$(hostname --fqdn)'", "build": "false", "managed": "false"
+       <%= ", \"organization_id\": \"#{@organization.id}\"" if @organization -%>
+       <%= ", \"location_id\": \"#{@location.id}\"" if @location -%>
+       <%= ", \"hostgroup_id\": \"#{@hostgroup.id}\"" if @hostgroup -%>
+       }}'
+}
+
+echo "#"
+echo "# Running registration"
+echo "#"
+
+<% if plugin_present?('katello') -%>
+if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
+    CONSUMER_RPM=$(mktemp --suffix .rpm)
+
+    curl --insecure --output $CONSUMER_RPM <%= subscription_manager_configuration_url %>
+    yum localinstall $CONSUMER_RPM -y
+    yum install subscription-manager -y
+    subscription-manager register --org=<%= @organization.label %> --activationkey="sample-key"
+
+    rm -f $CONSUMER_RPM
+else
+    create_host_curl
+fi
+<% else -%>
+create_host_curl
+<% end -%>

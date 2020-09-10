@@ -3,7 +3,7 @@
     <tr>
       <th><%= _("Level") %></th>
       <th><%= _("Resource") %></th>
-      <th><%= _("message") %></th>
+      <th><%= _("Message") %></th>
     </tr>
   </thead>
   <tbody>
@@ -11,7 +11,7 @@
       <tr>
         <td><span <%= report_tag log.level %>><%= h log.level %></span></td>
         <td class="break-me"><%= h log.source %></td>
-        <td class="break-me"><%= h log.message %></td>
+        <td class="break-me"><%= config_report_content(log) %></td>
       </tr>
     <% end %>
     <tr id='ntsh' <%= "style='display: none;'".html_safe if logs.size > 0%>><td colspan="3">

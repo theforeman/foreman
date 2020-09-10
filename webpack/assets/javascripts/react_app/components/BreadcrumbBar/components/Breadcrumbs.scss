@@ -1,0 +1,14 @@
+.breadcrumb-item {
+  align-items: center;
+}
+
+.breadcrumb-item.active {
+  display: inline-flex;
+  max-width: 50%;
+}
+
+.breadcrumb-item-with-icon {
+  img {
+    margin-right: 8px;
+  }
+}

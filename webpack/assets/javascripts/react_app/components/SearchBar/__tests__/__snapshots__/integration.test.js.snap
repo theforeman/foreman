@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar integration test should flow: bookmarks button click 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "key": "BOOKMARKS",
+          "payload": Object {
+            "controller": "models",
+          },
+          "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
+        },
+        "type": "API_GET",
+      },
+    ],
+  ],
+  "state": Object {
+    "autocomplete": Object {
+      "searchBar": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "isErrorVisible": false,
+        "results": undefined,
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
+      },
+    },
+    "bookmarks": Object {
+      "models": Object {
+        "errors": null,
+        "results": Array [],
+        "status": "PENDING",
+      },
+    },
+    "foremanModals": Object {
+      "bookmarksModal": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;
+
+exports[`SearchBar integration test should flow: in bookmarks dropdown: click on "bookmark this page" 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "disabled": false,
+        "error": null,
+        "id": "searchBar",
+        "isErrorVisible": false,
+        "searchQuery": "",
+        "status": "RESOLVED",
+        "trigger": "COMPONENT_DID_MOUNT",
+        "url": "model/auto_complete_search",
+      },
+      "type": "AUTO_COMPLETE_INIT",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "id": "bookmarksModal",
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+      "type": "ADD_MODAL",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "controller": "models",
+        "error": null,
+        "id": "searchBar",
+        "searchQuery": "result",
+        "status": "PENDING",
+        "trigger": "INPUT_CHANGE",
+        "url": "model/auto_complete_search",
+      },
+      "type": "AUTO_COMPLETE_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "BOOKMARKS",
+      "payload": Object {
+        "controller": "models",
+        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
+      },
+      "type": "BOOKMARKS_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "key": "BOOKMARKS",
+        "payload": Object {
+          "controller": "models",
+        },
+        "url": "/api/bookmarks?search=controller%3Dmodels&per_page=100",
+      },
+      "type": "API_GET",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "id": "bookmarksModal",
+      },
+      "type": "SET_MODAL_OPEN",
+    },
+  ],
+]
+`;

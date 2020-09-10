@@ -4,26 +4,26 @@ require "csv"
 # '/usr/share/foreman/db/schema.rb' to find out table and column names.
 
 # TRANSLATORS: do not translate
-desc <<-END_DESC
-Database exporting
+desc <<~END_DESC
+  Database exporting
 
-This task converts data from the internal database to CSV format. Several export templates
-are provided defined in
+  This task converts data from the internal database to CSV format. Several export templates
+  are provided defined in
 
-    /usr/share/foreman/lib/tasks/exports.rake
+      /usr/share/foreman/lib/tasks/exports.rake
 
-It is possible to define own templates via simple DSL and ActiveRecord API in:
+  It is possible to define own templates via simple DSL and ActiveRecord API in:
 
-    /etc/foreman/exporters.rb.conf
+      /etc/foreman/exporters.rb.conf
 
-Available conditions:
-  * output => output directory
-  * templates => particular templates to be exported (all by default)
-  * header => generate column names (CSV only)
+  Available conditions:
+    * output => output directory
+    * templates => particular templates to be exported (all by default)
+    * header => generate column names (CSV only)
 
-  Example:
-    rake exports:csv ouput=/tmp/export header=1
-    rake exports:csv templates=managed_hosts_provisioning_summary,other_template ouput=/tmp/export
+    Example:
+      rake exports:csv ouput=/tmp/export header=1
+      rake exports:csv templates=managed_hosts_provisioning_summary,other_template ouput=/tmp/export
 END_DESC
 
 $exporters = {}
@@ -45,10 +45,10 @@ end
 exporter_template(:enabled, :managed_hosts_bootfiles) do |header, data|
   header << ["Host", "Boot files"]
   Host::Managed.all.find_each do |host|
-    bootfiles = host.operatingsystem.send(:boot_files_uri, host.medium, host.architecture, host) rescue []
+    bootfiles = host.operatingsystem.send(:boot_files_uri, host.medium_provider) rescue []
     data << [
       host.name,
-      bootfiles.join(' + ')
+      bootfiles.join(' + '),
     ]
   end
 end
@@ -64,8 +64,8 @@ exporter_template(:disabled, :discovered_hosts_summary) do |header, data|
       record.disk,
       record.subnet.name,
       facts["discovery_bootif"],
-      facts.collect{|k,v| v if k =~ /macaddress/}.compact.join(','),
-      facts.collect{|k,v| v if k =~ /ipaddress/}.compact.join(','),
+      facts.collect { |k, v| v if k =~ /macaddress/ }.compact.join(','),
+      facts.collect { |k, v| v if k =~ /ipaddress/ }.compact.join(','),
       record.created_at,
       record.last_report,
     ]

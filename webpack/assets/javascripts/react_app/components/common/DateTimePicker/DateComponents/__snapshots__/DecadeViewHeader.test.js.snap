@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DecadeViewHeader is working properly 1`] = `
+<thead>
+  <tr>
+    <th
+      class="prev"
+    >
+      <span
+        class="glyphicon glyphicon-chevron-left"
+      />
+    </th>
+    <th
+      class="picker-switch"
+      colspan="5"
+      data-action="pickerSwitch"
+    >
+      2010-2021
+    </th>
+    <th
+      class="next"
+    >
+      <span
+        class="glyphicon glyphicon-chevron-right"
+      />
+    </th>
+  </tr>
+</thead>
+`;

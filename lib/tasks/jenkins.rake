@@ -1,10 +1,10 @@
 begin
   require "ci/reporter/rake/minitest"
+  require 'robottelo/reporter/rake/minitest'
 
   namespace :jenkins do
-    task :unit => ['jenkins:setup:minitest', 'rake:test:units', 'rake:test:lib', 'rake:test:functionals']
+    task :unit => ['jenkins:setup:minitest', 'rake:test:units', 'rake:test:functionals', 'rake:test:graphql']
     task :integration => ['webpack:compile', 'jenkins:setup:minitest', 'rake:test:integration']
-    task :lib => ["jenkins:setup:minitest", 'rake:test:lib']
     task :functionals => ["jenkins:setup:minitest", 'rake:test:functionals']
     task :units => ["jenkins:setup:minitest", 'rake:test:units']
 
@@ -13,7 +13,9 @@ begin
         ENV["CI_REPORTS"] = 'jenkins/reports/unit/'
         gem 'ci_reporter'
       end
-      task :minitest  => [:pre_ci, 'webpack:try_compile', 'ci:setup:minitest']
+      minitest_plugins = [:pre_ci, 'ci:setup:minitest']
+      minitest_plugins << 'robottelo:setup:minitest' if ENV['GENERATE_ROBOTTELO_REPORT'] == 'true'
+      task :minitest => minitest_plugins
     end
 
     task :rubocop do
@@ -21,7 +23,7 @@ begin
         --require rubocop/formatter/checkstyle_formatter \
         --format RuboCop::Formatter::CheckstyleFormatter \
         --no-color --out rubocop.xml")
-      exit($?.exitstatus)
+      exit($CHILD_STATUS.exitstatus)
     end
   end
 rescue LoadError

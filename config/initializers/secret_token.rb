@@ -1,7 +1,7 @@
-require 'foreman/util'
+require_dependency 'foreman/util'
 include Foreman::Util
 
-unless Foreman::Application.config.secret_token
+unless Foreman::Application.config.secret_key_base
   tmp = Rails.root.join("tmp")
   Dir.mkdir(tmp) unless File.exist? tmp
 
@@ -11,5 +11,5 @@ unless Foreman::Application.config.secret_token
     token = secure_token
     File.open(token_store, "w", 0600) { |f| f.write(token) }
   end
-  Foreman::Application.config.secret_token = token
+  Foreman::Application.config.secret_key_base = token
 end

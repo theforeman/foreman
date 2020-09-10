@@ -1,4 +1,4 @@
-class MoveDescriptionFieldsToText < ActiveRecord::Migration
+class MoveDescriptionFieldsToText < ActiveRecord::Migration[4.2]
   def change
     change_column :compute_resources, :description, :text
     change_column :operatingsystems, :description, :text

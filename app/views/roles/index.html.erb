@@ -1,25 +1,34 @@
 <% title _("Roles") %>
-<% title_actions new_link(_("New role")),
+
+<% title_actions new_link(_("Create Role")),
                  documentation_button('4.1.2RolesandPermissions') %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
-      <th class="col-md-8"><%= sort :name, :as => s_("Role|Name") %></th>
+      <th class="col-md-2"><%= sort :name, :as => s_("Role|Name") %></th>
+      <th class="col-md-8"><%= sort :description, :as => s_("Role|Description") %></th>
+      <th class="col-md-1"><%= sort :locked, :as => s_("Role|Locked"), :default => "DESC" %></th>
       <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
     <% for role in @roles %>
       <tr>
-        <td class="display-two-pane ellipsis">
-          <%= content_tag(role.builtin? ? 'em' : 'span', role.builtin? ? role.name : link_to_if_authorized(role.name, hash_for_edit_role_path(:id => role))) %>
+        <td class="ellipsis white-space-normal">
+          <%= role_link(role) %>
         </td>
+        <td class="ellipsis">
+          <%= role.description %>
+        </td>
+        <td align='center'><%= locked_icon role.locked?, _("This role is locked for editing.") %>
         <td class='col-md-1'>
           <% links = [display_link_if_authorized(_('Filters'),    hash_for_filters_path(:role_id => role)),
-                      display_link_if_authorized(_('Add filter'), hash_for_new_filter_path(:role_id => role)),
+                      display_link_unless_locked(_('Add filter'), hash_for_new_filter_path(:role_id => role), role),
                       display_link_if_authorized(_('Clone'), hash_for_clone_role_path(:id => role))] %>
-          <% links.push(display_delete_if_authorized(hash_for_role_path(:id => role), :data => { :confirm => (_("Delete %s?") % role.name) } )) unless role.builtin? %>
+
+          <% links.push(display_delete_if_authorized(hash_for_role_path(:id => role),
+                                                     :data => { :confirm => (delete_role_confirmation(role)) } )) unless role.builtin? || role.locked? %>
           <%= action_buttons(*links) %>
         </td>
       </tr>

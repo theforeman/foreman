@@ -4,22 +4,20 @@ module Foreman
       case value
 
       when String
-        return true if value =~ (/\A(true|t|yes|y|on|1)\z/i)
-        return false if value.blank? || value =~ (/\A(false|f|no|n|off|0)\z/i)
-        return nil
+        return true if value =~ /\A(true|t|yes|y|on|1)\z/i
+        return false if value.blank? || value =~ /\A(false|f|no|n|off|0)\z/i
+        nil
 
-      when Fixnum
+      when Integer
         return true if value == 1
         return false if value == 0
 
       when NilClass
-        return false
+        false
 
       when TrueClass, FalseClass
-        return value
+        value
 
-      else
-        return nil
       end
     end
   end

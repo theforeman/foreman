@@ -1,14 +1,15 @@
 <%= text_f f, :url, :size => "col-md-8", :help_block => _("e.g. qemu://host.example.com/system"), :help_inline => documentation_button('5.2.5LibvirtNotes') %>
 
-<%= select_f f,   :display_type, %w[VNC SPICE],:upcase, :to_s, { }, :label => _("Display type") %>
+<%= select_f f,   :display_type, %w[VNC SPICE], :downcase, :to_s, { }, :label => _("Display Type") %>
 <%= checkbox_f f, :set_console_password, :checked => f.object.set_console_password?,
-                  :label => _("Console passwords"),
+                  :label => _("Console Passwords"),
                   :help_inline => _("Set a randomly generated password on the display connection") %>
 
 <% hypervisor = f.object.hypervisor.uuid rescue nil%>
 <% if hypervisor %>
   <%= f.hidden_field :uuid, :value => hypervisor %>
 <% end %>
-<%= link_to_function _("Test Connection"), "testConnection(this)", :class => "btn + #{hypervisor.nil? ? "btn-default" : "btn-success"}", :'data-url' => test_connection_compute_resources_path %>
 
-<%= hidden_spinner('', :id => 'test_connection_indicator') %>
+<div class="col-md-offset-2">
+  <%= test_connection_button_f(f, !hypervisor.nil?) %>
+</div>

@@ -1,4 +1,4 @@
-class AddLookupKeysOverrideAndRequired < ActiveRecord::Migration
+class AddLookupKeysOverrideAndRequired < ActiveRecord::Migration[4.2]
   def up
     add_column :lookup_keys, :is_param, :boolean, :default => false
     add_column :lookup_keys, :key_type, :string,  :default => nil, :limit => 255

@@ -1,10 +1,10 @@
-class RemoveFailedReportSetting < ActiveRecord::Migration
-  class FakeSetting < ActiveRecord::Base
+class RemoveFailedReportSetting < ActiveRecord::Migration[4.2]
+  class FakeSetting < ApplicationRecord
     self.table_name = 'settings'
   end
 
   def up
-    FakeSetting.delete_all(:name => 'failed_report_email_notification')
+    FakeSetting.where(:name => 'failed_report_email_notification').delete_all
   end
 
   def down

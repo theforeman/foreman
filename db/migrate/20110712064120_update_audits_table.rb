@@ -1,4 +1,4 @@
-class UpdateAuditsTable < ActiveRecord::Migration
+class UpdateAuditsTable < ActiveRecord::Migration[4.2]
   def up
     unless Audit.column_names.include?("comment")
       add_column :audits, :comment, :string, :limit => 255

@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete rendering renders LoginPage 1`] = `
+<div
+  id="login-page"
+>
+  <LoginPage
+    card={
+      Object {
+        "form": Object {
+          "additionalFields": <input
+            name="authenticity_token"
+            type="hidden"
+            value="some token"
+          />,
+          "attributes": Object {
+            "action": "/users/login",
+            "method": "post",
+          },
+          "passwordField": Object {
+            "attributes": Object {
+              "name": "login[password]",
+            },
+            "id": "login_password",
+            "placeholder": "Password",
+            "type": "password",
+          },
+          "submitButtonAttributes": Object {
+            "id": "login_submit_btn",
+            "name": "commit",
+          },
+          "submitError": Array [
+            "some-error",
+          ],
+          "submitText": "Log In",
+          "topErrorOnly": true,
+          "usernameField": Object {
+            "attributes": Object {
+              "autoFocus": true,
+              "name": "login[login]",
+            },
+            "id": "login_login",
+            "placeholder": "Username",
+            "type": "text",
+          },
+          "validate": true,
+        },
+        "title": "Log in to your account",
+      }
+    }
+    container={
+      Object {
+        "alert": Array [],
+        "backgroundUrl": "/some-background",
+      }
+    }
+    footerLinks={Array []}
+    header={
+      Object {
+        "caption": <LoginPageCaption
+          caption="some caption"
+          version="some version"
+        />,
+        "logoSrc": "/some-logo",
+      }
+    }
+  />
+</div>
+`;

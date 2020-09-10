@@ -1,0 +1,24 @@
+<% unless history.empty? %>
+  <% history.each do |audit| %>
+    <div class='row'>
+      <div class='col-md-6'>
+        <strong><%= audit_user(audit) %></strong>
+        <p>
+          <% unless audit.comment.blank? %>
+            <%= audit.comment %>
+          <% else %>
+            <em><%= _('No comment provided') %></em>
+          <% end %>
+        </p>
+      </div>
+      <div class='col-md-2 ra'><h6><%= audit_time audit %></h6></div>
+      <div class='col-md-8 audit-content ra'>
+        <%= link_to_function icon_text("restart", _("Revert"), :kind => 'pficon'), "tfm.editor.revertTemplate(this)", :class => 'btn btn-default', :data => {:url => revision_provisioning_templates_url, :version => audit.id } %>
+        <%= link_to icon_text("eye-open", _("Show Diff")), audits_path(:search => "id=#{audit.id}"), :rel => 'external', :class => 'btn btn-default' %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <%= alert(:class => 'alert-info', :header => _('No history found'),
+            :text => _('Save something and try again')) %>
+<% end %>

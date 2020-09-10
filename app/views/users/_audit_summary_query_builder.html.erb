@@ -1,3 +1,4 @@
 <div id="audit_summary_query_builder" class="input-group">
-  <%= text_f(f, :mail_query, {:label => '', :help_inline => _('Build a query for %{mailer}') % {:mailer => mailer.humanize.downcase }, :id => 'search',:class => "autocomplete-input", :data => {:url => auto_complete_search_audits_path} }) %>
+  <%= text_f(f, :mail_query, {:no_label => true, :placeholder => _('Mail query'),
+                              :id => 'search',:class => "autocomplete-input", :data => {:url => audits_auto_complete_search_path} }) %>
 </div>

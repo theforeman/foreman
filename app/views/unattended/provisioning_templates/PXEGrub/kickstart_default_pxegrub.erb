@@ -1,0 +1,20 @@
+<%#
+kind: PXEGrub
+name: Kickstart default PXEGrub
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- RedHat
+-%>
+# This file was deployed via '<%= template_name %>' template
+
+default=0
+timeout=<%= host_param('loader_timeout') || 10 %>
+
+title <%= template_name %>
+  root (nd)
+  kernel (nd)/../<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  initrd (nd)/../<%= @initrd %>
+
+<%= snippet_if_exists(template_name + " custom menu") %>

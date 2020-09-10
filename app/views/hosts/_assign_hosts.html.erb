@@ -1,4 +1,3 @@
-<%= javascript "host_checkbox" %>
 <% assign_selected_hosts_taxonomy_path = (@taxonomy_type == "Location") ? assign_selected_hosts_location_path : assign_selected_hosts_organization_path %>
 <%= form_for taxonomy, :url => assign_selected_hosts_taxonomy_path, :method => 'PUT' do |f| %>
   <%= base_errors_for taxonomy %>
@@ -8,7 +7,7 @@
       <table class="<%= table_css_classes %>" >
         <thead>
           <tr>
-            <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "toggleCheck()", :title => _("Select All") } %></th>
+            <th class="ca"><%= check_box_tag "check_all", "", false, { :onclick => "tfm.hosts.table.toggleCheck()", :title => _("Select All") } %></th>
             <th class=''><%= sort :name %></th>
             <th class="hidden-xs"><%= sort :os, :as => _("Operating system") %></th>
             <th class="hidden-xs"><%= sort :environment %></th>
@@ -20,13 +19,13 @@
           <% hosts.each do |host| %>
             <tr>
               <td class="ca">
-                <%= f.check_box(:host_ids, {:label => :none, :help_inline => "", :multiple => true, :onclick => 'hostChecked(this)', :id => "host_ids_#{host.id}", :class => 'host_select_boxes', }, host.id) %>
+                <%= f.check_box(:host_ids, {:label => :none, :help_inline => "", :multiple => true, :onclick => 'tfm.hosts.table.hostChecked(this)', :id => "host_ids_#{host.id}", :class => 'host_select_boxes', }, host.id) %>
               </td>
               <td><%= name_column(host) %>
               </td>
-              <td class="hidden-xs"><%= (icon(host.operatingsystem, :size => "18x18") + trunc_with_tooltip(" #{host.operatingsystem.to_label}",14)).html_safe if host.operatingsystem %></td>
+              <td class="hidden-xs"><%= (icon(host.operatingsystem, :size => "16x16") + trunc_with_tooltip(" #{host.operatingsystem.to_label}",14)).html_safe if host.operatingsystem %></td>
               <td class="hidden-xs"><%= trunc_with_tooltip(host.try(:environment), 14) %></td>
-              <td class="hidden-tablet hidden-xs"><%= model_name host %></td>
+              <td class="hidden-tablet hidden-xs"><%= host.compute_resource_or_model %></td>
               <td class="hidden-tablet hidden-xs"><%= label_with_link host.hostgroup, 26 %></td>
             </tr>
           <% end %>

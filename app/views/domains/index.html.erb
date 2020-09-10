@@ -1,8 +1,8 @@
 <% title _("Domains") %>
 
-<% title_actions new_link(_("New Domain")), help_path %>
+<% title_actions new_link(_("Create Domain")), help_button %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>" id="domains_list">
   <thead>
     <tr>
       <th class="col-md-8"><%= sort :name, :as => s_("Domain|Fullname") %></th>
@@ -13,8 +13,8 @@
   <tbody>
     <% @domains.each do |domain| %>
     <tr>
-      <td class="display-two-pane ellipsis"><%= link_to_if_authorized (domain.fullname.empty? ? domain.name : domain.fullname), hash_for_edit_domain_path(:id => domain).merge(:auth_object => domain, :authorizer => authorizer) %></td>
-      <td><%= link_to domain.hosts_count, hosts_path(:search => "domain = #{domain}") %>
+      <td class="ellipsis"><%= link_to_if_authorized (domain.fullname.empty? ? domain.name : domain.fullname), hash_for_edit_domain_path(:id => domain).merge(:auth_object => domain, :authorizer => authorizer) %></td>
+      <td><%= link_to hosts_count[domain], hosts_path(:search => "domain = #{domain}") %>
       <td class="col-md-1"><%= action_buttons(display_delete_if_authorized hash_for_domain_path(:id => domain).merge(:auth_object => domain, :authorizer => authorizer), :data => { :confirm => _("Delete %s?") % domain.name }) %></td>
       </tr>
     <% end %>

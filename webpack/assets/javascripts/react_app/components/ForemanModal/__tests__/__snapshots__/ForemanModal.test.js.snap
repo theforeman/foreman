@@ -1,0 +1,340 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal rendering renders default header child when title prop is present 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "id": "defaultHeaderChild",
+      "isOpen": true,
+      "isSubmitting": false,
+      "onClose": [MockFunction],
+      "submitProps": Object {},
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".0"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".1"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering renders the supplied header child when title prop is not present 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "id": "customHeaderChild",
+      "isOpen": true,
+      "isSubmitting": false,
+      "onClose": [MockFunction],
+      "submitProps": Object {},
+      "title": "",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader
+      key=".0"
+    >
+      this is the header
+    </ForemanModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".1"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".2"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering renders when header and footer are supplied 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "id": "withSuppliedChildren",
+      "isOpen": true,
+      "isSubmitting": false,
+      "onClose": [MockFunction],
+      "submitProps": Object {},
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader
+      key=".0"
+    >
+      this is the header
+    </ForemanModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".1"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".2"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering renders without header when neither <ForemanModal.Header> nor title prop are present 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "id": "noHeader",
+      "isOpen": true,
+      "isSubmitting": false,
+      "onClose": [MockFunction],
+      "submitProps": Object {},
+      "title": "",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        key=".0"
+      >
+        This is the body
+      </div>
+    </ModalBody>
+    <ForemanModalFooter
+      key=".1"
+    >
+      this is the footer
+    </ForemanModalFooter>
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering should render 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "id": "render",
+      "isOpen": true,
+      "isSubmitting": false,
+      "onClose": [MockFunction],
+      "submitProps": Object {},
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ForemanModalHeader />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    />
+  </Modal>
+</ContextProvider>
+`;
+
+exports[`ForemanModal rendering should render closed 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "id": "closed",
+      "isOpen": false,
+      "isSubmitting": false,
+      "onClose": [MockFunction],
+      "submitProps": Object {},
+      "title": "Test modal",
+    }
+  }
+>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    className="foreman-modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[MockFunction]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={false}
+  >
+    <ForemanModalHeader />
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    />
+  </Modal>
+</ContextProvider>
+`;

@@ -1,4 +1,4 @@
-class CreateMailNotifications < ActiveRecord::Migration
+class CreateMailNotifications < ActiveRecord::Migration[4.2]
   def change
     create_table :mail_notifications do |t|
       t.string :name, :limit => 255
@@ -8,7 +8,7 @@ class CreateMailNotifications < ActiveRecord::Migration
       t.boolean :subscriptable, :default => true
       t.string :default_interval, :limit => 255
 
-      t.timestamps
+      t.timestamps null: true
     end
   end
 end

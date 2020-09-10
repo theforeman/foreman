@@ -1,5 +1,5 @@
 <%= f.hidden_field :mail_notification_id, :value => f.object.mail_notification.id %>
 <% values = f.object.mail_notification.subscription_type == 'alert' ? f.object.mail_notification.subscription_options : MailNotification::INTERVALS %>
-<%= select_f(f, :interval, values, :to_s, :to_translation, { :include_blank => _('No emails') }, {:label => f.object.mail_notification.name.humanize,
-             :help_inline => _(f.object.mail_notification.description)}) %>
+<%= select_f(f, :interval, values, :to_s, :to_translation, { :include_blank => _('No emails') }, {:label => _(f.object.mail_notification.name.humanize),
+             :label_help => _(f.object.mail_notification.description)}) %>
 <%= mail_notification_query_builder(f.object.mail_notification, f) %>

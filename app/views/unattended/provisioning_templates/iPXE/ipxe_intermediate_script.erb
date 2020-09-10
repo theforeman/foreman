@@ -1,0 +1,25 @@
+<%#
+kind: iPXE
+model: ProvisioningTemplate
+name: iPXE intermediate script
+snippet: false
+-%>
+#!ipxe
+# Intermediate iPXE script to report MAC address to Foreman
+<% (0..32).each do |i| -%>
+
+:net<%= i %>
+isset ${net<%= i -%>/mac} || goto no_nic
+dhcp net<%= i -%> || goto net<%= i+1 %>
+chain <%= foreman_url('iPXE', mac: "${net#{i}/mac}") %> || goto net<%= i+1 %>
+<% end -%>
+
+:net33
+goto no_nic
+
+exit 0
+
+:no_nic
+echo Failed to chainload from any network interface
+sleep 30
+exit 1

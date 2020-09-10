@@ -6,7 +6,7 @@ module Foreman
       def initialize(item, options = {})
         defaults = {
           :attribute_name => :value,
-          :to => :string
+          :to => :string,
         }
         options.reverse_merge!(defaults)
         @item, @options = item, options
@@ -54,6 +54,7 @@ module Foreman
       end
 
       def cast_boolean
+        return nil if value == ""
         val = Foreman::Cast.to_bool(value)
         return val if [true, false].include?(val)
         raise TypeError

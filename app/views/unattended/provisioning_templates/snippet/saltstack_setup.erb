@@ -1,0 +1,43 @@
+<%#
+kind: snippet
+name: saltstack_setup
+model: ProvisioningTemplate
+description: this snippet will configure the Saltstack Minion
+snippet: true
+%>
+<%
+etc_path = (@host.operatingsystem.family == 'Freebsd') ? '/usr/local/etc/salt' : '/etc/salt'
+bin_path = (@host.operatingsystem.family == 'Freebsd') ? '/usr/local/bin' : '/usr/bin'
+%>
+
+<% if @host.operatingsystem.family == 'Debian' -%>
+apt-get update
+apt-get install -y salt-minion
+<% elsif @host.operatingsystem.family == 'Freebsd' -%>
+pkg install -y py27-salt
+<% elsif @host.operatingsystem.family == 'Redhat' -%>
+if [ -f /usr/bin/dnf ]; then
+  dnf -y install salt-minion
+else
+  yum -t -y install salt-minion
+fi
+<% elsif @host.operatingsystem.family == 'Suse' -%>
+  /usr/bin/zypper -n install salt-minion
+<% end -%>
+
+cat > <%= etc_path %>/minion.d/minion.conf << EOF
+<%= snippet 'saltstack_minion' %>
+EOF
+
+echo <%= @host.name %> > <%= etc_path %>/minion_id
+
+<% if @host.operatingsystem.family == 'Freebsd' -%>
+echo 'salt_minion_enable="YES"' >>/etc/rc.conf
+echo 'salt_minion_paths="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"' >>/etc/rc.conf
+<% elsif @host.operatingsystem.family == 'Redhat' -%>
+/sbin/chkconfig --level 345 salt-minion on
+<% elsif @host.operatingsystem.family == 'Suse' -%>
+/sbin/chkconfig salt-minion on -f
+<% end -%>
+
+<%= bin_path %>/salt-call --no-color --grains >/dev/null

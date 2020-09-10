@@ -1,26 +1,26 @@
+require 'securerandom'
+
 module ProxyAPI
   class Resource
+    include Foreman::TelemetryHelper
     attr_reader :url
 
     def initialize(args)
       raise("Must provide a protocol and host when initialising a smart-proxy connection") unless (url =~ /^http/)
 
-      @connect_params = {:timeout => Setting[:proxy_request_timeout], :open_timeout => 10, :headers => { :accept => :json },
-                        :user => args[:user], :password => args[:password]}
+      @connect_params = {
+        :timeout => Setting[:proxy_request_timeout],
+        :headers => {
+          :accept => :json,
+          :x_request_id => request_id,
+          :x_session_id => session_id,
+        },
+        :user => args[:user],
+        :password => args[:password],
+      }
 
       # We authenticate only if we are using SSL
-      if url.match(/^https/i)
-        cert         = Setting[:ssl_certificate]
-        ca_cert      = Setting[:ssl_ca_file]
-        hostprivkey  = Setting[:ssl_priv_key]
-
-        @connect_params.merge!(
-          :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
-          :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
-          :ssl_ca_file      =>  ca_cert,
-          :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER
-        ) unless Rails.env == "test"
-      end
+      @connect_params.merge!(ssl_auth_params) if url =~ /^https/i && !Rails.env.test?
     end
 
     protected
@@ -40,7 +40,9 @@ module ProxyAPI
       @resource                  = nil
     end
 
-    def logger; Rails.logger; end
+    def logger
+      Foreman::Logging.logger('proxy')
+    end
 
     private
 
@@ -50,8 +52,9 @@ module ProxyAPI
     #      OR: false if a HTTP error is detected
     # TODO: add error message handling
     def parse(response)
+      telemetry_increment_counter(:proxy_api_response_code, 1, code: response.code) if response&.code
       if response && response.code >= 200 && response.code < 300
-        return response.body.present? ? JSON.parse(response.body) : true
+        response.body.present? ? JSON.parse(response.body) : true
       else
         false
       end
@@ -62,27 +65,88 @@ module ProxyAPI
 
     # Perform GET operation on the supplied path
     def get(path = nil, payload = {})
-      # This ensures that an extra "/" is not generated
-      if path
-        resource[URI.escape(path)].get payload
-      else
-        resource.get payload
+      with_logger do
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'get') do
+          # This ensures that an extra "/" is not generated
+          if path
+            resource[URI.escape(path)].get payload
+          else
+            resource.get payload
+          end
+        end
       end
     end
 
     # Perform POST operation with the supplied payload on the supplied path
     def post(payload, path = "")
-      resource[path].post payload
+      logger.debug("POST request payload: #{payload}")
+      with_logger do
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'post') do
+          resource[path].post payload
+        end
+      end
     end
 
     # Perform PUT operation with the supplied payload on the supplied path
     def put(payload, path = "")
-      resource[path].put payload
+      logger.debug("PUT request payload: #{payload}")
+      with_logger do
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'put') do
+          resource[path].put payload
+        end
+      end
     end
 
     # Perform DELETE operation on the supplied path
     def delete(path)
-      resource[path].delete
+      with_logger do
+        telemetry_duration_histogram(:proxy_api_duration, :ms, method: 'delete') do
+          resource[path].delete
+        end
+      end
+    end
+
+    def with_logger
+      old_logger = RestClient.log
+      RestClient.log = RestClientLogger.new(logger)
+      yield
+    ensure
+      RestClient.log = old_logger
+    end
+
+    def request_id
+      ::Logging.mdc['request'] || SecureRandom.uuid
+    end
+
+    def session_id
+      ::Logging.mdc['session'] || SecureRandom.uuid
+    end
+
+    def ssl_auth_params
+      cert         = Setting[:ssl_certificate]
+      ca_cert      = Setting[:ssl_ca_file]
+      hostprivkey  = Setting[:ssl_priv_key]
+
+      {
+        :ssl_client_cert  =>  OpenSSL::X509::Certificate.new(File.read(cert)),
+        :ssl_client_key   =>  OpenSSL::PKey::RSA.new(File.read(hostprivkey)),
+        :ssl_ca_file      =>  ca_cert,
+        :verify_ssl       =>  OpenSSL::SSL::VERIFY_PEER,
+      }
+    rescue StandardError => exception
+      msg = N_("Unable to read SSL certification or key for proxy communication, check settings for ssl_certificate, ssl_ca_file and ssl_priv_key and ensure they are readable by the foreman user.")
+      Foreman::Logging.exception(msg, exception)
+      raise Foreman::WrappedException.new(exception, msg)
+    end
+  end
+
+  class RestClientLogger
+    def initialize(logger)
+      @logger = logger
+    end
+
+    def <<(msg)
+      @logger.debug(msg.chomp)
     end
   end
 end

@@ -1,4 +1,4 @@
-class AddIndexToParameters < ActiveRecord::Migration
+class AddIndexToParameters < ActiveRecord::Migration[4.2]
   def up
     add_index :parameters, [:host_id, :type]
     add_index :parameters, [:hostgroup_id, :type]

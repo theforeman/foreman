@@ -1,4 +1,4 @@
-class AddDomainToParameter < ActiveRecord::Migration
+class AddDomainToParameter < ActiveRecord::Migration[4.2]
   def up
     add_column :parameters, :domain_id, :integer
   end

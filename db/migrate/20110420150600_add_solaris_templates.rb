@@ -1,4 +1,4 @@
-class AddSolarisTemplates < ActiveRecord::Migration
+class AddSolarisTemplates < ActiveRecord::Migration[4.2]
   def up
   end
 

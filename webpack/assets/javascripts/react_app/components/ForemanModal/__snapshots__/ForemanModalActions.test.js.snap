@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal actions creates the modal 1`] = `
+Object {
+  "payload": Object {
+    "id": "testModal",
+    "isOpen": false,
+    "isSubmitting": false,
+  },
+  "type": "ADD_MODAL",
+}
+`;
+
+exports[`ForemanModal actions should close modal 1`] = `
+Object {
+  "payload": Object {
+    "id": "modal1",
+  },
+  "type": "SET_MODAL_CLOSED",
+}
+`;
+
+exports[`ForemanModal actions should open modal 1`] = `
+Object {
+  "payload": Object {
+    "id": "modal2",
+  },
+  "type": "SET_MODAL_OPEN",
+}
+`;

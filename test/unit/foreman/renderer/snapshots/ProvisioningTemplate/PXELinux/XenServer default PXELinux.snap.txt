@@ -1,0 +1,6 @@
+
+default xenserver
+label xenserver
+kernel mboot.c32
+append  dom0_max_vcpus=1-2 dom0_mem=752M,max:752M com1=115200,8n1 console=com1,vga ---  xencons=hvc console=hvc0 console=tty0 answerfile=http://foreman.some.host.fqdn/unattended/provision install --- 
+IPAPPEND 2

@@ -1,4 +1,4 @@
-class RenameParentToAssociation < ActiveRecord::Migration
+class RenameParentToAssociation < ActiveRecord::Migration[4.2]
   def up
     rename_column :audits, :auditable_parent_id, :association_id
     rename_column :audits, :auditable_parent_type, :association_type

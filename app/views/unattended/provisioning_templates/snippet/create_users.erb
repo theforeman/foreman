@@ -1,0 +1,26 @@
+<%#
+name: create_users
+model: ProvisioningTemplate
+kind: snippet
+snippet: true
+-%>
+<%- users = @host.owner_type == 'Usergroup' ? @host.owner.all_users : [@host.owner] -%>
+<%- users.each do |user| -%>
+<%=   "useradd #{user.login}" %>
+<%-   if user.respond_to?(:ssh_authorized_keys) && user.ssh_authorized_keys.any? -%>
+<%=     "mkdir -p -m 0700 ~#{user.login}/.ssh" %>
+<%=     "cat >> ~#{user.login}/.ssh/authorized_keys <<EOF" %>
+<%-     index = 0 -%>
+<%-     user.ssh_keys.each do |key| -%>
+<%-       if index == 0 -%>
+<%=        "#{key.type} #{key.ssh_key} #{key.comment}" %>
+<%-       else -%>
+<%=        "#{key.type} #{key.ssh_key} #{key.comment} - #{index}" %>
+<%-       end -%>
+<%-       index += 1 -%>
+<%-     end -%>
+<%=     "EOF" %>
+<%=     "chown -R #{user.login}:#{user.login} ~#{user.login}/.ssh" %>
+<%=     "chmod -R go= ~#{user.login}/.ssh" %>
+<%-   end -%>
+<%- end %>

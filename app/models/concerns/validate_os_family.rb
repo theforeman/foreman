@@ -6,12 +6,12 @@ module ValidateOsFamily
       validates family_attr_name,
         :inclusion => {
           :in => Operatingsystem.families,
-          :message => N_("must be one of [ %s ]" % Operatingsystem.families.join(", "))
+          :message => N_("must be one of [ %s ]" % Operatingsystem.families.join(", ")),
         },
         :allow_nil => true
 
       define_method "#{family_attr_name}=" do |value|
-        write_attribute(family_attr_name, value.blank? ? nil : value)
+        self[family_attr_name] = value.presence
       end
     end
   end

@@ -1,9 +1,9 @@
 
 <%= render :partial => provider_partial(compute_resource, 'base'),
-            :locals => { :f => f, :compute_resource => compute_resource, :new_host => true }.merge(args_for_compute_resource_partial(@host)) %>
+            :locals => { :f => f, :compute_resource => compute_resource, :new_host => true, :new_vm => true, :hide_image => true }.merge(args_for_compute_resource_partial(@host)) %>
 
 <!--NICS-->
-<%= render :partial => 'compute_resources_vms/form/networks', :locals => { :f => f, :compute_resource => compute_resource, :new_host => true, :item_layout => 'deletable' } %>
+<%= render :partial => 'compute_resources_vms/form/networks', :locals => { :f => f, :compute_resource => compute_resource, :new_host => true, :new_vm => true, :item_layout => 'deletable', :selected_cluster => selected_cluster } %>
 
 <!--Storage-->
-<%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => true, :item_layout => 'deletable' } %>
+<%= render :partial => 'compute_resources_vms/form/volumes', :locals => { :f => f, :compute_resource => compute_resource, :new_host => true, :new_vm => true, :item_layout => 'deletable' } %>

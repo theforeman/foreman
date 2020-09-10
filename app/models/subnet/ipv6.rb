@@ -8,7 +8,8 @@ class Subnet::Ipv6 < Subnet
   has_many :hosts, :through => :interfaces
   has_many :primary_hosts, :through => :primary_interfaces, :source => :host
 
-  validate :validate_eui64_prefix_length, :if => Proc.new { |subnet| subnet.ipam == IPAM::MODES[:eui64]}
+  validate :validate_eui64_prefix_length, :if => proc { |subnet| subnet.ipam == IPAM::MODES[:eui64] }
+  validates :mtu, :numericality => {:only_integer => true, :greater_than_or_equal_to => 1280, :less_than_or_equal_to => 4294967295}
 
   def family
     Socket::AF_INET6
@@ -23,7 +24,7 @@ class Subnet::Ipv6 < Subnet
   end
 
   def self.supported_ipam_modes
-    [:eui64, :db, :none]
+    [:eui64, :db, :external_ipam, :none]
   end
 
   def self.show_mask?

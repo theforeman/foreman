@@ -1,0 +1,118 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbBar rendering renders breadcrumb-bar 1`] = `
+<div
+  className="breadcrumb-bar"
+>
+  <Breadcrumb
+    className="breadcrumbs-list"
+    isTitle={false}
+    items={
+      Array [
+        Object {
+          "caption": "root",
+          "url": "/some-url",
+        },
+        Object {
+          "caption": "child with onClick",
+          "onClick": [MockFunction],
+        },
+        Object {
+          "caption": "active child",
+        },
+      ]
+    }
+    title={true}
+    titleReplacement={null}
+  />
+  <hr
+    className="breadcrumb-line"
+  />
+</div>
+`;
+
+exports[`BreadcrumbBar rendering renders switchable breadcrumb-bar 1`] = `
+<div
+  className="breadcrumb-bar"
+>
+  <Breadcrumb
+    className="breadcrumbs-list"
+    isTitle={false}
+    items={
+      Array [
+        Object {
+          "caption": "root",
+          "url": "/some-url",
+        },
+        Object {
+          "caption": "child with onClick",
+          "onClick": [MockFunction],
+        },
+        Object {
+          "caption": "active child",
+        },
+      ]
+    }
+    title={true}
+    titleReplacement={null}
+  >
+    <BreadcrumbSwitcher
+      className=""
+      currentPage={null}
+      hasError={false}
+      isLoading={false}
+      isPaginated={true}
+      onHide={[Function]}
+      onNextPageClick={[Function]}
+      onOpen={[Function]}
+      onPrevPageClick={[Function]}
+      onResourceClick={[Function]}
+      onSearchChange={[Function]}
+      onSearchClear={[Function]}
+      onTogglerClick={[Function]}
+      open={false}
+      resources={Array []}
+      searchDebounceTimeout={0}
+      searchValue="some value"
+      totalPages={1}
+    />
+  </Breadcrumb>
+  <hr
+    className="breadcrumb-line"
+  />
+</div>
+`;
+
+exports[`BreadcrumbBar triggering should trigger callbacks: loadSwitcherResourcesByResource calls 1`] = `
+Array [
+  Array [
+    Object {
+      "nameField": "name",
+      "resourceUrl": "some/url",
+      "switcherItemUrl": "some/url/:id",
+    },
+  ],
+  Array [
+    Object {
+      "nameField": "name",
+      "resourceUrl": "some/url",
+      "switcherItemUrl": "some/url/:id",
+    },
+    Object {
+      "page": 3,
+      "searchQuery": "some value",
+    },
+  ],
+  Array [
+    Object {
+      "nameField": "name",
+      "resourceUrl": "some/url",
+      "switcherItemUrl": "some/url/:id",
+    },
+    Object {
+      "page": 1,
+      "searchQuery": "some value",
+    },
+  ],
+]
+`;

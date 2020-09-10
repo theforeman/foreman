@@ -1,0 +1,369 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Edit hours of PickTimeClock 1`] = `
+<div
+  class="timepicker-picker"
+>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn increment-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn increment-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+      <tr>
+        <td>
+          <span
+            class="timepicker-hour"
+          >
+            02
+          </span>
+        </td>
+        <td
+          class="separator"
+        >
+          :
+        </td>
+        <td>
+          <span
+            class="timepicker-minute"
+          >
+            22
+          </span>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary ampm-toggle"
+            type="button"
+          >
+            PM
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn decrement-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn decrement-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Edit minutes of PickTimeClock 1`] = `
+<div
+  class="timepicker-picker"
+>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn increment-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn increment-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+      <tr>
+        <td>
+          <span
+            class="timepicker-hour"
+          >
+            02
+          </span>
+        </td>
+        <td
+          class="separator"
+        >
+          :
+        </td>
+        <td>
+          <span
+            class="timepicker-minute"
+          >
+            22
+          </span>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary ampm-toggle"
+            type="button"
+          >
+            PM
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn decrement-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn decrement-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`PickTimeClock is working properly 1`] = `
+<div
+  class="timepicker-picker"
+>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn increment-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn increment-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+      <tr>
+        <td>
+          <span
+            class="timepicker-hour"
+          >
+            02
+          </span>
+        </td>
+        <td
+          class="separator"
+        >
+          :
+        </td>
+        <td>
+          <span
+            class="timepicker-minute"
+          >
+            22
+          </span>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary ampm-toggle"
+            type="button"
+          >
+            PM
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn decrement-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn decrement-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Toggle hours of PickTimeClock 1`] = `
+<div
+  class="timepicker-picker"
+>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn increment-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn increment-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-up"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+      <tr>
+        <td>
+          <span
+            class="timepicker-hour"
+          >
+            12
+          </span>
+        </td>
+        <td
+          class="separator"
+        >
+          :
+        </td>
+        <td>
+          <span
+            class="timepicker-minute"
+          >
+            22
+          </span>
+        </td>
+        <td>
+          <button
+            class="btn btn-primary ampm-toggle"
+            type="button"
+          >
+            AM
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a
+            class="btn clock-btn decrement-hour"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+        <td>
+          <a
+            class="btn clock-btn decrement-min"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-down"
+            />
+          </a>
+        </td>
+        <td
+          class="separator"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

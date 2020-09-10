@@ -1,0 +1,15 @@
+<% title _("Subnets") %>
+
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text("globe", "", :kind => "fa") %>
+  </div>
+  <h1><%= _('Subnets') %></h1>
+  <p>
+    <%= _("Foreman can store information about the networking setup of a host that it’s provisioning, which can be used to configure the virtual machine, assign the correct IP addresses and network resources, then configure the OS correctly during the provisioning process.") %></br>
+  </p>
+  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4.7Networking")%></p>
+  <div class="blank-slate-pf-main-action">
+      <%= new_link(_("Create Subnet"), {}, { :class => "btn-lg" }) %>
+  </div>
+</div>

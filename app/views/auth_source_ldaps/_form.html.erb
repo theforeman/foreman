@@ -1,31 +1,37 @@
-<% javascript 'auth_source_ldap' %>
-
 <%= form_for @auth_source_ldap do |f| %>
   <%= base_errors_for @auth_source_ldap %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _("LDAP server") %></a></li>
     <li><a href="#account" data-toggle="tab"><%= _("Account") %></a></li>
     <li><a href="#attributes" data-toggle="tab"><%= _("Attribute mappings") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
-      <%= text_f f, :host, :help_inline => link_to_function(_("Test Connection"), "test_connection(this, '#{url_for test_connection_auth_source_ldaps_url}')",
+      <%= text_f f, :host, :help_inline => link_to_function(_("Test Connection"), "tfm.authSource.testConnection(this, '#{test_connection_auth_source_ldaps_url}')",
                       :title => _("Test LDAP connectivity"), :id => "test_connection_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_connection_indicator').html_safe %>
-      <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'change_ldap_port(this)'}) %>
+      <%= checkbox_f(f, :tls, {:label => "LDAPS", :onchange => 'tfm.authSource.changeLdapPort(this)'}) %>
       <%= number_f f, :port, :min => 1, :max => 65535,
                       :data => { :default_ports => AuthSourceLdap::DEFAULT_PORTS } %>
       <%= select_f f, :server_type, AuthSourceLdap::SERVER_TYPES, :first, :last,
                     { :include_blank => _("Choose a server type") },
-                    { :label => _('Server type') } %>
+                    { :label => _('Server type'), :onchange => 'tfm.authSource.changeLdapServerType()' } %>
     </div>
     <div class="tab-pane" id="account">
-      <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe %>
+      <%= text_f f, :account, :help_inline =>_("Use this account to authenticate, <i>optional</i>").html_safe, :label_help => account_help_data[@auth_source_ldap.server_type], :data => { :help => account_help_data }, :autocomplete => 'new-account' %>
       <%= password_f f, :account_password, :help_inline => _("Use this account to authenticate, <i>optional</i>").html_safe, :unset => action_name == "edit" %>
-      <%= text_f f, :base_dn, :label => _("Base DN"), :size => "col-md-8" %>
-      <%= text_f f, :groups_base, :label => _("Groups base DN") %>
-      <%= text_f f, :ldap_filter, :label => _("LDAP filter"), :help_inline => _("Custom LDAP search filter, <i>optional</i>").html_safe, :size => "col-md-8" %>
+      <%= text_f f, :base_dn, :label => _("Base DN"), :size => "col-md-8", :label_help => base_dn_help_data[@auth_source_ldap.server_type], :data => { :help => base_dn_help_data } %>
+      <%= text_f f, :groups_base, :label => _("Groups base DN"), :size => "col-md-8", :label_help => groups_base_dn_help_data[@auth_source_ldap.server_type], :data => { :help => groups_base_dn_help_data } %>
+      <%= checkbox_f f, :use_netgroups, :help_inline => _("Use NIS netgroups instead of posix groups."), :label_help => _('By default we map user groups to standard LDAP Group objects. FreeIPA and POSIX LDAP server types supports alternative way of grouping users through Netgroups. Enable this checkbox if using Netgroups is preferred instead of standard groups.') %>
+
+      <%= textarea_f f, :ldap_filter, :label => _("LDAP filter"), :help_block => _("Custom LDAP search filter, <i>optional</i>").html_safe, :size => "col-md-8" %>
       <%= checkbox_f f, :onthefly_register,
                         :help_inline => _("LDAP users will have their Foreman account automatically created the first time they log into Foreman") %>
       <%= checkbox_f f, :usergroup_sync,
@@ -38,7 +44,8 @@
       <%= text_f f, :attr_mail, :help_inline => _("e.g. mail") %>
       <%= text_f f, :attr_photo, :label => _("Photo attribute"), :help_inline => _("e.g. jpegPhoto") %>
     </div>
-  </div>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @auth_source_ldap %>
+</div>
 
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel f, false, :cancel_path => auth_sources_path %>
 <% end %>

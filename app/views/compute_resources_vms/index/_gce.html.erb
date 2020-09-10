@@ -11,9 +11,10 @@
     <tr>
       <td><%= link_to_if_authorized vm.name, hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :auth_action => 'view', :authorizer => authorizer) %></td>
       <td><%= vm.pretty_machine_type %></td>
-      <td><%= vm.state.downcase %></td>
+      <td><%= vm.status.downcase %></td>
       <td>
         <%= action_buttons(vm_power_action(vm, authorizer),
+                           vm_import_action(vm),
                            display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))) %>
       </td>
     </tr>

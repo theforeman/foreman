@@ -13,7 +13,7 @@ module PowerManager
 
     attr_reader :proxy
 
-    #TODO: consider moving this to the proxy code, so we can just delegate like as with Virt.
+    # TODO: consider moving this to the proxy code, so we can just delegate like as with Virt.
     def action_map
       super.deep_merge({
                          :start    => 'on',
@@ -22,7 +22,7 @@ module PowerManager
                          :reboot   => 'soft',
                          :reset    => 'cycle',
                          :state    => 'status',
-                         :ready?   => 'ready?'
+                         :ready?   => 'ready?',
                        })
     end
 

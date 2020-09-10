@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form should accept base error title 1`] = `
+<form
+  className="form-horizontal well"
+  onSubmit={[Function]}
+>
+  <Alert
+    className="base in fade"
+    onDismiss={null}
+    type="danger"
+  >
+    <AlertBody
+      title="Oops"
+    >
+      <span>
+        invalid something
+      </span>
+    </AlertBody>
+  </Alert>
+  <FormActions
+    disabled={false}
+    onCancel={[Function]}
+    submitting={false}
+  />
+</form>
+`;
+
+exports[`Form should dispaly form errors as warning 1`] = `
+<form
+  className="form-horizontal well"
+  onSubmit={[Function]}
+>
+  <Alert
+    className="base in fade"
+    onDismiss={null}
+    type="warning"
+  >
+    <AlertBody
+      title="Unable to save. "
+    >
+      <span>
+        Do not feed the trolls
+      </span>
+    </AlertBody>
+  </Alert>
+  <FormActions
+    disabled={false}
+    onCancel={[Function]}
+    submitting={false}
+  />
+</form>
+`;
+
+exports[`Form should display multiple base errors 1`] = `
+<form
+  className="form-horizontal well"
+  onSubmit={[Function]}
+>
+  <Alert
+    className="base in fade"
+    onDismiss={null}
+    type="danger"
+  >
+    <AlertBody
+      title="Unable to save. "
+    >
+      <li
+        key="0"
+      >
+        invalid something
+      </li>
+      <li
+        key="1"
+      >
+        error too
+      </li>
+    </AlertBody>
+  </Alert>
+  <FormActions
+    disabled={false}
+    onCancel={[Function]}
+    submitting={false}
+  />
+</form>
+`;
+
+exports[`Form should display one base error 1`] = `
+<form
+  className="form-horizontal well"
+  onSubmit={[Function]}
+>
+  <Alert
+    className="base in fade"
+    onDismiss={null}
+    type="danger"
+  >
+    <AlertBody
+      title="Unable to save. "
+    >
+      <span>
+        invalid something
+      </span>
+    </AlertBody>
+  </Alert>
+  <FormActions
+    disabled={false}
+    onCancel={[Function]}
+    submitting={false}
+  />
+</form>
+`;
+
+exports[`Form should render a form 1`] = `
+<form
+  className="form-horizontal well"
+  onSubmit={[Function]}
+>
+  <FormActions
+    disabled={false}
+    onCancel={[Function]}
+    submitting={false}
+  />
+</form>
+`;

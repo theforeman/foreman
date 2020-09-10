@@ -1,5 +1,5 @@
 <% title _("About") %>
-<%= javascript 'proxy_status', 'about' %>
+<%= javascript 'proxy_status', 'charts', 'about' %>
 
 <div class="row" id="about">
   <div class="col-md-7">
@@ -32,7 +32,7 @@
               <% @smart_proxies.each do |proxy| %>
                 <tr class="proxy-show"  data-url="<%= ping_smart_proxy_path(proxy) %>">
                   <td><%= link_to_if_authorized proxy.name, hash_for_smart_proxy_path(proxy) %></td>
-                  <td><%=h proxy.features.to_sentence %></td>
+                  <td><%=h proxy.features.map(&:name).to_sentence %></td>
                   <td><div class="proxy-show-status"><%= spinner %></div></td>
                   <td><div class="proxy-version"><%= spinner %></div></td>
                 </tr>
@@ -69,18 +69,18 @@
             <% if @compute_resources.empty? %>
               <p class="ca"><%= _("No compute resource to show") %></p>
             <% else %>
-              <table class="table table-striped">
+              <table class="table table-striped table-fixed">
                 <thead>
                   <tr>
-                    <th><%= _("Name") %></th>
-                    <th><%= _("Type") %></th>
-                    <th><%= _("Status") %></th>
+                    <th class="col-md-4"><%= _("Name") %></th>
+                    <th class="col-md-4"><%= _("Type") %></th>
+                    <th class="col-md-4"><%= _("Status") %></th>
                   </tr>
                 </thead>
                 <tbody>
                 <% @compute_resources.each do |compute| %>
                   <tr>
-                    <td><%= link_to compute.name, compute %></td>
+                    <td class="ellipsis"><%= link_to(compute.name, compute) %></td>
                     <td><%= compute.provider_friendly_name %></td>
                     <td><div class="compute-status" data-url=<%= ping_compute_resource_path(compute) %>><%= spinner %></div></td>
                   </tr>
@@ -124,24 +124,23 @@
       <h4><%= _("Support") %></h4>
       <h6><%= _("Documentation") %></h6>
       <ul>
-        <li><%= link_to _('Manual'),documentation_url, :rel => "external" %></li>
-        <li><%= link_to _('Wiki'),"http://projects.theforeman.org", :rel => "external" %></li>
+        <li><%= link_to _('API Resources'), apipie_apipie_path, :title => _('Automate Foreman via a simple and powerful API') %></li>
+        <li><%= link_to _('Templates DSL'), apipie_dsl_apipie_dsl_path, :title => _('Get DSL reference for templates writing') %></li>
+        <li><%= link_to _('Manual'), documentation_url, :rel => "external" %></li>
+        <li><%= link_to _('Wiki'), external_link_path(type: 'wiki'), :rel => "external" %></li>
       </ul>
       <h6><%= _("IRC") %></h6>
-      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", "http://www.freenode.net", :rel => "external")}).html_safe  %></p>
-      <h6><%= _("Mailing lists") %></h6>
-      <p><%= _("Mailing lists are available via Google Groups. Much like IRC, we have a general users (support, Q/A, etc) lists and a development list:") %></p>
-      <ul>
-        <li><%= link_to _("Foreman Users"), "http://groups.google.com/group/foreman-users", :rel => "external" %></li>
-        <li><%= link_to _("Foreman Developers"), "http://groups.google.com/group/foreman-dev", :rel => "external" %></li>
-      </ul>
+      <p><%= (_("You can find The Foreman on the %{freenode} (irc.freenode.net) network.  For general support, please visit #theforeman and for development specific related chat, please visit #theforeman-dev.") % {:freenode => link_to("freenode", external_link_path(type: 'chat'), :rel => "external")}).html_safe  %></p>
+      <h6><%= _("Forums") %></h6>
+      <p><%= (_("You can use the %{community_forums} to ask for help or advice, participate in discussions around challenges or ideas you have with Foreman.") % {:community_forums => link_to( _('community forums'), external_link_path(type: 'forums'), :rel => "external")}).html_safe %></p>
       <h6><%= _("Issue tracker") %></h6>
-      <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), "http://projects.theforeman.org/projects/foreman/issues", :rel => "external" %></p>
+      <p><%= _("We use Redmine to report and track bugs and feature requests, which can be found here:") %> <%= link_to _("issue tracker"), external_link_path(type: 'issues'), :rel => "external" %></p>
     </div>
     <div class="stats-well" id="copyright-div">
       <h4><%= _("System Information") %> </h4>
-      <p id="copyright-p"><%= (_("Version %{version}  © 2009-%{year} Paul Kelly and %{author}") % {:version => SETTINGS[:version], :year=>DateTime.now.year, :author=>mail_to("ohadlevy@gmail.com", "Ohad Levy" )}).html_safe %></p>
+      <p id="copyright-p"><%= (_("Version %{version}  %{copyright} 2009-%{year} Paul Kelly and %{author}") % {:version => SETTINGS[:version], :copyright => "&copy;", :year=>DateTime.now.year, :author=>mail_to("ohadlevy@gmail.com", "Ohad Levy" )}).html_safe %></p>
+      <p id="instance-id-p"><%= _("Instance %{uuid}") % {:uuid => Foreman.instance_id} %></p>
     </div>
   </div>
-</div>
+  <%= slot('aboutFooterSlot', true) %>
 </div>

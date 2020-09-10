@@ -1,0 +1,28 @@
+name: Deploy Main Storybook
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'webpack/**'
+
+jobs:
+  deploy_main_storybook:
+
+    runs-on: ubuntu-latest
+    if: github.repository == 'theforeman/foreman'
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run npm install
+      run: npm install
+    - name: Build Storybook
+      run: npm run build-storybook -- --output-dir=storybooks/main
+    - name: Deploy Storybook to surge.sh
+      env:
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      run: |
+        npm install --save-dev surge
+        npx surge --project storybooks/main --domain ${{ secrets.SURGE_DOMAIN }}
+      id: surge_deploy

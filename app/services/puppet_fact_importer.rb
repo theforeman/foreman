@@ -1,9 +1,9 @@
 class PuppetFactImporter < StructuredFactImporter
   def self.authorized_smart_proxy_features
-    'Puppet'
+    'Puppet'.freeze
   end
 
   def fact_name_class
-    ::FactName
+    PuppetFactName
   end
 end

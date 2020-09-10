@@ -2,20 +2,20 @@ require 'test_helper'
 
 class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
   setup do
-    @proxy = FactoryGirl.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
-    #don't cache because the mock breaks when trying to cache the array of certs
+    @proxy = FactoryBot.build_stubbed(:smart_proxy, :url => 'https://secure.proxy:4568')
+    # don't cache because the mock breaks when trying to cache the array of certs
     @proxy_status = ProxyStatus::PuppetCA.new(@proxy, :cache => false)
   end
 
   context 'CA has certificates' do
     setup do
-      certificates = { "proxy.host2"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>3, "not_before"=>"2015-12-25T14:33:10UTC", "not_after"=>"2020-12-25T14:33:10UTC"},
-                       "secure.proxy"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>1, "not_before"=>"2015-12-12T14:33:10UTC", "not_after"=>"2020-12-11T14:33:10UTC"},
-                       "proxy.host"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>2, "not_before"=>"2015-12-22T14:33:10UTC", "not_after"=>"2020-12-22T14:33:10UTC"},
-                       "proxy.host.with_no_dates"=>{"state"=>"valid", "fingerprint"=>"SHA256", "serial"=>5, "not_before"=>nil, "not_after"=>nil},
-                       "refuted.host"=>{"state"=>"refuted", "fingerprint"=>"SHA256", "serial"=>4, "not_before"=>"2015-12-22T14:33:10UTC", "not_after"=>"2020-12-22T14:33:10UTC"},
-                       "pending.host"=>{"state"=>"pending", "fingerprint"=>"SHA256", "serial"=>6}}
-      ProxyAPI::Puppetca.any_instance.expects(:all).returns(certificates)
+      certificates = { "proxy.host2" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 3, "not_before" => "2015-12-25T14:33:10UTC", "not_after" => "2020-12-25T14:33:10UTC"},
+                       "secure.proxy" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 1, "not_before" => "2015-12-12T14:33:10UTC", "not_after" => "2020-12-11T14:33:10UTC"},
+                       "proxy.host" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 2, "not_before" => "2015-12-22T14:33:10UTC", "not_after" => "2020-12-22T14:33:10UTC"},
+                       "proxy.host.with_no_dates" => {"state" => "valid", "fingerprint" => "SHA256", "serial" => 5, "not_before" => nil, "not_after" => nil},
+                       "refuted.host" => {"state" => "refuted", "fingerprint" => "SHA256", "serial" => 4, "not_before" => "2015-12-22T14:33:10UTC", "not_after" => "2020-12-22T14:33:10UTC"},
+                       "pending.host" => {"state" => "pending", "fingerprint" => "SHA256", "serial" => 6}}
+      ProxyAPI::Puppetca.any_instance.stubs(:all).returns(certificates)
     end
 
     test 'it returns all certificates' do
@@ -35,14 +35,14 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
     end
 
     test 'it returns expiry for CA certificate' do
-      #the CA certificate should be the oldest valid certificate, as it signs all others
+      # the CA certificate should be the oldest valid certificate, as it signs all others
       assert_equal(Time.parse("2020-12-11T14:33:10UTC").utc, @proxy_status.expiry)
     end
   end
 
   context 'CA has no certificates' do
     setup do
-      ProxyAPI::Puppetca.any_instance.expects(:all).returns({})
+      ProxyAPI::Puppetca.any_instance.stubs(:all).returns({})
     end
 
     test 'it returns no certificates' do
@@ -51,7 +51,7 @@ class ProxyStatusPuppetcaTest < ActiveSupport::TestCase
     end
 
     test 'it returns no expiry for CA certificate' do
-      #the CA certificate should be the oldest certificate, as it signs all others
+      # the CA certificate should be the oldest certificate, as it signs all others
       assert_equal("Could not locate CA certificate.", @proxy_status.expiry)
     end
   end

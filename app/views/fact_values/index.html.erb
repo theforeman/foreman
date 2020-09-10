@@ -1,13 +1,13 @@
 <%
 if params[:host_id].present?
-  title(_("Fact Values | %{host_name}") % {:host_name => params[:host_id]})
+  fact_breadcrumbs
 else
   title(_("Fact Values"))
 end
 %>
-<% title_actions documentation_button('3.5.5FactsandtheENC') %>
+<% title_actions csv_link, documentation_button('3.5.5FactsandtheENC') %>
 
-<table class="<%= table_css_classes('table-fixed') %>">
+<table class="<%= table_css_classes('table-fixed factsTable') %>">
   <thead>
     <tr>
       <% unless params[:host_id] %>
@@ -15,7 +15,8 @@ end
       <% end %>
       <th><%= sort :name, :as => _("Name")  %></th>
       <th><%= sort :value, :as => s_("FactValue|Value") %></th>
-      <th class="col-md-2"><%= _('Reported at') %></th>
+      <th class="fact-origin"><%= sort :origin, :as => s_("FactValue|Origin") %></th>
+      <th class="col-md-2"><%= sort :reported_at, :as => _('Reported at') %></th>
       <th class="col-md-1"><%= _('Actions') %></th>
     </tr>
   </thead>

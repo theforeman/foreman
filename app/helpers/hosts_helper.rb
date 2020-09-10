@@ -4,6 +4,7 @@ module HostsHelper
   include ComputeResourcesVmsHelper
   include HostsNicHelper
   include BmcHelper
+  include AuthorizeHelper
 
   def provider_partial_exist?(compute_resource, partial)
     return false unless compute_resource
@@ -41,32 +42,26 @@ module HostsHelper
 
   def value_hash_cache(host)
     @value_hash_cache ||= {}
-    @value_hash_cache[host.id] ||= begin
-      Classification::ClassParam.new(:host=>host).inherited_values.
-        merge(Classification::GlobalParam.new(:host=>host).inherited_values)
-    end
+    @value_hash_cache[host.id] ||= HostInfoProviders::PuppetInfo.new(host).inherited_puppetclass_parameters
   end
 
   def host_taxonomy_select(f, taxonomy)
     taxonomy_id = "#{taxonomy.to_s.downcase}_id"
     selected_taxonomy = @host.new_record? ? taxonomy.current.try(:id) : @host.send(taxonomy_id)
+    label = _(taxonomy.to_s)
     select_opts = { :include_blank => !@host.managed? || @host.send(taxonomy_id).nil?,
                     :selected => selected_taxonomy }
     html_opts = { :disabled => !@host.new_record?,
-                  :onchange => "#{taxonomy.to_s.downcase}_changed(this);",
-                  :label => _(taxonomy.to_s),
+                  :class => 'host-taxonomy-select',
+                  :label => label,
                   :'data-host-id' => @host.id,
                   :'data-url' => process_taxonomy_hosts_path,
                   :help_inline => :indicator,
                   :required => true }
+    html_opts[:label_help] = (_("%s can be changed using bulk action on the All Hosts page") % taxonomy) unless @host.new_record?
 
     select_f f, taxonomy_id.to_sym, taxonomy.send("my_#{taxonomy.to_s.downcase.pluralize}"), :id, :to_label,
-            select_opts, html_opts
-  end
-
-  def new_host_title
-    t = _("New Host")
-    title(t, (t + ' <span id="hostFQDN"></span>').html_safe)
+      select_opts, html_opts
   end
 
   def flags_for_nic(nic)
@@ -77,19 +72,20 @@ module HostsHelper
   end
 
   def last_report_column(record)
-    time = record.last_report? ? _("%s ago") % time_ago_in_words(record.last_report): ""
+    time = record.last_report? ? date_time_relative_value(record.last_report) : ""
     link_to_if_authorized(time,
-                          hash_for_host_config_report_path(:host_id => record.to_param, :id => "last"),
-                          last_report_tooltip(record))
+      hash_for_host_config_report_path(:host_id => record.to_param, :id => "last"),
+      last_report_tooltip(record))
   end
 
   def last_report_tooltip(record)
     opts = { :rel => "twipsy" }
+    date = record.last_report.nil? ? '' : date_time_absolute_value(record.last_report) + ", "
     if @last_report_ids[record.id]
-      opts.merge!("data-original-title" => _("View last report details"))
+      opts["data-original-title"] = date + _("view last report details")
     else
       opts.merge!(:disabled => true, :class => "disabled", :onclick => 'return false')
-      opts.merge!("data-original-title" => _("Report Already Deleted")) unless record.last_report.nil?
+      opts["data-original-title"] = date + _("report already deleted") unless record.last_report.nil?
     end
     opts
   end
@@ -97,7 +93,8 @@ module HostsHelper
   # method that reformat the hostname column by adding the status icons
   def name_column(host)
     style = host_global_status_icon_class_for_host(host)
-    tooltip = host.host_statuses.select(&:relevant?).sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
+    displayable_statuses = host.host_statuses.select { |status| status.relevant? && !status.substatus? }
+    tooltip = displayable_statuses.sort_by(&:type).map { |status| "#{_(status.name)}: #{_(status.to_label)}" }.join(', ')
 
     content = content_tag(:span, "", {:rel => "twipsy", :class => style, :"data-original-title" => tooltip})
     content += link_to("  #{host}", host_path(host))
@@ -148,38 +145,21 @@ module HostsHelper
 
   def multiple_actions
     actions = []
-    if authorized_for(:controller => :hosts, :action => :edit)
-      actions.concat [
-        [_('Change Group'), select_multiple_hostgroup_hosts_path],
-        [_('Change Environment'), select_multiple_environment_hosts_path],
-        [_('Edit Parameters'), multiple_parameters_hosts_path],
-        [_('Disable Notifications'), multiple_disable_hosts_path],
-        [_('Enable Notifications'), multiple_enable_hosts_path],
-        [_('Disassociate Hosts'), multiple_disassociate_hosts_path],
-        [_('Rebuild Config'), rebuild_config_hosts_path]
-      ]
-      actions.insert(1, [_('Build Hosts'), multiple_build_hosts_path]) if SETTINGS[:unattended]
-      actions <<  [_('Assign Organization'), select_multiple_organization_hosts_path] if SETTINGS[:organizations_enabled]
-      actions <<  [_('Assign Location'), select_multiple_location_hosts_path] if SETTINGS[:locations_enabled]
-      actions <<  [_('Change Owner'), select_multiple_owner_hosts_path] if SETTINGS[:login]
-      actions <<  [_('Change Puppet Master'), select_multiple_puppet_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet").exists?
-      actions <<  [_('Change Puppet CA'), select_multiple_puppet_ca_proxy_hosts_path] if SmartProxy.unscoped.authorized.with_features("Puppet CA").exists?
+    UI::HostDescription.reduce_providers(:multiple_actions).each do |provider|
+      actions += send(provider)
     end
-    actions <<  [_('Run Puppet'), multiple_puppetrun_hosts_path] if Setting[:puppetrun] && authorized_for(:controller => :hosts, :action => :puppetrun)
-    actions <<  [_('Change Power State'), select_multiple_power_state_hosts_path] if authorized_for(:controller => :hosts, :action => :power)
-    actions << [_('Delete Hosts'), multiple_destroy_hosts_path] if authorized_for(:controller => :hosts, :action => :destroy)
-    actions
+    prioritized_members(actions, :action)
   end
 
   def multiple_actions_select
     select_action_button(_("Select Action"), {:id => 'submit_multiple'},
       multiple_actions.map do |action|
         # If the action array has 3 entries, the third one is whether to use a modal dialog or not
-        modal = action.size == 3 ? action[3] : true
+        modal = (action.size == 3) ? action[3] : true
         if modal
-          link_to_function(action[0], "build_modal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
+          link_to_function(action[0], "tfm.hosts.table.buildModal(this, '#{action[1]}')", :'data-dialog-title' => _("%s - The following hosts are about to be changed") % action[0])
         else
-          link_to_function(action[0], "build_redirect('#{action[1]}')")
+          link_to_function(action[0], "tfm.hosts.table.buildRedirect('#{action[1]}')")
         end
       end.flatten
     )
@@ -204,39 +184,39 @@ module HostsHelper
   end
 
   def resources_chart(timerange = 1.day.ago)
-    applied, failed, restarted, failed_restarts, skipped = [],[],[],[],[]
+    applied, failed, restarted, failed_restarts, skipped = [], [], [], [], []
     @host.reports.recent(timerange).each do |r|
-      applied         << [r.reported_at.to_i*1000, r.applied ]
-      failed          << [r.reported_at.to_i*1000, r.failed ]
-      restarted       << [r.reported_at.to_i*1000, r.restarted ]
-      failed_restarts << [r.reported_at.to_i*1000, r.failed_restarts ]
-      skipped         << [r.reported_at.to_i*1000, r.skipped ]
+      applied         << [r.reported_at.to_i * 1000, r.applied]
+      failed          << [r.reported_at.to_i * 1000, r.failed]
+      restarted       << [r.reported_at.to_i * 1000, r.restarted]
+      failed_restarts << [r.reported_at.to_i * 1000, r.failed_restarts]
+      skipped         << [r.reported_at.to_i * 1000, r.skipped]
     end
-    [{:label=>_("Applied"), :data=>applied,:color =>'#89A54E'},
-     {:label=>_("Failed"), :data=>failed,:color =>'#AA4643'},
-     {:label=>_("Failed restarts"), :data=>failed_restarts,:color =>'#AA4643'},
-     {:label=>_("Skipped"), :data=>skipped,:color =>'#80699B'},
-     {:label=>_("Restarted"), :data=>restarted,:color =>'#4572A7'}]
+    [{:label => _("Applied"), :data => applied, :color => '#89A54E'},
+     {:label => _("Failed"), :data => failed, :color => '#AA4643'},
+     {:label => _("Failed restarts"), :data => failed_restarts, :color => '#EC971F'},
+     {:label => _("Skipped"), :data => skipped, :color => '#80699B'},
+     {:label => _("Restarted"), :data => restarted, :color => '#4572A7'}]
   end
 
   def runtime_chart(timerange = 1.day.ago)
     config, runtime = [], []
     @host.reports.recent(timerange).each do |r|
-      config  << [r.reported_at.to_i*1000, r.config_retrieval]
-      runtime << [r.reported_at.to_i*1000, r.runtime]
+      config  << [r.reported_at.to_i * 1000, r.config_retrieval]
+      runtime << [r.reported_at.to_i * 1000, r.runtime]
     end
-    [{:label=>_("Config Retrieval"), :data=> config, :color=>'#AA4643'},{:label=>_("Runtime"), :data=> runtime,:color=>'#4572A7'}]
+    [{:label => _("Config Retrieval"), :data => config, :color => '#AA4643'}, {:label => _("Runtime"), :data => runtime, :color => '#4572A7'}]
   end
 
   def reports_show
-    return unless @host.reports.size > 0
+    return if @host.reports.empty?
     number_of_days = days_ago(@host.reports.order(:reported_at).first.reported_at)
     width = [number_of_days.to_s.size + 2, 4].max
 
     form_tag @host, :id => 'days_filter', :method => :get, :class => "form form-inline" do
       content_tag(:span, (_("Found %{count} reports from the last %{days} days") %
-        { :days  => select(nil, 'range', 1..number_of_days,
-                    {:selected => @range}, {:style=>"float:none; width: #{width}em;", :onchange =>"$('#days_filter').submit();$(this).disabled();"}),
+        { :days => select(nil, 'range', 1..number_of_days,
+          {:selected => @range}, {:style => "float:none; width: #{width}em;", :onchange => "$('#days_filter').submit();$(this).disabled();"}),
           :count => @host.reports.recent(@range.days.ago).count }).html_safe)
     end
   end
@@ -246,50 +226,23 @@ module HostsHelper
     (SETTINGS[:unattended] && host.managed?) ? host.shortname : host.name
   end
 
-  def overview_fields(host)
-    global_status = host.build_global_status
-    fields = [
-      [_("Status"), content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
-                    content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status))
-      ]
-    ]
-    fields += host_detailed_status_list(host)
-    fields += [[_("Domain"), (link_to(host.domain, hosts_path(:search => "domain = #{host.domain}")))]] if host.domain.present?
-    fields += [[_("Realm"), (link_to(host.realm, hosts_path(:search => "realm = #{host.realm}")))]] if host.realm.present?
-    fields += [[_("IP Address"), host.ip]] if host.ip.present?
-    fields += [[_("MAC Address"), host.mac]] if host.mac.present?
-    fields += [[_("Puppet Environment"), (link_to(host.environment, hosts_path(:search => "environment = #{host.environment}")))]] if host.environment.present?
-    fields += [[_("Host Architecture"), (link_to(host.arch, hosts_path(:search => "architecture = #{host.arch}")))]] if host.arch.present?
-    fields += [[_("Operating System"), (link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}")))]] if host.operatingsystem.present?
-    fields += [[_("Host group"), (link_to(host.hostgroup, hosts_path(:search => %{hostgroup_title = "#{host.hostgroup}"})))]] if host.hostgroup.present?
-    fields += [[_("Location"), (link_to(host.location.title, hosts_path(:search => "location = #{host.location}")) if host.location)]] if SETTINGS[:locations_enabled]
-    fields += [[_("Organization"), (link_to(host.organization.title, hosts_path(:search => "organization = #{host.organization}")) if host.organization)]] if SETTINGS[:organizations_enabled]
-    if SETTINGS[:login]
-      if host.owner_type == _("User")
-        fields += [[_("Owner"), (link_to(host.owner, hosts_path(:search => "user.login = #{host.owner.login}")) if host.owner)]]
-      else
-        fields += [[_("Owner"), host.owner]]
-      end
-    end
-    fields += [[_("Certificate Name"), host.certname]] if Setting[:use_uuid_for_certificates]
-    fields
+  def build_duration(host)
+    return _('N/A') if host.initiated_at.nil? || host.installed_at.nil?
+    distance_of_time_in_words(host.initiated_at, host.installed_at, include_seconds: true)
   end
 
-  def host_detailed_status_list(host)
-    host.host_statuses.sort_by(&:type).map do |status|
-      next unless status.relevant?
-      [
-        _(status.name),
-        content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
-          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global))
-      ]
-    end.compact
+  def overview_fields(host)
+    fields = []
+    UI::HostDescription.reduce_providers(:overview_fields).each do |provider|
+      fields += send(provider, host)
+    end
+    prioritized_members(fields, :field)
   end
 
   def possible_images(cr, arch = nil, os = nil)
-    return cr.images unless controller_name == "hosts"
+    return cr.images.order(:name) unless controller_name == "hosts"
     return [] unless arch && os
-    cr.images.where(:architecture_id => arch, :operatingsystem_id => os)
+    cr.images.where(:architecture_id => arch, :operatingsystem_id => os).order(:name)
   end
 
   def state(s)
@@ -297,55 +250,22 @@ module HostsHelper
   end
 
   def host_title_actions(host)
+    actions = []
+    UI::HostDescription.reduce_providers(:title_actions).each do |provider|
+      actions += send(provider, host)
+    end
     title_actions(
-        button_group(
-            link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
-                                    :title    => _("Edit this host"), :id => "edit-button", :class => 'btn btn-default'),
-            display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host),
-                                    :title    => _("Clone this host"), :id => "clone-button", :class => 'btn btn-default'),
-            if host.build
-              link_to_if_authorized(_("Cancel build"), hash_for_cancelBuild_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts'),
-                                    :disabled => host.can_be_built?,
-                                    :title    => _("Cancel build request for this host"), :id => "cancel-build-button", :class => 'btn btn-default')
-            else
-              link_to_if_authorized(_("Build"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'build_hosts', :anchor => "review_before_build"),
-                                    :disabled => !host.can_be_built?,
-                                    :title    => _("Enable rebuild on next host boot"),
-                                    :class    => "btn btn-default",
-                                    :id       => "build-review",
-                                    :data     => { :toggle => 'modal',
-                                                   :target => '#review_before_build',
-                                                   :url    => review_before_build_host_path(:id => host)
-                                    }
-              )
-            end
-        ),
-        if host.supports_power?
-          button_group(
-              link_to(_("Loading power state ..."), '#', :disabled => true, :class => 'btn btn-default', :id => :loading_power_state)
-          )
-        end,
-        button_group(
-          if host.try(:puppet_proxy)
-            link_to_if_authorized(_("Run puppet"), hash_for_puppetrun_host_path(:id => host).merge(:auth_object => host, :permission => 'puppetrun_hosts'),
-                                  :disabled => !Setting[:puppetrun],
-                                  :class => 'btn btn-default',
-                                  :title    => _("Trigger a puppetrun on a node; requires that puppet run is enabled"))
-          end
-        ),
-        button_group(
-            link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
-                                  :class => "btn btn-danger",
-                                  :id => "delete-button",
-                                  :data => { :message => delete_host_dialog(host) },
-                                  :method => :delete)
-        )
+      prioritized_members(actions, :action)
     )
   end
 
   def delete_host_dialog(host)
     if host.compute?
-      _("Are you sure you want to delete host %s? This will delete the virtual machine and its disks, and is irreversible.") % host.name
+      if Setting[:destroy_vm_on_host_delete]
+        _("Are you sure you want to delete host %s? This will delete the VM and its disks, and is irreversible. This behavior can be changed via global setting \"Destroy associated VM on host delete\".") % host.name
+      else
+        _("Are you sure you want to delete host %s? It is irreversible, but VM and its disks will not be deleted. This behavior can be changed via global setting \"Destroy associated VM on host delete\".") % host.name
+      end
     else
       _("Are you sure you want to delete host %s? This action is irreversible.") % host.name
     end
@@ -376,11 +296,12 @@ module HostsHelper
   end
 
   def show_appropriate_host_buttons(host)
-    [ link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => @host), :title => _("Host audit entries"), :class => 'btn btn-default'),
-      (link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default') if host.fact_values.any?),
-      (link_to_if_authorized(_("Reports"), hash_for_host_config_reports_path(:host_id => host), :title => _("Browse host config management reports"), :class => 'btn btn-default') if host.reports.any?),
-      (link_to(_("YAML"), externalNodes_host_path(:name => host), :title => _("Puppet external nodes YAML dump"), :class => 'btn btn-default') if SmartProxy.with_features("Puppet").any?)
-    ].compact
+    priority_buttons = []
+    UI::HostDescription.reduce_providers(:overview_buttons).each do |provider|
+      priority_buttons += send(provider, host)
+    end
+
+    prioritized_members(priority_buttons, :button)
   end
 
   def allocation_text_f(f)
@@ -394,13 +315,14 @@ module HostsHelper
         content_tag :button, _(label), :type => 'button', :href => '#',
           :name => 'allocation_radio_btn',
           :class => (label == active) ? 'btn btn-default active' : 'btn btn-default',
-          :onclick => "allocation_switcher(this, '#{label}');",
-          :data => { :toggle => 'button' }
+          :onclick => "tfm.computeResource.libvirt.allocationSwitcher(this, '#{label}');",
+          :data => { :toggle => 'button' },
+          :id => (label == 'Full') ? 'btnAllocationFull' : nil
       end.join(' ').html_safe
     end)
   end
 
-# helper method to provide data attribute if subnets has ipam enabled / disabled
+  # helper method to provide data attribute if subnets has ipam enabled / disabled
   def subnets_ipam_data(field)
     data = {}
     domain_subnets(field).each do |subnet|
@@ -420,9 +342,9 @@ module HostsHelper
     return '' if nic.new_record?
 
     if nic.link
-      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="'+ _('Interface is up') +'"></i>'
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-up interface-up" title="' + _('Interface is up') + '"></i>'
     else
-      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="'+ _('Interface is down') +'"></i>'
+      status = '<i class="glyphicon glyphicon glyphicon-arrow-down interface-down" title="' + _('Interface is down') + '"></i>'
     end
     status.html_safe
   end
@@ -442,8 +364,8 @@ module HostsHelper
 
   def review_build_button(form, status)
     form.submit(_("Build"),
-                :class => "btn btn-#{status} submit",
-                :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
+      :class => "btn btn-#{status} submit",
+      :title => (status == 'warning') ? _('Build') : _('Errors occurred, build may fail')
     )
   end
 
@@ -451,7 +373,7 @@ module HostsHelper
     case type
       when :templates
         link_to_if_authorized(_("Edit"), hash_for_edit_provisioning_template_path(:id => id).merge(:auth_object => id),
-                              :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type))
+          :class => "btn btn-default btn-xs pull-right", :title => _("Edit %s" % type))
     end
   end
 
@@ -466,15 +388,30 @@ module HostsHelper
     selectable_f form,
       :proxy_id,
       [[_("Select desired %s proxy") % _(proxy_feature), "disabled"]] +
-      [[_("*Clear %s proxy*") % _(proxy_feature), "" ]] +
-      SmartProxy.with_features(proxy_feature).map {|p| [p.name, p.id]},
+      [[_("*Clear %s proxy*") % _(proxy_feature), ""]] +
+      SmartProxy.with_features(proxy_feature).map { |p| [p.name, p.id] },
       {},
-      { :onchange => "toggle_multiple_ok_button(this)" }
+      {:label => _(proxy_feature), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" }
   end
 
   def randomize_mac_link
-    link_class = "hide" unless NameGenerator.random_based?
-    link_to_function(icon_text("random", _("Randomize")), "randomizeName()",
-      :title => _('Generate new random name. Visit Settings to disable this feature.'), :'data-placement' => "right", :class => link_class)
+    if NameGenerator.random_based?
+      link_to_function(icon_text('random'), 'randomizeName()', :class => 'btn btn-default',
+        :title => _('Generate new random name. Visit Settings to disable this feature.'))
+    end
+  end
+
+  def power_status_visible?
+    SETTINGS[:unattended] && Setting[:host_power_status]
+  end
+
+  def host_breadcrumb
+    breadcrumbs(resource_url: "/api/v2/hosts?thin=true'")
+  end
+
+  def prioritized_members(list, value_key)
+    list.
+      sort_by { |member| member[:priority] }.
+      map { |member_hash| member_hash[value_key] }
   end
 end

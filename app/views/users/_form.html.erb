@@ -1,4 +1,3 @@
-<%= javascript 'users', 'password_strength' %>
 
 <%= form_for @user do |f| %>
   <%= base_errors_for @user %>
@@ -13,15 +12,24 @@
       <li><a href='#organizations' data-toggle='tab'><%= _('Organizations') %></a></li>
     <% end %>
     <li><a href='#roles' data-toggle='tab'><%= _('Roles') %></a></li>
+    <% if @editing_self || authorized_for(:controller => 'ssh_keys', :action => :view) %>
+      <li><a href='#ssh_keys' data-toggle='tab'><%= _('SSH Keys') %></a></li>
+    <% end %>
   </ul>
 
   <div class='tab-content'>
     <div class='tab-pane active' id='primary'>
-
-      <%= text_f f, :login, :disabled => f.object.login == 'admin' %>
+      <% if !@user.internal? && !@user.new_record? %>
+        <%  msg = "External user login can not be changed" %>
+      <% end %>
+      <%= text_f f, :login, :disabled => msg.present? , :label_help => msg %>
       <%= text_f f, :firstname %>
       <%= text_f f, :lastname %>
       <%= text_f f, :mail %>
+      <% unless @user == User.current %>
+        <%= checkbox_f f, :disabled %>
+      <% end %>
+      <%= textarea_f f, :description, :rows=> 5, :size => "col-md-4" %>
 
       <%= selectable_f(f, :locale, FastGettext.human_available_locales,
                         { :include_blank => _('Browser locale') } , { :label => _('Language') } ) %>
@@ -30,12 +38,21 @@
 
       <%= select_f(f, :auth_source_id, AuthSource.except_hidden.to_a.delete_if { |a| a.to_label.nil? } , :id,
                       :to_label, { :include_blank => true } ,
-                      { :onchange => 'auth_source_selected()',
+                      { :onchange => 'tfm.users.authSourceSelected(this)',
                         :label => _('Authorized by') } ) unless @editing_self %>
 
       <div id='password' <%= display? !@user.manage_password? %>>
-        <%= password_f f, :password, :label => _('Password'), :error => @user.errors[:password_hash] %>
-        <%= password_f f, :password_confirmation, :label => _('Verify') %>
+        <% if User.current == @user  %>
+          <%= password_f f, :current_password, :label => _('Current password'), :placeholder => '' %>
+        <% end %>
+        <%= react_component('PasswordStrength',
+                            {data: {:className => 'form-control',
+                                   :id => 'user_password',
+                                   :userInputIds => ['user_login'],
+                                   :name => 'user[password]',
+                                   :verify => {name: 'user[password_confirmation]', :error => f.object.errors[:password_confirmation].present? ? f.object.errors[:password_confirmation].to_sentence : false},
+                                   :error => f.object.errors[:password_hash].present? ? f.object.errors[:password_hash].to_sentence : false,
+                                   :required => f.object.new_record? }}) %>
       </div>
     </div>
 
@@ -49,32 +66,76 @@
       <%= field_set_tag _("General") do %>
         <%= checkbox_f f, :mail_enabled %>
         <div class='col-md-4'>
-            <%= link_to_function(_("Test email"), "test_mail(this, '#{f.object.id}', '#{test_mail_user_url(f.object)}')",
+            <%= link_to_function(_("Test email"), "tfm.users.testMail(this, '#{test_mail_user_url(f.object)}', {user_email: $('#user_mail').val()})",
                                                 :title => _("Send a test message to the user's email address to confirm the configuration is working."), :id => "test_mail_button", :class =>"btn btn-success") + hidden_spinner('', :id => 'test_indicator').html_safe if action_name == "edit" %>
         </div>
       <% end %>
       </br>
-      <% if @user.new_record? %>
-        <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications.") %>
-      <% else %>
-        <%= field_set_tag _("Notifications") do %>
+
+      <%= field_set_tag _("Notifications") do %>
+        <% if @user.new_record? %>
+          <%= alert :class => 'alert-warning', :header => '', :text => _("Please save the user first before assigning mail notifications."), :close => false %>
+        <% elsif !@user.user_mail_notifications.empty? %>
           <%= f.fields_for :user_mail_notifications do |mail_form| %>
             <%= render :partial => "users/mail_notifications", :locals => { :f => mail_form }  %>
           <% end %>
+        <% else %>
+          <%= alert :class => 'alert-info', :header => '', :text => _("Notifications can't be assigned to this user."), :close => false %>
         <% end %>
       <% end %>
     </div>
 
+    <% if @editing_self || authorized_for(:controller => 'ssh_keys', :action => :view) %>
+      <%= render 'ssh_keys/ssh_keys_tab', :f => f, :user => @user %>
+    <% end %>
 
     <div class='tab-pane' id='roles'>
-      <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
-      <%= multiple_checkboxes f, :roles, @user, Role.givable.for_current_user,
-                               { :label => _('Roles')}, {:disabled => @editing_self ? Role.givable.for_current_user.pluck(:id) : false } %>
+      <% caption = @user.inherited_admin? ? _('Admin rights are currently inherited from a user group') : '' %>
+      <%= checkbox_f f, :admin, help_block: caption if User.current.can_change_admin_flag? %>
+      <%= multiple_checkboxes f, :roles, @user, Role.for_current_user,
+                              { :label => _('Roles')}, {:disabled => @editing_self ? Role.for_current_user.pluck(:id) : false } %>
+      <% usergroups = @user.cached_usergroups.includes(:roles).distinct %>
+      <% if usergroups.any? %>
+        <div class="form-group" id="inherited-roles">
+          <label class="col-md-2 control-label" for="roles"><%= _("Roles from user groups") %></label>
+          <div class="col-md-5">
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="usergroupsDropdownMenuBtn" data-toggle="dropdown">
+                <%= usergroups.first %>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="usergroupsDropdownMenuBtn">
+                <% usergroups.each do |usergroup| %>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-id="<%=usergroup.id %>"><%= usergroup %></a></li>
+                <% end %>
+              </ul>
+            </div>
+            <ul class="list-group" id='roles_tab'>
+              <% usergroups.each do |usergroup|  %>
+                  <% unless usergroup.roles.map(&:name).any? %>
+                      <li data-id="<%= usergroup.id %>" class="list-group-item"><%= _('This group has no roles') %></li>
+                  <%end %>
+                <% usergroup.roles.map(&:name).each do |role_name| %>
+                  <li data-id="<%= usergroup.id %>" class="list-group-item hidden"><%= role_name %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end  %>
     </div>
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @user,
                :html_options => user_taxonomies_html_options(@user)
-      %>
+    %>
   </div>
 
   <%= submit_or_cancel f %>
 <% end %>
+
+<% if @user.cached_usergroups.any? %>
+  <script>
+      $(function() {
+        tfm.users.initInheritedRoles();
+      });
+  </script>
+<% end  %>

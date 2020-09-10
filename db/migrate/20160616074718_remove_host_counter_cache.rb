@@ -1,4 +1,4 @@
-class RemoveHostCounterCache < ActiveRecord::Migration
+class RemoveHostCounterCache < ActiveRecord::Migration[4.2]
   def change
     remove_column :domains, :total_hosts, :integer, :default => 0
     remove_column :domains, :hostgroups_count, :integer, :default => 0

@@ -1,0 +1,703 @@
+{
+  "aio_agent_version": "5.5.16",
+  "architecture": "amd64",
+  "augeas": {
+    "version": "1.12.0"
+  },
+  "augeasversion": "1.12.0",
+  "bios_release_date": "04/18/2016",
+  "bios_vendor": "American Megatrends Inc.",
+  "bios_version": "3301",
+  "blockdevice_sda_model": "MR9363-4i",
+  "blockdevice_sda_size": 479559942144,
+  "blockdevice_sda_vendor": "AVAGO",
+  "blockdevice_sdb_model": "MR9363-4i",
+  "blockdevice_sdb_size": 479559942144,
+  "blockdevice_sdb_vendor": "AVAGO",
+  "blockdevice_sr0_model": "CDDVDW SN-208FB",
+  "blockdevice_sr0_size": 1073741312,
+  "blockdevice_sr0_vendor": "TSSTcorp",
+  "blockdevices": "sda,sdb,sr0",
+  "boardassettag": "To be filled by O.E.M.",
+  "boardmanufacturer": "ASUSTeK COMPUTER INC.",
+  "boardproductname": "Z10PP-D24 Series",
+  "boardserialnumber": "unknown",
+  "chassisassettag": "To Be Filled By O.E.M.",
+  "chassistype": "Main System Chassis",
+  "disks": {
+    "sda": {
+      "model": "MR9363-4i",
+      "size": "446.63 GiB",
+      "size_bytes": 479559942144,
+      "vendor": "AVAGO"
+    },
+    "sdb": {
+      "model": "MR9363-4i",
+      "size": "446.63 GiB",
+      "size_bytes": 479559942144,
+      "vendor": "AVAGO"
+    },
+    "sr0": {
+      "model": "CDDVDW SN-208FB",
+      "size": "1.00 GiB",
+      "size_bytes": 1073741312,
+      "vendor": "TSSTcorp"
+    }
+  },
+  "dmi": {
+    "bios": {
+      "release_date": "04/18/2016",
+      "vendor": "American Megatrends Inc.",
+      "version": "3301"
+    },
+    "board": {
+      "asset_tag": "To be filled by O.E.M.",
+      "manufacturer": "ASUSTeK COMPUTER INC.",
+      "product": "Z10PP-D24 Series",
+      "serial_number": "unknown"
+    },
+    "chassis": {
+      "asset_tag": "To Be Filled By O.E.M.",
+      "type": "Main System Chassis"
+    },
+    "manufacturer": "Thomas-Krenn.AG",
+    "product": {
+      "name": "RS700-E8-RS8 V2",
+      "serial_number": "unknown",
+      "uuid": "4CE97A91-137E-3AE3-52CA-1CB72C0A3439"
+    }
+  },
+  "domain": "example.com",
+  "facterversion": "3.11.9",
+  "filesystems": "btrfs,ext2,ext3,ext4,hfs,hfsplus,jfs,minix,msdos,ntfs,qnx4,squashfs,ufs,vfat,xfs",
+  "fips_enabled": false,
+  "fqdn": "server-42.example.com",
+  "gid": "root",
+  "hardwareisa": "x86_64",
+  "hardwaremodel": "x86_64",
+  "hostname": "claas-pro-pg-n1",
+  "id": "root",
+  "identity": {
+    "gid": 0,
+    "group": "root",
+    "privileged": true,
+    "uid": 0,
+    "user": "root"
+  },
+  "interfaces": "backend,bond0,bond1,enp130s0f0,enp130s0f1,enp3s0f0,enp3s0f1,lo,br_customer,vlan106",
+  "ipaddress": "10.10.6.45",
+  "ipaddress6": "fe80::1eb7:2cff:fe0a:3439",
+  "ipaddress6_backend": "fe80::49b:baff:fe99:d0db",
+  "ipaddress6_bond0": "fe80::1eb7:2cff:fe0a:3439",
+  "ipaddress6_bond1": "fe80::b696:91ff:fe00:5a58",
+  "ipaddress6_lo": "::1",
+  "ipaddress6_br_customer": "fe80::1eb7:2cff:fe0a:3439",
+  "ipaddress6_vlan106": "fe80::1eb7:2cff:fe0a:3439",
+  "ipaddress_backend": "192.168.142.45",
+  "ipaddress_lo": "127.0.0.1",
+  "ipaddress_br_customer": "10.10.6.45",
+  "is_virtual": false,
+  "kernel": "Linux",
+  "kernelmajversion": "4.4",
+  "kernelrelease": "4.4.0-145-generic",
+  "kernelversion": "4.4.0",
+  "load_averages": {
+    "15m": 0.15,
+    "1m": 0.21,
+    "5m": 0.19
+  },
+  "lsbdistcodename": "xenial",
+  "lsbdistdescription": "Ubuntu 16.04.6 LTS",
+  "lsbdistid": "Ubuntu",
+  "lsbdistrelease": "16.04",
+  "lsbmajdistrelease": "16.04",
+  "macaddress": "1c:b7:2c:0a:34:39",
+  "macaddress_backend": "b4:96:91:00:5a:58",
+  "macaddress_bond0": "1c:b7:2c:0a:34:39",
+  "macaddress_bond1": "b4:96:91:00:5a:58",
+  "macaddress_enp130s0f0": "b4:96:91:00:5a:58",
+  "macaddress_enp130s0f1": "b4:96:91:00:5a:5a",
+  "macaddress_enp3s0f0": "1c:b7:2c:0a:34:39",
+  "macaddress_enp3s0f1": "1c:b7:2c:0a:34:3a",
+  "macaddress_br_customer": "1c:b7:2c:0a:34:39",
+  "macaddress_vlan106": "1c:b7:2c:0a:34:39",
+  "manufacturer": "Thomas-Krenn.AG",
+  "memory": {
+    "system": {
+      "available": "60.26 GiB",
+      "available_bytes": 64703336448,
+      "capacity": "4.08%",
+      "total": "62.82 GiB",
+      "total_bytes": 67455672320,
+      "used": "2.56 GiB",
+      "used_bytes": 2752335872
+    }
+  },
+  "memoryfree": "60.26 GiB",
+  "memoryfree_mb": 61705.91015625,
+  "memorysize": "62.82 GiB",
+  "memorysize_mb": 64330.7421875,
+  "mountpoints": {
+    "/": {
+      "available": "14.92 GiB",
+      "available_bytes": 16024690688,
+      "capacity": "18.03%",
+      "device": "/dev/mapper/vgsys-root",
+      "filesystem": "ext4",
+      "options": [
+        "rw",
+        "relatime",
+        "errors=remount-ro",
+        "stripe=64",
+        "data=ordered"
+      ],
+      "size": "18.21 GiB",
+      "size_bytes": 19550392320,
+      "used": "3.28 GiB",
+      "used_bytes": 3525701632
+    },
+    "/dev": {
+      "available": "31.39 GiB",
+      "available_bytes": 33707540480,
+      "capacity": "0%",
+      "device": "udev",
+      "filesystem": "devtmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "relatime",
+        "size=32917520k",
+        "nr_inodes=8229380",
+        "mode=755"
+      ],
+      "size": "31.39 GiB",
+      "size_bytes": 33707540480,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/dev/hugepages": {
+      "available": "0 bytes",
+      "available_bytes": 0,
+      "capacity": "100%",
+      "device": "hugetlbfs",
+      "filesystem": "hugetlbfs",
+      "options": [
+        "rw",
+        "relatime"
+      ],
+      "size": "0 bytes",
+      "size_bytes": 0,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/dev/mqueue": {
+      "available": "0 bytes",
+      "available_bytes": 0,
+      "capacity": "100%",
+      "device": "mqueue",
+      "filesystem": "mqueue",
+      "options": [
+        "rw",
+        "relatime"
+      ],
+      "size": "0 bytes",
+      "size_bytes": 0,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/dev/pts": {
+      "available": "0 bytes",
+      "available_bytes": 0,
+      "capacity": "100%",
+      "device": "devpts",
+      "filesystem": "devpts",
+      "options": [
+        "rw",
+        "nosuid",
+        "noexec",
+        "relatime",
+        "gid=5",
+        "mode=620",
+        "ptmxmode=000"
+      ],
+      "size": "0 bytes",
+      "size_bytes": 0,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/dev/shm": {
+      "available": "31.41 GiB",
+      "available_bytes": 33727782912,
+      "capacity": "0.00%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev"
+      ],
+      "size": "31.41 GiB",
+      "size_bytes": 33727836160,
+      "used": "52.00 KiB",
+      "used_bytes": 53248
+    },
+    "/media/backup/pro": {
+      "available": "16.75 TiB",
+      "available_bytes": 18414688010240,
+      "capacity": "45.27%",
+      "device": "192.168.142.230:/data/col1/ful_postgres-pro-dump/claas",
+      "filesystem": "nfs",
+      "options": [
+        "rw",
+        "relatime",
+        "vers=3",
+        "rsize=1048576",
+        "wsize=1048576",
+        "namlen=255",
+        "hard",
+        "proto=tcp",
+        "timeo=600",
+        "retrans=2",
+        "sec=sys",
+        "mountaddr=192.168.142.230",
+        "mountvers=3",
+        "mountport=2052",
+        "mountproto=udp",
+        "local_lock=none",
+        "addr=192.168.142.230"
+      ],
+      "size": "30.60 TiB",
+      "size_bytes": 33648128557056,
+      "used": "13.85 TiB",
+      "used_bytes": 15233440546816
+    },
+    "/run": {
+      "available": "5.80 GiB",
+      "available_bytes": 6224076800,
+      "capacity": "7.73%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "noexec",
+        "relatime",
+        "size=6587468k",
+        "mode=755"
+      ],
+      "size": "6.28 GiB",
+      "size_bytes": 6745567232,
+      "used": "497.33 MiB",
+      "used_bytes": 521490432
+    },
+    "/run/lock": {
+      "available": "5.00 MiB",
+      "available_bytes": 5242880,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "relatime",
+        "size=5120k"
+      ],
+      "size": "5.00 MiB",
+      "size_bytes": 5242880,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/run/rpc_pipefs": {
+      "available": "0 bytes",
+      "available_bytes": 0,
+      "capacity": "100%",
+      "device": "sunrpc",
+      "filesystem": "rpc_pipefs",
+      "options": [
+        "rw",
+        "relatime"
+      ],
+      "size": "0 bytes",
+      "size_bytes": 0,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/run/user/0": {
+      "available": "6.28 GiB",
+      "available_bytes": 6745567232,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "relatime",
+        "size=6587468k",
+        "mode=700"
+      ],
+      "size": "6.28 GiB",
+      "size_bytes": 6745567232,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/sys/fs/cgroup": {
+      "available": "31.41 GiB",
+      "available_bytes": 33727836160,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "ro",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "mode=755"
+      ],
+      "size": "31.41 GiB",
+      "size_bytes": 33727836160,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/var/lib/postgresql": {
+      "available": "142.73 GiB",
+      "available_bytes": 153254715392,
+      "capacity": "28.61%",
+      "device": "/dev/mapper/vgdata-postgres",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "relatime",
+        "attr2",
+        "inode64",
+        "logbsize=256k",
+        "sunit=512",
+        "swidth=512",
+        "noquota"
+      ],
+      "size": "199.93 GiB",
+      "size_bytes": 214669721600,
+      "used": "57.20 GiB",
+      "used_bytes": 61415006208
+    },
+    "/var/log": {
+      "available": "4.24 GiB",
+      "available_bytes": 4557520896,
+      "capacity": "4.79%",
+      "device": "/dev/mapper/vgsys-varlog",
+      "filesystem": "ext4",
+      "options": [
+        "rw",
+        "relatime",
+        "stripe=64",
+        "data=ordered"
+      ],
+      "size": "4.46 GiB",
+      "size_bytes": 4786880512,
+      "used": "218.73 MiB",
+      "used_bytes": 229359616
+    }
+  },
+  "mtu_backend": 1500,
+  "mtu_bond0": 1500,
+  "mtu_bond1": 1500,
+  "mtu_enp130s0f0": 1500,
+  "mtu_enp130s0f1": 1500,
+  "mtu_enp3s0f0": 1500,
+  "mtu_enp3s0f1": 1500,
+  "mtu_lo": 65536,
+  "mtu_br_customer": 1500,
+  "mtu_vlan106": 1500,
+  "netmask": "255.255.255.0",
+  "netmask6": "ffff:ffff:ffff:ffff::",
+  "netmask6_backend": "ffff:ffff:ffff:ffff::",
+  "netmask6_bond0": "ffff:ffff:ffff:ffff::",
+  "netmask6_bond1": "ffff:ffff:ffff:ffff::",
+  "netmask6_lo": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+  "netmask6_br_customer": "ffff:ffff:ffff:ffff::",
+  "netmask6_vlan106": "ffff:ffff:ffff:ffff::",
+  "netmask_backend": "255.255.255.0",
+  "netmask_lo": "255.0.0.0",
+  "netmask_br_customer": "255.255.255.0",
+  "network": "10.10.6.0",
+  "network6": "fe80::",
+  "network6_backend": "fe80::",
+  "network6_bond0": "fe80::",
+  "network6_bond1": "fe80::",
+  "network6_lo": "::1",
+  "network6_br_customer": "fe80::",
+  "network6_vlan106": "fe80::",
+  "network_backend": "192.168.142.0",
+  "network_lo": "127.0.0.0",
+  "network_br_customer": "10.10.6.0",
+  "networking": {
+    "domain": "example.com",
+    "fqdn": "server-42.example.com",
+    "hostname": "claas-pro-pg-n1",
+    "interfaces": {
+      "backend": {
+        "bindings": [
+          {
+            "address": "192.168.142.45",
+            "netmask": "255.255.255.0",
+            "network": "192.168.142.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::49b:baff:fe99:d0db",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip": "192.168.142.45",
+        "ip6": "fe80::49b:baff:fe99:d0db",
+        "mac": "b4:96:91:00:5a:58",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "192.168.142.0",
+        "network6": "fe80::"
+      },
+      "bond0": {
+        "bindings6": [
+          {
+            "address": "fe80::1eb7:2cff:fe0a:3439",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip6": "fe80::1eb7:2cff:fe0a:3439",
+        "mac": "1c:b7:2c:0a:34:39",
+        "mtu": 1500,
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network6": "fe80::"
+      },
+      "bond1": {
+        "bindings6": [
+          {
+            "address": "fe80::b696:91ff:fe00:5a58",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip6": "fe80::b696:91ff:fe00:5a58",
+        "mac": "b4:96:91:00:5a:58",
+        "mtu": 1500,
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network6": "fe80::"
+      },
+      "enp130s0f0": {
+        "mac": "b4:96:91:00:5a:58",
+        "mtu": 1500
+      },
+      "enp130s0f1": {
+        "mac": "b4:96:91:00:5a:5a",
+        "mtu": 1500
+      },
+      "enp3s0f0": {
+        "mac": "1c:b7:2c:0a:34:39",
+        "mtu": 1500
+      },
+      "enp3s0f1": {
+        "mac": "1c:b7:2c:0a:34:3a",
+        "mtu": 1500
+      },
+      "lo": {
+        "bindings": [
+          {
+            "address": "127.0.0.1",
+            "netmask": "255.0.0.0",
+            "network": "127.0.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "::1",
+            "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            "network": "::1"
+          }
+        ],
+        "ip": "127.0.0.1",
+        "ip6": "::1",
+        "mtu": 65536,
+        "netmask": "255.0.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "network": "127.0.0.0",
+        "network6": "::1"
+      },
+      "br_customer": {
+        "bindings": [
+          {
+            "address": "10.10.6.45",
+            "netmask": "255.255.255.0",
+            "network": "10.10.6.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::1eb7:2cff:fe0a:3439",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip": "10.10.6.45",
+        "ip6": "fe80::1eb7:2cff:fe0a:3439",
+        "mac": "1c:b7:2c:0a:34:39",
+        "mtu": 1500,
+        "netmask": "255.255.255.0",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "10.10.6.0",
+        "network6": "fe80::"
+      },
+      "vlan106": {
+        "bindings6": [
+          {
+            "address": "fe80::1eb7:2cff:fe0a:3439",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "ip6": "fe80::1eb7:2cff:fe0a:3439",
+        "mac": "1c:b7:2c:0a:34:39",
+        "mtu": 1500,
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network6": "fe80::"
+      }
+    },
+    "ip": "10.10.6.45",
+    "ip6": "fe80::1eb7:2cff:fe0a:3439",
+    "mac": "1c:b7:2c:0a:34:39",
+    "mtu": 1500,
+    "netmask": "255.255.255.0",
+    "netmask6": "ffff:ffff:ffff:ffff::",
+    "network": "10.10.6.0",
+    "network6": "fe80::",
+    "primary": "br_customer"
+  },
+  "operatingsystem": "Ubuntu",
+  "operatingsystemmajrelease": "16.04",
+  "operatingsystemrelease": "16.04",
+  "os": {
+    "architecture": "amd64",
+    "distro": {
+      "codename": "xenial",
+      "description": "Ubuntu 16.04.6 LTS",
+      "id": "Ubuntu",
+      "release": {
+        "full": "16.04",
+        "major": "16.04"
+      }
+    },
+    "family": "Debian",
+    "hardware": "x86_64",
+    "name": "Ubuntu",
+    "release": {
+      "full": "16.04",
+      "major": "16.04"
+    },
+    "selinux": {
+      "enabled": false
+    }
+  },
+  "osfamily": "Debian",
+  "partitions": {
+    "/dev/mapper/vgdata-postgres": {
+      "filesystem": "xfs",
+      "mount": "/var/lib/postgresql",
+      "size": "200.00 GiB",
+      "size_bytes": 214748364800,
+      "uuid": "712b1699-cc05-4544-92a7-b54ff6ed28fa"
+    },
+    "/dev/mapper/vgsys-root": {
+      "filesystem": "ext4",
+      "mount": "/",
+      "size": "18.63 GiB",
+      "size_bytes": 19998441472,
+      "uuid": "ad13da8e-4c86-4424-86fa-da17d120c108"
+    },
+    "/dev/mapper/vgsys-varlog": {
+      "filesystem": "ext4",
+      "mount": "/var/log",
+      "size": "4.66 GiB",
+      "size_bytes": 4999610368,
+      "uuid": "5ca582d8-7ae7-46d6-8b66-f4a73c27d045"
+    },
+    "/dev/sda1": {
+      "filesystem": "LVM2_member",
+      "partuuid": "77557d24-01",
+      "size": "446.62 GiB",
+      "size_bytes": 479557844992,
+      "uuid": "lisj3S-bHG2-51I2-CX8B-VaB2-HpIJ-WcVUMW"
+    }
+  },
+  "path": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/puppetlabs/bin",
+  "physicalprocessorcount": 2,
+  "processor0": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor1": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor10": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor11": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor12": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor13": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor14": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor15": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor2": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor3": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor4": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor5": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor6": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor7": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor8": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processor9": "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+  "processorcount": 16,
+  "processors": {
+    "count": 16,
+    "isa": "x86_64",
+    "models": [
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz",
+      "Intel(R) Xeon(R) CPU E5-2637 v4 @ 3.50GHz"
+    ],
+    "physicalcount": 2,
+    "speed": "3.70 GHz"
+  },
+  "productname": "RS700-E8-RS8 V2",
+  "ruby": {
+    "platform": "x86_64-linux",
+    "sitedir": "/opt/puppetlabs/puppet/lib/ruby/site_ruby/2.4.0",
+    "version": "2.4.5"
+  },
+  "rubyplatform": "x86_64-linux",
+  "rubysitedir": "/opt/puppetlabs/puppet/lib/ruby/site_ruby/2.4.0",
+  "rubyversion": "2.4.5",
+  "selinux": false,
+  "serialnumber": "unknown",
+  "system_uptime": {
+    "days": 133,
+    "hours": 3198,
+    "seconds": 11514806,
+    "uptime": "133 days"
+  },
+  "timezone": "CEST",
+  "uptime": "133 days",
+  "uptime_days": 133,
+  "uptime_hours": 3198,
+  "uptime_seconds": 11514806,
+  "uuid": "4CE97A91-137E-3AE3-52CA-1CB72C0A3439",
+  "virtual": "physical"
+}

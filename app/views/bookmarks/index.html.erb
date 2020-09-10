@@ -1,13 +1,12 @@
 <% title _("Bookmarks") %>
-<% title_actions documentation_button('4.1.5Bookmarks') %>
-<div class="title_action"></div>
+<% title_actions documentation_button('4.1.5Searching') %>
 
-<table class="<%= table_css_classes("table-two-pane table-hover") %>">
+<table class="<%= table_css_classes("table-hover table-fixed") %>">
   <thead>
     <tr>
-      <th><%= s_("Bookmark|Name") %></th>
+      <th><%= sort :name, :as => s_("Bookmark|Name") %></th>
       <th><%= s_("Bookmark|Query") %></th>
-      <th><%= s_("Bookmark|Controller") %></th>
+      <th><%= sort :controller, :as => s_("Bookmark|Controller") %></th>
       <th><%= s_("Bookmark|Public") %></th>
       <th><%= _('Actions') %></th>
     </tr>
@@ -15,7 +14,7 @@
   <tbody>
     <% @bookmarks.each do |bookmark| %>
       <tr>
-        <td class="display-two-pane"><%= link_to_if_authorized(trunc_with_tooltip(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
+        <td><%= link_to_if_authorized(trunc_with_tooltip(bookmark.name), hash_for_edit_bookmark_path(bookmark)) %></td>
         <td><%= bookmark.query %></td>
         <td><%= bookmark.controller %></td>
         <td><%= bookmark.public %></td>

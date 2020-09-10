@@ -1,7 +1,69 @@
 module LayoutHelper
+  def mount_react_app
+    mount_react_component('ReactApp', "#react-app-root", {
+      layout: layout_data,
+      metadata: app_metadata,
+      toasts: toast_notifications_data,
+    }.to_json)
+  end
+
+  def fetch_menus
+    UserMenu.new.menus.flatten
+  end
+
+  def taxonomies_booleans
+    { locations: show_location_tab?, organizations: show_organization_tab? }
+  end
+
+  def available_organizations
+    Organization.my_organizations.map do |organization|
+      {id: organization.id, title: organization.title, href: main_app.select_organization_path(organization)}
+    end
+  end
+
+  def available_locations
+    Location.my_locations.map do |location|
+      {id: location.id, title: location.title, href: main_app.select_location_path(location)}
+    end
+  end
+
+  def current_organization
+    Organization&.current&.title
+  end
+
+  def current_location
+    Location&.current&.title
+  end
+
+  def fetch_organizations
+    if show_organization_tab?
+      { current_org: current_organization, available_organizations: available_organizations }
+    end
+  end
+
+  def fetch_locations
+    if show_location_tab?
+      { current_location: current_location, available_locations: available_locations }
+    end
+  end
+
+  def fetch_user
+    { current_user: User.current, user_dropdown: Menu::Manager.to_hash(:side_menu), impersonated_by: User.unscoped.find_by_id(session[:impersonated_by]) }
+  end
+
+  def layout_data
+    { menu: fetch_menus,
+      logo: image_path("header_logo.svg", :class => "header-logo"),
+      notification_url: main_app.notification_recipients_path,
+      stop_impersonation_url: main_app.stop_impersonation_users_path,
+      user: fetch_user, brand: 'foreman',
+      taxonomies: taxonomies_booleans, root: main_app.root_path,
+      locations: fetch_locations, orgs: fetch_organizations }
+  end
+
   def title(page_title, page_header = nil)
     content_for(:title, page_title.to_s)
-    @page_header ||= page_header || @content_for_title || page_title.to_s
+    @page_header ||= page_header || page_title.to_s
   end
 
   def title_actions(*elements)
@@ -9,19 +71,31 @@ module LayoutHelper
   end
 
   def button_group(*elements)
-    content_tag(:div,:class=>"btn-group") { elements.join(" ").html_safe }
+    content_tag(:div, :class => "btn-group") { elements.join(" ").html_safe }
   end
 
   def search_bar(*elements)
     content_for(:search_bar) { elements.join(" ").html_safe }
   end
 
+  def mount_breadcrumbs(options = {}, &block)
+    options = BreadcrumbsOptions.new(@page_header, controller, action_name, block_given? ? yield : options)
+
+    mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json) if !@welcome && response.ok?
+  end
+
+  def breadcrumbs(options = {}, &block)
+    content_for(:breadcrumbs) do
+      mount_breadcrumbs(options, &block)
+    end
+  end
+
   def stylesheet(*args)
-    content_for(:stylesheets) { stylesheet_link_tag(*args.push("data-turbolinks-track" => true)) }
+    content_for(:stylesheets) { stylesheet_link_tag(*args) }
   end
 
   def javascript(*args)
-    content_for(:javascripts) { javascript_include_tag(*args.push("data-turbolinks-track" => true)) }
+    content_for(:javascripts) { javascript_include_tag(*args) }
   end
 
   # The target should have class="collapse [out|in]" out means collapsed on load and in means expanded.
@@ -33,7 +107,7 @@ module LayoutHelper
   end
 
   def base_errors_for(obj)
-    unless obj.errors[:base].blank?
+    if obj.errors[:base].present?
       alert :header => _("Unable to save"),
             :class  => 'alert-danger base in fade',
             :text   => obj.errors[:base].map { |e| '<li>'.html_safe + e + '</li>'.html_safe }.join.html_safe
@@ -53,56 +127,22 @@ module LayoutHelper
                                                                            :tabindex => '-1' }.deep_merge(options))
   end
 
-  def will_paginate(collection = nil, options = {})
-    options.merge!(:class=>"col-md-7")
-    options[:renderer] ||= "WillPaginate::ActionView::BootstrapLinkRenderer"
-    options[:inner_window] ||= 2
-    options[:outer_window] ||= 0
-    options[:previous_label] ||= _('&laquo;')
-    options[:next_label] ||= _('&raquo;')
-    super collection, options
-  end
-
-  def page_entries_info(collection, options = {})
-    html = if collection.total_entries == 0
-             _("No entries found")
-           else
-             if collection.total_pages < 2
-               n_("Displaying <b>%{count}</b> entry", "Displaying <b>all %{count}</b> entries", collection.total_entries) % {:count => collection.total_entries}
-             else
-               _("Displaying entries <b>%{from} - %{to}</b> of <b>%{count}</b> in total") %
-                   { :from => collection.offset + 1, :to => collection.offset + collection.length, :count => collection.total_entries }
-             end
-           end.html_safe
-    html += options[:more].html_safe if options[:more]
-    content_tag(:div, :class => "col-md-5 hidden-xs") do
-      content_tag(:div, html, :class => "pull-left pull-bottom darkgray pagination")
-    end
-  end
-
-  def will_paginate_with_info(collection = nil, options = {})
-    content_tag(:div, :id => "pagination", :class => "row") do
-      page_entries_info(collection, options) +
-        will_paginate(collection, options)
-    end
-  end
-
   def icon_text(i, text = "", opts = {})
     opts[:kind] ||= "glyphicon"
-    (content_tag(:span,"", :class=>"#{opts[:kind] + ' ' + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
+    (content_tag(:span, "", :class => "#{opts[:kind] + ' ' + opts[:kind]}-#{i} #{opts[:class]}", :title => opts[:title]) + " " + text).html_safe
   end
 
   def alert(opts = {})
-    opts[:close]  = true if opts[:close].nil?
+    opts[:close] = true if opts[:close].nil?
     opts[:header] ||= _("Warning!")
     opts[:text]   ||= _("Alert")
-    html_class    = "alert #{opts[:class]} "
-    html_class    += 'alert-dismissable' if opts[:close]
+    html_class = "alert #{opts[:class]} "
+    html_class += 'alert-dismissable' if opts[:close]
     content_tag :div, :class => html_class, :id => opts[:id] do
       result = "".html_safe
       result += alert_close if opts[:close]
       result += alert_header(opts[:header], opts[:class])
-      result += content_tag(:span, opts[:text].html_safe, :class => 'text')
+      result += content_tag(:span, opts[:text], :class => 'text')
       result += alert_actions(opts[:actions]) if opts[:actions].present?
       result
     end
@@ -111,10 +151,10 @@ module LayoutHelper
   def alert_header(text, html_class = nil)
     case html_class
       when /alert-success/
-        icon = icon_text("ok", "",:kind => "pficon")
+        icon = icon_text("ok", "", :kind => "pficon")
         text ||= _("Notice")
       when /alert-warning/
-        icon = icon_text("warning-triangle-o", "",:kind => "pficon")
+        icon = icon_text("warning-triangle-o", "", :kind => "pficon")
         text ||= _("Warning")
       when /alert-info/
         icon = icon_text("info", "", :kind => "pficon")
@@ -135,7 +175,7 @@ module LayoutHelper
   def trunc_with_tooltip(text, length = 32, tooltip_text = "", shorten = true)
     text = text.to_s.empty? ? tooltip_text.to_s : text.to_s
     tooltip_text = tooltip_text.to_s.empty? ? text : tooltip_text.to_s
-    options = shorten && (text.size < length) ? {} : { :'data-original-title' => tooltip_text, :rel => 'twipsy' }
+    options = (shorten && (text.size < length)) ? {} : { :'data-original-title' => tooltip_text, :rel => 'twipsy' }
     if shorten
       content_tag(:span, truncate(text, :length => length), options).html_safe
     else
@@ -184,9 +224,18 @@ module LayoutHelper
     end
   end
 
+  def render_if_partial_exists(path, f)
+    render path, :f => f if lookup_context.exists?(path, [], true)
+  end
+
+  def per_page(collection)
+    per_page = params[:per_page] ? params[:per_page].to_i : Setting[:entries_per_page]
+    [per_page, collection.total_entries].min
+  end
+
   private
 
   def table_css_classes(classes = '')
-    "table table-bordered table-striped " + classes
+    "table table-bordered table-striped table-hover " + classes
   end
 end

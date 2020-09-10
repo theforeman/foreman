@@ -1,19 +1,22 @@
 class FactParser
   delegate :logger, :to => :Rails
-  VIRTUAL = /\A([a-z0-9]+)_([a-z0-9]+)\Z/
-  BRIDGES = /\A(vir)?br\d+(_nic)?\Z/
+  VIRTUAL = /\A([a-z0-9]+)[_|\.|:]([a-z0-9]+)\Z/
+  BRIDGES = /\A(vir|lxc)?br(\d+|-[a-z0-9]+)(_nic)?\Z/
   BONDS = /\A(bond\d+)\Z|\A(lagg\d+)\Z/
-  VIRTUAL_NAMES = /#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
+  ALIASES = /(\A[a-z0-9\.]+):([a-z0-9]+)\Z/
+  VLANS = /\A([a-z0-9]+)\.([0-9]+)\Z/
+  VIRTUAL_NAMES = /#{ALIASES}|#{VLANS}|#{VIRTUAL}|#{BRIDGES}|#{BONDS}/
 
   def self.parser_for(type)
-    parsers[type.to_s] || parsers[:puppet]
+    parsers[type.to_s]
   end
 
   def self.parsers
-    @parsers ||= { :puppet => PuppetFactParser }.with_indifferent_access
+    @parsers ||= {}.with_indifferent_access
   end
 
-  def self.register_fact_parser(key, klass)
+  def self.register_fact_parser(key, klass, default = false)
+    parsers.default = klass if default
     parsers[key.to_sym] = klass
   end
 
@@ -49,6 +52,19 @@ class FactParser
     raise NotImplementedError, not_implemented_error(__method__)
   end
 
+  def comment
+    facts[:foreman_comment]
+  end
+
+  def has_comment?
+    facts.key?(:foreman_comment)
+  end
+
+  def hostgroup
+    hostgroup_title = facts[:foreman_hostgroup]
+    Hostgroup.unscoped.where(:title => hostgroup_title).first_or_create if hostgroup_title.present?
+  end
+
   # should return hash with indifferent access in following format:
   #   {
   #      'eth0': {'link': 'true', 'macaddress': '00:00:00:00:00:FF', 'ipaddress': nil, 'any_other_fact': 'value'},
@@ -58,8 +74,8 @@ class FactParser
     @interfaces ||= begin
       result = {}
 
-      interfaces = remove_ignored(normalize_interfaces(get_interfaces))
-      logger.debug "We have following interfaces '#{interfaces.join(', ')}' based on facts"
+      interfaces = remove_ignored(get_interfaces)
+      logger.debug { "We have following interfaces '#{interfaces.join(', ')}' based on facts" }
 
       interfaces.each do |interface|
         iface_facts = get_facts_for_interface(interface)
@@ -90,6 +106,32 @@ class FactParser
     support_interfaces_parsing? && !Setting['ignore_puppet_facts_for_provisioning']
   end
 
+  def class_name_humanized
+    @class_name_humanized ||= self.class.name.demodulize.underscore
+  end
+
+  # timestamp (unix epoch based) when the host has booted, e.g. 1563281738
+  # should return nil if the parser does not support this information
+  def boot_timestamp
+    nil
+  end
+
+  # is host virtual?
+  def virtual
+  end
+
+  # host memory in MB
+  def ram
+  end
+
+  # number of CPU sockets
+  def sockets
+  end
+
+  # cores per socket
+  def cores
+  end
+
   private
 
   def find_interface_by_name(host_name)
@@ -97,11 +139,11 @@ class FactParser
       if (ip = values[:ipaddress]).present?
         begin
           if Resolv::DNS.new.getnames(ip).any? { |name| name.to_s == host_name }
-            logger.debug "resolved #{host_name} for #{ip}, #{int} is selected as primary"
+            logger.debug { "resolved #{host_name} for #{ip}, #{int} is selected as primary" }
             return [int, values]
           end
         rescue Resolv::ResolvError => e
-          logger.debug "could not resolv name for #{ip} because of #{e} #{e.message}"
+          logger.debug { "could not resolv name for #{ip} because of #{e} #{e.message}" }
           nil
         end
       end
@@ -120,15 +162,24 @@ class FactParser
   def set_additional_attributes(attributes, name)
     if name =~ VIRTUAL_NAMES
       attributes[:virtual] = true
-      if $1.nil? && name =~ BRIDGES
+      if Regexp.last_match(1).nil? && name =~ BRIDGES
         attributes[:bridge] = true
-      else
-        attributes[:attached_to] = $1
-
+      elsif name =~ ALIASES
+        attributes[:attached_to] = Regexp.last_match(1)
+        attributes[:tag] = ''
+      elsif name =~ VLANS
+        attributes[:attached_to] = Regexp.last_match(1)
+        attributes[:tag] = Regexp.last_match(2)
+      elsif name =~ VIRTUAL
+        # Legacy: facter < v3.0
+        # vlans fact has been removed in facter 3.0
+        attributes[:attached_to] = Regexp.last_match(1)
+        tag = Regexp.last_match(2)
         if @facts[:vlans].present?
           vlans = @facts[:vlans].split(',')
-          tag = name.split('_').last
           attributes[:tag] = vlans.include?(tag) ? tag : ''
+        else
+          attributes[:tag] = name.split('.').last
         end
       end
     else
@@ -164,27 +215,15 @@ class FactParser
   def remove_ignored(interfaces)
     interfaces.clone.delete_if do |identifier|
       if (remove = identifier.match(ignored_interfaces))
-        logger.debug "skipping interface with identifier '#{identifier}' since it was matched by 'ignored_interface_identifiers' setting "
+        logger.debug { "skipping interface with identifier '#{identifier}' since it was matched by 'ignored_interface_identifiers' setting " }
       end
       remove
     end
   end
 
-  def normalize_interfaces(interfaces)
-    interfaces.map(&:downcase)
-  end
-
-# creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac
+  # creating if iface_facts[:link] == 'true' && Net::Validations.normalize_mac(iface_facts[:macaddress]) != @host.mac
 
   def not_implemented_error(method)
     "#{method} fact parsing not implemented in #{self.class}"
-  end
-
-  def is_numeric?(string)
-    begin
-      !!Integer(string)
-    rescue ArgumentError, TypeError
-      false
-    end
   end
 end

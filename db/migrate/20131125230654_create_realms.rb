@@ -1,4 +1,4 @@
-class CreateRealms < ActiveRecord::Migration
+class CreateRealms < ActiveRecord::Migration[4.2]
   def up
     create_table :realms do |t|
       t.string      :name, :default => "", :null => false, :limit => 255
@@ -6,7 +6,7 @@ class CreateRealms < ActiveRecord::Migration
       t.integer     :realm_proxy_id
       t.integer     :hosts_count, :default => 0
       t.integer     :hostgroups_count, :default => 0
-      t.timestamps
+      t.timestamps null: true
     end
 
     add_index :realms, :name, :unique => true

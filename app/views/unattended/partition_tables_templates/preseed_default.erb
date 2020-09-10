@@ -1,0 +1,86 @@
+<%#
+kind: ptable
+name: Preseed default
+model: Ptable
+oses:
+- Debian
+- Ubuntu
+%>
+<%
+  partitioning_method = host_param('partitioning-method') ? host_param('partitioning-method') : 'regular'
+  partitioning_recipe = host_param('partitioning-recipe') ? host_param('partitioning-recipe') : 'atomic'
+  partitioning_expert_recipe = host_param('partitioning-expert-recipe') ? host_param('partitioning-expert-recipe') : ''
+  vg_name = host_param('partitioning-vg-name') ? host_param('partitioning-vg-name') : ''
+  partitioning_filesystem = host_param('partitioning-filesystem') ? host_param('partitioning-filesystem') : ''
+-%>
+
+<% if host_param('install-disk') -%>
+d-i partman-auto/disk string <%= host_param('install-disk') %>
+d-i grub-installer/bootdev string <%= host_param('install-disk') %>
+<% else -%>
+# Use the first detected hard disk
+d-i partman/early_command string \
+  INSTALL_DISK="$(list-devices disk | head -n1)"; \
+  debconf-set partman-auto/disk "$INSTALL_DISK"; \
+  debconf-set grub-installer/bootdev "$INSTALL_DISK"
+<% end -%>
+
+### Partitioning
+# The presently available methods are: "regular", "lvm" and "crypto"
+d-i partman-auto/method string <%= partitioning_method %>
+
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. This can be preseeded away...
+d-i partman-lvm/device_remove_lvm boolean true
+# The same applies to pre-existing software RAID array:
+d-i partman-md/device_remove_md boolean true
+# And the same goes for the confirmation to write the lvm partitions.
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+<% if partitioning_method == 'lvm' -%>
+# For LVM partitioning, you can select how much of the volume group to use
+# for logical volumes.
+d-i partman-auto-lvm/guided_size string max
+<% if vg_name != '' -%>
+d-i partman-auto-lvm/new_vg_name string <%= vg_name %>
+<% end -%>
+<% end -%>
+
+<% if host_param_true?('partitioning-allow-noswap') -%>
+d-i partman-basicfilesystems/no_swap boolean false
+<% end -%>
+
+<% if host_param('partitioning-disk-label') -%>
+d-i partman-partitioning/choose_label string <%= host_param('partitioning-disk-label') %>
+d-i partman-partitioning/default_label string <%= host_param('partitioning-disk-label') %>
+<% end -%>
+
+# You can choose one of the three predefined partitioning recipes:
+# - atomic: all files in one partition
+# - home:   separate /home partition
+# - multi:  separate /home, /var, and /tmp partitions (/usr was removed in jessie)
+d-i partman-auto/choose_recipe select <%= partitioning_recipe %>
+
+<% if partitioning_expert_recipe != '' -%>
+# Or provide a recipe of your own...
+# If you have a way to get a recipe file into the d-i environment, you can
+# just point at it.
+d-i partman-auto/expert_recipe string \
+<%= partitioning_expert_recipe.gsub(/(?:\n\r?|\r\n?)/, " \\\n") %>
+
+<% end -%>
+
+# If you just want to change the default filesystem to something
+# else, you can do that without providing a full recipe.
+<% if partitioning_filesystem != '' -%>
+d-i partman/default_filesystem string <%= partitioning_filesystem %>
+<% end -%>
+
+# This makes partman automatically partition without confirmation, provided
+# that you told it what to do using one of the methods above.
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true

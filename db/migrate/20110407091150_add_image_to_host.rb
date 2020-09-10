@@ -1,4 +1,4 @@
-class AddImageToHost < ActiveRecord::Migration
+class AddImageToHost < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :use_image, :boolean
     add_column :hosts, :image_file, :string, :limit => 128

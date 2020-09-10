@@ -13,17 +13,13 @@ Foreman::Application.configure do |app|
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # Eager load all classes under lib directory
-  config.eager_load_paths += ["#{config.root}/lib"]
-  config.eager_load = true
-
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = true
+  config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -66,7 +62,7 @@ Foreman::Application.configure do |app|
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
-  config.i18n.fallbacks = true
+  config.i18n.fallbacks = [I18n.default_locale]
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
@@ -79,4 +75,9 @@ Foreman::Application.configure do |app|
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.webpack.dev_server.enabled = false
+
+  # Log denied attributes into logger
+  config.action_controller.action_on_unpermitted_parameters = :log
 end

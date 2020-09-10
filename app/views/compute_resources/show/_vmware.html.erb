@@ -3,6 +3,16 @@
   <td><%= @compute_resource.url %></td>
 </tr>
 <tr>
+  <td><%= _("Display Type") %></td>
+  <td><%= @compute_resource.humanized_display_type %></td>
+</tr>
+<% if @compute_resource.display_type == 'vnc' %>
+<tr>
   <td><%= _("Console passwords") %></td>
   <td><%= @compute_resource.set_console_password? ? _("Enabled") : _("Disabled") %></td>
+</tr>
+<% end %>
+<tr>
+  <td><%= _("Caching") %></td>
+  <td><%= @compute_resource.caching_enabled ? _("Enabled") : _("Disabled") %></td>
 </tr>

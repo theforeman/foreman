@@ -1,15 +1,14 @@
-<%= javascript "nfs_visibility" %>
 <% title _("Installation Media") %>
-<% title_actions new_link(_("New Medium")),
+<% title_actions new_link(_("Create Medium")),
                  documentation_button('4.4.2InstallationMedia'),
-                 help_path %>
+                 help_button %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-2"><%= sort :name, :as => s_("Medium|Name") %></th>
       <th class="col-md-6"><%= sort :path, :as => s_("Medium|Path") %></th>
-      <th class="col-md-1"><%= sort :family, :as => s_("Medium|Os family") %></th>
+      <th class="col-md-1"><%= sort :family, :as => s_("Medium|OS Family") %></th>
       <th class="col-md-2"><%= _("Operating Systems") %></th>
       <th><%= _('Actions') %></th>
     </tr>
@@ -17,7 +16,7 @@
   <tbody>
     <% @media.each do |medium| %>
       <tr>
-        <td class="display-two-pane ellipsis"><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= link_to_if_authorized medium, hash_for_edit_medium_path(:id => medium).merge(:auth_object => medium, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= medium.path %></td>
         <td class="ellipsis"><%= lookup_family(medium.os_family) %></td>
         <td class="ellipsis"><%= medium.operatingsystems.map(&:to_label).to_sentence %></td>

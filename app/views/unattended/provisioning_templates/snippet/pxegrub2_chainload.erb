@@ -1,0 +1,63 @@
+<%#
+kind: snippet
+name: pxegrub2_chainload
+model: ProvisioningTemplate
+snippet: true
+%>
+<%
+  paths = [
+    '/EFI/fedora/shim.efi',
+    '/EFI/fedora/grubx64.efi',
+    '/EFI/redhat/shim.efi',
+    '/EFI/redhat/grubx64.efi',
+    '/EFI/centos/shim.efi',
+    '/EFI/centos/grubx64.efi',
+    '/EFI/debian/grubx64.efi',
+    '/EFI/ubuntu/grubx64.efi',
+    '/EFI/sles/grubx64.efi',
+    '/EFI/opensuse/grubx64.efi',
+    '/EFI/Microsoft/boot/bootmgfw.efi'
+  ]
+-%>
+insmod part_gpt
+insmod fat
+insmod chain
+
+menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
+  echo Chainloading Grub2 EFI from ESP, enabled devices for booting:
+  ls
+<%
+  paths.each do |path|
+-%>
+  echo "Trying <%= path %> "
+  unset chroot
+  search --file --no-floppy --set=chroot <%= path %>
+  if [ -f ($chroot)<%= path %> ]; then
+    chainloader ($chroot)<%= path %>
+    echo "Found <%= path %> at $chroot, attempting to chainboot it..."
+    sleep 2
+    boot
+  fi
+<%
+  end
+-%>
+  echo Partition with known EFI file not found, you may want to drop to grub shell
+  echo and investigate available files updating 'pxegrub2_chainload' template and
+  echo the list of known filepaths for probing. Contents of /EFI directory:
+  ls ($chroot)/EFI
+  echo The system will halt in 2 minutes or press ESC to halt immediately.
+  sleep -i 120
+  halt --no-apm
+}
+
+menuentry 'Chainload into BIOS bootloader on first disk' --id local_chain_legacy_hd0 {
+  set root=(hd0,0)
+  chainloader +1
+  boot
+}
+
+menuentry 'Chainload into BIOS bootloader on second disk' --id local_chain_legacy_hd1 {
+  set root=(hd1,0)
+  chainloader +1
+  boot
+}

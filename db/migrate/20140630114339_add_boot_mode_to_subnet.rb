@@ -1,5 +1,5 @@
-class AddBootModeToSubnet < ActiveRecord::Migration
-  class FakeSubnet < ActiveRecord::Base
+class AddBootModeToSubnet < ActiveRecord::Migration[4.2]
+  class FakeSubnet < ApplicationRecord
     self.table_name = 'subnets'
   end
 

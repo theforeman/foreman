@@ -1,7 +1,7 @@
-class HostgroupClass < ActiveRecord::Base
+class HostgroupClass < ApplicationRecord
+  audited :associated_with => :hostgroup
   include Authorizable
 
-  audited :associated_with => :hostgroup
   belongs_to :hostgroup
   belongs_to :puppetclass
 
@@ -10,5 +10,9 @@ class HostgroupClass < ActiveRecord::Base
 
   def name
     "#{hostgroup} - #{puppetclass}"
+  end
+
+  def check_permissions_after_save
+    true
   end
 end

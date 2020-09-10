@@ -1,3 +1,4 @@
+---
 manager_1_0:
   filter: manager_1
   permission: view_architectures
@@ -37,18 +38,6 @@ manager_3_3:
 manager_3_4:
   filter: manager_3
   permission: import_environments
-manager_4_0:
-  filter: manager_4
-  permission: view_external_variables
-manager_4_1:
-  filter: manager_4
-  permission: create_external_variables
-manager_4_2:
-  filter: manager_4
-  permission: edit_external_variables
-manager_4_3:
-  filter: manager_4
-  permission: destroy_external_variables
 manager_5_0:
   filter: manager_5
   permission: view_domains
@@ -190,9 +179,6 @@ manager_16_0:
 manager_16_1:
   filter: manager_16
   permission: access_dashboard
-manager_16_2:
-  filter: manager_16
-  permission: view_statistics
 manager_17_0:
   filter: manager_17
   permission: view_reports
@@ -244,6 +230,33 @@ manager_23_2:
 manager_23_3:
   filter: manager_23
   permission: destroy_realms
+manager_24_0:
+  filter: manager_24
+  permission: view_subnets
+manager_24_1:
+  filter: manager_24
+  permission: create_subnets
+manager_24_2:
+  filter: manager_24
+  permission: edit_subnets
+manager_24_3:
+  filter: manager_24
+  permission: destroy_subnets
+manager_25_1:
+  filter: manager_25
+  permission: view_report_templates
+manager_25_2:
+  filter: manager_25
+  permission: edit_report_templates
+manager_25_3:
+  filter: manager_25
+  permission: create_report_templates
+manager_25_4:
+  filter: manager_25
+  permission: destroy_report_templates
+manager_25_5:
+  filter: manager_25
+  permission: generate_report_templates
 edit_partition_tables_1_0:
   filter: edit_partition_tables_1
   permission: view_ptables
@@ -277,18 +290,12 @@ viewer_4_0:
 viewer_4_1:
   filter: viewer_4
   permission: access_settings
-viewer_4_2:
-  filter: viewer_4
-  permission: view_statistics
 viewer_5_0:
   filter: viewer_5
   permission: view_domains
 viewer_6_0:
   filter: viewer_6
   permission: view_environments
-viewer_7_0:
-  filter: viewer_7
-  permission: view_external_variables
 viewer_8_0:
   filter: viewer_8
   permission: view_facts
@@ -340,6 +347,9 @@ viewer_23_0:
 viewer_24_0:
   filter: viewer_24
   permission: view_external_parameters
+viewer_25_0:
+  filter: viewer_25
+  permission: view_subnets
 default_role_1_0:
   filter: default_role_1
   permission: view_tasks
@@ -373,3 +383,64 @@ crud_hosts_1_2:
 crud_hosts_1_3:
   filter: crud_hosts_1
   permission: view_hosts
+system_admin_1_0:
+  filter: system_admin_1
+  permission: view_organizations
+system_admin_1_1:
+  filter: system_admin_1
+  permission: edit_organizations
+system_admin_1_2:
+  filter: system_admin_1
+  permission: assign_organizations
+system_admin_1_3:
+  filter: system_admin_1
+  permission: create_organizations
+system_admin_1_4:
+  filter: system_admin_1
+  permission: destroy_organizations
+system_admin_2_0:
+  filter: system_admin_2
+  permission: view_settings
+system_admin_2_1:
+  filter: system_admin_2
+  permission: edit_settings
+system_admin_3_0:
+  filter: system_admin_3
+  permission: escalate_roles
+system_admin_3_1:
+  filter: system_admin_3
+  permission: view_roles
+system_admin_4_0:
+  filter: system_admin_4
+  permission: create_filters
+system_admin_5_0:
+  filter: system_admin_5
+  permission: view_users
+system_admin_5_1:
+  filter: system_admin_5
+  permission: create_users
+system_admin_6_0:
+  filter: system_admin_6
+  permission: view_locations
+system_admin_6_1:
+  filter: system_admin_6
+  permission: edit_locations
+system_admin_6_2:
+  filter: system_admin_6
+  permission: assign_locations
+system_admin_6_3:
+  filter: system_admin_6
+  permission: create_locations
+system_admin_6_4:
+  filter: system_admin_6
+  permission: destroy_locations
+
+<% Foreman::Plugin.all.map(&:default_roles).inject({}, :merge).each do |role,permissions| %>
+<% role_id = role.tr(' ', '_').scan(/[a-z_]/i).join %>
+<% permissions.each do |permission| %>
+<% resource = permission.to_s.split('_')[1..-1].join('_') %>
+<%= role_id %>_<%= permission %>:
+  filter: <%= "#{role_id}_#{resource}" %>
+  permission: <%= permission %>
+<% end %>
+<% end %>

@@ -1,5 +1,6 @@
 class ComputeAttributesController < ApplicationController
   include Foreman::Controller::Parameters::ComputeAttribute
+  include Foreman::Controller::SetRedirectionPath
 
   def new
     @set = ComputeAttribute.new(:compute_profile_id => params[:compute_profile_id].to_i,
@@ -7,9 +8,10 @@ class ComputeAttributesController < ApplicationController
   end
 
   def create
-    @set = ComputeAttribute.new(compute_attribute_params)
+    @set = ComputeAttribute.new(normalized_compute_attribute_params)
+    path = session.fetch(:redirect_path, compute_profiles_path)
     if @set.save
-      process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
+      redirect_to path
     else
       process_error :object => @set
     end
@@ -21,8 +23,10 @@ class ComputeAttributesController < ApplicationController
 
   def update
     @set = ComputeAttribute.find(params[:id])
-    if @set.update_attributes(compute_attribute_params)
-      process_success :success_redirect => request.referer || compute_profile_path(@set.compute_profile)
+
+    path = session.fetch(:redirect_path, compute_profiles_path)
+    if @set.update(normalized_compute_attribute_params)
+      redirect_to path
     else
       process_error :object => @set
     end

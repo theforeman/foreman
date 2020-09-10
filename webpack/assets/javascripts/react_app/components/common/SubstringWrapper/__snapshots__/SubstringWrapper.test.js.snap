@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubstringWrapper rendering should render with b tag 1`] = `
+<Fragment>
+  this is a 
+  <b
+    key="0"
+  >
+    test
+  </b>
+</Fragment>
+`;
+
+exports[`SubstringWrapper rendering should work if regex failed 1`] = `
+<Fragment>
+  this is a test
+</Fragment>
+`;
+
+exports[`SubstringWrapper rendering should wrap twice 1`] = `
+<Fragment>
+  <b
+    key="0"
+  >
+    test
+  </b>
+   - this is a 
+  <b
+    key="2"
+  >
+    test
+  </b>
+</Fragment>
+`;
+
+exports[`SubstringWrapper rendering should wrap with another element 1`] = `
+<Fragment>
+  this is a 
+  <i
+    key="0"
+  >
+    test
+  </i>
+</Fragment>
+`;
+
+exports[`SubstringWrapper rendering substring is not found 1`] = `
+<Fragment>
+  this is a SubstringWrapper component
+</Fragment>
+`;

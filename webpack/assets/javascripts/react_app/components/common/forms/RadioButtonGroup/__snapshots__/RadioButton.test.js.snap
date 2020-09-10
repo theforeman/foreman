@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioButton render disabled 1`] = `
+<Radio
+  bsClass="radio"
+  checked={false}
+  disabled={true}
+  inline={true}
+  some="input"
+  title=""
+  value=""
+/>
+`;
+
+exports[`RadioButton render with default props 1`] = `
+<Radio
+  bsClass="radio"
+  checked={false}
+  disabled={false}
+  inline={true}
+  some="input"
+  title=""
+  value=""
+/>
+`;
+
+exports[`RadioButton render with item 1`] = `
+<Radio
+  bsClass="radio"
+  checked={false}
+  disabled={false}
+  inline={true}
+  some="input"
+  title="some-label"
+  value="some-value"
+>
+  some-label
+</Radio>
+`;

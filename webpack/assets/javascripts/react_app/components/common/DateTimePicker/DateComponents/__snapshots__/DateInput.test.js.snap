@@ -1,0 +1,516 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateInput is working properly 1`] = `
+<div
+  class="datepicker"
+>
+  <div
+    class="datepicker-days"
+  >
+    <table
+      class="table-condensed"
+    >
+      <thead>
+        <tr>
+          <th
+            class="prev"
+          >
+            <span
+              aria-hidden="true"
+              class="fa fa-angle-left"
+            />
+          </th>
+          <th
+            class="picker-switch"
+            colspan="5"
+          >
+            January 2019
+          </th>
+          <th
+            class="next"
+          >
+            <span
+              aria-hidden="true"
+              class="fa fa-angle-right"
+            />
+          </th>
+        </tr>
+        <tr>
+          <th
+            class="dow"
+          >
+            Mo
+          </th>
+          <th
+            class="dow"
+          >
+            Tu
+          </th>
+          <th
+            class="dow"
+          >
+            We
+          </th>
+          <th
+            class="dow"
+          >
+            Th
+          </th>
+          <th
+            class="dow"
+          >
+            Fr
+          </th>
+          <th
+            class="dow"
+          >
+            Sa
+          </th>
+          <th
+            class="dow"
+          >
+            Su
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            class="day old"
+            data-day="31"
+          >
+            31
+          </td>
+          <td
+            class="day"
+            data-day="1"
+          >
+            1
+          </td>
+          <td
+            class="day"
+            data-day="2"
+          >
+            2
+          </td>
+          <td
+            class="day"
+            data-day="3"
+          >
+            3
+          </td>
+          <td
+            class="day weekend"
+            data-day="4"
+          >
+            4
+          </td>
+          <td
+            class="day weekend"
+            data-day="5"
+          >
+            5
+          </td>
+          <td
+            class="day"
+            data-day="6"
+          >
+            6
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="day"
+            data-day="7"
+          >
+            7
+          </td>
+          <td
+            class="day"
+            data-day="8"
+          >
+            8
+          </td>
+          <td
+            class="day"
+            data-day="9"
+          >
+            9
+          </td>
+          <td
+            class="day"
+            data-day="10"
+          >
+            10
+          </td>
+          <td
+            class="day weekend"
+            data-day="11"
+          >
+            11
+          </td>
+          <td
+            class="day weekend"
+            data-day="12"
+          >
+            12
+          </td>
+          <td
+            class="day"
+            data-day="13"
+          >
+            13
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="day"
+            data-day="14"
+          >
+            14
+          </td>
+          <td
+            class="day"
+            data-day="15"
+          >
+            15
+          </td>
+          <td
+            class="day"
+            data-day="16"
+          >
+            16
+          </td>
+          <td
+            class="day"
+            data-day="17"
+          >
+            17
+          </td>
+          <td
+            class="day weekend"
+            data-day="18"
+          >
+            18
+          </td>
+          <td
+            class="day weekend"
+            data-day="19"
+          >
+            19
+          </td>
+          <td
+            class="day"
+            data-day="20"
+          >
+            20
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="day active"
+            data-day="21"
+          >
+            21
+          </td>
+          <td
+            class="day"
+            data-day="22"
+          >
+            22
+          </td>
+          <td
+            class="day"
+            data-day="23"
+          >
+            23
+          </td>
+          <td
+            class="day"
+            data-day="24"
+          >
+            24
+          </td>
+          <td
+            class="day weekend"
+            data-day="25"
+          >
+            25
+          </td>
+          <td
+            class="day weekend"
+            data-day="26"
+          >
+            26
+          </td>
+          <td
+            class="day"
+            data-day="27"
+          >
+            27
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="day"
+            data-day="28"
+          >
+            28
+          </td>
+          <td
+            class="day"
+            data-day="29"
+          >
+            29
+          </td>
+          <td
+            class="day"
+            data-day="30"
+          >
+            30
+          </td>
+          <td
+            class="day"
+            data-day="31"
+          >
+            31
+          </td>
+          <td
+            class="day weekend old"
+            data-day="1"
+          >
+            1
+          </td>
+          <td
+            class="day weekend old"
+            data-day="2"
+          >
+            2
+          </td>
+          <td
+            class="day old"
+            data-day="3"
+          >
+            3
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`DateInput toggles view to decades 1`] = `
+<div
+  class="datepicker"
+>
+  <div
+    class="datepicker-years"
+  >
+    <table
+      class="table-condensed"
+    >
+      <thead>
+        <tr>
+          <th
+            class="prev"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-left"
+            />
+          </th>
+          <th
+            class="picker-switch"
+            colspan="5"
+            data-action="pickerSwitch"
+          >
+            2010-2021
+          </th>
+          <th
+            class="next"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-right"
+            />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            colspan="7"
+          >
+            <span
+              class="year "
+            >
+              2010
+            </span>
+            <span
+              class="year "
+            >
+              2011
+            </span>
+            <span
+              class="year "
+            >
+              2012
+            </span>
+            <span
+              class="year "
+            >
+              2013
+            </span>
+            <span
+              class="year "
+            >
+              2014
+            </span>
+            <span
+              class="year "
+            >
+              2015
+            </span>
+            <span
+              class="year "
+            >
+              2016
+            </span>
+            <span
+              class="year "
+            >
+              2017
+            </span>
+            <span
+              class="year "
+            >
+              2018
+            </span>
+            <span
+              class="year active"
+            >
+              2019
+            </span>
+            <span
+              class="year "
+            >
+              2020
+            </span>
+            <span
+              class="year "
+            >
+              2021
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
+exports[`DateInput toggles view to years 1`] = `
+<div
+  class="datepicker"
+>
+  <div
+    class="datepicker-months"
+  >
+    <table
+      class="table-condensed"
+    >
+      <thead>
+        <tr>
+          <th
+            class="prev"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-left"
+            />
+          </th>
+          <th
+            class="picker-switch"
+            colspan="5"
+          >
+            2019
+          </th>
+          <th
+            class="next"
+          >
+            <span
+              class="glyphicon glyphicon-chevron-right"
+            />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td
+            colspan="7"
+          >
+            <span
+              class="month active"
+            >
+              Jan
+            </span>
+            <span
+              class="month"
+            >
+              Feb
+            </span>
+            <span
+              class="month"
+            >
+              Mar
+            </span>
+            <span
+              class="month"
+            >
+              Apr
+            </span>
+            <span
+              class="month"
+            >
+              May
+            </span>
+            <span
+              class="month"
+            >
+              Jun
+            </span>
+            <span
+              class="month"
+            >
+              Jul
+            </span>
+            <span
+              class="month"
+            >
+              Aug
+            </span>
+            <span
+              class="month"
+            >
+              Sep
+            </span>
+            <span
+              class="month"
+            >
+              Oct
+            </span>
+            <span
+              class="month"
+            >
+              Nov
+            </span>
+            <span
+              class="month"
+            >
+              Dec
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;

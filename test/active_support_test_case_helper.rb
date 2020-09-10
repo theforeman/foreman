@@ -7,12 +7,14 @@ class ActiveSupport::TestCase
   set_fixture_class :nics => Nic::BMC
 
   setup :begin_gc_deferment
-  setup :reset_setting_cache
+  setup :reset_rails_cache
   setup :skip_if_plugin_asked_to
+  setup :set_admin
 
   teardown :reconsider_gc_deferment
   teardown :clear_current_user
-  teardown :reset_setting_cache
+  teardown :clear_current_taxonomies
+  teardown :reset_rails_cache
 
   DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 1.0).to_f
 
@@ -34,17 +36,26 @@ class ActiveSupport::TestCase
 
   def skip_if_plugin_asked_to
     skips = Foreman::Plugin.tests_to_skip[self.class.name].to_a
-    if skips.any?{|name| @NAME.end_with?(name)}
+    if skips.any? { |name| @NAME.end_with?(name) }
       skip "Test was disabled by plugin"
     end
+  end
+
+  def set_admin
+    User.current = users(:admin)
   end
 
   def clear_current_user
     User.current = nil
   end
 
-  def reset_setting_cache
-    Setting.cache.clear
+  def clear_current_taxonomies
+    Location.current = nil
+    Organization.current = nil
+  end
+
+  def reset_rails_cache
+    Rails.cache.clear
   end
 
   # for backwards compatibility to between Minitest syntax
@@ -56,7 +67,6 @@ class ActiveSupport::TestCase
   alias_method :assert_include,     :assert_includes
   alias_method :assert_not_include, :assert_not_includes
   class <<self
-    alias_method :test, :it
     alias_method :context, :describe
   end
 
@@ -67,7 +77,7 @@ class ActiveSupport::TestCase
 
   def set_session_user(user = :admin)
     user = user.is_a?(User) ? user : users(user)
-    SETTINGS[:login] ? {:user => user.id, :expires_at => 5.minutes.from_now} : {}
+    {:user => user.id, :expires_at => 5.minutes.from_now}
   end
 
   def as_user(user)
@@ -92,18 +102,6 @@ class ActiveSupport::TestCase
     result
   end
 
-  def disable_taxonomies
-    org_settings = SETTINGS[:organizations_enabled]
-    SETTINGS[:organizations_enabled] = false
-    loc_settings = SETTINGS[:locations_enabled]
-    SETTINGS[:locations_enabled] = false
-    result = yield
-  ensure
-    SETTINGS[:organizations_enabled] = org_settings
-    SETTINGS[:locations_enabled] = loc_settings
-    result
-  end
-
   def setup_users
     User.current = users :admin
     user = User.find_by_login("one")
@@ -115,13 +113,14 @@ class ActiveSupport::TestCase
 
   # if a method receieves a block it will be yielded just before user save
   def setup_user(operation, type = "", search = nil, user = :one)
-    @one = users(user)
+    @one = user.is_a?(User) ? user : users(user)
     as_admin do
-      permission = Permission.find_by_name("#{operation}_#{type}") || FactoryGirl.create(:permission, :name => "#{operation}_#{type}")
-      filter = FactoryGirl.build(:filter, :search => search)
-      filter.permissions = [ permission ]
+      permission = Permission.find_by_name("#{operation}_#{type}") ||
+        FactoryBot.build(:permission, :name => "#{operation}_#{type}")
+      filter = FactoryBot.build(:filter, :search => search)
+      filter.permissions = [permission]
       role = Role.where(:name => "#{operation}_#{type}").first_or_create
-      role.filters = [ filter ]
+      role.filters = [filter]
       role.save!
       filter.role = role
       filter.save!
@@ -141,8 +140,7 @@ class ActiveSupport::TestCase
   end
 
   def self.disable_orchestration
-    #This disables the DNS/DHCP orchestration
-    Host.any_instance.stubs(:boot_server).returns("boot_server")
+    # This disables the DNS/DHCP orchestration
     Resolv::DNS.any_instance.stubs(:getname).returns("foo.fqdn")
     Resolv::DNS.any_instance.stubs(:getaddress).returns("127.0.0.1")
     Resolv::DNS.any_instance.stubs(:getresources).returns([OpenStruct.new(:mname => 'foo', :name => 'bar')])
@@ -162,12 +160,16 @@ class ActiveSupport::TestCase
     ProxyAPI::TFTP.any_instance.stubs(:bootServer).returns('127.0.0.1')
   end
 
+  def stub_smart_proxy_v2_features
+    ProxyAPI::V2::Features.any_instance.stubs(:features).returns(Hash[Feature.name_map.keys.collect { |f| [f, {'state' => 'running'}] }])
+  end
+
   def disable_orchestration
     ActiveSupport::TestCase.disable_orchestration
   end
 
   def read_json_fixture(file)
-    json = File.expand_path(File.join('..', 'fixtures', file), __FILE__)
+    json = File.expand_path(File.join('..', 'static_fixtures', file), __FILE__)
     JSON.parse(File.read(json))
   end
 
@@ -182,10 +184,12 @@ class ActiveSupport::TestCase
   def refute_with_errors(condition, model, field = nil, match = nil)
     refute condition, "#{model.inspect} errors: #{model.errors.full_messages.join(';')}"
     if field
-      model_errors = model.errors.map { |a,m| model.errors.full_message(a, m) unless field == a }.compact
+      model_errors = model.errors.map { |a, m| model.errors.full_message(a, m) unless field == a }.compact
       assert model_errors.blank?, "#{model} contains #{model_errors}, it should not contain any"
-      assert model.errors[field].find { |e| e.match(match) }.present?,
-        "#{field} error matching #{match} not found: #{model.errors[field].inspect}" if match
+      if match
+        assert model.errors[field].find { |e| e.match(match) }.present?,
+          "#{field} error matching #{match} not found: #{model.errors[field].inspect}"
+      end
     end
   end
   alias_method :assert_not_with_errors, :refute_with_errors
@@ -199,7 +203,7 @@ class ActiveSupport::TestCase
   alias_method :assert_not_valid, :refute_valid
 
   def with_env(values = {})
-    old_values = values.inject({}) { |ov,(key,val)| ov.update(key => ENV[key]) }
+    old_values = values.inject({}) { |ov, (key, val)| ov.update(key => ENV[key]) }
     ENV.update values
     result = yield
     ENV.update old_values
@@ -207,18 +211,27 @@ class ActiveSupport::TestCase
   end
 
   def next_mac(mac)
-    mac.tr(':','').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
+    mac.tr(':', '').to_i(16).succ.to_s(16).rjust(12, '0').scan(/../).join(':')
   end
 
   def fake_rest_client_response(data)
     net_http_resp = Net::HTTPResponse.new(1.0, 200, 'OK')
     req = RestClient::Request.new(:method => 'get', :url => 'http://localhost:8443')
-    if RestClient::Response.method(:create).arity == 3 # 2.0.0+
-      RestClient::Response.create(data.to_json, net_http_resp, req)
-    elsif RestClient::Response.method(:create).arity == 4 # 1.8.x
-      RestClient::Response.create(data.to_json, net_http_resp, nil, req)
-    else
-      raise "unknown RestClient::Response.create version (#{RestClient.version}, arity #{RestClient::Response.method(:create).arity})"
-    end
+    RestClient::Response.create(data.to_json, net_http_resp, req)
+  end
+
+  # Minitest provides a "_" expects syntax which overrides the gettext "_" method
+  # Override the minitest method and call the original instead for compatibility
+  # with the app's runtime environment.
+  def _(*args)
+    Object.instance_method(:_).bind(self).call(*args)
+  end
+
+  def assert_raises_with_message(exception, msg, &block)
+    yield
+  rescue => e
+    assert_match msg, e.message
+  else
+    raise "Expected to raise #{e} w/ message #{msg}, none raised"
   end
 end

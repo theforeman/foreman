@@ -2,13 +2,23 @@ class HostgroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::HostDetails
   include Foreman::Controller::Parameters::Hostgroup
+  include Foreman::Controller::CsvResponder
+  include Foreman::Controller::SetRedirectionPath
 
   before_action :find_resource,  :only => [:nest, :clone, :edit, :update, :destroy]
   before_action :ajax_request,   :only => [:process_hostgroup, :puppetclass_parameters]
   before_action :taxonomy_scope, :only => [:new, :edit, :process_hostgroup]
 
   def index
-    @hostgroups = resource_base.search_for(params[:search], :order => params[:order]).paginate :page => params[:page]
+    respond_to do |format|
+      format.html do
+        @hostgroups = resource_base_search_and_page
+        render :index
+      end
+      format.csv do
+        csv_response(resource_base_with_search)
+      end
+    end
   end
 
   def new
@@ -24,7 +34,7 @@ class HostgroupsController < ApplicationController
     @hostgroup.locations = @parent.locations
     @hostgroup.organizations = @parent.organizations
     # Clone any parameters as well
-    @hostgroup.group_parameters.each{|param| @parent.group_parameters << param.dup}
+    @hostgroup.group_parameters.each { |param| @parent.group_parameters << param.dup }
     render :action => :new
   end
 
@@ -34,17 +44,17 @@ class HostgroupsController < ApplicationController
     load_vars_for_ajax
     new.valid?
     @hostgroup = new
-    notice _("The following fields would need reviewing")
+    info _("The following fields would need reviewing")
     render :action => :new
   end
 
   def create
     @hostgroup = Hostgroup.new(hostgroup_params)
     if @hostgroup.save
-      process_success :success_redirect => hostgroups_path
+      process_success :success_redirect => session.fetch(:redirect_path, hostgroups_path)
     else
       load_vars_for_ajax
-      process_error
+      process_error :object => @hostgroup
     end
   end
 
@@ -53,54 +63,57 @@ class HostgroupsController < ApplicationController
   end
 
   def update
-    if @hostgroup.update_attributes(hostgroup_params)
-      process_success :success_redirect => hostgroups_path
+    if @hostgroup.update(hostgroup_params)
+      process_success :success_redirect => session.fetch(:redirect_path, hostgroups_path)
     else
       taxonomy_scope
       load_vars_for_ajax
-      process_error
+      process_error :object => @hostgroup
     end
   end
 
   def destroy
-    begin
-      if @hostgroup.destroy
-        process_success :success_redirect => hostgroups_path
-      else
-        load_vars_for_ajax
-        process_error
-      end
-    rescue Ancestry::AncestryException
-      process_error(:error_msg => _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title })
+    if @hostgroup.destroy
+      process_success :success_redirect => session.fetch(:redirect_path, hostgroups_path)
+    else
+      load_vars_for_ajax
+      process_error
     end
+  rescue Ancestry::AncestryException
+    process_error(:error_msg => _("Cannot delete group %{current} because it has nested groups.") % { :current => @hostgroup.title })
   end
 
   def puppetclass_parameters
-    @obj = params[:hostgroup][:id].empty? ? Hostgroup.new(hostgroup_params) : Hostgroup.find(params[:hostgroup_id])
     Taxonomy.as_taxonomy @organization, @location do
       render :partial => "puppetclasses/classes_parameters",
-             :locals => { :obj => @obj }
+             :locals => { :obj => refresh_hostgroup }
     end
   end
 
   def environment_selected
-    return not_found unless (@environment = Environment.find(params[:environment_id])) if params[:environment_id].to_i > 0
+    env_id = params[:environment_id] || params[:hostgroup][:environment_id]
+    return not_found if env_id.to_i > 0 && !(@environment = Environment.find(env_id))
 
-    @hostgroup ||= Hostgroup.new
+    refresh_hostgroup
     @hostgroup.environment = @environment if @environment
 
     @hostgroup.puppetclasses = Puppetclass.where(:id => params[:hostgroup][:puppetclass_ids])
     @hostgroup.config_groups = ConfigGroup.where(:id => params[:hostgroup][:config_group_ids])
-    render :partial => 'puppetclasses/class_selection', :locals => {:obj => (@hostgroup), :type => 'hostgroup'}
+    render :partial => 'puppetclasses/class_selection', :locals => {:obj => @hostgroup, :type => 'hostgroup'}
   end
 
   def process_hostgroup
     define_parent
-    define_hostgroup
+    refresh_hostgroup
     inherit_parent_attributes
     load_vars_for_ajax
+    reset_explicit_attributes
 
     render :partial => "form"
+  end
+
+  def csv_columns
+    [:title, :hosts_count, :children_hosts_count]
   end
 
   private
@@ -137,13 +150,16 @@ class HostgroupsController < ApplicationController
     end
   end
 
-  def define_hostgroup
+  def refresh_hostgroup
     if params[:hostgroup][:id].present?
       @hostgroup = Hostgroup.authorized(:view_hostgroups).find(params[:hostgroup][:id])
       @hostgroup.attributes = hostgroup_params
     else
       @hostgroup = Hostgroup.new(hostgroup_params)
     end
+
+    @hostgroup.lookup_values.each(&:validate_value)
+    @hostgroup
   end
 
   def inherit_parent_attributes
@@ -155,5 +171,9 @@ class HostgroupsController < ApplicationController
     @hostgroup.subnet             ||= @parent.subnet
     @hostgroup.realm              ||= @parent.realm
     @hostgroup.environment        ||= @parent.environment
+  end
+
+  def reset_explicit_attributes
+    @hostgroup.pxe_loader = nil if @parent.present?
   end
 end

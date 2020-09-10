@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchModal should show search modal 1`] = `
+<ConnectedForemanModal
+  enforceFocus={true}
+  id="bookmarksModal"
+  onEnter={[MockFunction]}
+  title="Create Bookmark"
+>
+  <Connect(BookmarkForm)
+    controller="hosts"
+    onCancel={[MockFunction]}
+    setModalClosed={[MockFunction]}
+    url="/api/bookmarks"
+  />
+</ConnectedForemanModal>
+`;

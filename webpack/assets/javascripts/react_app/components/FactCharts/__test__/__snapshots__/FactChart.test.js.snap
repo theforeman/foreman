@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`factCharts should render closed 1`] = `
+<div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="viewChartTooltip-1"
+        placement="right"
+      >
+        Show distribution chart
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      View Chart
+    </Button>
+  </OverlayTrigger>
+</div>
+`;
+
+exports[`factCharts should render open 1`] = `
+<div>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="viewChartTooltip-1"
+        placement="right"
+      >
+        Show distribution chart
+      </Tooltip>
+    }
+    placement="top"
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      View Chart
+    </Button>
+  </OverlayTrigger>
+  <Modal
+    animation={true}
+    autoFocus={true}
+    backdrop={true}
+    bsClass="modal"
+    dialogComponentClass={[Function]}
+    enforceFocus={true}
+    keyboard={true}
+    manager={
+      ModalManager {
+        "add": [Function],
+        "containers": Array [],
+        "data": Array [],
+        "handleContainerOverflow": true,
+        "hideSiblingNodes": true,
+        "isTopModal": [Function],
+        "modals": Array [],
+        "remove": [Function],
+      }
+    }
+    onHide={[Function]}
+    renderBackdrop={[Function]}
+    restoreFocus={true}
+    show={true}
+  >
+    <ModalHeader
+      bsClass="modal-header"
+      closeButton={true}
+      closeLabel="Close"
+    >
+      <ModalTitle
+        bsClass="modal-title"
+        componentClass="h4"
+      >
+        <b>
+          Fact distribution chart - %s 
+        </b>
+        <small>
+          (%s host)
+        </small>
+      </ModalTitle>
+    </ModalHeader>
+    <ModalBody
+      bsClass="modal-body"
+      componentClass="div"
+    >
+      <div
+        id="factChartModalBody"
+      >
+        <Loader
+          spinnerSize="lg"
+          status="RESOLVED"
+        >
+          <DonutChart
+            config="large"
+            data={
+              Array [
+                Array [
+                  "Debian 8",
+                  1,
+                ],
+                Array [
+                  "Fedora 27",
+                  2,
+                ],
+                Array [
+                  "Fedora 26",
+                  1,
+                ],
+              ]
+            }
+            key="chart-1"
+            noDataMsg="No data available"
+            onclick={[Function]}
+            title={
+              Object {
+                "precision": 1,
+                "type": "percent",
+              }
+            }
+            unloadData={false}
+          />
+          <MessageBox
+            icontype="error-circle-o"
+            key="message-1"
+            msg="No data available"
+          />
+        </Loader>
+      </div>
+    </ModalBody>
+  </Modal>
+</div>
+`;

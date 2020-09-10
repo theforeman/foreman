@@ -10,7 +10,9 @@ class CacheManager
   end
 
   def self.create_new_filter_cache
-    Filter.all.each(&:save!)
+    Role.ignore_locking do
+      Filter.all.map(&:save!)
+    end
   end
 
   def self.recache!

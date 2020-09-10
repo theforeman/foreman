@@ -2,21 +2,20 @@ module Api
   module V2
     class MediaController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
       include Foreman::Controller::Parameters::Medium
 
       before_action :find_optional_nested_object
       before_action :find_resource, :only => %w{show update destroy}
 
-      PATH_INFO = <<-eos
-The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
+      PATH_INFO = <<~EOS
+        The path to the medium, can be a URL or a valid NFS server (exclusive of the architecture).
 
-for example http://mirror.centos.org/centos/$version/os/$arch
-where $arch will be substituted for the host\'s actual OS architecture and $version, $major and $minor
-will be substituted for the version of the operating system.
+        for example http://mirror.centos.org/centos/$version/os/$arch
+        where $arch will be substituted for the host\'s actual OS architecture and $version, $major and $minor
+        will be substituted for the version of the operating system.
 
-Solaris and Debian media may also use $release.
-      eos
+        Solaris and Debian media may also use $release.
+      EOS
 
       # values for FAMILIES are defined in apipie initializer
       OS_FAMILY_INFO = N_("Operating system family, available values: %{operatingsystem_families}")
@@ -28,6 +27,7 @@ Solaris and Debian media may also use $release.
       param :operatingsystem_id, String, :desc => N_("ID of operating system")
       param_group :taxonomy_scope, ::Api::V2::BaseController
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Medium)
 
       def index
         @media = resource_scope_for_index
@@ -62,7 +62,7 @@ Solaris and Debian media may also use $release.
       param_group :medium
 
       def update
-        process_response @medium.update_attributes(medium_params)
+        process_response @medium.update(medium_params)
       end
 
       param :id, :identifier, :required => true

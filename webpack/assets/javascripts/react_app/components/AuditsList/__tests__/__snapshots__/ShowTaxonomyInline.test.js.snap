@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShowTaxonomyInline rendering render organizations 1`] = `
+<Row
+  bsClass="row"
+  componentClass="div"
+>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={2}
+  >
+    <span>
+      Affected Organizations
+    </span>
+  </Col>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={10}
+  >
+    <strong>
+      <a
+        className="apply-comma "
+        href="/organizations/1-testOrg/edit"
+        key="0"
+      >
+        testOrg
+      </a>
+      <a
+        className="apply-comma disabled"
+        disabled={true}
+        href="#"
+        key="1"
+      >
+        testOrg2
+      </a>
+    </strong>
+  </Col>
+</Row>
+`;

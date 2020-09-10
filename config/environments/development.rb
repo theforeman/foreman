@@ -31,22 +31,34 @@ Foreman::Application.configure do
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
-  config.assets.debug = true
+  config.assets.debug = SETTINGS.fetch(:assets_debug, true)
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  # Raise exception on mass assignment of unfiltered parameters
-  config.action_controller.action_on_unpermitted_parameters = :strict
+  # log on mass assignment of unfiltered parameters
+  config.action_controller.action_on_unpermitted_parameters = :log
 
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-    Bullet.console = true
-    Bullet.rails_logger = true
-    Bullet.add_footer = true
-    Bullet.counter_cache_enable = false
-  end if defined?(Bullet)
+  # include query source line when sql logging is enabled
+  config.active_record.verbose_query_logs = Foreman::Logging.logger('sql')
+
+  if defined?(Bullet)
+    config.after_initialize do
+      Bullet.enable = true
+      Bullet.bullet_logger = true
+      Bullet.console = true
+      Bullet.rails_logger = true
+      Bullet.add_footer = true
+      Bullet.counter_cache_enable = false
+      Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :environments
+      Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Puppetclass", :association => :class_params
+    end
+  end
+
+  # Allow disabling the webpack dev server from the settings
+  config.webpack.dev_server.enabled = SETTINGS.fetch(:webpack_dev_server, true)
+  config.webpack.dev_server.https = SETTINGS.fetch(:webpack_dev_server_https, false)
+  config.hosts << SETTINGS[:fqdn]
 end

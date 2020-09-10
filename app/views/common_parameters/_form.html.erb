@@ -1,25 +1,15 @@
-<%= form_for @common_parameter, :html => { :onsubmit => 'submit_code();' } do |f| %>
+<%= form_for @common_parameter do |f| %>
     <%= base_errors_for @common_parameter %>
     <%= text_f f, :name %>
-    <div class='form-group'>
-      <label class="control-label col-md-2" for="common_parameter_value"><%= _("Value") %></label>
-
-      <div class="col-md-9">
-        <div class="editor-container">
-          <%= render :partial => 'editor/toolbar', :locals => {:show_preview => false} %>
-          <% masked = @common_parameter.hidden_value? ? 'masked-input' : '' %>
-          <%= f.text_area(:value,
-                          :class => "form-control value editor_source #{masked}",
-                          :rows => line_count(f, :value),
-                          :placeholder => _("Value")) %>
-
-        </div>
-      </div>
-    </div>
+    <%= param_type_selector(f) %>
+    <%= textarea_f f, :value, :value => f.object.value_before_type_cast, :size => "col-md-8",
+                   :rows => line_count(f, :value),
+                   :input_group_btn => fullscreen_input,
+                   :class => "form-control no-stretch #{'masked-input' if @common_parameter.hidden_value?}" %>
     <%= checkbox_f f, :hidden_value, :class => 'hidden_value_textarea_switch', :onchange => 'turn_textarea_switch()', :checked => f.object.hidden_value? %>
-    <%= submit_or_cancel f %>
 
-    <input type="hidden" id="old" value="<%= @common_parameter.value %>" />
-    <input type="hidden" id="new" value="<%= @common_parameter.value %>" />
+   <input type="hidden" id="old" value="<%= @common_parameter.value %>" />
+   <input type="hidden" id="new" value="<%= @common_parameter.value %>" />
+
+   <%= submit_or_cancel f %>
 <% end %>
-

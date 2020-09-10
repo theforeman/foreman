@@ -1,0 +1,15 @@
+<%= breadcrumbs(
+    items: [
+      {
+        caption: _("Authentication Sources"),
+        url: auth_sources_path
+      },
+      {
+        caption:_("Edit External Authentication Source"),
+      }
+    ],
+    switchable: false,
+  )
+%>
+<% title _("Edit External Authentication Source") %>
+<%= render :partial => 'form' %>

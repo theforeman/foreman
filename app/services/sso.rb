@@ -1,5 +1,5 @@
 module SSO
-  METHODS = [Apache, Basic, Oauth]
+  METHODS = [Apache, Basic, Jwt, Oauth, OpenidConnect]
 
   def self.get_available(controller)
     all_methods = all.map { |method| method.new(controller) }
@@ -17,6 +17,6 @@ module SSO
   end
 
   def self.deregister_method(klass)
-    @registered_methods.delete(klass) if @registered_methods
+    @registered_methods&.delete(klass)
   end
 end

@@ -1,0 +1,62 @@
+@import "~@theforeman/vendor/scss/variables";
+
+.foreman-autocomplete {
+  position: relative;
+
+  .autocomplete-aux {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    z-index: 10;
+
+    .autocomplete-clear-button {
+      margin-right: 2px;
+      font-size: 12px;
+      color: $color-pf-black-600;
+
+      &:hover {
+        color: $color-pf-blue-500;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .autocomplete-focus-shortcut {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    padding: 0 4px;
+    user-select: none;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 10;
+    border-radius: 5px;
+    width: 15px;
+    height: 19px;
+    text-align: center;
+    line-height: 17px;
+    border: 1px solid rgba($color-pf-black-600, 0.5);
+    color: $color-pf-black-600;
+
+    .hide {
+      display: none;
+    }
+  }
+
+  .autocomplete-error {
+    position: absolute;
+    color: $color-pf-red-200;
+  }
+}
+
+// The span that contains the loading spinner should move left
+// to avoid being override by the clear button.
+.rbt-aux {
+  right: 12px;
+  z-index: 10;
+}
+
+.rbt-menu {
+  width: auto;
+  min-width: -webkit-fill-available !important;
+}

@@ -1,10 +1,9 @@
+---
 manager_1:
   role_id: 1
 manager_2:
   role_id: 1
 manager_3:
-  role_id: 1
-manager_4:
   role_id: 1
 manager_5:
   role_id: 1
@@ -44,6 +43,10 @@ manager_22:
   role_id: 1
 manager_23:
   role_id: 1
+manager_24:
+  role_id: 1
+manager_25:
+  role_id: 1
 edit_partition_tables_1:
   role_id: 2
 view_hosts_1:
@@ -61,8 +64,6 @@ viewer_4:
 viewer_5:
   role_id: 5
 viewer_6:
-  role_id: 5
-viewer_7:
   role_id: 5
 viewer_8:
   role_id: 5
@@ -98,6 +99,8 @@ viewer_23:
   role_id: 5
 viewer_24:
   role_id: 5
+viewer_25:
+  role_id: 5
 default_role_1:
   role_id: 7
 destroy_hosts_1:
@@ -108,3 +111,25 @@ view_compute_resources_1:
   role_id: 11
 crud_hosts_1:
   role_id: 12
+system_admin_1:
+  role_id: 14
+system_admin_2:
+  role_id: 14
+system_admin_3:
+  role_id: 14
+system_admin_4:
+  role_id: 14
+system_admin_5:
+  role_id: 14
+system_admin_6:
+  role_id: 14
+
+<% Foreman::Plugin.all.map(&:default_roles).inject({}, :merge).each do |role, permissions| %>
+<% role_id = role.tr(' ', '_').scan(/[a-z_]/i).join %>
+# This line assumes permissions come in the form of a symbol 'action_resource'
+<% resources = permissions.map { |p| p.to_s.split('_')[1..-1].join('_') } %>
+<% resources.each do |resource| %>
+<%= "#{role_id}_#{resource}" %>:
+  role: <%= role_id %>
+<% end %>
+<% end %>

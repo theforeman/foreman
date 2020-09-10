@@ -1,40 +1,43 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
-   name: one
-   type: Subnet::Ipv4
-   network: 2.3.4.0
-   mask: 255.255.255.0
-   dhcp: one
-   tftp: two
-   dns: three
-   vlanid: 41
+  name: one
+  type: Subnet::Ipv4
+  network: 2.3.4.0
+  mask: 255.255.255.0
+  dhcp: one
+  tftp: two
+  dns: three
+  bmc: bmc
+  vlanid: 41
 
 two:
-   name: two
-   type: Subnet::Ipv4
-   network: 3.3.4.0
-   mask: 255.255.255.0
-   dhcp: one
-   tftp: two
-   vlanid: 42
+  name: two
+  type: Subnet::Ipv4
+  network: 3.3.4.0
+  mask: 255.255.255.0
+  dhcp: one
+  tftp: two
+  vlanid: 42
+  mtu: 1496
+  nic_delay: 3
 
 three:
-   name: three
-   type: Subnet::Ipv4
-   network: 3.3.4.3
-   mask: 255.255.255.0
-   dhcp: one
-   tftp: two
-   vlanid: 43
+  name: three
+  type: Subnet::Ipv4
+  network: 3.3.4.3
+  mask: 255.255.255.0
+  dhcp: one
+  tftp: two
+  vlanid: 43
 
 four:
-   name: four
-   type: Subnet::Ipv4
-   network: 3.3.5.0
-   mask: 255.255.255.0
-   tftp: two
-   vlanid: 44
+  name: four
+  type: Subnet::Ipv4
+  network: 3.3.5.0
+  mask: 255.255.255.0
+  tftp: two
+  vlanid: 44
+  mtu: 9000
 
 five:
   name: five
@@ -44,6 +47,7 @@ five:
   dhcp: one
   tftp: two
   dns: three
+  bmc: bmc
 
 six:
   name: six
@@ -51,3 +55,12 @@ six:
   network: '2001:db10::'
   mask: 'ffff:ffff:ffff:ffff::'
   dns: three
+
+seven:
+  name: seven
+  type: Subnet::Ipv6
+  network: '2001:db10:7::'
+  mask: 'ffff:ffff:ffff:ffff::'
+  dns: three
+  vlanid: 44
+  mtu: 9000

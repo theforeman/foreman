@@ -5,6 +5,8 @@
     <th><%= _('CPUs') %></th>
     <th><%= _('Memory') %></th>
     <th><%= _('Power') %></th>
+    <th><%= _('Operating system') %></th>
+    <th><%= _('Hypervisor') %></th>
     <th><%= _('Actions') %></th>
   </tr>
 </thead>
@@ -18,9 +20,12 @@
       <td><span <%= vm_power_class(vm.ready?) %>>
           <%= vm_state(vm) %></span>
       </td>
+      <td><%= vm.operatingsystem %></td>
+      <td><%= vmware_vm_hypervisor_name(vm) %></td>
       <td>
         <%= action_buttons(vm_power_action(vm, authorizer),
-                         (display_link_if_authorized("Console", hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer)) if vm.ready?),
+                         (display_link_if_authorized(_('Console'), hash_for_console_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer)) if vm.ready?),
+                         vm_import_action(vm),
                          display_delete_if_authorized(hash_for_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :authorizer => authorizer))) %>
       </td>
     </tr>

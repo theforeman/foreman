@@ -1,0 +1,88 @@
+@import './colors.scss';
+
+.navbar {
+  .nav a {
+    font-size: 13px;
+  }
+
+  .nav > li > a {
+    font-size: 14px;
+  }
+
+  #account_menu {
+    font-size: 11px;
+    padding-top: 10px;
+
+    .user-icon {
+      margin-right: 10px;
+    }
+  }
+
+  .active > a,
+  .open > a {
+    background:
+      linear-gradient(
+        to bottom,
+        $hover_gradient_start,
+        $hover_gradient_end
+      );
+  }
+
+  .org-switcher > a {
+    font-size: 14px;
+    //border-right: solid 1px $border_color;
+    .caret {
+      margin-left: 10px;
+    }
+  }
+
+  .dropdown .caret {
+    margin-left: 4px;
+  }
+}
+
+.navbar-brand {
+  display: flex;
+  padding: 0;
+  height: inherit;
+
+  span {
+    display: table;
+
+    .navbar-brand-txt {
+      display: table-cell;
+      vertical-align: middle;
+      color: white;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 20px;
+      font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    }
+  }
+}
+
+.notification-dropdown {
+  padding: 20px 12px !important;
+}
+
+.org-switcher {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.navbar-pf-vertical {
+  background: $topbar-default-color image-url('navbar.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 60px;
+}
+
+.navbar-left {
+  padding-left: 15px;
+}
+
+.drawer-pf-trigger {
+  padding-top: 15px;
+}

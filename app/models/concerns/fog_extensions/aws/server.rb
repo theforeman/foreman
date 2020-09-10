@@ -6,7 +6,7 @@ module FogExtensions
       attr_accessor :managed_ip
 
       def to_s
-        tags["Name"] || identity
+        tags.try(:[], 'Name') || identity
       end
 
       def name
@@ -18,7 +18,7 @@ module FogExtensions
       end
 
       def vm_ip_address
-        managed_ip == 'private' ? private_ip_address : public_ip_address
+        (managed_ip == 'private') ? private_ip_address : public_ip_address
       end
 
       def poweroff

@@ -1,11 +1,11 @@
-class CreatePtables < ActiveRecord::Migration
-  class Ptable < ActiveRecord::Base; end
+class CreatePtables < ActiveRecord::Migration[4.2]
+  class Ptable < ApplicationRecord; end
   def up
     create_table :ptables do |t|
       t.string :name,   :limit => 64, :null => false
       t.string :layout, :limit => 4096, :null => false
       t.references :operatingsystem
-      t.timestamps
+      t.timestamps null: true
     end
     create_table :operatingsystems_ptables, :id => false do |t|
       t.references :ptable, :null => false

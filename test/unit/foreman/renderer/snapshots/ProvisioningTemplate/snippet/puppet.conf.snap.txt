@@ -1,0 +1,15 @@
+
+
+[main]
+vardir = /var/lib/puppet
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+ssldir = \$vardir/ssl
+
+[agent]
+pluginsync      = true
+report          = true
+ca_server       = 
+certname        = snapshothost
+environment     = 
+server          = 

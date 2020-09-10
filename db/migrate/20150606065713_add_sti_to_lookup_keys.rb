@@ -1,4 +1,4 @@
-class AddStiToLookupKeys < ActiveRecord::Migration
+class AddStiToLookupKeys < ActiveRecord::Migration[4.2]
   def up
     add_column :lookup_keys, :type, :string, :limit => 255
     LookupKey.where(:is_param => true).update_all(:type => 'PuppetclassLookupKey')

@@ -1,0 +1,23 @@
+<%#
+kind: snippet
+name: ansible_provisioning_callback
+model: ProvisioningTemplate
+snippet: true
+-%>
+<% if host_param_true?('ansible_tower_provisioning') -%>
+<%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
+  has_systemd = (@host.operatingsystem.name == 'Fedora' && os_major >= 20) || (rhel_compatible && os_major >= 7)
+-%>
+<% if has_systemd -%>
+<%= save_to_file('/etc/systemd/system/ansible-callback.service',
+                 snippet('ansible_tower_callback_service')) %>
+# Runs during first boot, removes itself
+systemctl enable ansible-callback
+<% else -%>
+# Assume systemd is not available
+<%= save_to_file('/root/ansible_provisioning_call.sh', snippet('ansible_tower_callback_script')) %>
+(chmod +x /root/ansible_provisioning_call.sh; crontab -u root -l 2>/dev/null; echo "@reboot /root/ansible_provisioning_call.sh" ) | crontab -u root -
+<% end -%>
+<% end -%>

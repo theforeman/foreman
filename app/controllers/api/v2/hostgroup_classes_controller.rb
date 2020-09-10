@@ -2,14 +2,13 @@ module Api
   module V2
     class HostgroupClassesController < V2::BaseController
       include Api::Version2
-      include Api::TaxonomyScope
 
       before_action :find_hostgroup, :only => [:index, :create, :destroy]
 
       api :GET, "/hostgroups/:hostgroup_id/puppetclass_ids/", N_("List all Puppet class IDs for host group")
 
       def index
-        render :json =>  { root_node_name => HostgroupClass.where(:hostgroup_id => @hostgroup.id).pluck('puppetclass_id') }
+        render :json => { root_node_name => HostgroupClass.where(:hostgroup_id => @hostgroup.id).pluck('puppetclass_id') }
       end
 
       api :POST, "/hostgroups/:hostgroup_id/puppetclass_ids", N_("Add a Puppet class to host group")

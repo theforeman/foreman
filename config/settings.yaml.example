@@ -1,21 +1,39 @@
 ---
-# You must restart the Rack server after changing either of these values
+# You must restart the Rack server after changing any of these values
 # because they are cached at startup.
 #
 :unattended: true
-:login: true
+
 :require_ssl: false
-:locations_enabled: false
-:organizations_enabled: false
+
 #JSONP or "JSON with padding" is a complement to the base JSON data format.
 #It provides a method to request JSON data from a server in a different domain.
 :support_jsonp: false
-#:puppetconfdir: /etc/puppet
-#:puppetvardir: /var/lib/puppet
-#:puppetssldir: /var/lib/puppet/ssl
 
 # Mark translated strings with X characters (for developers)
 :mark_translated: false
+
+# Use the webpack development server? set to false to disable (for developers)
+# Make sure to run `rake webpack:compile` if disabled.
+:webpack_dev_server: true
+
+# If you run Foreman in development behind some proxy or use HTTPS you need
+# to enable HTTPS for webpack dev server too, otherwise you'd get mixed content
+# errors in your browser
+:webpack_dev_server_https: false
+
+# Assets in development are not bundled/minified
+# Do not set this to false if you plan to edit assets (css, js, etc.)
+:assets_debug: false
+
+# If you wish to allow browsers access to http resources after accessing the
+# server, you will need to disable HSTS headers. This has security implications
+# so only change this if you know what you're doing.
+:hsts_enabled: true
+
+# Ruby on Rails version (available: 5.2, 6.0)
+# Defaults to 6.0
+#:rails: 6.0
 
 # Local administrative settings for application domain, fqdn, foreman URL,
 # administrator email address etc. If you don't have a Puppet provisioning
@@ -23,8 +41,36 @@
 :domain: 'localdomain.net'
 :fqdn: 'localhost.localdomain.net'
 
+# List of Domains allowed for Cross-Origin Resource Sharing
+# :cors_domains:
+#   - https://foreman.example.com
+
 # Log settings for the current environment can be adjusted by adding them
-# here. For example, if you want to increase the log level.
+# here. It is also possible to override settings per environment. See
+# logging.yaml for more details and examples. Some recommended configurations:
+
+# Log to production.log via file appender and multi-line friendly pattern
+#:logging:
+#  :level: info
+#  :production:
+#    :type: file
+#    :layout: multiline_pattern
+
+# Log to syslog in JSON format for integrating with 3rd parties (ELK)
+#:logging:
+#  :level: info
+#  :production:
+#    :type: syslog
+#    :layout: json
+
+# Send logs to system journal with structured data with simple text pattern
+#:logging:
+#  :level: info
+#  :production:
+#    :type: journald
+#    :layout: pattern
+
+# Temporary increase level to debug for troubleshooting
 #:logging:
 #  :level: debug
 
@@ -32,9 +78,68 @@
 #:loggers:
 #  :app:
 #    :enabled: true
+#  :audit:
+#    :enabled: true
 #  :ldap:
 #    :enabled: false
 #  :permissions:
 #    :enabled: false
+#  :proxy:
+#    :enabled: false
 #  :sql:
 #    :enabled: false
+#  :templates:
+#    :enabled: true
+#  :notifications:
+#    :enabled: false
+#  :taxonomy:
+#    :enabled: true
+#  :background:
+#    :enabled: true
+#  :dynflow:
+#    :enabled: true
+#    :level: info
+#  :telemetry:
+#    :enabled: true
+#  :blob:
+#    :enabled: false
+
+# Foreman telemetry has three destinations: prometheus, statsd and rails log.
+:telemetry:
+  # prefix for all metrics
+  :prefix: 'fm_rails'
+  # prometheus endpoint is at /metrics
+  # warning: ruby client library currently does not supprt multi-process web servers
+  :prometheus:
+    :enabled: false
+  # works with statsd_exporter too, use the rake task to generate config
+  :statsd:
+    :enabled: false
+    # IP and port (do not use DNS)
+    :host: '127.0.0.1:8125'
+    # one of 'statsd', 'statsite' or 'datadog'
+    :protocol: 'statsd'
+  # Rails logs end up in logger named 'telemetry' when enabled
+  :logger:
+    :enabled: false
+    # logging level as in Logger::LEVEL
+    :level: 'DEBUG'
+
+#
+# Configure how many workers should dynflow use to handle incoming requests.
+# If you want to use sidekiq, you should configure redis_url, unless you are using default redis configuration.
+#
+# :dynflow:
+#   :pool_size: 5
+
+#
+# Set the rails cache implementation:
+# file (default) and redis are supported
+#
+# :rails_cache_store:
+#   :type: redis
+#   :urls:
+#    - redis://localhost:8479/0
+#   :options:
+#     :compress: true
+#     :namespace: foreman

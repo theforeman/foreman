@@ -2,10 +2,6 @@ object @hostgroup
 
 extends "api/v2/hostgroups/main"
 
-node do |hostgroup|
-  { :parameters => partial("api/v2/parameters/base", :object => hostgroup.group_parameters.authorized) }
-end
-
 child :template_combinations do
   extends "api/v2/template_combinations/base"
 end

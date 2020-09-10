@@ -1,34 +1,28 @@
-<%= javascript "compute_resource" %>
 <%= form_for @compute_resource, :html => {:data => {:id => @compute_resource.try(:id)}} do |f| %>
   <%= base_errors_for @compute_resource %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
 
-  <% if show_taxonomy_tabs? %>
-    <ul class="nav nav-tabs" data-tabs="tabs">
-      <li class="active"><a href="#primary" data-toggle="tab"><%= _("Compute Resource") %></a></li>
-      <% if show_location_tab? %>
-        <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
-      <% end %>
-      <% if show_organization_tab? %>
-        <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
-      <% end %>
-    </ul>
-
-    <div class="tab-content">
-      <div class="tab-pane active" id="primary">
-  <% end %>
-        <%= text_f f, :name %>
-        <%= f.hidden_field(:provider, :id => '') if f.object.uuid.present? %>
-        <%= selectable_f f, :provider, list_providers, { :include_blank => _("Choose a provider")},
-                         {:label => _("Provider"), :disabled=> !f.object.new_record?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'providerSelected(this);'} %>
-        <%= textarea_f f, :description, :rows => 3 %>
-        <div id='compute_connection'>
-          <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
-        </div>
-    <% if show_taxonomy_tabs? %>
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= f.hidden_field(:provider, :id => '') if f.object.uuid.present? %>
+      <%= selectable_f f, :provider, list_providers, { :include_blank => _("Choose a provider")},
+        {:label => _("Provider"), :disabled=> !f.object.new_record?, :'data-url'=> provider_selected_compute_resources_path, :onchange => 'tfm.computeResource.providerSelected(this);'} %>
+      <%= textarea_f f, :description, :rows => 3 %>
+      <div id='compute_connection'>
+        <%= render "compute_resources/form/#{@compute_resource.provider.downcase}", :f => f unless @compute_resource.provider.empty? %>
       </div>
-      <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @compute_resource %>
     </div>
-  <% end %>
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @compute_resource %>
+  </div>
 
   <%= submit_or_cancel f %>
 <% end %>

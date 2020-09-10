@@ -1,0 +1,21 @@
+<%#
+kind: snippet
+name: pxegrub2_mac
+model: ProvisioningTemplate
+snippet: true
+-%>
+echo "Trying /httpboot/grub2/grub.cfg-$net_default_mac"
+configfile "/httpboot/grub2/grub.cfg-$net_default_mac"
+
+echo "Trying /grub2/grub.cfg-$net_default_mac"
+configfile "/grub2/grub.cfg-$net_default_mac"
+
+# The following four statements breaks grub2 and it's no
+# longer able to load any file from the base URL.
+# Comment them out to be able to use (UEFI/iPXE) HTTP Boot:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1763216
+echo "Trying grub2/grub.cfg-$net_default_mac"
+configfile "grub2/grub.cfg-$net_default_mac"
+
+echo "Trying grub.cfg-$net_default_mac"
+configfile "grub.cfg-$net_default_mac"

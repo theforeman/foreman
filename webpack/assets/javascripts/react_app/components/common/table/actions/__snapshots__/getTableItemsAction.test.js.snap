@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getTableItemsAction should call api get with url  1`] = `
+Object {
+  "payload": Object {
+    "key": "MODELS",
+    "payload": Object {
+      "tableID": "models",
+      "url": "/api/models?include_permissions=true",
+    },
+    "url": "/api/models?include_permissions=true",
+  },
+  "type": "API_GET",
+}
+`;

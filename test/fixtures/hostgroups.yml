@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 common:
   name: Common
   architecture: x86_64
@@ -36,14 +35,16 @@ parent:
   environment: global_puppetmaster
   operatingsystem: centos5_3
   medium: one
+  ptable: autopart
   puppet_proxy: puppetmaster
   puppet_ca_proxy: puppetmaster
   domain: mydomain
-  subnet: three
+  subnet: five
   subnet6: six
   compute_profile: one
   id: 1
   lookup_value_matcher: hostgroup=Parent
+  pxe_loader: 'PXELinux BIOS'
 
 inherited:
   name: inherited

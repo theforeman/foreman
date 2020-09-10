@@ -1,4 +1,4 @@
-class FakeNic < ActiveRecord::Base
+class FakeNic < ApplicationRecord
   self.table_name = 'nics'
 
   def type
@@ -6,11 +6,11 @@ class FakeNic < ActiveRecord::Base
   end
 end
 
-class FakeHost < ActiveRecord::Base
+class FakeHost < ApplicationRecord
   self.table_name = 'hosts'
 end
 
-class MoveHostNicsToInterfaces < ActiveRecord::Migration
+class MoveHostNicsToInterfaces < ActiveRecord::Migration[4.2]
   def up
     add_column :nics, :primary, :boolean, :default => false
     add_column :nics, :provision, :boolean, :default => false
@@ -26,7 +26,7 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
       nic.subnet_id = host.attributes.with_indifferent_access[:subnet_id]
       nic.domain_id = host.attributes.with_indifferent_access[:domain_id]
       nic.virtual = false
-      nic.identifier = host.attributes.with_indifferent_access[:primary_interface] || "eth0"
+      nic.identifier = host.attributes.with_indifferent_access[:primary_interface] || 'eth0'
       nic.managed = host.attributes.with_indifferent_access[:managed]
       nic.primary = true
       nic.provision = true
@@ -39,9 +39,9 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
     remove_column :hosts, :ip
     remove_column :hosts, :mac
     remove_column :hosts, :primary_interface
-    remove_foreign_key :hosts, :name => "hosts_subnet_id_fk"
+    remove_foreign_key 'hosts', :name => 'hosts_subnet_id_fk'
     remove_column :hosts, :subnet_id
-    remove_foreign_key :hosts, :name => "hosts_domain_id_fk"
+    remove_foreign_key 'hosts', :name => 'hosts_domain_id_fk'
     remove_column :hosts, :domain_id
   end
 
@@ -50,9 +50,9 @@ class MoveHostNicsToInterfaces < ActiveRecord::Migration
     add_column :hosts, :mac, :string, :default => '', :limit => 255
     add_column :hosts, :primary_interface, :string, :limit => 255
     add_column :hosts, :subnet_id, :integer
-    add_foreign_key "hosts", "subnets", :name => "hosts_subnet_id_fk"
+    add_foreign_key 'hosts', 'subnets', :name => 'hosts_subnet_id_fk'
     add_column :hosts, :domain_id, :integer
-    add_foreign_key "hosts", "subnets", :name => "hosts_domain_id_fk"
+    add_foreign_key 'hosts', 'subnets', :name => 'hosts_domain_id_fk'
 
     say "Migrating Interfaces to Host interfaces"
     FakeHost.reset_column_information

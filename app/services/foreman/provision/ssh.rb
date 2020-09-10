@@ -47,13 +47,13 @@ class Foreman::Provision::SSH
   end
 
   def command_prefix
-    username == "root" ? "" : "sudo "
+    (username == "root") ? "" : "sudo "
   end
 
   def command
     # Use the users home to store the provision script since we can't reliably
     # tell if other locations are writeable or executable by the user.
-    main_execution="(chmod 0701 ./#{remote_script} && #{command_prefix} ./#{remote_script} ; echo $? >#{remote_script}.status) 2>&1"
+    main_execution = "(chmod 0701 ./#{remote_script} && #{command_prefix} ./#{remote_script} ; echo $? >#{remote_script}.status) 2>&1"
     "#{command_prefix} sh -c '#{main_execution} | tee #{remote_script}.log; exit $(cat #{remote_script}.status)'"
   end
 
@@ -61,9 +61,9 @@ class Foreman::Provision::SSH
     {
       :keys_only    => true,
       :config       => false,
-      :auth_methods => %w( publickey ),
+      :auth_methods => %w(publickey),
       :compression  => true,
-      :logger       => logger
+      :logger       => logger,
     }
   end
 
@@ -72,36 +72,34 @@ class Foreman::Provision::SSH
   end
 
   def initiate_connection!
-    Timeout.timeout(360) do
-      begin
-        Timeout.timeout(8) do
-          ssh.run('pwd')
-        end
-      rescue Errno::ECONNREFUSED
-        logger.debug "Connection refused for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Errno::EHOSTUNREACH
-        logger.debug "Host unreachable for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Net::SSH::Disconnect
-        logger.debug "Host dropping connections for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Net::SSH::ConnectionTimeout
-        logger.debug "Host timed out for #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Net::SSH::AuthenticationFailed
-        logger.debug "Auth failed for #{username} at #{address}, retrying"
-        sleep(2)
-        retry
-      rescue Timeout::Error
-        retry
-      rescue => e
-        Foreman::Logging.exception("SSH error", e)
+    Timeout.timeout(Setting[:ssh_timeout].to_i) do
+      Timeout.timeout(8) do
+        ssh.run('pwd')
       end
+    rescue Errno::ECONNREFUSED
+      logger.debug "Connection refused for #{address}, retrying"
+      sleep(2)
+      retry
+    rescue Errno::EHOSTUNREACH
+      logger.debug "Host unreachable for #{address}, retrying"
+      sleep(2)
+      retry
+    rescue Net::SSH::Disconnect
+      logger.debug "Host dropping connections for #{address}, retrying"
+      sleep(2)
+      retry
+    rescue Net::SSH::ConnectionTimeout
+      logger.debug "Host timed out for #{address}, retrying"
+      sleep(2)
+      retry
+    rescue Net::SSH::AuthenticationFailed
+      logger.debug "Auth failed for #{username} at #{address}, retrying"
+      sleep(2)
+      retry
+    rescue Timeout::Error
+      retry
+    rescue => e
+      Foreman::Logging.exception("SSH error", e)
     end
   end
 

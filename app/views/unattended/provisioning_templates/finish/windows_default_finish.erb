@@ -1,0 +1,130 @@
+<%#
+kind: finish
+name: Windows default finish
+model: ProvisioningTemplate
+oses:
+- Windows Server 2008
+- Windows Server 2008 R2
+- Windows Server 2012
+- Windows Server 2012 R2
+- Windows
+# Parameters are expected to be set in Foreman (globally or per group/host)
+params:
+- windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
+- windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+- localAdminAccountDisabled: false
+- ntpServer: time.windows.com,other.time.server
+- domainAdminAccount: joinuser@domain.com # please do not use the domain administrator
+- domainAdminAccountPasswd: Password for the domain Admin account
+- computerOU: OU=Computers,CN=domain,CN=com # Place the computer account in specified Organizational Unit
+- computerDomain: domain.com # domain to join
+- machinePassword: used for unsecure domain join. needs precrated computer object (New-ADComputer)
+- foremanDebug: false
+%>
+<%#
+# Information about unsecure domain join
+# https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/add-computer?view=powershell-5.1#example-9--add-a-computer-to-a-domain-using-predefined-computer-credentials
+%>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param('force-puppet') && host_param('force-puppet') == 'true'
+  salt_enabled = host_param('salt_master') ? true : false
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
+%>
+
+@echo off
+<% unless host_param('localAdminAccountDisabled') -%>
+  echo Activating administrator
+  net user administrator /active:yes
+<% end -%>
+
+<% if @host.pxe_build? %>
+  set ctr=0
+  set nettimeout=10
+
+  (echo Updating time)
+  (sc config w32time start= auto)
+  sc start w32time
+  ::ipconfig /renew
+
+  <% if host_param('ntpServer') %>
+    echo setting time server
+    w32tm /config /manualpeerlist:<%= host_param('ntpServer') %> /syncfromflags:manual /update
+  <% end %>
+
+  echo sync time
+  w32tm /resync
+  w32tm /resync
+
+  <% if host_param('computerDomain') -%>
+    <% if host_param('domainAdminAccount').present? && host_param('domainAdminAccountPasswd').present? -%>
+      echo performing secure domain join
+      powershell.exe -OutputFormat text -command Add-Computer -DomainName '<%= host_param('computerDomain') -%>' -Credential (New-Object -TypeName System.Management.Automation.PSCredential '<%= host_param('domainAdminAccount') -%>', (ConvertTo-SecureString -String '<%= host_param('domainAdminAccountPasswd') -%>' -AsPlainText -Force)) <% if host_param('computerOU').present? -%>-OUPath '<%= host_param('computerOU') -%>'<% end -%>
+    <% else %>
+      <% if host_param('machinePassword').present? %>
+        echo performing unsecure domain join
+        powershell.exe -OutputFormat text -command Add-Computer -Domain '<%= host_param('computerDomain') -%>' -Options UnsecuredJoin,PasswordPass -Credential (New-Object -TypeName System.Management.Automation.PSCredential $null, (ConvertTo-SecureString -String '<%= host_param('machinePassword') -%>' -AsPlainText -Force))
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if host_param('localAdminAccountDisabled') %>
+    echo Disabling %tempAdminUser%
+    net user %tempAdminUser% %tempAdminUser% /active:no
+  <% end %>
+
+  <% if host_param('ansible_port') == 5985 or host_param('ansible_winrm_scheme') == 'http' %>
+    cmd /c winrm set winrm/config/service @{AllowUnencrypted="true"}
+  <% end %>
+
+  <% if host_param('ansible_winrm_transport') == 'basic' %>
+    cmd /c winrm set winrm/config/client/auth @{Basic="true"}
+    cmd /c winrm set winrm/config/service/auth @{Basic="true"}
+  <% end %>
+
+  <% if host_param('ansible_winrm_transport') == 'credssp' %>
+    cmd /c winrm set winrm/config/client/auth @{CredSSP="true"}
+    cmd /c winrm set winrm/config/service/auth @{CredSSP="true"}
+  <% end %>
+
+  <% if host_param('ansible_winrm_transport') == 'certificate' %>
+    cmd /c winrm set winrm/config/client/auth @{Certificate="true"}
+    cmd /c winrm set winrm/config/service/auth @{Certificate="true"}
+  <% end %>
+
+  <%= snippet 'Windows network' %>
+
+  <% if foreman_url('user_data') %>
+    echo execute user data script
+    IF EXIST c:\deploy\user_data.ps1 powershell.exe -OutputFormat text -command c:\deploy\user_data.ps1
+  <% end -%>
+
+  <% if puppet_enabled %>
+    echo Installing puppet
+    start /w "" msiexec /qn /i C:\extras\puppet.msi PUPPET_AGENT_STARTUP_MODE=Manual PUPPET_MASTER_SERVER=<%= @host.puppetmaster -%> PUPPET_AGENT_ACCOUNT_DOMAIN=<%= @host.domain -%> PUPPET_AGENT_ACCOUNT_USER=administrator PUPPET_AGENT_ACCOUNT_PASSWORD="<%= host_param('domainAdminAccountPasswd') -%>"
+    echo set puppet to auto start
+    sc config puppet start= auto
+    sc query puppet
+  <% end%>
+
+  <% if host_param('foremanDebug') != true %>
+
+    echo reboot in 15sec
+    start /b shutdown /r /t 15
+
+    echo Safely remove wimaging files
+    sdelete.exe -accepteula -p 2 -r c:\wimaging
+    sdelete.exe -accepteula -p 2 -r c:\minint
+    sdelete.exe -accepteula -p 2 c:\Windows\Panther\unattend.xml
+    sdelete.exe -accepteula -p 2 C:\Windows\Setup\Scripts\SetupComplete.cmd
+
+    echo Safely remove leftover directories
+    sdelete.exe -accepteula -p 2 -r c:\drivers
+    sdelete.exe -accepteula -p 2 -r c:\updates
+
+    echo Safely removing c:\deploy
+    cd /
+    sdelete.exe -accepteula -p 2 -r c:\deploy
+  <% end -%>
+<% end -%>

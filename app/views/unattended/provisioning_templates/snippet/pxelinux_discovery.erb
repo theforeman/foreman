@@ -1,0 +1,29 @@
+<%#
+kind: snippet
+name: pxelinux_discovery
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%#
+discovery image is based on CentOS/RHEL and therefor it is affected by https://bugzilla.redhat.com/show_bug.cgi?id=1259015.
+In short, before RHEL 7.2 virtio driver didn't have the new persistent naming scheme, causing interfaces to be named eth0, eth1, etc..
+If you want to enable the new persistent naming scheme and get inteface names like ens3, add net.ifnames=1 to the APPEND line below.
+-%>
+LABEL discovery
+  MENU LABEL Foreman Discovery Image
+  KERNEL boot/fdi-image/vmlinuz0
+  APPEND initrd=boot/fdi-image/initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=<%= foreman_server_url %> proxy.type=foreman
+  IPAPPEND 2
+
+<%#
+Chainbooting via iPXE requires an extra script published via HTTP:
+
+#!ipxe
+kernel http://foreman_url/pub/vmlinuz0 rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nokaslr nomodeset proxy.url=https://foreman_url proxy.type=foreman BOOTIF=01-${net0/mac}
+initrd http://foreman_url/pub/initrd0.img
+boot
+-%>
+LABEL discovery_ipxe
+  MENU LABEL Foreman Discovery Image - iPXE
+  KERNEL ipxe.lkrn
+  APPEND dhcp && chain <%= foreman_server_url %>/pub/discovery.ipxe

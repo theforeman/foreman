@@ -1,0 +1,2371 @@
+[[how-to-create-a-plugin]]
+= How to Create a Plugin
+:toc: right
+:toclevels: 5
+
+The goal of this tutorial is to help users quickly and easily create
+Foreman plugins. This is not an exhaustive tutorial of
+http://rubyonrails.org/[Ruby on Rails] or an explanation of how
+http://guides.rubyonrails.org/engines.html[rails engines] work.
+
+[[naming-your-plugin]]
+== Naming your plugin
+
+It's strongly recommended that your plugin begins with the string
+"foreman" to help people identify its relationship with the project.
+Plugins are published as gems to rubygems.org, so check that the name
+you wish to use is free - again, using a standard prefix helps. The
+prefix is also assumed in the installer, so it makes adding support there
+easier.
+
+Multiple words in the gem name should be separated with underscores
+("_"), although some plugins use underscores for the gem name and
+hyphens for git repo names. The git repo name isn't as important, but
+consistency in naming is recommended as it will make life easier for both users
+and developers.
+
+A good example is *foreman_hooks* because the name clearly states it's a
+foreman plugin that adds hooks.
+
+[[using-the-example-plugin]]
+== Using the example plugin
+
+
+There is a fully working example plugin which you can clone to get quickly
+started. It contains examples of many of the types of behaviour that you
+might want to do in a plugin, such as adding new models, overriding
+views, extending controllers, adding permissions and menu items, and so
+on. The README contains a list of it's current behaviour. To get started
+building your first Foreman Plugin run the following command:
+
+[source, bash]
+....
+git clone https://github.com/theforeman/foreman_plugin_template my_plugin
+....
+
+A new directory my_plugin is created for the plugin. Now go into this
+directory and use the rename script to change all references to
+ForemanPluginTemplate to MyPlugin:
+
+[source, bash]
+....
+cd my_plugin; ./rename.rb my_plugin
+....
+
+[[installing-the-plugin]]
+== Installing the plugin
+
+
+It's best to test a plugin on a development installation of Foreman, as
+it loads code on the fly and doesn't require building and installing
+your plugin as a gem. http://theforeman.org/contribute.html[Foreman's
+contribution guide] describes setting up a small test instance.
+
+You can enable the plugin right away, and see what it's default
+behavior is, by editing foreman Gemfile.local.rb file (or creating this
+file under the folder bundler.d) and adding the following line
+
+.Gemfile.local.rb
+[source, ruby]
+----
+gem 'my_plugin', :path => 'path_to/my_plugin'
+----
+Install the 'preface' bundle by running from foreman core directory:
+
+[source, bash]
+----
+bundle install
+----
+Restart (or start if it wasn't up) foreman (type 'rails server') and the
+new foreman plugin should be listed in the about page plugin tab. If it
+isn't, check your gem name and the symbol you passed to
+Foreman::Plugin.register match. Watch out for hyphens - e.g. gem
+'foreman-tasks' would need to be registered as
+[source, ruby]
+----
+Foreman::Plugin.register :"foreman-tasks"
+----
+
+Since hyphens are less intuitive, the policy for naming plugins is to use
+underscores, like `foreman_salt`.
+
+Note that Debian or other "production" installations need to be
+restarted after code changes, as they won't reload on the fly.
+
+[[rpm-installations]]
+=== RPM installations
+
+RPM installations use bundler_ext and are unable to load plugins from a
+path, they need the plugin to be built as a .gem file, installed and
+then reloaded. Development setups as described above are much better.
+
+In the plugin directory, run `gem build my_plugin.gemspec` which will
+build a file such as my_plugin-0.0.1.gem. Copy to the Foreman server and
+run
+`scl enable tfm "gem install --ignore-dependencies /tmp/my_plugin-0.0.1.gem"`
+
+Add to /usr/share/foreman/bundler.d/Gemfile.local.rb:
+[source, ruby]
+----
+gem 'my_plugin'
+----
+
+Then restart httpd to load it.
+
+[[initial-edits]]
+=== Initial edits
+
+First edit the my_plugin.gemspec file, you can specify here the name,
+authors, description homepage and version of your plugin, by simply
+replacing the appropriate strings with your content.
+
+[[making-your-plugin-official]]
+== Making your plugin official
+
+Once you've written the first version of your plugin, what comes next?
+We'd recommend plugin authors to consider the following:
+
+1.  Tag releases in git - ideally, following http://semver.org[semver]
+for versioning
+2.  Use `gem compare -b foo 0.1 0.2 -k` tool to identify content changes
+(you need separate `gem-compare` gem to be installed)
+3.  Push a gem of each release to rubygems.org
+4.  Add it to https://projects.theforeman.org/projects/foreman/wiki/List_of_Plugins[List_of_Plugins]
+5.  Add some tests and enable testing in
+http://projects.theforeman.org/projects/foreman/wiki/Jenkins#Foreman-plugin-testing[Jenkins]
+6.  Create an RPM and Debian package for the plugin - submitted to the
+foreman-packaging repo, we're also happy to do this and publish to our
+official plugin repos
+7.  Move git repo to https://github.com/theforeman/[theforeman
+organization] - in case you move on, this lets us help with maintenance
+or delegate permissions to somebody else and keep the project alive. It
+also makes it easier for people to find. See also https://projects.theforeman.org/projects/foreman/wiki/GitHub[GitHub].
+8.  Have an issue tracker on
+http://projects.theforeman.org/projects[projects.theforeman.org] - a
+common location for users for any Foreman-related issue
+9.  Ensure other maintainers can push to rubygems.org - again in case
+you should move on
+
+Please get in touch via foreman-dev (IRC or e-mail) to arrange for repo
+transfers, packages, issue trackers etc.
+
+[[release-strategies]]
+== Release strategies
+
+The big advantage of developing a plugin is that it's not tied to
+Foreman's quarterly release process, so you can get features and bug
+fixes out to meet your own users' expectations, even for Foreman
+versions that are already released. We'd encourage plugin authors to
+release early, release often.
+
+When versioning your plugin, we'd recommend using a semantic versioning
+scheme (http://semver.org/)[semver.org] where the major digit is
+incremented for each incompatible change (e.g. only works with Foreman
+X, not Y), the second for backwards compatible releases (new features)
+and the third for fixes.
+
+When preparing to release, consider which versions of Foreman it's
+compatible with (ensure you set the minimum Foreman version, see
+<<Requiring Foreman version>>) and also which should receive the update.
+Our package repositories for plugins are separate per major Foreman
+release, so you may only want to release an update to nightlies and the
+last stable release, or just to nightlies for instance.
+
+If your plugin is only compatible with certain versions of Foreman, a
+small compatibility table in the README or documentation can be very
+useful to users to check they're on the right version. If you make a
+change to support the current Foreman nightlies, you should then change
+the minimum version, bump the major version (e.g. 3.x becomes 4.0.0) and
+add a line to the table to say for Foreman X, you now need 4.x.
+
+[[foreman-compatibility]]
+=== Foreman compatibility
+
+We know from experience that Foreman plugins can be fragile and it's
+common for some plugins to need small tweaks on most major Foreman
+releases.
+
+Foreman will always strive to make no incompatible changes in a minor
+release, but be prepared to make updates on major releases. Where
+possible, deprecation warnings will be added for old public methods
+before their removal. Warnings will be issued for _two_ major releases
+and then the old method removed in the third release, giving plenty of
+time to update plugins.
+
+[[plugin-package-repos]]
+=== Plugin package repos
+
+
+Foreman operates a set of plugin repos that are enabled by default, in
+addition to our core repos. We package lots of plugins for Foreman, the
+smart proxy and Hammer in these through
+https://github.com/theforeman/foreman-packaging[foreman-packaging] so
+they're easily installable for end users.
+
+If you'd like to get your plugin packaged, first release it to
+rubygems.org, sticking to the recommended naming conventions as closely
+as possible. Next, send a pull request to foreman-packaging's
+deb/develop and/or rpm/develop branches creating the package - see the
+README.md files in each branch, and other plugins for examples.
+
+There's a separate repo per major version of Foreman (nightly, 1.11,
+1.10 etc.) and we update nightly plus the last three stable releases at
+any one time. When packaging a plugin update, it can go to any of these
+repos that you'd like it in - just tell the maintainers when opening a
+packaging PR. Make sure that you're comfortable with the compatibility
+level of the update, knowing which releases it can safely be run on
+_and_ which it should be updated in. Users on the very old stable
+releases might not expect to receive a new major version of a plugin
+with significant changes, even if it runs OK.
+
+Lastly, it's helpful for maintainers to open up pull requests for
+packaging updates when making a release to share the workload with the
+regular packaging maintainers. (The regular packagers are also likely to
+be unfamiliar with the plugin and which releases it's appropriate for.)
+
+[[code-examples]]
+== Code examples
+
+
+What follows are an assorted collection of code snippets that may be
+useful. We try and document all of the official plugin APIs with
+examples here.
+
+[[requiring-foreman-version]]
+=== Requiring Foreman version
+
+To require a specific foreman version use the bundler require syntax.
+Most of the version specifiers, like `>= 1.4` are self-explanatory, the
+specifier `~` has a special meaning, best shown by example: `~> 2.1` is
+identical to `>= 2.1` and `< 3.0`.
+
+To read the full specification visit
+http://bundler.io/v1.3/gemfile.html[bundler.io]
+
+[source, ruby]
+----
+requires_foreman '>= 1.4'
+----
+Avoid using `> 1.7`, stick to `>= 1.8`. Greater than 1.7 would include
+1.7.1, when the intention is probably only 1.8 and above.
+
+[[adding-permission]]
+=== Adding permission
+
+Whether adding a new actions to existing controller or adding a new
+controller, every action must be mapped to a foreman permission. +
+See a typical structure of the security section of the registered plugin
+method:
+
+[source, ruby]
+----
+security_block :security_block_name do
+          permission :view_something, {:controller_name => [:index, :show, :auto_complete_search] }
+          permission :new_something, {:controller_name => [:new, :create] }
+          permission :edit_something, {:controller_name => [:edit, :update] }
+          permission :delete_something, {:controller_name => [:destroy] }
+end
+----
+[[adding-your-permissions-to-foremans-roles]]
+=== Adding your permissions to Foreman's roles
+
+_Requires Foreman 1.15 or higher, set `requires_foreman '>= 1.15'` in
+engine.rb_
+
+Plugins should merge seamlessly with the rest of the application.
+Foreman provides you with several DSL methods to add your permissions to
+existing Foreman's roles. +
+That way, users with these roles have access to your plugin's
+functionality without a need to change anything.
+
+[source, ruby]
+----
+security_block :security_block_name do
+  # define your permissions
+end
+
+# add permissions to Manager and Viewer roles
+add_all_permissions_to_default_roles
+----
+
+If you need more control over what needs to be added you can use the
+following:
+
+[source, ruby]
+----
+add_permissions_to_default_roles 'Manager' => [:first_permission, :second_permission], 'Viewer' => [:third_permission]
+----
+
+Or alternatively:
+
+[source, ruby]
+----
+add_resource_permissions_to_default_roles ['MyPlugin::FirstResource', 'MyPlugin::SecondResource'], :except => [:skip_this_permission]
+----
+
+[[adding-roles]]
+=== Adding roles
+
+The register plugin method allows adding a predefined role, the
+following sample show how to add a role that includes the set of
+permissions from the previous section.
+
+[source, ruby]
+----
+  # Add a new role called 'New Role Name' if it doesn't exist
+  role "New Role Name", [:view_something, :provision_something, :edit_something, :destroy_something]
+----
+[[specifying-alternate-auto-complete-path-for-role-filters]]
+=== Specifying alternate auto-complete path for Role Filters
+
+_Requires Foreman 1.6 or higher, set `requires_foreman '>= 1.6'` in
+engine.rb_
+
+Use search_path_override method with the namespace of your plugin as the
+parameter to define overrides. Usage example:
+
+[source, ruby]
+----
+search_path_override("Katello") do |resource|
+  case resource
+    when 'Katello::Content_View'
+      '/katello/content_views/auto_complete_path'
+    else
+      "katello/#{resource.deconstantise.pluralise}/another_search_path"
+  end
+end
+----
+[[altering-the-menu]]
+=== Altering the menu
+
+A plugin can add menu items, entire sub menus and even delete a menu
+item, here are a few examples:
+
+Adding an item to existing menu:
+
+[source, ruby]
+----
+ # menu(menu_name, item_id, options)
+ # menu_name can be one of :user_menu, :top_menu or :admin_menu
+ # options can include
+ #    :url_hash => {:controller=> :example, :action=>:index}
+ #    :caption
+ #    :html - set html options for the menu item
+ #    :parent, :first, :last, :before, :after - are positions statements
+ #    :if => code_block is for conditional menus
+ #    :children => code_block is for dynamically creating a list of sub menu items.
+ #
+ # Example: adding a menu item for new host at the top menu under the hosts sub menu:
+ menu :top_menu, :new_host, :url_hash => {:controller=> :hosts, :action=>:new},
+      :caption=> N_('New host'),
+      :parent => :hosts_menu,
+      :first => true
+----
+Deleting a menu item
+
+[source, ruby]
+----
+ # Example: delete the hosts menu item
+ delete_menu_item :top_menu, :hosts
+----
+Adding a divider:
+
+[source, ruby]
+----
+ # Example: add a divider after an entry, same position statements as adding menu items (above) apply
+ divider :top_menu, :parent => :monitor_menu, :after => :reports
+----
+Adding a sub menu:
+
+[source, ruby]
+----
+ # Adding a sub menu after hosts menu
+ sub_menu :top_menu, :example, :caption=> N_('Example'), :after=> :hosts_menu do
+   menu :top_menu, :level1, :caption=>N_('the first level'), :url_hash => {:controller=> :example, :action=>:index}
+   menu :top_menu, :level2, :url_hash => {:controller=> :example, :action=>:index}
+   menu :top_menu, :level3, :url_hash => {:controller=> :example, :action=>:index}
+   sub_menu :top_menu, :inner_level, :caption=> N_('Inner level') do
+     menu :top_menu, :level41, :url_hash => {:controller=> :example, :action=>:index}
+     menu :top_menu, :level42, :url_hash => {:controller=> :example, :action=>:index}
+   end
+   menu :top_menu, :level5, :url_hash => {:controller=> :example, :action=>:index}
+ end
+----
+
+https://github.com/theforeman/foreman/blob/0a39d23f088ae42995910f4b6d9898e2e13f7a02/app/registries/menu/loader.rb[Here] is the code in foreman that builds basic menu. You can use it for reference,
+and for understanding which `:parent` values will always be there.
+
+[[adding-a-dashboard-widget]]
+=== Adding a dashboard widget
+
+_Requires Foreman 1.6 or higher, set `requires_foreman '>= 1.6'` in
+engine.rb_
+
+The register plugin method allows adding a widget to the dashboard, the
+following sample show how to add a widget.
+
+[source, ruby]
+----
+  # Add a new widget <widget_name>
+  # options:
+  # sizex should be in the range of 1..12, sizey will typically be 1 (defaults are 4 and 1 respectively)
+  # The widget can be hidden by default by adding the :hide => true option,
+  # The name option will be used to list the widget, in the restore-widget list, after hiding it.
+  widget <widget_name>, :name => 'awesome widget', :sizey => 1, :sizex => 4
+----
+When the dashboard is displayed, the dashboard page will call "render
+widget_name". The content of the widget should be in the path:
+
+[source, bash]
+....
+  app/views/dashboard/_<widget_name>.html.erb
+....
+
+[[adding-a-pagelet]]
+=== Adding a Pagelet
+
+_Requires Foreman 1.11 or higher, set `requires_foreman '>= 1.11'` in
+engine.rb_
+
+Arbitrary content can be put on specific places in the Foreman Web UI
+(called "mount points"). To add a pagelet on a specific mount point, use
+this syntax in the `engine.rb` file's plugin registration:
+
+[source, ruby]
+----
+extend_page "smart_proxies/show" do |cx|
+  cx.add_pagelet :main_tabs, :name => "New tab", :partial => "smart_proxies/show/mypage_contents"
+end
+----
+For more info and a list of possible extension points visit https://projects.theforeman.org/projects/foreman/wiki/Pagelets[Pagelets]
+documentation.
+
+[[using-react-in-plugins]]
+=== Using React in plugins
+
+_Requires Foreman 1.18 or higher, set `requires_foreman '>= 1.18'` in
+engine.rb_
+
+[[new-structure-for-assets]]
+===== New structure for assets.
+
+Create 'webpack' directory in the root folder of your plugin and place
+'index.js' inside. It will be automatically picked up by webpack.
+
+[[registering-react-components]]
+===== Registering React components
+
+Any components that a plugin might want to add and use must be
+registered first. Registering a component is necessary so that component
+mounter is aware of it and is able to mount it on page. +
+In your webpack/index.js
+
+* import component registry
+* import your custom components
+* register components
+
+`store` attribute determines whether the component will be connected to
+the Redux store and `data` attribute whether to pass data from mounting
+service to a component.
+
+[source, javascript]
+----
+import componentRegistry from 'foremanReact/components/componentRegistry';
+import MyComponent from './components/MyComponent';
+import MyOtherComponent from './components/MyOtherComponent';
+
+/* name and type is required */
+componentRegistry.register({ name: 'MyComponent', type: MyComponent });
+/* store and data attributes are true by default */
+componentRegistry.register({ name: 'MyOtherComponent', type: MyOtherComponent, store: false, data: false });
+
+/* or to register multiple components: */
+componentRegistry.registerMultiple([
+  { name: 'MyComponent', type: MyComponent },
+  { name: 'MyOtherComponent', type: MyOtherComponent, store: false, data: false }
+]);
+
+----
+If you want your component mounted, you must first make sure the assets
+are loaded in the page. All you have to do is call a helper in your view
+and then you can mount your component in the same fashion as you would
+in core:
+
+[source, ERB]
+....
+ <%= webpacked_plugins_js_for :foreman_plugin, :foreman_other_plugin %>
+ <%= react_component('MyComponent', :id => '5', :name => 'whatever') %>
+....
+
+[[adding-3rd-party-js-libraries]]
+=== Adding 3rd party js libraries
+
+Create package.json in the root of your plugin (you can use npm init).
+Add dependencies into your plugin's package.json. Run npm install from
+the foreman directory to install the dependencies.
+
+[[facets]]
+=== Facets
+
+_Requires Foreman 1.11 or higher, set requires_foreman '>= 1.11' in
+engine.rb_
+
+Facets is a mechanism for extending a host model and adding new
+properties to it. For example puppet facet will add environment and
+puppet_proxy properties. +
+Every plugin can add one or more facets to a host. Facet is a model that
+has a one-to-one relationship with the host that is maintained by the
+framework. It enables us to encapsulate all properties and logic that is
+related to a specific subject (such as puppet management of a host) to a
+single model. This enables the user to use mix and match approach to
+determine which facets of host's lifetime will be managed by Foreman.
+Each host can turn facets on or off according to which parts of host's
+lifetime should be managed.
+
+[[how-to-build-a-facet]]
+==== How to build a facet
+
+1.  [mandatory] Create a rails model _with host_id column_ for
+connecting it later to a host
+2.  [mandatory] Add a folder with your facet name plural to `app/views`
+folder (requires #13873)
+3.  [mandatory] Add `_your_facet_name.html.erb` template file in order
+to show your new facet as a tab in host's view. (requires #13873)
+4.  [optional] Create a module that will add additional services to a
+host model. This module will be included in hosts.
+5.  [optional] Add helper module to be included in host's views.
+6.  [optional] Add API RABL templates for displaying properties on host
+list and show API calls. Assume that these templates are in context of
+host object in both cases.
+
+[[how-to-register-a-facet]]
+==== How to register a facet
+
+Facet registration is done via the initializers mechanism: add a new
+initializer with the following code:
+
+[source, ruby]
+----
+Rails.application.config.to_prepare do
+  Facets.register(PuppetFacet) do
+    extend_model PuppetHostExtensions
+    add_helper PuppetFacetHelper
+    add_tabs :puppet_tabs
+    api_view :list => 'api/v2/puppet_facets/base', :single => 'api/v2/puppet_facets/single_host_view'
+    template_compatibility_properties :environment_id, :puppet_proxy_id, :puppet_ca_proxy_id
+    set_dependent_action :destroy # requires #21657, Foreman >= 1.19
+  end
+end
+----
+This is being re-worked into a proper plugin API via #13417, it's highly
+recommended to use that when available and not use internal APIs.
+
+[[facets.register-method]]
+==== Facets.register method
+
+this method takes two parameters and an initialization block:
+
+* *facet_model* A class that will be used as a model.
+* *facet_name* (optional) a new name for the relation in the host model.
+
+The initialization block exposes the following DSL:
+
+[[extend_model]]
+==== #extend_model
+
+* *extension_module* Module to be included in the host model
+
+Use this extension point if you want to add functionality to the
+Host::Managed object. Be aware that not every host will contain a valid
+instance of your facet.
+
+[[add_helper]]
+==== #add_helper
+
+* *facet_helper* Helper module to be included in host's view.
+
+Use this extension point to add methods that will be available to the
+View phase. You will be able to use those methods in your facet's
+related templates.
+
+[[add_tabs]]
+==== #add_tabs
+
+* *tabs* The parameter can be either a hash or a symbol that points to a
+method in helper.
+
+In addition to the main facet's tab (that is declared by
+`app/views/my_facets/_my_facet.html.erb`) each facet can declare
+additional tabs to be shown in the UI. The declaration can be either
+static - a static hash of keys and tab templates, or dynamic - the hash
+will be generated for each host.
+
+The hash should contain the following information:
+
+* *key* should be an identifier that will be used by the UI framework to
+identify the new tab
+
+* *value* should be a value that will be passed to _render_ method - it
+can be a string representing a template or an object. The _render_ call
+will set `f` parameter to the value of host's form, if you want to add
+parameters to be passed at the submit method. +
+Example:
+
+[source, ruby]
+----
+tabs_hash = {
+  :puppetclasses => 'puppet_facets/puppetclasses_tab', #will call puppetclasses_tab.html.erb template
+  :facet_tab_example => SomeModel.first, #will try to match a template for SomeModel.
+}
+----
+*static declaration*
+
+[source, ruby]
+----
+Rails.application.config.to_prepare do
+  Facets.register(PuppetFacet) do
+    tabs_hash = {
+      :puppetclasses => 'puppet_facets/puppetclasses_tab', #will call puppetclasses_tab.html.erb template
+      :facet_tab_example => SomeModel.first, #will try to match a template for SomeModel.
+    }
+
+    add_tabs tabs_hash #will generate two more tabs for each host.
+  end
+end
+----
+*dynamic declaration*
+
+.my_facet_helper.rb
+[source, ruby]
+----
+def my_additional_tabs(host)
+  tabs = {}
+
+  if SmartProxy.with_features("Puppet").count > 0 # add a tab only if this condition evaluates to true
+    tabs[:puppetclasses] = 'puppet_facets/puppetclasses_tab'
+  end
+
+  tabs
+end
+----
+.my_facet_initializer.rb
+[source, ruby]
+----
+Rails.application.config.to_prepare do
+  Facets.register(MyFacet) do
+    add_helper MyFacetHelper # specify that the facet has a helper
+    add_tabs :my_additional_tabs # specify that #my_additional_tabs should be called when deciding which tabs to show for a host.
+  end
+end
+----
+As you can see, the method that you specify will receive a single
+parameter - the host model that is about to be shown. +
+The method should return a hash in the same format that was specified
+earlier.
+
+[[api_view]]
+==== #api_view
+
+* *views_hash* a hash of views and template strings to invoke for each
+view.
+** `:list`: this template will be invoked on host list API call. +
+** `:single`: this template will be invoked on single host view API
+call.
+
+Both templates will be called in a host's node context - that means you
+can add properties on the host level itself.
+
+[[template_compatibility_properties]]
+==== #template_compatibility_properties
+
+* *property_symbols* Symbols of properties that need to be maintained at
+a host level although they moved to a facet.
+
+This method adds the ability to create a compatibility with older
+templates. Let's take for example puppet facet refactoring. As a part of
+this refactoring process environment property has been moved from
+`host.environment` to `host.puppet_facet.environment`. In order to
+maintain compatibility with foreman templates that were written before
+the refactoring, the framework will maintain host.environment property
+and forward the call to the puppet facet.
+
+[[api_docs]]
+==== #api_docs
+
+* *param_group* Symbol of the param group that describes properties
+defined by the facet.
+* *controller* API controller class that defines the `param_group`
+* *description* (optional) Description of the facet attributes param
+group.
+
+Facets framework is taking advantage of api_pie's ability to define
+param group on a different controller. The param group that is defined
+for a host will be extended with parameters defined by the facet's
+controller. Each call to host will be able to set properties on the new
+facet, using `new_facet_attributes` main property. The definition of
+what is inside that property is described by the param_group property of
+this method.
+
+[[add-new-url-route]]
+=== Add New URL (Route)
+
+If your plugin is adding a new URL to foreman, then you must add a route
+to the routes.rb file.
+
+.config/routes.rb
+[source, ruby]
+----
+match 'new_action', :to => 'foreman_plugin_template/hosts#new_action'
+----
+For more information on routes, see
+http://guides.rubyonrails.org/routing.html
+
+[[add-new-controller-action]]
+=== Add New Controller Action
+
+If you added a new URL, then you must add a new corresponding controller
+and action. In the example above, the new URL
+`http://yourforeman/new_action` maps to the plugin’s controller named
+hosts_controller.rb and calls the action named ‘new_action’.
+
+A new plugin controller may inherit from any existing Foreman controller
+by prefacing the name with two colons (::). See example code below. A
+plugin’s controller also gives you the option to render a different
+layout/template than Foreman’s standard template. To do so, just add the
+word "layout" and it's path as shown in the example code below.
+
+[source, ruby]
+----
+class HostsController < ::HostsController
+layout 'foreman_plugin_template/layouts/new_layout'
+
+----
+In Foreman 1.7+, if you want to use Foreman's `find_resource` method as
+a before_filter in your plugin, you will need to extend Foreman's
+ApplicationController and override `resource_class`, see
+https://github.com/theforeman/foreman_salt/blob/84bc9cb9d8c6cb9748c14e7634b8e1a062558a3d/app/controllers/foreman_salt/application_controller.rb[foreman_salt]
+for an example.
+
+For more information on controllers, see
+http://guides.rubyonrails.org/action_controller_overview.html
+
+[[extending-a-controller]]
+=== Extending a Controller
+
+If you are extending the app/controllers/application_controller.rb, then
+within the "config.to_prepare do" block, in the lib/yourplugin/engine.rb
+of your plugin, add the following:
+
+[source, ruby]
+----
+    ApplicationController.send(:include, YourPlugin::ApplicationControllerExt)
+----
+That is, you are attaching your extension class called
+`ApplicationControllerExt` to the original `ApplicationController`. +
+Then, in your plugin folder, under
+`app/controllers/concerns/yourplugin/application_controller_ext.rb`, you
+can write your own extension. +
+For instance, if you want to change the Content-Security-Policy HTTP
+header, then add the following:
+
+[source, ruby]
+----
+module YourPlugin::ApplicationControllerExt
+    extend ActiveSupport::Concern
+
+    included do
+        before_filter :set_csp
+    end
+
+    def set_csp
+            response.headers['Content-Security-Policy'] = "default-src 'self';"
+    end
+end
+----
+[[modifying-controllers-query]]
+=== Modifying controller's query
+
+_Requires Foreman 1.14 or higher, set `requires_foreman '>= 1.14'` in
+engine.rb_
+
+Every controller's GET action should fetch its data before rendering a
+template. +
+You can modify the scope used for this query by adding a declaration to
+the plugin definition:
+
+For example, if your plugin extends a view for :index and shows more
+columns from related tables.
+
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  add_controller_action_scope(HostsController, :index) { |base_scope| base_scope.includes(:my_table) }
+end
+----
+[[adding-a-smart-proxy]]
+=== Adding a Smart Proxy
+
+
+_Requires Foreman 1.14 or higher, set `requires_foreman '>= 1.14'` in
+engine.rb_
+
+You can add smart proxies to the Subnet, Host, Hostgroup, Domain and
+Realm models. +
+This :if parameter is optional. You can define whether the field should
+be hidden in the UI.
+
+[source, ruby]
+----
+# add discovery smart proxy to subnet
+smart_proxy_for Subnet, :discovery,
+  :feature => 'Discovery',
+  :label => N_('Discovery Proxy'),
+  :description => N_('Discovery Proxy to use within this subnet for managing connection to discovered hosts'),
+  :api_description => N_('ID of Discovery Proxy'),
+  :if => ->(subnet) { subnet.supports_ipam_mode?(:dhcp) }
+----
+[[authenticating-a-smart-proxy]]
+=== Authenticating a Smart Proxy
+
+If you have controller actions that SSL-authenticated Smart Proxies
+should be able to access, add this to your controller:
+
+[source, ruby]
+----
+class MyController < ApplicationController
+  include Foreman::Controller::SmartProxyAuth
+
+  add_smart_proxy_filters :my_method, :features => 'My Feature'
+
+  def my_method
+    # do stuff
+  end
+end
+----
+[[extend-foreman-model-add-instance-or-class-methods]]
+=== Extend Foreman Model (Add instance or class methods)
+
+Your plugin’s controller may call new instance, class methods, or
+callbacks on an existing Forman model (ex. `Host`). The recommended way to
+do this is to create a module (ex. `host_extensions.rb`) under the `/models`
+directory and use extend
+http://api.rubyonrails.org/classes/ActiveSupport/Concern.html[ActiveSupport::Concern].
+Below is an example from from
+https://github.com/isratrade/foreman_plugin_template/blob/master/app/models/foreman_plugin_template/host_extensions.rb[host_extensions.rb].
+
+[source, ruby]
+----
+module ForemanPluginTemplate
+  module HostExtensions
+    extend ActiveSupport::Concern
+
+    included do
+      # execute callbacks
+    end
+
+    # create or overwrite instance methods...
+    def instance_method_name
+    end
+
+    module ClassMethods
+      # create or overwrite class methods...
+      def class_method_name
+      end
+    end
+  end
+end
+----
+Now within your `engine.rb`, simply tell rails to load that module:
+
+[source, ruby]
+----
+module ForemanPluginTemplate
+  class Engine < ::Rails::Engine
+
+  config.to_prepare do
+    Host.send :include, ForemanPluginTemplate::HostExtensions
+  end
+end
+----
+[[add-new-view]]
+=== Add New View
+
+By default, a controller action will render a view with the same name as
+its action. However, you can add multiple new views to your foreman
+plugin and specify in your controller when to render which view.
+
+[source, ruby]
+----
+def new_action
+  render 'hosts/different_view'
+end
+----
+For more information on controllers, see
+http://guides.rubyonrails.org/layouts_and_rendering.html
+
+[[adding-rails-helpers]]
+=== Adding Rails helpers
+
+Rails helpers are mixed-in all views and controllers, therefore the
+method names must be unique. When defining helper methods, include some
+kind of unique prefix for your plugin.
+
+[[add-new-migration]]
+=== Add new migration
+
+[[prerequisites]]
+==== Prerequisites
+
+You can use rails generate migration helper to create new migrations in
+you engine. However, to make the application see your migrations, you
+must add following code into your plugin initializer
+
+[source, ruby]
+----
+module PluginTemplate
+  class Engine < ::Rails::Engine
+    initializer "foreman_chef.load_app_instance_data" do |app|
+      app.config.paths['db/migrate'] += PluginTemplate::Engine.paths['db/migrate'].existent
+    end
+  end
+end
+----
+Initializer is usually to be found at
+`lib/foreman_plugin_template/engine.rb`.
+
+[[generating-a-new-migration-file]]
+==== Generating a new migration file
+
+As of Foreman 1.16 migration files could be generated by invoking
+[source, bash]
+....
+rails generate plugin:migration --plugin-name=my_plugin
+....
+that will create a
+migration file and put it into plugin's migrations directory. You can
+use any parameters defined in
+http://guides.rubyonrails.org/active_record_migrations.html[Rails
+migrations guide] in addition to two specialized parameters:
+
+* `--plugin-name`(required) Specify the name of your plugin. This name
+would be used to scope all your migrations.
+
+* `--plugin-source`(optional) Specify where your plugin source is located.
+If not specified, it assumes a typical developer's directory structure:
+
+....
+root
+  |
+  +-- foreman   # foreman core directory
+  |
+  +-- my_plugin # plugin directory
+....
+
+[[running-your-migrations]]
+==== Running your migrations
+
+* You can use `rake db:migrate` in your app directly to run all pending
+migrations (from all available plugins).
+* You can use `rake db:migrate SCOPE=my_plugin` to apply migrations from a
+single plugin only.
+
+[[advanced]]
+==== Advanced
+
+Under the hood, migrations scope is implemented as a postfix to a
+migrations file name, i.e.: `000000_my_migration_name.my_plugin.rb`.
+
+If all your migrations were created using this scheme, the user will be
+able to remove every trace of the plugin from the database +
+by running `rake db:migrate SCOPE=my_plugin VERSION=0` statement.
+
+[[adding-new-provisioning-templates]]
+=== Adding new provisioning templates
+
+Provisioning templates exist in Foreman as eRuby files under "views".
+To add new provisioning templates to a plugin, first create an eRuby file for
+each new template. Then, create a DB seed file so that your new templates will
+exist in the Foreman DB. A good example of this is available here:
+https://github.com/theforeman/foreman_bootdisk/blob/master/db/seeds.d/50-bootdisk_templates.rb[50-bootdisk_templates.rb]
+
+[[adding-new-model-classes]]
+=== Adding new model classes
+
+New model classes should use `ApplicationRecord` parent class which is a
+Rails 5 practice (but implemented in Foreman versions on Rails 4):
+
+[source, ruby]
+----
+class MyModel < ApplicationRecord
+  ...
+end
+----
+[[add-new-database-seeds]]
+=== Add new database seeds
+
+_Requires Foreman 1.6 or higher, set `requires_foreman '>= 1.6'` in
+engine.rb_
+
+Inside your plugin, create a seeds directory at `db/seeds.d/` and add
+.rb files inside. These should contain plain Ruby statements to add
+records in the application, and they will be run *after* the main
+Foreman DB seeding (so you can rely on things such as template kinds
+being available).
+
+Ensure that your seed scripts are idempotent, otherwise when the db:seed
+task runs on upgrades etc, you may get multiple resources, errors etc.
+
+Further, placing seeds in the above directory can then be interjected in
+between the Foreman seeds by using unix ordering (e.g.
+`06-my-plugin-seeds.rb`)
+
+[[permitting-new-attributes-on-foreman-models]]
+=== Permitting new attributes on Foreman models
+
+_Requires Foreman 1.13 or higher, set `requires_foreman '>= 1.13'` in
+engine.rb_
+
+When a new attribute is added via a DB migration (or accessor) to a core
+Foreman model, if it's going to be updated through an API or UI
+controller then it has to be added to the attribute whitelist. In the
+plugin registration, add:
+
+[source, ruby]
+----
+Foreman::Plugin.register :sample_plugin do
+  parameter_filter Host::Managed, :sample_attribute
+end
+----
+More information is available on the https://projects.theforeman.org/projects/foreman/wiki/Strong_parameters[Strong parameters] page.
+
+[[modify-existing-foreman-view-using-deface]]
+=== Modify Existing Foreman View (using Deface)
+
+Several actions are allowed to edit the original Foreman views, from
+"replace" to "insert_after", as listed in the
+https://github.com/spree/deface/blob/master/README.markdown[deface
+manual] .
+
+To use deface, first add the dependency to the plugin gemspec (e.g.
+`foreman_example.gemspec`):
+
+s.add_dependency 'deface'
+
+When instantiating the Deface::Override class, you need to specify one
+Target, one Action one Source parameter and any number of Optional
+parameters. All the supported values for each of them are in the manual.
+
+For instance, in order to replace the line "<%= link_to "Foreman",
+main_app.root_path %>" from the file
+foreman/app/views/home/_topbar.html.erb:
+
+[source, ruby]
+----
+Deface::Override.new(:virtual_path => "home/_topbar",
+                     :name => "replace_title",
+                     :replace => "erb[loud]:contains('link_to')",
+                     :text => "<a href='/'>Hello</a>",
+                     :original => "<%= link_to \"Foreman\", main_app.root_path %>")
+----
+Just copy and paste the code above as it is, within a file under
+app/overrides within your own plugin folder. The file name has to be the
+same as what specified by the parameter :name above, i.e., in this case,
+replace_title.rb.
+
+The :original parameter enables the logging of eventual future changes
+to the original view, whenever those changes affect the line that is
+meant to be replaced by deface.
+
+The https://github.com/spree/deface/blob/master/README.markdown[deface
+manual] shows further examples and an alternative way of modifying
+existing views, i.e., using .deface files.
+
+[[extend-safemode-access]]
+=== Extend safemode access
+
+_Requires Foreman 1.5 or higher, set `requires_foreman '>= 1.5'` in
+engine.rb_
+
+When extending a template render (e.g. UnattendedHelper), then
+additional methods and variables will usually be blocked by safemode,
+but these can be permitted with the following plugin registration
+declarations:
+
+[source, ruby]
+----
+allowed_template_helpers :subscription_manager_configuration_url
+allowed_template_variables :subscription_manager_configuration_url
+----
+These would permit access to a helper named
+"subscription_manager_configuration_url" or to an instance variable
+named @subscription_manager_configuration_url. Note that you'd have to
+define the "subscription_manager_configuration_url" method in
+TemplatesController and its descendant as well as UnatendedHelper module
+to make it available for both previewing and rendering. The easiest way
+is to implement it as in a concern that you include in all of these
+classes.
+
+_Requires Foreman 1.12 or higher, set `requires_foreman '>= 1.12'` in
+engine.rb_
+
+You can instead use extend_template_helpers, all you have to do is give
+it a module which public methods will be made available.
+
+[source, ruby]
+----
+# imagine we have module like this
+module ForemanChef
+  module ChefTemplateHelpers
+    def chef_url
+      protocol + 'example.tst'
+    end
+
+    private
+
+    def protocol
+      'https://'
+    end
+  end
+end
+
+# in plugin engine.rb:
+initializer 'foreman_chef.register_plugin', :after => :finisher_hook do |app|
+  Foreman::Plugin.register :foreman_chef do
+    requires_foreman '>= 1.12'
+    extend_template_helpers ForemanChef::ChefTemplateHelpers
+  end
+end
+----
+The example above will make "chef_url" helper available in templates and
+will also allow it for safemode rendering like you'd call
+allowed_template_helpers :chef_url. Note that the private method
+"protocol" will not be safemode whitelisted.
+
+[[generating-plugin-assets]]
+=== Generating plugin assets
+
+_Requires Foreman 1.5 or higher, set `requires_foreman '>= 1.5'` in
+engine.rb_
+
+In the *foreman* folder, enable the plugin. When doing this in package
+build script, you need to add Foreman as a build dependency.
+
+[source, bash]
+----
+$ cat bundler.d/Gemfile.local.rb
+gem 'foreman_plugin', :path => "../foreman_plugin/"
+----
+
+To generate Rails pipeline assets, be sure to have the "foreman-assets"
+package installed and run (again in the *foreman* app folder):
+
+[source, bash]
+----
+$ rake plugin:assets:precompile[foreman_plugin]
+----
+[[logging]]
+=== Logging
+
+_Requires Foreman 1.9 or higher, set `requires_foreman '>= 1.9'` in
+engine.rb_
+
+Foreman provides support for plugins to log messages contextually so
+that when looking from the master log file it is easy to see where
+messages come from. For example, Foreman will log messages to the 'app'
+logger for Rails specific calls and foreman_docker can log custom
+messages to it's own logger to give a better idea of where messages are
+coming from:
+
+....
+2015-05-13 13:28:22 [app] [D] Request for /foreman_docker/registry
+2015-05-13 13:28:22 [foreman_docker] [D] Initializing docker registry for user admin
+....
+
+By default, loggers are generated for all plugins based upon their
+plugin ID when registering a plugin. Thus, a plugin registering itself
+as 'foreman_docker' would automatically have a logger made available by
+that same name. For that plugin to log messages, they need only request
+that logger and then use it similar to the default Rails logger:
+
+[source, ruby]
+....
+Foreman::Logging.logger('foreman_docker').debug "Initializing docker registry for user #{User.current}"
+....
+
+Note that if plugins use the standard Rails logging (i.e.
+Rails.logger.debug), the log messages will go to the 'app' logger
+defined by Foreman core. Plugin developers must make a conscious choice
+to use the plugins logger throughout their code. Plugins can also create
+multiple, configurable loggers such as the Katello plugin that logs
+things like REST calls to backends to different loggers.
+
+[[custom-plugin-loggers]]
+==== Custom Plugin Loggers
+
+Besides the default logger generated automatically, plugins can create
+any number of custom loggers to log different concerns throughout their
+codebase. For example, the Katello plugin creates a 'pulp_rest' logger
+to log only REST calls to Pulp. This logger can be configured with it's
+own log level and enabled or disabled. New loggers can be defined
+through the Plugin API or in the settings file for the plugin. The
+plugin settings file also serves as a way to re-configure predefined
+loggers.
+
+Using the Plugin API:
+
+[source, ruby]
+....
+Foreman::Plugin.register :foreman_docker do
+  ....
+
+  logger :rest, :enabled => true
+  logger :registry, :enabled => false
+end
+....
+
+This will create two new loggers for use by the foreman_docker plugin.
+The rest logger is enabled by default, the registry logger is disabled
+by default. These loggers can then be used within the plugin code as
+such:
+
+[source, bash]
+....
+Foreman::Logging.logger('foreman_docker/rest').debug 'REST call to /docker/registry'
+Foreman::Logging.logger('foreman_docker/registry').info 'Created new registry'
+....
+
+In this case, the log file would only show:
+
+....
+2015-05-13 13:28:22 [foreman_docker/rest] [D] REST call to /docker/registry
+....
+
+Let's now assume that a user wants to see registry logging. They would
+edit the foreman_docker settings file as such:
+
+[source, yaml]
+....
+:foreman_docker:
+  :loggers:
+    :registry:
+      :enabled: true
+....
+
+It's recommended that the plugin ships an example config file with a
+full, commented out list of loggers and show the default enabled
+true/false value.
+
+NOTE: Custom plugin loggers MUST be defined somewhere to be used. The
+logging system will throw a failure message if loggers that aren't
+registered are attempted to be used. This is to prevent using unknown
+loggers or loggers that are not properly namespaced as enforced by the
+core logging code. See the next section to learn about namespacing.
+
+[[namespacing]]
+==== Namespacing
+
+In the 'Custom Plugin Loggers' section, a logger for foreman_docker was
+defined as 'rest'. However, to access the logger the call to get the
+logger included 'foreman_docker' preceding the 'rest' declaration. All
+plugin loggers (except the default since it already IS the namespace)
+are namespaced by the ID of the plugin that it registered with. This is
+to ensure that two loggers from multiple plugins do not clash and are +
+clearly denoted within the logs to identify where the message came from.
+
+[[extending-host-model]]
+=== Extending host model
+
+
+[[add-custom-host-status]]
+==== Add custom host status
+
+In Foreman 1.10 and above you can affect a host status by your own
+custom, plugin-specific status. To do so, you must create a new class
+that represents the custom status and define mapping to global status. A
+simple example might be following status class
+
+[source, ruby]
+----
+class RandomStatus < HostStatus::Status
+  ODD = 0
+  EVEN = 1
+
+  # this method must return current status based on some data, in this case it's random
+  def to_status
+    result = rand(2).odd?
+    if result
+      ODD
+    else
+      EVEN
+    end
+  end
+
+  # this method defines mapping to global status, see HostStatus::Global for all possible values,
+  # at the moment there OK, ERROR and WARN global statuses
+  # we map ODD result to ERROR while EVEN random number will be OK
+  def to_global
+    if to_status == ODD
+      return HostStatus::Global::ERROR
+    else
+      return HostStatus::Global::OK
+    end
+  end
+
+  # don't forget to give your status some name so it's nicely displayed
+  def self.status_name
+    N_('Random number')
+  end
+
+  # you probably want to represent numbers with some more descriptive messages
+  def to_label
+    case to_status
+      when ODD
+        N_('Random number was odd')
+      when EVEN
+        N_('Random number was even')
+      else
+        N_('The world has ended')
+    end
+  end
+end
+----
+
+There are times when you may want to create a status that should not affect the
+host's global status. One use case is when there exists a status which derives
+its own status from one or more sub-statuses. Implementing a sub-status is as
+simple as implementing the `substatus?` method in your code:
+
+[source, ruby]
+----
+class MySubStatus < HostStatus::Status
+
+# other status methods omitted for brevity
+
+  def substatus?
+    true
+  end
+end
+----
+
+
+Now when you have your class defined, you have to make Foreman know
+about it. In your plugin register call in engine.rb add following line
+
+[source, ruby]
+----
+Foreman::Plugin.register :foreman_remote_execution do
+  ...
+  register_custom_status RandomStatus
+  ...
+end
+----
+If your custom status is under HostStatus namespace, make sure you
+define it as
+
+[source, ruby]
+----
+class HostStatus::RandomStatus
+----
+avoid definition like this
+
+[source, ruby]
+----
+module HostStatus
+  class RandomStatus < HostStatus::Status
+  end
+end
+----
+otherwise you will encounter hard to debug loading issues on Foreman
+1.10
+
+When updating or refreshing a sub-status, be sure to call
+refresh_statuses, which will update all of the other statuses including
+the global status.
+
+[source, ruby]
+----
+my_host.refresh_statuses
+----
+The method refreshes *all* statuses by default, this is usually not what
+you want so provide status for refresh.
+
+[source, ruby]
+----
+my_host.refresh_statuses(HostStatus.find_status_by_humanized_name("statusname")
+----
+[[selecting-properties-to-clone]]
+==== Selecting properties to clone
+
+_Requires Foreman 1.11 or higher, set `requires_foreman '>= 1.11'` in
+engine.rb_
+
+If you extend the Host::Managed object and add attributes or
+associations to the model, you probably want those to be cloned with the
+rest of the host object. +
+In your concern you should add the following calls:
+
+[source, ruby]
+----
+module ForemanPluginTemplate
+  module HostExtensions
+    extend ActiveSupport::Concern
+
+    included do
+      # specify which properties to include in clone
+      include_in_clone :property1, :property2
+
+      # specify which properties should not be cloned
+      exclude_from_clone :property3, :property4
+    end
+  end
+end
+----
+All attributes on the model will be cloned by default (therefore may be
+excluded), while associations to other models will _not_ be cloned by
+default (therefore may be included).
+
+[[host-info-providers]]
+==== Host info providers
+
+Every host exposes `Host#info` method to provide a complete information
+hash about itself. This hash is mainly used as external node classifier
+in puppet. +
+Any plugin can extend this info by creating a class that inherits
+`HostInfo::Provider` and registering it in the plugin:
+
+[source, ruby]
+----
+# In plugin declaration (engine.rb):
+Foreman::Plugin.register :my_plugin do
+  register_info_provider MyPlugin::InfoProvider
+end
+
+# Actual info provider class
+module MyPlugin
+  class InfoProvider < HostInfo::Provider # inherit the base class
+
+    # override this method according to principles specified below
+    def host_info
+      { 'parameters' => host.params }
+    end
+  end
+end
+----
+Info hash is structured in the following way:
+
+[source, ruby]
+----
+host_info = Host.first.info
+
+host_info['classes'] # set of puppet classes that are associated with this host including class parameters
+host_info['parameters'] # list of foreman properties that are associated with this host i.e taxonomy, hostgroup, interfaces.
+# This list also includes values of global parameters associated with the host.
+host_info['environment'] # Host's environment
+
+----
+[[extending-host-ui]]
+=== Extending host UI
+A plugin can add fields displayed in `Properties` tab on host overview page,
+add buttons to `Details` area on host overview page, add actions to the right
+side of the title area on host overview page and add actions for multiple
+selected hosts.
+
+Adding an item to one of those lists requires adding a helper with a method that
+returns relevant items to your plugin and registering that method in plugin
+description. The methods should return a list of hashes, where each hash will
+have two predefined fields: `:priority` and either `:field`, `:action` or `:button`
+according to the desired extension point. `:priority` value would be used by the
+system to define the order of the items to show. The lower the priority, the
+higher the item will show.
+
+[[extending-host-ui-overview-fields]]
+==== Adding overview fields
+In this case, the method that will contribute overview fields will receive a host
+instance for generating the field. Here are a couple of examples of fields added
+by the core. Notice the `:priority` setting, it will determine the order in which
+the fields are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_host_overview_fields(host)
+  fields = []
+  fields << { :field => [_("Build duration"), build_duration(host)], :priority => 90 } # call to other helper method
+  fields << { :field => [_("Operating System"), link_to(host.operatingsystem.to_label, hosts_path(:search => "os_description = #{host.operatingsystem.description}"))], :priority => 800 } # creating a linkable item
+  fields << { :field => [_("PXE Loader"), host.pxe_loader], :priority => 900 } # adding a simple value
+
+  fields
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    overview_fields_provider :my_plugin_host_overview_fields
+  end
+end
+----
+
+[[extending-host-ui-overview-buttons]]
+==== Adding overview details buttons
+In this case, the method that will contribute buttons will also receive a host
+instance for generating the action. Here are a couple of examples of actions added
+by the core. Notice the `:priority` setting, it will determine the order in which
+the buttons are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_host_overview_buttons(host)
+  [
+    { :button => link_to_if_authorized(_("Audits"), hash_for_host_audits_path(:host_id => host), :title => _("Host audit entries"), :class => 'btn btn-default'), :priority => 100 },
+    { :button => link_to_if_authorized(_("Facts"), hash_for_host_facts_path(:host_id => host), :title => _("Browse host facts"), :class => 'btn btn-default'), :priority => 200 },
+  ]
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    overview_buttons_provider :my_plugin_host_overview_buttons
+  end
+end
+----
+
+[[extending-host-ui-title-actions]]
+==== Adding actions to title area
+In this case, the method that will contribute actions will also receive a host
+instance for generating the action. Here are a couple of examples of actions added
+by the core. Notice the `:priority` setting, it will determine the order in which
+the actions are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_host_title_actions(host)
+  [
+    {
+      :action => button_group(
+        link_to_if_authorized(_("Edit"), hash_for_edit_host_path(:id => host).merge(:auth_object => host),
+                                :title    => _("Edit this host"), :id => "edit-button", :class => 'btn btn-default'),
+        display_link_if_authorized(_("Clone"), hash_for_clone_host_path(:id => host).merge(:auth_object => host, :permission => 'create_hosts'),
+                                :title    => _("Clone this host"), :id => "clone-button", :class => 'btn btn-default'),
+      ),
+      :priority => 100
+    },
+    {
+      :action => button_group(
+        link_to_if_authorized(_("Delete"), hash_for_host_path(:id => host).merge(:auth_object => host, :permission => 'destroy_hosts'),
+                              :class => "btn btn-danger",
+                              :id => "delete-button",
+                              :data => { :message => delete_host_dialog(host) },
+                              :method => :delete)
+      ),
+      :priority => 300,
+    },
+  ]
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    title_actions_provider :my_plugin_host_title_actions
+  end
+end
+----
+
+[[extending-host-ui-multiple-actions]]
+==== Adding actions to multiple host select menu
+In this case, the method that will contribute actions will not receive any parameters.
+Here are a couple of examples of actions added by the core. Notice the `:priority`
+setting, it will determine the order in which the actions are shown.
+
+In plugin helper (`my_plugin_helper.rb`):
+[source, ruby]
+----
+def my_plugin_multiple_actions
+  [
+    { :action => [_('Assign Organization'), select_multiple_organization_hosts_path], :priority => 800 },
+    { :action => [_('Assign Location'), select_multiple_location_hosts_path], :priority => 900 }
+  ]
+end
+----
+
+Now we have to register our new helper in `engine.rb`:
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  describe_host do
+    multiple_actions_provider :my_plugin_multiple_actions
+  end
+end
+----
+
+
+[[settings]]
+=== Settings
+
+Plugins can store Foreman-wide settings either in the database or a
+config file. The DB should be preferred as it can be managed from the UI
+(under Administer > Settings), CLI, API and Puppet, and changed on the
+fly, while the config file is usually only used for settings that change
+behaviour during app startup and require a restart.
+
+To add new DB settings, the plugin should define a Setting class named
+after the plugin. For foreman_example, this would be at
+`app/models/setting/example.rb` and should look like:
+
+[source, ruby]
+....
+class Setting::Example < ::Setting
+  def self.load_defaults
+    return unless ActiveRecord::Base.connection.table_exists?('settings')
+    return unless super
+
+    Setting.transaction do
+      [
+        self.set('example_string', N_('Example setting that controls something'), 'default value'),
+        self.set('example_int', N_('Answer to the life, universe, and everything'), 42),
+      ].compact.each { |s| self.create s.update(:category => "Setting::Example") }
+    end
+
+    true
+  end
+
+  def self.humanized_category
+    N_('My Example')
+  end
+end
+....
+
+Settings are listed in the transaction block and are initialised at app
+startup, with three arguments. The name is first - it should be unique
+and be prefixed with the plugin name. The second is a human readable
+description which will be translated. The third is the default value of
+the setting, which can be a string, integer, boolean or nil.
+
+If supporting Foreman 1.11+ only, add the following initialiser to
+engine.rb to load it:
+
+[source, ruby]
+....
+initializer 'foreman_example.load_default_settings', :before => :load_config_initializers do |app|
+  require_dependency File.expand_path("../../../app/models/setting/example.rb", __FILE__)
+end
+....
+
+To support 1.10 and lower _as well_ then use:
+
+[source, ruby]
+....
+initializer 'foreman_example.load_default_settings', :before => :load_config_initializers do |app|
+  require_dependency File.expand_path("../../../app/models/setting/example.rb", __FILE__) if (Setting.table_exists? rescue(false))
+end
+....
+
+To access the value of a setting, use `Setting[:example_string]` from
+anywhere in your plugin.
+
+[[config-files]]
+==== Config files
+
+Config files are in YAML format and can contain simple or complex data.
+They are read from config/settings.yaml and config/settings.plugins.d/
+(aka /etc/foreman/plugins/) at startup and all contents are merged
+together and stored in the global `SETTINGS` hash.
+
+It's recommended to put all settings in a hash named after the plugin so
+they don't conflict with others, e.g.
+
+[source, yaml]
+----
+:foreman_example: +
+:foo: bar
+----
+
+Then to access the value, use `SETTINGS[:example][:foo]` from the
+plugin.
+
+Do keep an example config file in the repo at
+`config/foreman_example.yaml.example` or similar, and ensure it's listed
+in the gemspec files list. This makes it easy to package and for users
+to see what the possible options are.
+
+Tip: database settings can be overridden from a config file out of the
+box, making the value read-only in the UI. Just set
+`:example_string: foo` in settings.yaml or settings.plugins.d/.
+
+[[provision-method]]
+=== Provision Method
+
+_Requires Foreman 1.11 or higher, set requires_foreman '>= 1.11' in
+engine.rb_
+
+In Foreman 1.11 or above you can add custom provision methods via a
+plugin.
+
+Just extend the engine.rb
+
+[source, ruby]
+....
+      Foreman::Plugin.register :foreman_bootdisk do
+        requires_foreman '>= 1.11'
+        provision_method 'bootdisk', 'Bootdisk Based'
+      end
+....
+
+You can then extend the host edit / new host ui, e.g. add the file +
+app/views/hosts/provision_method/bootdisk/_form.html.erb
+
+[[controlling-installation-media]]
+=== Controlling installation media
+
+By default foreman comes with simple installation media management that
+could be accessed via "Hosts" -> "Installation media" from the menu. +
+If a plugin introduces a different media management, it should register
+a new MediumProvider class in order to control medium's URL and TFTP
+file naming scheme.
+
+[[creating-medium-provider]]
+==== Creating medium provider
+
+Medium provider is a class that inherits *::MediumProviders::Provider*.
+This base class provides all utility methods and method signatures
+needed for creating your own media provider. Foreman's core basic medium
+provider is implemented in *::MediumProviders::Default* class.
+
+Each time installation medium related information for a specific entity
+(host or hostgroup) would be requested, a new instance of installation
+medium class would be created and the entity passed to it in the
+constructor.
+
+Medium provider has following key functions:
+
+* *medium_uri*: returns installation medium URI for a given host
+* *unique_id*: returns a unique string representing current medium, will
+be used to generate TFTP file names for example.
+* *validate*: Returns _true_ if this medium provider can handle given
+entity. Mostly it will examine properties that are set on the entity to
+see if medium URI could be generated. This method will be used to
+determine if this is the correct medium provider for a given entity. It
+returns an array of errors, if a provider cannot handle the entity, or
+empty array if everything is OK.
+
+Example:
+
+[source, ruby]
+----
+module MyPlugin
+  class ManagedContentMediumProvider < ::MediumProviders::Provider
+    def validate
+      errors = []
+
+      kickstart_repo = entity.try(:content_facet).try(:kickstart_repository) || entity.try(:kickstart_repository)
+
+      errors << N_("Kickstart repository was not set for host '%{host}'") % { :host => entity } if kickstart_repo.nil?
+      errors << N_("Content source was not set for host '%{host}'") % { :host => entity } if entity.content_source.nil?
+      errors
+    end
+
+    def medium_uri(path = "")
+      kickstart_repo = entity.try(:content_facet).try(:kickstart_repository) || entity.try(:kickstart_repository)
+      url = kickstart_repo.full_path(entity.content_source)
+      url += '/' + path unless path.empty?
+      URI.parse(url)
+    end
+
+    def unique_id
+      @unique_id ||= begin
+        "#{entity.kickstart_repository.name.parameterize}-#{entity.kickstart_repository_id}"
+      end
+    end
+  end
+end
+----
+[[registering-medium-provider]]
+==== Registering medium provider
+
+Once medium provider is created we will need to register it in plugin
+declaration:
+
+[source, ruby]
+----
+Foreman::Plugin.register :my_plugin do
+  medium_providers.register(MyPlugin::ManagedContentMediumProvider)
+end
+----
+[[compute-resources]]
+=== Compute resources
+
+_Requires Foreman 1.5 or higher, set requires_foreman '>= 1.5' in
+engine.rb_
+
+Plugins can add new compute resource types, allowing users to create
+hosts on new types of virtualisation or cloud providers. The plugin
+should create a new model that extends ComputeResource, e.g.
+`ForemanExample::MyService`:
+
+[source, ruby]
+....
+module ForemanExample
+  class MyService < ComputeResource
+    # ...
+  end
+end
+....
+
+and register it:
+
+[source, ruby]
+....
+Foreman::Plugin.register :foreman_bootdisk do
+  requires_foreman '>= 1.5'
+  compute_resource ForemanExample::MyService
+end
+....
+
+In Foreman 1.12, a provider with the same name as a builtin Foreman
+compute resource type can be registered from a plugin. This allows a
+plugin to override the builtin one, making it easier to extract or
+update a builtin provider from Foreman to a plugin.
+
+[[fog-provider]]
+==== Fog provider
+
+This requires support in http://fog.io/[Fog] for the provider - usually
+with a fog-myservice gem, see the list of available repositories at
+https://rubygems.org/search?utf8=%E2%9C%93&query=fog%2D or
+https://github.com/fog. If the provider isn't yet implemented, see
+https://github.com/fog/fog/wiki/Create-New-Provider-from-Scratch[Create
+New Provider from Scratch].
+
+Some providers are in the main `fog` gem still, rather than a separate
+gem. It's recommended that these are extracted to a gem before using
+them for a plugin, as Foreman may drop the dependency on the whole `fog`
+gem in future - it's much easier for a plugin to depend only on the
+provider gem it needs.
+
+[[required-interfaces]]
+==== Required interfaces
+
+This section needs expanding, please edit as you find missing items.
+Look at existing compute resource plugins and classes in Foreman core to
+get an idea of what needs implementing on the main compute resource
+model.
+
+* `#capabilities` should return an array containing `:build` if it
+supports network/PXE installations, and/or `:image` if it supports
+image/template installations
+* `#client` should return a new Fog::Compute instance
+* `#provided_attributes` returns a hash of Foreman host attributes
+(:uuid, :ip, :ip6, :mac) to Fog server model methods. Foreman copies
+data from the Fog server model (see below) to these attributes. By
+default it returns `:uuid => :identity`, so the UUID of the host/VM is
+stored. Add MACs, IP and IPv6 addresses if available from the compute
+resource.
+
+The Fog server model is used a lot to render views in Foreman, so this
+should respond to a variety of methods too. These aren't usually in Fog
+itself so are extended with a concern in the plugin (e.g.
+https://github.com/theforeman/foreman-xen/blob/master/app/models/concerns/fog_extensions/xenserver/server.rb).
+
+* `#identity` must return a unique string identifier (UUID, number etc)
+for the VM on that compute resource, for non-string IDs add a different
+method and change :uuid in `provided_attributes` (see above)
+* `#ip_addresses` should return an array of every IP address assigned to
+the VM, including public, private, IPv4 and IPv6 addresses
+* `#reboot` should perform a soft reboot on the VM
+* `#reset` should perform a hard power reset on the VM
+* `#start` should power on or boot up the VM
+* `#stop` should power off or shut down the VM
+* `#to_s` should return the server's name for display in confirmation
+dialog boxes
+* `#vm_description` should return a short piece of text shown on the
+compute profiles pages describing basic info about the server "hardware"
+(e.g. CPUs, memory)
+
+[[required-views]]
+==== Required views
+
+* `app/views/compute_resources/form/_myservice.html.erb` should contain
+form elements for creating/editing the compute resource
+* `app/views/compute_resources/show/_myservice.html.erb` should contain
+rows with extra attributes shown on the compute resource information
+page
+* `app/views/compute_resources_vms/form/myservice/_base.html.erb` should
+contain form elements for creating new hosts/VMs, e.g. CPU/memory
+information
+* `app/views/compute_resources_vms/form/myservice/_network.html.erb`
+should contain form elements for network interfaces when creating new
+hosts/VMs, e.g. which provider network the interface is connected to
+* `app/views/compute_resources_vms/form/myservice/_storage.html.erb`
+should contain form elements for storage volumes when creating new
+hosts/VMs, e.g. which storage pool the device is on
+* `app/views/compute_resources_vms/index/_myservice.html.erb` should
+contain a table of information about current virtual machines on the
+compute resource, shown under the CR page
+* `app/views/compute_resources_vms/show/_myservice.html.erb` should show
+a table of detailed information about an individual current virtual
+machine
+
+[[printing-date-and-time]]
+=== Printing date and time
+
+In order to keep consistency in format we use, Foreman 1.16+ provide
+helpers to print the date either in relative (3 days ago) or absolute
+(2017-05-01 08:12:11) way. It also adds a title with respective
+information, so after hovering e.g. on absolute date, the relative time
+information is displayed. Absolute date helper supports two formats,
+short and long
+
+Examples
+
+[source, ruby]
+....
+date_time_absolute(Time.zone.now)
+date_time_absolute(@user.last_login_at, :long)
+date_time_relative(@host.last_report_at)
+....
+
+[[extending-rabl-templates]]
+=== Extending RABL templates
+
+_Requires Foreman 1.17 or higher, set requires_foreman '>= 1.17' in
+engine.rb_
+
+In order to extend APIv2 views with e.g. more attributes, you can extend
+the RABL templates.
+
+Examples
+
+This will extend the template "api/v2/hosts/main" (from core) by
+including "api/v2/hosts/expiration" (from our plugin).
+
+[source, ruby]
+....
+# lib/foreman_expire_hosts/engine.rb
+Foreman::Plugin.register :foreman_expire_hosts do
+  [...]
+  extend_rabl_template 'api/v2/hosts/main', 'api/v2/hosts/expiration'
+end
+....
+
+[source, ruby]
+....
+# app/views/api/v2/hosts/expiration.json.rabl
+attribute :expired_on
+....
+
+[[making-use-of-reports-origin]]
+=== Making use of Reports "origin"
+
+Reports have an attribute called `origin`, which can be used to set what
+submitted this report. Based on it Foreman allows a few customization
+for reports of that origin.
+
+[[registering-an-origin]]
+==== Registering an origin
+
+To start using an origin for reports handled by a plugin it first needs
+to register it via `register_report_origin`, when it registers itself in
+Foreman.
+
+Here an example from
+https://github.com/theforeman/foreman_ansible/blob/2d2f23b5400d7300c0f42a30dbbbcdd7d3089293/lib/foreman_ansible/register.rb#L56[foreman-ansible]
+`register.rb`:
+
+[source, ruby]
+....
+  register_report_origin 'Ansible', 'ConfigReport'
+....
+
+The first argument is the origins name, which will be set as the reports
+`origin` attribute. The second optional argument is to specify a certain
+type `Report` that the origin can be applied to.
+
+[[registering-a-reportscanner]]
+==== Registering a ReportScanner
+
+In order to set the `origin` attribute on reports, they need to be
+identified. This can be done with a `ReportScanner`, which can be
+registered with `register_report_scanner`.
+
+https://github.com/theforeman/foreman_ansible/blob/2d2f23b5400d7300c0f42a30dbbbcdd7d3089293/lib/foreman_ansible/register.rb#L56[foreman-ansible]
+for example provides one:
+
+[source, ruby]
+....
+  register_report_scanner ForemanAnsible::AnsibleReportScanner
+....
+
+https://github.com/theforeman/foreman_ansible/blob/2d2f23b5400d7300c0f42a30dbbbcdd7d3089293/app/services/foreman_ansible/ansible_report_scanner.rb[AnsibleReportScanner]
+is a simple class that has a `.scan` method, which will be called when a
+report is imported. `.scan` will receive the `report` object and the raw
+logs to identify the report and make changes to the report based on
+this.
+
+[[provide-a-custom-report-view-icon-for-an-origin]]
+==== Provide a custom report view & icon for an origin
+
+Via helpers it is possible for a plugin using an origin to provide a
+custom view template to be used for showing reports, as well as a custom
+icon to show for reports of that origin. This helpers must follow a
+certain naming schema and be available to `ReportsHelper`.
+
+* `ORIGIN_report_origin_icon` - should return a string with the path to
+an asset
+* `ORIGIN_report_origin_partial` - should return a string with the path
+to a view template.
+
+For an example see the
+https://github.com/theforeman/foreman_ansible/blob/2d2f23b5400d7300c0f42a30dbbbcdd7d3089293/app/helpers/foreman_ansible/ansible_reports_helper.rb#L28[foreman_ansible]
+plugin.
+
+[[origin-based-settings]]
+==== Origin based settings
+
+To influence the out of sync behavior for host reports for a specific
+origin, it is possible for plugins to provide settings that will be
+recognized and used to determine whether hosts are out of sync or good.
+Out of sync can also be fully disabled for a certain origin. The
+settings must be named as follows and provide the right setting type.
+
+* `ORIGIN_interval` - A String/Integer of minutes for the interval that
+hosts of this origin need report.
+* `ORIGIN_out_of_sync_disabled` - A boolean setting to disable the out
+of sync status for hosts reporting with this origin.
+
+[[extending-the-graphql-schema]]
+=== Extending the graphql schema
+
+_Requires Foreman 1.23 or higher, set requires_foreman '>= 1.23' in
+engine.rb_
+
+To extend a graphl type with custom code, you can register the extension via `extend_graphql_type` in your plugin's `engine.rb`.
+The plugin DSL allows to pass a code block that is run in the type's class scope.
+
+[source, ruby]
+....
+  extend_graphql_type type: Types::Host do
+    belongs_to :openscap_proxy, Types::SmartProxy
+  end
+....
+
+In order to extend a graphql type with code defined in a module, you can register an extension by passing the module name to `extend_graphql_type`.
+The module should `extend ActiveSupport::Concern`. Note that any code that is supposed to run in the class scope of the module needs to be in an `included do ... end` block.
+
+[source, ruby]
+....
+   extend_graphql_type type: Types::SmartProxy, with_module: ForemanOpenscap::SmartProxyTypeExtensions
+....
+
+[[adding-graphql-types]]
+=== Adding new graphql types
+
+_Requires Foreman 1.23 or higher, set requires_foreman '>= 1.23' in
+engine.rb_
+
+When you create a new graphql type in your plugin, you need to register it in your `engine.rb` so that Foreman knows how it should be used in a query.
+
+[source, ruby]
+....
+  register_graphql_query_field :duck, '::Types::Duck', :record_field
+  register_graphql_query_field :ducks, '::Types::Duck', :collection_field
+....
+
+With the example above, server will know how to respond to `duck` and `ducks` queries. The first argument of `register_graphql_field` is query name, second is the type class and the third is whether the query is for a single record or a collection.
+
+Similarly for mutations:
+
+[source, ruby]
+....
+  register_graphql_mutation_field :delete_duck, '::Mutations::Ducks::Delete'
+....
+
+where `::Mutations::Ducks::Delete` is your delete mutation class inheriting from `::Mutations::DeleteMutation`.
+
+[[adding-subscribers]]
+=== Adding subscribers
+
+_Requires Foreman 2.0 or higher, set requires_foreman '>= 2.0' in
+engine.rb_
+
+You can consume events from Foreman core by registering subscribers. Subscriber is a class that inherits `Foreman::BaseSubscriber`. It is recommended to store subscribers under the `/app/subscribers/my_plugin/` directory. If you have your subscriber defined register it in the plugin. Example of your engine.rb:
+
+[source, ruby]
+....
+Foreman::Plugin.register :my_plugin do
+  # other code here
+  subscribe 'my_event.foreman', MyPlugin::MySubscriber
+end
+....
+
+where `my_event.foreman` is the name of the event you want to subscribe to. You may also subscribe to multiple events at once by using a regular expression, e.g. to subscribe to all events whose name ends with `.foreman` use:
+
+[source, ruby]
+....
+  subscribe /.foreman$/, MyPlugin::MySubscriber
+....
+
+You can find all observable events by calling `Foreman::EventSubscribers.all_observable_events` in the Rails console. Keep in mind that this list only contains events that were set by the `set_hook` method.
+
+[[translating]]
+== Translating
+
+Translations of plugins work largely in the same way as Foreman. The
+basic steps are:
+
+1.  Code is updated and maintained with `_("Example")` calls to gettext
+where translated text is required.
+2.  The strings are *extracted* regularly by the maintainer and the file
+`locale/foreman_plugin.pot` is committed to the repository.
+3.  https://www.transifex.com/projects/p/foreman/[Transifex] regularly
+downloads the POT file from the git repository, and translators update
+the translations on the website
+4.  Before making a release of the plugin, the maintainer *pulls* the
+translations and *merges* the translations into the per-language PO
+files, and generates binary MO translation files - these are committed
+to git and shipped in the gem.
+
+[[extracting-strings]]
+=== Extracting strings
+
+Read the https://projects.theforeman.org/projects/foreman/wiki/Translating[Translating]
+guide and extract all strings in the codebase itself. Then in *foreman* folder
+enable plugin:
+
+[source, bash]
+----
+$ cat bundler.d/Gemfile.local.rb
+gem 'foreman_plugin', :path => "../foreman_plugin/"
+----
+
+And extract strings for the plugin easily (again in the *foreman* app
+folder):
+
+[source, bash]
+----
+$ mkdir ../foreman_plugin/locale
+$ mkdir ../foreman_plugin/locale/en
+$ rake plugin:gettext[foreman_plugin]
+----
+
+This should create locale/foreman_plugin.pot file. Edit the header
+correctly (take locale/foreman.pot as a template) and submit to
+Transifex.com if you want.
+
+Re-run this step on a regular basis when strings are changed in the
+plugin and once they're not likely to change again. Make sure to run it
+early enough before planning to release the plugin to allow translators
+time to update the translations. Commit any changes to the POT file to
+the git repository and push it - Transifex should be configured to pull
+updates daily.
+
+[[translating-plugin-description]]
+=== Translating plugin description
+
+The description of your plugin (as set in your .gemspec) is shown to
+users on the About page. To get this translated, create a
+locale/gemspec.rb file which the rake task will extract the text from
+and _copy_ the description there, then re-run the extraction above.
+Ensure they stay in sync!
+
+locale/gemspec.rb:
+
+[source, ruby]
+....
+# Duplicates foreman_plugin.gemspec
+_("My great plugin for Foreman adds missile control support")
+....
+
+foreman_plugin.gemspec:
+
+[source, ruby]
+....
+# Keep locale/gemspec.rb in sync
+s.description = "My great plugin for Foreman adds missile control support"
+....
+
+[[pulling-translations-from-transifex]]
+=== Pulling translations from Transifex
+
+To find more info about our Transifex project visit https://projects.theforeman.org/projects/foreman/wiki/Translating[Translating]
+guide. Configuration is easy once a resource for the plugin is created.
+It *must* have both SLUG and RESOURCE NAME set to "foreman_plugin":
+
+[source, bash]
+....
+$ cat .tx/config
+[main]
+host = https://www.transifex.com
+
+[foreman.foreman_plugin]
+file_filter = locale/<lang>/foreman_plugin.edit.po
+source_file = locale/foreman_plugin.pot
+source_lang = en
+type = PO
+....
+
+Use
+https://github.com/theforeman/foreman_plugin_template/blob/master/locale/Makefile[this
+Makefile] to pull translations (you need the Transifex client
+installed). Always re-run these steps before releasing the plugin to get
+the latest updates:
+
+1.  In the plugin dir, pull updates into the .edit.po plain text files:
+`make -C locale tx-update`
+2.  In the Foreman dir, merge the updates into the PO files:
+`rake plugin:gettext[foreman_plugin]`
+3.  In the plugin dir, rebuild the MO files: `make -C locale mo-files`
+
+These files should be .gitignored:
+
+....
+locale/*/*.edit.po +
+locale/*/*.po.time_stamp
+....
+
+These files must be committed to git:
+
+....
+locale/foreman_plugin.pot +
+locale/*/foreman_plugin.po +
+locale/*/LC_MESSAGES/foreman_plugin.mo
+....
+
+Ensure that the whole locale/ directory is included in the gem via the
+gemspec file list. The .po and .mo files are important in development
+and production environments respectively, so must both be shipped in the
+gem.
+
+[[translating-template-kind]]
+=== Translating Template Kind
+
+_Requires Foreman 1.12 or higher, set `requires_foreman '>= 1.12'` in
+engine.rb_
+
+If your plugin constains a new TemplateKind, you are encouraged to make
+its name available for translation. Since the actual name of the
+TemplateKind stored in DB may not be user-friendly, you can specify
+something more convenient. Example of your engine.rb:
+
+[source, ruby]
+....
+Foreman::Plugin.register :sample_plugin do
+  # other code here
+  template_labels "my_template_kind_name" => N_("My pretty template kind name")
+end
+....
+
+This will make sure there will be "My pretty template kind" on Foreman
+core pages and it can be translated.
+
+[[testing]]
+== Testing
+
+Foreman plugins are tested by adding the plugin to a normal Foreman
+checkout and then running the whole test suite. The plugin should extend
+the Foreman test rake task(s) to add its own, e.g.
+
+https://github.com/theforeman/foreman_plugin_template/blob/master/lib/tasks/foreman_plugin_template_tasks.rake
+
+A couple of generic core Foreman tests will also be run against the
+plugin - one to test for permissions on all routes (non-isolated
+engines), and another to test seed scripts.
+
+[[jenkins]]
+=== Jenkins
+
+Plugins can, and should, be tested on Jenkins! See
+https://projects.theforeman.org/projects/foreman/wiki/Jenkins#Foreman-plugin-testing[Jenkins].
+
+[[support-file-for-test-setups]]
+==== Support file for test setups
+
+To allow the Foreman unit tests to run in the presence of your plugin,
+you may add a support test file that is loaded by Foreman before any
+tests are run. In order to do this, within your plugin, add the
+following file:
+
+....
+test/support/foreman_test_helper_additions.rb
+....
+
+Any code placed in this file will be run at the end of the Foreman
+test_helper but before any individual tests.
+
+[[skipping-tests]]
+=== Skipping tests
+
+_Requires Foreman 1.7 or higher, set `requires_foreman '>= 1.7'` in
+engine.rb_
+
+Sometimes a plugin changes core behaviour deliberately and replaces it
+with its own. In this case, the plugin can disable tests shipped in core
+from running by specifying their names, and should add tests of its own
+covering the expected behaviour.
+
+To disable tests, give the full class name of the test class (left hand
+side of the output, split on '.'), and an array of test names (the right
+hand side of the '.') to skip. The custom test runner in Foreman uses
+substring matches, so you can ignore the "test_???" section of the
+output, and just use the name of the test direct from the test file. For
+example:
+
+[source, ruby]
+----
+  # Skip some tests
+  # Takes a hash of arrays, split on the '.' in the test output. For example, if you have:
+  #     "DomainTest.test_0010_should update hosts_count on domain_id change" failed!
+  #     "HostTest::import host and facts.test_0004_should find a host by certname not fqdn when provided" failed!
+  # then you would use this to skip them
+  tests_to_skip ({
+                  "DomainTest" => ["should update hosts_count on domain_id change"],
+                  "HostTest::import host and facts" => ["should find a host by certname not fqdn when provided"]
+                })
+----
+[[testing-for-deprecations]]
+=== Testing for deprecations
+
+_Requires Foreman 1.15 or higher_
+
+Plugins may call APIs in either Rails or Foreman that become deprecated
+and are either replaced with something different or are removed within a
+couple of releases, so it's important to keep on top of any warnings
+issued. This ensures that the plugin will continue working against
+nightly and the next major release.
+
+Foreman runs tests with
+https://rubygems.org/gems/as_deprecation_tracker[as_deprecation_tracker]
+which can be configured to raise errors (causing test failures) when any
+deprecated code is called, alerting you to any new dependency being
+introduced on deprecated features by maintaining a whitelist for known
+deprecation issues. By working through the whitelist and replacing
+deprecated code, you can then ensure the plugin works for the next
+version of Rails and Foreman.
+
+By default it's configured to be off for all plugins, but create an
+empty `config/as_deprecation_whitelist.yaml` file inside the plugin root
+to enable it. When tests run, any deprecation warnings called from your
+plugin will now raise exceptions.
+
+You can automatically generate a whitelist by running:
+
+
+[source, bash]
+----
+AS_DEPRECATION_WHITELIST=~/plugin_path AS_DEPRECATION_RECORD=yes rake
+test:foreman_your_plugin
+----
+
+Rails deprecations will typically be removed in the next minor release
+(e.g. 5.0 to 5.1) and Foreman deprecations will normally be removed
+after two major releases (e.g. warning in 1.10, 1.11 and removal in
+1.12).

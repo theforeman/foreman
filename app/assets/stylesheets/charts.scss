@@ -1,13 +1,13 @@
-@import "mixin";
-
 .stats-well {
- border: 1px solid #d7d7d7;
- background-size: 100%;
- padding: 15px;
- min-width: 280px;
- min-height: 100px;
- margin-bottom: 15px;
-  h2, h4{
+  border: 1px solid #d7d7d7;
+  background-size: 100%;
+  padding: 15px;
+  min-width: 280px;
+  min-height: 100px;
+  margin-bottom: 15px;
+
+  h2,
+  h4 {
     font-weight: normal;
   }
 }
@@ -29,59 +29,66 @@
   text-align: center;
   overflow-y: auto;
   overflow-x: hidden;
-  .legendLabel{
+
+  .legendLabel {
     text-align: left;
   }
 }
-#statistics{
-  margin: 0px auto;
+
+#statistics {
+  margin: 0 auto;
   text-align: left;
   width: 90%;
-  .stats-well{
+
+  .stats-well {
     float: left;
     padding: 10px 20px;
     margin: 0 0 20px 20px;
-    &:hover{
-      border-color:#0069d6;
-      @include box-shadow(0 1px 4px rgba(0, 105, 214, 0.25));
+
+    &:hover {
+      border-color: #0069d6;
+      box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
     }
   }
 }
 
-#reports .stats-well{
+#reports .stats-well {
   min-height: 380px;
 }
 
-#hosts .stats-well{
+#hosts .stats-well {
   min-height: 270px;
 }
 
-.statistics-bar{
+.statistics-bar {
   width: 260px;
   height: 305px;
-  margin: 0px auto 27px auto;
+  margin: 0 auto 27px;
 }
 
-.statistics-pie, .statistics-pie-placeholder{
+.statistics-pie,
+.statistics-pie-placeholder {
   width: 450px;
   height: 450px;
   margin: 12px auto;
-  &.small{
+
+  &.small {
     width: 240px;
     height: 240px;
   }
 }
 
-.modal-dialog .statistics-pie{
+.modal-dialog .statistics-pie {
   margin-bottom: 46px;
-  .pieLabel{
+
+  .pieLabel {
     margin-left: -30px;
     margin-top: -10px;
     font-weight: bold;
   }
 }
 
-.axisLabels{
+.axisLabels {
   color: #626262;
   font-weight: bold;
 }
@@ -93,75 +100,99 @@
   display: none;
   border: 2px solid;
   padding: 2px;
-  background-color: #FFF;
+  background-color: #fff;
   opacity: 0.8;
   z-index: 100;
   border-radius: 5px;
-  b{
+
+  b {
     color: black;
     font-weight: bold;
   }
 }
 
-.xAxis > .tickLabel
-{
- margin-top:15px;
- -webkit-transform:rotate(-45deg);
- transform:rotate(-45deg);
+.xAxis > .tickLabel {
+  margin-top: 15px;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
-.pie-title{
- color: #626262;
+.pie-title {
+  color: #626262;
 }
 
-.pieLabel{
- text-align:center;
- font-size: 16px;
- .percent{
-   font-size: 28px;
- }
+.pieLabel {
+  text-align: center;
+  font-size: 16px;
+
+  .percent {
+    font-size: 28px;
+  }
 }
 
 .statistics-pie.small .overlay {
   background: image-url('pie_overlay.png') no-repeat;
   background-size: cover;
-  -ms-behavior: asset-url('background-size.htc');
   z-index: 1;
 }
 
-.statistics-chart{
+.statistics-chart {
   height: 270px;
   width: 100%;
   margin-bottom: 20px;
   font-size: 14px;
 }
 
-#host-show{
- .statistics-chart{
+.metrics-chart {
+  width: 240px;
+  margin: 50px auto 12px;
+  padding-bottom: 40px;
+}
+
+.report-chart {
+  height: 405px;
+}
+
+.host-configuration-chart {
+  width: 240px;
+  margin: 25px auto;
+}
+
+#host-show {
+  .statistics-chart {
     height: 230px;
   }
-  .chart{
+
+  .chart {
     height: 250px;
   }
 }
 
-.reset-zoom{
+.reset-zoom {
   position: absolute;
 }
 
-#legendContainer table{
-  width:  100%;
+#legendContainer table {
+  width: 100%;
 }
 
 .legend td.legendColorBox,
-#legendContainer td.legendColorBox{
+#legendContainer td.legendColorBox {
   &:hover,
-  &.disabled:hover{
+  &.disabled:hover {
     background-color: #0069d6;
     color: white;
     cursor: pointer;
   }
-  &.disabled{
+
+  &.disabled {
     opacity: (0.3);
   }
+}
+
+#factChartModalBody {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChartBox error 1`] = `
+<Card
+  accented={true}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
+  className="chart-box"
+  key="2"
+  matchHeight={false}
+>
+  <CardHeading
+    className=""
+  >
+    <CardTitle
+      className="pointer panel-title"
+    >
+      <EllipisWithTooltip>
+         
+        some title
+         
+      </EllipisWithTooltip>
+    </CardTitle>
+  </CardHeading>
+  <CardBody
+    className=""
+  >
+    <Loader
+      spinnerSize="lg"
+      status="PENDING"
+    >
+      <DonutChart
+        config="regular"
+        key="2-chart"
+        noDataMsg="No data available"
+        onclick={[Function]}
+        title={
+          Object {
+            "precision": 1,
+            "type": "percent",
+          }
+        }
+        unloadData={false}
+      />
+      <MessageBox
+        icontype="error-circle-o"
+        key="2-error"
+        msg="some error"
+      />
+    </Loader>
+  </CardBody>
+</Card>
+`;
+
+exports[`ChartBox pending 1`] = `
+<Card
+  accented={true}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
+  className="chart-box"
+  key="2"
+  matchHeight={false}
+>
+  <CardHeading
+    className=""
+  >
+    <CardTitle
+      className="pointer panel-title"
+    >
+      <EllipisWithTooltip>
+         
+        some title
+         
+      </EllipisWithTooltip>
+    </CardTitle>
+  </CardHeading>
+  <CardBody
+    className=""
+  >
+    <Loader
+      spinnerSize="lg"
+      status="PENDING"
+    >
+      <DonutChart
+        config="regular"
+        key="2-chart"
+        noDataMsg="No data available"
+        onclick={[Function]}
+        title={
+          Object {
+            "precision": 1,
+            "type": "percent",
+          }
+        }
+        unloadData={false}
+      />
+      <MessageBox
+        icontype="error-circle-o"
+        key="2-error"
+        msg="some error"
+      />
+    </Loader>
+  </CardBody>
+</Card>
+`;
+
+exports[`ChartBox resolved 1`] = `
+<Card
+  accented={true}
+  aggregated={false}
+  aggregatedMini={false}
+  cardRef={null}
+  className="chart-box"
+  key="2"
+  matchHeight={false}
+>
+  <CardHeading
+    className=""
+  >
+    <CardTitle
+      className="pointer panel-title"
+      data-placement="top"
+      data-toggle="tooltip"
+      onClick={[Function]}
+      title="sone tooltip"
+    >
+      <EllipisWithTooltip>
+         
+        some title
+         
+      </EllipisWithTooltip>
+    </CardTitle>
+  </CardHeading>
+  <CardBody
+    className=""
+  >
+    <Loader
+      spinnerSize="lg"
+      status="PENDING"
+    >
+      <DonutChart
+        config="regular"
+        data={
+          Array [
+            Array [
+              1,
+              2,
+            ],
+          ]
+        }
+        key="2-chart"
+        noDataMsg="No data available"
+        onclick={[Function]}
+        title={
+          Object {
+            "precision": 1,
+            "type": "percent",
+          }
+        }
+        unloadData={false}
+      />
+      <MessageBox
+        icontype="error-circle-o"
+        key="2-error"
+        msg="some error"
+      />
+    </Loader>
+  </CardBody>
+</Card>
+`;

@@ -1,32 +1,29 @@
 module Foreman
   module STI
-    extend ActiveSupport::Concern
-
-    included do
-      singleton_class.class_eval do
-        alias_method_chain :new, :cast
+    def self.prepended(base)
+      class << base
+        prepend ClassMethods
       end
-      alias_method_chain :save, :type
     end
 
     module ClassMethods
       # ensures that the correct STI object is created when :type is passed.
-      def new_with_cast(*attributes, &block)
-        if (h = attributes.first).is_a?(Hash) && (type = h.with_indifferent_access.delete(:type)) && type.length > 0
+      def new(*attributes, &block)
+        if (h = attributes.first).is_a?(Hash) && (type = h.with_indifferent_access.delete(:type)) && !type.empty?
           if (klass = type.constantize) != self
             raise "Invalid type #{type}" unless klass <= self
             return klass.new(*attributes, &block)
           end
         end
 
-        new_without_cast(*attributes, &block)
+        super
       end
     end
 
-    def save_with_type(*args)
-      type_changed = self.type_changed?
+    def save(*args)
+      type_changed = type_changed?
       self.class.instance_variable_set("@finder_needs_type_condition", :false) if type_changed
-      save_without_type(*args)
+      super
     ensure
       self.class.instance_variable_set("@finder_needs_type_condition", :true) if type_changed
     end

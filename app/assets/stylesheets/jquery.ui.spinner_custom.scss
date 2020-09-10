@@ -1,0 +1,19 @@
+span.ui-spinner {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+}
+
+input.ui-spinner-input {
+  margin: 0;
+}
+
+.ui-spinner a.ui-spinner-button {
+  border-radius: 0;
+  border: 1px solid #bababa;
+  background-color: #eee;
+
+  &.ui-spinner-up {
+    border-bottom: none;
+  }
+}

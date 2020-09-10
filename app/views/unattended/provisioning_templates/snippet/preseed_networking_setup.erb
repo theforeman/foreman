@@ -1,0 +1,73 @@
+<%#
+kind: snippet
+name: preseed_networking_setup
+model: ProvisioningTemplate
+snippet: true
+description: this will configure your host networking, it configures your primary interface as well
+    as other configures NICs. It supports physical, VLAN and Alias interfaces. It's intended to be
+    called in your preseed finish template.
+%>
+<% host_subnet = @host.subnet -%>
+<% host_dhcp = host_subnet.nil? ? true : host_subnet.dhcp_boot_mode? -%>
+<% host_subnet6 = @host.subnet6 -%>
+<% host_dhcp6 = host_subnet6.nil? ? true : host_subnet6.dhcp_boot_mode? -%>
+
+real=`ip -o link | awk '/<%= @host.mac -%>/ {print $2;}' | sed s/://`
+cat << EOF > /etc/network/interfaces
+#loopback
+auto lo
+iface lo inet loopback
+
+#<%= @host.primary_interface.identifier %>
+auto $real
+allow-hotplug $real
+iface $real inet <%= host_dhcp ? 'dhcp' : 'static' %>
+<% if host_subnet && !host_dhcp -%>
+    address <%= @host.ip %>
+    gateway <%= host_subnet.gateway %>
+    netmask <%= host_subnet.mask %>
+    dns-nameservers <%= host_subnet.dns_servers.join(' ') %>
+    dns-search <%= @host.domain %>
+<% end -%>
+<% if @host.ip6 && host_subnet6 && !host_dhcp6 -%>
+iface $real inet6 static
+    address <%= @host.ip6 %>/<%= host_subnet6.cidr %>
+<% if host_subnet6.gateway -%>
+    gateway <%= host_subnet6.gateway %>
+<% end -%>
+<% end -%>
+EOF
+
+<% @host.managed_interfaces.each do |interface| -%>
+<% interface_subnet = interface.subnet -%>
+<% interface_dhcp = interface_subnet.nil? ? true : interface_subnet.dhcp_boot_mode? -%>
+<% interface_subnet6 = interface.subnet6 -%>
+<% interface_dhcp6 = interface_subnet6.nil? ? true : interface_subnet6.dhcp_boot_mode? -%>
+<% next if !interface.managed? || (interface_subnet.nil? && interface_subnet6.nil?) || interface.primary -%>
+real=`ip -o link | awk '/<%= interface.mac -%>/ {print $2;}' | sed s/:$//`
+<% virtual = interface.virtual? -%>
+<% if virtual -%>
+real=`echo <%= interface.identifier -%> | sed s/<%= interface.attached_to -%>/$real/`
+<% end -%>
+
+cat << EOF >> /etc/network/interfaces
+#<%= interface.identifier %>
+<% if interface_subnet %>
+auto $real
+iface $real inet <%= interface_dhcp ? 'dhcp' : 'static' %>
+<% unless interface_dhcp -%>
+    address <%= interface.ip %>
+    netmask <%= interface_subnet.mask %>
+<% end -%>
+<% end -%>
+<% if interface.ip6 && interface_subnet6 %>
+<% unless interface_dhcp6 -%>
+iface $real inet6 static
+    address <%= interface.ip6 %>/<%= interface_subnet6.cidr %>
+<% if interface_subnet6.gateway -%>
+    gateway <%= interface_subnet6.gateway %>
+<% end -%>
+<% end -%>
+<% end -%>
+EOF
+<% end -%>

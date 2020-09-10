@@ -1,11 +1,31 @@
+<%= breadcrumbs(
+    items:
+    [
+      {
+        caption: _("Compute Resouces"),
+        url: compute_resources_path
+      },
+      {
+        caption: @compute_resource.name,
+        url: compute_resource_path(@compute_resource)
+      },
+      {
+        caption: _("VMs"),
+        url: compute_resource_vms_path(@compute_resource)
+      },
+      {
+        caption: @vm.name
+      }
+    ],
+    switchable: false
+) %>
+
+
 <div class='row'>
   <%= render "compute_resources_vms/show/#{@compute_resource.provider.downcase}" %>
 </div>
 
 <%
-  all_actions = available_actions(@vm).push(
-                  (link_to_if_authorized(_("Console"), hash_for_console_compute_resource_vm_path.merge(:auth_object => @compute_resource), {:disabled => @vm.nil? || !@vm.ready?, :class => "btn btn-info"}) if @vm.ready?),
-                  display_link_if_authorized(_("Associate VM"), hash_for_associate_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => @vm.identity).merge(:auth_object => @compute_resource, :permission => 'edit_compute_resources'), :title=> _("Associate VM to a Foreman host"), :method => :put, :class=>"btn btn-default"),
-                  link_to(_("Back"), compute_resource_path(@compute_resource), :class=>'btn btn-default'))
+  all_actions = available_actions(@vm)
   title_actions *all_actions
 %>

@@ -25,7 +25,7 @@ class TimedCachedStore < ActiveSupport::Cache::MemoryStore
 
   def delete_all_expired
     @data.keys.each do |key|
-      delete_if_expired($1) if key =~ /(\w+)_timestamp/
+      delete_if_expired(Regexp.last_match(1)) if key =~ /(\w+)_timestamp/
     end
   end
 

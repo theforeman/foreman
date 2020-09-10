@@ -1,4 +1,4 @@
-class AddStiToHosts < ActiveRecord::Migration
+class AddStiToHosts < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :type, :string, :limit => 255
     execute "UPDATE hosts set type='Host::Managed'"

@@ -19,24 +19,43 @@ module ComputeResourcesHelper
 
   def vm_power_action(vm, authorizer = nil)
     opts = hash_for_power_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
-    html = vm.ready? ? { :data => { :confirm =>_("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm }}, :class => "btn btn-danger" } :
-                       { :class => "btn btn-info" }
+    html = power_action_html(vm)
 
     display_link_if_authorized "Power #{action_string(vm)}", opts, html.merge(:method => :put)
   end
 
-  def vm_pause_action(vm, authorizer = nil)
-    opts = hash_for_pause_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
-    pause_action = vm.ready? ? _('Pause') : _('Resume')
-    html = vm.state.downcase == 'paused' ? { :class => "btn btn-info" } :
-                                           { :data => { :confirm =>_("Are you sure you want to %{act} %{vm}?") % { :act => pause_action.downcase, :vm => vm } }, :class => "btn btn-danger" }
-
-    display_link_if_authorized pause_action, opts, html.merge(:method => :put)
+  def power_action_html(vm)
+    if vm.ready?
+      {
+        :data => { :confirm => _("Are you sure you want to power %{act} %{vm}?") % { :act => action_string(vm).downcase.strip, :vm => vm }},
+        :class => "btn btn-danger",
+      }
+    else
+      { :class => "btn btn-info" }
+    end
   end
 
-  def memory_options(max_memory)
-    opts = [0.25, 0.5, 0.75, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32]
-    opts.map{|n| [number_to_human_size(n*Foreman::SIZE[:giga]), (n*Foreman::SIZE[:giga]).to_i] unless n > (max_memory / Foreman::SIZE[:giga])}.compact
+  def vm_pause_action(vm, authorizer = nil)
+    opts = hash_for_pause_compute_resource_vm_path(:compute_resource_id => @compute_resource, :id => vm.identity).merge(:auth_object => @compute_resource, :permission => 'power_compute_resources_vms', :authorizer => authorizer)
+    html = pause_action_html(vm)
+
+    display_link_if_authorized pause_action_string(vm), opts, html.merge(:method => :put)
+  end
+
+  def pause_action_html(vm)
+    pause_action = pause_action_string(vm).downcase
+    if vm.state.downcase == 'paused'
+      { :class => "btn btn-info" }
+    else
+      {
+        :data => { :confirm => _("Are you sure you want to %{act} %{vm}?") % { :act => pause_action, :vm => vm } },
+        :class => "btn btn-danger",
+      }
+    end
+  end
+
+  def pause_action_string(vm)
+    vm.ready? ? _('Pause') : _('Resume')
   end
 
   def password_placeholder(obj, attr = nil)
@@ -48,7 +67,7 @@ module ComputeResourcesHelper
     return [] unless compute.uuid || controller.action_name == 'test_connection'
     compute.datacenters
   rescue Foreman::FingerprintException => e
-    compute.errors[:pubkey_hash] = e
+    compute.errors.add(:pubkey_hash, e.message)
     []
   rescue => e
     Foreman::Logging.exception("Failed listing datacenters", e)
@@ -63,6 +82,34 @@ module ComputeResourcesHelper
   end
 
   def unset_password?
-    action_name == "edit" || action_name == "test_connection"
+    action_name == "edit" || (action_name == "test_connection" && params[:cr_id].present?)
+  end
+
+  def test_connection_button_f(f, success, caption = nil)
+    caption ||= _("Test Connection")
+    btn_class = success ? 'btn-success' : 'btn-default'
+    spinner_class = success ? 'spinner-inverse' : nil
+    spinner_button_f(f, caption, "tfm.computeResource.testConnection(this)",
+      :id => 'test_connection_button',
+      :spinner_id => 'test_connection_indicator',
+      :class => btn_class,
+      :spinner_class => spinner_class,
+      :'data-url' => test_connection_compute_resources_path)
+  end
+
+  def load_button_f(f, success, failure_caption)
+    caption = success ? _("Test Connection") : failure_caption
+    test_connection_button_f(f, success, caption)
+  end
+
+  def load_datacenters_button_f(f, success)
+    load_button_f(f, success, _("Load Datacenters"))
+  end
+
+  def http_proxy_field(f)
+    select_f(f, :http_proxy_id, HttpProxy.all, :id, :name,
+      {:include_blank => true },
+      { :label => _("HTTP Proxy") }
+    )
   end
 end

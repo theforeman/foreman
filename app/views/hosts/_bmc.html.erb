@@ -7,7 +7,7 @@
   <tbody>
     <tr>
       <td><%= _('Status') %></td>
-      <td><%= power_status(@host.power.state) %></td>
+      <td><%= status %></td>
     </tr>
     <tr>
       <td><%= _('Boot device') %></td>
@@ -25,19 +25,19 @@
   <tbody>
     <tr>
       <td><%= _('IP') %></td>
-      <td><%= @host.bmc_proxy.lan(:action => 'ip') %></td>
+      <td><%= bmc_proxy.lan(:action => 'ip') %></td>
     </tr>
     <tr>
       <td><%= _('Netmask') %></td>
-      <td><%= @host.bmc_proxy.lan(:action => 'netmask') %></td>
+      <td><%= bmc_proxy.lan(:action => 'netmask') %></td>
     </tr>
     <tr>
       <td><%= _('MAC') %></td>
-      <td><%= @host.bmc_proxy.lan(:action => 'mac') %></td>
+      <td><%= bmc_proxy.lan(:action => 'mac') %></td>
     </tr>
     <tr>
       <td><%= _('Gateway') %></td>
-      <td><%= @host.bmc_proxy.lan(:action => 'gateway') %></td>
+      <td><%= bmc_proxy.lan(:action => 'gateway') %></td>
     </tr>
   </tbody>
 </table>

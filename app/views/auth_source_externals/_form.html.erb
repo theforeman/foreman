@@ -1,0 +1,23 @@
+<%= form_for @auth_source_external do |f| %>
+  <%= base_errors_for @auth_source_external %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <% tab_classes = tab_classes_for_edit_auth_source_external %>
+    <% if show_location_tab? %>
+      <li class="active">
+        <a href="#locations" data-toggle="tab"><%= _("Locations") %></a>
+      </li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li class="<%= tab_classes[:organization] %>">
+        <a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @auth_source_external,
+      :html_options => { :tab_classes => tab_classes } %>
+  </div>
+
+  <%= submit_or_cancel f, false, :cancel_path => auth_sources_path %>
+<% end %>

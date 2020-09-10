@@ -1,4 +1,4 @@
-class MailNotification < ActiveRecord::Base
+class MailNotification < ApplicationRecord
   include Authorizable
 
   INTERVALS = [N_("Daily"), N_("Weekly"), N_("Monthly")]
@@ -9,7 +9,7 @@ class MailNotification < ActiveRecord::Base
 
   scoped_search :on => :name, :complete_value => true
   scoped_search :on => :description, :complete_value => true
-  scoped_search :in => :users, :on => :login, :complete_value => true, :rename => :user
+  scoped_search :relation => :users, :on => :login, :complete_value => true, :rename => :user
 
   scope :subscriptable, -> { where(:subscriptable => true) }
 
@@ -23,7 +23,9 @@ class MailNotification < ActiveRecord::Base
 
   def initialize(*args)
     params = args.shift
-    params[:type] = "PuppetError" if params.is_a?(Hash) && params[:name] == 'puppet_error_state'
+    if params.is_a?(Hash) && params[:name] == 'config_error_state'
+      params[:type] = "ConfigManagementError"
+    end
     args.unshift(params)
     super(*args)
   end
@@ -31,7 +33,7 @@ class MailNotification < ActiveRecord::Base
   # Easy way to reference the notification to support something like:
   #   MailNotification[:some_error_notification].deliver(options)
   def self.[](name)
-    self.find_by_name(name)
+    find_by_name(name.to_s)
   end
 
   def subscription_options

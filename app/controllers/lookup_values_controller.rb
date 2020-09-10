@@ -26,7 +26,7 @@ class LookupValuesController < ApplicationController
   end
 
   def update
-    if @lookup_value.update_attributes(lookup_value_params)
+    if @lookup_value.update(lookup_value_params)
       process_success({:success_redirect => lookup_key_lookup_values_url(params[:lookup_key_id])})
     else
       process_error

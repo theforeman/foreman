@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`isoCompatibleDate converts strings to ISO compatible format 1`] = `"2019-03-14T09:26:17-0400"`;
+
+exports[`isoCompatibleDate ignores non-matching date strings 1`] = `"2019/03/14 09:26:17 -0400"`;
+
+exports[`isoCompatibleDate preserves Date objects 1`] = `2019-03-14T13:26:17.000Z`;
+
+exports[`translateArray, translateObject should translate Array 1`] = `
+Array [
+  "Hello",
+  "There",
+]
+`;
+
+exports[`translateArray, translateObject should translate Object 1`] = `
+Object {
+  "first": "Hello",
+  "second": "There",
+}
+`;

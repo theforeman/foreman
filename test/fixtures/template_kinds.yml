@@ -1,17 +1,32 @@
+---
 ipxe:
   name: iPXE
+  description: description for iPXE template
 
 provision:
   name: provision
+  description: description for provision template
 
 pxelinux:
   name: PXELinux
+  description: description for pxelinux template
 
 script:
   name: script
+  description: description for script template
 
 finish:
   name: finish
+  description: description for finish template
 
 pxegrub:
   name: PXEGrub
+  description: description for PXEGrub template
+
+pxegrub2:
+  name: PXEGrub2
+  description: description for pxegrub2 template
+
+registration:
+  name: registration
+  description: description for registration template

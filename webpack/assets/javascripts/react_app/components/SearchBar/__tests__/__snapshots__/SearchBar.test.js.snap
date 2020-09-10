@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete rendering renders AutoComplete 1`] = `
+<div
+  className="search-bar input-group"
+  id="search-bar"
+>
+  <Connect(AutoComplete)
+    controller="models"
+    handleSearch={[Function]}
+    id="searchBar"
+    searchQuery=""
+    url="model/auto_complete_search"
+    useKeyShortcuts={true}
+  />
+  <div
+    className="input-group-btn"
+  >
+    <SearchButton
+      className=""
+      onClick={[Function]}
+    >
+      Search
+    </SearchButton>
+    <Connect(Bookmarks)
+      canCreate={true}
+      controller="models"
+      documentationUrl="/doc/url"
+      onBookmarkClick={[Function]}
+      searchQuery=""
+      url="/api/bookmarks"
+    />
+  </div>
+</div>
+`;

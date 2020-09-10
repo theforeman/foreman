@@ -1,11 +1,11 @@
-<%= fields_for "#{type}[compute_attributes]", @host ? @host.compute_object : compute_resource.new_vm(vm_attrs) do |compute| %>
+<%= fields_for "#{type}[compute_attributes]", @host ? (@vm || @host.compute_object) : compute_resource.new_vm(vm_attrs) do |compute| %>
   <% if compute.object %>
     <%= alert(:header => _('Notice'),
               :class => 'alert-info hide',
               :id => 'update_not_supported',
               :text => _('Virtual machine settings cannot be edited on an existing machine in %s') %
               compute_resource.provider_friendly_name) %>
-    <%= render :partial => "compute_detail", :locals => { :f => compute, :compute_resource => compute_resource } %>
+    <%= render :partial => "hosts/compute_detail", :locals => { :f => compute, :compute_resource => compute_resource, :new_vm => !compute.object.persisted? } %>
   <% else %>
     <% if @host %>
       <%= alert(:class => 'alert-danger',
@@ -17,7 +17,7 @@
                 :text => _("Errors: %s") % compute_resource.errors.full_messages.to_sentence) %>
     <% end %>
   <% end%>
-  <%= hidden_field_tag 'capabilities', compute_resource.capabilities %>
-  <%= hidden_field_tag 'provider', compute_resource.provider %>
+  <%= hidden_field_tag 'capabilities', compute_resource.capabilities, :disabled => true %>
+  <%= hidden_field_tag 'provider', compute_resource.provider, :disabled => true %>
   <%= content_tag(:div,'', :id => :'supports_update', :data=>{:'supports-update'=> compute_resource.supports_update? || (@host && @host.new_record?)}) %>
 <% end if compute_resource %>

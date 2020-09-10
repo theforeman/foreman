@@ -1,0 +1,73 @@
+<%#
+kind: ZTP
+name: Junos default ZTP config
+model: ProvisioningTemplate
+oses:
+- Junos
+-%>
+system {
+    host-name <%= @host.shortname %>;
+    root-authentication {
+      encrypted-password "<%= root_pass %>"; ## SECRET-DATA
+    }
+    services {
+        ssh;
+        netconf {
+            ssh;
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+            user info;
+        }
+        file messages {
+            any notice;
+            authorization info;
+        }
+        console {
+            user info;
+        }
+    }
+}
+interfaces {
+    vme {
+        unit 0 {
+            family inet {
+                dhcp;
+            }
+        }
+    }
+}
+event-options {
+    generate-event {
+        fmztp time-interval 90;
+    }
+    policy fmztp {
+        events fmztp;
+        then {
+            execute-commands {
+                commands {
+                    "op url <%= foreman_url('provision')%>.slax";
+                }
+            }
+        }
+    }
+}
+protocols {
+    igmp-snooping {
+        vlan all;
+    }
+    rstp;
+    lldp {
+        interface all;
+    }
+    lldp-med {
+        interface all;
+    }
+}
+ethernet-switching-options {
+    storm-control {
+        interface all;
+    }
+}

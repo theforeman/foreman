@@ -1,0 +1,294 @@
+<%#
+kind: snippet
+name: redhat_register
+model: ProvisioningTemplate
+snippet: true
+-%>
+<%#
+# Red Hat Registration Snippet
+#
+# General parameters:
+#
+#   redhat_install_agent = [true|false]         Install the management agent.  For Spacewalk,
+#                                               this is OSAD.  For Katello, this is katello-agent.
+#
+#   redhat_install_host_tools = [true|false]    Install the katello-host-tools yum/dnf plugins.
+#
+#   redhat_install_host_tracer_tools = [true|false]  Install the katello-host-tools Tracer yum/dnf plugin.
+#
+#   activation_key = <key>                      Activation key string, not needed if using
+#                                               subscription-manager with username/password
+#
+#   atomic = [true|false]                       Whether or not this system is Atomic
+#
+# Parameters for use with subscription-manager (Red Hat CDN, Satellite, or Katello)
+#
+#   subscription_manager = 'true'               You're going to use subscription-manager
+#
+#   subscription_manager_username = <username>  Username for subscription-manager
+#
+#   subscription_manager_password = <password>  Password for subscription-manager
+#
+#   subscription_manager_certpkg_url = <url>    Custom certificate package URL
+#
+#   subscription_manager_atomic_url = <url>     Script used for configuring Atomic servers
+#                                               for subscription-manager
+#
+#   subscription_manager_org = <org name>       Organization name, if required
+#
+#   subscription_manager_repos = <repos>        Additional repositories to enable
+#                                               after registration.
+#                                               Seperate multiple repositories with commas.
+#
+#   subscription_manager_override_repos_cost = <cost>  Override repository cost
+#
+#   subscription_manager_pool = <pool>          Specific subscription pool to use
+#
+#   only_subscription_manager_repos = 'true'    dnf/yum should only use repos managed by sub-man
+#
+#   http-proxy = <host>                         Proxy hostname to be used for registration
+#
+#   http-proxy-port = <port>                    Proxy port to be used for registration
+#
+#   http-proxy-user = <user>                    Proxy user to be used for registration
+#
+#   http-proxy-password = <password>            Proxy password to be used for registration
+#
+#   syspurpose_role                             Sets the system purpose role
+#
+#   syspurpose_usage                            Sets the system purpose usage
+#
+#   syspurpose_sla                              Sets the system purpose SLA
+#
+#   syspurpose_addons                           Sets the system purpose add-ons. Separate multiple
+#                                               values with commas.
+#
+# Set these parameters if you're using rhnreg_ks:
+#
+#   spacewalk_host = <hostname>                 Hostname of Spacewalk server
+#
+%>
+
+<%
+  # Katello or subscription-manager:
+  if host_param_true?('subscription_manager') || host_param('kt_activation_keys')
+    registration_type = 'subscription_manager'
+  # Spacewalk:
+  elsif host_param('spacewalk_host')
+    registration_type = 'spacewalk'
+  end if
+%>
+
+<% if registration_type == 'subscription_manager' %>
+  <%
+    atomic = @host.operatingsystem.respond_to?(:atomic) ? @host.operatingsystem.atomic? : host_param_true?('atomic')
+
+    if host_param('kt_activation_keys')
+      subscription_manager_certpkg_url = subscription_manager_configuration_url(@host)
+      subscription_manager_atomic_url = subscription_manager_configuration_url(@host, false)
+      subscription_manager_org = @host.rhsm_organization_label
+      activation_key = host_param('kt_activation_keys')
+      redhat_install_agent = true
+      redhat_install_host_tools = true
+      redhat_install_host_tracer_tools = false
+    else
+      subscription_manager_certpkg_url = host_param('subscription_manager_certpkg_url')
+      subscription_manager_atomic_url = host_param('subscription_manager_atomic_url')
+      subscription_manager_org = host_param('subscription_manager_org')
+      activation_key = host_param('activation_key')
+      redhat_install_agent = host_param_true?('redhat_install_agent')
+      redhat_install_host_tools = host_param_true?('redhat_install_host_tools')
+      redhat_install_host_tracer_tools = host_param_true?('redhat_install_host_tracer_tools')
+    end
+  %>
+
+  echo "##############################################################"
+  echo "################# SUBSCRIPTION MANAGER #######################"
+  echo "##############################################################"
+  echo
+  echo "Starting the subscription-manager registration process"
+
+  <% if !atomic %>
+    if [ -f /usr/bin/dnf ]; then
+      dnf -y install subscription-manager
+    else
+      yum -t -y install subscription-manager
+    fi
+  <% end %>
+
+  <%- if (host_param('syspurpose_role') || host_param('syspurpose_usage') || host_param('syspurpose_sla') || host_param('syspurpose_addons')) %>
+    <%- if !atomic %>
+      if [ -f /usr/bin/dnf ]; then
+        dnf -y install subscription-manager-syspurpose
+      else
+        yum -t -y install subscription-manager-syspurpose
+      fi
+    <%- end %>
+
+    if [ -f /usr/sbin/syspurpose ]; then
+      <%- if host_param('syspurpose_role') %>
+        syspurpose set-role "<%= host_param('syspurpose_role') %>"
+      <%- end %>
+      <%- if host_param('syspurpose_usage') %>
+        syspurpose set-usage "<%= host_param('syspurpose_usage') %>"
+      <%- end %>
+      <%- if host_param('syspurpose_sla') %>
+        syspurpose set-sla "<%= host_param('syspurpose_sla') %>"
+      <%- end %>
+      <%- if host_param('syspurpose_addons') %>
+        <%- addons = host_param('syspurpose_addons').split(',')
+              .map { |add_on| "'#{add_on.strip}'" }.join(" ") %>
+        syspurpose add-addons <%= addons %>
+      <%- end %>
+    else
+      echo "Syspurpose CLI not found."
+    fi
+  <% end %>
+
+  <% if host_param('http-proxy') %>
+    subscription-manager config --server.proxy_hostname='<%= host_param("http-proxy") %>'
+    <% if host_param('http-proxy-user') %>
+      subscription-manager config --server.proxy_user='<%= host_param("http-proxy-user") %>'
+    <% end %>
+    <% if host_param('http-proxy-password') %>
+      subscription-manager config --server.proxy_password='<%= host_param("http-proxy-password") %>'
+    <% end %>
+    <% if host_param('http-proxy-port') %>
+      subscription-manager config --server.proxy_port='<%= host_param("http-proxy-port") %>'
+    <% end %>
+  <% end %>
+
+  <% if atomic %>
+    curl -s <%= subscription_manager_atomic_url %> | IS_ATOMIC=true bash
+  <% elsif subscription_manager_certpkg_url %>
+    rpm -Uvh <%= subscription_manager_certpkg_url %>
+  <% end %>
+
+  <% if host_param('subscription_manager_username') && host_param('subscription_manager_password') %>
+    <% if host_param('subscription_manager_pool') %>
+      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>'
+      subscription-manager attach --pool='<%= host_param('subscription_manager_pool') %>'
+    <% else %>
+      subscription-manager register --name="<%= @host.name %>" --username='<%= host_param("subscription_manager_username") %>' --password='<%= host_param("subscription_manager_password") %>' --auto-attach
+    <% end %>
+
+  <% elsif activation_key %>
+    subscription-manager register --name="<%= @host.name %>" --org='<%= subscription_manager_org %>' --activationkey='<%= activation_key %>'
+  <% else %>
+    echo "No activation key found: Not registering to subscription manager"
+  <% end %>
+
+  <% if host_param_true?('only_subscription_manager_repos') %>
+    for subman_config_file in /etc/yum/pluginconf.d/subscription-manager.conf /etc/dnf/plugins/subscription-manager.conf; do
+      if [ -f $subman_config_file ]; then
+        egrep -q "^disable_system_repos=" $subman_config_file
+        if [ "$?" -eq 0 ]; then
+          sed s/^disable_system_repos=.*/disable_system_repos=1/ $subman_config_file >"${subman_config_file}.new"
+          mv -f "${subman_config_file}.new" $subman_config_file
+        else
+          echo "disable_system_repos=1" >>$subman_config_file
+        fi
+      fi
+    done
+  <% end %>
+
+  <% if host_param('subscription_manager_repos') %>
+    # workaround for RHEL 6.4 bug https://bugzilla.redhat.com/show_bug.cgi?id=1008016
+    subscription-manager repos --list > /dev/null
+    <%= "subscription-manager repos --enable #{host_param('subscription_manager_repos').gsub(/,\s*/, ' --enable ')}" %>
+  <% end %>
+
+  <% if host_param('subscription_manager_override_repos_cost') %>
+    for repo in $(subscription-manager repos --list-enabled | grep "Repo ID:" | awk -F' ' '{ print $3 }'); do
+      <%= "subscription-manager repo-override --list --repo $repo | grep 'cost:' &>/dev/null || subscription-manager repo-override --repo $repo --add=cost:#{host_param('subscription_manager_override_repos_cost')}" %>
+    done
+  <% end %>
+
+  <% if !atomic %>
+    <% if redhat_install_agent || redhat_install_host_tools || redhat_install_host_tracer_tools %>
+       if [ -f /usr/bin/dnf ]; then
+         PACKAGE_MAN="dnf -y"
+       else
+         PACKAGE_MAN="yum -t -y"
+       fi
+    <% end %>
+
+    <% if redhat_install_agent %>
+      $PACKAGE_MAN install katello-agent
+    <% elsif redhat_install_host_tools %>
+      $PACKAGE_MAN install katello-host-tools
+    <% end %>
+
+    <% if redhat_install_host_tracer_tools %>
+      $PACKAGE_MAN install katello-host-tools-tracer
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if registration_type == 'spacewalk' %>
+  echo "##############################################################"
+  echo "################ SPACEWALK REGISTRATION ######################"
+  echo "##############################################################"
+
+  <% if host_param('activation_key') %>
+    rhn_activation_key="<%= host_param('activation_key') -%>"
+    satellite_hostname="<%= host_param('spacewalk_host') -%>"
+    rhn_cert_file="RHN-ORG-TRUSTED-SSL-CERT"
+
+    echo "Registering to RHN Satellite at [$satellite_hostname]"
+    echo "Using Registration Key [$rhn_activation_key]"
+
+    # Obtain our RHN Satellite Certificate
+    echo "Obtaining RHN SSL certificate"
+    curl -o /usr/share/rhn/$rhn_cert_file -k https://$satellite_hostname/pub/$rhn_cert_file
+
+    <% if @host.operatingsystem.name == 'SLES' -%>
+      # If SLES then add CA Cert to CA Certs for curl
+      cp /usr/share/rhn/$rhn_cert_file /etc/ssl/certs/
+      ln -s /etc/ssl/certs/$rhn_cert_file /etc/ssl/certs/`openssl x509 -hash -noout -in /etc/ssl/certs/$rhn_cert_file`.0
+    <% end -%>
+
+    # Update our up2date configuration file
+    echo "Updating SSL CA Certificate to /usr/share/rhn/$rhn_cert_file"
+    sed -i -e "s|^sslCACert=.*$|sslCACert=/usr/share/rhn/$rhn_cert_file|" /etc/sysconfig/rhn/up2date
+
+    # Update our Satellite Hostname
+    echo "Updating Satellite Hostname to [$satellite_hostname]"
+    sed -i -e "s|^serverURL=.*$|serverURL=https://$satellite_hostname/XMLRPC|" /etc/sysconfig/rhn/up2date
+    sed -i -e "s|^noSSLServerURL=.*$|noSSLServerURL=https://$satellite_hostname/XMLRPC|" /etc/sysconfig/rhn/up2date
+
+    # Restart messagebus/HAL to try and prevent hardware detection errors in rhnreg_ks
+    echo "Restarting services..."
+    <% if @host.operatingsystem.name == 'SLES' && @host.operatingsystem.major.to_i < 12 -%>
+      service haldaemon restart
+    <% else -%>
+      service messagebus restart
+      service hald restart
+    <% end -%>
+
+    # Now, perform our registration
+    #  (might get hardware errors here, due to dbus/messagebus lameness. These are safe to ignore.)
+    echo -n "Performing RHN Registration... "
+    rhnreg_ks --activationkey=$rhn_activation_key
+    echo "done."
+
+    # Check we registered
+    echo -n "Checking System Registration... "
+    if ! rhn_check; then
+        echo "FAILED"
+        echo " >> RHN Registration FAILED. Please Investigate. <<"
+    else
+        echo "registration successful."
+    fi
+
+    <% if host_param_true?('redhat_install_agent') %>
+    if [ -f /usr/bin/dnf ]; then
+      dnf -y install osad
+    else
+      yum -t -y install osad
+    fi
+    <% end %>
+  <% else %>
+    echo "No activation key found: Not registering"
+  <% end %>
+<% end %>

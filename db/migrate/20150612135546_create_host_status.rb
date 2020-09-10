@@ -1,4 +1,4 @@
-class CreateHostStatus < ActiveRecord::Migration
+class CreateHostStatus < ActiveRecord::Migration[4.2]
   def up
     create_table :host_status do |t|
       t.string :type, :limit => 255
@@ -12,12 +12,10 @@ class CreateHostStatus < ActiveRecord::Migration
 
     success = true
     Host.includes(:host_statuses, :last_report_object).find_each do |host|
-      begin
-        host.skip_orchestration! # disable orchestration
-        success &= update_statuses(host)
-      ensure
-        host.enable_orchestration!
-      end
+      host.skip_orchestration! # disable orchestration
+      success &= update_statuses(host)
+    ensure
+      host.enable_orchestration!
     end
     say "some host status could not be saved, please see the log for more details" unless success
 
@@ -69,7 +67,7 @@ class CreateHostStatus < ActiveRecord::Migration
   def update_sub_status(status)
     if status.relevant?
       status.refresh!
-      return true
+      true
     end
   rescue => e
     # if the status is not ready to be saved because of missing migration

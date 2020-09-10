@@ -1,0 +1,13 @@
+<%#
+kind: snippet
+name: yum_proxy
+model: ProvisioningTemplate
+snippet: true
+%>
+<%
+proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
+-%>
+
+<% if proxy_uri -%>
+  echo 'proxy = <%= proxy_uri %>' >> /etc/yum.conf
+<% end -%>

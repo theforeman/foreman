@@ -5,28 +5,16 @@
       <tr><th colspan="2"><%=_("Properties") %></th></tr>
     </thead>
     <tbody>
+      <%= prop :state %>
+      <%= prop :pretty_machine_type, "Machine Type" %>
+      <%= prop :zone_name, "Zone" %>
       <tr>
-        <td>State</td>
-        <td><%= @vm.state.downcase %></td>
+        <td>Created</td>
+        <td><%= date_time_relative_value(@vm.creation_timestamp) %></td>
       </tr>
-      <tr>
-        <td>Machine Type</td>
-        <td><%= @vm.pretty_machine_type %></td>
-      </tr>
-      <tr>
-        <td>Zone</td>
-        <td><%= @vm.zone_name %></td>
-      </tr>
-      <tr>
-        <td>Private IP</td>
-        <td><%= @vm.private_ip_address %></td>
-      </tr>
-      <% if @vm.public_ip_address.present? %>
-        <tr>
-          <td>Public IP</td>
-          <td><%= @vm.public_ip_address %></td>
-        </tr>
-      <% end %>
+      <%= prop :private_ip_address %>
+      <%= prop :public_ip_address %>
+      <%= prop :pretty_image_name, "Image" %>
     </tbody>
   </table>
 </div>

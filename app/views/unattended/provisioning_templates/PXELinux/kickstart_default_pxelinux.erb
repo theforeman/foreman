@@ -1,0 +1,26 @@
+<%#
+kind: PXELinux
+name: Kickstart default PXELinux
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- RedHat
+-%>
+# This file was deployed via '<%= template_name %>' template
+<%
+  timeout = host_param('loader_timeout').to_i * 10
+  timeout = 100 if timeout.nil? || timeout <= 0
+-%>
+DEFAULT menu
+MENU TITLE Booting into OS installer (ESC to stop)
+TIMEOUT <%= timeout %>
+ONTIMEOUT installer
+
+LABEL installer
+  MENU LABEL <%= template_name %>
+  KERNEL <%= @kernel %>
+  APPEND initrd=<%= @initrd %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  IPAPPEND 2
+
+<%= snippet_if_exists(template_name + " custom menu") %>

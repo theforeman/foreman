@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeAheadSelectReducer initial state 1`] = `Object {}`;
+
+exports[`TypeAheadSelectReducer initiates defaults 1`] = `
+Object {
+  "test_type_ahead_select": Object {
+    "options": Array [
+      "option1",
+      "option2",
+    ],
+    "selected": Array [
+      "option2",
+    ],
+  },
+}
+`;
+
+exports[`TypeAheadSelectReducer updates options 1`] = `
+Object {
+  "test_type_ahead_select": Object {
+    "options": Array [
+      "option1",
+      "option2",
+    ],
+  },
+}
+`;
+
+exports[`TypeAheadSelectReducer updates selections 1`] = `
+Object {
+  "test_type_ahead_select": Object {
+    "selected": Array [
+      "option2",
+    ],
+  },
+}
+`;

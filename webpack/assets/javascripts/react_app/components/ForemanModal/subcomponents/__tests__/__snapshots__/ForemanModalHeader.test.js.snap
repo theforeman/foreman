@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal.Header rendering should render with default markup 1`] = `
+<ModalHeader
+  bsClass="modal-header"
+  closeButton={true}
+  closeLabel="Close"
+  title="foo"
+>
+  <ModalTitle
+    bsClass="modal-title"
+    componentClass="h4"
+  >
+    modal title passed thru mock context :)
+  </ModalTitle>
+</ModalHeader>
+`;
+
+exports[`ForemanModal.Header rendering should render with supplied children 1`] = `
+<ModalHeader
+  bsClass="modal-header"
+  closeButton={true}
+  closeLabel="Close"
+  title="should not be in markup"
+>
+  <ModalTitle
+    bsClass="modal-title"
+    componentClass="h4"
+  >
+    modal title passed thru mock context :)
+  </ModalTitle>
+  <h1>
+    Modal Title
+  </h1>
+</ModalHeader>
+`;

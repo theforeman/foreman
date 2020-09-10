@@ -1,11 +1,11 @@
 <% title _("User Groups") %>
 
-<% title_actions new_link(_("New User group")) %>
+<% title_actions new_link(_("Create User Group")) %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
-      <th class="col-md-4"><%= s_("Usergroup|Name") %></th>
+      <th class="col-md-4"><%= sort :name, :as => s_("Usergroup|Name") %></th>
       <th class="col-md-4"><%= _("Users") %></th>
       <th class="col-md-3"><%= _("User Groups") %></th>
       <th><%= _('Actions') %></th>
@@ -14,7 +14,7 @@
   <tbody>
     <% @usergroups.each do |usergroup| %>
       <tr>
-        <td class="display-two-pane ellipsis"><%= link_to_if_authorized trunc_with_tooltip(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id).merge(:auth_object => usergroup, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= link_to_if_authorized trunc_with_tooltip(usergroup.name), hash_for_edit_usergroup_path(:id => usergroup.id).merge(:auth_object => usergroup, :authorizer => authorizer) %></td>
         <td class="ellipsis"><%= usergroup.users.except_hidden.map(&:login).to_sentence %></td>
         <td class="ellipsis"><%= usergroup.usergroups.map(&:name).to_sentence %></td>
         <td>

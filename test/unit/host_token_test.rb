@@ -4,7 +4,7 @@ class HostTokenTest < ActiveSupport::TestCase
   test "tokens should be removed based on build state" do
     disable_orchestration
     as_admin do
-      h = FactoryGirl.create(:host, :managed)
+      h = FactoryBot.create(:host, :managed)
       Setting[:token_duration] = 60
       assert_difference('Token.count') do
         h.build = true
@@ -21,15 +21,19 @@ class HostTokenTest < ActiveSupport::TestCase
     disable_orchestration
     host = as_admin do
       Setting[:token_duration] = 30
-      template = FactoryGirl.create(:provisioning_template,
-                                    :template_kind_name => 'PXELinux',
-                                    :template => "<%= foreman_url('provision') %>")
-      os = FactoryGirl.create(:debian7_0, :with_associations, :with_os_defaults,
-                              :provisioning_templates => [template])
-      FactoryGirl.create :host, :managed, :build => true, :operatingsystem => os
+      org = FactoryBot.create :organization
+      loc = FactoryBot.create :location
+      template = FactoryBot.build :provisioning_template,
+        :template_kind_name => 'PXELinux',
+        :template => "<%= foreman_url('provision') %>",
+        :organizations => [org], :locations => [loc]
+      os = FactoryBot.create(:debian7_0, :with_associations, :with_os_defaults,
+        :provisioning_templates => [template])
+      FactoryBot.create :host, :managed, :build => true, :operatingsystem => os,
+                                :organization => org, :location => loc
     end
 
     assert host.token.try(:value).present?
-    assert_includes host.send(:generate_pxe_template), "token=#{host.token.value}"
+    assert_includes host.send(:generate_pxe_template, :PXELinux), "token=#{host.token.value}"
   end
 end

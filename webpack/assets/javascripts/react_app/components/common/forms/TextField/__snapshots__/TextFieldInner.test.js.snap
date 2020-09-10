@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextFieldInner render 1`] = `
+<CommonForm
+  className=""
+  inputClassName="col-md-4"
+  label=""
+  required={false}
+  tooltipHelp={null}
+  touched={false}
+>
+  <input
+    className="form-control"
+    type="text"
+  />
+</CommonForm>
+`;
+
+exports[`TextFieldInner render textarea 1`] = `
+<CommonForm
+  className=""
+  inputClassName="col-md-4"
+  label=""
+  required={false}
+  tooltipHelp={null}
+  touched={false}
+>
+  <textarea
+    className="form-control"
+    some="input"
+  />
+</CommonForm>
+`;
+
+exports[`TextFieldInner render with item some props 1`] = `
+<CommonForm
+  className="some-class-name"
+  error="some-error"
+  inputClassName="some-input-class"
+  label="some-label"
+  required={true}
+  tooltipHelp={null}
+  touched={true}
+>
+  <input
+    className="form-control"
+    some="input"
+    type="password"
+  />
+</CommonForm>
+`;

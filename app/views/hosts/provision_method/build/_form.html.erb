@@ -1,6 +1,6 @@
 <div id='network_provisioning' <%= display? !@host.pxe_build? %> >
-  <% if @host.new_record? or @host.type_changed? -%>
-      <%= checkbox_f f, :build, :checked => true, :help_inline => _("Enable this host for provisioning") %>
+  <% if @host.new_record? || @host.type_changed? -%>
+      <%= checkbox_f f, :build, :help_inline => _("Enable this host for provisioning") %>
   <% end %>
   <span id="media_select">
     <%= render 'common/os_selection/operatingsystem', :item => @host %>

@@ -14,7 +14,7 @@ module Foreman::Controller::Parameters::Operatingsystem
           :password_hash,
           :release_name,
           :to_label,
-          :architectures => [], :architecture_ids => [], :architecture_names => [],
+          :architectures => [:id, :name], :architecture_ids => [], :architecture_names => [],
           :medium_ids => [], :medium_names => [],
           :os_default_templates_attributes => [os_default_template_params_filter],
           :os_parameters_attributes => [parameter_params_filter(OsParameter)],

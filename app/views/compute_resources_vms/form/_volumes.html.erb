@@ -1,20 +1,24 @@
-<% if provider_partial_exist?(compute_resource, 'volume') %>
-  <div class="children_fields">
-    <%= new_child_fields_template(f, :volumes, {
-        :object  => compute_resource.new_volume,
-        :partial => provider_partial(compute_resource, 'volume'),
-        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove storage volume') },
-        :layout => "compute_resources_vms/form/#{item_layout}_layout" }) %>
-
+<% if compute_resource.capable?(:new_volume) || provider_partial_exist?(compute_resource, 'volume') %>
+  <% volume = compute_resource.new_volume %>
     <%= field_set_tag _("Storage"), :id => "storage_volumes" do %>
+      <% if volume.present? %>
+        <div class="children_fields">
+          <%= new_child_fields_template(f, :volumes, {
+              :object  => volume,
+              :partial => provider_partial(compute_resource, 'volume'),
+              :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm, :remove_title => _('remove storage volume') },
+              :layout => "compute_resources_vms/form/#{item_layout}_layout" }) %>
 
-      <%= f.fields_for :volumes do |i| %>
-        <%= render :partial => provider_partial(compute_resource, 'volume'), :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove storage volume') }, :layout => "compute_resources_vms/form/#{item_layout}_layout" %>
-      <% end %>
+          <%= f.fields_for :volumes do |i| %>
+            <%= render :partial => provider_partial(compute_resource, 'volume'), :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_vm, :new_vm => new_vm, :remove_title => _('remove storage volume') }, :layout => "compute_resources_vms/form/#{item_layout}_layout" %>
+          <% end %>
 
-      <% if new_host %>
-        <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new storage volume') } %>
+          <% if new_vm %>
+            <%= add_child_link '+ ' + _("Add Volume"), :volumes, { :class => "info", :title => _('add new storage volume') } %>
+          <% end %>
+        </div>
+      <% else %>
+        <%= alert :text => _('Unable to define volumes:') + ' ' + compute_resource.new_volume_errors.join(', '), :close => false, :class => 'alert-warning', :header => '' %>
       <% end %>
-    <% end %>
-  </div>
+  <% end %>
 <% end %>

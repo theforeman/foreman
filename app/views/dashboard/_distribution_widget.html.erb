@@ -1,4 +1,14 @@
+<% origin = @data.settings[:origin] %>
 <h4 class="header">
-  <%= n_("Run distribution in the last %s minute", "Run distribution in the last %s minutes", Setting[:puppet_interval]) % Setting[:puppet_interval] %>
+  <% if origin %>
+    <%= N_('Run Distribution Chart for %s') % origin %>
+  <% else %>
+    <%= N_('Run Distribution Chart') %>
+  <% end %>
 </h4>
-<%= render_run_distribution(@hosts, :class => 'statistics-bar') %>
+<%= react_component('BarChart', {
+      data: get_run_distribution_data(@data.hosts, :origin => origin),
+      xAxisLabel: _("Minutes Ago"),
+      yAxisLabel: _("Number Of Clients"),
+      config: 'small'
+    }) %>

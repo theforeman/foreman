@@ -3,11 +3,11 @@ module SelectiveClone
 
   included do
     cattr_accessor :cloned_parameters
-    #don't use Hash.new { [] }. deep_clone tries to fetch other keys from this hash,
-    #and gets confused if the value is an empty array.
+    # don't use Hash.new { [] }. deep_clone tries to fetch other keys from this hash,
+    # and gets confused if the value is an empty array.
     self.cloned_parameters = {}
-    self.cloned_parameters[:include] = []
-    self.cloned_parameters[:except] = []
+    cloned_parameters[:include] = []
+    cloned_parameters[:except] = []
 
     def self.include_in_clone(*attributes)
       cloned_parameters[:include] += attributes
@@ -19,6 +19,6 @@ module SelectiveClone
   end
 
   def selective_clone
-    self.deep_clone(self.cloned_parameters)
+    deep_clone(cloned_parameters)
   end
 end

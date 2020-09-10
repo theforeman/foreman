@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserDetails rendering render user info 1`] = `
+<span
+  className="user-grid"
+>
+  <EllipisWithTooltip>
+    <span>
+      <a
+        className="user-info"
+        href="/audits?search=user+%3D+admin"
+        title="Filter audits for this user only"
+      >
+        Admin 
+      </a>
+    </span>
+  </EllipisWithTooltip>
+  <span
+    className="gray-text"
+  >
+    (
+    127.0.0.1
+    )
+  </span>
+</span>
+`;
+
+exports[`UserDetails rendering render user info with audit login 1`] = `
+<span
+  className="user-grid"
+>
+  <EllipisWithTooltip>
+    <span>
+      <a
+        className="user-info"
+        href="/audits?search=user+%3D+admin"
+        title="Filter audits for this user only"
+      >
+        Admin 
+      </a>
+    </span>
+  </EllipisWithTooltip>
+  <span>
+    <a
+      href="/audits?search=id+%3D+123"
+    >
+      Logged-in
+    </a>
+  </span>
+</span>
+`;

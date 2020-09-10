@@ -1,0 +1,3 @@
+<div class="tab-pane" id="template_type">
+  <%= checkbox_f f, :snippet, :onchange => "tfm.templateInputs.snippetChanged(this)", :label=>_('Snippet'), :disabled => @template.locked? %>
+</div>

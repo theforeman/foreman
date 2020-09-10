@@ -2,10 +2,12 @@
   .fields {
     border-top: 1px dotted lightgrey;
     padding-top: 10px;
+
     &:nth-child(3) {
       border-top: none;
     }
-    .btn-hide{
+
+    .btn-hide {
       display: none;
     }
   }
@@ -13,18 +15,18 @@
 
 .lookup-keys-container {
   h6 {
-    margin-top: 0px;
+    margin-top: 0;
   }
 
   .help-block {
-    margin: 0px;
+    margin: 0;
   }
 
-  input[type=checkbox]{
+  input[type=checkbox] {
     margin-top: 8px;
   }
 
-  .nav a.btn-success:focus{
+  .nav a.btn-success:focus {
     background-color: #5cb85c;
     border-color: #4cae4c;
   }
@@ -32,8 +34,25 @@
   .matcher .matcher-group {
     display: block;
   }
-  
+
   .matcher_value {
     width: 60%;
   }
+}
+
+.selected_puppetclass.unavailable a {
+  color: $color-pf-black-400;
+}
+
+#inherited_ids {
+  padding-left: 0;
+}
+
+#inherited-classes .panel-title {
+  font-size: 1.6rem;
+}
+
+#puppet_klasses ul {
+  padding-left: 40px;
+  padding-right: 20px;
 }

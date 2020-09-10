@@ -33,41 +33,47 @@
       <%= multiple_selects f, :permissions, Permission.where(:resource_type => f.object.resource_type),
                            f.object.permissions.map(&:id), :label => _("Permission"), :required => true %>
 
-      <%= hidden_field_tag :role_id, @role.try(:id) %>
-
-
-      <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
-          <span class="help-block">
-            <strong><%= _("Selected resource type does not support granular filtering, therefore you can't configure granularity") %></strong>
-          </span>
+      <div class="clearfix">
+        <div class="controls" id="granular_warning" style="<%= f.object.granular? ? 'display:none' : '' %>">
+          <div class="col-md-2"></div>
+            <div class="col-sm-10 alert alert-info">
+              <span class="pficon pficon-info"></span>
+              <%= _("Selected resource type does not support granular filtering, therefore you can't configure granularity") %>
+            </div>
+        </div>
       </div>
 
-      <div id="granular_form" style="<%= !f.object.granular? ? 'display:none' : '' %>">
+      <div id="override_taxonomy_form" class="<%= f.object.allows_taxonomies_filtering? ? '' : 'hidden' %>">
+        <%= checkbox_f f, :override?,
+                       :label_help => _("Filters inherit organizations and locations associated with the role by default. If override field is enabled, <br> the filter can override the set of its organizations and locations. Later role changes will not affect such filter.<br> After disabling the override field, the role organizations and locations apply again.").html_safe,
+                       :id => 'override_taxonomy_checkbox' %>
+      </div>
+
+      <div id="granular_form" style="<%= f.object.granular? ? '' : 'display:none' %>">
         <%= checkbox_f f, :unlimited?,
-                       :help_inline => _("By unchecking this you can specify filter using Foreman search syntax in search field. If filter remains unlimited (this field is checked) it applies on all resources of the selected type") %>
+                       :label_help => _("If the unlimited field is enabled, the filter applies to all resources of the selected type. If the unlimited </br> field is disabled, you can specify further filtering using Foreman search syntax in the search field.</br> If the role is associated with organizations or locations, the filters are not considered unlimited</br> as they are scoped accordingly.").html_safe %>
+
 
         <%= autocomplete_f f, :search,
                            :disabled => f.object.unlimited?,
-                           :full_path => search_path(f.object.resource_type),
-                           :control_group_id => 'search_group' %>
+                           :full_path => search_path(f.object.resource_type)
+        %>
       </div>
     </div>
 
     <% if show_location_tab? %>
       <div class="tab-pane" id="locations">
-        <% collection = User.current.locations.empty? ? Location : User.current.locations %>
-        <%= multiple_checkboxes f, :locations, f.object, collection, :label => _("Locations") %>
+        <%= multiple_checkboxes f, :locations, f.object, User.current.my_locations, :label => _("Locations") %>
       </div>
     <% end %>
 
     <% if show_organization_tab? %>
       <div class="tab-pane" id="organizations">
-        <% collection = User.current.organizations.empty? ? Organization : User.current.organizations %>
-        <%= multiple_checkboxes f, :organizations, f.object, collection, {},
-                                {:label => _("Organizations")} %>
+        <%= multiple_checkboxes f, :organizations, f.object, User.current.my_organizations, :label => _("Organizations") %>
       </div>
     <% end %>
   </div>
 
-  <%= submit_or_cancel f, false, :cancel_path => :back %>
+  <%= submit_or_cancel f, false, :cancel_path => :back, :disabled => @role && @role.locked? %>
+
 <% end %>

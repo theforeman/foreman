@@ -8,13 +8,13 @@ module ComputeResourceConsoleCommon
 
   def set_console_password=(setpw)
     if ['true', true, '1', 1].include?(setpw)
-      self.attrs[:setpw] = 1
+      attrs[:setpw] = 1
     else
-      self.attrs[:setpw] = 0
+      attrs[:setpw] = 0
     end
   end
 
   def name_sort(array)
-    array.sort_by{|a| a.name}
+    array.sort_by { |a| a.name }
   end
 end

@@ -1,5 +1,5 @@
-<%= javascript 'host_edit', 'host_edit_interfaces', 'class_edit' %>
-<%= form_for @hostgroup, :html => {:data => {:id => @hostgroup.try(:id), :submit => 'progress_bar' }} do |f| %>
+<%= javascript 'host_edit', 'host_edit_interfaces' %>
+<%= form_for @hostgroup, :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @hostgroup.try(:id)}} do |f| %>
   <%= base_errors_for @hostgroup %>
 
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -10,6 +10,7 @@
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
     <% end %>
     <li><a href="#params" id='params-tab' data-url='' data-url2='<%= puppetclass_parameters_hostgroups_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+    <%= render_tab_header_for(:main_tabs, :subject => @hostgroup) %>
     <% if show_location_tab? %>
       <li><a href="#locations" data-toggle="tab"><%= _('Locations') %></a></li>
     <% end %>
@@ -22,15 +23,24 @@
 
     <div class="tab-pane active" id="primary">
       <%= select_f(f, :parent_id, parent_hostgroups, :id, :to_label, {:include_blank => true}, {:label => _('Parent'),
-                      :onchange => 'hostgroup_changed(this);', :'data-url'=> process_hostgroup_hostgroups_path,
+                      :class => 'hostgroup-select',
+                      :data => { :url => process_hostgroup_hostgroups_path },
                       :help_inline => :indicator }) if show_parent?(@hostgroup) %>
       <%= text_f f, :name %>
+      <%= textarea_f f, :description, :rows => :auto %>
       <%= hostgroup_puppet_environment_field f %>
-      <%= select_f(f, :compute_profile_id, ComputeProfile.visibles, :id, :name,
+
+      <%= select_f f, :compute_resource_id, accessible_resource(@hostgroup, :compute_resource), :id, :to_label,
+          { :include_blank => blank_or_inherit_f(f, :compute_resource, blank_value: _('Bare Metal')) },
+          { :label => _('Deploy on'),
+            :help_inline => :indicator } if SETTINGS[:unattended] %>
+
+      <%= select_f(f, :compute_profile_id, visible_compute_profiles(@hostgroup), :id, :name,
                        { :include_blank => blank_or_inherit_f(f, :compute_profile) },
                        { :label => _("Compute profile") }
-                  ) if ComputeProfile.visibles.exists? %>
-      <%= puppet_master_fields f %>
+                  ) if visible_compute_profiles(@hostgroup).any? %>
+      <%= render_pagelets_for(:main_tab_fields, :hostgroup => @hostgroup, :form => f) %>
+      <%= smart_proxy_fields f %>
     </div>
 
     <%= puppetclasses_tab(@hostgroup) %>
@@ -59,32 +69,34 @@
 
     <div class="tab-pane" id="os">
       <%= render "common/os_selection/initial", :item=> @hostgroup %>
-      <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more").html_safe, :unset => action_name == "edit" %>
+      <%= password_f f, :root_pass, :help_inline => _("Password must be 8 characters or more").html_safe,
+                     :unset => action_name == "edit", :keep_value => action_name == "clone"  %>
     </div>
 
     <div class="tab-pane" id="params">
 
       <fieldset>
-        <h2><%= _('Puppet class parameters') %></h2>
+        <h2><%= _('Puppet Class Parameters') %></h2>
         <%= render 'puppetclasses/classes_parameters', :obj => @hostgroup  %>
       </fieldset>
       <br/>
       <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
         <fieldset>
-          <h2><%= _('Global parameters') %></h2>
           <% if @hostgroup.parent.present? %>
-              <h4><%= _('Parent parameters') %></h4>
+              <h4><%= _('Parent Parameters') %></h4>
               <%= render "common_parameters/inherited_parameters", { :inherited_parameters => @hostgroup.parent_params(true), :parameters => @hostgroup.group_parameters } %>
           <% end %>
-          <h4><%= _('Host group parameters') %></h4>
+          <h2><%= _('Host Group Parameters') %></h2>
           <%= render "common_parameters/parameters", { :f => f, :type => :group_parameters } %>
         </fieldset>
       <% end %>
     </div>
 
+    <%= render_tab_content_for(:main_tabs, :subject => @hostgroup) %>
+
     <%= render "taxonomies/loc_org_tabs", :f => f, :obj => @hostgroup %>
   </div>
 
   <%= f.hidden_field :id %>
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel(f, false, { :cancel_path => resource_prev_url_with_search_filters }) %>
 <% end %>

@@ -1,5 +1,5 @@
-class ConvertIpamToString < ActiveRecord::Migration
-  class FakeSubnet < ActiveRecord::Base
+class ConvertIpamToString < ActiveRecord::Migration[4.2]
+  class FakeSubnet < ApplicationRecord
     self.table_name = 'subnets'
   end
 

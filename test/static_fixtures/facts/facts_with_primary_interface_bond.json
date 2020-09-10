@@ -1,0 +1,1097 @@
+{
+  "aio_agent_version": "1.10.14",
+  "architecture": "x86_64",
+  "augeas": {
+    "version": "1.4.0"
+  },
+  "augeasversion": "1.4.0",
+  "bios_release_date": "06/13/2019",
+  "bios_vendor": "Dell Inc.",
+  "bios_version": "2.2.11",
+  "blockdevice_sda_model": "DL2400MM0159",
+  "blockdevice_sda_size": 2400476553216,
+  "blockdevice_sda_vendor": "SEAGATE",
+  "blockdevice_sdb_model": "DL2400MM0159",
+  "blockdevice_sdb_size": 2400476553216,
+  "blockdevice_sdb_vendor": "SEAGATE",
+  "blockdevice_sdc_model": "DL2400MM0159",
+  "blockdevice_sdc_size": 2400476553216,
+  "blockdevice_sdc_vendor": "SEAGATE",
+  "blockdevice_sdd_model": "DL2400MM0159",
+  "blockdevice_sdd_size": 2400476553216,
+  "blockdevice_sdd_vendor": "SEAGATE",
+  "blockdevice_sde_model": "DL2400MM0159",
+  "blockdevice_sde_size": 2400476553216,
+  "blockdevice_sde_vendor": "SEAGATE",
+  "blockdevice_sdf_model": "DL2400MM0159",
+  "blockdevice_sdf_size": 2400476553216,
+  "blockdevice_sdf_vendor": "SEAGATE",
+  "blockdevice_sdg_model": "DL2400MM0159",
+  "blockdevice_sdg_size": 2400476553216,
+  "blockdevice_sdg_vendor": "SEAGATE",
+  "blockdevice_sdh_model": "DL2400MM0159",
+  "blockdevice_sdh_size": 2400476553216,
+  "blockdevice_sdh_vendor": "SEAGATE",
+  "blockdevice_sdi_model": "DL2400MM0159",
+  "blockdevice_sdi_size": 2400476553216,
+  "blockdevice_sdi_vendor": "SEAGATE",
+  "blockdevice_sdj_model": "DL2400MM0159",
+  "blockdevice_sdj_size": 2400476553216,
+  "blockdevice_sdj_vendor": "SEAGATE",
+  "blockdevice_sdk_model": "DELLBOSS VD",
+  "blockdevice_sdk_size": 239990276096,
+  "blockdevice_sdk_vendor": "ATA",
+  "blockdevices": "sda,sdb,sdc,sdd,sde,sdf,sdg,sdh,sdi,sdj,sdk",
+  "boardmanufacturer": "Dell Inc.",
+  "boardproductname": "0JMK61",
+  "boardserialnumber": "123456",
+  "chassistype": "Rack Mount Chassis",
+  "dhcp_servers": {
+    "bond0": "127.13.0.145",
+    "system": "127.13.0.145"
+  },
+  "disks": {
+    "sda": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdb": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdc": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdd": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sde": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdf": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdg": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdh": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdi": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdj": {
+      "model": "DL2400MM0159",
+      "size": "2.18 TiB",
+      "size_bytes": 2400476553216,
+      "vendor": "SEAGATE"
+    },
+    "sdk": {
+      "model": "DELLBOSS VD",
+      "size": "223.51 GiB",
+      "size_bytes": 239990276096,
+      "vendor": "ATA"
+    }
+  },
+  "dmi": {
+    "bios": {
+      "release_date": "06/13/2019",
+      "vendor": "Dell Inc.",
+      "version": "2.2.11"
+    },
+    "board": {
+      "manufacturer": "Dell Inc.",
+      "product": "0JMK61",
+      "serial_number": "123456"
+    },
+    "chassis": {
+      "type": "Rack Mount Chassis"
+    },
+    "manufacturer": "Dell Inc.",
+    "product": {
+      "name": "PowerEdge R740xd",
+      "serial_number": "123456",
+      "uuid": "4C4C4544-0051-4C10-8044-B1C04F465632"
+    }
+  },
+  "domain": "example.com",
+  "facterversion": "3.6.10",
+  "filesystems": "xfs",
+  "fqdn": "host01.example.com",
+  "gid": "root",
+  "hardwareisa": "x86_64",
+  "hardwaremodel": "x86_64",
+  "hostname": "host01",
+  "id": "root",
+  "identity": {
+    "gid": 0,
+    "group": "root",
+    "privileged": true,
+    "uid": 0,
+    "user": "root"
+  },
+  "interfaces": "bond0,em1,em2,em3,em4,lo,p5p1,p5p2,p7p1,p7p2",
+  "ipaddress": "127.13.0.105",
+  "ipaddress6": "fe80::3efd:feff:fecd:77a0",
+  "ipaddress6_bond0": "fe80::3efd:feff:fecd:77a0",
+  "ipaddress6_lo": "::1",
+  "ipaddress_bond0": "127.13.0.105",
+  "ipaddress_lo": "127.0.0.1",
+  "is_virtual": false,
+  "kernel": "Linux",
+  "kernelmajversion": "3.10",
+  "kernelrelease": "3.10.0-957.21.3.el7.x86_64",
+  "kernelversion": "3.10.0",
+  "load_averages": {
+    "15m": 0.37,
+    "1m": 0.41,
+    "5m": 0.43
+  },
+  "lsbdistcodename": "Maipo",
+  "lsbdistdescription": "Red Hat Enterprise Linux Server release 7.6 (Maipo)",
+  "lsbdistid": "RedHatEnterpriseServer",
+  "lsbdistrelease": "7.6",
+  "lsbmajdistrelease": "7",
+  "lsbminordistrelease": "6",
+  "lsbrelease": ":core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-noarch:printing-4.1-amd64:printing-4.1-noarch",
+  "macaddress": "3c:fd:fe:cd:77:a0",
+  "macaddress_bond0": "3c:fd:fe:cd:77:a0",
+  "macaddress_em1": "e4:43:4b:47:b4:50",
+  "macaddress_em2": "e4:43:4b:47:b4:51",
+  "macaddress_em3": "e4:43:4b:47:b4:52",
+  "macaddress_em4": "e4:43:4b:47:b4:53",
+  "macaddress_p5p1": "3c:fd:fe:cd:77:a0",
+  "macaddress_p5p2": "3c:fd:fe:cd:77:a1",
+  "macaddress_p7p1": "b4:96:91:40:9d:08",
+  "macaddress_p7p2": "b4:96:91:40:9d:0a",
+  "manufacturer": "Dell Inc.",
+  "memory": {
+    "system": {
+      "available": "97.45 GiB",
+      "available_bytes": 104634167296,
+      "capacity": "61.20%",
+      "total": "251.16 GiB",
+      "total_bytes": 269677273088,
+      "used": "153.71 GiB",
+      "used_bytes": 165043105792
+    }
+  },
+  "memoryfree": "97.45 GiB",
+  "memoryfree_mb": 99786.91796875,
+  "memorysize": "251.16 GiB",
+  "memorysize_mb": 257184.2890625,
+  "mountpoints": {
+    "/": {
+      "available": "17.85 GiB",
+      "available_bytes": 19168485376,
+      "capacity": "25.58%",
+      "device": "/dev/mapper/vg0-rootvol",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "relatime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "23.99 GiB",
+      "size_bytes": 25757220864,
+      "used": "6.14 GiB",
+      "used_bytes": 6588735488
+    },
+    "/boot": {
+      "available": "38.49 MiB",
+      "available_bytes": 40357888,
+      "capacity": "84.59%",
+      "device": "/dev/sdk1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "relatime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "249.73 MiB",
+      "size_bytes": 261861376,
+      "used": "211.24 MiB",
+      "used_bytes": 221503488
+    },
+    "/dev/shm": {
+      "available": "125.58 GiB",
+      "available_bytes": 134838636544,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev"
+      ],
+      "size": "125.58 GiB",
+      "size_bytes": 134838636544,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/run": {
+      "available": "124.85 GiB",
+      "available_bytes": 134055411712,
+      "capacity": "0.58%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "mode=755"
+      ],
+      "size": "125.58 GiB",
+      "size_bytes": 134838636544,
+      "used": "746.94 MiB",
+      "used_bytes": 783224832
+    },
+    "/run/user/113499": {
+      "available": "25.12 GiB",
+      "available_bytes": 26967728128,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "relatime",
+        "size=26335672k",
+        "mode=700",
+        "uid=113499",
+        "gid=100000"
+      ],
+      "size": "25.12 GiB",
+      "size_bytes": 26967728128,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/run/user/8008": {
+      "available": "25.12 GiB",
+      "available_bytes": 26967728128,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "relatime",
+        "size=26335672k",
+        "mode=700",
+        "uid=8008",
+        "gid=8001"
+      ],
+      "size": "25.12 GiB",
+      "size_bytes": 26967728128,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/run/user/8018": {
+      "available": "25.12 GiB",
+      "available_bytes": 26967728128,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "relatime",
+        "size=26335672k",
+        "mode=700",
+        "uid=8018",
+        "gid=8001"
+      ],
+      "size": "25.12 GiB",
+      "size_bytes": 26967728128,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/run/user/8020": {
+      "available": "25.12 GiB",
+      "available_bytes": 26967728128,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "relatime",
+        "size=26335672k",
+        "mode=700",
+        "uid=8020",
+        "gid=8001"
+      ],
+      "size": "25.12 GiB",
+      "size_bytes": 26967728128,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/srv/hadoop/data01": {
+      "available": "2.10 TiB",
+      "available_bytes": 2309848981504,
+      "capacity": "3.73%",
+      "device": "/dev/sda1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "83.31 GiB",
+      "used_bytes": 89453543424
+    },
+    "/srv/hadoop/data02": {
+      "available": "2.10 TiB",
+      "available_bytes": 2310164193280,
+      "capacity": "3.72%",
+      "device": "/dev/sdb1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "83.02 GiB",
+      "used_bytes": 89138331648
+    },
+    "/srv/hadoop/data03": {
+      "available": "2.11 TiB",
+      "available_bytes": 2318757580800,
+      "capacity": "3.36%",
+      "device": "/dev/sdc1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "75.01 GiB",
+      "used_bytes": 80544944128
+    },
+    "/srv/hadoop/data04": {
+      "available": "2.10 TiB",
+      "available_bytes": 2308153790464,
+      "capacity": "3.80%",
+      "device": "/dev/sdd1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "84.89 GiB",
+      "used_bytes": 91148734464
+    },
+    "/srv/hadoop/data05": {
+      "available": "2.10 TiB",
+      "available_bytes": 2310382735360,
+      "capacity": "3.71%",
+      "device": "/dev/sde1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "82.81 GiB",
+      "used_bytes": 88919789568
+    },
+    "/srv/hadoop/data06": {
+      "available": "2.10 TiB",
+      "available_bytes": 2309542985728,
+      "capacity": "3.74%",
+      "device": "/dev/sdf1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "83.60 GiB",
+      "used_bytes": 89759539200
+    },
+    "/srv/hadoop/data07": {
+      "available": "2.10 TiB",
+      "available_bytes": 2309464371200,
+      "capacity": "3.74%",
+      "device": "/dev/sdg1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "83.67 GiB",
+      "used_bytes": 89838153728
+    },
+    "/srv/hadoop/data08": {
+      "available": "2.10 TiB",
+      "available_bytes": 2310108524544,
+      "capacity": "3.72%",
+      "device": "/dev/sdh1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "83.07 GiB",
+      "used_bytes": 89194000384
+    },
+    "/srv/hadoop/data09": {
+      "available": "2.10 TiB",
+      "available_bytes": 2309938290688,
+      "capacity": "3.72%",
+      "device": "/dev/sdi1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "83.23 GiB",
+      "used_bytes": 89364234240
+    },
+    "/srv/hadoop/data10": {
+      "available": "2.10 TiB",
+      "available_bytes": 2308627857408,
+      "capacity": "3.78%",
+      "device": "/dev/sdj1",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "noatime",
+        "nodiratime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "2.18 TiB",
+      "size_bytes": 2399302524928,
+      "used": "84.45 GiB",
+      "used_bytes": 90674667520
+    },
+    "/sys/fs/cgroup": {
+      "available": "125.58 GiB",
+      "available_bytes": 134838636544,
+      "capacity": "0%",
+      "device": "tmpfs",
+      "filesystem": "tmpfs",
+      "options": [
+        "ro",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "mode=755"
+      ],
+      "size": "125.58 GiB",
+      "size_bytes": 134838636544,
+      "used": "0 bytes",
+      "used_bytes": 0
+    },
+    "/tmp": {
+      "available": "3.96 GiB",
+      "available_bytes": 4249583616,
+      "capacity": "0.81%",
+      "device": "/dev/mapper/vg0-tmpvol",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "relatime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "3.99 GiB",
+      "size_bytes": 4284481536,
+      "used": "33.28 MiB",
+      "used_bytes": 34897920
+    },
+    "/var/log": {
+      "available": "14.61 GiB",
+      "available_bytes": 15684399104,
+      "capacity": "8.65%",
+      "device": "/dev/mapper/vg0-varlogvol",
+      "filesystem": "xfs",
+      "options": [
+        "rw",
+        "nosuid",
+        "nodev",
+        "noexec",
+        "relatime",
+        "attr2",
+        "inode64",
+        "noquota"
+      ],
+      "size": "15.99 GiB",
+      "size_bytes": 17169383424,
+      "used": "1.38 GiB",
+      "used_bytes": 1484984320
+    }
+  },
+  "mtu_bond0": 1500,
+  "mtu_em1": 1500,
+  "mtu_em2": 1500,
+  "mtu_em3": 1500,
+  "mtu_em4": 1500,
+  "mtu_lo": 65536,
+  "mtu_p5p1": 1500,
+  "mtu_p5p2": 1500,
+  "mtu_p7p1": 1500,
+  "mtu_p7p2": 1500,
+  "netmask": "255.255.255.128",
+  "netmask6": "ffff:ffff:ffff:ffff::",
+  "netmask6_bond0": "ffff:ffff:ffff:ffff::",
+  "netmask6_lo": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+  "netmask_bond0": "255.255.255.128",
+  "netmask_lo": "255.0.0.0",
+  "network": "127.13.0.0",
+  "network6": "fe80::",
+  "network6_bond0": "fe80::",
+  "network6_lo": "::1",
+  "network_bond0": "127.13.0.0",
+  "network_lo": "127.0.0.0",
+  "networking": {
+    "dhcp": "127.13.0.145",
+    "domain": "example.com",
+    "fqdn": "host01.example.com",
+    "hostname": "host01",
+    "interfaces": {
+      "bond0": {
+        "bindings": [
+          {
+            "address": "127.13.0.105",
+            "netmask": "255.255.255.128",
+            "network": "127.13.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "fe80::3efd:feff:fecd:77a0",
+            "netmask": "ffff:ffff:ffff:ffff::",
+            "network": "fe80::"
+          }
+        ],
+        "dhcp": "127.13.0.145",
+        "ip": "127.13.0.105",
+        "ip6": "fe80::3efd:feff:fecd:77a0",
+        "mac": "3c:fd:fe:cd:77:a0",
+        "mtu": 1500,
+        "netmask": "255.255.255.128",
+        "netmask6": "ffff:ffff:ffff:ffff::",
+        "network": "127.13.0.0",
+        "network6": "fe80::"
+      },
+      "em1": {
+        "mac": "e4:43:4b:47:b4:50",
+        "mtu": 1500
+      },
+      "em2": {
+        "mac": "e4:43:4b:47:b4:51",
+        "mtu": 1500
+      },
+      "em3": {
+        "mac": "e4:43:4b:47:b4:52",
+        "mtu": 1500
+      },
+      "em4": {
+        "mac": "e4:43:4b:47:b4:53",
+        "mtu": 1500
+      },
+      "lo": {
+        "bindings": [
+          {
+            "address": "127.0.0.1",
+            "netmask": "255.0.0.0",
+            "network": "127.0.0.0"
+          }
+        ],
+        "bindings6": [
+          {
+            "address": "::1",
+            "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+            "network": "::1"
+          }
+        ],
+        "ip": "127.0.0.1",
+        "ip6": "::1",
+        "mtu": 65536,
+        "netmask": "255.0.0.0",
+        "netmask6": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "network": "127.0.0.0",
+        "network6": "::1"
+      },
+      "p5p1": {
+        "mac": "3c:fd:fe:cd:77:a0",
+        "mtu": 1500
+      },
+      "p5p2": {
+        "mac": "3c:fd:fe:cd:77:a1",
+        "mtu": 1500
+      },
+      "p7p1": {
+        "mac": "b4:96:91:40:9d:08",
+        "mtu": 1500
+      },
+      "p7p2": {
+        "mac": "b4:96:91:40:9d:0a",
+        "mtu": 1500
+      }
+    },
+    "ip": "127.13.0.105",
+    "ip6": "fe80::3efd:feff:fecd:77a0",
+    "mac": "3c:fd:fe:cd:77:a0",
+    "mtu": 1500,
+    "netmask": "255.255.255.128",
+    "netmask6": "ffff:ffff:ffff:ffff::",
+    "network": "127.13.0.0",
+    "network6": "fe80::",
+    "primary": "bond0"
+  },
+  "operatingsystem": "RedHat",
+  "operatingsystemmajrelease": "7",
+  "operatingsystemrelease": "7.6",
+  "os": {
+    "architecture": "x86_64",
+    "distro": {
+      "codename": "Maipo",
+      "description": "Red Hat Enterprise Linux Server release 7.6 (Maipo)",
+      "id": "RedHatEnterpriseServer",
+      "release": {
+        "full": "7.6",
+        "major": "7",
+        "minor": "6"
+      },
+      "specification": ":core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-noarch:printing-4.1-amd64:printing-4.1-noarch"
+    },
+    "family": "RedHat",
+    "hardware": "x86_64",
+    "name": "RedHat",
+    "release": {
+      "full": "7.6",
+      "major": "7",
+      "minor": "6"
+    },
+    "selinux": {
+      "enabled": false
+    }
+  },
+  "osfamily": "RedHat",
+  "partitions": {
+    "/dev/mapper/vg0-rootvol": {
+      "filesystem": "xfs",
+      "mount": "/",
+      "size": "24.00 GiB",
+      "size_bytes": 25769803776,
+      "uuid": "36cc0247-7bd1-4cec-9033-df46dec34120"
+    },
+    "/dev/mapper/vg0-tmpvol": {
+      "filesystem": "xfs",
+      "mount": "/tmp",
+      "size": "4.00 GiB",
+      "size_bytes": 4294967296,
+      "uuid": "8be6dc54-e667-41e8-8d26-f6452a85083e"
+    },
+    "/dev/mapper/vg0-varlogvol": {
+      "filesystem": "xfs",
+      "mount": "/var/log",
+      "size": "16.00 GiB",
+      "size_bytes": 17179869184,
+      "uuid": "a02b5fec-e48b-459c-b9cb-4be707117624"
+    },
+    "/dev/sda1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data01",
+      "partuuid": "df3e8b17-9a05-4ea9-9610-3d52a2c9962c",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "28eb090e-cfb9-4ff8-a7b6-9267f01f1cec"
+    },
+    "/dev/sdb1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data02",
+      "partuuid": "135c3c90-de0a-4ad1-ba6a-dc6e53ee09be",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "f7fca758-f2f9-4615-a760-e2cd66012d81"
+    },
+    "/dev/sdc1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data03",
+      "partuuid": "9aefb624-9c4b-42df-bc17-3e7999e3a7e2",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "fdb4c49a-df75-49bd-a425-066684cbb93c"
+    },
+    "/dev/sdd1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data04",
+      "partuuid": "1dcfe685-a22b-4d02-b53e-5938aef706e3",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "e5a5698d-11e7-493a-aaa0-aa40c88a20c7"
+    },
+    "/dev/sde1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data05",
+      "partuuid": "4c70e1ef-c7fd-4b69-8ed2-77e82af7b80b",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "0affdca4-b491-4875-8f13-c0d75d1e3521"
+    },
+    "/dev/sdf1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data06",
+      "partuuid": "425bed4f-5c35-460a-8913-2f5239f73963",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "b872a1bc-3f81-4a0f-8049-473e5b555324"
+    },
+    "/dev/sdg1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data07",
+      "partuuid": "1806c5d0-34db-48ce-8bb4-0b483b205dd2",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "8e7d43ed-a13c-476a-abbe-2069a9c68e5b"
+    },
+    "/dev/sdh1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data08",
+      "partuuid": "79736092-f01d-434a-b9f7-dfcc46ba2570",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "a2a8d31d-cb49-4c13-b0d7-2d71ba004b60"
+    },
+    "/dev/sdi1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data09",
+      "partuuid": "7e13b167-7de2-48f9-a0c8-45809f0c5cf1",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "5bc1e03f-cc7a-4a62-bddb-bd19c05cea51"
+    },
+    "/dev/sdj1": {
+      "filesystem": "xfs",
+      "mount": "/srv/hadoop/data10",
+      "partuuid": "1aecb7ec-c3e4-4034-91d7-81e8962a159d",
+      "size": "2.18 TiB",
+      "size_bytes": 2400474628096,
+      "uuid": "2c8ceed0-c3c5-4872-b4e4-36053c62c35b"
+    },
+    "/dev/sdk1": {
+      "filesystem": "xfs",
+      "mount": "/boot",
+      "size": "256.00 MiB",
+      "size_bytes": 268435456,
+      "uuid": "998254b0-2436-4e5f-acd2-1c1e8b29d44e"
+    },
+    "/dev/sdk2": {
+      "filesystem": "LVM2_member",
+      "size": "223.26 GiB",
+      "size_bytes": 239720202240,
+      "uuid": "pWNJGf-JGlZ-GSUp-qlje-JOvj-w0qj-kioGnk"
+    }
+  },
+  "path": "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin/:/root/bin",
+  "physicalprocessorcount": 2,
+  "processor0": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor1": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor10": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor11": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor12": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor13": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor14": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor15": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor16": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor17": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor18": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor19": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor2": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor20": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor21": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor22": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor23": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor24": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor25": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor26": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor27": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor28": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor29": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor3": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor30": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor31": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor32": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor33": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor34": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor35": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor36": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor37": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor38": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor39": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor4": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor40": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor41": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor42": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor43": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor44": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor45": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor46": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor47": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor48": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor49": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor5": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor50": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor51": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor52": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor53": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor54": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor55": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor56": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor57": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor58": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor59": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor6": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor60": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor61": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor62": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor63": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor7": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor8": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processor9": "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+  "processorcount": 64,
+  "processors": {
+    "count": 64,
+    "isa": "x86_64",
+    "models": [
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz",
+      "Intel(R) Xeon(R) Gold 6130 CPU @ 2.10GHz"
+    ],
+    "physicalcount": 2
+  },
+  "productname": "PowerEdge R740xd",
+  "ruby": {
+    "platform": "x86_64-linux",
+    "sitedir": "/opt/puppetlabs/puppet/lib/ruby/site_ruby/2.1.0",
+    "version": "2.1.9"
+  },
+  "rubyplatform": "x86_64-linux",
+  "rubysitedir": "/opt/puppetlabs/puppet/lib/ruby/site_ruby/2.1.0",
+  "rubyversion": "2.1.9",
+  "selinux": false,
+  "serialnumber": "123456",
+  "ssh": {
+    "ecdsa": {
+      "fingerprints": {
+        "sha1": "SSHFP 3 1 a4db82eb336b37609b5f19901e7ae5503d7af283",
+        "sha256": "SSHFP 3 2 a5d433319ebc065568981bf0b8daf6263c3324f03479585b92f6b481dd471191"
+      },
+      "key": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDZZ0hOoZcEkaG8XCThrrqn9MXtCIAMvhGuvxudfdxRlYh7sNgurg1doY4OBp8+EypU/YWLYhaeELr8ylpegEnk="
+    },
+    "ed25519": {
+      "fingerprints": {
+        "sha1": "SSHFP 4 1 afad684eadf78d680bd058efdee76ca7913d7b6d",
+        "sha256": "SSHFP 4 2 ea1e858fc734048e193209c66f4a7ae8e9d8cc1892aa827de05e6d4314c8af4a"
+      },
+      "key": "AAAAC3NzaC1lZDI1NTE5AAAAIE4uwk+XyrTTj7JuZ7hjidBoQPFsZNFWEiS6QaGVq42i"
+    },
+    "rsa": {
+      "fingerprints": {
+        "sha1": "SSHFP 1 1 bb03a63fbfecdbdb43ab2364171887bc411e55cc",
+        "sha256": "SSHFP 1 2 c2359b044ecddb3b11c51c7f4f69e075b8b51984825ea4d97df2da78381a49ae"
+      },
+      "key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDuHUDGTcatcaw8fvGy66H3w0l4KHN8QnR2aqT+JmYs/RKp/wr1q6Bb1fOFcmcYPfPWd0xLLvnQ2vh52a8KJK/O3EoAVTJZFPggJMdSBcac12b9XEkzZ7IDT2mg9rqFnuwcI9F9U+XGKOttxnXvrIkxc2SxS12di5/a7OPvUJPsGEg5jGqL7OZnliH9xMUS5vBhmiRPLtoUZlvQAUhW5NUpcc9J8GtvFCb+BaY+N3veCMkhndkmjAqzseyLHNINvPwvauEuA7I6NfPMl2oeKKZhK0X6/Co6KWnOkw8/sl9lqqDzF2am0J2cCUMSiw4l3jMOZTPx3ZIl+lFemgPLERF7"
+    }
+  },
+  "sshecdsakey": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDZZ0hOoZcEkaG8XCThrrqn9MXtCIAMvhGuvxudfdxRlYh7sNgurg1doY4OBp8+EypU/YWLYhaeELr8ylpegEnk=",
+  "sshed25519key": "AAAAC3NzaC1lZDI1NTE5AAAAIE4uwk+XyrTTj7JuZ7hjidBoQPFsZNFWEiS6QaGVq42i",
+  "sshfp_ecdsa": "SSHFP 3 1 a4db82eb336b37609b5f19901e7ae5503d7af283\nSSHFP 3 2 a5d433319ebc065568981bf0b8daf6263c3324f03479585b92f6b481dd471191",
+  "sshfp_ed25519": "SSHFP 4 1 afad684eadf78d680bd058efdee76ca7913d7b6d\nSSHFP 4 2 ea1e858fc734048e193209c66f4a7ae8e9d8cc1892aa827de05e6d4314c8af4a",
+  "sshfp_rsa": "SSHFP 1 1 bb03a63fbfecdbdb43ab2364171887bc411e55cc\nSSHFP 1 2 c2359b044ecddb3b11c51c7f4f69e075b8b51984825ea4d97df2da78381a49ae",
+  "sshrsakey": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDuHUDGTcatcaw8fvGy66H3w0l4KHN8QnR2aqT+JmYs/RKp/wr1q6Bb1fOFcmcYPfPWd0xLLvnQ2vh52a8KJK/O3EoAVTJZFPggJMdSBcac12b9XEkzZ7IDT2mg9rqFnuwcI9F9U+XGKOttxnXvrIkxc2SxS12di5/a7OPvUJPsGEg5jGqL7OZnliH9xMUS5vBhmiRPLtoUZlvQAUhW5NUpcc9J8GtvFCb+BaY+N3veCMkhndkmjAqzseyLHNINvPwvauEuA7I6NfPMl2oeKKZhK0X6/Co6KWnOkw8/sl9lqqDzF2am0J2cCUMSiw4l3jMOZTPx3ZIl+lFemgPLERF7",
+  "system_uptime": {
+    "days": 13,
+    "hours": 332,
+    "seconds": 1198435,
+    "uptime": "13 days"
+  },
+  "timezone": "CEST",
+  "uptime": "13 days",
+  "uptime_days": 13,
+  "uptime_hours": 332,
+  "uptime_seconds": 1198435,
+  "uuid": "4C4C4544-0051-4C10-8044-B1C04F465632",
+  "virtual": "physical"
+}

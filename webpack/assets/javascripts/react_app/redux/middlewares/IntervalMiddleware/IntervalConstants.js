@@ -1,0 +1,3 @@
+export const START_INTERVAL = 'START_INTERVAL';
+export const STOP_INTERVAL = 'STOP_INTERVAL';
+export const DEFAULT_INTERVAL = 5000;

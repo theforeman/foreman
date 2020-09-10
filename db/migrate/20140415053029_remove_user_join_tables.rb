@@ -1,4 +1,4 @@
-class RemoveUserJoinTables < ActiveRecord::Migration
+class RemoveUserJoinTables < ActiveRecord::Migration[4.2]
   def up
     if table_exists? :user_compute_resources
       remove_foreign_key 'user_compute_resources', 'users'

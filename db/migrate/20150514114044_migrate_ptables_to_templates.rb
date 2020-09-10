@@ -1,5 +1,5 @@
-class MigratePtablesToTemplates < ActiveRecord::Migration
-  class FakeOldPtable < ActiveRecord::Base
+class MigratePtablesToTemplates < ActiveRecord::Migration[4.2]
+  class FakeOldPtable < ApplicationRecord
     self.table_name = 'ptables'
 
     has_and_belongs_to_many :operatingsystems, :join_table => 'operatingsystems_ptables', :foreign_key => 'ptable_id'
@@ -7,7 +7,7 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
     has_many_hosts :foreign_key => 'ptable_id'
   end
 
-  class FakeNewPtable < ActiveRecord::Base
+  class FakeNewPtable < ApplicationRecord
     self.table_name = 'templates'
 
     has_and_belongs_to_many :operatingsystems, :join_table => 'operatingsystems_ptables', :foreign_key => 'ptable_id'
@@ -16,14 +16,10 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
   end
 
   def up
-    if foreign_key_exists?('operatingsystems_ptables', :name => 'operatingsystems_ptables_ptable_id_fk')
-      remove_foreign_key "operatingsystems_ptables", :name => "operatingsystems_ptables_ptable_id_fk"
-    end
-    if foreign_key_exists?('hostgroups', :name => 'hostgroups_ptable_id_fk')
-      remove_foreign_key "hostgroups", :name => "hostgroups_ptable_id_fk"
-    end
-    if foreign_key_exists?('hosts', :name => 'hosts_ptable_id_fk')
-      remove_foreign_key "hosts", :name => "hosts_ptable_id_fk"
+    %w(operatingsystems_ptables hostgroups hosts).each do |source_table|
+      if foreign_key_exists?(source_table, :name => "#{source_table}_ptable_id_fk")
+        remove_foreign_key source_table, :name => "#{source_table}_ptable_id_fk"
+      end
     end
     add_column :templates, :os_family, :string, :limit => 255
 
@@ -44,15 +40,15 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
     FakeOldPtable.all.each do |old_ptable|
       old_ptable.destroy
     end
-    add_foreign_key "operatingsystems_ptables", "templates", :name => "operatingsystems_ptables_ptable_id_fk", :column => 'ptable_id'
-    add_foreign_key "hostgroups", "templates", :name => "hostgroups_ptable_id_fk", :column => 'ptable_id'
-    add_foreign_key "hosts", "templates", :name => "hosts_ptable_id_fk", :column => 'ptable_id'
+    add_foreign_key 'operatingsystems_ptables', 'templates', :name => 'operatingsystems_ptables_ptable_id_fk', :column => 'ptable_id'
+    add_foreign_key 'hostgroups', 'templates', :name => 'hostgroups_ptable_id_fk', :column => 'ptable_id'
+    add_foreign_key 'hosts', 'templates', :name => 'hosts_ptable_id_fk', :column => 'ptable_id'
   end
 
   def down
-    remove_foreign_key "operatingsystems_ptables", :name => "operatingsystems_ptables_ptable_id_fk"
-    remove_foreign_key "hostgroups", :name => "hostgroups_ptable_id_fk"
-    remove_foreign_key "hosts", :name => "hosts_ptable_id_fk"
+    remove_foreign_key 'operatingsystems_ptables', :name => 'operatingsystems_ptables_ptable_id_fk'
+    remove_foreign_key 'hostgroups', :name => 'hostgroups_ptable_id_fk'
+    remove_foreign_key 'hosts', :name => 'hosts_ptable_id_fk'
     Ptable.all.each do |new_ptable|
       say "migrating partition table #{new_ptable.name} down"
       old_ptable = FakeOldPtable.new
@@ -69,9 +65,9 @@ class MigratePtablesToTemplates < ActiveRecord::Migration
     Ptable.delete_all
 
     remove_column :templates, :os_family
-    add_foreign_key "operatingsystems_ptables", "ptables", :name => "operatingsystems_ptables_ptable_id_fk", :column => 'ptable_id'
-    add_foreign_key "hostgroups", "ptables", :name => "hostgroups_ptable_id_fk", :column => 'ptable_id'
-    add_foreign_key "hosts", "ptables", :name => "hosts_ptable_id_fk", :column => 'ptable_id'
+    %w(operatingsystems_ptables hostgroups hosts).each do |source_table|
+      add_foreign_key source_table, 'ptables', :name => "#{source_table}_ptable_id_fk", :column => 'ptable_id'
+    end
   end
 
   private

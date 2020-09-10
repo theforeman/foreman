@@ -1,4 +1,5 @@
-class ComputeProfile < ActiveRecord::Base
+class ComputeProfile < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
@@ -6,7 +7,6 @@ class ComputeProfile < ActiveRecord::Base
 
   validates_lengths_from_database
 
-  audited
   has_associated_audits
 
   before_destroy EnsureNotUsedBy.new(:hostgroups)
@@ -20,5 +20,5 @@ class ComputeProfile < ActiveRecord::Base
   scoped_search :on => :name, :complete_value => true
   default_scope -> { order('compute_profiles.name') }
 
-  scope :visibles, -> { eager_load(:compute_attributes).where('compute_attributes.id > 0') }
+  scope :visibles, -> { where(:id => ComputeAttribute.select(:compute_profile_id)) }
 end

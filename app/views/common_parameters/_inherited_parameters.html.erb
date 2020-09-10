@@ -2,7 +2,8 @@
   <thead class="white-header">
     <tr>
       <th class='col-md-3'><%= _("Name") %></th>
-      <th class='col-md-8'><%= _("Value") %></th>
+      <th class='col-md-2'><%= _('Type') %></th>
+      <th class='col-md-6'><%= _("Value") %></th>
       <th class='col-md-1 ca'><%= _('Actions') %></th>
     </tr>
   </thead>
@@ -10,14 +11,18 @@
     <tbody>
       <% keys = inherited_parameters.keys.sort %>
       <% keys.each do |name| %>
-        <% overriden = parameters.detect{|param| param.name == name}.present? %>
+        <% overriden = parameters.detect{|param| param.name == name}.present?
+           param_obj = inherited_parameters[name]
+        %>
         <tr class="<%="override-param" if overriden %>">
           <td class="ellipsis"><%= content_tag :span, name, :id => "name_#{name}"%>
           </td>
-          <td><%= parameter_value_field inherited_parameters[name] %></td>
+          <td class="ellipsis"><%= content_tag :span, param_obj[:parameter_type], :id => "parameter_type_#{param_obj[:parameter_type]}"%>
+          </td>
+          <td><%= parameter_value_field param_obj %></td>
           <td>
-            <%= link_to_function(_("override"), "override_param(this)", :title => _("Override this value"),
-                                 :'data-tag' => 'override', :class => "btn btn-default") if authorized_via_my_scope("host_editing", "create_params") %>
+            <%= link_to_function(_("Override"), "override_param(this)", :title => _("Override this value"),
+                                 :'data-tag' => 'override', :class => "btn btn-default", :id => "override-param-#{name}") if authorized_via_my_scope("host_editing", "create_params") %>
           </td>
         </tr>
       <% end %>

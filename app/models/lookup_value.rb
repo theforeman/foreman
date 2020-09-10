@@ -1,18 +1,23 @@
-class LookupValue < ActiveRecord::Base
+class LookupValue < ApplicationRecord
+  audited :associated_with => :lookup_key
+  extend FriendlyId
+  friendly_id :match
   include Authorizable
+  include PuppetLookupValueExtensions
+  include HiddenValue
+  include KeyValueValidation
 
   validates_lengths_from_database
-  audited :associated_with => :lookup_key
-  delegate :hidden_value?, :hidden_value, :to => :lookup_key, :allow_nil => true
+  delegate :hidden_value?, :editable_by_user?, :to => :lookup_key, :allow_nil => true
 
   belongs_to :lookup_key
-  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
-  validate :value_present?
   delegate :key, :to => :lookup_key
   before_validation :sanitize_match
 
-  before_validation :validate_and_cast_value, :unless => Proc.new{|p| p.use_puppet_default }
-  validate :validate_value, :ensure_fqdn_exists, :ensure_hostgroup_exists
+  validate :ensure_match_uniqueness
+  validates :match, :presence => true, :uniqueness => {:scope => :lookup_key_id}, :format => LookupKey::VALUE_REGEX
+  validate :ensure_fqdn_exists, :ensure_hostgroup_exists, :ensure_matcher_exists
+  validate :validate_value, :unless => proc { |p| p.omit }
 
   attr_accessor :host_or_hostgroup
 
@@ -23,10 +28,12 @@ class LookupValue < ActiveRecord::Base
 
   scoped_search :on => :value, :complete_value => true, :default_order => true
   scoped_search :on => :match, :complete_value => true
-  scoped_search :in => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
+  scoped_search :relation => :lookup_key, :on => :key, :rename => :lookup_key, :complete_value => true
 
-  def value_present?
-    self.errors.add(:value, :blank) if value.to_s.empty? && !use_puppet_default && lookup_key.puppet?
+  # Lookup values are currently not authorized granularly,
+  # they should use permissions from their keys (puppet or variable)
+  def check_permissions_after_save
+    true
   end
 
   def value=(val)
@@ -42,44 +49,42 @@ class LookupValue < ActiveRecord::Base
   end
 
   def value_before_type_cast
-    return read_attribute(:value) if errors[:value].present?
-    return self.value if lookup_key.nil? || lookup_key.contains_erb?(self.value)
-    lookup_key.value_before_type_cast self.value
+    return self[:value] if errors[:value].present?
+    return value if lookup_key.nil? || value.contains_erb?
+    LookupKey.format_value_before_type_cast(value, lookup_key.key_type)
   end
 
   def validate_value
+    validate_and_cast_value(lookup_key)
     Foreman::Parameters::Validator.new(self,
       :type => lookup_key.validator_type,
       :validate_with => lookup_key.validator_rule,
       :getter => :value).validate!
   end
 
-  private
-
-  #TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
-  def sanitize_match
-    self.match = match.split(LookupKey::KEY_DELM).map {|s| s.split(LookupKey::EQ_DELM).map(&:strip).join(LookupKey::EQ_DELM)}.join(LookupKey::KEY_DELM) unless match.blank?
+  def path
+    match.split(LookupKey::KEY_DELM).map { |s| s.split(LookupKey::EQ_DELM).first }.join(LookupKey::KEY_DELM)
   end
 
-  def validate_and_cast_value
-    return true if self.marked_for_destruction? || !self.value.is_a?(String)
-    begin
-      unless self.lookup_key.contains_erb?(value)
-        Foreman::Parameters::Caster.new(self, :attribute_name => :value, :to => lookup_key.key_type).cast!
-      end
-      true
-    rescue StandardError, SyntaxError => e
-      Foreman::Logging.exception("Error while parsing #{lookup_key}", e)
-      errors.add(:value, _("is invalid %s") % lookup_key.key_type)
-      false
-    end
+  private
+
+  # TODO check multi match with matchers that have space (hostgroup = web servers,environment = production)
+  def sanitize_match
+    return true unless match.present?
+    self.match = match.split(LookupKey::KEY_DELM).map do |m|
+      split_match = m.split(LookupKey::EQ_DELM)
+      matcher_attribute = split_match.first.downcase.strip
+      matcher_value = (split_match.count > 1) ? split_match.last.strip : ""
+      [matcher_attribute, matcher_value].join(LookupKey::EQ_DELM)
+    end.join(LookupKey::KEY_DELM)
   end
 
   def ensure_fqdn_exists
     md = ensure_matcher(/fqdn=(.*)/)
     return md if md == true || md == false
     fqdn = md[1].split(LookupKey::KEY_DELM)[0]
-    return true if Host.unscoped.find_by_name(fqdn) || host_or_hostgroup.try(:new_record?)
+    return true if host_with_fqdn_exists?(fqdn) || host_or_hostgroup.try(:new_record?) ||
+        (host_or_hostgroup.present? && host_or_hostgroup.type_changed? && host_or_hostgroup.type == "Host::Managed")
     errors.add(:match, _("%{match} does not match an existing host") % { :match => "fqdn=#{fqdn}" })
 
     false
@@ -102,7 +107,29 @@ class LookupValue < ActiveRecord::Base
     matcher
   end
 
+  def ensure_matcher_exists
+    return false if match.blank?
+    key_elements = []
+    match.split(LookupKey::KEY_DELM).each do |m|
+      key_elements << m.split(LookupKey::EQ_DELM).first
+    end
+
+    unless lookup_key.path_elements.include?(key_elements)
+      errors.add(:match, _("%{key} does not exist in order field") % { :key => key_elements.join(',') })
+    end
+  end
+
+  # needs to be validated manualy as at validation time, siblings might not be saved
+  def ensure_match_uniqueness
+    return if lookup_key.nil?
+    errors.add(:match, :taken) if lookup_key.lookup_values.any? { |sibling| sibling != self && sibling.match == match }
+  end
+
   def skip_strip_attrs
     ['value']
+  end
+
+  def host_with_fqdn_exists?(fqdn)
+    Host.unscoped.left_joins(:primary_interface).where("nics.name = ?", fqdn).any?
   end
 end

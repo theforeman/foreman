@@ -3,14 +3,15 @@ $(function(){
 })
 
 function multiSelectOnLoad(){
-  $('select[multiple]').each(function(i,item){
+  $('select[multiple]:not(.without_jquery_multiselect)').each(function(i,item){
     $(item).multiSelect({
-      selectableHeader: $("<div class='ms-header'>" + __('All items') + " <input placeholder='" + __('Filter') + "' class='ms-filter' type='text'><a href='#' title='" + __('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus'></a></div>"),
+      selectableHeader: $("<div class='ms-header'>" + __('All items') + " <input placeholder='" + __('Filter') + "' class='form-control ms-filter' type='text'><a href='#' title='" + __('Select All') + "' class='ms-select-all pull-right glyphicon glyphicon-plus'></a></div>"),
       selectionHeader: $("<div class='ms-header'>" + __('Selected items') + "<a href='#' title='" + __('Deselect All') + "' class='ms-deselect-all pull-right glyphicon glyphicon-minus'></a></div>"),
       afterDeselect: function(value){
         var current_select = $(item).closest('.tab-pane').find('select[multiple]');
         current_select.data('descendants', null);
         $(current_select).multiSelect('refresh');
+        multiSelectToolTips();
       }
     })
   });
@@ -29,29 +30,29 @@ function multiSelectToolTips(){
       var missing_ids = $.parseJSON(mismatches);
       $.each(missing_ids, function(index,missing_id){
         opt_id = sanitize(missing_id+'');
-        $(msid).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({title: __("Select this since it belongs to a host"), placement: "left"});
+        $(msid).find('li#'+opt_id+'-selectable').addClass('delete').tooltip({container: 'body', title: __("Select this since it belongs to a host"), placement: "left"});
       })
     }
     if (!(useds == null || descendants == 'useds')) {
       var used_ids = $.parseJSON(useds);
       $.each(used_ids, function(index,used_id){
         opt_id = sanitize(used_id+'');
-        $(msid).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({title: __("This is used by a host"), placement: "right"});
+        $(msid).find('li#'+opt_id+'-selection').addClass('used_by_hosts').tooltip({container: 'body', title: __("This is used by a host"), placement: "right"});
       })
     }
     if (!(inheriteds == null || inheriteds == 'undefined')) {
       var inherited_ids = $.parseJSON(inheriteds);
       $.each(inherited_ids, function(index,inherited_id){
         opt_id = sanitize(inherited_id+'');
-        $(msid).find('li#'+opt_id+'-selection').addClass('inherited').tooltip({title: __("This is inherited from parent"), placement: "right"});
+        $(msid).find('li#'+opt_id+'-selection').addClass('inherited').tooltip({container: 'body', title: __("This is inherited from parent"), placement: "right"});
       })
     }
     if (!(descendants == null || descendants == 'undefined')) {
       var descendant_ids = $.parseJSON(descendants);
       $.each(descendant_ids, function(index,descendant_id){
         opt_id = sanitize(descendant_id+'');
-        $(msid).find('li#'+opt_id+'-selection').addClass('descendants').tooltip({title: __("Parent is already selected"), placement: "right"});
-        $(msid).find('li#'+opt_id+'-selectable').addClass('descendants').tooltip({title: __("Parent is already selected"), placement: "left"});
+        $(msid).find('li#'+opt_id+'-selection').addClass('descendants').tooltip({container: 'body', title: __("Parent is already selected"), placement: "right"});
+        $(msid).find('li#'+opt_id+'-selectable').addClass('descendants').tooltip({container: 'body', title: __("Parent is already selected"), placement: "left"});
       })
     }
   })

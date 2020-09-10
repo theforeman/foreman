@@ -1,0 +1,73 @@
+<%#
+name: kickstart_ifcfg_generic_interface
+model: ProvisioningTemplate
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+-%>
+<%- primary = @interface.primary ? 'yes' : 'no' -%>
+BOOTPROTO="<%= @dhcp ? 'dhcp' : 'none' -%>"
+<%- unless @dhcp || @subnet.nil? -%>
+<%-   if @interface.ip.present? -%>
+<%=     "IPADDR=\"#{@interface.ip}\"" %>
+<%=     "NETMASK=\"#{@subnet.mask}\"" %>
+<%-     if @subnet.gateway.present? -%>
+<%=       "GATEWAY=\"#{@subnet.gateway}\"" %>
+<%-     end -%>
+<%-   end -%>
+<%- end -%>
+<%- if @interface.ip6.present? -%>
+<%=   "IPV6INIT=yes" %>
+<%=   "IPV6_AUTOCONF=#{host_param_true?('use-slaac') ? 'yes' : 'no'}" %>
+<%=   "IPV6ADDR=#{@interface.ip6}" %>
+<%-   if !@subnet6.nil? && @subnet6.gateway.present? -%>
+<%=     "IPV6_DEFAULTGW=#{@subnet6.gateway}" %><%= '%$real' if @subnet6.gateway.match(/^fe80:/) %>
+<%-   end -%>
+<%=   "IPV6_PEERDNS=#{primary}" %>
+<%=   "IPV6_PEERROUTES=#{primary}" %>
+<%=   "IPV6_DEFROUTE=#{primary}" %>
+<%- end -%>
+<%- if @interface.domain -%>
+DOMAIN="<%= @interface.domain %>"
+<%- end -%>
+DEVICE=$real
+<%- unless @interface.virtual? -%>
+<%=   "HWADDR=\"#{@interface.mac}\"" %>
+<%- end -%>
+ONBOOT=yes
+PEERDNS=<%= primary %>
+PEERROUTES=<%= primary %>
+DEFROUTE=<%= primary %>
+<%- if @interface.primary -%>
+<%-   if !@dhcp && @subnet -%>
+<%-     @subnet.dns_servers.each_index do |index| -%>
+<%=       "DNS#{index +1}=\"#{@subnet.dns_servers[index]}\"" %>
+<%-     end -%>
+<%-   elsif !@dhcp && @subnet6 -%>
+<%-     @subnet6.dns_servers.each_index do |index| -%>
+<%=       "DNS#{index +1}=\"#{@subnet6.dns_servers[index]}\"" %>
+<%-     end -%>
+<%-   end -%>
+<%- end -%>
+<%- if @interface.virtual? && (!@subnet.nil? && (@subnet.has_vlanid? || @interface.vlanid.present?)) -%>
+<%=   "VLAN=yes" %>
+<%-   if @attached_to_bond -%>
+<%-     if ( @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.major.to_i <= 7 ) -%>
+<%=       "NM_CONTROLLED=no" %>
+<%-     end -%>
+<%-   end -%>
+<%-   if @interface.identifier.match(/^vlan\d+/) -%>
+<%=     "VLAN_NAME_TYPE=VLAN_PLUS_VID_NO_PAD" %>
+<%=     "PHYSDEV=#{@interface.attached_to}" %>
+<%-     if @bonding_interfaces.include?(@interface.attached_to) -%>
+<%=       "TYPE=bonding" %>
+<%-     end -%>
+<%-   end -%>
+<%- elsif @interface.virtual? && !@subnet.nil? && !@subnet.has_vlanid? && @interface.identifier.include?(':') -%>
+<%=   "TYPE=Alias" %>
+<%- end -%>
+<%- if @subnet -%>
+<%=   "MTU=#{@subnet.mtu}" %>
+<%- elsif @subnet6 -%>
+<%=   "MTU=#{@subnet6.mtu}" %>
+<%- end -%>

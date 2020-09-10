@@ -7,7 +7,7 @@ module ProxyStatus
     end
 
     def revoke_cache!(subkey = '')
-      Rails.cache.delete(cache_key+subkey)
+      Rails.cache.delete(cache_key + subkey)
     end
 
     def cache_key
@@ -45,7 +45,7 @@ module ProxyStatus
 
     def fetch_proxy_data(subkey = '')
       if cache
-        Rails.cache.fetch(cache_key+subkey, :expires_in => cache_duration) do
+        Rails.cache.fetch(cache_key + subkey, :expires_in => cache_duration) do
           yield
         end
       else

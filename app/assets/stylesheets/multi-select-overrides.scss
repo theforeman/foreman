@@ -1,0 +1,41 @@
+.ms-container {
+  width: 520px;
+
+  .ms-list {
+    border-radius: 0;
+  }
+
+  .ms-selectable li.ms-elem-selectable,
+  .ms-selection li.ms-elem-selection {
+    padding: 5px 10px;
+    font-size: 12px;
+    display: table;
+    white-space: nowrap;
+    min-width: 100%;
+  }
+
+  .ms-header {
+    padding: 4px 10px;
+    border: 1px solid #d1d1d1;
+    background: linear-gradient(to bottom, #f9f9f9, #ededed);
+    background-clip: padding-box;
+
+    .ms-filter {
+      width: 140px;
+    }
+
+    .form-control + .glyphicon {
+      padding: 0;
+      line-height: 20px;
+      position: relative;
+    }
+  }
+
+  .ms-select-all,
+  .ms-select-all:hover,
+  .ms-deselect-all,
+  .ms-deselect-all:hover {
+    text-decoration: none;
+    margin-top: 3px !important;
+  }
+}

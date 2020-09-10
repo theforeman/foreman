@@ -1,3 +1,23 @@
-<% title _("New compute profile on %s") % @set.compute_resource.to_label %>
+<%= breadcrumbs(
+    items:
+    [
+      {
+        caption: _("Compute Resources"),
+        url: (compute_resources_path if authorized_for(hash_for_compute_resources_path))
+      },
+      {
+        caption: @set.compute_resource.to_label,
+        url: (compute_resource_path(@set.compute_resource) if authorized_for(hash_for_compute_resource_path(@set.compute_resource)))
+      },
+      {
+        caption: _("Compute Profiles"),
+        url: (compute_profiles_path if authorized_for(hash_for_compute_profiles_path))
+      },
+      {
+        caption: _('New %s' % @set.compute_profile.to_label)
+      }
+    ]
+  )
+%>
 
 <%= render 'form' %>

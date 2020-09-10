@@ -3,53 +3,85 @@ manager:
   name: Manager
   id: "1"
   builtin: "0"
+  origin: foreman
 
 edit_partition_tables:
   name: Edit partition tables
   id: "2"
   builtin: "0"
+  origin: foreman
 
 view_hosts:
   name: View hosts
   id: "3"
   builtin: "0"
+  origin: foreman
 
 edit_hosts:
   name: Edit hosts
   id: "4"
   builtin: "0"
+  origin: foreman
 
 viewer:
   name: Viewer
   id: "5"
   builtin: "0"
+  origin: foreman
 
 default_role:
   name: Default role
   id: "7"
   builtin: "2"
+  origin: foreman
 
 destroy_hosts:
   name: Destroy hosts
   id: "8"
   builtin: "0"
+  origin: ""
 
 create_hosts:
   name: Create hosts
   id: "9"
   builtin: "0"
+  origin: ""
 
 none_compute_resources:
   name: No rights
   id: "10"
   builtin: "0"
+  origin: ""
 
 manage_compute_resources:
   name: View compute resources
   id: "11"
   builtin: "0"
+  origin: ""
 
 manage_hosts:
   name: CRUD hosts
   id: "12"
   builtin: "0"
+  origin: ""
+
+organization_admin:
+  name: Organization admin
+  id: "13"
+  builtin: "0"
+  origin: foreman
+
+system_admin:
+  name: System admin
+  id: "14"
+  builtin: "0"
+  origin: foreman
+
+<% Foreman::Plugin.all.map do |plugin| %>
+<% plugin.default_roles.each do |role_name, permissions| %>
+<%= role_name.tr(' ', '_').scan(/[a-z_]/i).join %>:
+  name: "<%= role_name %>"
+  builtin: "0"
+  origin: "<%= plugin.id %>"
+<% end %>
+<% end %>

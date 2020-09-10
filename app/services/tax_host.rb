@@ -25,13 +25,13 @@ class TaxHost
   def selected_ids
     return @selected_ids if @selected_ids
     ids = default_ids_hash
-    #types NOT ignored - get ids that are selected
-    (taxonomy.taxable_taxonomies - taxonomy.ignore_types).group_by { |d| d[:taxable_type] }.map do |k, v|
-      ids["#{k.tableize.singularize}_ids"] = v.map { |i| i[:taxable_id] }
+    # types NOT ignored - get ids that are selected
+    hash_keys.each do |col|
+      ids[col] = Array(taxonomy.send(col)).uniq
     end
-    #types that ARE ignored - get ALL ids for object
+    # types that ARE ignored - get ALL ids for object
     Array(taxonomy.ignore_types).each do |taxonomy_type|
-      ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id)
+      ids["#{taxonomy_type.tableize.singularize}_ids"] = taxonomy_type.constantize.pluck(:id).uniq
     end
 
     ids["#{opposite_taxonomy_type}_ids"] = Array(taxonomy.send("#{opposite_taxonomy_type}_ids"))
@@ -111,13 +111,13 @@ class TaxHost
     need_to_be_selected_ids.each do |key, values|
       taxable_type = hash_key_to_class(key)
       values.each do |v|
-        #TODO: use IN (ids) instead of find per id
+        # TODO: use IN (ids) instead of find per id
         taxable_record = taxable_type.constantize.find(v)
         mismatches << { :taxonomy_id   => taxonomy.id,
                         :taxonomy_name => taxonomy.name,
                         :taxonomy_type => taxonomy.class.to_s,
                         :taxable_value => taxable_record.name,
-                        :taxable_type  => taxable_type
+                        :taxable_type  => taxable_type,
         }
       end
     end
@@ -130,13 +130,13 @@ class TaxHost
       taxable_type = hash_key_to_class(key)
       unless array_values.empty?
         found_orphan = true
-        taxonomy.errors.add(taxable_type.tableize, _("you cannot remove %s that are used by hosts or inherited.") % taxable_type.tableize.humanize.downcase)
+        taxonomy.errors.add(taxable_type.tableize, _("expecting %s used by hosts or inherited (check mismatches report).") % _(taxable_type.tableize.humanize.downcase))
       end
     end
     !found_orphan
   end
 
-  def non_inherited_ids(v1 = self.selected_ids, v2 = self.inherited_ids)
+  def non_inherited_ids(v1 = selected_ids, v2 = inherited_ids)
     substract_deep_hashes(v1, v2)
   end
 
@@ -154,9 +154,9 @@ class TaxHost
 
   # populate used_ids for 3 non-standard_id's
   def user_ids
-    @user_ids ||= User.unscoped.except_admin.
+    @user_ids ||= User.unscoped.distinct.except_admin.
       eager_load(:direct_hosts).where(:hosts => { :id => hosts.map(&:id) }).
-      pluck('DISTINCT users.id')
+      pluck(:id)
   end
 
   def provisioning_template_ids
@@ -164,7 +164,7 @@ class TaxHost
   end
 
   def smart_proxy_ids
-    @smart_proxy_ids ||= SmartProxy.smart_proxy_ids_for(hosts)
+    @smart_proxy_ids ||= Host.smart_proxy_ids(hosts)
   end
 
   # helpers
@@ -197,7 +197,7 @@ class TaxHost
   end
 
   def union_deep_hashes(h1, h2)
-    h1.merge!(h2) {|k, v1, v2| v1.is_a?(Array) && v2.is_a?(Array) ? v1 | v2 : v1 }
+    h1.merge!(h2) { |k, v1, v2| (v1.is_a?(Array) && v2.is_a?(Array)) ? v1 | v2 : v1 }
   end
 
   def substract_deep_hashes(h1, h2)
@@ -213,7 +213,7 @@ class TaxHost
   def default_ids_hash(populate_values = false)
     ids = HashWithIndifferentAccess.new
     hash_keys.each do |col|
-      ids[col] = populate_values ? Array(self.send(col)) : []
+      ids[col] = populate_values ? Array(send(col)).uniq : []
     end
     ids
   end

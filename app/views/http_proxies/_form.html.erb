@@ -1,0 +1,37 @@
+<%= alert :header => '', :class => 'alert-warning', :close => false,
+          :text => _("Please note that these HTTP proxy configurations are only used for requests
+                      from Foreman or Foreman plugins. System-wide proxies must be configured at operating system level.") %>
+
+<%= form_for @http_proxy, :url => (@http_proxy.new_record? ? http_proxies_path : http_proxy_path(:id => @http_proxy)) do |f| %>
+  <%= base_errors_for @http_proxy %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("HTTP Proxy") %></a></li>
+
+    <% if show_location_tab? %>
+      <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+    <% end %>
+    <% if show_organization_tab? %>
+      <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f   f, :name %>
+      <%= text_f   f, :url, :help_inline => _("URL of the proxy including schema (https://proxy.example.com:8080)") %>
+      <%= text_f   f, :username, :help_inline => _("Username to use if authentication is required.") %>
+      <%= password_f   f, :password, :help_inline => _("Password to use if authentication is required."), :unset => true %>
+
+      <%= text_f   f, :test_url, :value => "https://aws.amazon.com", :name => "test_url", :label => _("Test URL"),
+                   :help_inline => spinner_button_f(f, 'Test Connection', "tfm.httpProxies.testConnection(this, '#{test_connection_http_proxies_path}')",
+                                                     :id => 'test_connection_button',
+                                                     :spinner_id => 'test_connection_indicator',
+                                                     :class => 'btn-default',
+                                                     :spinner_class => nil) %>
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @http_proxy %>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

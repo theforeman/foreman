@@ -1,9 +1,9 @@
-<%= javascript 'compute_resource' %>
 <% title @compute_resource.name %>
 
 <% title_actions display_link_if_authorized(_("Associate VMs"),
                                             hash_for_associate_compute_resource_path(:compute_resource_id => @compute_resource).merge(:auth_object => @compute_resource, :permission => 'edit_compute_resources'),
                                             :title => _("Associate VMs to Foreman hosts"), :method => :put, :class=>"btn btn-default"),
+(display_link_if_authorized(_('Refresh Cache'), hash_for_refresh_cache_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource, :permission => 'view_compute_resources'), :method => :put, :class => "btn btn-default") if @compute_resource.respond_to?(:refresh_cache) && @compute_resource.caching_enabled),
    link_to_if_authorized(_('Edit'), hash_for_edit_compute_resource_path(@compute_resource).merge(:auth_object => @compute_resource), :class => "btn btn-default")  %>
 
 <ul class="nav nav-tabs" data-tabs="tabs">
@@ -12,7 +12,11 @@
   <% if @compute_resource.capabilities.include?(:image) %>
     <li><a href="#images" data-toggle="tab"><%= _("Images") %></a></li>
   <% end %>
-    <li><a href="#compute_profiles" data-toggle="tab"><%= _("Compute profiles") %></a></li>
+  <% if @compute_resource.capabilities.include?(:key_pair) %>
+    <li><a href="#key_pairs" data-toggle="tab"><%= _("SSH keys") %></a></li>
+  <% end %>
+  <li><a href="#compute_profiles" data-toggle="tab"><%= _("Compute profiles") %></a></li>
+  <%= render_tab_header_for(:main_tabs, :subject => @compute_resource) %>
 </ul>
 
 <div class="tab-content">
@@ -44,14 +48,21 @@
   </div>
   <% if @compute_resource.capabilities.include?(:image) %>
     <div id="images" class="tab-pane">
-      <%= title_actions(new_link(_("New Image"), { :compute_resource_id => @compute_resource.id, :controller => :images }, { :data=>{:target=>"full-page"} })) %>
-      <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource) %>>
+      <%= title_actions(new_link(_("Create Image"), { :compute_resource_id => @compute_resource.id, :controller => :images }, { :data=>{:target=>"full-page"} })) %>
+      <div id="images_list" data-url=<%= compute_resource_images_path(@compute_resource, { :partial => true }) %>>
         <%= spinner(_('Loading images information ...')) %>
       </div>
     </div>
   <% end %>
+  <% if @compute_resource.capabilities.include?(:key_pair) %>
+    <div id="key_pairs" class="tab-pane">
+      <div id="key_pairs_list" data-url=<%= compute_resource_key_pairs_path(@compute_resource) %>>
+        <%= spinner(_('Loading SSH keys information ...')) %>
+      </div>
+    </div>
+  <% end %>
   <div id="compute_profiles" class="tab-pane">
-    <table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+    <table class="<%= table_css_classes 'table-fixed' %>">
       <thead>
         <tr>
           <th class="col-md-8"><%= _("Compute profile") %></th>
@@ -67,7 +78,7 @@
                             new_compute_profile_compute_resource_compute_attribute_path(compute_profile.to_param, @compute_resource.to_param)
                           end %>
           <tr>
-            <td class="ellipsis"><%= link_to(compute_profile.name, which_path, :class => compute_attribute.try(:id) ? '' : 'new_two_pane') %></td>
+            <td class="ellipsis"><%= link_to(compute_profile.name, which_path) %></td>
             <td>
               <% set = @compute_resource.compute_attributes.where(:compute_profile_id => compute_profile.id).first %>
               <%= set ? set.name : content_tag(:span, _("unspecified"), :class => 'gray') %>
@@ -77,4 +88,5 @@
       </tbody>
     </table>
   </div>
+  <%= render_tab_content_for(:main_tabs, :subject => @compute_resource) %>
 </div>

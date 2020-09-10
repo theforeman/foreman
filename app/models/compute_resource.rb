@@ -1,33 +1,35 @@
-class ComputeResource < ActiveRecord::Base
+class ComputeResource < ApplicationRecord
+  audited :except => [:attrs]
   include Taxonomix
   include Encryptable
   include Authorizable
   include Parameterizable::ByIdName
   encrypts :password
 
+  ALLOWED_KEYBOARD_LAYOUTS = %w(ar de-ch es fo fr-ca hu ja mk no pt-br sv da en-gb et fr fr-ch is lt nl pl ru th de en-us fi fr-be hr it lv nl-be pt sl tr)
+
   validates_lengths_from_database
 
-  audited :except => [:password, :attrs]
   serialize :attrs, Hash
-  has_many :trends, :as => :trendable, :class_name => "ForemanTrend"
+  belongs_to :http_proxy
 
   before_destroy EnsureNotUsedBy.new(:hosts)
   validates :name, :presence => true, :uniqueness => true
   validate :ensure_provider_not_changed, :on => :update
-  validates :provider, :presence => true, :inclusion => { :in => proc { self.providers } }
-  validates :url, :presence => true
+  validates :provider, :presence => true, :inclusion => { :in => proc { providers } }
   scoped_search :on => :name, :complete_value => :true
   scoped_search :on => :type, :complete_value => :true
-  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true
+  scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   before_save :sanitize_url
   has_many_hosts
+  has_many :hostgroups, :dependent => :nullify
   has_many :images, :dependent => :destroy
   before_validation :set_attributes_hash
   has_many :compute_attributes, :dependent => :destroy
   has_many :compute_profiles, :through => :compute_attributes
 
   # The DB may contain compute resource from disabled plugins - filter them out here
-  scope :live_descendants, -> { where(:type => self.descendants.map(&:to_s)) unless Rails.env.development? }
+  scope :live_descendants, -> { where(:type => descendants.map(&:to_s)) unless Rails.env.development? }
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -37,6 +39,8 @@ class ComputeResource < ActiveRecord::Base
     end
   }
 
+  graphql_type '::Types::ComputeResource'
+
   def self.supported_providers
     {
       'Libvirt'   => 'Foreman::Model::Libvirt',
@@ -44,15 +48,13 @@ class ComputeResource < ActiveRecord::Base
       'EC2'       => 'Foreman::Model::EC2',
       'Vmware'    => 'Foreman::Model::Vmware',
       'Openstack' => 'Foreman::Model::Openstack',
-      'Rackspace' => 'Foreman::Model::Rackspace',
-      'GCE'       => 'Foreman::Model::GCE'
+      'GCE'       => 'Foreman::Model::GCE',
     }
   end
 
   def self.registered_providers
-    Foreman::Plugin.all.map(&:compute_resources).inject({}) do |prov_hash, providers|
+    Foreman::Plugin.all.map(&:compute_resources).each_with_object({}) do |providers, prov_hash|
       providers.each { |provider| prov_hash.update(provider.split('::').last => provider) }
-      prov_hash
     end
   end
 
@@ -73,6 +75,10 @@ class ComputeResource < ActiveRecord::Base
     end
   end
 
+  def self.providers_requiring_url
+    _("Libvirt, oVirt and OpenStack")
+  end
+
   def self.provider_class(name)
     all_providers[name]
   end
@@ -81,7 +87,7 @@ class ComputeResource < ActiveRecord::Base
   def self.new_provider(args)
     provider = args.delete(:provider)
     raise ::Foreman::Exception.new(N_("must provide a provider")) unless provider
-    self.providers.each do |provider_name, provider_class|
+    providers.each do |provider_name, provider_class|
       return provider_class.constantize.new(args) if provider_name.downcase == provider.downcase
     end
     raise ::Foreman::Exception.new N_("unknown provider")
@@ -89,6 +95,10 @@ class ComputeResource < ActiveRecord::Base
 
   def capabilities
     []
+  end
+
+  def capable?(feature)
+    capabilities.include?(feature)
   end
 
   # attributes that this provider can provide back to the host object
@@ -115,9 +125,13 @@ class ComputeResource < ActiveRecord::Base
     "#{name} (#{provider_friendly_name})"
   end
 
+  def connection_options
+    http_proxy ? {:proxy => http_proxy.full_url} : {}
+  end
+
   # Override this method to specify provider name
   def self.provider_friendly_name
-    self.name.split('::').last()
+    name.split('::').last()
   end
 
   def provider_friendly_name
@@ -127,12 +141,13 @@ class ComputeResource < ActiveRecord::Base
   def host_compute_attrs(host)
     { :name => host.vm_name,
       :provision_method => host.provision_method,
+      :firmware_type => host.firmware_type,
       "#{interfaces_attrs_name}_attributes" => host_interfaces_attrs(host) }.with_indifferent_access
   end
 
   def host_interfaces_attrs(host)
     host.interfaces.select(&:physical?).each.with_index.reduce({}) do |hash, (nic, index)|
-      hash.merge(index.to_s => nic.compute_attributes)
+      hash.merge(index.to_s => nic.compute_attributes.merge(ip: nic.ip, ip6: nic.ip6))
     end
   end
 
@@ -156,8 +171,8 @@ class ComputeResource < ActiveRecord::Base
   end
 
   # return a list of virtual machines
-  def vms(opts = {})
-    client.servers
+  def vms(attrs = {})
+    client.servers(attrs)
   end
 
   def supports_vms_pagination?
@@ -190,14 +205,14 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def provider
-    read_attribute(:type).to_s.split('::').last
+    self[:type].to_s.split('::').last
   end
 
   def provider=(value)
     if self.class.providers.include? value
       self.type = self.class.provider_class(value)
     else
-      self.type = value #this will trigger validation error since value is one of supported_providers
+      self.type = value # this will trigger validation error since value is one of supported_providers
       logger.debug("unknown provider for compute resource")
     end
   end
@@ -209,13 +224,17 @@ class ComputeResource < ActiveRecord::Base
   def templates(opts = {})
   end
 
-  def template(id,opts = {})
+  def template(id, opts = {})
   end
 
   def update_required?(old_attrs, new_attrs)
-    old_attrs.merge(new_attrs) do |k,old_v,new_v|
-      update_required?(old_v, new_v) if old_v.is_a?(Hash)
-      return true unless old_v == new_v
+    old_attrs.deep_symbolize_keys.merge(new_attrs.deep_symbolize_keys) do |k, old_v, new_v|
+      if old_v.is_a?(Hash) && new_v.is_a?(Hash)
+        return true if update_required?(old_v, new_v)
+      elsif old_v.to_s != new_v.to_s
+        Rails.logger.debug "Scheduling compute instance update because #{k} changed it's value from '#{old_v}' (#{old_v.class}) to '#{new_v}' (#{new_v.class})"
+        return true
+      end
       new_v
     end
     false
@@ -230,6 +249,14 @@ class ComputeResource < ActiveRecord::Base
     false
   end
 
+  def storage_domain(storage_domain)
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def storage_pod(storage_pod)
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
   def available_zones
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
@@ -238,7 +265,11 @@ class ComputeResource < ActiveRecord::Base
     []
   end
 
-  def available_networks
+  def available_virtual_machines
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  def available_networks(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
@@ -262,12 +293,23 @@ class ComputeResource < ActiveRecord::Base
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_storage_domains(storage_domain = nil)
+  def available_storage_domains(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
   end
 
-  def available_storage_pods(storage_pod = nil)
+  def available_storage_pods(cluster_id = nil)
     raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  # if this method is overridden in a provider, new_volume_errors should be also overridden
+  # method should return nil in case it can't build new volume because of some misconfiguration or runtime issue
+  def new_volume(attr = {})
+    raise ::Foreman::Exception.new(N_("Not implemented for %s"), provider_friendly_name)
+  end
+
+  # returs an array of translated errors that prevents to build a volume on this provider
+  def new_volume_errors
+    []
   end
 
   # this method is overwritten for Libvirt and OVirt
@@ -283,16 +325,29 @@ class ComputeResource < ActiveRecord::Base
 
   # this method is overwritten for Libvirt and VMware
   def set_console_password=(setpw)
-    self.attrs[:setpw] = nil
+    attrs[:setpw] = nil
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt, oVirt & VMWare
   def display_type=(_)
   end
 
-  # this method is overwritten for Libvirt
+  # this method is overwritten for Libvirt, oVirt & VMWare
   def display_type
     nil
+  end
+
+  # this method is overwritten for oVirt
+  def keyboard_layout=(_)
+  end
+
+  # this method is overwritten for oVirt
+  def keyboard_layout
+    nil
+  end
+
+  def keyboard_layouts
+    ALLOWED_KEYBOARD_LAYOUTS
   end
 
   def compute_profile_for(id)
@@ -305,17 +360,24 @@ class ComputeResource < ActiveRecord::Base
 
   def vm_compute_attributes_for(uuid)
     vm = find_vm_by_uuid(uuid)
-    vm_attrs = vm.attributes rescue {}
-    vm_attrs = vm_attrs.reject{|k,v| k == :id }
-
-    if vm.respond_to?(:volumes)
-      volumes = vm.volumes || []
-      vm_attrs[:volumes_attributes] = Hash[volumes.each_with_index.map { |volume, idx| [idx.to_s, volume.attributes] }]
-    end
-    vm_attrs
+    return {} unless vm
+    vm_compute_attributes(vm)
   rescue ActiveRecord::RecordNotFound
     logger.warn("VM with UUID '#{uuid}' not found on #{self}")
     {}
+  end
+
+  def vm_compute_attributes(vm)
+    vm_attrs = vm.attributes rescue {}
+    vm_attrs = vm_attrs.reject { |k, v| k == :id }
+
+    vm_attrs = set_vm_volumes_attributes(vm, vm_attrs)
+    vm_attrs = set_vm_interfaces_attributes(vm, vm_attrs)
+    vm_attrs
+  end
+
+  def vm_ready(vm)
+    vm.wait_for { ready? }
   end
 
   def user_data_supported?
@@ -326,14 +388,36 @@ class ComputeResource < ActiveRecord::Base
     true
   end
 
+  def supports_host_association?
+    respond_to?(:associated_host)
+  end
+
+  def normalize_vm_attrs(vm_attrs)
+    vm_attrs
+  end
+
   protected
+
+  def memory_gb_to_bytes(memory_size)
+    memory_size.to_s.gsub(/[^0-9]/, '').to_i * 1.gigabyte
+  end
+
+  def to_bool(value)
+    ['1', 'true'].include?(value.to_s.downcase) unless value.nil?
+  end
+
+  def slice_vm_attributes(vm_attrs, fields)
+    fields.inject({}) do |slice, f|
+      slice.merge({f => (vm_attrs[f].to_s.empty? ? nil : vm_attrs[f])})
+    end
+  end
 
   def client
     raise ::Foreman::Exception.new N_("Not implemented")
   end
 
   def sanitize_url
-    self.url.chomp!("/") unless url.empty?
+    self.url = url.chomp("/") unless url.empty?
   end
 
   def random_password
@@ -343,12 +427,14 @@ class ComputeResource < ActiveRecord::Base
 
   def nested_attributes_for(type, opts)
     return [] unless opts
-    opts = opts.dup #duplicate to prevent changing the origin opts.
+    opts = opts.to_hash if opts.class == ActionController::Parameters
+
+    opts = opts.dup # duplicate to prevent changing the origin opts.
     opts.delete("new_#{type}") || opts.delete("new_#{type}".to_sym) # delete template
     # convert our options hash into a sorted array (e.g. to preserve nic / disks order)
-    opts = opts.sort { |l, r| l[0].to_s.sub('new_','').to_i <=> r[0].to_s.sub('new_','').to_i }.map { |e| Hash[e[1]] }
+    opts = opts.sort { |l, r| l[0].to_s.sub('new_', '').to_i <=> r[0].to_s.sub('new_', '').to_i }.map { |e| Hash[e[1]] }
     opts.map do |v|
-      if v[:"_delete"] == '1' && v[:id].blank?
+      if v[:_delete] == '1' && v[:id].blank?
         nil
       else
         v.deep_symbolize_keys # convert to symbols deeper hashes
@@ -357,6 +443,7 @@ class ComputeResource < ActiveRecord::Base
   end
 
   def associate_by(name, attributes)
+    attributes = Array.wrap(attributes).map { |mac| Net::Validations.normalize_mac(mac) } if name == 'mac'
     Host.authorized(:view_hosts, Host).joins(:primary_interface).
       where(:nics => {:primary => true}).
       where("nics.#{name}" => attributes).
@@ -366,11 +453,23 @@ class ComputeResource < ActiveRecord::Base
 
   private
 
+  def set_vm_volumes_attributes(vm, vm_attrs)
+    if vm.respond_to?(:volumes)
+      volumes = vm.volumes || []
+      vm_attrs[:volumes_attributes] = Hash[volumes.each_with_index.map { |volume, idx| [idx.to_s, volume.attributes] }]
+    end
+    vm_attrs
+  end
+
   def set_attributes_hash
     self.attrs ||= {}
   end
 
   def ensure_provider_not_changed
-    errors.add(:provider, _("cannot be changed")) if self.type_changed?
+    errors.add(:provider, _("cannot be changed")) if type_changed?
+  end
+
+  def set_vm_interfaces_attributes(_vm, vm_attrs)
+    vm_attrs
   end
 end

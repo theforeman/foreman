@@ -1,17 +1,17 @@
 <% title _("Provisioning Templates") %>
 
-<% title_actions new_link(_("New Template")),
+<% title_actions new_link(_("Create Template")),
                  display_link_if_authorized(_("Build PXE Default"), { :controller => 'provisioning_templates', :action => :build_pxe_default },{
-                   :confirm => _("You are about to change the default PXE menu on all configured TFTP servers - continue?"),
-                   :class => "btn btn-info"}),
+                   :data => {:confirm => _("You are about to change the default PXE menu on all configured TFTP servers - continue?")},
+                   :class => "btn btn-default"}),
                 documentation_button('4.4.3ProvisioningTemplates')
 %>
 
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-3"><%= sort :name, :as => s_("ProvisioningTemplate|Name") %></th>
-      <th class="col-md-4"><%= _("Host group / Environment") %></th>
+      <th class="col-md-4"><%= _("Host Group / Environment") %></th>
       <th class="col-md-2"><%= sort :kind, :as => _("Kind") %></th>
       <th class="col-md-1"><%= sort :snippet, :as => s_("ProvisioningTemplate|Snippet") %></th>
       <th class="col-md-1"><%= sort :locked, :as => s_("ProvisioningTemplate|Locked"), :default => "DESC" %></th>
@@ -21,13 +21,17 @@
   <tbody>
     <% for provisioning_template in @templates %>
     <tr>
-        <td class="display-two-pane ellipsis"><%= link_to_if_authorized provisioning_template,
+        <td class="ellipsis"><%= link_to_if_authorized provisioning_template,
                                          hash_for_edit_provisioning_template_path(:id => provisioning_template.to_param).
                                          merge(:auth_object => provisioning_template, :authorizer => authorizer,
                                          :permission => 'edit_provisioning_templates') %>
         </td>
         <td class="ellipsis"><%= combination provisioning_template %></td>
-        <td><%= provisioning_template.try(:template_kind) %></td>
+        <td>
+          <% if (tmpl = provisioning_template.try(:template_kind)) %>
+            <%= link_to tmpl, provisioning_templates_path(:search => "kind = #{tmpl.name}"), :title => "#{TemplateKind.default_template_descriptions[tmpl.name]}" %>
+          <% end %>
+        </td>
         <td align='center'><%= checked_icon provisioning_template.snippet %></td>
         <td align='center'><%= locked_icon provisioning_template.locked?, _("This template is locked for editing.") %>
         </td>

@@ -1,4 +1,4 @@
-class FakeSetting < ActiveRecord::Base
+class FakeSetting < ApplicationRecord
   self.table_name = 'settings'
 
   def default=(v)
@@ -16,7 +16,7 @@ class FakeSetting < ActiveRecord::Base
   end
 end
 
-class MigrateWebsocketsSetting < ActiveRecord::Migration
+class MigrateWebsocketsSetting < ActiveRecord::Migration[4.2]
   def up
     return unless (encrypt = FakeSetting.find_by_name("websockets_encrypt"))
     encrypt.settings_type = "boolean"

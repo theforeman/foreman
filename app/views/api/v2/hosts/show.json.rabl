@@ -2,16 +2,8 @@ object @host
 
 extends "api/v2/hosts/main"
 
-node do |host|
-  { :parameters => partial("api/v2/parameters/base", :object => host.host_parameters.authorized) }
-end
-
-node do |host|
-  { :all_parameters => partial("api/v2/parameters/base", :object => host.host_params_objects) }
-end
-
 child :interfaces => :interfaces do
-  extends "api/v2/interfaces/base"
+  extends "api/v2/interfaces/main"
 end
 
 child :puppetclasses do
@@ -34,8 +26,7 @@ end
 
 node :permissions do |host|
   authorizer = Authorizer.new(User.current)
-  Permission.where(:resource_type => "Host").all.inject({}) do |hash, permission|
+  Permission.where(:resource_type => "Host").all.each_with_object({}) do |permission, hash|
     hash[permission.name] = authorizer.can?(permission.name, host, false)
-    hash
   end
 end

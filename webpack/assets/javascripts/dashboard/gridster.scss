@@ -1,0 +1,56 @@
+$row-height: 340px;
+$row-margin: 10px;
+
+.gridster ul {
+  padding-left: 0;
+  list-style: none;
+  max-width: 100%;
+  margin: 0 auto;
+
+  @media (min-width: 992px) {
+    @for $i from 1 through 12 {
+      [data-col="#{$i}"] {
+        left: #{percentage(($i - 1) / 12) + 1};
+      }
+
+      [data-sizex="#{$i}"] {
+        width: #{percentage($i / 12) - 1};
+      }
+
+      [data-sizey="#{$i}"] {
+        height: $row-height * $i + $row-margin * ($i - 1);
+      }
+    }
+
+    @for $i from 1 through 30 {
+      [data-row="#{$i}"] {
+        top: $row-height * ($i - 1) + ($i * 2 - 1) * $row-margin;
+      }
+    }
+
+    [data-col="1"] {
+      left: 0;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .gs-w:not(.preview-holder) {
+      position: relative !important;
+      margin: $row-margin 0;
+    }
+  }
+
+  .preview-holder {
+    background-color: #00618a;
+  }
+
+  .gs-w {
+    padding: 19px;
+    border: 1px solid #e3e3e3;
+    background-color: rgba(255, 255, 255, 0.5);
+
+    &:hover {
+      border: 1px solid #00618a;
+    }
+  }
+}

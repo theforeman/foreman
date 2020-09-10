@@ -1,4 +1,4 @@
-class AddEnabledToHosts < ActiveRecord::Migration
+class AddEnabledToHosts < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :enabled, :boolean, :default => true
   end

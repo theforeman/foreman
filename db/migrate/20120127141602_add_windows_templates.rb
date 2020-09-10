@@ -1,4 +1,4 @@
-class AddWindowsTemplates < ActiveRecord::Migration
+class AddWindowsTemplates < ActiveRecord::Migration[4.2]
   def up
   end
 

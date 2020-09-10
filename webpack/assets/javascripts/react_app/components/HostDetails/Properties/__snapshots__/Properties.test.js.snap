@@ -1,0 +1,232 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HostDetails - Interfaces should render UserProfile 1`] = `
+<Card
+  isHoverable={true}
+>
+  <DataList
+    aria-label="Host Properties"
+    isCompact={true}
+  >
+    <DataListItem
+      aria-labelledby="name"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell>
+                <span>
+                   
+                  Operating System
+                </span>
+              </DataListCell>,
+              <DataListCell>
+                windows 3.11
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="domain"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                isFilled={true}
+              >
+                <span>
+                  Domain
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                altavista
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="architecutre"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <span
+                  id="simple-item2"
+                >
+                  Architecture
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                x16
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="ip"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <span
+                  id="simple-item2"
+                >
+                  IP Address
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                0.0.0.1
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="ip6"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <span>
+                  IP6 Address
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <G
+                  circle={false}
+                  count={1}
+                  duration={1.2}
+                  height={null}
+                  width={null}
+                  wrapper={null}
+                />
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="mac"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <span
+                  id="simple-item2"
+                >
+                  MAC
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                00:0a:95:9d:68:16
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="location"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <span
+                  id="simple-item2"
+                >
+                  Location
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                Beverly Hills
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+    <DataListItem
+      aria-labelledby="organization"
+    >
+      <DataListItemRow>
+        <DataListItemCells
+          dataListCells={
+            Array [
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                <span
+                  id="simple-item2"
+                >
+                  Organization
+                </span>
+              </DataListCell>,
+              <DataListCell
+                alignRight={true}
+                isFilled={true}
+              >
+                90210
+              </DataListCell>,
+            ]
+          }
+        />
+      </DataListItemRow>
+    </DataListItem>
+  </DataList>
+</Card>
+`;

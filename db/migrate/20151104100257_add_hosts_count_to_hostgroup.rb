@@ -1,9 +1,6 @@
-class AddHostsCountToHostgroup < ActiveRecord::Migration
+class AddHostsCountToHostgroup < ActiveRecord::Migration[4.2]
   def up
     add_column :hostgroups, :hosts_count, :integer, :default => 0
-    Hostgroup.all.each do |hg|
-      Hostgroup.reset_counters(hg.id, :hosts)
-    end
   end
 
   def down

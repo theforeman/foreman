@@ -1,0 +1,12 @@
+<tr>
+  <td class="ellipsis">
+    <%= key.name %>
+  </td>
+  <td class="hidden-xs ellipsis"><%= key.fingerprint %></td>
+  <td class="hidden-xs"><%= key.length %></td>
+  <td title="<%= key.created_at.to_s(:long) %>"><%= _("%s ago") % time_ago_in_words(key.created_at) %></td>
+  <td>
+    <%= action_buttons(
+      (display_delete_if_authorized(hash_for_user_ssh_key_path(:user_id => @user, :id => key)))
+    ) %>
+</tr>

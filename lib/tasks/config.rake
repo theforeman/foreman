@@ -26,26 +26,26 @@ task :config => :environment do
 
     def parser
       OptionParser.new do |opt|
-        opt.banner = <<BANNER
-Get or set the Foremen settings.
+        opt.banner = <<~BANNER
+          Get or set the Foremen settings.
 
-Options:
-BANNER
+          Options:
+        BANNER
         opt.on("-k",
-               "--key KEY",
-               "If not specified, all keys are displayed") do |val|
+          "--key KEY",
+          "If not specified, all keys are displayed") do |val|
           @key = val
         end
 
         opt.on("-v",
-               "--value VALUE",
-               "Set the value. The key must be specified. Complex values (hashes, arrays) are expected to be JSON encoded.") do |val|
+          "--value VALUE",
+          "Set the value. The key must be specified. Complex values (hashes, arrays) are expected to be JSON encoded.") do |val|
           set_options_key_value(val)
         end
 
         opt.on("-u",
-               "--unset",
-               "Unset the key. The key must be specified") do
+          "--unset",
+          "Unset the key. The key must be specified") do
           set_options_key_value(:unset)
         end
 
@@ -55,8 +55,8 @@ BANNER
         end
 
         opt.on("-n",
-               "--dry-run",
-               "Don't change thd configuration. Success if no change is needed.") do
+          "--dry-run",
+          "Don't change thd configuration. Success if no change is needed.") do
           @dry = true
         end
       end
@@ -67,7 +67,7 @@ BANNER
       parser.parse!(args)
 
       if @key && @key_values.any?
-        puts "Missing value for key '#{ @key }'"
+        puts "Missing value for key '#{@key}'"
         exit 2
       end
 
@@ -101,12 +101,12 @@ BANNER
         value = @key_values[key]
         setting = Setting.find_by_name(key)
         if value == :unset
-          value = nil
+          setting.value = nil
         elsif complex_type?(setting.settings_type)
           setting.value = typecast_value(setting.settings_type, value)
         else
           parse_and_set_string(setting, value)
-       end
+        end
 
         validate_and_save(setting)
       end
@@ -172,6 +172,13 @@ end
 # of not installing with installer, we want to ensure the settings to false
 # at the end of the seeding
 Rake::Task['db:seed'].enhance do
-  Setting['db_pending_migration'] = false
-  Setting['db_pending_seed'] = false
+  %w(db_pending_migration db_pending_seed).each do |setting_name|
+    if !Setting[setting_name].nil?
+      Setting[setting_name] = false
+    else
+      setting = Setting::General.default_settings.detect { |s| s[:name] == setting_name }
+      setting[:value] = false
+      Setting.create! setting.update(:category => "Setting::General")
+    end
+  end
 end

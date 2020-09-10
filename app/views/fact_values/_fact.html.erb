@@ -9,10 +9,12 @@
       </td>
   <% end %>
   <td>
-    <%= fact_name(fact, parent) %>
+    <%= popover("", escaped_warning_context, {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.name) %>
+    <%= content_tag(:ol, fact_name(fact, parent), :class => "breadcrumb") %>
   </td>
   <td class="fact-col">
     <% unless fact.compose %>
+      <%= popover("", escaped_warning_context, {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.value) %>
       <% allowed_length = 45 %>
       <%= link_to truncate(fact.value, :length => allowed_length),
                   fact_values_path("search" => "facts.#{fact.name} = \"#{fact.value}\""),
@@ -21,11 +23,17 @@
       <%= show_full_fact_value(fact.value) if fact.value.length > allowed_length %>
     <% end %>
   </td>
+  <td class='fact-origin'><%= fact_origin_icon(fact.origin, fact.icon_path) %></td>
   <td><%= fact_from fact %></td>
   <td><% unless fact.compose %>
-          <%= link_to_function(content_tag(:button, icon_text("adjust", "")),
-                               "get_pie_chart('fact_chart-#{fact.fact_name_id}', '#{fact_path(fact.fact_name_id)}')",
-                               :title => _("Show distribution chart")) %>
+        <%= popover("", "the chart can't display special characters and probably won't be able to redirect you to the right search", {:data => {:title => escaped_warning_title, :placement => "top"}, :icon => "warning-triangle-o", :class => "pull-right" }) if is_escaped_value(fact.value) || is_escaped_value(fact.name) %>
+        <span id="view-fact-chart-<%= fact.id %>"></span>
+        <%= react_component('FactChart', {
+            path: fact_path(fact.fact_name_id),
+            title: fact.fact_name.name,
+            id: fact.id,
+            search: '/hosts?search=facts.' + fact.fact_name.name + '~~VAL1~'
+        }) %>
       <% end %>
   </td>
 </tr>

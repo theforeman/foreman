@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ForemanModal - integration tests should add, open, and close modals as directed by Redux actions: after closing modal1 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "id": "modal1",
+        },
+        "type": "SET_MODAL_CLOSED",
+      },
+    ],
+  ],
+  "state": Object {
+    "foremanModals": Object {
+      "modal1": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+      "modal2": Object {
+        "isOpen": true,
+        "isSubmitting": false,
+      },
+      "modal3": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;
+
+exports[`ForemanModal - integration tests should add, open, and close modals as directed by Redux actions: after opening modal1 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "id": "modal1",
+        },
+        "type": "SET_MODAL_OPEN",
+      },
+    ],
+  ],
+  "state": Object {
+    "foremanModals": Object {
+      "modal1": Object {
+        "isOpen": true,
+        "isSubmitting": false,
+      },
+      "modal2": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+      "modal3": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;
+
+exports[`ForemanModal - integration tests should add, open, and close modals as directed by Redux actions: after opening modal2 1`] = `
+Object {
+  "action": Array [
+    Array [
+      Object {
+        "payload": Object {
+          "id": "modal2",
+        },
+        "type": "SET_MODAL_OPEN",
+      },
+    ],
+  ],
+  "state": Object {
+    "foremanModals": Object {
+      "modal1": Object {
+        "isOpen": true,
+        "isSubmitting": false,
+      },
+      "modal2": Object {
+        "isOpen": true,
+        "isSubmitting": false,
+      },
+      "modal3": Object {
+        "isOpen": false,
+        "isSubmitting": false,
+      },
+    },
+  },
+}
+`;
+
+exports[`ForemanModal - integration tests should add, open, and close modals as directed by Redux actions: initial state 1`] = `
+Object {
+  "foremanModals": Object {},
+}
+`;
+
+exports[`ForemanModal - integration tests should add, open, and close modals as directed by Redux actions: state after adding 3 modals 1`] = `
+Object {
+  "foremanModals": Object {
+    "modal1": Object {
+      "isOpen": false,
+      "isSubmitting": false,
+    },
+    "modal2": Object {
+      "isOpen": false,
+      "isSubmitting": false,
+    },
+    "modal3": Object {
+      "isOpen": false,
+      "isSubmitting": false,
+    },
+  },
+}
+`;

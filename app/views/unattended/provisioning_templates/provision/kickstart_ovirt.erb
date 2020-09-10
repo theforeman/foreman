@@ -1,0 +1,87 @@
+<%#
+kind: provision
+name: Kickstart oVirt-RHVH
+model: ProvisioningTemplate
+oses:
+- oVirt
+- RHVH
+%>
+<%#
+This template accepts the following parameters:
+- liveimg_name: string (default=squashfs.img)
+- lang: string (default="en_US.UTF-8")
+- selinux-mode: string (default="enforcing")
+- keyboard: string (default="us")
+- time-zone: string (default="UTC")
+- ntp-server: string (default="0.fedora.pool.ntp.org")
+- disable-firewall: boolean (default=false)
+
+This kickstart will only work with LVM THIN partitioning ('Kickstart default thin')
+and it requires the installation URL to have squashfs.img image extracted in the
+root folder (or specified via 'liveimg_name' parameter). See oVirt Node documentation
+or RHV Installation Manual, section 5.2. Advanced installation.
+
+By default, the template expects the squashfs.img to be present inside
+the installation media. When using Katello for content management (the
+kt_activation_key parameter is set), the liveimg_name is used to
+specify relative path to the file and the template use repository_url
+helper to generate an absolute path to the file (taking into account
+also info about the content proxy relevant for the host)
+
+For example, in case the squashfs.img is uploaded inside custom
+product named 'oVirt' and repository 'hypervisor', the
+liveimg_name would be 'custom/ovirt/hypervisor/squashfs.img'.
+In this case, this repository would need to be part of the content
+view the host is assigned to. It's also possible to provide full url,
+in which case it would be used without a change.
+%>
+
+# This kickstart file was rendered from the Foreman provisioning template "<%= @template_name %>".
+
+install
+<%
+liveimg_name = host_param('liveimg_name') || 'squashfs.img'
+if host_param('kt_activation_keys')
+  liveimg_url = repository_url(liveimg_name, 'isos')
+else
+  liveimg_url = "#{medium_uri}/#{liveimg_name}"
+end
+%>
+
+liveimg --url=<%= liveimg_url %>
+
+<% subnet = @host.subnet -%>
+<% if subnet.respond_to?(:dhcp_boot_mode?) -%>
+<% dhcp = subnet.dhcp_boot_mode? && !@static -%>
+<% else -%>
+<% dhcp = !@static -%>
+<% end -%>
+network --bootproto <%= dhcp ? 'dhcp' : "static --ip=#{@host.ip} --netmask=#{subnet.mask} --gateway=#{subnet.gateway} --nameserver=#{subnet.dns_servers.join(',')}" %> --hostname <%= @host %> --device=<%= @host.mac -%>
+
+rootpw --iscrypted <%= root_pass %>
+<% if host_param_true?('disable-firewall') -%>
+firewall --disable
+<% else -%>
+firewall --service=ssh
+<% end -%>
+lang <%= host_param('lang') || 'en_US.UTF-8' %>
+timezone --utc <%= host_param('time-zone') || 'UTC' %>
+selinux --<%= host_param('selinux-mode') || host_param('selinux') || 'enforcing' %>
+keyboard <%= host_param('keyboard') || 'us' %>
+services --enabled=sshd
+text
+reboot
+<%= @host.diskLayout %>
+
+%post --log=/root/ks.post.log --erroronfail
+nodectl init
+<%= snippet 'redhat_register' %>
+<%= snippet 'kickstart_networking_setup' %>
+<%= snippet 'efibootmgr_netboot' %>
+/usr/sbin/ntpdate -sub <%= host_param('ntp-server') || '0.fedora.pool.ntp.org' %>
+/usr/sbin/hwclock --systohc
+
+/usr/bin/curl <%= foreman_url('built') %>
+sync
+systemctl reboot
+%end

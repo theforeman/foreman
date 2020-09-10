@@ -1,12 +1,18 @@
-<%= select_f f, :machine_type, compute_resource.flavors, :name, :name, {}, :label => _('Machine type'), :label_size => "col-md-2" %>
-<%
-   arch ||= nil ; os ||= nil
-   images = possible_images(compute_resource, arch, os)
-%>
-<div id='image_selection'>
-  <%= select_f f, :image_id, images, :uuid, :name,
-               { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
-               { :disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2" } %>
-</div>
+<%= select_f f, :machine_type, compute_resource.machine_types, :name, :name,
+			{ :selected => f.object.pretty_machine_type },
+			{ :label => _('Machine type'), :label_size => "col-md-2" } %>
+
+<% if controller_name != "compute_attributes" %>
+	<%
+	  arch ||= nil ; os ||= nil
+	  images = possible_images(compute_resource, arch, os)
+	%>
+	<div id='image_selection'>
+	  <%= select_f f, :image_id, images, :uuid, :name,
+	               { :include_blank => (images.empty? || images.size == 1) ? false : _('Please select an image') },
+	               { :disabled => images.empty?, :label => _('Image'), :label_size => "col-md-2" } %>
+	</div>
+<% end %>
+
 <%= selectable_f f, :network, compute_resource.networks, {}, :label => _('Network'), :label_size => "col-md-2" %>
-<%= checkbox_f f, :external_ip, :label => _('External IP'), :label_size => "col-md-2" %>
+<%= checkbox_f f, :associate_external_ip, :label => _('Associate Ephemeral External IP'), :label_size => "col-md-2" %>

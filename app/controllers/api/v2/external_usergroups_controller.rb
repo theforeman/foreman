@@ -27,7 +27,7 @@ module Api
       def_param_group :external_usergroup do
         param :external_usergroup, Hash, :required => true, :action_aware => true, :desc => N_('External user group information') do
           param :name, String, :required => true, :desc => N_('External user group name')
-          param :auth_source_id, Fixnum, :required => true, :desc => N_('ID of linked authentication source')
+          param :auth_source_id, :number, :required => true, :desc => N_('ID of linked authentication source')
         end
       end
 
@@ -46,7 +46,7 @@ module Api
       param_group :external_usergroup
 
       def update
-        process_response @external_usergroup.update_attributes(external_usergroup_params)
+        process_response @external_usergroup.update(external_usergroup_params)
       end
 
       api :PUT, '/usergroups/:usergroup_id/external_usergroups/:id/refresh', N_('Refresh external user group')

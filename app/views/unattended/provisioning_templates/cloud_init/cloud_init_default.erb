@@ -1,0 +1,71 @@
+<%#
+kind: cloud-init
+name: CloudInit default
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- Debian
+- Ubuntu
+-%>
+<%#
+This template accepts the following parameters:
+- force-puppet: boolean (default=false)
+- enable-puppetlabs-repo: boolean (default=false)
+- enable-puppetlabs-puppet5-repo: boolean (default=false)
+- enable-puppetlabs-puppet6-repo: boolean (default=false)
+-%>
+<%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  pm_set = @host.puppetmaster.empty? ? false : true
+  proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port')}" : nil
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  chef_enabled = @host.respond_to?(:chef_proxy) && @host.chef_proxy
+-%>
+
+#cloud-config
+hostname: <%= @host.name %>
+fqdn: <%= @host %>
+manage_etc_hosts: true
+users: {}
+runcmd:
+- |
+<%= indent(2) { snippet 'fix_hosts' } -%>
+- |
+<%= indent(2) { snippet 'yum_proxy' } -%>
+- |
+<%= indent(2) { snippet 'ntp' } -%>
+- |
+<% if rhel_compatible && !host_param_false?('enable-epel') -%>
+<%= indent(2) { snippet 'epel' } -%>
+<% end -%>
+- |
+<%= indent(2) { snippet 'redhat_register' } -%>
+- |
+<% if host_enc['parameters']['realm'] && @host.realm && (@host.realm.realm_type == 'FreeIPA' || @host.realm.realm_type == 'Red Hat Identity Management') -%>
+<%= indent(2) { snippet 'freeipa_register' } %>
+<% end -%>
+- |
+<%= indent(2) { snippet 'remote_execution_ssh_keys' } %>
+- |
+<%= indent(2) { snippet 'blacklist_kernel_modules' } %>
+- |
+<% if chef_enabled %>
+<%= indent(2) { snippet 'chef_client' } %>
+<% end -%>
+- |
+<%=
+  if puppet_enabled && (host_param_true?('enable-puppetlabs-repo') ||
+    host_param_true?('enable-puppetlabs-puppet6-repo') ||
+    host_param_true?('enable-puppetlabs-puppet5-repo'))
+    indent(2) { snippet 'puppetlabs_repo' }
+  elsif puppet_enabled
+    indent(2) { snippet('puppet_setup', :variables => { :full_puppet_run => true }) }
+  else
+    ''
+  end
+-%>
+phone_home:
+  url: <%= foreman_url('built') %>
+  post: []
+  tries: 10

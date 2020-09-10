@@ -3,12 +3,12 @@ class Foreman::ImporterPuppetclass
 
   def initialize(opts = { })
     @name = opts["name"] || raise("must provide a puppet class name")
-    @module     = opts["module"]
+    @module = opts["module"]
     @parameters = opts["params"] || { }
   end
 
   def to_s
-    name && self.module ? "#{self.module}::#{name}" : name
+    (name && self.module) ? "#{self.module}::#{name}" : name
   end
 
   # for now, equality is based on class name, and not on parameters
@@ -25,11 +25,13 @@ class Foreman::ImporterPuppetclass
   def self.suggest_key_type(value, default = nil, detect_json_or_yaml = false)
     case value
     when String
-      begin
-        return "json" if JSON.load value
-      rescue
-        return "yaml" if YAML.load value
-      end if detect_json_or_yaml
+      if detect_json_or_yaml
+        begin
+          return "json" if JSON.load value
+        rescue
+          return "yaml" if YAML.load value
+        end
+      end
       "string"
     when TrueClass, FalseClass
       "boolean"

@@ -1,0 +1,22 @@
+
+LABEL local
+  MENU LABEL Default local boot
+  LOCALBOOT 0
+
+LABEL local_primary
+  MENU LABEL Default local boot from primary hard drive
+  LOCALBOOT 0x80
+
+LABEL local_skip
+  MENU LABEL Boot from the next BIOS device
+  LOCALBOOT -1
+
+LABEL local_chain_hd0
+  MENU LABEL Chainload the first hard drive (hd0)
+  COM32 chain.c32
+  APPEND hd0
+
+LABEL local_chain_hd1
+  MENU LABEL Chainload the second hard drive (hd1)
+  COM32 chain.c32
+  APPEND hd1

@@ -18,4 +18,12 @@ module Foreman::Controller::Parameters::ProvisioningTemplate
   def provisioning_template_params
     self.class.provisioning_template_params_filter.filter_params(params, parameter_filter_context)
   end
+
+  def organization_params
+    self.class.organization_params_filter(::ProvisioningTemplate).filter_params(params, parameter_filter_context)
+  end
+
+  def location_params
+    self.class.location_params_filter(::ProvisioningTemplate).filter_params(params, parameter_filter_context)
+  end
 end

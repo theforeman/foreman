@@ -1,5 +1,5 @@
-class MigrateHypervisorsToComputeResources < ActiveRecord::Migration
-  class Hypervisor < ActiveRecord::Base; end
+class MigrateHypervisorsToComputeResources < ActiveRecord::Migration[4.2]
+  class Hypervisor < ApplicationRecord; end
 
   def up
     return unless Hypervisor.table_exists?

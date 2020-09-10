@@ -1,0 +1,16 @@
+<%= fields_for item do |f| -%>
+  <% loaders = @operatingsystem.available_loaders; if loaders.any? -%>
+  <%
+    pxe_loader_selected = true
+    pxe_loader_selected = blank_or_inherit_f(f, :pxe_loader) unless f.object.explicit_pxe_loader
+  %>
+    <%= selectable_f f, :pxe_loader,
+      loaders.to_a, {
+        :include_blank => pxe_loader_selected,
+        :selected => pxe_loader_selected == true ? f.object.pxe_loader : pxe_loader_selected
+      },
+      :label => _('PXE loader'),
+      :label_help =>  _("DHCP filename option to use. Set to None for non-PXE method (e.g. iPXE). Auto-suggested, use OS parameter 'pxe-loader' to override."),
+      :label_help_options => { :data => { :placement => 'top' } } %>
+  <% end -%>
+<% end -%>

@@ -1,23 +1,26 @@
 class InterfacesController < ApplicationController
+  include Foreman::Controller::Parameters::Host
+
   # params structure is
   #   {"host"=>
   #     {"interfaces_attributes"=>
-  #       {"new_1405068143746"=>
+  #       {"1405068143746"=>
   #         {"_destroy"=>"false", "type"=>"Nic::BMC", "mac"=>"", "name"=>"", "domain_id"=>"", "ip"=>""}}}}
   def new
-    @host = Host.new params[:host]
+    safe_params = host_params('host')
+    @host = Host.new(safe_params)
 
-    attributes = params[:host].fetch(:interfaces_attributes, {})
-    @key, attributes = attributes.first
+    attributes = safe_params.fetch(:interfaces_attributes, {})
+    @key, attributes = attributes.to_h.first
     raise Foreman::Exception, 'Missing attributes for interface' if @key.blank?
 
     if attributes.present?
-      raise Foreman::Exception, 'Type was not selected' if attributes[:type].blank?
+      raise Foreman::Exception, 'Type was not selected' if attributes['type'].blank?
 
-      klass = attributes.delete(:type).constantize
+      klass = attributes.delete('type').constantize
       raise Foreman::Exception, 'Type is not Interface class' unless klass <= Nic::Base
 
-      attributes.delete(:_destroy)
+      attributes.delete('_destroy')
       @interface = klass.new(attributes)
     end
 

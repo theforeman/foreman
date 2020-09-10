@@ -1,13 +1,13 @@
 class UsergroupsController < ApplicationController
   include Foreman::Controller::AutoCompleteSearch
   include Foreman::Controller::Parameters::Usergroup
+  include Foreman::Controller::ExternalUsergroupsErrors
 
   before_action :find_resource, :only => [:edit, :update, :destroy]
   before_action :get_external_usergroups_to_refresh, :only => [:update]
-  after_action  :refresh_external_usergroups, :only => [:create, :update]
 
   def index
-    @usergroups = resource_base.includes(:usergroups).search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @usergroups = resource_base_search_and_page(:usergroups)
   end
 
   def new
@@ -16,24 +16,31 @@ class UsergroupsController < ApplicationController
 
   def create
     @usergroup = Usergroup.new(usergroup_params)
-    if @usergroup.save
+    if @usergroup.save && refresh_external_usergroups
       process_success
     else
       process_error
     end
+  rescue => e
+    external_usergroups_error(@usergroup, e)
+    process_error
   end
 
   def edit
   end
 
   def update
-    if @usergroup.update_attributes(usergroup_params)
+    if @usergroup.update(usergroup_params) &&
+        refresh_external_usergroups
       process_success
     else
       process_error
     end
   rescue Foreman::CyclicGraphException => e
-    @usergroup.errors[:usergroups] = e.record.errors[:base].join(' ')
+    @usergroup.errors[:usergroups] << e.record.errors[:base].join(' ')
+    process_error
+  rescue => e
+    external_usergroups_error(@usergroup, e)
     process_error
   end
 

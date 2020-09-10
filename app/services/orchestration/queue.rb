@@ -1,20 +1,30 @@
-require 'orchestration/task'
+require_dependency 'orchestration/task'
+
 module Orchestration
   # Represents tasks queue for orchestration
   class Queue
-    attr_reader :items
-    STATUS = %w[ pending running failed completed rollbacked conflict canceled]
+    attr_reader :items, :name
+    STATUS = %w[pending running failed completed rollbacked conflict canceled]
 
-    delegate :count, :empty?, :to => :items
+    delegate :count, :size, :empty?, :to => :items
     delegate :to_json, :to => :all
+    delegate :to_s, :to => :name
 
-    def initialize
+    def initialize(name = "Unnamed")
       @items = []
+      @name = name
     end
 
     def create(options)
       options[:status] ||= default_status
-      items << Task.new(options)
+      new_task = Task.new(options)
+      if items.include? new_task
+        # Two tasks with same :name are not allowed. Use two different :id options for multiple instances.
+        Rails.logger.debug "Task '#{new_task.id || new_task.name || ''}' already in '#{name}' queue"
+      else
+        Rails.logger.debug "Enqueued task '#{new_task.id || new_task.name || ''}' to '#{name}' queue"
+        items << new_task
+      end
     end
 
     def delete(item)
@@ -22,11 +32,20 @@ module Orchestration
     end
 
     def find_by_name(name)
-      items.each {|task| return task if task.name == name}
+      items.detect { |task| task.name == name }
+    end
+
+    def find_by_id(id)
+      string_id = id.to_s
+      items.detect { |task| task.id == string_id }
     end
 
     def all
       items.sort
+    end
+
+    def task_ids
+      all.map(&:id)
     end
 
     def clear
@@ -36,7 +55,7 @@ module Orchestration
 
     STATUS.each do |s|
       define_method s do
-        all.delete_if {|t| t.status != s}.sort
+        all.delete_if { |t| t.status != s }.sort
       end
     end
 

@@ -9,6 +9,8 @@ module Net
     HOST_REGEXP ||= /\A(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\z/
     MASK_REGEXP ||= /\A((255.){3}(0|128|192|224|240|248|252|254))|((255.){2}(0|128|192|224|240|248|252|254).0)|(255.(0|128|192|224|240|248|252|254)(.0){2})|((128|192|224|240|248|252|254)(.0){3})\z/
 
+    HOST_REGEXP_ERR_MSG = N_("hostname can contain only lowercase letters, numbers, dashes and dots according to RFC921, RFC952 and RFC1123")
+
     class Error < RuntimeError
     end
 
@@ -63,6 +65,21 @@ module Net
       false
     end
 
+    def self.multicast_mac?(mac)
+      return false unless validate_mac(mac)
+
+      # Get the first byte
+      msb = mac.tr('.:-', '').slice(0..1).to_i(16)
+
+      # Is least significant bit set?
+      msb & 0b1 == 1
+    end
+
+    def self.broadcast_mac?(mac)
+      return false unless validate_mac(mac)
+      mac.downcase == 'ff:ff:ff:ff:ff:ff'
+    end
+
     # validates the mac and raises an error
     def self.validate_mac!(mac)
       raise Error, "Invalid MAC #{mac}" unless validate_mac(mac)
@@ -97,7 +114,7 @@ module Net
     end
 
     # return the most efficient form of a v6 address
-    def self.normalize_ip6 ip
+    def self.normalize_ip6(ip)
       return ip unless ip.present?
       IPAddr.new(ip, Socket::AF_INET6).to_s rescue ip
     end

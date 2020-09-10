@@ -1,4 +1,4 @@
-class AddAuditsTable < ActiveRecord::Migration
+class AddAuditsTable < ActiveRecord::Migration[4.2]
   def up
     create_table :audits, :force => true do |t|
       t.column :auditable_id, :integer

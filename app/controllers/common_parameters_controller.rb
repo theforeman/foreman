@@ -5,7 +5,7 @@ class CommonParametersController < ApplicationController
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
   def index
-    @common_parameters = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    @common_parameters = resource_base_search_and_page
   end
 
   def new
@@ -25,7 +25,7 @@ class CommonParametersController < ApplicationController
   end
 
   def update
-    if @common_parameter.update_attributes(parameter_params(::CommonParameter))
+    if @common_parameter.update(parameter_params(::CommonParameter))
       process_success
     else
       process_error
@@ -43,10 +43,10 @@ class CommonParametersController < ApplicationController
   private
 
   def controller_permission
-    'globals'
+    'params'
   end
 
   def resource_base
-    model_of_controller.authorized(current_permission, CommonParameter)
+    model_of_controller.authorized(current_permission, Parameter).where(:type => 'CommonParameter')
   end
 end

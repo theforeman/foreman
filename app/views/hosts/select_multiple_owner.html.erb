@@ -3,6 +3,6 @@
 <%= form_for :owner, :url => update_multiple_owner_hosts_path(:host_ids => params[:host_ids]) do |f| %>
   <%= selectable_f f, :id, options_for_select({_('select an owner') => 'disabled'}) + option_groups_from_collection_for_select(
     [User, Usergroup], :visible, :table_name, :id_and_type, :select_title,
-    'disabled'), {}, { :onchange => "toggle_multiple_ok_button(this)" }
+    'disabled'), {}, { :label => _("Owner"), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" }
   %>
 <% end %>

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`selectionHeaderCellFormatter render 1`] = `
+<TableSelectionHeaderCell
+  checked={true}
+  id="selectAll"
+  label="some-label"
+  onChange={[Function]}
+/>
+`;

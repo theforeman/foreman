@@ -20,6 +20,7 @@ module Foreman::Controller::Parameters::HostBase
         :root_pass,
         :start,
         :type,
+        :pxe_loader,
         # Model relations sorted in alphabetical order
         :architecture, :architecture_id, :architecture_name,
         :domain, :domain_id, :domain_name,
@@ -32,8 +33,6 @@ module Foreman::Controller::Parameters::HostBase
         :operatingsystem, :operatingsystem_id, :operatingsystem_name,
         :organization, :organization_id, :organization_name,
         :ptable, :ptable_id, :ptable_name,
-        :puppet_ca_proxy, :puppet_ca_proxy_id, :puppet_ca_proxy_name,
-        :puppet_proxy, :puppet_proxy_id, :puppet_proxy_name,
         :progress_report, :progress_report_id, :progress_report_name,
         :realm, :realm_id, :realm_name,
         :subnet, :subnet_id, :subnet_name,

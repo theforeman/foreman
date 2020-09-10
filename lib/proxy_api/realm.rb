@@ -1,7 +1,7 @@
 module ProxyAPI
   class Realm < Resource
     def initialize(args)
-      @url  = "#{args[:url]}/realm/#{args[:realm_name]}"
+      @url = "#{args[:url]}/realm/#{args[:realm_name]}"
       super args
     end
 

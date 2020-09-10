@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorHostSelect should render renders EditorHostSelect 1`] = `
+<div
+  className=""
+  id="editor-select-container"
+>
+  <Select
+    disabled={false}
+    emptyText="No Results"
+    focusOnMount={true}
+    isLoading={false}
+    isSearchable={true}
+    loadingText="Loading..."
+    onItemClick={[Function]}
+    onKeyDown={[Function]}
+    onSearchChange={[Function]}
+    onSearchClear={[Function]}
+    onToggle={[Function]}
+    open={true}
+    options={
+      Array [
+        Object {
+          "id": "1",
+          "name": "host1",
+        },
+        Object {
+          "id": "2",
+          "name": "host2",
+        },
+      ]
+    }
+    placeholder="Filter Host..."
+    searchValue=""
+    selectedItem={
+      Object {
+        "id": "1",
+        "name": "one",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`EditorHostSelect should render renders EditorHostSelect loading 1`] = `
+<div
+  className=""
+  id="editor-select-container"
+>
+  <Select
+    disabled={false}
+    emptyText="No Results"
+    focusOnMount={true}
+    isLoading={true}
+    isSearchable={true}
+    loadingText="Loading..."
+    onItemClick={[Function]}
+    onKeyDown={[Function]}
+    onSearchChange={[Function]}
+    onSearchClear={[Function]}
+    onToggle={[Function]}
+    open={true}
+    options={
+      Array [
+        Object {
+          "id": "1",
+          "name": "host1",
+        },
+        Object {
+          "id": "2",
+          "name": "host2",
+        },
+      ]
+    }
+    placeholder="Filter Host..."
+    searchValue=""
+    selectedItem={
+      Object {
+        "id": "1",
+        "name": "one",
+      }
+    }
+  />
+</div>
+`;

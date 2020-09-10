@@ -2,7 +2,7 @@ namespace :plugin do
   desc "List Installed plugins"
   task :list => :environment do
     puts 'Collecting plugin information'
-    Foreman::Plugin.all.map{ |p| puts p.to_s }
+    Foreman::Plugin.all.map { |p| puts p.to_s }
   end
 
   desc 'Validate permissions for built-in roles'
@@ -15,4 +15,16 @@ namespace :plugin do
       end
     end
   end
+
+  task :refresh_migrations => :environment do
+    # when calling `rake db:create db:migrate` the migrations_paths
+    # get loaded before environment, and are not refreshed later. This
+    # iterates over the list of migration dires and ensures they are still there.
+    ActiveRecord::Tasks::DatabaseTasks.migrations_paths.clear
+    Rails.application.config.paths['db/migrate'].each do |path|
+      ActiveRecord::Tasks::DatabaseTasks.migrations_paths << path
+    end
+  end
 end
+
+Rake::Task["db:migrate"].enhance ['plugin:refresh_migrations']

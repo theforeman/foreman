@@ -1,25 +1,27 @@
 class Windows < Operatingsystem
   PXEFILES = {:kernel => "wimboot", :initrd => "bootmgr", :bcd => "bcd", :bootsdi => "boot.sdi", :bootwim => "boot.wim"}
 
-  class << self
-    delegate :model_name, :to => :superclass
+  class Jail < Operatingsystem::Jail
+    allow :bootfile
+  end
+
+  def available_loaders
+    self.class.all_loaders
   end
 
   def pxe_type
     "waik"
   end
 
-  def pxe_prefix(arch)
-    "boot/windows-#{arch}/".tr(" ","-")
+  def pxe_prefix(medium_provider)
+    medium_provider.interpolate_vars("boot/windows-$arch-#{medium_provider.unique_id}/").to_s.tr(" ", "-")
   end
 
-  def bootfile arch, type
-    pxe_prefix(arch) + eval("#{self.family}::PXEFILES[:#{type}]")
+  def bootfile(medium_provider, type)
+    pxe_prefix(medium_provider) + PXEFILES[type.to_sym]
   end
 
-  def boot_files_uri(medium, architecture, host = nil)
-    raise ::Foreman::Exception.new(N_("invalid medium for %s"), to_s) unless media.include?(medium)
-
+  def boot_files_uri(medium_provider)
     pxe_dir = ""
 
     PXEFILES.values.collect do |img|
@@ -31,7 +33,7 @@ class Windows < Operatingsystem
         pxe_dir = ""
       end
 
-      URI.parse("#{medium_vars_to_uri(medium.path, architecture.name, self)}/#{pxe_dir}/#{img}").normalize
+      medium_provider.medium_uri("/#{pxe_dir}/#{img}").normalize
     end
   end
 

@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BreadcrumbBar actions should close-switcher 1`] = `
+Object {
+  "type": "BREADCRUMB_BAR_CLOSE_SWITCHER",
+}
+`;
+
+exports[`BreadcrumbBar actions should load-switcher-resources-by-resource and fail 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "options": Object {
+          "page": 1,
+          "searchQuery": "",
+        },
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "error": [Error: some-error],
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_FAILURE",
+    },
+  ],
+]
+`;
+
+exports[`BreadcrumbBar actions should load-switcher-resources-by-resource and success 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "options": Object {
+          "page": 1,
+          "searchQuery": "",
+        },
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "items": Array [
+          Object {
+            "href": "some/url/1",
+            "id": "1",
+            "name": "name-1",
+          },
+          Object {
+            "href": "some/url/2",
+            "id": "2",
+            "name": "name-2",
+          },
+          Object {
+            "href": "some/url/3",
+            "id": "3",
+            "name": "name-3",
+          },
+        ],
+        "page": 1,
+        "pages": 1.5,
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+    },
+  ],
+]
+`;
+
+exports[`BreadcrumbBar actions should load-switcher-resources-by-resource-with-nested-fields and success 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "options": Object {
+          "page": 1,
+          "searchQuery": "",
+        },
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "items": Array [
+          Object {
+            "href": "some/url/1",
+            "id": "1",
+            "name": "username-1",
+          },
+          Object {
+            "href": "some/url/2",
+            "id": "2",
+            "name": "username-2",
+          },
+          Object {
+            "href": "some/url/3",
+            "id": "3",
+            "name": "username-3",
+          },
+        ],
+        "page": 1,
+        "pages": 1.5,
+        "resourceUrl": "some/url",
+      },
+      "type": "BREADCRUMB_BAR_RESOURCES_SUCCESS",
+    },
+  ],
+]
+`;
+
+exports[`BreadcrumbBar actions should toggle-switcher 1`] = `
+Object {
+  "type": "BREADCRUMB_BAR_TOGGLE_SWITCHER",
+}
+`;

@@ -31,4 +31,53 @@ class MenuManagerTest < ActiveSupport::TestCase
     items = Menu::Manager.items(:test_menu)
     assert_kind_of Menu::Node, items.first
   end
+
+  def test_hashed_menu
+    create_nested_menu
+    Menu::Item.any_instance.stubs(:authorized?).returns(true)
+    items = Menu::Manager.to_hash(:nested_menu)
+    assert_equal menu_hash, items
+  end
+
+  def test_should_return_caption
+    caption = Menu::Manager.get_resource_caption(:test_item)
+    assert_equal caption, 'Test Items'
+  end
+
+  private
+
+  def menu_hash
+    [{:type => :sub_menu,
+      :name => "User",
+      :icon => "fa-icon",
+      :children =>
+        [{:type => :item, :exact => false, :html_options => {}, :name => "Item", :url => "some url"},
+         {:type => :item, :exact => false, :html_options => {}, :name => "Item 2", :url => "some url"},
+         {:type => :item, :exact => false, :html_options => {}, :name => "Test Items", :url => "some url"}]},
+     {:type => :sub_menu,
+      :name => "User",
+      :icon => "fa-icon",
+      :children => [{:type => :item, :exact => false, :html_options => {}, :name => "Item 3", :url => "some url"}]}]
+  end
+
+  def create_nested_menu
+    Menu::Manager.map :nested_menu do |menu|
+      menu.sub_menu :sub_menu_one, :caption => 'User', :icon => 'fa-icon' do
+        menu.item :item_one,
+          caption: 'Item',
+          url: 'some url'
+        menu.item :item_two,
+          caption: 'Item 2',
+          url: 'some url'
+        menu.item :test_item,
+          caption: 'Test Items',
+          url: 'some url'
+      end
+      menu.sub_menu :sub_menu_two, :caption => 'User', :icon => 'fa-icon' do
+        menu.item :item_three,
+          caption: 'Item 3',
+          url: 'some url'
+      end
+    end
+  end
 end

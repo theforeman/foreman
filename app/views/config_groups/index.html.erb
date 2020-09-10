@@ -1,23 +1,21 @@
-<%= javascript 'class_edit' %>
+<% title _('Config Groups') %>
 
-<% title _('Config groups') %>
+<% title_actions new_link(_('Create Config Group')), help_button %>
 
-<% title_actions new_link(_('New Config Group')), help_path %>
-
-<table class="<%= table_css_classes 'table-two-pane table-fixed' %>">
+<table class="<%= table_css_classes 'table-fixed' %>">
   <thead>
     <tr>
       <th class="col-md-6"><%= sort :name %></th>
-      <th><%= _('Puppet classes') %></th>
+      <th><%= _('Puppet Classes') %></th>
       <th><%= _('Hosts') %></th>
-      <th><%= _('Host groups') %></th>
+      <th><%= _('Host Groups') %></th>
       <th><%= _('Actions') %></th>
     </tr>
   </thead>
   <tbody>
     <% @config_groups.each do |config_group| %>
       <tr>
-        <td class="display-two-pane ellipsis"><%= link_to_if_authorized config_group.name, hash_for_edit_config_group_path(config_group).merge(:auth_object => config_group, :authorizer => authorizer) %></td>
+        <td class="ellipsis"><%= link_to_if_authorized config_group.name, hash_for_edit_config_group_path(config_group).merge(:auth_object => config_group, :authorizer => authorizer) %></td>
         <td><%= link_to config_group.puppetclasses.size, puppetclasses_path(:search => %Q{config_group = "#{config_group}"}) %></td>
         <td><%= link_to config_group.hosts_count, hosts_path(:search => %Q{config_group = "#{config_group}"}) %></td>
         <td><%= link_to config_group.hostgroups_count, hostgroups_path(:search => %Q{config_group = "#{config_group}"}) %></td>

@@ -1,0 +1,62 @@
+<%#
+kind: PXEGrub2
+name: Kickstart default PXEGrub2
+model: ProvisioningTemplate
+oses:
+- CentOS
+- Fedora
+- RedHat
+-%>
+# This file was deployed via '<%= template_name %>' template
+<%
+  rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+  os_major = @host.operatingsystem.major.to_i
+
+  if (rhel_compatible && os_major < 7) || !@host.pxe_loader_efi?
+    # Grub EFI commands are RHEL7+ only (prevents "Kernel is too old") or for non-EFI arch
+    linuxcmd = "linux"
+    initrdcmd = "initrd"
+  else
+    linuxcmd = "linuxefi"
+    initrdcmd = "initrdefi"
+  end
+-%>
+
+set default=<%= host_param('default_grub_install_entry') || 0 %>
+set timeout=<%= host_param('loader_timeout') || 10 %>
+
+menuentry '<%= template_name %>' {
+  <%= linuxcmd %> <%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> <%= @initrd %>
+}
+
+<%
+# Workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1811561 and https://bugzilla.redhat.com/show_bug.cgi?id=1842893
+subnet = @host.provision_interface.subnet || @host.provision_interface.subnet6
+if subnet && subnet.httpboot
+  proxy_http_port = subnet.httpboot.httpboot_http_port
+  proxy_https_port = subnet.httpboot.httpboot_https_port
+  # Workaround for "no DNS server configured" https://bugzilla.redhat.com/show_bug.cgi?id=1842509
+  proxy_host = dns_lookup(subnet.httpboot.hostname)
+-%>
+<% if proxy_http_port -%>
+menuentry '<%= template_name %> EFI HTTP' --id efi_http {
+  <%= linuxcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> (http,<%= proxy_host %>:<%= proxy_http_port %>)/httpboot/<%= @initrd %>
+}
+<% else -%>
+# Smart proxy does not have HTTPBoot feature with HTTP port enabled, skipping EFI HTTP boot menu entry
+<% end -%>
+
+<% if proxy_https_port -%>
+menuentry '<%= template_name %> EFI HTTPS' --id efi_https {
+  <%= linuxcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @kernel %> ks=<%= foreman_url('provision') %> <%= pxe_kernel_options %> <%= snippet("kickstart_kernel_options").strip %>
+  <%= initrdcmd %> (https,<%= proxy_host %>:<%= proxy_https_port %>)/httpboot/<%= @initrd %>
+}
+<% else -%>
+# Smart proxy does not have HTTPBoot feature with HTTPS port enabled, skipping EFI HTTPS boot menu entry
+<% end -%>
+
+<% end %>
+
+<%= snippet_if_exists(template_name + " custom menu") %>

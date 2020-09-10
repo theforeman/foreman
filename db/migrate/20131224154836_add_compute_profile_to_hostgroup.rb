@@ -1,4 +1,4 @@
-class AddComputeProfileToHostgroup < ActiveRecord::Migration
+class AddComputeProfileToHostgroup < ActiveRecord::Migration[4.2]
   def change
     add_column :hostgroups, :compute_profile_id, :integer
     add_column :hosts, :compute_profile_id, :integer

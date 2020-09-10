@@ -1,0 +1,13 @@
+#! /bin/bash
+
+NODE_ENV=production
+FOREMAN_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+FOREMAN_PATH="${FOREMAN_PATH}/.."
+PATH="$FOREMAN_PATH/node_modules/.bin:$PATH"
+WEBPACK="webpack --config $FOREMAN_PATH/config/webpack.config.js"
+WEBPACK_DIR="$FOREMAN_PATH/public/webpack"
+REPORT="${WEBPACK_DIR}/report.html"
+
+mkdir -p $WEBPACK_DIR
+$WEBPACK --profile --json > $WEBPACK_DIR/stats.json && \
+webpack-bundle-analyzer --mode static -r $REPORT $WEBPACK_DIR/stats.json

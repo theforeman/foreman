@@ -1,0 +1,313 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DecadeView is working properly 1`] = `
+<div
+  class="datepicker-years"
+>
+  <table
+    class="table-condensed"
+  >
+    <thead>
+      <tr>
+        <th
+          class="prev"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-left"
+          />
+        </th>
+        <th
+          class="picker-switch"
+          colspan="5"
+          data-action="pickerSwitch"
+        >
+          2020-2031
+        </th>
+        <th
+          class="next"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-right"
+          />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          colspan="7"
+        >
+          <span
+            class="year active"
+          >
+            2020
+          </span>
+          <span
+            class="year "
+          >
+            2021
+          </span>
+          <span
+            class="year "
+          >
+            2022
+          </span>
+          <span
+            class="year "
+          >
+            2023
+          </span>
+          <span
+            class="year "
+          >
+            2024
+          </span>
+          <span
+            class="year "
+          >
+            2025
+          </span>
+          <span
+            class="year "
+          >
+            2026
+          </span>
+          <span
+            class="year "
+          >
+            2027
+          </span>
+          <span
+            class="year "
+          >
+            2028
+          </span>
+          <span
+            class="year "
+          >
+            2029
+          </span>
+          <span
+            class="year "
+          >
+            2030
+          </span>
+          <span
+            class="year "
+          >
+            2031
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Edit decade DecadeView 1`] = `
+<div
+  class="datepicker-years"
+>
+  <table
+    class="table-condensed"
+  >
+    <thead>
+      <tr>
+        <th
+          class="prev"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-left"
+          />
+        </th>
+        <th
+          class="picker-switch"
+          colspan="5"
+          data-action="pickerSwitch"
+        >
+          2010-2021
+        </th>
+        <th
+          class="next"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-right"
+          />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          colspan="7"
+        >
+          <span
+            class="year "
+          >
+            2010
+          </span>
+          <span
+            class="year "
+          >
+            2011
+          </span>
+          <span
+            class="year "
+          >
+            2012
+          </span>
+          <span
+            class="year "
+          >
+            2013
+          </span>
+          <span
+            class="year "
+          >
+            2014
+          </span>
+          <span
+            class="year "
+          >
+            2015
+          </span>
+          <span
+            class="year "
+          >
+            2016
+          </span>
+          <span
+            class="year "
+          >
+            2017
+          </span>
+          <span
+            class="year "
+          >
+            2018
+          </span>
+          <span
+            class="year active"
+          >
+            2019
+          </span>
+          <span
+            class="year "
+          >
+            2020
+          </span>
+          <span
+            class="year "
+          >
+            2021
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Edit year DecadeView 1`] = `
+<div
+  class="datepicker-years"
+>
+  <table
+    class="table-condensed"
+  >
+    <thead>
+      <tr>
+        <th
+          class="prev"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-left"
+          />
+        </th>
+        <th
+          class="picker-switch"
+          colspan="5"
+          data-action="pickerSwitch"
+        >
+          2010-2021
+        </th>
+        <th
+          class="next"
+        >
+          <span
+            class="glyphicon glyphicon-chevron-right"
+          />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          colspan="7"
+        >
+          <span
+            class="year "
+          >
+            2010
+          </span>
+          <span
+            class="year "
+          >
+            2011
+          </span>
+          <span
+            class="year "
+          >
+            2012
+          </span>
+          <span
+            class="year "
+          >
+            2013
+          </span>
+          <span
+            class="year "
+          >
+            2014
+          </span>
+          <span
+            class="year "
+          >
+            2015
+          </span>
+          <span
+            class="year "
+          >
+            2016
+          </span>
+          <span
+            class="year "
+          >
+            2017
+          </span>
+          <span
+            class="year "
+          >
+            2018
+          </span>
+          <span
+            class="year active"
+          >
+            2019
+          </span>
+          <span
+            class="year "
+          >
+            2020
+          </span>
+          <span
+            class="year "
+          >
+            2021
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

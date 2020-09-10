@@ -1,0 +1,10 @@
+<div class="dropdown pull-right dropdown-kebab-pf">
+  <button class="btn btn-link dropdown-toggle" type="button" id="dropupKebabRight2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="fa fa-ellipsis-v"></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropupKebabRight2">
+      <li><%= link_to_if_authorized _('Create'), :controller => :auth_source_ldaps, :action => :new %></li>
+      <li role="separator" class="divider"></li>
+      <li><%= link_to _('LDAP Documentation'), documentation_url("4.1.1LDAPAuthentication"), :rel => "external" %></li>
+  </ul>
+</div>

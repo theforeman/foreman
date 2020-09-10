@@ -1,0 +1,56 @@
+.bootstrap-datetimepicker-widget.dropdown-menu.top {
+  margin-top: -10px;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu.bottom {
+  margin-top: 10px !important;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  max-width: 20em;
+
+  &.timepicker-sbs {
+    max-width: 40em;
+  }
+
+  .arrow {
+    left: 10% !important;
+  }
+
+  .popover-content {
+    color: #292e34;
+  }
+
+  .clock-btn {
+    border: 0;
+    box-shadow: none;
+    color: #363636;
+    display: block;
+    padding-bottom: 4px;
+    padding-top: 4px;
+  }
+
+  table td {
+    .today-button {
+      padding: 0 16px 0 0;
+      border: 0;
+      background-color: transparent;
+
+      span {
+        height: 24px;
+        line-height: 24px;
+        color: #0088ce;
+      }
+    }
+  }
+}
+
+span.clear-button {
+  background: none;
+  border-left: none;
+  color: #72767b;
+}
+
+input.date-time-input {
+  border-right: none;
+}

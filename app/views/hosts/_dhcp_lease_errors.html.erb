@@ -9,7 +9,7 @@
         <p><%= _('Please correct the error(s) below and submit your changes again.') %></p>
 
         <div class="alert alert-warning alert-block base">
-          <% @host.errors.get(:dhcp_lease_error).each do |e| %>
+          <% @host.errors[:dhcp_lease_error].each do |e| %>
             <li><%= e %></li>
           <% end %>
         </div>

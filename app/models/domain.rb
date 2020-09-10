@@ -1,21 +1,30 @@
 require "resolv"
 # This models a DNS domain and so represents a site.
-class Domain < ActiveRecord::Base
+class Domain < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Taxonomix
   include StripLeadingAndTrailingDot
   include Parameterizable::ByIdName
+  include BelongsToProxies
+  include ParameterAttributes
+  include Foreman::ObservableModel
 
-  audited
   validates_lengths_from_database
   has_many :hostgroups
-  #order matters! see https://github.com/rails/rails/issues/670
+  # order matters! see https://github.com/rails/rails/issues/670
   before_destroy EnsureNotUsedBy.new(:interfaces, :hostgroups, :subnets)
   has_many :subnet_domains, :dependent => :destroy, :inverse_of => :domain
   has_many :subnets, :through => :subnet_domains
-  belongs_to :dns, :class_name => "SmartProxy"
+
+  belongs_to_proxy :dns,
+    :feature => 'DNS',
+    :label => N_('DNS Proxy'),
+    :description => N_('DNS proxy to use within this domain for managing A records, note that PTR records are managed via Subnet DNS proxy'),
+    :api_description => N_('DNS proxy ID to use within this domain')
+
   has_many :domain_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :domain
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "DomainParameter"
   has_many :interfaces, :class_name => 'Nic::Base'
@@ -25,12 +34,12 @@ class Domain < ActiveRecord::Base
 
   accepts_nested_attributes_for :domain_parameters, :allow_destroy => true
   include ParameterValidators
+  include ScopedSearchExtensions
+  include ParameterSearch
   validates :name, :presence => true, :uniqueness => true
   validates :fullname, :uniqueness => true, :allow_blank => true, :allow_nil => true
-  validates :dns, :proxy_features => { :feature => "DNS", :message => N_('does not have the DNS feature') }
 
   scoped_search :on => [:name, :fullname], :complete_value => true
-  scoped_search :in => :domain_parameters, :on => :value, :on_key=> :name, :complete_value => true, :only_explicit => true, :rename => :params
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -40,17 +49,24 @@ class Domain < ActiveRecord::Base
     end
   }
 
+  set_crud_hooks :domain
+
+  apipie :class, desc: "A class representing #{model_name.human} object" do
+    sections only: %w[all additional]
+    prop_group :basic_model_props, ApplicationRecord, meta: { example: 'example.com' }
+    property :fullname, String, desc: 'User name for this domain, e.g. "Primary domain for our company"'
+  end
   class Jail < Safemode::Jail
-    allow :name, :fullname
+    allow :id, :name, :fullname
   end
 
   # return the primary name server for our domain based on DNS lookup
   # it first searches for SOA record, if it failed it will search for NS records
   def nameservers
-    return [] if Setting.query_local_nameservers
+    return [] if Setting[:query_local_nameservers]
     dns = Resolv::DNS.new
-    ns = dns.getresources(name, Resolv::DNS::Resource::IN::SOA).collect {|r| r.mname.to_s}
-    ns = dns.getresources(name, Resolv::DNS::Resource::IN::NS).collect {|r| r.name.to_s} if ns.empty?
+    ns = dns.getresources(name, Resolv::DNS::Resource::IN::SOA).collect { |r| r.mname.to_s }
+    ns = dns.getresources(name, Resolv::DNS::Resource::IN::NS).collect { |r| r.name.to_s } if ns.empty?
     ns.to_a.flatten
   end
 
@@ -60,7 +76,7 @@ class Domain < ActiveRecord::Base
   end
 
   def proxy
-    ProxyAPI::DNS.new(:url => dns.url) if dns && !dns.url.blank?
+    ProxyAPI::DNS.new(:url => dns.url) if dns && dns.url.present?
   end
 
   def lookup(query)
@@ -74,10 +90,6 @@ class Domain < ActiveRecord::Base
   # overwrite method in taxonomix, since domain is not direct association of host anymore
   def used_taxonomy_ids(type)
     return [] if new_record?
-    Host::Base.joins(:primary_interface).where(:nics => {:domain_id => id}).uniq.pluck(type).compact
-  end
-
-  def hosts_count
-    Host::Managed.authorized(:view_hosts).joins(:primary_interface).where(:nics => {:domain_id => id}).size
+    Host::Base.joins(:primary_interface).where(:nics => {:domain_id => id}).distinct.pluck(type).compact
   end
 end

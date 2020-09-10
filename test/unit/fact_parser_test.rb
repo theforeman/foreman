@@ -1,5 +1,4 @@
 require "test_helper"
-require 'minitest/mock'
 
 class FactParserTest < ActiveSupport::TestCase
   attr_reader :parser, :host
@@ -13,6 +12,14 @@ class FactParserTest < ActiveSupport::TestCase
     assert_match FactParser::BONDS, 'lagg0'
     refute_match FactParser::BONDS, 'bond0.0'
     refute_match FactParser::BONDS, 'bond0:0'
+    refute_match FactParser::BONDS, 'bond0.0:0'
+  end
+
+  test "bridge regexp matches bridges" do
+    assert_match FactParser::BRIDGES, 'br12'
+    assert_match FactParser::BRIDGES, 'br-ex'
+    assert_match FactParser::BRIDGES, 'virbr1'
+    refute_match FactParser::BRIDGES, 'bridge'
   end
 
   test "default parsers" do
@@ -26,8 +33,11 @@ class FactParserTest < ActiveSupport::TestCase
   test ".register_custom_parser" do
     chef_parser = Struct.new(:my_method)
     FactParser.register_fact_parser :chef, chef_parser
-
-    assert_equal chef_parser, FactParser.parser_for(:chef)
+    begin
+      assert_equal chef_parser, FactParser.parser_for(:chef)
+    ensure
+      FactParser.parsers.delete :chef
+    end
   end
 
   test "#parse_interfaces? should answer based on current setttings" do
@@ -50,10 +60,6 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
-  test "#normalize_interfaces converts custom-case interface names to be downcase" do
-    assert_equal ['eth0', 'eth0.0', 'em1'], parser.send(:normalize_interfaces, ['ETH0', 'Eth0.0', 'eM1'])
-  end
-
   test "#interfaces gets facts hash for desired interfaces, keeping same values it gets from parser" do
     parser.stub(:get_interfaces, ['eth1', 'lo', 'eth0', 'eth0.0', 'usb0', 'vnet0', 'br0', 'virbr0', 'Local_Area_Connection_2', 'macvtap0']) do
       parser.expects(:get_facts_for_interface).with('eth1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
@@ -61,7 +67,7 @@ class FactParserTest < ActiveSupport::TestCase
       parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:ef'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:ab:ef'}.with_indifferent_access)
-      parser.expects(:get_facts_for_interface).with('local_area_connection_2').returns({'link' => 'true', 'macaddress' => '00:00:00:00:de:ef'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('Local_Area_Connection_2').returns({'link' => 'true', 'macaddress' => '00:00:00:00:de:ef'}.with_indifferent_access)
       result = parser.interfaces
       refute_includes result.keys, 'lo'
       refute_includes result.keys, 'usb0'
@@ -72,7 +78,7 @@ class FactParserTest < ActiveSupport::TestCase
       assert_includes result.keys, 'eth1'
       assert_includes result.keys, 'eth0'
       assert_includes result.keys, 'eth0.0'
-      assert_includes result.keys, 'local_area_connection_2'
+      assert_includes result.keys, 'Local_Area_Connection_2'
       assert_equal 'true', result['eth0']['link']
       assert_equal 'false', result['eth1']['link']
       assert_equal 'value', result[:eth0]['custom']
@@ -126,7 +132,7 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
-  test "#find_virtual_interface finds a vlan interface" do
+  test "#find_virtual_interface finds a vlan interface (facter < v3.0)" do
     parser.stub(:get_interfaces, ['eth0', 'eth0_0']) do
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0_0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
@@ -136,12 +142,32 @@ class FactParserTest < ActiveSupport::TestCase
     end
   end
 
-  test "#find_virtual_interface finds an interface with an alphanum alias" do
+  test "#find_virtual_interface finds a vlan interface (facter >= v3.0)" do
+    parser.stub(:get_interfaces, ['eth0', 'eth0.0']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0.0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'eth0.0'
+      refute_includes result, 'eth0'
+    end
+  end
+
+  test "#find_virtual_interface finds an interface with an alphanum alias (facter < v3.0)" do
     parser.stub(:get_interfaces, ['eth0', 'eth0_bar']) do
       parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eth0_bar').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       result = parser.send(:find_virtual_interface, parser.interfaces)
       assert_includes result, 'eth0_bar'
+      refute_includes result, 'eth0'
+    end
+  end
+
+  test "#find_virtual_interface finds an interface with an alias (facter >= v3.0)" do
+    parser.stub(:get_interfaces, ['eth0', 'eth0:1']) do
+      parser.expects(:get_facts_for_interface).with('eth0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0:1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      result = parser.send(:find_virtual_interface, parser.interfaces)
+      assert_includes result, 'eth0:1'
       refute_includes result, 'eth0'
     end
   end
@@ -153,18 +179,24 @@ class FactParserTest < ActiveSupport::TestCase
       parser.expects(:get_facts_for_interface).with('em1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('eno1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       result = parser.send(:find_virtual_interface, parser.interfaces)
-      assert_equal result, nil
+      assert_nil result
     end
   end
 
   test "#find_physical_interface does not find virtual interfaces" do
-    parser.stub(:get_interfaces, ['eth0_0', 'br42', 'virbr0', 'bond7']) do
+    parser.stub(:get_interfaces, ['eth0_0', 'br42', 'virbr0', 'bond7', 'eth0.100', 'eth0:1', 'eth0.100:1', 'bond7:1', 'bond7.100', 'bond7.100:1']) do
       parser.expects(:get_facts_for_interface).with('eth0_0').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('br42').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('virbr0').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
       parser.expects(:get_facts_for_interface).with('bond7').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0.100').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB', 'ipaddress' => '192.168.100.2'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0:1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('eth0.100:1').returns({'link' => 'false', 'macaddress' => '00:00:00:00:00:AB', 'ipaddress' => '192.168.100.2'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('bond7:1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.0.2'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('bond7.100').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.100.1'}.with_indifferent_access)
+      parser.expects(:get_facts_for_interface).with('bond7.100:1').returns({'link' => 'true', 'macaddress' => '00:00:00:00:00:cd', 'ipaddress' => '192.168.100.2'}.with_indifferent_access)
       result = parser.send(:find_physical_interface, parser.interfaces)
-      assert_equal result, nil
+      assert_nil result
     end
   end
 
@@ -176,7 +208,7 @@ class FactParserTest < ActiveSupport::TestCase
     refute result[:virtual]
   end
 
-  test "#set_additional_attributes detects virtual interface" do
+  test "#set_additional_attributes detects virtual interface (facter < v3.0)" do
     parser = get_parser(:vlans => '1,2')
 
     result = parser.send(:set_additional_attributes, {}, 'eth0_0')
@@ -202,6 +234,50 @@ class FactParserTest < ActiveSupport::TestCase
     assert_equal 'eth0', result[:attached_to]
     assert_equal '', result[:tag]
     refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'eth0.101')
+    assert result[:virtual]
+    assert_equal 'eth0', result[:attached_to]
+    assert_equal '101', result[:tag]
+    refute result[:bridge]
+  end
+
+  test "#set_additional_attributes detects virtual interface facter >= v3.0" do
+    result = parser.send(:set_additional_attributes, {}, 'eth0.100')
+    assert result[:virtual]
+    assert_equal 'eth0', result[:attached_to]
+    assert_equal '100', result[:tag]
+    refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'eth0:1')
+    assert result[:virtual]
+    assert_equal 'eth0', result[:attached_to]
+    assert_equal '', result[:tag]
+    refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'bond0.100')
+    assert result[:virtual]
+    assert_equal 'bond0', result[:attached_to]
+    assert_equal '100', result[:tag]
+    refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'bond0:1')
+    assert result[:virtual]
+    assert_equal 'bond0', result[:attached_to]
+    assert_equal '', result[:tag]
+    refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'eth0.100:1')
+    assert result[:virtual]
+    assert_equal 'eth0.100', result[:attached_to]
+    assert_equal '', result[:tag]
+    refute result[:bridge]
+
+    result = parser.send(:set_additional_attributes, {}, 'bond0.100:1')
+    assert result[:virtual]
+    assert_equal 'bond0.100', result[:attached_to]
+    assert_equal '', result[:tag]
+    refute result[:bridge]
   end
 
   test "#set_additional_attributes detects bridged" do
@@ -220,7 +296,7 @@ class FactParserTest < ActiveSupport::TestCase
 
   context "parser tests involving hosts" do
     setup do
-      @host = FactoryGirl.build(:host)
+      @host = FactoryBot.build_stubbed(:host)
     end
 
     test "#suggested_primary_interface detects primary interface using DNS" do
@@ -228,7 +304,7 @@ class FactParserTest < ActiveSupport::TestCase
         'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
         'em1' => {'ipaddress' => '10.0.0.10', 'macaddress' => '00:00:00:00:00:10'},
         'em2' => {'ipaddress' => '12.0.0.12', 'macaddress' => '00:00:00:00:00:12'},
-        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'}
+        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -245,7 +321,7 @@ class FactParserTest < ActiveSupport::TestCase
         'em0' => {'ipaddress' => '', 'macaddress' => ''},
         'em1' => {'ipaddress' => '10.0.0.10', 'macaddress' => '00:00:00:00:00:10'},
         'em2' => {'ipaddress' => '12.0.0.12', 'macaddress' => '00:00:00:00:00:12'},
-        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'}
+        'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -259,7 +335,7 @@ class FactParserTest < ActiveSupport::TestCase
       parser.stubs(:interfaces).returns({
         'bond1' => {'ipaddress' => '', 'macaddress' => ''},
         'bond0' => {'ipaddress' => '15.0.0.15', 'macaddress' => '00:00:00:00:00:15'},
-        'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'}
+        'br0' => {'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -272,7 +348,7 @@ class FactParserTest < ActiveSupport::TestCase
     test "#suggested_primary_interface primary interface detection falls back to first with ip and mac" do
       parser.stubs(:interfaces).returns({
         'br1'   => { 'ipaddress' => '',          'macaddress' => ''},
-        'br0'   => { 'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'}
+        'br0'   => { 'ipaddress' => '30.0.0.30', 'macaddress' => '00:00:00:00:00:30'},
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])
@@ -285,7 +361,7 @@ class FactParserTest < ActiveSupport::TestCase
     test "#suggested_primary_interface primary interface detection falls back to first if no other option" do
       parser.stubs(:interfaces).returns({
         'br1' => {'ipaddress' => '', 'macaddress' => ''},
-        'br0' => {'ipaddress' => '', 'macaddress' => ''}
+        'br0' => {'ipaddress' => '', 'macaddress' => ''},
       }.with_indifferent_access)
 
       Resolv::DNS.any_instance.stubs(:getnames).returns([])

@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`actions should include a cancel / submit buttons 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={false}
+      type="submit"
+    >
+       
+      Submit
+    </Button>
+     
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Cancel
+    </Button>
+  </div>
+</div>
+`;
+
+exports[`actions should show a spinner when submitting 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={true}
+      type="submit"
+    >
+       
+      Submit
+      <span
+        className="fr"
+      >
+        <div
+          className="loader-root"
+        >
+          <Spinner
+            className=""
+            inline={false}
+            inverse={false}
+            loading={true}
+            size="sm"
+          />
+        </div>
+      </span>
+    </Button>
+     
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={true}
+      onClick={[Function]}
+    >
+      Cancel
+    </Button>
+  </div>
+</div>
+`;
+
+exports[`actions should show disabled submit button 1`] = `
+<div
+  className="clearfix"
+>
+  <div
+    className="form-actions"
+  >
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="primary"
+      disabled={true}
+      type="submit"
+    >
+       
+      Submit
+    </Button>
+     
+    <Button
+      active={false}
+      block={false}
+      bsClass="btn"
+      bsStyle="default"
+      disabled={false}
+      onClick={[Function]}
+    >
+      Cancel
+    </Button>
+  </div>
+</div>
+`;

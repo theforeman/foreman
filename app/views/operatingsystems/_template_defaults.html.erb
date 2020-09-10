@@ -11,8 +11,7 @@
                 :text => (_("You probably need to configure your %s first.") %
                           link_to("templates", provisioning_templates_path)).html_safe) %>
     <% end %>
-
-    <%= f.fields_for :os_default_templates do |builder| %>
+    <%= f.fields_for :os_default_templates, os_default_templates_for_form(@operatingsystem) do |builder| %>
       <%= render 'templates', :f => builder %>
     <% end %>
   <% end %>

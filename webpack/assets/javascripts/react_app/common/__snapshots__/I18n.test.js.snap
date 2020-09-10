@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`gettext chevrons should be presented 1`] = `"»should be with chevrons«"`;
+
+exports[`gettext chevrons should not be presented 1`] = `"should not be with chevrons"`;
+
+exports[`ngettext chevrons should be presented 1`] = `"»should be with chevrons«"`;
+
+exports[`ngettext chevrons should not be presented 1`] = `"»should not be with chevrons«"`;

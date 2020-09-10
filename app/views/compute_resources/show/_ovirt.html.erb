@@ -6,3 +6,15 @@
   <td><%= _("Operating systems API supported?") %></td>
   <td><%= @compute_resource.supports_operating_systems? ? icon_text("ok", "", :kind => "pficon") : icon_text("error-circle-o", "", :kind => "pficon") %></td>
 </tr>
+<tr>
+  <td><%= _("Use APIv4") %></td>
+  <td><%= @compute_resource.use_v4? ? _('Yes') : _('No') %></td>
+</tr>
+<tr>
+  <td><%= _("Default Display Type") %></td>
+  <td><%= @compute_resource.display_type.upcase %></td>
+</tr>
+<tr>
+  <td><%= _("Default VNC Keyboard") %></td>
+  <td><%= @compute_resource.keyboard_layout %></td>
+</tr>

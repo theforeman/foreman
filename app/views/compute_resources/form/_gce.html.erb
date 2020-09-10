@@ -1,9 +1,9 @@
+<%= http_proxy_field f %>
+
 <%= text_f f, :project, :label => _("Google Project ID"), :help_inline => documentation_button('5.2.4GoogleComputeEngineNotes') %>
 <%= text_f f, :email, :label => _("Client Email"), :class => 'col-md-8' %>
-<%= text_f f, :key_path, :label => _("Certificate path"), :help_inline => _('The file path where your p12 file is located'), :class => 'col-md-8' %>
+<%= text_f f, :key_path, :label => _("Certificate Path"), :help_inline => _('The file path where your JSON file is located'), :class => 'col-md-8' %>
 
 <% zones = f.object.zones rescue [] %>
 <%= selectable_f(f, :zone, zones, {}, {:label => _('Zone'), :disabled => zones.empty?,
-                 :help_inline => link_to_function(zones.empty? ? _("Load zones") : _("Test Connection"), "testConnection(this)",
-                 :class => "btn + #{zones.empty? ? "btn-default" : "btn-success"}",
-                 :'data-url' => test_connection_compute_resources_path) + hidden_spinner('', :id => 'test_connection_indicator').html_safe }) %>
+                 :help_inline_permanent => load_button_f(f, !zones.empty?, _("Load Zones")) }) %>

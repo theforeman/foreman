@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td>
-      <%= alert :class => 'alert-danger', :header => '', :text => _("There was an error listing VMs: %s" % errors) %>
+      <%= alert :class => 'alert-danger', :header => '', :text => _("There was an error listing %{listing}: %{errors}") % {:listing => listing, :errors => errors} %>
       </td>
     </tr>
   </tbody>

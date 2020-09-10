@@ -1,0 +1,63 @@
+<%#
+kind: iPXE
+model: ProvisioningTemplate
+name: iPXE global default
+snippet: false
+-%>
+#!ipxe
+
+echo Opening global default menu in 15 seconds...
+sleep 15
+
+set menu-default <%= global_setting("default_pxe_item_global", "local") %>
+set menu-timeout 5000
+set port 8448
+
+:start
+menu iPXE global boot menu
+item --key l local     Local boot (next entry)
+item shell             Drop into iPXE shell
+item reboot            Reboot system
+item
+item --key d discovery Discovery from ${next-server}:8000 (httpboot module)
+item discovery_custom Discovery from ${next-server}:${port} (httpboot module)
+choose --timeout ${menu-timeout} --default ${menu-default} selected || goto cancel
+set menu-timeout 0
+goto ${selected}
+
+:cancel
+echo Menu canceled, dropping to shell
+
+:shell
+echo Use the command 'exit' to return to menu
+shell
+set menu-timeout 0
+goto start
+
+:failed
+echo Boot failed, dropping to shell
+goto shell
+
+:reboot
+reboot
+
+:local
+exit
+
+:discovery
+dhcp
+kernel http://${next-server}:8000/httpboot/boot/fdi-image/vmlinuz0 initrd=initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset nokaslr proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-${net0/mac}
+initrd http://${next-server}:8000/httpboot/boot/fdi-image/initrd0.img
+imgstat
+sleep 2
+boot || goto failed
+goto start
+
+:discovery_custom
+dhcp
+kernel http://${next-server}:${port}/httpboot/boot/fdi-image/vmlinuz0 initrd=initrd0.img rootflags=loop root=live:/fdi.iso rootfstype=auto ro rd.live.image acpi=force rd.luks=0 rd.md=0 rd.dm=0 rd.lvm=0 rd.bootif=0 rd.neednet=0 nomodeset nokaslr proxy.url=<%= foreman_server_url %> proxy.type=foreman BOOTIF=01-${net0/mac}
+initrd http://${next-server}:${port}/httpboot/boot/fdi-image/initrd0.img
+imgstat
+sleep 2
+boot || goto failed
+goto start

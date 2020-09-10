@@ -1,25 +1,38 @@
 <%= form_for @usergroup do |f| %>
   <%= base_errors_for @usergroup %>
   <ul class="nav nav-tabs" data-tabs="tabs">
-    <li class="active"><a href="#primary" data-toggle="tab"><%= _("User group") %></a></li>
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _("User Group") %></a></li>
     <li><a href="#roles" data-toggle="tab"><%= _("Roles") %></a></li>
     <% if AuthSource.non_internal.present? %>
-      <li><a href="#external" data-toggle="tab"><%= _("External groups") %></a></li>
+      <li><a href="#external" data-toggle="tab"><%= _("External Groups") %></a></li>
     <% end %>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
+      <% if @usergroup.external_usergroups.any? %>
+        <h5>
+          <%= _('Only internal (non-LDAP) users can be added manually. LDAP users
+                are automatically synced from the External Groups list.') %>
+        </h5>
+        <h5>
+          <%= _('To refresh the list of users, click on the tab "External
+                groups" then "Refresh".') %>
+        </h5>
+        <hr>
+      <% end %>
       <%= text_f f, :name %>
-      <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup, :label => _("User Groups") %>
-      <%= multiple_checkboxes f, :users, @usergroup, User.except_hidden, :label => _("Users") %>
+      <%= multiple_checkboxes f, :usergroups, @usergroup, Usergroup.except_current(@usergroup),
+        { :label => _("User Groups") } %>
+      <%= multiple_checkboxes f, :users, @usergroup, User.except_hidden,
+        :label => _("Users"), :object_label_method => :select_title %>
     </div>
     <div class="tab-pane" id="roles">
       <%= checkbox_f f, :admin if User.current.can_change_admin_flag? %>
-      <%= multiple_checkboxes f, :roles, @usergroup, Role.givable.for_current_user, {:label => _('Roles')} %>
+      <%= multiple_checkboxes f, :roles, @usergroup, Role.for_current_user, {:label => _('Roles')} %>
     </div>
     <% if AuthSource.non_internal.present? %>
       <div class="tab-pane" id="external">
-        <table class="<%= table_css_classes('table-two-pane table-hover')%>">
+        <table class="<%= table_css_classes('table-hover')%>">
           <thead>
             <tr>
               <th><%= s_("Usergroup|Name") %></th>
@@ -35,7 +48,8 @@
                 <td><%= display_link_if_authorized(_('Refresh'),
                                                          hash_for_refresh_external_usergroup_path(:id => usergroup),
                                                          :method => :put, :id => usergroup.id,
-                                                         :class => "btn btn-default", :title => _('Synchronize group from authentication source')) %>
+                                                         :class => "btn btn-default", :title => usergroup.supports_refresh? ? _('Synchronize group from authentication source') : _("Synchronization is not available for #{usergroup.auth_source.name} auth source"),
+                                                         :disabled => !usergroup.supports_refresh?) %>
                 </td>
               </tr>
             <% end %>

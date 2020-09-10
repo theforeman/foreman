@@ -1,10 +1,8 @@
+<% title(_("Login")) %>
+
 <%= content_for(:content) do %>
-  <%= content_tag('div', flash[:error],   :class => 'flash hide error')   if flash[:error] %>
-  <%= content_tag('div', flash[:warning], :class => 'flash hide warning') if flash[:warning] %>
-  <%= content_tag('div', flash[:notice],  :class => 'flash hide notice')  if flash[:notice] %>
-  <div class="login-page" >
-    <%= yield %>
-  </div>
+  <%= notifications %>
+  <%= yield %>
 <% end %>
 
 <%= render :template => 'layouts/base' %>

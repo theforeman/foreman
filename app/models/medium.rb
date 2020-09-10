@@ -1,11 +1,11 @@
-class Medium < ActiveRecord::Base
+class Medium < ApplicationRecord
+  audited
   include Authorizable
   extend FriendlyId
   friendly_id :name
   include Taxonomix
   include ValidateOsFamily
   include Parameterizable::ByIdName
-  audited
 
   validates_lengths_from_database
 
@@ -16,13 +16,13 @@ class Medium < ActiveRecord::Base
   has_many :hostgroups, :dependent => :nullify
 
   # We need to include $ in this as $arch, $release, can be in this string
-  VALID_NFS_PATH=/\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
+  VALID_NFS_PATH = /\A([-\w\d\.]+):(\/[\w\d\/\$\.]+)\Z/
   validates :name, :uniqueness => true, :presence => true
   validates :path, :uniqueness => true, :presence => true,
     :url_schema => ['http', 'https', 'ftp', 'nfs']
   validates :media_path, :config_path, :image_path, :allow_blank => true,
                 :format => { :with => VALID_NFS_PATH, :message => N_("does not appear to be a valid nfs mount path")},
-                :if => Proc.new { |m| m.respond_to? :media_path }
+                :if => proc { |m| m.respond_to? :media_path }
 
   validate_inclusion_in_families :os_family
 
@@ -55,15 +55,15 @@ class Medium < ActiveRecord::Base
 
   # Write the image path, with a trailing "/" if required
   def image_path=(path)
-    write_attribute :image_path, "#{path}#{'/' unless path =~ /\/$|^$/}"
+    self[:image_path] = "#{path}#{'/' unless path =~ /\/$|^$/}"
   end
 
   def ensure_hosts_not_in_build
-    return true if (hosts_in_build = self.hosts.where(:build => true)).empty?
+    return true if (hosts_in_build = hosts.where(:build => true)).empty?
     hosts_in_build.each do |host|
-      self.errors.add :base, _("%{record} is used by host in build mode %{what}") % { :record => self.name, :what => host.name }
+      errors.add :base, _("%{record} is used by host in build mode %{what}") % { :record => name, :what => host.name }
     end
-    Rails.logger.error "You may not destroy #{self.to_label} as it is used by hosts in build mode!"
-    false
+    Rails.logger.error "You may not destroy #{to_label} as it is used by hosts in build mode!"
+    throw :abort
   end
 end

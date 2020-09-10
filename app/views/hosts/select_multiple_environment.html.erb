@@ -4,5 +4,5 @@
     <%= selectable_f f, :id, [[_("Select environment"), "disabled"],
                         [_("*Clear environment*"), "" ],
                         [_("*Inherit from host group*"), "inherit"]] + Environment.all.map{|e| [e.name, e.id]},{},
-                 :onchange => "toggle_multiple_ok_button(this)" %>
+                     :label => _("Environment"), :onchange => "tfm.hosts.table.toggleMultipleOkButton(this)" %>
 <% end %>

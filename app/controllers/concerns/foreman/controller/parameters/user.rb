@@ -6,8 +6,10 @@ module Foreman::Controller::Parameters::User
   class_methods do
     def user_params_filter
       Foreman::ParameterFilter.new(::User).tap do |filter|
-        filter.permit :default_location_id,
+        filter.permit :current_password,
+          :default_location_id,
           :default_organization_id,
+          :description,
           :firstname,
           :lastname,
           :locale,
@@ -16,20 +18,17 @@ module Foreman::Controller::Parameters::User
           :password,
           :password_confirmation,
           :timezone,
+          :disabled,
           :user_mail_notifications_attributes => [user_mail_notification_params_filter]
 
         filter.permit do |ctx|
+          ctx.permit :login
           ctx.permit :admin if ctx.currently_admin? && (ctx.ui? || ctx.api?)
-        end
-
-        filter.permit do |ctx|
           if !ctx.editing_self? && (ctx.ui? || ctx.api?)
             ctx.permit :auth_source, :auth_source_id, :auth_source_name,
-              :login,
               :roles => [], :role_ids => [], :role_names => []
           end
         end
-
         add_taxonomix_params_filter(filter)
       end
     end
@@ -47,6 +46,10 @@ module Foreman::Controller::Parameters::User
 
     def editing_self?
       @editing_self
+    end
+
+    def has_edit_user_permissions?
+      User.current.nil? ? false : User.current.can?(:edit_users)
     end
 
     def currently_admin?

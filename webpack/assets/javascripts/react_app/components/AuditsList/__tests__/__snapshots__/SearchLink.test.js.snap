@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchLink rendering render a search link 1`] = `
+<EllipisWithTooltip>
+  <a
+    href="/audits?search=type+%3D+user+and+auditable_id+%3D+1"
+    id="resource-link-123"
+  >
+    testUser
+  </a>
+</EllipisWithTooltip>
+`;

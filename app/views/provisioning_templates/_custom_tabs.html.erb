@@ -1,5 +1,5 @@
 <div class="tab-pane" id="template_type">
-  <%= checkbox_f f, :snippet, :onchange => "snippet_changed(this)", :label=>_('Snippet'), :disabled => @template.locked? %>
+  <%= checkbox_f f, :snippet, :onchange => "tfm.templateInputs.snippetChanged(this)", :label=>_('Snippet'), :disabled => @template.locked? %>
 
   <div id="kind_selector" <%= display? @template.snippet %>>
     <%= select_f f, :template_kind_id, TemplateKind.all, :id, :to_s, {:include_blank => true, :selected => @template_kind_id},
@@ -11,7 +11,7 @@
   <%= snippet_message(@template) %>
   <div id="association" <%= display? @template.snippet %> >
     <%= how_templates_are_determined %>
-    <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable<br>Operating Systems").html_safe %>
+    <%= multiple_selects f, :operatingsystems, Operatingsystem, @operatingsystems.try(:map, &:id), :label => _("Applicable Operating Systems") %>
     <%= render "provisioning_templates/combinations", :f => f %>
   </div>
 </div>

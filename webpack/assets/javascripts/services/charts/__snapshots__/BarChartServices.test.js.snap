@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getBarChartConfig shoud return small bar chart config 1`] = `
+Object {
+  "axis": Object {
+    "x": Object {
+      "categories": Array [
+        "Fedora 21",
+        "Ubuntu 14.04",
+        "Centos 7",
+        "Debian 8",
+      ],
+      "label": null,
+      "type": "category",
+    },
+    "y": Object {
+      "label": null,
+    },
+  },
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "columns": Array [
+      Array [
+        undefined,
+        3,
+        4,
+        2,
+        1,
+      ],
+    ],
+    "onclick": undefined,
+  },
+  "id": "some-id",
+  "legend": Object {
+    "show": false,
+  },
+  "onrendered": [Function],
+  "padding": null,
+  "size": Object {
+    "height": 290,
+  },
+  "tooltip": Object {
+    "format": Object {
+      "name": [Function],
+    },
+  },
+}
+`;
+
+exports[`getBarChartConfig should return regular bar chart config 1`] = `
+Object {
+  "axis": Object {
+    "x": Object {
+      "categories": Array [
+        "Fedora 21",
+        "Ubuntu 14.04",
+        "Centos 7",
+        "Debian 8",
+      ],
+      "label": null,
+      "type": "category",
+    },
+    "y": Object {
+      "label": null,
+    },
+  },
+  "color": Object {
+    "pattern": Array [],
+  },
+  "data": Object {
+    "columns": Array [
+      Array [
+        undefined,
+        3,
+        4,
+        2,
+        1,
+      ],
+    ],
+    "onclick": undefined,
+  },
+  "id": "some-id",
+  "legend": Object {
+    "show": false,
+  },
+  "onrendered": [Function],
+  "padding": null,
+  "size": Object {
+    "height": 350,
+    "width": 350,
+  },
+  "tooltip": Object {
+    "format": Object {
+      "name": [Function],
+    },
+  },
+}
+`;

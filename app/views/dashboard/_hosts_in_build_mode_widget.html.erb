@@ -1,0 +1,11 @@
+<% hosts = @data.hosts.in_build_mode.or(@data.hosts.with_build_errors).includes(:token).preload(:owner).order(created_at: :desc).limit(9) %>
+
+<h4 class="header">
+  <%= _('Hosts in Build mode or with Build errors') %>
+</h4>
+
+<% if hosts.empty? %>
+  <p class="ca"><%= icon_text('ok', '', kind: 'pficon') %></span><%= _('No Hosts are in build mode or have build errors.') %></p>
+<% else %>
+  <%= render :partial => 'hosts_in_build_mode_widget_host_list', :locals => { :hosts => hosts } %>
+<% end %>

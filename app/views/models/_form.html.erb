@@ -4,5 +4,5 @@
   <%= text_f f, :hardware_model, :help_block => _("The class of CPU supplied in this machine. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -m") %>
   <%= text_f f, :vendor_class, :help_block => _("The class of the machine reported by the Open Boot Prom. This is primarily used by Sparc Solaris builds and can be left blank for other architectures. The value can be determined on Solaris via uname -i|cut -f2 -d,") %>
   <%= textarea_f f, :info, :rows=> 7, :size => "col-md-8", :help_block => _("General useful description, for example this kind of hardware needs a special BIOS setup") %>
-  <%= submit_or_cancel f %>
+  <%= submit_or_cancel(f, false, { :react_cancel_button => true }) %>
 <% end %>

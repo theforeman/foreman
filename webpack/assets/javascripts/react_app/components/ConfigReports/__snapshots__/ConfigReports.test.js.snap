@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ComponentWrapper should render config reports 1`] = `
+<Row
+  bsClass="row"
+  componentClass="div"
+>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={5}
+  >
+    <ChartBox
+      chart={
+        Object {
+          "data": Array [
+            Array [
+              "runtime",
+              5,
+            ],
+          ],
+          "id": "report-metrics",
+        }
+      }
+      className="report-chart"
+      config="medium"
+      errorText=""
+      noDataMsg="No data available"
+      status="RESOLVED"
+      tip=""
+      title="Report Metrics"
+      type="donut"
+    />
+  </Col>
+  <Col
+    bsClass="col"
+    className="bar-chart-medium-width"
+    componentClass="div"
+    md={5}
+  >
+    <ChartBox
+      chart={
+        Object {
+          "data": Array [
+            Array [
+              "applied",
+              2,
+            ],
+          ],
+          "id": "report-status",
+        }
+      }
+      className="report-chart"
+      config="medium"
+      errorText=""
+      noDataMsg="No data available"
+      status="RESOLVED"
+      tip=""
+      title="Report Status"
+      type="bar"
+    />
+  </Col>
+  <Col
+    bsClass="col"
+    componentClass="div"
+    md={2}
+  >
+    <table
+      className="report-chart"
+    >
+      <tbody>
+        <tr
+          key="0"
+        >
+          <td
+            className="break-me"
+          >
+            config_retrieval
+          </td>
+          <td>
+            10
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>
+            Total
+          </th>
+          <th>
+            10
+          </th>
+        </tr>
+      </tfoot>
+    </table>
+  </Col>
+</Row>
+`;

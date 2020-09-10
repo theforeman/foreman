@@ -3,10 +3,6 @@ class AuthSourceLdapsController < ApplicationController
 
   before_action :find_resource, :only => [:edit, :update, :destroy]
 
-  def index
-    @auth_source_ldaps = resource_base.all
-  end
-
   def new
     @auth_source_ldap = AuthSourceLdap.new
   end
@@ -14,9 +10,9 @@ class AuthSourceLdapsController < ApplicationController
   def create
     @auth_source_ldap = AuthSourceLdap.new(auth_source_ldap_params)
     if @auth_source_ldap.save
-      process_success
+      process_success :success_redirect => auth_sources_path
     else
-      process_error
+      process_error :redirect => auth_sources_path
     end
   end
 
@@ -24,18 +20,18 @@ class AuthSourceLdapsController < ApplicationController
   end
 
   def update
-    if @auth_source_ldap.update_attributes(auth_source_ldap_params)
-      process_success
+    if @auth_source_ldap.update(auth_source_ldap_params)
+      process_success :success_redirect => auth_sources_path
     else
-      process_error
+      process_error :redirect => auth_sources_path
     end
   end
 
   def destroy
     if @auth_source_ldap.destroy
-      process_success
+      process_success :success_redirect => auth_sources_path
     else
-      process_error
+      process_error :redirect => auth_sources_path
     end
   end
 
@@ -46,5 +42,11 @@ class AuthSourceLdapsController < ApplicationController
   rescue Foreman::Exception => exception
     Foreman::Logging.exception("Failed to connect to LDAP server", exception)
     render :json => {:message => exception.message}, :status => :unprocessable_entity
+  end
+
+  private
+
+  def controller_permission
+    'authenticators'
   end
 end

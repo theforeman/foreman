@@ -1,6 +1,13 @@
-<%= render 'selected_hosts', :hosts => @hosts %>
+<%= form_tag submit_multiple_destroy_hosts_path(:host_ids => params[:host_ids]), :onsubmit => "tfm.hosts.table.resetSelection()" do %>
+  <% if Setting[:destroy_vm_on_host_delete] %>
+    <% extra_warning = _("This <b>will delete</b> the linked VMs and their disks, and is irreversible.") %>
+  <% else %>
+    <% extra_warning = _("It is irreversible, but VMs and their disks <b>will not be deleted</b>.") %>
+  <% end %>
 
-<%= form_tag submit_multiple_destroy_hosts_path(:host_ids => params[:host_ids]), :onsubmit => "resetSelection()" do %>
-  <span class="label label-warning"><%= _('Warning') %></span>
-  <%= _('This might take a while, as all hosts, facts and reports will be destroyed as well') %>
+  <%= alert :class => 'alert-warning',
+    :text => (_("This might take a while, as all hosts, facts and reports <b>will be deleted</b> as well. %s This behavior can be changed via global setting \"Destroy associated VM on host delete\".") % extra_warning).html_safe,
+    :header => '' %>
 <% end %>
+
+<%= render 'selected_hosts', :hosts => @hosts %>

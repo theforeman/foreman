@@ -1,11 +1,15 @@
 <% permissions = @missing_permissions.map { |permission| content_tag(:li, content_tag(:strong, permission.name)) } %>
 
-<div class='col-md-offset-4 col-md-4'>
-  <%= alert :header => _("Permission denied"),
-    :text => _("You are not authorized to perform this action.") + '</br>'.html_safe +
-             _("Please request one of the required permissions listed below from a Foreman administrator:") +
-             content_tag(:ul, permissions.join.html_safe),
-    :actions => link_to(_('Back'), main_app.root_path, :class => 'btn btn-default'),
-    :class => 'alert-danger',
-    :close => false %>
+<% content_for(:title, _("Permission denied")) %>
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text("lock", "", :kind => "fa") %>
+  </div>
+  <h1><%= _("Permission denied") %></h1>
+  <p>
+    <%= _("You are not authorized to perform this action.") %></br>
+    <%= _("Please request one of the required permissions listed below from a Foreman administrator:") %></br>
+    <%= content_tag(:ul, permissions.join.html_safe, class: 'list-unstyled') %>
+  </p>
+  <p><%= link_to(_('Back'), main_app.root_path, :class => 'btn btn-default') %></p>
 </div>

@@ -1,0 +1,109 @@
+#cloud-config
+<%#
+kind: snippet
+name: coreos_cloudconfig
+model: ProvisioningTemplate
+snippet: true
+%>
+<%
+  units = 0
+  unless host_param_false?('enable_etcd')
+    units += 1
+  end
+  if host_param_true?('expose_docker_socket')
+    units += 1
+  end
+  if @host.subnet.respond_to?(:dhcp_boot_mode?)
+    dhcp = @host.subnet.dhcp_boot_mode? && !@static
+  else
+    dhcp = !@static
+  end
+  unless dhcp
+    units += 1
+  end
+-%>
+<% if units > 0 -%>
+      coreos:
+<% if host_param('reboot-strategy') -%>
+        update:
+          reboot-strategy: <%= host_param('reboot-strategy') %>
+<% end -%>
+<% unless host_param_false?('enable_etcd') -%>
+        etcd2:
+<% if host_param('etcd_discovery_url') -%>
+          discovery: <%= host_param('etcd_discovery_url') %>
+<% end -%>
+          advertise-client-urls: http://<%= @host.ip %>:2379
+          initial-advertise-peer-urls: http://<%= @host.ip %>:2380
+          listen-client-urls: http://0.0.0.0:2379
+          listen-peer-urls: http://0.0.0.0:2380
+<% end -%>
+        units:
+<% unless host_param_false?('enable_etcd') -%>
+          - name: etcd2.service
+            command: start
+          - name: fleet.service
+            command: start
+<% end -%>
+<% if host_param_true?('expose_docker_socket') -%>
+          - name: docker-tcp.socket
+            command: start
+            enable: yes
+            content: |
+              [Unit]
+              Description=Docker Socket for the API
+
+              [Socket]
+              ListenStream=2375
+              BindIPv6Only=both
+              Service=docker.service
+
+              [Install]
+              WantedBy=sockets.target
+          - name: enable-docker-tcp.service
+            command: start
+            content: |
+              [Unit]
+              Description=Enable the Docker Socket for the API
+
+              [Service]
+              Type=oneshot
+              ExecStart=/usr/bin/systemctl enable docker-tcp.socket
+<% end -%>
+<% unless dhcp -%>
+          - name: systemd-networkd.service
+            command: stop
+          - name: static.network
+            command: start
+            content: |
+              [Match]
+              MACAddress=<%= @host.mac %>
+              [Network]
+<% if @host.subnet.present? -%>
+              Gateway=<%= @host.subnet.gateway %>
+<% end -%>
+              Address=<%= @host.ip %>/<%= @host.subnet.cidr %>
+<% @host.subnet.dns_servers.each do |nameserver| -%>
+              DNS=<%= nameserver %>
+<% end -%>
+          - name: down-interfaces.service
+            command: start
+            content: |
+              [Service]
+              Type=oneshot
+              ExecStart=/usr/bin/bash -c 'for i in $(/usr/bin/ls /sys/class/net/); do [ $i == "lo" ] || (/usr/bin/ip link set $i down; /usr/bin/ip addr flush dev $i); done'
+          - name: systemd-networkd.service
+            command: restart
+<% end -%>
+<% end -%>
+      hostname: <%= @host.name %>
+<% if host_param('ssh_authorized_keys') -%>
+      ssh_authorized_keys:
+  <% host_param('ssh_authorized_keys').split(',').map{ |item| item.strip }.each do |ssh_key| -%>
+      - "<%= ssh_key %>"
+  <% end -%>
+<% else -%>
+      users:
+        - name: core
+          passwd: <%= root_pass %>
+<% end -%>

@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
+<div
+  className="navbar navbar-form navbar-full-width navbar-editor"
+>
+  <Nav
+    bsClass="nav"
+    className="nav nav-tabs nav-tabs-pf nav-tabs-pf-secondary"
+    justified={false}
+    pullLeft={false}
+    pullRight={false}
+    stacked={false}
+  >
+    <EditorRadioButton
+      btnView="input"
+      disabled={false}
+      icon={null}
+      onClick={[Function]}
+      stateView="input"
+      title="Editor"
+    />
+    <EditorRadioButton
+      btnView="diff"
+      disabled={false}
+      icon={null}
+      onClick={[Function]}
+      stateView="input"
+      title="Changes"
+    />
+    <EditorRadioButton
+      btnView="preview"
+      disabled={false}
+      icon={null}
+      onClick={[Function]}
+      stateView="input"
+      title="Preview"
+    />
+    <EditorHostSelect
+      isLoading={false}
+      key="hostsSelect"
+      onChange={[Function]}
+      onSearchChange={[Function]}
+      onSearchClear={[Function]}
+      onToggle={[Function]}
+      open={false}
+      options={
+        Array [
+          Object {
+            "id": "1",
+            "name": "host1",
+          },
+          Object {
+            "id": "2",
+            "name": "host2",
+          },
+        ]
+      }
+      placeholder="Select Host..."
+      searchQuery=""
+      selectedItem={
+        Object {
+          "id": "",
+          "name": "",
+        }
+      }
+      show={false}
+    />
+  </Nav>
+  <EditorOptions
+    changeDiffViewType={[Function]}
+    changeSetting={[Function]}
+    changeTab={[Function]}
+    diffViewType="split"
+    hosts={
+      Array [
+        Object {
+          "id": "1",
+          "name": "host1",
+        },
+        Object {
+          "id": "2",
+          "name": "host2",
+        },
+      ]
+    }
+    importFile={[Function]}
+    isDiff={true}
+    isMasked={false}
+    isRendering={false}
+    keyBinding="Default"
+    keyBindings={
+      Array [
+        "Default",
+        "Emacs",
+        "Vim",
+      ]
+    }
+    mode="Ruby"
+    modes={
+      Array [
+        "Text",
+        "Json",
+        "Ruby",
+        "Html_ruby",
+        "Sh",
+        "Xml",
+        "Yaml",
+      ]
+    }
+    previewTemplate={[Function]}
+    renderPath="/render/path"
+    revertChanges={[Function]}
+    selectedView="input"
+    showHide={true}
+    showHostSelector={true}
+    showImport={true}
+    showPreview={true}
+    template="<? />"
+    theme="Monokai"
+    themes={
+      Array [
+        "Github",
+        "Monokai",
+      ]
+    }
+    toggleMaskValue={[Function]}
+    toggleModal={[Function]}
+    value="value"
+  />
+</div>
+`;

@@ -1,4 +1,4 @@
-class SimplifyParameters < ActiveRecord::Migration
+class SimplifyParameters < ActiveRecord::Migration[4.2]
   def up
     remove_index  :parameters, [:host_id,      :type] if index_exists? :parameters, :host_id
     remove_index  :parameters, [:hostgroup_id, :type] if index_exists? :parameters, :hostgroup_id
@@ -10,7 +10,7 @@ class SimplifyParameters < ActiveRecord::Migration
     Parameter.reset_column_information
 
     success = true
-    for parameter in Parameter.all
+    Parameter.all.each do |parameter|
       # There should be no Parameter objects. That is an abstract class.
       # The type is probably nil because this table was imported by prod2dev
       parameter.update_attribute :type, "HostParameter"   if column_exists?(:parameters, :reference_id) && parameter.type.nil? && parameter.reference_id
@@ -43,7 +43,7 @@ class SimplifyParameters < ActiveRecord::Migration
 
     Parameter.reset_column_information
 
-    for parameter in Parameter.all
+    Parameter.all.each do |parameter|
       if parameter.type =~ /Group|Domain/
         parameter.hostgroup_id = parameter.host_id if parameter.type == "GroupParameter"
         parameter.domain_id    = parameter.host_id if parameter.type == "DomainParameter"

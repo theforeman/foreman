@@ -1,4 +1,4 @@
-class AddTableBookmarks < ActiveRecord::Migration
+class AddTableBookmarks < ActiveRecord::Migration[4.2]
   def up
     create_table :bookmarks, :force => true do |t|
       t.column :name, :string, :limit => 255

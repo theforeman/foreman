@@ -1,14 +1,14 @@
 module Api
   module V2
     class SettingsController < V2::BaseController
-      before_action :require_admin
       before_action :find_resource, :only => %w{show update}
 
       api :GET, "/settings/", N_("List all settings")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(Setting)
 
       def index
-        @settings = resource_scope().live_descendants.search_for(*search_options).paginate(paginate_options)
+        @settings = resource_scope_for_index.live_descendants
       end
 
       api :GET, "/settings/:id/", N_("Show a setting")
@@ -25,10 +25,20 @@ module Api
 
       def update
         value = params[:setting][:value]
-        if value.nil?
+        type = value.class.to_s.downcase
+        if type == "trueclass" || type == "falseclass"
+          type = "boolean"
+        end
+        case type
+        when "nilclass"
           render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _("No setting value provided.") }
-        else
+        when "string"
           process_response (@setting.parse_string_value(value) && @setting.save)
+        when @setting.settings_type
+          @setting.value = value
+          process_response @setting.save
+        else
+          render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _("expected a value of type %s") % @setting.settings_type}
         end
       end
     end

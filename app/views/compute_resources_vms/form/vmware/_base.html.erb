@@ -1,27 +1,40 @@
-<%= javascript 'compute_resource' %>
-<%= text_f f, :name, :label => _('Name'), :disabled => !new_host if show_vm_name? %>
-<%= selectable_f f, :cpus, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('CPUs') %>
-<%= selectable_f f, :corespersocket, 1..compute_resource.max_cpu_count, { }, :class => "col-md-2", :disabled => !new_host, :label => _('Cores per socket') %>
-<%= text_f f, :memory_mb, :class => "col-md-2", :disabled => !new_host, :label => _("Memory (MB)") %>
+<%= javascript_tag("$(document).on('ContentLoad', tfm.numFields.initCounter)"); %>
+<%= text_f f, :name, :label => _('Name'), :disabled => !new_vm if show_vm_name? %>
+<%= counter_f f, :cpus, :label => _('CPUs'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count %>
+
+<%= counter_f f, :corespersocket, :label => _('Cores per socket'), :label_size => 'col-md-2', :'data-soft-max' => compute_resource.max_cpu_count, :value => f.object.corespersocket || 1 %>
+<%= text_f f, :memory_mb, :class => "col-md-2", :label => _("Memory (MB)") %>
+<%= field(f, :firmware, :label => _('Firmware'), :label_size => "col-md-2") do
+  compute_resource.firmware_types.collect do |type, name|
+    radio_button_f f, :firmware, {:disabled => !new_vm, :value => type, :text => _(name)}
+  end.join(' ').html_safe
+end %>
 <%= selectable_f f, :cluster, compute_resource.clusters, { :include_blank => _('Please select a cluster') },
-                    :class => "col-md-2", :disabled => !new_host,
-                    :label => _('Cluster'), :onchange => 'vsphereGetResourcePools(this)',
+                    :class => "col-md-2", :disabled => !new_vm,
+                    :label => _('Cluster'), :onchange => 'tfm.computeResource.vmware.onClusterChange(this)',
                     :help_inline => :indicator,
-                    :data => {:url => resource_pools_compute_resource_path(compute_resource)} %>
-<%= vsphere_resource_pools(f, compute_resource)%>
-<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_host } %>
-<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_host } %>
-<%= select_f f, :scsi_controller_type, compute_resource.scsi_controller_types, :first, :last, {}, { :label => _("SCSI controller"), :class => "col-md-2", :disabled => !new_host } %>
-<%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_host } %>
-<%= checkbox_f f, :memoryHotAddEnabled, { :help_inline => _("Memory hot add lets you add memory resources for a virtual machine while the machine is powered on."), :label => _('Memory hot add'), :label_size => "col-md-2", :disabled => !new_host } %>
-<%= checkbox_f f, :cpuHotAddEnabled, { :help_inline => _("CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."), :label => _('CPU hot add'), :label_size => "col-md-2", :disabled => !new_host } %>
-<%= checkbox_f f, :add_cdrom, { :help_inline => _("Add a CD-ROM drive to the virtual machine."), :label => _('CD-ROM drive'), :label_size => "col-md-2" } if new_host %>
+                    :data => {:poolsurl => resource_pools_compute_resource_path(compute_resource), :networksurl => available_networks_api_compute_resource_path(compute_resource)} %>
+<%= vsphere_resource_pools(f, compute_resource, !new_vm) %>
+<%= select_f f, :path, compute_resource.folders, :path, :to_label , {}, { :label => _("Folder"), :class => "col-md-2", :disabled => !new_vm } %>
+<%= select_f f, :guest_id, compute_resource.guest_types, :first, :last, {}, { :label => _("Guest OS"), :class => "col-md-2", :disabled => !new_vm } %>
+<%= select_f f, :hardware_version, compute_resource.vm_hw_versions, :first, :last, {}, { :label => _("Virtual H/W version"), :class => "col-md-2", :disabled => !new_vm } %>
+<%= checkbox_f f, :memoryHotAddEnabled, { :help_inline => _("Memory hot add lets you add memory resources for a virtual machine while the machine is powered on."), :label => _('Memory hot add'), :label_size => "col-md-2", :disabled => !new_vm } %>
+<%= checkbox_f f, :cpuHotAddEnabled, { :help_inline => _("CPU hot add lets you add CPU resources for a virtual machine while the machine is powered on."), :label => _('CPU hot add'), :label_size => "col-md-2", :disabled => !new_vm } %>
+<%= checkbox_f f, :add_cdrom, { :checked => f.object.attributes[:cdroms].present?, :help_inline => _("Add a CD-ROM drive to the virtual machine."), :label => _('CD-ROM drive'), :label_size => "col-md-2" } if new_vm %>
+<%= orderable_select_f f, :boot_order, compute_resource.boot_devices, {}, {
+                                                                            :label => _("Boot order"),
+                                                                            :label_help => _("Has effect only for network based provisioning"),
+                                                                            :class => "col-md-2",
+                                                                            :disabled => !new_vm,
+                                                                            :multiple => true
+                                                                          }
+  %>
 
 <!--TODO # Move to a helper-->
 <% checked = params[:host] && params[:host][:compute_attributes] && params[:host][:compute_attributes][:start] || '1' %>
-<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_host and controller_name != 'compute_attributes' %>
+<%= checkbox_f f, :start, { :checked => (checked == '1'), :help_inline => _("Power ON this machine"), :label => _('Start'), :label_size => "col-md-2" } if new_vm && controller_name != 'compute_attributes' %>
 
-<%= textarea_f f, :annotation, :class => "col-md-8", :rows=> '3', :disabled => !new_host, :label => _("Annotation Notes") %>
+<%= textarea_f f, :annotation, :class => "col-md-8", :rows=> '3', :disabled => !new_vm, :label => _("Annotation Notes") %>
 
 <%
   arch ||= nil ; os ||= nil
@@ -35,3 +48,17 @@
 </div>
 
 <%= compute_specific_js(compute_resource, "nic_info") %>
+
+<%= react_component('StorageContainer', { data: {
+  config: {
+    vmExists: !new_vm,
+    controllerTypes: compute_resource.scsi_controller_types,
+    diskModeTypes: compute_resource.disk_mode_types,
+    paramsScope: "#{f.object_name}[scsi_controllers]",
+    datastoresUrl: available_storage_domains_api_compute_resource_path(compute_resource),
+    storagePodsUrl: available_storage_pods_api_compute_resource_path(compute_resource)
+  },
+  volumes: f.object.volumes.map { |volume| volume.attributes.merge(:size_gb => volume.size_gb).deep_transform_keys { |key| key.to_s.camelize(:lower).to_sym }.reject { |k,v| k == :size } },
+  controllers: f.object.scsi_controllers,
+  cluster: f.object.cluster
+}}) %>

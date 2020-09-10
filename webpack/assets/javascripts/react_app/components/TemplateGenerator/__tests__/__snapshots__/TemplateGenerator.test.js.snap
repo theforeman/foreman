@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TemplateGenerator rendering render button if not polling and no errors 1`] = `
+<Fragment>
+  <Alert
+    className=""
+    onDismiss={null}
+    title="Generating a report"
+    type="success"
+  >
+    <AlertBody
+      message="
+  Generating of the report %s has been completed.
+  Download should start automatically.
+  In case it does not, please use the download button below.
+"
+    />
+  </Alert>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="primary"
+    disabled={false}
+    onClick={[Function]}
+  >
+    Download
+  </Button>
+</Fragment>
+`;
+
+exports[`TemplateGenerator rendering render info alert if polling 1`] = `
+<Fragment>
+  <Alert
+    className=""
+    onDismiss={null}
+    title="Generating a report"
+    type="info"
+  >
+    <AlertBody
+      message="
+  Report %s is now being generated, the download will start once it's done.
+  You can come to this page later to get the results. The result is available for 24 hours.
+"
+    />
+  </Alert>
+</Fragment>
+`;
+
+exports[`TemplateGenerator rendering renders errors if there are some 1`] = `""`;

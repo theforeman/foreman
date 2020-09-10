@@ -1,0 +1,149 @@
+import { Meta } from '@theforeman/stories';
+
+<Meta
+  title="Introduction|API Middleware"
+  parameters={{
+    storyWeight: 90,
+  }}
+/>
+
+# API Middleware
+
+Instead of each component handling API calls in the same way we have the API Middleware that will handle it.
+
+`APIActions` can be imported from 'webpack/assets/javascripts/react_app/redux/API/index.js'
+or 'foremanReact/redux/API/index.js' for plugins
+
+`APIActions` contains the following methods: `get`, `post`, `put`, `delete`, `patch` which can be also imported independently, e.g:
+
+```js
+import { get, post, put, patch } from '../../redux/API';
+// can't import 'delete' as it's a reserved word in JS.
+```
+
+## How to use it in your action
+
+```js
+import { get } from '../../redux/API';
+
+const someAction = url =>
+  get({
+    key: MY_SPECIAL_KEY, // this will be used later to identify your API call, so keep it unique.
+    url,
+    params: {}, // some params you will want to pass to the API request.
+    headers: {}, // some headers you will want to pass to the API request.
+  });
+```
+
+or
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY, // this will be used later to identify your API call, so keep it unique.
+    url,
+    params: {}, // some params you will want to pass to the API request.
+    headers: {}, // some headers you will want to pass to the API request.
+  })
+);
+```
+
+Then there will be called 2 actions: **MY_SPECIAL_KEY_REQUEST** and **MY_SPECIAL_KEY_SUCCESS/ MY_SPECIAL_KEY_FAILURE**:
+**MY_SPECIAL_KEY_REQUEST** will have the payload only
+**MY_SPECIAL_KEY_SUCCESS** will have the payload and the return data from the API call.
+**MY_SPECIAL_KEY_FAILURE** will have the payload and the return error from the API call.
+
+In the **payload** field you should send any headers and params for the GET request, and any other data you want for the action.
+
+The actions types can be changed with the optional **actionTypes** parameter:
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY, // this will be used later to identify your API call, so keep it unique.
+    url,
+    params: {} // some params you will want to pass to the API request.
+    headers: {}, // some headers you will want to pass to the API request.
+    actionTypes: {
+      REQUEST: 'CUSTOM_REQUEST',
+      SUCCESS: 'CUSTOM_SUCCESS',
+      FAILURE: 'CUSTOM_FAILURE',
+    },
+  })
+);
+```
+
+## Main API Reducer
+
+The API will manage the request lifecycle in the redux store > API > the provided key, e.g:
+
+```js
+{
+  API: {
+    MY_COMPONENT_KEY: { // this is the key you provided in the API action.
+      status: 'RESOLVED',
+      payload, // the payload you passed to the API action
+      response, // the API response. it will store data on success or error on failure.
+    }
+  }
+}
+```
+
+it will manage the request statuses, errors and responses.
+
+### Access the API store
+
+We provided you the `selectAPIByKey` in '/APISelectors.js' which will return the key substate,
+there are also `selectAPIStatus`, `selectAPIPayload`, `selectAPIResponse`, `selectAPIError` and `selectAPIErrorMessage`.
+
+## Error handling
+
+In case you want to invoke some method or action immediately when an error occurs,
+we support the `handleError` param where you could pass an error handling function, e.g:
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    handleError: error => error.response.status === 401 ? logoutUser() : null
+    ...
+  })
+);
+```
+
+The error handling function will receive the error object from the API request.
+
+## Success handling
+
+In case you want to invoke some method or action immediately after the request succeed,
+we support the `handleSuccess` param where you could pass a success handling function, e.g:
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    handleSuccess: response => { dispatch(addToast({ type: 'success' })) },
+    ...
+  })
+);
+```
+
+The success handling function will receive the response object from the API request.
+
+## Toast handling
+
+Instead of managing and dispatching the toast action by yourself, you can use the API middleware shortcuts,
+by passing `toastSuccess` or `toastError` as keys in the API action, e.g:
+
+```js
+dispatch(
+  get({
+    key: MY_SPECIAL_KEY,
+    url,
+    toastError: error => `Oh no! Something went wrong while submiting the form, the server returned the following error: ${error}`
+    toastSuccess: response => `Yay! task: ${response.taskID} was successfully created.`
+  })
+);
+```

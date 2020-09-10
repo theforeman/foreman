@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AutoComplete actions should regiser a component 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "fillId": undefined,
+        "slotId": Object {
+          "component": [Function],
+          "fillId": "fill-id",
+          "slotId": "slot-id",
+          "weight": 100,
+        },
+      },
+      "type": "SLOT_AND_FILL_REGISTER_FILL",
+    },
+  ],
+]
+`;
+
+exports[`AutoComplete actions should unregiser a component 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "slotId": Object {
+          "fillId": "fill-id",
+          "slotId": "slot-id",
+        },
+      },
+      "type": "SLOT_AND_FILL_REMOVE_FILLED_COMPONENT",
+    },
+  ],
+]
+`;

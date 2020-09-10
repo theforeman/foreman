@@ -3,7 +3,7 @@
     <%= new_child_fields_template(f, compute_resource.interfaces_attrs_name, {
         :object => compute_resource.new_interface,
         :partial => provider_partial(compute_resource, 'network'),
-        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove network interface') },
+        :form_builder_attrs => { :compute_resource => compute_resource, :new_host => new_host, :new_vm => new_vm, :remove_title => _('remove network interface') },
         :layout => 'compute_resources_vms/form/deletable_layout' }) %>
 
     <%= field_set_tag _("Network interfaces"), :id => "network_interfaces" do %>
@@ -12,11 +12,11 @@
         <%= f.fields_for compute_resource.interfaces_attrs_name do |i| %>
 
           <%= render :partial => provider_partial(compute_resource, 'network'),
-              :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :remove_title => _('remove network interface') },
+              :locals => { :f => i, :compute_resource => compute_resource, :new_host => new_host, :new_vm => new_vm, :remove_title => _('remove network interface'), :selected_cluster => selected_cluster },
               :layout => 'compute_resources_vms/form/deletable_layout' %>
 
         <% end %>
-        <% if new_host %>
+        <% if new_vm %>
           <%= add_child_link '+ ' + _("Add Interface"), compute_resource.interfaces_attrs_name, { :class => "info", :title => _('add new network interface') } %>
         <% end %>
 

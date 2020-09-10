@@ -3,15 +3,22 @@
     <thead class="white-header">
     <tr>
       <th class='col-md-3'><%= _("Name") %></th>
+      <th class='col-md-2'><%= _('Type') %></th>
       <th class='col-md-8'><%= _("Value") %></th>
       <th class='col-md-1 ca'><%= _('Actions') %></th>
     </tr>
     </thead>
     <tbody>
-      <%= f.fields_for type do |builder| %>
-        <%= render "common_parameters/parameter", :f => builder if builder.object.new_record? || User.current.can?(:view_params, builder.object) %>
+      <%
+        parameters_by_type = f.object.send(type)
+        params_authorizer = Authorizer.new(User.current, :collection => parameters_by_type)
+      %>
+      <% authorized_resource_parameters(params_authorizer, parameters_by_type).each do |parameter| %>
+        <%= f.fields_for type, parameter do |builder| %>
+          <%= render "common_parameters/parameter", :f => builder, :params_authorizer => params_authorizer %>
+        <% end %>
       <% end %>
     </tbody>
   </table>
-  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, type, "common_parameters/parameter", :target => '#global_parameters_table tbody') : "" %>
+  <%= authorized_via_my_scope("host_editing", "create_params") ? link_to_add_fields('+ ' + _("Add Parameter"), f, type, "common_parameters/parameter", { :target => '#global_parameters_table tbody', :locals => { :params_authorizer => params_authorizer }}) : "" %>
 </div>

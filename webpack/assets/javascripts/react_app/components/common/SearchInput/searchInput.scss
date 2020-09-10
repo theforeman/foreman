@@ -1,0 +1,27 @@
+@import '../../../common/colors';
+
+.input-search {
+  position: relative;
+  left: 20px;
+
+  input {
+    text-indent: 25px;
+    width: 158px;
+  }
+
+  .fa-search {
+    color: $pf-blue-400;
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    z-index: 99;
+  }
+
+  .fa-close {
+    cursor: pointer;
+    position: absolute;
+    top: 6px;
+    left: 140px;
+    z-index: 99;
+  }
+}

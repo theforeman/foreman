@@ -1,0 +1,16 @@
+<%#
+kind: PXELinux
+name: AutoYaST default PXELinux
+model: ProvisioningTemplate
+oses:
+- SLES
+- OpenSUSE
+%>
+<% http_proxy_string = host_param('http-proxy') ? "proxy=http://" + host_param('http-proxy') + ":" + host_param('http-proxy-port') : '' -%>
+
+DEFAULT linux
+
+LABEL linux
+    KERNEL <%= @kernel %>
+    APPEND initrd=<%= @initrd %> ramdisk_size=65536 install=<%= @mediapath %> autoyast=<%= foreman_url('provision') %> textmode=1 <%= http_proxy_string -%>
+

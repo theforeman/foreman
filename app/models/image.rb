@@ -1,7 +1,6 @@
-class Image < ActiveRecord::Base
-  include Authorizable
-
+class Image < ApplicationRecord
   audited
+  include Authorizable
 
   belongs_to :operatingsystem
   belongs_to :compute_resource
@@ -9,14 +8,15 @@ class Image < ActiveRecord::Base
   has_many_hosts :dependent => :nullify
 
   validates_lengths_from_database
-  validates :username, :name, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
+  validates :username, :operatingsystem_id, :compute_resource_id, :architecture_id, :presence => true
+  validates :name, :presence => true, :uniqueness => {:scope => [:compute_resource_id, :operatingsystem_id]}
   validates :uuid, :presence => true, :uniqueness => {:scope => :compute_resource_id}
   validate :uuid_exists?
 
   scoped_search :on => [:name, :username], :complete_value => true
-  scoped_search :in => :compute_resources, :on => :name, :complete_value => :true, :rename => "compute_resource"
-  scoped_search :in => :architecture, :on => :id, :rename => "architecture", :complete_enabled => false, :only_explicit => true
-  scoped_search :in => :operatingsystem, :on => :id, :rename => "operatingsystem", :complete_enabled => false, :only_explicit => true
+  scoped_search :relation => :compute_resource, :on => :name, :complete_value => :true, :rename => "compute_resource"
+  scoped_search :relation => :architecture, :on => :id, :rename => "architecture", :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
+  scoped_search :relation => :operatingsystem, :on => :id, :rename => "operatingsystem", :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   scoped_search :on => :user_data, :complete_value => {:true => true, :false => false}
 
   private

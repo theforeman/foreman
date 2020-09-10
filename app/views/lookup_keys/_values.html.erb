@@ -8,8 +8,8 @@
       </span></th>
     <% if is_param %>
       <th class='col-md-4'><%= _('Value') %></th>
-      <th class='col-md-2 ca'><%= _('Use Puppet default') %>
-        <span class="help-inline"> <%= use_puppet_default_help() %></span>
+      <th class='col-md-2 ca'><%= _('Omit') %>
+        <span class="help-inline"> <%= omit_help %></span>
       </th>
     <% else %>
       <th class='col-md-6'><%= _('Value') %></th>
@@ -19,7 +19,7 @@
   </thead>
 
   <tbody>
-  <%= f.fields_for :lookup_values do |lookup_value| %>
+  <%= f.fields_for :lookup_values, f.object.sorted_values do |lookup_value| %>
     <%= render 'lookup_keys/value', :f => lookup_value, :is_param => is_param, :is_template => false, :hidden_value => f.object.hidden_value? %>
   <% end %>
   </tbody>

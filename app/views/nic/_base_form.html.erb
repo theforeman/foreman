@@ -4,23 +4,23 @@
                     :size => "col-md-8", :label_size => "col-md-3" %>
 
 <%= text_f f, :mac,
-              :help_inline => popover('', _("Media access control address for this interface. Format must be six groups of two hexadecimal digits separated by colons (:), e.g. 00:11:22:33:44:55"), :rel => 'popover-modal'),
+              :label => _("MAC Address"),
+              :label_help => _("Media access control address for this interface. Format must be six groups of two hexadecimal digits <br/> separated by colons (:), e.g. 00:11:22:33:44:55. Most virtualization compute resources (e.g. VMware, oVirt, libvirt) <br/> will provide new random MAC address.").html_safe,
+              :label_help_options => { :rel => 'popover-modal' },
+              :disabled => f.object.host.try(:compute_provides?, :mac),
               :class => :interface_mac, :'data-url' => random_name_interfaces_path, :size => "col-md-8", :label_size => "col-md-3" %>
 <%= text_f f, :identifier,
-              :label => _("Device identifier"),
-              :help_inline => popover('',
-                      _("Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul>" +
+              :label => _("Device Identifier"),
+              :label_help => _("Device identifier for this interface. This may be different on various platforms and environments, here are some common examples.<br/><ul>" +
                                 "<li>Use the basic name for physical interface identifiers, e.g. <strong>eth0</strong> or <strong>em0</strong> with biosdevname.</li>" +
                                 "<li>For virtual interfaces, use either alias notation (<strong>eth0:1</strong>, name:index) or VLAN notation (<strong>eth0.15</strong>, name.tag).</li>" +
-                                "<li>For bonds it's common to use <strong>bond0</strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>"),
-                      :title => _("Device identifier"),
-                      :rel => 'popover-modal',
-                      :'data-placement' => "top"
-              ),
+                                "<li>For bonds it's common to use <strong>bond0</strong> on Linux, <strong>lagg0</strong> on FreeBSD systems.</li></ul>").html_safe,
+              :label_help_options => { :rel => 'popover-modal', :'data-placement' => "top" },
               :class => :interface_identifier,
               :size => "col-md-8", :label_size => "col-md-3" %>
-<%= text_f f, :name, :label => _("DNS name"), :value => f.object.shortname,
-              :help_inline => popover('', _("Primary interface's DNS name and domain define host's FQDN"), :rel => 'popover-modal'),
+<%= text_f f, :name, :label => _("DNS Name"), :value => f.object.shortname,
+              :label_help => _("Primary interface's DNS name and domain define host's FQDN"),
+              :label_help_options => { :rel => 'popover-modal' },
               :class => :interface_name,
               :size => "col-md-8", :label_size => "col-md-3" %>
 <% if SETTINGS[:unattended] %>
@@ -32,6 +32,8 @@
                  :size => "col-md-8", :label_size => "col-md-3" } %>
   <%= nic_subnet_field f, :subnet_id, :"Subnet::Ipv4",
                 { :label => _("IPv4 Subnet"),
+                :label_help => _("IPv4 Subnet with associated TFTP smart proxy is required for PXE based provisioning."),
+                :label_help_options => { :rel => 'popover-modal' },
                 :class => 'interface_subnet' } %>
   <%= nic_subnet_field f, :subnet6_id, :"Subnet::Ipv6",
                 { :label => _("IPv6 Subnet"),
@@ -39,40 +41,44 @@
 <% end %>
 <%= text_f f, :ip,
               :class => :interface_ip,
-              :label => _("IPv4 address"),
+              :label => _("IPv4 Address"),
               :autocomplete => 'off',
               :help_block => suggest_new_link(f, :subnet , 'suggest_new_ip'),
-              :help_inline => popover('',
-                  _("An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>"),
-                  :title => _("IP address auto-suggest"),
-                  :rel => 'popover-modal',
-                  :'data-placement' => "top"
-                ).html_safe,
-                :size => "col-md-8", :label_size => "col-md-3" %>
+              :label_help => _("An IP address will be auto-suggested if you have enabled IPAM on the IPv4 subnet selected above.<br/><br/>The IP address can be left blank when:<br/><ul><li>provisioning tokens are enabled</li><li>the domain does not manage DNS</li><li>the subnet does not manage reverse DNS</li><li>and the subnet does not manage DHCP reservations</li></ul>").html_safe,
+              :label_help_options => {
+                :title => _("IP address auto-suggest"),
+                :rel => 'popover-modal',
+                :'data-placement' => "top"
+              },
+              :size => "col-md-8", :label_size => "col-md-3" %>
 
 <%= text_f f, :ip6,
-              :label => _("IPv6 address"),
+              :label => _("IPv6 Address"),
               :class => :interface_ip6,
               :autocomplete => 'off',
               :help_block => suggest_new_link(f, :subnet6, 'suggest_new_ip6'),
-              :help_inline => popover('',
-                  _("An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subnet selected above."),
-                  :title => _("IP address auto-suggest"),
-                  :rel => 'popover-modal',
-                  :'data-placement' => "top"
-                ).html_safe,
+              :label_help => _("An IP address will be auto-suggested if you have enabled IPAM on the IPv6 subnet selected above."),
+              :label_help_options => {
+                :title => _("IP address auto-suggest"),
+                :rel => 'popover-modal',
+                :'data-placement' => "top"
+              },
               :size => "col-md-8", :label_size => "col-md-3" %>
 
 <% if SETTINGS[:unattended] %>
   <%= checkbox_f f, :managed,
-                 :help_inline => popover('',_("Should this interface be managed via DHCP and DNS smart proxy and should it be configured during provisioning?"), :rel => 'popover-modal'),
+                 :label_help => _("If the Managed flag is enabled, external services such as DHCP, DNS, and TFTP will be configured according to the information provided.") + '<br/>' + _("The services to be configured are determined by the subnet and domain that are selected for this interface. If you want to manage<br/> only a subset of these services, change the %{subnet} and %{domain} proxies configuration. When a proxy is set to 'None', the corresponding") % { :subnet => link_to(_('subnet'), subnets_path, :target => :blank), :domain => link_to(_('domain'), domains_path, :target => :blank)} + '<br/>' + _("service configuration will be skipped.") + '<br/><br/>' + _("If the Managed flag is disabled, none of the services will be configured for this interface, even if it is configured for the subnet and domain.") + '<br/><br/>' + _("The Managed flag also determines whether the interface should be configured during host provisioning, so that the configuration remains after reboot."),
+                 :class => :interface_managed,
+                 :label_help_options => { :rel => 'popover-modal' },
                  :size => "col-md-8", :label_size => "col-md-3" %>
 <% end %>
 <%= checkbox_f f, :primary,
-               :help_inline => popover('',_("The Primary interface is used for constructing the FQDN of the host"), :rel => 'popover-modal'),
+               :label_help => _("The Primary interface is used for constructing the FQDN of the host.") + '<br/>' + _("This interface is also used for network communication during provisioning, e.g. downloading installation packages."),
+               :label_help_options => { :rel => 'popover-modal' },
                :class => :interface_primary,
                :size => "col-md-8", :label_size => "col-md-3" %>
 <%= checkbox_f f, :provision,
-               :help_inline => popover('',_("The Provisioning interface is used for TFTP of PXELinux (or SSH for image-based hosts)"), :rel => 'popover-modal'),
+               :label_help => _("The Provisioning interface is used for TFTP configuration for PXE boot based on this interface MAC address.") + '<br/>' + _("For image based provisioning using finish template, this interface's IP will be used as the SSH target."),
+               :label_help_options => { :rel => 'popover-modal' },
                :class => :interface_provision,
                :size => "col-md-8", :label_size => "col-md-3" %>

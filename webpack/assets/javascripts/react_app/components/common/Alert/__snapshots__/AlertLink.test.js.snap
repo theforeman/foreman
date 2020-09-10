@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertLink should render with href 1`] = `
+<div
+  className="pull-right toast-pf-action"
+>
+  <a
+    href="#"
+  >
+    some link
+  </a>
+</div>
+`;
+
+exports[`AlertLink should render with onClick 1`] = `
+<div
+  className="pull-right toast-pf-action"
+>
+  <a
+    onClick={[MockFunction]}
+  >
+    some link
+  </a>
+</div>
+`;

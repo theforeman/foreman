@@ -4,7 +4,7 @@
 <%= show_feature_version('dhcp') %>
 <div class="row">
   <div class="col-md-4">
-    <%= _('Subnets') %>
+    <strong><%= _('Subnets') %></strong>
   </div>
   <div class="col-md-8">
     <%= generate_links_for(@smart_proxy.subnets).html_safe %>

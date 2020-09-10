@@ -1,0 +1,56 @@
+import { Meta, Story, Preview, Props, action } from '@theforeman/stories';
+
+import PermissionDenied from '.';
+
+<Meta title="Components|PermissionDenied" component={PermissionDenied} />
+
+# PermissionDenied
+
+Use `PermissionDenied` to explain the user about the permissions needed to perform an operation.
+
+<Preview withToolbar>
+  <Story name="With default text">
+    <PermissionDenied />
+  </Story>
+</Preview>
+
+## Props
+
+<Props of={PermissionDenied} />
+
+The `missingPermissions` prop accept an array of strings, represent the missing permissions.
+
+<Preview>
+  <Story name="With missing-permissions">
+    <PermissionDenied
+      missingPermissions={['view_organizations', 'import_manifest']}
+    />
+  </Story>
+</Preview>
+
+The texts can be overrdided by using the `texts` prop.
+
+<Preview>
+  <Story name="With custom test">
+    <PermissionDenied
+      texts={{
+        notAuthorizedMsg: "Hey! You can't do that.",
+        pleaseRequestMsg:
+          'Please ask an admin to get you the following permissions:',
+        permissionDeniedMsg: 'Access denied',
+      }}
+      missingPermissions={['view_organizations', 'import_manifest']}
+    />
+  </Story>
+</Preview>
+
+The back button will take the user to `/` by default, use the `backHref` prop to change the back button url.
+
+<Preview>
+  <Story name="With custom back-button href">
+    <PermissionDenied
+      backHref="/some-path"
+      missingPermissions={['view_organizations', 'import_manifest']}
+    />
+  </Story>
+</Preview>

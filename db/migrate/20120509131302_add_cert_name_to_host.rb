@@ -1,4 +1,4 @@
-class AddCertNameToHost < ActiveRecord::Migration
+class AddCertNameToHost < ActiveRecord::Migration[4.2]
   def up
     add_column :hosts, :certname, :string, :limit => 255
     add_index "hosts", :certname

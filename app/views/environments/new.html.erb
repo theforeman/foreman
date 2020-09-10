@@ -1,3 +1,7 @@
-<% title _("New Environment") %>
-
+<% title _("Create Environment") %>
+<%= breadcrumbs(:switchable => false,
+                :items => [
+                  { :caption => _('Puppet Environments'), :url => environments_path },
+                  { :caption => _('Create Puppet Environment') }
+                ]) %>
 <%= render :partial => 'form' %>

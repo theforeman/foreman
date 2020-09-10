@@ -1,5 +1,5 @@
-<% title(_('Smart Proxy: %s') % @smart_proxy.to_label) %>
-<%= javascript 'proxy_status' %>
+<% title(@smart_proxy.to_label) %>
+<%= javascript 'proxy_status', 'charts' %>
 <%= smart_proxy_title_actions(@smart_proxy, authorizer) %>
 <% service_features = services_tab_features(@smart_proxy) %>
 <% tab_features = tabbed_features(@smart_proxy) %>
@@ -22,7 +22,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Communication status') %>
+            <strong><%= _('Communication status') %></strong>
           </div>
           <div class="col-md-8">
             <span class="proxy-show-status">
@@ -32,7 +32,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('URL') %>
+            <strong><%= _('URL') %></strong>
           </div>
           <div class="col-md-8">
             <%= @smart_proxy.url %>
@@ -40,7 +40,7 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Version') %>
+            <strong><%= _('Version') %></strong>
           </div>
           <div class="col-md-8">
             <span class="proxy-version" data-url="<%= ping_smart_proxy_path(@smart_proxy) %>">
@@ -50,15 +50,31 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <%= _('Active features') %>
+            <strong><%= _('Active features') %></strong>
           </div>
+
+          <% @smart_proxy.features.order(:name).pluck(:name).in_groups_of(5, false) do |features| %>
+            <div class="col-md-2">
+              <ul class="">
+                <% features.each do |feature| %>
+                  <li class=""><%= h(feature).gsub(' ', '&nbsp;').html_safe %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4"></div>
           <div class="col-md-8">
-            <%= @smart_proxy.features.to_sentence %> <%= refresh_proxy_icon(@smart_proxy, authorizer) %>
+            <%= refresh_proxy_button(@smart_proxy, authorizer) %>
           </div>
         </div>
+        <br>
+
         <div class="row">
           <div class="col-md-4">
-            <%= _('Hosts managed') %>
+            <strong><%= _('Hosts managed') %></strong>
           </div>
           <div class="col-md-8">
             <%= link_to @smart_proxy.hosts_count, hosts_path(:search => "smart_proxy = \"#{@smart_proxy.name}\"") %>
@@ -67,7 +83,7 @@
         <% if @smart_proxy.has_feature?('Logs') %>
           <div class="row">
             <div class="col-md-4">
-              <%= _('Failed features') %>
+              <strong><%= _('Failed features') %></strong>
             </div>
             <div class="col-md-8">
               <div class="tab-pane" id="failed-modules"
@@ -91,7 +107,7 @@
       <div class="tab-pane" id="services">
         <div class="col-md-6">
           <% service_features.each do |feature| %>
-            <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
+            <% feature_erb = "smart_proxies/plugins/#{feature.parameterize(separator: '_')}" %>
             <% if lookup_context.template_exists?(feature_erb, [], true) %>
               <%= render :partial => feature_erb, :locals => {:feature => feature} %>
             <% else %>
@@ -103,7 +119,7 @@
     <% end %>
     <% tab_features.each do |feature| %>
       <div class="tab-pane" id="<%= feature.parameterize %>">
-        <% feature_erb = "smart_proxies/plugins/#{feature.parameterize('_')}" %>
+        <% feature_erb = "smart_proxies/plugins/#{feature.parameterize(separator: '_')}" %>
         <% if lookup_context.template_exists?(feature_erb, [], true) %>
           <%= render :partial => feature_erb %>
         <% else %>

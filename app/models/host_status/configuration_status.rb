@@ -14,10 +14,23 @@ module HostStatus
     end
 
     def out_of_sync?
-      if (host && !host.enabled?) || no_reports?
+      if (host && !host.enabled?) || no_reports? || out_of_sync_disabled?
         false
       else
-        !reported_at.nil? && reported_at < (Time.now.utc - (Setting[:puppet_interval] + Setting[:outofsync_interval]).minutes)
+        !reported_at.nil? && reported_at < (Time.now.utc - expected_report_interval)
+      end
+    end
+
+    def expected_report_interval
+      (reported_origin_interval + default_report_interval).minutes
+    end
+
+    def reported_origin_interval
+      if last_report.origin &&
+         (interval = Setting[:"#{last_report.origin.downcase}_interval"])
+        interval.to_i
+      else
+        default_report_interval
       end
     end
 
@@ -30,16 +43,16 @@ module HostStatus
 
       if error?
         # error
-        return HostStatus::Global::ERROR
+        HostStatus::Global::ERROR
       elsif out_of_sync?
         # out of sync
-        return HostStatus::Global::WARN
+        HostStatus::Global::WARN
       elsif no_reports? && (host.configuration? || Setting[:always_show_configuration_status])
         # no reports and configuration is set
-        return HostStatus::Global::WARN
+        HostStatus::Global::WARN
       else
         # active, pending, no changes, no reports (or host not setup for configuration)
-        return HostStatus::Global::OK
+        HostStatus::Global::OK
       end
     end
 
@@ -99,7 +112,7 @@ module HostStatus
 
     def handle_options(options)
       if options.has_key?(:last_reports) && !options[:last_reports].nil?
-        cached_report = options[:last_reports].find { |r| r.host_id == self.host_id }
+        cached_report = options[:last_reports].find { |r| r.host_id == host_id }
         self.last_report = cached_report
       end
     end
@@ -110,6 +123,18 @@ module HostStatus
 
     def calculator
       ConfigReportStatusCalculator.new(:bit_field => status)
+    end
+
+    def default_report_interval
+      Setting[:outofsync_interval]
+    end
+
+    def out_of_sync_disabled?
+      if last_report.origin
+        Setting[:"#{last_report.origin.downcase}_out_of_sync_disabled"]
+      else
+        false
+      end
     end
   end
 end

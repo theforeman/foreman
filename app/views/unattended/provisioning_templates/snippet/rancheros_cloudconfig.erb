@@ -1,0 +1,49 @@
+<%#
+kind: snippet
+name: rancheros_cloudconfig
+model: ProvisioningTemplate
+snippet: true
+-%>
+#cloud-config
+hostname: <%= @host.shortname %>
+rancher:
+  network:
+    dns:
+<% unless @host.subnet.dns_servers.empty? -%>
+      nameservers:
+<% @host.subnet.dns_servers.each do |nameserver| -%>
+        - <%= nameserver %>
+<% end -%>
+<% end -%>
+      search:
+        - <%= @host.domain %>
+    interfaces:
+      eth*:
+        dhcp: true
+<% unless @host.subnet.respond_to?(:dhcp_boot_mode?) -%>
+      eth0:
+        address: <%= @host.ip -%>/<%= @host.subnet.cidr %>
+        gateway: <%= @host.subnet.gateway %>
+<% end -%>
+  console: debian
+ssh_authorized_keys:
+<%-
+users = @host.owner_type == 'Usergroup' ? @host.owner.all_users : [@host.owner]
+users.each do |user|
+  if user.respond_to?(:ssh_authorized_keys) && user.ssh_authorized_keys.any?
+    index = 0
+    user.ssh_keys.each do |key|
+      if index == 0
+-%>
+<%="  - #{key.type} #{key.ssh_key} #{key.comment}"%>
+<%-
+      else
+-%>
+<%="  - #{key.type} #{key.ssh_key} #{key.comment} - #{index}"%>
+<%-
+      end
+      index += 1
+    end
+  end
+end
+-%>

@@ -1,10 +1,10 @@
-class RemoveSignoSetting < ActiveRecord::Migration
-  class FakeSetting < ActiveRecord::Base
+class RemoveSignoSetting < ActiveRecord::Migration[4.2]
+  class FakeSetting < ApplicationRecord
     self.table_name = 'settings'
   end
 
   def up
-    FakeSetting.delete_all(:name => %w(signo_url signo_sso))
+    FakeSetting.where(:name => %w(signo_url signo_sso)).delete_all
   end
 
   def down

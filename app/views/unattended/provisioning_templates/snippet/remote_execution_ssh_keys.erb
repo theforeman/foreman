@@ -1,0 +1,71 @@
+<%#
+kind: snippet
+name: remote_execution_ssh_keys
+model: ProvisioningTemplate
+snippet: true
+%>
+# SSH keys setup snippet for Remote Execution plugin
+#
+# Parameters:
+#
+# remote_execution_ssh_keys: public keys to be put in ~/.ssh/authorized_keys
+#
+# remote_execution_ssh_user: user for which remote_execution_ssh_keys will be
+#                            authorized
+#
+# remote_execution_create_user: create user if it not already existing
+#
+# remote_execution_effective_user_method: method to switch from ssh user to
+#                                         effective user
+#
+# This template sets up SSH keys in any host so that as long as your public
+# SSH key is in remote_execution_ssh_keys, you can SSH into a host. This 
+# works in combination with Remote Execution plugin by querying smart proxies
+# to build an array.
+#
+# To use this snippet without the plugin provide the SSH keys as host parameter
+# remote_execution_ssh_keys. It expects the same format like the authorized_keys
+# file.
+
+
+<% if !host_param('remote_execution_ssh_keys').blank? %>
+<% ssh_user = host_param('remote_execution_ssh_user') || 'root' %>
+
+user_exists=false
+getent passwd <%= ssh_user %> >/dev/null 2>&1 && user_exists=true
+
+<% if ssh_user != 'root' && host_param_true?('remote_execution_create_user') -%>
+if ! $user_exists; then
+  useradd -m <%= ssh_user %> && user_exists=true
+fi
+<% end -%>
+
+if $user_exists; then
+<% ssh_path = "~#{ssh_user}/.ssh" %>
+
+  mkdir -p <%= ssh_path %>
+
+  cat << EOF >> <%= ssh_path %>/authorized_keys
+<%= host_param('remote_execution_ssh_keys').is_a?(String) ? host_param('remote_execution_ssh_keys') : host_param('remote_execution_ssh_keys').join("\n") %>
+EOF
+
+  chmod 0700 <%= ssh_path %>
+  chmod 0600 <%= ssh_path %>/authorized_keys
+  chown -R <%= "#{ssh_user}:" %> <%= ssh_path %>
+
+  # Restore SELinux context with restorecon, if it's available:
+  command -v restorecon && restorecon -RvF <%= ssh_path %> || true
+  
+<% if ssh_user != 'root' && host_param('remote_execution_effective_user_method') == 'sudo' -%>
+<% if @host.operatingsystem.family == 'Redhat' || @host.operatingsystem.family == 'Debian' -%>
+echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL
+Defaults:<%= ssh_user %> !requiretty" > /etc/sudoers.d/<%= ssh_user %>
+<% elsif @host.operatingsystem.family == 'Suse' -%>
+echo "<%= ssh_user %> ALL = (root) NOPASSWD : ALL
+Defaults:<%= ssh_user %> !targetpw" >> /etc/sudoers
+<% end -%>
+<% end -%>
+else
+  echo 'The remote_execution_ssh_user does not exist and remote_execution_create_user is not set to true.  remote_execution_ssh_keys snippet will not install keys'
+fi
+<% end %>

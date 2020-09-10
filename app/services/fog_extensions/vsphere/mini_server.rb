@@ -1,18 +1,18 @@
 module FogExtensions
   module Vsphere
     class MiniServer
-      attr_reader :name, :identity, :cpus, :corespersocket, :memory, :state, :path
+      attr_reader :name, :identity, :cpus, :corespersocket, :memory, :state, :path, :operatingsystem, :hypervisor
 
-      def initialize(raw, path = nil, uuid = nil)
-        hardware  = raw.config.hardware
-        @raw      = raw
-        @name     = raw.name
-        @identity = uuid
-        @cpus     = hardware.numCPU
-        @corespersocket = hardware.numCoresPerSocket
-        @memory   = hardware.memoryMB * Foreman::SIZE[:mega]
-        @state    = raw.runtime.powerState
-        @path     = path
+      def initialize(attrs = {})
+        @name     = attrs[:name]
+        @identity = attrs[:identity]
+        @cpus     = attrs[:cpus]
+        @corespersocket = attrs[:corespersocket]
+        @memory = attrs[:memory].megabytes
+        @state = attrs[:state]
+        @path = attrs[:path]
+        @operatingsystem = attrs[:operatingsystem]
+        @hypervisor = attrs[:hypervisor]
       end
 
       def ready?
@@ -23,9 +23,7 @@ module FogExtensions
         name
       end
 
-      private
-
-      attr_reader :raw
+      alias_method :id, :identity
     end
   end
 end

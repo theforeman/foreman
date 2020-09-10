@@ -1,5 +1,3 @@
 <% if @template.locked? -%>
   <%= locked_warning(::Template.find(params[:id])) %>
-<% else -%>
-  <%= infobox_functions_and_macros("4.4.4PartitionTables") %>
 <% end -%>

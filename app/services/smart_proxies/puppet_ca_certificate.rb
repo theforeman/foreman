@@ -5,8 +5,8 @@ class SmartProxies::PuppetCACertificate
 
   def initialize(opts)
     @name, @state, @fingerprint, @valid_from, @expires_at, @status_object = opts.flatten
-    @valid_from = Time.parse(@valid_from).utc unless @valid_from.blank?
-    @expires_at = Time.parse(@expires_at).utc unless @expires_at.blank?
+    @valid_from = Time.parse(@valid_from).utc if @valid_from.present?
+    @expires_at = Time.parse(@expires_at).utc if @expires_at.present?
   end
 
   def sign
@@ -23,6 +23,6 @@ class SmartProxies::PuppetCACertificate
   end
 
   def <=>(other)
-    self.name <=> other.name
+    name <=> other.name
   end
 end

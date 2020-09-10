@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StorageContainer should render controller 1`] = `
+<div
+  className="controller-container"
+>
+  <div
+    className="controller-header"
+  >
+    <div
+      className="control-label col-md-2 controller-selected-container"
+    >
+      <label>
+        Create SCSI controller
+      </label>
+    </div>
+    <div
+      className="controller-type-container col-md-4"
+    >
+      <Select
+        allowClear={false}
+        className=""
+        disabled={false}
+        errorMessage="An error occured."
+        label=""
+        name={null}
+        onChange={[Function]}
+        options={
+          Object {
+            "ParaVirtualSCSIController": "VMware Paravirtual",
+            "VirtualBusLogicController": "Bus Logic Parallel",
+            "VirtualLsiLogicController": "LSI Logic Parallel",
+            "VirtualLsiLogicSASController": "LSI Logic SAS",
+          }
+        }
+        status="RESOLVED"
+        useSelect2={true}
+        value="VirtualLsiLogicController"
+      />
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        className="btn-add-disk"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Add volume
+      </Button>
+    </div>
+    <div
+      className="delete-controller-container"
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        className="btn-remove-controller"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Delete Controller
+      </Button>
+    </div>
+  </div>
+  <div
+    className="disks-container"
+  >
+    <Disk
+      config={
+        Object {
+          "controllerTypes": Object {
+            "ParaVirtualSCSIController": "VMware Paravirtual",
+            "VirtualBusLogicController": "Bus Logic Parallel",
+            "VirtualLsiLogicController": "LSI Logic Parallel",
+            "VirtualLsiLogicSASController": "LSI Logic SAS",
+          },
+          "diskModeTypes": Object {
+            "independent_nonpersistent": "Independent - Nonpersistent",
+            "independent_persistent": "Independent - Persistent",
+            "persistent": "Persistent",
+          },
+        }
+      }
+      controllerKey={1000}
+      datastore=""
+      datastores={
+        Object {
+          "FC0001_LX_DC1_EXAMPLE_PROD_01": "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)",
+        }
+      }
+      eagerZero={false}
+      id="e86728ee-dbde-ad59-13d6-0c5488635e73"
+      key="e86728ee-dbde-ad59-13d6-0c5488635e73"
+      mode="persistent"
+      name="Hard disk"
+      removeDisk={[Function]}
+      sizeGb={10}
+      storagePod=""
+      storagePods={
+        Object {
+          "LX-DC1-EXAMPLE": "%(name)s (free: %(free)s, prov: %(prov)s, total: %(total)s)",
+        }
+      }
+      thin={true}
+      updateDisk={[Function]}
+    />
+  </div>
+</div>
+`;

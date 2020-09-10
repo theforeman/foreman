@@ -6,11 +6,13 @@ module Api
 
       before_action :find_resource, :only => %w{show destroy}
       before_action :setup_search_options, :only => [:index, :last]
+      before_action :compatibility, :only => :create
 
-      add_smart_proxy_filters :create, :features => Proc.new { ConfigReportImporter.authorized_smart_proxy_features }
+      add_smart_proxy_filters :create, :features => proc { ConfigReportImporter.authorized_smart_proxy_features }
 
       api :GET, "/config_reports/", N_("List all reports")
       param_group :search_and_pagination, ::Api::V2::BaseController
+      add_scoped_search_description_for(ConfigReport)
 
       def index
         @config_reports = resource_scope_for_index.my_reports
@@ -37,10 +39,10 @@ module Api
       param_group :config_report, :as => :create
 
       def create
-        @config_report = ConfigReport.import(params[:config_report], detected_proxy.try(:id))
+        @config_report = ConfigReport.import(params.to_unsafe_h[:config_report], detected_proxy.try(:id))
         process_response @config_report.errors.empty?
       rescue ::Foreman::Exception => e
-        render_message(e.to_s, :status => :unprocessable_entity)
+        render_exception(e, :status => :unprocessable_entity)
       end
 
       api :DELETE, "/config_reports/:id/", N_("Delete a report")
@@ -64,8 +66,13 @@ module Api
 
       private
 
+      def setup_search_options
+        params[:search] ||= ""
+        params[:search] += " host = " + params[:host_id] if params[:host_id]
+      end
+
       def resource_scope(options = {})
-        options.merge!(:permission => :view_config_reports)
+        options[:permission] = :view_config_reports
         super(options).my_reports
       end
 
@@ -76,6 +83,13 @@ module Api
           else
             super
         end
+      end
+
+      # This is needed for backwards compatibility with Ansible and Chef report callbacks
+      def compatibility
+        return unless params[:report].present?
+        Foreman::Deprecation.api_deprecation_warning("The report parameter was renamed to config_reports and the API endpoint has changed from /reports to /config_reports. Please use the new API.")
+        params[:config_report] = params.delete(:report)
       end
     end
   end

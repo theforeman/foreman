@@ -1,4 +1,4 @@
-class CachedUserRole < ActiveRecord::Base
+class CachedUserRole < ApplicationRecord
   belongs_to :user
   belongs_to :role
 

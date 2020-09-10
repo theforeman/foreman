@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withDataReducer should handle TEST_CLEAR_ERROR 1`] = `
+Object {
+  "hasData": false,
+  "hasError": false,
+  "isLoading": true,
+  "message": Object {
+    "text": "",
+    "type": "empty",
+  },
+}
+`;
+
+exports[`withDataReducer should handle TEST_DATA_FAILED 1`] = `
+Object {
+  "hasData": false,
+  "hasError": true,
+  "isLoading": false,
+  "message": Object {
+    "text": "some-error",
+    "type": "error",
+  },
+}
+`;
+
+exports[`withDataReducer should handle TEST_DATA_RESOLVED 1`] = `
+Object {
+  "hasData": true,
+  "hasError": false,
+  "isLoading": false,
+  "message": Object {
+    "text": "",
+    "type": "empty",
+  },
+  "testData": "testData",
+}
+`;
+
+exports[`withDataReducer should handle TEST_HIDE_LOADING 1`] = `
+Object {
+  "hasData": false,
+  "hasError": false,
+  "isLoading": false,
+  "message": Object {
+    "text": "",
+    "type": "empty",
+  },
+}
+`;
+
+exports[`withDataReducer should handle TEST_SHOW_LOADING 1`] = `
+Object {
+  "hasData": false,
+  "hasError": false,
+  "isLoading": true,
+  "message": Object {
+    "text": "",
+    "type": "empty",
+  },
+}
+`;
+
+exports[`withDataReducer should return the initial state 1`] = `
+Object {
+  "hasData": false,
+  "hasError": false,
+  "isLoading": true,
+  "message": Object {
+    "text": "",
+    "type": "empty",
+  },
+}
+`;

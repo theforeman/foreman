@@ -1,3 +1,19 @@
+<%= breadcrumbs(
+    items: [
+    {
+      caption: _("Hosts"),
+      url: (hosts_path if authorized_for(hash_for_hosts_path))
+    },
+    {
+      caption: @host.name,
+      url: (host_path(@host) if authorized_for(hash_for_host_path(@host)))
+    },
+    {
+      caption: _('Reports'),
+      url: config_reports_path(search: 'eventful=true')
+    },
+  ]
+) if @host %>
 <% title _("Reports") %>
-<% title_actions documentation_button('3.5.4PuppetReports') %>
+<% title_actions csv_link, documentation_button('3.5.4PuppetReports') %>
 <%= render :partial => 'list' %>

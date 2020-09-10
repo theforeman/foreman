@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModelsTable rendering should render ModelsTable 1`] = `
+<Table
+  columns={
+    Array [
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "label": "Name",
+          "props": Object {
+            "className": "col-md-4",
+            "sort": true,
+            "sortDirection": "",
+          },
+        },
+        "property": "name",
+      },
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "label": "Vendor Class",
+          "props": Object {
+            "className": "col-md-3",
+            "sort": true,
+            "sortDirection": "",
+          },
+        },
+        "property": "vendorClass",
+      },
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "label": "Hardware Model",
+          "props": Object {
+            "className": "col-md-3",
+            "sort": true,
+            "sortDirection": "",
+          },
+        },
+        "property": "hardwareModel",
+      },
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "props": Object {
+            "align": "right",
+          },
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "label": "Hosts",
+          "props": Object {
+            "className": "col-md-1",
+          },
+        },
+        "property": "hostsCount",
+      },
+      Object {
+        "cell": Object {
+          "formatters": Array [
+            [Function],
+            [Function],
+          ],
+          "props": Object {},
+        },
+        "header": Object {
+          "formatters": Array [
+            [Function],
+          ],
+          "label": "Actions",
+          "props": Object {},
+        },
+        "property": "actions",
+      },
+    ]
+  }
+  key="models-table"
+  rows={
+    Array [
+      Object {
+        "can_delete": true,
+        "can_edit": true,
+        "created_at": "2018-03-26 09:54:21 +0300",
+        "hardware_model": null,
+        "hosts_count": 1,
+        "id": 29,
+        "info": null,
+        "name": "X8SIL",
+        "updated_at": "2018-03-26 09:54:21 +0300",
+        "vendor_class": null,
+      },
+    ]
+  }
+/>
+`;

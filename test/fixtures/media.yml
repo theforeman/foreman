@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 one:
   name: CentOS 5.4
   path: http://mirror.centos.org/centos/6.0/os/$arch
@@ -22,3 +21,7 @@ solaris10:
 opensuse:
   name: OpenSUSE
   path: http://download.opensuse.org/distribution/$version/repo/oss
+
+vrp5:
+  name: Huawei VRP 5
+  path: http://firmware.fake-huawei.com

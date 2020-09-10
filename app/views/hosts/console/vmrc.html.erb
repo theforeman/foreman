@@ -1,0 +1,20 @@
+<% title "#{@console[:name]}" %>
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text('screen', '', :kind => 'pficon') %>
+  </div>
+  <h1><%= _('VMRC Console') %></h1>
+  <p><%= _('To launch the VMRC console, you need the VMRC software installed.') %></p>
+  <p><%= link_to(_('Download VMRC'), external_link_path(type: 'vmrc'), :target => '_blank', :rel => 'noopener noreferrer') %></p>
+  <div class="blank-slate-pf-main-action">
+    <%= link_to(_('Launch Console'),
+                @console[:console_url],
+                :class => 'btn btn-primary btn-lg',
+                :data => {
+                  :disable_with => "<i class='fa fa-spinner fa-spin'></i> #{_('Opening VMRC Console')}..."
+                }) %>
+    <% if @host %>
+      <%= link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _('Back to host'), :class => 'btn btn-default btn-lg') %>
+    <% end %>
+  </div>
+</div>

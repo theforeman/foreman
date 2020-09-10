@@ -2,7 +2,7 @@ class NameGenerator
   GENERATOR_TYPES = {
     'Off' => _('Off'),
     'Random-based' => _('Random-based'),
-    'MAC-based' => _('MAC-based')
+    'MAC-based' => _('MAC-based'),
   }.freeze
 
   def self.random_based?
@@ -20,21 +20,33 @@ class NameGenerator
     @random_generator = Deacon::RandomGenerator.new
   end
 
+  # does respect global setting
   def next_mac_name(mac)
     if mac_based? && mac
-      @mac_generator.generate(mac).join('-').downcase
+      generate_next_mac_name(mac)
     else
       ''
     end
   end
 
+  # does not respect global setting
+  def generate_next_mac_name(mac)
+    @mac_generator.generate(mac).join('-').downcase
+  end
+
+  # does respect global setting
   def next_random_name
     if random_based?
-      self.register, firstname, lastname = @random_generator.generate(self.register)
-      [firstname, lastname].join('-').downcase
+      generate_next_random_name
     else
       ''
     end
+  end
+
+  # does not respect global setting
+  def generate_next_random_name
+    self.register, firstname, lastname = @random_generator.generate(register)
+    [firstname, lastname].join('-').downcase
   end
 
   def register

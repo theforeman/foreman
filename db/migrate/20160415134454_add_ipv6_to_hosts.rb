@@ -1,4 +1,4 @@
-class AddIpv6ToHosts < ActiveRecord::Migration
+class AddIpv6ToHosts < ActiveRecord::Migration[4.2]
   def self.up
     change_column :nics, :ip, :string, :limit => 15
     add_index :nics, :ip

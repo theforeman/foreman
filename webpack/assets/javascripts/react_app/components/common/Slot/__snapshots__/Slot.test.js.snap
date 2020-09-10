@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slot-Fill Slot with a prop should be pass to a fill 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      <SlotComponent />,
+    ]
+  }
+  id="slot-9"
+  multi={false}
+  text="this prop should be taken"
+>
+  <SlotComponent
+    dispatch={[Function]}
+    key="key"
+    text="this prop should be taken"
+  >
+    <div>
+      this prop should be taken
+    </div>
+  </SlotComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill default slot 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={Array []}
+  id="slot-4"
+  multi={true}
+>
+  <SlotComponent
+    text="Default Value"
+  >
+    <div>
+      Default Value
+    </div>
+  </SlotComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill multi slot with override props fill and component fill 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      Object {
+        "key": "def",
+        "text": "This should be in the snap",
+      },
+      <TestComponent />,
+    ]
+  }
+  id="slot-10"
+  multi={true}
+>
+  <SlotComponent
+    dispatch={[Function]}
+    key="def"
+    text="This should be in the snap"
+  >
+    <div>
+      This should be in the snap
+    </div>
+  </SlotComponent>
+  <TestComponent
+    dispatch={[Function]}
+    key="abc"
+  >
+    <div>
+       Also this should be in the snap 
+    </div>
+  </TestComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill multiple slot with override props 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      Object {
+        "key": 2,
+        "text": "This should be the first",
+      },
+      Object {
+        "key": 1,
+        "text": "This should be the second",
+      },
+    ]
+  }
+  id="slot-5"
+  multi={true}
+>
+  <SlotComponent
+    dispatch={[Function]}
+    key="2"
+    text="This should be the first"
+  >
+    <div>
+      This should be the first
+    </div>
+  </SlotComponent>
+  <SlotComponent
+    dispatch={[Function]}
+    key="1"
+    text="This should be the second"
+  >
+    <div>
+      This should be the second
+    </div>
+  </SlotComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill no multiple fills 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      <PresentComponent />,
+    ]
+  }
+  id="slot-2"
+  multi={false}
+>
+  <PresentComponent
+    dispatch={[Function]}
+    key="b"
+  >
+    <span>
+       This span should be in the snap 
+    </span>
+  </PresentComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill props fill 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      Object {
+        "text": "This is given by a prop",
+      },
+    ]
+  }
+  id="slot-3"
+  multi={false}
+>
+  <SlotComponent
+    dispatch={[Function]}
+    key="c"
+    text="This is given by a prop"
+  >
+    <div>
+      This is given by a prop
+    </div>
+  </SlotComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill render multiple fills 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      <FirstComponent />,
+      <SecondComponent />,
+    ]
+  }
+  id="slot-1"
+  multi={true}
+>
+  <FirstComponent
+    dispatch={[Function]}
+    key="2"
+  >
+    <span>
+       Should be the first in the snap
+    </span>
+  </FirstComponent>
+  <SecondComponent
+    dispatch={[Function]}
+    key="1"
+  >
+    <span>
+       Should be the first in the snap
+    </span>
+  </SecondComponent>
+</Slot>
+`;
+
+exports[`Slot-Fill render multiple fills 2`] = `
+Object {
+  "extendable": Object {
+    "slot-1": Object {
+      "some-key-1": true,
+      "some-key-2": true,
+    },
+  },
+}
+`;
+
+exports[`Slot-Fill render multiple fills: Integration test actions 1`] = `
+Array [
+  Array [
+    Object {
+      "payload": Object {
+        "fillId": "some-key-1",
+        "slotId": "slot-1",
+      },
+      "type": "SLOT_AND_FILL_REGISTER_FILL",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "fillId": "some-key-2",
+        "slotId": "slot-1",
+      },
+      "type": "SLOT_AND_FILL_REGISTER_FILL",
+    },
+  ],
+]
+`;
+
+exports[`Slot-Fill slot with multi override props should take max weight 1`] = `
+<Slot
+  dispatch={[Function]}
+  fills={
+    Array [
+      Object {
+        "key": "textKey",
+        "text": "This text should be in the snap",
+      },
+    ]
+  }
+  id="slot-6"
+  multi={false}
+>
+  <SlotComponent
+    dispatch={[Function]}
+    key="textKey"
+    text="This text should be in the snap"
+  >
+    <div>
+      This text should be in the snap
+    </div>
+  </SlotComponent>
+</Slot>
+`;

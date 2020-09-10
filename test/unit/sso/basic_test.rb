@@ -12,6 +12,7 @@ class BasicTest < ActiveSupport::TestCase
   end
 
   test 'authenticates if user.current is not set' do
+    User.current = nil
     basic = SSO::Basic.new(get_basic_controller(true))
     assert_equal 'testuser', basic.authenticated?
   end

@@ -1,4 +1,5 @@
-class KeyPair < ActiveRecord::Base
+class KeyPair < ApplicationRecord
+  audited :except => :secret, :associated_with => :compute_resource
   belongs_to :compute_resource
   validates_lengths_from_database
   validates :name, :secret, :presence => true

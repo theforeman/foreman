@@ -1,0 +1,31 @@
+<%#
+kind: snippet
+name: ntp
+model: ProvisioningTemplate
+snippet: true
+%>
+<%#
+This snippet accepts the following parameters:
+- use-ntp: boolean (default depends on OS release)
+- ntp-server: string (default=undef)
+%>
+
+<%
+rhel_compatible = @host.operatingsystem.family == 'Redhat' && @host.operatingsystem.name != 'Fedora'
+is_fedora = @host.operatingsystem.name == 'Fedora'
+os_major = @host.operatingsystem.major.to_i
+use_ntp = host_param_true?('use-ntp') || (is_fedora && os_major < 16) || (rhel_compatible && os_major <= 7)
+-%>
+
+echo "Updating system time"
+<% if use_ntp -%>
+yum -y install ntpdate
+  <% if host_param('ntp-server') -%>
+/usr/sbin/ntpdate -sub <%= host_param('ntp-server') %>
+  <% end -%>
+systemctl enable --now ntpd
+<% else -%>
+systemctl enable --now chronyd
+/usr/bin/chronyc -a makestep
+<% end -%>
+/usr/sbin/hwclock --systohc

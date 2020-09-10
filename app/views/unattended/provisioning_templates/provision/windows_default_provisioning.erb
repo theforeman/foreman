@@ -1,0 +1,134 @@
+<%#
+kind: provision
+name: Windows default provision
+model: ProvisioningTemplate
+oses:
+- Windows
+# Parameters are expected to be set in Foreman (globally or per group/host)
+params:
+- windowsLicenseKey: ABCDE-ABCDE-ABCDE-ABCDE-ABCDE # Valid Windows license key
+- windowsLicenseOwner: Company, INC # Legal owner of the Windows license key
+- systemLocale: en-US
+- systemUILanguage: en-US
+- systemTimeZone: GMT Standard Time #see https://msdn.microsoft.com/en-us/library/ms912391(v=winembedded.11).aspx
+- wimImageName = Windows 8.1 Pro # Image name seems only necessary if the WIM contains more than one image
+-%>
+<%
+  system_locale = host_param('systemLocale') ? host_param('systemLocale') : 'en-US'
+  system_ui_lang = host_param('systemUILanguage') ? host_param('systemUILanguage') : 'en-US'
+  setup_ui_lang = 'en-US'
+  system_timezone = host_param('systemTimeZone') ? host_param('systemTimeZone') : 'GMT Standard Time'
+-%>
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <servicing></servicing>
+    <settings pass="offlineServicing">
+        <component name="Microsoft-Windows-LUA-Settings" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <EnableLUA>false</EnableLUA>
+        </component>
+    </settings>
+    <settings pass="windowsPE">
+        <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <EnableFirewall><%= host_param('EnableFirewall') || 'true' %></EnableFirewall>
+            <EnableNetwork>true</EnableNetwork>
+            <Restart>Restart</Restart>
+            <ImageInstall>
+                <OSImage>
+                    <InstallFrom>
+                        <MetaData wcm:action="add">
+                                <Value><%= host_param('wimImageName') -%></Value>
+                        </MetaData>
+                    </InstallFrom>
+                    <InstallToAvailablePartition>true</InstallToAvailablePartition>
+                    <WillShowUI>OnError</WillShowUI>
+                </OSImage>
+            </ImageInstall>
+            <UserData>
+                <AcceptEula>true</AcceptEula>
+            </UserData>
+        </component>
+        <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SetupUILanguage>
+                <UILanguage><%= setup_ui_lang %></UILanguage>
+            </SetupUILanguage>
+              <InputLocale><%= system_locale %></InputLocale>
+              <SystemLocale><%= system_locale %></SystemLocale>
+              <UILanguageFallback><%= setup_ui_lang %></UILanguageFallback>
+              <UILanguage><%= system_ui_lang %></UILanguage>
+              <UserLocale><%= system_locale %></UserLocale>
+        </component>
+    </settings>
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <InputLocale><%= system_locale %></InputLocale>
+              <SystemLocale><%= system_locale %></SystemLocale>
+              <UILanguageFallback><%= setup_ui_lang %></UILanguageFallback>
+              <UILanguage><%= system_ui_lang %></UILanguage>
+              <UserLocale><%= system_locale %></UserLocale>
+        </component>
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <UserAccounts>
+                <AdministratorPassword>
+                    <PlainText>false</PlainText>
+                    <Value><%= root_pass %></Value>
+                </AdministratorPassword>
+            </UserAccounts>
+            <TimeZone><%= system_timezone -%></TimeZone>
+            <% if host_param('windowsLicenseOwner') -%>
+              <RegisteredOrganization><%= host_param('windowsLicenseOwner') -%></RegisteredOrganization>
+              <RegisteredOwner><%= host_param('windowsLicenseOwner') -%></RegisteredOwner>
+            <% end -%>
+            <OOBE>
+                <HideEULAPage>true</HideEULAPage>
+                <NetworkLocation>Work</NetworkLocation>
+                <ProtectYourPC>1</ProtectYourPC>
+                <SkipUserOOBE>true</SkipUserOOBE>
+                <SkipMachineOOBE>true</SkipMachineOOBE>
+                <HideLocalAccountScreen>true</HideLocalAccountScreen>
+                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+                <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+            </OOBE>
+            <ShowWindowsLive>false</ShowWindowsLive>
+            <% if host_param('windowsLicenseKey') -%>
+              <ProductKey><%= host_param('windowsLicenseKey').to_s -%></ProductKey>
+            <% end -%>
+        </component>
+    </settings>
+    <settings pass="specialize">
+        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+              <InputLocale><%= system_locale %></InputLocale>
+              <SystemLocale><%= system_locale %></SystemLocale>
+              <UILanguageFallback><%= setup_ui_lang %></UILanguageFallback>
+              <UILanguage><%= system_ui_lang %></UILanguage>
+              <UserLocale><%= system_locale %></UserLocale>
+        </component>
+        <component name="Microsoft-Windows-IE-ESC" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <IEHardenAdmin>false</IEHardenAdmin>
+        </component>
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ComputerName><%= @host.shortname -%></ComputerName>
+            <% if host_param('windowsLicenseOwner') -%>
+              <RegisteredOrganization><%= host_param('windowsLicenseOwner') -%></RegisteredOrganization>
+              <RegisteredOwner><%= host_param('windowsLicenseOwner') -%></RegisteredOwner>
+            <% end -%>
+              <TimeZone><%= system_timezone -%></TimeZone>
+        </component>
+        <component name="Networking-MPSSVC-Svc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <DomainProfile_EnableFirewall><%= host_param('EnableFirewall') || 'true' %></DomainProfile_EnableFirewall>
+            <PrivateProfile_EnableFirewall><%= host_param('EnableFirewall') || 'true' %></PrivateProfile_EnableFirewall>
+            <PublicProfile_EnableFirewall><%= host_param('EnableFirewall') || 'true' %></PublicProfile_EnableFirewall>
+        </component>
+        <component name="Microsoft-Windows-ServerManager-SvrMgrNc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <DoNotOpenServerManagerAtLogon>true</DoNotOpenServerManagerAtLogon>
+        </component>
+        <component name="Microsoft-Windows-TerminalServices-LocalSessionManager" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <fDenyTSConnections>false</fDenyTSConnections>
+        </component>
+        <component name="Microsoft-Windows-TerminalServices-RDP-WinStationExtensions" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SecurityLayer>1</SecurityLayer>
+            <UserAuthentication>0</UserAuthentication>
+        </component>
+    </settings>
+    <cpi:offlineImage cpi:source="catalog:c:/deploy/wimaging/sources/win81x64/sources/install_windows 8.1 pro.clg" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+</unattend>

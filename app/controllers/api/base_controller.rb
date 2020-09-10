@@ -1,17 +1,16 @@
 module Api
-  #TODO: inherit from application controller after cleanup
+  # TODO: inherit from application controller after cleanup
   class BaseController < ActionController::Base
     include ApplicationShared
+    include Foreman::Controller::RequireSsl
+    include Foreman::Controller::ApiCsrfProtection
+    include Foreman::Controller::BruteforceProtection
 
-    protect_from_forgery
-    force_ssl :if => :require_ssl?
-    skip_before_action :verify_authenticity_token, :unless => :protect_api_from_forgery?
-
-    before_action :set_default_response_format, :authorize, :add_version_header, :set_gettext_locale
+    before_action :set_default_response_format, :authorize, :set_taxonomy
+    before_action :assign_lone_taxonomies, :only => :create
+    before_action :add_info_headers, :set_gettext_locale
     before_action :session_expiry, :update_activity_time
     around_action :set_timezone
-
-    cache_sweeper :topbar_sweeper
 
     respond_to :json
 
@@ -22,6 +21,14 @@ module Api
       render_error 'standard_error', :status => :internal_server_error, :locals => { :exception => error }
     end
 
+    rescue_from NoMethodError do |error|
+      Foreman::Logging.exception("Action failed", error)
+      message = _("Internal Server Error: the server was unable to finish the request. ")
+      message << _("This may be caused by unavailability of some required service, incorrect API call or a server-side bug. ")
+      message << _("There may be more information in the server's logs.")
+      render_error 'custom_error', :status => :internal_server_error, :locals => { :message => message }
+    end
+
     rescue_from ScopedSearch::QueryNotSupported, Apipie::ParamError do |error|
       logger.info "#{error.message} (#{error.class})"
       render_error 'param_error', :status => :bad_request, :locals => { :exception => error }
@@ -29,14 +36,27 @@ module Api
 
     rescue_from ActiveRecord::RecordNotFound do |error|
       logger.info "#{error.message} (#{error.class})"
-      not_found
+      if error.model == resource_class.model_name.name || error.model.nil?
+        not_found
+      elsif (error.model.include? resource_class.model_name.name) || (resource_class.model_name.name.include? error.model)
+        not_found
+      else
+        association_not_found(error)
+      end
+    end
+
+    rescue_from Foreman::AssociationNotFound do |error|
+      logger.info "#{error.message} (#{error.class})"
+      association_not_found(error)
     end
 
     rescue_from Foreman::MaintenanceException, :with => :service_unavailable
 
-    def get_resource
-      instance_variable_get(:"@#{resource_name}") || raise('no resource loaded')
+    def get_resource(message = "Couldn't find resource")
+      instance_variable_get(:"@#{resource_name}") || raise(message)
     end
+
+    helper_method :controller_permission
 
     def controller_permission
       controller_name
@@ -44,8 +64,7 @@ module Api
 
     # overwrites resource_scope in FindCommon to consider nested objects
     def resource_scope(options = {})
-      child_scope = super(options)
-      child_scope.merge(parent_scope).readonly(false)
+      super(options).merge(parent_scope).readonly(false)
     end
 
     def parent_scope
@@ -53,14 +72,40 @@ module Api
 
       return resource_class.where(nil) unless scope
 
-      association = resource_class.reflect_on_all_associations.find {|assoc| assoc.plural_name == parent_name.pluralize}
-      #if couldn't find an association by name, try to find one by class
-      association ||= resource_class.reflect_on_all_associations.find {|assoc| assoc.class_name == parent_name.camelize}
+      association = resource_class.reflect_on_all_associations.detect { |assoc| assoc.plural_name == parent_name.pluralize }
+      # if couldn't find an association by name, try to find one by class
+      association ||= resource_class.reflect_on_all_associations.detect { |assoc| assoc.class_name == parent_name.camelize }
+      if association.nil? && parent_name == 'host'
+        association = resource_class.reflect_on_all_associations.detect { |assoc| assoc.class_name == 'Host::Base' }
+      end
+      raise "Association not found for #{parent_name}" unless association
+      result_scope = resource_class_join(association, scope).reorder(nil)
+      # Check that the scope resolves before return
+      result_scope.any?
+      result_scope
+    rescue ActiveRecord::ConfigurationError
+      # Chaining SQL with a parent scope does not always work, as the
+      # parent scope might have attributes the resource_class does not have.
+      #
+      # For example, chaining 'interfaces' with a parent scope (hosts) that
+      # contains an authorization filter (hostgroup = foo), will not work
+      # as the resulting SQL has attributes (hostgroup) the
+      # resource_class does not have.
+      #
+      # In such cases, we resolve the scope first, and then call 'where'
+      # on the results
+      resource_class.joins(association.name).
+        where(association.name => scope.select(:id))
+    end
+
+    def resource_class_join(association, scope)
       resource_class.joins(association.name).merge(scope)
     end
 
     def resource_scope_for_index(options = {})
-      resource_scope(options).search_for(*search_options).paginate(paginate_options)
+      scope = resource_scope(options).search_for(*search_options)
+      return scope if paginate_options[:per_page] == 'all'
+      scope.paginate(paginate_options)
     end
 
     def api_request?
@@ -69,16 +114,12 @@ module Api
 
     protected
 
-    def require_ssl?
-      SETTINGS[:require_ssl]
-    end
-
     def not_found(options = nil)
       not_found_message = {}
 
       case options
       when String
-        not_found_message.merge! :message => options
+        not_found_message[:message] = options
       when Hash
         not_found_message.merge! options
       else
@@ -91,13 +132,17 @@ module Api
       false
     end
 
+    def association_not_found(error)
+      render_error 'custom_error', :status => :unprocessable_entity, :locals => { :message => error.message }
+    end
+
     def service_unavailable(exception = nil)
       logger.debug "service unavailable: #{exception}" if exception
-      render_message(exception.message, :status => :service_unavailable)
+      render_exception(exception, :status => :service_unavailable)
     end
 
     def process_resource_error(options = { })
-      resource = options[:resource] || get_resource
+      resource = options[:resource] || get_resource(options[:message])
 
       raise 'resource have no errors' if resource.errors.empty?
 
@@ -128,13 +173,30 @@ module Api
       render render_options
     end
 
+    def render_exception(exception, render_options = {})
+      Foreman::Logging.exception(exception.to_s, exception)
+      render_message(exception.to_s, render_options)
+    end
+
     def log_resource_errors(resource)
       logger.error "Unprocessable entity #{resource.class.name} (id: #{resource.try(:id) || 'new'}):\n  #{resource.errors.full_messages.join("\n  ")}\n"
     end
 
     def authorize
+      if bruteforce_attempt?
+        log_bruteforce
+        render_error('bruteforce_attempt', :status => :unauthorized)
+        return false
+      end
+
       unless authenticate
+        count_login_failure
         render_error('unauthorized', :status => :unauthorized, :locals => { :user_login => @available_sso.try(:user) })
+        return false
+      end
+
+      if User.current&.disabled?
+        render_error('custom_error', status: :unauthorized, locals: {message: _('User account is disabled, please contact your administrator')})
         return false
       end
 
@@ -149,7 +211,7 @@ module Api
     def require_admin
       unless is_admin?
         render_error('access_denied', :status => :unauthorized, :locals => { :details => _('Admin permissions required') })
-        return false
+        false
       end
     end
 
@@ -182,13 +244,48 @@ module Api
     def paginate_options
       {
         :page     => params[:page],
-        :per_page => params[:per_page]
+        :per_page => params[:per_page],
       }
     end
 
+    def assign_lone_taxonomies
+      return unless resource_class_for(resource_name)
+      # parameters aren't taxable but have a relation to taxonomies because of location and organization params
+      return if resource_name.ends_with? 'parameter'
+      # reports have a relationship to taxonomies through the host, not directly
+      return if resource_class.ancestors.include? Report
+      return if resource_class == Filter
+      Taxonomy.types.each do |taxonomy|
+        tax_name = taxonomy.to_s.downcase
+        if resource_class.reflections.has_key? tax_name.pluralize
+          tax_ids = "#{tax_name}_ids"
+          next if params[resource_name].try(:has_key?, tax_ids)
+          next unless taxonomy.one?
+          params[resource_name][tax_ids] = [taxonomy.first.id]
+        elsif resource_class.reflections.has_key? tax_name
+          tax_id = "#{tax_name}_id"
+          next if params[resource_name].try(:has_key?, tax_id)
+          next unless taxonomy.one?
+          params[resource_name][tax_id] = taxonomy.first.id
+        end
+      end
+    end
+
     def add_version_header
-      response.headers["Foreman_version"]= SETTINGS[:version].full
-      response.headers["Foreman_api_version"]= api_version
+      response.headers["Foreman_version"] = SETTINGS[:version].full
+      response.headers["Foreman_api_version"] = api_version
+    end
+
+    def add_taxonomies_header
+      current_org = "#{Organization.current.id}; #{Organization.current.name}" if Organization.current
+      response.headers["Foreman_current_organization"] = current_org || '; ANY'
+      current_loc = "#{Location.current.id}; #{Location.current.name}" if Location.current
+      response.headers["Foreman_current_location"] = current_loc || '; ANY'
+    end
+
+    def add_info_headers
+      add_version_header
+      add_taxonomies_header
     end
 
     # this method is used with nested resources, where obj_id is passed into the parameters hash.
@@ -198,8 +295,8 @@ module Api
       params[:search] ||= ""
       params.keys.each do |param|
         if param =~ /(\w+)_id$/
-          unless params[param].blank?
-            query = " #{$1} = #{params[param]}"
+          if params[param].present?
+            query = " #{Regexp.last_match(1)} = #{params[param]}"
             params[:search] += query unless params[:search].include? query
           end
         end
@@ -236,8 +333,14 @@ module Api
 
     def not_found_if_nested_id_exists
       allowed_nested_id.each do |obj_id|
+        # this method does not reliably work when you have multiple parameters and some of them can be nil
+        # find_nested_object in such case returns nil (since org and loc can be nil for any context),
+        # but it detects other paramter which can have value set
+        # therefore we always skip these
+        next if ['organization_id', 'location_id'].include?(obj_id)
         if params[obj_id].present?
           not_found _("%{resource_name} not found by id '%{id}'") % { :resource_name => obj_id.humanize, :id => params[obj_id] }
+          return
         end
       end
     end
@@ -249,8 +352,10 @@ module Api
     def set_error_details(error, options)
       case error
       when 'access_denied'
+        fail_message = _('Missing one of the required permissions: %s') % missing_permissions.map(&:name).join(', ')
+        Foreman::Logging.logger('permissions').info fail_message
         if options.fetch(:locals, {}).fetch(:details, nil).blank?
-          options = options.deep_merge({:locals => {:details => _('Missing one of the required permissions: %s') % missing_permissions.map(&:name).join(', ') }})
+          options = options.deep_merge({:locals => {:details => fail_message, :missing_permissions => missing_permissions.map(&:name)}})
         end
       end
       options
@@ -262,6 +367,7 @@ module Api
     def allowed_nested_id
       []
     end
+
     # will be overwritten by each controller. initialize as empty array to prevent handling nil variable
     def skip_nested_id
       []
@@ -295,63 +401,56 @@ module Api
 
     def parent_resource_details
       parent_name, parent_class, parent_id = nil
-      params.find do |param, value|
+      params.select { |param| param.ends_with?('_id') }.each do |param, value|
         parent_id = value
-        parent_name, parent_class = extract_resource_from_param(param)
-        parent_class
+        parent_name = param.delete_suffix('_id')
+        parent_class = resource_class_for(resource_name(parent_name))
+        break if parent_class
       end
 
-      return nil if parent_name.nil?
+      return nil if parent_name.nil? || parent_class.nil?
+      # for admin we don't want to add any context condition, that would fail for hosts since we'd add join to
+      # taxonomy table without any condition, inner join would return no host in this case
+      return nil if User.current.admin? && Taxonomy.types.include?(parent_class) && parent_id.blank?
+      # for taxonomies, nil is valid value which indicates, we need to search in Users all taxonomies
+      return [parent_name, User.current.my_organizations] if parent_class == Organization && parent_id.blank?
+      return [parent_name, User.current.my_locations] if parent_class == Location && parent_id.blank?
+
       parent_scope = scope_for(parent_class, :permission => "#{parent_permission(action_permission)}_#{parent_name.pluralize}")
-      parent_scope = select_by_resource_id_scope(parent_scope, parent_class, parent_id)
+      parent_scope = scope_by_resource_id(parent_scope, parent_id)
       [parent_name, parent_scope]
     end
 
-    def extract_resource_from_param(param)
-      md = param.match(/(\w+)_id$/)
-      md ? [md[1], resource_class_for(resource_name(md[1]))] : nil
-    end
+    # This method adds a scope by resource id, taking into account possibility of parametrization or friendly find
+    def scope_by_resource_id(base_scope, resource_id)
+      # If resource id is nil or empty string, return empty scope
+      return base_scope.none if resource_id.blank?
 
-    # This method adds a condition to the base_scope in form:
-    # "resource_class.id = resource_id [ OR resource_class.friendly_id_column = resource_id ]"
-    # the optional part will be added if the resource class supports friendly_id
-    # it will also add "ORDER BY" query in order to prioritize
-    # records with friendly_id_column hit rather than those that have filtered because of
-    # id column filtering
-    #Should be replaced after moving to friendly_id version >= 5.0
-    def select_by_resource_id_scope(base_scope, resource_class, resource_id)
-      arel = resource_class.arel_table
-      arel_query = arel[:id].eq(resource_id)
-      arel_query.to_sql
-      begin
-        query_field = resource_class.friendly_id_config.query_field
-      rescue NoMethodError
-        #FriendlyId is not supported (didn't find a better way to test it)
-        # The problem is in Host <-> Host::Managed hack. #responds_to? query_field
-        # will return false values.
-        query_field = nil
+      if resource_id.is_a? String
+        # The class is parameterizable and the id is in '123-myname' format, extract the id from it
+        if base_scope.klass.respond_to?(:to_param) && resource_id.start_with?(/\d+-/)
+          return base_scope.where(id: resource_id.to_i)
+        end
+
+        # The class supports friendly id and the id is in a 'friendly_id' format, prefer the friendly field for search
+        if base_scope.klass.respond_to?(:friendly)
+          field = base_scope.klass.friendly_id_config.query_field
+          friendly_scope = base_scope.where(field => resource_id)
+          # the id could be a regular friendly id - e.g. 'name', or it could be a resource with a numeric name,
+          # e.g. '123' - in that case we want to return the friendly scope.
+          # if the id is numeric and there is no matching resources, fall back to numeric find
+          if resource_id.friendly_id? ||
+            (resource_id.integer? && friendly_scope.any?)
+            return friendly_scope
+          end
+        end
       end
 
-      if query_field
-        friendly_field_query = arel[query_field].eq(resource_id)
-        arel_query = arel_query.or(friendly_field_query)
-      end
+      # The id is an integer (or an integer-like string), scope by it
+      return base_scope.where(id: resource_id) if resource_id.integer?
 
-      filtered_scope = base_scope.where(arel_query)
-
-      filtered_scope = prioritize_friendly_name_records(filtered_scope, friendly_field_query) if query_field
-
-      filtered_scope
-    end
-
-    #Prefer records that matched the friendly column upon those matched the ID column
-    def prioritize_friendly_name_records(base_scope, friendly_field_query)
-      field_query = friendly_field_query.to_sql
-      base_scope.order("CASE WHEN #{field_query} THEN 1 ELSE 0 END")
-    end
-
-    def protect_api_from_forgery?
-      session[:user].present?
+      # The parameter doesn't match any supported format, return empty scope
+      base_scope.none
     end
 
     def parameter_filter_context
@@ -361,6 +460,23 @@ module Api
     class << self
       def parameter_filter_context
         Foreman::ParameterFilter::Context.new(:api, controller_name, nil)
+      end
+
+      protected
+
+      def add_scoped_search_description_for(resource)
+        search_fields = resource.scoped_search_definition.fields.map do |k, f|
+          info = { :name => k.to_s }
+          if f.complete_value.is_a?(Hash)
+            info[:values] = f.complete_value.keys
+          else
+            # type is unknown for fields that are delegated to external methods
+            # 'string' is a good guess in such cases
+            info[:type] = f.ext_method.nil? ? f.type.to_s : 'string' rescue ''
+          end
+          info
+        end
+        meta :search => search_fields.sort_by { |info| info[:name] }
       end
     end
   end

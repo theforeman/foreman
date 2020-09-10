@@ -1,0 +1,15 @@
+<% title _("Operating Systems") %>
+
+<div class="blank-slate-pf">
+  <div class="blank-slate-pf-icon">
+    <%= icon_text("lightbulb-o", "", :kind => "fa") %>
+  </div>
+  <h1><%= _('Operating Systems') %></h1>
+  <p>
+    <%= _("The Operating systems detail the OSs known to Foreman, and is the central point that the other required components tie into.") %></br>
+  </p>
+  <p><%= link_to _('Learn more about this in the documentation.'), documentation_url("4.4.1OperatingSystems")%></p>
+  <div class="blank-slate-pf-main-action">
+      <%= new_link(_("Create Operating System"), {}, { :class => "btn-lg" }) %>
+  </div>
+</div>

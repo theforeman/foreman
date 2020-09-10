@@ -1,18 +1,20 @@
 require 'integration_test_helper'
+require 'pagelets_test_helper'
 
 class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
+  setup do
+    ProxyStatus::Version.any_instance.stubs(:version).returns({'version' => '1.11', 'modules' => {'dhcp' => '1.11'}})
+    stub_smart_proxy_v2_features
+  end
+
   test "index page" do
-    assert_index_page(smart_proxies_path,"Smart Proxies","New Smart Proxy",false)
+    assert_index_page(smart_proxies_path, "Smart Proxies", "Create Smart Proxy", false)
     visit smart_proxies_path
-    if SETTINGS[:locations_enabled]
-      assert page.has_selector?('th', :text => 'Locations')
-    else
-      refute page.has_selector?('th', :text => 'Locations')
-    end
+    assert page.has_selector?('th', :text => 'Locations')
   end
 
   test "create new page" do
-    assert_new_button(smart_proxies_path,"New Smart Proxy",new_smart_proxy_path)
+    assert_new_button(smart_proxies_path, "Create Smart Proxy", new_smart_proxy_path)
     fill_in "smart_proxy_name", :with => "DNS Worldwide"
     fill_in "smart_proxy_url", :with => "http://dns.example.com"
     assert_submit_button(smart_proxies_path)
@@ -46,29 +48,30 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
   end
 
   describe 'pagelets on show page' do
+    include PageletsIsolation
+
     setup do
       @view_paths = SmartProxiesController.view_paths
-      SmartProxiesController.prepend_view_path File.expand_path('../../static_fixtures/views', __FILE__)
+      SmartProxiesController.prepend_view_path File.expand_path('../static_fixtures/views', __dir__)
     end
 
     def teardown
-      Pagelets::Manager.clear
       SmartProxiesController.view_paths = @view_paths
     end
 
     test 'show page passes subject into pagelets' do
       Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
-                                                          :name => "VisibleTab",
-                                                          :partial => "/test",
-                                                          :onlyif => Proc.new { |subject| subject.has_feature? "DHCP" })
+        :name => "VisibleTab",
+        :partial => "/test",
+        :onlyif => proc { |subject| subject.has_feature? "DHCP" })
       Pagelets::Manager.add_pagelet("smart_proxies/show", :main_tabs,
-                                                          :name => "HiddenTab",
-                                                          :partial => "/test",
-                                                          :onlyif => Proc.new { |subject| subject.has_feature? "TFTP" })
+        :name => "HiddenTab",
+        :partial => "/test",
+        :onlyif => proc { |subject| subject.has_feature? "TFTP" })
       proxy = smart_proxies(:one)
       visit smart_proxy_path(proxy)
       assert page.has_link?("VisibleTab")
-      refute page.has_link?("HiddenTab")
+      assert page.has_no_link?("HiddenTab")
     end
   end
 end

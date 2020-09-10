@@ -1,0 +1,18 @@
+<%#
+name: kickstart_ifcfg_get_identifier_names
+model: ProvisioningTemplate
+snippet: true
+model: ProvisioningTemplate
+kind: snippet
+-%>
+<%- if @identifier -%>
+<%=   "real=\"#{@identifier}\"" %>
+<%- else -%>
+<%=   "real=`grep -l #{@interface.inheriting_mac} /sys/class/net/*/{bonding_slave/perm_hwaddr,address} 2>/dev/null | awk -F '/' '// {print $5}' | head -1`" -%>
+<%-   if @interface.virtual? -%>
+<%=     "\nreal=`echo #{@interface.identifier} | sed s/#{@interface.attached_to}/$real/`" -%>
+<%-   end -%>
+<%- end -%>
+<%# ifcfg files are ignored by NM if their name contains colons so we convert colons to underscore %>
+sanitized_real=`echo $real | sed s/:/_/`
+

@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuditsPage selectors should return Audits Search Value 1`] = `""`;
+
+exports[`AuditsPage selectors should return Audits array 1`] = `
+Array [
+  Object {
+    "action": "update",
+    "action_display_name": "updated",
+    "affected_locations": Array [
+      Object {
+        "name": "test_loc1",
+        "url": "/locations/2-test_loc1/edit",
+      },
+      Object {
+        "name": "test_loc2",
+        "url": "/locations/6-test_loc2/edit",
+      },
+      Object {
+        "name": "test_loc3",
+        "url": "/locations/9-test_loc3/edit",
+      },
+    ],
+    "affected_organizations": Array [
+      Object {
+        "name": "test_org1",
+        "url": "/organizations/1-test_org1/edit",
+      },
+      Object {
+        "name": "test_org2",
+        "url": "/organizations/3-test_org2/edit",
+      },
+      Object {
+        "name": "test_org3",
+        "url": "/organizations/5-test_org3/edit",
+      },
+    ],
+    "allowed_actions": Array [
+      Object {
+        "css_class": "btn btn-default",
+        "title": "Host details",
+        "url": "/hosts/host-foo.example.com",
+      },
+    ],
+    "associated_id": null,
+    "associated_name": null,
+    "associated_type": null,
+    "audit_title": "host-foo.example.com",
+    "audit_title_url": "/audits?search=type+%3D+host+and+auditable_id+%3D+9",
+    "auditable_id": 9,
+    "auditable_name": "host-foo.example.com",
+    "auditable_type": "Host::Base",
+    "audited_changes": Object {
+      "comment": Array [
+        "",
+        "This is info about host for audit",
+      ],
+      "root_pass": Array [
+        "[redacted]",
+        "[redacted]",
+      ],
+    },
+    "audited_changes_with_id_to_label": Array [
+      Object {
+        "change": Array [
+          Object {
+            "css_class": "show-old",
+            "id_to_label": "[redacted]",
+          },
+          Object {
+            "css_class": "show-new",
+            "id_to_label": "[redacted]",
+          },
+        ],
+        "name": "Root pass",
+      },
+      Object {
+        "change": Array [
+          Object {
+            "css_class": "show-old",
+            "id_to_label": "[empty]",
+          },
+          Object {
+            "css_class": "show-new",
+            "id_to_label": "This is info about host for audit",
+          },
+        ],
+        "name": "Comment",
+      },
+    ],
+    "audited_type_name": "Host",
+    "comment": null,
+    "created_at": "2018-08-13 00:34:55 -1100",
+    "id": 234,
+    "remote_address": "127.0.0.1",
+    "request_uuid": "c134239d-8ac3-494b-9962-35133fe153ba",
+    "user_id": 4,
+    "user_info": Object {
+      "audit_path": "/audits?search=id+%3D+234",
+      "display_name": "Admin ",
+      "login": "admin",
+      "search_path": "/audits?search=user+%3D+admin",
+    },
+    "user_type": null,
+    "username": "Admin User",
+    "version": 2,
+  },
+]
+`;
+
+exports[`AuditsPage selectors should return Audits array count 1`] = `0`;
+
+exports[`AuditsPage selectors should return Audits hasData bool 1`] = `true`;
+
+exports[`AuditsPage selectors should return Audits hasError bool 1`] = `false`;
+
+exports[`AuditsPage selectors should return Audits message 1`] = `""`;
+
+exports[`AuditsPage selectors should return selected page 1`] = `1`;
+
+exports[`AuditsPage selectors should return selected perPage 1`] = `20`;

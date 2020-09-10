@@ -1,24 +1,27 @@
-<%= javascript("noVNC/util", "noVNC/webutil", "noVNC/base64", "noVNC/websock",
-                           "noVNC/des", "noVNC/input", "noVNC/display", "noVNC/rfb",
-                           "noVNC/jsunzip", "noVNC/ui", "noVNC") %>
-
 <% title "#{@console[:name]}" %>
 <%= title_actions(
         button_group(link_to("Ctrl-Alt-Del", "#", :id => "sendCtrlAltDelButton", :class => "btn btn-default"),
-                     link_to(_("Troubleshooting"), "http://theforeman.org/manuals/#{SETTINGS[:version].short}/index.html#7.1NoVNC",
-                       :id => "troubleshootingButton", :class => "btn btn-default", :target => "_blank"),
                      if @host
                        link_to_if_authorized(_("Back to host"), hash_for_host_path(:id => @host), :title => _("Back to host"), :class => 'btn btn-default')
                      end
-        ) ) %>
-<p class="toggle-hidden-value"><%= _('Password:') %> <a href="#" class="toggle-hidden-value"><%=icon_text("plus")%></a><span><%= @console[:password] %></span></p>
-<div id='vnc' data-port='<%= @console[:proxy_port] %>' data-password='<%= @console[:password] %>' data-encrypt='<%= @encrypt %>'>
+        ),
+        documentation_button("7.1NoVNC",
+          {:id => "troubleshootingButton", :class => "btn btn-default"}
+        )
+ ) %>
 
+<div id='vnc'
+     data-host='<%= @console[:host] %>'
+     data-port='<%= @console[:port] %>'
+     data-path='<%= @console[:path] %>'
+     data-token-protocol='<%= @console[:token_protocol] %>'
+     data-plain-protocol='<%= @console[:plain_protocol] %>'
+     data-password='<%= @console[:password] %>'
+     data-encrypt='<%= @console[:encrypt] %>'
+>
   <div id="noVNC_status_bar" class="console-status">
-    <div id="noVNC_status" class="col-md-7 label">Loading ...</div>
+    <div id="noVNC_status" class="col-md-12 label">Loading ...</div>
   </div>
 
-  <canvas id="noVNC_canvas" class="console-screen">
-    <%= _('Canvas not supported.') %>
-  </canvas>
+  <div id="noVNC_screen" class="console-screen"></div>
 </div>

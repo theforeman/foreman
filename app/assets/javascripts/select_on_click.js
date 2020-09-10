@@ -1,5 +1,5 @@
-$.fn.SelectOnClick = function () {
-  return $(this).on('click', function () {
+$.fn.SelectOnClick = function() {
+  return $(this).on('click', function() {
     // In here, "this" is the element
     var range, selection;
 

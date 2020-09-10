@@ -1,0 +1,110 @@
+<%#
+kind: script
+name: Windows peSetup.cmd
+model: ProvisioningTemplate
+oses:
+- Windows
+# Parameters are expected to be set in Foreman (globally or per group/host)
+params:
+- wimImageName: Windows 8.1 Pro # name of wim image to apply
+%>
+<%#
+# You can create amd assing a "user_data" ProvisioningTemplate as powershell to execute some custom code
+%>
+<%
+  proxy_uri = host_param('http-proxy') ? "http://#{host_param('http-proxy')}:#{host_param('http-proxy-port') || 3128}" : nil
+  proxy_string = proxy_uri ? "-e http_proxy=#{proxy_uri}" : ''
+%>
+@setlocal enableextensions enabledelayedexpansion
+@echo off
+set WGET=wget64.exe
+
+<%= @host.diskLayout %>
+
+echo Started downloading main WIM
+
+%WGET% <%= proxy_string %> "<%= medium_uri %>/sources/images.ini" -O X:\images.ini
+if %ERRORLEVEL% == 0 goto :lookup_image
+
+echo WARNING: Couldn't download the images.ini, falling back to legacy mode!
+%WGET% <%= proxy_string %> "<%= medium_uri %>/sources/install.wim" -O C:\install.wim
+goto :install
+
+:lookup_image
+set file=X:\images.ini
+set key=<%= host_param('wimImageName') %>
+for /f "usebackq delims=" %%a in ("!file!") do (
+	set ln=%%a
+        for /f "tokens=1,2 delims==" %%b in ("!ln!") do (
+            set currkey=%%b
+            set currval=%%c
+            if "x!key!"=="x!currkey!" (
+                %WGET% <%= proxy_string %> "<%= medium_uri %>/sources/!currval!" -O C:\install.wim
+            )
+        )
+    )
+)
+
+:install
+echo Writing install image to partition while downloading additional files
+
+(
+   start /min cmd /C "echo Write the install image to the partition
+                dism.exe /apply-image /imagefile:C:\install.wim /Name:"<%= host_param('wimImageName') %>" /ApplyDir:C:\
+                echo removing install.wim
+                del /q /s C:\install.wim"
+   start /min cmd /C "echo Downloading the drivers
+                md c:\drivers
+                %WGET% <%= proxy_string %> -P c:\drivers -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/drivers/"
+   start /min cmd /C "echo Downloading additional updates
+                md c:\updates
+                %WGET% <%= proxy_string %> -P c:\updates\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/updates/"
+   start /min cmd /C "echo Downloading finsh script and activating SetupComplete.cmd
+                md c:\deploy
+                %WGET% --no-verbose <%= foreman_url("finish") -%> -O C:\deploy\foreman-finish.bat"
+) | pause
+
+echo Creating a temp staging folder for DISM
+md c:\MININT\Scratch
+
+echo Creating the Panther directory if needed
+set PantherDirectory=C:\Windows\Panther\
+IF not exist %PantherDirectory% (mkdir %PantherDirectory%)
+
+echo Finalizing installation...
+
+echo Downloading custom theme
+%WGET%  -P C:\Windows\Web\ -r -np -nH --cut-dirs=3 -R index.html -q --level=0 <%= medium_uri %>/theme/
+
+echo Stage the Unattend.xml file for dism to apply
+echo Downloading unattend.xml
+%WGET% --no-verbose <%= foreman_url("provision") -%> -O c:\Windows\Panther\unattend.xml
+echo Apply Unattend.xml
+dism.exe /Image:C:\ /Apply-Unattend:C:\Windows\Panther\unattend.xml /ScratchDir:C:\MININT\Scratch/
+
+echo copy tools
+copy x:\windows\system32\wget64.exe C:\deploy\
+copy x:\windows\system32\wget64.exe C:\Windows\wget.exe
+copy x:\windows\system32\sdelete.exe C:\Windows\
+IF not exist C:\Windows\Setup\Scripts (md C:\Windows\Setup\Scripts)
+echo call C:\deploy\foreman-finish.bat ^> c:\foreman.log 2^>^&1 > C:\Windows\Setup\Scripts\SetupComplete.cmd
+
+<% if foreman_url('user_data') %>
+echo Downloading user data script
+%WGET% <%= foreman_url('user_data') %> -O c:\deploy\user_data.ps1
+<% end -%>
+
+echo Apply Drivers
+dism.exe /Image:C:\ /Add-Driver /Driver:C:\drivers\ /Recurse /ForceUnsigned
+
+echo Apply Updates
+for /f %%u in ('dir /s/b C:\updates\*.msu') do dism.exe /Image:C:\ /Add-Package /PackagePath:%%u /ScratchDir:C:\MININT\Scratch/
+
+echo Setting the boot sector
+bootsect.exe /nt60 C:
+C:\Windows\System32\bcdboot C:\Windows /l en-US
+
+echo Tell foreman build has finished
+%WGET% <%= foreman_url('built') %>
+
+exit 0

@@ -1,3 +1,22 @@
-<% title _("Edit Filter") %>
+<%=
+breadcrumbs(
+  resource_url: api_filters_path(),
+  resource_filter: 'role_id=%s' % @filter.role.id,
+  name_field: "resource_type_label",
+  items: [
+    {
+      caption: _("Roles"),
+      url: (roles_path if authorized_for(hash_for_roles_path))
+    },
+    {
+      caption: _('%s Filters') % @filter.role.name,
+      url: (filters_path(:role_id => @filter.role) if authorized_for(hash_for_filters_path))
+    },
+    {
+      caption: _('Edit %s Resource Filter' ) % _(@filter.resource_type_label)
+    },
+  ].compact
+)
+%>
 
 <%= render 'form' %>

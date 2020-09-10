@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`common Form should accept a required field 1`] = `
+<div
+  className="form-group  "
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    my label
+     *
+  </label>
+  <div
+    className="col-md-4"
+  />
+</div>
+`;
+
+exports[`common Form should display a label field 1`] = `
+<div
+  className="form-group  "
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    my label
+  </label>
+  <div
+    className="col-md-4"
+  />
+</div>
+`;
+
+exports[`common Form should display validation errors if touched 1`] = `
+<div
+  className="form-group  has-error"
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    my label
+  </label>
+  <div
+    className="col-md-4"
+  />
+  <span
+    className="help-block help-inline"
+  >
+    <span
+      className="error-message"
+    >
+      is required!
+    </span>
+  </span>
+</div>
+`;
+
+exports[`common Form should not display validation errors if not touched 1`] = `
+<div
+  className="form-group  "
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    my label
+  </label>
+  <div
+    className="col-md-4"
+  />
+</div>
+`;
+
+exports[`common Form should not display validation errors if there are none 1`] = `
+<div
+  className="form-group  "
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    my label
+  </label>
+  <div
+    className="col-md-4"
+  />
+</div>
+`;
+
+exports[`common Form should render tooltip help 1`] = `
+<div
+  className="form-group  "
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    Required form field
+     *
+    <FieldLevelHelp
+      buttonClass=""
+      content="This is a helpful tooltip"
+      placement="top"
+      rootClose={true}
+    />
+  </label>
+  <div
+    className="col-md-4"
+  />
+</div>
+`;

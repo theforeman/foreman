@@ -1,0 +1,220 @@
+<%#
+kind: provision
+name: AutoYaST default
+model: ProvisioningTemplate
+oses:
+- OpenSUSE
+-%>
+<%
+  # safemode renderer does not support unary negation
+  pm_set = @host.puppetmaster.empty? ? false : true
+  puppet_enabled = pm_set || host_param_true?('force-puppet')
+  salt_enabled = host_param('salt_master') ? true : false
+  os_major = @host.operatingsystem.major.to_i
+  primary_interface_identifier = @host.primary_interface.identifier.blank? ? 'eth0' : @host.primary_interface.identifier
+  primary_interface_subnet = @host.primary_interface.subnet
+-%>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE profile>
+<profile xmlns="http://www.suse.com/1.0/yast2ns" xmlns:config="http://www.suse.com/1.0/configns">
+  <general>
+    <mode>
+      <confirm config:type="boolean">false</confirm>
+      <final_reboot config:type="boolean">true</final_reboot>
+    </mode>
+  </general>
+  <networking>
+    <dns>
+      <hostname><%= @host.name %></hostname>
+<% unless primary_interface_subnet.dhcp_boot_mode? -%>
+      <dhcp_hostname config:type="boolean">false</dhcp_hostname>
+      <dhcp_resolv config:type="boolean">false</dhcp_resolv>
+<% if @host.domain -%>
+      <domain><%= @host.domain -%></domain>
+<% end -%>
+<% unless primary_interface_subnet.dns_servers.empty? -%>
+      <nameservers config:type="list">
+<% primary_interface_subnet.dns_servers.each do |nameserver| -%>
+        <nameserver><%= nameserver %></nameserver>
+<% end -%>
+      </nameservers>
+<% end -%>
+<% else -%>
+      <resolv_conf_policy>auto</resolv_conf_policy>
+<% end -%>
+<% if @host.domain -%>
+      <searchlist config:type="list">
+        <search><%= @host.domain %></search>
+      </searchlist>
+<% end -%>
+    </dns>
+    <interfaces config:type="list">
+<%
+  @host.managed_interfaces.each do |interface|
+    next if !interface.managed? || interface.subnet.nil? || interface.ip.nil?
+    dhcp = interface.subnet.dhcp_boot_mode?
+-%>
+<% if dhcp -%>
+      <interface>
+        <bootproto>dhcp</bootproto>
+        <device><%= interface.primary ? primary_interface_identifier : interface.identifier -%></device>
+        <startmode>auto</startmode>
+        <usercontrol>no</usercontrol>
+      </interface>
+<% else -%>
+      <interface>
+        <bootproto>static</bootproto>
+        <device><%= interface.primary ? primary_interface_identifier : interface.identifier -%></device>
+        <ipaddr><%= interface.ip -%></ipaddr>
+        <netmask><%= interface.subnet.mask -%></netmask>
+        <startmode>onboot</startmode>
+        <usercontrol>no</usercontrol>
+      </interface>
+<% end -%>
+<% end -%>
+    </interfaces>
+<% unless primary_interface_subnet.dhcp_boot_mode? -%>
+    <routing>
+      <routes config:type="list">
+        <route>
+          <destination>default</destination>
+          <device><%= primary_interface_identifier -%></device>
+          <gateway><%= primary_interface_subnet.gateway -%></gateway>
+          <netmask><%= primary_interface_subnet.mask -%></netmask>
+        </route>
+      </routes>
+    </routing>
+<% end -%>
+  </networking>
+  <%# NTP client configuration has incompatible changes in Leap 15 -%>
+  <% if os_major <= 12 || os_major == 42 -%>
+  <ntp-client>
+    <configure_dhcp config:type="boolean">false</configure_dhcp>
+    <peers config:type="list">
+      <peer>
+        <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+        <initial_sync config:type="boolean">true</initial_sync>
+        <options></options>
+        <type>server</type>
+      </peer>
+    </peers>
+    <start_at_boot config:type="boolean">true</start_at_boot>
+    <start_in_chroot config:type="boolean">true</start_in_chroot>
+  </ntp-client>
+<% else -%>
+  <ntp-client>
+   <ntp_policy>auto</ntp_policy>
+   <ntp_servers config:type="list">
+    <ntp_server>
+     <iburst config:type="boolean">false</iburst>
+     <address><%= host_param('ntp-server') || '0.opensuse.pool.ntp.org' %></address>
+     <offline config:type="boolean">true</offline>
+    </ntp_server>
+   </ntp_servers>
+   <ntp_sync>systemd</ntp_sync>
+   </ntp-client>
+<% end -%>
+<% if ! @dynamic -%>
+  <%= @host.diskLayout %>
+<% end -%>
+  <runlevel>
+    <default>3</default>
+    <services config:type="list">
+      <service>
+        <service_name>sshd</service_name>
+        <service_status>enable</service_status>
+      </service>
+    </services>
+  </runlevel>
+  <software>
+    <base>default</base>
+    <patterns config:type="list">
+      <pattern>base</pattern>
+      <pattern>enhanced_base</pattern>
+      <pattern>sw_management</pattern>
+      <pattern>yast2_basis</pattern>
+    </patterns>
+    <packages config:type="list">
+      <package>lsb-release</package>
+<% if puppet_enabled -%>
+      <package>rubygem-puppet</package>
+<% end -%>
+    </packages>
+  </software>
+  <users config:type="list">
+    <user>
+      <username>root</username>
+      <encrypted config:type="boolean">true</encrypted>
+      <fullname>root</fullname>
+      <gid>0</gid>
+      <home>/root</home>
+      <shell>/bin/bash</shell>
+      <uid>0</uid>
+      <user_password><%= root_pass %></user_password>
+    </user>
+  </users>
+  <scripts>
+<% if @dynamic -%>
+    <pre-scripts config:type="list">
+      <script>
+        <debug config:type="boolean">true</debug>
+        <filename>pre_disklayout</filename>
+        <interpreter>shell</interpreter>
+        <source><![CDATA[
+<%= @host.diskLayout %>
+]]>
+        </source>
+      </script>
+    </pre-scripts>
+<% end -%>
+    <chroot-scripts config:type="list">
+      <script>
+        <filename>cp-resolv.sh</filename>
+        <chrooted config:type="boolean">false</chrooted>
+        <interpreter>shell</interpreter>
+        <notification>Copying resolv.conf into chroot ...</notification>
+        <source><![CDATA[
+cp /etc/resolv.conf /mnt/etc
+]]>
+        </source>
+      </script>
+      <script>
+        <filename>foreman.sh</filename>
+        <chrooted config:type="boolean">true</chrooted>
+        <interpreter>shell</interpreter>
+        <notification>Setting up Puppet / Foreman ...</notification>
+        <source><![CDATA[
+/bin/hostname <%= @host.name %>
+
+<%= snippet('remote_execution_ssh_keys') %>
+
+<%= snippet "blacklist_kernel_modules" %>
+
+<% if puppet_enabled -%>
+<%= snippet 'puppet_setup' %>
+<% end -%>
+
+<% if salt_enabled %>
+<%= snippet 'saltstack_setup' %>
+<% end -%>
+
+<% if @host.respond_to?(:bootdisk_build?) && @host.bootdisk_build? %>
+eject -v
+<% end -%>
+
+<%= snippet 'built' %>
+
+rm /etc/resolv.conf
+]]>
+        </source>
+      </script>
+    </chroot-scripts>
+  </scripts>
+  <keyboard>
+    <keymap>english-us</keymap>
+  </keyboard>
+  <timezone>
+    <hwclock>UTC</hwclock>
+    <timezone><%= host_param('time-zone') || 'Etc/UTC' %></timezone>
+  </timezone>
+</profile>

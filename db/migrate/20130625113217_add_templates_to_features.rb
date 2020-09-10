@@ -1,4 +1,4 @@
-class AddTemplatesToFeatures < ActiveRecord::Migration
+class AddTemplatesToFeatures < ActiveRecord::Migration[4.2]
   def up
     Feature.create(:name => 'Templates')
   end

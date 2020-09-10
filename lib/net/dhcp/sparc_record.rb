@@ -10,7 +10,7 @@ module Net::DHCP
     end
 
     def attrs
-      super.merge(
+      @attrs ||= super.merge(
         { "#{vendor}root_path_name"        => root_path_name,
           "#{vendor}sysid_server_path"     => sysid_server_path,
           "#{vendor}install_server_ip"     => install_server_ip,
@@ -18,8 +18,8 @@ module Net::DHCP
           "#{vendor}install_server_name"   => install_server_name,
           "#{vendor}root_server_hostname"  => root_server_hostname,
           "#{vendor}root_server_ip"        => root_server_ip,
-          "#{vendor}install_path"          => install_path
-        }).delete_if { |k, v| v.nil? }
+          "#{vendor}install_path"          => install_path,
+        }).compact
     end
   end
 end

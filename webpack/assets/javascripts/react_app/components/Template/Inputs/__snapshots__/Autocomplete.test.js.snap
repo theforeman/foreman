@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Report Template AutoComplete rendering With Require and Descriptions 1`] = `
+<CommonForm
+  className=""
+  error={null}
+  inputClassName="col-md-4"
+  label="some label"
+  required={true}
+  tooltipHelp={
+    <FieldLevelHelp
+      buttonClass="field-help"
+      content={
+        <React.Fragment>
+          some description
+        </React.Fragment>
+      }
+      placement="top"
+      rootClose={true}
+    />
+  }
+  touched={true}
+>
+  <Connect(AutoComplete)
+    controller="some-controller"
+    id="template-autocomplete-input-3"
+    inputProps={
+      Object {
+        "name": "report_template_report[input_values][3][value]",
+      }
+    }
+    searchQuery="a query"
+    url="some-url"
+  />
+</CommonForm>
+`;
+
+exports[`Report Template AutoComplete rendering renders ReportAutoComplete 1`] = `
+<CommonForm
+  className=""
+  error={null}
+  inputClassName="col-md-4"
+  label="some label"
+  required={false}
+  tooltipHelp={null}
+  touched={true}
+>
+  <Connect(AutoComplete)
+    controller="some-controller"
+    id="template-autocomplete-input-3"
+    inputProps={
+      Object {
+        "name": "report_template_report[input_values][3][value]",
+      }
+    }
+    searchQuery="a query"
+    url="some-url"
+  />
+</CommonForm>
+`;

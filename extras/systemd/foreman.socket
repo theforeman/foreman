@@ -1,0 +1,17 @@
+[Unit]
+Description=Foreman HTTP Server Accept Sockets
+
+[Socket]
+# Note Puma must be configured to listen on the same IP/port. If there's a
+# mismatch, it will bind again. The port can already be in use, for example when
+# systemd is configured with [::]:3000 but Puma with 0.0.0.0:3000. The port is
+# then already in use.
+ListenStream=0.0.0.0:3000
+
+# Socket options matching Puma defaults
+NoDelay=true
+ReusePort=true
+Backlog=1024
+
+[Install]
+WantedBy=sockets.target

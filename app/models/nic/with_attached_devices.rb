@@ -25,12 +25,20 @@ module Nic::WithAttachedDevices
     attached_devices.split(SEPARATOR)
   end
 
+  def children_mac_addresses
+    attached_devices_objects.map(&:mac)
+  end
+
   def add_device(identifier)
     self.attached_devices = attached_devices_identifiers.push(identifier).uniq.join(SEPARATOR)
   end
 
   def remove_device(identifier)
     self.attached_devices = attached_devices_identifiers.tap { |a| a.delete(identifier) }.join(SEPARATOR)
+  end
+
+  def attached_devices_objects
+    host.interfaces.select { |i| attached_devices_identifiers.include?(i.identifier) }
   end
 
   private

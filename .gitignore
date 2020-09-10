@@ -8,8 +8,8 @@ jenkins/reports/*
 test/reports/*
 db/schema.rb
 config/settings.yaml
+config/ignored_environments.yml
 config/settings.plugins.d
-config/email.yaml
 config/database.yml
 config/initializers/local_secret_token.rb
 config/initializers/encryption_key.rb
@@ -19,6 +19,7 @@ bundler.d/*.local.rb
 .idea
 *.pyc
 public/apipie-cache
+public/apipie-dsl-cache
 public/assets
 .DS_Store
 foreman_client
@@ -42,4 +43,12 @@ config/hooks
 *.csv
 .envrc
 node_modules
+vendor/ruby
 public/webpack
+.env*
+package-lock.json
+npm-debug.log
+.vscode
+.yo-rc.json
+.vendor/
+.solargraph.yml

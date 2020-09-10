@@ -1,32 +1,145 @@
-# TODO: remove this file by either moving cops here or fixing code
-inherit_from:
-  - .rubocop_todo.yml
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-minitest
+
+inherit_from: .rubocop_todo.yml
 
 AllCops:
-  Include:
-    - 'app/views/api/**/*.rabl'
+  TargetRubyVersion: 2.5
+  TargetRailsVersion: 5.2
   Exclude:
     - 'db/schema.rb'
+    - 'node_modules/**/*'
     - 'vendor/**/*'
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+  IndentationWidth: 2
+
+Layout/DotPosition:
+  Enabled: false
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Layout/FirstArgumentIndentation:
+  EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+Layout/ParameterAlignment:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Performance/Casecmp:
+  Enabled: false
+
+Performance/RedundantMatch:
+  Enabled: true
+
+Performance/RedundantMerge:
+  Enabled: true
+
+Performance/RegexpMatch:
+  Enabled: false
 
 Rails:
   Enabled: true
+
+Rails/Blank:
+  UnlessPresent: false
+
+# Won't work with sqlite
+Rails/BulkChangeTable:
+  Enabled: false
+
+Rails/RefuteMethods:
+  Enabled: false
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+# Don't prefer is_a? over kind_of?
+Style/ClassCheck:
+  Enabled: false
+
+# Don't enforce certain methods, e.g. detect over find
+Style/CollectionMethods:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
 
 # Don't enforce documentation
 Style/Documentation:
   Enabled: false
 
-# Support both ruby19 and hash_rockets
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+# Don't enforce frozen string literals
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Support both, Ruby 1.9 hashmap and hash-rocket syntax
 Style/HashSyntax:
   Enabled: false
-  SupportedStyles:
-    - ruby19
-    - hash_rockets
 
-Metrics/ClassLength:
-  Exclude:
-    - 'test/**/*'
+Style/IfUnlessModifier:
+  Enabled: false
 
-Performance/FixedSize:
-  Exclude:
-    - 'test/**/*'
+Style/InverseMethods:
+  Enabled: false
+
+# disabled until we can configure "+" as concat sign
+Style/LineEndConcatenation:
+  Enabled: false
+
+Style/MultipleComparison:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/ParenthesesAroundCondition:
+  Enabled: false
+
+Style/PreferredHashMethods:
+  Enabled: false
+
+# Both double and single quotes are OK
+Style/StringLiterals:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+  MinSize: 1
+
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+#Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
+Style/WordArray:
+  Enabled: false

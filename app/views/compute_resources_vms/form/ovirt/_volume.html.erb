@@ -1,14 +1,16 @@
 
-<%= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2" %>
-<%= f.hidden_field :size_gb if !new_host %>
-<%= select_f f, :storage_domain, compute_resource.storage_domains, :id, :name,
-             { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_host, :class => "col-md-2" %>
-<%= f.hidden_field :storage_domain if !new_host %>
+<%= text_f f,:size_gb, :label => _('Size (GB)'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
+<%= f.hidden_field :size_gb if !new_vm %>
+<%= select_f f, :storage_domain, ovirt_storage_domains_for_select(compute_resource), :id, :label,
+             { }, :label => _('Storage domain'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
+<%= f.hidden_field :storage_domain if !new_vm %>
 <%= f.hidden_field :id %>
-
-<%= checkbox_f f, :preallocate, { :checked => f.object.sparse == 'false', :help_inline => _('Uses thin provisioning if unchecked'), :label => _('Preallocate disk'), :label_size => "col-md-2" } %>
-
+<%= checkbox_f f, :preallocate, {:disabled => !new_vm, :checked => f.object.sparse == 'false', :help_inline => _('Uses thin provisioning if unchecked'), :label => _('Preallocate disk'), :label_size => "col-md-2" } %>
+<%= checkbox_f f, :wipe_after_delete, {:disabled => !new_vm, :checked => f.object.wipe_after_delete  == 'true', :label => _('Wipe disk after delete'), :label_size => "col-md-2" } %>
+<%= select_f f, :interface, [OpenStruct.new({:id =>'virtio_scsi', :name =>'VirtIO SCSI'}), OpenStruct.new({:id =>'virtio', :name =>'VirtIO'}), OpenStruct.new({:id =>'ide', :name =>'IDE'})],
+             :id, :name, { }, :label => _('Disk interface'), :label_size => "col-md-2", :disabled => !new_vm, :class => "col-md-2" %>
+<%= f.hidden_field :interface if !new_vm %>
 <%= field(f, :bootable, :label => _('Bootable'), :label_size => "col-md-2") do
-    radio_button_f f, :bootable, {:disabled => !new_host, :value=>'true', :checked => (f.object.bootable == 'true'), :onclick => 'bootable_radio(this)',
-    :text => _('Only one volume can be bootable')}
+  radio_button_f f, :bootable, {:disabled => !new_vm, :value=> 'true', :checked => f.object.bootable == 'true', :onclick => 'tfm.computeResource.ovirt.bootableRadio(this)',
+  :text => _('Only one volume can be bootable')}
 end %>

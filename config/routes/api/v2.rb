@@ -2,7 +2,7 @@
 Foreman::Application.routes.draw do
   namespace :api, :defaults => {:format => 'json'} do
     # new v2 routes that point to v2
-    scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
+    scope "(:apiv)", :module => :v2, :defaults => {:apiv => 'v2'}, :apiv => /v2/, :constraints => ApiConstraints.new(:version => 2, :default => true) do
       resources :architectures, :except => [:new, :edit] do
         constraints(:id => /[^\/]+/) do
           resources :hosts, :except => [:new, :edit]
@@ -14,7 +14,23 @@ Foreman::Application.routes.draw do
 
       resources :audits, :only => [:index, :show]
 
+      resources :auth_sources, :only => [:index, :show] do
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+      end
+
+      resources :auth_source_externals, :only => [:index, :show, :update] do
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+        resources :external_usergroups, :except => [:new, :edit, :destroy]
+        resources :users, :except => [:new, :edit, :destroy]
+      end
+
+      resources :auth_source_internals, :only => [:index, :show]
+
       resources :auth_source_ldaps, :except => [:new, :edit] do
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
         resources :users, :except => [:new, :edit]
         resources :external_usergroups, :except => [:new, :edit]
       end
@@ -23,26 +39,17 @@ Foreman::Application.routes.draw do
 
       resources :common_parameters, :except => [:new, :edit]
 
-      resources :config_templates, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        post :clone, :on => :member
-        collection do
-          post 'build_pxe_default'
-          get 'build_pxe_default' # Keeping get variant for backward compatibility, see #6976 for details
-          get 'revision'
-        end
-        resources :template_combinations, :only => [:index, :create, :update, :show]
-        resources :operatingsystems, :except => [:new, :edit]
-        resources :os_default_templates, :except => [:new, :edit]
-      end
       resources :provisioning_templates, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        post :clone, :on => :member
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+        member do
+          post :clone
+          get :export
+        end
         collection do
           post 'build_pxe_default'
           get 'revision'
+          post :import
         end
         resources :template_combinations, :only => [:index, :create, :update, :show]
         resources :operatingsystems, :except => [:new, :edit]
@@ -52,17 +59,19 @@ Foreman::Application.routes.draw do
       resources :dashboard, :only => [:index]
 
       resources :environments, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
         resources :smart_proxies, :only => [] do
           post :import_puppetclasses, :on => :member
         end
-        resources :smart_class_parameters, :except => [:new, :edit, :create] do
-          resources :override_values, :except => [:new, :edit]
-        end
-        resources :puppetclasses, :except => [:new, :edit] do
+        constraints(:id => /[^\/]+/) do
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit, :destroy]
+            resources :override_values, :except => [:new, :edit]
+          end
+          resources :puppetclasses, :except => [:new, :edit] do
+            resources :smart_class_parameters, :except => [:new, :edit, :create] do
+              resources :override_values, :except => [:new, :edit, :destroy]
+            end
           end
         end
         resources :hosts, :except => [:new, :edit]
@@ -72,19 +81,19 @@ Foreman::Application.routes.draw do
       resources :fact_values, :only => [:index]
 
       resources :hostgroups, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
         post :clone, :on => :member
+        put :rebuild_config, :on => :member
         resources :parameters, :except => [:new, :edit] do
           collection do
             delete '/', :action => :reset
           end
         end
-        resources :smart_variables, :except => [:new, :edit, :create] do
-          resources :override_values, :except => [:new, :edit]
-        end
-        resources :smart_class_parameters, :except => [:new, :edit, :create] do
-          resources :override_values, :except => [:new, :edit]
+        constraints(:id => /[^\/]+/) do
+          resources :smart_class_parameters, :except => [:new, :edit, :create] do
+            resources :override_values, :except => [:new, :edit]
+          end
         end
         resources :puppetclasses, :except => [:new, :edit]
         resources :hostgroup_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
@@ -93,8 +102,8 @@ Foreman::Application.routes.draw do
       end
 
       resources :media, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
         resources :operatingsystems, :except => [:new, :edit]
       end
 
@@ -111,7 +120,6 @@ Foreman::Application.routes.draw do
           resources :os_default_templates, :except => [:new, :edit]
           resources :ptables, :except => [:new, :edit]
           resources :architectures, :except => [:new, :edit]
-          resources :config_templates, :except => [:new, :edit]
           resources :provisioning_templates, :except => [:new, :edit]
           resources :images, :except => [:new, :edit]
           resources :media, :only => [:index, :show]
@@ -123,39 +131,40 @@ Foreman::Application.routes.draw do
         resources :ptables, :except => [:new, :edit]
         resources :architectures, :except => [:new, :edit]
         resources :puppetclasses, :except => [:new, :edit]
-        resources :config_templates, :except => [:new, :edit]
         resources :os_default_templates, :except => [:new, :edit]
       end
 
-      resources :puppetclasses, :except => [:new, :edit] do
-        resources :smart_variables, :except => [:new, :edit] do
-          resources :override_values, :except => [:new, :edit]
-        end
-        resources :smart_class_parameters, :except => [:new, :edit, :create] do
-          resources :override_values, :except => [:new, :edit, :destroy]
-        end
-        resources :environments, :only => [] do
-          resources :smart_class_parameters, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit, :destroy]
-          end
-        end
-        resources :hostgroups, :only => [:index, :show]
-        resources :environments, :only => [:index, :show]
+      resources :templates, :only => :none do
+        resources :template_inputs, :only => [:index, :show, :create, :destroy, :update]
       end
 
       resources :ptables, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        post :clone, :on => :member
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+        member do
+          post :clone
+          get :export
+        end
         collection do
           get 'revision'
+          post :import
         end
 
         resources :operatingsystems, :except => [:new, :edit]
       end
 
-      resources :reports, :only => [:index, :show, :destroy] do
-        get :last, :on => :collection
+      resources :report_templates, :except => [:new, :edit] do
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
+        member do
+          post :clone, :generate, :schedule_report
+          get :export
+          get 'report_data/:job_id', action: 'report_data', as: 'report_data'
+        end
+        collection do
+          get 'revision'
+          post :import
+        end
       end
 
       resources :config_reports, :only => [:index, :show, :destroy] do
@@ -164,10 +173,13 @@ Foreman::Application.routes.draw do
 
       resources :roles, :except => [:new, :edit] do
         resources :filters, :except => [:new, :edit] do
-          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :locations, :only => [:index, :show]
+          resources :organizations, :only => [:index, :show]
         end
         resources :users, :except => [:new, :edit]
+        member do
+          post :clone
+        end
       end
       resources :permissions, :only => [:index, :show] do
         collection do
@@ -176,34 +188,30 @@ Foreman::Application.routes.draw do
       end
 
       resources :filters, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
       end
 
       resources :settings, :only => [:index, :show, :update]
 
-      resources :smart_variables, :except => [:new, :edit] do
-        resources :override_values, :except => [:new, :edit]
-      end
-
-      resources :smart_class_parameters, :except => [:new, :edit, :create, :destroy] do
-        resources :override_values, :except => [:new, :edit]
-      end
-
-      resources :override_values, :only => [:update, :destroy]
-
-      resources :statistics, :only => [:index]
-
       get '/', :to => 'home#index'
       get 'status', :to => 'home#status', :as => "v2_status"
+      get 'current_user', to: 'users#show_current', as: "current_user"
 
-      resources :reports, :only => [:create]
+      post :reports, :to => 'config_reports#create'
 
       resources :config_reports, :only => [:create]
 
+      resources :http_proxies, :except => [:new, :edit]
+
+      # TODO: remove in 2.4
+      statistics_plugin = Foreman::Plugin.find(:foreman_statistics)
+      resources :trends, :only => [:create, :index, :show, :destroy], :controller => statistics_plugin && '/foreman_statistics/api/v2/trends'
+      resources :statistics, :only => [:index], :controller => statistics_plugin && '/foreman_statistics/api/v2/statistics'
+
       resources :subnets, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+        resources :locations, :only => [:index, :show]
+        resources :organizations, :only => [:index, :show]
         resources :domains, :except => [:new, :edit]
         resources :interfaces, :except => [:new, :edit]
         resources :parameters, :except => [:new, :edit] do
@@ -225,11 +233,19 @@ Foreman::Application.routes.draw do
         end
       end
 
-      resources :users, :except => [:new, :edit] do
-        (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-        (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-        resources :roles, :except => [:new, :edit]
-        resources :usergroups, :except => [:new, :edit]
+      # add "constraint" that unconstrained and allows :id to have dot notation ex. first.lastname
+      constraints(:id => /[^\/]+/) do
+        resources :users, :except => [:new, :edit] do
+          resources :locations, :only => [:index, :show]
+          resources :organizations, :only => [:index, :show]
+          resources :roles, :except => [:new, :edit]
+          resources :usergroups, :except => [:new, :edit]
+          resources :ssh_keys, :only => [:index, :show, :create, :destroy]
+          resources :personal_access_tokens, :only => [:index, :show, :create, :destroy]
+          resources :table_preferences, :only => [:index, :create, :destroy, :show, :update]
+          resources :mail_notifications, :only => [:create, :destroy, :update]
+          get 'mail_notifications', :to => 'mail_notifications#user_mail_notifications', :on => :member
+        end
       end
 
       resources :template_kinds, :only => [:index]
@@ -237,12 +253,12 @@ Foreman::Application.routes.draw do
       resources :template_combinations, :only => [:show, :destroy]
       resources :config_groups, :except => [:new, :edit]
 
-      resources :compute_attributes, :only => [:create, :update]
+      resources :compute_attributes, :only => [:index, :show, :create, :update]
 
       resources :compute_profiles, :except => [:new, :edit] do
-        resources :compute_attributes, :only => [:create, :update]
+        resources :compute_attributes, :only => [:index, :show, :create, :update]
         resources :compute_resources, :except => [:new, :edit] do
-          resources :compute_attributes, :only => [:create, :update]
+          resources :compute_attributes, :only => [:index, :show, :create, :update]
         end
       end
 
@@ -251,38 +267,47 @@ Foreman::Application.routes.draw do
         resources :compute_resources, :except => [:new, :edit] do
           resources :images, :except => [:new, :edit]
           get :available_images, :on => :member
+          get :available_virtual_machines, :on => :member
           get :available_clusters, :on => :member
           get :available_folders, :on => :member
           get :available_flavors, :on => :member
           get :available_networks, :on => :member
           get :available_security_groups, :on => :member
           get :available_storage_domains, :on => :member
+          get 'storage_domains/(:storage_domain_id)', :to => 'compute_resources#storage_domain', :on => :member
           get 'available_storage_domains/(:storage_domain)', :to => 'compute_resources#available_storage_domains', :on => :member
           get :available_storage_pods, :on => :member
+          get 'storage_pods/(:storage_pod_id)', :to => 'compute_resources#storage_pod', :on => :member
+          get 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#show_vm', :on => :member
           get 'available_storage_pods/(:storage_pod)', :to => 'compute_resources#available_storage_pods', :on => :member
           get 'available_clusters/(:cluster_id)/available_networks', :to => 'compute_resources#available_networks', :on => :member
           get 'available_clusters/(:cluster_id)/available_resource_pools', :to => 'compute_resources#available_resource_pools', :on => :member
+          get 'available_clusters/(:cluster_id)/available_storage_domains', :to => 'compute_resources#available_storage_domains', :on => :member
+          get 'available_clusters/(:cluster_id)/available_storage_pods', :to => 'compute_resources#available_storage_pods', :on => :member
           get :available_zones, :on => :member
           put :associate, :on => :member
-          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
-          resources :compute_attributes, :only => [:create, :update]
+          put :refresh_cache, :on => :member
+          put 'available_virtual_machines/(:vm_id)/power', :to => 'compute_resources#power_vm', :on => :member
+          delete 'available_virtual_machines/(:vm_id)', :to => 'compute_resources#destroy_vm', :on => :member
+          resources :locations, :only => [:index, :show]
+          resources :organizations, :only => [:index, :show]
+          resources :compute_attributes, :only => [:index, :show, :create, :update]
           resources :compute_profiles, :except => [:new, :edit] do
-            resources :compute_attributes, :only => [:create, :update]
+            resources :compute_attributes, :only => [:index, :show, :create, :update]
           end
         end
 
         resources :mail_notifications, :only => [:index, :show]
 
         resources :realms, :except => [:new, :edit] do
-          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :locations, :only => [:index, :show]
+          resources :organizations, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
           resources :users, :except => [:new, :edit]
         end
         resources :domains, :except => [:new, :edit] do
-          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :locations, :only => [:index, :show]
+          resources :organizations, :only => [:index, :show]
           resources :parameters, :except => [:new, :edit] do
             collection do
               delete '/', :action => :reset
@@ -295,8 +320,8 @@ Foreman::Application.routes.draw do
           resources :interfaces, :except => [:new, :edit]
         end
         resources :smart_proxies, :except => [:new, :edit] do
-          (resources :locations, :only => [:index, :show]) if SETTINGS[:locations_enabled]
-          (resources :organizations, :only => [:index, :show]) if SETTINGS[:organizations_enabled]
+          resources :locations, :only => [:index, :show]
+          resources :organizations, :only => [:index, :show]
           put :refresh, :on => :member
           get :version, :on => :member
           get :logs, :on => :member
@@ -304,21 +329,22 @@ Foreman::Application.routes.draw do
           resources :environments, :only => [] do
             post :import_puppetclasses, :on => :member
           end
-          resources :autosign, :only => [:index]
+          resources :autosign, :only => [:index, :create, :destroy]
         end
         resources :hosts, :except => [:new, :edit] do
-          get :status, :on => :member
+          get :enc, :on => :member
           get 'status/:type', :on => :member, :action => :get_status
           get :vm_compute_attributes, :on => :member
           get 'template/:kind', :on => :member, :action => :template
-          put :puppetrun, :on => :member
           put :disassociate, :on => :member
+          delete 'status/:type', :on => :member, :action => :forget_status
           put :boot, :on => :member
+          get :power, :on => :member, :action => :power_status
           put :power, :on => :member
           put :rebuild_config, :on => :member
           post :facts, :on => :collection
           resources :audits, :only => :index
-          resources :facts,  :only => :index, :controller => :fact_values
+          resources :facts, :only => :index, :controller => :fact_values
           resources :host_classes, :path => :puppetclass_ids, :only => [:index, :create, :destroy]
           resources :interfaces, :except => [:new, :edit]
           resources :parameters, :except => [:new, :edit] do
@@ -327,75 +353,71 @@ Foreman::Application.routes.draw do
             end
           end
           resources :puppetclasses, :except => [:new, :edit]
-          resources :reports, :only => [:index, :show] do
-            get :last, :on => :collection
-          end
 
           resources :config_reports, :only => [:index, :show] do
             get :last, :on => :collection
-          end
-          resources :smart_variables, :except => [:new, :edit, :create] do
-            resources :override_values, :except => [:new, :edit]
           end
           resources :smart_class_parameters, :except => [:new, :edit, :create] do
             resources :override_values, :except => [:new, :edit]
           end
         end
-      end
 
-      if SETTINGS[:locations_enabled]
-        resources :locations, :except => [:new, :edit] do
-          # scoped by location
-          resources :domains, :only => [:index, :show]
-          resources :realms, :only => [:index, :show]
-          resources :subnets, :only => [:index, :show]
-          resources :hostgroups, :only => [:index, :show]
-          resources :environments, :only => [:index, :show]
-          resources :users, :only => [:index, :show]
-          resources :config_templates, :only => [:index, :show]
-          resources :provisioning_templates, :only => [:index, :show]
-          resources :ptables, :only => [:index, :show]
-          resources :compute_resources, :only => [:index, :show]
-          resources :media, :only => [:index, :show]
-          resources :smart_proxies, :only => [:index, :show]
-          resources :filters, :only => [:index, :show]
-          resources :hosts, :except => [:new, :edit]
-          resources :parameters, :except => [:new, :edit] do
-            collection do
-              delete '/', :action => :reset
+        resources :puppetclasses, :except => [:new, :edit] do
+          resources :smart_class_parameters, :except => [:new, :edit, :create] do
+            resources :override_values, :except => [:new, :edit, :destroy]
+          end
+          resources :environments, :only => [] do
+            resources :smart_class_parameters, :except => [:new, :edit, :create] do
+              resources :override_values, :except => [:new, :edit, :destroy]
             end
           end
-
-           # scoped by location AND organization
-          resources :organizations, :except => [:new, :edit] do
-            resources :domains, :only => [:index, :show]
-            resources :realms, :only => [:index, :show]
-            resources :subnets, :only => [:index, :show]
-            resources :hostgroups, :only => [:index, :show]
-            resources :environments, :only => [:index, :show]
-            resources :users, :only => [:index, :show]
-            resources :config_templates, :only => [:index, :show]
-            resources :provisioning_templates, :only => [:index, :show]
-            resources :ptables, :only => [:index, :show]
-            resources :compute_resources, :only => [:index, :show]
-            resources :media, :only => [:index, :show]
-            resources :smart_proxies, :only => [:index, :show]
-            resources :filters, :only => [:index, :show]
-            resources :hosts, :except => [:new, :edit]
-          end
+          resources :hostgroups, :only => [:index, :show]
+          resources :environments, :only => [:index, :show]
         end
+
+        resources :smart_class_parameters, :except => [:new, :edit, :create, :destroy] do
+          resources :override_values, :except => [:new, :edit]
+        end
+
+        resources :override_values, :only => [:update, :destroy]
       end
 
-      if SETTINGS[:organizations_enabled]
+      resources :locations, :except => [:new, :edit] do
+        # scoped by location
+        resources :auth_sources, :only => [:index, :show]
+        resources :auth_source_ldaps, :only => [:index, :show]
+        resources :auth_source_externals, :only => [:index, :show]
+        resources :domains, :only => [:index, :show]
+        resources :realms, :only => [:index, :show]
+        resources :subnets, :only => [:index, :show]
+        resources :hostgroups, :only => [:index, :show]
+        resources :environments, :only => [:index, :show]
+        resources :users, :only => [:index, :show]
+        resources :provisioning_templates, :only => [:index, :show]
+        resources :ptables, :only => [:index, :show]
+        resources :compute_resources, :only => [:index, :show]
+        resources :media, :only => [:index, :show]
+        resources :smart_proxies, :only => [:index, :show]
+        resources :filters, :only => [:index, :show]
+        resources :hosts, :except => [:new, :edit]
+        resources :report_templates, :only => [:index, :show]
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :action => :reset
+          end
+        end
+
+        # scoped by location AND organization
         resources :organizations, :except => [:new, :edit] do
-          # scoped by organization
+          resources :auth_sources, :only => [:index, :show]
+          resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_externals, :only => [:index, :show]
           resources :domains, :only => [:index, :show]
           resources :realms, :only => [:index, :show]
           resources :subnets, :only => [:index, :show]
           resources :hostgroups, :only => [:index, :show]
           resources :environments, :only => [:index, :show]
           resources :users, :only => [:index, :show]
-          resources :config_templates, :only => [:index, :show]
           resources :provisioning_templates, :only => [:index, :show]
           resources :ptables, :only => [:index, :show]
           resources :compute_resources, :only => [:index, :show]
@@ -403,33 +425,61 @@ Foreman::Application.routes.draw do
           resources :smart_proxies, :only => [:index, :show]
           resources :filters, :only => [:index, :show]
           resources :hosts, :except => [:new, :edit]
-          resources :parameters, :except => [:new, :edit] do
-            collection do
-              delete '/', :action => :reset
-            end
-          end
-
-          # scoped by location AND organization
-          resources :locations, :except => [:new, :edit] do
-            resources :domains, :only => [:index, :show]
-            resources :realms, :only => [:index, :show]
-            resources :subnets, :only => [:index, :show]
-            resources :hostgroups, :only => [:index, :show]
-            resources :environments, :only => [:index, :show]
-            resources :users, :only => [:index, :show]
-            resources :config_templates, :only => [:index, :show]
-            resources :provisioning_templates, :only => [:index, :show]
-            resources :ptables, :only => [:index, :show]
-            resources :compute_resources, :only => [:index, :show]
-            resources :media, :only => [:index, :show]
-            resources :smart_proxies, :only => [:index, :show]
-            resources :filters, :only => [:index, :show]
-            resources :hosts, :except => [:new, :edit]
-          end
+          resources :report_templates, :only => [:index, :show]
         end
       end
+
+      resources :organizations, :except => [:new, :edit] do
+        # scoped by organization
+        resources :auth_sources, :only => [:index, :show]
+        resources :auth_source_ldaps, :only => [:index, :show]
+        resources :auth_source_externals, :only => [:index, :show]
+        resources :domains, :only => [:index, :show]
+        resources :realms, :only => [:index, :show]
+        resources :subnets, :only => [:index, :show]
+        resources :hostgroups, :only => [:index, :show]
+        resources :environments, :only => [:index, :show]
+        resources :users, :only => [:index, :show]
+        resources :provisioning_templates, :only => [:index, :show]
+        resources :ptables, :only => [:index, :show]
+        resources :compute_resources, :only => [:index, :show]
+        resources :media, :only => [:index, :show]
+        resources :smart_proxies, :only => [:index, :show]
+        resources :filters, :only => [:index, :show]
+        resources :hosts, :except => [:new, :edit]
+        resources :report_templates, :only => [:index, :show]
+        resources :parameters, :except => [:new, :edit] do
+          collection do
+            delete '/', :action => :reset
+          end
+        end
+
+        # scoped by location AND organization
+        resources :locations, :except => [:new, :edit] do
+          resources :auth_sources, :only => [:index, :show]
+          resources :auth_source_ldaps, :only => [:index, :show]
+          resources :auth_source_externals, :only => [:index, :show]
+          resources :domains, :only => [:index, :show]
+          resources :realms, :only => [:index, :show]
+          resources :subnets, :only => [:index, :show]
+          resources :hostgroups, :only => [:index, :show]
+          resources :environments, :only => [:index, :show]
+          resources :users, :only => [:index, :show]
+          resources :provisioning_templates, :only => [:index, :show]
+          resources :ptables, :only => [:index, :show]
+          resources :compute_resources, :only => [:index, :show]
+          resources :media, :only => [:index, :show]
+          resources :smart_proxies, :only => [:index, :show]
+          resources :filters, :only => [:index, :show]
+          resources :hosts, :except => [:new, :edit]
+          resources :report_templates, :only => [:index, :show]
+        end
+      end
+
       get 'orchestration/(:id)/tasks', :to => 'tasks#index'
       resources :plugins, :only => [:index]
+      get 'ping', :to => 'ping#ping'
+      get 'statuses', :to => 'ping#statuses'
       put 'auth_source_ldaps/(:id)/test', :to => 'auth_source_ldaps#test'
     end
   end

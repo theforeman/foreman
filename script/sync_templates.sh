@@ -16,15 +16,15 @@ git clone -q -b $(git symbolic-ref -q HEAD --short) \
 # move into destination dir if run from Foreman root
 [ -d app/views/unattended ] && cd app/views/unattended
 
-# add underscore prefix to snippets
-(cd $REPO/ct/snippets && prename -f 's/^([^_])/_$1/' *)
-
-rsync -r \
+rsync -r --delete \
+  --exclude .gitignore \
   --exclude README.md \
   --exclude '.*' \
   --exclude test \
   --exclude Rakefile \
-  --exclude 'jobs/' \
+  --exclude Gemfile \
+  --exclude LICENSE \
+  --exclude 'job_templates/' \
   $REPO/ct/ ./
 
 cd -
@@ -33,5 +33,5 @@ git status -- app/views/unattended
 
 if [ $(git status --porcelain -u -- app/views/unattended | grep -c '^\?') -gt 0 ]; then
   echo
-  echo "Warning: new files copied, add them to db/seeds.d/"
+  echo "Warning: new files copied, update template snapshot tests using 'RAILS_ENV=test rake snapshots:generate' "
 fi

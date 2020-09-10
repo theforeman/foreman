@@ -1,12 +1,8 @@
 require 'integration_test_helper'
 
 class ArchitectureIntegrationTest < ActionDispatch::IntegrationTest
-  test "index page" do
-    assert_index_page(architectures_path,"Architectures","New Architecture")
-  end
-
   test "create new page" do
-    assert_new_button(architectures_path,"New Architecture",new_architecture_path)
+    assert_new_button(architectures_path, "Create Architecture", new_architecture_path)
     fill_in "architecture_name", :with => "i386"
     assert_submit_button(architectures_path)
     assert page.has_link? 'i386'

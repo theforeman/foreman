@@ -1,5 +1,5 @@
-class AddPuppetMasterProxyToHostAndHostGroup < ActiveRecord::Migration
-  class SmartProxy < ActiveRecord::Base
+class AddPuppetMasterProxyToHostAndHostGroup < ActiveRecord::Migration[4.2]
+  class SmartProxy < ApplicationRecord
     has_and_belongs_to_many :features
   end
 

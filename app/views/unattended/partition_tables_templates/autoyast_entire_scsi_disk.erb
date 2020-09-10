@@ -1,0 +1,14 @@
+<%#
+kind: ptable
+name: AutoYaST entire SCSI disk
+model: Ptable
+oses:
+- SLES
+- OpenSUSE
+%>
+  <partitioning  config:type="list">
+    <drive>
+      <device>/dev/sda</device>
+      <use>all</use>
+    </drive>
+  </partitioning>

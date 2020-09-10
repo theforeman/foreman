@@ -10,11 +10,24 @@ module IPAM
 
     def initialize(opts = {})
       @subnet = opts[:subnet]
-      @excluded_ips = opts.fetch(:excluded_ips, [])
+      @excluded_ips = opts[:excluded_ips] || []
       @mac = opts.fetch(:mac, nil)
+      @mac = nil if @mac.try(:blank?)
       @errors = ActiveModel::Errors.new(self)
 
       normalize_mac!
+    end
+
+    def subnet_range
+      @subnet_range ||= begin
+        subnet_range = IPAddr.new("#{subnet.network}/#{subnet.mask}", subnet.family).to_range
+        # exclude first element - network
+        from = subnet.from.present? ? IPAddr.new(subnet.from) : subnet_range.first(2).last
+        # exclude last element - broadcast
+        to = subnet.to.present? ? IPAddr.new(subnet.to) : IPAddr.new(subnet_range.last.to_i - 2, subnet.family)
+        logger.debug "IPAM #{self.class.name} searching range #{from} - #{to}"
+        (from..to)
+      end
     end
 
     def suggest_new?
@@ -29,8 +42,8 @@ module IPAM
     private
 
     def normalize_mac!
-      return unless self.mac.present?
-      self.mac = Net::Validations.normalize_mac(self.mac)
+      return unless mac.present?
+      self.mac = Net::Validations.normalize_mac(mac)
     rescue Net::Validations::Error
       errors.add(:mac, _('is not a valid MAC address'))
     end

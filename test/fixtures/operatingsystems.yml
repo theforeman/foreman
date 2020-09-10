@@ -1,5 +1,4 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
+---
 centos5_3:
   name: centos
   major: 5
@@ -23,6 +22,7 @@ ubuntu1010:
   name: Ubuntu
   major: 10
   minor: 10
+  release_name: rn10
   type: Debian
   media: ubuntu
   architectures: x86_64
@@ -32,6 +32,7 @@ ubuntu1210:
   name: Ubuntu
   major: 12
   minor: 10
+  release_name: rn10
   type: Debian
   media: ubuntu
   architectures: x86_64
@@ -62,3 +63,12 @@ no_hosts_os:
   minor: 1
   type: Redhat
   title: 'NoHosts 1.1'
+
+vrp5:
+  name: Huawei_VRP
+  major: 5
+  minor: 17
+  type: VRP
+  media: vrp5
+  architectures: ASIC
+  title: 'Huawei VRP 5'

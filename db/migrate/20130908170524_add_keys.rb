@@ -1,10 +1,8 @@
-class AddKeys < ActiveRecord::Migration
+class AddKeys < ActiveRecord::Migration[4.2]
   def change
     # turn off Foreign Key checks
     if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
-      ActiveRecord::Migration.execute "SET CONSTRAINTS ALL DEFERRED;"
-    elsif ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      ActiveRecord::Migration.execute "SET FOREIGN_KEY_CHECKS=0;"
+      execute "SET CONSTRAINTS ALL DEFERRED;"
     end
     add_foreign_key "architectures_operatingsystems", "architectures", :name => "architectures_operatingsystems_architecture_id_fk"
     add_foreign_key "architectures_operatingsystems", "operatingsystems", :name => "architectures_operatingsystems_operatingsystem_id_fk"
@@ -77,7 +75,6 @@ class AddKeys < ActiveRecord::Migration
     add_foreign_key "template_combinations", "environments", :name => "template_combinations_environment_id_fk"
     add_foreign_key "template_combinations", "hostgroups", :name => "template_combinations_hostgroup_id_fk"
     add_foreign_key "tokens", "hosts", :name => "tokens_host_id_fk"
-    add_foreign_key "trend_counters", "trends", :name => "trend_counters_trend_id_fk"
     add_foreign_key "user_compute_resources", "compute_resources", :name => "user_compute_resources_compute_resource_id_fk"
     add_foreign_key "user_compute_resources", "users", :name => "user_compute_resources_user_id_fk"
     add_foreign_key "user_domains", "domains", :name => "user_domains_domain_id_fk"
@@ -92,9 +89,5 @@ class AddKeys < ActiveRecord::Migration
     add_foreign_key "user_roles", "users", :name => "user_roles_user_id_fk"
     add_foreign_key "usergroup_members", "usergroups", :name => "usergroup_members_usergroup_id_fk"
     add_foreign_key "users", "auth_sources", :name => "users_auth_source_id_fk"
-    # turn on Foreign Key checks in MySQL only
-    if ActiveRecord::Base.connection.adapter_name.downcase.starts_with? 'mysql'
-      ActiveRecord::Migration.execute "SET FOREIGN_KEY_CHECKS=1;"
-    end
   end
 end

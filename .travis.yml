@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - '10'
+  - '12'
+cache:
+  npm: false  
+script: ./script/travis_run_js_tests.sh
