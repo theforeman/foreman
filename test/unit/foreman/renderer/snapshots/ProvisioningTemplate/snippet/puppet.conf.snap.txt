@@ -1,5 +1,3 @@
-
-
 [main]
 vardir = /var/lib/puppet
 logdir = /var/log/puppet
