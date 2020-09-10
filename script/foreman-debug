@@ -143,7 +143,7 @@ VERBOSE=0
 DEBUG=0
 UPLOAD=0
 UPLOAD_DISABLED=0
-UPLOAD_URL='rsync://theforeman.org/debug-incoming'
+UPLOAD_URL='rsync://rsync.theforeman.org/debug-incoming'
 UPLOAD_CMD='rsync "${TARBALL}" "${UPLOAD_URL}"'
 UPLOAD_USAGE_MSG="\
 You may want to upload the tarball (with -u) to our public server via rsync.
