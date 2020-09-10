@@ -30,6 +30,14 @@ module ForemanRegister
     let(:host) do
       FactoryBot.create(
         :host,
+        operatingsystem: os,
+        organization: organization,
+        location: tax_location
+      )
+    end
+    let(:managed_host) do
+      FactoryBot.create(
+        :host,
         :managed,
         operatingsystem: os,
         organization: organization,
@@ -57,10 +65,16 @@ module ForemanRegister
           assert_includes @response.body, host.name
         end
 
-        it 'enables build mode for the host' do
+        it 'enables build mode for the unmanaged host' do
           get :register, params: { token: registration_token }
           assert_response :success
           assert_equal true, host.reload.build
+        end
+
+        it 'enables build mode for the managed host' do
+          get :register, params: { token: managed_host.registration_token }
+          assert_response :success
+          assert_equal true, managed_host.reload.build
         end
 
         it 'shows an error if no token is passed' do
@@ -73,6 +87,28 @@ module ForemanRegister
         it 'shows a not found error' do
           get :register, params: { token: registration_token }
           assert_response :not_found
+        end
+      end
+
+      context 'with error' do
+        it 'no OS' do
+          get :register, params: { token: FactoryBot.create(:host).registration_token }
+          assert_response :bad_request
+          assert_includes @response.body, 'Host is not associated with an operating system'
+        end
+
+        it 'template syntax' do
+          FactoryBot.create(
+            :os_default_template,
+            template_kind: template_kind,
+            provisioning_template: registration_template,
+            operatingsystem: os
+          )
+
+          registration_template.update(template: "<% asda =!?== '2 % %>")
+          get :register, params: { token: registration_token }
+          assert_response :internal_server_error
+          assert_includes @response.body, 'Foreman::Renderer::Errors::SyntaxError'
         end
       end
     end

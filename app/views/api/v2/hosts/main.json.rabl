@@ -33,6 +33,8 @@ end
 # display the token, if it hasn't expired
 node(:token, :if => ->(h) { h.token && !h.token_expired? }) { |host| host.token.value }
 
+node(:registration_token) { |h| h.registration_token }
+
 node :hostgroup_name do |host|
   host.hostgroup.name if host.hostgroup.present?
 end

@@ -39,7 +39,6 @@ module Host
     validates :name, :presence => true, :uniqueness => true, :format => {:with => Net::Validations::HOST_REGEXP, :message => _(Net::Validations::HOST_REGEXP_ERR_MSG)}
     validate :host_has_required_interfaces
     validate :uniq_interfaces_identifiers
-    validate :build_managed_only
 
     include PxeLoaderSuggestion
 
@@ -657,12 +656,6 @@ module Host
 
       errors.add(:interfaces, _('some interfaces are invalid')) unless success
       success
-    end
-
-    def build_managed_only
-      if !managed? && build?
-        errors.add(:build, _('cannot be enabled for an unmanaged host'))
-      end
     end
 
     def password_base64_encrypted?
