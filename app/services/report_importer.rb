@@ -91,21 +91,60 @@ class ReportImporter
   end
 
   def import_log_messages
+    return if logs.blank?
+    id_messages = []
+    db_messages = []
+    id_sources = []
+    db_sources = []
+    db_logs = []
     logs.each do |log|
-      # Parse the API format
-      level = log['log']['level']
-      msg   = log['log']['messages']['message']
-      src   = log['log']['sources']['source']
+      msg = log['log']['messages']['message']
+      src = log['log']['sources']['source']
 
-      message = Message.find_or_create msg
-      source  = Source.find_or_create src
+      msg_id = Message.where(value: msg).pluck(:id).first
+      if msg_id
+        id_messages << msg_id
+      else
+        id_messages << nil
+        db_messages << {value: msg}
+      end
 
-      # Symbols get turned into strings via the JSON API, so convert back here if it matches
-      # and expected log level. Log objects can't be created without one, so raise if not
-      raise(::Foreman::Exception.new(N_("Invalid log level: %s", level))) unless Report::LOG_LEVELS.include?(level)
-
-      Log.create(:message_id => message.id, :source_id => source.id, :report => report, :level => level.to_sym)
+      src_id = Source.where(value: src).pluck(:id).first
+      if src_id
+        id_sources << src_id
+      else
+        id_sources << nil
+        db_sources << {value: src}
+      end
     end
+    new_messages = Message.insert_all(db_messages, returning: %w[id]).rows.flatten
+    new_sources = Source.insert_all(db_sources, returning: %w[id]).rows.flatten
+    current_msg_id = 0
+    current_msg_new_id = 0
+    current_src_id = 0
+    current_src_new_id = 0
+    logs.each do |log|
+      level = log['log']['level']
+      level_id = Report::LOG_LEVELS.index(level)
+      raise(::Foreman::Exception.new(N_("Invalid log level: %s", level))) unless level_id
+
+      msg_id = id_messages[current_msg_id]
+      unless msg_id
+        msg_id = new_messages[current_msg_new_id]
+        current_msg_new_id += 1
+      end
+
+      src_id = id_sources[current_src_id]
+      unless src_id
+        src_id = new_sources[current_src_new_id]
+        current_src_new_id += 1
+      end
+
+      db_logs << {:message_id => msg_id, :source_id => src_id, :report_id => report.id, :level_id => level_id}
+      current_msg_id += 1
+      current_src_id += 1
+    end
+    Log.insert_all(db_logs)
   end
 
   def report_status
