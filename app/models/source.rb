@@ -1,15 +1,19 @@
 class Source < ApplicationRecord
-  validates_lengths_from_database
   has_many :reports, :through => :logs
   has_many :logs
-  validates :value, :digest, :presence => true
+  validates_lengths_from_database
+  validates :value, :presence => true
 
   def to_s
     value
   end
 
-  def self.find_or_create(val)
-    digest = Digest::SHA1.hexdigest(val)
-    Source.find_by(:digest => digest) || Source.create(:value => val, :digest => digest)
+  # DEPRECATED: use Rails method (no warning because this is called many times)
+  def self.find_or_create(value)
+    find_or_create_by(value: value)
+  end
+
+  def skip_strip_attrs
+    ['value']
   end
 end
