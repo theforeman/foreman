@@ -68,17 +68,15 @@ module Api
 
       def create
         begin
-          if compute_resource_params["provider"].downcase == "ovirt"
+          if compute_resource_params["provider"].downcase == "ovirt" && !Foreman.is_uuid?(compute_resource_params[:datacenter])
             @compute_resource = ComputeResource.new_provider(compute_resource_params.except(:datacenter))
-          else
-            @compute_resource = ComputeResource.new_provider(compute_resource_params)
+            params[:compute_resource][:datacenter] = change_datacenter_to_uuid(params[:compute_resource][:datacenter])
           end
+          @compute_resource = ComputeResource.new_provider(compute_resource_params)
         rescue Foreman::Exception => e
           render_exception(e, :status => :unprocessable_entity)
           return
         end
-        datacenter = change_datacenter_to_uuid(compute_resource_params[:datacenter])
-        @compute_resource.datacenter = datacenter if datacenter.present?
 
         process_response @compute_resource.save
       end
