@@ -175,7 +175,7 @@ module Orchestration::DHCP
       (old.hostname != hostname) ||
       provision_mac_addresses_changed? ||
       (old.subnet != subnet) ||
-      (old.operatingsystem.boot_filename(old.host) != operatingsystem.boot_filename(host)) ||
+      (old&.operatingsystem&.boot_filename(old.host) != operatingsystem&.boot_filename(host)) ||
       ((old.host.pxe_loader == "iPXE Embedded" || host.pxe_loader == "iPXE Embedded") && (old.host.build != host.build)) ||
       (!old.build? && build? && !all_dhcp_records_valid?))
     # Handle jumpstart
