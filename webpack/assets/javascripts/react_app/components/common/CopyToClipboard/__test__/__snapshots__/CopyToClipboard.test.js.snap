@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyToClipboard ok 1`] = `
+<div
+  className="input-group"
+>
+  <input
+    className="form-control"
+    id="input_to_copy"
+    readOnly={true}
+    type="text"
+    value="Some value to copy!"
+  />
+  <div
+    className="input-group-btn"
+  >
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="copy-btn-tooltip"
+          placement="right"
+        >
+          Copied!
+        </Tooltip>
+      }
+      placement="top"
+      rootClose={true}
+      trigger="click"
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <CopyIcon
+          color="currentColor"
+          noVerticalAlign={false}
+          size="sm"
+        />
+         
+        Copy
+      </Button>
+    </OverlayTrigger>
+  </div>
+</div>
+`;
