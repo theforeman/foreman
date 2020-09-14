@@ -4,6 +4,7 @@
 #
 # Translators:
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014
+# Amit Upadhye <aupadhye@redhat.com>, 2020
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014
 # Jean-Baptiste Langlois <jeanbaptiste.langlois@gmail.com>, 2013
@@ -15,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-03 07:45+0000\n"
+"PO-Revision-Date: 2020-09-14 07:09+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/foreman/foreman/language/ja/"
 ")\n"
@@ -11564,7 +11565,8 @@ msgstr "状態"
 
 msgid ""
 "status type\n"
-msgstr "スタータスタイプ"
+msgstr ""
+"スタータスタイプ\n"
 
 msgid ""
 "status type, can be one of\n"

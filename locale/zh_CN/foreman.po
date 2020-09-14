@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the foreman package.
 #
 # Translators:
+# Amit Upadhye <aupadhye@redhat.com>, 2020
 # dingtim, 2013
 # 0868a4d1af5275b3f70b0a6dac4c99a4, 2014-2015
 # June Zhang <zhangjune99@gmail.com>, 2017
@@ -15,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Foreman\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-03 07:46+0000\n"
+"PO-Revision-Date: 2020-09-14 07:09+0000\n"
 "Last-Translator: Amit Upadhye <aupadhye@redhat.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/foreman/foreman/langu"
 "age/zh_CN/)\n"
@@ -11575,7 +11576,8 @@ msgstr "狀態"
 
 msgid ""
 "status type\n"
-msgstr "状态类型"
+msgstr ""
+"状态类型\n"
 
 msgid ""
 "status type, can be one of\n"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-04 14:57+0530\n"
-"PO-Revision-Date: 2020-09-04 14:57+0530\n"
+"POT-Creation-Date: 2020-09-14 12:55+0530\n"
+"PO-Revision-Date: 2020-09-14 12:55+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4336,6 +4336,7 @@ msgstr ""
 #: ../app/helpers/hosts_helper.rb:230 ../app/helpers/reports_helper.rb:24
 #: ../app/services/power_manager/power_status.rb:6
 #: ../app/views/dashboard/_hosts_in_build_mode_widget_host_list.html.erb:14
+#: ../app/views/fact_values/_fact.html.erb:7
 #: ../app/views/filters/index.html.erb:52
 #: ../webpack/assets/javascripts/react_app/components/AuditsList/index.js:40
 msgid "N/A"
@@ -11899,6 +11900,10 @@ msgid ""
 "tart}Puppet classes and environment importer%{link_end}."
 msgstr ""
 
+#: ../app/views/fact_values/_fact.html.erb:21
+msgid "Show all %s facts with the same value"
+msgstr ""
+
 #: ../app/views/fact_values/index.html.erb:5
 #: ../app/views/fact_values/welcome.html.erb:1
 #: ../app/views/fact_values/welcome.html.erb:6
@@ -12616,6 +12621,13 @@ msgstr ""
 
 #: ../app/views/hosts/provision_method/build/_form.html.erb:3
 msgid "Enable this host for provisioning"
+msgstr ""
+
+#: ../app/views/hosts/provision_method/build/_form.html.erb:11
+msgid ""
+"What ever text(or ERB template) you use in here, would be used as your OS disk"
+" layout options If you want to use the partition table option, delete all of t"
+"he text from this field"
 msgstr ""
 
 #: ../app/views/hosts/query.html.erb:1
@@ -14553,6 +14565,11 @@ msgstr ""
 
 #: ../app/views/templates/_history.html.erb:23
 msgid "Save something and try again"
+msgstr ""
+
+#:
+#: ../app/views/unattended/report_templates/host_-_compare_content_hosts_packages.erb:5
+msgid "At least one of the hosts couldn't be found"
 msgstr ""
 
 #: ../app/views/user_mailer/tester.html.erb:1
