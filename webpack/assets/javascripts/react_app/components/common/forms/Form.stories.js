@@ -49,7 +49,7 @@ CustomSelect.propTypes = {
 registerInputComponent('ownInput', CustomSelect);
 
 export default {
-  title: 'Components|Form',
+  title: 'Components/Form',
   decorators: [storeDecorator],
 };
 

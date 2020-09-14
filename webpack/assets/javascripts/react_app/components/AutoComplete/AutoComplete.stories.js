@@ -8,7 +8,7 @@ import Story from '../../../../../stories/components/Story';
 import AutoComplete from './index';
 
 export default {
-  title: 'Components|AutoComplete',
+  title: 'Components/AutoComplete',
 };
 
 export const autoCompleteWithMockedData = () => {

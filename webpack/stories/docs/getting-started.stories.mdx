@@ -1,7 +1,7 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction|Getting Started"
+  title="Introduction/Getting Started"
   parameters={{
     storyWeight: 10,
   }}
@@ -16,17 +16,17 @@ Following steps are required to setup a webpack development environment:
 1. **Settings**
    There are 2 relevant settings in `config/settings.yml`. At least `webpack_dev_server` should be set to true:
 
-   ```yaml
-   # Use the webpack development server?
-   # Should be set to true if you want to conveniently develop webpack-processed code.
-   # Make sure to run `rake webpack:compile` if disabled.
-   :webpack_dev_server: true
+ ```yaml
+ # Use the webpack development server?
+ # Should be set to true if you want to conveniently develop webpack-processed code.
+ # Make sure to run `rake webpack:compile` if disabled.
+ :webpack_dev_server: true
 
-   # If you run Foreman in development behind some proxy or use HTTPS you need
-   # to enable HTTPS for webpack dev server too, otherwise you'd get mixed content
-   # errors in your browser
-   :webpack_dev_server_https: true
-   ```
+ # If you run Foreman in development behind some proxy or use HTTPS you need
+ # to enable HTTPS for webpack dev server too, otherwise you'd get mixed content
+ # errors in your browser
+ :webpack_dev_server_https: true
+ ```
 
 2. **Dependencies**
    Make sure you have all npm dependencies up to date:

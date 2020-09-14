@@ -18,7 +18,7 @@ const initializeMocks = () => {
 };
 
 export default {
-  title: 'Page chunks|Host VMWare Storage',
+  title: 'Page chunks/Host VMWare Storage',
 };
 
 export const defaultStateForNewHost = () => {

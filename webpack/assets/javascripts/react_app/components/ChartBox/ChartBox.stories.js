@@ -4,7 +4,7 @@ import mockStoryData from './ChartBox.fixtures';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|Charts/ChartBox',
+  title: 'Components/Charts/ChartBox',
   component: ChartBox,
 };
 

@@ -15,7 +15,7 @@ const mockStore = configureMockStore([thunk]);
 const dataProp = { id: 1, title: 'test title' };
 
 export default {
-  title: 'Page chunks|FactChartModal',
+  title: 'Page chunks/FactChartModal',
 };
 
 export const modalClosed = () => (

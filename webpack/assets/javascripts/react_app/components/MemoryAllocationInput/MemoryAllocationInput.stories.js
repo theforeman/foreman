@@ -1,9 +1,10 @@
 import React from 'react';
-import { number, action, text } from '@theforeman/stories';
+import { number, text } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 import MemoryAllocationInput from './MemoryAllocationInput';
 
 export default {
-  title: 'Components|Form/MemoryAllocationInput',
+  title: 'Components/Form/MemoryAllocationInput',
   component: MemoryAllocationInput,
   parameters: {
     centered: { disable: true },

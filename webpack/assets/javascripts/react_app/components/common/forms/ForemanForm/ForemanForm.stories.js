@@ -70,7 +70,7 @@ FormComponent.propTypes = {
 };
 
 export default {
-  title: 'Components|Foreman Form',
+  title: 'Components/Foreman Form',
 };
 
 export const basicForemanForm = () => (
