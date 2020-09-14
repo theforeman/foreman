@@ -1,7 +1,7 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction|Slot And Fill"
+  title="Introduction/Slot And Fill"
   parameters={{
     storyWeight: 70,
   }}
@@ -36,7 +36,9 @@ a fill that contains a child component, which rendered by a dedicated slot
 _core_
 
 ```js
-<Slot id="slot-id">a default child // can be empty</Slot>
+<Slot id="slot-id">
+  a default child // can be empty
+</Slot>
 ```
 
 _plugin A_
@@ -44,7 +46,7 @@ _plugin A_
 ```js
 <Fill slotId="slot-id" id="some-id" weight={100}>
   <div> some text </div>
-</Fill>
+<\/Fill>
 ```
 
 _plugin B_
@@ -52,7 +54,7 @@ _plugin B_
 ```js
 <Fill slotId="slot-id" id="some-id" weight={200}>
   <div> some text </div>
-</Fill>
+<\/Fill>
 ```
 
 Plugin B has a fill with a higher weight, therefore it will be rendered in a dedicated slot.
@@ -72,7 +74,7 @@ _plugin A_
 ```js
 <Fill slotId="slot-id" id="some-id" weight={100}>
   <div> some text </div>
-</Fill>
+<\/Fill>
 ```
 
 _plugin B_
@@ -80,7 +82,7 @@ _plugin B_
 ```js
 <Fill slotId="slot-id" id="some-id" weight={200}>
   <div> some text </div>
-</Fill>
+<\/Fill>
 ```
 
 Plugin B's fill will be render first
@@ -97,7 +99,7 @@ const TextWrapper = ({ text }) => <div>{text}</div>;
 
 <Slot id="slot-id">
   <TextWrapper text="some default text" />
-</Slot>;
+<\/Slot>;
 ```
 
 _plugin A_
@@ -150,7 +152,7 @@ addGlobalFill(
 );
 ```
 
-Register `fills` global file in `plugn.rb` file:
+Register `fills` global file in `plugin.rb` file:
 
 ```ruby
 Foreman::Plugin.register :<plugin> do

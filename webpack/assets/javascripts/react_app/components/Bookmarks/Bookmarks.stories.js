@@ -8,7 +8,7 @@ import storeDecorator from '../../../../../stories/storeDecorator';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Page chunks|Bookmarks',
+  title: 'Page chunks/Bookmarks',
   decorators: [storeDecorator],
 };
 

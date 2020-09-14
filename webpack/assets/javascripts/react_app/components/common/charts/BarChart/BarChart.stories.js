@@ -2,7 +2,7 @@ import React from 'react';
 import BarChart from './';
 
 export default {
-  title: 'Components|Charts/BarChart',
+  title: 'Components/Charts/BarChart',
   component: BarChart,
 };
 

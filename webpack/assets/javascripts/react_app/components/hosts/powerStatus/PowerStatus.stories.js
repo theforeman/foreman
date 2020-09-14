@@ -15,7 +15,7 @@ import {
 } from './PowerStatus.fixtures';
 
 export default {
-  title: 'Components|Power Status',
+  title: 'Components/Power Status',
 };
 
 export const loading = () => (

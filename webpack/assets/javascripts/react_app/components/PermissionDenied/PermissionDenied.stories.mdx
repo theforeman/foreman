@@ -1,40 +1,39 @@
-import { Meta, Story, Preview, Props, action } from '@theforeman/stories';
-
+import { Meta, Story, Canvas, ArgsTable } from '@theforeman/stories';
 import PermissionDenied from '.';
 
-<Meta title="Components|PermissionDenied" component={PermissionDenied} />
+<Meta title="Components/PermissionDenied" component={PermissionDenied} />
 
 # PermissionDenied
 
-Use `PermissionDenied` to explain the user about the permissions needed to perform an operation.
+Use `PermissionDenied` to explain to the user about the permissions needed to perform an operation.
 
-<Preview withToolbar>
+<Canvas withToolbar>
   <Story name="With default text">
     <PermissionDenied />
   </Story>
-</Preview>
+</Canvas>
 
 ## Props
 
-<Props of={PermissionDenied} />
+<ArgsTable of={PermissionDenied} />
 
-The `missingPermissions` prop accept an array of strings, represent the missing permissions.
+The `missingPermissions` prop accepts an array of strings, representing the missing permissions.
 
-<Preview>
+<Canvas>
   <Story name="With missing-permissions">
     <PermissionDenied
       missingPermissions={['view_organizations', 'import_manifest']}
     />
   </Story>
-</Preview>
+</Canvas>
 
-The texts can be overrdided by using the `texts` prop.
+The text can be overridden by using the `texts` prop.
 
-<Preview>
-  <Story name="With custom test">
+<Canvas>
+  <Story name="With custom text">
     <PermissionDenied
       texts={{
-        notAuthorizedMsg: "Hey! You can't do that.",
+        notAuthorizedMsg: "Hey, you can't do that!",
         pleaseRequestMsg:
           'Please ask an admin to get you the following permissions:',
         permissionDeniedMsg: 'Access denied',
@@ -42,15 +41,15 @@ The texts can be overrdided by using the `texts` prop.
       missingPermissions={['view_organizations', 'import_manifest']}
     />
   </Story>
-</Preview>
+</Canvas>
 
-The back button will take the user to `/` by default, use the `backHref` prop to change the back button url.
+The back button will take the user to `/` by default. Use the `backHref` prop to change the back button url.
 
-<Preview>
+<Canvas>
   <Story name="With custom back-button href">
     <PermissionDenied
       backHref="/some-path"
       missingPermissions={['view_organizations', 'import_manifest']}
     />
   </Story>
-</Preview>
+</Canvas>

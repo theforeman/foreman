@@ -1,12 +1,12 @@
 import React from 'react';
-import { boolean, withKnobs, select, action } from '@theforeman/stories';
+import { boolean, select } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 import DiffModal from './DiffModal';
 import Story from '../../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|DiffModal',
-  decorators: [withKnobs],
+  title: 'Components/DiffModal',
 };
 
 export const diffModal = () => (

@@ -4,7 +4,7 @@ import Story from '../../../../../..//stories/components/Story';
 import storeDecorator from '../../../../../..//stories/storeDecorator';
 
 export default {
-  title: 'Components|TypeAheadSelect',
+  title: 'Components/TypeAheadSelect',
   decorators: [storeDecorator],
   component: TypeAheadSelect,
 };

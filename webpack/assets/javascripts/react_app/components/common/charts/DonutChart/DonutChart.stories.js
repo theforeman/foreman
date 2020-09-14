@@ -2,7 +2,7 @@ import React from 'react';
 import DonutChart from './';
 
 export default {
-  title: 'Components|Charts/DonutChart',
+  title: 'Components/Charts/DonutChart',
   component: DonutChart,
 };
 

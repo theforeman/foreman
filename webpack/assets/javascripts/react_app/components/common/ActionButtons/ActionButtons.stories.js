@@ -6,7 +6,7 @@ import Text from '../../../../../../stories/components/Text';
 import { buttons } from './ActionButtons.fixtures';
 
 export default {
-  title: 'Components|Common|ActionButtons',
+  title: 'Components/Common/ActionButtons',
 };
 
 export const ButtonsStory = () => (

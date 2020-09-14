@@ -1,9 +1,11 @@
 import React from 'react';
-import { number, action, text } from '@theforeman/stories';
+import { number, text } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
+
 import CPUCoresInput from './CPUCoresInput';
 
 export default {
-  title: 'Components|Form/CPUCoresInput',
+  title: 'Components/Form/CPUCoresInput',
   component: CPUCoresInput,
   parameters: {
     centered: { disable: true },

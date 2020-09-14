@@ -17,7 +17,7 @@ class BreadcrumbBar extends React.Component {
     } = this.props;
     const isUrlFormatValid = resourceSwitcherItems.length
       ? resourceSwitcherItems[0].url ===
-        resource.switcherItemUrl.replace(':id', resourceSwitcherItems[0].id)
+        resource.switcherItemUrl?.replace(':id', resourceSwitcherItems[0].id)
       : true;
     if (
       !currentPage ||

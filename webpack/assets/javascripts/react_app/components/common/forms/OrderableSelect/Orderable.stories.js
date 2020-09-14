@@ -59,7 +59,7 @@ OrderAppSandbox.propTypes = {
 };
 
 export default {
-  title: 'Components|Common|Orderable',
+  title: 'Components/Common/Orderable',
 };
 
 export const orderableStory = () => (
