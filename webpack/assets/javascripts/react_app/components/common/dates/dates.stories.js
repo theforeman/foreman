@@ -1,5 +1,5 @@
 import React from 'react';
-import { date, boolean, select, withKnobs } from '@theforeman/stories';
+import { date, boolean, select } from '@storybook/addon-knobs';
 
 import IsoDate from './IsoDate';
 import LongDateTime from './LongDateTime';
@@ -11,8 +11,7 @@ import Story from '../../../../../../stories/components/Story';
 import Text from '../../../../../../stories/components/Text';
 
 export default {
-  title: 'Components|Common',
-  decorators: [withKnobs],
+  title: 'Components/Common',
 };
 
 export const dates = () => {
@@ -23,7 +22,7 @@ export const dates = () => {
     date('Date and time in your time zone', defaultValue)
   );
   const showSeconds = boolean('Show seconds');
-  const showRelativeTimeTooltip = boolean('Show relative time');
+  const showRelativeTimeTooltip = boolean('Show relative time tooltip');
 
   const timezoneOptions = [
     'America/Phoenix',

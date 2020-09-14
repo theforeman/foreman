@@ -7,7 +7,7 @@ import { getForemanContext } from '../../Root/Context/ForemanContext';
 const ForemanContext = getForemanContext();
 
 export default {
-  title: 'Components|Pagination',
+  title: 'Components/Pagination',
   decorators: [
     StoryFn => (
       <ForemanContext.Provider value={ContextFeatures}>

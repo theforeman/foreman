@@ -1,7 +1,7 @@
 import { Meta } from '@theforeman/stories';
 
 <Meta
-  title="Introduction|Foreman Context"
+  title="Introduction/Foreman Context"
   parameters={{
     storyWeight: 130,
   }}
@@ -17,7 +17,7 @@ without any redux integration nor API request.
 
 `Foreman Context` comes with every react component by default, like redux's store.
 
-### How to read a value 
+### How to read a value
 
 #### With Hooks
 Like selectors, you can consume context values by custom hooks:
@@ -36,7 +36,7 @@ const foremanVersion = useForemanVersion();
 ### How to add a value to the context
 
 Keys and values are set in the `app_metadata` method of `/application_helper.rb`.
-The `app_metadata` object is passed down and becomes ForemanContext. 
+The `app_metadata` object is passed down and becomes ForemanContext.
 
 If you add a new value to `app_metadata`, it will also be useful to add a new custom hook in `webpack/assets/javascripts/react_app/ReactApp/Context/ForemanContext.js`
 so that the value can be easily consumed on the front end.

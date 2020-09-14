@@ -1,11 +1,10 @@
 import React from 'react';
-import { boolean, text, withKnobs } from '@theforeman/stories';
+import { boolean, text } from '@storybook/addon-knobs';
 import Story from '../../../../../../stories/components/Story';
 import SkeletonLoader from '.';
 
 export default {
-  title: 'Components|Common|Empty Line',
-  decorators: [withKnobs],
+  title: 'Components/Common/Empty Line',
 };
 
 export const defaultStory = () => (

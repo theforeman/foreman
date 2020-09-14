@@ -1,14 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from '../../../redux';
-import { text, select, boolean, withKnobs, action } from '@theforeman/stories';
+import { text, select, boolean } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 import { Button } from '@patternfly/react-core';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import Story from '../../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|Empty State Pattern',
-  decorators: [withKnobs],
+  title: 'Components/Empty State Pattern',
 };
 
 export const defaultStory = () => (

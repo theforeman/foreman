@@ -1,12 +1,12 @@
 import React from 'react';
-import { boolean, number, withKnobs, action } from '@theforeman/stories';
+import { boolean, number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
 
 import BreadcrumbBar from './BreadcrumbBar';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|BreadcrumbBar',
-  decorators: [withKnobs],
+  title: 'Components/BreadcrumbBar',
 };
 
 export const withOpenSwitcher = () => (

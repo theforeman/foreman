@@ -1,11 +1,11 @@
 import React from 'react';
-import { action } from '@theforeman/stories';
+import { action } from '@storybook/addon-actions';
 
 import Story from '../../../../../../stories/components/Story';
 import DocumentationLink from './index';
 
 export default {
-  title: 'Components|DocumentationLink',
+  title: 'Components/DocumentationLink',
 };
 
 export const defaultStory = () => (

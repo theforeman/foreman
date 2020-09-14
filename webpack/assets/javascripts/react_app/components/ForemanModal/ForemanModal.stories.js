@@ -6,7 +6,7 @@ import { useForemanModal } from './ForemanModalHooks';
 import Story from '../../../../../stories/components/Story';
 
 export default {
-  title: 'Components|ForemanModal/Props & Children',
+  title: 'Components/ForemanModal/Props & Children',
   decorators: [storeDecorator],
 };
 

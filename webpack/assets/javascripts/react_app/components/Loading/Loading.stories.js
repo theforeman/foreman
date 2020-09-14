@@ -3,7 +3,7 @@ import Story from '../../../../../stories/components/Story';
 import Loading from './Loading';
 
 export default {
-  title: 'Components|Loading',
+  title: 'Components/Loading',
 };
 
 export const defaultStory = () => (
