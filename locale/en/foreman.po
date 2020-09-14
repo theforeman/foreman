@@ -867,6 +867,9 @@ msgstr ""
 msgid "Association"
 msgstr ""
 
+msgid "At least one of the hosts couldn't be found"
+msgstr ""
+
 msgid "At least one volume must be specified for image-based provisioning."
 msgstr ""
 
@@ -8184,6 +8187,9 @@ msgstr ""
 msgid "Show all %s children fact values"
 msgstr ""
 
+msgid "Show all %s facts with the same value"
+msgstr ""
+
 msgid "Show an HTTP Proxy"
 msgstr ""
 
@@ -10456,6 +10462,9 @@ msgid "Welcome"
 msgstr ""
 
 msgid "Welcome to Foreman"
+msgstr ""
+
+msgid "What ever text(or ERB template) you use in here, would be used as your OS disk layout options If you want to use the partition table option, delete all of the text from this field"
 msgstr ""
 
 msgid "What is ERB"
