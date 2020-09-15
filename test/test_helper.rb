@@ -14,6 +14,7 @@ require 'rfauxfactory'
 require 'webmock/minitest'
 require 'webmock'
 require 'robottelo/reporter/attributes'
+require 'test_report_helper'
 
 # FactoryBot 5 changed the default to 'true'
 FactoryBot.use_parent_strategy = false
