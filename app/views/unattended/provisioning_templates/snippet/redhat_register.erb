@@ -88,7 +88,7 @@ snippet: true
       subscription_manager_atomic_url = subscription_manager_configuration_url(@host, false)
       subscription_manager_org = @host.rhsm_organization_label
       activation_key = host_param('kt_activation_keys')
-      redhat_install_agent = true
+      redhat_install_agent = host_param_true?('redhat_install_agent', true)
       redhat_install_host_tools = true
       redhat_install_host_tracer_tools = false
     else
