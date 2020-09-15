@@ -10,7 +10,7 @@ User=foreman
 TimeoutSec=300
 WorkingDirectory=/usr/share/foreman
 ExecStart=/usr/share/foreman/bin/rails server --environment $FOREMAN_ENV
-Environment=FOREMAN_ENV=production FOREMAN_BIND=tcp://0.0.0.0:3000
+Environment=FOREMAN_ENV=production
 Environment=MALLOC_ARENA_MAX=2
 
 SyslogIdentifier=foreman
