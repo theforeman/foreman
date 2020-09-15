@@ -2,9 +2,9 @@ group :test do
   gem 'mocha', '~> 1.11'
   gem 'single_test', '~> 0.6'
   gem 'minitest', '~> 5.1', '< 5.11'
+  gem 'minitest-reporters', '~> 1.4', :require => false
   gem 'minitest-retry', '~> 0.0', :require => false
   gem 'minitest-spec-rails', '~> 6.0'
-  gem 'ci_reporter_minitest', :require => false
   gem 'capybara', '~> 3.33', :require => false
   gem 'puma', '~> 5.1', :require => false
   gem 'show_me_the_cookies', '~> 5.0', :require => false
