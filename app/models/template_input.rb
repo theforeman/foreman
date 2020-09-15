@@ -71,7 +71,7 @@ class TemplateInput < ApplicationRecord
   end
 
   def check_if_template_is_locked
-    if template&.locked
+    if template&.run_template_changes_validation?
       errors.add(:base, _('This template is locked. Please clone it to a new template to customize.'))
     end
   end

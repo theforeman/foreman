@@ -208,6 +208,10 @@ class Template < ApplicationRecord
     true
   end
 
+  def run_template_changes_validation?
+    (locked? || locked_changed?) && persisted? && !ForemanSeeder.is_seeding
+  end
+
   private
 
   # This method can be overridden in Template children classes to import additional attributes
@@ -312,10 +316,6 @@ class Template < ApplicationRecord
 
   def remove_trailing_chars
     self.template = template.tr("\r", '') if template.present?
-  end
-
-  def run_template_changes_validation?
-    (locked? || locked_changed?) && persisted? && !ForemanSeeder.is_seeding
   end
 
   def inputs_unchanged_when_locked

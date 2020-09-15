@@ -39,26 +39,27 @@ class TemplateInputTest < ActiveSupport::TestCase
   end
 
   test "Input should not be created for locked template" do
-    @report_template = FactoryBot.create(:report_template, :locked)
-    template_input = TemplateInput.new(:name => "Ubuntu", :input_type => "user", :template_id => @report_template.id)
+    report_template = FactoryBot.create(:report_template, :locked)
+    template_input = TemplateInput.new(:name => "Ubuntu", :input_type => "user", :template => report_template)
 
     refute template_input.valid?, "This template is locked. Please clone it to a new template to customize."
     assert_includes template_input.errors.keys, :base
   end
 
   test "Input should be created for unlocked template" do
-    @report_template = FactoryBot.create(:report_template, :with_input)
-    template_input_count = @report_template.template_inputs.count
+    report_template = FactoryBot.create(:report_template, :with_input)
+    template_input_count = report_template.template_inputs.count
 
-    template_input = TemplateInput.new(:name => "Ubuntu", :input_type => "user", :template_id => @report_template.id)
+    template_input = TemplateInput.new(:name => "Ubuntu", :input_type => "user", :template_id => report_template.id)
     assert template_input.save!
 
-    assert_equal template_input_count + 1, @report_template.template_inputs.count
+    assert_equal template_input_count + 1, report_template.template_inputs.count
   end
 
   test "Input should not be updated for locked template" do
-    @report_template = FactoryBot.create(:report_template, :with_input, :locked)
-    template_input = @report_template.template_inputs.first
+    report_template = FactoryBot.create(:report_template, :with_input, :locked)
+    template_input = report_template.template_inputs.first
+    template_input.reload
 
     old_name = template_input.name
     template_input.update(:name => "#{old_name}_renamed")
@@ -68,20 +69,20 @@ class TemplateInputTest < ActiveSupport::TestCase
   end
 
   test "Input should not be destroyed for locked template" do
-    @report_template = FactoryBot.create(:report_template, :with_input, :locked)
-    template_input_count = @report_template.template_inputs.count
-    template_input = @report_template.template_inputs.first
+    report_template = FactoryBot.create(:report_template, :with_input, :locked)
+    template_input_count = report_template.template_inputs.count
+    template_input = report_template.template_inputs.first
 
     assert !template_input.destroy
-    assert_equal template_input_count, @report_template.template_inputs.count
+    assert_equal template_input_count, report_template.template_inputs.count
   end
 
   test "Input should be destroyed for unlocked template" do
-    @report_template = FactoryBot.create(:report_template, :with_input, :locked => false)
-    template_input_count = @report_template.template_inputs.count
-    template_input = @report_template.template_inputs.first
+    report_template = FactoryBot.create(:report_template, :with_input, :locked => false)
+    template_input_count = report_template.template_inputs.count
+    template_input = report_template.template_inputs.first
 
     assert template_input.destroy
-    assert_equal template_input_count - 1, @report_template.template_inputs.count
+    assert_equal template_input_count - 1, report_template.template_inputs.count
   end
 end
