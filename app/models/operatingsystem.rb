@@ -246,8 +246,8 @@ class Operatingsystem < ApplicationRecord
     return default_boot_filename if host.nil? || host.pxe_loader.nil?
     return host.foreman_url('iPXE') if host.pxe_loader == 'iPXE Embedded'
     architecture = host.arch.nil? ? '' : host.arch.bootfilename_efi
-    if host.subnet&.httpboot?
-      if host.pxe_loader =~ /UEFI HTTPS/
+    if host.subnet&.httpboot? && host.pxe_loader =~ /UEFI HTTP/
+      if host.pxe_loader =~ /HTTPS/
         port = host.subnet.httpboot.httpboot_https_port!
       else
         port = host.subnet.httpboot.httpboot_http_port!
