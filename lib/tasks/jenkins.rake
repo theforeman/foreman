@@ -1,5 +1,4 @@
 begin
-  require "ci/reporter/rake/minitest"
   require 'robottelo/reporter/rake/minitest'
 
   namespace :jenkins do
@@ -11,10 +10,10 @@ begin
 
     namespace :setup do
       task :pre_ci do
-        ENV["CI_REPORTS"] = 'jenkins/reports/unit/'
-        gem 'ci_reporter'
+        require 'minitest/ci'
+        Minitest::Ci.report_dir = 'jenkins/reports/unit/'
       end
-      minitest_plugins = [:pre_ci, 'ci:setup:minitest']
+      minitest_plugins = [:pre_ci]
       minitest_plugins << 'robottelo:setup:minitest' if ENV['GENERATE_ROBOTTELO_REPORT'] == 'true'
       task :minitest => minitest_plugins
     end
