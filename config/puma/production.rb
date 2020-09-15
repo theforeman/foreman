@@ -13,19 +13,16 @@ threads ENV.fetch('FOREMAN_PUMA_THREADS_MIN', 0).to_i, ENV.fetch('FOREMAN_PUMA_T
 #
 workers ENV.fetch('FOREMAN_PUMA_WORKERS', 2).to_i
 
-# Provides systemd notify support through the
-# puma-systemd-plugin
-begin
-  plugin :systemd
-rescue Puma::UnknownPlugin
-  puts "Failed to load systemd plugin"
-end
-
 # In clustered mode, Puma can "preload" your application. This loads all the
 # application code prior to forking. Preloading reduces total memory usage of
 # your application via an operating system feature called copy-on-write
 #
 preload_app!
+
+# When systemd socket activation is detected, only use those sockets. This
+# makes FOREMAN_BIND redundant. The code is still there for non-systemd
+# deployments.
+bind_to_activated_sockets 'only'
 
 # Check if FOREMAN_BIND was set to an IP address based on the previous
 # definition of FOREMAN_BIND. If it is an IP address, define the host

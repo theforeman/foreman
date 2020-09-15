@@ -1,4 +1,3 @@
 group :service do
-  gem 'puma', '< 5.0'
-  gem 'puma-plugin-systemd'
+  gem 'puma', '~> 5.1'
 end
