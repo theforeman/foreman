@@ -78,11 +78,6 @@ class SettingTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_hide_value_if_encrypted
-    setting = Setting.create(name: 'encrypted', value: 'clear', encrypted: true)
-    assert_equal '*****', setting.safe_value
-  end
-
   def test_should_provide_default_if_no_value_defined
     assert Setting.create(:name => "foo", :default => 5, :description => "test foo")
     assert_equal 5, Setting["foo"]
