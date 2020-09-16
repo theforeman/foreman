@@ -17,11 +17,6 @@ class FakeSetting < ApplicationRecord
 end
 
 class ConvertDnsConflictTimeoutSetting < ActiveRecord::Migration[5.2]
-  def clean_cache
-    Rails.cache.delete(Setting.cache_key("dns_conflict_timeout"))
-    Rails.cache.delete(Setting.cache_key("dns_timeout"))
-  end
-
   def up
     Setting.without_auditing do
       old_setting = FakeSetting.find_by_name("dns_conflict_timeout")
@@ -33,14 +28,12 @@ class ConvertDnsConflictTimeoutSetting < ActiveRecord::Migration[5.2]
         new_setting.save!
       end
       old_setting.destroy!
-      clean_cache
     end
   end
 
   def down
     Setting.without_auditing do
       FakeSetting.where("name = 'dns_timeout' or name = 'dns_conflict_timeout'").destroy_all
-      clean_cache
     end
   end
 end

@@ -19,6 +19,10 @@ module ApplicationShared
     user.present?
   end
 
+  def load_settings
+    Foreman.settings.load_values
+  end
+
   def set_taxonomy
     TopbarSweeper.expire_cache
     user = User.current

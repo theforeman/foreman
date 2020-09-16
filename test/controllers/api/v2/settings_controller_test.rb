@@ -20,7 +20,6 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     get :show, params: { :id => settings(:attributes1).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
-    assert_include show_response.keys, 'created_at'
     assert_include show_response.keys, 'updated_at'
   end
 

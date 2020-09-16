@@ -40,6 +40,9 @@ Foreman::Plugin.initialize_default_registries
 Foreman::Plugin.medium_providers_registry.register MediumProviders::Default
 
 Rails.application.config.to_prepare do
+  # Force reload settings after all plugins have loaded and on code reload
+  Foreman.settings.load if (Setting.table_exists? rescue(false))
+
   Foreman.input_types_registry.register(InputType::UserInput)
   Foreman.input_types_registry.register(InputType::FactInput)
   Foreman.input_types_registry.register(InputType::VariableInput)

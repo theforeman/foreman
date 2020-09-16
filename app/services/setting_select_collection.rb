@@ -11,8 +11,9 @@ class SettingSelectCollection
     @collection_mapping.has_key? setting.name
   end
 
-  def collection_for(setting)
-    opts = @collection_mapping[setting.name]
+  def collection_for(setting_or_name)
+    setting_or_name = setting_or_name.name if setting_or_name.is_a?(Setting)
+    opts = @collection_mapping[setting_or_name]
     return unless opts
     SettingValueSelection.new(opts[:collection].call, opts).collection
   end

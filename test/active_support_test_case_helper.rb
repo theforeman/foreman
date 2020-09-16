@@ -9,6 +9,7 @@ class ActiveSupport::TestCase
   setup :begin_gc_deferment
   setup :reset_rails_cache
   setup :skip_if_plugin_asked_to
+  setup :load_settings
   setup :set_admin
 
   teardown :reconsider_gc_deferment
@@ -39,6 +40,10 @@ class ActiveSupport::TestCase
     if skips.any? { |name| @NAME.end_with?(name) }
       skip "Test was disabled by plugin"
     end
+  end
+
+  def load_settings
+    Foreman.settings.load
   end
 
   def set_admin

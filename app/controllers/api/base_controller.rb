@@ -6,6 +6,7 @@ module Api
     include Foreman::Controller::ApiCsrfProtection
     include Foreman::Controller::BruteforceProtection
 
+    before_action :load_settings
     before_action :set_default_response_format, :authorize, :set_taxonomy
     before_action :assign_lone_taxonomies, :only => :create
     before_action :add_info_headers, :set_gettext_locale
