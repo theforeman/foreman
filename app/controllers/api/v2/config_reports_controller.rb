@@ -4,7 +4,7 @@ module Api
       include Api::Version2
       include Foreman::Controller::SmartProxyAuth
 
-      before_action :find_resource, :only => %w{show destroy}
+      before_action :find_resource, :only => %w{destroy}
       before_action :setup_search_options, :only => [:index, :last]
       before_action :compatibility, :only => :create
 
@@ -23,6 +23,7 @@ module Api
       param :id, :identifier, :required => true
 
       def show
+        @config_report = resource_scope.includes(:logs => [:message, :source]).find(params[:id])
       end
 
       def_param_group :config_report do
