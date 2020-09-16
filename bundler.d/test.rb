@@ -11,11 +11,11 @@ group :test do
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
   gem 'factory_bot_rails', '~> 5.0', :require => false
-  gem 'rubocop', '~> 0.80.0'
-  gem 'rubocop-checkstyle_formatter', '~> 0.2'
-  gem 'rubocop-minitest', '~> 0.7.0'
-  gem 'rubocop-performance', '~> 1.5.2'
-  gem 'rubocop-rails', '~> 2.4.2'
+  gem 'rubocop', '~> 0.88.0'
+  gem 'rubocop-checkstyle_formatter', '~> 0.4.0'
+  gem 'rubocop-minitest', '~> 0.10.0'
+  gem 'rubocop-performance', '~> 1.7.0'
+  gem 'rubocop-rails', '~> 2.7.0'
   gem 'poltergeist', '>= 1.18.0', :require => false
   gem 'selenium-webdriver', :require => false
   gem 'shoulda-matchers', '>= 4.0', '< 4.4'

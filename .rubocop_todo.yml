@@ -494,3 +494,133 @@ Style/StructInheritance:
 # IgnoredMethods: respond_to, define_method
 Style/SymbolProc:
   Enabled: false
+
+#
+# Newly added cops with 0.88 update
+#
+Layout/ArgumentAlignment:
+  Enabled: false
+Layout/EmptyLinesAroundAttributeAccessor: # (new in 0.83)
+  Enabled: false
+Layout/SpaceAroundOperators:
+  Enabled: false
+Layout/SpaceAroundMethodCallOperator: # (new in 0.82)
+  Enabled: false
+Lint/DeprecatedOpenSSLConstant: # (new in 0.84)
+  Enabled: false
+Lint/DuplicateElsifCondition: # (new in 0.88)
+  Enabled: false
+Lint/MixedRegexpCaptureTypes: # (new in 0.85)
+  Enabled: false
+Lint/RaiseException: # (new in 0.81)
+  Enabled: false
+Lint/StructNewOverride: # (new in 0.81)
+  Enabled: false
+Lint/UriRegexp:
+  Enabled: false
+Style/AccessorGrouping: # (new in 0.87)
+  Enabled: false
+Style/ArrayCoercion: # (new in 0.88)
+  Enabled: false
+Style/BisectedAttrAccessor: # (new in 0.87)
+  Enabled: false
+Style/CaseLikeIf: # (new in 0.88)
+  Enabled: false
+Style/ExponentialNotation: # (new in 0.82)
+  Enabled: false
+Style/ExpandPathArguments:
+  Enabled: false
+Style/HashAsLastArrayItem: # (new in 0.88)
+  Enabled: false
+Style/HashLikeCase: # (new in 0.88)
+  Enabled: false
+Style/RedundantAssignment: # (new in 0.87)
+  Enabled: false
+Style/RedundantFetchBlock: # (new in 0.86)
+  Enabled: false
+Style/RedundantFileExtensionInRequire: # (new in 0.88)
+  Enabled: false
+Style/RedundantRegexpCharacterClass: # (new in 0.85)
+  Enabled: false
+Style/RedundantRegexpEscape: # (new in 0.85)
+  Enabled: false
+Style/SlicingWithRange: # (new in 0.83)
+  Enabled: false
+Performance/AncestorsInclude: # (new in 1.7)
+  Enabled: false
+Performance/BigDecimalWithNumericArgument: # (new in 1.7)
+  Enabled: false
+Performance/DeletePrefix:
+  Enabled: false
+Performance/RedundantSortBlock: # (new in 1.7)
+  Enabled: false
+Performance/RedundantStringChars: # (new in 1.7)
+  Enabled: false
+Performance/ReverseFirst: # (new in 1.7)
+  Enabled: false
+Performance/SortReverse: # (new in 1.7)
+  Enabled: false
+Performance/Squeeze: # (new in 1.7)
+  Enabled: false
+Performance/StringInclude: # (new in 1.7)
+  Enabled: false
+Rails/ActiveRecordCallbacksOrder: # (new in 2.7)
+  Enabled: false
+Rails/ContentTag:
+  Enabled: false
+Rails/FindById: # (new in 2.7)
+  Enabled: false
+Rails/Inquiry: # (new in 2.7)
+  Enabled: false
+Rails/MailerName: # (new in 2.7)
+  Enabled: false
+Rails/MatchRoute: # (new in 2.7)
+  Enabled: false
+Rails/NegateInclude: # (new in 2.7)
+  Enabled: false
+Rails/Pluck: # (new in 2.7)
+  Enabled: false
+Rails/PluckInWhere: # (new in 2.7)
+  Enabled: false
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+Rails/RedundantForeignKey:
+  Enabled: false
+Rails/IndexBy:
+  Enabled: false
+Rails/RenderInline: # (new in 2.7)
+  Enabled: false
+Rails/RenderPlainText: # (new in 2.7)
+  Enabled: false
+Rails/ShortI18n: # (new in 2.7)
+  Enabled: false
+Rails/WhereExists: # (new in 2.7)
+  Enabled: false
+Minitest/AssertInDelta: # (new in 0.10)
+  Enabled: false
+Minitest/AssertionInLifecycleHook: # (new in 0.10)
+  Enabled: false
+Minitest/AssertKindOf: # (new in 0.10)
+  Enabled: false
+Minitest/AssertOutput: # (new in 0.10)
+  Enabled: false
+Minitest/AssertPathExists: # (new in 0.10)
+  Enabled: false
+Minitest/AssertSilent: # (new in 0.10)
+  Enabled: false
+Minitest/GlobalExpectations:
+  Enabled: false
+Minitest/LiteralAsActualArgument: # (new in 0.10)
+  Enabled: false
+Minitest/MultipleAssertions: # (new in 0.10)
+  Enabled: false
+Minitest/RefuteInDelta: # (new in 0.10)
+  Enabled: false
+Minitest/RefuteKindOf: # (new in 0.10)
+  Enabled: false
+Minitest/RefutePathExists: # (new in 0.10)
+  Enabled: false
+Minitest/TestMethodName: # (new in 0.10)
+  Enabled: false
+Minitest/UnspecifiedException: # (new in 0.10)
+  Enabled: false
