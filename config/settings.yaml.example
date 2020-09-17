@@ -103,6 +103,9 @@
 #    :enabled: true
 #  :blob:
 #    :enabled: false
+#  :sidekiq:
+#    :enabled: true
+#    :level: warn
 
 # Foreman telemetry has three destinations: prometheus, statsd and rails log.
 :telemetry:

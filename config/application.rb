@@ -239,7 +239,8 @@ module Foreman
       :telemetry => {:enabled => false},
       :blob => {:enabled => false},
       :taxonomy => {:enabled => true},
-      :api_deprecations => {:enabled => true}
+      :api_deprecations => {:enabled => true},
+      :sidekiq => {:enabled => true, :level => :warn}
     ))
 
     config.logger = Foreman::Logging.logger('app')
