@@ -24,14 +24,16 @@ module Api
       end
 
       def update
+        unless params[:setting]&.key?(:value)
+          return render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _("No setting value provided.") }
+        end
         value = params[:setting][:value]
         type = value.class.to_s.downcase
-        if type == "trueclass" || type == "falseclass"
-          type = "boolean"
-        end
+        type = "boolean" if %w[trueclass falseclass].include?(type)
         case type
         when "nilclass"
-          render_error :custom_error, :status => :unprocessable_entity, :locals => { :message => _("No setting value provided.") }
+          @setting.value = value
+          process_response @setting.save
         when "string"
           process_response (@setting.parse_string_value(value) && @setting.save)
         when @setting.settings_type

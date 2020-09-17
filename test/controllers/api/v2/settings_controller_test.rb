@@ -9,11 +9,27 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert !settings.empty?
   end
 
+  test "settings list should show full name column" do
+    get :index
+    assert_response :success
+    response = ActiveSupport::JSON.decode(@response.body)
+    assert response["results"][0].key?("full_name")
+  end
+
   test "should show individual record" do
     get :show, params: { :id => settings(:attributes1).to_param }
     assert_response :success
     show_response = ActiveSupport::JSON.decode(@response.body)
     assert !show_response.empty?
+  end
+
+  test "should view setting as system admin" do
+    user = user_one_as_system_admin
+    setting_id = Setting.first.id
+    as_user user do
+      get :show, params: { :id => setting_id }
+    end
+    assert_response :success
   end
 
   test "should not update setting" do
@@ -64,13 +80,6 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert_equal JSON.parse(@response.body)['value'], "", "Can't update login_text setting with empty value"
   end
 
-  test "settings list should show full name column" do
-    get :index
-    assert_response :success
-    response = ActiveSupport::JSON.decode(@response.body)
-    assert response["results"][0].key?("full_name")
-  end
-
   test "should update setting as system admin" do
     user = user_one_as_system_admin
     setting_id = Setting.where(:settings_type => 'integer').first.id
@@ -80,13 +89,11 @@ class Api::V2::SettingsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should view setting as system admin" do
-    user = user_one_as_system_admin
-    setting_id = Setting.first.id
-    as_user user do
-      get :show, params: { :id => setting_id }
-    end
+  test 'should update setting to nil, if nilifiable' do
+    setting_id = Setting.where(name: 'root_pass').first.id
+    put :update, params: { :id => setting_id, :setting => { :value => nil } }
     assert_response :success
+    assert_nil Setting['root_pass']
   end
 
   private
