@@ -230,7 +230,7 @@ module Foreman::Model
     end
 
     def storage_domains(opts = {})
-      client.storage_domains({:role => 'data'}.merge(opts))
+      client.storage_domains({:role => ['data', 'volume']}.merge(opts))
     end
 
     def start_vm(uuid)
