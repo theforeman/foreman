@@ -95,13 +95,31 @@ FactoryBot.define do
 
   factory :compute_attribute do
     sequence(:name) { |n| "attributes#{n}" }
+    compute_profile
+
+    transient do
+      interfaces_attributes { nil }
+    end
+
     vm_attrs do
       {
         :flavor_id => 'm1.small',
         :availability_zone => 'eu-west-1a',
       }
     end
+
+    trait :with_interfaces do
+      interfaces_attributes do
+        {
+          '1' => { 'attr' => 1 },
+          '2' => { 'attr' => 2 },
+        }
+      end
+    end
     before(:create) { |attr| attr.stubs(:pretty_vm_attrs).returns('m1.small VM') }
+    before(:create) do |attr, evaluator|
+      attr.vm_attrs["#{evaluator.compute_resource.interfaces_attrs_name}_attributes"] = evaluator.interfaces_attributes if evaluator.interfaces_attributes
+    end
   end
 
   factory :compute_profile do

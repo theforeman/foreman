@@ -56,7 +56,7 @@ class ComputeAttribute < ApplicationRecord
   end
 
   def attribute_values(attr_name)
-    attr_key = "#{attr_name}_attributes"
-    vm_attrs[attr_key].try(:values) || []
+    attrs = vm_attrs["#{attr_name}_attributes"]
+    (attrs.is_a?(Array) ? attrs : attrs.try(:values)) || []
   end
 end
