@@ -343,7 +343,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should create interfaces from compute profile" do
     disable_orchestration
 
-    compute_attrs = compute_attributes(:with_interfaces)
+    compute_attrs = FactoryBot.create(:compute_attribute, :with_interfaces, compute_resource: compute_resources(:one))
     post :create, params: { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes => nics_attrs) }
     assert_response :created
 
