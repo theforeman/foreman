@@ -9,6 +9,7 @@ import {
   withHashSelection,
   boolSetting,
   arraySetting,
+  timezoneSetting,
 } from '../../SettingRecords/__tests__/SettingRecords.fixtures';
 
 const array = [
@@ -61,6 +62,8 @@ describe('SettingsTableHelpers', () => {
       expect(valueToString({ default: 'random', value: 'value' })).toBe(
         'value'
       ));
+    it('should correctly format hash selection value', () =>
+      expect(valueToString(timezoneSetting)).toBe('(GMT +07:00) Bangkok'));
   });
 
   describe('defaultToString', () => {

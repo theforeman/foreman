@@ -85,6 +85,7 @@ exports[`ForemanForm render foreman form with fields 1`] = `
           "transforms": Array [
             [Function],
           ],
+          "type": "string",
         },
         "surname": StringSchema {
           "_blacklist": RefSet {
@@ -113,12 +114,14 @@ exports[`ForemanForm render foreman form with fields 1`] = `
           "transforms": Array [
             [Function],
           ],
+          "type": "string",
         },
       },
       "tests": Array [],
       "transforms": Array [
         [Function],
       ],
+      "type": "object",
     }
   }
 >

@@ -43,6 +43,23 @@ const formatEncryptedDefault = setting => {
   return null;
 };
 
+const formatHashSelectionDefault = setting =>
+  formatHashSelection('default', setting);
+const formatHashSelectionValue = setting =>
+  formatHashSelection('value', setting);
+
+const formatHashSelection = (attr, setting) => {
+  const { selectValues } = setting;
+
+  const val = setting[attr];
+
+  if (!selectValues || !selectValues[val]) {
+    return null;
+  }
+
+  return selectValues[val];
+};
+
 const formatBooleanDefault = setting => formatBoolean('default', setting);
 const formatBooleanValue = setting => formatBoolean('value', setting);
 
@@ -121,6 +138,7 @@ export const valueToString = reduceFormats([
   formatBooleanValue,
   formatArrayValue,
   formatArraySelectionValue,
+  formatHashSelectionValue,
   formatEmptyValue,
   formatTextValue,
 ]);
@@ -130,6 +148,7 @@ export const defaultToString = reduceFormats([
   formatBooleanDefault,
   formatArrayDefault,
   formatArraySelectionDefault,
+  formatHashSelectionDefault,
   formatEmptyDefault,
   formatTextDefault,
 ]);

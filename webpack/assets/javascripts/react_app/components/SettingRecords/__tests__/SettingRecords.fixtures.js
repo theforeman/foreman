@@ -27,7 +27,7 @@ export const settings = [
     name: 'root_pass',
     fullName: 'Root password',
     selectValues: null,
-    value: 'changeme',
+    value: '*****',
     configFile: 'settings.yaml',
     encrypted: true,
   },
@@ -112,6 +112,37 @@ export const settings = [
       'XenServer default PXELinux': 'XenServer default PXELinux',
     },
     encrypted: false,
+  },
+  {
+    category: 'Setting::General',
+    configFile: 'settings.yaml',
+    default: null,
+    description: 'Timezone to use for new users',
+    encrypted: false,
+    fullName: 'Default timezone',
+    id: 27,
+    name: 'default_timezone',
+    readonly: false,
+    selectValues: {
+      '': 'Browser timezone',
+      'Abu Dhabi': '(GMT +04:00) Abu Dhabi',
+      Adelaide: '(GMT +09:30) Adelaide',
+      Alaska: '(GMT -09:00) Alaska',
+      Almaty: '(GMT +06:00) Almaty',
+      'American Samoa': '(GMT -11:00) American Samoa',
+      Amsterdam: '(GMT +01:00) Amsterdam',
+      Arizona: '(GMT -07:00) Arizona',
+      Astana: '(GMT +06:00) Astana',
+      Athens: '(GMT +02:00) Athens',
+      'Atlantic Time (Canada)': '(GMT -04:00) Atlantic Time (Canada)',
+      Auckland: '(GMT +12:00) Auckland',
+      Azores: '(GMT -01:00) Azores',
+      Baghdad: '(GMT +03:00) Baghdad',
+      Baku: '(GMT +04:00) Baku',
+      Bangkok: '(GMT +07:00) Bangkok',
+    },
+    settingsType: null,
+    value: 'Bangkok',
   },
   {
     category: 'Setting::Provisioning',
@@ -208,5 +239,8 @@ export const arraySetting = settings.find(
 );
 export const stringSetting = settings.find(
   item => item.name === 'email_reply_address'
+);
+export const timezoneSetting = settings.find(
+  item => item.name === 'default_timezone'
 );
 export const rootPass = settings.find(item => item.name === 'root_pass');
