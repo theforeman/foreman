@@ -1,3 +1,12 @@
+2020-09-21	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.0.3
+
+2020-09-03	Tomer Brisker <tbrisker@gmail.com>
+	* Refs #30739 - cherry pick external user fixture
+
+2020-09-03	Rahul Bajaj <rahulrb0509@gmail.com>
+	* Fixes #30739 - User must login with the assigned auth source
+
 2020-08-19	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.0.2
 	* Refs #30659 - pin friendly_id to < 5.4
