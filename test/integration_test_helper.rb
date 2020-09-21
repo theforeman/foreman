@@ -20,11 +20,14 @@ Minitest::Retry.on_consistent_failure do |klass, test_name|
 end
 
 Selenium::WebDriver::Chrome::Service.driver_path = ENV['TESTDRIVER_PATH'] || Foreman::Util.which('chromedriver', Rails.root.join('node_modules', '.bin'))
+
+pp "USED selenium driver is #{ENV['JS_TEST_DRIVER']}"
+pp "FOUND chromedriver at #{Selenium::WebDriver::Chrome::Service.driver_path}"
+pp `#{Selenium::WebDriver::Chrome::Service.driver_path} --version`
+
 Capybara.register_driver :selenium_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.args << '--disable-gpu'
-  options.args << '--no-sandbox'
-  options.args << '--window-size=1024,768'
+  options.args << '--disable-extensions'
   options.args << '--headless' unless ENV['DEBUG_JS_TEST'] == '1'
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
@@ -272,7 +275,11 @@ class ActionDispatch::IntegrationTest
   end
 
   def login_admin
-    visit('/users/login') if Capybara.current_driver == :selenium_chrome
+    if Capybara.current_driver == :selenium_chrome
+      visit('/users/login')
+      pp page.driver.browser.manage.logs.get(:browser)
+      page.find('#login_login')
+    end
     SSO.register_method(TestSSO)
     set_request_user(:admin)
   end
