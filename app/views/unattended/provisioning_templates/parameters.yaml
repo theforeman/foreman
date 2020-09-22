@@ -1,0 +1,377 @@
+---
+#
+# Documentation for template parameters. This is used in test environment and
+# to generate our documentation. Rules when editing:
+#
+# * Prefer lower-case-dash-separated parameter names.
+# * Keep description short and on point.
+# * Try to keep the list sorted
+# * Consider adding the parameter to host_params in template_snapshot_service.rb
+#
+00_example_parameter:
+  description: 'Brief description. Can be multiple sentences but no newlines.'
+  context: 'Where it can be used (e.g. Kickstart, Remote execution).'
+  deprecated: true
+EnableFirewall:
+  description: 'Deprecated - use win-enable-firewall instead.'
+  context: 'Windows'
+activation_key:
+  description: ''
+  context: ''
+additional-packages:
+  description: ''
+  context: ''
+ansible_host_config_key:
+  description: ''
+  context: ''
+ansible_job_template_id:
+  description: ''
+  context: ''
+ansible_port:
+  description: ''
+  context: ''
+ansible_tower_fqdn:
+  description: ''
+  context: ''
+ansible_tower_provisioning:
+  description: ''
+  context: ''
+ansible_winrm_scheme:
+  description: ''
+  context: ''
+ansible_winrm_transport:
+  description: ''
+  context: ''
+atomic:
+  description: ''
+  context: ''
+atomic-upstream:
+  description: ''
+  context: ''
+atomic_refs_url:
+  description: ''
+  context: ''
+blacklist:
+  description: ''
+  context: ''
+blacklist_kernel_modules:
+  description: ''
+  context: ''
+bmc_ipmi_auth_method:
+  description: ''
+  context: ''
+bmc_ipmi_channel_id:
+  description: ''
+  context: ''
+bmc_ipmi_priv_level:
+  description: ''
+  context: ''
+bootloader-append:
+  description: ''
+  context: ''
+chef_bootstrap_template:
+  description: ''
+  context: ''
+computerDomain:
+  description: ''
+  context: ''
+computerOU:
+  description: ''
+  context: ''
+default_grub_install_entry:
+  description: ''
+  context: ''
+device:
+  description: ''
+  context: ''
+disable-firewall:
+  description: ''
+  context: ''
+disable-uek:
+  description: ''
+  context: ''
+dns_alt_names:
+  description: ''
+  context: ''
+domainAdminAccount:
+  description: ''
+  context: ''
+domainAdminAccountPasswd:
+  description: ''
+  context: ''
+efi_bootentry:
+  description: ''
+  context: ''
+enable-epel:
+  description: ''
+  context: ''
+enable-puppet5:
+  description: ''
+  context: ''
+enable-puppet6:
+  description: ''
+  context: ''
+enable-puppetlabs-puppet5-repo:
+  description: ''
+  context: ''
+enable-puppetlabs-puppet6-repo:
+  description: ''
+  context: ''
+enable-puppetlabs-repo:
+  description: ''
+  context: ''
+enable-saltstack-repo:
+  description: ''
+  context: ''
+enable_etcd:
+  description: ''
+  context: ''
+epel-repo-base:
+  description: ''
+  context: ''
+etcd_discovery_url:
+  description: ''
+  context: ''
+expose_docker_socket:
+  description: ''
+  context: ''
+fips_enabled:
+  description: ''
+  context: ''
+force-puppet:
+  description: ''
+  context: ''
+foremanDebug:
+  description: ''
+  context: ''
+freeipa_automount:
+  description: ''
+  context: ''
+freeipa_automount_location:
+  description: ''
+  context: ''
+freeipa_automount_server:
+  description: ''
+  context: ''
+freeipa_domain:
+  description: ''
+  context: ''
+freeipa_enable_sudo:
+  description: ''
+  context: ''
+freeipa_mkhomedir:
+  description: ''
+  context: ''
+freeipa_opts:
+  description: ''
+  context: ''
+freeipa_server:
+  description: ''
+  context: ''
+freeipa_ssh:
+  description: ''
+  context: ''
+host_param:
+  description: ''
+  context: ''
+host_param_false:
+  description: ''
+  context: ''
+host_param_true:
+  description: ''
+  context: ''
+http-proxy:
+  description: ''
+  context: ''
+http-proxy-password:
+  description: ''
+  context: ''
+http-proxy-port:
+  description: ''
+  context: ''
+http-proxy-user:
+  description: ''
+  context: ''
+http_proxy:
+  description: ''
+  context: ''
+install-disk:
+  description: ''
+  context: ''
+keyboard:
+  description: ''
+  context: ''
+kickstart_liveimg:
+  description: ''
+  context: ''
+kt_activation_keys:
+  description: ''
+  context: ''
+lang:
+  description: ''
+  context: ''
+liveimg_name:
+  description: ''
+  context: ''
+loader_timeout:
+  description: ''
+  context: ''
+localAdminAccountDisabled:
+  description: ''
+  context: ''
+machinePassword:
+  description: ''
+  context: ''
+no-resolv-override:
+  description: ''
+  context: ''
+ntp-server:
+  description: ''
+  context: ''
+ntpServer:
+  description: ''
+  context: ''
+only_subscription_manager_repos:
+  description: ''
+  context: ''
+package_upgrade:
+  description: ''
+  context: ''
+pkg_list:
+  description: ''
+  context: ''
+preseed-kernel-image:
+  description: ''
+  context: ''
+preseed-live-installer:
+  description: ''
+  context: ''
+preseed-post-install-upgrade:
+  description: ''
+  context: ''
+preseed-update-policy:
+  description: ''
+  context: ''
+reboot:
+  description: ''
+  context: ''
+reboot-strategy:
+  description: ''
+  context: ''
+redhat_install_agent:
+  description: ''
+  context: ''
+redhat_install_host_tools:
+  description: ''
+  context: ''
+redhat_install_host_tracer_tools:
+  description: ''
+  context: ''
+remote_execution_create_user:
+  description: ''
+  context: ''
+remote_execution_effective_user_method:
+  description: ''
+  context: ''
+remote_execution_ssh_keys:
+  description: ''
+  context: ''
+remote_execution_ssh_user:
+  description: ''
+  context: ''
+run-puppet-in-installer:
+  description: ''
+  context: ''
+salt_grains:
+  description: ''
+  context: ''
+salt_master:
+  description: ''
+  context: ''
+selinux:
+  description: ''
+  context: ''
+selinux-mode:
+  description: ''
+  context: ''
+sle-module-basesystem-url:
+  description: ''
+  context: ''
+spacewalk_host:
+  description: ''
+  context: ''
+ssh_authorized_keys:
+  description: ''
+  context: ''
+ssh_pwauth:
+  description: ''
+  context: ''
+subscription_manager:
+  description: ''
+  context: ''
+subscription_manager_atomic_url:
+  description: ''
+  context: ''
+subscription_manager_certpkg_url:
+  description: ''
+  context: ''
+subscription_manager_org:
+  description: ''
+  context: ''
+subscription_manager_override_repos_cost:
+  description: ''
+  context: ''
+subscription_manager_password:
+  description: ''
+  context: ''
+subscription_manager_pool:
+  description: ''
+  context: ''
+subscription_manager_repos:
+  description: ''
+  context: ''
+subscription_manager_username:
+  description: ''
+  context: ''
+syspurpose_addons:
+  description: ''
+  context: ''
+syspurpose_role:
+  description: ''
+  context: ''
+syspurpose_sla:
+  description: ''
+  context: ''
+syspurpose_usage:
+  description: ''
+  context: ''
+systemLocale:
+  description: ''
+  context: ''
+systemTimeZone:
+  description: ''
+  context: ''
+systemUILanguage:
+  description: ''
+  context: ''
+time-zone:
+  description: ''
+  context: ''
+use-ntp:
+  description: ''
+  context: ''
+use-slaac:
+  description: ''
+  context: ''
+wimImageName:
+  description: ''
+  context: ''
+win-enable-firewall:
+  description: 'Deprecated - use win-enable-firewall instead.'
+  context: 'Windows'
+windowsLicenseKey:
+  description: ''
+  context: ''
+windowsLicenseOwner:
+  description: ''
+  context: ''

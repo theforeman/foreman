@@ -23,6 +23,14 @@ module Foreman
         MESSAGE = N_('Parameter %{name} is not set for host %{host}').freeze
       end
 
+      class HostParamUndocumented < RenderingError
+        MESSAGE = N_('Parameter %{name} for host %{host} is not documented, edit parameters.yaml').freeze
+      end
+
+      class HostParamDeprecated < RenderingError
+        MESSAGE = N_('Parameter %{name} for host %{host} was deprecated').freeze
+      end
+
       class HostENCParamUndefined < RenderingError
         MESSAGE = N_('Parameter %{name} is not set in host %{host} ENC output, resolving failed on step %{step}').freeze
       end

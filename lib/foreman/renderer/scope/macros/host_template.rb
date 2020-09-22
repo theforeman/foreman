@@ -131,9 +131,26 @@ module Foreman
             raise HostUnknown if host.nil?
           end
 
+          # not thread-safe but the worst case is getting the file loaded several times
+          def self.parameters_docs
+            @@parameters_docs ||= begin
+              file = File.expand_path(File.dirname(__FILE__) + "../../../../../app/views/unattended/provisioning_templates/parameters.yaml")
+              YAML.load_file(file).freeze
+            end
+          end
+
           def check_host_param(name)
             check_host
             raise HostParamUndefined.new(name: name, host: host) unless host.params.key?(name)
+            if Rails.env.test?
+              if self.parameters_docs[name.to_s]
+                if self.parameters_docs[name.to_s]["description"].empty?
+                  raise HostParamUndefined.new(name: name, host: host)
+                elsif self.parameters_docs[name.to_s]["deprecated"]
+                  raise HostParamDeprecated.new(name: name, host: host)
+                end
+              end
+            end
           end
         end
       end
