@@ -38,6 +38,8 @@ module NestedAncestryCommon
 
   module ClassMethods
     attr_reader :nested_attribute_fields
+
+    NESTED_PROXY_CLASSES = ["puppet_proxy", "puppet_ca_proxy"]
     def nested_attribute_for(*fields)
       @nested_attribute_fields = fields
       @nested_attribute_fields.each do |field|
@@ -59,7 +61,7 @@ module NestedAncestryCommon
           define_method md[1] do
             if ancestry.present?
               klass = md[1].classify
-              klass = "SmartProxy" if ["puppet_proxy", "puppet_ca_proxy"].include?(md[1])
+              klass = "SmartProxy" if NESTED_PROXY_CLASSES.include?(md[1])
               klass = 'Subnet::Ipv4' if md[1] == 'subnet'
               klass = 'Subnet::Ipv6' if md[1] == 'subnet6'
               klass.classify.constantize.find_by_id(send("inherited_#{field}"))

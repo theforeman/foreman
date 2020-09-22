@@ -67,9 +67,10 @@ module AuditExtensions
         end
       end
 
+      TAXABLE_NAMES = [:location, :organization]
       def fully_taxable
         known_auditable_types.select do |model|
-          [:location, :organization].map do |taxable|
+          TAXABLE_NAMES.map do |taxable|
             has_any_association_to?(taxable, model)
           end.all?
         end

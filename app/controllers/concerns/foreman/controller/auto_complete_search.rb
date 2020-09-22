@@ -6,12 +6,13 @@ module Foreman::Controller::AutoCompleteSearch
     before_action :store_redirect_to_url, :except => [:index, :show, :create, :update]
   end
 
+  CATEGORIES = ['and', 'or', 'not', 'has']
   def auto_complete_search
     begin
       model = (controller_name == "hosts") ? Host::Managed : model_of_controller
       @items = model.complete_for(params[:search], {:controller => controller_name})
       @items = @items.map do |item|
-        category = ['and', 'or', 'not', 'has'].include?(item.to_s.sub(/^.*\s+/, '')) ? _('Operators') : ''
+        category = CATEGORIES.include?(item.to_s.sub(/^.*\s+/, '')) ? _('Operators') : ''
         part = item.to_s.sub(/^.*\b(and|or)\b/i) { |match| match.sub(/^.*\s+/, '') }
         completed = item.to_s.chomp(part)
         {:completed => CGI.escapeHTML(completed), :part => CGI.escapeHTML(part), :label => item, :category => category}

@@ -128,6 +128,7 @@ module Orchestration::Compute
     failure _("Failed to remove certificates for %{name}: %{e}") % { :name => name, :e => e }, e
   end
 
+  SET_DETAILS_IP_FIELDS = [:ip, :ip6]
   def setComputeDetails
     if vm
       attrs = compute_resource.provided_attributes
@@ -135,7 +136,7 @@ module Orchestration::Compute
       attrs.each do |foreman_attr, fog_attr|
         if foreman_attr == :mac
           return false unless match_macs_to_nics(fog_attr)
-        elsif [:ip, :ip6].include?(foreman_attr)
+        elsif SET_DETAILS_IP_FIELDS.include?(foreman_attr)
           value = vm.send(fog_attr) || find_address(foreman_attr)
           send("#{foreman_attr}=", value)
           return false if send(foreman_attr).present? && !validate_foreman_attr(value, ::Nic::Base, foreman_attr)

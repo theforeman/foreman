@@ -18,6 +18,7 @@ module Api::ImportPuppetclassesCommonController
   param :dryrun, :bool, :required => false
   param :except, String, :required => false, :desc => N_("Optional comma-delimited string containing either 'new', 'updated', or 'obsolete' that is used to limit the imported Puppet classes")
 
+  ALLOWED_KINDS = ["new", "obsolete", "updated", "ignored"]
   def import_puppetclasses
     return unless changed_environments
     # @changed is returned from the method above changed_environments
@@ -26,7 +27,7 @@ module Api::ImportPuppetclassesCommonController
     if params[:except].present?
       kinds = params[:except].split(',')
       kinds.each do |kind|
-        @changed[kind] = {} if ["new", "obsolete", "updated", "ignored"].include?(kind)
+        @changed[kind] = {} if ALLOWED_KINDS.include?(kind)
       end
     end
 

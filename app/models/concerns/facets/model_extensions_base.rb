@@ -95,13 +95,14 @@ module Facets
     # define instance methods in a module, so they will be set
     # even for models that do not include this module directly
     # like in case Hostgroup -> HostgroupExtensions -> ModelExtensionsBase
+    FACET_ATTRIBUTES = %w(created_at updated_at)
     module InstanceMethods
       def attributes
         hash = super
 
         # include all facet attributes by default
         facets_with_definitions.each do |facet, facet_definition|
-          hash["#{facet_definition.name}_attributes"] = facet.attributes.reject { |key| %w(created_at updated_at).include? key }
+          hash["#{facet_definition.name}_attributes"] = facet.attributes.reject { |key| FACET_ATTRIBUTES.include? key }
         end
         hash
       end
