@@ -41,32 +41,7 @@ Layout/ParameterAlignment:
 Metrics:
   Enabled: false
 
-Performance/Caller:
-  Enabled: true
-
 Performance/CaseWhenSplat:
-  Enabled: true
-
-# Hard to review, can introduce regressions
-Performance/ChainArrayAllocation:
-  Enabled: false
-
-Performance/DoubleStartEndWith:
-  Enabled: true
-
-Performance/InefficientHashSearch:
-  Enabled: true
-
-Performance/ReverseEach:
-  Enabled: true
-
-Performance/StartWith:
-  Enabled: true
-
-Performance/EndWith:
-  Enabled: true
-
-Performance/UriDefaultParser:
   Enabled: true
 
 Performance/Casecmp:

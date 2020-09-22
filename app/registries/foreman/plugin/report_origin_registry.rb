@@ -23,7 +23,7 @@ module Foreman
       end
 
       def all_origins
-        @report_origins.map { |_, origins| origins }.inject(:+)
+        @report_origins.map { |_, origins| origins }.sum
       end
 
       def origins_with_interval_setting

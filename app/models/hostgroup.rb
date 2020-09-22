@@ -260,7 +260,7 @@ class Hostgroup < ApplicationRecord
 
   def children_hosts_count
     counter = HostCounter.new(:hostgroup)
-    subtree_ids.map { |child_id| counter.fetch(child_id, 0) }.sum
+    subtree_ids.sum { |child_id| counter.fetch(child_id, 0) }
   end
 
   # rebuilds orchestration configuration for hostgroup's hosts
