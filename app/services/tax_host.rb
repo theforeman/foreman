@@ -121,7 +121,10 @@ class TaxHost
         }
       end
     end
-    @mismatches = mismatches.uniq.compact
+    # Performance/ChainArrayAllocation
+    @mismatches = mismatches
+    @mismatches.uniq!
+    @mismatches.compact!
   end
 
   def check_for_orphans
@@ -148,7 +151,11 @@ class TaxHost
     # end
     define_method "#{key}s".to_sym do
       # can't use pluck(key), :domain_id is delegated method, not SQL column, performance diff wasn't big
-      hosts.map(&key).uniq.compact
+      # Performance/ChainArrayAllocation
+      keys = hosts.map(&key)
+      keys.uniq!
+      keys.compact!
+      keys
     end
   end
 

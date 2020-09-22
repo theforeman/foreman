@@ -107,7 +107,10 @@ class Authorizer
   def build_scoped_search_condition(filters)
     raise ArgumentError if filters.blank?
 
-    filters.select { |f| f.search_condition.present? }.map { |f| "(#{f.search_condition})" }.join(' OR ')
+    # Performance/ChainArrayAllocation
+    condition = filters.select { |f| f.search_condition.present? }
+    condition.map! { |f| "(#{f.search_condition})" }
+    condition.join(' OR ')
   end
 
   private

@@ -202,7 +202,9 @@ class Filter < ApplicationRecord
 
   # if we have 0 types, empty validation will set error, we can't have more than one type
   def same_resource_type_permissions
-    types = permissions.map(&:resource_type).uniq
+    # Performance/ChainArrayAllocation
+    types = permissions.map(&:resource_type)
+    types.uniq!
     if types.size > 1
       errors.add(
         :permissions,

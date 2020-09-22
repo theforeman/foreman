@@ -53,7 +53,9 @@ class FactCleaner
     logger.debug "Cleaning facts matching excluded pattern: #{excluded_facts_regex}"
 
     FactName.unscoped.reorder(nil).select(:id, :name).find_in_batches(:batch_size => @batch_size) do |names_batch|
-      fact_name_ids = names_batch.select { |fact_name| fact_name.name.match(excluded_facts_regex) }.map(&:id)
+      # Performance/ChainArrayAllocation
+      fact_name_ids = names_batch.select { |fact_name| fact_name.name.match(excluded_facts_regex) }
+      fact_name_ids.map!(&:id)
       @deleted_count += delete_facts_names_values(fact_name_ids)
     end
   end

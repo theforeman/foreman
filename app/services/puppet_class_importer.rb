@@ -66,7 +66,12 @@ class PuppetClassImporter
   # Returns   : Array of Strings containing all record errors
   def obsolete_and_new(changes = { })
     return if changes.empty?
-    changes.values.map(&:keys).flatten.uniq.each do |env_name|
+    # Performance/ChainArrayAllocation
+    values = changes.values
+    values.map!(&:keys)
+    values.flatten!
+    values.uniq!
+    values.each do |env_name|
       if changes['new'] && changes['new'][env_name].try(:>, '') # we got new classes
         add_classes_to_foreman(env_name, JSON.parse(changes['new'][env_name]))
       end

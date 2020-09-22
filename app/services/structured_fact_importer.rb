@@ -80,9 +80,11 @@ class StructuredFactImporter < FactImporter
   def ensure_fact_names
     super
 
+    # Performance/ChainArrayAllocation
     composite_fact_names = facts.map do |key, value|
       key if value.nil?
-    end.compact
+    end
+    composite_fact_names.compact!
 
     affected_records = fact_name_class.where(:name => composite_fact_names, :compose => false).update_all(:compose => true)
 

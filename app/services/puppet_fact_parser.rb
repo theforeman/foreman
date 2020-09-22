@@ -73,7 +73,9 @@ class PuppetFactParser < FactParser
   end
 
   def ipmi_interface
-    ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }.map { |name, value| [name.sub(/\Aipmi_/, ''), value] }
+    # Performance/ChainArrayAllocation
+    ipmi = facts.select { |name, _| name =~ /\Aipmi_(.*)\Z/ }
+    ipmi.map! { |name, value| [name.sub(/\Aipmi_/, ''), value] }
     Hash[ipmi].with_indifferent_access
   end
 
