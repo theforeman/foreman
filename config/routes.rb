@@ -584,7 +584,8 @@ Foreman::Application.routes.draw do
     end
   end
 
-  get :register, to: 'api/v2/provisioning_templates#global_registration'
+  get :register, to: 'api/v2/registration#global'
+  post :register, to: 'api/v2/registration#host'
 
   if Rails.env.development? && defined?(::GraphiQL::Rails::Engine)
     mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'

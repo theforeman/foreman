@@ -308,7 +308,7 @@ Foreman::AccessControl.map do |permission_set|
                                      :"api/v2/hosts" => [:create],
                                      :"api/v2/interfaces" => [:create],
                                      :"api/v2/tasks" => [:index],
-                                     :"api/v2/provisioning_templates" => [:global_registration],
+                                     :"api/v2/registration" => [:global, :host],
                                   }
     map.permission :edit_hosts,    {:hosts => [:edit, :update, :multiple_actions, :reset_multiple, :submit_multiple_enable,
                                                :select_multiple_hostgroup, :select_multiple_environment, :submit_multiple_disable,
