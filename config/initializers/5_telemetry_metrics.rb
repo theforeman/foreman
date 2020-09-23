@@ -100,4 +100,4 @@ allowed_labels = {
     'Widget',
   ],
 }
-telemetry.allowed_tags(allowed_labels)
+telemetry.add_allowed_tags!(allowed_labels)
