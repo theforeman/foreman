@@ -22,7 +22,6 @@ Foreman::Application.routes.draw do
     'common_parameters',
     'compute_profiles',
     'compute_resources',
-    'config_groups',
     'config_reports',
     'domains',
     'fact_values',
@@ -199,10 +198,6 @@ Foreman::Application.routes.draw do
       post 'medium_selected'
       post 'process_hostgroup'
     end
-  end
-
-  resources :config_groups, except: [:show] do
-    get 'auto_complete_search', on: :collection
   end
 
   resources :puppetclasses, except: [:new, :create, :show] do
