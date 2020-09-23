@@ -22,6 +22,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: restore node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-modules-${{ matrix.node-version }}-${{ hashFiles('package-json.lock') }}
+          restore-keys: ${{ runner.os }}-modules-${{ matrix.node-version }}-
       - name: Install npm dependencies
         run: npm install
       - name: Run linter
