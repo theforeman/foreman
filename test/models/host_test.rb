@@ -2222,7 +2222,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'clone host should not copy name, system fields (mac, ip, etc)' do
-      host = FactoryBot.create(:host, :with_config_group, :with_parameter, :dualstack)
+      host = FactoryBot.create(:host, :with_parameter, :dualstack)
       copy = host.clone
       assert copy.name.blank?
       assert copy.mac.blank?
@@ -2234,7 +2234,7 @@ class HostTest < ActiveSupport::TestCase
     end
 
     test 'clone host should copy interfaces without name, mac, host_id and ips' do
-      host = FactoryBot.create(:host, :with_config_group, :with_parameter, :dualstack)
+      host = FactoryBot.create(:host, :with_parameter, :dualstack)
       copy = host.clone
 
       assert_equal host.interfaces.length, copy.interfaces.length

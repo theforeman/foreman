@@ -60,16 +60,6 @@ class Hostgroup < ApplicationRecord
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label
-  scoped_search :relation => :config_groups, :on => :name, :complete_value => true, :rename => :config_group, :only_explicit => true, :operators => ['= ', '~ '], :ext_method => :search_by_config_group
-
-  def self.search_by_config_group(key, operator, value)
-    conditions = sanitize_sql_for_conditions(["config_groups.name #{operator} ?", value_to_sql(operator, value)])
-    hostgroup_ids = Hostgroup.unscoped.with_taxonomy_scope.joins(:config_groups).where(conditions).map(&:subtree_ids).flatten.uniq
-
-    opts = 'hostgroups.id < 0'
-    opts = "hostgroups.id IN(#{hostgroup_ids.join(',')})" if hostgroup_ids.present?
-    {:conditions => opts}
-  end
 
   if SETTINGS[:unattended]
     scoped_search :relation => :architecture,     :on => :name,        :complete_value => true,  :rename => :architecture, :only_explicit => true
@@ -153,19 +143,6 @@ class Hostgroup < ApplicationRecord
     disk_layout_source.content
   end
 
-  def all_config_groups
-    (config_groups + parent_config_groups).uniq
-  end
-
-  def parent_config_groups
-    return [] unless parent
-    groups = []
-    ancestors.each do |hostgroup|
-      groups += hostgroup.config_groups
-    end
-    groups.uniq
-  end
-
   def inherited_lookup_value(key)
     if key.path_elements.flatten.include?("hostgroup") && Setting["matchers_inheritance"]
       ancestors.reverse_each do |hg|
@@ -244,8 +221,6 @@ class Hostgroup < ApplicationRecord
       lv.match = new.lookup_value_match
       lv.host_or_hostgroup = new
     end
-
-    new.config_groups = config_groups
     new
   end
 

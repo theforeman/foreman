@@ -38,8 +38,6 @@ module HostCommon
     belongs_to :compute_resource
 
     before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
-    has_many :host_config_groups, :as => :host
-    has_many :config_groups, :through => :host_config_groups
 
     has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
