@@ -1142,13 +1142,6 @@ class HostsControllerTest < ActionController::TestCase
       assert_template :partial => '_provisioning'
     end
 
-    test 'does not save has_many relations on existing hosts' do
-      @attrs[:config_group_ids] = [config_groups(:one).id]
-      put :template_used, params: {:provisioning => 'build', :host => @attrs, :id => @host.id }, session: set_session_user, xhr: true
-      assert_response :success
-      assert_template :partial => '_provisioning'
-    end
-
     test 'shows templates for image provisioning' do
       image = compute_resources(:one).images.first
       @attrs[:compute_resource_id] = compute_resources(:one).id

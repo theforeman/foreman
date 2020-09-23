@@ -472,11 +472,6 @@ autopart"', desc: 'to render the content of host partition table'
     puppet_proxy_id.present?
   end
 
-  def parent_config_groups
-    return [] unless hostgroup
-    hostgroup.all_config_groups
-  end
-
   def attributes_to_import_from_facts
     attrs = [:architecture]
     if Setting[:update_hostgroup_from_facts]
@@ -700,7 +695,7 @@ autopart"', desc: 'to render the content of host partition table'
     nil
   end
 
-  include_in_clone :config_groups, :host_config_groups, :host_parameters, :lookup_values
+  include_in_clone :host_parameters, :lookup_values
   exclude_from_clone :name, :uuid, :certname, :last_report, :lookup_value_matcher
 
   def clone

@@ -213,31 +213,6 @@ class HostgroupTest < ActiveSupport::TestCase
     assert_equal domains(:yourdomain), child.domain
   end
 
-  test "search hostgroups by config group" do
-    config_group = config_groups(:one)
-    hostgroups = Hostgroup.search_for("config_group = #{config_group.name}")
-    assert_equal 3, hostgroups.count
-    assert_equal ["Common", "Parent", "inherited"].sort, hostgroups.map(&:name).sort
-  end
-
-  test "parent_config_groups should return parent config_groups if hostgroup has parent - 2 levels" do
-    hostgroup = hostgroups(:inherited)
-    assert hostgroup.parent
-    assert_equal hostgroup.parent_config_groups, hostgroup.parent.config_groups
-  end
-
-  test "parent_config_groups should return parent config_groups if hostgroup has parent  - 3 levels" do
-    assert hostgroup = Hostgroup.create!(:name => 'third level', :parent_id => hostgroups(:inherited).id)
-    groups = (hostgroup.config_groups + hostgroup.parent.config_groups + hostgroup.parent.parent.config_groups).uniq.sort
-    assert_equal groups, hostgroup.parent_config_groups.sort
-  end
-
-  test "parent_config_groups should return empty array if hostgroup does not has parent" do
-    hostgroup = hostgroups(:common)
-    assert_nil hostgroup.parent
-    assert_empty hostgroup.parent_config_groups
-  end
-
   test "root_pass inherited from parent if blank" do
     parent = FactoryBot.create(:hostgroup, :root_pass => '12345678')
     hostgroup = FactoryBot.build(:hostgroup, :parent => parent, :root_pass => '')
@@ -331,14 +306,6 @@ class HostgroupTest < ActiveSupport::TestCase
 
   context "#clone" do
     let(:group) { FactoryBot.create(:hostgroup, :name => 'a') }
-
-    test "clone should clone config groups as well" do
-      config_group = ConfigGroup.create!(:name => 'Blah')
-      group.config_groups << config_group
-
-      cloned = group.clone("new_name")
-      assert cloned.config_groups.include?(config_group)
-    end
 
     test "clone should clone parameters values but update ids" do
       group.group_parameters.create!(:name => "foo", :value => "bar")
