@@ -38,7 +38,7 @@ class Setting::Provisioning < Setting
     fqdn = SETTINGS[:fqdn]
     unattended_url = "http://#{fqdn}"
     select = [{:name => _("Users"), :class => 'user', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'login'},
-              {:name => _("Usergroup"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
+              {:name => _("Usergroups"), :class => 'usergroup', :scope => 'visible', :value_method => 'id_and_type', :text_method => 'name'}]
 
     [
       set('host_owner', N_("Default owner on provisioned hosts, if empty Foreman will use current user"), nil, N_('Host owner'), nil, {:collection => proc { select }, :include_blank => _("Select an owner")}),
