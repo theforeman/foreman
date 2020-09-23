@@ -27,14 +27,11 @@ pkg upgrade -y > /root/install/pkg_upgrade.txt
 
 
 cat > /etc/puppet/puppet.conf << EOF
-
-
 [main]
 vardir = /var/lib/puppet
 logdir = /var/log/puppet
 rundir = /var/run/puppet
 ssldir = \$vardir/ssl
-digest_algorithm = sha256
 
 [agent]
 pluginsync      = true
