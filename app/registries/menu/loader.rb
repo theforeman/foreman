@@ -76,7 +76,6 @@ module Menu
           menu.item :common_parameters, :caption => N_('Global Parameters')
           menu.divider                  :caption => N_('Puppet')
           menu.item :puppetclasses,     :caption => N_('Classes')
-          menu.item :config_groups,     :caption => N_('Config Groups')
         end
 
         menu.sub_menu :infrastructure_menu, :caption => N_('Infrastructure'), :icon => 'pficon pficon-network' do
