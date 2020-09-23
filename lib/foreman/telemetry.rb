@@ -12,6 +12,7 @@ module Foreman
     def initialize
       @sinks = []
       @exporter = ::Foreman::TelemetrySinks::MetricExporterSink.new
+      @allowed_tags = {}
     end
 
     def setup(opts = {})
@@ -96,8 +97,7 @@ module Foreman
       @sinks.count > 1
     end
 
-    def allowed_tags(labels)
-      @allowed_tags = {}
+    def add_allowed_tags!(labels)
       labels.each do |k, v|
         @allowed_tags[k] = Regexp.compile('^(' + v.join('|') + ')$')
       end
