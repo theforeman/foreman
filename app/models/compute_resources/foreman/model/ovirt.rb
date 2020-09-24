@@ -500,7 +500,7 @@ module Foreman::Model
       if attrs[:ovirt_quota_id].nil?
         attrs[:ovirt_quota_id] = client.quotas.first.id
       else
-        get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
+        attrs[:ovirt_quota_id] = get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
       end
     end
 
