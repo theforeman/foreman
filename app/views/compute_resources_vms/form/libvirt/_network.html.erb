@@ -11,15 +11,14 @@
                  } %>
 
 <div id='nat' class='<%= 'hide' if f.object.type != 'network' %>'>
-  <%= selectable_f f, :network, nat.map(&:name),
+  <%= selectable_f f, :network, nat.map { |n| n.name.force_encoding('UTF-8') },
                    { :include_blank => nat.any? ? false : _("No networks") },
                    { :class => "libvirt_nat", :label => _("Network"), :disabled => (f.object.type != 'network' || !new_vm), :label_size => "col-md-3" } %>
 </div>
 
 <div id='bridge' class='<%= 'hide' if f.object.type && (f.object.type != 'bridge') %>'>
   <% if bridges.any? %>
-    <%= selectable_f f, :bridge, bridges.map(&:name),
-                     { :include_blank => bridges.any? ? false : _("No bridges") },
+    <%= selectable_f f, :bridge, bridges.map { |bridge| bridge.name.force_encoding('UTF-8') },
                      { :class => "libvirt_bridge", :label => _("Network"), :disabled => !new_vm, :label_size => "col-md-3" } %>
   <% else %>
     <%= text_f f, :bridge,
