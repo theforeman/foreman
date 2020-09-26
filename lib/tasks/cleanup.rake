@@ -22,6 +22,9 @@ namespace :purge do
     if ActiveRecord::Base.connection.column_exists?(:template_combinations, :environment_id)
       ActiveRecord::Base.connection.remove_reference(:template_combinations, :environment)
     end
+    ActiveRecord::Base.connection.drop_table(:host_config_groups, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:config_group_classes, if_exists: true, force: :cascade)
+    ActiveRecord::Base.connection.drop_table(:config_groups, if_exists: true, force: :cascade)
 
     envs = %w[view_environments create_environments edit_environments destroy_environments import_environments]
     cfgs = %w[view_config_groups create_config_groups edit_config_groups destroy_config_groups]
