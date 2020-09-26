@@ -35,7 +35,6 @@ Foreman::Application.routes.draw do
     'operatingsystems',
     'provisioning_templates',
     'ptables',
-    'puppetclass_lookup_keys',
     'realms',
     'report_templates',
     'smart_proxies',
@@ -149,12 +148,10 @@ Foreman::Application.routes.draw do
       end
     end
 
-    [:lookup_keys, :puppetclass_lookup_keys].each do |key|
-      resources key, except: [:show, :new, :create] do
-        resources :lookup_values, only: [:index, :create, :update, :destroy]
-        collection do
-          get 'auto_complete_search'
-        end
+    resources :lookup_keys, except: [:show, :new, :create] do
+      resources :lookup_values, only: [:index, :create, :update, :destroy]
+      collection do
+        get 'auto_complete_search'
       end
     end
 
