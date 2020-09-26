@@ -4,6 +4,5 @@ class RemovePuppetCounters < ActiveRecord::Migration[4.2]
     remove_column :puppetclasses, :global_class_params_count, :integer, :default => 0
     remove_column :puppetclasses, :variable_lookup_keys_count, :integer, :default => 0
     remove_column :lookup_keys, :lookup_values_count, :integer, :default => 0
-    remove_column :config_groups, :config_group_classes_count, :integer, :default => 0
   end
 end
