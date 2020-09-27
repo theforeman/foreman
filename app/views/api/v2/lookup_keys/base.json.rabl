@@ -1,4 +1,4 @@
-object @smart_class_parameter
+object @lookup_key
 
 attribute :parameter
 attributes :id

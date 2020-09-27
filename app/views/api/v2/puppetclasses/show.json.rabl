@@ -11,5 +11,5 @@ child :all_hostgroups => :hostgroups do
 end
 
 node do |puppetclass|
-  { :smart_class_parameters => partial("api/v2/smart_class_parameters/base", :object => puppetclass.class_params) }
+  { :smart_class_parameters => partial("api/v2/lookup_keys/base", :object => puppetclass.class_params) }
 end
