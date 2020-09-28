@@ -1,0 +1,76 @@
+name: Ruby Testing
+on: [pull_request]
+env:
+  RAILS_ENV: test
+  DATABASE_URL: postgresql://postgres:@localhost/test
+  DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: true
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - run: sudo apt-get install build-essential libcurl4-openssl-dev zlib1g-dev
+      - uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+      - name: Setup
+        run: |
+          gem install bundler
+          bundle config set without journald development console libvirt
+          bundle config set path vendor/bundle
+          bundle install --jobs=3 --retry=3
+      - name: Run rubocop
+        run: bundle exec rake rubocop
+  test_ruby:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.1
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    strategy:
+      fail-fast: true
+      matrix:
+        ruby-version: [2.5, 2.6]
+    steps:
+      - run: sudo apt-get install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev libvirt-dev
+      - uses: actions/checkout@v2
+      - uses: nanasess/setup-chromedriver@master
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version:  12
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-fgems-${{ matrix.ruby-version }}-${{ hashFiles('Gemfile.lock') }}
+          restore-keys: ${{ runner.os }}-fgems-${{ matrix.ruby-version }}-
+      - name: Setup Bundler
+        run: |
+          gem install bundler
+          bundle config set without journald development console
+          bundle config set path vendor/bundle
+      - name: Prepare test env
+        run: |
+          bundle install --jobs=3 --retry=3
+          npm install
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+          bundle exec rake db:seed
+      - name: Compile assets
+        run: bundle exec rake webpack:compile
+      - name: Run plugin tests
+        run: |
+          bundle exec rake test:prepare
+          bundle exec rake test
+      - name: Upload test.log
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: log
+          path: log/test.log
