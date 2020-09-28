@@ -1,33 +1,15 @@
-require:
-  - rubocop-performance
-  - rubocop-rails
-  - rubocop-minitest
+inherit_gem:
+  theforeman-rubocop:
+    - lenient.yml
+    - minitest.yml
 
 inherit_from: .rubocop_todo.yml
-
-AllCops:
-  TargetRubyVersion: 2.5
-  TargetRailsVersion: 5.2
-  Exclude:
-    - 'db/schema.rb'
-    - 'node_modules/**/*'
-    - 'vendor/**/*'
 
 Bundler/OrderedGems:
   Enabled: false
 
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
-  IndentationWidth: 2
-
 Layout/DotPosition:
   Enabled: false
-
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-Layout/FirstArgumentIndentation:
-  EnforcedStyle: consistent
 
 Layout/HashAlignment:
   Enabled: false
@@ -66,16 +48,6 @@ Rails/BulkChangeTable:
 Rails/RefuteMethods:
   Enabled: false
 
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
-Style/AndOr:
-  EnforcedStyle: conditionals
-
-# Don't prefer is_a? over kind_of?
-Style/ClassCheck:
-  Enabled: false
-
 # Don't enforce certain methods, e.g. detect over find
 Style/CollectionMethods:
   Enabled: false
@@ -83,29 +55,14 @@ Style/CollectionMethods:
 Style/ConditionalAssignment:
   Enabled: false
 
-# Don't enforce documentation
-Style/Documentation:
-  Enabled: false
-
-Style/EmptyMethod:
-  EnforcedStyle: expanded
-
 # Don't enforce frozen string literals
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-# Support both, Ruby 1.9 hashmap and hash-rocket syntax
-Style/HashSyntax:
-  EnforcedStyle: no_mixed_keys
 
 Style/IfUnlessModifier:
   Enabled: false
 
 Style/InverseMethods:
-  Enabled: false
-
-# disabled until we can configure "+" as concat sign
-Style/LineEndConcatenation:
   Enabled: false
 
 Style/MultipleComparison:
@@ -121,25 +78,4 @@ Style/ParenthesesAroundCondition:
   Enabled: false
 
 Style/PreferredHashMethods:
-  Enabled: false
-
-# Both double and single quotes are OK
-Style/StringLiterals:
-  Enabled: false
-
-Style/SymbolArray:
-  EnforcedStyle: brackets
-  MinSize: 1
-
-Style/TernaryParentheses:
-  EnforcedStyle: require_parentheses_when_complex
-
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: comma
-
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: comma
-
-#Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
-Style/WordArray:
   Enabled: false
