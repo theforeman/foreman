@@ -11,11 +11,6 @@ group :test do
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
   gem 'factory_bot_rails', '~> 5.0', :require => false
-  gem 'rubocop', '~> 0.80.0'
-  gem 'rubocop-checkstyle_formatter', '~> 0.2'
-  gem 'rubocop-minitest', '~> 0.7.0'
-  gem 'rubocop-performance', '~> 1.5.2'
-  gem 'rubocop-rails', '~> 2.4.2'
   gem 'selenium-webdriver', :require => false
   gem 'shoulda-matchers', '>= 4.0', '< 4.4'
   gem 'shoulda-context', '~> 1.2'
@@ -23,5 +18,6 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rfauxfactory', '~> 0.1', '>= 0.1.5'
   gem 'robottelo_reporter', '~> 0.1'
+  gem 'theforeman-rubocop', '~> 0.0.6', require: false
   gem 'webmock'
 end
