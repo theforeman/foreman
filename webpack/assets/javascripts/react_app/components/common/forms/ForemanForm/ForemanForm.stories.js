@@ -35,7 +35,7 @@ const fixtures = {
 
 const radios = [
   { label: 'Hammer', value: 'hammer' },
-  { label: 'Nail Gun', value: 'naigun' },
+  { label: 'Nail Gun', value: 'nailgun' },
   { label: 'Wrecking Ball', value: 'wreckingball' },
 ];
 

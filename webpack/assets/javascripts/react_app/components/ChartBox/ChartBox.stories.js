@@ -37,7 +37,7 @@ export const WithError = () => (
       chart={{ data: [] }}
       title="Title"
       noDataMsg="No data here"
-      errorText="Ooops"
+      errorText="Oops"
       status="ERROR"
     />
   </Story>
