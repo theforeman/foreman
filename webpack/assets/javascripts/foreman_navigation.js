@@ -31,7 +31,7 @@ export const reloadPage = () => {
  * @param {String} url - the base url i.e `/hosts`
  * @param {Object} searchQuery - the query params, i.e {'per_page': 4, 'page': 2}
  */
-export const pushUrl = (url, queryParams) => {
+export const pushUrl = (url, queryParams = {}) => {
   const urlWithQueries = new URI(url).search(queryParams).toString();
   return store.dispatch(push(urlWithQueries));
 };
