@@ -12,7 +12,7 @@ export default {
 export const ButtonsStory = () => (
   <Story>
     <Text>
-      <u>Input</u>: an array of button props each contaning: a title string and
+      <u>Input</u>: an array of button props each containing: a title string and
       an action object. <br />
       action can be <strong> href</strong> with <strong>data-method</strong> or
       <strong> onClick</strong>

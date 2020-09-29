@@ -2,7 +2,7 @@
 
 exports[`Table createTableReducer should handle FAILURE 1`] = `
 Object {
-  "error": [Error: ooops!],
+  "error": [Error: Oops!],
   "pagination": Object {
     "page": 1,
     "perPage": 20,

@@ -20,7 +20,7 @@ namespace :templates do
       service = Foreman::RenderTemplatesFromFolder.new(source_directory: source_directory)
       service.render_all
       if service.errors.any?
-        puts Rainbow('Errors occured while rendering the templates.').red
+        puts Rainbow('Errors occurred while rendering the templates.').red
         puts ''
         service.errors.each do |template, message|
           puts " ==== #{template.name} ===="

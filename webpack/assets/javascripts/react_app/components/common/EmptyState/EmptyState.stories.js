@@ -98,7 +98,7 @@ withCustomizedDocumentation.story = {
 
 export const foremanEmptyState = () => {
   const customizeDocLabel = boolean('customize doc label', false);
-  const customizeDocButtonLabel = boolean('costumize button label', false);
+  const customizeDocButtonLabel = boolean('customize button label', false);
   const docObject = { url: '#' };
   if (customizeDocLabel) {
     docObject.label = text('documentation label', 'Read documents ->');

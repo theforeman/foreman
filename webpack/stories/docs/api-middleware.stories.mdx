@@ -145,7 +145,7 @@ dispatch(
   get({
     key: MY_SPECIAL_KEY,
     url,
-    toastError: error => `Oh no! Something went wrong while submiting the form, the server returned the following error: ${error}`
+    toastError: error => `Oh no! Something went wrong while submitting the form, the server returned the following error: ${error}`
     toastSuccess: response => `Yay! task: ${response.taskID} was successfully created.`
   })
 );
