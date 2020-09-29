@@ -42,7 +42,7 @@ const Properties = ({ hostData }) => (
           />
         </DataListItemRow>
       </DataListItem>
-      <DataListItem aria-labelledby="architecutre">
+      <DataListItem aria-labelledby="architecture">
         <DataListItemRow>
           <DataListItemCells
             dataListCells={[

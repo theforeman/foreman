@@ -55,7 +55,7 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
       </DataListItemRow>
     </DataListItem>
     <DataListItem
-      aria-labelledby="architecutre"
+      aria-labelledby="architecture"
     >
       <DataListItemRow>
         <DataListItemCells

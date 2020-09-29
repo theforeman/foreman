@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "lint": "tfm-lint",
+    "lint:spelling": "eslint ./webpack",
     "foreman-js:link": "./script/npm_link_foreman_js.sh",
     "postlint": "./script/npm_lint_plugins.js",
     "test": "tfm-test",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@theforeman/vendor": "^4.14.0",
+    "eslint-plugin-spellcheck": "0.0.17",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"

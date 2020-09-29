@@ -72,7 +72,7 @@ export const submitForm = ({
 
     const errorToast = error =>
       sprintf(
-        'Oh no! Something went wrong while submiting the form, the server returned the following error: %s',
+        'Oh no! Something went wrong while submitting the form, the server returned the following error: %s',
         error
       );
 
