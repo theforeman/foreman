@@ -216,7 +216,7 @@ class UnattendedController < ApplicationController
     %w[iPXE gPXE].include?(params[:kind])
   end
 
-  def render_ipxe_message(message: _('An error occured.'), status: :not_found)
+  def render_ipxe_message(message: _('An error occurred.'), status: :not_found)
     render(plain: Foreman::Ipxe::MessageRenderer.new(message: message).to_s, status: status, content_type: 'text/plain')
   end
 

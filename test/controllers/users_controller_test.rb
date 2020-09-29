@@ -394,7 +394,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_match /An email address is required/, flash[:error]
   end
 
-  test "test email was deliver an email successfuly" do
+  test "test email was deliver an email successfully" do
     user = User.create :login => "foo", :mail => "foo@bar.com", :auth_source => auth_sources(:one)
     put :test_mail, params: { :id => user.id, :user => {:login => user.login}, :user_email => user.mail }, session: set_session_user
     mail = ActionMailer::Base.deliveries.detect { |delivery| delivery.subject =~ /Foreman test email/ }
