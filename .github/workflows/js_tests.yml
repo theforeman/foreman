@@ -27,6 +27,8 @@ jobs:
         run: npm install
       - name: Run linter
         run: npm run lint
+      - name: Run Spellcheck (only warnings)
+        run: npm run lint:spelling
       - name: Run tests
         run: npm run test
       - name: Publish Coveralls (node v14)

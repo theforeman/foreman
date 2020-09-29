@@ -118,7 +118,7 @@ const AuditCard = ({ hostName }) => {
       </Accordion>
       <Button
         component="a"
-        href={foremanUrl(`/audits?seach=host+%3D+${hostName}`)}
+        href={foremanUrl(`/audits?search=host+%3D+${hostName}`)}
         target="_blank"
         variant="link"
       >

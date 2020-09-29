@@ -6,7 +6,7 @@ const ComponentWrapper = props => {
   const { component, componentProps } = props.data;
 
   if (component === 'ComponentWrapper') {
-    throw new Error('Cannot wrap componenet wrapper');
+    throw new Error('Cannot wrap component wrapper');
   }
 
   const registeredComponent = componentRegistry.getComponent(component);

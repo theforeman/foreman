@@ -27,7 +27,7 @@ const ParametersCard = ({ paramters }) => {
   };
   return (
     <Card isHoverable>
-      <CardBody>{__('Paramterers')}</CardBody>
+      <CardBody>{__('Parameters')}</CardBody>
       <Accordion asDefinitionList>
         {!paramters.length && (
           <div style={{ marginLeft: '20px' }}>

@@ -6,7 +6,7 @@ exports[`ModelDeleteModal should render a modal 1`] = `
   id="modelDeleteModal"
   submitProps={
     Object {
-      "message": "Hardware Model %s was successfuly deleted",
+      "message": "Hardware Model %s was successfully deleted",
       "onSuccess": [MockFunction],
       "submitBtnProps": Object {
         "bsStyle": "danger",
