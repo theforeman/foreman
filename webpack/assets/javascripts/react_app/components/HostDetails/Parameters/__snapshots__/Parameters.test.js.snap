@@ -5,7 +5,7 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
   isHoverable={true}
 >
   <CardBody>
-    Paramterers
+    Parameters
   </CardBody>
   <Accordion
     asDefinitionList={true}

@@ -52,7 +52,7 @@ class Select extends React.Component {
       options,
       disabled,
       status = STATUS.RESOLVED,
-      errorMessage = __('An error occured.'),
+      errorMessage = __('An error occurred.'),
     } = this.props;
 
     let content;
@@ -127,7 +127,7 @@ Select.defaultProps = {
   disabled: false,
   options: {},
   status: STATUS.RESOLVED,
-  errorMessage: __('An error occured.'),
+  errorMessage: __('An error occurred.'),
   onChange: noop,
   useSelect2: true,
 };
