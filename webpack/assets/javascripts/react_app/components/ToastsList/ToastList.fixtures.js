@@ -58,3 +58,25 @@ export const multipleMessagesState = Immutable({
     },
   },
 });
+
+export const errorMessageState = Immutable({
+  toasts: {
+    messages: {
+      1: {
+        message: 'Widget positions successfully saved.',
+        type: 'random',
+      },
+    },
+  },
+});
+
+export const warnMessageState = Immutable({
+  toasts: {
+    messages: {
+      1: {
+        message: 'Widget positions successfully saved.',
+        type: 'notice',
+      },
+    },
+  },
+});
