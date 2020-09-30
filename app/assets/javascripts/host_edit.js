@@ -457,8 +457,8 @@ function update_provisioning_image() {
       $.each(result, function() {
         image_options.append(
           $('<option />')
-            .val(this.image.uuid)
-            .text(this.image.name)
+            .val(this.uuid)
+            .text(this.name)
         );
       });
       if (image_options.find('option').length > 0) {
@@ -766,18 +766,18 @@ function interface_domain_selected(element) {
     success: function(result) {
       $.each(result, function() {
         select = null;
-        if (this.subnet.type === 'Subnet::Ipv4') {
+        if (this.type === 'Subnet::Ipv4') {
           select = subnet_options;
-        } else if (this.subnet.type === 'Subnet::Ipv6') {
+        } else if (this.type === 'Subnet::Ipv6') {
           select = subnet6_options;
         }
         if (select) {
           select.append(
             $('<option />')
-              .val(this.subnet.id)
-              .attr('data-suggest_new', this.subnet.unused_ip.suggest_new)
-              .attr('data-vlan_id', this.subnet.vlanid)
-              .text(this.subnet.to_label)
+              .val(this.id)
+              .attr('data-suggest_new', this.unused_ip.suggest_new)
+              .attr('data-vlan_id', this.vlanid)
+              .text(this.to_label)
           );
         }
       });
