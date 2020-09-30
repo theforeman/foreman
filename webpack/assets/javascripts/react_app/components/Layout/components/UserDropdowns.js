@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VerticalNav } from 'patternfly-react';
-import { get } from 'lodash';
 import {
   Dropdown,
   DropdownToggle,
@@ -33,7 +32,7 @@ const UserDropdowns = ({
   const onDropdownSelect = () => {
     setUserDropdownOpen(userDropdownOpen);
   };
-  const userInfo = get(user, 'current_user.user');
+  const userInfo = user.current_user;
   const impersonateIcon = (
     <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
   );
