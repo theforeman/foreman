@@ -5,14 +5,11 @@ exports[`Report Template AutoComplete rendering renders report template with dat
   hideValue={false}
   id={4}
   info="Format is yyyy-mm-dd HH-mm-ss"
-  inputProps={
-    Object {
-      "name": "report_template_report[input_values][4][value]",
-    }
-  }
+  inputProps={Object {}}
   isRequired={false}
   label="some-label"
   locale={null}
+  name="report_template_report[input_values][4][value]"
   value="2019-01-04"
 />
 `;
