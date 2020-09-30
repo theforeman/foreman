@@ -58,7 +58,7 @@ module TemplatesHelper
     'hide' unless obj.value_type == 'search'
   end
 
-  def mount_report_template_input(input_value)
+  def mount_report_template_input(input_value, options = {})
     return if input_value.nil?
 
     input = input_value.template_input
@@ -67,7 +67,7 @@ module TemplatesHelper
     react_component('TemplateInput', { data: {
                       value: input_value.value.to_s,
                       required: input.required,
-                      template: 'report_template_report',
+                      template: options[:template_name] || 'report_template_report',
                       description: input.description,
                       supportedTypes: TemplateInput::VALUE_TYPE,
                       resourceType: controller,

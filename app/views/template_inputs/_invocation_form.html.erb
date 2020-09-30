@@ -12,7 +12,7 @@
         :id => input.name,
         :class => input.hidden_value? ? 'masked-input' : '' %>
     <% else %>
-      <%= mount_report_template_input(input_fields.object) %>
+      <%= mount_report_template_input(input_fields.object, local_assigns.fetch(:search_input_options, {})) %>
     <% end %>
   <% end %>
 <% end %>
