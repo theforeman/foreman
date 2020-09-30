@@ -17,6 +17,7 @@ const DateTime = ({
   inputProps,
   value,
   initialError,
+  name,
 }) => {
   const currentLocale = locale || documentLocale();
 
@@ -43,6 +44,7 @@ const DateTime = ({
           autoComplete: 'off',
           ...inputProps,
         }}
+        name={name}
         locale={currentLocale}
       />
     </Form>
@@ -59,6 +61,7 @@ DateTime.propTypes = {
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
   initialError: PropTypes.string,
   hideValue: PropTypes.bool,
+  name: PropTypes.string,
 };
 
 DateTime.defaultProps = {
@@ -69,6 +72,7 @@ DateTime.defaultProps = {
   initialError: undefined,
   hideValue: false,
   inputProps: {},
+  name: undefined,
 };
 
 export default DateTime;

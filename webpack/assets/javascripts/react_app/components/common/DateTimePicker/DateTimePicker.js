@@ -78,13 +78,13 @@ class DateTimePicker extends React.Component {
       <div>
         <InputGroup className="input-group date-time-picker-pf">
           <FormControl
+            {...inputProps}
             aria-label="date-picker-input"
             type="text"
             className="date-time-input"
             name={name}
             value={hiddenValue && !required ? '' : formatDateTime(value)}
             onChange={e => this.setSelected(e.target.value)}
-            {...inputProps}
           />
 
           <OverlayTrigger
