@@ -22,6 +22,7 @@ Object {
   "changeSetting": [Function],
   "changeTab": [Function],
   "data": Object {
+    "isSafemodeEnabled": true,
     "name": "editor",
     "options": Object {
       "keyBindings": Array [
@@ -43,6 +44,8 @@ Object {
         "Monokai",
       ],
     },
+    "renderPath": "/render/path",
+    "safemodeRenderPath": "/safemoderender/path",
     "showHide": true,
     "showHostSelector": true,
     "showImport": true,
@@ -99,7 +102,6 @@ Object {
   "previewTemplate": [Function],
   "previewValue": "preview",
   "readOnly": false,
-  "renderPath": "/render/path",
   "renderedEditorValue": "renderedEditorValue",
   "revertChanges": [Function],
   "searchQuery": "",

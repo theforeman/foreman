@@ -66,6 +66,12 @@ exports[`EditorNavbar rendring renders EditorNavbar 1`] = `
       }
       show={false}
     />
+    <EditorSafemodeCheckbox
+      checked={true}
+      disabled={true}
+      handleSafeModeChange={[Function]}
+      show={false}
+    />
   </Nav>
   <EditorOptions
     changeDiffViewType={[Function]}
