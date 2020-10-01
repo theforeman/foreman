@@ -53,7 +53,7 @@ class ReactComponentElement extends HTMLElement {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(
-        `Unable to mount react-component: ${this.componentName}`,
+        `Unable to mount foreman-react-component: ${this.componentName}`,
         error
       );
     }
@@ -65,13 +65,16 @@ class ReactComponentElement extends HTMLElement {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(
-        `Unable to unmount react-component: ${this.componentName}`,
+        `Unable to unmount foreman-react-component: ${this.componentName}`,
         error
       );
     }
   }
 }
 
-if (!window.customElements.get('react-component')) {
-  window.customElements.define('react-component', ReactComponentElement);
+if (!window.customElements.get('foreman-react-component')) {
+  window.customElements.define(
+    'foreman-react-component',
+    ReactComponentElement
+  );
 }

@@ -31,13 +31,13 @@ react_component(component_name, props)
 will render the following HTML:
 
 ```html
-<react-component
+<foreman-react-component
   name="PowerStatus"
   data-props="<%= {
     id: host.id,
     url: power_host_path(host.id)
   }.to_json %>"
-></react-component>
+></foreman-react-component>
 ```
 
 (Note that the React component is rendered as a [web component](https://developer.mozilla.org/en-US/docs/Web/Web_Components).)
