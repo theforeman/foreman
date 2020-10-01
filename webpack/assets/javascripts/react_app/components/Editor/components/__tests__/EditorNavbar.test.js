@@ -5,8 +5,11 @@ import { testComponentSnapshotsWithFixtures } from '../../../../common/testHelpe
 import EditorNavbar from '../EditorNavbar';
 import { editorOptions, showBooleans } from '../../Editor.fixtures';
 
+const { data: editorOptionsData, ...restEditorOptions } = editorOptions;
+
 const props = {
-  ...editorOptions,
+  ...editorOptionsData,
+  ...restEditorOptions,
   ...showBooleans,
   isDiff: true,
 };

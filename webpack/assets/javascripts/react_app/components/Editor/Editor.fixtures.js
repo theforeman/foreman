@@ -54,6 +54,9 @@ export const editorOptions = {
     title: 'title',
     template: '<? />',
     options: dropdowns,
+    isSafemodeEnabled: true,
+    renderPath: '/render/path',
+    safemodeRenderPath: '/safemoderender/path',
   },
   initializeEditor: noop,
   importFile: noop,
@@ -72,7 +75,6 @@ export const editorOptions = {
   onSearchClear: noop,
   fetchAndPreview: noop,
   template: '<? />',
-  renderPath: '/render/path',
 };
 
 export const serverRenderResponse = {

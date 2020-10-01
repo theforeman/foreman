@@ -47,7 +47,9 @@ class Editor extends React.Component {
     const {
       data: {
         name,
+        isSafemodeEnabled,
         renderPath,
+        safemodeRenderPath,
         showHide,
         showImport,
         showPreview,
@@ -150,7 +152,9 @@ class Editor extends React.Component {
           hosts={hosts}
           filteredHosts={filteredHosts}
           selectedHost={selectedHost}
+          isSafemodeEnabled={isSafemodeEnabled}
           renderPath={renderPath}
+          safemodeRenderPath={safemodeRenderPath}
           toggleMaskValue={toggleMaskValue}
           toggleRenderView={toggleRenderView}
           toggleModal={toggleModal}
@@ -225,7 +229,9 @@ Editor.propTypes = {
     templateClass: PropTypes.string,
     name: PropTypes.string,
     title: PropTypes.string,
+    isSafemodeEnabled: PropTypes.bool,
     renderPath: PropTypes.string,
+    safemodeRenderPath: PropTypes.string,
     hosts: PropTypes.array,
     locked: PropTypes.bool,
     type: PropTypes.string,
