@@ -30,6 +30,11 @@ module Foreman
         end
 
         attr_reader :host, :params, :variables_keys, :mode, :source
+        attr_writer :renderer
+
+        def renderer
+          @renderer || Foreman::Renderer
+        end
 
         def get_binding
           binding

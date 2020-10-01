@@ -13,7 +13,9 @@ module Foreman
       end
 
       def safe_render(template)
-        render plain: template.render(host: @host, params: params).html_safe
+        renderer = params.delete('force_safemode') ? Foreman::Renderer::SafeModeRenderer : Foreman::Renderer
+
+        render plain: template.render(renderer: renderer, host: @host, params: params).html_safe
       rescue StandardError => error
         Foreman::Logging.exception("Error rendering the #{template.name} template", error)
         render_error('There was an error rendering the %{name} template: %{error}',

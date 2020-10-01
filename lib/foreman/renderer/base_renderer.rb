@@ -6,6 +6,8 @@ module Foreman
       def initialize(source, scope)
         @source = source
         @scope = scope
+
+        @scope.renderer = self.class
       end
 
       def render
