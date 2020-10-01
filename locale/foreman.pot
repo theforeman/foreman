@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: foreman 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-14 12:55+0530\n"
-"PO-Revision-Date: 2020-09-14 12:55+0530\n"
+"POT-Creation-Date: 2020-10-01 12:22+0530\n"
+"PO-Revision-Date: 2020-10-01 12:22+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -4736,19 +4736,14 @@ msgstr ""
 msgid "No report"
 msgstr ""
 
-#. TRANSLATORS: initial character of Applied
-#: ../app/helpers/dashboard_helper.rb:89
-msgid "Applied|A"
-msgstr ""
-
 #: ../app/helpers/dashboard_helper.rb:89 ../app/helpers/hosts_helper.rb:195
 #: ../app/views/config_reports/_list.html.erb:9
 msgid "Applied"
 msgstr ""
 
-#. TRANSLATORS: initial character of Restarted
-#: ../app/helpers/dashboard_helper.rb:91
-msgid "Restarted|R"
+#. TRANSLATORS: initial character of Applied
+#: ../app/helpers/dashboard_helper.rb:89
+msgid "Applied|A"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:91 ../app/helpers/hosts_helper.rb:199
@@ -4756,15 +4751,20 @@ msgstr ""
 msgid "Restarted"
 msgstr ""
 
-#. TRANSLATORS: initial character of Failed
-#: ../app/helpers/dashboard_helper.rb:93
-msgid "Failed|F"
+#. TRANSLATORS: initial character of Restarted
+#: ../app/helpers/dashboard_helper.rb:91
+msgid "Restarted|R"
 msgstr ""
 
 #: ../app/helpers/dashboard_helper.rb:93 ../app/helpers/hosts_helper.rb:196
 #: ../app/models/config_report.rb:79
 #: ../app/views/config_reports/_list.html.erb:11
 msgid "Failed"
+msgstr ""
+
+#. TRANSLATORS: initial character of Failed
+#: ../app/helpers/dashboard_helper.rb:93
+msgid "Failed|F"
 msgstr ""
 
 #. TRANSLATORS: initial characters of Failed Restarts
@@ -4776,14 +4776,14 @@ msgstr ""
 msgid "Failed Restarts"
 msgstr ""
 
-#. TRANSLATORS: initial character of Skipped
-#: ../app/helpers/dashboard_helper.rb:97
-msgid "Skipped|S"
-msgstr ""
-
 #: ../app/helpers/dashboard_helper.rb:97 ../app/helpers/hosts_helper.rb:198
 #: ../app/views/config_reports/_list.html.erb:13
 msgid "Skipped"
+msgstr ""
+
+#. TRANSLATORS: initial character of Skipped
+#: ../app/helpers/dashboard_helper.rb:97
+msgid "Skipped|S"
 msgstr ""
 
 #. TRANSLATORS: initial character of Pending
@@ -8841,7 +8841,7 @@ msgid ""
 "ed and retry"
 msgstr ""
 
-#: ../app/registries/foreman/plugin.rb:408
+#: ../app/registries/foreman/plugin.rb:409
 msgid "Cannot register compute resource, wrong type supplied"
 msgstr ""
 
