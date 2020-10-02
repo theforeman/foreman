@@ -28,6 +28,18 @@ FactoryBot.define do
       os_family { 'Coreos' }
     end
 
+    trait :fcos do
+      sequence(:name) { |n| "Fedora CoreOS Mirror #{n}" }
+      sequence(:path) { 'http://builds.coreos.fedoraproject.org' }
+      os_family { 'Fcos' }
+    end
+
+    trait :rhcos do
+      sequence(:name) { |n| "Red Hat CoreOS Mirror #{n}" }
+      sequence(:path) { 'http://mirror.openshift.com' }
+      os_family { 'Rhcos' }
+    end
+
     trait :ubuntu do
       sequence(:name) { |n| "Ubuntu Mirror #{n}" }
       sequence(:path) { 'http://archive.ubuntu.com/ubuntu' }

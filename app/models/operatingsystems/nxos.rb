@@ -35,6 +35,11 @@ class NXOS < Operatingsystem
     true
   end
 
+  # Helper text shown next to release name
+  def release_name_help
+    _('auxiliary field')
+  end
+
   # release_name can have upper case letters and we want to keep it that way
   def downcase_release_name
     release_name

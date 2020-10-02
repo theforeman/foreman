@@ -74,6 +74,10 @@ module MediumProviders
       architecture.try(:name)
     end
 
+    def interpolate_vars(pattern)
+      pattern
+    end
+
     private
 
     def parse_media(media)

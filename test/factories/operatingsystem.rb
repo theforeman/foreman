@@ -81,6 +81,24 @@ FactoryBot.define do
       title { 'Flatcar 2345.3.0' }
     end
 
+    factory :fcos, class: Fcos do
+      sequence(:name) { 'FedoraCoreOS' }
+      major { '32' }
+      minor { '20200907.3.0' }
+      type { 'Fcos' }
+      release_name { 'stable' }
+      title { 'FedoraCoreOS 32.20200907.3.0' }
+    end
+
+    factory :rhcos, class: Rhcos do
+      sequence(:name) { 'RedHatCoreOS' }
+      major { '4' }
+      minor { '5' }
+      release_name { '6' }
+      type { 'Rhcos' }
+      title { 'RedHatCoreOS 4.5.6' }
+    end
+
     factory :ubuntu14_10, class: Debian do
       sequence(:name) { 'Ubuntu' }
       major { '14' }

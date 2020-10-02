@@ -101,20 +101,58 @@ class OperatingsystemsTest < ActiveSupport::TestCase
     end
   end
 
-  { :coreos => { 'os' => :coreos, 'arch' => :x86_64, 'medium' => :coreos,
-                      'kernel' => 'http://stable.release.core-os.net/amd64-usr/494.5.0/coreos_production_pxe.vmlinuz',
-                      'initrd' => 'http://stable.release.core-os.net/amd64-usr/494.5.0/coreos_production_pxe_image.cpio.gz'},
-    :debian7_0   => { 'os' => :debian7_0, 'arch' => :x86_64, 'medium' => :debian,
-                      'kernel' => 'http://ftp.debian.org/debian/dists/wheezy/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux',
-                      'initrd' => 'http://ftp.debian.org/debian/dists/wheezy/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz'},
-    :ubuntu14_10 => { 'os' => :ubuntu14_10, 'arch' => :x86_64, 'medium' => :ubuntu,
-                      'kernel' => 'http://archive.ubuntu.com/ubuntu/dists/utopic/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux',
-                      'initrd' => 'http://archive.ubuntu.com/ubuntu/dists/utopic/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz'},
-    :suse        => { 'os' => :suse, 'arch' => :x86_64, 'medium' => :suse,
-                      'kernel' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/linux',
-                      'initrd' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/initrd' } }.
-  each do |os, config|
-    test "pxe files for  #{os}" do
+  dists = {
+    :debian7_0 => {
+      'os' => :debian7_0,
+      'arch' => :x86_64,
+      'medium' => :debian,
+      'kernel' => 'http://ftp.debian.org/debian/dists/wheezy/main/installer-amd64/current/images/netboot/debian-installer/amd64/linux',
+      'initrd' => 'http://ftp.debian.org/debian/dists/wheezy/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz',
+    },
+    :ubuntu14_10 => {
+      'os' => :ubuntu14_10,
+      'arch' => :x86_64,
+      'medium' => :ubuntu,
+      'kernel' => 'http://archive.ubuntu.com/ubuntu/dists/utopic/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/linux',
+      'initrd' => 'http://archive.ubuntu.com/ubuntu/dists/utopic/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/initrd.gz',
+    },
+    :suse => {
+      'os' => :suse,
+      'arch' => :x86_64,
+      'medium' => :suse,
+      'kernel' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/linux',
+      'initrd' => 'http://mirror.isoc.org.il/pub/opensuse/distribution/11.4/repo/oss/boot/x86_64/loader/initrd',
+    },
+    :coreos => {
+      'os' => :coreos,
+      'arch' => :x86_64,
+      'medium' => :coreos,
+      'kernel' => 'http://stable.release.core-os.net/amd64-usr/494.5.0/coreos_production_pxe.vmlinuz',
+      'initrd' => 'http://stable.release.core-os.net/amd64-usr/494.5.0/coreos_production_pxe_image.cpio.gz',
+    },
+    :fcos => {
+      'os' => :fcos,
+      'arch' => :x86_64,
+      'medium' => :fcos,
+      'major' => '32',
+      'minor' => '20200907.3.0',
+      'release_name' => 'stable',
+      'kernel' => 'http://builds.coreos.fedoraproject.org/prod/streams/stable/builds/32.20200907.3.0/x86_64/fedora-coreos-32.20200907.3.0-live-kernel-x86_64',
+      'initrd' => 'http://builds.coreos.fedoraproject.org/prod/streams/stable/builds/32.20200907.3.0/x86_64/fedora-coreos-32.20200907.3.0-live-initramfs.x86_64.img',
+    },
+    :rhcos => {
+      'os' => :rhcos,
+      'arch' => :x86_64,
+      'medium' => :rhcos,
+      'major' => '4',
+      'minor' => '5',
+      'release_name' => '6',
+      'kernel' => 'http://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.5/4.5.6/rhcos-live-kernel-x86_64',
+      'initrd' => 'http://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.5/4.5.6/rhcos-live-initramfs.x86_64.img',
+    },
+  }
+  dists.each do |os, config|
+    test "pxe files for #{os}" do
       medium = FactoryBot.build(:medium, config['medium'])
 
       arch = architectures(config['arch'])
@@ -122,6 +160,9 @@ class OperatingsystemsTest < ActiveSupport::TestCase
         :architectures => [arch],
         :ptables => [FactoryBot.create(:ptable)],
         :media => [medium])
+      operatingsystem.major = config['major'] if config['major']
+      operatingsystem.minor = config['minor'] if config['minor']
+      operatingsystem.release_name = config['release_name'] if config['release_name']
       host = FactoryBot.build(:host,
         :operatingsystem => operatingsystem,
         :architecture    => arch,
@@ -131,10 +172,9 @@ class OperatingsystemsTest < ActiveSupport::TestCase
       host.arch.operatingsystems << host.operatingsystem
       medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
 
-      prefix = host.operatingsystem.pxe_prefix(medium_provider).to_sym
-      pxe_files = host.operatingsystem.pxe_files(medium_provider)
-      assert pxe_files.include?({ prefix => config['kernel'] })
-      assert pxe_files.include?({ prefix => config['initrd'] })
+      pxe_files = host.operatingsystem.pxe_files(medium_provider).map { |x| x.values }.flatten
+      assert_includes pxe_files, config['kernel']
+      assert_includes pxe_files, config['initrd']
     end
   end
 end

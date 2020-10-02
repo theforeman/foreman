@@ -13,8 +13,10 @@ module OperatingsystemsHelper
     return "" if record.blank? || record.name.blank?
     size = opts[:size] ||= '16x16'
     name = case record.name.downcase
-           when /fedora/
+           when /fedora|fcos|coreos/i
              "fedora"
+           when /redhat|rhcos/i
+             "redhat"
            when /ubuntu/
              "ubuntu"
            when /solaris|sunos/
@@ -45,7 +47,7 @@ module OperatingsystemsHelper
              "stub/firebrick-h"
            when /oraclelinux/
              "stub/firebrick-o"
-           when /coreos|containerlinux|container linux/
+           when /flatcar|containerlinux|container linux/
              "coreos"
            when /flatcar/
              "stub/darkblue-f"

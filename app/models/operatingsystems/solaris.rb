@@ -76,6 +76,11 @@ class Solaris < Operatingsystem
     true
   end
 
+  # Helper text shown next to release name
+  def release_name_help
+    _('auxiliary field')
+  end
+
   def jumpstart_params(host, vendor)
     medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
     # root server and install server are always the same under Foreman

@@ -1,5 +1,17 @@
 class Coreos < Operatingsystem
-  PXEFILES = {:kernel => 'coreos_production_pxe.vmlinuz', :initrd => 'coreos_production_pxe_image.cpio.gz'}
+  #
+  # Original CoreOS example PXE URLs:
+  # https://stable-temporary-archive.release.core-os.net/amd64-usr/2512.3.0/coreos_production_pxe.vmlinuz
+  # https://stable-temporary-archive.release.core-os.net/amd64-usr/2512.3.0/coreos_production_pxe_image.cpio.gz
+  #
+  # Flatcar example PXE URLs:
+  # https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_image.vmlinuz
+  # https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_pxe_image.cpio.gz
+  #
+  PXEFILES = {
+    kernel: 'coreos_production_pxe.vmlinuz',
+    initrd: 'coreos_production_pxe_image.cpio.gz',
+  }
 
   def pxe_type
     'coreos'
@@ -38,6 +50,21 @@ class Coreos < Operatingsystem
   # Does this OS family use release_name in its naming scheme
   def use_release_name?
     true
+  end
+
+  # Helper text shown next to major version (do not use i18n)
+  def major_version_help
+    '2512.3'
+  end
+
+  # Helper text shown next to minor version (do not use i18n)
+  def minor_version_help
+    '0'
+  end
+
+  # Helper text shown next to release name (do not use i18n)
+  def release_name_help
+    'stable, beta, alpha, edge'
   end
 
   private
