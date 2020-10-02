@@ -2,13 +2,6 @@
   <div id="content">
     <%= notifications %>
     <div id="breadcrumb">
-      <% unless @page_header.blank? %>
-        <div class="row form-group">
-          <h1 class="col-md-8">
-            <%=h @page_header %>
-          </h1>
-        </div>
-      <% end %>
       <% if content_for?(:breadcrumbs) %>
         <%= yield(:breadcrumbs) %>
       <% else %>

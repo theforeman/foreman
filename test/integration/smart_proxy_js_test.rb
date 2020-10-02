@@ -1,15 +1,13 @@
 require 'integration_test_helper'
 require 'pagelets_test_helper'
 
-class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
+class SmartProxyJSTest < IntegrationTestWithJavascript
   setup do
-    ProxyStatus::Version.any_instance.stubs(:version).returns({'version' => '1.11', 'modules' => {'dhcp' => '1.11'}})
-    stub_smart_proxy_v2_features
+    stub_smart_proxy_v2_features_and_statuses
   end
 
   test "index page" do
     assert_index_page(smart_proxies_path, "Smart Proxies", "Create Smart Proxy", false)
-    visit smart_proxies_path
     assert page.has_selector?('th', :text => 'Locations')
   end
 
@@ -29,13 +27,13 @@ class SmartProxyIntegrationTest < ActionDispatch::IntegrationTest
     fill_in "smart_proxy_url", :with => "https://secure.net:8443"
     assert_submit_button(smart_proxy_path(smart_proxies(:one)))
     assert page.has_title? 'DHCP Secure'
-    assert page.has_content? "https://secure.net:8443"
+    assert_equal 'https://secure.net:8443', smart_proxies(:one).reload.url
   end
 
   test "show page" do
     proxy = smart_proxies(:one)
     visit smart_proxy_path(proxy)
-    assert page.has_selector?('h1', :text => proxy.to_label), "#{proxy.to_label} <h1> tag, but was not found"
+    assert_breadcrumb_text(proxy.to_label)
     assert page.has_content? proxy.url
     assert page.has_link? "Delete"
     assert page.has_link? "Edit"

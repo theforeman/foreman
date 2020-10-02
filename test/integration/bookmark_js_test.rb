@@ -1,6 +1,6 @@
 require 'integration_test_helper'
 
-class BookmarkIntegrationTest < ActionDispatch::IntegrationTest
+class BookmarkJSTest < IntegrationTestWithJavascript
   test "index page" do
     assert_index_page(bookmarks_path, "Bookmarks", false, false, true)
   end

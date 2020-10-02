@@ -5,11 +5,6 @@ class ConfigReportIntegrationTest < ActionDispatch::IntegrationTest
     @report = FactoryBot.create(:report, :old_report)
   end
 
-  test "show specific report" do
-    visit config_report_path(@report)
-    assert page.has_selector?('h1', :text => @report.host.fqdn), "hostname was expected in the <h1> tag, but was not found"
-  end
-
   test "delete a report redirects to reports index" do
     visit config_report_path(@report)
     first(:link, "Delete").click

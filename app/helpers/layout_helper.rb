@@ -83,7 +83,13 @@ module LayoutHelper
   def mount_breadcrumbs(options = {}, &block)
     options = BreadcrumbsOptions.new(@page_header, controller, action_name, block_given? ? yield : options)
 
-    mount_react_component("BreadcrumbBar", "#breadcrumb", options.bar_props.to_json) if !@welcome && response.ok?
+    if !@welcome && response.ok?
+      react_component("BreadcrumbBar", options.bar_props)
+    elsif @page_header.present?
+      content_tag(:div, class: 'row form-group') do
+        content_tag(:h1, h(@page_header), class: 'col-md-8')
+      end
+    end
   end
 
   def breadcrumbs(options = {}, &block)
