@@ -164,6 +164,16 @@ class ActiveSupport::TestCase
     ProxyAPI::V2::Features.any_instance.stubs(:features).returns(Hash[Feature.name_map.keys.collect { |f| [f, {'state' => 'running'}] }])
   end
 
+  def stub_smart_proxy_v2_features_and_statuses
+    stub_smart_proxy_v2_features
+    ProxyStatus::Version.any_instance.stubs(:version).returns({'version' => '1.11', 'modules' => {'dhcp' => '1.11'}})
+    ProxyStatus::Puppet.any_instance.stubs(:environment_stats).returns({})
+    ProxyStatus::PuppetCA.any_instance.stubs(:certs).returns([])
+    ProxyStatus::PuppetCA.any_instance.stubs(:autosign).returns([])
+    ProxyStatus::TFTP.any_instance.stubs(:server).returns('192.0.0.1')
+    ProxyStatus::Logs.any_instance.stubs(:logs).returns(SmartProxies::LogBuffer.new({'logs' => []}))
+  end
+
   def disable_orchestration
     ActiveSupport::TestCase.disable_orchestration
   end

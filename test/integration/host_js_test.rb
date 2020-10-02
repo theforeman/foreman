@@ -25,6 +25,18 @@ class HostJSTest < IntegrationTestWithJavascript
     Fog.unmock!
   end
 
+  test "show page" do
+    visit hosts_path
+    click_link @host.fqdn
+    assert_breadcrumb_text(@host.fqdn)
+    assert page.has_link?("Properties", :href => "#properties")
+    assert page.has_link?("Metrics", :href => "#metrics")
+    assert page.has_link?("Templates", :href => "#template")
+    assert page.has_link?("Edit", :href => "/hosts/#{@host.fqdn}/edit")
+    assert page.has_link?("Build", :href => "/hosts/#{@host.fqdn}#review_before_build")
+    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
+  end
+
   describe 'multiple hosts selection' do
     setup do
       @entries = Setting[:entries_per_page]
