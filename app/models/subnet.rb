@@ -295,10 +295,10 @@ class Subnet < ApplicationRecord
         errors.add :ipam, _('There must be at least one Smart Proxy present with an External IPAM plugin installed and configured')
       elsif self.external_ipam_proxy.nil?
         errors.add :ipam, _('A Smart Proxy with an External IPAM feature enabled must be selected in the Proxies tab.')
-      elsif !group_exists_in_external_ipam
-        errors.add :externalipam_group, _('Group not found in the configured External IPAM instance')
       elsif !subnet_exists_in_external_ipam
         errors.add :network, _('Subnet not found in the configured External IPAM instance')
+      elsif !group_exists_in_external_ipam
+        errors.add :externalipam_group, _('Group not found in the configured External IPAM instance')
       elsif !subnet_exists_in_group
         errors.add :network, _('Subnet not found in the specified External IPAM group')
       end
@@ -308,7 +308,7 @@ class Subnet < ApplicationRecord
   def subnet_exists_in_group
     return true if externalipam_group.empty?
     return false unless external_ipam_proxy
-    subnet = external_ipam_proxy.get_subnet_from_group(network_address, externalipam_group)
+    subnet = external_ipam_proxy.get_subnet(network_address, externalipam_group)
     subnet.empty? ? false : true
   end
 
