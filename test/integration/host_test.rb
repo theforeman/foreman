@@ -13,18 +13,6 @@ class HostIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link?('Export', href: hosts_path(format: 'csv', search: "name = #{@host.name}"))
   end
 
-  test "show page" do
-    visit hosts_path
-    click_link @host.fqdn
-    assert page.has_selector?('h1', :text => @host.fqdn), "#{@host.fqdn} <h1> tag, but was not found"
-    assert page.has_link?("Properties", :href => "#properties")
-    assert page.has_link?("Metrics", :href => "#metrics")
-    assert page.has_link?("Templates", :href => "#template")
-    assert page.has_link?("Edit", :href => "/hosts/#{@host.fqdn}/edit")
-    assert page.has_link?("Build", :href => "/hosts/#{@host.fqdn}#review_before_build")
-    assert page.has_link?("Delete", :href => "/hosts/#{@host.fqdn}")
-  end
-
   describe "create new host page" do
     test "tabs are present" do
       assert_new_button(hosts_path, "Create Host", new_host_path)

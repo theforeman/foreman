@@ -52,17 +52,6 @@ class OrganizationIntegrationTest < ActionDispatch::IntegrationTest
     assert page.has_link? "Finance"
   end
 
-  # click Proceed to Edit
-  test "create new page when some hosts are NOT assigned a organization - click Proceed to Edit" do
-    assert_new_button(organizations_path, "New Organization", new_organization_path)
-    fill_in "organization_name", :with => "Finance"
-    click_button "Submit"
-    assert_current_path step2_organization_path(Organization.unscoped.order(:id).last)
-    click_link "Proceed to Edit"
-    assert_current_path edit_organization_path(Organization.unscoped.order(:id).last)
-    assert page.has_selector?('h1', :text => "Edit"), "Edit was expected in the <h1> tag, but was not found"
-  end
-
   # PENDING
   # test "mismatches report" do
   # end

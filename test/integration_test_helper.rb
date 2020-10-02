@@ -48,9 +48,13 @@ class ActionDispatch::IntegrationTest
 
   def assert_index_page(index_path, title_text, new_link_text = nil, has_search = true, has_pagination = true)
     visit index_path
-    assert page.has_selector?(:xpath, "//div[@id='breadcrumb'and contains(.,'#{title_text}')]"), "#{title_text} was expected in the div[@breadcrumb] tag, but was not found"
+    assert_breadcrumb_text(title_text)
     (assert first(:link, new_link_text).visible?, "#{new_link_text} is not visible") if new_link_text
     (assert find_button('Search').visible?, "Search button is not visible") if has_search
+  end
+
+  def assert_breadcrumb_text(text)
+    assert page.has_selector?(:xpath, "//div[@id='breadcrumb']//*[contains(.,'#{text}')]"), "#{text} was expected in the div[id='breadcrumb'] tag, but was not found"
   end
 
   def assert_new_button(index_path, new_link_text, new_path)
