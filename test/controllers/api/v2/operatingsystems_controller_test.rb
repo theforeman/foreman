@@ -94,22 +94,6 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_response :unprocessable_entity
   end
 
-  test "should not create os with invalid major version" do
-    os_params = minimum_required_os_params.merge(:major => '')
-    assert_difference('Operatingsystem.count', 0) do
-      post :create, params: { :operatingsystem => os_params }
-    end
-    assert_response :unprocessable_entity
-  end
-
-  test "should not create os with invalid minor version" do
-    os_params = minimum_required_os_params.merge(:minor => '-5')
-    assert_difference('Operatingsystem.count', 0) do
-      post :create, params: { :operatingsystem => os_params }
-    end
-    assert_response :unprocessable_entity
-  end
-
   test "should not create os with invalid password_hash" do
     os_params = minimum_required_os_params.merge(:password_hash => 'INVALID_HASH')
     assert_difference('Operatingsystem.count', 0) do
@@ -160,12 +144,6 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     assert_equal response['minor'], new_minor
   end
 
-  test "should not update os with invalid minor version" do
-    os = operatingsystems(:redhat)
-    put :update, params: { :id => os.id, :operatingsystem => { :minor => '-30' } }
-    assert_response :unprocessable_entity
-  end
-
   test "should update os major version" do
     os = operatingsystems(:redhat)
     new_major = '7'
@@ -174,12 +152,6 @@ class Api::V2::OperatingsystemsControllerTest < ActionController::TestCase
     response = JSON.parse(@response.body)
     assert response.key?('major')
     assert_equal response['major'], new_major
-  end
-
-  test "should not update os with invalid major version" do
-    os = operatingsystems(:redhat)
-    put :update, params: { :id => os.id, :operatingsystem => { :major => '-1' } }
-    assert_response :unprocessable_entity
   end
 
   test "should update os family" do

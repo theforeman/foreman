@@ -23,7 +23,8 @@ class Operatingsystem < ApplicationRecord
   accepts_nested_attributes_for :os_default_templates, :allow_destroy => true,
     :reject_if => :reject_empty_provisioning_template
 
-  validates :major, :numericality => {:greater_than_or_equal_to => 0}, :presence => { :message => N_("Operating System version is required") }
+  validates :major, numericality: true, presence: { message: N_("Operating System version is required") }
+  validates :minor, format: { with: /\A\d+(\.\d+)*\z/, message: "Operating System minor version must be in N or N.N format" }, allow_blank: true
   has_many :os_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :operatingsystem
   has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :class_name => "OsParameter"
   accepts_nested_attributes_for :os_parameters, :allow_destroy => true
@@ -32,7 +33,6 @@ class Operatingsystem < ApplicationRecord
   include ParameterSearch
 
   attr_name :to_label
-  validates :minor, :numericality => {:greater_than_or_equal_to => 0}, :allow_nil => true, :allow_blank => true
   validates :name, :presence => true, :no_whitespace => true,
             :uniqueness => { :scope => [:major, :minor], :message => N_("Operating system version already exists")}
   validates :description, :uniqueness => true, :allow_blank => true
@@ -65,6 +65,8 @@ class Operatingsystem < ApplicationRecord
                'Altlinux'  => %r{Altlinux}i,
                'Archlinux' => %r{Archlinux}i,
                'Coreos'    => %r{CoreOS|Flatcar}i,
+               'Fcos'      => %r{FCOS|FedoraCoreOS|FedoraCOS}i,
+               'Rhcos'     => %r{RHCOS|RedHatCoreOS|RedHatCOS}i,
                'Rancheros' => %r{RancherOS}i,
                'Gentoo'    => %r{Gentoo}i,
                'Solaris'   => %r{Solaris}i,
@@ -269,6 +271,21 @@ class Operatingsystem < ApplicationRecord
     false
   end
 
+  # Helper text shown next to major version (do not use i18n)
+  def major_version_help
+    '7'
+  end
+
+  # Helper text shown next to minor version (do not use i18n)
+  def minor_version_help
+    'e.g. 0 or 6.1810 (CentOS scheme)'
+  end
+
+  # Helper text shown next to release name (do not use i18n)
+  def release_name_help
+    'karmic, lucid, hw0910...'
+  end
+
   def image_extension
     raise ::Foreman::Exception.new(N_("Attempting to construct an operating system image filename but %s cannot be built from an image"), family)
   end
@@ -319,6 +336,7 @@ class Operatingsystem < ApplicationRecord
 
   def boot_file_sources(medium_provider, &block)
     @boot_file_sources ||= pxe_file_names(medium_provider).transform_values do |img|
+      img = medium_provider.interpolate_vars(img)
       "#{medium_provider.medium_uri(pxedir(medium_provider), &block)}/#{img}"
     end
   end
@@ -348,7 +366,7 @@ class Operatingsystem < ApplicationRecord
   end
 
   def stringify_major_and_minor
-    # Cast major and minor to strings. see db/schema.rb around lines 560-562 (Or https://github.com/theforeman/foreman/blob/develop/db/migrate/20090720134126_create_operatingsystems.rb#L4).
+    # Cast major and minor to strings.
     # Need to ensure type when using major and minor as scopes for name uniqueness.
     self.major = major.to_s
     self.minor = minor.to_s

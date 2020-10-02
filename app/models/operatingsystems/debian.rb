@@ -39,6 +39,11 @@ class Debian < Operatingsystem
     true
   end
 
+  # Helper text shown next to release name (do not use i18n)
+  def release_name_help
+    'bullseye, focal, buster, bionic, stretch, xenial...'
+  end
+
   def display_family
     "Debian"
   end

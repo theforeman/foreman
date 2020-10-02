@@ -11,17 +11,15 @@ class OperatingsystemTest < ActiveSupport::TestCase
   end
 
   should validate_presence_of(:name)
-  should validate_numericality_of(:major).is_greater_than_or_equal_to(0)
-  should validate_numericality_of(:minor).is_greater_than_or_equal_to(0)
 
   should allow_value(*valid_name_list).for(:name)
   should_not allow_value(*invalid_name_list).for(:name)
 
-  should allow_value('1' * 5).for(:major)
-  should_not allow_values('1' * 6, '', -33).for(:major)
+  should allow_value('11111').for(:major)
+  should allow_value(11111).for(:major)
 
-  should allow_value('1' * 16).for(:minor)
-  should_not allow_values('1' * 17, -50).for(:minor)
+  should allow_value('11111').for(:minor)
+  should allow_value(11111).for(:minor)
 
   should allow_values('Base64', 'SHA256', 'SHA512').for(:password_hash)
   should_not allow_value('INVALID_HASH').for(:password_hash)
@@ -161,8 +159,8 @@ class OperatingsystemTest < ActiveSupport::TestCase
 
     test "families_as_collection contains correct names and values" do
       families = Operatingsystem.families_as_collection
-      assert_equal ["AIX", "Altlinux", "Arch Linux", "CoreOS", "Debian", "FreeBSD", "Gentoo", "Junos", "NX-OS", 'RancherOS', "Red Hat", "SUSE", "Solaris", "VRP", "Windows", "XenServer"], families.map(&:name).sort
-      assert_equal ["AIX", "Altlinux", "Archlinux", "Coreos", "Debian", "Freebsd", "Gentoo", "Junos", "NXOS", 'Rancheros', "Redhat", "Solaris", "Suse", "VRP", "Windows", "Xenserver"], families.map(&:value).sort
+      assert_equal ["AIX", "Altlinux", "Arch Linux", "CoreOS", "Debian", "Fedora CoreOS", "FreeBSD", "Gentoo", "Junos", "NX-OS", 'RancherOS', "Red Hat", "Red Hat CoreOS", "SUSE", "Solaris", "VRP", "Windows", "XenServer"], families.map(&:name).sort
+      assert_equal ["AIX", "Altlinux", "Archlinux", "Coreos", "Debian", "Fcos", "Freebsd", "Gentoo", "Junos", "NXOS", 'Rancheros', "Redhat", "Rhcos", "Solaris", "Suse", "VRP", "Windows", "Xenserver"], families.map(&:value).sort
     end
   end
 

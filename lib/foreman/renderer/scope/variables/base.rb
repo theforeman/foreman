@@ -36,7 +36,7 @@ module Foreman
             @template_url = params['url']
           end
 
-          %w(coreos aif memdisk ZTP).each do |name|
+          %w(coreos fcos rhcos aif memdisk ZTP).each do |name|
             define_method("#{name}_attributes") do
               @mediapath = mediumpath(@medium_provider) if medium
             end

@@ -67,4 +67,9 @@ class Redhat < Operatingsystem
     options << "modprobe.blacklist=#{params['blacklist'].delete(' ')}" if params['blacklist']
     options
   end
+
+  # Helper text shown next to minor version (do not use i18n)
+  def minor_version_help
+    '0, 6.1810'
+  end
 end
