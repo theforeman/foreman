@@ -1,0 +1,106 @@
+<% 
+  proxy = SmartProxy.with_features('External IPAM').first if proxy.nil?
+  api = ProxyAPI::ExternalIpam.new({:url => proxy.url}) if api.nil? && proxy.present?
+  groups = api.get_groups if api
+%>
+
+<h4 class="header">
+  <%= _('External IPAM Groups & Subnets') %>
+</h4>
+
+<% unless proxy %>
+  <div class="alert alert-warning ">
+    <span class="pficon pficon-warning-triangle-o "></span>
+    <span class="text"><%= _("No External IPAM Proxy configured") %></span>
+  </div>
+<% else %>
+  <% if groups['data'] && groups['data'].length == 0 %>
+    <div class="alert alert-warning ">
+      <span class="pficon pficon-warning-triangle-o "></span>
+      <span class="text"><%= _("No sections found in External IPAM.") %></span>
+    </div>
+  <% elsif groups['data'] && groups['data'].length > 0 %>
+    <div class='col-md-7'>
+      <h4>Groups</h4>
+      <div style="width:435px; height:209px; overflow:auto;">
+        <table class="<%= table_css_classes 'table-fixed' %>">
+          <thead>
+            <tr>
+              <th class="col-md-4"><%= s_("Name") %></th>
+              <th class="col-md-7"><%= s_("Description") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% groups['data'].each do |group| %>
+              <tr>
+                <td class="ellipsis">
+                  <a href="#" onclick="getSubnets('<%= group['name'] %>')"><%= group['name'] %></a>
+                </td>
+                <td class="ellipsis">
+                  <%= group['description'] %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>  
+    </div>
+    <div class='col-md-5'>
+      <div id="subnet_header"></div>
+      <div style="height:209px; overflow:auto;">
+        <div id="subnet_container"><h4><i>Select a Group to display it's subnets</i></h4></div>      
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<script>
+  function truncate(str, num) {
+    if (str.length <= num)
+      return str.toString();
+
+    return str.toString().slice(0, num) + "...";
+  }
+
+  function getSubnets(groupName) {
+    subnet_header.innerHTML = '<h4>Subnets in: <i><strong>' + truncate(groupName, 68) + '</strong></i></h4>';
+
+    $.ajax({
+      type: "GET", url: "/ipam/" + encodeURIComponent(groupName) + "/subnets",
+      data: {"group": groupName},
+      success: function(subnets) {
+        if (!subnets)
+          subnet_container.innerHTML = 'Cannot connect to External IPAM';
+        else 
+          renderSubnets(subnets);
+      }
+    });
+  }
+
+  function renderHeader(subnets) {
+    if (subnets['message'] === 'No subnets found') {
+      subnet_container.innerHTML = "<div class='col-sm'><i>No subnets found</i></div>"
+    }
+    else {
+      subnet_container.innerHTML = `
+        <div class='row'>
+          <div class='col col-md-4'><strong>Subnet</strong></div>
+          <div class='col'><strong>Description</strong></div>
+        </div>
+      `;
+    }
+  }
+
+  function renderSubnets(subnets) {
+    renderHeader(subnets);
+    subnets['data'].forEach(function(item) {
+      var desc = item['description'] == null ? "" : item['description'];
+      subnet_container.innerHTML += `
+        <div class='row'>
+          <div class='col col-md-4'>` + item['subnet'] + `/` + item['mask'] + `</div>
+          <div class='col'>` + truncate(desc, 34) + `</div>
+        </div>
+      `;
+    });
+  }
+</script>
