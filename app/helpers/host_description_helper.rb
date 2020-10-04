@@ -35,8 +35,9 @@ module HostDescriptionHelper
       {
         :field => [
           _("Status"),
-          content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
+          link_to(content_tag(:span, ''.html_safe, :class => host_global_status_icon_class(global_status.status)) +
             content_tag(:span, _(global_status.to_label), :class => host_global_status_class(global_status.status)),
+                  arf_reports_path(:search => "host = #{host.id}")),
         ],
         :priority => 10,
       },
