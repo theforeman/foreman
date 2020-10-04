@@ -127,7 +127,8 @@ class Hostgroup < ApplicationRecord
     allow :id, :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppet_proxy,
       :puppet_ca_server, :os, :arch, :domain, :subnet, :hosts,
-      :subnet6, :realm, :root_pass, :description, :pxe_loader, :title
+      :subnet6, :realm, :root_pass, :description, :pxe_loader, :title,
+      :children, :parent
   end
 
   # TODO: add a method that returns the valid os for a hostgroup
