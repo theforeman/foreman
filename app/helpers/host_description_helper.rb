@@ -53,8 +53,8 @@ module HostDescriptionHelper
       { :field => [
         _(status.name),
         content_tag(:span, ' '.html_safe, :class => host_global_status_icon_class(status.to_global)) +
-          content_tag(:span, _(status.to_label), :class => host_global_status_class(status.to_global)) +
-          content_tag(:span, link_to(_('clear'), forget_status_host_path(host, status: status), :class => 'pull-right', :method => 'post')),
+            link_to_if(status.status_link, content_tag(:span, _(status.to_label), :class => host_global_status_link_class(status)), status.status_link) +
+            content_tag(:span, link_to(_('clear'), forget_status_host_path(host, status: status), :class => 'pull-right', :method => 'post')),
       ], :priority => priority += 1 }
     end.compact
   end
