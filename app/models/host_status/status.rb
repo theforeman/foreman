@@ -63,6 +63,9 @@ module HostStatus
       false
     end
 
+    def status_link
+    end
+
     private
 
     def update_timestamp
