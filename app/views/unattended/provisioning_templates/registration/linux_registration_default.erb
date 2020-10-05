@@ -20,6 +20,10 @@ set -e
 <%= snippet 'puppet_setup' %>
 <% end -%>
 
+<%= snippet 'remote_execution_ssh_keys' %>
+<%= snippet 'insights' %>
+
+
 # Call home to exit build mode
 
 curl -o /dev/null --noproxy \* '<%= foreman_url('built') %>'
