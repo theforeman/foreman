@@ -34,7 +34,8 @@ module Api
       param :name, String, required: true
       param :location_id, :number, required: true
       param :organization_id, :number, required: true
-      param :ip, String, desc: N_("not required if using a subnet with DHCP proxy")
+      param :ip, String, desc: N_("IPv4 address, not required if using a subnet with DHCP proxy")
+      param :ip6, String, desc: N_("IPv6 address, not required if using a subnet with DHCP proxy")
       param :mac, String, desc: N_("required for managed host that is bare metal, not required if it's a virtual machine")
       param :domain_id, :number, desc: N_("required if host is managed and value is not inherited from host group")
       param :operatingsystem_id, :number, desc: N_("required if host is managed and value is not inherited from host group")
