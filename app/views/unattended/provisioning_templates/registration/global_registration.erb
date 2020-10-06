@@ -57,7 +57,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     yum localinstall $CONSUMER_RPM -y
     rm -f $CONSUMER_RPM
 
-    subscription-manager register --org=<%= @organization.label %> --activationkey="sample-key"
+    subscription-manager register --org=<%= @organization.label %> --activationkey="<%= @activation_key %>"
     register_katello_host | bash
 else
     register_host | bash
