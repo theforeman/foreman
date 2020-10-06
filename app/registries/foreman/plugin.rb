@@ -435,6 +435,23 @@ module Foreman #:nodoc:
       @apipie_ignored_controllers
     end
 
+    # list of models/render macros paths
+    def apipie_dsl_documented_classes(classes = nil)
+      if classes
+        @apipie_dsl_documented_classes = classes
+        ApipieDSL.configuration.dsl_classes_matchers.concat(classes)
+      end
+      @apipie_dsl_documented_classes
+    end
+
+    def apipie_dsl_sections(sections = nil)
+      if sections
+        @apipie_dsl_sections = sections
+        ApipieDSL.configuration.sections.concat(sections)
+      end
+      @apipie_dsl_sections
+    end
+
     # register custom host status class, it should inherit from HostStatus::Status
     def register_custom_status(klass)
       in_to_prepare do
