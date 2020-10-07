@@ -54,19 +54,20 @@ module SettingsHelper
   end
 
   def setting_to_hash(setting)
+    presenter = SettingPresenter.from_setting(setting)
     {
       :id => setting.id,
-      :name => setting.name,
-      :category => setting.category,
-      :description => setting.description,
-      :settings_type => setting.settings_type,
-      :default => setting.default,
-      :readonly => setting.readonly?,
-      :full_name => setting.full_name,
-      :config_file => setting.class.config_file,
-      :select_values => setting.select_collection,
-      :value => setting.safe_value,
-      :encrypted => setting.encrypted?,
+      :name => presenter.name,
+      :category => presenter.category,
+      :description => presenter.description,
+      :settings_type => presenter.settings_type,
+      :default => presenter.default,
+      :readonly => presenter.readonly?,
+      :full_name => presenter.full_name,
+      :config_file => presenter.config_file,
+      :select_values => presenter.select_values,
+      :value => presenter.safe_value,
+      :encrypted => presenter.encrypted?,
     }
   end
 end
