@@ -5,7 +5,11 @@ module AccessPermissionsTestBase
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def check_routes(app_routes, skipped_actions)
+    def should_skip_path?(path, skipped_actions, skip_patterns)
+      skipped_actions.include?(path) || skip_patterns.any? { |pattern| path =~ pattern }
+    end
+
+    def check_routes(app_routes, skipped_actions, skip_patterns: [/^(api\/v2\/)?(dummy|fake)_/])
       # For each controller action, verify it has a permission that grants access
       app_routes = app_routes.routes.each_with_object({}) do |r, routes|
         routes["#{r.defaults[:controller].gsub(/::/, '_').underscore}/#{r.defaults[:action]}"] = r if r.defaults[:controller]
@@ -13,7 +17,7 @@ module AccessPermissionsTestBase
 
       app_routes.each do |path, r|
         # Skip if excluded from this test (e.g. user login)
-        next if skipped_actions.include? path
+        next if should_skip_path?(path, skipped_actions, skip_patterns)
 
         test "route #{path} should have a permission that grants access" do
           # Basic check for a filter presence, can't do advanced features (:only, skip_*)
