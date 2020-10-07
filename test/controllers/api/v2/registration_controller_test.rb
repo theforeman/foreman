@@ -37,6 +37,7 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
       assert_equal hostgroups(:common), vars[:hostgroup]
       assert_equal operatingsystems(:centos5_3), vars[:operatingsystem]
       assert_equal users(:admin), vars[:user]
+      assert_equal register_url, vars[:registration_url].to_s
     end
 
     test "should not pass unpermitted params to template" do
@@ -68,6 +69,58 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
       get :global, params: { hostgroup_id: 0 }, session: set_session_user
       assert_response :not_found
       assert_includes @response.body, "echo \"Couldn't find Hostgroup with 'id'=0\""
+    end
+
+    context 'with :url parameter' do
+      after do
+        ENV['RAILS_RELATIVE_URL_ROOT'] = nil
+      end
+
+      test 'without protocol and without port' do
+        get :global, params: { url: 'example.com' }, session: set_session_user
+        assert_response :internal_server_error
+      end
+
+      test 'without protocol and with port' do
+        get :global, params: { url: 'example.com:0' }, session: set_session_user
+        assert_response :internal_server_error
+      end
+
+      test 'with http protocol' do
+        url = 'http://example.com'
+        get :global, params: { url: url }, session: set_session_user
+        assert_response :success
+        assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
+      end
+
+      test 'with https protocol' do
+        url = 'https://example.com'
+        get :global, params: { url: url }, session: set_session_user
+        assert_response :success
+        assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
+      end
+
+      test 'with port' do
+        url = 'https://example.com:0'
+        get :global, params: { url: url }, session: set_session_user
+        assert_response :success
+        assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
+      end
+
+      test 'with path' do
+        url = 'https://example.com/this-path-should-not-be-here'
+        get :global, params: { url: url }, session: set_session_user
+        assert_response :success
+        assert_equal 'https://example.com/register', assigns(:global_registration_vars)[:registration_url].to_s
+      end
+
+      test 'with RAILS_RELATIVE_URL_ROOT' do
+        ENV['RAILS_RELATIVE_URL_ROOT'] = '/foreman'
+        url = 'https://example.com'
+        get :global, params: { url: url }, session: set_session_user
+        assert_response :success
+        assert_equal "#{url}/register", assigns(:global_registration_vars)[:registration_url].to_s
+      end
     end
   end
 

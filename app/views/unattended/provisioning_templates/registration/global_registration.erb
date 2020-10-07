@@ -32,7 +32,7 @@ EOF
 
 
 register_host() {
-  curl --cacert $SSL_CA_CERT --request POST <%= foreman_server_url %>/register \
+  curl --cacert $SSL_CA_CERT --request POST <%= @registration_url %> \
        <%= headers.join(' ') %> \
        --data "host[name]=$(hostname --fqdn)" \
        --data "host[build]=false" \
@@ -52,7 +52,7 @@ echo "#"
 if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
-        curl --cacert $SSL_CA_CERT --request POST "<%= foreman_server_url %>/register?uuid=$UUID" \
+        curl --cacert $SSL_CA_CERT --request POST "<%= @registration_url %>?uuid=$UUID" \
             <%= headers.join(' ') %> \
             <%= "--data \"host[organization_id]=#{@organization.id}\"" if @organization -%>
             <%= "--data \"host[location_id]=#{@location.id}\"" if @location -%>
@@ -60,7 +60,7 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     }
 
     CONSUMER_RPM=$(mktemp --suffix .rpm)
-    curl --output $CONSUMER_RPM <%= subscription_manager_configuration_url %>
+    curl --output $CONSUMER_RPM <%= subscription_manager_configuration_url(hostname: @url_host) %>
     yum localinstall $CONSUMER_RPM -y
     rm -f $CONSUMER_RPM
 
