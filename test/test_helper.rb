@@ -103,6 +103,20 @@ class ActiveSupport::TestCase
     Resolv::DNS.any_instance.stubs(:getaddress).raises(Resolv::ResolvError, "DNS must be stub: Resolv::DNS.any_instance.stubs(:getaddress).returns('127.0.0.15')")
     Resolv::DNS.any_instance.stubs(:getaddresses).raises(Resolv::ResolvError, "DNS must be stub: Resolv::DNS.any_instance.stubs(:getaddresses).returns(['127.0.0.15'])")
   end
+
+  def clear_plugins
+    @klass = Foreman::Plugin
+    @plugins_backup = @klass.registered_plugins
+    @registry_backup = @klass.registries
+    @klass.clear
+    @klass.initialize_registries
+  end
+
+  def restore_plugins
+    @klass.clear
+    @klass.initialize_registries(@registry_backup)
+    @klass.instance_variable_set('@registered_plugins', @plugins_backup)
+  end
 end
 
 class ActionView::TestCase
@@ -184,17 +198,6 @@ class GraphQLQueryTestCase < ActiveSupport::TestCase
 
     assert_same_elements expected_global_ids, actual_global_ids
   end
-end
-
-def clear_plugins
-  @klass = Foreman::Plugin
-  @plugins_backup = @klass.registered_plugins
-  @klass.clear
-end
-
-def restore_plugins
-  @klass.clear
-  @klass.instance_variable_set('@registered_plugins', @plugins_backup)
 end
 
 def with_auditing(klass)

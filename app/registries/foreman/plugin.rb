@@ -40,18 +40,30 @@ module Foreman #:nodoc:
   class Plugin
     @registered_plugins = {}
     @tests_to_skip = {}
-    @fact_importer_registry = Plugin::FactImporterRegistry.new
-    @report_scanner_registry = Plugin::ReportScannerRegistry.new
-    @report_origin_registry = Plugin::ReportOriginRegistry.new
-    @medium_providers = Plugin::MediumProvidersRegistry.new
-    @graphql_types_registry = Plugin::GraphqlTypesRegistry.new
+    @registries = {}
 
     class << self
       attr_reader   :registered_plugins
-      attr_accessor :tests_to_skip, :report_scanner_registry,
-        :report_origin_registry, :medium_providers,
-        :graphql_types_registry, :fact_importer_registry
+      attr_reader   :registries
+      attr_accessor :tests_to_skip
       private :new
+
+      def initialize_registries(registries = {})
+        add_registry(:fact_importer_registry, registries[:fact_importer_registry] || Plugin::FactImporterRegistry.new)
+        add_registry(:report_scanner_registry, registries[:report_scanner_registry] || Plugin::ReportScannerRegistry.new)
+        add_registry(:report_origin_registry, registries[:report_origin_registry] || Plugin::ReportOriginRegistry.new)
+        add_registry(:medium_providers, registries[:medium_providers] || Plugin::MediumProvidersRegistry.new)
+        add_registry(:graphql_types_registry, registries[:graphql_types_registry] || Plugin::GraphqlTypesRegistry.new)
+      end
+
+      def add_registry(name, registry)
+        @registries[name] = registry
+
+        return if respond_to?(name)
+        define_singleton_method(name) do
+          registries[name]
+        end
+      end
 
       def def_field(*names)
         class_eval do
@@ -91,6 +103,7 @@ module Foreman #:nodoc:
       # It doesn't unload installed plugins
       def clear
         @registered_plugins = {}
+        @registries = {}
       end
 
       # Returns an array of all registered plugins
