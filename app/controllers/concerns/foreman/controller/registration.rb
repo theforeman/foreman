@@ -24,8 +24,8 @@ module Foreman::Controller::Registration
           .symbolize_keys
           .merge({ user: User.current,
                    auth_token: User.current.jwt_token!(expiration: 4.hours.to_i),
-                   organization: organization,
-                   location: location,
+                   organization: (organization || User.current.default_organization || User.current.my_organizations.first),
+                   location: (location || User.current.default_location || User.current.my_locations.first),
                    hostgroup: host_group,
                    operatingsystem: operatingsystem })
   end
