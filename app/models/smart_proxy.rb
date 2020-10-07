@@ -205,6 +205,6 @@ class SmartProxy < ApplicationRecord
     property :httpboot_https_port!, Integer, desc: 'Same as httpboot_https_port, but raises Foreman::Exception if no port is set'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!
+    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!, :url
   end
 end
