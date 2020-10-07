@@ -6,7 +6,6 @@ class Setting < ApplicationRecord
   friendly_id :name
   include ActiveModel::Validations
   include EncryptValue
-  include HiddenValue
   include PermissionName
   self.inheritance_column = 'category'
 
@@ -106,6 +105,13 @@ class Setting < ApplicationRecord
     record = where(:name => name).first!
     record.value = value
     record.save!
+  end
+
+  def self.setting_type_from_value(value_for_type)
+    t = value_for_type.class.to_s.downcase
+    return t if TYPES.include?(t)
+    return "integer" if value_for_type.is_a?(Integer)
+    return "boolean" if value_for_type.is_a?(TrueClass) || value_for_type.is_a?(FalseClass)
   end
 
   def value=(v)
@@ -330,10 +336,6 @@ class Setting < ApplicationRecord
     end
   end
 
-  def hidden_value?
-    encrypted
-  end
-
   private
 
   def validate_host_owner
@@ -348,14 +350,7 @@ class Setting < ApplicationRecord
   end
 
   def set_setting_type_from_value
-    return true unless settings_type.nil?
-    t = default.class.to_s.downcase
-    if TYPES.include?(t)
-      self.settings_type = t
-    else
-      self.settings_type = "integer" if default.is_a?(Integer)
-      self.settings_type = "boolean" if default.is_a?(TrueClass) || default.is_a?(FalseClass)
-    end
+    self.settings_type ||= self.class.setting_type_from_value(default)
   end
 
   def validate_frozen_attributes

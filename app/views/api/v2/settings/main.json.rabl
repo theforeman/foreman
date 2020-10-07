@@ -1,4 +1,4 @@
-object @setting
+object @setting && SettingPresenter.from_setting(@setting)
 
 extends "api/v2/settings/base"
 
@@ -9,7 +9,7 @@ node :value do |s|
 end
 
 node :category_name do |s|
-  _(s.class.humanized_category || s.category.gsub(/Setting::/, ''))
+  s.category_label
 end
 
 node :readonly do |s|
@@ -17,7 +17,7 @@ node :readonly do |s|
 end
 
 node :config_file do |s|
-  s.class.config_file
+  s.config_file
 end
 
 node :encrypted do |s|
@@ -25,5 +25,5 @@ node :encrypted do |s|
 end
 
 node :select_values do |s|
-  s.select_collection
+  s.select_values
 end
