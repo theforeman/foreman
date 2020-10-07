@@ -431,7 +431,6 @@ class OperatingsystemTest < ActiveSupport::TestCase
       :name => "os_arr", :value => "['centos 7.0','centos 8.0']", :parameter_type => 'array'
     )
     parameter = os.os_parameters.first
-    puts parameter.searchable_value.inspect
     results = Operatingsystem.search_for(%{params.#{parameter.name} = "#{parameter.searchable_value}"})
     refute results.include?(os)
   end
