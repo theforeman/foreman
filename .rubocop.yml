@@ -97,8 +97,6 @@ Style/FrozenStringLiteralComment:
 # Support both, Ruby 1.9 hashmap and hash-rocket syntax
 Style/HashSyntax:
   EnforcedStyle: no_mixed_keys
-  Exclude:
-    - config/routes.rb
 
 Style/IfUnlessModifier:
   Enabled: false
