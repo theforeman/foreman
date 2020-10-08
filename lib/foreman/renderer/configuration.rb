@@ -42,7 +42,11 @@ module Foreman
         :number_with_delimiter,
         :number_with_precision,
         :number_to_human_size,
-        :gem_version_compare
+        :gem_version_compare,
+        :parse_yaml,
+        :parse_json,
+        :to_json,
+        :to_yaml
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [

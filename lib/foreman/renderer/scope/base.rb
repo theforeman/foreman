@@ -4,6 +4,7 @@ module Foreman
       class Base
         include Foreman::Renderer::Scope::Variables
         include Foreman::Renderer::Scope::Macros::Base
+        include Foreman::Renderer::Scope::Macros::Helpers
         include Foreman::Renderer::Scope::Macros::Loaders
         include Foreman::Renderer::Scope::Macros::TemplateLogging
         include Foreman::Renderer::Scope::Macros::SnippetRendering
