@@ -335,11 +335,11 @@ class PuppetFactsParserTest < ActiveSupport::TestCase
 
   test "#interfaces ignores legacy facts when facter >= v3.0" do
     parser = get_parser(structured_networking_facts.merge(
-      interfaces: 'eth5',
-      ipadress_eth3: '192.168.6.1',
-      macaddress_eth3: '00:50:56:B7:69:F6',
-      netmask_eth3: '255.255.254.0'
-    ))
+                          interfaces: 'eth5',
+                          ipadress_eth3: '192.168.6.1',
+                          macaddress_eth3: '00:50:56:B7:69:F6',
+                          netmask_eth3: '255.255.254.0'
+                        ))
 
     assert_not_nil parser.interfaces['eth1:1']
     assert parser.interfaces.values.any? { |x| x[:ipaddress] == '192.168.0.1' }

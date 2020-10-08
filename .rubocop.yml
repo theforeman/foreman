@@ -26,9 +26,6 @@ Layout/DotPosition:
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
-Layout/FirstArgumentIndentation:
-  EnforcedStyle: consistent
-
 Layout/HashAlignment:
   Enabled: false
 

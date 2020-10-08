@@ -226,22 +226,22 @@ module Foreman
 
     # Check that the loggers setting exist to configure the app and sql loggers
     Foreman::Logging.add_loggers((SETTINGS[:loggers] || {}).reverse_merge(
-      :app => {:enabled => true},
-      :audit => {:enabled => true},
-      :ldap => {:enabled => false},
-      :permissions => {:enabled => false},
-      :proxy => {:enabled => false},
-      :sql => {:enabled => false},
-      :templates => {:enabled => true},
-      :notifications => {:enabled => true},
-      :background => {:enabled => true},
-      :dynflow => {:enabled => true},
-      :telemetry => {:enabled => false},
-      :blob => {:enabled => false},
-      :taxonomy => {:enabled => true},
-      :api_deprecations => {:enabled => true},
-      :sidekiq => {:enabled => true, :level => :warn}
-    ))
+                                   :app => {:enabled => true},
+                                   :audit => {:enabled => true},
+                                   :ldap => {:enabled => false},
+                                   :permissions => {:enabled => false},
+                                   :proxy => {:enabled => false},
+                                   :sql => {:enabled => false},
+                                   :templates => {:enabled => true},
+                                   :notifications => {:enabled => true},
+                                   :background => {:enabled => true},
+                                   :dynflow => {:enabled => true},
+                                   :telemetry => {:enabled => false},
+                                   :blob => {:enabled => false},
+                                   :taxonomy => {:enabled => true},
+                                   :api_deprecations => {:enabled => true},
+                                   :sidekiq => {:enabled => true, :level => :warn}
+                                 ))
 
     config.logger = Foreman::Logging.logger('app')
     # Explicitly set the log_level from our config, overriding the Rails env default

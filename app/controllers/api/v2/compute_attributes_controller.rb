@@ -47,8 +47,8 @@ module Api
 
       def create
         @compute_attribute = ComputeAttribute.new(compute_attribute_params.merge(
-          :compute_profile_id => params[:compute_profile_id],
-          :compute_resource_id => params[:compute_resource_id]))
+                                                    :compute_profile_id => params[:compute_profile_id],
+                                                    :compute_resource_id => params[:compute_resource_id]))
         process_response @compute_attribute.save
       end
 
