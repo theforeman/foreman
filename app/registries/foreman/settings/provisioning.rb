@@ -115,6 +115,16 @@ Foreman::SettingManager.define(:foreman) do
       description: N_("Default 'Host initial configuration' template, automatically assigned when a new operating system is created"),
       default: 'Linux host_init_config default',
       full_name: N_("Default 'Host initial configuration' template"))
+    setting('ct_command',
+      type: :array,
+      description: N_("Full path to CoreOS transpiler (ct) with arguments as an comma-separated array"),
+      default: [which('ct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
+      full_name: N_("CoreOS Transpiler Command"))
+    setting('fcct_command',
+      type: :array,
+      description: N_("Full path to Fedora CoreOS transpiler (fcct) with arguments as an comma-separated array"),
+      default: [which('fcct'), '--pretty', '--files-dir', Rails.root.join('config', 'ct').to_s],
+      full_name: N_("Fedora CoreOS Transpiler Command"))
 
     # We have following loop twice to keep the historical order.
     # TODO: First resolve the correct order and then optimize this loop.

@@ -25,6 +25,7 @@ namespace :snapshots do
     DatabaseCleaner.cleaning do
       ENV['FIXTURES'] = 'settings'
       Rake::Task['db:fixtures:load'].invoke
+      Foreman.settings.load
       Setting[:unattended_url] = "http://foreman.some.host.fqdn"
       Setting[:foreman_url] = "http://foreman.some.host.fqdn"
 
