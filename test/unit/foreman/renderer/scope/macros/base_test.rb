@@ -81,7 +81,7 @@ class BaseMacrosTest < ActiveSupport::TestCase
     test 'should return kernel release' do
       host = FactoryBot.create(:host)
       fact = FactoryBot.create(:fact_name, name: 'kernelrelease')
-      FactoryBot.create(:fact_value, fact_name: fact, host: host, :value => '1.2.3')
+      FactoryBot.create(:fact_value, fact_name: fact, host: host, value: '1.2.3')
       assert_equal '1.2.3', @scope.host_kernel_release(host)
     end
 
@@ -93,18 +93,18 @@ class BaseMacrosTest < ActiveSupport::TestCase
     test 'should return kernel release and based on backup facts even if there are multiple other facts' do
       host = FactoryBot.create(:host)
       rhsm_host = FactoryBot.create(:host)
-      ansible_kernel_fact = FactoryBot.create(:fact_name, name: 'ansible_kernel', :type => 'FactName::Ansible')
-      chef_kernel_fact = FactoryBot.create(:fact_name, name: 'kernel::release', :type => 'FactName::Chef')
+      ansible_kernel_fact = FactoryBot.create(:fact_name, name: 'ansible_kernel', type: 'FactName::Ansible')
+      chef_kernel_fact = FactoryBot.create(:fact_name, name: 'kernel::release', type: 'FactName::Chef')
       unrelated_fact = FactoryBot.create(:fact_name, name: 'os')
       puppet_and_salt_fact = FactoryBot.create(:fact_name, name: 'kernelrelease')
-      rhsm_fact = FactoryBot.create(:fact_name, name: 'uname::release', :type => 'Katello::RhsmFactName')
-      FactoryBot.create(:fact_value, fact_name: ansible_kernel_fact, host: host, :value => '1.2.3')
-      FactoryBot.create(:fact_value, fact_name: chef_kernel_fact, host: host, :value => '2.2.2')
-      FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, :value => 'Fedora 29')
+      rhsm_fact = FactoryBot.create(:fact_name, name: 'uname::release', type: 'Katello::RhsmFactName')
+      FactoryBot.create(:fact_value, fact_name: ansible_kernel_fact, host: host, value: '1.2.3')
+      FactoryBot.create(:fact_value, fact_name: chef_kernel_fact, host: host, value: '2.2.2')
+      FactoryBot.create(:fact_value, fact_name: unrelated_fact, host: host, value: 'Fedora 29')
       assert_equal '1.2.3', @scope.host_kernel_release(host)
-      FactoryBot.create(:fact_value, fact_name: puppet_and_salt_fact, host: host, :value => '4.5.6')
+      FactoryBot.create(:fact_value, fact_name: puppet_and_salt_fact, host: host, value: '4.5.6')
       assert_equal '4.5.6', @scope.host_kernel_release(host.reload)
-      FactoryBot.create(:fact_value, fact_name: rhsm_fact, host: rhsm_host, :value => '7.8.9')
+      FactoryBot.create(:fact_value, fact_name: rhsm_fact, host: rhsm_host, value: '7.8.9')
       assert_equal '7.8.9', @scope.host_kernel_release(rhsm_host)
     end
   end

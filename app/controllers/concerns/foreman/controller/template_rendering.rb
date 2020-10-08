@@ -26,7 +26,7 @@ module Foreman
       def render_error(message, options)
         status = options.delete(:status) || :not_found
         logger.error(message % options)
-        render(plain: "#{message % options}\n", :status => status)
+        render(plain: "#{message % options}\n", status: status)
       end
     end
   end
