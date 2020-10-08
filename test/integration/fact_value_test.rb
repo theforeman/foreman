@@ -3,7 +3,7 @@ require 'integration_test_helper'
 class ChildFactValueIntegrationTest < ActionDispatch::IntegrationTest
   def setup
     @host = FactoryBot.create(:host)
-    @parent_name = FactoryBot.create(:fact_name, name: 'test/test', :compose => true)
+    @parent_name = FactoryBot.create(:fact_name, name: 'test/test', compose: true)
     @parent_value = FactoryBot.create(:fact_value, :value => nil, :host => @host, :fact_name => @parent_name)
 
     @child_suffix = 'child'

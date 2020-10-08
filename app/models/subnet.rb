@@ -97,9 +97,9 @@ class Subnet < ApplicationRecord
   validates :ipam, :inclusion => {:in => proc { |subnet| subnet.supported_ipam_modes.map { |m| IPAM::MODES[m] } }, :message => N_('not supported by this protocol')}
   validates :type, :inclusion => {:in => proc { Subnet::SUBNET_TYPES.keys.map(&:to_s) }, :message => N_("must be one of [ %s ]" % Subnet::SUBNET_TYPES.keys.map(&:to_s).join(', ')) }
   validates :name, :length => {:maximum => 255}, :uniqueness => true
-  validates :vlanid, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 4096}, :allow_blank => true
-  validates :mtu, numericality: { :only_integer => true, :greater_than_or_equal_to => 68}, :presence => true
-  validates :nic_delay, numericality: { :only_integer => true, :greater_than_or_equal_to => 0, :less_than => 1024, allow_nil: true}, :allow_blank => true
+  validates :vlanid, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 4096 }, allow_blank: true
+  validates :mtu, numericality: { only_integer: true, greater_than_or_equal_to: 68 }, presence: true
+  validates :nic_delay, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 1024 }, allow_blank: true
 
   before_validation :normalize_addresses
   after_validation :validate_against_external_ipam

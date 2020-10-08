@@ -19,7 +19,7 @@ class LinksControllerTest < ActionController::TestCase
       get :show, params: {
         type: 'manual',
         section: '2.2PluginSection',
-        :root_url => 'http://www.theforeman.org/my_plugin/v0.1/index.html#',
+        root_url: 'http://www.theforeman.org/my_plugin/v0.1/index.html#',
       }
 
       assert_redirected_to /PluginSection/
