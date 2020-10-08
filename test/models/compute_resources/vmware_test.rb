@@ -650,7 +650,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
         name: 'test',
         cpus: '1',
         interfaces: [
-          { type: 'VirtualVmxnet3', :network => 'network-17'},
+          { type: 'VirtualVmxnet3', network: 'network-17'},
         ],
         volumes: [
           { :size_gb => '1'},

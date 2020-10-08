@@ -36,7 +36,7 @@ class LookupKeyTest < ActiveSupport::TestCase
     end
 
     test 'boolean value should remain casted' do
-      param = FactoryBot.build_stubbed(:lookup_key, :boolean, override: true, :default_value => 'false')
+      param = FactoryBot.build_stubbed(:lookup_key, :boolean, override: true, default_value: 'false')
       assert param.valid?
       assert_equal false, param.default_value
       assert_equal false, param.default_value_before_type_cast
