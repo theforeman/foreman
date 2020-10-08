@@ -30,7 +30,6 @@ import DiffModal from './ConfigReports/DiffModal';
 import { WrapperFactory } from './wrapperFactory';
 import ModelsTable from './ModelsTable';
 import TemplateGenerator from './TemplateGenerator';
-import TemplateInput from './Template/TemplateInput';
 import Editor from './Editor';
 import LoginPage from './LoginPage';
 import ExternalLogout from './ExternalLogout';
@@ -130,7 +129,6 @@ const coreComponets = [
   { name: 'ComponentWrapper', type: ComponentWrapper },
   { name: 'ConfigReports', type: ConfigReports },
   { name: 'DiffModal', type: DiffModal },
-  { name: 'TemplateInput', type: TemplateInput },
   { name: 'ExternalLogout', type: ExternalLogout },
   { name: 'Slot', type: Slot },
   { name: 'TypeAheadSelect', type: TypeAheadSelect },
