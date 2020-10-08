@@ -1,46 +1,35 @@
-#cloud-config
-
-coreos:
+%>
+---
+passwd:
+  
+  users:
+    - name: core
+      passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
+      ssh_authorized_keys: 
+systemd:
+  
   units:
-    - name: coreos-bootstrap.service
-      runtime: no
-      command: start
-      content: |
+    - name: os-install.service
+      enabled: true
+      contents: |
         [Unit]
-        Description=Install coreos to disk
+        Description=Install to disk
+        Requires=network-online.target
+        After=network-online.target
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/coreos-install \
-          -C  \
-          -V 7.0 \
-          -d /dev/sda  \
-          -c /home/core/cloud-config.yml 
-        ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate http://foreman.some.host.fqdn/unattended/built
-        ExecStartPost=/usr/sbin/reboot
-        [X-Fleet]
-        X-Conflicts=coreos-bootstrap.service
-users:
-  - name: core
-    passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
-write_files:
-  - content: |
-      #cloud-config
-      coreos:
-        etcd2:
-          advertise-client-urls: http://192.168.42.42:2379
-          initial-advertise-peer-urls: http://192.168.42.42:2380
-          listen-client-urls: http://0.0.0.0:2379
-          listen-peer-urls: http://0.0.0.0:2380
-        units:
-          - name: etcd2.service
-            command: start
-          - name: fleet.service
-            command: start
-      hostname: snapshot-ipv4-dhcp-el7
-      users:
-        - name: core
-          passwd: $1$rtd8Ub7R$5Ohzuy8WXlkaK9cA2T1wb0
+        ExecStart=/usr/bin/coreos-install -v           -C            -d /dev/sda           -i /home/core/ignition.json -b url --url http://mirror.centos.org/centos/7/os/x86_64                      -V 7.0
+        ExecStartPost=/home/core/post_install
+        [Install]
+        WantedBy=multi-user.target
+storage:
+  
+  files:
+    - filesystem: 'root'
+      path: '/home/core/post_install'
+      mode: 775
+      contents:
+        inline: |
+          
 
-    path: /home/core/cloud-config.yml
-    permissions: '0600'
-    owner: core:core
+

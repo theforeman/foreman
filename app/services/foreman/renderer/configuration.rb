@@ -46,6 +46,8 @@ module Foreman
         :number_to_human_size,
         :gem_version_compare,
         :sequence_hostgroup_param_next,
+        :transpile_coreos_linux_config,
+        :transpile_fedora_coreos_config,
         :parse_yaml,
         :parse_json,
         :to_json,

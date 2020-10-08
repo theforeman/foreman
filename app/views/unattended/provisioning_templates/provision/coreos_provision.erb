@@ -1,49 +1,66 @@
-#cloud-config
 <%#
 kind: provision
 name: CoreOS provision
 model: ProvisioningTemplate
 oses:
 - CoreOS
+- RedHatCoreOS
+- FedoraCoreOS
+- Flatcar
 description: |
   Provisioning template for the CoreOS Container Linux distribution.
   This does not work for Fedora CoreOS or Flatcar Container Linux, which use Ignition instead.
 -%>
-<%
-os_major  = @host.operatingsystem.major.to_i
 %>
-coreos:
+<%- if host_param('ignition_template') -%>
+<%= host_param('ignition_template') %>
+<%- else -%>
+<%-
+    if @host.operatingsystem.name.downcase.include?("flatcar")
+      installer_cmd = "flatcar-install"
+    else
+      installer_cmd = "coreos-install"
+    end
+    config = <<EOS
+---
+passwd:
+  #{indent(2) { snippet_if_exists('CoreOS provision custom passwd') }}
+  users:
+    - name: core
+      passwd: #{root_pass}
+      ssh_authorized_keys: #{@host.ssh_authorized_keys}
+systemd:
+  #{indent(2) { snippet_if_exists('CoreOS provision custom systemd') }}
   units:
-    - name: coreos-bootstrap.service
-      runtime: no
-      command: start
-      content: |
+    - name: os-install.service
+      enabled: true
+      contents: |
         [Unit]
-        Description=Install coreos to disk
+        Description=Install to disk
+        Requires=network-online.target
+        After=network-online.target
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/coreos-install \
-          -C <%= @host.operatingsystem.release_name %> \
-          -V <%= @host.operatingsystem.release %> \
-          -d <%= host_param('install-disk') || '/dev/sda' %> <% if @host.provider == 'VMware' %>-o vmware_raw<% end %> \
-          -c /home/core/cloud-config.yml <% if os_major >= 557 -%>-b <%= @mediapath %><% end %>
-        ExecStartPost=/usr/bin/wget -q -O /dev/null --no-check-certificate <%= foreman_url('built') %>
-        ExecStartPost=/usr/sbin/reboot
-        [X-Fleet]
-        X-Conflicts=coreos-bootstrap.service
-<% if host_param('ssh_authorized_keys') -%>
-ssh_authorized_keys:
-<% host_param('ssh_authorized_keys').split(',').map{ |item| item.strip }.each do |ssh_key| -%>
-  - "<%= ssh_key %>"
-<% end -%>
-<% else -%>
-users:
-  - name: core
-    passwd: <%= root_pass %>
-<% end -%>
-write_files:
-  - content: |
-      <%= snippet 'coreos_cloudconfig' %>
-    path: /home/core/cloud-config.yml
-    permissions: '0600'
-    owner: core:core
+        ExecStart=/usr/bin/#{installer_cmd} -v \
+          -C #{@host.operatingsystem.release_name} \
+          -d #{@host.params['install-disk'] || '/dev/sda'} \
+          -i /home/core/ignition.json -b #{@mediapath} \
+          #{@host.provider == 'VMware' ? '-o vmware_raw ' : ''} \
+          -V #{@host.operatingsystem.release}
+        ExecStartPost=/home/core/post_install
+        [Install]
+        WantedBy=multi-user.target
+storage:
+  #{indent(2) { snippet_if_exists('CoreOS provision custom storage') }}
+  files:
+    - filesystem: 'root'
+      path: '/home/core/post_install'
+      mode: 775
+      contents:
+        inline: |
+          #{indent(10) { snippet_if_exists('CoreOS provision post') }}
+#{snippet_if_exists('CoreOS provision custom')}
+EOS
+-%>
+<%= transpile_coreos_linux_config(config) %>
+<%- end -%>

@@ -397,3 +397,17 @@ attribute96:
   category: Setting
   default: /var/lib/puppet/ssl/certs/ca.pem
   description: SSL CA file that will be used in templates (to verify the connection to Foreman)
+attribute97:
+  name: ct_command
+  category: Setting
+  settings_type: 'array'
+  default: "['/usr/bin/cat']"
+  value: "['/usr/bin/cat']"
+  description: "CoreOS Transpiler"
+attribute98:
+  name: fcct_command
+  category: Setting
+  settings_type: 'array'
+  default: "['/usr/bin/cat']"
+  value: "['/usr/bin/cat']"
+  description: "Fedora CoreOS Transpiler"

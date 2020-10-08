@@ -1,3 +1,5 @@
+require 'foreman/util'
+
 module Foreman
   class SettingManager
     class << self
@@ -85,6 +87,8 @@ module Foreman
     end
 
     class CategoryMapper
+      include Foreman::Util
+
       attr_reader :context_name, :category_name
 
       def initialize(context_name, category_name)
