@@ -58,27 +58,27 @@ module TemplatesHelper
     'hide' unless obj.value_type == 'search'
   end
 
-  def mount_report_template_input(input_value)
-    return if input_value.nil?
-
+  def template_input_f(f, options = {})
+    input_value = f.object
     input = input_value.template_input
-    controller = input.resource_type&.tableize
 
-    react_component('TemplateInput', { data: {
-                      value: input_value.value.to_s,
-                      required: input.required,
-                      template: 'report_template_report',
-                      description: input.description,
-                      supportedTypes: TemplateInput::VALUE_TYPE,
-                      resourceType: controller,
-                      id: input.id,
-                      useKeyShortcuts: false,
-                      url: search_path(controller),
-                      label: input.name,
-                      type: input.value_type,
-                      initialError: input_value.errors[:value].join("\n").presence,
-                      resourceTypes: Hash[Permission.resources.map { |d| [d.tableize.to_s, d] }],
-                    },
-    })
+    options.reverse_merge!(label: input.name, id: input.name, label_help: input.description.presence, required: input.required)
+
+    if input.options.present?
+      selectable_f(f, :value, input.options_array, { include_blank: !input.required }, options)
+    elsif input.value_type == 'plain' || input.value_type.nil?
+      textarea_f(f, :value, options.merge(rows: 2, class: input.hidden_value? ? 'masked-input' : ''))
+    else
+      input_type = input.value_type
+      if input_type == 'date'
+        input_type = 'dateTime'
+        options[:label_help] ||= 'Format is yyyy-MM-dd HH-mm-ss'
+      elsif input_type == 'search'
+        input_type = 'autocomplete'
+        resource_type = input.resource_type&.tableize
+        options.merge!(resource_type: resource_type, use_key_shortcuts: false, url: search_path(resource_type))
+      end
+      react_form_input(input_type, f, :value, options)
+    end
   end
 end
