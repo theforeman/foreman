@@ -453,7 +453,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
       assert_equal attrs_out, @cr.parse_networks(attrs_in)
     end
 
-    test "matches the network id, before name lookup" do
+    test "matches the network name, before id lookup" do
       attrs = HashWithIndifferentAccess.new(
         "interfaces_attributes" => {
           "0" => {
@@ -464,7 +464,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           },
         }
       )
-      assert_equal attrs, @cr.parse_networks(attrs)
+      assert_equal 'network-11', @cr.parse_networks(attrs)['interfaces_attributes']['0']['network']
     end
 
     test "ignores existing network IDs" do
@@ -603,7 +603,7 @@ class Foreman::Model::VmwareTest < ActiveSupport::TestCase
           "0" => { :vol => 1, :size_gb => 4 },
           "1" => { :vol => 2, :size_gb => 4 },
         },
-        :interfaces_attributes => {"0" => {:compute_attributes => {:network => "dvportgroup-123456", :type => "VirtualVmxnet3"}, :mac => "00:50:56:84:f1:b1"}},
+        :interfaces_attributes => {"0" => {:compute_attributes => {:network => "Testnetwork", :type => "VirtualVmxnet3"}, :mac => "00:50:56:84:f1:b1"}},
         :scsi_controllers => [
           {
             :type => "VirtualLsiLogicController",

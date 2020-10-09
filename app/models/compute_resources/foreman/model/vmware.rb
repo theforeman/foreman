@@ -465,8 +465,8 @@ module Foreman::Model
       dc_networks = networks
       args["interfaces_attributes"]&.each do |key, interface|
         # Consolidate network to network id
-        net = dc_networks.detect { |n| n.id == interface['network'] }
-        net ||= dc_networks.detect { |n| n.name == interface['network'] }
+        net = dc_networks.detect { |n| n.name == interface['network'] }
+        net ||= dc_networks.detect { |n| n.id == interface['network'] }
         raise "Unknown Network ID: #{interface['network']}" if net.nil?
         interface["network"] = net.id
         interface["virtualswitch"] = net.virtualswitch
@@ -658,7 +658,7 @@ module Foreman::Model
         interface_attrs = {}
         interface_attrs[:compute_attributes] = {}
         interface_attrs[:mac] = interface.mac
-        interface_attrs[:compute_attributes][:network] = network.id
+        interface_attrs[:compute_attributes][:network] = network.name
         interface_attrs[:compute_attributes][:type] = interface.type.to_s.split('::').last
         hsh[index.to_s] = interface_attrs
       end

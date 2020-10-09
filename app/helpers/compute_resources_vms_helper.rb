@@ -76,10 +76,9 @@ module ComputeResourcesVmsHelper
   def vsphere_networks(compute_resource, cluster_id = nil)
     networks = compute_resource.networks(cluster_id: cluster_id)
     networks.map do |net|
-      net_id = net.id
       net_name = net.name
       net_name += " (#{net.virtualswitch})" if net.virtualswitch
-      [net_id, net_name]
+      [net.name, net_name]
     end
   end
 

@@ -3082,7 +3082,7 @@ class HostTest < ActiveSupport::TestCase
       attributes = {
         interfaces_attributes: {
           '0' => {
-            compute_attributes: { network: 'someportgroup-12345' },
+            compute_attributes: { network: 'super-fancey-network' },
             mac: '00:00:00:00:00:00',
           },
         },
@@ -3092,7 +3092,7 @@ class HostTest < ActiveSupport::TestCase
         'interfaces_attributes' => {
           "0" => {
             'compute_attributes' => {
-              'network' => 'someportgroup-12345',
+              'network' => 'super-fancey-network',
             },
             'mac' => '00:00:00:00:00:00',
           },
