@@ -153,5 +153,10 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
       post :host, params: host_params, session: set_session_user
       assert_response :internal_server_error
     end
+
+    test 'with unsupported media_type' do
+      post :host, params: host_params, session: set_session_user, as: :html
+      assert_response :unsupported_media_type
+    end
   end
 end
