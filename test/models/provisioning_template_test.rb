@@ -213,19 +213,19 @@ class ProvisioningTemplateTest < ActiveSupport::TestCase
       @ctd = FactoryBot.create(:provisioning_template, :name => "ctd", :template_kind => @tk, :operatingsystems => [@os1])
       @ctd.os_default_templates.create(:operatingsystem => @os1, :template_kind_id => @ctd.template_kind_id)
 
-      Foreman::Plugin.medium_providers.register(AMediumProvider)
+      Foreman::Plugin.medium_providers_registry.register(AMediumProvider)
     end
 
     teardown do
-      Foreman::Plugin.medium_providers.unregister(AMediumProvider)
+      Foreman::Plugin.medium_providers_registry.unregister(AMediumProvider)
     end
 
     test "medium providers validate hostgroups" do
-      p1 = Foreman::Plugin.medium_providers.find_provider(@hg1)
+      p1 = Foreman::Plugin.medium_providers_registry.find_provider(@hg1)
       refute_nil p1
       assert_empty p1.validate
 
-      p2 = Foreman::Plugin.medium_providers.find_provider(@hg2)
+      p2 = Foreman::Plugin.medium_providers_registry.find_provider(@hg2)
       refute_nil p2
       assert_empty p2.validate
     end

@@ -43,7 +43,7 @@ class VRP < Operatingsystem
   end
 
   def ztp_arguments(host)
-    medium_provider = Foreman::Plugin.medium_providers.find_provider host
+    medium_provider = Foreman::Plugin.medium_providers_registry.find_provider host
 
     {
       :vendor   => "huawei",
