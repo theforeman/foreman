@@ -105,17 +105,22 @@ class ActiveSupport::TestCase
   end
 
   def clear_plugins
-    @klass = Foreman::Plugin
-    @plugins_backup = @klass.registered_plugins
-    @registry_backup = @klass.registries
-    @klass.clear
-    @klass.initialize_registries
+    @clear_plugins = true
+    @plugins_backup = Foreman::Plugin.registered_plugins
+    @registries_backup = Foreman::Plugin.registries
+    Foreman::Plugin.send(:clear)
   end
 
   def restore_plugins
-    @klass.clear
-    @klass.initialize_registries(@registry_backup)
-    @klass.instance_variable_set('@registered_plugins', @plugins_backup)
+    Foreman::Deprecation.deprecation_warning('2.5', '`teardown :restore_plugins` is deprecated, plugin restoration is automated when `setup :clear_plugins` is used')
+  end
+
+  def after_teardown
+    super
+
+    return unless @clear_plugins
+    Foreman::Plugin.send(:clear, @plugins_backup, @registries_backup)
+    @clear_plugins = nil
   end
 end
 
