@@ -54,10 +54,6 @@ module TemplatesHelper
     TemplateInput::TYPES.select { |k, _| keys.include?(k.to_s) }.map { |key, name| [_(name), key] }
   end
 
-  def hide_resource_type_input(obj)
-    'hide' unless obj.value_type == 'search'
-  end
-
   def template_input_f(f, options = {})
     input_value = f.object
     input = input_value.template_input
@@ -69,10 +65,7 @@ module TemplatesHelper
     elsif input.value_type == 'plain' || input.value_type.nil?
       textarea_f(f, :value, rows: 2, onchange: options[:onchange], id: input.name, class: input.hidden_value? ? 'masked-input' : '')
     else
-      input_type = input.value_type
-      input_type = 'dateTime' if input_type == 'date'
-      if input_type == 'search'
-        input_type = 'autocomplete'
+      if input.value_type == 'autocomplete'
         resource_type = input.resource_type&.tableize
         options.merge({
                         resource_type: resource_type,
@@ -80,7 +73,7 @@ module TemplatesHelper
                         url: search_path(resource_type),
                       })
       end
-      react_form_input(input_type, f, :value, options)
+      react_form_input(input.value_type, f, :value, options)
     end
   end
 end

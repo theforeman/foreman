@@ -8,7 +8,7 @@ class TemplateInput < ApplicationRecord
 
   TYPES = { :user => N_('User input'), :fact => N_('Fact value'), :variable => N_('Variable'),
             :puppet_parameter => N_('Puppet parameter') }.with_indifferent_access
-  VALUE_TYPE = ['plain', 'search', 'date']
+  VALUE_TYPE = ['plain', 'autocomplete', 'date', 'dateTime']
 
   attr_exportable(:name, :required, :input_type, :fact_name, :variable_name, :puppet_class_name,
     :puppet_parameter_name, :description, :options, :advanced, :value_type,
