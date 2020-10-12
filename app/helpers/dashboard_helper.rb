@@ -11,7 +11,7 @@ module DashboardHelper
         link_to_function(_('Save positions'), "tfm.dashboard.savePosition('#{save_positions_widgets_path}')"),
         link_to(_('Reset to default'), reset_default_widgets_path, :method => :put),
         content_tag(:li, '', :class => 'divider'),
-        content_tag(:li, _("Add widgets"), :class => 'nav-header'),
+        content_tag(:h6, _("Add widgets"), :class => 'dropdown-header'),
         content_tag(:li, '', :class => 'widget-add') do
           widgets_to_add
         end
