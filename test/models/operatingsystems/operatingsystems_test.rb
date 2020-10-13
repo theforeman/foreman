@@ -33,7 +33,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
         :operatingsystem => operatingsystem,
         :architecture => arch,
         :medium => media(:unused))
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+      medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
 
       assert_equal(config['expected'], operatingsystem.pxedir(medium_provider))
     end
@@ -54,7 +54,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
           :media => [media(config['medium'])]),
         :architecture => arch,
         :medium => media(config['medium']))
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+      medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
 
       assert_equal(config['expected'], host.operatingsystem.kernel(medium_provider))
     end
@@ -76,7 +76,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
         :architecture => arch,
         :medium => media(config['medium']))
 
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+      medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
       assert_equal(config['expected'], host.operatingsystem.initrd(medium_provider))
     end
   end
@@ -96,7 +96,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
           :media => [media(config['medium'])]),
         :architecture => arch,
         :medium => media(config['medium']))
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+      medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
       assert_equal(config['expected'], host.operatingsystem.pxe_prefix(medium_provider))
     end
   end
@@ -129,7 +129,7 @@ class OperatingsystemsTest < ActiveSupport::TestCase
 
       host.medium.operatingsystems << host.operatingsystem
       host.arch.operatingsystems << host.operatingsystem
-      medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+      medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
 
       prefix = host.operatingsystem.pxe_prefix(medium_provider).to_sym
       pxe_files = host.operatingsystem.pxe_files(medium_provider)

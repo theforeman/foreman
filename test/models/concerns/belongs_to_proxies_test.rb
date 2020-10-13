@@ -20,7 +20,6 @@ class BelongsToProxiesTest < ActiveSupport::TestCase
   end
 
   setup :clear_plugins
-  teardown :restore_plugins
 
   test '#registered_smart_proxies has default value' do
     assert_equal({}, EmptySampleModel.registered_smart_proxies)

@@ -11,17 +11,14 @@ class PluginMediumProviderTest < ActiveSupport::TestCase
     end
   end
 
+  setup :clear_plugins
   setup do
-    Foreman::Plugin.medium_providers.register(PluginMediumProvider)
-  end
-
-  teardown do
-    Foreman::Plugin.medium_providers.unregister(PluginMediumProvider)
+    Foreman::Plugin.medium_providers_registry.register(PluginMediumProvider)
   end
 
   test 'plugin can provide media without medium set' do
     host = FactoryBot.create(:host, :with_operatingsystem, medium: nil)
-    medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+    medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
     assert_nil host.medium
     assert_instance_of PluginMediumProvider, medium_provider
   end

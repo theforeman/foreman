@@ -81,7 +81,7 @@ module HostCommon
   end
 
   def medium_provider
-    @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(self)
+    @medium_provider ||= Foreman::Plugin.medium_providers_registry.find_provider(self)
   end
 
   apipie :method, 'Returns a url pointing to boot file' do

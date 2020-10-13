@@ -35,6 +35,6 @@ module HostTemplateHelpers
   end
 
   def medium_provider
-    @medium_provider ||= Foreman::Plugin.medium_providers.find_provider(self)
+    @medium_provider ||= Foreman::Plugin.medium_providers_registry.find_provider(self)
   end
 end
