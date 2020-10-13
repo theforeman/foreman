@@ -334,12 +334,14 @@ module Foreman
             Gem::Version.new(first.to_s) <=> Gem::Version.new(second.to_s)
           end
 
-          apipie :method, "Returns content of 'SSL CA file' configured in Settings > Authentication" do
+          apipie :method, "Returns the certificate of Foreman Server CA" do
+            desc 'Currently it relies on "SSL CA file" authentication setting, which normally points to the file containing the
+                  CA certificate for Smart Proxies. However in the default deployment, this certificate happens to be the same.'
             example "SSL_CA_CERT=$(mktemp)
                      cat > $SSL_CA_CERT <<CA_CONTENT
                      <%= foreman_server_ca_cert %>
                      CA_CONTENT
-                     curl --cacert $SSL_CA_CERT https://smart-proxy.example.com:8443"
+                     curl --cacert $SSL_CA_CERT https://foreman.example.com"
           end
           def foreman_server_ca_cert
             if File.exist?(Setting[:ssl_ca_file])
