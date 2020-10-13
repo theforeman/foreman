@@ -43,8 +43,15 @@ menuentry 'Chainload Grub2 EFI from ESP' --id local_chain_hd0 {
 -%>
   echo Partition with known EFI file not found, you may want to drop to grub shell
   echo and investigate available files updating 'pxegrub2_chainload' template and
-  echo the list of known filepaths for probing. Contents of /EFI directory:
-  ls ($chroot)/EFI
+  echo the list of known filepaths for probing. Available devices are:
+  echo
+  ls
+  echo
+  echo If you can't see the HDD, make sure the drive is marked as bootable in EFI and
+  echo not hidden. Boot order must be the following:
+  echo 1) NETWORK
+  echo 2) HDD
+  echo
   echo The system will halt in 2 minutes or press ESC to halt immediately.
   sleep -i 120
   halt --no-apm
