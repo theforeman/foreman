@@ -205,6 +205,21 @@ module RenderersSharedTests
       assert_equal(renderer.render(source, @scope), '-1')
     end
 
+    test "foreman_server_ca_cert - existing file" do
+      cert_path = Rails.root.join('test/static_fixtures/certificates/example.com.crt')
+      Setting[:ssl_ca_file] = cert_path
+      source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
+      assert_equal(renderer.render(source, @scope), File.read(cert_path))
+    end
+
+    test "foreman_server_ca_cert - not existing file" do
+      Setting[:ssl_ca_file] = 'not-existing-file'
+      source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
+      assert_raise Foreman::Exception do
+        renderer.render(source, @scope)
+      end
+    end
+
     context 'renderer for template with user input used' do
       let(:template) { FactoryBot.build(:provisioning_template, :template => 'service restart <%= input("service_name") -%>') }
       let(:source) { Foreman::Renderer::Source::Database.new(template) }

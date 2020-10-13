@@ -46,7 +46,8 @@ module Foreman
         :parse_yaml,
         :parse_json,
         :to_json,
-        :to_yaml
+        :to_yaml,
+        :foreman_server_ca_cert
       ]
 
       DEFAULT_ALLOWED_HOST_HELPERS = [

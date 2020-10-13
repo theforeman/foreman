@@ -25,8 +25,14 @@ if [ -f /etc/os-release ] ; then
   . /etc/os-release
 fi
 
+SSL_CA_CERT=$(mktemp)
+cat << EOF > $SSL_CA_CERT
+<%= foreman_server_ca_cert %>
+EOF
+
+
 register_host() {
-  curl --request POST <%= foreman_server_url %>/register \
+  curl --cacert $SSL_CA_CERT --request POST <%= foreman_server_url %>/register \
        <%= headers.join(' ') %> \
        -d '{ "host": { "name": "'$(hostname --fqdn)'", "build": "false", "managed": "false"
        <%= ", \"organization_id\": \"#{@organization.id}\"" if @organization -%>
@@ -44,7 +50,7 @@ echo "#"
 if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
     register_katello_host(){
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
-        curl --request POST "<%= foreman_server_url %>/register?uuid=$UUID" \
+        curl --cacert $SSL_CA_CERT --request POST "<%= foreman_server_url %>/register?uuid=$UUID" \
             <%= headers.join(' ') %> \
             -d '{ "host": { "organization_id": "<%= @organization.id -%>"
             <%= ", \"location_id\": \"#{@location.id}\"" if @location -%>
