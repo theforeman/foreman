@@ -186,14 +186,14 @@ class Operatingsystem < ApplicationRecord
   # sets the prefix for the tfp files based on medium unique identifier
   def pxe_prefix(medium_provider)
     unless medium_provider.is_a? MediumProviders::Provider
-      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
     end
     "boot/#{medium_provider.unique_id}"
   end
 
   def pxe_files(medium_provider)
     unless medium_provider.is_a? MediumProviders::Provider
-      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
     end
     boot_files_uri(medium_provider).collect do |img|
       { pxe_prefix(medium_provider).to_sym => img.to_s}
@@ -222,7 +222,7 @@ class Operatingsystem < ApplicationRecord
 
   def bootfile(medium_provider, type)
     unless medium_provider.is_a? MediumProviders::Provider
-      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers.find_provider(host)'))
+      raise Foreman::Exception.new(N_('Please provide a medium provider. It can be found as @medium_provider in templates, or Foreman::Plugin.medium_providers_registry.find_provider(host)'))
     end
     pxe_prefix(medium_provider) + "-" + family.constantize::PXEFILES[type.to_sym]
   end

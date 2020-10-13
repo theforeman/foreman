@@ -26,7 +26,6 @@ class RablTest < ActiveSupport::TestCase
 
   context 'with plugin' do
     setup :clear_plugins
-    teardown :restore_plugins
 
     test 'render of extended plugin template' do
       Foreman::Plugin.register :test_extend_rabl_template do
