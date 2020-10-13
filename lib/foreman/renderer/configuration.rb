@@ -43,6 +43,7 @@ module Foreman
         :number_with_precision,
         :number_to_human_size,
         :gem_version_compare,
+        :sequence_hostgroup_param_next,
         :parse_yaml,
         :parse_json,
         :to_json,
