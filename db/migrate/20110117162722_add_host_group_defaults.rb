@@ -1,6 +1,5 @@
 class AddHostGroupDefaults < ActiveRecord::Migration[4.2]
   def up
-    add_column :hostgroups, :environment_id, :integer
     add_column :hostgroups, :operatingsystem_id, :integer
     add_column :hostgroups, :architecture_id, :integer
     add_column :hostgroups, :medium_id, :integer
@@ -10,7 +9,6 @@ class AddHostGroupDefaults < ActiveRecord::Migration[4.2]
   end
 
   def down
-    remove_column :hostgroups, :environment_id
     remove_column :hostgroups, :operatingsystem_id
     remove_column :hostgroups, :architecture_id
     remove_column :hostgroups, :medium_id

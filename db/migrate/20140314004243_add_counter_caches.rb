@@ -8,10 +8,6 @@ class AddCounterCaches < ActiveRecord::Migration[4.2]
     add_column :domains, :hosts_count, :integer, :default => 0
     add_column :domains, :hostgroups_count, :integer, :default => 0
 
-    # Environments
-    add_column :environments, :hosts_count, :integer, :default => 0
-    add_column :environments, :hostgroups_count, :integer, :default => 0
-
     # Hardware Models
     add_column :models, :hosts_count, :integer, :default => 0
 
@@ -32,9 +28,6 @@ class AddCounterCaches < ActiveRecord::Migration[4.2]
 
     remove_column :domains,          :hosts_count
     remove_column :domains,          :hostgroups_count
-
-    remove_column :environments,     :hosts_count
-    remove_column :environments,     :hostgroups_count
 
     remove_column :models,           :hosts_count
 
