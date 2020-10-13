@@ -4,7 +4,6 @@ class CreateHosts < ActiveRecord::Migration[4.2]
     create_table :hosts do |t|
       t.column :name, :string, :null => false, :limit => 255
       t.column :ip, :string, :limit => 255
-      t.column :environment, :text
       t.column :last_compile, :datetime
       t.column :last_freshcheck, :datetime
       t.column :last_report, :datetime
@@ -45,7 +44,6 @@ class CreateHosts < ActiveRecord::Migration[4.2]
     add_column :hosts, :domain_id, :integer
     add_column :hosts, :architecture_id, :integer
     add_column :hosts, :operatingsystem_id, :integer
-    add_column :hosts, :environment_id, :integer
     add_column :hosts, :subnet_id, :integer
     add_column :hosts, :sp_subnet_id, :integer
     add_column :hosts, :ptable_id, :integer
