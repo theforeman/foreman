@@ -179,10 +179,4 @@ module LookupKeysHelper
     return 'host' if params.has_key?(:host) || params[:controller] == 'hosts'
     'hostgroup'
   end
-
-  def lookup_keys_breadcrumbs
-    breadcrumbs(resource_url: "/api/v2/smart_class_parameters",
-                name_field: "parameter",
-                switcher_item_url: "/puppetclass_lookup_keys/:id-:name/edit")
-  end
 end
