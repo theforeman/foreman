@@ -161,9 +161,10 @@ class Host::Managed < Host::Base
     property :cores, Integer, desc: 'Returns number of the host\'s cores'
     property :params, Hash, desc: 'Returns name=value object with host\'s parameters'
     property :pxe_loader_efi?, one_of: [true, false], desc: 'Returns true if PXE Loader uses EFI, false otherwise'
+    property :created_at, 'ActiveSupport::TimeWithZone', desc: 'The time when the host was created'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
+    allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
