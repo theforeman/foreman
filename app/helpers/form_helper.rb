@@ -1,18 +1,12 @@
 module FormHelper
   def text_f(f, attr, options = {})
-    field(f, attr, options) do
-      addClass options, "form-control"
-      options[:focus_on_load] = true if options[:focus_on_load].nil? && attr.to_s == 'name'
-      f.text_field attr, options
-    end
+    options[:rows] = line_count(f, attr) if options[:rows] == :auto
+    react_form_input('text', f, attr, options)
   end
 
   def textarea_f(f, attr, options = {})
-    field(f, attr, options) do
-      options[:rows] = line_count(f, attr) if options[:rows] == :auto
-      addClass options, "form-control"
-      f.text_area(attr, options)
-    end
+    options[:rows] = line_count(f, attr) if options[:rows] == :auto
+    react_form_input('textarea', f, attr, options)
   end
 
   def password_f(f, attr, options = {})
@@ -427,7 +421,6 @@ module FormHelper
     options[:error] ||= get_attr_error(f, attr)
     options[:error] = options[:error]&.to_sentence
     options[:required] = is_required?(f, attr) unless options.key?(:required)
-
     Tags::ReactInput.new(f.object_name, attr, self, options.merge(type: type, object: f.object)).render
   end
 

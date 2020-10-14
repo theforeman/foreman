@@ -9,7 +9,6 @@ import {
   FieldLevelHelp,
 } from 'patternfly-react';
 import InputFactory from './InputFactory';
-import { noop } from '../../../common/helpers';
 
 const InlineMessage = ({ error, helpInline }) => {
   if (!error && !helpInline) {
@@ -19,7 +18,7 @@ const InlineMessage = ({ error, helpInline }) => {
     <HelpBlock
       className={classNames('help-inline', { 'error-message': !!error })}
     >
-      {error || helpInline}
+      {error || <div dangerouslySetInnerHTML={{ __html: helpInline }} />}
     </HelpBlock>
   );
 };
@@ -44,6 +43,8 @@ const FormField = ({
   label,
   labelHelp,
   helpInline,
+  helpBlock,
+  wrapperClass,
   labelSizeClass,
   inputSizeClass,
   onChange,
@@ -67,6 +68,7 @@ const FormField = ({
       controlId={id}
       disabled={disabled}
       validationState={error ? 'error' : null}
+      className={wrapperClass}
     >
       <ControlLabel className={labelSizeClass}>
         {label}
@@ -81,6 +83,7 @@ const FormField = ({
       </ControlLabel>
       <Col className={inputSizeClass}>
         {children || <InputFactory type={type} {...controlProps} />}
+        <InlineMessage helpInline={helpBlock} />
       </Col>
       <InlineMessage error={error} helpInline={helpInline} />
     </FormGroup>
@@ -110,6 +113,8 @@ FormField.propTypes = {
   onChange: PropTypes.func,
   children: PropTypes.element,
   inputProps: PropTypes.object,
+  helpBlock: PropTypes.string,
+  wrapperClass: PropTypes.string,
 };
 
 FormField.defaultProps = {
@@ -126,9 +131,11 @@ FormField.defaultProps = {
   helpInline: null,
   inputSizeClass: 'col-md-4',
   labelSizeClass: 'col-md-2',
-  onChange: noop,
+  onChange: null,
   children: null,
   inputProps: null,
+  helpBlock: '',
+  wrapperClass: '',
 };
 
 export default FormField;

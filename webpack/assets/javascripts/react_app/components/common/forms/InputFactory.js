@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormControl } from 'patternfly-react';
 
-import { noop } from '../../../common/helpers';
 import AutoComplete from '../../AutoComplete';
 import DateTimePicker from '../DateTimePicker/DateTimePicker';
 import DatePicker from '../DateTimePicker/DatePicker';
@@ -25,13 +24,19 @@ export const registerInputComponent = (name, Component) => {
 
 export const getComponentClass = name => inputComponents[name] || 'input';
 
-const InputFactory = ({ type, ...controlProps }) => (
-  <FormControl
-    componentClass={getComponentClass(type)}
-    type={type}
-    {...controlProps}
-  />
-);
+const InputFactory = ({ type, onChange, value, ...controlProps }) => {
+  const [stateValue, setstateValue] = useState(value || '');
+  const defaultOnChange = e => setstateValue(e.target.value);
+  return (
+    <FormControl
+      componentClass={getComponentClass(type)}
+      type={type}
+      value={stateValue}
+      onChange={onChange || defaultOnChange}
+      {...controlProps}
+    />
+  );
+};
 
 InputFactory.propTypes = {
   type: PropTypes.string,
@@ -55,7 +60,7 @@ InputFactory.defaultProps = {
   className: '',
   required: false,
   disabled: false,
-  onChange: noop,
+  onChange: null,
 };
 
 export default InputFactory;
