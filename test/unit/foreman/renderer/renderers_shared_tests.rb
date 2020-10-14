@@ -212,32 +212,92 @@ module RenderersSharedTests
       assert_equal(renderer.render(source, @scope), '-1')
     end
 
-    test "foreman_server_ca_cert - existing file" do
-      cert_path = Rails.root.join('test/static_fixtures/certificates/example.com.crt')
-      Setting[:ssl_ca_file] = cert_path
-      source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
-      assert_equal(renderer.render(source, @scope), File.read(cert_path))
-    end
+    describe '#foreman_server_ca_cert' do
+      subject { renderer.render(source, @scope) }
 
-    test "foreman_server_ca_cert - not existing file" do
-      Setting[:ssl_ca_file] = 'not-existing-file'
-      source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
-      error = assert_raise Foreman::Exception do
-        renderer.render(source, @scope)
+      let(:source) { OpenStruct.new(content: '<%= foreman_server_ca_cert %>') }
+      let(:cert_path) { Rails.root.join('test/static_fixtures/certificates/example.com.crt') }
+      let(:cert_2_path) { Rails.root.join('test/static_fixtures/certificates/example2.com.crt') }
+      let(:cert_file_content) { File.read(cert_path) }
+      let(:cert_2_file_content) { File.read(cert_2_path) }
+
+      test "load server_ca_file" do
+        Setting[:server_ca_file] = cert_path
+        Setting[:ssl_ca_file] = 'not-existing-file'
+
+        assert_equal subject, cert_file_content
       end
 
-      assert_includes error.message, '[Foreman::Exception]: No such file or directory'
-    end
+      test "load ssl_ca_file" do
+        Setting[:server_ca_file] = 'not-existing-file'
+        Setting[:ssl_ca_file] = cert_path
 
-    test "foreman_server_ca_cert - blank setting" do
-      Setting[:ssl_ca_file] = ''
-      source = OpenStruct.new(content: '<%= foreman_server_ca_cert %>')
-      error = assert_raise Foreman::Renderer::Errors::UndefinedSetting do
-        renderer.render(source, @scope)
+        assert_equal subject, cert_file_content
       end
 
-      # assert_includes error.message, "No CA file set, check the 'SSL CA file' in Settings > Authentication"
-      assert_includes error.message, "Undefined setting 'SSL CA file'"
+      test "load server_ca_file and ssl_ca_file" do
+        Setting[:server_ca_file] = cert_path
+        Setting[:ssl_ca_file] = cert_2_path
+
+        expected = "#{cert_file_content}\n#{cert_2_file_content}"
+        assert_equal subject, expected
+      end
+
+      test "do not load any files and raise exception" do
+        Setting[:server_ca_file] = 'not-existing-file'
+        Setting[:ssl_ca_file] = 'not-existing-file'
+
+        error = assert_raise Foreman::Exception do
+          subject
+        end
+
+        assert_includes error.message, "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Settings > Authentication"
+      end
+
+      context 'when server_ca_file is disabled' do
+        let(:source) { OpenStruct.new(content: '<%= foreman_server_ca_cert(server_ca_file_enabled: false) %>') }
+
+        test "do not load server_ca_file and raise exception" do
+          Setting[:server_ca_file] = cert_path
+          Setting[:ssl_ca_file] = 'not-existing-file'
+
+          error = assert_raise Foreman::Exception do
+            subject
+          end
+
+          assert_includes error.message, "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Settings > Authentication"
+        end
+      end
+
+      context 'when ssl_ca_file is disabled' do
+        let(:source) { OpenStruct.new(content: '<%= foreman_server_ca_cert(ssl_ca_file_enabled: false) %>') }
+
+        test "do not load ssl_ca_file and raise exception" do
+          Setting[:server_ca_file] = 'not-existing-file'
+          Setting[:ssl_ca_file] = cert_path
+
+          error = assert_raise Foreman::Exception do
+            subject
+          end
+
+          assert_includes error.message, "SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Settings > Authentication"
+        end
+      end
+
+      context "when server_ca_file and ssl_ca_file settings are blank" do
+        let(:source) { OpenStruct.new(content: '<%= foreman_server_ca_cert %>') }
+
+        test "do not load any files and raise exception" do
+          Setting[:server_ca_file] = ''
+          Setting[:ssl_ca_file] = ''
+
+          error = assert_raise Foreman::Renderer::Errors::UndefinedSetting do
+            renderer.render(source, @scope)
+          end
+
+          assert_includes error.message, 'Undefined setting \'"Server CA file" or "SSL CA file"\''
+        end
+      end
     end
 
     context 'renderer for template with user input used' do

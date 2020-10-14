@@ -335,22 +335,35 @@ module Foreman
           end
 
           apipie :method, "Returns the TLS certificate(s) needed to verify a connection to Foreman" do
-            desc 'Currently it relies on "SSL CA file" authentication setting, which normally points to the file containing the
-                  CA certificate for Smart Proxies. However in the default deployment, this certificate happens to be the same.'
+            desc 'Currently it relies on "SSL CA file" and "Server CA file" authentication settings, which normally points to the file containing the
+              CA certificate for Smart Proxies. However in the default deployment, this certificate happens to be the same.'
             example "SSL_CA_CERT=$(mktemp)
                      cat > $SSL_CA_CERT <<CA_CONTENT
                      <%= foreman_server_ca_cert %>
                      CA_CONTENT
                      curl --cacert $SSL_CA_CERT https://foreman.example.com"
           end
-          def foreman_server_ca_cert
-            raise UndefinedSetting.new(setting: 'SSL CA file') if Setting[:ssl_ca_file].blank?
-            begin
-              File.read(Setting[:ssl_ca_file])
-            rescue => e
-              msg = N_("%s, check the 'SSL CA file' in Settings > Authentication") % e.message
-              raise Foreman::Exception.new(msg)
+          def foreman_server_ca_cert(server_ca_file_enabled: true, ssl_ca_file_enabled: true)
+            setting_values = []
+            setting_values << Setting[:server_ca_file] if server_ca_file_enabled
+            setting_values << Setting[:ssl_ca_file] if ssl_ca_file_enabled
+
+            raise UndefinedSetting.new(setting: '"Server CA file" or "SSL CA file"') if setting_values.reject(&:empty?).empty?
+
+            files_content = setting_values.uniq.compact.map do |setting_value|
+              File.read(setting_value)
+            rescue StandardError => e
+              Foreman::Logging.logger('templates').warn("Failed to read CA file: #{e}")
+
+              nil
             end
+
+            result = files_content.compact.join("\n")
+
+            msg = N_("SSL CA file not found, check the 'Server CA file' and 'SSL CA file' in Settings > Authentication")
+            raise Foreman::Exception.new(msg) unless result.present?
+
+            result
           end
 
           apipie_method :rand, 'Returns random floating point numbers between 0 and 1' do
