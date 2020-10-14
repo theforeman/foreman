@@ -1,6 +1,8 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import store from '../../../redux';
 import { text, select, boolean, withKnobs, action } from '@theforeman/stories';
-
+import { Button } from '@patternfly/react-core';
 import DefaultEmptyState, { EmptyStatePattern } from './index';
 import Story from '../../../../../../stories/components/Story';
 
@@ -30,7 +32,7 @@ export const withPrimaryAction = () => (
       header={text('header', 'Header')}
       description={text('description', 'Description!')}
       action={
-        <button onClick={action('doing something')}>Do Something now!</button>
+        <Button onClick={action('doing something')}>Do Something now!</Button>
       }
     />
   </Story>
@@ -47,24 +49,21 @@ export const withPrimaryAndSecondaryActions = () => (
       header={text('header', 'Header')}
       description={text('description', 'Description!')}
       action={
-        <button onClick={action('create clicked')} className="btn btn-primary">
+        <Button onClick={action('create clicked')} variant="primary">
           Create
-        </button>
+        </Button>
       }
       secondaryActions={
         <React.Fragment>
-          <button onClick={action('reading')} className="btn btn-default">
+          <Button onClick={action('reading')} variant="secondary">
             Read
-          </button>
-          <button onClick={action('retrying')} className="btn btn-success">
+          </Button>
+          <Button onClick={action('retrying')} variant="tertiary">
             Retry
-          </button>
-          <button onClick={action('destroying')} className="btn btn-danger">
+          </Button>
+          <Button onClick={action('destroying')} variant="danger">
             Destroy
-          </button>
-          <button onClick={action('reloading')} className="btn btn-warning">
-            Reload
-          </button>
+          </Button>
         </React.Fragment>
       }
     />
@@ -108,22 +107,28 @@ export const foremanEmptyState = () => {
   }
   return (
     <Story>
-      <DefaultEmptyState
-        icon={select('icons', ['add-circle-o', 'edit', 'key', 'print'], 'key')}
-        header={text('header', 'Header')}
-        description={text('description', 'Description!')}
-        documentation={docObject}
-        action={{
-          title: text('primary action title', 'Primary'),
-          url: text('primary action url', '#'),
-        }}
-        secondaryActions={[
-          {
-            title: text('secondary action title', 'Secondary'),
-            url: text('secondary action url', '#'),
-          },
-        ]}
-      />
+      <Provider store={store}>
+        <DefaultEmptyState
+          icon={select(
+            'icons',
+            ['add-circle-o', 'edit', 'key', 'print'],
+            'key'
+          )}
+          header={text('header', 'Header')}
+          description={text('description', 'Description!')}
+          documentation={docObject}
+          action={{
+            title: text('primary action title', 'Primary'),
+            url: text('primary action url', '#'),
+          }}
+          secondaryActions={[
+            {
+              title: text('secondary action title', 'Secondary'),
+              url: text('secondary action url', '#'),
+            },
+          ]}
+        />
+      </Provider>
     </Story>
   );
 };

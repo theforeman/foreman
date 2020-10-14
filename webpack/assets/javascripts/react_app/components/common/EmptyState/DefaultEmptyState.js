@@ -1,9 +1,9 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
+import { Button } from '@patternfly/react-core';
 import EmptyStatePattern from './EmptyStatePattern';
-import PrimaryActionButton from './EmptyStatePrimaryActionButton';
-import SecondaryActionButtons from './EmptyStateSecondaryActionButtons';
 import { defaultEmptyStatePropTypes } from './EmptyStatePropTypes';
-import { translate as __ } from '../../../common/I18n';
 
 const DefaultEmptyState = props => {
   const {
@@ -11,23 +11,39 @@ const DefaultEmptyState = props => {
     iconType,
     header,
     description,
-    documentation: {
-      url,
-      label = __('For more information please see'),
-      buttonLabel = __('Documentation'),
-    } = {},
+    documentation,
     action,
     secondaryActions,
   } = props;
 
-  const documentationBlock = url ? (
-    <React.Fragment>
-      {label}{' '}
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        {buttonLabel}
-      </a>
-    </React.Fragment>
+  const dispatch = useDispatch();
+  const actionButtonClickHandler = ({ url, onClick }) => {
+    if (onClick) onClick();
+    else if (url) dispatch(push(url));
+  };
+
+  const ActionButton = action ? (
+    <Button
+      component="a"
+      onClick={() => actionButtonClickHandler(action)}
+      variant="primary"
+    >
+      {action.title}
+    </Button>
   ) : null;
+
+  const SecondaryButton = secondaryActions
+    ? secondaryActions.map(({ title, url, onClick }) => (
+        <Button
+          component="a"
+          key={`sec-button-${title}`}
+          onClick={() => actionButtonClickHandler({ url, onClick })}
+          variant="secondary"
+        >
+          {title}
+        </Button>
+      ))
+    : null;
 
   return (
     <EmptyStatePattern
@@ -35,9 +51,9 @@ const DefaultEmptyState = props => {
       iconType={iconType}
       header={header}
       description={description}
-      documentation={documentationBlock}
-      action={action ? <PrimaryActionButton action={action} /> : null}
-      secondaryActions={<SecondaryActionButtons actions={secondaryActions} />}
+      documentation={documentation}
+      action={ActionButton}
+      secondaryActions={SecondaryButton}
     />
   );
 };
