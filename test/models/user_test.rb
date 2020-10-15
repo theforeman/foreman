@@ -1164,24 +1164,6 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  describe '#visible_environments' do
-    test 'should show the list of environments visible as admin user' do
-      # Admin user sees all environments - including the ones without taxonomies
-      assert_equal ['production', 'global_puppetmaster', 'testing'].sort, User.current.visible_environments.sort
-    end
-
-    test 'should show the list of environments visible as inherited admin user' do
-      User.current = FactoryBot.create(:user, usergroups: [FactoryBot.create(:usergroup, admin: true)]).reload
-      assert_equal ['production', 'global_puppetmaster', 'testing'].sort, User.current.visible_environments.sort
-    end
-
-    test 'should show the list of environments visible as non-admin user' do
-      # Non-admin user only sees environments in a taxonomy at least
-      setup_user 'view', 'environments'
-      assert_equal ['production'], User.current.visible_environments
-    end
-  end
-
   context 'personal access token auth' do
     let(:user) { FactoryBot.create(:user) }
     let(:token) { FactoryBot.create(:personal_access_token, :user => user) }
