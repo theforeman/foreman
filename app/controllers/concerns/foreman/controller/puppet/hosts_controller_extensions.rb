@@ -12,8 +12,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
     before_action :validate_multiple_puppet_ca_proxy, :only => :update_multiple_puppet_ca_proxy
 
     define_action_permission MULTIPLE_EDIT_ACTIONS, :edit
-
-    set_callback :set_class_variables, :after, :set_puppet_class_variables
   end
 
   def validate_multiple_puppet_ca_proxy
@@ -86,10 +84,6 @@ module Foreman::Controller::Puppet::HostsControllerExtensions
 
   def update_multiple_puppet_ca_proxy
     update_multiple_proxy(_('Puppet CA'), :puppet_ca_proxy=)
-  end
-
-  def set_puppet_class_variables
-    @environment = @host.environment
   end
 
   def find_multiple_for_puppet_host_extensions

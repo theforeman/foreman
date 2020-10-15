@@ -34,9 +34,8 @@ module Queries
       GRAPHQL
     end
 
-    let(:environment) { FactoryBot.create(:environment) }
     let(:hosts) { FactoryBot.create_list(:host, 2) }
-    let(:location_object) { FactoryBot.create(:location, hosts: hosts, environments: [environment]) }
+    let(:location_object) { FactoryBot.create(:location, hosts: hosts) }
 
     let(:global_id) { Foreman::GlobalId.for(location_object) }
     let(:variables) { { id: global_id } }

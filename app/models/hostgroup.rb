@@ -57,7 +57,6 @@ class Hostgroup < ApplicationRecord
 
   scoped_search :on => :name, :complete_value => :true
   scoped_search :relation => :hosts, :on => :name, :complete_value => :true, :rename => "host", :only_explicit => true
-  scoped_search :relation => :environment, :on => :name, :complete_value => :true, :rename => :environment, :only_explicit => true
   scoped_search :on => :id, :complete_enabled => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
   # for legacy purposes, keep search on :label
   scoped_search :on => :title, :complete_value => true, :rename => :label

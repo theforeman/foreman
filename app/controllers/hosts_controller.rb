@@ -820,7 +820,7 @@ class HostsController < ApplicationController
   end
 
   def csv_columns
-    [:name, :operatingsystem, :environment, :compute_resource_or_model, :hostgroup, :last_report]
+    [:name, :operatingsystem, :compute_resource_or_model, :hostgroup, :last_report]
   end
 
   def origin_intervals_query(compare_with)

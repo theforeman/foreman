@@ -108,7 +108,6 @@ class Host::Managed < Host::Base
     property :certname, String, desc: 'Returns a name used in puppet certificate, this is usually either equal to FQDN or random UUID if `use_uuid_for_certificates` setting is enabled'
     property :compute_resource, 'ComputeResource', desc: 'Returns a compute resource object the host exists in, nil if no compute resource is assigned (e.g. baremetal host)'
     property :domain, 'Domain', desc: 'Returns a domain object the host primary interface belongs to, nil if no domain is assigned (unmanaged host)'
-    property :environment, 'Environment', desc: 'Returns a string representing the puppet environment the host is assigned to (e.g. "production") or an empty string if no puppet environment is assigned'
     property :hostgroup, 'Hostgroup', desc: 'Returns a host group object the host is assigned to, nil if no host group is assigned'
     property :interfaces, array_of: ['Nic::Managed'], desc: 'Returns an array of all host interfaces objects'
     property :ip, String, desc: 'Returns an IPv4 address of the host primary interface, e.g. "192.168.0.1"'
@@ -162,7 +161,7 @@ class Host::Managed < Host::Base
     property :comment, String, desc: 'Returns comment/description of this host'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
+    allow :id, :name, :created_at, :diskLayout, :puppetmaster, :puppet_server, :puppet_ca_server, :operatingsystem, :os, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
@@ -288,7 +287,6 @@ class Host::Managed < Host::Base
   # some shortcuts
   alias_attribute :arch, :architecture
 
-  validates :environment_id, :presence => true, :unless => proc { |host| host.puppet_proxy_id.blank? }
   validates :organization_id, :presence => true, :if => proc { |host| host.managed? }
   validates :location_id,     :presence => true, :if => proc { |host| host.managed? }
   validate :compute_resource_in_taxonomy, :if => proc { |host| host.managed? && host.compute_resource_id.present? }
@@ -554,7 +552,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def hostgroup_inherited_attributes
-    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id compute_resource_id}
+    %w{puppet_proxy_id puppet_ca_proxy_id compute_profile_id realm_id compute_resource_id}
   end
 
   def apply_inherited_attributes(attributes, initialized = true)
