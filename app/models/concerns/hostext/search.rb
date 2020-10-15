@@ -44,7 +44,6 @@ module Hostext
       scoped_search :relation => :domain,      :on => :id,      :complete_enabled => false, :rename => :domain_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
       scoped_search :relation => :realm,       :on => :name,    :complete_value => true, :rename => :realm
       scoped_search :relation => :realm,       :on => :id,      :complete_enabled => false, :rename => :realm_id, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER
-      scoped_search :relation => :environment, :on => :name,    :complete_value => true,  :rename => :environment
       scoped_search :relation => :architecture, :on => :name,    :complete_value => true, :rename => :architecture
       scoped_search :relation => :puppet_proxy, :on => :name,    :complete_value => true, :rename => :puppetmaster, :only_explicit => true
       scoped_search :on => :puppet_proxy_id, :complete_value => false, :only_explicit => true, :validator => ScopedSearch::Validators::INTEGER

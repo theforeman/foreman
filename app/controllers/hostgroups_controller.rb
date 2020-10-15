@@ -105,7 +105,6 @@ class HostgroupsController < ApplicationController
     @operatingsystem = @hostgroup.operatingsystem
     @domain          = @hostgroup.domain
     @subnet          = @hostgroup.subnet
-    @environment     = @hostgroup.environment
     @realm           = @hostgroup.realm
   end
 
@@ -150,7 +149,6 @@ class HostgroupsController < ApplicationController
     @hostgroup.domain             ||= @parent.domain
     @hostgroup.subnet             ||= @parent.subnet
     @hostgroup.realm              ||= @parent.realm
-    @hostgroup.environment        ||= @parent.environment
   end
 
   def reset_explicit_attributes
