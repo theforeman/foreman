@@ -502,21 +502,6 @@ class User < ApplicationRecord
       :locations => my_locations.pluck(:id) }
   end
 
-  def visible_environments
-    authorized_scope = Environment.unscoped.authorized(:view_environments)
-    authorized_scope = authorized_scope
-      .joins(:taxable_taxonomies)
-      .where('taxable_taxonomies.taxonomy_id' => taxonomy_ids[:organizations] + taxonomy_ids[:locations])
-    result = authorized_scope.distinct.pluck(:name)
-    if User.current.admin?
-      # Admin users can also see Environments that do not have any organization or location, even when
-      # organizations and locations are enabled.
-      untaxed_environments = Environment.unscoped.where.not(id: TaxableTaxonomy.where(taxable_type: 'Environment').distinct.select(:taxable_id)).pluck(:name)
-      result += untaxed_environments
-    end
-    result
-  end
-
   def taxonomy_and_child_ids(taxonomies)
     delay = Rails.env.test? ? 0 : 2.minutes
     Rails.cache.fetch("user/#{id}/taxonomy_and_child_ids/#{taxonomies}", expires_in: delay) do
