@@ -10,7 +10,6 @@ class Report < ApplicationRecord
   has_many :logs, :dependent => :destroy
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
-  has_one :environment, :through => :host
   has_one :hostgroup, :through => :host
 
   has_one :organization, :through => :host
@@ -21,15 +20,14 @@ class Report < ApplicationRecord
 
   def self.inherited(child)
     child.instance_eval do
-      scoped_search :relation => :host,        :on => :name,  :complete_value => true, :rename => :host
-      scoped_search :relation => :environment, :on => :name,  :complete_value => true, :rename => :environment
-      scoped_search :relation => :organization, :on => :name, :complete_value => true, :rename => :organization
-      scoped_search :relation => :location,    :on => :name,  :complete_value => true, :rename => :location
-      scoped_search :relation => :messages,    :on => :value,                          :rename => :log, :only_explicit => true
-      scoped_search :relation => :sources,     :on => :value,                          :rename => :resource, :only_explicit => true
-      scoped_search :relation => :hostgroup,   :on => :name,  :complete_value => true, :rename => :hostgroup
-      scoped_search :relation => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_fullname
-      scoped_search :relation => :hostgroup,   :on => :title, :complete_value => true, :rename => :hostgroup_title
+      scoped_search :relation => :host,         :on => :name,  :complete_value => true, :rename => :host
+      scoped_search :relation => :organization, :on => :name,  :complete_value => true, :rename => :organization
+      scoped_search :relation => :location,     :on => :name,  :complete_value => true, :rename => :location
+      scoped_search :relation => :messages,     :on => :value,                          :rename => :log, :only_explicit => true
+      scoped_search :relation => :sources,      :on => :value,                          :rename => :resource, :only_explicit => true
+      scoped_search :relation => :hostgroup,    :on => :name,  :complete_value => true, :rename => :hostgroup
+      scoped_search :relation => :hostgroup,    :on => :title, :complete_value => true, :rename => :hostgroup_fullname
+      scoped_search :relation => :hostgroup,    :on => :title, :complete_value => true, :rename => :hostgroup_title
 
       scoped_search :on => :reported_at, :complete_value => true, :default_order => :desc, :rename => :reported, :only_explicit => true, :aliases => [:last_report]
       scoped_search :on => :host_id,     :complete_value => false, :only_explicit => true
