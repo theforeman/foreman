@@ -10,7 +10,6 @@ class Report < ApplicationRecord
   has_many :logs, :dependent => :destroy
   has_many :messages, :through => :logs
   has_many :sources, :through => :logs
-  has_one :environment, :through => :host
   has_one :hostgroup, :through => :host
 
   has_one :organization, :through => :host
