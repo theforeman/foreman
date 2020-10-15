@@ -23,11 +23,8 @@ class Taxonomy < ApplicationRecord
   has_many :http_proxies, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'HttpProxy'
   has_many :realms, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Realm'
   has_many :hostgroups, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Hostgroup'
-  has_many :environments, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Environment'
   has_many :subnets, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'Subnet'
   has_many :auth_sources, :through => :taxable_taxonomies, :source => :taxable, :source_type => 'AuthSource'
-
-  has_many :puppetclasses, :through => :environments
 
   validate :check_for_orphans, :unless => proc { |t| t.new_record? }
   # the condition for parent_id != 0 is required because of our tests, should validate macros fill in attribute with values and it set 0 to this one
@@ -133,7 +130,6 @@ class Taxonomy < ApplicationRecord
     new = super
     new.name = ""
     new.users             = users
-    new.environments      = environments
     new.smart_proxies     = smart_proxies
     new.subnets           = subnets
     new.compute_resources = compute_resources

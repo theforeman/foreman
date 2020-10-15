@@ -33,9 +33,6 @@
           <li><a href="#realms" data-toggle="tab"><%= _("Realms") %></a></li>
         <% end %>
       <% end %>
-      <% if User.current.allowed_to?(:view_environments) %>
-        <li><a href="#environments" data-toggle="tab"><%= _("Environments") %></a></li>
-      <% end %>
       <% if User.current.allowed_to?(:view_hostgroups) %>
         <li><a href="#hostgroups" data-toggle="tab"><%= _("Host Groups") %></a></li>
       <% end %>
@@ -77,7 +74,6 @@
         <%= show_resource_if_allowed(f, taxonomy, :realms) %>
       <% end %>
 
-      <%= show_resource_if_allowed(f, taxonomy, :environments) %>
       <%= show_resource_if_allowed(f, taxonomy, :hostgroups) %>
 
       <% if taxonomy.is_a?(Location) && show_organization_tab? %>

@@ -169,7 +169,7 @@ class LocationsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :locations, :action => :step2, :id => new_location.to_param
 
     as_admin do
-      [:environment_ids, :hostgroup_ids, :environment_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :organization_ids].each do |association|
+      [:hostgroup_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :organization_ids].each do |association|
         assert new_location.public_send(association).present?, "missing #{association}"
         assert_equal location.public_send(association).uniq.sort, new_location.public_send(association).uniq.sort, "#{association} is different"
       end
