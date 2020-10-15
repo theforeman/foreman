@@ -70,7 +70,6 @@ class Host::Managed < Host::Base
   # Custom hooks will be executed after_commit
   after_commit :build_hooks
   before_save :clear_data_on_build
-  before_save :clear_puppetinfo, :if => :environment_id_changed?
 
   include PxeLoaderValidator
 
@@ -163,7 +162,7 @@ class Host::Managed < Host::Base
     property :pxe_loader_efi?, one_of: [true, false], desc: 'Returns true if PXE Loader uses EFI, false otherwise'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :environment, :ptable, :hostgroup,
+    allow :id, :name, :diskLayout, :puppetmaster, :puppet_ca_server, :operatingsystem, :os, :ptable, :hostgroup,
       :url_for_boot, :hostgroup, :compute_resource, :domain, :ip, :ip6, :mac, :shortname, :architecture,
       :model, :certname, :capabilities, :provider, :subnet, :subnet6, :token, :location, :organization, :provision_method,
       :image_build?, :pxe_build?, :otp, :realm, :nil?, :indent, :primary_interface,
@@ -284,7 +283,6 @@ class Host::Managed < Host::Base
   # some shortcuts
   alias_attribute :arch, :architecture
 
-  validates :environment_id, :presence => true, :unless => proc { |host| host.puppet_proxy_id.blank? }
   validates :organization_id, :presence => true, :if => proc { |host| host.managed? }
   validates :location_id,     :presence => true, :if => proc { |host| host.managed? }
   validate :compute_resource_in_taxonomy, :if => proc { |host| host.managed? && host.compute_resource_id.present? }
@@ -597,7 +595,7 @@ autopart"', desc: 'to render the content of host partition table'
   end
 
   def hostgroup_inherited_attributes
-    %w{puppet_proxy_id puppet_ca_proxy_id environment_id compute_profile_id realm_id compute_resource_id}
+    %w{puppet_proxy_id puppet_ca_proxy_id compute_profile_id realm_id compute_resource_id}
   end
 
   def apply_inherited_attributes(attributes, initialized = true)
@@ -991,18 +989,6 @@ autopart"', desc: 'to render the content of host partition table'
         end
       end
     end
-
-    status = validate_association_taxonomy(:environment)
-
-    if environment
-      puppetclasses.select("puppetclasses.id,puppetclasses.name").distinct.each do |e|
-        unless environment.puppetclasses.map(&:id).include?(e.id)
-          errors.add(:puppetclasses, _("%{e} does not belong to the %{environment} environment") % { :e => e, :environment => environment })
-          status = false
-        end
-      end
-    end
-    status
   end
 
   def set_certname

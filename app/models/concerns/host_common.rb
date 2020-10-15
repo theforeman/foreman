@@ -26,7 +26,6 @@ module HostCommon
       :api_description => N_('Puppet CA proxy ID')
 
     belongs_to :architecture
-    belongs_to :environment
     belongs_to :operatingsystem
 
     include SmartProxyHostExtensions
@@ -42,8 +41,6 @@ module HostCommon
     has_many :config_groups, :through => :host_config_groups
     has_many :config_group_classes, :through => :config_groups
     has_many :group_puppetclasses, :through => :config_groups, :source => :puppetclasses
-
-    alias_method :all_puppetclasses, :classes
 
     has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
@@ -209,43 +206,6 @@ module HostCommon
 
   def all_puppetclass_ids
     cg_class_ids + hg_class_ids + host_class_ids
-  end
-
-  def classes(env = environment)
-    conditions = {:id => all_puppetclass_ids }
-    if env
-      env.puppetclasses.where(conditions)
-    else
-      Puppetclass.where(conditions)
-    end
-  end
-
-  def puppetclass_ids
-    classes.reorder('').pluck('puppetclasses.id')
-  end
-
-  def classes_in_groups
-    conditions = {:id => cg_class_ids }
-    if environment
-      environment.puppetclasses.where(conditions) - parent_classes
-    else
-      Puppetclass.where(conditions) - parent_classes
-    end
-  end
-
-  # Returns Puppetclasses of a Host or Hostgroup
-  #
-  # It does not include Puppetclasses of it's ConfigGroupClasses
-  #
-  def individual_puppetclasses
-    ids = host_class_ids - cg_class_ids
-    return puppetclasses if ids.blank? && new_record?
-    Puppetclass.includes(:environments).where(id: ids)
-  end
-
-  def available_puppetclasses
-    return Puppetclass.all.authorized(:view_puppetclasses) if environment.blank?
-    environment.puppetclasses - parent_classes
   end
 
   protected
