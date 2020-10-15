@@ -2,7 +2,6 @@
 common:
   name: Common
   architecture: x86_64
-  environment: production
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
@@ -21,7 +20,6 @@ unusual:
 db:
   name: db
   architecture: x86_64
-  environment: production
   operatingsystem: centos5_3
   medium: one
   puppet_proxy: puppetmaster
@@ -32,7 +30,6 @@ parent:
   name: Parent
   title: Parent
   architecture: x86_64
-  environment: global_puppetmaster
   operatingsystem: centos5_3
   medium: one
   ptable: autopart
@@ -48,7 +45,6 @@ parent:
 
 inherited:
   name: inherited
-  environment: production
   title: Parent/inherited
   ancestry: 1
   lookup_value_matcher: hostgroup=inherited
