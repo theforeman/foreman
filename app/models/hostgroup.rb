@@ -42,7 +42,7 @@ class Hostgroup < ApplicationRecord
   alias_attribute :arch, :architecture
   alias_attribute :os, :operatingsystem
 
-  nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
+  nested_attribute_for :compute_profile_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader
 
   set_crud_hooks :hostgroup
@@ -91,7 +91,6 @@ class Hostgroup < ApplicationRecord
     property :arch, 'Architecture', desc: 'Returns architecture to be used on hosts within this host group'
     property :description, String, desc: 'Returns description of the host group'
     property :diskLayout, String, desc: 'Returns partition table template to be used on hosts within this host group'
-    property :environment, 'Environment', desc: 'Returns Puppet environment associated with this host group'
     property :operatingsystem, 'Operatingsystem', desc: 'Returns operating system to be used on hosts within this host group'
     property :os, 'Operatingsystem', desc: 'Returns operating system to be used on hosts within this host group'
     property :ptable, 'Ptable', desc: 'Returns partition table associated with this host group'
@@ -109,10 +108,10 @@ class Hostgroup < ApplicationRecord
     property :title, String, desc: 'Returns full title of this host group, e.g. Base/CentOS 7'
   end
   class Jail < Safemode::Jail
-    allow :id, :name, :diskLayout, :puppet_server, :operatingsystem, :architecture,
-      :environment, :ptable, :url_for_boot, :params, :puppet_proxy,
-      :puppet_ca_server, :os, :arch, :domain, :subnet, :hosts,
-      :subnet6, :realm, :root_pass, :description, :pxe_loader, :title,
+    allow :id, :name, :diskLayout, :puppetmaster, :puppet_server, :operatingsystem, :architecture,
+      :ptable, :url_for_boot, :params, :puppet_proxy, :puppet_ca_server,
+      :os, :arch, :domain, :subnet, :subnet6, :hosts, :realm,
+      :root_pass, :description, :pxe_loader, :title,
       :children, :parent
 
     def puppetmaster
