@@ -26,7 +26,6 @@ module HostCommon
       :api_description => N_('Puppet CA proxy ID')
 
     belongs_to :architecture
-    belongs_to :environment
     belongs_to :operatingsystem
 
     include SmartProxyHostExtensions
@@ -37,12 +36,11 @@ module HostCommon
     belongs_to :compute_profile
     belongs_to :compute_resource
 
-    before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
-
     has_many :lookup_values, :primary_key => :lookup_value_matcher, :foreign_key => :match, :dependent => :destroy
     # See "def lookup_values_attributes=" under, for the implementation of accepts_nested_attributes_for :lookup_values
     accepts_nested_attributes_for :lookup_values
 
+    before_save :check_puppet_ca_proxy_is_required?, :crypt_root_pass
     before_save :set_lookup_value_matcher
 
     # Replacement of accepts_nested_attributes_for :lookup_values,
