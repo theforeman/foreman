@@ -70,7 +70,7 @@ module Api
     def parent_scope
       parent_name, scope = parent_resource_details
 
-      return resource_class.where(nil) unless scope
+      return resource_class.all unless scope
 
       association = resource_class.reflect_on_all_associations.detect { |assoc| assoc.plural_name == parent_name.pluralize }
       # if couldn't find an association by name, try to find one by class

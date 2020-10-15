@@ -41,7 +41,7 @@ module Foreman
           begin
             role = Role.create! :name => name, :origin => @plugin_id, :description => description
             role.add_permissions!(permissions)
-          rescue ActiveRecord::RecordNotUnique
+          rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
             role = Role.find_by_name(name)
           end
           role

@@ -96,9 +96,10 @@ module ApplicationHelper
   # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def link_to_if_authorized(name, options = {}, html_options = {})
+    engine = options.delete(:engine) || main_app
     enable_link = authorized_for(options)
     if enable_link
-      link_to name, options, html_options
+      link_to name, engine.url_for(options.merge(:only_path => true)), html_options
     else
       link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     end
@@ -474,7 +475,7 @@ module ApplicationHelper
   def notifications
     content_tag :div, id: 'toast-notifications-container',
                       'data-notifications': toast_notifications_data.to_json.html_safe do
-      mount_react_component('ToastNotifications', '#toast-notifications-container')
+      react_component('ToastNotifications')
     end
   end
 

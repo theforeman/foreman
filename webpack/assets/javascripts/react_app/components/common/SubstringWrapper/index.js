@@ -15,7 +15,7 @@ const SubstringWrapper = ({ children, substring, Element }) => {
 
     for (let i = 0; i < parts.length; i += 2) {
       wrappedText[i] = (
-        <React.Fragment key={`${i}-fragement`}>
+        <React.Fragment key={`${i}-fragment`}>
           {parts[i]}
           {parts[i + 1] && <Element key={i}>{parts[i + 1]}</Element>}
         </React.Fragment>

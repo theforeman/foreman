@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "lint": "tfm-lint",
+    "lint:spelling": "eslint ./webpack",
     "foreman-js:link": "./script/npm_link_foreman_js.sh",
     "postlint": "./script/npm_lint_plugins.js",
     "test": "tfm-test",
@@ -20,18 +21,19 @@
     "create-react-component": "yo react-domain"
   },
   "dependencies": {
-    "@theforeman/vendor": "^4.12.0",
+    "@theforeman/vendor": "^4.14.0",
+    "eslint-plugin-spellcheck": "0.0.17",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
     "react-intl": "^2.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
-    "@theforeman/builder": "^4.12.0",
-    "@theforeman/eslint-plugin-foreman": "^4.12.0",
-    "@theforeman/stories": "^4.12.0",
-    "@theforeman/test": "^4.12.0",
-    "@theforeman/vendor-dev": "^4.12.0",
+    "@theforeman/builder": "^4.14.0",
+    "@theforeman/eslint-plugin-foreman": "^4.14.0",
+    "@theforeman/stories": "^4.14.0",
+    "@theforeman/test": "^4.14.0",
+    "@theforeman/vendor-dev": "^4.14.0",
     "argv-parse": "^1.0.1",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.0",

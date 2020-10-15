@@ -6,7 +6,7 @@ group :test do
   gem 'minitest-spec-rails', '~> 6.0'
   gem 'ci_reporter_minitest', :require => false
   gem 'capybara', '~> 3.0', '< 3.32.1', :require => false
-  gem 'puma', :require => false
+  gem 'puma', '< 5.0', :require => false
   gem 'show_me_the_cookies', '~> 5.0', :require => false
   gem 'database_cleaner', '~> 1.3', :require => false
   gem 'launchy', '~> 2.4'
@@ -18,7 +18,7 @@ group :test do
   gem 'rubocop-rails', '~> 2.4.2'
   gem 'poltergeist', '>= 1.18.0', :require => false
   gem 'selenium-webdriver', :require => false
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers', '>= 4.0', '< 4.4'
   gem 'shoulda-context', '~> 1.2'
   gem 'as_deprecation_tracker', '~> 1.4'
   gem 'rails-controller-testing', '~> 1.0'

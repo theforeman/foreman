@@ -77,7 +77,7 @@ class Solaris < Operatingsystem
   end
 
   def jumpstart_params(host, vendor)
-    medium_provider = Foreman::Plugin.medium_providers.find_provider(host)
+    medium_provider = Foreman::Plugin.medium_providers_registry.find_provider(host)
     # root server and install server are always the same under Foreman
     server_name = host.medium.media_host
     server_ip   = host.domain.resolver.getaddress(server_name).to_s

@@ -494,8 +494,7 @@ in core:
 [source, ERB]
 ....
  <%= webpacked_plugins_js_for :foreman_plugin, :foreman_other_plugin %>
- <span id=my_id></span>
- <%= mount_react_component('MyComponent', '#my_id, { :id => '5', :name => 'whatever' }.to_json) %>
+ <%= react_component('MyComponent', :id => '5', :name => 'whatever') %>
 ....
 
 [[adding-3rd-party-js-libraries]]
@@ -1799,7 +1798,7 @@ declaration:
 [source, ruby]
 ----
 Foreman::Plugin.register :my_plugin do
-  medium_providers.register(MyPlugin::ManagedContentMediumProvider)
+  medium_providers_registry.register(MyPlugin::ManagedContentMediumProvider)
 end
 ----
 [[compute-resources]]

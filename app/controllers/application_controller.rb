@@ -186,7 +186,7 @@ class ApplicationController < ActionController::Base
     @resource_base ||= if model_of_controller.respond_to?(:authorized)
                          model_of_controller.authorized(current_permission)
                        else
-                         model_of_controller.where(nil)
+                         model_of_controller.all
                        end
   end
 
@@ -351,7 +351,7 @@ class ApplicationController < ActionController::Base
       ex_message = exception.message
       Foreman::Logging.exception(ex_message, exception)
       full_request_id = request.request_id
-      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { :exception_message => ex_message, request_id: full_request_id.split('-').first, full_request_id: full_request_id}
+      render :template => "common/500", :layout => !request.xhr?, :status => :internal_server_error, :locals => { exception_message: ex_message, request_id: full_request_id.split('-').first, full_request_id: full_request_id }
     end
   end
 

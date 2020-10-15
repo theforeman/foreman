@@ -71,6 +71,16 @@ class UserTest < ActiveSupport::TestCase
   # Associations
   should have_many(:ssh_keys).dependent(:destroy)
 
+  test 'hooks are defined' do
+    expected = [
+      'user_created.event.foreman',
+      'user_updated.event.foreman',
+      'user_destroyed.event.foreman',
+    ]
+
+    assert_same_elements expected, User.event_subscription_hooks
+  end
+
   test 'should update with multiple valid descriptions' do
     user = users(:one)
     valid_name_list.each do |description|
@@ -708,11 +718,11 @@ class UserTest < ActiveSupport::TestCase
     not_existing_auth_source = 'new_external_source'
 
     context "internal or not existing AuthSource" do
-      test 'existing user' do
+      test 'existing user without auth source specified' do
         assert_difference('User.count', 0) do
-          login = users(:one).login
-          assert_equal User.find_or_create_external_user({:login => login}, nil),
-            User.find_by_login(login)
+          login = users(:external).login
+          user = User.find_or_create_external_user({:login => login}, nil)
+          assert_equal user, users(:external)
         end
       end
 
@@ -749,6 +759,17 @@ class UserTest < ActiveSupport::TestCase
               {:login => not_existing_user_login}, @apache_source.name),
               User.find_by_login(not_existing_user_login)
           end
+        end
+      end
+
+      test 'external user cannot login as existing internal user with same login' do
+        assert_difference('User.count', 0) do
+          created_user = User.find_or_create_external_user(
+            {:login => users(:one).login,
+            :mail => 'foobar@example.com',
+            :firstname => 'Foo',
+            :lastname => 'Bar'}, @apache_source.name)
+          assert_nil created_user
         end
       end
 

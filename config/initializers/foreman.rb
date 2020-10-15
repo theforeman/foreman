@@ -36,4 +36,5 @@ Menu::Loader.load
 # The users table may not be exist during initial migration of the database
 TopbarSweeper.expire_cache_all_users if (User.table_exists? rescue false)
 
-Foreman::Plugin.medium_providers.register MediumProviders::Default
+Foreman::Plugin.initialize_default_registries
+Foreman::Plugin.medium_providers_registry.register MediumProviders::Default

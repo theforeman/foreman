@@ -38,7 +38,7 @@ const fixtures = {
         url: 'some_url',
         tableID: 'some_ID',
       },
-      response: new Error('ooops!'),
+      response: new Error('Oops!'),
     },
   },
 };

@@ -34,10 +34,16 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
       >
         <DataList
           aria-label="Interfaces"
+          className=""
           isCompact={true}
+          selectedDataListItemId=""
+          wrapModifier={null}
         >
           <DataListItem
             aria-labelledby="ip"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -59,6 +65,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="ip6"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -79,6 +88,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="fqdn"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -99,6 +111,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="type"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -124,6 +139,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="mac"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -169,10 +187,16 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
       >
         <DataList
           aria-label="Interfaces"
+          className=""
           isCompact={true}
+          selectedDataListItemId=""
+          wrapModifier={null}
         >
           <DataListItem
             aria-labelledby="ip"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -194,6 +218,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="ip6"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -214,6 +241,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="fqdn"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -234,6 +264,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="type"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -259,6 +292,9 @@ exports[`HostDetails - Interfaces should render HostDetails IntefacesCard 1`] = 
           </DataListItem>
           <DataListItem
             aria-labelledby="mac"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells

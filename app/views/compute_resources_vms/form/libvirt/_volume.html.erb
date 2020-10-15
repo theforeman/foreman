@@ -1,5 +1,5 @@
 
-<%= selectable_f f, :pool_name, compute_resource.storage_pools.map(&:name), { }, :label => _("Storage pool"), :label_size => "col-md-2" %>
+<%= selectable_f f, :pool_name, compute_resource.storage_pools.map{|pool| pool.name.force_encoding('UTF-8') }, { }, :label => _("Storage pool"), :label_size => "col-md-2" %>
 <%= text_f f, :capacity, :label => _("Size (GB)"), :onchange => 'tfm.computeResource.capacityEdit(this)', :label_size => "col-md-2" %>
 <%= allocation_text_f f %>
 <%= select_f f, :format_type, %w[RAW QCOW2],:downcase, :to_s, { }, :label => _("Type"), :label_size => "col-md-2" %>

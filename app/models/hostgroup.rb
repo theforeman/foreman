@@ -48,9 +48,7 @@ class Hostgroup < ApplicationRecord
   nested_attribute_for :compute_profile_id, :environment_id, :domain_id, :puppet_proxy_id, :puppet_ca_proxy_id, :compute_resource_id,
     :operatingsystem_id, :architecture_id, :medium_id, :ptable_id, :subnet_id, :subnet6_id, :realm_id, :pxe_loader
 
-  set_crud_hooks :hostgroup do |hostgroup|
-    { id: hostgroup.id, name: hostgroup.name }
-  end
+  set_crud_hooks :hostgroup
 
   # with proc support, default_scope can no longer be chained
   # include all default scoping here
@@ -129,7 +127,8 @@ class Hostgroup < ApplicationRecord
     allow :id, :name, :diskLayout, :puppetmaster, :operatingsystem, :architecture,
       :environment, :ptable, :url_for_boot, :params, :puppet_proxy,
       :puppet_ca_server, :os, :arch, :domain, :subnet, :hosts,
-      :subnet6, :realm, :root_pass, :description, :pxe_loader, :title
+      :subnet6, :realm, :root_pass, :description, :pxe_loader, :title,
+      :children, :parent
   end
 
   # TODO: add a method that returns the valid os for a hostgroup
@@ -215,7 +214,7 @@ class Hostgroup < ApplicationRecord
   def params
     parameters = {}
     # read common parameters
-    CommonParameter.where(nil).find_each { |p| parameters.update Hash[p.name => p.value] }
+    CommonParameter.find_each { |p| parameters.update Hash[p.name => p.value] }
     # read OS parameters
     operatingsystem&.os_parameters&.each { |p| parameters.update Hash[p.name => p.value] }
     # read group parameters only if a host belongs to a group

@@ -110,18 +110,17 @@ exports[`Layout rendering renders layout 1`] = `
       <UserDropdowns
         changeActiveMenu={[Function]}
         className=""
+        instanceTitle="Production"
         notificationUrl="/notification_recipients"
         stopImpersonationUrl="/users/stop_impersonation"
         user={
           Object {
             "current_user": Object {
-              "user": Object {
-                "firstname": "Admin",
-                "id": 4,
-                "lastname": "User",
-                "login": "admin",
-                "name": "Admin User",
-              },
+              "firstname": "Admin",
+              "id": 4,
+              "lastname": "User",
+              "login": "admin",
+              "name": "Admin User",
             },
             "user_dropdown": Array [
               Object {

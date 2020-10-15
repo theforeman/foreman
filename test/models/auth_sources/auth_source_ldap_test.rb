@@ -137,7 +137,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       @auth_source_ldap.expects(:valid_group?).with('ipausers').returns(true)
       @auth_source_ldap.expects(:valid_group?).with('ipausers2').returns(true)
       external = FactoryBot.create(:external_usergroup, :name => 'ipausers', :auth_source => @auth_source_ldap)
-      FactoryBot.create(:external_usergroup, usergroup: external.usergroup, :name => 'ipausers2', :auth_source => @auth_source_ldap)
+      FactoryBot.create(:external_usergroup, usergroup: external.usergroup, name: 'ipausers2', auth_source: @auth_source_ldap)
       @auth_source_ldap.send(:update_usergroups, 'test')
       assert_include ldap_user.usergroups, external.usergroup
     end

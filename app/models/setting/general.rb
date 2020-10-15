@@ -28,6 +28,7 @@ class Setting::General < Setting
       set('instance_id', N_("Foreman instance ID, uniquely identifies this Foreman instance."), 'uuid', N_('Foreman UUID'), Foreman.uuid),
       set('default_locale', N_("Language to use for new users"), nil, N_('Default language'), nil, { :collection => proc { locales } }),
       set('default_timezone', N_("Timezone to use for new users"), nil, N_('Default timezone'), nil, { :collection => proc { timezones } }),
+      set('instance_title', N_("The instance title is shown on the top navigation bar (requires reload of page)."), nil, N_('Instance title')),
     ]
   end
 

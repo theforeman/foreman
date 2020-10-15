@@ -60,7 +60,7 @@ export const connectedMD = () => (
         given url,
       </p>
       <p>
-        the state will update by it and the PowerStatus component will recieve
+        the state will update by it and the PowerStatus component will receive
         the following props from the selectors:
       </p>
       <Code lang="javascript">{'{ state, title }'}</Code>

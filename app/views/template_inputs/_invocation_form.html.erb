@@ -2,7 +2,6 @@
   <% if input.options.present? %>
     <%= selectable_f input_fields, :value, input.options_array, { :include_blank => !input.required }, :label_help => input.description, :require => input.required, :label => input.name, :id => input.name, :onchange => local_assigns[:onchange] %>
   <% else %>
-    <%= content_tag :div, nil, id: "template-input-#{input.id}" %>
     <% if input.value_type == 'plain' || input.value_type.nil? %>
       <%= textarea_f input_fields, :value,
         :label => input.name,

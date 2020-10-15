@@ -24,10 +24,10 @@ class SettingValueSelection
     select = groups.reduce([]) do |memo, group|
       klass = group[:class].classify.constantize
       scope = group[:scope]
-      children = klass.send(scope).map { |obj| { obj.send(group[:value_method]) => obj.send(group[:text_method]) } }
-      memo.tap { |acc| acc.push(:text => group[:name], :children => children) }
+      children = klass.send(scope).map { |obj| { :label => obj.send(group[:text_method]), :value => obj.send(group[:value_method]) } }
+      memo.tap { |acc| acc.push(:group_label => group[:name], :children => children) }
     end
-    select.unshift(nil => options[:include_blank]) if options[:include_blank].present?
+    select.unshift(:value => nil, :label => options[:include_blank]) if options[:include_blank].present?
     select
   end
 end

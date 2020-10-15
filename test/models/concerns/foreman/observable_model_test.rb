@@ -36,7 +36,7 @@ class ObservableModelTest < ActiveSupport::TestCase
     test 'notify with default payload' do
       ActiveSupport::Notifications.subscribed(callback, 'model_updated.event.foreman') do
         callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
-          payload == { id: model.id }.merge(event_context)
+          payload == { object: model }.merge(event_context)
         end
 
         model.update(name: 'New Name')
@@ -104,7 +104,7 @@ class ObservableModelTest < ActiveSupport::TestCase
         test 'event is sent when model is created' do
           ActiveSupport::Notifications.subscribed(callback, 'model_created.event.foreman') do
             callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
-              payload == { id: model.id }.merge(event_context)
+              payload == { object: model }.merge(event_context)
             end
 
             model.save!
@@ -118,7 +118,7 @@ class ObservableModelTest < ActiveSupport::TestCase
         test 'event is sent when model is updated' do
           ActiveSupport::Notifications.subscribed(callback, 'model_updated.event.foreman') do
             callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
-              payload == { id: model.id }.merge(event_context)
+              payload == { object: model }.merge(event_context)
             end
 
             model.update!(name: 'New Name')
@@ -132,7 +132,7 @@ class ObservableModelTest < ActiveSupport::TestCase
         test 'event is sent when model is destroyed' do
           ActiveSupport::Notifications.subscribed(callback, 'model_destroyed.event.foreman') do
             callback.expects(:call).with do |_name, _started, _finished, _unique_id, payload|
-              payload == { id: model.id }.merge(event_context)
+              payload == { object: model }.merge(event_context)
             end
 
             model.destroy!

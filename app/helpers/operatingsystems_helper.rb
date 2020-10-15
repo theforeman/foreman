@@ -58,8 +58,11 @@ module OperatingsystemsHelper
            when /Windows/i
              "stub/steelblue-w"
            else
-             return os_image_tag(size, "stub/black-x", opts) if record.family.blank?
-             record.family.downcase
+             if record.family.blank?
+               'stub/black-x'
+             else
+               record.family.downcase
+             end
            end
     return image_path("icons#{size}/#{name}.png") if opts[:path]
 

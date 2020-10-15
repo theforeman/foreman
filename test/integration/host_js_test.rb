@@ -683,6 +683,22 @@ class HostJSTest < IntegrationTestWithJavascript
         select2 'Bond', :from => 'host_interfaces_attributes_0_type'
         assert page.has_selector? 'input[name="host[interfaces_attributes][0][bond_options]"]'
       end
+
+      test "showing only mac error when entering mac incorrectly" do
+        domain = domains(:mydomain)
+        subnet = subnets(:one)
+        mac = 'bad address'
+        disable_orchestration
+        go_to_interfaces_tab
+
+        table.first(:button, 'Edit').click
+        wait_for_modal
+        select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
+        select2 subnet.name, :from => 'host_interfaces_attributes_0_subnet_id'
+        modal.find('.interface_mac').set(mac)
+        modal.find('.interface_identifier').set('eth0')
+        assert page.has_selector?('span[class="error-message"]', :count => 1)
+      end
     end
 
     describe "switching flags from the overview table" do

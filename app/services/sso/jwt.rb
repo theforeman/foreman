@@ -12,6 +12,9 @@ module SSO
       user = User.unscoped.except_hidden.find_by(id: user_id) if user_id
       @current_user = user
       user&.login
+    rescue JWT::ExpiredSignature
+      Rails.logger.error "JWT SSO: Expired JWT token."
+      nil
     rescue JWT::DecodeError
       Rails.logger.error "JWT SSO: Failed to decode JWT."
       nil

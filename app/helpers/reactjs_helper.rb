@@ -13,7 +13,7 @@ module ReactjsHelper
   def react_component(name, props = {})
     props = props.to_json if props.is_a?(Hash)
 
-    content_tag('react-component', '', :name => name, :data => { props: props })
+    content_tag('foreman-react-component', '', :name => name, :data => { props: props })
   end
 
   def webpacked_plugins_js_for(*plugin_names)

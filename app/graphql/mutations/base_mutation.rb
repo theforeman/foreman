@@ -67,7 +67,7 @@ module Mutations
 
         {
           result_key => resource,
-          errors: errors,
+          :errors => errors,
         }
       end
     end

@@ -43,8 +43,6 @@ module Api
 
       before_action :setup_has_many_params, :only => [:create, :update]
       before_action :check_media_type
-      # ensure include_root_in_json = false for V2 only
-      around_action :disable_json_root
 
       layout 'api/v2/layouts/index_layout', :only => :index
 
@@ -171,17 +169,6 @@ module Api
         options = set_error_details(error, options)
         render options.merge(:template => "api/v2/errors/#{error}",
                              :layout   => 'api/v2/layouts/error_layout')
-      end
-
-      private
-
-      def disable_json_root
-        # disable json root element
-        ActiveRecord::Base.include_root_in_json = false
-        yield
-      ensure
-        # re-enable json root element
-        ActiveRecord::Base.include_root_in_json = true
       end
     end
   end

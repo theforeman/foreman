@@ -6,10 +6,16 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
 >
   <DataList
     aria-label="Host Properties"
+    className=""
     isCompact={true}
+    selectedDataListItemId=""
+    wrapModifier={null}
   >
     <DataListItem
       aria-labelledby="name"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -31,6 +37,9 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
     </DataListItem>
     <DataListItem
       aria-labelledby="domain"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -55,7 +64,10 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
       </DataListItemRow>
     </DataListItem>
     <DataListItem
-      aria-labelledby="architecutre"
+      aria-labelledby="architecture"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -84,6 +96,9 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
     </DataListItem>
     <DataListItem
       aria-labelledby="ip"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -112,6 +127,9 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
     </DataListItem>
     <DataListItem
       aria-labelledby="ip6"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -145,6 +163,9 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
     </DataListItem>
     <DataListItem
       aria-labelledby="mac"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -173,6 +194,9 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
     </DataListItem>
     <DataListItem
       aria-labelledby="location"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells
@@ -201,6 +225,9 @@ exports[`HostDetails - Interfaces should render UserProfile 1`] = `
     </DataListItem>
     <DataListItem
       aria-labelledby="organization"
+      className=""
+      id=""
+      isExpanded={false}
     >
       <DataListItemRow>
         <DataListItemCells

@@ -54,7 +54,7 @@ module Foreman
 
             begin
               snippet_variables = variables.merge(options[:variables] || {})
-              template.render(host: host, variables: snippet_variables, mode: mode, source_klass: source&.class)
+              template.render(renderer: renderer, host: host, variables: snippet_variables, mode: mode, source_klass: source&.class)
             rescue ::Foreman::Exception => e
               Foreman::Logging.exception('Error while rendering a snippet', e)
               raise

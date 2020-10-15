@@ -46,6 +46,7 @@ Array [
     Object {
       "payload": Object {
         "actionTypes": undefined,
+        "errorToast": [Function],
         "handleError": [Function],
         "handleSuccess": [Function],
         "headers": undefined,
@@ -56,6 +57,7 @@ Array [
           "public": false,
           "query": "name ~ my",
         },
+        "successToast": [Function],
         "url": "/api/v2/hosts",
       },
       "type": "API_POST",
@@ -79,6 +81,19 @@ Array [
   Array [
     Object {
       "payload": Object {
+        "key": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
+        "message": Object {
+          "key": "BOOKMARKS_FORM_SUBMITTED_SUCCESS",
+          "message": "Bookmark was successfully created.",
+          "type": "success",
+        },
+      },
+      "type": "TOASTS_ADD",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
         "data": Object {
           "controller": "hosts",
           "name": "Joe.D",
@@ -88,19 +103,6 @@ Array [
         "item": "Bookmarks",
       },
       "type": "BOOKMARKS_FORM_SUBMITTED",
-    },
-  ],
-  Array [
-    Object {
-      "payload": Object {
-        "key": "1547e1c0-309a-11e9-98f5-5f761412a4c2",
-        "message": Object {
-          "key": "1547e1c0-309a-11e9-98f5-5f761412a4c2",
-          "message": "Bookmark was successfully created.",
-          "type": "success",
-        },
-      },
-      "type": "TOASTS_ADD",
     },
   ],
 ]

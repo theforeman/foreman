@@ -49,9 +49,7 @@ end %>
 
 <%= compute_specific_js(compute_resource, "nic_info") %>
 
-<div id="scsi_controllers"></div>
-
-<%= mount_react_component('StorageContainer', '#scsi_controllers', {
+<%= react_component('StorageContainer', { data: {
   config: {
     vmExists: !new_vm,
     controllerTypes: compute_resource.scsi_controller_types,
@@ -63,4 +61,4 @@ end %>
   volumes: f.object.volumes.map { |volume| volume.attributes.merge(:size_gb => volume.size_gb).deep_transform_keys { |key| key.to_s.camelize(:lower).to_sym }.reject { |k,v| k == :size } },
   controllers: f.object.scsi_controllers,
   cluster: f.object.cluster
-}.to_json) %>
+}}) %>

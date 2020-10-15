@@ -31,7 +31,7 @@ Object {
             "label": "results1 ",
           },
           Object {
-            "category": "Dolphine",
+            "category": "Dolphin",
             "label": "results2 ",
           },
         ],
@@ -171,7 +171,7 @@ Object {
             "label": "results1 ",
           },
           Object {
-            "category": "Dolphine",
+            "category": "Dolphin",
             "label": "results2 ",
           },
         ],
@@ -240,7 +240,7 @@ Object {
               "label": "results1 ",
             },
             Object {
-              "category": "Dolphine",
+              "category": "Dolphin",
               "label": "results2 ",
             },
           ],
@@ -263,7 +263,7 @@ Object {
             "label": "results1 ",
           },
           Object {
-            "category": "Dolphine",
+            "category": "Dolphin",
             "label": "results2 ",
           },
         ],

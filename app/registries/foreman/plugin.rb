@@ -38,20 +38,48 @@ module Foreman #:nodoc:
   #   end
   #
   class Plugin
+    DEFAULT_REGISTRIES = {
+      fact_importer: 'Foreman::Plugin::FactImporterRegistry',
+      report_scanner: 'Foreman::Plugin::ReportScannerRegistry',
+      report_origin: 'Foreman::Plugin::ReportOriginRegistry',
+      medium_providers: 'Foreman::Plugin::MediumProvidersRegistry',
+      graphql_types: 'Foreman::Plugin::GraphqlTypesRegistry',
+    }
+
     @registered_plugins = {}
     @tests_to_skip = {}
-    @fact_importer_registry = Plugin::FactImporterRegistry.new
-    @report_scanner_registry = Plugin::ReportScannerRegistry.new
-    @report_origin_registry = Plugin::ReportOriginRegistry.new
-    @medium_providers = Plugin::MediumProvidersRegistry.new
-    @graphql_types_registry = Plugin::GraphqlTypesRegistry.new
+    @registries = {}
 
     class << self
       attr_reader   :registered_plugins
-      attr_accessor :tests_to_skip, :report_scanner_registry,
-        :report_origin_registry, :medium_providers,
-        :graphql_types_registry, :fact_importer_registry
+      attr_reader   :registries
+      attr_accessor :tests_to_skip
       private :new
+
+      def initialize_default_registries
+        DEFAULT_REGISTRIES.each do |name, class_name|
+          global_registry(name, class_name.constantize.new)
+        end
+      end
+
+      # Defines a global registry to be used by other plugins as Foreman::Plugin.<global_registry_name>.
+      #
+      # Require a name of the registry and the registry instance.
+      # It defines an registry access point method by suffixing the registry name with '_registry' as method name
+      # ==== Examples
+      #
+      #   global_registry(:my_special, MyPluginNamespace::MySpecialRegistry.new)
+      def global_registry(name, registry)
+        raise "Registry name (#{name}) mustn't have '_registry' suffix" if name.to_s.end_with?('registry')
+        define_singleton_method("#{name}_registry") do
+          registries[name] ||= registry
+        end
+      end
+
+      def medium_providers
+        Foreman::Deprecation.deprecation_warning('2.5', 'Plugin.medium_providers is deprecated, use Plugin.medium_providers_registry instead')
+        medium_providers_registry
+      end
 
       def def_field(*names)
         class_eval do
@@ -87,12 +115,6 @@ module Foreman #:nodoc:
         @registered_plugins.delete(plugin_id)
       end
 
-      # Clears the registered plugins hash
-      # It doesn't unload installed plugins
-      def clear
-        @registered_plugins = {}
-      end
-
       # Returns an array of all registered plugins
       def all
         registered_plugins.values.sort
@@ -121,6 +143,18 @@ module Foreman #:nodoc:
       def with_global_js
         with_webpack.select { |plugin| plugin.global_js_files.present? }
       end
+
+      private
+
+      # Clears the registered plugins hash and registries
+      # It doesn't unload installed plugins
+      # You can provide registered plugins and registries hashes to use instead of clear hashes
+      # It's intended only for internal testing
+      def clear(plugins = {}, registries = {})
+        @registered_plugins = plugins
+        @registries = registries
+        initialize_default_registries
+      end
     end
 
     prepend Foreman::Plugin::Assets
@@ -130,7 +164,8 @@ module Foreman #:nodoc:
     def_field :name, :description, :url, :author, :author_url, :version, :path
     attr_reader :id, :logging, :provision_methods, :compute_resources, :to_prepare_callbacks,
       :facets, :rbac_registry, :dashboard_widgets, :info_providers, :smart_proxy_references,
-      :renderer_variable_loaders, :host_ui_description, :ping_extension, :status_extension
+      :renderer_variable_loaders, :host_ui_description, :ping_extension, :status_extension,
+      :allowed_registration_vars
 
     # Lists plugin's roles:
     # Foreman::Plugin.find('my_plugin').registered_roles
@@ -155,6 +190,7 @@ module Foreman #:nodoc:
       @renderer_variable_loaders = []
       @ping_extension = nil
       @status_extension = nil
+      @allowed_registration_vars = []
     end
 
     def engine
@@ -357,7 +393,8 @@ module Foreman #:nodoc:
       return true if Foreman.in_setup_db_rake?
       return @pending_migrations unless @pending_migrations.nil?
 
-      @pending_migrations = ActiveRecord::MigrationContext.new(migrations_paths, ActiveRecord::SchemaMigration).needs_migration?
+      @pending_migrations = ActiveRecord::Base.connection.migration_context.needs_migration?
+      @pending_migrations ||= ActiveRecord::MigrationContext.new(migrations_paths, ActiveRecord::SchemaMigration).needs_migration?
 
       Rails.logger.debug("There are pending migrations for #{id}. Please run foreman-rake db:migrate.") if @pending_migrations
 
@@ -565,6 +602,10 @@ module Foreman #:nodoc:
 
     def describe_host(&block)
       @host_ui_description = UI.describe_host(&block)
+    end
+
+    def extend_allowed_registration_vars(var)
+      @allowed_registration_vars << var
     end
 
     delegate :subscribe, to: ActiveSupport::Notifications

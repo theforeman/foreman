@@ -253,7 +253,7 @@ class LocationsControllerTest < ActionController::TestCase
       host = FactoryBot.create(:host)
       host.update(:location => nil)
 
-      Host.stubs(:authorized).returns(Host.where('1=0'))
+      Host.stubs(:authorized).returns(Host.none)
 
       post :create, params: { :location => {:name => "test_loc"} }, session: set_session_user
 

@@ -5,7 +5,7 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
   isHoverable={true}
 >
   <CardBody>
-    Paramterers
+    Parameters
   </CardBody>
   <Accordion
     asDefinitionList={true}
@@ -26,10 +26,16 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
       >
         <DataList
           aria-label="Parameters"
+          className=""
           isCompact={true}
+          selectedDataListItemId=""
+          wrapModifier={null}
         >
           <DataListItem
             aria-labelledby="Parameter's type"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -50,6 +56,9 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
           </DataListItem>
           <DataListItem
             aria-labelledby="Parameter's Value"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -92,10 +101,16 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
       >
         <DataList
           aria-label="Parameters"
+          className=""
           isCompact={true}
+          selectedDataListItemId=""
+          wrapModifier={null}
         >
           <DataListItem
             aria-labelledby="Parameter's type"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells
@@ -116,6 +131,9 @@ exports[`HostDetails - ParametersCard should render HostDetails ParametersCard 1
           </DataListItem>
           <DataListItem
             aria-labelledby="Parameter's Value"
+            className=""
+            id=""
+            isExpanded={false}
           >
             <DataListItemRow>
               <DataListItemCells

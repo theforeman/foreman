@@ -14,6 +14,16 @@ class DomainTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:fullname).allow_blank
   should belong_to(:dns)
 
+  test 'hooks are defined' do
+    expected = [
+      'domain_created.event.foreman',
+      'domain_updated.event.foreman',
+      'domain_destroyed.event.foreman',
+    ]
+
+    assert_same_elements expected, Domain.event_subscription_hooks
+  end
+
   test "when cast to string should return the name" do
     s = @domain.to_s
     assert_equal @domain.name, s

@@ -28,7 +28,7 @@ module Orchestration::Compute
 
   def compute_provides?(attr)
     return false if compute_resource.nil?
-    compute? && compute_resource.provided_attributes.key?(attr)
+    compute_resource.provided_attributes.key?(attr)
   end
 
   def vm_name

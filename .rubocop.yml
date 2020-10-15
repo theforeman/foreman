@@ -96,7 +96,7 @@ Style/FrozenStringLiteralComment:
 
 # Support both, Ruby 1.9 hashmap and hash-rocket syntax
 Style/HashSyntax:
-  Enabled: false
+  EnforcedStyle: no_mixed_keys
 
 Style/IfUnlessModifier:
   Enabled: false

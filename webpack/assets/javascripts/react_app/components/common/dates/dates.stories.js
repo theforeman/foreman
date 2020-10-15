@@ -47,8 +47,8 @@ export const dates = () => {
     <Story>
       <Text>
         <h1>Dates</h1>
-        There are 4 date/time formats that should be used accross the Foreman
-        and plugins. Each of the formats is represented by one React component.
+        There are 4 date/time formats that should be used across the Foreman and
+        plugins. Each of the formats is represented by one React component.
         <br />
         <br />
         Examples display {dateToShow.toString()}.<h3>IsoDate</h3>
@@ -58,7 +58,7 @@ export const dates = () => {
         </pre>
         <h3>LongDateTime</h3>
         Renders full date with time. Relative time tooltip and seconds can be
-        displyed optionally :
+        displayed optionally :
         <pre>
           <LongDateTime
             date={dateToShow}
@@ -67,15 +67,15 @@ export const dates = () => {
             showRelativeTimeTooltip={showRelativeTimeTooltip}
           />
         </pre>
-        There&apos;s an erb helper alernative for rendering the same format with
-        relative time tooltip true as a default:
+        There&apos;s an erb helper alternative for rendering the same format
+        with relative time tooltip true as a default:
         <Code lang="ruby">
           date_time_absolute(time, :short, seconds = false,
           show_relative_time_tooltip = true)
         </Code>
         <h3>ShortDateTime</h3>
         Renders shortened date with time. Relative time tooltip and seconds can
-        be displyed optionally :
+        be displayed optionally :
         <pre>
           <ShortDateTime
             date={dateToShow}
@@ -84,18 +84,18 @@ export const dates = () => {
             showRelativeTimeTooltip={showRelativeTimeTooltip}
           />
         </pre>
-        There&apos;s an erb helper alernative for rendering the same format with
-        relative time tooltip true as a default:
+        There&apos;s an erb helper alternative for rendering the same format
+        with relative time tooltip true as a default:
         <Code lang="ruby">
           date_time_absolute(time, :long, seconds = false,
           show_relative_time_tooltip = true)
         </Code>
         <h3>RelativeDateTime</h3>
-        Renders relative date with long date in a tooltop:
+        Renders relative date with long date in a tooltip:
         <pre>
           <RelativeDateTime date={dateToShow} defaultValue="N/A" />
         </pre>
-        There&apos;s an erb helper alernative for rendering a relative time:
+        There&apos;s an erb helper alternative for rendering a relative time:
         <Code lang="ruby">date_time_relative(time)</Code>
       </Text>
     </Story>

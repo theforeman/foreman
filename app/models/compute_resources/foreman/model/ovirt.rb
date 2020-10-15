@@ -308,7 +308,7 @@ module Foreman::Model
     end
 
     def get_ovirt_id(argument_list, argument)
-      if argument_list.detect { |a| a.name == argument }.nil? && argument_list.detect { |a| a.id == argument }.nil?
+      if argument_list.none? { |a| a.name == argument ||  a.id == argument }
         raise Foreman::Exception.new("#{argument} is not valid, enter id or name")
       else
         argument_list.detect { |a| a.name == argument }.try(:id) || argument
@@ -360,6 +360,7 @@ module Foreman::Model
 
     def new_volume(attr = {})
       set_preallocated_attributes!(attr, attr[:preallocate])
+      raise ::Foreman::Exception.new(N_('VM volume attributes are not set properly')) unless attr.all? { |key, value| value.is_a? String }
       Fog::Ovirt::Compute::Volume.new(attr)
     end
 
@@ -499,7 +500,7 @@ module Foreman::Model
       if attrs[:ovirt_quota_id].nil?
         attrs[:ovirt_quota_id] = client.quotas.first.id
       else
-        get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
+        attrs[:ovirt_quota_id] = get_ovirt_id(client.quotas, attrs[:ovirt_quota_id])
       end
     end
 
@@ -630,6 +631,7 @@ module Foreman::Model
       interfaces = nested_attributes_for :interfaces, attrs
       interfaces.map do |interface|
         interface[:name] = default_iface_name(interfaces) if interface[:name].empty?
+        raise Foreman::Exception.new("Interface network is missing.") if interface[:network].nil?
         interface[:network] = get_ovirt_id(cluster_networks, interface[:network])
         vm.add_interface(interface)
       end

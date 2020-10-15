@@ -10,8 +10,10 @@ const { GET, POST, PUT, DELETE, PATCH } = API_OPERATIONS;
  * @param { String } payload.url the url for the API request.
  * @param { String } payload.headers the API get request headers.
  * @param { Object } payload.params the API get request params.
- * @param { Object } payload.handleError an error handling callback.
- * @param { Object } payload.handleSuccess a success handling callback.
+ * @param { Function } payload.handleError an error handling callback.
+ * @param { Function } payload.handleSuccess a success handling callback.
+ * @param { Function } payload.errorToast an error toast will be triggered with this message after API error.
+ * @param { Function } payload.successToast a succes toast will be triggered with this message after API success.
  * @param { Object } payload.payload the API payload which will be passed also to the reducer.
  * @param { Object } payload.actionTypes action types which will replace the default action types.
  */

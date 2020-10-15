@@ -49,13 +49,11 @@
 <h3 id="silent_erb_tag"><%% %></h3>
 <p><%= _('All Ruby code is enclosed within <code><&#37; &#37;></code> in an ERB template. The code is executed when the template is rendered. It can contain Ruby control flow structures as well as application-specific macros and variables. For example:').html_safe %></p>
 
-<pre>
-<&#37; if @host.operatingsystem.family == "Redhat" && @host.operatingsystem.major.to_i > 6 -&#37;>
-systemctl <&#37;= input("action") &#37;> <&#37;= input("service") &#37;>
-<&#37; else -&#37;>
-service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
-<&#37; end -&#37;>
-</pre>
+<%= apipie_dsl_example(apipie_erb_wrap('if @host.operatingsystem.family == "Redhat" && @host.operatingsystem.major.to_i > 6', mode: :silent, close_trim: true) + "\n" +
+                       'systemctl ' + apipie_erb_wrap('input("action")') + ' ' + apipie_erb_wrap('input("service")')+ "\n" +
+                        apipie_erb_wrap('else', mode: :silent, close_trim: true) + "\n" +
+                       'service ' + apipie_erb_wrap('input("service")') + ' ' + apipie_erb_wrap('input("action")')+ "\n" +
+                        apipie_erb_wrap('end', mode: :silent, close_trim: true)) %>
 
 <p><%= _('Note that there is no output from tags starting with <% when the template is rendered.') %></p>
 
@@ -102,13 +100,12 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
 
 <p><%= _('Because of the varying lengths of the ERB tags, indenting the ERB syntax might seem messy. ERB syntax ignores white space. One method of handling the indentation is to declare the ERB tag at the beginning of each new line and then use white space within the ERB tag to outline the relationships within the syntax, for example:') %></p>
 
-<pre>
-<&#37;- load_hosts.each_record do |host| -&#37;>
-<&#37;-   if host.build? &#37;>
-<&#37;=     host.name &#37;> build is in progress
-<&#37;-   end &#37;>
-<&#37;- end &#37;>
-</pre>
+<%= apipie_dsl_example(apipie_erb_wrap('load_hosts.each_record do |host|', mode: :silent, open_trim: true, close_trim: true) + "\n" +
+                       apipie_erb_wrap('  if host.build?', mode: :silent, open_trim: true) + "\n" +
+                       apipie_erb_wrap('    host.name') + ' build is in progress' + "\n" +
+                       apipie_erb_wrap('  end', mode: :silent, open_trim: true) + "\n" +
+                       apipie_erb_wrap('end', mode: :silent, open_trim: true)
+                      ) %>
 
 <h2 id="building_blocks"><%= _('Basic building blocks - macros, variables, methods') %></h2>
 
@@ -267,7 +264,7 @@ service <&#37;= input("service") &#37;> <&#37;= input("action") &#37;>
   <tr>
     <td><code>@host</code></td>
     <td>Provisioning Template, Partition Table, Job template</td>
-    <td><%= _('Represents the host object for whitch the template is rendered.') %></td>
+    <td><%= _('Represents the host object for which the template is rendered.') %></td>
   </tr>
   </tbody>
 </table>

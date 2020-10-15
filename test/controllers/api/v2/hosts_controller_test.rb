@@ -26,27 +26,21 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       :operatingsystem_id  => Operatingsystem.find_by_name('Redhat').id,
       :puppet_proxy_id     => smart_proxies(:puppetmaster).id,
       :compute_resource_id => compute_resources(:one).id,
+      :compute_attributes => {
+        :cpus => 4,
+        :memory => 1024,
+      },
       :root_pass           => "xybxa6JUkz63w",
       :location_id         => taxonomies(:location1).id,
       :organization_id     => taxonomies(:organization1).id,
     }
   end
 
-  def valid_compute_attrs
-    {
-      :compute_attributes => {
-        :cpus => 4,
-        :memory => 1024,
-      },
-    }
-  end
-
   def valid_attrs
     net_attrs = {
-      :ip  => '10.0.0.20',
-      :mac => '52:53:00:1e:85:93',
+      :ip => '10.0.0.20',
     }
-    basic_attrs.merge(net_attrs).merge(valid_compute_attrs)
+    basic_attrs.merge(net_attrs)
   end
 
   def valid_attrs_with_root(extra_attrs = {})
@@ -71,7 +65,6 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     [{
       :primary => true,
       :ip => '10.0.0.20',
-      :mac => '00:11:22:33:44:00',
     }, {
       :type => 'bmc',
       :provider => 'IPMI',
@@ -233,6 +226,12 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_equal puppet_proxy.name, response['puppet_proxy_name']
   end
 
+  test "should show registration token" do
+    get :show, params: {:id => @host.id}, session: set_session_user
+    assert_response :success
+    assert_not_empty ActiveSupport::JSON.decode(@response.body)['registration_token']
+  end
+
   test "should create host" do
     disable_orchestration
     assert_difference('Host.count') do
@@ -310,8 +309,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal 2, last_record.interfaces.count
 
-    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert last_record.interfaces.find_by_ip('10.0.0.20').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by_ip('10.0.0.20').class
     assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
@@ -325,8 +324,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     assert_response :created
     assert_equal 2, last_record.interfaces.count
 
-    assert last_record.interfaces.find_by_mac('00:11:22:33:44:00').primary?
-    assert_equal Nic::Managed, last_record.interfaces.find_by_mac('00:11:22:33:44:00').class
+    assert last_record.interfaces.find_by_ip('10.0.0.20').primary?
+    assert_equal Nic::Managed, last_record.interfaces.find_by_ip('10.0.0.20').class
     assert_equal Nic::BMC,     last_record.interfaces.find_by_mac('00:11:22:33:44:01').class
   end
 
@@ -344,7 +343,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
   test "should create interfaces from compute profile" do
     disable_orchestration
 
-    compute_attrs = compute_attributes(:with_interfaces)
+    compute_attrs = FactoryBot.create(:compute_attribute, :with_interfaces, compute_resource: compute_resources(:one))
     post :create, params: { :host => basic_attrs_with_profile(compute_attrs).merge(:interfaces_attributes => nics_attrs) }
     assert_response :created
 
@@ -352,7 +351,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
       assert_equal compute_attrs.vm_interfaces.count,
         last_record.interfaces.count
       assert_equal expected_compute_attributes(compute_attrs, 0),
-        last_record.interfaces.find_by_mac('00:11:22:33:44:00').compute_attributes
+        last_record.interfaces.find_by_ip('10.0.0.20').compute_attributes
       assert_equal expected_compute_attributes(compute_attrs, 1),
         last_record.interfaces.find_by_mac('00:11:22:33:44:01').compute_attributes
     end
@@ -575,7 +574,8 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
         are set, authentication should succeed w/o valid session cookies" do
     Setting[:authorize_login_delegation] = true
     Setting[:authorize_login_delegation_api] = true
-    set_remote_user_to users(:admin)
+    user = FactoryBot.create(:user, :admin, :with_mail, :auth_source => auth_sources(:external))
+    set_remote_user_to user
     User.current = nil # User.current is admin at this point (from initialize_host)
     host = Host.first
     get :show, params: { :id => host.to_param, :format => 'json' }

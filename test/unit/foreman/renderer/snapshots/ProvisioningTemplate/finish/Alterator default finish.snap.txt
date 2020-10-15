@@ -20,8 +20,6 @@ apt-get -y install puppet >/dev/null 2>/dev/null
 
 
 cat > /etc/puppet/puppet.conf << EOF
-
-
 [main]
 vardir = /var/lib/puppet
 logdir = /var/log/puppet
@@ -47,5 +45,7 @@ else
 fi
 
 /sbin/chkconfig puppetd on
+
+PATH=/usr/bin:/usr/sbin:/bin:/sbin:$PATH shutdown -r +1
 
 exit 0

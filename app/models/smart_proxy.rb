@@ -83,13 +83,19 @@ class SmartProxy < ApplicationRecord
     conditions
   end
 
+  def smart_proxy_feature_by_name(feature_name)
+    feature_id = Feature.find_by(:name => feature_name).try(:id)
+    # loop through the in memory object to work on unsaved objects
+    smart_proxy_features.find { |spf| spf.feature_id == feature_id }
+  end
+
   def has_feature?(feature_name)
     feature_ids = Feature.where(:name => feature_name).pluck(:id)
     smart_proxy_features.any? { |proxy_feature| feature_ids.include?(proxy_feature.feature_id) }
   end
 
   def capabilities(feature)
-    smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:capabilities)
+    smart_proxy_feature_by_name(feature).try(:capabilities)
   end
 
   def has_capability?(feature, capability)
@@ -97,7 +103,7 @@ class SmartProxy < ApplicationRecord
   end
 
   def setting(feature, setting)
-    smart_proxy_features.find_by(:feature_id => Feature.find_by(:name => feature)).try(:settings).try(:[], setting)
+    smart_proxy_feature_by_name(feature).try(:settings).try(:[], setting)
   end
 
   def httpboot_http_port
@@ -199,6 +205,6 @@ class SmartProxy < ApplicationRecord
     property :httpboot_https_port!, Integer, desc: 'Same as httpboot_https_port, but raises Foreman::Exception if no port is set'
   end
   class Jail < ::Safemode::Jail
-    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!
+    allow :id, :name, :hostname, :httpboot_http_port, :httpboot_https_port, :httpboot_http_port!, :httpboot_https_port!, :url
   end
 end

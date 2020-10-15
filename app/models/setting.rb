@@ -6,7 +6,6 @@ class Setting < ApplicationRecord
   friendly_id :name
   include ActiveModel::Validations
   include EncryptValue
-  include HiddenValue
   include PermissionName
   self.inheritance_column = 'category'
 
@@ -16,7 +15,7 @@ class Setting < ApplicationRecord
   FROZEN_ATTRS = %w{name category}
   NONZERO_ATTRS = %w{puppet_interval idle_timeout entries_per_page outofsync_interval}
   BLANK_ATTRS = %w{ host_owner trusted_hosts login_delegation_logout_url root_pass default_location default_organization websockets_ssl_key websockets_ssl_cert oauth_consumer_key oauth_consumer_secret login_text oidc_audience oidc_issuer oidc_algorithm
-                    smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list default_locale default_timezone ssl_certificate ssl_ca_file ssl_priv_key default_pxe_item_global default_pxe_item_local oidc_jwks_url }
+                    smtp_address smtp_domain smtp_user_name smtp_password smtp_openssl_verify_mode smtp_authentication sendmail_arguments sendmail_location http_proxy http_proxy_except_list default_locale default_timezone ssl_certificate ssl_ca_file ssl_priv_key default_pxe_item_global default_pxe_item_local oidc_jwks_url instance_title }
   ARRAY_HOSTNAMES = %w{trusted_hosts}
   URI_ATTRS = %w{foreman_url unattended_url}
   URI_BLANK_ATTRS = %w{login_delegation_logout_url}
@@ -106,6 +105,13 @@ class Setting < ApplicationRecord
     record = where(:name => name).first!
     record.value = value
     record.save!
+  end
+
+  def self.setting_type_from_value(value_for_type)
+    t = value_for_type.class.to_s.downcase
+    return t if TYPES.include?(t)
+    return "integer" if value_for_type.is_a?(Integer)
+    return "boolean" if value_for_type.is_a?(TrueClass) || value_for_type.is_a?(FalseClass)
   end
 
   def value=(v)
@@ -312,28 +318,6 @@ class Setting < ApplicationRecord
 
   # End methods for loading default settings
 
-  def full_name_with_default
-    _("%{full_name} (Default: %{default})") % {full_name: _(full_name), default: has_default? ? default : "Not set" }
-  end
-
-  def has_default?
-    default_type = settings_type || default.class.to_s.downcase
-    case default_type
-    when "array", "hash", "string"
-      !default.empty?
-    when "boolean", "integer", "falseclass", "trueclass"
-      true
-    when "nilclass"
-      false
-    else
-      !default.nil?
-    end
-  end
-
-  def hidden_value?
-    encrypted
-  end
-
   private
 
   def validate_host_owner
@@ -348,14 +332,7 @@ class Setting < ApplicationRecord
   end
 
   def set_setting_type_from_value
-    return true unless settings_type.nil?
-    t = default.class.to_s.downcase
-    if TYPES.include?(t)
-      self.settings_type = t
-    else
-      self.settings_type = "integer" if default.is_a?(Integer)
-      self.settings_type = "boolean" if default.is_a?(TrueClass) || default.is_a?(FalseClass)
-    end
+    self.settings_type ||= self.class.setting_type_from_value(default)
   end
 
   def validate_frozen_attributes

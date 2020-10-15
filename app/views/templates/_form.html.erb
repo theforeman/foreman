@@ -41,8 +41,7 @@
 
       <div class='form-group'>
         <div class="col-md-12">
-            <div id="react-ace"></div>
-              <%= mount_react_component('Editor', "#react-ace", {
+              <%= react_component('Editor', { data: {
                 template: @template.template,
                 locked: @template.locked,
                 id: @template.id,
@@ -53,8 +52,10 @@
                 showImport: !@template.locked,
                 showPreview: true,
                 showHostSelector: @template.support_single_host_render?,
+                isSafemodeEnabled: Setting[:safemode_render],
                 renderPath: url_for(template_hash_for_member(@template, 'preview')),
-              }.to_json) %>
+                safemodeRenderPath: url_for(template_hash_for_member(@template, 'preview').merge({ params: { force_safemode: true }})),
+              }}) %>
         </div>
       </div>
 

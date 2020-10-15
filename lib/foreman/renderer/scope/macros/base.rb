@@ -102,7 +102,7 @@ module Foreman
           end
 
           apipie :method, 'Generates a shell command to store the given text into a file' do
-            desc "This is useful if some multiline string needs to be saved somewhere on the harddisk. This
+            desc "This is useful if some multiline string needs to be saved somewhere on the hard disk. This
               is typically used in provisioning or job templates, e.g. when puppet configuration file is
               generated based on host configuration and stored for puppet agent."
             required :filename, String, desc: 'the file path to store the content to'
@@ -140,7 +140,7 @@ module Foreman
           apipie :method, 'Performs a DNS lookup on Foreman server' do
             required :name_or_ip, String, desc: 'a hostname or IP address to perform DNS lookup for'
             returns String, desc: 'IP resolved via DNS if hostname was given, hostname if an IP was given.'
-            raises error: Timeout::Error, desc: 'when DNS resolve could not be performed in time set by global setting `dns_confict__timeout`'
+            raises error: Timeout::Error, desc: 'when DNS resolve could not be performed in time set by global setting `dns_timeout`'
             raises error: Resolv::ResolvError, desc: 'when DNS resolve failed, e.g. because of misconfigured DNS server or invalid query'
             example "dns_lookup('example.com') # => '10.0.0.1'"
             example "dns_lookup('10.0.0.1') # => 'example.com'"
@@ -166,7 +166,7 @@ module Foreman
             required :template, String, desc: 'the template object (needs to respond to name)'
             required :hostgroup, String, desc: 'the hostgroup object (needs to respond to title)'
             returns String, desc: 'The URL for downloading the rendered template'
-            example "default_template_url(template_object, hostgroup_object) # => 'http://formean.example.com/unattended/template/WebServerKickstart/Finance'"
+            example "default_template_url(template_object, hostgroup_object) # => 'http://foreman.example.com/unattended/template/WebServerKickstart/Finance'"
           end
           def default_template_url(template, hostgroup)
             uri      = URI.parse(Setting[:unattended_url])
@@ -203,7 +203,7 @@ module Foreman
               For details about the number meaning, see documentation for every status class."
             required :host, 'Host::Managed', desc: 'a host object for which the status will be checked'
             required :name, HostStatus.status_registry.to_a.map(&:status_name).sort, desc: 'name of the host substatus to be checked'
-            returns String, desc: 'A human readable, textual represenation of the status for a given host'
+            returns String, desc: 'A human readable, textual representation of the status for a given host'
             example 'host_status(@host, "Subscription") # => "Fully entitled"'
           end
           def host_status(host, name)
@@ -273,7 +273,7 @@ module Foreman
           end
 
           apipie :method, 'Returns a host uptime in seconds based on facts' do
-            desc "Given this is based on  e.g. reports from pupept agent, ansible runs or subscription managers
+            desc "Given this is based on  e.g. reports from puppet agent, ansible runs or subscription managers
               the value is only updated on incoming report and can be inaccurate and out of date. An example
               scenario for such situation is when host reboots but puppet agent hasn't sent new facts yet."
             required :host, 'Host::Managed', desc: 'host object for which the uptime is returned'
@@ -308,7 +308,7 @@ module Foreman
             returns Integer, desc: 'amount of cores'
             example 'host_cores(host) # => 2'
           end
-          def host_cores(cores)
+          def host_cores(host)
             host&.cores
           end
 
@@ -332,6 +332,22 @@ module Foreman
           end
           def gem_version_compare(first, second)
             Gem::Version.new(first.to_s) <=> Gem::Version.new(second.to_s)
+          end
+
+          apipie :method, "Returns content of 'SSL CA file' configured in Settings > Authentication" do
+            example "SSL_CA_CERT=$(mktemp)
+                     cat > $SSL_CA_CERT <<CA_CONTENT
+                     <%= foreman_server_ca_cert %>
+                     CA_CONTENT
+                     curl --cacert $SSL_CA_CERT https://smart-proxy.example.com:8443"
+          end
+          def foreman_server_ca_cert
+            if File.exist?(Setting[:ssl_ca_file])
+              File.read(Setting[:ssl_ca_file])
+            else
+              msg = N_("SSL CA file not found, check the 'SSL CA file' in Settings > Authentication")
+              raise Foreman::Exception.new(msg)
+            end
           end
 
           private

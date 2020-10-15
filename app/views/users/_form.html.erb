@@ -45,15 +45,14 @@
         <% if User.current == @user  %>
           <%= password_f f, :current_password, :label => _('Current password'), :placeholder => '' %>
         <% end %>
-        <div id="password_react"></div>
-        <%= mount_react_component('PasswordStrength', '#password_react',
-                                  {:className => 'form-control',
+        <%= react_component('PasswordStrength',
+                            {data: {:className => 'form-control',
                                    :id => 'user_password',
                                    :userInputIds => ['user_login'],
                                    :name => 'user[password]',
                                    :verify => {name: 'user[password_confirmation]', :error => f.object.errors[:password_confirmation].present? ? f.object.errors[:password_confirmation].to_sentence : false},
                                    :error => f.object.errors[:password_hash].present? ? f.object.errors[:password_hash].to_sentence : false,
-                                   :required => f.object.new_record? }.to_json) %>
+                                   :required => f.object.new_record? }}) %>
       </div>
     </div>
 

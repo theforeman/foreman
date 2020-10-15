@@ -15,6 +15,7 @@ class User < ApplicationRecord
   include Exportable
   include TopbarCacheExpiry
   include JwtAuth
+  include Foreman::ObservableModel
 
   ANONYMOUS_ADMIN = 'foreman_admin'
   ANONYMOUS_API_ADMIN = 'foreman_api_admin'
@@ -143,6 +144,8 @@ class User < ApplicationRecord
   def as_json(options = {})
     super.tap { |h| h.key?('user') ? h['user']['name'] = name : h['name'] = name }
   end
+
+  set_crud_hooks :user
 
   apipie :class, desc: "A class representing #{model_name.human} object" do
     sections only: %w[all additional]
@@ -314,10 +317,14 @@ class User < ApplicationRecord
 
     # existing user, we'll update them
     if (user = unscoped.find_by_login(attrs[:login]))
+      unless user.auth_source.is_a? AuthSourceExternal
+        logger.info "Failed to log in external user: Username '#{attrs[:login]}' already exists in a different authentication source"
+        return nil
+      end
       # we know this auth source and it's user's auth source, we'll update user attributes
       if auth_source && (user.auth_source_id == auth_source.id)
         auth_source_external_groups = auth_source.external_usergroups.pluck(:usergroup_id)
-        new_usergroups = user.usergroups.includes(:external_usergroups).where('usergroups.id NOT IN (?)', auth_source_external_groups)
+        new_usergroups = user.usergroups.includes(:external_usergroups).where.not('usergroups.id' => auth_source_external_groups)
 
         new_usergroups += auth_source.external_usergroups.includes(:usergroup).where(:name => external_groups).map(&:usergroup)
         user.update(Hash[attrs.select { |k, v| v.present? }])
@@ -504,11 +511,7 @@ class User < ApplicationRecord
     if User.current.admin?
       # Admin users can also see Environments that do not have any organization or location, even when
       # organizations and locations are enabled.
-      untaxed_environments = Environment.unscoped.where(
-        "id NOT IN (
-          SELECT DISTINCT(taxable_id) FROM taxable_taxonomies
-            WHERE taxable_type='Environment'
-          )").pluck(:name)
+      untaxed_environments = Environment.unscoped.where.not(id: TaxableTaxonomy.where(taxable_type: 'Environment').distinct.select(:taxable_id)).pluck(:name)
       result += untaxed_environments
     end
     result

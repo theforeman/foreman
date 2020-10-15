@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VerticalNav } from 'patternfly-react';
-import { get } from 'lodash';
 import {
   Dropdown,
   DropdownToggle,
@@ -14,6 +13,7 @@ import { userPropType } from '../LayoutHelper';
 import NotificationContainer from '../../notifications';
 import NavItem from './NavItem';
 import ImpersonateIcon from './ImpersonateIcon';
+import InstanceTitleViewer from './InstanceTitleViewer';
 import { translate as __ } from '../../../common/I18n';
 
 const UserDropdowns = ({
@@ -21,6 +21,7 @@ const UserDropdowns = ({
   changeActiveMenu,
   notificationUrl,
   stopImpersonationUrl,
+  instanceTitle,
   ...props
 }) => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
@@ -31,7 +32,7 @@ const UserDropdowns = ({
   const onDropdownSelect = () => {
     setUserDropdownOpen(userDropdownOpen);
   };
-  const userInfo = get(user, 'current_user.user');
+  const userInfo = user.current_user;
   const impersonateIcon = (
     <ImpersonateIcon stopImpersonationUrl={stopImpersonationUrl} />
   );
@@ -56,6 +57,7 @@ const UserDropdowns = ({
 
   return (
     <VerticalNav.IconBar {...props}>
+      <InstanceTitleViewer title={instanceTitle} />
       <NavItem
         className="drawer-pf-trigger dropdown notification-dropdown"
         id="notifications_container"
@@ -95,6 +97,7 @@ UserDropdowns.propTypes = {
   /** changeActiveMenu Func */
   changeActiveMenu: PropTypes.func,
   stopImpersonationUrl: PropTypes.string,
+  instanceTitle: PropTypes.string,
 };
 UserDropdowns.defaultProps = {
   className: '',
@@ -102,5 +105,6 @@ UserDropdowns.defaultProps = {
   notificationUrl: '',
   changeActiveMenu: null,
   stopImpersonationUrl: '',
+  instanceTitle: '',
 };
 export default UserDropdowns;

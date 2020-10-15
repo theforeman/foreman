@@ -7,11 +7,12 @@ module Foreman
     extend Forwardable
     attr_accessor :prefix, :sinks
 
-    DEFAULT_BUCKETS = [1, 5, 20, 50, 100, 250, 500, 2000].freeze
+    DEFAULT_BUCKETS = [100, 500, 3000].freeze
 
     def initialize
       @sinks = []
       @exporter = ::Foreman::TelemetrySinks::MetricExporterSink.new
+      @allowed_tags = {}
     end
 
     def setup(opts = {})
@@ -96,6 +97,13 @@ module Foreman
       @sinks.count > 1
     end
 
+    def add_allowed_tags!(labels)
+      labels.each do |k, v|
+        @allowed_tags[k] = Regexp.compile('^(' + v.join('|') + ')$')
+      end
+      @allowed_tags
+    end
+
     def add_counter(name, description, instance_labels = [])
       @sinks.each { |x| x.add_counter("#{prefix}_#{name}", description, instance_labels) }
     end
@@ -109,15 +117,29 @@ module Foreman
     end
 
     def increment_counter(name, value = 1, tags = {})
+      return unless allowed?(tags)
       @sinks.each { |x| x.increment_counter("#{prefix}_#{name}", value, tags) }
     end
 
     def set_gauge(name, value, tags = {})
+      return unless allowed?(tags)
       @sinks.each { |x| x.set_gauge("#{prefix}_#{name}", value, tags) }
     end
 
     def observe_histogram(name, value, tags = {})
+      return unless allowed?(tags)
       @sinks.each { |x| x.observe_histogram("#{prefix}_#{name}", value, tags) }
+    end
+
+    private
+
+    def allowed?(tags)
+      result = true
+      tags.each do |label, value|
+        regexp = @allowed_tags[label]
+        result &&= !!regexp.match(value) if regexp
+      end
+      result
     end
   end
 end

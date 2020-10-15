@@ -15,8 +15,8 @@ class SettingValueSelectionTest < ActiveSupport::TestCase
 
     res = SettingValueSelection.new(array, { :include_blank => blank_text }).collection
     assert_equal 3, res.size
-    users = res.find { |item| item[:text] == 'Users' }
-    usergroups = res.find { |item| item[:text] == 'Usergroups' }
+    users = res.find { |item| item[:group_label] == 'Users' }
+    usergroups = res.find { |item| item[:group_label] == 'Usergroups' }
     assert blank_text, res.first[nil]
     assert users
     assert usergroups

@@ -1,39 +1,35 @@
 @import '../LoginPage/LoginPage.scss';
 
-.external_logout {
-  background-image: $background_image;
+.external-logout {
   height: 100%;
+  background-image: $background_image;
 
-  .external-logout {
-    height: 100%;
+  header {
+    text-align: center;
 
-    header {
-      text-align: center;
-
-      img.brand {
-        margin-top: 62px;
-        max-width: 360px;
-        width: 70%;
-      }
-
-      .login-pf-caption {
-        color: white;
-
-        #title {
-          font-weight: $caption_font_weight;
-        }
-
-        p {
-          font-size: 14px;
-          margin-top: 20px;
-        }
-      }
+    img.brand {
+      margin-top: 62px;
+      max-width: 360px;
+      width: 70%;
     }
 
-    .login-pf-submit-button {
-      margin: 40px auto;
-      font-size: 20px;
-      width: 250px;
+    .login-pf-caption {
+      color: white;
+
+      #title {
+        font-weight: $caption_font_weight;
+      }
+
+      p {
+        font-size: 14px;
+        margin-top: 20px;
+      }
     }
+  }
+
+  .login-pf-submit-button {
+    margin: 40px auto;
+    font-size: 20px;
+    width: 250px;
   }
 }

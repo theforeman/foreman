@@ -21,11 +21,11 @@ class TemplateRenderJobTest < ActiveJob::TestCase
     it 'render report and delivers it to mail' do
       mailer = mock('mailer')
       mailer.expects('deliver_now')
+      composer_params = { 'foo' => 'bar', 'send_mail' => true, 'mail_to' => 'test@example.org', 'gzip' => true }
 
       ReportComposer.any_instance.expects('render').returns('result')
-      ReportComposer.any_instance.expects('report_filename').returns('report.gz')
-      ReportMailer.expects('report').with('this@email.cz', 'report.gz', 'result').returns(mailer)
-      render_job({ 'foo' => 'bar', 'send_mail' => true, 'mail_to' => 'this@email.cz', 'gzip' => true }).perform_now
+      ReportMailer.expects('report').with(composer_params, 'result', has_entries(start: is_a(Time), end: is_a(Time))).returns(mailer)
+      render_job(composer_params).perform_now
     end
   end
 

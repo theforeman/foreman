@@ -1,5 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`API get should dispatch a success toast notification on API resolve 1`] = `
+Array [
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "type": "SOME_KEY_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "response": Object {
+        "results": Array [
+          1,
+        ],
+      },
+      "type": "SOME_KEY_SUCCESS",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "key": "SOME_KEY_SUCCESS",
+        "message": Object {
+          "key": "SOME_KEY_SUCCESS",
+          "message": "Your API request was successful!",
+          "type": "success",
+        },
+      },
+      "type": "TOASTS_ADD",
+    },
+  ],
+]
+`;
+
+exports[`API get should dispatch an error toast notification on API failure 1`] = `
+Array [
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "type": "SOME_KEY_REQUEST",
+    },
+  ],
+  Array [
+    Object {
+      "key": "SOME_KEY",
+      "payload": Object {
+        "id": 2,
+        "url": "some/url",
+      },
+      "response": [Error: bad request],
+      "type": "SOME_KEY_FAILURE",
+    },
+  ],
+  Array [
+    Object {
+      "payload": Object {
+        "key": "SOME_KEY_FAILURE",
+        "message": Object {
+          "key": "SOME_KEY_FAILURE",
+          "message": "Oh no! Something went wrong, server returned the error: bad request",
+          "type": "error",
+        },
+      },
+      "type": "TOASTS_ADD",
+    },
+  ],
+]
+`;
+
 exports[`API get should dispatch request and failure actions on reject 1`] = `
 Array [
   Array [
@@ -36,6 +118,21 @@ Array [
 `;
 
 exports[`API get should dispatch request and success actions on resolve 1`] = `
+Array [
+  Array [
+    Object {
+      "data": Object {
+        "results": Array [
+          1,
+        ],
+      },
+    },
+    [Function],
+  ],
+]
+`;
+
+exports[`API get should dispatch request and success actions on resolve 2`] = `
 Array [
   Array [
     Object {
