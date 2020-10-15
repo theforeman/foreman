@@ -13,14 +13,6 @@ module Queries
           updatedAt
           name
           title
-          environments {
-            totalCount
-            edges {
-              node {
-                id
-              }
-            }
-          }
           hosts {
             totalCount
             edges {
@@ -50,7 +42,6 @@ module Queries
       assert_equal location_object.name, data['name']
       assert_equal location_object.title, data['title']
 
-      assert_collection location_object.environments, data['environments']
       assert_collection location_object.hosts, data['hosts'], type_name: 'Host'
     end
   end

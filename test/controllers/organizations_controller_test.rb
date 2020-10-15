@@ -181,7 +181,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :organizations, :action => :step2, :id => new_organization.to_param
 
     as_admin do
-      [:environment_ids, :hostgroup_ids, :environment_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :location_ids].each do |association|
+      [:hostgroup_ids, :domain_ids, :medium_ids, :user_ids, :smart_proxy_ids, :provisioning_template_ids, :compute_resource_ids, :location_ids].each do |association|
         assert new_organization.public_send(association).present?, "missing #{association}"
         assert_equal organization.public_send(association).uniq.sort, new_organization.public_send(association).uniq.sort, "#{association} is different"
       end

@@ -8,7 +8,7 @@ attributes :description, :created_at, :updated_at
 
 ancestors = @taxonomy.ancestors.preload(
   :users, :smart_proxies, :subnets, :compute_resources, :media, :ptables,
-  :provisioning_templates, :domains, :realms, :environments, :hostgroups
+  :provisioning_templates, :domains, :realms, :hostgroups
 )
 node :hosts_count do |taxonomy|
   hosts_count[taxonomy]
@@ -77,13 +77,6 @@ child (@taxonomy.realms + ancestors.map(&:realms).flatten).uniq => :realms do
   end
 end
 
-child (@taxonomy.environments + ancestors.map(&:environments).flatten).uniq => :environments do
-  extends "api/v2/environments/base"
-  node :inherited do |environment|
-    !@taxonomy.environments.include?(environment)
-  end
-end
-
 child (@taxonomy.hostgroups + ancestors.map(&:hostgroups).flatten).uniq => :hostgroups do
   extends "api/v2/hostgroups/base"
   node :inherited do |hostgroup|
@@ -105,4 +98,8 @@ end
 
 node do |taxonomy|
   { :parameters => partial("api/v2/parameters/index", :object => taxonomy.params_objects) }
+end
+
+node :deprecations do
+  { environments: _('Environments got deprecated from this endpoint.') }
 end
