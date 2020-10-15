@@ -42,6 +42,12 @@ class Api::V2::OrganizationsControllerTest < ActionController::TestCase
     end
   end
 
+  test 'show should deprecate environments' do
+    get :show, params: { id: FactoryBot.create(:organization).to_param, format: 'json' }
+    show_response = ActiveSupport::JSON.decode(@response.body)
+    assert show_response['deprecations']&.key?('environments'), 'Response should have message about deprecated environments.'
+  end
+
   test "user without view_params permission can't see organization parameters" do
     org_with_parameter = FactoryBot.create(:organization, :with_parameter)
     setup_user "view", "organizations"

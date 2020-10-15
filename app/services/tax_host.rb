@@ -1,14 +1,12 @@
 class TaxHost
   FOREIGN_KEYS = [:location_id, :organization_id, :hostgroup_id,
-                  :environment_id, :domain_id, :medium_id,
-                  :subnet_id, :compute_resource_id, :realm_id,
-                  :ptable_id]
+                  :domain_id, :medium_id, :subnet_id,
+                  :compute_resource_id, :realm_id, :ptable_id]
 
   HASH_KEYS = [:location_ids, :organization_ids, :hostgroup_ids,
-               :environment_ids, :domain_ids, :medium_ids,
-               :subnet_ids, :compute_resource_ids,
-               :smart_proxy_ids, :user_ids, :provisioning_template_ids,
-               :realm_ids, :ptable_ids]
+               :domain_ids, :medium_ids, :subnet_ids,
+               :compute_resource_ids, :smart_proxy_ids, :user_ids,
+               :provisioning_template_ids, :realm_ids, :ptable_ids]
 
   def initialize(taxonomy, hosts = nil)
     @taxonomy = taxonomy

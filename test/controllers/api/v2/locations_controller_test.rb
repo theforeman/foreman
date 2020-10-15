@@ -19,11 +19,12 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
     assert !show_response.empty?
     # assert child nodes are included in response'
     NODES = ["users", "smart_proxies", "subnets", "compute_resources", "media",
-             "provisioning_templates", "domains", "ptables", "realms", "environments", "hostgroups",
+             "provisioning_templates", "domains", "ptables", "realms", "hostgroups",
              "organizations", "parameters"].sort
     NODES.each do |node|
       assert show_response.key?(node), "'#{node}' child node should be in response but was not"
     end
+    assert show_response['deprecations']&.key?('environments'), 'Response should have message about deprecated environments.'
   end
 
   test "should not create invalid location" do
@@ -53,7 +54,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
   end
 
   test "should update location on if valid is location" do
-    ignore_types = ["Domain", "Hostgroup", "Environment", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
+    ignore_types = ["Domain", "Hostgroup", "User", "Medium", "Subnet", "SmartProxy", "ProvisioningTemplate", "ComputeResource", "Realm"]
     put :update, params: { :id => @location.to_param, :location => { :name => "New Location", :ignore_types => ignore_types } }
     assert_equal "New Location", Location.find(@location.id).name
     assert_response :success
@@ -95,7 +96,7 @@ class Api::V2::LocationsControllerTest < ActionController::TestCase
 
   test "should update *_ids. test for domain_ids" do
     # ignore all but Domain
-    @location.ignore_types = ["Hostgroup", "Environment", "User", "Medium",
+    @location.ignore_types = ["Hostgroup", "User", "Medium",
                               "Subnet", "SmartProxy", "ProvisioningTemplate",
                               "ComputeResource", "Realm"]
     as_admin do
