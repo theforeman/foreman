@@ -120,10 +120,11 @@ module Foreman
     private
 
     def load_config(environment, overrides = {})
-      fail "Logging configuration 'config/logging.yaml' not present" unless File.exist?('config/logging.yaml')
+      config_file = Rails.root.join('config', 'logging.yaml')
+      fail "Logging configuration 'config/logging.yaml' not present" unless File.exist?(config_file)
       overrides ||= {}
       overrides.deep_merge!(overrides[environment.to_sym]) if overrides.has_key?(environment.to_sym)
-      @config = YAML.load_file('config/logging.yaml')
+      @config = YAML.load_file(config_file)
       @config = @config[:default].deep_merge(@config[environment.to_sym]).deep_merge(overrides)
     end
 
