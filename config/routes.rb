@@ -25,7 +25,6 @@ Foreman::Application.routes.draw do
     'config_groups',
     'config_reports',
     'domains',
-    'environments',
     'fact_values',
     'hostgroups',
     'hosts',
@@ -177,13 +176,6 @@ Foreman::Application.routes.draw do
   end
   resources :parameters, only: [:index] do
     collection do
-      get 'auto_complete_search'
-    end
-  end
-  resources :environments, except: [:show] do
-    collection do
-      get 'import_environments'
-      post 'obsolete_and_new'
       get 'auto_complete_search'
     end
   end

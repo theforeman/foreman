@@ -75,7 +75,6 @@ module Menu
           menu.item :hostgroups,        :caption => N_('Host Groups')
           menu.item :common_parameters, :caption => N_('Global Parameters')
           menu.divider                  :caption => N_('Puppet')
-          menu.item :environments,      :caption => N_('Environments')
           menu.item :puppetclasses,     :caption => N_('Classes')
           menu.item :config_groups,     :caption => N_('Config Groups')
         end
