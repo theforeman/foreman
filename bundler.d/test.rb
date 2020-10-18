@@ -16,7 +16,6 @@ group :test do
   gem 'rubocop-minitest', '~> 0.7.0'
   gem 'rubocop-performance', '~> 1.5.2'
   gem 'rubocop-rails', '~> 2.4.2'
-  gem 'poltergeist', '>= 1.18.0', :require => false
   gem 'selenium-webdriver', :require => false
   gem 'shoulda-matchers', '>= 4.0', '< 4.4'
   gem 'shoulda-context', '~> 1.2'
