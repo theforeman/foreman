@@ -345,7 +345,7 @@ attribute77:
 attributes78:
   name: excluded_facts
   category: Setting::Provisioning
-  default: "['lo', 'en*v*', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*']"
+  default: "['lo', 'en*v*', 'usb*', 'vnet*', 'macvtap*', '_vdsmdummy_', 'veth*', 'docker*', 'tap*', 'qbr*', 'qvb*', 'qvo*', 'qr-*', 'qg-*', 'vlinuxbr*', 'vovsbr*', 'load_averages::*', 'memory::system::capacity', 'memory::system::used*', 'memory::system::available*', 'memory::swap::capacity', 'memory::swap::used*', 'memory::swap::available*']"
   description: 'Ignore fact names that match these values during facts importing, you can use * wildcard to match names with indexes e.g. macvtap*'
   settings_type: 'array'
 attribute79:
