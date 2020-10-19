@@ -162,6 +162,19 @@ module FactsData
         'net::interface::docker4::ipv6_netmask::link_list' => '64',
         'net::interface::vlinuxbr4::mac_address' => 'FE:54:00:59:4E:BF',
         'net::interface::usb4::permanent_mac_address' => 'Unknown',
+        'load_averages::5m' => '0.01',
+        'load_averages::10m' => '0.02',
+        'load_averages::15m' => '0.03',
+        'memory::system::capacity' => '0%',
+        'memory::system::used' => '0 bytes',
+        'memory::system::used_bytes' => '0',
+        'memory::system::available' => '1.00 GiB',
+        'memory::system::available_bytes' => '1073737728',
+        'memory::swap::capacity' => '0%',
+        'memory::swap::used' => '0 bytes',
+        'memory::swap::used_bytes' => '0',
+        'memory::swap::available' => '1.00 GiB',
+        'memory::swap::available_bytes' => '1073737728',
       }
     end
   end

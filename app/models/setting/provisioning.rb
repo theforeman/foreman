@@ -14,6 +14,17 @@ class Setting::Provisioning < Setting
   Setting::BLANK_ATTRS.push(*(default_global_labels + local_boot_labels))
   validates :value, :pxe_template_name => true, :if => proc { |s| s.class.default_global_labels.include?(s.name) }
 
+  # facts which change way too often
+  IGNORED_FACTS = [
+    'load_averages::*',
+    'memory::system::capacity',
+    'memory::system::used*',
+    'memory::system::available*',
+    'memory::swap::capacity',
+    'memory::swap::used*',
+    'memory::swap::available*',
+  ].freeze
+
   IGNORED_INTERFACES = [
     'lo',
     'en*v*',
@@ -32,7 +43,7 @@ class Setting::Provisioning < Setting
     'vlinuxbr*',
     'vovsbr*',
     'br-int',
-  ]
+  ].freeze
 
   def self.default_settings
     fqdn = SETTINGS[:fqdn]
@@ -110,7 +121,7 @@ class Setting::Provisioning < Setting
     end
   end
 
-  def self.default_excluded_facts(ignored_interfaces = IGNORED_INTERFACES)
-    ignored_interfaces
+  def self.default_excluded_facts
+    IGNORED_INTERFACES + IGNORED_FACTS
   end
 end
