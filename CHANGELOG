@@ -1,3 +1,33 @@
+2020-10-19	Tomer Brisker <tbrisker@gmail.com>
+	* Release 2.2.0-rc4
+
+2020-10-19	hsahmed <hsahmed@gmail.com>
+	* Fixes #30535 - Use HTTP headers in puma
+
+2020-10-19	Evgeni Golov <evgeni@golov.de>
+	* update the number of vmware docs
+
+2020-10-14	Shira Maximov <shiramaximov@gmail.com>
+	* Fixes #30830 - Fix ovirt CR creation from API
+
+2020-10-04	Amit Upadhye <upadhyeammit@gmail.com>
+	* i18n - extracting new, pulling from tx
+
+2020-09-30	Eric Helms <ericdhelms@gmail.com>
+	* Fixes #30932: Rescue from RecordInvalid for plugin role creation (#8032)
+
+2020-09-30	Eric D. Helms <ericdhelms@gmail.com>
+	* Refs #30803: Enable unix socket binding
+
+2020-09-29	Evgeni Golov <evgeni@golov.de>
+	* Fixes #30916 - pin puma to < 5.0
+
+2020-09-17	Ondřej Ezr <oezr@redhat.com>
+	* Fixes #30821 - checking core migrations as well
+
+2020-09-15	Lukas Zapletal <lzap+git@redhat.com>
+	* Fixes #30836 - prevent DHCP nil exception
+
 2020-09-14	Tomer Brisker <tbrisker@gmail.com>
 	* Release 2.2.0-rc3
 
