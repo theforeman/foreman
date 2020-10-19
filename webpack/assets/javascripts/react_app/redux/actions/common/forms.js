@@ -29,7 +29,7 @@ export const prepareErrors = (errors, base) =>
 
 export const onError = (error, actions) => {
   actions.setSubmitting(false);
-  if (error.response.status === 422) {
+  if (error.response?.status === 422) {
     const base = getBaseErrors(error?.response?.data);
 
     actions.setErrors(
@@ -39,9 +39,8 @@ export const onError = (error, actions) => {
     actions.setErrors({
       _error: {
         errorMsgs: [
-          `${__('Error submitting data:')} ${error.response.status} ${__(
-            error.response.statusText
-          )}`,
+          `${__('Error submitting data:')} ${error.response?.status} ${error
+            .response?.statusText && __(error.response?.statusText)}`,
         ],
       },
     });
