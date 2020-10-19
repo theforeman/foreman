@@ -1,20 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`documentation links should have an external link to documentation 1`] = `
-<MenuItem
-  bsClass="dropdown"
-  disabled={false}
-  divider={false}
-  header={false}
+<DropdownItem
   href="http://theforeman.org"
   key="documentationUrl"
   onClick={[Function]}
 >
-  <Icon
-    name="question-circle"
-    type="fa"
+  <QuestionCircleIcon
+    color="currentColor"
+    noVerticalAlign={false}
+    size="sm"
   />
-   $
-  Documentation
-</MenuItem>
+   Documentation
+</DropdownItem>
 `;

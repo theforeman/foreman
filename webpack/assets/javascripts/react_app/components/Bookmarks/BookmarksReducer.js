@@ -33,12 +33,15 @@ export default (state = initialState, { type, payload, response }) => {
         .setIn([payload.controller, 'results'], response.results)
         .setIn([payload.controller, 'status'], STATUS.RESOLVED);
     case BOOKMARKS_FORM_SUBMITTED:
-      return state.setIn(
-        [payload.data.controller, 'results'],
-        [...state[payload.data.controller].results, payload.data].sort(
-          sortByName
-        )
-      );
+      if (state[payload.data.controller]?.results) {
+        return state.setIn(
+          [payload.data.controller, 'results'],
+          [...state[payload.data.controller].results, payload.data].sort(
+            sortByName
+          )
+        );
+      }
+      return state;
     case BOOKMARKS_FAILURE:
       return state
         .setIn([payload.controller, 'errors'], response)
