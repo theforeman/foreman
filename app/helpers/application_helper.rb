@@ -354,11 +354,6 @@ module ApplicationHelper
     obj.class.model_name.to_s.tableize.singularize
   end
 
-  def class_in_environment?(environment, puppetclass)
-    return false unless environment
-    environment.puppetclasses.map(&:id).include?(puppetclass.id)
-  end
-
   def show_parent?(obj)
     minimum_count = obj.new_record? ? 0 : 1
     base = obj.class.respond_to?(:completer_scope) ? obj.class.completer_scope(nil) : obj.class

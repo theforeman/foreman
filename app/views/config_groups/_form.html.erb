@@ -1,9 +1,0 @@
-<%= form_for(@config_group) do |f| %>
-  <%= base_errors_for @config_group %>
-
-  <%= text_f f, :name %>
-  <%= render 'puppetclasses/class_selection', :obj => @config_group %>
-
-  <%= submit_or_cancel f %>
-
-<% end %>
