@@ -29,12 +29,11 @@ class ApplicationController < ActionController::Base
   attr_reader :original_search_parameter
 
   def welcome
-    if (model_of_controller.first.nil? rescue false)
+    return if model_of_controller&.any?
+    if template_exists?(:welcome, _prefixes, variants: request.variant)
       @welcome = true
-      render :welcome rescue nil
+      render :welcome
     end
-  rescue
-    not_found
   end
 
   def api_request?
@@ -159,7 +158,7 @@ class ApplicationController < ActionController::Base
   end
 
   def model_of_controller
-    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').constantize
+    @model_of_controller ||= controller_path.singularize.camelize.gsub('/', '::').safe_constantize
   end
 
   def controller_permission
