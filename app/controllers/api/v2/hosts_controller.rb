@@ -19,7 +19,7 @@ module Api
 
       add_scope_for(:index) do |base_scope|
         base_scope.preload([:host_statuses, :compute_resource, :hostgroup, :operatingsystem,
-                            :interfaces, :token, :owner, :model, :environment, :location,
+                            :interfaces, :token, :owner, :model, :location,
                             :organization, :image, :compute_profile, :realm, :architecture,
                             :ptable, :medium, :puppet_proxy, :puppet_ca_proxy])
       end
@@ -28,12 +28,10 @@ module Api
       api :GET, "/hostgroups/:hostgroup_id/hosts", N_("List all hosts for a host group")
       api :GET, "/locations/:location_id/hosts", N_("List hosts per location")
       api :GET, "/organizations/:organization_id/hosts", N_("List hosts per organization")
-      api :GET, "/environments/:environment_id/hosts", N_("List hosts per environment")
       param :thin, :bool, :desc => N_("Only list ID and name of hosts")
       param :hostgroup_id, String, :desc => N_("ID of host group")
       param :location_id, String, :desc => N_("ID of location")
       param :organization_id, String, :desc => N_("ID of organization")
-      param :environment_id, String, :desc => N_("ID of environment")
       param :include, ['parameters', 'all_parameters'], :desc => N_("Array of extra information types to include")
       param_group :search_and_pagination, ::Api::V2::BaseController
       add_scoped_search_description_for(Host)
@@ -71,7 +69,6 @@ module Api
           param :name, String, :required => true
           param :location_id, :number, :required => true
           param :organization_id, :number, :required => true
-          param :environment_id, String, :desc => N_("required if host is managed and value is not inherited from host group")
           param :ip, String, :desc => N_("not required if using a subnet with DHCP proxy")
           param :mac, String, :desc => N_("required for managed host that is bare metal, not required if it's a virtual machine")
           param :architecture_id, :number, :desc => N_("required if host is managed and value is not inherited from host group")
@@ -424,7 +421,7 @@ module Api
       end
 
       def allowed_nested_id
-        %w(hostgroup_id location_id organization_id environment_id)
+        %w(hostgroup_id location_id organization_id)
       end
 
       def resource_class_join(association, scope)
