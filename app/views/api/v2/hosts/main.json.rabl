@@ -8,7 +8,7 @@ extends "api/v2/smart_proxies/children_nodes"
 @object.configuration_status(:last_reports => @last_reports)
 @object.configuration_status_label(:last_reports => @last_reports)
 
-attributes :ip, :ip6, :environment_id, :environment_name, :last_report, :mac, :realm_id, :realm_name,
+attributes :ip, :ip6, :last_report, :mac, :realm_id, :realm_name,
   :sp_mac, :sp_ip, :sp_name, :domain_id, :domain_name, :architecture_id, :architecture_name, :operatingsystem_id, :operatingsystem_name,
   :subnet_id, :subnet_name, :subnet6_id, :subnet6_name, :sp_subnet_id, :ptable_id, :ptable_name, :medium_id, :medium_name, :pxe_loader,
   :build, :comment, :disk, :installed_at, :model_id, :hostgroup_id, :owner_id, :owner_name, :owner_type,
