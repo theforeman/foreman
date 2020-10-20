@@ -61,6 +61,7 @@ class AccessPermissionsTest < ActiveSupport::TestCase
   EXTRACTED_ACTIONS = ["api/v2/trends/index", "api/v2/trends/show", "api/v2/trends/create", "api/v2/trends/destroy",
                        "api/v2/puppet_hosts/puppetrun", "api/v2/statistics/index"]
   EXTRACTED_ACTIONS.concat(%w[index show create update destroy].map { |action| "api/v2/puppetclasses/#{action}" })
+  EXTRACTED_ACTIONS.concat(%w[index show create update destroy].map { |action| "api/v2/config_groups/#{action}" })
 
   check_routes(Rails.application.routes, MAY_SKIP_REQUIRE_LOGIN + MAY_SKIP_AUTHORIZED + EXTRACTED_ACTIONS)
 end

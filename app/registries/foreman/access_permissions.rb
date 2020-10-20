@@ -264,21 +264,6 @@ Foreman::AccessControl.map do |permission_set|
     }
   end
 
-  permission_set.security_block :config_groups do |map|
-    map.permission :view_config_groups,    {:config_groups => [:index, :auto_complete_search, :welcome],
-                                            :"api/v2/config_groups" => [:index, :show],
-                                          }
-    map.permission :create_config_groups,  {:config_groups => [:new, :create],
-                                            :"api/v2/config_groups" => [:create],
-                                          }
-    map.permission :edit_config_groups,    {:config_groups => [:edit, :update],
-                                            :"api/v2/config_groups" => [:update],
-                                          }
-    map.permission :destroy_config_groups, {:config_groups => [:destroy],
-                                            :"api/v2/config_groups" => [:destroy],
-                                          }
-  end
-
   permission_set.security_block :hosts do |map|
     ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected,
                     :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
