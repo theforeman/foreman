@@ -17,7 +17,7 @@
   <tbody>
     <% for proxy in @smart_proxies %>
       <tr class="proxy-show" data-url="<%= ping_smart_proxy_path(proxy) %>">
-        <td class="nbsp ellipsis"><%= link_to_if_authorized proxy.name, {:action => :show, :id => proxy}, :title => proxy.url %></td>
+        <td class="nbsp ellipsis"><%= link_to_if_authorized proxy.name, {:action => :show, :id => proxy} %></td>
         <td class="hidden-sm hidden-xs nbsp ellipsis"><%= generate_links_for(proxy.locations).html_safe %></td>
         <td class="hidden-sm hidden-xs nbsp ellipsis"><%= generate_links_for(proxy.organizations).html_safe %></td>
         <td class="ellipsis"><%= proxy.features.map(&:name).sort.to_sentence %></td>
