@@ -29,8 +29,8 @@ class MiddlewareIntegrationTest < ActionDispatch::IntegrationTest
     end
 
     test 'it is added Content-Security-Policy on welcome pages' do
-      Environment.stubs(:first).returns(nil)
-      visit '/environments'
+      Domain.stubs(:first).returns(nil)
+      visit '/domains'
       assert page.has_content? 'Learn more about this in the documentation.'
       assert page.response_headers['Content-Security-Policy'].include?(@webpack_url)
     end
@@ -38,7 +38,7 @@ class MiddlewareIntegrationTest < ActionDispatch::IntegrationTest
     context 'on unauthorized page requests' do
       test 'it is added to the Content-Security-Policy as well' do
         logout_admin
-        visit '/environments'
+        visit '/domains'
         assert page.response_headers['Content-Security-Policy'].include?(@webpack_url)
       end
     end
