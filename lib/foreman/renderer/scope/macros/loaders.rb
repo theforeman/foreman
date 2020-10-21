@@ -52,8 +52,8 @@ module Foreman
   <%= user.login %>, <%= user.last_login_on %>, <%= user_auth_source_name(user) %>
 <% end %>", desc: "Prints users in Europe, their login, when a user was logged on for the last time and the authentication source"
             end
-            define_method name do |search: '', includes: nil, preload: nil, joins: nil, select: nil, batch: 1_000, limit: nil|
-              load_resource(klass: model, search: search, permission: permission, includes: includes, preload: preload, joins: joins, select: select, batch: batch, limit: limit)
+            define_method name do |search: '', includes: nil, preload: nil, joins: nil, select: nil, batch: 1_000, limit: nil, where: nil|
+              load_resource(klass: model, search: search, permission: permission, includes: includes, preload: preload, joins: joins, select: select, batch: batch, limit: limit, where: where)
             end
           end
 
