@@ -316,6 +316,7 @@ sed -e 's/DEFAULTKERNEL=kernel-uek/DEFAULTKERNEL=kernel/g' -i /etc/sysconfig/ker
 
 <%= snippet 'efibootmgr_netboot' %>
 
+<%= snippet 'insights' -%>
 touch /tmp/foreman_built
 <%= section_end -%>
 
