@@ -13,31 +13,46 @@ import {
   Text,
   TextVariants,
   PageSection,
-  PageSectionVariants,
 } from '@patternfly/react-core';
 
 import Skeleton from 'react-loading-skeleton';
 import RelativeDateTime from '../../components/common/dates/RelativeDateTime';
-import StatusAlert from './Status';
 
 import { foremanUrl } from '../../../foreman_tools';
 import { get } from '../../redux/API';
 import { selectAPIResponse } from '../../redux/API/APISelectors';
-
-import Properties from './Properties';
-import ParametersCard from './Parameters';
-import InterfacesCard from './Interfaces';
-import AuditCard from './Audits';
+import { selectFillsIDs } from '../common/Slot/SlotSelectors';
+import { selectIsCollapsed } from '../Layout/LayoutSelectors';
 import ActionsBar from './ActionsBar';
+import Slot from '../common/Slot';
+import { registerCoreTabs } from './Tabs';
 
 import './HostDetails.scss';
 
-const HostDetails = ({ match }) => {
+const HostDetails = ({ match, location: { hash } }) => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState('Details');
   const response = useSelector(state =>
     selectAPIResponse(state, 'HOST_DETAILS')
   );
+  const isNavCollapsed = useSelector(selectIsCollapsed);
+  const tabs = useSelector(state =>
+    selectFillsIDs(state, 'host-details-page-tabs')
+  );
+
+  // This is a workaround due to the tabs overflow mechanism in PF4
+  useEffect(() => {
+    if (tabs?.length) dispatchEvent(new Event('resize'));
+  }, [tabs]);
+
+  useEffect(() => {
+    registerCoreTabs();
+  }, []);
+
+  useEffect(() => {
+    if (hash) setActiveTab(hash.slice(1));
+  }, [hash]);
+
   useEffect(() => {
     dispatch(
       get({
@@ -57,11 +72,13 @@ const HostDetails = ({ match }) => {
   const handleTabClick = (event, tabIndex) => {
     setActiveTab(tabIndex);
   };
+
   return (
     <>
       <PageSection
         className="host-details-header-section"
-        variant={PageSectionVariants.light}
+        isFilled
+        variant="light"
       >
         <div style={{ marginLeft: '18px', marginRight: '18px' }}>
           <Breadcrumb style={{ marginTop: '15px' }}>
@@ -110,56 +127,27 @@ const HostDetails = ({ match }) => {
           </Text>
           <br />
         </div>
+        <Tabs
+          style={{
+            width: window.innerWidth - (isNavCollapsed ? 95 : 220),
+          }}
+          activeKey={activeTab}
+          onSelect={handleTabClick}
+        >
+          {tabs &&
+            tabs.map(tab => (
+              <Tab eventKey={tab} title={tab}>
+                <div className="host-details-tab-item">
+                  <Slot
+                    response={response}
+                    id="host-details-page-tabs"
+                    fillID={tab}
+                  />
+                </div>
+              </Tab>
+            ))}
+        </Tabs>
       </PageSection>
-      <Tabs
-        style={{
-          marginLeft: '-18px',
-          marginRight: '-18px',
-          background: 'white',
-        }}
-        activeKey={activeTab}
-        onSelect={handleTabClick}
-      >
-        <Tab eventKey={0} title="Details">
-          <br />
-          <Grid>
-            <GridItem offset={3} span={4}>
-              <StatusAlert
-                status={response ? response.global_status_label : null}
-              />
-            </GridItem>
-          </Grid>
-          <br />
-          <br />
-          <Grid>
-            <GridItem span={3} rowSpan={3}>
-              <Properties hostData={response} />
-            </GridItem>
-            <GridItem style={{ marginLeft: '40px' }} span={3}>
-              <ParametersCard paramters={response.all_parameters} />
-            </GridItem>
-            <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
-              <AuditCard hostName={response.name} />
-            </GridItem>
-            <GridItem
-              style={{ marginLeft: '40px', marginTop: '20px' }}
-              offset={3}
-              span={3}
-            >
-              <InterfacesCard interfaces={response.interfaces} />
-            </GridItem>
-          </Grid>
-        </Tab>
-        <Tab eventKey={1} title="Facts">
-          WIP
-        </Tab>
-        <Tab eventKey={2} title="Tasks">
-          WIP
-        </Tab>
-        <Tab eventKey={3} title="Content">
-          WIP
-        </Tab>
-      </Tabs>
     </>
   );
 };
@@ -169,6 +157,9 @@ HostDetails.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+  }).isRequired,
+  location: PropTypes.shape({
+    hash: PropTypes.string,
   }).isRequired,
 };
 
