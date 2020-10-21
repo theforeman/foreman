@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case REGISTER_FILL:
-      return state.setIn([payload.slotId, payload.fillId], true);
+      return state.setIn([payload.slotId, payload.fillId], payload.weight);
 
     case REMOVE_FILLED_COMPONENT:
       return state.setIn([payload.slotId, payload.fillId], false);

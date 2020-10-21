@@ -11,7 +11,7 @@ export const registerFillComponent = (
   add(slotId, fillId, component, weight, overrideProps);
   dispatch({
     type: REGISTER_FILL,
-    payload: { slotId, fillId },
+    payload: { slotId, fillId, weight },
   });
 };
 
