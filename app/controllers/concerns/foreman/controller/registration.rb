@@ -30,7 +30,8 @@ module Foreman::Controller::Registration
                    operatingsystem: operatingsystem,
                    url_host: registration_url.host,
                    registration_url: registration_url,
-                    })
+                   setup_insights: ActiveRecord::Type::Boolean.new.deserialize(params['setup_insights']),
+                  })
   end
 
   def safe_render(template)

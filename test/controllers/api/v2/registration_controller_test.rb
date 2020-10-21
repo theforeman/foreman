@@ -211,5 +211,30 @@ class Api::V2::RegistrationControllerTest < ActionController::TestCase
       post :host, params: host_params, session: set_session_user, as: :html
       assert_response :unsupported_media_type
     end
+
+    context 'setup_insights' do
+      after do
+        HostParameter.find_by(name: 'host_registration_insights')&.destroy
+      end
+
+      test 'with setup_insights = true' do
+        params = { setup_insights: 'true' }.merge(host_params)
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        assert HostParameter.find_by(host: host, name: 'host_registration_insights')&.value
+      end
+
+      test 'with setup_insights = false' do
+        params = { setup_insights: 'false' }.merge(host_params)
+
+        post :host, params: params, session: set_session_user
+        assert_response :success
+
+        host = Host.find_by(name: params[:host][:name]).reload
+        refute HostParameter.find_by(host: host, name: 'host_registration_insights')&.value
+      end
+    end
   end
 end
