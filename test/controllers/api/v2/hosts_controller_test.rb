@@ -1214,7 +1214,7 @@ class Api::V2::HostsControllerTest < ActionController::TestCase
     mac = RFauxFactory.gen_alpha
     put :update, params: { :id => @host.id, :host => {:mac => mac} }
     assert_response :unprocessable_entity, "Can update host with invalid mac #{mac}"
-    assert_match "'#{mac}' is not a valid MAC address", @response.body
+    assert_match "'#{mac.downcase}' is not a valid MAC address", @response.body
   end
 
   test "should update build parameter with false value" do
