@@ -99,7 +99,7 @@ module ApplicationHelper
     engine = options.delete(:engine) || main_app
     enable_link = authorized_for(options)
     if enable_link
-      link_to name, engine.url_for(options.merge(:only_path => true)), html_options
+      link_to name, engine.url_for(options.reverse_merge(only_path: true)), html_options
     else
       link_to_function name, nil, html_options.merge!(:class => "#{html_options[:class]} disabled", :disabled => true)
     end
@@ -130,8 +130,10 @@ module ApplicationHelper
   # +options+ : Hash containing options for authorized_for and link_to
   # +html_options+ : Hash containing html options for the link or span
   def display_link_if_authorized(name, options = {}, html_options = {})
-    if authorized_for(options)
-      link_to(name, options, html_options)
+    engine = options.delete(:engine) || main_app
+    enable_link = authorized_for(options)
+    if enable_link
+      link_to(name, engine.url_for(options.reverse_merge(only_path: true)), html_options)
     else
       ""
     end
