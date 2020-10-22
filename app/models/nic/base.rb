@@ -173,6 +173,10 @@ module Nic
       result
     end
 
+    def mac=(value)
+      super value&.downcase
+    end
+
     def hostname
       if domain.present? && name.present?
         "#{shortname}.#{domain.name}"

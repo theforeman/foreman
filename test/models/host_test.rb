@@ -2748,7 +2748,7 @@ class HostTest < ActiveSupport::TestCase
     host.mac = 'AA:AA:AA:AA:AA:AA'
     clone = host.setup_clone
     refute_equal host.object_id, clone.object_id
-    assert_equal 'AA:AA:AA:AA:AA:AA', host.mac
+    assert_equal 'aa:aa:aa:aa:aa:aa', host.mac
     refute_equal host.mac, clone.mac
     assert_equal original_mac, clone.mac
     assert_equal original_mac, clone.provision_interface.mac

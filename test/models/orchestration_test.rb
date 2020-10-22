@@ -126,7 +126,7 @@ class OrchestrationTest < ActiveSupport::TestCase
     @nic.ip = '192.168.0.1'
     clone = @nic.send(:setup_object_clone, @nic) { |c| c.mac, c.ip = 'AA:AA:AA:AA:AA:AA', 'override this' }
     refute_equal @nic.object_id, clone.object_id
-    assert_equal 'AA:AA:AA:AA:AA:AA', clone.mac
+    assert_equal 'aa:aa:aa:aa:aa:aa', clone.mac
     assert_equal '192.168.0.2', clone.ip
   end
 
