@@ -49,7 +49,7 @@ const AuditCard = ({ hostName }) => {
   return (
     <Card isHoverable>
       <CardTitle>
-        {__('Recent Audits')}{' '}
+        {__('Last Audits')}{' '}
         <a href={foremanUrl(`/audits?search=host+%3D+${hostName}`)}>
           <ArrowIcon />
         </a>

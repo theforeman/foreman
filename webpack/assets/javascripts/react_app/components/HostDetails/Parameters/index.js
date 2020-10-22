@@ -17,6 +17,7 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import ElipsisWithTooltip from 'react-ellipsis-with-tooltip';
 import { translate as __ } from '../../../common/I18n';
+import './styles.scss';
 
 const ParametersCard = ({ paramters }) => {
   const [ativeAccordion, setActiveAccordion] = useState(0);
