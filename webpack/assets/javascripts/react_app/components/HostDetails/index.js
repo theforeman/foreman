@@ -31,7 +31,7 @@ import './HostDetails.scss';
 
 const HostDetails = ({ match, location: { hash } }) => {
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState('Details');
+  const [activeTab, setActiveTab] = useState('Overview');
   const response = useSelector(state =>
     selectAPIResponse(state, 'HOST_DETAILS')
   );
