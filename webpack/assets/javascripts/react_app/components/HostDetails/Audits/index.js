@@ -25,9 +25,9 @@ import { selectAPIResponse } from '../../../redux/API/APISelectors';
 import { translate as __ } from '../../../common/I18n';
 
 const AuditCard = ({ hostName }) => {
-  const [ativeAccordion, setActiveAccordion] = useState(0);
+  const [activeAccordion, setActiveAccordion] = useState(0);
   const onToggle = id => {
-    if (id === ativeAccordion) {
+    if (id === activeAccordion) {
       setActiveAccordion('');
     } else {
       setActiveAccordion(id);
@@ -49,7 +49,7 @@ const AuditCard = ({ hostName }) => {
   return (
     <Card isHoverable>
       <CardTitle>
-        {__('Last Audits')}{' '}
+        {__('Recent Audits')}{' '}
         <a href={foremanUrl(`/audits?search=host+%3D+${hostName}`)}>
           <ArrowIcon />
         </a>
@@ -71,7 +71,7 @@ const AuditCard = ({ hostName }) => {
                         onToggle(`${audit.request_uuid}-${index}`);
                       }}
                       isExpanded={
-                        ativeAccordion === `${audit.request_uuid}-${index}`
+                        activeAccordion === `${audit.request_uuid}-${index}`
                       }
                       id={`${audit.request_uuid}-${index}`}
                     >
@@ -79,7 +79,7 @@ const AuditCard = ({ hostName }) => {
                     </AccordionToggle>
                     <AccordionContent
                       isHidden={
-                        ativeAccordion !== `${audit.request_uuid}-${index}`
+                        activeAccordion !== `${audit.request_uuid}-${index}`
                       }
                     >
                       <DataList

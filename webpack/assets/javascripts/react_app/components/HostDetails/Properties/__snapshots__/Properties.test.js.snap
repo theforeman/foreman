@@ -1,257 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HostDetails - Interfaces should render UserProfile 1`] = `
-<Card
-  isHoverable={true}
->
-  <DataList
-    aria-label="Host Properties"
-    className=""
-    gridBreakpoint="md"
-    isCompact={true}
-    selectedDataListItemId=""
-    wrapModifier={null}
+<Card>
+  <div
+    style={
+      Object {
+        "padding": "15px",
+      }
+    }
   >
-    <DataListItem
-      aria-labelledby="name"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell>
-                <span>
-                   
-                  Operating System
-                </span>
-              </DataListCell>,
-              <DataListCell>
-                windows 3.11
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="domain"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                isFilled={true}
-              >
-                <span>
-                  Domain
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                altavista
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="architecture"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <span
-                  id="simple-item2"
-                >
-                  Architecture
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                x16
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="ip"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <span
-                  id="simple-item2"
-                >
-                  IP Address
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                0.0.0.1
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="ip6"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <span>
-                  IP6 Address
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <SkeletonLoader
-                  emptyState="N/A"
-                  isLoading={false}
-                  skeletonProps={Object {}}
-                />
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="mac"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <span
-                  id="simple-item2"
-                >
-                  MAC
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                00:0a:95:9d:68:16
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="location"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <span
-                  id="simple-item2"
-                >
-                  Location
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                Beverly Hills
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-    <DataListItem
-      aria-labelledby="organization"
-      className=""
-      id=""
-      isExpanded={false}
-    >
-      <DataListItemRow>
-        <DataListItemCells
-          dataListCells={
-            Array [
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                <span
-                  id="simple-item2"
-                >
-                  Organization
-                </span>
-              </DataListCell>,
-              <DataListCell
-                alignRight={true}
-                isFilled={true}
-              >
-                90210
-              </DataListCell>,
-            ]
-          }
-        />
-      </DataListItemRow>
-    </DataListItem>
-  </DataList>
+    <PropertiesSidePanel>
+      <PropertyItem
+        label="Operating System"
+        value="windows 3.11"
+      />
+      <PropertyItem
+        label="Domain"
+        value="altavista"
+      />
+      <PropertyItem
+        label="Architecture"
+        value="x16"
+      />
+      <PropertyItem
+        label="IP Address"
+        value="0.0.0.1"
+      />
+      <PropertyItem
+        label="IP6 Address"
+        value={
+          <G
+            circle={false}
+            count={1}
+            duration={1.2}
+            height={null}
+            width={null}
+            wrapper={null}
+          />
+        }
+      />
+      <PropertyItem
+        label="MAC"
+        value="00:0a:95:9d:68:16"
+      />
+      <PropertyItem
+        label="Location"
+        value="Beverly Hills"
+      />
+      <PropertyItem
+        label="Organization"
+        value="90210"
+      />
+    </PropertiesSidePanel>
+    <PropertyItem
+      label="Created At"
+      value={
+        <span>
+          <GlobeIcon
+            color="currentColor"
+            noVerticalAlign={false}
+            size="sm"
+          />
+           
+        </span>
+      }
+    />
+  </div>
 </Card>
 `;

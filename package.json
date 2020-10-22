@@ -25,7 +25,8 @@
     "eslint-plugin-spellcheck": "0.0.17",
     "intl": "~1.2.5",
     "jed": "^1.1.1",
-    "react-intl": "^2.8.0"
+    "react-intl": "^2.8.0",
+    "@patternfly/react-catalog-view-extension": "^4.8.60"
   },
   "devDependencies": {
     "@babel/core": "^7.7.0",
