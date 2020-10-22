@@ -66,31 +66,6 @@ module ApplicationHelper
     render :partial => 'common/show_habtm', :collection => associations, :as => :association
   end
 
-  def link_to_remove_puppetclass(klass, type)
-    options = options_for_puppetclass_selection(klass, type)
-    text = remove_link_to_function(truncate(klass.name, :length => 28), options)
-    content_tag(:span, text).html_safe +
-        remove_link_to_function('', options.merge(:class => 'glyphicon glyphicon-minus-sign'))
-  end
-
-  def remove_link_to_function(text, options)
-    options.delete_if { |key, value| !options[key].to_s } # otherwise error during template render
-    title = (_("Click to remove %s") % options[:"data-class-name"])
-    link_to_function(text, "tfm.classEditor.removePuppetClass(this)", options.merge!(:'data-original-title' => title))
-  end
-
-  def link_to_add_puppetclass(klass, type)
-    options = options_for_puppetclass_selection(klass, type)
-    text = add_link_to_function(truncate(klass.name, :length => 28), options)
-    content_tag(:span, text).html_safe +
-        add_link_to_function('', options.merge(:class => 'glyphicon glyphicon-plus-sign'))
-  end
-
-  def add_link_to_function(text, options)
-    link_to_function(text, "tfm.classEditor.addPuppetClass(this)",
-      options.merge(:'data-original-title' => _("Click to add %s") % options[:"data-class-name"]))
-  end
-
   # Display a link if user is authorized, otherwise a string
   # +name+    : String to be displayed
   # +options+ : Hash containing options for authorized_for and link_to
@@ -350,10 +325,6 @@ module ApplicationHelper
     end
   end
 
-  def obj_type(obj)
-    obj.class.model_name.to_s.tableize.singularize
-  end
-
   def show_parent?(obj)
     minimum_count = obj.new_record? ? 0 : 1
     base = obj.class.respond_to?(:completer_scope) ? obj.class.completer_scope(nil) : obj.class
@@ -394,16 +365,6 @@ module ApplicationHelper
 
   def documentation_url(section = "", options = {})
     main_app.external_link_url(options.merge(type: 'manual', params: { section: section }))
-  end
-
-  def options_for_puppetclass_selection(klass, type)
-    {
-      :'data-class-id'   => klass.id,
-      :'data-class-name' => klass.name,
-      :'data-type'       => type,
-      :'data-url'        => main_app.parameters_puppetclass_path(:id => klass.id),
-      :rel               => 'twipsy',
-    }
   end
 
   def spinner(text = '', options = {})
