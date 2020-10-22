@@ -127,7 +127,6 @@ Foreman::Application.routes.draw do
       constraints(host_id: /[^\/]+/) do
         resources :config_reports, only: [:index, :show]
         resources :facts, only: :index, controller: :fact_values
-        resources :puppetclasses, only: :index
 
         get 'parent_facts/*parent_fact/facts', to: 'fact_values#index', as: 'parent_fact_facts', parent_fact: /[\/\w.:_-]+/
       end
@@ -195,22 +194,6 @@ Foreman::Application.routes.draw do
       post 'use_image_selected'
       post 'medium_selected'
       post 'process_hostgroup'
-    end
-  end
-
-  resources :puppetclasses, except: [:new, :create, :show] do
-    collection do
-      get 'import_environments'
-      post 'obsolete_and_new'
-      get 'auto_complete_search'
-    end
-    member do
-      post 'parameters'
-      post 'override'
-    end
-    constraints(id: /[^\/]+/) do
-      resources :hosts
-      resources :lookup_keys, except: [:show, :new, :create]
     end
   end
 
