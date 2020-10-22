@@ -1,38 +1,40 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Grid, GridItem } from '@patternfly/react-core';
+import { Grid, GridItem, Flex, FlexItem } from '@patternfly/react-core';
 
 import Properties from '../../Properties';
 import ParametersCard from '../../Parameters';
 import InterfacesCard from '../../Interfaces';
 import AuditCard from '../../Audits';
 import StatusAlert from '../../Status';
+import Slot from '../../../common/Slot';
 import './Details.css';
 
 const DetailsTab = ({ response }) => (
   <div className="details-tab">
-    <Grid>
-      <GridItem offset={3} span={4}>
+    <Flex
+      spaceItems={{ modifier: 'spaceItemsXl' }}
+      direction={{ default: 'column' }}
+      style={{ paddingBottom: '10px' }}
+    >
+      <FlexItem alignSelf={{ default: 'alignSelfCenter' }}>
         <StatusAlert status={response ? response.global_status_label : null} />
-      </GridItem>
-    </Grid>
-    <Grid className="details-cards">
-      <GridItem span={3} rowSpan={3}>
+      </FlexItem>
+    </Flex>
+    <Grid hasGutter>
+      <GridItem xl2={2} md={3} lg={2} rowSpan={3}>
         <Properties hostData={response} />
       </GridItem>
-      <GridItem style={{ marginLeft: '40px' }} span={3}>
+      <GridItem xl2={3} md={6} lg={5}>
         <ParametersCard paramters={response.all_parameters} />
       </GridItem>
-      <GridItem style={{ marginLeft: '40px' }} span={3} rowSpan={2}>
+      <GridItem xl2={3} md={6} lg={5}>
         <AuditCard hostName={response.name} />
       </GridItem>
-      <GridItem
-        style={{ marginLeft: '40px', marginTop: '20px' }}
-        offset={3}
-        span={3}
-      >
+      <GridItem xl2={3} md={6} lg={5}>
         <InterfacesCard interfaces={response.interfaces} />
       </GridItem>
+      <Slot hostDetails={response} id="details-cards" multi />
     </Grid>
   </div>
 );
