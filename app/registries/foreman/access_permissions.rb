@@ -243,19 +243,16 @@ Foreman::AccessControl.map do |permission_set|
     ajax_actions = [:architecture_selected, :domain_selected, :medium_selected, :os_selected,
                     :use_image_selected, :process_hostgroup, :welcome]
     host_ajax_actions = [:process_hostgroup]
-    pc_ajax_actions = [:parameters]
 
     map.permission :view_hostgroups,       {:hostgroups => [:index, :show, :auto_complete_search],
                                             :"api/v2/hostgroups" => [:index, :show],
                                           }
     map.permission :create_hostgroups,     {:hostgroups => [:new, :create, :clone, :nest, :process_hostgroup].push(*ajax_actions),
                                             :host => host_ajax_actions,
-                                            :puppetclasses => pc_ajax_actions,
                                             :"api/v2/hostgroups" => [:create, :clone],
                                           }
     map.permission :edit_hostgroups,       {:hostgroups => [:edit, :update, :architecture_selected, :process_hostgroup].push(*ajax_actions),
                                             :host => host_ajax_actions,
-                                            :puppetclasses => pc_ajax_actions,
                                             :"api/v2/hostgroups" => [:update, :rebuild_config],
                                             :"api/v2/hostgroup_classes" => [:index, :create, :destroy],
                                            }
@@ -285,7 +282,6 @@ Foreman::AccessControl.map do |permission_set|
                     :process_taxonomy, :current_parameters, :template_used, :interfaces, :scheduler_hint_selected,
                     :random_name]
     cr_ajax_actions = [:cluster_selected, :template_selected, :instance_type_selected, :provider_selected, :resource_pools]
-    pc_ajax_actions = [:parameters]
     subnets_ajax_actions = [:freeip]
     tasks_ajax_actions = [:show]
 
@@ -302,7 +298,6 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :create_hosts,  {:hosts => [:new, :create, :clone].push(*ajax_actions),
                                     :compute_resources_vms => [:import],
                                     :compute_resources => cr_ajax_actions,
-                                    :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :interfaces => [:new, :random_name],
                                     :registration_commands => [:form_data, :operatingsystem_template, :create],
@@ -324,7 +319,6 @@ Foreman::AccessControl.map do |permission_set|
                                                :select_multiple_location, :update_multiple_location].push(*ajax_actions),
                                     :compute_resources => [:associate].push(cr_ajax_actions),
                                     :compute_resources_vms => [:associate],
-                                    :puppetclasses => pc_ajax_actions,
                                     :subnets => subnets_ajax_actions,
                                     :interfaces => [:new, :random_name],
                                     :"api/v2/hosts" => [:update, :disassociate, :forget_status],
@@ -483,29 +477,6 @@ Foreman::AccessControl.map do |permission_set|
     map.permission :lock_ptables, {:ptables => [:lock, :unlock],
                                        :"api/v2/ptables" => [:lock, :unlock],
                                       }
-  end
-
-  permission_set.security_block :puppetclasses do |map|
-    map.permission :view_puppetclasses,    {:puppetclasses => [:index, :show, :auto_complete_search],
-                                          :"api/v2/puppetclasses" => [:index, :show],
-                                          :"api/v2/smart_variables" => [:index, :show],
-                                          :"api/v2/smart_class_parameters" => [:index, :show],
-                                        }
-    map.permission :create_puppetclasses,  {:puppetclasses => [:new, :create],
-                                          :"api/v2/puppetclasses" => [:create],
-                                        }
-    map.permission :edit_puppetclasses,    {:puppetclasses => [:edit, :update, :override],
-                                          :"api/v2/puppetclasses" => [:update],
-                                          :"api/v2/smart_variables" => [:create, :update, :destroy],
-                                          :"api/v2/smart_class_parameters" => [:create, :update, :destroy],
-                                        }
-    map.permission :destroy_puppetclasses, {:puppetclasses => [:destroy],
-                                          :"api/v2/puppetclasses" => [:destroy],
-                                        }
-    map.permission :import_puppetclasses,  {:puppetclasses => [:import_environments, :obsolete_and_new],
-                                           :"api/v2/environments" => [:import_puppetclasses],
-                                           :"api/v2/smart_proxies" => [:import_puppetclasses],
-                                            }
   end
 
   permission_set.security_block :report_templates do |map|
