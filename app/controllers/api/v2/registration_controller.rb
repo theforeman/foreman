@@ -21,6 +21,7 @@ module Api
       param :operatingsystem_id, :number, desc: N_("ID of the Operating System to register the host in.")
       param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems.")
       param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host.")
+      param :remote_execution_interface, String, desc: N_("Identifier of the Host interface for Remote execution")
       def global
         find_global_registration
 
@@ -68,6 +69,7 @@ module Api
       end
       param :setup_insights, :bool, desc: N_("Set 'host_registration_insights' parameter for the host. If it is set to true, insights client will be installed and registered on Red Hat family operating systems.")
       param :setup_remote_execution, :bool, desc: N_("Set 'host_registration_remote_execution' parameter for the host. If it is set to true, SSH keys will be installed on the host.")
+      param :remote_execution_interface, String, desc: N_("Identifier of the Host interface for Remote execution")
       def host
         begin
           ActiveRecord::Base.transaction do
@@ -75,6 +77,8 @@ module Api
             prepare_host
             host_setup_insights
             host_setup_remote_execution
+            remote_execution_interface
+
             @template = @host.registration_template
             raise ActiveRecord::Rollback if @template.nil?
           end

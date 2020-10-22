@@ -33,6 +33,7 @@ module Foreman::Controller::Registration
                    registration_url: registration_url,
                    setup_insights: global_setup_insights(host_config_params),
                    setup_remote_execution: global_setup_remote_execution(host_config_params),
+                   remote_execution_interface: params['remote_execution_interface'].presence,
                   })
   end
 
@@ -126,5 +127,17 @@ module Foreman::Controller::Registration
     rex_param = HostParameter.find_or_initialize_by(host: @host, name: 'host_registration_remote_execution', key_type: 'boolean')
     rex_param.value = ActiveRecord::Type::Boolean.new.deserialize(params['setup_remote_execution'])
     rex_param.save!
+  end
+
+  def remote_execution_interface
+    return unless params['remote_execution_interface'].present?
+    return unless Nic::Managed.attribute_method? :execution
+
+    interfaces = @host.interfaces
+    interfaces.find_by!(identifier: params['remote_execution_interface'])
+
+    # Only one interface at time can be used for REX, all other must be set to false
+    interfaces.each { |int| int.execution = (int.identifier == params['remote_execution_interface']) }
+    interfaces.each(&:save!)
   end
 end
