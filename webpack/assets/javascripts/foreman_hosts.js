@@ -5,6 +5,7 @@ export default {
   table,
   registerPluginAttributes,
   getAttributesToPost,
+  copyRegistrationCommand,
   checkPXELoaderCompatibility,
   pxeCompatibility,
 };
@@ -41,6 +42,18 @@ export function getAttributesToPost(componentType) {
     attrsToPost = attrsToPost.concat(pluginEditAttributes[componentType]);
   }
   return uniq(attrsToPost);
+}
+
+export function copyRegistrationCommand() {
+  const commandText = document.getElementById('registration_command')
+    .textContent;
+  const tmpElement = document.createElement('textarea');
+
+  tmpElement.textContent = commandText;
+  document.body.appendChild(tmpElement);
+  tmpElement.select();
+  document.execCommand('copy');
+  document.body.removeChild(tmpElement);
 }
 
 class PXECompatibilityCheck {
