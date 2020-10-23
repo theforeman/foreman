@@ -1391,7 +1391,9 @@ you want so provide status for refresh.
 
 [source, ruby]
 ----
-my_host.refresh_statuses(HostStatus.find_status_by_humanized_name("statusname")
+my_host.refresh_statuses([HostStatus.find_status_by_humanized_name("statusname")])
+# or:
+my_host.refresh_statuses([MyHostStatus])
 ----
 [[selecting-properties-to-clone]]
 ==== Selecting properties to clone
@@ -2097,7 +2099,21 @@ where `::Mutations::Ducks::Delete` is your delete mutation class inheriting from
 _Requires Foreman 2.0 or higher, set requires_foreman '>= 2.0' in
 engine.rb_
 
-You can consume events from Foreman core by registering subscribers. Subscriber is a class that inherits `Foreman::BaseSubscriber`. It is recommended to store subscribers under the `/app/subscribers/my_plugin/` directory. If you have your subscriber defined register it in the plugin. Example of your engine.rb:
+You can consume events from Foreman core by registering subscribers.
+To define a `Subscriber` class called `MySubscriber`, see the following example:
+
+[source, ruby]
+....
+module MyPlugin
+  class MySubscriber < ::Foreman::BaseSubscriber
+    def call(*args)
+      # ...
+    end
+  end
+end
+....
+It is recommended to store subscribers under the `/app/subscribers/my_plugin/` directory.
+If you have your `Subscriber` class defined, register it in the plugin. Example of your `engine.rb`:
 
 [source, ruby]
 ....
