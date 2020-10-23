@@ -520,57 +520,6 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
-  def setup_multiple_environments
-    setup_user_and_host "edit"
-    as_admin do
-      @host1, @host2 = FactoryBot.create_list(:host, 2, :environment => environments(:production),
-                                               :organization => users(:one).organizations.first,
-                                               :location => users(:one).locations.first)
-    end
-  end
-
-  test "user with edit host rights with update environments should change environments" do
-    @request.env['HTTP_REFERER'] = hosts_path
-    setup_multiple_environments
-    assert @host1.environment == environments(:production)
-    assert @host2.environment == environments(:production)
-    post :update_multiple_environment, params: { :host_ids => [@host1.id, @host2.id],
-      :environment => { :id => environments(:global_puppetmaster).id} },
-      session: set_session_user.merge(:user => users(:admin).id)
-    as_admin do
-      assert_equal environments(:global_puppetmaster), @host1.reload.environment
-      assert_equal environments(:global_puppetmaster), @host2.reload.environment
-    end
-    assert_equal "Updated hosts: changed environment", flash[:success]
-  end
-
-  test "should inherit the hostgroup environment if *inherit from hostgroup* selected" do
-    @request.env['HTTP_REFERER'] = hosts_path
-    setup_multiple_environments
-    assert @host1.environment == environments(:production)
-    assert @host2.environment == environments(:production)
-
-    hostgroup = hostgroups(:common)
-    as_admin do
-      hostgroup.environment = environments(:global_puppetmaster)
-      hostgroup.save(:validate => false)
-
-      @host1.hostgroup = hostgroup
-      @host1.save(:validate => false)
-      @host2.hostgroup = hostgroup
-      @host2.save(:validate => false)
-    end
-
-    params = { :host_ids => [@host1.id, @host2.id],
-      :environment => { :id => 'inherit' } }
-
-    post :update_multiple_environment, params: params,
-      session: set_session_user.merge(:user => users(:admin).id)
-
-    assert_equal hostgroup.environment_id, Host.unscoped.find(@host1.id).environment_id
-    assert_equal hostgroup.environment_id, Host.unscoped.find(@host2.id).environment_id
-  end
-
   test "user with edit host rights with update owner should change owner" do
     @request.env['HTTP_REFERER'] = hosts_path
     setup_user_and_host "edit"
@@ -741,8 +690,17 @@ class HostsControllerTest < ActionController::TestCase
     end
   end
 
+  def setup_multiple_parameters
+    setup_user_and_host "edit"
+    as_admin do
+      @host1, @host2 = FactoryBot.create_list(:host, 2, :environment => environments(:production),
+                                               :organization => users(:one).organizations.first,
+                                               :location => users(:one).locations.first)
+    end
+  end
+
   test "user with edit host rights with update parameters should change parameters" do
-    setup_multiple_environments
+    setup_multiple_parameters
     param1 = HostParameter.create(:name => "p1", :value => "yo")
     param2 = HostParameter.create(:name => "p1", :value => "hi")
 

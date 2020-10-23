@@ -13,9 +13,6 @@
               <%= _("Host group") %>
             </th>
             <th>
-              <%= _("Environment") %>
-            </th>
-            <th>
               <%= _("Location") %>
             </th>
             <th>
@@ -24,13 +21,11 @@
           </tr>
         </thead>
         <tbody>
-          <% associations = [:hostgroup, :environment, :organization, :location]  %>
-          <% hosts.includes(*associations).each do |host| %>
+          <% associations = [:hostgroup, :organization, :location]  %>
+          <% hosts.preload(*associations).each do |host| %>
             <tr>
-              <td><%=h host %>
-              </td>
+              <td><%=h host %></td>
               <td><%=h host.try(:hostgroup) %></td>
-              <td><%=h host.try(:environment) %></td>
               <td><%=h host.try(:location) %></td>
               <td><%=h host.try(:organization) %></td>
             </tr>
