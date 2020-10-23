@@ -111,18 +111,6 @@ class HostJSTest < IntegrationTestWithJavascript
       find('#multiple-alert > .text > a').click
       assert page.has_text?(:all, "All 3 hosts are selected")
     end
-
-    test 'apply bulk action, change environment on all hosts' do
-      Setting[:entries_per_page] = 3
-      visit hosts_path(per_page: 2)
-      check 'check_all'
-      find('#multiple-alert > .text > a').click
-      find('#submit_multiple').click
-      find("a", :text => /\AChange Environment\z/).click
-      find('#environment_id').find(:xpath, 'option[4]').select_option
-      find("button", :text => /\ASubmit\z/).click
-      assert page.has_text?(:all, "Updated hosts: changed environment")
-    end
   end
 
   describe 'edit page' do
@@ -425,30 +413,15 @@ class HostJSTest < IntegrationTestWithJavascript
 
       # Open modal box
       within('#submit_multiple') do
-        click_on('Change Environment')
+        click_on('Change Group')
       end
       assert index_modal.visible?, "Modal window was shown"
-      page.find('#environment_id').find("option[value='#{@host.environment_id}']").select_option
+      page.find('#hostgroup_id').find("option[value='#{@host.hostgroup_id}']").select_option
 
       # remove hosts cookie on submit
       index_modal.find('.btn-primary').click
       assert_current_path hosts_path
       assert_empty(get_me_the_cookie('_ForemanSelectedhosts'))
-    end
-
-    test 'redirect js' do
-      visit hosts_path
-      check 'check_all'
-
-      # Ensure and wait for all hosts to be checked, and that no unchecked hosts remain
-      assert page.has_no_selector?('input.host_select_boxes:not(:checked)')
-
-      # Hosts are added to cookie
-      host_ids_on_cookie = JSON.parse(CGI.unescape(get_me_the_cookie('_ForemanSelectedhosts')&.fetch(:value)))
-      assert(host_ids_on_cookie.include?(@host.id))
-
-      page.execute_script("tfm.hosts.table.buildRedirect('#{select_multiple_environment_hosts_path}')")
-      assert_current_path(select_multiple_environment_hosts_path, :ignore_query => true)
     end
 
     test 'redirect js with parameter in URL' do

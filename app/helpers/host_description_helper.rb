@@ -12,7 +12,6 @@ module HostDescriptionHelper
     if authorized_for(:controller => :hosts, :action => :edit)
       actions.concat [
         { :action => [_('Change Group'), select_multiple_hostgroup_hosts_path], :priority => 100 },
-        { :action => [_('Change Environment'), select_multiple_environment_hosts_path], :priority => 200 },
         { :action => [_('Edit Parameters'), multiple_parameters_hosts_path], :priority => 300 },
         { :action => [_('Disable Notifications'), multiple_disable_hosts_path], :priority => 400 },
         { :action => [_('Enable Notifications'), multiple_enable_hosts_path], :priority => 500 },
