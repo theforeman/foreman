@@ -76,8 +76,6 @@ Foreman::Application.routes.draw do
         post 'update_multiple_parameters'
         post 'select_multiple_hostgroup'
         post 'update_multiple_hostgroup'
-        post 'select_multiple_environment'
-        post 'update_multiple_environment'
         post 'select_multiple_owner'
         post 'update_multiple_owner'
         post 'select_multiple_power_state'
