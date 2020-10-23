@@ -1,0 +1,64 @@
+<% title _('Register Host') %>
+<%= form_tag({controller: 'registration', action: 'create' }, method: :post, class: 'form-horizontal well') do %>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Organization') %></label>
+    <div class='col-md-4'>
+      <p class="form-control-static">
+        <%= Organization.current&.name || _('No Organization selected') %>
+        <%= hidden_field_tag 'organization_id', Organization.current&.id %>
+      </p>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Location') %></label>
+    <div class='col-md-4'>
+      <p class="form-control-static">
+        <%= Location.current&.name || _('No Location selected') %>
+        <%= hidden_field_tag 'location_id', Location.current&.id %>
+      </p>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Host Group') %></label>
+    <div class='col-md-4'>
+      <%= select_tag 'host_group_id', options_from_collection_for_select(@host_groups, :id, :name, params[:host_group_id]), class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Operating System') %></label>
+    <div class='col-md-4'>
+      <%= select_tag 'operatingsystem_id', options_from_collection_for_select(@operating_systems, :id, :title, params[:operatingsystem_id]), class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Proxy') %></label>
+    <div class='col-md-4'>
+      <%= select_tag 'smart_proxy', options_from_collection_for_select(@smart_proxies, :id, :name, params[:smart_proxy]), class: 'form-control', include_blank: '' %>
+    </div>
+  </div>
+  <div class='form-group'>
+    <label class='col-md-2 control-label'><%= _('Token lifetime (hours)') %></label>
+    <div class='col-md-4'>
+      <%= number_field_tag 'jwt_expiration', params[:jwt_expiration] || 4, class: 'form-control', min: 1, required: true %>
+    </div>
+  </div>
+
+  <% pagelets_for(:global_registration).each do |pagelet| %>
+    <%= render_pagelet(pagelet) %>
+  <% end %>
+
+  <div class='form-group '>
+    <%= submit_tag _('Generate command'), class: 'btn btn-primary' %>
+    <%= link_to _('Cancel'), hosts_path, class: 'btn btn-default' %>
+  </div>
+
+  <% if action_name == 'create' %>
+    <div class='form-group '>
+      <label class='col-md-2 control-label'><%= _('Command') %></label>
+      <div class='col-md-8'>
+        <pre class='ellipsis white-space-normal' id='registration_command'><%= @command %></pre>
+        <a class='btn btn-default' onclick="tfm.hosts.copyRegistrationCommand();" ><%= _('Copy to clipboard') %></a>
+      </div>
+    </div>
+  <% end %>
+<% end %>
