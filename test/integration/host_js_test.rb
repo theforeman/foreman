@@ -753,31 +753,6 @@ class HostJSTest < IntegrationTestWithJavascript
     end
   end
 
-  describe 'Puppet Classes tab' do
-    context 'has inherited Puppetclasses' do
-      setup do
-        @hostgroup = FactoryBot.create(:hostgroup, :with_puppetclass)
-        @host = FactoryBot.create(:host, hostgroup: @hostgroup, environment: @hostgroup.environment)
-
-        visit edit_host_path(@host)
-        page.find(:link, 'Puppet Classes', href: '#puppet_klasses').click
-      end
-
-      test 'it mentions the hostgroup by name in the tooltip' do
-        page.find('#puppet_klasses .panel h3 a').click
-        class_element = page.find('#inherited_ids>li')
-
-        assert_equal @hostgroup.puppetclasses.first.name, class_element.text
-      end
-
-      test 'it shows a header mentioning the hostgroup inherited from' do
-        header_element = page.find('#puppet_klasses .panel h3 a')
-
-        assert header_element.text =~ /#{@hostgroup.name}$/
-      end
-    end
-  end
-
   private
 
   def switch_form_tab_to_interfaces
