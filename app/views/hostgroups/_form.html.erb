@@ -4,7 +4,6 @@
 
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Hostgroup') %></a></li>
-    <li><a href="#puppet_klasses" data-toggle="tab"><%= _('Puppet Classes') %></a></li>
     <% if SETTINGS[:unattended] %>
       <li><a href="#network" data-toggle="tab"><%= _('Network') %></a></li>
       <li><a href="#os" data-toggle="tab"><%= _('Operating System') %></a></li>
@@ -42,8 +41,6 @@
       <%= render_pagelets_for(:main_tab_fields, :hostgroup => @hostgroup, :form => f) %>
       <%= smart_proxy_fields f %>
     </div>
-
-    <%= puppetclasses_tab(@hostgroup) %>
 
     <div class="tab-pane" id="network">
       <fieldset>
