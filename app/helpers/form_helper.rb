@@ -256,7 +256,7 @@ module FormHelper
   end
 
   def submit_or_cancel(f, overwrite = false, args = { })
-    args[:cancel_path] ||= send("#{controller_name}_path")
+    args[:cancel_path] ||= resource_path(controller_name)
     cancel_btn = args[:react_cancel_button] ? react_cancel_button(args) : link_to(_("Cancel"), args[:cancel_path], :class => "btn btn-default")
     content_tag(:div, :class => "clearfix") do
       content_tag(:div, :class => "form-actions") do
