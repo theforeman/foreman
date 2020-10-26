@@ -1,6 +1,7 @@
 require 'integration_test_helper'
 require 'integration/shared/host_finders'
 require 'integration/shared/host_orchestration_stubs'
+require 'fog/libvirt/models/compute/node'
 
 class HostJSTest < IntegrationTestWithJavascript
   # intermittent failures:
@@ -19,6 +20,7 @@ class HostJSTest < IntegrationTestWithJavascript
   before do
     as_admin { @host = FactoryBot.create(:host, :with_puppet, :managed) }
     Fog.mock!
+    Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Libvirt::Compute::Node.new(:cpus => 4))
   end
 
   after do
@@ -113,87 +115,6 @@ class HostJSTest < IntegrationTestWithJavascript
     end
   end
 
-  describe 'edit page' do
-    test 'class parameters and overrides are displayed correctly for strings' do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-        :key_type => 'string', :default_value => true, :path => "fqdn",
-        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert_equal class_params.find("textarea").value, "false"
-      assert class_params.find("textarea:enabled")
-      class_params.find("a[data-tag='remove']").click
-      assert class_params.find("textarea:disabled")
-      click_on_submit
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert_equal class_params.find("textarea").value, "true"
-      assert class_params.find("textarea:disabled")
-      class_params.find("a[data-tag='override']").click
-      assert class_params.find("textarea:enabled")
-      class_params.find("textarea").set("false")
-      click_on_submit
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert_equal class_params.find("textarea").value, "false"
-      assert class_params.find("textarea:enabled")
-    end
-
-    test 'can override puppetclass lookup values' do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-        :key_type => 'string', :default_value => "true", :path => "fqdn",
-        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => "false"})
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert class_params.has_selector?("a[data-tag='remove']", :visible => :visible)
-      assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
-      assert_equal class_params.find("textarea").value, "false"
-      assert class_params.find("textarea:enabled")
-
-      class_params.find("a[data-tag='remove']").click
-      assert class_params.has_selector?("a[data-tag='remove']", :visible => :hidden)
-      assert class_params.has_selector?("a[data-tag='override']", :visible => :visible)
-      assert_equal class_params.find("textarea").value, "true"
-      assert class_params.find("textarea:disabled")
-
-      class_params.find("a[data-tag='override']").click
-      assert class_params.has_selector?("a[data-tag='remove']", :visible => :visible)
-      assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
-      assert_equal class_params.find("textarea").value, "true"
-      assert class_params.find("textarea:enabled")
-    end
-
-    test 'correctly override global params' do
-      host = FactoryBot.create(:host)
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      id = '#override-param-test' # the global param fixture override button
-      assert page.has_selector?(id)
-      page.find(id).click
-      assert page.has_no_selector?(id)
-      click_on_submit
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert page.has_no_selector?(id)
-      page.find('#global_parameters_table a[title="Remove Parameter"]').hover
-      page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
-      assert page.has_selector?(id)
-    end
-  end
-
   describe "create new host page" do
     test "default primary interface is in the overview table" do
       assert_new_button(hosts_path, "Create Host", new_host_path)
@@ -217,23 +138,19 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'choosing a hostgroup overrides other host attributes' do
-      original_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment))
-      overridden_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment))
+      original_hostgroup = FactoryBot.create(:hostgroup, :with_compute_resource)
+      overridden_hostgroup = FactoryBot.create(:hostgroup, :with_compute_resource)
 
       visit new_host_path
       select2(original_hostgroup.name, :from => 'host_hostgroup_id')
       wait_for_ajax
-      click_on_inherit('environment')
+      click_on_inherit('compute_resource')
       select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-      assert page.find('#s2id_host_environment_id .select2-chosen').has_text? overridden_hostgroup.environment.name
+      assert page.find('#s2id_host_compute_resource_id .select2-chosen').has_text? overridden_hostgroup.compute_resource.name
     end
 
     test 'choosing a hostgroup with compute resource works' do
-      require 'fog/libvirt/models/compute/node'
-      Foreman::Model::Libvirt.any_instance.stubs(:hypervisor).returns(Fog::Libvirt::Compute::Node.new(:cpus => 4))
-      hostgroup = FactoryBot.create(:hostgroup, :with_environment, :with_subnet, :with_domain, :with_compute_resource)
+      hostgroup = FactoryBot.create(:hostgroup, :with_subnet, :with_domain, :with_compute_resource)
       hostgroup.subnet.update!(ipam: IPAM::MODES[:db])
       compute_profile = FactoryBot.create(:compute_profile, :with_compute_attribute, :compute_resource => hostgroup.compute_resource)
       compute_attributes = compute_profile.compute_attributes.where(:compute_resource_id => hostgroup.compute_resource.id).first
@@ -269,7 +186,7 @@ class HostJSTest < IntegrationTestWithJavascript
     end
 
     test 'saves correct values for inherited fields without hostgroup' do
-      env = FactoryBot.create(:environment)
+      compute_resource = FactoryBot.create(:compute_resource, :libvirt)
       os = FactoryBot.create(:ubuntu14_10, :with_associations)
       Nic::Managed.any_instance.stubs(:dns_conflict_detected?).returns(true)
       visit new_host_path
@@ -279,7 +196,7 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       select2 'Location 1', :from => 'host_location_id'
       wait_for_ajax
-      select2 env.name, :from => 'host_environment_id'
+      select2 compute_resource.name, :from => 'host_compute_resource_id'
 
       click_link 'Operating System'
       wait_for_ajax
@@ -293,20 +210,18 @@ class HostJSTest < IntegrationTestWithJavascript
       switch_form_tab_to_interfaces
       click_button 'Edit'
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       fill_in 'host_interfaces_attributes_0_ip', :with => '1.1.1.1'
       close_interfaces_modal
       click_on_submit
       find('#host-show') # wait for host details page
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
-      assert_equal env.name, host.environment.name
+      assert_equal compute_resource.name, host.compute_resource.name
     end
 
     test 'sets fields to "inherit" when hostgroup is selected' do
-      env1 = FactoryBot.create(:environment)
-      env2 = FactoryBot.create(:environment)
-      hg = FactoryBot.create(:hostgroup, :environment => env2)
+      compute_resource2 = FactoryBot.create(:compute_resource, :libvirt)
+      hg = FactoryBot.create(:hostgroup, :with_compute_resource)
       os = FactoryBot.create(:ubuntu14_10, :with_associations)
       disable_orchestration
       visit new_host_path
@@ -316,7 +231,7 @@ class HostJSTest < IntegrationTestWithJavascript
       wait_for_ajax
       select2 'Location 1', :from => 'host_location_id'
       wait_for_ajax
-      select2 env1.name, :from => 'host_environment_id'
+      select2 compute_resource2.name, :from => 'host_compute_resource_id'
       select2 hg.name, :from => 'host_hostgroup_id'
       wait_for_ajax
 
@@ -332,7 +247,6 @@ class HostJSTest < IntegrationTestWithJavascript
       switch_form_tab_to_interfaces
       click_button 'Edit'
       select2 domains(:mydomain).name, :from => 'host_interfaces_attributes_0_domain_id'
-      fill_in 'host_interfaces_attributes_0_mac', :with => '00:11:11:11:11:11'
       fill_in 'host_interfaces_attributes_0_ip', :with => '2.3.4.44'
 
       close_interfaces_modal
@@ -340,20 +254,26 @@ class HostJSTest < IntegrationTestWithJavascript
       click_on_submit
 
       host = Host::Managed.search_for('name ~ "myhost1"').first
-      assert_equal env2.name, host.environment.name
+      assert_equal hg.compute_resource.name, host.compute_resource.name
     end
 
     test 'setting host group updates parameters tab' do
-      hostgroup = FactoryBot.create(:hostgroup, :with_parameter)
+      hostgroup1, hostgroup2 = FactoryBot.create_pair(:hostgroup, :with_parameter)
       visit new_host_path
-      select2(hostgroup.name, :from => 'host_hostgroup_id')
 
+      select2(hostgroup1.name, :from => 'host_hostgroup_id')
       wait_for_ajax
 
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
+      switch_form_tab('Parameters')
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
 
-      assert page.has_selector?("#inherited_parameters #name_#{hostgroup.group_parameters.first.name}")
+      switch_form_tab('Host')
+      select2(hostgroup2.name, :from => 'host_hostgroup_id')
+      wait_for_ajax
+
+      switch_form_tab('Parameters')
+      assert page.has_selector?("#inherited_parameters #name_#{hostgroup2.group_parameters.first.name}")
+      assert page.has_no_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
     end
 
     test 'new parameters can be edited and removed' do
@@ -441,119 +361,39 @@ class HostJSTest < IntegrationTestWithJavascript
   end
 
   describe 'edit page' do
-    test 'fields are not inherited on edit' do
-      env1 = FactoryBot.create(:environment)
-      env2 = FactoryBot.create(:environment)
-      hg = FactoryBot.create(:hostgroup, :environment => env2)
-      host = FactoryBot.create(:host, :with_puppet, :hostgroup => hg)
-      visit edit_host_path(host)
-
-      select2 env1.name, :from => 'host_environment_id'
-      click_on_submit
-
-      host.reload
-      assert_equal env1.name, host.environment.name
-    end
-
-    test 'user without edit_params permission can save host with params' do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-        :with_override, :key_type => 'string',
-                         :default_value => 'string1', :path => "fqdn\ncomment",
-                         :puppetclass => host.puppetclasses.first,
-                         :overrides => { host.lookup_value_matcher => 'string2' })
-      user = FactoryBot.create(:user, :with_mail)
-      user.update_attribute(:roles, roles(:viewer, :edit_hosts))
-      refute user.can? 'edit_params'
-      set_request_user(user)
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert class_params.find('textarea').disabled?
-      assert_equal 2, class_params.all('input:disabled', :visible => :all).count
-      assert_equal 0, class_params.all('input\:not[disabled]', :visible => :all).count
-      click_button('Submit')
-      assert page.has_link?('Edit')
-    end
-
-    test 'shows errors on invalid lookup values' do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-        :key_type => 'real', :default_value => true, :path => "fqdn\ncomment",
-        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => false})
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert page.has_no_selector?('#params td.has-error')
-
-      fill_in "host_lookup_values_attributes_#{lookup_key.id}_value", :with => 'invalid'
-      click_button('Submit')
-      assert page.has_selector?('#params td.has-error')
-    end
-
-    test 'choosing a hostgroup does not override other host attributes' do
-      original_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment),
-                           :puppet_proxy => FactoryBot.create(:puppet_smart_proxy))
-
-      # Make host inherit hostgroup environment
-      @host.attributes = @host.apply_inherited_attributes(
-        'hostgroup_id' => original_hostgroup.id)
-      @host.save
-
-      overridden_hostgroup = FactoryBot.
-        create(:hostgroup, :environment => FactoryBot.create(:environment))
-
-      visit edit_host_path(@host)
-      select2(original_hostgroup.name, :from => 'host_hostgroup_id')
-
-      assert_equal original_hostgroup.puppet_proxy.name, find('#s2id_host_puppet_proxy_id .select2-chosen').text
-
-      click_on_inherit('puppet_proxy')
-      select2(overridden_hostgroup.name, :from => 'host_hostgroup_id')
-
-      assert find('#s2id_host_environment_id .select2-chosen').has_text? original_hostgroup.environment.name
-
-      # On host group change, the disabled select will be reset to an empty value - disabled select2 is invisible on chrome
-      assert find('#s2id_host_puppet_proxy_id .select2-chosen', visible: :all).has_text? ''
-    end
-
-    test 'class parameters and overrides are displayed correctly for booleans' do
-      host = FactoryBot.create(:host, :with_puppetclass)
-      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override,
-        :key_type => 'boolean', :default_value => 'false', :path => "fqdn",
-        :puppetclass => host.puppetclasses.first, :overrides => {host.lookup_value_matcher => 'false'})
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert class_params.has_selector?("a[data-tag='remove']", :visible => :visible)
-      assert class_params.has_selector?("a[data-tag='override']", :visible => :hidden)
-      assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "false"
-      select2 "true", :from => "host_lookup_values_attributes_#{lookup_key.id}_value"
-      click_on_submit
-
-      visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
-      assert_equal find("#s2id_host_lookup_values_attributes_#{lookup_key.id}_value .select2-chosen").text, "true"
-    end
-
-    test 'changing host group updates parameters tab' do
+    test 'changing hostgroup updates parameters tab' do
       hostgroup1, hostgroup2 = FactoryBot.create_pair(:hostgroup, :with_parameter)
       host = FactoryBot.create(:host, :hostgroup => hostgroup1)
 
       visit edit_host_path(host)
-      assert page.has_link?('Parameters', :href => '#params')
-      click_link 'Parameters'
+      switch_form_tab('Parameters')
       assert page.has_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
 
-      click_link 'Host'
+      switch_form_tab('Host')
       select2(hostgroup2.name, :from => 'host_hostgroup_id')
 
-      click_link 'Parameters'
-      assert page.has_no_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
+      switch_form_tab('Parameters')
       assert page.has_selector?("#inherited_parameters #name_#{hostgroup2.group_parameters.first.name}")
+      assert page.has_no_selector?("#inherited_parameters #name_#{hostgroup1.group_parameters.first.name}")
+    end
+
+    test 'correctly override global params' do
+      host = FactoryBot.create(:host)
+
+      visit edit_host_path(host)
+      switch_form_tab('Parameters')
+      id = '#override-param-test' # the global param fixture override button
+      assert page.has_selector?(id)
+      page.find(id).click
+      assert page.has_no_selector?(id)
+      click_on_submit
+
+      visit edit_host_path(host)
+      switch_form_tab('Parameters')
+      assert page.has_no_selector?(id)
+      page.find('#global_parameters_table a[title="Remove Parameter"]').hover
+      page.find('#global_parameters_table a[data-original-title="Remove Parameter"]').click
+      assert page.has_selector?(id)
     end
   end
 
@@ -657,32 +497,6 @@ class HostJSTest < IntegrationTestWithJavascript
         assert page.find('#host_interfaces_attributes_0_subnet_id option[selected="selected"]', visible: false).has_text? ""
       end
 
-      test "selecting domain updates puppetclass parameters" do
-        disable_orchestration
-        domain = FactoryBot.create(:domain)
-
-        host = FactoryBot.create(:host, :with_puppetclass)
-
-        lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :with_override, :path => "fqdn\ndomain\ncomment",
-                                        :puppetclass => host.puppetclasses.first, :default_value => 'default')
-        LookupValue.create(:value => 'domain', :match => "domain=#{domain.name}", :lookup_key_id => lookup_key.id)
-
-        visit edit_host_path(host)
-        assert page.has_link?('Parameters', :href => '#params')
-        click_link 'Parameters'
-        assert_equal class_params.find("textarea").value, "default"
-
-        switch_form_tab_to_interfaces
-        table.first(:button, 'Edit').click
-
-        select2 domain.name, :from => 'host_interfaces_attributes_0_domain_id'
-        modal.find(:button, "Ok").click
-
-        assert page.has_link?('Parameters', :href => '#params')
-        click_link 'Parameters'
-        assert_equal "domain", class_params.find("textarea").value
-      end
-
       test "selecting type updates interface fields" do
         disable_orchestration
         go_to_interfaces_tab
@@ -754,11 +568,6 @@ class HostJSTest < IntegrationTestWithJavascript
   end
 
   private
-
-  def switch_form_tab_to_interfaces
-    switch_form_tab('Interfaces')
-    disable_interface_modal_animation
-  end
 
   def subnet_and_domain_are_selected(modal, domain)
     modal.assert_selector("#interfaceModal #s2id_host_interfaces_attributes_0_domain_id .select2-chosen",

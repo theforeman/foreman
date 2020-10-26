@@ -8,12 +8,10 @@ class HostgroupJSTest < IntegrationTestWithJavascript
   end
 
   test 'creates a hostgroup with provisioning data' do
-    env = FactoryBot.create(:environment)
     os = FactoryBot.create(:ubuntu14_10, :with_associations)
     visit new_hostgroup_path
 
     fill_in 'hostgroup_name', :with => 'myhostgroup1'
-    select2 env.name, :from => 'hostgroup_environment_id'
     click_link 'Operating System'
     wait_for_ajax
     select2 os.architectures.first.name, :from => 'hostgroup_architecture_id'
@@ -26,9 +24,9 @@ class HostgroupJSTest < IntegrationTestWithJavascript
     fill_in 'hostgroup_root_pass', :with => '12345678'
     click_button 'Submit'
 
-    host = Hostgroup.where(:name => "myhostgroup1").first
-    assert host
-    assert_equal env.name, host.environment.name
+    hostgroup = Hostgroup.where(:name => "myhostgroup1").first
+    refute hostgroup.nil?
+    assert_equal os.id, hostgroup.operatingsystem_id
     assert page.has_current_path? hostgroups_path
   end
 

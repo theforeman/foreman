@@ -716,19 +716,13 @@ class HostsControllerTest < ActionController::TestCase
     assert Host.find(@host2.id).host_parameters[0][:value] == "hello"
   end
 
-  test "parameter details should be html escaped" do
+  test "hostgroup name should be html escaped" do
     hg = FactoryBot.build(:hostgroup, :name => "<script>alert('hacked')</script>")
-    host = FactoryBot.create(:host, :with_puppetclass, :hostgroup => hg)
-    FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param,
-      :override => true, :key_type => 'string',
-      :default_value => "<script>alert('hacked!');</script>",
-      :description => "<script>alert('hacked!');</script>",
-      :puppetclass => host.puppetclasses.first)
+    host = FactoryBot.create(:host, :hostgroup => hg)
     FactoryBot.create(:hostgroup_parameter, :hostgroup => hg)
     get :edit, params: { :id => host.name }, session: set_session_user
     refute response.body.include?("<script>alert(")
     assert response.body.include?("&lt;script&gt;alert(")
-    assert_equal 3, response.body.scan("&lt;script&gt;alert(").size
   end
 
   test "should get errors" do
@@ -1698,56 +1692,6 @@ class HostsControllerTest < ActionController::TestCase
         session: set_session_user.merge(:user => @one.id)
       assert_match(/#{@host.name} now boots from BIOS/, flash[:success])
       assert_redirected_to host_path(@host.id)
-    end
-  end
-
-  describe '#hostgroup_or_environment_selected' do
-    test 'choosing only one of hostgroup or environment renders classes' do
-      post :hostgroup_or_environment_selected, params: {
-        :host_id => nil,
-        :host => {
-          :environment_id => Environment.unscoped.first.id,
-        },
-      }, session: set_session_user, xhr: true
-      assert_response :success
-      assert_template :partial => 'puppetclasses/_class_selection'
-    end
-
-    test 'choosing both hostgroup and environment renders classes' do
-      post :hostgroup_or_environment_selected, params: {
-        :host_id => @host.id,
-        :host => {
-          :environment_id => Environment.unscoped.first.id,
-          :hostgroup_id => Hostgroup.unscoped.first.id,
-        },
-      }, session: set_session_user, xhr: true
-      assert_response :success
-      assert_template :partial => 'puppetclasses/_class_selection'
-    end
-
-    test 'should not escape lookup values on environment change' do
-      host = FactoryBot.create(:host, :with_environment, :with_puppetclass)
-
-      host.environment.locations = [host.location]
-      host.environment.organizations = [host.organization]
-
-      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
-                                     :default_value => ['a', 'b'], :override => true, :puppetclass => host.puppetclasses.first)
-      lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "fqdn=#{host.fqdn}", :value => ["c", "d"])
-
-      # sending exactly what the host form would send which is lookup_value.value_before_type_cast
-      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" => lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
-
-      params = {
-        host_id: host.id,
-        host: host.attributes.merge(lk),
-      }
-
-      # environment change calls puppetclass_parameters which caused the extra escaping
-      post :puppetclass_parameters, params: params, session: set_session_user, xhr: true
-
-      # if this was escaped during refresh_host the value in response.body after unescapeHTML would include "[\\\"c\\\",\\\"d\\\"]"
-      assert_includes CGI.unescapeHTML(response.body), "[\"c\",\"d\"]"
     end
   end
 

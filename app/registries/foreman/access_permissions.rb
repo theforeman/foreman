@@ -240,8 +240,8 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :hostgroups do |map|
-    ajax_actions = [:architecture_selected, :domain_selected, :environment_selected, :medium_selected, :os_selected,
-                    :use_image_selected, :process_hostgroup, :puppetclass_parameters, :welcome]
+    ajax_actions = [:architecture_selected, :domain_selected, :medium_selected, :os_selected,
+                    :use_image_selected, :process_hostgroup, :welcome]
     host_ajax_actions = [:process_hostgroup]
     pc_ajax_actions = [:parameters]
 
@@ -280,9 +280,9 @@ Foreman::AccessControl.map do |permission_set|
   end
 
   permission_set.security_block :hosts do |map|
-    ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected, :environment_selected,
-                    :hostgroup_or_environment_selected, :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
-                    :process_taxonomy, :current_parameters, :puppetclass_parameters, :template_used, :interfaces, :scheduler_hint_selected,
+    ajax_actions = [:architecture_selected, :compute_resource_selected, :domain_selected,
+                    :medium_selected, :os_selected, :use_image_selected, :process_hostgroup,
+                    :process_taxonomy, :current_parameters, :template_used, :interfaces, :scheduler_hint_selected,
                     :random_name]
     cr_ajax_actions = [:cluster_selected, :template_selected, :instance_type_selected, :provider_selected, :resource_pools]
     pc_ajax_actions = [:parameters]

@@ -152,63 +152,6 @@ class HostgroupsControllerTest < ActionController::TestCase
     assert_template :partial => "common/os_selection/_architecture"
   end
 
-  describe '#environment_selected' do
-    setup do
-      @environment = FactoryBot.create(:environment)
-      @puppetclass = FactoryBot.create(:puppetclass)
-      @hostgroup = FactoryBot.create(:hostgroup, :environment => @environment)
-      @params = {
-        id: @hostgroup.id,
-        hostgroup: {
-          name: @hostgroup.name,
-          environment_id: "",
-          puppetclass_ids: [@puppetclass.id],
-        },
-      }
-    end
-
-    test "should return the selected puppet classes on environment change" do
-      assert_equal 0, @hostgroup.puppetclasses.length
-
-      post :environment_selected, params: @params, session: set_session_user
-      assert_equal(1, assigns(:hostgroup).puppetclasses.length)
-      assert_include assigns(:hostgroup).puppetclasses, @puppetclass
-    end
-
-    context 'no environment_id param is set' do
-      test 'it will take the hostgroup params environment_id' do
-        other_environment = FactoryBot.create(:environment)
-        @params[:hostgroup][:environment_id] = other_environment.id
-
-        post :environment_selected, params: @params, session: set_session_user
-        assert_equal assigns(:environment), other_environment
-      end
-    end
-
-    test 'should not escape lookup values on environment change' do
-      hostgroup = FactoryBot.create(:hostgroup, :environment => @environment, :puppetclass_ids => [@puppetclass.id])
-      lookup_key = FactoryBot.create(:puppetclass_lookup_key, :as_smart_class_param, :key_type => 'array',
-                                     :default_value => ['a', 'b'], :override => true, :puppetclass => @puppetclass)
-      lookup_value = FactoryBot.create(:lookup_value, :lookup_key => lookup_key, :match => "hostgroup=#{hostgroup.name}", :value => ["c", "d"])
-
-      FactoryBot.create(:environment_class, :puppetclass => @puppetclass, :environment => @environment, :puppetclass_lookup_key => lookup_key)
-
-      # sending exactly what the host form would send which is lookup_value.value_before_type_cast
-      lk = {"lookup_values_attributes" => {lookup_key.id.to_s => {"value" => lookup_value.value_before_type_cast, "id" => lookup_value.id, "lookup_key_id" => lookup_key.id, "_destroy" => false}}}
-
-      params = {
-        hostgroup_id: hostgroup.id,
-        hostgroup: hostgroup.attributes.merge(lk),
-      }
-
-      # environment change calls puppetclass_parameters which caused the extra escaping
-      post :puppetclass_parameters, params: params, session: set_session_user, xhr: true
-
-      # if this was escaped during refresh_host the value in response.body after unescapeHTML would include "[\\\"c\\\",\\\"d\\\"]"
-      assert_includes CGI.unescapeHTML(response.body), "[\"c\",\"d\"]"
-    end
-  end
-
   test 'user with view_params rights should see parameters in a hostgroup' do
     hg = FactoryBot.create(:hostgroup, :with_parameter)
     setup_user "edit"

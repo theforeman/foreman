@@ -4,7 +4,7 @@
 <%= render "hosts/progress" %>
 
 <% Taxonomy.as_taxonomy @organization , @location do %>
-  <%= form_for @host, :url => (@host.new_record? ? hosts_path : host_path(:id => @host.id)), :html => {:class => 'hostresource-form form-horizontal well', :data => {:id => @host.try(:id), :type_changed => !!@host.type_changed?, :submit => 'progress_bar'}} do |f| %>
+  <%= form_for @host, :url => (@host.new_record? ? hosts_path : host_path(:id => @host.id)), :html => {:class => 'hostresource-form host-form form-horizontal well', :data => {:id => @host.try(:id), :type_changed => !!@host.type_changed?, :submit => 'progress_bar'}} do |f| %>
     <%= base_errors_for @host %>
 
     <ul class="nav nav-tabs" data-tabs="tabs">
@@ -21,7 +21,7 @@
 
       <%= render_tab_header_for(:main_tabs, :subject => @host) %>
 
-      <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-url2='<%= puppetclass_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
+      <li><a href="#params" id='params-tab' data-url='<%= current_parameters_hosts_path %>' data-toggle="tab"><%= _('Parameters') %></a></li>
 
       <li><a href="#info" data-toggle="tab"><%= _('Additional Information') %></a></li>
     </ul>
@@ -46,7 +46,7 @@
           { :class => 'hostgroup-select',
             :data => {
               :'host-id' => @host.id,
-              :'url' => (@host.new_record? || @host.type_changed?) ? process_hostgroup_hosts_path : hostgroup_or_environment_selected_hosts_path,
+              :'url' => (process_hostgroup_hosts_path if @host.new_record? || @host.type_changed?),
               :'had-hostgroup' => !!@host.hostgroup_id_was
             },
             :help_inline => :indicator } %>
@@ -76,7 +76,7 @@
         </div>
         <% end %>
 
-        <%= render_pagelets_for(:main_tab_fields, :host => @host, :form => f) %>
+        <%= render_pagelets_for(:main_tab_fields, :subject => @host, :form => f) %>
 
         <%= smart_proxy_fields f,
               :can_override => true,
@@ -104,16 +104,11 @@
       <%= render('hosts/unattended', :f => f) if SETTINGS[:unattended] and @host.managed %>
 
       <div class="tab-pane"  id="params">
-        <fieldset>
-          <h2><%= _('Puppet Class Parameters') %></h2>
-          <%= render "puppetclasses/classes_parameters", :obj => @host %>
-        </fieldset>
-
-        <br/>
 
         <%= slot('HostParams', true, lookup_values: lookup_values_data(@host)) %>
 
         <br/>
+
         <% if authorized_for(:controller => "host_editing", :action => "view_params") %>
           <fieldset>
             <h2><%= _('Global Parameters') %></h2>

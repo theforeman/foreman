@@ -56,7 +56,6 @@ Foreman::Application.routes.draw do
         get 'build_errors'
         get 'pxe_config'
         put 'toggle_manage'
-        post 'environment_selected'
         put 'power'
         get 'console'
         get 'overview'
@@ -103,10 +102,8 @@ Foreman::Application.routes.draw do
         get 'errors'
         get 'disabled'
         post 'current_parameters'
-        post 'puppetclass_parameters'
         post 'process_hostgroup'
         post 'process_taxonomy'
-        post 'hostgroup_or_environment_selected'
         post 'architecture_selected'
         post 'os_selected'
         post 'domain_selected'
@@ -195,14 +192,12 @@ Foreman::Application.routes.draw do
     end
     collection do
       get 'auto_complete_search'
-      post 'environment_selected'
       post 'architecture_selected'
       post 'os_selected'
       post 'domain_selected'
       post 'use_image_selected'
       post 'medium_selected'
       post 'process_hostgroup'
-      post 'puppetclass_parameters'
     end
   end
 

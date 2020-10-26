@@ -11,7 +11,6 @@ import * as authSource from './foreman_auth_source';
 import * as tools from './foreman_tools';
 import * as users from './foreman_users';
 import * as sshKeys from './foreman_ssh_keys';
-import * as hostgroups from './foreman_hostgroups';
 import * as httpProxies from './foreman_http_proxies';
 import * as toastNotifications from './foreman_toast_notifications';
 import * as numFields from './jquery.ui.custom_spinners';
@@ -42,7 +41,6 @@ window.tfm = Object.assign(window.tfm || {}, {
   users,
   computeResource: compute,
   sshKeys,
-  hostgroups,
   hosts,
   httpProxies,
   toastNotifications,
