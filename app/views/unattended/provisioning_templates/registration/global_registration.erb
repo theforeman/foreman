@@ -5,7 +5,7 @@ model: ProvisioningTemplate
 -%>
 #!/bin/sh
 <%
-    headers = ["-H 'Content-Type: application/json'", "-H 'Accept: application/json'", "-H 'Authorization: Bearer #{@auth_token}'"]
+    headers = ["-H 'Authorization: Bearer #{@auth_token}'"]
 -%>
 
 # Rendered with following template parameters:
@@ -34,12 +34,14 @@ EOF
 register_host() {
   curl --cacert $SSL_CA_CERT --request POST <%= foreman_server_url %>/register \
        <%= headers.join(' ') %> \
-       -d '{ "host": { "name": "'$(hostname --fqdn)'", "build": "false", "managed": "false"
-       <%= ", \"organization_id\": \"#{@organization.id}\"" if @organization -%>
-       <%= ", \"location_id\": \"#{@location.id}\"" if @location -%>
-       <%= ", \"hostgroup_id\": \"#{@hostgroup.id}\"" if @hostgroup -%>
-       <%= ", \"operatingsystem_id\": \"#{@operatingsystem.id}\"" if @operatingsystem -%>
-       }}'
+       --data "host[name]=$(hostname --fqdn)" \
+       --data "host[build]=false" \
+       --data "host[managed]=false" \
+       <%= "--data \"host[organization_id]=#{@organization.id}\"" if @organization -%>
+       <%= "--data \"host[location_id]=#{@location.id}\"" if @location -%>
+       <%= "--data \"host[hostgroup_id]=#{@hostgroup.id}\"" if @hostgroup -%>
+       <%= "--data \"host[operatingsystem_id]=#{@operatingsystem.id}\"" if @operatingsystem -%>
+
 }
 
 echo "#"
@@ -52,10 +54,9 @@ if [ x$ID = xrhel ] || [ x$ID = xcentos ]; then
         UUID=$(subscription-manager identity | head -1 | awk '{print $3}')
         curl --cacert $SSL_CA_CERT --request POST "<%= foreman_server_url %>/register?uuid=$UUID" \
             <%= headers.join(' ') %> \
-            -d '{ "host": { "organization_id": "<%= @organization.id -%>"
-            <%= ", \"location_id\": \"#{@location.id}\"" if @location -%>
-            <%= ", \"hostgroup_id\": \"#{@hostgroup.id}\"" if @hostgroup -%>
-            }}'
+            <%= "--data \"host[organization_id]=#{@organization.id}\"" if @organization -%>
+            <%= "--data \"host[location_id]=#{@location.id}\"" if @location -%>
+            <%= "--data \"host[hostgroup_id]=#{@hostgroup.id}\"" if @hostgroup -%>
     }
 
     CONSUMER_RPM=$(mktemp --suffix .rpm)
